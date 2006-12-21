@@ -1,0 +1,16 @@
+
+20/02/2006
+a) No cadastramento de  perfis de sistema, percebemos que não é possivel
+especificar uma chave no registro maior que 100 caracteres.  Isso impede
+por exemplo de levantar informação do nosso antivirus(Symantec).
+
+b) Não foi possivel ler  uma chave no registro que tenha espaço na
+composição do texto da chave, utilizando o mesmo cadastramento de perfis de
+sistema.
+
+c) Ter uma opção de forçar o inventario via linha de comando seria
+importante, pois poderia ser usada em loginscript.
+
+d) Ter uma forma mais clara na HP do CACIC mostrando qual é a versão
+estável e qual é a desenvolvimento, incluindo o arquivo changelog mostrando
+as principais mudanças dessa versão.

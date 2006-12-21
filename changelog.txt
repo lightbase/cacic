@@ -1,0 +1,66 @@
+# ChangeLog do Sistema CACIC
+
+Data		Versão Gerente WEB	Script															Alterações/Implementações
+==========	==================	================================								===================================================================================================================================================================================================
+15/03/2006	FEV2006				.../relatorios/patrimonio/index.php								1)  Foi acrescentada a opção "Informe os critérios para pesquisa de informações patrimoniais:", onde será possível pré-definir critérios de informações patrimoniais para o resultado da pesquisa.
+																									IMPACTO: Capacidade de restrição dos resultados.
+
+13/03/2006	FEV2006				.../relatorios/navegacao.php									1)  Foi acrescentada visão de impressora paralela à estação e compartilhada na rede, onde, ao ser posicionado o ponteiro do mouse sobre o ícone, surge uma "hint" contendo os campos 
+																									"Nome:" e "Comentário:", configurados na estação.
+																									IMPACTO: Permitirá rápida constatação de impressoras compartilhadas na(s) rede(s).
+
+23/01/2006	JAN2006				.../admin/exclui_informacoes_computadores.php					1)  Foi acrescentada a opção "Excluir Computadores" no menu "Manutenção"
+																									IMPACTO: Permitirá a exclusão parametrizada de um ou vários computadores da base.
+
+16/01/2006	JAN2006				.../admin/patrimonio/opcoes.php									1)  Foi acrescentada a opção "No Relatório de Patrimônio, destacar as seguintes duplicidades:"
+																									IMPACTO: Permitirá que, no relatório de patrimônio, sejam destacadas as duplicidades de informações patrimoniais configuradas.
+
+10/01/2006	JAN2006				.../admin/perfis_aplicativos_monitorados/incluir_perfil.php		1)  Foi acrescentado o valor "Versão de Executável" à opção "Identificador de Versão/Configuração"
+																									IMPACTO: Permitirá ao agente COL_MONI coletar informação de versão de arquivos executáveis.
+
+								.../admin/perfis_aplicativos_monitorados/detalhes_perfil.php	1)  Foi acrescentado o valor "Versão de Executável" à opção "Identificador de Versão/Configuração"
+																									IMPACTO: Permitirá ao agente COL_MONI coletar informação de versão de arquivos executáveis.																									
+																									
+09/01/2006	JAN2006				.../relatorios/alteracoes_hardware/index.php					1)  Foi desabilitada a opção de Quadro Estatístico
+																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
+																									 		 Será tratado a posteriore, em função de outras prioridades existentes.
+
+								.../relatorios/software/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
+																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
+																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 
+																									 
+								.../relatorios/antivirus/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
+																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
+																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 																									 
+																									 
+								.../relatorios/hardware/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
+																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
+																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 																									 
+
+								.../relatorios/patrimonio/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
+																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
+																									 		 Será tratado a posteriore, em função de outras prioridades existentes.
+																									 
+								.../relatorios/tcpip/index.php									1)  Foi desabilitada a opção de Quadro Estatístico
+																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
+																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 																									 																									 
+
+								.../relatorios/totais_estacoes_rede.php							1)  Criação do script
+																									FUNCIONALIDADE: Quando chamado tendo os parâmetros id_ip_rede, nu_totais_estacoes, cs_tipo_no e nm_no, exibirá os totais de estações a partir das versões dos Sistemas Operacionais.
+																							
+
+05/01/2006  JAN2006				.../ws/get_config.php											1)  Passou a receber o valor "te_versao_gercols" do Gerente de Coletas;
+																									IMPACTO: Esse valor é gravado na tabela "computadores" para ser usado pelo Relatório de Softwares Básicos e ser exibido na página de detalhes da estação.
+
+								.../ws/get_patrimonio.php										1)  Passou a enviar o indicador "cs_abre_janela_patrimonio" para o Gerente de Coletas;
+																									IMPACTO: Esse valor definirá se a janela de coleta de patrimônio será automaticamente aberta quando da detecção de alterações nos dados de localização física do equipamento (IP estação/rede).
+
+								.../relatorios/software/index.php								1)  Foi incluído o ítem "Versão Gerente de Coletas CACIC" no relatório de Softwares Básicos
+																									IMPACTO: Permitirá o relatório sobre as versões do Gerente de Coletas nas estações
+			
+								.../relatorios/computador/inc_detalhes_computador.php			1)  Foi incluído o ítem "Versão Gerente de Coletas CACIC" nos detalhes básicos das estações
+																									IMPACTO: Permitirá o conhecimento da versão do Gerente de Coletas na estação
+																		
+								.../relatorios/navegacao.php									1)  Foram implementadas as opções "Totais de Estações por Sistema Operacional" e "Detalhes da Subrede", representadas pelos ícones "Lupa" e "Caderno"
+																									IMPACTO: Facilitará a quantificação de estações por Sistema Operacional na subrede ou no workgroup
+																									OBS: A opção "Totais de Estações por Sistema Operacional" se aplica aos níveis subrede e workgroup.																							
