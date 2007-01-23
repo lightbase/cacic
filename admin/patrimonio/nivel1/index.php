@@ -53,7 +53,7 @@ $result = mysql_query($query);
 <head>
 <link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
 <body background="../../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
 <title>Cadastro de U. O. N&iacute;vel 1</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>

@@ -37,7 +37,7 @@ $result = mysql_query($query) or die('Erro no select');
 </head>
 
 <body bgcolor="#FFFFFF" background="../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
     <td class="cabecalho">M&oacute;dulos</td>

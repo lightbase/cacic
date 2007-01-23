@@ -19,7 +19,7 @@ session_start();
 $id_acao = 'cs_coleta_hardware';
 require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
- <script src="../../sniffer.js" type="text/javascript" language="javascript"></script>
+ <script src="../../include/sniffer.js" type="text/javascript" language="javascript"></script>
  <script src="../../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
  <link href="../../include/dyncalendar.css" media="screen" rel="stylesheet">
 

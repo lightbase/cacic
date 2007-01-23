@@ -18,12 +18,12 @@
 // Altere apenas as variáveis abaixo, caso seja necessário.
 // -------------------------------------------------------------------------------------------------------
 
-$nome_bd		  	= "cacic221";  // Essa variável não deverá ser alterada.
-$ip_servidor 	  	= "localhost";  // Altere, caso esteja acessando o bd em outro servidor.
+$nome_bd		  	= "cacic";  // Essa variável não deverá ser alterada.
+$ip_servidor 	  	= "BdServerIp_or_Name";  // Altere, caso esteja acessando o bd em outro servidor.
 $porta		      	= "3306";   // Porta tcp do MySQL. Provavelmente não deverá ser alterada.
-$usuario_bd 	  	= "root";  // Usuário usado para acesso ao bd do cacic. 
-$senha_usuario_bd   = "";
-$path_aplicacao		= "/var/www/gerente/"; // Valor utilizado principalmente pela função de Update de SubRedes...
+$usuario_bd 	  	= "BdUserName";  // Usuário usado para acesso ao bd do cacic. 
+$senha_usuario_bd   = "BdUserPassword";
+$path_aplicacao		= "/var/www/default/cacic2"; // Valor utilizado principalmente pela função de Update de SubRedes...
 
 
 // ATENÇÃO:

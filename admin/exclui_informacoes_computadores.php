@@ -105,7 +105,7 @@ if ($_POST['submit_cond'])
 	</head>
 
 	<body background="../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
 	<form name="form1" method="post">
 	<table width="95%" border="0" align="center">
 	<tr> 
