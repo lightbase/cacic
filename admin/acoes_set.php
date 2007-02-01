@@ -15,7 +15,7 @@
  */
 session_start();
 require_once('../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 $id_acao = $_POST['id_acao']; 
 
     conecta_bd_cacic();

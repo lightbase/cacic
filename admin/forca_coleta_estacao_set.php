@@ -15,7 +15,7 @@
  */
 
 require_once('../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 $acoes_computador = '';
 foreach($HTTP_POST_VARS as $i => $v) 
 	{

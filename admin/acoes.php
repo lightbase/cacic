@@ -15,7 +15,7 @@
 */
 session_start();
 require_once('../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 $id_acao = $_GET['id_acao']; 
 ?>
 

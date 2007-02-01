@@ -15,7 +15,7 @@
  */
 session_start();
 require_once('../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 $_SESSION['tipo_consulta1']=$_REQUEST['tipo_consulta'];
 $_SESSION['string_consulta1']=$_REQUEST['string_consulta'];
 $_SESSION['consultar1']=$_REQUEST['consultar'];

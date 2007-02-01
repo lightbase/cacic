@@ -15,7 +15,7 @@
  */
 session_start(); 
 require_once('../include/library.php'); 
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 if ($_POST['submit_cond'])
 	{
 	$query_sele_exclui = '';

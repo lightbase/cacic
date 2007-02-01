@@ -15,7 +15,7 @@
  */
 
 require_once($_SERVER['DOCUMENT_ROOT'] . 'include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 if ($_REQUEST['nm_arquivo'])
 	{
 	@unlink($_SERVER['DOCUMENT_ROOT'] . 'repositorio/'.$_REQUEST['nm_arquivo']);

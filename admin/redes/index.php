@@ -19,7 +19,7 @@ if ($_POST['submit']) {
 }
 
 include_once "../../include/library.php";
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 $where = ($_SESSION['cs_nivel_administracao']==1||$_SESSION['cs_nivel_administracao']==2?
 			' LEFT JOIN locais ON (locais.id_local = redes.id_local)':

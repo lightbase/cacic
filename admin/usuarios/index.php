@@ -20,7 +20,7 @@ if ($_POST['submit']) {
 
 include_once "../../include/library.php";
 
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 //LimpaTESTES();
 $where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND usu.id_local = '.$_SESSION['id_local'] .' AND

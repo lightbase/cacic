@@ -131,10 +131,11 @@ function conecta_ftp($p_te_serv, $p_user_name, $p_user_pass, $p_port)
 	{
 	//Conecta ao servidor FTP
 	$con = @ftp_connect("$p_te_serv","$p_port");
+	GravaTESTES('Passei pelo ftp_connect... con='.$con);
 
 	//Faz o login no servidor FTP
 	$result = @ftp_login($con, $p_user_name, $p_user_pass);
-	
+	GravaTESTES('Passei pelo ftp_login...result='.$result);
 	return ($result?$con:'0');
 	}
 
@@ -767,7 +768,6 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 			array_push($v_nomes_arquivos_REP, $v_arquivo);
 
 			$caminho_arquivo = $MainFolder . '/repositorio/' . $v_arquivo;
-
 			if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes[$v_arquivo])			
 				{				
 				// A string 0103 será concatenada em virtude da inserção da informação de versão nos agentes
@@ -847,7 +847,14 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 				$v_conexao_ftp 						= '';
 				$v_efetua_conexao_ftp = -1;												
 
-				if (TentaPing($row['te_serv_updates']))
+				//if (TentaPing("ftp://".$row['nm_usuario_login_serv_updates'].":".
+			    //                   	   $row['te_senha_login_serv_updates']."@".
+				//				       $row['te_serv_updates']).
+				//					   $row['te_path_serv_updates']."/cacic.txt")
+				if (CheckFtpLogin($row['te_serv_updates'],
+							  	  $row['nm_usuario_login_serv_updates_gerente'],
+							  	  $row['te_senha_login_serv_updates_gerente'],
+								  $row['nu_porta_serv_updates']))
 					{
 					$v_efetua_conexao_ftp = 0 ;
 					$v_conexao_ftp = conecta_ftp($row['te_serv_updates'],
@@ -856,7 +863,7 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 												 $row['nu_porta_serv_updates']
 												);
 					}
-	
+
 				if ($v_conexao_ftp)
 					{
 					if ($p_origem == 'Pagina')
@@ -991,9 +998,40 @@ function Marca_Atualizado($p_id_ip_rede,$p_id_local)
 	conecta_bd_cacic();									
 	$result_UPD = mysql_query($query_UPD);
 	}
+// --------------------------------------------------------------------
+// Função usada para verificar a possibilidade de login no servidor FTP
+// --------------------------------------------------------------------
+function CheckFtpLogin($server, $user, $pass, $port) 
+	{
+	$sck = fsockopen($server, 21);
+	if ($sck) 
+		{
+		$data = fgets($sck, 1024);
+		fputs($sck, "USER $user\n");
+		$data = fgets($sck, 1024);
+		fputs($sck, "PASS $pass\n");
+		$data = fgets($sck, 1024);
+		if (ereg("230", $data)) 
+			{
+			# User logged in
+			return 1;
+			} 
+		else 
+			{
+			# Login failed
+			return 0;
+			}
+		fclose($sck);
+		} 
+	else 
+		{
+		return 0;
+		}
+	}
 
 // --------------------------------------------------------------------------------------
 // Função usada para teste de pings em IP específico...
+// Inutilizada a partir da implementação da função CheckFtpLogin
 // --------------------------------------------------------------------------------------
 function TentaPing($link)
 	{
@@ -1032,19 +1070,18 @@ function TentaPing($link)
 		return $v_efetua_conexao_ftp;	
 	*/
 
-	$link=correcturl($link);
+//	$link=correcturl($link);
 	return chkuri($link);	
 	}
 
 function chkuri($link)
 	{
-    $churl = @fopen("http://".$link,'r');
     return(!$churl?false:true); 
 	}
 
 function correcturl($link)
 	{
-    return str_replace("http://","",strtolower($link));
+    return str_replace("ftp://","",str_replace("http://","",strtolower($link)));
 	}
 
 // -----------------------------------------------------------------------

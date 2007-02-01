@@ -25,15 +25,17 @@
 		if ($cs_situacao == 'T') 
 			{
 			$where = ($where<>''?' WHERE '.$where:$where);
-			$query = "SELECT 	id_ip_rede, 
+			$query = "SELECT 	distinct id_ip_rede, 
 								nm_rede
 					  FROM 		redes ".
 					  			$where;
 			}
 		else 
 			{			
-			$where = ($where<>''?' AND '.$where:$where);			
-			$query = "SELECT 	redes.id_ip_rede, 
+			$where = ($where<>''?' AND '.$where:$where);
+			// Usei o trecho abaixo para o caso da coleta avulsa de informações patrimoniais...			
+			$where = ($id_acao == 'cs_coleta_patrimonio'?' OR id_acao = "cs_coleta_patrimonio" '.$where:$where);						
+			$query = "SELECT 	distinct redes.id_ip_rede, 
 								nm_rede
 					  FROM 		redes, 
 					  			acoes_redes 
@@ -42,6 +44,7 @@
 								$where;
 			$msg = '(OBS: Estão sendo exibidas somente as redes selecionadas pelo administrador.)';
 			}
+
 		$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes.');
 		/* Agora monto os itens do combo de redes . */ 
 		while($campos=mysql_fetch_array($result)) 	

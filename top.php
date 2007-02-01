@@ -16,13 +16,13 @@
 session_start();
 $v_versao = '2.2.2';
 /* 
-2.2.1 - Algumas correções lógicas: 
+2.2.2 - Algumas correções lógicas: 
 		* Corrigida a atribuição indevida do nome de usuário constande de resultado de Log de Atividades ao nome do usuário logado na aplicação;
 		* Corrigidas algumas correlações de "local" em consultas realizadas por usuários com níveis diferentes de "Administração" e "Gestão Central";
 		+ Implementada a opção de seleção de Coletas de Sistemas Monitorados quando do cadastramento da subrede;
 		+ Implementada a opção de seleção/alteração de Coletas de Sistemas Monitorados quando da edição de configurações da subrede.
 
-2.2.0 - Efetuadas adaptações para suporte a base centralizada de dados, quando as subredes cadastradas 
+2.2.1 - Efetuadas adaptações para suporte a base centralizada de dados, quando as subredes cadastradas 
    		passam a fazer parte de uma "localização" ou "local".
 		As adaptações impactaram na definição dos seguintes níveis de acesso:
 		1) Administração => Acesso irrestrito, com visão total de todos os dados de todos os "locais".

@@ -26,7 +26,7 @@ if($_POST['submit']) {
 }
 
 require_once('../../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1" colspan="'.($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'4':'5').'"></td>
@@ -83,6 +83,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 			$_SESSION['redes_selecionadas'] .= ",'" . $_SESSION["list2"][$i] . "'";
 		}	
 	$_SESSION['query_redes'] = 'AND redes.id_ip_rede IN ('. $_SESSION['redes_selecionadas'] .')';		
+	$_SESSION['from'] = ' ,redes ';				
 	}
 else
 	{
@@ -169,6 +170,7 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 					 					a.te_versao
 					 ORDER BY 			total_equip DESC,
 					 					a.te_versao";
+
 	$result_query_versoes = mysql_query($query_aplicativo);
 	$result_query_versoes_total = mysql_query($query_aplicativo);	
 	

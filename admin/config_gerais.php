@@ -49,7 +49,7 @@ function SetaServidorUpdates()
       <td class="label"> 
         <? 
    	require_once('../include/library.php');
-	anti_spy();			
+	// Comentado temporariamente - AntiSpy();			
     conecta_bd_cacic();
 	$query = "SELECT	loc.nm_local,
 						conf.*

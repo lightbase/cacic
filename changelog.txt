@@ -2,6 +2,18 @@
 
 Data		Versão Gerente WEB	Script															Alterações/Implementações
 ==========	==================	================================								===================================================================================================================================================================================================
+27/12/2006	2.2.1				.../redes/detalhes_rede.php										1)  Substituida a chamada à função "TentaPing" por "CheckFtpLogin"
+																									IMPACTO: Maior eficiência no teste de conexão usando fsockopen
+
+27/12/2006	2.2.1				.../include/library.php											1)  Comentada a função "TentaPing"
+
+27/12/2006	2.2.1				.../include/library.php											1)  Implementada a função "CheckFtpLogin"
+																									IMPACTO: Maior eficiência no teste de conexão usando fsockopen
+
+27/12/2006	2.2.1				.../updates_subredes/index.php									1)  O envio de "versoes_agentes.ini" torna-se incondicional
+																									IMPACTO: Garantia de exibição das versões atuais dos agentes constantes dos ambientes de UPDATES
+
+
 15/03/2006	FEV2006				.../relatorios/patrimonio/index.php								1)  Foi acrescentada a opção "Informe os critérios para pesquisa de informações patrimoniais:", onde será possível pré-definir critérios de informações patrimoniais para o resultado da pesquisa.
 																									IMPACTO: Capacidade de restrição dos resultados.
 

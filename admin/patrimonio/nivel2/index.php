@@ -20,7 +20,7 @@ if ($_POST['incluirUON2'])
 	}
 
 include_once "../../../include/library.php";
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 $where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
 $queryCONFIG = "SELECT 		id_etiqueta,

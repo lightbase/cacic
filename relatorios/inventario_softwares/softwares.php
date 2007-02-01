@@ -25,7 +25,7 @@ if($_POST['submit']) {
 }
 
 require_once('../../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>

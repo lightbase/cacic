@@ -16,7 +16,7 @@
 session_start();
 //Mostrar computadores baseados no tipo de pesquisa solicitada pelo usuário
 require_once('../../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

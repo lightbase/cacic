@@ -15,13 +15,16 @@
  */
 session_start();
 require_once('../../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 if ($_REQUEST['ExecutaUpdates']=='Executar Updates')
 	{				
 	foreach($HTTP_POST_VARS as $i => $v) 
 		{
 		if ($v && substr($i,0,7)=='update_' && $v <> 'on')
 			{
+			// O envio de versoes_agentes.ini deve ser incondicional!
+			if ($v_updates == '') $v_updates = 'versoes_agentes.ini';
+			
 			if ($v_updates <> '') $v_updates .= '__';
 			$v_updates .= $v;		
 			}
@@ -76,7 +79,7 @@ else
 	
 	<body background="../../imgs/linha_v.gif">
 
-	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>					
 	<table width="90%" border="0" align="center">
 	  <tr> 
 		<td class="cabecalho">Updates de SubRedes</td>

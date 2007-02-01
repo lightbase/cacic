@@ -15,7 +15,7 @@
  */
 session_start();
 require_once('../../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 
 if ($_REQUEST['ExcluiRede']) 
@@ -231,7 +231,8 @@ function valida_form()
 		}		
 	else
 		{
-		if((ip.search(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/) != -1) && (ipSplit[3] == 0)) 
+// && (ipSplit[3] == 0)		
+		if((ip.search(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/) != -1)) 
 			{
 			return true;
 			}
@@ -360,9 +361,11 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
           <tr> 
             <td rowspan="6" nowrap><font color="#000000"> 
               <? 
-			if (TentaPing(mysql_result($result, 0, 'te_serv_updates')))
+			if (CheckFtpLogin(mysql_result($result, 0, 'te_serv_updates'),
+							  mysql_result($result, 0, 'nm_usuario_login_serv_updates'),
+							  mysql_result($result, 0, 'te_senha_login_serv_updates'),
+							  mysql_result($result, 0, 'nu_porta_serv_updates')))
 				{
-
 		  		$v_conexao_ftp = conecta_ftp(mysql_result($result, 0, 'te_serv_updates'),
 				                             mysql_result($result, 0, 'nm_usuario_login_serv_updates'),
 											 mysql_result($result, 0, 'te_senha_login_serv_updates'),

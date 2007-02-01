@@ -15,7 +15,7 @@
  */
 include_once '../include/library.php'; 
 include 	 '../include/piechart.php';
-//anti_spy();
+//// Comentado temporariamente - AntiSpy();
 
 conecta_bd_cacic();
 $where 	= ($_REQUEST['cs_nivel_administracao'] <> 1 &&

@@ -26,7 +26,7 @@ session_start();
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js'"></script>
 <?
 require_once "../../include/library.php";
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();	
 $query = "SELECT 	* 
 		  FROM 		computadores, 

@@ -19,7 +19,7 @@ if ($_POST['submit']) {
 }
 
 include_once "../../include/library.php";
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 
 $query = 'SELECT 	* 

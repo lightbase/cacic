@@ -15,7 +15,7 @@
  */
 session_start();
 include_once "../../include/library.php";
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 if($_REQUEST['submit']) 
 {
 	Conecta_bd_cacic();
@@ -254,7 +254,8 @@ function valida_form()
 		}					
 	else
 		{
-		if((ip.search(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/) != -1) && (ipSplit[3] == 0)) 
+// && (ipSplit[3] == 0)				
+		if((ip.search(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/) != -1) ) 
 			{
 			return true;
 			}

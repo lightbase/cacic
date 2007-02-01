@@ -17,7 +17,7 @@
 session_start();
 
 require_once('../../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 // Função para replicação do conteúdo do REPOSITÓRIO nos servidores de UPDATES das redes cadastradas.
 	if ($_REQUEST['v_parametros']<>'')
 		{

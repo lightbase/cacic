@@ -44,7 +44,7 @@ require_once('../include/opcoes_avancadas_combos.js');
       <td class="label">
         <? 
     require_once('../include/library.php');
-	anti_spy();
+	// Comentado temporariamente - AntiSpy();
     conecta_bd_cacic();
 	$query = "SELECT 	in_exibe_bandeja, 
 						in_exibe_erros_criticos, 

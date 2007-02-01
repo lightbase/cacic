@@ -15,7 +15,7 @@
  */
 session_start();
 require_once('../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
 
 // Preciso remover os "Enters" dados nos campos texto do formulário, pois a rotina de envio de emails

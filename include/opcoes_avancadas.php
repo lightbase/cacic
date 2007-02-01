@@ -63,7 +63,7 @@ if (!$forca_coleta_estacao=='OK')
 <table width="485" border="0" align="center" cellpadding="0" cellspacing="0">
 <? 
 require_once('../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();			
 $query = "	SELECT 		ac.id_acao,
 						ac.te_descricao_breve

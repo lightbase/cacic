@@ -15,7 +15,7 @@
  */
 session_start();
 include_once "../include/library.php";
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 if (!$_POST['date_input1'])
 	{
 	conecta_bd_cacic();

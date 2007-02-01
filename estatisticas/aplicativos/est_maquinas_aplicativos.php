@@ -17,7 +17,7 @@
 session_start();
 //Mostrar computadores baseados no tipo de pesquisa solicitada pelo usuário
 require_once('../../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 ?>
 
 <html>

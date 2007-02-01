@@ -48,7 +48,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <? 
 require_once('../../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
 
 $redes_selecionadas = '';

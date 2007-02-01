@@ -16,7 +16,7 @@
 // Arquivo de histórico de rede, hardware e patrimônio
 
 require_once('../../include/library.php');
-anti_spy();
+// Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
 
 if ($historico_hardware) {

@@ -16,7 +16,7 @@
 
 //session_start();
 include_once '../include/library.php'; 
-//anti_spy();
+//// Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
 $v_novo_campo = $_GET['v_nome_campo'];
 

@@ -148,6 +148,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	?>
 	<script language="JavaScript" type="text/javascript" src="include/cacic.js"></script>
 	<script language="JavaScript" type="text/javascript" src="include/crypt.js"></script>
+	<script language="JavaScript" type="text/javascript" src="include/ajax_menu_esq.js"></script>	
 	<p> 
 	<?
 if (!$_SESSION["id_usuario"])
