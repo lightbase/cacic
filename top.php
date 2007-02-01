@@ -14,7 +14,7 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-$v_versao = '2.2.1';
+$v_versao = '2.2.2';
 /* 
 2.2.1 - Algumas correções lógicas: 
 		* Corrigida a atribuição indevida do nome de usuário constande de resultado de Log de Atividades ao nome do usuário logado na aplicação;
