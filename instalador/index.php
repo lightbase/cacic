@@ -1,4 +1,3 @@
-
 <?php
 /*
  Copyright (C) Thomaz de Oliveira dos Reis - thor27 EM gmail PONTO com
