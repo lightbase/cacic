@@ -64,10 +64,11 @@ $v_versao = '2.2.2';
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Configurador da Instalação do Gerente CACIC.</title>
+   <style type="text/css" title="currentStyle">
+		@import "instalador.css";
+</style>
 
-<?
-echo '<body bgcolor='.($_SESSION['id_default_body_bgcolor']<>''?$_SESSION['id_default_body_bgcolor']:'#EBEBEB').' leftmargin="1" topmargin="0">';	
-?>
+<div id="topo">
 <SCRIPT language=JavaScript>
 <!--
 function scrollit(seed) 
@@ -169,13 +170,13 @@ function scrollit(seed)
 		}
 
 	?>
+<div>
 
-	<br /><br />
+	<br><br>
         	<input type="submit" value="<?php echo $CONFIG['nomebot'] ?>" name="submit">
 	</form>
 
-</body>
-</html>
+
 
 <?
 	function bemvindo($CONFIG) {
@@ -190,7 +191,7 @@ function scrollit(seed)
 		//Testa Versão do PHP, gd, mysql, mcrypt, dev
 
 		if (version_compare(phpversion(), '4.0', '>')) {
-			echo 'Versão do PHP (> 4.0): ',phpversion(),' OK<br />';
+			echo 'Versão do PHP (> 4.0): ',phpversion(),' <img src="apply.png"><br />';
 		} else echo 'Versão do PHP (> 4.0): ',phpversion(),' Inferior a recomendada<br />';
 
 		$TESTE = 0;
@@ -198,27 +199,29 @@ function scrollit(seed)
 		$path="$pasta/tmp";
 		
 		if (extension_loaded("gd")) {
-			echo 'Extensão Gd OK <br />';
+			echo 'Extensão Gd <img src="apply.png"> <br />';
 			$TESTE = $TESTE +1;
-		} else echo 'Extensão Gd Não está carregada <br />';
+		} else echo 'Extensão Gd <img src="cancel.png"> <br />';
 
 		if (extension_loaded("mysql")) {
-			echo 'Extensão MySQL OK <br />';
+			echo 'Extensão MySQL <img src="apply.png"> <br />';
 			$TESTE = $TESTE +1;
-		} else echo 'Extensão MySQL Não está carregada <br />';
+		} else echo 'Extensão MySQL <img src="cancel.png"> <br />';
 
 		if (extension_loaded("mcrypt")) {
-			echo 'Extensão mcrypt OK <br />';
+			echo 'Extensão mcrypt <img src="apply.png"> <br />';
 			$TESTE = $TESTE +1; 
-		} else echo 'Extensão mcrypt Não está carregada <br />';
+		} else echo 'Extensão mcrypt <img src="cancel.png"> <br />';
 		
 		if ($f = @fopen($path,"wb")) {
 		        fclose($f);
 		        unlink($path);
-			echo "Permissão de escrita em $pasta OK. <br /> <b>IMPORTANTE: Ao termino da instalação, retire a permissão de escrita em $pasta, por motivos de segurança.</b>";
+			echo 'Permissão de escrita em $pasta. <img src="apply.png"><br /> <b>IMPORTANTE: Ao termino da instalação, retire a permissão de escrita em $pasta, por motivos de segurança.</b>';
 			$CONFIG['gerar_tela']=0;
 		} else {
-			echo "Permissão de escrita em $pasta Não autorizado.<br /> O conteúdo do arquivo 'config.php' será gerado na tela.";
+			echo "Permissão de escrita em $pasta Não autorizado.";
+			echo '<img src="cancel.png"><br>'; 
+			echo "O conteúdo do arquivo 'config.php' será gerado na tela.";
 			$CONFIG['gerar_tela']=1; 
 		}
 		
@@ -235,11 +238,28 @@ function scrollit(seed)
 	function configura_conexao($CONFIG) {
 		echo 'Configurando a conexão com o banco de dados';
 		?><br /><br />
-			Nome do Host:<input type="text" size="12" maxlength="50" value="<?php echo $CONFIG['db_hostname'] ?>" name="HostName"><br />
-			Usuário do MySQL:<input type="text" size="12" maxlength="50" value="<?php echo $CONFIG['db_user'] ?>" name="User"><br />
-			Senha do usuário:<input type="password" size="12" maxlength="50" value="<?php echo $CONFIG['db_pass'] ?>" name="Pass"><br />
-			Nome do Banco:<input type="text" size="12" maxlength="50" value="<?php echo $CONFIG['db_db'] ?>" name="DB"><br />
-			OBS: Verifique se o banco acima existe dentro do mySQL, antes de prosseguir<br />
+			<table style="text-align: left; width: 300px; height: 120px;"
+ border="0" cellpadding="0" cellspacing="0">
+  			<tbody>
+    			<tr>
+      			<td style="width: 200px;">Nome do host:</td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="50" value="<?php echo $CONFIG['db_hostname'] ?>" name="HostName"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 200px;">Usuário do MySQL:</td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="50" value="<?php echo $CONFIG['db_user'] ?>" name="User"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 200px;">Senha do usuário:</td>
+      			<td style="width: 92px;"><input type="password" size="12" maxlength="50" value="<?php echo $CONFIG['db_pass'] ?>" name="Pass"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 200px;">Nome do Banco:</td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="50" value="<?php echo $CONFIG['db_db'] ?>" name="DB"></td>
+    			</tr>
+    			</tbody>
+			</table>
+
 		<?
 		
 		$CONFIG['nomebot']='Avançar';
@@ -260,6 +280,7 @@ function scrollit(seed)
 		echo "Conectando no mySQL: ";
 		flush();
 		if (!$ligacao = mysql_connect($CONFIG['db_hostname'], $CONFIG['db_user'], $CONFIG['db_pass']) ) {
+			echo '<img src="cancel.png">'; 
 			echo 'Erro <br /><br />Erro de conexão com o MySQL, por favor verifique se as informações estão corretas';
 			$CONFIG['nomebot']='Voltar';
 			$CONFIG['fase']=$CONFIG['fase']-1;
@@ -268,9 +289,11 @@ function scrollit(seed)
 	
 		//Cria o banco de dados, caso não exista
 		///TODO: Verificar a permissão do usuário para criar bancos. Se o banco já existe verificar se é uma atualização.
-		echo "OK<br />Criando o Banco de dados, caso não exista: ";
+		echo '<img src="apply.png"><br>'; 
+		echo "Criando o Banco de dados, caso não exista: ";
 		$dbname=$CONFIG['db_db'];
 		if (!mysql_query("create database if not exists $dbname", $ligacao)) {
+			echo '<img src="cancel.png"><br>';
 			echo 'Erro <br /><br />Erro durante a criação do banco de dados.';
 			$CONFIG['nomebot']='Voltar';
 			$CONFIG['fase']=$CONFIG['fase']-1;
@@ -279,20 +302,25 @@ function scrollit(seed)
 		}
 
 		//Abre o banco de dados
-		echo "OK<br />Abrindo o Banco de dados: ";
+		echo '<img src="apply.png"><br>'; 
+		echo "Abrindo o Banco de dados: ";
 		flush();
 		if (!mysql_select_db($CONFIG['db_db'], $ligacao)) {
-			echo 'Erro<br /><br />O banco de dados ',$CONFIG['db_db'],' não foi encontrado.';
+			echo '<img src="cancel.png"><br>'; 
+			echo 'O banco de dados ',$CONFIG['db_db'],' não foi encontrado.';
 			$CONFIG['nomebot']='Voltar';
 			$CONFIG['fase']=$CONFIG['fase']-1;
 			return $CONFIG;		
 		}
 
 		//Inserindo o .SQL no banco
-		echo "OK<br />Inserindo $ARQ_SQL: ";
+		echo '<img src="apply.png"><br>'; 
+		echo "Inserindo $ARQ_SQL: ";
 		flush();
 		InstallLoadSql($ARQ_SQL, $ligacao);
-		echo 'OK<br /><br />Banco e tabelas criadas com sucesso.';
+		echo '<img src="apply.png"><br>'; 
+		echo '<br />Banco e tabelas criadas com sucesso.';
+		echo '<img src="apply.png"><br>';
 		$CONFIG['nomebot']='Avançar';
 		$CONFIG['fase']=$CONFIG['fase']+1;
 		return $CONFIG;
@@ -301,20 +329,58 @@ function scrollit(seed)
 	function configura_cacic($CONFIG){
 		
 		?><br /><br />
-			<b>Path da Aplicação:</b><input type="text" size="12" maxlength="255" value=" <?echo dirname(dirname(__FILE__));?>" name="PathAplic"><br />
-			<br /> 
+			<table style="text-align: left; width: 517px;" border="0"
+ 			cellpadding="2" cellspacing="2">
+  			<tbody>
+    			<tr>
+      			<td style="width: 407px;">Path da Aplicação:</td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="255" value=" <?echo dirname(dirname(__FILE__));?>" name="PathAplic"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 407px; font-weight: bold;">Informações do usuário administrador:</td>
+      			<td style="width: 92px;"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 407px;">Login:</td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="10" value="<?echo $CONFIG["cc_login"] ?>" name="usr_login"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 407px;">Senha:</td>
+      			<td style="width: 92px;"><input type="password" size="12" maxlength="60" value="<?echo $CONFIG["cc_pass"] ?>" name="usr_pass"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 407px;">Confirma Senha:</td>
+      			<td style="width: 92px;"><input type="password" size="12" maxlength="60" value="<?echo $CONFIG["cc_pass_con"] ?>" name="usr_pass_con"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 407px;">Nome:</td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="60" value="<?echo $CONFIG["cc_nome"] ?>" name="usr_nome"></td>
+    			</tr>
+  			<tr>
+      			<td style="width: 407px;">E-Mail:</td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="100" value="<?echo $CONFIG["cc_mail"] ?>" name="usr_mail"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 407px;">Telefone:</td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="100" value="<?echo $CONFIG["cc_tel"] ?>" name="usr_tel"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 407px; font-weight: bold;">Informações do local do usuário administrador:</td>
+      			<td style="width: 92px;"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 407px;">Nome do local:</td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="100" value="<?echo $CONFIG["cc_local"] ?>" name="loc_nome"></td>
+    			</tr>
+    			<tr>
+      			<td style="width: 407px;">Sigla do local:</td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="20" value="<?echo $CONFIG["cc_sigla"] ?>" name="loc_sg"></td>
+    			</tr>
 
-			Informações do usuário administrador:<br />
-			<b>Login:</b><input type="text" size="12" maxlength="10" value="<?echo $CONFIG["cc_login"] ?>" name="usr_login"><br />
-			<b>Senha:</b><input type="password" size="12" maxlength="60" value="<?echo $CONFIG["cc_pass"] ?>" name="usr_pass"><br />
-			<b>Confirma Senha:</b><input type="password" size="12" maxlength="60" value="<?echo $CONFIG["cc_pass_con"] ?>" name="usr_pass_con"><br />
-			Nome:<input type="text" size="12" maxlength="60" value="<?echo $CONFIG["cc_nome"] ?>" name="usr_nome"><br />
-			E-Mail:<input type="text" size="12" maxlength="100" value="<?echo $CONFIG["cc_mail"] ?>" name="usr_mail"><br />
-			Telefone:<input type="text" size="12" maxlength="100" value="<?echo $CONFIG["cc_tel"] ?>" name="usr_tel"><br />
-			<br />
-			Informações do local do usuário administrador:<br />
-			Nome do local:<input type="text" size="12" maxlength="100" value="<?echo $CONFIG["cc_local"] ?>" name="loc_nome"><br />
-			<b>Sigla do local:</b><input type="text" size="12" maxlength="20" value="<?echo $CONFIG["cc_sigla"] ?>" name="loc_sg"><br />
+			</tbody>
+			</table>
+
+	
 			Observações:<br /><textarea cols="50" rows="5" maxlength="255" name="loc_obs"><?echo $CONFIG["cc_obs"]?></textarea><br />
 		<?
 
@@ -457,3 +523,7 @@ function scrollit(seed)
 	}
 
 ?>
+
+<div id="roda">
+</body>
+</html>

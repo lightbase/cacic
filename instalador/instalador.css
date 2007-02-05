@@ -1,0 +1,46 @@
+body { 
+	background-color: #ffffff;
+	background-repeat:no-repeat;
+	background-position:top center;
+	font-family: Tahoma, Arial, Verdana, sans-serif;
+	font-size: 11px;
+	line-height: 15px;
+	color: #999999;
+	font-weight: bold;
+	}
+#topo{
+	position:absolute;
+	left:0px;
+	top:0px;
+	height:65px;
+	background-color : #EBEBEB;
+	color : #000000;
+	display : block;
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 12px;
+	font-weight : bold;
+	padding : 1px 5px 2px 4px;
+	vertical-align : center;
+	width : expression("100%");
+}
+
+}
+#intro {
+	position:absolute;
+	text-align:justify;
+	background-color:#ffffff;
+	left:15%;
+	top:220px;
+	width:900px;
+	font:normal 13px/18px arial;
+	color:#333;
+		}
+#roda {
+	position:absolute;
+	text-align:justify;
+	left:15%;
+	top:600px;
+	width:900px;
+	font:normal 13px/18px arial;
+	color:#333;
+		}
