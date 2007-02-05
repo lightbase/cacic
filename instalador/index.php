@@ -1,3 +1,4 @@
+
 <?php
 /*
  Copyright (C) Thomaz de Oliveira dos Reis - thor27 EM gmail PONTO com
@@ -381,7 +382,7 @@ function scrollit(seed)
 			</table>
 
 	
-			Observações:<br /><textarea cols="50" rows="5" maxlength="255" name="loc_obs"><?echo $CONFIG["cc_obs"]?></textarea><br />
+			Observações:<br /><textarea cols="71" rows="5" maxlength="255" name="loc_obs"><?echo $CONFIG["cc_obs"]?></textarea><br />
 		<?
 
 		$CONFIG['nomebot']='Avançar';
@@ -528,8 +529,26 @@ function scrollit(seed)
 
 
 <div id="roda">
+<table style="text-align: left; width: 100%;" border="0"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="width: 324px;"><img
+ style="width: 361px; height: 36px;" alt=""
+ src="planejamento_superior.gif"></td>
+      <td style="width: 316px; text-align: center;"><img
+ style="width: 113px; height: 89px;" alt=""
+ src="DATAPREV.png"></td>
+      <td style="text-align: center;"><img
+ style="width: 138px; height: 103px;" alt=""
+ src="SPB.gif"></td>
+    </tr>
+  </tbody>
+</table>
 
-TESTE
+
+
+
 </div>
 
 
