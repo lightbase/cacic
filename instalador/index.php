@@ -136,8 +136,8 @@ function scrollit(seed)
                 <td>&nbsp;</td>
               </tr>
               <tr> 
-                <td><div align="right"><b><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
-		Instalador Gerente CACIC
+                <td><div align="right"><b><font size="3" face="Verdana, Arial, Helvetica, sans-serif">
+		Configurador do Gerente CACIC
 		</font></b></div></td>
                 <td>&nbsp;&nbsp;</td>
               </tr>
@@ -181,7 +181,10 @@ function scrollit(seed)
 
 <?
 	function bemvindo($CONFIG) {
-		echo 'Bem-vindo ao instalador do CACIC. Nos próximos passos serão feitas algumas perguntas básicas para que o CACIC possa Funcionar.<br /><b>IMPORTANTE: <i>Este instalador está em fase experimental e ainda não funciona em um ambiente de atualização.</i></b> ';
+		echo '<H2>Bem-vindo ao instalador do CACIC.<BR /><BR /> 
+		Iniciaremos agora o processo de configurações básicas do CACIC.<BR />
+		<BR />
+		<B>IMPORTANTE: <I>Este instalador está em fase de desenvolvimento e ainda não tem a funcionalidade de atualização da base de dados.</i></b></H2> ';
 
 		$CONFIG['nomebot']='Iniciar Instalação';
     		$CONFIG['fase']=$CONFIG['fase']+1;
@@ -529,28 +532,38 @@ function scrollit(seed)
 
 
 <div id="roda">
+	<HR>
 <table style="text-align: left; width: 100%;" border="0"
  cellpadding="2" cellspacing="2">
   <tbody>
+<TR>
+<TD style="width: 324px;">
+Coordenação
+</TD>
+<TD style="width: 316px; text-align: center;">
+Desenvolvimento
+</TD>
+<TD style="text-align: center;">
+Software Público Brasileiro
+</TD>
+
+
+</TR>
     <tr>
-      <td style="width: 324px;"><img
- style="width: 361px; height: 36px;" alt=""
- src="planejamento_superior.gif"></td>
-      <td style="width: 316px; text-align: center;"><img
- style="width: 113px; height: 89px;" alt=""
- src="DATAPREV.png"></td>
-      <td style="text-align: center;"><img
- style="width: 138px; height: 103px;" alt=""
- src="SPB.gif"></td>
+	<td style="width: 324px;">
+	<img style="width: 361px; height: 36px;" alt="" src="planejamento_superior.gif">
+	</td>
+	<td style="width: 316px; text-align: center;">
+	<img style="width: 113px; height: 89px;" alt="" src="DATAPREV.png">
+	</td>
+	<td style="text-align: center;">
+	<img  style="width: 110px; height: 80px;" alt=""  src="SPB.gif">
+	</td>
     </tr>
   </tbody>
 </table>
 
-
-
-
 </div>
-
 
 </body>
 </html>

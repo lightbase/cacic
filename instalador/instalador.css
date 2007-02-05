@@ -7,7 +7,8 @@ body {
 	line-height: 15px;
 	color: #999999;
 	font-weight: bold;
-	}
+	width:900px;	
+}
 #topo{
 	position:absolute;
 	left:0px;
@@ -22,6 +23,7 @@ body {
 	padding : 1px 5px 2px 4px;
 	vertical-align : center;
 	width : expression("100%");
+	width:900px;
 }
 
 }
