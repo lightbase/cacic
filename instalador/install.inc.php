@@ -106,6 +106,10 @@ function InstallLoadSQL($sqlfile,$connection ,$last_update = null)
    }
   }
  }
- if ($errors > 0) dPmsg("AVISO: $errors dos $piece_count comandos SQL, nÃ£o foram executados.");
+ if ($errors > 0) {
+	 dPmsg("AVISO: $errors dos $piece_count comandos SQL, não foram executados.");
+	return false;
+ }
+ return true;
 }
 ?>

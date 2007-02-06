@@ -69,50 +69,7 @@ $v_versao = '2.2.2';
 </style>
 
 <div id="topo">
-<SCRIPT language=JavaScript>
-<!--
-function scrollit(seed) 
-	{
-	var msg="*** CACIC - Configurador Automático e Coletor de Informações Computacionais ***";
-	var out = " ";
-	var c = 1;
-	if (seed > 100) 
-		{
-		seed--;
-		cmd="scrollit("+seed+")";
-		timerTwo=window.setTimeout(cmd,100);
-		}
-	else if (seed <= 100 && seed > 0) 
-		{
-		for (c=0 ; c < seed ; c++) 
-			{
-			out+=" ";
-			}
-		out+=msg;
-		seed--;
-		window.status=out;
-		cmd="scrollit("+seed+")";
-		timerTwo=window.setTimeout(cmd,100);
-		}
-	else if (seed <= 0) 
-		{
-		if (-seed < msg.length) 
-			{
-			out+=msg.substring(-seed,msg.length);
-			seed--;
-			window.status=out;
-			cmd="scrollit("+seed+")";
-			timerTwo=window.setTimeout(cmd,100);
-			}
-		else 
-			{
-			window.status=" ";
-			timerTwo=window.setTimeout("scrollit(100)",75);
-			}
-		}
-	}
-//scrollit(100);
-</SCRIPT>
+
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -150,6 +107,8 @@ function scrollit(seed)
   </tr>
 </table>
 	Instalação do CACIC <br /><br />
+	<div style="text-align: center;">
+
 	<form name="installform" method="post" action="<?php echo $PHP_SELF;?>">
 	<?
 		switch ( $CONFIG['fase'] ) {
@@ -170,20 +129,21 @@ function scrollit(seed)
 		}
 
 	?>
-<div>
 
 	<br><br>
         	<input type="submit" value="<?php echo $CONFIG['nomebot'] ?>" name="submit">
 	</form>
 
-
+	</div>
+	
+	<div>
 
 <?
 	function bemvindo($CONFIG) {
-		echo '<H2>Bem-vindo ao instalador do CACIC.<BR /><BR /> 
+		echo '<H2>Bem-vindo ao instalador do CACIC.<BR /><BR /></H2> 
 		Iniciaremos agora o processo de configurações básicas do CACIC.<BR />
-		<BR />
-		<B>IMPORTANTE: <I>Este instalador está em fase de desenvolvimento e ainda não tem a funcionalidade de atualização da base de dados.</i></b></H2> ';
+		<BR /><BR />
+		<B><span style="color: rgb(255, 0, 0);"> IMPORTANTE: <I>Este instalador está em fase de desenvolvimento e ainda não tem a funcionalidade de atualização da base de dados.</span></i></b> ';
 
 		$CONFIG['nomebot']='Iniciar Instalação';
     		$CONFIG['fase']=$CONFIG['fase']+1;
@@ -192,42 +152,49 @@ function scrollit(seed)
 
 	function teste_ambiente($CONFIG) {
 		//Testa Versão do PHP, gd, mysql, mcrypt, dev
-
+		?><br /><br />
+			<table style="vertical-align: top; text-align: left; width: 400px; height: 120px; margin-left: auto; margin-right: auto;"
+ border="0" cellpadding="0" cellspacing="0">
+  			<tbody>
+		<?
+		echo '<tr><td>Versão do PHP (> 4.0): ';
 		if (version_compare(phpversion(), '4.0', '>')) {
-			echo 'Versão do PHP (> 4.0): ',phpversion(),' <img src="apply.png"><br />';
-		} else echo 'Versão do PHP (> 4.0): ',phpversion(),' Inferior a recomendada<br />';
+			echo phpversion(),'<br /><br /></td> <td><img src="apply.png"></td> </tr>';
+		} else echo phpversion(),'<br /> <b>Versão inferior a recomendada</b></td> <td> <img src="warning.png"></td> </tr> <br />';
 
 		$TESTE = 0;
 		$pasta=dirname($CONFIG['arq_config']);
 		$path="$pasta/tmp";
-		
+
+		echo '<tr><td>Extensão Gd';
 		if (extension_loaded("gd")) {
-			echo 'Extensão Gd <img src="apply.png"> <br />';
+			echo '<br /><br /></td><td><img src="apply.png">  </td></tr>';
 			$TESTE = $TESTE +1;
-		} else echo 'Extensão Gd <img src="cancel.png"> <br />';
+		} else echo '<br /> <b>Extensão não carregada</b></td> </td><td><img src="cancel.png"> </td></tr>';
 
+		echo '<tr><td>Extensão MySQL';
 		if (extension_loaded("mysql")) {
-			echo 'Extensão MySQL <img src="apply.png"> <br />';
+			echo '<br /><br /></td><td><img src="apply.png">  </td></tr>';
 			$TESTE = $TESTE +1;
-		} else echo 'Extensão MySQL <img src="cancel.png"> <br />';
+		} else echo '<br /> <b>Extensão não carregada</b></td> </td><td><img src="cancel.png"> </td></tr>';
 
+		echo '<tr><td>Extensão mcrypt';
 		if (extension_loaded("mcrypt")) {
-			echo 'Extensão mcrypt <img src="apply.png"> <br />';
+			echo '<br /><br /></td><td><img src="apply.png">  </td></tr>';
 			$TESTE = $TESTE +1; 
-		} else echo 'Extensão mcrypt <img src="cancel.png"> <br />';
+		} else echo '<br /> <b>Extensão não carregada</b></td> </td><td><img src="cancel.png"> </td></tr>';
 		
+		echo '<tr><td>Permissão de escrita em $pasta';
 		if ($f = @fopen($path,"wb")) {
 		        fclose($f);
 		        unlink($path);
-			echo 'Permissão de escrita em $pasta. <img src="apply.png"><br /> <b>IMPORTANTE: Ao termino da instalação, retire a permissão de escrita em $pasta, por motivos de segurança.</b>';
+			 echo '<br /><span style="color: rgb(255, 0, 0);">  <b>IMPORTANTE:</b> <i> Ao termino da instalação, retire a permissão de escrita em $pasta, por motivos de segurança. </span></i></td><td><img src="apply.png">  </td></tr>';
 			$CONFIG['gerar_tela']=0;
 		} else {
-			echo "Permissão de escrita em $pasta Não autorizado.";
-			echo '<img src="cancel.png"><br>'; 
-			echo "O conteúdo do arquivo 'config.php' será gerado na tela.";
+			echo '<br />Não autorizado. O conteúdo do arquivo "config.php" será gerado na tela. </td><td><img src="warning.png"></td></tr>'; 
 			$CONFIG['gerar_tela']=1; 
 		}
-		
+		?></tbody></table><?
 		if ($TESTE == 3 ) {
 			$CONFIG['nomebot']='Avançar';
     			$CONFIG['fase']=$CONFIG['fase']+1;
@@ -241,7 +208,7 @@ function scrollit(seed)
 	function configura_conexao($CONFIG) {
 		echo 'Configurando a conexão com o banco de dados';
 		?><br /><br />
-			<table style="text-align: left; width: 300px; height: 120px;"
+			<table style="text-align: left; width: 300px; height: 120px; margin-left: auto; margin-right: auto;"
  border="0" cellpadding="0" cellspacing="0">
   			<tbody>
     			<tr>
@@ -289,10 +256,10 @@ function scrollit(seed)
 			$CONFIG['fase']=$CONFIG['fase']-1;
 			return $CONFIG;
 		}
-	
+		echo '<img src="apply.png"><br>'; 
+		
 		//Cria o banco de dados, caso não exista
 		///TODO: Verificar a permissão do usuário para criar bancos. Se o banco já existe verificar se é uma atualização.
-		echo '<img src="apply.png"><br>'; 
 		echo "Criando o Banco de dados, caso não exista: ";
 		$dbname=$CONFIG['db_db'];
 		if (!mysql_query("create database if not exists $dbname", $ligacao)) {
@@ -301,11 +268,10 @@ function scrollit(seed)
 			$CONFIG['nomebot']='Voltar';
 			$CONFIG['fase']=$CONFIG['fase']-1;
 			return $CONFIG;
-		
 		}
-
-		//Abre o banco de dados
 		echo '<img src="apply.png"><br>'; 
+		
+		//Abre o banco de dados
 		echo "Abrindo o Banco de dados: ";
 		flush();
 		if (!mysql_select_db($CONFIG['db_db'], $ligacao)) {
@@ -315,15 +281,20 @@ function scrollit(seed)
 			$CONFIG['fase']=$CONFIG['fase']-1;
 			return $CONFIG;		
 		}
+		echo '<img src="apply.png"><br>'; 
+		
 
 		//Inserindo o .SQL no banco
-		echo '<img src="apply.png"><br>'; 
 		echo "Inserindo $ARQ_SQL: ";
 		flush();
-		InstallLoadSql($ARQ_SQL, $ligacao);
-		echo '<img src="apply.png"><br>'; 
-		echo '<br />Banco e tabelas criadas com sucesso.';
-		echo '<img src="apply.png"><br>';
+		if (InstallLoadSql($ARQ_SQL, $ligacao)) {
+			echo '<img src="apply.png"><br>'; 
+			echo '<br />Banco e tabelas criadas com sucesso.';
+		} else {
+			echo '<img src="warning.png"><br>';
+			echo '<br />Ocorreram alguns problemas durante a inserção dos dados no mySQL. Verifique o banco antes de prosseguir.';
+		}
+		
 		$CONFIG['nomebot']='Avançar';
 		$CONFIG['fase']=$CONFIG['fase']+1;
 		return $CONFIG;
@@ -332,7 +303,7 @@ function scrollit(seed)
 	function configura_cacic($CONFIG){
 		
 		?><br /><br />
-			<table style="text-align: left; width: 517px;" border="0"
+			<table style="text-align: left; width: 517px; margin-left: auto; margin-right: auto;" border="0"
  			cellpadding="2" cellspacing="2">
   			<tbody>
     			<tr>
