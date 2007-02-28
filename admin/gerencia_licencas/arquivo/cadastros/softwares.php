@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+require_once('../../../../include/library.php');
 conecta_bd_cacic();
 
 	$query_select = "select max(id_software) as ID FROM softwares";

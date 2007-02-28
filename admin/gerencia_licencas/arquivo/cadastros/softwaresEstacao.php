@@ -9,7 +9,7 @@ function DataParaBd($data){
 }
 
 session_start();
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+require_once('../../../../include/library.php');
 conecta_bd_cacic();
    	
    	$patrimonio = $_REQUEST[patrimonio];

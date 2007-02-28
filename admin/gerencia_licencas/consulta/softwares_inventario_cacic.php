@@ -33,7 +33,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <body bgcolor="#FFFFFF" topmargin="5">
 <table border="0" align="left" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
-    <td rowspan="5" bgcolor="#FFFFFF"><img src="/cacic2/imgs/cacic_novo.gif" width="50" height="50"></td>
+    <td rowspan="5" bgcolor="#FFFFFF"><img src="../../../imgs/cacic_novo.gif" width="50" height="50"></td>
     <td rowspan="5" bgcolor="#FFFFFF">&nbsp;</td>
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
@@ -53,7 +53,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <br>
 <? 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+require_once('../../../include/library.php');
 conecta_bd_cacic();
 	
 	$query = "SELECT s.nm_software 
@@ -93,7 +93,7 @@ while ($row = mysql_fetch_row($result)) { //Table body
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>';
-    echo '<td nowrap align="left"><font size="1" face="Verdana, Arial"><a href="/cacic2/relatorios/softwares/rel_softwares_orgao.php?id_software_inventariado=' . $row[0] . '&nm_software_inventariado=' . $row[1] . '&nm_maquina="">' . $row[1] . '</a></td>';
+    echo '<td nowrap align="left"><font size="1" face="Verdana, Arial"><a href="../../../relatorios/softwares/rel_softwares_orgao.php?id_software_inventariado=' . $row[0] . '&nm_software_inventariado=' . $row[1] . '&nm_maquina="">' . $row[1] . '</a></td>';
     echo '<td nowrap align="center"><font size="1" face="Verdana, Arial">' . $row[2] .'&nbsp;</td>';
     $cor=!$cor;
 	$num_registro++;

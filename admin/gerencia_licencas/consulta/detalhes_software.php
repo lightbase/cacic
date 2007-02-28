@@ -1,13 +1,13 @@
 <?
 session_start();
 //Mostrar computadores com nomes repetidos na base
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+require_once('../../../include/library.php');
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="/cacic2/include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
 <title>Relat&oacute;rio de Softwares Inventariados por M&aacute;quinas</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
@@ -22,7 +22,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <body bgcolor="#FFFFFF" topmargin="5">
 <table border="0" align="left" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
-    <td rowspan="5" bgcolor="#FFFFFF"><img src="/cacic2/imgs/cacic_novo.gif" width="50" height="50"></td>
+    <td rowspan="5" bgcolor="#FFFFFF"><img src="../../../imgs/cacic_novo.gif" width="50" height="50"></td>
     <td rowspan="5" bgcolor="#FFFFFF">&nbsp;</td>
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>

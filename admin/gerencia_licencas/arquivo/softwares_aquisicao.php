@@ -24,7 +24,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <body bgcolor="#FFFFFF" topmargin="5">
 <table border="0" align="left" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
-    <td rowspan="5" bgcolor="#FFFFFF"><img src="/cacic2/imgs/cacic_novo.gif" width="50" height="50"></td>
+    <td rowspan="5" bgcolor="#FFFFFF"><img src="../../../imgs/cacic_novo.gif" width="50" height="50"></td>
     <td rowspan="5" bgcolor="#FFFFFF">&nbsp;</td>
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
@@ -45,7 +45,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <br>
 <? 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+require_once('../../../include/library.php');
 conecta_bd_cacic();
 
    $query =  "SELECT s.nm_software, ai.qt_licenca, tl.te_tipo_licenca  
