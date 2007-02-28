@@ -308,7 +308,7 @@ $v_versao = '2.2.2';
   			<tbody>
     			<tr>
       			<td style="width: 407px;">Path da Aplicação:</td>
-      			<td style="width: 92px;"><input type="text" size="12" maxlength="255" value=" <?echo dirname(dirname(__FILE__));?>" name="PathAplic"></td>
+      			<td style="width: 92px;"><input type="text" size="12" maxlength="255" value="<?echo dirname(dirname(__FILE__));?>" name="PathAplic"></td>
     			</tr>
     			<tr>
       			<td style="width: 407px; font-weight: bold;">Informações do usuário administrador:</td>
