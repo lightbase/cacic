@@ -1,5 +1,5 @@
-# MUSSI: Mantive o usuï¿½io "d306851" senha "d306851" para acesso...
-# Vocï¿½deve cadastrar subrede(s) e fazer o(s) update(s)...
+# MUSSI: Mantive o usuário "d306851" senha "d306851" para acesso...
+# Você deve cadastrar subrede(s) e fazer o(s) update(s)...
 # 
 
 
@@ -8,9 +8,9 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Servidor: localhost
-# Tempo de Generaï¿½o: Jan 26, 2007 at 12:52 PM
-# Versï¿½ do Servidor: 4.0.12
-# Versï¿½ do PHP: 4.1.1
+# Tempo de Generação: Jan 26, 2007 at 12:52 PM
+# Versão do Servidor: 4.0.12
+# Versão do PHP: 4.1.1
 # Banco de Dados : `cacic`
 # --------------------------------------------------------
 
@@ -32,14 +32,14 @@ CREATE TABLE acoes (
 # Extraindo dados da tabela `acoes`
 #
 
-INSERT INTO acoes VALUES ('cs_auto_update', 'Auto Atualizaï¿½o dos Agentes', 0x457373612061e7e36f207065726d697465207175652073656a61207265616c697a6164612061206175746f20617475616c697a61e7e36f20646f73206167656e74657320646f204341434943206e6f7320636f6d70757461646f726573206f6e6465206f73206167656e7465732073e36f2065786563757461646f732e200d0a0d0a, NULL, '0000-00-00 00:00:00', NULL);
-INSERT INTO acoes VALUES ('cs_coleta_compart', 'Coleta Informaï¿½es de Compartilhamentos de Diretï¿½ios e Impressoras', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320696e666f726d61e7f5657320736f62726520636f6d70617274696c68616d656e746f73206465206469726574f372696f73206520696d70726573736f72617320646f7320636f6d70757461646f726573206f6e6465206f73206167656e74657320657374e36f20696e7374616c61646f2e, 'COMP', '0000-00-00 00:00:00', NULL);
-INSERT INTO acoes VALUES ('cs_coleta_hardware', 'Coleta Informaï¿½es de Hardware', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320646976657273617320696e666f726d61e7f5657320736f627265206f20686172647761726520646f7320636f6d70757461646f726573206f6e6465206f73206167656e74657320657374e36f20696e7374616c61646f732c207461697320636f6d6f204d656df37269612c20506c6163612064652056edad64656f2c204350552c20446973636f732052edad6769646f732c2042494f532c20506c61636120646520526564652c20506c616361204de3652c206574632e, 'HARD', '0000-00-00 00:00:00', NULL);
-INSERT INTO acoes VALUES ('cs_coleta_monitorado', 'Coleta Informaï¿½es sobre os Sistemas Monitorados', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c6574616461732c206e61732065737461e7f56573206f6e6465206f73206167656e74657320436163696320657374e36f20696e7374616c61646f732c20617320696e666f726d61e7f565732061636572636120646f732070657266edad732064652073697374656d61732c207072657669616d656e7465206361646173747261646f732070656c612041646d696e6973747261e7e36f2043656e7472616c2e, 'MONI', '0000-00-00 00:00:00', NULL);
-INSERT INTO acoes VALUES ('cs_coleta_officescan', 'Coleta Informaï¿½es do Antivï¿½us OfficeScan', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320696e666f726d61e7f5657320736f627265206f20616e746976edad727573204f66666963655363616e206e6f7320636f6d70757461646f726573206f6e6465206f73206167656e74657320657374e36f20696e7374616c61646f2e2053e36f20636f6c65746164617320696e666f726d61e7f5657320636f6d6f20612076657273e36f20646f20656e67696e652c2076657273e36f20646f207061747465726e2c20656e64657265e76f20646f207365727669646f722c206461746120646120696e7374616c61e7e36f2c206574632e, 'ANVI', '0000-00-00 00:00:00', NULL);
-INSERT INTO acoes VALUES ('cs_coleta_patrimonio', 'Coleta Informaï¿½es de Patrimï¿½io', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320646976657273617320696e666f726d61e7f5657320736f6272652050617472696df46e696f2065204c6f63616c697a61e7e36f2046edad7369636120646f7320636f6d70757461646f726573206f6e6465206f73206167656e74657320657374e36f20696e7374616c61646f732e, 'PATR', '0000-00-00 00:00:00', NULL);
-INSERT INTO acoes VALUES ('cs_coleta_software', 'Coleta Informaï¿½es de Software', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320696e666f726d61e7f5657320736f62726520612076657273e36f206465206469766572736f7320736f6674776172657320696e7374616c61646f73206e6f7320636f6d70757461646f726573206f6e6465206f73206167656e7465732073e36f2065786563757461646f732e2053e36f20636f6c6574616461732c20706f72206578656d706c6f2c20696e666f726d61e7f5657320736f6272652061732076657273f5657320646f20496e7465726e6574204578706c6f7265722c204d6f7a696c6c612c20446972656374582c2041444f2c204244452c2044414f2c204a6176612052756e74696d6520456e7669726f6e6d656e742c206574632e, 'SOFT', '0000-00-00 00:00:00', NULL);
-INSERT INTO acoes VALUES ('cs_coleta_unid_disc', 'Coleta Informaï¿½es sobre Unidades de Disco', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320696e666f726d61e7f5657320736f62726520617320756e69646164657320646520646973636f20646973706f6eedad76656973206e6f7320636f6d70757461646f726573206f6e6465206f73206167656e7465732073e36f2065786563757461646f732e2053e36f20636f6c6574616461732c20706f72206578656d706c6f2c20696e666f726d61e7f5657320736f627265206f2073697374656d61206465206172717569766f732064617320756e6964616465732c20737561732063617061636964616465732064652061726d617a656e616d656e746f2c206f63757061e7e36f2c2065737061e76f206c697672652c206574632e, 'UNDI', '0000-00-00 00:00:00', NULL);
+INSERT INTO acoes VALUES ('cs_auto_update', 'Auto Atualização dos Agentes', 0x457373612061e7e36f207065726d697465207175652073656a61207265616c697a6164612061206175746f20617475616c697a61e7e36f20646f73206167656e74657320646f204341434943206e6f7320636f6d70757461646f726573206f6e6465206f73206167656e7465732073e36f2065786563757461646f732e200d0a0d0a, NULL, '0000-00-00 00:00:00', NULL);
+INSERT INTO acoes VALUES ('cs_coleta_compart', 'Coleta Informações de Compartilhamentos de Diretórios e Impressoras', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320696e666f726d61e7f5657320736f62726520636f6d70617274696c68616d656e746f73206465206469726574f372696f73206520696d70726573736f72617320646f7320636f6d70757461646f726573206f6e6465206f73206167656e74657320657374e36f20696e7374616c61646f2e, 'COMP', '0000-00-00 00:00:00', NULL);
+INSERT INTO acoes VALUES ('cs_coleta_hardware', 'Coleta Informações de Hardware', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320646976657273617320696e666f726d61e7f5657320736f627265206f20686172647761726520646f7320636f6d70757461646f726573206f6e6465206f73206167656e74657320657374e36f20696e7374616c61646f732c207461697320636f6d6f204d656df37269612c20506c6163612064652056edad64656f2c204350552c20446973636f732052edad6769646f732c2042494f532c20506c61636120646520526564652c20506c616361204de3652c206574632e, 'HARD', '0000-00-00 00:00:00', NULL);
+INSERT INTO acoes VALUES ('cs_coleta_monitorado', 'Coleta Informações sobre os Sistemas Monitorados', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c6574616461732c206e61732065737461e7f56573206f6e6465206f73206167656e74657320436163696320657374e36f20696e7374616c61646f732c20617320696e666f726d61e7f565732061636572636120646f732070657266edad732064652073697374656d61732c207072657669616d656e7465206361646173747261646f732070656c612041646d696e6973747261e7e36f2043656e7472616c2e, 'MONI', '0000-00-00 00:00:00', NULL);
+INSERT INTO acoes VALUES ('cs_coleta_officescan', 'Coleta Informações do Antivírus OfficeScan', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320696e666f726d61e7f5657320736f627265206f20616e746976edad727573204f66666963655363616e206e6f7320636f6d70757461646f726573206f6e6465206f73206167656e74657320657374e36f20696e7374616c61646f2e2053e36f20636f6c65746164617320696e666f726d61e7f5657320636f6d6f20612076657273e36f20646f20656e67696e652c2076657273e36f20646f207061747465726e2c20656e64657265e76f20646f207365727669646f722c206461746120646120696e7374616c61e7e36f2c206574632e, 'ANVI', '0000-00-00 00:00:00', NULL);
+INSERT INTO acoes VALUES ('cs_coleta_patrimonio', 'Coleta Informações de Patrimônio', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320646976657273617320696e666f726d61e7f5657320736f6272652050617472696df46e696f2065204c6f63616c697a61e7e36f2046edad7369636120646f7320636f6d70757461646f726573206f6e6465206f73206167656e74657320657374e36f20696e7374616c61646f732e, 'PATR', '0000-00-00 00:00:00', NULL);
+INSERT INTO acoes VALUES ('cs_coleta_software', 'Coleta Informações de Software', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320696e666f726d61e7f5657320736f62726520612076657273e36f206465206469766572736f7320736f6674776172657320696e7374616c61646f73206e6f7320636f6d70757461646f726573206f6e6465206f73206167656e7465732073e36f2065786563757461646f732e2053e36f20636f6c6574616461732c20706f72206578656d706c6f2c20696e666f726d61e7f5657320736f6272652061732076657273f5657320646f20496e7465726e6574204578706c6f7265722c204d6f7a696c6c612c20446972656374582c2041444f2c204244452c2044414f2c204a6176612052756e74696d6520456e7669726f6e6d656e742c206574632e, 'SOFT', '0000-00-00 00:00:00', NULL);
+INSERT INTO acoes VALUES ('cs_coleta_unid_disc', 'Coleta Informações sobre Unidades de Disco', 0x457373612061e7e36f207065726d697465207175652073656a616d20636f6c65746164617320696e666f726d61e7f5657320736f62726520617320756e69646164657320646520646973636f20646973706f6eedad76656973206e6f7320636f6d70757461646f726573206f6e6465206f73206167656e7465732073e36f2065786563757461646f732e2053e36f20636f6c6574616461732c20706f72206578656d706c6f2c20696e666f726d61e7f5657320736f627265206f2073697374656d61206465206172717569766f732064617320756e6964616465732c20737561732063617061636964616465732064652061726d617a656e616d656e746f2c206f63757061e7e36f2c2065737061e76f206c697672652c206574632e, 'UNDI', '0000-00-00 00:00:00', NULL);
 # --------------------------------------------------------
 
 #
@@ -132,7 +132,7 @@ CREATE TABLE aquisicoes (
 # Extraindo dados da tabela `aquisicoes`
 #
 
-INSERT INTO aquisicoes VALUES (1, NULL, '12345', 'Empresa Teste', 'ProprietÃ¡rio Teste', 1234567);
+INSERT INTO aquisicoes VALUES (1, NULL, '12345', 'Empresa Teste', 'Proprietário Teste', 1234567);
 # --------------------------------------------------------
 
 #
@@ -322,23 +322,23 @@ CREATE TABLE descricao_hardware (
 #
 
 INSERT INTO descricao_hardware VALUES (' te_cdrom_desc', 'CD-ROM', '1');
-INSERT INTO descricao_hardware VALUES ('qt_mem_ram', 'MemÃ³ria RAM', '1');
-INSERT INTO descricao_hardware VALUES ('qt_placa_video_cores', 'Qtd. Cores Placa VÃ­deo', '0');
-INSERT INTO descricao_hardware VALUES ('qt_placa_video_mem', 'MemÃ³ria Placa VÃ­deo', '0');
-INSERT INTO descricao_hardware VALUES ('te_bios_desc', 'DescriÃ§Ã£o da BIOS', '1');
+INSERT INTO descricao_hardware VALUES ('qt_mem_ram', 'Memória RAM', '1');
+INSERT INTO descricao_hardware VALUES ('qt_placa_video_cores', 'Qtd. Cores Placa Vídeo', '0');
+INSERT INTO descricao_hardware VALUES ('qt_placa_video_mem', 'Memória Placa Vídeo', '0');
+INSERT INTO descricao_hardware VALUES ('te_bios_desc', 'Descrição da BIOS', '1');
 INSERT INTO descricao_hardware VALUES ('te_bios_fabricante', 'Fabricante da BIOS', '0');
 INSERT INTO descricao_hardware VALUES ('te_cpu_desc', 'CPU', '0');
 INSERT INTO descricao_hardware VALUES ('te_cpu_fabricante', 'Fabricante da CPU', '0');
 INSERT INTO descricao_hardware VALUES ('te_cpu_serial', 'Serial da CPU', '1');
-INSERT INTO descricao_hardware VALUES ('te_mem_ram_desc', 'DescriÃ§Ã£o da RAM', '0');
+INSERT INTO descricao_hardware VALUES ('te_mem_ram_desc', 'Descrição da RAM', '0');
 INSERT INTO descricao_hardware VALUES ('te_modem_desc', 'Modem', '0');
 INSERT INTO descricao_hardware VALUES ('te_mouse_desc', 'Mouse', '1');
-INSERT INTO descricao_hardware VALUES ('te_placa_mae_desc', 'Placa MÃ£e', '1');
-INSERT INTO descricao_hardware VALUES ('te_placa_mae_fabricante', 'Fabricante Placa MÃ£e', '0');
+INSERT INTO descricao_hardware VALUES ('te_placa_mae_desc', 'Placa Mãe', '1');
+INSERT INTO descricao_hardware VALUES ('te_placa_mae_fabricante', 'Fabricante Placa Mãe', '0');
 INSERT INTO descricao_hardware VALUES ('te_placa_rede_desc', 'Placa de Rede', '1');
 INSERT INTO descricao_hardware VALUES ('te_placa_som_desc', 'Placa de Som', '1');
-INSERT INTO descricao_hardware VALUES ('te_placa_video_desc', 'Placa de VÃ­deo', '1');
-INSERT INTO descricao_hardware VALUES ('te_placa_video_resolucao', 'ResoluÃ§Ã£o Placa de VÃ­deo', '0');
+INSERT INTO descricao_hardware VALUES ('te_placa_video_desc', 'Placa de Vídeo', '1');
+INSERT INTO descricao_hardware VALUES ('te_placa_video_resolucao', 'Resolução Placa de Vídeo', '0');
 INSERT INTO descricao_hardware VALUES ('te_teclado_desc', 'Teclado', '1');
 # --------------------------------------------------------
 
@@ -351,55 +351,55 @@ CREATE TABLE descricoes_colunas_computadores (
   te_descricao_campo varchar(100) NOT NULL default '',
   cs_condicao_pesquisa char(1) NOT NULL default 'S',
   UNIQUE KEY nm_campo (nm_campo)
-) TYPE=InnoDB COMMENT='Tabela para auxï¿½io na opï¿½o Exclusï¿½ de Informaï¿½es de Comp';
+) TYPE=InnoDB COMMENT='Tabela para auxílio na opção Exclusão de Informações de Comp.';
 
 #
 # Extraindo dados da tabela `descricoes_colunas_computadores`
 #
 
-INSERT INTO descricoes_colunas_computadores VALUES ('dt_hr_coleta_forcada_estacao', 'Quant. dias de ?ltima coleta for?ada na esta?', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('dt_hr_inclusao', 'Quant. dias de inclus?o do computador na base', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('dt_hr_ult_acesso', 'Quant. dias do ?ltimo acesso da esta??o ao gerente WEB', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('id_ip_rede', 'Endere?o IP da Subrede', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('id_so', 'C?digo do sistema operacional da esta?', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('qt_mem_ram', 'Quant. mem?ria RAM', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('qt_placa_video_cores', 'Quant. cores da placa de v?deo', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('qt_placa_video_mem', 'Quant. mem?ria da placa de v?deo', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_bios_data', 'Identifica??o da BIOS', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_bios_desc', 'Descri??o da BIOS', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('dt_hr_coleta_forcada_estacao', 'Quant. dias da última coleta forçada na estação', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('dt_hr_inclusao', 'Quant. dias de inclusão do computador na base', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('dt_hr_ult_acesso', 'Quant. dias do último acesso da estação ao gerente WEB', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('id_ip_rede', 'Endereço IP da Subrede', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('id_so', 'Código do sistema operacional da estação', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('qt_mem_ram', 'Quant. memória RAM', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('qt_placa_video_cores', 'Quant. cores da placa de vídeo', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('qt_placa_video_mem', 'Quant. memória da placa de vídeo', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_bios_data', 'Identificação da BIOS', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_bios_desc', 'Descrição da BIOS', 'S');
 INSERT INTO descricoes_colunas_computadores VALUES ('te_bios_fabricante', 'Nome do fabricante da BIOS', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_cdrom_desc', 'Descri??o da unidade de CD-ROM', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_desc', 'Descri??o da CPU', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_cdrom_desc', 'Descrição da unidade de CD-ROM', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_desc', 'Descrição da CPU', 'S');
 INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_fabricante', 'Fabricante da CPU', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_freq', 'Frequ?ncia da CPU', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_serial', 'N?mero de s?rie da CPU', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_dns_primario', 'IP do DNS prim?rio', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_dns_secundario', 'IP do DNS secund?rio', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_dominio_dns', 'Nome/IP do dom?nio DNS', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_dominio_windows', 'Nome/IP do dom?nio Windows', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_freq', 'Frequência da CPU', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_serial', 'Número de série da CPU', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_dns_primario', 'IP do DNS primário', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_dns_secundario', 'IP do DNS secundário', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_dominio_dns', 'Nome/IP do domínio DNS', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_dominio_windows', 'Nome/IP do domínio Windows', 'S');
 INSERT INTO descricoes_colunas_computadores VALUES ('te_gateway', 'IP do gateway', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_ip', 'IP da esta?', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_mascara', 'M?scara de Subrede', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_mem_ram_desc', 'Descri??o da mem?ria RAM', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_modem_desc', 'Descri??o do modem', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_mouse_desc', 'Descri??o do mouse', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_node_address', 'Endere?o MAC da esta?', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_ip', 'IP da estação', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_mascara', 'Máscara de Subrede', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_mem_ram_desc', 'Descrição da memória RAM', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_modem_desc', 'Descrição do modem', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_mouse_desc', 'Descrição do mouse', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_node_address', 'Endereço MAC da estação', 'S');
 INSERT INTO descricoes_colunas_computadores VALUES ('te_nomes_curtos_modulos', 'te_nomes_curtos_modulos', 'N');
 INSERT INTO descricoes_colunas_computadores VALUES ('te_nome_computador', 'Nome do computador', 'S');
 INSERT INTO descricoes_colunas_computadores VALUES ('te_nome_host', 'Nome do Host', 'S');
 INSERT INTO descricoes_colunas_computadores VALUES ('te_origem_mac', 'te_origem_mac', 'N');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_mae_desc', 'Descri??o da placa-m', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_mae_desc', 'Descrição da placa-m', 'S');
 INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_mae_fabricante', 'Fabricante da placa-m', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_rede_desc', 'Descri??o da placa de rede', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_som_desc', 'Descri??o da placa de som', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_video_desc', 'Descri??o da placa de v?deo', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_video_resolucao', 'Resolu??o da placa de v?deo', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_rede_desc', 'Descrição da placa de rede', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_som_desc', 'Descrição da placa de som', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_video_desc', 'Descrição da placa de vídeo', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_video_resolucao', 'Resolução da placa de vídeo', 'S');
 INSERT INTO descricoes_colunas_computadores VALUES ('te_serv_dhcp', 'IP do servidor DHCP', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_teclado_desc', 'Descri??o do teclado', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_versao_cacic', 'Vers?o do Agente Principal do CACIC', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_versao_gercols', 'Vers?o do Gerente de Coletas do CACIC', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_wins_primario', 'IP do servidor WINS prim?rio', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_wins_secundario', 'IP do servidor WINS secund?rio', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_teclado_desc', 'Descrição do teclado', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_versao_cacic', 'Versão do Agente Principal do CACIC', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_versao_gercols', 'Versão do Gerente de Coletas do CACIC', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_wins_primario', 'IP do servidor WINS primário', 'S');
+INSERT INTO descricoes_colunas_computadores VALUES ('te_wins_secundario', 'IP do servidor WINS secundário', 'S');
 INSERT INTO descricoes_colunas_computadores VALUES ('te_workgroup', 'Nome do grupo de trabalho', 'S');
 # --------------------------------------------------------
 
@@ -422,10 +422,10 @@ CREATE TABLE grupo_usuarios (
 #
 
 INSERT INTO grupo_usuarios VALUES (1, 'Comum', 'menu_com.txt', 0x557375e172696f206c696d697461646f2c2073656d2061636573736f206120696e666f726d61e7f5657320636f6e666964656e636961697320636f6d6f20536f6674776172657320496e76656e7461726961646f732065204f70e7f565732041646d696e6973747261746976617320636f6d6f20466f72e7617220436f6c657461732065204578636c75697220436f6d70757461646f722e20506f646572e120616c746572617220737561207072f3707269612073656e68612e, 0, '');
-INSERT INTO grupo_usuarios VALUES (2, 'Administraï¿½o', 'menu_adm.txt', 0x41636573736f206972726573747269746f2e, 1, '');
-INSERT INTO grupo_usuarios VALUES (5, 'Gestï¿½ Central', 'menu_adm.txt', 0x41636573736f206465206c65697475726120656d20746f646173206173206f70e7f565732e, 2, '');
-INSERT INTO grupo_usuarios VALUES (6, 'Supervisï¿½', 'menu_sup.txt', 0x4d616e7574656ee7e36f20646520746162656c617320652061636573736f206120746f64617320617320696e666f726d61e7f56573207265666572656e74657320e0204c6f63616c697a61e7e36f2e, 3, '');
-INSERT INTO grupo_usuarios VALUES (7, 'Tï¿½nico', 'menu_tec.txt', 0x41636573736f2074e9636e69636f2e20536572e1207065726d697469646f206163657373617220636f6e666967757261636f6573206465207265646520652072656c6174f372696f732064652050617472696df46e696f20652048617264776172652e, 0, '');
+INSERT INTO grupo_usuarios VALUES (2, 'Administração', 'menu_adm.txt', 0x41636573736f206972726573747269746f2e, 1, '');
+INSERT INTO grupo_usuarios VALUES (5, 'Gestão Central', 'menu_adm.txt', 0x41636573736f206465206c65697475726120656d20746f646173206173206f70e7f565732e, 2, '');
+INSERT INTO grupo_usuarios VALUES (6, 'Supervisão', 'menu_sup.txt', 0x4d616e7574656ee7e36f20646520746162656c617320652061636573736f206120746f64617320617320696e666f726d61e7f56573207265666572656e74657320e0204c6f63616c697a61e7e36f2e, 3, '');
+INSERT INTO grupo_usuarios VALUES (7, 'Técnico', 'menu_tec.txt', 0x41636573736f2074e9636e69636f2e20536572e1207065726d697469646f206163657373617220636f6e666967757261636f6573206465207265646520652072656c6174f372696f732064652050617472696df46e696f20652048617264776172652e, 0, '');
 # --------------------------------------------------------
 
 #
@@ -584,7 +584,7 @@ CREATE TABLE locais (
   te_observacao varchar(255) default NULL,
   PRIMARY KEY  (id_local),
   KEY sg_localizacao (sg_local)
-) TYPE=InnoDB COMMENT='Localizaï¿½es para regionalizaï¿½o de acesso a dados' AUTO_INCREMENT=6 ;
+) TYPE=InnoDB COMMENT='Localizações para regionalização de acesso a dados' AUTO_INCREMENT=6 ;
 
 #
 # Estrutura da tabela `log`
@@ -717,7 +717,7 @@ INSERT INTO perfis_aplicativos_monitorados VALUES (65, 'Plenus Estaï¿½o', '0', '
 INSERT INTO perfis_aplicativos_monitorados VALUES (66, 'SART', '1', 'sart.exe', '1', 'sart.exe', '1', 'sart.exe', '1', 'sart.exe', '0', '', '2005-04-29 10:58:07', '', '', '', '', '', '', 0, '', 'N', 'S', '0000-00-00 00:00:00');
 INSERT INTO perfis_aplicativos_monitorados VALUES (67, 'CACIC - Col_Anvi - Col. de Inf. de Anti-Vï¿½us', '0', '', '4', 'Cacic\\modulos\\col_anvi.exe', '0', '', '4', 'Cacic\\modulos\\col_anvi.exe', '0', '', '2006-12-04 17:27:56', '', '', '', '', '', '', 0, '', 'N', 'N', NULL);
 INSERT INTO perfis_aplicativos_monitorados VALUES (68, 'CACIC - Col_Moni - Col. de Inf. de Sistemas Monitorados', '0', '', '4', 'cacic\\modulos\\col_moni.exe', '0', '', '4', 'cacic\\modulos\\col_moni.exe', '0', '', '2006-01-19 19:34:12', '', '', '', '', '', '', 0, '', 'N', 'S', NULL);
-INSERT INTO perfis_aplicativos_monitorados VALUES (69, 'CACIC - Col_Patr - Col. de Inf. de Patrimï¿½io e Loc. Fï¿½ica', '0', '', '4', 'cacic\\modulos\\col_patr.exe', '0', '', '4', 'cacic\\modulos\\col_patr.exe', '0', '', '2006-12-04 17:27:34', '', '', '', '', '', '', 0, '', 'N', 'N', NULL);
+INSERT INTO perfis_aplicativos_monitorados VALUES (69, 'CACIC - Col_Patr - Col. de Inf. de Patrimônio e Loc. Fï¿½ica', '0', '', '4', 'cacic\\modulos\\col_patr.exe', '0', '', '4', 'cacic\\modulos\\col_patr.exe', '0', '', '2006-12-04 17:27:34', '', '', '', '', '', '', 0, '', 'N', 'N', NULL);
 INSERT INTO perfis_aplicativos_monitorados VALUES (70, 'CACIC - Col_Hard - Col. de Inf. de Hardware', '0', '', '4', 'cacic\\modulos\\col_hard.exe', '0', '', '4', 'cacic\\modulos\\col_hard.exe', '0', '', '2006-01-19 19:34:38', '', '', '', '', '', '', 0, '', 'N', 'S', NULL);
 INSERT INTO perfis_aplicativos_monitorados VALUES (71, 'CACIC - Col_Soft - Col. de Inf. de Softwares Bï¿½icos', '0', '', '4', 'cacic\\modulos\\col_soft.exe', '0', '', '4', 'cacic\\modulos\\col_soft.exe', '0', '', '2006-12-04 17:27:45', '', '', '', '', '', '', 0, '', 'N', 'N', NULL);
 INSERT INTO perfis_aplicativos_monitorados VALUES (72, 'CACIC - Col_Undi - Col. de Inf. de Unidades de Disco', '0', '', '4', 'cacic\\modulos\\col_undi.exe', '0', '', '4', 'cacic\\modulos\\col_undi.exe', '0', '', '2006-01-19 19:35:35', '', '', '', '', '', '', 0, '', 'N', 'S', NULL);
@@ -835,8 +835,8 @@ CREATE TABLE softwares (
 # Extraindo dados da tabela `softwares`
 #
 
-INSERT INTO softwares VALUES (1, 'Teste', 'Software para testes', 20, '12', 'ArmÃ¡rio 1', NULL);
-INSERT INTO softwares VALUES (2, 'Teste1', 'Teste de cadastro de software', 2, '3', 'armÃ¡rio 1', '');
+INSERT INTO softwares VALUES (1, 'Teste', 'Software para testes', 20, '12', 'Armário 1', NULL);
+INSERT INTO softwares VALUES (2, 'Teste1', 'Teste de cadastro de software', 2, '3', 'armário 1', '');
 INSERT INTO softwares VALUES (5, 'teste2', 't2', 0, '', '', '');
 INSERT INTO softwares VALUES (6, 'teste3', 't3', 0, '', '', '');
 INSERT INTO softwares VALUES (7, 'Teste4', 't4', 0, '', '', '');
@@ -922,7 +922,7 @@ CREATE TABLE tipos_licenca (
 # Extraindo dados da tabela `tipos_licenca`
 #
 
-INSERT INTO tipos_licenca VALUES (1, 'Tipo LicenÃ§a Teste');
+INSERT INTO tipos_licenca VALUES (1, 'Tipo Licença Teste');
 # --------------------------------------------------------
 
 #
@@ -939,8 +939,8 @@ CREATE TABLE tipos_software (
 # Extraindo dados da tabela `tipos_software`
 #
 
-INSERT INTO tipos_software VALUES (0, 'VersÃ£o Trial');
-INSERT INTO tipos_software VALUES (1, 'CorreÃ§Ã£o/AtualizaÃ§Ã£o');
+INSERT INTO tipos_software VALUES (0, 'Versão Trial');
+INSERT INTO tipos_software VALUES (1, 'Correção/Atualização');
 INSERT INTO tipos_software VALUES (2, 'Sistema Interno');
 INSERT INTO tipos_software VALUES (3, 'Software Livre');
 INSERT INTO tipos_software VALUES (4, 'Software Licenciado');
@@ -963,8 +963,8 @@ CREATE TABLE tipos_unidades_disco (
 # Extraindo dados da tabela `tipos_unidades_disco`
 #
 
-INSERT INTO tipos_unidades_disco VALUES ('1', 'RemovÃ­vel');
-INSERT INTO tipos_unidades_disco VALUES ('2', 'Disco RÃ­gido');
+INSERT INTO tipos_unidades_disco VALUES ('1', 'Removível');
+INSERT INTO tipos_unidades_disco VALUES ('2', 'Disco Rígido');
 INSERT INTO tipos_unidades_disco VALUES ('3', 'CD-ROM');
 INSERT INTO tipos_unidades_disco VALUES ('4', 'Unid.Remota');
 # --------------------------------------------------------
@@ -1064,4 +1064,28 @@ CREATE TABLE versoes_softwares (
   te_versao_jre varchar(6) default NULL,
   PRIMARY KEY  (te_node_address,id_so)
 ) TYPE=InnoDB;
+
+
+#
+# Estrutura da tabela `unid_organizacional_nivel2`
+#
+
+CREATE TABLE unid_organizacional_nivel2 (
+  id_local int(11) unsigned NOT NULL default '0',
+  id_unid_organizacional_nivel2 int(11) NOT NULL auto_increment,
+  id_unid_organizacional_nivel1 int(11) NOT NULL default '0',
+  nm_unid_organizacional_nivel2 varchar(50) NOT NULL default '',
+  te_endereco_uon2 varchar(80) default NULL,
+  te_bairro_uon2 varchar(30) default NULL,
+  te_cidade_uon2 varchar(50) default NULL,
+  te_uf_uon2 char(2) default NULL,
+  nm_responsavel_uon2 varchar(80) default NULL,
+  te_email_responsavel_uon2 varchar(50) default NULL,
+  nu_tel1_responsavel_uon2 varchar(10) default NULL,
+  nu_tel2_responsavel_uon2 varchar(10) default NULL,
+  dt_registro datetime default '0000-00-00 00:00:00',
+  PRIMARY KEY  (id_unid_organizacional_nivel2,id_unid_organizacional_nivel1),
+  KEY id_localizacao (id_local)
+) TYPE=InnoDB AUTO_INCREMENT=77 ;
+# --------------------------------------------------------
 
