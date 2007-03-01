@@ -14,12 +14,12 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-require_once($_SERVER['DOCUMENT_ROOT'] . 'include/library.php');
+require_once('../include/library.php');
 // Comentado temporariamente - AntiSpy();
 if ($_REQUEST['nm_arquivo'])
 	{
-	@unlink($_SERVER['DOCUMENT_ROOT'] . 'repositorio/'.$_REQUEST['nm_arquivo']);
-	if (file_exists($_SERVER['DOCUMENT_ROOT'] . 'repositorio/'.$_REQUEST['nm_arquivo']))
+	@unlink('../repositorio/'.$_REQUEST['nm_arquivo']);
+	if (file_exists('../repositorio/'.$_REQUEST['nm_arquivo']))
 		{
 		echo '<script> alert("Não foi possível excluir o arquivo '.$_REQUEST['nm_arquivo'].'. Verifique as permissões de escrita no diretório repositorio!") </script>';
 		}
@@ -40,7 +40,7 @@ if ($_REQUEST['nm_arquivo'])
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	</head>
 	<body background="../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js'?>"></script>						
+	<script language="JavaScript" type="text/javascript" src="../include/cacic.js'?>"></script>						
 	<table width="90%" border="0" align="center">
 	  <tr> 
 		
@@ -81,7 +81,7 @@ if ($_REQUEST['nm_arquivo'])
                 / Hora</td>
             </tr>
             <? 
-	  if ($handle = opendir($_SERVER['DOCUMENT_ROOT'] . 'repositorio')) 
+	  if ($handle = opendir('../repositorio')) 
 		{
 		$v_nomes_arquivos = array();		
 		while (false !== ($v_arquivo = readdir($handle))) 
@@ -95,7 +95,7 @@ if ($_REQUEST['nm_arquivo'])
 		sort($v_nomes_arquivos);
 		for ($cnt_arquivos = 0; $cnt_arquivos < count($v_nomes_arquivos); $cnt_arquivos++)
 			{
-			$v_dados_arquivo = lstat($_SERVER['DOCUMENT_ROOT'] . 'repositorio/'.$v_nomes_arquivos[$cnt_arquivos]);
+			$v_dados_arquivo = lstat('../repositorio/'.$v_nomes_arquivos[$cnt_arquivos]);
 			echo '<tr>';
 			?>
 			<td><a href="repositorio.php?nm_arquivo=<? echo $v_nomes_arquivos[$cnt_arquivos];?>" onClick="return Confirma('Confirma Exclusão do objeto <? echo $v_nomes_arquivos[$cnt_arquivos];?>?)"><img src="../imgs/lixeira.ico" width="20" height="20" border="0"></a></td>
