@@ -13,8 +13,8 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+require '../../verificar.php';
+require_once('../../include/library.php');
 Conecta_bd_cacic();
 
 
@@ -85,7 +85,7 @@ function valida_form()
 $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
 ?>
 <body <? if (!$pos) echo 'background="../../imgs/linha_v.gif"';?> onLoad="SetaCampo('frm_nm_si_grupo')">
-<script language="JavaScript" type="text/javascript" src="http://<? echo $_SERVER['HTTP_HOST'].'/cacic2/include/cacic.js';?>"></script>
+<script language="JavaScript" type="text/javascript" src="<? echo '../../include/cacic.js';?>"></script>
 <form action="detalhes_grupos.php"  method="post" ENCTYPE="multipart/form-data" name="form">
 <table width="90%" border="0" align="center">
   <tr> 

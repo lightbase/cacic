@@ -17,7 +17,7 @@ Caminho do css
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
+require '../../verificar.php';
 
 if ($_POST['submit']) {
   header ("Location: incluir_grupos.php");
@@ -52,7 +52,7 @@ $result = mysql_query($query);
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="http://<? echo $_SERVER['HTTP_HOST'].'/cacic2/include/cacic.js';?>"></script>
+<script language="JavaScript" type="text/javascript" src="http://<? echo '../../include/cacic.js';?>"></script>
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 

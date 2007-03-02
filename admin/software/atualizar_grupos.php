@@ -1,5 +1,5 @@
 <?
-require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
+require '../../verificar.php';
 
 if ($_POST['submit']) {
   header ("Location: incluir_grupos.php");

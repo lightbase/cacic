@@ -13,7 +13,7 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
+require '../../verificar.php';
 
 include_once "../../include/library.php";
 if($_REQUEST['submit']) 
@@ -116,7 +116,7 @@ MM_reloadPage(true);
 </head>
 
 <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_id_ip_rede')">
-<script language="JavaScript" type="text/javascript" src="http://<? echo $_SERVER['HTTP_HOST'].'/cacic2/include/cacic.js';?>"></script>
+<script language="JavaScript" type="text/javascript" src="<? echo '../../include/cacic.js';?>"></script>
 <table width="90%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Inclus&atilde;o de novo Grupo </td>
