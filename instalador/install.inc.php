@@ -83,7 +83,8 @@ function InstallLoadSQL($sqlfile,$connection ,$last_update = null)
 
  // Don't complain about missing files.
  if (! file_exists($sqlfile))
-	return;
+dPmsg("NÃ£o foi encontrado arquivo SQL");
+	return false;
 
  $mqr = @get_magic_quotes_runtime();
  @set_magic_quotes_runtime(0);
@@ -102,12 +103,13 @@ function InstallLoadSQL($sqlfile,$connection ,$last_update = null)
   $pieces[$i] = trim($pieces[$i]);
   if(!empty($pieces[$i]) && $pieces[$i] != "#") {
    if (!$result = mysql_query($pieces[$i],$connection)) {
+	dPmsg("Foi detectado erro no comando SQL :"$pieces[$i]"</BR>");
     $errors++;
    }
   }
  }
  if ($errors > 0) {
-	 dPmsg("AVISO: $errors dos $piece_count comandos SQL, não foram executados.");
+	 dPmsg("AVISO: $errors dos $piece_count comandos SQL, nï¿½ foram executados.");
 	return false;
  }
  return true;
