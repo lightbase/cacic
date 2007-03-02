@@ -1254,7 +1254,7 @@ CREATE TABLE `usuarios` (
   `id_usuario` int(10) unsigned NOT NULL auto_increment,
   `nm_usuario_acesso` varchar(10) NOT NULL default '',
   `nm_usuario_completo` varchar(60) NOT NULL default '',
-  `te_senha` varchar(30) NOT NULL default '',
+  `te_senha` varchar(50) NOT NULL default '',
   `dt_log_in` datetime NOT NULL default '0000-00-00 00:00:00',
   `id_grupo_usuarios` int(1) default NULL,
   `te_emails_contato` varchar(100) default NULL,
