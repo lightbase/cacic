@@ -163,7 +163,7 @@ if (count($result)>0)
 // --------------- Retorno de Classificador de CRIPTOGRAFIA --------------- //
 //if ($v_cs_cipher <> '1') $v_cs_cipher --;
 
-if ($_SERVER['REMOTE_ADDR']<>'10.71.0.58') $v_cs_cipher = '0';
+if ($_SERVER['REMOTE_ADDR']<>'10.71.0.58') //$v_cs_cipher = '0';
 	{
 	// Comente/Descomente a linha abaixo para habilitar/desabilitar a criptografia de informações trafegadas 
 	$v_cs_cipher = '0'; 
