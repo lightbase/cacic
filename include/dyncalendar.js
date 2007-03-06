@@ -36,7 +36,7 @@
 
 		this.objName        = objName;
 		this.callbackFunc   = callbackFunc;
-		this.imagesPath     = arguments[2] ? arguments[2] : '../imgs/';
+		this.imagesPath     = arguments[2] ? arguments[2] : '../../imgs/';
 		this.layerID        = arguments[3] ? arguments[3] : 'dynCalendar_layer_' + dynCalendar_layers.length;
 
 		this.offsetX        = 5;
@@ -221,7 +221,7 @@
 	function dynCalendar_writeHTML()
 	{
 		if (is_ie5up || is_nav6up || is_gecko) {
-			document.write(sprintf('<a href="javascript: %s.show()"><img src="%sdynCalendar.gif" border="0" width="16" height="16" /></a>', this.objName, this.imagesPath));
+			document.write(sprintf('<a href="javascript: %s.show()"><img src="%sdyncalendar.gif" border="0" width="16" height="16" /></a>', this.objName, this.imagesPath));
 			document.write(sprintf('<div class="dynCalendar" id="%s" onmouseover="%s._mouseover(true)" onmouseout="%s._mouseover(false)"></div>', this.layerID, this.objName, this.objName));
 		}
 	}
