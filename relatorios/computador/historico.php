@@ -19,6 +19,7 @@ require_once('../../include/library.php');
 // Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
 
+
 if ($historico_hardware) {
 	$query = "SELECT DATE_FORMAT(dt_hr_alteracao,'%d/%m/%Y às %H:%ih') as 'Data de Alteração',dt_hr_alteracao, te_placa_rede_desc as 'Placa de Rede', 
 			  te_cpu_desc as 'CPU', te_cpu_freq as 'Frequência CPU', te_cpu_fabricante as 'Fab. CPU', 
@@ -37,29 +38,30 @@ if ($historico_hardware) {
 	$tipo_historico = 'de Hardware';
 }
 else if ($historico_patrimonio) {
-					$query = "SELECT te_etiqueta, nm_campo_tab_patrimonio
-															FROM patrimonio_config_interface
-															WHERE in_exibir_etiqueta = 'S'";
-					$result = mysql_query($query) or die('Erro na consulta à tabela "patrimonio_config_interface".');
+	$query = "SELECT te_etiqueta, nm_campo_tab_patrimonio
+		  FROM patrimonio_config_interface
+		  WHERE in_exibir_etiqueta = 'S' AND id_local = '". $_POST['id_local'] ."'";
+					
+        $result = mysql_query($query) or die('Erro na consulta à tabela "patrimonio_config_interface".');
 
-					while ($row = mysql_fetch_array($result)) { 
-										if (strtolower($row['nm_campo_tab_patrimonio']) == 'id_unid_organizacional_nivel1' ) { 
-														 $row['nm_campo_tab_patrimonio'] = 'b.nm_unid_organizacional_nivel1'; 
-										}
-										else if (strtolower($row['nm_campo_tab_patrimonio']) == 'id_unid_organizacional_nivel2' ) { 
-														 $row['nm_campo_tab_patrimonio'] = 'c.nm_unid_organizacional_nivel2'; 
-										}
-		        $campos = $campos . ", " . $row['nm_campo_tab_patrimonio'] . " AS '" . $row["te_etiqueta"] . "'";
-					}
+	while ($row = mysql_fetch_array($result)) { 
+	     if (strtolower($row['nm_campo_tab_patrimonio']) == 'id_unid_organizacional_nivel1' ) { 
+		$row['nm_campo_tab_patrimonio'] = 'b.nm_unid_organizacional_nivel1'; 
+	     }								
+             else if (strtolower($row['nm_campo_tab_patrimonio']) == 'id_unid_organizacional_nivel2' ) { 
+	        $row['nm_campo_tab_patrimonio'] = 'c.nm_unid_organizacional_nivel2'; 
+	     }
+             $campos = $campos . ", " . $row['nm_campo_tab_patrimonio'] . " AS '" . $row["te_etiqueta"] . "'";
+	}
 
-		$query = "SELECT DATE_FORMAT(dt_hr_alteracao,'%d/%m/%Y às %H:%ih') as 'Data de Alteração',dt_hr_alteracao " . $campos . "
-			  FROM patrimonio a, unid_organizacional_nivel1 b, unid_organizacional_nivel2 c
-			  WHERE a.te_node_address = '" . $_POST['te_node_address'] . "' AND 
-			  a.id_so = '" . $_POST['id_so'] . "' AND
-					a.id_unid_organizacional_nivel1 =  b.id_unid_organizacional_nivel1 AND
-					a.id_unid_organizacional_nivel1 =  c.id_unid_organizacional_nivel1 AND
-					a.id_unid_organizacional_nivel2 =  c.id_unid_organizacional_nivel2
-			  ORDER BY dt_hr_alteracao";	
+	$query = "SELECT DATE_FORMAT(dt_hr_alteracao,'%d/%m/%Y às %H:%ih') as 'Data de Alteração',dt_hr_alteracao " . $campos . "
+		  FROM patrimonio a, unid_organizacional_nivel1 b, unid_organizacional_nivel2 c
+		  WHERE a.te_node_address = '" . $_POST['te_node_address'] . "' AND 
+		  a.id_so = '" . $_POST['id_so'] . "' AND
+			     a.id_unid_organizacional_nivel1 =  b.id_unid_organizacional_nivel1 AND
+			     a.id_unid_organizacional_nivel1 =  c.id_unid_organizacional_nivel1 AND
+			     a.id_unid_organizacional_nivel2 =  c.id_unid_organizacional_nivel2
+		  ORDER BY dt_hr_alteracao";	
 
 	$result = mysql_query($query) or die ('Erro na consulta à tabela "patrimonio".');
 	$tipo_historico = 'de Patrimônio';
