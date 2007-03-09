@@ -70,7 +70,7 @@ if($submit)
 				  te_descritivo,
 				  dt_atualizacao,
 				  in_disponibiliza_info,
-				  in_disponibiliza_info_usuario_comum				  
+				  in_disponibiliza_info_usuario_comum) 
 				  VALUES ('$frm_nm_aplicativo',
 				  		  '$frm_te_dir_padrao_w9x',
 				  		  '$frm_cs_car_inst_w9x',						  
