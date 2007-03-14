@@ -88,7 +88,7 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td nowrap>&nbsp;</td>
           <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></div></td>
           <td nowrap>&nbsp;</td>
 	  <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_ip']; ?></font></td>
 	  <td nowrap>&nbsp;</td>
