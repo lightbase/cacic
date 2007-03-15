@@ -1,0 +1,341 @@
+2007-03-15  harpiain
+
+	* : CACIC - Installer
+	  
+	  - released installer-0.1.0-final_beta-(build 100)
+	  - updated ChangeLog
+
+	* : CACIC - Installer
+	  
+	  - overview updated
+	  - navbar templates redesigned taking in mind better usability
+	  - navbar config install template redesigned taking in mind better
+	  usability for both new or update installation
+	  - check configuration now check installation type, also check
+	  both admin name and password
+	  - check configuration now check version to update from
+	  - created sql statement to grant auth for new user
+	  - updated css default theme "apoio" class and others better
+	  definition (e.g. font-size)
+	  - added "apoio" on footer template
+	  - utf8_decode function couldn't be used if the PHP XML resource
+	  not installed
+
+2007-03-14  harpiain
+
+	* : CACIC - Installer
+	  
+	  - created a global var witch on define CACIC version to update
+	  from
+	  - change CSS fonte-size for message area
+	  - added someone constants to define SQL file names and prefix
+	  - reestructred define file for better reading
+	  - updated JS functions return values
+	  - added update from version resource on define file
+	  - redesigned navbar template taking in mind better usability for
+	  new installation or update installation
+	  - updated checking installation for any SQL Files, users, pass,
+	  version etc
+
+	* : CACIC - Installer
+	  
+	  - added MTE logo
+
+2007-03-13  harpiain
+
+	* : CACIC - Installer
+	  
+	  - changed default db user
+	  - initial redesign of config install template
+
+	* : CACIC - Installer
+	  
+	  - updated CSS for configinstall TD tag
+	  - updated define file for new constant (RLA) and global
+	  (fromversion)
+	  - added new JS utils methods
+	  - check for register_local_arrays (RLA) if is PHP5
+	  - updated navbar template for both RLA and database datails
+
+2007-03-11  harpiain
+
+	* : CACIC - Installer
+	  
+	  - fixed message position on ajax "carregando..."
+	  - fixed bug on Ajax for firefox
+	  - added a JS file to make function for install forms validation
+	  - added imediate necessity: session bug on Win-Firefox
+
+2007-03-10  harpiain
+
+	* : CACIC - Installer
+	  
+	  - detail fields now show the pointer cursor
+	  - both on overview page better definition for "errors" and
+	  "striked" new browser tests
+	  - finish page now show cacic changelog text file
+
+	* : CACIC - Installer
+	  
+	  - fixed javascript ajax bug for IE
+	  - added image to show message "carregando.."
+	  - added CSS class for message "carregando.."
+
+2007-03-09  harpiain
+
+	* : CACIC - Installer
+	  
+	  - on configuration step don't ask by password confirmation
+	  - fixed bug on IE, not showing css image with anything beetwen
+	  tag "span"
+	  - fixed html definition on both overview and footer pages
+
+2007-03-08  harpiain
+
+	* : CACIC - Installer
+	  
+	  - updated config template to exclude password checking
+
+2007-03-07  harpiain
+
+	* : CACIC - Installer
+	  
+	  - released installer-0.0.1-b2-(build 89)
+	  - updated ChangeLog file fomatting GNU-style (thx to svn2cl)
+
+	* : CACIC-Install
+	  
+	  - updated all files header
+
+	* : CACIC - Installer
+	  
+	  - improved usability (css, js) on input fields and details
+	  - fixed ajax bug on charset (need to use a php function
+	  utf8_decode, awhile
+	  - updated overview template page for new news
+	  - updated navbar template to use "onfocus"/"onblur" changing
+	  colors on input fields
+
+2007-03-06  harpiain
+
+	* : CACIC - Installer
+	  
+	  - fixed bugs on save config file buttom
+	  - fixed var for charset enconding on JS
+
+2007-03-05  harpiain
+
+	* : CACIC - Install
+	  
+	  - released installer-0.0.1-b1
+	  - added ChangeLog file
+
+	* : CACIC - Installer
+	  
+	  -updated all header files
+
+	* : CACIC-Install
+	  
+	  - updated SQL statenments for drop/create tables and add base
+	  data
+
+	* : CACIC - Install
+	  
+	  - updated CACIC version (2.2.2) on "defines"
+	  - added validation feature for both setup forms configuration and
+	  administration
+	  - added TODO on overview template file
+	  - added CACIC-version on body template file
+	  - added "*" for needed fields on both setup forms configuration
+	  and administration
+	  - added "tmplNavBarInputFields" template on navbar template file
+	  - changed license file to CACIC license (licensa.txt)
+	  - fixed ajax.php file
+	  - fixed definex.php file
+	  - fixed ajax charset for admin setup form
+	  - fixed file inclusion on install and install.ajax classes
+	  - better coding techinique for input data checking
+	  - deleted unecessaries folders and files
+	  - fixed bug on method navBar calling other ones
+	  - back and foward on both configuration and admintrator template
+	  can "remember" data
+	  - data base conection data hard coded, awhile
+	  - update calling args on selecDB from install.ajax
+	  - on finish process check the instalation process
+	  - on finish process show roadmap and changelog
+
+2007-03-02  harpiain
+
+	* : CACIC-Install
+	  
+	  - fixed include classes files error (used include_once)
+	  - fixed ajax response (error at include files)
+	  - added new template for inputHidden fields
+	  - better "register_globals" on/off detection
+	  - deleted "register_globals" runtime initialization
+	  - added runtime debug resource
+	  - deleted echo tests (e.g echo "Adriano")
+
+2007-03-01  harpiain
+
+	* : CACIC-Install
+	  
+	  - Tests AJAX with - process problems
+
+	* : CACIC-Install
+	  
+	  - better Register_Globals detection
+	  - updated install.css
+
+2007-02-28  harpiain
+
+	* : CACIC-Install
+	  
+	  - redefined classes install, install.ajax
+	  - better definitions on "define"
+	  - changed navbar
+
+2007-02-27  harpiain
+
+	* : CACIC-Install
+	  
+	  - sub-package name change to "Instalador"
+	  - instalator path changed from "installation" to "instalador"
+	  - added the "finish" template with some final instructions
+
+	* : CACIC-Install
+	  
+	  - a lot improvments on DB maintence
+	  - improved the sample ADO class (mysql only awhile)
+	  - improved css template
+
+2007-02-26  harpiain
+
+	* : CACIC-Install
+	  
+	  - deleted PEAR lib
+	  - added a sample ADO (Abstract DB Object) class
+	  - improved css template
+
+2007-02-25  harpiain
+
+	* : CACIC-Installer
+	  
+	  - Check for DB connection updated
+
+	* : CACIC-Installer
+	  
+	  - CACIC SQL file updated to new name
+
+	* : CACIC-Installer
+	  
+	  - admin setup install feature added
+	  - updated template (navbar) for CACIC admin setup
+	  - improved CSS and PHP coding for admin setup
+	  - improved steps process to deny save config.php on file system
+	  if haven't write permission
+	  - added MDB2_Driver_MYSQL
+	  - added css images
+	  - added ASV Ajax feature
+
+2007-02-24  harpiain
+
+	* : CACIC-Installer
+	  
+	  - configuration install feature added
+	  - updated template (navbar) for CACIC configuration
+	  - improved CSS and PHP coding for configuration step
+	  - improved steps process to deny process continuing when
+	  requirements not satisfied
+
+2007-02-23  harpiain
+
+	* : CACIC-Installer
+	  
+	  - javascript functions updated
+	  - check install feature added
+	  - added theme/js/install.js
+	  - added template (navbar) for CACIC configuration
+
+	* : CACIC-Installer
+	  
+	  - multi-templates for better coding
+	  - added header template
+
+	* : CACIC-Installer
+	  
+	  - added javascript functions
+	  - improved template to submit form
+	  - multi-templates for better coding
+	  - improved install.css
+
+2007-02-22  harpiain
+
+	* : CACIC-Installer
+	  
+	  - added javascript functions
+	  - improved template to submit form
+	  - improved install.css
+
+	* : CACIC-Installer
+	  
+	  a lot of improviments
+	  - add a install template overview
+	  - updated install template
+	  - updated install class
+	  - improved install.css
+
+2007-02-19  harpiain
+
+	* : CACIC-Installer
+	  
+	  - updated 'define' witch send header language charset
+	  - updated templates for charset-iso-8859
+	  - new installer initialization schema
+
+2007-02-16  harpiain
+
+	* : CACIC-Install
+	  
+	  - added default theme files (images)
+	  - added "instaler-c2.2.2" as addon
+	  - added doc files
+
+2007-02-13  harpiain
+
+	* : CACIC-Install
+	  
+	  - added Theme directory
+	  - updated template nameSpace
+	  - remodeled Install_TMPL
+
+	* : CACIC-Install
+	  
+	  - added index for security issues
+	  - updated template nameSpace
+	  - updated include_path
+
+	* : CACIC-Install
+	  
+	  - standard definitions
+	  - CACIC_DS = directory_separator
+	  - CACIC_PS = path_separator
+	  - added index
+
+	* : CACIC-Install
+	  
+	  - definições padrão
+	  - DS = directory_separator
+	  - atualizações de templates
+
+	* : CACIC-Install
+	  
+	  - added javascript libs
+	  - added SQL statements
+
+	* : Criação do pacote CACIC-Install
+	  
+	  - pacote para instalar o CACIC via web
+	  - 3d party libs (patTemplate, phpTranslator, xajax, pear,
+	  pear::MDB2)
+

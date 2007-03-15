@@ -1,0 +1,208 @@
+<cacicInstall:comment>
+/**
+ * @version $Id: index.php 2007-02-08 22:20 harpiain $
+ * @package Cacic-Installer
+ * @subpackage Instalador
+ * @author Adriano dos Santos Vieira <harpiain at gmail.com>
+ * @copyright Copyright (C) 2007 Adriano dos Santos Vieira. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * CACIC-Install is free software and parts of it may contain or be derived from the
+ * GNU General Public License or other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ * @description Templates para para o Instalador do CACIC
+ */
+</cacicInstall:comment>
+
+<cacicInstall:tmpl name="tmplFile2Import">
+     <form method="post" enctype="multipart/form-data" action="" name="frmFile2Import">
+       <table style="text-align: left; width: 60%;" border="1" cellpadding="2" cellspacing="2">
+         <tbody>
+           <tr>
+             <th colspan="2">Informe o nome do arquivo a importar <small>(*.act)</small></th>
+           </tr>
+           <tr>
+             <td><input name="filename" type="file" size=60 title="Apenas arquivos com extensão ACT."></td>
+             <td><input value="Importar" name="importfile" type="submit"  title="Apenas arquivos com extensão ACT."></td>
+           </tr>
+         </tbody>
+       </table>
+     </form>
+</cacicInstall:tmpl>
+
+<cacicInstall:tmpl name="tmplPipeline">
+     <form method="post" action="" name="frmPipiline">
+       <table border=1 width=60%>
+         <theader>
+           <tr>
+             <th colspan="2">Informações para personalizar os dados apresentados</th>
+           </tr>
+         </theader>
+          <tr>
+            <td>Unidade:</td>
+            <td>
+                 <input name="unidade" type="text" size=10 title="Unidade a ser listada." value={UNIDADE}>
+            </td>
+          </tr>
+          <tr>
+            <td>Período <small>(dd/mm/yyyy)</small>:</td>
+            <td>
+                 <input name="periodo_ini" type="text" size=10 title="Data inicial do período a listar." value={PERIODO_INI}>
+                 a  
+                 <input name="periodo_fim" type="text" size=10 title="Data final do período a listar." value={PERIODO_FIM}>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            </td>
+          </tr>
+          <tr>
+            <td>Filtrar tempo de conexão
+            </td>
+            <td> >= 
+                 <input name="hilight_time" type="text" size=2 title="Tempo de conexão a destacar." value={HILIGHT_TIME}> h
+            </td>
+          </tr>
+          <tr>
+            <td colspan=2>
+                <input value="Atualizar dados" name="atualizadados" type="submit" title="Atualiza visão atual dos dados armazenados.">
+            </td>
+          </tr>
+          <!--tr>
+            <td colspan=2>
+                <input style="color: green; font-size:16px;" value="Calcular" name="calculardw" type="submit" title="Processar dados para análise.">
+            </td>
+          </tr-->
+          <tr>
+            <td colspan=2>
+            </td>
+          </tr>
+       </table>
+     </form>
+     <hr>
+</cacicInstall:tmpl>
+
+<cacicInstall:tmpl name="tmplExcluirDados">
+     <form method="post" action="" name="frmExcluiDados">
+       <table border=1 width=60%>
+          <tr>
+            <td>Excluir dados do dia <small>(dd/mm/yyyy)</small>:</td>
+            <td>
+                <input name="excluir_dia" type="text" size=10 title="Informe o dia dos dados a excluir." value={EXCLUIR_DIA}>
+            </td>
+          </tr>
+          <tr>
+             <td colspan=2>
+                <input value="Excluir dados" name="excluidados" type="submit" title="Exclui todos os dados armazenados.">
+             </td>
+          </tr>
+       </table>
+     </form>
+</cacicInstall:tmpl>
+
+<cacicInstall:tmpl name="tmplRelatorioHeader">
+    <table border=1 width=100% class="sortable" bgcolor="#666666">
+       <tr>
+          <th>Radius - Análise de LOG (IpDiscado)</th>
+       </tr>
+      <tfoot>
+       <tr>
+          <td style="color: white"><small>* Clique no título da coluna para ordená-la.</small></td>
+       </tr>
+      </tfoot>
+    </table>
+    <table border=1 width=100% class="sortable" id="relHDet_id">
+      <theader>
+       <tr>
+          <th>Usuario</th>
+          <th>Inicio</th>
+          <th>Fim</th>
+          <th>Tempo conectado <small>(h)</small></th>
+          <th>DRT</th>
+       </tr>
+      </theader>
+</cacicInstall:tmpl>
+
+<cacicInstall:tmpl name="tmplRelatorioRows">
+          <tr style='{STYLE}'>
+             <td>{USUARIO}</td>
+             <td align="center">{CONECT_INI}</td>
+             <td align="center">{CONECT_FIM}</td>
+             <td align="center">{TEMPO_TOTAL}</td>
+             <td align="center">{DRT}</td>
+          </tr>
+</cacicInstall:tmpl>
+
+<cacicInstall:tmpl name="tmplRelatorioFooter">
+    </table>
+</cacicInstall:tmpl>
+
+<cacicInstall:tmpl name="tmplRelatorioDWHeader">
+    <table border=1 width=100% class="sortable" bgcolor="#666666">
+       <tr>
+          <th>Radius - Análise de LOG (IpDiscado)</th>
+       </tr>
+      <tfoot>
+       <tr>
+          <td style="color: white"><small>* Clique no título da coluna para ordená-la.</small></td>
+       </tr>
+      </tfoot>
+    </table>
+    <form method="post" action="" name="frmRelatorioDW">
+    <table border=1 width=100% class="sortable" id="relHDet_id">
+      <theader>
+       <tr>
+          <th>DRT</th>
+          <th>Usuario</th>
+          <th>Data</th>
+          <th>Tempo conectado <small>(h)</small></th>
+       </tr>
+      </theader>
+</cacicInstall:tmpl>
+
+<cacicInstall:tmpl name="tmplRelatorioDWRows">
+          <tr style='{STYLE}'>
+             <td align="center">{DRT}</td>
+             <td>{USUARIO}</td>
+             <td align="center">
+               <a href="javascript:return false;" onclick="return false; setForm(frmRelatorioDW, 'showUserDet', '{USUARIO}_{CONECT_INI}'); javascript:document.frmRelatorioDW.submit(); " title="Ver detalhes do dia (não disponivel ainda).">
+                 {CONECT_INI}
+               </a>
+               <input type="hidden" name=showUserDet[{USUARIO}] value="" />
+             </td>
+             <td align="center">{TEMPO_TOTAL}</td>
+          </tr>
+</cacicInstall:tmpl>
+
+<cacicInstall:tmpl name="tmplRelatorioDWFooter">
+    </table>
+    </form>
+</cacicInstall:tmpl>
+
+<cacicInstall:comment>
+Mensagens do Instalador
+</cacicInstall:comment>
+<cacicInstall:tmpl name="tmplStatusBar">
+ <div class="statusbar">
+  <fieldset>
+    <legend> Mensagem: </legend>
+	  <table>
+	    <tbody>
+	      <tr>
+	        <td>
+	           {MSG_STATUS}
+	        </td>
+	      </tr>
+	    </tbody>
+	  </table>
+  </fieldset>
+ </div>
+</cacicInstall:tmpl>
+
+<cacicInstall:comment>
+RODAPE do Instalador
+</cacicInstall:comment>
+<cacicInstall:tmpl name="tmplPageFooter">
+<div id="frmData"></div>
+  </body>
+</html>
+</cacicInstall:tmpl>

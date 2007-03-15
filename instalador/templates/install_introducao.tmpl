@@ -1,0 +1,58 @@
+<cacicInstall:comment>
+/**
+ * @version $Id: index.php 2007-02-08 22:20 harpiain $
+ * @package Cacic-Installer
+ * @subpackage Instalador
+ * @author Adriano dos Santos Vieira <harpiain at gmail.com>
+ * @copyright Copyright (C) 2007 Adriano dos Santos Vieira. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * CACIC-Install is free software and parts of it may contain or be derived from the
+ * GNU General Public License or other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ * @description Templates para para o Instalador do CACIC
+ */
+</cacicInstall:comment>
+
+<cacicInstall:tmpl name="tmplIntroducao">
+	<div id="introducao">
+	<fieldset>
+	<legend>Introdução</legend>
+	 <p>O CACIC é capaz de fornecer um diagnóstico preciso do parque computacional e disponibilizar informações como o número de equipamentos e sua distribuição nos mais diversos órgãos, os tipos de softwares utilizados e licenciados, configurações de hardware, entre outras. Também pode fornecer informações patrimoniais e a localização física dos equipamentos, ampliando o controle do parque computacional e a segurança na rede.
+	 <p>Este instalador tem como objetivo facilitar o processo de instalação e configuração do CACIC. Os detalhes são apresentados a seguir.
+	 <h3><span class="OkImg">Passos para instalação:</span></h3>
+	 <ul>
+	    <li>Introdução - Esta página!</li>
+	    <li>Licença - Leitura e aceite da licença do CACIC.</li>
+	    <li>Pré-requisitos - Verificação dos requisitos para o CACIC-Gerente.</li>
+	    <li>Configurações - Dados para configuração de servidor e banco de dados.</li>
+	    <li>Administração do CACIC-Gerente - Adição de local e usuário administrador.</li>
+	    <li>Finalização da instalação - Verificação da instalação.</li>
+	 </ul>
+	 <h3><span class="OkImg">Recursos do Instalador:</span></h3>
+	 <ul>
+	    <li>Verifica versões mínimas de softwares/bibliotecas para execução do CACIC.</li>
+	    <li>Verifica e cria configurações básicas para execução do CACIC.</li>
+	    <li>Criação do banco de dados (opcional).</li>
+	    <li>Criação das tabelas.</li>
+	    <li>Inclusão de dados básicos nas tabelas.</li>
+	    <li>Inclusão de dados para demonstração do produto (opcional).</li>
+	 </ul>
+	    <h3><span class="AvisoImg">Necessidades futuras do instalador:</span></h3>
+	 <ul>
+	    <li>Deve realizar testes em ambiente diferente de LAMP.</li>
+	    <li><strike>Deve realizar testes em navegador diferente de Firefox</strike>.</li>
+	    <li><strike>Deve atualizar base de dados de versões anteriores</strike>.</li>
+	    <li>Deve realizar cópia de segurança da base de dados existente.</li>
+	    <li>Deve verificar caracteres <i>"especiais"</i> em campos que não podem conter.</li>
+	    <li><strike>Necessário realizar verificações na finalização do processo de instalação</strike>.</li>
+	 </ul>
+	    <h3><span class="ErroImg">Necessidades imediatas do instalador:</span></h3>
+	 <ul>
+	    <li><b>Necessário atualizar instruções SQL</b>.</li>
+	    <li><strike>Erro de controle de "sessão" no Firefox em windows</strike>.</li>
+	    <li><strike>ao "voltar" (anterior) formulário não é preenchido corretamente</strike>.</li>
+	    <li><strike>asvAjax não captura corretamente o conjunto de caracteres (charset) do conteúdo digitado nos campos, - Apache, javascript, html ou <b><i>php</i></b></strike>?</li>
+	 </ul>
+	</fieldset>
+	</div>
+</cacicInstall:tmpl>
