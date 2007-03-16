@@ -1,4 +1,11 @@
 <? session_start();
+/*
+ * verifica se houve login e também as permissões de usuário
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para verificar permissões do usuário!
+}
 
 // Verifica qual a versão do PHP
 $PHPVERSAO = "Versao pela funcao" . phpversion();

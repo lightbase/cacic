@@ -1,5 +1,13 @@
 <?
 session_start();
+/*
+ * verifica se houve login e também as permissões de usuário
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para verificar permissões do usuário!
+}
+
 require_once('../../../../include/library.php');
 conecta_bd_cacic();
 ?>

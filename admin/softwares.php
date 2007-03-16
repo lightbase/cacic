@@ -1,6 +1,13 @@
 <?
 // Este arquivo eh chamado pelo classificao_software.php 
 session_start();
+/*
+ * verifica se houve login e também as permissões de usuário
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para verificar permissões do usuário!
+}
 
 if($_POST['submit']) {
 	$_SESSION["list6"] = $_POST['list6']; //Softwares selecionados

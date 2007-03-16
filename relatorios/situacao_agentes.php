@@ -1,3 +1,15 @@
+<?
+session_start();
+/*
+ * verifica se houve login e também as permissões de usuário
+ */
+if(!isset($_SESSION['id_usuario']))
+  die('Acesso negado!');
+else { // Inserir regras para verificar permissões do usuário!
+}
+
+?>
+
 <html>
 <head>
 <title>A&ccedil;&otilde;es/Configura&ccedil;&otilde;es</title>
@@ -50,7 +62,7 @@ function open_window(theURL) {
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-  															require_once($_SERVER['DOCUMENT_ROOT'] . 'include/library.php');
+  															require_once('../include/library.php');
 															// Comentado temporariamente - AntiSpy();
 		  													conecta_bd_cacic();
 																	$query = ' SELECT id_ip_rede, nm_rede
