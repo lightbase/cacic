@@ -221,7 +221,7 @@
 	function dynCalendar_writeHTML()
 	{
 		if (is_ie5up || is_nav6up || is_gecko) {
-			document.write(sprintf('<a href="javascript: %s.show()"><img src="%sdyncalendar.gif" border="0" width="16" height="16" /></a>', this.objName, this.imagesPath));
+			document.write(sprintf('<a href="javascript: %s.show()"><span class="dynCalendarImg">&nbsp;</span></a>', this.objName, this.imagesPath));			
 			document.write(sprintf('<div class="dynCalendar" id="%s" onmouseover="%s._mouseover(true)" onmouseout="%s._mouseover(false)"></div>', this.layerID, this.objName, this.objName));
 		}
 	}

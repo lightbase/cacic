@@ -47,6 +47,9 @@ else
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
+<script src="../include/sniffer.js" type="text/javascript" language="javascript"></script>
+<script src="../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
+<link href="../include/dyncalendar.css" media="screen" rel="stylesheet">
 <title>Log de Atividades</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>

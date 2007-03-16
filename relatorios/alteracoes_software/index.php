@@ -17,7 +17,7 @@ Caminho do css
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
+#require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
 
 if ($_POST['submit']) {
   header ("Location: incluir_grupos.php");
@@ -126,7 +126,7 @@ $resultR = mysql_query($queryR);
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Cadastro de Grupos</title>
+<title>Relatório de alterações de sofware</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
 function mudapagina(valor4,valor,valor1,valor3,valor2,valor5)
@@ -174,9 +174,10 @@ function limpa(){
 	document.forma.palavra.value='';
 }
 </script>
- <script src="/cacic2/include/sniffer.js" type="text/javascript" language="javascript"></script>
- <script src="/cacic2/include/dyncalendar.js" type="text/javascript" language="javascript"></script>
- <link href="/cacic2/include/dyncalendar.css" media="screen" rel="stylesheet">
+
+<script src="../../include/sniffer.js" type="text/javascript" language="javascript"></script>
+<script src="../../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
+<link href="../../include/dyncalendar.css" media="screen" rel="stylesheet">
 </head>
 
 <body background="../../imgs/linha_v.gif">
