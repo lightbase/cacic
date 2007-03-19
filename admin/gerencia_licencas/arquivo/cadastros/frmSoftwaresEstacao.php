@@ -134,8 +134,10 @@ if (texto.substring(0,1) != saida)
 	  <td></td>
 	</tr>
 	<tr>
-	  <td align="right"><input type="reset" name="cancelar" value="Cancelar"/></td>
+<!--	  <td align="right"><input type="reset" name="cancelar" value="Cancelar"/></td>
 	  <td align="left"><input type="submit" name="gravar" value="Gravar" width="100"></td>
+-->
+	<td align="center" colspan="2"><input type="submit" name="gravar" value="Gravar" width="100" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>></td>
 	</tr>
 </table>
 <p>&nbsp;</p>

@@ -743,8 +743,9 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 						MyWindow.document.close()"><img src="<? echo $img_totals;?>" border=no width=16 height=16 Title="Totais de Estações por Sistema Operacional"></a>				
 						<?
 						}
-				
-					if ($tree[$cnt][0]==2 && $_SESSION["cs_nivel_administracao"] <> 0)
+                                 // Atenção: foi necessário usar a condição "id_grupo_usuarios " abaixo devido ao "cs_nivel_administracao" == 0
+	                                       if ($tree[$cnt][0]==2 && ($_SESSION["cs_nivel_administracao"] <> 0 || $_SESSION["id_grupo_usuarios"] == 7))				
+//					if ($tree[$cnt][0]==2 && $_SESSION["cs_nivel_administracao"] <> 0)
 						{
 						echo "<a href=../admin/redes/detalhes_rede.php?id_ip_rede=".$tree[$cnt][6]."&id_local=".$tree[$cnt][17]." target='_blank'><img src=\"".$img_details."\" border=no width=16 height=16 Title='Detalhes da SubRede'></a>";						
 						}

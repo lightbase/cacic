@@ -392,7 +392,9 @@ function remove(box) {
           </tr>
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');">
+          <!--      <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');">
+-->
+		<input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 				<?
 //                <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="document.forma.elements['list2[]'].disabled=false; SelectAll(this.forma.elements['list2[]']); SelectAll(this.forma.elements['list4[]']); SelectAll(this.forma.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');">				
 				?>

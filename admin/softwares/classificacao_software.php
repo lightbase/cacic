@@ -97,7 +97,8 @@
       <td valign="top"> <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="        Classificar Softwares Selecionados        " onClick="SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['tiponovo'])">
+<!--                <input name="submit" type="submit" value="        Classificar Softwares Selecionados        " onClick="SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['tiponovo'])">-->
+		<input name="submit" type="submit" value="        Classificar Softwares Selecionados        " onClick="SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['tiponovo'])" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
               </div></td>
           </tr>
           <tr> 

@@ -230,7 +230,9 @@ require_once('../include/opcoes_avancadas_combos.js');
     	</tr>
     	<tr> 
       	<td><div align="center"> 
-        <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return SelectAll_Forca_Coleta();return Confirma('Confirma Configuração de Agentes?');">
+<!--<input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return SelectAll_Forca_Coleta();return Confirma('Confirma Configuração de Agentes?');">-->
+	<input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return SelectAll_Forca_Coleta();return Confirma('Confirma Configuração de Agentes?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+
         </div></td>
     	</tr>
   </table>
