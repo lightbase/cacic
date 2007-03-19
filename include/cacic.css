@@ -9,10 +9,13 @@ textarea.normal {background-color: #FFFFFF; font-weight: normal; font-size: 11px
 textarea.digitacao {background-color: #CCCCCC; font-weight: bold; font-size: 11px; color: black; border:1px solid #000099;}
 select.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black;}
 select.digitacao {background-color: #CCCCCC; font-weight: bold; font-size: 9px; color: black; border:1px solid #000099;}
+select.multipequeno {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; s
+ize: 1;}
 option.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black;}
 option.digitacao {background-color: #CCCCCC; font-weight: normal; font-size: 9px; color: black; border:1px solid #000099;}
 checkbox.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; vertical-align: baseline;}
 checkbox.digitacao {background-color: #CCCCCC; font-weight: normal; font-size: 9px; color: black; border:1px solid #000099;}
+tr.normal {text-align: center;}
 td.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans;}
 td.cabecalho {background-color: #FFFFFF; font-weight: bold; font-size: 17px; color: red; font-family: Verdana, Arial, sans;}
 td.cabecalho_rel {background-color: #FFFFFF; font-weight: bold; font-size: 17px; color: black; font-family: Verdana, Arial, sans;}
