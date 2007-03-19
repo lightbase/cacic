@@ -14,6 +14,13 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
+/*
+ * verifica se houve login e também as permissões de usuário
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para verificar permissões do usuário!
+}
 
 if($_POST['submit']) 
 	{
@@ -162,35 +169,13 @@ $where = "and concat(comp.te_node_address, DATE_FORMAT(patrimonio.dt_hr_alteraca
 
 //if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 //	{
-	$criterios 		= '';
+	$criterios = '';
 	$value_anterior = '';
-	$join_UO1		= '';
-	$join_UO2		= '';	
 	while(list($key, $value) = each($HTTP_POST_VARS))
 		{
-		//echo 'Key: ' . $key . ' Value: '.$value.' => ';
 		if (trim($value)<>'' && trim(strpos($key,'frm_'))<>'') 
 			{
-			//echo 'DENTRO...<BR>';			
-			if 		(trim(strpos($key,'frm_UO1'))<>'') // Identificador(es) de UO1
-				{
-				if (trim(strpos($key,'IDS_frm_UO1'))<>'') // Desvio do campo Option do select UO1...
-					{
-					$join_UO1 = $value;
-					}
-				else
-					$value = $valor_anterior;
-				}
-			elseif 	(trim(strpos($key,'frm_UO2'))<>'') // Identificador(es) de UO2
-				{
-				if (trim(strpos($key,'IDS_frm_UO2'))<>'') // Desvio do campo Option do select UO2...
-					{
-					$join_UO2 = $value;
-					}
-				else
-					$value = $valor_anterior;					
-				}
-			elseif (trim(strpos($key,'frm_condicao_'))<>'')
+			if (trim(strpos($key,'frm_condicao_'))<>'')
 				{
 				$criterios .= str_replace('frm_condicao_','',$value);
 				}
@@ -202,7 +187,6 @@ $where = "and concat(comp.te_node_address, DATE_FORMAT(patrimonio.dt_hr_alteraca
 			
 			$value_anterior = $value;
 			}
-			//echo 'FORA - criterios = '.$criterios.'<BR>';						
 		} 
 
 
@@ -211,20 +195,17 @@ $where = "and concat(comp.te_node_address, DATE_FORMAT(patrimonio.dt_hr_alteraca
 	$criterios = str_replace('-MENOR-',' < ',$criterios);
 	$criterios = str_replace('-MAIOR-',' > ',$criterios);	
 	$criterios = str_replace("\'","'",$criterios);		
-	
-//echo 'Join UO1='.$join_UO1.'<BR>';	
-//echo 'Join UO2='.$join_UO2.'<BR>';	
 //	}
 
 
 if ($where_uon1)
 	{
-	$where_uon1 = " LEFT JOIN unid_organizacional_nivel1 ON ( patrimonio.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 AND unid_organizacional_nivel1.id_unid_organizacional_nivel1 IN (".$join_UO1.")) " ;	
+	$where_uon1 = " LEFT JOIN unid_organizacional_nivel1 ON ( patrimonio.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1) " ;	
 	}
 
 if ($where_uon2)
 	{
-	$where_uon2 = " LEFT JOIN unid_organizacional_nivel2 ON ( patrimonio.id_unid_organizacional_nivel2 = unid_organizacional_nivel2.id_unid_organizacional_nivel2 AND unid_organizacional_nivel2.id_unid_organizacional_nivel2 IN (".$join_UO2.")) " ;	
+	$where_uon2 = " LEFT JOIN unid_organizacional_nivel2 ON ( patrimonio.id_unid_organizacional_nivel2 = unid_organizacional_nivel2.id_unid_organizacional_nivel2) " ;	
 	}
 
 $query = " SELECT 	comp.te_node_address, 
@@ -244,7 +225,7 @@ $query = " SELECT 	comp.te_node_address,
 		   			comp.id_so = so.id_so AND " . 								 
 					" comp.id_so IN (". $so_selecionados .") ". $criterios . $query_redes ." 
 		   ORDER BY " . $orderby; 
-//echo $query . '<br>';
+
 $result = mysql_query($query) or die('Erro no select (2)');
 
 $fields=mysql_num_fields($result);
