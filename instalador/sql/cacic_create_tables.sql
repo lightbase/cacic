@@ -75,7 +75,7 @@ CREATE TABLE `aplicativos_redes` (
   `id_local` int(11) NOT NULL default '0',
   `id_ip_rede` varchar(15) NOT NULL default '',
   `id_aplicativo` int(11) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id_local`,`id_ip_rede`)
+  PRIMARY KEY  (`id_local`,`id_ip_rede`,`id_aplicativo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Relacionamento entre redes e perfis de aplicativos monitorados';
 
 --
