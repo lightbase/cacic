@@ -13,4 +13,4 @@
 .<b>Estatísticas</b>||mainFrame|imgs/config_gerais.gif
 ..Antivírus OfficeScan|estatisticas/officescan.php|mainFrame||
 ..Sistemas Monitorados|estatisticas/aplicativos/index.php|mainFrame||
-.<b>HP do Projeto CACIC<b>|http://www.governoeletronico.gov.br/cacic/|new||Link de Acesso à Home Page do Projeto CACIC
+.<b>Comunidade CACIC<b>|http://www.softwarepublico.gov.br/|new||Link de Acesso à Home Page da Comunidade CACIC
