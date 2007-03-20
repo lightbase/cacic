@@ -54,12 +54,12 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /**
  * define a versão do CACIC
  */
- define( 'CACIC_VERSION', '2.2.2');
+ define( 'CACIC_VERSION', '2.2.2-RC3');
 
 /**
  * define as versões atualizaveis do CACIC
  */
- $cacic_updateFromVersion = array( 'JUN2005'=>'Junho de 2005' );
+// $cacic_updateFromVersion = array( 'JUN2005'=>'Junho de 2005' );
 
 /**
  * define a versão do PHP para o CACIC

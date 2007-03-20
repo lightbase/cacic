@@ -26,6 +26,16 @@
 	define('CACIC_PATH', $cacic_path);
 
 	/*
+	 * Verifica se o gerente está instalado e sai do instalador caso esteja
+	 */
+	/*
+	if( is_readable('../include/config.php') )
+	{
+	   header("Location: ..");
+	   die("CACIC já instalado (CACIC already installed)!");
+	}*/
+	
+	/*
 	 * atribuições para o ambiente
 	 */
 	if( ! @include("include/define.php") )

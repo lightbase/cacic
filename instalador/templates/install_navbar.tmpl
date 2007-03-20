@@ -44,10 +44,22 @@
 		<div class="license">
 		<table>
 		  <tr>
+		     <td>Por favor, leia os termos da licença a seguir. Você deve aceitar os termos desta para continuar a instalação! 
+		     </td>
+		  </tr>
+		  <tr id="gpl-pt" >
 		     <td>
 				<fieldset>
-				    <legend>Licença</legend>
+				    <legend>Licença (<span class="togleLang" onclick="toggleDetails('gpl-pt');toggleDetails('gpl-en');">read it in English</span>)</legend>
 					<pre><cacicInstall:tmpl src="../../licenca.txt" parser="on" /></pre>
+				</fieldset>
+		     </td>
+		  </tr>
+		  <tr id="gpl-en" style="display: none;">
+		     <td>
+				<fieldset>
+				    <legend>License (<span class="togleLang" onclick="toggleDetails('gpl-pt');toggleDetails('gpl-en');">leia em português</span>)</legend>
+					<pre><cacicInstall:tmpl src="../../license.txt" parser="on" /></pre>
 				</fieldset>
 		     </td>
 		  </tr>
@@ -218,6 +230,41 @@
 		  </tr>
 		</table>
 		<fieldset>
+			<span id="botoes">
+				<table>
+				  <tr>
+				    <td colspan=3>
+						  <script language="JavaScript" type="text/javascript">
+							asvAjaxInit("ajax.php"); asvAjaxSetCharset('{CACIC_LANG_CHARSET}');
+						  </script>
+				      <div class="botoes">
+				        <div class="btnleft"><div class="btnright">
+				            <a onClick="setDocVar( 'task', 'testConn' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Testar conexão com banco de dados.">
+				               Teste de conexão</a>
+				        </div></div>
+				        <div class="btnleft"><div class="btnright">
+				               <a onClick="setDocVar( 'task', 'dbBuild' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Criar banco de dados.">
+				                  Construir BD</a>
+				        </div></div>
+				        <div class="btnleft"><div class="btnright">
+				               <a onClick="setDocVar( 'task', 'showCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Mostrar o arquivo de configurações para o CACIC.">
+				               Mostrar <i>config.php</i></a>
+				        </div></div>
+						<cacicInstall:tmpl name="tmplNavBarCouldSaveCFGFile" type="condition" conditionvar="salvar">
+						<cacicInstall:sub condition="sim">
+					        <div class="btnleft"><div class="btnright">
+					               <a onClick="setDocVar( 'task', 'saveCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Salva o arquivo de configurações para o CACIC.">
+					                  Gravar <i>config.php</i></a>
+					        </div></div>
+						</cacicInstall:sub>
+						</cacicInstall:tmpl>
+				       </div>
+				    </td>
+				  </tr>
+				</table>
+			</span>	
+		</fieldset>
+		<fieldset>
 		  <legend>Configurações</legend>
 		<fieldset class="configinstall">
 		  <legend>Caminhos para a aplicação</legend>
@@ -242,9 +289,9 @@
     		    <table>
     		      <tr>
     		    <td class="item">Nova:</td>
-    		    <td><input type="radio" class="input" {INSTALL_NEW} onClick="setDocVar('installType', 'createDB');  hideDetails('updateInstall'); showDetails('newInstall');" name="cacic_config[install][type]" value="" /></td>
+    		    <td><input type="radio" class="input" {INSTALL_NEW} onClick="setDocVar('installType', 'createDB');  hideDetails('updateInstall'); showDetails('newInstall');" name="cacic_config[install][type]" value=""  /></td>
     		    <td class="help">Construir o banco de dados para uma nova instalação do CACIC.
-    			  <div id="newInstall" style="display: none;">
+    			  <div id="newInstall">
     			  	<table>
     				  <thead>
     					  <tr>
@@ -270,7 +317,7 @@
       		      </div>
     		    </td>
     		      </tr>
-    		      <tr>
+<!--    		      <tr>
     		    <td class="item">Atualização:</td>
     		    <td><input type="radio" class="input" {INSTALL_UPDATE} onClick="setDocVar('installType', 'atualizar'); hideDetails('newInstall'); showDetails('updateInstall');" name="cacic_config[install][type]" value="" /></td>
     		    <td class="help">Atualizar as tabelas do banco conforme versão a ser escolhida.
@@ -304,6 +351,7 @@
       		      </div>
     		    </td>
     		      </tr>
+-->
     		    </table>
     	  </fieldset>
 		<fieldset class="configinstall">
@@ -360,41 +408,6 @@
 			</table>          
 		</fieldset>
 		</fieldset>
-		<fieldset>
-			<span id="botoes">
-				<table>
-				  <tr>
-				    <td colspan=3>
-						  <script language="JavaScript" type="text/javascript">
-							asvAjaxInit("ajax.php"); asvAjaxSetCharset('{CACIC_LANG_CHARSET}');
-						  </script>
-				      <div class="botoes">
-				        <div class="btnleft"><div class="btnright">
-				            <a onClick="setDocVar( 'task', 'testConn' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Testar conexão com banco de dados.">
-				               Teste de conexão</a>
-				        </div></div>
-				        <div class="btnleft"><div class="btnright">
-				               <a onClick="setDocVar( 'task', 'dbBuild' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Criar banco de dados.">
-				                  Construir BD</a>
-				        </div></div>
-				        <div class="btnleft"><div class="btnright">
-				               <a onClick="setDocVar( 'task', 'showCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Mostrar o arquivo de configurações para o CACIC.">
-				               Mostrar <i>config.php</i></a>
-				        </div></div>
-						<cacicInstall:tmpl name="tmplNavBarCouldSaveCFGFile" type="condition" conditionvar="salvar">
-						<cacicInstall:sub condition="sim">
-					        <div class="btnleft"><div class="btnright">
-					               <a onClick="setDocVar( 'task', 'saveCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Salva o arquivo de configurações para o CACIC.">
-					                  Gravar <i>config.php</i></a>
-					        </div></div>
-						</cacicInstall:sub>
-						</cacicInstall:tmpl>
-				       </div>
-				    </td>
-				  </tr>
-				</table>
-			</span>	
-		</fieldset>
         <input type="hidden" id="installType" name="cacic_config[install][type]" value="{INSTALL_TYPE}" />
         <input type="hidden" id="task" name="task" value="{TASK}" />
         <input type="hidden" name="step" value="{STEP}" />
@@ -413,6 +426,25 @@
 		     </td>
 		  </tr>
 		</table>
+		<fieldset>
+			<span id="botoes">
+				<table>
+					<tr>
+					  <td>
+						  <script language="JavaScript" type="text/javascript">
+							asvAjaxInit("ajax.php"); asvAjaxSetCharset('{CACIC_LANG_CHARSET}');
+						  </script>
+					      <div class="botoes">
+					        <div class="btnleft"><div class="btnright">
+					            <a onClick="setDocVar( 'task', 'salvaAdminSetup' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Salvar dados do administrador do CACIC.">
+					               Salvar</a>
+					        </div></div>
+					     </div>
+					  </td>
+					</tr>
+				</table>
+			</span>	
+		</fieldset>
 		<fieldset>
 		  <legend>Administração do CACIC-Gerente</legend>
 			<fieldset>
@@ -477,25 +509,6 @@
 					</tr>
 				</table>
 			</fieldset>
-		</fieldset>
-		<fieldset>
-			<span id="botoes">
-				<table>
-					<tr>
-					  <td>
-						  <script language="JavaScript" type="text/javascript">
-							asvAjaxInit("ajax.php"); asvAjaxSetCharset('{CACIC_LANG_CHARSET}');
-						  </script>
-					      <div class="botoes">
-					        <div class="btnleft"><div class="btnright">
-					            <a onClick="setDocVar( 'task', 'salvaAdminSetup' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Salvar dados do administrador do CACIC.">
-					               Salvar</a>
-					        </div></div>
-					     </div>
-					  </td>
-					</tr>
-				</table>
-			</span>	
 		</fieldset>
         <input type="hidden" id="task" name="task" value="{TASK}" />
         <input type="hidden" name="step" value="{STEP}" />

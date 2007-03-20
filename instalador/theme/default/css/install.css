@@ -143,6 +143,11 @@ table.sortable span.sortarrow {
     padding: 0;
 }
     
+.license .togleLang {
+    cursor: pointer;
+    text-decoration: underline;
+}
+    
 .changelog table {
     text-align: justify; 
     color: black; 
