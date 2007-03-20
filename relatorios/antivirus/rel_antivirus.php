@@ -112,8 +112,9 @@ $query = 'SELECT 	distinct computadores.te_node_address,
 					te_ip as "IP"' .
           			$campos_software . 
 					$select . ' 
-		  FROM 		computadores,
-					so LEFT JOIN officescan ON (computadores.te_node_address = officescan.te_node_address and computadores.id_so = officescan.id_so) '.
+		  FROM 	so,
+			officescan
+			 LEFT JOIN computadores ON (computadores.te_node_address = officescan.te_node_address and computadores.id_so = officescan.id_so) '.
 					$from. ' 		 
 		  WHERE  	TRIM(computadores.te_nome_computador) <> "" AND 
 		  			computadores.id_so = so.id_so AND 
