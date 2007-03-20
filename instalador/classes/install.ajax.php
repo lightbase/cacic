@@ -21,7 +21,6 @@ include_once("classes/install.ado.php");
  * Prove a metodos para recursos AJAX na Instalação pela WEB
  */
 class InstallAjax {
-	
 	/**
 	 * Objeto de template
 	 */
@@ -245,8 +244,7 @@ class InstallAjax {
 	      die(); // se dados incorretos
 	      
 		$fileName = $cacic_config['path'].'/include/config.php';
-		$fileContent = '
-<?php
+		$fileContent = '<?php
     /*
      * Arquivo de configuracoes para o CACIC
      * @version $Id: config.php 2007-02-08 22:20 harpiain $
@@ -292,8 +290,7 @@ class InstallAjax {
      */
     $key = "'.CACIC_KEY.'";
     $iv = "'.CACIC_IV.'";
-?> 
-';
+?>';
 		
 		$msg = "";
 		if(@fwrite(fopen($fileName,"w+"),$fileContent)) {
