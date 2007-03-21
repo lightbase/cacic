@@ -262,10 +262,16 @@
 				<?
                 //<input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['list8[]'])">
 				?>
-                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
-																				 						$_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>,
-																				 						SelectAll(this.form.elements['list4[]']),
-																										SelectAll(this.form.elements['list6[]'])">				
+                <input name="submit" 
+			type="submit" 
+			value="Gerar Relat&oacute;rio      " 
+			onClick="
+			<? echo ($_SESSION['cs_nivel_administracao']<>1 &&
+				$_SESSION['cs_nivel_administracao']<>2?"
+				SelectAll(this.form.elements['list2[]'])":"
+				SelectAll(this.form.elements['list12[]'])")?>;
+				SelectAll(this.form.elements['list4[]']);
+				SelectAll(this.form.elements['list6[]'])">				
               </div></td>
           </tr>
           <tr> 
