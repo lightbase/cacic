@@ -218,6 +218,12 @@ function valida_form()
 		document.form.frm_nu_porta_serv_updates.focus();
 		return false;
 		}		
+	else if ( document.form.frm_nu_limite_ftp.value == "" )  
+                {        
+                alert("Digite o Limite FTP do Servidor de Updates"); 
+                document.form.frm_nu_limite_ftp.focus(); 
+                return false; 
+                }
 	else if ( document.form.frm_nm_usuario_login_serv_updates.value == "" ) 
 		{	
 		alert("Digite o Nome do Usuário para Login no Servidor de Updates pelo Módulo Agente");
