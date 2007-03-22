@@ -86,6 +86,12 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 			}
 		}
 		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+	else
+                {
+                	$query_redes = 'AND a.id_ip_rede = redes.id_ip_rede AND 
+						redes.id_local ='.$_SESSION['id_local'];
+			$from = ' ,redes ';	
+                }
 	}
 else
 	{
