@@ -60,7 +60,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <br>
 <? 
-require_once($_SERVER['DOCUMENT_ROOT'] . '../../../include/library.php');
+require_once('../../../include/library.php');
 conecta_bd_cacic();
 	
 	$query = "SELECT s.nm_software, s.qt_licenca 
