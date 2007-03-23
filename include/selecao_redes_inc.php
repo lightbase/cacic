@@ -1,19 +1,19 @@
 <?
  /* 
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informaï¿½es da Previdï¿½cia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ï¿½parte do programa CACIC - Configurador Automï¿½ico e Coletor de Informaï¿½es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ï¿½um software livre; vocï¿½pode redistribui-lo e/ou modifica-lo dentro dos termos da Licenï¿½ Pblica Geral GNU como 
+ publicada pela Fundaï¿½o do Software Livre (FSF); na versï¿½ 2 da Licenï¿½, ou (na sua opniï¿½) qualquer versï¿½.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ï¿½distribuido na esperanï¿½ que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAï¿½O a qualquer
+ MERCADO ou APLICAï¿½O EM PARTICULAR. Veja a Licenï¿½ Pblica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Vocï¿½deve ter recebido uma cï¿½ia da Licenï¿½ Pblica Geral GNU, sob o tï¿½ulo "LICENCA.txt", junto com este programa, se nï¿½, escreva para a Fundaï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-  /* Lembre-se de setar as variáveis 
+  /* Lembre-se de setar as variï¿½eis 
 		$cs_situacao e $id_acao 
 		antes de dar um include nesse arquivo. */
 ?>		
@@ -33,19 +33,18 @@
 		else 
 			{			
 			$where = ($where<>''?' AND '.$where:$where);
-			// Usei o trecho abaixo para o caso da coleta avulsa de informações patrimoniais...			
-			$where = ($id_acao == 'cs_coleta_patrimonio'?' OR id_acao = "cs_coleta_patrimonio" '.$where:$where);						
+			// Usei o trecho abaixo para o caso da coleta avulsa de informaï¿½es patrimoniais...			
+			$where = ($id_acao == 'cs_coleta_patrimonio'?' OR id_acao = "cs_coleta_patrimonio") '.$where:') '.$where);	
 			$query = "SELECT 	distinct redes.id_ip_rede, 
 								nm_rede
 					  FROM 		redes, 
 					  			acoes_redes 
 					  WHERE 	redes.id_ip_rede = acoes_redes.id_ip_rede AND 
-					  			acoes_redes.id_acao = '$id_acao' ".
+					  			( acoes_redes.id_acao = '$id_acao' ".
 								$where;
-			$msg = '(OBS: Estão sendo exibidas somente as redes selecionadas pelo administrador.)';
+			$msg = '(OBS: Estï¿½ sendo exibidas somente as redes selecionadas pelo administrador.)';
 			}
-
-		$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes.');
+		$result = mysql_query($query) or die('Ocorreu um erro durante a consulta da tabela redes.');
 		/* Agora monto os itens do combo de redes . */ 
 		while($campos=mysql_fetch_array($result)) 	
 			{

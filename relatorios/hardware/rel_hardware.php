@@ -1,25 +1,25 @@
 <?
  /* 
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informaï¿½es da Previdï¿½cia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ï¿½parte do programa CACIC - Configurador Automï¿½ico e Coletor de Informaï¿½es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ï¿½um software livre; vocï¿½pode redistribui-lo e/ou modifica-lo dentro dos termos da Licenï¿½ Pblica Geral GNU como 
+ publicada pela Fundaï¿½o do Software Livre (FSF); na versï¿½ 2 da Licenï¿½, ou (na sua opniï¿½) qualquer versï¿½.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ï¿½distribuido na esperanï¿½ que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAï¿½O a qualquer
+ MERCADO ou APLICAï¿½O EM PARTICULAR. Veja a Licenï¿½ Pblica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Vocï¿½deve ter recebido uma cï¿½ia da Licenï¿½ Pblica Geral GNU, sob o tï¿½ulo "LICENCA.txt", junto com este programa, se nï¿½, escreva para a Fundaï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
 /*
- * verifica se houve login e também as permissões de usuário
+ * verifica se houve login e tambï¿½ as permissï¿½s de usuï¿½io
  */
 if(!isset($_SESSION['id_usuario'])) 
   die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
+else { // Inserir regras para verificar permissï¿½s do usuï¿½io!
 }
 
 if($_POST['submit']) {
@@ -61,7 +61,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <? echo date("d/m/Y ï¿½s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
@@ -78,14 +78,14 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 	{
 	if($_SESSION["cs_situacao"] == 'S') 
 		{
-		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes	
+		// Aqui pego todas as redes selecionadas e faï¿½ uma query p/ condiï¿½o de redes	
 		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			{
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 			}
+                $query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
 		}
-		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
 	else
                 {
                 	$query_redes = 'AND a.id_ip_rede = redes.id_ip_rede AND 
@@ -95,7 +95,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 	}
 else
 	{
-	// Aqui pego todos os locais selecionados e faço uma query p/ condição de redes/locais
+	// Aqui pego todos os locais selecionados e faï¿½ uma query p/ condiï¿½o de redes/locais
 	$locais_selecionados = "'" . $_SESSION["list12"][0] . "'";
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		{
@@ -114,11 +114,11 @@ for( $i = 1; $i < count($_SESSION["list4"] ); $i++ ) {
 	$so_selecionados = $so_selecionados . ",'" . $_SESSION["list4"][$i] . "'";
 }
 
-// Aqui pego todas as configurações de hardware que deseja exibir
+// Aqui pego todas as configuraï¿½es de hardware que deseja exibir
 for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
 	$campos_hardware = $campos_hardware . $_SESSION["list6"][$i];
 }
-// Aqui substitui todas as strings \ por vazio que a variável $campos_hardware retorna
+// Aqui substitui todas as strings \ por vazio que a variï¿½el $campos_hardware retorna
 $campos_hardware = str_replace('\\', '', $campos_hardware);
 
 if ($_GET['orderby']) { $orderby = $_GET['orderby']; }
@@ -169,7 +169,7 @@ echo '</table>';
 echo '<br><br>';
 if (count($_SESSION["list8"])>0)
 	{	
-	$v_opcao = 'hardware'; // Nome do pie que será chamado por tabela_estatisticas
+	$v_opcao = 'hardware'; // Nome do pie que serï¿½chamado por tabela_estatisticas
 	require_once('../../include/tabela_estatisticas.php');
 	}
 ?></p>

@@ -1,10 +1,10 @@
 <? session_start();
 /*
- * verifica se houve login e também as permissões de usuário
+ * verifica se houve login e tambï¿½ as permissï¿½s de usuï¿½io
  */
 if(!isset($_SESSION['id_usuario'])) 
   die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
+else { // Inserir regras para verificar permissï¿½s do usuï¿½io!
 }
 
 if($_POST['submit']) {
@@ -47,7 +47,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
+        em <? echo date("d/m/Y ï¿½s H:i\h"); ?></font></p></td>
   </tr>
 </table>
 <br>
@@ -64,18 +64,25 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 	{
 	if($_SESSION["cs_situacao"] == 'S') 
 		{
-		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes	
+		// Aqui pego todas as redes selecionadas e faï¿½ uma query p/ condiï¿½o de redes	
 		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			{
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 			}
+                $query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
 		}
-		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
-	}
+        else
+                {
+                $query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+						redes.id_local = '.$_SESSION['id_local'];
+	        $from = ' ,redes ';
+
+                }
+} 
 else
 	{
-	// Aqui pego todos os locais selecionados e faço uma query p/ condição de redes/locais
+	// Aqui pego todos os locais selecionados e faï¿½ uma query p/ condiï¿½o de redes/locais
 	$locais_selecionados = "'" . $_SESSION["list12"][0] . "'";
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		{
@@ -94,11 +101,11 @@ for( $i = 1; $i < count($_SESSION["list4"] ); $i++ ) {
 	$so_selecionados = $so_selecionados . ",'" . $_SESSION["list4"][$i] . "'";
 }
 
-// Aqui pego todas as configurações de hardware que deseja exibir
+// Aqui pego todas as configuraï¿½es de hardware que deseja exibir
 for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
 	$campos_software = $campos_software . $_SESSION["list6"][$i];
 }
-// Aqui substitui todas as strings \ por vazio que a variável $campos_hardware retorna
+// Aqui substitui todas as strings \ por vazio que a variï¿½el $campos_hardware retorna
 $campos_software = str_replace('\\', '', $campos_software);
 
 if ($_GET['orderby']) { $orderby = $_GET['orderby']; }
@@ -121,6 +128,8 @@ $query = 'SELECT 	distinct computadores.te_node_address,
 					computadores.id_so IN ('. $so_selecionados .')'. 
 		  			$query_redes .' 
 		  ORDER BY ' . $orderby; 
+
+//echo $query;
 $result = mysql_query($query) or die('Erro no select');
 
 $cor = 0;
@@ -157,7 +166,7 @@ while ($row = mysql_fetch_row($result)) { //Table body
 echo '</table><br><br>';
 if (count($_SESSION["list8"])>0)
 	{	
-	$v_opcao = 'antivirus'; // Nome do pie que será chamado por tabela_estatisticas
+	$v_opcao = 'antivirus'; // Nome do pie que serï¿½chamado por tabela_estatisticas
 	require_once('../../include/tabela_estatisticas.php');
 	}
 ?></p>
