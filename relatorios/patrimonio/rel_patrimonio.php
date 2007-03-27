@@ -165,7 +165,8 @@ while ($row = mysql_fetch_array($result))
 	{ 
 	$where .= ",'" . $row['tripa_node_data'] . "'";
 	}
-$where = "and concat(comp.te_node_address, DATE_FORMAT(patrimonio.dt_hr_alteracao,'%d%m%Y%H%i'))  in (" . substr($where,1)."))" ;
+//$where = "and concat(comp.te_node_address, DATE_FORMAT(patrimonio.dt_hr_alteracao,'%d%m%Y%H%i'))  in (" . substr($where,1)."))" ;
+$where = "and concat(comp.te_node_address))" ;
 
 //if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 //	{
