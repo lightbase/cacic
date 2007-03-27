@@ -7,19 +7,13 @@
 ..Classificar Softwares|admin/softwares/classificacao_software.php|mainFrame||
 ..Softwares Não Usados|admin/softwares/remover_softwares_nao_instalados.php|mainFrame||
 ..Módulos|admin/modulos.php|mainFrame||Configurações dos vários módulos disponíveis do CACIC
-..<b>Importar Dados</b>||mainFrame|imgs/config_gerais.gif
-...Aquisições|admin/gerencia_licencas/importacao/aquisicoes.php|mainFrame||
-...Aquisições-Item|admin/gerencia_licencas/importacao/aquisicoes_item.php|mainFrame||
-...Softwares|admin/gerencia_licencas/importacao/software.php|mainFrame||
 ..<b>Cadastros</b>||mainFrame|imgs/config_gerais.gif
-...Aquisições|admin/gerencia_licencas/arquivo/aquisicoes.php|mainFrame||
 ...Locais|admin/locais/index.php|mainFrame||Cadastro de Locais para Controle Centralizado
 ...SubRedes|admin/redes/index.php|mainFrame||Cadastro de SubRedes
 ...Perfís Sistemas|admin/perfis_aplicativos_monitorados/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
 ...Usuários|admin/usuarios/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
 ...Tipos Softwares|admin/tipos_softwares/index.php|mainFrame||
 ...Softwares|admin/softwares/index.php|mainFrame||
-...Softwares por Esta&ccedil;&atilde;o|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||
 ..<b>Patrimônio</b>||mainFrame|imgs/config_gerais.gif
 ...Interface|admin/patrimonio/config_tela_patrimonio.php|mainFrame||Configuração da Tela de Coleta de Informações de Patrimônio
 ...U. O. Nível 1|admin/patrimonio/nivel1/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 1
@@ -38,7 +32,6 @@
 ...Inventariados|relatorios/inventario_softwares/index.php|mainFrame||
 ...Licenciados|relatorios/software/licenciados.php|mainFrame||
 ...Permitidos por Órgão|relatorios/software/softwares_orgao.php|mainFrame||
-...Aquisições|admin/gerencia_licencas/consulta/lista_aquisicoes.php|mainFrame||
 ...Adquiridos|admin/gerencia_licencas/consulta/lista_softwares.php|mainFrame||
 ...Processos de Compra|admin/gerencia_licencas/consulta/lista_processos.php|mainFrame||
 ...Tipos|relatorios/software/tipos_software.php|mainFrame||
