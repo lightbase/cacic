@@ -168,7 +168,7 @@ else
   </tr>
   <? echo $linha?> 
   <tr> 
-    <td><? echo mysql_result($result_acoes, 0, "id_local");?></td>
+<!--    <td><? echo mysql_result($result_acoes, 0, "id_local");?></td> -->
     <td colspan="4"> <form action="historico.php" method="post" name="form1" target="_blank">
         <div align="center"> <br>
           <input name=historico_patrimonio type=submit value="Hist&oacute;rico de Altera&ccedil;&otilde;es das Informa&ccedil;&otilde;es de Patrim&ocirc;nio" >
