@@ -24,7 +24,8 @@ $query = 'SELECT 	count(a.te_node_address) as total,
 					locais c
 		  WHERE 	a.te_nome_computador IS NOT NULL AND 
 					a.id_ip_rede = b.id_ip_rede AND
-					b.id_local = c.id_local
+					b.id_local = c.id_local AND
+					DATE_FORMAT(dt_hr_ult_acesso, "%d%m%Y") = "'.date("dmY").'"
 		  GROUP BY 	c.sg_local
 		  ORDER BY  c.sg_local';
 

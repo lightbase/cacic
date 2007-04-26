@@ -40,26 +40,31 @@ $query ='SELECT 	to_days(curdate()) - to_days(dt_hr_ult_acesso) as nr_dias, coun
 					}
 				}
 
-			function ha_mais_de($result, $num_dias) 
+			function ha_mais_de($result, $num_dias_min, $num_dias_max) 
 				{
    	    		$total_dias = 0;
 				mysql_data_seek($result, 0);
 				while ($reg = mysql_fetch_array($result)) 
 					{
-   					if ($reg[0] > $num_dias) 
+   					if (($reg[0] > $num_dias_min) &&
+   					    ($reg[0] < $num_dias_max)) 					
 						$total_dias = $total_dias + $reg[1]; 
 					}
 					return $total_dias;
 				}
 
-		$arr['Hoje................']	= qt_comp($result, 0); 
+		$arr['Hoje................']	= qt_comp($result, 0);
 		$arr['Ontem...............'] 	= qt_comp($result, 1);  
 		$arr['Há 2 dias...........'] 	= qt_comp($result, 2); 
 		$arr['Há 3 dias...........'] 	= qt_comp($result, 3); 
 		$arr['Há 4 dias...........'] 	= qt_comp($result, 4); 
-		$arr['Há mais de 4 dias...'] 	= ha_mais_de($result, 4);				
+		$arr['Há mais de 4 dias...'] 	= ha_mais_de($result, 4,30);      // De 4 dias a 1 mês...
+		$arr['Há mais de 1 mes....'] 	= ha_mais_de($result, 29,180);	  // De 1 mês a 6 meses...
+		$arr['Há mais de 6 meses..'] 	= ha_mais_de($result, 179,365);	  // De 6 meses a 1 ano...		
+		$arr['Há mais de 1 ano....'] 	= ha_mais_de($result, 364,99999); // De 1 ano em diante...
 
 		$CreatePie = 1;
-		$Sort = 1;
-		phPie($arr, 420 ,	159, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, true, 3,$CreatePie, $Sort); 
+		$Sort      = 1;
+		$PieSize   = 159;			
+		phPie($arr, 420 , $PieSize, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, true, 3,$CreatePie, $Sort); 
 ?>
