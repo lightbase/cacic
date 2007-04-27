@@ -14,15 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 session_start();
-
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
-
 ?>
 <html>
 <head>
@@ -254,8 +245,7 @@ function SetaServidorUpdates()
     </tr>
     <tr> 
       <td><div align="center"> 
-<!--          <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es   " onClick="SelectAll(this.form.elements['list2[]'])">-->
-		<input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es   " onClick="SelectAll(this.form.elements['list2[]'])" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es   " onClick="SelectAll(this.form.elements['list2[]'])" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     </tr>
   </table>

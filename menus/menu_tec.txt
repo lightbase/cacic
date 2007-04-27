@@ -14,4 +14,4 @@
 ..Sistemas Monitorados|estatisticas/aplicativos/index.php|mainFrame||
 .<b>Acesso</b>||mainFrame|imgs/config_gerais.gif
 ..Troca de Senha|admin/usuarios/troca_senha.php|mainFrame||
-.<b>Comunidade CACIC<b>|http://www.softwarepublico.gov.br/|new||Link de Acesso à Home Page da Comunidade CACIC
+.<b>HP do Projeto CACIC<b>|http://www.governoeletronico.gov.br/cacic/|new||Link de Acesso à Home Page do Projeto CACIC

@@ -15,13 +15,6 @@
  */
 
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
 include_once "../../../include/library.php";
 // Comentado temporariamente - AntiSpy();
 if($_POST['gravainformacaoUON2']) {
@@ -43,18 +36,18 @@ if($_POST['gravainformacaoUON2']) {
 				   	 nu_tel2_responsavel_uon2,
 					 id_unid_organizacional_nivel1,
 					 id_local) 
-				  	VALUES 
-					('$frm_nm_unid_organizacional_nivel2', 
-				     '$frm_te_endereco_uon2',
-				     '$frm_te_bairro_uon2',
-				     '$frm_te_cidade_uon2',
-				     '$frm_te_uf_uon2',
-				     '$frm_nm_responsavel_uon2',
-				     '$frm_te_email_responsavel_uon2',
-				     '$frm_nu_tel1_responsavel_uon2',
-				     '$frm_nu_tel2_responsavel_uon2',
-					 '$selectUON1',
-				     '$frm_id_local')";
+				  	VALUES ('".
+					 $_POST['frm_nm_unid_organizacional_nivel2']."','". 
+				     $_POST['frm_te_endereco_uon2']."','".
+				     $_POST['frm_te_bairro_uon2']."','".
+				     $_POST['frm_te_cidade_uon2']."','".
+				     $_POST['frm_te_uf_uon2']."','".
+				     $_POST['frm_nm_responsavel_uon2']."','".
+				     $_POST['frm_te_email_responsavel_uon2']."','".
+				     $_POST['frm_nu_tel1_responsavel_uon2']."','".
+				     $_POST['frm_nu_tel2_responsavel_uon2']."',".
+					 $_POST['selectUON1'].",".
+				     $_POST['frm_id_local'].")";
 		$result = mysql_query($query) or die ('Insert falhou');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
 		if (!atualiza_configuracoes_uonx('2'))

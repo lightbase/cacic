@@ -7,10 +7,9 @@ input.destaque{background-color: #ffFF66; font-weight: bold; font-size: 10px; co
 input.dado_peq_sem_fundo {background-color: #CCCCCC; font-weight: bold; font-size: 9px; color: black; }
 textarea.normal {background-color: #FFFFFF; font-weight: normal; font-size: 11px; color: black;}
 textarea.digitacao {background-color: #CCCCCC; font-weight: bold; font-size: 11px; color: black; border:1px solid #000099;}
+select.multipequeno {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; size: 1;}
 select.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black;}
 select.digitacao {background-color: #CCCCCC; font-weight: bold; font-size: 9px; color: black; border:1px solid #000099;}
-select.multipequeno {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; s
-ize: 1;}
 option.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black;}
 option.digitacao {background-color: #CCCCCC; font-weight: normal; font-size: 9px; color: black; border:1px solid #000099;}
 checkbox.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; vertical-align: baseline;}

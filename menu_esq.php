@@ -254,32 +254,37 @@ else
 		}
 	</SCRIPT>		
 	
-	<!-- Inicio Marisol 24-07-06 --> 
-	<form name="form0" method="post" action="relatorios/computadores.php?campo=te_nome_computador" target=mainFrame>
-  	
-  <table border="0" align="center">
-    <tr> 
-      <td height="49" class="dado_peq_sem_fundo"> Pesquisa R&aacute;pida:<br> 
+	<?
+	if ($_SESSION['id_grupo_usuarios']<>3) // Caso não seja usuário "Convidado" (atribuído automaticamente quando rede e local são identificados)
+		{
+		?>
+		<!-- Inicio Marisol 24-07-06 --> 
+		<form name="form0" method="post" action="relatorios/computadores.php?campo=te_nome_computador" target=mainFrame>  	
+  		<table border="0" align="center">
+    	<tr> 
+      	<td height="49" class="dado_peq_sem_fundo"> Pesquisa R&aacute;pida:<br> 
         <input type="hidden" name="consultar" id=consultar2 value="Consultar"> 
         <input type="hidden" name="tipo_consulta" value="consulta_rapida"> 
 		<input size=16 name="string_consulta" type="text" id="string_consulta" value="" class="normal" onFocus="SetaClassDigitacao(this);LigaHelp();" onBlur="SetaClassNormal(this);DesligaHelp();" onKeyUp="VerDesligaHelp();"><a href="javascript:document.forms[0].submit()"><img src=imgs/arvore/totals.gif  width="25" height="25" border="0" align="top"></a>
         <br>
         <input type="text" name="mensagem_pesquisa" id="mensagem_pesquisa" value="" size="25" class="texto_pesquisa" readonly="yes"><br>		
-      </td>
-      <td class="dado_peq_sem_fundo"></td>
-    </tr>
-  </table>
-	</form>
-	<!-- Final Marisol 24-07-06 --> 
-	
-	<form name="form1" method="post" action="menu_esq.php">	
-  	
-  	<table border="0" align="center">
-    <tr nowrap> 
-    <?
-	if ($_SESSION['id_grupo_usuarios']<>3) // Caso não seja usuário "Convidado" (atribuído automaticamente quando rede e local são identificados)
-		{
+      	</td>
+      	<td class="dado_peq_sem_fundo"></td>
+    	</tr>
+  		</table>
+		</form>
+		<!-- Final Marisol 24-07-06 --> 
+		<?
+		}
 		?>
+		<form name="form1" method="post" action="menu_esq.php">	
+
+  		<table border="0" align="center">
+		<tr nowrap> 
+		<?
+	if ($_SESSION['id_grupo_usuarios']<>3) // Caso não seja usuário "Convidado" (atribuído automaticamente quando rede e local são identificados)		
+		{	
+		?>  			
       	<td nowrap class="label_peq_sem_fundo" valign="bottom">Usu&aacute;rio:</td>		
       	<td nowrap class="dado_peq_sem_fundo"><div align="left"></div></td>
     	</tr>

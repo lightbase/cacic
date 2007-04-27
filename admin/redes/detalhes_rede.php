@@ -14,13 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
 require_once('../../include/library.php');
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
@@ -218,12 +211,6 @@ function valida_form()
 		document.form.frm_nu_porta_serv_updates.focus();
 		return false;
 		}		
-	else if ( document.form.frm_nu_limite_ftp.value == "" )  
-                {        
-                alert("Digite o Limite FTP do Servidor de Updates"); 
-                document.form.frm_nu_limite_ftp.focus(); 
-                return false; 
-                }
 	else if ( document.form.frm_nm_usuario_login_serv_updates.value == "" ) 
 		{	
 		alert("Digite o Nome do Usuário para Login no Servidor de Updates pelo Módulo Agente");
@@ -429,7 +416,8 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
               Servidor de Updates(FTP):</td>
             <td nowrap class="<? echo $v_classe; ?>"> <br>
               Porta:</td>
-            <td valign="bottom" nowrap class="<? echo $v_classe; ?>">Limite FTP:</td>
+            <td nowrap class="<? echo $v_classe; ?>"><br>
+			Limite FTP:</td>
           </tr>
           <tr> 
             <td colspan="4" height="1" bgcolor="#333333"></td>

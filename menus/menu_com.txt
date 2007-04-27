@@ -5,11 +5,8 @@
 .<b>Relatórios</b>||mainFrame|imgs/config_gerais.gif
 ..Antivírus OfficeScan|relatorios/antivirus/index.php|mainFrame||
 ..Hardware|relatorios/hardware/index.php|mainFrame||
-..Alterações Hardware|relatorios/alteracoes_hardware/index.php|mainFrame||
 ..Patrimônio|relatorios/patrimonio/index.php|mainFrame||
 ..Softwares Básicos|relatorios/software/index.php|mainFrame||
-..TCP/IP|relatorios/tcpip/index.php|mainFrame||
-..Variáveis de Ambiente|relatorios/variaveis_ambiente/index.php|mainFrame||
 .<b>Acesso</b>||mainFrame|imgs/config_gerais.gif
 ..Troca de Senha|admin/usuarios/troca_senha.php|mainFrame||
-.<b>Comunidade CACIC<b>|http://www.softwarepublico.gov.br/|new||Link de Acesso à Home Page da Comunidade CACIC
+.<b>HP do Projeto CACIC<b>|http://www.governoeletronico.gov.br/cacic/|new||Link de Acesso à Home Page do Projeto CACIC

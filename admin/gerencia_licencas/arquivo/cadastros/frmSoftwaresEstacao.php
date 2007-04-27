@@ -1,20 +1,12 @@
 <?
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
-
 require_once('../../../../include/library.php');
 conecta_bd_cacic();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="../../../../include/cacic.css">
+<link rel="stylesheet" type="text/css" href="/cacic2/include/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
@@ -51,7 +43,7 @@ if (texto.substring(0,1) != saida)
 </script>
 <link href="../../../../include/cacic.css" rel="stylesheet" type="text/css">
 </head>
-<body bgcolor="#FFFFFF" topmargin="5" onload="document.forms[0].patrimonio.focus()" background="../../../../imgs/linha_v.gif">
+<body bgcolor="#FFFFFF" topmargin="5" onload="document.forms[0].patrimonio.focus()" background="/cacic2/imgs/linha_v.gif">
 <table width="90%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Cadastro de Softwares por Esta&ccedil;&atilde;o</td>
@@ -134,10 +126,7 @@ if (texto.substring(0,1) != saida)
 	  <td></td>
 	</tr>
 	<tr>
-<!--	  <td align="right"><input type="reset" name="cancelar" value="Cancelar"/></td>
-	  <td align="left"><input type="submit" name="gravar" value="Gravar" width="100"></td>
--->
-	<td align="center" colspan="2"><input type="submit" name="gravar" value="Gravar" width="100" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>></td>
+	  <td align="center" colspan="2"><input type="submit" name="gravar" value="Gravar" width="100" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>></td>
 	</tr>
 </table>
 <p>&nbsp;</p>

@@ -1,13 +1,5 @@
 <?
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
-
 //Mostrar computadores com nomes repetidos na base
 require_once('../../include/library.php');
 ?>
@@ -98,7 +90,7 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td nowrap>&nbsp;&nbsp;</td>
           <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
 	  <td align="center" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_ip']; ?></font></td>
 	  <td nowrap>&nbsp;&nbsp;</td>

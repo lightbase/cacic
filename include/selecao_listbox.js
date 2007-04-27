@@ -1,9 +1,6 @@
 <SCRIPT LANGUAGE="JavaScript">
 function valida_form() 
 	{
-	/*
-	Desabilitado temporariamente para reparo posterior, em função da urgência de utilização do amigo Paulo Rocha. 10/01/2006
-	*/	
 	for (i=0;i<document.forma.elements.length;i++)
 		{ 
 		if (document.forma.elements[i].name == "list2" && document.forma.elements[i].length <= 0 && document.forma.elements[i].cs_situacao[1].checked) 

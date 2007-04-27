@@ -14,14 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
-
 require_once('../../include/library.php');
 // Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
@@ -34,7 +26,7 @@ conecta_bd_cacic();
 			  			in_destacar_duplicidade = '" . $_POST['in_destacar_duplicidade'] . "', 			  
 	          			te_plural_etiqueta = '" . $_POST['te_plural_etiqueta'] . "'
 			  WHERE 	id_etiqueta = '" . $_POST['id_etiqueta'] . "' 
-			  AND			id_local = ".$_SESSION['id_local']; 
+			  			id_local = ".$_SESSION['id_local']; 
 			mysql_query($query);
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'patrimonio_config_interface');						
    	$query = 'UPDATE	configuracoes_locais SET 
@@ -42,7 +34,7 @@ conecta_bd_cacic();
 			  WHERE		id_local = '.$_SESSION['id_local']; 
 				mysql_query($query);
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');		
-	header ("Location: ../../include/operacao_ok.php?chamador=../admin/patrimonio/config_tela_patrimonio_bot.php&tempo=1");									 										
+	header ("Location: ../../include/operacao_ok.php?chamador=../admin/patrimonio/config_tela_patrimonio.php&tempo=1");									 										
 	}
 	else 
 	{

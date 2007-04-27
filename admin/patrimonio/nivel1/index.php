@@ -14,13 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
 
 include_once "../../../include/library.php";
 
@@ -60,7 +53,7 @@ $result = mysql_query($query);
 <head>
 <link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
 <body background="../../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 <title>Cadastro de U. O. N&iacute;vel 1</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>

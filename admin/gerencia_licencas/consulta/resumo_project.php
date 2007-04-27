@@ -1,14 +1,6 @@
 <?
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
-
-require_once($_SERVER['DOCUMENT_ROOT'] . '../../../include/library.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
 conecta_bd_cacic();
 
 if ($_POST['consultar']) {
@@ -20,14 +12,14 @@ if ($_POST['consultar']) {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="/cacic2/include/cacic.css">
 
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<body bgcolor="#FFFFFF" background="../../../imgs/linha_v.gif" onLoad="SetaCampo('filtro_consulta')">
-<script language="JavaScript" type="text/javascript" src="http://<? echo $_SERVER['HTTP_HOST'].'../../../include/cacic.js';?>"></script>
+<body bgcolor="#FFFFFF" background="/cacic2/imgs/linha_v.gif" onLoad="SetaCampo('filtro_consulta')">
+<script language="JavaScript" type="text/javascript" src="http://<? echo $_SERVER['HTTP_HOST'].'/cacic2/include/cacic.js';?>"></script>
 
 <form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
 <table width="90%" border="0" align="center">

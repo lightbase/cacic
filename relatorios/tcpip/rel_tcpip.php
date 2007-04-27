@@ -14,13 +14,7 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
+
 if($_POST['submit']) {
 	$_SESSION["list2"] = $_POST['list2'];
 	$_SESSION["list4"] = $_POST['list4'];
@@ -72,7 +66,7 @@ conecta_bd_cacic();
 $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
-	if($_SESSION["cs_situacao"] == 'S') 
+	if($_SESSION["cs_situacao"] == 'S')  // Apenas Redes Selecionadas
 		{
 		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
 		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
@@ -81,6 +75,14 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 
 		$query_redes = 'AND computadores.id_ip_rede IN ('. $redes_selecionadas .')';		
 		}	
+	else // Todas as Redes
+		{
+		$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+							redes.id_local = '. $_SESSION['id_local'].' AND
+							redes.id_local = locais.id_local ';
+		$select = ' ,sg_local as Local ';	
+		$from = ' ,redes,locais ';					
+		}
 	}
 else
 	{

@@ -7,7 +7,6 @@ function SetaClassNormal(obj)
 	{	
 	obj.style.backgroundColor='#FFFFFF';
 	}
-
 function preparaEnvio()
 	{// Percorrerei os forms e encontrarei os campos NOME e SENHA para criptografia... (Anderson Peterle - 04/09/2006)
 	for (i=0;i<window.document.forms.length;i++)

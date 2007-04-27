@@ -122,7 +122,8 @@ $query = '	SELECT 		uo1.id_unid_organizacional_nivel1 as uo1_id,
 						uo2.id_local = '.$v_dados_rede['id_local'].'
 			ORDER BY 	uo1_nm,uo2_nm';
 
-conecta_bd_cacic();																					  
+conecta_bd_cacic();
+GravaTESTES($query);																					  
 $result = mysql_query($query);
 while ($campos = mysql_fetch_array($result))
 	{

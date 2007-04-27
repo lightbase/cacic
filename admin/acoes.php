@@ -14,15 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 session_start();
-
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
-
 require_once('../include/library.php');
 // Comentado temporariamente - AntiSpy();
 $id_acao = $_GET['id_acao']; 
@@ -392,9 +383,7 @@ function remove(box) {
           </tr>
           <tr> 
             <td> <div align="center"> 
-          <!--      <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');">
--->
-		<input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+                <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 				<?
 //                <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="document.forma.elements['list2[]'].disabled=false; SelectAll(this.forma.elements['list2[]']); SelectAll(this.forma.elements['list4[]']); SelectAll(this.forma.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');">				
 				?>

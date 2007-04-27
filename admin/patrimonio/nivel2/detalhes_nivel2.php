@@ -15,25 +15,17 @@
  */
 
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
 include_once "../../../include/library.php";
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 
 if ($_POST['exclui_uon2']) 
 	{
-	$where = ($_SESSION['cs_nivel_administracao']<>1?' AND uo2.id_local='.$_SESSION['id_local']:'');
+	$where = ($_SESSION['cs_nivel_administracao']<>1?' AND id_local='.$_SESSION['id_local']:'');
 	$query = "	DELETE 
-				FROM 	unid_organizacional_nivel2 uo2
-				WHERE 	uo2.id_unid_organizacional_nivel2 = $frm_id_unid_organizacional_nivel2 and
-						uo2.id_unid_organizacional_nivel1 = $frm_id_unid_organizacional_nivel1 ".$where;
-
+				FROM 	unid_organizacional_nivel2 
+				WHERE 	id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2']." and
+						id_unid_organizacional_nivel1 = ".$_POST['frm_id_unid_organizacional_nivel1']. $where;
 	mysql_query($query) or die('Delete falhou');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
 	if (!atualiza_configuracoes_uonx('2'))
@@ -276,10 +268,10 @@ if(mysql_num_rows($result_sel1))
   <p align="center">
 	<?
 	$v_frase = "Confirma('Confirma Informações para ".$_SESSION['etiqueta2']."?')";
-    echo '<input name="grava_alteracao_uon2" type="submit" id="grava_alteracao_uon2" value="  Gravar Altera&ccedil;&otilde;es" onClick="return '.$v_frase.'"; '.($_SESSION['cs_nivel_administracao']<>1?'disabled':'').'>';
+    echo '<input name="grava_alteracao_uon2" type="submit" id="grava_alteracao_uon2" value="  Gravar Altera&ccedil;&otilde;es" onClick="return '.$v_frase.'"; '.($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'').'>';
 	?>
 &nbsp;&nbsp;		
-    <input name="exclui_uon2" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon2" value="  Excluir <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>		  
+    <input name="exclui_uon2" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon2" value="  Excluir <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 &&  $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
   </p>
 </form>
 </td>

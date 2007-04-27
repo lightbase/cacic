@@ -3,11 +3,9 @@
  */
 	require_once('../../../include/inicio_gerencia_licencas_inc.php');
 ?>
-
-
  <script src="../../../include/sniffer.js" type="text/javascript" language="javascript"></script>
-<script src="../../../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
-<link href="../../../include/dyncalendar.css" media="screen" rel="stylesheet">
+ <script src="../../../include/dynCalendar.js" type="text/javascript" language="javascript"></script>
+ <link href="/cacic2/include/dynCalendar.css" media="screen" rel="stylesheet">
 
 <table width="90%" border="0" align="center">
   <tr> 

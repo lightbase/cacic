@@ -131,7 +131,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-	if (!$_GET['principal']) $query_redes = 'AND computadores.id_ip_rede IN ('. $redes_selecionadas .')';		
+		if (!$_GET['principal']) $query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';		
 		}
 	$local = ' AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local = '.$_SESSION['id_local'];	
 	}

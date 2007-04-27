@@ -159,7 +159,7 @@ if ($v_tripa_variaveis_coletadas<>'')
 						  VALUES 	  ('".$te_node_address."',
 						  			   '".$id_so."',
 									   '".$v_achei."',
-									   '".mysql_real_escape_string($v_array_variavel_ambiente_tmp[1])."')";					                  
+									   '".trim($v_array_variavel_ambiente_tmp[1])."')";					                  
 				$result = mysql_query($query);									
 			}
 		}		

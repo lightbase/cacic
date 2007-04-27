@@ -14,13 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
 if ($_POST['incluirUON2']) 
 	{
   	header ("Location: incluir_nivel2.php");
@@ -30,7 +23,8 @@ include_once "../../../include/library.php";
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 $where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
-$queryCONFIG = "SELECT 		id_etiqueta,
+$queryCONFIG = "SELECT 		DISTINCT 
+							id_etiqueta,
 							te_etiqueta,
 							te_plural_etiqueta
 		  		FROM 		patrimonio_config_interface patcon
@@ -44,9 +38,11 @@ session_register('etiqueta1');
 session_register('plural_etiqueta1');
 session_register('etiqueta2');
 session_register('plural_etiqueta2');
+
 $row 	= mysql_fetch_array($resultCONFIG);
 $_SESSION['etiqueta1'] 	= $row['te_etiqueta'];
 $_SESSION['plural_etiqueta1'] 	= $row['te_plural_etiqueta'];
+
 $row 	= mysql_fetch_array($resultCONFIG);
 $_SESSION['etiqueta2'] 	= $row['te_etiqueta'];
 $_SESSION['plural_etiqueta2'] 	= $row['te_plural_etiqueta'];

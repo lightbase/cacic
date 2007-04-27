@@ -100,6 +100,31 @@ else
 	<tr> 
 	<td height="1"  bgcolor="#e7e7e7"></td>
 	</tr>
+		<tr> 
+		<td>&nbsp;</td>
+		</tr>
+		<tr> 
+		<td>
+		<? 
+		if ($_SESSION["cs_nivel_administracao"] <> 0)
+			{
+			echo '<a href="relatorios/software/rel_software.php?orderby=6&principal=1">';
+			}	
+		echo '<img src="graficos/pie_acessos_locais.php?cs_nivel_administracao='.$_SESSION["cs_nivel_administracao"].'&id_local='.$_SESSION['id_local'].'" border="no">';
+		if ($_SESSION["cs_nivel_administracao"] <> 0)
+			{
+			echo '</a>';
+			}		
+		?>	
+		</td>
+		</tr>
+		<tr> 
+		<td class="descricao"><div align="center">Distribui&ccedil;&atilde;o por acesso dos agentes por local nesta data</div></td>
+		</tr>
+		<tr> 
+		<td height="1"  bgcolor="#e7e7e7"></td>
+		</tr>
+	
 	<tr> 
 	<td>&nbsp;</td>
 	</tr>

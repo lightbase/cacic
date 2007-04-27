@@ -14,14 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
-
 include_once "../include/library.php";
 // Comentado temporariamente - AntiSpy();
 if (!$_REQUEST['date_input1'])
@@ -59,14 +51,7 @@ else
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-
-<script src="../include/sniffer.js" type="text/javascript" language="javascript"></script>
-<script src="../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
-<link href="../include/dyncalendar.css" media="screen" rel="stylesheet">
-
-<title>Log de Acessos</title>
-
-
+<title>Log de Atividades</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 

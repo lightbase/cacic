@@ -6,13 +6,6 @@ As modificações foram feitas por Emerson Pellis (epellis@unerj.br).
 */
 ?>
 <? session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
 
 if($_POST['submit']) {
 	$_SESSION["list2"] = $_POST['list2'];
@@ -35,7 +28,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="/cacic2/include/cacic.css">
 <style type="text/css">
        TR {font-size:10pt ; font-family: Verdana, Arial}
 </style>
@@ -66,7 +59,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <br>
 <? 
-require_once('../../include/library.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
 conecta_bd_cacic();
 
 $redes_selecionadas = '';
@@ -139,7 +132,7 @@ $query = "SELECT DISTINCT 	compartilhamentos.id_so,
 							nm_dir_compart <> '' 
 							$query_redes 
 		  ORDER BY 			computadores.te_nome_computador ASC ";
-//echo $query . '<br>';
+echo $query . '<br>';          
 $resultado = mysql_query($query) or die('Erro no select '. mysql_error());
 
 while ($linha = mysql_fetch_array($resultado))
@@ -208,22 +201,22 @@ while ($linha = mysql_fetch_array($resultado))
 											while($row = mysql_fetch_assoc($result_compartilhamento)) {
 													$img_alerta == '&nbsp;';
 													if ($row['cs_tipo_compart'] == 'D')
-													$tipo_compart = '<img src="../../imgs/compart_dir.gif" title="Compartilhamento de Diretório">';
+													$tipo_compart = '<img src="/cacic2/imgs/compart_dir.gif" title="Compartilhamento de Diretório">';
 													else
-													$tipo_compart = '<img src="../../imgs/compart_print.gif" title="Compartilhamento de Impressora">';
+													$tipo_compart = '<img src="/cacic2/imgs/compart_print.gif" title="Compartilhamento de Impressora">';
 
 													if( $row['in_senha_leitura'] == 1 )
-														$senha_leitura = '<img src="../../imgs/checked.gif">';
+														$senha_leitura = '<img src="/cacic2/imgs/checked.gif">';
 													else {
-														$senha_leitura = '<img src="../../imgs/unchecked.gif">';
-													$img_alerta = '<img src="../../imgs/alerta_amarelo.gif" title="Risco Médio: Privacidade" width="8" height="8">';
+														$senha_leitura = '<img src="/cacic2/imgs/unchecked.gif">';
+													$img_alerta = '<img src="/cacic2/imgs/alerta_amarelo.gif" title="Risco Médio: Privacidade" width="8" height="8">';
 													}
 
 													if( $row['in_senha_escrita'] == 1 )
-														$senha_escrita = '<img src="../../imgs/checked.gif">';
+														$senha_escrita = '<img src="/cacic2/imgs/checked.gif">';
 													else {
-														$senha_escrita = '<img src="../../imgs/unchecked.gif">';
-													$img_alerta = '<img src="../../imgs/alerta_vermelho.gif" title="Risco Alto: Integridade e Privacidade" width="8" height="8">';
+														$senha_escrita = '<img src="/cacic2/imgs/unchecked.gif">';
+													$img_alerta = '<img src="/cacic2/imgs/alerta_vermelho.gif" title="Risco Alto: Integridade e Privacidade" width="8" height="8">';
 													}
 
 													if( $row['cs_tipo_permissao'] == 'L' )
@@ -249,9 +242,9 @@ while ($linha = mysql_fetch_array($resultado))
 											$result_compartilhamento = mysql_query($query);
 											while($row = mysql_fetch_assoc($result_compartilhamento)) {
 													if ($row['cs_tipo_compart'] == 'D')
-													$tipo_compart = '<img src="../../imgs/compart_dir.gif" title="Compartilhamento de Diretório">';
+													$tipo_compart = '<img src="/cacic2/imgs/compart_dir.gif" title="Compartilhamento de Diretório">';
 													else
-													$tipo_compart = '<img src="../../imgs/compart_print.gif" title="Compartilhamento de Impressora">';
+													$tipo_compart = '<img src="/cacic2/imgs/compart_print.gif" title="Compartilhamento de Impressora">';
 
 													echo '<tr>
 														<td nowrap class="dado">&nbsp;'. $row['nm_compartilhamento'] .'</td>

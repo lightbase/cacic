@@ -14,13 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-/*
- * verifica se houve login e também as permissões de usuário
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para verificar permissões do usuário!
-}
 include_once "../../include/library.php";
 // Comentado temporariamente - AntiSpy();
 if($_REQUEST['submit']) 
@@ -412,7 +405,8 @@ MM_reloadPage(true);
           Servidor de Updates (FTP):</div></td>
       <td class="label"><div align="left"><br>
           Porta:</div></td>
-      <td valign="bottom" class="label">Limite FTP:</td>
+      <td valign="bottom" class="label"><br>
+	  Limite FTP:</td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#333333"></td>

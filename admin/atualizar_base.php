@@ -4,7 +4,7 @@
 		<title>Atualiza&ccedil;&atilde;o de Base de Dados</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		</head>
-		<body background="../imgs/linha_v.gif">
+		<body background="file:///h|/cacic2sg/imgs/linha_v.gif">
 		<table width="90%" border="0" align="center">
 		<tr> 
 	    
@@ -169,7 +169,7 @@ while ($row = mysql_fetch_array($result_GERENTES))
 								@ftp_delete($v_conexao_ftp,$v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP]);
 								if (@ftp_put($v_conexao_ftp,
 											$v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP],
-											$_SERVER['DOCUMENT_ROOT'] . '../repositorio/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
+											$_SERVER['DOCUMENT_ROOT'] . '/cacic2sg/repositorio/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
 											FTP_BINARY))
 									{
 									array_push($v_array_objetos_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
@@ -190,7 +190,7 @@ while ($row = mysql_fetch_array($result_GERENTES))
 						{
 						if (@ftp_put($v_conexao_ftp,
 									$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
-									$_SERVER['DOCUMENT_ROOT'] . '../repositorio/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
+									$_SERVER['DOCUMENT_ROOT'] . '/cacic2sg/repositorio/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
 									FTP_BINARY))
 							{
 							array_push($v_array_objetos_enviados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
@@ -342,13 +342,13 @@ while ($row = mysql_fetch_array($result_GERENTES))
 				 	trim($row['te_senha_login_repositorio'])	==	'')
 					{
 					?>
-					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>FTP não configurado!</strong></a></font>
+					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>FTP não configurado!</strong></a></font>
 					<?
 					}
 				else
 					{
 					?>
-					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>Servidor OffLine!</strong></a></font>
+					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>Servidor OffLine!</strong></a></font>
 					<?
 					}
 			}
