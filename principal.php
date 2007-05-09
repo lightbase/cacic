@@ -14,8 +14,7 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
-session_start(); 
-require_once('include/config.php');
+@session_start(); 
 ?>
 <html>
 <head>
@@ -37,12 +36,12 @@ if (!session_is_registered('cs_nivel_administracao'))
 	{	
 	?>
 	<tr><td>
-	<img src="graficos/pie_locais.php" border="no">
+	<img src="graficos/pie_acessos_locais.php" border="no">
 	</td>
 	</tr>
 	<tr>
-	<td class="descricao"><div align="center">Totais de Estações Monitoradas por 
-        Local</div></td>
+	<td class="descricao"><div align="center">Computadores monitorados por 
+        local nesta data</div></td>
 	</tr>  
 	<tr> 
 	<td height="1"  bgcolor="#e7e7e7"></td>
@@ -66,12 +65,25 @@ else
 		{
 		echo '</a>';
 		}		
+	$title = 'Totais de computadores monitorados por sistemas operacionais';
 	?>
 	</td>	
 	</tr>
 	<tr> 
-	<td class="descricao"><div align="center">Distribui&ccedil;&atilde;o por sistemas operacionais dos computadores gerenciados</div></td>
+	<td class="descricao"><div align="center"><? echo $title;?></div></td>
 	</tr>  
+
+<?
+//<tr><td class="label_peq_sem_fundo"><div align="center"><b>ATENÇÃO:</b> Totais referentes a mais de uma localidade. (<a href="#" onclick="MyWindow=window.open('graficos/detalhes_estatisticas.php', 'JANELA','toolbar=no,location=no,scrollbars=yes,menubar=no');MyWindow.document.close()"><font color="#FF0000"><b>Detalhes</b></font></a>)</div></td></tr>		
+
+	if ($_SESSION['te_locais_secundarios'])
+		{
+		$html_locais_secundarios1 = '<tr><td class="label_peq_sem_fundo"><div align="center"><b>ATENÇÃO:</b> Total referente a mais de uma localidade. (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php?in_grafico=';
+		$html_locais_secundarios2 = '\', \'JANELA\',\'toolbar=no,location=no,width=600,left=200,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>Detalhes</b></font></a>)</div></td></tr>'; 
+		echo $html_locais_secundarios1 . 'so&te_title=' . $title . $html_locais_secundarios2;
+		}
+		?>
+	
 	<tr> 
 	<td height="1"  bgcolor="#e7e7e7"></td>
 	</tr>
@@ -94,12 +106,49 @@ else
 	?>	
 	</td>
 	</tr>
-	<tr> 
-	<td class="descricao"><div align="center">Distribui&ccedil;&atilde;o por &uacute;ltimo acesso dos agentes</div></td>
-	</tr>
+	<?
+	$title = '&Uacute;ltimos acessos dos agentes por local nesta data';
+	if ($_SESSION['te_locais_secundarios'])
+		{
+		echo $html_locais_secundarios1 . 'acessos&te_title=' . $title . $html_locais_secundarios2;
+		}
+	else
+		{
+		?>
+		<tr> 
+		<td class="descricao"><div align="center">&Uacute;ltimos acessos dos agentes deste local</div></td>
+		</tr>
+		<?
+		}
+		?>
 	<tr> 
 	<td height="1"  bgcolor="#e7e7e7"></td>
 	</tr>
+	
+	<tr> 
+	<td>&nbsp;</td>
+	</tr>
+	<?
+	if ($_SESSION["cs_nivel_administracao"] == 1 ||
+		$_SESSION["cs_nivel_administracao"] == 2)
+		{
+		?>
+		<tr><td>
+		<img src="graficos/pie_locais.php" border="no">
+		</td>
+		</tr>
+		<tr>
+		<td class="descricao"><div align="center">Totais de computadores monitorados por local</div></td>
+		</tr>  
+		<tr> 
+		<td height="1"  bgcolor="#e7e7e7"></td>
+		</tr>
+		<tr> 
+		<td>&nbsp;</td>
+		</tr>
+		<?
+		}
+		?>
 		<tr> 
 		<td>&nbsp;</td>
 		</tr>
@@ -119,47 +168,29 @@ else
 		</td>
 		</tr>
 		<tr> 
-		<td class="descricao"><div align="center">Distribui&ccedil;&atilde;o por acesso dos agentes por local nesta data</div></td>
+		<td class="descricao"><div align="center"><? echo $title;?></div></td>
 		</tr>
 		<tr> 
 		<td height="1"  bgcolor="#e7e7e7"></td>
 		</tr>
-	
-	<tr> 
-	<td>&nbsp;</td>
-	</tr>
-	<?
-	if ($_SESSION["cs_nivel_administracao"] == 1 ||
-		$_SESSION["cs_nivel_administracao"] == 2)
-		{
-		?>
-		<tr><td>
-		<img src="graficos/pie_locais.php" border="no">
-		</td>
-		</tr>
-		<tr>
-		<td class="descricao"><div align="center">Totais de Estações Monitoradas por Local</div></td>
-		</tr>  
-		<tr> 
-		<td height="1"  bgcolor="#e7e7e7"></td>
-		</tr>
-		<tr> 
-		<td>&nbsp;</td>
-		</tr>
-		<?
-		}
-		?>
 	
 	<tr> 
 	<td>
 	<? 
 	echo '<img src="graficos/pie_mac.php?cs_nivel_administracao='.$_SESSION["cs_nivel_administracao"].'&id_local='.$_SESSION['id_local'].'" border="no">';
+	$title = 'Total real de computadores monitorados (com base no Mac-Address)';
 	?>	
 	</td>
 	</tr>
 	<tr> 
-	<td class="descricao"><div align="center">Total de computadores baseado no Mac-Address</div></td>
+	<td class="descricao"><div align="center"><? echo $title;?></div></td>
 	</tr>
+	<?
+	if ($_SESSION['te_locais_secundarios'])
+		{
+		echo $html_locais_secundarios1 . 'mac&te_title=' . $title . $html_locais_secundarios2;
+		}
+		?>
 
 	<tr> 
 	<td height="1"  bgcolor="#e7e7e7"></td>
@@ -171,8 +202,9 @@ else
 <table width="90%">
 <tr><td height="30"></td></tr>
 <tr><td class="descricao">
-<p align="center">Desenvolvido pela Dataprev - Unidade de Atendimento do Esp&iacute;rito Santo 
-<p align="center"><a href="http://www.anybrowser.org/campaign/anybrowser_br.html" target="_blank"><img src="imgs/anybrowser.gif" alt="Vis&iacute;vel por qualquer browser" width="88" height="31" border="0"></a>
+<p align="center">Desenvolvido pela Dataprev - Unidade Regional Esp&iacute;rito 
+        Santo 
+      <p align="center"><a href="http://www.anybrowser.org/campaign/anybrowser_br.html" target="_blank"><img src="imgs/anybrowser.gif" alt="Vis&iacute;vel por qualquer browser" width="88" height="31" border="0"></a>
 </td></tr>
 </table>
 </body>

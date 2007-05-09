@@ -26,6 +26,7 @@ if($_REQUEST['submit'])
 			  FROM 		redes 
 			  WHERE 	id_ip_rede = '$frm_id_ip_rede' AND
 			  			id_local = ".$_POST['frm_id_local'];
+						
 	$result = mysql_query($query) or die ('Select falhou');
 	
 	if (mysql_num_rows($result) > 0) 
@@ -309,6 +310,13 @@ MM_reloadPage(true);
       <td> <select name="frm_id_local" id="frm_id_local"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
           <?
 			$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE id_local = '.$_SESSION['id_local']:'');
+			if ($_SESSION['te_locais_secundarios'] && $where)
+				{
+				// Faço uma inserção de "(" para ajuste da lógica para consulta
+				$where = str_replace(' id_local = ','(id_local = ',$where);
+				$where .= ' OR id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+				}
+			
 			Conecta_bd_cacic();				
 			$qry_locais = "SELECT 	id_local,
 											sg_local 

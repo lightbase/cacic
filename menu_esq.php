@@ -29,6 +29,7 @@ if($_POST['logoff'])
      {
 	 session_unregister('id_grupo_usuarios');	 
 	 session_unregister('cs_nivel_administracao');	 	 
+	 session_unregister('te_locais_secundarios');			 	 
 	 session_unregister('id_local');			 
 	 session_unregister('nm_local');			 	 
 	 session_unregister('nm_usuario');
@@ -36,6 +37,7 @@ if($_POST['logoff'])
 	 session_unregister('id_usuario');	 
 	 session_unregister('c_Debugs');
 	 session_unregister('c_IpsDebugs');		
+	 session_unregister('te_grupo_usuarios');			 
 	 
      //Adicionado pela Marisol em 12/06/2006
      session_destroy();
@@ -57,9 +59,11 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	$qry_usuario = "SELECT 	a.id_grupo_usuarios,    
 							a.nm_usuario_completo,  
 							b.te_menu_grupo,
-							b.cs_nivel_administracao,		 
+							b.cs_nivel_administracao,
+							b.te_grupo_usuarios,		 
 							a.id_usuario, 			
 							a.id_local,
+							a.te_locais_secundarios,
 							c.nm_local,
 							c.sg_local		
 					FROM 	usuarios a, 
@@ -91,7 +95,8 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 			 $_SESSION["menu_usuario"]      		=             'menus/'.$reg_result['te_menu_grupo'];			 			 
 			 $_SESSION["id_usuario"] 				=             $reg_result['id_usuario'];						 
 			 $_SESSION["id_usuario_crypted"] 		=             EnCrypt($key,$iv,$reg_result['id_usuario'],"1","0","0");
-			 $_SESSION["id_local"]					=             $reg_result['id_local'];			 			 
+			 $_SESSION["te_locais_secundarios"]		=             $reg_result['te_locais_secundarios'];			 			 
+			 $_SESSION["id_local"]					=             $reg_result['id_local'];			 			 			 
 			 $_SESSION["sg_local"]					=             $reg_result['sg_local'];			 			 			 
 			 $_SESSION["nm_local"]					=             $reg_result['nm_local'];			 			 			 			 
 			 $_SESSION["cs_nivel_administracao"]	=             $reg_result['cs_nivel_administracao'];			 			 			 			 
@@ -99,6 +104,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 			 															 // p.s.: Não esquecer de voltar para "false" após o uso, para não encher a tabela "testes" em vão.
 			 $_SESSION["c_IpsDebugs"]				= 			  '#10.71.0.58'; // Usado em conjunto com a constante acima, para que não entre informações além de sua estação atual.
 			 																	 // Separe os IP´s por ","
+			 $_SESSION["te_grupo_usuarios"]			= 			  $reg_result['te_grupo_usuarios'];
 
 			Log_Debug('Teste');																					 
 	  		 GravaLog('ACE',$_SERVER['SCRIPT_NAME'],'acesso');			 
@@ -114,13 +120,15 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		break;
 		session_unregister('id_grupo_usuarios');	 
 		session_unregister('cs_nivel_administracao');	 	 
-		session_unregister('id_local');			 
+		session_unregister('te_locais_secundarios');			 
+		session_unregister('id_local');			 		
 		session_unregister('nm_local');			 	 
 		session_unregister('nm_usuario');
 		session_unregister('menu_usuario');
 		session_unregister('id_usuario');
 		session_unregister('c_Debugs');
 		session_unregister('c_IpsDebugs');		
+		session_unregister('te_grupo_usuarios');		
 		?>
 		<SCRIPT LANGUAGE="Javascript">
 		alert('Usuário não cadastrado ou senha inválida!');
@@ -305,6 +313,9 @@ else
 	  	</td>
       	<td class="dado_peq_sem_fundo">&nbsp;</td>
     	</tr>
+		<tr>
+      	<td colspan="2" class="dado_peq_sem_fundo" align="center">Nível: "<? echo $_SESSION['te_grupo_usuarios'];?>"</td>
+    	</tr>		
     	<tr> 
       	<td colspan="2"><div align="center"></div>
         <div align="center">

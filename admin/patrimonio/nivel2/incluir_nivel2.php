@@ -120,7 +120,14 @@ $result_sel1 = mysql_query($querySEL1);
 </table>
 <?
 Conecta_bd_cacic();
-$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE id_local = '.$_SESSION['id_local']:'');				
+$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE id_local = '.$_SESSION['id_local']:'');
+if ($_SESSION['te_locais_secundarios'] && $where)
+	{
+	// Faço uma inserção de "(" para ajuste da lógica para consulta	
+	$where = str_replace(' id_local = ',' (id_local = ',$where);
+	$where .= ' OR id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+	}
+				
 $qry_locais = "SELECT 	id_local,
 								sg_local 
 					 FROM 		locais ".

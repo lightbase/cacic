@@ -25,6 +25,13 @@ $where = ($_SESSION['cs_nivel_administracao']==1||$_SESSION['cs_nivel_administra
 			' LEFT JOIN locais ON (locais.id_local = redes.id_local)':
 			', locais WHERE redes.id_local = locais.id_local AND redes.id_local='.$_SESSION['id_local']);
 			
+if ($_SESSION['te_locais_secundarios'] && $where)
+	{
+	// Faço uma inserção de "(" para ajuste da lógica para consulta
+	$where = str_replace('redes.id_local=','(redes.id_local=',$where);
+	$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+	}
+			
 $query = 'SELECT 	* 
 		  FROM 		redes '.
 		  $where .' 		  			

@@ -730,6 +730,7 @@ CREATE TABLE `usuarios` (
   `id_grupo_usuarios` int(1) default NULL,
   `te_emails_contato` varchar(100) default NULL,
   `te_telefones_contato` varchar(100) default NULL,
+  `te_locais_secundarios` varchar(200) default NULL,
   PRIMARY KEY  (`id_usuario`),
   KEY `id_localizacao` (`id_local`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

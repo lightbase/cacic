@@ -44,7 +44,14 @@ if ($_POST['submit_cond'])
 	$query_sele_exclui = str_replace('-MAIOR-',' > ',$query_sele_exclui);	
 
     $from 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' ,redes c':'');	
-    $where 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND a.id_ip_rede = c.id_ip_rede AND c.id_local='.$_SESSION['id_local']:'');		
+    $where 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND a.id_ip_rede = c.id_ip_rede AND c.id_local = '.$_SESSION['id_local']:'');		
+	if ($_SESSION['te_locais_secundarios'] && $where)
+		{
+		// Faço uma inserção de "(" para ajuste da lógica para consulta	
+		$where = str_replace('c.id_local = ','(c.id_local = ',$where);
+		$where .= ' OR c.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+		}
+	
 	$Query_Pesquisa = 'SELECT 	a.id_so,
 								a.te_node_address,
 								a.te_nome_computador, 

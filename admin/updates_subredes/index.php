@@ -52,8 +52,16 @@ if ($_REQUEST['ExecutaUpdates']=='Executar Updates')
 		{
 		$query_del = 'DELETE 
 					  FROM 		redes_versoes_modulos 
-		              WHERE 	id_local = '.$_SESSION['id_local'].' AND
-					  			id_ip_rede in (' . $v_force_redes . ') and nm_modulo in ('.$v_force_modulos.')';
+		              WHERE 	id_local = '.$_SESSION['id_local'];
+		if ($_SESSION['te_locais_secundarios'] && $where)
+			{
+			// Faço uma inserção de "(" para ajuste da lógica para consulta	
+			$query_del = str_replace(' id_local = ',' (id_local = ',$query_del);
+			$query_del .= ' OR id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+			}
+
+		$query_del .= ' AND id_ip_rede in (' . $v_force_redes . ') and nm_modulo in ('.$v_force_modulos.')';								
+		
 		conecta_bd_cacic();					
 		$result_del = mysql_query($query_del);
 		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'redes_versoes_modulos');					
@@ -219,6 +227,13 @@ else
 			  
 			  <? 
 	   	 	  $where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND loc.id_local = '.$_SESSION['id_local']:'');
+				if ($_SESSION['te_locais_secundarios'] && $where)
+					{
+					// Faço uma inserção de "(" para ajuste da lógica para consulta	
+					$where = str_replace(' loc.id_local = ',' (loc.id_local = ',$where);
+					$where .= ' OR loc.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+					}
+			  
 			  $query = "	SELECT 		re.id_ip_rede,
 										re.nm_rede,
 										loc.id_local,

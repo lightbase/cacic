@@ -14,15 +14,24 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-$v_versao = '2.2.3';
+$v_versao = '2.2.3-dev';
 /* 
-2.2.2 - Algumas correções lógicas: 
+2.2.3-dev (Anderson Peterle - Dataprev/ES - Março a Maio/2007)
+		+ Implementada a opção de seleção de "Locais Secundários" nas janelas de inclusão e detalhes de usuários,
+		  para simulação de pseudo "relação de confiança" entre usuários e locais, possibilitando a estes usuários 
+		  o acesso e manipulação das informações dos locais "confiantes";
+		+ Implementado o detalhamento para as estatísticas exibidas na página principal quando representarem
+		  mais de um local (local primário + local(is) secundário(s))
+		+ Adequação das consultas ao conceito de "relação de confiança" implementado.		  
+
+2.2.2     (Anderson Peterle - Dataprev/ES - Fevereiro/2007)
 		* Corrigida a atribuição indevida do nome de usuário constande de resultado de Log de Atividades ao nome do usuário logado na aplicação;
 		* Corrigidas algumas correlações de "local" em consultas realizadas por usuários com níveis diferentes de "Administração" e "Gestão Central";
 		+ Implementada a opção de seleção de Coletas de Sistemas Monitorados quando do cadastramento da subrede;
 		+ Implementada a opção de seleção/alteração de Coletas de Sistemas Monitorados quando da edição de configurações da subrede.
 
-2.2.1 - Efetuadas adaptações para suporte a base centralizada de dados, quando as subredes cadastradas 
+2.2.1     (Anderson Peterle - Dataprev/ES - Janeiro/2007)
+		Efetuadas adaptações para suporte a base centralizada de dados, quando as subredes cadastradas 
    		passam a fazer parte de uma "localização" ou "local".
 		As adaptações impactaram na definição dos seguintes níveis de acesso:
 		1) Administração => Acesso irrestrito, com visão total de todos os dados de todos os "locais".

@@ -157,7 +157,7 @@ require_once('../../include/library.php');
           </tr>
           <tr> 
             <td class="descricao">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
+              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
         </table></td>
     </tr>
@@ -212,12 +212,14 @@ require_once('../../include/library.php');
 											redes.id_local = pat.id_local ".
 											$where. '
 								  ORDER BY  te_etiqueta';
+/*
 if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 	{
 	echo '<br>Debug para estação 10.71.0.58<br>';
 	echo 'Query Combo Informações, campos Entidade e Órgão:<br>';
 	echo $query . '<br>';
 	}				  
+*/	
 								  
                         $result = mysql_query($query) or die('Erro na consulta à tabela "patrimonio_config_interface".');
                         while ($row = mysql_fetch_array($result)) 
@@ -279,7 +281,7 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
           </tr>
           <tr> 
             <td class="descricao">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
+              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
         </table></td>
     </tr>
@@ -312,13 +314,14 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 							redes.id_local = pat.id_local ".
 							$where . "   
 				  ORDER BY te_etiqueta";
-				  	
+/*				  	
 if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 	{
 	echo '<br>Debug para estação 10.71.0.58<br>';
 	echo 'Query Combo Critérios - Parte 1:<br>';
 	echo $query . '<br>';
 	}				  
+*/	
 		$res_fields = mysql_query($query);
 		$nuContaCampo = 0;
 		while ($row_fields = mysql_fetch_array($res_fields)) 
@@ -378,13 +381,14 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 							redes.id_local = pat.id_local ".
 							$where . "   
 				  ORDER BY te_etiqueta";	
+/*
 if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 	{
 	echo '<br>Debug para estação 10.71.0.58<br>';
 	echo 'Query Combo Critérios - Parte 2:<br>';
 	echo $query . '<br>';
 	}				  
-
+*/
 		$res_fields = mysql_query($query);
 
 		while ($row_fields = mysql_fetch_array($res_fields)) 

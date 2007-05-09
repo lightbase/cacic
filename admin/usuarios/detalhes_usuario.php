@@ -36,7 +36,8 @@ elseif ($GravaAlteracoes)
 						id_grupo_usuarios = '$frm_id_grupo_usuarios',
 						id_local = $frm_id_local,
 						te_emails_contato = '$frm_te_emails_contato',
-						te_telefones_contato = '$frm_te_telefones_contato'
+						te_telefones_contato = '$frm_te_telefones_contato',
+						te_locais_secundarios = '$frm_te_locais_secundarios'						
 			  WHERE 	id_usuario = ". $_POST['frm_id_usuario'];
 
 	mysql_query($query) or die('Falha na atualização da tabela Usuários...');
@@ -63,10 +64,11 @@ else {
 						a.id_local,
 						a.te_emails_contato,
 						a.te_telefones_contato, 
-						loc.sg_local
+						loc.sg_local,
+						loc.nm_local
 			  FROM 		usuarios a, 
 			  			locais loc
-			  WHERE 	a.id_usuario = '".$_GET['id_usuario']."' and 
+			  WHERE 	a.id_usuario = ".$_GET['id_usuario']." and 
 			  			a.id_local = loc.id_local";
 
 	$result = mysql_query($query) or die ('select falhou');
@@ -98,10 +100,90 @@ function valida_form() {
 		document.form.frm_nm_usuario_completo.focus();
 		return false;
 	}
+	if (document.form.frm_sel_id_locais_secundarios.value != "" ) 
+		{
+		var intLoop;
+		var strIdLocaisSecundarios;
+		
+		strIdLocaisSecundarios = "";
+		
+		for (intLoop = 0; intLoop < document.form.frm_sel_id_locais_secundarios.options.length; intLoop++)
+			{
+			if (document.form.frm_sel_id_locais_secundarios.options[intLoop].selected)
+				{
+				if (strIdLocaisSecundarios != "")
+					strIdLocaisSecundarios += ",";
+					
+				strIdLocaisSecundarios += document.form.frm_sel_id_locais_secundarios.options[intLoop].value;
+				}
+			}
+		document.form.frm_te_locais_secundarios.value = strIdLocaisSecundarios;
+		}
 
 	return true;
 
 }
+team = new Array(
+<? 
+$sql='select * from locais ';
+$where = '';
+if ($_SESSION['te_locais_secundarios'])
+	{
+	$where = ' where id_local = '.$_SESSION['id_local'].' OR id_local in ('.$_SESSION['te_locais_secundarios'].') ';
+	}
+$sql .= $where . ' order by nm_local'; 
+conecta_bd_cacic();
+$sql_result=mysql_query($sql); 
+$num=mysql_numrows($sql_result); 
+$contador = 0;
+while ($row=mysql_fetch_array($sql_result))
+	{ 
+	$contador ++;
+	if ($contador > 1)
+		echo ",\n";
+
+    $v_id_local=$row["id_local"]; 
+    $v_sg_local=$row["sg_local"] . ' / '.$row["nm_local"]; 
+    echo "new Array(\"$v_id_local\", \"$v_sg_local\")"; 
+ 	} 
+echo ");\n"; 	
+?> 
+
+function fillSelectFromArray(selectCtrl, itemArray, itemAtual) 
+	{ 	
+	var i, j; 
+	selectCtrl.disabled = true;			
+	// empty existing items 
+	for (i = selectCtrl.options.length; i >= 0; i--) 
+		{ 
+		selectCtrl.options[i] = null; 
+		} 
+
+	if (itemArray != null && itemAtual != 0) 
+		{ 
+		selectCtrl.size = 5;
+		selectCtrl.disabled = false;			
+		j = 1;
+		// add new items 
+		selectCtrl.options[0] = new Option("","          "); 		
+		
+		for (i = 0; i < itemArray.length; i++) 
+			{ 
+			if (itemArray[i][0] != itemAtual)
+				{
+				selectCtrl.options[j] = new Option(itemArray[i][0]); 
+				if (itemArray[i][0] != null) 
+					{ 
+					selectCtrl.options[j].value = itemArray[i][0]; 					
+					selectCtrl.options[j].text = itemArray[i][1]; 										
+					} 
+				j++; 
+				}				
+			} 
+		// select first item (prompt) for sub list 
+		selectCtrl.options[0].selected = true; 
+	   } 
+	}
 </script>
 </head>
 
@@ -127,15 +209,23 @@ function valida_form() {
         <table border="0" cellpadding="2" cellspacing="2">
           <tr> 
             <td class="label">Local:</td>
-            <td><select name="frm_id_local" id="frm_id_local"" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"
+            <td>
+			<select name="frm_id_local" id="frm_id_local"" class="normal" onChange="fillSelectFromArray(this.form.frm_sel_id_locais_secundarios, team,this.form.frm_id_local.value);" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"
 			<?
-			echo ($_SESSION['cs_nivel_administracao']>1?'disabled':'');
-			?>
-			 >
+			echo ($_SESSION['cs_nivel_administracao']>1 && !($_SESSION['cs_nivel_administracao']==3 && $_SESSION['te_locais_secundarios'])?'disabled':'');	?>>
                 <? 
-			$qry_locais = "SELECT 	id_local,
-											sg_local 
-								 FROM 		locais 
+			$where = '';
+			if ($_SESSION['te_locais_secundarios'] && $_SESSION['cs_nivel_administracao']==3)
+				{
+				// Faço uma inserção de "(" para ajuste da lógica para consulta	
+				$where = 'WHERE id_local = '.$_SESSION['id_local'].' OR id_local IN ('.$_SESSION['te_locais_secundarios'].') ';
+				}
+			
+			$qry_locais = "SELECT 			id_local,
+											sg_local,
+											nm_local 
+								 FROM 		locais ".
+								 $where . "
 								 ORDER BY	sg_local";
 		    $result_locais = mysql_query($qry_locais) or die ('Select falhou');
 			while ($row_qry=mysql_fetch_array($result_locais))
@@ -146,22 +236,51 @@ function valida_form() {
 				  	$v_sg_local = $row_qry[1]; 					
 					echo 'selected';
 					}
-					?> id='
-                <? 
-				echo $row_qry[1];?>'>
-                <? echo $row_qry[1];?> 
-                <?
-				}
-						
-			?>
-              </select>
-		<?
+				echo ' id='.$row_qry[0].'>'. $row_qry[1].' ('.$row_qry[2].')'; 
+				}						
+				?> 
+			</select> 
+            <?
 		// Se não for nível Administrador então fixa o id_local...
-		if ($_SESSION['cs_nivel_administracao']<>1)
+		if ($_SESSION['cs_nivel_administracao']<>1 && !($_SESSION['cs_nivel_administracao']==3 && $_SESSION['te_locais_secundarios']))
 			echo '<input name="frm_id_local" type="hidden" id="frm_id_local" value="'.$_SESSION['id_local'].'">';		
-		?>
-			  
-			  </td>
+
+		$qry_locais_secundarios    = "SELECT 	a.te_locais_secundarios
+								      FROM 	    usuarios a
+								      WHERE 	a.id_usuario = ".$_GET['id_usuario']; 
+	    $result_locais_secundarios = mysql_query($qry_locais_secundarios) or die ('Select falhou');							
+		$row_locais_secundarios    = mysql_fetch_array($result_locais_secundarios);		
+		$arr_locais_secundarios    = explode(',',$row_locais_secundarios['te_locais_secundarios']);
+
+	    mysql_data_seek($result_locais,0);
+		?> 
+		</td>
+          </tr>
+          <tr> 
+            <td class="label">Locais Secund&aacute;rios:</td>
+            <td><select name="frm_sel_id_locais_secundarios" id="frm_sel_id_locais_secundarios" size="5" multiple class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1 && !($_SESSION['cs_nivel_administracao']==3 && $_SESSION['te_locais_secundarios'])?"disabled":"");?>>
+                <option value="0"></option>
+                <?
+			while ($row_locais_secundarios = mysql_fetch_array($result_locais))
+		  		{
+				if ($row_locais_secundarios['id_local'] <> $row_usuario['id_local']) 
+					{				
+					echo '<option value="'.$row_locais_secundarios['id_local'].'" ';
+					if (in_array($row_locais_secundarios['id_local'], $arr_locais_secundarios))
+						{
+						echo 'selected ';
+						}
+					echo ' id=' . $row_locais_secundarios['id_local'].'>'. $row_locais_secundarios['sg_local'].' / '.$row_locais_secundarios['nm_local'].'</option>';
+					}
+				}						
+				?> 
+			</select> <input name="frm_te_locais_secundarios" type="hidden" id="frm_te_locais_secundarios">	
+              <br> <font color="#000080" size="1">(Dica: use SHIFT ou CTRL para 
+              selecionar m&uacute;ltiplos itens)</font></td>
+          </tr>
+          <tr>
+            <td class="label">&nbsp;</td>
+            <td>&nbsp;</td>
           </tr>
           <tr> 
             <td class="label">Identifica&ccedil;&atilde;o:</td>
@@ -173,11 +292,11 @@ function valida_form() {
               <input name="frm_id_usuario" type="hidden" id="frm_id_usuario" value="<? echo $_GET['id_usuario']; ?>"> 
               <input name="id_local" type="hidden" id="id_usuario" value="<? echo $_GET['id_local']; ?>"></td>
           </tr>
-          <tr nowrap>
+          <tr nowrap> 
             <td nowrap class="label">Emails para Contato:</td>
             <td nowrap><input name="frm_te_emails_contato" type="text" id="frm_te_emails_contato" value="<? echo mysql_result($result, 0, 'te_emails_contato'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
           </tr>
-          <tr nowrap>
+          <tr nowrap> 
             <td nowrap class="label">Telefones para Contato:</td>
             <td nowrap><input name="frm_te_telefones_contato" type="text" id="frm_te_telefones_contato" value="<? echo mysql_result($result, 0, 'te_telefones_contato'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
           </tr>

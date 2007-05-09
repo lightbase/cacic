@@ -134,6 +134,14 @@ function remove(box) {
 			  FROM 		acoes_redes
 			  WHERE		id_acao = '".$_GET['id_acao']."' AND
 			  			id_local = ".$_SESSION['id_local'];
+
+	if ($_SESSION['te_locais_secundarios'])
+		{
+		// Faço uma inserção de "(" para ajuste da lógica para consulta
+		$query = str_replace('id_local = ','(id_local = ',$query);
+		$query .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
+		}
+						
 	$result_acoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de ações.'); 
 	$campos_acoes = mysql_fetch_array($result_acoes);
 ?>
@@ -192,6 +200,14 @@ function remove(box) {
             <td class="opcao"> <div align="left"> 
                 <?    
 						$where = ($_SESSION['cs_nivel_administracao']<>1?' AND acoes_redes.id_local = '.$_SESSION['id_local']:'');
+
+						if ($_SESSION['te_locais_secundarios'])
+							{
+							// Faço uma inserção de "(" para ajuste da lógica para consulta
+							$where = str_replace('AND acoes_redes.id_local = ','AND (acoes_redes.id_local = ',$where);
+							$where .= ' OR acoes_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
+							}
+						
 				        /* Consulto todas as redes que foram previamente selecionadas para a a ação em questão. */ 
 					  	$query = "SELECT 	acoes_redes.id_ip_rede, 
 											nm_rede
@@ -242,7 +258,7 @@ function remove(box) {
           </tr>
           <tr> 
             <td colspan="7" class="ajuda"><div align="center">&nbsp;&nbsp;(Dica: 
-                use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</div></td>
+                use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</div></td>
           </tr>
         </table>
         <table width="100%" border="0" cellpadding="0" cellspacing="1">
@@ -320,7 +336,7 @@ function remove(box) {
         <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
             <td class="ajuda">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
+              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
           <tr> 
             <td>&nbsp;</td>

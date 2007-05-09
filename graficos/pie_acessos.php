@@ -13,13 +13,23 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-	  
+session_start();	  
 include_once '../include/library.php'; 
-include '../include/piechart.php';
+include_once '../include/piechart.php';
 conecta_bd_cacic();
 $where 	= ($_REQUEST['cs_nivel_administracao'] <> 1 &&
 		   $_REQUEST['cs_nivel_administracao'] <> 2 ? ' AND b.id_local = '.$_REQUEST['id_local']:'');
-   
+
+if ($_SESSION['te_locais_secundarios'] && $where)
+	{
+	// Faço uma inserção de "(" para ajuste da lógica para consulta	
+	$where = str_replace('b.id_local = ','(b.id_local = ',$where);
+	$where .= ' OR b.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+	}
+
+if ($_GET['in_detalhe'])
+	$where = ' AND b.id_local = '.$_GET['in_detalhe'];
+
 $query ='SELECT 	to_days(curdate()) - to_days(dt_hr_ult_acesso) as nr_dias, count(*)
 		 FROM 		computadores a,
 					redes b
@@ -29,42 +39,60 @@ $query ='SELECT 	to_days(curdate()) - to_days(dt_hr_ult_acesso) as nr_dias, coun
 					$where . ' 
 		 GROUP BY 	nr_dias';
 
-   $result = mysql_query($query) or die('Erro no select');
+$result = mysql_query($query) or die('Erro no select');
 
-			function qt_comp($result, $num_dias) 
-				{
-				mysql_data_seek($result, 0);
-				while ($reg = mysql_fetch_array($result)) 
-					{
-  					if ($reg[0] == $num_dias) return $reg[1]; 
-					}
-				}
 
-			function ha_mais_de($result, $num_dias_min, $num_dias_max) 
-				{
-   	    		$total_dias = 0;
-				mysql_data_seek($result, 0);
-				while ($reg = mysql_fetch_array($result)) 
-					{
-   					if (($reg[0] > $num_dias_min) &&
-   					    ($reg[0] < $num_dias_max)) 					
-						$total_dias = $total_dias + $reg[1]; 
-					}
-					return $total_dias;
-				}
+$intSum = 0;
+function qt_comp($result, $num_dias) 
+	{
+	global $intSum;
+	mysql_data_seek($result, 0);
+	while ($reg = mysql_fetch_array($result)) 
+		{
+		if ($reg[0] == $num_dias) 
+			{
+			$intSum += $reg[1];
+			return $reg[1]; 
+			}
+		}
+	}
 
-		$arr['Hoje................']	= qt_comp($result, 0);
-		$arr['Ontem...............'] 	= qt_comp($result, 1);  
-		$arr['Há 2 dias...........'] 	= qt_comp($result, 2); 
-		$arr['Há 3 dias...........'] 	= qt_comp($result, 3); 
-		$arr['Há 4 dias...........'] 	= qt_comp($result, 4); 
-		$arr['Há mais de 4 dias...'] 	= ha_mais_de($result, 4,30);      // De 4 dias a 1 mês...
-		$arr['Há mais de 1 mes....'] 	= ha_mais_de($result, 29,180);	  // De 1 mês a 6 meses...
-		$arr['Há mais de 6 meses..'] 	= ha_mais_de($result, 179,365);	  // De 6 meses a 1 ano...		
-		$arr['Há mais de 1 ano....'] 	= ha_mais_de($result, 364,99999); // De 1 ano em diante...
+function ha_mais_de($result, $num_dias_min, $num_dias_max) 
+	{
+	global $intSum;	
+	$total_dias = 0;
+	mysql_data_seek($result, 0);
+	while ($reg = mysql_fetch_array($result)) 
+		{
+		if (($reg[0] > $num_dias_min) &&
+			($reg[0] < $num_dias_max)) 					
+			{
+			$intSum += $reg[1];
+			$total_dias = $total_dias + $reg[1]; 
+			}
+		}
+		return $total_dias;
+	}
 
-		$CreatePie = 1;
-		$Sort      = 1;
-		$PieSize   = 159;			
-		phPie($arr, 420 , $PieSize, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, true, 3,$CreatePie, $Sort); 
+$arr['Hoje................']	= qt_comp($result, 0);
+$arr['Há 1 dia............'] 	= qt_comp($result, 1);  
+$arr['Há 2 dias...........'] 	= qt_comp($result, 2); 
+$arr['Há 3 dias...........'] 	= qt_comp($result, 3); 
+$arr['Há 4 dias...........'] 	= qt_comp($result, 4); 
+$arr['De 5 a 30 dias......'] 	= ha_mais_de($result, 4,30);      // De 4 dias a 1 mês...
+$arr['De 30 a 180 dias....'] 	= ha_mais_de($result, 29,180);	  // De 1 mês a 6 meses...
+$arr['De 180 a 365 dias...'] 	= ha_mais_de($result, 179,365);	  // De 6 meses a 1 ano...		
+$arr['Há mais de 365 dias.'] 	= ha_mais_de($result, 364,99999); // De 1 ano em diante...
+
+if ($intSum == 0)
+	{
+	$arr = array('a');
+	}
+	
+$CreatePie 	= 1;
+$Sort      	= 1;
+$width 		= 420;
+$height 	= 159;
+
+phPie($arr, $width , $height, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, true, 3,$CreatePie, $Sort); 
 ?>

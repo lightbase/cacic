@@ -77,7 +77,16 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 			$where = '1';
 			}
 
-		$where1 = 	($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?" AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local=".$_SESSION['id_local']:'');		
+	$where1 = 	($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?" AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local=".$_SESSION['id_local']:'');		
+
+
+	if ($_SESSION['te_locais_secundarios'] && $where1)
+		{
+		// Faço uma inserção de "(" para ajuste da lógica para consulta		
+		$where1 = str_replace('redes.id_local=','(redes.id_local=',$where1);
+		$where1 .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+		}
+		
 		
 		$query_sel = "SELECT 	IF(TRIM(redes.nm_rede)=''                   OR redes.nm_rede is null,'Rede Desconhecida', redes.nm_rede) as nm_rede,
 								IF(TRIM(computadores.te_nome_computador)='' OR computadores.te_nome_computador is null,'Computador Desconhecido',computadores.te_nome_computador) as te_nome_computador,

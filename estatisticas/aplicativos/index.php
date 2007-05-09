@@ -136,7 +136,7 @@ function open_window(theURL,winName,features) {
           </tr>
           <tr> 
             <td class="ajuda">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
+              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
         </table></td>
     </tr>

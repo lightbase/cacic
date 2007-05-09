@@ -13,12 +13,23 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-  
+session_start();  
 include_once '../include/library.php'; 
-include 	 '../include/piechart.php';
+include_once '../include/piechart.php';
 conecta_bd_cacic();
 $where 	= ($_REQUEST['cs_nivel_administracao'] <> 1 &&
 		   $_REQUEST['cs_nivel_administracao'] <> 2 ? ' AND b.id_local = '.$_REQUEST['id_local']:'');
+
+if ($_SESSION['te_locais_secundarios'] && $where)
+	{
+	// Faço uma inserção de "(" para ajuste da lógica para consulta
+	$where = str_replace('b.id_local = ','(b.id_local = ',$where);
+	$where .= ' OR b.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+	}
+
+if ($_GET['in_detalhe'])
+	$where = ' AND b.id_local = '.$_GET['in_detalhe'];
+
 
 $query = 'SELECT 	count(*) as qtd
           FROM 		computadores a,

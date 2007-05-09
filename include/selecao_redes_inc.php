@@ -22,9 +22,17 @@
             <td class="label">  
 <?
 		$where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' redes.id_local = '.$_SESSION['id_local']:'');
+		if ($_SESSION['te_locais_secundarios'] && $where)
+			{
+			// Faço uma inserção de "(" para ajuste da lógica para consulta	
+			$where = str_replace(' redes.id_local = ',' (redes.id_local = ',$where);
+			$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+			}
+		
 		if ($cs_situacao == 'T') 
 			{
 			$where = ($where<>''?' WHERE '.$where:$where);
+			
 			$query = "SELECT 	distinct id_ip_rede, 
 								nm_rede
 					  FROM 		redes ".
@@ -101,6 +109,6 @@
           </tr>
           <tr> 
             <td class="descricao">&nbsp;&nbsp;(Dica: 
-              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
+              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
 </table>

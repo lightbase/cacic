@@ -80,6 +80,6 @@
           </tr>
           <tr> 
             <td class="descricao">&nbsp;&nbsp;(Dica: 
-              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
+              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
 </table>

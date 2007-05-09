@@ -23,10 +23,16 @@ include_once "../../include/library.php";
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 //LimpaTESTES();
-$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND usu.id_local = '.$_SESSION['id_local'] .' AND
-				(g_usu.cs_nivel_administracao >= '.$_SESSION['cs_nivel_administracao']. ' OR
-				 g_usu.cs_nivel_administracao = 0)':'');
-	
+$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND (g_usu.cs_nivel_administracao >= '.$_SESSION['cs_nivel_administracao']. ' OR
+				 g_usu.cs_nivel_administracao = 0) AND usu.id_local = '.$_SESSION['id_local']:'');
+
+if ($_SESSION['te_locais_secundarios'] && $where)
+	{
+	// Faço uma inserção de "(" para ajuste da lógica para consulta
+	$where = str_replace(' AND usu.id_local = ',' AND (usu.id_local = ',$where);
+	$where .= ' OR usu.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+	}
+
 $query = 'SELECT 	usu.id_usuario, 
 					usu.nm_usuario_acesso,  
 					usu.nm_usuario_completo,  

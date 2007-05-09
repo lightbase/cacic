@@ -147,6 +147,15 @@ if ($_POST['consultar'] || ($_GET['campo']))
 	$where1	.= 	" AND computadores.id_so = so.id_so ";
 	$where2	= 	($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?" AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local = loc.id_local ":'');
 	$where3	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND loc.id_local='.$_SESSION['id_local'].' ':'');
+
+	if ($_SESSION['te_locais_secundarios'] && $where3)
+		{
+		// Faço uma inserção de "(" para ajuste da lógica para consulta
+		$where3 = str_replace('loc.id_local=','(loc.id_local=',$where3);
+		$where3 .= ' OR loc.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+		}
+			
+					
 							
 	$query = $select1 . $from1 . $from2 . $where1 . $where2 . $where3 . $orderby;
 

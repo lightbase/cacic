@@ -21,7 +21,14 @@ Conecta_bd_cacic();
 
 if ($_POST['exclui_uon2']) 
 	{
-	$where = ($_SESSION['cs_nivel_administracao']<>1?' AND id_local='.$_SESSION['id_local']:'');
+	$where = ($_SESSION['cs_nivel_administracao']<>1?' AND id_local = '.$_SESSION['id_local']:'');
+	if ($_SESSION['te_locais_secundarios'] && $where)
+		{
+		// Faço uma inserção de "(" para ajuste da lógica para consulta	
+		$where = str_replace(' id_local = ',' (id_local = ',$where);
+		$where .= ' OR id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+		}
+	
 	$query = "	DELETE 
 				FROM 	unid_organizacional_nivel2 
 				WHERE 	id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2']." and
@@ -158,12 +165,20 @@ function valida_form()
             <td class="label">Local:</td>
             <td><select name="frm_id_local" id="frm_id_local"" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 <? 
-			$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' WHERE id_local='.$_SESSION['id_local']:'');				
+			$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' WHERE id_local = '.$_SESSION['id_local']:'');				
+			if ($_SESSION['te_locais_secundarios'] && $where)
+				{
+				// Faço uma inserção de "(" para ajuste da lógica para consulta	
+				$where = str_replace(' id_local = ',' (id_local = ',$where);
+				$where .= ' OR id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+				}
+			
 			$qry_locais = "SELECT 	id_local,
 											sg_local 
 								 FROM 		locais ".
 								 			$where ."
 								 ORDER BY	sg_local";
+
 		    $result_locais = mysql_query($qry_locais) or die ('Select falhou');
 			while ($row_qry=mysql_fetch_array($result_locais))
 		  		{

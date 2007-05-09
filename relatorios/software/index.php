@@ -99,7 +99,7 @@ require_once('../../include/inicio_relatorios_inc.php');
           </tr>
           <tr> 
             <td class="descricao">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
+              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
         </table></td>
     <tr> 
@@ -167,7 +167,7 @@ require_once('../../include/inicio_relatorios_inc.php');
           </tr>
           <tr> 
             <td class="descricao">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
+              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
         </table></td>
     </tr>
@@ -218,7 +218,7 @@ require_once('../../include/inicio_relatorios_inc.php');
           </tr>
           <tr> 
             <td class="descricao">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
+              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
         </table></td>
     </tr>

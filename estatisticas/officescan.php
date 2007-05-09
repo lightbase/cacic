@@ -63,6 +63,13 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 	{
 	$where = ' AND locais.id_local = '.$_SESSION['id_local'];
 	}
+
+if ($_SESSION['te_locais_secundarios'] && $where)
+	{
+	// Faço uma inserção de "(" para ajuste da lógica para consulta	
+	$where = str_replace(' locais.id_local = ',' (locais.id_local = ',$where);
+	$where .= ' OR locais.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+	}
  
 	// Exibir informações do Engine
 	$query_engine = "SELECT 	o.nu_versao_engine, 

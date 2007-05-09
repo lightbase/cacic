@@ -54,6 +54,14 @@ if ($id_unid_organizacional_nivel1)
 	}
 
 $where .= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND uo2.id_local = '.$_SESSION['id_local']:'');
+
+if ($_SESSION['te_locais_secundarios'] && $where)
+	{
+	// Faço uma inserção de "(" para ajuste da lógica para consulta	
+	$where = str_replace('uo2.id_local = ','(uo2.id_local = ',$where);
+	$where .= ' OR uo2.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+	}
+
 $query = 'SELECT 	uo1.id_unid_organizacional_nivel1 as uo1_id_unid_organizacional_nivel1,
 					uo1.nm_unid_organizacional_nivel1 as uo1_nm_unid_organizacional_nivel1,
 					uo2.id_unid_organizacional_nivel2 as uo2_id_unid_organizacional_nivel2,

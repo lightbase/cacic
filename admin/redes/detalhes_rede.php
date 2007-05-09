@@ -281,7 +281,7 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
             <td>&nbsp;</td>
             <td> <select name="frm_id_local" id="frm_id_local"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"  
 			<?
-			echo ($_SESSION['cs_nivel_administracao']>1?'disabled':'');
+			echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'');
 			?>
 			>
                 <?
@@ -289,6 +289,13 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
 									sg_local 
 						   FROM 	locais 
 						   ORDER BY	sg_local";
+
+			if ($_SESSION['te_locais_secundarios'])
+				{
+				// Faço uma inserção de "(" para ajuste da lógica para consulta
+				$qry_locais = str_replace('locais','locais WHERE (locais.id_local = '.$_SESSION["id_local"].' OR locais.id_local in('.$_SESSION['te_locais_secundarios'].')) ',$qry_locais);
+				}
+
 		    $result_locais = mysql_query($qry_locais) or die ('Select falhou');
 		if (mysql_result($result, 0, 'nm_local')=='')
 			echo "<option value='-1' selected>Selecione Local</option>";

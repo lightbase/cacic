@@ -162,7 +162,7 @@ function SetaServidorUpdates()
               </table></td>
           </tr>
           <tr> 
-            <td height="1" class="ajuda">&nbsp;&nbsp;&nbsp;(Dica: use SHIFT or 
+            <td height="1" class="ajuda">&nbsp;&nbsp;&nbsp;(Dica: use SHIFT ou 
               CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
         </table></td>

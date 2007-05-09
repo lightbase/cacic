@@ -70,7 +70,7 @@ if($submit)
 				  te_descritivo,
 				  dt_atualizacao,
 				  in_disponibiliza_info,
-				  in_disponibiliza_info_usuario_comum				  
+				  in_disponibiliza_info_usuario_comum)				  
 				  VALUES ('$frm_nm_aplicativo',
 				  		  '$frm_te_dir_padrao_w9x',
 				  		  '$frm_cs_car_inst_w9x',						  
@@ -92,7 +92,8 @@ if($submit)
 				  		  '$frm_te_descritivo',	  				  												  						  
 						  now(),
 						  '$frm_in_disponibiliza_info',
-						  '$frm_in_disponibiliza_info_usuario_comum')";						  
+						  '$frm_in_disponibiliza_info_usuario_comum')";
+
 		$result = mysql_query($query) or die ('Insert falhou');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');		
 		header ("Location: ../../include/operacao_ok.php?chamador=../admin/perfis_aplicativos_monitorados/index.php&tempo=1");									 				
