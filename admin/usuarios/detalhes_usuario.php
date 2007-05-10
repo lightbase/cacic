@@ -30,6 +30,13 @@ if ($ExcluiUsuario)
 	}
 elseif ($GravaAlteracoes) 
 	{
+	$v_te_locais_secundarios = $_POST['frm_te_locais_secundarios'];
+	// Atenção: Caso o nível seja Administração ou Gestão Central, é necessário "limpar" os locais secundários...
+	if ($_POST['frm_id_grupo_usuarios'] == 2 || $_POST['frm_id_grupo_usuarios'] == 5)
+		{
+		$v_te_locais_secundarios = '';
+		}
+		
 	$query = "UPDATE 	usuarios 
 			  SET 		nm_usuario_acesso = '$frm_nm_usuario_acesso',  
 			  			nm_usuario_completo = '$frm_nm_usuario_completo', 
@@ -37,7 +44,7 @@ elseif ($GravaAlteracoes)
 						id_local = $frm_id_local,
 						te_emails_contato = '$frm_te_emails_contato',
 						te_telefones_contato = '$frm_te_telefones_contato',
-						te_locais_secundarios = '$frm_te_locais_secundarios'						
+						te_locais_secundarios = '$v_te_locais_secundarios'						
 			  WHERE 	id_usuario = ". $_POST['frm_id_usuario'];
 
 	mysql_query($query) or die('Falha na atualização da tabela Usuários...');

@@ -16,36 +16,39 @@
 session_start();
 $v_versao = '2.2.3-dev';
 /* 
-2.2.3-dev (Anderson Peterle - Dataprev/ES - Março a Maio/2007)
-		+ Implementada a opção de seleção de "Locais Secundários" nas janelas de inclusão e detalhes de usuários,
-		  para simulação de pseudo "relação de confiança" entre usuários e locais, possibilitando a estes usuários 
-		  o acesso e manipulação das informações dos locais "confiantes";
-		+ Implementado o detalhamento para as estatísticas exibidas na página principal quando representarem
+2.2.3-dev (Anderson Peterle - Dataprev/ES - Maio/2007)
+		  + Implementado o detalhamento para as estatísticas exibidas na página principal quando representarem
 		  mais de um local (local primário + local(is) secundário(s))
-		+ Adequação das consultas ao conceito de "relação de confiança" implementado.		  
+		  + Os níveis Administração e Gestão Central também acessam a opção de detalhamento.
+
+2.2.3     (Anderson Peterle - Dataprev/ES - Março e Abril/2007)
+		  + Implementada a opção de seleção de "Locais Secundários" nas janelas de inclusão e detalhes de usuários,
+		    para simulação de pseudo "relação de confiança" entre usuários e locais, possibilitando a estes usuários 
+		    o acesso e manipulação das informações dos locais "confiantes";
+		  + Adequação das consultas ao conceito de "relação de confiança" implementado.		  
 
 2.2.2     (Anderson Peterle - Dataprev/ES - Fevereiro/2007)
-		* Corrigida a atribuição indevida do nome de usuário constande de resultado de Log de Atividades ao nome do usuário logado na aplicação;
-		* Corrigidas algumas correlações de "local" em consultas realizadas por usuários com níveis diferentes de "Administração" e "Gestão Central";
-		+ Implementada a opção de seleção de Coletas de Sistemas Monitorados quando do cadastramento da subrede;
-		+ Implementada a opção de seleção/alteração de Coletas de Sistemas Monitorados quando da edição de configurações da subrede.
+		  * Corrigida a atribuição indevida do nome de usuário constande de resultado de Log de Atividades ao nome do usuário logado na aplicação;
+		  * Corrigidas algumas correlações de "local" em consultas realizadas por usuários com níveis diferentes de "Administração" e "Gestão Central";
+		  + Implementada a opção de seleção de Coletas de Sistemas Monitorados quando do cadastramento da subrede;
+		  + Implementada a opção de seleção/alteração de Coletas de Sistemas Monitorados quando da edição de configurações da subrede.
 
 2.2.1     (Anderson Peterle - Dataprev/ES - Janeiro/2007)
-		Efetuadas adaptações para suporte a base centralizada de dados, quando as subredes cadastradas 
-   		passam a fazer parte de uma "localização" ou "local".
-		As adaptações impactaram na definição dos seguintes níveis de acesso:
-		1) Administração => Acesso irrestrito, com visão total de todos os dados de todos os "locais".
-							Tem total permissão para alteração de dados constantes de tabelas centralizadas;
-		2) Gestão Central=>	Acesso irrestrito, com visão total de todos os dados de todos os "locais".
-							Não tem permissão para alteração de dados constantes de tabelas centralizadas;
-		3) Supervisor	 => Acesso restrito aos dados do "local" de cadastro. Seu cadastro é realizado pelo nível "Administração";
-							Tem permissão para visão/alteração de dados locais e cadastramento de usuários
-		 					de níveis "Técnico" ou "Comum";
-		4) Técnico		 => Acesso restrito aos dados do "local" de cadastro. Seu cadastro é realizado pelo nível "Supervisão".
-							Tem permissão para acesso a configuracoes de rede e relatórios de Patrimônio e Hardware;
-		5) Comum		 => Acesso restrito aos dados do "local" de cadastro. Seu cadastro é realizado pelo nível "Supervisão".
-							Não tem acesso a informações "confidenciais" como Softwares Inventariados e Opções Administrativas 
-							como Forçar Coletas e Excluir Computador. Poderá alterar sua própria senha.		
+		  Efetuadas adaptações para suporte a base centralizada de dados, quando as subredes cadastradas 
+   		  passam a fazer parte de uma "localização" ou "local".
+		  As adaptações impactaram na definição dos seguintes níveis de acesso:
+		  1) Administração => Acesso irrestrito, com visão total de todos os dados de todos os "locais".
+		  					  Tem total permissão para alteração de dados constantes de tabelas centralizadas;
+		  2) Gestão Central=> Acesso irrestrito, com visão total de todos os dados de todos os "locais".
+							  Não tem permissão para alteração de dados constantes de tabelas centralizadas;
+		  3) Supervisor	 =>   Acesso restrito aos dados do "local" de cadastro. Seu cadastro é realizado pelo nível "Administração";
+							  Tem permissão para visão/alteração de dados locais e cadastramento de usuários
+		 					  de níveis "Técnico" ou "Comum";
+		  4) Técnico	 =>   Acesso restrito aos dados do "local" de cadastro. Seu cadastro é realizado pelo nível "Supervisão".
+							  Tem permissão para acesso a configuracoes de rede e relatórios de Patrimônio e Hardware;
+		  5) Comum		 =>   Acesso restrito aos dados do "local" de cadastro. Seu cadastro é realizado pelo nível "Supervisão".
+							  Não tem acesso a informações "confidenciais" como Softwares Inventariados e Opções Administrativas 
+							  como Forçar Coletas e Excluir Computador. Poderá alterar sua própria senha.		
 */
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
