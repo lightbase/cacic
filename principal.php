@@ -94,6 +94,8 @@ else
 	<tr> 
 	<td>
 	<? 
+	$title = '&Uacute;ltimos acessos dos agentes';
+		
 	if ($_SESSION["cs_nivel_administracao"] <> 0)
 		{
 		echo '<a href="relatorios/software/rel_software.php?orderby=6&principal=1">';
@@ -104,6 +106,10 @@ else
 		echo '</a>';
 		}		
 	?>	
+	<tr> 
+	<td class="descricao"><div align="center"><? echo $title;?></div></td>
+	</tr>  
+	
 	</td>
 	</tr>
 	<?
