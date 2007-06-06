@@ -14,8 +14,12 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-$v_versao = '2.2.3-dev';
+$v_versao = '2.2.3-dev-2';
 /* 
+2.2.3-dev-1 (Anderson Peterle - Dataprev/ES - Junho/2007)
+		    * Corrigido o processo de liberação de FTP, onde a tabela redes_grupos_ftp é liberada após a operação
+			  de transferência de arquivos por parte do módulo cliente Gerente de Coletas.
+
 2.2.3-dev (Anderson Peterle - Dataprev/ES - Maio/2007)
 		  + Implementado o detalhamento para as estatísticas exibidas na página principal quando representarem
 		  mais de um local (local primário + local(is) secundário(s))

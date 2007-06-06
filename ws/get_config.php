@@ -20,9 +20,6 @@
  Também há um sistema de exceções, onde um computador que consta nessa relação de exceções 
  não recebe as configurações.
 */
-// ************* Debugging **************
-$cIPsToDebug = '10.71.0.58'; // IP numbers, * for All
-// **************************************
 
 require_once('../include/library.php');
 
@@ -54,10 +51,10 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='
 	if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='chkcacic')
 		{
 		// Retorno as versões dos três principais agentes ao CHKCACIC para que sejam 
-		$query_modulos = "	SELECT 	*
+		$query_modulos = '	SELECT 	*
 							FROM	redes_versoes_modulos
-							WHERE 	id_ip_rede = '".$v_dados_rede['id_local']."' AND
-									id_local = ".$v_dados_rede['id_local'];
+							WHERE 	id_ip_rede = "'.$v_dados_rede['id_local'].'" AND
+									id_local = '.$v_dados_rede['id_local'];
 		$result_modulos	= mysql_query($query_modulos);
 
 		while ($row_modulos = mysql_fetch_array($result_modulos))
@@ -72,27 +69,30 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='
 		}
 
 	$v_te_fila_ftp = '0';
+	$v_id_ftp      = ($_POST['id_ftp']?trim(DeCrypt($key,$iv,$_POST['id_ftp'],$v_cs_cipher,$v_cs_compress)):'');
+	
 	// Operações para agrupamento de FTP por subredes	
-	if (trim(DeCrypt($key,$iv,$_POST['te_fila_ftp'],$v_cs_cipher,$v_cs_compress))=='1')
+	if (trim(DeCrypt($key,$iv,$_POST['te_fila_ftp'],$v_cs_cipher,$v_cs_compress))=='1' &&
+	    !$v_id_ftp)
 		{
 		// TimeOut definido para 5 minutos, ou seja, tempo máximo para as estações efetuarem FTP dos módulos necessários
 		// 1 minuto = 60000 milisegundos
 		// 5 * 60000 milisegundos = 5 minutos (TimeOut)
 		$v_timeout = time() - (5 * 60000);
-				
+
 		// Exclusão por timeout
-		$query_del = "DELETE 
+		$query_del = 'DELETE 
 					  FROM  	redes_grupos_ftp
-					  WHERE 	id_local = ".$v_dados_rede['id_local']." AND
-					  			id_ip_rede = '".$v_dados_rede['id_ip_rede']."'
-					       	 	and nu_hora_inicio < ".$v_timeout." or id_ip_estacao = '".trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress))."'";
+					  WHERE 	id_local = '.$v_dados_rede['id_local'].' AND
+					  			id_ip_rede = "'.$v_dados_rede['id_ip_rede'].'" AND
+								id_ip_estacao = "'.trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress)).'"';
 		$result_del = mysql_query($query_del);	
 		
 		// Contagem por subrede
-		$query_grupo = "SELECT 		count(*) as total_estacoes
+		$query_grupo = 'SELECT 		count(*) as total_estacoes
 					   	FROM 		redes_grupos_ftp
-					   	WHERE 		id_ip_rede = '".$v_dados_rede['id_ip_rede']."' AND
-									id_local = ".$v_dados_rede['id_local']." FOR UPDATE";
+					   	WHERE 		id_ip_rede = "'.$v_dados_rede['id_ip_rede'].'" AND
+									id_local = '.$v_dados_rede['id_local'].' FOR UPDATE';
 		$result_grupo = mysql_query($query_grupo);
 		$total = mysql_fetch_array($result_grupo);
 		
@@ -104,23 +104,26 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='
 			}
 		else
 			{
-			$queryINS  = "INSERT 
+			$queryINS  = 'INSERT 
 						  INTO 		redes_grupos_ftp(id_ip_rede,id_ip_estacao,nu_hora_inicio, id_local) 
-						  VALUES    ('".$v_dados_rede['id_ip_rede']."','".trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress))."',".time().",".$v_dados_rede['id_local'].")";
+						  VALUES    ("'.$v_dados_rede['id_ip_rede'].'","'.
+						               trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress)).'",'.
+									   time().','.
+									   $v_dados_rede['id_local'].')';
 			$resultINS = mysql_query($queryINS);			
 			}
 		$retorno_xml_values .= '<TE_FILA_FTP>' . $v_te_fila_ftp . '</TE_FILA_FTP>';											
+		$retorno_xml_values .= '<ID_FTP>' . mysql_insert_id() . '</ID_FTP>';													
 		}		
-	elseif (trim(DeCrypt($key,$iv,$v_te_fila_ftp,$v_cs_cipher,$v_cs_compress))=='2') // Operação concluída com sucesso!
+	elseif (trim(DeCrypt($key,$iv,$_POST['te_fila_ftp'],$v_cs_cipher,$v_cs_compress))=='2') // Operação concluída com sucesso!
 		{
-		$query_del = "DELETE 
+		$query_del = 'DELETE 
 					  FROM  redes_grupos_ftp
-					  WHERE id_local = ".$v_dados_rede['id_local']." AND
-					  		id_ip_rede = '".$v_dados_rede['id_ip_rede']."' AND 
-							id_ip_estacao = '".trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress))."'";
-		$result_del = mysql_query($query_del);			
+					  WHERE id_local = '.$v_dados_rede['id_local'].' AND
+					  	    id_ip_rede = "'.$v_dados_rede['id_ip_rede'].'" AND
+					        id_ip_estacao = "'.trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress)).'"';
+		$result_del = mysql_query($query_del);
 		// Refaço o retorno_xml para redução do pacote a retornar...
-
 		}
 	}
 else
@@ -162,15 +165,15 @@ else
 	/* Atualizo a informação de versão(para uso futuro) do Sistema Operacional da estação. */		
 	conecta_bd_cacic();
 
-	$query = "UPDATE 	computadores SET 
+	$query = 'UPDATE 	computadores SET 
 						dt_hr_ult_acesso = NOW(),
-						te_so = '".$te_so."',
-			  	  		te_versao_cacic  = '" . $te_versao_cacic . "',
-				  		te_versao_gercols= '" . $te_versao_gercols . "' 
-			  WHERE 	te_node_address = '$te_node_address' AND 
-			  			id_so = '$id_so'";
+						te_so = "'.$te_so.'",
+			  	  		te_versao_cacic  = "' . $te_versao_cacic . '",
+				  		te_versao_gercols= "' . $te_versao_gercols . '" 
+			  WHERE 	te_node_address = "'.$te_node_address.'" AND 
+			  			id_so = "'.$id_so.'"';
 	$result = mysql_query($query);
-
+GravaTESTES($query);
 //  Alternativa de solução enviada ao sr. Elton Levi Schroder Fenner [elton.fenner@al.rs.gov.br], por ocasião da mensagem de erro
 //  "Cannot redeclare eh_excecao() (previously declared in /var/www/cacic2/ws/get_config.php:228) in <b>/var/www/cacic2/ws/get_config.php</b> on line <b>228"
 //
@@ -180,10 +183,10 @@ else
 		/* Essa funcao retorna 1 caso $te_node_address seja uma excecao para a ação id_acao e 0 caso não seja. */
 		function eh_excecao($id_acao, $te_node_address) 
 			{
-			$query_exc = "	SELECT 	count(*) as num_registros
+			$query_exc = '	SELECT 	count(*) as num_registros
 							FROM 	acoes_excecoes
-							WHERE 	id_acao = '$id_acao' AND 
-									te_node_address = '$te_node_address'";
+							WHERE 	id_acao = "'.$id_acao.'" AND 
+									te_node_address = "'.$te_node_address.'"';
 			$result_exc = mysql_query($query_exc);
 			$campos_exc = mysql_fetch_array($result_exc);
 			return ($campos_exc['num_registros'] == 0?0:1);
@@ -191,14 +194,14 @@ else
 //		}
 
 	/* Seleciona todos os perfis de aplicativos cadastrados para tratamento posterior */
-	$query_monitorado = "	SELECT 		*
+	$query_monitorado = '	SELECT 		*
 							FROM 		perfis_aplicativos_monitorados a,
 										aplicativos_redes b
 							WHERE       a.id_aplicativo = b.id_aplicativo AND
-										a.nm_aplicativo NOT LIKE '%#DESATIVADO#%' AND
-										b.id_ip_rede = '".$v_dados_rede['id_ip_rede']."' AND
-										b.id_local = ".$v_dados_rede['id_local']." 										
-							ORDER BY	a.id_aplicativo";
+										a.nm_aplicativo NOT LIKE "%#DESATIVADO#%" AND
+										b.id_ip_rede = "'.$v_dados_rede['id_ip_rede'].'" AND
+										b.id_local = '.$v_dados_rede['id_local'].' 										
+							ORDER BY	a.id_aplicativo';
 	conecta_bd_cacic();
 	$result_monitorado 	= mysql_query($query_monitorado);
 	$v_tripa_perfis1 = explode('#',$te_tripa_perfis);
@@ -207,10 +210,10 @@ else
 	/* Seleciona os dados de coleta_forcada específicos para este computador, que foram setados
 		via detalhes/Opções Administrativas */
 	
-	$query_coleta_forcada = "	SELECT 		dt_hr_coleta_forcada_estacao,te_nomes_curtos_modulos
+	$query_coleta_forcada = '	SELECT 		dt_hr_coleta_forcada_estacao,te_nomes_curtos_modulos
 								FROM 		computadores
-								WHERE 		te_node_address = '$te_node_address' AND 
-											id_so = '$id_so'";
+								WHERE 		te_node_address = "'.$te_node_address.'" AND 
+											id_so = "'.$id_so.'"';
 	conecta_bd_cacic();
 	$result_coleta_forcada 	= mysql_query($query_coleta_forcada);
 	$te_tripa_coleta = mysql_fetch_array($result_coleta_forcada);
@@ -222,20 +225,20 @@ else
 	   Também é realizado um filtro baseado no sistema operacional do agente.
 	   Além disso, o node address do agente não pode constar da relação de exceções. */
 	   
-	$query = "	SELECT 		distinct acoes.id_acao, 
+	$query = '	SELECT 		distinct acoes.id_acao, 
 							acoes_redes.dt_hr_coleta_forcada,
 							acoes.te_nome_curto_modulo
 				FROM 		acoes, 
 							acoes_so,
 							acoes_redes
-				WHERE 		(acoes_redes.cs_situacao = 'T' OR 
-				 			 acoes_redes.cs_situacao = 'S') AND 
-							 acoes_redes.id_ip_rede = '$id_ip_rede' AND
-							 acoes_redes.id_local = ".$v_dados_rede['id_local']." AND 
+				WHERE 		(acoes_redes.cs_situacao = "T" OR 
+				 			 acoes_redes.cs_situacao = "S") AND 
+							 acoes_redes.id_ip_rede = "'.$id_ip_rede.'" AND
+							 acoes_redes.id_local = '.$v_dados_rede['id_local'].' AND 
 							 acoes.id_acao = acoes_redes.id_acao AND
 							 acoes_so.id_acao = acoes.id_acao AND 
-							 acoes_so.id_so = '$id_so' AND
-							 acoes_so.id_local = ".$v_dados_rede['id_local'];
+							 acoes_so.id_so = "'.$id_so.'" AND
+							 acoes_so.id_local = '.$v_dados_rede['id_local'];
 	conecta_bd_cacic();
 	$result = mysql_query($query);
 
@@ -363,10 +366,10 @@ else
 					}
 				}
 
-				$query_modulos = "	SELECT 	*
+				$query_modulos = '	SELECT 	*
 									FROM	redes_versoes_modulos
-									WHERE 	id_ip_rede = '".$id_ip_rede."' AND
-											id_local = ".$v_dados_rede['id_local'];
+									WHERE 	id_ip_rede = "'.$id_ip_rede.'" AND
+											id_local = '.$v_dados_rede['id_local'];
 			
 				$result_modulos	= mysql_query($query_modulos);
 			
@@ -381,7 +384,7 @@ else
 					}
 			
 				// Configurações relacionadas ao comportamento do agente.
-				$query = "SELECT 	in_exibe_bandeja,
+				$query = 'SELECT 	in_exibe_bandeja,
 									in_exibe_erros_criticos,
 									nu_exec_apos,
 									nu_intervalo_exec,
@@ -390,7 +393,7 @@ else
 									te_enderecos_mac_invalidos,
 									te_janelas_excecao
 						FROM 		configuracoes_locais
-						WHERE		id_local = ".$v_dados_rede['id_local'];
+						WHERE		id_local = '.$v_dados_rede['id_local'];
 			
 				conecta_bd_cacic();										
 				$result_configs = mysql_query($query);

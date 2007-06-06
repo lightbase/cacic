@@ -39,6 +39,7 @@ if (!session_is_registered('cs_nivel_administracao'))
 	<img src="graficos/pie_acessos_locais.php" border="no">
 	</td>
 	</tr>
+	<tr><td></td></tr>
 	<tr>
 	<td class="descricao"><div align="center">Computadores monitorados por 
         local nesta data</div></td>
@@ -69,6 +70,7 @@ else
 	?>
 	</td>	
 	</tr>
+	<tr><td></td></tr>	
 	<tr> 
 	<td class="descricao"><div align="center"><? echo $title;?></div></td>
 	</tr>  
@@ -105,7 +107,8 @@ else
 		{
 		echo '</a>';
 		}		
-	?>	
+	?>
+	<tr><td></td></tr>		
 	<tr> 
 	<td class="descricao"><div align="center"><? echo $title;?></div></td>
 	</tr>  
@@ -121,6 +124,7 @@ else
 	else
 		{
 		?>
+		<tr><td></td></tr>		
 		<tr> 
 		<td class="descricao"><div align="center">&Uacute;ltimos acessos dos agentes deste local</div></td>
 		</tr>
@@ -143,6 +147,7 @@ else
 		<img src="graficos/pie_locais.php" border="no">
 		</td>
 		</tr>
+		<tr><td></td></tr>		
 		<tr>
 		<td class="descricao"><div align="center">Totais de computadores monitorados por local</div></td>
 		</tr>  
@@ -173,6 +178,7 @@ else
 		?>	
 		</td>
 		</tr>
+		<tr><td></td></tr>		
 		<tr> 
 		<td class="descricao"><div align="center"><? echo $title;?></div></td>
 		</tr>
@@ -188,6 +194,7 @@ else
 	?>	
 	</td>
 	</tr>
+	<tr><td></td></tr>	
 	<tr> 
 	<td class="descricao"><div align="center"><? echo $title;?></div></td>
 	</tr>

@@ -112,6 +112,10 @@ $query = 'SELECT 	distinct computadores.te_node_address,
 					computadores.id_so IN ('. $so_selecionados .')'. 
 		  			$query_redes .' 
 		  ORDER BY ' . $orderby; 
+
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//	echo $query . '<br>';
+	
 $result = mysql_query($query) or die('Erro no select');
 
 $cor = 0;

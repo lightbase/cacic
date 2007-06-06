@@ -13,6 +13,7 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+session_start();
 require_once 'config.php';
 // --------------------------------------------------------------------------------------
 // Função para bloqueio de acesso indevido
@@ -131,11 +132,11 @@ function conecta_ftp($p_te_serv, $p_user_name, $p_user_pass, $p_port)
 	{
 	//Conecta ao servidor FTP
 	$con = @ftp_connect("$p_te_serv","$p_port");
-	GravaTESTES('Passei pelo ftp_connect... con='.$con);
+	//GravaTESTES('Passei pelo ftp_connect... con='.$con);
 
 	//Faz o login no servidor FTP
 	$result = @ftp_login($con, $p_user_name, $p_user_pass);
-	GravaTESTES('Passei pelo ftp_login...result='.$result);
+	//GravaTESTES('Passei pelo ftp_login...result='.$result);
 	return ($result?$con:'0');
 	}
 
@@ -304,7 +305,7 @@ function GetDadosRede()
 		}
 	// Obs.: as colunas sg_local e nm_local são requeridas por menu_esq.php		
 	//       the columns sg_local and nm_local have been requested by menu_esq.php			
-	$query_ver = "	SELECT 	te_serv_cacic,
+	$query_ver = '	SELECT 	te_serv_cacic,
 							te_serv_updates,
 							nu_limite_ftp,
 							nu_porta_serv_updates, 
@@ -317,15 +318,15 @@ function GetDadosRede()
 							nm_local							
 					FROM	redes,
 							locais
-					WHERE 	redes.id_ip_rede = '$v_id_ip_rede' AND
-							redes.id_local = locais.id_local";
+					WHERE 	redes.id_ip_rede = "'.$v_id_ip_rede.'" AND
+							redes.id_local = locais.id_local';
 	$result_ver = mysql_query($query_ver);
 
 	if (!$v_dados = @mysql_fetch_array($result_ver))
 		{		
 
 		// Neste caso, apela-se para uma rede que tenha configurações válidas...
-		$query_ver = "	SELECT 	redes.id_ip_rede,	
+		$query_ver = '	SELECT 	redes.id_ip_rede,	
 								redes.te_serv_updates,
 								redes.nu_limite_ftp,
 								redes.nu_porta_serv_updates, 
@@ -337,10 +338,10 @@ function GetDadosRede()
 						FROM	redes,
 								configuracoes_locais conf
 						WHERE 	conf.te_serv_updates_padrao = redes.te_serv_updates and
-								trim(redes.nu_porta_serv_updates) <> '' and
-								trim(redes.nm_usuario_login_serv_updates) <> '' and
-								trim(redes.te_senha_login_serv_updates) <> ''
-						LIMIT 1";
+								trim(redes.nu_porta_serv_updates) <> "" and
+								trim(redes.nm_usuario_login_serv_updates) <> "" and
+								trim(redes.te_senha_login_serv_updates) <> ""
+						LIMIT 1';
 		$result_ver = mysql_query($query_ver);
 		$v_dados	= mysql_fetch_array($result_ver);
 		}	
@@ -356,8 +357,8 @@ function atualiza_configuracoes_uonx($p_uonx)
 	{
     conecta_bd_cacic();
 	$v_nome_coluna = 'dt_hr_alteracao_patrim_uon'.$p_uonx;
-	$query = "	UPDATE  configuracoes_locais 
-				SET		".$v_nome_coluna." = now()";
+	$query = '	UPDATE  configuracoes_locais 
+				SET		'.$v_nome_coluna.' = now()';
 
     if (mysql_query($query)) 
 		{ 
@@ -453,10 +454,10 @@ function autentica_agente($p_CipherKey, $p_IV, $p_cs_cipher, $p_cs_compress)
 function computador_existe($te_node_address, $id_so) 
 	{
     conecta_bd_cacic();
-	$query = "SELECT te_node_address, te_nome_computador, te_ip, id_ip_rede, te_workgroup
+	$query = 'SELECT te_node_address, te_nome_computador, te_ip, id_ip_rede, te_workgroup
 	          FROM computadores
-			  WHERE te_node_address = '$te_node_address'
-			  AND id_so = '$id_so'";
+			  WHERE te_node_address = "'.$te_node_address.'"
+			  AND id_so = "'.$id_so.'"';
 	$result = mysql_query($query);
 	$row = mysql_fetch_array($result);
 
@@ -492,21 +493,21 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
     if ($checa_existe == '0') 
 		{ 
 		conecta_bd_cacic();
-		$query = "INSERT INTO computadores (te_node_address, id_so, id_ip_rede, te_ip, te_nome_computador, te_workgroup, dt_hr_inclusao, dt_hr_ult_acesso)
-				  VALUES ('$te_node_address', '$id_so', '$id_ip_rede','$te_ip','$te_nome_computador','$te_workgroup', NOW(), NOW())";
+		$query = 'INSERT INTO computadores (te_node_address, id_so, id_ip_rede, te_ip, te_nome_computador, te_workgroup, dt_hr_inclusao, dt_hr_ult_acesso)
+				  VALUES ("'.$te_node_address.'", "'.$id_so.'", "'.$id_ip_rede.'","'.$te_ip.'","'.$te_nome_computador.'","'.$te_workgroup.'", NOW(), NOW())';
 		$result = mysql_query($query);
 		return '1'; // Esse código indica se o computador foi incluído.
 		}
 	elseif ($checa_existe == '2')
 		{
 		conecta_bd_cacic();
-		$query = "UPDATE computadores 
-          		  SET id_ip_rede = '$id_ip_rede',
-				      te_ip = '$te_ip',
-					  te_nome_computador='$te_nome_computador',
-					  te_workgroup='$te_workgroup'					  
-			      WHERE te_node_address = '$te_node_address'
-						AND id_so = '$id_so'";
+		$query = 'UPDATE computadores 
+          		  SET id_ip_rede = "'.$id_ip_rede.'",
+				      te_ip = "'.$te_ip.'",
+					  te_nome_computador="'.$te_nome_computador.'",
+					  te_workgroup="'.$te_workgroup.'"					  
+			      WHERE te_node_address = "'.$te_node_address.'"
+						AND id_so = "'.$id_so.'"';
 		$result = mysql_query($query);
 		return '2'; // Esse código indica se o computador foi atualizado.  Anderson.						
 		} 
@@ -520,10 +521,10 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 function get_valor_campo($tabela, $campo, $where="1") 
 	{
 	conecta_bd_cacic();
-	$query = "SELECT 	$campo
-	          FROM 		$tabela
-			  WHERE 	$where
-			  LIMIT 	1";
+	$query = 'SELECT 	'.$campo.' 
+	          FROM 		'.$tabela.' 
+			  WHERE 	'.$where.' 
+			  LIMIT 	1';
 	$result = mysql_query($query);
 	if (mysql_num_rows($result) > 0) 
 		{
@@ -606,17 +607,17 @@ function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo,
 	{
 	$MainFolder		= GetMainFolder();
 	conecta_bd_cacic();
-	$query_UPD = "	UPDATE 	redes 
+	$query_UPD = '	UPDATE 	redes 
 					set dt_verifica_updates = NOW() 
-					WHERE 	id_ip_rede = '".$pp_id_ip_rede."' AND
-					        id_local = ".$p_id_local;		
+					WHERE 	id_ip_rede = "'.$pp_id_ip_rede.'" AND
+					        id_local = '.$p_id_local;		
 	$result = mysql_query($query_UPD);
 	
-	$query_DEL	= "DELETE 	
+	$query_DEL	= 'DELETE 	
 				   FROM 	redes_versoes_modulos
-				   WHERE 	TRIM(id_ip_rede) = '".trim($pp_id_ip_rede)."' AND
-				   			TRIM(nm_modulo)='".trim($p_nm_modulo)."' AND
-							id_local = ".$p_id_local;
+				   WHERE 	TRIM(id_ip_rede) = "'.trim($pp_id_ip_rede).'" AND
+				   			TRIM(nm_modulo)="'.trim($p_nm_modulo).'" AND
+							id_local = '.$p_id_local;
 	$result_DEL = mysql_query($query_DEL);
 
 	$v_te_versao_modulo = $p_te_versao_modulo;
@@ -625,15 +626,15 @@ function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo,
 		$v_te_versao_modulo = str_replace('.','',$v_te_versao_modulo);
 		}
 
-	$query_INS	= "INSERT  
+	$query_INS	= 'INSERT  
 				   INTO 		redes_versoes_modulos (id_ip_rede,
 													   nm_modulo,
 													   te_versao_modulo,
 													   id_local)
-						   values					   ('".$pp_id_ip_rede."',
-														'".$p_nm_modulo."',
-														'".$v_te_versao_modulo."',".
-														$p_id_local.")";
+						   values					   ("'.$pp_id_ip_rede.'",
+														"'.$p_nm_modulo.'",
+														"'.$v_te_versao_modulo.'","'.
+														$p_id_local.'")';
 
 	$result_INS = mysql_query($query_INS);
 	}
@@ -782,10 +783,10 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 			}
 		}
 
-	$query_SEL_REDES= "	SELECT 	*
+	$query_SEL_REDES= '	SELECT 	*
 						FROM	redes_versoes_modulos
-						WHERE 	id_ip_rede = '" . $p_id_ip_rede . "' AND
-						        id_local = ".$p_id_local;
+						WHERE 	id_ip_rede = "' . $p_id_ip_rede . '" AND
+						        id_local = '.$p_id_local;
 	conecta_bd_cacic();
 	
 	$v_nomes_arquivos_FTP = array();
@@ -810,7 +811,7 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 
 	if ($v_achei < count($v_nomes_arquivos_REP))
 		{	
-		$query_SEL_REDES= "	SELECT 		re.id_ip_rede,
+		$query_SEL_REDES= '	SELECT 		re.id_ip_rede,
 										re.nm_rede,
 										re.te_serv_updates,
 										re.nu_porta_serv_updates, 
@@ -819,8 +820,8 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 										re.te_senha_login_serv_updates_gerente,
 										re.id_local								
 							FROM		redes re 
-							WHERE 		re.id_ip_rede = '" . $p_id_ip_rede . "' AND
-										re.id_local = ".$p_id_local;
+							WHERE 		re.id_ip_rede = "' . $p_id_ip_rede . '" AND
+										re.id_local = '.$p_id_local;
 		conecta_bd_cacic();
 		$Result_SEL_REDES = mysql_query($query_SEL_REDES);
 	
@@ -991,10 +992,10 @@ function diferenca_em_horas($p_dt_hr_ult_acesso)
 // --------------------------------------------------------------------------------------
 function Marca_Atualizado($p_id_ip_rede,$p_id_local)
 	{
-	$query_UPD = "	UPDATE 	redes 
+	$query_UPD = '	UPDATE 	redes 
 							set dt_verifica_updates = NOW() 
-					WHERE 	id_ip_rede = '".$p_id_ip_rede."' AND
-							id_local = ".$p_id_local;		
+					WHERE 	id_ip_rede = "'.$p_id_ip_rede.'" AND
+							id_local = '.$p_id_local;		
 	conecta_bd_cacic();									
 	$result_UPD = mysql_query($query_UPD);
 	}
@@ -1096,13 +1097,13 @@ function seta_perfis_rede($p_id_local, $p_id_ip_rede, $p_perfis)
 		
 		for ($cnt_perfis = 0; $cnt_perfis <= count($v_perfis); $cnt_perfis++)			
 			{
-			$query_INS	= "INSERT  
+			$query_INS	= 'INSERT  
 						   INTO 		aplicativos_redes (id_local,
 						   								   id_ip_rede,
 														   id_aplicativo)
-						   values		(".$p_id_local.",
-										 '".$p_id_ip_rede."',
-										 ".$v_perfis[$cnt_perfis].")";
+						   values		('.$p_id_local.',
+										 "'.$p_id_ip_rede.'",
+										 '.$v_perfis[$cnt_perfis].')';
 			$result_INS = mysql_query($query_INS);
 			
 			}

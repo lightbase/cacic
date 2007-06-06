@@ -61,10 +61,25 @@ elseif ($GravaAlteracoes)
 else 
 	{
 	$query = "SELECT 	* 
-			  FROM 		locais 
-			  WHERE 	id_local = '".$_REQUEST['id_local']."'";
+			  FROM 		locais ";
 	$result = mysql_query($query) or die ('select falhou');
-	$row = mysql_fetch_array($result);
+	
+	$v_arr_locais = array();
+	while ($row = mysql_fetch_array($result))
+		{
+		if ($row['id_local']==$_REQUEST['id_local'])
+			{
+			$v_sg_local = $row['sg_local'];
+			$v_nm_local = $row['nm_local'];
+			$v_te_observacao = $row['te_observacao'];
+			}
+		else
+			{
+			array_push($v_arr_locais,$row['id_local'],$row['sg_local']);
+			}
+		}
+	
+	
 ?>
 
 
@@ -101,7 +116,7 @@ function valida_form()
 <table width="90%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Detalhes 
-      do Local "<? echo $row['sg_local'];?>"</td>
+      do Local "<? echo $v_sg_local;?>"</td>
   </tr>
   <tr> 
     <td class="descricao">As informa&ccedil;&otilde;es 
@@ -120,8 +135,8 @@ function valida_form()
       <td height="1" bgcolor="#333333" colspan="3"></td>    </tr>
     <tr> 
       <td>&nbsp;</td>
-      <td class="dado_peq_sem_fundo"> <input name="frm_sg_local" type="text" value="<? echo $row['sg_local']; ?>" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >&nbsp;&nbsp;Ex.: DTP - UAES 
-        <input name="frm_id_local" type="hidden" id="frm_id_local" value="<? echo $row['id_local']; ?>"> 
+      <td class="dado_peq_sem_fundo"> <input name="frm_sg_local" type="text" value="<? echo $v_sg_local; ?>" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >&nbsp;&nbsp;Ex.: DTP - UAES 
+        <input name="frm_id_local" type="hidden" id="frm_id_local" value="<? echo $_REQUEST['id_local']; ?>"> 
       </td>
       <td>&nbsp;</td>
     </tr>
@@ -135,7 +150,7 @@ function valida_form()
       <td height="1" bgcolor="#333333" colspan="3"></td>    </tr>
     <tr> 
       <td nowrap>&nbsp;</td>
-      <td nowrap><input name="frm_nm_local" type="text" id="frm_nm_local" value="<? echo $row['nm_local']; ?>" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+      <td nowrap><input name="frm_nm_local" type="text" id="frm_nm_local" value="<? echo $v_nm_local; ?>" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
@@ -148,7 +163,7 @@ function valida_form()
       <td height="1" bgcolor="#333333" colspan="3"></td>    </tr>
     <tr> 
       <td>&nbsp;</td>
-      <td><textarea name="frm_te_observacao" cols="70" id="textarea"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $row['te_observacao']; ?></textarea></td>
+      <td><textarea name="frm_te_observacao" cols="70" id="textarea"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $v_te_observacao; ?></textarea></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -211,10 +226,10 @@ function valida_form()
 <br>        
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
-      <td colspan="5" class="label">Usu&aacute;rios Associados ao Local:</td>
+      <td colspan="7" class="label">Usu&aacute;rios Associados ao Local:</td>
     </tr>
     <tr> 
-      <td height="1" bgcolor="#333333" colspan="5"></td>
+      <td height="1" bgcolor="#333333" colspan="7"></td>
     </tr>
     <tr> 
       <td class="cabecalho_tabela">&nbsp;</td>
@@ -222,20 +237,27 @@ function valida_form()
       <td align="left" nowrap class="cabecalho_tabela">Nome</td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
       <td align="left" class="cabecalho_tabela">N&iacute;vel de Acesso</td>
+      <td align="left" class="cabecalho_tabela">&nbsp;</td>
+      <td align="left" class="cabecalho_tabela">Tipo de Acesso</td>
     </tr>
     <tr> 
-      <td height="1" bgcolor="#333333" colspan="5"></td>
+      <td height="1" bgcolor="#333333" colspan="7"></td>
     </tr>
-	
     <?
 	$query = "SELECT 	a.id_usuario,
 						a.nm_usuario_completo,
 						a.id_local,
+						a.te_locais_secundarios,
 						b.te_grupo_usuarios
 			  FROM 		usuarios a,
 			  			grupo_usuarios b
-			  WHERE 	a.id_local = ".$_REQUEST['id_local']." AND
-			            b.id_grupo_usuarios = a.id_grupo_usuarios";
+			  WHERE 	(a.id_local = ".$_REQUEST['id_local']." OR 
+			             TRIM(a.te_locais_secundarios)='".$_REQUEST['id_local']."' OR 
+						 a.te_locais_secundarios like '%,".$_REQUEST['id_local']."' OR 
+						 a.te_locais_secundarios like '".$_REQUEST['id_local'].",%' OR
+						 a.te_locais_secundarios like '%,".$_REQUEST['id_local'].",%') AND
+			            b.id_grupo_usuarios = a.id_grupo_usuarios
+			  ORDER BY  a.nm_usuario_completo";
 
 	$result = mysql_query($query) or die ('select falhou');
 	$seq = 1;
@@ -244,11 +266,18 @@ function valida_form()
 		{
 		?>
     <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
-      <td width="3%" align="center" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $seq; ?></a></td>
+      <td width="2%" align="center" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $seq; ?></a></td>
       <td width="1%" align="left" nowrap class="opcao_tabela">&nbsp;&nbsp;</td>
-      <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['nm_usuario_completo']; ?></a></td>
+      <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['nm_usuario_completo']; 
+	  if ($row['te_locais_secundarios'])
+	  	{
+		echo ' ('.$v_arr_locais[array_search($row['id_local'],$v_arr_locais)+1] . ')';
+		}
+	  ?></a></td>
       <td width="1%" align="left" class="opcao_tabela">&nbsp;&nbsp;</td>
-      <td width="92%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['te_grupo_usuarios']; ?></a></td>
+      <td width="30%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['te_grupo_usuarios']; ?></a></td>
+      <td width="1%" align="left" class="opcao_tabela">&nbsp;</td>
+      <td width="62%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo ($row['id_local']==$_REQUEST['id_local']?'Primário':'Secundário'); ?></a></td>
     </tr>
     <?
 		$seq++;
@@ -258,9 +287,8 @@ function valida_form()
 		echo '<tr><td colspan="3" class="label_vermelho">Ainda não existem usuários associados ao local!</td></tr>';		
 		?>
     <tr> 
-      <td height="1" bgcolor="#333333" colspan="5"></td>
+      <td height="1" bgcolor="#333333" colspan="7"></td>
     </tr>
-				
   </table>
   <p align="center"> <br>
     <br>

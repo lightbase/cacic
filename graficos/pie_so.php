@@ -37,13 +37,14 @@ $query = 'SELECT 	count(a.id_so) as qtd,
 		  FROM		computadores a,
 		  			so b,
 					redes c
-		  WHERE 	a.id_so = b.id_so AND 
+		  WHERE 	(a.id_so = b.id_so OR a.te_so = b.te_so) AND 
 		  			a.te_nome_computador IS NOT NULL AND 
 					a.dt_hr_ult_acesso IS NOT NULL AND
 					a.id_ip_rede = c.id_ip_rede '.
 					$where . ' 
 		  GROUP BY 	a.id_so 
 		  ORDER BY 	a.id_so';
+GravaTESTES($query);		  
 $result = mysql_query($query) or die('Falha na consulta (computadores, so, redes, locais)');
 while ($row_result = mysql_fetch_assoc($result))		
 	{ 

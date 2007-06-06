@@ -35,7 +35,8 @@ if ($_SESSION['te_locais_secundarios'] && $where)
 
 $query = 'SELECT 	usu.id_usuario, 
 					usu.nm_usuario_acesso,  
-					usu.nm_usuario_completo,  
+					usu.nm_usuario_completo,
+					usu.te_locais_secundarios,  
 					g_usu.cs_nivel_administracao, 					
 					g_usu.id_grupo_usuarios, 									
 					loc.sg_local,
@@ -88,10 +89,10 @@ $result_grp = mysql_query($query_grp);
       </div></td>
   </tr>
   <tr> 
-    <td height="10">&nbsp;</td>
+    <td height="12">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="12"><? echo $msg;?></td>
   </tr>
 
   <tr> 
@@ -107,9 +108,13 @@ $result_grp = mysql_query($query_grp);
             <td nowrap>&nbsp;</td>
             <td nowrap class="cabecalho_tabela"><div align="left">Nome</div></td>
             <td nowrap>&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Local</div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="center">Local 
+                Prim&aacute;rio </div></td>
             <td nowrap>&nbsp;</td>
-			<?
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="center">Locais 
+                Secund&aacute;rios</div></td>
+            <td nowrap>&nbsp;</td>
+            <?
 			while ($row_grp = mysql_fetch_array($result_grp))
 				{				
 				echo '<td nowrap class="cabecalho_tabela"><div align="center">';
@@ -144,8 +149,10 @@ else
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>"><? echo PrimUltNome($row['nm_usuario_completo']); ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['sg_local']; ?></a></div></td>
-			<?
+            <td nowrap class="opcao_tabela"><div align="center"><a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['sg_local']; ?></a></div></td>
+            <td nowrap>&nbsp;</td>
+            <td nowrap class="opcao_tabela"><div align="center"><a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>"><? echo (strspn($row['te_locais_secundarios'],",")>0?strspn($row['te_locais_secundarios'],",")+1:(trim($row['te_locais_secundarios'])==''?'':'1')); ?></a></div></td>
+            <?
 			mysql_data_seek($result_grp,0);			
 			while ($row_grp = mysql_fetch_array($result_grp))
 				{
@@ -163,7 +170,7 @@ else
 		}
 	}
 ?>
-  </table></td>
+        </table></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
