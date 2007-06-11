@@ -173,7 +173,8 @@ else
 			  WHERE 	te_node_address = "'.$te_node_address.'" AND 
 			  			id_so = "'.$id_so.'"';
 	$result = mysql_query($query);
-GravaTESTES($query);
+
+//GravaTESTES($query);
 //  Alternativa de solução enviada ao sr. Elton Levi Schroder Fenner [elton.fenner@al.rs.gov.br], por ocasião da mensagem de erro
 //  "Cannot redeclare eh_excecao() (previously declared in /var/www/cacic2/ws/get_config.php:228) in <b>/var/www/cacic2/ws/get_config.php</b> on line <b>228"
 //
