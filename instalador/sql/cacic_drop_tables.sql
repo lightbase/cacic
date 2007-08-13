@@ -1,0 +1,51 @@
+-- --------------------------------------------------------
+-- Banco de Dados: CACIC 2.2.2
+-- Para exclusao de tabelas
+-- --------------------------------------------------------
+
+DROP TABLE if exists `acoes`;
+DROP TABLE if exists `acoes_excecoes`;
+DROP TABLE if exists `acoes_redes`;
+DROP TABLE if exists `acoes_so`;
+DROP TABLE if exists `aplicativos_monitorados`;
+DROP TABLE if exists `aplicativos_redes`;
+DROP TABLE if exists `aquisicoes`;
+DROP TABLE if exists `aquisicoes_item`;
+DROP TABLE if exists `compartilhamentos`;
+DROP TABLE if exists `computadores`;
+DROP TABLE if exists `configuracoes_locais`;
+DROP TABLE if exists `configuracoes_padrao`;
+DROP TABLE if exists `contas`;
+DROP TABLE if exists `descricao_hardware`;
+DROP TABLE if exists `descricoes_colunas_computadores`;
+DROP TABLE if exists `grupo_usuarios`;
+DROP TABLE if exists `historico_hardware`;
+DROP TABLE if exists `historico_tcp_ip`;
+DROP TABLE if exists `historicos_hardware`;
+DROP TABLE if exists `historicos_outros_softwares`;
+DROP TABLE if exists `historicos_software`;
+DROP TABLE if exists `historicos_software_completo`;
+DROP TABLE if exists `locais`;
+DROP TABLE if exists `log`;
+DROP TABLE if exists `officescan`;
+DROP TABLE if exists `patrimonio`;
+DROP TABLE if exists `patrimonio_config_interface`;
+DROP TABLE if exists `perfis_aplicativos_monitorados`;
+DROP TABLE if exists `redes`;
+DROP TABLE if exists `redes_grupos_ftp`;
+DROP TABLE if exists `redes_versoes_modulos`;
+DROP TABLE if exists `so`;
+DROP TABLE if exists `softwares`;
+DROP TABLE if exists `softwares_estacao`;
+DROP TABLE if exists `softwares_inventariados`;
+DROP TABLE if exists `softwares_inventariados_estacoes`;
+DROP TABLE if exists `tipos_licenca`;
+DROP TABLE if exists `tipos_software`;
+DROP TABLE if exists `tipos_unidades_disco`;
+DROP TABLE if exists `unid_organizacional_nivel1`;
+DROP TABLE if exists `unid_organizacional_nivel2`;
+DROP TABLE if exists `unidades_disco`;
+DROP TABLE if exists `usuarios`;
+DROP TABLE if exists `variaveis_ambiente`;
+DROP TABLE if exists `variaveis_ambiente_estacoes`;
+DROP TABLE if exists `versoes_softwares`;
