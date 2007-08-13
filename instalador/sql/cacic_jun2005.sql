@@ -255,7 +255,7 @@ CREATE TABLE `tipos_licenca` (
 -- Table: `tipos_software`
 --
 CREATE TABLE `tipos_software` (
-  `id_tipo_software` integer(10) unsigned NOT NULL DEFAULT '0',
+  `id_tipo_software` integer(10) unsigned NOT NULL auto_increment,
   `te_descricao_tipo_software` varchar(30) NOT NULL DEFAULT '',
   INDEX (`id_tipo_software`),
   PRIMARY KEY (`id_tipo_software`)
@@ -310,9 +310,12 @@ ALTER TABLE redes ADD nu_limite_ftp int(5) DEFAULT '5' NOT NULL;
 CREATE INDEX id_ip_rede ON redes (id_ip_rede);
 ALTER TABLE redes_grupos_ftp ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE redes_grupos_ftp ADD id_local int(11) DEFAULT '0' NOT NULL;
+ALTER TABLE redes_grupos_ftp ADD id_ftp int(11) NOT NULL auto_increment;
+ALTER TABLE redes_grupos_ftp ADD PRIMARY KEY ( `id_ftp` ); 
 ALTER TABLE redes_versoes_modulos ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE redes_versoes_modulos ADD id_local int(11) DEFAULT '0' NOT NULL;
 ALTER TABLE so ENGINE=InnoDB CHARACTER SET=latin1;
+ALTER TABLE so ADD te_so varchar(50) DEFAULT NULL;
 ALTER TABLE softwares_inventariados ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE softwares_inventariados ADD id_tipo_software int(11) DEFAULT '0';
 ALTER TABLE softwares_inventariados ADD id_software int(10) DEFAULT NULL;
@@ -329,6 +332,7 @@ ALTER TABLE usuarios ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE usuarios ADD id_local int(11) DEFAULT '0' NOT NULL;
 ALTER TABLE usuarios ADD te_emails_contato varchar(100) DEFAULT NULL;
 ALTER TABLE usuarios ADD te_telefones_contato varchar(100) DEFAULT NULL;
+ALTER TABLE usuarios ADD te_locais_secundarios varchar(200) DEFAULT NULL;
 ALTER TABLE usuarios CHANGE te_senha te_senha varchar(50) NOT NULL DEFAULT '';
 CREATE INDEX id_localizacao ON usuarios (id_local);
 ALTER TABLE variaveis_ambiente ENGINE=InnoDB CHARACTER SET=latin1;
@@ -345,4 +349,3 @@ ALTER TABLE versoes_softwares ADD PRIMARY KEY (te_node_address, id_so);
 DROP TABLE configuracoes;
 DROP TABLE gerentes;
 DROP TABLE gerentes_versoes_modulos;
-
