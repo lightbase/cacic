@@ -285,11 +285,11 @@
           </table>
 		</fieldset>
     	  <fieldset class="configinstall">
-    		    <legend>Tipo de instalação</legend>
-    		    <table>
-    		      <tr>
+   		    <legend>Tipo de instalação</legend>
+   		    <table>
+   		      <tr>
     		    <td class="item">Nova:</td>
-    		    <td><input type="radio" class="input" {INSTALL_NEW} onClick="setDocVar('installType', 'createDB');  hideDetails('updateInstall'); showDetails('newInstall');" name="cacic_config[install][type]" value=""  /></td>
+    		    <td><input type="radio" checked class="input" {INSTALL_NEW} onClick="setDocVar('installType', 'createDB');  hideDetails('updateInstall'); showDetails('newInstall');" name="cacic_config[install][type]" value="createDB"  /></td>
     		    <td class="help">Construir o banco de dados para uma nova instalação do CACIC.
     			  <div id="newInstall">
     			  	<table>
@@ -316,8 +316,9 @@
       		    	</table>
       		      </div>
     		    </td>
-    		      </tr>
-<!--    		      <tr>
+  		      </tr>
+<cacicInstall:comment>
+  		      <tr>
     		    <td class="item">Atualização:</td>
     		    <td><input type="radio" class="input" {INSTALL_UPDATE} onClick="setDocVar('installType', 'atualizar'); hideDetails('newInstall'); showDetails('updateInstall');" name="cacic_config[install][type]" value="" /></td>
     		    <td class="help">Atualizar as tabelas do banco conforme versão a ser escolhida.
@@ -339,20 +340,18 @@
     				      </select>
     				    </td>
     				    <td class="help">Selecione a versão do CACIC a ser atualizada.</td>
-    <cacicInstall:comment>		  		      
     	  		        <tr>
     				      <td class="item">Copiar:</td>
     				      <td><input class="input" onClick="toggleVar( this, 'bkp' );" type="checkbox" name="cacic_config[dbdet][bkp]"  value="" /></td>
     				      <td class="help">Realizar cópia do banco de dados por segurança.</td>
     	  		        </tr>
-    </cacicInstall:comment>		  		      
     				  </tr>
       		    	</table>
       		      </div>
     		    </td>
-    		      </tr>
--->
-    		    </table>
+  		      </tr>
+</cacicInstall:comment>
+  		    </table>
     	  </fieldset>
 		<fieldset class="configinstall">
 		  <legend>Banco de dados</legend>

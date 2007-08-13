@@ -156,12 +156,13 @@ class Install {
 	 	 * verifica se o biblioteca MYSQL está instalada; testando se a função mysql_connect existe
 	 	 */
 	 	$this->oTmpl->addVar('tmplNavBarCheckInstall', 'CACIC_MYSQLVERSION', CACIC_DBVERSION);
-		if (function_exists('mysql_connect') and (version_compare(mysql_get_client_info(),CACIC_DBVERSION,'>='))) {
+		if (function_exists('mysql_get_client_info') and (version_compare(mysql_get_client_info(),CACIC_DBVERSION,'>='))) {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', "Sim ".mysql_get_client_info());
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_CLASS', "SimImg");
 	 	}  
 	 	else {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', "Não ".mysql_get_client_info());
+	 	  $mysql_version = function_exists('mysql_get_client_info') ? mysql_get_client_info() : "< 4";
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', "Não ".$mysql_version);
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_CLASS', "NaoImg");
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_HELP', "Para executar o CACIC é necessário instalar a biblioteca para banco de dados MYSQL.");
 	 	  $lCouldContinue = false;
@@ -357,7 +358,7 @@ class Install {
 	    
     	$this->oTmpl->addVar('tmplNavBarFinish', 'CACIC_URL', $cacic_config['url']);
      	
-	    $cfgFileName = $cacic_config['path'].'/include/config.php';
+	    $cfgFileName = $cacic_config['path'].CACIC_DS.'include'.CACIC_DS.'config.php';
 	    
 	    $cfgFileOk = false;
 	    $dbConected = false;

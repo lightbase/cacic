@@ -118,7 +118,7 @@ class InstallAjax {
 	  * @access private
 	  */
 	  function checkCFGFileData($cacic_config) {
-	    //InstallAjax::vardump($cacic_config);
+	    
 	    $dadosOK = true;
 	    $msg = "";
 	  	if(empty($cacic_config['path'])) {
@@ -388,7 +388,7 @@ class InstallAjax {
 
 		if($installType == 'createDB') {// instalação nova
          	$oDB_result = $oDB->addDBUser($cacic_config['db_user'], $cacic_config['db_pass']);
-         	echo "<br>Concedendo permissões ao usuário no servidor de banco de dados... ";
+         	echo "<br>Concedendo permissões ao usuário (" .$cacic_config['db_user']. ") no servidor de banco de dados... ";
     		if (!$oDB_result) {
     			$msg = '<span class="Erro">'."[ ERRO! ] - ";
     		    $msg .= 'Erro ao tentar inserir o usuário ('.$cacic_config['db_user'].')!</span>'.
@@ -431,65 +431,92 @@ class InstallAjax {
 		    die($msg);
 		}
 		
-		/*
-		 * Cria as tabelas do banco de dados
-		 */  
-		$fileName = $cacic_config['path'].'instalador/sql/'.CACIC_SQLFILE_CREATEDB;
-		if(is_readable($fileName)) {
-			$cacic_sql_create_tables = $fileName;
+		if($installType == 'createDB') {
+		   /*
+		    * Cria as tabelas do banco de dados
+		    */  
+		   $fileName = $cacic_config['path'].'instalador/sql/'.CACIC_SQLFILE_CREATEDB;
+		   if(is_readable($fileName)) {
+   			$cacic_sql_create_tables = $fileName;
 		
-			echo "<br>Criando as tabelas no banco [".$cacic_config['db_name']."]... ";
-	     	$oDB_result = $oDB->parse_mysql_dump($cacic_sql_create_tables);
-			if (!$oDB_result) {
-				$msg = '<span class="Erro">'."[ ERRO! ] - ";
-			    $msg .= 'Erro na criação das tabelas do banco de dados!</span>'.
-						'<br>Mensagem do servidor:';
-				$msg .= '<pre>'.$oDB->getMessage().'</pre>';
-			    die($msg);
+			   echo "<br>Criando as tabelas no banco [".$cacic_config['db_name']."]... ";
+	     	   $oDB_result = $oDB->parse_mysql_dump($cacic_sql_create_tables);
+			   if (!$oDB_result) {
+				   $msg = '<span class="Erro">'."[ ERRO! ] - ";
+			      $msg .= 'Erro na criação das tabelas do banco de dados!</span>'.
+						   '<br>Mensagem do servidor:';
+				   $msg .= '<pre>'.$oDB->getMessage().'</pre>';
+			      die($msg);
+			   }
+			   else
+				   echo "[ OK! ]";
+		   }
+		   else {
+				   $msg = '<span class="Erro">'."[ ERRO! ] - ";
+			      $msg .= 'Não há instruções SQL para criação das tabelas do banco de dados!</span>';
+			      die($msg);
 			}
-			else
-				echo "[ OK! ]";
 		}
 		else {
-				$msg = '<span class="Erro">'."[ ERRO! ] - ";
-			    $msg .= 'Não há instruções SQL para criação das tabelas do banco de dados!</span>';
-			    die($msg);
-			}
-					  
-		/*
-		 * Inclui dados básicos para CACIC
-		 */
-		$fileName = $cacic_config['path'].'instalador/sql/'.CACIC_SQLFILE_STDDATA;
-		if(is_readable($fileName)) {
-			$cacic_sql_dadosbase = $fileName;
+		   /*
+		    * Atualiza as tabelas do banco de dados
+		    */  
+		   $fileName = $cacic_config['path'].'instalador/sql/cacic_'.strtolower($cacic_config['install']['updateFromVersion']).'.sql';
+		   if(is_readable($fileName)) {
+   			$cacic_sql_create_tables = $fileName;
 		
-			echo "<br>Incluindo dados básicos nas tabelas do banco [".$cacic_config['db_name']."]... ";
-	     	$oDB_result = $oDB->parse_mysql_dump($cacic_sql_dadosbase);
-			if (!$oDB_result) {
+			   echo "<br>Atualizando as tabelas no banco [".$cacic_config['db_name']."]... ";
+	     	   $oDB_result = $oDB->parse_mysql_dump($cacic_sql_create_tables);
+			   if (!$oDB_result) {
+				   $msg = '<span class="Erro">'."[ ERRO! ] - ";
+			      $msg .= 'Erro na atualização das tabelas do banco de dados!</span>'.
+						   '<br>Mensagem do servidor:';
+				   $msg .= '<pre>'.$oDB->getMessage().'</pre>';
+			      die($msg);
+			   }
+			   else
+				   echo "[ OK! ]";
+		   }
+		   else {
+				   $msg = '<span class="Erro">'."[ ERRO! ] - ";
+			      $msg .= 'Não há instruções SQL para atualização das tabelas do banco de dados!</span>';
+			      die($msg);
+			}
+		}
+					  
+		if($installType == 'createDB') {
+		   /*
+		    * Inclui dados básicos para CACIC
+		    */
+		   $fileName = $cacic_config['path'].'instalador/sql/'.CACIC_SQLFILE_STDDATA;
+		   if(is_readable($fileName)) {
+			 $cacic_sql_dadosbase = $fileName;
+			 echo "<br>Incluindo dados básicos nas tabelas do banco [".$cacic_config['db_name']."]... ";
+	     	 $oDB_result = $oDB->parse_mysql_dump($cacic_sql_dadosbase);
+			 if (!$oDB_result) {
 				$msg = '<span class="Erro">'."[ ERRO! ] - ";
 			    $msg .= 'Erro na inserção de dados base nas tabelas do banco de dados!</span>'.
 						'<br>Mensagem do servidor:';
 				$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			    die($msg);
-			}
-			else
+			 }
+			 else
 				echo "[ OK! ]";
-		}
-		else {
+		   }
+		   else {
 				$msg = '<span class="Erro">'."[ ERRO! ] - ";
 			    $msg .= 'Não há instruções SQL para inserção de dados base nas tabelas do banco de dados!</span>';
 			    die($msg);
-			}
+		   }
 					  
-		/*
-		 * Inclui dados nas tabelas para demonstração do cacic
-		 */			  
-		if($cacic_dbdet['demo'] == 'demo') {
-			echo "<br>Inclui de dados para demonstração [".$cacic_config['db_name']."]... ";
-			$fileName = $cacic_config['path'].'instalador/sql/'.CACIC_SQLFILE_DEMODATA;
-			if(is_readable($fileName)) {
+		   /*
+		    * Inclui dados nas tabelas para demonstração do cacic
+		    */			  
+		   if($cacic_dbdet['demo'] == 'demo') {
+			 echo "<br>Inclui de dados para demonstração [".$cacic_config['db_name']."]... ";
+			 $fileName = $cacic_config['path'].'instalador/sql/'.CACIC_SQLFILE_DEMODATA;
+			 if(is_readable($fileName)) {
 				$cacic_sql_demonstracao = $fileName;
-		
 				$oDB_result = $oDB->parse_mysql_dump($cacic_sql_demonstracao);
 				if (!$oDB_result) {
 					$msg = '<span class="Erro">'."[ ERRO! ] - ";
@@ -500,12 +527,13 @@ class InstallAjax {
 				}
 				else
 					echo "[ OK! ]";
-			}
-			else {
+			 }
+			 else {
 					$msg = '<span class="Erro">'."[ ERRO! ] - ";
 				    $msg .= 'Não há dados disponíveis para demonstração!</span>';
 				    die($msg);
-			}
+			 }
+		  }
 		}		
 		echo "<br><span class='OkImg'>Processo de construção do banco de dados [".$cacic_config['db_name']."] finalizado com sucesso!</span>";
 		$_SESSION['buildDBOK'] = true;
@@ -561,12 +589,10 @@ class InstallAjax {
 	  function salvaAdminSetup($cacic_admin, $cacic_config) {
 	    $msg = "";
 	    $adminSetupSaved = false;
+	    
 	    $dadosOK = InstallAjax::checkAdminSetupData($cacic_admin);
-	  	
-	  	if($dadosOK) {
-	  	    $cacic_config = $_SESSION['cacic_config'];
-	  	    $cacic_admin = $_SESSION['cacic_admin'];
-    		/*
+	  	if($dadosOK) { // Se dadosOK cria ou atualiza dados de local e administrador
+       		/*
     		 * Conexao ao banco de dados
     		 */		     	
     		echo "<br>Conectando ao servidor de banco de dados... ";
@@ -574,130 +600,135 @@ class InstallAjax {
          	$oDB->debug();
     		$oDB->setDsn( $cacic_config['db_host'], $cacic_config['db_user'], $cacic_config['db_pass'], $cacic_config['db_name'] );
     		if (!$oDB->conecta()) {
-    			$msg = '<span class="Erro">'."[ ERRO! ] - ";
-    		    $msg .= 'Erro de conexão ao servidor do banco de dados!</span>'.
+      		   $msg = '<span class="Erro">'."[ ERRO! ] - ";
+    		   $msg .= 'Erro de conexão ao servidor do banco de dados!</span>'.
     					'<br>Mensagem do servidor:';
-    			$msg .= '<pre>'.$oDB->getMessage().'</pre>';
-    		    die($msg);
+    		   $msg .= '<pre>'.$oDB->getMessage().'</pre>';
+    		   die($msg);
     		}
     		else
-    			echo "[ OK! ]";
+    		   echo "[ OK! ]";
 
     		/*
     		 * Verifica banco de dados
     		 */
 			echo "<br>Verificando existência do banco de dados [".$cacic_config['db_name']."]... ";
 			if (!$oDB->selectDB()) {
-				$msg = '<span class="Erro">'."[ ERRO! ] - ";
-			    $msg .= 'Banco de dados não exite!</span>'.
-						'<br>Mensagem do servidor:';
-				$msg .= '<pre>'.$oDB->getMessage().'</pre>';
-			    die($msg);
+			  $msg = '<span class="Erro">'."[ ERRO! ] - ";
+			  $msg .= 'Banco de dados não exite!</span>'.
+					  '<br>Mensagem do servidor:';
+			  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
+			  die($msg);
 			}
-			else
-				echo "[ OK! ]";
+		    else
+			  echo "[ OK! ]";
     		
-    		/*
-    		 * Verifica a não existência do local informado
-    		 */
-    		$localOK = true;
-	  	    $sql_get_local_id = "select id_local from locais where sg_local = '".$cacic_admin['local_sigla']."'";
-			$msg ="<br>Verificando local [".$cacic_admin['local_sigla']."]... ";
-			$oDB->query($sql_get_local_id);
-			if ($oDB->numRows() > 0) {
-				$msg .= '<span class="Erro">'."[ ERRO! ] - ";
-			    $msg .= 'Local já está cadastrado!</span>';
-			    $localOK = false;
-			}
-			else
-				$msg .= "[ OK! ]";
+	       if ($cacic_config['install']['type'] == 'createDB') { // Cria dados de local e administrador
+    		   /*
+    		    * Verifica a não existência do local informado
+    		    */
+    		   $localOK = true;
+	  	       $sql_get_local_id = "select id_local from locais where sg_local = '".$cacic_admin['local_sigla']."'";
+			   $msg ="<br>Verificando local [".$cacic_admin['local_sigla']."]... ";
+			   $oDB->query($sql_get_local_id);
+			   if ($oDB->numRows() > 0) {
+				  $msg .= '<span class="Erro">'."[ ERRO! ] - ";
+			      $msg .= 'Local já está cadastrado!</span>';
+			      $localOK = false;
+			   }
+			   else
+				  $msg .= "[ OK! ]";
 			
-    		/*
-    		 * Verifica a não existência do administrador informado
-    		 */
-    		$adminOK = true;
-	  	    $sql_check_admin = "select nm_usuario_acesso from usuarios where nm_usuario_acesso = '".$cacic_admin['admin_login']."'";
-			$msg .= "<br>Verificando administrador [".$cacic_admin['admin_login']."]... ";
-			$oDB->query($sql_check_admin);
-			if ($oDB->numRows() > 0) {
-				$msg .= '<span class="Erro">'."[ ERRO! ] - ";
-			    $msg .= 'Login para administrador já está cadastrado!</span>';
-			    $adminOK = false;
-			}
-			else
-				$msg .= "[ OK! ]";
+    		   /*
+    		    * Verifica a não existência do administrador informado
+    		    */
+    		   $adminOK = true;
+	  	       $sql_check_admin = "select nm_usuario_acesso from usuarios where nm_usuario_acesso = '".$cacic_admin['admin_login']."'";
+			   $msg .= "<br>Verificando administrador [".$cacic_admin['admin_login']."]... ";
+			   $oDB->query($sql_check_admin);
+			   if ($oDB->numRows() > 0) {
+				  $msg .= '<span class="Erro">'."[ ERRO! ] - ";
+			      $msg .= 'Login para administrador já está cadastrado!</span>';
+			      $adminOK = false;
+			   }
+			   else
+				  $msg .= "[ OK! ]";
 			
-			echo $msg;
+			   echo $msg;
 			
-			if(!($localOK and $adminOK))
-			   die();
+			   if(!($localOK and $adminOK))
+			      die();
 			
-    		/*
-    		 * Caso tenha PHP XML compilado/instalado usa a funcao UTF8
-    		 */
-    		$localNome = $cacic_admin['local_nome'];
-    		$localObservacao = $cacic_admin['local_observacao'];
-	  	    $adminNome = $cacic_admin['admin_nome'];
-    		if(function_exists('utf8_decode')) {
-        		$localNome = utf8_decode(trim($cacic_admin['local_nome']));
-        		$localObservacao = utf8_decode(trim($cacic_admin['local_nome']));
-	  	        $adminNome = utf8_decode(trim($cacic_admin['admin_nome']));
-    		}
+    		   /*
+    		    * Caso tenha PHP XML compilado/instalado usa a funcao UTF8
+    		    */
+    		   $localNome = $cacic_admin['local_nome'];
+    		   $localObservacao = $cacic_admin['local_observacao'];
+	  	       $adminNome = $cacic_admin['admin_nome'];
+    		   if(function_exists('utf8_decode')) {
+        		  $localNome = utf8_decode(trim($cacic_admin['local_nome']));
+        		  $localObservacao = utf8_decode(trim($cacic_admin['local_nome']));
+	  	          $adminNome = utf8_decode(trim($cacic_admin['admin_nome']));
+    		   }
     		
-    		/*
-    		 * Insere o local informado
-    		 */
-	  	    $sql_insert_local = "INSERT INTO locais VALUES (0,'".
+    		   /*
+    		    * Insere o local informado
+    		    */
+	  	        $sql_insert_local = "INSERT INTO locais VALUES (0,'".
 	  	                            $localNome."','".
 	  	                            $cacic_admin['local_sigla']."','".
 	  	                            $localObservacao.
 	  	                        "')";
-			echo "<br>Inserindo local [".$cacic_admin['local_sigla']."]... ";
-			if (!$oDB->query($sql_insert_local)) {
-				$msg = '<span class="Erro">'."[ ERRO! ] - ";
-			    $msg .= 'Erro ao tentar inserir dados do Local!</span>'.
-						'<br>Mensagem do servidor:';
-				$msg .= '<pre>'.$oDB->getMessage().'</pre>';
-			    die($msg);
-			}
-			else
-				echo "[ OK! ]";
+			   echo "<br>Inserindo local [".$cacic_admin['local_sigla']."]... ";
+			   if (!$oDB->query($sql_insert_local)) {
+				  $msg = '<span class="Erro">'."[ ERRO! ] - ";
+			      $msg .= 'Erro ao tentar inserir dados do Local!</span>'.
+						  '<br>Mensagem do servidor:';
+				  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
+			      die($msg);
+			   }
+			   else
+				  echo "[ OK! ]";
     		
-    		/*
-    		 * Busca ID do local recem incluído
-    		 */
-			if (!$oDB->query($sql_get_local_id)) {
-				$msg = '<span class="Erro">'."[ ERRO! ] - ";
-			    $msg .= 'Local não encontrado!</span>'.
-						'<br>Mensagem do servidor:';
-				$msg .= '<pre>'.$oDB->getMessage().'</pre>';
-			    die($msg);
-			}
+    		   /*
+    		    * Busca ID do local recem incluído
+    		    */
+			   if (!$oDB->query($sql_get_local_id)) {
+				  $msg = '<span class="Erro">'."[ ERRO! ] - ";
+			      $msg .= 'Local não encontrado!</span>'.
+						  '<br>Mensagem do servidor:';
+				  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
+			      die($msg);
+			   }
     		
-	  	   $row = $oDB->fetchAssoc();
-	  	   $cod_local = $row['id_local']; 
-	  	   $sql_insert_admin = "INSERT INTO usuarios VALUES (".
-	  	                        $cod_local.", 0, '".
-	  	                        $cacic_admin['admin_login']."', '".
-	  	                        $adminNome.
-	  	                        "', PASSWORD('".
-	  	                        $cacic_admin['admin_senha']."'), NOW(), 2,'".
-	  	                        $cacic_admin['admin_email']."', '".
-	  	                        $cacic_admin['admin_fone'].
-	  	                        "' )";
+	  	      $row = $oDB->fetchAssoc();
+	  	      $cod_local = $row['id_local']; 
+	  	      $sql_insert_admin = "INSERT INTO usuarios 
+	  	                                       (id_local, id_usuario, nm_usuario_acesso, nm_usuario_completo, 
+	  	                                        te_senha, dt_log_in, id_grupo_usuarios, te_emails_contato, 
+	  	                                        te_telefones_contato) 
+	  	                           VALUES (".$cod_local.", 0, '".$cacic_admin['admin_login']."', '".
+	  	                                     $adminNome."', PASSWORD('".$cacic_admin['admin_senha']."'), 
+	  	                                     NOW(), 2,'".$cacic_admin['admin_email']."', '".
+	  	                                     $cacic_admin['admin_fone'].
+	  	                                   "' )";
 	  	                        
-			echo "<br>Inserindo dados do administrador [".$cacic_admin['admin_login']."]... ";
-			if (!$oDB->query($sql_insert_admin)) {
-				$msg = '<span class="Erro">'."[ ERRO! ] - ";
-			    $msg .= 'Erro ao tentar inserir dados do Administrador!</span>'.
-						'<br>Mensagem do servidor:';
-				$msg .= '<pre>'.$oDB->getMessage().'</pre>';
-			    die($msg);
-			}
-			else
-				echo "[ OK! ]";
+			   echo "<br>Inserindo dados do administrador [".$cacic_admin['admin_login']."]... ";
+			   if (!$oDB->query($sql_insert_admin)) {
+				  $msg = '<span class="Erro">'."[ ERRO! ] - ";
+			      $msg .= 'Erro ao tentar inserir dados do Administrador!</span>'.
+						  '<br>Mensagem do servidor:';
+				  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
+			      die($msg);
+			   }
+			   else
+				  echo "[ OK! ]";
 				
-			$msg = '<br><span class="Sim">Dados administrativos inseridos com sucesso!</span>';
+			   $msg = '<br><span class="Sim">Dados administrativos inseridos com sucesso!</span>';
+			}
+			else { // atualiza dados de local e administrador
+			   $msg = "<br>Falta processo para atualizar dados de local e administrador.";
+			}
 			
 			$_SESSION['adminSetupSaved'] = true;
 			

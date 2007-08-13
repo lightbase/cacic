@@ -58,8 +58,11 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 
 /**
  * define as versões atualizaveis do CACIC
+ * Também é usado para formar o nome do arquivo SQL (ex: cacic_jun2005.sql, cacic_fev2006.sql)
+ * que deverá existir na pasta "sql" do instalador 
+ * Sintaxe: array( 'JUN2005'=>'Junho de 2005', 'FEV2006'=>'Fevereiro de 2006' )
  */
-// $cacic_updateFromVersion = array( 'JUN2005'=>'Junho de 2005' );
+ $cacic_updateFromVersion = array( 'JUN2005'=>'Junho de 2005' );
 
 /**
  * define a versão do PHP para o CACIC
@@ -112,16 +115,26 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /* ******************************************************
  *  NAO ALTERAR NADA DAQUI PARA BAIXO
  * ******************************************************/
+
+/*
+ * Obtem PATH_SEPARATOR
+ */
+ define( 'CACIC_PS', PATH_SEPARATOR);
+
+/*
+ * Obtem DIRECTORY_SEPARATOR
+ */
+ define( 'CACIC_DS', DIRECTORY_SEPARATOR);
  
 /*
  * define caminho do pacote de instalacao do CACIC
  */
- define( 'CACIC_INSTALL_PATH', CACIC_PATH.'/instalador');
+ define( 'CACIC_INSTALL_PATH', CACIC_PATH.CACIC_DS.'instalador');
  
 /*
  * define caminho do arquivo de configurações para o CACIC
  */
- define( 'CACIC_CFGFILE_PATH', CACIC_PATH.'/include');
+ define( 'CACIC_CFGFILE_PATH', CACIC_PATH.CACIC_DS.'include');
  
 /*
  * Atribui URL CACIC 
@@ -142,11 +155,6 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     define( 'CACIC_URL_INSTALL', CACIC_URL.'instalador');
 
 /*
- * Obtem DIRECTORY_SEPARATOR
- */
- define( 'CACIC_DS', DIRECTORY_SEPARATOR);
-
-/*
  * Atribui tema padrao para o instalador
  */
  if(isset($cacicTema))
@@ -155,15 +163,10 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     define( 'CACIC_THEME', 'default');
 
 /*
- * take the PATH_SEPARATOR
- */
- define( 'CACIC_PS', PATH_SEPARATOR);
-
-/*
  * atribui os caminhos de inclusão para a aplicação 
  */
  ini_set("include_path", ini_get("include_path").CACIC_PS.
-                         CACIC_INSTALL_PATH."/bibliotecas/"
+                         CACIC_INSTALL_PATH.CACIC_DS."bibliotecas".CACIC_DS
          );
 
 /*
