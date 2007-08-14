@@ -1,84 +1,335 @@
-# ChangeLog do Sistema CACIC
+2007-08-14  harpiain
 
-Data		Versão Gerente WEB	Script															Alterações/Implementações
-==========	==================	================================								===================================================================================================================================================================================================
-30/01/2007	2.2.2				.../relatorios/patrimonio/index.php								1)  Implementada a informação dos critérios "Entidade/Órgão" IGUAL A/DIFERENTE DE para pesquisa e geração de relatório
-																									IMPACTO: Mais precisão nas informações gerenciais extraídas a partir desse relatório.
+	* : gerente - atualizações diversas
+	  
+	  - corrige ticket #33, processo de inclusão passa a gerar ID
+	  - SQL de criação/atualização de BD corrigido para não incrementar o
+	  tipo_software
+	  - SQL de dados básicos evita o "lock"/"unlock" de tabelas
+	  - incrementa recurso de debug em ADO
+	  - corrige erro no instalador para apenas criação de nova instalação do
+	  cacic
 
-30/01/2007	2.2.2				.../relatorios/patrimonio/rel_patrimonio.php					1)  Implementado o tratamento dos novos valores "Entidade/Órgão" para critérios de pesquisa e geração de relatório
-																									IMPACTO: Mais precisão nas informações gerenciais extraídas a partir desse relatório.																					
+2007-08-13  harpiain
 
-27/12/2006	2.2.1				.../redes/detalhes_rede.php										1)  Substituida a chamada à função "TentaPing" por "CheckFtpLogin"
-																									IMPACTO: Maior eficiência no teste de conexão usando fsockopen
+	* : gerente - SQL corrigido
+	  
+	  - SQL de exlusão de tabelas criado/atualizado
+	* : gerente - SQL corrigido
+	  
+	  - SQL de criação de tabelas atualizado
+	  - SQL de atualização do banco de jun2005 corrigido
+	* : gerente: atualização
+	  
+	  - alteração do conteúdo da "licença" para pt_BR
+	  Obs: existem dois arquivos um em pt_BR (licenca.txt) e outro em en_US
+	  (license.txt)
+	  importantes para serem apresentadas pelo instalador web.
+	* : gerente - instalador corrigido
+	  
+	  - revertido o sql de criação da tabela de "usuarios" que implementa o
+	  conceito "locais secundários"
+	  (atualiza erroneamente na revisão anterior).
+	* : gerente - instalador atualizado
+	  
+	  - instalador atualizado em "trunk"
+	  (novos recursos serão implementados aqui)
 
-27/12/2006	2.2.1				.../include/library.php											1)  Comentada a função "TentaPing"
+2007-07-16  asrsoares
 
-27/12/2006	2.2.1				.../include/library.php											1)  Implementada a função "CheckFtpLogin"
-																									IMPACTO: Maior eficiência no teste de conexão usando fsockopen
+	* : Alteracao para pegar cdrom e placa de video corretamente
 
-27/12/2006	2.2.1				.../updates_subredes/index.php									1)  O envio de "versoes_agentes.ini" torna-se incondicional
-																									IMPACTO: Garantia de exibição das versões atuais dos agentes constantes dos ambientes de UPDATES
+2007-07-11  asrsoares
 
+	* : README modificado
 
-15/03/2006	FEV2006				.../relatorios/patrimonio/index.php								1)  Foi acrescentada a opção "Informe os critérios para pesquisa de informações patrimoniais:", onde será possível pré-definir critérios de informações patrimoniais para o resultado da pesquisa.
-																									IMPACTO: Capacidade de restrição dos resultados.
+2007-06-26  l
 
-13/03/2006	FEV2006				.../relatorios/navegacao.php									1)  Foi acrescentada visão de impressora paralela à estação e compartilhada na rede, onde, ao ser posicionado o ponteiro do mouse sobre o ícone, surge uma "hint" contendo os campos 
-																									"Nome:" e "Comentário:", configurados na estação.
-																									IMPACTO: Permitirá rápida constatação de impressoras compartilhadas na(s) rede(s).
+	* : Finalmente atualizado o agente linux, para a versão
+	  com diversas melhorias, incluindo uma melhor
+	  coleta das informações de hardware.
 
-23/01/2006	JAN2006				.../admin/exclui_informacoes_computadores.php					1)  Foi acrescentada a opção "Excluir Computadores" no menu "Manutenção"
-																									IMPACTO: Permitirá a exclusão parametrizada de um ou vários computadores da base.
+2007-06-11  anderson.peterle
 
-16/01/2006	JAN2006				.../admin/patrimonio/opcoes.php									1)  Foi acrescentada a opção "No Relatório de Patrimônio, destacar as seguintes duplicidades:"
-																									IMPACTO: Permitirá que, no relatório de patrimônio, sejam destacadas as duplicidades de informações patrimoniais configuradas.
+	* : Comentario na geracao de informacoes para Debug no get_config.php
 
-10/01/2006	JAN2006				.../admin/perfis_aplicativos_monitorados/incluir_perfil.php		1)  Foi acrescentado o valor "Versão de Executável" à opção "Identificador de Versão/Configuração"
-																									IMPACTO: Permitirá ao agente COL_MONI coletar informação de versão de arquivos executáveis.
+2007-06-06  anderson.peterle
 
-								.../admin/perfis_aplicativos_monitorados/detalhes_perfil.php	1)  Foi acrescentado o valor "Versão de Executável" à opção "Identificador de Versão/Configuração"
-																									IMPACTO: Permitirá ao agente COL_MONI coletar informação de versão de arquivos executáveis.																									
-																									
-09/01/2006	JAN2006				.../relatorios/alteracoes_hardware/index.php					1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.
+	* : Site para documentacao interna (FAQ, etc.).
+	* : Criacao de coluna so->te_so para futuro controle dinamico de versoes
+	  do S.O. MS-Windows e redes_grupos_ftp->id_ftp para correcao da
+	  liberacao do grupo FTP a partir do cliente (Gerente de Coletas)
+	* : Detalhamento dos graficos estatisticos da pagina principal quando
+	  representarem mais de um local(usuarios associados a locais
+	  secundarios e/ou niveis Administracao/Gestao Central). Melhoria no
+	  processo de liberacao de FTP por parte do cliente(Gerente de Coletas).
+	  Inicio de criacao do mecanismo de identificacao dinamica do
+	  S.O.(MS-Windows). Site para documentacao interna (FAQ, etc.).
 
-								.../relatorios/software/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 
-																									 
-								.../relatorios/antivirus/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 																									 
-																									 
-								.../relatorios/hardware/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 																									 
+2007-06-04  harpiain
 
-								.../relatorios/patrimonio/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.
-																									 
-								.../relatorios/tcpip/index.php									1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 																									 																									 
+	* : gerente: atualização
+	  
+	  - alteração do conteúdo da "licença" para pt_BR
+	  Obs: existem dois arquivos um em pt_BR (licenca.txt) e outro em en_US
+	  (license.txt) - importantes para serem apresentadas pelo instalador
+	  web.
 
-								.../relatorios/totais_estacoes_rede.php							1)  Criação do script
-																									FUNCIONALIDADE: Quando chamado tendo os parâmetros id_ip_rede, nu_totais_estacoes, cs_tipo_no e nm_no, exibirá os totais de estações a partir das versões dos Sistemas Operacionais.
-																							
+2007-05-28  elias.mussi
 
-05/01/2006  JAN2006				.../ws/get_config.php											1)  Passou a receber o valor "te_versao_gercols" do Gerente de Coletas;
-																									IMPACTO: Esse valor é gravado na tabela "computadores" para ser usado pelo Relatório de Softwares Básicos e ser exibido na página de detalhes da estação.
+	* : script de atualizacao antigo
 
-								.../ws/get_patrimonio.php										1)  Passou a enviar o indicador "cs_abre_janela_patrimonio" para o Gerente de Coletas;
-																									IMPACTO: Esse valor definirá se a janela de coleta de patrimônio será automaticamente aberta quando da detecção de alterações nos dados de localização física do equipamento (IP estação/rede).
+2007-05-11  anderson.peterle
 
-								.../relatorios/software/index.php								1)  Foi incluído o ítem "Versão Gerente de Coletas CACIC" no relatório de Softwares Básicos
-																									IMPACTO: Permitirá o relatório sobre as versões do Gerente de Coletas nas estações
-			
-								.../relatorios/computador/inc_detalhes_computador.php			1)  Foi incluído o ítem "Versão Gerente de Coletas CACIC" nos detalhes básicos das estações
-																									IMPACTO: Permitirá o conhecimento da versão do Gerente de Coletas na estação
-																		
-								.../relatorios/navegacao.php									1)  Foram implementadas as opções "Totais de Estações por Sistema Operacional" e "Detalhes da Subrede", representadas pelos ícones "Lupa" e "Caderno"
-																									IMPACTO: Facilitará a quantificação de estações por Sistema Operacional na subrede ou no workgroup
-																									OBS: A opção "Totais de Estações por Sistema Operacional" se aplica aos níveis subrede e workgroup.																							
+	* : Exibicao de descricao resumida para o grafico estatistico de Ultimos
+	  Acessos dos Agentes quando usuario global ou com acesso a locais
+	  secundarios
+
+2007-05-10  anderson.peterle
+
+	* : Exibicao de *Detalhes* das estatisticas para niveis Administracao e
+	  Gestao Central
+
+2007-05-09  anderson.peterle
+
+	* : Criacao da coluna *te_locais_secundarios* na tabela *usuarios* para
+	  uso do conceito *locais secundarios*
+	* : Implementacao do conceito =locais secundarios= para que o usuario
+	  possa acessar informacoes relativas a outros locais. Para estes casos,
+	  as estatisticas da pagina principal exibirao um link para uma janela
+	  pop-up que contera o detalhamento das quantidades.
+
+2007-05-04  elias.mussi
+
+	* : Link relativo, Obrigado Batista
+
+2007-05-02  elias.mussi
+
+	* : link relativo errados- Obrigado Batista MMA
+
+2007-04-30  thomas
+
+	* : teste
+
+2007-04-30  elias.mussi
+
+	* : Correção e ampliação da detecção de hardware
+
+2007-04-27  anderson.peterle
+
+	* : Foi retirado o menu principal para usuario nao logado; Foi
+	  acrescentado grafico de acesso por local na data; Algumas correcoes em
+	  relatorio/consulta patrimonial.
+	* : Melhorias em MapaCacic e Vacon.
+	* : O ChkCacic passa a interpretar as opcoes "/serv=" e "/dir=" em linha
+	  de comando.
+	* : Novas versoes para ChkCacic, MapaCacic e Vacon
+
+2007-04-26  anderson.peterle
+
+	* : Inclusao e atualizacao de graficos
+
+2007-04-23  elias.mussi
+
+	* : correções no agente linux por Thomas - thor27
+
+2007-04-11  elias.mussi
+
+	* : arrumando a consulta do patrimonio
+
+2007-03-29  elias.mussi
+
+	* : esqueci de mudar a versao
+
+2007-03-28  elias.mussi
+
+	* : ops..., comentando um comentario de debug
+
+2007-03-27  elias.mussi
+
+	* : ainda nao esta redondo
+	* : retirando os links para aquisicoes, falta de maturidade para essa
+	  versão
+
+2007-03-23  elias.mussi
+
+	* : correções da opção seleciona todas as redes de relatorios para um
+	  usuário diferente de administrador
+
+2007-03-22  elias.mussi
+
+	* : correcao,
+	* : correção em relatorio, bug reposrtado por : Wallace Rodrigues de
+	  Santana
+
+2007-03-21  elias.mussi
+
+	* : 1
+	* : eita campo de senha ... adriano .. meu banco ... tem de fazer um
+	  sync com ele...
+	* : erro relatorio hardware, Obrigado Roberto Batista MMA
+	* : tratamento do campo limite ftp
+	* : link relativo :( obrigado roberto mma
+
+2007-03-20  elias.mussi
+
+	* : adicionando as licenças
+	* : correção do relatorio do officescan
+	* : escondendo o esquema de upgrade por eqto
+	* : corrigindo o link para a comunidade CACIC, apontando para o SPB
+	  agora.
+	* : correção do bug de criacao do arquivo de config.php do cacic, que
+	  impdepia o correto funcionamento do sistema
+
+2007-03-19  elias.mussi
+
+	* : alteracao na chave primaria do banco em aplicativo_redes, correção
+	  do bug dos aplicativos monitorados.
+	* : mais alguns acertos em relatorios nao autenticados
+	* : voltando alteracoes do anderson
+	* : correções do Anderson diversas
+	* : correções do Anderson nos relatorios de patrimonio.
+	* : correcao no css
+
+2007-03-16  elias.mussi
+
+	* : Correções de erros de "dynCalendar" resolve ticket #4
+	  
+	  - retirado caminhos absolutos para arquivos (js e css)
+	  - melhoria no css do dynCalendar para mostrar a imagem gif
+	  - correção de bug no dynCalendar.js para mostrar a imagem gif
+	  - correção de bug na chamada do relatorio de alterações de sofware
+	* : arrumando algumas sessões não tratadas, somente logoado acessa as
+	  paginas, obrigado pela dica - Adriano MTE
+	* : link relativo, obrigado Roberto MMA
+
+2007-03-15  elias.mussi
+
+	* : instalador desenvolvido pelo Adriano MTE, brigadao cara
+	* : tchau instalador do thomaz
+
+2007-03-14  elias.mussi
+
+	* : correcao do formulario de cadastro de software
+	* : correção em relatrorio, obrigado Roberto MMA
+	* : problemas das barras nas variaveis resolvido, santo mysql5 88888
+
+2007-03-13  elias.mussi
+
+	* : mas em ... ninguem vê esse script de atualizacao aqui ?
+	* : correções no instalador e em relatorios, obrigado Roberto MMA
+
+2007-03-12  elias.mussi
+
+	* : vixe maria
+
+2007-03-09  elias.mussi
+
+	* : mais uma correção de sql. Obrigado Roberto - MMA
+
+2007-03-08  elias.mussi
+
+	* : correcao dos relatorios do patrimonio
+
+2007-03-06  elias.mussi
+
+	* : correção no calendario. obrigado roberto (mma)
+	* : correcoes do patrimonio. valeu mte
+	* : closed #15 - correção do link relativo, obrigado pelo patch Roberto
+	  Batista
+
+2007-03-02  mussi
+
+	* : luc 1 x 0 M
+	* : acertando o charset do SQL, ma****** latin1
+	* : mais links relativos e arrumando o maledito versoes.ini q tava
+	  desatulaizado
+
+2007-03-01  mussi
+
+	* : Branch estavel por causa do Lucius
+
+2007-02-28  mussi
+
+	* : mais links relativos e algumas besteirinhas
+	* : retirando links estaticos e o echo da query
+
+2007-02-28  elias.mussi
+
+	* : o espaço maledito
+
+2007-02-28  mussi
+
+	* : arrumando o sql do unid2
+	* : arrumando o sql do unid2
+	* : mudando charset do sql para iso, brigado tupiserver
+
+2007-02-16  mussi
+
+	* : melhorando as explicações
+
+2007-02-06  mussi
+
+	* : correções do thomaz no instala
+	* : figura com fundo limpo
+
+2007-02-05  mussi
+
+	* : nã
+	* : firulas
+	* : fechando esta primeira versao do instalador
+	* : opa
+	* : melhorias no instalador
+
+2007-02-02  mussi
+
+	* : agente linux, como não vi q ele n estava aqui :(
+	* : ops, tem um arquivo de config template e o configurador hj criar o
+	  config. Obsiletando este aqui.
+	* : Adicionando um README simples para localizar alguns interessados
+
+2007-02-01  mussi
+
+	* : sync com migo mess ;) arrumando uns testes e links relativos
+	* : Melhorando o readme para informar os desenvolvedores do processo de
+	  atualizacao do sql para o instalador.
+	* : adicionando copia do sql para o banco, modificado devido o
+	  instalador
+	* : Adicionando a 1. versão do instalador enviada pelo thomaz
+
+2007-01-31  mussi
+
+	* : vai
+	* : limpando as bases de dados
+
+2007-01-30  mussi
+
+	* : adicionando mecanimo preguiçoso para atualização dos EXEs
+	* : limpando ambiente de desenvolvimento, retirando os exes da pasta
+	  repositorio
+
+2007-01-29  mussi
+
+	* : correção de tratamento de nº 64bits
+	* : precisa olhar esse sql do 221, contem inconcistencias, usar
+	  DB_Cacic_26012007.sql
+	* : correção na chave de cripto dos modulos chksis e gercols os EXES
+	* : correção na chave de cripto dos modulos chksis e gercols
+
+2007-01-23  mussi
+
+	* : pequenos ajustes em referencias erradas e correções menores.
+
+2007-01-18  mussi
+
+	* : teste mesmo
+
+2006-12-21  mussi
+
+	* : correcao do bando de dados .. resolve problema do login
+	* : importacao inicial da versao 2.2.1 para este repositorio
+
+2006-05-03  leonardo
+
+	* : Criação da estrutura básica de diretórios para o projeto cacic.
+
