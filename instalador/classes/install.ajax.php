@@ -95,6 +95,7 @@ class InstallAjax {
 		$oTmpl->setRoot('templates');
 		$oTmpl->readTemplatesFromInput('install_navbar.tmpl');
 		$oTmpl->addVar('tmplCFGFile', 'CACIC_PATH', $cacic_config['path'] );
+		$oTmpl->addVar('tmplCFGFile', 'CACIC_URL', $cacic_config['url'] );
 		$oTmpl->addVar('tmplCFGFile', 'DB_SERVER', $cacic_config['db_host'] );
 		$oTmpl->addVar('tmplCFGFile', 'DB_PORT', $cacic_config['db_port'] );
 		$oTmpl->addVar('tmplCFGFile', 'DB_NAME', $cacic_config['db_name'] );
@@ -278,7 +279,12 @@ class InstallAjax {
     $senha_usuario_bd = "'.$cacic_config['db_pass'].'";
     
     /*
-     * Caminho da aplicao "CACIC"
+     * URL da aplicacao "CACIC"
+     */
+    $url_aplicacao = "'.$cacic_config['url'].'";
+
+    /*
+     * Caminho fisico da aplicacao "CACIC"
      */
     $path_aplicacao = "'.$cacic_config['path'].'";
 
@@ -706,12 +712,12 @@ class InstallAjax {
 	  	      $sql_insert_admin = "INSERT INTO usuarios 
 	  	                                       (id_local, id_usuario, nm_usuario_acesso, nm_usuario_completo, 
 	  	                                        te_senha, dt_log_in, id_grupo_usuarios, te_emails_contato, 
-	  	                                        te_telefones_contato) 
+	  	                                        te_telefones_contato, te_locais_secundarios) 
 	  	                           VALUES (".$cod_local.", 0, '".$cacic_admin['admin_login']."', '".
 	  	                                     $adminNome."', PASSWORD('".$cacic_admin['admin_senha']."'), 
 	  	                                     NOW(), 2,'".$cacic_admin['admin_email']."', '".
 	  	                                     $cacic_admin['admin_fone'].
-	  	                                   "' )";
+	  	                                   "',1 )";
 	  	                        
 			   echo "<br>Inserindo dados do administrador [".$cacic_admin['admin_login']."]... ";
 			   if (!$oDB->query($sql_insert_admin)) {
