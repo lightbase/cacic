@@ -255,7 +255,7 @@ CREATE TABLE `tipos_licenca` (
 -- Table: `tipos_software`
 --
 CREATE TABLE `tipos_software` (
-  `id_tipo_software` integer(10) unsigned NOT NULL auto_increment,
+  `id_tipo_software` integer(10) unsigned NOT NULL,
   `te_descricao_tipo_software` varchar(30) NOT NULL DEFAULT '',
   INDEX (`id_tipo_software`),
   PRIMARY KEY (`id_tipo_software`)

@@ -31,10 +31,9 @@ if($submit)
 		}
 	else 
 		{
-		$query = "INSERT 
-				  INTO 		tipos_software
-				  			(te_descricao_tipo_software) 
-				  VALUES 	('$frm_te_descricao_tipo_software')";									  						  
+		$idTipoSoftware = mysql_fetch_array( mysql_query('select count(*) from tipos_software') );
+		$idTipoSoftware = $idTipoSoftware[0];		
+		$query = "INSERT INTO tipos_software VALUES ($idTipoSoftware, '$frm_te_descricao_tipo_software')";									  						  
 		$result = mysql_query($query) or die ('Falha na Inserção em Tipos Softwares...');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'tipos_software');		
 		

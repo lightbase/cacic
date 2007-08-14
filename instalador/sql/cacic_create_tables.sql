@@ -567,8 +567,8 @@ CREATE TABLE `redes_versoes_modulos` (
 CREATE TABLE `so` (
   `id_so` int(11) NOT NULL default '0',
   `te_desc_so` varchar(50) default NULL,
-  `te_so` varchar(50) DEFAULT NULL,
   `sg_so` varchar(10) default NULL,
+  `te_so` varchar(50) DEFAULT NULL,
   PRIMARY KEY  (`id_so`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -647,7 +647,7 @@ CREATE TABLE `tipos_licenca` (
 --
 
 CREATE TABLE `tipos_software` (
-  `id_tipo_software` int(10) unsigned NOT NULL auto_increment,
+  `id_tipo_software` int(10) unsigned NOT NULL,
   `te_descricao_tipo_software` varchar(30) NOT NULL default '',
   PRIMARY KEY  (`id_tipo_software`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

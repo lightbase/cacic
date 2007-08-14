@@ -93,7 +93,11 @@ class ADO {
       $this->queryResult = @mysql_query($sql, $this->conn);
     $this->error = mysql_errno();
     $this->message = mysql_error();
-    return $this->queryResult;
+    
+   if($this->debug)
+     $this->message .= " - SQL: [".$sql."]";
+    
+   return $this->queryResult;
   }
   
   function selectDB() {
