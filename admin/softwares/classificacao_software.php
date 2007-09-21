@@ -44,7 +44,7 @@
 			  WHERE (id_tipo_software = 0) 
 			  ORDER BY nm_software_inventariado";
 
-			$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados.');
+			$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados ou sua sessão expirou!');
 			/* Agora monto os itens do combo de hardwares selecionadas. */ 
        while($campos_aplicativos_selecionados=mysql_fetch_array($result_aplicativos_selecionados)) 	{
 						   echo '<option value=' . $campos_aplicativos_selecionados['id_software_inventariado'] . '>' . capa_string($campos_aplicativos_selecionados['nm_software_inventariado'],148)  . '</option>';
@@ -67,7 +67,7 @@
 		  $query 	= "	SELECT  *
 		  				FROM	tipos_software
 						ORDER BY	te_descricao_tipo_software";
-		  $result 	= mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela tipos_software.');		  
+		  $result 	= mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela tipos_software ou sua sessão expirou!');		  
 		  while ($row = mysql_fetch_array($result))
 		  	{
 			?>

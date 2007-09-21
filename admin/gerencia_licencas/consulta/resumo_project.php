@@ -49,7 +49,7 @@ if ($_POST['consultar']) {
 			  FROM softwares 
 			  WHERE nm_software LIKE '%project%' 
 			  ORDER BY nm_software";
-		$result = mysql_query($query) or die('Ocorreu um erro no select');
+		$result = mysql_query($query) or die('Ocorreu um erro no select ou sua sessão expirou!');
 		echo '<option value=0>Mostrar Todos</option>';
 		while ($softwares=mysql_fetch_array($result)) {
 			echo '<option value=' . $softwares['id_software'] . '>' . $softwares['nm_software'] . '</option>';
@@ -93,7 +93,7 @@ if ($_POST['consultar']) {
 	}
 	$query = $query . " ORDER BY nm_software";
 
-	$result = mysql_query($query) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 	
 ?> 
 <p align="center" class="cabecalho"></p> 

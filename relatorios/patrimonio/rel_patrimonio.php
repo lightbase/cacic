@@ -68,8 +68,8 @@ $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
 
-	if($_SESSION["cs_situacao"] == 'S') 
-		{
+	//if($_SESSION["cs_situacao"] == 'S') 
+		//{
 		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
 		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
@@ -77,7 +77,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 			}
 		$query_redes = "AND computadores.id_ip_rede IN (". $redes_selecionadas .")";
-		}
+		//}
 	}
 else
 	{
@@ -150,14 +150,14 @@ $query = 'SELECT 	concat(computadores.te_node_address, DATE_FORMAT( max(patrimon
 		  WHERE 	patrimonio.te_node_address = computadores.te_node_address '.
 		  			$query_redes . ' 
 		  GROUP  BY computadores.te_node_address';
-$result = mysql_query($query) or die('Erro no select (1)');
+$result = mysql_query($query) or die('Erro no select (1) ou sua sessão expirou!');
 
 $where = '';
 while ($row = mysql_fetch_array($result)) 
 	{ 
 	$where .= ",'" . $row['tripa_node_data'] . "'";
 	}
-$where = " AND concat(computadores.te_node_address, DATE_FORMAT(patrimonio.dt_hr_alteracao,'%d%m%Y%H%i'))  in (" . substr($where,1).")" ;
+$where = " AND concat(computadores.te_node_address, DATE_FORMAT(patrimonio.dt_hr_alteracao,'%d%m%Y%H%i'))  in (" . substr($where,1).")";
 
 	$criterios 		= '';
 	$value_anterior = '';
@@ -250,132 +250,146 @@ $query = " SELECT 	computadores.te_node_address,
 					computadores.te_ip as 'IP'" .
           			$campos_patrimonio . 
 					$select . " 
-		   FROM 	so ".
+		   FROM 	unid_organizacional_nivel1,
+		   			unid_organizacional_nivel2,
+					so ".
 		   			$join_opcional . 
 					$from . "
 		   WHERE  	TRIM(computadores.te_nome_computador) <> '' AND 
-		   			computadores.id_so = so.id_so " . 								 
+		   			computadores.id_so = so.id_so AND
+					patrimonio.te_node_address = computadores.te_node_address AND
+					patrimonio.id_so = computadores.id_so AND 
+					patrimonio.id_unid_organizacional_nivel2 = unid_organizacional_nivel2.id_unid_organizacional_nivel2 AND
+					unid_organizacional_nivel2.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 " . 								 
    					$where . 
 					" AND computadores.id_so IN (". $so_selecionados .") ". $criterios . $query_redes .	$where_uon1 . $where_uon2 . " 
 		   ORDER BY " . $orderby; 
-$result = mysql_query($query) or die('Erro no select (2)');
-
-$fields=mysql_num_fields($result);
-echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
-     <tr bgcolor="#E1E1E1" >
-      <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
-
-if ($in_destacar_duplicidade_total) $arr_in_destacar_duplicidade_total = explode('#',$in_destacar_duplicidade_total);
-
-$in_destacar_duplicidade_tmp = '';
-for ($i=2; $i < mysql_num_fields($result); $i++) 
-	{ //Table Header
-   	print '<td nowrap align="left"><font size="1" face="Verdana, Arial"><b><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></b></font></td>';
-	if ($in_destacar_duplicidade_total && in_array(mysql_field_name($result, $i),$arr_in_destacar_duplicidade_total)) 
-		{
-		if ($in_destacar_duplicidade_tmp) $in_destacar_duplicidade_tmp .= '#';
-		$in_destacar_duplicidade_tmp .= $i;
-		}
-	}
-echo '</tr>';
-
-if ($in_destacar_duplicidade_tmp) 
+$result = mysql_query($query) or die('Não Existem Registros para os Parâmetros de Consulta Fornecidos ou sua sessão expirou!');
+if (mysql_num_rows($result)==0)
 	{
-	$arr_in_destacar_duplicidade = explode('#',$in_destacar_duplicidade_tmp);
-	$v_arr_campos_valores = array();
-	$num_registro = 1;
-	while ($row = mysql_fetch_row($result)) 
-		{
-	    for ($i=3; $i < $fields; $i++) 
-			{
-			if (trim($row[$i])<>'' && in_array($i,$arr_in_destacar_duplicidade)) 
-				{
-				array_push($v_arr_campos_valores,$i . ',' . trim($row[$i]));			
-				}
-			}
-		$num_registro ++;
-		}
-	$v_arr_total_campos_valores = array();
-	$v_arr_total_campos_valores = array_count_values($v_arr_campos_valores);	
+	echo mensagem('Não Existem Registros para os Parâmetros de Consulta Fornecidos.');	
+	}
+else
+	{	
 
+	$fields=mysql_num_fields($result);
+	echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
+	     <tr bgcolor="#E1E1E1" >
+	      <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
+
+	if ($in_destacar_duplicidade_total) $arr_in_destacar_duplicidade_total = explode('#',$in_destacar_duplicidade_total);
+
+	$in_destacar_duplicidade_tmp = '';
+	for ($i=2; $i < mysql_num_fields($result); $i++) 
+		{ //Table Header
+	   	print '<td nowrap align="left"><font size="1" face="Verdana, Arial"><b><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></b></font></td>';
+		if ($in_destacar_duplicidade_total && in_array(mysql_field_name($result, $i),$arr_in_destacar_duplicidade_total)) 
+			{
+			if ($in_destacar_duplicidade_tmp) $in_destacar_duplicidade_tmp .= '#';
+			$in_destacar_duplicidade_tmp .= $i;
+			}
+		}
+	echo '</tr>';
+
+	if ($in_destacar_duplicidade_tmp) 
+		{
+		$arr_in_destacar_duplicidade = explode('#',$in_destacar_duplicidade_tmp);
+		$v_arr_campos_valores = array();
+		$num_registro = 1;
+		while ($row = mysql_fetch_row($result)) 
+			{
+		    for ($i=3; $i < $fields; $i++) 
+				{
+				if (trim($row[$i])<>'' && in_array($i,$arr_in_destacar_duplicidade)) 
+					{
+					array_push($v_arr_campos_valores,$i . ',' . trim($row[$i]));			
+					}
+				}
+			$num_registro ++;
+			}
+		$v_arr_total_campos_valores = array();
+		$v_arr_total_campos_valores = array_count_values($v_arr_campos_valores);	
+
+		$num_registro = 1;
+		$v_registro_atual = '';
+		@mysql_data_seek($result,0);
+		while ($row = mysql_fetch_row($result)) 
+			{
+		    for ($i=3; $i < $fields; $i++) 
+				{
+				if (trim($row[$i])<>'' && in_array($i,$arr_in_destacar_duplicidade)) 
+					{
+					$v_chave = $i . ',' . trim($row[$i]);
+					if ($v_arr_total_campos_valores[$v_chave]>1)
+						{
+						if ($v_registro_atual <> $num_registro) $v_campos_valores_duplicados .= 'r='.$num_registro.'#';
+						$v_registro_atual = $num_registro;
+						$v_campos_valores_duplicados .= '#c='.$i.'#';					
+						}
+					}
+				}
+			$num_registro++;
+			}
+		}
+
+	$cor = 0;	
 	$num_registro = 1;
-	$v_registro_atual = '';
 	@mysql_data_seek($result,0);
 	while ($row = mysql_fetch_row($result)) 
-		{
-	    for ($i=3; $i < $fields; $i++) 
-			{
-			if (trim($row[$i])<>'' && in_array($i,$arr_in_destacar_duplicidade)) 
-				{
-				$v_chave = $i . ',' . trim($row[$i]);
-				if ($v_arr_total_campos_valores[$v_chave]>1)
-					{
-					if ($v_registro_atual <> $num_registro) $v_campos_valores_duplicados .= 'r='.$num_registro.'#';
-					$v_registro_atual = $num_registro;
-					$v_campos_valores_duplicados .= '#c='.$i.'#';					
-					}
-				}
-			}
-		$num_registro++;
-		}
-	}
-
-$cor = 0;
-$num_registro = 1;
-@mysql_data_seek($result,0);
-while ($row = mysql_fetch_row($result)) 
-	{ //Table body
-	$v_key_campos_valores_duplicados = strpos($v_campos_valores_duplicados,'r='.$num_registro.'#',0);
-    echo '<tr ';
-	
-	if ($v_key_campos_valores_duplicados>-1) 
-		echo 'bgcolor="#FFFF99"';
-	elseif ($cor) 
-		echo 'bgcolor="#E1E1E1"';
-
-	echo '>';
-
-    echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
-
-    for ($i=3; $i < $fields; $i++) 
-		{
-		$v_bold='';
-
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial"';
-
-		$j=$v_key_campos_valores_duplicados;			
-		if ($j>-1)
-			{
-			$v_pesquisa_campo = 'c='.trim($i).'#';
-			while ($j < strlen($v_campos_valores_duplicados))
-				{
-				if (substr($v_campos_valores_duplicados,$j,strlen($v_pesquisa_campo))==$v_pesquisa_campo)
-					{			
-					echo 'color="#FF0000"';
-					$v_bold = 'OK';
-					$j = strlen($v_campos_valores_duplicados);				
-					}
-				$j++;
-
-				if (substr($v_campos_valores_duplicados,$j,2)=='r=')
-					{
-					$j = strlen($v_campos_valores_duplicados);
-					}			
-				}
-				
-			}
+		{ //Table body
+		$v_key_campos_valores_duplicados = strpos($v_campos_valores_duplicados,'r='.$num_registro.'#',0);
+		echo '<tr ';
 		
+		if ($v_key_campos_valores_duplicados>-1) 
+			echo 'bgcolor="#FFFF99"';
+		elseif ($cor) 
+			echo 'bgcolor="#E1E1E1"';
+	
 		echo '>';
-		if ($v_bold) echo '<strong>';
-		echo $row[$i];
-		if ($v_bold) echo '</strong>';
-		echo '&nbsp;</td>'; 		
+	
+		echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
+		echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
+	
+		for ($i=3; $i < $fields; $i++) 
+			{
+			$v_bold='';
+	
+			echo '<td nowrap align="left"><font size="1" face="Verdana, Arial"';
+	
+			$j=$v_key_campos_valores_duplicados;			
+			if ($j>-1)
+				{
+				$v_pesquisa_campo = 'c='.trim($i).'#';
+				while ($j < strlen($v_campos_valores_duplicados))
+					{
+					if (substr($v_campos_valores_duplicados,$j,strlen($v_pesquisa_campo))==$v_pesquisa_campo)
+						{			
+						echo 'color="#FF0000"';
+						$v_bold = 'OK';
+						$j = strlen($v_campos_valores_duplicados);				
+						}
+					$j++;
+	
+					if (substr($v_campos_valores_duplicados,$j,2)=='r=')
+						{
+						$j = strlen($v_campos_valores_duplicados);
+						}			
+					}
+					
+				}
+			
+			echo '>';
+			if ($v_bold) echo '<strong>';
+			echo $row[$i];
+			if ($v_bold) echo '</strong>';
+			echo '&nbsp;</td>'; 		
+			}
+		$cor=!$cor;
+		$num_registro++;
+		echo '</tr>';
 		}
-    $cor=!$cor;
-	$num_registro++;
-    echo '</tr>';
-	}
+	}	
+	
 echo '</table>';
 echo '<br><br>';
 /*

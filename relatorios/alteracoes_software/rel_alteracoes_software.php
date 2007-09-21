@@ -74,12 +74,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
 conecta_bd_cacic();
 
 $redes_selecionadas = '';
-if($_SESSION["cs_situacao"] == 'S') {
+//if($_SESSION["cs_situacao"] == 'S') {
 	// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
 	$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
 	for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) {
 		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
-	}
+//	}
 	$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
 }
 
@@ -113,7 +113,7 @@ else { $orderby = '1'; }
 				AND comp.id_so = hist.id_so $query_redes
 			  ORDER BY $orderby ";
 
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 
 
 $cor = 0;

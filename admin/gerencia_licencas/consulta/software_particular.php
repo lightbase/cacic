@@ -67,7 +67,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 			     GROUP BY id_software) AS tblInstalado 
 		  ON tblCompra.id_software = tblInstalado.id_software 
 		  ORDER BY nm_software";
-	$result = mysql_query($query) or die('erro no select');
+	$result = mysql_query($query) or die('erro no select ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

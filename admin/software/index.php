@@ -30,9 +30,9 @@ Conecta_bd_cacic();
 if ($_REQUEST['Excluir']) 
 	{
 	$query = "DELETE FROM softwares_inventariados_grupos WHERE id_si_grupo = '".$_POST['id_si_grupo']."'";
-	mysql_query($query) or die('Delete falhou');
+	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
 	$query = "DELETE FROM acoes_redes WHERE id_ip_rede = '".$_GET['id_ip_rede']."'";
-	mysql_query($query) or die('Delete falhou');	
+	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/software/index_grupos.php&tempo=1");									
 	}
 

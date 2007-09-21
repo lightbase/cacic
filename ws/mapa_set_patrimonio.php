@@ -30,7 +30,8 @@ $v_dados_rede = getDadosRede();
 
 // Se o envio de informações foi feito com dados criptografados... (Versões 2.0.2.5+)
 $te_node_address 		= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress); 
-$id_so           		= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress); 
+$id_so_new         		= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress); 
+$te_so           		= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress); 
 
 //Para implementação futura após alteração do agente, para que ele também envie os dados abaixo
 $te_nome_computador 	= DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress); 
@@ -42,56 +43,59 @@ $id_usuario 			= DeCrypt($key,$iv,$_POST['id_usuario']			,$v_cs_cipher,$v_cs_com
 
 /* Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
  o computador deste agente no BD, caso ainda não esteja inserido. */
-if ($te_node_address || $id_so || $te_nome_computador || $te_ip || $te_workgroup || $id_ip_rede <> '')
+if ($te_node_address <> '')
 	{ 
-	inclui_computador_caso_nao_exista(	$te_node_address, 
-									  	$id_so, 
-									  	$id_ip_rede, 
-									  	$te_ip, 
-									  	$te_nome_computador, 
-									  	$te_workgroup);																				
-	}
+	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+											  	$id_so_new, 
+											  	$te_so, 										
+											  	$id_ip_rede, 
+											  	$te_ip, 
+											  	$te_nome_computador, 
+											  	$te_workgroup);																				
 
-// Atenção: não use o count (*) - Com espaço entre o count e o (*)				
-$query = "SELECT COUNT(*) 
-		  FROM patrimonio 
-		  WHERE te_node_address = '" . $te_node_address . "'
-		  AND id_so = '" . $id_so . "'";
-conecta_bd_cacic();
-
-$result = mysql_query($query);
-if (mysql_num_rows($result) > 0) 
-	{  // Atualização das informações de patrimônio (e não inclusão). 
-
-	// Inclui as informações no histórico.
-	$query = "INSERT INTO patrimonio 
-											(te_node_address,
-												id_so,
-												dt_hr_alteracao,
-												id_unid_organizacional_nivel1,
-												id_unid_organizacional_nivel2,
-												te_localizacao_complementar,
-												te_info_patrimonio1,
-												te_info_patrimonio2,
-												te_info_patrimonio3,
-												te_info_patrimonio4,
-												te_info_patrimonio5,
-												te_info_patrimonio6)
-			 VALUES ('" . $te_node_address . "', 
-					 '" . $id_so . "',
-												NOW(),
-												'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1']	,$v_cs_cipher,$v_cs_compress) . "', 
-												'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress) . "', 
-												'" . DeCrypt($key,$iv,$_POST['te_localizacao_complementar']		,$v_cs_cipher,$v_cs_compress) . "', 
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio1']				,$v_cs_cipher,$v_cs_compress) . "', 
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio2']				,$v_cs_cipher,$v_cs_compress) . "', 
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio3']				,$v_cs_cipher,$v_cs_compress) . "', 
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio4']				,$v_cs_cipher,$v_cs_compress) . "',
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio5']				,$v_cs_cipher,$v_cs_compress) . "',
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio6']				,$v_cs_cipher,$v_cs_compress) . "')";
+	// Atenção: não use o count (*) - Com espaço entre o count e o (*)				
+	$query = "SELECT COUNT(*) 
+			  FROM patrimonio 
+			  WHERE te_node_address = '" . $te_node_address . "'
+			  AND id_so = '" . $id_so . "'";
+	conecta_bd_cacic();
+	
 	$result = mysql_query($query);
-	$_SESSION['id_usuario'] = $id_usuario;			
-	GravaLog('INS',$_SERVER['SCRIPT_NAME'],'patrimonio');				
+	if (mysql_num_rows($result) > 0) 
+		{  // Atualização das informações de patrimônio (e não inclusão). 
+	
+		// Inclui as informações no histórico.
+		$query = "INSERT INTO patrimonio 
+												(te_node_address,
+													id_so,
+													dt_hr_alteracao,
+													id_unid_organizacional_nivel1,
+													id_unid_organizacional_nivel2,
+													te_localizacao_complementar,
+													te_info_patrimonio1,
+													te_info_patrimonio2,
+													te_info_patrimonio3,
+													te_info_patrimonio4,
+													te_info_patrimonio5,
+													te_info_patrimonio6)
+				 VALUES ('" . $te_node_address . "', 
+						 '" . $id_so . "',
+													NOW(),
+													'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1']	,$v_cs_cipher,$v_cs_compress) . "', 
+													'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress) . "', 
+													'" . DeCrypt($key,$iv,$_POST['te_localizacao_complementar']		,$v_cs_cipher,$v_cs_compress) . "', 
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio1']				,$v_cs_cipher,$v_cs_compress) . "', 
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio2']				,$v_cs_cipher,$v_cs_compress) . "', 
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio3']				,$v_cs_cipher,$v_cs_compress) . "', 
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio4']				,$v_cs_cipher,$v_cs_compress) . "',
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio5']				,$v_cs_cipher,$v_cs_compress) . "',
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio6']				,$v_cs_cipher,$v_cs_compress) . "')";
+		$result = mysql_query($query);
+		$_SESSION['id_usuario'] = $id_usuario;			
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'patrimonio');				
+		}
+	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';
 	}
-echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';
+else
+	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>Chave (TE_NODE_ADDRESS + ID_SO) Inválida</STATUS>';	
 ?>

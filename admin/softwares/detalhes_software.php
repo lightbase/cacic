@@ -23,7 +23,7 @@ if ($_REQUEST['ExcluiSoftware'])
 	$query = "DELETE 
 			  FROM 		softwares 
 			  WHERE 	id_software = ".$_REQUEST['frm_id_software'];
-	mysql_query($query) or die('Falha de deleção na tabela softwares...');
+	mysql_query($query) or die('Falha de deleção na tabela softwares ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'softwares');				
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/softwares/index.php&tempo=1");									 				
 	}
@@ -37,7 +37,7 @@ elseif ($_POST['GravaAlteracoes'])
 			  			te_local_midia			= '".$_POST['frm_te_local_midia']."', 
 			  			te_obs					= '".$_POST['frm_te_obs']."'
 			  WHERE 	id_software = ".$_REQUEST['frm_id_software'];
-	mysql_query($query) or die('Falha na atualização da tabela Softwares...');
+	mysql_query($query) or die('Falha na atualização da tabela Softwares ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'softwares');
 			
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/softwares/index.php&tempo=1");									 					
@@ -47,7 +47,7 @@ else {
 				FROM 	redes
 						LEFT JOIN locais ON (redes.id_local = locais.id_local AND redes.id_local = ".$_GET['id_local'].") 
 				WHERE 	redes.id_ip_rede = '".$_GET['id_ip_rede']."'";
-	$result = mysql_query($query) or die ('Falha na consulta às tabelas Redes, Locais...');
+	$result = mysql_query($query) or die ('Falha na consulta às tabelas Redes, Locais ou sua sessão expirou!');
 ?>
 
 

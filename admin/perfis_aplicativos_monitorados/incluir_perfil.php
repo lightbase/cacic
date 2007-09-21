@@ -16,17 +16,17 @@
 
 include_once "../../include/library.php";
 // Comentado temporariamente - AntiSpy();
-if($submit) 
+if($_POST['submit']) 
 {
-	Conecta_bd_cacic();
+	conecta_bd_cacic();
 	
 	$frm_nm_aplicativo = $_POST['frm_nm_aplicativo'];  
 	
-	$query = "SELECT * FROM perfis_aplicativos_monitorados WHERE nm_aplicativo = '$frm_nm_aplicativo'";
-	$result = mysql_query($query) or die ('Select falhou');
+	$query = "SELECT * FROM perfis_aplicativos_monitorados WHERE nm_aplicativo = '".$frm_nm_aplicativo."'";
+	$result = mysql_query($query) or die ('Select falhou ou sua sessão expirou!');
 	
 	if (mysql_num_rows($result) > 0) 
-	{
+		{
 		echo '<p>&nbsp;</p>
 			  <p>&nbsp;</p>
 			  <p>&nbsp;</p><body background="../../imgs/linha_v.gif">
@@ -39,9 +39,9 @@ if($submit)
 				</td>
 				</tr>
 			  </table>';
-	}
+		}
 	else 
-	{
+		{
 //				  te_dir_pad_w9x,
 //				  te_dir_pad_wnt,
 //				  		  '$frm_te_dir_pad_w9x',
@@ -94,8 +94,32 @@ if($submit)
 						  '$frm_in_disponibiliza_info',
 						  '$frm_in_disponibiliza_info_usuario_comum')";
 
-		$result = mysql_query($query) or die ('Insert falhou');
+		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
+		$id_aplicativo = mysql_insert_id(); // Não tirar daqui...
+				
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');		
+				
+
+		
+		$strInsertAplicativosRedes = '';
+		for ($i=0; $i < count($_POST['list2']);$i++)
+			{
+			$dado = explode('_',$_POST['list2'][$i]);
+			if ($strInsertAplicativosRedes)
+				$strInsertAplicativosRedes .= ',';
+			$strInsertAplicativosRedes .= "(".$dado[0].",'".$dado[1]."',".$id_aplicativo.")";		
+			}
+			
+		if ($strInsertAplicativosRedes)
+			{
+			$query = "INSERT 
+					  INTO 		aplicativos_redes
+					  VALUES 	".$strInsertAplicativosRedes;
+
+			$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');								  
+			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');				
+			}
+		
 		header ("Location: ../../include/operacao_ok.php?chamador=../admin/perfis_aplicativos_monitorados/index.php&tempo=1");									 				
 	}
 
@@ -111,6 +135,10 @@ else
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<?
+require_once('../../include/selecao_listbox.js');  
+?>
+
 <SCRIPT LANGUAGE="JavaScript">
 function SetaDescGrupo(p_descricao,p_destino) 
 	{
@@ -176,7 +204,7 @@ function SetaAjuda(p_index, p_texto)
       e min&uacute;sculas.</td>
   </tr>
 </table>
-<form method="post" ENCTYPE="multipart/form-data" name="forma" onsubmit="return valida_form()">
+<form method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return valida_form()">
   <br>
   <table width="90%" border="0" align="center">
     <tr> 
@@ -195,7 +223,7 @@ function SetaAjuda(p_index, p_texto)
 			          FROM   so
 					  WHERE  id_so <> '0'
 					  ORDER  BY te_desc_so";
-			mysql_query($query) or die('Select falhou');
+			mysql_query($query) or die('Select falhou ou sua sessão expirou!');
 		    $sql_result=mysql_query($query);			
 		while ($row=mysql_fetch_array($sql_result))
 			{ 
@@ -320,11 +348,28 @@ function SetaAjuda(p_index, p_texto)
           de Executável</option>
         </select> <br> <input name="frm_te_car_ver_wnt" type="text" id="frm_te_car_ver_wnt" size="80" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
         <br> <input name="Ajuda5" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
-        <br> <input name="Ajuda55" type="text" style="border:0" size="80"> </td>
+        <br> <input name="Ajuda55" type="text" style="border:0" size="80"> </td>		
     </tr>
+    <tr> 
+      <td nowrap>&nbsp;</td>
+    </tr>
+	
+    <tr> 
+      <td nowrap class="cabecalho_secao"><u>Locais para aplicação da coleta do sistema monitorado </u></td>
+    </tr>
+	
+	<tr>
+	<td>
+	<?
+	$select = "";
+	$from   = "";	
+	include_once "../../include/selecao_redes_perfil_inc.php";	
+	?>
+	</td>	
+	</tr>
   </table>
-    
-  <?
+<?
+
 	/*
     <table width="90%" border="0" align="center" cellspacing="1">
       <tr>
@@ -424,8 +469,9 @@ function SetaAjuda(p_index, p_texto)
   </table>
   */
   ?>
-  <p align="center"> 
-    <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return Confirma('Confirma Inclusão de Perfil de Sistema Monitorado?');">
+  <br>
+  <p align="center">   
+    <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return Confirma('Confirma Inclusão de Perfil de Sistema Monitorado?'),SelectAll(this.form.elements['list2[]']) ">
   </p>
   </form>
 <p>

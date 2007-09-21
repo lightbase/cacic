@@ -25,34 +25,54 @@ $v_cs_cipher	= (trim($_POST['cs_cipher'])   <> ''?trim($_POST['cs_cipher'])   : 
 $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) : '4');
 
 autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
-$te_node_address 			= trim(DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress)); 
-$id_so           			= trim(DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress)); 
+$te_node_address 			= DeCrypt($key,$iv,$_POST['te_node_address']		,$v_cs_cipher,$v_cs_compress); 
+$id_so_new         			= DeCrypt($key,$iv,$_POST['id_so']					,$v_cs_cipher,$v_cs_compress); 
+$te_so           			= DeCrypt($key,$iv,$_POST['te_so']					,$v_cs_cipher,$v_cs_compress); 
+$id_ip_rede     			= DeCrypt($key,$iv,$_POST['id_ip_rede']				,$v_cs_cipher,$v_cs_compress);
+$te_ip 						= DeCrypt($key,$iv,$_POST['te_ip']					,$v_cs_cipher,$v_cs_compress); 
+$te_nome_computador			= DeCrypt($key,$iv,$_POST['te_nome_computador']		,$v_cs_cipher,$v_cs_compress); 
+$te_workgroup 				= DeCrypt($key,$iv,$_POST['te_workgroup']			,$v_cs_cipher,$v_cs_compress); 
 
-conecta_bd_cacic();
-// Verifico se o computador em questão já foi inserido anteriormente, e se não foi, insiro.
-$query = "SELECT count(*) as num_registros
-          FROM officescan
-										WHERE te_node_address = '" . $te_node_address . "'
-										AND id_so = '" . $id_so . "'";
-$result = mysql_query($query);
-if (mysql_result($result, 0, "num_registros") == 0) {
-					$query = "INSERT INTO officescan
-															(te_node_address, id_so)
-															VALUES ('" . $te_node_address . "', '" . $id_so . "'  )";
-					$result = mysql_query($query);
-} 
-
-$query = "UPDATE officescan 
-		  SET 	nu_versao_engine 	= '" . DeCrypt($key,$iv,$_POST['nu_versao_engine']	,$v_cs_cipher,$v_cs_compress) . "',
-			 	nu_versao_pattern   = '" . DeCrypt($key,$iv,$_POST['nu_versao_pattern']	,$v_cs_cipher,$v_cs_compress) . "',
-			 	dt_hr_coleta        = NOW(),
-				dt_hr_instalacao    = '" . DeCrypt($key,$iv,$_POST['dt_hr_instalacao']	,$v_cs_cipher,$v_cs_compress) . "',
-			 	te_servidor         = '" . DeCrypt($key,$iv,$_POST['te_servidor']		,$v_cs_cipher,$v_cs_compress) . "',
-			 	in_ativo            = '" . DeCrypt($key,$iv,$_POST['in_ativo']			,$v_cs_cipher,$v_cs_compress) . "' 
-	 	  WHERE te_node_address 	= '" . $te_node_address . "' and
-	       		id_so           	= '" . $id_so . "'";
-$result = mysql_query($query);
-
-echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';
+/* Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
+ o computador deste agente no BD, caso ainda não esteja inserido. */
+if ($te_node_address <> '')
+	{ 
+	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+												$id_so_new, 
+												$te_so,
+												$id_ip_rede, 
+												$te_ip, 
+												$te_nome_computador, 
+												$te_workgroup);										
+	conecta_bd_cacic();
+	// Verifico se o computador em questão já foi inserido anteriormente, e se não foi, insiro.
+	$query = "SELECT count(*) as num_registros
+			  FROM officescan
+											WHERE te_node_address = '" . $te_node_address . "'
+											AND id_so = '" . $id_so . "'";
+	$result = mysql_query($query);
+	if (mysql_result($result, 0, "num_registros") == 0) 
+		{
+						$query = "INSERT INTO officescan
+																(te_node_address, id_so)
+																VALUES ('" . $te_node_address . "', '" . $id_so . "'  )";
+						$result = mysql_query($query);
+		} 
+	
+	$query = "UPDATE officescan 
+			  SET 	nu_versao_engine 	= '" . DeCrypt($key,$iv,$_POST['nu_versao_engine']	,$v_cs_cipher,$v_cs_compress) . "',
+					nu_versao_pattern   = '" . DeCrypt($key,$iv,$_POST['nu_versao_pattern']	,$v_cs_cipher,$v_cs_compress) . "',
+					dt_hr_coleta        = NOW(),
+					dt_hr_instalacao    = '" . DeCrypt($key,$iv,$_POST['dt_hr_instalacao']	,$v_cs_cipher,$v_cs_compress) . "',
+					te_servidor         = '" . DeCrypt($key,$iv,$_POST['te_servidor']		,$v_cs_cipher,$v_cs_compress) . "',
+					in_ativo            = '" . DeCrypt($key,$iv,$_POST['in_ativo']			,$v_cs_cipher,$v_cs_compress) . "' 
+			  WHERE te_node_address 	= '" . $te_node_address . "' and
+					id_so           	= '" . $id_so . "'";
+	$result = mysql_query($query);
+	
+	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';
+	}
+else
+	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>Chave (TE_NODE_ADDRESS + ID_SO) Inválida</STATUS>';	
 
 ?>

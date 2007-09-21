@@ -16,7 +16,7 @@
 
 session_start();
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+anti_spy();
 
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
@@ -136,7 +136,7 @@ function open_window(theURL,winName,features) {
           </tr>
           <tr> 
             <td class="ajuda">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
+              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
           </tr>
         </table></td>
     </tr>

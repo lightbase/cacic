@@ -28,7 +28,7 @@ if ($nomes_duplicados) {
 				ORDER  BY te_nome_computador";
 
 //	echo $query;
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 	$tipo_historico = 'encontrados';
 }
 

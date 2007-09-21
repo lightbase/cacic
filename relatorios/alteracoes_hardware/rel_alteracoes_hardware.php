@@ -79,15 +79,15 @@ conecta_bd_cacic();
 $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
-	if($_SESSION["cs_situacao"] == 'S') 
-		{
+	//if($_SESSION["cs_situacao"] == 'S') 
+		//{
 		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
 		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
 		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
-		}	
+		//}	
 	}
 else
 	{
@@ -140,7 +140,7 @@ else
 							$query_redes. " 
 			  ORDER BY 		$orderby ";
 //echo $query . '<br>';
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 
 
 $cor = 0;

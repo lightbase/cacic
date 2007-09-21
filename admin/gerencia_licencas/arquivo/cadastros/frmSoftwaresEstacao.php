@@ -43,7 +43,7 @@ if (texto.substring(0,1) != saida)
 </script>
 <link href="../../../../include/cacic.css" rel="stylesheet" type="text/css">
 </head>
-<body bgcolor="#FFFFFF" topmargin="5" onload="document.forms[0].patrimonio.focus()" background="/cacic2/imgs/linha_v.gif">
+<body bgcolor="#FFFFFF" topmargin="5" onLoad="document.forms[0].patrimonio.focus()" background="/cacic2/imgs/linha_v.gif">
 <table width="90%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Cadastro de Softwares por Esta&ccedil;&atilde;o</td>
@@ -69,7 +69,7 @@ if (texto.substring(0,1) != saida)
         <select name="software" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
           <? 
           	$query = "SELECT id_software, nm_software FROM softwares ORDER BY nm_software";
-		    $result = mysql_query($query) or die('Ocorreu um erro no select');
+		    $result = mysql_query($query) or die('Ocorreu um erro no select ou sua sessão expirou!');
 		    echo '<option value=-1></option>';
 		    while ($softwares=mysql_fetch_array($result)) {
 				echo '<option value=' . $softwares['id_software'] . '>' . $softwares['nm_software'] . '</option>';
@@ -100,7 +100,7 @@ if (texto.substring(0,1) != saida)
         <select name="aquisicao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
 	        <? 
 	          	$query = "SELECT id_aquisicao, nm_proprietario FROM aquisicoes ORDER BY nm_proprietario";
-			    $result = mysql_query($query) or die('Ocorreu um erro no select');
+			    $result = mysql_query($query) or die('Ocorreu um erro no select ou sua sessão expirou!');
 			    echo '<option value=-1></option>';
 			    while ($aquisicoes=mysql_fetch_array($result)) {
 					echo '<option value=' . $aquisicoes['id_aquisicao'] . '>' . $aquisicoes['nm_proprietario'] . '</option>';

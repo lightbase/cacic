@@ -63,7 +63,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 		      (c.te_node_address = sie.te_node_address) AND 
 		      (c.id_so = sie.id_so) 
 		ORDER BY c.te_nome_computador"; 
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Erro no acesso às tabelas "computadores", "aplicativos_monitorados" e "softwares_inventariados_estacoes" ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

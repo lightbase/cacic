@@ -42,7 +42,7 @@ if($grava_alteracao_uon1)
 				   		  '$frm_te_email_responsavel_uon1',
 				   		  '$frm_nu_tel1_responsavel_uon1',
 				   		  '$frm_nu_tel2_responsavel_uon1')";
-		$result = mysql_query($query) or die ('Insert falhou');
+		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1');
 		if (!atualiza_configuracoes_uonx('1'))
 			{

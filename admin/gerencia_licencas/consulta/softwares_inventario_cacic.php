@@ -59,7 +59,7 @@ conecta_bd_cacic();
 	$query = "SELECT s.nm_software 
 		  FROM softwares s 
 		  WHERE (s.id_software = " . $v_id_software . ")";
-	$result = mysql_query($query) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 	$row = mysql_fetch_row($result);
 
 echo '<table border="0" align="center" width="80%">
@@ -73,7 +73,7 @@ echo '<table border="0" align="center" width="80%">
                 GROUP BY si.id_software_inventariado 
 		ORDER BY si.nm_software_inventariado";  
 	
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
 $num_registro = 1;

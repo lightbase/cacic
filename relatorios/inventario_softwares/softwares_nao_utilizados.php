@@ -31,7 +31,7 @@ if ($_REQUEST['Excluir'])
 	{
 	$query = "DELETE FROM softwares_inventariados WHERE id_software_inventariado = '".$_REQUEST['id_software_inventariado']."'";
 
-	mysql_query($query) or die('Delete falhou');
+	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
 	
 	header ("Location: ../../include/operacao_ok.php?chamador=../relatorios/inventario_softwares/softwares_nao_utilizados.php&tempo=1");									
 	}

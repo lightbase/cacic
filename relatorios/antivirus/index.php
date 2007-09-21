@@ -268,7 +268,7 @@
 				<?
                 //<input name="submit" type="submit" id="submit" onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['list8[]'])" value="     Gerar Relat&oacute;rio     ">
 				?>
-                <input name="submit" type="submit" id="submit" onClick="<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
+                <input name="submit" type="submit" id="submit" onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
 																				 $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>,
 																		SelectAll(this.form.elements['list4[]']), 
 																		SelectAll(this.form.elements['list6[]'])" value="     Gerar Relat&oacute;rio     ">				

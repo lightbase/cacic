@@ -49,7 +49,7 @@ if ($_POST['consultar'])
 	$query = "SELECT 	* 
 			  FROM 		tipos_software 
 			  ORDER BY	te_descricao_tipo_software";
-	$result = mysql_query($query) or die ('select falhou');
+	$result = mysql_query($query) or die ('Select em "tipos_software" falhou ou sua sessão expirou!');
 	while ($row = mysql_fetch_array($result))
 		{
 		?>
@@ -91,7 +91,7 @@ if ($_POST['consultar']) {
 		$query .= " AND (ss.id_tipo_software = ".$_REQUEST['id_tipo_software'].")";
 		
 	$query .= " GROUP BY 	ss.nm_software_inventariado"; 
-	$result = mysql_query($query) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 	
 	if(($nu_reg= mysql_num_rows($result))==0) {
 		echo $mensagem = mensagem('Nenhum registro encontrado!');

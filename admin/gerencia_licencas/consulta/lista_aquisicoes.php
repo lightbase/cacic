@@ -66,7 +66,7 @@ conecta_bd_cacic();
 		FROM aquisicoes  
 		ORDER BY id_aquisicao";
    }
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
 $num_registro = 1;

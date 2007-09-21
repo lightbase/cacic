@@ -14,32 +14,37 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-if ($_POST['submit']) {
-  header ("Location: incluir_rede.php");
-}
+if ($_POST['submit']) 
+	{
+  	header ("Location: incluir_rede.php");
+	}
 
 include_once "../../include/library.php";
+
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 $where = ($_SESSION['cs_nivel_administracao']==1||$_SESSION['cs_nivel_administracao']==2?
 			' LEFT JOIN locais ON (locais.id_local = redes.id_local)':
 			', locais WHERE redes.id_local = locais.id_local AND redes.id_local='.$_SESSION['id_local']);
 			
-if ($_SESSION['te_locais_secundarios'] && $where)
+if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	{
 	// Faço uma inserção de "(" para ajuste da lógica para consulta
 	$where = str_replace('redes.id_local=','(redes.id_local=',$where);
 	$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
 	}
+
+$ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'sg_local,nm_rede');
 			
 $query = 'SELECT 	* 
 		  FROM 		redes '.
 		  $where .' 		  			
-		  ORDER BY 	sg_local,
-		  			nm_rede';
+		  ORDER BY '.$ordem;
 
 $result = mysql_query($query);
-
+$msg = '<div align="center">
+		<font color="#c0c0c0" size="1" face="Verdana, Arial, Helvetica, sans-serif">
+		Clique nas Colunas para Ordenar</font><br><br></div>';				
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -87,28 +92,32 @@ $result = mysql_query($query);
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Endere&ccedil;o</div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=id_ip_rede">Endere&ccedil;o</a></div></td>
             <td nowrap >&nbsp;</td>
-            <td nowrap  class="cabecalho_tabela"><div align="left">Subrede</div></td>
+            <td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede">Subrede</a></div></td>
             <td nowrap >&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Local</div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local,nm_rede">Local</a></div></td>
             <td nowrap >&nbsp;</td>
           </tr>
+  	<tr> 
+    <td height="1" bgcolor="#333333" colspan="9"></td>
+  	</tr>
+		  
           <?  
-if(@mysql_num_rows($result)==0) {
+if(@mysql_num_rows($result)==0) 
+	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhuma rede cadastrada
-			</font><br><br></div>';
-			
-}
-else {
+				Nenhuma rede cadastrada ou sua sessão expirou!</font><br><br></div>';				
+	}
+else 
+	{
 	$Cor = 0;
 	$NumRegistro = 1;
 	
-	while($row = mysql_fetch_array($result)) {
-		  
-	 ?>
+	while($row = mysql_fetch_array($result)) 
+		{		  
+	 	?>
           <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
@@ -122,12 +131,12 @@ else {
             <? 
 		$Cor=!$Cor;
 		$NumRegistro++;
+		}
 	}
-}
-?>
-        </table></td>
-  </tr>
-  <tr> 
+	?>
+    </table></td>
+  	</tr>
+  	<tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 

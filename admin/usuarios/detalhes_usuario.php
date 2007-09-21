@@ -15,6 +15,7 @@
  */
 session_start();
 require_once('../../include/library.php');
+
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 
@@ -24,7 +25,7 @@ if ($ExcluiUsuario)
 			  FROM 		usuarios 
 			  WHERE 	id_usuario = '". $_POST['frm_id_usuario'] ."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha na deleção na tabela Usuários...');
+	mysql_query($query) or die('Falha na deleção na tabela Usuários ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'usuarios');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 							
 	}
@@ -47,7 +48,7 @@ elseif ($GravaAlteracoes)
 						te_locais_secundarios = '$v_te_locais_secundarios'						
 			  WHERE 	id_usuario = ". $_POST['frm_id_usuario'];
 
-	mysql_query($query) or die('Falha na atualização da tabela Usuários...');
+	mysql_query($query) or die('Falha na atualização da tabela Usuários ou sua sessão expirou!');
 
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'usuarios');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 							
@@ -59,7 +60,7 @@ elseif ($ReinicializaSenha)
 			  SET		te_senha = PASSWORD('".$_POST['frm_nm_usuario_acesso']."')
 			  WHERE 	id_usuario = ". $_POST['frm_id_usuario'] ." AND
 			  			id_local = ".$_POST['frm_id_local'];
-	mysql_query($query) or die('Falha na atualização da tabela Usuários...');
+	mysql_query($query) or die('Falha na atualização da tabela Usuários ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'usuarios');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 							
 	
@@ -78,7 +79,7 @@ else {
 			  WHERE 	a.id_usuario = ".$_GET['id_usuario']." and 
 			  			a.id_local = loc.id_local";
 
-	$result = mysql_query($query) or die ('select falhou');
+	$result = mysql_query($query) or die ('Select em "usuarios" falhou ou sua sessão expirou!');
 	$row_usuario = mysql_fetch_array($result);
 ?>
 
@@ -134,7 +135,7 @@ team = new Array(
 <? 
 $sql='select * from locais ';
 $where = '';
-if ($_SESSION['te_locais_secundarios'])
+if ($_SESSION['te_locais_secundarios']<>'')
 	{
 	$where = ' where id_local = '.$_SESSION['id_local'].' OR id_local in ('.$_SESSION['te_locais_secundarios'].') ';
 	}
@@ -212,17 +213,17 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 <p>&nbsp;</p><table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
   <tr> 
     <td valign="top"> 
-<form action="detalhes_usuario.php"  method="post" ENCTYPE="multipart/form-data" name="form" onsubmit="return valida_form()">
+<form action="detalhes_usuario.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
         <table border="0" cellpadding="2" cellspacing="2">
           <tr> 
             <td class="label">Local:</td>
             <td>
 			<select name="frm_id_local" id="frm_id_local"" class="normal" onChange="fillSelectFromArray(this.form.frm_sel_id_locais_secundarios, team,this.form.frm_id_local.value);" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"
 			<?
-			echo ($_SESSION['cs_nivel_administracao']>1 && !($_SESSION['cs_nivel_administracao']==3 && $_SESSION['te_locais_secundarios'])?'disabled':'');	?>>
+			echo ($_SESSION['cs_nivel_administracao']>1 && !($_SESSION['cs_nivel_administracao']==3 && $_SESSION['te_locais_secundarios']<>'')?'disabled':'');	?>>
                 <? 
 			$where = '';
-			if ($_SESSION['te_locais_secundarios'] && $_SESSION['cs_nivel_administracao']==3)
+			if ($_SESSION['te_locais_secundarios']<>'' && $_SESSION['cs_nivel_administracao']==3)
 				{
 				// Faço uma inserção de "(" para ajuste da lógica para consulta	
 				$where = 'WHERE id_local = '.$_SESSION['id_local'].' OR id_local IN ('.$_SESSION['te_locais_secundarios'].') ';
@@ -234,7 +235,7 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 								 FROM 		locais ".
 								 $where . "
 								 ORDER BY	sg_local";
-		    $result_locais = mysql_query($qry_locais) or die ('Select falhou');
+		    $result_locais = mysql_query($qry_locais) or die ('Select em "locais" falhou ou sua sessão expirou!');
 			while ($row_qry=mysql_fetch_array($result_locais))
 		  		{
 				echo '<option value="'.$row_qry[0].'"';
@@ -249,13 +250,13 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 			</select> 
             <?
 		// Se não for nível Administrador então fixa o id_local...
-		if ($_SESSION['cs_nivel_administracao']<>1 && !($_SESSION['cs_nivel_administracao']==3 && $_SESSION['te_locais_secundarios']))
+		if ($_SESSION['cs_nivel_administracao']<>1 && !($_SESSION['cs_nivel_administracao']==3 && $_SESSION['te_locais_secundarios']<>''))
 			echo '<input name="frm_id_local" type="hidden" id="frm_id_local" value="'.$_SESSION['id_local'].'">';		
 
 		$qry_locais_secundarios    = "SELECT 	a.te_locais_secundarios
 								      FROM 	    usuarios a
 								      WHERE 	a.id_usuario = ".$_GET['id_usuario']; 
-	    $result_locais_secundarios = mysql_query($qry_locais_secundarios) or die ('Select falhou');							
+	    $result_locais_secundarios = mysql_query($qry_locais_secundarios) or die ('Select em "usuarios" falhou ou sua sessão expirou!');							
 		$row_locais_secundarios    = mysql_fetch_array($result_locais_secundarios);		
 		$arr_locais_secundarios    = explode(',',$row_locais_secundarios['te_locais_secundarios']);
 
@@ -265,7 +266,7 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
           </tr>
           <tr> 
             <td class="label">Locais Secund&aacute;rios:</td>
-            <td><select name="frm_sel_id_locais_secundarios" id="frm_sel_id_locais_secundarios" size="5" multiple class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1 && !($_SESSION['cs_nivel_administracao']==3 && $_SESSION['te_locais_secundarios'])?"disabled":"");?>>
+            <td><select name="frm_sel_id_locais_secundarios" id="frm_sel_id_locais_secundarios" size="5" multiple class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?"disabled":"");?>>
                 <option value="0"></option>
                 <?
 			while ($row_locais_secundarios = mysql_fetch_array($result_locais))
@@ -309,7 +310,7 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
           </tr>
           <tr nowrap> 
             <td nowrap class="label">Tipo de Acesso:</td>
-            <td nowrap> <select name="frm_id_grupo_usuarios" id="frm_id_grupo_usuarios" onChange="SetaDescGrupo(this.options[selectedIndex].id,'frm_te_descricao_grupo')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_GET['id_usuario']==$_SESSION['id_usuario'] && $_SESSION['cs_nivel_administracao']<>1?'disabled':'');?>>
+            <td nowrap> <select name="frm_id_grupo_usuarios" id="frm_id_grupo_usuarios" onChange="SetaDescGrupo(this.options[selectedIndex].id,'frm_te_descricao_grupo')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_GET['id_usuario']==$_SESSION['id_usuario'] && $_SESSION['cs_nivel_administracao']<>1 || ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0))?'disabled':'');?>>
                 <? 
 			$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' WHERE cs_nivel_administracao >= '.$_SESSION['cs_nivel_administracao'].' OR cs_nivel_administracao = 0':'');
 			$qry_grp_usu = "SELECT 		id_grupo_usuarios, 
@@ -318,7 +319,7 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 							FROM 		grupo_usuarios ".
 										$where . "
 							ORDER BY	te_grupo_usuarios";
-		    $result_qry_grp = mysql_query($qry_grp_usu) or die ('Select falhou');
+		    $result_qry_grp = mysql_query($qry_grp_usu) or die ('Select falhou ou sua sessão expirou!');
 			while ($row_qry=mysql_fetch_array($result_qry_grp))
 		  		{
 				echo '<option value="'.$row_qry[0].'"';
@@ -341,11 +342,11 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
           </tr>
         </table>
         <p align="center"> 
-          <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Usuário?');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Usuário?');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?'disabled':'')?>>
 		  &nbsp;&nbsp;
-          <input name="ReinicializaSenha" type="submit" id="ReinicializaSenha" value="  Reinicializar Senha  " <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="ReinicializaSenha" type="submit" id="ReinicializaSenha" value="  Reinicializar Senha  " <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?'disabled':'')?>>
           &nbsp; &nbsp; 
-          <input name="ExcluiUsuario" type="submit" id="ExcluiUsuario" value="  Excluir Usu&aacute;rio" onClick="return Confirma('Confirma Exclusão de Usuário?');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="ExcluiUsuario" type="submit" id="ExcluiUsuario" value="  Excluir Usu&aacute;rio" onClick="return Confirma('Confirma Exclusão de Usuário?');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?'disabled':'')?>>
 			<?
 			if ($_REQUEST['nm_chamador'])
 				{

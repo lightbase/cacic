@@ -64,7 +64,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 	$where = ' AND locais.id_local = '.$_SESSION['id_local'];
 	}
 
-if ($_SESSION['te_locais_secundarios'] && $where)
+if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	{
 	// Faço uma inserção de "(" para ajuste da lógica para consulta	
 	$where = str_replace(' locais.id_local = ',' (locais.id_local = ',$where);
@@ -225,7 +225,7 @@ $_SESSION['tit_coluna'] = 'Engine';
 $_SESSION['tit_tabela'] = '<font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Relação de máquinas com o Pattern <b>' . $_GET['pattern']. '</b></font>';
 	}	
 
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Select na tabela "officescan" falhou ou sua sessão expirou!');
 ?>
 <p align="center" class="descricao">Clique 
   sobre o nome da m&aacute;quina para ver os detalhes da mesma

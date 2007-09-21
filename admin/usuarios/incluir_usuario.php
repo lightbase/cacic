@@ -25,7 +25,7 @@ if($submit)
 	$query = "SELECT 	* 
 			  FROM 		usuarios 
 			  WHERE 	nm_usuario_acesso = '$frm_nm_usuario_acesso'";
-	$result = mysql_query($query) or die ('Falha na consulta à tabela Usuários');
+	$result = mysql_query($query) or die ('Falha na consulta à tabela Usuários ou sua sessão expirou!');
 	
 	if (mysql_num_rows($result) > 0) 
 		{
@@ -52,7 +52,7 @@ if($submit)
 							'$frm_te_emails_contato',
 							'$frm_te_telefones_contato',
 							'$frm_te_locais_secundarios')";
-		$result = mysql_query($query) or die ('Insert falhou');
+		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'usuarios');		
 		header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 											
 		}
@@ -122,7 +122,7 @@ else
 	<?
 	$sql='select * from locais ';
 	$where = '';
-	if ($_SESSION['te_locais_secundarios'])
+	if ($_SESSION['te_locais_secundarios']<>'')
 		{
 		$where = ' where id_local = '.$_SESSION['id_local'].' OR id_local in ('.$_SESSION['te_locais_secundarios'].') ';
 		}
@@ -204,7 +204,7 @@ else
 	</table>
 	<?
 	$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE id_local = '.$_SESSION['id_local']:'');
-	if ($_SESSION['te_locais_secundarios'] && $where)
+	if (trim($_SESSION['te_locais_secundarios'])<>'' && $where <> '')
 		{
 		// Faço uma inserção de "(" para ajuste da lógica para consulta
 		$where = str_replace('id_local = ','(id_local = ',$where);
@@ -217,10 +217,11 @@ else
 						FROM 		locais ".
 									$where . "
 						ORDER BY	sg_local";
-	$result_local = mysql_query($qry_local) or die ('Falha na consulta à tabela Locais...');
+	
+	$result_local = mysql_query($qry_local) or die ('Falha na consulta à tabela Locais ou sua sessão expirou!');
 	?>
 	
-	  <p>&nbsp;</p><form action="incluir_usuario.php"  method="post" ENCTYPE="multipart/form-data" name="form" onsubmit="return valida_form()">
+	  <p>&nbsp;</p><form action="incluir_usuario.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
 	  <table border="0" align="center" cellpadding="2" cellspacing="2">
 		<tr> 
 		  <td class="label">Local Prim&aacute;rio:</td>
@@ -275,7 +276,7 @@ else
 						FROM 		grupo_usuarios ".
 									$where . "
 						ORDER BY	te_grupo_usuarios";
-		$result_qry_grp = mysql_query($qry_grp_usu) or die ('Falha na consulta à tabela Grupo_Usuarios...');
+		$result_qry_grp = mysql_query($qry_grp_usu) or die ('Falha na consulta à tabela Grupo_Usuarios ou sua sessão expirou!');
 	?>
 		<tr nowrap> 
 		  <td class="label">Emails para Contato:</td>

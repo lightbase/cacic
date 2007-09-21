@@ -1,4 +1,5 @@
 <? session_start();
+
 if($_POST['submit']) {
 	$_SESSION["list2"] 	= $_POST['list2'];
 	$_SESSION["list4"] 	= $_POST['list4'];
@@ -54,15 +55,15 @@ conecta_bd_cacic();
 $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
-	if($_SESSION["cs_situacao"] == 'S') 
-		{
+	//if($_SESSION["cs_situacao"] == 'S') 
+	//	{
 		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes	
 		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			{
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 			}
-		}
+	//	}
 		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
 	}
 else
@@ -104,8 +105,8 @@ $query = 'SELECT 	distinct computadores.te_node_address,
 					te_ip as "IP"' .
           			$campos_software . 
 					$select . ' 
-		  FROM 		computadores,
-					so LEFT JOIN officescan ON (computadores.te_node_address = officescan.te_node_address and computadores.id_so = officescan.id_so) '.
+		  FROM 		so,
+		  			computadores LEFT JOIN officescan ON (computadores.te_node_address = officescan.te_node_address and computadores.id_so = officescan.id_so) '.
 					$from. ' 		 
 		  WHERE  	TRIM(computadores.te_nome_computador) <> "" AND 
 		  			computadores.id_so = so.id_so AND 
@@ -113,10 +114,7 @@ $query = 'SELECT 	distinct computadores.te_node_address,
 		  			$query_redes .' 
 		  ORDER BY ' . $orderby; 
 
-//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-//	echo $query . '<br>';
-	
-$result = mysql_query($query) or die('Erro no select');
+$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
 $num_registro = 1;

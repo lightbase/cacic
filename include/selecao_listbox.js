@@ -108,20 +108,23 @@ function exclui(fbox,tbox) {
 }
 
 
-function move(fbox,tbox) {
-	for(var i=0; i<fbox.options.length; i++) {
-		if(fbox.options[i].selected && fbox.options[i].value != "") {
-				var no = new Option();
-				no.value = fbox.options[i].value;
-				no.text = fbox.options[i].text;
-				tbox.options[tbox.options.length] = no;
-				fbox.options[i].value = "";
-				fbox.options[i].text = "";
+function move(fbox,tbox) 
+	{
+	for(var i=0; i<fbox.options.length; i++) 
+		{
+		if(fbox.options[i].selected && fbox.options[i].value != "") 
+			{
+			var no = new Option();
+			no.value = fbox.options[i].value;
+			no.text = fbox.options[i].text;
+			tbox.options[tbox.options.length] = no;
+			fbox.options[i].value = "";
+			fbox.options[i].text = "";
 		   }
+		}
+ 	BumpUp(fbox);
+ 	ordena(tbox); 	 
 	}
- BumpUp(fbox);
- ordena(tbox); 	 
-}
 
 
 function BumpUp(box)  {
@@ -155,11 +158,33 @@ function SelectAll(combo)
 				seleciona = false;
 				}
 			}
-    	combo.options[i].selected=seleciona;
+	    	combo.options[i].selected=seleciona;
 		seleciona = true;
    		}
 	}
-
+	
+// Para uso da opção "Todas as redes" ou "Apenas redes selecionadas"	
+function ChecaTodasAsRedes()
+	{
+	for (intForms=0;intForms<window.document.forms.length;intForms++)
+		{
+		for (intElements=0;intElements<window.document.forms[intForms].elements.length;intElements++)
+			{	
+			if (document.forms[intForms].elements[intElements].name == 'cs_situacao' && 
+			    document.forms[intForms].elements[intElements].value == 'T' &&
+			    document.forms[intForms].elements[intElements].checked == true)
+				{
+				SelectAll(document.forms[intForms].elements['list1[]']);
+				move(document.forms[intForms].elements['list1[]'],document.forms[intForms].elements['list2[]']);
+				SelectAll(document.forms[intForms].elements['list2[]']);
+				document.forms[intForms].elements['list2[]'].disabled=false;		
+				intElements = window.document.forms[intForms].elements.length;
+				}
+			}
+		}
+	return true;
+	}
+	
 // 	As funções abaixo são para uso da seleção de critérios para relatório patrimonial
 function Preenche_Condicao_VAZIO(p_campo)
 	{

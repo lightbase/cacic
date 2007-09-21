@@ -25,6 +25,6 @@ $query = 'SELECT a.'.$_GET['v_nome_campo']. ',
  		  AND a.id_so IN ('. str_replace("-=-", '"',$_GET['v_so_selecionados']) .') '.str_replace("-=-", '"',$_GET['v_query_redes']).'  
 		  GROUP BY a.'.$_GET['v_nome_campo'] .' 
 		  ORDER BY a.'.$_GET['v_nome_campo'] ;	  
-$result = mysql_query($query) or die('Erro no select'); 
+$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!'); 
 require_once $_SERVER['DOCUMENT_ROOT'] . 'include/monta_estatisticas.php';
 ?>

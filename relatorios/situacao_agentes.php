@@ -56,7 +56,7 @@ function open_window(theURL) {
 																	$query = ' SELECT id_ip_rede, nm_rede
               												  FROM redes
               												 	ORDER BY nm_rede'; 
-        									$result = mysql_query($query) or die('Erro na consulta à tabela "redes".'); ?>
+        									$result = mysql_query($query) or die('Erro na consulta à tabela "redes" ou sua sessão expirou!'); ?>
               <select name="rede" id="rede">
                 <?	while ($row = mysql_fetch_array($result)) { 	?>
                 <option value="<? echo $row['id_ip_rede']; ?>"><? echo $row["nm_rede"] . '  (' . $row['id_ip_rede'] . ')' ; ?></option>
@@ -120,12 +120,12 @@ function parseFile(){
 	/* Open the xml file and pass it to the parser in 4k chunks.  Return 
 	 * an error if file cannot be opened.  */ 
  if (!($fp = fopen($xmlSource,"r"))) { 
-    die("Cannot open $xmlSource."); 
+    die("Não consigo abrir '".$xmlSource."' ou sua sessão expirou!"); 
 	}
 	
 	while (($data = fread($fp,4096))) { 
    if(!xml_parse($xml_parser,$data, feof($fp))) { 
-	     die(sprintf("XML error at line %d column %d ", xml_get_current_line_number($xml_parser), xml_get_current_column_number($xml_parser)));
+	     die(sprintf("Erro XML na linha %d e coluna %d. (ou sua sessão expirou!) ", xml_get_current_line_number($xml_parser), xml_get_current_column_number($xml_parser)));
    }
 	}		
 

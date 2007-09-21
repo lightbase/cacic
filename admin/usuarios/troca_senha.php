@@ -16,6 +16,7 @@
 
 session_start();
 require_once('../../include/library.php');
+
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 
@@ -23,7 +24,7 @@ if ($GravaAlteracoes) {
 	$query = "UPDATE usuarios SET 
 			  te_senha = PASSWORD('$frm_te_nova_senha')
 			  WHERE id_usuario = ". $_SESSION['id_usuario'];
-	mysql_query($query) or die('Update falhou');
+	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'usuarios');		
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/troca_senha.php&tempo=1");									 										
 	
@@ -33,7 +34,7 @@ else {
 			  FROM usuarios a
 			  WHERE a.id_usuario = ".$_SESSION['id_usuario'];
 
-	$result = mysql_query($query) or die ('select falhou');
+	$result = mysql_query($query) or die ('Select em "usuarios" falhou ou sua sessão expirou!');
 	$row_usuario = mysql_fetch_array($result);
 ?>
 

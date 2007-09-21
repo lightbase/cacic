@@ -28,7 +28,7 @@ conecta_bd_cacic();
 						       GROUP BY a.id_so 
 													ORDER BY a.id_so';
 
-   $result = mysql_query($query) or die('Erro no select');
+   $result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
  		while ($row_result = mysql_fetch_assoc($result))		{ 
 			$v_row_result = str_pad($row_result['te_desc_so'],20,'.',STR_PAD_RIGHT);

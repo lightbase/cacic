@@ -16,101 +16,167 @@
 session_start();
 require_once('../include/library.php');
 // Comentado temporariamente - AntiSpy();
+
 $id_acao = $_POST['id_acao']; 
 
-    conecta_bd_cacic();
+// A princípio somente leio o array 2 que contém as subredes selecionadas...
+$arrListaRedes = $_POST['list2'];
 
-    // Removo todas as redes associadas à ação em questão.
-	$query = "DELETE	from acoes_redes 
-			  WHERE 	id_acao='$id_acao' AND
-			  			id_local = ".$_SESSION['id_local'];
-	$result = mysql_query($query) or die('2-Ocorreu um erro durante a deleção de registros na tabela acoes_redes.'); 
+// Caso não existam redes selecionadas, a situação torna-se em Nenhuma Rede
+$cs_situacao = (count($arrListaRedes)>0?$_POST['cs_situacao']:'N');
 
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');	
-// Incluo todas as redes selecionadas
-
-if($_POST['cs_situacao'] == 'S')
+// Caso tenha sido marcado "Em todas as redes", concateno o array 1, que contém as redes "não selecionadas".
+if ($cs_situacao == 'T' || $cs_situacao == 'N')
 	{
-	for( $i = 0; $i < count($_POST['list2']); $i++ ) 
-		{
-		$query = "INSERT	
-				  INTO 		acoes_redes (id_ip_rede, 
-				  			id_acao, 
-							id_local, 
-							cs_situacao,
-							dt_hr_alteracao) 
-				  VALUES 	('".$_POST['list2'][$i]."', 
-				  			'".$_POST['id_acao']."',".
-							$_SESSION['id_local'].",'".
-							$_POST['cs_situacao']."',
-							now())";
-		mysql_query($query) or die('3-Ocorreu um erro durante a inclusão de registros selecionados na tabela acoes_redes.');
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');
-		}
-}
-
-if($_POST['cs_situacao'] == 'T')
-	{
-	$query1 = "SELECT 	id_ip_rede
-			   FROM 	redes
-			   WHERE	id_local=".$_SESSION['id_local'];
-	$result = mysql_query($query1) or die('4-Deu erro');
-
-	while($campos=mysql_fetch_array($result)) {
-		$query = "INSERT	
-				  INTO 		acoes_redes (id_ip_rede, 
-				  			id_acao, 
-							id_local, 
-							cs_situacao,
-							dt_hr_alteracao) 
-				  VALUES	('".$campos[0]."', 
-				  			'$id_acao', 
-							".$_SESSION['id_local'].",
-							'".$_POST['cs_situacao']."',
-							now())";
-
-		mysql_query($query) or die('5-Ocorreu um erro durante a inclusão de TODOS registros na tabela acoes_redes.');
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');		
+	if ($arrListaRedes)
+		$arrListaRedes = array_merge($_POST['list1'],$_POST['list2']);
+	else
+		$arrListaRedes = $_POST['list1'];	
 	}
-											
-}
+
+conecta_bd_cacic();
+for( $i = 0; $i < count($arrListaRedes); $i++ ) 
+	{
+	$dadosRedes = explode('#',$arrListaRedes[$i]);	
+
+    // Removo a ação em questão da rede
+	$query = "DELETE	from acoes_redes 
+			  WHERE 	id_acao    = '".$id_acao."' AND
+						id_ip_rede = '".$dadosRedes[0]."' AND
+			  			id_local   = ".$dadosRedes[1];
+						
+	if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+		{
+		echo 'Query 1: '.$query.'<br>';
+		}
+	
+	$result = mysql_query($query) or die('2-Ocorreu um erro durante a deleção de registros na tabela acoes_redes ou sua sessão expirou!'); 
+	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');			
 
     // Removo todos os sistemas operacionais associadas à ação em questão.
 	$query = "DELETE 	
 			  FROM 		acoes_so 
-			  WHERE 	id_acao='$id_acao' AND
-						id_local = ".$_SESSION['id_local'];
-
-	$result = mysql_query($query) or die('6-Ocorreu um erro durante a deleção de registros na tabela acoes_so.'); 
+			  WHERE 	id_acao='".$id_acao."' AND
+						id_local = ".$dadosRedes[1];
+	if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+		{
+		echo 'Query 2: '.$query.'<br>';
+		}
+						
+	$result = mysql_query($query) or die('6-Ocorreu um erro durante a deleção de registros na tabela acoes_so ou sua sessão expirou!'); 
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_so');
 
-	// Incluo todas os so's selecionados
-	for( $i = 0; $i < count($_POST['list4']); $i++ ) 
+	if ($cs_situacao <> 'N')
 		{
-		$query = "INSERT 
-			      INTO 		acoes_so (id_so, id_acao, id_local) 
-				  VALUES 	('".$_POST['list4'][$i]."', '".$_POST['id_acao']."', ".$_SESSION['id_local'].")";
-		mysql_query($query) or die('7-Ocorreu um erro durante a inclusão de registros na tabela acoes_so.');
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_so');		
+		// Incluo todas os so's selecionados
+		for( $j = 0; $j < count($_POST['list4']); $j++ ) 
+			{
+			$query = "INSERT 
+				      INTO 		acoes_so (id_so, id_acao, id_local) 
+					  VALUES 	('".$_POST['list4'][$j]."', '".$id_acao."', ".$dadosRedes[1].")";
+			if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+				{
+				echo 'Query j['.$j.']: '.$query.'<br>';
+				}
+				  
+			mysql_query($query) or die('7-Ocorreu um erro durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');
+			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_so');		
+			}
 		}
 
     // Removo todos os mac address associados à ação em questão.
 	$query = "DELETE 
 			  FROM 		acoes_excecoes 
-			  WHERE 	id_acao='".$_POST['id_acao']."'";
-	$result = mysql_query($query) or die('8-Ocorreu um erro durante a deleção de registros na tabela acoes_excecoes.'); 
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_excecoes');
-	// Incluo todas os mac address selecionados.
-	for( $i = 0; $i < count($_POST['list5']); $i++ ) 
+			  WHERE 	id_acao='".$id_acao."' AND
+			            id_local=".$dadosRedes[1];
+	if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 		{
-		$query = "INSERT 
-				  INTO 		acoes_excecoes (te_node_address, id_acao) 
-				  VALUES 	('".$_POST['list5'][$i]."', '".$_POST['id_acao']."')";
-		// Não uso o die, pois não quero que sejam ecoadas mensagens de erro caso se tente gravar 
-		// registros duplicados. lembre que é um ambiente multiusuário.
-		mysql_query($query); 
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_excecoes');
+		echo 'Query 3: '.$query.'<br>';
 		}
+						
+	$result = mysql_query($query) or die('8-Ocorreu um erro durante a deleção de registros na tabela acoes_excecoes ou sua sessão expirou!'); 
+	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_excecoes');
+	
+	if ($cs_situacao <> 'N')
+		{	
+		// Incluo todas os mac address selecionados.
+		for( $k = 0; $k < count($_POST['list5']); $k++ ) 
+			{
+			$query = "INSERT 
+					  INTO 		acoes_excecoes (id_local,te_node_address, id_acao) 
+					  VALUES 	(".$dadosRedes[1].",'".$_POST['list5'][$k]."', '".$id_acao."')";
+			if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+				{
+				echo 'Query k['.$k.']: '.$query.'<br>';
+				}
+
+			// Não uso o die, pois não quero que sejam ecoadas mensagens de erro caso se tente gravar 
+			// registros duplicados. lembre que é um ambiente multiusuário.
+			mysql_query($query); 
+			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_excecoes');
+			}
+		}
+	
+	if($cs_situacao == 'S')
+		{		
+		$query = "INSERT	
+				  INTO 		acoes_redes (id_ip_rede, 
+				  			id_acao, 
+							id_local, 
+							cs_situacao,
+							dt_hr_alteracao) 
+				  VALUES 	('".$dadosRedes[0]."', 
+				  			'".$id_acao."',".$dadosRedes[1].",'".
+							$cs_situacao."',
+							now())";
+		if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+			{
+			echo 'Query 4: '.$query.'<br>';
+			}
+							
+		mysql_query($query) or die('3-Ocorreu um erro durante a inclusão de registros selecionados na tabela acoes_redes ou sua sessão expirou!');
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');
+		}
+	elseif ($cs_situacao == 'T')		
+		{	
+		$query = "SELECT 	id_ip_rede
+				   FROM 	redes
+				   WHERE	id_local=".$dadosRedes[1];
+		if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+			{
+			echo 'Query 5: '.$query.'<br>';
+			}
+				   
+		$result = mysql_query($query) or die('4-Deu erro ou sua sessão expirou!');
+			
+		while($campos=mysql_fetch_array($result)) 
+			{
+			$query = "INSERT	
+					  INTO 		acoes_redes (id_ip_rede, 
+					  			id_acao, 
+								id_local, 
+								cs_situacao,
+								dt_hr_alteracao) 
+					  VALUES	('".$campos[0]."', 
+					  			'$id_acao', 
+								".$dadosRedes[1].",
+								'".$cs_situacao."',
+								now())";
+			if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+				{
+				echo 'Query 6: '.$query.'<br>';
+				}
+								
+			mysql_query($query) or die('5-Ocorreu um erro durante a inclusão de TODOS registros na tabela acoes_redes ou sua sessão expirou!');
+			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');		
+			}
+		}											
+	}
+
+if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+	{
+	break;
+	}
 
 header ("Location: ../include/operacao_ok.php?chamador=../admin/modulos.php&tempo=1");	
 ?>

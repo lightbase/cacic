@@ -48,7 +48,7 @@ if($_POST['gravainformacaoUON2']) {
 				     $_POST['frm_nu_tel2_responsavel_uon2']."',".
 					 $_POST['selectUON1'].",".
 				     $_POST['frm_id_local'].")";
-		$result = mysql_query($query) or die ('Insert falhou');
+		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
 		if (!atualiza_configuracoes_uonx('2'))
 			{
@@ -121,7 +121,7 @@ $result_sel1 = mysql_query($querySEL1);
 <?
 Conecta_bd_cacic();
 $where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE id_local = '.$_SESSION['id_local']:'');
-if ($_SESSION['te_locais_secundarios'] && $where)
+if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	{
 	// Faço uma inserção de "(" para ajuste da lógica para consulta	
 	$where = str_replace(' id_local = ',' (id_local = ',$where);
@@ -134,10 +134,10 @@ $qry_locais = "SELECT 	id_local,
 					 			$where." 
 					 ORDER BY	sg_local";
 					
-$result_locais = mysql_query($qry_locais) or die ('Select falhou');
+$result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sessão expirou!');
 ?>
 
-<form method="post" ENCTYPE="multipart/form-data" name="form" onsubmit="return valida_form()">
+<form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
   <table width="61%" border="0" align="center" cellpadding="2" cellspacing="2">
     <tr>
       <td nowrap class="label">Local:</td>
@@ -171,7 +171,7 @@ if(mysql_num_rows($result_sel1))
           </select>
         </div></td>
     <tr> 
-      <td nowrap class="label"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $_SESSION['etiqueta2']; ?>:</font></td>
+      <td nowrap class="label"><? echo $_SESSION['etiqueta2']; ?>:</td>
       <td colspan="3"> <div align="left"> 
           <input name="frm_nm_unid_organizacional_nivel2"  type="text" id="frm_nm_unid_organizacional_nivel2" size="60" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>

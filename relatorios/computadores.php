@@ -65,19 +65,19 @@ if (($_SESSION['tp_consulta'] == 'nome') or ($_SESSION['tp_consulta']== ''))
 	{
 	$valor_padrao = '<option value="nome" selected>Nome do Computador</option>
 					 <option value="ip">IP do Computador</option>
-					 <option value="te_node_address">Node Address do Computador</option>';
+					 <option value="te_node_address">MAC Address do Computador</option>';
 	}
 
 if (($_SESSION['tp_consulta'])== 'ip') 
 	{
 	$valor_padrao = '<option value="ip" selected>IP do Computador</option>
-					 <option value="te_node_address">Node Address do Computador</option>				 
+					 <option value="te_node_address">MAC Address do Computador</option>				 
 					 <option value="nome">Nome do Computador</option>';
 	}
 
 if (($_SESSION['tp_consulta'])== 'te_node_address') 
 	{
-	$valor_padrao = '<option value="te_node_address" selected>Node Address do Computador</option>
+	$valor_padrao = '<option value="te_node_address" selected>MAC Address do Computador</option>
 					 <option value="nome">Nome do Computador</option>
 					 <option value="ip">IP do Computador</option>';
 	}
@@ -148,7 +148,7 @@ if ($_POST['consultar'] || ($_GET['campo']))
 	$where2	= 	($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?" AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local = loc.id_local ":'');
 	$where3	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND loc.id_local='.$_SESSION['id_local'].' ':'');
 
-	if ($_SESSION['te_locais_secundarios'] && $where3)
+	if ($_SESSION['te_locais_secundarios']<>'' && $where3 <> '')
 		{
 		// Faço uma inserção de "(" para ajuste da lógica para consulta
 		$where3 = str_replace('loc.id_local=','(loc.id_local=',$where3);
@@ -159,7 +159,7 @@ if ($_POST['consultar'] || ($_GET['campo']))
 							
 	$query = $select1 . $from1 . $from2 . $where1 . $where2 . $where3 . $orderby;
 
-	$result = mysql_query($query) or die('Falha na consulta às tabelas Computadores, SO...');
+	$result = mysql_query($query) or die('Falha na consulta às tabelas Computadores, SO ou sua sessão expirou!');
 	
 	if ((strlen($_SESSION['str_consulta']) < 3) && ($_SESSION['tp_consulta'] == 'nome')) 
 		{

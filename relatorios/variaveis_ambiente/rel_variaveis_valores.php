@@ -94,7 +94,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 								$_SESSION['query_redes']." 								
 			   GROUP BY 		c.vl_variavel_ambiente
 			   ORDER BY total desc,vl_variavel_ambiente ";
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Erro de acesso ao banco ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

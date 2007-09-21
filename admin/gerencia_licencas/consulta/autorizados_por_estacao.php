@@ -110,8 +110,8 @@ if ($_POST['consultar']) {
 			  ORDER BY nm_software";
 	}
 
-	$result = mysql_query($query) or die('Erro no select');
-	$resultDesinstaladoTransferido = mysql_query($queryDesinstaladoTransferido) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
+	$resultDesinstaladoTransferido = mysql_query($queryDesinstaladoTransferido) or die('Erro no select ou sua sessão expirou!');
 	
 	if (strlen($_SESSION['str_autorizado_estacao']) < 3) {
 		echo $mensagem = mensagem('Digite pelo menos 03 caracteres...');

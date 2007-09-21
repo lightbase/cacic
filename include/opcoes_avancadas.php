@@ -15,6 +15,7 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 //<table align="center">
+session_start();
 if (!$forca_coleta_estacao=='OK')
 	{
 	?>
@@ -71,13 +72,14 @@ $query = "	SELECT 		ac.id_acao,
 			WHERE		ac.id_acao <> 'cs_auto_update'
 			ORDER BY	ac.te_descricao_breve"; 
 							
-$result_acoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de ações.'); 
-
+$result_acoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
+$where = ($_SESSION["cs_nivel_administracao"] == 3?"AND ac_re.id_local = ".$_SESSION['id_local']:"");	
 while ($row = mysql_fetch_array($result_acoes))
 	{ 
+
 	if ($forca_coleta_estacao=='OK')
 		{
-		$where = ($_SESSION["cs_nivel_administracao"] == 3?"AND ac_re.id_local = ".$_SESSION['id_local']:"");
+
 		$query = "	SELECT 		DATE_FORMAT(ac_re.dt_hr_coleta_forcada, '%d/%m/%y-%H:%i') as dt_hr_coleta_forcada,
 											re.id_ip_rede,
 											re.nm_rede,
@@ -111,14 +113,18 @@ while ($row = mysql_fetch_array($result_acoes))
 								acoes ac
 					WHERE		re.id_ip_rede = ac_re.id_ip_rede and
 								ac_re.id_acao = ac.id_acao and
-								ac_re.id_local = re.id_local AND
-								ac_re.id_local = ".$_SESSION['id_local']." AND
+								ac_re.id_local = re.id_local ".
+								$where . " AND
 								ac.id_acao = '" . $row['id_acao']."' 
 					GROUP BY    re.id_ip_rede
 					ORDER BY	re.nm_rede"; 
+//								ac_re.id_local = re.id_local AND
+//								ac_re.id_local = ".$_SESSION['id_local']." AND
+//								ac.id_acao = '" . $row['id_acao']."' 
+					
 		}
 
-	$result_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes.'); 
+	$result_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes ou sua sessão expirou!'); 
 	if (!$forca_coleta_estacao=='OK')			
 		{
 		$v_redes       	 = array();

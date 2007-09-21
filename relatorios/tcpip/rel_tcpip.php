@@ -66,23 +66,23 @@ conecta_bd_cacic();
 $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
-	if($_SESSION["cs_situacao"] == 'S')  // Apenas Redes Selecionadas
-		{
+	//if($_SESSION["cs_situacao"] == 'S')  // Apenas Redes Selecionadas
+		//{
 		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
 		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
 		$query_redes = 'AND computadores.id_ip_rede IN ('. $redes_selecionadas .')';		
-		}	
-	else // Todas as Redes
-		{
-		$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
-							redes.id_local = '. $_SESSION['id_local'].' AND
-							redes.id_local = locais.id_local ';
-		$select = ' ,sg_local as Local ';	
-		$from = ' ,redes,locais ';					
-		}
+		//}	
+	//else // Todas as Redes
+		//{
+		//$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+		//					redes.id_local = '. $_SESSION['id_local'].' AND
+		//					redes.id_local = locais.id_local ';
+		//$select = ' ,sg_local as Local ';	
+		//$from = ' ,redes,locais ';					
+		//}
 	}
 else
 	{
@@ -126,7 +126,7 @@ $query = ' SELECT 	computadores.te_node_address,
 		   WHERE  	TRIM(te_nome_computador)<>""  and computadores.id_so IN ('. $so_selecionados .') ' . 
 					$query_redes . ' 
 		   ORDER BY ' . $orderby; 
-$result = mysql_query($query) or die('Erro na consulta à tabela computadores');
+$result = mysql_query($query) or die('Erro na consulta à tabela computadores ou sua sessão expirou!');
 
 $cor = 0;
 $num_registro = 1;

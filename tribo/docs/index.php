@@ -16,7 +16,7 @@
           o CACIC funciona</a></font></li>
         <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="docs/manualcacic.pdf" target="_blank">Manual 
           de instala&ccedil;&atilde;o</a></font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="docs/ManualUsuario.doc" target="_blank">Manual 
+        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="docs/manualusuario.doc" target="_blank">Manual 
           de Usu&aacute;rio</a></font></li>
         <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="?pg=docs/mase/index.php">Metodologia</a> 
           (Diagramas, casos de uso, etc.)</font></li>

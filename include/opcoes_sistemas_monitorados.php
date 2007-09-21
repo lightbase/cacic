@@ -47,7 +47,7 @@ if ($detalhes)
 				FROM 		aplicativos_redes
 				WHERE		id_local = ".$_REQUEST['id_local']." AND
 							id_ip_rede = '".$_REQUEST['id_ip_rede']."'"; 
-	$result_aplicativos_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes com sistemas monitorados.'); 
+	$result_aplicativos_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes com sistemas monitorados ou sua sessão expirou!'); 
 	$v_aplicativos_redes = '';
 	while ($row = mysql_fetch_array($result_aplicativos_redes))
 		{
@@ -57,7 +57,7 @@ if ($detalhes)
 $query = "	SELECT 		*
 			FROM 		perfis_aplicativos_monitorados
 			ORDER BY	nm_aplicativo"; 						
-$result_monitorados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de perfis de sistemas monitorados.'); 
+$result_monitorados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de perfis de sistemas monitorados ou sua sessão expirou!'); 
 $total_registros = count($result_monitorados);
 $seq = 0;
 while ($row = mysql_fetch_array($result_monitorados))

@@ -26,13 +26,13 @@ conecta_bd_cacic();
                                 AND sih.id_so = '". $_POST['id_so'] ."'  
                                 AND sih.id_software_inventariado = si.id_software_inventariado
 		  ORDER BY sih.data DESC";
-	$result = mysql_query($query) or die ('Erro no select:'. mysql_error());
+	$result = mysql_query($query) or die ('Erro no select:'. mysql_error().' ou sua sessão expirou!');
         
         $consulta_estacao = "SELECT te_dominio_windows, te_nome_computador, te_workgroup
                              FROM   computadores
 		             WHERE  te_node_address = '". $_POST['te_node_address'] ."' 
                              AND id_so = '". $_POST['id_so'] ."'";
-        $resultado_estacao= mysql_query($consulta_estacao) or die ('Erro no select:'. mysql_error());
+        $resultado_estacao= mysql_query($consulta_estacao) or die ('Erro no select:'. mysql_error().' ou sua sessão expirou!');
 
         echo "<p><font size=2 face=verdana>Estação:<b> ". mysql_result($resultado_estacao, 0, 'te_nome_computador') . "</b>";
         echo "<br>Grupo de Trabalho (Último Login):<b> ". mysql_result($resultado_estacao, 0, 'te_workgroup');

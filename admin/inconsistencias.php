@@ -56,7 +56,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 			 GROUP BY nr_patrimonio, nm_computador) as temp 
 		   GROUP BY nr_patrimonio HAVING count(*) > 1";
 
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Ocorreu um erro ao acessar a tabela softwares_estacao ou sua sessão expirou!');
 
 	 $query2 = "SELECT nm_computador 
 		   FROM (SELECT nr_patrimonio, nm_computador, count(*) 
@@ -65,7 +65,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 			 GROUP BY nr_patrimonio, nm_computador) as temp 
 		   GROUP BY nm_computador HAVING count(*) > 1";
 
-	$result2 = mysql_query($query2) or die();
+	$result2 = mysql_query($query2) or die('Ocorreu um erro ao acessar a tabela softwares_estacao ou sua sessão expirou!');
 
 	 $queryEmBranco = "SELECT DISTINCT nr_patrimonio 
 			   FROM softwares_estacao 
@@ -74,7 +74,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 			   ORDER BY nr_patrimonio 
 			   LIMIT 500";
 
-	$resultEmBranco = mysql_query($queryEmBranco) or die();
+	$resultEmBranco = mysql_query($queryEmBranco) or die('Ocorreu um erro ao acessar a tabela softwares_estacao ou sua sessão expirou!');
 
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">

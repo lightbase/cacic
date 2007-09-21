@@ -115,7 +115,7 @@ if ($pesquisa_avancada) {
 //  echo  $_POST["te_modem_desc"];
 //  echo  $palavra_chave;
 
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 	$tipo_historico = ' encontrados';
 }
 

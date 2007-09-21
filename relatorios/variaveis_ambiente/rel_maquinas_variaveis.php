@@ -98,7 +98,7 @@ if ($v_vl_variavel_ambiente == 'Nenhum Valor')
 			   ORDER BY 		computadores.te_nome_computador ";
 
  	conecta_bd_cacic();			   
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Erro de acesso ao banco ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

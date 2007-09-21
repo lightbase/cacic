@@ -15,6 +15,7 @@
  */
 session_start();
 require_once('../../include/library.php');
+
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 
@@ -24,26 +25,33 @@ if ($_REQUEST['ExcluiRede'])
 			  FROM 		redes 
 			  WHERE 	id_ip_rede = '".$_REQUEST['id_ip_rede']."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha de deleção na tabela redes...');
+	mysql_query($query) or die('Falha de deleção na tabela redes ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'redes');				
 	$query = "DELETE 	
 			  FROM 		acoes_redes 
 			  WHERE 	id_ip_rede = '".$_REQUEST['id_ip_rede']."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha de deleção na tabela ações_redes');	
+	mysql_query($query) or die('Falha de deleção na tabela ações_redes ou sua sessão expirou!');	
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');				
 
 	$query = "DELETE 	
 			  FROM 		aplicativos_redes 
 			  WHERE 	id_ip_rede = '".$_REQUEST['id_ip_rede']."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha de deleção na tabela aplicativos_redes');	
+	mysql_query($query) or die('Falha de deleção na tabela aplicativos_redes ou sua sessão expirou!');	
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');				
 	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/redes/index.php&tempo=1");									 				
 	}
 elseif ($_POST['GravaAlteracoes']) 
 	{
+	$senhas = '';
+	if ($_SESSION['te_senha_login_serv_updates'] <> $_POST['frm_te_senha_login_serv_updates'] && $_POST['frm_te_senha_login_serv_updates'] <> '**********')
+		$senhas = ', te_senha_login_serv_updates = "'.$_POST['frm_te_senha_login_serv_updates'].'"';	
+
+	if ($_SESSION['te_senha_login_serv_updates_gerente'] <> $_POST['frm_te_senha_login_serv_updates_gerente'] && $_POST['frm_te_senha_login_serv_updates_gerente'] <> '**********')
+		$senhas .= ', te_senha_login_serv_updates_gerente = "'.$_POST['frm_te_senha_login_serv_updates_gerente'].'"';	
+		
 	$query = "UPDATE 	redes SET 
 			  			te_mascara_rede 						= '".$_POST['frm_te_mascara_rede']."',
 			  			nm_rede 								= '".$_POST['frm_nm_rede']."', 
@@ -59,36 +67,34 @@ elseif ($_POST['GravaAlteracoes'])
 			  			nu_limite_ftp 							=  ".$_POST['frm_nu_limite_ftp'].", 						
 			  			te_path_serv_updates 					= '".$_POST['frm_te_path_serv_updates']."',
 			  			nm_usuario_login_serv_updates 			= '".$_POST['frm_nm_usuario_login_serv_updates']."', 
-			  			te_senha_login_serv_updates 			= '".$_POST['frm_te_senha_login_serv_updates']."', 
 			  			nu_porta_serv_updates 					= '".$_POST['frm_nu_porta_serv_updates']."',
 			  			nm_usuario_login_serv_updates_gerente 	= '".$_POST['frm_nm_usuario_login_serv_updates_gerente']."', 
-			  			te_senha_login_serv_updates_gerente 	= '".$_POST['frm_te_senha_login_serv_updates_gerente']."',
-			  			id_local 								=  ".$_POST['frm_id_local']."
+			  			id_local 								=  ".$_POST['frm_id_local'].
+						$senhas . " 
 			  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-
-	mysql_query($query) or die('Falha na atualização da tabela Redes...');
+	mysql_query($query) or die('Falha na atualização da tabela Redes ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'redes');
 
 	$query = "UPDATE 	acoes_redes SET 
 			  			id_local = ".$_POST['frm_id_local']."
 			  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
 			  			id_local = ".$_POST['id_local'];
-	mysql_query($query) or die('Falha na atualização da tabela Acoes_Redes...');
+	mysql_query($query) or die('Falha na atualização da tabela Acoes_Redes ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'acoes_redes');			
 
 	$query = "UPDATE 	redes_grupos_ftp SET 
 			  			id_local =  ".$_POST['frm_id_local']."
 			  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha na atualização da tabela Redes_Grupos_FTP...');
+	mysql_query($query) or die('Falha na atualização da tabela Redes_Grupos_FTP ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'redes_grupos_ftp');			
 
 	$query = "UPDATE 	redes_versoes_modulos SET 
 			  			id_local =  ".$_POST['frm_id_local']."
 			  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha na atualização da tabela Redes_Versoes_Modulos...');
+	mysql_query($query) or die('Falha na atualização da tabela Redes_Versoes_Modulos ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'redes_versoes_modulos');			
 
 	// Caso tenha sido alterado o local da subrede, primeiramente atualizarei a informação abaixo:
@@ -98,7 +104,7 @@ elseif ($_POST['GravaAlteracoes'])
 				  			id_local =  ".$_POST['frm_id_local']."
 				  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
 				  			id_local = ".$_REQUEST['id_local'];
-		mysql_query($query) or die('Falha na atualização da tabela Aplicativos_Redes...');
+		mysql_query($query) or die('Falha na atualização da tabela Aplicativos_Redes ou sua sessão expirou!');
 		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'Aplicativos_Redes');			
 		}
 	
@@ -117,7 +123,7 @@ elseif ($_POST['GravaAlteracoes'])
 				  FROM 		aplicativos_redes 
 				  WHERE 	id_ip_rede = '".$_REQUEST['id_ip_rede']."' AND
 				  			id_local = ".$_REQUEST['id_local'];
-		mysql_query($query) or die('Falha de deleção na tabela aplicativos_redes');	
+		mysql_query($query) or die('Falha de deleção na tabela aplicativos_redes ou sua sessão expirou!');	
 		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');						
 		seta_perfis_rede($_REQUEST['frm_id_local'],trim($_REQUEST['id_ip_rede']), $v_perfis); 					
 		}		
@@ -130,7 +136,7 @@ else
 				FROM 	redes
 						LEFT JOIN locais ON (redes.id_local = locais.id_local AND redes.id_local = ".$_GET['id_local'].") 
 				WHERE 	redes.id_ip_rede = '".$_GET['id_ip_rede']."'";
-	$result = mysql_query($query) or die ('Falha na consulta às tabelas Redes, Locais...');
+	$result = mysql_query($query) or die ('Falha na consulta às tabelas Redes, Locais ou sua sessão expirou!');
 	?>
 
 
@@ -140,6 +146,18 @@ else
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language=JavaScript>
+<!--
+
+function desabilitar()
+	{
+    return false
+	}
+
+document.oncontextmenu=desabilitar
+
+// -->
+</script>
 <SCRIPT LANGUAGE="JavaScript">
 function SetaServidorBancoDados()	
 	{
@@ -155,7 +173,7 @@ function SetaServidorUpdates()
 	document.form.frm_nm_usuario_login_serv_updates.value = v_array_string[2];		
 	document.form.frm_nm_usuario_login_serv_updates_gerente.value = v_array_string[2];			
 	document.form.frm_te_path_serv_updates.value = v_array_string[3];				
-	document.form.frm_nu_limite_ftp.value = v_array_string[4];					
+	document.form.frm_nu_limite_ftp.value = (v_array_string[4]==""?"5":v_array_string[4]);					
 	document.form.sel_te_serv_updates.options.selectedIndex=0;
 	document.form.frm_te_senha_login_serv_updates.value = "";
 	document.form.frm_te_senha_login_serv_updates_gerente.value = "";	
@@ -164,6 +182,11 @@ function SetaServidorUpdates()
 	
 function valida_form() 
 	{	
+	if ( document.form.frm_nu_limite_ftp.value == "" ) 
+		{	
+		document.form.frm_nu_limite_ftp.value = "5";
+		}					
+	
 	if (document.form.frm_id_local.selectedIndex==0 && document.form.frm_id_local.value==-1) 
 		{	
 		alert("O local da rede é obrigatório");
@@ -290,13 +313,13 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
 						   FROM 	locais 
 						   ORDER BY	sg_local";
 
-			if ($_SESSION['te_locais_secundarios'])
+			if ($_SESSION['te_locais_secundarios']<>'')
 				{
 				// Faço uma inserção de "(" para ajuste da lógica para consulta
 				$qry_locais = str_replace('locais','locais WHERE (locais.id_local = '.$_SESSION["id_local"].' OR locais.id_local in('.$_SESSION['te_locais_secundarios'].')) ',$qry_locais);
 				}
 
-		    $result_locais = mysql_query($qry_locais) or die ('Select falhou');
+		    $result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sessão expirou!');
 		if (mysql_result($result, 0, 'nm_local')=='')
 			echo "<option value='-1' selected>Selecione Local</option>";
 							
@@ -351,7 +374,7 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
           </tr>
           <tr> 
             <td nowrap>&nbsp;</td>
-            <td nowrap><input name="frm_nm_rede" type="text" id="frm_nm_rede2" value="<? echo mysql_result($result, 0, 'nm_rede'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+            <td nowrap><input name="frm_nm_rede" type="text" id="frm_nm_rede" value="<? echo mysql_result($result, 0, 'nm_rede'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
@@ -493,7 +516,7 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
                 <tr bgcolor="#FFFFCC"> 
                   <td bgcolor="#EBEBEB">&nbsp;</td>
                   <td bgcolor="#EBEBEB" class="cabecalho_tabela">Arquivo</td>
-                  <td bgcolor="#EBEBEB" class="cabecalho_tabela">Tamanho(Kb)</td>
+                  <td bgcolor="#EBEBEB" class="cabecalho_tabela">Tamanho(KB)</td>
                   <td colspan="3" align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Vers&atilde;o</td>
                 </tr>
                 <? 
@@ -501,8 +524,8 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
 					{
 					
 				echo lista_updates(mysql_result($result, 0, 'te_serv_updates'),
-		 													  mysql_result($result, 0, 'nm_usuario_login_serv_updates'),
-															  mysql_result($result, 0, 'te_senha_login_serv_updates'),
+		 													  mysql_result($result, 0, 'nm_usuario_login_serv_updates_gerente'),
+															  mysql_result($result, 0, 'te_senha_login_serv_updates_gerente'),
 															  mysql_result($result, 0, 'nu_porta_serv_updates'),
 															  mysql_result($result, 0, 'te_path_serv_updates').'/'); 
 															  
@@ -527,7 +550,11 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
             <td>&nbsp;</td>
             <td> <input name="frm_nm_usuario_login_serv_updates" type="text" id="frm_nm_usuario_login_serv_updates" value="<? echo mysql_result($result, 0, 'nm_usuario_login_serv_updates'); ?>"  size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
             </td>
-            <td> <input name="frm_te_senha_login_serv_updates" type="password" id="frm_te_senha_login_serv_updates" value="<? echo mysql_result($result, 0, 'te_senha_login_serv_updates'); ?>"  size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+            <td> <input name="frm_te_senha_login_serv_updates" type="password" id="frm_te_senha_login_serv_updates" value="**********"  size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+			<?
+			$_SESSION['te_senha_login_serv_updates'] = mysql_result($result, 0, 'te_senha_login_serv_updates'); 
+			$_SESSION['te_senha_login_serv_updates_gerente'] = mysql_result($result, 0, 'te_senha_login_serv_updates_gerente'); 			
+			?>
             </td>
             <td>&nbsp;</td>
           </tr>
@@ -546,7 +573,7 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
             <td>&nbsp;</td>
             <td> <input name="frm_nm_usuario_login_serv_updates_gerente" type="text" id="frm_nm_usuario_login_serv_updates_gerente" value="<? echo mysql_result($result, 0, 'nm_usuario_login_serv_updates_gerente'); ?>"  size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
             </td>
-            <td> <input name="frm_te_senha_login_serv_updates_gerente" type="password" id="frm_te_senha_login_serv_updates_gerente" value="<? echo mysql_result($result, 0, 'te_senha_login_serv_updates_gerente'); ?>"  size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+            <td> <input name="frm_te_senha_login_serv_updates_gerente" type="password" id="frm_te_senha_login_serv_updates_gerente" value="**********"  size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
             </td>
             <td>&nbsp;</td>
           </tr>

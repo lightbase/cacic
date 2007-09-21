@@ -27,7 +27,7 @@ if ($_POST['consultar']) {
 	$queryOrgaos = "SELECT DISTINCT siglaOrgao  
 		        FROM nome_computador_orgao 
 			ORDER BY siglaOrgao";
-	$resultOrgaos = mysql_query($queryOrgaos) or die('Erro!'.$queryOrgaos);
+	$resultOrgaos = mysql_query($queryOrgaos) or die('Erro! '.$queryOrgaos.' ou sua sessão expirou!');
 
 	while ($campos_orgaos=mysql_fetch_array($resultOrgaos)) { 
 		$valor_combo_orgaos = $valor_combo_orgaos . 
@@ -76,7 +76,7 @@ if ($_POST['consultar']) {
 	$queryOrgao = "SELECT nomeComputador 
 		       FROM nome_computador_orgao 
 		       WHERE siglaOrgao = '" . $_SESSION['sigla_orgao_consulta'] . "'";
-	$resultOrgao = mysql_query($queryOrgao) or die('Erro!');
+	$resultOrgao = mysql_query($queryOrgao) or die('Erro de acesso ou sua sessão expirou!');
 	$restricao = "";
 	while ($campos_resultOrgao=mysql_fetch_array($resultOrgao)) {
 		if ($restricao) {
@@ -96,7 +96,7 @@ if ($_POST['consultar']) {
 	" . $restricao . ") 
 	GROUP BY ss.nm_software_inventariado"; 
 
-	$result = mysql_query($query) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 	
 	if(($nu_reg= mysql_num_rows($result))==0) {
 		echo $mensagem = mensagem('Nenhum registro encontrado!');

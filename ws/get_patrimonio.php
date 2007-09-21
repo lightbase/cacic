@@ -35,7 +35,8 @@ autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
 $v_dados_rede = getDadosRede();
 
 $te_node_address 	= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress); 
-$id_so           	= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress); 
+$id_so_new         	= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress); 
+$te_so           	= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress); 
 $id_ip_rede     	= DeCrypt($key,$iv,$_POST['id_ip_rede']			,$v_cs_cipher,$v_cs_compress);
 $te_ip 				= DeCrypt($key,$iv,$_POST['te_ip']				,$v_cs_cipher,$v_cs_compress); 
 $te_nome_computador	= DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress); 
@@ -43,14 +44,15 @@ $te_workgroup 		= DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_cs_c
 
 /* Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
  o computador deste agente no BD, caso ainda não esteja inserido. */
-if ($te_node_address || $id_so || $te_nome_computador || $te_ip || $te_workgroup || $id_ip_rede <> '')
+if ($te_node_address <> '')
 	{
-	inclui_computador_caso_nao_exista(	$te_node_address, 
-										$id_so, 
-										$id_ip_rede, 
-										$te_ip, 
-										$te_nome_computador,
-										$te_workgroup);
+	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+												$id_so_new, 
+												$te_so,
+												$id_ip_rede, 
+												$te_ip, 
+												$te_nome_computador,
+												$te_workgroup);
 	}
 
 
@@ -121,7 +123,7 @@ $query = '	SELECT 		uo1.id_unid_organizacional_nivel1 as uo1_id,
 	  		WHERE 		uo1.id_unid_organizacional_nivel1 = uo2.id_unid_organizacional_nivel1 AND
 						uo2.id_local = '.$v_dados_rede['id_local'].'
 			ORDER BY 	uo1_nm,uo2_nm';
-Log_Debug('Em Get_Patrimonio: query='.$query);			
+
 conecta_bd_cacic();																					  
 $result = mysql_query($query);
 while ($campos = mysql_fetch_array($result))
@@ -143,7 +145,7 @@ $query = '	SELECT id_unid_organizacional_nivel1,
          	FROM   patrimonio
 	  		WHERE  id_so= "'.$id_so.'" and te_node_address="'.$te_node_address.'"
 			ORDER  BY dt_hr_alteracao DESC LIMIT 1';
-Log_Debug('Em Get_Patrimonio: queryPATRIMONIO='.$query);			
+
 conecta_bd_cacic();																					  
 $result = mysql_query($query);
 if (count($result)>0)
@@ -161,18 +163,10 @@ if (count($result)>0)
 	}
 
 // --------------- Retorno de Classificador de CRIPTOGRAFIA --------------- //
-//if ($v_cs_cipher <> '1') $v_cs_cipher --;
+if ($v_cs_cipher <> '1') $v_cs_cipher --;
 
-// Testes do Anderson Peterle
-if ($_SERVER['REMOTE_ADDR']<>'10.71.0.58') 
-	{
-	// Comente/Descomente a linha abaixo para habilitar/desabilitar a criptografia de informações trafegadas 
-	$v_cs_cipher = '0'; 
-	}
-else 
-	{
-	if ($v_cs_cipher <> '1') $v_cs_cipher --;	
-	}
+// Comente/Descomente a linha abaixo para habilitar/desabilitar a criptografia de informações trafegadas 
+//$v_cs_cipher = '0'; 
 
 $retorno_xml .= '<cs_cipher>'.$v_cs_cipher.'</cs_cipher>';		
 // ----------------------------------------------------------------------- //

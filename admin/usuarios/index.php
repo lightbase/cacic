@@ -14,24 +14,26 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-if ($_POST['submit']) {
-  header ("Location: incluir_usuario.php");
-}
+if ($_POST['submit']) 
+	{
+  	header ("Location: incluir_usuario.php");
+	}
 
 include_once "../../include/library.php";
-
+require '../../include/piechart.php';
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 //LimpaTESTES();
-$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND (g_usu.cs_nivel_administracao >= '.$_SESSION['cs_nivel_administracao']. ' OR
-				 g_usu.cs_nivel_administracao = 0) AND usu.id_local = '.$_SESSION['id_local']:'');
+$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND (trim(g_usu.cs_nivel_administracao) <> "") AND usu.id_local = '.$_SESSION['id_local']:'');
 
-if ($_SESSION['te_locais_secundarios'] && $where)
+if ($_SESSION['te_locais_secundarios'] <> '' && $where <> '')
 	{
 	// Faço uma inserção de "(" para ajuste da lógica para consulta
 	$where = str_replace(' AND usu.id_local = ',' AND (usu.id_local = ',$where);
 	$where .= ' OR usu.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
 	}
+	
+$ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'usu.nm_usuario_completo');
 
 $query = 'SELECT 	usu.id_usuario, 
 					usu.nm_usuario_acesso,  
@@ -47,7 +49,7 @@ $query = 'SELECT 	usu.id_usuario,
 		  WHERE 	usu.id_grupo_usuarios=g_usu.id_grupo_usuarios and 
 		  			usu.id_local=loc.id_local '.
 					$where . ' 
-		  ORDER BY 	usu.nm_usuario_completo';
+		  ORDER BY 	'.$ordem;
 
 $result = mysql_query($query);
 
@@ -57,6 +59,9 @@ $query_grp = 'SELECT	g_usu.te_grupo_usuarios,
 		  	  WHERE 	g_usu.cs_nivel_administracao <> 0
 		  	  ORDER BY 	g_usu.te_grupo_usuarios';
 $result_grp = mysql_query($query_grp);
+$msg = '<div align="center">
+		<font color="#c0c0c0" size="1" face="Verdana, Arial, Helvetica, sans-serif">
+		Clique nas Colunas para Ordenar</font><br><br></div>';				
 
 ?>
 
@@ -104,33 +109,38 @@ $result_grp = mysql_query($query_grp);
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Acesso</div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=usu.nm_usuario_acesso">Acesso</a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="cabecalho_tabela"><div align="left">Nome</div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=usu.nm_usuario_completo">Nome</a></div></td>
             <td nowrap>&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="center">Local 
-                Prim&aacute;rio </div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="center"><a href="index.php?cs_ordem=loc.sg_local">Local 
+                Prim&aacute;rio</a></div></td>
             <td nowrap>&nbsp;</td>
             <td align="center"  nowrap class="cabecalho_tabela"><div align="center">Locais 
                 Secund&aacute;rios</div></td>
             <td nowrap>&nbsp;</td>
             <?
+			$intColunasExtras = 0;
 			while ($row_grp = mysql_fetch_array($result_grp))
 				{				
 				echo '<td nowrap class="cabecalho_tabela"><div align="center">';
-//				echo '<img src="textpng.php?msg='.$row_grp['te_grupo_usuarios'].'" border="0" width="30" height="150">';								
 				echo Abrevia($row_grp['te_grupo_usuarios']);
 				echo '</div></td>';
 	            echo '<td nowrap class="cabecalho_tabela">&nbsp;</td>';
+				$intColunasExtras ++;
 				}
 			?>
           </tr>
+  	<tr> 
+    <td height="1" bgcolor="#333333" colspan="<? echo ($intColunasExtras + 14);?>"></td>
+  	</tr>
+		  
           <?  
 if(mysql_num_rows($result)==0) 
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhum usuário cadastrado!</font><br><br></div>';
+				Nenhum usuário cadastrado ou sua sessão expirou!</font><br><br></div>';
 			
 	}
 else 
@@ -140,19 +150,74 @@ else
 	
 	while($row = mysql_fetch_array($result)) 
 		{		  
-	 	?>
+ 	 	?>
           <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
             <td nowrap>&nbsp;</td>
             <td align="left" nowrap class="opcao_tabela"><? echo $NumRegistro; ?></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_usuario_acesso']; ?></a></div></td>
+            <td nowrap class="opcao_tabela"><div align="left">
+			<? if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao']==3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==3)))
+					{
+					?>
+					<a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&cs_nivel_administracao=<? echo $row['cs_nivel_administracao'];?>"><? echo $row['nm_usuario_acesso']; ?></a>
+					<?
+					}
+			   else
+			   		{
+					echo $row['nm_usuario_acesso'];
+					}
+					?>
+			</div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>"><? echo PrimUltNome($row['nm_usuario_completo']); ?></a></div></td>
+            <td nowrap class="opcao_tabela"><div align="left">
+			<? if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao']==3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==3)))
+					{
+					?>			
+					<a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&cs_nivel_administracao=<? echo $row['cs_nivel_administracao'];?>"><? echo PrimUltNome($row['nm_usuario_completo']); ?></a>
+					<?
+					}
+			    else
+					{
+					echo PrimUltNome($row['nm_usuario_completo']);
+					}
+					?>
+					</div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="center"><a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['sg_local']; ?></a></div></td>
+            <td nowrap class="opcao_tabela"><div align="center">
+			<? if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao']==3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==3)))			
+					{
+					?>
+					<a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&cs_nivel_administracao=<? echo $row['cs_nivel_administracao'];?>"><? echo $row['sg_local']; ?></a>
+					<?
+					}
+			   else
+			   		{
+					echo $row['sg_local'];
+					}
+					?>
+			</div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="center"><a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>"><? echo (strspn($row['te_locais_secundarios'],",")>0?strspn($row['te_locais_secundarios'],",")+1:(trim($row['te_locais_secundarios'])==''?'':'1')); ?></a></div></td>
-            <?
+            <td nowrap class="opcao_tabela"><div align="center">
+			<? 
+			$v_nu_total_locais_secundarios = '';
+			if (trim($row['te_locais_secundarios'])<>'')
+				{
+				$v_arr_locais_secundarios = explode(',',trim($row['te_locais_secundarios']));
+				$v_nu_total_locais_secundarios = count($v_arr_locais_secundarios);
+				}
+			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao']==3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==3)))			
+					{
+					?>			
+					<a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&cs_nivel_administracao=<? echo $row['cs_nivel_administracao'];?>"><? echo $v_nu_total_locais_secundarios; ?></a>
+        		    <?
+					}
+				else
+					{
+					echo $v_nu_total_locais_secundarios;
+					}
+					?>
+			</div></td>					
+			<?
 			mysql_data_seek($result_grp,0);			
 			while ($row_grp = mysql_fetch_array($result_grp))
 				{

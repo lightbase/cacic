@@ -15,6 +15,30 @@
  */
 session_start();
 require_once 'config.php';
+//Debug($_SERVER['SCRIPT_FILENAME']);
+
+// ------------------------------------------------------------------------------------------------
+// Função para exibição de data do script para fins de Debug. Os IP´s são definidos em menu_seg.php
+// Novas informações poderão ser acrescentadas futuramente...
+// ------------------------------------------------------------------------------------------------
+function Debug($p_ScriptFileName)
+	{
+	// Verifico se o script chamador refere-se a um gerador de imagem e impeço o Debug neste caso.
+	$intIsPie = substr_count($p_ScriptFileName,'pie_'); 
+	if (!$intIsPie)
+		{
+		$strRemoteAddr = '['.$_SERVER['REMOTE_ADDR'].']';
+		$intIPsDisplayDebugs = substr_count($_SESSION['cIpsDisplayDebugs'],$strRemoteAddr); 
+		if ($intIPsDisplayDebugs)
+			{
+			echo '<font size=1>';
+			echo '<br>______________________________________________________________________<br>';
+			echo 'Debug: '.$_SERVER['REMOTE_ADDR'].' => '.$p_ScriptFileName.' - '.date("dmy H:i",filemtime($p_ScriptFileName));	
+			echo '<br>______________________________________________________________________<br>';
+			echo '</font>';
+			}
+		}
+	}
 // --------------------------------------------------------------------------------------
 // Função para bloqueio de acesso indevido
 // --------------------------------------------------------------------------------------
@@ -96,7 +120,9 @@ function ChangeTo($p_Folder)
 function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnCompress) 
 	{
 	if ($p_cs_Cipher=='1') 
-		$v_result = @mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$p_CipherKey,base64_decode($p_CriptedData),MCRYPT_MODE_CBC,$p_IV);
+		{
+		$v_result = (trim($p_CriptedData)<>''?@mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$p_CipherKey,base64_decode($p_CriptedData),MCRYPT_MODE_CBC,$p_IV):'');
+		}
 	else
 		$v_result = $p_CriptedData;	
 		
@@ -130,13 +156,14 @@ function EnCrypt($p_CipherKey, $p_IV, $p_PlainData, $p_cs_Cipher, $p_cs_Compress
 // --------------------------------------------------------------------------------------
 function conecta_ftp($p_te_serv, $p_user_name, $p_user_pass, $p_port) 
 	{
+
 	//Conecta ao servidor FTP
-	$con = @ftp_connect("$p_te_serv","$p_port");
-	//GravaTESTES('Passei pelo ftp_connect... con='.$con);
+	//ATENÇÃO à configuração "MaxClientsPerHost", que deve estar, no mínimo com 2
+	$con = ftp_connect("$p_te_serv",$p_port);
 
 	//Faz o login no servidor FTP
-	$result = @ftp_login($con, $p_user_name, $p_user_pass);
-	//GravaTESTES('Passei pelo ftp_login...result='.$result);
+	$result = ftp_login($con, "$p_user_name", "$p_user_pass");
+
 	return ($result?$con:'0');
 	}
 
@@ -186,18 +213,14 @@ function LimpaTESTES()
 
 //_____________________
 // Grava Log para DEBUG
+// Em 15/06/2007 optou-se por mostrar data de criação do script corrente na tela de estações específicas,
+// identificadas por seus IP´s na variável de sessão cIpsDisplayDebugs, declarada e menu_esq.php
 //_____________________
 function Log_Debug($p_msg)
 	{
-	$posIPsToDebug = strpos($GLOBALS["cIPsToDebug"],$_SERVER['REMOTE_ADDR']); 
-	if ($_SESSION['c_Debugs'] || $GLOBALS["cIPsToDebug"] =='*' || $posIPsToDebug >= 0)// Valores setados em "menu_esq.php" (c_Debugs) e "get_config.php" (cIPsToDebug)
-		{
-		$pos = strpos($_SESSION['c_IpsDebugs'],$_SERVER['REMOTE_ADDR']); 
-		if ($pos)
-			{
-			GravaTESTES($p_msg);
-			}
-		}
+	$posIPsDisplayDebugs = strpos($GLOBALS["cIPsDisplayDebugs"],$_SERVER['REMOTE_ADDR']); 
+	if ($posIPsDisplayDebugs >= 0)
+		GravaTESTES($p_msg);
 	}
 
 //___________________________________
@@ -258,8 +281,14 @@ function FatorDecremento($Numero)
 function conecta_bd_cacic() 
 {
 
-	$ident_bd = mysql_connect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"], $GLOBALS["usuario_bd"], $GLOBALS["senha_usuario_bd"]);
-	if (mysql_select_db($GLOBALS["nome_bd"], $ident_bd) == 0) { die('Problemas durante a conexão ao BD.'); }
+	$ident_bd = mysql_connect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"], 
+							  $GLOBALS["usuario_bd"], 
+							  $GLOBALS["senha_usuario_bd"]);
+	if (mysql_select_db($GLOBALS["nome_bd"], $ident_bd) == 0) 
+		{ 
+		die('<b>Problemas durante a conexão ao BD ou sua sessão expirou!</b>');
+
+		}
 }
 
 // ------------------------------------------------------------------------------
@@ -438,6 +467,7 @@ function dectobin($dectobin)
 
 function autentica_agente($p_CipherKey, $p_IV, $p_cs_cipher, $p_cs_compress) 
 	{
+
 	if ((strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['HTTP_USER_AGENT'],$p_cs_cipher, $p_cs_compress)) != 'AGENTE_CACIC') ||
 	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_USER'],$p_cs_cipher, $p_cs_compress)) != 'USER_CACIC') ||
 	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_PW'],$p_cs_cipher, $p_cs_compress)) != 'PW_CACIC'))   
@@ -464,7 +494,7 @@ function computador_existe($te_node_address, $id_so)
 
     if (mysql_num_rows($result) == 0)
 		{
-		return '0';
+		return '0'; // O computador não existe, deverá ser incluido
 		}
 	elseif ($row['te_nome_computador'] == '' || 
 			$row['te_ip'] == '' ||
@@ -475,7 +505,7 @@ function computador_existe($te_node_address, $id_so)
 		}
 	else 
 		{ 
-		return '1'; 
+		return '1';  // O computador existe, sem necessidade de atualizações
 		}
 	}
 
@@ -484,35 +514,115 @@ function computador_existe($te_node_address, $id_so)
 // Função que insere se um dado computador no BD, caso ele não esteja inserido.
 // --------------------------------------------------------------------------------------
 function inclui_computador_caso_nao_exista(	$te_node_address, 
-											$id_so, 
+											$id_so_new, 
+											$te_so_new,
 											$id_ip_rede, 
 											$te_ip, 
 											$te_nome_computador, 
-											$te_workgroup) {											
-	$checa_existe = computador_existe($te_node_address, $id_so);
-    if ($checa_existe == '0') 
-		{ 
+											$te_workgroup) 
+	{											
+		
+	$id_so = get_valor_campo('so', 'id_so', 'id_so = '.$id_so_new);
+	$te_so = get_valor_campo('so', 'te_so', 'te_so = "'.$te_so_new.'"');
+	
+	if ($te_so == '' && $id_so <> '' && $id_so <> 0 && $te_so_new <> '') // Encontrei somente o Identificador Externo (ID_SO)
+		{
+		$te_so = $te_so_new;
+				
 		conecta_bd_cacic();
-		$query = 'INSERT INTO computadores (te_node_address, id_so, id_ip_rede, te_ip, te_nome_computador, te_workgroup, dt_hr_inclusao, dt_hr_ult_acesso)
-				  VALUES ("'.$te_node_address.'", "'.$id_so.'", "'.$id_ip_rede.'","'.$te_ip.'","'.$te_nome_computador.'","'.$te_workgroup.'", NOW(), NOW())';
+		$query = 'UPDATE so 
+       	  		  SET te_so = "'.$te_so_new.'"
+			      WHERE id_so = '.$id_so;
 		$result = mysql_query($query);
-		return '1'; // Esse código indica se o computador foi incluído.
-		}
-	elseif ($checa_existe == '2')
+		}	
+	elseif ($te_so <> '' && ($id_so == '' || $id_so == 0)) // Encontrei somente o Identificador Interno (TE_SO)
 		{
 		conecta_bd_cacic();
-		$query = 'UPDATE computadores 
-          		  SET id_ip_rede = "'.$id_ip_rede.'",
-				      te_ip = "'.$te_ip.'",
-					  te_nome_computador="'.$te_nome_computador.'",
-					  te_workgroup="'.$te_workgroup.'"					  
-			      WHERE te_node_address = "'.$te_node_address.'"
-						AND id_so = "'.$id_so.'"';
+		$query = 'UPDATE so 
+       	  		  SET te_so = "'.$te_so_new.'"
+			      WHERE id_so = '.$id_so;
 		$result = mysql_query($query);
-		return '2'; // Esse código indica se o computador foi atualizado.  Anderson.						
-		} 
-	else { return '0'; } // Esse código indica se o computador já estava incluído.
-}
+		}
+
+	if ($te_so == '' && ($id_so == '' || $id_so == 0)) // Nada Encontrado, provavelmente versão antiga de agente.
+		{		
+		if ($te_so_new <> '' && ($id_so_new <> '' && $id_so_new <> 0)) // Só insiro se houver conteúdo chegando...
+			{
+			conecta_bd_cacic();			
+			if ($id_so == 0 || $id_so == '')
+				{
+				// Busco o último valor do Identificador Externo caso não tenha recebido valor para o ID Externo
+				$querySEL  = 'SELECT max(id_so) as MaxIdSo
+							  FROM   so';
+				$resultSEL = mysql_query($querySEL);
+				$rowSEL    = mysql_fetch_array($resultSEL);			
+				$id_so = ($rowSEL['MaxIdSo']+1);														   
+				}
+			else
+				$id_so = $id_so_new;
+
+			// Insiro a informação na tabela de Sistemas Operacionais incrementando o Identificador Externo
+			$queryINS  = 'INSERT 
+						  INTO 		so(id_so,te_desc_so,sg_so,te_so) 
+						  VALUES    ('.$id_so.',"S.O. a Cadastrar","Sigla a Cadastrar","'.$te_so_new.'")';
+			$resultINS = mysql_query($queryINS);		
+	
+			// Carrego os dados referente à rede da estação		
+			$v_dados_rede = getDadosRede();			
+			
+			// Verifico pelo local se há coletas configuradas e acrescento o S.O. à tabela de ações
+			$querySEL  = 'SELECT 	id_acao
+						  FROM   	acoes_so
+						  WHERE  	id_local = '.$v_dados_rede['id_local'].' 
+						  GROUP BY 	id_acao';							  						
+			$resultSEL = mysql_query($querySEL);
+			
+			// Caso existam ações configuradas para o local, incluo o S.O. para que também execute-as...
+			$strInsereID = '';
+			while ($rowSEL    = mysql_fetch_array($resultSEL))
+				{
+				$strInsereID .= ($strInsereID <> ''?',':'');
+				$strInsereID .= '('.$v_dados_rede['id_local'].','.$rowSEL['id_acao'].','.$id_so.')';
+				}
+										
+			if ($strInsereID <> '')
+				{
+				$queryINS = 'INSERT INTO acoes_so(id_local, id_acao, id_so) 
+							 VALUES '.$strInsereID;
+				$resultINS = mysql_query($queryINS);
+				}
+				
+			}					
+		}
+				
+
+	if ($id_so > 0)
+		{		
+		$checa_existe = computador_existe($te_node_address, $id_so);
+	    if ($checa_existe == '0') // O computador não existe: INCLUIR.
+			{ 
+			conecta_bd_cacic();
+			$query = 'INSERT INTO computadores (te_node_address, id_so, te_so, id_ip_rede, te_ip, te_nome_computador, te_workgroup, dt_hr_inclusao, dt_hr_ult_acesso)
+					  VALUES ("'.$te_node_address.'", "'.$id_so.'","'.$te_so.'", "'.$id_ip_rede.'","'.$te_ip.'","'.$te_nome_computador.'","'.$te_workgroup.'", NOW(), NOW())';
+			$result = mysql_query($query);
+			}
+		elseif ($checa_existe == '2') // O computador existe: ATUALIZAR.
+			{
+			conecta_bd_cacic();
+			$query = 'UPDATE computadores 
+        	  		  SET id_ip_rede = "'.$id_ip_rede.'",
+					      te_ip = "'.$te_ip.'",
+					      te_so = "'.$te_so.'",					  
+						  te_nome_computador="'.$te_nome_computador.'",
+						  te_workgroup="'.$te_workgroup.'"					  
+				      WHERE te_node_address = "'.$te_node_address.'"
+							AND id_so = "'.$id_so.'"';
+			$result = mysql_query($query);
+			} 
+		return $id_so; // OK! O computador foi INCLUIDO/ATUALIZADO.
+		}
+	return '0'; 
+	}
 
 
 /* --------------------------------------------------------------------------------------
@@ -630,12 +740,81 @@ function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo,
 				   INTO 		redes_versoes_modulos (id_ip_rede,
 													   nm_modulo,
 													   te_versao_modulo,
-													   id_local)
+													   id_local,
+													   dt_atualizacao)
 						   values					   ("'.$pp_id_ip_rede.'",
 														"'.$p_nm_modulo.'",
 														"'.$v_te_versao_modulo.'","'.
-														$p_id_local.'")';
+														$p_id_local.'",
+														now())';
 
+	$result_INS = mysql_query($query_INS);
+	}
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+// Função usada para fazer updates das versões dos módulos nos servidores de updates quando a chamada tem origem na página, via opção Update de Subredes...
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_versao_modulo)
+	{
+	$MainFolder		= GetMainFolder();
+	conecta_bd_cacic();
+	$query_SEL = '  SELECT id_ip_rede,
+						   id_local
+					FROM   redes
+					WHERE  te_serv_updates = "'.$pp_te_serv_updates.'"';
+					// AND id_local = '.$p_id_local;
+	//GravaTESTES('query_SEL: '.$query_SEL);						   
+	$result_SEL = mysql_query($query_SEL);
+	
+	$redes = '';
+	while ($row = mysql_fetch_array($result_SEL))
+		{
+		if ($redes <> '') $redes .= ',';
+		$redes .= '"'.$row['id_ip_rede'].'"';
+		}
+					
+	$query_UPD = '	UPDATE 	redes 
+					set dt_verifica_updates = NOW() 
+					WHERE 	TRIM(id_ip_rede) IN ('.$redes.')';
+					// AND id_local = '.$p_id_local;
+	//GravaTESTES('query_UPD: '.$query_UPD);						   							
+	$result_UPD = mysql_query($query_UPD);
+	
+	$query_DEL	= 'DELETE 	
+				   FROM 	redes_versoes_modulos
+				   WHERE 	TRIM(id_ip_rede) IN ('.$redes.') AND
+				            nm_modulo = "'.$p_nm_modulo.'"';
+							// AND	id_local = '.$p_id_local;
+	//GravaTESTES('query_DEL: '.$query_DEL);						   							
+	$result_DEL = mysql_query($query_DEL);
+
+	$v_te_versao_modulo = $p_te_versao_modulo;
+	if (file_exists($MainFolder . '/repositorio/versoes_agentes.ini'))
+		{
+		$v_te_versao_modulo = str_replace('.','',$v_te_versao_modulo);
+		}
+
+	$query_INS	= 'INSERT  
+				   INTO 		redes_versoes_modulos (id_ip_rede,
+													   nm_modulo,
+													   te_versao_modulo,
+													   id_local,
+													   dt_atualizacao) values ';
+	$query_INS	= 'INSERT  
+				   INTO 		redes_versoes_modulos values ';
+													   
+	$virgula = '';													   
+	mysql_data_seek($result_SEL,0);
+	while ($row = mysql_fetch_array($result_SEL))
+		{
+		$query_INS .= $virgula .'('.$row['id_local'].',
+								  "'.$row['id_ip_rede'].'",
+								  "'.$p_nm_modulo.'",
+								  "'.$p_te_versao_modulo.'",'.
+								    'now())';
+		$virgula = ',';
+		}
+	//GravaTESTES('query_INS: '.$query_INS);						   
 	$result_INS = mysql_query($query_INS);
 	}
 
@@ -659,6 +838,8 @@ function lista_updates($p_te_serv_updates,
 		{
 		// obtém a lista de arquivos para /$p_te_path_serv_updates
 		$buff = @ftp_rawlist($v_conexao_ftp, $p_te_path_serv_updates);
+		
+		$v_array_versoes_agentes = array();
 
 		$buff = @implode('#',$buff);
 
@@ -669,12 +850,12 @@ function lista_updates($p_te_serv_updates,
 				{
 				$buff = str_replace('  ',' ',$buff);			
 				}									
-		
 			$buff = explode('#',$buff);
-		
+
 		 	for ($i=0;$i<count($buff);$i++)
 				{
 				$itens = explode(' ',$buff[$i]);
+
 				if ($itens[8] == 'versoes_agentes.ini')
 					{
 					$i = count($buff);
@@ -691,7 +872,7 @@ function lista_updates($p_te_serv_updates,
 		 	for ($i=0;$i<count($buff);$i++)
 				{
 				$itens = explode(' ',$buff[$i]);
-				if ($itens[8] <> 'supergerentes')
+				if ($itens[8] <> 'supergerentes' && $itens[8] <> '.' && $itens[8] <> '..')
 					{
 					$tamanho = ($itens[4]/1024);		
 					if ($itens[4]<1024) $tamanho = 0;
@@ -760,7 +941,6 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 		{
 		$v_array_versoes_agentes = parse_ini_file($MainFolder . '/repositorio/versoes_agentes.ini');
 		}
-
 	while (false !== ($v_arquivo = readdir($handle))) 
 		{
 		if ((strpos($p_objetos,$v_arquivo) > 0 || $p_objetos=='*') and substr($v_arquivo,0,1) != ".") 				
@@ -769,12 +949,13 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 			array_push($v_nomes_arquivos_REP, $v_arquivo);
 
 			$caminho_arquivo = $MainFolder . '/repositorio/' . $v_arquivo;
+
 			if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes[$v_arquivo])			
 				{				
 				// A string 0103 será concatenada em virtude da inserção da informação de versão nos agentes
 				// até então era usada a data do arquivo como versão, a string 0103 fará com que o Gerente de Coletas 
 				// entenda que as versões atuais são maiores, ou seja, a versão 20100103 é maior que 20051201
-				array_push($v_versoes_arquivos_REP, str_replace('.','',$versao_agente) . '0103');				
+				array_push($v_versoes_arquivos_REP, str_replace('.','',$versao_agente) . '0103');
 				}
 			else
 				{
@@ -826,7 +1007,6 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 		$Result_SEL_REDES = mysql_query($query_SEL_REDES);
 	
 		$row = mysql_fetch_array($Result_SEL_REDES);
-	
 		if (trim($row['te_serv_updates'] . 
 				 $row['nu_porta_serv_updates'] .
 				 $row['te_path_serv_updates'] .
@@ -869,9 +1049,8 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 					{
 					if ($p_origem == 'Pagina')
 						{
-						$_SESSION['v_tripa_servidores_updates'] .= trim($row['te_serv_updates']);
+						$_SESSION['v_tripa_servidores_updates'] .= '#'.trim($row['te_serv_updates']).'#';
 						}
-					
 					$v_efetua_conexao_ftp = 1;
 					for ($cnt_nomes_arquivos_REP = 0; $cnt_nomes_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_nomes_arquivos_REP++) 
 						{
@@ -894,13 +1073,20 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 												FTP_BINARY))
 										{
 										array_push($v_array_objetos_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
-										atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
+										if ($p_origem == 'Pagina')										
+											atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
+										else
+											atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
+										echo '<font size="1px">Atualizando '.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font><br>';											
 										$v_conta_objetos_atualizados ++;
+										flush();																													
 										}
 									else
 										{
 										array_push($v_array_objetos_nao_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);											
+										echo '<font color=red size="1px">Não Atualizando '.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font><br>';
 										$v_conta_objetos_nao_atualizados ++;
+										flush();																													
 										}	
 									}
 								$cnt_nomes_arquivos_FTP = count($v_nomes_arquivos_FTP);
@@ -918,14 +1104,23 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 										FTP_BINARY))
 								{
 								array_push($v_array_objetos_enviados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
-								atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
+								if ($p_origem == 'Pagina')										
+									atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
+								else
+									atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
+								
+								//atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
 								$v_conta_objetos_enviados ++;
+								echo '<font size="1px">Enviando '.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font><br>';
+								flush();																			
 								}
 							else
 								{
 								array_push($v_array_objetos_nao_enviados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
 								$v_conta_objetos_nao_enviados ++;
+								echo '<font color=red size="1px">Não Enviado '.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font><br>';
 								$v_achei = 0;
+								flush();																											
 								}									
 							}												
 						}	
@@ -955,17 +1150,13 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 						$_SESSION['v_status_conexao'] = 'OFF'; // Off Line
 						}
 					}
-	
+
 			if ($p_origem == 'Pagina')
 				{
 				$_SESSION['v_conta_objetos_enviados'] 			= 	$v_conta_objetos_enviados;
 				$_SESSION['v_conta_objetos_nao_enviados']		= 	$v_conta_objetos_nao_enviados;
 				$_SESSION['v_conta_objetos_atualizados']		=	$v_conta_objetos_atualizados;
 				$_SESSION['v_conta_objetos_nao_atualizados']	= 	$v_conta_objetos_nao_atualizados;
-				$_SESSION['v_tripa_objetos_enviados'] 			= 	implode('#',$v_array_objetos_enviados);
-				$_SESSION['v_tripa_objetos_nao_enviados'] 		= 	implode('#',$v_array_objetos_nao_enviados);
-				$_SESSION['v_tripa_objetos_atualizados'] 		= 	implode('#',$v_array_objetos_atualizados);
-				$_SESSION['v_tripa_objetos_nao_atualizados'] 	= 	implode('#',$v_array_objetos_nao_atualizados);
 				$_SESSION['v_efetua_conexao_ftp'] 				= 	$v_efetua_conexao_ftp;
 				$_SESSION['v_conexao_ftp'] 						= 	$v_conexao_ftp;
 				}
@@ -1117,7 +1308,7 @@ function compacta_dados_tabelas($p_dbname, $p_data_hora_inicio, $p_arquivo_saida
 	conecta_bd_cacic();	
 	$send = bzopen($p_arquivo_saida,"w"); //necessário ativar módulo componente bzip2
 
-	$res = mysql_list_tables($p_dbname) or die(mysql_error()); // Pega a lista de todas as tabelas
+	$res = mysql_list_tables($p_dbname) or die(mysql_error(). 'ou sua sessão expirou!'); // Pega a lista de todas as tabelas
 	while ($row = mysql_fetch_row($res))
 		{
 		$table = $row[0]; // cada uma das tabelas

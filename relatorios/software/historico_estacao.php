@@ -107,8 +107,8 @@ if ($_POST['consultar']) {
 		ORDER BY s.nm_software_inventariado";
 	}
 
-	$result = mysql_query($query) or die('Erro no select');
-	$resultAntigo = mysql_query($queryAntigo) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
+	$resultAntigo = mysql_query($queryAntigo) or die('Erro no select ou sua sessão expirou!');
 	
 	if (strlen($_SESSION['str_historico_estacao']) < 3) {
 		echo $mensagem = mensagem('Digite pelo menos 03 caracteres...');

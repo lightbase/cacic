@@ -74,7 +74,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 			   WHERE a.te_node_address = c.te_node_address AND a.id_so = c.id_so AND 			  		
 					 b.id_software_inventariado = ". $_GET['id_software_inventariado'] ." AND b.id_software_inventariado = c.id_software_inventariado ORDER BY a.te_nome_computador ";
 
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Erro de acesso ao banco ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

@@ -15,9 +15,10 @@
 ...Aquisições|admin/gerencia_licencas/arquivo/aquisicoes.php|mainFrame||
 ...Locais|admin/locais/index.php|mainFrame||Cadastro de Locais para Controle Centralizado
 ...SubRedes|admin/redes/index.php|mainFrame||Cadastro de SubRedes
-...Perfís Sistemas|admin/perfis_aplicativos_monitorados/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
+...Perfis Sistemas|admin/perfis_aplicativos_monitorados/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
 ...Usuários|admin/usuarios/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
 ...Tipos Softwares|admin/tipos_softwares/index.php|mainFrame||
+...S.Operacionais|admin/sistemas_operacionais/index.php|mainFrame||
 ...Softwares|admin/softwares/index.php|mainFrame||
 ...Softwares por Esta&ccedil;&atilde;o|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||
 ..<b>Patrimônio</b>||mainFrame|imgs/config_gerais.gif

@@ -53,7 +53,7 @@ conecta_bd_cacic();
 		WHERE (ai.id_software = s.id_software) AND (ai.id_tipo_licenca = tl.id_tipo_licenca) AND  
 		      (ai.id_aquisicao = '" . $v_aquisicao . "') ORDER BY nm_software";
 
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
 $num_registro = 1;

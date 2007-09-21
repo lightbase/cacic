@@ -22,7 +22,7 @@
             <td class="label">  
 <?
 		$where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' redes.id_local = '.$_SESSION['id_local']:'');
-		if ($_SESSION['te_locais_secundarios'] && $where)
+		if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 			{
 			// Faço uma inserção de "(" para ajuste da lógica para consulta	
 			$where = str_replace(' redes.id_local = ',' (redes.id_local = ',$where);
@@ -53,7 +53,7 @@
 			$msg = '(OBS: Estão sendo exibidas somente as redes selecionadas pelo administrador.)';
 			}
 
-		$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes.');
+		$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes ou sua sessão expirou!');
 		/* Agora monto os itens do combo de redes . */ 
 		while($campos=mysql_fetch_array($result)) 	
 			{
@@ -67,9 +67,9 @@
           </tr>
           <tr> 
             <td class="descricao"><p>  
-                <input type="radio" name="cs_situacao" value="T" onclick="verifica_status();SetaClassDigitacao(this.form.elements['list1[]']);"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+                <input type="radio" name="cs_situacao" id="cs_situacao" value="T" onclick="verifica_status();SetaClassDigitacao(this.form.elements['list1[]']);"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 <strong>Todas</strong> as redes<br>
-                <input name="cs_situacao" type="radio" onclick="verifica_status();;SetaClassNormal(this.form.elements['list1[]']);" value="S" checked  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+                <input type="radio" name="cs_situacao" id="cs_situacao" value="S" onclick="verifica_status();;SetaClassNormal(this.form.elements['list1[]']);"    class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" checked>
                 Apenas redes <strong>selecionadas<br>
                 &nbsp;<? echo $msg?></p></td>
           </tr>

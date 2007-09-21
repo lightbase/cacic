@@ -212,16 +212,8 @@ require_once('../../include/library.php');
 											redes.id_local = pat.id_local ".
 											$where. '
 								  ORDER BY  te_etiqueta';
-/*
-if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-	{
-	echo '<br>Debug para estação 10.71.0.58<br>';
-	echo 'Query Combo Informações, campos Entidade e Órgão:<br>';
-	echo $query . '<br>';
-	}				  
-*/	
 								  
-                        $result = mysql_query($query) or die('Erro na consulta à tabela "patrimonio_config_interface".');
+                        $result = mysql_query($query) or die('Erro na consulta à tabela "patrimonio_config_interface" ou sua sessão expirou!');
                         while ($row = mysql_fetch_array($result)) 
 							{ 
                             echo '<option value=", patrimonio.' . $row['nm_campo_tab_patrimonio'] . ' as &quot;' . $row['te_etiqueta'] . '&quot;';
@@ -241,14 +233,8 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 											redes.id_local = pat.id_local ".
 											$where. '
 								  ORDER BY  te_etiqueta';								  
-if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-	{
-	echo '<br>Debug para estação 10.71.0.58<br>';
-	echo 'Query Combo Informações, campos Restantes:<br>';
-	echo $query . '<br>';
-	}				  
 								  
-                        $result = mysql_query($query) or die('Erro na consulta à tabela "patrimonio_config_interface".');
+                        $result = mysql_query($query) or die('Erro na consulta à tabela "patrimonio_config_interface" ou sua sessão expirou!');
                         while ($row = mysql_fetch_array($result)) 
 							{ 
                             echo '<option value=", patrimonio.' . $row['nm_campo_tab_patrimonio'] . ' as &quot;' . $row['te_etiqueta'] . '&quot;';
@@ -314,14 +300,7 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 							redes.id_local = pat.id_local ".
 							$where . "   
 				  ORDER BY te_etiqueta";
-/*				  	
-if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-	{
-	echo '<br>Debug para estação 10.71.0.58<br>';
-	echo 'Query Combo Critérios - Parte 1:<br>';
-	echo $query . '<br>';
-	}				  
-*/	
+
 		$res_fields = mysql_query($query);
 		$nuContaCampo = 0;
 		while ($row_fields = mysql_fetch_array($res_fields)) 
@@ -341,14 +320,13 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 			$select1  = ($row_fields['id_etiqueta']=='etiqueta1'?'id_unid_organizacional_nivel1 as id,nm_unid_organizacional_nivel1 as nm':'id_unid_organizacional_nivel2 as id,nm_unid_organizacional_nivel2 as nm');
 			$from1    = ($row_fields['id_etiqueta']=='etiqueta1'?'unid_organizacional_nivel1 UO':'unid_organizacional_nivel2 UO');
 			//$where1   = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2 && $row_fields['id_etiqueta']=='etiqueta2'?' WHERE UO.id_local = '.$_SESSION['id_local']:'');			
-			$where1   = ' WHERE UO.id_local = '.$_SESSION['id_local'];						
+			$where1   = ($row_fields['id_etiqueta']<>'etiqueta1'?' WHERE UO.id_local = '.$_SESSION['id_local']:' ');						
 			$orderby1 = ($row_fields['id_etiqueta']=='etiqueta1'?'nm_unid_organizacional_nivel1':'nm_unid_organizacional_nivel2');
 			
 			$query1 = "SELECT  $select1
 					   FROM    $from1
 					   $where1
 					   ORDER BY $orderby1";
-					   
 			?>
 			<td align="left">
 			<select name="frm_UO<? echo $nuContaCampo .'_' . $row_fields['id_etiqueta']; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);montaComboMulti('frm_UO<? echo $nuContaCampo .'_' . $row_fields['id_etiqueta'];?>',false);">
@@ -381,14 +359,6 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 							redes.id_local = pat.id_local ".
 							$where . "   
 				  ORDER BY te_etiqueta";	
-/*
-if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-	{
-	echo '<br>Debug para estação 10.71.0.58<br>';
-	echo 'Query Combo Critérios - Parte 2:<br>';
-	echo $query . '<br>';
-	}				  
-*/
 		$res_fields = mysql_query($query);
 
 		while ($row_fields = mysql_fetch_array($res_fields)) 
@@ -449,7 +419,7 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
           </tr>
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
+                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
 																				 						 $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
 																										 SelectAll(this.form.elements['list4[]']), 
 																										 SelectAll(this.form.elements['list6[]'])">								

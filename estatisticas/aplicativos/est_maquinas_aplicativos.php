@@ -17,13 +17,13 @@
 session_start();
 //Mostrar computadores baseados no tipo de pesquisa solicitada pelo usuário
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+anti_spy();
 ?>
 
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Untitled Document</title>
+<title>Rela&ccedil;&atilde;o de Computadores</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body bgcolor="#FFFFFF">
@@ -62,18 +62,27 @@ else
 $_SESSION['id_aplicativo']= $_GET['idaplicativo'];
 $_SESSION['nm_versao']= $_GET['nmversao'];
 
+if($_GET['cs_car_inst']>0)
+	{
+	$_SESSION['cri_pesquisa']= $_GET['cs_car_inst'];
+	$sql = " AND b.cs_instalado = 'S'";
+	$tit_tabela = 'Instalado?';
+	}
+else
+	{
 	if($_GET['teversao'])
 		{
-			$_SESSION['cri_pesquisa']= $_GET['teversao'];
-			$sql = "b.te_versao = '" . $_SESSION['cri_pesquisa'] . "'";
-			$tit_tabela = 'Versão: '. $_SESSION['cri_pesquisa'];
-		}
+		$_SESSION['cri_pesquisa']= $_GET['teversao'];
+		$sql = " AND b.te_versao = '" . $_SESSION['cri_pesquisa'] . "'";
+		$tit_tabela = 'Versão: '. $_SESSION['cri_pesquisa'];
+		}	
 	if($_GET['telicenca'])
 		{
-			$_SESSION['cri_pesquisa']= $_GET['telicenca'];
-			$sql = "b.te_licenca = '" . $_SESSION['cri_pesquisa'] . "'";
-			$tit_tabela = 'Nº Licença: '. $_SESSION['cri_pesquisa'];
+		$_SESSION['cri_pesquisa']= $_GET['telicenca'];
+		$sql = " AND b.te_licenca = '" . $_SESSION['cri_pesquisa'] . "'";
+		$tit_tabela = 'Nº Licença: '. $_SESSION['cri_pesquisa'];
 		}
+	}
 ?>
 <table border="0" align="center" width="300" >
   <tr> 
@@ -96,7 +105,7 @@ $query = "SELECT 	computadores.id_so,
 					$_SESSION['from'] ." 
 		  WHERE 	computadores.id_so IN (".$_SESSION["so_selecionados"].") AND 
 		  			computadores.te_node_address = b.te_node_address AND 
-					computadores.id_so = b.id_so AND " . $sql ." AND			  		
+					computadores.id_so = b.id_so " . $sql ." AND			  		
 					b.id_aplicativo = '". $_SESSION['id_aplicativo'] ."' ".
 					$_SESSION['query_redes']."  
 					$orderby ";

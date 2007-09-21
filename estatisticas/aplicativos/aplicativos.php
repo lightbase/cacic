@@ -26,7 +26,7 @@ if($_POST['submit']) {
 }
 
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+anti_spy();
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1" colspan="'.($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'4':'5').'"></td>
@@ -83,7 +83,6 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 			$_SESSION['redes_selecionadas'] .= ",'" . $_SESSION["list2"][$i] . "'";
 		}	
 	$_SESSION['query_redes'] = 'AND redes.id_ip_rede IN ('. $_SESSION['redes_selecionadas'] .')';		
-	$_SESSION['from'] = ' ,redes ';				
 	}
 else
 	{
@@ -100,25 +99,34 @@ else
 
 // Aqui pego todos os SO selecionados
 $so_selecionados = "'" . $_SESSION["list4"][0] . "'";
-for( $i = 1; $i < count($_SESSION["list4"] ); $i++ ) {
+for( $i = 1; $i < count($_SESSION["list4"] ); $i++ ) 
+	{
 	$so_selecionados = $so_selecionados . ",'" . $_SESSION["list4"][$i] . "'";
-}
-	$_SESSION["so_selecionados"] = $so_selecionados;
+	}
+$_SESSION["so_selecionados"] = $so_selecionados;
 
 //Pego os aplicativos selecionados para o relatório
 
-$aplicativos_selecionados = $_SESSION["list6"][0] ;
-for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
-	$aplicativos_selecionados = $aplicativos_selecionados .", ". $_SESSION["list6"][$i] ;
+$aplicativos_selecionados = '';
+for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) 
+	{
+	if ($aplicativos_selecionados)
+		$aplicativos_selecionados .= ',';
+	$aplicativos_selecionados .= $_SESSION["list6"][$i] ;
 	}
 
-	// Exibir as aplicações	 baseado no que foi solicitado	
-			$query_select = 'SELECT id_aplicativo,  nm_aplicativo 
-							 FROM perfis_aplicativos_monitorados
-							 WHERE id_aplicativo IN (' .$aplicativos_selecionados.')
-							 ORDER BY nm_aplicativo';
-							 
-			$result_query_selecao = mysql_query($query_select);
+// Exibir as aplicações	 baseado no que foi solicitado	
+$query_select = 'SELECT 	id_aplicativo,
+							nm_aplicativo,
+							cs_car_inst_w9x,
+							cs_car_inst_wnt,
+							cs_car_ver_w9x,
+							cs_car_ver_wnt 							
+				 FROM 		perfis_aplicativos_monitorados
+				 WHERE 		id_aplicativo IN (' .$aplicativos_selecionados.')
+				 ORDER BY 	nm_aplicativo';
+
+$result_query_selecao = mysql_query($query_select);
 ?>
 </p>
 <table width="100%" border="0" align="center">
@@ -145,6 +153,20 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 	</td>
     </tr>
 	<?
+	$groupBy = '';
+	$orderBy = '';	
+	$where   = '';
+	if ($reg_selecao[2] > 0 || $reg_selecao[3] > 0)
+		{
+		$where   = " AND a.cs_instalado = 'S' ";
+		}	
+	elseif ($reg_selecao[4] > 0 && $reg_selecao[5] > 0)
+		{
+		$where   = " AND a.te_versao <> '' ";
+		$groupBy = ', a.te_versao ';
+		$orderBy = ', a.te_versao ';		
+		}
+	
 	// Exibir informações sobre a quantidade de máquinas e versões instaladas	
  	$query_aplicativo ="SELECT DISTINCT a.te_versao, 
 										COUNT(a.te_versao) as total_equip, 
@@ -155,7 +177,9 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 										a.cs_instalado,
 										b.te_car_inst_w9x,
 										b.te_car_inst_wnt ".
-										$_SESSION['select']." 
+										$_SESSION['select'].",
+										b.cs_car_ver_w9x,
+										b.cs_car_ver_wnt 
 					 FROM  				aplicativos_monitorados a, 
 					 					perfis_aplicativos_monitorados b, 
 										computadores ".
@@ -164,29 +188,42 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 					 					a.id_so = computadores.id_so AND 
 					 					a.id_aplicativo = ".$reg_id_aplicativo. " AND 
 					 					a.id_aplicativo = b.id_aplicativo " . $_SESSION['query_redes'] . " AND 
-					 					computadores.id_so IN (". $_SESSION['so_selecionados'] .") and
-										a.te_versao <> '' 
-					 GROUP BY 			a.id_aplicativo, 
-					 					a.te_versao
-					 ORDER BY 			total_equip DESC,
-					 					a.te_versao";
-
+					 					computadores.id_so IN (". $_SESSION['so_selecionados'] .") ".
+										$where ."
+					 GROUP BY 			a.id_aplicativo ".
+					 					$groupBy."  
+					 ORDER BY 			total_equip DESC ".
+					 					$orderBy;
 	$result_query_versoes = mysql_query($query_aplicativo);
-	$result_query_versoes_total = mysql_query($query_aplicativo);	
+	/*
+	Informações importantes:
 	
+	perfis_aplicativos_monitorados
+	==============================
+	cs_car_inst_w9x 1->Executável       2->INI       3->Registry
+	cs_car_inst_wnt 1->Executável       2->INI       3->Registry	
+	cs_car_ver_w9x  1->Data de Arquivo  2->Registry  3->INI       4->Versão de Executável
+	cs_car_ver_wnt  1->Data de Arquivo  2->Registry  3->INI       4->Versão de Executável
+	cs_ide_licenca  1->Registry         2->INI
+	
+	
+	aplicativos_monitorados
+	=======================
+	cs_instalado	S/N
+	*/
 	$total_maquinas = 0;
 	$sequencial = 1;
-	$label = "Vers&atilde;o/Configuração";
+	$label = "Informação Obtida";
 	$in_se_instalado = false;
 	if (mysql_num_rows($result_query_versoes))
 		{ 
-		while($reg_versoes = mysql_fetch_array($result_query_versoes_total)) 
+		while($reg_versoes = mysql_fetch_array($result_query_versoes)) 
 			{ 
-			if (($reg_versoes[4] . $reg_versoes[5] <> '') && $reg_versoes[6] <>''){
-				$label = "Local de Instalação";
-				$in_se_instalado = true;
+			if (($reg_versoes[4] . $reg_versoes[5]) <> '')
+				{
+				$in_se_instalado = ($reg_versoes[0]==''?true:false);
 				$te_car_inst = ($reg_versoes[7] <> ''?$reg_versoes[7]:$reg_versoes[8]);
-			}
+				}
 				
 			$total_maquinas += $reg_versoes[1];
 			} //Fim do while
@@ -200,19 +237,22 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
         <td class="cabecalho_tabela"><div align="right">%</div></td>		
         </tr>
 		<?		
-
+		mysql_data_seek($result_query_versoes,0);
 		while($reg_versoes = mysql_fetch_row($result_query_versoes)) 
-			{ 			
-			?>			  
-          	<tr> 
-            <td nowrap class="opcao_tabela"><div align="left"><? echo $sequencial; ?></a></div></td>			
-            <td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?teversao=<? echo $reg_versoes[0]?>&idaplicativo=<? echo $reg_versoes[2]?>&nmversao=<? echo $reg_versoes[3]?>" target="_blank"><? echo ($in_se_instalado?$te_car_inst:$reg_versoes[0]) ?></a></div></td>
-            <td nowrap class="opcao_tabela"><div align="right"><? echo $reg_versoes[1]; ?></div></td>
-            <td nowrap class="ajuda"><div align="right">&nbsp;&nbsp;&nbsp;<? echo sprintf("%01.2f", $reg_versoes[1] * 100 / $total_maquinas); ?></div></td>
-          	</tr>
-			<?
-			$sequencial ++;
-			echo $linha; 
+			{
+			if ($reg_versoes[0] <> '?')
+				{ 	
+				?>			  
+    	      	<tr> 
+        	    <td nowrap class="opcao_tabela"><div align="left"><? echo $sequencial; ?></a></div></td>			
+            	<td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?teversao=<? echo $reg_versoes[0]?>&idaplicativo=<? echo $reg_versoes[2]?>&nmversao=<? echo $reg_versoes[3]?>&cs_car_inst=<? echo $reg_versoes[4].$reg_versoes[5];?>" target="_blank"><? echo ($in_se_instalado?$te_car_inst:$reg_versoes[0]) ?></a></div></td>
+	            <td nowrap class="opcao_tabela"><div align="right"><? echo $reg_versoes[1]; ?></div></td>
+    	        <td nowrap class="ajuda"><div align="right">&nbsp;&nbsp;&nbsp;<? echo sprintf("%01.2f", $reg_versoes[1] * 100 / $total_maquinas); ?></div></td>
+        	  	</tr>
+				<?
+				$sequencial ++;
+				echo $linha; 
+				}
 			} //Fim do while
 		?>
         <tr valign="top" bgcolor="#E1E1E1"> 
@@ -305,7 +345,7 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 	<? 
 	}
 
-	if (!$result_query_versoes_total)
+	if (!$result_query_versoes)
 	 	{
 		?>
 		<tr  align="center"> 

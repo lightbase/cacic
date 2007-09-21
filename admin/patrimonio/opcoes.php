@@ -29,12 +29,12 @@ if ($submit)
 			  			nu_intervalo_renovacao_patrim = '" 	. $_POST['nu_intervalo_renovacao_patrim'] . "',
 			  			cs_abre_janela_patr = '"			.$cs_abre_janela_patr."' 
 			  WHERE		id_local ="					.$_SESSION['id_local'];
-	$result = mysql_query($query) or die('Ocorreu um erro durante a atualização da tabela configuracoes.'); 
+	$result = mysql_query($query) or die('Ocorreu um erro durante a atualização da tabela configuracoes ou sua sessão expirou!'); 
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');		
 	$query_etiquetas = "UPDATE	patrimonio_config_interface set 
 								in_destacar_duplicidade='N' 
 						WHERE	id_local = ".$_SESSION['id_local'];
-	$result_etiquetas = mysql_query($query_etiquetas) or die('Ocorreu um erro durante a inicialização de in_destacar_duplicidade na tabela patrimonio_config_interface.'); 				
+	$result_etiquetas = mysql_query($query_etiquetas) or die('Ocorreu um erro durante a inicialização de in_destacar_duplicidade na tabela patrimonio_config_interface ou sua sessão expirou!'); 				
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'patrimonio_config_interface');		
 	while(list($key, $value) = each($HTTP_POST_VARS))
 		{
@@ -44,7 +44,7 @@ if ($submit)
 										in_destacar_duplicidade='".$value."' 
 								WHERE 	id_etiqueta='".$key."' AND
 										id_local = ".$_SESSION['id_local'];
-			$result_etiquetas = mysql_query($query_etiquetas) or die('Ocorreu um erro durante a atualização da tabela patrimonio_config_interface.'); 				
+			$result_etiquetas = mysql_query($query_etiquetas) or die('Ocorreu um erro durante a atualização da tabela patrimonio_config_interface ou sua sessão expirou!'); 				
 			}
 		} 
 	
@@ -57,7 +57,7 @@ $query = "SELECT 	te_notificar_mudanca_patrim,
 		  WHERE		id_local = ".$_SESSION['id_local']." 
 		  			limit 1";
 
-$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela "configuracoes".'); 
+$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela "configuracoes" ou sua sessão expirou!'); 
 $campos = mysql_fetch_array($result);
 ?>
 
@@ -81,7 +81,7 @@ $campos = mysql_fetch_array($result);
 </table>
 <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
 
-  <form action="opcoes.php"  method="post" ENCTYPE="multipart/form-data" name="forma" onsubmit="return valida_form()">
+  <form action="opcoes.php"  method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return valida_form()">
     <table width="100%" border="0" cellpadding="0" cellspacing="1">
 		<tr>
         <td class="label">Local de Aplicação:</td>	
@@ -191,7 +191,7 @@ $campos = mysql_fetch_array($result);
 												id_local = ".$_SESSION['id_local'] . " 									
 									ORDER BY	id_etiqueta"; 
 									
-		$result_etiquetas = mysql_query($query_etiquetas) or die('Ocorreu um erro durante a consulta à tabela de etiquetas.'); 
+		$result_etiquetas = mysql_query($query_etiquetas) or die('Ocorreu um erro durante a consulta à tabela de etiquetas ou sua sessão expirou!'); 
 
 		if (mysql_num_rows($result_etiquetas)>0)
 			{
@@ -231,7 +231,7 @@ $campos = mysql_fetch_array($result);
       </tr>
       <tr> 
         <td> <div align="center"> 
-            <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return Confirma('Confirma Configuração para Coleta de Patrimônio?');document.forma.elements['list2[]'].disabled=false; SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list5[]'])" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+            <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return Confirma('Confirma Configuração para Coleta de Patrimônio?');document.forma.elements['list2[]'].disabled=false; SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list5[]'])" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
           </div></td>
       </tr>
     </table>

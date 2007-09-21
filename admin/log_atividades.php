@@ -81,6 +81,7 @@ else
     <tr valign="middle"> 
       <td width="33%" height="1" nowrap valign="middle">
 <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>"> 
+<? /*
         <script type="text/javascript" language="JavaScript">
 	<!--
 	function calendar1Callback(date, month, year)	
@@ -89,9 +90,9 @@ else
 		}
   	calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 	//-->
-	</script> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
+	</script>*/?> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
         &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>"> 
-        <script type="text/javascript" language="JavaScript">
+<? /*        <script type="text/javascript" language="JavaScript">
 	<!--
 	function calendar2Callback(date, month, year)	
 		{
@@ -99,7 +100,7 @@ else
 		}
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->
-	</script> </td>
+	</script>*/?> </td>
       <td align="left" class="descricao">&nbsp;&nbsp;(formato: dd/mm/aaaa)</td>
       <td align="left" class="descricao" valign="middle"><div align="center">
           <input name="consultar" type="submit" value="   Filtrar   ">
@@ -226,7 +227,7 @@ else
             	<td nowrap></td>
             	<td nowrap class="opcao_tabela"><? echo $day.'/'.$month.'/'.$year. ' '. substr($hour,0,5);?></td>
             	<td nowrap></td>
-            	<td nowrap class="opcao_tabela"><? echo $row['cs_acao'];?></td>
+            	<td nowrap class="opcao_tabela_destaque"><font color="<? echo ($row['cs_acao']=='INS'?'#006600':($row['cs_acao']=='UPD'?'#FF9933':'#FF0000'));?>"><? echo $row['cs_acao'];?></font></td>
             	<td nowrap></td>
             	<td nowrap class="opcao_tabela"><? echo $row['nm_tabela'];?></td>
             	<td nowrap></td>
@@ -286,11 +287,11 @@ else
 				{
 				?>
 				<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+				<td nowrap class="opcao_tabela_destaque"><div align="left"><font color="<? echo ($key=='INS'?'#006600':($key=='UPD'?'#FF9933':'#FF0000'));?>"><? echo $key;?></font></div></td>
+				<td nowrap><div align="right"><? echo $value;?></div></td>
+				<td nowrap><div align="right"><? echo number_format(($value/$total_key)*100,2);?></div></td>
+				</tr>
 				<?
-				echo '<td nowrap><div align="left">'.$key.'</div></td>';
-				echo '<td nowrap><div align="right">'.$value.'</div></td>';
-				echo '<td nowrap><div align="right">'.number_format(($value/$total_key)*100,2).'</div></td>';		
-				echo '</tr>';
 				$Cor=!$Cor;
 				}
 			?>

@@ -54,7 +54,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 		WHERE (a.te_node_address = h.te_node_address) AND (a.id_so = h.id_so) 
 		GROUP BY h.te_node_address, h.id_so HAVING UltHistorico < '2006-08-11'  
 		ORDER BY UltHistorico"; 
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Erro no acesso à tabela "computadores" e "historicos_software" ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

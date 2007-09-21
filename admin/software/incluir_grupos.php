@@ -25,7 +25,7 @@ if($_REQUEST['submit'])
 	$frm_email_si_grupo = $_POST['frm_email_si_grupo'];   
 	
 	$query = "SELECT * FROM softwares_inventariados_grupos WHERE nm_si_grupo = '$frm_nm_si_grupo'";
-	$result = mysql_query($query) or die ('Select falhou');
+	$result = mysql_query($query) or die ('Select falhou ou sua sessão expirou!');
 	
 	if (mysql_num_rows($result) > 0) {
 		echo '<p>&nbsp;</p>
@@ -49,7 +49,7 @@ if($_REQUEST['submit'])
 				  		  '$frm_desc_si_grupo', 											  
 						  '$frm_email_si_grupo')";									  
 
-		$result = mysql_query($query) or die ('Insert falhou');		
+		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');		
 	}
 
 

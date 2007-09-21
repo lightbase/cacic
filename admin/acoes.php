@@ -26,97 +26,134 @@ $id_acao = $_GET['id_acao'];
 <title>A&ccedil;&otilde;es/Configura&ccedil;&otilde;es</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
-function Volta() {
+function Volta() 
+	{
 	top.location = '../arquivos/index.php';
-}
-
-function valida_form() {
-	if ((document.forma.elements.cs_situacao[2].checked) && (document.forma.elements['list2[]'].length <= 0)) {
-		if (confirm ("Não foi selecionada nenhuma rede. Deseja continuar?")) { return true; } 
-		else {	return false; }
 	}
-	else if (document.forma.elements['list4[]'].length <= 0) {
-		if (confirm ("Não foi selecionado nenhum sistema operacional. Deseja continuar?")) { return true; } 
-		else {	return false; }
-	}
-	else{ return true;	}
-}
 
-
-function verifica_status() {
-   if (document.forma.elements.cs_situacao[2].checked) {
-       document.forma.elements['list1[]'].disabled=false;
-       document.forma.elements['list2[]'].disabled=false;
-       document.forma.elements['B1'].disabled=false;
-       document.forma.elements['B2'].disabled=false;
-   }
-   else { 
-       document.forma.elements['list1[]'].disabled=true;
-       document.forma.elements['list2[]'].disabled=true;
-       document.forma.elements['B1'].disabled=true;
-       document.forma.elements['B2'].disabled=true;
-   }
-
-}
-
-function SelectAll(combo) {
-  for (var i=0;i<combo.options.length;i++) {
-    	combo.options[i].selected=true;
-   }
-}
-
-function move(fbox,tbox) {
-	for(var i=0; i<fbox.options.length; i++) {
-		if(fbox.options[i].selected && fbox.options[i].value != "") {
-				var no = new Option();
-				no.value = fbox.options[i].value;
-				no.text = fbox.options[i].text;
-				tbox.options[tbox.options.length] = no;
-				fbox.options[i].value = "";
-				fbox.options[i].text = "";
-		   }
-	}
-    BumpUp(fbox);
-}
-
-function BumpUp(box)  {
-	for(var i=0; i<box.options.length; i++) {
-	   if(box.options[i].value == "")  {
-			for(var j=i; j<box.options.length-1; j++)  {
-				box.options[j].value = box.options[j+1].value;
-				box.options[j].text = box.options[j+1].text;
+function valida_form() 
+	{
+	if ((document.forma.elements.cs_situacao[2].checked) && (document.forma.elements['list2[]'].length <= 0)) 
+		{
+		if (!confirm ("Não foi selecionada nenhuma rede. Deseja continuar?")) 
+			{	
+			return false; 
 			}
+		}
+	else if (document.forma.elements['list4[]'].length <= 0) 
+		{
+		if (!confirm ("Não foi selecionado nenhum sistema operacional. Deseja continuar?")) 
+			{	
+			return false; 
+			}
+		}
+	document.forma.elements['list1[]'].disabled=false;
+	document.forma.elements['list2[]'].disabled=false;
+	return true;
+	}
+
+function verifica_status() 
+	{
+	if (document.forma.elements.cs_situacao[2].checked) 
+		{
+       	document.forma.elements['list1[]'].disabled=false;
+       	document.forma.elements['list2[]'].disabled=false;
+       	document.forma.elements['B1'].disabled=false;
+       	document.forma.elements['B2'].disabled=false;
+   		}
+   else 
+   		{ 
+		if (document.forma.elements.cs_situacao[0].checked && document.forma.elements['list2[]'].length > 0) 							
+			{
+			SelectAll(document.forma.elements['list2[]']);
+			move(document.forma.elements['list2[]'],document.forma.elements['list1[]']);
+			SelectAll(document.forma.elements['list1[]']);			
+			}
+       	document.forma.elements['list1[]'].disabled=true;
+       	document.forma.elements['list2[]'].disabled=true;
+       	document.forma.elements['B1'].disabled=true;
+       	document.forma.elements['B2'].disabled=true;
+   		}
+	}
+
+function SelectAll(combo) 
+	{
+  	for (var i=0;i<combo.options.length;i++) 
+		{
+    	combo.options[i].selected=true;
+   		}
+	}
+
+function move(fbox,tbox) 
+	{
+	for(var i=0; i<fbox.options.length; i++) 
+		{
+		if(fbox.options[i].selected && fbox.options[i].value != "") 
+			{
+			var no = new Option();
+			no.value = fbox.options[i].value;
+			no.id = fbox.options[i].id;				
+			no.text = fbox.options[i].text;
+			tbox.options[tbox.options.length] = no;
+			fbox.options[i].value = "";
+			fbox.options[i].id = "";				
+			fbox.options[i].text = "";
+		   }
+		}
+    BumpUp(fbox);
+	}
+
+function BumpUp(box)  
+	{
+	for(var i=0; i<box.options.length; i++) 
+		{
+	   	if(box.options[i].value == "")  
+			{
+			for(var j=i; j<box.options.length-1; j++)  
+				{
+				box.options[j].value = box.options[j+1].value;
+				box.options[j].id = box.options[j+1].id;				
+				box.options[j].text = box.options[j+1].text;
+				}
 			var ln = i;
 			break;
-	   }
-	}
+	   		}
+		}
 
-	if(ln < box.options.length)  {
+	if(ln < box.options.length)  
+		{
 		box.options.length -= 1;
 		BumpUp(box);
-    }
-}
+    	}
+	}
 
-function Add(fbox,tbox) {
+function Add(fbox,tbox) 
+	{
 	var i = 0;
-	if(fbox.value != "") {
+	if(fbox.value != "") 
+		{
 		var no = new Option();
 		no.value = fbox.value;
+		no.id = fbox.id;		
 		no.text = fbox.value;
 		tbox.options[tbox.options.length] = no;
 		fbox.value = "";
-    }
-}
-
-function remove(box) {
-	for(var i=0; i<box.options.length; i++) {
-		if(box.options[i].selected && box.options[i] != "") {
-			box.options[i].value = "";
-			box.options[i].text = "";
-	    }
+    	}
 	}
+
+function remove(box) 
+	{
+	for(var i=0; i<box.options.length; i++) 
+		{
+		if(box.options[i].selected && box.options[i] != "") 
+			{
+			box.options[i].value = "";
+			box.options[i].id = "";			
+			box.options[i].text = "";
+	    	}
+		}
 	BumpUp(box);
-} 
+	} 
 </script>
 </head>
 
@@ -135,14 +172,14 @@ function remove(box) {
 			  WHERE		id_acao = '".$_GET['id_acao']."' AND
 			  			id_local = ".$_SESSION['id_local'];
 
-	if ($_SESSION['te_locais_secundarios'])
+	if ($_SESSION['te_locais_secundarios']<>'')
 		{
 		// Faço uma inserção de "(" para ajuste da lógica para consulta
 		$query = str_replace('id_local = ','(id_local = ',$query);
 		$query .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
 		}
 						
-	$result_acoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de ações.'); 
+	$result_acoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
 	$campos_acoes = mysql_fetch_array($result_acoes);
 ?>
 
@@ -162,7 +199,7 @@ function remove(box) {
 </table>
 <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
   <tr> 
-    <td valign="top"> <form action="acoes_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma" onsubmit="return valida_form()">
+    <td valign="top"> <form action="acoes_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return valida_form()">
         <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
             <td class="label">&nbsp;<br>
@@ -175,13 +212,13 @@ function remove(box) {
           </tr>
           <tr> 
             <td class="opcao"><p> 
-                <input name="cs_situacao" type="radio" value="N" <? if (strtoupper($campos_acoes['cs_situacao']) == 'N' ||$campos_acoes['cs_situacao'] == NULL) echo 'checked'; ?> onclick="verifica_status();" >
+                <input name="cs_situacao" type="radio" value="N" <? if (strtoupper($campos_acoes['cs_situacao']) == 'N' ||$campos_acoes['cs_situacao'] == NULL) echo 'checked'; ?> onClick="verifica_status();" >
                 Em 
                 <strong>nenhuma</strong> rede <font color="#FF0000" size="1">(Obs: essa 
                 op&ccedil;&atilde;o desabilita a a&ccedil;&atilde;o/configura&ccedil;&atilde;o)</font><br>
-                <input type="radio" name="cs_situacao" value="T" <? if (strtoupper($campos_acoes['cs_situacao']) == 'T') echo 'checked'; ?> onclick="verifica_status();" >
+                <input type="radio" name="cs_situacao" value="T" <? if (strtoupper($campos_acoes['cs_situacao']) == 'T') echo 'checked'; ?> onClick="verifica_status();" >
                 Em <strong>todas</strong> as redes<br>
-                <input type="radio" name="cs_situacao" value="S" <? if (strtoupper($campos_acoes['cs_situacao']) == 'S') echo 'checked'; ?> onclick="verifica_status();" >
+                <input type="radio" name="cs_situacao" value="S" <? if (strtoupper($campos_acoes['cs_situacao']) == 'S') echo 'checked'; ?> onClick="verifica_status();" >
                 Apenas nas redes <strong>selecionadas</strong> </p></td>
           </tr>
         </table>
@@ -201,7 +238,7 @@ function remove(box) {
                 <?    
 						$where = ($_SESSION['cs_nivel_administracao']<>1?' AND acoes_redes.id_local = '.$_SESSION['id_local']:'');
 
-						if ($_SESSION['te_locais_secundarios'])
+						if ($_SESSION['te_locais_secundarios']<>'')
 							{
 							// Faço uma inserção de "(" para ajuste da lógica para consulta
 							$where = str_replace('AND acoes_redes.id_local = ','AND (acoes_redes.id_local = ',$where);
@@ -210,6 +247,7 @@ function remove(box) {
 						
 				        /* Consulto todas as redes que foram previamente selecionadas para a a ação em questão. */ 
 					  	$query = "SELECT 	acoes_redes.id_ip_rede, 
+											acoes_redes.id_local,
 											nm_rede
 								  FROM 		acoes_redes, 
 								  			redes
@@ -218,28 +256,31 @@ function remove(box) {
 											acoes_redes.id_local = redes.id_local ".
 											$where;
 
-						$result_redes_ja_selecionadas = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela acoes_redes.');
+						$result_redes_ja_selecionadas = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela acoes_redes ou sua sessão expirou!');
 
 						/* Agora monto os itens do combo de redes selecionadas e preparo a string de exclusao (NOT IN) para a proxima consulta. */ 
-						while($campos_redes_selecionadas = mysql_fetch_array($result_redes_ja_selecionadas)) {
-						   $itens_combo_redes_selecionadas = $itens_combo_redes_selecionadas . '<option value="' . $campos_redes_selecionadas['id_ip_rede']. '">' . $campos_redes_selecionadas['id_ip_rede'] . ' - ' . capa_string($campos_redes_selecionadas['nm_rede'], 22) . '</option>'; 
-						   $not_in_ja_selecionadas = $not_in_ja_selecionadas . "'" . $campos_redes_selecionadas['id_ip_rede'] .  "',";
-						}
+						while($campos_redes_selecionadas = mysql_fetch_array($result_redes_ja_selecionadas)) 
+							{
+						   	$itens_combo_redes_selecionadas = $itens_combo_redes_selecionadas . '<option value="' . $campos_redes_selecionadas['id_ip_rede'].'#'.$campos_redes_selecionadas['id_local']. '">' . $campos_redes_selecionadas['id_ip_rede'] . ' - ' . capa_string($campos_redes_selecionadas['nm_rede'], 22) . '</option>'; 
+						   	$not_in_ja_selecionadas = $not_in_ja_selecionadas . "'" . $campos_redes_selecionadas['id_ip_rede'] .  "',";
+							}
 						$not_in_ja_selecionadas = $not_in_ja_selecionadas . "''";
 
 					    $where = ($_SESSION['cs_nivel_administracao']<>1?' AND id_local = '.$_SESSION['id_local']:'');						
 
 						/* Consulto as redes que não foram previamente selecionadas. */ 
 					  	$query = "SELECT 	id_ip_rede, 
-											nm_rede
+											nm_rede,
+											id_local
 								  FROM 		redes
 								  WHERE 	id_ip_rede NOT IN ($not_in_ja_selecionadas) ".
 								  			$where;
-						$result_redes_nao_selecionadas = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes.');
+						$result_redes_nao_selecionadas = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes ou sua sessão expirou!');
 						/* Agora monto os itens do combo de redes NÃO selecionadas. */ 
-                        while($campos_redes_nao_selecionadas=mysql_fetch_array($result_redes_nao_selecionadas)) 	{
-						   $itens_combo_redes_nao_selecionadas = $itens_combo_redes_nao_selecionadas . '<option value="' . $campos_redes_nao_selecionadas['id_ip_rede']. '">' . $campos_redes_nao_selecionadas['id_ip_rede'] . ' - ' . capa_string($campos_redes_nao_selecionadas['nm_rede'], 22) . '</option>';
-						}  ?>
+                        while($campos_redes_nao_selecionadas=mysql_fetch_array($result_redes_nao_selecionadas)) 	
+							{
+						   	$itens_combo_redes_nao_selecionadas = $itens_combo_redes_nao_selecionadas . '<option value="' . $campos_redes_nao_selecionadas['id_ip_rede'].'#'.$campos_redes_nao_selecionadas['id_local']. '">' . $campos_redes_nao_selecionadas['id_ip_rede'] . ' - ' . capa_string($campos_redes_nao_selecionadas['nm_rede'], 22) . '</option>';
+							}  ?>
                 <select multiple size="10" name="list1[]"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                   <? echo $itens_combo_redes_nao_selecionadas; ?> 
                 </select>
@@ -289,19 +330,26 @@ function remove(box) {
                 <?    
 						 $where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
 						/* Consulto todas os sistemas operacionais que foram previamente selecionadas para a a ação em questão. */ 
-					  	$query = "SELECT 	DISTINCT so.id_so, so.te_desc_so
+					  	$query = "SELECT 	DISTINCT so.id_so, so.te_desc_so,acoes_so.id_local
 								  FROM 		acoes_so, so
 								  WHERE 	acoes_so.id_acao='$id_acao' ".
 								  			$where ." AND 
 											acoes_so.id_so = so.id_so AND
 											so.id_so <> 0";
-						$result_so_ja_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta às tabelas acoes_so e so.');
+
+						$result_so_ja_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta às tabelas acoes_so e so ou sua sessão expirou!');
 
 						/* Agora monto os itens do combo de so's selecionados e preparo a string de exclusao (NOT IN) para a proxima consulta. */ 
-						while($campos_so_selecionados = mysql_fetch_array($result_so_ja_selecionados)) {
-						   $itens_combo_so_selecionados .= '<option value="' . $campos_so_selecionados['id_so']. '">' . capa_string($campos_so_selecionados['te_desc_so'], 35) . '</option>';
-						   $not_in_so_ja_selecionados .= "'" . $campos_so_selecionados['id_so'] .  "',";
-						}
+						$soDisponiveis = '';
+						while($campos_so_selecionados = mysql_fetch_array($result_so_ja_selecionados)) 
+							{
+							if (substr_count($soDisponiveis,'#'.$campos_so_selecionados['id_so'].'#')==0)
+								{
+								$soDisponiveis .= '#'.$campos_so_selecionados['id_so'].'#';
+							   	$itens_combo_so_selecionados .= '<option value="' . $campos_so_selecionados['id_so'].'">' . capa_string($campos_so_selecionados['te_desc_so'], 35) . '</option>';
+							   	$not_in_so_ja_selecionados .= "'" . $campos_so_selecionados['id_so'] .  "',";
+								}
+							}
 						$not_in_so_ja_selecionados .= "''";
 						
 						/* Consulto os so's que não foram previamente selecionadas. */ 
@@ -310,12 +358,13 @@ function remove(box) {
 								  FROM 		so
 								  WHERE 	id_so NOT IN ($not_in_so_ja_selecionados) AND
 								  			id_so <> 0";
-						$result_so_nao_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes.');
+						$result_so_nao_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes ou sua sessão expirou!');
 						
 						/* Agora monto os itens do combo de so's NÃO selecionadas. */ 
-                        while($campos_so_nao_selecionados=mysql_fetch_array($result_so_nao_selecionados)) 	{
-						   $itens_combo_so_nao_selecionados = $itens_combo_so_nao_selecionados . '<option value="' . $campos_so_nao_selecionados['id_so']. '">' . capa_string($campos_so_nao_selecionados['te_desc_so'], 35) . '</option>';
-						}  ?>
+                        while($campos_so_nao_selecionados=mysql_fetch_array($result_so_nao_selecionados)) 	
+							{
+						   	$itens_combo_so_nao_selecionados = $itens_combo_so_nao_selecionados . '<option value="' . $campos_so_nao_selecionados['id_so']. '">' . capa_string($campos_so_nao_selecionados['te_desc_so'], 35) . '</option>';
+							}  ?>
                 <select multiple size="10" name="list3[]">
                   <? echo $itens_combo_so_nao_selecionados; ?> 
                 </select>
@@ -359,11 +408,11 @@ function remove(box) {
                 <input name="list6" type="text" size="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 </font></div></td>
             <td width="40" valign="top"> <div align="center"> &nbsp; 
-                <input type="button" value="   +   " onclick="Add(this.form.list6,this.form.elements['list5[]'])" name="B12">
+                <input type="button" value="   +   " onClick="Add(this.form.list6,this.form.elements['list5[]'])" name="B12">
                 &nbsp;<br>
                 <br>
                 &nbsp; 
-                <input type="button" value="   -   " onclick="remove(this.form.elements['list5[]'])" name="B22">
+                <input type="button" value="   -   " onClick="remove(this.form.elements['list5[]'])" name="B22">
                 &nbsp;</div></td>
             <td> 
               <?
@@ -374,7 +423,7 @@ function remove(box) {
 								  			LEFT OUTER JOIN computadores
 								  			ON  acoes_excecoes.te_node_address = computadores.te_node_address
 								  WHERE 	acoes_excecoes.id_acao='$id_acao'";
-						$result_excecoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabelas acoes_excecoes.');
+						$result_excecoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabelas acoes_excecoes ou sua sessão expirou!');
 				?>
               <select name="list5[]" size="10" multiple class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 <?
@@ -399,7 +448,7 @@ function remove(box) {
           </tr>
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+                <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list1[]']);SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 				<?
 //                <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="document.forma.elements['list2[]'].disabled=false; SelectAll(this.forma.elements['list2[]']); SelectAll(this.forma.elements['list4[]']); SelectAll(this.forma.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');">				
 				?>

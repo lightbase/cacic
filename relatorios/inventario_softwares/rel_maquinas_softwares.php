@@ -90,7 +90,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 							$_SESSION['query_redes']." 
 			   ORDER BY 	computadores.te_nome_computador ";
 
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Erro no acesso às tabelas "computadores", "softwares_inventariados" e "softwares_inventariados_estacoes" ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

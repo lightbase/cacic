@@ -54,7 +54,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 			 te_obs, id_software   
                   FROM softwares  
 		  WHERE id_software = '" . $_GET['id_software'] . "'";
-	$result = mysql_query($query) or die('erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

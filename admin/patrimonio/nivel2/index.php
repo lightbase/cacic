@@ -23,6 +23,7 @@ include_once "../../../include/library.php";
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 $where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
+$where = ' AND id_local = '.$_SESSION['id_local'];
 $queryCONFIG = "SELECT 		DISTINCT 
 							id_etiqueta,
 							te_etiqueta,
@@ -54,8 +55,9 @@ if ($id_unid_organizacional_nivel1)
 	}
 
 $where .= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND uo2.id_local = '.$_SESSION['id_local']:'');
+$where .= ' AND uo2.id_local = '.$_SESSION['id_local'];
 
-if ($_SESSION['te_locais_secundarios'] && $where)
+if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	{
 	// Faço uma inserção de "(" para ajuste da lógica para consulta	
 	$where = str_replace('uo2.id_local = ','(uo2.id_local = ',$where);

@@ -58,7 +58,7 @@ else
 											  FROM 		compartilhamentos
 											  WHERE 	te_node_address = '". $_GET['te_node_address'] ."' AND 
 														id_so = '". $_GET['id_so'] ."'";
-									$result_compartilhamento = mysql_query($query) or die('Erro no Select dos compartilhamentos');
+									$result_compartilhamento = mysql_query($query) or die('Erro no Select dos compartilhamentos ou sua sessão expirou!');
 									if(mysql_num_rows($result_compartilhamento) > 0) {
 										echo '<tr><td><br> 
 													<table width="98%" border="1" align="center" cellpadding="1" cellspacing="0" bordercolor="#999999" bordercolordark="#E1E1E1">

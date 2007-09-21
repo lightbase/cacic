@@ -17,7 +17,7 @@ if (isset($_POST["Submit"]))
 			  SET 			
 			  id_si_grupo = '".$_POST['id_si_grupo']."'
 			  WHERE trim(id_software_inventariado) = '".trim($_POST['id_software_inventariado'])."'";
-	mysql_query($query) or die('Update falhou');		
+	mysql_query($query) or die('Update falhou ou sua sessão expirou!');		
 			 					
 }
 

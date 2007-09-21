@@ -41,7 +41,7 @@ else
 			  FROM 		acoes_redes 
 			  WHERE 	id_acao='$id_acao' ".
 						$where . " LIMIT 1";
-	$result = mysql_query($query) or die ('Erro na consulta à tabela acoes');
+	$result = mysql_query($query) or die ('Erro na consulta à tabela acoes ou sua sessão expirou!');
 	
 	$cs_situacao = (mysql_num_rows($result) > 0?mysql_result($result, 0, 'cs_situacao'):$cs_situacao);
 	}	 

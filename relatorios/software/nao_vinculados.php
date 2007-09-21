@@ -56,7 +56,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 		      (a.id_software_inventariado = b.id_software_inventariado) 
 		GROUP BY a.id_software_inventariado
 		ORDER BY a.nm_software_inventariado"; 
-	$result = mysql_query($query) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

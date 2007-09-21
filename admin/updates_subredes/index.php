@@ -15,11 +15,13 @@
  */
 session_start();
 require_once('../../include/library.php');
+
 // Comentado temporariamente - AntiSpy();
 if ($_REQUEST['ExecutaUpdates']=='Executar Updates')
 	{				
 	foreach($HTTP_POST_VARS as $i => $v) 
 		{
+		//echo 'v: '.$v.'   i: '.$i.'<br>';
 		if ($v && substr($i,0,7)=='update_' && $v <> 'on')
 			{
 			// O envio de versoes_agentes.ini deve ser incondicional!
@@ -34,44 +36,35 @@ if ($_REQUEST['ExecutaUpdates']=='Executar Updates')
 			$v_redes .= $v;
 
 			if ($v_force_redes <> '') $v_force_redes .= ',';						
-			$v_force_redes .= "'".$v."'";
+			$v_force_redes .= '_fr_'.$v.'_fr_';
 			}			
+
 		// Verifico se a versão foi FORÇADA ao update.
 		if ($v && substr($i,0,6)=='force_' && $v <> 'on')
 			{
+			// O envio de versoes_agentes.ini deve ser incondicional!
+			if ($v_force_modulos == '') $v_force_modulos = '_fm_versoes_agentes.ini_fm_';
+			
 			if ($v_force_modulos <> '') 
 				{
 				$v_force_modulos .= ",";			
 				}
-			$v_force_modulos .= "'".$v."'";		
+			$v_force_modulos .= '_fm_'.$v.'_fm_';		
 			}			
 					
 		}
-
-	if ($v_force_modulos)
-		{
-		$query_del = 'DELETE 
-					  FROM 		redes_versoes_modulos 
-		              WHERE 	id_local = '.$_SESSION['id_local'];
-		if ($_SESSION['te_locais_secundarios'] && $where)
-			{
-			// Faço uma inserção de "(" para ajuste da lógica para consulta	
-			$query_del = str_replace(' id_local = ',' (id_local = ',$query_del);
-			$query_del .= ' OR id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
-			}
-
-		$query_del .= ' AND id_ip_rede in (' . $v_force_redes . ') and nm_modulo in ('.$v_force_modulos.')';								
 		
-		conecta_bd_cacic();					
-		$result_del = mysql_query($query_del);
-		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'redes_versoes_modulos');					
-		}
+	//echo 'v_updates: '.$v_updates.'<br><br>';
+	//echo 'v_redes: '.$v_redes.'<br><br>';
+	//echo 'v_force_modulos: '.$v_force_modulos.'<br><br>';
+
+	// O tratamento de v_force_modulos foi transferido para updates_subredes.php
 
 	// O script updates_subredes.php espera receber o parâmetro v_parametros contendo uma string com a seguinte formação:
 	// objeto1__objeto2__objetoN_-_rede1__rede2__rede3__redeN  
 	// Onde: __  = Separador de itens
 	//       _-_ = Separador de Matrizes		
-        header ("Location: updates_subredes.php?v_parametros=".$v_updates.'_-_'.$v_redes);			
+        header ("Location: updates_subredes.php?v_parametros=".$v_updates.'_-_'.$v_redes.'_-_'.$v_force_modulos);			
 	}
 else
 	{
@@ -79,15 +72,35 @@ else
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
 	<head>
-	<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-	<title></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<? require_once('../../include/opcoes_avancadas_combos.js');  ?>							
-	</head>
+<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<? require_once('../../include/opcoes_avancadas_combos.js');  ?>
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+//-->
+function verificar()
+	{
+	var formRedes = window.document.forma;
+	for (j=0;j<formRedes.elements.length;j++)
+		if (formRedes.elements[j].type == 'checkbox' && formRedes.elements[j].id == 'redes' && formRedes[j].checked == true)
+			return true;
+
+	alert('ATENÇÃO: É necessário selecionar ao menos uma subrede!');
+	return false;
+	}
+</script>
+
+</head>
 	
 	<body background="../../imgs/linha_v.gif">
-
-	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js'?>"></script>					
+<script language="JavaScript" type="text/javascript" src="../../include/cacic.js'?>"></script>					
 	<table width="90%" border="0" align="center">
 	  <tr> 
 		<td class="cabecalho">Updates de SubRedes</td>
@@ -100,7 +113,8 @@ else
       SubRedes cadastradas.</td>
 	  </tr>
 	</table>
-	<form method="post" ENCTYPE="multipart/form-data" name="forma">
+	
+	<form method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return verificar();">
 	<script>
 	function MarcaIncondicional(field,p_name) 
 	{
@@ -142,7 +156,7 @@ else
             <tr bgcolor="#FFFFCC"> 
               <td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>
               <td bgcolor="#EBEBEB" class="cabecalho_tabela">Arquivo</td>
-              <td bgcolor="#EBEBEB" class="cabecalho_tabela">Tamanho(Kb)</td>
+              <td bgcolor="#EBEBEB" class="cabecalho_tabela">Tamanho(KB)</td>
               <td align="center" colspan="3" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Vers&atilde;o</td>
 			  <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">For&ccedil;ar</td>			  
             </tr>
@@ -155,7 +169,8 @@ else
 			if (substr($v_arquivo,0,1) != "." and 
 			    $v_arquivo != "netlogon" and 
 				$v_arquivo != "supergerentes" and 
-				$v_arquivo != "vaca.exe") // Versoes Agentes Creator/Atualizator //and 
+				$v_arquivo != "chkcacic.exe" and
+				$v_arquivo != "vaca.exe") // Versoes Agentes Creator/Atualizator //and 				
 				//$v_arquivo != "versoes_agentes.ini") 		
 				{
 				// Armazeno o nome do arquivo
@@ -177,7 +192,9 @@ else
 			if ($v_nomes_arquivos[$cnt_arquivos] == 'versoes_agentes.ini') echo ' checked disabled'; // Implementar o OnChange para impedir o Marca/Desmarca todos para este campo...
 			echo ' ></td>';
 			echo '<td>'.$v_nomes_arquivos[$cnt_arquivos].'</td>';										
-			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/1024), 1, '', '.').'</td>';			
+//			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/1024), 1, '', '.').'</td>';			
+			// Adequação ao resultado no Debian Etch
+			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/10240), 1, '', '.').'</td>';						
 			if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes[$v_nomes_arquivos[$cnt_arquivos]])
 				{
 				echo '<td align="center" colspan="3">'.$versao_agente.'</td>';																
@@ -218,16 +235,19 @@ else
 		<tr> 
 		  <td nowrap colspan="3"><table border="1" align="center" cellpadding="2" bordercolor="#999999">
 			  <tr bgcolor="#FFFFCC"> 
-				<td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>
+	            <td bgcolor="#EBEBEB" class="cabecalho_tabela">Seq.</td>			
+				<td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>				
 				<td bgcolor="#EBEBEB" class="cabecalho_tabela">IP</td>
 				
             <td bgcolor="#EBEBEB" class="cabecalho_tabela">Nome da Subrede</td>			
-				<td bgcolor="#EBEBEB" class="cabecalho_tabela">Localização</td>							
+				<td bgcolor="#EBEBEB" class="cabecalho_tabela">Serv. de Updates</td>							
+				<td bgcolor="#EBEBEB" class="cabecalho_tabela">Path</td>											
+				<td bgcolor="#EBEBEB" class="cabecalho_tabela">Localização</td>											
 			  </tr>
 			  
 			  <? 
 	   	 	  $where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND loc.id_local = '.$_SESSION['id_local']:'');
-				if ($_SESSION['te_locais_secundarios'] && $where)
+				if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 					{
 					// Faço uma inserção de "(" para ajuste da lógica para consulta	
 					$where = str_replace(' loc.id_local = ',' (loc.id_local = ',$where);
@@ -237,24 +257,33 @@ else
 			  $query = "	SELECT 		re.id_ip_rede,
 										re.nm_rede,
 										loc.id_local,
-										loc.sg_local
+										loc.sg_local,
+										re.te_serv_updates,
+										re.te_path_serv_updates
 							FROM 		redes re,
 										locais loc
 							WHERE		re.id_local = loc.id_local ".
 										$where ."
 							GROUP BY    re.id_ip_rede
 							ORDER BY	loc.sg_local,
-										re.nm_rede"; 			
+										re.nm_rede"; 
 				Conecta_bd_cacic();
-				$result_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes.'); 										
+				$result_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes ou sua sessão expirou!'); 										
+		$intSequencial = 1;
 		while ($row = mysql_fetch_array($result_redes))
 			{
-			echo '<tr>';
-			echo '<td><input name="redes_'.$row['id_ip_rede'].'" id="redes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="'.$row['id_ip_rede'].'"></td>';
-			echo '<td>'.$row['id_ip_rede'].'</td>';						
-			echo '<td>'.$row['nm_rede'].'</td>';									
-			echo '<td>'.$row['sg_local'].'</td>';												
-			echo '</tr>';							
+			?>
+			<tr>
+			<td class="normal" align="right"><? echo $intSequencial;?></td>									
+			<td><input name="redes_<? echo $row['id_ip_rede'];?>" id="redes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="<? echo $row['id_ip_rede'];?>"></td>
+			<td class="normal"><? echo $row['id_ip_rede'];?></td>
+			<td class="normal"><? echo $row['nm_rede'];?></td>
+			<td class="normal"><? echo $row['te_serv_updates'];?></td>
+			<td class="normal"><? echo $row['te_path_serv_updates'];?></td>
+			<td class="normal"><? echo $row['sg_local'];?></td>
+			</tr>
+			<?
+			$intSequencial ++;							
 			}
 	?> 
 	</table></td>
@@ -262,7 +291,8 @@ else
 	</table>        
 	<p align="center">
 	<br>
-	<input name="ExecutaUpdates" type="submit" id="ExecutaUpdates" value="Executar Updates"  onClick="return Confirma('Confirma Verificação/Atualização de SubRedes?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+	<input name="ExecutaUpdates" type="submit" id="ExecutaUpdates" value="Executar Updates"  onClick="return Confirma('Confirma Verificação/Atualização de SubRedes?'); MostraEscondeLayer('layerUpdatesSubredes');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+	
 	</p>
 	</form>		  			
 	</body>

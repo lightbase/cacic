@@ -13,45 +13,35 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-include_once '../include/library.php'; 
-include 	 '../include/piechart.php';
-conecta_bd_cacic();
-	  
-$query = 'SELECT 	count(a.te_node_address) as total,
-					c.sg_local
-		  FROM		computadores a,
-					redes b,
-					locais c
-		  WHERE 	a.te_nome_computador IS NOT NULL AND 
-					a.id_ip_rede = b.id_ip_rede AND
-					b.id_local = c.id_local
-		  GROUP BY 	c.sg_local
-		  ORDER BY  c.sg_local';
-
-   $result = mysql_query($query) or die('Falha na consulta (computadores, redes, locais)');
-
- 		while ($row_result = mysql_fetch_assoc($result))		
-			{ 
-			$v_row_result = str_pad($row_result['sg_local'],20,'.',STR_PAD_RIGHT);
-		    $arr[$v_row_result] = $row_result['total'];			
-	 		} 
-/*			
-    $arr['Local Extra 1.......'] = 1;						
-    $arr['Local Extra 2.......'] = 2;						
-    $arr['Local Extra 3.......'] = 3;						
-    $arr['Local Extra 4.......'] = 4;							
-    $arr['Local Extra 5.......'] = 5;						
-    $arr['Local Extra 6.......'] = 6;						
-    $arr['Local Extra 7.......'] = 7;						
-    $arr['Local Extra 8.......'] = 8;							
-*/	
-   	$CreatePie = 1;
-   	$Sort      = 1;
-//	$PieSize   = 30*count($arr);
-	$PieSize   = 159;	
-//LimpaTESTES();
-//GravaTESTES('Com ' . count($arr) . ' LOCAIS: '.$PieSize);
+session_start(); 
+include '../include/library.php'; 
+include '../include/piechart.php';
 	
-	phPie($arr, 420 , $PieSize, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, true, 3,$CreatePie, $Sort);
+if ($_GET['where']=='')
+	{
+	$where 	= ($_SESSION['cs_nivel_administracao'] <> 1 &&
+			   $_SESSION['cs_nivel_administracao'] <> 2 ? ' AND redes.id_local = '.$_SESSION['id_local']:'');
 
+	// Caso hajam locais secundários associados ao usuário, incluo-os na cláusula Where
+	if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
+		{
+		// Faço uma inserção de "(" para ajuste da lógica para consulta
+		$where = str_replace('redes.id_local = ','(redes.id_local = ',$where);
+		$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+		}					   
+	}
+else
+	$where = $_GET['where'];
+	
+require '../include/monta_consulta_locais.php';
+	
+$CreatePie 		= 1;
+$Sort      		= 1;
+$ShowText		= 0;
+$DisplaySequence= 0;
+$width	   		= 655;
+$height    		= 415;	
+$DisplaySequence= 2; // Quantidade de posições para o sequencial
+
+phPie($arr_locais, $width, $height, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, true, 3,$CreatePie, $Sort,$DisplaySequence, $ShowText);
 ?>

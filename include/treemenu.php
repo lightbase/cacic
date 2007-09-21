@@ -67,7 +67,7 @@
   $cnt=0;
   
   $fd = fopen($treefile, "r");
-  if ($fd==0) die("treemenu.php : Unable to open file ".$treefile);
+  if ($fd==0) die("Não foi possível acessar o arquivo '".$treefile."' ou sua sessão expirou!");
   while ($buffer = fgets($fd, 4096)) 
   {
     $tree[$cnt][0]=strspn($buffer,".");

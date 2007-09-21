@@ -23,7 +23,7 @@ if ($ExcluiTipoSoftware)
 	$query = "DELETE 
 			  FROM 		tipos_software 
 			  WHERE 	id_tipo_software = '$frm_id_tipo_software'";
-	mysql_query($query) or die('Delete falhou');
+	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'tipos_software');			
 
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/tipos_softwares/index.php&tempo=1");					
@@ -33,7 +33,7 @@ elseif ($GravaAlteracoes)
 	$query = "UPDATE 	tipos_software 
 			  SET 		te_descricao_tipo_software = '".$_REQUEST['frm_te_descricao_tipo_software']."'			  
 			  WHERE 	id_tipo_software = ".$_REQUEST['frm_id_tipo_software'];
-	mysql_query($query) or die('Update falhou');
+	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'tipos_software');		
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/tipos_softwares/index.php&tempo=1");				
 	}
@@ -42,7 +42,7 @@ else
 	$query = "SELECT 	* 
 			  FROM 		tipos_software 
 			  WHERE 	id_tipo_software = '".$_REQUEST['id_tipo_software']."'";
-	$result = mysql_query($query) or die ('select falhou');
+	$result = mysql_query($query) or die ('Select em "tipos_software" falhou ou sua sessão expirou!');
 	$row = mysql_fetch_array($result);
 ?>
 

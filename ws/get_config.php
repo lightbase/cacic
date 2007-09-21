@@ -35,6 +35,13 @@ $retorno_xml_values	 = '';
 $v_cs_cipher	= (trim($_POST['cs_cipher'])   <> ''?trim($_POST['cs_cipher'])   : '4');
 $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) : '4');
 
+// Obtenho o IP da estação por meio da decriptografia...
+$v_id_ip_estacao = trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress));
+
+// ...caso o IP esteja inválido, obtenho-o a partir de variável do servidor
+if (substr_count($v_id_ip_estacao,'zf')>0)
+	$v_id_ip_estacao = 	$_SERVER['REMOTE_ADDR'];
+
 // Essa condição testa se foi o "chkcacic" chamado para instalação ou o "Gerente de Coletas" para validar IP da estação...
 if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='chkcacic' || 
 	trim(DeCrypt($key,$iv,$_POST['in_teste']   ,$v_cs_cipher,$v_cs_compress))=='OK')
@@ -50,21 +57,15 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='
 
 	if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='chkcacic')
 		{
-		// Retorno as versões dos três principais agentes ao CHKCACIC para que sejam 
-		$query_modulos = '	SELECT 	*
-							FROM	redes_versoes_modulos
-							WHERE 	id_ip_rede = "'.$v_dados_rede['id_local'].'" AND
-									id_local = '.$v_dados_rede['id_local'];
-		$result_modulos	= mysql_query($query_modulos);
-
-		while ($row_modulos = mysql_fetch_array($result_modulos))
+		// Retorno as versões dos três principais agentes ao CHKCACIC para que sejam verificadas...
+		$MainFolder		= GetMainFolder();
+		$v_array_versoes_agentes = array();
+		if (file_exists($MainFolder . '/repositorio/versoes_agentes.ini'))
 			{
-			if (strtoupper($row_modulos['nm_modulo']) == 'CACIC2.EXE' ||
-				strtoupper($row_modulos['nm_modulo']) == 'GER_COLS.EXE' ||
-				strtoupper($row_modulos['nm_modulo']) == 'CHKSIS.EXE')
-				{
-				$retorno_xml_values .= '<' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '>' . EnCrypt($key,$iv,$row_modulos['te_versao_modulo'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '<' . '/' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '>';
-				}
+			$v_array_versoes_agentes = parse_ini_file($MainFolder . '/repositorio/versoes_agentes.ini');
+			$retorno_xml_values .= '<CACIC2>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['cacic2.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level)   . '<' . '/CACIC2>';
+			$retorno_xml_values .= '<GER_COLS>' . EnCrypt($key,$iv,$v_array_versoes_agentes['ger_cols.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '<' . '/GER_COLS>';			
+			$retorno_xml_values .= '<CHKSIS>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['chksis.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level)   . '<' . '/CHKSIS>';						
 			}
 		}
 
@@ -85,7 +86,7 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='
 					  FROM  	redes_grupos_ftp
 					  WHERE 	id_local = '.$v_dados_rede['id_local'].' AND
 					  			id_ip_rede = "'.$v_dados_rede['id_ip_rede'].'" AND
-								id_ip_estacao = "'.trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress)).'"';
+								id_ip_estacao = "'.$v_id_ip_estacao.'"';
 		$result_del = mysql_query($query_del);	
 		
 		// Contagem por subrede
@@ -107,7 +108,7 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='
 			$queryINS  = 'INSERT 
 						  INTO 		redes_grupos_ftp(id_ip_rede,id_ip_estacao,nu_hora_inicio, id_local) 
 						  VALUES    ("'.$v_dados_rede['id_ip_rede'].'","'.
-						               trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress)).'",'.
+						               $v_id_ip_estacao.'",'.
 									   time().','.
 									   $v_dados_rede['id_local'].')';
 			$resultINS = mysql_query($queryINS);			
@@ -121,7 +122,7 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='
 					  FROM  redes_grupos_ftp
 					  WHERE id_local = '.$v_dados_rede['id_local'].' AND
 					  	    id_ip_rede = "'.$v_dados_rede['id_ip_rede'].'" AND
-					        id_ip_estacao = "'.trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress)).'"';
+					        id_ip_estacao = "'.$v_id_ip_estacao.'"';
 		$result_del = mysql_query($query_del);
 		// Refaço o retorno_xml para redução do pacote a retornar...
 		}
@@ -142,7 +143,7 @@ else
 	$v_nu_porta_serv_updates	 	 = $v_dados_rede['nu_porta_serv_updates'];				
 
 	$te_node_address 				 = DeCrypt($key,$iv,$_POST['te_node_address']		,$v_cs_cipher,$v_cs_compress); 
-	$id_so           				 = DeCrypt($key,$iv,$_POST['id_so']					,$v_cs_cipher,$v_cs_compress); 
+	$id_so_new         				 = DeCrypt($key,$iv,$_POST['id_so']					,$v_cs_cipher,$v_cs_compress); 
 	$te_so           				 = DeCrypt($key,$iv,$_POST['te_so']					,$v_cs_cipher,$v_cs_compress); 	
 	$te_nome_computador				 = DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress); 
 	$te_workgroup 					 = DeCrypt($key,$iv,$_POST['te_workgroup']			,$v_cs_cipher,$v_cs_compress); 
@@ -152,13 +153,14 @@ else
 
 	/* Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
 	 o computador deste agente no BD, caso ainda não esteja inserido. */
-	inclui_computador_caso_nao_exista(	$te_node_address, 
-										$id_so,
-										$id_ip_rede, 
-										DeCrypt($key,$iv,$_POST['te_ip'],$v_cs_cipher,$v_cs_compress), 
-										$te_nome_computador,
-										$te_workgroup);									
-	
+	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+												$id_so_new,
+												$te_so,
+												$id_ip_rede, 
+												$v_id_ip_estacao, 
+												$te_nome_computador,
+												$te_workgroup);									
+										
 	
 	/* Atualizo a data/hora da última vez em que o agente foi executado. */
 	/* Atualizo as versões dos agentes principais. */	
@@ -174,7 +176,6 @@ else
 			  			id_so = "'.$id_so.'"';
 	$result = mysql_query($query);
 
-//GravaTESTES($query);
 //  Alternativa de solução enviada ao sr. Elton Levi Schroder Fenner [elton.fenner@al.rs.gov.br], por ocasião da mensagem de erro
 //  "Cannot redeclare eh_excecao() (previously declared in /var/www/cacic2/ws/get_config.php:228) in <b>/var/www/cacic2/ws/get_config.php</b> on line <b>228"
 //
@@ -202,7 +203,8 @@ else
 										a.nm_aplicativo NOT LIKE "%#DESATIVADO#%" AND
 										b.id_ip_rede = "'.$v_dados_rede['id_ip_rede'].'" AND
 										b.id_local = '.$v_dados_rede['id_local'].' 										
-							ORDER BY	a.id_aplicativo';
+							ORDER BY	a.id_aplicativo';				
+	
 	conecta_bd_cacic();
 	$result_monitorado 	= mysql_query($query_monitorado);
 	$v_tripa_perfis1 = explode('#',$te_tripa_perfis);
@@ -422,22 +424,11 @@ else
 		}
 	}	
 
-
-
 // --------------- Retorno de Classificador de CRIPTOGRAFIA --------------- //
+if ($v_cs_cipher <> '1') $v_cs_cipher --;	
+
 // Comente/Descomente a linha abaixo para habilitar/desabilitar a criptografia de informações trafegadas 
 //$v_cs_cipher = '0';
-
-// Testes do Anderson Peterle
-if ($_SERVER['REMOTE_ADDR']<>'10.71.0.58') 
-	{
-	// Comente/Descomente a linha abaixo para habilitar/desabilitar a criptografia de informações trafegadas 
-	$v_cs_cipher = '0'; 
-	}
-else 
-	{
-	if ($v_cs_cipher <> '1') $v_cs_cipher --;	
-	}
 
 $retorno_xml_header .= '<cs_cipher>'.$v_cs_cipher.'</cs_cipher>';		
 // ----------------------------------------------------------------------- //

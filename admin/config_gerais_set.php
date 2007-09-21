@@ -28,7 +28,7 @@ $te_notificar_mudanca_hardware = str_replace("\r\n", " ", $_POST['te_notificar_m
 			  			te_serv_updates_padrao 			= '" . $_POST['frm_te_serv_updates_padrao'] . "'
 			   WHERE	id_local = ".$_SESSION['id_local'];			  
   
-	$result = mysql_query($query) or die('Ocorreu um erro durante a atualização da tabela configuracoes.'); 
+	$result = mysql_query($query) or die('Ocorreu um erro durante a atualização da tabela configuracoes ou sua sessão expirou!'); 
 	GravaLog('INS',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');		
 	// Aqui pego todas os hardwares selecionados para notificação e atualizo a tabela descricao_hardware .
 	$hardwares_selecionados = "'" . $_POST['list2'][0] . "'";
@@ -39,12 +39,23 @@ $te_notificar_mudanca_hardware = str_replace("\r\n", " ", $_POST['te_notificar_m
 
 	$query = "UPDATE 	descricao_hardware set 
 	          			cs_notificacao_ativada = '0'";
-	$result = mysql_query($query) or die('Ocorreu um erro durante a atualização da tabela descricao_hardware.'); 
+	$result = mysql_query($query) or die('Ocorreu um erro durante a atualização da tabela descricao_hardware ou sua sessão expirou!'); 
 	$query = "UPDATE 	descricao_hardware set 
 	          			cs_notificacao_ativada = '1'
 			  WHERE 	" . $hardwares_selecionados;
-	$result = mysql_query($query) or die('Ocorreu um erro durante a atualização da tabela descricao_hardware.'); 
+	$result = mysql_query($query) or die('Ocorreu um erro durante a atualização da tabela descricao_hardware ou sua sessão expirou!'); 
+	
+	// Aqui pego todos os gráficos selecionados para serem exibidos e atualizo a tabela configuracoes_locais.
+	$te_exibe_graficos = $_POST['list4'][0];
+	for( $i = 1; $i < count($_POST['list4']); $i++ ) {
+		$te_exibe_graficos .= $_POST['list4'][$i];
+	}
 
+	$query = "UPDATE 	configuracoes_locais set 
+	          			te_exibe_graficos = '".$te_exibe_graficos."'
+			  WHERE     id_local=".$_SESSION['id_local'];
+	$result = mysql_query($query) or die('Ocorreu um erro durante a atualização da tabela configuracoes_locais ou sua sessão expirou!'); 
+	
 	header ("Location: ../include/operacao_ok.php?chamador=../admin/config_gerais.php&tempo=1");		
 	
 ?>

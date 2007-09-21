@@ -30,9 +30,9 @@ Conecta_bd_cacic();
 if ($_REQUEST['Excluir']) 
 	{
 	$query = "DELETE FROM softwares_inventariados_grupos WHERE id_si_grupo = '".$_POST['id_si_grupo']."'";
-	mysql_query($query) or die('Delete falhou');
+	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
 	$query = "DELETE FROM acoes_redes WHERE id_ip_rede = '".$_GET['id_ip_rede']."'";
-	mysql_query($query) or die('Delete falhou');	
+	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/software/index_grupos.php&tempo=1");									
 	}
 $datai = "";
@@ -135,6 +135,7 @@ function mudapagina(valor4,valor,valor1,valor3,valor2,valor5)
 }
 function pesquisa_()
 {
+	ChecaTodasAsRedes();
 	window.open('index.php?rede='+document.forma.rede.value+'&date_input1='+document.forma.date_input1.value+'&date_input2='+document.forma.date_input2.value+'&palavra='+document.forma.palavra.value+'&pagina=1', '_self');
 }
 

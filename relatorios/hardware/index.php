@@ -135,7 +135,7 @@
                         <? 	$query = "SELECT 	nm_campo_tab_hardware, te_desc_hardware
 								  	  FROM 		descricao_hardware 
 									  ORDER BY 	te_desc_hardware";
-						$result_hardwares_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware.');
+						$result_hardwares_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware ou sua sessão expirou!');
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
        while($campos_hardwares_selecionados=mysql_fetch_array($result_hardwares_selecionados)) 	{
 						   echo '<option value=", ' . $campos_hardwares_selecionados['nm_campo_tab_hardware'] . ' as &quot;' .  $campos_hardwares_selecionados['te_desc_hardware'] . '&quot;">' . $campos_hardwares_selecionados['te_desc_hardware']  . '</option>';
@@ -262,7 +262,7 @@
 				<?
                 //<input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['list8[]'])">
 				?>
-                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
+                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
 																				 						$_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>,
 																				 						SelectAll(this.form.elements['list4[]']),
 																										SelectAll(this.form.elements['list6[]'])">				

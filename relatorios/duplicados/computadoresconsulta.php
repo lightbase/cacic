@@ -59,7 +59,7 @@ if ($tp_consulta) {
 				  computadores.id_so = so.id_so 
 				  $orderby";
 	}
-	$result = mysql_query($query) or die('Erro no select' . mysql_error());
+	$result = mysql_query($query) or die('Erro no select' . mysql_error().' ou sua sessão expirou!');
 	
 	if ((strlen($str_consulta) < 1) && ($tp_consulta == 'nome')) {
 		echo $mensagem = mensagem('Digite pelo menos 01 caracteres...');

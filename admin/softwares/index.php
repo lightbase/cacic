@@ -63,10 +63,11 @@ $result = mysql_query($query);
   </tr>
 
   <tr> 
-    <td height="1" bgcolor="#333333"></td>
-  </tr>
-  <tr> 
     <td> <table border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
+		  <tr> 
+		    <td height="1" bgcolor="#333333" colspan="5"></td>
+		  </tr>
+	
           <tr bgcolor="#E1E1E1" nowrap> 
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap><div align="left"></div></td>
@@ -74,6 +75,10 @@ $result = mysql_query($query);
             <td nowrap class="cabecalho_tabela"><div align="left">Nome do Software</div></td>
             <td nowrap >&nbsp;</td>
           </tr>
+		  <tr> 
+		    <td height="1" bgcolor="#333333" colspan="5"></td>
+		  </tr>
+		  
           <?  
 if(mysql_num_rows($result)==0) 
 	{
@@ -105,10 +110,11 @@ else
 		}
 	}
 	?>
+		  <tr> 
+		    <td height="1" bgcolor="#333333" colspan="5"></td>
+		  </tr>
+
         </table></td>
-  	</tr>
-  	<tr> 
-    <td height="1" bgcolor="#333333"></td>
   	</tr>
   	<tr> 
     <td height="10">&nbsp;</td>

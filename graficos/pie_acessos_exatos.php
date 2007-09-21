@@ -23,7 +23,7 @@
 												AND dt_hr_ult_acesso is not null
 												GROUP BY nr_dias';
 
-   $result = mysql_query($query) or die('Erro no select');
+   $result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 			function qt_comp($result, $num_dias) 
 				{

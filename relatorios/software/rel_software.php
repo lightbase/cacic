@@ -22,7 +22,7 @@ if ($_GET['principal'])
 	{
 	$query = ' SELECT 	id_so
 			   FROM   	so';	   
-	$result = mysql_query($query) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 	$_SESSION["list4"] = '';				
 	while ($row = mysql_fetch_array($result))
 		{
@@ -30,14 +30,15 @@ if ($_GET['principal'])
 		$_SESSION["list4"] .= $row['id_so'];
 		}
 	$_SESSION["list4"] = explode('#',$_SESSION["list4"]);					
-	if ($_GET['orderby']=='6')
-		{
+	
+	//if ($_GET['orderby']=='6')
+		//{
 		$_SESSION["list6"] = explode('#',', dt_hr_ult_acesso as "Último Acesso"');
-		}
-	else
-		{
-		$_SESSION["list6"] = explode('#','');							
-		}	
+		//}
+	//else
+		//{
+		//$_SESSION["list6"] = explode('#','');							
+	//}	
 	$_SESSION["cs_situacao"] 	= 'T';
 	}
 elseif($_POST['submit']) 
@@ -83,11 +84,11 @@ else
   <tr bgcolor="#E1E1E1"> 
     <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
 	<?
-	if ($_GET['orderby'] == 4)
+	if ($_GET['principal'] == 'so')
 		{
 		echo 'Distribui&ccedil;&atilde;o de sistemas operacionais dos computadores gerenciados';
 		}
-	elseif ($_GET['orderby'] == 6 && $_GET['principal'])
+	elseif ($_GET['principal'] == 'acessos')
 		{
 		echo 'Distribui&ccedil;&atilde;o do último acesso dos agentes';
 		}
@@ -98,11 +99,23 @@ else
 	elseif (!$_GET['orderby'])
 		{
 		echo 'Relat&oacute;rio de Configura&ccedil;&otilde;es de Software';
-		}		
-		
+		}				
 	?>
 	</strong></font></td>
   </tr>
+  <?
+  // Caso a chamada tenha origem nos detalhamentos a partir da página principal, é enviado o ID_LOCAL 
+  // para consulta individual
+  if ($_GET['id_local']<>'')
+  	{
+	?>
+  	<tr> 
+   	<td bgcolor="#CCCCCC"><div align="center">Local: <strong><? echo $_GET['nm_local'].' ('.$_GET['sg_local'].')';?></strong>
+    </div></td>
+  	</tr>	
+	<?
+	}
+  ?>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
@@ -124,16 +137,16 @@ $local = '';
 $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
-	if($_SESSION["cs_situacao"] == 'S') 
-		{
-		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
-		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
-		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
-			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
+	// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
+	$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
+	for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
+		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-		if (!$_GET['principal']) $query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';		
-		}
-	$local = ' AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local = '.$_SESSION['id_local'];	
+	if (!$_GET['principal']) $query_redes = 'AND redes.id_ip_rede IN ('. $redes_selecionadas .')';		
+
+	if ($_GET['id_local']=='')
+		$local = ' AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local = '.$_SESSION['id_local'];	
+
 	}
 else
 	{
@@ -144,8 +157,15 @@ else
 
 	$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND
 						redes.id_local = locais.id_local ';
+						
 	$select = ' ,sg_local as Local ';	
 	$from .= ' ,locais ';				
+	}
+
+if (($_SESSION['te_locais_secundarios']  <> '' || $_GET['id_local'] == '') && $local <> '')		
+	{
+	$local = str_replace(' redes.id_ip_rede AND redes.id_local = ',' redes.id_ip_rede AND (redes.id_local = ',$local);
+	$local .= ' OR redes.id_local IN ('.$_SESSION['te_locais_secundarios'].'))';						
 	}
 
 // Aqui pego todos os SO selecionados
@@ -173,6 +193,17 @@ else
 	$orderby = '3'; 
 	} //por Nome de Computador
 
+$from_join = '';
+if ($_GET['id_local'] <> '')	
+	{
+	$query_redes .= ' AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local = '.$_GET['id_local'];
+	}
+else
+	{
+	$from_join = ' LEFT JOIN versoes_softwares ON (computadores.id_so = versoes_softwares.id_so and
+			 													versoes_softwares.te_node_address = computadores.te_node_address) ';
+	}																			
+
 $query = ' SELECT 	distinct computadores.te_node_address, 
 					so.id_so, 
 					te_nome_computador as "Nome Comp.", 
@@ -180,20 +211,19 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 					te_ip as "IP"' . 
 					$campos_software .
 					$select .
-		 ' FROM   	so, computadores LEFT JOIN versoes_softwares ON (computadores.id_so = versoes_softwares.id_so and
-																	versoes_softwares.te_node_address = computadores.te_node_address) '.
-					$from . ' 																																				 		 
+		 ' FROM   	so, computadores '.$from_join . $from . ' 																																				 		 
 		   WHERE  	trim(computadores.te_nome_computador) <> ""  and
 		   			computadores.id_so = so.id_so and
 					computadores.id_so IN ('. $so_selecionados .') '. $query_redes .
 					$local . '  
 		   ORDER BY ' . $orderby;
-	
+
 	if ($_GET['orderby'] == 6 ||$_GET['orderby'] == 7)
 		{
 		$query .= ' desc';
 		}
-$result = mysql_query($query) or die('Erro no select');
+
+$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
 $num_registro = 1;
@@ -203,24 +233,29 @@ echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bo
      <tr bgcolor="#E1E1E1" >
       <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
 
-for ($i=2; $i < mysql_num_fields($result); $i++) { //Table Header
-   print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></font><b></td>';
-}
+for ($i=2; $i < mysql_num_fields($result); $i++) 
+	{ //Table Header
+   	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '&principal='.$_GET['principal'].'">'. mysql_field_name($result, $i) .'</a></font><b></td>';
+	}
 echo '</tr>';
 
-while ($row = mysql_fetch_row($result)) { //Table body
+while ($row = mysql_fetch_row($result)) 
+	{ //Table body
     echo '<tr ';
-	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
+	if ($cor) 
+		echo 'bgcolor="#E1E1E1"';
+		
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
 	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
-    for ($i=3; $i < $fields; $i++) {
+    for ($i=3; $i < $fields; $i++) 
+		{
 		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
-	}
+		}
     $cor=!$cor;
 	$num_registro++;
     echo '</tr>';
-}
+	}
 echo '</table>';
 echo '<br><br>';
 if (count($_SESSION["list8"])>0)

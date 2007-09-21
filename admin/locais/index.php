@@ -20,14 +20,17 @@ if ($_POST['submit']) {
 
 include_once "../../include/library.php";
 // Comentado temporariamente - AntiSpy();
-Conecta_bd_cacic();
 
+Conecta_bd_cacic();
+$ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'nm_local');
 $query = 'SELECT 	* 
 		  FROM 		locais 
-		  ORDER BY 	nm_local,
-		  			sg_local';
+		  ORDER BY 	'.$ordem;
+		  
 $result = mysql_query($query);
-
+$msg = '<div align="center">
+		<font color="#c0c0c0" size="1" face="Verdana, Arial, Helvetica, sans-serif">
+		Clique nas Colunas para Ordenar</font><br><br></div>';				
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -73,18 +76,21 @@ $result = mysql_query($query);
           <td align="center"  nowrap>&nbsp;</td>		
           <td align="center"  nowrap><div align="left"></div></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Sigla</div></td>
+          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local">Sigla</a></div></td>
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="left">Descri&ccedil;&atilde;o</div></td>
+          <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_local">Descri&ccedil;&atilde;o</a></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
+  	<tr> 
+    <td height="1" bgcolor="#333333" colspan="7"></td>
+  	</tr>
+		
 <?  
 if(mysql_num_rows($result)==0) 
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhum local cadastrado
-			</font><br><br></div>';			
+				Nenhum local cadastrado ou sua sessão expirou!</font><br><br></div>';			
 	}
 else 
 	{

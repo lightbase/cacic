@@ -172,7 +172,7 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
                      $query_redes
               ORDER BY dt_hr_ult_acesso DESC";
 
-    $result = mysql_query($query) or die('Erro no select' . mysql_error());
+    $result = mysql_query($query) or die('Erro no select' . mysql_error().' ou sua sessão expirou!');
 
     //Exibe o titulo da tabela
     echo "<table border=\"0\" cellpadding=\"0\" cellspacing=\"1\" width=\"80%\">

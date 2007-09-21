@@ -15,9 +15,10 @@
  */
 session_start();
 include_once "../../include/library.php";
+
 // Comentado temporariamente - AntiSpy();
 if($_REQUEST['submit']) 
-{
+	{
 	Conecta_bd_cacic();
 	
 	$frm_id_ip_rede = $_POST['frm_id_ip_rede'];  
@@ -27,7 +28,7 @@ if($_REQUEST['submit'])
 			  WHERE 	id_ip_rede = '$frm_id_ip_rede' AND
 			  			id_local = ".$_POST['frm_id_local'];
 						
-	$result = mysql_query($query) or die ('Select falhou');
+	$result = mysql_query($query) or die ('Select falhou ou sua sessão expirou!');
 	
 	if (mysql_num_rows($result) > 0) 
 		{
@@ -78,7 +79,7 @@ if($_REQUEST['submit'])
 						  	'$frm_nu_porta_serv_updates',
 							'$frm_id_local')";									  
 
-		$result = mysql_query($query) or die ('Insert falhou');
+		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'redes');
 
 		$v_tripa_acoes = '';
@@ -88,14 +89,14 @@ if($_REQUEST['submit'])
 					  FROM		acoes_redes 
 					  WHERE		id_ip_rede = '$frm_id_ip_rede' AND
 								id_local = ".$_POST['frm_id_local'];
-		mysql_query($query_del) or die('Ocorreu um erro durante a exclusão de registros na tabela acoes_redes.');			
+		mysql_query($query_del) or die('Ocorreu um erro durante a exclusão de registros na tabela acoes_redes ou sua sessão expirou!');			
 		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');
 
 		$v_cs_situacao = ($_POST['in_habilita_acoes'] == 'S'?'S':'N');
 
 		$query_acoes = "SELECT 	* 
 						FROM 	acoes";
-		$result_acoes = mysql_query($query_acoes) or die('Ocorreu um erro durante a consulta à tabela de ações.'); 
+		$result_acoes = mysql_query($query_acoes) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
 					
 		while ($row_acoes = mysql_fetch_array($result_acoes))
 			{
@@ -114,7 +115,7 @@ if($_REQUEST['submit'])
 									'".$row_acoes['id_acao']."',
 									".$_POST['frm_id_local'].",
 									'".$v_cs_situacao."')";
-			mysql_query($query_ins) or die('Ocorreu um erro durante a inclusão de registros na tabela acoes_redes.');
+			mysql_query($query_ins) or die('Ocorreu um erro durante a inclusão de registros na tabela acoes_redes ou sua sessão expirou!');
 			
 			}						
 			
@@ -161,7 +162,7 @@ function SetaServidorUpdates()
 	document.form.frm_nm_usuario_login_serv_updates.value = v_array_string[2];		
 	document.form.frm_nm_usuario_login_serv_updates_gerente.value = v_array_string[2];			
 	document.form.frm_te_path_serv_updates.value = v_array_string[3];				
-	document.form.frm_nu_limite_ftp.value = v_array_string[4];					
+	document.form.frm_nu_limite_ftp.value = (v_array_string[4]==""?"5":v_array_string[4])
 	document.form.sel_te_serv_updates.options.selectedIndex=0;
 	document.form.frm_te_senha_login_serv_updates.value = "";
 	document.form.frm_te_senha_login_serv_updates_gerente.value = "";	
@@ -177,6 +178,11 @@ function SetaServidorUpdates()
 	
 function valida_form() 
 	{
+	if ( document.form.frm_nu_limite_ftp.value == "" ) 
+		{	
+		document.form.frm_nu_limite_ftp.value = "5";
+		}					
+	
 	if (document.form.frm_id_local.selectedIndex==0) {	
 		alert("O local da rede é obrigatório");
 		document.form.frm_id_local.focus();
@@ -310,7 +316,7 @@ MM_reloadPage(true);
       <td> <select name="frm_id_local" id="frm_id_local"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
           <?
 			$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE id_local = '.$_SESSION['id_local']:'');
-			if ($_SESSION['te_locais_secundarios'] && $where)
+			if (trim($_SESSION['te_locais_secundarios'])<>'' && $where <> '')
 				{
 				// Faço uma inserção de "(" para ajuste da lógica para consulta
 				$where = str_replace(' id_local = ','(id_local = ',$where);
@@ -324,7 +330,7 @@ MM_reloadPage(true);
 								 			$where." 
 								 ORDER BY	sg_local";
 
-	    $result_locais = mysql_query($qry_locais) or die ('Select falhou');
+	    $result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sessão expirou!');
 		echo '<option value="0">Selecione Local</option>';		  				
 		while ($row=mysql_fetch_array($result_locais))
 			{ 

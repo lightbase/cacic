@@ -69,24 +69,24 @@ conecta_bd_cacic();
 $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
-	if($_SESSION["cs_situacao"] == 'S') // Apenas Redes Selecionadas
-		{
+	//if($_SESSION["cs_situacao"] == 'S') // Apenas Redes Selecionadas
+		//{
 		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes	
 		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			{
-			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
+			$redes_selecionadas .= ",'" . $_SESSION["list2"][$i] . "'";
 			}
 		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
-		}
-	else // Todas as Redes
-		{
-		$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
-							redes.id_local = '. $_SESSION['id_local'].' AND
-							redes.id_local = locais.id_local ';
-		$select = ' ,sg_local as Local ';	
-		$from = ' ,redes,locais ';							
-		}
+		//}
+	//else // Todas as Redes
+		//{
+		//$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+		//					redes.id_local = '. $_SESSION['id_local'].' AND
+		//					redes.id_local = locais.id_local ';
+		//$select = ' ,sg_local as Local ';	
+		//$from = ' ,redes,locais ';							
+		//}
 	}
 else
 	{
@@ -105,14 +105,16 @@ else
 
 // Aqui pego todos os SO selecionados
 $so_selecionados = "'" . $_SESSION["list4"][0] . "'";
-for( $i = 1; $i < count($_SESSION["list4"] ); $i++ ) {
+for( $i = 1; $i < count($_SESSION["list4"] ); $i++ ) 
+	{
 	$so_selecionados = $so_selecionados . ",'" . $_SESSION["list4"][$i] . "'";
-}
+	}
 
 // Aqui pego todas as configurações de hardware que deseja exibir
-for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
+for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) 
+	{
 	$campos_hardware = $campos_hardware . $_SESSION["list6"][$i];
-}
+	}
 // Aqui substitui todas as strings \ por vazio que a variável $campos_hardware retorna
 $campos_hardware = str_replace('\\', '', $campos_hardware);
 
@@ -132,7 +134,7 @@ else { $orderby = '3'; } //por Nome Comp.
 					$query_redes .' 
 		   ORDER BY ' . $orderby; 
 
-$result = mysql_query($query) or die('Erro no select');
+$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
 $num_registro = 1;

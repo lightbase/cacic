@@ -14,11 +14,19 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-$v_versao = '2.2.3-dev-2';
+$v_versao = '2.2.3-RC4';
 /* 
+2.2.3-RC4   (Anderson Peterle - Dataprev/ES - Julho a Setembro/2007)
+		  + Implementado o destaque de ações dos usuários: INS->Verde UPD->Amarelo DEL->Vermelho
+		  + Implementado o detalhamento dos dados constantes dos detalhes das estatísticas da página inicial
+		  + Implementada a opção "Administração/Configurar Gerente/Exibir Gráficos na Página Principal e Detalhes" para exibição de pizza ou tabela
+		  + Implementada a manutenção do cadastro sistemas operacionais em "Administração/Cadastros/S.Operacionais"
+		  + Implementada a ordenação por colunas nas opções "Administração/Cadastros/Locais", "Administração/Cadastros/SubRedes", "Administração/Cadastros/Usuários" e "Administração/Cadastros/S.Operacionais"
+		  * Efetuadas correções em consultas e atualizações de informações do banco de dados
+		  		  		  
 2.2.3-dev-1 (Anderson Peterle - Dataprev/ES - Junho/2007)
-		    * Corrigido o processo de liberação de FTP, onde a tabela redes_grupos_ftp é liberada após a operação
-			  de transferência de arquivos por parte do módulo cliente Gerente de Coletas.
+		  * Corrigido o processo de liberação de FTP, onde a tabela redes_grupos_ftp é liberada após a operação
+			de transferência de arquivos por parte do módulo cliente Gerente de Coletas.
 
 2.2.3-dev (Anderson Peterle - Dataprev/ES - Maio/2007)
 		  + Implementado o detalhamento para as estatísticas exibidas na página principal quando representarem

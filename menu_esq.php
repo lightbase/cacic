@@ -17,13 +17,33 @@
 session_start();
 require_once "include/library.php";
 
-conecta_bd_cacic();
-$qry_default_configs = "SELECT 	*
-						FROM	configuracoes_padrao";
-$res_default_configs = mysql_query($qry_default_configs);
-$row_default_configs = mysql_fetch_array($res_default_configs);
-$_SESSION['id_default_body_bgcolor'] = $row_default_configs['id_default_body_bgcolor'];
+// IP´s onde serão exibidas mensagens de Debug, para acompanhamento de atualização de scripts.
+// Os IP´s devem estar entre "[" e "]". Exemplo: s_SESSION['cIpsDisplayDebugs'] = '[10.71.0.58][10.71.0.52]';
+$_SESSION['cIpsDisplayDebugs'] = '[10.71.0.58][10.71.0.52]';
 
+conecta_bd_cacic();
+
+if (!session_is_registered('id_default_body_bgcolor'))
+	{
+	$qry_default_configs = "SELECT 	*
+							FROM	configuracoes_padrao";
+	$res_default_configs = mysql_query($qry_default_configs);
+	$row_default_configs = mysql_fetch_array($res_default_configs);
+	session_register('id_default_body_bgcolor');
+	
+	$_SESSION['id_default_body_bgcolor'] = $row_default_configs['id_default_body_bgcolor'];
+	}
+
+function PegaConfiguracoesLocais($p_id_local)
+	{
+	session_start();
+	$qry_configs_locais  				= "SELECT *
+										   FROM	  configuracoes_locais
+										   WHERE  id_local = ".$p_id_local;
+	$res_configs_locais  				= mysql_query($qry_configs_locais);
+	$row_configs_locais  				= mysql_fetch_array($res_configs_locais);
+	$_SESSION['id_default_body_bgcolor']= $row_configs_locais['id_default_body_bgcolor'];				
+	}
 // Caso o usuário clique em "logoff" a sua sessão é destruída
 if($_POST['logoff'])
      {
@@ -35,10 +55,9 @@ if($_POST['logoff'])
 	 session_unregister('nm_usuario');
 	 session_unregister('menu_usuario');
 	 session_unregister('id_usuario');	 
-	 session_unregister('c_Debugs');
-	 session_unregister('c_IpsDebugs');		
 	 session_unregister('te_grupo_usuarios');			 
-	 
+	 session_unregister('id_default_body_bgcolor');	 
+	 session_unregister('cIpsDisplayDebugs');	 
      //Adicionado pela Marisol em 12/06/2006
      session_destroy();
 	 
@@ -89,31 +108,27 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	if ($result_qry_usuario)
 		{
 		while($reg_result = mysql_fetch_array($result_qry_usuario))
-			{ 
-			 $_SESSION["id_grupo_usuarios"] 		=             $reg_result['id_grupo_usuarios'];			
-			 $_SESSION["nm_usuario"] 				= PrimUltNome($reg_result['nm_usuario_completo']);
-			 $_SESSION["menu_usuario"]      		=             'menus/'.$reg_result['te_menu_grupo'];			 			 
-			 $_SESSION["id_usuario"] 				=             $reg_result['id_usuario'];						 
-			 $_SESSION["id_usuario_crypted"] 		=             EnCrypt($key,$iv,$reg_result['id_usuario'],"1","0","0");
-			 $_SESSION["te_locais_secundarios"]		=             $reg_result['te_locais_secundarios'];			 			 
-			 $_SESSION["id_local"]					=             $reg_result['id_local'];			 			 			 
-			 $_SESSION["sg_local"]					=             $reg_result['sg_local'];			 			 			 
-			 $_SESSION["nm_local"]					=             $reg_result['nm_local'];			 			 			 			 
-			 $_SESSION["cs_nivel_administracao"]	=             $reg_result['cs_nivel_administracao'];			 			 			 			 
-			 $_SESSION["c_Debugs"]					=             true; // Deverá ser passado para "true" caso queira obter informações para debug.
-			 															 // p.s.: Não esquecer de voltar para "false" após o uso, para não encher a tabela "testes" em vão.
-			 $_SESSION["c_IpsDebugs"]				= 			  '#10.71.0.58'; // Usado em conjunto com a constante acima, para que não entre informações além de sua estação atual.
-			 																	 // Separe os IP´s por ","
-			 $_SESSION["te_grupo_usuarios"]			= 			  $reg_result['te_grupo_usuarios'];
-
-			Log_Debug('Teste');																					 
-	  		 GravaLog('ACE',$_SERVER['SCRIPT_NAME'],'acesso');			 
-			 ?>
-			<SCRIPT LANGUAGE="Javascript">
-				top.location = 'index.html';
-			</script>
-			<?							
+			{ 			
+			$_SESSION["id_grupo_usuarios"] 		=             $reg_result['id_grupo_usuarios'];			
+			$_SESSION["nm_usuario"] 			= PrimUltNome($reg_result['nm_usuario_completo']);
+			$_SESSION["menu_usuario"]      		=             'menus/'.$reg_result['te_menu_grupo'];			 			 
+			$_SESSION["id_usuario"] 			=             $reg_result['id_usuario'];						 
+			$_SESSION["id_usuario_crypted"] 	=             EnCrypt($key,$iv,$reg_result['id_usuario'],"1","0","0");
+			$_SESSION["te_locais_secundarios"]	=        trim($reg_result['te_locais_secundarios']);			 			 
+			$_SESSION["id_local"]				=             $reg_result['id_local'];			 			 			 
+			$_SESSION["sg_local"]				=             $reg_result['sg_local'];			 			 			 
+			$_SESSION["nm_local"]				=             $reg_result['nm_local'];			 			 			 			 
+			$_SESSION["cs_nivel_administracao"]	=             $reg_result['cs_nivel_administracao'];			 			 			 			 
+			$_SESSION["te_grupo_usuarios"]		= 			  $reg_result['te_grupo_usuarios'];
 			}
+	
+		GravaLog('ACE',$_SERVER['SCRIPT_NAME'],'acesso');			 
+		PegaConfiguracoesLocais($_SESSION['id_local']);		
+		?>
+		<SCRIPT LANGUAGE="Javascript">
+			top.location = 'index.html';
+		</script>
+		<?										
 		}
 	else
 		{
@@ -126,9 +141,9 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		session_unregister('nm_usuario');
 		session_unregister('menu_usuario');
 		session_unregister('id_usuario');
-		session_unregister('c_Debugs');
-		session_unregister('c_IpsDebugs');		
-		session_unregister('te_grupo_usuarios');		
+		session_unregister('te_grupo_usuarios');
+		session_unregister('id_default_body_bgcolor');	 				
+		session_unregister('cIpsDisplayDebugs');	 			 		
 		?>
 		<SCRIPT LANGUAGE="Javascript">
 		alert('Usuário não cadastrado ou senha inválida!');
@@ -156,13 +171,12 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	?>
 	<script language="JavaScript" type="text/javascript" src="include/cacic.js"></script>
 	<script language="JavaScript" type="text/javascript" src="include/crypt.js"></script>
-	<script language="JavaScript" type="text/javascript" src="include/ajax_menu_esq.js"></script>	
 	<p> 
 	<?
 if (!$_SESSION["id_usuario"])
 	{
 	$v_dados_rede = getDadosRede(); // _SERVER["REMOTE_ADDR"]...
-
+	PegaConfiguracoesLocais($v_dados_rede['id_local']);		
 	if ($v_dados_rede['id_ip_rede'] && $v_dados_rede['nm_local'])
 		{
 	 	$_SESSION["id_grupo_usuarios"] 		=             3; // Convidado
@@ -173,6 +187,7 @@ if (!$_SESSION["id_usuario"])
 		$_SESSION["nm_local"]				=             $v_dados_rede['nm_local'];			 			 			 
 		$_SESSION["sg_local"]				=             $v_dados_rede['sg_local'];			 			 			 		
 		$_SESSION["cs_nivel_administracao"]	=             0;
+
 		?>
 		<SCRIPT LANGUAGE="Javascript">
 		top.location = 'index.html';
@@ -221,7 +236,7 @@ if (!$_SESSION["id_usuario"])
 	}
 else
 	{	
-	$treefile = $_SESSION["menu_usuario"];	
+	$treefile = $_SESSION["menu_usuario"];
 	require "include/treemenu.php";
 	?>
 	<SCRIPT LANGUAGE="JavaScript">
@@ -369,6 +384,5 @@ else
 	document.getElementById('Layer1').style.visibility = "hidden";
 	document.form1.Submit.disabled = "";
 	</SCRIPT>		
-	
 </body>
 </html>

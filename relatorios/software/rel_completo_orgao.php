@@ -57,7 +57,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 	 $queryOrgao = "SELECT nomeComputador 
 			FROM nome_computador_orgao 
 			WHERE siglaOrgao = '" . $_GET['nm_maquina'] . "'";
-	 $resultOrgao = mysql_query($queryOrgao) or die('Erro!');
+	 $resultOrgao = mysql_query($queryOrgao) or die('Erro de acesso ou sua sessão expirou!');
 	 $restricao = "";
 	 while ($campos_resultOrgao=mysql_fetch_array($resultOrgao)) {
 		if ($restricao) {
@@ -76,7 +76,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 		  AND b.id_software_inventariado = 
 			c.id_software_inventariado " . $restricao . ") 
 		ORDER BY a.te_nome_computador"; 
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Erro de acesso ao banco ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

@@ -18,22 +18,32 @@ require_once('../../include/library.php');
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 
-if ($ExcluiAplicativo) {
+if ($_POST['ExcluiAplicativo']) 
+	{
 	$query = "DELETE 
 			  FROM 		perfis_aplicativos_monitorados 
-			  WHERE 	id_aplicativo = $id_aplicativo";
-	mysql_query($query) or die('Delete PERFIS_APLICATIVOS_MONITORADOS falhou');
+			  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
+	mysql_query($query) or die('Delete PERFIS_APLICATIVOS_MONITORADOS falhou ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');			
+	
 	$query = "DELETE 
 			  FROM 		aplicativos_monitorados 
-			  WHERE 	id_aplicativo = $id_aplicativo";
-	mysql_query($query) or die('Delete APLICATIVOS_MONITORADOS falhou');
+			  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
+	mysql_query($query) or die('Delete APLICATIVOS_MONITORADOS falhou ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'aplicativos_monitorados');			
+
+	$query = "DELETE
+			  FROM		aplicativos_redes
+			  WHERE		id_aplicativo = ".$_POST['id_aplicativo'];
+	$result = mysql_query($query) or die ('Delete falhou ou sua sessão expirou!');				
+	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');			
+		
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/perfis_aplicativos_monitorados/index.php&tempo=1");									 		
 	
-}
-elseif ($GravaAlteracoes) {
-//te_dir_pad_w9x = '$frm_te_dir_pad_w9x', te_dir_pad_wnt = '$frm_te_dir_pad_wnt', 
+	}
+elseif ($_POST['GravaAlteracoes']) 
+	{
+		
 	$v_nm_aplicativo = $frm_nm_aplicativo;
 	if ($frm_in_ativa == 'N')
 		{
@@ -62,18 +72,45 @@ elseif ($GravaAlteracoes) {
 			  			dt_atualizacao = now(),
 			  			in_disponibiliza_info = '$frm_in_disponibiliza_info',
 			  			in_disponibiliza_info_usuario_comum = '$frm_in_disponibiliza_info_usuario_comum'			    			  			  
-			  WHERE 	id_aplicativo = $id_aplicativo";
+			  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
 
-	mysql_query($query) or die('Update falhou');
+	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');		
+
+
+	$query = "DELETE
+			  FROM		aplicativos_redes
+			  WHERE		id_aplicativo = ".$_POST['id_aplicativo'];
+	$result = mysql_query($query) or die ('Delete falhou ou sua sessão expirou!');				
+
+	$strInsertAplicativosRedes = '';
+	for ($i=0; $i < count($_POST['list2']);$i++)
+		{
+		$dado = explode('_',$_POST['list2'][$i]);
+		if ($strInsertAplicativosRedes)
+			$strInsertAplicativosRedes .= ',';
+		$strInsertAplicativosRedes .= "(".$dado[0].",'".$dado[1]."',".$_POST['id_aplicativo'].")";		
+		}
+		
+	if ($strInsertAplicativosRedes)
+		{
+
+		$query = "INSERT 
+				  INTO 		aplicativos_redes
+				  VALUES 	".$strInsertAplicativosRedes;
+		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');								  
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');				
+		}
+	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/perfis_aplicativos_monitorados/index.php&tempo=1");									 		
 	
-}
-else {
+	}
+else 
+	{
 	$query = "SELECT 	* 
 			  FROM 		perfis_aplicativos_monitorados 
-			  WHERE 	id_aplicativo = $id_aplicativo";
-	$result = mysql_query($query) or die ('select falhou');
+			  WHERE 	id_aplicativo = ".$_GET['id_aplicativo'];
+	$result = mysql_query($query) or die ('Select falhou ou sua sessão expirou!');
 	$row = mysql_fetch_array($result);
 ?>
 
@@ -84,6 +121,10 @@ else {
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<?
+require_once('../../include/selecao_listbox.js');  
+?>
+
 <SCRIPT LANGUAGE="JavaScript">
 function SetaDescGrupo(p_descricao,p_destino) 
 	{
@@ -123,8 +164,8 @@ function valida_form() {
   	</tr>
 </table>
 
-	<form method="post" ENCTYPE="multipart/form-data" name="forma" onsubmit="return valida_form()">
-	
+	<form method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return valida_form()">
+	<input type="hidden" name="id_aplicativo" value="<? echo $_GET['id_aplicativo'];?>">	
   <tr> 
     <td align="center">
 <div align="center"><br>
@@ -163,7 +204,7 @@ function valida_form() {
 			          FROM   so
 					  WHERE  id_so <> '0'
 					  ORDER  BY te_desc_so";
-			mysql_query($query) or die('Select falhou');
+			mysql_query($query) or die('Select falhou ou sua sessão expirou!');
 		    $sql_result=mysql_query($query);			
 		while ($row_so=mysql_fetch_array($sql_result))
 			{ 
@@ -312,16 +353,36 @@ function valida_form() {
               <br> <input name="Ajuda5" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda55" type="text" style="border:0" size="80"></td>
           </tr>
+    <tr> 
+      <td nowrap>&nbsp;</td>
+    </tr>
+	
+    <tr> 
+      <td nowrap class="cabecalho_secao"><u>Locais para aplicação da coleta do sistema monitorado </u></td>
+    </tr>
+	
+	<tr>
+	<td>
+	<?
+	$select = " , aplicativos_redes.id_local as IdLocalAR ";
+	$from   = " LEFT JOIN aplicativos_redes ON (redes.id_ip_rede = aplicativos_redes.id_ip_rede AND redes.id_local = aplicativos_redes.id_local AND aplicativos_redes.id_aplicativo = ".$_GET['id_aplicativo'].") ";
+	include_once "../../include/selecao_redes_perfil_inc.php";	
+	?>
+	</td>	
+	</tr>
+		  
         </table>
           
         <br>
       </div></td>
+	  
     </tr>
+	
   </table>
 
 
   <p align="center"> 
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Perfil de Sistema Monitorado?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Perfil de Sistema Monitorado?'),SelectAll(this.form.elements['list2[]']) " <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
     &nbsp; &nbsp; 
     <input name="ExcluiAplicativo" type="submit" value="Excluir Perfil de Sistema Monitorado" onClick="return Confirma('Confirma Exclusão de Perfil de Sistema Monitorado?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
   </p>

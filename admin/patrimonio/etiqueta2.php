@@ -25,8 +25,10 @@ require_once('../../include/library.php');
 </head>
 
 <?
-	 	$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
-	   	$query = "SELECT 	te_etiqueta, 
+	 	$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');	   	
+	 	$where = ' AND id_local = '.$_SESSION['id_local'];				
+		$query = "SELECT 	te_etiqueta, 
+		
 							te_help_etiqueta, 
 							te_plural_etiqueta 
 				  FROM 		patrimonio_config_interface 
@@ -67,7 +69,7 @@ require_once('../../include/library.php');
     </tr>
     <tr> 
       <td colspan="3" nowrap> <div align="center"> 
-          <input name="gravar" type="submit" id="gravar" value="   Gravar   " onClick="return Confirma('Confirma Configuração de Etiqueta 2?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+          <input name="gravar" type="submit" id="gravar" value="   Gravar   " onClick="return Confirma('Confirma Configuração de Etiqueta 2?');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     </tr>
   </table>

@@ -27,7 +27,7 @@ if ($_REQUEST['nm_arquivo'])
 		{
 		conecta_bd_cacic();
 		$query = "DELETE from redes_versoes_modulos WHERE nm_modulo = '".$_REQUEST['nm_arquivo']."'";
-		$result = mysql_query($query) or die('Ocorreu um erro durante exclusão de referência em redes_versoes_modulos.');		
+		$result = mysql_query($query) or die('Ocorreu um erro durante exclusão de referência em redes_versoes_modulos ou sua sessão expirou!');		
 		}
 	}
 

@@ -23,7 +23,7 @@ if($_REQUEST['submit'])
 	$query = "SELECT 	* 
 			  FROM 		softwares 
 			  WHERE 	nm_software = '".$_REQUEST['frm_nm_software']."'";
-	$result = mysql_query($query) or die ('Select softwares falhou');
+	$result = mysql_query($query) or die ('Select softwares falhou ou sua sessão expirou!');
 	
 	if (mysql_num_rows($result) > 0) {
 		header ("Location: ../../include/registro_ja_existe.php?chamador=../admin/softwares/incluir_software.php&tempo=1");									 							
@@ -47,7 +47,7 @@ if($_REQUEST['submit'])
 							$_REQUEST['frm_te_local_midia']."','".
 							$_REQUEST['frm_te_obs']."')"; 
 
-		$result = mysql_query($query) or die ('Insert softwares falhou');
+		$result = mysql_query($query) or die ('Insert softwares falhou ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'softwares');
 
 		header ("Location: ../../include/operacao_ok.php?chamador=../admin/softwares/index.php&tempo=1");									 						

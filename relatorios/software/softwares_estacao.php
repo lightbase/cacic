@@ -122,7 +122,7 @@ if ($_POST['consultar']) {
 		GROUP BY ss.nm_software_inventariado";
 	}
 
-	$result = mysql_query($query) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 	
 	if (strlen($_SESSION['str_orgao']) < 3) {
 		echo $mensagem = mensagem('Digite pelo menos 03 caracteres...');

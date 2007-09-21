@@ -22,7 +22,7 @@ include_once "../../include/library.php";
    		echo $conta." - ".$row['id_software_inventariado']." - ". $row['nm_software_inventariado']."<br>";
 		$conta = $conta+1;	
 		$sql_update = "Update softwares_inventariados set id_si_grupo = 1 where id_software_inventariado=".$row['id_software_inventariado'];
-		mysql_query($sql_update) or die('Update falhou');
+		mysql_query($sql_update) or die('Update falhou ou sua sessão expirou!');
    }
    
 ?>

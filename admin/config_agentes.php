@@ -59,7 +59,7 @@ require_once('../include/opcoes_avancadas_combos.js');
 			  			limit 1"; 						 
 
 
-	$result_configuracoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de configurações.'); 
+	$result_configuracoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de configurações ou sua sessão expirou!'); 
 	$campos_configuracoes = mysql_fetch_array($result_configuracoes);
 ?>
         &nbsp;<br>

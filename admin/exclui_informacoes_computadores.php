@@ -43,9 +43,8 @@ if ($_POST['submit_cond'])
 	$query_sele_exclui = str_replace('-MENOR-',' < ',$query_sele_exclui);
 	$query_sele_exclui = str_replace('-MAIOR-',' > ',$query_sele_exclui);	
 
-    $from 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' ,redes c':'');	
-    $where 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND a.id_ip_rede = c.id_ip_rede AND c.id_local = '.$_SESSION['id_local']:'');		
-	if ($_SESSION['te_locais_secundarios'] && $where)
+    $where 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND c.id_local = '.$_SESSION['id_local']:'');		
+	if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 		{
 		// Faço uma inserção de "(" para ajuste da lógica para consulta	
 		$where = str_replace('c.id_local = ','(c.id_local = ',$where);
@@ -60,17 +59,21 @@ if ($_POST['submit_cond'])
 								a.te_versao_gercols, 
 								a.dt_hr_ult_acesso,
 								a.dt_hr_inclusao,								
-								b.sg_so						 
+								b.sg_so,
+								d.sg_local						 
 						FROM	computadores a,
-								so b '.
-								$from . ' 
-						WHERE   '.stripslashes($query_sele_exclui).' and a.id_so = b.id_so '.
+								so b,
+								redes c,
+								locais d   
+						WHERE   '.stripslashes($query_sele_exclui).' AND 
+								a.id_so = b.id_so AND 
+								a.id_ip_rede = c.id_ip_rede AND 
+								c.id_local = d.id_local '.
 								$where . ' 
 						ORDER 	by a.te_nome_computador';
 
 	conecta_bd_cacic();
-	$result = mysql_query($Query_Pesquisa) or die('Erro no select');
-	
+	$result = mysql_query($Query_Pesquisa) or die('Erro no select ou sua sessão expirou!');
 	
 	?>
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -137,33 +140,37 @@ if ($_POST['submit_cond'])
 	<table border="0" align="center" cellpadding="0" cellspacing="0">
   	<tr> 
     <td> <table border="0" cellpadding="0" cellspacing="0" align="center">
+          <tr> 
+            <td height="1" bgcolor="#333333" colspan="23"></td>
+          </tr>
+	
           <tr bgcolor="#E1E1E1"> 
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap><img src="../imgs/exclui_computador.gif" width="23" height="23"></td>
-            <td align="center"  nowrap><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Nome 
-                da M&aacute;quina</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Nome da M&aacute;quina</div></td>
+            <td nowrap><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Local</div></td>
+            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>			
             <td nowrap class="cabecalho_tabela"><div align="center">IP</div></td>
             <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">Endereço MAC</div></td>
             <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">S.O.</div></td>
             <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"> Cacic2</div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center">Cacic2</div></td>
             <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela"> GerCols</td>
-            <td nowrap class="cabecalho_tabela"><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela"><div align="center">&Uacute;lt. 
-                Acesso</div></td>
-            <td nowrap class="cabecalho_tabela"><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap class="cabecalho_tabela">GerCols</td>
+            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap class="cabecalho_tabela"><div align="center">&Uacute;lt. Acesso</div></td>
+            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">Inclusão</div></td>
             <td nowrap >&nbsp;</td>
           </tr>
           <tr> 
-            <td height="1" bgcolor="#333333" colspan="20"></td>
+            <td height="1" bgcolor="#333333" colspan="23"></td>
           </tr>
           <?  
 	$Cor = 0;
@@ -173,27 +180,29 @@ if ($_POST['submit_cond'])
 		{		  
 	 	?>
           <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
-            <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><? echo $NumRegistro; ?></div></td>
-            <td nowrap>&nbsp;</td>
-            <td nowrap><input type="checkbox" name="chk_<? echo $row['te_node_address'].'#'. $row['id_so']; ?>" value="1" checked onClick="Verifica_Check_Exclui();"></td>
-            <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
-            <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div></td>
-            <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div></td>
-            <td nowrap>&nbsp;</td>
-            <td nowrap><div align="center"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_so']; ?></a></div></td>
-            <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div></td>
-            <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_gercols']; ?></a></div></td>
-            <td nowrap>&nbsp;</td>
-            <td nowrap><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
-            <td nowrap>&nbsp;</td>
-            <td nowrap><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div></td>
-            <td nowrap>&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><? echo $NumRegistro; ?></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><input type="checkbox" name="chk_<? echo $row['te_node_address'].'#'. $row['id_so']; ?>" value="1" checked onClick="Verifica_Check_Exclui();"></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_local']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_so']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_gercols']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
           </tr>
           <? 
 		$Cor=!$Cor;
@@ -376,6 +385,9 @@ else
 
 	<br><br>	
 	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
+  	<tr> 
+    <td colspan="3" height="1" bgcolor="#333333"></td>
+  	</tr>	
 	<tr bgcolor="#CCCCCC"> 
   	<td class="destaque">Campo</font></strong></td>
   	<td class="destaque">Condi&ccedil;&atilde;o</font></strong></td>
@@ -448,7 +460,7 @@ else
 			}
 			?>
 		</select> </td>
-		<td><input name="frm_te_valor_condicao_<? echo $v_arr_campo[1]; ?>" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);Verifica_Selecao(this,'<? echo "frm_condicao_". $v_arr_campo[1]; ?>');" size="70" maxlength="100"></td>
+		<td><input name="frm_te_valor_condicao_<? echo $v_arr_campo[1]; ?>" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);Verifica_Selecao(this,'<? echo "frm_condicao_". $v_arr_campo[1]; ?>');" size="60" maxlength="100"></td>
 		</tr>
 		<?			
 		$cor=!$cor;

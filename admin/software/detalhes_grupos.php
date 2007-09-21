@@ -32,14 +32,14 @@ if ($_POST['GravaAlteracoes'])
 			  email_si_grupo = '".$_POST['frm_email_si_grupo']."'
 			  WHERE trim(id_si_grupo) = '".trim($_POST['id_si_grupo'])."'";
 
-	mysql_query($query) or die('Update falhou');
+	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/software/index_grupos.php&tempo=1");									 				
 	
 }
 else {
 
 	$query = "SELECT * FROM softwares_inventariados_grupos WHERE id_si_grupo  = '".$_GET['id_si_grupo']."'";
-	$result = mysql_query($query) or die ('select falhou');
+	$result = mysql_query($query) or die ('Select em "softwares_inventariados_grupos" falhou ou sua sessão expirou!');
 ?>
 
 

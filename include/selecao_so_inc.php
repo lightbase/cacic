@@ -37,7 +37,7 @@
 					  	$query = "SELECT id_so, te_desc_so
 								  FROM so
 								  WHERE id_so > 0";
-						$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela so.');
+						$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela so ou sua sessão expirou!');
 
 						/* Agora monto os itens do combo de so's. */ 
 						while($campos = mysql_fetch_array($result)) {

@@ -16,45 +16,29 @@
 session_start();
 require_once('../../include/library.php');
 // Comentado temporariamente - AntiSpy();
-Conecta_bd_cacic();
+conecta_bd_cacic();
 
-if ($ExcluiLocal) 
+if ($_POST['ExcluiLocal'] <> '') 
 	{
-	$query = "DELETE 
-			  FROM 		locais 
-			  WHERE 	id_local = '$frm_id_local'";
-	mysql_query($query) or die('Delete falhou');
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'locais');			
-
-	$query = "DELETE 
-			  FROM 		redes
-			  WHERE 	id_local = '$frm_id_local'";
-	mysql_query($query) or die('Delete falhou');
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'redes');			
-
-	$query = "DELETE 
-			  FROM 		usuarios
-			  WHERE 	id_local = '$frm_id_local'";
-	mysql_query($query) or die('Delete falhou');
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'usuarios');			
-
-	$query = "DELETE 
-			  FROM 		patrimonio_config_interface 
-			  WHERE 	id_local = '$frm_id_local'";
-	mysql_query($query) or die('Delete falhou');
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'patrimonio_config_interface');			
-		
+	$result 	= mysql_list_tables('cacic'); //Retorna a lista de tabelas do CACIC
+	while ($row = mysql_fetch_row($result)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO
+		{		
+		$query_DEL 	= 'DELETE FROM '.$row[0] .' WHERE id_local = "'. $_POST['frm_id_local'] .'"';
+		$result_DEL = @mysql_query($query_DEL);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
+		if ($result_DEL)
+			GravaLog('DEL',$_SERVER['SCRIPT_NAME'],$row[0]);				
+		}					
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/locais/index.php&tempo=1");					
 	}
-elseif ($GravaAlteracoes) 
+elseif ($_POST['GravaAlteracoes']<>'') 
 	{
 	$query = "UPDATE 	locais 
-			  SET 		sg_local = '".$_REQUEST['frm_sg_local']."', 
-			  			nm_local = '".$_REQUEST['frm_nm_local']."',
-			  			te_observacao = '".$_REQUEST['frm_te_observacao']."'			  
-			  WHERE 	id_local = ".$_REQUEST['frm_id_local'];
+			  SET 		sg_local = '".$_POST['frm_sg_local']."', 
+			  			nm_local = '".$_POST['frm_nm_local']."',
+			  			te_observacao = '".$_POST['frm_te_observacao']."'			  
+			  WHERE 	id_local = ".$_POST['frm_id_local'];
 
-	mysql_query($query) or die('Update falhou');
+	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'locais');		
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/locais/index.php&tempo=1");				
 	}
@@ -62,12 +46,12 @@ else
 	{
 	$query = "SELECT 	* 
 			  FROM 		locais ";
-	$result = mysql_query($query) or die ('select falhou');
+	$result = mysql_query($query) or die ('Erro no acesso à tabela locais ou sua sessão expirou!');
 	
 	$v_arr_locais = array();
 	while ($row = mysql_fetch_array($result))
 		{
-		if ($row['id_local']==$_REQUEST['id_local'])
+		if ($row['id_local']==$_GET['id_local'])
 			{
 			$v_sg_local = $row['sg_local'];
 			$v_nm_local = $row['nm_local'];
@@ -135,8 +119,8 @@ function valida_form()
       <td height="1" bgcolor="#333333" colspan="3"></td>    </tr>
     <tr> 
       <td>&nbsp;</td>
-      <td class="dado_peq_sem_fundo"> <input name="frm_sg_local" type="text" value="<? echo $v_sg_local; ?>" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >&nbsp;&nbsp;Ex.: DTP - UAES 
-        <input name="frm_id_local" type="hidden" id="frm_id_local" value="<? echo $_REQUEST['id_local']; ?>"> 
+      <td class="dado_peq_sem_fundo"> <input name="frm_sg_local" type="text" value="<? echo $v_sg_local; ?>" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >&nbsp;&nbsp;Ex.: DTP - URES 
+        <input name="frm_id_local" type="hidden" id="frm_id_local" value="<? echo $_GET['id_local']; ?>"> 
       </td>
       <td>&nbsp;</td>
     </tr>
@@ -196,8 +180,8 @@ function valida_form()
 						id_ip_rede,
 						nm_rede 
 			  FROM 		redes a
-			  WHERE 	a.id_local = '".$_REQUEST['id_local']."'";
-	$result = mysql_query($query) or die ('select falhou');
+			  WHERE 	a.id_local = '".$_GET['id_local']."'";
+	$result = mysql_query($query) or die ('Erro no acesso à tabela redes ou sua sessão expirou!');
 	$seq = 1;
 	$Cor = 1;	
 	while ($row = mysql_fetch_array($result))
@@ -229,7 +213,7 @@ function valida_form()
       <td colspan="7" class="label">Usu&aacute;rios Associados ao Local:</td>
     </tr>
     <tr> 
-      <td height="1" bgcolor="#333333" colspan="7"></td>
+      <td height="1" bgcolor="#333333" colspan="9"></td>
     </tr>
     <tr> 
       <td class="cabecalho_tabela">&nbsp;</td>
@@ -239,27 +223,30 @@ function valida_form()
       <td align="left" class="cabecalho_tabela">N&iacute;vel de Acesso</td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
       <td align="left" class="cabecalho_tabela">Tipo de Acesso</td>
+      <td align="left" class="cabecalho_tabela">&nbsp;</td>
+      <td align="left" class="cabecalho_tabela">Emails</td>	  
     </tr>
     <tr> 
-      <td height="1" bgcolor="#333333" colspan="7"></td>
+      <td height="1" bgcolor="#333333" colspan="9"></td>
     </tr>
     <?
 	$query = "SELECT 	a.id_usuario,
 						a.nm_usuario_completo,
 						a.id_local,
 						a.te_locais_secundarios,
+						a.te_emails_contato,
 						b.te_grupo_usuarios
 			  FROM 		usuarios a,
 			  			grupo_usuarios b
-			  WHERE 	(a.id_local = ".$_REQUEST['id_local']." OR 
-			             TRIM(a.te_locais_secundarios)='".$_REQUEST['id_local']."' OR 
-						 a.te_locais_secundarios like '%,".$_REQUEST['id_local']."' OR 
-						 a.te_locais_secundarios like '".$_REQUEST['id_local'].",%' OR
-						 a.te_locais_secundarios like '%,".$_REQUEST['id_local'].",%') AND
+			  WHERE 	(a.id_local = ".$_GET['id_local']." OR 
+			             TRIM(a.te_locais_secundarios)='".$_GET['id_local']."' OR 
+						 a.te_locais_secundarios like '%,".$_GET['id_local']."' OR 
+						 a.te_locais_secundarios like '".$_GET['id_local'].",%' OR
+						 a.te_locais_secundarios like '%,".$_GET['id_local'].",%') AND
 			            b.id_grupo_usuarios = a.id_grupo_usuarios
 			  ORDER BY  a.nm_usuario_completo";
 
-	$result = mysql_query($query) or die ('select falhou');
+	$result = mysql_query($query) or die ('Erro no acesso à tabela usuarios ou sua sessão expirou!');
 	$seq = 1;
 	$Cor = 1;	
 	while ($row = mysql_fetch_array($result))
@@ -269,7 +256,7 @@ function valida_form()
       <td width="2%" align="center" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $seq; ?></a></td>
       <td width="1%" align="left" nowrap class="opcao_tabela">&nbsp;&nbsp;</td>
       <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['nm_usuario_completo']; 
-	  if ($row['te_locais_secundarios'])
+	  if ($row['te_locais_secundarios']<>'')
 	  	{
 		echo ' ('.$v_arr_locais[array_search($row['id_local'],$v_arr_locais)+1] . ')';
 		}
@@ -278,6 +265,8 @@ function valida_form()
       <td width="30%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['te_grupo_usuarios']; ?></a></td>
       <td width="1%" align="left" class="opcao_tabela">&nbsp;</td>
       <td width="62%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo ($row['id_local']==$_REQUEST['id_local']?'Primário':'Secundário'); ?></a></td>
+      <td width="1%" align="left" class="opcao_tabela">&nbsp;</td>
+      <td width="62%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['te_emails_contato']; ?></a></td>	  
     </tr>
     <?
 		$seq++;
@@ -287,14 +276,14 @@ function valida_form()
 		echo '<tr><td colspan="3" class="label_vermelho">Ainda não existem usuários associados ao local!</td></tr>';		
 		?>
     <tr> 
-      <td height="1" bgcolor="#333333" colspan="7"></td>
+      <td height="1" bgcolor="#333333" colspan="9"></td>
     </tr>
   </table>
   <p align="center"> <br>
     <br>
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Local?');return valida_form();" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para o Local?');return valida_form();" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="ExcluiLocal" type="submit" value="  Excluir Local" onClick="return Confirma('Confirma Exclusão de Local e TODAS AS DEPENDÊNCIAS? (Redes e Usuários)');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="ExcluiLocal" type="submit" value="  Excluir Local" onClick="return Confirma('Confirma Exclusão do Local E TODAS AS SUAS DEPENDÊNCIAS?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
   </p>
       </form>		  
 		

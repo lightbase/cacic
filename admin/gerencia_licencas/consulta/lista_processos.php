@@ -61,7 +61,7 @@ conecta_bd_cacic();
 		GROUP BY nr_processo
 		ORDER BY nr_processo desc";
 
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 
 
 $cor = 0;

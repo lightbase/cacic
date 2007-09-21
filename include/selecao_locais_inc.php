@@ -21,7 +21,7 @@
 $query = "SELECT 	*
 		  FROM 		locais
 		  ORDER BY	sg_local";
-$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela locais');
+$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela locais ou sua sessão expirou!');
 
 		/* Montagem dos itens do combo de locais . */ 
 		while($campos=mysql_fetch_array($result)) 	

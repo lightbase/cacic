@@ -13,7 +13,7 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-function FilledArc(&$im, $CenterX, $CenterY, $DiameterX, $DiameterY, $Start, $End, $line_color, $fill_color='none') 
+function FilledArc(&$im, $CenterX, $CenterY, $DiameterX, $DiameterY, $Start, $End, $line_color, $fill_color='none',$key='') 
 	{
 	ImageArc($im, $CenterX, $CenterY, $DiameterX, $DiameterY, $Start, $End, $line_color);
 	// To close the arc with 2 lines between the center and the 2 limits of the arc 
@@ -27,29 +27,65 @@ function FilledArc(&$im, $CenterX, $CenterY, $DiameterX, $DiameterY, $Start, $En
 	$x = $CenterX + (cos(deg2rad(($Start + $End) / 2)) * ($DiameterX / 4)); 
 	$y = $CenterY + (sin(deg2rad(($Start + $End) / 2)) * ($DiameterY / 4)); 
 	ImageFillToBorder($im, $x, $y, $line_color, $fill_color);
+	
+	// Ainda faltam vários ajustes... Anderson Peterle => 08/08/2007
+	if ($key)
+		ImageStringUp($im,2,$x,$y,$key,$x);
 	}
 	
-function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, $Legend, $FontNumber, $CreatePie, $Sort) 
+function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, $Legend, $FontNumber, $CreatePie, $Sort, $DisplaySequence, $ShowText, $strTypeIMG='PNG') 
 	{
+	// Ajustes necessários ao redimencionamento das pizzas...
+	$width 		+= 80;
+	$height 	+= 55;
+	$CenterX 	+= 60;
+	$TamanhoLinha = 250; // Tamanho Padrão
+	 
 	$MinDisplayPct = 0;
-	$DisplayColors =   'FF0000;3399FF;66CC66;CCCC99;FFCCCC;9933FF;CC66CC;3333FF;DA3600;0F84D4;F9A308;62D038;FE670F;2C9232;7F0B80;DFDE29;9F9F9F;EDEDED;BAE700;00FFFF;0000FF';
-	$BackgroundColor ='FFFFFF';
-	$LineColor = 'FFFFFF';		
+
+	$DisplayColors .=   'FF0000;'; 
+	$DisplayColors .=   '3333FF;'; 
+	$DisplayColors .=   '660066;'; 
+	$DisplayColors .=   'FFCC00;'; 
+	$DisplayColors .=   '0000CC;'; 
+	$DisplayColors .=   '99CC33;'; 
+	$DisplayColors .=   '9966CC;'; 
+	$DisplayColors .=   'DA3600;'; 
+	$DisplayColors .=   '0F84D4;'; 
+	$DisplayColors .=   'F9A308;'; 
+	$DisplayColors .=   '62D038;'; 
+	$DisplayColors .=   'FE670F;'; 
+	$DisplayColors .=   '2C9232;'; 
+	$DisplayColors .=   '7F0B80;'; 
+	$DisplayColors .=   'DFDE29;'; 
+	$DisplayColors .=   '9F9F9F;'; 
+	$DisplayColors .=   'EDEDED;'; 
+	$DisplayColors .=   'BAE700;'; 
+	$DisplayColors .=   '00FFFF;'; 
+	$DisplayColors .=   '0000FF;'; 
+	$DisplayColors .=   '009933;'; 
+	$DisplayColors .=   '99FF66;'; 
+	$DisplayColors .=   'FFCCCC;'; 	
+	$DisplayColors .=   '9933FF;'; 
+	$DisplayColors .=   'CC66CC;'; 	
+	$DisplayColors .=   'FF99FF;'; 
+	$DisplayColors .=   'FFFF99;'; 
+	$DisplayColors .=   '3399FF;'; 
+	$DisplayColors .=   '66CC66;'; 
+	$DisplayColors .=   'CCCC99;'; 
+			
+	$BackgroundColor 	= 'FFFFFF';
+	$LineColor 			= 'FFFFFF';		
 	if (!$CreatePie) 
 		{
 		$DisplayColors = '000000';
 		$BackgroundColor ='FFFFFF';					
 		}
-	$CenterX = round($width / 2);
+
+	$CenterX = round($width  / 2);
 	$CenterY = round($height / 2);
 	$DiameterX = round($width * 0.95);
 	$DiameterY = round($height * 0.95);
-	
-	if ($Legend) 
-		{
-		$DiameterX = $DiameterY;
-		$CenterX   = $width - $CenterY;
-		}
 
 	if (isset($data) && !is_array($data)) 
 		{
@@ -64,7 +100,7 @@ function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $Diameter
 	if ($Legend) 
 		{
 		$DiameterX = $DiameterY;
-		$CenterX   = $width - $CenterY;
+		$CenterX   = ($width) - $CenterY;
 		}
 
 	if (($width > 8192) || ($height > 8192) || ($width <= 0) || ($height <= 0)) 
@@ -86,7 +122,7 @@ function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $Diameter
 		if ((count($data) <= 0) and ($Legend)) 
 			{
 //			ImageString($im, $FontNumber, 5, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), 'Total: 0', '9933FF');
-			ImageString($im, $FontNumber, 3, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), '                   ***** Nenhum Registro Encontrado *****', '9933FF');			
+			ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), '                   ***** Nenhum Registro Encontrado *****', '9933FF');			
 			}
 		else
 			{
@@ -99,8 +135,14 @@ function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $Diameter
 			$Start = 0;
 			$valuecounter = 0;
 			$ValuesSoFar = 0;
+
 			foreach ($data as $key => $value) 
 				{
+				if ($DisplaySequence)
+					{
+					$key = str_pad(($valuecounter + 1),$DisplaySequence,' ',STR_PAD_LEFT).') '.$key;					
+					$TamanhoLinha = 280;
+					}
 				$ValuesSoFar += $value;
 			
 				if (($value / $TotalArrayValues) > $MinDisplayPct) 
@@ -108,16 +150,16 @@ function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $Diameter
 					$End = ceil(($ValuesSoFar / $TotalArrayValues) * 360);
 					if ($CreatePie)
 						{
-						FilledArc($im, $CenterX, $CenterY, $DiameterX, $DiameterY, $Start, $End, $line_color, $fill_color[$valuecounter % count($fill_color)]);
+						FilledArc($im, $CenterX, $CenterY, $DiameterX, $DiameterY, $Start, $End, $line_color, $fill_color[$valuecounter % count($fill_color)],($ShowText?$key:''));
 						}
 					if ($Legend) 
 						{
 						$MeuY = round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber)));
-						ImageString($im, $FontNumber, 3, $MeuY, $key . ': ' . str_pad($value,6,' ',STR_PAD_LEFT) . '('.str_pad(number_format(($value / $TotalArrayValues) * 100, 1),5,' ',STR_PAD_LEFT).'%)', $label_color[$valuecounter % count($label_color)]);
+						ImageString($im, $FontNumber, 1, $MeuY, $key . ': ' . str_pad($value,6,' ',STR_PAD_LEFT) . '('.str_pad(number_format(($value / $TotalArrayValues) * 100, 1),5,' ',STR_PAD_LEFT).'%)', $label_color[$valuecounter % count($label_color)]);
 						if ($CreatePie)
 							{							
-							$MeuYLinha = $MeuY + ImageFontHeight($FontNumber) + 2;
-							ImageLine($im, 5, $MeuYLinha, 255, $MeuYLinha, '999999');
+							$MeuYLinha = $MeuY + ImageFontHeight($FontNumber) + 1;
+							ImageLine($im, 1, $MeuYLinha, $TamanhoLinha, $MeuYLinha, '999999');
 							}
 						}
 					$Start = $End;
@@ -128,39 +170,47 @@ function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $Diameter
 					$End = 360;
 					if ($CreatePie)
 						{
-						FilledArc($im, $CenterX, $CenterY, $DiameterX, $DiameterY, $Start, $End, $line_color, $line_color);
+						FilledArc($im, $CenterX, $CenterY, $DiameterX, $DiameterY, $Start, $End, $line_color, $line_color, ($ShowText?$key:''));
 						}						
 					if ($Legend) 
 						{
-						ImageString($im, $FontNumber, 3, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), 'Other ('.str_pad(number_format((($TotalArrayValues - $ValuesSoFar) / $TotalArrayValues) * 100, 1),4,' ',STR_PAD_LEFT).'%)', $line_color);
+						ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), 'Other ('.str_pad(number_format((($TotalArrayValues - $ValuesSoFar) / $TotalArrayValues) * 100, 1),4,' ',STR_PAD_LEFT).'%)', $line_color);
 						}
 					break;
 					}
 				$valuecounter++;
 				}
 				
-			If ($Legend) 
+			if ($Legend) 
 				{
-				$MeuYLinha = $MeuY + ImageFontHeight($FontNumber) + 2;
-				$TamanhoLinha = 255;
+				$MeuYLinha = $MeuY + ImageFontHeight($FontNumber) + 1;
+
 				if (!$CreatePie)
 					{
 					$TamanhoLinha = $width - 24;
 					}
-				ImageLine($im, 5, $MeuYLinha, $TamanhoLinha, $MeuYLinha, '999999');					
-				ImageLine($im, 5, $MeuYLinha+2, $TamanhoLinha, $MeuYLinha+2, '999999');										
-				ImageString($im, $FontNumber, 3, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), str_pad('Total',strlen($key),'.',STR_PAD_RIGHT) . ': ' . str_pad($TotalArrayValues,6,' ',STR_PAD_LEFT) . '(100.0%)', '999999');				
+				ImageLine($im, 1, $MeuYLinha, $TamanhoLinha, $MeuYLinha, '999999');					
+				ImageLine($im, 1, $MeuYLinha+1, $TamanhoLinha, $MeuYLinha+1, '999999');										
+				ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), str_pad('Total',strlen($key),'.',STR_PAD_RIGHT) . ': ' . str_pad($TotalArrayValues,6,' ',STR_PAD_LEFT) . '(100.0%)', '999999');				
 				}
 			}
-		header('Content-type: image/png');
-		ImagePNG($im);
+		if ($strTypeIMG=='PNG')
+			{
+			header('Content-type: image/png');
+			ImagePNG($im);
+			}
+		elseif ($strTypeIMG=='GIF')
+			{
+			header('Content-type: image/gif');
+			ImageGIF($im);
+			}
 		ImageDestroy($im);
-		return TRUE;	
+		return true;	
 		} 
 	else 
 		{
-		 echo 'Cannot Initialize new GD image stream';
-		 return FALSE;
+		echo 'Cannot Initialize new GD image stream';
+		return false;
 		}
 	}
 ?>

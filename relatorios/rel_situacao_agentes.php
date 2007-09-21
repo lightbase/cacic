@@ -93,7 +93,7 @@ $query = ' SELECT te_node_address, so.id_so, te_nome_computador as "Nome Comp.",
 		   '. $query_redes .' 
 		   ORDER BY ' . $orderby; 
 
-$result = mysql_query($query) or die('Erro no select');
+$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
 $num_registro = 1;

@@ -82,6 +82,7 @@ else
     <tr valign="middle"> 
       <td width="33%" height="1" nowrap valign="middle">
 <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>"> 
+<? /*
         <script type="text/javascript" language="JavaScript">
 	<!--
 	function calendar1Callback(date, month, year)	
@@ -90,8 +91,9 @@ else
 		}
   	calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 	//-->
-	</script> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
+	</script>*/?> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
         &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>"> 
+		<? /*
         <script type="text/javascript" language="JavaScript">
 	<!--
 	function calendar2Callback(date, month, year)	
@@ -100,7 +102,7 @@ else
 		}
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->
-	</script> </td>
+	</script>*/?> </td>
       <td align="left" class="descricao">&nbsp;&nbsp;(formato: dd/mm/aaaa)</td>
       <td align="left" class="descricao" valign="middle"><div align="center">
           <input name="consultar" type="submit" value="   Filtrar   ">

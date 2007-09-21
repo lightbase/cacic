@@ -137,7 +137,7 @@ require_once('../../include/inicio_relatorios_inc.php');
                         <? 	$query = "SELECT id_software_inventariado, nm_software_inventariado
 									  FROM softwares_inventariados
 									  ORDER BY nm_software_inventariado";
-						$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados.');
+						$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados ou sua sessão expirou!');
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
        while($campos_aplicativos_selecionados=mysql_fetch_array($result_aplicativos_selecionados)) 	{
 						   echo '<option value=' . $campos_aplicativos_selecionados['id_software_inventariado'] . '>' . capa_string($campos_aplicativos_selecionados['nm_software_inventariado'],28)  . '</option>';
@@ -206,7 +206,7 @@ require_once('../../include/inicio_relatorios_inc.php');
           </tr>
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
+                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
 																											SelectAll(this.form.elements['list4[]']), 
 																											SelectAll(this.form.elements['list6[]'])">
               </div></td>

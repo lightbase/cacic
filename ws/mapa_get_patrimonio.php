@@ -35,7 +35,8 @@ autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
 $v_dados_rede = getDadosRede();
 
 $te_node_address 	= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress); 
-$id_so           	= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress); 
+$id_so_new         	= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress); 
+$te_so           	= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress); 
 $id_ip_rede     	= DeCrypt($key,$iv,$_POST['id_ip_rede']			,$v_cs_cipher,$v_cs_compress);
 $te_ip 				= DeCrypt($key,$iv,$_POST['te_ip']				,$v_cs_cipher,$v_cs_compress); 
 $te_nome_computador	= DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress); 
@@ -43,14 +44,15 @@ $te_workgroup 		= DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_cs_c
 
 /* Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
  o computador deste agente no BD, caso ainda não esteja inserido. */
-if ($te_node_address || $id_so || $te_nome_computador || $te_ip || $te_workgroup || $id_ip_rede <> '')
+if ($te_node_address <> '')
 	{
-	inclui_computador_caso_nao_exista(	$te_node_address, 
-										$id_so, 
-										$id_ip_rede, 
-										$te_ip, 
-										$te_nome_computador,
-										$te_workgroup);
+	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+												$id_so_new, 
+												$te_so,
+												$id_ip_rede, 
+												$te_ip, 
+												$te_nome_computador,
+												$te_workgroup);
 	}
 
 
@@ -123,7 +125,7 @@ $query = '	SELECT 		uo1.id_unid_organizacional_nivel1 as uo1_id,
 			ORDER BY 	uo1_nm,uo2_nm';
 
 conecta_bd_cacic();
-GravaTESTES($query);																					  
+
 $result = mysql_query($query);
 while ($campos = mysql_fetch_array($result))
 	{

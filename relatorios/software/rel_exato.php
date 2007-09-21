@@ -7,7 +7,7 @@ if ($_GET['principal'])
 	{
 	$query = ' SELECT 	id_so, 
 			   FROM   	so';	   
-	$result = mysql_query($query) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 	$_SESSION["list4"] = '';				
 	while ($row = mysql_fetch_array($result))
 		{
@@ -165,7 +165,7 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 		$query .= ' desc';
 		}
 
-$result = mysql_query($query) or die('Erro no select');
+$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
 $num_registro = 1;

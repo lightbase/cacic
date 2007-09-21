@@ -63,7 +63,7 @@ conecta_bd_cacic();
 		      (a.id_aquisicao = ai.id_aquisicao) AND 
 		      (a.nm_proprietario IS NOT NULL) 
 		GROUP BY s.id_software";
-	$result = mysql_query($query) or die ('Erro no select'.$query);
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou: '.$query);
 	$row = mysql_fetch_row($result);
 
 echo '<table border="0" align="center" width="80%">
@@ -80,7 +80,7 @@ echo '<table border="0" align="center" width="80%">
 			(a.nm_proprietario IS NOT NULL)  
 		ORDER BY a.id_aquisicao"; 
 	
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
 $num_registro = 1;

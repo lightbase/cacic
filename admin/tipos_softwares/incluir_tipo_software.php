@@ -23,7 +23,7 @@ if($submit)
 	$query = "SELECT 	* 
 			  FROM 		tipos_software 
 			  WHERE 	te_descricao_tipo_software = '$frm_te_descricao_tipo_software'";
-	$result = mysql_query($query) or die ('Select falhou');
+	$result = mysql_query($query) or die ('Select em "tipos_software" falhou ou sua sessão expirou!');
 	
 	if (mysql_num_rows($result) > 0) 
 		{
@@ -31,17 +31,18 @@ if($submit)
 		}
 	else 
 		{
-		$idTipoSoftware = mysql_fetch_array( mysql_query('select count(*) from tipos_software') );
-		$idTipoSoftware = $idTipoSoftware[0];		
-		$query = "INSERT INTO tipos_software VALUES ($idTipoSoftware, '$frm_te_descricao_tipo_software')";									  						  
-		$result = mysql_query($query) or die ('Falha na Inserção em Tipos Softwares...');
+		$query = "INSERT 
+				  INTO 		tipos_software
+				  			(te_descricao_tipo_software) 
+				  VALUES 	('$frm_te_descricao_tipo_software')";									  						  
+		$result = mysql_query($query) or die ('Falha na Inserção em Tipos Softwares ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'tipos_software');		
 		
 		// Provavelmente uma solução temporária!...
 		// Probaly a temporary solution...
 		$query = "SELECT 	max(id_tipo_software) as max_id_tipo_software
 				  FROM		tipos_software";
-		$result = mysql_query($query) or die ('Falha na Consulta à tabela Tipos Software...');
+		$result = mysql_query($query) or die ('Falha na Consulta à tabela Tipos Software ou sua sessão expirou!');
 		$row_max_id_tipo_software = mysql_fetch_array($result);
 		
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'tipos_software');
@@ -102,7 +103,7 @@ MM_reloadPage(true);
       &agrave; utiliza&ccedil;&atilde;o de softwares no ambiente gerenciado.</td>
   </tr>
 </table>
-<form action="incluir_tipo_software.php"  method="post" ENCTYPE="multipart/form-data" name="form" onsubmit="return valida_form()">
+<form action="incluir_tipo_software.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
       <td height="1" bgcolor="#333333" colspan="2"></td>

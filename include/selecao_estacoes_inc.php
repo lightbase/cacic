@@ -24,7 +24,7 @@
 				  FROM computadores
                                   ORDER BY te_nome_computador";
 			$msg = '(OBS: Estão sendo exibidas somente as redes selecionadas pelo administrador.)';
-		$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes.');
+		$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes ou sua sessão expirou!');
 		/* Agora monto os itens do combo de redes . */ 
 		while($campos=mysql_fetch_array($result)) 	{
 		   $itens_combo_soft = $itens_combo_soft . '<option value="' . 

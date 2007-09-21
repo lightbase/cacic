@@ -80,7 +80,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 	$where1 = 	($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?" AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local=".$_SESSION['id_local']:'');		
 
 
-	if ($_SESSION['te_locais_secundarios'] && $where1)
+	if ($_SESSION['te_locais_secundarios']<>'' && $where1 <> '')
 		{
 		// Faço uma inserção de "(" para ajuste da lógica para consulta		
 		$where1 = str_replace('redes.id_local=','(redes.id_local=',$where1);
@@ -121,7 +121,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 								computadores.id_so";					 
 
 		conecta_bd_cacic();					 
-		$result_sel = mysql_query($query_sel) or die ('Em Manutenção!');
+		$result_sel = mysql_query($query_sel) or die ('Erro no acesso à tabela "computadores" ou sua sessão expirou!');
 		$_SESSION['Tripa'] = '';
 
 		if(mysql_num_rows($result_sel) > 0) 
@@ -559,7 +559,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 										$v_conta_os_winxp		."_".
 										$v_conta_os_linux;
 				?>
-				<a href="#" onclick="MyWindow=window.open('totais_estacoes_rede.php?nu_totais_estacoes=<? echo $nu_totais_estacoes;?>', 'newWindow','toolbar=no,location=no,scrollbars=yes,menubar=no');
+				<a href="#" onClick="MyWindow=window.open('totais_estacoes_rede.php?nu_totais_estacoes=<? echo $nu_totais_estacoes;?>', 'newWindow','toolbar=no,location=no,scrollbars=yes,menubar=no');
 				MyWindow.document.close()"><img src="<? echo $img_totals;?>" border=no width=16 height=16 Title="Totais de Estações por Sistema Operacional"></a>				
 				<?
 						
@@ -741,7 +741,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 							}
 						*/							  
 						?>
-						<a href="#" onclick="MyWindow=window.open('<? echo $v_path; ?>', 'JANELA','toolbar=no,location=no,scrollbars=yes,menubar=no');
+						<a href="#" onClick="MyWindow=window.open('<? echo $v_path; ?>', 'JANELA','toolbar=no,location=no,scrollbars=yes,menubar=no');
 						MyWindow.document.close()"><img src="<? echo $img_totals;?>" border=no width=16 height=16 Title="Totais de Estações por Sistema Operacional"></a>				
 						<?
 						}

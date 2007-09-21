@@ -64,7 +64,7 @@ Bloco Câmara dos Deputados
 			(c.id_software_inventariado <> 7982)
 */			
 		
-	$result = mysql_query($query) or die('Erro no select');
+	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

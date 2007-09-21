@@ -27,7 +27,7 @@ if ($mac_duplicados) {
 				AND a.id_so = b.id_so
                                 ORDER BY te_node_address";  
 //	echo $query;
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 	$tipo_historico = 'encontrados';
 }
 

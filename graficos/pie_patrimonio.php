@@ -58,6 +58,6 @@ $query = 'SELECT '.$v_novo_campo. ',
 */
 
 //session_unregister('where');
-$result = mysql_query($query) or die('Erro no select'); 
+$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!'); 
 require_once $_SERVER['DOCUMENT_ROOT'] . 'include/monta_estatisticas.php';
 ?>

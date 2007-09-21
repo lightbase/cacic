@@ -56,7 +56,7 @@ else
 						  FROM 		unidades_disco
 					  	  WHERE 	te_node_address = '". $_GET['te_node_address'] ."' AND 
 					  				id_so = '". $_GET['id_so'] ."'";
-			$result_disco = mysql_query($query) or die('Erro na consulta à tabela  unidades_disco');
+			$result_disco = mysql_query($query) or die('Erro na consulta à tabela  unidades_disco ou sua sessão expirou!');
 			if(mysql_num_rows($result_disco) > 0) {
 				echo '<tr><td><br> 
 					  <table border="1" align="center" cellpadding="1" cellspacing="0" bordercolor="#999999" bordercolordark="#E1E1E1">

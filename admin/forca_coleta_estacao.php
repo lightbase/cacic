@@ -20,7 +20,7 @@ require_once('../include/library.php');
 ?>
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="/cacic2/include/cacic.css">
 <title>Coleta For&ccedil;ada por Computador</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <? // O require abaixo será usado pelo inc_opcoes_administrativas/coleta_forcada.php - Não remova! - A.A.P. 23/09/2004

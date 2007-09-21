@@ -22,7 +22,7 @@ Conecta_bd_cacic();
 if ($_POST['exclui_uon2']) 
 	{
 	$where = ($_SESSION['cs_nivel_administracao']<>1?' AND id_local = '.$_SESSION['id_local']:'');
-	if ($_SESSION['te_locais_secundarios'] && $where)
+	if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 		{
 		// Faço uma inserção de "(" para ajuste da lógica para consulta	
 		$where = str_replace(' id_local = ',' (id_local = ',$where);
@@ -33,7 +33,7 @@ if ($_POST['exclui_uon2'])
 				FROM 	unid_organizacional_nivel2 
 				WHERE 	id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2']." and
 						id_unid_organizacional_nivel1 = ".$_POST['frm_id_unid_organizacional_nivel1']. $where;
-	mysql_query($query) or die('Delete falhou');
+	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
 	if (!atualiza_configuracoes_uonx('2'))
 		{
@@ -76,7 +76,7 @@ elseif ($_POST['grava_alteracao_uon2'])
 					WHERE 	id_unid_organizacional_nivel2 	= $frm_id_unid_organizacional_nivel2 and
 							id_unid_organizacional_nivel1   = $frm_id_unid_organizacional_nivel1 ".
 							$where;
-			mysql_query($query) or die('Update falhou');
+			mysql_query($query) or die('Update falhou ou sua sessão expirou!');
 			GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
 			if (!atualiza_configuracoes_uonx('2'))
 				{
@@ -99,7 +99,7 @@ else
 				WHERE 	uo2.id_unid_organizacional_nivel2 = $id_unid_organizacional_nivel2 and
 						uo2.id_unid_organizacional_nivel1 = $id_unid_organizacional_nivel1";
 
-	$result 		= mysql_query($query) or die ('Select Falhou.');
+	$result 		= mysql_query($query) or die ('Select Falhou ou sua sessão expirou!');
 	$fetch_result_sel = mysql_fetch_array($result);
 	$result_sel		= implode('#',$fetch_result_sel);
 	
@@ -166,7 +166,7 @@ function valida_form()
             <td><select name="frm_id_local" id="frm_id_local"" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 <? 
 			$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' WHERE id_local = '.$_SESSION['id_local']:'');				
-			if ($_SESSION['te_locais_secundarios'] && $where)
+			if ($_SESSION['te_locais_secundarios']<>'' && $where <>'')
 				{
 				// Faço uma inserção de "(" para ajuste da lógica para consulta	
 				$where = str_replace(' id_local = ',' (id_local = ',$where);
@@ -179,7 +179,7 @@ function valida_form()
 								 			$where ."
 								 ORDER BY	sg_local";
 
-		    $result_locais = mysql_query($qry_locais) or die ('Select falhou');
+		    $result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sessão expirou!');
 			while ($row_qry=mysql_fetch_array($result_locais))
 		  		{
 				echo '<option value="'.$row_qry[0].'"';

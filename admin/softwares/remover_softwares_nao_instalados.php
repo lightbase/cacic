@@ -54,7 +54,7 @@
 			  WHERE ((si.id_tipo_software = 0) or (si.id_tipo_software = 6)) AND si.id_software_inventariado NOT IN (
 			  SELECT DISTINCT id_software_inventariado FROM softwares_inventariados_estacoes sie)
 			  ORDER BY nm_software_inventariado LIMIT 300";
-			$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados.');
+			$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados ou sua sessão expirou!');
 			/* Agora monto os itens do combo de hardwares selecionadas. */ 
        while($campos_aplicativos_selecionados=mysql_fetch_array($result_aplicativos_selecionados)) 	{
 						   echo '<option value=' . $campos_aplicativos_selecionados['id_software_inventariado'] . '>' . capa_string($campos_aplicativos_selecionados['nm_software_inventariado'],80)  . '</option>';

@@ -81,49 +81,52 @@ $result = mysql_query($query);
           <td nowrap >&nbsp;</td>
             <td nowrap  class="cabecalho_tabela">Verifica&ccedil;&atilde;o Ativa</td>
         </tr>
+	  <tr> 
+    	<td height="1" bgcolor="#333333" colspan="6"></td>
+	  </tr>
+		
         <?  
-if(mysql_num_rows($result)==0) {
+if(mysql_num_rows($result)==0) 
+	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
 				Nenhum perfil de aplicativo cadastrado!
 			</font><br><br></div>';
 			
-}
-else {
+	}
+else 
+	{
 	$Cor = 0;
 	$NumRegistro = 1;
 	
-	while($row = mysql_fetch_array($result)) {
-		  
-	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
-          <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
-          <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><a href="../perfis_aplicativos_monitorados/detalhes_perfil.php?id_aplicativo=<? echo $row['id_aplicativo'];?>">
-		  <? 	if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
-					{
-					echo substr($row['nm_aplicativo'], 0, strpos($row['nm_aplicativo'], "#DESATIVADO#"));
-					}		  
-				else
-		  			{
-					echo $row['nm_aplicativo']; 
-					}
+	while($row = mysql_fetch_array($result)) 
+		{		  
+	 	echo '<tr '. ($Cor==1?'bgcolor="#E1E1E1"':'').'>';
+        echo '<td nowrap>&nbsp;</td>';
+        echo '<td nowrap class="opcao_tabela"><div align="left">'.$NumRegistro.'</div></td>';
+        echo '<td nowrap>&nbsp;</td>';
+        echo '<td nowrap class="opcao_tabela"><div align="left"><a href="../perfis_aplicativos_monitorados/detalhes_perfil.php?id_aplicativo='.$row['id_aplicativo'].'">';
+		if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
+			{
+			echo substr($row['nm_aplicativo'], 0, strpos($row['nm_aplicativo'], "#DESATIVADO#"));
+			}		  
+		else
+			{
+			echo $row['nm_aplicativo']; 
+			}
 					
-		  ?></a></div></td>
-          <td nowrap>&nbsp;</td>
-          <td nowrap 
-		  <? if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
-					{
-					echo 'class="destaque"><div align="center">NÃO'; 
-					}		  
-				else
-		  			{
-					echo 'class="opcao_tabela"><div align="center">SIM'; 
-					}					
-		  ?>
-		  </td>
-          <? 
+		echo '</a></div></td>';
+        echo '<td nowrap>&nbsp;</td>';
+        echo '<td nowrap ';
+		if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
+			{
+			echo 'class="destaque_laranja"><div align="center">NÃO'; 
+			}		  
+		else
+		  	{
+			echo 'class="opcao_tabela"><div align="center">SIM'; 
+			}
+		echo '</td>';
 		$Cor=!$Cor;
 		$NumRegistro++;
 	}

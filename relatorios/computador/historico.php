@@ -33,14 +33,14 @@ if ($historico_hardware) {
 			  WHERE te_node_address = '". $_POST['te_node_address'] ."' AND 
 			  		id_so = '". $_POST['id_so'] ."'  
 			  ORDER BY dt_hr_alteracao";
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 	$tipo_historico = 'de Hardware';
 }
 else if ($historico_patrimonio) {
 					$query = "SELECT te_etiqueta, nm_campo_tab_patrimonio
 															FROM patrimonio_config_interface
 															WHERE in_exibir_etiqueta = 'S'";
-					$result = mysql_query($query) or die('Erro na consulta à tabela "patrimonio_config_interface".');
+					$result = mysql_query($query) or die('Erro na consulta à tabela "patrimonio_config_interface" ou sua sessão expirou!');
 
 					while ($row = mysql_fetch_array($result)) { 
 										if (strtolower($row['nm_campo_tab_patrimonio']) == 'id_unid_organizacional_nivel1' ) { 
@@ -61,7 +61,7 @@ else if ($historico_patrimonio) {
 					a.id_unid_organizacional_nivel2 =  c.id_unid_organizacional_nivel2
 			  ORDER BY dt_hr_alteracao";	
 
-	$result = mysql_query($query) or die ('Erro na consulta à tabela "patrimonio".');
+	$result = mysql_query($query) or die ('Erro na consulta à tabela "patrimonio" ou sua sessão expirou!');
 	$tipo_historico = 'de Patrimônio';
 }
 
@@ -75,7 +75,7 @@ else if ($historico_rede) {
 			  WHERE te_node_address = '".$_POST['te_node_address']."' AND 
 			  		id_so = '". $_POST['id_so'] ."'   
 			  ORDER BY dt_hr_alteracao";
-	$result = mysql_query($query) or die ('Erro no select');
+	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 	$tipo_historico = 'TCP/IP';
 }
 ?>

@@ -54,7 +54,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 		FROM computadores a 
 		WHERE (a.te_modem_desc > '') 
 		ORDER BY a.te_nome_computador"; 
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Erro no acesso à tabela "computadores" ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

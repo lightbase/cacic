@@ -58,7 +58,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 			 (dt_desinstalacao IS NULL)  
 		   ORDER BY nm_computador";
 
-	$result = mysql_query($query) or die();
+	$result = mysql_query($query) or die('Ocorreu um erro ao acessar a tabela softwares_estacao ou sua sessão expirou!');
 
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
