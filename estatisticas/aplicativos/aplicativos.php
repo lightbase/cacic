@@ -72,30 +72,46 @@ function open_window(theURL,winName,features) {
 <p><br>
   <?
 
+$_SESSION['select']  			= '';
+$_SESSION['from']  				= '';
+$_SESSION['where'] 				= '';
 $_SESSION['redes_selecionadas'] = '';
+$_SESSION['query_redes'] = ' AND computadores.id_ip_rede = redes.id_ip_rede AND ';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
 	if($_SESSION["cs_situacao"] == 'S') 
 		{
 		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
-		$_SESSION['redes_selecionadas'] = "'" . $_SESSION["list2"][0] . "'";
-		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
-			$_SESSION['redes_selecionadas'] .= ",'" . $_SESSION["list2"][$i] . "'";
+		$_SESSION['redes_selecionadas'] = '';
+		for( $i = 0; $i < count($_SESSION["list2"] ); $i++ ) 
+			{
+			if ($_SESSION['redes_selecionadas'])
+				$_SESSION['redes_selecionadas'] .= ',';
+			$_SESSION['redes_selecionadas'] .= "'".$_SESSION["list2"][$i]."'";
+			}
 		}	
-	$_SESSION['query_redes'] = 'AND redes.id_ip_rede IN ('. $_SESSION['redes_selecionadas'] .')';		
+	$_SESSION['query_redes'] .= 'redes.id_ip_rede IN ('. $_SESSION['redes_selecionadas'] .')';	
 	}
 else
 	{
 	// Aqui pego todos os locais selecionados e faço uma query p/ condição de redes/locais
-	$locais_selecionados = "'" . $_SESSION["list12"][0] . "'";
-	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
-		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
+	$locais_selecionados = '';
+	for( $i = 0; $i < count($_SESSION["list12"] ); $i++ ) 
+		{
+		if ($locais_selecionados)
+			$locais_selecionados .= ',';
+		$locais_selecionados .= $_SESSION["list12"][$i];
+		}
 
-	$_SESSION['query_redes'] = 'AND computadores.id_ip_rede = redes.id_ip_rede AND
-								redes.id_local = locais.id_local ';
+	$_SESSION['query_redes'] .= 'redes.id_local = locais.id_local ';
+	if ($locais_selecionados)
+		$_SESSION['query_redes'] .= ' AND locais.id_local IN ('.$locais_selecionados.') ';
+		
 	$_SESSION['select'] = ' ,sg_local as SgLocal ';	
-	$_SESSION['from'] = ' ,redes,locais ';			
+	$_SESSION['from'] = ' ,locais ';			
 	}
+	
+$_SESSION['from'] .= ',redes ';
 
 // Aqui pego todos os SO selecionados
 $so_selecionados = "'" . $_SESSION["list4"][0] . "'";
@@ -126,6 +142,9 @@ $query_select = 'SELECT 	id_aplicativo,
 				 WHERE 		id_aplicativo IN (' .$aplicativos_selecionados.')
 				 ORDER BY 	nm_aplicativo';
 
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//	echo 'query_select: '.$query_select . '<br><br>';
+	
 $result_query_selecao = mysql_query($query_select);
 ?>
 </p>
@@ -194,6 +213,9 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 					 					$groupBy."  
 					 ORDER BY 			total_equip DESC ".
 					 					$orderBy;
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//	echo 'query_aplicativo: '.$query_aplicativo . '<br><br>';
+										
 	$result_query_versoes = mysql_query($query_aplicativo);
 	/*
 	Informações importantes:
@@ -284,6 +306,8 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 											$_SESSION['query_redes'] ." 
 								GROUP BY 	a.id_aplicativo, a.te_licenca
 								ORDER BY 	total_equip desc";
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//	echo 'query_aplicativo_licencas: '.$query_aplicativo_licencas . '<br><br>';
 
 	$result_query_licencas = mysql_query($query_aplicativo_licencas);
 	if (mysql_num_rows($result_query_licencas))

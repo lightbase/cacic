@@ -109,6 +109,9 @@ $query = "SELECT 	computadores.id_so,
 					b.id_aplicativo = '". $_SESSION['id_aplicativo'] ."' ".
 					$_SESSION['query_redes']."  
 					$orderby ";
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//	echo 'est_maquinas=>query: '.$query . '<br><br>';
+
 $result = mysql_query($query) or die();
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">

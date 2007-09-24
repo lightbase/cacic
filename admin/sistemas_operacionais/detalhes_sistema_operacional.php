@@ -38,8 +38,9 @@ elseif ($_POST['GravaAlteracoes'])
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'SO');
 			
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/sistemas_operacionais/index.php&tempo=1");									 					
-}
-else {
+	}
+else 
+	{
 	$query = "	SELECT 	* 
 				FROM 	so
 				WHERE id_so = ".$_GET['id_so'];
@@ -83,7 +84,7 @@ function valida_form()
 </head>
 <body <? if (!$pos) echo 'background="../../imgs/linha_v.gif"';?> onLoad="SetaCampo('frm_te_desc_so')">
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
+<form method="post" ENCTYPE="multipart/form-data" name="form">
 <table width="90%" border="0" align="center">
   <tr> 
       <td class="cabecalho">Detalhes do Sistema Operacional <? echo $row['te_desc_so']; ?></td>
