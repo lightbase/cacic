@@ -21,6 +21,7 @@ require "include/library.php";
 <head>
 <title>Estat&iacute;sticas</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="refresh" content="180">
 <link rel="stylesheet"   type="text/css" href="include/cacic.css">
 </head>
 
