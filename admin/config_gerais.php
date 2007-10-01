@@ -145,6 +145,9 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     	<tr> 	
 		<td>
 		<?
+		if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2)
+			$where = '';
+			
     	conecta_bd_cacic();
 		$query_locais = "SELECT		loc.id_local,
 									loc.nm_local,

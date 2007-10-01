@@ -117,6 +117,8 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     	<tr> 	
 		<td>
 		<?
+		if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2)
+			$where = '';
 
     	conecta_bd_cacic();
 		//$where = ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''?' WHERE loc.id_local IN ('.$_SESSION['te_locais_secundarios'].') ':'');		
