@@ -17,24 +17,109 @@ session_start();
 ?>
 <html>
 <head>
-<title></title>
+<title>Configurar Gerente</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <?
 require_once('../include/selecao_listbox.js');  
 ?>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
 <SCRIPT LANGUAGE="JavaScript">
+function valida_notificacao_hardware() 
+	{
+	if ( (document.forma.listaHardwareSelecionados.length > 0 && 
+	      document.forma.te_notificar_mudanca_hardware.value == '') ||
+	     (document.forma.listaHardwareSelecionados.length == 0 && 
+	      document.forma.te_notificar_mudanca_hardware.value != '')) 
+		{	
+		alert("ATENÇÃO: Verifique os campos para notificação de alteração de hardware");
+		if (document.forma.listaHardwareSelecionados.length == 0)
+			document.forma.listaHardwareSelecionados.focus()
+		else
+	      document.forma.te_notificar_mudanca_hardware.focus();
+
+		return false;
+
+		}	
+	}
+
 function SetaServidorUpdates()	
 	{
-	document.form.frm_te_serv_updates_padrao.value = document.form.sel_te_serv_updates.value;	
+	document.forma.frm_te_serv_updates_padrao.value = document.forma.sel_te_serv_updates.value;	
 	}
+
 </script>
 
 </head>
 
 <body background="../imgs/linha_v.gif" onLoad="SetaCampo('te_notificar_mudanca_hardware');">
+<?
+$frm_id_local = ($_POST['frm_id_local']<>''?$_POST['frm_id_local']:$_SESSION['id_local']);
+
+require_once('../include/library.php');
+conecta_bd_cacic();
+$where = ' AND loc.id_local ='.$frm_id_local;
+
+if ($_SESSION['te_locais_secundarios'])
+	{
+	$where = str_replace('loc.id_local',' (loc.id_local',$where);
+	$where .= ' OR (loc.id_local IN ('.$_SESSION['te_locais_secundarios'].'))) ';
+	}
+	
+$queryConfiguracoesLocais = "	SELECT 			loc.id_local,
+												loc.sg_local,
+												loc.nm_local,
+												c_loc.te_notificar_mudanca_hardware,
+												c_loc.te_exibe_graficos,
+												c_loc.te_serv_cacic_padrao,
+												c_loc.te_serv_updates_padrao
+								FROM 			locais loc,
+												configuracoes_locais c_loc
+								WHERE 			loc.id_local = c_loc.id_local ";
+$orderby = ' ORDER BY loc.sg_local';
+$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$where.$orderby) or die('Select Impossível nas tabelas Locais/Configuracoes_Locais');
+$row_configuracoes_locais = mysql_fetch_array($resultConfiguracoesLocais);
+if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
+	{	
+	?>
+	<div id="LayerLocais" style="position:absolute; width:200px; height:115px; z-index:1; left: 0px; top: 0px; visibility:hidden">
+	<?
+
+	$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$orderby) or die('Select Impossível nas tabelas Locais/Configuracoes_Locais');
+
+	echo '<select name="SELECTconfiguracoes_locais">';
+	while ($rowConfiguracoesLocais = mysql_fetch_array($resultConfiguracoesLocais))
+		{
+		echo '<option id="'.$rowConfiguracoesLocais['id_local'].'" value="'. $rowConfiguracoesLocais['nm_local'].'#'.
+																			 $rowConfiguracoesLocais['te_notificar_mudanca_hardware'].'#'.
+																			 $rowConfiguracoesLocais['te_exibe_graficos'].'#'.
+																			 $rowConfiguracoesLocais['te_serv_cacic_padrao'].'#'.																		
+																			 $rowConfiguracoesLocais['te_serv_updates_padrao'].'">'.$rowConfiguracoesLocais['nm_local'].'</option>';					
+		}
+	echo '</select>';		
+
+	$queryDescricaoHardware = "	SELECT 		nm_campo_tab_hardware,
+											te_desc_hardware,
+											te_locais_notificacao_ativada
+								FROM 		descricao_hardware
+								ORDER BY	te_desc_hardware";
+
+	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('Select Impossível na tabela Descricao_Hardware');
+
+	echo '<select name="SELECTdescricao_hardware">';
+	while ($rowDescricaoHardware = mysql_fetch_array($resultDescricaoHardware))
+		{
+		echo '<option value="'.$rowDescricaoHardware['te_locais_notificacao_ativada'].'" id="'. $rowDescricaoHardware['nm_campo_tab_hardware'].'">'.$rowDescricaoHardware['te_desc_hardware'].'</option>';					
+		}
+	echo '</select>';		
+		
+	?>
+	</div>
+	<?
+	}
+	?>
 <script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
-	<form action="config_gerais_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma">
+<script language="JavaScript" type="text/javascript" src="../include/setLocalConfigGerais.js"></script>
+	<form action="config_gerais_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return valida_form();return valida_notificacao_hardware();">
 <table width="90%" border="0" align="center">
 
   <tr> 
@@ -45,23 +130,52 @@ function SetaServidorUpdates()
   </tr>
 </table>
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  	<? 
+
+	// Será mostrado apenas para os níveis Administração, Gestão Central e Supervisão com acessos a locais secundários.
+	if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
+		{
+		?>
+	    <tr> 
+	    <td class="label"><br>Locais: </td>
+    	</tr>  
+    	<tr> 
+      	<td height="1" bgcolor="#333333"></td>
+    	</tr>
+    	<tr> 	
+		<td>
+		<?
+    	conecta_bd_cacic();
+		$query_locais = "SELECT		loc.id_local,
+									loc.nm_local,
+									loc.sg_local
+					  	FROM		locais loc 
+						WHERE 		1 ". // Somente para reaproveitar a definição de where feita anteriormente...
+						$where . " 
+				  		ORDER BY  	loc.sg_local"; 
+		$result_locais = mysql_query($query_locais) or die('Ocorreu um erro durante a consulta à tabela de Locais ou sua sessão expirou!'); 
+
+		?>
+    	<select size="5" name="SELECTlocais"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="setLocal(this);">	
+    	<? 		
+		while ($row_locais = mysql_fetch_array($result_locais))
+			{
+			echo '<option id="'.$row_locais['id_local'].'" value="'. $row_locais['id_local'].'"';
+			if ($row_locais['id_local']==$frm_id_local) 
+				echo '  selected="selected"';
+						
+			echo '>'.$row_locais['sg_local'].' - '.$row_locais['nm_local'].'</option>';					
+			}
+ 		?> 
+    	</select>
+		</td>
+    	</tr>
+		<?
+		}
+		?>
+		
     <tr> 
       <td class="label"> 
-        <? 
-   	require_once('../include/library.php');
-	
-	// Comentado temporariamente - AntiSpy();			
-    conecta_bd_cacic();
-	$query_configuracoes_locais = "SELECT	loc.nm_local,
-											conf.*
-								  FROM		locais loc,
-								  			configuracoes_locais conf
-								  WHERE		conf.id_local = ".$_SESSION['id_local']." AND
-								  			conf.id_local = loc.id_local"; 
-
-	$result_configuracoes_locais = mysql_query($query_configuracoes_locais) or die('Ocorreu um erro durante a consulta à tabela de configurações ou sua sessão expirou!'); 
-	$row_configuracoes_locais = mysql_fetch_array($result_configuracoes_locais);
-	?>
         &nbsp; &nbsp;<br>
         Nome da organiza&ccedil;&atilde;o/empresa/&oacute;rg&atilde;o: </td>
     </tr>
@@ -72,7 +186,8 @@ function SetaServidorUpdates()
       <td><p> 
           <? // Atenção: o campo abaixo deve estar em "disabled", pois, a alteração desse valor só será permitida ao nível 
 		   //          Administração, na opção Administração/Cadastros/Locais ?>
-          <input name="nm_organizacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" type="text" value="<? echo $row_configuracoes_locais['nm_local']; ?>" size="65" disabled>
+          <input name="nm_organizacao" id="nm_organizacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" type="text" value="<? echo $row_configuracoes_locais['nm_local']; ?>" size="65" disabled>
+          <input name="frm_id_local" id="frm_id_local" type="hidden" value="<? echo $frm_id_local; ?>">		  
         </p></td>
     </tr>
     <tr> 
@@ -93,7 +208,7 @@ function SetaServidorUpdates()
     <tr> 
       <td class="ajuda">Aten&ccedil;&atilde;o: informe os e-mails separados por 
         v&iacute;rgulas (&quot;,&quot;). <br>
-        Exemplo: jose.silva@es.previdenciasocial.gov.br, luis.almeida@xyz.com</td>
+        Exemplo: fulano.tal@previdencia.gov.br, luis.almeida@xyz.com</td>
     </tr>
     <tr> 
       <td>&nbsp;</td>
@@ -124,26 +239,28 @@ function SetaServidorUpdates()
                       <?    
 				        /* Consulto todos os hardwares que foram previamente selecionados. */ 
 			  	$query = "SELECT nm_campo_tab_hardware, te_desc_hardware
-								  FROM descricao_hardware 
-										WHERE cs_notificacao_ativada = '1'";
-						$result_hardwares_ja_selecionados = mysql_query($query);//  or die('Ocorreu um erro durante a consulta à tabela descricao_hardware.');
+						  FROM   descricao_hardware 
+						  WHERE  ".$frm_id_local." IN (te_locais_notificacao_ativada)";
+						$result_hardwares_ja_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware (1) ou sua sessão expirou!');
 						
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
-						while($campos_hardwares_selecionados = mysql_fetch_array($result_hardwares_ja_selecionados)) {
-						   $itens_combo_hardwares_selecionados = $itens_combo_hardwares_selecionados . '<option value="' . $campos_hardwares_selecionados['nm_campo_tab_hardware']. '">' . $campos_hardwares_selecionados['te_desc_hardware'] . '</option>'; 
+				while($campos_hardwares_selecionados = mysql_fetch_array($result_hardwares_ja_selecionados)) 
+					{
+					$itens_combo_hardwares_selecionados = $itens_combo_hardwares_selecionados . '<option value="' . $campos_hardwares_selecionados['nm_campo_tab_hardware']. '">' . $campos_hardwares_selecionados['te_desc_hardware'] . '</option>'; 
 //						   $not_in_ja_selecionados = $not_in_ja_selecionados . "'" . $campos_hardwares_selecionados['nm_campo_tab_hardware'] .  "',";
-						}
+					}
 						
 						/* Consulto as hardwares que não foram previamente selecionadas. */ 
 			  	$query = "SELECT nm_campo_tab_hardware, te_desc_hardware
-								  FROM descricao_hardware 
-										WHERE cs_notificacao_ativada <> '1'";
-						$result_hardwares_nao_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware ou sua sessão expirou!');
+						  FROM   descricao_hardware 
+						  WHERE  ".$frm_id_local." NOT IN (te_locais_notificacao_ativada)";
+						$result_hardwares_nao_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware (2) ou sua sessão expirou!');
 						/* Agora monto os itens do combo de hardwares NÃO selecionadas. */ 
-       while($campos_hardwares_nao_selecionados=mysql_fetch_array($result_hardwares_nao_selecionados)) 	{
-						   $itens_combo_hardwares_nao_selecionados = $itens_combo_hardwares_nao_selecionados . '<option value="' . $campos_hardwares_nao_selecionados['nm_campo_tab_hardware']. '">' . $campos_hardwares_nao_selecionados['te_desc_hardware']  . '</option>';
-						}  ?>
-                      <select multiple size="10" name="list1[]"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+       		while($campos_hardwares_nao_selecionados=mysql_fetch_array($result_hardwares_nao_selecionados)) 	
+				{
+				$itens_combo_hardwares_nao_selecionados = $itens_combo_hardwares_nao_selecionados . '<option value="' . $campos_hardwares_nao_selecionados['nm_campo_tab_hardware']. '">' . $campos_hardwares_nao_selecionados['te_desc_hardware']  . '</option>';
+				}  ?>
+                      <select multiple size="10" name="list1[]" id="listaHardwareDisponiveis"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                         <? echo $itens_combo_hardwares_nao_selecionados; ?> 
                       </select>
                     </div></td>
@@ -155,7 +272,7 @@ function SetaServidorUpdates()
                       <input type="button" value="   &lt;   " onClick="move(this.form.elements['list2[]'],this.form.elements['list1[]'])" name="B2">
                     </div></td>
                   <td>&nbsp;</td>
-                  <td><select multiple size="10" name="list2[]"   class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
+                  <td><select multiple size="10" name="list2[]" id="listaHardwareSelecionados"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
                       <? echo $itens_combo_hardwares_selecionados; ?> </select></td>
                   <td>&nbsp;</td>
                 </tr>
@@ -194,10 +311,10 @@ function SetaServidorUpdates()
 			// Gráficos disponíveis para exibição na página principal
 			// [so][acessos][locais][acessos_locais]
 			// A variável de sessão menu_seg->_SESSION['te_exibe_graficos'] contém os gráficos selecionados para exibição
-			$te_exibe_graficos = get_valor_campo('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$_SESSION['id_local']);			
-//	echo 'te_exibe_graficos='.$te_exibe_graficos.'<br>';			
+			$te_exibe_graficos = get_valor_campo('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$frm_id_local);			
+
 			?>
-                <select multiple size="10" name="list3[]"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+                <select multiple size="10" name="list3[]" id="listaExibeGraficosDisponiveis" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
 					<? if (substr_count($te_exibe_graficos,'[so]')==0)
 							echo '<option value="[so]">Totais de Computadores por Sistemas Operacionais</option>';
 					   if (substr_count($te_exibe_graficos,'[acessos]')==0)
@@ -217,7 +334,7 @@ function SetaServidorUpdates()
                 <input type="button" value="   &lt;   " onClick="move(this.form.elements['list4[]'],this.form.elements['list3[]'])" name="B4">
               </div></td>
             <td>&nbsp;</td>
-            <td><select multiple size="10" name="list4[]"   class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
+            <td><select multiple size="10" name="list4[]" id="listaExibeGraficosSelecionados"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
 					<? if (substr_count($te_exibe_graficos,'[so]')>0)
 							echo '<option value="[so]">Totais de Computadores por Sistemas Operacionais</option>';
 					   if (substr_count($te_exibe_graficos,'[acessos]')>0)

@@ -16,6 +16,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
+<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
@@ -65,14 +66,14 @@ $linha = '<tr bgcolor="#e7e7e7">
   <tr> 
     <td> <table border="0" cellpadding="6" cellspacing="0" bordercolor="#333333" align="center">
         <tr bgcolor="#E1E1E1"> 
-          <td align="center"  nowrap>&nbsp;&nbsp;</td>
-          <td align="center"  nowrap><div align="left"><strong></strong></div></td>
-          <td align="center"  nowrap>&nbsp;&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Nome
-              da M&aacute;quina</font></strong></div></td>
-          <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Registros</font></strong></div></td>
-	  <td nowrap >&nbsp;&nbsp;</td>
+          <td align="center"  nowrap class="cabecalho_tabela">&nbsp;&nbsp;</td>
+          <td align="center"  nowrap class="cabecalho_tabela"></td>
+          <td align="center"  nowrap class="cabecalho_tabela">&nbsp;&nbsp;</td>
+          <td align="center"  nowrap class="cabecalho_tabela" bgcolor="#E1E1E1"><div align="center">Nome
+              da M&aacute;quina</div></td>
+          <td nowrap class="cabecalho_tabela" >&nbsp;&nbsp;</td>
+	  <td nowrap class="cabecalho_tabela" ><div align="center">Registros</div></td>
+	  <td nowrap class="cabecalho_tabela" >&nbsp;&nbsp;</td>
         </tr>
         <?  
 	$Cor = 0;
@@ -82,13 +83,13 @@ $linha = '<tr bgcolor="#e7e7e7">
 		  
 	 ?>
         <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
-          <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
-          <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="rel_nomes_repetidos.php?te_nome_computador=<? echo $row['nm_maquina'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
-          <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['qtde']; ?></font></td>
-	  <td nowrap>&nbsp;&nbsp;</td>
+          <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
+          <td nowrap class="dado_med_sem_fundo"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
+          <td nowrap class="dado_med_sem_fundo"><div align="left"><a href="rel_nomes_repetidos.php?te_nome_computador=<? echo $row['nm_maquina'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
+          <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
+	  <td align="center" nowrap class="dado_med_sem_fundo"><? echo $row['qtde']; ?></td>
+	  <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
           <? 
 	$Cor=!$Cor;
 	$NumRegistro++;

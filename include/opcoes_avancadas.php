@@ -71,9 +71,17 @@ $query = "	SELECT 		ac.id_acao,
 			FROM 		acoes ac
 			WHERE		ac.id_acao <> 'cs_auto_update'
 			ORDER BY	ac.te_descricao_breve"; 
-							
+
+$id_local = ($_POST['id_local']?$_POST['id_local']:$_SESSION['id_local']);							
 $result_acoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
-$where = ($_SESSION["cs_nivel_administracao"] == 3?"AND ac_re.id_local = ".$_SESSION['id_local']:"");	
+$where = ($_SESSION["cs_nivel_administracao"] == 3?"AND ac_re.id_local = ".$id_local:"");	
+
+if ($_SESSION['te_locais_secundarios'])
+	{
+	$where = str_replace('ac_re.id_local',' (ac_re.id_local',$where);
+	$where .= ' OR (ac_re.id_local IN ('.$_SESSION['te_locais_secundarios'].'))) ';
+	}
+
 while ($row = mysql_fetch_array($result_acoes))
 	{ 
 

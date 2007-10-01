@@ -33,8 +33,8 @@ if ($_POST['remove_sim']) //Caso o botão SIM seja pressionado...
 	while ($row = mysql_fetch_row($result)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO
 		{		
 		$query 		= 'DELETE FROM '.$row[0] .' WHERE te_node_address = "'. $_REQUEST['te_node_address'] . '" and id_so="'.$_REQUEST['id_so'].'"';
-		$consulta 	= @mysql_query($query);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
-		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],$row[0]);				
+		if (@mysql_query($query))	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
+			GravaLog('DEL',$_SERVER['SCRIPT_NAME'],$row[0]);				
 		}			
 	?>
 	<table border="1" align="center" cellpadding="0" cellspacing="0">

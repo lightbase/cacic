@@ -2,6 +2,7 @@
 session_start();
 //Mostrar computadores com nomes repetidos na base
 require_once('../../include/library.php');
+require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -16,6 +17,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
+<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
@@ -65,21 +67,19 @@ $linha = '<tr bgcolor="#e7e7e7">
   </tr>
   <tr> 
     <td> <table border="0" cellpadding="5" cellspacing="0" bordercolor="#333333" align="center">
-        <tr bgcolor="#E1E1E1"> 
-          <td align="center"  nowrap>&nbsp;&nbsp;</td>
-          <td align="center"  nowrap><div align="left"><strong></strong></div></td>
-          <td align="center"  nowrap>&nbsp;&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Nome
-              da M&aacute;quina</font></strong></div></td>
-          <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">IP</font></strong></div></td>
-	  <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&Uacute;ltima Coleta</font></strong></div></td>
-	  <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&Uacute;ltimo Hist&oacute;rico</font></strong></div></td>
-	  <td nowrap >&nbsp;&nbsp;</td>
-
-        </tr>
+      <tr bgcolor="#E1E1E1"> 
+      <td class="cabecalho_tabela" align="center"  nowrap>&nbsp;&nbsp;</td>
+      <td class="cabecalho_tabela" align="center"  nowrap><div align="left"></div></td>
+      <td class="cabecalho_tabela" align="center"  nowrap>&nbsp;&nbsp;</td>
+      <td class="cabecalho_tabela" align="center"  nowrap bgcolor="#E1E1E1"><div align="center">Nome da M&aacute;quina</div></td>
+      <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center">IP</div></td>
+	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center">&Uacute;ltima Coleta</div></td>
+	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center">&Uacute;ltimo Hist&oacute;rico</div></td>
+	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
+     </tr>
         <?  
 	$Cor = 0;
 	$NumRegistro = 1;
@@ -88,17 +88,17 @@ $linha = '<tr bgcolor="#e7e7e7">
 		  
 	 ?>
         <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
-          <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
-          <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
-          <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_ip']; ?></font></td>
-	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo date("d/m/Y H:i", strtotime($row['dt_hr_ult_acesso'])); ?></font></td>
-	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo date("d/m/Y H:i", strtotime($row['UltHistorico'])); ?></font></td>
-	  <td nowrap>&nbsp;&nbsp;</td>
+          <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
+          <td nowrap class="dado_med_sem_fundo"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
+          <td nowrap class="dado_med_sem_fundo"><div align="left"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
+          <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
+	  <td align="center" nowrap class="dado_med_sem_fundo"><? echo $row['te_ip']; ?></td>
+	  <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
+	  <td align="center" nowrap class="dado_med_sem_fundo"><? echo date("d/m/Y H:i", strtotime($row['dt_hr_ult_acesso'])); ?></td>
+	  <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
+	  <td align="center" nowrap class="dado_med_sem_fundo"><? echo date("d/m/Y H:i", strtotime($row['UltHistorico'])); ?></td>
+	  <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
           <? 
 	$Cor=!$Cor;
 	$NumRegistro++;

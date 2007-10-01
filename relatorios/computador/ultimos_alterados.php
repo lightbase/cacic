@@ -16,6 +16,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
+<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
@@ -68,20 +69,19 @@ $linha = '<tr bgcolor="#e7e7e7">
   <tr> 
     <td> <table border="0" cellpadding="5" cellspacing="0" bordercolor="#333333" align="center">
         <tr bgcolor="#E1E1E1"> 
-          <td align="center"  nowrap>&nbsp;&nbsp;</td>
-          <td align="center"  nowrap><div align="left"><strong></strong></div></td>
-          <td align="center"  nowrap>&nbsp;&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Nome
-              da M&aacute;quina</font></strong></div></td>
-	  <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Campo Alterado</font></strong></div></td>
-	  <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Valor Anterior</font></strong></div></td>
-	  <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Novo Valor</font></strong></div></td>
-	  <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&Uacute;ltima Coleta</font></strong></div></td>
-	  <td nowrap >&nbsp;&nbsp;</td>
+          <td class="cabecalho_tabela" align="center"  nowrap>&nbsp;&nbsp;</td>
+          <td class="cabecalho_tabela" align="center"  nowrap></td>
+          <td class="cabecalho_tabela" align="center"  nowrap>&nbsp;&nbsp;</td>
+          <td class="cabecalho_tabela" align="center"  nowrap bgcolor="#E1E1E1"><div align="center">Nome da M&aacute;quina</div></td>
+	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center">Campo Alterado</div></td>
+	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center">Valor Anterior</div></td>
+	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center">Novo Valor</div></td>
+	  <td class="cabecalho_tabela" class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center">&Uacute;ltima Coleta</div></td>
+	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
 
         </tr>
         <?  
@@ -92,19 +92,19 @@ $linha = '<tr bgcolor="#e7e7e7">
 		  
 	 ?>
         <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
-          <td wrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
-          <td wrap>&nbsp;&nbsp;</td>
-          <td wrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
-	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="left" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['campo_alterado']; ?></font></td>
-	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['valor_antigo']; ?></font></td>
-	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['novo_valor']; ?></font></td>
-	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo date("d/m/Y H:i", strtotime($row['data_anterior'])); ?></font></td>
-	  <td nowrap>&nbsp;&nbsp;</td>
+          <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
+          <td class="dado_med_sem_fundo" nowrap><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
+          <td class="dado_med_sem_fundo" nowrap><div align="left"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
+	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
+	  <td class="dado_med_sem_fundo" align="left" nowrap><? echo $row['campo_alterado']; ?></td>
+	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
+	  <td class="dado_med_sem_fundo" align="center" nowrap><? echo $row['valor_antigo']; ?></td>
+	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
+	  <td class="dado_med_sem_fundo" align="center" nowrap><? echo $row['novo_valor']; ?></td>
+	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
+	  <td class="dado_med_sem_fundo" align="center" nowrap><? echo date("d/m/Y H:i", strtotime($row['data_anterior'])); ?></td>
+	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
           <? 
 	$Cor=!$Cor;
 	$NumRegistro++;

@@ -71,7 +71,7 @@ if ($_POST['submit_cond'])
 								c.id_local = d.id_local '.
 								$where . ' 
 						ORDER 	by a.te_nome_computador';
-
+echo $Query_Pesquisa . '<br>';												
 	conecta_bd_cacic();
 	$result = mysql_query($Query_Pesquisa) or die('Erro no select ou sua sessão expirou!');
 	
@@ -297,6 +297,20 @@ else
 				}
 			}		
 		}
+	function Preenche_Condicao_NULO(p_campo)
+		{
+		for (i=0;i<window.document.forms.length;i++)
+			{
+			for (j=0;j<window.document.forms[i].elements.length;j++)
+				{
+				if (window.document.forms[i].elements[j].name == p_campo)
+					{
+					window.document.forms[i].elements[j].value = '<NULL>';
+					window.document.forms[i].elements[j].disabled = true;					
+					}
+				}
+			}		
+		}
 
 	function Verifica_Condicoes_Seta_Campo(p_campo)
 		{
@@ -441,7 +455,7 @@ else
 			$v_operacao = "(TO_DAYS(NOW())-TO_DAYS(a.".$v_arr_campo[1].")";
 			?>
 			<option value="<? echo $v_operacao . ' =       frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">IGUAL A</option>					
-			<option value="<? echo $v_operacao . ' -MAIOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MAIOR QUE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>					
+			<option value="<? echo $v_operacao . ' -MAIOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MAIOR QUE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>					
 			<option value="<? echo $v_operacao . ' -MENOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MENOR QUE</option>											
 			<?
 			}
@@ -453,9 +467,11 @@ else
 			<option value="<? echo 'a.'      .$v_arr_campo[1]." -MAIOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MAIOR QUE</option>
 			<option value="<? echo 'a.'      .$v_arr_campo[1]." -MENOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MENOR QUE</option>						
 			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao%'";?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">CONTENHA</option>
+			<option value="<? echo "'%frm_te_valor_condicao%' not like  (a.".$v_arr_campo[1].")  ";?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">NÃO CONTENHA</option>			
 			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    'frm_te_valor_condicao%'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">INICIE COM</option>
 			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">TERMINE COM</option>				
-			<option value="<? echo 'TRIM(a.'.$v_arr_campo[1].") = '' and " 					   ;?>" onClick="Preenche_Condicao_VAZIO('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 >VAZIO</option>		
+			<option value="<? echo 'TRIM(a.'.$v_arr_campo[1].") = '' and " 					      ;?>" onClick="Preenche_Condicao_VAZIO('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 >SEJA VAZIO</option>		
+			<option value="<? echo 'a.'.$v_arr_campo[1]." IS NULL " 					          ;?>" onClick="Preenche_Condicao_NULO('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 >SEJA NULO</option>					
 			<?
 			}
 			?>

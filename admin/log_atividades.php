@@ -23,8 +23,12 @@ if (!$_REQUEST['date_input1'])
 	
 	if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 		{
-		$from_usuarios = ', usuarios b';
+		$from_usuarios  = ', usuarios b';
 		$where_usuarios = ' AND a.id_usuario = b.id_usuario AND b.id_local = '.$_SESSION['id_local'];
+		if ($_SESSION['te_locais_secundarios'])
+			{
+			$whereLocais = 'WHERE id_local = '.$_SESSION['id_local'].' OR id_local IN ('.$_SESSION['te_locais_secundarios'].') ';
+			}		
 		}
 	
 	conecta_bd_cacic();
@@ -52,10 +56,21 @@ else
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
 <title>Log de Atividades</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<?
+// JavaScripts para fazer a selecao entre os listbox, movendo itens entre eles.
+require_once('../include/selecao_listbox.js');
+?>
+
+<style type="text/css">
+<!--
+.style2 {font-size: large}
+-->
+</style>
 </head>
 
 <body background="../imgs/linha_v.gif">
 <script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 
@@ -76,10 +91,11 @@ else
         ser realizada a consulta:</td>
     </tr>
     <tr> 
-      <td height="1" bgcolor="#333333" colspan="3"></td>
+      <td height="1" bgcolor="#333333" colspan="2"></td>
     </tr>
     <tr valign="middle"> 
       <td width="33%" height="1" nowrap valign="middle">
+	<input name="whereLocais" type="hidden" value="<? echo $whereLocais;?>"> 	  
 <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>"> 
 <? /*
         <script type="text/javascript" language="JavaScript">
@@ -102,13 +118,29 @@ else
 	//-->
 	</script>*/?> </td>
       <td align="left" class="descricao">&nbsp;&nbsp;(formato: dd/mm/aaaa)</td>
-      <td align="left" class="descricao" valign="middle"><div align="center">
-          <input name="consultar" type="submit" value="   Filtrar   ">
+      <td rowspan="4" align="left" valign="middle" class="descricao"><div align="center">
+          <input name="consultar" type="submit" value="   Filtrar   " onClick="SelectAll(this.form.elements['list12[]'])">
         </div></td>
     </tr>
-    <tr> 
-      <td height="1" bgcolor="#333333" colspan="3"></td>
-    </tr>
+    
+	<?
+	if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
+		{
+		?>
+		<TR><td height="20"></td></TR>
+    	<tr valign="middle">
+      	<td height="1" colspan="2" valign="middle" nowrap><div align="left">
+	  	<?
+		include_once "../include/selecao_locais_inc.php";	  
+	  	?>
+    	</div></td></tr>
+		<?
+		}
+		?>
+  <tr> 
+  <td height="1" bgcolor="#333333" colspan="2"></td>
+  </tr>
+	
   </table>
 	<?
 	if ($_REQUEST['date_input1'])
@@ -128,6 +160,17 @@ else
 			{
 			$where_usuarios = ' AND b.id_local = '.$_SESSION['id_local'];
 			}
+		else
+			{
+			$itens_locais = '';
+			for ($i =0; $i < count($_POST['list12']);$i++)
+				{
+				if ($itens_locais)
+					$itens_locais .= ',';
+				$itens_locais .= $_POST['list12'][$i];
+				}
+			$where_usuarios = ' AND b.id_local IN ('.$itens_locais.')';
+			}
 
 		conecta_bd_cacic();
 		$query = 'SELECT 	DATE_FORMAT(a.dt_acao, "%y-%m-%d %H:%i") as dt_acao,
@@ -145,9 +188,10 @@ else
 				  			b.id_local = c.id_local AND
 							a.dt_acao between "' . substr($_REQUEST['date_input1'],-4)."/".substr($_REQUEST['date_input1'],3,2)."/".substr($_REQUEST['date_input1'],0,2).' 00:00" AND "' . substr($_REQUEST['date_input2'],-4)."/".substr($_REQUEST['date_input2'],3,2)."/".substr($_REQUEST['date_input2'],0,2). ' 23:59" AND
 							a.cs_acao <> "ACE" ' .
-							$where . 
+							$where .
 							$where_usuarios . '    
 				  ORDER BY 	'.$OrderBy;
+
 		$result = mysql_query($query);
 		$NumRegistro = mysql_num_rows($result);
 		if ($NumRegistro)
@@ -156,7 +200,7 @@ else
 			<p></p>				
 	 		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     		<tr> 
-      		<td height="10" colspan="3">&nbsp;</td>
+      		<td height="10" colspan="3" bgcolor="#CCCCCC" class="destaque"><div align="center" class="style2">RESULTADO DA CONSULTA </div></td>
     		</tr>
     		<tr> 
       		<td height="10" colspan="3"></td>
@@ -257,7 +301,7 @@ else
 			<tr> 
 			<td height="10" colspan="3">&nbsp;</td>
 			</tr>
-			</table>
+  </table>
 			<table width="293" border="0" align="center" cellpadding="0" cellspacing="1">
 			<tr> 
 			<td colspan="3"><div align="center"><font color="#004080" size="4">Resumo 

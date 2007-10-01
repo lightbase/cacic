@@ -26,7 +26,69 @@ require_once('../include/opcoes_avancadas_combos.js');
 </head>
 
 <body background="../imgs/linha_v.gif"  onLoad="SetaCampo('in_exibe_bandeja');">
+<?
+$frm_id_local = ($_POST['frm_id_local']<>''?$_POST['frm_id_local']:$_SESSION['id_local']);
+
+require_once('../include/library.php');
+conecta_bd_cacic();
+$where = ' AND loc.id_local ='.$frm_id_local;
+if ($_SESSION['te_locais_secundarios'])
+	{
+	$where = str_replace('loc.id_local',' (loc.id_local',$where);
+	$where .= ' OR (loc.id_local IN ('.$_SESSION['te_locais_secundarios'].'))) ';
+	}
+
+$queryConfiguracoesLocais = "	SELECT 			loc.id_local,
+												loc.sg_local,
+												loc.nm_local,
+												c_loc.in_exibe_erros_criticos,
+												c_loc.in_exibe_bandeja,
+												c_loc.nu_exec_apos,
+												c_loc.dt_hr_coleta_forcada,																			 												
+												c_loc.nu_intervalo_exec,
+												c_loc.te_senha_adm_agente,												
+												c_loc.te_serv_updates_padrao,												
+												c_loc.te_serv_cacic_padrao,																																				
+												c_loc.te_enderecos_mac_invalidos,																																																
+												c_loc.te_janelas_excecao																																																												
+								FROM 			locais loc,
+												configuracoes_locais c_loc
+								WHERE 			loc.id_local = c_loc.id_local ";
+$orderby = ' ORDER BY loc.sg_local';
+
+$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$where.$orderby) or die('Select Impossível nas tabelas Locais/Configuracoes_Locais');
+$row_configuracoes_locais = mysql_fetch_array($resultConfiguracoesLocais);
+if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
+	{	
+	?>
+	<div id="LayerLocais" style="position:absolute; width:200px; height:115px; z-index:1; left: 0px; top: 0px; visibility:hidden">
+	<?
+
+	$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$orderby) or die('Select Impossível nas tabelas Locais/Configuracoes_Locais');
+
+	echo '<select name="SELECTconfiguracoes_locais">';
+	while ($rowConfiguracoesLocais = mysql_fetch_array($resultConfiguracoesLocais))
+		{
+		echo '<option id="'.$rowConfiguracoesLocais['id_local'].'" value="'. $rowConfiguracoesLocais['in_exibe_bandeja'].'#'.
+																			 $rowConfiguracoesLocais['in_exibe_erros_criticos'].'#'.
+																			 $rowConfiguracoesLocais['te_senha_adm_agente'].'#'.																			 
+																			 $rowConfiguracoesLocais['nu_exec_apos'].'#'.
+																			 $rowConfiguracoesLocais['nu_intervalo_exec'].'#'.																			 
+																			 $rowConfiguracoesLocais['te_enderecos_mac_invalidos'].'#'.																			 
+																			 $rowConfiguracoesLocais['te_janelas_excecao'].'#'.																			 
+																			 $rowConfiguracoesLocais['te_serv_updates_padrao'].'#'.
+																			 $rowConfiguracoesLocais['te_serv_cacic_padrao'].'#'.
+																			 $rowConfiguracoesLocais['dt_hr_coleta_forcada'].'">'.$rowConfiguracoesLocais['nm_local'].'</option>';							
+		}
+	echo '</select>';		
+	?>
+	</div>
+	<?
+	}
+	?>
+
 <script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/setLocalConfigAgentes.js"></script>
 <form action="config_agentes_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma">
 <table width="90%" border="0" align="center">
   <tr> 
@@ -40,10 +102,57 @@ require_once('../include/opcoes_avancadas_combos.js');
   </tr>
 </table>
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  	<? 
+
+	// Será mostrado apenas para os níveis Administração, Gestão Central e Supervisão com acessos a locais secundários.
+	if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
+		{
+		?>
+	    <tr> 
+	    <td class="label"><br>Locais: </td>
+    	</tr>  
+    	<tr> 
+      	<td height="1" bgcolor="#333333"></td>
+    	</tr>
+    	<tr> 	
+		<td>
+		<?
+
+    	conecta_bd_cacic();
+		//$where = ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''?' WHERE loc.id_local IN ('.$_SESSION['te_locais_secundarios'].') ':'');		
+		$query_locais = "SELECT		loc.id_local,
+									loc.nm_local,
+									loc.sg_local
+					  	FROM		locais loc 
+						WHERE 		1 ".
+						$where . " 
+				  		ORDER BY  	loc.sg_local"; 
+		$result_locais = mysql_query($query_locais) or die('Ocorreu um erro durante a consulta à tabela de Locais ou sua sessão expirou!'); 
+
+		?>
+    	<select size="5" name="SELECTlocais"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="setLocal(this);">	
+    	<? 		
+		while ($row_locais = mysql_fetch_array($result_locais))
+			{
+			echo '<option id="'.$row_locais['id_local'].'" value="'. $row_locais['id_local'].'"';
+			if ($row_locais['id_local']==$frm_id_local) 
+				echo '  selected="selected"';
+			
+			echo '>'.$row_locais['sg_local'].' - '.$row_locais['nm_local'].'</option>';					
+			}
+ 		?> 
+    	</select>
+		</td>
+    	</tr>
+		<?
+		}
+		?>
+  
     <tr> 
       <td class="label">
+
         <? 
-    require_once('../include/library.php');
+
 	// Comentado temporariamente - AntiSpy();
     conecta_bd_cacic();
 	$query = "SELECT 	in_exibe_bandeja, 
@@ -55,7 +164,7 @@ require_once('../include/opcoes_avancadas_combos.js');
 						te_enderecos_mac_invalidos, 
 						te_janelas_excecao
 	          FROM 		configuracoes_locais 
-			  WHERE		id_local = ".$_SESSION['id_local']." 
+			  WHERE		id_local = ".$frm_id_local." 
 			  			limit 1"; 						 
 
 
@@ -72,6 +181,7 @@ require_once('../include/opcoes_avancadas_combos.js');
       <td class="opcao"><p><input name="in_exibe_bandeja" type="radio" value="S"  <? if (strtoupper($campos_configuracoes['in_exibe_bandeja']) == 'S') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           Sim<br>
           <input type="radio" name="in_exibe_bandeja" value="N" <? if (strtoupper($campos_configuracoes['in_exibe_bandeja']) == 'N') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <input name="frm_id_local" id="frm_id_local" type="hidden" value="<? echo $frm_id_local; ?>">		  		  
           N&atilde;o<br></p></td>
     </tr>
     <tr> 

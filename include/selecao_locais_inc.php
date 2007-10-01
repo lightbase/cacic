@@ -19,8 +19,10 @@
 <td class="label">  
 <?
 $query = "SELECT 	*
-		  FROM 		locais
+		  FROM 		locais ".
+		  $whereLocais . "
 		  ORDER BY	sg_local";
+conecta_bd_cacic();		  
 $result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela locais ou sua sessão expirou!');
 
 		/* Montagem dos itens do combo de locais . */ 
@@ -29,7 +31,7 @@ $result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabel
 		   	$itens_combo_locais = $itens_combo_locais . '<option value="' . $campos['id_local']. '">' . $campos['sg_local'] . '</option>';
 			}  
 			?>
-              Selecione os locais: 
+         Selecione os locais: 
           <tr> 
             <td height="1" bgcolor="#333333"></td>
           </tr>
@@ -48,7 +50,9 @@ $result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabel
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple size="10" name="list11[]" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? echo $itens_combo_locais; ?> 
+					  	<?
+						echo $itens_combo_locais; 
+						?>
                       </select>
                       </div></td>
                   <td>&nbsp;</td>
@@ -63,10 +67,10 @@ $result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabel
                     </select></td>
                   <td>&nbsp;</td>
                 </tr>
-              </table></td>
-          </tr>
           <tr> 
-            <td class="descricao">&nbsp;&nbsp;(Dica: 
-              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
+            <td colspan="6" class="descricao">&nbsp;&nbsp;(Dica: use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
+          </tr>
+				
+              </table></td>
           </tr>
 

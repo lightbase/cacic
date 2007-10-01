@@ -1,11 +1,14 @@
 # ChangeLog do Sistema CACIC
 
 Data		Versão Gerente WEB	Script															Alterações/Implementações
-==========	==================	================================								===================================================================================================================================================================================================
-30/01/2007	2.2.2				.../relatorios/patrimonio/index.php								1)  Implementada a informação dos critérios "Entidade/Órgão" IGUAL A/DIFERENTE DE para pesquisa e geração de relatório
-																									IMPACTO: Mais precisão nas informações gerenciais extraídas a partir desse relatório.
+==========	==================	================================								=====================================================================================================================================================================
+25/09/2007	2.2.3RC4			../admin/log_atividades.php							1) Acrescentado critério de locais para níveis Administração e Gestão Central
+					../admin/log_acessos.php							1) Acrescentado critério de locais para níveis Administração e Gestão Central
 
-30/01/2007	2.2.2				.../relatorios/patrimonio/rel_patrimonio.php					1)  Implementado o tratamento dos novos valores "Entidade/Órgão" para critérios de pesquisa e geração de relatório
+30/01/2007	2.2.2			../relatorios/patrimonio/index.php						1)  Implementada a informação dos critérios "Entidade/Órgão" IGUAL A/DIFERENTE DE para pesquisa e geração de relatório
+														IMPACTO: Mais precisão nas informações gerenciais extraídas a partir desse relatório.
+
+30/01/2007	2.2.2				.../relatorios/patrimonio/rel_patrimonio.php				1)  Implementado o tratamento dos novos valores "Entidade/Órgão" para critérios de pesquisa e geração de relatório
 																									IMPACTO: Mais precisão nas informações gerenciais extraídas a partir desse relatório.																					
 
 27/12/2006	2.2.1				.../redes/detalhes_rede.php										1)  Substituida a chamada à função "TentaPing" por "CheckFtpLogin"

@@ -78,6 +78,10 @@ function valida_form()
 		document.form.frm_te_so.focus();
 		return false;
 		}
+		
+	// Se chegou até aqui, posso habilitar o campo frm_te_so!		
+	document.form.frm_te_so.disabled = false;
+		
 	return true;
 	}
 </script>

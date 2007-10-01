@@ -132,7 +132,6 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		}
 	else
 		{
-		break;
 		session_unregister('id_grupo_usuarios');	 
 		session_unregister('cs_nivel_administracao');	 	 
 		session_unregister('te_locais_secundarios');			 
@@ -149,6 +148,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		alert('Usuário não cadastrado ou senha inválida!');
 		</script>
 		<?
+		break;		
 		}					
 	}
 	?>
@@ -199,7 +199,7 @@ if (!$_SESSION["id_usuario"])
 		$treefile = "menus/menu_ini.txt";
 		require "include/treemenu.php";
 		?>
-		<p>&nbsp;
+		<p>
 		<form name="form1" method="post" action="menu_esq.php">
 	  	<table width="24%" border="0" align="center">
 	    <tr> 

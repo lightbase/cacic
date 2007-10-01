@@ -162,7 +162,7 @@ function SetaServidorUpdates()
 	document.form.frm_nm_usuario_login_serv_updates.value = v_array_string[2];		
 	document.form.frm_nm_usuario_login_serv_updates_gerente.value = v_array_string[2];			
 	document.form.frm_te_path_serv_updates.value = v_array_string[3];				
-	document.form.frm_nu_limite_ftp.value = (v_array_string[4]==""?"5":v_array_string[4])
+	document.form.frm_nu_limite_ftp.value = (v_array_string[4]==""?"30":v_array_string[4])
 	document.form.sel_te_serv_updates.options.selectedIndex=0;
 	document.form.frm_te_senha_login_serv_updates.value = "";
 	document.form.frm_te_senha_login_serv_updates_gerente.value = "";	
@@ -180,7 +180,7 @@ function valida_form()
 	{
 	if ( document.form.frm_nu_limite_ftp.value == "" ) 
 		{	
-		document.form.frm_nu_limite_ftp.value = "5";
+		document.form.frm_nu_limite_ftp.value = "30";
 		}					
 	
 	if (document.form.frm_id_local.selectedIndex==0) {	

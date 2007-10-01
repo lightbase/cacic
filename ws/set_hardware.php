@@ -65,7 +65,7 @@ if ($te_node_address <> '')
 	        /* Consulto todos os hardwares que foram selecionados para notificacao. Isso é setado pelo administrador na página de 'Configurações Gerais'.*/ 
 			$query = "SELECT 	nm_campo_tab_hardware, te_desc_hardware
 					  FROM 		descricao_hardware 
-					  WHERE 	cs_notificacao_ativada = '1'";
+					  WHERE 	te_locais_notificacao_ativada like '%,".$v_dados_rede['id_local'].",%'";
 			$result_hardwares_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware.');
 	
 			/* Agora seleciono as colunas que serão consultadas na tabela 'computadores', para verificar as 

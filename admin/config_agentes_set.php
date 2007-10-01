@@ -26,7 +26,7 @@ $query = "UPDATE 	configuracoes_locais
           			nu_intervalo_exec 			= '" . $_POST['nu_intervalo_exec'] . "',
 		  			te_enderecos_mac_invalidos 	= '".$_POST['te_enderecos_mac_invalidos']."',
 		  			te_janelas_excecao 			= '".strtolower($_POST['te_janelas_excecao'])."'
-			WHERE 	id_local 				= ".$_SESSION['id_local'];
+			WHERE 	id_local 				= ".$_POST['frm_id_local'];
 $result_acoes_redes = mysql_query($query) or die('Ocorreu um erro durante a atulizacao da tabela de configurações ou sua sessão expirou!'); 
 GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');	
 $query_acoes_redes = '';
