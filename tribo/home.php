@@ -1,3 +1,20 @@
+<?
+ /* 
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+
+ Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+
+ O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
+ publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+
+ Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
+ MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+
+ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+?>
+
 <html>
 <head>
 <title>Ararib&oacute;ia</title>
@@ -9,7 +26,7 @@
 <table width="90%" border="0" align="center">
   <tr> 
     <td><p align="center"><strong><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">Bem-vindo 
-        &agrave; p&aacute;gina oficial do Projeto CACIC na Dataprev!</font></strong> 
+        &agrave; p&aacute;gina oficial do Projeto CACIC!</font></strong> 
       </p>
       <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">A proposta 
         do CACIC &eacute; ser um conjunto de softwares que auxiliem os administradores 

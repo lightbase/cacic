@@ -76,7 +76,7 @@ $queryConfiguracoesLocais = "	SELECT 			loc.id_local,
 												configuracoes_locais c_loc
 								WHERE 			loc.id_local = c_loc.id_local ";
 $orderby = ' ORDER BY loc.sg_local';
-$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$where.$orderby) or die('Select Impossível nas tabelas Locais/Configuracoes_Locais');
+$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$where.$orderby) or die('Select Impossível nas tabelas Locais/Configuracoes_Locais ou sua sessão expirou!');
 $row_configuracoes_locais = mysql_fetch_array($resultConfiguracoesLocais);
 if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
 	{	
@@ -84,7 +84,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 	<div id="LayerLocais" style="position:absolute; width:200px; height:115px; z-index:1; left: 0px; top: 0px; visibility:hidden">
 	<?
 
-	$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$orderby) or die('Select Impossível nas tabelas Locais/Configuracoes_Locais');
+	$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$orderby) or die('Select Impossível nas tabelas Locais/Configuracoes_Locais ou sua sessão expirou!');
 
 	echo '<select name="SELECTconfiguracoes_locais">';
 	while ($rowConfiguracoesLocais = mysql_fetch_array($resultConfiguracoesLocais))
@@ -103,7 +103,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 								FROM 		descricao_hardware
 								ORDER BY	te_desc_hardware";
 
-	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('Select Impossível na tabela Descricao_Hardware');
+	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('Select Impossível na tabela Descricao_Hardware ou sua sessão expirou!');
 
 	echo '<select name="SELECTdescricao_hardware">';
 	while ($rowDescricaoHardware = mysql_fetch_array($resultDescricaoHardware))

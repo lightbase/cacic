@@ -32,7 +32,6 @@ if ($_SESSION['te_locais_secundarios']<>'')
 	$query = str_replace('acoes_redes.id_local = ','(acoes_redes.id_local = ',$query);
 	$query = str_replace(')',' OR acoes_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].')))',$query);	
 	}
-
 $result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

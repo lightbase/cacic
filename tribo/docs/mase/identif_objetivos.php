@@ -12,17 +12,17 @@
       <table border="0" cellpadding="2" cellspacing="4">
         <tr> 
           <td width="16" valign="top" align="right"><div align="right"><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">1.</font></strong></div></td>
-          <td width="636"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="?pg=docs/mase/usecases/coleta_hardware.php">Coletar 
+          <td width="636"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Coletar 
             informa&ccedil;&otilde;es sobre os componentes de hardware instalados 
             em cada computador e disponibiliz&aacute;-las aos administradores 
-            de sistemas;</a></font></td>
+            de sistemas;</font></td>
         </tr>
         <tr> 
           <td valign="top"><div align="right"><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">2.</font></strong></div></td>
-          <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="?pg=docs/mase/usecases/coleta_hardware.php">Alertar 
+          <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Alertar 
             os administradores de sistemas quando forem identificadas altera&ccedil;&otilde;es 
             na configura&ccedil;&atilde;o dos componentes de hardware de cada 
-            computador;</a></font></td>
+            computador;</font></td>
         </tr>
         <tr> 
           <td valign="top"><div align="right"><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">3.</font></strong></div></td>

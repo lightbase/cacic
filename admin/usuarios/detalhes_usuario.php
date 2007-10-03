@@ -32,8 +32,9 @@ if ($ExcluiUsuario)
 elseif ($GravaAlteracoes) 
 	{
 	$v_te_locais_secundarios = $_POST['frm_te_locais_secundarios'];
-	// Atenção: Caso o nível seja Administração ou Gestão Central, é necessário "limpar" os locais secundários...
-	if ($_POST['frm_id_grupo_usuarios'] == 2 || $_POST['frm_id_grupo_usuarios'] == 5)
+
+	// Atenção: Caso o nível seja Administração ou Gestão Central ou tenha-se desfeito referência a locais secundários, é necessário "limpar" os locais secundários...
+	if ($_POST['frm_id_grupo_usuarios'] == 2 || $_POST['frm_id_grupo_usuarios'] == 5 || $v_te_locais_secundarios == 0)
 		{
 		$v_te_locais_secundarios = '';
 		}
