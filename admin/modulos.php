@@ -18,21 +18,25 @@ require_once('../include/library.php');
 // Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
 
-$query = "SELECT 	acoes.id_acao,
+$query   = "SELECT 	acoes.id_acao,
 					acoes.te_descricao_breve,
 					acoes.te_descricao,
 					acoes.te_nome_curto_modulo,
-					acoes_redes.cs_situacao
-		  FROM 		acoes LEFT JOIN acoes_redes ON (acoes.id_acao = acoes_redes.id_acao AND acoes_redes.id_local = ".$_SESSION['id_local'].")
-		  GROUP BY	acoes.id_acao
-		  ORDER BY 	acoes.id_acao";
+					acoes_redes.cs_situacao ";
+$from    = " FROM 	acoes LEFT JOIN acoes_redes ON (acoes.id_acao = acoes_redes.id_acao) "; 
+if ($_SESSION['cs_nivel_administracao'] <> 1 && $_SESSION['cs_nivel_administracao'] <> 2)
+	{
+	$from = str_replace('acoes_redes.id_acao)','acoes_redes.id_acao AND acoes_redes.id_local = '.$_SESSION['id_local'].') ');
+	}
+$groupBy = " GROUP BY	acoes.id_acao ";
+$orderBy = " ORDER BY 	acoes.id_acao";
 if ($_SESSION['te_locais_secundarios']<>'')
 	{
 	// Faço uma inserção de "(" para ajuste da lógica para consulta
 	$query = str_replace('acoes_redes.id_local = ','(acoes_redes.id_local = ',$query);
 	$query = str_replace(')',' OR acoes_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].')))',$query);	
 	}
-$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
+$result = mysql_query($query.$from.$groupBy.$orderBy) or die('Erro no select ou sua sessão expirou!');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

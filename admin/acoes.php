@@ -169,8 +169,9 @@ function remove(box)
 	*/
 	$query = "SELECT 	*
 			  FROM 		acoes_redes
-			  WHERE		id_acao = '".$_GET['id_acao']."' AND
-			  			id_local = ".$_SESSION['id_local'];
+			  WHERE		id_acao = '".$_GET['id_acao']."' ";
+	if ($_SESSION['cs_nivel_administracao'] <> 1 && $_SESSION['cs_nivel_administracao'] <> 2)			 
+		$where .= " AND id_local = ".$_SESSION['id_local'];
 
 	if ($_SESSION['te_locais_secundarios']<>'')
 		{
@@ -179,7 +180,7 @@ function remove(box)
 		$query .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
 		}
 						
-	$result_acoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
+	$result_acoes = mysql_query($query.$where) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
 	$campos_acoes = mysql_fetch_array($result_acoes);
 ?>
 
@@ -255,7 +256,6 @@ function remove(box)
 								  			acoes_redes.id_ip_rede = redes.id_ip_rede AND
 											acoes_redes.id_local = redes.id_local ".
 											$where;
-
 						$result_redes_ja_selecionadas = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela acoes_redes ou sua sessão expirou!');
 
 						/* Agora monto os itens do combo de redes selecionadas e preparo a string de exclusao (NOT IN) para a proxima consulta. */ 

@@ -23,10 +23,19 @@ include_once "../../include/library.php";
 
 Conecta_bd_cacic();
 $ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'nm_local');
-$query = 'SELECT 	* 
+$query = 'SELECT 	*,
+					count(redes.id_local) TotalRedes,
+					count(usuarios.id_local) TotalUsuarios 
+		  FROM 		locais 
+		  			RIGHT JOIN redes    ON locais.id_local = redes.id_local
+					RIGHT JOIN usuarios ON locais.id_local = usuarios.id_local
+		  GROUP BY  locais.id_local
+		  ORDER BY 	'.$ordem;
+
+$query = 'SELECT 	*
 		  FROM 		locais 
 		  ORDER BY 	'.$ordem;
-		  
+
 $result = mysql_query($query);
 $msg = '<div align="center">
 		<font color="#c0c0c0" size="1" face="Verdana, Arial, Helvetica, sans-serif">

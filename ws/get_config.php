@@ -39,7 +39,7 @@ $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) 
 $v_id_ip_estacao = trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress));
 
 // ...caso o IP esteja inválido, obtenho-o a partir de variável do servidor
-if (substr_count($v_id_ip_estacao,'zf')>0)
+if (substr_count($v_id_ip_estacao,'zf')>0 || trim($v_id_ip_estacao)=='')
 	$v_id_ip_estacao = 	$_SERVER['REMOTE_ADDR'];
 
 // Essa condição testa se foi o "chkcacic" chamado para instalação ou o "Gerente de Coletas" para validar IP da estação...
@@ -304,32 +304,7 @@ else
 										  $campo_monitorado['cs_ide_licenca'] 	. 	','.
 										  $v_te_ide_licenca						.	',';
 	
-						if (in_array($id_so,$v_arr_WNT)) 
-							{
-							$v_te_arq_ver_eng_wnt 	= trim($campo_monitorado['te_arq_ver_eng_wnt']);
-							if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';						
-	
-							$v_te_arq_ver_pat_wnt 	= trim($campo_monitorado['te_arq_ver_pat_wnt']);								
-							if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
-	
-							$v_te_car_inst_wnt 	    = trim($campo_monitorado['te_car_inst_wnt']);								
-							if ($campo_monitorado['cs_car_inst_wnt']=='0') 	$v_te_car_inst_wnt 	= '';
-	
-							$v_te_car_ver_wnt 	    = trim($campo_monitorado['te_car_ver_wnt']);								
-							if ($campo_monitorado['cs_car_ver_wnt']=='0') 	$v_te_car_ver_wnt 	= '';
-	
-	//						$v_retorno_MONITORADOS .= $campo_monitorado['te_dir_padrao_wnt']	.','.						
-	//                      Linha comentada devido ao fato da possibilidade de se informar o caminho completo na descrição do arquivo a ser pesquisado
-	//                      Foi mantido o transporte de "." para futuras implementações
-							$v_retorno_MONITORADOS .=   '.'                    					.','.						
-												$campo_monitorado['cs_car_inst_wnt']	.','.
-												$v_te_car_inst_wnt                 		.','.
-												$campo_monitorado['cs_car_ver_wnt']		.','.	
-												$v_te_car_ver_wnt               		.','.														
-												$v_te_arq_ver_eng_wnt					.','.
-												$v_te_arq_ver_pat_wnt;
-							}
-						else
+						if (in_array($id_so,$v_arr_W9x)) 
 							{
 							$v_te_arq_ver_eng_w9x 	= trim($campo_monitorado['te_arq_ver_eng_w9x']);
 							if ($v_te_arq_ver_eng_w9x=='') 	$v_te_arq_ver_eng_w9x 	= '.';						
@@ -353,6 +328,33 @@ else
 												$v_te_car_ver_w9x						.','.														
 												$v_te_arq_ver_eng_w9x					.','.
 												$v_te_arq_ver_pat_w9x						;
+							}
+						else
+							{
+							
+							$v_te_arq_ver_eng_wnt 	= trim($campo_monitorado['te_arq_ver_eng_wnt']);
+							if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';						
+	
+							$v_te_arq_ver_pat_wnt 	= trim($campo_monitorado['te_arq_ver_pat_wnt']);								
+							if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
+	
+							$v_te_car_inst_wnt 	    = trim($campo_monitorado['te_car_inst_wnt']);								
+							if ($campo_monitorado['cs_car_inst_wnt']=='0') 	$v_te_car_inst_wnt 	= '';
+	
+							$v_te_car_ver_wnt 	    = trim($campo_monitorado['te_car_ver_wnt']);								
+							if ($campo_monitorado['cs_car_ver_wnt']=='0') 	$v_te_car_ver_wnt 	= '';
+	
+	//						$v_retorno_MONITORADOS .= $campo_monitorado['te_dir_padrao_wnt']	.','.						
+	//                      Linha comentada devido ao fato da possibilidade de se informar o caminho completo na descrição do arquivo a ser pesquisado
+	//                      Foi mantido o transporte de "." para futuras implementações
+							$v_retorno_MONITORADOS .=   '.'                    					.','.						
+												$campo_monitorado['cs_car_inst_wnt']	.','.
+												$v_te_car_inst_wnt                 		.','.
+												$campo_monitorado['cs_car_ver_wnt']		.','.	
+												$v_te_car_ver_wnt               		.','.														
+												$v_te_arq_ver_eng_wnt					.','.
+												$v_te_arq_ver_pat_wnt;
+							
 							}
 						$v_retorno_MONITORADOS .=   ',' . $campo_monitorado['in_disponibiliza_info'];
 
