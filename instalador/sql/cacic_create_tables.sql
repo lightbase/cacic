@@ -90,7 +90,7 @@ CREATE TABLE `aquisicoes` (
   `nm_proprietario` varchar(45) default NULL,
   `nr_notafiscal` int(10) unsigned default NULL,
   PRIMARY KEY  (`id_aquisicao`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `aquisicoes_item`
@@ -104,7 +104,7 @@ CREATE TABLE `aquisicoes_item` (
   `dt_vencimento_licenca` date default NULL,
   `te_obs` varchar(50) default NULL,
   PRIMARY KEY  (`id_aquisicao`,`id_software`,`id_tipo_licenca`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
 -- Table structure for table `compartilhamentos`
@@ -376,7 +376,7 @@ CREATE TABLE `historicos_software` (
   `dt_hr_ult_coleta` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`te_node_address`,`id_so`,`id_software_inventariado`),
   KEY `id_software` (`id_software_inventariado`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `historicos_software_completo`
@@ -585,7 +585,7 @@ CREATE TABLE `softwares` (
   `te_local_midia` varchar(30) default NULL,
   `te_obs` varchar(200) default NULL,
   PRIMARY KEY  (`id_software`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `softwares_estacao`
@@ -603,7 +603,7 @@ CREATE TABLE `softwares_estacao` (
   `te_observacao` varchar(90) default NULL,
   `nr_patr_destino` varchar(20) default NULL,
   PRIMARY KEY  (`nr_patrimonio`,`id_software`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `softwares_inventariados`
@@ -640,7 +640,7 @@ CREATE TABLE `tipos_licenca` (
   `id_tipo_licenca` int(10) unsigned NOT NULL auto_increment,
   `te_tipo_licenca` varchar(20) default NULL,
   PRIMARY KEY  (`id_tipo_licenca`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `tipos_software`

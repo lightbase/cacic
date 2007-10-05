@@ -141,7 +141,7 @@ INSERT INTO `so` VALUES (0,'S.O. Desconhecido','Desc.',""),(1,'Windows 95','W95'
 
 
 /*!40000 ALTER TABLE `tipos_software` DISABLE KEYS */;
-INSERT INTO `tipos_software` VALUES (0,'Versão Trial'),(1,'Correção/Atualização'),(2,'Sistema Interno'),(3,'Software Livre'),(4,'Software Licenciado'),(5,'Software Suspeito'),(6,'Software Descontinuado'),(7,'Jogos e Similares');
+INSERT INTO `tipos_software` VALUES (0,'Versão de Avaliação (Trial)'),(1,'Correção/Atualização'),(2,'Sistema Interno'),(3,'Software Livre'),(4,'Software Licenciado'),(5,'Software Suspeito'),(6,'Software Descontinuado'),(7,'Jogos e Similares');
 /*!40000 ALTER TABLE `tipos_software` ENABLE KEYS */;
 
 --
