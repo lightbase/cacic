@@ -967,7 +967,8 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 	$query_SEL_REDES= '	SELECT 	*
 						FROM	redes_versoes_modulos
 						WHERE 	id_ip_rede = "' . $p_id_ip_rede . '" AND
-						        id_local = '.$p_id_local;
+						        id_local = '.$p_id_local.
+					  ' ORDER BY nm_modulo';
 	conecta_bd_cacic();
 	
 	$v_nomes_arquivos_FTP = array();
@@ -1014,7 +1015,8 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 				 $row['te_senha_login_serv_updates_gerente'] .
 				 $row['nu_porta_serv_updates']) != '')
 				{
-				$v_conta_objetos_enviados 			= 0;
+				$v_tripa_objetos_enviados 			= '';
+				$v_conta_objetos_enviados 			= 0;				
 				$v_conta_objetos_nao_enviados 		= 0;			
 				$v_conta_objetos_atualizados 		= 0;
 				$v_conta_objetos_nao_atualizados 	= 0;			
@@ -1047,10 +1049,9 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 
 				if ($v_conexao_ftp)
 					{
-					if ($p_origem == 'Pagina')
-						{
-						$_SESSION['v_tripa_servidores_updates'] .= '#'.trim($row['te_serv_updates']).'#';
-						}
+					$_SESSION['v_tripa_servidores_updates'] .= ($p_origem == 'Pagina'?'#'.trim($row['te_serv_updates']).'#':'');
+					sort($v_nomes_arquivos_REP,SORT_STRING);						
+					sort($v_nomes_arquivos_FTP,SORT_STRING);											
 					$v_efetua_conexao_ftp = 1;
 					for ($cnt_nomes_arquivos_REP = 0; $cnt_nomes_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_nomes_arquivos_REP++) 
 						{
@@ -1060,12 +1061,12 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 							if ($v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP] == $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP])
 								{
 								$v_achei = 1;
+
 								if ($v_versoes_arquivos_FTP[$cnt_nomes_arquivos_FTP] <> $v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP])
 									{
 									$v_conta_objetos_diferentes ++;
-									@ftp_chdir($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP]);
-									
-									@ftp_delete($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP]);
+									@ftp_chdir($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP]);									
+									@ftp_delete($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP]);									
 									
 									if (@ftp_put($v_conexao_ftp,
 												$row['te_path_serv_updates'] . '/' . $v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP],
@@ -1077,14 +1078,14 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 											atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
 										else
 											atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
-										echo '<font size="1px">Atualizando '.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font><br>';											
+										echo '<font size="1px" color="orange">Atualizado...: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';											
 										$v_conta_objetos_atualizados ++;
 										flush();																													
 										}
 									else
 										{
 										array_push($v_array_objetos_nao_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);											
-										echo '<font color=red size="1px">Não Atualizando '.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font><br>';
+										echo '<font color=red size="1px" color="red">Não Atualizado: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';
 										$v_conta_objetos_nao_atualizados ++;
 										flush();																													
 										}	
@@ -1092,12 +1093,17 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 								$cnt_nomes_arquivos_FTP = count($v_nomes_arquivos_FTP);
 								}										
 							}
-		
+
 						if ($v_achei == 0)
 							{
 							$v_conta_objetos_inexistentes ++;
-//									atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
-								$v_conta_objetos_enviados ++;
+
+							$v_conta_objetos_enviados ++;
+							$v_tripa_objetos_enviados .= ($v_tripa_objetos_enviados?'#':'');
+							$v_tripa_objetos_enviados .= $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].','.$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP];
+							@ftp_chdir($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);									
+							@ftp_delete($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);									
+								
 							if (@ftp_put($v_conexao_ftp,
 										$row['te_path_serv_updates'] . '/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
 										$MainFolder . '/repositorio/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
@@ -1111,14 +1117,14 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 								
 								//atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
 								$v_conta_objetos_enviados ++;
-								echo '<font size="1px">Enviando '.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font><br>';
+								echo '<font size="1px" color="green">Enviado.......: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';
 								flush();																			
 								}
 							else
 								{
 								array_push($v_array_objetos_nao_enviados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
 								$v_conta_objetos_nao_enviados ++;
-								echo '<font color=red size="1px">Não Enviado '.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font><br>';
+								echo '<font color=red size="1px" color="red">Não Enviado: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';
 								$v_achei = 0;
 								flush();																											
 								}									
@@ -1153,7 +1159,8 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 
 			if ($p_origem == 'Pagina')
 				{
-				$_SESSION['v_conta_objetos_enviados'] 			= 	$v_conta_objetos_enviados;
+				$_SESSION['v_tripa_objetos_enviados'] 			= 	$v_tripa_objetos_enviados;
+				$_SESSION['v_conta_objetos_enviados'] 			= 	$v_conta_objetos_enviados;				
 				$_SESSION['v_conta_objetos_nao_enviados']		= 	$v_conta_objetos_nao_enviados;
 				$_SESSION['v_conta_objetos_atualizados']		=	$v_conta_objetos_atualizados;
 				$_SESSION['v_conta_objetos_nao_atualizados']	= 	$v_conta_objetos_nao_atualizados;

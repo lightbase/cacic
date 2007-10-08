@@ -95,11 +95,12 @@ require_once('../../include/library.php');
 					" ORDER BY    re.nm_rede";
 		conecta_bd_cacic();					
 		$result_REDES = mysql_query($query_REDES);
-		$_SESSION['v_tripa_servidores_updates'] = '';
+		$_SESSION['v_tripa_objetos_enviados']   = ''; // Conterá a lista de agentes e versões enviadas aos servidores.
+		$_SESSION['v_tripa_servidores_updates'] = ''; // Conterá a lista de servidores que já receberam o UPLOAD das versões
 		while ($row = mysql_fetch_array($result_REDES))
 			{
 			if ($v_array_parametros[2]<>'') // Se a opção "Forçar" foi marcada...
-				{	
+				{					
 				$query_del = "DELETE 
 							  FROM 		redes_versoes_modulos 
 				              WHERE 	id_local = ".$row['id_local'] ." AND 
@@ -132,9 +133,23 @@ require_once('../../include/library.php');
 			<p align="left">
 			<?
 			flush();
+
+			// Verifico se o Servidor de Updates já foi atualizado.
+			// Neste caso, preciso atualizar a tabela Redes_Versoes_Modulos para a rede atual.
 			$strTeServUpdatesToCheck = '#'.trim($row['te_serv_updates']).'#';
 			if (@substr_count($_SESSION['v_tripa_servidores_updates'],$strTeServUpdatesToCheck)>0)
 				{
+				$insert = "INSERT INTO redes_versoes_modulos (id_local,id_ip_rede,nm_modulo,te_versao_modulo,dt_atualizacao) ";
+				$values = "";
+				$v_arr_agentes_versoes_enviados = explode('#',$_SESSION['v_tripa_objetos_enviados']);
+				for ($intAgentesVersoesEnviados = 0;$intAgentesVersoesEnviados < count($v_arr_agentes_versoes_enviados);$intAgentesVersoesEnviados++)			
+					{
+					$v_arr_aux = explode(',',$v_arr_agentes_versoes_enviados[$intAgentesVersoesEnviados]);				
+					$values .= ($values?",":"VALUES ");
+					$values .= '('.$row['id_local'].',"'.trim($row['id_ip_rede']).'","'.$v_arr_aux[0].'","'.$v_arr_aux[1].'",now())';
+					}	
+
+				$result_INSERT = mysql_query($insert . $values);				
 				echo '<b>Verificação Efetuada!</b>&nbsp;&nbsp;<font color=black size=1>(Servidor de Updates Verificado Anteriormente!)</font>';
 				flush();				
 				}
@@ -142,21 +157,28 @@ require_once('../../include/library.php');
 				{
 				update_subredes($row['id_ip_rede'],'Pagina','__'.$v_array_parametros[0],$row['id_local']);			
 				flush();
-				if ($_SESSION['v_efetua_conexao_ftp'] > 0 && 
-				    (($_SESSION['v_conta_objetos_atualizados'] +
-					  $_SESSION['v_conta_objetos_nao_atualizados'] +
-					  $_SESSION['v_conta_objetos_enviados'] +
-					  $_SESSION['v_conta_objetos_nao_enviados'])==0))
-					{	
-					echo '<b>Verificação Efetuada!</b>';												
-					}									
+				if ($_SESSION['v_efetua_conexao_ftp'] == 1)
+					{
+					if (($_SESSION['v_conta_objetos_atualizados'] +
+					     $_SESSION['v_conta_objetos_nao_atualizados'] +
+					     $_SESSION['v_conta_objetos_enviados'] +
+					     $_SESSION['v_conta_objetos_nao_enviados'])==0)
+						echo '<b>Verificação Efetuada!</b>';												
+					}
 				else if($_SESSION['v_status_conexao'] == 'NC')
 					{
 					echo '<a href="../redes/detalhes_rede.php?id_ip_rede='. $row['id_ip_rede'] .'&id_local='.$row['id_local'].'" style="color: red"><strong>FTP não configurado!</strong></a>';										
 					}
 				else if($_SESSION['v_status_conexao'] == 'OFF')
 					{
-					echo '<a href="../redes/detalhes_rede.php?id_ip_rede='. $row['id_ip_rede'] .'&id_local='.$row['id_local'].'" style="color: red"><strong>Servidor OffLine!</strong></a>';																				
+					echo '<a href="../redes/detalhes_rede.php?id_ip_rede='. $row['id_ip_rede'] .'&id_local='.$row['id_local'].'" style="color: red"><strong>Sem Serviço FTP! </strong><font color="black" size=1>('.$row['te_serv_updates'].')</font></a>';																				
+					}
+				else
+					{
+					$_SESSION['v_conta_objetos_enviados'] 			= 	0;
+					$_SESSION['v_conta_objetos_nao_enviados']		= 	0;
+					$_SESSION['v_conta_objetos_atualizados']		=	0;
+					$_SESSION['v_conta_objetos_nao_atualizados']	= 	0;									
 					}
 				flush();
 				}
@@ -167,13 +189,6 @@ require_once('../../include/library.php');
 			</tr>			
 			<?
 			}
-			?>
-			<?
-		$_SESSION['v_conta_objetos_enviados'] 			= 	0;
-		$_SESSION['v_conta_objetos_nao_enviados']		= 	0;
-		$_SESSION['v_conta_objetos_atualizados']		=	0;
-		$_SESSION['v_conta_objetos_nao_atualizados']	= 	0;
-		
 		session_unregister('v_conta_objetos_enviados');
 		session_unregister('v_conta_objetos_nao_enviados');
 		session_unregister('v_conta_objetos_atualizados');

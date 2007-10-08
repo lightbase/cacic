@@ -48,7 +48,7 @@ if($_POST['gravainformacaoUON2']) {
 				     $_POST['frm_nu_tel2_responsavel_uon2']."',".
 					 $_POST['selectUON1'].",".
 				     $_POST['frm_id_local'].")";
-		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('1-Insert falhou ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
 		if (!atualiza_configuracoes_uonx('2'))
 			{
@@ -134,7 +134,7 @@ $qry_locais = "SELECT 	id_local,
 					 			$where." 
 					 ORDER BY	sg_local";
 					
-$result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sessão expirou!');
+$result_locais = mysql_query($qry_locais) or die ('2-Select falhou ou sua sessão expirou!');
 ?>
 
 <form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">

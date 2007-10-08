@@ -29,12 +29,12 @@ if ($submit)
 			  			nu_intervalo_renovacao_patrim = '" 	. $_POST['nu_intervalo_renovacao_patrim'] . "',
 			  			cs_abre_janela_patr = '"			.$cs_abre_janela_patr."' 
 			  WHERE		id_local ="					.$_SESSION['id_local'];
-	$result = mysql_query($query) or die('Ocorreu um erro durante a atualização da tabela configuracoes ou sua sessão expirou!'); 
+	$result = mysql_query($query) or die('1-Ocorreu um erro durante a atualização da tabela configuracoes ou sua sessão expirou!'); 
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');		
 	$query_etiquetas = "UPDATE	patrimonio_config_interface set 
 								in_destacar_duplicidade='N' 
 						WHERE	id_local = ".$_SESSION['id_local'];
-	$result_etiquetas = mysql_query($query_etiquetas) or die('Ocorreu um erro durante a inicialização de in_destacar_duplicidade na tabela patrimonio_config_interface ou sua sessão expirou!'); 				
+	$result_etiquetas = mysql_query($query_etiquetas) or die('2-Ocorreu um erro durante a inicialização de in_destacar_duplicidade na tabela patrimonio_config_interface ou sua sessão expirou!'); 				
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'patrimonio_config_interface');		
 	while(list($key, $value) = each($HTTP_POST_VARS))
 		{
@@ -44,7 +44,7 @@ if ($submit)
 										in_destacar_duplicidade='".$value."' 
 								WHERE 	id_etiqueta='".$key."' AND
 										id_local = ".$_SESSION['id_local'];
-			$result_etiquetas = mysql_query($query_etiquetas) or die('Ocorreu um erro durante a atualização da tabela patrimonio_config_interface ou sua sessão expirou!'); 				
+			$result_etiquetas = mysql_query($query_etiquetas) or die('3-Ocorreu um erro durante a atualização da tabela patrimonio_config_interface ou sua sessão expirou!'); 				
 			}
 		} 
 	
@@ -57,7 +57,7 @@ $query = "SELECT 	te_notificar_mudanca_patrim,
 		  WHERE		id_local = ".$_SESSION['id_local']." 
 		  			limit 1";
 
-$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela "configuracoes" ou sua sessão expirou!'); 
+$result = mysql_query($query) or die('4-Ocorreu um erro durante a consulta à tabela "configuracoes" ou sua sessão expirou!'); 
 $campos = mysql_fetch_array($result);
 ?>
 
@@ -191,7 +191,7 @@ $campos = mysql_fetch_array($result);
 												id_local = ".$_SESSION['id_local'] . " 									
 									ORDER BY	id_etiqueta"; 
 									
-		$result_etiquetas = mysql_query($query_etiquetas) or die('Ocorreu um erro durante a consulta à tabela de etiquetas ou sua sessão expirou!'); 
+		$result_etiquetas = mysql_query($query_etiquetas) or die('5-Ocorreu um erro durante a consulta à tabela de etiquetas ou sua sessão expirou!'); 
 
 		if (mysql_num_rows($result_etiquetas)>0)
 			{

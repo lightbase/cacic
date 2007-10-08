@@ -24,7 +24,7 @@ if($_POST['submit']<>'')
 	$query = "SELECT 	* 
 			  FROM 		locais 
 			  WHERE 	sg_local = '".$_POST['frm_sg_local']."'";
-	$result = mysql_query($query) or die ('Select falhou ou sua sessão expirou!');
+	$result = mysql_query($query) or die ('1-Select falhou ou sua sessão expirou!');
 	
 	if (mysql_num_rows($result) > 0) 
 		{
@@ -40,21 +40,21 @@ if($_POST['submit']<>'')
 				  VALUES 	('".$_POST['frm_sg_local']."', 
 						  	 '".$_POST['frm_nm_local']."',									  
 						  	 '".$_POST['frm_te_observacao']."')";									  						  
-		$result = mysql_query($query) or die ('Falha na Inserção em Locais ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('2-Falha na Inserção em Locais ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'locais');		
 		
 		// Provavelmente uma solução temporária!...
 		// Probaly a temporary solution...
 		$query = "SELECT 	max(id_local) as max_id_local
 				  FROM		locais";
-		$result = mysql_query($query) or die ('Falha na Consulta à tabela Locais ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('3-Falha na Consulta à tabela Locais ou sua sessão expirou!');
 		$row_max_id_local = mysql_fetch_array($result);
 		
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'locais');
 
 		$query = "SELECT	*
 				  FROM		configuracoes_padrao";									  						  
-		$result = mysql_query($query) or die ('Falha na Consulta à tabela configuracoes_padrao ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('4-Falha na Consulta à tabela configuracoes_padrao ou sua sessão expirou!');
 		$row_padrao = mysql_fetch_array($result);
 		
 		$query = "INSERT
@@ -72,7 +72,7 @@ if($_POST['submit']<>'')
 							$row_padrao['id_default_body_bgcolor']."','".
 							$row_padrao['te_exibe_graficos']."')";
 								
-		$result = mysql_query($query) or die ('Falha na Inserção em configuracoes_locais ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('5-Falha na Inserção em configuracoes_locais ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');		
 		
 		// Insiro as configurações padrão para as 9 etiquetas da janela de Informações Patrimoniais, que surge para o usuário preencher...
@@ -80,57 +80,57 @@ if($_POST['submit']<>'')
 				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 
 				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta1', 'Etiqueta 1', 'Entidade', '', 'Selecione a Entidade', 'Entidades',	'id_unid_organizacional_nivel1','N')";
 
-		$result = mysql_query($query) or die ('Falha na Inserção em patrimonio_config_interface (1) ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('6-Falha na Inserção em patrimonio_config_interface (1) ou sua sessão expirou!');
 
 		$query = "INSERT 	INTO 		patrimonio_config_interface 
 				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 
 				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta2', 'Etiqueta 2', 'Órgão', '', 'Selecione o Órgão', 'Órgãos',	'id_unid_organizacional_nivel2','N')";
-		$result = mysql_query($query) or die ('Falha na Inserção em patrimonio_config_interface (2) ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('7-Falha na Inserção em patrimonio_config_interface (2) ou sua sessão expirou!');
 
 		$query = "INSERT 	INTO 		patrimonio_config_interface 
 				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 
 				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta3', 'Etiqueta 3', 'Seção', '', 'Informe a Seção onde está instalado o equipamento', '','te_localizacao_complementar','N')";
-		$result = mysql_query($query) or die ('Falha na Inserção em patrimonio_config_interface (3) ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('8-Falha na Inserção em patrimonio_config_interface (3) ou sua sessão expirou!');
 
 		$query = "INSERT 	INTO 		patrimonio_config_interface 
 				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 
 				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta4', 'Etiqueta 4', 'PIB da CPU', 'S', 'Informe o número de PIB(tombamento) da CPU', '','te_info_patrimonio1','S')";
-		$result = mysql_query($query) or die ('Falha na Inserção em patrimonio_config_interface (4) ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('9-Falha na Inserção em patrimonio_config_interface (4) ou sua sessão expirou!');
 
 		$query = "INSERT 	INTO 		patrimonio_config_interface 
 				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 
 				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta5', 'Etiqueta 5', 'PIB do monitor', 'S', 'Informe o número de PIB(tombamento) do monitor', '','te_info_patrimonio2','S')";
-		$result = mysql_query($query) or die ('Falha na Inserção em patrimonio_config_interface (5) ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('10-Falha na Inserção em patrimonio_config_interface (5) ou sua sessão expirou!');
 
 		$query = "INSERT 	INTO 		patrimonio_config_interface 
 				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 
 				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta6', 'Etiqueta 6', 'PIB da impressora', 'S', 'Caso haja uma impressora conectada, informe o nº de PIB(tombamento)', '','te_info_patrimonio3','S')";
-		$result = mysql_query($query) or die ('Falha na Inserção em patrimonio_config_interface (6) ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('11-Falha na Inserção em patrimonio_config_interface (6) ou sua sessão expirou!');
 
 		$query = "INSERT 	INTO 		patrimonio_config_interface 
 				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 
 				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta7', 'Etiqueta 7', 'Nº série CPU', 'S', 'Caso não disponha do nº de PIB, informe o nº de série da CPU', '','te_info_patrimonio4','S')";
-		$result = mysql_query($query) or die ('Falha na Inserção em patrimonio_config_interface (7) ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('12-Falha na Inserção em patrimonio_config_interface (7) ou sua sessão expirou!');
 
 		$query = "INSERT 	INTO 		patrimonio_config_interface 
 				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 
 				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta8', 'Etiqueta 8', 'Nº série Monitor', 'S', 'Caso não disponha do nº de PIB, informe o nº de série do Monitor', '','te_info_patrimonio5','S')";
-		$result = mysql_query($query) or die ('Falha na Inserção em patrimonio_config_interface (8) ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('13-Falha na Inserção em patrimonio_config_interface (8) ou sua sessão expirou!');
 
 		$query = "INSERT 	INTO 		patrimonio_config_interface 
 				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 
 				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta9', 'Etiqueta 9', 'Nº série Impres. (opcional)', 'S', 'Caso haja uma impressora conectada ao micro e não disponha do nº de PIB, informe o nº de série', '','te_info_patrimonio6','S')";
-		$result = mysql_query($query) or die ('Falha na Inserção em patrimonio_config_interface (9) ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('14-Falha na Inserção em patrimonio_config_interface (9) ou sua sessão expirou!');
 
 
 		// Inserção do Local na tabela de ações por Sistema Operacional
 		$query_so = "SELECT 	* 
 					 FROM 		so";
-		$result_so = mysql_query($query_so) or die('Ocorreu um erro durante a consulta à tabela de Sistemas Operacionais ou sua sessão expirou!'); 
+		$result_so = mysql_query($query_so) or die('15-Ocorreu um erro durante a consulta à tabela de Sistemas Operacionais ou sua sessão expirou!'); 
 					
 		$query_acoes = "SELECT 	* 
 						FROM 	acoes";
-		$result_acoes = mysql_query($query_acoes) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
+		$result_acoes = mysql_query($query_acoes) or die('16-Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
 					
 		while ($row_acoes = mysql_fetch_array($result_acoes))
 			{
@@ -145,7 +145,7 @@ if($_POST['submit']<>'')
 							  VALUES	(".$row_max_id_local['max_id_local'].", 
 										'".$row_acoes['id_acao']."',
 										'".$row_so['id_so']."')";
-				mysql_query($query_ins) or die('Ocorreu um erro durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');
+				mysql_query($query_ins) or die('17-Ocorreu um erro durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');
 				}
 			
 			}

@@ -25,20 +25,20 @@ if ($_REQUEST['ExcluiRede'])
 			  FROM 		redes 
 			  WHERE 	id_ip_rede = '".$_REQUEST['id_ip_rede']."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha de deleção na tabela redes ou sua sessão expirou!');
+	mysql_query($query) or die('1-Falha de deleção na tabela redes ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'redes');				
 	$query = "DELETE 	
 			  FROM 		acoes_redes 
 			  WHERE 	id_ip_rede = '".$_REQUEST['id_ip_rede']."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha de deleção na tabela ações_redes ou sua sessão expirou!');	
+	mysql_query($query) or die('2-Falha de deleção na tabela ações_redes ou sua sessão expirou!');	
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');				
 
 	$query = "DELETE 	
 			  FROM 		aplicativos_redes 
 			  WHERE 	id_ip_rede = '".$_REQUEST['id_ip_rede']."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha de deleção na tabela aplicativos_redes ou sua sessão expirou!');	
+	mysql_query($query) or die('3-Falha de deleção na tabela aplicativos_redes ou sua sessão expirou!');	
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');				
 	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/redes/index.php&tempo=1");									 				
@@ -73,28 +73,28 @@ elseif ($_POST['GravaAlteracoes'])
 						$senhas . " 
 			  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha na atualização da tabela Redes ou sua sessão expirou!');
+	mysql_query($query) or die('4-Falha na atualização da tabela Redes ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'redes');
 
 	$query = "UPDATE 	acoes_redes SET 
 			  			id_local = ".$_POST['frm_id_local']."
 			  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
 			  			id_local = ".$_POST['id_local'];
-	mysql_query($query) or die('Falha na atualização da tabela Acoes_Redes ou sua sessão expirou!');
+	mysql_query($query) or die('5-Falha na atualização da tabela Acoes_Redes ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'acoes_redes');			
 
 	$query = "UPDATE 	redes_grupos_ftp SET 
 			  			id_local =  ".$_POST['frm_id_local']."
 			  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha na atualização da tabela Redes_Grupos_FTP ou sua sessão expirou!');
+	mysql_query($query) or die('6-Falha na atualização da tabela Redes_Grupos_FTP ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'redes_grupos_ftp');			
 
 	$query = "UPDATE 	redes_versoes_modulos SET 
 			  			id_local =  ".$_POST['frm_id_local']."
 			  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha na atualização da tabela Redes_Versoes_Modulos ou sua sessão expirou!');
+	mysql_query($query) or die('7-Falha na atualização da tabela Redes_Versoes_Modulos ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'redes_versoes_modulos');			
 
 	// Caso tenha sido alterado o local da subrede, primeiramente atualizarei a informação abaixo:
@@ -104,7 +104,7 @@ elseif ($_POST['GravaAlteracoes'])
 				  			id_local =  ".$_POST['frm_id_local']."
 				  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
 				  			id_local = ".$_REQUEST['id_local'];
-		mysql_query($query) or die('Falha na atualização da tabela Aplicativos_Redes ou sua sessão expirou!');
+		mysql_query($query) or die('8-Falha na atualização da tabela Aplicativos_Redes ou sua sessão expirou!');
 		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'Aplicativos_Redes');			
 		}
 	
@@ -123,7 +123,7 @@ elseif ($_POST['GravaAlteracoes'])
 				  FROM 		aplicativos_redes 
 				  WHERE 	id_ip_rede = '".$_REQUEST['id_ip_rede']."' AND
 				  			id_local = ".$_REQUEST['id_local'];
-		mysql_query($query) or die('Falha de deleção na tabela aplicativos_redes ou sua sessão expirou!');	
+		mysql_query($query) or die('9-Falha de deleção na tabela aplicativos_redes ou sua sessão expirou!');	
 		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');						
 		seta_perfis_rede($_REQUEST['frm_id_local'],trim($_REQUEST['id_ip_rede']), $v_perfis); 					
 		}		
@@ -136,7 +136,7 @@ else
 				FROM 	redes
 						LEFT JOIN locais ON (redes.id_local = locais.id_local AND redes.id_local = ".$_GET['id_local'].") 
 				WHERE 	redes.id_ip_rede = '".$_GET['id_ip_rede']."'";
-	$result = mysql_query($query) or die ('Falha na consulta às tabelas Redes, Locais ou sua sessão expirou!');
+	$result = mysql_query($query) or die ('10-Falha na consulta às tabelas Redes, Locais ou sua sessão expirou!');
 	?>
 
 
@@ -319,7 +319,7 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
 				$qry_locais = str_replace('locais','locais WHERE (locais.id_local = '.$_SESSION["id_local"].' OR locais.id_local in('.$_SESSION['te_locais_secundarios'].')) ',$qry_locais);
 				}
 
-		    $result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sessão expirou!');
+		    $result_locais = mysql_query($qry_locais) or die ('11-Select falhou ou sua sessão expirou!');
 		if (mysql_result($result, 0, 'nm_local')=='')
 			echo "<option value='-1' selected>Selecione Local</option>";
 							

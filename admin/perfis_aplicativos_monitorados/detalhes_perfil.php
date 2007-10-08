@@ -23,19 +23,19 @@ if ($_POST['ExcluiAplicativo'])
 	$query = "DELETE 
 			  FROM 		perfis_aplicativos_monitorados 
 			  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
-	mysql_query($query) or die('Delete PERFIS_APLICATIVOS_MONITORADOS falhou ou sua sessão expirou!');
+	mysql_query($query) or die('1-Delete PERFIS_APLICATIVOS_MONITORADOS falhou ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');			
 	
 	$query = "DELETE 
 			  FROM 		aplicativos_monitorados 
 			  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
-	mysql_query($query) or die('Delete APLICATIVOS_MONITORADOS falhou ou sua sessão expirou!');
+	mysql_query($query) or die('2-Delete APLICATIVOS_MONITORADOS falhou ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'aplicativos_monitorados');			
 
 	$query = "DELETE
 			  FROM		aplicativos_redes
 			  WHERE		id_aplicativo = ".$_POST['id_aplicativo'];
-	$result = mysql_query($query) or die ('Delete falhou ou sua sessão expirou!');				
+	$result = mysql_query($query) or die ('3-Delete falhou ou sua sessão expirou!');				
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');			
 		
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/perfis_aplicativos_monitorados/index.php&tempo=1");									 		
@@ -74,14 +74,14 @@ elseif ($_POST['GravaAlteracoes'])
 			  			in_disponibiliza_info_usuario_comum = '$frm_in_disponibiliza_info_usuario_comum'			    			  			  
 			  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
 
-	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
+	mysql_query($query) or die('4-Update falhou ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');		
 
 
 	$query = "DELETE
 			  FROM		aplicativos_redes
 			  WHERE		id_aplicativo = ".$_POST['id_aplicativo'];
-	$result = mysql_query($query) or die ('Delete falhou ou sua sessão expirou!');				
+	$result = mysql_query($query) or die ('5-Delete falhou ou sua sessão expirou!');				
 
 	$strInsertAplicativosRedes = '';
 	for ($i=0; $i < count($_POST['list2']);$i++)
@@ -98,7 +98,7 @@ elseif ($_POST['GravaAlteracoes'])
 		$query = "INSERT 
 				  INTO 		aplicativos_redes
 				  VALUES 	".$strInsertAplicativosRedes;
-		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');								  
+		$result = mysql_query($query) or die ('6-Insert falhou ou sua sessão expirou!');								  
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');				
 		}
 	
@@ -110,7 +110,7 @@ else
 	$query = "SELECT 	* 
 			  FROM 		perfis_aplicativos_monitorados 
 			  WHERE 	id_aplicativo = ".$_GET['id_aplicativo'];
-	$result = mysql_query($query) or die ('Select falhou ou sua sessão expirou!');
+	$result = mysql_query($query) or die ('7-Select falhou ou sua sessão expirou!');
 	$row = mysql_fetch_array($result);
 ?>
 
@@ -204,7 +204,7 @@ function valida_form() {
 			          FROM   so
 					  WHERE  id_so <> '0'
 					  ORDER  BY te_desc_so";
-			mysql_query($query) or die('Select falhou ou sua sessão expirou!');
+			mysql_query($query) or die('8-Select falhou ou sua sessão expirou!');
 		    $sql_result=mysql_query($query);			
 		while ($row_so=mysql_fetch_array($sql_result))
 			{ 

@@ -56,7 +56,7 @@ $queryConfiguracoesLocais = "	SELECT 			loc.id_local,
 								WHERE 			loc.id_local = c_loc.id_local ";
 $orderby = ' ORDER BY loc.sg_local';
 
-$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$where.$orderby) or die('Select Impossível nas tabelas Locais/Configuracoes_Locais ou sua sessão expirou!');
+$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$where.$orderby) or die('1-Select Impossível nas tabelas Locais/Configuracoes_Locais ou sua sessão expirou!');
 $row_configuracoes_locais = mysql_fetch_array($resultConfiguracoesLocais);
 if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
 	{	
@@ -64,7 +64,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 	<div id="LayerLocais" style="position:absolute; width:200px; height:115px; z-index:1; left: 0px; top: 0px; visibility:hidden">
 	<?
 
-	$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$orderby) or die('Select Impossível nas tabelas Locais/Configuracoes_Locais ou sua sessão expirou!');
+	$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$orderby) or die('2-Select Impossível nas tabelas Locais/Configuracoes_Locais ou sua sessão expirou!');
 
 	echo '<select name="SELECTconfiguracoes_locais">';
 	while ($rowConfiguracoesLocais = mysql_fetch_array($resultConfiguracoesLocais))
@@ -129,7 +129,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 						WHERE 		1 ".
 						$where . " 
 				  		ORDER BY  	loc.sg_local"; 
-		$result_locais = mysql_query($query_locais) or die('Ocorreu um erro durante a consulta à tabela de Locais ou sua sessão expirou!'); 
+		$result_locais = mysql_query($query_locais) or die('3-Ocorreu um erro durante a consulta à tabela de Locais ou sua sessão expirou!'); 
 
 		?>
     	<select size="5" name="SELECTlocais"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="setLocal(this);">	
@@ -170,7 +170,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 			  			limit 1"; 						 
 
 
-	$result_configuracoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de configurações ou sua sessão expirou!'); 
+	$result_configuracoes = mysql_query($query) or die('4-Ocorreu um erro durante a consulta à tabela de configurações ou sua sessão expirou!'); 
 	$campos_configuracoes = mysql_fetch_array($result_configuracoes);
 ?>
         &nbsp;<br>

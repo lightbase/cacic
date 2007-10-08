@@ -19,6 +19,9 @@ require_once('../../include/library.php');
 // Comentado temporariamente - AntiSpy();
 if ($_REQUEST['ExecutaUpdates']=='Executar Updates')
 	{				
+	// Enviarei também ao updates_subredes.php uma relação de agentes e versões para inserção na tabela redes_versoes_modulos, no caso da ocorrência de Servidor de Updates verificado anteriormente.
+	// Exemplo de estrutura de agentes_versoes: col_soft.exe#22010103*col_undi.exe#22010103
+	$v_agentes_versoes = '';
 	foreach($HTTP_POST_VARS as $i => $v) 
 		{
 		//echo 'v: '.$v.'   i: '.$i.'<br>';
@@ -50,8 +53,12 @@ if ($_REQUEST['ExecutaUpdates']=='Executar Updates')
 				$v_force_modulos .= ",";			
 				}
 			$v_force_modulos .= '_fm_'.$v.'_fm_';		
-			}			
-					
+			}								
+
+		if ($v && substr($i,0,15)=='agentes_versoes')
+			{
+			$v_agentes_versoes = '_-_'.$v;
+			}						
 		}
 		
 	//echo 'v_updates: '.$v_updates.'<br><br>';
@@ -64,7 +71,7 @@ if ($_REQUEST['ExecutaUpdates']=='Executar Updates')
 	// objeto1__objeto2__objetoN_-_rede1__rede2__rede3__redeN  
 	// Onde: __  = Separador de itens
 	//       _-_ = Separador de Matrizes		
-        header ("Location: updates_subredes.php?v_parametros=".$v_updates.'_-_'.$v_redes.'_-_'.$v_force_modulos);			
+        header ("Location: updates_subredes.php?v_parametros=".$v_updates.'_-_'.$v_redes.'_-_'.$v_force_modulos.$v_agentes_versoes);			
 	}
 else
 	{
@@ -182,8 +189,9 @@ function verificar()
 			{
 			$v_array_versoes_agentes = parse_ini_file('../../repositorio/versoes_agentes.ini');
 			}
-					
-		sort($v_nomes_arquivos);
+
+		sort($v_nomes_arquivos,SORT_STRING);
+		$v_agentes_versoes = ''; // Conterá as versões dos agentes para tratamento em updates_subredes.php
 		for ($cnt_arquivos = 0; $cnt_arquivos < count($v_nomes_arquivos); $cnt_arquivos++)
 			{
 			$v_dados_arquivo = lstat('../../repositorio/'.$v_nomes_arquivos[$cnt_arquivos]);
@@ -201,12 +209,17 @@ function verificar()
 				}
 			else
 				{
-				echo '<td align="center" colspan="3">'.strftime("%d/%m/%Y  %H:%Mh", $v_dados_arquivo[9]).'</td>';							
+				$versao_agente = strftime("%d/%m/%Y  %H:%Mh", $v_dados_arquivo[9]);
+				echo '<td align="center" colspan="3">'.$versao_agente.'</td>';							
 				}
+			$v_agentes_versoes .= ($v_agentes_versoes<>''?'#':'');
+			$v_agentes_versoes .= $v_nomes_arquivos[$cnt_arquivos].'*'.$versao_agente;	
 			echo '<td align="center"><input name="force_update_subredes_'.$v_nomes_arquivos[$cnt_arquivos].'" id="force_update_subredes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="'.$v_nomes_arquivos[$cnt_arquivos].'"';
 			if ($v_nomes_arquivos[$cnt_arquivos] == 'versoes_agentes.ini') echo ' checked disabled';
 			echo '></td></tr>';											
 			}
+		echo '<input name="agentes_versoes" id="agentes_versoes" type="hidden" value="'.$v_agentes_versoes.'">';
+
 		}
 	 ?>
           </table></td>

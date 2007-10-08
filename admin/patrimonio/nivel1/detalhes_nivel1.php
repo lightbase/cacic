@@ -24,7 +24,7 @@ if ($exclui_uon1) {
 				FROM 	unid_organizacional_nivel1 
 				WHERE 	id_unid_organizacional_nivel1 = '$frm_id_unid_organizacional_nivel1'";
 
-	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
+	mysql_query($query) or die('1-Delete falhou ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1');			
 	if (!atualiza_configuracoes_uonx('1'))
 		{
@@ -61,7 +61,7 @@ elseif ($_POST['grava_alteracao_uon1']) {
 				   		  	nu_tel2_responsavel_uon1 		= '$frm_nu_tel2_responsavel_uon1' 
 					WHERE 	id_unid_organizacional_nivel1 	= $frm_id_unid_organizacional_nivel1";
 
-			mysql_query($query) or die('Update falhou ou sua sessão expirou!');
+			mysql_query($query) or die('2-Update falhou ou sua sessão expirou!');
 			GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1');					
 			if (!atualiza_configuracoes_uonx('1'))
 				{
@@ -81,7 +81,7 @@ else {
 	$query = "	SELECT 	* 
 				FROM 	unid_organizacional_nivel1 
 				WHERE 	id_unid_organizacional_nivel1 = '$id_unid_organizacional_nivel1'";
-	$result 		= mysql_query($query) or die ('Select Falhou ou sua sessão expirou!');
+	$result 		= mysql_query($query) or die ('3-Select Falhou ou sua sessão expirou!');
 	$fetch_result_sel = mysql_fetch_array($result);
 	$result_sel		= implode('#',$fetch_result_sel);
 	

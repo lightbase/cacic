@@ -27,7 +27,7 @@ $query = "UPDATE 	configuracoes_locais
 		  			te_enderecos_mac_invalidos 	= '".$_POST['te_enderecos_mac_invalidos']."',
 		  			te_janelas_excecao 			= '".strtolower($_POST['te_janelas_excecao'])."'
 			WHERE 	id_local 				= ".$_POST['frm_id_local'];
-$result_acoes_redes = mysql_query($query) or die('Ocorreu um erro durante a atulizacao da tabela de configurações ou sua sessão expirou!'); 
+$result_acoes_redes = mysql_query($query) or die('1-Ocorreu um erro durante a atulizacao da tabela de configurações ou sua sessão expirou!'); 
 GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');	
 $query_acoes_redes = '';
 foreach($HTTP_POST_VARS as $i => $v) 
@@ -48,7 +48,7 @@ foreach($HTTP_POST_VARS as $i => $v)
 
 if ($query_acoes_redes)	
 	{
-	$result_acoes_redes = mysql_query($query_acoes_redes) or die('Ocorreu um erro durante a atualização de acoes_rede ou sua sessão expirou!'); 	
+	$result_acoes_redes = mysql_query($query_acoes_redes) or die('2-Ocorreu um erro durante a atualização de acoes_rede ou sua sessão expirou!'); 	
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'acoes_redes');		
 	}
 

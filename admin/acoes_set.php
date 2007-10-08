@@ -40,7 +40,7 @@ conecta_bd_cacic();
 if ($queryDEL)
 	{
 	$queryDEL = 'DELETE FROM acoes_redes WHERE '.$queryDEL;
-	$result = mysql_query($queryDEL) or die('2-Ocorreu um erro durante a deleção de registros na tabela acoes_redes ou sua sessão expirou!'); 
+	$result = mysql_query($queryDEL) or die('1-Ocorreu um erro durante a deleção de registros na tabela acoes_redes ou sua sessão expirou!'); 
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');				
 	}	
 	
@@ -79,7 +79,7 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 			  FROM 		acoes_so 
 			  WHERE 	id_acao='".$id_acao."' AND
 						id_local = ".$dadosRedes[1];
-	$result = mysql_query($query) or die('6-Ocorreu um erro durante a deleção de registros na tabela acoes_so ou sua sessão expirou!'); 
+	$result = mysql_query($query) or die('3-Ocorreu um erro durante a deleção de registros na tabela acoes_so ou sua sessão expirou!'); 
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_so');
 
 	if ($cs_situacao <> 'N')
@@ -90,7 +90,7 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 			$query = "INSERT 
 				      INTO 		acoes_so (id_so, id_acao, id_local) 
 					  VALUES 	('".$_POST['list4'][$j]."', '".$id_acao."', ".$dadosRedes[1].")";
-			mysql_query($query) or die('7-Ocorreu um erro durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');
+			mysql_query($query) or die('4-Ocorreu um erro durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');
 			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_so');		
 			}
 		}
@@ -100,7 +100,7 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 			  FROM 		acoes_excecoes 
 			  WHERE 	id_acao='".$id_acao."' AND
 			            id_local=".$dadosRedes[1];
-	$result = mysql_query($query) or die('8-Ocorreu um erro durante a deleção de registros na tabela acoes_excecoes ou sua sessão expirou!'); 
+	$result = mysql_query($query) or die('5-Ocorreu um erro durante a deleção de registros na tabela acoes_excecoes ou sua sessão expirou!'); 
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_excecoes');
 	
 	if ($cs_situacao <> 'N')
@@ -131,7 +131,7 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 				  			'".$id_acao."',".$dadosRedes[1].",
 							'S',
 							now())";					
-		mysql_query($query) or die('3-Ocorreu um erro durante a inclusão de registros selecionados na tabela acoes_redes ou sua sessão expirou!');
+		mysql_query($query) or die('6-Ocorreu um erro durante a inclusão de registros selecionados na tabela acoes_redes ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');
 		}
 	elseif ($cs_situacao == 'T')		
@@ -139,7 +139,7 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 		$query = "SELECT 	id_ip_rede
 				   FROM 	redes
 				   WHERE	id_local=".$dadosRedes[1];
-		$result = mysql_query($query) or die('4-Deu erro ou sua sessão expirou!');
+		$result = mysql_query($query) or die('7-Deu erro ou sua sessão expirou!');
 			
 		while($campos=mysql_fetch_array($result)) 
 			{
@@ -154,7 +154,7 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 								".$dadosRedes[1].",
 								'T',
 								now())";
-			mysql_query($query) or die('5-Ocorreu um erro durante a inclusão de TODOS registros na tabela acoes_redes ou sua sessão expirou!');
+			mysql_query($query) or die('8-Ocorreu um erro durante a inclusão de TODOS registros na tabela acoes_redes ou sua sessão expirou!');
 			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');		
 			}
 		}											

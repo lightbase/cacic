@@ -33,7 +33,7 @@ if ($_POST['exclui_uon2'])
 				FROM 	unid_organizacional_nivel2 
 				WHERE 	id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2']." and
 						id_unid_organizacional_nivel1 = ".$_POST['frm_id_unid_organizacional_nivel1']. $where;
-	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
+	mysql_query($query) or die('1-Delete falhou ou sua sessão expirou!');
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
 	if (!atualiza_configuracoes_uonx('2'))
 		{
@@ -76,7 +76,7 @@ elseif ($_POST['grava_alteracao_uon2'])
 					WHERE 	id_unid_organizacional_nivel2 	= $frm_id_unid_organizacional_nivel2 and
 							id_unid_organizacional_nivel1   = $frm_id_unid_organizacional_nivel1 ".
 							$where;
-			mysql_query($query) or die('Update falhou ou sua sessão expirou!');
+			mysql_query($query) or die('2-Update falhou ou sua sessão expirou!');
 			GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
 			if (!atualiza_configuracoes_uonx('2'))
 				{
@@ -99,7 +99,7 @@ else
 				WHERE 	uo2.id_unid_organizacional_nivel2 = $id_unid_organizacional_nivel2 and
 						uo2.id_unid_organizacional_nivel1 = $id_unid_organizacional_nivel1";
 
-	$result 		= mysql_query($query) or die ('Select Falhou ou sua sessão expirou!');
+	$result 		= mysql_query($query) or die ('3-Select Falhou ou sua sessão expirou!');
 	$fetch_result_sel = mysql_fetch_array($result);
 	$result_sel		= implode('#',$fetch_result_sel);
 	
@@ -179,7 +179,7 @@ function valida_form()
 								 			$where ."
 								 ORDER BY	sg_local";
 
-		    $result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sessão expirou!');
+		    $result_locais = mysql_query($qry_locais) or die ('4-Select falhou ou sua sessão expirou!');
 			while ($row_qry=mysql_fetch_array($result_locais))
 		  		{
 				echo '<option value="'.$row_qry[0].'"';
