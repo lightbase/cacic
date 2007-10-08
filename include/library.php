@@ -955,11 +955,11 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 				// A string 0103 será concatenada em virtude da inserção da informação de versão nos agentes
 				// até então era usada a data do arquivo como versão, a string 0103 fará com que o Gerente de Coletas 
 				// entenda que as versões atuais são maiores, ou seja, a versão 20100103 é maior que 20051201
-				array_push($v_versoes_arquivos_REP, str_replace('.','',$versao_agente) . '0103');
+				array_push($v_versoes_arquivos_REP, $v_arquivo . '#'.str_replace('.','',$versao_agente) . '0103');
 				}
 			else
 				{
-				array_push($v_versoes_arquivos_REP, strftime("%Y%m%d%H%M", filemtime($caminho_arquivo)));
+				array_push($v_versoes_arquivos_REP, $v_arquivo . '#'. strftime("%Y%m%d%H%M", filemtime($caminho_arquivo)));
 				}
 			}
 		}
@@ -1051,7 +1051,9 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 					{
 					$_SESSION['v_tripa_servidores_updates'] .= ($p_origem == 'Pagina'?'#'.trim($row['te_serv_updates']).'#':'');
 					sort($v_nomes_arquivos_REP,SORT_STRING);						
+					sort($v_versoes_arquivos_REP,SORT_STRING);											
 					sort($v_nomes_arquivos_FTP,SORT_STRING);											
+					sort($v_versoes_arquivos_FTP,SORT_STRING);																
 					$v_efetua_conexao_ftp = 1;
 					for ($cnt_nomes_arquivos_REP = 0; $cnt_nomes_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_nomes_arquivos_REP++) 
 						{
@@ -1074,10 +1076,11 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 												FTP_BINARY))
 										{
 										array_push($v_array_objetos_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
+										$arr_versao_arquivo = explode('#',$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
 										if ($p_origem == 'Pagina')										
-											atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
+											atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1]);
 										else
-											atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
+											atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$row['id_local']);
 										echo '<font size="1px" color="orange">Atualizado...: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';											
 										$v_conta_objetos_atualizados ++;
 										flush();																													
@@ -1096,11 +1099,11 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 
 						if ($v_achei == 0)
 							{
+							$arr_versao_arquivo = explode('#',$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);							
 							$v_conta_objetos_inexistentes ++;
-
 							$v_conta_objetos_enviados ++;
-							$v_tripa_objetos_enviados .= ($v_tripa_objetos_enviados?'#':'');
-							$v_tripa_objetos_enviados .= $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].','.$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP];
+							$v_tripa_objetos_enviados .= ($v_tripa_objetos_enviados?'#':'');							
+							$v_tripa_objetos_enviados .= $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].','.$arr_versao_arquivo[1];
 							@ftp_chdir($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);									
 							@ftp_delete($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);									
 								
@@ -1111,9 +1114,9 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 								{
 								array_push($v_array_objetos_enviados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
 								if ($p_origem == 'Pagina')										
-									atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
+									atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1]);
 								else
-									atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
+									atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$row['id_local']);
 								
 								//atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
 								$v_conta_objetos_enviados ++;
