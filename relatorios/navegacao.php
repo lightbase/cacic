@@ -164,23 +164,25 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 						$RedeAntAux 	= $RedeAnt;						
 						}
 						
-						$_SESSION['Tripa'] .= 	'....' . $row["te_ip"] . ' (' . $row["te_nome_computador"] .')|';						
+						$_SESSION['Tripa'] .= 	'....' . $row["te_ip"] . ' (' . $row["te_nome_computador"] . ')';
 				
 						$today=date('m-d-Y');	
 						$access_day = explode('-',$row["dt_hr_ult_acesso"]);	
 						$diference = date_diff(trim(substr($access_day[1],0,2)).'-'.$access_day[2].'-'.$access_day[0],$today);
 
+						// Mostrarei a quantidade de dias e a data de último acesso para a diferença maior que 4 dias
 						if     ($diference > 4) 						
 							{
-							$_SESSION['Tripa'] .= 	'3';	//Red    Computer Icon
+							$_SESSION['Tripa'] .= 	'<font size=1><b> '.$diference.'</b> dias => '.substr($row["dt_hr_ult_acesso"],8,2).'/'.substr($row["dt_hr_ult_acesso"],5,2).'/'.substr($row["dt_hr_ult_acesso"],0,4).'</font>';
+							$_SESSION['Tripa'] .= 	'|3';	//Red    Computer Icon
 							}
 						else if($diference > 0 ) 						
 							{
-							$_SESSION['Tripa'] .= 	'2';	//Yellow Computer Icon
+							$_SESSION['Tripa'] .= 	'|2';	//Yellow Computer Icon
 							}
 						else
 							{
-							$_SESSION['Tripa'] .= 	'1';	//Green  Computer Icon
+							$_SESSION['Tripa'] .= 	'|1';	//Green  Computer Icon
 							}
 						
 						$_SESSION['Tripa'] .= 	'|te_node_address='.$row["te_node_address"] . '&id_so=' . $row["id_so"].'|';
@@ -730,16 +732,6 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 														  '&nm_workgroup='		.$tree[$cnt][20].
 														  '&nu_totais_estacoes='.$nu_totais_estacoes;
 
-						/*
-						if ($tree[$cnt][0]==1)
-							{
-							echo '<br>Tipo: '.$tree[$cnt][0].'<br>';
-						
-							for ($i=0;$i<count($tree[$cnt]);$i++)
-								echo '<br>tree['.$cnt.']['.$i.']='.$tree[$cnt][$i];
-							echo '<br>';
-							}
-						*/							  
 						?>
 						<a href="#" onClick="MyWindow=window.open('<? echo $v_path; ?>', 'JANELA','toolbar=no,location=no,scrollbars=yes,menubar=no');
 						MyWindow.document.close()"><img src="<? echo $img_totals;?>" border=no width=16 height=16 Title="Totais de Estações por Sistema Operacional"></a>				

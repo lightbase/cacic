@@ -71,7 +71,6 @@ if ($_POST['submit_cond'])
 								c.id_local = d.id_local '.
 								$where . ' 
 						ORDER 	by a.te_nome_computador';
-echo $Query_Pesquisa . '<br>';												
 	conecta_bd_cacic();
 	$result = mysql_query($Query_Pesquisa) or die('Erro no select ou sua sessão expirou!');
 	
