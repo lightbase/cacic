@@ -110,6 +110,7 @@ function exclui(fbox,tbox) {
 
 function move(fbox,tbox) 
 	{
+	//MostraLayer('layerAguarde');					
 	for(var i=0; i<fbox.options.length; i++) 
 		{
 		if(fbox.options[i].selected && fbox.options[i].value != "") 
@@ -120,10 +121,12 @@ function move(fbox,tbox)
 			tbox.options[tbox.options.length] = no;
 			fbox.options[i].value = "";
 			fbox.options[i].text = "";
+			//EscreveNaLayer('layerAguarde','Movendo "'+no.text+'"');			
 		   }
 		}
  	BumpUp(fbox);
- 	ordena(tbox); 	 
+ 	ordena(tbox); 
+	//EscondeLayer('layerAguarde');	
 	}
 
 

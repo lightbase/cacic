@@ -16,18 +16,20 @@
 
 session_start();
 
-if($_POST['submit']) {
+if($_POST['submit']) 
+	{
 	$_SESSION["list2"] = $_POST['list2']; //Redes selecionadas
 	$_SESSION["list4"] = $_POST['list4']; //SO selecionados
 	$_SESSION["list6"] = $_POST['list9']; //Aplicativos selecionados
 	$_SESSION["list8"] = $_POST['list8'];	
 	$_SESSION["list12"] = $_POST['list12']; //Locais Selecionados (No caso de Nível Administrativo)		
 	$_SESSION["cs_situacao"] = $_POST["cs_situacao"];
-}
+	}
 
 require_once('../../include/library.php');
 anti_spy();
 conecta_bd_cacic();
+
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1" colspan="'.($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'4':'5').'"></td>
          </tr>';
@@ -79,17 +81,15 @@ $_SESSION['redes_selecionadas'] = '';
 $_SESSION['query_redes'] = ' AND computadores.id_ip_rede = redes.id_ip_rede AND ';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
-	if($_SESSION["cs_situacao"] == 'S') 
+	// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
+	$_SESSION['redes_selecionadas'] = '';
+	for( $i = 0; $i < count($_SESSION["list2"] ); $i++ ) 
 		{
-		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
-		$_SESSION['redes_selecionadas'] = '';
-		for( $i = 0; $i < count($_SESSION["list2"] ); $i++ ) 
-			{
-			if ($_SESSION['redes_selecionadas'])
-				$_SESSION['redes_selecionadas'] .= ',';
-			$_SESSION['redes_selecionadas'] .= "'".$_SESSION["list2"][$i]."'";
-			}
-		}	
+		if ($_SESSION['redes_selecionadas'])
+			$_SESSION['redes_selecionadas'] .= ',';
+		$_SESSION['redes_selecionadas'] .= "'".$_SESSION["list2"][$i]."'";
+		}
+
 	$_SESSION['query_redes'] .= 'redes.id_ip_rede IN ('. $_SESSION['redes_selecionadas'] .')';	
 	}
 else
@@ -110,7 +110,7 @@ else
 	$_SESSION['select'] = ' ,sg_local as SgLocal ';	
 	$_SESSION['from'] = ' ,locais ';			
 	}
-	
+
 $_SESSION['from'] .= ',redes ';
 
 // Aqui pego todos os SO selecionados
@@ -241,33 +241,37 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 		{ 
 		while($reg_versoes = mysql_fetch_array($result_query_versoes)) 
 			{ 
-			if (($reg_versoes[4] . $reg_versoes[5]) <> '')
+			if ($reg_versoes[0] <> '?')			
 				{
-				$in_se_instalado = ($reg_versoes[0]==''?true:false);
-				$te_car_inst = ($reg_versoes[7] <> ''?$reg_versoes[7]:$reg_versoes[8]);
+				if (($reg_versoes[4] . $reg_versoes[5]) <> '')
+					{
+					$in_se_instalado = ($reg_versoes[0]==''?true:false);
+					$te_car_inst = ($reg_versoes[7] <> ''?$reg_versoes[7]:$reg_versoes[8]);
+					}				
+				$total_maquinas += $reg_versoes[1];
 				}
-				
-			$total_maquinas += $reg_versoes[1];
 			} //Fim do while
-		
-		?>
-		<table width="50%" border="0" align="center">		
-        <tr valign="top" bgcolor="#E1E1E1"> 
-        <td class="cabecalho_tabela"><div align="left">Seq.</div></td>		
-        <td class="cabecalho_tabela"><div align="left"><? echo $label;?></div></td>
-        <td class="cabecalho_tabela"><div align="right">M&aacute;quinas</div></td>
-        <td class="cabecalho_tabela"><div align="right">%</div></td>		
-        </tr>
-		<?		
+		if ($total_maquinas > 0 && !$in_se_instalado)
+			{
+			?>
+			<table width="50%" border="0" align="center">		
+        	<tr valign="top" bgcolor="#E1E1E1"> 
+	        <td class="cabecalho_tabela"><div align="left">Seq.</div></td>		
+    	    <td class="cabecalho_tabela"><div align="left"><? echo $label;?></div></td>
+        	<td class="cabecalho_tabela"><div align="right">M&aacute;quinas</div></td>
+	        <td class="cabecalho_tabela"><div align="right">%</div></td>		
+    	    </tr>
+			<?		
+			}
 		mysql_data_seek($result_query_versoes,0);
 		while($reg_versoes = mysql_fetch_row($result_query_versoes)) 
 			{
-			if ($reg_versoes[0] <> '?')
+			if ($reg_versoes[0] <> '?'  && !$in_se_instalado)
 				{ 	
 				?>			  
     	      	<tr> 
         	    <td nowrap class="opcao_tabela"><div align="left"><? echo $sequencial; ?></a></div></td>			
-            	<td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?teversao=<? echo $reg_versoes[0]?>&idaplicativo=<? echo $reg_versoes[2]?>&nmversao=<? echo $reg_versoes[3]?>&cs_car_inst=<? echo $reg_versoes[4].$reg_versoes[5];?>" target="_blank"><? echo ($in_se_instalado?$te_car_inst:$reg_versoes[0]) ?></a></div></td>
+            	<td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?teversao=<? echo $reg_versoes[0]?>&idaplicativo=<? echo $reg_versoes[2]?>&nmversao=<? echo $reg_versoes[3]?>&cs_car_inst=<? echo $reg_versoes[4].$reg_versoes[5];?>" target="_blank"><? echo ($in_se_instalado?$te_car_inst:$reg_versoes[0]) ?></a></div></td>				
 	            <td nowrap class="opcao_tabela"><div align="right"><? echo $reg_versoes[1]; ?></div></td>
     	        <td nowrap class="ajuda"><div align="right">&nbsp;&nbsp;&nbsp;<? echo sprintf("%01.2f", $reg_versoes[1] * 100 / $total_maquinas); ?></div></td>
         	  	</tr>
@@ -276,14 +280,17 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 				echo $linha; 
 				}
 			} //Fim do while
-		?>
-        <tr valign="top" bgcolor="#E1E1E1"> 
-        <td colspan="2" class="cabecalho_tabela"><div align="left">Total de Máquinas</div></td>
-        <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><? echo $total_maquinas; ?></div></td>
-        <td bgcolor="#E1E1E1" class="opcao_tabela"><div align="right">&nbsp;&nbsp;&nbsp;100.00</div></td>				
-        </tr>
-        </table>					
-		<?
+		if ($total_maquinas > 0 && !$in_se_instalado)
+			{
+			?>
+    	    <tr valign="top" bgcolor="#E1E1E1"> 
+        	<td colspan="2" class="cabecalho_tabela"><div align="left">Total de Máquinas</div></td>
+	        <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><? echo $total_maquinas; ?></div></td>
+    	    <td bgcolor="#E1E1E1" class="opcao_tabela"><div align="right">&nbsp;&nbsp;&nbsp;100.00</div></td>				
+        	</tr>
+	        </table>					
+			<?
+			}
  		} //Fim do if das versões
 	// Exibir informações sobre a quantidade de máquinas e licenças
 	 $query_aplicativo_licencas = "SELECT 	a.te_licenca, 

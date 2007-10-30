@@ -1,3 +1,8 @@
+
+var ie4 = (document.all) ? true : false;
+var ns4 = (document.layers) ? true : false;
+var ns6 = (document.getElementById && !document.all) ? true : false;
+
 function SetaClassDigitacao(obj)
 	{
 	obj.style.backgroundColor='#CCCCCC';
@@ -48,4 +53,81 @@ function Confirma(p_pergunta)
 		return true;
 		}
 	return false;
+	}	
+
+function MostraLayer(strLayerName) 
+	{
+	if      (ie4) 
+		document.all[strLayerName].style.visibility = "visible";
+	else if (ns4) 
+		document.layers[strLayerName].visibility = "show";
+	else if (ns6) 
+		document.getElementById([strLayerName]).style.display = "block";
+	}
+	
+function EscondeLayer(strLayerName)
+	{
+	if      (ie4) 
+		{
+		document.all[strLayerName].style.visibility = "hidden";
+		}
+	else if (ns4) 
+		{
+		document.layers[strLayerName].visibility = "hide";
+		}
+	else if (ns6) 
+		{
+		document.getElementById([strLayerName]).style.display = "none";
+		}
+	}
+
+function EscreveNaLayer(strLayerName,strText) 
+	{
+	if      (ie4) 
+		{
+		document.all[strLayerName].innerHTML = strText;
+		}
+	else if (ns4) 
+		{
+		document[strLayerName].document.write(strText);
+		document[strLayerName].document.close();
+		}
+	else if (ns6) 
+		{
+		over = document.getElementById([strLayerName]);
+		range = document.createRange();
+		range.setStartBefore(over);
+		domfrag = range.createContextualFragment(strText);
+		while (over.hasChildNodes()) 
+			{
+			over.removeChild(over.lastChild);
+			}
+		over.appendChild(domfrag);
+	   }
+	}
+	
+function Trim(Dado)
+	{
+  	var sDado, Result, i, f;
+
+  	Result = "";
+  	sDado = Dado.toString();
+  	if (sDado.length > 0)
+		{
+    	for (i=0; i < sDado.length; i++)
+			{
+      		if (sDado.charAt(i) != " ") 
+				break;
+    		}
+    	if (i < sDado.length)
+			{
+      		for (f=sDado.length-1; f >= 0; f --)
+				{
+        		if (sDado.charAt(f) != " ") 
+					break;
+      			}
+      		Result = sDado.substring(i, f+1);
+    		}
+  		}
+  	return Result;
 	}	

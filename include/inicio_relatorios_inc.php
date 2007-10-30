@@ -22,6 +22,7 @@ conecta_bd_cacic();
 
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
 <?
 // JavaScripts para fazer a selecao entre os listbox, movendo itens entre eles.
 require_once('../../include/selecao_listbox.js');

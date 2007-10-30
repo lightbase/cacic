@@ -21,16 +21,5 @@
  -->
 
 <body background="../../imgs/linha_v.gif">
-<table width="90%" border="0" align="center">
-  <tr> 
-    <td class="cabecalho">Tela de Coleta de Informa&ccedil;&otilde;es de Patrim&ocirc;nio</td>
-  </tr>
-  <tr> 
-    <td class="descricao">Para configurar 
-      a interface da tela de coleta de informa&ccedil;&otilde;es de Patrim&ocirc;nio 
-      que ser&aacute; exibida aos usu&aacute;rios, clique sobre sobre os itens 
-      da tela acima e informe os valores desejados.</td>
-  </tr>
-</table>
 </body>
 </html>

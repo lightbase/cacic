@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 <title>Configura&ccedil;&atilde;o da Tela de Patrim&ocirc;nio</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
@@ -20,6 +21,18 @@
  -->
 
 <body bgcolor="#FFFFFF" background="../../imgs/linha_v.gif" text="#000000" topmargin="4">
+<table width="90%" border="0" align="center">
+  <tr>
+    <td class="cabecalho">Tela de Coleta de Informa&ccedil;&otilde;es de Patrim&ocirc;nio</td>
+  </tr>
+  <tr>
+    <td class="descricao">Para configurar 
+      a interface da tela de coleta de informa&ccedil;&otilde;es de Patrim&ocirc;nio 
+      que ser&aacute; exibida aos usu&aacute;rios, clique sobre sobre os itens 
+      da tela acima e informe os valores desejados.</td>
+  </tr>
+</table>
+<br>
 <div align="center"><img src="../../imgs/tela_patrimon.gif" border="0" usemap="#Map"> 
   <map name="Map">
     <area shape="rect" coords="13,91,160,130" href="etiqueta1.php" target="botFrame">

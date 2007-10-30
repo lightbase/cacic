@@ -8,24 +8,38 @@ TD
 	font-family : Verdana,Arial; font-size : 8pt; vertical-align: middle; 
 	}
 
+#layerAguarde 
+	{
+	border:groove #FF0000;
+	display:none;
+	position:absolute;
+	width:275px;
+	height:25px;
+	z-index:1;
+	left: 280px;
+	top: 80px;
+	background-color: #FFFFCC;
+	}
+.style1 {font-family: Verdana, Arial, Helvetica, sans-serif}
+
 input.digitacao {background-color: #CCCCCC; font-weight: bold; font-size: 9px; color: black; border: solid #000099;}
-input.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black;}
+input.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; z-index:2}
 input.texto_ajuda {background-color: #FFFFFF; font-weight: normal;  font-style: verdana; font-size: 9px; color: black; border: 0px}
 input.texto_pesquisa {background-color: #EBEBEB; font-weight: normal;  font-style: verdana; font-size: 9px; color: blue; border: 0px; size: 30;}
 input.destaque{background-color: #ffFF66; font-weight: bold; font-size: 10px; color: black;}
 input.dado_peq_sem_fundo {background-color: #CCCCCC; font-weight: bold; font-size: 9px; color: black; }
-textarea.normal {background-color: #FFFFFF; font-weight: normal; font-size: 10px; color: black; font-family: Verdana;}
+textarea.normal {background-color: #FFFFFF; font-weight: normal; font-size: 10px; color: black; font-family: Verdana; z-index:2}
 textarea.digitacao {background-color: #CCCCCC; font-weight: bold; font-size: 11px; color: black; border:1px solid #000099;font-family: Verdana;}
 select.multipequeno {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; size: 1;}
-select.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black;}
+select.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; z-index:2}
 select.digitacao {background-color: #CCCCCC; font-weight: bold; font-size: 9px; color: black; border:1px solid #000099;}
-option.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black;}
+option.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; z-index:2}
 option.digitacao {background-color: #CCCCCC; font-weight: normal; font-size: 9px; color: black; border:1px solid #000099;}
-checkbox.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; vertical-align: baseline;}
+checkbox.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; vertical-align: baseline; z-index:2}
 checkbox.digitacao {background-color: #CCCCCC; font-weight: normal; font-size: 9px; color: black; border:1px solid #000099;}
-tr.normal {text-align: center;}
+tr.normal {text-align: center; z-index:2}
 td.layerUpdates{background-color: #FFFFFF; text-align: center; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans; border:1px solid #FFFFFF;}
-td.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans;}
+td.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans; z-index:2}
 td.cabecalho {background-color: #FFFFFF; font-weight: bold; font-size: 17px; color: red; font-family: Verdana, Arial, sans;}
 td.cabecalho_rel {background-color: #FFFFFF; font-weight: bold; font-size: 17px; color: black; font-family: Verdana, Arial, sans;}
 td.cabecalho_tabela {font-weight: bold; font-size: 9px; color: black; font-family: Verdana, Arial, sans;}
@@ -58,14 +72,17 @@ a
 	font-style: normal;
 	color: #000000;	
 	text-decoration: none;
+	z-index:2;
 	}
 a:link 
 	{
 	font-style: bold;
+	z-index:2;
 	}
 a:hover 
 	{
 	color: #FF9900;
+	z-index:2;
 	}
 
 scrollbar-arrow-color: #003366; 

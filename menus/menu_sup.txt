@@ -5,17 +5,10 @@
 ..Log de Acessos|admin/log_acessos.php|mainFrame||Visualização do Log de Acessos ocorridos no Sistema
 ..Log de Atividades|admin/log_atividades.php|mainFrame||Visualização do Log de Atividades(INS/UPD/DEL) do Sistema
 ..Módulos|admin/modulos.php|mainFrame||Configurações dos vários módulos disponíveis do CACIC
-..<b>Importar Dados</b>||mainFrame|imgs/config_gerais.gif
-...Aquisições|admin/gerencia_licencas/importacao/aquisicoes.php|mainFrame||
-...Aquisições-Item|admin/gerencia_licencas/importacao/aquisicoes_item.php|mainFrame||
-...Softwares|admin/gerencia_licencas/importacao/software.php|mainFrame||
 ..<b>Cadastros</b>||mainFrame|imgs/config_gerais.gif
-...Aquisições|admin/gerencia_licencas/arquivo/aquisicoes.php|mainFrame||
 ...Locais|admin/locais/index.php|mainFrame||Cadastro de Locais para Controle Centralizado
 ...SubRedes|admin/redes/index.php|mainFrame||Cadastro de SubRedes
 ...Usuários|admin/usuarios/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
-...Softwares|admin/softwares/index.php|mainFrame||
-...Softwares por Esta&ccedil;&atilde;o|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||
 ..<b>Patrimônio</b>||mainFrame|imgs/config_gerais.gif
 ...Interface|admin/patrimonio/config_tela_patrimonio.php|mainFrame||Configuração da Tela de Coleta de Informações de Patrimônio
 ...U. O. Nível 2|admin/patrimonio/nivel2/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 2
@@ -31,17 +24,6 @@
 ...Antivírus OfficeScan|relatorios/antivirus/index.php|mainFrame||
 ...Softwares Básicos|relatorios/software/index.php|mainFrame||
 ...Inventariados|relatorios/inventario_softwares/index.php|mainFrame||
-...Licenciados|relatorios/software/licenciados.php|mainFrame||
-...Permitidos por Órgão|relatorios/software/softwares_orgao.php|mainFrame||
-...Aquisições|admin/gerencia_licencas/consulta/lista_aquisicoes.php|mainFrame||
-...Adquiridos|admin/gerencia_licencas/consulta/lista_softwares.php|mainFrame||
-...Processos de Compra|admin/gerencia_licencas/consulta/lista_processos.php|mainFrame||
-...Tipos|relatorios/software/tipos_software.php|mainFrame||
-...Últimos Identificados|relatorios/software/ultimos_identificados.php|mainFrame||
-...Suspeitos e Jogos Identificados|relatorios/software/ultimos_outros_softwares.php|mainFrame||
-...Histórico por Estação|relatorios/software/historico_estacao.php|mainFrame||
-...Não vinculados|relatorios/software/nao_vinculados.php|mainFrame||
-...Genéricos|relatorios/software/softwares_generico.php|mainFrame||
 ..<b>Hardwares</b>||mainFrame|imgs/config_gerais.gif
 ...Configurações|relatorios/hardware/index.php|mainFrame||
 ...Compartilhamentos|relatorios/compartilhamentos/index.php|mainFrame||
@@ -52,11 +34,6 @@
 ...IPs Repetidos|relatorios/computador/ips_repetidos.php|mainFrame||Relatorio de Maquinas com IPs repetidos
 ...Inventários em Branco|relatorios/computador/inventario_em_branco.php|mainFrame||
 ...Últimos Alterados|relatorios/computador/ultimos_alterados.php|mainFrame||
-..<b>Licenças</b>||mainFrame|imgs/config_gerais.gif
-...Resumo|admin/gerencia_licencas/consulta/resumo_licencas.php|mainFrame||
-...Autorizadas por estação|admin/gerencia_licencas/consulta/autorizados_por_estacao.php|mainFrame||
-...Particulares|admin/gerencia_licencas/consulta/software_particular.php|mainFrame||
-..Autorizações|admin/autorizacoes.php|mainFrame||
 ..TCP/IP|relatorios/tcpip/index.php|mainFrame||
 ..Variáveis de Ambiente|relatorios/variaveis_ambiente/index.php|mainFrame||
 ..Patrimônio|relatorios/patrimonio/index.php|mainFrame||

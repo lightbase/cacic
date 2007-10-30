@@ -256,7 +256,7 @@ function valida_form()
       <td width="2%" align="center" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $seq; ?></a></td>
       <td width="1%" align="left" nowrap class="opcao_tabela">&nbsp;&nbsp;</td>
       <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['nm_usuario_completo']; 
-	  if ($row['te_locais_secundarios']<>'')
+	  if ($row['te_locais_secundarios']<>'' && $row['id_local'] <> $_GET['id_local'])
 	  	{
 		echo ' ('.$v_arr_locais[array_search($row['id_local'],$v_arr_locais)+1] . ')';
 		}

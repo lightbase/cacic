@@ -30,10 +30,10 @@ require_once('../../include/inicio_relatorios_inc.php');
       redes.</td>
   </tr>
   <tr> 
-    <td>
-				</td>
+    <td>	</td>
   </tr>
 </table>
+<?  require_once('../../include/aguarde.php');		?>			  
 <form action="../inventario_softwares/softwares.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
   <table width="90%" border="0" align="center">
     <tr>
@@ -181,17 +181,14 @@ require_once('../../include/inicio_relatorios_inc.php');
       <td valign="top"> 
         <?  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
-		?>
-
-      </td>
+		?>      </td>
     </tr>
     <tr> 
       <td valign="top">&nbsp;</td>
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>
-      </td>
+        <?  require_once('../../include/selecao_so_inc.php');		?>      </td>
     </tr>
     <tr> 
       <td valign="top">&nbsp;</td>
@@ -205,7 +202,8 @@ require_once('../../include/inicio_relatorios_inc.php');
             <td>&nbsp;</td>
           </tr>
           <tr> 
-            <td> <div align="center"> 
+            <td>
+			 <div align="center"> 
                 <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
 																											SelectAll(this.form.elements['list4[]']), 
 																											SelectAll(this.form.elements['list6[]'])">
@@ -217,6 +215,7 @@ require_once('../../include/inicio_relatorios_inc.php');
         </table></td>
     </tr>
   </table>
+
 </form>
 </body>
 </html>

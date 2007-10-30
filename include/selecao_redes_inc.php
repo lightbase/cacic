@@ -69,7 +69,7 @@
             <td class="descricao"><p>  
                 <input type="radio" name="cs_situacao" id="cs_situacao" value="T" onclick="verifica_status();SetaClassDigitacao(this.form.elements['list1[]']);"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 <strong>Todas</strong> as redes<br>
-                <input type="radio" name="cs_situacao" id="cs_situacao" value="S" onclick="verifica_status();;SetaClassNormal(this.form.elements['list1[]']);"    class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" checked>
+                <input type="radio" name="cs_situacao" id="cs_situacao" value="S" onclick="verifica_status();SetaClassNormal(this.form.elements['list1[]']);"    class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" checked>
                 Apenas redes <strong>selecionadas<br>
                 &nbsp;<? echo $msg?></p></td>
           </tr>

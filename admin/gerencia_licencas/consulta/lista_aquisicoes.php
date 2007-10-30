@@ -81,7 +81,8 @@ echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Aquisi&c
 echo '</tr>';
 
 
-while ($row = mysql_fetch_row($result)) { //Table body
+while ($row = mysql_fetch_row($result)) 
+	{ //Table body
     echo '<tr ';
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
@@ -91,7 +92,15 @@ while ($row = mysql_fetch_row($result)) { //Table body
     $cor=!$cor;
 	$num_registro++;
     echo '</tr>';
-}
+	}
+if ($num_registro == 1)
+	{
+    echo '<tr>';
+    echo '<td nowrap align="right">&nbsp;</td>';
+    echo '<td nowrap align="center"><font size="2" face="Verdana, Arial" color="red"><b>Não Há Registro de Aquisição de Softwares</b></td>';
+    echo '<td nowrap align="center">&nbsp;</td>';
+    echo '</tr>';	
+	}
 echo '</table>';
 echo '<br><br>';
 

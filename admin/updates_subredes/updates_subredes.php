@@ -163,7 +163,10 @@ require_once('../../include/library.php');
 					     $_SESSION['v_conta_objetos_nao_atualizados'] +
 					     $_SESSION['v_conta_objetos_enviados'] +
 					     $_SESSION['v_conta_objetos_nao_enviados'])==0)
-						echo '<b>Verificação Efetuada!</b>';												
+						 {
+						 echo '<b>Verificação Efetuada!</b>';												
+						 flush(); // POG: Se tirar esse comentário não funciona mais!  :)))))
+						 }
 					}
 				else if($_SESSION['v_status_conexao'] == 'NC')
 					{
@@ -171,7 +174,7 @@ require_once('../../include/library.php');
 					}
 				else if($_SESSION['v_status_conexao'] == 'OFF')
 					{
-					echo '<a href="../redes/detalhes_rede.php?id_ip_rede='. $row['id_ip_rede'] .'&id_local='.$row['id_local'].'" style="color: red"><strong>Sem Serviço FTP! </strong><font color="black" size=1>('.$row['te_serv_updates'].')</font></a>';																				
+					echo '<a href="../redes/detalhes_rede.php?id_ip_rede='. $row['id_ip_rede'] .'&id_local='.$row['id_local'].'" style="color: red"><strong>Conexão Impossível ao Serviço FTP!</strong><font color="black" size=1>('.$row['te_serv_updates'].')</font></a>';																				
 					}
 				else
 					{

@@ -104,7 +104,7 @@ $linha = '<tr bgcolor="#e7e7e7">
   </tr>
   <tr> 
     <td height="10"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Clique 
-      sobre o nome da m&aacute;quina para ver os detalhes</font> </td>
+      sobre o nome do software para ver os detalhes</font> </td>
   </tr>
 </table>
 <p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 

@@ -14,8 +14,14 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-$v_versao = '2.2.3-RC4';
+$v_versao = '2.2.3-RC5';
 /* 
+2.2.3-RC5   (Anderson Peterle - Dataprev/ES - Outubro/2007)
+		  + Implementado o destaque para os computadores com mais de 5 dias sem acesso ao gerente WEB; (Computadores/Navegação)
+		  + Implementada a seleção de Locais para as opções de Log de Acessos e Log de Atividades; (Administração/Log de Acessos e Administração/Log de Atividades)
+		  + Implementada a seleção de Redes para aplicação dos Perfis de Sistemas Monitorados; (Administração/Cadastros/Perfis Sistemas)		  
+		  * Efetuadas diversas pequenas correções. (Administração/Cadastros/Locais, Relatórios, Estatísticas, etc.)
+
 2.2.3-RC4   (Anderson Peterle - Dataprev/ES - Julho a Setembro/2007)
 		  + Implementado o destaque de ações dos usuários: INS->Verde UPD->Amarelo DEL->Vermelho
 		  + Implementado o detalhamento dos dados constantes dos detalhes das estatísticas da página inicial

@@ -47,7 +47,7 @@ function valida_form_cadastro_aquisicao() {
           </tr>
           <tr> 
             <td width="33%" height="1" nowrap>&nbsp;<br>
-              <input name="date_aquisicao" type="text" size="7"  disabled class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+              <input name="date_aquisicao" type="text" size="7"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
               <script type="text/javascript" language="JavaScript">
 <!--
 		function calendar1Callback(date, month, year)	{
