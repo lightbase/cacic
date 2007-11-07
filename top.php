@@ -14,8 +14,12 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-$v_versao = '2.2.3-RC5';
+$v_versao = '2.2.3-RC6';
 /* 
+2.2.3-RC6   (Anderson Peterle - Dataprev/ES - Novembro/2007)
+		  * Apenas redução da fonte constante (de 3 para 2) das legendas das Estatísticas do CACIC, na página principal,
+		  	visando melhor distribuição dos dados relativos aos nomes dos locais quando essa quantidade for superior a 25.
+
 2.2.3-RC5   (Anderson Peterle - Dataprev/ES - Outubro/2007)
 		  + Implementado o destaque para os computadores com mais de 5 dias sem acesso ao gerente WEB; (Computadores/Navegação)
 		  + Implementada a seleção de Locais para as opções de Log de Acessos e Log de Atividades; (Administração/Log de Acessos e Administração/Log de Atividades)

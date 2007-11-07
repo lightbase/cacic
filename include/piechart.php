@@ -36,12 +36,16 @@ function FilledArc(&$im, $CenterX, $CenterY, $DiameterX, $DiameterY, $Start, $En
 function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, $Legend, $FontNumber, $CreatePie, $Sort, $DisplaySequence, $ShowText, $strTypeIMG='PNG') 
 	{
 	// Ajustes necessários ao redimencionamento das pizzas...
-	$width 		+= 80;
-	$height 	+= 55;
-	$CenterX 	+= 60;
-	$TamanhoLinha = 250; // Tamanho Padrão
-	 
-	$MinDisplayPct = 0;
+	$width 		   += 95;
+	$height 	   += 95;
+	$CenterX 	   += 80;
+	$TamanhoLinha   = 215; // Tamanho Padrão
+	 	 
+	$FontNumber	    = 2; // Fixo o código da fonte em 2, reduzindo-a
+						// devido à saturação gerada pelas legendas nas estatísticas
+						// Acho legal tornar esse código flexível no futuro!... Anderson Peterle 07/11/2007 12:42PM
+	
+	$MinDisplayPct  = 0;
 
 	$DisplayColors .=   'FF0000;'; 
 	$DisplayColors .=   '3333FF;'; 
@@ -122,7 +126,7 @@ function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $Diameter
 		if ((count($data) <= 0) and ($Legend)) 
 			{
 //			ImageString($im, $FontNumber, 5, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), 'Total: 0', '9933FF');
-			ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), '                   ***** Nenhum Registro Encontrado *****', '9933FF');			
+			ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.1 * ImageFontHeight($FontNumber))), '                   ***** Nenhum Registro Encontrado *****', '9933FF');			
 			}
 		else
 			{
@@ -141,7 +145,7 @@ function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $Diameter
 				if ($DisplaySequence)
 					{
 					$key = str_pad(($valuecounter + 1),$DisplaySequence,' ',STR_PAD_LEFT).') '.$key;					
-					$TamanhoLinha = 280;
+					$TamanhoLinha = 240;
 					}
 				$ValuesSoFar += $value;
 			
@@ -154,7 +158,8 @@ function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $Diameter
 						}
 					if ($Legend) 
 						{
-						$MeuY = round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber)));
+//						$MeuY = round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber)));
+						$MeuY = round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.1 * ImageFontHeight($FontNumber)));						
 						ImageString($im, $FontNumber, 1, $MeuY, $key . ': ' . str_pad($value,6,' ',STR_PAD_LEFT) . '('.str_pad(number_format(($value / $TotalArrayValues) * 100, 1),5,' ',STR_PAD_LEFT).'%)', $label_color[$valuecounter % count($label_color)]);
 						if ($CreatePie)
 							{							
@@ -174,7 +179,8 @@ function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $Diameter
 						}						
 					if ($Legend) 
 						{
-						ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), 'Other ('.str_pad(number_format((($TotalArrayValues - $ValuesSoFar) / $TotalArrayValues) * 100, 1),4,' ',STR_PAD_LEFT).'%)', $line_color);
+//						ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), 'Other ('.str_pad(number_format((($TotalArrayValues - $ValuesSoFar) / $TotalArrayValues) * 100, 1),4,' ',STR_PAD_LEFT).'%)', $line_color);
+						ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.1 * ImageFontHeight($FontNumber))), 'Other ('.str_pad(number_format((($TotalArrayValues - $ValuesSoFar) / $TotalArrayValues) * 100, 1),4,' ',STR_PAD_LEFT).'%)', $line_color);						
 						}
 					break;
 					}
@@ -191,7 +197,8 @@ function phPie($data, $width, $height, $CenterX, $CenterY, $DiameterX, $Diameter
 					}
 				ImageLine($im, 1, $MeuYLinha, $TamanhoLinha, $MeuYLinha, '999999');					
 				ImageLine($im, 1, $MeuYLinha+1, $TamanhoLinha, $MeuYLinha+1, '999999');										
-				ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), str_pad('Total',strlen($key),'.',STR_PAD_RIGHT) . ': ' . str_pad($TotalArrayValues,6,' ',STR_PAD_LEFT) . '(100.0%)', '999999');				
+//				ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.5 * ImageFontHeight($FontNumber))), str_pad('Total',strlen($key),'.',STR_PAD_RIGHT) . ': ' . str_pad($TotalArrayValues,6,' ',STR_PAD_LEFT) . '(100.0%)', '999999');				
+				ImageString($im, $FontNumber, 1, round((ImageFontHeight($FontNumber) * .5) + ($valuecounter * 1.1 * ImageFontHeight($FontNumber))), str_pad('Total',strlen($key),'.',STR_PAD_RIGHT) . ': ' . str_pad($TotalArrayValues,6,' ',STR_PAD_LEFT) . '(100.0%)', '999999');								
 				}
 			}
 		if ($strTypeIMG=='PNG')
