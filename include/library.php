@@ -636,7 +636,7 @@ function get_valor_campo($tabela, $campo, $where="1")
 			  WHERE 	'.$where.' 
 			  LIMIT 	1';
 	$result = mysql_query($query);
-	if (mysql_num_rows($result) > 0) 
+	if (@mysql_num_rows($result) > 0) 
 		{
 		$campos = mysql_fetch_array($result);
 		return $campos[$campo];

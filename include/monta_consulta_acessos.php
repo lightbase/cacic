@@ -18,8 +18,8 @@ if (!function_exists('qt_comp'))
 	function qt_comp($myResult, $num_dias) 
 		{
 		global $intSum;
-		mysql_data_seek($myResult, 0);
-		while ($reg = mysql_fetch_array($myResult)) 
+		@mysql_data_seek($myResult, 0);
+		while ($reg = @mysql_fetch_array($myResult)) 
 			{
 			if ($reg[0] == $num_dias) 
 				{
@@ -37,7 +37,7 @@ if (!function_exists('ha_mais_de'))
 		{
 		global $intSum;
 		$total_dias = 0;
-		mysql_data_seek($myResult, 0);
+		@mysql_data_seek($myResult, 0);
 		while ($reg = mysql_fetch_array($myResult)) 
 			{
 			if (($reg[0] > $num_dias_min) &&

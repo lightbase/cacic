@@ -69,6 +69,7 @@ CREATE TABLE `configuracoes_locais` (
   `te_enderecos_mac_invalidos` text,
   `te_janelas_excecao` text,
   `te_nota_email_gerentes` text,
+  `te_exibe_graficos` varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]',
   `cs_abre_janela_patr` char(1) NOT NULL DEFAULT 'N',
   `id_default_body_bgcolor` varchar(10) NOT NULL DEFAULT '#EBEBEB',
   INDEX (`id_local`),
@@ -91,6 +92,7 @@ CREATE TABLE `configuracoes_padrao` (
   `te_serv_cacic_padrao` varchar(20) DEFAULT NULL,
   `te_enderecos_mac_invalidos` text,
   `te_janelas_excecao` text,
+  `te_exibe_graficos` varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]',
   `cs_abre_janela_patr` char(1) NOT NULL DEFAULT 'S',
   `id_default_body_bgcolor` varchar(10) NOT NULL DEFAULT '#EBEBEB'
 ) ENGINE=InnoDB CHARACTER SET=latin1;
@@ -267,6 +269,7 @@ SET foreign_key_checks=1;
 
 ALTER TABLE acoes ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE acoes_excecoes ENGINE=InnoDB CHARACTER SET=latin1;
+ALTER TABLE acoes_excecoes ADD id_local int(11) NOT NULL DEFAULT 0;
 ALTER TABLE acoes_redes DROP PRIMARY KEY;
 ALTER TABLE acoes_redes ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE acoes_redes ADD id_local int(11) DEFAULT '0' NOT NULL;

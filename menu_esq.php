@@ -41,7 +41,7 @@ function PegaConfiguracoesLocais($p_id_local)
 										   FROM	  configuracoes_locais
 										   WHERE  id_local = ".$p_id_local;
 	$res_configs_locais  				= mysql_query($qry_configs_locais);
-	$row_configs_locais  				= mysql_fetch_array($res_configs_locais);
+	$row_configs_locais  				= @mysql_fetch_array($res_configs_locais);
 	$_SESSION['id_default_body_bgcolor']= $row_configs_locais['id_default_body_bgcolor'];				
 	}
 // Caso o usuário clique em "logoff" a sua sessão é destruída

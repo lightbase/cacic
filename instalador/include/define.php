@@ -62,7 +62,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  * que deverá existir na pasta "sql" do instalador 
  * Sintaxe: array( 'JUN2005'=>'Junho de 2005', 'FEV2006'=>'Fevereiro de 2006' )
  */
- $cacic_updateFromVersion = array( 'JUN2005'=>'Junho de 2005' );
+ $cacic_updateFromVersion = array( 'JUN2005'=>'Junho de 2005', 'v2.2.2'=>'Versão 2.2.2' );
 
 /**
  * define a versão do PHP para o CACIC

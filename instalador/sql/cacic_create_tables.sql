@@ -22,6 +22,7 @@ CREATE TABLE `acoes` (
 
 CREATE TABLE `acoes_excecoes` (
   `te_node_address` varchar(17) NOT NULL default '',
+  `id_local` int(11) NOT NULL DEFAULT '0',
   `id_acao` varchar(20) NOT NULL default '',
   `id_so` int(11) NOT NULL default '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -206,6 +207,7 @@ CREATE TABLE `configuracoes_locais` (
   `te_enderecos_mac_invalidos` text,
   `te_janelas_excecao` text,
   `te_nota_email_gerentes` text,
+  `te_exibe_graficos` varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]'
   `cs_abre_janela_patr` char(1) NOT NULL default 'N',
   `id_default_body_bgcolor` varchar(10) NOT NULL default '#EBEBEB',
   PRIMARY KEY  (`id_local`)
@@ -227,6 +229,7 @@ CREATE TABLE `configuracoes_padrao` (
   `te_serv_cacic_padrao` varchar(20) default NULL,
   `te_enderecos_mac_invalidos` text,
   `te_janelas_excecao` text,
+  `te_exibe_graficos` varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]',
   `cs_abre_janela_patr` char(1) NOT NULL default 'S',
   `id_default_body_bgcolor` varchar(10) NOT NULL default '#EBEBEB'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
