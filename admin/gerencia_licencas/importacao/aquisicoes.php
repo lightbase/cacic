@@ -14,6 +14,14 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
+
 require_once('../../../include/library.php');
 conecta_bd_cacic();
 
@@ -28,14 +36,14 @@ if ($_POST['consultar']) {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="/cacic2/include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
 
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<body bgcolor="#FFFFFF" background="/cacic2/imgs/linha_v.gif" onLoad="SetaCampo('tipo_consulta')">
-<script language="JavaScript" type="text/javascript" src="http://<? echo $_SERVER['HTTP_HOST'].'/cacic2/include/cacic.js';?>"></script>
+<body bgcolor="#FFFFFF" background="../../../imgs/linha_v.gif" onLoad="SetaCampo('txtAquisicoes')">
+<script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
 
 <form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
 <table width="90%" border="0" align="center">
@@ -57,8 +65,7 @@ if ($_POST['consultar']) {
 <td height="28"><table width="96%" border="0" align="center" cellpadding="1" cellspacing="1">
 <tr> 
             <td> 
-              <TEXTAREA name="txtAquisicoes" rows=20 cols=80>
-	      </TEXTAREA> 
+              <TEXTAREA name="txtAquisicoes" rows=20 cols=80></TEXTAREA> 
               </td>
           </tr>
 	  <tr>

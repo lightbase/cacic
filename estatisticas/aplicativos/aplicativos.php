@@ -15,6 +15,13 @@
  */
 
 session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
 
 if($_POST['submit']) 
 	{

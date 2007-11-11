@@ -14,6 +14,14 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
+
 ?>
 <html>
 <head>
@@ -44,7 +52,7 @@ session_start();
       <td align="left" bgcolor="#c0c0c0"><font color="#000032" face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
         <? 
 		include 'include/library.php';
-		echo HoraParaRodape(); 
+		//echo HoraParaRodape(); 
 		?>
 		</font></td>
     </tr>

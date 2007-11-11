@@ -5,7 +5,7 @@
 ?>
  <script src="../../../include/sniffer.js" type="text/javascript" language="javascript"></script>
  <script src="../../../include/dynCalendar.js" type="text/javascript" language="javascript"></script>
- <link href="/cacic2/include/dynCalendar.css" media="screen" rel="stylesheet">
+ <link href="../../../include/dynCalendar.css" media="screen" rel="stylesheet">
 
 <table width="90%" border="0" align="center">
   <tr> 

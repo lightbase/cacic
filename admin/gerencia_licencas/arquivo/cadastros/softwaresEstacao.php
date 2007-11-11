@@ -9,7 +9,15 @@ function DataParaBd($data){
 }
 
 session_start();
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
+
+require_once('../../../../include/library.php');
 conecta_bd_cacic();
    	
    	$patrimonio = $_REQUEST[patrimonio];

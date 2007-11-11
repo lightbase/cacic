@@ -1,5 +1,13 @@
 <?
 session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
+
 require('../include/config.php');
 require('../include/library.php'); 
 //foreach($HTTP_GET_VARS as $i => $v) 

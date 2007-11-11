@@ -104,21 +104,6 @@ if ($_REQUEST['nm_arquivo'])
 			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/1024), 1, '', '.').'</td>';			
 			echo '<td align="right">&nbsp;'.strftime("%d/%m/%Y  %H:%Mh", $v_dados_arquivo[9]).'</td></tr>';							
 			}
-//		while (false !== ($v_arquivo = readdir($handle))) 
-//			{
-//			if (substr($v_arquivo,0,1) != "." and $v_arquivo != "netlogon" and $v_arquivo != "supergerentes") 		
-//				{
-//				$v_dados_arquivo = lstat($_SERVER['DOCUMENT_ROOT'] . '/cacic2/repositorio/'.$v_arquivo);
-//				echo '<tr>';
-/*				?>
-				<td><a href="<? echo $_SERVER['DOCUMENT_ROOT']; ?>/cacic2/admin/repositorio.php?nm_arquivo=<? echo $v_arquivo;?>" onClick="return Confirma('Confirma Exclusão do objeto <? echo $v_arquivo;?>?');"><img src="../imgs/lixeira.ico" width="20" height="20" border="0"></a></td>
-				<?
-*/
-//				echo '<td>'.$v_arquivo.'</td>';										
-//				echo '<td align="right">'.number_format(($v_dados_arquivo[7]/1024), 1, '', '.').'</td>';			
-//				echo '<td align="right">&nbsp;'.strftime("%d/%m/%Y  %H:%Mh", $v_dados_arquivo[9]).'</td></tr>';							
-//				}
-//			}
 		}
 	 ?>
           </table></td>

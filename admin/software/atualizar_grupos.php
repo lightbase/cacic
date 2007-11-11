@@ -1,5 +1,12 @@
 <?
-require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
+session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
 
 if ($_POST['submit']) {
   header ("Location: incluir_grupos.php");
@@ -26,7 +33,7 @@ $resultG = mysql_query($queryG);
 
 $query = "SELECT * FROM softwares_inventariados where id_software_inventariado=".$_REQUEST["id_software_inventariado"];
 $result = mysql_query($query);
-$row = mysql_fetch_array($result)
+$row = @mysql_fetch_array($result)
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -46,8 +53,17 @@ body {
 -->
 </style>
 </head>
-<body scroll="no">
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"> 
+<body scroll="no" bgcolor="#FFFFFF" background="../../../imgs/linha_v.gif">
+<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0"> 
+  <tr> 
+    <td class="cabecalho">Atualizar grupos</td>
+  </tr>
+  <tr>
+    <td height="30"></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="label">Selecione:</td>
+  </tr>
   <tr>
     <td class="descricao">
       <form name="form1" method="post" action="">

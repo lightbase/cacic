@@ -14,6 +14,13 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
  
 // Essa variável é usada pelo arquivo de include selecao_redes_inc.php e inicio_relatorios_inc.php.
 $id_acao = 'cs_coleta_software';

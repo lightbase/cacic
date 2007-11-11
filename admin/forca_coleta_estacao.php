@@ -15,12 +15,20 @@
  */
 
 session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
+
 require_once('../include/library.php'); 
 // Comentado temporariamente - AntiSpy();
 ?>
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="/cacic2/include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 <title>Coleta For&ccedil;ada por Computador</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <? // O require abaixo será usado pelo inc_opcoes_administrativas/coleta_forcada.php - Não remova! - A.A.P. 23/09/2004

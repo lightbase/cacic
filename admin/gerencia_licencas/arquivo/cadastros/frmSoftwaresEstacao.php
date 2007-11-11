@@ -1,12 +1,20 @@
 <?
 session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
+
 require_once('../../../../include/library.php');
 conecta_bd_cacic();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="/cacic2/include/cacic.css">
+<link rel="stylesheet" type="text/css" href="../../../../include/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
@@ -41,9 +49,8 @@ if (texto.substring(0,1) != saida)
   }
 }
 </script>
-<link href="../../../../include/cacic.css" rel="stylesheet" type="text/css">
 </head>
-<body bgcolor="#FFFFFF" topmargin="5" onLoad="document.forms[0].patrimonio.focus()" background="/cacic2/imgs/linha_v.gif">
+<body bgcolor="#FFFFFF" topmargin="5" onLoad="document.forms[0].patrimonio.focus()" background="../../../../imgs/linha_v.gif">
 <table width="90%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Cadastro de Softwares por Esta&ccedil;&atilde;o</td>

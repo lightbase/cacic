@@ -18,13 +18,41 @@
 // Altere apenas as variáveis abaixo, caso seja necessário.
 // -------------------------------------------------------------------------------------------------------
 
-$nome_bd		  	= "cacic";  // Essa variável não deverá ser alterada.
-$ip_servidor 	  	= "BdServerIp_or_Name";  // Altere, caso esteja acessando o bd em outro servidor.
-$porta		      	= "3306";   // Porta tcp do MySQL. Provavelmente não deverá ser alterada.
-$usuario_bd 	  	= "BdUserName";  // Usuário usado para acesso ao bd do cacic. 
-$senha_usuario_bd   = "BdUserPassword";
-$path_aplicacao		= "/var/www/default/cacic2"; // Valor utilizado principalmente pela função de Update de SubRedes...
+    /*
+     * Nome do banco de dados
+     */
+    $nome_bd = "cacic";
+    
+    /*
+     * Nome/IP do servidor de banco de dados
+     */
+    $ip_servidor = "localhost";
+    
+    /*
+     * Porta no servidor de banco de dados
+     */
+    $porta = "3306";
+    
+    /*
+     * Usuario de conexao do servidor de banco de dados
+     */
+    $usuario_bd = "cacic_db_user";
+    
+    /*
+     * Senha do usuario de conexao do servidor de banco de dados
+     */
+    $senha_usuario_bd = "cacic_db_user_pass";
+    
+    /*
+     * URL da aplicacao "CACIC"
+     */
+    $url_aplicacao = "http://localhost/";
 
+    /*
+     * Caminho fisico da aplicacao "CACIC"
+     * Valor utilizado principalmente pela função de Update de SubRedes...
+     */
+    $path_aplicacao		= "/var/www/default/cacic2";
 
 // ATENÇÃO:
 // As chaves abaixo, até a presente versão, são assiméticas, ou seja, 

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="/cacic2/include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../../../include/cacic.css">
 <title>Cadastro de Softwares</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
@@ -22,9 +22,8 @@ function validaForm() {
 	}
 }
 </script>
-<link href="../../../../include/cacic.css" rel="stylesheet" type="text/css">
 </head>
-<body bgcolor="#FFFFFF" topmargin="5" onload="document.forms[0].nome.focus()" background="/cacic2/imgs/linha_v.gif">
+<body bgcolor="#FFFFFF" topmargin="5" onload="document.forms[0].nome.focus()" background="../../../../imgs/linha_v.gif">
 <table width="90%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Cadastro de Softwares</td>
