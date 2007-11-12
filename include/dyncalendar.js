@@ -162,7 +162,7 @@
 
 		prevImgHTML  = sprintf('<img src="%s/prev.gif" alt="<<" border="0" />', this.imagesPath);
 		prevLinkHTML = sprintf('<a href="javascript: %s.show(%s, %s)">%s</a>',  this.objName, previousMonth, previousYear, prevImgHTML);
-		nextImgHTML  = sprintf('<img src="%s/next.gif" alt="<<" border="0" />', this.imagesPath);
+		nextImgHTML  = sprintf('<img src="%s/next.gif" alt=">>" border="0" />', this.imagesPath);
 		nextLinkHTML = sprintf('<a href="javascript: %s.show(%s, %s)">%s</a>',  this.objName, nextMonth, nextYear, nextImgHTML);
 
 		/**

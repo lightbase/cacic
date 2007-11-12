@@ -1,9 +1,5 @@
 <? 
  /* 
- 
-Caminho do css
- /cacic2/include/cacic.css
- 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
  Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
@@ -17,7 +13,14 @@ Caminho do css
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
+session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
 
 if ($_POST['submit']) {
   header ("Location: incluir_grupos.php");
@@ -175,13 +178,13 @@ function limpa(){
 	document.forma.palavra.value='';
 }
 </script>
- <script src="/cacic2/include/sniffer.js" type="text/javascript" language="javascript"></script>
- <script src="/cacic2/include/dyncalendar.js" type="text/javascript" language="javascript"></script>
- <link href="/cacic2/include/dyncalendar.css" media="screen" rel="stylesheet">
+ <script src="../../include/sniffer.js" type="text/javascript" language="javascript"></script>
+ <script src="../../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
+ <link href="../../include/dyncalendar.css" media="screen" rel="stylesheet">
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="http://<? echo $_SERVER['HTTP_HOST'].'/cacic2/include/cacic.js';?>"></script>
+<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
 <form action="" method="post" name="forma" id="forma">
 <table width="90%" border="0" align="center">
   <tr> 

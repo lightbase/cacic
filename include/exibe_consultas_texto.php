@@ -1,4 +1,4 @@
-<link href="/cacic2/include/cacic.css" rel="stylesheet" type="text/css"> 
+<link href="../include/cacic.css" rel="stylesheet" type="text/css"> 
 <table bordercolor="#000000" border="1" align="center" cellpadding="0" cellspacing="0">
 	<?
 	$strCor = '#CCCCCC';

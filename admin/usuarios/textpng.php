@@ -40,7 +40,7 @@ function draw(	$p_msg="undefined",
 	
 	// determine font height.
 	header("Content-type: image/png");
-	$path = $_SERVER['DOCUMENT_ROOT'] . '/cacic2/admin/usuarios/TIMES.TTF';
+	$path = '../../admin/usuarios/TIMES.TTF';
 	$bounds = imagettfbbox($p_size, $p_rot, $path, "W");
 	GravaTESTES('2 - Caminho = '.$path);		
 	GravaTESTES('2 - ImageTTFBBox 1...');	
