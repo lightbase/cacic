@@ -39,5 +39,5 @@ if ($acoes_computador)
 	$result_computador = mysql_query($query_computador) or die('Ocorreu um erro durante a atualização de computadores ou sua sessão expirou!'); 		
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'computadores');		
 	}
-	header ("Location: ../include/operacao_ok.php?chamador=../index.html&tempo=1");	
+	header ("Location: ../include/operacao_ok.php?chamador=../index.php&tempo=1");
 ?>

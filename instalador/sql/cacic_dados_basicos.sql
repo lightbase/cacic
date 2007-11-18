@@ -25,7 +25,7 @@ INSERT INTO `acoes_so` VALUES (2,'cs_auto_update',0),(1,'cs_auto_update',1),(2,'
 --
 
 /*!40000 ALTER TABLE `configuracoes_locais` DISABLE KEYS */;
-INSERT INTO `configuracoes_locais` VALUES (1,NULL,'N','S',10,NULL,'0000-00-00 00:00:00',NULL,NULL,NULL,NULL,4,0,'','','','00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08',NULL,NULL,'N','#EBEBEB');
+INSERT INTO `configuracoes_locais` VALUES (1,NULL,'N','S',10,NULL,'0000-00-00 00:00:00',NULL,NULL,NULL,NULL,4,0,'','','','00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08',NULL,NULL,'[acessos_locais][so][acessos][locais]','N','#EBEBEB');
 /*!40000 ALTER TABLE `configuracoes_locais` ENABLE KEYS */;
 
 --
@@ -34,7 +34,7 @@ INSERT INTO `configuracoes_locais` VALUES (1,NULL,'N','S',10,NULL,'0000-00-00 00
 
 
 /*!40000 ALTER TABLE `configuracoes_padrao` DISABLE KEYS */;
-INSERT INTO `configuracoes_padrao` VALUES ('N','S',0,'',0,0,'','','','00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08','','N','#EBEBEB');
+INSERT INTO `configuracoes_padrao` VALUES ('N','S',0,'',0,0,'','','','00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08','','[acessos_locais][so][acessos][locais]','N','#EBEBEB');
 /*!40000 ALTER TABLE `configuracoes_padrao` ENABLE KEYS */;
 
 

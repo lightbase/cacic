@@ -1,0 +1,46 @@
+/* Para usar em ABAS */
+    
+  #tagheader { background: url(../img/tagheader-bg.gif) repeat-x scroll center bottom;
+    float: left;
+    width: 100%;
+    font-size: 93%;
+    line-height: normal;
+    }
+
+  #tagheader ul { margin: 0pt;
+    padding: 10px 10px 0pt;
+    list-style-type: none;
+    list-style-image: none;
+    list-style-position: outside;
+    }
+
+  #tagheader li { margin: auto;
+    padding: 0pt 0pt 0pt 9px;
+    background: transparent url(../img/tagheader-left.gif) no-repeat scroll left top;
+    float: left;
+    display: block;
+    }
+
+  #tagheader #tagcurrent { background-image: url(../img/tagheader-left_on.gif);
+    }
+
+  #tagheader span { padding: 5px 15px 4px 6px;
+    background: transparent url(../img/tagheader-right.gif) no-repeat scroll right top;
+    float: left;
+    display: block;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    }
+
+  #tagheader span:hover { color: rgb(60, 88, 219);
+    text-decoration: underline;
+    }
+
+  #tagheader #tagcurrent span { background-image: url(../img/tagheader-right_on.gif);
+    color: rgb(51, 51, 51);
+    cursor: default;
+    text-decoration: none;
+    }
+
+/* Fim de definicoes para ABAS */

@@ -14,9 +14,7 @@
 // direct access is denied
 //defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 
-    session_start();
-    //session_unregister();
-    //session_unset();
+  session_start();
 
 	if( ! defined( 'CACIC' ) )
 	    define( 'CACIC', 1 );
@@ -38,7 +36,7 @@
 	/*
 	 * atribuições para o ambiente
 	 */
-	if( ! @include("include/define.php") )
+	if( ! @include("../include/define.php") )
 	{
 	   die("Install mal definido (Install miss-defined)!");
 	}

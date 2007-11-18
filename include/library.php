@@ -14,7 +14,7 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 //session_start();
-require_once 'config.php';
+require_once('config.php');
 //Debug($_SERVER['SCRIPT_FILENAME']);
 
 // ------------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ function anti_spy()
 	@chdir($v_AtualPWD); 		
 	$te_retornos = TotalSkipsToInclude();
 
-	$Location = "Location: ".$te_retornos."include/acesso_nao_permitido.php?chamador=../index.html&tempo=5";
+	$Location = "Location: ".$te_retornos."include/acesso_nao_permitido.php?chamador=../index.php&tempo=5";
 
 	header ($Location);		
 	exit;		
@@ -281,7 +281,7 @@ function FatorDecremento($Numero)
 function conecta_bd_cacic() 
 {
 
-	$ident_bd = mysql_connect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"], 
+	$ident_bd = mysql_connect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"],
 							  $GLOBALS["usuario_bd"], 
 							  $GLOBALS["senha_usuario_bd"]);
 	if (mysql_select_db($GLOBALS["nome_bd"], $ident_bd) == 0) 

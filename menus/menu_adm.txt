@@ -29,6 +29,7 @@
 .<b>Manutenção</b>||mainFrame|imgs/config_gerais.gif
 ..Updates de SubRedes|admin/updates_subredes/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
 ..Excluir Computadores|admin/exclui_informacoes_computadores.php|mainFrame||Exclusão de Informações de Computadores da base
+..Tradutor|admin/tradutor.php|mainFrame||Tradução de textos e mensagens do CACIC
 .<b>Computadores</b>||mainFrame|imgs/config_gerais.gif
 ..Consulta|relatorios/computadores.php|mainFrame||Consulta de informações de computadores
 ..Navegação|relatorios/navegacao.php|mainFrame||Navegação pelos computadores da rede

@@ -337,6 +337,7 @@ ALTER TABLE usuarios ADD te_emails_contato varchar(100) DEFAULT NULL;
 ALTER TABLE usuarios ADD te_telefones_contato varchar(100) DEFAULT NULL;
 ALTER TABLE usuarios ADD te_locais_secundarios varchar(200) DEFAULT NULL;
 ALTER TABLE usuarios CHANGE te_senha te_senha varchar(50) NOT NULL DEFAULT '';
+ALTER TABLE usuarios CHANGE nm_usuario_acesso varchar(20) NOT NULL default '';
 CREATE INDEX id_localizacao ON usuarios (id_local);
 ALTER TABLE variaveis_ambiente ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE variaveis_ambiente_estacoes ENGINE=InnoDB CHARACTER SET=latin1;

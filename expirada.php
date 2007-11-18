@@ -43,7 +43,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
                   encerrada.</font></div></td>
             </tr>
             <tr> 
-              <td nowrap><div align="center"> <B><a href="index.html" target="_parent"><img src="imgs/mais.gif" alt="Clique aqui para logar novamente" width="12" height="12" border="0"></a></B></div></td>
+              <td nowrap><div align="center"> <B><a href="index.php" target="_parent"><img src="imgs/mais.gif" alt="Clique aqui para logar novamente" width="12" height="12" border="0"></a></B></div></td>
             </tr>
           </table>
         </div></td>

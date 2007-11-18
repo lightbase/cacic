@@ -63,7 +63,7 @@ if($_POST['logoff'])
 	 
 	 ?>
 	 <SCRIPT LANGUAGE="Javascript">
-	    top.location = 'index.html';
+	    top.location = 'index.php';
 	 </script>
 	 <?
 	 }
@@ -126,7 +126,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		PegaConfiguracoesLocais($_SESSION['id_local']);		
 		?>
 		<SCRIPT LANGUAGE="Javascript">
-			top.location = 'index.html';
+			top.location = 'index.php';
 		</script>
 		<?										
 		}
@@ -190,7 +190,7 @@ if (!$_SESSION["id_usuario"])
 
 		?>
 		<SCRIPT LANGUAGE="Javascript">
-		top.location = 'index.html';
+		top.location = 'index.php';
 	 	</script>
 		<?		
 		}

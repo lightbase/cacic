@@ -54,6 +54,17 @@
      */
     $path_aplicacao		= "/var/www/default/cacic2";
 
+    /*
+     * CACIC application language
+     */
+    $cacic_language = 'en_us';
+
+    /*
+     * CACIC application standard language
+     * (Language to be viewed when the one above not found)
+     */
+    $cacic_language_standard = 'pt-br';
+
 // ATENÇÃO:
 // As chaves abaixo, até a presente versão, são assiméticas, ou seja, 
 // caso seja necessário alterá-las, os agentes "Cacic2.exe", "ChkCacic.exe" e  

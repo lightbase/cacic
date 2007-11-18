@@ -1,0 +1,632 @@
+<html>
+<head>
+<title>Docs For Class Translator</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">phpTranslator</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_phpTranslator.html" class="menu">class tree: phpTranslator</a> ]
+		  [ <a href="../elementindex_phpTranslator.html" class="menu">index: phpTranslator</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+	<div id="todolist">
+			<p><a href="../todolist.html">Todo List</a></p>
+	</div>
+      <b>Packages:</b><br />
+              <a href="../li_phpTranslator.html">phpTranslator</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../phpTranslator/_Translator_php.html">		Translator.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../phpTranslator/Translator.html">Translator</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: Translator</h1>
+Source Location: /Translator.php<br /><br />
+
+
+<table width="100%" border="0">
+<tr><td valign="top">
+
+<h3><a href="#class_details">Class Overview</a></h3>
+<pre></pre><br />
+<div class="description">Classe para realizar a traducao de um texto com base em arquivos pre-definidos</div><br /><br />
+<h4>Author(s):</h4>
+<ul>
+          <li>Adriano dos Santos Vieira (harpiain) &lt;<a href="mailto:harpiain@users.sourceforge.net">harpiain@users.sourceforge.net</a>&gt;</li>
+      </ul>
+
+
+
+
+    
+
+
+</td>
+
+
+
+<td valign="top">
+<h3><a href="#class_methods">Methods</a></h3>
+<ul>
+    <li><a href="../phpTranslator/Translator.html#methodTranslator">Translator</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodbuildLangArray">buildLangArray</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodgetMessage">getMessage</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodgetText">getText</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodisError">isError</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodsetActiveSection">setActiveSection</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodsetLangFilePath">setLangFilePath</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodsetLangFilePrefix">setLangFilePrefix</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodsetLangFileSections">setLangFileSections</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodsetLangFilesInSections">setLangFilesInSections</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodsetLangFilesInSubDirs">setLangFilesInSubDirs</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodsetLangFileSufix">setLangFileSufix</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodsetURLPath">setURLPath</a></li>
+    <li><a href="../phpTranslator/Translator.html#methodTranslate">Translate</a></li>
+  </ul>
+</td>
+
+</tr></table>
+<hr />
+
+<table width="100%" border="0"><tr>
+
+
+
+
+
+
+</tr></table>
+<hr />
+
+<a name="class_details"></a>
+<h3>Class Details</h3>
+<div class="tags">
+[line 102]<br />
+Classe para realizar a traducao de um texto com base em arquivos pre-definidos<br /><br /><p>As aplicacoes baseadas nessa classe deverao adaptar-se ao modo como esta classe <br />  monta os arquivos de idiomas e seus requisitos de codificacao de idioma.</p><p>Um exemplo de como usar a classe:  <div class="listing"><pre><ol><li> <a href="http://www.php.net/define">define</a><span class="src-sym">(</span><span class="src-id">TRANSLATOR_PATH</span><span class="src-sym">, </span><span class="src-str">&quot;../include/phpTranslator/&quot;</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li> <a href="http://www.php.net/define">define</a><span class="src-sym">(</span><span class="src-id">TRANSLATOR_PATH_URL</span><span class="src-sym">, </span><span class="src-str">&quot;../include/phpTranslator/&quot;</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li>&nbsp;</li>
+<li> <span class="src-key">if</span><span class="src-sym">(</span><span class="src-sym">!</span><span class="src-sym">@</span><span class="src-inc">include_once</span><span class="src-sym">( </span><span class="src-id">TRANSLATOR_PATH</span>.<span class="src-str">'/Translator.php'</span><span class="src-sym">))</span></li>
+<li>   echo <span class="src-str">&quot;&lt;h1&gt;There is a trouble with phpTranslator package.</span></li>
+<li><span class="src-str">              It isn't found.&lt;/h1&gt;&quot;</span><span class="src-sym">;</span></li>
+<li>&nbsp;</li>
+<li> <span class="src-var">$_objTranslator </span>= <span class="src-key">new </span><a href="../phpTranslator/Translator.html#methodTranslator">Translator</a><span class="src-sym">( </span><span class="src-id">USER_LOCALE </span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li>&nbsp;</li>
+<li> <span class="src-var">$_objTranslator</span><span class="src-sym">-&gt;</span><a href="../phpTranslator/Translator.html#methodsetLangFilePath">setLangFilePath</a><span class="src-sym">(</span><span class="src-str">&quot;/myapplic_path_lang_files/&quot;</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li> <span class="src-var">$_objTranslator</span><span class="src-sym">-&gt;</span><a href="../phpTranslator/Translator.html#methodsetURLPath">setURLPath</a><span class="src-sym">(</span><span class="src-id">TRANSLATOR_PATH_URL</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li> <span class="src-var">$_objTranslator</span><span class="src-sym">-&gt;</span><a href="../phpTranslator/Translator.html#methodbuildLangArray">buildLangArray</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li> <span class="src-var">$_objTranslator</span><span class="src-sym">-&gt;</span><a href="../phpTranslator/Translator.html#methodbuildLangArray">buildLangArray</a><span class="src-sym">(</span><span class="src-str">'target'</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li> <span class="src-key">if</span><span class="src-sym">(</span><span class="src-id">CODING</span><span class="src-sym">)</span></li>
+<li>   <span class="src-var">$_objTranslator</span><span class="src-sym">-&gt;</span><a href="../phpTranslator/Translator.html#methodTranslate">Translate</a><span class="src-sym">(</span><span class="src-id">false</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li> <span class="src-key">elseif</span><span class="src-sym">(</span><span class="src-id">TRANSLATING</span><span class="src-sym">)</span></li>
+<li>   <span class="src-var">$_objTranslator</span><span class="src-sym">-&gt;</span><a href="../phpTranslator/Translator.html#methodTranslate">Translate</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li> <span class="src-key">else</span></li>
+<li>   echo <span class="src-var">$_objTranslator</span><span class="src-sym">-&gt;</span><a href="../phpTranslator/Translator.html#methodgetText">getText</a><span class="src-sym">(</span><span class="src-str">'some text to translate and</span></li>
+<li><span class="src-str">                         be showed after had been registred.'</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+</ol></pre></div></p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Adriano dos Santos Vieira (harpiain) &lt;<a href="mailto:harpiain@users.sourceforge.net">harpiain@users.sourceforge.net</a>&gt;</td>
+  </tr>
+</table>
+</div>
+</div><br /><br />
+<div class="top">[ <a href="#top">Top</a> ]</div><br />
+
+
+<hr />
+<a name="class_methods"></a>
+<h3>Class Methods</h3>
+<div class="tags">
+  <hr />
+	<a name="methodTranslator"></a>
+	<h3>constructor Translator <span class="smalllinenumber">[line 342]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>Translator Translator(
+[string
+$_abbr_i18n_tgt = ''], [string
+$_abbr_i18n_src = 'en'])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Metodo contrutor para realizar a traducao de um texto com base em arquivos pre-definidos<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>name:</b>&nbsp;&nbsp;</td><td>Translator</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$_abbr_i18n_tgt</b>&nbsp;&nbsp;</td>
+        <td>- Deve ser informado o idioma destino para a aplicacao</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$_abbr_i18n_src</b>&nbsp;&nbsp;</td>
+        <td>- Deve ser informado o idioma padrao da aplicacao                                   (se nao informado sera conciderado &quot;en&quot; = English)</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodbuildLangArray"></a>
+	<h3>method buildLangArray <span class="smalllinenumber">[line 821]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void buildLangArray(
+[string
+$_lang_choice = 'standard'])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Le os arquivos de idioma e os armazena em array especificos (padrao ou destino)<br /><br /><br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$_lang_choice</b>&nbsp;&nbsp;</td>
+        <td>Qual o padrao a ser lido e armazenado<br />                                     . standard - o padrao para a aplicacao<br />                                     . target   - o idioma a ser mostrado para o usuario<br /></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetMessage"></a>
+	<h3>method getMessage <span class="smalllinenumber">[line 641]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getMessage(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Metodo para retornar a mensagens de erros ocorridas<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>name:</b>&nbsp;&nbsp;</td><td>getMessage</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetText"></a>
+	<h3>method getText <span class="smalllinenumber">[line 622]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string getText(
+string
+$_msg_code, [boolean
+$_sigla = false], [boolean
+$_text_case = 0])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Busca o texto a ser traduzido<br /><br /><p>Busca a traducao do texto - caso o texto traduzido nao exista retorna o texto padrao e caso este  tambem nao exista retorna o codigo de pesquisa</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>O texto traduzido, o texto padrao ou o codigo da mensagem</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$_msg_code</b>&nbsp;&nbsp;</td>
+        <td>O codigo da mensagem a ser traduzida</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$_sigla</b>&nbsp;&nbsp;</td>
+        <td>Se retorna a sigla em lugar da mensagem completa</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$_text_case</b>&nbsp;&nbsp;</td>
+        <td>Se o texto retorna o texto como cadastrado, em maiusculas ou minusculas <ol><li>- maiuscula</li><li>- minuscula</li></ol>                                          outro - como estiver cadastrado</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodisError"></a>
+	<h3>method isError <span class="smalllinenumber">[line 652]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean isError(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Metodo para retornar se houve erro ou nao na classe<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>TRUE  - houve erro ao processar a classe                              FALSE - nao houve erro</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetActiveSection"></a>
+	<h3>method setActiveSection <span class="smalllinenumber">[line 1333]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setActiveSection(
+[string
+$_activeSection = ""])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Atribui a secao ativa a ser mostrada a TAG em &quot;showTagHeader&quot;<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$_activeSection</b>&nbsp;&nbsp;</td>
+        <td>O nome da seccao ativa (ex: admin ou setup)                                  Obs: Deve ser o nome interno e nao a traducao</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetLangFilePath"></a>
+	<h3>method setLangFilePath <span class="smalllinenumber">[line 692]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setLangFilePath(
+[string
+$_language_file_path = ""])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Atribui o caminho fisico para os arquivos de idiomas<br /><br /><br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$_language_file_path</b>&nbsp;&nbsp;</td>
+        <td>O caminho para os arquivos de idiomas</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetLangFilePrefix"></a>
+	<h3>method setLangFilePrefix <span class="smalllinenumber">[line 782]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setLangFilePrefix(
+[string
+$_file_prefix = ""])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Atribui o prefixo para o arquivo de idiomas<br /><br /><br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$_file_prefix</b>&nbsp;&nbsp;</td>
+        <td>O prefixo a ser atribuido ao arquivo</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetLangFileSections"></a>
+	<h3>method setLangFileSections <span class="smalllinenumber">[line 675]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setLangFileSections(
+[mixed
+$_language_sections = array()], string
+$_language_file_path)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Atribui o caminho fisico para os arquivos de idiomas<br /><br /><p>devera conter as secoes dos arquivos de idiomas, conforme contextualizacao  <div class="listing"><pre><ol><li>  ...</li>
+<li>  <span class="src-var">$_lang_sections </span>= <span class="src-key">array</span><span class="src-sym">(</span></li>
+<li>                      <span class="src-str">'phpTranslator' </span>=&gt; <span class="src-str">'textos da classe de traducao'</span><span class="src-sym">,</span></li>
+<li>                      <span class="src-str">'admin'             </span>=&gt; <span class="src-str">'Textos da secao administrativa'</span><span class="src-sym">,</span></li>
+<li>                      <span class="src-str">'home'              </span>=&gt; <span class="src-str">'textos da secao principal'</span><span class="src-sym">,</span></li>
+<li>                      <span class="src-str">'and son on'      </span>=&gt; <span class="src-str">'e assim por diante...'</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li>&nbsp;</li>
+<li>  <span class="src-var">$objTranslator</span><span class="src-sym">-&gt;</span><a href="../phpTranslator/Translator.html#methodsetLangFileSections">setLangFileSections</a><span class="src-sym">(</span><span class="src-var">$_lang_sections</span><span class="src-sym">)</span><span class="src-sym">;</span></li>
+<li>  ...</li>
+</ol></pre></div></p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>since:</b>&nbsp;&nbsp;</td><td>v 0.2.0-40</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$_language_file_path</b>&nbsp;&nbsp;</td>
+        <td>O caminho para os arquivos de idiomas</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetLangFilesInSections"></a>
+	<h3>method setLangFilesInSections <span class="smalllinenumber">[line 1323]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setLangFilesInSections(
+[boolean
+$_filesInSections = false])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Atribui que os arquivos de idiomas serao seccionados conforme contextualizacao<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$_filesInSections</b>&nbsp;&nbsp;</td>
+        <td>TRUE - seccionados                                    FALSE -  nao seccionados (default)</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetLangFilesInSubDirs"></a>
+	<h3>method setLangFilesInSubDirs <span class="smalllinenumber">[line 1313]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setLangFilesInSubDirs(
+[boolean
+$_filesInSubDirs = false])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Atribui que o caminho dos arquivos de idiomas ficarao em subdiretorios abbrI18N<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$_filesInSubDirs</b>&nbsp;&nbsp;</td>
+        <td>TRUE - em subdiretorio abbrI18N                                    FALSE - sem subdiretorio abbrI18N (default)</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetLangFileSufix"></a>
+	<h3>method setLangFileSufix <span class="smalllinenumber">[line 772]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setLangFileSufix(
+[string
+$_file_sufix = ""])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Atribui o sufixo para o arquivo de idiomas<br /><br /><br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$_file_sufix</b>&nbsp;&nbsp;</td>
+        <td>O sufixo a ser atribuido ao arquivo</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetURLPath"></a>
+	<h3>method setURLPath <span class="smalllinenumber">[line 762]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setURLPath(
+[string
+$_translator_url_path = ""])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Atribui o caminho (URL) para a classe<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>since:</b>&nbsp;&nbsp;</td><td>v 0.2.0-40</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$_translator_url_path</b>&nbsp;&nbsp;</td>
+        <td>A URL para a classe</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodTranslate"></a>
+	<h3>method Translate <span class="smalllinenumber">[line 377]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void Translate(
+[boolean
+$_translate_only = true])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Prove a interface de cadastramento de codigos de mensagems ou a de traducao<br /><br /><br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$_translate_only</b>&nbsp;&nbsp;</td>
+        <td>FALSE - Se apenas para traduzir                                   TRUE - tambem para fazer manutencao (default)</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+</div><br />
+
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Fri, 10 Mar 2006 20:00:17 -0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC4</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

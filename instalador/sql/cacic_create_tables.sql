@@ -207,7 +207,7 @@ CREATE TABLE `configuracoes_locais` (
   `te_enderecos_mac_invalidos` text,
   `te_janelas_excecao` text,
   `te_nota_email_gerentes` text,
-  `te_exibe_graficos` varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]'
+  `te_exibe_graficos` varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]',
   `cs_abre_janela_patr` char(1) NOT NULL default 'N',
   `id_default_body_bgcolor` varchar(10) NOT NULL default '#EBEBEB',
   PRIMARY KEY  (`id_local`)
@@ -729,7 +729,7 @@ CREATE TABLE `unidades_disco` (
 CREATE TABLE `usuarios` (
   `id_local` int(11) unsigned NOT NULL default '0',
   `id_usuario` int(10) unsigned NOT NULL auto_increment,
-  `nm_usuario_acesso` varchar(10) NOT NULL default '',
+  `nm_usuario_acesso` varchar(20) NOT NULL default '',
   `nm_usuario_completo` varchar(60) NOT NULL default '',
   `te_senha` varchar(50) NOT NULL default '',
   `dt_log_in` datetime NOT NULL default '0000-00-00 00:00:00',

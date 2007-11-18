@@ -65,7 +65,7 @@ class InstallAjax {
     	   $_SESSION['cacic_admin'] = $_POST['cacic_admin'];
     	 
      	$task = $_POST['task'];
-	  	switch (strtolower($task)) { 
+	  	switch (strtolower($task)) {
 	  		case 'testconn' : InstallAjax::checkDBConnection($_SESSION['cacic_config']); break;
 	  		case 'showcfgfile' : InstallAjax::showCFGFile($_SESSION['cacic_config']); break;
 	  		case 'savecfgfile' : InstallAjax::saveCFGFile($_SESSION['cacic_config']); break;
@@ -94,8 +94,8 @@ class InstallAjax {
 		$oTmpl->setNamespace('cacicInstall');
 		$oTmpl->setRoot('templates');
 		$oTmpl->readTemplatesFromInput('install_navbar.tmpl');
-		$oTmpl->addVar('tmplCFGFile', 'CACIC_PATH', $cacic_config['path'] );
-		$oTmpl->addVar('tmplCFGFile', 'CACIC_URL', $cacic_config['url'] );
+		$oTmpl->addVar('tmplCFGFile', 'cacic_path', addslashes(CACIC_PATH) );
+		$oTmpl->addVar('tmplCFGFile', 'CACIC_URL', CACIC_URL );
 		$oTmpl->addVar('tmplCFGFile', 'DB_SERVER', $cacic_config['db_host'] );
 		$oTmpl->addVar('tmplCFGFile', 'DB_PORT', $cacic_config['db_port'] );
 		$oTmpl->addVar('tmplCFGFile', 'DB_NAME', $cacic_config['db_name'] );
@@ -105,7 +105,8 @@ class InstallAjax {
 		$oTmpl->addVar('tmplCFGFile', 'CACIC_IV', CACIC_IV );
 		
 		if($show) {
-			$oTmpl->addVar('tmplCFGFileCab', 'show_path', $cacic_config['path'] );
+			$oTmpl->addVar('tmplCFGFileCab', 'show_path', CACIC_PATH );
+			$oTmpl->addVar('tmplCFGFileCab', 'cacic_ds', CACIC_DS );
 			$oTmpl->displayParsedTemplate('tmplCFGFile');
 		}
 		else {
@@ -181,18 +182,18 @@ class InstallAjax {
     	        $msg .= '<span class="Erro">Para instalação nova, informe o usuário administrador do banco de dados!</span><br>';
 	        }
 
-    		$fileName = $cacic_config['path'].'instalador/sql/'.CACIC_SQLFILE_CREATEDB;
+    		$fileName = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_CREATEDB;
     		if(!is_readable($fileName)) {
     	        $dadosOK = false;
 				$msg .= '<span class="Erro">Não há instruções SQL ('.CACIC_SQLFILE_CREATEDB.') para criação das tabelas do banco de dados!</span><br>';
 			}
-    		$fileName = $cacic_config['path'].'instalador/sql/'.CACIC_SQLFILE_STDDATA;
+    		$fileName = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_STDDATA;
     		if(!is_readable($fileName)) {
     	        $dadosOK = false;
 				$msg .= '<span class="Erro">Não há instruções SQL ('.CACIC_SQLFILE_STDDATA.') referente aos dados base para o CACIC!</span><br>';
 			}
     		if($cacic_config['dbdet']['demo'] == 'demo') {
-    			$fileName = $cacic_config['path'].'instalador/sql/'.CACIC_SQLFILE_DEMODATA;
+    			$fileName = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_DEMODATA;
     			if(!is_readable($fileName)) {
 					$msg .= '<span class="AvisoImg">Não há dados ('.CACIC_SQLFILE_DEMODATA.') disponíveis para demonstração!</span> Porém, o processo de instalação pode prosseguir.<br>';
     			}
@@ -206,7 +207,7 @@ class InstallAjax {
 	        }
 	        else {
         		$fileName = CACIC_SQLFILE_PREFIX.strtolower($cacic_config['install']['updateFromVersion']).'.sql';
-        		$fileNamePath = $cacic_config['path'].'instalador/sql/'.$fileName;
+        		$fileNamePath = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.$fileName;
         		if(!is_readable($fileNamePath)) {
         	        $dadosOK = false;
     				$msg .= '<span class="Erro">Não há instruções SQL ('.$fileName.') para atualização do banco de dados do CACIC!</span><br>';
@@ -244,7 +245,7 @@ class InstallAjax {
 	    if(!$dadosOK)
 	      die(); // se dados incorretos
 	      
-		$fileName = $cacic_config['path'].'/include/config.php';
+		$fileName = $cacic_config['path'].CACIC_DS.'include'.CACIC_DS.'config.php';
 		$fileContent = '<?php
     /*
      * Arquivo de configuracoes para o CACIC
@@ -281,12 +282,12 @@ class InstallAjax {
     /*
      * URL da aplicacao "CACIC"
      */
-    $url_aplicacao = "'.$cacic_config['url'].'";
+    $url_aplicacao = "'.CACIC_URL.'";
 
     /*
      * Caminho fisico da aplicacao "CACIC"
      */
-    $path_aplicacao = "'.$cacic_config['path'].'";
+    $path_aplicacao = "'.addslashes(CACIC_PATH).'";
 
     /*
      * Atencao:
@@ -467,7 +468,7 @@ class InstallAjax {
 		   /*
 		    * Atualiza as tabelas do banco de dados
 		    */  
-		   $fileName = $cacic_config['path'].'instalador/sql/cacic_'.strtolower($cacic_config['install']['updateFromVersion']).'.sql';
+		   $fileName = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.'cacic_'.strtolower($cacic_config['install']['updateFromVersion']).'.sql';
 		   if(is_readable($fileName)) {
    			$cacic_sql_create_tables = $fileName;
 		

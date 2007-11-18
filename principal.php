@@ -15,7 +15,7 @@
 
 */
 @session_start(); 
-require "include/library.php";
+require_once("include/library.php");
 ?>
 <html>
 <head>

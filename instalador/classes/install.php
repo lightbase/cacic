@@ -359,11 +359,11 @@ class Install {
     	$this->oTmpl->addVar('tmplNavBarFinish', 'CACIC_URL', $cacic_config['url']);
      	
 	    $cfgFileName = $cacic_config['path'].CACIC_DS.'include'.CACIC_DS.'config.php';
-	    
+
 	    $cfgFileOk = false;
 	    $dbConected = false;
 	    $buildDBOK = false;
-	    
+
 	    if(!isset($_SESSION['configFileSaved']) or !($_SESSION['configFileSaved']))
 	        $msg .= "<span class='Erro'>Gravação do arquivo de configurações não realizada adequadamente!</span><br>";
 	    else {
