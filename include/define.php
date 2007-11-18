@@ -62,7 +62,9 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  * que deverá existir na pasta "sql" do instalador 
  * Sintaxe: array( 'JUN2005'=>'Junho de 2005', 'FEV2006'=>'Fevereiro de 2006' )
  */
- $cacic_updateFromVersion = array( 'JUN2005'=>'Junho de 2005', 'v2.2.2'=>'Versão 2.2.2' );
+ $cacic_updateFromVersion = array( 'JUN2005'=>'Junho de 2005',
+                                   'v2.2.2'=>'Versão 2.2.2'
+                                 );
 
 /**
  * define a versão do PHP para o CACIC
@@ -96,44 +98,40 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  */
  define( 'CACIC_PHPMEM', '32M');
 
+/* ******************************************************
+ *  NAO ALTERAR NADA DAQUI PARA BAIXO
+ * ******************************************************/
+
 /**
  * Atribui Idioma padrao
  */
- if(isset($cacicLang))
-    define( 'CACIC_LANG', $cacicLang);
- else 
-    define( 'CACIC_LANG', 'pt_br');
+/*
+ * CACIC application language
+ */
+ if(isset($cacic_language))
+    define( CACIC_LANGUAGE, $cacic_language );
+ else
+    define( CACIC_LANGUAGE, 'pt_br');
+
+/*
+ * CACIC application standard language
+ * (Language to be used if the above one fail)
+ */
+ define( CACIC_LANGUAGE_STANDARD, $cacic_language_standard );
 
 /**
  * Atribui CHARSET padrao
  */
  if(isset($cacicLangCS))
     define( 'CACIC_LANG_CHARSET', $cacicLangCS);
- else 
+ else
     define( 'CACIC_LANG_CHARSET', 'ISO-8859-1');
-
-/* ******************************************************
- *  NAO ALTERAR NADA DAQUI PARA BAIXO
- * ******************************************************/
 
 /*
  * path for CACIC
  */
  define(CACIC_PATH, $path_aplicacao );
- 
-/*
- * URL for CACIC
- */
- define(CACIC_URL, $url_aplicacao );
-/*
- * CACIC application language
- */
- define(CACIC_LANGUAGE, $cacic_language );
-/*
- * CACIC application standard language
- * (Language to be viewed when the one above not found)
- */
- define(CACIC_LANGUAGE_STANDARD, $cacic_language_standard );
+
 /*
  * PATH for phpTranslator class
  */
@@ -168,10 +166,10 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  */
  $urlRequest = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['REQUEST_URI']);
  $urlRequest = str_replace("instalador/", '', $urlRequest);
- if(isset($cacicURL))
-    define( 'CACIC_URL', $cacicURL);
+ if(isset($url_aplicacao))
+    define( CACIC_URL, $url_aplicacao);
  else 
-    define( 'CACIC_URL', "http://" . $_SERVER['SERVER_NAME'] . $urlRequest);
+    define( CACIC_URL, "http://" . $_SERVER['SERVER_NAME'] . $urlRequest);
 
 /*
  * Atribui URL de instalação do CACIC 

@@ -27,8 +27,9 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 <head>
 <title>Configurar Gerente</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script type="text/javascript" src="../include/cacic.js"></script>
 <?
-require_once('../include/selecao_listbox.js');  
+require_once('../include/selecao_listbox.js');
 ?>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
 <SCRIPT LANGUAGE="JavaScript">
