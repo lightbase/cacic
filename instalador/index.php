@@ -49,6 +49,18 @@
 	   die("Install mal construído (Install miss-built)!");
 	}
 
+   if(!@include_once( TRANSLATOR_PATH.'/Translator.php'))
+     die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
+
+   // exemplo de uso do tradutor
+   define('CACIC_LANGUAGE', 'pt-br');
+   define('CACIC_LANGUAGE_STANDARD', 'en-us');
+   $_objTranslator = new Translator( CACIC_LANGUAGE, CACIC_PATH."/language/", CACIC_LANGUAGE_STANDARD );
+   $_objTranslator->setURLPath(TRANSLATOR_PATH_URL);
+   $_objTranslator->initStdLanguages();
+   //echo $_objTranslator->getText('kciq_mnt_tradutor');
+   // FIM de exemplo de uso do tradutor
+   
 	/**
 	 * Prove a instanciação da Instalação pela WEB
 	 */

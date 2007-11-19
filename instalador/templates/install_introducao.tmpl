@@ -14,6 +14,28 @@
 </cacicInstall:comment>
 
 <cacicInstall:tmpl name="tmplIntroducao">
+
+	<fieldset>
+          <table width="100%">
+               <tr align="right" >
+                  <td>Idioma:
+                     <select name="translate_lang" onchange="submitForm( installForm, 'preinstall' );">
+                        <option value=""></option>
+                        <option value="en-us">Inglês (US)</option>
+                        <option value="pt-br">Português brasileiro</option>
+                     </select>
+                  </td>
+               </tr>
+               <tfoot>
+               <tr>
+                  <td colspan="2">
+                  </td>
+               </tr>
+               </tfoot>
+          </table>
+	</fieldset>
+
+
 	<div id="introducao">
 	<fieldset>
 	<legend>Introdução</legend>

@@ -362,7 +362,8 @@
        /**
         * Prove a interface de cadastramento de codigos de mensagems ou a de traducao
         *
-        * @param boolean $_translate_only FALSE - Se apenas para traduzir 
+        * @access public
+        * @param boolean $_translate_only FALSE - Se apenas para traduzir
         *                                  TRUE - tambem para fazer manutencao (default)
         */ 
         function translatorGUI( $_translate_only=true ) {
@@ -398,9 +399,8 @@
            // inicio de Montagem pagina HTML
            $_objTmpl->readTemplatesFromInput( 'translate_mnt_tmpl.html' );
            $_objTmpl->addVar( 'ini_page_form', 'classSelfPath', $this->classSelfPath );
-           $_objTmpl->addVar( 'ini_page_form', 'translatorUrlPath', $this->translatorUrlPath );
-           $_objTmpl->addVar( 'ini_page_form_mos', 'translatorUrlPath', $this->translatorUrlPath );
-    
+           $_objTmpl->addVar( 'ini_page_form', 'TRANSLATOR_URL_PATH', $this->translatorUrlPath );
+
            // Se acionado o botao para traduzir, retira-o e mostra o SALVAR/RESTAURAR
            if($_translate_only) {
                $_objTmpl->addVar( 'ini_page_form_btn', 'mnt_btn_show',"translate");
@@ -430,7 +430,7 @@
               
            $this->initStdLanguages();
            $this->buildArrayVars();
-           
+
            $titulo = $this->getText('#phpTranslator_page_title#');
            $_objTmpl->addVar( 'ini_page_form', 'titulo', $titulo );
            $_objTmpl->addVar( 'ini_page_form', 'PHPTRANSLATOR_EXCLUIR_CODIGO', 
@@ -586,13 +586,26 @@
            $_objTmpl->displayParsedTemplate('end_page_form');
     
         } //end func: Translate
-    
+
+       /**
+        * Busca o texto a ser traduzido
+        *
+        * @access public
+        * @see    getText()
+        * @return string  O texto traduzido, o texto padrao ou o codigo da mensagem
+        *
+        */
+        function _( $_msg_code, $_sigla=false, $_text_case=0, $_args = array() ) {
+           return $this->getText( $_msg_code, $_sigla, $_text_case, $_args );
+        }
+
        /**
         * Busca o texto a ser traduzido
         *
         * Busca a traducao do texto - caso o texto traduzido nao exista retorna o texto padrao e caso este 
         * tambem nao exista retorna o codigo de pesquisa
         *
+        * @access public
         * @param string $_msg_code O codigo da mensagem a ser traduzida
         * @param boolean $_sigla Se retorna a sigla em lugar da mensagem completa
         * @param boolean $_text_case Se o texto retorna o texto como cadastrado, em maiusculas ou minusculas
@@ -625,7 +638,7 @@
                 return $_msg_text;
     
         } // end func: getText
-    
+
        /**
         * Metodo para retornar a mensagens de erros ocorridas
         * 
@@ -998,6 +1011,7 @@
             $_file_name = $this->_makeFileName($_abbr_i18n);
             
             $this->error = true;
+            $this->mensagem = "";
             
             if(is_writable($this->languageFilePath)) {
                 if (is_writable($_file_name) or !file_exists($_file_name)) {
@@ -1005,7 +1019,7 @@
                         $_resource = @fopen($_file_name,'w+');
                     else
                         $_resource = @fopen($_file_name,'w');
-                        
+
                     if($_resource){
                       fwrite($_resource,$_content_to_file);
                       fclose($_resource);
@@ -1027,7 +1041,7 @@
               if($this->inDebugMode() ) echo "phpTranslator: ".$this->getMessage();
               $this->error = false;
             }
-            
+
             return $this->error;
         } // end func: SaveFile
     
@@ -1445,51 +1459,6 @@
         *     Deprecated Methods 
         */ 
         
-       /**
-        * @access private
-        * @deprecated since v 0.1.41
-        * @see setURLPath()
-        */ 
-        function setTabPaneURLPath($_translatorUrlPath="") {
-            $this->setURLPath($_translatorUrlPath);
-        }
-        
-       /**
-        * @access private
-        * @deprecated since v 0.1.41
-        * @see setLangFilePath()
-        */ 
-        function setFilePath($_languageFilePath="") {
-			$this->setLangFilePath($_languageFilePath);
-        } // end func: setFilePath
-     
-       /**
-        * @access private
-        * @deprecated since v 0.1.41
-        * @see setLangFileSections()
-        */ 
-      	function setLangSections($_languageSections=array()) {
-      		$this->setLangFileSections($_languageSections);
-      	}
-        
-       /**
-        * @access private
-        * @deprecated since v 0.1.41
-        * @see setLangFilePrefix()
-        */ 
-        function setFilePrefix($_file_prefix="") {
-             $this->setLangFilePrefix($_file_prefix);
-        } // end func: setFilePrefix
-        
-       /**
-        * Prove a interface de cadastramento de codigos de mensagems ou a de traducao
-        * @access private
-        * @deprecated since v 0.1.99-28
-        * @see translatorGUI()
-        */ 
-        function Translate( $_translate_only=true ) {
-            $this->translatorGUI( $_translate_only );
-        }
         /*  END OF DEPRECATED METHODS */
        } // end Class: Translator
 ?>

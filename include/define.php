@@ -109,15 +109,15 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  * CACIC application language
  */
  if(isset($cacic_language))
-    define( CACIC_LANGUAGE, $cacic_language );
+    define( 'CACIC_LANGUAGE', $cacic_language );
  else
-    define( CACIC_LANGUAGE, 'pt_br');
+    define( 'CACIC_LANGUAGE', 'pt_br');
 
 /*
  * CACIC application standard language
  * (Language to be used if the above one fail)
  */
- define( CACIC_LANGUAGE_STANDARD, $cacic_language_standard );
+ define( 'CACIC_LANGUAGE_STANDARD', $cacic_language_standard );
 
 /**
  * Atribui CHARSET padrao
@@ -130,16 +130,17 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /*
  * path for CACIC
  */
- define(CACIC_PATH, $path_aplicacao );
+ define('CACIC_PATH', $path_aplicacao );
 
 /*
- * PATH for phpTranslator class
+ * Atribui URL CACIC
  */
- define(TRANSLATOR_PATH, CACIC_PATH."/bibliotecas/phpTranslator/");
-/*
- * URL for phpTranslator class
- */
- define(TRANSLATOR_PATH_URL, CACIC_URL."/bibliotecas/phpTranslator/");
+ $urlRequest = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['REQUEST_URI']);
+ $urlRequest = str_replace("instalador/", '', $urlRequest);
+ if(isset($url_aplicacao))
+    define( 'CACIC_URL', $url_aplicacao);
+ else
+    define( 'CACIC_URL', "http://" . $_SERVER['SERVER_NAME'] . $urlRequest);
 
 /*
  * Obtem PATH_SEPARATOR
@@ -162,22 +163,21 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  define( 'CACIC_CFGFILE_PATH', CACIC_PATH.CACIC_DS.'include');
  
 /*
- * Atribui URL CACIC 
- */
- $urlRequest = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['REQUEST_URI']);
- $urlRequest = str_replace("instalador/", '', $urlRequest);
- if(isset($url_aplicacao))
-    define( CACIC_URL, $url_aplicacao);
- else 
-    define( CACIC_URL, "http://" . $_SERVER['SERVER_NAME'] . $urlRequest);
-
-/*
  * Atribui URL de instalação do CACIC 
  */
  if(isset($cacicURL))
     define( 'CACIC_URL_INSTALL', $cacicURL.'instalador');
  else 
     define( 'CACIC_URL_INSTALL', CACIC_URL.'instalador');
+
+/*
+ * PATH for phpTranslator class
+ */
+ define('TRANSLATOR_PATH', CACIC_PATH."/bibliotecas/phpTranslator/");
+/*
+ * URL for phpTranslator class
+ */
+ define('TRANSLATOR_PATH_URL', CACIC_URL."/bibliotecas/phpTranslator/");
 
 /*
  * Atribui tema padrao para o instalador

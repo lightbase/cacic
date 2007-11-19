@@ -20,8 +20,9 @@ OK    - tamanhos dos campos conforme os proprios atributos definidos
     * formularios devem prever valor zero para o tamanho dos campos: idioma, contexto, tipo;
       nos formularios: codificacao, listagem e traducao 
       - campos que nao podem ser zero (obvio): codigo_mensagem e texto_mensagem
-    * path para o arquivo de idiomas deve ser informado na construtora
+OK  * path para o arquivo de idiomas deve ser informado na construtora
     * inicializar array de mensagens de texto "destino" na construtora
+    * possibilitar uso de textos com instruções html
 
 version: 0.2.1
 
