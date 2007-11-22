@@ -65,6 +65,11 @@
      */
     $cacic_language_standard = 'pt-br';
 
+    /*
+     * CACIC application theme
+     */
+    $cacic_theme = 'default';
+
 // ATENÇÃO:
 // As chaves abaixo, até a presente versão, são assiméticas, ou seja, 
 // caso seja necessário alterá-las, os agentes "Cacic2.exe", "ChkCacic.exe" e  

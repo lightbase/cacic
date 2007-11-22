@@ -124,6 +124,7 @@ function scrollit(seed)
 		}
 	}
 //scrollit(100);
+-->
 </SCRIPT>
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
