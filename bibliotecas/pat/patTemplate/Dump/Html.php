@@ -30,7 +30,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		'linkNormal'		=>	'8CA0B4',
 		'linkHover'			=>	'8BC3E0',
 	);
-
+	
 	var $_useBorders	=	false;
 
    /**
@@ -48,7 +48,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		echo '		font-size: 12px;';
 		echo '   }';
 		echo '   TABLE.patTemplate{';
-		echo '	  border-collapse:collapse;';
+		echo '      border-collapse:collapse;';
 		echo '   }';
 		echo '   A.patTemplate{';
 		echo '		color:#'.$this->colors['linkNormal'].';';
@@ -96,115 +96,115 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		echo '		padding:0px;';
 		echo '   }';
 		echo '   .patTemplateSection{';
-		echo '	  margin-bottom:20px;';
+		echo '      margin-bottom:20px;';
 		echo '   }';
 		echo '   .patTemplateSubSection{';
-		echo '	  margin-bottom:3px;';
+		echo '      margin-bottom:3px;';
 		echo '   }';
 		echo '   .patTemplateData{';
-		echo '	  display:none;';
+		echo '      display:none;';
 		echo '   }';
 		echo '   .patTemplatePropBorder{';
-		echo '	  white-space:nowrap;';
+		echo '      white-space:nowrap;';
 		echo '		font-weight:bold;';
-		echo '	  color:#333333;';
-		echo '	  border:solid 1px #C8D3DA;';
+		echo '      color:#333333;';
+		echo '      border:solid 1px #C8D3DA;';
 		echo '   }';
 		echo '   .patTemplateProp{';
-		echo '	  white-space:nowrap;';
+		echo '      white-space:nowrap;';
 		echo '		font-weight:bold;';
-		echo '	  color:#333333;';
+		echo '      color:#333333;';
 		echo '   }';
 		echo '   .patTemplateSign{';
-		echo '	  font-family:monospace;';
+		echo '      font-family:monospace;';
 		echo '   }';
 		echo '   .patTemplateClick{';
-		echo '	  cursor:pointer;';
+		echo '      cursor:pointer;';
 		echo '   }';
 		echo '   .patTemplateCol{';
-		echo '	  margin-bottom:8px;';
-		echo '	  font-weight:bold;';
+		echo '      margin-bottom:8px;';
+		echo '      font-weight:bold;';
 		echo '   }';
 		echo '   .patTemplateTblCol{';
-		echo '	  padding:8px;';
-		echo '	  padding-right:15px;';
-		echo '	  border-right:dashed 1px #'.$this->colors['borders'].';';
+		echo '      padding:8px;';
+		echo '      padding-right:15px;';
+		echo '      border-right:dashed 1px #'.$this->colors['borders'].';';
 		echo '   }';
 		echo '   .patTemplateTmplContent{';
-		echo '	  padding:8px;';
-		echo '	  border-top:dashed 1px #'.$this->colors['borders'].';';
+		echo '      padding:8px;';
+		echo '      border-top:dashed 1px #'.$this->colors['borders'].';';
 		echo '   }';
 		echo '   .patTemplateSource{';
-		echo '	  padding:5px;';
-		echo '	  font-family:monospace;';
-		echo '	  background-color:#'.$this->colors['source'].';';
-		echo '	  margin-bottom:8px;';
+		echo '      padding:5px;';
+		echo '      font-family:monospace;';
+		echo '      background-color:#'.$this->colors['source'].';';
+		echo '      margin-bottom:8px;';
 		echo '   }';
 		echo '   .patTemplateVar{';
 		echo '		color: #009900;';
-		echo '	  font-weight:bold;';
+		echo '      font-weight:bold;';
 		echo '   }';
 		echo '   .patTemplateVarBorder{';
 		echo '		color: #009900;';
-		echo '	  font-weight:bold;';
-		echo '	  border:solid 1px #C8D3DA;';
+		echo '      font-weight:bold;';
+		echo '      border:solid 1px #C8D3DA;';
 		echo '   }';
 		echo '   .patTemplateVal{';
 		echo '		color:#333333;';
 		echo '   }';
 		echo '   .patTemplateValBorder{';
 		echo '		color: #333333;';
-		echo '	  border:solid 1px #C8D3DA;';
+		echo '      border:solid 1px #C8D3DA;';
 		echo '   }';
 		echo '   .patTemplateTmpl {';
 		echo '		color: #990000;';
-		echo '	  font-weight:bold;';
-		echo '	  cursor:pointer;';
+		echo '      font-weight:bold;';
+		echo '      cursor:pointer;';
 		echo '   }';
 		echo '  </style>';
 		echo ' <script language="JavaScript1.2" type="text/javascript">';
 		echo '   var tmpls = new Array();';
 		echo '   function patTemplateToggle( tmplName )';
 		echo '   {';
-		echo '	  var el = document.getElementById( \'tmpl-\' + tmplName );';
-		echo '	  if( el.style.display == \'block\' )';
-		echo '		patTemplateCollapse( tmplName );';
-		echo '	  else';
-		echo '		patTemplateExpand( tmplName );';
+		echo '      var el = document.getElementById( \'tmpl-\' + tmplName );';
+		echo '      if( el.style.display == \'block\' )';
+		echo '        patTemplateCollapse( tmplName );';
+		echo '      else';
+		echo '        patTemplateExpand( tmplName );';
 		echo '   }';
 		echo '   function jump( tmplName )';
 		echo '   {';
-		echo '	  tmplName = tmplName.toLowerCase();';
-		echo '	  patTemplateExpand( tmplName );';
-		echo '	  document.location = \'#\' + tmplName';
+		echo '      tmplName = tmplName.toLowerCase();';
+		echo '      patTemplateExpand( tmplName );';
+		echo '      document.location = \'#\' + tmplName';
 		echo '   }';
 		echo '   function patTemplateExpandAll()';
 		echo '   {';
-		echo '	 	for( var i = 0; i < tmpls.length; i++ )';
-		echo '		patTemplateExpand( tmpls[i] );';
+		echo '     	for( var i = 0; i < tmpls.length; i++ )';
+		echo '        patTemplateExpand( tmpls[i] );';
 		echo '   }';
 		echo '   function patTemplateCollapseAll()';
 		echo '   {';
-		echo '	 	for( var i = 0; i < tmpls.length; i++ )';
-		echo '		patTemplateCollapse( tmpls[i] );';
+		echo '     	for( var i = 0; i < tmpls.length; i++ )';
+		echo '        patTemplateCollapse( tmpls[i] );';
 		echo '   }';
 		echo '   function patTemplateExpand( tmplName )';
 		echo '   {';
-		echo '	  var el1 = document.getElementById( \'tmpl-\' + tmplName );';
-		echo '	  var el2 = document.getElementById( \'tmpl-\' + tmplName + \'-sign\' );';
-		echo '	  el1.style.display = \'block\';';
-		echo '	  el2.innerHTML = \'[-]\';';
+		echo '      var el1 = document.getElementById( \'tmpl-\' + tmplName );';
+		echo '      var el2 = document.getElementById( \'tmpl-\' + tmplName + \'-sign\' );';
+		echo '      el1.style.display = \'block\';';
+		echo '      el2.innerHTML = \'[-]\';';
 		echo '   }';
 		echo '   function patTemplateCollapse( tmplName )';
 		echo '   {';
-		echo '	  var el1 = document.getElementById( \'tmpl-\' + tmplName );';
-		echo '	  var el2 = document.getElementById( \'tmpl-\' + tmplName + \'-sign\' );';
-		echo '	  el1.style.display = \'none\';';
-		echo '	  el2.innerHTML = \'[+]\';';
+		echo '      var el1 = document.getElementById( \'tmpl-\' + tmplName );';
+		echo '      var el2 = document.getElementById( \'tmpl-\' + tmplName + \'-sign\' );';
+		echo '      el1.style.display = \'none\';';
+		echo '      el2.innerHTML = \'[+]\';';
 		echo '   }';
 		echo '   function patTemplateAddTmpl( tmplName )';
 		echo '   {';
-		echo '	  tmpls.push( tmplName );';
+		echo '      tmpls.push( tmplName );';
 		echo '   }';
 		echo ' </script>';
 		echo ' </head>';
@@ -247,7 +247,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 
 		echo '<div class="patTemplateSection"><h2 class="patTemplate">Templates ('.count( $templates ).') &nbsp; <span style="font-size:12px;font-weight:normal;"><a href="javascript:patTemplateExpandAll();" class="patTemplate">Expand all</a> | <a href="javascript:patTemplateCollapseAll();" class="patTemplate">Collapse all</a></span></h2>';
 		echo '<div class="patTemplateData">Dumping selected templates...</div>';
-
+		
 		foreach( $templates as $name => $tmpl )
 		{
 			if( !isset( $vars[$name] ) )
@@ -258,30 +258,30 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 			echo '<div class="patTemplateSubSection">';
 			echo '  <h3 class="patTemplate" onclick="patTemplateToggle(\''.$name.'\');" style="cursor:pointer;"><span id="tmpl-'.$name.'-sign" class="patTemplateSign">[+]</span> Template <a name="'.$name.'">"'.$name.'"</a></h3>';
 			echo '  <div class="patTemplateData" id="tmpl-'.$name.'">';
-			echo '	<script language="JavaScript1.2" type="text/javascript">';
-			echo '	  patTemplateAddTmpl( \''.$name.'\' );';
-			echo '	</script>';
-			echo '	<table cellpadding="0" cellspacing="0" border="0">';
-			echo '	  <tr valign="top">';
-			echo '		<td style="width:200px;" class="patTemplateTblCol">';
+			echo '    <script language="JavaScript1.2" type="text/javascript">';
+			echo '      patTemplateAddTmpl( \''.$name.'\' );';
+			echo '    </script>';
+			echo '    <table cellpadding="0" cellspacing="0" border="0">';
+			echo '      <tr valign="top">';
+			echo '        <td style="width:200px;" class="patTemplateTblCol">';
 
 							$this->_displayAttributes( $tmpl, $name );
 
-			echo '		</td>';
-			echo '		<td class="patTemplateTblCol" style="width:130px;">';
+			echo '        </td>';
+			echo '        <td class="patTemplateTblCol" style="width:130px;">';
 
-							$this->_displayTemplateState( $tmpl );
+							$this->_displayTemplateState( $tmpl );			
 
-			echo '		</td>';
-			echo '		<td class="patTemplateTblCol" style="width:130px;">';
-			echo '		  <div class="patTemplateCol">Dependencies</div>';
+			echo '        </td>';
+			echo '        <td class="patTemplateTblCol" style="width:130px;">';
+			echo '          <div class="patTemplateCol">Dependencies</div>';
 
 							if( !empty( $tmpl['dependencies'] ) )
 							{
 								$dependencies = array();
 								foreach( $tmpl['dependencies'] as $dependency )
 									array_push( $dependencies, '<a href="javascript:jump( \''.$dependency.'\' );" class="patTemplate">'.$dependency.'</a>' );
-
+					
 								echo implode( '<br>', $dependencies );
 							}
 							else
@@ -289,11 +289,11 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 								echo '<i class="patTemplate">[none]</i>';
 							}
 
-			echo '		</td>';
-			echo '	  </tr>';
-			echo '	</table>';
+			echo '        </td>';
+			echo '      </tr>';
+			echo '    </table>';
 
-
+			
 			/**
 			 * ------------------------------------------------------------------
 			 * display variables
@@ -302,11 +302,11 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 				'condition',
 				'modulo',
 			);
-
+			
 			if( in_array( $tmpl['attributes']['type'], $nestedTypes ) )
 			{
 				$content = '';
-
+				
 				foreach( $tmpl['subtemplates'] as $subName => $subDetails )
 				{
 					$content .= $subDetails['data'];
@@ -316,7 +316,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 			{
 				$content = $tmpl['content'];
 			}
-
+			
 			$setVars = $this->_extractVars( $content );
 
 			echo '<div class="patTemplateTmplContent">';
@@ -326,19 +326,19 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 
 			if( !empty( $tmpl['comments'] ) )
 			{
-				echo '	<div class="patTemplateTmplContent">';
-				echo '	  <div class="patTemplateCol">Comments</div>';
-				echo '	  <div style="margin-bottom:7px;">';
+				echo '    <div class="patTemplateTmplContent">';
+				echo '      <div class="patTemplateCol">Comments</div>';
+				echo '      <div style="margin-bottom:7px;">';
 							  echo implode( '<br>', $tmpl['comments'] );
-				echo '	  </div>';
-				echo '	</div>';
+				echo '      </div>';
+				echo '    </div>';
 			}
-
+			
 			/**
 			 * ------------------------------------------------------------------
 			 * display template content
 			 */
-			echo '	<div class="patTemplateTmplContent">';
+			echo '    <div class="patTemplateTmplContent">';
 			switch( $tmpl['attributes']['type'] )
 			{
 				case 'condition':
@@ -347,19 +347,19 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 					break;
 
 				default:
-					echo '	  <div class="patTemplateCol">Content</div>';
-					echo '	  <div class="patTemplateSource"><pre>'.$this->_highlightVars( htmlspecialchars( $tmpl['content'] ), $vars[$name] ).'</pre></div>';
+					echo '      <div class="patTemplateCol">Content</div>';
+					echo '      <div class="patTemplateSource"><pre>'.$this->_highlightVars( htmlspecialchars( $tmpl['content'] ), $vars[$name] ).'</pre></div>';
 					break;
 			}
 
-			echo '	</div>';
+			echo '    </div>';
 			echo '  </div>';
 			echo '</div>';
 		}
-
+		
 		echo '</div>';
 	}
-
+	
 	function _displayVariables( $tmpl, $tmplName, $setVars, $vars )
 	{
 		if( empty( $setVars ) )
@@ -367,7 +367,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 			echo '<i class="patTemplate">[none]</i>';
 			return true;
 		}
-
+		
 		echo '<table border="0" cellpadding="3" cellpadding="0" class="patTemplate">';
 		$this->_useBorders( true );
 		$this->_displayHead( 'Name', 'Assigned value', 'Modifier' );
@@ -392,66 +392,66 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 			{
 				$modifier = '<i class="patTemplate">[none]</i>';
 			}
-
+				
 			$this->_displayLine( $var, $value, $modifier );
 		}
 		echo '</table>';
 
 		$this->_useBorders( false );
 	}
-
+	
 	function _displayConditions( $tmpl, $tmplName, $vars )
 	{
 		foreach( $tmpl['subtemplates'] as $cond => $spec )
 		{
 			echo '  <h3 class="patTemplateSub" onclick="patTemplateToggle(\'Cond'.$cond.'\');" style="cursor:pointer;"><span id="tmpl-Cond'.$cond.'-sign" class="patTemplateSign">[+]</span> Subtemplate <a name="Cond'.$cond.'">"'.$cond.'"</a></h3>';
 			echo '  <div class="patTemplateData" id="tmpl-Cond'.$cond.'" style="margin-bottom:15px;">';
-			echo '	<script language="JavaScript1.2" type="text/javascript">';
-			echo '	  patTemplateAddTmpl( \'Cond'.$cond.'\' );';
-			echo '	</script>';
-
+			echo '    <script language="JavaScript1.2" type="text/javascript">';
+			echo '      patTemplateAddTmpl( \'Cond'.$cond.'\' );';
+			echo '    </script>';
+			
 			if( !empty( $spec['comments'] ) )
 			{
-				echo '	<div class="patTemplateCol">Comments</div>';
-				echo '	<div style="margin-bottom:7px;">';
+				echo '    <div class="patTemplateCol">Comments</div>';
+				echo '    <div style="margin-bottom:7px;">';
 							echo implode( '<br>', $spec['comments'] );
-				echo '	</div>';
+				echo '    </div>';
 			}
 
-				echo '	<div class="patTemplateCol">Dependencies</div>';
-				echo '	<div style="margin-bottom:7px;">';
+				echo '    <div class="patTemplateCol">Dependencies</div>';
+				echo '    <div style="margin-bottom:7px;">';
 			if( !empty( $spec['dependencies'] ) )
 			{
 				$dependencies = array();
 				foreach( $spec['dependencies'] as $dependency )
 					array_push( $dependencies, '<a href="javascript:jump( \''.$dependency.'\' );" class="patTemplate">'.$dependency.'</a>' );
-
+	
 				echo implode( ', ', $dependencies );
 			}
 			else
 			{
 				echo '<i class="patTemplate">[none]</i>';
 			}
-				echo '	</div>';
-
-			echo '	<div class="patTemplateCol">Content</div>';
-			echo '	<div class="patTemplateSource"><pre>'.$this->_highlightVars( htmlspecialchars( $spec['data'] ), $vars[$tmplName] ).'</pre></div>';
+				echo '    </div>';
+			
+			echo '    <div class="patTemplateCol">Content</div>';
+			echo '    <div class="patTemplateSource"><pre>'.$this->_highlightVars( htmlspecialchars( $spec['data'] ), $vars[$tmplName] ).'</pre></div>';
 			echo '  </div>';
 		}
 	}
-
+	
    /**
-	* display the attributes of a template
-	*
-	* @access   private
-	* @param	array	   template data
-	* @param	string	  name of the template
-	*/
+    * display the attributes of a template
+    *
+    * @access   private
+    * @param    array       template data
+    * @param    string      name of the template
+    */
 	function _displayAttributes( $tmpl, $tmplName = null )
 	{
 		echo '<div class="patTemplateCol">Attributes</div>';
 		echo '<table border="0" cellpadding="0" cellpadding="0">';
-
+		
 		/**
 		 * type
 		 */
@@ -485,17 +485,17 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 				$this->_displayLine( 'Type', 'simplecondition' );
 				$requiredvars = array();
 				foreach ($tmpl['attributes']['requiredvars'] as $tmp) {
-					if ($tmp[0] !== $tmplName) {
-						$var = $tmp[0] . '.' . $tmp[1];
-					} else {
-						$var = $tmp[1];
-					}
-					if ($tmp[2] !== null) {
-						$var = $var . '='.$tmp[2];
-					}
-					array_push($requiredvars, $var);
+				    if ($tmp[0] !== $tmplName) {
+				    	$var = $tmp[0] . '.' . $tmp[1];
+				    } else {
+				    	$var = $tmp[1];
+				    }
+				    if ($tmp[2] !== null) {
+				    	$var = $var . '='.$tmp[2];
+				    }
+				    array_push($requiredvars, $var);
 				}
-
+				
 				$this->_displayLine( 'RequiredVars', implode( ', ', $requiredvars ) );
 
 				break;
@@ -520,23 +520,23 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		 * varscope
 		 */
 		if (isset($tmpl['attributes']['varscope'])) {
-			if (is_array($tmpl['attributes']['varscope'])) {
-				$this->_displayLine( 'Varscope', implode(', ', $tmpl['attributes']['varscope'] ) );
-			} else {
-				$this->_displayLine( 'Varscope', $tmpl['attributes']['varscope'] );
-			}
+            if (is_array($tmpl['attributes']['varscope'])) {
+                $this->_displayLine( 'Varscope', implode(', ', $tmpl['attributes']['varscope'] ) );	
+            } else {
+                $this->_displayLine( 'Varscope', $tmpl['attributes']['varscope'] );	
+            }
 		}
 
-		echo '		  </table>';
+		echo '          </table>';
 	}
-
+	
 	function _displayTemplateState( $tmpl )
 	{
-			echo '		  <div class="patTemplateCol">States</div>';
-			echo '		  <table border="0" cellpadding="0" cellpadding="0">';
+			echo '          <div class="patTemplateCol">States</div>';
+			echo '          <table border="0" cellpadding="0" cellpadding="0">';
 							$this->_displayLine( 'Loaded', $tmpl['loaded'] );
 							$this->_displayLine( 'Parsed', $tmpl['parsed'] );
-			echo '		  </table>';
+			echo '          </table>';
 	}
 
    /**
@@ -550,7 +550,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 	{
 		$pattern  = '/('.$this->_tmpl->getStartTag().'TMPL\:([^a-z]+)'.$this->_tmpl->getEndTag().')/U';
 		$template = preg_replace( $pattern, '<span class="patTemplateTmpl" onclick="jump(\'\2\')" title="Click to view the dependency \'\2\'.">\1</span>', $template );
-
+		
 		$pattern = '/('.$this->_tmpl->getStartTag().'([^a-z:]+)'.$this->_tmpl->getEndTag().')/U';
 		$matches = array();
 		preg_match_all( $pattern, $template, $matches );
@@ -569,7 +569,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		}
 		return $template;
 	}
-
+	
    /**
 	* display a table header
 	*
@@ -588,15 +588,15 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		}
 		echo '  </tr>';
 	}
-
+	
 	function _getClassName( $class )
 	{
 		if( !$this->_useBorders )
 			return $class;
-
+			
 		return $class .= 'Border';
 	}
-
+	
    /**
 	* sets whether to draw borders in the tables generated via the
 	* {@link _displayHead()} and {@link _displayLine()} methods.
@@ -608,7 +608,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 	{
 		$this->_useBorders = $state;
 	}
-
+	
    /**
 	* display a line in a table
 	*
@@ -627,19 +627,19 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		{
 			echo '   <td class="'.$this->_getClassName( 'patTemplateVal' ).'">&nbsp;:&nbsp;</td>';
 		}
-
+		
 		foreach( $args as $value )
 		{
 			if( is_bool( $value ) )
 			{
 				$value = ( $value === true ) ? 'yes' : 'no';
 			}
-
+			
 			printf( '   <td class="'.$this->_getClassName( 'patTemplateVal' ).'">%s</td>', $value );
 		}
 		echo '  </tr>';
 	}
-
+	
    /**
 	* display the footer
 	*

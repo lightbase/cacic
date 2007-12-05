@@ -16,7 +16,7 @@
  * requires tidy extension
  */
 define( 'PATTEMPLATE_OUTPUTFILTER_TIDY_ERROR_NOT_SUPPORTED', 'patTemplate::Outputfilter::Tidy::1' );
-
+ 
 /**
  * patTemplate Tidy output filter
  *
@@ -32,7 +32,7 @@ define( 'PATTEMPLATE_OUTPUTFILTER_TIDY_ERROR_NOT_SUPPORTED', 'patTemplate::Outpu
 class patTemplate_OutputFilter_Tidy extends patTemplate_OutputFilter
 {
    /**
-	* filter name
+    * filter name
 	*
 	* This has to be set in the final
 	* filter classes.
@@ -69,7 +69,7 @@ class patTemplate_OutputFilter_Tidy extends patTemplate_OutputFilter
 			tidy_clean_repair($tidy);
 			$data = tidy_get_output($tidy);
 		}
-
+		
 		return $data;
 	}
 }

@@ -44,17 +44,17 @@ class patTemplate_Modifier_Expression extends patTemplate_Modifier
 		if( !isset( $params['false'] ) )
 			$params['false']=	'false';
 
-		/*
-		 * replace the value in the expression
-		 */
-		$params['expression'] = str_replace( '$self', "'$value'", $params['expression'] );
+        /*
+         * replace the value in the expression
+         */
+        $params['expression'] = str_replace( '$self', "'$value'", $params['expression'] );
 
-		@eval( '$result = '.$params['expression'].';' );
-
-		if ($result === true) {
-			return str_replace( '$self', $value, $params['true'] );
-		}
-		return str_replace( '$self', $value, $params['false'] );
+        @eval( '$result = '.$params['expression'].';' );
+        
+        if ($result === true) {
+            return str_replace( '$self', $value, $params['true'] );
+        }
+        return str_replace( '$self', $value, $params['false'] );
 	}
 }
 ?>

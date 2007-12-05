@@ -3,7 +3,7 @@
  * patTemplate input filter to allow the short modifier syntax
  * that is used by Smarty
  *
- * $Id: ShortModifiers.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: ShortModifiers.php 449 2006-12-12 21:00:38Z schst $
  *
  * @package		patTemplate
  * @subpackage	Filters
@@ -14,7 +14,7 @@
  * patTemplate input filter to allow the short modifier syntax
  * that is used by Smarty
  *
- * $Id: ShortModifiers.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: ShortModifiers.php 449 2006-12-12 21:00:38Z schst $
  *
  * This will replace the variables with patTemplate:var/> tags that
  * have the name and the modifier attribute set.
@@ -26,7 +26,7 @@
 class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 {
    /**
-	* filter name
+    * filter name
 	*
 	* @access	private
 	* @var	    string
@@ -39,12 +39,12 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	* @access  private
 	* @var     array
 	*/
-	var $_params = array(
-							'copyVars' => true
-						);
+    var $_params = array(
+                            'copyVars' => true
+                        );
 
    /**
-	* namespace
+    * namespace
 	*
 	* @access	private
 	* @var	    string
@@ -52,7 +52,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	var	$_ns = null;
 
    /**
-	* reference to the patTemplate object
+    * reference to the patTemplate object
 	*
 	* @var	   object patTemplate
 	* @access  private
@@ -79,18 +79,21 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	*/
 	function _generateReplace($matches)
 	{
-		if ($this->getParam('copyVars') === true) {
-			$newName = $matches[2] . '_' . $matches[3];
-			$replace = $matches[1] . '<' . $this->_ns . ':var copyFrom="' . $matches[2] . '" name="' . $newName . '" modifier="' . $matches[3] . '"';
-		} else {
-			$replace = $matches[1] . '<' . $this->_ns . ':var name="' . $matches[2] . '" modifier="' . $matches[3] . '"';
-		}
-
-		for ($i = 4; $i < count($matches) - 1; $i++ ) {
-			$replace .= ' ' . $matches[++$i] . '="' . $matches[++$i] . '"';
-		}
-		$replace .= '/>';
-		return $replace;
+        if ($this->getParam('copyVars') === true) {
+            $newName = $matches[2] . '_' . $matches[3];
+            if (isset( $matches[4] )) {
+                $newName .= $matches[4];
+            }
+            $replace = $matches[1] . '<' . $this->_ns . ':var copyFrom="' . $matches[2] . '" name="' . $newName . '" modifier="' . $matches[3] . '"';
+        } else {
+            $replace = $matches[1] . '<' . $this->_ns . ':var name="' . $matches[2] . '" modifier="' . $matches[3] . '"';
+        }
+        $n = count($matches) - 1;
+        for ($i = 4; $i < $n; $i++ ) {
+            $replace .= ' ' . $matches[++$i] . '="' . $matches[++$i] . '"';
+        }
+        $replace .= '/>';
+        return $replace;
 	}
 
    /**
@@ -102,13 +105,13 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	*/
 	function apply($data)
 	{
-		$startTag = $this->_tmpl->getStartTag();
-		$endTag   = $this->_tmpl->getEndTag();
+	    $startTag = $this->_tmpl->getStartTag();
+	    $endTag   = $this->_tmpl->getEndTag();
 
-		$this->_ns = $this->_tmpl->getNamespace();
-		if (is_array($this->_ns)) {
-			$this->_ns = array_shift($this->_ns);
-		}
+	    $this->_ns = $this->_tmpl->getNamespace();
+	    if (is_array($this->_ns)) {
+	    	$this->_ns = array_shift($this->_ns);
+	    }
 		$regex = chr( 1 ) . "([^\\\])" . $startTag . "([^a-z]+)\|(.+[^\\\])(\|(.+):(.+[^\\\]))*" . $endTag . chr( 1 ) . "U";
 		$data = preg_replace_callback($regex, array( $this, '_generateReplace' ), $data);
 		return $data;

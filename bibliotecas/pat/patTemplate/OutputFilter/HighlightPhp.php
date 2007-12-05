@@ -25,7 +25,7 @@
 class patTemplate_OutputFilter_HighlightPhp extends patTemplate_OutputFilter
 {
    /**
-	* filter name
+    * filter name
 	*
 	* @access	protected
 	* @abstract
@@ -42,7 +42,7 @@ class patTemplate_OutputFilter_HighlightPhp extends patTemplate_OutputFilter
 	*/
 	function apply( $data )
 	{
-		return highlight_string($data, true);
+	    return highlight_string($data, true);
 	}
 }
 ?>

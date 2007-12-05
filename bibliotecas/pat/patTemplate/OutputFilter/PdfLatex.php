@@ -2,7 +2,7 @@
 /**
  * patTemplate output filter that creates PDF files from latex
  *
- * $Id: PdfLatex.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: PdfLatex.php 426 2006-02-26 12:42:16Z schst $
  *
  * @package		patTemplate
  * @subpackage	Filters
@@ -12,7 +12,7 @@
 /**
  * patTemplate output filter that creates PDF files from latex
  *
- * $Id: PdfLatex.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: PdfLatex.php 426 2006-02-26 12:42:16Z schst $
  *
  * @package		patTemplate
  * @subpackage	Filters
@@ -21,7 +21,7 @@
 class patTemplate_OutputFilter_PdfLatex extends patTemplate_OutputFilter
 {
    /**
-	* filter name
+    * filter name
 	*
 	* This has to be set in the final
 	* filter classes.
@@ -31,8 +31,8 @@ class patTemplate_OutputFilter_PdfLatex extends patTemplate_OutputFilter
 	var	$_name	=	'PdfLatex';
 
 	var $_params = array(
-						   'cacheFolder' => './'
-					   );
+	                       'cacheFolder' => './'
+	                   );
 
    /**
 	* tidy the data
@@ -43,20 +43,20 @@ class patTemplate_OutputFilter_PdfLatex extends patTemplate_OutputFilter
 	*/
 	function apply( $data )
 	{
-		$cacheFolder = $this->getParam('cacheFolder');
-		$texFile	 = tempnam($cacheFolder, 'pt_tex_');
-		$fp = fopen($texFile, 'w');
-		fwrite($fp, $data);
-		fclose($fp);
+	    $cacheFolder = $this->getParam('cacheFolder');
+	    $texFile     = tempnam($cacheFolder, 'pt_tex_') . '.tex';
+	    $fp = fopen($texFile, 'w');
+	    fwrite($fp, $data);
+	    fclose($fp);
 
-		$command = 'pdflatex '.$texFile;
-		exec($command);
-		exec($command);
+	    $command = 'pdflatex --interaction=nonstopmode '.$texFile;
+	    exec($command);
+	    exec($command);
 
-		$pdf = $texFile . '.pdf';
-		$pdf = file_get_contents($pdf);
+	    $pdf = $texFile . '.pdf';
+	    $pdf = file_get_contents($pdf);
 
-		return $pdf;
+	    return $pdf;
 	}
 }
 ?>

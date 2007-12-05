@@ -2,7 +2,7 @@
 /**
  * patTemplate Template cache that stores data on filesystem
  *
- * $Id: File.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: File.php 424 2006-02-26 12:31:00Z schst $
  *
  * @package		patTemplate
  * @subpackage	Caches
@@ -12,7 +12,7 @@
 /**
  * patTemplate Template cache that stores data on filesystem
  *
- * $Id: File.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: File.php 424 2006-02-26 12:31:00Z schst $
  *
  * Possible parameters for the cache are:
  * - cacheFolder : set the folder from which to load the cache
@@ -36,7 +36,7 @@ class patTemplate_TemplateCache_File extends patTemplate_TemplateCache
 						 'cacheFolder' => './cache',
 						 'lifetime'	   => 'auto',
 						 'prefix'	   => '',
-						 'filemode'	=> null
+						 'filemode'    => null
 						);
 
 
@@ -71,10 +71,10 @@ class patTemplate_TemplateCache_File extends patTemplate_TemplateCache
 			}
 			return unserialize( file_get_contents( $filename ) );
 		}
-
+		
 		return false;
 	}
-
+	
    /**
 	* write template to cache
 	*
@@ -85,7 +85,7 @@ class patTemplate_TemplateCache_File extends patTemplate_TemplateCache
 	*/
 	function write( $key, $templates )
 	{
-		$cacheFile = $this->_getCachefileName($key);
+        $cacheFile = $this->_getCachefileName($key);	    
 		$fp = @fopen($cacheFile, 'w');
 		if (!$fp) {
 			return false;
@@ -94,7 +94,7 @@ class patTemplate_TemplateCache_File extends patTemplate_TemplateCache
 		fputs( $fp, serialize($templates));
 		flock( $fp, LOCK_UN );
 		$filemode = $this->getParam('filemode');
-		if ($filemode !== null) {
+		if ($filemode !== null && $filemode !== false) {
 			chmod($cacheFile, $filemode);
 		}
 		return true;

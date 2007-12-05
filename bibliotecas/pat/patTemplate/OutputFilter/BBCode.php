@@ -24,7 +24,7 @@
  *
  * - skinDir (required)
  *   The folder where BBCode templates are stored
- *
+ *   
  * - reader (required)
  *   The type of reader to use
  *
@@ -41,7 +41,7 @@
 class patTemplate_OutputFilter_BBCode extends patTemplate_OutputFilter
 {
    /**
-	* filter name
+    * filter name
 	*
 	* @access	protected
 	* @abstract
@@ -70,7 +70,7 @@ class patTemplate_OutputFilter_BBCode extends patTemplate_OutputFilter
 			return $data;
 
 		$data = $this->BBCode->parseString( $data );
-
+			
 		return $data;
 	}
 
@@ -85,13 +85,13 @@ class patTemplate_OutputFilter_BBCode extends patTemplate_OutputFilter
 		if( is_object( $this->BBCode ) ) {
 			return true;
 		}
-
+		
 		// maybe a fully configured BBCode object was provided?
 		if( isset( $this->_params['BBCode'] ) ) {
 			$this->BBCode =& $this->_params['BBCode'];
 			return true;
 		}
-
+		
 		// include the patBBCode class
 		if( !class_exists( 'patBBCode' ) )
 		{
@@ -100,12 +100,12 @@ class patTemplate_OutputFilter_BBCode extends patTemplate_OutputFilter
 		}
 
 		$this->BBCode = &new patBBCode();
-
+		
 		if( isset( $this->_params['skinDir'] ) )
 			$this->BBCode->setSkinDir( $this->_params['skinDir'] );
-
+		
 		$reader =& $this->BBCode->createConfigReader( $this->_params['reader'] );
-
+		
 		// give patBBCode the reader we just created
 		$this->BBCode->setConfigReader( $reader );
 

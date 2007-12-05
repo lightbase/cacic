@@ -18,7 +18,7 @@ define('PATTEMPLATE_FUNCTION_COMPILE', 1);
  * function is executed, when template parsed
  */
 define('PATTEMPLATE_FUNCTION_RUNTIME', 2);
-
+ 
 /**
  * Base class for patTemplate functions
  *
@@ -38,7 +38,7 @@ class patTemplate_Function extends patTemplate_Module
 	* @var	  object
 	*/
 	var $_reader;
-
+	
    /**
 	* function type
 	*
@@ -46,13 +46,13 @@ class patTemplate_Function extends patTemplate_Module
 	* @var	  integer
 	*/
 	var $type = PATTEMPLATE_FUNCTION_COMPILE;
-
+	
    /**
 	* set the reference to the reader object
 	*
 	* @access	public
 	* @param	object patTemplate_Reader
-	*/
+	*/ 
 	function setReader( &$reader )
 	{
 		$this->_reader = &$reader;
@@ -66,7 +66,7 @@ class patTemplate_Function extends patTemplate_Module
 	* @param	array	parameters of the function (= attributes of the tag)
 	* @param	string	content of the tag
 	* @return	string	content to insert into the template
-	*/
+	*/ 
 	function call( $params, $content )
 	{
 	}

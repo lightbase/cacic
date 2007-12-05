@@ -64,7 +64,7 @@ class patTemplate_Modifier_Wordwrapper extends patTemplate_Modifier
 
 		if( isset( $params['nl2br'] ) && $params['nl2br'] === 'yes' )
 			$value	=	nl2br( $value );
-
+		
 		return $value;
 	}
 }

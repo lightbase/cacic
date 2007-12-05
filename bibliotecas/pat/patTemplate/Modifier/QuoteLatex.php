@@ -21,17 +21,17 @@
  */
 class patTemplate_Modifier_QuoteLatex extends patTemplate_Modifier
 {
-	/**
-	 *
-	 *
-	 */
-	var $_chars = array(
-						'%' => '\%',
-						'&' => '\&',
-						'_' => '\_',
-						'$' => '\$'
-					);
-
+    /**
+     *
+     *
+     */
+    var $_chars = array(
+                        '%' => '\%',
+                        '&' => '\&',
+                        '_' => '\_',
+                        '$' => '\$'
+                    );
+    
    /**
 	* modify the value
 	*
@@ -41,7 +41,7 @@ class patTemplate_Modifier_QuoteLatex extends patTemplate_Modifier
 	*/
 	function modify( $value, $params = array() )
 	{
-		return strtr($value, $this->_chars);
+	    return strtr($value, $this->_chars);
 	}
 }
 ?>

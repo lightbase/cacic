@@ -8,7 +8,7 @@
  * @subpackage	Readers
  * @author		Stephan Schmidt <schst@php.net>
  */
-
+ 
 /**
  * patTemplate Reader that reads from a file
  *
@@ -21,7 +21,7 @@
 class patTemplate_Reader_File extends patTemplate_Reader
 {
    /**
-	* reader name
+    * reader name
 	* @access	private
 	* @var		string
 	*/
@@ -34,7 +34,7 @@ class patTemplate_Reader_File extends patTemplate_Reader
 	* @var		boolean
 	*/
 	var $_isRemote = false;
-
+	
    /**
 	* all files, that have been opened
 	*
@@ -42,9 +42,9 @@ class patTemplate_Reader_File extends patTemplate_Reader
 	* @var		array
 	*/
 	var $_files = array();
-
+	
    /**
-	* read templates from any input
+    * read templates from any input 
 	*
 	* @final
 	* @access	public
@@ -59,11 +59,11 @@ class patTemplate_Reader_File extends patTemplate_Reader
 			$relative = false;
 		}
 		if ($relative === false) {
-	   		$this->_currentInput = $input;
+       		$this->_currentInput = $input;
 		} else {
 			$this->_currentInput = dirname($relative) . DIRECTORY_SEPARATOR . $input;
 		}
-
+		
 		$fullPath = $this->_resolveFullPath($input, $relative);
 		if (patErrorManager::isError($fullPath)) {
 			return $fullPath;
@@ -74,15 +74,15 @@ class patTemplate_Reader_File extends patTemplate_Reader
 		}
 
 		$templates = $this->parseString($content);
-
+		
 		return	$templates;
 	}
 
    /**
-	* load template from any input
-	*
-	* If the a template is loaded, the content will not get
-	* analyzed but the whole content is returned as a string.
+    * load template from any input 
+    *
+    * If the a template is loaded, the content will not get
+    * analyzed but the whole content is returned as a string.
 	*
 	* @abstract	must be implemented in the template readers
 	* @param	mixed	input to load from.
@@ -106,31 +106,31 @@ class patTemplate_Reader_File extends patTemplate_Reader
 	* resolve path for a template
 	*
 	* @access	private
-	* @param	string			filename
-	* @param	boolean|string  filename for relative path calculation
-	* @return	string			full path
-	*/
+	* @param	string		    filename
+	* @param    boolean|string  filename for relative path calculation
+	* @return	string		    full path
+	*/	
 	function _resolveFullPath( $filename, $relativeTo = false )
 	{
 		if (preg_match( '/^[a-z]+:\/\//', $filename )) {
 			$this->_isRemote = true;
 			return $filename;
 		} else {
-			$rootFolders = $this->getTemplateRoot();
-			if (!is_array($rootFolders)) {
-				$rootFolders = array($rootFolders);
-			}
-			foreach ($rootFolders as $root) {
-				if ($relativeTo === false) {
-					$baseDir = $root;
-				} else {
-					$baseDir = $root . DIRECTORY_SEPARATOR . dirname($relativeTo);
-				}
-				$fullPath = $baseDir . DIRECTORY_SEPARATOR . $filename;
-				if (file_exists($fullPath)) {
-					return $fullPath;
-				}
-			}
+		    $rootFolders = $this->getTemplateRoot();
+		    if (!is_array($rootFolders)) {
+                $rootFolders = array($rootFolders);
+		    }
+		    foreach ($rootFolders as $root) {
+    		    if ($relativeTo === false) {
+        			$baseDir = $root;
+    		    } else {
+                    $baseDir = $root . DIRECTORY_SEPARATOR . dirname($relativeTo);
+    		    }
+    			$fullPath = $baseDir . DIRECTORY_SEPARATOR . $filename;
+    			if (file_exists($fullPath)) {
+    				return $fullPath;
+    			}
+		    }
 		}
 		return patErrorManager::raiseError(
 									PATTEMPLATE_READER_ERROR_NO_INPUT,
@@ -144,7 +144,7 @@ class patTemplate_Reader_File extends patTemplate_Reader
 	* @access	private
 	* @param	string		filename
 	* @return	string		file contents
-	*/
+	*/	
 	function _getFileContents( $file )
 	{
 		if (!$this->_isRemote && (!file_exists($file) || !is_readable($file))) {

@@ -26,7 +26,7 @@
 class patTemplate_Dump extends patTemplate_Module
 {
    /**
-	* reference to the patTemplate object that instantiated the module
+    * reference to the patTemplate object that instantiated the module
 	*
 	* @access	protected
 	* @var	object
@@ -34,7 +34,7 @@ class patTemplate_Dump extends patTemplate_Module
 	var	$_tmpl;
 
    /**
-	* set a reference to the patTemplate object that instantiated the reader
+    * set a reference to the patTemplate object that instantiated the reader
 	*
 	* @access	public
 	* @param	object		patTemplate object
@@ -63,7 +63,7 @@ class patTemplate_Dump extends patTemplate_Module
 	function dumpGlobals( $globals )
 	{
 	}
-
+	
    /**
 	* dump the templates
 	*
@@ -120,7 +120,7 @@ class patTemplate_Dump extends patTemplate_Module
 		{
 			if( !is_array( $value ) )
 				continue;
-
+				
 			$flatten[$var] = '['.count($value).' rows] ('.implode( ', ', $value ).')';
 		}
 
@@ -137,9 +137,9 @@ class patTemplate_Dump extends patTemplate_Module
 	function _extractVars( $template )
 	{
 		$pattern = '/'.$this->_tmpl->getStartTag().'([^a-z]+)'.$this->_tmpl->getEndTag().'/U';
-
+		
 		$matches = array();
-
+		
 		$result = preg_match_all( $pattern, $template, $matches );
 		if( $result == false )
 			return array();

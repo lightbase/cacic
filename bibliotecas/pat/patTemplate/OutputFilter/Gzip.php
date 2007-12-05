@@ -27,7 +27,7 @@
 class patTemplate_OutputFilter_Gzip extends patTemplate_OutputFilter
 {
    /**
-	* filter name
+    * filter name
 	*
 	* This has to be set in the final
 	* filter classes.
@@ -50,16 +50,16 @@ class patTemplate_OutputFilter_Gzip extends patTemplate_OutputFilter
 		if (!$this->_clientSupportsGzip()) {
 			return $data;
 		}
-
+	
 		$size = strlen( $data );
 		$crc  = crc32( $data );
 
-		$data = gzcompress( $data, 9 );
-		$data = substr( $data, 0, strlen( $data ) - 4 );
+        $data = gzcompress( $data, 9 );
+        $data = substr( $data, 0, strlen( $data ) - 4 );
 
 		$data .= $this->_gfc( $crc );
 		$data .= $this->_gfc( $size );
-
+	
 		header( 'Content-Encoding: gzip' );
 		$data = "\x1f\x8b\x08\x00\x00\x00\x00\x00" . $data;
 		return $data;
@@ -73,10 +73,10 @@ class patTemplate_OutputFilter_Gzip extends patTemplate_OutputFilter
 	*/
 	function _clientSupportsGzip()
 	{
-		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-			return false;
-		}
-
+	    if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+	    	return false;
+	    }
+	    
 		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
 			return  true;
 		}
@@ -86,9 +86,9 @@ class patTemplate_OutputFilter_Gzip extends patTemplate_OutputFilter
    /**
 	* get value as hex-string
 	*
-	* @access      public
-	* @param       integer $value  value to convert
-	* @return      string  $string converted string
+	* @access       public
+	* @param        integer $value  value to convert
+	* @return       string  $string converted string
 	*/
 	function _gfc( $value )
 	{

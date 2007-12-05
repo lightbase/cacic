@@ -17,7 +17,7 @@
  *
  * Available attributes:
  *
- * name	 >  name of the variable
+ * name     >  name of the variable
  * default  >  default value of the variable
  * hidden   >  whether to output the content of the variable: yes|no
  *
@@ -38,7 +38,7 @@ class patTemplate_Function_Globalvar extends patTemplate_Function
 	var $_name	=	'Globalvar';
 
    /**
-	* reference to the patTemplate object that instantiated the module
+    * reference to the patTemplate object that instantiated the module
 	*
 	* @access	protected
 	* @var	object
@@ -46,7 +46,7 @@ class patTemplate_Function_Globalvar extends patTemplate_Function
 	var	$_tmpl;
 
    /**
-	* set a reference to the patTemplate object that instantiated the reader
+    * set a reference to the patTemplate object that instantiated the reader
 	*
 	* @access	public
 	* @param	object		patTemplate object
@@ -63,22 +63,22 @@ class patTemplate_Function_Globalvar extends patTemplate_Function
 	* @param	array	parameters of the function (= attributes of the tag)
 	* @param	string	content of the tag
 	* @return	string	content to insert into the template
-	*/
+	*/ 
 	function call( $params, $content )
 	{
 		if( isset( $params['default'] ) )
 		{
 			$this->_tmpl->addGlobalVar( $params['name'], $params['default'] );
 		}
-
+		
 		if( !isset( $params['hidden'] ) )
 		{
 			$params['hidden'] = 'no';
 		}
-
+		
 		if( $params['hidden'] != 'yes' )
 			return $this->_tmpl->getOption('startTag').strtoupper($params['name']).$this->_tmpl->getOption('endTag');
-
+			
 		return '';
 	}
 }

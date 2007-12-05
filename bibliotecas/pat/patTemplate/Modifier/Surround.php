@@ -15,14 +15,14 @@
  * splits a text and surrunds each part by custom start and end strings
  *
  * Possible attributes are:
- * - delimiter (string)
+ * - delimiter (string) 
  * - start (string)
  * - end (string)
  * - keepdelimiter (yes|no) default: no
  * - withfirst (yes|no) default: yes
  * - withlast (yes|no) default: yes
  *
- *
+ * 
  * @package		patTemplate
  * @subpackage	Modifiers
  * @author		gERD Schaufelberger <gerd@php-tools.net>
@@ -43,44 +43,44 @@ class patTemplate_Modifier_Surround extends patTemplate_Modifier
 		$delimiter	=	"\n";
 		$start		=	'';
 		$end		=	'';
-
+	
 		// where to split
-		if( isset( $params['delimiter'] ) )
+        if( isset( $params['delimiter'] ) )
 		{
 			$delimiter	=	$params['delimiter'];
 		}
-
-		if( isset( $params['start'] ) )
+		
+        if( isset( $params['start'] ) )
 		{
 			$start	=	$params['start'];
 		}
-
-		if( isset( $params['end'] ) )
+		
+        if( isset( $params['end'] ) )
 		{
 			$end	=	$params['end'];
 		}
 
 		// append the delimiter?
-		if( isset( $params['keepdelimiter'] ) && $params['keepdelimiter'] === 'yes' )
+        if( isset( $params['keepdelimiter'] ) && $params['keepdelimiter'] === 'yes' )
 		{
 			$end	.=	$delimiter;
 		}
 
 		$split	=	explode( $delimiter, $value );
 		$value	=	implode( $end . $start, $split );
-
+		
 		// add first?
-		if( !isset( $params['withfirst'] ) || $params['withfirst'] !== 'no' )
+        if( !isset( $params['withfirst'] ) || $params['withfirst'] !== 'no' )
 		{
 			$value	=	$start . $value;
 		}
-
+		
 		// add last?
-		if( !isset( $params['withlast'] ) || $params['withlast'] !== 'no' )
+        if( !isset( $params['withlast'] ) || $params['withlast'] !== 'no' )
 		{
 			$value	.=	$end;
 		}
-
+		
 		return $value;
 	}
 }

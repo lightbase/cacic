@@ -34,28 +34,28 @@ class patTemplate_Function_Highlight extends patTemplate_Function
 	* @param	array	parameters of the function (= attributes of the tag)
 	* @param	string	content of the tag
 	* @return	string	content to insert into the template
-	*/
+	*/ 
 	function call($params, $content)
 	{
-		if (!include_once 'Text/Highlighter.php') {
-			return false;
-		}
-		include_once 'Text/Highlighter/Renderer/Html.php';
+        if (!include_once 'Text/Highlighter.php') {
+        	return false;
+        }
+        include_once 'Text/Highlighter/Renderer/Html.php';
 
-		if (!isset($params['type'])) {
-			return $content;
-		}
-		$type = $params['type'];
-		unset($params['type']);
-
-		if (isset($params['numbers']) && defined($params['numbers'])) {
-			$params['numbers'] = constant($params['numbers']);
-		}
-
-		$renderer	= &new Text_Highlighter_Renderer_HTML($params);
-		$highlighter = &Text_Highlighter::factory($type);
-		$highlighter->setRenderer($renderer);
-		return $highlighter->highlight(trim($content));
+        if (!isset($params['type'])) {
+        	return $content;
+        }
+        $type = $params['type'];
+        unset($params['type']);
+        
+        if (isset($params['numbers']) && defined($params['numbers'])) {
+            $params['numbers'] = constant($params['numbers']);
+        }
+        
+        $renderer    = &new Text_Highlighter_Renderer_HTML($params);
+        $highlighter = &Text_Highlighter::factory($type);
+        $highlighter->setRenderer($renderer);
+        return $highlighter->highlight(trim($content));
 	}
 }
 ?>

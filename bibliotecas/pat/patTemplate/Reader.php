@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate readers
  *
- * $Id: Reader.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: Reader.php 438 2006-08-08 20:50:46Z schst $
  *
  * This class is able to parse patTemplate tags from any string you hand it over
  * It will emulate some kind of SAX parsing by calling start-, end- and CData-handlers.
@@ -70,7 +70,7 @@ define( 'PATTEMPLATE_READER_NOTICE_TEMPLATE_EXISTS', 6051 );
 class patTemplate_Reader extends patTemplate_Module
 {
    /**
-	* reference to the patTemplate object that instantiated the module
+    * reference to the patTemplate object that instantiated the module
 	*
 	* @access	protected
 	* @var	object
@@ -78,28 +78,28 @@ class patTemplate_Reader extends patTemplate_Module
 	var	$_tmpl;
 
    /**
-	* stack for all open elements
+    * stack for all open elements
 	* @access	private
 	* @var	array
 	*/
 	var	$_elStack;
 
    /**
-	* stack for all open templates
+    * stack for all open templates
 	* @access	private
 	* @var	array
 	*/
 	var	$_tmplStack;
 
    /**
-	* character data
+    * character data
 	* @access	private
 	* @var	array
 	*/
 	var	$_data;
 
    /**
-	* tag depth
+    * tag depth
 	* @access	private
 	* @var	integer
 	*/
@@ -134,7 +134,7 @@ class patTemplate_Reader extends patTemplate_Module
 	var	$_endTag;
 
    /**
-	* default attributes
+    * default attributes
 	*
 	* @access	private
 	* @var		array
@@ -142,7 +142,7 @@ class patTemplate_Reader extends patTemplate_Module
 	var	$_defaultAtts	=	array();
 
    /**
-	* root attributes
+    * root attributes
 	*
 	* This is used when reading the template content
 	* from an external file.
@@ -153,7 +153,7 @@ class patTemplate_Reader extends patTemplate_Module
 	var	$_rootAtts	=	array();
 
    /**
-	* inherit attributes
+    * inherit attributes
 	*
 	* @access	private
 	* @var		array
@@ -161,7 +161,7 @@ class patTemplate_Reader extends patTemplate_Module
 	var	$_inheritAtts	=	array();
 
    /**
-	* name of the first template that has been found
+    * name of the first template that has been found
 	*
 	* @access	private
 	* @var		string
@@ -169,7 +169,7 @@ class patTemplate_Reader extends patTemplate_Module
 	var	$_root = null;
 
    /**
-	* all data that has been processed
+    * all data that has been processed
 	*
 	* @access	private
 	* @var		string
@@ -177,7 +177,7 @@ class patTemplate_Reader extends patTemplate_Module
 	var	$_processedData = null;
 
    /**
-	* current input
+    * current input
 	*
 	* @access	private
 	* @var		string
@@ -185,7 +185,7 @@ class patTemplate_Reader extends patTemplate_Module
 	var	$_currentInput = null;
 
    /**
-	* all loaded functions
+    * all loaded functions
 	*
 	* @access	private
 	* @var		array
@@ -193,31 +193,31 @@ class patTemplate_Reader extends patTemplate_Module
 	var	$_functions	=	array();
 
    /**
-	* function aliases
-	*
-	* @access   private
-	* @var	  array
-	*/
-	var $_funcAliases = array();
+    * function aliases
+    *
+    * @access   private
+    * @var      array
+    */
+    var $_funcAliases = array();
 
    /**
-	* options
-	*
-	* @access   private
-	* @var	  array
-	*/
-	var $_options = array();
+    * options
+    *
+    * @access   private
+    * @var      array
+    */
+    var $_options = array();
 
    /**
-	* reader is in use
-	*
-	* @access   private
-	* @var	  boolean
-	*/
-	var $_inUse = false;
+    * reader is in use
+    *
+    * @access   private
+    * @var      boolean
+    */
+    var $_inUse = false;
 
    /**
-	* set a reference to the patTemplate object that instantiated the reader
+    * set a reference to the patTemplate object that instantiated the reader
 	*
 	* @access	public
 	* @param	object		patTemplate object
@@ -228,7 +228,7 @@ class patTemplate_Reader extends patTemplate_Module
 	}
 
    /**
-	* read templates from any input
+    * read templates from any input
 	*
 	* @abstract	must be implemented in the template readers
 	* @param	mixed	input to read from.
@@ -242,10 +242,10 @@ class patTemplate_Reader extends patTemplate_Module
 	}
 
    /**
-	* load template from any input
-	*
-	* If the a template is loaded, the content will not get
-	* analyzed but the whole content is returned as a string.
+    * load template from any input
+    *
+    * If the a template is loaded, the content will not get
+    * analyzed but the whole content is returned as a string.
 	*
 	* @abstract	must be implemented in the template readers
 	* @param	mixed	input to load from.
@@ -272,22 +272,22 @@ class patTemplate_Reader extends patTemplate_Module
 		$this->_options  = $options;
 
 		if (isset($options['functionAliases'])) {
-			$this->_funcAliases = $options['functionAliases'];
+		    $this->_funcAliases = $options['functionAliases'];
 		}
 		array_map('strtolower', $this->_funcAliases);
 	}
 
    /**
-	* add an alias for a function
-	*
-	* @access   public
-	* @param	string  alias
-	* @param	string  function name
-	*/
-	function addFunctionAlias($alias, $function)
-	{
-		$this->_funcAliases[strtolower($alias)] = $function;
-	}
+    * add an alias for a function
+    *
+    * @access   public
+    * @param    string  alias
+    * @param    string  function name
+    */
+    function addFunctionAlias($alias, $function)
+    {
+        $this->_funcAliases[strtolower($alias)] = $function;
+    }
 
    /**
 	* set the root attributes
@@ -334,7 +334,7 @@ class patTemplate_Reader extends patTemplate_Module
 		/**
 		 * create a special root template
 		 */
-		$attributes			= $this->_rootAtts;
+		$attributes		    = $this->_rootAtts;
 		$attributes['name']	= '__ptroot';
 
 		$rootTemplate = $this->_initTemplate( $attributes );
@@ -481,7 +481,7 @@ class patTemplate_Reader extends patTemplate_Module
 	function _startElement( $ns, $name, $attributes )
 	{
 		array_push( $this->_elStack, array(
-											'ns'			=>  $ns,
+                                            'ns'			=>  $ns,
 											'name'			=>	$name,
 											'attributes'	=>	$attributes,
 										)
@@ -554,7 +554,7 @@ class patTemplate_Reader extends patTemplate_Module
 					}
 				}
 				$result = array(
-								'type'	   => 'custom',
+								'type'       => 'custom',
 								'function'   => $name,
 								'attributes' => $attributes
 								);
@@ -640,7 +640,7 @@ class patTemplate_Reader extends patTemplate_Module
 			 * custom function
 			 */
 			default:
-				$name = ucfirst( $tmpl['function'] );
+                $name = ucfirst( $tmpl['function'] );
 
 				if( !isset( $this->_functions[$name] ) ) {
 					$this->_functions[$name] = $this->_tmpl->loadModule( 'Function', $name );
@@ -815,7 +815,7 @@ class patTemplate_Reader extends patTemplate_Module
 	}
 
    /**
-	* prepare attributes
+    * prepare attributes
 	*
 	* @access	private
 	* @param	array	attributes
@@ -840,27 +840,27 @@ class patTemplate_Reader extends patTemplate_Module
 
 		$attributes['type']	= strtolower( $attributes['type'] );
 
-		if( !isset( $attributes['rowoffset'] ) ) {
-			$attributes['rowoffset'] = 1;
-		}
+        if( !isset( $attributes['rowoffset'] ) ) {
+        	$attributes['rowoffset'] = 1;
+        }
 
-		if( !isset( $attributes['addsystemvars'] ) ) {
-			$attributes['addsystemvars'] = false;
-		} else {
-			switch ($attributes['addsystemvars']) {
-				case 'on':
-				case 'boolean':
-					$attributes['addsystemvars'] = 'boolean';
-					break;
-				case 'int':
-				case 'integer':
-					$attributes['addsystemvars'] = 'integer';
-					break;
-				case 'off':
-					$attributes['addsystemvars'] = false;
-					break;
-			}
-		}
+        if( !isset( $attributes['addsystemvars'] ) ) {
+        	$attributes['addsystemvars'] = false;
+        } else {
+            switch ($attributes['addsystemvars']) {
+                case 'on':
+                case 'boolean':
+                    $attributes['addsystemvars'] = 'boolean';
+                    break;
+                case 'int':
+                case 'integer':
+                    $attributes['addsystemvars'] = 'integer';
+                    break;
+                case 'off':
+                    $attributes['addsystemvars'] = false;
+                    break;
+            }
+        }
 
 		/**
 		 * external template
@@ -874,9 +874,9 @@ class patTemplate_Reader extends patTemplate_Module
 				$attributes['autoload']	=	$this->_defaultAtts['autoload'];
 
 		 	if (isset($attributes['relative']) && strtolower($attributes['relative'] === 'yes')) {
-				$attributes['relative']	= $this->getCurrentInput();
+                $attributes['relative']	= $this->getCurrentInput();
 		 	} else {
-				$attributes['relative']	= false;
+                $attributes['relative']	= false;
 		 	}
 		}
 
@@ -888,7 +888,7 @@ class patTemplate_Reader extends patTemplate_Module
 			 * varscope is parent
 			 */
 		 	if( $attributes['varscope'] === '__parent' ) {
-				$attributes['varscope'] = $this->_getFromParentTemplate( 'name' );
+				$attributes['varscope'] = $this->_getFromParentTemplate('name');
 			}
 
 			$attributes['varscope']	= strtolower( $attributes['varscope'] );
@@ -941,9 +941,9 @@ class patTemplate_Reader extends patTemplate_Module
 						$val = trim(substr( $var, $pos+1 ));
 						$var = trim(substr( $var, 0, $pos ));
 					} else {
-						$val = null;
+                        $val = null;
 					}
-					$var = strtoupper($var);
+				    $var = strtoupper($var);
 					$pos = strpos( $var, '.' );
 
 					if ($pos === false) {
@@ -1122,7 +1122,7 @@ class patTemplate_Reader extends patTemplate_Module
 		$matches = array();
 		$regexp = '/^'.$this->_startTag.'([^a-z]+[^\\\])'.$this->_endTag.'$/U';
 		if (preg_match($regexp, $attributes['condition'], $matches)) {
-			$attributes['var'] = $matches[1];
+		    $attributes['var'] = $matches[1];
 		}
 
 		/**
@@ -1245,9 +1245,14 @@ class patTemplate_Reader extends patTemplate_Module
 		if (isset( $attributes['copyfrom'] )) {
 			$specs['copyfrom'] = strtoupper( $attributes['copyfrom'] );
 
-			if (strstr( $specs['copyfrom'], '.' )) {
-				$specs['copyfrom']	= explode( '.', $specs['copyfrom'] );
-				$specs['copyfrom'][0] = strtolower( $specs['copyfrom'][0] );
+			if (strstr( $specs['copyfrom'], '.' )) {         
+				$specs['copyfrom']    = explode( '.', $specs['copyfrom'] );
+                
+                if ($specs['copyfrom'][0] == '__PARENT') {
+                    $specs['copyfrom'][0] = $this->_getFromParentTemplate('name', 2);
+                } else { 
+				    $specs['copyfrom'][0] = strtolower( $specs['copyfrom'][0] );
+                }            
 			}
 
 			unset( $attributes['copyfrom'] );
@@ -1346,9 +1351,10 @@ class patTemplate_Reader extends patTemplate_Module
 	*
 	* @access	private
 	* @param	string	property to add to
+    * @param    int     how many levels to climb up, 1 is default - which is the parent's template   
 	* @return	mixed	value to add
 	*/
-	function _getFromParentTemplate( $property )
+	function _getFromParentTemplate( $property, $level = 1 )
 	{
 		$cnt = count( $this->_tmplStack );
 
@@ -1356,7 +1362,7 @@ class patTemplate_Reader extends patTemplate_Module
 			return false;
 		}
 
-		$pos = $cnt - 1;
+		$pos = $cnt - $level;
 		while ($pos >= 0) {
 			if( $this->_tmplStack[$pos]['type'] != 'tmpl' ) {
 				$pos--;
@@ -1506,11 +1512,11 @@ class patTemplate_Reader extends patTemplate_Module
 	}
 
    /**
-	* get the current input
-	*
-	* @access   public
-	* @return   string
-	*/
+    * get the current input
+    *
+    * @access   public
+    * @return   string
+    */
 	function getCurrentInput()
 	{
 		return $this->_currentInput;
@@ -1536,11 +1542,11 @@ class patTemplate_Reader extends patTemplate_Module
 	}
 
    /**
-	* returns, whether the reader currently is in use
-	*
-	* @access   public
-	* @return   boolean
-	*/
+    * returns, whether the reader currently is in use
+    *
+    * @access   public
+    * @return   boolean
+    */
 	function isInUse()
 	{
 		return $this->_inUse;
@@ -1554,16 +1560,16 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	function getTemplateRoot()
 	{
-		if (!isset($this->_options['root'])) {
-			return null;
-		}
-		if (isset($this->_options['root'][$this->_name])) {
-			return $this->_options['root'][$this->_name];
-		}
-		if (isset($this->_options['root']['__default'])) {
-			return $this->_options['root']['__default'];
-		}
-		return null;
+	    if (!isset($this->_options['root'])) {
+	    	return null;
+	    }
+	    if (isset($this->_options['root'][$this->_name])) {
+	    	return $this->_options['root'][$this->_name];
+	    }
+	    if (isset($this->_options['root']['__default'])) {
+	    	return $this->_options['root']['__default'];
+	    }
+	    return null;
 	}
 }
 ?>

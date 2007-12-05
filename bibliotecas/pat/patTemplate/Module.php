@@ -27,7 +27,7 @@
 class patTemplate_Module
 {
    /**
-	* module name
+    * module name
 	*
 	* This has to be set in the final
 	* module classes.
@@ -38,7 +38,7 @@ class patTemplate_Module
 	var	$_name = null;
 
    /**
-	* module parameters
+    * module parameters
 	*
 	* @access	protected
 	* @var		array

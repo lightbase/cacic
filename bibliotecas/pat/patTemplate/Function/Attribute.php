@@ -41,11 +41,11 @@ class patTemplate_Function_Attribute extends patTemplate_Function
 	* @param	array	parameters of the function (= attributes of the tag)
 	* @param	string	content of the tag
 	* @return	string	content to insert into the template
-	*/
+	*/ 
 	function call( $params, $content )
 	{
 		if( isset( $params['name'] ) )
-		{
+		{ 
 			$this->_reader->_addToParentTag( 'attributes', $content, $params['name'] );
 		}
 		return '';

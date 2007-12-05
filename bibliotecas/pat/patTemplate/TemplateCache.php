@@ -51,7 +51,7 @@ class patTemplate_TemplateCache extends patTemplate_Module
 	{
 		return false;
 	}
-
+	
    /**
 	* write template to cache
 	*
@@ -65,7 +65,7 @@ class patTemplate_TemplateCache extends patTemplate_Module
 	}
 
    /**
-	* get the cache key for the input
+    * get the cache key for the input
 	*
 	* @param	mixed	input to read from.
 	*					This can be a string, a filename, a resource or whatever the derived class needs to read from

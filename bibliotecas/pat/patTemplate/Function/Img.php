@@ -3,7 +3,7 @@
  * patTemplate function that returns a complete imagetag and
  * width and height are extracted from the image
  *
- * $Id: Img.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: Img.php 428 2006-08-05 19:52:24Z schst $
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -14,7 +14,7 @@
  * patTemplate function that returns a complete imagetag and
  * width and height are extracted from the image
  *
- * $Id: Img.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: Img.php 428 2006-08-05 19:52:24Z schst $
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -29,7 +29,7 @@ class patTemplate_Function_Img extends patTemplate_Function {
 	var $_name	  =	'Img';
 
    /**
-	* defaults for some tags
+    * defaults for some tags
 	*
 	* @access	protected
 	* @var	array
@@ -45,24 +45,24 @@ class patTemplate_Function_Img extends patTemplate_Function {
 	* @return	string	content to insert into the template
 	*/
 	function call ($params, $content)
-	{
-		$src= $params['src'] ? $params['src'] : $content;
-		list($width, $height, $type, $attr)= getimagesize($src);
+    {
+        $src= $params['src'] ? $params['src'] : $content;
+        list($width, $height, $type, $attr)= getimagesize($src);
 
-		$this->_defaults= array(
-		  'border' => 0,
-		  'title'  => '',
-		  'alt'    => '',
-		  'width'  => $width,
-		  'height' => $height
-		);
+        $this->_defaults= array(
+          'border' => 0,
+          'title'  => '',
+          'alt'    => '',
+          'width'  => $width,
+          'height' => $height
+        );
 
-		$params = array_merge($this->_defaults, $params);
-		$tags= '';
-		foreach ($params as $key => $value){
-		  $tags.= sprintf('%s="%s" ', $key, htmlentities($value));
-		}
-		$imgstr= sprintf('<img %s/>', $tags);
+        $params = array_merge($this->_defaults, $params);
+        $tags= '';
+        foreach ($params as $key => $value){
+          $tags.= sprintf('%s="%s" ', $key, htmlentities($value));
+        }
+        $imgstr= sprintf('<img %s/>', $tags);
 
 		return $imgstr;
 	}

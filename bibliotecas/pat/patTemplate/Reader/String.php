@@ -19,7 +19,7 @@
 class patTemplate_Reader_String extends patTemplate_Reader
 {
    /**
-	* Read templates from a string
+    * Read templates from a string
 	*
 	* @final
 	* @access	public
@@ -32,7 +32,7 @@ class patTemplate_Reader_String extends patTemplate_Reader
 		$this->_currentInput = $input;
 
 		$templates	=	$this->parseString( $input );
-
+		
 		return	$templates;
 	}
 }

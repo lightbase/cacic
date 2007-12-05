@@ -36,14 +36,14 @@ class patTemplate_Function_Time extends patTemplate_Function
 	* @param	array	parameters of the function (= attributes of the tag)
 	* @param	string	content of the tag
 	* @return	string	content to insert into the template
-	*/
+	*/ 
 	function call( $params, $content )
 	{
 		if( !empty( $content ) )
 		{
 			$params['time'] = $content;
 		}
-
+		
 		if( isset( $params['time'] ) )
 		{
 			$params['time'] = strtotime( $params['time'] );
@@ -52,8 +52,8 @@ class patTemplate_Function_Time extends patTemplate_Function
 		{
 			$params['time'] = time();
 		}
-
-
+		
+		
 		return date( $params['format'], $params['time'] );
 	}
 }

@@ -19,7 +19,7 @@
 class patTemplate_Reader_IT extends patTemplate_Reader
 {
    /**
-	* reader name
+    * reader name
 	* @access	private
 	* @var		string
 	*/
@@ -29,7 +29,7 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 	* files that have been used
 	* @access	private
 	* @var		array
-	*/
+	*/	
 	var	$_files	=	array();
 
    /**
@@ -45,7 +45,7 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 		 * apply input filter before parsing
 		 */
 		$string = $this->_tmpl->applyInputFilters( $string );
-
+		
 		$this->_inheritAtts	=	array();
 		$this->_elStack		=	array();
 		$this->_data		=	array( '' );
@@ -54,9 +54,9 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 		$this->_templates	=	array();
 		$this->_path		=	array();
 		$this->_processedData	=	'';
-
+		
 		$this->_defaultAtts	=	$this->_tmpl->getDefaultAttributes();
-
+		
 		if( !isset( $this->_defaultAtts['autoload'] ) )
 			$this->_defaultAtts['autoload']	=	'on';
 
@@ -65,14 +65,14 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 		 */
 		$attributes		= $this->_rootAtts;
 		$attributes['name']	= '__global';
-
+		
 		$rootTemplate	= $this->_initTemplate( $attributes );
 
 		array_push( $this->_tmplStack, $rootTemplate );
 
 		/**
 		 *start parsing
-		 */
+		 */		
 		$patNamespace	=	strtolower( $this->_tmpl->getNamespace() );
 
 		$regexp	=	'/(<!-- (BEGIN|END) ([a-zA-Z]+) -->)/m';
@@ -93,8 +93,8 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 		{
 			$fullTag	=	$tokens[$i++];
 			$closing	=	strtoupper( $tokens[$i++] ) == 'END' ? true : false;
-			$tmplName	=	$tokens[$i++];
-			$namespace  =   $patNamespace;
+            $tmplName	=	$tokens[$i++];
+            $namespace  =   $patNamespace;
 			$tagname	=	'tmpl';
 			$data		=	$tokens[$i++];
 
@@ -125,7 +125,7 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 		$rootTemplate = array_pop( $this->_tmplStack );
 
 		$this->_closeTemplate( $rootTemplate, $this->_data[0] );
-
+		
 		/**
 		 * check for tags that are still open
 		 */
@@ -137,12 +137,12 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 				$this->_createErrorMessage( "No closing tag for {$el['ns']}:{$el['name']} found" )
 			);
 		}
-
+		
 		return	$this->_templates;
 	}
-
+	
    /**
-	* read templates from any input
+    * read templates from any input 
 	*
 	* @final
 	* @access	public
@@ -160,15 +160,15 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 			return $content;
 
 		$templates	=	$this->parseString( $content );
-
+		
 		return	$templates;
 	}
 
    /**
-	* load template from any input
-	*
-	* If the a template is loaded, the content will not get
-	* analyzed but the whole content is returned as a string.
+    * load template from any input 
+    *
+    * If the a template is loaded, the content will not get
+    * analyzed but the whole content is returned as a string.
 	*
 	* @abstract	must be implemented in the template readers
 	* @param	mixed	input to load from.
@@ -189,7 +189,7 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 	* @access	private
 	* @param	string		filename
 	* @return	string		full path
-	*/
+	*/	
 	function _resolveFullPath( $filename )
 	{
 		$baseDir  = $this->getTemplateRoot();
@@ -203,7 +203,7 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 	* @access	private
 	* @param	string		filename
 	* @return	string		file contents
-	*/
+	*/	
 	function _getFileContents( $file )
 	{
 		if( !file_exists( $file ) || !is_readable( $file ) )
@@ -213,17 +213,17 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 										"Could not load templates from $file."
 										);
 		}
-
+		
 		if( function_exists( 'file_get_contents' ) )
 			$content	=	@file_get_contents( $file );
 		else
 			$content	=	implode( '', file( $file ) );
-
+			
 		/**
 		 * store the file name
 		 */
 		array_push( $this->_files, $file );
-
+		
 		return	$content;
 	}
 }

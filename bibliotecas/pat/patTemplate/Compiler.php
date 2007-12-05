@@ -35,16 +35,16 @@ class patTemplate_Compiler extends patTemplate
 	* @access	private
 	* @var		array()
 	*/
-	var $_compiledTemplates = array();
-
+    var $_compiledTemplates = array();
+	
    /**
 	* file pointer to the compiled template
 	*
 	* @access	private
 	* @var		resource
 	*/
-	var $_fp;
-
+    var $_fp;
+    
    /**
 	* constructor
 	*
@@ -72,7 +72,7 @@ class patTemplate_Compiler extends patTemplate
 
 		$compileFolder	=	$this->getOption( 'compileFolder' );
 		$compileFile	=	sprintf( '%s/%s', $compileFolder, $compileName );
-
+		
    		$this->_fp	=	fopen( $compileFile, 'w' );
 		$this->_addToCode( '<?PHP' );
 		$this->_addToCode( '/**' );
@@ -90,7 +90,7 @@ class patTemplate_Compiler extends patTemplate
 		$this->_addToCode( '}' );
 		$this->_addToCode( '?>' );
 		fclose( $this->_fp );
-
+		
 		include_once $compileFile;
 		return true;
 	}
@@ -104,7 +104,7 @@ class patTemplate_Compiler extends patTemplate
 	function compileTemplate( $template )
 	{
 		$name	=	strtolower( $template );
-
+		
 		if( !isset( $this->_templates[$template] ) )
 		{
 			return	patErrorManager::raiseWarning(
@@ -112,7 +112,7 @@ class patTemplate_Compiler extends patTemplate
 													"Template '$name' does not exist."
 												);
 		}
-
+		
 
 		/**
 		 * check, if the template has been loaded
@@ -159,7 +159,7 @@ class patTemplate_Compiler extends patTemplate
 		 * copyVars
 		 */
 		$this->_addToCode( '$this->_templates["'.$template.'"]["copyVars"] = unserialize( \''.serialize($this->_templates[$template]['copyVars']).'\' );', 1, 'Read the copyVars' );
-
+		
 		/**
 		 * check visibility
 		 */
@@ -173,9 +173,9 @@ class patTemplate_Compiler extends patTemplate
 			$this->_addToCode( '$loop = count( $this->_vars["'.$template.'"]["rows"] );', 2, 'Get the amount of loops' );
 			$this->_addToCode( '$loop = max( $loop, 1 );', 2 );
 			$this->_addToCode( '$this->_templates["'.$template.'"]["loop"] = $loop;', 2 );
-
+			
 			$this->_addToCode( 'for( $i = 0; $i < $loop; $i++ ) {', 2, 'Traverse all variables.' );
-
+	
 				/**
 				 * fetch the variables
 				 */
@@ -193,21 +193,21 @@ class patTemplate_Compiler extends patTemplate
 					case 'modulo':
 						$this->_compileModuloTemplate( $template );
 						break;
-
+						
 					/**
 					 * simple condition template
 					 */
 					case 'simplecondition':
 						$this->_compileSimpleConditionTemplate( $template );
 						break;
-
+						
 					/**
 					 * condition template
 					 */
 					case 'condition':
 						$this->_compileConditionTemplate( $template );
 						break;
-
+						
 					/**
 					 * standard template
 					 */
@@ -215,17 +215,17 @@ class patTemplate_Compiler extends patTemplate
 						$this->_compileStandardTemplate( $template );
 						break;
 				}
-				$this->_addToCode( '$this->_templates["'.$template.'"]["iteration"]++;', 3 );
-
+    			$this->_addToCode( '$this->_templates["'.$template.'"]["iteration"]++;', 3 );
+				
 			$this->_addToCode( '}', 2 );
 
 		$this->_addToCode( '}', 1 );
 		$this->_addToCode( '}' );
 
-		/**
-		 * remember this template
-		 */
-		array_push( $this->_compiledTemplates, $template );
+        /**
+         * remember this template
+         */
+        array_push( $this->_compiledTemplates, $template );
 	}
 
    /**
@@ -394,9 +394,9 @@ class patTemplate_Compiler extends patTemplate
 		$content = preg_replace( $this->_varRegexp, '<?PHP echo $this->_getVar( "'.$template.'", "$1"); ?>', $content  );
 		$content = preg_replace( $this->_depRegexp, '<?PHP compiledTemplate::$1(); ?>', $content  );
 		$content = '?>'.$content.'<?PHP';
-		return $content;
+		return $content;	
 	}
-
+	
 
    /**
 	* display the compiled template
@@ -406,20 +406,20 @@ class patTemplate_Compiler extends patTemplate
 	* @access	public
 	* @param	string		name of the template to display
 	*/
-	function displayParsedTemplate( $name = null )
-	{
+    function displayParsedTemplate( $name = null )
+    {
 		if( is_null( $name ) )
 			$name = $this->_root;
-
+		
 		$name	=	strtolower( $name );
 
 		if( !is_callable( 'compiledTemplate', $name ) )
 		{
 			die( 'Unknown template' );
 		}
-
-		compiledTemplate::$name();
-	}
+		
+        compiledTemplate::$name();
+    }
 
    /**
 	* add a line to the compiled code
@@ -434,12 +434,12 @@ class patTemplate_Compiler extends patTemplate
 		if( !is_null( $comment ) )
 		{
 			fputs( $this->_fp, "\n" );
-			if( $indent > 0 )
-				fputs( $this->_fp, str_repeat( "\t", $indent ) );
+	        if( $indent > 0 )
+	            fputs( $this->_fp, str_repeat( "\t", $indent ) );
 			fputs( $this->_fp, "/* $comment */\n" );
 		}
-		if( $indent > 0 )
-			fputs( $this->_fp, str_repeat( "\t", $indent ) );
+        if( $indent > 0 )
+            fputs( $this->_fp, str_repeat( "\t", $indent ) );
 		fputs( $this->_fp, $line."\n" );
 	}
 
@@ -458,7 +458,7 @@ class patTemplate_Compiler extends patTemplate
 	{
 		if( isset( $this->_templates[$template]['vars'][$varname] ) )
 			return $this->_templates[$template]['vars'][$varname];
-
+	
 		if( isset( $this->_globals[$this->_startTag.$varname.$this->_endTag] ) )
 			return $this->_globals[$this->_startTag.$varname.$this->_endTag];
 

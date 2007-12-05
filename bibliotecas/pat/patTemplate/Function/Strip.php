@@ -36,7 +36,7 @@ class patTemplate_Function_Strip extends patTemplate_Function
 	* @param	array	parameters of the function (= attributes of the tag)
 	* @param	string	content of the tag
 	* @return	string	content to insert into the template
-	*/
+	*/ 
 	function call( $params, $content )
 	{
 		return preg_replace( '/\s+/m', ' ', $content );

@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate Stat
  *
- * $Id: File.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: File.php 423 2006-02-26 12:28:19Z schst $
  *
  * A stat component should be implemented for each reader
  * to support caching. Stats return information about the
@@ -16,7 +16,7 @@
 /**
  * Base class for patTemplate Stat
  *
- * $Id: File.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id: File.php 423 2006-02-26 12:28:19Z schst $
  *
  * A stat component should be implemented for each reader
  * to support caching. Stats return information about the
@@ -29,7 +29,7 @@
 class patTemplate_Stat_File extends patTemplate_Stat
 {
    /**
-	* get the modification time of a template
+    * get the modification time of a template
 	*
 	* Needed, if a template cache should be used, that auto-expires
 	* the cache.
@@ -39,9 +39,9 @@ class patTemplate_Stat_File extends patTemplate_Stat
 	*					This can be a string, a filename, a resource or whatever the derived class needs to read from
 	* @return	integer	unix timestamp
 	*/
-	function getModificationTime( $input )
+	function getModificationTime($input)
 	{
-		$fullPath	=	$this->_options['root'] . '/' . $input;
+	    $fullPath = $this->getTemplateRoot() . '/' . $input;
 		return @filemtime( $fullPath );
 	}
 }
