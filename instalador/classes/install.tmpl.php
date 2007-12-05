@@ -29,8 +29,16 @@ if( ! @include("pat/patTemplate.php") )
 
 Class Template extends patTemplate {
    var $patTmpl;
+   
+	/**
+	 * Objeto tradutor
+	 */
+	var $oLang;   
+   
 
    function Template() {
+	 global $_objTranslator;
+	 $this->oLang = $_objTranslator;
      parent::patTemplate();
      $this->setNamespace('cacicInstall');
      $this->setRoot('templates');
@@ -40,15 +48,12 @@ Class Template extends patTemplate {
      $this->readTemplatesFromInput('install_navbar.tmpl');
      
      $this->addVar('tmplPageHeader', 'CACIC_TITLE', 'CACIC - Instalador' );
-     $this->addVar('tmplPageHeader', 'CACIC_LANG', CACIC_LANG );
+     $this->addVar('tmplPageHeader', 'CACIC_LANG', CACIC_LANGUAGE );
      $this->addVar('tmplPageBody', 'CACIC_VERSION', CACIC_VERSION );
      $this->addVar('tmplPageHeader', 'CACIC_LANG_CHARSET', CACIC_LANG_CHARSET );
      $this->addVar('tmplPageHeader', 'CACIC_THEME', CACIC_THEME );
      $this->addVar('tmplPageHeader', 'CACIC_URL', CACIC_URL_INSTALL );
      $this->addVar('tmplNavBar', 'passo', 'first' );
-   }
-   
-   function form2ImportFile() {
    }
 
    function header() {
@@ -59,47 +64,10 @@ Class Template extends patTemplate {
      $this->displayParsedTemplate('tmplNavBar'.$type);
    }
 
-   function setVars( $vars = array() ) {
-     $this->addVar('tmplPipeline', 'hilight_time', $vars['hora_max'] );
-     $this->addVar('tmplPipeline', 'periodo_ini', $vars['periodo_ini'] );
-     $this->addVar('tmplPipeline', 'periodo_fim', $vars['periodo_fim'] );
-     $this->addVar('tmplPipeline', 'unidade', $vars['unidade'] );
-   }
-
    function body() {
      $this->displayParsedTemplate('tmplPageBody');
    }
    
-   function reportHeader() {
-     $this->displayParsedTemplate('tmplRelatorioHeader');
-   }
-   
-   function reportBody($dados) {
-     $this->clearTemplate('tmplRelatorioRows', true);
-     if(!empty($dados))
-       $this->addRows('tmplRelatorioRows', $dados);
-     $this->displayParsedTemplate('tmplRelatorioRows');
-   }
-
-   function reportFooter() {
-     $this->displayParsedTemplate('tmplRelatorioFooter');
-   }
-  
-   function reportDWHeader() {
-     $this->displayParsedTemplate('tmplRelatorioDWHeader');
-   }
-   
-   function reportDWBody($dados) {
-     $this->clearTemplate('tmplRelatorioDWRows', true);
-     if(!empty($dados))
-       $this->addRows('tmplRelatorioDWRows', $dados);
-     $this->displayParsedTemplate('tmplRelatorioDWRows');
-   }
-
-   function reportDWFooter() {
-     $this->displayParsedTemplate('tmplRelatorioDWFooter');
-   }
-  
    function statusBar() {
      $this->displayParsedTemplate('tmplStatusBar');
    }

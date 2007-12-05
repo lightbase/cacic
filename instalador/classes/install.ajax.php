@@ -285,6 +285,22 @@ class InstallAjax {
     $url_aplicacao = "'.CACIC_URL.'";
 
     /*
+     * CACIC application language
+     */
+    $cacic_language = "'.$cacic_config['cacic_language'].'";
+
+    /*
+     * CACIC application standard language
+     * (Language to be viewed when the one above not found)
+     */
+    $cacic_language_standard = "'.$cacic_config['cacic_language_standard'].'";
+
+    /*
+     * CACIC application theme
+     */
+    $cacic_theme = "default";
+
+    /*
      * Caminho fisico da aplicacao "CACIC"
      */
     $path_aplicacao = "'.addslashes(CACIC_PATH).'";

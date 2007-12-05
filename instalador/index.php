@@ -58,6 +58,7 @@
    $_objTranslator = new Translator( CACIC_LANGUAGE, CACIC_PATH."/language/", CACIC_LANGUAGE_STANDARD );
    $_objTranslator->setURLPath(TRANSLATOR_PATH_URL);
    $_objTranslator->initStdLanguages();
+   $_objTranslator->setLangFilesInSubDirs(true);
    //echo $_objTranslator->getText('kciq_mnt_tradutor');
    // FIM de exemplo de uso do tradutor
    
