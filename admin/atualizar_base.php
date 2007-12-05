@@ -22,17 +22,17 @@
 		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#666666">
 <?
  /* 
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informaï¿½ï¿½es da Previdï¿½ncia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ï¿½ parte do programa CACIC - Configurador Automï¿½tico e Coletor de Informaï¿½ï¿½es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ï¿½ um software livre; vocï¿½ pode redistribui-lo e/ou modifica-lo dentro dos termos da Licenï¿½a Pï¿½blica Geral GNU como 
+ publicada pela Fundaï¿½ï¿½o do Software Livre (FSF); na versï¿½o 2 da Licenï¿½a, ou (na sua opniï¿½o) qualquer versï¿½o.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ï¿½ distribuido na esperanï¿½a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAï¿½ï¿½O a qualquer
+ MERCADO ou APLICAï¿½ï¿½O EM PARTICULAR. Veja a Licenï¿½a Pï¿½blica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral GNU, sob o tï¿½tulo "LICENCA.txt", junto com este programa, se nï¿½o, escreva para a Fundaï¿½ï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
@@ -137,7 +137,7 @@ while ($row = mysql_fetch_array($result_GERENTES))
 				{
 				$v_efetua_conexao_ftp = 1;
 					
-				// obtém a lista de arquivos para v_te_path_serv_updates
+				// obtï¿½m a lista de arquivos para v_te_path_serv_updates
 				$v_arquivos_FTP = ftp_rawlist($v_conexao_ftp, '.');
 				$v_nomes_arquivos_FTP = array();
 				$v_versoes_arquivos_FTP = array();				
@@ -145,7 +145,7 @@ while ($row = mysql_fetch_array($result_GERENTES))
 					{	
 					while (strpos($v_arquivos_FTP[$cnt_arquivos_FTP],'  ') > 0) 
 						{
-						// Elimina incidência de espaços duplicados
+						// Elimina incidï¿½ncia de espaï¿½os duplicados
 						$v_arquivos_FTP[$cnt_arquivos_FTP] = str_replace('  ',' ',$v_arquivos_FTP[$cnt_arquivos_FTP]);			
 						}									
 					$v_array_arquivos_FTP = explode(' ',$v_arquivos_FTP[$cnt_arquivos_FTP]);
@@ -211,7 +211,7 @@ while ($row = mysql_fetch_array($result_GERENTES))
 			if ($v_efetua_conexao_ftp)
 				{							
 				?>
-				<font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Verificação Efetuada!</strong></font>
+				<font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Verificaï¿½ï¿½o Efetuada!</strong></font>
 				<?																	
 				
 							
@@ -270,7 +270,7 @@ while ($row = mysql_fetch_array($result_GERENTES))
 								</p>
 								</td>
 								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
-								<p align="left"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif">Não Atualizado: <? echo $v_array_objetos_nao_atualizados[$cnt_objetos];?>!</font>
+								<p align="left"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif">Nï¿½o Atualizado: <? echo $v_array_objetos_nao_atualizados[$cnt_objetos];?>!</font>
 								<?
 						}						
 					}
@@ -330,19 +330,19 @@ while ($row = mysql_fetch_array($result_GERENTES))
 								</p>
 								</td>
 								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
-								<p align="left"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif">Não Enviado <? echo $v_array_objetos_nao_enviados[$cnt_objetos];?>!</font>
+								<p align="left"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif">Nï¿½o Enviado <? echo $v_array_objetos_nao_enviados[$cnt_objetos];?>!</font>
 								<?
 						}						
 					}										
 				}									
-			else
+			else {
 			
 				if (trim($row['nu_porta_repositorio'])			== 	'' || 
 				 	trim($row['nm_usuario_login_repositorio']) 	== 	'' ||
 				 	trim($row['te_senha_login_repositorio'])	==	'')
 					{
 					?>
-					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>FTP não configurado!</strong></a></font>
+					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>FTP nï¿½o configurado!</strong></a></font>
 					<?
 					}
 				else
