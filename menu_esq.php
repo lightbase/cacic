@@ -15,6 +15,9 @@
 
 */
 session_start();
+define('CACIC',1);
+require_once('include/config.php');
+require_once('include/define.php');
 require_once "include/library.php";
 
 // IP´s onde serão exibidas mensagens de Debug, para acompanhamento de atualização de scripts.
@@ -111,7 +114,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 			{ 			
 			$_SESSION["id_grupo_usuarios"] 		=             $reg_result['id_grupo_usuarios'];			
 			$_SESSION["nm_usuario"] 			= PrimUltNome($reg_result['nm_usuario_completo']);
-			$_SESSION["menu_usuario"]      		=             'menus/'.$reg_result['te_menu_grupo'];			 			 
+			$_SESSION["menu_usuario"]      		=             'language/menus/'.$reg_result['te_menu_grupo'];			 			 
 			$_SESSION["id_usuario"] 			=             $reg_result['id_usuario'];						 
 			$_SESSION["id_usuario_crypted"] 	=             EnCrypt($key,$iv,$reg_result['id_usuario'],"1","0","0");
 			$_SESSION["te_locais_secundarios"]	=        trim($reg_result['te_locais_secundarios']);			 			 
@@ -181,7 +184,7 @@ if (!$_SESSION["id_usuario"])
 		{
 	 	$_SESSION["id_grupo_usuarios"] 		=             3; // Convidado
 		$_SESSION["nm_usuario"] 			= 			  '';
-		$_SESSION["menu_usuario"]      		=             'menus/menu_con.txt';			 			 
+		$_SESSION["menu_usuario"]      		=             'language/menus/menu_con.txt';			 			 
 		$_SESSION["id_usuario"] 			=             1;
 		$_SESSION["id_local"]				=             $v_dados_rede['id_local'];			 			 
 		$_SESSION["nm_local"]				=             $v_dados_rede['nm_local'];			 			 			 
@@ -196,7 +199,7 @@ if (!$_SESSION["id_usuario"])
 		}
 	else
 		{
-		$treefile = "menus/menu_ini.txt";
+		$treefile = "language/menus/menu_ini.txt";
 		require "include/treemenu.php";
 		?>
 		<p>
