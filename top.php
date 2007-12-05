@@ -14,7 +14,11 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-$v_versao = '2.2.3-RC6';
+define('CACIC',1);
+require_once('include/config.php');
+require_once('include/define.php');
+
+$v_versao = CACIC_VERSION;
 /* 
 2.2.3-RC6   (Anderson Peterle - Dataprev/ES - Novembro/2007)
 		  * Apenas redução da fonte constante (de 3 para 2) das legendas das Estatísticas do CACIC, na página principal,
