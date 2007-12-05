@@ -57,7 +57,7 @@
     /*
      * CACIC application language
      */
-    $cacic_language = 'en_us';
+    $cacic_language = 'en-us';
 
     /*
      * CACIC application standard language
