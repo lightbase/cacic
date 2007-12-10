@@ -14,8 +14,21 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 //session_start();
-require_once('config.php');
-//Debug($_SERVER['SCRIPT_FILENAME']);
+define('CACIC',1);
+
+@include_once('config.php');
+require_once('define.php');
+
+if(!include_once( TRANSLATOR_PATH.'/Translator.php'))
+  die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
+
+/*
+ * componente (objeto) para realizar traducao
+ */
+$oTranslator = new Translator( CACIC_LANGUAGE, CACIC_PATH."/language/", CACIC_LANGUAGE_STANDARD );
+$oTranslator->setURLPath(TRANSLATOR_PATH_URL);
+$oTranslator->setLangFilesInSubDirs(true);
+$oTranslator->initStdLanguages();
 
 // ------------------------------------------------------------------------------------------------
 // Função para exibição de data do script para fins de Debug. Os IP´s são definidos em menu_seg.php

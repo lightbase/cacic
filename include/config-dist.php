@@ -60,12 +60,6 @@
     $cacic_language = 'en-us';
 
     /*
-     * CACIC application standard language
-     * (Language to be viewed when the one above not found)
-     */
-    $cacic_language_standard = 'pt-br';
-
-    /*
      * CACIC application theme
      */
     $cacic_theme = 'default';
