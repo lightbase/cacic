@@ -9,7 +9,7 @@
 	 *
 	 * PHP versions 4 and 5
 	 *
-	 * LICENSE: This source file is subject to version 2 of the GNU/GPL license
+	 * LICENSE: This source file is subject to version 3 of the GNU/GPL license
 	 * that is available through the world-wide-web at the following URI:
 	 * http://www.gnu.org/copyleft/gpl.html.  If you did not receive a copy of
 	 * the GNU/GPL License and are unable to obtain it through the web, please
@@ -1115,6 +1115,37 @@
         } // end func: MakeFileName
         
        /**
+        * Monta o nome do arquivo de idiomas
+        * @access private
+        *
+        * @param string $_abbr_i18n Codigo ISO do idioma a ser usado
+        *
+        * @return string O nome do arquivo (incluindo o path)
+        */ 
+        function _getExternalFile($_filename, $_abbr_i18n) {
+        	$_file_content = "";
+            $_file_name  = $this->languageFilePath;
+            if($this->languageFilesubdir)
+                $_file_name .= $_abbr_i18n.DIRECTORY_SEPARATOR;
+            $_file_name .= $_filename;
+            
+            $this->error = false;
+
+            if(!is_file($_file_name) and !is_readable($_file_name))  {
+               $this->mensagem = $this->getText('#phptranslator_file#')." ($_file_name) ".$this->getText('#phptranslator_not found#');
+               $_file_content = $this->mensagem;
+               if($this->inDebugMode() ) echo "phpTranslator: ".$this->getMessage();
+               $this->error = true;
+            }
+            else {
+            	$_file_content = file_get_contents($_file_name);
+            }
+                            
+            return $_file_content;
+            
+        } // end func: getExternalFile
+        
+       /**
         * Idioma a ser traduzido para a aplicacao. 
         * Se o preferido pelo usuario ou o do Browser em uso ou o padrao da aplicacao
         * @access private
@@ -1160,7 +1191,16 @@
              
              $_lang_array_aux = $this->translated_text[$this->_getLanguage()];
              if(@array_key_exists($_key_lower_text, $_lang_array_aux)) {
-                   if(@array_key_exists('text', $_lang_array_aux[$_key_lower_text])) {
+                   if(@array_key_exists('type', $_lang_array_aux[$_key_lower_text]) and
+                      ($_lang_array_aux[$_key_lower_text]['type'] == 'arquivo' or
+                       $_lang_array_aux[$_key_lower_text]['type'] == 'file' ) ) 
+                   {
+	                   if(@array_key_exists('text', $_lang_array_aux[$_key_lower_text])) {
+	                      $_file_name = $_lang_array_aux[$_key_lower_text]['text'];
+		             	  $_msg_code_aux = $this->_getExternalFile($_file_name, $this->languageUser);
+	                   }
+                   }
+             	   elseif(@array_key_exists('text', $_lang_array_aux[$_key_lower_text])) {
                       $_msg_code_aux = $_lang_array_aux[$_key_lower_text]['text'];
                       if($_sigla) 
                         if(@array_key_exists('abbr', $_lang_array_aux[$_key_lower_text]))
@@ -1170,7 +1210,16 @@
              else { 
                 $_lang_array_aux = $this->translatedTextStd;
                 if(@array_key_exists($_key_lower_text, $_lang_array_aux)) {
-                   if(@array_key_exists('text', $_lang_array_aux[$_key_lower_text])) {
+                   if(@array_key_exists('type', $_lang_array_aux[$_key_lower_text]) and
+                      ($_lang_array_aux[$_key_lower_text]['type'] == 'arquivo' or
+                       $_lang_array_aux[$_key_lower_text]['type'] == 'file' ) ) 
+                   {
+	                   if(@array_key_exists('text', $_lang_array_aux[$_key_lower_text])) {
+	                      $_file_name = $_lang_array_aux[$_key_lower_text]['text'];
+		             	  $_msg_code_aux = $this->_getExternalFile($_file_name, $this->languageStd);
+	                   }
+                   }
+             	   elseif(@array_key_exists('text', $_lang_array_aux[$_key_lower_text])) {
                       $_msg_code_aux = $_lang_array_aux[$_key_lower_text]['text'];
                       if($_sigla) 
                         if(@array_key_exists('abbr', $_lang_array_aux[$_key_lower_text]))

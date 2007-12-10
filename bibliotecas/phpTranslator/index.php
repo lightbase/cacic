@@ -23,10 +23,9 @@
    //$objTranslator->setLangFilesInSections(true);
    //$objTranslator->setLangSections($_lang_sections);
    
-   
    $objTranslator->BuildLangArray();
    $objTranslator->BuildLangArray('target');  
    
-   $objTranslator->Translate(false);
+   $objTranslator->translatorGUI(false);
    
 ?>
