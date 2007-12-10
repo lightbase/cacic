@@ -37,8 +37,8 @@ Class Template extends patTemplate {
    
 
    function Template() {
-	 global $_objTranslator;
-	 $this->oLang = $_objTranslator;
+	 global $oTranslator;
+	 $this->oLang = $oTranslator;
      parent::patTemplate();
      $this->setNamespace('cacicInstall');
      $this->setRoot('templates');
@@ -54,6 +54,8 @@ Class Template extends patTemplate {
      $this->addVar('tmplPageHeader', 'CACIC_THEME', CACIC_THEME );
      $this->addVar('tmplPageHeader', 'CACIC_URL', CACIC_URL_INSTALL );
      $this->addVar('tmplNavBar', 'passo', 'first' );
+     $this->addVar('tmplIntroducao', 'kciq_installerintrotitle', $this->oLang->_('kciq_installerintrotitle'));
+     $this->addVar('tmplIntroducao', 'kciq_installer_introdution', $this->oLang->_('kciq_installer_introdution'));
    }
 
    function header() {

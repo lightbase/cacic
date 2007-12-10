@@ -9,16 +9,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
    define('CACIC',1);
 }
 
-   require_once('../include/config.php');
-   require_once('../include/define.php');
-
-   if(!@include_once( TRANSLATOR_PATH.'/Translator.php'))
-     die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
-
-   $_objTranslator = new Translator( CACIC_LANGUAGE, CACIC_PATH."/language/", CACIC_LANGUAGE_STANDARD );
-   $_objTranslator->setURLPath(TRANSLATOR_PATH_URL);
-   $_objTranslator->initStdLanguages();
-
+require_once('../include/library.php');
 ?>
 <html>
  <head>
@@ -31,7 +22,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
            </script>
  </head>
  <body>
-   <h2><?php echo $_objTranslator->_('kciq_mnt_tradutor');?><h2>
+   <h2><?php echo $oTranslator->_('kciq_mnt_tradutor');?><h2>
 <!--
           <table class="adminlist" width="100%">
                <tr>
@@ -102,6 +93,6 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
  
 <?php
 
-   $_objTranslator->translatorGUI();
+   $oTranslator->translatorGUI();
 
 ?>

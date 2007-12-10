@@ -19,7 +19,7 @@
           <table width="100%">
                <tr align="right" >
                   <td>Idioma:
-                     <select name="translate_lang" onchange="submitForm( installForm, 'preinstall' );">
+                     <select id="translate_lang" name="translate_lang" onchange="submitForm( installForm, 'preinstall' );">
                         <option value=""></option>
                         <option value="en-us">Inglês (US)</option>
                         <option value="pt-br">Português brasileiro</option>
@@ -38,27 +38,8 @@
 
 	<div id="introducao">
 	<fieldset>
-	<legend>Introdução</legend>
-	 <p>O CACIC é capaz de fornecer um diagnóstico preciso do parque computacional e disponibilizar informações como o número de equipamentos e sua distribuição nos mais diversos órgãos, os tipos de softwares utilizados e licenciados, configurações de hardware, entre outras. Também pode fornecer informações patrimoniais e a localização física dos equipamentos, ampliando o controle do parque computacional e a segurança na rede.
-	 <p>Este instalador tem como objetivo facilitar o processo de instalação e configuração do CACIC. Os detalhes são apresentados a seguir.
-	 <h3><span class="OkImg">Passos para instalação:</span></h3>
-	 <ol>
-	    <li>Introdução - Esta página!</li>
-	    <li>Licença - Leitura e aceite da licença do CACIC.</li>
-	    <li>Pré-requisitos - Verificação dos requisitos para o CACIC-Gerente.</li>
-	    <li>Configurações - Dados para configuração de servidor e banco de dados.</li>
-	    <li>Administração do CACIC-Gerente - Adição de local e usuário administrador.</li>
-	    <li>Finalização da instalação - Verificação da instalação.</li>
-	 </ol>
-	 <h3><span class="OkImg">Recursos do Instalador:</span></h3>
-	 <ul>
-	    <li>Verifica versões mínimas de softwares/bibliotecas para execução do CACIC.</li>
-	    <li>Verifica e cria configurações básicas para execução do CACIC.</li>
-	    <li>Criação do banco de dados (opcional).</li>
-	    <li>Criação das tabelas.</li>
-	    <li>Inclusão de dados básicos nas tabelas.</li>
-	    <li>Inclusão de dados para demonstração do produto (opcional).</li>
-	 </ul>
+	<legend>{KCIQ_INSTALLERINTROTITLE}</legend>
+	 {KCIQ_INSTALLER_INTRODUTION}
 	</fieldset>
 	</div>
 </cacicInstall:tmpl>

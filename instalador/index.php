@@ -52,15 +52,15 @@
    if(!@include_once( TRANSLATOR_PATH.'/Translator.php'))
      die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
 
-   // exemplo de uso do tradutor
-   define('CACIC_LANGUAGE', 'pt-br');
-   define('CACIC_LANGUAGE_STANDARD', 'en-us');
-   $_objTranslator = new Translator( CACIC_LANGUAGE, CACIC_PATH."/language/", CACIC_LANGUAGE_STANDARD );
-   $_objTranslator->setURLPath(TRANSLATOR_PATH_URL);
-   $_objTranslator->initStdLanguages();
-   $_objTranslator->setLangFilesInSubDirs(true);
-   //echo $_objTranslator->getText('kciq_mnt_tradutor');
-   // FIM de exemplo de uso do tradutor
+   if(isset($_POST['translate_lang']))
+      $cacic_language = $_POST['translate_lang'];
+   else
+      $cacic_language = CACIC_LANGUAGE;
+
+   $oTranslator = new Translator( $cacic_language, CACIC_PATH."/language/", CACIC_LANGUAGE_STANDARD );
+   $oTranslator->setLangFilesInSubDirs(true);
+   $oTranslator->setURLPath(TRANSLATOR_PATH_URL);
+   $oTranslator->initStdLanguages();
    
 	/**
 	 * Prove a instanciação da Instalação pela WEB

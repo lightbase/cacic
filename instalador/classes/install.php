@@ -264,7 +264,7 @@ class Install {
 	    global $cacic_updateFromVersion, $cacic_config;
         $_versionList = array();
         foreach($cacic_updateFromVersion as $_versionId => $_versionName) {
-            $selected = $cacic_config['install']['updateFromVersion'] == $versionId ? '' : "selected";
+            $selected = $cacic_config['install']['updateFromVersion'] == $_versionId ? '' : "selected";
             $_arrAux = array( 
                             array( 
                                     'VERSION_SELECTED' => $selected,
@@ -355,6 +355,10 @@ class Install {
 	  function finishInstall() {
 	  
 	    $msg = "";
+	    $ip_servidor = ""; 
+	    $usuario_bd = ""; 
+	    $senha_usuario_bd = "";
+	    $nome_bd = "";
 	    $cacic_config = $_SESSION['cacic_config'];
 	    $cacic_admin = $_SESSION['cacic_admin'];
 	    
