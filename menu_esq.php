@@ -70,6 +70,7 @@ if($_POST['logoff'])
 	 </script>
 	 <?
 	 }
+	 
 if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	{
 	// Solução temporária, até total convergência para versões 4.0.2 ou maior de MySQL 
@@ -114,7 +115,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 			{ 			
 			$_SESSION["id_grupo_usuarios"] 		=             $reg_result['id_grupo_usuarios'];			
 			$_SESSION["nm_usuario"] 			= PrimUltNome($reg_result['nm_usuario_completo']);
-			$_SESSION["menu_usuario"]      		=             'language/menus/'.$reg_result['te_menu_grupo'];			 			 
+			$_SESSION["menu_usuario"]      		=             getMenu($reg_result['te_menu_grupo']); //'language/menus/'.$reg_result['te_menu_grupo'];			 			 
 			$_SESSION["id_usuario"] 			=             $reg_result['id_usuario'];						 
 			$_SESSION["id_usuario_crypted"] 	=             EnCrypt($key,$iv,$reg_result['id_usuario'],"1","0","0");
 			$_SESSION["te_locais_secundarios"]	=        trim($reg_result['te_locais_secundarios']);			 			 
@@ -184,7 +185,7 @@ if (!$_SESSION["id_usuario"])
 		{
 	 	$_SESSION["id_grupo_usuarios"] 		=             3; // Convidado
 		$_SESSION["nm_usuario"] 			= 			  '';
-		$_SESSION["menu_usuario"]      		=             'language/menus/menu_con.txt';			 			 
+		$_SESSION["menu_usuario"]      		=             getMenu("menu_con.txt"); //'language/menus/menu_con.txt';			 			 
 		$_SESSION["id_usuario"] 			=             1;
 		$_SESSION["id_local"]				=             $v_dados_rede['id_local'];			 			 
 		$_SESSION["nm_local"]				=             $v_dados_rede['nm_local'];			 			 			 
@@ -199,7 +200,7 @@ if (!$_SESSION["id_usuario"])
 		}
 	else
 		{
-		$treefile = "language/menus/menu_ini.txt";
+		$treefile = getMenu("menu_ini.txt"); //"language/menus/menu_ini.txt";
 		require "include/treemenu.php";
 		?>
 		<p>
@@ -288,7 +289,7 @@ else
 		<form name="form0" method="post" action="relatorios/computadores.php?campo=te_nome_computador" target=mainFrame>  	
   		<table border="0" align="center">
     	<tr> 
-      	<td height="49" class="dado_peq_sem_fundo"> Pesquisa R&aacute;pida:<br> 
+      	<td height="49" class="dado_peq_sem_fundo"><?= $oTranslator->_('kciq_menu fast search'); ?>:<br> 
         <input type="hidden" name="consultar" id=consultar2 value="Consultar"> 
         <input type="hidden" name="tipo_consulta" value="consulta_rapida"> 
 		<input size=16 name="string_consulta" type="text" id="string_consulta" value="" class="normal" onFocus="SetaClassDigitacao(this);LigaHelp();" onBlur="SetaClassNormal(this);DesligaHelp();" onKeyUp="VerDesligaHelp();"><a href="javascript:document.forms[0].submit()"><img src=imgs/arvore/totals.gif  width="25" height="25" border="0" align="top"></a>
@@ -311,7 +312,7 @@ else
 	if ($_SESSION['id_grupo_usuarios']<>3) // Caso não seja usuário "Convidado" (atribuído automaticamente quando rede e local são identificados)		
 		{	
 		?>  			
-      	<td nowrap class="label_peq_sem_fundo" valign="bottom">Usu&aacute;rio:</td>		
+      	<td nowrap class="label_peq_sem_fundo" valign="bottom"><?= $oTranslator->_('kciq_msg user'); ?>:</td>		
       	<td nowrap class="dado_peq_sem_fundo"><div align="left"></div></td>
     	</tr>
     	<tr>
@@ -332,7 +333,7 @@ else
       	<td class="dado_peq_sem_fundo">&nbsp;</td>
     	</tr>
 		<tr>
-      	<td colspan="2" class="dado_peq_sem_fundo" align="center">Nível: "<? echo $_SESSION['te_grupo_usuarios'];?>"</td>
+      	<td colspan="2" class="dado_peq_sem_fundo" align="center"><?= $oTranslator->_('kciq_msg access level');?>: "<? echo $_SESSION['te_grupo_usuarios'];?>"</td>
     	</tr>		
     	<tr> 
       	<td colspan="2"><div align="center"></div>
@@ -344,7 +345,7 @@ else
 	else
 		{
 		?>
-      	<td nowrap class="label_peq_sem_fundo" valign="middle">Usu&aacute;rio:</td>				
+      	<td nowrap class="label_peq_sem_fundo" valign="middle"><?= $oTranslator->_('kciq_msg user'); ?>:</td>				
       	<td class="dado_peq_sem_fundo"><div align="left">
         <input name="frm_nm_usuario_acesso" type="text" id="frm_nm_usuario_acesso" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
         </div></td>
