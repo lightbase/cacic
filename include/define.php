@@ -111,13 +111,13 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  if(isset($cacic_language))
     define( 'CACIC_LANGUAGE', $cacic_language );
  else
-    define( 'CACIC_LANGUAGE', 'pt-br');
+    define( 'CACIC_LANGUAGE', 'pt_BR');
 
 /*
  * CACIC application standard language
  * (Language to be used if the above one fail)
  */
- define( 'CACIC_LANGUAGE_STANDARD', 'pt-br' );
+ define( 'CACIC_LANGUAGE_STANDARD', 'pt_BR' );
 
 /**
  * Atribui CHARSET padrao

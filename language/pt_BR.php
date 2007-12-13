@@ -2,7 +2,7 @@
   //Descricao
   $language_def = 'Português Brasileiro';
   //Sigla
-  $language_abbr = 'pt-br';
+  $language_abbr = 'pt_BR';
   //Charset
   $language_charset = 'iso-8859-1';
   //Direção de escrita
