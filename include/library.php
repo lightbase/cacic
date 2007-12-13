@@ -60,12 +60,12 @@ function Debug($p_ScriptFileName)
  * @return string Caminho do menu
  */
 function getMenu($_menu_name) {
-	$_file_lang = 'language/'.CACIC_LANGUAGE.'/menus/'.$_menu_name;
+	$_file_lang = 'language'.PATH_SEPARATOR.CACIC_LANGUAGE.PATH_SEPARATOR.$_menu_name;
 	if(is_file($_file_lang) and is_readable($_file_lang)) {
 		return $_file_lang;
 	}
 	else {
-		$_file_lang = 'language/'.CACIC_LANGUAGE_STANDARD.'/menus/'.$_menu_name;
+		$_file_lang = 'language'.PATH_SEPARATOR.CACIC_LANGUAGE_STANDARD.PATH_SEPARATOR.$_menu_name;
 		if(is_file($_file_lang) and is_readable($_file_lang)) {
 			return $_file_lang;
 		}
