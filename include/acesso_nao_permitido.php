@@ -12,31 +12,29 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  -->
+<?php require_once("library.php");?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Acesso N&atilde;o Permitido</title>
+<title><?php echo $oTranslator->_('kciq_msg access denied');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="refresh" content="<? echo $_REQUEST['tempo'];?> ;URL=<? echo $_REQUEST['chamador']; ?>">
 </head>
 <body bgcolor="#F0F0F0" background="../imgs/linha_v.gif">
-
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 <table width="617" border="0" align="center" cellpadding="15" cellspacing="1" bgcolor="#666666">
   <tr> 
     <td width="585" height="78" align="center" valign="middle" nowrap bgcolor="#EEEEEE"><p align="center"> 
         <font color="#FF0000" size="6" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
-        Acesso N&atilde;o Permitido!</strong></font></p>
+        <?php echo $oTranslator->_('kciq_msg access denied');?></strong></font></p>
     </td>
   </tr>
   <tr> 
-    <td width="585" height="93" align="center" valign="middle" nowrap bgcolor="#EEEEEE"><p align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><font color="#000099">Favor 
-        Realizar o Login para Autentica&ccedil;&atilde;o de Usu&aacute;rio!</font></strong></font></td>
+    <td width="585" height="93" align="center" valign="middle" nowrap bgcolor="#EEEEEE">
+    	<p align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><font color="#000099">
+    	<?php echo $oTranslator->_('kciq_msg login needed');?>!</font></strong></font></p>
+    </td>
   </tr>
-  
 </table>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 </body>
 </html>

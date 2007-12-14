@@ -2,6 +2,7 @@ pt_BR     kciq_msg total referente a multi-locais                               
 pt_BR     kciq_msg inst end advise                                                                            instaladorinfo                <p><b>Atenção:</b> Leia as mensagens no fim desta página sobre o processo de instalação, bem como as <b>recomendações</b> abaixo:</p>
 pt_BR     kciq_msg aceitar                                                                                    instaladorinfo                Aceitar
 pt_BR     kciq_msg aceito                                                                                     instaladorinfo                Aceito a licença
+pt_BR     kciq_msg access denied                                                                              geral     erro                Acesso não permitido
 pt_BR     kciq_msg admin not reg                                                                              geral     info                Administrador não foi cadastrado
 pt_BR     kciq_msg admin mgm title                                                                            instaladorinfo                Administração do CACIC-Gerente
 pt_BR     kciq_msg advise                                                                                     geral     info                Alerta
@@ -73,8 +74,8 @@ pt_BR     kciq_msg inst local insert                                            
 pt_BR     kciq_msg demo help                                                                                  instaladorinfo                Inserir dados para demonstração do CACIC.
 pt_BR     kciq_msg instalada                                                                                  geral     info                Instalada
 pt_BR     instalador                                                                                          geral     TagHeader           Instalador
-pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_installertitle                                                                                 instaladorinfo                Instalador WEB para o CACIC
+pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_msg inst finished and verified                                                                 instaladorinfo                Instalação do CACIC finalizada e veficada!
 pt_BR     kciq_msg advise_title                                                                               instaladorinfo                Instrução PHP/Apache
 pt_BR     kciq_installerintrotitle                                                                            instaladorinfo                Introdução
@@ -121,6 +122,7 @@ pt_BR     kciq_msg inst tables build error                                      
 pt_BR     kciq_msg inst insert basic data error                                                               instaladorerro                Não há instruções SQL para inserção de dados base nas tabelas do banco de dados!
 pt_BR     kciq_msg access level                                                                               Geral     info                Nível de acesso
 pt_BR     kciq_msg admin mgm phone help                                                                       instaladorinfo                Número do telefone do Administrador do CACIC para contato.
+pt_BR     kciq_msg javascript not enabled                                                                     geral     erro                O Javascript é indispensável ao perfeito funcionamento do Sistema
 pt_BR     kciq_msg obs                                                                                        geral     info                Observação
 pt_BR     kciq_msg admin mgm obs help                                                                         instaladorinfo                Observações (informações) para o local ao qual a aplicação gerente está associada.
 pt_BR     kciq_msg ok                                                                                         geral     info                Ok
@@ -207,4 +209,4 @@ pt_BR     kciq_msg license pt_read                                              
 pt_BR     kciq_msg last agents access                                                                         geral     info                Últimos acessos dos agentes
 pt_BR     kciq_msg last agents access on local                                                                geral     info                Últimos acessos dos agentes deste local
 pt_BR     kciq_msg last agents access per local                                                               geral     info                Últimos acessos dos agentes por local nesta data
-pt_BR     kciq_msg javascript not enabled                                                                     geral     erro                O Javascript é indispensável ao perfeito funcionamento do Sistema
+pt_BR     kciq_msg login needed                                                                               geral     info                Necessário haver autenticação
