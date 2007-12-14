@@ -207,11 +207,11 @@ if (!$_SESSION["id_usuario"])
 		<form name="form1" method="post" action="menu_esq.php">
 	  	<table width="24%" border="0" align="center">
 	    <tr> 
-	    <td valign="middle" class="label_peq_sem_fundo"><div align="right">Usu&aacute;rio:</div></td>
+	    <td valign="middle" class="label_peq_sem_fundo"><div align="right"><?= $oTranslator->_('kciq_msg user'); ?>:</div></td>
 	    <td class="dado_peq_sem_fundo"><div align="left"><input name="frm_nm_usuario_acesso" type="text" id="frm_nm_usuario_acesso" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></div></td>
 	    </tr>
 	    <tr> 
-	    <td valign="middle" class="label_peq_sem_fundo"><div align="right">Senha:</div></td>
+	    <td valign="middle" class="label_peq_sem_fundo"><div align="right"><?= $oTranslator->_('kciq_msg password'); ?>:</div></td>
 	    <td class="dado_peq_sem_fundo"><div align="left"><input name="frm_te_senha" type="password" id="frm_te_senha" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></div></td>
 	    </tr>
 		<tr> 
