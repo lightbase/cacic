@@ -24,16 +24,6 @@
 	define('CACIC_PATH', $cacic_path);
 
 	/*
-	 * Verifica se o gerente está instalado e sai do instalador caso esteja
-	 */
-	/*
-	if( is_readable('../include/config.php') )
-	{
-	   header("Location: ..");
-	   die("CACIC já instalado (CACIC already installed)!");
-	}*/
-	
-	/*
 	 * atribuições para o ambiente
 	 */
 	if( ! @include("../include/define.php") )
@@ -49,18 +39,21 @@
 	   die("Install mal construído (Install miss-built)!");
 	}
 
-   if(!@include_once( TRANSLATOR_PATH.'/Translator.php'))
-     die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
-
-   if(isset($_POST['translate_lang']))
-      $cacic_language = $_POST['translate_lang'];
-   else
-      $cacic_language = CACIC_LANGUAGE;
-
-   $oTranslator = new Translator( $cacic_language, CACIC_PATH."/language/", CACIC_LANGUAGE_STANDARD );
-   $oTranslator->setLangFilesInSubDirs(true);
-   $oTranslator->setURLPath(TRANSLATOR_PATH_URL);
-   $oTranslator->initStdLanguages();
+	if(!@include_once( TRANSLATOR_PATH.'/Translator.php'))
+	  die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
+     
+	if(!empty($_POST['translate_lang']))
+	   $_SESSION['cacic_language'] = $_POST['translate_lang'];
+	elseif(!isset($_SESSION['cacic_language']))
+	   $_SESSION['cacic_language'] = CACIC_LANGUAGE;
+	
+	/*
+	 * Esta instanciação do Translator deve ser identica a realizada pela "include/library.php"
+	 */
+	 $oTranslator = new Translator( $_SESSION['cacic_language'] , CACIC_PATH."/language/", CACIC_LANGUAGE_STANDARD );
+     $oTranslator->setLangFilesInSubDirs(true);
+     $oTranslator->setURLPath(TRANSLATOR_PATH_URL);
+     $oTranslator->initStdLanguages();
    
 	/**
 	 * Prove a instanciação da Instalação pela WEB

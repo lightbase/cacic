@@ -55,8 +55,8 @@ class Install {
 	 * @internal Construtor para a classe Install compatibilizado com PHP5.
 	 */
 	 function __construct() {
-	 	global $_objTranslator;
-	 	$this->oLang = $_objTranslator;
+	 	global $oTranslator;
+	 	$this->oLang = $oTranslator;
     	if(isset($_POST['cacic_config']))
     	   $_SESSION['cacic_config'] = $_POST['cacic_config'];
     	
