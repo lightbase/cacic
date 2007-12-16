@@ -339,6 +339,12 @@ class Install {
     	  	  $this->oTmpl->addVar($template, 'INSTALL_NEW', 'checked');
     	  	if($cacic_config['install']['type'] == 'atualizar')
     	  	  $this->oTmpl->addVar($template, 'INSTALL_UPDATE', 'checked');
+    	  	  
+    	  	$this->oTmpl->addVar($template, 'FTP_HOST', $cacic_config['ftp_host']);
+    	  	$this->oTmpl->addVar($template, 'FTP_PORT', $cacic_config['ftp_port']);
+    	  	$this->oTmpl->addVar($template, 'FTP_SUBDIR', $cacic_config['ftp_subdir']);
+    	  	$this->oTmpl->addVar($template, 'FTP_USER', $cacic_config['ftp_user']);
+    	  	$this->oTmpl->addVar($template, 'FTP_PASS', $cacic_config['ftp_pass']);
 	  	}
 	  	else {
     	  	$this->oTmpl->addVar($template, 'CACIC_PATH', CACIC_PATH);
@@ -347,6 +353,12 @@ class Install {
     	  	$this->oTmpl->addVar($template, 'DB_PORT', "3306");
     	  	$this->oTmpl->addVar($template, 'DB_NAME', "cacic");
     	  	$this->oTmpl->addVar($template, 'DB_USER', "cacic_db_user");
+    	  	
+    	  	$this->oTmpl->addVar($template, 'FTP_HOST', "localhost");
+    	  	$this->oTmpl->addVar($template, 'FTP_PORT', "21");
+    	  	$this->oTmpl->addVar($template, 'FTP_SUBDIR', "agentes");
+    	  	$this->oTmpl->addVar($template, 'FTP_USER', 'ftpcacic');
+    	  	$this->oTmpl->addVar($template, 'FTP_PASS', 'ftpcacic');
 	  	}
 	  	
 	  	// Dados administrativos

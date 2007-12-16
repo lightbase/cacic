@@ -14,6 +14,102 @@
 // direct access is denied
 defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 
+class Ftp {
+	var $conn;
+	var $server = 'localhost';
+	var $port = '21';
+	var $timeout = 20; // tempo em segundos
+	var $user;
+	var $user_pass;
+	var $subdir = "/";
+	
+	var $error = "";
+	var $message = "";
+	
+	function Ftp($_server="",$_port="",$_user="",$_user_pass="",$_subdir="", $_timeout = 0) {
+		if(!empty($_server)) $this->server = $_server;
+		if(!empty($_port)) $this->port = $_port;
+		if(!empty($_timeout)) $this->timeout = $_timeout;
+		if(!empty($_subdir)) $this->subdir = $_subdir;
+		$this->user = $_user;
+		$this->user_pass = $_user_pass;
+		$this->conecta();
+	}
+	
+	function conecta($_server="",$_port="", $_timeout = 05) {
+		$this->error = false;
+		if(!empty($_server)) $this->server = $_server;
+		if(!empty($_port)) $this->port = $_port;
+		if(!empty($_timeout)) $this->timeout = $_timeout;
+		// Cria a conexão
+		$this->conn = ftp_connect($this->server, $this->port, $this->timeout);
+		// confere a conexão
+		if ((!$this->conn)) {
+			$this->error = true;
+			$this->message = "Conexão ao servidor (".$this->server.":".$this->port.") FTP falhou!";
+		}
+		return !$this->error;
+	}
+	
+	function login($_user="",$_user_pass="") {
+		$this->error = false;
+		if(!empty($_user)) $this->user = $_user;
+		if(!empty($_user_pass)) $this->user_pass = $_user_pass;
+		// login com o nome de usuário e senha
+		$_result = ftp_login($this->conn, $this->user, $this->user_pass);
+		// confere a conexão
+		if ((!$_result)) {
+			$this->error = true;
+			$this->message = "Login no FTP falhou! Verifique usuário ou senha.";
+		}
+		return !$this->error; 
+	}
+	
+	function upload($_arquivo,$_subdir="") {
+		$this->error = false;
+		if(!empty($_subdir)) $this->subdir = $_subdir;
+		// upload de arquivo
+		$_result = ftp_put($this->conn, $this->subdir, $_arquivo, FTP_BINARY);
+		// verifica o upload do arquivo
+		if (!$_result) {
+			$this->error = true;
+			$this->message = "Upload de arquivo ($_arquivo) no FTP falhou!";
+		}
+		return !$this->error; 
+	}
+	
+	function changeDir($_subdir="/") {
+		$this->error = false;
+		if(!empty($_subdir)) $this->subdir = $_subdir;
+		// upload de arquivo
+		$_result = ftp_chdir($this->conn, $this->subdir);
+		// verifica o a mudança de diretório
+		if (!$_result) {
+			$this->error = true;
+			$this->message = "Mudança de diretório (".$this->subdir.") no FTP falhou!";
+		}
+		return !$this->error; 
+	}
+	
+	function close() {
+		// fecha a conexão FTP
+		return ftp_close($this->conn);
+	}
+	
+	function isError() {
+		return $this->error;
+	}
+	
+	function getMessage() {
+		return $this->message;
+	}
+	
+}
+
+class Mysql {
+	
+}
+
 class ADO {
 
   var $db_server;

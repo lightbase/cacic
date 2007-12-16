@@ -70,6 +70,7 @@ class InstallAjax {
     	 
      	$task = $_POST['task'];
 	  	switch (strtolower($task)) {
+	  		case 'testconnftp' : InstallAjax::checkFtpServer($_SESSION['cacic_config']); break;
 	  		case 'testconn' : InstallAjax::checkDBConnection($_SESSION['cacic_config']); break;
 	  		case 'showcfgfile' : InstallAjax::showCFGFile($_SESSION['cacic_config']); break;
 	  		case 'savecfgfile' : InstallAjax::saveCFGFile($_SESSION['cacic_config']); break;
@@ -347,7 +348,7 @@ class InstallAjax {
 		if (!$oDB->conecta()) {
 			$msg = '<span class="Erro">'."[".InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 		    $msg .= InstallAjax::_('kciq_msg database connect fail').'!</span>'.
-					'<br>'.InstallAjax::_('kciq_msg database server msg').':';
+					'<br>'.InstallAjax::_('kciq_msg server msg').':';
 			$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			$connOk = false;
 		}
@@ -364,6 +365,53 @@ class InstallAjax {
 		}
 		echo $msg;
 		return $connOk;  
+	  }
+	  
+	  /**
+	   * Verifica conexao com o serviço FTP
+	   */
+	  function checkFtpServer($cacic_config) {
+     	$_connOk = true;
+     	$_server = $cacic_config['ftp_host'];
+     	$_port = $cacic_config['ftp_port'];
+     	$_user = $cacic_config['ftp_user'];
+     	$_user_pass = $cacic_config['ftp_pass'];
+     	$_subdir = $cacic_config['ftp_subdir'];
+     	$oFtp = new Ftp($_server,$_port,$_user,$_user_pass,$_subdir);
+		$msg = "[".InstallAjax::_('kciq_msg ok', '',2)."! ] - ".InstallAjax::_('kciq_msg connected ok') . "<span class='OkImg'></span><br>";
+     	if($oFtp->isError()) {
+			$msg = '<span class="Erro">'."[".InstallAjax::_('kciq_msg error', '',2)."! ] - ";
+		    $msg .= InstallAjax::_('kciq_msg ftp connect fail').'!</span>'.
+					'<br>'.InstallAjax::_('kciq_msg server msg').':';
+			$msg .= '<pre>'.$oFtp->getMessage().'</pre>';
+     		$_connOk = false;
+     	}
+		echo $msg;
+     	
+     	if($_connOk ) {  
+			$msg = "[".InstallAjax::_('kciq_msg ok', '',2)."! ] - ".InstallAjax::_('kciq_msg ftp login ok') . "<span class='OkImg'></span><br>";
+	     	if(!$oFtp->login()) {
+				$msg = '<span class="Erro">'."[".InstallAjax::_('kciq_msg error', '',2)."! ] - ";
+			    $msg .= InstallAjax::_('kciq_msg ftp login connect fail').'!</span>'.
+						'<br>'.InstallAjax::_('kciq_msg server msg').':';
+				$msg .= '<pre>'.$oFtp->getMessage().'</pre>';
+	     		$_connOk = false;
+	     	}
+			echo $msg;
+	     	if($_connOk ) {
+				$msg = "[".InstallAjax::_('kciq_msg ok', '',2)."! ] - ".InstallAjax::_('kciq_msg ftp change dir ok') . "<span class='OkImg'></span><br>";
+		     	if(!$oFtp->changeDir($_subdir)) {
+					$msg = '<span class="Erro">'."[".InstallAjax::_('kciq_msg error', '',2)."! ] - ";
+				    $msg .= InstallAjax::_('kciq_msg ftp change dir fail').'!</span>'.
+							'<br>'.InstallAjax::_('kciq_msg server msg').':';
+					$msg .= '<pre>'.$oFtp->getMessage().'</pre>';
+		     		$_connOk = false;
+		     	}
+				echo $msg;
+	     	}
+     	}
+		
+		return $_connOk;  
 	  }
 	  
 	 /*
@@ -403,7 +451,7 @@ class InstallAjax {
 		if (!$oDB->conecta()) {
 			$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 		    $msg .= InstallAjax::_('kciq_msg database connect fail').'!</span>'.
-					'<br>'.InstallAjax::_('kciq_msg database server msg').':';
+					'<br>'.InstallAjax::_('kciq_msg server msg').':';
 			$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 		    die($msg);
 		}
@@ -416,7 +464,7 @@ class InstallAjax {
     		if (!$oDB_result) {
     			$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
     		    $msg .= InstallAjax::_('kciq_msg user insert error',array($cacic_config['db_user'])).'</span>'.
-    					'<br>'.InstallAjax::_('kciq_msg database server msg').':';
+    					'<br>'.InstallAjax::_('kciq_msg server msg').':';
     			$msg .= '<pre>'.$oDB->getMessage().'</pre>';
     		    die($msg);
     		}
@@ -433,7 +481,7 @@ class InstallAjax {
 				if (!$oDB->createDB()) {
 					$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 				    $msg .= InstallAjax::_('kciq_msg inst build database error',array($cacic_config['db_name'])).'</span>'.
-							'<br>'.InstallAjax::_('kciq_msg database server msg').':';
+							'<br>'.InstallAjax::_('kciq_msg server msg').':';
 					$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 				    die($msg);
 				}
@@ -450,7 +498,7 @@ class InstallAjax {
 		if (!$oDB->selectDB()) {
 			$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 		    $msg .= InstallAjax::_('kciq_msg database not exist',array($cacic_config['db_name'])).'</span>'.
-					'<br>'.InstallAjax::_('kciq_msg database server msg').':';
+					'<br>'.InstallAjax::_('kciq_msg server msg').':';
 			$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 		    die($msg);
 		}
@@ -468,7 +516,7 @@ class InstallAjax {
 			   if (!$oDB_result) {
 				   $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= InstallAjax::_('kciq_msg inst database table build').'</span>'.
-						   '<br>'.InstallAjax::_('kciq_msg database server msg').':';
+						   '<br>'.InstallAjax::_('kciq_msg server msg').':';
 				   $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);
 			   }
@@ -494,7 +542,7 @@ class InstallAjax {
 			   if (!$oDB_result) {
 				   $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= InstallAjax::_('kciq_msg inst update tables on database', array($cacic_config['db_name'])).'!</span>'.
-						   '<br>'.InstallAjax::_('kciq_msg database server msg').':';
+						   '<br>'.InstallAjax::_('kciq_msg server msg').':';
 				   $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);
 			   }
@@ -520,7 +568,7 @@ class InstallAjax {
 			 if (!$oDB_result) {
 				$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			    $msg .= InstallAjax::_('kciq_msg inst insert basic data',array($cacic_config['db_name'])).'!</span>'.
-						'<br>'.InstallAjax::_('kciq_msg database server msg').':';
+						'<br>'.InstallAjax::_('kciq_msg server msg').':';
 				$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			    die($msg);
 			 }
@@ -545,7 +593,7 @@ class InstallAjax {
 				if (!$oDB_result) {
 					$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 				    $msg .= InstallAjax::_('kciq_msg inst insert demo data').'!</span>'.
-							'<br>'.InstallAjax::_('kciq_msg database server msg').':';
+							'<br>'.InstallAjax::_('kciq_msg server msg').':';
 					$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 				    die($msg);
 				}

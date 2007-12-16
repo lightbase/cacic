@@ -45,6 +45,7 @@ Class Template extends patTemplate {
      $this->readTemplatesFromInput('install_body.tmpl');
      $this->readTemplatesFromInput('install_footer.tmpl');
      $this->readTemplatesFromInput('install_navbar.tmpl');
+     $this->readTemplatesFromInput('install_navbarftpverify.tmpl');
     
    }
 
@@ -114,6 +115,23 @@ Class Template extends patTemplate {
      $this->addVar('tmplNavBarFinish',  'KCIQ_PREVIOUS', $this->oLang->_('kciq_msg previous'));
      $this->addVar('tmplNavBarFinish',  'KCIQ_FINISH_TITLE', $this->oLang->_('kciq_msg finish title'));
      $this->addVar('tmplNavBarFinish',  'KCIQ_FINISH', $this->oLang->_('kciq_msg finish'));
+     
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_CONFIGURATIONS', $this->oLang->_('kciq_msg configurations'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_INST_FTPVERIFY', $this->oLang->_('kciq_msg ftp verify'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_PREVIOUS', $this->oLang->_('kciq_msg previous'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_NEXT', $this->oLang->_('kciq_msg next'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_TESTCONN', $this->oLang->_('kciq_msg test conn'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_TESTCONN_HELP', $this->oLang->_('kciq_msg test conn help'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_MSG_SERVER', $this->oLang->_('kciq_msg database host'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_INST_FTP_HOST_HELP', $this->oLang->_('kciq_msg ftp host help'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_MSG_PORT', $this->oLang->_('kciq_msg database port'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_INST_FTP_PORT_HELP', $this->oLang->_('kciq_msg ftp port help'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_INST_FTP_SUBDIR', $this->oLang->_('kciq_msg ftp subdir'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_INST_FTP_SUBDIR_HELP', $this->oLang->_('kciq_msg ftp subdir help'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_MSG_USER', $this->oLang->_('kciq_msg user'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_INST_FTPUSER_HELP', $this->oLang->_('kciq_msg ftp user help'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_MSG_PASS', $this->oLang->_('kciq_msg password'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_INST_FTPPASS_HELP', $this->oLang->_('kciq_msg ftp password help'));
      
      $this->addVar('tmplNavBarConfiguration',  'KCIQ_PREVIOUS', $this->oLang->_('kciq_msg previous'));
      $this->addVar('tmplNavBarConfiguration',  'KCIQ_NEXT', $this->oLang->_('kciq_msg next'));
