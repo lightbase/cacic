@@ -26,7 +26,7 @@
 	/*
 	 * atribuições para o ambiente
 	 */
-	if( ! @include("../include/define.php") )
+	if( ! @include("../include/library.php") )
 	{
 	   die("Install mal definido (Install miss-defined)!");
 	}
@@ -46,14 +46,11 @@
 	   $_SESSION['cacic_language'] = $_POST['translate_lang'];
 	elseif(!isset($_SESSION['cacic_language']))
 	   $_SESSION['cacic_language'] = CACIC_LANGUAGE;
-	
 	/*
-	 * Esta instanciação do Translator deve ser identica a realizada pela "include/library.php"
+	 * Inicia tradução para o idioma selecionado
 	 */
-	 $oTranslator = new Translator( $_SESSION['cacic_language'] , CACIC_PATH."/language/", CACIC_LANGUAGE_STANDARD );
-     $oTranslator->setLangFilesInSubDirs(true);
-     $oTranslator->setURLPath(TRANSLATOR_PATH_URL);
-     $oTranslator->initStdLanguages();
+    $oTranslator->setLangTgt($_SESSION['cacic_language']);
+    $oTranslator->initStdLanguages();
    
 	/**
 	 * Prove a instanciação da Instalação pela WEB
