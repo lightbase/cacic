@@ -1,5 +1,6 @@
 pt_BR     kciq_msg aceitar                                                                                    instalador                    Aceitar
 pt_BR     kciq_msg aceito                                                                                     instalador                    Aceito a licença
+pt_BR     kciq_msg previous                                                                                   instalador                    Anterior
 pt_BR     kciq_msg apoio                                                                                      Geral                         Apoio colaborativo
 pt_BR     language_en-us                                                                                      Geral     info      en-US     English (US)
 pt_BR     language_es                                                                                         Geral     info      es        Español
@@ -27,4 +28,4 @@ pt_BR     kciq_mnt_tradutor                                                     
 pt_BR     kciq_msg user                                                                                       Geral     info                Usuário
 pt_BR     kciq_msg def_version                                                                                instaladorinfo                Versão
 pt_BR     kciq_installer_introdution                                                                          instaladorarquivo             introducao.html
-pt_BR     kciq_msg previous                                                                                   instalador                    Anterior
+pt_BR     kciq_msg password                                                                                   Geral     info                Senha
