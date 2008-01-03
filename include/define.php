@@ -119,6 +119,11 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  */
  define( 'CACIC_LANGUAGE_STANDARD', 'pt_BR' );
 
+/*
+ * CACIC application standard language path
+ */
+ define( 'CACIC_LANGUAGE_PATH', '/language/' );
+
 /**
  * Atribui CHARSET padrao
  */

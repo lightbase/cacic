@@ -25,7 +25,7 @@ if(!include_once( TRANSLATOR_PATH.'/Translator.php'))
 /*
  * componente (objeto) para realizar traducao
  */
-$oTranslator = new Translator( CACIC_LANGUAGE, CACIC_PATH."/language/", CACIC_LANGUAGE_STANDARD );
+$oTranslator = new Translator( CACIC_LANGUAGE, CACIC_PATH.CACIC_LANGUAGE_PATH, CACIC_LANGUAGE_STANDARD );
 $oTranslator->setURLPath(TRANSLATOR_PATH_URL);
 $oTranslator->setLangFilesInSubDirs(true);
 $oTranslator->initStdLanguages();
