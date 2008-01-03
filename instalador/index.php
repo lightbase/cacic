@@ -41,6 +41,10 @@
 
 	if(!@include_once( TRANSLATOR_PATH.'/Translator.php'))
 	  die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
+	  
+	// Conjunto de idiomas para os quais o CACIC está traduzido
+	$_SESSION['language_set'] = getLanguages();
+
      
 	if(!empty($_POST['translate_lang']))
 	   $_SESSION['cacic_language'] = $_POST['translate_lang'];

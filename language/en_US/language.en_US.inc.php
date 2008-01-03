@@ -15,7 +15,6 @@ en_US     kciq_msg aceitar                                                      
 en_US     kciq_msg aceito                                                                                     instalador                    I accept this license
 en_US     kciq_msg previous                                                                                   instalador                    Back
 en_US     kciq_msg def_language                                                                               instaladorinfo                Language
-en_US     instalador                                                                                          InstaladorTagHeader           Installer
 en_US     kciq_installertitle                                                                                 instaladorinfo                CACIC Web Installer
 en_US     kciq_msg web_installer                                                                              instaladorinfo                CACIC Web Installer
 en_US     kciq_installerintrotitle                                                                            instaladorinfo                Introdution
