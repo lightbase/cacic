@@ -5,7 +5,7 @@
 
 
    // Classe de traducao
-   $objTranslator = new Translator('pt-br', "en-us");
+   $objTranslator = new Translator("en-us",'','pt-br');
    $objTranslator->SetLangFilePath("./languages/");
    
     //* Teste com "seccoes"
@@ -21,7 +21,7 @@
                            );
     
    //$objTranslator->setLangFilesInSections(true);
-   //$objTranslator->setLangSections($_lang_sections);
+   //$objTranslator->setLangFileSections($_lang_sections);
    
    $objTranslator->BuildLangArray();
    $objTranslator->BuildLangArray('target');  

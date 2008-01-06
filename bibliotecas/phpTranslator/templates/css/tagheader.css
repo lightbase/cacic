@@ -4,6 +4,7 @@
     float: left;
     width: 100%;
     font-size: 93%;
+    font-weight: bold;
     line-height: normal;
     }
 
@@ -11,6 +12,7 @@
     padding: 10px 10px 0pt;
     list-style-type: none;
     list-style-image: none;
+    font-weight: bold;
     list-style-position: outside;
     }
 
@@ -18,6 +20,7 @@
     padding: 0pt 0pt 0pt 9px;
     background: transparent url(../img/tagheader-left.gif) no-repeat scroll left top;
     float: left;
+    font-weight: bold;
     display: block;
     }
 
@@ -33,13 +36,15 @@
     cursor: pointer;
     }
 
-  #tagheader span:hover { color: rgb(60, 88, 219);
+  #tagheader span:hover { color: #C64934;
     text-decoration: underline;
+    font-weight: bold;
     }
 
   #tagheader #tagcurrent span { background-image: url(../img/tagheader-right_on.gif);
     color: rgb(51, 51, 51);
     cursor: default;
+    font-weight: bold;
     text-decoration: none;
     }
 
