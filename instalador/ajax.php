@@ -26,11 +26,24 @@ define('CACIC_PATH', $cacic_path);
 /*
  * atribuições para o ambiente
  */
-if( ! @include("../include/define.php") )
+if( ! @include("../include/library.php") )
 {
    die("Install mal definido (Install miss-defined)!");
 }
 
+/*
+ * Idioma selecionado para o CACIC
+ */ 
+if(!empty($_POST['translate_lang']))
+   $_SESSION['cacic_language'] = $_POST['translate_lang'];
+elseif(!isset($_SESSION['cacic_language']))
+   $_SESSION['cacic_language'] = CACIC_LANGUAGE;
+   
+/*
+ * Idioma para os quais o CACIC está traduzido 
+ */
+$_SESSION['cacic_language_available'] = getLanguages();
+	
 /*
  * classe para instanciar a instalação
  */

@@ -45,11 +45,19 @@
 	// Conjunto de idiomas para os quais o CACIC está traduzido
 	$_SESSION['language_set'] = getLanguages();
 
-     
+    /*
+     * Idioma selecionado para o CACIC
+     */ 
 	if(!empty($_POST['translate_lang']))
 	   $_SESSION['cacic_language'] = $_POST['translate_lang'];
 	elseif(!isset($_SESSION['cacic_language']))
 	   $_SESSION['cacic_language'] = CACIC_LANGUAGE;
+	   
+	/*
+	 * Idioma para os quais o CACIC está traduzido 
+	 */
+	$_SESSION['cacic_language_available'] = getLanguages();
+	
 	/*
 	 * Inicia tradução para o idioma selecionado
 	 */

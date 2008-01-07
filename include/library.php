@@ -64,7 +64,7 @@ function getLanguages() {
      if(is_file($_dir->path.$_valor))
        if(findexts($_valor) === 'php' ) {
          $_file_name = $_valor;
-         @require_once($_dir->path.$_file_name);
+         @require($_dir->path.$_file_name);
          $_lang = array_merge($_lang, array($language_abbr => array('abbr' => $language_abbr,
                                                                     'descr' => $language_def,
                                                                     'charset' => $language_charset,

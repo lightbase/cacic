@@ -21,6 +21,7 @@ en_US     kciq_installerintrotitle                                              
 en_US     kciq_msg js_enable                                                                                  instaladorinfo                <b>JavaScript</b> is needed for web installer process.
 en_US     kciq_installerresources                                                                             instaladorinfo                Installer features:
 en_US     kciq_msg def_version                                                                                instaladorinfo                Version
+en_US     kciq_installer_introdution                                                                          instaladorarquivo             introduction.html
 en_US     kciq_mnt_lang traducao                                                                              Manutençãoinfo                Language
 en_US     manutenção                                                                                          ManutençãoTagHeader           Maintenance
 en_US     kciq_mnt_tradutor                                                                                   Manutençãoinfo                CACIC Language translate
