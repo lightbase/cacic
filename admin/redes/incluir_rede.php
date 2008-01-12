@@ -550,7 +550,7 @@ MM_reloadPage(true);
 	<td>&nbsp;</td>
       <td> <input name="frm_nm_pessoa_contato1" type="text" id="frm_nm_pessoa_contato12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
-      <td> <input name="frm_nu_telefone1" type="text" id="frm_nu_telefone12" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td> <input name="frm_nu_telefone1" type="text" id="frm_nu_telefone12" size="12" maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
       <td>&nbsp;</td>
     </tr>
@@ -586,7 +586,7 @@ MM_reloadPage(true);
 	<td>&nbsp;</td>
       <td> <input name="frm_nm_pessoa_contato2" type="text" id="frm_nm_pessoa_contato2" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
-      <td> <input name="frm_nu_telefone2" type="text" id="frm_nu_telefone2" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td> <input name="frm_nu_telefone2" type="text" id="frm_nu_telefone2" size="12" maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
       <td>&nbsp;</td>
     </tr>
