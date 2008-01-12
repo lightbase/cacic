@@ -56,10 +56,14 @@
           <td><img src="imgs/arrow.gif" width="16" height="16"></td>
           <td><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif"><font color="#666666"><font color="#333333"><a href="?pg=docs/changelog.html">ChangeLog</a></font></font></font></td>
         </tr>
+        <tr valign="baseline"> 
+          <td><img src="imgs/arrow.gif" width="16" height="16"></td>
+          <td><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif"><font color="#666666"><font color="#333333"><a href="?pg=docs/wiw.html">Quem é quem?</a></font></font></font></td>
+        </tr>
         
         <tr valign="baseline"> 
           <td><img src="imgs/arrow.gif" width="16" height="16"></td>
-          <td><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif"><font color="#666666"><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif"><font color="#666666"><font color="#333333" size="1"><font size="2"><a href="http://www-cacic/">Gerente Centralizado</a></font></font></font></font><font color="#333333" size="1"></font></font></font></td>
+          <td><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif"><font color="#666666"><font color="#FFFFFF" size="2" face="Verdana, Arial, Helvetica, sans-serif"><font color="#666666"><font color="#333333" size="1"><font size="2"><a href="../">Gerente Centralizado</a></font></font></font></font><font color="#333333" size="1"></font></font></font></td>
         </tr>
       </table>
       <p>&nbsp;</p>
