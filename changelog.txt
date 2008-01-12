@@ -1,87 +1,512 @@
-# ChangeLog do Sistema CACIC
+2008-01-12  harpiain
 
-Data		Versão Gerente WEB	Script															Alterações/Implementações
-==========	==================	================================								=====================================================================================================================================================================
-25/09/2007	2.2.3RC4			../admin/log_atividades.php							1) Acrescentado critério de locais para níveis Administração e Gestão Central
-					../admin/log_acessos.php							1) Acrescentado critério de locais para níveis Administração e Gestão Central
+	* : - Exclusão de arquivos desnecessários
+	* : - atualizado mapa mental
+	  - exclusão de arquivos desnecessários
+	  - atualização do "ToDo"
+	* : Atualização do "trunk"
+	  
+	  - fixada o tamanho de entrada para o campo "telefone" (#26)
+	* : Atualização do "trunk"
+	  
+	  - menu "Projeto CACIC" mostra "Quem é Quem".
 
-30/01/2007	2.2.2			../relatorios/patrimonio/index.php						1)  Implementada a informação dos critérios "Entidade/Órgão" IGUAL A/DIFERENTE DE para pesquisa e geração de relatório
-														IMPACTO: Mais precisão nas informações gerenciais extraídas a partir desse relatório.
+2008-01-10  harpiain
 
-30/01/2007	2.2.2				.../relatorios/patrimonio/rel_patrimonio.php				1)  Implementado o tratamento dos novos valores "Entidade/Órgão" para critérios de pesquisa e geração de relatório
-																									IMPACTO: Mais precisão nas informações gerenciais extraídas a partir desse relatório.																					
+	* : Atualização do "trunk"
+	  
+	  - Atualizado o mapa mental
 
-27/12/2006	2.2.1				.../redes/detalhes_rede.php										1)  Substituida a chamada à função "TentaPing" por "CheckFtpLogin"
-																									IMPACTO: Maior eficiência no teste de conexão usando fsockopen
+2008-01-07  harpiain
 
-27/12/2006	2.2.1				.../include/library.php											1)  Comentada a função "TentaPing"
+	* : Atualização do "trunk"
+	  
+	  - adicionado arquivo de introduçao do instalador para o idioma inglês
+	  - correção de erro ao obter idiomas disponíveis
+	  - melhorias no código
 
-27/12/2006	2.2.1				.../include/library.php											1)  Implementada a função "CheckFtpLogin"
-																									IMPACTO: Maior eficiência no teste de conexão usando fsockopen
+2008-01-06  harpiain
 
-27/12/2006	2.2.1				.../updates_subredes/index.php									1)  O envio de "versoes_agentes.ini" torna-se incondicional
-																									IMPACTO: Garantia de exibição das versões atuais dos agentes constantes dos ambientes de UPDATES
+	* : Atualização do "trunk"
+	  
+	  - atualizada a biblioteca phpTranslator-0.2.0-111 (final)
 
+2008-01-03  harpiain
 
-15/03/2006	FEV2006				.../relatorios/patrimonio/index.php								1)  Foi acrescentada a opção "Informe os critérios para pesquisa de informações patrimoniais:", onde será possível pré-definir critérios de informações patrimoniais para o resultado da pesquisa.
-																									IMPACTO: Capacidade de restrição dos resultados.
+	* : Atualização do "trunk"
+	  
+	  - atualizados arquivos de idiomas
+	  - criadas funções para obter arquivos de definições de idiomas
+	* : Alterações em "trunk"
+	  
+	  - adicionada definições para idiomas
 
-13/03/2006	FEV2006				.../relatorios/navegacao.php									1)  Foi acrescentada visão de impressora paralela à estação e compartilhada na rede, onde, ao ser posicionado o ponteiro do mouse sobre o ícone, surge uma "hint" contendo os campos 
-																									"Nome:" e "Comentário:", configurados na estação.
-																									IMPACTO: Permitirá rápida constatação de impressoras compartilhadas na(s) rede(s).
+2007-12-18  harpiain
 
-23/01/2006	JAN2006				.../admin/exclui_informacoes_computadores.php					1)  Foi acrescentada a opção "Excluir Computadores" no menu "Manutenção"
-																									IMPACTO: Permitirá a exclusão parametrizada de um ou vários computadores da base.
+	* : Atualização do "trunk"
+	  
+	  - exclusão de arquivo obsoleto
+	* : Atualização do "trunk"
+	  
+	  - arquivos que não devem estar sob controle de versão.
+	* : Atualização do "trunk"
+	  
+	  - melhorias na tradução do instalador.
 
-16/01/2006	JAN2006				.../admin/patrimonio/opcoes.php									1)  Foi acrescentada a opção "No Relatório de Patrimônio, destacar as seguintes duplicidades:"
-																									IMPACTO: Permitirá que, no relatório de patrimônio, sejam destacadas as duplicidades de informações patrimoniais configuradas.
+2007-12-17  harpiain
 
-10/01/2006	JAN2006				.../admin/perfis_aplicativos_monitorados/incluir_perfil.php		1)  Foi acrescentado o valor "Versão de Executável" à opção "Identificador de Versão/Configuração"
-																									IMPACTO: Permitirá ao agente COL_MONI coletar informação de versão de arquivos executáveis.
+	* : Atualização do "trunk"
+	  
+	  - implementação da tradução do instalador
 
-								.../admin/perfis_aplicativos_monitorados/detalhes_perfil.php	1)  Foi acrescentado o valor "Versão de Executável" à opção "Identificador de Versão/Configuração"
-																									IMPACTO: Permitirá ao agente COL_MONI coletar informação de versão de arquivos executáveis.																									
-																									
-09/01/2006	JAN2006				.../relatorios/alteracoes_hardware/index.php					1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.
+2007-12-16  harpiain
 
-								.../relatorios/software/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 
-																									 
-								.../relatorios/antivirus/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 																									 
-																									 
-								.../relatorios/hardware/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 																									 
+	* : Atualização do "trunk"
+	  
+	  - melhorias no instalador para a tradução
+	* : Atualização "trunk"
+	  
+	  - atualizado instalador (changelog e tradução)
 
-								.../relatorios/patrimonio/index.php								1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.
-																									 
-								.../relatorios/tcpip/index.php									1)  Foi desabilitada a opção de Quadro Estatístico
-																									IMPACTO: Reduzirá a obtenção incorreta de dados estatísticos;
-																									 		 Será tratado a posteriore, em função de outras prioridades existentes.																									 																									 																									 
+2007-12-14  harpiain
 
-								.../relatorios/totais_estacoes_rede.php							1)  Criação do script
-																									FUNCIONALIDADE: Quando chamado tendo os parâmetros id_ip_rede, nu_totais_estacoes, cs_tipo_no e nm_no, exibirá os totais de estações a partir das versões dos Sistemas Operacionais.
-																							
+	* : Atualização do "trunk"
+	  
+	  - mais tradução no menu esquerdo
+	* : Atualização do "trunk"
+	  
+	  - atualização do mapa mental
 
-05/01/2006  JAN2006				.../ws/get_config.php											1)  Passou a receber o valor "te_versao_gercols" do Gerente de Coletas;
-																									IMPACTO: Esse valor é gravado na tabela "computadores" para ser usado pelo Relatório de Softwares Básicos e ser exibido na página de detalhes da estação.
+2007-12-13  harpiain
 
-								.../ws/get_patrimonio.php										1)  Passou a enviar o indicador "cs_abre_janela_patrimonio" para o Gerente de Coletas;
-																									IMPACTO: Esse valor definirá se a janela de coleta de patrimônio será automaticamente aberta quando da detecção de alterações nos dados de localização física do equipamento (IP estação/rede).
+	* : Atualização do "trunk"
+	  
+	  - erro em uso de constante
+	* : Atualização do "trunk"
+	  
+	  - faltou esse arquivo na padronização conforme wiki
+	  (http://svn.softwarepublico.gov.br/trac/cacic/wiki/cacicTranslate)
+	* : Atualização do "trunk"
+	  
+	  - padronização de sigla do idioma conforme definido no wiki
+	  (http://svn.softwarepublico.gov.br/trac/cacic/wiki/cacicTranslate)
+	* : Atualização do "trunk"
+	  
+	  - reestruturado os menus (menu esquerdo)
 
-								.../relatorios/software/index.php								1)  Foi incluído o ítem "Versão Gerente de Coletas CACIC" no relatório de Softwares Básicos
-																									IMPACTO: Permitirá o relatório sobre as versões do Gerente de Coletas nas estações
-			
-								.../relatorios/computador/inc_detalhes_computador.php			1)  Foi incluído o ítem "Versão Gerente de Coletas CACIC" nos detalhes básicos das estações
-																									IMPACTO: Permitirá o conhecimento da versão do Gerente de Coletas na estação
-																		
-								.../relatorios/navegacao.php									1)  Foram implementadas as opções "Totais de Estações por Sistema Operacional" e "Detalhes da Subrede", representadas pelos ícones "Lupa" e "Caderno"
-																									IMPACTO: Facilitará a quantificação de estações por Sistema Operacional na subrede ou no workgroup
-																									OBS: A opção "Totais de Estações por Sistema Operacional" se aplica aos níveis subrede e workgroup.																							
+2007-12-12  harpiain
+
+	* : Atualização "trunk"
+	  
+	  - implementação inicial de tradução no menu esquerdo e suas opções
+
+2007-12-11  harpiain
+
+	* : Atualizado "trunk"
+	  
+	  - criado arquivos de definição de idiomas
+
+2007-12-10  harpiain
+
+	* : Atualização "trunk"
+	  
+	  - reestruturado diretórios de idiomas
+	  - nome de objeto de tradução alterado para "oTranslator"
+	  - página de introdução do instalador permite uso de arquivo externo de
+	  idioma
+	  - recurso de tradução alterado para "library" permitindo uso por todo
+	  o sistema
+	  - corrigido problemas com versão a ser atualizada pelo instalador
+	* : Atualizado "trunk"
+	  
+	  - corrigido arquivo de configurações no tratamento de idioma
+	  - library passa a criar o objeto tradutor $oTranslator
+	* : Atualizado "trunk"
+	  
+	  - atualizada a biblioteca phpTranslator para 0.2.0-108
+	  . introduz possibilidade de uso de arquivo externo na tradução
+
+2007-12-05  harpiain
+
+	* : Atualização "trunk"
+	  
+	  - menus movidos para "language" considerando a tradução
+	* : Atualizado "trunk"
+	  
+	  - atualizado instalador (introdução e adicionado ToDo)
+	  - cabecalho passa a mostrar versão de "define"
+	* : Atualização do "trunk"
+	  
+	  - melhoria na padronização do config-dist.php
+	* : Atualização "trunk"
+	  
+	  - limpeza no código do instalador
+	  - inserção inicial de código para tratar idioma na instalação
+	* : Atualização "trunk"
+	  
+	  - correção de erro
+	* : Atualização "Trunk"
+	  
+	  - atualização do patTemplate para v-3.1.0
+
+2007-11-22  harpiain
+
+	* : Atualização "Trunk"
+	  
+	  - alteração do arquivo de configuração padrão para config-dist.php
+	  - inclusão do valor "cacic_theme" no arquivo de configuração padrão
+	  - correção de comentário html/js no top.php
+
+2007-11-21  harpiain
+
+	* : Atualização "Trunk"
+	  
+	  - mais idéias no mapa mental (CACIC.mm)
+
+2007-11-19  elias.mussi
+
+	* : adicionando CMDB ao MM
+
+2007-11-19  harpiain
+
+	* : Atualização do "trunk"
+	  
+	  - documentação no mapa mental atualizada
+	* : Atualização "Trunk"
+	  
+	  - mais idéias no mapa mental (CACIC.mm)
+	  - início de implementação de tradução no instalador
+	  - correções no tradutor do CACIC
+	  - melhorias no template da classe phpTranslator
+	  - atualização ToDo.txt da classe phpTranslator
+	  - excluídos métodos obsoletos de phpTranslator
+	  - correções em define.php
+	  - adição de texto de idiomas
+
+2007-11-18  harpiain
+
+	* : Atualização "Trunk"
+	  
+	  - correção de erro no html do instalador por má formação de caminhos
+	  (path e url)
+	  - correção de erro em configurações do gerente por não ler o cacic.js
+	* : Atualização "Trunk"
+	  
+	  - renomeado index.html para index.php na raiz do gerente
+	  - exclusão de arquivos de manual (zip) e planilha .xls
+	  - inclusão de módulo para tradução
+	  - adicionado arquivo de mapa mental (FreeMind) para o CACIC (CACIC.mm)
+	  sob Criative Commons
+	  - reestruturação das bibliotecas do "instalador"
+	  - exclusão de arquivos "bkp" (ex: index08072005.php)
+	  - exclusão da pasta "tribo/downloads", inadequada para se controlar
+	  versão
+
+2007-11-12  harpiain
+
+	* : gerente - atualização
+	  
+	  - correção de subdiretório "cacic2" explicito no código em alguns
+	  arquivos
+	  - correção de direção da "seta" para "next"
+
+2007-11-11  harpiain
+
+	* : gerente - atualização
+	  
+	  - incluída variável "url_aplicacao" para melhorias futuras no gerente
+	  - correção de subdiretório "cacic2" explicito no código em alguns
+	  arquivos
+	  - correção de segurança em alguns arquivos - refaz o ticket #24
+	  - arquivo config.php retirado do controle de versão
+
+2007-11-10  harpiain
+
+	* : gerente - atualização
+	  
+	  - exclusão do diretório "bancodedados";
+	  - atualização de scripts de bancos de dados (novo, 2.2.2 e jun2005);
+	  - supressão mensagens de retorno do banco de dados na inicialização do
+	  gerente quando "display_erros=on"
+
+2007-11-07  harpiain
+
+	* : gerente - instalador atualizado
+	  
+	  - restringido tamanho máximo de campos para o instalador (local e
+	  usuário administrador).
+
+2007-11-07  anderson.peterle
+
+	* : Reducao da fonte constante das Estatisticas do CACIC, na pagina
+	  principal.
+
+2007-10-30  anderson.peterle
+
+	* : Pequenas correcoes nos detalhes de Locais, Estatisticas, Relatorios,
+	  etc.
+
+2007-10-10  anderson.peterle
+
+	* : Acrescentada informacao de quantidade de dias sem acesso na arvore
+	  de computadores(para as estacoes em vermelho) e retirada de mensagem
+	  de debug da opcao de Exclusao de Computadores.
+
+2007-10-08  anderson.peterle
+
+	* : Correcao complementar de Updates de Subredes.
+	* : Correcoes e melhorias em Updates de Subredes, melhorias em
+	  configuracoes do Gerente e Agentes, melhorias nos detalhes de subrede,
+	  melhorias na inclusao de perfil, melhorias na inclusao de local.
+
+2007-10-05  harpiain
+
+	* : gerente - instalador atualizado
+	  
+	  - atualizado script SQL de criação de tabelas em padrão "InnoDB"
+	  - Dados básicos de tipo de software atualizado
+
+2007-10-04  anderson.peterle
+
+	* : Correcao da visao de modulos para niveis diferentes de Administracao
+	* : Correcoes logicas
+
+2007-10-03  anderson.peterle
+
+	* : Correcoes logicas diversas e Acrescimo de Licenca GPL em scripts do
+	  site Tribo
+
+2007-10-03  harpiain
+
+	* : Estrutura "Trunk"
+	  
+	  - exclusão de diretórios inapropriados ao svn
+	* : Estrutura "Trunk"
+	  
+	  - inclusão de propriedade svn (svn:ignore) para arquivos que não devem
+	  estar sob controle de versão.
+	* : Estrutura "Trunk"
+	  
+	  - exclusão de arquivos desnecessários
+	* : Estrutura "Trunk"
+	  
+	  - exclusão de arquivos desnecessários
+	* : Estrutura "trunk" - Atualização do agente
+	  
+	  - arquivos binários desnecessários (.exe e .dcu) excluídos por serem
+	  gerados automaticamente em tempo de compilação.
+	  - arquivos *.DSK excluídos, pois, são definições do ambiente de
+	  desenvolvimento (preferências do desenvolvedor para o editor delphi).
+
+2007-10-01  anderson.peterle
+
+	* : Implementado o refresh de 3 minutos na pagina de Estatisticas do
+	  CACIC.
+	* : Correcao logica nas listas de locais para opcoes Configurar Gerente
+	  e Configurar Agentes.
+	* : Acrescentada a opcao de selecao de Locais para as opcoes de
+	  Configuracoes Gerais, Configuracoes de Agentes, Log de Acessos e Log
+	  de Atividades; Correcoes logicas diversas nos relatorios.
+
+2007-09-26  harpiain
+
+	* : Estrutura "Trunk"
+	  
+	  - exclusão de diretório desnecessário
+	* : gerente - atualizado
+	  
+	  - excluidos arquivos "OLD"
+	* : agente-windows - atualizado
+	  
+	  - exclusao de arquivos binarios que nao devem existir nesta estrutura
+	  de diretorios
+	* : agente-windows - atualizado
+	  
+	  - exclusao de arquivos de copia automatica
+	  - excluido arquivo "MAIN.pas" que e' mais antigo que "main.pas"
+
+2007-09-24  anderson.peterle
+
+	* : Correcoes na opcao Estatisticas e correcoes na opcao Administracao /
+	  Cadastros / S.Operacionais
+
+2007-09-21  anderson.peterle
+
+	* : Contem identificacao dinamica do S.O. da estacao; Correcao de coleta
+	  de sistemas monitorados; Inclusao em Informacoes Gerais da sessao
+	  Coletas Realizadas nesta Data
+	* : Contem identificacao dinamica do S.O. da estacao; Correcao de coleta
+	  de sistemas monitorados; Inclusao em Informacoes Gerais da sessao
+	  Coletas Realizadas nesta Data
+	* : Contem identificacao dinamica do S.O. da estacao; Insercao
+	  automatica de novos S.O.´s no BD; Nova opcao
+	  Administracao/Cadastros/S.Operacionais para o nivel Administracao;
+	  Duplo detalhamento das estatisticas de S.O. e acessos dos agentes;
+	  Opcao para exibicao de estatisticas em pizza ou tabela; Correcoes em
+	  Manutencao/Update de Subredes; Diversas correcoes logicas em
+	  Relatorios
+	* : inclusao de coluna te_exibe_graficos nas tabelas
+	  configuracoes_padrao e configuracoes_locais
+
+2007-09-18  l
+
+	* : Adicionado pacote do agente linux no svn.
+
+2007-08-14  harpiain
+
+	* : gerente - instalador atualizado
+	  
+	  - atualizada a introdução para o instalador
+	  - criacao do usuario administrador passa a incluir "local secundario"
+	  - passa a incluir a URL da aplicação gerente
+	* : README e ChangeLog atualizados
+	  
+	  - Readme atualizado com explicações para gerar o novo formatdo arquivo
+	  changelog.txt (GNU-style ChangeLog)
+	  - exemplo do novo formato do arquivo changelog.txt (GNU-style
+	  ChangeLog) a ser gerado na raiz do "gerente"
+	  --This line, and those below, will be ignored--
+	  
+	  M README.FIRST
+	  M gerente/changelog.txt
+	* : gerente - atualizações diversas
+	  
+	  - corrige ticket #33, processo de inclusão passa a gerar ID
+	  - SQL de criação/atualização de BD corrigido para não incrementar o
+	  tipo_software
+	  - SQL de dados básicos evita o "lock"/"unlock" de tabelas
+	  - incrementa recurso de debug em ADO
+	  - corrige erro no instalador para apenas criação de nova instalação do
+	  cacic
+
+2007-08-13  harpiain
+
+	* : gerente - SQL corrigido
+	  
+	  - SQL de exlusão de tabelas criado/atualizado
+	* : gerente - SQL corrigido
+	  
+	  - SQL de criação de tabelas atualizado
+	  - SQL de atualização do banco de jun2005 corrigido
+	* : gerente: atualização
+	  
+	  - alteração do conteúdo da "licença" para pt_BR
+	  Obs: existem dois arquivos um em pt_BR (licenca.txt) e outro em en_US
+	  (license.txt)
+	  importantes para serem apresentadas pelo instalador web.
+	* : gerente - instalador corrigido
+	  
+	  - revertido o sql de criação da tabela de "usuarios" que implementa o
+	  conceito "locais secundários"
+	  (atualiza erroneamente na revisão anterior).
+	* : gerente - instalador atualizado
+	  
+	  - instalador atualizado em "trunk"
+	  (novos recursos serão implementados aqui)
+
+2007-07-16  asrsoares
+
+	* : Alteracao para pegar cdrom e placa de video corretamente
+
+2007-07-11  asrsoares
+
+	* : README modificado
+
+2007-06-26  l
+
+	* : Finalmente atualizado o agente linux, para a versão
+	  com diversas melhorias, incluindo uma melhor
+	  coleta das informações de hardware.
+
+2007-06-11  anderson.peterle
+
+	* : Comentario na geracao de informacoes para Debug no get_config.php
+
+2007-06-06  anderson.peterle
+
+	* : Site para documentacao interna (FAQ, etc.).
+	* : Criacao de coluna so->te_so para futuro controle dinamico de versoes
+	  do S.O. MS-Windows e redes_grupos_ftp->id_ftp para correcao da
+	  liberacao do grupo FTP a partir do cliente (Gerente de Coletas)
+	* : Detalhamento dos graficos estatisticos da pagina principal quando
+	  representarem mais de um local(usuarios associados a locais
+	  secundarios e/ou niveis Administracao/Gestao Central). Melhoria no
+	  processo de liberacao de FTP por parte do cliente(Gerente de Coletas).
+	  Inicio de criacao do mecanismo de identificacao dinamica do
+	  S.O.(MS-Windows). Site para documentacao interna (FAQ, etc.).
+
+2007-06-04  harpiain
+
+	* : gerente: atualização
+	  
+	  - alteração do conteúdo da "licença" para pt_BR
+	  Obs: existem dois arquivos um em pt_BR (licenca.txt) e outro em en_US
+	  (license.txt) - importantes para serem apresentadas pelo instalador
+	  web.
+
+2007-05-28  elias.mussi
+
+	* : script de atualizacao antigo
+
+2007-05-11  anderson.peterle
+
+	* : Exibicao de descricao resumida para o grafico estatistico de Ultimos
+	  Acessos dos Agentes quando usuario global ou com acesso a locais
+	  secundarios
+
+2007-05-10  anderson.peterle
+
+	* : Exibicao de *Detalhes* das estatisticas para niveis Administracao e
+	  Gestao Central
+
+2007-05-09  anderson.peterle
+
+	* : Criacao da coluna *te_locais_secundarios* na tabela *usuarios* para
+	  uso do conceito *locais secundarios*
+	* : Implementacao do conceito =locais secundarios= para que o usuario
+	  possa acessar informacoes relativas a outros locais. Para estes casos,
+	  as estatisticas da pagina principal exibirao um link para uma janela
+	  pop-up que contera o detalhamento das quantidades.
+
+2007-05-04  elias.mussi
+
+	* : Link relativo, Obrigado Batista
+
+2007-05-02  elias.mussi
+
+	* : link relativo errados- Obrigado Batista MMA
+
+2007-04-30  thomas
+
+	* : teste
+
+2007-04-30  elias.mussi
+
+	* : Correção e ampliação da detecção de hardware
+
+2007-04-27  anderson.peterle
+
+	* : Foi retirado o menu principal para usuario nao logado; Foi
+	  acrescentado grafico de acesso por local na data; Algumas correcoes em
+	  relatorio/consulta patrimonial.
+	* : Melhorias em MapaCacic e Vacon.
+	* : O ChkCacic passa a interpretar as opcoes "/serv=" e "/dir=" em linha
+	  de comando.
+	* : Novas versoes para ChkCacic, MapaCacic e Vacon
+
+2007-04-26  anderson.peterle
+
+	* : Inclusao e atualizacao de graficos
+
+2007-04-23  elias.mussi
+
+	* : correções no agente linux por Thomas - thor27
+
+2007-04-11  elias.mussi
+
+	* : arrumando a consulta do patrimonio
+
+2007-03-29  elias.mussi
+
+	* : esqueci de mudar a versao
+
