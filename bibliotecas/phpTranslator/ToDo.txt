@@ -26,8 +26,9 @@ OK  * possibilitar uso de textos em arquivo externo
 OK    - tipo de mensagem deve ser: "arquivo" ou "file"
 OK    - texto da mensagem deve ser o nome do arquivo a ser usado (exemplo: introducao.html)
 
-version: 0.2.1
+version: 0.2.x
 
+	* usar editor de arquivos externo para mensagens do tipo "arquivo" ou "file"
 	* implementar recurso de criação de idiomas de traducao
 	  - para a propria classe e/ou generico
 	* implementar recurso de selecao do idioma padrao e destino 
@@ -37,7 +38,6 @@ version: ?
     * formularios devem prever valor zero para o tamanho dos campos: idioma, contexto, tipo;
       nos formularios: codificacao, listagem e traducao 
       - campos que nao podem ser zero (obvio): codigo_mensagem e texto_mensagem
-	* usar editor de arquivos externo para mensagens do tipo "arquivo" ou "file"
 	* build the phpTranslator as a Joomla! component to translate another components or Joomla!
 OK	* deprecated (at v0.1.41) methods or attributes will be deleted
 	* Class documentation will be translated to English

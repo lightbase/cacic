@@ -559,8 +559,20 @@ Class Translator {
 	/**
 	 * Busca o texto a ser traduzido
 	 *
+	 * Busca a traducao do texto - caso o texto traduzido nao exista retorna o texto padrao e caso este 
+	 * tambem nao exista retorna o codigo de pesquisa
+	 *
 	 * @access public
-	 * @see    getText()
+	 * @see getText()
+	 * @param string $_msg_code O codigo da mensagem a ser traduzida
+	 * @param boolean $_sigla Se retorna a sigla em lugar da mensagem completa
+	 * @param boolean $_text_case Se o texto retorna o texto como cadastrado, em maiusculas ou minusculas
+	 *                                                1 - maiuscula
+	 *                                                2 - minuscula
+	 *                                          outro - como estiver cadastrado
+	 * @param array $_args Sao os argumentos que ser√£o inseridos na mensagem nas posi√ß√µes onde houver %N
+	 *                     (onde N √© a quantidade sequencial de par√¢metros)
+	 *
 	 * @return string  O texto traduzido, o texto padrao ou o codigo da mensagem
 	 *
 	 */
@@ -1501,6 +1513,75 @@ Class Translator {
 		echo "<pre>";
 		var_dump($arg);
 		echo "</pre>";
+	}
+
+	/*
+	 * Retorna a extens„o de um arquivo qualquer.
+	 * 
+     * @since v 0.2.1
+	 * @access private
+	 */
+	function _findexts($filename) {
+	  $filename = strtolower($filename) ;
+	  $exts = split("[/\\.]", $filename) ;
+	  $n = count($exts)-1;
+	  $exts = $exts[$n];
+	  return $exts;
+	}
+
+	/**
+	 * Le o diretorio de idiomas em busca dos arquivos de configuracao das traducoes
+	 * 
+     * @since v 0.2.1
+	 * @access public
+	 * @return array Matriz de dados de cada idioma no qual a aplicaÁ„o foi traduzida.
+	 *
+	 *       Formato da matriz:   
+	 *          $language_set = array( 'pt_BR' => ('descr' => 'PortuguÍs Brasileiro',
+	 *                                         'charset' => 'iso-8859-1',
+	 *                                         'directition => '0', // 0=direita, 1=esquerda
+	 *                                         'versao' => '0.1',
+	 *                                         'versao_cacic' => '2.4.0'
+	 *                                        )
+	 *                               )
+	 */
+	function getLanguagesSetup() {
+	   $_dir = dir($this->languageFilePath);
+	   $_lang = array();
+	   $language_abbr = '';
+	   $language_def = '';
+	   $language_charset = '';
+	   $language_direction = '';
+	   $language_version = '';
+	   $language_cacic_version = '';
+	   while (false !== ($_valor = $_dir->read())) {
+	     if(is_file($_dir->path.$_valor))
+	       if($this->_findexts($_valor) === 'php' ) {
+	         $_file_name = $_valor;
+	         @require($_dir->path.$_file_name);
+	         $_lang = array_merge($_lang, array($language_abbr => array('abbr' => $language_abbr,
+	                                                                    'descr' => $language_def,
+	                                                                    'charset' => $language_charset,
+	                                                                    'direction' => $language_direction,
+	                                                                    'version' => $language_version,
+	                                                                    'version_cacic' => $language_cacic_version
+	                                                              ) ) );
+	       }
+	   }   
+	   $_dir->close();
+	   return $_lang;
+	} // end func: getLanguagesSetup
+
+	/**
+	 * DiretÛrio dos idiomas no qual a aplicaÁ„o foi traduzida
+	 * 
+     * @since v 0.2.1
+	 * @access public
+	 * @return string Diretorio dos idiomas no qual a aplicaÁ„o foi traduzida.
+	 * 
+	 */
+	function getLanguagePath() {
+	   return $this->languageFilePath;
 	}
 
 	/*
