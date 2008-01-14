@@ -21,8 +21,9 @@
                   <td>{KCIQ_DEF_LANGUAGE}:
                      <select id="translate_lang" name="translate_lang" onchange="submitForm( installForm, 'preinstall' );">
                         <option value=""></option>
-                        <option value="en_US">Inglês (US)</option>
-                        <option value="pt_BR">Português brasileiro</option>
+                        <cacicInstall:tmpl name="tmplLang_list">
+                         <option {LANG_SELECTED} value="{LANG_ABBR}">{LANG_DESCR}</option>
+                        </cacicInstall:tmpl>
                      </select>
                   </td>
                </tr>

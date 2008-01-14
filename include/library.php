@@ -30,56 +30,6 @@ $oTranslator->setURLPath(TRANSLATOR_PATH_URL);
 $oTranslator->setLangFilesInSubDirs(true);
 $oTranslator->initStdLanguages();
 
-
-/*
- * Retorna a extensão de um arquivo qualquer.
- */
-function findexts($filename) {
-  $filename = strtolower($filename) ;
-  $exts = split("[/\\.]", $filename) ;
-  $n = count($exts)-1;
-  $exts = $exts[$n];
-  return $exts;
-}
-
-/**
- * Le o diretorio de idiomas em busca dos arquivos de configuracao das traducoes
- * 
- * @return array Matriz de dados de cada idioma no qual o CACIC for traduzido.
- *
- *       Formato da matriz:   
- *          $language_set = array( 'pt_BR' => ('descr' => 'Português Brasileiro',
- *                                         'charset' => 'iso-8859-1',
- *                                         'directition => '0', // 0=direita, 1=esquerda
- *                                         'versao' => '0.1',
- *                                         'versao_cacic' => '2.4.0'
- *                                        )
- *                               )
- */
-function getLanguages() {
-   $_path = CACIC_PATH.CACIC_LANGUAGE_PATH;
-   $_dir = dir($_path);
-   $_lang = array();
-   while (false !== ($_valor = $_dir->read())) {
-     if(is_file($_dir->path.$_valor))
-       if(findexts($_valor) === 'php' ) {
-         $_file_name = $_valor;
-         @require($_dir->path.$_file_name);
-         $_lang = array_merge($_lang, array($language_abbr => array('abbr' => $language_abbr,
-                                                                    'descr' => $language_def,
-                                                                    'charset' => $language_charset,
-                                                                    'direction' => $language_direction,
-                                                                    'version' => $language_version,
-                                                                    'version_cacic' => $language_cacic_version
-                                                              ) ) );
-       }
-   }   
-   $_dir->close();
-   
-   return $_lang;
-   
-} // end func: getLanguages
-
 // ------------------------------------------------------------------------------------------------
 // Função para exibição de data do script para fins de Debug. Os IP´s são definidos em menu_seg.php
 // Novas informações poderão ser acrescentadas futuramente...

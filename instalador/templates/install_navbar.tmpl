@@ -19,7 +19,7 @@
 		  <tr class="navbar">
 		     <td colspan=2>
 				<div class="navbar-btn">
-						<div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'licenca' );" alt="{KCIQ_NEXT}">{KCIQ_NEXT}</a></div></div>
+						<div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'licenca' );" title="{KCIQ_NEXT}">{KCIQ_NEXT}</a></div></div>
 				</div>
 		     </td>
 		  </tr>
@@ -44,21 +44,20 @@
 		<div class="license">
 		<table>
 		  <tr>
-		     <td>Por favor, leia os termos da licença a seguir. Você deve aceitar os termos desta para continuar a instalação! 
-		     </td>
+		     <td>{KCIQ_MSG_LICENSE_ADVISE}</td>
 		  </tr>
 		  <tr id="gpl-pt" >
 		     <td>
 				<fieldset>
-				    <legend>Licença (<span class="togleLang" onclick="toggleDetails('gpl-pt');toggleDetails('gpl-en');">read it in English</span>)</legend>
-					<pre><cacicInstall:tmpl src="../../licenca.txt" parser="on" /></pre>
+				    <legend>{KCIQ_MSG_LICENSE_TITLE} (<span class="togleLang" onclick="toggleDetails('gpl-pt');toggleDetails('gpl-en');">{KCIQ_MSG_LICENSE_EN-READ}</span>)</legend>
+					<pre><cacicInstall:tmpl src="../../licenca.txt" parser="off" /></pre>
 				</fieldset>
 		     </td>
 		  </tr>
 		  <tr id="gpl-en" style="display: none;">
 		     <td>
 				<fieldset>
-				    <legend>License (<span class="togleLang" onclick="toggleDetails('gpl-pt');toggleDetails('gpl-en');">leia em português</span>)</legend>
+				    <legend>{KCIQ_MSG_LICENSE_TITLE} (<span class="togleLang" onclick="toggleDetails('gpl-pt');toggleDetails('gpl-en');">{KCIQ_MSG_LICENSE_PT-READ}</span>)</legend>
 					<pre><cacicInstall:tmpl src="../../license.txt" parser="on" /></pre>
 				</fieldset>
 		     </td>
@@ -75,11 +74,11 @@
 		  <tr class="navbar">
 		     <td colspan=2>
 				<div class="navbar-btn">
-					<div class="navbar-btn-left"><div class="verificar"><a onclick="submitForm( installForm, 'checkinstall' );" alt="Verificar">Verificar</a></div></div>
-					<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'licenca' );" alt="Previous">Anterior</a></div></div>
+					<div class="navbar-btn-left"><div class="verificar"><a onclick="submitForm( installForm, 'checkinstall' );" title="{KCIQ_CHECK}">{KCIQ_CHECK}</a></div></div>
+					<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'licenca' );" title="<cacicInstall:var name="copiedVar" copyFrom="tmplNavBarLicenca.KCIQ_PREVIOUS"/>"><cacicInstall:var name="copiedVar" copyFrom="tmplNavBarLicenca.KCIQ_PREVIOUS"/></a></div></div>
 					<cacicInstall:tmpl name="tmplNavBarCheckInstallContinue" type="condition" conditionvar="continuar">
-					<cacicInstall:sub condition="sim">
-					   <div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'configuration' );" alt="Próximo">Próximo</a></div></div>
+					<cacicInstall:sub condition="1">
+					   <div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'configuration' );" title="<cacicInstall:var name="copiedVar" copyFrom="tmplNavBarPreInstall.KCIQ_NEXT"/>"><cacicInstall:var name="copiedVar" copyFrom="tmplNavBarPreInstall.KCIQ_NEXT"/></a></div></div>
 					</cacicInstall:sub>
 					</cacicInstall:tmpl>
 				</div>
@@ -88,11 +87,11 @@
 		</table>
 
 		<fieldset>
-		    <legend>Pré-requisitos</legend>
+		    <legend>{KCIQ_REQUISITOS}</legend>
 			<table class="checkinstall">
 			  <tr>
 			    <td class="item" valign="top">
-			         Versão do PHP >= {CACIC_PHPVERSION}
+			         {KCIQ_PHPVERSION} >= {CACIC_PHPVERSION}
 				</td>
 				<td align="left" valign="top">
 										<span class="{PHPVERSION_CLASS}">
@@ -105,7 +104,7 @@
 			  </tr>
 			  <tr>
 				<td class="item" valign="top">
-										- Suporte ao MySQL versão >= {CACIC_MYSQLVERSION}
+										- {KCIQ_MYSQL_SUPORTE} >= {CACIC_MYSQLVERSION}
 				</td>
 				<td align="left" valign="top">
 										<span class="{PHPMYSQL_CLASS}">
@@ -117,7 +116,7 @@
 				</td>
 			  </tr>
 			  <tr>
-				<td class="item" valign="top">- Suporte a criptografia com MCrypt</td>
+				<td class="item" valign="top">- {KCIQ_MCRYPT_SUPORTE}</td>
 				<td align="left" valign="top">
 										<span class="{PHPMCRYPT_CLASS}">
 										{PHPMCRYPT_STATUS}
@@ -128,7 +127,7 @@
 				</td>
 			  </tr>
 			  <tr>
-				<td class="item" valign="top">- Suporte a imagens com GD</td>
+				<td class="item" valign="top">- {KCIQ_GD_SUPORTE}</td>
 				<td align="left" valign="top">
 										<span class="{PHPGD_CLASS}">
 										{PHPGD_STATUS}
@@ -140,7 +139,7 @@
 			  </tr>
 			  <tr>
 				<td class="item" valign="top">
-										Arquivo <i><b>config.php</b></i> pode ser gravado
+										{KCIQ_CFGFILE_WRITEABLE}
 				</td>
 				<td align="left" valign="top">
 										<span class="{CFGFILE_CLASS}">
@@ -153,12 +152,11 @@
 			  </tr>
 			</table>
 		<fieldset>
-		  <!-- legend>Recomendações</legend -->
 			<table class="checkinstall">
 			  <tr>
-				<th>Instrução PHP/Apache</th>
-				<th>Ideal</th>
-				<th>Real</th>
+				<th>{KCIQ_ADVISE_TITLE}</th>
+				<th>{KCIQ_IDEAL}</th>
+				<th>{KCIQ_REAL}</th>
 			  </tr>
 			  <tr>
 				<td class="item">
@@ -194,7 +192,7 @@
 			  </tr>
 			  <tr>
 				<td>
-				    Memória para execução de programas PHP
+				    {KCIQ_PHP_MEMORY}
 				</td>
 				<td>
 										{CACIC_PHPMEM}
@@ -223,8 +221,8 @@
 		  <tr class="navbar">
 		     <td colspan=2>
 				<div class="navbar-btn">
-						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'checkinstall' );" alt="Previous">Anterior</a></div></div>
-						<div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'adminSetup' );" alt="Próximo">Próximo</a></div></div>
+						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'checkinstall' );" title="{KCIQ_PREVIOUS}">{KCIQ_PREVIOUS}</a></div></div>
+						<div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'adminSetup' );" title="{KCIQ_NEXT}">{KCIQ_NEXT}</a></div></div>
 				</div>
 		     </td>
 		  </tr>
@@ -421,8 +419,8 @@
 		  <tr class="navbar">
 		     <td colspan=2>
 				<div class="navbar-btn">
-						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'Configuration' );" alt="Previous">Anterior</a></div></div>
-						<div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'Finish' );" alt="Próximo">Próximo</a></div></div>
+						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'Configuration' );" title="{KCIQ_PREVIOUS}">{KCIQ_PREVIOUS}</a></div></div>
+						<div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'Finish' );" title="{KCIQ_NEXT}">{KCIQ_NEXT}</a></div></div>
 				</div>
 		     </td>
 		  </tr>
@@ -522,8 +520,8 @@
 		  <tr class="navbar">
 		     <td colspan=2>
 				<div class="navbar-btn">
-						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'adminSetup' );" alt="Previous">Anterior</a></div></div>
-						<div class="navbar-btn-left"><div class="proximo"><a onclick="javascript:document.location.href='{CACIC_URL}';" title="Iniciar uso do CACIC!">Finalizar</a></div></div>
+						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'adminSetup' );" title="{KCIQ_PREVIOUS}">{KCIQ_PREVIOUS}</a></div></div>
+						<div class="navbar-btn-left"><div class="proximo"><a onclick="javascript:document.location.href='{CACIC_URL}';" title="{KCIQ_FINISH_TITLE}">{KCIQ_FINISH}</a></div></div>
 				</div>
 		     </td>
 		  </tr>
