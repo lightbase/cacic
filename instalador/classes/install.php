@@ -174,7 +174,7 @@ class Install {
 	 	/*
 	 	 * verifica se é possivel escrever o arquivo de configurações para o CACIC
 	 	 */
-		if (is_writable(CACIC_CFGFILE_PATH)) {
+		if (is_writable(CACIC_CFGFILE_PATH.CACIC_DS."config.php")) {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_STATUS', $oTranslator->_('kciq_msg yes'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_CLASS', "SimImg");
 	 	  $_SESSION['saveCfgFile'] = true;

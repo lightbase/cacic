@@ -8,11 +8,13 @@ en_US     instalador                                                            
 en_US     kciq_msg legenda                                                                                    geral     info                Legend
 en_US     manutenção                                                                                          geral     TagHeader           Maintenance
 en_US     kciq_msg mensagem                                                                                   Geral                         Message
+en_US     kciq_msg no                                                                                         geral     info                No
 en_US     kciq_msg access level                                                                               Geral     info                Access level
 en_US     kciq_menu fast search                                                                               Geral                         Search
 en_US     kciq_menu search                                                                                    Geral     info                Search
 en_US     kciq_msg next                                                                                       Geral     info                Next
 en_US     kciq_msg password                                                                                   Geral     info                Password
+en_US     kciq_msg yes                                                                                        geral     info                Yes
 en_US     kciq_msg user                                                                                       Geral     info                User
 en_US     kciq_msg aceitar                                                                                    instalador                    Accept
 en_US     kciq_msg aceito                                                                                     instalador                    I accept this license

@@ -28,7 +28,7 @@
 	 */
 	if( ! @include("../include/library.php") )
 	{
-	   die("Install mal definido (Install miss-defined)!");
+	   die("Instalador mal definido (Installer miss-defined)!");
 	}
 	
 	/*

@@ -42,7 +42,7 @@ elseif(!isset($_SESSION['cacic_language']))
 /*
  * Idioma para os quais o CACIC está traduzido 
  */
-$_SESSION['cacic_language_available'] = getLanguages();
+$_SESSION['cacic_language_available'] = $oTranslator->getLanguagesSetup();
 	
 /*
  * classe para instanciar a instalação
