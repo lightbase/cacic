@@ -58,8 +58,11 @@ class InstallAjax {
 	  * Processa as requisições AJAX
 	  */
 	  function processAjax() {
-    	if(isset($_POST['cacic_config']))
+    	if(isset($_POST['cacic_config'])) {
     	   $_SESSION['cacic_config'] = $_POST['cacic_config'];
+    	   $_SESSION['cacic_config']['path'] = CACIC_PATH;
+    	   $_SESSION['cacic_config']['url'] = CACIC_URL;
+    	}
     	
     	if(isset($_POST['cacic_admin']))
     	   $_SESSION['cacic_admin'] = $_POST['cacic_admin'];

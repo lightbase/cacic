@@ -46,19 +46,19 @@
 		  <tr>
 		     <td>{KCIQ_MSG_LICENSE_ADVISE}</td>
 		  </tr>
-		  <tr id="gpl-pt" >
-		     <td>
-				<fieldset>
-				    <legend>{KCIQ_MSG_LICENSE_TITLE} (<span class="togleLang" onclick="toggleDetails('gpl-pt');toggleDetails('gpl-en');">{KCIQ_MSG_LICENSE_EN-READ}</span>)</legend>
-					<pre><cacicInstall:tmpl src="../../licenca.txt" parser="off" /></pre>
-				</fieldset>
-		     </td>
-		  </tr>
-		  <tr id="gpl-en" style="display: none;">
+		  <tr id="gpl-en">
 		     <td>
 				<fieldset>
 				    <legend>{KCIQ_MSG_LICENSE_TITLE} (<span class="togleLang" onclick="toggleDetails('gpl-pt');toggleDetails('gpl-en');">{KCIQ_MSG_LICENSE_PT-READ}</span>)</legend>
 					<pre><cacicInstall:tmpl src="../../license.txt" parser="on" /></pre>
+				</fieldset>
+		     </td>
+		  </tr>
+		  <tr id="gpl-pt" style="display: none;">
+		     <td>
+				<fieldset>
+				    <legend>{KCIQ_MSG_LICENSE_TITLE} (<span class="togleLang" onclick="toggleDetails('gpl-pt');toggleDetails('gpl-en');">{KCIQ_MSG_LICENSE_EN-READ}</span>)</legend>
+					<pre><cacicInstall:tmpl src="../../licenca.txt" parser="off" /></pre>
 				</fieldset>
 		     </td>
 		  </tr>
@@ -264,24 +264,6 @@
 		</fieldset>
 		<fieldset>
 		  <legend>Configurações</legend>
-		<fieldset class="configinstall">
-		  <legend>Caminhos para a aplicação</legend>
-		   <table>
-			<tr>
-			    <td class="item">
-			    	<div align="left"><span class="necessario">*</span>Caminho físico:</div>
-			    	<input disabled class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" type="text" name="cacic_config[path]" value="{CACIC_PATH}" size="70" />
-			    	<input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" type="hidden" name="cacic_config[path]" value="{CACIC_PATH}" size="70" />
-			    </td>
-			    <td class="help">Caminho físico (path) da instalação do CACIC</td>
-			  </tr>
-			<tr>
-			    <td class="item"><div align="left"><span class="necessario">*</span>Caminho relativo:</div><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_config[url]" value="{CACIC_URL}" size="70" />
-			    </td>
-			    <td class="help">Caminho relativo (URL) da instalação do CACIC</td>
-			  </tr>
-          </table>
-		</fieldset>
     	  <fieldset class="configinstall">
    		    <legend>Tipo de instalação</legend>
    		    <table>

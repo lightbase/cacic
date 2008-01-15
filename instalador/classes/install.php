@@ -57,8 +57,11 @@ class Install {
 	 function __construct() {
 	 	global $oTranslator;
 	 	$this->oLang = $oTranslator;
-    	if(isset($_POST['cacic_config']))
+    	if(isset($_POST['cacic_config'])) {
     	   $_SESSION['cacic_config'] = $_POST['cacic_config'];
+    	   $_SESSION['cacic_config']['path'] = CACIC_PATH;
+    	   $_SESSION['cacic_config']['url'] = CACIC_URL;
+    	}
     	
     	if(isset($_POST['cacic_admin']))
     	   $_SESSION['cacic_admin'] = $_POST['cacic_admin'];
@@ -174,7 +177,8 @@ class Install {
 	 	/*
 	 	 * verifica se é possivel escrever o arquivo de configurações para o CACIC
 	 	 */
-		if (is_writable(CACIC_CFGFILE_PATH.CACIC_DS."config.php")) {
+		if ((is_writable(CACIC_CFGFILE_PATH) and !file_exists(CACIC_CFGFILE_PATH.CACIC_DS."config.php")) or 
+		    (file_exists(CACIC_CFGFILE_PATH.CACIC_DS."config.php") and is_writable(CACIC_CFGFILE_PATH.CACIC_DS."config.php"))) {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_STATUS', $oTranslator->_('kciq_msg yes'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_CLASS', "SimImg");
 	 	  $_SESSION['saveCfgFile'] = true;
