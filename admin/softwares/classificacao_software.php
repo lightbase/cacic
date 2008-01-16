@@ -42,6 +42,7 @@
                         <? 	$query = "SELECT id_software_inventariado, nm_software_inventariado
 			  FROM softwares_inventariados
 			  WHERE (id_tipo_software = 0) 
+			  GROUP BY nm_software_inventariado
 			  ORDER BY nm_software_inventariado";
 
 			$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados ou sua sessão expirou!');

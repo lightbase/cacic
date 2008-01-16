@@ -144,6 +144,7 @@ require_once('../../include/inicio_relatorios_inc.php');
                       <select multiple name="list5[]" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                         <? 	$query = "SELECT id_software_inventariado, nm_software_inventariado
 									  FROM softwares_inventariados
+									  GROUP BY nm_software_inventariado
 									  ORDER BY nm_software_inventariado";
 						$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados ou sua sessão expirou!');
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
