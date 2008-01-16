@@ -291,8 +291,6 @@ class Install {
 	  function adminSetup() {
      	// Atribui os dados de configuração de banco para inserção dos dados administrativos
 	  	$this->setInputFields('tmplNavBarAdminSetup');
-    	  	
-     	//$this->vardump($cacic_config);
 	  } 
 	  
 	 /*
