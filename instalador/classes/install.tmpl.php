@@ -117,6 +117,45 @@ Class Template extends patTemplate {
      $this->addVar('tmplNavBarFinish',  'KCIQ_FINISH_TITLE', $this->oLang->_('kciq_msg finish title'));
      $this->addVar('tmplNavBarFinish',  'KCIQ_FINISH', $this->oLang->_('kciq_msg finish'));
      
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_TESTCONN_HELP', $this->oLang->_('kciq_msg test conn help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_TESTCONN', $this->oLang->_('kciq_msg test conn'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_BUILDBD_HELP', $this->oLang->_('kciq_msg build bd help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_BUILDBD', $this->oLang->_('kciq_msg build bd'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_SHOWCFGFILE_HELP', $this->oLang->_('kciq_msg showcfgfile help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_SHOWCFGFILE', $this->oLang->_('kciq_msg showcfgfile'));
+     $this->addVar('tmplNavBarCouldSaveCFGFile',  'KCIQ_SAVECFGFILE_HELP', $this->oLang->_('kciq_msg savecfgfile help'));
+     $this->addVar('tmplNavBarCouldSaveCFGFile',  'KCIQ_SAVECFGFILE', $this->oLang->_('kciq_msg savecfgfile'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_CONFIGURATIONS', $this->oLang->_('kciq_msg configurations'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INSTALL_TYPE', $this->oLang->_('kciq_msg install type'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_NEW', $this->oLang->_('kciq_msg new'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_NEW_HELP', $this->oLang->_('kciq_msg new help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_ADMIN_HELP', $this->oLang->_('kciq_msg inst admin help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_USER', $this->oLang->_('kciq_msg user'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_USER_HELP', $this->oLang->_('kciq_msg user help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_PASS', $this->oLang->_('kciq_msg password'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_PASS_HELP', $this->oLang->_('kciq_msg password help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DEMO', $this->oLang->_('kciq_msg demo'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DEMO_HELP', $this->oLang->_('kciq_msg demo help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_UPDATE', $this->oLang->_('kciq_msg update'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_UPDATE_HELP', $this->oLang->_('kciq_msg update help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_VERSION_HEADER', $this->oLang->_('kciq_msg version header'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_VERSION', $this->oLang->_('kciq_msg version'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_VERSION_HELP', $this->oLang->_('kciq_msg version help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_BKP', $this->oLang->_('kciq_msg backup'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_BKP_HELP', $this->oLang->_('kciq_msg backup help'));
+     
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DB', $this->oLang->_('kciq_msg database'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DB_TYPE', $this->oLang->_('kciq_msg database type'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DB_TYPE_HELP', $this->oLang->_('kciq_msg database type help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DB_HOST', $this->oLang->_('kciq_msg database host'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DB_HOST_HELP', $this->oLang->_('kciq_msg database host help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DB_PORT', $this->oLang->_('kciq_msg database port'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DB_PORT_HELP', $this->oLang->_('kciq_msg database port help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DB_NAME', $this->oLang->_('kciq_msg database name'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DB_NAME_HELP', $this->oLang->_('kciq_msg database name help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DBUSER_HELP', $this->oLang->_('kciq_msg dbuser help'));
+     $this->addVar('tmplNavBarConfiguration',  'KCIQ_INST_DBPASS_HELP', $this->oLang->_('kciq_msg dbpass help'));
+     
      $this->displayParsedTemplate('tmplNavBar'.$type);
    }
 

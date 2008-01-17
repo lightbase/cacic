@@ -237,24 +237,24 @@
 						  </script>
 				      <div class="botoes">
 				        <div class="btnleft"><div class="btnright">
-				            <a onClick="setDocVar( 'task', 'testConn' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Testar conexão com banco de dados.">
-				               Teste de conexão</a>
+				            <a onClick="setDocVar( 'task', 'testConn' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="{KCIQ_TESTCONN_HELP}">
+				               {KCIQ_TESTCONN}</a>
 				        </div></div>
 				        <div class="btnleft"><div class="btnright">
-				               <a onClick="setDocVar( 'task', 'dbBuild' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Criar banco de dados.">
-				                  Construir BD</a>
+				               <a onClick="setDocVar( 'task', 'dbBuild' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="{KCIQ_BUILDBD_HELP}">
+				                  {KCIQ_BUILDBD}</a>
 				        </div></div>
 				        <div class="btnleft"><div class="btnright">
-				               <a onClick="setDocVar( 'task', 'showCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Mostrar o arquivo de configurações para o CACIC.">
-				               Mostrar <i>config.php</i></a>
+				               <a onClick="setDocVar( 'task', 'showCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="{KCIQ_SHOWCFGFILE_HELP}">
+				               {KCIQ_SHOWCFGFILE}</a>
 				        </div></div>
 						<cacicInstall:tmpl name="tmplNavBarCouldSaveCFGFile" type="condition" conditionvar="salvar">
-						<cacicInstall:sub condition="sim">
-					        <div class="btnleft"><div class="btnright">
-					               <a onClick="setDocVar( 'task', 'saveCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Salva o arquivo de configurações para o CACIC.">
-					                  Gravar <i>config.php</i></a>
-					        </div></div>
-						</cacicInstall:sub>
+							<cacicInstall:sub condition="sim">
+						        <div class="btnleft"><div class="btnright">
+						               <a onClick="setDocVar( 'task', 'saveCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="{KCIQ_SAVECFGFILE_HELP}">
+						                  {KCIQ_SAVECFGFILE}</a>
+						        </div></div>
+							</cacicInstall:sub>
 						</cacicInstall:tmpl>
 				       </div>
 				    </td>
@@ -263,35 +263,37 @@
 			</span>	
 		</fieldset>
 		<fieldset>
-		  <legend>Configurações</legend>
+		  <legend>{KCIQ_CONFIGURATIONS}</legend>
     	  <fieldset class="configinstall">
-   		    <legend>Tipo de instalação</legend>
+   		    <legend>{KCIQ_INSTALL_TYPE}</legend>
    		    <table>
    		      <tr>
-    		    <td class="item">Nova:</td>
-    		    <td><input type="radio" checked class="input" {INSTALL_NEW} onClick="setDocVar('installType', 'createDB');  hideDetails('updateInstall'); showDetails('newInstall');" name="cacic_config[install][type]" value="createDB"  /></td>
-    		    <td class="help">Construir o banco de dados para uma nova instalação do CACIC.
+    		    <td class="item">{KCIQ_NEW}:</td>
+    		    <td>
+    		        <input type="radio" checked class="input" {INSTALL_NEW} onClick="hideDetails('updateInstall'); showDetails('newInstall'); setDocVar('installType', 'createDB');" name="cacic_config[install][type]" value="createDB"  />
+    		    </td>
+    		    <td class="help">{KCIQ_NEW_HELP}
     			  <div id="newInstall">
     			  	<table>
     				  <thead>
     					  <tr>
-    					    <th class="help" colspan="3">Dados do administrador para criar o banco de dados.</th>
+    					    <th class="help" colspan="3">{KCIQ_INST_ADMIN_HELP}</th>
     					  </tr>
     				  </thead>
     				  <tr>
-    				    <td class="item">Usuário:</td>
+    				    <td class="item">{KCIQ_INST_USER}:</td>
     				    <td> <input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_config[db_admin]" value="{DB_ADMIN}" /></td>
-    				    <td class="help">Login do administrador do banco de dados.</td>
+    				    <td class="help">{KCIQ_INST_USER_HELP}</td>
     				  </tr>
     				  <tr>
-    				    <td class="item">Senha:</td>
+    				    <td class="item">{KCIQ_INST_PASS}:</td>
     				    <td> <input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="password" name="cacic_config[db_admin_pass]" value="{DB_ADMIN_PASS}" /></td>
-    				    <td class="help">Senha do administrador do banco de dados.</td>
+    				    <td class="help">{KCIQ_INST_PASS_HELP}</td>
     				  </tr>
     	  		      <tr>
-    				    <td class="item">Demonstração:</td>
+    				    <td class="item">{KCIQ_INST_DEMO}:</td>
     				    <td><input class="input" onClick="toggleVar( this, 'demo' );" type="checkbox" name="cacic_config[dbdet][demo]" value="" /></td>
-    				    <td class="help">Inserir dados para demonstração do CACIC.</td>
+    				    <td class="help">{KCIQ_INST_DEMO_HELP}</td>
     	  		      </tr>
       		    	</table>
       		      </div>
@@ -299,18 +301,18 @@
   		      </tr>
 <cacicInstall:comment>
   		      <tr>
-    		    <td class="item">Atualização:</td>
-    		    <td><input type="radio" class="input" {INSTALL_UPDATE} onClick="setDocVar('installType', 'atualizar'); hideDetails('newInstall'); showDetails('updateInstall');" name="cacic_config[install][type]" value="" /></td>
-    		    <td class="help">Atualizar as tabelas do banco conforme versão a ser escolhida.
+    		    <td class="item">{KCIQ_INST_UPDATE}:</td>
+    		    <td><input type="radio" class="input" {INSTALL_UPDATE} onClick="hideDetails('newInstall'); showDetails('updateInstall'); setDocVar('installType', 'atualizar');" name="cacic_config[install][type]" value="updateDB" /></td>
+    		    <td class="help">{KCIQ_INST_UPDATE_HELP}
     			  <div id="updateInstall" style="display: none;">
     			  	<table>
     				  <thead>
     					  <tr>
-    					    <th class="help" colspan="3">Versão a ser atualizada.</th>
+    					    <th class="help" colspan="3">{KCIQ_INST_VERSION_HEADER}</th>
     					  </tr>
     				  </thead>
     				  <tr>
-    				    <td class="item">Versão:</td>
+    				    <td class="item">{KCIQ_INST_VERSION}:</td>
     				    <td>
     				      <select class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  name="cacic_config[install][updateFromVersion]">
     							<option value=""></option>
@@ -319,11 +321,11 @@
                                 </cacicInstall:tmpl>
     				      </select>
     				    </td>
-    				    <td class="help">Selecione a versão do CACIC a ser atualizada.</td>
+    				    <td class="help">{KCIQ_INST_VERSION_HELP}</td>
     	  		        <tr>
-    				      <td class="item">Copiar:</td>
+    				      <td class="item">{KCIQ_INST_BKP}:</td>
     				      <td><input class="input" onClick="toggleVar( this, 'bkp' );" type="checkbox" name="cacic_config[dbdet][bkp]"  value="" /></td>
-    				      <td class="help">Realizar cópia do banco de dados por segurança.</td>
+    				      <td class="help">{KCIQ_INST_BKP_HELP}</td>
     	  		        </tr>
     				  </tr>
       		    	</table>
@@ -334,50 +336,50 @@
   		    </table>
     	  </fieldset>
 		<fieldset class="configinstall">
-		  <legend>Banco de dados</legend>
+		  <legend>{KCIQ_INST_DB}</legend>
 		   <table>
 			<tr>
-			    <td class="item"><span class="necessario">*</span>Tipo:
+			    <td class="item"><span class="necessario">*</span>{KCIQ_INST_DB_TYPE}:
 			    </td>
 			    <td>
 			      <select class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  name="cacic_config[db_type]">
 						<option value="mysql">MySQL</option>
 			      </select>
 			    </td>
-			    <td class="help">Qual o tipo de banco de dados a usar (Somente MySQL por enquanto).</td>
+			    <td class="help">{KCIQ_INST_DB_TYPE_HELP}</td>
 			  </tr>
 			  <tr>
-			    <td class="item"><span class="necessario">*</span>Servidor:</td>
+			    <td class="item"><span class="necessario">*</span>{KCIQ_INST_DB_HOST}:</td>
 			    <td>
 			       <input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_config[db_host]" value="{DB_HOST}" />
 			    </td>
-			    <td class="help">Nome do servidor (ou IP) do banco de dados.<br />
+			    <td class="help">{KCIQ_INST_DB_HOST_HELP}</td>
 			  </tr>
 			  <tr>
-			    <td class="item"><span class="necessario">*</span>Porta:</td>
+			    <td class="item"><span class="necessario">*</span>{KCIQ_INST_DB_PORT}:</td>
 			    <td> 
 			       <input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_config[db_port]" value="{DB_PORT}" />
 			    </td>
-			    <td class="help">Porta de conexão ao banco de dados.</td>
+			    <td class="help">{KCIQ_INST_DB_PORT_HELP}</td>
 			  </tr>
 			  <tr>
-			    <td class="item"><span class="necessario">*</span>Nome:</td>
+			    <td class="item"><span class="necessario">*</span>{KCIQ_INST_DB_NAME}:</td>
 			    <td>
 			       <input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_config[db_name]" value="{DB_NAME}" />
 			    </td>
-			    <td class="help">Nome do banco de dados pré-existente.</td>
+			    <td class="help">{KCIQ_INST_DB_NAME_HELP}</td>
 			  </tr>
 			  <tr>
-			    <td class="item"><span class="necessario">*</span>Usuário:</td>
+			    <td class="item"><span class="necessario">*</span>{KCIQ_INST_USER}:</td>
 			    <td> 
 			       <input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_config[db_user]" value="{DB_USER}" />
 			    </td>
-			    <td class="help">Nome do usuário para ser usado pelo CACIC para conectar ao banco de dados.</td>
+			    <td class="help">{KCIQ_INST_DBUSER_HELP}</td>
 			  </tr>
 			  <tr>
-			    <td class="item">Senha:</td>
+			    <td class="item">{KCIQ_INST_PASS}:</td>
 			    <td> <input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="password" name="cacic_config[db_pass]" value="{DB_PASS}" /></td>
-			    <td class="help">Senha para o usuário do banco de dados.</td>
+			    <td class="help">{KCIQ_INST_DBPASS_HELP}</td>
 			  </tr>
           </table>
 			<table width="100%">
