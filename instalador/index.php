@@ -19,10 +19,6 @@
 	if( ! defined( 'CACIC' ) )
 	    define( 'CACIC', 1 );
 	    
-	// define Path para o CACIC
-	$cacic_path = str_replace("instalador", '', dirname(__FILE__));
-	define('CACIC_PATH', $cacic_path);
-
 	/*
 	 * atribuições para o ambiente
 	 */
