@@ -131,7 +131,7 @@ class Install {
 	 	}
 	 	
 	 	/*
-	 	 * verifica se o biblioteca MYSQL está instalada; testando se a função mysql_connect existe
+	 	 * verifica se o biblioteca GD está instalada; testando se a função imagegd existe
 	 	 */
 		if (extension_loaded('gd') || function_exists('imagegd')) {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPGD_STATUS', $oTranslator->_('kciq_msg yes'));
@@ -155,6 +155,20 @@ class Install {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_STATUS', $oTranslator->_('kciq_msg no'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_CLASS', "NaoImg");
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_HELP', $oTranslator->_('kciq_msg phpmcrypt_help'));
+	 	  $lCouldContinue = false;
+	 	}
+	 	
+	 	/*
+	 	 * verifica suporte a FTP; testando se a função ftp_connect existe
+	 	 */
+		if (function_exists('ftp_connect')) {
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_STATUS', $oTranslator->_('kciq_msg yes'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_CLASS', "SimImg");
+	 	}  
+	 	else {
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_STATUS', $oTranslator->_('kciq_msg no'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_CLASS', "NaoImg");
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_HELP', $oTranslator->_('kciq_msg phpftp_help'));
 	 	  $lCouldContinue = false;
 	 	}
 	 	

@@ -1,5 +1,6 @@
 pt_BR     kciq_msg aceitar                                                                                    instalador                    Aceitar
 pt_BR     kciq_msg aceito                                                                                     instalador                    Aceito a licença
+pt_BR     kciq_msg admin mgm title                                                                            instaladorinfo                Administração do CACIC-Gerente
 pt_BR     kciq_msg check_advise                                                                               instaladorinfo                Alerta, mas poderá continuar
 pt_BR     kciq_msg previous                                                                                   instalador                    Anterior
 pt_BR     kciq_msg apoio                                                                                      Geral                         Apoio colaborativo
@@ -8,16 +9,23 @@ pt_BR     kciq_msg update help                                                  
 pt_BR     kciq_msg update                                                                                     geral     info                Atualização
 pt_BR     kciq_msg database                                                                                   instaladorinfo                Banco de dados
 pt_BR     kciq_msg configurations                                                                             Geral     info                Configurações
+pt_BR     kciq_msg admin mgm verify pass help                                                                 instaladorinfo                Confirmar senha do Administrador do CACIC
+pt_BR     kciq_msg verify                                                                                     geral     info                Confirmação
 pt_BR     kciq_msg build bd                                                                                   instaladorinfo                Construir BD
 pt_BR     kciq_msg new help                                                                                   instaladorinfo                Construir o banco de dados para uma nova instalação do CACIC.
 pt_BR     kciq_msg build bd help                                                                              instaladorinfo                Criar banco de dados.
 pt_BR     kciq_msg backup                                                                                     geral     info                Cópia de segurança
+pt_BR     kciq_msg admin mgm local                                                                            instaladorinfo                Dados de localização
+pt_BR     kciq_msg admin mgm data title                                                                       instaladorinfo                Dados do Administrador
 pt_BR     kciq_msg inst admin help                                                                            instaladorinfo                Dados do administrador para criar o banco de dados.
 pt_BR     kciq_msg demo                                                                                       instaladorinfo                Demonstração
+pt_BR     kciq_msg email                                                                                      geral     info                Endereço eletrônico
+pt_BR     kciq_msg admin mgm email help                                                                       instaladorinfo                Endereço eletrônico do Administrador do CACIC para envio de mesagens
 pt_BR     language_en-us                                                                                      Geral     info      en-US     English (US)
 pt_BR     language_es                                                                                         Geral     info      es        Español
 pt_BR     kciq_msg php_memory_help                                                                            instaladorinfo                Essa diretiva irá afetar o desempenho de execução dos programas em PHP.
 pt_BR     kciq_msg php_flag_on_advise                                                                         instaladorinfo                Essa diretiva é verificada apenas para versão PHP = 5.x.y.
+pt_BR     kciq_msg ftp_suporte                                                                                instaladorinfo                FTP
 pt_BR     kciq_msg finish                                                                                     instaladorinfo                Finalizar
 pt_BR     language_fr                                                                                         Geral     info      fr        Francè
 pt_BR     geral                                                                                               Geral     TagHeader           Geral
@@ -35,7 +43,9 @@ pt_BR     kciq_msg advise_title                                                 
 pt_BR     kciq_installerintrotitle                                                                            instaladorinfo                Introdução
 pt_BR     kciq_msg legenda                                                                                    geral     info                Legenda
 pt_BR     kciq_msg license title                                                                              instaladorinfo                Licença
+pt_BR     kciq_msg admin mgm name help                                                                        instaladorinfo                Local ao qual a aplicação gerente está associada.
 pt_BR     kciq_msg login                                                                                      Geral     info                Login
+pt_BR     kciq_msg admin mgm user help                                                                        instaladorinfo                Login do Administrador do CACIC
 pt_BR     kciq_msg user help                                                                                  instaladorinfo                Login do administrador do banco de dados.
 pt_BR     kciq_msg logout                                                                                     Geral     info                Logoff
 pt_BR     manutenção                                                                                          geral     TagHeader           Manutenção
@@ -44,6 +54,8 @@ pt_BR     kciq_msg mensagem                                                     
 pt_BR     kciq_msg showcfgfile                                                                                instaladorinfo                Mostrar <i>config.php</i>
 pt_BR     kciq_msg showcfgfile help                                                                           instaladorinfo                Mostrar o arquivo de configurações para o CACIC.
 pt_BR     kciq_msg js_enable                                                                                  instaladorinfo                Necessário ativar <b>JavaScript</b> para usar o Instalador Web
+pt_BR     kciq_msg name                                                                                       geral     info                Nome
+pt_BR     kciq_msg admin mgm adminname help                                                                   instaladorinfo                Nome do Administrador do CACIC
 pt_BR     kciq_msg database name                                                                              instaladorinfo                Nome do banco de dados
 pt_BR     kciq_msg database name help                                                                         instaladorinfo                Nome do banco de dados pré-existente.
 pt_BR     kciq_msg database host help                                                                         instaladorinfo                Nome do servidor (ou IP) do banco de dados.
@@ -51,8 +63,12 @@ pt_BR     kciq_msg dbuser help                                                  
 pt_BR     kciq_msg new                                                                                        Geral     info                Nova
 pt_BR     kciq_msg no                                                                                         geral     info                Não
 pt_BR     kciq_msg access level                                                                               Geral     info                Nível de acesso
+pt_BR     kciq_msg admin mgm phone help                                                                       instaladorinfo                Número do telefone do Administrador do CACIC para contato.
+pt_BR     kciq_msg obs                                                                                        geral     info                Observação
+pt_BR     kciq_msg admin mgm obs help                                                                         instaladorinfo                Observações (informações) para o local ao qual a aplicação gerente está associada.
 pt_BR     kciq_msg phpmcrypt_help                                                                             instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca de manipulação criptográfica com MCrypt.
 pt_BR     kciq_msg phpgd_help                                                                                 instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca de manipulação de imagens com GD.
+pt_BR     kciq_msg phpftp_help                                                                                instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca de para uso de FTP.
 pt_BR     kciq_msg phpmysql_help                                                                              instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca para banco de dados MYSQL.
 pt_BR     kciq_msg phpversion_help                                                                            instaladorinfo                Para executar o CACIC é necessário instalar a versão do PHP indicada.
 pt_BR     kciq_msg php_flag_on                                                                                instaladorinfo                Para que o CACIC funcione corretamente é necessário - por enquanto - ativar essa diretiva.
@@ -70,10 +86,16 @@ pt_BR     kciq_msg backup help                                                  
 pt_BR     kciq_installerresources                                                                             instaladorinfo                Recursos do Instalador:
 pt_BR     kciq_msg requisitos                                                                                 instaladorinfo                Requisitos
 pt_BR     kciq_msg savecfgfile help                                                                           instaladorinfo                Salva o arquivo de configurações para o CACIC.
+pt_BR     kciq_msg save                                                                                       geral     info                Salvar
+pt_BR     kciq_msg save title                                                                                 instaladorinfo                Salvar dados do administrador do CACIC.
 pt_BR     kciq_msg version help                                                                               instaladorinfo                Selecione a versão do CACIC a ser atualizada.
 pt_BR     kciq_msg password                                                                                   Geral     info                Senha
+pt_BR     kciq_msg admin mgm pass help                                                                        instaladorinfo                Senha do Administrador do CACIC
 pt_BR     kciq_msg password help                                                                              instaladorinfo                Senha do administrador do banco de dados.
+pt_BR     kciq_msg dbpass help                                                                                instaladorinfo                Senha para o usuário do banco de dados.
 pt_BR     kciq_msg database host                                                                              instaladorinfo                Servidor
+pt_BR     kciq_msg abbr                                                                                       geral     info                Sigla
+pt_BR     kciq_msg admin mgm abbr help                                                                        instaladorinfo                Sigla do local ao qual a aplicação gerente está associada.
 pt_BR     kciq_msg yes                                                                                        geral     info                Sim
 pt_BR     kciq_msg mcrypt_suporte                                                                             instaladorinfo                Suporte a criptografia com MCrypt
 pt_BR     kciq_msg gd_suporte                                                                                 instaladorinfo                Suporte a imagens com GD
@@ -95,4 +117,4 @@ pt_BR     kciq_msg phpcfgfile_help                                              
 pt_BR     kciq_installer_introdution                                                                          instaladorarquivo             introducao.html
 pt_BR     kciq_msg license en_read                                                                            instaladorinfo                leia em inglês
 pt_BR     kciq_msg license pt_read                                                                            instaladorinfo                leia em português
-pt_BR     kciq_msg dbpass help                                                                                instaladorinfo                Senha para o usuário do banco de dados.
+pt_BR     kciq_msg phone                                                                                      geral     info                Telefone

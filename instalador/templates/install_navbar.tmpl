@@ -127,6 +127,17 @@
 				</td>
 			  </tr>
 			  <tr>
+				<td class="item" valign="top">- {KCIQ_FTP_SUPORTE}</td>
+				<td align="left" valign="top">
+										<span class="{PHPFTP_CLASS}">
+										{PHPFTP_STATUS}
+										</span>
+										<span class="small">
+										{PHPFTP_HELP}
+										</span>
+				</td>
+			  </tr>
+			  <tr>
 				<td class="item" valign="top">- {KCIQ_GD_SUPORTE}</td>
 				<td align="left" valign="top">
 										<span class="{PHPGD_CLASS}">
@@ -419,8 +430,8 @@
 						  </script>
 					      <div class="botoes">
 					        <div class="btnleft"><div class="btnright">
-					            <a onClick="setDocVar( 'task', 'salvaAdminSetup' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="Salvar dados do administrador do CACIC.">
-					               Salvar</a>
+					            <a onClick="setDocVar( 'task', 'salvaAdminSetup' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="{KCIQ_INST_SAVE_TITLE}">
+					               {KCIQ_INST_SAVE}</a>
 					        </div></div>
 					     </div>
 					  </td>
@@ -429,66 +440,66 @@
 			</span>	
 		</fieldset>
 		<fieldset>
-		  <legend>Administração do CACIC-Gerente</legend>
+		  <legend>{KCIQ_INST_ADMMGM_TITLE}</legend>
 			<fieldset>
-			  <legend>Dados de localização</legend>
+			  <legend>{KCIQ_INST_ADMMGM_LOCAL}</legend>
 		     	<table class="configinstall">
 		     	  <tr>
-				    <td class="item"><span class="necessario">*</span>Sigla:</td>
+				    <td class="item"><span class="necessario">*</span>{KCIQ_INST_ADMMGM_ABBR}:</td>
 				    <td><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_admin[local_sigla]" value="{LOCAL_SIGLA}" maxlength="20"/></div></td>
-				    <td class="help">Sigla do local ao qual a aplicação gerente está associada.</td>
+				    <td class="help">{KCIQ_INST_ADMMGM_ABBR_HELP}</td>
 				  </tr>
 		     	  <tr>
-				    <td class="item"><span class="necessario">*</span>Nome:</td>
+				    <td class="item"><span class="necessario">*</span>{KCIQ_INST_ADMMGM_NAME}:</td>
 				    <td><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_admin[local_nome]" value="{LOCAL_NOME}" size="50" maxlength="100"/>
 				    </td>
-				    <td class="help">Local ao qual a aplicação gerente está associada.</td>
+				    <td class="help">{KCIQ_INST_ADMMGM_NAME_HELP}</td>
 				  </tr>
 		     	  <tr>
-				    <td class="item">Observação:</td>
+				    <td class="item">{KCIQ_INST_ADMMGM_PS}:</td>
 				    <td><textarea class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  name="cacic_admin[local_observacao]" value="{LOCAL_OBSERVACAO}" cols="38" maxlength="255"/></textarea></td>
 				    </td>
-				    <td class="help">Observações (informações) para o local ao qual a aplicação gerente está associada.</td>
+				    <td class="help">{KCIQ_INST_ADMMGM_PS_HELP}</td>
 				  </tr>
 				</table>
 			</fieldset>
 			<fieldset>
-			  <legend>Dados do Administrador</legend>
+			  <legend>{KCIQ_INST_ADMMGM_DATA_TITLE}</legend>
 		     	<table class="configinstall">
 					<tr>
-					    <td class="item"><span class="necessario">*</span>Login:</td>
+					    <td class="item"><span class="necessario">*</span>{KCIQ_INST_ADMMGM_USER}:</td>
 					    <td><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_admin[admin_login]" value="{ADMIN_LOGIN}" maxlength="10"/></td>
-					    <td class="help">Login do Administrador do CACIC</td>
+					    <td class="help">{KCIQ_INST_ADMMGM_USER_HELP}</td>
 					  </tr>
 					<tr>
 					<tr>
-					    <td class="item"><span class="necessario">*</span>Senha:</td>
+					    <td class="item"><span class="necessario">*</span>{KCIQ_INST_ADMMGM_PASS}:</td>
 					    <td><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="password" name="cacic_admin[admin_senha]" value="{ADMIN_SENHA}" maxlength="50"/></td>
-					    <td class="help">Senha do Administrador do CACIC</td>
+					    <td class="help">{KCIQ_INST_ADMMGM_PASS_HELP}</td>
 					  </tr>
 					<tr>
 					<tr>
-					    <td class="item"><span class="necessario">*</span>Confirmação:</td>
+					    <td class="item"><span class="necessario">*</span>{KCIQ_INST_ADMMGM_PASS_CHECK}:</td>
 					    <td><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="password" name="cacic_admin[admin_senha_check]" value="{ADMIN_SENHA_CHECK}" maxlength="50"/></td>
-					    <td class="help">Confirmar senha do Administrador do CACIC</td>
+					    <td class="help">{KCIQ_INST_ADMMGM_PASS_CHECK_HELP}</td>
 					  </tr>
 					<tr>
 					<tr>
-					    <td class="item"><span class="necessario">*</span>Nome:</td>
+					    <td class="item"><span class="necessario">*</span>{KCIQ_INST_ADMMGM_NAME}:</td>
 					    <td><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_admin[admin_nome]" value="{ADMIN_NOME}" size="40" maxlength="60"/></td>
-					    <td class="help">Nome do Administrador do CACIC</td>
+					    <td class="help">{KCIQ_INST_ADMMGM_ADMINNAME_HELP}</td>
 					  </tr>
 					<tr>
 					<tr>
-					    <td class="item">Endereço eletrônico:</td>
+					    <td class="item">{KCIQ_INST_ADMMGM_EMAIL}:</td>
 					    <td><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_admin[admin_email]" value="{ADMIN_EMAIL}" size="40" maxlength="100"/></td>
-					    <td class="help">Endereço eletrônico do Administrador do CACIC para envio de mesagens</td>
+					    <td class="help">{KCIQ_INST_ADMMGM_EMAIL_HELP}</td>
 					  </tr>
 					<tr>
 					<tr>
-					    <td class="item">Telefone:</td>
+					    <td class="item">{KCIQ_INST_ADMMGM_PHONE}:</td>
 					    <td><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_admin[admin_fone]" value="{ADMIN_FONE}" maxlength="100"/></td>
-					    <td class="help">Número do telefone do Administrador do CACIC para contato.</td>
+					    <td class="help">{KCIQ_INST_ADMMGM_PHONE_HELP}</td>
 					</tr>
 				</table>
 			</fieldset>
