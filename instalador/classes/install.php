@@ -56,7 +56,7 @@ class Install {
 	 */
 	 function __construct() {
 	 	global $oTranslator;
-	 	$this->oLang = $oTranslator;
+	 	$this->oLang = &$oTranslator;
     	if(isset($_POST['cacic_config'])) {
     	   $_SESSION['cacic_config'] = $_POST['cacic_config'];
     	   $_SESSION['cacic_config']['path'] = CACIC_PATH;
@@ -69,7 +69,7 @@ class Install {
 	 	/*
 	 	 * instacia objetos de classes externas
 	 	 */
-	 	 $this->oTmpl = new Template();
+	 	 $this->oTmpl = new Template($oTranslator);
 	 	 $this->oTmpl->header();
 	 	 $this->oTmpl->body();
 	 }
