@@ -178,6 +178,11 @@ Class Template extends patTemplate {
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_PHONE', $this->oLang->_('kciq_msg phone'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_PHONE_HELP', $this->oLang->_('kciq_msg admin mgm phone help'));
      
+     $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_TITLE', $this->oLang->_('kciq_msg inst end title'));
+     $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_ADVISE', $this->oLang->_('kciq_msg inst end advise'));
+     $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_ADVISE_TITLE', $this->oLang->_('kciq_msg inst end advise title'));
+     $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_ADVISE_FILE', $this->oLang->_('kciq_msg inst end advise file'));
+     
      $this->displayParsedTemplate('tmplNavBar'.$type);
    }
 

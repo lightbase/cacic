@@ -1,3 +1,4 @@
+pt_BR     kciq_msg inst end advise                                                                            instaladorinfo                <p><b>Atenção:</b> Leia as mensagens no fim desta página sobre o processo de instalação, bem como as <b>recomendações</b> abaixo:</p>
 pt_BR     kciq_msg aceitar                                                                                    instalador                    Aceitar
 pt_BR     kciq_msg aceito                                                                                     instalador                    Aceito a licença
 pt_BR     kciq_msg admin mgm title                                                                            instaladorinfo                Administração do CACIC-Gerente
@@ -8,6 +9,7 @@ pt_BR     kciq_msg cfgfile_writeable                                            
 pt_BR     kciq_msg update help                                                                                instaladorinfo                Atualizar as tabelas do banco conforme versão a ser escolhida.
 pt_BR     kciq_msg update                                                                                     geral     info                Atualização
 pt_BR     kciq_msg database                                                                                   instaladorinfo                Banco de dados
+pt_BR     kciq_msg inst end title                                                                             instaladorinfo                Conclusão da instalação do CACIC
 pt_BR     kciq_msg configurations                                                                             Geral     info                Configurações
 pt_BR     kciq_msg admin mgm verify pass help                                                                 instaladorinfo                Confirmar senha do Administrador do CACIC
 pt_BR     kciq_msg verify                                                                                     geral     info                Confirmação
@@ -83,6 +85,7 @@ pt_BR     kciq_msg next                                                         
 pt_BR     kciq_msg database type help                                                                         instaladorinfo                Qual o tipo de banco de dados a usar (Somente MySQL por enquanto).
 pt_BR     kciq_msg real                                                                                       instaladorinfo                Real
 pt_BR     kciq_msg backup help                                                                                geral     info                Realizar cópia do banco de dados por segurança.
+pt_BR     kciq_msg inst end advise title                                                                      instaladorinfo                Recomendações
 pt_BR     kciq_installerresources                                                                             instaladorinfo                Recursos do Instalador:
 pt_BR     kciq_msg requisitos                                                                                 instaladorinfo                Requisitos
 pt_BR     kciq_msg savecfgfile help                                                                           instaladorinfo                Salva o arquivo de configurações para o CACIC.
@@ -100,6 +103,7 @@ pt_BR     kciq_msg yes                                                          
 pt_BR     kciq_msg mcrypt_suporte                                                                             instaladorinfo                Suporte a criptografia com MCrypt
 pt_BR     kciq_msg gd_suporte                                                                                 instaladorinfo                Suporte a imagens com GD
 pt_BR     kciq_msg mysql_suporte                                                                              instaladorinfo                Suporte ao MySQL versão
+pt_BR     kciq_msg phone                                                                                      geral     info                Telefone
 pt_BR     kciq_msg test conn help                                                                             instaladorinfo                Testar conexão com banco de dados.
 pt_BR     kciq_msg test conn                                                                                  instaladorinfo                Teste de conexão
 pt_BR     kciq_msg database type                                                                              instaladorinfo                Tipo
@@ -117,4 +121,4 @@ pt_BR     kciq_msg phpcfgfile_help                                              
 pt_BR     kciq_installer_introdution                                                                          instaladorarquivo             introducao.html
 pt_BR     kciq_msg license en_read                                                                            instaladorinfo                leia em inglês
 pt_BR     kciq_msg license pt_read                                                                            instaladorinfo                leia em português
-pt_BR     kciq_msg phone                                                                                      geral     info                Telefone
+pt_BR     kciq_msg inst end advise file                                                                       instaladorarquivo             inst_end_advise_file.html
