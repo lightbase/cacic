@@ -32,6 +32,7 @@ pt_BR     kciq_msg finish                                                       
 pt_BR     language_fr                                                                                         Geral     info      fr        Francè
 pt_BR     geral                                                                                               Geral     TagHeader           Geral
 pt_BR     kciq_msg savecfgfile                                                                                instaladorinfo                Gravar <i>config.php</i>
+pt_BR     kciq_msg inst end hist title                                                                        instaladorinfo                Histórico de alterações no CACIC
 pt_BR     kciq_msg ideal                                                                                      instaladorinfo                Ideal
 pt_BR     language                                                                                            Geral     info                Idioma
 pt_BR     kciq_msg def_language                                                                               instaladorinfo                Idioma
@@ -87,6 +88,7 @@ pt_BR     kciq_msg real                                                         
 pt_BR     kciq_msg backup help                                                                                geral     info                Realizar cópia do banco de dados por segurança.
 pt_BR     kciq_msg inst end advise title                                                                      instaladorinfo                Recomendações
 pt_BR     kciq_installerresources                                                                             instaladorinfo                Recursos do Instalador:
+pt_BR     kciq_msg features title                                                                             instaladorinfo                Recursos para as próximas versões do CACIC
 pt_BR     kciq_msg requisitos                                                                                 instaladorinfo                Requisitos
 pt_BR     kciq_msg savecfgfile help                                                                           instaladorinfo                Salva o arquivo de configurações para o CACIC.
 pt_BR     kciq_msg save                                                                                       geral     info                Salvar
@@ -110,6 +112,7 @@ pt_BR     kciq_msg database type                                                
 pt_BR     kciq_msg install type                                                                               instaladorinfo                Tipo de instalação
 pt_BR     kciq_mnt_tradutor                                                                                   Manutençãoinfo                Tradução de texto do CACIC
 pt_BR     kciq_msg user                                                                                       Geral     info                Usuário
+pt_BR     kciq_msg details                                                                                    geral     info                Ver detalhes
 pt_BR     kciq_msg check                                                                                      instaladorinfo                Verificar
 pt_BR     kciq_msg check_notok                                                                                instalador                    Verificação não satisfeita
 pt_BR     kciq_msg check_ok                                                                                   instaladorinfo                Verificação satisfeita
@@ -118,7 +121,9 @@ pt_BR     kciq_msg def_version                                                  
 pt_BR     kciq_msg version header                                                                             instaladorinfo                Versão a ser atualizada.
 pt_BR     kciq_msg phpversion                                                                                 instaladorinfo                Versão do PHP
 pt_BR     kciq_msg phpcfgfile_help                                                                            instaladorinfo                Você poderá continuar a instalação e o arquivo poderá (opcionalmente) ser mostrado na tela. Assim, você poderá copiá-lo e colá-lo no devido diretório.
+pt_BR     kciq_msg inst end advise file                                                                       instaladorarquivo             inst_end_advise_file.html
+pt_BR     kciq_msg inst end hist file                                                                         instaladorarquivo             inst_end_hist_file.html
 pt_BR     kciq_installer_introdution                                                                          instaladorarquivo             introducao.html
 pt_BR     kciq_msg license en_read                                                                            instaladorinfo                leia em inglês
 pt_BR     kciq_msg license pt_read                                                                            instaladorinfo                leia em português
-pt_BR     kciq_msg inst end advise file                                                                       instaladorarquivo             inst_end_advise_file.html
+pt_BR     kciq_msg features file                                                                              instaladorarquivo             inst_end_features_file.html

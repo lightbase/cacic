@@ -530,16 +530,12 @@
 		</fieldset>
 		<div class="changelog">
     		<fieldset>
-    		  <legend>Histórico de alterações no CACIC</legend>
+    		  <legend>{KCIQ_INST_END_HIST_TITLE}</legend>
         		<table>
         		  <tr>
-        		     <td>
-                    	 <ul>
-                    	    <li>Suporte a locais.</li>
-                    	    <li>Controle de patrimônio.</li>
-                    	    <li>Instalador via web.</li>
-                    	    <li>e ainda...<span id="clDet" title="Ver detalhes" class="semDetalhes" onclick="toggleClass('clDet', 'semDetalhes', 'comDetalhes'); toggleDetails('changelog-det');">&nbsp;</span></li>
-                    	 </ul>
+        		     <td>{KCIQ_INST_END_HIST_FILE}
+                    	 <br />e ainda...
+                    	 <span id="clDet" title="{KCIQ_INST_END_HIST_DETAILS}" class="semDetalhes" onclick="toggleClass('clDet', 'semDetalhes', 'comDetalhes'); toggleDetails('changelog-det');">&nbsp;</span>
                     	 <div id="changelog-det" style="display: none;">
             		       <pre><cacicInstall:tmpl src="../../changelog.txt" parser="off" /></pre>
             		     </div>
@@ -550,15 +546,12 @@
 		</div>
 		<div class="changelog">
     		<fieldset>
-    		  <legend>Recursos para as próximas versões do CACIC</legend>
+    		  <legend>{KCIQ_INST_END_FEATURES_TITLE}</legend>
         		<table>
         		  <tr>
-        		     <td>
-                    	 <ul>
-                    	    <li>Suporte multi-idiomas.</li>
-                    	    <li>Suporte a vários tipos de bancos de dados (ex: MySQL, PostgreSQL).</li>
-                    	    <li>e ainda...<span id="tdDet" title="Ver detalhes" class="semDetalhes" onclick="toggleClass('tdDet', 'semDetalhes', 'comDetalhes'); toggleDetails('to-do-det');">&nbsp;</span></li>
-                    	 </ul>
+        		     <td>{KCIQ_INST_END_FEATURES_FILE}
+                    	 <br />e ainda...
+                    	 <span id="tdDet" title="{KCIQ_INST_END_HIST_DETAILS}" class="semDetalhes" onclick="toggleClass('tdDet', 'semDetalhes', 'comDetalhes'); toggleDetails('to-do-det');">&nbsp;</span>
                     	 <div id="to-do-det" style="display: none;">
             		       <pre><cacicInstall:tmpl src="../../to-do.txt" parser="off" /></pre>
             		     </div>

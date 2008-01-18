@@ -182,6 +182,11 @@ Class Template extends patTemplate {
      $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_ADVISE', $this->oLang->_('kciq_msg inst end advise'));
      $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_ADVISE_TITLE', $this->oLang->_('kciq_msg inst end advise title'));
      $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_ADVISE_FILE', $this->oLang->_('kciq_msg inst end advise file'));
+     $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_HIST_TITLE', $this->oLang->_('kciq_msg inst end hist title'));
+     $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_HIST_FILE', $this->oLang->_('kciq_msg inst end hist file'));
+     $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_HIST_DETAILS', $this->oLang->_('kciq_msg details'));
+     $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_FEATURES_TITLE', $this->oLang->_('kciq_msg features title'));
+     $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_FEATURES_FILE', $this->oLang->_('kciq_msg features file'));
      
      $this->displayParsedTemplate('tmplNavBar'.$type);
    }
