@@ -69,7 +69,7 @@ class Install {
 	 	/*
 	 	 * instacia objetos de classes externas
 	 	 */
-	 	 $this->oTmpl = new Template($oTranslator);
+	 	 $this->oTmpl = new Template($this->oLang);
 	 	 $this->oTmpl->header();
 	 	 $this->oTmpl->body();
 	 }
@@ -108,7 +108,6 @@ class Install {
 	  * Verifica os requisitos e as recomendações para instalação
 	  */
 	 function checkInstall() {
-	 	global $oTranslator;
 	 	/*
 	 	 * por padrao poderá continuar o processo de installação
 	 	 */
@@ -120,13 +119,13 @@ class Install {
 	 	 */
 	 	$this->oTmpl->addVar('tmplNavBarCheckInstall', 'CACIC_PHPVERSION', CACIC_PHPVERSION);
 	 	if(version_compare(phpversion(),CACIC_PHPVERSION,'>=')) {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPVERSION_STATUS', $oTranslator->_('kciq_msg yes')." (".phpversion().")");
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPVERSION_STATUS', $this->oLang->_('kciq_msg yes')." (".phpversion().")");
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPVERSION_CLASS', "SimImg");
 	 	}  
 	 	else {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPVERSION_STATUS', $oTranslator->_('kciq_msg no')." (".phpversion().")");
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPVERSION_STATUS', $this->oLang->_('kciq_msg no')." (".phpversion().")");
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPVERSION_CLASS', "NaoImg");
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPVERSION_HELP', $oTranslator->_('kciq_msg phpversion_help'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPVERSION_HELP', $this->oLang->_('kciq_msg phpversion_help'));
 	 	  $lCouldContinue = false;
 	 	}
 	 	
@@ -134,13 +133,13 @@ class Install {
 	 	 * verifica se o biblioteca GD está instalada; testando se a função imagegd existe
 	 	 */
 		if (extension_loaded('gd') || function_exists('imagegd')) {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPGD_STATUS', $oTranslator->_('kciq_msg yes'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPGD_STATUS', $this->oLang->_('kciq_msg yes'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPGD_CLASS', "SimImg");
 	 	}  
 	 	else {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPGD_STATUS', $oTranslator->_('kciq_msg no'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPGD_STATUS', $this->oLang->_('kciq_msg no'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPGD_CLASS', "NaoImg");
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPGD_HELP', $oTranslator->_('kciq_msg phpgd_help'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPGD_HELP', $this->oLang->_('kciq_msg phpgd_help'));
 	 	  $lCouldContinue = false;
 	 	}
 	 	
@@ -148,13 +147,13 @@ class Install {
 	 	 * verifica suporte a mCrypt; testando se a função mcrypt_generic existe
 	 	 */
 		if (function_exists('mcrypt_generic')) {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_STATUS', $oTranslator->_('kciq_msg yes'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_STATUS', $this->oLang->_('kciq_msg yes'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_CLASS', "SimImg");
 	 	}  
 	 	else {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_STATUS', $oTranslator->_('kciq_msg no'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_STATUS', $this->oLang->_('kciq_msg no'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_CLASS', "NaoImg");
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_HELP', $oTranslator->_('kciq_msg phpmcrypt_help'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_HELP', $this->oLang->_('kciq_msg phpmcrypt_help'));
 	 	  $lCouldContinue = false;
 	 	}
 	 	
@@ -162,13 +161,13 @@ class Install {
 	 	 * verifica suporte a FTP; testando se a função ftp_connect existe
 	 	 */
 		if (function_exists('ftp_connect')) {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_STATUS', $oTranslator->_('kciq_msg yes'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_STATUS', $this->oLang->_('kciq_msg yes'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_CLASS', "SimImg");
 	 	}  
 	 	else {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_STATUS', $oTranslator->_('kciq_msg no'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_STATUS', $this->oLang->_('kciq_msg no'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_CLASS', "NaoImg");
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_HELP', $oTranslator->_('kciq_msg phpftp_help'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPFTP_HELP', $this->oLang->_('kciq_msg phpftp_help'));
 	 	  $lCouldContinue = false;
 	 	}
 	 	
@@ -177,14 +176,14 @@ class Install {
 	 	 */
 	 	$this->oTmpl->addVar('tmplNavBarCheckInstall', 'CACIC_MYSQLVERSION', CACIC_DBVERSION);
 		if (function_exists('mysql_get_client_info') and (version_compare(mysql_get_client_info(),CACIC_DBVERSION,'>='))) {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', $oTranslator->_('kciq_msg yes')." ".mysql_get_client_info());
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', $this->oLang->_('kciq_msg yes')." ".mysql_get_client_info());
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_CLASS', "SimImg");
 	 	}  
 	 	else {
 	 	  $mysql_version = function_exists('mysql_get_client_info') ? mysql_get_client_info() : "< 4";
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', $oTranslator->_('kciq_msg no')." ".$mysql_version);
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', $this->oLang->_('kciq_msg no')." ".$mysql_version);
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_CLASS', "NaoImg");
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_HELP', $oTranslator->_('kciq_msg phpmysql_help'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_HELP', $this->oLang->_('kciq_msg phpmysql_help'));
 	 	  $lCouldContinue = false;
 	 	}
 	 	
@@ -193,14 +192,14 @@ class Install {
 	 	 */
 		if ((is_writable(CACIC_CFGFILE_PATH) and !file_exists(CACIC_CFGFILE_PATH.CACIC_DS."config.php")) or 
 		    (file_exists(CACIC_CFGFILE_PATH.CACIC_DS."config.php") and is_writable(CACIC_CFGFILE_PATH.CACIC_DS."config.php"))) {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_STATUS', $oTranslator->_('kciq_msg yes'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_STATUS', $this->oLang->_('kciq_msg yes'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_CLASS', "SimImg");
 	 	  $_SESSION['saveCfgFile'] = true;
 	 	}  
 	 	else {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_STATUS', $oTranslator->_('kciq_msg no'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_STATUS', $this->oLang->_('kciq_msg no'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_CLASS', "AvisoImg");
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_HELP', $oTranslator->_('kciq_msg phpcfgfile_help'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_HELP', $this->oLang->_('kciq_msg phpcfgfile_help'));
 	 	  $_SESSION['saveCfgFile'] = false;
 	 	}
 	 	
@@ -219,7 +218,7 @@ class Install {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CACIC_PHPRG', $cacicRG);
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRG_STATUS', $phpRGStatus);
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRG_CLASS', "NaoImg");
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRG_HELP', $oTranslator->_('kciq_msg php_flag_on'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRG_HELP', $this->oLang->_('kciq_msg php_flag_on'));
 	 	  $lCouldContinue = false;
 	 	}
 	 	
@@ -238,13 +237,13 @@ class Install {
 		 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CACIC_PHPRLA', $cacicRLA);
 		 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRLA_STATUS', $phpRLAStatus);
 		 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRLA_CLASS', "NaoImg");
-		 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRLA_HELP', $oTranslator->_('kciq_msg php_flag_on'));
+		 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRLA_HELP', $this->oLang->_('kciq_msg php_flag_on'));
 		 	  $lCouldContinue = false;
 		 	}
 	 	}
 	 	else {
 		  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRLA_CLASS', "AvisoImg");
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRLA_HELP', $oTranslator->_('kciq_msg php_flag_on_advise'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPRLA_HELP', $this->oLang->_('kciq_msg php_flag_on_advise'));
 	 	}
 	 	
 	 	/*
@@ -258,12 +257,12 @@ class Install {
 	 	else {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMEM_STATUS', ini_get('memory_limit'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMEM_CLASS', "AvisoImg");
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMEM_HELP', $oTranslator->_('kciq_msg php_memory_help'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMEM_HELP', $this->oLang->_('kciq_msg php_memory_help'));
 	 	}
-	 	$msgLegenda .= $oTranslator->_('kciq_msg legenda').': <span class="SimImg"> </span> &nbsp;- '.
-	 	               $oTranslator->_('kciq_msg check_ok').' &nbsp;&nbsp;';
-	 	$msgLegenda .= '<span class="NaoImg"> </span> &nbsp;- '.$oTranslator->_('kciq_msg check_notok').' &nbsp;&nbsp;';
-	 	$msgLegenda .= '<span class="AvisoImg"> </span> &nbsp;- '.$oTranslator->_('kciq_msg check_advise');
+	 	$msgLegenda .= $this->oLang->_('kciq_msg legenda').': <span class="SimImg"> </span> &nbsp;- '.
+	 	               $this->oLang->_('kciq_msg check_ok').' &nbsp;&nbsp;';
+	 	$msgLegenda .= '<span class="NaoImg"> </span> &nbsp;- '.$this->oLang->_('kciq_msg check_notok').' &nbsp;&nbsp;';
+	 	$msgLegenda .= '<span class="AvisoImg"> </span> &nbsp;- '.$this->oLang->_('kciq_msg check_advise');
 	 	
 	 	/*
 	 	 * caso possa continuar o processo mostra botao proximo
@@ -271,7 +270,7 @@ class Install {
 	 	if($lCouldContinue)
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstallContinue', 'continuar', true);
 	 	else
-	 	  $msgLegenda .= '<br /><br /><span class="erro">'.$oTranslator->_('kciq_msg fix_requiriment_help').'</span>';
+	 	  $msgLegenda .= '<br /><br /><span class="erro">'.$this->oLang->_('kciq_msg fix_requiriment_help').'</span>';
 	 	  
 	 	$this->oTmpl->addVar('tmplStatusBar', 'MSG_STATUS', $msgLegenda);
 	 	  
@@ -389,10 +388,10 @@ class Install {
 	    $buildDBOK = false;
 
 	    if(!isset($_SESSION['configFileSaved']) or !($_SESSION['configFileSaved']))
-	        $msg .= "<span class='Erro'>Gravação do arquivo de configurações não realizada adequadamente!</span><br>";
+	        $msg .= "<span class='Erro'>'.$this->oLang->_('kciq_msg inst config file saved').'</span><br>";
 	    else {
     	    if(!is_readable($cfgFileName) or ! @include_once($cfgFileName))
-    	        $msg .= "<span class='Erro'>Não foi possível ler o arquivo de configurações:</span><br>".$cfgFileName;
+    	        $msg .= "<span class='Erro'>'.$this->oLang->_('kciq_msg inst config file read').':</span><br>".$cfgFileName;
     	    else
     	        $cfgFileOk = true;
 	    }
@@ -400,12 +399,12 @@ class Install {
 	    if( isset($_SESSION['buildDBOK']) )
 	        $buildDBOK = $_SESSION['buildDBOK'];
 	    if(!$buildDBOK)
-	        	$msg .= "<span class='Erro'>Construção do banco de dados para o CACIC não realizada adequadamente!</span><br>";
+	        	$msg .= "<span class='Erro'>'.$this->oLang->_('kciq_msg inst database build fail').'</span><br>";
 	    
 	    if($cfgFileOk) {
          	$oDB = new ADO();
     		if (!$oDB->conecta( $ip_servidor, $usuario_bd, $senha_usuario_bd, $nome_bd ))
-    	        $msg .= "<span class='Erro'>Não é possível conectar ao banco de dados com os dados do arquivo de configurações!</span><br>";
+    	        $msg .= "<span class='Erro'>'.$this->oLang->_('kciq_msg inst database connect fail').'</span><br>";
     	    else
     	        $dbConected = true;
 	    }

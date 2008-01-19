@@ -359,7 +359,7 @@ class InstallAjax {
 			$versao = $oDB->version();
 			if(!(version_compare($versao,CACIC_DBVERSION,'>='))) {
 			  $connOk = false;
-			  $msg .= '<br><span class="Erro">Versão do Servidor MySQL-Server inválida!</span>';
+			  $msg = '<br><span class="Erro">Versão do Servidor MySQL-Server inválida!</span>';
 			  $msg .= '<br>Requerida: <span class="Aviso">'.CACIC_DBVERSION.'</span>';
 			  $msg .= '<br>Instalada: <span class="Nao">'.$versao.'</span>';
 			}
