@@ -388,10 +388,10 @@ class Install {
 	    $buildDBOK = false;
 
 	    if(!isset($_SESSION['configFileSaved']) or !($_SESSION['configFileSaved']))
-	        $msg .= "<span class='Erro'>".$this->oLang->_('kciq_msg inst config file saved')."</span><br>";
+	        $msg .= "<span class='Erro'>[ ERRO! ] - ".$this->oLang->_('kciq_msg inst config file saved')."</span><br>";
 	    else {
     	    if(!is_readable($cfgFileName) or ! @include_once($cfgFileName))
-    	        $msg .= "<span class='Erro'>".$this->oLang->_('kciq_msg inst config file read').":</span><br>".$cfgFileName;
+    	        $msg .= "<span class='Erro'>[ ERRO! ] - ".$this->oLang->_('kciq_msg inst config file read').":</span><br>".$cfgFileName;
     	    else
     	        $cfgFileOk = true;
 	    }
@@ -399,35 +399,35 @@ class Install {
 	    if( isset($_SESSION['buildDBOK']) )
 	        $buildDBOK = $_SESSION['buildDBOK'];
 	    if(!$buildDBOK)
-	        	$msg .= "<span class='Erro'>".$this->oLang->_('kciq_msg inst database build fail')."</span><br>";
+	        	$msg .= "<span class='Erro'>[ ERRO! ] - ".$this->oLang->_('kciq_msg inst database build fail')."</span><br>";
 	    
 	    if($cfgFileOk) {
          	$oDB = new ADO();
     		if (!$oDB->conecta( $ip_servidor, $usuario_bd, $senha_usuario_bd, $nome_bd ))
-    	        $msg .= "<span class='Erro'>".$this->oLang->_('kciq_msg inst database connect fail')."</span><br>";
+    	        $msg .= "<span class='Erro'>[ ERRO! ] - ".$this->oLang->_('kciq_msg inst database connect fail')."</span><br>";
     	    else
     	        $dbConected = true;
 	    }
 
 	    if($dbConected) {
     	    if(!isset($_SESSION['adminSetupSaved']) or !($_SESSION['adminSetupSaved']))
-    	        $msg .= "<span class='Erro'>Dados do Local e Usuário administrador não gravados no banco de dados!</span><br>";
+    	        $msg .= "<span class='Erro'>[ ERRO! ] - ".$this->oLang->_('kciq_msg inst database data save fail')."</span><br>";
     	    else {
     	  	    $sql_get_local_id = "select id_local from locais where sg_local = '".$cacic_admin['local_sigla']."'";
     	  	    $oDB->selectDB();
     			$oDB->query($sql_get_local_id);
     			if (!($oDB->numRows() > 0))
-    				$msg .= '<span class="Erro">[ ERRO! ] - Local não foi cadastrado!</span><br>';
+    				$msg .= '<span class="Erro">[ ERRO! ] - '.$this->oLang->_('kciq_msg local not reg').'</span><br>';
     			
     	  	    $sql_check_admin = "select nm_usuario_acesso from usuarios where nm_usuario_acesso = '".$cacic_admin['admin_login']."'";
     			$oDB->query($sql_check_admin);
     			if (!($oDB->numRows() > 0)) 
-    				$msg .= '<span class="Erro">[ ERRO! ] - Administrador não foi cadastrado!</span><br>';
+    				$msg .= '<span class="Erro">[ ERRO! ] - '.$this->oLang->_('kciq_msg admin not reg').'</span><br>';
     	    }
 	    }
 	    
 	    if(empty($msg))
-	        $msg = "<span class='OkImg'>Instalação do CACIC finalizada e veficada!</span><br>";
+	        $msg = "<span class='OkImg'>".$this->oLang->_('kciq_msg inst finished and verified')."</span><br>";
 
     	$this->oTmpl->addVar('tmplStatusBar', 'MSG_STATUS', $msg);
 	    
