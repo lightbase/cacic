@@ -120,9 +120,11 @@ class InstallAjax {
 	  
 	 /*
 	  * Tradução de mensagens em Ajax - copia da implementação original de "getText"
+	  * 
+	  * @see Translator::getText()
 	  * @access private
 	  */
-	  function _ajaxLang($_msg_code, $_sigla=false, $_text_case=0, $_args=array()) {
+	  function _($_msg_code, $_sigla=false, $_text_case=0, $_args=array()) {
 	 	global $oTranslator;
 	 	return $oTranslator->_($_msg_code, $_sigla, $_text_case, $_args);
 	  }
@@ -138,65 +140,65 @@ class InstallAjax {
   		$path = $cacic_config['path'];
 	  	if(!is_readable($path) and !is_executable($path)) {
 	        $dadosOK = false;
-	        $msg .= "<span class='Erro'>[".InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst path not executable')."</span><br>";
+	        $msg .= "<span class='Erro'>[".InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst path not executable')."</span><br>";
 	  	}
 	  	
 	  	if(empty($cacic_config['url'])) {
 	        $dadosOK = false;
-	        $msg .= "<span class='Erro'>[".InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst url not defined')."</span><br>";
+	        $msg .= "<span class='Erro'>[".InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst url not defined')."</span><br>";
 	  	}
 	  	
 	  	if(empty($cacic_config['db_type'])) {
 	        $dadosOK = false;
-	        $msg .= "<span class='Erro'>[".InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database type not defined')."</span><br>";
+	        $msg .= "<span class='Erro'>[".InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database type not defined')."</span><br>";
 	  	}
 	  	
 	  	if(empty($cacic_config['db_host'])) {
 	        $dadosOK = false;
-	        $msg .= "<span class='Erro'>[".InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database server not defined')."</span><br>";
+	        $msg .= "<span class='Erro'>[".InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database server not defined')."</span><br>";
 	  	}
 	  	
 	  	if(empty($cacic_config['db_port'])) {
 	        $dadosOK = false;
-	        $msg .= "<span class='Erro'>[".InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database server port not defined')."</span><br>";
+	        $msg .= "<span class='Erro'>[".InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database server port not defined')."</span><br>";
 	  	}
 	  	
 	  	if(empty($cacic_config['db_name'])) {
 	        $dadosOK = false;
-	        $msg .= "<span class='Erro'>[".InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database name not defined')."</span><br>";
+	        $msg .= "<span class='Erro'>[".InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database name not defined')."</span><br>";
 	  	}
 	  	
 	  	if(empty($cacic_config['db_user'])) {
 	        $dadosOK = false;
-	        $msg .= "<span class='Erro'>[".InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database user not defined')."</span><br>";
+	        $msg .= "<span class='Erro'>[".InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database user not defined')."</span><br>";
 	  	}
 	  	
 	  	if(empty($cacic_config['install']['type'])) {
 	        $dadosOK = false;
-	        $msg .= "<span class='Erro'>[".InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst type not defined')."</span><br>";
+	        $msg .= "<span class='Erro'>[".InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst type not defined')."</span><br>";
 	  	}
 	  	
 	  	// Instalação nova
 	  	if($cacic_config['install']['type'] == 'createDB') {
 	  	    if(empty($cacic_config['db_admin'])) {
     	        $dadosOK = false;
-    	        $msg .= '<span class="Erro">['.InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database admin not defined').'</span><br>';
+    	        $msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database admin not defined').'</span><br>';
 	        }
 
     		$fileName = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_CREATEDB;
     		if(!is_readable($fileName)) {
     	        $dadosOK = false;
-				$msg .= '<span class="Erro">['.InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database sqlbuild not defined',array(CACIC_SQLFILE_CREATEDB)).'</span><br>';
+				$msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database sqlbuild not defined',array(CACIC_SQLFILE_CREATEDB)).'</span><br>';
 			}
     		$fileName = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_STDDATA;
     		if(!is_readable($fileName)) {
     	        $dadosOK = false;
-				$msg .= '<span class="Erro">['.InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database sqldata not defined',array(CACIC_SQLFILE_STDDATA)).'</span><br>';
+				$msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database sqldata not defined',array(CACIC_SQLFILE_STDDATA)).'</span><br>';
 			}
     		if($cacic_config['dbdet']['demo'] == 'demo') {
     			$fileName = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_DEMODATA;
     			if(!is_readable($fileName)) {
-					$msg .= '<span class="AvisoImg">['.InstallAjax::_ajaxLang('kciq_msg advise', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database sqldemodata not defined',array(CACIC_SQLFILE_DEMODATA)).'</span> '.InstallAjax::_ajaxLang('kciq_msg check_advise').'<br>';
+					$msg .= '<span class="AvisoImg">['.InstallAjax::_('kciq_msg advise', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database sqldemodata not defined',array(CACIC_SQLFILE_DEMODATA)).'</span> '.InstallAjax::_('kciq_msg check_advise').'<br>';
     			}
     		}		
 			
@@ -204,14 +206,14 @@ class InstallAjax {
 	  	elseif($cacic_config['install']['type'] == 'updateDB') {
 	  	    if(empty($cacic_config['install']['updateFromVersion'])) {
     	        $dadosOK = false;
-    	        $msg .= '<span class="Erro">['.InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst version to update').'</span><br>';
+    	        $msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst version to update').'</span><br>';
 	        }
 	        else {
         		$fileName = CACIC_SQLFILE_PREFIX.strtolower($cacic_config['install']['updateFromVersion']).'.sql';
         		$fileNamePath = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.$fileName;
         		if(!is_readable($fileNamePath)) {
         	        $dadosOK = false;
-    				$msg .= '<span class="Erro">['.InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database sqlupdatedata not defined',array($fileName)).'</span><br>';
+    				$msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database sqlupdatedata not defined',array($fileName)).'</span><br>';
     			}
 			}
 	  	}
@@ -318,11 +320,11 @@ class InstallAjax {
 		
 		$msg = "";
 		if(@fwrite(fopen($fileName,"w+"),$fileContent)) {
-		    $msg .= "<br><span class='OkImg'>O Arquivo foi gravado em: ";
+		    $msg .= "<br><span class='OkImg'>".InstallAjax::_('kciq_msg file saved', array($fileName));
 		    $_SESSION['configFileSaved'] = true;
 		}
 		else
-		  $msg .= "<br><span class='Erro'>[".InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst check dir perm', array($fileName)) . "</span>";
+		  $msg .= "<br><span class='Erro'>[".InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst check dir perm', array($fileName)) . "</span>";
 		echo $msg;
 	  }
 	  	
@@ -336,7 +338,7 @@ class InstallAjax {
 	    
      	$connOk = true;
      	$oDB = new ADO($cacic_config['db_type']);
-		$msg = "[".InstallAjax::_ajaxLang('kciq_msg ok', '',2)."! ] - ".InstallAjax::_ajaxLang('kciq_msg inst database connect ok') . "<span class='OkImg'></span>";
+		$msg = "[".InstallAjax::_('kciq_msg ok', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database connect ok') . "<span class='OkImg'></span>";
 		if($cacic_config['install']['type'] == 'createDB') {// instalação nova
 		    $oDB->setDsn( $cacic_config['db_host'], $cacic_config['db_admin'], 
 		                  $cacic_config['db_admin_pass'], $cacic_config['db_name'] );
@@ -346,9 +348,9 @@ class InstallAjax {
 		                  $cacic_config['db_pass'], $cacic_config['db_name'] );
 		    
 		if (!$oDB->conecta()) {
-			$msg = '<span class="Erro">'."[".InstallAjax::_ajaxLang('kciq_msg error', '',2)."! ] - ";
-		    $msg .= 'Erro de conexão ao servidor do banco de dados!</span>'.
-					'<br>Mensagem do servidor:';
+			$msg = '<span class="Erro">'."[".InstallAjax::_('kciq_msg error', '',2)."! ] - ";
+		    $msg .= InstallAjax::_('kciq_msg database connect fail').'!</span>'.
+					'<br>'.InstallAjax::_('kciq_msg database server msg').':';
 			$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			$connOk = false;
 		}
@@ -357,9 +359,10 @@ class InstallAjax {
 			$versao = $oDB->version();
 			if(!(version_compare($versao,CACIC_DBVERSION,'>='))) {
 			  $connOk = false;
-			  $msg = '<br><span class="Erro">Versão do Servidor MySQL-Server inválida!</span>';
-			  $msg .= '<br>Requerida: <span class="Aviso">'.CACIC_DBVERSION.'</span>';
-			  $msg .= '<br>Instalada: <span class="Nao">'.$versao.'</span>';
+			  $msg = '<br><span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".
+			         InstallAjax::_('kciq_msg database server version invalid').'!</span>';
+			  $msg .= '<br>'.InstallAjax::_('kciq_msg requerida').': <span class="Aviso">'.CACIC_DBVERSION.'</span>';
+			  $msg .= '<br>'.InstallAjax::_('kciq_msg instalada').': <span class="Nao">'.$versao.'</span>';
 			}
 		}
 		echo $msg;
@@ -401,27 +404,27 @@ class InstallAjax {
 		                  $cacic_config['db_pass'], $cacic_config['db_name'] );
 		                  
 		if (!$oDB->conecta()) {
-			$msg = '<span class="Erro">'."[ ERRO! ] - ";
-		    $msg .= 'Erro de conexão ao servidor do banco de dados!</span>'.
-					'<br>Mensagem do servidor:';
+			$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
+		    $msg .= InstallAjax::_('kciq_msg database connect fail').'!</span>'.
+					'<br>'.InstallAjax::_('kciq_msg database server msg').':';
 			$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 		    die($msg);
 		}
 		else
-			echo "[ OK! ]";
+			echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 
 		if($installType == 'createDB') {// instalação nova
          	$oDB_result = $oDB->addDBUser($cacic_config['db_user'], $cacic_config['db_pass']);
          	echo "<br>Concedendo permissões ao usuário (" .$cacic_config['db_user']. ") no servidor de banco de dados... ";
     		if (!$oDB_result) {
-    			$msg = '<span class="Erro">'."[ ERRO! ] - ";
+    			$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
     		    $msg .= 'Erro ao tentar inserir o usuário ('.$cacic_config['db_user'].')!</span>'.
-    					'<br>Mensagem do servidor:';
+    					'<br>'.InstallAjax::_('kciq_msg database server msg').':';
     			$msg .= '<pre>'.$oDB->getMessage().'</pre>';
     		    die($msg);
     		}
     		else
-    			echo "[ OK! ]";
+    			echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 		}
 			
 		/*
@@ -431,26 +434,26 @@ class InstallAjax {
 			echo "<br>Criando o banco [".$cacic_config['db_name']."]... ";
 			if (!$oDB->selectDB($cacic_config['db_name'])) {
 				if (!$oDB->createDB()) {
-					$msg = '<span class="Erro">'."[ ERRO! ] - ";
+					$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 				    $msg .= 'Erro na criação do banco de dados!</span>'.
-							'<br>Mensagem do servidor:';
+							'<br>'.InstallAjax::_('kciq_msg database server msg').':';
 					$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 				    die($msg);
 				}
 				else
-					echo "[ OK! ]";
+					echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 			}
 			else {
-				$msg = '<span class="Erro">'."[ ERRO! ] - ";
+				$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			    $msg .= 'Erro o banco de dados já existe!</span>';
 			    die($msg);
 			}
 		}
 		
 		if (!$oDB->selectDB()) {
-			$msg = '<span class="Erro">'."[ ERRO! ] - ";
+			$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 		    $msg .= 'Banco de dados não existe!</span>'.
-					'<br>Mensagem do servidor:';
+					'<br>'.InstallAjax::_('kciq_msg database server msg').':';
 			$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 		    die($msg);
 		}
@@ -466,17 +469,17 @@ class InstallAjax {
 			   echo "<br>Criando as tabelas no banco [".$cacic_config['db_name']."]... ";
 	     	   $oDB_result = $oDB->parse_mysql_dump($cacic_sql_create_tables);
 			   if (!$oDB_result) {
-				   $msg = '<span class="Erro">'."[ ERRO! ] - ";
+				   $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= 'Erro na criação das tabelas do banco de dados!</span>'.
-						   '<br>Mensagem do servidor:';
+						   '<br>'.InstallAjax::_('kciq_msg database server msg').':';
 				   $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);
 			   }
 			   else
-				   echo "[ OK! ]";
+				   echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 		   }
 		   else {
-				   $msg = '<span class="Erro">'."[ ERRO! ] - ";
+				   $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= 'Não há instruções SQL para criação das tabelas do banco de dados!</span>';
 			      die($msg);
 			}
@@ -492,17 +495,17 @@ class InstallAjax {
 			   echo "<br>Atualizando as tabelas no banco [".$cacic_config['db_name']."]... ";
 	     	   $oDB_result = $oDB->parse_mysql_dump($cacic_sql_create_tables);
 			   if (!$oDB_result) {
-				   $msg = '<span class="Erro">'."[ ERRO! ] - ";
+				   $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= 'Erro na atualização das tabelas do banco de dados!</span>'.
-						   '<br>Mensagem do servidor:';
+						   '<br>'.InstallAjax::_('kciq_msg database server msg').':';
 				   $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);
 			   }
 			   else
-				   echo "[ OK! ]";
+				   echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 		   }
 		   else {
-				   $msg = '<span class="Erro">'."[ ERRO! ] - ";
+				   $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= 'Não há instruções SQL para atualização das tabelas do banco de dados!</span>';
 			      die($msg);
 			}
@@ -518,17 +521,17 @@ class InstallAjax {
 			 echo "<br>Incluindo dados básicos nas tabelas do banco [".$cacic_config['db_name']."]... ";
 	     	 $oDB_result = $oDB->parse_mysql_dump($cacic_sql_dadosbase);
 			 if (!$oDB_result) {
-				$msg = '<span class="Erro">'."[ ERRO! ] - ";
+				$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			    $msg .= 'Erro na inserção de dados base nas tabelas do banco de dados!</span>'.
-						'<br>Mensagem do servidor:';
+						'<br>'.InstallAjax::_('kciq_msg database server msg').':';
 				$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			    die($msg);
 			 }
 			 else
-				echo "[ OK! ]";
+				echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 		   }
 		   else {
-				$msg = '<span class="Erro">'."[ ERRO! ] - ";
+				$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			    $msg .= 'Não há instruções SQL para inserção de dados base nas tabelas do banco de dados!</span>';
 			    die($msg);
 		   }
@@ -543,17 +546,17 @@ class InstallAjax {
 				$cacic_sql_demonstracao = $fileName;
 				$oDB_result = $oDB->parse_mysql_dump($cacic_sql_demonstracao);
 				if (!$oDB_result) {
-					$msg = '<span class="Erro">'."[ ERRO! ] - ";
+					$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 				    $msg .= 'Erro na inclusão de dados para demonstração!</span>'.
-							'<br>Mensagem do servidor:';
+							'<br>'.InstallAjax::_('kciq_msg database server msg').':';
 					$msg .= '<pre>'.$oDB->getMessage().'</pre>';
 				    die($msg);
 				}
 				else
-					echo "[ OK! ]";
+					echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 			 }
 			 else {
-					$msg = '<span class="Erro">'."[ ERRO! ] - ";
+					$msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 				    $msg .= 'Não há dados disponíveis para demonstração!</span>';
 				    die($msg);
 			 }
@@ -624,28 +627,28 @@ class InstallAjax {
          	$oDB->debug();
     		$oDB->setDsn( $cacic_config['db_host'], $cacic_config['db_user'], $cacic_config['db_pass'], $cacic_config['db_name'] );
     		if (!$oDB->conecta()) {
-      		   $msg = '<span class="Erro">'."[ ERRO! ] - ";
-    		   $msg .= 'Erro de conexão ao servidor do banco de dados!</span>'.
-    					'<br>Mensagem do servidor:';
+      		   $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
+    		   $msg .= InstallAjax::_('kciq_msg database connect fail').'!</span>'.
+    					'<br>'.InstallAjax::_('kciq_msg database server msg').':';
     		   $msg .= '<pre>'.$oDB->getMessage().'</pre>';
     		   die($msg);
     		}
     		else
-    		   echo "[ OK! ]";
+    		   echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 
     		/*
     		 * Verifica banco de dados
     		 */
 			echo "<br>Verificando existência do banco de dados [".$cacic_config['db_name']."]... ";
 			if (!$oDB->selectDB()) {
-			  $msg = '<span class="Erro">'."[ ERRO! ] - ";
+			  $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			  $msg .= 'Banco de dados não exite!</span>'.
-					  '<br>Mensagem do servidor:';
+					  '<br>'.InstallAjax::_('kciq_msg database server msg').':';
 			  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			  die($msg);
 			}
 		    else
-			  echo "[ OK! ]";
+			  echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
     		
 	       if ($cacic_config['install']['type'] == 'createDB') { // Cria dados de local e administrador
     		   /*
@@ -656,12 +659,12 @@ class InstallAjax {
 			   $msg ="<br>Verificando local [".$cacic_admin['local_sigla']."]... ";
 			   $oDB->query($sql_get_local_id);
 			   if ($oDB->numRows() > 0) {
-				  $msg .= '<span class="Erro">'."[ ERRO! ] - ";
+				  $msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= 'Local já está cadastrado!</span>';
 			      $localOK = false;
 			   }
 			   else
-				  $msg .= "[ OK! ]";
+				  $msg .= "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 			
     		   /*
     		    * Verifica a não existência do administrador informado
@@ -671,12 +674,12 @@ class InstallAjax {
 			   $msg .= "<br>Verificando administrador [".$cacic_admin['admin_login']."]... ";
 			   $oDB->query($sql_check_admin);
 			   if ($oDB->numRows() > 0) {
-				  $msg .= '<span class="Erro">'."[ ERRO! ] - ";
+				  $msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= 'Login para administrador já está cadastrado!</span>';
 			      $adminOK = false;
 			   }
 			   else
-				  $msg .= "[ OK! ]";
+				  $msg .= "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 			
 			   echo $msg;
 			
@@ -705,22 +708,22 @@ class InstallAjax {
 	  	                        "')";
 			   echo "<br>Inserindo local [".$cacic_admin['local_sigla']."]... ";
 			   if (!$oDB->query($sql_insert_local)) {
-				  $msg = '<span class="Erro">'."[ ERRO! ] - ";
+				  $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= 'Erro ao tentar inserir dados do Local!</span>'.
-						  '<br>Mensagem do servidor:';
+						  '<br>'.InstallAjax::_('kciq_msg database server msg').':';
 				  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);
 			   }
 			   else
-				  echo "[ OK! ]";
+				  echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
     		
     		   /*
     		    * Busca ID do local recem incluído
     		    */
 			   if (!$oDB->query($sql_get_local_id)) {
-				  $msg = '<span class="Erro">'."[ ERRO! ] - ";
+				  $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= 'Local não encontrado!</span>'.
-						  '<br>Mensagem do servidor:';
+						  '<br>'.InstallAjax::_('kciq_msg database server msg').':';
 				  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);
 			   }
@@ -739,14 +742,14 @@ class InstallAjax {
 	  	                        
 			   echo "<br>Inserindo dados do administrador [".$cacic_admin['admin_login']."]... ";
 			   if (!$oDB->query($sql_insert_admin)) {
-				  $msg = '<span class="Erro">'."[ ERRO! ] - ";
+				  $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= 'Erro ao tentar inserir dados do Administrador!</span>'.
-						  '<br>Mensagem do servidor:';
+						  '<br>'.InstallAjax::_('kciq_msg database server msg').':';
 				  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);
 			   }
 			   else
-				  echo "[ OK! ]";
+				  echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
 				
 			   $msg = '<br><span class="Sim">Dados administrativos inseridos com sucesso!</span>';
 			}

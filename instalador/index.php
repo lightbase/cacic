@@ -18,6 +18,11 @@
 
 	if( ! defined( 'CACIC' ) )
 	    define( 'CACIC', 1 );
+
+	/*
+	 * Obtem o caminho da aplicação gerente
+	 */
+	$path_aplicacao = str_replace("instalador", '', dirname(__FILE__));
 	    
 	/*
 	 * atribuições para o ambiente

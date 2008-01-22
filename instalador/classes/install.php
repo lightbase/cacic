@@ -390,8 +390,8 @@ class Install {
 	    if(!isset($_SESSION['configFileSaved']) or !($_SESSION['configFileSaved']))
 	        $msg .= "<span class='Erro'>[ ERRO! ] - ".$this->oLang->_('kciq_msg inst config file saved')."</span><br>";
 	    else {
-    	    if(!is_readable($cfgFileName) or ! @include_once($cfgFileName))
-    	        $msg .= "<span class='Erro'>[ ERRO! ] - ".$this->oLang->_('kciq_msg inst config file read').":</span><br>".$cfgFileName;
+    	    if(!is_readable($cfgFileName) or ! @include($cfgFileName))
+    	        $msg .= "<span class='Erro'>[ ERRO! ] - ".$this->oLang->_('kciq_msg inst config file read',array($cfgFileName)).".</span><br>";
     	    else
     	        $cfgFileOk = true;
 	    }
@@ -404,7 +404,7 @@ class Install {
 	    if($cfgFileOk) {
          	$oDB = new ADO();
     		if (!$oDB->conecta( $ip_servidor, $usuario_bd, $senha_usuario_bd, $nome_bd ))
-    	        $msg .= "<span class='Erro'>[ ERRO! ] - ".$this->oLang->_('kciq_msg inst database connect fail')."</span><br>";
+    	        $msg .= "<span class='Erro'>[ ERRO! ] - ".$this->oLang->_('kciq_msg database connect fail').":</span>".$this->oLang->_('kciq_msg check cacic configfile data',array($cfgFileName))."<br>";
     	    else
     	        $dbConected = true;
 	    }
