@@ -24,8 +24,9 @@ OK  * Excluir solicitação de caminhos (url e físico)
     * Criar instalação multi-idioma
       - deve mostrar licença traduzida no idioma selecionado
 OK  * Criar seletor de idiomas (deve ler os idiomas disponíveis em "language")
-    * Gravar idioma selecionado no config.php
+OK  * Gravar idioma selecionado no config.php
     * Criar opção de atualização de versões anteriores
     * desmembrar "templates" (navbar) dos passos da instalação
-    * verificar seriviço FTP
+OK  * verificar seriviço FTP
+      - realizar teste de conexão
     * validar formulários

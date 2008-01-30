@@ -62,6 +62,7 @@ class InstallAjax {
     	   $_SESSION['cacic_config'] = $_POST['cacic_config'];
     	   $_SESSION['cacic_config']['path'] = CACIC_PATH;
     	   $_SESSION['cacic_config']['url'] = CACIC_URL;
+    	   $_SESSION['cacic_config']['cacic_language'] = $_SESSION['cacic_language'];
     	}
     	
     	if(isset($_POST['cacic_admin']))
@@ -106,6 +107,8 @@ class InstallAjax {
 		$oTmpl->addVar('tmplCFGFile', 'DB_USER_PASS', $cacic_config['db_pass'] );
 		$oTmpl->addVar('tmplCFGFile', 'CACIC_KEY', CACIC_KEY );
 		$oTmpl->addVar('tmplCFGFile', 'CACIC_IV', CACIC_IV );
+		$oTmpl->addVar('tmplCFGFile', 'CACIC_LANGUAGE', $_SESSION['cacic_language']);
+		
 		
 		if($show) {
 			$oTmpl->addVar('tmplCFGFileCab', 'show_path', CACIC_PATH );
@@ -291,12 +294,6 @@ class InstallAjax {
      * CACIC application language
      */
     $cacic_language = "'.$cacic_config['cacic_language'].'";
-
-    /*
-     * CACIC application standard language
-     * (Language to be viewed when the one above not found)
-     */
-    $cacic_language_standard = "'.$cacic_config['cacic_language_standard'].'";
 
     /*
      * CACIC application theme
