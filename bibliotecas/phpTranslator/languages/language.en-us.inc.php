@@ -8,6 +8,7 @@ en-us     #phptranslator_codificacao de idioma padrao#                          
 en-us     #phptranslator_contexto da mensagem#                                                                Tradutor  info                Message context
 en-us     #phptranslator_criar idioma#                                                                        Tradutor  info                Create Language
 en-us     #phptranslator_codigo da mensagem#                                                                  Tradutor  info                Message code
+en-us     #phptranslator_inserir code exist use change#                                                       Tradutor  error               Message code exist, use change option!
 en-us     #phptranslator_directory#                                                                           Tradutor                      Directory
 en-us     #phptranslator_excluir#                                                                             Tradutor  info                Delete
 en-us     #phptranslator_excluir codigo#                                                                      Tradutor  info                Delete code base

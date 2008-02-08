@@ -8,6 +8,7 @@ pt-br     #phptranslator_codificacao de idioma padrao#                          
 pt-br     #phptranslator_contexto da mensagem#                                                                Tradutor  info                Contexto da mensagem
 pt-br     #phptranslator_criar idioma#                                                                        Tradutor  info                Criar idioma
 pt-br     #phptranslator_codigo da mensagem#                                                                  Tradutor  info                Código da Mensagem
+pt-br     #phptranslator_inserir code exist use change#                                                       Tradutor  error               Código existente, use opção para alteração!
 pt-br     #phptranslator_directory#                                                                           Tradutor                      Diretório
 pt-br     #phptranslator_excluir#                                                                             Tradutor  info                Excluir
 pt-br     #phptranslator_excluir codigo#                                                                      Tradutor  info                Excluir código da base?

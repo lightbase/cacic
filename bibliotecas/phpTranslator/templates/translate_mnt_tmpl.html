@@ -164,6 +164,7 @@
                         <input class="button" type="reset" name="reset" value="{BTN_RESTAURAR}" />
                      </mos:sub>
                     </mos:tmpl>
+                    <input type="hidden" name="phptrans[task]" value="{LANG_TASK}" />
                 </td>
              </tr>
           </table>
@@ -264,6 +265,13 @@
                 </td>
              </tr>
                <tfoot>
+               	<mos:tmpl name="translate_save_foot">
+	                <tr>
+	                   <td colspan="10">
+	                       {LIST_MESSAGE}
+	                   </td>
+	                </tr>
+                </mos:tmpl>
                <tr>
                   <td colspan="2">
                      <small>{STANDARD_LANG_CODING_ADVISE}</small>

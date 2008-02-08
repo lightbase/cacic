@@ -386,6 +386,13 @@ Class Translator {
 		if (!empty ($_POST['tag_active']))
 			$this->languageSectionActive = $_POST['tag_active'];
 
+		$phptrans_task = '';
+		if ($_langAction == 'inserir') $phptrans_task = $_langAction;
+		elseif ($_langAction == 'alterar') $phptrans_task = $_langAction;
+		elseif (!empty($_POST['phptrans']['task'])) $phptrans_task = $_POST['phptrans']['task'];
+		
+		$_objTmpl->addVar('form_buttons', 'LANG_TASK', $phptrans_task);
+
 		$this->initStdLanguages();
 
 		$_list_lang = false;
@@ -423,8 +430,13 @@ Class Translator {
 
 		if ($_langAction == 'salvar') {
 			$_list_lang = true;
-			$this->translatedTextStd[$this->stripContraBarra($_mnt_language['code'])] = $_mnt_language;
-			$this->_langSave($this->translatedTextStd, $_abbr_i18n_save);
+			if ($phptrans_task == 'inserir' and @array_key_exists($_mnt_language['code'], $this->translatedTextStd)) {
+				$_objTmpl->addVar('translate_save_foot', 'LIST_MESSAGE',  '<span class="error">'.$this->getText('#phptranslator_inserir code exist use change#').'</span>');
+			}
+			else {
+				$this->translatedTextStd[$this->stripContraBarra($_mnt_language['code'])] = $_mnt_language;
+				$this->_langSave($this->translatedTextStd, $_abbr_i18n_save);
+			}
 		}
 
 		// (re)constroi os arrays para o template
@@ -468,7 +480,7 @@ Class Translator {
 
 		$_objTmpl->displayParsedTemplate('form_buttons');
 
-		if (($_langAction !== 'tradutor' and $_langAction !== 'excluir' and $_langAction !== 'listar' and !$_translate_only)) {
+		if (($_langAction == 'inserir' or $_langAction == 'alterar' or $phptrans_task == 'inserir')) {
 
 			$_show_form = true;
 
@@ -1516,7 +1528,7 @@ Class Translator {
 	}
 
 	/*
-	 * Retorna a extensão de um arquivo qualquer.
+	 * Retorna a extensï¿½o de um arquivo qualquer.
 	 * 
      * @since v 0.2.1
 	 * @access private
@@ -1534,10 +1546,10 @@ Class Translator {
 	 * 
      * @since v 0.2.1
 	 * @access public
-	 * @return array Matriz de dados de cada idioma no qual a aplicação foi traduzida.
+	 * @return array Matriz de dados de cada idioma no qual a aplicaï¿½ï¿½o foi traduzida.
 	 *
 	 *       Formato da matriz:   
-	 *          $language_set = array( 'pt_BR' => ('descr' => 'Português Brasileiro',
+	 *          $language_set = array( 'pt_BR' => ('descr' => 'Portuguï¿½s Brasileiro',
 	 *                                         'charset' => 'iso-8859-1',
 	 *                                         'directition => '0', // 0=direita, 1=esquerda
 	 *                                         'versao' => '0.1',
@@ -1573,11 +1585,11 @@ Class Translator {
 	} // end func: getLanguagesSetup
 
 	/**
-	 * Diretório dos idiomas no qual a aplicação foi traduzida
+	 * Diretï¿½rio dos idiomas no qual a aplicaï¿½ï¿½o foi traduzida
 	 * 
      * @since v 0.2.1
 	 * @access public
-	 * @return string Diretorio dos idiomas no qual a aplicação foi traduzida.
+	 * @return string Diretorio dos idiomas no qual a aplicaï¿½ï¿½o foi traduzida.
 	 * 
 	 */
 	function getLanguagePath() {

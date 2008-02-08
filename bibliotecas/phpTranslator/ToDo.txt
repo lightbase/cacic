@@ -26,6 +26,13 @@ OK  * possibilitar uso de textos em arquivo externo
 OK    - tipo de mensagem deve ser: "arquivo" ou "file"
 OK    - texto da mensagem deve ser o nome do arquivo a ser usado (exemplo: introducao.html)
 
+version: 0.2.1
+OK  * better description for _() method
+OK  * added method to get language setup
+
+version: 0.2.2
+OK  * correção de insersão de código de mensagem existente sobrescreve anterior
+      
 version: 0.2.x
 
 	* usar editor de arquivos externo para mensagens do tipo "arquivo" ou "file"
