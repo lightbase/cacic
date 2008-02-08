@@ -480,7 +480,8 @@ Class Translator {
 
 		$_objTmpl->displayParsedTemplate('form_buttons');
 
-		if (($_langAction == 'inserir' or $_langAction == 'alterar' or $phptrans_task == 'inserir')) {
+		if ($_langAction == 'inserir' or $_langAction == 'alterar' or 
+		     ($phptrans_task == 'inserir' and $_langAction != 'tradutor' and $_langAction != 'listar')) {
 
 			$_show_form = true;
 
