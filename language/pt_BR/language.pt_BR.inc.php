@@ -1,3 +1,4 @@
+pt_BR     kciq_msg total referente a multi-locais                                                             geral     info                <b>ATENÇÃO:</b> Total referente a mais de uma localidade.
 pt_BR     kciq_msg inst end advise                                                                            instaladorinfo                <p><b>Atenção:</b> Leia as mensagens no fim desta página sobre o processo de instalação, bem como as <b>recomendações</b> abaixo:</p>
 pt_BR     kciq_msg aceitar                                                                                    instaladorinfo                Aceitar
 pt_BR     kciq_msg aceito                                                                                     instaladorinfo                Aceito a licença
@@ -9,12 +10,14 @@ pt_BR     kciq_msg previous                                                     
 pt_BR     kciq_msg apoio                                                                                      Geral     info                Apoio colaborativo
 pt_BR     kciq_msg file saved                                                                                 geral     info                Arquivo (%1) foi salvo
 pt_BR     kciq_msg cfgfile_writeable                                                                          instaladorinfo                Arquivo <i><b>config.php</b></i> pode ser gravado
+pt_BR     kciq_msg attention                                                                                  geral     info                Atenção
 pt_BR     kciq_msg update help                                                                                instaladorinfo                Atualizar as tabelas do banco conforme versão a ser escolhida.
 pt_BR     kciq_msg update                                                                                     geral     info                Atualização
 pt_BR     kciq_msg inst update tables on database                                                             instaladorinfo                Atualização das tabelas no banco de dados (%1)...
 pt_BR     kciq_msg database                                                                                   instaladorinfo                Banco de dados
 pt_BR     kciq_msg inst database exist                                                                        instaladorinfo                Banco de dados (%1) já existe!
 pt_BR     kciq_msg database not exist                                                                         geral     info                Banco de dados (%1) não existe!
+pt_BR     kciq_msg computadores monitorados hoje                                                              geral     info                Computadores monitorados por local nesta data
 pt_BR     kciq_msg inst make database permissions                                                             instaladorinfo                Concedendo permissões ao usuário (%1).
 pt_BR     kciq_msg inst end title                                                                             instaladorinfo                Conclusão da instalação do CACIC
 pt_BR     kciq_msg inst connecting to database server                                                         instaladorinfo                Conectando ao servidor de banco de dados
@@ -30,6 +33,7 @@ pt_BR     kciq_msg inst build database                                          
 pt_BR     kciq_msg build bd help                                                                              instaladorinfo                Criar banco de dados.
 pt_BR     kciq_msg database table build                                                                       instaladorinfo                Criação das tabelas do banco de dados!
 pt_BR     kciq_msg backup                                                                                     geral     info                Cópia de segurança
+pt_BR     kciq_msg inst admin data succesfuly created                                                         instaladorinfo                Dados administrativos inseridos com sucesso!
 pt_BR     kciq_msg admin mgm local                                                                            instaladorinfo                Dados de localização
 pt_BR     kciq_msg admin mgm data title                                                                       instaladorinfo                Dados do Administrador
 pt_BR     kciq_msg inst database data save fail                                                               instaladorinfo                Dados do Local e Usuário administrador não gravados no banco de dados!
@@ -48,6 +52,8 @@ pt_BR     kciq_msg inst build database error                                    
 pt_BR     language_es                                                                                         Geral     info      es        Español
 pt_BR     kciq_msg php_memory_help                                                                            instaladorinfo                Essa diretiva irá afetar o desempenho de execução dos programas em PHP.
 pt_BR     kciq_msg php_flag_on_advise                                                                         instaladorinfo                Essa diretiva é verificada apenas para versão PHP = 5.x.y.
+pt_BR     kciq_msg statistics                                                                                 geral     info                Estatísticas
+pt_BR     kciq_msg cacic statistics                                                                           geral     info                Estatísticas do CACIC
 pt_BR     kciq_msg ftp_suporte                                                                                instaladorinfo                FTP
 pt_BR     kciq_msg finish                                                                                     instaladorinfo                Finalizar
 pt_BR     language_fr                                                                                         Geral     info      fr        Francè
@@ -170,10 +176,14 @@ pt_BR     kciq_msg test conn                                                    
 pt_BR     kciq_msg database type                                                                              instaladorinfo                Tipo
 pt_BR     kciq_msg inst database type not defined                                                             instaladorinfo                Tipo de banco de dados deve ser informado!
 pt_BR     kciq_msg install type                                                                               instaladorinfo                Tipo de instalação
+pt_BR     kciq_msg total of computers per local                                                               geral     info                Totais de computadores monitorados por local
+pt_BR     kciq_msg total of computers per os                                                                  geral     info                Totais de computadores monitorados por sistemas operacionais
+pt_BR     kciq_msg real total of computers mac based                                                          geral     info                Total real de computadores monitorados (com base no Mac-Address)
 pt_BR     kciq_mnt_tradutor                                                                                   Manutençãoinfo                Tradução de texto do CACIC
 pt_BR     kciq_msg inst url not defined                                                                       instaladorinfo                URL da aplicação deve ser informada!
 pt_BR     kciq_msg user                                                                                       Geral     info                Usuário
 pt_BR     kciq_msg inst database user not defined                                                             instaladorerro                Usuário de conexão com o banco de dados deve ser informado!
+pt_BR     kciq_msg invalid user or pass                                                                       geral     info                Usuário não cadastrado ou senha inválida
 pt_BR     kciq_msg details                                                                                    geral     info                Ver detalhes
 pt_BR     kciq_msg inst verify admin                                                                          instaladorinfo                Verificando administrador (%1)...
 pt_BR     kciq_msg inst verify database existence                                                             instaladorinfo                Verificando existência do banco de dados (%1)...
@@ -194,4 +204,7 @@ pt_BR     kciq_msg inst end hist file                                           
 pt_BR     kciq_installer_introdution                                                                          instaladorarquivo             introducao.html
 pt_BR     kciq_msg license en_read                                                                            instaladorinfo                leia em inglês
 pt_BR     kciq_msg license pt_read                                                                            instaladorinfo                leia em português
-pt_BR     kciq_msg inst admin data succesfuly created                                                         instaladorinfo                Dados administrativos inseridos com sucesso!
+pt_BR     kciq_msg last agents access                                                                         geral     info                Últimos acessos dos agentes
+pt_BR     kciq_msg last agents access on local                                                                geral     info                Últimos acessos dos agentes deste local
+pt_BR     kciq_msg last agents access per local                                                               geral     info                Últimos acessos dos agentes por local nesta data
+pt_BR     kciq_msg javascript not enabled                                                                     geral     erro                O Javascript é indispensável ao perfeito funcionamento do Sistema

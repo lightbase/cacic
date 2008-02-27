@@ -149,7 +149,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		session_unregister('cIpsDisplayDebugs');	 			 		
 		?>
 		<SCRIPT LANGUAGE="Javascript">
-		alert('Usuário não cadastrado ou senha inválida!');
+		alert('<?= $oTranslator->_('kciq_msg invalid user or pass'); ?>!');
 		</script>
 		<?
 		break;		
@@ -168,10 +168,8 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		echo 'onLoad="SetaCampo('."'frm_nm_usuario_acesso'".');"';	
 		}
 	else if ($_SESSION["id_usuario"])
-		echo 'onLoad="SetaCampo('."'user_logged_in'".');"';	
-//		echo 'onLoad="SetaCampo('."'string_consulta'".');"';			
-		
-	echo '>';
+		echo 'onLoad="SetaCampo('."'user_logged_in'".');"';
+		echo '>';
 	?>
 	<script language="JavaScript" type="text/javascript" src="include/cacic.js"></script>
 	<script language="JavaScript" type="text/javascript" src="include/crypt.js"></script>
@@ -220,8 +218,8 @@ if (!$_SESSION["id_usuario"])
         <div align="justify">
         <table width="99%" height="99%" border="1">
         <tr> 
-        <td><div align="justify"><font color="#FF0000" size="2"><strong>Aten&ccedil;&atilde;o:</strong></font><font color="#0000FF" size="1"> 
-        O Javascript &eacute; indispens&aacute;vel ao perfeito funcionamento do Sistema</font></div></td>
+        <td><div align="justify"><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
+        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></div></td>
         </tr>
         </table>
         </div>
@@ -321,8 +319,8 @@ else
         <div align="justify">
         <table width="99%" height="99%" border="1">
         <tr> 
-        <td><div align="justify"><font color="#FF0000" size="2"><strong>Aten&ccedil;&atilde;o:</strong></font><font color="#0000FF" size="1"> 
-        O Javascript &eacute; indispens&aacute;vel ao perfeito funcionamento do Sistema</font></div></td>
+        <td><div align="justify"><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
+        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></div></td>
         </tr>
         </table>
         </div>
@@ -351,7 +349,7 @@ else
         </div></td>
     	</tr>
    	 	<tr> 
-      	<td class="label_peq_sem_fundo" valign="middle"><div align="right">Senha:</div></td>
+      	<td class="label_peq_sem_fundo" valign="middle"><div align="right"><?= $oTranslator->_('kciq_msg password'); ?>:</div></td>
       	<td class="dado_peq_sem_fundo"><div align="left">
         <input name="frm_te_senha" type="password" id="frm_te_senha" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
         </div></td>
@@ -362,8 +360,8 @@ else
         <div align="justify">
         <table width="99%" height="99%" border="1">
         <tr> 
-        <td><div align="justify"><font color="#FF0000" size="2"><strong>Aten&ccedil;&atilde;o:</strong></font><font color="#0000FF" size="1"> 
-        O Javascript &eacute; indispens&aacute;vel ao perfeito funcionamento do Sistema</font></div></td>
+        <td><div align="justify"><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
+        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></div></td>
         </tr>
         </table>
         </div>

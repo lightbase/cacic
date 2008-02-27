@@ -251,7 +251,7 @@ CREATE TABLE `contas` (
 CREATE TABLE `descricao_hardware` (
   `nm_campo_tab_hardware` varchar(45) NOT NULL default '',
   `te_desc_hardware` varchar(45) NOT NULL default '',
-  `cs_notificacao_ativada` char(1) default NULL,
+  `te_locais_notificacao_ativada` text COMMENT 'Locais onde a notificação de alteração de hardware encontra-se ativa.',
   PRIMARY KEY  (`nm_campo_tab_hardware`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

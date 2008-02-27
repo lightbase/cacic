@@ -24,3 +24,6 @@ ALTER TABLE configuracoes_locais ADD te_exibe_graficos varchar(100) NOT NULL DEF
 
 -- Acrescentar a coluna id_local aa tabela acoes_excecoes, para aplicacao por local
 ALTER TABLE acoes_excecoes ADD id_local int(11) NOT NULL DEFAULT 0;
+
+-- Alterar a coluna cs_notificacao_ativada aa tabela descricao_hardware, para aplicacao por local
+ALTER TABLE descricao_hardware CHANGE cs_notificacao_ativada te_locais_notificacao_ativada text;

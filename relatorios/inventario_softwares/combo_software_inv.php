@@ -9,10 +9,6 @@ if(!isset($_SESSION['id_usuario']))
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
-/*require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
-if ($_POST['submit']) {
-  header ("Location: incluir_grupos.php");
-}*/
 include_once "../../include/library.php";
 Conecta_bd_cacic();
 $texto = "";

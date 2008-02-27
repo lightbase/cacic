@@ -290,6 +290,7 @@ CREATE INDEX te_ip ON computadores (te_ip);
 CREATE INDEX te_node_address ON computadores (te_node_address);
 CREATE INDEX te_nome_computador ON computadores (te_nome_computador);
 ALTER TABLE descricao_hardware ENGINE=InnoDB CHARACTER SET=latin1;
+ALTER TABLE descricao_hardware CHANGE cs_notificacao_ativada te_locais_notificacao_ativada text;
 ALTER TABLE grupo_usuarios ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE grupo_usuarios ADD cs_nivel_administracao tinyint(2) DEFAULT '0' NOT NULL;
 ALTER TABLE grupo_usuarios CHANGE id_grupo_usuarios id_grupo_usuarios int(2) NOT NULL AUTO_INCREMENT;

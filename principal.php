@@ -19,7 +19,7 @@ require_once("include/library.php");
 ?>
 <html>
 <head>
-<title>Estat&iacute;sticas</title>
+<title><?= $oTranslator->_('kciq_msg statistics');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="refresh" content="180">
 <link rel="stylesheet"   type="text/css" href="include/cacic.css">
@@ -28,10 +28,7 @@ require_once("include/library.php");
 <body bgcolor="#FFFFFF" background="imgs/linha_v.gif">
 <table width="90%" border="0" align="center">
 <tr>
-<td class="cabecalho">Estat&iacute;sticas do CACIC</td>
-</tr>
-<tr> 
-<td>&nbsp;&nbsp;</td>
+<td class="cabecalho"><?= $oTranslator->_('kciq_msg cacic statistics');?></td>
 </tr>
 <? 
 // Reinicializo as variáveis para tratamento de gráficos
@@ -56,15 +53,8 @@ if (!session_is_registered('cs_nivel_administracao'))
 	</tr>
 	<tr><td></td></tr>
 	<tr>
-	<td class="descricao"><div align="center">Computadores monitorados por 
-        local nesta data</div></td>
+	<td class="descricao"><div align="center"><?= $oTranslator->_('kciq_msg computadores monitorados hoje');?></div></td>
 	</tr>  
-	<tr> 
-	<td height="1"  bgcolor="#e7e7e7"></td>
-	</tr>
-	<tr> 
-	<td>&nbsp;</td>
-	</tr>
 	<?
 	}	
 else
@@ -84,7 +74,7 @@ else
 	if ($_SESSION["cs_nivel_administracao"] <> 0)
 		echo '</a>';
 			
-	$te_title = 'Totais de computadores monitorados por sistemas operacionais';
+	$te_title = $oTranslator->_('kciq_msg total of computers per os');
 	?>
 	</td>	
 	</tr>
@@ -108,21 +98,17 @@ else
 	    $_SESSION["cs_nivel_administracao"] == 1  || 
 		$_SESSION["cs_nivel_administracao"] == 2  || 
 		$_SESSION["cs_nivel_administracao"] == 3)
-		echo '<tr><td class="label_peq_sem_fundo"><div align="center"><b>ATENÇÃO:</b> Total referente a mais de uma localidade. (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php?in_grafico=so&te_exibe_graficos='.$_SESSION['te_exibe_graficos'].'&te_title='.$te_title.'\', \'JANELA\',\'toolbar=no,location=no,width=760,left=150,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>Detalhes</b></font></a>)</div></td></tr>';
+		echo '<tr><td class="label_peq_sem_fundo"><div align="center">'.$oTranslator->_('kciq_msg total referente a multi-locais').' (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php?in_grafico=so&te_exibe_graficos='.$_SESSION['te_exibe_graficos'].'&te_title='.$te_title.'\', \'JANELA\',\'toolbar=no,location=no,width=760,left=150,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>'.$oTranslator->_('kciq_msg details').'</b></font></a>)</div></td></tr>';
 		?>
 	
 	<tr> 
 	<td height="1"  bgcolor="#e7e7e7"></td>
 	</tr>
-	
-	<tr> 
-	<td>&nbsp;</td>
-	</tr>
 	<tr> 
 	<td>
 	<? 
 	$_SESSION['in_grafico']	= 'acessos';	
-	$te_title = '&Uacute;ltimos acessos dos agentes';
+	$te_title = $oTranslator->_('kciq_msg last agents access');
 		
 	if ($_SESSION["cs_nivel_administracao"] <> 0)
 		echo '<a href="relatorios/software/rel_software.php?orderby=6&principal=acessos">';
@@ -152,18 +138,18 @@ else
 	</td>
 	</tr>
 	<?
-	$te_title = '&Uacute;ltimos acessos dos agentes por local nesta data';
+	$te_title = $oTranslator->_('kciq_msg last agents access per local');
 	if ($_SESSION['te_locais_secundarios']  <> '' || 
 	    $_SESSION["cs_nivel_administracao"] == 1  || 
 		$_SESSION["cs_nivel_administracao"] == 2  || 
 		$_SESSION["cs_nivel_administracao"] == 3)
-		echo '<tr><td class="label_peq_sem_fundo"><div align="center"><b>ATENÇÃO:</b> Total referente a mais de uma localidade. (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php?in_grafico=acessos&te_exibe_graficos='.$_SESSION['te_exibe_graficos'].'&te_title='.$te_title.'\', \'JANELA\',\'toolbar=no,location=no,width=760,left=150,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>Detalhes</b></font></a>)</div></td></tr>';
+		echo '<tr><td class="label_peq_sem_fundo"><div align="center">'.$oTranslator->_('kciq_msg total referente a multi-locais').' (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php?in_grafico=acessos&te_exibe_graficos='.$_SESSION['te_exibe_graficos'].'&te_title='.$te_title.'\', \'JANELA\',\'toolbar=no,location=no,width=760,left=150,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>'.$oTranslator->_('kciq_msg details').'</b></font></a>)</div></td></tr>';
 	else
 		{
 		?>
 		<tr><td></td></tr>		
 		<tr> 
-		<td class="descricao"><div align="center">&Uacute;ltimos acessos dos agentes deste local</div></td>
+		<td class="descricao"><div align="center"><?=$oTranslator->_('kciq_msg last agents access on local');?></div></td>
 		</tr>
 		<?
 		}
@@ -192,22 +178,15 @@ else
 		?>
 		</td>
 		</tr>
-		<tr><td></td></tr>		
 		<tr>
-		<td class="descricao"><div align="center">Totais de computadores monitorados por local</div></td>
+		<td class="descricao"><div align="center"><?=$oTranslator->_('kciq_msg total of computers per local');?></div></td>
 		</tr>  
 		<tr> 
 		<td height="1"  bgcolor="#e7e7e7"></td>
 		</tr>
-		<tr> 
-		<td>&nbsp;</td>
-		</tr>
 		<?
 		}
 		?>
-		<tr> 
-		<td>&nbsp;</td>
-		</tr>
 		<tr> 
 		<td>
 		<? 
@@ -244,7 +223,7 @@ else
 
 	require "include/exibe_consultas_texto.php";					
 
-	$te_title = 'Total real de computadores monitorados (com base no Mac-Address)';
+	$te_title = $oTranslator->_('kciq_msg real total of computers mac based');
 	?>	
 	</td>
 	</tr>
@@ -252,18 +231,6 @@ else
 	<tr> 
 	<td class="descricao"><div align="center"><? echo $te_title;?></div></td>
 	</tr>
-	<?
-	/*
-	if ($_SESSION['te_locais_secundarios']  <> '' || 
-	    $_SESSION["cs_nivel_administracao"] == 1  || 
-		$_SESSION["cs_nivel_administracao"] == 2  ||
-		$_SESSION["cs_nivel_administracao"] == 3)
-		{
-		echo '<tr><td class="label_peq_sem_fundo"><div align="center"><b>ATENÇÃO:</b> Total referente a mais de uma localidade. (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php\', \'JANELA\',\'toolbar=no,location=no,width=600,left=200,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>Detalhes</b></font></a>)</div></td></tr>';
-		}
-		*/
-		?>
-
 	<tr> 
 	<td height="1"  bgcolor="#e7e7e7"></td>
 	</tr>
@@ -274,9 +241,8 @@ else
 <table width="90%">
 <tr><td height="30"></td></tr>
 <tr><td class="descricao">
-<p align="center">Desenvolvido pela Dataprev - Unidade Regional Esp&iacute;rito 
-        Santo 
-      <p align="center"><a href="http://www.anybrowser.org/campaign/anybrowser_br.html" target="_blank"><img src="imgs/anybrowser.gif" alt="Vis&iacute;vel por qualquer browser" width="88" height="31" border="0"></a>
+<p align="center">Desenvolvido pela Dataprev - Unidade Regional Esp&iacute;rito Santo 
+<p align="center"><a href="http://www.anybrowser.org/campaign/anybrowser_br.html" target="_blank"><img src="imgs/anybrowser.gif" alt="Vis&iacute;vel por qualquer browser" width="88" height="31" border="0"></a>
 </td></tr>
 </table>
 </body>
