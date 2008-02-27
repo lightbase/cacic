@@ -1,6 +1,4 @@
 <?
-require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
-
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -15,9 +13,18 @@ require $_SERVER['DOCUMENT_ROOT'] . '/cacic2/verificar.php';
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
+
 		// Essa variável é usada pelo arquivo de include selecao_redes_inc.php e inicio_relatorios_inc.php.
 		$id_acao = 'cs_coleta_hardware';
-  require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/inicio_relatorios_inc.php'); 
+  require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
 
 <table width="90%" border="0" align="center">
