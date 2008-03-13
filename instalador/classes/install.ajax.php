@@ -64,13 +64,16 @@ class InstallAjax {
     	   $_SESSION['cacic_config']['url'] = CACIC_URL;
     	   $_SESSION['cacic_config']['cacic_language'] = $_SESSION['cacic_language'];
     	}
+    	if(isset($_POST['cacic_cfgftp'])) {
+    	   $_SESSION['cacic_cfgftp'] = $_POST['cacic_cfgftp'];
+    	}
     	
     	if(isset($_POST['cacic_admin']))
     	   $_SESSION['cacic_admin'] = $_POST['cacic_admin'];
     	 
      	$task = $_POST['task'];
 	  	switch (strtolower($task)) {
-	  		case 'testconnftp' : InstallAjax::checkFtpServer($_SESSION['cacic_config']); break;
+	  		case 'testconnftp' : InstallAjax::checkFtpServer($_SESSION['cacic_cfgftp']); break;
 	  		case 'testconn' : InstallAjax::checkDBConnection($_SESSION['cacic_config']); break;
 	  		case 'showcfgfile' : InstallAjax::showCFGFile($_SESSION['cacic_config']); break;
 	  		case 'savecfgfile' : InstallAjax::saveCFGFile($_SESSION['cacic_config']); break;

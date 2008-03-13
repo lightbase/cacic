@@ -185,7 +185,7 @@ pt_BR     kciq_msg mcrypt_suporte                                               
 pt_BR     kciq_msg gd_suporte                                                                                 instaladorinfo                Suporte a imagens com GD
 pt_BR     kciq_msg mysql_suporte                                                                              instaladorinfo                Suporte ao MySQL versão
 pt_BR     kciq_msg phone                                                                                      geral     info                Telefone
-pt_BR     kciq_msg test conn help                                                                             instaladorinfo                Testar conexão com banco de dados.
+pt_BR     kciq_msg test conn help                                                                             instaladorinfo                Testar conexão com o servidor.
 pt_BR     kciq_msg test conn                                                                                  instaladorinfo                Teste de conexão
 pt_BR     kciq_msg database type                                                                              instaladorinfo                Tipo
 pt_BR     kciq_msg inst database type not defined                                                             instaladorinfo                Tipo de banco de dados deve ser informado!

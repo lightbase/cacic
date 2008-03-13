@@ -62,6 +62,10 @@ class Install {
     	   $_SESSION['cacic_config']['path'] = CACIC_PATH;
     	   $_SESSION['cacic_config']['url'] = CACIC_URL;
     	}
+    	if(isset($_POST['cacic_cfgftp'])) {
+    	   $_SESSION['cacic_cfgftp'] = $_POST['cacic_cfgftp'];
+    	}
+    	
     	
     	if(isset($_POST['cacic_admin']))
     	   $_SESSION['cacic_admin'] = $_POST['cacic_admin'];
@@ -80,6 +84,7 @@ class Install {
 	 function navBar($showNavBar="preInstall") {
 	 	 switch (strtolower($showNavBar)) {
 	 	     case "checkinstall": {	$this->checkInstall(); break; }
+	 	     case "ftpverify": {	$this->ftpVerify(); break; }
 	 	     case "configuration": { $this->configInstall(); break; }
 	 	     case "adminsetup": { $this->adminSetup(); break; }
 	 	     case "finish": { $this->finishInstall(); break; }
@@ -302,8 +307,16 @@ class Install {
 	  * Atribui dados padrao ao formulário de administração
 	  */
 	  function adminSetup() {
-     	// Atribui os dados de configuração de banco para inserção dos dados administrativos
+     	// Atribui dados padrao ao formulário de administração
 	  	$this->setInputFields('tmplNavBarAdminSetup');
+	  } 
+	  
+	 /*
+	  * Atribui dados padrao ao formulário de FTP
+	  */
+	  function ftpVerify() {
+     	// Atribui os dados do formulario FTP
+	  	$this->setInputFields('tmplNavBarFtpVerify');
 	  } 
 	  
 	 /*
@@ -339,12 +352,6 @@ class Install {
     	  	  $this->oTmpl->addVar($template, 'INSTALL_NEW', 'checked');
     	  	if($cacic_config['install']['type'] == 'atualizar')
     	  	  $this->oTmpl->addVar($template, 'INSTALL_UPDATE', 'checked');
-    	  	  
-    	  	$this->oTmpl->addVar($template, 'FTP_HOST', $cacic_config['ftp_host']);
-    	  	$this->oTmpl->addVar($template, 'FTP_PORT', $cacic_config['ftp_port']);
-    	  	$this->oTmpl->addVar($template, 'FTP_SUBDIR', $cacic_config['ftp_subdir']);
-    	  	$this->oTmpl->addVar($template, 'FTP_USER', $cacic_config['ftp_user']);
-    	  	$this->oTmpl->addVar($template, 'FTP_PASS', $cacic_config['ftp_pass']);
 	  	}
 	  	else {
     	  	$this->oTmpl->addVar($template, 'CACIC_PATH', CACIC_PATH);
@@ -353,7 +360,18 @@ class Install {
     	  	$this->oTmpl->addVar($template, 'DB_PORT', "3306");
     	  	$this->oTmpl->addVar($template, 'DB_NAME', "cacic");
     	  	$this->oTmpl->addVar($template, 'DB_USER', "cacic_db_user");
-    	  	
+	  	}
+	  	
+     	// coloca os dados de FTP
+	  	if(isset($_SESSION['cacic_cfgftp'])) {
+    	  	$cacic_cfgftp = $_SESSION['cacic_cfgftp'];
+    	  	$this->oTmpl->addVar($template, 'FTP_HOST', $cacic_cfgftp['ftp_host']);
+    	  	$this->oTmpl->addVar($template, 'FTP_PORT', $cacic_cfgftp['ftp_port']);
+    	  	$this->oTmpl->addVar($template, 'FTP_SUBDIR', $cacic_cfgftp['ftp_subdir']);
+    	  	$this->oTmpl->addVar($template, 'FTP_USER', $cacic_cfgftp['ftp_user']);
+    	  	$this->oTmpl->addVar($template, 'FTP_PASS', $cacic_cfgftp['ftp_pass']);
+	  	}
+	  	else {
     	  	$this->oTmpl->addVar($template, 'FTP_HOST', "localhost");
     	  	$this->oTmpl->addVar($template, 'FTP_PORT', "21");
     	  	$this->oTmpl->addVar($template, 'FTP_SUBDIR', "agentes");
@@ -374,8 +392,6 @@ class Install {
     	  	$this->oTmpl->addVar($template, 'ADMIN_FORNE', $cacic_admin['admin_fone']);
      	}
     	  	
-     	//$this->vardump($cacic_config);
-     	//$this->vardump($cacic_admin);
 	  } 
 	  
 	 /*
