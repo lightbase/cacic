@@ -42,14 +42,18 @@ pt_BR     kciq_msg inst database data save fail                                 
 pt_BR     kciq_msg inst admin help                                                                            instaladorinfo                Dados do administrador para criar o banco de dados.
 pt_BR     kciq_msg check cacic configfile data                                                                instaladorinfo                Dados do arquivo de configuração (%1) devem ser verificados.
 pt_BR     kciq_msg demo                                                                                       instaladorinfo                Demonstração
+pt_BR     kciq_msg ftp change dir ok                                                                          geral     info                Diretório FTP mudado com sucesso
 pt_BR     kciq_msg email                                                                                      geral     info                Endereço eletrônico
 pt_BR     kciq_msg admin mgm email help                                                                       instaladorinfo                Endereço eletrônico do Administrador do CACIC para envio de mesagens
 pt_BR     language_en-us                                                                                      Geral     info      en-US     English (US)
 pt_BR     kciq_msg error                                                                                      geral     erro                Erro
+pt_BR     kciq_msg delete row on table fail                                                                   geral     erro                Erro ao tentar excluir registros na tabela %1
 pt_BR     kciq_msg inst check dir perm                                                                        instaladorinfo                Erro ao tentar gravar o arquivo %1. Verifique diretório e permissões!
+pt_BR     kciq_msg insert row on table fail                                                                   geral     erro                Erro ao tentar incluir registros na tabela %1
 pt_BR     kciq_msg login insert error                                                                         geral     erro                Erro ao tentar inserir dados de login!
 pt_BR     kciq_msg local insert error                                                                         geral     erro                Erro ao tentar inserir dados do Local!
-pt_BR     kciq_msg user insert error                                                                          geral     erro                Erro ao tentar inserir o usuário ('.$cacic_config['db_user'].')!
+pt_BR     kciq_msg user insert error                                                                          geral     erro                Erro ao tentar inserir o usuário (%1)!
+pt_BR     kciq_msg select on table fail                                                                       geral     erro                Erro ao tentar obter registros na tabela %1
 pt_BR     kciq_msg inst build database error                                                                  instaladorerro                Erro na criação do banco de dados (%1)!
 pt_BR     language_es                                                                                         Geral     info      es        Español
 pt_BR     kciq_msg php_memory_help                                                                            instaladorinfo                Essa diretiva irá afetar o desempenho de execução dos programas em PHP.
@@ -78,8 +82,8 @@ pt_BR     kciq_msg inst local insert                                            
 pt_BR     kciq_msg demo help                                                                                  instaladorinfo                Inserir dados para demonstração do CACIC.
 pt_BR     kciq_msg instalada                                                                                  geral     info                Instalada
 pt_BR     instalador                                                                                          geral     TagHeader           Instalador
-pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_installertitle                                                                                 instaladorinfo                Instalador WEB para o CACIC
+pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_msg inst finished and verified                                                                 instaladorinfo                Instalação do CACIC finalizada e veficada!
 pt_BR     kciq_msg advise_title                                                                               instaladorinfo                Instrução PHP/Apache
 pt_BR     kciq_installerintrotitle                                                                            instaladorinfo                Introdução
@@ -175,6 +179,7 @@ pt_BR     kciq_msg password needed                                              
 pt_BR     kciq_msg password not same                                                                          geral     info                Senhas não são iguais!
 pt_BR     kciq_msg database host                                                                              instaladorinfo                Servidor
 pt_BR     kciq_msg inst database server not defined                                                           instaladorerro                Servidor de banco de dados deve ser informado!
+pt_BR     kciq_msg session fail                                                                               geral     erro                Sessão expirou
 pt_BR     kciq_msg abbr                                                                                       geral     info                Sigla
 pt_BR     kciq_msg admin mgm abbr help                                                                        instaladorinfo                Sigla do local ao qual a aplicação gerente está associada.
 pt_BR     kciq_msg local abbr needed                                                                          geral     info                Sigla do local deve ser informada!
@@ -222,4 +227,3 @@ pt_BR     kciq_msg license pt_read                                              
 pt_BR     kciq_msg last agents access                                                                         geral     info                Últimos acessos dos agentes
 pt_BR     kciq_msg last agents access on local                                                                geral     info                Últimos acessos dos agentes deste local
 pt_BR     kciq_msg last agents access per local                                                               geral     info                Últimos acessos dos agentes por local nesta data
-pt_BR     kciq_msg ftp change dir ok                                                                          geral     info                Diretório FTP mudado com sucesso

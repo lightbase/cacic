@@ -1,5 +1,4 @@
--- script para converter o banco do cacic de jun2005 para um banco que poderá ser
--- utilizado pela versão 2.2 do cacic.
+-- script para converter o banco do cacic-jun2005 para a nova versão
 
 SET foreign_key_checks=0;
 
