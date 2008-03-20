@@ -1,0 +1,28 @@
+# nao permite listar o conteudo de diretorios e permite execucao de links simbolicos
+Options -Indexes +FollowSymlinks
+
+# Charset padrao para o sistema
+AddDefaultCharset ISO-8859-1
+
+# executa arquivos .css e .js como se fossem .php
+<FilesMatch "\.(css|js)$">
+ SetHandler application/x-httpd-php
+</FilesMatch>
+
+# compressao de paginas servidas por php
+<ifModule mod_php4.c>
+ php_value zlib.output_compression 16386
+</ifModule>
+
+# restringe acesso ao arquivo .htaccess
+<Files ~ "^\.ht">
+ Order allow,deny
+ Deny from all
+ Satisfy All
+</Files>
+
+# Diretivas PHP que sobrescrevem o php.ini
+#php_flag register_globals on
+#php_flag memory_limit 32M
+#php_flag register_long_arrays on
+

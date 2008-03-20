@@ -360,8 +360,8 @@ else
         <div align="justify">
         <table width="99%" height="99%" border="1">
         <tr> 
-        <td><div align="justify"><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
-        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></div></td>
+        <td><div align="justify"><noscript><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
+        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></noscript></div></td>
         </tr>
         </table>
         </div>
