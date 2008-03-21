@@ -49,11 +49,11 @@ pt_BR     language_en-us                                                        
 pt_BR     kciq_msg error                                                                                      geral     erro                Erro
 pt_BR     kciq_msg delete row on table fail                                                                   geral     erro                Erro ao tentar excluir registros na tabela %1
 pt_BR     kciq_msg inst check dir perm                                                                        instaladorinfo                Erro ao tentar gravar o arquivo %1. Verifique diretório e permissões!
-pt_BR     kciq_msg insert row on table fail                                                                   geral     erro                Erro ao tentar incluir registros na tabela %1
+pt_BR     kciq_msg insert row on table fail                                                                   geral     erro                Erro ao tentar incluir registro(s) na(s) tabela(s) %1
 pt_BR     kciq_msg login insert error                                                                         geral     erro                Erro ao tentar inserir dados de login!
 pt_BR     kciq_msg local insert error                                                                         geral     erro                Erro ao tentar inserir dados do Local!
-pt_BR     kciq_msg user insert error                                                                          geral     erro                Erro ao tentar inserir o usuário (%1)!
-pt_BR     kciq_msg select on table fail                                                                       geral     erro                Erro ao tentar obter registros na tabela %1
+pt_BR     kciq_msg user insert error                                                                          geral     erro                Erro ao tentar inserir o usuário (%1)
+pt_BR     kciq_msg select on table fail                                                                       geral     erro                Erro ao tentar obter registros na(s) tabela(s) (%1)
 pt_BR     kciq_msg inst build database error                                                                  instaladorerro                Erro na criação do banco de dados (%1)!
 pt_BR     language_es                                                                                         Geral     info      es        Español
 pt_BR     kciq_msg php_memory_help                                                                            instaladorinfo                Essa diretiva irá afetar o desempenho de execução dos programas em PHP.

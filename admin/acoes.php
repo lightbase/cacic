@@ -167,14 +167,6 @@ function remove(box)
 
 <? 
     conecta_bd_cacic();
-	/*
-	$query = "SELECT 	* 
-			  FROM 		acoes,
-			  			acoes_redes
-			  WHERE		acoes.id_acao='$id_acao' AND
-			  			acoes_redes.id_acao = acoes.id_acao AND
-						acoes_redes.id_local = ".$_SESSION['id_local'];
-	*/
 	$query = "SELECT 	*
 			  FROM 		acoes_redes
 			  WHERE		id_acao = '".$_GET['id_acao']."' ";
@@ -188,7 +180,7 @@ function remove(box)
 		$query .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
 		}
 						
-	$result_acoes = mysql_query($query.$where) or die('1-Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
+	$result_acoes = mysql_query($query.$where) or die('1-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
 	$campos_acoes = mysql_fetch_array($result_acoes);
 ?>
 
@@ -264,7 +256,7 @@ function remove(box)
 								  			acoes_redes.id_ip_rede = redes.id_ip_rede AND
 											acoes_redes.id_local = redes.id_local ".
 											$where;
-						$result_redes_ja_selecionadas = mysql_query($query) or die('2-Ocorreu um erro durante a consulta à tabela acoes_redes ou sua sessão expirou!');
+						$result_redes_ja_selecionadas = mysql_query($query) or die('2-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 
 						/* Agora monto os itens do combo de redes selecionadas e preparo a string de exclusao (NOT IN) para a proxima consulta. */ 
 						while($campos_redes_selecionadas = mysql_fetch_array($result_redes_ja_selecionadas)) 
@@ -283,7 +275,7 @@ function remove(box)
 								  FROM 		redes
 								  WHERE 	id_ip_rede NOT IN ($not_in_ja_selecionadas) ".
 								  			$where;
-						$result_redes_nao_selecionadas = mysql_query($query) or die('3-Ocorreu um erro durante a consulta à tabela redes ou sua sessão expirou!');
+						$result_redes_nao_selecionadas = mysql_query($query) or die('3-'.$oTranslator->_('kciq_msg select on table fail', array('redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 						/* Agora monto os itens do combo de redes NÃO selecionadas. */ 
                         while($campos_redes_nao_selecionadas=mysql_fetch_array($result_redes_nao_selecionadas)) 	
 							{
@@ -345,7 +337,7 @@ function remove(box)
 											acoes_so.id_so = so.id_so AND
 											so.id_so <> 0";
 
-						$result_so_ja_selecionados = mysql_query($query) or die('4-Ocorreu um erro durante a consulta às tabelas acoes_so e so ou sua sessão expirou!');
+						$result_so_ja_selecionados = mysql_query($query) or die('4-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 
 						/* Agora monto os itens do combo de so's selecionados e preparo a string de exclusao (NOT IN) para a proxima consulta. */ 
 						$soDisponiveis = '';
@@ -366,7 +358,7 @@ function remove(box)
 								  FROM 		so
 								  WHERE 	id_so NOT IN ($not_in_so_ja_selecionados) AND
 								  			id_so <> 0";
-						$result_so_nao_selecionados = mysql_query($query) or die('5-Ocorreu um erro durante a consulta à tabela redes ou sua sessão expirou!');
+						$result_so_nao_selecionados = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg select on table fail', array('so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 						
 						/* Agora monto os itens do combo de so's NÃO selecionadas. */ 
                         while($campos_so_nao_selecionados=mysql_fetch_array($result_so_nao_selecionados)) 	
@@ -431,7 +423,7 @@ function remove(box)
 								  			LEFT OUTER JOIN computadores
 								  			ON  acoes_excecoes.te_node_address = computadores.te_node_address
 								  WHERE 	acoes_excecoes.id_acao='$id_acao'";
-						$result_excecoes = mysql_query($query) or die('6-Ocorreu um erro durante a consulta à tabelas acoes_excecoes ou sua sessão expirou!');
+						$result_excecoes = mysql_query($query) or die('6-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 				?>
               <select name="list5[]" size="10" multiple class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 <?

@@ -1,25 +1,3 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-		<html>
-		<head>
-		<title>Atualiza&ccedil;&atilde;o de Base de Dados</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-		</head>
-		<body background="file:///h|/cacic2sg/imgs/linha_v.gif">
-		<table width="90%" border="0" align="center">
-		<tr> 
-	    
-    <td><font color="#FF0000" size="4" face="Verdana, Arial, Helvetica, sans-serif"><b>Atualiza&ccedil;&atilde;o 
-      de Base de Dados</b></font></td>
-		</tr>
-		<tr> 
-	    
-    <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">M&oacute;dulo 
-      para atualiza&ccedil;&atilde;o das informa&ccedil;&otilde;es coletadas dos 
-      m&oacute;dulos gerentes descentralizados.</font></td>
-		</tr>
-		</table>
-		<br>
-		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#666666">
 <?
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informa��es da Previd�ncia Social, Brasil
@@ -35,7 +13,8 @@
  Voc� deve ter recebido uma c�pia da Licen�a P�blica Geral GNU, sob o t�tulo "LICENCA.txt", junto com este programa, se n�o, escreva para a Funda��o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
+?>
+<?
 require_once('../include/library.php');
 $where = '';
 if ($_GET['v_id_ip_gerente'])
@@ -57,12 +36,37 @@ $query_GERENTES= "	SELECT 	ge.id_ip_gerente,
 conecta_bd_cacic();					
 $result_GERENTES = mysql_query($query_GERENTES);
 ?>
-		<tr bordercolor="#000000" bgcolor="#CCCCCC">
-		<td valign="center">
-		<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>IP 
-        Gerente</strong></font> </p></td>
-		<td valign="center">
-		<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;&nbsp;&nbsp;</font>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+	<title>Atualiza&ccedil;&atilde;o de Base de Dados</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  </head>
+  <body background="file:///h|/cacic2sg/imgs/linha_v.gif">
+	<table width="90%" border="0" align="center">
+	  <tr> 
+	  	<td>
+	  		<font color="#FF0000" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+	  			<b>Atualiza&ccedil;&atilde;o de Base de Dados</b>
+	  		</font>
+	  	</td>
+	  </tr>
+	  <tr>
+		<td>
+			<font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+				M&oacute;dulo para atualiza&ccedil;&atilde;o das informa&ccedil;&otilde;es coletadas dos m&oacute;dulos gerentes descentralizados.
+			</font>
+		</td>
+	  </tr>
+	</table>
+	<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#666666">
+	<tr bordercolor="#000000" bgcolor="#CCCCCC">
+	 <td valign="center">
+		<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>
+		  IP Gerente</strong></font> </p>
+	 </td>
+	 <td valign="center">
+	    <p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;&nbsp;&nbsp;</font>
 		</p>
 		</td>
 		
@@ -137,7 +141,7 @@ while ($row = mysql_fetch_array($result_GERENTES))
 				{
 				$v_efetua_conexao_ftp = 1;
 					
-				// obt�m a lista de arquivos para v_te_path_serv_updates
+				// obtem a lista de arquivos para v_te_path_serv_updates
 				$v_arquivos_FTP = ftp_rawlist($v_conexao_ftp, '.');
 				$v_nomes_arquivos_FTP = array();
 				$v_versoes_arquivos_FTP = array();				
@@ -353,33 +357,10 @@ while ($row = mysql_fetch_array($result_GERENTES))
 					}
 			}
 	}			
-			?>
-	</p></td></tr>
-<tr bordercolor="#000000" bgcolor="#CCCCCC">
-	<td valign="center">
-	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
-	</p>
-	</td>
-	<td valign="center">
-	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
-	</p>
-	</td>
-	
-	<td valign="center">
-	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
-	</p>
-	</td>		
-	<td valign="center">
-	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
-	</p>
-	</td>
-	
-	<td valign="center">
-	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
-	</p>
-	</td>			
-	</tr>	
-
-	</table>	
+?>
+				</p>
+			</td>
+		</tr>
+	  </table>	
 	</body>
-	</html>
+</html>

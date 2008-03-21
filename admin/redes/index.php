@@ -35,11 +35,11 @@ $where = ($_SESSION['cs_nivel_administracao']==1||$_SESSION['cs_nivel_administra
 			' LEFT JOIN locais ON (locais.id_local = redes.id_local)':
 			', locais WHERE redes.id_local = locais.id_local AND redes.id_local='.$_SESSION['id_local']);
 			
-if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
+if (!empty($_SESSION['te_locais_secundarios']) and !empty($where))
 	{
 	// Faço uma inserção de "(" para ajuste da lógica para consulta
 	$where = str_replace('redes.id_local=','(redes.id_local=',$where);
-	$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+	$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].') ';
 	}
 
 $ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'sg_local,nm_rede');
