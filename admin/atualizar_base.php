@@ -39,7 +39,7 @@ $result_GERENTES = mysql_query($query_GERENTES);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-	<title>Atualiza&ccedil;&atilde;o de Base de Dados</title>
+	<title><?=$oTranslator->_('Atualizacao de Base de Dados');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   </head>
   <body background="file:///h|/cacic2sg/imgs/linha_v.gif">
@@ -47,14 +47,14 @@ $result_GERENTES = mysql_query($query_GERENTES);
 	  <tr> 
 	  	<td>
 	  		<font color="#FF0000" size="4" face="Verdana, Arial, Helvetica, sans-serif">
-	  			<b>Atualiza&ccedil;&atilde;o de Base de Dados</b>
+	  			<b><?=$oTranslator->_('Atualizacao de Base de Dados');?></b>
 	  		</font>
 	  	</td>
 	  </tr>
 	  <tr>
 		<td>
 			<font size="2" face="Verdana, Arial, Helvetica, sans-serif">
-				M&oacute;dulo para atualiza&ccedil;&atilde;o das informa&ccedil;&otilde;es coletadas dos m&oacute;dulos gerentes descentralizados.
+				<?=$oTranslator->_('Modulo para atualizacao das informacoes coletadas dos modulos gerentes descentralizados');?>.
 			</font>
 		</td>
 	  </tr>
@@ -63,7 +63,8 @@ $result_GERENTES = mysql_query($query_GERENTES);
 	<tr bordercolor="#000000" bgcolor="#CCCCCC">
 	 <td valign="center">
 		<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>
-		  IP Gerente</strong></font> </p>
+				<?=$oTranslator->_('IP Gerente');?>.
+		  </strong></font> </p>
 	 </td>
 	 <td valign="center">
 	    <p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;&nbsp;&nbsp;</font>
@@ -71,7 +72,9 @@ $result_GERENTES = mysql_query($query_GERENTES);
 		</td>
 		
 		<td valign="center">
-<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Descri&ccedil;&atilde;o</strong></font> 
+		<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>
+				<?=$oTranslator->_('Descricao');?>.
+		</strong></font> 
       </p>
 </td>		
 <td valign="center">
@@ -80,7 +83,9 @@ $result_GERENTES = mysql_query($query_GERENTES);
 </td>
 	
 <td valign="center">
-<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Status</strong></font>
+<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>
+<?=$oTranslator->_('Status');?>.
+</strong></font>
 </p>
 </td>		
 
@@ -149,7 +154,7 @@ while ($row = mysql_fetch_array($result_GERENTES))
 					{	
 					while (strpos($v_arquivos_FTP[$cnt_arquivos_FTP],'  ') > 0) 
 						{
-						// Elimina incid�ncia de espa�os duplicados
+						// Elimina incidencia de espacos duplicados
 						$v_arquivos_FTP[$cnt_arquivos_FTP] = str_replace('  ',' ',$v_arquivos_FTP[$cnt_arquivos_FTP]);			
 						}									
 					$v_array_arquivos_FTP = explode(' ',$v_arquivos_FTP[$cnt_arquivos_FTP]);
@@ -215,9 +220,9 @@ while ($row = mysql_fetch_array($result_GERENTES))
 			if ($v_efetua_conexao_ftp)
 				{							
 				?>
-				<font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Verifica��o Efetuada!</strong></font>
+				<font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>
+				<?=$oTranslator->_('Verificacao efetuada');?>!</strong></font>
 				<?																	
-				
 							
 				if ($v_conta_objetos_atualizados)
 					{
@@ -245,7 +250,9 @@ while ($row = mysql_fetch_array($result_GERENTES))
 							</p>
 							</td>
 							<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
-							<p align="left"><font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif">Atualizando <? echo $v_array_objetos_atualizados[$cnt_objetos];?>...</font>
+							<p align="left"><font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif">
+							<?=$oTranslator->_('Atualizando');?>
+							<? echo $v_array_objetos_atualizados[$cnt_objetos];?>...</font>
 							<?
 						}						
 					}
@@ -274,7 +281,9 @@ while ($row = mysql_fetch_array($result_GERENTES))
 								</p>
 								</td>
 								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
-								<p align="left"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif">N�o Atualizado: <? echo $v_array_objetos_nao_atualizados[$cnt_objetos];?>!</font>
+								<p align="left"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif">
+							    <?=$oTranslator->_('Nao Atualizado');?>: 
+								<? echo $v_array_objetos_nao_atualizados[$cnt_objetos];?>!</font>
 								<?
 						}						
 					}
@@ -304,7 +313,9 @@ while ($row = mysql_fetch_array($result_GERENTES))
 								</p>
 								</td>
 								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
-								<p align="left"><font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif">Enviando <? echo $v_array_objetos_enviados[$cnt_objetos];?>...</font>
+								<p align="left"><font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif">
+								<?=$oTranslator->_('Enviando');?>
+								<? echo $v_array_objetos_enviados[$cnt_objetos];?>...</font>
 								<?
 						}						
 					}
@@ -334,7 +345,9 @@ while ($row = mysql_fetch_array($result_GERENTES))
 								</p>
 								</td>
 								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
-								<p align="left"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif">N�o Enviado <? echo $v_array_objetos_nao_enviados[$cnt_objetos];?>!</font>
+								<p align="left"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif">
+								<?=$oTranslator->_('Nao Enviado');?>
+								<? echo $v_array_objetos_nao_enviados[$cnt_objetos];?>!</font>
 								<?
 						}						
 					}										
@@ -346,13 +359,15 @@ while ($row = mysql_fetch_array($result_GERENTES))
 				 	trim($row['te_senha_login_repositorio'])	==	'')
 					{
 					?>
-					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>FTP n�o configurado!</strong></a></font>
+					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>
+					<?=$oTranslator->_('FTP nao configurado');?>!</strong></a></font>
 					<?
 					}
 				else
 					{
 					?>
-					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>Servidor OffLine!</strong></a></font>
+					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>
+					<?=$oTranslator->_('Servidor OffLine');?>!</strong></a></font>
 					<?
 					}
 			}

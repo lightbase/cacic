@@ -1,5 +1,5 @@
 -- --------------------------------------------------------
--- Tabelas para o banco de dados CACIC 2.2.2
+-- Tabelas para o banco de dados CACIC
 -- SGBD: MySQL-4.1.20
 -- --------------------------------------------------------
 --
