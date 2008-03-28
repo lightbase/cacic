@@ -4,6 +4,7 @@ pt_BR     kciq_msg aceitar                                                      
 pt_BR     kciq_msg aceito                                                                                     instaladorinfo                Aceito a licença
 pt_BR     kciq_msg access denied                                                                              geral     erro                Acesso não permitido
 pt_BR     kciq_msg admin not reg                                                                              geral     info                Administrador não foi cadastrado
+pt_BR     admin                                                                                               geral     TagHeader           Administração
 pt_BR     kciq_msg admin mgm title                                                                            instaladorinfo                Administração do CACIC-Gerente
 pt_BR     kciq_msg advise                                                                                     geral     info                Alerta
 pt_BR     kciq_msg check_advise                                                                               instaladorinfo                Alerta, mas poderá continuar
@@ -58,6 +59,7 @@ pt_BR     kciq_msg inst build database error                                    
 pt_BR     language_es                                                                                         Geral     info      es        Español
 pt_BR     kciq_msg php_memory_help                                                                            instaladorinfo                Essa diretiva irá afetar o desempenho de execução dos programas em PHP.
 pt_BR     kciq_msg php_flag_on_advise                                                                         instaladorinfo                Essa diretiva é verificada apenas para versão PHP = 5.x.y.
+pt_BR     kciq_msg mac address help                                                                           admin     info                Esta opção tem por finalidade informar aos agentes coletores de informações de TCP/IP acerca de endereços MAC inválidos, ou seja, os endereços utilizados como padrões em protocolos e/ou dispositivos diferentes de TCP/Ethernet. Os coletores considerarção apenas os endereços MAC diferentes ou que não contenham as informações aqui cadastradas, podendo ser partes de endereços.
 pt_BR     kciq_msg statistics                                                                                 geral     info                Estatísticas
 pt_BR     kciq_msg cacic statistics                                                                           geral     info                Estatísticas do CACIC
 pt_BR     kciq_msg ftp_suporte                                                                                instaladorinfo                FTP
@@ -82,8 +84,8 @@ pt_BR     kciq_msg inst local insert                                            
 pt_BR     kciq_msg demo help                                                                                  instaladorinfo                Inserir dados para demonstração do CACIC.
 pt_BR     kciq_msg instalada                                                                                  geral     info                Instalada
 pt_BR     instalador                                                                                          geral     TagHeader           Instalador
-pt_BR     kciq_installertitle                                                                                 instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
+pt_BR     kciq_installertitle                                                                                 instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_msg inst finished and verified                                                                 instaladorinfo                Instalação do CACIC finalizada e veficada!
 pt_BR     kciq_msg advise_title                                                                               instaladorinfo                Instrução PHP/Apache
 pt_BR     kciq_installerintrotitle                                                                            instaladorinfo                Introdução
@@ -149,6 +151,7 @@ pt_BR     kciq_menu fast search                                                 
 pt_BR     kciq_menu search                                                                                    Geral     info                Pesquisar
 pt_BR     kciq_msg fix_requiriment_help                                                                       instaladorinfo                Por favor, corrija pendências para continuar processo de instalação!
 pt_BR     kciq_msg license advise                                                                             instaladorinfo                Por favor, leia os termos da licença a seguir. Você deve aceitar os termos desta para continuar a instalação!
+pt_BR     kciq_msg help - induzir o envio das informacoes coletadas                                           admin     info                Por padrão, os agentes do CACIC só enviam as informações coletadas para o servidor caso seja identificada alguma alteração em relação à coleta anterior. Abaixo estão relacionadas as ações de coletas possíveis e as redes habilitadas via opção Administração/Módulos. Caso você selecione alguma rede abaixo, o envio das informações coletadas será <i>forçado</i>, ou seja, as informações serão enviadas ao Módulo Gerente mesmo que sejam idênticas à última coleta. <br><i><b>Use essa opção apenas quando realmente necessário</b></i>.
 pt_BR     kciq_msg database port                                                                              instaladorinfo                Porta
 pt_BR     kciq_msg ftp port help                                                                              geral     ajuda               Porta FTP no servidor
 pt_BR     kciq_msg database port help                                                                         instaladorinfo                Porta de conexão ao banco de dados.
@@ -227,3 +230,4 @@ pt_BR     kciq_msg license pt_read                                              
 pt_BR     kciq_msg last agents access                                                                         geral     info                Últimos acessos dos agentes
 pt_BR     kciq_msg last agents access on local                                                                geral     info                Últimos acessos dos agentes deste local
 pt_BR     kciq_msg last agents access per local                                                               geral     info                Últimos acessos dos agentes por local nesta data
+pt_BR     kciq_msg update on table fail                                                                       geral     erro                Erro ao tentar atualizar registros na(s) tabela(s) (%1)

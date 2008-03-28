@@ -18,14 +18,14 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
-
+require_once('../include/library.php');
 ?>
 <html>
 <head>
-<title>Configurar Gerente</title>
+<title><?=$oTranslator->_('Configuracoes do Modulo Gerente');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="../include/cacic.js"></script>
 <?
@@ -112,7 +112,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 								FROM 		descricao_hardware
 								ORDER BY	te_desc_hardware";
 
-	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('3-Select Impossível na tabela Descricao_Hardware ou sua sessão expirou!');
+	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('3-'.$oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou',array('descricao_hardware')));
 
 	echo '<select name="SELECTdescricao_hardware">';
 	while ($rowDescricaoHardware = mysql_fetch_array($resultDescricaoHardware))
@@ -132,10 +132,10 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 <table width="90%" border="0" align="center">
 
   <tr> 
-      <td class="cabecalho">Configura&ccedil;&otilde;es do M&oacute;dulo Gerente</td>
+      <td class="cabecalho"><?=$oTranslator->_('Configuracoes do Modulo Gerente');?></td>
   </tr>
   <tr> 
-      <td class="descricao">As op&ccedil;&otilde;es abaixo determinam como o m&oacute;dulo gerente dever&aacute; se comportar.</td>
+      <td class="descricao"><?=$oTranslator->_('As opcoes abaixo determinam como o modulo gerente devera se comportar.');?></td>
   </tr>
 </table>
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
@@ -146,7 +146,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 		{
 		?>
 	    <tr> 
-	    <td class="label"><br>Locais: </td>
+	    <td class="label"><br><?=$oTranslator->_('Locais');?>: </td>
     	</tr>  
     	<tr> 
       	<td height="1" bgcolor="#333333"></td>
@@ -165,7 +165,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 						WHERE 		1 ". // Somente para reaproveitar a definição de where feita anteriormente...
 						$where . " 
 				  		ORDER BY  	loc.sg_local"; 
-		$result_locais = mysql_query($query_locais) or die('4-Ocorreu um erro durante a consulta à tabela de Locais ou sua sessão expirou!'); 
+		$result_locais = mysql_query($query_locais) or die('4-'.$oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou',array('locais'))); 
 
 		?>
     	<select size="5" name="SELECTlocais"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="setLocal(this);">	
@@ -188,8 +188,8 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 		
     <tr> 
       <td class="label"> 
-        &nbsp; &nbsp;<br>
-        Nome da organiza&ccedil;&atilde;o/empresa/&oacute;rg&atilde;o: </td>
+        <?=$oTranslator->_('Nome da organizacao-empresa-orgao');?>:
+      </td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>
@@ -206,8 +206,8 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
       <td height="17">&nbsp;</td>
     </tr>
     <tr> 
-      <td class="label">Notificar os seguintes e-mails ao detectar altera&ccedil;&otilde;es 
-        nas configura&ccedil;&otilde;es de hardware: </td>
+      <td class="label">
+        <?=$oTranslator->_('E-mails para notificar alteracoes de hardware');?>: </td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>

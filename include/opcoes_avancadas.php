@@ -20,7 +20,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -31,19 +31,11 @@ if (!$forca_coleta_estacao=='OK')
     <tr> 
     <table width="556" border="0" align="center">
     <tr> 
-    <td class="label" colspan="2"><u>For&ccedil;ar o envio das informa&ccedil;&otilde;es coletadas</u><br></td>
+    <td class="label" colspan="2"><u><?=$oTranslator->_('Induzir o envio das informacoes coletadas');?>
+    </u><br></td>
     </tr>
     <tr> 
-    <td colspan="2" class="descricao">Por padr&atilde;o, os agentes do CACIC s&oacute; enviam as informa&ccedil;&otilde;es 
-        coletadas para o servidor caso seja identificada alguma altera&ccedil;&atilde;o 
-        em rela&ccedil;&atilde;o &agrave; coleta anterior. Abaixo est&atilde;o 
-        relacionadas as a&ccedil;&otilde;es de coletas poss&iacute;veis e as redes 
-        habilitadas via op&ccedil;&atilde;o Administra&ccedil;&atilde;o/M&oacute;dulos. 
-        Caso voc&ecirc; selecione alguma rede abaixo, o envio das informa&ccedil;&otilde;es 
-        coletadas ser&aacute; &quot;for&ccedil;ado&quot;, ou seja, as informa&ccedil;&otilde;es 
-        ser&atilde;o enviadas ao M&oacute;dulo Gerente mesmo que sejam id&ecirc;nticas 
-        &agrave; &uacute;ltima coleta. <font color="#FF0000">Use essa op&ccedil;&atilde;o 
-        apenas quando realmente necess&aacute;rio.</font></td>
+    <td colspan="2" class="descricao"><?=$oTranslator->_('kciq_msg help - Induzir o envio das informacoes coletadas');?></font></td>
     </tr>	
 	<?
 	}
@@ -61,7 +53,7 @@ if (!$forca_coleta_estacao=='OK')
 	{
 	?>
     <input name="v_todas_acoes_redes" type="checkbox" onClick="MarcaDesmarcaTodasAcoesRedes(this.checked)"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">				
-    <td width="453" nowrap class="label"><div align="left"><em><strong>Marca/Desmarca todas as A&ccedil;&otilde;es para todas as Redes abaixo</em></div></td>
+    <td width="453" nowrap class="label"><div align="left"><em><strong><?=$oTranslator->_('Marca ou Desmarca todas as Acoes para todas as Redes abaixo');?></em></div></td>
 	<?
 	}
 ?>
@@ -81,13 +73,14 @@ $query = "	SELECT 		ac.id_acao,
 			ORDER BY	ac.te_descricao_breve"; 
 
 $id_local = ($_POST['id_local']?$_POST['id_local']:$_SESSION['id_local']);							
-$result_acoes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
+$result_acoes = mysql_query($query) or die($oTranslator->_('kciq_msg select on table fail', array('acoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
 $where = ($_SESSION["cs_nivel_administracao"] == 3?"AND ac_re.id_local = ".$id_local:"");	
+
 
 if ($_SESSION['te_locais_secundarios'])
 	{
 	$where = str_replace('ac_re.id_local',' (ac_re.id_local',$where);
-	$where .= ' OR (ac_re.id_local IN ('.$_SESSION['te_locais_secundarios'].'))) ';
+	$where .= ' OR (ac_re.id_local IN ('.$_SESSION['te_locais_secundarios'].')) ';
 	}
 
 while ($row = mysql_fetch_array($result_acoes))
@@ -134,13 +127,9 @@ while ($row = mysql_fetch_array($result_acoes))
 								ac.id_acao = '" . $row['id_acao']."' 
 					GROUP BY    re.id_ip_rede
 					ORDER BY	re.nm_rede"; 
-//								ac_re.id_local = re.id_local AND
-//								ac_re.id_local = ".$_SESSION['id_local']." AND
-//								ac.id_acao = '" . $row['id_acao']."' 
-					
 		}
 
-	$result_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes ou sua sessão expirou!'); 
+	$result_redes = mysql_query($query) or die($oTranslator->_('kciq_msg select on table fail', array('redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
 	if (!$forca_coleta_estacao=='OK')			
 		{
 		$v_redes       	 = array();
@@ -165,7 +154,7 @@ while ($row = mysql_fetch_array($result_acoes))
         <td colspan="3"><hr></td>
    	  	</tr>
    		<tr> 
-       	<td width="39" class="label">A&ccedil;&atilde;o:&nbsp;</td>
+       	<td width="39" class="label"><?=$oTranslator->_('Ação');?>:</td>
        	<td colspan="3" nowrap class="destaque"><u><? echo $row['te_descricao_breve'];?></u></td>
    		</tr>
 		<?
@@ -177,7 +166,7 @@ while ($row = mysql_fetch_array($result_acoes))
        		<td class="opcao_tabela"><div align="left"> 
 			<input name="<? echo $row['id_acao']; ?>" type="checkbox" onClick="MarcaDesmarcaTodos(this.form.<? echo $row['id_acao'];?>);">
 			</div></td>
-       		<td class="destaque" nowrap><div align="left">Marca/Desmarca A&ccedil;&atilde;o para as Redes abaixo</div></td>
+       		<td class="destaque" nowrap><div align="left"><?=$oTranslator->_('Marca ou Desmarca Acao para as Redes abaixo');?></div></td>
     		</tr>				
 			<?
 			}

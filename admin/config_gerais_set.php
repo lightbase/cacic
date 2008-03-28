@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -26,11 +26,6 @@ require_once('../include/library.php');
 
 // Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
-
-//foreach($HTTP_POST_VARS as $i => $v) 
-//	{
-//	echo 'i: '.$i.' v: '.$v.'<br>';
-//	}
 
 // Preciso remover os "Enters" dados nos campos texto do formulário, pois a rotina de envio de emails
 // estava dando erro quando encontrava esse tipo de caractere especial.				
@@ -42,7 +37,7 @@ $query = "UPDATE	configuracoes_locais set
 					te_serv_updates_padrao 			= '" . $_POST['frm_te_serv_updates_padrao'] . "'
 		   WHERE	id_local = ".$_POST['frm_id_local'];			  
 
-$result = mysql_query($query) or die('1-Ocorreu um erro durante a atualização da tabela configuracoes ou sua sessão expirou!'); 
+$result = mysql_query($query) or die('1-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('configuracoes_locais')).'!'); 
 GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');		
 
 // Aqui pego todas os hardwares selecionados para notificação e atualizo a tabela descricao_hardware .
@@ -56,7 +51,7 @@ $hardwares_selecionados = ' nm_campo_tab_hardware IN ('. $hardwares_selecionados
 // Processo todas as descrições de hardware e retiro as referências ao local atual
 $querySELECT = "SELECT 	*
 		  		FROM		descricao_hardware";
-$resultSELECT = mysql_query($querySELECT) or die('2-Ocorreu um erro durante a consulta à tabela descricao_hardware ou sua sessão expirou!'); 
+$resultSELECT = mysql_query($querySELECT) or die('2-'.$oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou',array('descricao_hardware')).'!'); 
 
 $strPesquisa = ','.$_POST['frm_id_local'].',';
 while ($row = mysql_fetch_array($resultSELECT))
@@ -74,20 +69,20 @@ while ($row = mysql_fetch_array($resultSELECT))
 		$queryUPDATE = "UPDATE 	descricao_hardware set 
 							te_locais_notificacao_ativada = '".$strRow."'
 				  WHERE 	nm_campo_tab_hardware = '".$row['nm_campo_tab_hardware']."'";
-		$resultUPDATE = mysql_query($queryUPDATE) or die('3-Ocorreu um erro durante a atualização da tabela descricao_hardware ou sua sessão expirou!'); 		
+		$resultUPDATE = mysql_query($queryUPDATE) or die('3-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('descricao_hardware')).'!'); 		
 		}		
 	}
 
 $querySELECT = "SELECT 	*
 		  		FROM		descricao_hardware
 		  		WHERE 	".$hardwares_selecionados;
-$resultSELECT = mysql_query($querySELECT) or die('4-Ocorreu um erro durante a consulta à tabela descricao_hardware ou sua sessão expirou!'); 
+$resultSELECT = mysql_query($querySELECT) or die('4-'.$oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou',array('descricao_hardware')).'!'); 
 while ($row = mysql_fetch_array($resultSELECT))
 	{
 	$queryUPDATE = "UPDATE 	descricao_hardware 
 					SET		te_locais_notificacao_ativada = CONCAT(te_locais_notificacao_ativada,',','".$_POST['frm_id_local']."',',')
 		  		    WHERE 	nm_campo_tab_hardware = '".$row['nm_campo_tab_hardware']."'";
-	$resultUPDATE = mysql_query($queryUPDATE) or die('5-Ocorreu um erro durante a atualização da tabela descricao_hardware ou sua sessão expirou!'); 		
+	$resultUPDATE = mysql_query($queryUPDATE) or die('5-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('descricao_hardware')).'!'); 		
 	}		
 
 // Aqui pego todos os gráficos selecionados para serem exibidos e atualizo a tabela configuracoes_locais.
@@ -100,7 +95,7 @@ for( $i = 1; $i < count($_POST['list4']); $i++ )
 $queryUPDATE = "UPDATE 	configuracoes_locais set 
 						te_exibe_graficos = '".$te_exibe_graficos."'
 		  		WHERE   id_local=".$_POST['frm_id_local'];
-$resultUPDATE = mysql_query($queryUPDATE) or die('6-Ocorreu um erro durante a atualização da tabela configuracoes_locais ou sua sessão expirou!'); 
+$resultUPDATE = mysql_query($queryUPDATE) or die('6-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('configuracoes_locais')).'!'); 
 
 header ("Location: ../include/operacao_ok.php?chamador=../admin/config_gerais.php&tempo=1");		
 ?>

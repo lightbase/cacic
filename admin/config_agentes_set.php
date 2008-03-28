@@ -35,7 +35,7 @@ $query = "UPDATE 	configuracoes_locais
 		  			te_enderecos_mac_invalidos 	= '".$_POST['te_enderecos_mac_invalidos']."',
 		  			te_janelas_excecao 			= '".strtolower($_POST['te_janelas_excecao'])."'
 			WHERE 	id_local 				= ".$_POST['frm_id_local'];
-$result_acoes_redes = mysql_query($query) or die('1-'.$oTranslator->_('Ocorreu um erro durante a atulizacao da tabela %1 ou sua sessao expirou', array('configurações')).'!'); 
+$result_acoes_redes = mysql_query($query) or die('1-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('configuracoes')).'!'); 
 GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');	
 $query_acoes_redes = '';
 foreach($HTTP_POST_VARS as $i => $v) 
@@ -56,7 +56,7 @@ foreach($HTTP_POST_VARS as $i => $v)
 
 if ($query_acoes_redes)	
 	{
-	$result_acoes_redes = mysql_query($query_acoes_redes) or die('2-'.$oTranslator->_('Ocorreu um erro durante a atulizacao da tabela %1 ou sua sessao expirou', array('acoes_redes')).'!'); 	
+	$result_acoes_redes = mysql_query($query_acoes_redes) or die('2-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('acoes_redes')).'!'); 	
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'acoes_redes');		
 	}
 

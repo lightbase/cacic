@@ -31,7 +31,7 @@ $id_acao = $_GET['id_acao'];
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title>A&ccedil;&otilde;es/Configura&ccedil;&otilde;es</title>
+<title><?=$oTranslator->_('Acoes - Configuracoes');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
 function Volta() 
@@ -43,14 +43,14 @@ function valida_form()
 	{
 	if ((document.forma.elements.cs_situacao[2].checked) && (document.forma.elements['list2[]'].length <= 0)) 
 		{
-		if (!confirm ("Não foi selecionada nenhuma rede. Deseja continuar?")) 
+		if (!confirm ("<?=$oTranslator->_('Nao foi selecionada nenhuma rede. Deseja continuar?');?>")) 
 			{	
 			return false; 
 			}
 		}
 	else if (document.forma.elements['list4[]'].length <= 0) 
 		{
-		if (!confirm ("Não foi selecionado nenhum sistema operacional. Deseja continuar?")) 
+		if (!confirm ("<?=$oTranslator->_('Nao foi selecionado nenhum sistema operacional. Deseja continuar?');?>")) 
 			{	
 			return false; 
 			}
@@ -177,7 +177,7 @@ function remove(box)
 		{
 		// Faço uma inserção de "(" para ajuste da lógica para consulta
 		$query = str_replace('id_local = ','(id_local = ',$query);
-		$query .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
+		$query .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].')';	
 		}
 						
 	$result_acoes = mysql_query($query.$where) or die('1-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
@@ -195,7 +195,7 @@ function remove(box)
   </tr>
   <tr> 
     <td class="descricao"><div align="right">&nbsp;&nbsp;<br>
-        &Uacute;ltima Altera&ccedil;&atilde;o em <? echo date("d/m/Y H:i", strtotime($campos_acoes['dt_hr_alteracao'])); ?></div></td>
+        <?=$oTranslator->_('Ultima Alteracao em');?> <? echo date("d/m/Y H:i", strtotime($campos_acoes['dt_hr_alteracao'])); ?></div></td>
   </tr>
 </table>
 <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
@@ -204,7 +204,7 @@ function remove(box)
         <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
             <td class="label">&nbsp;<br>
-              Onde executar essa a&ccedil;&atilde;o/configura&ccedil;&atilde;o: 
+              <?=$oTranslator->_('Onde executar essa acao-configuracao');?>: 
               <input name="id_acao" type="hidden" id="id_acao" value="<? echo $id_acao; ?>">
               </td>
           </tr>
@@ -214,23 +214,21 @@ function remove(box)
           <tr> 
             <td class="opcao"><p> 
                 <input name="cs_situacao" type="radio" value="N" <? if (strtoupper($campos_acoes['cs_situacao']) == 'N' ||$campos_acoes['cs_situacao'] == NULL) echo 'checked'; ?> onClick="verifica_status();" >
-                Em 
-                <strong>nenhuma</strong> rede <font color="#FF0000" size="1">(Obs: essa 
-                op&ccedil;&atilde;o desabilita a a&ccedil;&atilde;o/configura&ccedil;&atilde;o)</font><br>
+                <?=$oTranslator->_('Desabilitar acao-configuracao nas redes');?></font><br>
                 <input type="radio" name="cs_situacao" value="T" <? if (strtoupper($campos_acoes['cs_situacao']) == 'T') echo 'checked'; ?> onClick="verifica_status();" >
-                Em <strong>todas</strong> as redes<br>
+                <?=$oTranslator->_('Habilitar acao-configuracao em todas as redes');?><br>
                 <input type="radio" name="cs_situacao" value="S" <? if (strtoupper($campos_acoes['cs_situacao']) == 'S') echo 'checked'; ?> onClick="verifica_status();" >
-                Apenas nas redes <strong>selecionadas</strong> </p></td>
+                <?=$oTranslator->_('Apenas nas redes selecionadas');?></p></td>
           </tr>
         </table>
         <table border="0" cellpadding="0" cellspacing="0">
           <tr> 
             <td>&nbsp;&nbsp;</td>
-            <td class="label"><div align="left">Dispon&iacute;veis</div></td>
+            <td class="label"><div align="left"><?=$oTranslator->_('Disponiveis');?></div></td>
             <td>&nbsp;&nbsp;</td>
             <td width="40">&nbsp;</td>
             <td nowrap>&nbsp;&nbsp;</td>
-            <td class="label" nowrap><p>Selecionadas:</p></td>
+            <td class="label" nowrap><p><?=$oTranslator->_('Selecionadas');?>:</p></td>
             <td nowrap>&nbsp;&nbsp;</td>
           </tr>
           <tr> 
@@ -243,7 +241,7 @@ function remove(box)
 							{
 							// Faço uma inserção de "(" para ajuste da lógica para consulta
 							$where = str_replace('AND acoes_redes.id_local = ','AND (acoes_redes.id_local = ',$where);
-							$where .= ' OR acoes_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
+							$where .= ' OR acoes_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].')';	
 							}
 						
 				        /* Consulto todas as redes que foram previamente selecionadas para a a ação em questão. */ 
@@ -298,8 +296,8 @@ function remove(box)
             <td>&nbsp;</td>
           </tr>
           <tr> 
-            <td colspan="7" class="ajuda"><div align="center">&nbsp;&nbsp;(Dica: 
-                use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</div></td>
+            <td colspan="7" class="ajuda"><div align="center">
+            	(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)</div></td>
           </tr>
         </table>
         <table width="100%" border="0" cellpadding="0" cellspacing="1">
@@ -307,8 +305,7 @@ function remove(box)
             <td>&nbsp;</td>
           </tr>
           <tr> 
-            <td class="label">Sistemas Operacionais onde essa a&ccedil;&atilde;o/configura&ccedil;&atilde;o 
-              dever&aacute; ser aplicada:</td>
+            <td class="label"><?=$oTranslator->_('Sistemas Operacionais onde essa acao-configuracao devera ser aplicada');?>:</td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -317,11 +314,11 @@ function remove(box)
         <table border="0" cellpadding="0" cellspacing="0">
           <tr> 
             <td>&nbsp;&nbsp;</td>
-            <td class="label"><div align="left">Dispon&iacute;veis</div></td>
+            <td class="label"><div align="left"><?=$oTranslator->_('Disponiveis');?></div></td>
             <td>&nbsp;&nbsp;</td>
             <td width="40">&nbsp;</td>
             <td nowrap>&nbsp;&nbsp;</td>
-            <td class="label" nowrap>Selecionados:</td>
+            <td class="label" nowrap><?=$oTranslator->_('Selecionados');?>:</td>
             <td nowrap>&nbsp;&nbsp;</td>
           </tr>
           <tr> 
@@ -384,22 +381,23 @@ function remove(box)
         </table>
         <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="ajuda">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
+            <td class="ajuda">
+            	(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)
+            </td>
           </tr>
           <tr> 
             <td>&nbsp;</td>
           </tr>
           <tr> 
-            <td class="label">Computadores 
-              onde esta a&ccedil;&atilde;o/configura&ccedil;&atilde;o <font color="#FF0000">n&atilde;o</font> 
-              dever&aacute; ser aplicada:</td>
+            <td class="label">
+              <?=$oTranslator->_('Computadores onde esta acao-configuracao nao devera ser aplicada');?>:
+              </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
           </tr>
           <tr>
-            <td class="ajuda">Informe o endere&ccedil;o MAC do computador. (Exemplo: 00-10-4B-65-83-C8)</td>
+            <td class="ajuda"><?=$oTranslator->_('Informe o endereco MAC do computador.');?> (<?=$oTranslator->_('Exemplo');?>: 00-10-4B-65-83-C8)</td>
           </tr>
         </table>
         <table width="0" border="0" cellpadding="2" cellspacing="2">
@@ -449,9 +447,6 @@ function remove(box)
           <tr> 
             <td> <div align="center"> 
                 <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list1[]']);SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
-				<?
-//                <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="document.forma.elements['list2[]'].disabled=false; SelectAll(this.forma.elements['list2[]']); SelectAll(this.forma.elements['list4[]']); SelectAll(this.forma.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');">				
-				?>
               </div></td>
           </tr>
           <tr> 
