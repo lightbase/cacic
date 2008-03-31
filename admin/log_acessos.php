@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -67,7 +67,7 @@ else
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title>Log de Atividades</title>
+<title><?=$oTranslator->_('Log de Acessos');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <?
 // JavaScripts para fazer a selecao entre os listbox, movendo itens entre eles.
@@ -81,21 +81,19 @@ require_once('../include/selecao_listbox.js');
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><div align="left">Log de Acessos</div></td>
+    <td class="cabecalho"><div align="left"><?=$oTranslator->_('Log de Acessos');?></div></td>
   </tr>
   <tr> 
-      <td class="descricao">Este m&oacute;dulo permite a visualiza&ccedil;&atilde;o 
-        dos acessos efetuados no sistema. &Eacute; poss&iacute;vel visualizar 
-        as atividades executadas pelo usu&aacute;rio na data, bastando clicar 
-        sobre uma de suas informa&ccedil;&otilde;es.</td>
+      <td class="descricao"><?=$oTranslator->_('kciq_msg Log de acessos help');?></td>
   </tr>
 </table>
 	<p><br></p>
 	
   <table width="90%" border="0" cellpadding="0" cellspacing="1" align="center">
     <tr> 
-      <td class="label" colspan="3">Selecione o per&iacute;odo em que dever&aacute; 
-        ser realizada a consulta:</td>
+      <td class="label" colspan="3">
+      	<?=$oTranslator->_('Selecione o periodo no qual devera ser realizada a consulta');?>:
+      </td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="2"></td>
@@ -113,7 +111,7 @@ require_once('../include/selecao_listbox.js');
 		}
   	calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 	//-->
-	</script>*/?> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
+	</script>*/?> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('a');?></font> 
         &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>"> 
 		<? /*
         <script type="text/javascript" language="JavaScript">
@@ -125,7 +123,7 @@ require_once('../include/selecao_listbox.js');
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->
 	</script>*/?> </td>
-      <td align="left" class="descricao">&nbsp;&nbsp;(formato: dd/mm/aaaa)</td>
+      <td align="left" class="descricao">(<?=$oTranslator->_('Formato da data');?>: dd/mm/aaaa)</td>
       <td rowspan="2" align="left" valign="middle" class="descricao"><div align="center">
           <input name="consultar" type="submit" value="   Filtrar   " onClick="SelectAll(this.form.elements['list12[]'])">
         </div></td>
@@ -153,8 +151,8 @@ require_once('../include/selecao_listbox.js');
 	if ($_REQUEST['date_input1'])
 		{
 		$msg = '<div align="center">
-		<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-		Nenhum acesso realizado no período informado.</font><br><br></div>';
+		<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">'.
+		$oTranslator->_('Nenhum acesso realizado no período informado').'</font><br><br></div>';
 
 		$where_usuarios = '';
 	
@@ -182,7 +180,8 @@ require_once('../include/selecao_listbox.js');
 							a.te_ip_origem,							
 							a.cs_acao,							
 							b.id_usuario,							
-							c.sg_local
+							c.sg_local,
+							b.id_local
 				  FROM 		log a,
 				  			usuarios b, 
 							locais c
@@ -214,11 +213,11 @@ require_once('../include/selecao_listbox.js');
 			<table width="90%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
           	<tr bgcolor="#E1E1E1"> 
             <td colspan="3"></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=1&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>">Data</a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=1&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Data');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=2&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>">Usu&aacute;rio</a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=2&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuario');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>">IP Origem</a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Endereco IP origem');?></a></div></td>
             <td></td>
           	</tr>
           	<tr> 
@@ -264,11 +263,11 @@ require_once('../include/selecao_listbox.js');
 				<td nowrap></td>
 				<td align="left" nowrap class="opcao_tabela"><? echo $NumRegistro; ?></td>
 				<td nowrap></td>
-				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $day.'/'.$month.'/'.$year. ' '. substr($hour,0,5);?></a></td>
+				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&list12[0]=<? echo $row['id_local'];?>&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $day.'/'.$month.'/'.$year. ' '. substr($hour,0,5);?></a></td>
 				<td nowrap></td>
-				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $nm_usuario_acessos;?></a></td>
+				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&list12[0]=<? echo $row['id_local'];?>&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $nm_usuario_acessos;?></a></td>
 				<td nowrap></td>
-				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $row['te_ip_origem'];?></a></td>
+				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&list12[0]=<? echo $row['id_local'];?>&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $row['te_ip_origem'];?></a></td>
 				<td nowrap></td>
 				<? 
 				$Cor=!$Cor;

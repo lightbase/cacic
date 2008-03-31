@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -62,7 +62,7 @@ else
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title>Log de Atividades</title>
+<title><?=$oTranslator->_('Log de Atividades');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <?
 // JavaScripts para fazer a selecao entre os listbox, movendo itens entre eles.
@@ -82,21 +82,17 @@ require_once('../include/selecao_listbox.js');
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><div align="left">Log de Atividades</div></td>
+    <td class="cabecalho"><div align="left"><?=$oTranslator->_('Log de Atividades');?></div></td>
   </tr>
   <tr> 
-      <td class="descricao">Este m&oacute;dulo permite a visualiza&ccedil;&atilde;o 
-        das atividades realizados com o uso das opera&ccedil;&otilde;es de INSERT/UPDATE/DELETE 
-        ocorridas no Sistema CACIC. A ordena&ccedil;&atilde;o das colunas poder&aacute; 
-        ser definida clicando-se em seus nomes.</td>
+      <td class="descricao"><?=$oTranslator->_('kciq_msg Log de atividades help');?></td>
   </tr>
 </table>
 	<p><br></p>
 	
   <table width="90%" border="0" cellpadding="0" cellspacing="1" align="center">
     <tr> 
-      <td class="label" colspan="3">Selecione o per&iacute;odo em que dever&aacute; 
-        ser realizada a consulta:</td>
+      <td class="label" colspan="3"><?=$oTranslator->_('Selecione o periodo no qual devera ser realizada a consulta');?>:</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="2"></td>
@@ -125,7 +121,7 @@ require_once('../include/selecao_listbox.js');
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->
 	</script>*/?> </td>
-      <td align="left" class="descricao">&nbsp;&nbsp;(formato: dd/mm/aaaa)</td>
+      <td align="left" class="descricao">(<?=$oTranslator->_('Formato da data');?>: dd/mm/aaaa)</td>
       <td rowspan="4" align="left" valign="middle" class="descricao"><div align="center">
           <input name="consultar" type="submit" value="   Filtrar   " onClick="SelectAll(this.form.elements['list12[]'])">
         </div></td>
@@ -154,8 +150,8 @@ require_once('../include/selecao_listbox.js');
 	if ($_REQUEST['date_input1'])
 		{
 		$msg = '<div align="center">
-		<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-		Nenhuma ação realizada no período informado.</font><br><br></div>';
+		<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">'.
+		$oTranslator->_('Nenhuma atividade realizada no período informado').'.</font><br><br></div>';
 		
 		$where = ($_REQUEST['nm_chamador']<>''?' AND b.id_usuario = '.$_REQUEST['id_usuario']:'');
 		
@@ -171,11 +167,12 @@ require_once('../include/selecao_listbox.js');
 		else
 			{
 			$itens_locais = '';
-			for ($i =0; $i < count($_POST['list12']);$i++)
+			$list12 =  $_REQUEST['list12'];
+			for ($i =0; $i < count($list12);$i++)
 				{
 				if ($itens_locais)
 					$itens_locais .= ',';
-				$itens_locais .= $_POST['list12'][$i];
+				$itens_locais .= $list12[$i];
 				}
 			$where_usuarios = ' AND b.id_local IN ('.$itens_locais.')';
 			}
@@ -208,7 +205,7 @@ require_once('../include/selecao_listbox.js');
 			<p></p>				
 	 		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     		<tr> 
-      		<td height="10" colspan="3" bgcolor="#CCCCCC" class="destaque"><div align="center" class="style2">RESULTADO DA CONSULTA </div></td>
+      		<td height="10" colspan="3" bgcolor="#CCCCCC" class="destaque"><div align="center" class="style2"><?=$oTranslator->_('Resultado da consulta');?></div></td>
     		</tr>
     		<tr> 
       		<td height="10" colspan="3"></td>
@@ -221,17 +218,17 @@ require_once('../include/selecao_listbox.js');
 			<table width="90%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
           	<tr bgcolor="#E1E1E1"> 
             <td colspan="3"></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=1&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>">Data</a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=1&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Data');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=2&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>">Op.</a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=2&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Operacao');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>">Tabela</a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Tabela');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=4&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>">Script (.php)</a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=4&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Programa');?> (.php)</a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=5&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>">Usu&aacute;rio</a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=5&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuario');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=6&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>">IP Origem</a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_atividades.php?OrderBy=6&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Endereco IP origem');?></a></div></td>
             <td></td>
           	</tr>
           	<tr> 
@@ -312,16 +309,16 @@ require_once('../include/selecao_listbox.js');
   </table>
 			<table width="293" border="0" align="center" cellpadding="0" cellspacing="1">
 			<tr> 
-			<td colspan="3"><div align="center"><font color="#004080" size="4">Resumo 
-          	das Opera&ccedil;&otilde;es</font></div></td>
+			<td colspan="3"><div align="center"><font color="#004080" size="4">
+			<?=$oTranslator->_('Resumo das Operacoes');?></font></div></td>
 			</tr>
 			<tr> 
 			<td height="1" colspan="3" bgcolor="#333333"></td>
 			</tr>
 			<tr bgcolor="#CCCCCC"> 
-			<td><div align="left"><font size="2"><strong>Opera&ccedil;&atilde;o</strong></font></div></td>
-			<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
-			<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
+			<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Operacao');?></strong></font></div></td>
+			<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
+			<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual');?></strong></font></div></td>
 			</tr>
 			<tr> 
 			<td height="1" colspan="3" bgcolor="#333333"></td>
@@ -350,8 +347,8 @@ require_once('../include/selecao_listbox.js');
 			<tr> 
 			<td height="1" colspan="3" bgcolor="#333333"></td>
 			</tr>
-			<tr> 
-			<td nowrap>&nbsp;</td>
+			<tr bgcolor="#CCCCCC"> 
+			<td nowrap class="opcao_tabela_destaque"><?=$oTranslator->_('Total');?></td>
 			<td align="right"><? echo $total_key;?></td>
 			<td>&nbsp;</td>
 			</tr>
@@ -365,9 +362,9 @@ require_once('../include/selecao_listbox.js');
 			<td height="1" colspan="3" bgcolor="#333333"></td>
 			</tr>
 			<tr bgcolor="#CCCCCC"> 
-			<td><div align="left"><font size="2"><strong>Tabela</strong></font></div></td>
-			<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
-			<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
+			<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Tabela');?></strong></font></div></td>
+			<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
+			<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual');?></strong></font></div></td>
 			</tr>
 			<tr> 
 			<td height="1" colspan="3" bgcolor="#333333"></td>
@@ -396,8 +393,8 @@ require_once('../include/selecao_listbox.js');
 			<tr> 
 			<td height="1" colspan="3" bgcolor="#333333"></td>
 			</tr>
-			<tr> 
-			<td nowrap>&nbsp;</td>
+			<tr bgcolor="#CCCCCC"> 
+			<td nowrap class="opcao_tabela_destaque"><?=$oTranslator->_('Total');?></td>
 			<td align="right"><? echo $total_key;?></td>
 			<td>&nbsp;</td>
 			</tr>
@@ -411,9 +408,9 @@ require_once('../include/selecao_listbox.js');
 			<td height="1" colspan="3" bgcolor="#333333"></td>
 			</tr>
 			<tr bgcolor="#CCCCCC"> 
-			<td><div align="left"><font size="2"><strong>Script (.php)</strong></font></div></td>
-			<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
-			<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
+			<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Programa');?> (.php)</strong></font></div></td>
+			<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
+			<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual');?></strong></font></div></td>
 			</tr>
 			<tr> 
 			<td height="1" colspan="3" bgcolor="#333333"></td>
@@ -442,8 +439,8 @@ require_once('../include/selecao_listbox.js');
 			<tr> 
 			<td height="1" colspan="3" bgcolor="#333333"></td>
 			</tr>
-			<tr> 
-			<td nowrap>&nbsp;</td>
+			<tr bgcolor="#CCCCCC"> 
+			<td nowrap class="opcao_tabela_destaque"><?=$oTranslator->_('Total');?></td>
 			<td align="right"><? echo $total_key;?></td>
 			<td>&nbsp;</td>
 			</tr>
@@ -457,9 +454,9 @@ require_once('../include/selecao_listbox.js');
 			<td height="1" colspan="3" bgcolor="#333333"></td>
 			</tr>
 			<tr bgcolor="#CCCCCC"> 
-			<td><div align="left"><font size="2"><strong>Usu&aacute;rio</strong></font></div></td>
-			<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
-			<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
+			<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Usuario');?></strong></font></div></td>
+			<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
+			<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual');?></strong></font></div></td>
 			</tr>
 			<tr> 
 			<td height="1" colspan="3" bgcolor="#333333"></td>
@@ -489,8 +486,8 @@ require_once('../include/selecao_listbox.js');
 			<tr> 
 			<td height="1" colspan="3" bgcolor="#333333"></td>
 			</tr>
-			<tr> 
-			<td nowrap>&nbsp;</td>
+			<tr bgcolor="#CCCCCC"> 
+			<td nowrap class="opcao_tabela_destaque"><?=$oTranslator->_('Total');?></td>
 			<td align="right"><? echo $total_key;?></td>
 			<td>&nbsp;</td>
 			</tr>
@@ -516,7 +513,7 @@ require_once('../include/selecao_listbox.js');
 	if ($_REQUEST['nm_chamador'])
 		{
 		?>
-	    <input name="Retorna" type="button" value="  Retorna para <? echo str_replace("_"," ",$_REQUEST['nm_chamador']);?>  " onClick="history.back()">
+	    <input name="Retorna" type="button" value="  <?=$oTranslator->_('Retorna para');?> <? echo str_replace("_"," ",$_REQUEST['nm_chamador']);?>  " onClick="history.back()">
 		<?
 		}
 	?>

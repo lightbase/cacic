@@ -4,7 +4,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -15,7 +15,7 @@ require_once('../include/library.php');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Relat&oacute;rio de Softwares Inventariados por M&aacute;quinas</title>
+<title><?=$oTranslator->_('Relatorio de softwares inventariados por maquinas');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -34,15 +34,15 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC 
-      - Relat&oacute;rio de Cadastros Inconsistentes II</strong></font></td>
+    <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>
+    CACIC - <?=$oTranslator->_('Relatorio de cadastros inconsistentes II');?></strong></font></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+    	<?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
@@ -66,7 +66,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 			 (dt_desinstalacao IS NULL)  
 		   ORDER BY nm_computador";
 
-	$result = mysql_query($query) or die('Ocorreu um erro ao acessar a tabela softwares_estacao ou sua sessão expirou!');
+	$result = mysql_query($query) or die($oTranslator->_('kciq_msg select on table fail', array('softwares_estacao'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
@@ -82,9 +82,9 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap><div align="left"><strong></strong></div></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Patrim&ocirc;nio</font></strong></div></td>
+          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Patrimonio');?></font></strong></div></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Nome de Rede</font></strong></div></td>
+          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Nome de rede');?></font></strong></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
         <?  
@@ -117,11 +117,13 @@ $linha = '<tr bgcolor="#e7e7e7">
     <td height="10"><font size="1" face="Verdana, Arial, Helvetica, sans-serif"></font></td>
   </tr>
 </table>
-<p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
-  de Informa&ccedil;&otilde;es Computacionais</font><br>
-  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo</font></p>	
-
+<p align="center">
+  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+	<?=$oTranslator->_('Gerado por');?> 
+	<strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor de Informa&ccedil;&otilde;es Computacionais
+  </font><br>
+  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  	Software desenvolvido pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo
+  </font></p>
 </body>
 </html>

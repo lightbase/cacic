@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -80,14 +80,14 @@ if ($_POST['submit_cond'])
 								$where . ' 
 						ORDER 	by a.te_nome_computador';
 	conecta_bd_cacic();
-	$result = mysql_query($Query_Pesquisa) or die('Erro no select ou sua sessão expirou!');
+	$result = mysql_query($Query_Pesquisa) or die($oTranslator->_('kciq_msg select on table fail', array('computadores/so/redes/locais'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 	
 	?>
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
 	<head>
 	<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-	<title>Excluir Computadores</title>
+	<title><?=$oTranslator->_('Excluir Computadores');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">	
 	<link href="../include/cacic.css" rel="stylesheet" type="text/css">
 	<SCRIPT>
@@ -127,54 +127,40 @@ if ($_POST['submit_cond'])
 	<table width="95%" border="0" align="center">
 	<tr> 
 	
-	  <td class="cabecalho">Excluir Computadores</td>
+	  <td class="cabecalho"><?=$oTranslator->_('Excluir Computadores');?></td>
 	</tr>
 	<tr> 
 	
-	  <td class="descricao">Esta op&ccedil;&atilde;o permite a sele&ccedil;&atilde;o 
-        final para exclus&atilde;o dos computadores selecionados na pesquisa.</td>
+	  <td class="descricao"><?=$oTranslator->_('Esta opcao permite a selecao final para exclusao dos computadores selecionados na pesquisa');?>.</td>
 	</tr>
 	</table>
 	<br><br>
   	<table width="90%" align="center"><tr>
     <td><div align="center"> 
-   	<input name="submit_exc" type="submit" value="  Excluir Computadores Selecionados" onClick="return Confirma('Confirma EXCLUSÃO?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+   	<input name="submit_exc" type="submit" value="<?=$oTranslator->_('Excluir computadores selecionados');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
    	&nbsp;&nbsp;
-   	<input name="submit_nova" type="submit" value="  Nova Seleção  ">	
+   	<input name="submit_nova" type="submit" value="<?=$oTranslator->_('Selecionar novamente');?>">	
 	</div></td>		
    	</tr></table>
 	<br><br>
 	<table border="0" align="center" cellpadding="0" cellspacing="0">
   	<tr> 
-    <td> <table border="0" cellpadding="0" cellspacing="0" align="center">
+    <td> <table border="1" cellpadding="1" cellspacing="0" align="center">
           <tr> 
             <td height="1" bgcolor="#333333" colspan="23"></td>
           </tr>
 	
           <tr bgcolor="#E1E1E1"> 
-            <td align="center"  nowrap>&nbsp;</td>
-            <td align="center"  nowrap>&nbsp;</td>
-            <td align="center"  nowrap>&nbsp;</td>
-            <td align="center"  nowrap><img src="../imgs/exclui_computador.gif" width="23" height="23"></td>
-            <td nowrap><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Nome da M&aacute;quina</div></td>
-            <td nowrap><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Local</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>			
-            <td nowrap class="cabecalho_tabela"><div align="center">IP</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela"><div align="center">Endereço MAC</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela"><div align="center">S.O.</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela"><div align="center">Cacic2</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela">GerCols</td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela"><div align="center">&Uacute;lt. Acesso</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela"><div align="center">Inclusão</div></td>
-            <td nowrap >&nbsp;</td>
+            <td align="center" colspan="2" nowrap><img src="../imgs/exclui_computador.gif" width="23" height="23"></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Nome da maquina');?></div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Local');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Endereco IP');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Endereco MAC');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Sistema operacional');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Cacic2');?></div></td>
+            <td nowrap class="cabecalho_tabela"><?=$oTranslator->_('GerCols');?></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Ultimo acesso');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Inclusao');?></div></td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333" colspan="23"></td>
@@ -187,29 +173,17 @@ if ($_POST['submit_cond'])
 		{		  
 	 	?>
           <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
             <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><? echo $NumRegistro; ?></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
             <td nowrap class="dado_peq_sem_fundo_normal"><input type="checkbox" name="chk_<? echo $row['te_node_address'].'#'. $row['id_so']; ?>" value="1" checked onClick="Verifica_Check_Exclui();"></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_local']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_so']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_gercols']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a>&nbsp;</div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_local']; ?></a>&nbsp;</div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a>&nbsp;</div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a>&nbsp;</div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_so']; ?></a>&nbsp;</div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a>&nbsp;</div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_gercols']; ?></a>&nbsp;</div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a>&nbsp;</div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a>&nbsp;</div></td>
           </tr>
           <? 
 		$Cor=!$Cor;
@@ -218,8 +192,7 @@ if ($_POST['submit_cond'])
 	if ($NumRegistro == 1)
 		{
 		?>
-          <td colspan="20" align="center" class="label_vermelho">NÃO FORAM ENCONTRADOS 
-            REGISTROS!</TD>
+          <td colspan="20" align="center" class="label_vermelho"><?=$oTranslator->_('Nao foram encontrados registros');?></TD>
           <script language="JavaScript">
 		for (i=0;i<window.document.forms.length;i++)
 			{
@@ -245,9 +218,9 @@ if ($_POST['submit_cond'])
   	<br><br>
   	<table width="90%" align="center"><tr>
     <td><div align="center"> 
-   	<input name="submit_exc" type="submit" value="  Excluir Computadores Selecionados" <? if ($NumRegistro == 1) echo 'disabled'; ?> onClick="return Confirma('Confirma EXCLUSÃO?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
+   	<input name="submit_exc" type="submit" value="<?=$oTranslator->_('Excluir computadores selecionados');?>" <? if ($NumRegistro == 1) echo 'disabled'; ?> onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
    	&nbsp;&nbsp;
-   	<input name="submit_nova" type="submit" value="  Nova Seleção  ">	
+   	<input name="submit_nova" type="submit" value="<?=$oTranslator->_('Selecionar novamente');?>">	
 	</div></td>		
    	</tr></table>
 	<p><p><p>  
@@ -285,7 +258,7 @@ else
 	<html>
 	<head>
 	<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-	<title>Excluir Computadores</title>
+	<title><?=$oTranslator->_('Excluir Computadores');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	
 	<link href="../include/cacic.css" rel="stylesheet" type="text/css">
@@ -372,7 +345,7 @@ else
 
 		if (v_conteudo == '')
 			{
-			alert('É necessário informar ao menos uma condição para pesquisa!');
+			alert('<?=$oTranslator->_('Eh necessario informar ao menos uma condicao para pesquisa');?>!');
 			return false;
 			}
 
@@ -387,20 +360,17 @@ else
 	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr> 
 	
-  	<td class="cabecalho">Excluir Computadores</td>
+  	<td class="cabecalho"><?=$oTranslator->_('Excluir Computadores');?></td>
 	</tr>
 	<tr> 
 	
-  	<td class="descricao">Esta op&ccedil;&atilde;o permite a exclus&atilde;o 
-	parametrizada das informa&ccedil;&otilde;es armazenadas na base sobre 
-	as esta&ccedil;&otilde;es monitoradas. Deve-se tomar muito cuidado com 
-	a abrang&ecirc;ncia da condi&ccedil;&atilde;o a ser formulada.</td>
+  	<td class="descricao"><?=$oTranslator->_('kciq_msg Excluir Computadores advise');?></td>
 	</tr>
 	</table>
 	<br><br>
 	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
     <td colspan="3"><div align="center"> 
-   	<input name="submit_cond" type="submit" value="  Selecionar Computadores para Exclus&atilde;o  " onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">
+   	<input name="submit_cond" type="submit" value="<?=$oTranslator->_('Selecionar computadores para exclusao');?>" onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">
    	</div></td>
    	</tr></table>
 
@@ -410,9 +380,9 @@ else
     <td colspan="3" height="1" bgcolor="#333333"></td>
   	</tr>	
 	<tr bgcolor="#CCCCCC"> 
-  	<td class="destaque">Campo</font></strong></td>
-  	<td class="destaque">Condi&ccedil;&atilde;o</font></strong></td>
-  	<td class="destaque">Valor para Pesquisa</font></strong></td>
+  	<td class="destaque"><?=$oTranslator->_('Campo');?></font></strong></td>
+  	<td class="destaque"><?=$oTranslator->_('Condicao');?></font></strong></td>
+  	<td class="destaque"><?=$oTranslator->_('Valor para pesquisa');?></font></strong></td>
 	</tr>
   	<tr> 
     <td colspan="3" height="1" bgcolor="#333333"></td>
@@ -461,24 +431,24 @@ else
 			{
 			$v_operacao = "(TO_DAYS(NOW())-TO_DAYS(a.".$v_arr_campo[1].")";
 			?>
-			<option value="<? echo $v_operacao . ' =       frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">IGUAL A</option>					
-			<option value="<? echo $v_operacao . ' -MAIOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MAIOR QUE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>					
-			<option value="<? echo $v_operacao . ' -MENOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MENOR QUE</option>											
+			<option value="<? echo $v_operacao . ' =       frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('Igual a');?></option>					
+			<option value="<? echo $v_operacao . ' -MAIOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('MAIOR QUE');?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>					
+			<option value="<? echo $v_operacao . ' -MENOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('MENOR QUE');?></option>											
 			<?
 			}
 		else
 			{
 			?>
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." =       'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">IGUAL A</option>		
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." <>      'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">DIFERENTE DE</option>			
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." -MAIOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MAIOR QUE</option>
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." -MENOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MENOR QUE</option>						
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao%'";?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">CONTENHA</option>
-			<option value="<? echo "'%frm_te_valor_condicao%' not like  (a.".$v_arr_campo[1].")  ";?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">NÃO CONTENHA</option>			
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    'frm_te_valor_condicao%'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">INICIE COM</option>
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">TERMINE COM</option>				
-			<option value="<? echo 'TRIM(a.'.$v_arr_campo[1].") = '' and " 					      ;?>" onClick="Preenche_Condicao_VAZIO('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 >SEJA VAZIO</option>		
-			<option value="<? echo 'a.'.$v_arr_campo[1]." IS NULL " 					          ;?>" onClick="Preenche_Condicao_NULO('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 >SEJA NULO</option>					
+			<option value="<? echo 'a.'      .$v_arr_campo[1]." =       'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('IGUAL A');?></option>		
+			<option value="<? echo 'a.'      .$v_arr_campo[1]." <>      'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('DIFERENTE DE');?></option>			
+			<option value="<? echo 'a.'      .$v_arr_campo[1]." -MAIOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('MAIOR QUE');?></option>
+			<option value="<? echo 'a.'      .$v_arr_campo[1]." -MENOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('MENOR QUE');?></option>						
+			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao%'";?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('CONTENHA');?></option>
+			<option value="<? echo "'%frm_te_valor_condicao%' not like  (a.".$v_arr_campo[1].")  ";?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('NAO CONTENHA');?></option>			
+			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    'frm_te_valor_condicao%'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('INICIE COM');?></option>
+			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('TERMINE COM');?></option>				
+			<option value="<? echo 'TRIM(a.'.$v_arr_campo[1].") = '' and " 					      ;?>" onClick="Preenche_Condicao_VAZIO('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 ><?=$oTranslator->_('SEJA VAZIO');?></option>		
+			<option value="<? echo 'a.'.$v_arr_campo[1]." IS NULL " 					          ;?>" onClick="Preenche_Condicao_NULO('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 ><?=$oTranslator->_('SEJA NULO');?></option>					
 			<?
 			}
 			?>
@@ -498,7 +468,7 @@ else
 	<br><br>
 	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
 	<td colspan="3"><div align="center"> 
-   	<input name="submit_cond" type="submit" value="  Selecionar Computadores para Exclus&atilde;o  " onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">	
+   	<input name="submit_cond" type="submit" value="<?=$oTranslator->_('Selecionar computadores para exclusao');?>" onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">	
 	</div></td>
 	</tr></table>
 

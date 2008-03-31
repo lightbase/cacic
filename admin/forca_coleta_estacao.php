@@ -19,7 +19,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -29,7 +29,7 @@ require_once('../include/library.php');
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Coleta For&ccedil;ada por Computador</title>
+<title><?=$oTranslator->_('Coleta induzida por Computador');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <? // O require abaixo será usado pelo inc_opcoes_administrativas/coleta_forcada.php - Não remova! - A.A.P. 23/09/2004
 require_once('../include/opcoes_avancadas_combos.js'); ?> 
@@ -41,10 +41,10 @@ require_once('../include/opcoes_avancadas_combos.js'); ?>
 <form action="forca_coleta_estacao_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma">
 <table width="90%" border="0" align="center">
   <tr> 
-      <td class="cabecalho">Coleta For&ccedil;ada no Computador <u><em><? echo $_GET['te_nome_computador']; ?></em></u></td>
+      <td class="cabecalho"><?=$oTranslator->_('Coleta induzida por Computador');?> <u><em><? echo $_GET['te_nome_computador']; ?></em></u></td>
   </tr>
   <tr> 
-      <td class="descricao">Esta p&aacute;gina permite for&ccedil;ar coletas em determinado computador.</td>
+      <td class="descricao"><?=$oTranslator->_('Esta pagina permite induzir coletas em determinado computador');?></td>
   </tr>
 
 <br>
@@ -62,7 +62,7 @@ require_once('../include/opcoes_avancadas_combos.js'); ?>
     	</tr>
     	<tr> 
       	<td><div align="center"> 
-        <input name="submit" type="submit" value="Força Coletas">
+        <input name="submit" type="submit" value="<?=$oTranslator->_('Induzir coletas');?>">
         </div></td>
     	</tr>
   </table>

@@ -15,7 +15,7 @@
  */
 
 require_once('../include/library.php');
-// Comentado temporariamente - AntiSpy();
+
 $acoes_computador = '';
 foreach($HTTP_POST_VARS as $i => $v) 
 	{
@@ -36,7 +36,7 @@ if ($acoes_computador)
 							Where 	te_node_address="'.trim($_POST['te_node_address']).'" AND
 									id_so="'.trim($_POST['id_so']).'"'; 
 	conecta_bd_cacic();									
-	$result_computador = mysql_query($query_computador) or die('Ocorreu um erro durante a atualização de computadores ou sua sessão expirou!'); 		
+	$result_computador = mysql_query($query_computador) or die($oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('configuracoes_locais'))); 		
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'computadores');		
 	}
 	header ("Location: ../include/operacao_ok.php?chamador=../index.php&tempo=1");

@@ -40,7 +40,7 @@ function valida_notificacao_hardware()
 	     (document.forma.listaHardwareSelecionados.length == 0 && 
 	      document.forma.te_notificar_mudanca_hardware.value != '')) 
 		{	
-		alert("ATENÇÃO: Verifique os campos para notificação de alteração de hardware");
+		alert("<?=$oTranslator->_('ATENCAO: Verifique os campos para notificacao de alteracao de hardware');?>");
 		if (document.forma.listaHardwareSelecionados.length == 0)
 			document.forma.listaHardwareSelecionados.focus()
 		else
@@ -218,9 +218,9 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
         </p></td>
     </tr>
     <tr> 
-      <td class="ajuda">Aten&ccedil;&atilde;o: informe os e-mails separados por 
-        v&iacute;rgulas (&quot;,&quot;). <br>
-        Exemplo: fulano.tal@previdencia.gov.br, luis.almeida@xyz.com</td>
+      <td class="ajuda"><?=$oTranslator->_('Atencao: informe os emails separados por virgulas');?> (&quot;,&quot;)
+      <br>
+      <?=$oTranslator->_('Exemplo');?>: fulano.tal@previdencia.gov.br, luis.almeida@xyz.com</td>
     </tr>
     <tr> 
       <td>&nbsp;</td>
@@ -228,8 +228,9 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     <tr> 
       <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label">Realizar notifica&ccedil;&atilde;o caso haja altera&ccedil;&otilde;es 
-              nas seguintes configura&ccedil;&otilde;es de hardware: </td>
+            <td class="label">
+            	<?=$oTranslator->_('Realizar notificacao caso haja alteracoes nas seguintes configuracoes de hardware');?>:
+            </td>            
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -238,11 +239,11 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
             <td height="1" class="label"><table border="0" cellpadding="0" cellspacing="0">
                 <tr> 
                   <td>&nbsp;&nbsp;</td>
-                  <td class="label"><div align="left">Dispon&iacute;veis:</div></td>
+                  <td class="label"><div align="left"><?=$oTranslator->_('Disponiveis');?>:</div></td>
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="label"><p>Selecionadas:</p></td>
+                  <td nowrap class="label"><p><?=$oTranslator->_('Selecionadas');?>:</p></td>
                   <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 
@@ -253,20 +254,19 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 			  	$query = "SELECT nm_campo_tab_hardware, te_desc_hardware
 						  FROM   descricao_hardware 
 						  WHERE  ".$frm_id_local." IN (te_locais_notificacao_ativada)";
-						$result_hardwares_ja_selecionados = mysql_query($query) or die('5-Ocorreu um erro durante a consulta à tabela descricao_hardware (1) ou sua sessão expirou!');
+						$result_hardwares_ja_selecionados = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg select on table fail', array('descricao_hardware'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 						
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
 				while($campos_hardwares_selecionados = mysql_fetch_array($result_hardwares_ja_selecionados)) 
 					{
 					$itens_combo_hardwares_selecionados = $itens_combo_hardwares_selecionados . '<option value="' . $campos_hardwares_selecionados['nm_campo_tab_hardware']. '">' . $campos_hardwares_selecionados['te_desc_hardware'] . '</option>'; 
-//						   $not_in_ja_selecionados = $not_in_ja_selecionados . "'" . $campos_hardwares_selecionados['nm_campo_tab_hardware'] .  "',";
 					}
 						
 						/* Consulto as hardwares que não foram previamente selecionadas. */ 
 			  	$query = "SELECT nm_campo_tab_hardware, te_desc_hardware
 						  FROM   descricao_hardware 
 						  WHERE  ".$frm_id_local." NOT IN (te_locais_notificacao_ativada)";
-						$result_hardwares_nao_selecionados = mysql_query($query) or die('6-Ocorreu um erro durante a consulta à tabela descricao_hardware (2) ou sua sessão expirou!');
+						$result_hardwares_nao_selecionados = mysql_query($query) or die('6-'.$oTranslator->_('kciq_msg select on table fail', array('descricao_hardware'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 						/* Agora monto os itens do combo de hardwares NÃO selecionadas. */ 
        		while($campos_hardwares_nao_selecionados=mysql_fetch_array($result_hardwares_nao_selecionados)) 	
 				{
@@ -291,8 +291,8 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
               </table></td>
           </tr>
           <tr> 
-            <td height="1" class="ajuda">&nbsp;&nbsp;&nbsp;(Dica: use SHIFT ou 
-              CTRL para selecionar m&uacute;ltiplos itens)</td>
+            <td height="1" class="ajuda">&nbsp;&nbsp;&nbsp;
+            	(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)</td>
           </tr>
         </table></td>
     </tr>
@@ -300,7 +300,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
       <td>&nbsp;</td>
     </tr>
     <tr> 
-      <td class="label">Exibir Gr&aacute;ficos na P&aacute;gina Principal e Detalhes:</td>
+      <td class="label"><?=$oTranslator->_('Exibir Graficos na Pagina Principal e Detalhes');?>:</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>
@@ -309,11 +309,11 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
       <td height="1" class="label"><table border="0" cellpadding="0" cellspacing="0">
           <tr> 
             <td>&nbsp;&nbsp;</td>
-            <td class="label"><div align="left">Dispon&iacute;veis:</div></td>
+            <td class="label"><div align="left"><?=$oTranslator->_('Disponiveis');?>:</div></td>
             <td>&nbsp;&nbsp;</td>
             <td width="40">&nbsp;</td>
             <td nowrap>&nbsp;&nbsp;</td>
-            <td nowrap class="label"><p>Selecionados:</p></td>
+            <td nowrap class="label"><p><?=$oTranslator->_('Selecionadas');?>:</p></td>
             <td nowrap>&nbsp;&nbsp;</td>
           </tr>
           <tr> 
@@ -328,13 +328,13 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 			?>
                 <select multiple size="10" name="list3[]" id="listaExibeGraficosDisponiveis" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
 					<? if (substr_count($te_exibe_graficos,'[so]')==0)
-							echo '<option value="[so]">Totais de Computadores por Sistemas Operacionais</option>';
+							echo '<option value="[so]">'.$oTranslator->_('Totais de Computadores por Sistemas Operacionais').'</option>';
 					   if (substr_count($te_exibe_graficos,'[acessos]')==0)
-		                    echo '<option value="[acessos]">&Uacute;ltimos Acessos dos Agentes do Local</option>';
+		                    echo '<option value="[acessos]">'.$oTranslator->_('Ultimos Acessos dos Agentes do Local').'</option>';
 					   if (substr_count($te_exibe_graficos,'[acessos_locais]')==0)
-					   		echo '<option value="[acessos_locais]">&Uacute;ltimos Acessos dos Agentes por Local na Data</option>';
+					   		echo '<option value="[acessos_locais]">'.$oTranslator->_('Ultimos Acessos dos Agentes por Local na Data').'</option>';
 					   if (substr_count($te_exibe_graficos,'[locais]')==0)							
-		                    echo '<option value="[locais]">Totais de Computadores Monitorados por Local</option>';
+		                    echo '<option value="[locais]">'.$oTranslator->_('Totais de Computadores Monitorados por Local').'</option>';
 					?>
                 </select>
               </div></td>
@@ -348,13 +348,13 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
             <td>&nbsp;</td>
             <td><select multiple size="10" name="list4[]" id="listaExibeGraficosSelecionados"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
 					<? if (substr_count($te_exibe_graficos,'[so]')>0)
-							echo '<option value="[so]">Totais de Computadores por Sistemas Operacionais</option>';
+							echo '<option value="[so]">'.$oTranslator->_('Totais de Computadores por Sistemas Operacionais').'</option>';
 					   if (substr_count($te_exibe_graficos,'[acessos]')>0)
-		                    echo '<option value="[acessos]">&Uacute;ltimos Acessos dos Agentes do Local</option>';
+		                    echo '<option value="[acessos]">'.$oTranslator->_('Ultimos Acessos dos Agentes do Local').'</option>';
 					   if (substr_count($te_exibe_graficos,'[acessos_locais]')>0)
-					   		echo '<option value="[acessos_locais]">&Uacute;ltimos Acessos dos Agentes por Local na Data</option>';
+					   		echo '<option value="[acessos_locais]">'.$oTranslator->_('Ultimos Acessos dos Agentes por Local na Data').'</option>';
 					   if (substr_count($te_exibe_graficos,'[locais]')>0)							
-		                    echo '<option value="[locais]">Totais de Computadores Monitorados por Local</option>';
+		                    echo '<option value="[locais]">'.$oTranslator->_('Totais de Computadores Monitorados por Local').'</option>';
 					?>
 
 				</select></td>
@@ -369,7 +369,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
       <td>&nbsp;</td>
     </tr>
     <tr> 
-      <td class="label">Servidor de Aplica&ccedil;&atilde;o padr&atilde;o:</td>
+      <td class="label"><?=$oTranslator->_('Servidor de Aplicacao padrao');?>:</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>
@@ -377,13 +377,13 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     <tr> 
       <td><p><strong> 
           <select name="frm_te_serv_cacic_padrao" id="frm_te_serv_cacic_padrao" onChange="SetaServidorBancoDadosPadrao();"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-            <option value="0">===> Selecione <===</option>
+            <option value="0"><?=$oTranslator->_('Selecione');?></option>
         <?
 		$query_configuracoes_padrao = "SELECT	Distinct te_serv_cacic_padrao,
 		                                        		 te_serv_updates_padrao
 						 			   FROM		configuracoes_padrao"; 
 
-		$result_configuracoes_padrao = mysql_query($query_configuracoes_padrao) or die('7-Ocorreu um erro durante a consulta à tabela de configurações ou sua sessão expirou!'); 
+		$result_configuracoes_padrao = mysql_query($query_configuracoes_padrao) or die('7-'.$oTranslator->_('kciq_msg select on table fail', array('configuracoes_padrao'))."! ".$oTranslator->_('kciq_msg session fail',false,true)); 
 		
 		$v_achei = 0;
 		while ($row_configuracoes_padrao=mysql_fetch_array($result_configuracoes_padrao))
@@ -407,7 +407,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
       <td>&nbsp;</td>
     </tr>
     <tr> 
-      <td class="label">Servidor de Updates padr&atilde;o:</td>
+      <td class="label"><?=$oTranslator->_('Servidor de Updates padrao');?>:</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>
@@ -415,7 +415,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     <tr> 
       <td><p> 
           <select name="frm_te_serv_updates_padrao" id="frm_te_serv_updates_padrao" onChange="SetaServidorUpdatesPadrao();"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-            <option value="0">===> Selecione <===</option>
+            <option value="0"><?=$oTranslator->_('Selecione');?></option>
             <?
 			mysql_data_seek($result_configuracoes_padrao,0);			
 			while ($row_configuracoes_padrao=mysql_fetch_array($result_configuracoes_padrao))
@@ -436,7 +436,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     </tr>
     <tr> 
       <td><div align="center"> 
-          <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es   " onClick="SelectAll(this.form.elements['list2[]']),SelectAll(this.form.elements['list4[]'])" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="SelectAll(this.form.elements['list2[]']),SelectAll(this.form.elements['list4[]'])" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     </tr>
   </table>
