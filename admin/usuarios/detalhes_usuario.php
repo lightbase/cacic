@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -33,7 +33,7 @@ if ($ExcluiUsuario)
 			  FROM 		usuarios 
 			  WHERE 	id_usuario = '". $_POST['frm_id_usuario'] ."' AND
 			  			id_local = ".$_REQUEST['id_local'];
-	mysql_query($query) or die('Falha na deleção na tabela Usuários ou sua sessão expirou!');
+	mysql_query($query) or die($oTranslator->_('kciq_msg delete row on table fail', array('usuarios'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'usuarios');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 							
 	}
@@ -57,7 +57,7 @@ elseif ($GravaAlteracoes)
 						te_locais_secundarios = '$v_te_locais_secundarios'						
 			  WHERE 	id_usuario = ". $_POST['frm_id_usuario'];
 
-	mysql_query($query) or die('Falha na atualização da tabela Usuários ou sua sessão expirou!');
+	mysql_query($query) or die($oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('usuarios')));
 
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'usuarios');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 							
@@ -69,7 +69,7 @@ elseif ($ReinicializaSenha)
 			  SET		te_senha = PASSWORD('".$_POST['frm_nm_usuario_acesso']."')
 			  WHERE 	id_usuario = ". $_POST['frm_id_usuario'] ." AND
 			  			id_local = ".$_POST['frm_id_local'];
-	mysql_query($query) or die('Falha na atualização da tabela Usuários ou sua sessão expirou!');
+	mysql_query($query) or die($oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('usuarios')));
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'usuarios');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 							
 	
@@ -88,7 +88,7 @@ else {
 			  WHERE 	a.id_usuario = ".$_GET['id_usuario']." and 
 			  			a.id_local = loc.id_local";
 
-	$result = mysql_query($query) or die ('Select em "usuarios" falhou ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('kciq_msg select on table fail', array('usuarios'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 	$row_usuario = mysql_fetch_array($result);
 ?>
 
@@ -97,7 +97,7 @@ else {
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title></title>
+<title><?=$oTranslator->_('Detalhes de usuario');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
 function SetaDescGrupo(p_descricao,p_destino) 
@@ -208,15 +208,12 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Detalhes 
-      de Usuário</td>
+    <td class="cabecalho"><?=$oTranslator->_('Detalhes de usuario');?></td>
   </tr>
   <tr> 
-    <td class="descricao">As informa&ccedil;&otilde;es 
-      abaixo referem-se ao usu&aacute;rio cadastrado no sistema. Ap&oacute;s o 
-      logon, ser&atilde;o exibidas a primeira e &uacute;ltima parte do campo &quot;Nome 
-      Completo&quot;. Ao reinicializar a senha esta assume o valor contido no 
-      campo &quot;Identifica&ccedil;&atilde;o&quot;.</td>
+    <td class="descricao">
+    	<?=$oTranslator->_('kciq_msg Detalhes de usuario help');?>
+    </td>
   </tr>
 </table>
 <p>&nbsp;</p><table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
@@ -225,7 +222,7 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 <form action="detalhes_usuario.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
         <table border="0" cellpadding="2" cellspacing="2">
           <tr> 
-            <td class="label">Local:</td>
+            <td class="label"><?=$oTranslator->_('Local');?>:</td>
             <td>
 			<select name="frm_id_local" id="frm_id_local"" class="normal" onChange="fillSelectFromArray(this.form.frm_sel_id_locais_secundarios, team,this.form.frm_id_local.value);" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"
 			<?
@@ -244,7 +241,7 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 								 FROM 		locais ".
 								 $where . "
 								 ORDER BY	sg_local";
-		    $result_locais = mysql_query($qry_locais) or die ('Select em "locais" falhou ou sua sessão expirou!');
+		    $result_locais = mysql_query($qry_locais) or die ($oTranslator->_('kciq_msg select on table fail', array('locais'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 			while ($row_qry=mysql_fetch_array($result_locais))
 		  		{
 				echo '<option value="'.$row_qry[0].'"';
@@ -265,7 +262,7 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 		$qry_locais_secundarios    = "SELECT 	a.te_locais_secundarios
 								      FROM 	    usuarios a
 								      WHERE 	a.id_usuario = ".$_GET['id_usuario']; 
-	    $result_locais_secundarios = mysql_query($qry_locais_secundarios) or die ('Select em "usuarios" falhou ou sua sessão expirou!');							
+	    $result_locais_secundarios = mysql_query($qry_locais_secundarios) or die ($oTranslator->_('kciq_msg select on table fail', array('usuarios'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");							
 		$row_locais_secundarios    = mysql_fetch_array($result_locais_secundarios);		
 		$arr_locais_secundarios    = explode(',',$row_locais_secundarios['te_locais_secundarios']);
 
@@ -274,7 +271,7 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 		</td>
           </tr>
           <tr> 
-            <td class="label">Locais Secund&aacute;rios:</td>
+            <td class="label"><?=$oTranslator->_('Locais secundarios');?>:</td>
             <td><select name="frm_sel_id_locais_secundarios" id="frm_sel_id_locais_secundarios" size="5" multiple class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?"disabled":"");?>>
                 <option value="0"></option>
                 <?
@@ -292,33 +289,34 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 				}						
 				?> 
 			</select> <input name="frm_te_locais_secundarios" type="hidden" id="frm_te_locais_secundarios">	
-              <br> <font color="#000080" size="1">(Dica: use SHIFT ou CTRL para 
-              selecionar m&uacute;ltiplos itens)</font></td>
+              <br> <font color="#000080" size="1">
+              	(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)
+              </font></td>
           </tr>
           <tr>
             <td class="label">&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
           <tr> 
-            <td class="label">Identifica&ccedil;&atilde;o:</td>
+            <td class="label"><?=$oTranslator->_('Identificacao');?>:</td>
             <td><input name="frm_nm_usuario_acesso"  readonly="" type="text" id="frm_nm_usuario_acesso" value="<? echo mysql_result($result, 0, 'nm_usuario_acesso'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
           </tr>
           <tr> 
-            <td class="label">Nome Completo:</td>
+            <td class="label"><?=$oTranslator->_('Nome Completo');?>:</td>
             <td><input name="frm_nm_usuario_completo" type="text" id="frm_nm_usuario_completo" value="<? echo mysql_result($result, 0, 'nm_usuario_completo'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
               <input name="frm_id_usuario" type="hidden" id="frm_id_usuario" value="<? echo $_GET['id_usuario']; ?>"> 
               <input name="id_local" type="hidden" id="id_usuario" value="<? echo $_GET['id_local']; ?>"></td>
           </tr>
           <tr nowrap> 
-            <td nowrap class="label">Emails para Contato:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Emails para Contato');?>:</td>
             <td nowrap><input name="frm_te_emails_contato" type="text" id="frm_te_emails_contato" value="<? echo mysql_result($result, 0, 'te_emails_contato'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
           </tr>
           <tr nowrap> 
-            <td nowrap class="label">Telefones para Contato:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Telefones para Contato');?>:</td>
             <td nowrap><input name="frm_te_telefones_contato" type="text" id="frm_te_telefones_contato" value="<? echo mysql_result($result, 0, 'te_telefones_contato'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
           </tr>
           <tr nowrap> 
-            <td nowrap class="label">Tipo de Acesso:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Tipo de Acesso');?>:</td>
             <td nowrap> <select name="frm_id_grupo_usuarios" id="frm_id_grupo_usuarios" onChange="SetaDescGrupo(this.options[selectedIndex].id,'frm_te_descricao_grupo')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_GET['id_usuario']==$_SESSION['id_usuario'] && $_SESSION['cs_nivel_administracao']<>1 || ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0))?'disabled':'');?>>
                 <? 
 			$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' WHERE cs_nivel_administracao >= '.$_SESSION['cs_nivel_administracao'].' OR cs_nivel_administracao = 0':'');
@@ -328,7 +326,7 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
 							FROM 		grupo_usuarios ".
 										$where . "
 							ORDER BY	te_grupo_usuarios";
-		    $result_qry_grp = mysql_query($qry_grp_usu) or die ('Select falhou ou sua sessão expirou!');
+		    $result_qry_grp = mysql_query($qry_grp_usu) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou', array('grupo_usuarios')));
 			while ($row_qry=mysql_fetch_array($result_qry_grp))
 		  		{
 				echo '<option value="'.$row_qry[0].'"';
@@ -346,16 +344,16 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
               </select> </td>
           </tr>
           <tr nowrap> 
-            <td nowrap class="label">Descri&ccedil;&atilde;o de Acesso:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Descricao de acesso');?>:</td>
             <td nowrap><textarea name="frm_te_descricao_grupo" cols="50" rows="4" id="frm_te_descricao_grupo" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $v_te_descricao_grupo;?></textarea></td>
           </tr>
         </table>
         <p align="center"> 
-          <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Usuário?');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?'disabled':'')?>>
+          <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="<?=$oTranslator->_('Gravar alteracoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma informacoes para usuario?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?'disabled':'')?>>
 		  &nbsp;&nbsp;
-          <input name="ReinicializaSenha" type="submit" id="ReinicializaSenha" value="  Reinicializar Senha  " <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?'disabled':'')?>>
+          <input name="ReinicializaSenha" type="submit" id="ReinicializaSenha" value="<?=$oTranslator->_('Reinicializar senha');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?'disabled':'')?>>
           &nbsp; &nbsp; 
-          <input name="ExcluiUsuario" type="submit" id="ExcluiUsuario" value="  Excluir Usu&aacute;rio" onClick="return Confirma('Confirma Exclusão de Usuário?');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?'disabled':'')?>>
+          <input name="ExcluiUsuario" type="submit" id="ExcluiUsuario" value="<?=$oTranslator->_('Excluir usuario');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao de usuario?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3 || ($_SESSION['cs_nivel_administracao']== 3 && $_GET['cs_nivel_administracao'] <> 0)?'disabled':'')?>>
 			<?
 			if ($_REQUEST['nm_chamador'])
 				{

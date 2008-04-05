@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -33,7 +33,7 @@ if($submit)
 	$query = "SELECT 	* 
 			  FROM 		usuarios 
 			  WHERE 	nm_usuario_acesso = '$frm_nm_usuario_acesso'";
-	$result = mysql_query($query) or die ('Falha na consulta à tabela Usuários ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou', array('usuarios')));
 	
 	if (mysql_num_rows($result) > 0) 
 		{
@@ -60,7 +60,7 @@ if($submit)
 							'$frm_te_emails_contato',
 							'$frm_te_telefones_contato',
 							'$frm_te_locais_secundarios')";
-		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
+		$result = mysql_query($query) or die ($oTranslator->_('kciq_msg insert row on table fail', array('usuarios'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'usuarios');		
 		header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 											
 		}
@@ -197,17 +197,12 @@ else
 	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 	<table width="90%" border="0" align="center">
 	  <tr> 
-		<td class="cabecalho"><div align="left">Inclus&atilde;o 
-			de novo usu&aacute;rio</div></td>
+		<td class="cabecalho"><div align="left"><?=$oTranslator->_('Inclusao de novo usuario');?></div></td>
 	  </tr>
 	  <tr> 
-		<td class="descricao">As informa&ccedil;&otilde;es 
-		  que dever&atilde;o ser cadastradas abaixo referem-se aos usu&aacute;rios 
-		  do sistema, onde ser&aacute; determinado o tipo de acesso. <u><em>A senha 
-		  inicial ser&aacute; gerada automaticamente em fun&ccedil;&atilde;o da identifica&ccedil;&atilde;o 
-		  e poder&aacute; ser trocada pelo usu&aacute;rio na op&ccedil;&atilde;o Acesso/Troca 
-		  de Senha no menu principal</em></u>. Ap&oacute;s o logon, ser&atilde;o exibidas 
-		  a primeira e &uacute;ltima parte do campo Nome Completo.</td>
+		<td class="descricao">
+			<?=$oTranslator->_('kciq_msg Inclusao de novo usuario help');?>
+		</td>
 	  </tr>
 	</table>
 	<?
@@ -226,13 +221,13 @@ else
 									$where . "
 						ORDER BY	sg_local";
 	
-	$result_local = mysql_query($qry_local) or die ('Falha na consulta à tabela Locais ou sua sessão expirou!');
+	$result_local = mysql_query($qry_local) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou', array('locais')));
 	?>
 	
 	  <p>&nbsp;</p><form action="incluir_usuario.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
 	  <table border="0" align="center" cellpadding="2" cellspacing="2">
 		<tr> 
-		  <td class="label">Local Prim&aacute;rio:</td>
+		  <td class="label"><?=$oTranslator->_('Local');?>:</td>
 		  <td><select name="frm_id_local" id="frm_id_local" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="fillSelectFromArray(this.form.frm_sel_id_locais_secundarios, team,this.form.frm_id_local.value);" <? echo ($_SESSION['cs_nivel_administracao']<>1 && ($_SESSION['cs_nivel_administracao']<>3 && !$_SESSION['cs_nivel_administracao'])?"disabled":"");?>>
 			  <?
 				echo '<option value="0">Selecione Local</option>';		  
@@ -252,28 +247,30 @@ else
 		  </td>
 		</tr>
 		<tr valign="top"> 
-		  <td align="left" valign="top" nowrap class="label"><div align="left">Locais 
-			  Secund&aacute;rios:</div></td>
+		  <td align="left" valign="top" nowrap class="label">
+		  	<?=$oTranslator->_('Locais secundarios');?>:
+		  </td>
 		  <td>
 	<select name="frm_sel_id_locais_secundarios" id="frm_sel_id_locais_secundarios" multiple disabled size="5" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?"disabled":"");?>>
 			  <option value=""></option>
 			</select>
 			<input name="frm_te_locais_secundarios" type="hidden" id="frm_te_locais_secundarios">		
 			<br>
-			<font color="#000080" size="1">(Dica: use SHIFT ou CTRL para selecionar 
-			m&uacute;ltiplos itens)</font></td>
+			<font color="#000080" size="1">
+				(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)
+			</font></td>
 		</tr>
 		<tr>
 		  <td class="label">&nbsp;</td>
 		  <td>&nbsp;</td>
 		</tr>
 		<tr> 
-		  <td class="label">Identifica&ccedil;&atilde;o:</td>
+		  <td class="label"><?=$oTranslator->_('Identificacao');?>:</td>
 		  <td> <input name="frm_nm_usuario_acesso" type="text" id="frm_nm_usuario_acesso" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
-			&nbsp;&nbsp;<strong>Ex: </strong>d308951</td>
+			&nbsp;&nbsp;<strong><?=$oTranslator->_('Exemplo');?>: </strong>d308951</td>
 		</tr>
 		<tr> 
-		  <td class="label">Nome Completo:</td>
+		  <td class="label"><?=$oTranslator->_('Nome completo');?>:</td>
 		  <td><input name="frm_nm_usuario_completo" type="text" id="frm_nm_usuario_completo" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
 		</tr>
 		<?
@@ -284,18 +281,18 @@ else
 						FROM 		grupo_usuarios ".
 									$where . "
 						ORDER BY	te_grupo_usuarios";
-		$result_qry_grp = mysql_query($qry_grp_usu) or die ('Falha na consulta à tabela Grupo_Usuarios ou sua sessão expirou!');
+		$result_qry_grp = mysql_query($qry_grp_usu) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou', array('grupo_usuarios')));
 	?>
 		<tr nowrap> 
-		  <td class="label">Emails para Contato:</td>
+		  <td class="label"><?=$oTranslator->_('Emails para contato');?>:</td>
 		  <td><input name="frm_te_emails_contato" type="text" id="frm_te_emails_contato" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
 		</tr>
 		<tr nowrap> 
-		  <td class="label">Telefones para Contato:</td>
+		  <td class="label"><?=$oTranslator->_('Telefones para contato');?>:</td>
 		  <td><input name="frm_te_telefones_contato" type="text" id="frm_te_telefones_contato" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
 		</tr>
 		<tr nowrap> 
-		  <td class="label">Tipo de Acesso:</td>
+		  <td class="label"><?=$oTranslator->_('Tipo de acesso');?>:</td>
 		  <td> <select name="frm_id_grupo_usuarios" id="frm_id_grupo_usuarios" onChange="SetaDescGrupo(this.options[selectedIndex].id,'frm_te_descricao_grupo')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
 			  <?
 				while($row = mysql_fetch_row($result_qry_grp))
@@ -307,13 +304,13 @@ else
 			</select></td>
 		</tr>
 		<tr nowrap> 
-		  <td class="label">Descri&ccedil;&atilde;o de Acesso:</td>
+		  <td class="label"><?=$oTranslator->_('Descricao de tipo de acesso');?>:</td>
 		  <td><textarea name="frm_te_descricao_grupo" cols="50" rows="4" id="frm_te_descricao_grupo" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $v_te_descricao_grupo;?></textarea></td>
 		</tr>
 	  </table>
 	  <p align="center"> <br>
 		<br>
-		<input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return Confirma('Confirma Inclusão de Usuário?');">
+		<input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma inclusao de usuario?');?>');">
 	  </p>
 	</form>
 	<p>

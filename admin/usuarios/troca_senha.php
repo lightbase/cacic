@@ -19,7 +19,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -42,7 +42,7 @@ else {
 			  FROM usuarios a
 			  WHERE a.id_usuario = ".$_SESSION['id_usuario'];
 
-	$result = mysql_query($query) or die ('Select em "usuarios" falhou ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('usuarios')));
 	$row_usuario = mysql_fetch_array($result);
 ?>
 
@@ -51,7 +51,7 @@ else {
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title></title>
+<title><?=$oTranslator->_('Troca de Senha de Acesso');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
 function valida_nova_senha() 
@@ -74,12 +74,12 @@ function valida_nova_senha()
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Troca de Senha de Acesso</td>
+    <td class="cabecalho"><?=$oTranslator->_('Troca de Senha de Acesso');?></td>
   </tr>
   <tr> 
-    <td class="descricao">Ser&aacute; 
-      necess&aacute;rio informar a senha anterior, caso n&atilde;o se lembre, 
-      pe&ccedil;a a um Administrador que a reinicialize.</td>
+    <td class="descricao">
+    <?=$oTranslator->_('Informe a senha anterior, caso nao se lembre, solicite a um Administrador que a reinicialize.');?>
+    </td>
   </tr>
 </table>
 <p>&nbsp;</p><table width="60%" border="0" align="center" cellpadding="5" cellspacing="1">
@@ -88,34 +88,34 @@ function valida_nova_senha()
 <form action="troca_senha.php"  method="post" ENCTYPE="multipart/form-data" name="forma">
         <table width="453" border="0" cellpadding="2" cellspacing="2">
           <tr> 
-            <td class="label">Identifica&ccedil;&atilde;o:</td>
+            <td class="label"><?=$oTranslator->_('Identificacao');?>:</td>
             <td class="normal"><? echo mysql_result($result, 0, 'nm_usuario_acesso'); ?></td>
           </tr>
           <tr> 
-            <td nowrap class="label">Nome Completo:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Nome Completo');?>:</td>
             <td class="normal"><? echo mysql_result($result, 0, 'nm_usuario_completo'); ?></td>
           </tr>
           <tr> 
-            <td nowrap class="label">Senha Atual:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Senha Atual');?>:</td>
             <td> 
-              <input name="frm_te_senha_atual" type="password" id="frm_te_senha_atual" size="10" maxlength="10" onChange="return valida_senha_atual()" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+              <input name="frm_te_senha_atual" type="password" id="frm_te_senha_atual" size="10" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
               </td>
           </tr>
           <tr>
-            <td nowrap class="label">Nova Senha:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Nova Senha');?>:</td>
             <td>
               <input name="frm_te_nova_senha" type="password" id="frm_te_nova_senha" size="10" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
               </td>
           </tr>
           <tr> 
-            <td nowrap class="label">Verifica&ccedil;&atilde;o:</td>
+            <td nowrap class="label"><?=$oTranslator->_('kciq_msg verify');?>:</td>
             <td> 
               <input name="frm_te_verifica_senha" type="password" id="frm_te_verifica_senha" size="10" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);return valida_nova_senha();" >
               </td>
           </tr>
         </table>
         <p align="center"> 
-          <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Troca de Senha?');">
+          <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="<?=$oTranslator->_('Gravar alteracoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma troca de senha?');?>');">
         </p>
       </form></td>
   </tr>
