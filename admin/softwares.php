@@ -5,7 +5,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -25,7 +25,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Classifica&ccedil;&atilde;o de Software</title>
+<title><?=$oTranslator->_('Classificacao de software');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -44,15 +44,20 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC 
-      - Classifica&ccedil;&atilde;o de Softwares</strong></font></td>
+    <td nowrap bgcolor="#FFFFFF">
+    	<font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+    		<strong>
+    			CACIC - <?=$oTranslator->_('Classificacao de software');?>
+    		</strong>
+    	</font>
+    </td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+    	<?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
@@ -65,11 +70,11 @@ $v_atualizei = '';
 if (count($_SESSION["list6"]) == 0) {
 	$mensagemErro = 'Selecione pelo menos 1 software.<BR>';
 	if ($_POST['tiponovo'] == '') {
-		$mensagemErro = $mensagemErro . 'Informe a classificação para o software.<BR>';
+		$mensagemErro = $mensagemErro . $oTranslator->_('Informe a classificação para o software.').'<BR>';
 	}
 } else
 	if ($_POST['tiponovo'] == '') {
-		$mensagemErro = 'Informe a classificação para o software.<BR>'; 
+		$mensagemErro = $oTranslator->_('Informe a classificação para o software.').'<BR>'; 
 	}
 	else {
 		//Pego os aplicativos selecionados para o relatório
@@ -135,14 +140,14 @@ if (count($_SESSION["list6"]) == 0) {
         </table></td>
         </tr>
       </table>
- 
  </tr>  
 </table>
-<p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
-  de Informa&ccedil;&otilde;es Computacionais</font><br>
-  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo</font></p>	
-
+<p align="center">
+  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+	<?=$oTranslator->_('Gerado por');?>
+	<strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor de Informa&ccedil;&otilde;es Computacionais
+  </font><br>
+  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  Software desenvolvido pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo</font></p>	
 </body>
 </html>

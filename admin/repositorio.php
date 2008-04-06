@@ -14,20 +14,18 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-require_once($_SERVER['DOCUMENT_ROOT'] . 'include/library.php');
-// Comentado temporariamente - AntiSpy();
+require_once($_SERVER['DOCUMENT_ROOT'] . '/include/library.php');
+
 if ($_REQUEST['nm_arquivo'])
-	{
-	@unlink($_SERVER['DOCUMENT_ROOT'] . 'repositorio/'.$_REQUEST['nm_arquivo']);
-	if (file_exists($_SERVER['DOCUMENT_ROOT'] . 'repositorio/'.$_REQUEST['nm_arquivo']))
+	{if(!@unlink($_SERVER['DOCUMENT_ROOT'] . '/repositorio/'.$_REQUEST['nm_arquivo']))
 		{
-		echo '<script> alert("Não foi possível excluir o arquivo '.$_REQUEST['nm_arquivo'].'. Verifique as permissões de escrita no diretório repositorio!") </script>';
+		echo '<script>alert("'.$oTranslator->_('Nao foi possível excluir o arquivo %1. Verifique as permissoes de escrita no diretorio repositorio!', array($_REQUEST['nm_arquivo'])).'")</script>';
 		}
 	else
 		{
 		conecta_bd_cacic();
 		$query = "DELETE from redes_versoes_modulos WHERE nm_modulo = '".$_REQUEST['nm_arquivo']."'";
-		$result = mysql_query($query) or die('Ocorreu um erro durante exclusão de referência em redes_versoes_modulos ou sua sessão expirou!');		
+		$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro durante exclusão de referência em %1 ou sua sessão expirou!', array('redes_versoes_modulos')));		
 		}
 	}
 
@@ -40,17 +38,15 @@ if ($_REQUEST['nm_arquivo'])
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	</head>
 	<body background="../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js'?>"></script>						
+	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>						
 	<table width="90%" border="0" align="center">
 	  <tr> 
 		
-    <td class="cabecalho">Reposit&oacute;rio</td>
+    <td class="cabecalho"><?=$oTranslator->_('Repositorio');?></td>
 	  </tr>
 	  <tr> 
 		
-    <td class="descricao">Nesta p&aacute;gina &eacute; poss&iacute;vel verificar 
-      o conte&uacute;do do reposit&oacute;rio, bem como excluir os objetos que 
-      n&atilde;o ser&atilde;o utilizados nos updates das SubRedes.</td>
+    <td class="descricao"><?=$oTranslator->_('kciq_msg Repositorio help');?></td>
 	  </tr>
 	</table>
   <div align="center"> 
@@ -63,7 +59,7 @@ if ($_REQUEST['nm_arquivo'])
       </tr>
       <tr> 
         <td nowrap align="center" colspan="4" class="<? echo $v_classe; ?>"><br>
-          Conteúdo do Reposit&oacute;rio:</td>
+          <?=$oTranslator->_('Conteúdo do repositorio');?>:</td>
       </tr>
       <tr> 
         <td colspan="4" height="1" bgcolor="#333333"></td>
@@ -75,13 +71,12 @@ if ($_REQUEST['nm_arquivo'])
         <td nowrap colspan="2"><table border="1" align="center" cellpadding="2" bordercolor="#999999">
             <tr bgcolor="#FFFFCC"> 
               <td bgcolor="#EBEBEB" align="center"></td>
-              <td bgcolor="#EBEBEB" class="cabecalho_tabela">Arquivo</td>
-              <td bgcolor="#EBEBEB" class="cabecalho_tabela">Tamanho(Kb)</td>
-              <td align="right" colspan="3" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Data 
-                / Hora</td>
+              <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Arquivo');?></td>
+              <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Tamanho(kb)');?></td>
+              <td align="right" colspan="3" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Data e hora');?></td>
             </tr>
             <? 
-	  if ($handle = opendir($_SERVER['DOCUMENT_ROOT'] . 'repositorio')) 
+	  if ($handle = opendir($_SERVER['DOCUMENT_ROOT'] . '/repositorio')) 
 		{
 		$v_nomes_arquivos = array();		
 		while (false !== ($v_arquivo = readdir($handle))) 
@@ -95,10 +90,10 @@ if ($_REQUEST['nm_arquivo'])
 		sort($v_nomes_arquivos);
 		for ($cnt_arquivos = 0; $cnt_arquivos < count($v_nomes_arquivos); $cnt_arquivos++)
 			{
-			$v_dados_arquivo = lstat($_SERVER['DOCUMENT_ROOT'] . 'repositorio/'.$v_nomes_arquivos[$cnt_arquivos]);
+			$v_dados_arquivo = lstat($_SERVER['DOCUMENT_ROOT'] . '/repositorio/'.$v_nomes_arquivos[$cnt_arquivos]);
 			echo '<tr>';
 			?>
-			<td><a href="repositorio.php?nm_arquivo=<? echo $v_nomes_arquivos[$cnt_arquivos];?>" onClick="return Confirma('Confirma Exclusão do objeto <? echo $v_nomes_arquivos[$cnt_arquivos];?>?)"><img src="../imgs/lixeira.ico" width="20" height="20" border="0"></a></td>
+			<td><a href="repositorio.php?nm_arquivo=<? echo $v_nomes_arquivos[$cnt_arquivos];?>" onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao (');?><? echo $v_nomes_arquivos[$cnt_arquivos];?>)');"><img src="../imgs/lixeira.ico" width="20" height="20" border="0"></a></td>
 			<?
 			echo '<td>'.$v_nomes_arquivos[$cnt_arquivos].'</td>';										
 			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/1024), 1, '', '.').'</td>';			

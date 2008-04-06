@@ -344,7 +344,7 @@ function fillSelectFromArray(selectCtrl, itemArray, itemAtual)
               </select> </td>
           </tr>
           <tr nowrap> 
-            <td nowrap class="label"><?=$oTranslator->_('Descricao de acesso');?>:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Descricao do tipo de acesso');?>:</td>
             <td nowrap><textarea name="frm_te_descricao_grupo" cols="50" rows="4" id="frm_te_descricao_grupo" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $v_te_descricao_grupo;?></textarea></td>
           </tr>
         </table>

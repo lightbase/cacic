@@ -16,12 +16,12 @@
  
 //Remoção de computador
 include_once "../include/library.php"; 
-// Comentado temporariamente - AntiSpy();
+
 ?>
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title>Remo&ccedil;&atilde;o de Computador</title>
+<title><?=$oTranslator->_('Remocao de computador');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body bgcolor="#FFFFFF" leftmargin="2" topmargin="10" marginwidth="0" marginheight="0">
@@ -49,7 +49,7 @@ if ($_POST['remove_sim']) //Caso o botão SIM seja pressionado...
 	<td nowrap>&nbsp;</td>
 	</tr>				
 	<tr><td nowrap>
-	<div align="center"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;&nbsp;&nbsp;<b>Computador Removido!</b>&nbsp;&nbsp;&nbsp;</font></div>
+	<div align="center"><font size="3" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;&nbsp;&nbsp;<b><?=$oTranslator->_('Computador removido!');?></b></font></div>
 	</td></tr>	
 	<tr> 
 	<td nowrap>&nbsp;</td>
@@ -60,7 +60,7 @@ if ($_POST['remove_sim']) //Caso o botão SIM seja pressionado...
 	<tr>	
 	<td nowrap><div align="center">		
 	<form name="form1" method="post" action="">				
-	<input name="ok" 	type="submit" id="ok" 	value="   Ok   " onClick="window.close();">
+	<input name="ok" 	type="submit" id="ok" 	value="<?=$oTranslator->_('Ok!');?>" onClick="window.close();">
 	</form></div>
 	</td>				
 	</tr>
@@ -105,9 +105,8 @@ else
 	<td nowrap>&nbsp;</td>
 	</tr>				
 	<tr><td nowrap>
-	<div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;&nbsp;&nbsp;Confirma 
-                      a remo&ccedil;&atilde;o deste 
-                      computador?&nbsp;&nbsp;&nbsp;</font></div>
+	<div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+	<?=$oTranslator->_('Confirma a remocao deste computador?');?></font></div>
 	</td></tr>	
 	<tr> 
 	<td nowrap>&nbsp;</td>
@@ -120,7 +119,7 @@ else
 	<form name="form1" method="post" action="">				
 	<input name="remove_sim" 	type="submit" id="remove_sim" 	value="   Sim   ">
 	&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-	<input name="remove_nao" 	type="submit" id="remove_nao" 	value="   N&atilde;o   " onClick="window.close();">
+	<input name="remove_nao" 	type="submit" id="remove_nao" 	value="<?=$oTranslator->_('kciq_msg no');?>" onClick="window.close();">
 	</form></div>
 	</td>				
 	</tr>

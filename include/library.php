@@ -507,7 +507,7 @@ function autentica_agente($p_CipherKey, $p_IV, $p_cs_cipher, $p_cs_compress)
 	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_USER'],$p_cs_cipher, $p_cs_compress)) != 'USER_CACIC') ||
 	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_PW'],$p_cs_cipher, $p_cs_compress)) != 'PW_CACIC'))   
 	   	{
-        echo 'Acesso não autorizado.';
+        echo 'Acesso negado (Access denied)!';
 		exit;
 		} 
 	}

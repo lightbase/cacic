@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -45,13 +45,13 @@ if ($_SESSION['te_locais_secundarios']<>'')
 	$query = str_replace(')',' OR acoes_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].')))',$query);	
 	}
 
-$result = mysql_query($query.$from.$groupBy.$orderBy) or die('Erro no select ou sua sessão expirou!');
+$result = mysql_query($query.$from.$groupBy.$orderBy) or die($oTranslator->_('kciq_msg select on table fail', array('acoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title>Untitled Document</title>
+<title><?=$oTranslator->_('Modulos');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -59,14 +59,22 @@ $result = mysql_query($query.$from.$groupBy.$orderBy) or die('Erro no select ou 
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">M&oacute;dulos</td>
+    <td class="cabecalho"><?=$oTranslator->_('Modulos');?></td>
   </tr>
   <tr> 
-    <td class="descricao"><p>Aqui voc&ecirc; 
-        poder&aacute; configurar os v&aacute;rios m&oacute;dulos dispon&iacute;veis 
-        do CACIC. Clique sobre o m&oacute;dulo desejado e, em seguida, realize 
-        as configura&ccedil;&otilde;es.<br>&nbsp;<br>&nbsp;</p>
-      </td>
+    <td class="descricao"><p>
+    	<?=$oTranslator->_('kciq_msg Modulos help');?>
+    </td>
+  </tr>
+  <tr> 
+    <td>
+      <fieldset>
+      	<legend><?=$oTranslator->_('Legenda');?></legend>
+		<img src="../imgs/alerta_vermelho.gif" /> <?=$oTranslator->_('Nao e executado em nenhuma rede');?>
+		<img src="../imgs/alerta_amarelo.gif" /> <?=$oTranslator->_('Executado apenas nas redes selecionadas');?>
+		<img src="../imgs/alerta_verde.gif" /> <?=$oTranslator->_('Executado em todas as redes');?>
+      </fieldset>
+    </td>
   </tr>
 </table>
 <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
@@ -84,11 +92,11 @@ while ($row = mysql_fetch_array($result))
 	{
 	$img = '';
 	if($row['cs_situacao'] == 'N' || $row['cs_situacao'] == NULL)
-		$img = '<img src="../imgs/alerta_vermelho.gif" title="Não é executado em nenhuma rede" width="8" height="8" border="0">';
+		$img = '<img src="../imgs/alerta_vermelho.gif" title="'.$oTranslator->_('Nao e executado em nenhuma rede').'" width="8" height="8" border="0">';
 	if($row['cs_situacao'] == 'S')
-		$img = '<img src="../imgs/alerta_amarelo.gif" title="Executado apenas nas redes selecionadas" width="8" height="8" border="0">';
+		$img = '<img src="../imgs/alerta_amarelo.gif" title="'.$oTranslator->_('Executado apenas nas redes selecionadas').'" width="8" height="8" border="0">';
 	if($row['cs_situacao'] == 'T')
-		$img = '<img src="../imgs/alerta_verde.gif" title="Executado em todas as redes" width="8" height="8" border="0">';
+		$img = '<img src="../imgs/alerta_verde.gif" title="'.$oTranslator->_('Executado em todas as redes').'" width="8" height="8" border="0">';
 ?>
 	  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1">
         <tr> 
@@ -96,7 +104,8 @@ while ($row = mysql_fetch_array($result))
         </tr>
         <tr> 
           <td valign="top" scope="top" class="descricao"><div align="left"></div>
-            <? echo $row['te_descricao']?>&nbsp;</td>
+            <? echo $row['te_descricao']?>
+          </td>
         </tr>
         <tr> 
           <td></td>
@@ -113,9 +122,6 @@ while ($row = mysql_fetch_array($result))
 }
 ?>
 	</td>
-  </tr>
-  <tr> 
-    <td><div align="center"></div></td>
   </tr>
   <tr> 
     <td><div align="center"></div></td>
