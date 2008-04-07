@@ -46,7 +46,7 @@ Class Template extends patTemplate {
      $this->readTemplatesFromInput('install_footer.tmpl');
      $this->readTemplatesFromInput('install_navbar.tmpl');
      $this->readTemplatesFromInput('install_navbarftpverify.tmpl');
-    
+     $this->readTemplatesFromInput('install_navbarmailverify.tmpl');
    }
 
    function header() {
@@ -99,17 +99,25 @@ Class Template extends patTemplate {
      $this->addVar('tmplNavBarCheckInstall',  'KCIQ_CHECK', $this->oLang->_('kciq_msg check'));
      $this->addVar('tmplNavBarCheckInstall',  'KCIQ_REQUISITOS', $this->oLang->_('kciq_msg requisitos'));
      $this->addVar('tmplNavBarCheckInstall',  'KCIQ_PHPVERSION', $this->oLang->_('kciq_msg phpversion'));
-     $kciq_msg_suporte = $this->oLang->_('kciq_msg mysql_suporte');
-     $kciq_msg_suporte .= " (".$this->oLang->_('kciq_msg mysql_suporte', T_SIGLA).")";
+     $kciq_msg_suporte = $this->oLang->_('kciq_msg mysql_suporte', T_SIGLA);
+     $kciq_msg_suporte = $kciq_msg_suporte == "kciq_msg mysql_suporte"?"":" (".$kciq_msg_suporte.")";
+     $kciq_msg_suporte = $this->oLang->_('kciq_msg mysql_suporte').$kciq_msg_suporte;
      $this->addVar('tmplNavBarCheckInstall',  'KCIQ_MYSQL_SUPORTE', $kciq_msg_suporte);
-     $kciq_msg_suporte = $this->oLang->_('kciq_msg ftp_suporte');
-     $kciq_msg_suporte .= " (".$this->oLang->_('kciq_msg ftp_suporte', T_SIGLA).")";
+     $kciq_msg_suporte = $this->oLang->_('kciq_msg ftp_suporte', T_SIGLA);
+     $kciq_msg_suporte = $kciq_msg_suporte == "kciq_msg ftp_suporte"?"":" (".$kciq_msg_suporte.")";
+     $kciq_msg_suporte = $this->oLang->_('kciq_msg ftp_suporte').$kciq_msg_suporte;
      $this->addVar('tmplNavBarCheckInstall',  'KCIQ_FTP_SUPORTE', $kciq_msg_suporte);
-     $kciq_msg_suporte = $this->oLang->_('kciq_msg mcrypt_suporte');
-     $kciq_msg_suporte .= " (".$this->oLang->_('kciq_msg mcrypt_suporte', T_SIGLA).")";
+     $kciq_msg_suporte = $this->oLang->_('kciq_msg mail_suporte', T_SIGLA);
+     $kciq_msg_suporte = $kciq_msg_suporte == "kciq_msg mail_suporte"?"":" (".$kciq_msg_suporte.")";
+     $kciq_msg_suporte = $this->oLang->_('kciq_msg mail_suporte').$kciq_msg_suporte;
+     $this->addVar('tmplNavBarCheckInstall',  'KCIQ_EMAIL_SUPORTE', $kciq_msg_suporte);
+     $kciq_msg_suporte = $this->oLang->_('kciq_msg mcrypt_suporte', T_SIGLA);
+     $kciq_msg_suporte = $kciq_msg_suporte == "kciq_msg mcrypt_suporte"?"":" (".$kciq_msg_suporte.")";
+     $kciq_msg_suporte = $this->oLang->_('kciq_msg mcrypt_suporte').$kciq_msg_suporte;
      $this->addVar('tmplNavBarCheckInstall',  'KCIQ_MCRYPT_SUPORTE', $kciq_msg_suporte);
-     $kciq_msg_suporte = $this->oLang->_('kciq_msg gd_suporte');
-     $kciq_msg_suporte .= " (".$this->oLang->_('kciq_msg gd_suporte', T_SIGLA).")";
+     $kciq_msg_suporte = $this->oLang->_('kciq_msg gd_suporte', T_SIGLA);
+     $kciq_msg_suporte = $kciq_msg_suporte == "kciq_msg gd_suporte"?"":" (".$kciq_msg_suporte.")";
+     $kciq_msg_suporte = $this->oLang->_('kciq_msg gd_suporte').$kciq_msg_suporte;
      $this->addVar('tmplNavBarCheckInstall',  'KCIQ_GD_SUPORTE', $kciq_msg_suporte);
      $this->addVar('tmplNavBarCheckInstall',  'KCIQ_CFGFILE_WRITEABLE', $this->oLang->_('kciq_msg cfgfile_writeable'));
      $this->addVar('tmplNavBarCheckInstall',  'KCIQ_ADVISE_TITLE', $this->oLang->_('kciq_msg advise_title'));
@@ -123,6 +131,23 @@ Class Template extends patTemplate {
      $this->addVar('tmplNavBarFinish',  'KCIQ_PREVIOUS', $this->oLang->_('kciq_msg previous'));
      $this->addVar('tmplNavBarFinish',  'KCIQ_FINISH_TITLE', $this->oLang->_('kciq_msg finish title'));
      $this->addVar('tmplNavBarFinish',  'KCIQ_FINISH', $this->oLang->_('kciq_msg finish'));
+     
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_CONFIGURATIONS', $this->oLang->_('kciq_msg configurations'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_INST_MAILVERIFY', $this->oLang->_('kciq_msg mail verify'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_PREVIOUS', $this->oLang->_('kciq_msg previous'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_NEXT', $this->oLang->_('kciq_msg next'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_TESTCONN', $this->oLang->_('kciq_msg test conn'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_TESTCONN_HELP', $this->oLang->_('kciq_msg test conn help'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_MSG_SERVER', $this->oLang->_('kciq_msg database host'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_INST_MAIL_HOST_HELP', $this->oLang->_('kciq_msg mail host help'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_MSG_PORT', $this->oLang->_('kciq_msg database port'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_INST_MAIL_PORT_HELP', $this->oLang->_('kciq_msg mail port help'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_INST_MAIL_SUBDIR', $this->oLang->_('kciq_msg mail subdir'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_INST_MAIL_SUBDIR_HELP', $this->oLang->_('kciq_msg mail subdir help'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_MSG_USER', $this->oLang->_('kciq_msg user'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_INST_MAILUSER_HELP', $this->oLang->_('kciq_msg mail user help'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_MSG_PASS', $this->oLang->_('kciq_msg password'));
+     $this->addVar('tmplNavBarMailVerify',  'KCIQ_INST_MAILPASS_HELP', $this->oLang->_('kciq_msg mail password help'));
      
      $this->addVar('tmplNavBarFtpVerify',  'KCIQ_CONFIGURATIONS', $this->oLang->_('kciq_msg configurations'));
      $this->addVar('tmplNavBarFtpVerify',  'KCIQ_INST_FTPVERIFY', $this->oLang->_('kciq_msg ftp verify'));

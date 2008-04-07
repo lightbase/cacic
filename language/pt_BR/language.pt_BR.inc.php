@@ -169,11 +169,11 @@ pt_BR     kciq_msg admin mgm obs help                                           
 pt_BR     ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou                            admin     info                Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou
 pt_BR     ocorreu um erro no acesso a tabela %1 ou sua sessao expirou                                         admin     info                Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou
 pt_BR     kciq_msg ok                                                                                         geral     info                Ok
-pt_BR     kciq_msg ftp_suporte                                                                                instaladorinfo                PHP com suporte a FTP
-pt_BR     kciq_msg mcrypt_suporte                                                                             instaladorinfo                PHP com suporte a criptografia com MCrypt
-pt_BR     kciq_msg gd_suporte                                                                                 instaladorinfo                PHP com suporte a imagens com GD
-pt_BR     kciq_msg mysql_suporte                                                                              instaladorinfo                PHP com suporte ao MySQL versão
-pt_BR     kciq_msg phpmcrypt_help                                                                             instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca de manipulação criptográfica com MCrypt.
+pt_BR     kciq_msg mcrypt_suporte                                                                             instaladorinfo      php-MCryptPHP com suporte a criptografia com MCrypt
+pt_BR     kciq_msg gd_suporte                                                                                 instaladorinfo      php-GD    PHP com suporte a imagens com GD
+pt_BR     kciq_msg ftp_suporte                                                                                instaladorinfo      php-FTP   PHP com suporte a troca de arquivos por FTP.
+pt_BR     kciq_msg mysql_suporte                                                                              instaladorinfo      php-MySQL PHP com suporte ao MySQL versão
+pt_BR     kciq_msg phpmcrypt_help                                                                             instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca PHP de manipulação criptográfica com MCrypt.
 pt_BR     kciq_msg phpgd_help                                                                                 instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca de manipulação de imagens com GD.
 pt_BR     kciq_msg phpftp_help                                                                                instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca de para uso de FTP.
 pt_BR     kciq_msg phpmysql_help                                                                              instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca para banco de dados MYSQL.
@@ -265,4 +265,5 @@ pt_BR     kciq_msg license pt_read                                              
 pt_BR     kciq_msg last agents access                                                                         geral     info                Últimos acessos dos agentes
 pt_BR     kciq_msg last agents access on local                                                                geral     info                Últimos acessos dos agentes deste local
 pt_BR     kciq_msg last agents access per local                                                               geral     info                Últimos acessos dos agentes por local nesta data
+pt_BR     kciq_msg mail_suporte                                                                               install   info                PHP com suporte a envio de email
 pt_BR     kciq_msg Repositorio help                                                                           admin     info                Nesta página é possível verificar o conteúdo do repositório, bem como excluir os objetos que não serão utilizados nos updates das SubRedes.

@@ -65,7 +65,9 @@ class Install {
     	if(isset($_POST['cacic_cfgftp'])) {
     	   $_SESSION['cacic_cfgftp'] = $_POST['cacic_cfgftp'];
     	}
-    	
+    	if(isset($_POST['cacic_cfgmail'])) {
+    	   $_SESSION['cacic_cfgmail'] = $_POST['cacic_cfgmail'];
+    	}
     	
     	if(isset($_POST['cacic_admin']))
     	   $_SESSION['cacic_admin'] = $_POST['cacic_admin'];
@@ -84,6 +86,7 @@ class Install {
 	 function navBar($showNavBar="preInstall") {
 	 	 switch (strtolower($showNavBar)) {
 	 	     case "checkinstall": {	$this->checkInstall(); break; }
+	 	     case "mailverify": {	$this->mailVerify(); break; }
 	 	     case "ftpverify": {	$this->ftpVerify(); break; }
 	 	     case "configuration": { $this->configInstall(); break; }
 	 	     case "adminsetup": { $this->adminSetup(); break; }
@@ -159,6 +162,20 @@ class Install {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_STATUS', $this->oLang->_('kciq_msg no'));
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_CLASS', "NaoImg");
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMCRYPT_HELP', $this->oLang->_('kciq_msg phpmcrypt_help'));
+	 	  $lCouldContinue = false;
+	 	}
+	 	
+	 	/*
+	 	 * verifica suporte a SMTP; testando se a função mail existe
+	 	 */
+		if (function_exists('mail')) {
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPEMAIL_STATUS', $this->oLang->_('kciq_msg yes'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPEMAIL_CLASS', "SimImg");
+	 	}  
+	 	else {
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPEMAIL_STATUS', $this->oLang->_('kciq_msg no'));
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPEMAIL_CLASS', "NaoImg");
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPEMAIL_HELP', $this->oLang->_('kciq_msg phpemail_help'));
 	 	  $lCouldContinue = false;
 	 	}
 	 	
@@ -320,6 +337,14 @@ class Install {
 	  } 
 	  
 	 /*
+	  * Atribui dados padrao ao formulário de FTP
+	  */
+	  function mailVerify() {
+     	// Atribui os dados do formulario Mail
+	  	$this->setInputFields('tmplNavBarMailVerify');
+	  } 
+	  
+	 /*
 	  * Atribui dados padrao aos campos do formulario
 	  */
 	  function setInputFields($template) {
@@ -377,6 +402,23 @@ class Install {
     	  	$this->oTmpl->addVar($template, 'FTP_SUBDIR', "agentes");
     	  	$this->oTmpl->addVar($template, 'FTP_USER', 'ftpcacic');
     	  	$this->oTmpl->addVar($template, 'FTP_PASS', 'ftpcacic');
+	  	}
+	  	
+     	// coloca os dados de Mail
+	  	if(isset($_SESSION['cacic_cfgmail'])) {
+    	  	$cacic_cfgmail = $_SESSION['cacic_cfgmail'];
+    	  	$this->oTmpl->addVar($template, 'mail_HOST', $cacic_cfgmail['ftp_host']);
+    	  	$this->oTmpl->addVar($template, 'mail_PORT', $cacic_cfgmail['mail_port']);
+    	  	$this->oTmpl->addVar($template, 'mail_SUBDIR', $cacic_cfgmail['mail_subdir']);
+    	  	$this->oTmpl->addVar($template, 'mail_USER', $cacic_cfgmail['mail_user']);
+    	  	$this->oTmpl->addVar($template, 'mail_PASS', $cacic_cfgmail['mail_pass']);
+	  	}
+	  	else {
+    	  	$this->oTmpl->addVar($template, 'MAIL_HOST', "localhost");
+    	  	$this->oTmpl->addVar($template, 'MAIL_PORT', "25");
+    	  	$this->oTmpl->addVar($template, 'MAIL_SUBDIR', "agentes");
+    	  	$this->oTmpl->addVar($template, 'MAIL_USER', 'mailcacic');
+    	  	$this->oTmpl->addVar($template, 'MAIL_PASS', 'mailcacic');
 	  	}
 	  	
 	  	// Dados administrativos
