@@ -65,7 +65,7 @@ define(T_CRLF, chr(13) . chr(10));
 define(T_BG_COLOR_TRADUZ, "#e7d4d4");
 
 /**
- * Constrante que define se apenas traducao
+ * Constante que define se apenas traducao
  * @access private
  */
 define(T_TRANSLATOR, true);
@@ -75,6 +75,12 @@ define(T_TRANSLATOR, true);
  * @access private
  */
 define(T_CODER, false);
+
+/**
+ * Constante que define obter a sigla e não o texto por extenso
+ * @access private
+ */
+define(T_SIGLA, true);
 
 /**
  * Classe para realizar a traducao de um texto com base em arquivos pre-definidos
@@ -297,6 +303,14 @@ Class Translator {
 	var $arrLanguageList = array ();
 
 	/**
+	* contera numero de linhas para a textarea de traducao
+	* 
+	* @access private
+	* @var array linhas e colunas para textarea
+	*/
+	var $rows_cols = array('rows'=>3, 'cols'=>60);
+
+	/**
 	* idioma do browser
 	* @var string
 	* @access private
@@ -475,6 +489,7 @@ Class Translator {
 		$_objTmpl->addVar('translate_mnt', 'STANDARD_LANG_CODING_MSG_ABBR', $this->getText('#phptranslator_sigla para a mensagem#'));
 		$_objTmpl->addVar('translate_mnt', 'STANDARD_LANG_CODING_MSG', $this->getText('#phptranslator_mensagem#'));
 		$_objTmpl->addVar('translate_mnt', 'STANDARD_LANG_CODING_ADVISE', $this->getText('#phptranslator_mnt_code_advise#'));
+		$_objTmpl->addVars('translate_mnt', $this->rows_cols);
 
 		$_objTmpl->addVar('translate_list_head', 'STANDARD_LANG_REPORTING', $this->getText('#phptranslator_listagem de mensagens padrao codificadas#'));
 
@@ -883,6 +898,8 @@ Class Translator {
 							'lang_type' => $_key['type'],
 							'lang_src' => $_key['text'],
 							'lang_tgt' => $_language_tgt[$_keys]['text'],
+							'rows' => $this->rows_cols['rows'],
+							'cols' => $this->rows_cols['cols'],
 							'lang_tgt_acr' => $_language_tgt[$_keys]['abbr']
 						)
 					);
@@ -1596,6 +1613,18 @@ Class Translator {
 	function getLanguagePath() {
 	   return $this->languageFilePath;
 	}
+
+	/**
+	 * Atribui valores para linhas e colunas em textarea na traducao
+	 * @access public
+	 * @param int $_rows numero de linhas a mostrar 
+	 * @param int $_cols numero de colunas a mostrar 
+	 */
+	function setRowsCols($_rows=0, $_cols=0) {
+		$_rows = $_rows == 0?$this->rows_cols['rows']:$_rows;
+		$_cols = $_cols == 0?$this->rows_cols['cols']:$_cols;
+		$this->rows_cols = array('rows'=>$_rows, 'cols'=>$_cols);
+	} // end func: setRowsCols
 
 	/*
 	 *     Deprecated Methods 
