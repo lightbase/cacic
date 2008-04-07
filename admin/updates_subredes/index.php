@@ -115,7 +115,7 @@ function verificar()
 </head>
 	
 	<body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js'?>"></script>					
+<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>					
 	<table width="90%" border="0" align="center">
 	  <tr> 
 		<td class="cabecalho">Updates de SubRedes</td>
