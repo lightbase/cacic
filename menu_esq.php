@@ -1,16 +1,16 @@
 <? 
 /*
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informa??es da Previd?ncia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ? parte do programa CACIC - Configurador Autom?tico e Coletor de Informa??es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ? um software livre; voc? pode redistribui-lo e/ou modifica-lo dentro dos termos da Licen?a P?blica Geral GNU como 
+ publicada pela Funda??o do Software Livre (FSF); na vers?o 2 da Licen?a, ou (na sua opni?o) qualquer vers?o.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ? distribuido na esperan?a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUA??O a qualquer
+ MERCADO ou APLICA??O EM PARTICULAR. Veja a Licen?a P?blica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Voc? deve ter recebido uma c?pia da Licen?a P?blica Geral GNU, sob o t?tulo "LICENCA.txt", junto com este programa, se n?o, escreva para a Funda??o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
@@ -20,8 +20,8 @@ require_once('include/config.php');
 require_once('include/define.php');
 require_once "include/library.php";
 
-// IP´s onde serão exibidas mensagens de Debug, para acompanhamento de atualização de scripts.
-// Os IP´s devem estar entre "[" e "]". Exemplo: s_SESSION['cIpsDisplayDebugs'] = '[10.71.0.58][10.71.0.52]';
+// IP?s onde ser?o exibidas mensagens de Debug, para acompanhamento de atualiza??o de scripts.
+// Os IP?s devem estar entre "[" e "]". Exemplo: s_SESSION['cIpsDisplayDebugs'] = '[10.71.0.58][10.71.0.52]';
 $_SESSION['cIpsDisplayDebugs'] = '[10.71.0.58][10.71.0.52]';
 
 conecta_bd_cacic();
@@ -47,7 +47,7 @@ function PegaConfiguracoesLocais($p_id_local)
 	$row_configs_locais  				= @mysql_fetch_array($res_configs_locais);
 	$_SESSION['id_default_body_bgcolor']= $row_configs_locais['id_default_body_bgcolor'];				
 	}
-// Caso o usuário clique em "logoff" a sua sessão é destruída
+// Caso o usu?rio clique em "logoff" a sua sess?o ? destru?da
 if($_POST['logoff'])
      {
 	 session_unregister('id_grupo_usuarios');	 
@@ -61,7 +61,13 @@ if($_POST['logoff'])
 	 session_unregister('te_grupo_usuarios');			 
 	 session_unregister('id_default_body_bgcolor');	 
 	 session_unregister('cIpsDisplayDebugs');	 
-     //Adicionado pela Marisol em 12/06/2006
+	 session_unregister('etiqueta1');
+	 session_unregister('plural_etiqueta1');
+	 session_unregister('etiqueta1a');
+	 session_unregister('plural_etiqueta1a');
+	 session_unregister('etiqueta2');
+	 session_unregister('plural_etiqueta2');
+	 //Adicionado pela Marisol em 12/06/2006
      session_destroy();
 	 
 	 ?>
@@ -73,7 +79,7 @@ if($_POST['logoff'])
 	 
 if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	{
-	// Solução temporária, até total convergência para versões 4.0.2 ou maior de MySQL 
+	// Solu??o tempor?ria, at? total converg?ncia para vers?es 4.0.2 ou maior de MySQL 
 	// Anderson Peterle - Dataprev/ES - 04/09/2006
 	$v_AUTH_SHA1 	 = " SHA1('". trim(base64_decode($_POST['frm_te_senha'])) ."')";
 	$v_AUTH_PASSWORD = " PASSWORD('". trim(base64_decode($_POST['frm_te_senha'])) ."')";	
@@ -104,7 +110,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	$result_qry_usuario = mysql_query($query);
 	if (mysql_num_rows($result_qry_usuario)<=0)
 		{
-		// Para MySQL até 4.0	
+		// Para MySQL at? 4.0	
 		// Anderson Peterle - Dataprev/ES - 04/09/2006		
 		$query = $qry_usuario . $v_AUTH_PASSWORD;
 		$result_qry_usuario = mysql_query($query);
@@ -118,11 +124,11 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 			$_SESSION["menu_usuario"]      		=             getMenu($reg_result['te_menu_grupo']); //'language/menus/'.$reg_result['te_menu_grupo'];			 			 
 			$_SESSION["id_usuario"] 			=             $reg_result['id_usuario'];						 
 			$_SESSION["id_usuario_crypted"] 	=             EnCrypt($key,$iv,$reg_result['id_usuario'],"1","0","0");
-			$_SESSION["te_locais_secundarios"]	=        trim($reg_result['te_locais_secundarios']);			 			 
 			$_SESSION["id_local"]				=             $reg_result['id_local'];			 			 			 
 			$_SESSION["sg_local"]				=             $reg_result['sg_local'];			 			 			 
 			$_SESSION["nm_local"]				=             $reg_result['nm_local'];			 			 			 			 
 			$_SESSION["cs_nivel_administracao"]	=             $reg_result['cs_nivel_administracao'];			 			 			 			 
+			$_SESSION["te_locais_secundarios"]	=             ($_SESSION["cs_nivel_administracao"] <> '1' && $_SESSION["cs_nivel_administracao"] <> '2'?trim($reg_result['te_locais_secundarios']):'');
 			$_SESSION["te_grupo_usuarios"]		= 			  $reg_result['te_grupo_usuarios'];
 			}
 	
@@ -144,9 +150,16 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		session_unregister('nm_usuario');
 		session_unregister('menu_usuario');
 		session_unregister('id_usuario');
+		session_unregister('id_usuario_crypted');
 		session_unregister('te_grupo_usuarios');
 		session_unregister('id_default_body_bgcolor');	 				
-		session_unregister('cIpsDisplayDebugs');	 			 		
+		session_unregister('cIpsDisplayDebugs');
+		session_unregister('etiqueta1');
+		session_unregister('plural_etiqueta1');
+		session_unregister('etiqueta1a');
+		session_unregister('plural_etiqueta1a');
+		session_unregister('etiqueta2');
+		session_unregister('plural_etiqueta2');
 		?>
 		<SCRIPT LANGUAGE="Javascript">
 		alert('<?= $oTranslator->_('kciq_msg invalid user or pass'); ?>!');
@@ -238,6 +251,32 @@ if (!$_SESSION["id_usuario"])
 	}
 else
 	{	
+	$queryCONFIG = "SELECT 		DISTINCT 
+								id_etiqueta,
+								te_etiqueta,
+								te_plural_etiqueta
+			  		FROM 		patrimonio_config_interface patcon
+					WHERE		patcon.id_etiqueta in ('".'etiqueta1'."','".'etiqueta1a'."','".'etiqueta2'."') ".
+							  " AND id_local = ".$_SESSION['id_local']." 
+			  		ORDER BY 	id_etiqueta
+					LIMIT       3";
+
+	$resultCONFIG 	= mysql_query($queryCONFIG);
+
+	session_register('etiqueta1');
+	session_register('plural_etiqueta1');
+	session_register('etiqueta1a');
+	session_register('plural_etiqueta1a');
+	session_register('etiqueta2');
+	session_register('plural_etiqueta2');
+
+	$_SESSION['etiqueta1'] 			= mysql_result($resultCONFIG,0,'te_etiqueta');
+	$_SESSION['plural_etiqueta1'] 	= mysql_result($resultCONFIG,0,'te_plural_etiqueta');
+	$_SESSION['etiqueta1a'] 		= mysql_result($resultCONFIG,1,'te_etiqueta');
+	$_SESSION['plural_etiqueta1a'] 	= mysql_result($resultCONFIG,1,'te_plural_etiqueta');
+	$_SESSION['etiqueta2'] 			= mysql_result($resultCONFIG,2,'te_etiqueta');
+	$_SESSION['plural_etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_plural_etiqueta');
+	
 	$treefile = $_SESSION["menu_usuario"];
 	require "include/treemenu.php";
 	?>
@@ -259,7 +298,7 @@ else
 		{
 		var campo = document.getElementById('mensagem_pesquisa');
    		campo.style.backgroundColor = "#ebebeb";		
-		campo.value = "Nome da Estação, IP ou MAC";
+		campo.value = "Nome da Esta??o, IP ou MAC";
 		}
 	function DesligaHelp()
 		{
@@ -280,7 +319,7 @@ else
 	</SCRIPT>		
 	
 	<?
-	if ($_SESSION['id_grupo_usuarios']<>3) // Caso não seja usuário "Convidado" (atribuído automaticamente quando rede e local são identificados)
+	if ($_SESSION['id_grupo_usuarios']<>3) // Caso n?o seja usu?rio "Convidado" (atribu?do automaticamente quando rede e local s?o identificados)
 		{
 		?>
 		<!-- Inicio Marisol 24-07-06 --> 
@@ -307,7 +346,7 @@ else
   		<table border="0" align="center">
 		<tr nowrap> 
 		<?
-	if ($_SESSION['id_grupo_usuarios']<>3) // Caso não seja usuário "Convidado" (atribuído automaticamente quando rede e local são identificados)		
+	if ($_SESSION['id_grupo_usuarios']<>3) // Caso n?o seja usu?rio "Convidado" (atribu?do automaticamente quando rede e local s?o identificados)		
 		{	
 		?>  			
       	<td nowrap class="label_peq_sem_fundo" valign="bottom"><?= $oTranslator->_('kciq_msg user'); ?>:</td>		
@@ -377,6 +416,9 @@ else
 		}
 		?>
 		</tr>
+		<?		
+		include 'include/contador.php';		
+		?>
   	</table>
   	</form> 
 	<?

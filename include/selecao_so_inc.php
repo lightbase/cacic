@@ -36,7 +36,8 @@
               <?    /* Consulto todos os sistemas operacionais. */ 
 					  	$query = "SELECT id_so, te_desc_so
 								  FROM so
-								  WHERE id_so > 0";
+								  WHERE id_so > 0
+								  ORDER BY te_desc_so";
 						$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela so ou sua sessão expirou!');
 
 						/* Agora monto os itens do combo de so's. */ 

@@ -28,16 +28,16 @@ else
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
-    <td height="1" colspan="2" bgcolor="#333333"></td>
+    <td height="1" colspan="4" bgcolor="#333333"></td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td colspan="2" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=variavel_ambiente&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
+    <td colspan="4" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=variavel_ambiente&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['variavel_ambiente'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> Variáveis 
       de Ambiente</a></td>
   	</tr>
   	<tr> 
-    <td height="1" colspan="2" bgcolor="#333333"></td>
+    <td height="1" colspan="4" bgcolor="#333333"></td>
   	</tr>
   	<?
 			if ($_SESSION['variavel_ambiente'] == true) 
@@ -60,13 +60,22 @@ else
 								ORDER BY	va.nm_variavel_ambiente";
 					$result_software = mysql_query($query);
 					$v_achei = 0;
+					$intContaItem =0;
+					$strCor = '';
+
 					while ($row = @mysql_fetch_array($result_software)) 
 						{
+						$strCor = ($strCor==''?'#CCCCFF':'');						
 						$v_achei = 1;
+						$intContaItem ++;
 						?>
-  						<tr> 
-    					<td class="descricao">&nbsp;<? echo $row['nm_variavel_ambiente']; ?></td>
-    					<td class="descricao">&nbsp;<? echo $row['vl_variavel_ambiente']; ?></td>
+  						<tr bgcolor="<? echo $strCor;?>">
+  						  <td width="2%" class="descricao">
+  						    <div align="right"><B><? echo $intContaItem;?></B></div>
+  						  </td> 
+    					  <td class="descricao">&nbsp;</td>
+    					  <td width="63%" align="left" class="descricao">&nbsp;<? echo $row['nm_variavel_ambiente']; ?></td>
+    					<td width="35%" class="descricao">&nbsp;<? echo $row['vl_variavel_ambiente']; ?></td>
   						</tr>
   						<?
   						echo $linha;

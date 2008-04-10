@@ -23,7 +23,11 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 include_once "../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 if (!$_REQUEST['date_input1'])
 	{
 	$from_usuarios = '';
@@ -167,14 +171,18 @@ require_once('../include/selecao_listbox.js');
 		else
 			{
 			$itens_locais = '';
-			$list12 =  $_REQUEST['list12'];
-			for ($i =0; $i < count($list12);$i++)
+			for ($i =0; $i < count($_POST['list12']);$i++)
 				{
 				if ($itens_locais)
 					$itens_locais .= ',';
-				$itens_locais .= $list12[$i];
+				$itens_locais .= $_POST['list12'][$i];
 				}
 			$where_usuarios = ' AND b.id_local IN ('.$itens_locais.')';
+			if (count($_POST['list12'])==0)
+				$msg = '<div align="center">
+				<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
+				Nenhum acesso realizado no <u>período informado</u> ou nenhum <u>local selecionado</u>.</font><br><br></div>';				
+			
 			}
 
 		conecta_bd_cacic();
@@ -248,26 +256,14 @@ require_once('../include/selecao_listbox.js');
 				list($day,$hour) = explode(" ",$day); 
 				$nm_usuario_atividades = PrimUltNome($row['nm_usuario_completo']).'/'.$row['sg_local'];		  
 		
-				if (array_search($row['cs_acao'],$arr_cs_acao))
-					$arr_cs_acao[$row['cs_acao']]=1;
-				else
-					$arr_cs_acao[$row['cs_acao']]++;
+				$arr_cs_acao[$row['cs_acao']]++;
 
 				$nm_script =  str_replace('.php','',$row['nm_script']);			
-				if (array_search($nm_script,$arr_nm_script))
-					$arr_nm_script[$nm_script]=1;
-				else
-					$arr_nm_script[$nm_script]++;
+				$arr_nm_script[$nm_script]++;
 		
-				if (array_search($row['nm_tabela'],$arr_nm_tabela))
-					$arr_nm_tabela[$row['nm_tabela']]=1;
-				else
-					$arr_nm_tabela[$row['nm_tabela']]++;
+				$arr_nm_tabela[$row['nm_tabela']]++;
 		
-				if (array_search($nm_usuario_atividades.'#'.$row['id_usuario'],$arr_nm_usuario))
-					$arr_nm_usuario[$nm_usuario_atividades.'#'.$row['id_usuario']]=1;
-				else
-					$arr_nm_usuario[$nm_usuario_atividades.'#'.$row['id_usuario']]++;
+				$arr_nm_usuario[$nm_usuario_atividades.'#'.$row['id_usuario']]++;
 		
 				?>
           		<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 

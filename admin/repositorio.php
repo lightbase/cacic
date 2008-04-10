@@ -15,6 +15,10 @@
  */
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/include/library.php');
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administra<E7><E3>o
+// 2 - Gest<E3>o Central
+// 3 - Supervis<E3>o
 
 if ($_REQUEST['nm_arquivo'])
 	{if(!@unlink($_SERVER['DOCUMENT_ROOT'] . '/repositorio/'.$_REQUEST['nm_arquivo']))
@@ -81,7 +85,7 @@ if ($_REQUEST['nm_arquivo'])
 		$v_nomes_arquivos = array();		
 		while (false !== ($v_arquivo = readdir($handle))) 
 			{
-			if (substr($v_arquivo,0,1) != "." and $v_arquivo != "netlogon" and $v_arquivo != "supergerentes") 		
+			if (substr($v_arquivo,0,1) != "." and $v_arquivo != "netlogon" and $v_arquivo != "supergerentes" and $v_arquivo != "install")
 				{
 				// Armazeno o nome do arquivo
 				array_push($v_nomes_arquivos, $v_arquivo);

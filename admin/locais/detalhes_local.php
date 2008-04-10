@@ -23,7 +23,10 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+
 conecta_bd_cacic();
 
 if ($_POST['ExcluiLocal'] <> '') 
@@ -163,7 +166,7 @@ function valida_form()
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
-	</table>
+  </table>
 	  
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
@@ -216,6 +219,96 @@ function valida_form()
 		
   </table>
 <br>        
+<?
+$where = ' AND id_local = '.$_GET['id_local'];
+$queryCONFIG = "SELECT 		DISTINCT 
+							id_etiqueta,
+							te_etiqueta,
+							te_plural_etiqueta
+		  		FROM 		patrimonio_config_interface patcon
+				WHERE		patcon.id_etiqueta in ('".'etiqueta1'."','".'etiqueta1a'."','".'etiqueta2'."') ".
+							$where. "
+		  		ORDER BY 	id_etiqueta
+				LIMIT       3";
+
+$resultCONFIG 	= mysql_query($queryCONFIG);
+
+session_register('etiqueta1');
+session_register('etiqueta1a');
+session_register('etiqueta2');
+
+$_SESSION['etiqueta1'] 	= mysql_result($resultCONFIG,0,'te_etiqueta');
+$_SESSION['etiqueta1a'] 	= mysql_result($resultCONFIG,1,'te_etiqueta');
+$_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
+?>
+  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+    <tr> 
+      <td colspan="8" class="label">Informa&ccedil;&otilde;es de Patrim&ocirc;nio Associadas ao Local:</td>
+    </tr>
+    <tr> 
+      <td height="1" bgcolor="#333333" colspan="8"></td>
+    </tr>
+    <tr>
+      <td class="cabecalho_tabela">&nbsp;</td>
+      <td class="cabecalho_tabela">&nbsp;</td>
+      <td align="left" nowrap class="cabecalho_tabela"><? echo $_SESSION['etiqueta1']; ?></td>
+      <td align="left" class="cabecalho_tabela">&nbsp;</td>
+      <td align="left" class="cabecalho_tabela"><? echo $_SESSION['etiqueta1a']; ?></td>
+      <td align="left" class="cabecalho_tabela">&nbsp;</td>
+      <td align="left" class="cabecalho_tabela"><? echo $_SESSION['etiqueta2']; ?></td>
+      <td align="left" class="cabecalho_tabela">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td height="1" bgcolor="#333333" colspan="8"></td>
+    </tr>
+	
+    <?
+	$query = 'SELECT 	uo1.id_unid_organizacional_nivel1   as uo1_id_unid_organizacional_nivel1,
+						uo1.nm_unid_organizacional_nivel1   as uo1_nm_unid_organizacional_nivel1,
+						uo1a.id_unid_organizacional_nivel1a as uo1a_id_unid_organizacional_nivel1a,
+						uo1a.nm_unid_organizacional_nivel1a as uo1a_nm_unid_organizacional_nivel1a,
+						uo2.id_unid_organizacional_nivel2   as uo2_id_unid_organizacional_nivel2,
+						uo2.nm_unid_organizacional_nivel2   as uo2_nm_unid_organizacional_nivel2
+			  FROM 		unid_organizacional_nivel1 uo1,
+			       		unid_organizacional_nivel1a uo1a,			  
+						unid_organizacional_nivel2 uo2
+			  WHERE		uo2.id_unid_organizacional_nivel1a = uo1a.id_unid_organizacional_nivel1a and
+						uo2.id_local = '.$_GET['id_local'].' and
+						uo1a.id_unid_organizacional_nivel1 = uo1.id_unid_organizacional_nivel1 			
+			  ORDER BY 	uo1_nm_unid_organizacional_nivel1, 
+						uo1a_nm_unid_organizacional_nivel1a, 
+						uo2_nm_unid_organizacional_nivel2';		  
+
+	$result = mysql_query($query) or die ('Erro no acesso ou sua sessão expirou!');
+	
+	$seq = 1;
+	$Cor = 1;	
+	while ($row = mysql_fetch_array($result))
+		{
+		?>
+    <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
+      <td align="center" nowrap class="opcao_tabela"><? echo $seq; ?></td>	
+      <td align="left" nowrap class="opcao_tabela">&nbsp;&nbsp;</td>	  
+      <td align="center" nowrap class="opcao_tabela"><div align="left"><? echo $row['uo1_nm_unid_organizacional_nivel1'];?></div></td>
+      <td align="left" nowrap class="opcao_tabela">&nbsp;&nbsp;</td>
+      <td align="center" nowrap class="opcao_tabela"><div align="left"><? echo $row['uo1a_nm_unid_organizacional_nivel1a'];?></div></td>
+      <td align="center" nowrap class="opcao_tabela">&nbsp;</td>
+      <td align="center" nowrap class="opcao_tabela"><div align="left"><? echo $row['uo2_nm_unid_organizacional_nivel2'];?></div></td>
+      <td align="center" nowrap class="opcao_tabela">&nbsp;</td>
+    </tr>
+    <?
+		$seq++;
+		$Cor=!$Cor;
+		}
+	if ($seq==1)
+		echo '<tr><td colspan="5" class="label_vermelho">Ainda não existem informações de patrimônio associadas ao local!</td></tr>';		
+		?>
+    <tr> 
+      <td height="1" bgcolor="#333333" colspan="8"></td>
+    </tr>
+  </table>
+<br>        
+
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
       <td colspan="7" class="label">Usu&aacute;rios Associados ao Local:</td>
@@ -228,9 +321,9 @@ function valida_form()
       <td class="cabecalho_tabela">&nbsp;</td>
       <td align="left" nowrap class="cabecalho_tabela">Nome</td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" class="cabecalho_tabela">N&iacute;vel de Acesso</td>
+      <td align="left" nowrap class="cabecalho_tabela"><div align="center">N&iacute;vel de Acesso</div></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" class="cabecalho_tabela">Tipo de Acesso</td>
+      <td align="left" nowrap class="cabecalho_tabela"><div align="center">Tipo de Acesso</div></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
       <td align="left" class="cabecalho_tabela">Emails</td>	  
     </tr>
@@ -243,7 +336,8 @@ function valida_form()
 						a.id_local,
 						a.te_locais_secundarios,
 						a.te_emails_contato,
-						b.te_grupo_usuarios
+						b.te_grupo_usuarios,
+						b.id_grupo_usuarios
 			  FROM 		usuarios a,
 			  			grupo_usuarios b
 			  WHERE 	(a.id_local = ".$_GET['id_local']." OR 
@@ -268,11 +362,18 @@ function valida_form()
 	  	{
 		echo ' ('.$v_arr_locais[array_search($row['id_local'],$v_arr_locais)+1] . ')';
 		}
+	  $UserGroup = 'usergroup_'.$row['id_grupo_usuarios'].'.gif';
+	  $UserGroup = 'usergroup_'.($row['id_grupo_usuarios'] == 1?'CO':
+	                            ($row['id_grupo_usuarios'] == 2?'AD':
+	  						    ($row['id_grupo_usuarios'] == 5?'GC':
+	  						    ($row['id_grupo_usuarios'] == 6?'SU':
+	  						    ($row['id_grupo_usuarios'] == 7?'TE':''))))).'.gif';
+	  
 	  ?></a></td>
       <td width="1%" align="left" class="opcao_tabela">&nbsp;&nbsp;</td>
-      <td width="30%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['te_grupo_usuarios']; ?></a></td>
+      <td width="30%" align="left" class="opcao_tabela"><div align="center"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><img src="<? echo '../../imgs/'.$UserGroup;?>" width="17" height="14" border="0" title="Nível: '<? echo $row['te_grupo_usuarios'];?>'"></a></div></td>
       <td width="1%" align="left" class="opcao_tabela">&nbsp;</td>
-      <td width="62%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo ($row['id_local']==$_REQUEST['id_local']?'Primário':'Secundário'); ?></a></td>
+      <td width="62%" align="left" class="opcao_tabela"><div align="center"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo ($row['id_local']==$_REQUEST['id_local']?'Primário':'Secundário'); ?></a></div></td>
       <td width="1%" align="left" class="opcao_tabela">&nbsp;</td>
       <td width="62%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['te_emails_contato']; ?></a></td>	  
     </tr>
@@ -293,7 +394,7 @@ function valida_form()
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input name="ExcluiLocal" type="submit" value="  Excluir Local" onClick="return Confirma('Confirma Exclusão do Local E TODAS AS SUAS DEPENDÊNCIAS?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
   </p>
-      </form>		  
+</form>		  
 		
 </body>
 </html>

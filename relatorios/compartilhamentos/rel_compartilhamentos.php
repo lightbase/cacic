@@ -270,7 +270,7 @@ while ($linha = mysql_fetch_array($resultado))
   gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo
+  pela Dataprev - Unidade Regional Esp&iacute;rito Santo
   <br>Relatório adaptado por Emerson Pellis</font>
   </p>
 </body>

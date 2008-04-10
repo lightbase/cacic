@@ -37,7 +37,7 @@ else
     <td bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=unidades_disco&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['unidades_disco'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> 
-      Unidades de Discos e Particionamentos</a></td>
+      Unidades de Discos R&iacute;gidos</a></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>

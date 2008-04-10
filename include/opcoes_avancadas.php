@@ -53,7 +53,7 @@ if (!$forca_coleta_estacao=='OK')
 	{
 	?>
     <input name="v_todas_acoes_redes" type="checkbox" onClick="MarcaDesmarcaTodasAcoesRedes(this.checked)"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">				
-    <td width="453" nowrap class="label"><div align="left"><em><strong><?=$oTranslator->_('Marca ou Desmarca todas as Acoes para todas as Redes abaixo');?></em></div></td>
+    <td width="453" nowrap class="label"><div align="left"><em><strong>Marca/Desmarca todas as A&ccedil;&otilde;es para todas as Redes abaixo</em></div></td>
 	<?
 	}
 ?>
@@ -64,7 +64,11 @@ if (!$forca_coleta_estacao=='OK')
 <table width="485" border="0" align="center" cellpadding="0" cellspacing="0">
 <? 
 require_once('../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 conecta_bd_cacic();			
 $query = "	SELECT 		ac.id_acao,
 						ac.te_descricao_breve
@@ -76,11 +80,10 @@ $id_local = ($_POST['id_local']?$_POST['id_local']:$_SESSION['id_local']);
 $result_acoes = mysql_query($query) or die($oTranslator->_('kciq_msg select on table fail', array('acoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
 $where = ($_SESSION["cs_nivel_administracao"] == 3?"AND ac_re.id_local = ".$id_local:"");	
 
-
 if ($_SESSION['te_locais_secundarios'])
 	{
 	$where = str_replace('ac_re.id_local',' (ac_re.id_local',$where);
-	$where .= ' OR (ac_re.id_local IN ('.$_SESSION['te_locais_secundarios'].')) ';
+	$where .= ' OR (ac_re.id_local IN ('.$_SESSION['te_locais_secundarios'].'))) ';
 	}
 
 while ($row = mysql_fetch_array($result_acoes))

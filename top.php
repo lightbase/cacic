@@ -19,72 +19,14 @@ require_once('include/config.php');
 require_once('include/define.php');
 
 $v_versao = CACIC_VERSION;
-/* 
-2.2.3-RC6   (Anderson Peterle - Dataprev/ES - Novembro/2007)
-		  * Apenas redução da fonte constante (de 3 para 2) das legendas das Estatísticas do CACIC, na página principal,
-		  	visando melhor distribuição dos dados relativos aos nomes dos locais quando essa quantidade for superior a 25.
-
-2.2.3-RC5   (Anderson Peterle - Dataprev/ES - Outubro/2007)
-		  + Implementado o destaque para os computadores com mais de 5 dias sem acesso ao gerente WEB; (Computadores/Navegação)
-		  + Implementada a seleção de Locais para as opções de Log de Acessos e Log de Atividades; (Administração/Log de Acessos e Administração/Log de Atividades)
-		  + Implementada a seleção de Redes para aplicação dos Perfis de Sistemas Monitorados; (Administração/Cadastros/Perfis Sistemas)		  
-		  * Efetuadas diversas pequenas correções. (Administração/Cadastros/Locais, Relatórios, Estatísticas, etc.)
-
-2.2.3-RC4   (Anderson Peterle - Dataprev/ES - Julho a Setembro/2007)
-		  + Implementado o destaque de ações dos usuários: INS->Verde UPD->Amarelo DEL->Vermelho
-		  + Implementado o detalhamento dos dados constantes dos detalhes das estatísticas da página inicial
-		  + Implementada a opção "Administração/Configurar Gerente/Exibir Gráficos na Página Principal e Detalhes" para exibição de pizza ou tabela
-		  + Implementada a manutenção do cadastro sistemas operacionais em "Administração/Cadastros/S.Operacionais"
-		  + Implementada a ordenação por colunas nas opções "Administração/Cadastros/Locais", "Administração/Cadastros/SubRedes", "Administração/Cadastros/Usuários" e "Administração/Cadastros/S.Operacionais"
-		  * Efetuadas correções em consultas e atualizações de informações do banco de dados
-		  		  		  
-2.2.3-dev-1 (Anderson Peterle - Dataprev/ES - Junho/2007)
-		  * Corrigido o processo de liberação de FTP, onde a tabela redes_grupos_ftp é liberada após a operação
-			de transferência de arquivos por parte do módulo cliente Gerente de Coletas.
-
-2.2.3-dev (Anderson Peterle - Dataprev/ES - Maio/2007)
-		  + Implementado o detalhamento para as estatísticas exibidas na página principal quando representarem
-		  mais de um local (local primário + local(is) secundário(s))
-		  + Os níveis Administração e Gestão Central também acessam a opção de detalhamento.
-
-2.2.3     (Anderson Peterle - Dataprev/ES - Março e Abril/2007)
-		  + Implementada a opção de seleção de "Locais Secundários" nas janelas de inclusão e detalhes de usuários,
-		    para simulação de pseudo "relação de confiança" entre usuários e locais, possibilitando a estes usuários 
-		    o acesso e manipulação das informações dos locais "confiantes";
-		  + Adequação das consultas ao conceito de "relação de confiança" implementado.		  
-
-2.2.2     (Anderson Peterle - Dataprev/ES - Fevereiro/2007)
-		  * Corrigida a atribuição indevida do nome de usuário constande de resultado de Log de Atividades ao nome do usuário logado na aplicação;
-		  * Corrigidas algumas correlações de "local" em consultas realizadas por usuários com níveis diferentes de "Administração" e "Gestão Central";
-		  + Implementada a opção de seleção de Coletas de Sistemas Monitorados quando do cadastramento da subrede;
-		  + Implementada a opção de seleção/alteração de Coletas de Sistemas Monitorados quando da edição de configurações da subrede.
-
-2.2.1     (Anderson Peterle - Dataprev/ES - Janeiro/2007)
-		  Efetuadas adaptações para suporte a base centralizada de dados, quando as subredes cadastradas 
-   		  passam a fazer parte de uma "localização" ou "local".
-		  As adaptações impactaram na definição dos seguintes níveis de acesso:
-		  1) Administração => Acesso irrestrito, com visão total de todos os dados de todos os "locais".
-		  					  Tem total permissão para alteração de dados constantes de tabelas centralizadas;
-		  2) Gestão Central=> Acesso irrestrito, com visão total de todos os dados de todos os "locais".
-							  Não tem permissão para alteração de dados constantes de tabelas centralizadas;
-		  3) Supervisor	 =>   Acesso restrito aos dados do "local" de cadastro. Seu cadastro é realizado pelo nível "Administração";
-							  Tem permissão para visão/alteração de dados locais e cadastramento de usuários
-		 					  de níveis "Técnico" ou "Comum";
-		  4) Técnico	 =>   Acesso restrito aos dados do "local" de cadastro. Seu cadastro é realizado pelo nível "Supervisão".
-							  Tem permissão para acesso a configuracoes de rede e relatórios de Patrimônio e Hardware;
-		  5) Comum		 =>   Acesso restrito aos dados do "local" de cadastro. Seu cadastro é realizado pelo nível "Supervisão".
-							  Não tem acesso a informações "confidenciais" como Softwares Inventariados e Opções Administrativas 
-							  como Forçar Coletas e Excluir Computador. Poderá alterar sua própria senha.		
-*/
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Topo</title></head>
-<?
-echo '<body bgcolor='.($_SESSION['id_default_body_bgcolor']<>''?$_SESSION['id_default_body_bgcolor']:'#EBEBEB').' leftmargin="1" topmargin="0">';	
-?>
+<body bgcolor=<? echo ($_SESSION['id_default_body_bgcolor']<>''?$_SESSION['id_default_body_bgcolor']:'#EBEBEB'); ?> leftmargin="1" topmargin="0">	
+
 <SCRIPT language=JavaScript>
 <!--
 function scrollit(seed) 
@@ -174,5 +116,7 @@ function scrollit(seed)
     <td height="2" background="imgs/linha_h.gif"></td>
   </tr>
 </table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 </body>
 </html>

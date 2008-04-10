@@ -14,9 +14,10 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// Definição do nível de compressão (Default=máximo)
-//$v_compress_level = '9';
-$v_compress_level = '0';
+// Definição do nível de compressão (Default = 9 => máximo)
+//$v_compress_level = 9;
+$v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
+						// Há necessidade de testes para Análise de Viabilidade Técnica 
  
 require_once('../include/library.php');
 
@@ -40,7 +41,8 @@ $te_workgroup       = DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_
  o computador deste agente no BD, caso ainda não esteja inserido. */
 if ($te_node_address <> '')
 	{ 
-	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+	// Verifico se o computador em questão já foi inserido anteriormente, e se não foi, insiro.
+	$arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
 											  	$id_so_new, 
 											  	$te_so, 										
 											  	$id_ip_rede, 
@@ -48,142 +50,203 @@ if ($te_node_address <> '')
 											  	$te_nome_computador, 
 											  	$te_workgroup);																				
 	conecta_bd_cacic();
-	
-	// Verifico se o computador em questão já foi inserido anteriormente, e se não foi, insiro.
-	$query = "SELECT count(*) as num_registros
-			  FROM versoes_softwares
-											WHERE te_node_address = '" . $te_node_address . "'
-											AND id_so = '" . $id_so . "'";
+
+
+	// =================
+	// SOFTWARES BÁSICOS
+	// =================	
+	$query = "SELECT 	count(*) as num_registros
+			  FROM 		versoes_softwares
+			  WHERE		te_node_address = '" . $te_node_address . "'
+						AND id_so = '" . $arrSO['id_so'] . "'";
 	$result = mysql_query($query);
-	if (mysql_result($result, 0, "num_registros") == 0) {
-						$query = "INSERT INTO versoes_softwares
-																(te_node_address, id_so)
-																VALUES ('" . $te_node_address . "', '" . $id_so . "'  )";
-						$result = mysql_query($query);
-	} 
-	
-	$query = "UPDATE versoes_softwares 
-										SET	te_versao_bde            = '" . DeCrypt($key,$iv,$_POST['te_versao_bde']			,$v_cs_cipher,$v_cs_compress) . "', 
-											te_versao_dao            = '" . DeCrypt($key,$iv,$_POST['te_versao_dao']			,$v_cs_cipher,$v_cs_compress) . "', 
-											te_versao_ado            = '" . DeCrypt($key,$iv,$_POST['te_versao_ado']			,$v_cs_cipher,$v_cs_compress) . "', 
-											te_versao_odbc           = '" . DeCrypt($key,$iv,$_POST['te_versao_odbc']			,$v_cs_cipher,$v_cs_compress) . "', 
-											te_versao_directx        = '" . DeCrypt($key,$iv,$_POST['te_versao_directx']		,$v_cs_cipher,$v_cs_compress) . "', 
-											te_versao_acrobat_reader = '" . DeCrypt($key,$iv,$_POST['te_versao_acrobat_reader']	,$v_cs_cipher,$v_cs_compress) . "', 
-											te_versao_ie             = '" . DeCrypt($key,$iv,$_POST['te_versao_ie']				,$v_cs_cipher,$v_cs_compress) . "', 
-											te_versao_mozilla        = '" . DeCrypt($key,$iv,$_POST['te_versao_mozilla']		,$v_cs_cipher,$v_cs_compress) . "', 
-											te_versao_jre            = '" . DeCrypt($key,$iv,$_POST['te_versao_jre']			,$v_cs_cipher,$v_cs_compress) . "' 
-									WHERE 	te_node_address    		 = '" . $te_node_address . "' and
-											id_so                	 = '" . $id_so . "'";
-	$result = mysql_query($query);
-	
-	
-	$v_tripa_inventariados = str_replace("&quot;","'",DeCrypt($key,$iv,$_POST['te_inventario_softwares'],$v_cs_cipher,$v_cs_compress));
-	$v_tripa_inventariados = str_replace("&apos;","^",$v_tripa_inventariados);
-	if ($v_tripa_inventariados<>'')
+	if (mysql_result($result, 0, "num_registros") == 0) 
 		{
-		$queryDEL = "DELETE FROM softwares_inventariados_estacoes 
-					 WHERE 	te_node_address = '".$te_node_address."' AND
-							id_so = '".$id_so."'";					                  
-		$result = mysql_query($queryDEL);									
+		$query = "INSERT INTO versoes_softwares(te_node_address, id_so)
+				  VALUES ('" . $te_node_address . "', '" . $arrSO['id_so'] . "'  )";
+		$result = mysql_query($query);
+		} 
+	
+	$query = "UPDATE 	versoes_softwares 
+			  SET		te_versao_bde            = '" . DeCrypt($key,$iv,$_POST['te_versao_bde']			,$v_cs_cipher,$v_cs_compress) . "', 
+						te_versao_dao            = '" . DeCrypt($key,$iv,$_POST['te_versao_dao']			,$v_cs_cipher,$v_cs_compress) . "', 
+						te_versao_ado            = '" . DeCrypt($key,$iv,$_POST['te_versao_ado']			,$v_cs_cipher,$v_cs_compress) . "', 
+						te_versao_odbc           = '" . DeCrypt($key,$iv,$_POST['te_versao_odbc']			,$v_cs_cipher,$v_cs_compress) . "', 
+						te_versao_directx        = '" . DeCrypt($key,$iv,$_POST['te_versao_directx']		,$v_cs_cipher,$v_cs_compress) . "', 
+						te_versao_acrobat_reader = '" . DeCrypt($key,$iv,$_POST['te_versao_acrobat_reader']	,$v_cs_cipher,$v_cs_compress) . "', 
+						te_versao_ie             = '" . DeCrypt($key,$iv,$_POST['te_versao_ie']				,$v_cs_cipher,$v_cs_compress) . "', 
+						te_versao_mozilla        = '" . DeCrypt($key,$iv,$_POST['te_versao_mozilla']		,$v_cs_cipher,$v_cs_compress) . "', 
+						te_versao_jre            = '" . DeCrypt($key,$iv,$_POST['te_versao_jre']			,$v_cs_cipher,$v_cs_compress) . "' 
+			   WHERE 	te_node_address    		 = '" . $te_node_address . "' and
+						id_so                	 = '" . $arrSO['id_so'] . "'";
+	$result = mysql_query($query);
+
+	// =========================================================
+	// SOFTWARES INVENTARIADOS (Registrados no Windows Registry)
+	// =========================================================
+	$te_inventario_softwares = str_replace("&quot;","'",DeCrypt($key,$iv,$_POST['te_inventario_softwares'],$v_cs_cipher,$v_cs_compress));
+	$te_inventario_softwares = str_replace("&apos;","^",$te_inventario_softwares);
+	// Aspas simples e acento cincunflexo inseridos pelo agente coletor
+	
+	if ($te_inventario_softwares <> '')
+		{
+		$queryDEL  = "DELETE FROM softwares_inventariados_estacoes 
+					  WHERE 	te_node_address = '".$te_node_address."' AND
+								id_so = '".$arrSO['id_so']."'";					                  
+		$resultDEL = mysql_query($queryDEL);									
 		
-		$v_array_te_inventario_softwares = explode('#',$v_tripa_inventariados);	
-	
-		$query_inv = "SELECT *
-					  FROM softwares_inventariados";
-		$result_inv = mysql_query($query_inv );
-	
-		$v_array_te_softwares_inventariados = array ();
-		while ($v_reg_inv = mysql_fetch_array($result_inv))
-			{	
-			array_push($v_array_te_softwares_inventariados,$v_reg_inv['id_software_inventariado']);
-			array_push($v_array_te_softwares_inventariados,trim($v_reg_inv['nm_software_inventariado']));		
-			}	
-		for ($v1=0; $v1 < count($v_array_te_inventario_softwares)-1; $v1 ++)
-			{
-			$v_posicao = array_search(trim($v_array_te_inventario_softwares[$v1]), $v_array_te_softwares_inventariados);
-			if ($v_posicao)
+		$v_array_te_inventario_softwares = explode('#',$te_inventario_softwares);	
+		$strTripaHash = '';
+		$arrHashs  = array();
+		// Crio uma tripa contendo os HASHS separados por vírgulas
+		// Crio um array com chaves HASH e valores <Nomes dos Softwares Inventariados>
+		for ($intIndice=0; $intIndice < count($v_array_te_inventario_softwares); $intIndice ++)
+			if ($v_array_te_inventario_softwares[$intIndice] <> '')
 				{
-				$v_achei = $v_array_te_softwares_inventariados[$v_posicao-1];
+				$strHash = hash('md5',$v_array_te_inventario_softwares[$intIndice]);
+				$strTripaHASH .= ($strTripaHASH <> ''?',':'');
+				$strTripaHASH .= "'".$strHash."'";
+				$arrHashs[$strHash] = $v_array_te_inventario_softwares[$intIndice];
 				}
-			else
-				{			
-				$query = "INSERT INTO softwares_inventariados 
-									  (nm_software_inventariado)											
-						  VALUES 	  ('".trim($v_array_te_inventario_softwares[$v1])."')";
-				$result = mysql_query($query);
 	
-				$v_achei = mysql_insert_id()+1;
-				}
-				$query = "INSERT INTO softwares_inventariados_estacoes 
-									  (te_node_address,
-									   id_so,
-									   id_software_inventariado)											
-						  VALUES 	  ('".$te_node_address."',
-									   '".$id_so."',
-									   '".$v_achei."')";					                  
-				$result = mysql_query($query);									
-			}		
-		}
-	
-	$v_tripa_variaveis_coletadas = DeCrypt($key,$iv,$_POST['te_variaveis_ambiente'],$v_cs_cipher,$v_cs_compress);	
-	while (substr(trim($v_tripa_variaveis_coletadas),0,1)=='=')	
-		{
-		$v_tripa_variaveis_coletadas = substr(trim($v_tripa_variaveis_coletadas),1);
-		}
-	
-	if ($v_tripa_variaveis_coletadas<>'')
-		{
-		$queryDEL = "DELETE FROM variaveis_ambiente_estacoes 
-					 WHERE 	te_node_address = '".$te_node_address."' AND
-							id_so = '".$id_so."'";					                  
-		$result = mysql_query($queryDEL);									
-		
-		$v_array_te_variaveis_coletadas = explode('#',$v_tripa_variaveis_coletadas);	
-	
-		$query_var = "SELECT *
-					  FROM   variaveis_ambiente";
-		$result_var = mysql_query($query_var );
-	
-		$v_array_te_variaveis_ambiente_na_base = array ();
-		while ($v_reg_var = mysql_fetch_array($result_var))
-			{	
-			array_push($v_array_te_variaveis_ambiente_na_base,$v_reg_var['id_variavel_ambiente']);
-			array_push($v_array_te_variaveis_ambiente_na_base,strtolower(trim($v_reg_var['nm_variavel_ambiente'])));		
-			}	
-		for ($v1=0; $v1 < count($v_array_te_variaveis_coletadas)-1; $v1 ++)
+		// Consulto no banco a existência dos softwares inventariados
+		$querySEL  = "SELECT	*
+					  FROM 		softwares_inventariados
+					  WHERE		te_hash in (".$strTripaHASH.")";
+		$resultSEL = mysql_query($querySEL );
+
+		// Retiro os S.I. já existentes do array para montar query de inserção em S.I.
+		while ($v_reg = mysql_fetch_array($resultSEL))
+			unset($arrHashs[$v_reg['te_hash']]); 
+			
+		$strValues  = '';			
+		while (list($Chave, $Valor) = each($arrHashs)) 
 			{
-			$v_array_variavel_ambiente_tmp = explode('=',$v_array_te_variaveis_coletadas[$v1]);
-			if (trim($v_array_variavel_ambiente_tmp[0])<>'')
-				{			
-				$v_posicao = array_search(strtolower(trim($v_array_variavel_ambiente_tmp[0])), $v_array_te_variaveis_ambiente_na_base);
-				if ($v_posicao)
-					{
-					$v_achei = $v_array_te_variaveis_ambiente_na_base[$v_posicao-1];
-					}
-				else
-					{			
-					$query = "INSERT INTO variaveis_ambiente 
-										  (nm_variavel_ambiente)											
-							  VALUES 	  ('".strtolower(trim($v_array_variavel_ambiente_tmp[0]))."')";
-					$result = mysql_query($query);
+			$strValues .= ($strValues <> ''?',':'');
+			$strValues .= "('".$Valor."','".$Chave."')";			
+			}
+
+		// Insiro em S.I. somente os registros inexistentes (que sobraram no array)
+		if ($strValues <> '')
+			{			
+			$queryINS  = "INSERT INTO softwares_inventariados
+					  			  (nm_software_inventariado,
+								   te_hash)											
+					      VALUES 	  ".$strValues;					                  
+			$resultINS = mysql_query($queryINS);															
+			}
+
+		// Consulto novamente o banco, agora para montar inserção em S.I.E.
+		$querySEL  = "SELECT	*
+					  FROM 		softwares_inventariados
+					  WHERE		te_hash in (".$strTripaHASH.")";
+		$resultSEL = mysql_query($querySEL);
+
+		// Monto os valores para inserção em S.I.E.
+		$strValues = '';
+		while ($v_reg = mysql_fetch_array($resultSEL))
+			{
+			$strValues .= ($strValues <> ''?',':'');
+			$strValues .= "('".$te_node_address."',".$arrSO['id_so'].",".$v_reg['id_software_inventariado'].")";
+			}
+
+		if ($strValues <> '')
+			{
+			$queryINS  = "INSERT INTO softwares_inventariados_estacoes 
+					   			  (te_node_address,
+								   id_so,
+								   id_software_inventariado)											
+					      VALUES 	  ".$strValues;					                  
+			$resultINS = mysql_query($queryINS);												
+			}
+		}
 	
-					$v_achei = mysql_insert_id();
-					}
-					$query = "INSERT INTO variaveis_ambiente_estacoes 
-										  (te_node_address,
-										   id_so,
-										   id_variavel_ambiente,
-										   vl_variavel_ambiente)											
-							  VALUES 	  ('".$te_node_address."',
-										   '".$id_so."',
-										   '".$v_achei."',
-										   '".trim($v_array_variavel_ambiente_tmp[1])."')";					                  
-					$result = mysql_query($query);									
+
+	// =====================
+	// VARIÁVEIS DE AMBIENTE
+	// =====================
+	$te_variaveis_ambiente = DeCrypt($key,$iv,$_POST['te_variaveis_ambiente'],$v_cs_cipher,$v_cs_compress);		
+	
+	while (substr(trim($te_variaveis_ambiente),0,1)=='=')	
+		$te_variaveis_ambiente = substr(trim($te_variaveis_ambiente),1);
+
+	if ($te_variaveis_ambiente <> '')
+		{
+		$queryDEL  = "DELETE FROM variaveis_ambiente_estacoes 
+					  WHERE 	te_node_address = '".$te_node_address."' AND
+							    id_so = '".$arrSO['id_so']."'";					                  
+		$resultDEL = mysql_query($queryDEL);									
+
+		$v_array_te_variaveis_ambiente = explode('#',$te_variaveis_ambiente);			
+		$strTripaHash    = '';
+		$arrHashsNomes   = array();
+		$arrHashsValores  = array();		
+		// Crio uma tripa contendo os HASHS separados por vírgulas
+		// Crio um array com chaves HASH e valores <Nomes das Variáveis de Ambiente>
+		for ($intIndice=0; $intIndice < count($v_array_te_variaveis_ambiente); $intIndice ++)
+			if ($v_array_te_variaveis_ambiente[$intIndice] <> '')
+				{
+				$arrVariavel = explode('=',$v_array_te_variaveis_ambiente[$intIndice]);
+				$strHash = hash('md5',$arrVariavel[0]);
+				$strTripaHASH .= ($strTripaHASH <> ''?',':'');
+				$strTripaHASH .= "'".$strHash."'";
+				$arrHashsNomes[$strHash]   = $arrVariavel[0]; // Armazeno no array o nome da variavel
+				$arrHashsValores[$strHash] = $arrVariavel[1]; // Armazeno no array o valor da variavel				
 				}
+	
+		// Consulto no banco a existência dos softwares inventariados
+		$querySEL  = "SELECT	*
+				  	  FROM 		variaveis_ambiente
+					  WHERE		te_hash in (".$strTripaHASH.")";
+		$resultSEL = mysql_query($querySEL);
+
+		// Retiro os S.I. já existentes do array para montar query de inserção em S.I.
+		while ($v_reg = mysql_fetch_array($resultSEL))
+			unset($arrHashsNomes[$v_reg['te_hash']]); 
+			
+		$strValues  = '';			
+		while (list($te_hash, $nm_variavel_ambiente) = each($arrHashsNomes)) 
+			{
+			$strValues .= ($strValues <> ''?',':'');
+			$strValues .= "('".$nm_variavel_ambiente."','".$te_hash."')";			
+			}
+
+		// Insiro em V.A. somente os registros inexistentes (que sobraram no array)
+		if ($strValues <> '')
+			{			
+			$queryINS  = "INSERT INTO variaveis_ambiente
+								  (nm_variavel_ambiente,
+								   te_hash)											
+					      VALUES 	  ".$strValues;					                  
+			$resultINS = mysql_query($queryINS);															
+			}
+
+		// Consulto novamente o banco, agora para montar inserção em V.A.E.
+		$querySEL  = "SELECT	*
+					  FROM 		variaveis_ambiente
+					  WHERE		te_hash in (".$strTripaHASH.")";
+		$resultSEL = mysql_query($querySEL);
+
+		// Monto os valores para inserção em V.A.E.
+		$strValues = '';
+		while ($v_reg = mysql_fetch_array($resultSEL))
+			{
+			$strValues .= ($strValues <> ''?',':'');
+			$strValues .= "('".$te_node_address."',".$arrSO['id_so'].",".$v_reg['id_variavel_ambiente'].",'".$arrHashsValores[$v_reg['te_hash']]."')";
+			}
+
+		if ($strValues <> '')
+			{
+			$queryINS = "INSERT INTO variaveis_ambiente_estacoes 
+								  (te_node_address,
+								   id_so,
+								   id_variavel_ambiente,
+								   vl_variavel_ambiente)																			   
+					  VALUES 	  ".$strValues;					                  
+			$resultINS = mysql_query($queryINS);												
 			}		
 		}
-		
-		
+				
 	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';
 	}
 else

@@ -161,7 +161,8 @@ function SelectAll(combo)
 				seleciona = false;
 				}
 			}
-	    	combo.options[i].selected=seleciona;
+
+    	combo.options[i].selected=seleciona;
 		seleciona = true;
    		}
 	}

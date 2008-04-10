@@ -34,7 +34,7 @@ if($_POST['submit'])
 	}
 
 require_once('../../include/library.php');
-anti_spy();
+AntiSpy('1,2,3,4');
 conecta_bd_cacic();
 
 $linha = '<tr bgcolor="#e7e7e7"> 
@@ -146,7 +146,8 @@ $query_select = 'SELECT 	id_aplicativo,
 							cs_car_ver_w9x,
 							cs_car_ver_wnt 							
 				 FROM 		perfis_aplicativos_monitorados
-				 WHERE 		id_aplicativo IN (' .$aplicativos_selecionados.')
+				 WHERE 		id_aplicativo IN (' .$aplicativos_selecionados.') and
+				            nm_aplicativo not like "%#DESATIVADO#%"
 				 ORDER BY 	nm_aplicativo';
 
 //if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
@@ -158,7 +159,7 @@ $result_query_selecao = mysql_query($query_select);
 <table width="100%" border="0" align="center">
 <td>
 <? 
-while($reg_selecao = @mysql_fetch_row($result_query_selecao))
+while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 	{
 	?>
    	<table width="50%" border="1" align="center" cellpadding="0" cellspacing="0">
@@ -166,14 +167,9 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
     <td colspan="3" bgcolor="#FFFFFF" nowrap class="cabecalho_tabela">	
 	<div align="center">
 	<? 
-	$v_nm_aplicativo = $reg_selecao[1];
- 	if (strpos($v_nm_aplicativo, "#DESATIVADO#")>0) 
-		{
-			$v_nm_aplicativo = substr($v_nm_aplicativo, 0, strpos($v_nm_aplicativo, "#DESATIVADO#"));
-		}		  
-
+	$v_nm_aplicativo = $reg_selecao['nm_aplicativo'];
 	echo $v_nm_aplicativo;
-	$reg_id_aplicativo = $reg_selecao[0];
+	$reg_id_aplicativo = $reg_selecao['id_aplicativo'];
 	?> 
 	</div>
 	</td>
@@ -182,15 +178,15 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 	$groupBy = '';
 	$orderBy = '';	
 	$where   = '';
-	if ($reg_selecao[2] > 0 || $reg_selecao[3] > 0)
+	if ($reg_selecao['cs_car_inst_w9x'] > 0 || $reg_selecao['cs_car_inst_wnt'] > 0)
 		{
 		$where   = " AND a.cs_instalado = 'S' ";
 		}	
-	elseif ($reg_selecao[4] > 0 && $reg_selecao[5] > 0)
+	elseif ($reg_selecao['cs_car_ver_w9x'] > 0 && $reg_selecao['cs_car_ver_wnt'] > 0)
 		{
 		$where   = " AND a.te_versao <> '' ";
-		$groupBy = ', a.te_versao ';
-		$orderBy = ', a.te_versao ';		
+//		$groupBy = ', a.te_versao ';
+//		$orderBy = ', a.te_versao ';		
 		}
 	
 	// Exibir informações sobre a quantidade de máquinas e versões instaladas	
@@ -205,7 +201,8 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 										b.te_car_inst_wnt ".
 										$_SESSION['select'].",
 										b.cs_car_ver_w9x,
-										b.cs_car_ver_wnt 
+										b.cs_car_ver_wnt,
+										b.cs_ide_licenca 
 					 FROM  				aplicativos_monitorados a, 
 					 					perfis_aplicativos_monitorados b, 
 										computadores ".
@@ -216,9 +213,9 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 					 					a.id_aplicativo = b.id_aplicativo " . $_SESSION['query_redes'] . " AND 
 					 					computadores.id_so IN (". $_SESSION['so_selecionados'] .") ".
 										$where ."
-					 GROUP BY 			a.id_aplicativo ".
+					 GROUP BY 			a.te_versao ".
 					 					$groupBy."  
-					 ORDER BY 			total_equip DESC ".
+					 ORDER BY 			total_equip DESC,a.te_versao,b.nm_aplicativo ".
 					 					$orderBy;
 //if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 //	echo 'query_aplicativo: '.$query_aplicativo . '<br><br>';
@@ -242,56 +239,103 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 	*/
 	$total_maquinas = 0;
 	$sequencial = 1;
-	$label = "Informação Obtida";
+
 	$in_se_instalado = false;
 	if (mysql_num_rows($result_query_versoes))
 		{ 
 		while($reg_versoes = mysql_fetch_array($result_query_versoes)) 
 			{ 
-			if ($reg_versoes[0] <> '?')			
-				{
-				if (($reg_versoes[4] . $reg_versoes[5]) <> '')
-					{
-					$in_se_instalado = ($reg_versoes[0]==''?true:false);
-					$te_car_inst = ($reg_versoes[7] <> ''?$reg_versoes[7]:$reg_versoes[8]);
-					}				
-				$total_maquinas += $reg_versoes[1];
-				}
+			$te_versao      =  $reg_versoes['te_versao'];									
+			//$cs_instalado   = ($reg_versoes['cs_instalado']  <>'' && $reg_versoes['cs_instalado']<>'0');			
+			
+			$cs_instalado   = (($reg_versoes['cs_car_inst_w9x']<>'' && $reg_versoes['cs_car_inst_w9x']<>'0') || ($reg_versoes['cs_car_inst_wnt'] <> '' && $reg_versoes['cs_car_inst_wnt'] <> '0'));						
+			if (!$cs_instalado)
+				$cs_instalado   = (($reg_versoes['cs_car_ver_w9x']<>'' && $reg_versoes['cs_car_ver_w9x']<>'0') || ($reg_versoes['cs_car_ver_wnt'] <> '' && $reg_versoes['cs_car_ver_wnt'] <> '0'));						
+				
+			$cs_ide_licenca = ($reg_versoes['cs_ide_licenca']<>'' && $reg_versoes['cs_ide_licenca']<>'0');		
+	
+			$label = ($te_versao<>''?'Versão/Configuração':'Instalação Detectada');			
+			if ($cs_instalado)			
+				$te_car_inst = ($reg_versoes['te_car_inst_w9x'] <> ''?$reg_versoes['te_car_inst_w9x']:$reg_versoes['te_car_inst_wnt']);
+				
+			$total_maquinas += $reg_versoes['total_equip'];
+
 			} //Fim do while
-		if ($total_maquinas > 0 && !$in_se_instalado)
+		if ($total_maquinas > 0 && $cs_instalado && !$cs_ide_licenca)
 			{
 			?>
 			<table width="50%" border="0" align="center">		
         	<tr valign="top" bgcolor="#E1E1E1"> 
 	        <td class="cabecalho_tabela"><div align="left">Seq.</div></td>		
     	    <td class="cabecalho_tabela"><div align="left"><? echo $label;?></div></td>
+			<? 
+			/*
+			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+				{
+				?>
+				<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">Local</div></td>		
+				<?
+				}
+			*/
+			?>
+			
         	<td class="cabecalho_tabela"><div align="right">M&aacute;quinas</div></td>
 	        <td class="cabecalho_tabela"><div align="right">%</div></td>		
     	    </tr>
 			<?		
-			}
+
 		mysql_data_seek($result_query_versoes,0);
-		while($reg_versoes = mysql_fetch_row($result_query_versoes)) 
+		while($reg_versoes = mysql_fetch_array($result_query_versoes)) 
 			{
-			if ($reg_versoes[0] <> '?'  && !$in_se_instalado)
+			$label = ($te_versao<>''?'Versão/Configuração':'Instalação Detectada');			
+			$cs_instalado   = ($reg_versoes['cs_instalado']  <>'' && $reg_versoes['cs_instalado']<>'0');			
+			$cs_ide_licenca = ($reg_versoes['cs_ide_licenca']<>'' && $reg_versoes['cs_ide_licenca']<>'0');		
+			$te_versao      =  $reg_versoes['te_versao'];					
+
+			//echo 'cs_instalado: '.$cs_instalado.' => '.$reg_versoes['cs_instalado'].'<br>';
+			//echo 'cs_ide_licenca: '.$cs_ide_licenca.' => '.$reg_versoes['cs_ide_licenca'].'<br>';			
+			//echo 'te_versao: '.$reg_versoes['te_versao'].'<br>';						
+			$cs_ide_licenca = ($reg_versoes['cs_ide_licenca']<>'' && $reg_versoes['cs_ide_licenca']<>'0');		
+			
+			if ($cs_instalado && !$cs_ide_licenca)
 				{ 	
 				?>			  
     	      	<tr> 
         	    <td nowrap class="opcao_tabela"><div align="left"><? echo $sequencial; ?></a></div></td>			
-            	<td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?teversao=<? echo $reg_versoes[0]?>&idaplicativo=<? echo $reg_versoes[2]?>&nmversao=<? echo $reg_versoes[3]?>&cs_car_inst=<? echo $reg_versoes[4].$reg_versoes[5];?>" target="_blank"><? echo ($in_se_instalado?$te_car_inst:$reg_versoes[0]) ?></a></div></td>				
-	            <td nowrap class="opcao_tabela"><div align="right"><? echo $reg_versoes[1]; ?></div></td>
-    	        <td nowrap class="ajuda"><div align="right">&nbsp;&nbsp;&nbsp;<? echo sprintf("%01.2f", $reg_versoes[1] * 100 / $total_maquinas); ?></div></td>
+            	<td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?teversao=<? echo $reg_versoes['te_versao']?>&idaplicativo=<? echo $reg_versoes['id_aplicativo']?>&nmversao=<? echo $reg_versoes['nm_aplicativo']?>&cs_car_inst=<? echo ($reg_versoes['cs_car_inst_wnt']<>''?$reg_versoes['cs_car_inst_wnt']:$reg_versoes['cs_car_inst_w9x']);?>" target="_blank"><? echo ($te_versao<>''?$reg_versoes['te_versao']:$label) ?></a></div></td>				
+			<? 
+			/*
+			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+				{
+				?>
+				<td nowrap class="opcao_tabela"><div align="left"><? echo $reg_versoes['SgLocal']; ?></div></td>		
+				<?
+				}
+			*/
+				?>        	
+				
+	            <td nowrap class="opcao_tabela"><div align="right"><? echo $reg_versoes['total_equip']; ?></div></td>
+    	        <td nowrap class="ajuda"><div align="right">&nbsp;&nbsp;&nbsp;<? echo sprintf("%01.2f", $reg_versoes['total_equip'] * 100 / $total_maquinas); ?></div></td>
         	  	</tr>
 				<?
 				$sequencial ++;
 				echo $linha; 
 				}
 			} //Fim do while
-		if ($total_maquinas > 0 && !$in_se_instalado)
-			{
 			?>
     	    <tr valign="top" bgcolor="#E1E1E1"> 
         	<td colspan="2" class="cabecalho_tabela"><div align="left">Total de Máquinas</div></td>
+			<?
+			/* 
+			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+				{
+				?>
+				<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">&nbsp;</div></td>		
+				<?
+				}
+			*/
+			?>
+			
 	        <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><? echo $total_maquinas; ?></div></td>
     	    <td bgcolor="#E1E1E1" class="opcao_tabela"><div align="right">&nbsp;&nbsp;&nbsp;100.00</div></td>				
         	</tr>
@@ -304,7 +348,8 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 	 										COUNT(a.te_licenca) as total_equip, 
 											a.id_aplicativo, 
 											b.nm_aplicativo ".
-											$_SESSION['select'] . " 
+											$_SESSION['select'] . ",
+											b.cs_ide_licenca 
 								   FROM  	aplicativos_monitorados a, 
 								   			perfis_aplicativos_monitorados b, 
 											computadores ".
@@ -331,46 +376,61 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 		<tr valign="top" bgcolor="#FFFFFF"> 
 		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">Seq.</div></td>		
 		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">Licen&ccedil;a</div></td>
-		<? if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+		<? 
+		/*
+		if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
 			{
 			?>
 			<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">Local</div></td>		
 			<?
 			}
-			?>
+		*/
+		?>
 		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right">M&aacute;quinas</div></td>
 		</tr>
 		<?
 		$total_maquinas = 0;		
 		$sequencial = 1;
-		while($reg_licencas = mysql_fetch_row($result_query_licencas)) 
+		while($reg_licencas = mysql_fetch_array($result_query_licencas)) 
 			{ 
+			$te_informacao = ($reg_licencas['te_licenca']?$reg_licencas['te_licenca']:$reg_licencas['te_versao']);
 			?>			  
 	        <tr> 
     	    <td nowrap class="opcao_tabela"><div align="left"><? echo $sequencial; ?></a></div></td>			
-    	    <td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?telicenca=<? echo $reg_licencas[0]?>&idaplicativo=<? echo $reg_licencas[2]?>&nmversao=<? echo $reg_licencas[3]?>" target="_blank"><? echo $reg_licencas[0] ?></a></div></td>
-			<? if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+    	    <td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?telicenca=<? echo $reg_licencas['te_licenca']?>&idaplicativo=<? echo $reg_licencas['id_aplicativo']?>&nmversao=<? echo $reg_licencas['nm_aplicativo']?>" target="_blank"><? echo $te_informacao; ?></a></div></td>
+			<? 
+			/*
+			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
 				{
 				?>
 				<td nowrap class="opcao_tabela"><div align="left"><? echo $reg_licencas[4]; ?></div></td>		
 				<?
 				}
-				?>        	
-        	<td nowrap class="opcao_tabela"><div align="right"><? echo $reg_licencas[1] ?></div></td>			
+			*/
+			?>        	
+        	<td nowrap class="opcao_tabela"><div align="right"><? echo $reg_licencas['total_equip'] ?></div></td>			
 	        </tr>	  
 			<?
 			echo $linha; 
 			$sequencial ++;
-			$total_maquinas += $reg_licencas[1];			
+			$total_maquinas += $reg_licencas['total_equip'];			
 			} //Fim do while
 			?>
 		</tr>
-	 	</table>					
-		<table width="50%" border="0" align="center">		
         <tr valign="top" bgcolor="#E1E1E1"> 
-		<td>&nbsp;</td>
-        <td colspan ="2" class="cabecalho_tabela"><div align="left">Total de M&aacute;quinas</div></td>
-        <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">&nbsp;</div></td>
+        <td class="cabecalho_tabela" colspan="2"><div align="left">Total de M&aacute;quinas</div></td>
+
+		<? 
+		/*
+		if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+			{
+			?>
+			<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">&nbsp;</div></td>		
+			<?
+			}
+		*/
+		?>
+		
         <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><? echo $total_maquinas; ?></div></td>		
         </tr>
         </table>							
@@ -399,7 +459,7 @@ while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 <p align="left">Relat&oacute;rio 
   gerado pelo <b>CACIC</b> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais<br>Software desenvolvido 
-  pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo</p>	
+  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</p>	
 </td></tr></table>  
 </body>
 </html>

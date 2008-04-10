@@ -27,19 +27,48 @@ if ($_POST['submit']) {
 }
 
 include_once "../../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 
 Conecta_bd_cacic();
-$ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'nm_local');
-$query = 'SELECT 	*,
-					count(redes.id_local) TotalRedes,
-					count(usuarios.id_local) TotalUsuarios 
-		  FROM 		locais 
-		  			RIGHT JOIN redes    ON locais.id_local = redes.id_local
-					RIGHT JOIN usuarios ON locais.id_local = usuarios.id_local
-		  GROUP BY  locais.id_local
-		  ORDER BY 	'.$ordem;
+$query = 'SELECT 	locais.id_local,
+					count(redes.id_local) TotaisRedes
+		  FROM 		locais,
+		  			redes
+		  WHERE		locais.id_local = redes.id_local
+		  GROUP BY  locais.id_local';
+$result = mysql_query($query);		
+  
+$arrTotaisRedes = array();
+while ($row=mysql_fetch_array($result))		  
+	$arrTotaisRedes[$row['id_local']] = $row['TotaisRedes'];
 
+$query = 'SELECT 	locais.id_local,
+					count(usuarios.id_local) TotaisUsuariosPrimarios
+		  FROM 		locais,
+		  			usuarios
+		  WHERE		locais.id_local = usuarios.id_local
+		  GROUP BY  usuarios.id_local';
+$result = mysql_query($query);		  
+$arrTotaisUsuariosPrimarios = array();
+while ($row=mysql_fetch_array($result))		  
+	$arrTotaisUsuariosPrimarios[$row['id_local']] = $row['TotaisUsuariosPrimarios'];
+
+
+// Infelizmente foi necessário montar essa estratégia!!!  :)
+$queryUsuarios  = 'SELECT 	te_locais_secundarios
+		  		   FROM 	usuarios
+				   WHERE    trim(te_locais_secundarios) <> ""';
+$resultUsuarios = mysql_query($queryUsuarios);		  
+
+$arrTotaisUsuariosSecundarios = array();
+while ($rowUsuarios = mysql_fetch_array($resultUsuarios)) 
+	{
+	$arrLocaisSecundarios = explode(',',$rowUsuarios['te_locais_secundarios']);
+	for ($i=0; $i<count($arrLocaisSecundarios); $i++)
+		$arrTotaisUsuariosSecundarios[$arrLocaisSecundarios[$i]] ++;
+	}
+
+$ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'sg_local');
 $query = 'SELECT 	*
 		  FROM 		locais 
 		  ORDER BY 	'.$ordem;
@@ -97,9 +126,15 @@ $msg = '<div align="center">
           <td nowrap >&nbsp;</td>
           <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_local">Descri&ccedil;&atilde;o</a></div></td>
           <td nowrap >&nbsp;</td>
+          <td nowrap class="cabecalho_tabela"><div align="left"> Redes</div></td>
+          <td nowrap class="cabecalho_tabela">&nbsp;</td>
+          <td nowrap class="cabecalho_tabela"><div align="left"> Usu&aacute;rios Prim&aacute;rios </div></td>
+          <td nowrap class="cabecalho_tabela">&nbsp;</td>
+          <td nowrap class="cabecalho_tabela"><div align="left"> Usu&aacute;rios Secund&aacute;rios </div></td>
+          <td nowrap >&nbsp;</td>
         </tr>
   	<tr> 
-    <td height="1" bgcolor="#333333" colspan="7"></td>
+    <td height="1" bgcolor="#333333" colspan="13"></td>
   	</tr>
 		
 <?  
@@ -124,9 +159,50 @@ else
 		<td nowrap>&nbsp;</td>
 		<td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
 		<td nowrap>&nbsp;</td>
-		<td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_local.php?id_local=<? echo $row['id_local'];?>"><? echo $row['sg_local']; ?></a></div></td>
+		<td nowrap class="opcao_tabela"><div align="left">
+		<?
+		if ($_SESSION['cs_nivel_administracao']==1)
+			{
+			?>
+			<a href="detalhes_local.php?id_local=<? echo $row['id_local'];?>">
+			<?
+			}
+
+		echo $row['sg_local'];
+		if ($_SESSION['cs_nivel_administracao']==1)
+			{
+			?>
+			</a>
+			<?
+			}
+			?>
+		
+		</div></td>
 		<td nowrap>&nbsp;</td>
-		<td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_local.php?id_local=<? echo $row['id_local'];?>"><? echo $row['nm_local']; ?></a></div></td>
+		<td nowrap class="opcao_tabela"><div align="left">
+		
+		<?
+		if ($_SESSION['cs_nivel_administracao']==1)
+			{
+			?>
+			<a href="detalhes_local.php?id_local=<? echo $row['id_local'];?>">
+			<?
+			}
+		echo $row['nm_local'];
+		if ($_SESSION['cs_nivel_administracao']==1)
+			{
+			?>
+			</a>
+			<?
+			}
+			?>
+		</div></td>
+		<td nowrap>&nbsp;</td>
+		<td nowrap class="opcao_tabela"><div align="right"><? echo $arrTotaisRedes[$row['id_local']]; ?></div></td>
+		<td nowrap class="opcao_tabela">&nbsp;</td>
+		<td nowrap class="opcao_tabela"><div align="right"><? echo $arrTotaisUsuariosPrimarios[$row['id_local']]; ?></div></td>
+		<td nowrap class="opcao_tabela">&nbsp;</td>
+		<td nowrap class="opcao_tabela"><div align="right"><? echo $arrTotaisUsuariosSecundarios[$row['id_local']]; ?></div></td>
 		<td nowrap>&nbsp;</td>
 		<? 
 		$Cor=!$Cor;

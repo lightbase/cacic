@@ -159,7 +159,11 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 
         <? 
 
-	// Comentado temporariamente - AntiSpy();
+	AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+	// 1 - Administração
+	// 2 - Gestão Central
+	// 3 - Supervisão
+
     conecta_bd_cacic();
 	$query = "SELECT 	in_exibe_bandeja, 
 						in_exibe_erros_criticos, 
@@ -186,9 +190,8 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     <tr> 
       <td class="opcao"><p><input name="in_exibe_bandeja" type="radio" value="S"  <? if (strtoupper($campos_configuracoes['in_exibe_bandeja']) == 'S') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <?=$oTranslator->_('kciq_msg yes');?><br>
-          <input type="radio" name="in_exibe_bandeja" value="N" <? if (strtoupper($campos_configuracoes['in_exibe_bandeja']) == 'N') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <input name="frm_id_local" id="frm_id_local" type="hidden" value="<? echo $frm_id_local; ?>">		  		  
-          <?=$oTranslator->_('kciq_msg no');?><br></p></td>
+          <input type="radio" name="in_exibe_bandeja" value="N" <? if (strtoupper($campos_configuracoes['in_exibe_bandeja']) == 'N') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >N&atilde;o<br>	  
+	  <input name="frm_id_local" id="frm_id_local" type="hidden" value="<? echo $frm_id_local; ?>"></p></td>
     </tr>
     <tr> 
       <td class="label">&nbsp;&nbsp; <br>
@@ -323,6 +326,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 	require_once('../include/opcoes_avancadas.php');
 	?>
   </table>
+<script language="javascript">setLocal(document.all.SELECTlocais);</script>					    
   <tr> 
       	<td height="1" bgcolor="#333333"></td>
     	</tr>
@@ -331,7 +335,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     	</tr>
     	<tr> 
       	<td><div align="center"> 
-        <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return SelectAll_Forca_Coleta();return Confirma('<?=$oTranslator->_('Confirma Configuracao de Agentes?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+        <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="return SelectAll_Forca_Coleta();return Confirma('<?=$oTranslator->_('Confirma Configuracao de Agentes?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     	</tr>
   </table>

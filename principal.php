@@ -98,7 +98,7 @@ else
 	    $_SESSION["cs_nivel_administracao"] == 1  || 
 		$_SESSION["cs_nivel_administracao"] == 2  || 
 		$_SESSION["cs_nivel_administracao"] == 3)
-		echo '<tr><td class="label_peq_sem_fundo"><div align="center">'.$oTranslator->_('kciq_msg total referente a multi-locais').' (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php?in_grafico=so&te_exibe_graficos='.$_SESSION['te_exibe_graficos'].'&te_title='.$te_title.'\', \'JANELA\',\'toolbar=no,location=no,width=760,left=150,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>'.$oTranslator->_('kciq_msg details').'</b></font></a>)</div></td></tr>';
+		echo '<tr><td class="label_peq_sem_fundo"><div align="center">'.$oTranslator->_('kciq_msg total referente a multi-locais').' (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php?in_grafico=so&te_exibe_graficos='.$_SESSION['te_exibe_graficos'].'&te_title='.$te_title.'\', \'JANELA\',\'toolbar=no,location=no,width=795,left=150,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>'.$oTranslator->_('kciq_msg details').'</b></font></a>)</div></td></tr>';
 		?>
 	
 	<tr> 
@@ -143,7 +143,7 @@ else
 	    $_SESSION["cs_nivel_administracao"] == 1  || 
 		$_SESSION["cs_nivel_administracao"] == 2  || 
 		$_SESSION["cs_nivel_administracao"] == 3)
-		echo '<tr><td class="label_peq_sem_fundo"><div align="center">'.$oTranslator->_('kciq_msg total referente a multi-locais').' (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php?in_grafico=acessos&te_exibe_graficos='.$_SESSION['te_exibe_graficos'].'&te_title='.$te_title.'\', \'JANELA\',\'toolbar=no,location=no,width=760,left=150,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>'.$oTranslator->_('kciq_msg details').'</b></font></a>)</div></td></tr>';
+		echo '<tr><td class="label_peq_sem_fundo"><div align="center">'.$oTranslator->_('kciq_msg total referente a multi-locais').' (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php?in_grafico=acessos&te_exibe_graficos='.$_SESSION['te_exibe_graficos'].'&te_title='.$te_title.'\', \'JANELA\',\'toolbar=no,location=no,width=795,left=150,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>'.$oTranslator->_('kciq_msg details').'</b></font></a>)</div></td></tr>';
 	else
 		{
 		?>

@@ -25,10 +25,13 @@
 <p>&nbsp;</p>
 <table width="450" border="0" align="center" cellpadding="15" cellspacing="1" bgcolor="#666666">
   <tr> 
-    <td height="73" valign="top" bgcolor="#EEEEEE"><p align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><font color="#FF0000">Usu&aacute;rio 
-        j&aacute; Cadastrado.</font><br>
+    <td height="73" valign="top" bgcolor="#FFFF99"><p align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><font color="#FF0000"><br>
+              <font color="#000000">Usu&aacute;rio 
+        j&aacute; Cadastrado!</font></font><br>
+        <br>
+        <br>
         </strong></font></p>
-      </td>
+    </td>
   </tr>
 </table>
 <p>&nbsp;</p>

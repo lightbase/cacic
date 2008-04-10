@@ -25,9 +25,11 @@
 <p>&nbsp;</p>
 <table width="450" border="0" align="center" cellpadding="15" cellspacing="1" bgcolor="#666666">
   <tr> 
-    <td valign="top" bgcolor="#EEEEEE"><p align="center"><font color="#FF0000" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>Nenhuma 
-        Opera&ccedil;&atilde;o Realizada!</strong></font></p>
-      </td>
+    <td valign="top" bgcolor="#FFFF99"><p align="center"><font color="#000000" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><br>
+      Nenhuma 
+        Opera&ccedil;&atilde;o Realizada!</strong></font><br>
+        <br>
+    </p>    </td>
   </tr>
 </table>
 <p>&nbsp;</p>

@@ -24,7 +24,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../../include/library.php');
-anti_spy();
+AntiSpy('1,2,3,4'); // Permitido somente a estes cs_nivel_administracao...
 
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
@@ -124,7 +124,7 @@ function open_window(theURL,winName,features) {
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
        while($campos_aplicativos_selecionados=mysql_fetch_array($result_aplicativos_selecionados)) 	
 	   		{
-			   echo '<option value=' . $campos_aplicativos_selecionados['id_aplicativo'] . '>' . capa_string($campos_aplicativos_selecionados['nm_aplicativo'],28)  . '</option>';
+			   echo '<option value=' . $campos_aplicativos_selecionados['id_aplicativo'] . '>' . capa_string($campos_aplicativos_selecionados['nm_aplicativo'],40)  . '</option>';
 			}  ?>
                       </select>
                       </div></td>

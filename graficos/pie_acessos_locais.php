@@ -47,9 +47,14 @@ $CreatePie 		= 1;
 $Sort      		= 1;
 $ShowText		= 0;
 $DisplaySequence= 0;
-$Width 	   		= 655;
-$Height    		= 415;
+$Width 	   		= 700;
+$Height    		= (count($arr_acessos_locais)*13.5);//855; //Cabem 65 linhas
+$Height    		= ($Height < 400?400:$Height);
 $DisplaySequence= 2; // Quantidade de posições para o sequencial
+$ImgType		= 'PNG';
+$myLineSize		= 185;
+$CenterX		= 450;
+$DiameterX		= 480;
 
-phPie($arr_acessos_locais, $Width, $Height, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, true, 3,$CreatePie, $Sort, $DisplaySequence, $ShowText);
+phPie($arr_acessos_locais, $Width, $Height, $CenterX, $CenterY, $DiameterX, $DiameterY, $MinDisplayPct, $DisplayColors, $BackgroundColor, $LineColor, true, 3,$CreatePie, $Sort, $DisplaySequence, $ShowText, $ImgType, $myLineSize);
 ?>

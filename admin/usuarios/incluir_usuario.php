@@ -24,15 +24,14 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 include_once "../../include/library.php";
 
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 Conecta_bd_cacic();
 
-if($submit) 
+if($_POST['submit']) 
 	{	
-	$frm_nm_usuario_acesso = $_POST['frm_nm_usuario_acesso'];  	
 	$query = "SELECT 	* 
 			  FROM 		usuarios 
-			  WHERE 	nm_usuario_acesso = '$frm_nm_usuario_acesso'";
+			  WHERE 	nm_usuario_acesso = '".$_POST['frm_nm_usuario_acesso']."'";
 	$result = mysql_query($query) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou', array('usuarios')));
 	
 	if (mysql_num_rows($result) > 0) 
@@ -52,14 +51,15 @@ if($submit)
 							 te_emails_contato,
 							 te_telefones_contato,
 							 te_locais_secundarios) 
-				  VALUES 	('$frm_nm_usuario_acesso', 
-				  			'$frm_nm_usuario_completo', 
-				  		  	PASSWORD('$frm_nm_usuario_acesso'), now(),
-							'$frm_id_grupo_usuarios',
-							'$frm_id_local',
-							'$frm_te_emails_contato',
-							'$frm_te_telefones_contato',
-							'$frm_te_locais_secundarios')";
+				  VALUES 	('".$_POST['frm_nm_usuario_acesso']."', 
+				  			'".$_POST['frm_nm_usuario_completo']."', 
+				  		  	PASSWORD('".$_POST['frm_nm_usuario_acesso']."'), 
+							now(),
+							'".$_POST['frm_id_grupo_usuarios']."',
+							'".$_POST['frm_id_local']."',
+							'".$_POST['frm_te_emails_contato']."',
+							'".$_POST['frm_te_telefones_contato']."',
+							'".$_POST['frm_te_locais_secundarios']."')";
 		$result = mysql_query($query) or die ($oTranslator->_('kciq_msg insert row on table fail', array('usuarios'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'usuarios');		
 		header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 											
@@ -119,7 +119,7 @@ else
 					if (strIdLocaisSecundarios != "")
 						strIdLocaisSecundarios += ",";
 						
-					strIdLocaisSecundarios += document.form.frm_sel_id_locais_secundarios.options[intLoop].value;
+					strIdLocaisSecundarios += Trim(document.form.frm_sel_id_locais_secundarios.options[intLoop].value);
 					}
 				}
 			document.form.frm_te_locais_secundarios.value = strIdLocaisSecundarios;
@@ -274,7 +274,7 @@ else
 		  <td><input name="frm_nm_usuario_completo" type="text" id="frm_nm_usuario_completo" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
 		</tr>
 		<?
-		$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE cs_nivel_administracao > '.$_SESSION['cs_nivel_administracao'].' OR cs_nivel_administracao=0':'');
+		$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE (cs_nivel_administracao > '.$_SESSION['cs_nivel_administracao'].' OR cs_nivel_administracao=0)':'');
 		$qry_grp_usu = "SELECT 		id_grupo_usuarios, 
 									te_grupo_usuarios, 
 									te_descricao_grupo 

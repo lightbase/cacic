@@ -25,22 +25,25 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 require_once('../../include/library.php');
 
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 Conecta_bd_cacic();
 
-if ($GravaAlteracoes) {
-	$query = "UPDATE usuarios SET 
-			  te_senha = PASSWORD('$frm_te_nova_senha')
-			  WHERE id_usuario = ". $_SESSION['id_usuario'];
+if ($_POST['GravaAlteracoes']) 
+	{
+	$query = "UPDATE 	usuarios 
+			  SET 		te_senha = PASSWORD('".$_POST['frm_te_nova_senha']."')
+			  WHERE 	id_usuario = ". $_POST['frm_id_usuario'];
 	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'usuarios');		
-	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/troca_senha.php&tempo=1");									 										
-	
-}
-else {
-	$query = "SELECT a.nm_usuario_acesso, a.nm_usuario_completo, a.te_senha 
-			  FROM usuarios a
-			  WHERE a.id_usuario = ".$_SESSION['id_usuario'];
+	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/troca_senha.php&tempo=1");									 											
+	}
+else 
+	{
+	$query = "SELECT 	a.nm_usuario_acesso, 
+						a.nm_usuario_completo, 
+						a.te_senha 
+			  FROM 		usuarios a
+			  WHERE 	a.id_usuario = ".$_SESSION['id_usuario'];
 
 	$result = mysql_query($query) or die ($oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('usuarios')));
 	$row_usuario = mysql_fetch_array($result);
@@ -98,7 +101,8 @@ function valida_nova_senha()
           <tr> 
             <td nowrap class="label"><?=$oTranslator->_('Senha Atual');?>:</td>
             <td> 
-              <input name="frm_te_senha_atual" type="password" id="frm_te_senha_atual" size="10" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+              <input name="frm_te_senha_atual" type="password" id="frm_te_senha_atual" size="10" maxlength="10" onChange="return valida_senha_atual()" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+	          <input name="frm_id_usuario" type="hidden" id="frm_id_usuario" value="<? echo $_SESSION['id_usuario'];?>">			  
               </td>
           </tr>
           <tr>

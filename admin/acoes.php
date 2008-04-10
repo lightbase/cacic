@@ -23,7 +23,8 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../include/library.php');
-// Comentado temporariamente - AntiSpy();
+
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 $id_acao = $_GET['id_acao']; 
 ?>
 
@@ -167,20 +168,28 @@ function remove(box)
 
 <? 
     conecta_bd_cacic();
+	/*
+	$query = "SELECT 	* 
+			  FROM 		acoes,
+			  			acoes_redes
+			  WHERE		acoes.id_acao='$id_acao' AND
+			  			acoes_redes.id_acao = acoes.id_acao AND
+						acoes_redes.id_local = ".$_SESSION['id_local'];
+	*/
 	$query = "SELECT 	*
 			  FROM 		acoes_redes
 			  WHERE		id_acao = '".$_GET['id_acao']."' ";
 	if ($_SESSION['cs_nivel_administracao'] <> 1 && $_SESSION['cs_nivel_administracao'] <> 2)			 
-		$where .= " AND id_local = ".$_SESSION['id_local'];
+		$query .= " AND id_local = ".$_SESSION['id_local'];
 
 	if ($_SESSION['te_locais_secundarios']<>'')
 		{
 		// Faço uma inserção de "(" para ajuste da lógica para consulta
 		$query = str_replace('id_local = ','(id_local = ',$query);
-		$query .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].')';	
+		$query .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
 		}
 						
-	$result_acoes = mysql_query($query.$where) or die('1-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+	$result_acoes = mysql_query($query) or die('1-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
 	$campos_acoes = mysql_fetch_array($result_acoes);
 ?>
 
@@ -354,7 +363,8 @@ function remove(box)
 											te_desc_so
 								  FROM 		so
 								  WHERE 	id_so NOT IN ($not_in_so_ja_selecionados) AND
-								  			id_so <> 0";
+								  			id_so <> 0
+								  ORDER BY  te_desc_so";
 						$result_so_nao_selecionados = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg select on table fail', array('so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 						
 						/* Agora monto os itens do combo de so's NÃO selecionadas. */ 
@@ -446,7 +456,7 @@ function remove(box)
           </tr>
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list1[]']);SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+                <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="SelectAll(this.form.elements['list1[]']);SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
               </div></td>
           </tr>
           <tr> 

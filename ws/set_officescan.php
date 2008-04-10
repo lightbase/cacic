@@ -14,9 +14,10 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// Definição do nível de compressão (Default=máximo)
-//$v_compress_level = '9';
-$v_compress_level = '0';
+// Definição do nível de compressão (Default = 9 => máximo)
+//$v_compress_level = 9;
+$v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
+						// Há necessidade de testes para Análise de Viabilidade Técnica 
  
 require_once('../include/library.php');
 
@@ -25,11 +26,12 @@ $v_cs_cipher	= (trim($_POST['cs_cipher'])   <> ''?trim($_POST['cs_cipher'])   : 
 $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) : '4');
 
 autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
+
 $te_node_address 			= DeCrypt($key,$iv,$_POST['te_node_address']		,$v_cs_cipher,$v_cs_compress); 
 $id_so_new         			= DeCrypt($key,$iv,$_POST['id_so']					,$v_cs_cipher,$v_cs_compress); 
 $te_so           			= DeCrypt($key,$iv,$_POST['te_so']					,$v_cs_cipher,$v_cs_compress); 
+$te_ip           			= DeCrypt($key,$iv,$_POST['te_ip']					,$v_cs_cipher,$v_cs_compress); 
 $id_ip_rede     			= DeCrypt($key,$iv,$_POST['id_ip_rede']				,$v_cs_cipher,$v_cs_compress);
-$te_ip 						= DeCrypt($key,$iv,$_POST['te_ip']					,$v_cs_cipher,$v_cs_compress); 
 $te_nome_computador			= DeCrypt($key,$iv,$_POST['te_nome_computador']		,$v_cs_cipher,$v_cs_compress); 
 $te_workgroup 				= DeCrypt($key,$iv,$_POST['te_workgroup']			,$v_cs_cipher,$v_cs_compress); 
 
@@ -37,7 +39,7 @@ $te_workgroup 				= DeCrypt($key,$iv,$_POST['te_workgroup']			,$v_cs_cipher,$v_c
  o computador deste agente no BD, caso ainda não esteja inserido. */
 if ($te_node_address <> '')
 	{ 
-	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+	$arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
 												$id_so_new, 
 												$te_so,
 												$id_ip_rede, 
@@ -49,13 +51,13 @@ if ($te_node_address <> '')
 	$query = "SELECT count(*) as num_registros
 			  FROM officescan
 											WHERE te_node_address = '" . $te_node_address . "'
-											AND id_so = '" . $id_so . "'";
+											AND id_so = '" . $arrSO['id_so'] . "'";
 	$result = mysql_query($query);
 	if (mysql_result($result, 0, "num_registros") == 0) 
 		{
 						$query = "INSERT INTO officescan
 																(te_node_address, id_so)
-																VALUES ('" . $te_node_address . "', '" . $id_so . "'  )";
+																VALUES ('" . $te_node_address . "', '" . $arrSO['id_so'] . "'  )";
 						$result = mysql_query($query);
 		} 
 	
@@ -67,7 +69,7 @@ if ($te_node_address <> '')
 					te_servidor         = '" . DeCrypt($key,$iv,$_POST['te_servidor']		,$v_cs_cipher,$v_cs_compress) . "',
 					in_ativo            = '" . DeCrypt($key,$iv,$_POST['in_ativo']			,$v_cs_cipher,$v_cs_compress) . "' 
 			  WHERE te_node_address 	= '" . $te_node_address . "' and
-					id_so           	= '" . $id_so . "'";
+					id_so           	= '" . $arrSO['id_so'] . "'";
 	$result = mysql_query($query);
 	
 	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';

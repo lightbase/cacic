@@ -23,7 +23,10 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
 
 $id_acao = $_POST['id_acao']; 
 

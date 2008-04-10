@@ -86,11 +86,13 @@ if ($_SESSION['aplicativo_monitorado'] == true)
 
 		$result_software = mysql_query($query);
 		$v_achei = 0;
+		$strCor = '';
 		while ($row = mysql_fetch_array($result_software)) 
 			{
 			$v_achei = 1;
+			$strCor = ($strCor==''?'#CCCCFF':'');						  			
 			?>
-			<tr> 
+			<tr bgcolor="<? echo $strCor;?>"> 
 			<td class="descricao">&nbsp;<? echo $row['nm_aplicativo']; ?></td>
 			<td class="descricao"><? echo $row['te_versao']; ?></td>
 			<td class="descricao"><? echo $row['te_licenca']; ?></td>	

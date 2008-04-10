@@ -16,9 +16,10 @@
 // Essa coleta não é opcional, ou seja, o administrador não tem como desabilitá-la.
 // Por isso foi necessário criá-la de forma independente do script set_software.php.
 
-// Definição do nível de compressão (Default=máximo)
-//$v_compress_level = '9';
-$v_compress_level = '0';
+// Definição do nível de compressão (Default = 9 => máximo)
+//$v_compress_level = 9;
+$v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
+						// Há necessidade de testes para Análise de Viabilidade Técnica 
  
 require_once('../include/library.php');
 
@@ -32,8 +33,8 @@ autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
 $te_node_address 	= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress); 
 $id_so_new         	= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress); 
 $te_so           	= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress); 
+$te_ip           	= DeCrypt($key,$iv,$_POST['te_ip']				,$v_cs_cipher,$v_cs_compress); 
 $te_nome_computador = DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress); 
-$te_ip              = DeCrypt($key,$iv,$_POST['te_ip']				,$v_cs_cipher,$v_cs_compress); 
 $te_nome_host       = DeCrypt($key,$iv,$_POST['te_nome_host']		,$v_cs_cipher,$v_cs_compress); 
 $id_ip_rede         = DeCrypt($key,$iv,$_POST['id_ip_rede']			,$v_cs_cipher,$v_cs_compress);
 $te_workgroup       = DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_cs_compress);
@@ -42,19 +43,19 @@ $te_workgroup       = DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_
  o computador deste agente no BD, caso ainda não esteja inserido. */
 if ($te_node_address <> '')
 	{ 
-	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+	$arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
 											  	$id_so_new, 
 											  	$te_so, 										
 											  	$id_ip_rede, 
 											  	$te_ip, 
-											  	$te_nome_computador, 
+												$te_nome_computador, 
 											  	$te_workgroup);																				
 	conecta_bd_cacic();
 	
 	$query = "	UPDATE 	computadores 
 				SET		te_versao_cacic   = '" . DeCrypt($key,$iv,$_POST['te_versao_cacic'],$v_cs_cipher,$v_cs_compress) . "'  
 				WHERE 	te_node_address = '" . $te_node_address . "' and
-						id_so           = '" . $id_so . "'";
+						id_so           = '" . $arrSO['id_so'] . "'";
 	$result = mysql_query($query);
 	
 	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';

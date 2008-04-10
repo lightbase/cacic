@@ -15,7 +15,7 @@
  */
 
 include_once '../include/library.php'; 
-//// Comentado temporariamente - AntiSpy();
+//AntiSpy();
 conecta_bd_cacic();
 
 $query = 'SELECT a.'. $_GET['v_nome_campo'] . ', 

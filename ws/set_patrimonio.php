@@ -14,9 +14,10 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// Definição do nível de compressão (Default=máximo)
-//$v_compress_level = '9';
-$v_compress_level = '0';
+// Definição do nível de compressão (Default = 9 => máximo)
+//$v_compress_level = 9;
+$v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
+						// Há necessidade de testes para Análise de Viabilidade Técnica 
  
 require_once('../include/library.php');
 
@@ -43,7 +44,7 @@ $te_workgroup       = DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_
  o computador deste agente no BD, caso ainda não esteja inserido. */
 if ($te_node_address <> '')
 	{ 
-	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+	$arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
 											  	$id_so_new, 
 											  	$te_so, 										
 											  	$id_ip_rede, 
@@ -55,14 +56,14 @@ if ($te_node_address <> '')
 	$query = "SELECT COUNT(*) 
 			  FROM patrimonio 
 			  WHERE te_node_address = '" . $te_node_address . "'
-			  AND id_so = '" . $id_so . "'";
+			  AND id_so = '" . $arrSO['id_so'] . "'";
 	conecta_bd_cacic();
 	$result = mysql_query($query);
 	if (mysql_num_rows($result) > 0) 
 		{  // Atualização das informações de patrimônio (e não inclusão). 
 	
 	   // Agora, verifica se os administradores deverão ser notificados da alteração nas informações de patrimônio.
-		if (trim($destinatarios = get_valor_campo('configuracoes_locais', 'te_notificar_mudanca_patrim')) != '') 
+		if (trim($destinatarios = get_valor_campo('configuracoes_locais', 'te_notificar_mudanca_patrim','id_local = '.$v_dados_rede['id_local'])) != '') 
 			{
 			$query 	= "	SELECT 	te_etiqueta,nm_campo_tab_patrimonio 
 						FROM 	patrimonio_config_interface
@@ -77,20 +78,26 @@ if ($te_node_address <> '')
 			$tripa_nomes_campos = substr($tripa_nomes_campos,0,strlen($tripa_nomes_campos)-1);	
 			$array_nomes_campos = explode('#',$tripa_nomes_campos);
 	
-			// Monto um array com as UO Nível 1
-			$query 	= "SELECT 	id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1
-					   FROM 	unid_organizacional_nivel1";
+			// Monto um array com as UO Nível 1a
+			$query 	= "SELECT 	UON1a.id_unid_organizacional_nivel1a, 
+								UON1a.nm_unid_organizacional_nivel1a
+					   FROM 	unid_organizacional_nivel1a UON1a,
+					   			unid_organizacional_nivel2  UON2					   
+					   WHERE	UON2.id_unid_organizacional_nivel1a = UON1a.id_unid_organizacional_nivel1a AND
+					            UON2.id_local = ".$v_dados_rede['id_local'];
+								
 			$result = mysql_query($query);
-			$tripa_nomes_UON1 = '';
+			$tripa_nomes_UON1a = '';
 			while($row=mysql_fetch_array($result))
 				{
-				$tripa_nomes_UON1 .= $row['id_unid_organizacional_nivel1'].'#'.$row['nm_unid_organizacional_nivel1'].'#';
+				$tripa_nomes_UON1a .= $row['id_unid_organizacional_nivel1a'].'#'.$row['nm_unid_organizacional_nivel1a'].'#';
 				}
 	
-			$tripa_nomes_UON1 = substr($tripa_nomes_UON1,0,strlen($tripa_nomes_UON1)-1);	
-			$array_nomes_UON1 = explode('#',$tripa_nomes_UON1);
+			$tripa_nomes_UON1a = substr($tripa_nomes_UON1a,0,strlen($tripa_nomes_UON1a)-1);	
+			$array_nomes_UON1a = explode('#',$tripa_nomes_UON1a);
 	
-			// Monto um array com as UO Nível 2 relacionadas às suas UO Nível 1
+			// Monto um array com as UO Nível 2 relacionadas às suas UO Nível 1a
+			/*
 			$query 	= "SELECT 	a.id_unid_organizacional_nivel2, 
 								a.nm_unid_organizacional_nivel2
 					   FROM 	unid_organizacional_nivel2 a, 
@@ -100,6 +107,8 @@ if ($te_node_address <> '')
 								b.id_local = c.id_local AND
 								c.id_local = ".$v_dados_rede['id_local'];
 			$result = mysql_query($query);
+			*/
+			mysql_data_seek($result,0);
 			$tripa_nomes_UON2 = '';
 			while($row=mysql_fetch_array($result))
 				{
@@ -113,7 +122,7 @@ if ($te_node_address <> '')
 			$query = "SELECT * 
 					  FROM patrimonio
 					  WHERE te_node_address = '" . $te_node_address . "'
-							AND id_so = '" . $id_so . "'";
+							AND id_so = '" . $arrSO['id_so'] . "'";
 	
 			$result = mysql_query($query);
 	
@@ -132,14 +141,14 @@ if ($te_node_address <> '')
 				$nome_campo_tela = $array_nomes_campos[$posicao_array_nomes_campos + 1];
 				if (($campos["$nome_campo_tabela"] != substr(DeCrypt($key,$iv,$_POST[$nome_campo_tabela],$v_cs_cipher,$v_cs_compress), 0, $tam_campo_tabela)) && ($nome_campo_tabela != 'dt_hr_alteracao' && $nome_campo_tabela != 'id_so' && $nome_campo_tabela != 'te_node_address')) 
 					{
-					if ($nome_campo_tabela != 'id_unid_organizacional_nivel1' && $nome_campo_tabela != 'id_unid_organizacional_nivel2')
+					if ($nome_campo_tabela != 'id_unid_organizacional_nivel1a' && $nome_campo_tabela != 'id_unid_organizacional_nivel2')
 						{
 						$valor_anterior = 	$campos["$nome_campo_tabela"];
 						$valor_atual	=	DeCrypt($key,$iv,$_POST["$nome_campo_tabela"],$v_cs_cipher,$v_cs_compress);
 						}									
 					else
 						{
-						if ($nome_campo_tabela == 'id_unid_organizacional_nivel1')
+						if ($nome_campo_tabela == 'id_unid_organizacional_nivel1a')
 							{
 							$posicao_array_nomes_UON1 = array_search($campos["$nome_campo_tabela"], $array_nomes_UON1);
 							$valor_anterior = $array_nomes_UON1[$posicao_array_nomes_UON1 + 1];
@@ -162,7 +171,7 @@ if ($te_node_address <> '')
 			$query = "SELECT te_nome_computador, id_ip_rede, te_ip 
 				  FROM computadores 
 				  WHERE te_node_address = '" . $te_node_address . "'
-				  AND id_so = '" . $id_so . "'";
+				  AND id_so = '" . $arrSO['id_so'] . "'";
 			$result = mysql_query($query);
 	
 			if ($cont_aux > 0) 
@@ -176,10 +185,10 @@ if ($te_node_address <> '')
 	As informações que sofreram alterações estão relacionadas abaixo:\n\n" .
 	$campos_alterados ."\n\n
 	Para visualizar mais informações sobre esse computador, acesse o endereço
-	http://" . $_SERVER['SERVER_ADDR'] . "/cacic2/relatorios/computador/computador.php?id_so=" . $id_so . "&te_node_address=" . $te_node_address . "\n
+	http://" . $_SERVER['SERVER_ADDR'] . "/cacic2/relatorios/computador/computador.php?id_so=" . $arrSO['id_so'] . "&te_node_address=" . $te_node_address . "\n
 	______________________________________________
 	CACIC - " . date('d/m/Y H:i') . "h
-	Desenvolvido pelo Escritório da Dataprev do ES";
+	Desenvolvido pela Dataprev - Unidade Regional Espírito Santo";
 	
 				// Manda mail para os administradores.
 				mail("$destinatarios", "Alteracao de Patrimonio Detectada", "$corpo_mail", "From: cacic@{$_SERVER['SERVER_NAME']}");
@@ -193,7 +202,7 @@ if ($te_node_address <> '')
 											(te_node_address,
 												id_so,
 												dt_hr_alteracao,
-												id_unid_organizacional_nivel1,
+												id_unid_organizacional_nivel1a,
 												id_unid_organizacional_nivel2,
 												te_localizacao_complementar,
 												te_info_patrimonio1,
@@ -203,9 +212,9 @@ if ($te_node_address <> '')
 												te_info_patrimonio5,
 												te_info_patrimonio6)
 			 VALUES ('" . $te_node_address . "', 
-					 '" . $id_so . "',
+					 '" . $arrSO['id_so'] . "',
 												NOW(),
-												'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1']	,$v_cs_cipher,$v_cs_compress) . "', 
+												'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1a']	,$v_cs_cipher,$v_cs_compress) . "', 
 												'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress) . "', 
 												'" . DeCrypt($key,$iv,$_POST['te_localizacao_complementar']		,$v_cs_cipher,$v_cs_compress) . "', 
 												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio1']				,$v_cs_cipher,$v_cs_compress) . "', 

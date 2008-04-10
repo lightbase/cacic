@@ -23,7 +23,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
  conecta_bd_cacic(); ?>
 <html>
 <head>
@@ -69,7 +69,7 @@ require_once('../../include/library.php');
       <td><input name="te_help_etiqueta" type="text" id="te_help_etiqueta" value="<?  echo $default	[1]  ?>" size="25" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
       <td class="descricao">Ex: 
         Selecione a Divis&atilde;o onde encontra-se 
-        o equipamento.</td>
+        este equipamento.</td>
     </tr>
 	
     <tr>

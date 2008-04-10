@@ -16,9 +16,10 @@
 // Perdido? http://www.zend.com/zend/art/parsing.php
 // http://www.zend.com/zend/tut/tutbarlach.php
 
-// Definição do nível de compressão (Default=máximo)
-//$v_compress_level = '9';
-$v_compress_level = '0';
+// Definição do nível de compressão (Default = 9 => máximo)
+//$v_compress_level = 9;
+$v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
+						// Há necessidade de testes para Análise de Viabilidade Técnica 
  
 require_once('../include/library.php');
 
@@ -42,7 +43,7 @@ $te_workgroup       = DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_
  o computador deste agente no BD, caso ainda não esteja inserido. */
 if ($te_node_address <> '')
 	{ 
-	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+	$arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
 											  	$id_so_new, 
 											  	$te_so, 										
 											  	$id_ip_rede, 
@@ -50,13 +51,17 @@ if ($te_node_address <> '')
 											  	$te_nome_computador, 
 											  	$te_workgroup);																				
 	// Tiro os escapes que o post automaticamente coloca.
-	$xmlSource=stripslashes(DeCrypt($key,$iv,$_POST['unidades'],$v_cs_cipher,$v_cs_compress));
+	//$xmlSource=stripslashes(DeCrypt($key,$iv,$_POST['unidades'],$v_cs_cipher,$v_cs_compress));
+	//$strTripaDados=stripslashes(DeCrypt($key,$iv,$_POST['unidades'],$v_cs_cipher,$v_cs_compress));	
+	$strTripaDados = DeCrypt($key,$iv,$_POST['UnidadesDiscos'],$v_cs_cipher,$v_cs_compress);		
+	
 	
 	//First we define a number of variables to store the data from each element
 	/*
 	$te_node_address='';
 	$id_so='';
 	*/
+	/* COMENTADO A PARTIR DAQUI POR OCASIAO DA RETIRADA DO TRATAMENTO POR XML - 25/01/2008 - Anderson Peterle	
 	$te_letra='';
 	$id_tipo_unid_disco='';
 	$cs_sist_arq='';
@@ -77,35 +82,47 @@ if ($te_node_address <> '')
 	This is where we store the element name, currently being parsed, in $elementoAtual.
 	the character data handler uses  this to identify the element.
 	This is also where we get the attribute, if any. */
-	function startElement($parser,$name,$attr){
+	/* COMENTADO A PARTIR DAQUI POR OCASIAO DA RETIRADA DO TRATAMENTO POR XML - 25/01/2008 - Anderson Peterle	
+	function startElement($parser,$name,$attr)
+		{
 		$GLOBALS['elementoAtual']=$name;	
-	}
+		}
 	
 	
 	/*	The character data Handler
 		Depending on what the elementoAtual is, the handler assigns the value to the appropriate variable */
-	function characterData($parser, $data) {
-				foreach($GLOBALS['elementos'] as $elemento){
-							if ($GLOBALS["elementoAtual"] == $elemento) {	$GLOBALS[$elemento] .= addslashes($data);		}  // Esse addslashes resolve os problemas da strings como "c:\".
+	/* COMENTADO A PARTIR DAQUI POR OCASIAO DA RETIRADA DO TRATAMENTO POR XML - 25/01/2008 - Anderson Peterle		
+	function characterData($parser, $data) 
+		{
+		foreach($GLOBALS['elementos'] as $elemento)
+			{
+			if ($GLOBALS["elementoAtual"] == $elemento) 
+				{
+				$GLOBALS[$elemento] .= addslashes($data);		
+				}  // Esse addslashes resolve os problemas da strings como "c:\".
+			}
+		}
+	
+	
+	function endElement($parser,$name)
+		{
+		/*If the element being parsed is a 'in_senha_escrita' it means that the
+		parser has completed parsing. We can then store the data in our array $registro[ ]   */
+		//  if(strcmp($name,'te_node_address')==0) { $GLOBALS['te_node_address'] = 
+	/* COMENTADO A PARTIR DAQUI POR OCASIAO DA RETIRADA DO TRATAMENTO POR XML - 25/01/2008 - Anderson Peterle	
+	  	if(strcmp($name,'id_tipo_unid_disco')==0) 
+			{
+			foreach($GLOBALS['elementos'] as $elemento)
+				{
+				$temp[$elemento]=$GLOBALS[$elemento];							
 				}
-	}
-	
-	
-	function endElement($parser,$name){
-	/*If the element being parsed is a 'in_senha_escrita' it means that the
-	parser has completed parsing. We can then store the data in our array $registro[ ]   */
-	//  if(strcmp($name,'te_node_address')==0) { $GLOBALS['te_node_address'] = 
-	
-	  if(strcmp($name,'id_tipo_unid_disco')==0) {
-							foreach($GLOBALS['elementos'] as $elemento){
-											$temp[$elemento]=$GLOBALS[$elemento];							
-							}
-							$GLOBALS['registro'][]=$temp;
-	   }
-				
+			$GLOBALS['registro'][]=$temp;
+	   		}				
 	
 		  /*After parsing a movie we reset the rest of the globals.*/
-		  if(strcmp($name,'unidade')==0){
+	/* COMENTADO A PARTIR DAQUI POR OCASIAO DA RETIRADA DO TRATAMENTO POR XML - 25/01/2008 - Anderson Peterle		  
+		  if(strcmp($name,'unidade')==0)
+		  		{
 	  //        $GLOBALS['te_node_address']=""; Atenção, não posso limpar essa variável.
 	  //        $GLOBALS['id_so']=""; Atenção, não posso limpar essa variável.
 				$GLOBALS['te_letra']="";
@@ -115,66 +132,88 @@ if ($te_node_address <> '')
 				$GLOBALS['nu_espaco_livre']="";
 				$GLOBALS['te_unc']="";
 				$GLOBALS['id_tipo_unid_disco']="";
-		  }
-	}
+		  		}
+		}
 	
-	
-	
-	
-	function parseFile(){
+	function parseFile()
+		{
 		global $xmlSource,$registro;
 	
 		/*Creating the xml parser*/
+	/* COMENTADO A PARTIR DAQUI POR OCASIAO DA RETIRADA DO TRATAMENTO POR XML - 25/01/2008 - Anderson Peterle		
 		$xml_parser=xml_parser_create();
 		
 		/*Register the handlers*/
+	/* COMENTADO A PARTIR DAQUI POR OCASIAO DA RETIRADA DO TRATAMENTO POR XML - 25/01/2008 - Anderson Peterle		
 		xml_set_element_handler($xml_parser,"startElement","endElement");
 		xml_set_character_data_handler($xml_parser,"characterData");
 		
 		/*Disables case-folding. Needed for this example*/
+	/* COMENTADO A PARTIR DAQUI POR OCASIAO DA RETIRADA DO TRATAMENTO POR XML - 25/01/2008 - Anderson Peterle		
 		xml_parser_set_option($xml_parser,XML_OPTION_CASE_FOLDING,false);
 		
-		  if(!xml_parse($xml_parser,$xmlSource,true)){
-			 die(sprintf("XML error at line %d column %d ", xml_get_current_line_number($xml_parser), xml_get_current_column_number($xml_parser)));
-	   }
+		if(!xml_parse($xml_parser,$xmlSource,true))
+			die(sprintf("Problema com XML => Linha: %d Coluna: %d ", xml_get_current_line_number($xml_parser), xml_get_current_column_number($xml_parser)) . ' Mensagem: '.xml_error_string(xml_get_error_code($xmlparser)));
 	
-		 xml_parser_free($xml_parser);
-		 return $registro;
-	}
-	
+		xml_parser_free($xml_parser);
+		return $registro;
+		}
+	*/
 	conecta_bd_cacic();
-	$result=parseFile();
+	//$result=parseFile();
 	
 	// Deleto todos os compartilhamentos desse computador, antes de inserir os atualizados.
 	$query = "	DELETE 	FROM unidades_disco 
 				WHERE 	te_node_address = '" . $te_node_address . "'
-				AND 	id_so = '" . $id_so . "'";
+				AND 	id_so = '" . $arrSO['id_so'] . "'";
 	mysql_query($query);
 	
 	// Agora insiro.
-	foreach($result as $arr){
-						$query = "INSERT INTO unidades_disco 
-																(te_node_address, 
-																id_so,
-																te_letra,
-																id_tipo_unid_disco, 
-																cs_sist_arq, 
-																nu_serial, 
-																nu_capacidade, 
-																nu_espaco_livre,
-																te_unc) 
-									VALUES ('" . $te_node_address . "', 
-																	'" . $id_so . "',
-																	'" . $arr['te_letra'] . "', 
-																	'" . $arr['id_tipo_unid_disco'] . "',
-																	'" . $arr['cs_sist_arq'] . "',
-																	'" . $arr['nu_serial'] . "', 
-																	'" . $arr['nu_capacidade'] . "', 
-																	'" . $arr['nu_espaco_livre'] . "', 
-																	'" . $arr['te_unc'] . "')";
-	
-						mysql_query($query);
-	}
+	//foreach($result as $arr)
+	$arrUnidadesDiscos = explode('<REG>',$strTripaDados);
+
+	$strValues = '';	
+	// Agora insiro todos os compartilhamentos.
+	for ($intIndice=0; $intIndice < count($arrUnidadesDiscos); $intIndice++)
+		{
+		/*
+		ATENÇÂO: O agente envia as informações serializadas com o seguinte conteúdo:
+        te_letra			+ '<FIELD>' +
+		id_tipo_unid_disco	+ '<FIELD>' +
+		cs_sist_arq			+ '<FIELD>' +
+		nu_serial			+ '<FIELD>' +
+		nu_capacidade		+ '<FIELD>' +
+		nu_espaco_livre		+ '<FIELD>' +
+		te_unc				
+		*/											  
+		$arrCamposUnidadesDiscos = explode('<FIELD>',$arrUnidadesDiscos[$intIndice]);
+		$strValues .= ($strValues <> ''?',':'');
+		$strValues .= '( "'.$te_node_address.'",'.
+					  	'"'.$arrSO['id_so'].'",'.
+						'"'.$arrCamposUnidadesDiscos[0].'",'.
+						'"'.$arrCamposUnidadesDiscos[1].'",'.
+						'"'.$arrCamposUnidadesDiscos[2].'",'.
+						'"'.$arrCamposUnidadesDiscos[3].'",'.
+						'"'.$arrCamposUnidadesDiscos[4].'",'.
+						'"'.$arrCamposUnidadesDiscos[5].'",'.
+						'"'.$arrCamposUnidadesDiscos[6].'")';
+						
+		}
+	if ($strValues <> '')
+		{
+		$query = "INSERT INTO unidades_disco 
+							(te_node_address, 
+							id_so,
+							te_letra,
+							id_tipo_unid_disco, 
+							cs_sist_arq, 
+							nu_serial, 
+							nu_capacidade, 
+							nu_espaco_livre,
+							te_unc) 
+					VALUES " . $strValues;
+		mysql_query($query);
+		}
 	
 	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';
 	}

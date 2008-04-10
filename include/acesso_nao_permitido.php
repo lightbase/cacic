@@ -18,14 +18,15 @@
 <head>
 <title><?php echo $oTranslator->_('kciq_msg access denied');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta http-equiv="refresh" content="<? echo $_REQUEST['tempo'];?> ;URL=<? echo $_REQUEST['chamador']; ?>">
+<meta http-equiv="refresh" content="3; URL=../index.php">
 </head>
 <body bgcolor="#F0F0F0" background="../imgs/linha_v.gif">
 <p>&nbsp;</p>
+<p>&nbsp;</p>
 <table width="617" border="0" align="center" cellpadding="15" cellspacing="1" bgcolor="#666666">
   <tr> 
-    <td width="585" height="78" align="center" valign="middle" nowrap bgcolor="#EEEEEE"><p align="center"> 
-        <font color="#FF0000" size="6" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
+    <td width="585" height="78" align="center" valign="middle" nowrap bgcolor="#FF0000"><p align="center"> 
+        <font color="#FFFFFF" size="6" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
         <?php echo $oTranslator->_('kciq_msg access denied');?></strong></font></p>
     </td>
   </tr>

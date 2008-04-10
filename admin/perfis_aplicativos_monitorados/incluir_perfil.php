@@ -15,7 +15,9 @@
  */
 
 include_once "../../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+
 if($_POST['submit']) 
 {
 	conecta_bd_cacic();
@@ -355,14 +357,12 @@ function SetaAjuda(p_index, p_texto)
     </tr>
 	
     <tr> 
-      <td nowrap class="cabecalho_secao"><u>Locais para aplicação da coleta do sistema monitorado </u></td>
+      <td nowrap class="cabecalho_secao"><u>Sele&ccedil;&atilde;o de redes para  aplica&ccedil;&atilde;o desta coleta de informa&ccedil;&otilde;es </u></td>
     </tr>
 	
 	<tr>
 	<td>
 	<?
-	$select = "";
-	$from   = "";	
 	include_once "../../include/selecao_redes_perfil_inc.php";	
 	?>
 	</td>	

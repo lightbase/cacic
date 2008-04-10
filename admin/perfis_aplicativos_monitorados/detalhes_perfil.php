@@ -23,7 +23,10 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+
 Conecta_bd_cacic();
 
 if ($_POST['ExcluiAplicativo']) 
@@ -180,7 +183,7 @@ function valida_form() {
         <table width="90%" border="0" align="center">
           <tr> 
             <td nowrap class="label">Verifica&ccedil;&atilde;o Ativa?: 
-              <select name="frm_in_ativa" id="select16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+              <select name="frm_in_ativa" id="select16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?> >
                 <option value="N" <? if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) echo " selected ";?>>Não</option>
                 <option value="S" <? if (strpos($row['nm_aplicativo'], "#DESATIVADO#")==0) echo " selected ";?>>Sim</option>
               </select></td>
@@ -196,7 +199,7 @@ function valida_form() {
 					$v_nm_aplicativo = substr($row['nm_aplicativo'], 0, strpos($row['nm_aplicativo'], "#DESATIVADO#"));
 					}
 			?>
-              <input name="frm_nm_aplicativo" type="text" id="frm_nm_aplicativo3" size="80" maxlength="100" value="<? echo $v_nm_aplicativo;?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+              <input name="frm_nm_aplicativo" type="text" id="frm_nm_aplicativo3" size="80" maxlength="100" value="<? echo $v_nm_aplicativo;?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"<? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?> > 
             </td>
           </tr>
           <tr> 
@@ -229,7 +232,7 @@ function valida_form() {
           <tr> 
             <td nowrap class="label">Disponibilizar Informa&ccedil;&otilde;es 
               no Systray? (&iacute;cone na bandeja da esta&ccedil;&atilde;o):<br> 
-              <select name="frm_in_disponibiliza_info" id="select14" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+              <select name="frm_in_disponibiliza_info" id="frm_in_disponibiliza_info" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"<? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?> >
                 <option value="N" <? if ($row['in_disponibiliza_info'] == "N") echo " selected ";?>>Não</option>
                 <option value="S" <? if ($row['in_disponibiliza_info'] == "S") echo " selected ";?>>Sim</option>
               </select> </td>
@@ -239,9 +242,9 @@ function valida_form() {
           </tr>
           <tr> 
             <td nowrap class="label">Disponibilizar Informa&ccedil;&otilde;es 
-              ao Usu&aacute;rio Comum? (diferente de Administrador):<br> <select name="frm_in_disponibiliza_info_usuario_comum" id="select15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                <option value="N" <? if ($row['in_disponibiliza_info_comum'] == "N") echo " selected ";?>>Não</option>
-                <option value="S" <? if ($row['in_disponibiliza_info_comum'] == "S") echo " selected ";?>>Sim</option>
+              ao Usu&aacute;rio Comum? (diferente de Administrador):<br> <select name="frm_in_disponibiliza_info_usuario_comum" id="frm_in_disponibiliza_info_usuario_comum" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"<? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?> >
+                <option value="N" <? if ($row['in_disponibiliza_info_usuario_comum'] == "N") echo " selected ";?>>Não</option>
+                <option value="S" <? if ($row['in_disponibiliza_info_usuario_comum'] == "S") echo " selected ";?>>Sim</option>
               </select> </td>
           </tr>
           <tr> 
@@ -251,7 +254,7 @@ function valida_form() {
             <td nowrap class="label"> Descri&ccedil;&atilde;o:</td>
           </tr>
           <tr> 
-            <td nowrap> <textarea name="frm_te_descritivo" cols="60" rows="3" id="textarea" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $row['te_descritivo'];?></textarea> 
+            <td nowrap> <textarea name="frm_te_descritivo" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?> cols="60" rows="3" id="textarea" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $row['te_descritivo'];?></textarea> 
             </td>
           </tr>
           <tr> 
@@ -261,13 +264,13 @@ function valida_form() {
             <td nowrap class="label">Identificador de Licen&ccedil;a:</td>
           </tr>
           <tr> 
-            <td nowrap> <select name="frm_cs_ide_licenca" id="select6" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda1')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+            <td nowrap> <select name="frm_cs_ide_licenca" id="select6" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda1')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
                 <option value="0" id=""></option>
                 <option value="1" <? if ($row['cs_ide_licenca']=='1') echo 'selected';?>  id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
                 em Registry</option>
                 <option value="2" <? if ($row['cs_ide_licenca']=='2') echo 'selected';?>  id="Ex.:  Arquivos de Programas\Cacic\Cacic2.ini/Patrimonio/nu_CPU">Nome/Se&ccedil;&atilde;o\Chave 
                 de Arquivo INI</option>
-              </select> <br> <input name="frm_te_ide_licenca" type="text" id="frm_te_ide_licenca" value="<? echo $row['te_ide_licenca'];?>" size="80" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+              </select> <br> <input name="frm_te_ide_licenca" type="text" id="frm_te_ide_licenca" value="<? echo $row['te_ide_licenca'];?>" size="80" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda1" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
               <br> <input name="Ajuda11" type="text" style="border:0" size="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
               <div align="left"> <br>
@@ -284,7 +287,7 @@ function valida_form() {
             <td nowrap class="label">Identificador de Instala&ccedil;&atilde;o:</td>
           </tr>
           <tr> 
-            <td nowrap><select name="frm_cs_car_inst_w9x" id="select17" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda2')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+            <td nowrap><select name="frm_cs_car_inst_w9x" id="select17" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda2')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
                 <option value="0" id=""></option>
                 <option value="1" <? if ($row['cs_car_inst_w9x']=='1') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic\Programas\cacic.exe">Nome 
                 de Execut&aacute;vel</option>
@@ -292,7 +295,7 @@ function valida_form() {
                 de Arquivo de Configura&ccedil;&atilde;o</option>
                 <option value="3" <? if ($row['cs_car_inst_w9x']=='3') echo 'selected';?> id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
                 em Registry</option>
-              </select> <br> <input name="frm_te_car_inst_w9x" type="text" id="frm_te_car_inst_w9x3" size="80" maxlength="100" value="<? echo $row['te_car_inst_w9x'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+              </select> <br> <input name="frm_te_car_inst_w9x" type="text" id="frm_te_car_inst_w9x3" size="80" maxlength="100" value="<? echo $row['te_car_inst_w9x'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda2" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda22" type="text" style="border:0" size="80"></td>
           </tr>
@@ -303,7 +306,7 @@ function valida_form() {
             <td nowrap class="label">Identificador de Vers&atilde;o/Configura&ccedil;&atilde;o:</td>
           </tr>
           <tr> 
-            <td nowrap> <select name="frm_cs_car_ver_w9x" id="select18" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda3')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+            <td nowrap> <select name="frm_cs_car_ver_w9x" id="select18" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda3')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
                 <option value="0" id=""></option>
                 <option value="1"<? if ($row['cs_car_ver_w9x']=='1') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic2\Programas\ger_cols.exe">Data 
                 de Arquivo</option>
@@ -313,7 +316,7 @@ function valida_form() {
                 de Arquivo INI</option>
                 <option value="4"<? if ($row['cs_car_ver_w9x']=='4') echo 'selected';?> id="Ex.:  Cacic\modulos\col_moni.exe">Versão 
                 de Executável</option>
-              </select> <br> <input name="frm_te_car_ver_w9x" type="text" id="frm_te_car_ver_w9x3" size="80" maxlength="100" value="<? echo $row['te_car_ver_w9x'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+              </select> <br> <input name="frm_te_car_ver_w9x" type="text" id="frm_te_car_ver_w9x3" size="80" maxlength="100" value="<? echo $row['te_car_ver_w9x'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda3" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda33" type="text" style="border:0" size="80"></td>
           </tr>
@@ -328,7 +331,7 @@ function valida_form() {
             <td nowrap class="label">Identificador de Instala&ccedil;&atilde;o:</td>
           </tr>
           <tr> 
-            <td nowrap> <select name="frm_cs_car_inst_wnt" id="select19" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda4')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+            <td nowrap> <select name="frm_cs_car_inst_wnt" id="select19" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda4')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
                 <option value="0" id=""></option>
                 <option value="1" <? if ($row['cs_car_inst_wnt']=='1') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic2\Programas\ger_cols.exe">Nome 
                 de Execut&aacute;vel</option>
@@ -336,7 +339,7 @@ function valida_form() {
                 de Arquivo de Configura&ccedil;&atilde;o</option>
                 <option value="3" <? if ($row['cs_car_inst_wnt']=='3') echo 'selected';?> id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
                 em Registry</option>
-              </select> <br> <input name="frm_te_car_inst_wnt" type="text" id="frm_te_car_inst_wnt3" size="80" maxlength="100" value="<? echo $row['te_car_inst_wnt'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+              </select> <br> <input name="frm_te_car_inst_wnt" type="text" id="frm_te_car_inst_wnt3" size="80" maxlength="100" value="<? echo $row['te_car_inst_wnt'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda4" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda44" type="text" style="border:0" size="80"></td>
           </tr>
@@ -347,7 +350,7 @@ function valida_form() {
             <td nowrap class="label">Identificador de Vers&atilde;o/Configura&ccedil;&atilde;o:</td>
           </tr>
           <tr> 
-            <td nowrap> <select name="frm_cs_car_ver_wnt" id="select20" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda5')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+            <td nowrap> <select name="frm_cs_car_ver_wnt" id="select20" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda5')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
                 <option value="0" id=""></option>
                 <option value="1"<? if ($row['cs_car_ver_wnt']=='1') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic2\Programas\ger_cols.exe">Data 
                 de Arquivo</option>
@@ -357,7 +360,7 @@ function valida_form() {
                 de Arquivo INI</option>
                 <option value="4"<? if ($row['cs_car_ver_wnt']=='4') echo 'selected';?> id="Ex.:  Cacic\modulos\col_moni.exe">Versão 
                 de Executável</option>
-              </select> <br> <input name="frm_te_car_ver_wnt" type="text" id="frm_te_car_ver_wnt3" size="80" maxlength="100" value="<? echo $row['te_car_ver_wnt'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+              </select> <br> <input name="frm_te_car_ver_wnt" type="text" id="frm_te_car_ver_wnt3" size="80" maxlength="100" value="<? echo $row['te_car_ver_wnt'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda5" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda55" type="text" style="border:0" size="80"></td>
           </tr>
@@ -366,14 +369,13 @@ function valida_form() {
     </tr>
 	
     <tr> 
-      <td nowrap class="cabecalho_secao"><u>Locais para aplicação da coleta do sistema monitorado </u></td>
+      <td nowrap class="cabecalho_secao"><u>Sele&ccedil;&atilde;o de redes para  aplica&ccedil;&atilde;o desta coleta de informa&ccedil;&otilde;es</u></td>
     </tr>
 	
 	<tr>
 	<td>
 	<?
-	$select = " , aplicativos_redes.id_local as IdLocalAR ";
-	$from   = " LEFT JOIN aplicativos_redes ON (redes.id_ip_rede = aplicativos_redes.id_ip_rede AND redes.id_local = aplicativos_redes.id_local AND aplicativos_redes.id_aplicativo = ".$_GET['id_aplicativo'].") ";
+	$boolDetalhes = 'OK';
 	include_once "../../include/selecao_redes_perfil_inc.php";	
 	?>
 	</td>	
@@ -390,7 +392,7 @@ function valida_form() {
 
 
   <p align="center"> 
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Perfil de Sistema Monitorado?'),SelectAll(this.form.elements['list2[]']) " <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list2[]']),return Confirma('Confirma Informações para Perfil de Sistema Monitorado?') " <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
     &nbsp; &nbsp; 
     <input name="ExcluiAplicativo" type="submit" value="Excluir Perfil de Sistema Monitorado" onClick="return Confirma('Confirma Exclusão de Perfil de Sistema Monitorado?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
   </p>

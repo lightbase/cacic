@@ -24,7 +24,11 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 include_once "../../include/library.php";
 
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 if($_REQUEST['submit']) 
 	{
 	Conecta_bd_cacic();
@@ -139,8 +143,14 @@ if($_REQUEST['submit'])
 			}
 
 		seta_perfis_rede($_POST['frm_id_local'],$_POST['frm_id_ip_rede'], $v_perfis); 			
-		update_subredes($_POST['frm_id_ip_rede'],'', '*' ,$_POST['frm_id_local']); 					
-		header ("Location: ../../include/operacao_ok.php?chamador=../admin/redes/index.php&tempo=1");									 						
+		update_subredes($_POST['frm_id_ip_rede'],'', '*' ,$_POST['frm_id_local']); 		
+
+		?>
+	 	<SCRIPT LANGUAGE="Javascript">
+	    	location = '../../include/operacao_ok.php?chamador=../admin/redes/index.php&tempo=2';
+	 	</script>
+		<?
+		
 	}
 
 ?>
@@ -155,6 +165,18 @@ else
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language=JavaScript>
+<!--
+
+function desabilitar()
+	{
+    return false
+	}
+document.oncontextmenu=desabilitar
+
+// -->
+</script>
+
 <SCRIPT LANGUAGE="JavaScript">
 function SetaServidorBancoDados()	
 	{
@@ -183,9 +205,10 @@ function SetaServidorUpdates()
 	
 	document.form.frm_te_senha_login_serv_updates.select();
 	}
-	
-function valida_form() 
+
+function valida_form(frmForm) 
 	{
+	VerificaRedeMascara(frmForm);
 	if ( document.form.frm_nu_limite_ftp.value == "" ) 
 		{	
 		document.form.frm_nu_limite_ftp.value = "30";
@@ -196,7 +219,8 @@ function valida_form()
 		document.form.frm_id_local.focus();
 		return false;
 	}
-	
+
+	/*	
 	var ip = document.form.frm_id_ip_rede.value;
 	var ipSplit = ip.split(/\./);
 	
@@ -212,8 +236,8 @@ function valida_form()
 		document.form.frm_te_mascara_rede.focus();
 		return false;
 		}
-		
-	else if ( document.form.frm_nm_rede.value == "" ) 
+	*/	
+	if ( document.form.frm_nm_rede.value == "" ) 
 		{	
 		alert("O nome da rede é obrigatório. Por favor, informe-o.");
 		document.form.frm_nm_rede.focus();
@@ -267,20 +291,6 @@ function valida_form()
 		document.form.frm_te_senha_login_serv_updates_gerente.focus();
 		return false;
 		}					
-	else
-		{
-// && (ipSplit[3] == 0)				
-		if((ip.search(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/) != -1) ) 
-			{
-			return true;
-			}
-		else 
-			{
-	    	alert("O endereço TCP/IP da rede foi informado incorretamente.\nPor favor, informe-o, usando o formato X.X.X.0\nExemplo: 10.70.4.0");
-			document.form.frm_id_ip_rede.focus();
-			return false;
-			}
-		}
 	return true;
 	}
 </script>
@@ -343,14 +353,15 @@ MM_reloadPage(true);
 		while ($row=mysql_fetch_array($result_locais))
 			{ 
 			echo "<option value=\"" . $row["id_local"] . "\"";			
-			echo ($_SESSION['cs_nivel_administracao']<>1?" selected":"");
+			if ($row['id_local']==$_SESSION['id_local'])
+				echo ($_SESSION['cs_nivel_administracao']<>1?" selected":"");
 			echo ">" . $row["sg_local"] . "</option>";
 		   	} 
 			?>
         </select>
 		<?
-		if ($_SESSION['cs_nivel_administracao']<>1)
-			echo '<input name="frm_id_local" id="frm_id_local" type="hidden" value="'.$_SESSION['id_local'].'">';
+		//if ($_SESSION['cs_nivel_administracao']<>1)
+		//	echo '<input name="frm_id_local" id="frm_id_local" type="hidden" value="'.$_SESSION['id_local'].'">';
 		?> </td>
       <td>&nbsp; </td>
       <td>&nbsp;</td>
@@ -366,9 +377,9 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td><input name="frm_id_ip_rede" type="text" size="16" maxlength="16"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td><input name="frm_id_ip_rede" id="frm_id_ip_rede" type="text"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" size="16" maxlength="16" > 
         <font color="#000099" size="1">Ex.: 10.71.0.0</font></font></td>
-      <td><input name="frm_te_mascara_rede" type="text" id="frm_te_mascara_rede2" value="255.255.255.0" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td><input name="frm_te_mascara_rede" id="frm_te_mascara_rede" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="return VerificaRedeMascara(this.form);SetaClassNormal(this);" value="255.255.255.0" size="15" maxlength="15" > 
       </td>
       <td>&nbsp;</td>
     </tr>
@@ -399,7 +410,7 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td nowrap> <input name="frm_te_serv_cacic" type="text" id="frm_te_serv_cacic2" size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td nowrap> <input name="frm_te_serv_cacic" type="text" id="frm_te_serv_cacic" size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="UXRJO115"> 
         <select name="sel_te_serv_cacic" id="sel_te_serv_cacic" onChange="SetaServidorBancoDados();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="">===> Selecione <===</option>
           <?
@@ -461,9 +472,9 @@ MM_reloadPage(true);
 		   	} 			
 			?>
         </select></td>
-      <td><input name="frm_nu_porta_serv_updates" type="text" id="frm_nu_porta_serv_updates" size="15" maxlength="4" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td><input name="frm_nu_porta_serv_updates" type="text" class="normal" id="frm_nu_porta_serv_updates" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="21" size="15" maxlength="4" > 
       </td>
-      <td><input name="frm_nu_limite_ftp" type="text" id="frm_nu_limite_ftp" size="5" maxlength="5" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="5"></td>
+      <td><input name="frm_nu_limite_ftp" type="text" id="frm_nu_limite_ftp" size="5" maxlength="5" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="100"></td>
     </tr>
     <tr> 
 	<td>&nbsp;</td>
@@ -550,7 +561,7 @@ MM_reloadPage(true);
 	<td>&nbsp;</td>
       <td> <input name="frm_nm_pessoa_contato1" type="text" id="frm_nm_pessoa_contato12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
-      <td> <input name="frm_nu_telefone1" type="text" id="frm_nu_telefone12" size="12" maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td> <input name="frm_nu_telefone1" type="text" id="frm_nu_telefone12" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
       <td>&nbsp;</td>
     </tr>
@@ -586,7 +597,7 @@ MM_reloadPage(true);
 	<td>&nbsp;</td>
       <td> <input name="frm_nm_pessoa_contato2" type="text" id="frm_nm_pessoa_contato2" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
-      <td> <input name="frm_nu_telefone2" type="text" id="frm_nu_telefone2" size="12" maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td> <input name="frm_nu_telefone2" type="text" id="frm_nu_telefone2" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
       <td>&nbsp;</td>
     </tr>
@@ -641,7 +652,7 @@ MM_reloadPage(true);
 	?>
   </table>
   <p align="center"> 
-    <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  "  onClick="return valida_form();return Confirma('Confirma Inclusão de Rede?');">
+    <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  "  onClick="return valida_form(this);return Confirma('Confirma Inclusão de Rede?');">
   </p>
 </form>
 <p>

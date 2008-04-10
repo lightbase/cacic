@@ -17,8 +17,8 @@
 session_start();
 require_once('../include/library.php');
 
-// Definição do nível de compressão (Default = 1 => mínimo)
-//$v_compress_level = 1;
+// Definição do nível de compressão (Default = 9 => máximo)
+//$v_compress_level = 9;
 $v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
 						// Há necessidade de testes para Análise de Viabilidade Técnica 
 
@@ -26,55 +26,74 @@ $v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Deco
 $v_cs_cipher	= (trim($_POST['cs_cipher'])   <> ''?trim($_POST['cs_cipher'])   : '4');
 $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) : '4');
 
-// Autenticação do agente MapaCacic.exe:
-autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
+
+// Para agilizar o processo de verificação da versão...
+$te_versao_mapa		= DeCrypt($key,$iv,$_POST['te_versao_mapa']		,$v_cs_cipher,$v_cs_compress); 
 
 $retorno_xml_header  = '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS><' .'CONFIGS>'; //(?? Deve ser coisa do Macromedia DreamWeaver... - Anderson Peterle)
 $retorno_xml_values	 = '';
 
-// Essa condição testa se a chamada trouxe o valor de cs_mapa-cacic, enviado por MapaCacic.exe
-if (trim(DeCrypt($key,$iv,$_POST['cs_MapaCacic'],$v_cs_cipher,$v_cs_compress))=='S')
-	{	
-	$v_dados_rede = getDadosRede();	
-	conecta_bd_cacic();
-	$qry_usuario = "SELECT 	a.id_usuario,
-							a.nm_usuario_completo,
-							b.id_grupo_usuarios
-					FROM 	usuarios a, 
-							grupo_usuarios b, 
-							locais c
-					WHERE 	a.id_grupo_usuarios = b.id_grupo_usuarios AND
-							b.id_grupo_usuarios = 7 AND
-						  	a.nm_usuario_acesso = '". trim(DeCrypt($key,$iv,$_POST['nm_acesso'],$v_cs_cipher,$v_cs_compress)) ."' AND 
-							a.id_local = c.id_local AND 
-							a.te_senha = ";
-							//SHA1('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress)) ."')";
-							
-	// Solução temporária, até total convergência para versões 4.0.2 ou maior de MySQL 
-	// Anderson Peterle - Dataprev/ES - 04/09/2006
-	$v_AUTH_SHA1 	 = " SHA1('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress)) ."')";
-	$v_AUTH_PASSWORD = " PASSWORD('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress)) ."')";	
+$boolVersaoCorreta   = true;
 
-	// Para MySQL 4.0.2 ou maior	
-	// Anderson Peterle - Dataprev/ES - 04/09/2006
-	$query = $qry_usuario . $v_AUTH_SHA1; 
-	
-	$result_qry_usuario = mysql_query($query);
-	if (mysql_num_rows($result_qry_usuario)<=0)
+if ($te_versao_mapa <> '')
+	{
+	$v_array_versoes_agentes = parse_ini_file('../repositorio/install/versoes_agentes.ini');	
+	if ($v_array_versoes_agentes['mapacacic.exe'] <> $te_versao_mapa)
 		{
-		// Para MySQL até 4.0	
-		// Anderson Peterle - Dataprev/ES - 04/09/2006		
-		$query = $qry_usuario . $v_AUTH_PASSWORD;
-		$result_qry_usuario = mysql_query($query);
+		$retorno_xml_values	 = '<TE_VERSAO_MAPA>'.EnCrypt($key,$iv,$v_array_versoes_agentes['mapacacic.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level).'</TE_VERSAO_MAPA>';	
+		$boolVersaoCorreta = false;
 		}
+	}
+		
+if ($boolVersaoCorreta)
+	{
+	// Autenticação do agente MapaCacic.exe:
+	autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
 	
-	if (mysql_num_rows($result_qry_usuario)>0)
-		{
-		$row = mysql_fetch_array($result_qry_usuario);
-		$retorno_xml_values .= '<ID_USUARIO>'.EnCrypt($key,$iv,$row['id_usuario'],$v_cs_cipher,$v_cs_compress,$v_compress_level).'</ID_USUARIO>';								
-		$retorno_xml_values .= '<NM_USUARIO_COMPLETO>'.EnCrypt($key,$iv,$row['nm_usuario_completo'],$v_cs_cipher,$v_cs_compress,$v_compress_level).'</NM_USUARIO_COMPLETO>';										
-		$_SESSION['id_usuario'] = $row['id_usuario'];		
-		GravaLog('ACE',$_SERVER['SCRIPT_NAME'],'acesso');						
+	// Essa condição testa se a chamada trouxe o valor de cs_mapa-cacic, enviado por MapaCacic.exe
+	if (trim(DeCrypt($key,$iv,$_POST['cs_MapaCacic'],$v_cs_cipher,$v_cs_compress))=='S')
+		{	
+		$v_dados_rede = getDadosRede();	
+		conecta_bd_cacic();
+		$qry_usuario = "SELECT 	a.id_usuario,
+								a.nm_usuario_completo,
+								b.id_grupo_usuarios
+						FROM 	usuarios a, 
+								grupo_usuarios b, 
+								locais c
+						WHERE 	a.id_grupo_usuarios = b.id_grupo_usuarios AND
+								b.id_grupo_usuarios = 7 AND
+								a.nm_usuario_acesso = '". trim(DeCrypt($key,$iv,$_POST['nm_acesso'],$v_cs_cipher,$v_cs_compress)) ."' AND 
+								a.id_local = c.id_local AND 
+								a.te_senha = ";
+								//SHA1('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress)) ."')";
+								
+		// Solução temporária, até total convergência para versões 4.0.2 ou maior de MySQL 
+		// Anderson Peterle - Dataprev/ES - 04/09/2006
+		$v_AUTH_SHA1 	 = " SHA1('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress)) ."')";
+		$v_AUTH_PASSWORD = " PASSWORD('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress)) ."')";	
+	
+		// Para MySQL 4.0.2 ou maior	
+		// Anderson Peterle - Dataprev/ES - 04/09/2006
+		$query = $qry_usuario . $v_AUTH_SHA1; 
+		
+		$result_qry_usuario = mysql_query($query);
+		if (mysql_num_rows($result_qry_usuario)<=0)
+			{
+			// Para MySQL até 4.0	
+			// Anderson Peterle - Dataprev/ES - 04/09/2006		
+			$query = $qry_usuario . $v_AUTH_PASSWORD;
+			$result_qry_usuario = mysql_query($query);
+			}
+		
+		if (mysql_num_rows($result_qry_usuario)>0)
+			{
+			$row = mysql_fetch_array($result_qry_usuario);
+			$retorno_xml_values .= '<ID_USUARIO>'.EnCrypt($key,$iv,$row['id_usuario'],$v_cs_cipher,$v_cs_compress,$v_compress_level).'</ID_USUARIO>';								
+			$retorno_xml_values .= '<NM_USUARIO_COMPLETO>'.EnCrypt($key,$iv,$row['nm_usuario_completo'],$v_cs_cipher,$v_cs_compress,$v_compress_level).'</NM_USUARIO_COMPLETO>';										
+			$_SESSION['id_usuario'] = $row['id_usuario'];		
+			GravaLog('ACE',$_SERVER['SCRIPT_NAME'],'acesso');						
+			}
 		}
 	}
 $retorno_xml = $retorno_xml_header . $retorno_xml_values . "</CONFIGS>";  

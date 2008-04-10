@@ -22,12 +22,12 @@ if(!isset($_SESSION['id_usuario']))
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
-if ($_POST['submit']) {
+if (@$_POST['submit']) {
   header ("Location: incluir_software.php");
 }
 
 include_once "../../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 Conecta_bd_cacic();
 
 $query = 'SELECT 	* 

@@ -1,5 +1,21 @@
 <?	  
-$query = 'SELECT 	count(*) as qtd
+session_start();
+// ===========================================================================================================
+// Passei a restringir a visão das estatísticas na página principal ao nível de acesso atual
+// ===========================================================================================================
+	$where 	= ($_SESSION['cs_nivel_administracao'] <> 1 &&
+			   $_SESSION['cs_nivel_administracao'] <> 2 ? ' AND redes.id_local = '.$_SESSION['id_local']:'');
+
+	// Caso hajam locais secundários associados ao usuário, incluo-os na cláusula Where
+	if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
+		{
+		// Faço uma inserção de "(" para ajuste da lógica para consulta
+		$where = str_replace('redes.id_local = ','(redes.id_local = ',$where);
+		$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+		}					   
+// ==========================================================================================================
+
+$query = 'SELECT 	count(te_node_address) as qtd
           FROM 		computadores,
 					redes,
 					so
@@ -9,7 +25,6 @@ $query = 'SELECT 	count(*) as qtd
 					computadores.id_so = so.id_so '.
 					$where .' 
 		  GROUP BY 	computadores.te_node_address';
-
 $result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 $v_row_result = 'Quantidade Real Baseada em Mac-Address';

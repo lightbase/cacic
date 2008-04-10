@@ -2,11 +2,13 @@
 .<b>Administração</b>||mainFrame|imgs/config_gerais.gif
 ..Configurar Gerente|admin/config_gerais.php|mainFrame||Configurações do Módulo Gerente
 ..Configurar Agentes|admin/config_agentes.php|mainFrame||Configurações do Módulo Agente
-..Log de Acessos|admin/log_acessos.php|mainFrame||Visualização do Log de Acessos ocorridos no Sistema
-..Log de Atividades|admin/log_atividades.php|mainFrame||Visualização do Log de Atividades(INS/UPD/DEL) do Sistema
 ..Classificar Softwares|admin/softwares/classificacao_software.php|mainFrame||
 ..Softwares Não Usados|admin/softwares/remover_softwares_nao_instalados.php|mainFrame||
 ..Módulos|admin/modulos.php|mainFrame||Configurações dos vários módulos disponíveis do CACIC
+..<b>Logs</b>||mainFrame|imgs/config_gerais.gif
+...Acessos|admin/log_acessos.php|mainFrame||Visualização do Log de Acessos ocorridos no Sistema
+...Atividades|admin/log_atividades.php|mainFrame||Visualização do Log de Atividades(INS/UPD/DEL) do Sistema
+...Insucessos Instalação|admin/log_insucessos.php|mainFrame||Visualização do Log de Insucessoes nas Instalações
 ..<b>Importar Dados</b>||mainFrame|imgs/config_gerais.gif
 ...Aquisições|admin/gerencia_licencas/importacao/aquisicoes.php|mainFrame||
 ...Aquisições-Item|admin/gerencia_licencas/importacao/aquisicoes_item.php|mainFrame||
@@ -24,11 +26,14 @@
 ..<b>Patrimônio</b>||mainFrame|imgs/config_gerais.gif
 ...Interface|admin/patrimonio/config_tela_patrimonio.php|mainFrame||Configuração da Tela de Coleta de Informações de Patrimônio
 ...U. O. Nível 1|admin/patrimonio/nivel1/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 1
+...U. O. Nível 1a|admin/patrimonio/nivel1a/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 1a (Linhas de Negócio)
 ...U. O. Nível 2|admin/patrimonio/nivel2/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 2
 ...Opções|admin/patrimonio/opcoes.php|mainFrame||Opções da coleta de Informações de Patrimônio e Localização Física
 .<b>Manutenção</b>||mainFrame|imgs/config_gerais.gif
 ..Updates de SubRedes|admin/updates_subredes/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
 ..Excluir Computadores|admin/exclui_informacoes_computadores.php|mainFrame||Exclusão de Informações de Computadores da base
+..Atualização Especial|admin/atualizacao_especial.php|mainFrame||Atualização de Scripts e Afins
+..Consulta Especial|admin/consulta_especial.php|mainFrame||Consulta Informações do Servidor
 ..Tradutor|admin/tradutor.php|mainFrame||Tradução de textos e mensagens do CACIC
 .<b>Computadores</b>||mainFrame|imgs/config_gerais.gif
 ..Consulta|relatorios/computadores.php|mainFrame||Consulta de informações de computadores
@@ -68,9 +73,9 @@
 ..Variáveis de Ambiente|relatorios/variaveis_ambiente/index.php|mainFrame||
 ..Patrimônio|relatorios/patrimonio/index.php|mainFrame||
 .<b>Estatísticas</b>||mainFrame|imgs/config_gerais.gif
-..Antivírus OfficeScan|estatisticas/officescan.php|mainFrame||
 ..Sistemas Monitorados|estatisticas/aplicativos/index.php|mainFrame||
 .<b>Acesso</b>||mainFrame|imgs/config_gerais.gif
 ..Troca de Senha|admin/usuarios/troca_senha.php|mainFrame||
+.<b>Repositório|repositorio_install.php|mainFrame||Repositório do Sistema CACIC
 .<b>Projeto CACIC<b>|tribo/|new||Link de Acesso à Home Page do Projeto CACIC
 .<b>Comunidade CACIC<b>|http://www.softwarepublico.gov.br/spb/ver-comunidade?community_id=3585|new||Link de Acesso à Home Page da Comunidade CACIC

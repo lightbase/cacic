@@ -41,7 +41,9 @@ require_once('../../include/inicio_relatorios_inc.php');
     <td>	</td>
   </tr>
 </table>
-<?  require_once('../../include/aguarde.php');		?>			  
+<div class="style1" id="layerAguarde">
+<div align="center" style="vertical-align:middle;" id="textAguarde">Aguarde...</div>
+</div>
 <form action="../inventario_softwares/softwares.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
   <table width="90%" border="0" align="center">
     <tr>
@@ -142,11 +144,32 @@ require_once('../../include/inicio_relatorios_inc.php');
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list5[]" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? 	$query = "SELECT id_software_inventariado, nm_software_inventariado
-									  FROM softwares_inventariados
-									  GROUP BY nm_software_inventariado
-									  ORDER BY nm_software_inventariado";
+                        <? 	
+						// Dessa forma eu preencho a lista somente com dados de estações/redes/locais acessìveis pelo usuário... (Anderson Peterle - JAN/08)
+						$where = ($_SESSION['cs_nivel_administracao']=='1' || $_SESSION['cs_nivel_administracao']=='2'?
+								' 1 = 1 ':' r.id_local='.$_SESSION['id_local']);
+
+						if ($_SESSION['te_locais_secundarios']<>'')
+							{
+							// Faço uma inserção de "(" para ajuste da lógica para consulta
+							$where = str_replace('r.id_local=','(r.id_local=',$where);
+							$where .= ' OR r.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+							}
+
+							$query = "SELECT 	distinct si.id_software_inventariado, 
+												si.nm_software_inventariado
+									  FROM 		softwares_inventariados si,
+									  			softwares_inventariados_estacoes sie,
+												redes r,
+												computadores c
+									  WHERE     si.id_software_inventariado = sie.id_software_inventariado AND 
+									            sie.te_node_address = c.te_node_address AND
+												sie.id_so = c.id_so AND 
+												r.id_ip_rede = c.id_ip_rede AND ".
+												$where."
+									  ORDER BY 	si.nm_software_inventariado";
 						$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados ou sua sessão expirou!');
+
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
        while($campos_aplicativos_selecionados=mysql_fetch_array($result_aplicativos_selecionados)) 	{
 						   echo '<option value=' . $campos_aplicativos_selecionados['id_software_inventariado'] . '>' . capa_string($campos_aplicativos_selecionados['nm_software_inventariado'],28)  . '</option>';

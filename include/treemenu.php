@@ -1,4 +1,6 @@
 <?php  
+session_start();
+require_once('library.php');
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -69,22 +71,26 @@
   $fd = fopen($treefile, "r");
   if ($fd==0) die("Não foi possível acessar o arquivo '".$treefile."' ou sua sessão expirou!");
   while ($buffer = fgets($fd, 4096)) 
-  {
+	{
     $tree[$cnt][0]=strspn($buffer,".");
     $tmp=rtrim(substr($buffer,$tree[$cnt][0]));
     $node=explode("|",$tmp);
- 
-    $tree[$cnt][1]=$node[0];
-    $tree[$cnt][2]=$node[1];
-    $tree[$cnt][3]=$node[2];
-	$tree[$cnt][4]=$node[3];
-	$tree[$cnt][5]=$node[4];
-	$tree[$cnt][6]=$node[5];
-    $tree[$cnt][7]=0;
+
+	if (($node[0] <> 'Atualização Especial' and $node[0] <> 'Consulta Especial') or $_SESSION['cs_nivel_administracao']=='1')
+		{
+		// Desta forma eu permito apenas o nível "Administração" nas opções Atualização Especial e Consulta Especial.		
+	    $tree[$cnt][1]=$node[0];
+    	$tree[$cnt][2]=$node[1];
+	    $tree[$cnt][3]=$node[2];	
+		$tree[$cnt][4]=$node[3];
+		$tree[$cnt][5]=$node[4];
+		$tree[$cnt][6]=$node[5];
+	    $tree[$cnt][7]=0;
     
-    if ($tree[$cnt][0] > $maxlevel) $maxlevel=$tree[$cnt][0];    
-    $cnt++;
-  }
+	    if ($tree[$cnt][0] > $maxlevel) $maxlevel=$tree[$cnt][0];    
+	    $cnt++;
+		}
+  	}
   fclose($fd);
 
   for ($i=0; $i<count($tree); $i++) {
@@ -197,7 +203,7 @@
 		}
 
     if ($visible[$cnt] and $ShowTheNode)
-    {
+      { 	  	  
       /****************************************/
       /* start new row                        */
       /****************************************/      
@@ -294,8 +300,35 @@
 //          echo "<td colspan=".($maxlevel-$tree[$cnt][0]).">".$tree[$cnt][1]."</td>";
           echo "<td nowrap colspan=".($maxlevel-$tree[$cnt][0])."><a href=\"".$script.$params."#$cnt\">".$tree[$cnt][1]."</a></td>";
       else
-          echo "<td nowrap colspan=".($maxlevel-$tree[$cnt][0])."><a href=\"".$tree[$cnt][2]."\" target=\"".$tree[$cnt][3]."\" title=\"".$tree[$cnt][5]."\">".$tree[$cnt][1]."</a></td>";
-          
+	  	{	  
+		// Mostro as opções de Unidades Organizacionais conforme convencionadas...
+		
+		$strAux = 'U. O. Nível 2';	
+
+		$pos1 = stripos2($tree[$cnt][1],$strAux,false);	
+		if ($pos1)	
+			{
+			$tree[$cnt][1] = str_replace($strAux,$_SESSION['plural_etiqueta2'],$tree[$cnt][1]);					
+			}
+
+		$strAux = 'U. O. Nível 1a';	
+
+		$pos1 = stripos2($tree[$cnt][1],$strAux,false);	
+		if ($pos1)	
+			{
+			$tree[$cnt][1] = str_replace($strAux,$_SESSION['plural_etiqueta1a'],$tree[$cnt][1]);					
+			}
+
+		$strAux = 'U. O. Nível 1';	
+
+		$pos1 = stripos2($tree[$cnt][1],$strAux,false);	
+		if ($pos1)	
+			{
+			$tree[$cnt][1] = str_replace($strAux,$_SESSION['plural_etiqueta1'],$tree[$cnt][1]);					
+			}
+			
+        echo "<td nowrap colspan=".($maxlevel-$tree[$cnt][0])."><a href=\"".$tree[$cnt][2]."\" target=\"".$tree[$cnt][3]."\" title=\"".$tree[$cnt][5]."\">".$tree[$cnt][1]."</a></td>";
+        }  
       /****************************************/
       /* end row                              */
       /****************************************/

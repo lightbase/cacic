@@ -146,6 +146,29 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
                         <? 	$query = "SELECT id_variavel_ambiente, nm_variavel_ambiente
 									  FROM variaveis_ambiente
 									  ORDER BY nm_variavel_ambiente";
+
+						$where = ($_SESSION['cs_nivel_administracao']=='1' || $_SESSION['cs_nivel_administracao']=='2'?
+								' 1 = 1 ':' r.id_local='.$_SESSION['id_local']);
+
+						if ($_SESSION['te_locais_secundarios']<>'')
+							{
+							// Faço uma inserção de "(" para ajuste da lógica para consulta
+							$where = str_replace('r.id_local=','(r.id_local=',$where);
+							$where .= ' OR r.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+							}
+
+							$query = "SELECT 	distinct va.id_variavel_ambiente, 
+												         va.nm_variavel_ambiente
+									  FROM 		variaveis_ambiente va,
+									  			variaveis_ambiente_estacoes vae,
+												redes r,
+												computadores c
+									  WHERE     va.id_variavel_ambiente = vae.id_variavel_ambiente AND 
+									            vae.te_node_address = c.te_node_address AND
+												vae.id_so = c.id_so AND 
+												r.id_ip_rede = c.id_ip_rede AND ".
+												$where."
+									  ORDER BY 	va.nm_variavel_ambiente";
 						$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela variaveis_ambiente ou sua sessão expirou!');
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
        while($campos_aplicativos_selecionados=mysql_fetch_array($result_aplicativos_selecionados)) 	{

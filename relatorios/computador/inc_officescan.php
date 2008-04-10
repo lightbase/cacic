@@ -24,6 +24,9 @@ else
 	{
 	$_SESSION['officescan'] = false;
 	}
+$strCor = '';  
+$strCor = ($strCor==''?'#CCCCFF':'');						  
+	
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
@@ -58,23 +61,29 @@ else
 						$result_officescan = mysql_query($query);
 						if(mysql_num_rows($result_officescan) > 0) {
 		?>
-  <tr> 
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Vers&atilde;o do Engine:</td>
     <td class="dado"><? echo mysql_result($result_officescan, 0, "nu_versao_engine"); ?></td>
     <td class="opcao_tabela">Servidor do OfficeScan:</td>
     <td class="dado"><div align="left"><? echo mysql_result($result_officescan, 0, "te_servidor"); ?>&nbsp;</div></td>
   </tr>
-  <? echo $linha?> 
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Vers&atilde;o do Pattern:</td>
     <td class="dado"><? echo mysql_result($result_officescan, 0, "nu_versao_pattern"); ?></td>
     <td class="opcao_tabela">Data de Instala&ccedil;&atilde;o:</td>
     <td class="dado"><? echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result_officescan, 0, "dt_hr_instalacao"))); ?></td>
   </tr>
-  <? echo $linha?> 
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Estado do OfficeScan:</td>
     <td class="dado"> 

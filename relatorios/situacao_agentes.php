@@ -51,7 +51,7 @@ function open_window(theURL) {
  */
 
   															require_once($_SERVER['DOCUMENT_ROOT'] . 'include/library.php');
-															// Comentado temporariamente - AntiSpy();
+															AntiSpy();
 		  													conecta_bd_cacic();
 																	$query = ' SELECT id_ip_rede, nm_rede
               												  FROM redes

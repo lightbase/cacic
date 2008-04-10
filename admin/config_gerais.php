@@ -51,6 +51,51 @@ function valida_notificacao_hardware()
 		}	
 	}
 
+function ProcessaListas(strListas)
+	{
+	var arrListas = strListas.split(',');
+	var intK = 0;
+	for (var intI=0; intI < arrListas.length; intI ++)
+		{
+		for (intJ=intK;intJ < window.document.forma.length;intJ++)		
+			{
+			if (window.document.forma.elements[intJ].type == 'select-multiple' && window.document.forma.elements[intJ].name == arrListas[intI])
+				{
+				SelectAll(window.document.forma.elements[intJ]);
+				intK = intJ+1;
+				intJ = window.document.forma.length;
+				}
+			}
+		}
+	}
+
+function MontaListasDisponiveisSelecionados(strGraficosDisponiveis,strGraficosDisponiveisDesc,strGraficosSelecionados)
+	{
+	var arrGraficosDisponiveisDesc  = strGraficosDisponiveisDesc.split('#');
+	var arrGraficosDisponiveis  	= strGraficosDisponiveis.split(']');	
+	var arrGraficosSelecionados 	= strGraficosSelecionados.split(']');
+	var boolAchei = false;
+	for (i=0; i < (arrGraficosDisponiveis.length-1); i++)
+		{
+		boolAchei = false;
+		for (j=0; j < (arrGraficosSelecionados.length -1); j++)		
+			if (arrGraficosDisponiveis[i] == arrGraficosSelecionados[j])
+				{
+				boolAchei = true;
+				j = arrGraficosSelecionados.length;
+				}
+
+		var no   = new Option();
+		no.value = arrGraficosDisponiveis[i]+']'; // Devolvo o "]" que foi retirado no split...
+		no.text  = arrGraficosDisponiveisDesc[i];
+	
+		if (boolAchei) // Gravarei na lista SELECIONADOS
+			document.forma.elements['listaExibeGraficosSelecionados[]'].options[document.forma.elements['listaExibeGraficosSelecionados[]'].options.length] = no;
+		else		   // Gravarei na lista DISPONIVEIS
+			document.forma.elements['listaExibeGraficosDisponiveis[]'].options[document.forma.elements['listaExibeGraficosDisponiveis[]'].options.length] = no;
+		}
+	}
+	
 function SetaServidorUpdates()	
 	{
 	document.forma.frm_te_serv_updates_padrao.value = document.forma.sel_te_serv_updates.value;	
@@ -326,37 +371,18 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 			$te_exibe_graficos = get_valor_campo('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$frm_id_local);			
 
 			?>
-                <select multiple size="10" name="list3[]" id="listaExibeGraficosDisponiveis" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-					<? if (substr_count($te_exibe_graficos,'[so]')==0)
-							echo '<option value="[so]">'.$oTranslator->_('Totais de Computadores por Sistemas Operacionais').'</option>';
-					   if (substr_count($te_exibe_graficos,'[acessos]')==0)
-		                    echo '<option value="[acessos]">'.$oTranslator->_('Ultimos Acessos dos Agentes do Local').'</option>';
-					   if (substr_count($te_exibe_graficos,'[acessos_locais]')==0)
-					   		echo '<option value="[acessos_locais]">'.$oTranslator->_('Ultimos Acessos dos Agentes por Local na Data').'</option>';
-					   if (substr_count($te_exibe_graficos,'[locais]')==0)							
-		                    echo '<option value="[locais]">'.$oTranslator->_('Totais de Computadores Monitorados por Local').'</option>';
-					?>
+                <select multiple size="10" name="listaExibeGraficosDisponiveis[]" id="listaExibeGraficosDisponiveis" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 </select>
               </div></td>
             <td>&nbsp;</td>
             <td width="40"> <div align="center"> 
-                <input type="button" value="   &gt;   " onClick="move(this.form.elements['list3[]'],this.form.elements['list4[]'])" name="B3">
+                <input type="button" value="   &gt;   " onClick="move(this.form.elements['listaExibeGraficosDisponiveis[]'],this.form.elements['listaExibeGraficosSelecionados[]'])" name="B3" id="B3">
                 <br>
                 <br>
-                <input type="button" value="   &lt;   " onClick="move(this.form.elements['list4[]'],this.form.elements['list3[]'])" name="B4">
+                <input type="button" value="   &lt;   " onClick="move(this.form.elements['listaExibeGraficosSelecionados[]'],this.form.elements['listaExibeGraficosDisponiveis[]'])" name="B4" id="B4">
               </div></td>
             <td>&nbsp;</td>
-            <td><select multiple size="10" name="list4[]" id="listaExibeGraficosSelecionados"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-					<? if (substr_count($te_exibe_graficos,'[so]')>0)
-							echo '<option value="[so]">'.$oTranslator->_('Totais de Computadores por Sistemas Operacionais').'</option>';
-					   if (substr_count($te_exibe_graficos,'[acessos]')>0)
-		                    echo '<option value="[acessos]">'.$oTranslator->_('Ultimos Acessos dos Agentes do Local').'</option>';
-					   if (substr_count($te_exibe_graficos,'[acessos_locais]')>0)
-					   		echo '<option value="[acessos_locais]">'.$oTranslator->_('Ultimos Acessos dos Agentes por Local na Data').'</option>';
-					   if (substr_count($te_exibe_graficos,'[locais]')>0)							
-		                    echo '<option value="[locais]">'.$oTranslator->_('Totais de Computadores Monitorados por Local').'</option>';
-					?>
-
+            <td><select multiple size="10" name="listaExibeGraficosSelecionados[]" id="listaExibeGraficosSelecionados"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
 				</select></td>
             <td>&nbsp;</td>
           </tr>
@@ -434,9 +460,14 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     <tr> 
       <td>&nbsp;</td>
     </tr>
+		<script language="javascript">
+		setLocal(document.all.SELECTlocais);
+		MontaListasDisponiveisSelecionados('[so][acessos][acessos_locais][locais]','Totais de Computadores por Sistemas Operacionais#Últimos Acessos dos Agentes do Local#Últimos Acessos dos Agentes por Local na Data#Totais de Computadores Monitorados por Local','<? echo $te_exibe_graficos;?>');
+		</script>					  	
+		
     <tr> 
       <td><div align="center"> 
-          <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="SelectAll(this.form.elements['list2[]']),SelectAll(this.form.elements['list4[]'])" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="ProcessaListas('list2[],list4[],listaExibeGraficosSelecionados[]')" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     </tr>
   </table>

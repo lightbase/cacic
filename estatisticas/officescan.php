@@ -21,9 +21,8 @@ if(!isset($_SESSION['id_usuario']))
   die('Acesso negado!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
-
 require_once('../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3');
 
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
@@ -67,6 +66,7 @@ function open_window(theURL,winName,features) {
 </table>
 <br>
  <?
+$where = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
 	$where = ' AND locais.id_local = '.$_SESSION['id_local'];
@@ -79,31 +79,35 @@ if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	$where .= ' OR locais.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
 	}
  
-	// Exibir informações do Engine
-	$query_engine = "SELECT 	o.nu_versao_engine, 
-								COUNT(o.nu_versao_engine) as total_equip, 
-								o.te_node_address,
-								sg_local as Local  
-					 FROM 		computadores comp,
-					 			redes,
-								locais,
-					 			officescan o 
-					 WHERE 		trim(o.nu_versao_engine) <> '' and 
-					 			o.nu_versao_engine <> '0' AND 	
-								comp.te_node_address = o.te_node_address AND
-								comp.id_so = o.id_so AND
-								comp.id_ip_rede = redes.id_ip_rede AND 
-								redes.id_local = locais.id_local ".								
-								$where . " 
-					 GROUP BY 	o.nu_versao_engine
-					 ORDER BY	total_equip DESC";							 
+// Exibir informações do Engine
+$query_engine = "SELECT 	o.nu_versao_engine, 
+							COUNT(o.nu_versao_engine) as total_equip, 
+							o.te_node_address,
+							sg_local as Local  
+				 FROM 		computadores comp,
+							redes,
+							locais,
+							officescan o 
+				 WHERE 		trim(o.nu_versao_engine) <> '' and 
+							o.nu_versao_engine <> '0' AND 	
+							comp.te_node_address = o.te_node_address AND
+							comp.id_so = o.id_so AND
+							comp.id_ip_rede = redes.id_ip_rede AND 
+							redes.id_local = locais.id_local ".								
+							$where . " 
+				 GROUP BY 	o.nu_versao_engine
+				 ORDER BY	total_equip DESC";							 
 
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//	echo 'query_engine: '.$query_engine.'<br>';
 
-	$result_query_engine = mysql_query($query_engine);
+$result_query_engine = mysql_query($query_engine);
 
 ?>
-
-<table width="450" height="62" border="0" align="center" cellpadding="0" cellspacing="1">
+<table width="450" border="<? echo ($_SERVER['REMOTE_ADDR']=='10.71.0.58'?'1':'0');?>" align="center" cellpadding="0" cellspacing="1">
+<tr valign="top">
+<td valign="top">
+<table width="450" height="62" border="<? echo ($_SERVER['REMOTE_ADDR']=='10.71.0.58'?'1':'0');?>" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td colspan="5" height="1" bgcolor="#333333"></td>
   </tr>
@@ -119,21 +123,22 @@ if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	<td width="50%">&nbsp;</td>
     <td height="18" align="center" class="cabecalho_tabela">Pattern</td>
   </tr>
-  <tr> 
-    <td width="50%" align="center" valign="top"><table width="100%" border="0">
+  <tr valign="top"> 
+    <td width="50%" align="center"><table width="100%" border="<? echo ($_SERVER['REMOTE_ADDR']=='10.71.0.58'?'1':'0');?>">
         <tr align="center"> 
           <td width="50%" valign="top" bgcolor="#E1E1E1" class="cabecalho_tabela">Vers&atilde;o</td>
           <td width="50%" valign="top" bgcolor="#E1E1E1" class="cabecalho_tabela">M&aacute;quinas</td>
         </tr>
         <tr> 
-          <? while($reg_engine = mysql_fetch_row($result_query_engine)) { ?>
-          <td width="50%" align="left" class="opcao_tabela"> 
-            <a href="officescan.php?versao=<? echo $reg_engine[0] ?> " target="_self"><? echo $reg_engine[0] ?></a></td>
-          <td width="50%" align="center" class="opcao_tabela"><? echo $reg_engine[1] ?></td>
-        </tr>
-        <? echo $linha;
-		}
-		?> 
+          <? while($reg_engine = mysql_fetch_row($result_query_engine)) 
+		  		{ ?>
+          		<td width="50%" align="left" class="opcao_tabela"> 
+            	<a href="officescan.php?versao=<? echo $reg_engine[0] ?> " target="_self"><? echo $reg_engine[0] ?></a></td>
+          		<td width="50%" align="center" class="opcao_tabela"><? echo $reg_engine[1] ?></td>
+   		</tr>
+        		<? echo $linha;
+				}
+				?> 
       </table>
       <?
   
@@ -159,21 +164,26 @@ if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	  	?>
     </td>
 	<td>&nbsp;</td>
-    <td width="50%" align="center" valign="top"><table width="100%" border="0">
+    <td width="50%" align="center"><table width="100%" border="<? echo ($_SERVER['REMOTE_ADDR']=='10.71.0.58'?'1':'0');?>">
         <tr align="center"> 
           <td width="50%" valign="top" bgcolor="#E1E1E1" class="cabecalho_tabela">Vers&atilde;o</td>
           <td width="50%" valign="top" bgcolor="#E1E1E1" class="cabecalho_tabela">M&aacute;quinas</td>
         </tr>
         <tr> 
-          <? while($reg_pattern = mysql_fetch_row($result_query_pattern)) { ?>
-          <td width="50%" align="left" class="opcao_tabela"><a href="officescan.php?pattern=<? echo $reg_pattern[0] ?>" target="_self"><? echo $reg_pattern[0] ?> 
-          </td>
-          <td width="50%" align="center" class="opcao_tabela"><? echo $reg_pattern[1] ?></td>
-        </tr>
-        <? echo $linha;
-		}
-		?> </table></td>
+          <? while($reg_pattern = mysql_fetch_row($result_query_pattern)) 
+		  		{ ?>
+          		<td width="50%" align="left" class="opcao_tabela"><a href="officescan.php?pattern=<? echo $reg_pattern[0] ?>" target="_self"><? echo $reg_pattern[0] ?> 
+          		</td>
+          		<td width="50%" align="center" class="opcao_tabela"><? echo $reg_pattern[1] ?></td>
+   		</tr>
+        		<? echo $linha;
+				}
+				?> 
+	</table></td>
   </tr>  
+</table>
+</td>
+</tr>
 </table>
 <?	
 //Mostrar computadores baseados no tipo de pesquisa solicitada pelo usuário
@@ -201,10 +211,10 @@ if ($_GET['versao'])
 						$where." 
 			 $orderby ";
 
-$_SESSION['tipo_pesq'] = $_GET['versao'];
-$_SESSION['tipo_ordem'] = 'versao';
-$_SESSION['tit_coluna'] = 'Pattern';
-$_SESSION['tit_tabela'] = '<font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Relação de máquinas com o Engine <b>' . $_GET['versao']. '</b></font>';
+	$_SESSION['tipo_pesq'] = $_GET['versao'];
+	$_SESSION['tipo_ordem'] = 'versao';
+	$_SESSION['tit_coluna'] = 'Pattern';
+	$_SESSION['tit_tabela'] = '<font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Relação de máquinas com o Engine <b>' . $_GET['versao']. '</b></font>';
 	}
 	
 if ($_GET['pattern']) 
@@ -227,12 +237,15 @@ if ($_GET['pattern'])
 						$where . " 
 			  $orderby ";
 
-$_SESSION['tipo_pesq'] = $_GET['pattern'];
-$_SESSION['tipo_ordem'] = 'pattern';
-$_SESSION['tit_coluna'] = 'Engine';
-$_SESSION['tit_tabela'] = '<font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Relação de máquinas com o Pattern <b>' . $_GET['pattern']. '</b></font>';
+	$_SESSION['tipo_pesq'] = $_GET['pattern'];
+	$_SESSION['tipo_ordem'] = 'pattern';
+	$_SESSION['tit_coluna'] = 'Engine';
+	$_SESSION['tit_tabela'] = '<font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Relação de máquinas com o Pattern <b>' . $_GET['pattern']. '</b></font>';
 	}	
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//	echo 'query: '.$query.'<br>';
 
+if ($_GET['versao'] || $_GET['pattern'])	
 	$result = mysql_query($query) or die('Select na tabela "officescan" falhou ou sua sessão expirou!');
 ?>
 <p align="center" class="descricao">Clique 
@@ -247,9 +260,9 @@ $_SESSION['tit_tabela'] = '<font size="2" face="Verdana, Arial, Helvetica, sans-
 	<tr> 
 		<td height="1" bgcolor="#333333"></td>
 	</tr>
-  <tr> 
+  <tr valign="top"> 
     <td> <table border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
-        <tr bgcolor="#E1E1E1"> 
+        <tr bgcolor="#E1E1E1" valign="top"> 
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap><div align="left"><strong></strong></div></td>
           <td align="center"  nowrap>&nbsp;</td>
@@ -268,27 +281,27 @@ $_SESSION['tit_tabela'] = '<font size="2" face="Verdana, Arial, Helvetica, sans-
 	$Cor = 0;
 	$NumRegistro = 1;
 	
-	while($row = mysql_fetch_array($result)) {
-		  
-	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
-          <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
-          <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></div></td>
-          <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><? echo $row['te_ip']; ?></td>
-          <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="center"><? echo $row['4']; ?></div></td>
-          <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="center"><? echo date("d/m/Y H:i", strtotime( $row['dt_hr_coleta'] )); ?></div></td>
-          <td nowrap>&nbsp;</td>
-          <? 
-	$Cor=!$Cor;
-	$NumRegistro++;
-}
+	while($row = mysql_fetch_array($result)) 
+		{		  
+	 	?>
+        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?> valign="top"> 
+        <td nowrap>&nbsp;</td>
+        <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+        <td nowrap>&nbsp;</td>
+        <td nowrap class="opcao_tabela"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></div></td>
+        <td nowrap>&nbsp;</td>
+        <td nowrap class="opcao_tabela"><? echo $row['te_ip']; ?></td>
+        <td nowrap>&nbsp;</td>
+        <td nowrap class="opcao_tabela"><div align="center"><? echo $row['4']; ?></div></td>
+        <td nowrap>&nbsp;</td>
+        <td nowrap class="opcao_tabela"><div align="center"><? echo date("d/m/Y H:i", strtotime( $row['dt_hr_coleta'] )); ?></div></td>
+        <td nowrap>&nbsp;</td>
+        <? 
+		$Cor=!$Cor;
+		$NumRegistro++;
+		}
 ?>
-      </table></td>
+    </table></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>

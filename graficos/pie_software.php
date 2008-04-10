@@ -15,7 +15,7 @@
  */
 
 include_once '../include/library.php'; 
-//// Comentado temporariamente - AntiSpy();
+//AntiSpy();
 $v_novo_campo = 'b.' . $_GET['v_nome_campo'];
 
 if ($_GET['v_nome_campo']=='te_versao_cacic')

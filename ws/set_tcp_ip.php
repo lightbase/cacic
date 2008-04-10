@@ -13,9 +13,10 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-// Definição do nível de compressão (Default=máximo)
-//$v_compress_level = '9';
-$v_compress_level = '0';
+// Definição do nível de compressão (Default = 9 => máximo)
+//$v_compress_level = 9;
+$v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
+						// Há necessidade de testes para Análise de Viabilidade Técnica 
  
 require_once('../include/library.php');
 
@@ -39,7 +40,7 @@ conecta_bd_cacic();
 o computador deste agente no BD, caso ainda não esteja inserido. */
 if ($te_node_address <> '')
 	{
-	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+	$arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
 												$id_so_new, 
 												$te_so, 										
 												$id_ip_rede, 
@@ -54,42 +55,43 @@ if ($te_node_address <> '')
 		}
 	
 	$query = "INSERT INTO historico_tcp_ip
-										(te_node_address,
-											id_so,
-											te_nome_computador,
-											dt_hr_alteracao,
-											te_ip,
-											te_mascara,
-											id_ip_rede,
-											te_gateway,
-											te_serv_dhcp,
-											te_nome_host,
-											te_dominio_dns,
-											te_dominio_windows,										
-											te_dns_primario,
-											te_dns_secundario,
-											te_wins_primario,
-											te_wins_secundario, 
-											te_workgroup,
-											te_origem_mac)
-							VALUES ('" . $te_node_address . "', '" .
-															$id_so . "', '" .
-															$te_nome_computador . "', 
-															NOW(), '" .
-															$te_ip . "', '" .
-															DeCrypt($key,$iv,$_POST['te_mascara']			,$v_cs_cipher, $v_cs_compress) . "', '" .
-															$id_ip_rede  . "', '" .
-															DeCrypt($key,$iv,$_POST['te_gateway']			,$v_cs_cipher, $v_cs_compress) . "', '" .
-															DeCrypt($key,$iv,$_POST['te_serv_dhcp']			,$v_cs_cipher, $v_cs_compress) . "', '" .
-															DeCrypt($key,$iv,$_POST['te_nome_host']			,$v_cs_cipher, $v_cs_compress) . "', '" .
-															DeCrypt($key,$iv,$_POST['te_dominio_dns']		,$v_cs_cipher, $v_cs_compress) . "', '" .
-															DeCrypt($key,$iv,$_POST['te_dominio_windows']	,$v_cs_cipher, $v_cs_compress) . "', '" .														
-															DeCrypt($key,$iv,$_POST['te_dns_primario']		,$v_cs_cipher, $v_cs_compress) . "', '" .
-															DeCrypt($key,$iv,$_POST['te_dns_secundario']	,$v_cs_cipher, $v_cs_compress) . "', '" .
-															DeCrypt($key,$iv,$_POST['te_wins_primario']		,$v_cs_cipher, $v_cs_compress) . "', '" .
-															DeCrypt($key,$iv,$_POST['te_wins_secundario']	,$v_cs_cipher, $v_cs_compress) . "', '" .
-															$v_te_workgroup . "', '" .
-															DeCrypt($key,$iv,$_POST['te_origem_mac'],$v_cs_cipher, $v_cs_compress) . "')";
+									   (te_node_address,
+										id_so,
+										te_nome_computador,
+										dt_hr_alteracao,
+										te_ip,
+										te_mascara,
+										id_ip_rede,
+										te_gateway,
+										te_serv_dhcp,
+										te_nome_host,
+										te_dominio_dns,
+										te_dominio_windows,										
+										te_dns_primario,
+										te_dns_secundario,
+										te_wins_primario,
+										te_wins_secundario, 
+										te_workgroup,
+										te_origem_mac)
+				VALUES           ('" . $te_node_address . "', '" .
+										$arrSO['id_so'] . "', '" .
+										$te_nome_computador . "', 
+										NOW(), '" .
+										$te_ip . "', '" .
+										DeCrypt($key,$iv,$_POST['te_mascara']			,$v_cs_cipher, $v_cs_compress) . "', '" .
+										$id_ip_rede  . "', '" .
+										DeCrypt($key,$iv,$_POST['te_gateway']			,$v_cs_cipher, $v_cs_compress) . "', '" .
+										DeCrypt($key,$iv,$_POST['te_serv_dhcp']			,$v_cs_cipher, $v_cs_compress) . "', '" .
+										DeCrypt($key,$iv,$_POST['te_nome_host']			,$v_cs_cipher, $v_cs_compress) . "', '" .
+										DeCrypt($key,$iv,$_POST['te_dominio_dns']		,$v_cs_cipher, $v_cs_compress) . "', '" .
+										DeCrypt($key,$iv,$_POST['te_dominio_windows']	,$v_cs_cipher, $v_cs_compress) . "', '" .														
+										DeCrypt($key,$iv,$_POST['te_dns_primario']		,$v_cs_cipher, $v_cs_compress) . "', '" .
+										DeCrypt($key,$iv,$_POST['te_dns_secundario']	,$v_cs_cipher, $v_cs_compress) . "', '" .
+										DeCrypt($key,$iv,$_POST['te_wins_primario']		,$v_cs_cipher, $v_cs_compress) . "', '" .
+										DeCrypt($key,$iv,$_POST['te_wins_secundario']	,$v_cs_cipher, $v_cs_compress) . "', '" .
+										$v_te_workgroup . "', '" .
+										DeCrypt($key,$iv,$_POST['te_origem_mac'],$v_cs_cipher, $v_cs_compress) . "')";
+//GravaTESTES($query);															
 	
 	$result = mysql_query($query);
 	
@@ -97,24 +99,25 @@ if ($te_node_address <> '')
 	//exit;
 	
 	// Lembre-se de que o computador já existe. Ele é criado durante a obtenção das configurações, no arquivo get_config.php.
-	$query = "	UPDATE 	computadores 
-				SET		te_ip              	= '" . $te_ip . "', 
-						te_nome_computador 	= '" . $te_nome_computador . "', 
-						te_mascara         	= '" . DeCrypt($key,$iv,$_POST['te_mascara']			,$v_cs_cipher, $v_cs_compress) . "', 
-						id_ip_rede         	= '" . $id_ip_rede . "',
-						te_gateway         	= '" . DeCrypt($key,$iv,$_POST['te_gateway']			,$v_cs_cipher, $v_cs_compress) . "',
-						te_serv_dhcp       	= '" . DeCrypt($key,$iv,$_POST['te_serv_dhcp']			,$v_cs_cipher, $v_cs_compress) . "',
-						te_nome_host       	= '" . DeCrypt($key,$iv,$_POST['te_nome_host']			,$v_cs_cipher, $v_cs_compress) . "',
-						te_dominio_windows 	= '" . DeCrypt($key,$iv,$_POST['te_dominio_windows']	,$v_cs_cipher, $v_cs_compress) . "',														
-						te_dominio_dns     	= '" . DeCrypt($key,$iv,$_POST['te_dominio_dns']		,$v_cs_cipher, $v_cs_compress) . "',
-						te_dns_primario    	= '" . DeCrypt($key,$iv,$_POST['te_dns_primario']		,$v_cs_cipher, $v_cs_compress) . "',
-						te_dns_secundario  	= '" . DeCrypt($key,$iv,$_POST['te_dns_secundario']		,$v_cs_cipher, $v_cs_compress) . "',
-						te_wins_primario   	= '" . DeCrypt($key,$iv,$_POST['te_wins_primario']		,$v_cs_cipher, $v_cs_compress) . "',
-						te_wins_secundario 	= '" . DeCrypt($key,$iv,$_POST['te_wins_secundario']	,$v_cs_cipher, $v_cs_compress) .  "',
-						te_workgroup 	   	= '" . $v_te_workgroup .  "',														
-						te_origem_mac	 	= '" . DeCrypt($key,$iv,$_POST['te_origem_mac']			,$v_cs_cipher, $v_cs_compress) .  "'
+	$query = "	UPDATE 	computadores
+				SET		te_ip              	= '" . $te_ip . "',
+				te_nome_computador 	= '" . $te_nome_computador . "',
+				te_mascara         	= '" . DeCrypt($key,$iv,$_POST['te_mascara']			,$v_cs_cipher, $v_cs_compress) . "',
+				id_ip_rede         	= '" . $id_ip_rede . "',
+				te_gateway         	= '" . DeCrypt($key,$iv,$_POST['te_gateway']			,$v_cs_cipher, $v_cs_compress) . "',
+				te_serv_dhcp       	= '" . DeCrypt($key,$iv,$_POST['te_serv_dhcp']			,$v_cs_cipher, $v_cs_compress) . "',
+				te_nome_host       	= '" . DeCrypt($key,$iv,$_POST['te_nome_host']			,$v_cs_cipher, $v_cs_compress) . "',
+				te_dominio_windows 	= '" . DeCrypt($key,$iv,$_POST['te_dominio_windows']	,$v_cs_cipher, $v_cs_compress) . "',
+				te_dominio_dns     	= '" . DeCrypt($key,$iv,$_POST['te_dominio_dns']		,$v_cs_cipher, $v_cs_compress) . "',
+				te_dns_primario    	= '" . DeCrypt($key,$iv,$_POST['te_dns_primario']		,$v_cs_cipher, $v_cs_compress) . "',
+				te_dns_secundario  	= '" . DeCrypt($key,$iv,$_POST['te_dns_secundario']		,$v_cs_cipher, $v_cs_compress) . "',
+				te_wins_primario   	= '" . DeCrypt($key,$iv,$_POST['te_wins_primario']		,$v_cs_cipher, $v_cs_compress) . "',
+				te_wins_secundario 	= '" . DeCrypt($key,$iv,$_POST['te_wins_secundario']	,$v_cs_cipher, $v_cs_compress) .  "',
+				te_workgroup 	   	= '" . $v_te_workgroup .  "',
+				te_origem_mac	 	= '" . DeCrypt($key,$iv,$_POST['te_origem_mac']			,$v_cs_cipher, $v_cs_compress) .  "'
 				WHERE 	te_node_address  	= '" . $te_node_address . "' and
-						id_so              	= '" . $id_so . "'";
+				id_so              	= '" . $arrSO['id_so'] . "'";
+//GravaTESTES($query);																					
 	$result = mysql_query($query);
 	
 	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';

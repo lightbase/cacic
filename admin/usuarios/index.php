@@ -29,9 +29,10 @@ if ($_POST['submit'])
 
 include_once "../../include/library.php";
 require '../../include/piechart.php';
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3');
 Conecta_bd_cacic();
 //LimpaTESTES();
+
 $where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND (trim(g_usu.cs_nivel_administracao) <> "") AND usu.id_local = '.$_SESSION['id_local']:'');
 
 if ($_SESSION['te_locais_secundarios'] <> '' && $where <> '')
@@ -58,13 +59,18 @@ $query = 'SELECT 	usu.id_usuario,
 		  			usu.id_local=loc.id_local '.
 					$where . ' 
 		  ORDER BY 	'.$ordem;
-
 $result = mysql_query($query);
+
+$where = ' WHERE g_usu.cs_nivel_administracao <> 0 or 
+			  	 g_usu.id_grupo_usuarios = 1 or
+			  	 g_usu.id_grupo_usuarios = 7 ';
+				 
+$where = ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2?'':$where);
 
 $query_grp = 'SELECT	g_usu.te_grupo_usuarios,
 						g_usu.id_grupo_usuarios
-		  	  FROM 		grupo_usuarios g_usu
-		  	  WHERE 	g_usu.cs_nivel_administracao <> 0
+		  	  FROM 		grupo_usuarios g_usu '.
+			  $where . '
 		  	  ORDER BY 	g_usu.te_grupo_usuarios';
 $result_grp = mysql_query($query_grp) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou', array('grupo_usuarios')));
 $msg = '<div align="center">
@@ -156,7 +162,7 @@ $msg = '<div align="center">
 			?>
           </tr>
   	<tr> 
-    <td height="1" bgcolor="#333333" colspan="<? echo ($intColunasExtras + 14);?>"></td>
+    <td height="1" bgcolor="#333333" colspan="<? echo ($intColunasExtras + ($intColunasExtras*3) + 1);?>"></td>
   	</tr>
 		  
           <?  
@@ -171,7 +177,7 @@ else
 	{
 	$Cor = 0;
 	$NumRegistro = 1;
-	
+	$arrTotaisNiveis = array();	
 	while($row = mysql_fetch_array($result)) 
 		{		  
  	 	?>
@@ -180,7 +186,9 @@ else
             <td align="left" nowrap class="opcao_tabela"><? echo $NumRegistro; ?></td>
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left">
-			<? if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao']==3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==3)))
+			<? if ( $_SESSION['cs_nivel_administracao'] == 1 || 
+			        $_SESSION['cs_nivel_administracao'] == 2 || 
+				   ($_SESSION['cs_nivel_administracao'] == 3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==4)))
 					{
 					?>
 					<a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&cs_nivel_administracao=<? echo $row['cs_nivel_administracao'];?>"><? echo $row['nm_usuario_acesso']; ?></a>
@@ -194,7 +202,9 @@ else
 			</div></td>
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left">
-			<? if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao']==3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==3)))
+			<? if ( $_SESSION['cs_nivel_administracao'] == 1 || 
+			        $_SESSION['cs_nivel_administracao'] == 2 || 
+				   ($_SESSION['cs_nivel_administracao'] == 3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==4)))
 					{
 					?>			
 					<a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&cs_nivel_administracao=<? echo $row['cs_nivel_administracao'];?>"><? echo PrimUltNome($row['nm_usuario_completo']); ?></a>
@@ -208,7 +218,9 @@ else
 					</div></td>
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="center">
-			<? if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao']==3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==3)))			
+			<? if ( $_SESSION['cs_nivel_administracao'] == 1 || 
+			        $_SESSION['cs_nivel_administracao'] == 2 || 
+				   ($_SESSION['cs_nivel_administracao'] == 3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==4)))			
 					{
 					?>
 					<a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&cs_nivel_administracao=<? echo $row['cs_nivel_administracao'];?>"><? echo $row['sg_local']; ?></a>
@@ -229,7 +241,9 @@ else
 				$v_arr_locais_secundarios = explode(',',trim($row['te_locais_secundarios']));
 				$v_nu_total_locais_secundarios = count($v_arr_locais_secundarios);
 				}
-			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao']==3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==3)))			
+			if ( $_SESSION['cs_nivel_administracao'] == 1 || 
+			     $_SESSION['cs_nivel_administracao'] == 2 || 
+				($_SESSION['cs_nivel_administracao'] == 3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==4)))			
 					{
 					?>			
 					<a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&cs_nivel_administracao=<? echo $row['cs_nivel_administracao'];?>"><? echo $v_nu_total_locais_secundarios; ?></a>
@@ -243,12 +257,28 @@ else
 			</div></td>					
 			<?
 			mysql_data_seek($result_grp,0);			
+
 			while ($row_grp = mysql_fetch_array($result_grp))
 				{
             	echo '<td nowrap>&nbsp;</td>';
             	echo '<td nowrap class="opcao_tabela"><div align="center">';
-				if ($row['cs_nivel_administracao']<> 0 && $row['id_grupo_usuarios']==$row_grp['id_grupo_usuarios']) 
-					echo '<img src="../../imgs/checked_green.gif" width="13" height="13" border="0">';
+				/*
+				if ($row['cs_nivel_administracao']<> 0 && $row['id_grupo_usuarios']==$row_grp['id_grupo_usuarios'] ||
+				    $row['cs_nivel_administracao']== 0 && $row_grp['id_grupo_usuarios'] == 7 ||  
+				    $row['cs_nivel_administracao']== 0 && $row_grp['id_grupo_usuarios'] == 1) 					
+				*/
+				if ($row['id_grupo_usuarios']==$row_grp['id_grupo_usuarios']) 	
+					{
+					$UserGroup = 'usergroup_'.($row['id_grupo_usuarios'] == 1?'CO':
+					                          ($row['id_grupo_usuarios'] == 2?'AD':
+											  ($row['id_grupo_usuarios'] == 5?'GC':
+											  ($row['id_grupo_usuarios'] == 6?'SU':
+											  ($row['id_grupo_usuarios'] == 7?'TE':''))))).'.gif';
+					?>
+					<img src="<? echo '../../imgs/'.$UserGroup;?>" width="17" height="14" border="0" title="Nível: '<? echo $row_grp['te_grupo_usuarios'];?>'">
+					<?
+					$arrTotaisNiveis[$row_grp['te_grupo_usuarios']] ++; 
+					}
 				echo '</div></td>';
 				}
 			?>
@@ -259,14 +289,33 @@ else
 		}
 	}
 ?>
-        </table></td>
-  </tr>
   <tr> 
-    <td height="1" bgcolor="#333333"></td>
+    <td colspan="<? echo ($intColunasExtras + ($intColunasExtras*3) + 1);?>" height="1" bgcolor="#333333"></td>
   </tr>
+	
   <tr> 
-    <td height="10">&nbsp;</td>
+  <td colspan="11" class="dado_med_sem_fundo" align="right">Totais por Nível:</td>  
+  <?
+  ksort($arrTotaisNiveis);
+  while (list($UserGroup,$Total) = each($arrTotaisNiveis))
+  	{
+	?>
+	<td nowrap class="opcao_tabela" title="Total no Nível '<? echo $UserGroup;?>'"><div align="center"><? echo $Total; ?></div></td>
+	<td></td>
+	<?
+	}  
+	
+  ?>
   </tr>
+
+ </table></td>
+  </tr>
+  
+  
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  
   <tr> 
     <td height="10"><? echo $msg;?></td>
   </tr>

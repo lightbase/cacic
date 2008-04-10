@@ -16,7 +16,7 @@
 		  
 include_once '../include/library.php'; 
 include 	 '../include/piechart.php';
-//// Comentado temporariamente - AntiSpy();
+//AntiSpy();
 conecta_bd_cacic();
 
    $query = 'SELECT count(a.id_so) as qtd, b.te_desc_so  

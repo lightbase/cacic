@@ -24,6 +24,8 @@ else
 	{
 	$_SESSION['software'] = false;
 	}
+$strCor = '';  
+$strCor = ($strCor==''?'#CCCCFF':'');						  
 
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
@@ -55,46 +57,61 @@ else
 					$result_software = mysql_query($query);
 					if(mysql_num_rows($result_software) > 0) {
 		?>
-  <tr> 
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Sistema Operacional:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_desc_so"); ?></td>
     <td class="opcao_tabela">Vers&atilde;o do DirectX:</td>
     <td class="dado"><? echo mysql_result($result_software, 0, "te_versao_directx"); ?></td>
   </tr>
-  <? echo $linha?>
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Vers&atilde;o do Internet Explorer:</td>
     <td class="dado"><? echo mysql_result($result_software, 0, "te_versao_ie"); ?></td>
     <td class="opcao_tabela">Vers&atilde;o do ODBC:</td>
     <td class="dado"><? echo mysql_result($result_software, 0, "te_versao_odbc"); ?></td>
   </tr>
-  <? echo $linha?> 
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Vers&atilde;o do Mozilla:</td>
     <td class="dado"><div align="left"><? echo mysql_result($result_software, 0, "te_versao_mozilla"); ?></div></td>
     <td class="opcao_tabela">Vers&atilde;o do DAO:</td>
     <td class="dado"><? echo mysql_result($result_software, 0, "te_versao_dao"); ?></td>
   </tr>
-  <? echo $linha?> 
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Vers&atilde;o do Acrobat Reader:</td>
     <td class="dado"><? echo mysql_result($result_software, 0, "te_versao_acrobat_reader"); ?></td>
     <td class="opcao_tabela">Vers&atilde;o do ADO:</td>
     <td class="dado"><? echo mysql_result($result_software, 0, "te_versao_ado"); ?></td>
   </tr>
-  <? echo $linha?> 
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Vers&atilde;o do Java Runtime (JVM):</td>
     <td class="dado"><? echo mysql_result($result_software, 0, "te_versao_jre"); ?></td>
     <td>Vers&atilde;o do BDE:</td>
     <td class="dado"><? echo mysql_result($result_software, 0, "te_versao_bde"); ?></td>
   </tr>
-  <? echo $linha?> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
   <tr> 
     <td>&nbsp;</td>
     <td colspan="4">&nbsp; </td>

@@ -25,12 +25,16 @@ else
 	{
 	$_SESSION['tcp_ip'] = false;
 	}
+
+$strCor = '';  
+$strCor = ($strCor==''?'#CCCCFF':'');						  
+	
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td colspan="5" height="1" bgcolor="#333333"></td>
   </tr>
-  <tr> 
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=tcp_ip&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['tcp_ip'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> Protocolo 
@@ -43,53 +47,69 @@ else
 		if ($_SESSION['tcp_ip'] == true) {
 		// EXIBIR INFORMAÇÕES TCP/IP DO COMPUTADOR
 		?>
-  <tr> 
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Nome do Host:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_nome_host"); ?></td>
     <td class="opcao_tabela">Serv. Wins Prim&aacute;rio:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_wins_primario"); ?></td>
   </tr>
-  <? echo $linha?> 
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Dom&iacute;nio DNS:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_dominio_dns"); ?></td>
     <td class="opcao_tabela">Serv. Wins Secundario:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_wins_secundario"); ?></td>
   </tr>
-  <? echo $linha?> 
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Endere&ccedil;o TCP/IP:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_ip"); ?></td>
     <td class="opcao_tabela">Serv. DNS Prim&aacute;rio:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_dns_primario"); ?></td>
   </tr>
-  <? echo $linha?> 
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Mascara de Rede:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_mascara"); ?></td>
     <td class="opcao_tabela">Serv. DNS Secundario:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_dns_secundario"); ?></td>
   </tr>
-  <? echo $linha?> 
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Endere&ccedil;o de Rede:</td>
     <td class="dado"><? echo mysql_result($result, 0, "id_ip_rede"); ?></td>
     <td class="opcao_tabela">Servidor DHCP:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_serv_dhcp");?></td>
   </tr>
-  <? echo $linha?> 
-  <tr> 
+  <? echo $linha;
+  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  ?> 
+
+  <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
     <td class="opcao_tabela">Gateway:</td>
     <td class="dado"><? echo mysql_result($result, 0, "te_gateway"); ?></td>
     <td class="opcao_tabela">&Uacute;ltimo Login:</td>   
     <td class="dado"><? echo mysql_result($result, 0, "te_dominio_windows");?></tr>
-  <? echo $linha?> 
+  <? echo $linha;  ?> 
+
   <tr> 
     <td>&nbsp;</td>
     <td colspan="4"> <form action="historico.php" method="post" name="form1" target="_blank">

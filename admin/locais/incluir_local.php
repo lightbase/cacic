@@ -23,7 +23,10 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 include_once "../../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+
 
 if($_POST['submit']<>'') 
 {
@@ -89,6 +92,12 @@ if($_POST['submit']<>'')
 				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta1', 'Etiqueta 1', 'Entidade', '', 'Selecione a Entidade', 'Entidades',	'id_unid_organizacional_nivel1','N')";
 
 		$result = mysql_query($query) or die ('6-Falha na Inserção em patrimonio_config_interface (1) ou sua sessão expirou!');
+
+		$query = "INSERT 	INTO 		patrimonio_config_interface 
+				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 
+				  VALUES 	(".$row_max_id_local['max_id_local'].",	'etiqueta1a', 'Etiqueta 1a', 'Entidade', '', 'Selecione a Linha de Negócio', 'Linhas de Negócio',	'id_unid_organizacional_nivel1a','N')";
+
+		$result = mysql_query($query) or die ('6.1-Falha na Inserção em patrimonio_config_interface (1a) ou sua sessão expirou!');
 
 		$query = "INSERT 	INTO 		patrimonio_config_interface 
 				  			(id_local, id_etiqueta, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade) 

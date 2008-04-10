@@ -23,8 +23,8 @@
 
 require_once('../include/library.php');
 
-// Definição do nível de compressão (Default = 1 => mínimo)
-//$v_compress_level = 1;
+// Definição do nível de compressão (Default = 9 => máximo)
+//$v_compress_level = 9;
 $v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
 						// Há necessidade de testes para Análise de Viabilidade Técnica 
 
@@ -41,19 +41,14 @@ $v_id_ip_estacao = trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v
 // ...caso o IP esteja inválido, obtenho-o a partir de variável do servidor
 if (substr_count($v_id_ip_estacao,'zf')>0 || trim($v_id_ip_estacao)=='')
 	$v_id_ip_estacao = 	$_SERVER['REMOTE_ADDR'];
+	
+$v_dados_rede = getDadosRede();
 
 // Essa condição testa se foi o "chkcacic" chamado para instalação ou o "Gerente de Coletas" para validar IP da estação...
 if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='chkcacic' || 
 	trim(DeCrypt($key,$iv,$_POST['in_teste']   ,$v_cs_cipher,$v_cs_compress))=='OK')
 	{	
-	$v_dados_rede = getDadosRede();
 	$retorno_xml_values .= '<TE_REDE_OK>'                    . EnCrypt($key,$iv,($v_dados_rede['id_ip_rede'] <> ''?'S':'N')		,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_REDE_OK>';		
-	$retorno_xml_values .= '<TE_SERV_CACIC>'                 . EnCrypt($key,$iv,$v_dados_rede['te_serv_cacic']					,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_SERV_CACIC>';		
-	$retorno_xml_values .= '<TE_SERV_UPDATES>'               . EnCrypt($key,$iv,$v_dados_rede['te_serv_updates']				,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_SERV_UPDATES>';			
-	$retorno_xml_values .= '<NU_PORTA_SERV_UPDATES>'         . EnCrypt($key,$iv,$v_dados_rede['nu_porta_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</NU_PORTA_SERV_UPDATES>';
-	$retorno_xml_values .= '<TE_PATH_SERV_UPDATES>'          . EnCrypt($key,$iv,$v_dados_rede['te_path_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_PATH_SERV_UPDATES>';			
-	$retorno_xml_values .= '<NM_USUARIO_LOGIN_SERV_UPDATES>' . EnCrypt($key,$iv,$v_dados_rede['nm_usuario_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</NM_USUARIO_LOGIN_SERV_UPDATES>';	
-	$retorno_xml_values .= '<TE_SENHA_LOGIN_SERV_UPDATES>'   . EnCrypt($key,$iv,$v_dados_rede['te_senha_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_SENHA_LOGIN_SERV_UPDATES>';						
 
 	if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='chkcacic')
 		{
@@ -132,8 +127,6 @@ else
 	// Autenticação dos agentes:
 	autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
 
-	$v_dados_rede 					 = getDadosRede();
-
 	$id_ip_rede 					 = $v_dados_rede['id_ip_rede'];
 	$v_te_serv_updates 				 = $v_dados_rede['te_serv_updates'];
 	$v_te_serv_cacic				 = $v_dados_rede['te_serv_cacic'];
@@ -153,15 +146,15 @@ else
 
 	/* Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
 	 o computador deste agente no BD, caso ainda não esteja inserido. */
-	$id_so = inclui_computador_caso_nao_exista(	$te_node_address, 
+	// ATENÇÃO: Retornará um ARRAY contendo "id_so" e "te_so".
+	$arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
 												$id_so_new,
 												$te_so,
 												$id_ip_rede, 
 												$v_id_ip_estacao, 
 												$te_nome_computador,
 												$te_workgroup);									
-										
-	
+											
 	/* Atualizo a data/hora da última vez em que o agente foi executado. */
 	/* Atualizo as versões dos agentes principais. */	
 	/* Atualizo a informação de versão(para uso futuro) do Sistema Operacional da estação. */		
@@ -169,11 +162,12 @@ else
 
 	$query = 'UPDATE 	computadores SET 
 						dt_hr_ult_acesso = NOW(),
-						te_so = "'.$te_so.'",
+						te_so = "'.$arrSO['te_so'].'",
+						te_ip = "'.$v_id_ip_estacao.'",						
 			  	  		te_versao_cacic  = "' . $te_versao_cacic . '",
 				  		te_versao_gercols= "' . $te_versao_gercols . '" 
 			  WHERE 	te_node_address = "'.$te_node_address.'" AND 
-			  			id_so = "'.$id_so.'"';
+			  			id_so = "'.$arrSO['id_so'].'"';
 	$result = mysql_query($query);
 
 //  Alternativa de solução enviada ao sr. Elton Levi Schroder Fenner [elton.fenner@al.rs.gov.br], por ocasião da mensagem de erro
@@ -216,7 +210,7 @@ else
 	$query_coleta_forcada = '	SELECT 		dt_hr_coleta_forcada_estacao,te_nomes_curtos_modulos
 								FROM 		computadores
 								WHERE 		te_node_address = "'.$te_node_address.'" AND 
-											id_so = "'.$id_so.'"';
+											id_so = "'.$arrSO['id_so'].'"';
 	conecta_bd_cacic();
 	$result_coleta_forcada 	= mysql_query($query_coleta_forcada);
 	$te_tripa_coleta = mysql_fetch_array($result_coleta_forcada);
@@ -240,8 +234,10 @@ else
 							 acoes_redes.id_local = '.$v_dados_rede['id_local'].' AND 
 							 acoes.id_acao = acoes_redes.id_acao AND
 							 acoes_so.id_acao = acoes.id_acao AND 
-							 acoes_so.id_so = "'.$id_so.'" AND
-							 acoes_so.id_local = '.$v_dados_rede['id_local'];
+							 acoes_so.id_so = "'.$arrSO['id_so'].'" AND
+							 acoes_so.id_local = '.$v_dados_rede['id_local'];	
+
+
 	conecta_bd_cacic();
 	$result = mysql_query($query);
 
@@ -263,7 +259,6 @@ else
 					}
 				$retorno_xml_values .= '<' . 'DT_HR_COLETA_FORCADA_' . $campos["te_nome_curto_modulo"] . '>' . EnCrypt($key,$iv,$v_dt_hr_coleta_forcada,$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</' . 'DT_HR_COLETA_FORCADA_' . $campos["te_nome_curto_modulo"] . '>';
 				}
-
 			if (trim($id_acao) == "cs_coleta_monitorado" && mysql_num_rows($result_monitorado))
 				{
 				$v_arr_WNT = array(	'6',   // NT
@@ -278,7 +273,7 @@ else
 									'4',   // 98OSR2
 									'5'    // ME
 								   );
-				
+
 				// reset($result_monitorado);			
 				mysql_data_seek($result_monitorado,0);				
 				while ($campo_monitorado = mysql_fetch_array($result_monitorado)) 
@@ -292,19 +287,20 @@ else
 								$v_achei = 1;
 						}
 
-					if ($v_achei==0 && ($campo_monitorado['id_so'] == 0 || $campo_monitorado['id_so'] == $id_so))
+					if ($v_achei==0 && ($campo_monitorado['id_so'] == 0 || $campo_monitorado['id_so'] == $arrSO['id_so']))
 						{
 						if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
 	
 						$v_te_ide_licenca = trim($campo_monitorado['te_ide_licenca']);					
-						if ($campo_monitorado['cs_ide_licenca']=='0') 	$v_te_ide_licenca = '';					
+						if ($campo_monitorado['cs_ide_licenca']=='0') 	
+							$v_te_ide_licenca = '';					
 						
 						$v_retorno_MONITORADOS .= $campo_monitorado['id_aplicativo']	.	','.
 										  $campo_monitorado['dt_atualizacao']	.	','.
 										  $campo_monitorado['cs_ide_licenca'] 	. 	','.
 										  $v_te_ide_licenca						.	',';
 	
-						if (in_array($id_so,$v_arr_W9x)) 
+						if (in_array($arrSO['id_so'],$v_arr_W9x)) 
 							{
 							$v_te_arq_ver_eng_w9x 	= trim($campo_monitorado['te_arq_ver_eng_w9x']);
 							if ($v_te_arq_ver_eng_w9x=='') 	$v_te_arq_ver_eng_w9x 	= '.';						
@@ -366,66 +362,62 @@ else
 							{
 							$v_retorno_MONITORADOS .= ',.';														
 							}
-															
 						}
 					}
 				}
-
-				$query_modulos = '	SELECT 	*
-									FROM	redes_versoes_modulos
-									WHERE 	id_ip_rede = "'.$id_ip_rede.'" AND
-											id_local = '.$v_dados_rede['id_local'];
-			
-				$result_modulos	= mysql_query($query_modulos);
-			
-				while ($row_modulos = mysql_fetch_array($result_modulos))
-					{
-					$retorno_xml_values .= '<' . 'DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>' . EnCrypt($key,$iv,$row_modulos['te_versao_modulo'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '<' . '/DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>';
-					}				
-
-				if ($v_retorno_MONITORADOS <> '') 
-					{
-					$retorno_xml_values .= '<SISTEMAS_MONITORADOS_PERFIS>'.EnCrypt($key,$iv,$v_retorno_MONITORADOS,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</SISTEMAS_MONITORADOS_PERFIS>';
-					}
-			
-				// Configurações relacionadas ao comportamento do agente.
-				$query = 'SELECT 	in_exibe_bandeja,
-									in_exibe_erros_criticos,
-									nu_exec_apos,
-									nu_intervalo_exec,
-									nu_intervalo_renovacao_patrim,
-									te_senha_adm_agente,
-									te_enderecos_mac_invalidos,
-									te_janelas_excecao
-						FROM 		configuracoes_locais
-						WHERE		id_local = '.$v_dados_rede['id_local'];
-			
-				conecta_bd_cacic();										
-				$result_configs = mysql_query($query);
-				$campos_configs = mysql_fetch_array($result_configs);
-				for ($i=0; $i < mysql_num_fields($result_configs); $i++) 
-					{
-					$nome_campo = mysql_field_name($result_configs, $i); 
-					$retorno_xml_values .= '<' . $nome_campo . '>' . EnCrypt($key,$iv,$campos_configs[$nome_campo],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</' . $nome_campo . '>';      
-					}
-				
-				// Caso não haja identificador de servidor de updates informado, assumirá o nome do servidor gerente
-				// PERIGO: O servidor WEB talvez não tenha FTP configurado
-				if (trim($v_te_serv_updates)      == '') $v_te_serv_updates      = substr($_ENV['HOSTNAME'],0,strpos($_ENV['HOSTNAME'],'.'));
-			
-				// Caso não haja identificador de path no servidor de updates informado, assumirá o caminho abaixo
-				if (trim($v_te_path_serv_updates) == '') $v_te_path_serv_updates = '/home/cacic/updates';
-			
-				$retorno_xml_values .= '<TE_SERV_CACIC>' 				  . EnCrypt($key,$iv,$v_te_serv_cacic								,$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</TE_SERV_CACIC>';		
-				$retorno_xml_values .= '<TE_SERV_UPDATES>'               . EnCrypt($key,$iv,$v_te_serv_updates								,$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</TE_SERV_UPDATES>';		
-				$retorno_xml_values .= '<NU_PORTA_SERV_UPDATES>'         . EnCrypt($key,$iv,$v_nu_porta_serv_updates						,$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</NU_PORTA_SERV_UPDATES>';
-				$retorno_xml_values .= '<TE_PATH_SERV_UPDATES>'          . EnCrypt($key,$iv,$v_te_path_serv_updates							,$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</TE_PATH_SERV_UPDATES>';			
-				$retorno_xml_values .= '<NM_USUARIO_LOGIN_SERV_UPDATES>' . EnCrypt($key,$iv,$v_dados_rede['nm_usuario_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</NM_USUARIO_LOGIN_SERV_UPDATES>';	
-				$retorno_xml_values .= '<TE_SENHA_LOGIN_SERV_UPDATES>'   . EnCrypt($key,$iv,$v_dados_rede['te_senha_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</TE_SENHA_LOGIN_SERV_UPDATES>';							
-			}	
+			}
 		}
-	}	
 
+	$query_modulos = '	SELECT 	*
+						FROM	redes_versoes_modulos
+						WHERE 	id_ip_rede = "'.$id_ip_rede.'" AND
+								id_local = '.$v_dados_rede['id_local'];
+	
+	$result_modulos	= mysql_query($query_modulos);
+	while ($row_modulos = mysql_fetch_array($result_modulos))
+		$retorno_xml_values .= '<' . 'DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>' . EnCrypt($key,$iv,$row_modulos['te_versao_modulo'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '<' . '/DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>';
+	
+	if ($v_retorno_MONITORADOS <> '') 
+		$retorno_xml_values .= '<SISTEMAS_MONITORADOS_PERFIS>'.EnCrypt($key,$iv,$v_retorno_MONITORADOS,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</SISTEMAS_MONITORADOS_PERFIS>';
+
+	// Configurações relacionadas ao comportamento do agente.
+	$query = 'SELECT 	in_exibe_bandeja,
+						in_exibe_erros_criticos,
+						nu_exec_apos,
+						nu_intervalo_exec,
+						nu_intervalo_renovacao_patrim,
+						te_senha_adm_agente,
+						te_enderecos_mac_invalidos,
+						te_janelas_excecao
+			FROM 		configuracoes_locais
+			WHERE		id_local = '.$v_dados_rede['id_local'];
+
+	conecta_bd_cacic();										
+	$result_configs = mysql_query($query);
+	$campos_configs = mysql_fetch_array($result_configs);
+
+	for ($i=0; $i < mysql_num_fields($result_configs); $i++) 
+		{
+		$nome_campo = mysql_field_name($result_configs, $i); 
+		$retorno_xml_values .= '<' . $nome_campo . '>' . EnCrypt($key,$iv,$campos_configs[$nome_campo],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</' . $nome_campo . '>';      
+		}
+
+	// Caso não haja identificador de servidor de updates informado, assumirá o nome do servidor gerente
+	// PERIGO: O servidor WEB talvez não tenha FTP configurado
+	if (trim($v_te_serv_updates)      == '') $v_te_serv_updates      = substr($_ENV['HOSTNAME'],0,strpos($_ENV['HOSTNAME'],'.'));
+
+	// Caso não haja identificador de path no servidor de updates informado, assumirá o caminho abaixo
+	if (trim($v_te_path_serv_updates) == '') $v_te_path_serv_updates = '/home/cacic/updates';
+
+	}						
+
+$retorno_xml_values .= '<TE_SERV_CACIC>'                 . EnCrypt($key,$iv,$v_dados_rede['te_serv_cacic']					,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_SERV_CACIC>';		
+$retorno_xml_values .= '<TE_SERV_UPDATES>'               . EnCrypt($key,$iv,$v_dados_rede['te_serv_updates']				,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_SERV_UPDATES>';			
+$retorno_xml_values .= '<NU_PORTA_SERV_UPDATES>'         . EnCrypt($key,$iv,$v_dados_rede['nu_porta_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</NU_PORTA_SERV_UPDATES>';
+$retorno_xml_values .= '<TE_PATH_SERV_UPDATES>'          . EnCrypt($key,$iv,$v_dados_rede['te_path_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_PATH_SERV_UPDATES>';			
+$retorno_xml_values .= '<NM_USUARIO_LOGIN_SERV_UPDATES>' . EnCrypt($key,$iv,$v_dados_rede['nm_usuario_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</NM_USUARIO_LOGIN_SERV_UPDATES>';	
+$retorno_xml_values .= '<TE_SENHA_LOGIN_SERV_UPDATES>'   . EnCrypt($key,$iv,$v_dados_rede['te_senha_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_SENHA_LOGIN_SERV_UPDATES>';						
+	
 // --------------- Retorno de Classificador de CRIPTOGRAFIA --------------- //
 if ($v_cs_cipher <> '1') $v_cs_cipher --;	
 
@@ -449,5 +441,6 @@ $retorno_xml_header .= '<cs_compress>'.$v_cs_compress.'</cs_compress>';
 // ---------------------------------------------------------------------- //
 
 $retorno_xml = $retorno_xml_header . $retorno_xml_values . "</CONFIGS>";  
+//GravaTESTES($retorno_xml);
 echo $retorno_xml;	  
 ?>

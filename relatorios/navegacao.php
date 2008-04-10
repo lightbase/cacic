@@ -23,7 +23,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 $_SESSION['tipo_consulta1']=$_REQUEST['tipo_consulta'];
 $_SESSION['string_consulta1']=$_REQUEST['string_consulta'];
 $_SESSION['consultar1']=$_REQUEST['consultar'];
@@ -145,7 +145,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 						$nm_local = $row["nm_local"];
 						if (!$nm_local)
 							{
-							$nm_local = 'Localização Não Cadastrada';
+							$nm_local = 'SubRedes Não Cadastradas';
 							}
 							
 						$_SESSION['Tripa'] 	.= '.<b>' . $row["sg_local"] . '</b> (' . $nm_local . ')|'.$row["id_local"].'#';						
@@ -157,7 +157,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 						$nm_rede = $row["nm_rede"];
 						if (!$nm_rede)
 							{
-							$nm_rede = 'Rede Não Cadastrada';
+							$nm_rede = 'SubRede Não Cadastrada';
 							}
 							
 						$_SESSION['Tripa'] 	.= '..' . $row["id_ip_rede"] . ' (' . $nm_rede . ')|'.$row["sg_local"] . ' (' . $row['nm_local'] . ')#';						

@@ -24,19 +24,20 @@ else
 	{
 	$_SESSION['software_inventariado'] = false;
 	}
+	
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
-    <td colspan="5" height="1" bgcolor="#333333"></td>
+    <td colspan="6" height="1" bgcolor="#333333"></td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td class="cabecalho_tabela" colspan="5">&nbsp;<a href="computador.php?exibir=software_inventariado&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
+    <td class="cabecalho_tabela" colspan="6">&nbsp;<a href="computador.php?exibir=software_inventariado&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['software_inventariado'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> Softwares 
       Inventariados</a></td>
   </tr>
-  <tr> 
-    <td height="1" bgcolor="#333333"></td>
+  <tr>
+    <td colspan="6" height="1" bgcolor="#333333"></td>
   </tr>
   <?
 			if ($_SESSION['software_inventariado'] == true) {
@@ -57,15 +58,24 @@ else
 								ORDER BY	si.nm_software_inventariado";
 					$result_software = mysql_query($query);
 					$v_achei = 0;
+					$intContaItem = 0;
+					$strCor = '';  					
 					while ($row = mysql_fetch_array($result_software)) 
 					{
+					$strCor = ($strCor==''?'#CCCCFF':'');						  
+					
 					$v_achei = 1;
+					$intContaItem ++;
 					?>
-  <tr> 
-    <td class="descricao">&nbsp;<? echo $row['nm_software_inventariado']; ?></td>
+  <tr bgcolor="<? echo $strCor;?>">
+    <td width="2%" class="descricao">
+  						    <div align="right"><B><? echo $intContaItem;?></B></div>
+  						  </td> 
+    <td width="98%" align="left" nowrap="nowrap" class="descricao">&nbsp;<? echo $row['nm_software_inventariado']; ?></td>
   </tr>
   <?
   echo $linha;
+
 				}
 				if (!$v_achei)
 				{

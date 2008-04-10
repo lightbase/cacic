@@ -23,7 +23,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 include_once "../../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 if($submit) 
 {
 	Conecta_bd_cacic();

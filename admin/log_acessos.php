@@ -23,7 +23,11 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 include_once "../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 if (!$_REQUEST['date_input1'])
 	{
 	$from_usuarios = '';
@@ -170,6 +174,10 @@ require_once('../include/selecao_listbox.js');
 				$itens_locais .= $_POST['list12'][$i];
 				}
 			$where_usuarios = ' AND b.id_local IN ('.$itens_locais.')';			
+			if (count($_POST['list12'])==0)
+				$msg = '<div align="center">
+				<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
+				Nenhum acesso realizado no <u>período informado</u> ou nenhum <u>local selecionado</u>.</font><br><br></div>';				
 			}
 		
 		$OrderBy = ($_GET['OrderBy']<>''?$_GET['OrderBy']:'1');
@@ -180,8 +188,7 @@ require_once('../include/selecao_listbox.js');
 							a.te_ip_origem,							
 							a.cs_acao,							
 							b.id_usuario,							
-							c.sg_local,
-							b.id_local
+							c.sg_local
 				  FROM 		log a,
 				  			usuarios b, 
 							locais c
@@ -237,37 +244,25 @@ require_once('../include/selecao_listbox.js');
 				list($day,$hour) = explode(" ",$day); 
 				$nm_usuario_acessos = PrimUltNome($row['nm_usuario_completo']).'/'.$row['sg_local'];		  
 			
-				if (array_search($row['cs_acao'],$arr_cs_acao))
-					$arr_cs_acao[$row['cs_acao']]=1;
-				else
-					$arr_cs_acao[$row['cs_acao']]++;
+				$arr_cs_acao[$row['cs_acao']]++;
 	
 				$nm_script =  str_replace('.php','',$row['nm_script']);			
-				if (array_search($nm_script,$arr_nm_script))
-					$arr_nm_script[$nm_script]=1;
-				else
-					$arr_nm_script[$nm_script]++;
+				$arr_nm_script[$nm_script]++;
 			
-				if (array_search($row['nm_tabela'],$arr_nm_tabela))
-					$arr_nm_tabela[$row['nm_tabela']]=1;
-				else
-					$arr_nm_tabela[$row['nm_tabela']]++;
+				$arr_nm_tabela[$row['nm_tabela']]++;
 			
-				if (array_search($nm_usuario_acessos.'#'.$row['id_usuario'],$arr_nm_usuario))
-					$arr_nm_usuario[$nm_usuario_acessos.'#'.$row['id_usuario']]=1;
-				else
-					$arr_nm_usuario[$nm_usuario_acessos.'#'.$row['id_usuario']]++;
+				$arr_nm_usuario[$nm_usuario_acessos.'#'.$row['id_usuario']]++;
 			
 				?>
 			  <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
 				<td nowrap></td>
 				<td align="left" nowrap class="opcao_tabela"><? echo $NumRegistro; ?></td>
 				<td nowrap></td>
-				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&list12[0]=<? echo $row['id_local'];?>&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $day.'/'.$month.'/'.$year. ' '. substr($hour,0,5);?></a></td>
+				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $day.'/'.$month.'/'.$year. ' '. substr($hour,0,5);?></a></td>
 				<td nowrap></td>
-				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&list12[0]=<? echo $row['id_local'];?>&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $nm_usuario_acessos;?></a></td>
+				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $nm_usuario_acessos;?></a></td>
 				<td nowrap></td>
-				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&list12[0]=<? echo $row['id_local'];?>&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $row['te_ip_origem'];?></a></td>
+				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $row['te_ip_origem'];?></a></td>
 				<td nowrap></td>
 				<? 
 				$Cor=!$Cor;

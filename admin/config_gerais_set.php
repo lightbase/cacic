@@ -24,7 +24,11 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 require_once('../include/library.php');
 
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 conecta_bd_cacic();
 
 // Preciso remover os "Enters" dados nos campos texto do formulário, pois a rotina de envio de emails
@@ -86,10 +90,10 @@ while ($row = mysql_fetch_array($resultSELECT))
 	}		
 
 // Aqui pego todos os gráficos selecionados para serem exibidos e atualizo a tabela configuracoes_locais.
-$te_exibe_graficos = $_POST['list4'][0];
-for( $i = 1; $i < count($_POST['list4']); $i++ ) 
+$te_exibe_graficos = $_POST['listaExibeGraficosSelecionados'][0];
+for( $i = 1; $i < count($_POST['listaExibeGraficosSelecionados']); $i++ ) 
 	{
-	$te_exibe_graficos .= $_POST['list4'][$i];
+	$te_exibe_graficos .= $_POST['listaExibeGraficosSelecionados'][$i];
 	}
 
 $queryUPDATE = "UPDATE 	configuracoes_locais set 

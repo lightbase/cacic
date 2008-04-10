@@ -30,6 +30,136 @@ $oTranslator->setURLPath(TRANSLATOR_PATH_URL);
 $oTranslator->setLangFilesInSubDirs(true);
 $oTranslator->initStdLanguages();
 
+// --------------------------------------------------------------------------------------
+// Função para bloqueio de acesso indevido
+// --------------------------------------------------------------------------------------
+function AntiSpy($strNiveisPermitidos = '')
+	{
+	$mainFolder = GetMainFolder();
+	
+	if ($strNiveisPermitidos <> '')
+		$boolNivelPermitido = stripos2(','.$strNiveisPermitidos.',',','.$_SESSION['cs_nivel_administracao'].',',false);
+	else
+		$boolNivelPermitido = true;
+
+	include $mainFolder.'/include/config.php'; // Incluo o config.php para pegar as chaves de criptografia	
+
+	if (session_is_registered("id_usuario") && session_is_registered("id_usuario_crypted") && 
+	    $_SESSION["id_usuario_crypted"] == EnCrypt($key,$iv,$_SESSION["id_usuario"],"1","0","0") &&
+	    $boolNivelPermitido)
+   		return true;
+	//$_SERVER['HTTP_HOST']
+	$strLocation = 'http://'.$_SERVER['SERVER_ADDR'].'/cacic2/include/acesso_nao_permitido.php';	
+	header ("Location: $strLocation");		
+	exit;		
+	}
+
+// ------------------------------------------------------------------------
+// Função para obtenção do ENDEREÇO MAC da estação chamadora
+// Function to get the MAC ADDRESS of the caller station
+// ATENÇÃO: Sem funcionalidade caso o FireWall esteja habilitado na estação
+// ------------------------------------------------------------------------
+function returnMacAddress() 
+	{
+	// This code is under the GNU Public Licence
+	// Written by michael_stankiewicz {don't spam} at yahoo {no spam} dot com
+	// Tested only on linux, please report bugs
+	
+	// Adaptado às necessidades do Sistema CACIC - por Anderson Peterle
+	// Adapted to Sistema CACIC requirements - by Anderson Peterle
+
+	// WARNING: the commands 'which' and 'arp' should be executable
+	// by the apache user; on most linux boxes the default configuration
+	// should work fine
+
+	// Get the arp executable path
+	$location = exec('which arp', $arpTable);
+
+	// Split the output so every line is an entry of the $arpSplitted array
+	//$arpSplitted = split("\n",$arpTable);
+
+	// Get the remote ip address (the ip address of the client, the browser)
+	$remoteIp = $GLOBALS['REMOTE_ADDR'];
+
+	// Cicle the array to find the match with the remote ip address
+	foreach ($arpTable as $value) 
+		{		
+		// Split every arp line, this is done in case the format of the arp
+		// command output is a bit different than expected
+		$valueSplitted = split(" ",$value);
+		foreach ($valueSplitted as $spLine) 
+			{
+			if (preg_match("/$remoteIp/",$spLine)) 
+				{
+				$ipFound = true;
+				}
+			// The ip address has been found, now rescan all the string
+			// to get the mac address
+			if ($ipFound) 
+				{
+				// Rescan all the string, in case the mac address, in the string
+				// returned by arp, comes before the ip address
+				// (you know, Murphy's laws)
+				reset($valueSplitted);
+				foreach ($valueSplitted as $spLine) 
+					{
+					if (preg_match("/[0-9a-f][0-9a-f][:-]".
+									"[0-9a-f][0-9a-f][:-]".
+									"[0-9a-f][0-9a-f][:-]".
+									"[0-9a-f][0-9a-f][:-]".	
+									"[0-9a-f][0-9a-f][:-]".
+									"[0-9a-f][0-9a-f]/i",$spLine)) 
+						{
+						return $spLine;
+						}
+					}
+				}
+			$ipFound = false;
+			}
+		}
+	return '';
+	}
+
+// ------------------------------------------------------------------------
+// Função para obtenção do ENDEREÇO MAC da estação chamadora
+// Function to get the MAC ADDRESS of the caller station
+// ATENÇÃO: Sem funcionalidade caso o FireWall esteja habilitado na estação
+// ------------------------------------------------------------------------
+function returnMacAddress1()
+	{
+	//First get the IP address then use the
+	//DOS command + only get row with client IP address
+	//This takes only one line of the ARP table instead
+	//of what could be a very large table of data to
+	//hopefull give a small speed/performance advantage
+
+	$remoteIp = rtrim($_SERVER['REMOTE_ADDR']);
+	$location = rtrim(`arp -a $remoteIp`);
+	for ($i=0;$i < count($location);$i++)
+		GravaTESTES('location['.$i.']:'.$location[$i]);	
+	//print_r($remoteIp.$location);//display
+
+	//reduce no of white spaces then
+	//Split up into array element by white space
+	$location = preg_replace('/\s+/', 's', $location);
+	$location = split('\s',$location);//
+
+	$num=count($location);//get num of array elements
+	$loop=0;//start at array element 0
+	while ($loop < $num)
+		{
+		//mac address is always one after the
+		//IP after inserting the firstline
+		//(preg_replace) line above.
+		if ($location[$loop] == $remoteIp)
+			return $location[$loop];
+		else 
+			$loop ++;
+		}
+	return '';
+	}
+
+	
 // ------------------------------------------------------------------------------------------------
 // Função para exibição de data do script para fins de Debug. Os IP´s são definidos em menu_seg.php
 // Novas informações poderão ser acrescentadas futuramente...
@@ -52,7 +182,7 @@ function Debug($p_ScriptFileName)
 			}
 		}
 	}
-	
+
 /**
  * Menu a ser apresentado ao usuario conforme o idioma selecionado
  * 
@@ -73,107 +203,93 @@ function getMenu($_menu_name) {
 	}
 }
 
-
-// --------------------------------------------------------------------------------------
-// Função para bloqueio de acesso indevido
-// --------------------------------------------------------------------------------------
-function anti_spy()
+// __________________________________________________________________
+// Apenas uma alternativa mais completa à função "stripos" do PHP5...
+// __________________________________________________________________
+/*
+// Retornará 0 ou 1 se $pos for FALSE
+// 		0 -> Se a String haystack NÃO CONTIVER a subString needle
+// 		1 -> Se a String haystack CONTIVER     a subString needle
+// Retornará a posição da subString needle na string haystack se $boolRetornaPosicao for TRUE ou NULO
+*/
+function stripos2($strString, $strSubString, $boolRetornaPosicao = true)
 	{
-	return true;
-	$v_AtualPWD = getcwd(); // Conservo o caminho do script chamador...
-	ChangeTo('include'); // Faço um ChangeDir para a pasta "include"...
-	include getcwd().'/config.php'; // Incluo o config.php para pegar as chaves de criptografia	
-	if (session_is_registered("id_usuario") && session_is_registered("id_usuario_crypted") && 
-	   ($_SESSION["id_usuario_crypted"] == EnCrypt($key,$iv,$_SESSION["id_usuario"],"1","0","0")))
-	   	{
-		// Volto para o caminho do script chamador...		
-		@chdir($v_AtualPWD); 
-   		return true;
-		}		
-	@chdir($v_AtualPWD); 		
-	$te_retornos = TotalSkipsToInclude();
+	$intPos = strpos($strString, stristr( $strString, $strSubString ));
 
-	$Location = "Location: ".$te_retornos."include/acesso_nao_permitido.php?chamador=../index.php&tempo=5";
+	if (!$boolRetornaPosicao)
+		$intPos = (($intPos < 0 || trim($intPos) == '') ? 0 : 1);
 
-	header ($Location);		
-	exit;		
+	return $intPos;
 	}
-// --------------------------------------------------------------------------------------
-// Função para busca e mudança de diretório
-// --------------------------------------------------------------------------------------
-function TotalSkipsToInclude()
-	{
-	$v_te_retornos    = '';
-	$v_SO 			= strtoupper($_SERVER['SERVER_SOFTWARE']); // Windows -> WebServerName/xx.yy.zz (Win32)...
-							   					 			   // Linux   -> WebServerName/xx.yy.zz (Unix)...
-
-	$v_barra 		= (strstr($v_SO,'UNIX')?'/':'\\'); // Diferença de barra em função do S.O.
-	$str_local_CWD	= getcwd();
-
-	$arr_local_CWD 	= explode($v_barra,$str_local_CWD);
-
-	for ($i = 0;$i <= count($arr_local_CWD); $i++) 
-		{
-		if (@chdir($str_local_CWD . $v_barra . 'include'))
-			$i = count($arr_local_CWD);
-		else
-			{
-			$str_local_CWD = substr($str_local_CWD,0,strrpos($str_local_CWD,$v_barra));
-			$v_te_retornos .= '../'; // Acumulo os saltos...
-			}
-		}				
-	return $v_te_retornos;
-	}
-// -------------------------------------------------
-// Função para contar retornos até a pasta "include"
-// -------------------------------------------------
-function ChangeTo($p_Folder)
-	{
-	$v_SO 			= strtoupper($_SERVER['SERVER_SOFTWARE']); // Windows -> WebServerName/xx.yy.zz (Win32)...
-							   					 			   // Linux   -> WebServerName/xx.yy.zz (Unix)...
-
-	$v_barra 		= (strstr($v_SO,'UNIX')?'/':'\\'); // Diferença em função do S.O.
-	$str_getCWD 	= getcwd(); // Exemplo de Resultado: /var/www/default/cacic2/admin
-	$str_local_CWD 	= $str_getCWD;
-	$arr_local_CWD 	= explode($v_barra,$str_getCWD);
-
-	// Percorrerei o caminho encontrado a partir do retorno de getCWD()...
-	for ($i = 0;$i < count($arr_local_CWD); $i++) 
-		{
-		if (@chdir($str_local_CWD . $v_barra . $p_Folder))
-			return true;
-		else
-			$str_local_CWD = substr($str_local_CWD,0,strrpos($str_local_CWD,$v_barra));
-		}				
-	return false;
-	}
+	
 // ---------------------------------
 // Função usada para descriptografia 
 // To decrypt values 
 // p_cs_cipher => Y/N 
 // ---------------------------------
-function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnCompress) 
+function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnCompress='0') 
 	{
+	// Bloco de Substituições para antes da Decriptação
+	// ------------------------------------------------
+	// Razão: Dependendo da configuração do servidor, os valores
+	//        enviados, pertinentes à criptografia, tendem a ser interpretados incorretamente.
+	// Obs.:  Vide Lista de Convenções Abaixo
+	// =======================================================================================
+	$_p_CriptedData = str_ireplace('<MAIS>','+',$p_CriptedData,$countMAIS);
+	// =======================================================================================
+	
 	if ($p_cs_Cipher=='1') 
-		{
-		$v_result = (trim($p_CriptedData)<>''?@mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$p_CipherKey,base64_decode($p_CriptedData),MCRYPT_MODE_CBC,$p_IV):'');
-		}
+		$v_result = (trim($_p_CriptedData)<>''?@mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$p_CipherKey,base64_decode($_p_CriptedData),MCRYPT_MODE_CBC,$p_IV):'');
 	else
-		$v_result = $p_CriptedData;	
-		
+		$v_result = $_p_CriptedData;	
+
+	// Bloco de Substituições para depois da Decriptação
+	// -------------------------------------------------
+	// Razão: Ídem acima, porém, com dados pertinentes aos valores a serem recebidos
+	// =============================================================================		
+	$v_result = str_ireplace('<AD>'     ,'"'   ,$v_result,$countAD);		
+	$v_result = str_ireplace('<AS>'     ,"'"   ,$v_result,$countAS);				
+	$v_result = str_ireplace('<BarrInv>','\\\\',$v_result,$countINV);			
+	$v_result = str_ireplace('<ESPACE>' ,' '   ,$v_result,$countESPACE);						
+	// =============================================================================
+
+	// Convenções Adotadas para as Substituições
+	// -----------------------------------------
+	// <MAIS>    => Sinal de Mais   => "+" (comumente interpretado como espaço, prejudicando a decriptografia)
+	// <BarrInv> => Barra Invertida => "\" (comumente interpretado como ESCAPE na recepçâo)
+	// <AS>      => Aspa Simples    => "'"
+	// <AD>      => Aspa Dupla      => '"'
+	// <ESPACE>  => Espaço          => ' '
+	// =============================================================================================
+	
 	if ($p_cs_UnCompress == '1')
 		$v_result = gzinflate($v_result);		
-		
+
 	return trim($v_result);
 	}
+
+// ---------------------------------
+// Se a função HASH nativa faltar...
+// ---------------------------------
+if(!function_exists('hash')) 
+	{
+   function hash($algo, $data, $raw_output = 0)
+   		{
+      	if($algo == 'md5') 
+			return(md5($data, $raw_output));
+      	if($algo == 'sha1') 
+			return(sha1($data, $raw_output));
+   		}
+	} 
 
 // ------------------------------
 // Função usada para criptografia
 // To crypt values
 // p_cs_cipher => Y/N 
 // ------------------------------
-function EnCrypt($p_CipherKey, $p_IV, $p_PlainData, $p_cs_Cipher, $p_cs_Compress, $p_compress_level) 
+function EnCrypt($p_CipherKey, $p_IV, $p_PlainData, $p_cs_Cipher, $p_cs_Compress, $p_compress_level=0) 
 	{
+
 	if ($p_cs_Cipher=='1') 
 		$v_result = base64_encode(@mcrypt_cbc(MCRYPT_RIJNDAEL_128,$p_CipherKey,$p_PlainData,MCRYPT_ENCRYPT,$p_IV));		
 	else
@@ -182,20 +298,26 @@ function EnCrypt($p_CipherKey, $p_IV, $p_PlainData, $p_cs_Cipher, $p_cs_Compress
 	if (($p_cs_Compress == '1' || $p_cs_Compress == '2') && $p_compress_level > 0)
 		$v_result = gzdeflate($v_result,$p_compress_level);
 //		$v_result = url_encode(gzcompress($v_result,$p_compress_level));		
-
+	//GravaTESTES('ENCRYPT: '.$p_CipherKey.' / '.$p_IV.' / '.$p_PlainData.' / '.$v_result.' / '.$p_cs_Cipher);		
 	return trim($v_result);		
 	}
 
 // --------------------------------------------------------------------------------------
 // Função de conexão a um servidor de FTP
 // --------------------------------------------------------------------------------------
-function conecta_ftp($p_te_serv, $p_user_name, $p_user_pass, $p_port) 
+function conecta_ftp($p_te_serv, $p_user_name, $p_user_pass, $p_port, $p_passive = false) 
 	{
 
 	//Conecta ao servidor FTP
 	//ATENÇÃO à configuração "MaxClientsPerHost", que deve estar, no mínimo com 2
 	$con = ftp_connect("$p_te_serv",$p_port);
 
+	if ($p_passive)
+		{
+		// Seta FTP Passivo
+		ftp_pasv($con,true);
+		}
+	
 	//Faz o login no servidor FTP
 	$result = ftp_login($con, "$p_user_name", "$p_user_pass");
 
@@ -236,15 +358,6 @@ function Abrevia($Nome)
   	return $v_return;	
 	}
 
-//________________________________________________________________________________________________
-// Limpa a tabela TESTES, utilizada para depuração de código
-//________________________________________________________________________________________________
-function LimpaTESTES()
-	{
-	conecta_bd_cacic();
-	$queryDEL  = 'DELETE from testes';
-	$resultDEL = mysql_query($queryDEL);
-	}
 
 //_____________________
 // Grava Log para DEBUG
@@ -257,15 +370,26 @@ function Log_Debug($p_msg)
 	if ($posIPsDisplayDebugs >= 0)
 		GravaTESTES($p_msg);
 	}
+//________________________________________________________________________________________________
+// Limpa a tabela TESTES, utilizada para depuração de código
+//________________________________________________________________________________________________
+function LimpaTESTES()
+	{
+	conecta_bd_cacic();
+	$queryDEL  = 'DELETE from testes';
+	$resultDEL = mysql_query($queryDEL);
+	}
 
 //___________________________________
 // Grava informações na tabela TESTES
 //___________________________________
 function GravaTESTES($p_Valor)
 	{
+	$v_Valor = str_replace('"','<AD>',$p_Valor);
+	$v_Valor = str_replace("'",'<AS>',$v_Valor);	
 	conecta_bd_cacic();
-	$date = getdate(); 
-	$queryINS  = "INSERT into testes(te_linha) VALUES ( '(".$date['mday'].'/'.$date['mon'].'/'.$date['year'].' - '.$date['hours'].':'.$date['minutes'].':'.$date['seconds'].")Server " .$_SERVER['HTTP_HOST']." Station: ".$_SERVER['REMOTE_ADDR']." - ".$p_Valor . "')";
+	$date = @getdate(); 
+	$queryINS  = "INSERT into testes(te_linha) VALUES ( '(".$date['mday'].'/'.$date['mon'].'/'.$date['year'].' - '.$date['hours'].':'.$date['minutes'].':'.$date['seconds'].")Server " .$_SERVER['HTTP_HOST']." Station: ".$_SERVER['REMOTE_ADDR']." - ".$v_Valor . "')";
 	$resultINS = mysql_query($queryINS);
 	}
 
@@ -316,7 +440,7 @@ function FatorDecremento($Numero)
 function conecta_bd_cacic() 
 {
 
-	$ident_bd = mysql_connect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"],
+	$ident_bd = mysql_connect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"], 
 							  $GLOBALS["usuario_bd"], 
 							  $GLOBALS["senha_usuario_bd"]);
 	if (mysql_select_db($GLOBALS["nome_bd"], $ident_bd) == 0) 
@@ -330,7 +454,7 @@ function conecta_bd_cacic()
 // Função para obtenção de dados da subrede de acesso, em função do IP e Máscara.
 // Function to retrieve access subnet data, based on IP/Mask address.
 // ------------------------------------------------------------------------------
-function GetDadosRede()
+function GetDadosRede($strTeIP = '')
 	{
 	conecta_bd_cacic();	
 
@@ -340,7 +464,7 @@ function GetDadosRede()
 	$result_redes 	= mysql_query($query_redes);
 
 	$v_id_ip_rede 	= '';
-	$v_te_ip 	  	= $_SERVER["REMOTE_ADDR"];
+	$v_te_ip 	  	= ($strTeIP <> ''?$strTeIP:$_SERVER["REMOTE_ADDR"]);
 
 	// Percorro cada ID_IP_REDE + TE_MASCARA_REDE para checar se o IP da estação está na faixa de IPs
 	while ($v_dados_redes = mysql_fetch_array($result_redes))
@@ -369,7 +493,8 @@ function GetDadosRede()
 		}
 	// Obs.: as colunas sg_local e nm_local são requeridas por menu_esq.php		
 	//       the columns sg_local and nm_local have been requested by menu_esq.php			
-	$query_ver = '	SELECT 	te_serv_cacic,
+	$query_ver = '	SELECT 	nm_rede,
+							te_serv_cacic,
 							te_serv_updates,
 							nu_limite_ftp,
 							nu_porta_serv_updates, 
@@ -398,7 +523,8 @@ function GetDadosRede()
 								redes.nm_usuario_login_serv_updates,
 								redes.te_senha_login_serv_updates,
 								redes.te_serv_cacic,
-								redes.id_local
+								redes.id_local,
+								"Alternative"
 						FROM	redes,
 								configuracoes_locais conf
 						WHERE 	conf.te_serv_updates_padrao = redes.te_serv_updates and
@@ -507,7 +633,7 @@ function autentica_agente($p_CipherKey, $p_IV, $p_cs_cipher, $p_cs_compress)
 	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_USER'],$p_cs_cipher, $p_cs_compress)) != 'USER_CACIC') ||
 	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_PW'],$p_cs_cipher, $p_cs_compress)) != 'PW_CACIC'))   
 	   	{
-        echo 'Acesso negado (Access denied)!';
+        echo 'Acesso não autorizado.';
 		exit;
 		} 
 	}
@@ -556,12 +682,34 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 											$te_nome_computador, 
 											$te_workgroup) 
 	{											
-		
+	$v_te_ip = $te_ip;
+	// ...caso o IP esteja inválido, obtenho-o a partir de variável do servidor
+	// Tudo bem! Ainda vou implementar usando expressões regulares!!!  :)
+	if (substr_count($v_te_ip,'zf')>0 || trim($v_te_ip)=='')
+		$v_te_ip = 	$_SERVER['REMOTE_ADDR'];
+	
+	//GravaTESTES('Script Chamador: '.$_SERVER['REQUEST_URI']);		
+	//GravaTESTES('v_te_ip: '.$v_te_ip);			
+	
+
+	//	{
+		//GravaTESTES('te_node_address: '.$te_node_address);			
+		//GravaTESTES('id_so_new: '.$id_so_new);			
+		//GravaTESTES('te_so_new: '.$te_so_new);			
+		//GravaTESTES('te_so_new_new: '.$te_so_new_new);					
+		//GravaTESTES('id_ip_rede: '.$id_ip_rede);			
+		//GravaTESTES('te_ip: '.$te_ip);			
+		//GravaTESTES('v_te_ip: '.$v_te_ip);				
+		//GravaTESTES('te_nome_computador: '.$te_nome_computador);			
+		//GravaTESTES('te_workgroup: '.$te_workgroup);									
+	//	}
+	
 	$id_so = get_valor_campo('so', 'id_so', 'id_so = '.$id_so_new);
 	$te_so = get_valor_campo('so', 'te_so', 'te_so = "'.$te_so_new.'"');
 	
 	if ($te_so == '' && $id_so <> '' && $id_so <> 0 && $te_so_new <> '') // Encontrei somente o Identificador Externo (ID_SO)
 		{
+		
 		$te_so = $te_so_new;
 				
 		conecta_bd_cacic();
@@ -573,10 +721,12 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 	elseif ($te_so <> '' && ($id_so == '' || $id_so == 0)) // Encontrei somente o Identificador Interno (TE_SO)
 		{
 		conecta_bd_cacic();
-		$query = 'UPDATE so 
-       	  		  SET te_so = "'.$te_so_new.'"
-			      WHERE id_so = '.$id_so;
+		$query = 'SELECT id_so 
+				  FROM   so
+			      WHERE  te_so = "'.$te_so.'"';
 		$result = mysql_query($query);
+		$row = mysql_fetch_array($result);
+		$id_so = $row['id_so'];
 		}
 
 	if ($te_so == '' && ($id_so == '' || $id_so == 0)) // Nada Encontrado, provavelmente versão antiga de agente.
@@ -629,34 +779,43 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 				
 			}					
 		}
-				
 
-	if ($id_so > 0)
+	$arrRetorno = array('id_so'=>'','te_so'=>'');
+	if ($id_so > 0 && $te_node_address <> '') // Não é interessante inserir uma máquina sem ID_SO e nem TE_NODE_ADDRESS!!!
 		{		
 		$checa_existe = computador_existe($te_node_address, $id_so);
+		conecta_bd_cacic();		
 	    if ($checa_existe == '0') // O computador não existe: INCLUIR.
 			{ 
-			conecta_bd_cacic();
+
 			$query = 'INSERT INTO computadores (te_node_address, id_so, te_so, id_ip_rede, te_ip, te_nome_computador, te_workgroup, dt_hr_inclusao, dt_hr_ult_acesso)
-					  VALUES ("'.$te_node_address.'", "'.$id_so.'","'.$te_so.'", "'.$id_ip_rede.'","'.$te_ip.'","'.$te_nome_computador.'","'.$te_workgroup.'", NOW(), NOW())';
-			$result = mysql_query($query);
+					  VALUES ("'.$te_node_address.'", "'.$id_so.'","'.$te_so.'", "'.$id_ip_rede.'","'.$v_te_ip.'","'.$te_nome_computador.'","'.$te_workgroup.'", NOW(), NOW())';
 			}
 		elseif ($checa_existe == '2') // O computador existe: ATUALIZAR.
 			{
-			conecta_bd_cacic();
 			$query = 'UPDATE computadores 
         	  		  SET id_ip_rede = "'.$id_ip_rede.'",
-					      te_ip = "'.$te_ip.'",
+					      te_ip = "'.$v_te_ip.'",
 					      te_so = "'.$te_so.'",					  
 						  te_nome_computador="'.$te_nome_computador.'",
 						  te_workgroup="'.$te_workgroup.'"					  
 				      WHERE te_node_address = "'.$te_node_address.'"
 							AND id_so = "'.$id_so.'"';
-			$result = mysql_query($query);
 			} 
-		return $id_so; // OK! O computador foi INCLUIDO/ATUALIZADO.
+//GravaTESTES($query);			
+		$result = mysql_query($query);			
+		$arrRetorno = array('id_so'=>$id_so,'te_so'=>$te_so);
+		// OK! O computador foi INCLUIDO/ATUALIZADO.
+		
+		// Removo qualquer registro de insucesso na instalação existente para o IP + SO (!!!)
+		$query = 'DELETE 
+				  FROM		insucessos_instalacao
+				  WHERE		te_ip = "'.$v_te_ip.'" AND
+				  			te_so = "'.$te_so.'"'; // Talvez eu melhore esta cláusula mais tarde
+		$result = mysql_query($query);												
 		}
-	return '0'; 
+
+	return $arrRetorno; 
 	}
 
 
@@ -671,7 +830,7 @@ function get_valor_campo($tabela, $campo, $where="1")
 			  WHERE 	'.$where.' 
 			  LIMIT 	1';
 	$result = mysql_query($query);
-	if (@mysql_num_rows($result) > 0) 
+	if (mysql_num_rows($result) > 0) 
 		{
 		$campos = mysql_fetch_array($result);
 		return $campos[$campo];
@@ -853,7 +1012,77 @@ function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_ve
 	$result_INS = mysql_query($query_INS);
 	}
 
+// -------------------------------------------------------------
+// Função usada para tratamento de exceções provocadas por erros
+// -------------------------------------------------------------
+function trata_erros($type, $info, $file, $row)
+	{
+	echo '<br><b>Tipo</b>: '.$type.
+	     '<br><b>Informação</b>: '.$info . 
+		 '<br><b>Arquivo</b>: '.$file.
+		 '<br><b>Linha</b>: '.$row.'<br>';
+   	}
 
+// --------------------------------------------------------------------------------------
+// Função usada para buscar arquivo remoto para atualização no servidor
+// --------------------------------------------------------------------------------------
+function atualizacao_especial( 	$p_nm_servidor, 
+					   			$p_nm_usuario,
+					   			$p_te_senha,
+					   			$p_nu_porta,
+								$p_cs_tipo_ftp,
+					   			$p_nm_pasta_origem,
+					   			$p_nm_arquivo_origem,							
+								$p_nm_arquivo_destino,
+								$p_nm_pasta_backup) 
+	{
+	$resultado = 0;	
+
+
+	$v_conexao_ftp = conecta_ftp($p_nm_servidor,
+								 $p_nm_usuario,
+								 $p_te_senha,
+								 $p_nu_porta,
+								 true);
+
+	if ($v_conexao_ftp)
+		{
+		// Para habilitar o modo de tratamento de exceções
+		// set_error_handler("trata_erros");		
+		
+//		ftp_pasv($v_conexao_ftp,true);
+		@ftp_chdir($v_conexao_ftp,$p_nm_pasta_origem);									
+
+		$MainFolder		= GetMainFolder();				
+
+		$strNmArquivoDestino = $p_nm_arquivo_destino;
+		$strNmArquivoOrigem  = $p_nm_arquivo_origem;
+		
+
+		$long_cs_tipo_ftp = ($p_cs_tipo_ftp == 'A'?FTP_ASCII:FTP_BINARY);
+
+		if (file_exists($MainFolder . '/'.$strNmArquivoDestino)) 
+			{
+			$dtData = @date("YmdHis");
+			$arrArquivoDestino = explode('/',$strNmArquivoDestino);
+			$strNmArquivoBackup = $MainFolder . '/'.$p_nm_pasta_backup . '/' .$arrArquivoDestino[count($arrArquivoDestino)-1].'_'.$dtData;
+
+			copy($MainFolder . '/'.$strNmArquivoDestino, $strNmArquivoBackup);
+
+			} 
+			
+		if (@ftp_get($v_conexao_ftp, $MainFolder . '/' .$strNmArquivoDestino,$strNmArquivoOrigem, $long_cs_tipo_ftp))
+			$resultado = 1;
+			
+		// Para desabilitar o modo de tratamento de exceções			
+		// restore_error_handler();				
+		}
+			
+	// fecha a conexão
+	ftp_close($v_conexao_ftp);
+
+	return $resultado;
+	}
 // --------------------------------------------------------------------------------------
 // Função usada para listar o conteúdo do servidor de updates...
 // --------------------------------------------------------------------------------------
@@ -866,7 +1095,8 @@ function lista_updates($p_te_serv_updates,
 	$v_conexao_ftp = conecta_ftp($p_te_serv_updates,
 								 $p_nm_usuario_login_serv_updates_gerente,
 								 $p_te_senha_login_serv_updates_gerente,
-								 $p_nu_porta_serv_updates
+								 $p_nu_porta_serv_updates,
+								 true
 								);
 	$resultado = '';
 	if ($v_conexao_ftp)
@@ -907,7 +1137,7 @@ function lista_updates($p_te_serv_updates,
 		 	for ($i=0;$i<count($buff);$i++)
 				{
 				$itens = explode(' ',$buff[$i]);
-				if ($itens[8] <> 'supergerentes' && $itens[8] <> '.' && $itens[8] <> '..')
+				if ($itens[8] <> 'supergerentes' && $itens[8] <> 'install' && $itens[8] <> '.' && $itens[8] <> '..')
 					{
 					$tamanho = ($itens[4]/1024);		
 					if ($itens[4]<1024) $tamanho = 0;
@@ -1014,7 +1244,7 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 	while ($row = mysql_fetch_array($Result_SEL_REDES))
 		{
 		array_push($v_nomes_arquivos_FTP, trim($row['nm_modulo']));
-		array_push($v_versoes_arquivos_FTP, trim($row['te_versao_modulo']));										
+		array_push($v_versoes_arquivos_FTP, trim($row['nm_modulo']).'#'.trim($row['te_versao_modulo']));										
 		for ($cnt_arquivos_REP = 0; $cnt_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_arquivos_REP++)
 			{
 			if (trim($v_nomes_arquivos_REP[$cnt_arquivos_REP]) == trim($row['nm_modulo']) &&
@@ -1078,7 +1308,8 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 					$v_conexao_ftp = conecta_ftp($row['te_serv_updates'],
 												 $row['nm_usuario_login_serv_updates_gerente'],
 												 $row['te_senha_login_serv_updates_gerente'],
-												 $row['nu_porta_serv_updates']
+												 $row['nu_porta_serv_updates'],
+												 false
 												);
 					}
 
@@ -1090,6 +1321,7 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 					sort($v_nomes_arquivos_FTP,SORT_STRING);											
 					sort($v_versoes_arquivos_FTP,SORT_STRING);																
 					$v_efetua_conexao_ftp = 1;
+	
 					for ($cnt_nomes_arquivos_REP = 0; $cnt_nomes_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_nomes_arquivos_REP++) 
 						{
 						$v_achei = 0;
@@ -1098,7 +1330,6 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 							if ($v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP] == $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP])
 								{
 								$v_achei = 1;
-
 								if ($v_versoes_arquivos_FTP[$cnt_nomes_arquivos_FTP] <> $v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP])
 									{
 									$v_conta_objetos_diferentes ++;
@@ -1240,7 +1471,10 @@ function Marca_Atualizado($p_id_ip_rede,$p_id_local)
 // --------------------------------------------------------------------
 function CheckFtpLogin($server, $user, $pass, $port) 
 	{
-	$sck = fsockopen($server, 21);
+	//  1 - Usuário Logado
+	//  0 - Usuário Não Logado
+	// -1 - Conexão Impossível, provavelmente servidor off-line 
+	$sck = fsockopen($server, $port);
 	if ($sck) 
 		{
 		$data = fgets($sck, 1024);
@@ -1262,7 +1496,7 @@ function CheckFtpLogin($server, $user, $pass, $port)
 		} 
 	else 
 		{
-		return 0;
+		return -1;
 		}
 	}
 

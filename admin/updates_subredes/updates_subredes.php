@@ -25,7 +25,11 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 require_once('../../include/library.php');
 
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 // Função para replicação do conteúdo do REPOSITÓRIO nos servidores de UPDATES das redes cadastradas.
 	if ($_REQUEST['v_parametros']<>'')
 		{
@@ -44,18 +48,18 @@ require_once('../../include/library.php');
 		<form name="frm_update_subredes" id="frm_update_subredes">
 		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
 		<tr nowrap> 
-		<td class="cabecalho">Verifica&ccedil;&atilde;o dos Servidores de Updates das Redes</td>
+		<td class="cabecalho">Verifica&ccedil;&atilde;o dos Servidores de Updates das SubRedes</td>
 		</tr>
 		<tr> 
 		<td class="descricao">M&oacute;dulo para verifica&ccedil;&atilde;o/atualiza&ccedil;&atilde;o das vers&otilde;es 
-		dos objetos localizados nos servidores de updates das redes monitoradas.</td>
+		dos objetos localizados nos servidores de updates das subredes monitoradas.</td>
 		</tr>
 		</table>
 		<br>
 		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#666666">
 		<tr bordercolor="#000000" bgcolor="#CCCCCC">	
 		<td valign="center" class="cabecalho_tabela">
-		<p align="left">IP da Rede</p>
+		<p align="left">Endere&ccedil;o IP</p>
 		</td>
 
 		<td valign="center" class="cabecalho_tabela">
@@ -63,7 +67,7 @@ require_once('../../include/library.php');
 		</td>
 		
 		<td valign="center" class="cabecalho_tabela">
-		<p align="left">Nome da Rede
+		<p align="left">Localiza&ccedil;&atilde;o/Nome da SubRede
 		</p>
 		</td>		
 		<td valign="center" class="cabecalho_tabela">
@@ -71,7 +75,7 @@ require_once('../../include/library.php');
 		</td>
 	
 		<td valign="center" class="cabecalho_tabela">
-		<p align="left">Status</p>
+		<p align="left">Status </p>
 		</td>			
 		</tr>
 	
@@ -96,14 +100,18 @@ require_once('../../include/library.php');
 		$query_REDES= "	SELECT 	re.id_ip_rede,
 								re.nm_rede,
 								re.id_local,
-								re.te_serv_updates
-					 FROM		redes re 
-					 WHERE " . $v_where . 
-					" ORDER BY    re.nm_rede";
+								re.te_serv_updates,
+								lo.sg_local
+					 FROM		redes re,
+					            locais lo 
+					 WHERE      re.id_local = lo.id_local AND (" . $v_where . ") 
+					 ORDER BY    re.nm_rede";
 		conecta_bd_cacic();					
 		$result_REDES = mysql_query($query_REDES);
 		$_SESSION['v_tripa_objetos_enviados']   = ''; // Conterá a lista de agentes e versões enviadas aos servidores.
 		$_SESSION['v_tripa_servidores_updates'] = ''; // Conterá a lista de servidores que já receberam o UPLOAD das versões
+		$tamanhoFormato = strlen(mysql_num_rows($result_REDES));
+		$contaUpdates   = 1;
 		while ($row = mysql_fetch_array($result_REDES))
 			{
 			if ($v_array_parametros[2]<>'') // Se a opção "Forçar" foi marcada...
@@ -121,8 +129,6 @@ require_once('../../include/library.php');
 			if ($v_cor_zebra == '#FFFFFF') $v_cor_zebra = '#EEEEEE'; else $v_cor_zebra = '#FFFFFF';		
 
 			?>		
-
-			<tr> 
 			<td valign="center" bgcolor="<? echo $v_cor_zebra;?>" class="opcao_tabela">
 			<p align="left"><? echo $row['id_ip_rede']; ?></p>
 			</td>
@@ -131,7 +137,7 @@ require_once('../../include/library.php');
 			</td>
 		
 			<td valign="center" bgcolor="<? echo $v_cor_zebra;?>" nowrap class="opcao_tabela">
-			<p align="left"><? echo $row['nm_rede']; ?></p>
+			<p align="left"><? echo $row['sg_local'] . '/' . $row['nm_rede']; ?></p>
 			</td>
 			<td valign="center" bgcolor="<? echo $v_cor_zebra;?>" class="opcao_tabela">
 			<p align="left">&nbsp;&nbsp;&nbsp;</p>
@@ -196,7 +202,7 @@ require_once('../../include/library.php');
 			?>
 			</p>
 			</td>			
-			</tr>			
+			</tr>	
 			<?
 			}
 		session_unregister('v_conta_objetos_enviados');

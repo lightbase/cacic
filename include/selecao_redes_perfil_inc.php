@@ -1,4 +1,4 @@
-<?
+	<?
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -13,47 +13,71 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-  /* Lembre-se de setar as variáveis 
-		$cs_situacao e $id_acao 
-		antes de dar um include nesse arquivo. */
 ?>		
 <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
             <td class="label">  
 <?
-		$where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' AND redes.id_local = '.$_SESSION['id_local']:'');
+		$where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' WHERE redes.id_local = '.$_SESSION['id_local']:'WHERE 1=1 ');
 
-		$queryRedes = "SELECT 	distinct redes.id_ip_rede, 
-								redes.nm_rede,
-								redes.id_local ".
-								$select . "
-					  FROM 		redes ".
-					  			$from . 
-								$where ."
-					  ORDER BY  nm_rede";
-		$resultRedes = mysql_query($queryRedes) or die('Problema no acesso à tabela Redes ou sua sessão expirou!');	
-		$msg = '(OBS: Estão sendo exibidas somente as redes selecionadas pelo administrador.)';
-
-		$redesDisponiveis  = '';
-		$redesSelecionadas = '';		
-		
-		/* Agora monto os itens do combo de redes disponíveis. */ 
-		while($campos=mysql_fetch_array($resultRedes)) 	
+		if ($_SESSION['te_locais_secundarios'] <> '' && $where <> '')
 			{
-			if ($select) // Chamada originada da página de detalhes...
-				{
-				if ($campos['IdLocalAR']=='')
-				   	$redesDisponiveis  .= '<option value="' . $campos['id_local'].'_'.$campos['id_ip_rede']. '">' . $campos['id_ip_rede'] . ' - ' . capa_string($campos['nm_rede'], 35) . '</option>';
-				else
-				   	$redesSelecionadas .= '<option value="' . $campos['id_local'].'_'.$campos['id_ip_rede']. '">' . $campos['id_ip_rede'] . ' - ' . capa_string($campos['nm_rede'], 35) . '</option>';			
-				}
-			else
-			   	$redesDisponiveis  .= '<option value="' . $campos['id_local'].'_'.$campos['id_ip_rede']. '">' . $campos['id_ip_rede'] . ' - ' . capa_string($campos['nm_rede'], 35) . '</option>';			
-			}  
+			// Faço uma inserção de "(" para ajuste da lógica para consulta
+			$where = str_replace(' WHERE redes.id_local = ',' WHERE (redes.id_local = ',$where);
+			$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+			}
 
+		$queryRedesDisponiveis = "SELECT 	distinct redes.id_ip_rede, 
+											redes.nm_rede,
+											redes.id_local 
+								  FROM 		redes ".
+								  			$where ."
+								  ORDER BY  nm_rede";
+		//echo 'queryRedesDisponiveis: '.$queryRedesDisponiveis.'<br>'; 								  								  
+		$resultRedesDisponiveis = mysql_query($queryRedesDisponiveis) or die('Problema no acesso à tabela Redes ou sua sessão expirou!');	
+		
+		if ($boolDetalhes)
+			{
+			$queryRedesSelecionadas = "SELECT 	redes.id_local, 
+												redes.id_ip_rede,
+												redes.nm_rede
+									  FROM 		redes,
+									  			aplicativos_redes AR ".
+												$where ." AND
+									  			redes.id_local = AR.id_local AND
+												redes.id_ip_rede = AR.id_ip_rede AND
+												AR.id_aplicativo = ".$_GET['id_aplicativo']."
+									  ORDER BY  nm_rede";
+			//echo 'queryRedesSelecionadas: '.$queryRedesSelecionadas.'<br>'; 								  
+			$resultRedesSelecionadas = mysql_query($queryRedesSelecionadas) or die('Problema no acesso à tabela Redes ou sua sessão expirou!');	
+
+			$strTripaRedesSelecionadas = '';
+			$redesDisponiveis  = '';
+			$redesSelecionadas = '';		
+				
+			/* Monto uma tripa com as redes selecionadas */
+			while($campos=mysql_fetch_array($resultRedesSelecionadas)) 	
+				{
+				$strTripaRedesSelecionadas .= $campos['id_local'].'_'.$campos['id_ip_rede'].'#';			
+			   	$redesSelecionadas .= '<option value="' . $campos['id_local'].'_'.$campos['id_ip_rede']. '">' . $campos['id_ip_rede'] . ' - ' . capa_string($campos['nm_rede'], 35) . '</option>';						
+				}
 			
-			?>
-              Selecione as redes: </td>
+			$strTripaRedesSelecionadas = '#' . $strTripaRedesSelecionadas;
+		
+			$msg = '(OBS: Estão sendo exibidas somente as redes selecionadas pelo administrador.)';
+			}
+		
+		/* Agora monto os itens dos combos de redes disponíveis e selecionadas. */ 
+		while($campos=mysql_fetch_array($resultRedesDisponiveis)) 	
+			{
+			$strRedeDisponivel = '#'.$campos['id_local'].'_'.$campos['id_ip_rede'].'#';
+			$intPos = stripos2($strTripaRedesSelecionadas,$strRedeDisponivel);
+			if ($intPos === false)
+			   	$redesDisponiveis  .= '<option value="' . $campos['id_local'].'_'.$campos['id_ip_rede']. '">' . $campos['id_ip_rede'] . ' - ' . capa_string($campos['nm_rede'], 35) . '</option>';
+			}  
+			
+		?>
+             Selecione as redes: </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>

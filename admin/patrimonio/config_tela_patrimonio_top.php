@@ -28,23 +28,22 @@
   <tr>
     <td class="descricao">Para configurar 
       a interface da tela de coleta de informa&ccedil;&otilde;es de Patrim&ocirc;nio 
-      que ser&aacute; exibida aos usu&aacute;rios, clique sobre sobre os itens 
-      da tela acima e informe os valores desejados.</td>
+      que ser&aacute; exibida aos usu&aacute;rios, clique  sobre os itens 
+      da tela abaixo e informe os valores desejados.</td>
   </tr>
 </table>
 <br>
-<div align="center"><img src="../../imgs/tela_patrimon.gif" border="0" usemap="#Map"> 
-  <map name="Map">
-    <area shape="rect" coords="13,91,160,130" href="etiqueta1.php" target="botFrame">
-    <area shape="rect" coords="165,91,315,130" href="etiqueta2.php" target="botFrame">
-    <area shape="rect" coords="320,90,469,130" href="etiqueta3.php" target="botFrame">
-    <area shape="rect" coords="11,147,164,184" href="etiqueta_generica.php?id_etiqueta=etiqueta4" target="botFrame">
-    <area shape="rect" coords="167,147,315,183" href="etiqueta_generica.php?id_etiqueta=etiqueta5" target="botFrame">
-    <area shape="rect" coords="320,146,469,184" href="etiqueta_generica.php?id_etiqueta=etiqueta6" target="botFrame">
-    <area shape="rect" coords="11,185,163,222" href="etiqueta_generica.php?id_etiqueta=etiqueta7" target="botFrame">
-    <area shape="rect" coords="166,184,315,220" href="etiqueta_generica.php?id_etiqueta=etiqueta8" target="botFrame">
-    <area shape="rect" coords="320,186,469,221" href="etiqueta_generica.php?id_etiqueta=etiqueta9" target="botFrame">
-  </map>
-</div>
+<div align="center"><img src="tela_patrimon.gif" alt="" width="737" height="292" border="0" usemap="#Map">
+<map name="Map"><area shape="rect" coords="603,184,724,221" href="etiqueta_generica.php?id_etiqueta=etiqueta9" target="botFrame">
+<area shape="rect" coords="461,185,586,221" href="etiqueta_generica.php?id_etiqueta=etiqueta8" target="botFrame">
+<area shape="rect" coords="320,184,445,223" href="etiqueta_generica.php?id_etiqueta=etiqueta7" target="botFrame">
+<area shape="rect" coords="603,146,725,184" href="etiqueta_generica.php?id_etiqueta=etiqueta6" target="botFrame">
+<area shape="rect" coords="461,146,585,184" href="etiqueta_generica.php?id_etiqueta=etiqueta5" target="botFrame">
+<area shape="rect" coords="321,147,444,183" href="etiqueta_generica.php?id_etiqueta=etiqueta4" target="botFrame">
+<area shape="rect" coords="320,110,723,143" href="etiqueta3.php" target="botFrame" alt="Configure o campo de texto livre">
+<area shape="rect" coords="5,186,307,221" href="etiqueta2.php" target="botFrame" alt="Configure a 3&ordf; ComboBox">
+<area shape="rect" coords="5,148,305,184" href="etiqueta1a.php" target="botFrame" alt="Configure a 2&ordf; ComboBox">
+<area shape="rect" coords="6,111,305,143" href="etiqueta1.php" target="botFrame" alt="Configure a 1&ordf; ComboBox">
+</map></div>
 </body>
 </html>

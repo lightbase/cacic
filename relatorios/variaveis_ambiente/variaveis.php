@@ -32,7 +32,7 @@ if($_POST['submit']) {
 }
 
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
@@ -210,7 +210,7 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
   gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo</font></p>	
+  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>	
 
 </td>
 </tr>  

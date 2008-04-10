@@ -23,7 +23,11 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 conecta_bd_cacic();
 
 $query = "UPDATE 	configuracoes_locais 

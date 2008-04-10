@@ -114,19 +114,15 @@ for( $i = 1; $i < count($_SESSION["list4"] ); $i++ )
 // Inicializo variável para registro de destaques de duplicidades
 $in_destacar_duplicidade_total = '';
 
-// Aqui pego todas as configurações de hardware que deseja exibir
+// Aqui pego todas as U.O. que deseja exibir
 for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) 
 	{
-	if (strpos(strtolower($_SESSION["list6"][$i]), "patrimonio.id_unid_organizacional_nivel1")) 
-		{ 
-		$_SESSION["list6"][$i] = str_replace("patrimonio.id_unid_organizacional_nivel1", "unid_organizacional_nivel1.nm_unid_organizacional_nivel1",  $_SESSION["list6"][$i]); 
-		//$from .= " ,unid_organizacional_nivel1";
-		}
-	else if (strpos(strtolower($_SESSION["list6"][$i]), "patrimonio.id_unid_organizacional_nivel2")) 
-		{ 
+	if (strpos(strtolower($_SESSION["list6"][$i]), "patrimonio.id_unid_organizacional_nivel2")) 
 		$_SESSION["list6"][$i] = str_replace("patrimonio.id_unid_organizacional_nivel2", "unid_organizacional_nivel2.nm_unid_organizacional_nivel2",  $_SESSION["list6"][$i]); 
-		//$from .= " ,unid_organizacional_nivel2";
-		}
+	else if (strpos(strtolower($_SESSION["list6"][$i]), "patrimonio.id_unid_organizacional_nivel1a")) 
+		$_SESSION["list6"][$i] = str_replace("patrimonio.id_unid_organizacional_nivel1a", "unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a",  $_SESSION["list6"][$i]); 
+	else if (strpos(strtolower($_SESSION["list6"][$i]), "patrimonio.id_unid_organizacional_nivel1")) 
+		$_SESSION["list6"][$i] = str_replace("patrimonio.id_unid_organizacional_nivel1", "unid_organizacional_nivel1.nm_unid_organizacional_nivel1",  $_SESSION["list6"][$i]); 
 
 	if (strpos($_SESSION["list6"][$i],'#in_destacar_duplicidade.S')>-1)
 		{
@@ -177,22 +173,30 @@ $where = " AND concat(computadores.te_node_address, DATE_FORMAT(patrimonio.dt_hr
 
 		if (trim($value)<>'' && trim($value)<>'123456' && (trim(strpos($key,'frm_condicao1'))<>'' || trim(strpos($key,'IDS_frm'))<>'')) 
 			{
-			if 		(trim(strpos($key,'nivel1'))<>'') // Identificador(es) de UO1
-				$join_UO1 = $value;
-			elseif (trim(strpos($key,'IDS_frm_UO1'))<>'') // Desvio do campo Option do select UO1...
-				{
-				$join_UO1 = str_replace('frm_te_valor_condicao1',$value,$join_UO1);
-				$join_UO1 = str_replace('__','.',$join_UO1);				
-				$join_UO1 = str_replace("\'",'',$join_UO1);												
-				}
-			elseif 	(trim(strpos($key,'nivel2'))<>'') // Identificador(es) de UO2
+			if 	(trim(strpos($key,'nivel2'))<>'') // Identificador(es) de UO2
 				$join_UO2 = $value;				
 			elseif (trim(strpos($key,'IDS_frm_UO2'))<>'') // Desvio do campo Option do select UO2...
 				{
 				$join_UO2 = str_replace('frm_te_valor_condicao1',$value,$join_UO2);
 				$join_UO2 = str_replace('__','.',$join_UO2);				
 				$join_UO2 = str_replace("\'",'',$join_UO2);								
-				}
+				}			
+			elseif 	(trim(strpos($key,'nivel1a'))<>'') // Identificador(es) de UO1a
+				$join_UO1a = $value;
+			elseif (trim(strpos($key,'IDS_frm_UO1a'))<>'') // Desvio do campo Option do select UO1a...
+				{
+				$join_UO1a = str_replace('frm_te_valor_condicao1',$value,$join_UO1a);
+				$join_UO1a = str_replace('__','.',$join_UO1a);				
+				$join_UO1a = str_replace("\'",'',$join_UO1a);												
+				}				
+			elseif 		(trim(strpos($key,'nivel1'))<>'') // Identificador(es) de UO1
+				$join_UO1 = $value;
+			elseif (trim(strpos($key,'IDS_frm_UO1'))<>'') // Desvio do campo Option do select UO1...
+				{
+				$join_UO1 = str_replace('frm_te_valor_condicao1',$value,$join_UO1);
+				$join_UO1 = str_replace('__','.',$join_UO1);				
+				$join_UO1 = str_replace("\'",'',$join_UO1);												
+				}				
 			}
 		}
 
@@ -209,8 +213,7 @@ $where = " AND concat(computadores.te_node_address, DATE_FORMAT(patrimonio.dt_hr
 			elseif (trim(strpos($key,'frm_te_valor_condicao2_'))<>'')
 				{
 				$criterios = str_replace('frm_te_valor_condicao2',$value,$criterios);
-				}
-			
+				}			
 			$value_anterior = $value;
 			}
 		} 
@@ -223,26 +226,33 @@ $where = " AND concat(computadores.te_node_address, DATE_FORMAT(patrimonio.dt_hr
 		$criterios = str_replace("\'","'",$criterios);		
 		}
 	
-if ($join_UO1 || $join_UO2)
+if ($join_UO1 || $join_UO1a || $join_UO2)
 	{	
 	$where_uon = " AND computadores.te_node_address = patrimonio.te_node_address ";
 	if ($join_UO1)
 		{
-		$where_uon1 = $where_uon . " AND patrimonio.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 AND ".$join_UO1." " ;	
-		$where_uon = '';
-		$from .= " ,unid_organizacional_nivel1";		
+		$where_uon1 = $where_uon . " AND patrimonio.id_unid_organizacional_nivel1a = unid_organizacional_nivel1a.id_unid_organizacional_nivel1a AND ".$join_UO1." " ;	
+//		$where_uon = '';
+//		$from .= " ,unid_organizacional_nivel1";		
+		}
+
+	if ($join_UO1a)
+		{
+		$where_uon1a = $where_uon . " AND unid_organizacional_nivel1a.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 AND ".$join_UO1a." " ;	
+//		$where_uon = '';
+//		$from .= " ,unid_organizacional_nivel1a";		
 		}
 
 	if ($join_UO2)
 		{
 		$where_uon2 = $where_uon . " AND patrimonio.id_unid_organizacional_nivel2 = unid_organizacional_nivel2.id_unid_organizacional_nivel2 AND ".$join_UO2." " ;	
-		$from .= " ,unid_organizacional_nivel2";		
+//		$from .= " ,unid_organizacional_nivel2";		
 		}
 	}
 // O valor para join_opcional é relativo à seleção de critérios para a pesquisa.
 // O LEFT JOIN só deverá ser utilizado para os casos em que não forem apontados critérios...
 $join_opcional = '';
-if (!$join_UO1 && !$join_UO2)
+if (!$join_UO1 && !$join_UO1a && !$join_UO2)
 	{
 	$join_opcional = ',computadores left join patrimonio on (computadores.te_node_address = patrimonio.te_node_address AND computadores.id_so = patrimonio.id_so) ';
 	}
@@ -258,6 +268,7 @@ $query = " SELECT 	computadores.te_node_address,
           			$campos_patrimonio . 
 					$select . " 
 		   FROM 	unid_organizacional_nivel1,
+					unid_organizacional_nivel1a,		   
 		   			unid_organizacional_nivel2,
 					so ".
 		   			$join_opcional . 
@@ -267,7 +278,8 @@ $query = " SELECT 	computadores.te_node_address,
 					patrimonio.te_node_address = computadores.te_node_address AND
 					patrimonio.id_so = computadores.id_so AND 
 					patrimonio.id_unid_organizacional_nivel2 = unid_organizacional_nivel2.id_unid_organizacional_nivel2 AND
-					unid_organizacional_nivel2.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 " . 								 
+					unid_organizacional_nivel2.id_unid_organizacional_nivel1a = unid_organizacional_nivel1a.id_unid_organizacional_nivel1a AND
+					unid_organizacional_nivel1a.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 " . 								 
    					$where . 
 					" AND computadores.id_so IN (". $so_selecionados .") ". $criterios . $query_redes .	$where_uon1 . $where_uon2 . " 
 		   ORDER BY " . $orderby; 
@@ -411,6 +423,6 @@ if (count($_SESSION["list8"])>0)
   gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo</font></p>
+  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 </body>
 </html>

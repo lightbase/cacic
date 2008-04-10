@@ -34,7 +34,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js'"></script>
 <?
 require_once "../../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 conecta_bd_cacic();	
 $query = "SELECT 	* 
 		  FROM 		computadores, 

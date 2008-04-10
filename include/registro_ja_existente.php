@@ -25,10 +25,13 @@
 <p>&nbsp;</p>
 <table width="450" border="0" align="center" cellpadding="15" cellspacing="1" bgcolor="#666666">
   <tr> 
-    <td height="73" valign="top" bgcolor="#EEEEEE"><p align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><font color="#FF0000">Esse 
-        Registro </font><font color="#FF0000">j&aacute; Existe no Banco.</font><br>
+    <td height="73" valign="top" bgcolor="#FFFF99"><p align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><font color="#000000"><br>
+      Esse 
+        Registro j&aacute; Existe no Banco!</font><br>
+        <br>
+        <br>
         </strong></font></p>
-      </td>
+    </td>
   </tr>
 </table>
 <p>&nbsp;</p>

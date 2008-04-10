@@ -24,7 +24,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 //Mostrar computadores baseados no tipo de pesquisa solicitada pelo usuário
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -97,7 +97,6 @@ $linha = '<tr bgcolor="#e7e7e7">
 							b.id_software_inventariado = c.id_software_inventariado ".
 							$_SESSION['query_redes']." 
 			   ORDER BY 	computadores.te_nome_computador ";
-
 	$result = mysql_query($query) or die('Erro no acesso às tabelas "computadores", "softwares_inventariados" e "softwares_inventariados_estacoes" ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
@@ -178,7 +177,7 @@ $linha = '<tr bgcolor="#e7e7e7">
   gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo</font></p>	
+  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>	
 
 </body>
 </html>

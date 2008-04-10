@@ -27,8 +27,35 @@ if ($_POST['submit']) {
 }
 
 include_once "../../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+
 Conecta_bd_cacic();
+
+
+// Mostrarei a quantidade de redes associadas ao perfil - Anderson Peterle - Março/2008
+$wherePerfilRede = '';
+if ($_SESSION['cs_nivel_administracao'] <> 1 && $_SESSION['cs_nivel_administracao'] <> 2)
+	{
+	$wherePerfilRede = 'WHERE aplicativos_redes.id_local = '.$_SESSION['id_local'];
+
+	if ($_SESSION['te_locais_secundarios']<>'')
+		{
+		// Faço uma inserção de "(" para ajuste da lógica para consulta
+		$wherePerfilRede .= ' OR aplicativos_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].')';	
+		}
+	}
+
+$queryPerfilRede  = 'SELECT 	id_aplicativo,
+								count(id_aplicativo) TotalRedesNoPerfil 
+		  			 FROM 		aplicativos_redes '.
+					 $wherePerfilRede .' 
+					 GROUP BY   id_aplicativo';
+$resultPerfilRede = mysql_query($queryPerfilRede);
+$arrPerfilRede = array();
+while ($rowPerfilRede = mysql_fetch_array($resultPerfilRede))
+	$arrPerfilRede[$rowPerfilRede['id_aplicativo']] = $rowPerfilRede['TotalRedesNoPerfil'];
 
 $query = 'SELECT 	* 
 		  FROM 		perfis_aplicativos_monitorados 
@@ -87,10 +114,12 @@ $result = mysql_query($query);
           <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Sistema 
               Monitorado</div></td>
           <td nowrap >&nbsp;</td>
+            <td nowrap  class="cabecalho_tabela">Totais de Redes Alvo</td>
+            <td nowrap  class="cabecalho_tabela">&nbsp;</td>
             <td nowrap  class="cabecalho_tabela">Verifica&ccedil;&atilde;o Ativa</td>
         </tr>
 	  <tr> 
-    	<td height="1" bgcolor="#333333" colspan="6"></td>
+    	<td height="1" bgcolor="#333333" colspan="8"></td>
 	  </tr>
 		
         <?  
@@ -108,12 +137,14 @@ else
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) 
-		{		  
-	 	echo '<tr '. ($Cor==1?'bgcolor="#E1E1E1"':'').'>';
-        echo '<td nowrap>&nbsp;</td>';
-        echo '<td nowrap class="opcao_tabela"><div align="left">'.$NumRegistro.'</div></td>';
-        echo '<td nowrap>&nbsp;</td>';
-        echo '<td nowrap class="opcao_tabela"><div align="left"><a href="../perfis_aplicativos_monitorados/detalhes_perfil.php?id_aplicativo='.$row['id_aplicativo'].'">';
+		{
+		?>		  
+	 	<tr <? echo ($Cor==1?'bgcolor="#E1E1E1"':'');?>>
+        <td nowrap>&nbsp;</td>
+        <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro;?></div></td>
+        <td nowrap>&nbsp;</td>
+        <td nowrap class="opcao_tabela"><div align="left"><a href="../perfis_aplicativos_monitorados/detalhes_perfil.php?id_aplicativo=<? echo $row['id_aplicativo'];?>">
+		<?
 		if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
 			{
 			echo substr($row['nm_aplicativo'], 0, strpos($row['nm_aplicativo'], "#DESATIVADO#"));
@@ -122,19 +153,20 @@ else
 			{
 			echo $row['nm_aplicativo']; 
 			}
-					
-		echo '</a></div></td>';
-        echo '<td nowrap>&nbsp;</td>';
-        echo '<td nowrap ';
+		?>					
+		</a></div></td>
+        <td nowrap>&nbsp;</td>
+        <td nowrap align="right"><? echo number_format($arrPerfilRede[$row['id_aplicativo']], 0, '', '.');?></td>
+        <td nowrap>&nbsp;</td>		
+        <td nowrap 
+		<?
 		if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
-			{
 			echo 'class="destaque_laranja"><div align="center">NÃO'; 
-			}		  
 		else
-		  	{
 			echo 'class="opcao_tabela"><div align="center">SIM'; 
-			}
-		echo '</td>';
+		?>
+		</td>
+		<?
 		$Cor=!$Cor;
 		$NumRegistro++;
 	}

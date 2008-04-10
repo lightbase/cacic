@@ -29,17 +29,21 @@ if ($_POST['submit'])
 
 include_once "../../include/library.php";
 
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 Conecta_bd_cacic();
 $where = ($_SESSION['cs_nivel_administracao']==1||$_SESSION['cs_nivel_administracao']==2?
 			' LEFT JOIN locais ON (locais.id_local = redes.id_local)':
 			', locais WHERE redes.id_local = locais.id_local AND redes.id_local='.$_SESSION['id_local']);
 			
-if (!empty($_SESSION['te_locais_secundarios']) and !empty($where))
+if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	{
 	// Faço uma inserção de "(" para ajuste da lógica para consulta
 	$where = str_replace('redes.id_local=','(redes.id_local=',$where);
-	$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].') ';
+	$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
 	}
 
 $ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'sg_local,nm_rede');
@@ -100,7 +104,7 @@ $msg = '<div align="center">
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=id_ip_rede">Endere&ccedil;o</a></div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=id_ip_rede">Endere&ccedil;o/M&aacute;scara</a></div></td>
             <td nowrap >&nbsp;</td>
             <td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede">Subrede</a></div></td>
             <td nowrap >&nbsp;</td>
@@ -130,7 +134,7 @@ else
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['id_ip_rede']; ?></a></div></td>
+            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['id_ip_rede'].'/'.$row['te_mascara_rede']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_rede']; ?></a></div></td>
             <td nowrap>&nbsp;</td>

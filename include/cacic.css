@@ -24,6 +24,8 @@ TD
 
 input.digitacao {background-color: #CCCCCC; font-weight: bold; font-size: 9px; color: black; border: solid #000099;}
 input.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; z-index:2}
+input.normal_numero {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; z-index:2; text-align:right}
+input.anormal {background-color: #FFFFCC; font-weight: normal; font-size: 9px; color: black; z-index:2}
 input.texto_ajuda {background-color: #FFFFFF; font-weight: normal;  font-style: verdana; font-size: 9px; color: black; border: 0px}
 input.texto_pesquisa {background-color: #EBEBEB; font-weight: normal;  font-style: verdana; font-size: 9px; color: blue; border: 0px; size: 30;}
 input.destaque{background-color: #ffFF66; font-weight: bold; font-size: 10px; color: black;}
@@ -40,6 +42,11 @@ checkbox.digitacao {background-color: #CCCCCC; font-weight: normal; font-size: 9
 tr.normal {text-align: center; z-index:2}
 td.layerUpdates{background-color: #FFFFFF; text-align: center; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans; border:1px solid #FFFFFF;}
 td.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans; z-index:2}
+
+td.td_amarelo{background-color: #FFFF99; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans; z-index:2}
+td.td_laranja{background-color: #FFCC00; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans; z-index:2}
+td.td_vermelho{background-color: #FF0000; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans; z-index:2}
+
 td.cabecalho {background-color: #FFFFFF; font-weight: bold; font-size: 17px; color: red; font-family: Verdana, Arial, sans;}
 td.cabecalho_rel {background-color: #FFFFFF; font-weight: bold; font-size: 17px; color: black; font-family: Verdana, Arial, sans;}
 td.cabecalho_tabela {font-weight: bold; font-size: 9px; color: black; font-family: Verdana, Arial, sans;}
@@ -51,7 +58,7 @@ td.atualizado {font-weight: normal; font-size: 12px; color: blue; font-family: V
 td.enviado {font-weight: normal; font-size: 12px; color: blue; font-family: Verdana, Arial, sans;}
 td.opcao_tabela_blue {font-weight: normal; font-size: 12px; color: blue; font-family: Verdana, Arial, sans;}
 td.opcao_tabela_red {font-weight: bold; font-size: 12px; color: red; font-family: Verdana, Arial, sans;}
-td.descricao {background-color: #FFFFFF; font-weight: normal; font-size: 10px; color: black; font-family: Verdana, Arial, sans;}
+td.descricao {font-weight: normal; font-size: 10px; color: black; font-family: Verdana, Arial, sans;}
 td.descricao_rel {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans;}
 td.label {background-color: #FFFFFF; font-weight: bold; font-size: 11px; color: black; font-family: Verdana, Arial, sans;}
 td.label_vermelho {background-color: #FFFFFF; font-weight: bold; font-size: 12px; color: red; font-family: Verdana, Arial, sans;}
@@ -59,7 +66,7 @@ td.label_peq_sem_fundo {font-weight: normal; font-size: 9px; color: black; font-
 td.dado_peq_sem_fundo {font-weight: bold; font-size: 8px; color: black; font-family: Verdana, Arial, sans; height:25;}
 td.dado_peq_sem_fundo_normal {font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans;}
 td.dado_med_sem_fundo {font-weight: bold; font-size: 10px; color: black; font-family: Verdana, Arial, sans; height:25;}
-td.dado {background-color: #FFFFFF; font-weight: bold; font-size: 11px; color: black; font-family: Verdana, Arial, sans;}
+td.dado {font-weight: bold; font-size: 11px; color: black; font-family: Verdana, Arial, sans;}
 td.opcao {background-color: #FFFFFF; font-weight: normal; font-size: 11px; color: black; font-family: Verdana, Arial, sans;}
 td.destaque {font-weight: bold; font-size: 10px; color: black; font-family: Verdana, Arial, sans;}
 td.destaque_laranja {font-weight: bold; font-size: 10px; color: orange; font-family: Verdana, Arial, sans;}

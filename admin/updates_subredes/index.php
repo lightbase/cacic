@@ -24,8 +24,12 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 require_once('../../include/library.php');
 
-// Comentado temporariamente - AntiSpy();
-if ($_REQUEST['ExecutaUpdates']=='Executar Updates')
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
+if ($_POST['ExecutaUpdates']=='Executar Updates')
 	{				
 	// Enviarei também ao updates_subredes.php uma relação de agentes e versões para inserção na tabela redes_versoes_modulos, no caso da ocorrência de Servidor de Updates verificado anteriormente.
 	// Exemplo de estrutura de agentes_versoes: col_soft.exe#22010103*col_undi.exe#22010103
@@ -103,16 +107,48 @@ MM_reloadPage(true);
 function verificar()
 	{
 	var formRedes = window.document.forma;
-	for (j=0;j<formRedes.elements.length;j++)
-		if (formRedes.elements[j].type == 'checkbox' && formRedes.elements[j].id == 'redes' && formRedes[j].checked == true)
-			return true;
+	var boolModulos = false;
+	var boolRedes   = false;
+	var strFraseErro = '';
+	var intInicioModulos = 0;
+	var intInicioRedes   = 0;
 
-	alert('ATENÇÃO: É necessário selecionar ao menos uma subrede!');
+	for (j=0;j<formRedes.elements.length;j++)
+		if (formRedes.elements[j].type == 'checkbox' && (formRedes.elements[j].name).substring(0,16) == 'update_subredes_')
+			{
+			intInicioModulos = (intInicioModulos == 0?j:intInicioModulos);
+			if (formRedes[j].checked && formRedes.elements[j].value != 'versoes_agentes.ini')
+				boolModulos = true;
+			}
+
+	for (j=0;j<formRedes.elements.length;j++)
+		if (formRedes.elements[j].type == 'checkbox' && formRedes.elements[j].id == 'redes')
+			{
+			intInicioRedes = (intInicioRedes == 0?j:intInicioRedes);			
+			if (formRedes[j].checked)
+				boolRedes = true;
+			}
+
+	if (boolModulos && boolRedes)
+		return true;
+	else
+		{
+		if (!boolModulos)
+			{
+			strFraseErro = 'Módulos';
+			}
+
+		if (!boolRedes)
+			{
+			strFraseErro = (!boolModulos?' e ':'') + 'SubRedes';
+			}
+		alert('ATENÇÃO: Verifique as seleções de '+strFraseErro);	
+//		formRedes.elements[min(intInicioModulos,intInicioRedes)].focus();		
+		}
 	return false;
 	}
 </script>
-
-</head>
+	</head>
 	
 	<body background="../../imgs/linha_v.gif">
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>					
@@ -129,7 +165,7 @@ function verificar()
 	  </tr>
 	</table>
 	
-	<form method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return verificar();">
+	<form method="post" ENCTYPE="multipart/form-data" name="forma">
 	<script>
 	function MarcaIncondicional(field,p_name) 
 	{
@@ -139,6 +175,23 @@ function verificar()
 
 	return true;
 	}
+	function MarcaDesmarcaTodoEsseLocal(strIdLocal) 
+		{
+		var Formulario = window.document.forms[0];
+		var arrRede;
+		for (i = 0; i < Formulario.length; i++) 
+			if (Formulario[i].type == 'checkbox' && (Formulario[i].name).substring(0,6) == 'redes_')
+				{
+				arrRede = (Formulario[i].name).split('_');
+				if (strIdLocal == arrRede[2])
+					if (Formulario[i].checked)
+						Formulario[i].checked = false;			
+					else
+						Formulario[i].checked = true;								
+				}
+
+		return true;
+		}
 
 	</script>
 
@@ -161,7 +214,7 @@ function verificar()
       <tr> 
         <td class="destaque" align="center" colspan="3" valign="middle"><input name="update_subredes" id="update_subredes" type="checkbox" onClick="MarcaDesmarcaTodos(this.form.update_subredes),MarcaIncondicional(this.form.update_subredes,'update_subredes_versoes_agentes.ini'),MarcaIncondicional(this.form.update_subredes,'force_update_subredes_versoes_agentes.ini');">  
           &nbsp;&nbsp;Marca/Desmarca todos os objetos
-		  </td>
+	    </td>
       </tr>
       <tr> 
         <td nowrap colspan="2">&nbsp;</td>
@@ -178,13 +231,17 @@ function verificar()
             <? 
 	  if ($handle = opendir('../../repositorio')) 
 		{
-		$v_nomes_arquivos = array();		
+		$v_nomes_arquivos = array();	
+
 		while (false !== ($v_arquivo = readdir($handle))) 
 			{
+			$v_arquivo = strtolower($v_arquivo);
 			if (substr($v_arquivo,0,1) != "." and 
 			    $v_arquivo != "netlogon" and 
 				$v_arquivo != "supergerentes" and 
+				$v_arquivo != "install" and 				
 				$v_arquivo != "chkcacic.exe" and
+				$v_arquivo != "chkcacic.ini" and				
 				$v_arquivo != "vaca.exe") // Versoes Agentes Creator/Atualizator //and 				
 				//$v_arquivo != "versoes_agentes.ini") 		
 				{
@@ -241,32 +298,58 @@ function verificar()
 		$v_classe = "label";
 		?>
 		<tr> 
-		  <td nowrap align="center" colspan="3" class="<? echo $v_classe; ?>"><br>
+		  <td nowrap align="center" colspan="4" class="<? echo $v_classe; ?>"><br>
         SubRedes Cadastradas:</td>
 		</tr>
 		<tr> 
-		  <td colspan="3" height="1" bgcolor="#333333"></td>
+		  <td colspan="4" height="1" bgcolor="#333333"></td>
 		</tr>
 			  <tr> 
-				<td class="destaque" align="center" colspan="3" valign="middle"><input name="redes" type="checkbox" id="redes" onClick="MarcaDesmarcaTodos(this.form.redes);">
+				<td class="destaque" align="center" colspan="4" valign="middle"><input name="redes" type="checkbox" id="redes" onClick="MarcaDesmarcaTodos(this.form.redes);">
         &nbsp;&nbsp;Marca/Desmarca todas as SubRedes</td>
 			  </tr>
-			  <tr><td height="10">&nbsp;</td></tr>
-		
-		<tr> 
-		  <td nowrap colspan="3"><table border="1" align="center" cellpadding="2" bordercolor="#999999">
-			  <tr bgcolor="#FFFFCC"> 
-	            <td bgcolor="#EBEBEB" class="cabecalho_tabela">Seq.</td>			
-				<td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>				
-				<td bgcolor="#EBEBEB" class="cabecalho_tabela">IP</td>
-				
-            <td bgcolor="#EBEBEB" class="cabecalho_tabela">Nome da Subrede</td>			
-				<td bgcolor="#EBEBEB" class="cabecalho_tabela">Serv. de Updates</td>							
-				<td bgcolor="#EBEBEB" class="cabecalho_tabela">Path</td>											
-				<td bgcolor="#EBEBEB" class="cabecalho_tabela">Localização</td>											
-			  </tr>
+			  <tr>
+			    <td height="10" colspan="2">&nbsp;</td>
+    </tr>
+			  <tr>
+			    <td height="10" colspan="2"></td>
+    </tr>
+			  <tr>
+			    <td height="10" colspan="2"><table width="200" border="1" align="center">
+                  <tr>
+                    <td height="10" colspan="2" nowrap><div align="center"><strong>Legenda para as SubRedes</strong></div></td>
+                  </tr>
+                  <tr>
+                    <td height="10" nowrap bordercolor="#000000" class="td_amarelo"><div align="center">Amarelo</div></td>
+                    <td align="left" valign="middle" nowrap class="dado_peq_sem_fundo">Exist&ecirc;ncia de <b>M&Oacute;DULO COM VERS&Atilde;O DIFERENTE</b></td>
+                  </tr>
+                  <tr>
+                    <td height="10" nowrap bordercolor="#000000" class="td_laranja"><div align="center">Laranja</div></td>
+                    <td align="left" valign="middle" nowrap class="dado_peq_sem_fundo"><span class="opcao_tabela"><b>INEXIST&Ecirc;NCIA PARCIAL</b>  de M&oacute;dulos</span></td>
+                  </tr>
+                  <tr>
+                    <td height="10" nowrap bordercolor="#000000" class="td_vermelho"><div align="center">Vermelho</div></td>
+                    <td align="left" valign="middle" nowrap class="dado_peq_sem_fundo"><span class="opcao_tabela"><b>INEXIST&Ecirc;NCIA TOTAL</b>  de M&oacute;dulos</span></td>
+                  </tr>
+                </table></td>
+    </tr>
 			  
-			  <? 
+
+		<tr> 
+		  <td nowrap colspan="4"><br>
+		  <table border="1" align="center" cellpadding="2" bordercolor="#999999">
+		    <tr bgcolor="#FFFFCC"> 
+		      <td bgcolor="#EBEBEB" class="cabecalho_tabela">Seq.</td>			
+				  <td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>				
+				  <td bgcolor="#EBEBEB" class="cabecalho_tabela">IP</td>
+				  
+            <td bgcolor="#EBEBEB" class="cabecalho_tabela">Nome da Subrede</td>			
+				  <td bgcolor="#EBEBEB" class="cabecalho_tabela">Serv. de Updates</td>							
+				  <td bgcolor="#EBEBEB" class="cabecalho_tabela">Path</td>											
+				  <td colspan="2" bgcolor="#EBEBEB" class="cabecalho_tabela">Localização</td>											
+	        </tr>
+		    
+		    <? 
 	   	 	  $where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND loc.id_local = '.$_SESSION['id_local']:'');
 				if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 					{
@@ -274,6 +357,8 @@ function verificar()
 					$where = str_replace(' loc.id_local = ',' (loc.id_local = ',$where);
 					$where .= ' OR loc.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
 					}
+
+ 			  Conecta_bd_cacic();			  
 			  
 			  $query = "	SELECT 		re.id_ip_rede,
 										re.nm_rede,
@@ -288,31 +373,144 @@ function verificar()
 							GROUP BY    re.id_ip_rede
 							ORDER BY	loc.sg_local,
 										re.nm_rede"; 
-				Conecta_bd_cacic();
-				$result_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes ou sua sessão expirou!'); 										
+// ********************
+			  	$queryALERTA = "	SELECT 		re.id_ip_rede,
+												rvm.nm_modulo,
+												rvm.te_versao_modulo
+									FROM 		redes re,
+												redes_versoes_modulos rvm,
+												locais loc
+									WHERE		re.id_local = rvm.id_local and
+							            		re.id_ip_rede = rvm.id_ip_rede ".
+												$where ." and loc.id_local = re.id_local
+									ORDER BY	re.id_ip_rede,
+							            		rvm.nm_modulo"; 
+			$resultALERTA = mysql_query($queryALERTA) or die('Ocorreu um erro durante a consulta à tabela de redes ou sua sessão expirou!'); 																
+			$strTripaAmarelo = '#'; // Conterá os IPS das redes cujas versões de módulos divergirem das existentes no repositório
+			$strTripaLaranja = '#'; // Conterá os IPS das redes cuja quantidade de módulos seja diferente do total de módulos disponíveis
+			$strTripaRedes   = '#'; // Conterá os IPS de todas as redes, para verificação de ausência total de módulos			
+			$intFrequenciaRede = 0; // Acumulará a frequência de cada rede e deverá ser igual ao tamanho de versoes_agentes!
+			$strRedeAtual = '';
+
+			while ($rowALERTA = mysql_fetch_array($resultALERTA))
+				{
+				if ($rowALERTA['nm_modulo'] <> 'chkcacic.exe' &&
+				    $rowALERTA['nm_modulo'] <> 'chkcacic.ini' &&
+					$rowALERTA['nm_modulo'] <> 'versoes_agentes.ini' &&
+					$rowALERTA['nm_modulo'] <> 'vaca.exe' &&					
+					$rowALERTA['nm_modulo'] <> 'install' &&										
+					$rowALERTA['nm_modulo'] <> '' &&															
+					isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes[$rowALERTA['nm_modulo']])
+					{
+				
+					if ($strRedeAtual <> '' && $strRedeAtual <> $rowALERTA['id_ip_rede'])
+						{
+						if ($intFrequenciaRede <> count($v_array_versoes_agentes))
+							$strTripaLaranja .= $strRedeAtual . '#';
+
+						$intFrequenciaRede = 1;
+						}
+					else
+						$intFrequenciaRede ++;
+	
+					$strRedeAtual = $rowALERTA['id_ip_rede'];					
+					
+					$versao_agente = str_replace('.','',$versao_agente) . '0103';
+					if ($versao_agente <> $rowALERTA['te_versao_modulo'])
+						{
+						$strPesquisaRede = '#'.$strRedeAtual.'#';
+						$intPos = stripos2($strTripaAmarelo,$strPesquisaRede);
+						if ($intPos === false)
+							$strTripaAmarelo .= $strRedeAtual.'#';
+						}
+					}
+				$strPesquisaRede = '#'.$strRedeAtual.'#';
+				$intPos = stripos2($strTripaRedes,$strPesquisaRede);
+				if ($intPos === false)
+					$strTripaRedes .= $strRedeAtual.'#';
+					
+				}
+
+// ********************										
+		$result_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes ou sua sessão expirou!'); 										
 		$intSequencial = 1;
 		while ($row = mysql_fetch_array($result_redes))
 			{
+			$strCheck = '';
+			$strPesquisaRede = '#'.$row['id_ip_rede'].'#';			
+			
+			$intPosVermelho  = stripos2($strTripaRedes,$strPesquisaRede);
+
+			if (!$intPosVermelho === false)
+				$strClasseTD = 'normal';			
+			else
+				{
+				$strClasseTD = 'td_vermelho';
+				$strCheck    = 'checked';
+				}
+
+			if ($strCheck == '')
+				{
+				$intPosLaranja = stripos2($strTripaLaranja,$strPesquisaRede);
+				if ($intPosLaranja === false)
+					$strClasseTD = 'normal';			
+				else
+					{
+					$strClasseTD = 'td_laranja';
+					$strCheck    = 'checked';
+					}
+				}
+			
+			if ($strCheck == '')
+				{
+				$intPosAmarelo = stripos2($strTripaAmarelo,$strPesquisaRede);
+				if ($intPosAmarelo === false)
+					$strClasseTD = 'normal';			
+				else
+					{
+					$strClasseTD = 'td_amarelo';
+					$strCheck    = 'checked';
+					}
+				}
+
+
+			
 			?>
-			<tr>
-			<td class="normal" align="right"><? echo $intSequencial;?></td>									
-			<td><input name="redes_<? echo $row['id_ip_rede'];?>" id="redes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="<? echo $row['id_ip_rede'];?>"></td>
-			<td class="normal"><? echo $row['id_ip_rede'];?></td>
-			<td class="normal"><? echo $row['nm_rede'];?></td>
-			<td class="normal"><? echo $row['te_serv_updates'];?></td>
-			<td class="normal"><? echo $row['te_path_serv_updates'];?></td>
-			<td class="normal"><? echo $row['sg_local'];?></td>
-			</tr>
-			<?
+		    <tr>
+		      <td class="<? echo $strClasseTD;?>" align="right"><? echo $intSequencial;?></td>									
+			  <td class="<? echo $strClasseTD;?>"><input name="redes_<? echo $row['id_ip_rede'].'_'.$row['id_local'];?>" id="redes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="<? echo $row['id_ip_rede'];?>" <? echo $strCheck;?>></td>
+			  <td class="<? echo $strClasseTD;?>"><? echo $row['id_ip_rede'];?></td>
+			  <td class="<? echo $strClasseTD;?>"><? echo $row['nm_rede'];?></td>
+			  <td class="<? echo $strClasseTD;?>"><? echo $row['te_serv_updates'];?></td>
+			  <td class="<? echo $strClasseTD;?>"><? echo $row['te_path_serv_updates'];?></td>
+			  <td class="<? echo $strClasseTD;?>" nowrap="nowrap" 
+			<? 
+			if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
+				{
+				?>
+				colspan="2"
+				<?
+				}
+				?>
+			><? echo $row['sg_local'];?></td>
+			  <? 
+			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+				{			
+				?>
+		      <td class="<? echo $strClasseTD;?>" nowrap="nowrap"><img src="../../imgs/checked.gif" border="no"  onClick="MarcaDesmarcaTodoEsseLocal('<? echo $row['id_local']; ?>');"></td>
+				  <?
+				}
+				?>
+	        </tr>
+		    <?
 			$intSequencial ++;							
 			}
 	?> 
-	</table></td>
-	</tr>
+	      </table></td></tr>
 	</table>        
 	<p align="center">
 	<br>
-	<input name="ExecutaUpdates" type="submit" id="ExecutaUpdates" value="Executar Updates"  onClick="return Confirma('Confirma Verificação/Atualização de SubRedes?'); MostraEscondeLayer('layerUpdatesSubredes');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+	<input name="ExecutaUpdates" type="submit" id="ExecutaUpdates" value="Executar Updates"  onClick="return (verificar() && Confirma('Confirma Verificação/Atualização de SubRedes?'));" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 	
 	</p>
 	</form>		  			

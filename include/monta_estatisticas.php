@@ -15,7 +15,7 @@
  */
 include_once $_SERVER['DOCUMENT_ROOT'] . 'include/piechart.php'; 
 include_once $_SERVER['DOCUMENT_ROOT'] . 'include/library.php'; 
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 $v_nao_identificado = 0;
 
 conecta_bd_cacic();

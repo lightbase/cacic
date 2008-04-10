@@ -25,7 +25,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 //Mostrar computadores baseados no tipo de pesquisa solicitada pelo usuário
 require_once('../../include/library.php');
-anti_spy();
+AntiSpy('1,2,3,4');
 ?>
 
 <html>
@@ -70,26 +70,23 @@ else
 $_SESSION['id_aplicativo']= $_GET['idaplicativo'];
 $_SESSION['nm_versao']= $_GET['nmversao'];
 
-if($_GET['cs_car_inst']>0)
+if($_GET['teversao'])
+	{
+	$_SESSION['cri_pesquisa']= $_GET['teversao'];
+	$sql = " AND b.te_versao = '" . $_SESSION['cri_pesquisa'] . "'";
+	$tit_tabela = 'Versão: '. $_SESSION['cri_pesquisa'];
+	}	
+elseif($_GET['telicenca'])
+	{
+	$_SESSION['cri_pesquisa']= $_GET['telicenca'];
+	$sql = " AND b.te_licenca = '" . $_SESSION['cri_pesquisa'] . "'";
+	$tit_tabela = 'Nº Licença: '. $_SESSION['cri_pesquisa'];
+	}
+else if($_GET['cs_car_inst']>0)
 	{
 	$_SESSION['cri_pesquisa']= $_GET['cs_car_inst'];
 	$sql = " AND b.cs_instalado = 'S'";
 	$tit_tabela = 'Instalado?';
-	}
-else
-	{
-	if($_GET['teversao'])
-		{
-		$_SESSION['cri_pesquisa']= $_GET['teversao'];
-		$sql = " AND b.te_versao = '" . $_SESSION['cri_pesquisa'] . "'";
-		$tit_tabela = 'Versão: '. $_SESSION['cri_pesquisa'];
-		}	
-	if($_GET['telicenca'])
-		{
-		$_SESSION['cri_pesquisa']= $_GET['telicenca'];
-		$sql = " AND b.te_licenca = '" . $_SESSION['cri_pesquisa'] . "'";
-		$tit_tabela = 'Nº Licença: '. $_SESSION['cri_pesquisa'];
-		}
 	}
 ?>
 <table border="0" align="center" width="300" >
@@ -160,7 +157,7 @@ $result = mysql_query($query) or die();
           <td nowrap class="opcao_tabela"><div align="left"></div></td>
           <td nowrap class="opcao_tabela"><? echo $row['te_ip']; ?></td>
           <td nowrap class="opcao_tabela">&nbsp;</td>
-          <td nowrap class="opcao_tabela"><? echo $row['Local']; ?></td>
+          <td nowrap class="opcao_tabela"><? echo $row['SgLocal']; ?></td>
           <td nowrap class="opcao_tabela">&nbsp;</td>
           <td nowrap class="opcao_tabela"><div align="center"><? echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></div></td>
           <td nowrap class="opcao_tabela">&nbsp;</td>
@@ -185,7 +182,7 @@ $result = mysql_query($query) or die();
   gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo</font></p>	
+  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>	
 
 </td></tr></table>
 </body>

@@ -24,7 +24,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 include_once '../include/library.php'; 
-//// Comentado temporariamente - AntiSpy();
+//AntiSpy();
 conecta_bd_cacic();
 $v_novo_campo = $_GET['v_nome_campo'];
 

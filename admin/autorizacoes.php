@@ -121,7 +121,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor de Informa&ccedil;&otilde;es Computacionais
 </font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-  Software desenvolvido pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo
+  Software desenvolvido pela Dataprev - Unidade Regional Esp&iacute;rito Santo
   </font></p>
 </body>
 </html>

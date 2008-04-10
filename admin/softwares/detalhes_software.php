@@ -23,7 +23,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 Conecta_bd_cacic();
 
 if ($_REQUEST['ExcluiSoftware']) 

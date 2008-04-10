@@ -23,7 +23,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 conecta_bd_cacic(); ?>
  
 <html>
@@ -66,7 +66,7 @@ conecta_bd_cacic(); ?>
     <tr> 
       <td nowrap class="label">Texto de ajuda da &quot;Etiqueta 1&quot;:</td>
       <td><input name="te_help_etiqueta" type="text" id="te_help_etiqueta" value="<?  echo $default	[1]  ?>" size="25" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
-      <td class="descricao">Ex: Selecione ger&ecirc;ncia onde est&aacute; localizado este equipamento.</td>
+      <td class="descricao">Ex: Selecione a Ger&ecirc;ncia de localiza&ccedil;&atilde;o este equipamento.</td>
     </tr>
     <tr> 
 	

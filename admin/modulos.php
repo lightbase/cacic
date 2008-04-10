@@ -23,7 +23,11 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 conecta_bd_cacic();
 
 $query   = "SELECT 	acoes.id_acao,
@@ -31,11 +35,11 @@ $query   = "SELECT 	acoes.id_acao,
 					acoes.te_descricao,
 					acoes.te_nome_curto_modulo,
 					acoes_redes.cs_situacao ";
+					
 $from    = " FROM 	acoes LEFT JOIN acoes_redes ON (acoes.id_acao = acoes_redes.id_acao) "; 
 if ($_SESSION['cs_nivel_administracao'] <> 1 && $_SESSION['cs_nivel_administracao'] <> 2)
-	{
 	$from = str_replace('acoes_redes.id_acao)','acoes_redes.id_acao AND acoes_redes.id_local = '.$_SESSION['id_local'].') ',$from);
-	}
+
 $groupBy = " GROUP BY	acoes.id_acao ";
 $orderBy = " ORDER BY 	acoes.id_acao";
 if ($_SESSION['te_locais_secundarios']<>'')
@@ -46,6 +50,32 @@ if ($_SESSION['te_locais_secundarios']<>'')
 	}
 
 $result = mysql_query($query.$from.$groupBy.$orderBy) or die($oTranslator->_('kciq_msg select on table fail', array('acoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
+
+$whereAcaoRede = '';
+if ($_SESSION['cs_nivel_administracao'] <> 1 && $_SESSION['cs_nivel_administracao'] <> 2)
+	{
+	$whereAcaoRede = 'WHERE acoes_redes.id_local = '.$_SESSION['id_local'];
+
+	if ($_SESSION['te_locais_secundarios']<>'')
+		{
+		// Faço uma inserção de "(" para ajuste da lógica para consulta
+		$whereAcaoRede .= ' OR acoes_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].')';	
+		}
+	}
+	
+
+// Mostrarei a quantidade de redes associadas à ação - Anderson Peterle - Março/2008
+$queryAcaoRede  = 'SELECT 		id_acao,
+								count(id_acao) TotalRedesNaAcao 
+		  			 FROM 		acoes_redes '.
+					 $whereAcaoRede . '
+					 GROUP BY   id_acao';
+$resultAcaoRede = mysql_query($queryAcaoRede);
+$arrAcaoRede = array();
+while ($rowAcaoRede = mysql_fetch_array($resultAcaoRede))
+	$arrAcaoRede[$rowAcaoRede['id_acao']] = $rowAcaoRede['TotalRedesNaAcao'];
+
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -100,7 +130,7 @@ while ($row = mysql_fetch_array($result))
 ?>
 	  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1">
         <tr> 
-          <td class="label"><a href="acoes.php?id_acao=<? echo $row['id_acao']?>&te_descricao_breve=<? echo $row['te_descricao_breve']?>&te_descricao=<? echo $row['te_descricao']?>"><? echo $img. ' ' .$row['te_descricao_breve']?></a></td>
+          <td class="label"><a href="acoes.php?id_acao=<? echo $row['id_acao']?>&te_descricao_breve=<? echo $row['te_descricao_breve']?>&te_descricao=<? echo $row['te_descricao']?>"><? echo $img. ' ' .$row['te_descricao_breve'].' (Total de Redes: '.number_format($arrAcaoRede[$row['id_acao']], 0, '', '.').')';?></a></td>
         </tr>
         <tr> 
           <td valign="top" scope="top" class="descricao"><div align="left"></div>

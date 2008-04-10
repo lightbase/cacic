@@ -22,12 +22,12 @@ if(!isset($_SESSION['id_usuario']))
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
-if ($_POST['submit']) {
+if (@$_POST['submit']) {
   header ("Location: incluir_sistema_operacional.php");
 }
 
 include_once "../../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 Conecta_bd_cacic();
 
 $ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'te_desc_so');
