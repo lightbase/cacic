@@ -26,7 +26,7 @@
 <table width="450" border="0" align="center" cellpadding="15" cellspacing="1" bgcolor="#666666">
   <tr> 
     <td valign="top" bgcolor="#99FFFF"><p align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><br>
-      Opera&ccedil;&atilde;o <? echo ($_GET['texto']?$_GET['texto']:'Realizada com Sucesso');?>!</strong></font><br>
+      Opera&ccedil;&atilde;o <? echo (@$_GET['texto']?@$_GET['texto']:'Realizada com Sucesso');?>!</strong></font><br>
         <br>
     </p>
     </td>

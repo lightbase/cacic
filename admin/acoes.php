@@ -194,7 +194,7 @@ function remove(box)
 ?>
 
 <body background="../imgs/linha_v.gif" onLoad="verifica_status();">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
     <td class="cabecalho"><? echo $_GET['te_descricao_breve']; ?></td>

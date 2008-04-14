@@ -214,7 +214,7 @@ else
 		$arrColunasValores = explode('#FIELD#',$rowTotalizaGeralExistentes['te_valor']);
 		for ($i=0; $i<count($arrColunasValores);$i++)
 			{
-			$arrColunas = explode('###',$arrColunasValores[$i]);		
+			$arrColunas = explode('###',$arrColunasValores[$i]);?>		
 			<td>&nbsp;</td>
 			<td class="opcao_tabela"><? echo $arrDescricoesColunas[$arrColunas[0]];?>:</td>
 			<td class="dado"><? echo $arrColunas[1]; ?></td>
