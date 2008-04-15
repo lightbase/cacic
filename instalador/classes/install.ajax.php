@@ -514,7 +514,7 @@ class InstallAjax {
 		   if(is_readable($fileName)) {
    			$cacic_sql_create_tables = $fileName;
 		
-			   echo "<br>".InstallAjax::_('kciq_msg building tables on database');
+			   echo "<br>".InstallAjax::_('kciq_msg inst building tables on database');
 	     	   $oDB_result = $oDB->parse_mysql_dump($cacic_sql_create_tables);
 			   if (!$oDB_result) {
 				   $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
@@ -687,7 +687,7 @@ class InstallAjax {
     		/*
     		 * Verifica banco de dados
     		 */
-			echo "<br>".InstallAjax::_('kciq_msg verify database existence', array($cacic_config['db_name']));
+			echo "<br>".InstallAjax::_('kciq_msg inst verify database existence', array($cacic_config['db_name']));
 			if (!$oDB->selectDB()) {
 			  $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			  $msg .= InstallAjax::_('kciq_msg database not exist', array($cacic_config['db_name'])).'!</span>'.

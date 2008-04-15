@@ -8,7 +8,15 @@
 
 
 /*!40000 ALTER TABLE `acoes` DISABLE KEYS */;
-INSERT INTO `acoes` VALUES ('cs_auto_update','Auto Atualização dos Agentes','Essa ação permite que seja realizada a auto atualização dos agentes do CACIC nos computadores onde os agentes são executados. \r\n\r\n',NULL,'0000-00-00 00:00:00',NULL),('cs_coleta_compart','Coleta Informações de Compartilhamentos de Diretórios e Impressoras','Essa ação permite que sejam coletadas informações sobre compartilhamentos de diretórios e impressoras dos computadores onde os agentes estão instalado.','COMP','0000-00-00 00:00:00',NULL),('cs_coleta_hardware','Coleta Informações de Hardware','Essa ação permite que sejam coletadas diversas informações sobre o hardware dos computadores onde os agentes estão instalados, tais como Memória, Placa de Vídeo, CPU, Discos Rígidos, BIOS, Placa de Rede, Placa Mãe, etc.','HARD','0000-00-00 00:00:00',NULL),('cs_coleta_monitorado','Coleta Informações sobre os Sistemas Monitorados','Essa ação permite que sejam coletadas, nas estações onde os agentes Cacic estão instalados, as informações acerca dos perfÃ­s de sistemas, previamente cadastrados pela Administração Central.','MONI','0000-00-00 00:00:00',NULL),('cs_coleta_officescan','Coleta Informações do Antivírus OfficeScan','Essa ação permite que sejam coletadas informações sobre o anti-vírus OfficeScan nos computadores onde os agentes estão instalado. São coletadas informações como a versão do engine, versão do pattern, endereão do servidor, data da instalação, etc.','ANVI','0000-00-00 00:00:00',NULL),('cs_coleta_patrimonio','Coleta Informações de Patrimônio','Essa ação permite que sejam coletadas diversas informações sobre Patrimônio e Localização Física dos computadores onde os agentes estão instalados.','PATR','0000-00-00 00:00:00',NULL),('cs_coleta_software','Coleta Informações de Software','Essa ação permite que sejam coletadas informações sobre a versão de diversos softwares instalados nos computadores onde os agentes são executados. São coletadas, por exemplo, informações sobre as versões do Internet Explorer, Mozilla, DirectX, ADO, BDE, DAO, Java Runtime Environment, etc.','SOFT','0000-00-00 00:00:00',NULL),('cs_coleta_unid_disc','Coleta Informações sobre Unidades de Disco','Essa ação permite que sejam coletadas informações sobre as unidades de disco disponíveis nos computadores onde os agentes são executados. São coletadas, por exemplo, informações sobre o sistema de arquivos das unidades, suas capacidades de armazenamento, ocupação, espaço livre, etc.','UNDI','0000-00-00 00:00:00',NULL);
+INSERT INTO `acoes` (`id_acao`, `te_descricao_breve`, `te_descricao`, `te_nome_curto_modulo`, `dt_hr_alteracao`, `cs_situacao`) VALUES 
+('cs_auto_update', 'Auto Atualização dos Agentes', 'Essa ação permite que seja realizada a auto atualização dos agentes do CACIC nos computadores onde os agentes são executados. \r\n\r\n', NULL, '0000-00-00 00:00:00', NULL),
+('cs_coleta_compart', 'Coleta Informações de Compartilhamentos de Diretórios e Impressoras', 'Essa ação permite que sejam coletadas informações sobre compartilhamentos de diretórios e impressoras dos computadores onde os agentes estão instalados.', 'COMP', '0000-00-00 00:00:00', NULL),
+('cs_coleta_hardware', 'Coleta Informações de Hardware', 'Essa ação permite que sejam coletadas diversas informações sobre o hardware dos computadores onde os agentes estão instalados, tais como Memória, Placa de Ví­deo, CPU, Discos Rí­gidos, BIOS, Placa de Rede, Placa Mãe, etc.', 'HARD', '0000-00-00 00:00:00', NULL),
+('cs_coleta_monitorado', 'Coleta Informações sobre os Sistemas Monitorados', 'Essa ação permite que sejam coletadas, nas estações onde os agentes Cacic estão instalados, as informações acerca dos perfi­s de sistemas, previamente cadastrados pela Administração Central.', 'MONI', '0000-00-00 00:00:00', NULL),
+('cs_coleta_officescan', 'Coleta Informações do Antiví­rus OfficeScan', 'Essa ação permite que sejam coletadas informações sobre o antiví­rus OfficeScan nos computadores onde os agentes estão instalados. São coletadas informações como a versão do engine, versão do pattern, endeço do servidor, data da instalação, etc.', 'ANVI', '0000-00-00 00:00:00', NULL),
+('cs_coleta_patrimonio', 'Coleta Informações de Patrimônio', 'Essa ação permite que sejam coletadas diversas informações sobre Patrimônio e Localização Fí­sica dos computadores onde os agentes estão instalados.', 'PATR', '0000-00-00 00:00:00', NULL),
+('cs_coleta_software', 'Coleta Informações de Software', 'Essa ação permite que sejam coletadas informações sobre as versões de diversos softwares instalados nos computadores onde os agentes são executados. São coletadas, por exemplo, informações sobre as versões do Internet Explorer, Mozilla, DirectX, ADO, BDE, DAO, Java Runtime Environment, etc.', 'SOFT', '0000-00-00 00:00:00', NULL),
+('cs_coleta_unid_disc', 'Coleta Informações sobre Unidades de Disco', 'Essa ação permite que sejam coletadas informações sobre as unidades de disco disponí­veis nos computadores onde os agentes são executados. São coletadas, por exemplo, informações sobre o sistema de arquivos das unidades, suas capacidades de armazenamento, ocupação, espaço livre, etc.', 'UNDI', '0000-00-00 00:00:00', NULL);
 /*!40000 ALTER TABLE `acoes` ENABLE KEYS */;
 
 --
@@ -17,7 +25,40 @@ INSERT INTO `acoes` VALUES ('cs_auto_update','Auto Atualização dos Agentes','Ess
 
 
 /*!40000 ALTER TABLE `acoes_so` DISABLE KEYS */;
-INSERT INTO `acoes_so` VALUES (2,'cs_auto_update',0),(1,'cs_auto_update',1),(2,'cs_auto_update',1),(1,'cs_auto_update',2),(2,'cs_auto_update',2),(1,'cs_auto_update',3),(2,'cs_auto_update',3),(1,'cs_auto_update',4),(2,'cs_auto_update',4),(1,'cs_auto_update',5),(2,'cs_auto_update',5),(1,'cs_auto_update',6),(2,'cs_auto_update',6),(1,'cs_auto_update',7),(2,'cs_auto_update',7),(1,'cs_auto_update',8),(2,'cs_auto_update',8),(1,'cs_auto_update',9),(2,'cs_auto_update',9),(1,'cs_auto_update',10),(2,'cs_auto_update',10),(1,'cs_auto_update',11),(2,'cs_auto_update',11),(1,'cs_auto_update',12),(2,'cs_auto_update',12),(2,'cs_auto_update',13),(2,'cs_coleta_compart',0),(1,'cs_coleta_compart',1),(2,'cs_coleta_compart',1),(1,'cs_coleta_compart',2),(2,'cs_coleta_compart',2),(1,'cs_coleta_compart',3),(2,'cs_coleta_compart',3),(1,'cs_coleta_compart',4),(2,'cs_coleta_compart',4),(1,'cs_coleta_compart',5),(2,'cs_coleta_compart',5),(1,'cs_coleta_compart',6),(2,'cs_coleta_compart',6),(1,'cs_coleta_compart',7),(2,'cs_coleta_compart',7),(1,'cs_coleta_compart',8),(2,'cs_coleta_compart',8),(1,'cs_coleta_compart',9),(2,'cs_coleta_compart',9),(1,'cs_coleta_compart',10),(2,'cs_coleta_compart',10),(1,'cs_coleta_compart',11),(2,'cs_coleta_compart',11),(1,'cs_coleta_compart',12),(2,'cs_coleta_compart',12),(1,'cs_coleta_compart',13),(2,'cs_coleta_compart',13),(2,'cs_coleta_hardware',0),(1,'cs_coleta_hardware',1),(2,'cs_coleta_hardware',1),(1,'cs_coleta_hardware',2),(2,'cs_coleta_hardware',2),(1,'cs_coleta_hardware',3),(2,'cs_coleta_hardware',3),(1,'cs_coleta_hardware',4),(2,'cs_coleta_hardware',4),(1,'cs_coleta_hardware',5),(2,'cs_coleta_hardware',5),(1,'cs_coleta_hardware',6),(2,'cs_coleta_hardware',6),(1,'cs_coleta_hardware',7),(2,'cs_coleta_hardware',7),(1,'cs_coleta_hardware',8),(2,'cs_coleta_hardware',8),(1,'cs_coleta_hardware',9),(2,'cs_coleta_hardware',9),(1,'cs_coleta_hardware',10),(2,'cs_coleta_hardware',10),(1,'cs_coleta_hardware',11),(2,'cs_coleta_hardware',11),(1,'cs_coleta_hardware',12),(2,'cs_coleta_hardware',12),(1,'cs_coleta_hardware',13),(2,'cs_coleta_hardware',13),(2,'cs_coleta_monitorado',0),(1,'cs_coleta_monitorado',1),(2,'cs_coleta_monitorado',1),(1,'cs_coleta_monitorado',2),(2,'cs_coleta_monitorado',2),(1,'cs_coleta_monitorado',3),(2,'cs_coleta_monitorado',3),(1,'cs_coleta_monitorado',4),(2,'cs_coleta_monitorado',4),(1,'cs_coleta_monitorado',5),(2,'cs_coleta_monitorado',5),(1,'cs_coleta_monitorado',6),(2,'cs_coleta_monitorado',6),(1,'cs_coleta_monitorado',7),(2,'cs_coleta_monitorado',7),(1,'cs_coleta_monitorado',8),(2,'cs_coleta_monitorado',8),(1,'cs_coleta_monitorado',9),(2,'cs_coleta_monitorado',9),(1,'cs_coleta_monitorado',10),(2,'cs_coleta_monitorado',10),(1,'cs_coleta_monitorado',11),(2,'cs_coleta_monitorado',11),(1,'cs_coleta_monitorado',12),(2,'cs_coleta_monitorado',12),(1,'cs_coleta_monitorado',13),(2,'cs_coleta_monitorado',13),(2,'cs_coleta_officescan',0),(1,'cs_coleta_officescan',1),(2,'cs_coleta_officescan',1),(1,'cs_coleta_officescan',2),(2,'cs_coleta_officescan',2),(1,'cs_coleta_officescan',3),(2,'cs_coleta_officescan',3),(1,'cs_coleta_officescan',4),(2,'cs_coleta_officescan',4),(1,'cs_coleta_officescan',5),(2,'cs_coleta_officescan',5),(1,'cs_coleta_officescan',6),(2,'cs_coleta_officescan',6),(1,'cs_coleta_officescan',7),(2,'cs_coleta_officescan',7),(1,'cs_coleta_officescan',8),(2,'cs_coleta_officescan',8),(1,'cs_coleta_officescan',9),(2,'cs_coleta_officescan',9),(1,'cs_coleta_officescan',10),(2,'cs_coleta_officescan',10),(1,'cs_coleta_officescan',11),(2,'cs_coleta_officescan',11),(1,'cs_coleta_officescan',12),(2,'cs_coleta_officescan',12),(1,'cs_coleta_officescan',13),(2,'cs_coleta_officescan',13),(2,'cs_coleta_patrimonio',0),(1,'cs_coleta_patrimonio',1),(2,'cs_coleta_patrimonio',1),(1,'cs_coleta_patrimonio',2),(2,'cs_coleta_patrimonio',2),(1,'cs_coleta_patrimonio',3),(2,'cs_coleta_patrimonio',3),(1,'cs_coleta_patrimonio',4),(2,'cs_coleta_patrimonio',4),(1,'cs_coleta_patrimonio',5),(2,'cs_coleta_patrimonio',5),(1,'cs_coleta_patrimonio',6),(2,'cs_coleta_patrimonio',6),(1,'cs_coleta_patrimonio',7),(2,'cs_coleta_patrimonio',7),(1,'cs_coleta_patrimonio',8),(2,'cs_coleta_patrimonio',8),(1,'cs_coleta_patrimonio',9),(2,'cs_coleta_patrimonio',9),(1,'cs_coleta_patrimonio',10),(2,'cs_coleta_patrimonio',10),(1,'cs_coleta_patrimonio',11),(2,'cs_coleta_patrimonio',11),(1,'cs_coleta_patrimonio',12),(2,'cs_coleta_patrimonio',12),(1,'cs_coleta_patrimonio',13),(2,'cs_coleta_patrimonio',13),(2,'cs_coleta_software',0),(1,'cs_coleta_software',1),(2,'cs_coleta_software',1),(1,'cs_coleta_software',2),(2,'cs_coleta_software',2),(1,'cs_coleta_software',3),(2,'cs_coleta_software',3),(1,'cs_coleta_software',4),(2,'cs_coleta_software',4),(1,'cs_coleta_software',5),(2,'cs_coleta_software',5),(1,'cs_coleta_software',6),(2,'cs_coleta_software',6),(1,'cs_coleta_software',7),(2,'cs_coleta_software',7),(1,'cs_coleta_software',8),(2,'cs_coleta_software',8),(1,'cs_coleta_software',9),(2,'cs_coleta_software',9),(1,'cs_coleta_software',10),(2,'cs_coleta_software',10),(1,'cs_coleta_software',11),(2,'cs_coleta_software',11),(1,'cs_coleta_software',12),(2,'cs_coleta_software',12),(1,'cs_coleta_software',13),(2,'cs_coleta_software',13),(2,'cs_coleta_unid_disc',0),(1,'cs_coleta_unid_disc',1),(2,'cs_coleta_unid_disc',1),(1,'cs_coleta_unid_disc',2),(2,'cs_coleta_unid_disc',2),(1,'cs_coleta_unid_disc',3),(2,'cs_coleta_unid_disc',3),(1,'cs_coleta_unid_disc',4),(2,'cs_coleta_unid_disc',4),(1,'cs_coleta_unid_disc',5),(2,'cs_coleta_unid_disc',5),(1,'cs_coleta_unid_disc',6),(2,'cs_coleta_unid_disc',6),(1,'cs_coleta_unid_disc',7),(2,'cs_coleta_unid_disc',7),(1,'cs_coleta_unid_disc',8),(2,'cs_coleta_unid_disc',8),(1,'cs_coleta_unid_disc',9),(2,'cs_coleta_unid_disc',9),(1,'cs_coleta_unid_disc',10),(2,'cs_coleta_unid_disc',10),(1,'cs_coleta_unid_disc',11),(2,'cs_coleta_unid_disc',11),(1,'cs_coleta_unid_disc',12),(2,'cs_coleta_unid_disc',12),(1,'cs_coleta_unid_disc',13),(2,'cs_coleta_unid_disc',13);
+INSERT INTO `acoes_so` (`id_local`, `id_acao`, `id_so`) VALUES 
+(1, 'cs_auto_update', 1),
+(1, 'cs_auto_update', 2),
+(1, 'cs_auto_update', 3),
+(1, 'cs_auto_update', 4),
+(1, 'cs_auto_update', 5),
+(1, 'cs_auto_update', 6),
+(1, 'cs_auto_update', 7),
+(1, 'cs_auto_update', 8),
+(1, 'cs_auto_update', 9),
+(1, 'cs_auto_update', 10),
+(1, 'cs_auto_update', 11),
+(1, 'cs_auto_update', 12),
+(1, 'cs_auto_update', 13),
+(1, 'cs_auto_update', 14),
+(1, 'cs_coleta_compart', 1),
+(1, 'cs_coleta_compart', 2),
+(1, 'cs_coleta_compart', 3),
+(1, 'cs_coleta_compart', 4),
+(1, 'cs_coleta_compart', 5),
+(1, 'cs_coleta_compart', 6),
+(1, 'cs_coleta_compart', 7),
+(1, 'cs_coleta_compart', 8),
+(1, 'cs_coleta_compart', 9),
+(1, 'cs_coleta_compart', 10),
+(1, 'cs_coleta_compart', 11),
+(1, 'cs_coleta_compart', 12),
+(1, 'cs_coleta_compart', 13),
+(1, 'cs_coleta_compart', 14),
+(1, 'cs_coleta_hardware', 1),
+(1, 'cs_coleta_hardware', 2),
+(1, 'cs_coleta_hardware', 3),
+(1, 'cs_coleta_hardware', 4),
+(1, 'cs_coleta_hardware', 5);
 /*!40000 ALTER TABLE `acoes_so` ENABLE KEYS */;
 
 --
@@ -25,7 +66,18 @@ INSERT INTO `acoes_so` VALUES (2,'cs_auto_update',0),(1,'cs_auto_update',1),(2,'
 --
 
 /*!40000 ALTER TABLE `configuracoes_locais` DISABLE KEYS */;
-INSERT INTO `configuracoes_locais` VALUES (1,NULL,'N','S',10,NULL,'0000-00-00 00:00:00',NULL,NULL,NULL,NULL,4,0,'','','','00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08',NULL,NULL,'[acessos_locais][so][acessos][locais]','N','#EBEBEB');
+INSERT INTO `configuracoes_locais` 
+      (`id_local`, `te_notificar_mudanca_hardware`, `in_exibe_erros_criticos`, `in_exibe_bandeja`, `nu_exec_apos`,
+       `dt_hr_alteracao_patrim_interface`, `dt_hr_alteracao_patrim_uon1`, `dt_hr_alteracao_patrim_uon1a`,
+       `dt_hr_alteracao_patrim_uon2`, `dt_hr_coleta_forcada`, `te_notificar_mudanca_patrim`, `nm_organizacao`,
+       `nu_intervalo_exec`, `nu_intervalo_renovacao_patrim`, `te_senha_adm_agente`, `te_serv_updates_padrao`,
+       `te_serv_cacic_padrao`, `te_enderecos_mac_invalidos`, `te_janelas_excecao`, `te_nota_email_gerentes`,
+       `cs_abre_janela_patr`, `id_default_body_bgcolor`, `te_exibe_graficos`)
+     VALUES 
+      (1, '', 'N', 'S', 10, '2007-12-19 12:20:55', '2007-07-25 18:59:54', '2008-01-16 19:22:53', '2008-01-16 20:02:53',
+       '2004-07-25 14:19:39', '', 'Nome de Sua Empresa', 4, 0, 'xyz', '10.71.0.121', '10.71.0.121',
+       '00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08',
+       'openoffice.org, microsoft word, photoshop, hod', '', 'N', '#EBEBEB', '');
 /*!40000 ALTER TABLE `configuracoes_locais` ENABLE KEYS */;
 
 --
@@ -34,7 +86,16 @@ INSERT INTO `configuracoes_locais` VALUES (1,NULL,'N','S',10,NULL,'0000-00-00 00
 
 
 /*!40000 ALTER TABLE `configuracoes_padrao` DISABLE KEYS */;
-INSERT INTO `configuracoes_padrao` VALUES ('N','S',0,'',0,0,'','','','00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08','','[acessos_locais][so][acessos][locais]','N','#EBEBEB');
+INSERT INTO `configuracoes_padrao` 
+            (`in_exibe_erros_criticos`, `in_exibe_bandeja`, `nu_exec_apos`, `nm_organizacao`, `nu_intervalo_exec`,
+             `nu_intervalo_renovacao_patrim`, `te_senha_adm_agente`, `te_serv_updates_padrao`, `te_serv_cacic_padrao`,
+             `te_enderecos_mac_invalidos`, `te_janelas_excecao`, `cs_abre_janela_patr`, `id_default_body_bgcolor`,
+             `te_exibe_graficos`)
+     VALUES 
+            ('N', 'S', 10, 'Nome da Organização - Tabela Configurações Padrão', 4, 0, '5a584f8a61b65baf', '10.71.0.121',
+             '10.71.0.121', '00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08', 
+             'openoffice.org, microsoft word, photoshop, hod, aor.exe, pc2003.exe, cpp.exe, sal.exe, sal.bat, girafa4.exe, dro.exe, plenus', 
+             'N', '#EBEBEB', '[so][acessos][locais][acessos_locais]');
 /*!40000 ALTER TABLE `configuracoes_padrao` ENABLE KEYS */;
 
 
@@ -44,7 +105,28 @@ INSERT INTO `configuracoes_padrao` VALUES ('N','S',0,'',0,0,'','','','00-00-00-0
 
 
 /*!40000 ALTER TABLE `descricao_hardware` DISABLE KEYS */;
-INSERT INTO `descricao_hardware` VALUES ('te_cdrom_desc','CD-ROM','1'),('qt_mem_ram','Memória RAM','1'),('qt_placa_video_cores','Qtd. Cores Placa Vídeo','0'),('qt_placa_video_mem','Memória Placa Vídeo','0'),('te_bios_desc','Descrição da BIOS','1'),('te_bios_fabricante','Fabricante da BIOS','0'),('te_cpu_desc','CPU','0'),('te_cpu_fabricante','Fabricante da CPU','0'),('te_cpu_serial','Serial da CPU','1'),('te_mem_ram_desc','Descrição da RAM','0'),('te_modem_desc','Modem','0'),('te_mouse_desc','Mouse','1'),('te_placa_mae_desc','Placa Mãe','1'),('te_placa_mae_fabricante','Fabricante Placa Mãe','0'),('te_placa_rede_desc','Placa de Rede','1'),('te_placa_som_desc','Placa de Som','1'),('te_placa_video_desc','Placa de Vídeo','1'),('te_placa_video_resolucao','Resolução Placa de Vídeo','0'),('te_teclado_desc','Teclado','1');
+INSERT INTO `descricao_hardware`
+            (`nm_campo_tab_hardware`, `te_desc_hardware`, `te_locais_notificacao_ativada`)
+     VALUES 
+            (' te_cdrom_desc', 'CD-ROM', ','),
+            ('qt_mem_ram', 'Memória RAM', ','),
+            ('qt_placa_video_cores', 'Qtd. Cores Placa Ví­deo', ','),
+            ('qt_placa_video_mem', 'Memória Placa Ví­deo', ',,1,'),
+            ('te_bios_desc', 'Descrição da BIOS', ',19,,1,'),
+            ('te_bios_fabricante', 'Fabricante da BIOS', ',,1,'),
+            ('te_cpu_desc', 'CPU', ',18,19,'),
+            ('te_cpu_fabricante', 'Fabricante da CPU', ',,1,'),
+            ('te_cpu_serial', 'Serial da CPU', ','),
+            ('te_mem_ram_desc', 'Descrição da RAM', ',19,,1,'),
+            ('te_modem_desc', 'Modem', ','),
+            ('te_mouse_desc', 'Mouse', ''),
+            ('te_placa_mae_desc', 'Placa Mãe', ','),
+            ('te_placa_mae_fabricante', 'Fabricante Placa Mãe', ',,1,'),
+            ('te_placa_rede_desc', 'Placa de Rede', ','),
+            ('te_placa_som_desc', 'Placa de Som', ''),
+            ('te_placa_video_desc', 'Placa de Ví­deo', ','),
+            ('te_placa_video_resolucao', 'Resolução Placa de Ví­deo', ''),
+            ('te_teclado_desc', 'Teclado', '');
 /*!40000 ALTER TABLE `descricao_hardware` ENABLE KEYS */;
 
 --
@@ -53,50 +135,54 @@ INSERT INTO `descricao_hardware` VALUES ('te_cdrom_desc','CD-ROM','1'),('qt_mem_
 
 
 /*!40000 ALTER TABLE `descricoes_colunas_computadores` DISABLE KEYS */;
-INSERT INTO descricoes_colunas_computadores VALUES ('dt_hr_coleta_forcada_estacao', 'Quant. dias da última coleta forçada na estação', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('dt_hr_inclusao', 'Quant. dias de inclusão do computador na base', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('dt_hr_ult_acesso', 'Quant. dias do último acesso da estação ao gerente WEB', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('id_ip_rede', 'Endereço IP da Subrede', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('id_so', 'Código do sistema operacional da estação', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('qt_mem_ram', 'Quant. memória RAM', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('qt_placa_video_cores', 'Quant. cores da placa de vídeo', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('qt_placa_video_mem', 'Quant. memória da placa de vídeo', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_bios_data', 'Identificação da BIOS', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_bios_desc', 'Descrição da BIOS', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_bios_fabricante', 'Nome do fabricante da BIOS', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_cdrom_desc', 'Descrição da unidade de CD-ROM', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_desc', 'Descrição da CPU', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_fabricante', 'Fabricante da CPU', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_freq', 'Frequência da CPU', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_cpu_serial', 'Número de série da CPU', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_dns_primario', 'IP do DNS primário', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_dns_secundario', 'IP do DNS secundário', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_dominio_dns', 'Nome/IP do domínio DNS', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_dominio_windows', 'Nome/IP do domínio Windows', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_gateway', 'IP do gateway', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_ip', 'IP da estação', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_mascara', 'Máscara de Subrede', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_mem_ram_desc', 'Descrição da memória RAM', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_modem_desc', 'Descrição do modem', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_mouse_desc', 'Descrição do mouse', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_node_address', 'Endereço MAC da estação', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_nomes_curtos_modulos', 'te_nomes_curtos_modulos', 'N');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_nome_computador', 'Nome do computador', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_nome_host', 'Nome do Host', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_origem_mac', 'te_origem_mac', 'N');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_mae_desc', 'Descrição da placa-m', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_mae_fabricante', 'Fabricante da placa-m', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_rede_desc', 'Descrição da placa de rede', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_som_desc', 'Descrição da placa de som', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_video_desc', 'Descrição da placa de vídeo', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_placa_video_resolucao', 'Resolução da placa de vídeo', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_serv_dhcp', 'IP do servidor DHCP', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_teclado_desc', 'Descrição do teclado', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_versao_cacic', 'Versão do Agente Principal do CACIC', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_versao_gercols', 'Versão do Gerente de Coletas do CACIC', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_wins_primario', 'IP do servidor WINS primário', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_wins_secundario', 'IP do servidor WINS secundário', 'S');
-INSERT INTO descricoes_colunas_computadores VALUES ('te_workgroup', 'Nome do grupo de trabalho', 'S');
+INSERT INTO `descricoes_colunas_computadores`
+            (`nm_campo`, `te_descricao_campo`, `cs_condicao_pesquisa`)
+     VALUES 
+            ('dt_hr_coleta_forcada_estacao', 'Quant. dias de última coleta forçada na estação', 'S'),
+            ('dt_hr_inclusao', 'Quant. dias de inclusão do computador na base', 'S'),
+            ('dt_hr_ult_acesso', 'Quant. dias do último acesso da estação ao gerente WEB', 'S'),
+            ('id_ip_rede', 'Endereço IP da Subrede', 'S'),
+            ('id_so', 'Código do sistema operacional da estação', 'S'),
+            ('qt_mem_ram', 'Quant. memória RAM', 'S'),
+            ('qt_placa_video_cores', 'Quant. cores da placa de ví­deo', 'S'),
+            ('qt_placa_video_mem', 'Quant. memória da placa de ví­deo', 'S'),
+            ('te_bios_data', 'Identificação da BIOS', 'S'),
+            ('te_bios_desc', 'Descrição da BIOS', 'S'),
+            ('te_bios_fabricante', 'Nome do fabricante da BIOS', 'S'),
+            ('te_cdrom_desc', 'Unidade de Disco Ótico', 'S'),
+            ('te_cpu_desc', 'CPU', 'S'),
+            ('te_cpu_fabricante', 'Fabricante da CPU', 'S'),
+            ('te_cpu_frequencia', 'Frequência da CPU', 'S'),
+            ('te_cpu_serial', 'Número de série da CPU', 'S'),
+            ('te_dns_primario', 'IP do DNS primário', 'S'),
+            ('te_dns_secundario', 'IP do DNS secundário', 'S'),
+            ('te_dominio_dns', 'Nome/IP do domí­nio DNS', 'S'),
+            ('te_dominio_windows', 'Nome/IP do domí­nio Windows', 'S'),
+            ('te_gateway', 'IP do gateway', 'S'),
+            ('te_ip', 'IP da estação', 'S'),
+            ('te_mascara', 'Máscara de Subrede', 'S'),
+            ('te_mem_ram_desc', 'Descrição da memória RAM', 'S'),
+            ('te_modem_desc', 'Descrição do modem', 'S'),
+            ('te_mouse_desc', 'Descrição do mouse', 'S'),
+            ('te_node_address', 'Endereço MAC da estação', 'S'),
+            ('te_nomes_curtos_modulos', 'te_nomes_curtos_modulos', 'N'),
+            ('te_nome_computador', 'Nome do computador', 'S'),
+            ('te_nome_host', 'Nome do Host', 'S'),
+            ('te_origem_mac', 'te_origem_mac', 'N'),
+            ('te_placa_mae_desc', 'Placa-Mãe', 'S'),
+            ('te_placa_mae_fabricante', 'Fabricante da placa-mÃ£e', 'S'),
+            ('te_placa_rede_desc', 'Placa de Rede', 'S'),
+            ('te_placa_som_desc', 'Placa de Som', 'S'),
+            ('te_placa_video_desc', 'Placa de Ví­deo', 'S'),
+            ('te_placa_video_resolucao', 'Resolução da placa de ví­deo', 'S'),
+            ('te_serv_dhcp', 'IP do servidor DHCP', 'S'),
+            ('te_so', 'Identificador Interno do S.O.', 'S'),
+            ('te_teclado_desc', 'Descrição do teclado', 'S'),
+            ('te_versao_cacic', 'Versão do Agente Principal do CACIC', 'S'),
+            ('te_versao_gercols', 'Versão do Gerente de Coletas do CACIC', 'S'),
+            ('te_wins_primario', 'IP do servidor WINS primário', 'S'),
+            ('te_wins_secundario', 'IP do servidor WINS secundário', 'S'),
+            ('te_workgroup', 'Nome do grupo de trabalho', 'S');
 /*!40000 ALTER TABLE `descricoes_colunas_computadores` ENABLE KEYS */;
 
 --
@@ -105,7 +191,15 @@ INSERT INTO descricoes_colunas_computadores VALUES ('te_workgroup', 'Nome do gru
 
 
 /*!40000 ALTER TABLE `grupo_usuarios` DISABLE KEYS */;
-INSERT INTO `grupo_usuarios` VALUES (1,'Comum','menu_com.txt','Usuário limitado, sem acesso a informações confidenciais como Softwares Inventariados e Opções Administrativas como Forçar Coletas e Excluir Computador. Poderá alterar sua própria senha.',0,''),(2,'Administração','menu_adm.txt','Acesso irrestrito.',1,''),(5,'Gestão Central','menu_adm.txt','Acesso de leitura em todas as opções.',2,''),(6,'Supervisão','menu_sup.txt','Manutenção de tabelas e acesso a todas as informações referentes à  Localização.',3,''),(7,'Técnico','menu_tec.txt','Acesso técnico. Será permitido acessar configuracoes de rede e relatórios de Patrimônio e Hardware.',0,'');
+INSERT INTO `grupo_usuarios`
+            (`id_grupo_usuarios`, `te_grupo_usuarios`, `te_menu_grupo`, `te_descricao_grupo`, `cs_nivel_administracao`,
+             `nm_grupo_usuarios`)
+     VALUES
+            (1, 'Comum', 'menu_com.txt', 'Usuário limitado, sem acesso a informações confidenciais como Softwares Inventariados e Opções Administrativas como Forçar Coletas e Excluir Computadores. Poderá alterar sua própria senha.', 0, ''),
+            (2, 'Administração', 'menu_adm.txt', 'Acesso irrestrito.', 1, ''),
+            (5, 'Gestão Central', 'menu_adm.txt', 'Acesso de leitura em todas as opções.', 2, ''),
+            (6, 'Supervisão', 'menu_sup.txt', 'Manutenção de tabelas e acesso a todas as informações referentes à Localização.', 3, ''),
+            (7, 'Técnico', 'menu_tec.txt', 'Acesso técnico. Será permitido acessar configurações de rede e relatórios de Patrimônio e Hardware.', 0, '');
 /*!40000 ALTER TABLE `grupo_usuarios` ENABLE KEYS */;
 
 --
@@ -114,7 +208,21 @@ INSERT INTO `grupo_usuarios` VALUES (1,'Comum','menu_com.txt','Usuário limitado,
 
 
 /*!40000 ALTER TABLE `patrimonio_config_interface` DISABLE KEYS */;
-INSERT INTO `patrimonio_config_interface` VALUES (1,'etiqueta1','Etiqueta 1','Entidade','','Selecione a Entidade','Entidades','id_unid_organizacional_nivel1','N'),(2,'etiqueta1','Etiqueta 1','Entidade','','Selecione a Entidade','Entidades','id_unid_organizacional_nivel1','N'),(1,'etiqueta2','Etiqueta 2','orgão','','Selecione o orgão','orgãos','id_unid_organizacional_nivel2','N'),(2,'etiqueta2','Etiqueta 2','orgão','','Selecione o orgão','orgãos','id_unid_organizacional_nivel2','N'),(1,'etiqueta3','Etiqueta 3','Seção','','Informe a Seção onde está instalado o equipamento.','Sessões','te_localizacao_complementar','N'),(2,'etiqueta3','Etiqueta 3','Seção','','Informe a Seção onde está instalado o equipamento','Sessões','te_localizacao_complementar','N'),(1,'etiqueta4','Etiqueta 4','PIB da CPU','S','Informe o número de PIB(tombamento) da CPU','','te_info_patrimonio1','S'),(2,'etiqueta4','Etiqueta 4','PIB da CPU','S','Informe o número de PIB(tombamento) da CPU','','te_info_patrimonio1','S'),(1,'etiqueta5','Etiqueta 5','PIB do Monitor','S','Informe o número de PIB(tombamento) do Monitor','','te_info_patrimonio2','S'),(2,'etiqueta5','Etiqueta 5','PIB do monitor','S','Informe o número de PIB(tombamento) do monitor','','te_info_patrimonio2','S'),(1,'etiqueta6','Etiqueta 6','PIB da Impressora','S','Caso haja uma Impressora conectada informe número de PIB(tombamento)','','te_info_patrimonio3','S'),(2,'etiqueta6','Etiqueta 6','PIB da impressora','S','Caso haja uma impressora conectada, informe o nr. de PIB(tombamento)','','te_info_patrimonio3','S'),(1,'etiqueta7','Etiqueta 7','Nr. Série CPU','S','Caso não disponha do nr. de PIB, informe o Nr. de Série da CPU','','te_info_patrimonio4','S'),(2,'etiqueta7','Etiqueta 7','Nr. série CPU','S','Caso não disponha do nr. de PIB, informe o nr. de série da CPU','','te_info_patrimonio4','S'),(1,'etiqueta8','Etiqueta 8','Nr. série Monitor','S','Caso não disponha do nr. de PIB, informe o Nr. de Série do Monitor','','te_info_patrimonio5','S'),(2,'etiqueta8','Etiqueta 8','Nr. série Monitor','S','Caso não disponha do nr. de PIB, informe o nr. de série do Monitor','','te_info_patrimonio5','S'),(1,'etiqueta9','Etiqueta 9','Nr. Série Impres. (Opcional)','S','Caso haja uma impressora conectada ao micro e não disponha do nr. de PIB, informe seu nr. de série','','te_info_patrimonio6','S'),(2,'etiqueta9','Etiqueta 9','Nr. série Impres. (opcional)','S','Caso haja uma impressora conectada ao micro e não disponha do nr. de PIB, informe o nr. de série','','te_info_patrimonio6','S');
+INSERT INTO `patrimonio_config_interface` 
+            (`id_local`, `id_etiqueta`, `nm_etiqueta`, `te_etiqueta`, `in_exibir_etiqueta`, `te_help_etiqueta`,
+             `te_plural_etiqueta`, `nm_campo_tab_patrimonio`, `in_destacar_duplicidade`)
+     VALUES
+            (1, 'etiqueta1', 'Etiqueta 1', 'Entidade', '', 'Selecione a Entidade', 'Entidades',
+ 'id_unid_organizacional_nivel1', 'N'),
+            (1, 'etiqueta1a', 'Etiqueta 1a', 'Linha de Negócio', 'S', 'Selecione a Linha de Negócio', 'Linhas de Negócio', 'id_unid_organizacional_nivel1a', 'N'),
+            (1, 'etiqueta2', 'Etiqueta 2', 'Órgão', '', 'Selecione o Órgão', 'Órgãos', 'id_unid_organizacional_nivel2', ''),
+            (1, 'etiqueta3', 'Etiqueta 3', 'Seção / Sala / Ramal', '', 'Informe a Seção onde está instalado o equipamento.', '', 'te_localizacao_complementar', ''),
+            (1, 'etiqueta4', 'Etiqueta 4', 'PIB da CPU', 'S', 'Informe o número de PIB(tombamento) da CPU', '', 'te_info_patrimonio1', 'S'),
+            (1, 'etiqueta5', 'Etiqueta 5', 'PIB do Monitor', 'S', 'Informe o número de PIB(tombamento) do Monitor', '', 'te_info_patrimonio2', 'S'),
+            (1, 'etiqueta6', 'Etiqueta 6', 'PIB da Impressora', 'S', 'Caso haja uma Impressora conectada informe n?mero de PIB(tombamento)', '', 'te_info_patrimonio3', 'S'),
+            (1, 'etiqueta7', 'Etiqueta 7', 'Nº Série CPU (Opcional)', 'S', 'Caso não disponha do nº de PIB, informe o Nº de Série da CPU', '', 'te_info_patrimonio4', 'S'),
+            (1, 'etiqueta8', 'Etiqueta 8', 'Nº Série Monitor (Opcional)', 'S', 'Caso não disponha do nº de PIB, informe o Nº de Série do Monitor', '', 'te_info_patrimonio5', 'S'),
+            (1, 'etiqueta9', 'Etiqueta 9', 'Nº Série Impres. (Opcional)', 'S', 'Caso não disponha do nº de PIB, informe o Nº de Série da Impressora', '', 'te_info_patrimonio6', 'S');
 /*!40000 ALTER TABLE `patrimonio_config_interface` ENABLE KEYS */;
 
 --
@@ -123,7 +231,42 @@ INSERT INTO `patrimonio_config_interface` VALUES (1,'etiqueta1','Etiqueta 1','En
 
 
 /*!40000 ALTER TABLE `perfis_aplicativos_monitorados` DISABLE KEYS */;
-INSERT INTO `perfis_aplicativos_monitorados` VALUES (8,'Windows 2000','0','','0','','0','','0','','1','HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ProductId','2006-04-11 10:28:29','','','','','','',7,'','S','N',NULL),(16,'Windows 98 SE','0','','0','','0','','0','','1','HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId','2006-04-11 14:39:25','','','','','','',4,'','S','N',NULL),(20,'Windows XP','0','','0','','0','','0','','1','HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId','2006-04-11 10:29:29','','','','','','',8,'','S','N',NULL),(21,'Windows 95','0','','0','','0','','0','','1','HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId','2006-04-11 10:28:38','','','','','','',1,'','S','N',NULL),(22,'Windows 95 OSR2','0','','0','','0','','0','','1','HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId','2006-04-11 10:28:49','','','','','','',2,'','S','N',NULL),(23,'Windows NT','0','','0','','0','','0','','1','HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId','2006-04-11 10:29:18','','','','','','',6,'','S','N',NULL),(24,'Microsoft Office 2000','0','','0','','0','','0','','1','HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Office\\9.0\\Registration\\ProductID\\(Padr?o)','2006-04-11 10:28:15','','','','','','',0,'SuÃ­te para escritório com Editor de Textos, Planilha Eletrônica, Banco de Dados, etc.','S','N',NULL),(50,'OpenOffice.org 1.1.3','0','soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.3\\FriendlyAppName','0','OpenOffice.org1.1.3\\program\\soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.3\\FriendlyAppName','0','','2006-03-03 11:37:56','','','','','','',0,'','S','S',NULL),(51,'OpenOffice.org.br 1.1.3','0','soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 1.1.3\\FriendlyAppName','0','OpenOffice.org.br1.1.3\\program\\soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 1.1.3\\FriendlyAppName','0','','2006-03-03 11:38:21','','','','','','',0,'','S','S',NULL),(52,'OpenOffice.org 1.1.0','0','soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.0\\FriendlyAppName','0','soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.0\\FriendlyAppName','0','','2006-03-03 11:37:25','','','','','','',0,'','S','S',NULL),(53,'OpenOffice.org 1.0.3','0','soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.0.3\\FriendlyAppName','0','soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.0.3\\FriendlyAppName','0','','2006-03-03 11:37:12','','','','','','',0,'','S','S',NULL),(54,'OpenOffice.org 1.1.1a','0','soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.1a\\FriendlyAppName','0','soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.1a\\FriendlyAppName','0','','2006-03-03 11:37:37','','','','','','',0,'','S','S',NULL),(67,'CACIC - Col_Anvi - Col. de Inf. de Anti-Vírus','0','','4','Cacic\\modulos\\col_anvi.exe','0','','4','Cacic\\modulos\\col_anvi.exe','0','','2006-01-19 19:34:20','','','','','','',0,'','N','S',NULL),(68,'CACIC - Col_Moni - Col. de Inf. de Sistemas Monitorados','0','','4','cacic\\modulos\\col_moni.exe','0','','4','cacic\\modulos\\col_moni.exe','0','','2006-01-19 19:34:12','','','','','','',0,'','N','S',NULL),(69,'CACIC - Col_Patr - Col. de Inf. de Patrim?nio e Loc. F?sica','0','','4','cacic\\modulos\\col_patr.exe','0','','4','cacic\\modulos\\col_patr.exe','0','','2006-01-19 19:35:03','','','','','','',0,'','N','S',NULL),(70,'CACIC - Col_Hard - Col. de Inf. de Hardware','0','','4','cacic\\modulos\\col_hard.exe','0','','4','cacic\\modulos\\col_hard.exe','0','','2006-01-19 19:34:38','','','','','','',0,'','N','S',NULL),(71,'CACIC - Col_Soft - Col. de Inf. de Softwares B?sicos','0','','4','cacic\\modulos\\col_soft.exe','0','','4','cacic\\modulos\\col_soft.exe','0','','2006-01-19 19:35:19','','','','','','',0,'','N','S',NULL),(72,'CACIC - Col_Undi - Col. de Inf. de Unidades de Disco','0','','4','cacic\\modulos\\col_undi.exe','0','','4','cacic\\modulos\\col_undi.exe','0','','2006-01-19 19:35:35','','','','','','',0,'','N','S',NULL),(73,'CACIC - Col_Comp - Col. de Inf. de Compartilhamentos','0','','4','cacic\\modulos\\col_comp.exe','0','','4','cacic\\modulos\\col_comp.exe','0','','2006-01-19 19:34:29','','','','','','',0,'','N','S',NULL),(74,'CACIC - Ini_Cols - Inicializador de Coletas','0','','4','cacic\\modulos\\ini_cols.exe','0','','4','cacic\\modulos\\ini_cols.exe','0','','2006-01-10 16:33:12','','','','','','',0,'','N','S',NULL),(75,'CACIC - Agente Principal','0','','4','Cacic\\cacic2.exe','0','','4','Cacic\\cacic2.exe','0','','2006-01-19 19:37:07','','','','','','',0,'','S','S',NULL),(76,'CACIC - Gerente de Coletas','0','','4','Cacic\\modulos\\ger_cols.exe','0','','4','Cacic\\modulos\\ger_cols.exe','0','','2006-01-19 19:37:46','','','','','','',0,'','S','S',NULL),(77,'OpenOffice.org 2.0','0','Arquivos de programas\\OpenOffice.org 2.0\\program\\soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 2.0\\FriendlyAppName','0','Arquivos de programas\\OpenOffice.org 2.0\\program\\soffice.exe','2','HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 2.0\\FriendlyAppName','0','','2006-03-03 11:38:11','','','','','','',0,'','S','S',NULL);
+INSERT INTO `perfis_aplicativos_monitorados`
+            (`id_aplicativo`, `nm_aplicativo`, `cs_car_inst_w9x`, `te_car_inst_w9x`, `cs_car_ver_w9x`, `te_car_ver_w9x`,
+             `cs_car_inst_wnt`, `te_car_inst_wnt`, `cs_car_ver_wnt`, `te_car_ver_wnt`, `cs_ide_licenca`, `te_ide_licenca`,
+             `dt_atualizacao`, `te_arq_ver_eng_w9x`, `te_arq_ver_pat_w9x`, `te_arq_ver_eng_wnt`, `te_arq_ver_pat_wnt`,
+             `te_dir_padrao_w9x`, `te_dir_padrao_wnt`, `id_so`, `te_descritivo`, `in_disponibiliza_info`,
+             `in_disponibiliza_info_usuario_comum`, `dt_registro`)
+     VALUES
+            (8, 'Windows 2000', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 10:28:29', '', '', '', '', '', '', 7, '', 'S', 'N', NULL),
+            (16, 'Windows 98 SE', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 14:39:25', '', '', '', '', '', '', 4, '', 'S', 'N', NULL),
+            (20, 'Windows XP', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 10:29:29', '', '', '', '', '', '', 8, '', 'S', 'N', NULL),
+            (21, 'Windows 95', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 10:28:38', '', '', '', '', '', '', 1, '', 'S', 'N', NULL),
+            (22, 'Windows 95 OSR2', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 10:28:49', '', '', '', '', '', '', 2, '', 'S', 'N', NULL),
+            (23, 'Windows NT', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 10:29:18', '', '', '', '', '', '', 6, '', 'S', 'N', NULL),
+            (24, 'Microsoft Office 2000', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Office\\9.0\\Registration\\ProductID\\(Padr?o)', '2006-04-11 10:28:15', '', '', '', '', '', '', 0, 'SuÃ­te para escritÃ³rio com Editor de Textos, Planilha EletrÃ´nica, Banco de Dados, etc.', 'S', 'N', NULL),
+            (34, 'Plenus GateWay', '0', '', '3', 'c:\\gplenus\\tcp2lcw.ini/sock1/nome', '0', '', '3', 'c:\\gplenus\\tcp2lcw.ini/sock1/nome', '0', '', '2006-01-05 10:27:50', '', '', '', '', '', '', 0, '', 'S', 'S', '0000-00-00 00:00:00'),
+            (35, 'Plenus for Windows', '0', '', '3', 'c:\\wplenus\\plenus.trp/CV3/Nome', '0', '', '3', 'c:\\wplenus\\plenus.trp/CV3/Nome', '0', '', '2006-01-05 10:28:06', '', '', '', '', '', '', 0, '', 'S', 'S', '0000-00-00 00:00:00'),
+            (50, 'OpenOffice.org 1.1.3#DESATIVADO#', '1', 'OpenOffice.org1.1.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.3\\FriendlyAppName', '0', 'OpenOffice.org1.1.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.3\\FriendlyAppName', '0', '', '2007-10-30 17:30:27', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (51, 'OpenOffice.org.br 1.1.3#DESATIVADO#', '1', 'OpenOffice.org.br1.1.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 1.1.3\\FriendlyAppName', '0', 'OpenOffice.org.br1.1.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 1.1.3\\FriendlyAppName', '0', '', '2007-10-30 17:31:02', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (52, 'OpenOffice.org 1.1.0#DESATIVADO#', '1', 'OpenOffice.org1.1.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.0\\FriendlyAppName', '1', 'OpenOffice.org1.1.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.0\\FriendlyAppName', '0', '', '2007-10-30 17:30:00', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (53, 'OpenOffice.org 1.0.3#DESATIVADO#', '1', 'OpenOffice.org1.0.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.0.3\\FriendlyAppName', '1', 'OpenOffice.org1.0.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.0.3\\FriendlyAppName', '0', '', '2007-10-30 17:29:47', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (54, 'OpenOffice.org 1.1.1a#DESATIVADO#', '1', 'OpenOffice.org1.1.1a\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.1a\\FriendlyAppName', '1', 'OpenOffice.org1.1.1a\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.1a\\FriendlyAppName', '0', '', '2007-10-30 17:30:17', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (65, 'Plenus Estação', '0', '', '3', 'c:\\wplenus\\plenus.trp/RPRINT/Nome', '0', '', '3', 'c:\\wplenus\\plenus.trp/RPRINT/Nome', '0', '', '2006-01-05 10:28:22', '', '', '', '', '', '', 0, 'Grava a chave da Estação Plenus', 'S', 'S', '0000-00-00 00:00:00'),
+            (66, 'SART#DESATIVADO#', '1', 'sart.exe', '1', 'sart.exe', '1', 'sart.exe', '1', 'sart.exe', '0', '', '2007-05-11 12:25:18', '', '', '', '', '', '', 0, '', 'N', 'N', '0000-00-00 00:00:00'),
+            (68, 'CACIC - Col_Moni - Col. de Inf. de Sistemas Monitorados', '0', '', '4', 'cacic\\modulos\\col_moni.exe', '0', '', '4', 'cacic\\modulos\\col_moni.exe', '0', '', '2007-07-27 17:59:27', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
+            (69, 'CACIC - Col_Patr - Col. de Inf. de Patrimônio e Loc. Fí­sica', '0', '', '4', 'cacic\\modulos\\col_patr.exe', '0', '', '4', 'cacic\\modulos\\col_patr.exe', '0', '', '2007-07-27 17:59:39', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
+            (70, 'CACIC - Col_Hard - Col. de Inf. de Hardware', '0', '', '4', 'cacic\\modulos\\col_hard.exe', '0', '', '4', 'cacic\\modulos\\col_hard.exe', '0', '', '2007-07-27 17:59:19', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
+            (71, 'CACIC - Col_Soft - Col. de Inf. de Softwares Básicos', '0', '', '4', 'cacic\\modulos\\col_soft.exe', '0', '', '4', 'cacic\\modulos\\col_soft.exe', '0', '', '2007-07-27 17:59:48', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
+            (72, 'CACIC - Col_Undi - Col. de Inf. de Unidades de Disco', '0', '', '4', 'cacic\\modulos\\col_undi.exe', '0', '', '4', 'cacic\\modulos\\col_undi.exe', '0', '', '2007-07-27 17:59:56', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
+            (73, 'CACIC - Col_Comp - Col. de Inf. de Compartilhamentos', '0', '', '4', 'cacic\\modulos\\col_comp.exe', '0', '', '4', 'cacic\\modulos\\col_comp.exe', '0', '', '2007-07-27 19:06:39', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (74, 'CACIC - Ini_Cols - Inicializador de Coletas', '0', '', '4', 'cacic\\modulos\\ini_cols.exe', '0', '', '4', 'cacic\\modulos\\ini_cols.exe', '0', '', '2007-07-27 18:00:09', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
+            (75, 'CACIC - Agente Principal', '0', '', '4', 'Cacic\\cacic2.exe', '0', '', '4', 'Cacic\\cacic2.exe', '0', '', '2007-07-27 18:52:32', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (76, 'CACIC - Gerente de Coletas', '0', '', '4', 'Cacic\\modulos\\ger_cols.exe', '0', '', '4', 'Cacic\\modulos\\ger_cols.exe', '0', '', '2007-08-13 15:44:14', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (77, 'OpenOffice.org 2.0#DESATIVADO#', '0', 'Arquivos de programas\\OpenOffice.org 2.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 2.0\\FriendlyAppName', '0', 'Arquivos de programas\\OpenOffice.org 2.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 2.0\\FriendlyAppName', '0', '', '2007-10-30 17:30:37', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (78, 'Oracle Client 7', '3', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\ORACLE\\OTRACE73', '0', '', '3', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\ORACLE\\OTRACE73', '0', '', '0', '', '2007-09-20 19:48:09', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (79, 'BrOffice.org 2.0#DESATIVADO#', '1', 'BrOffice.org 2.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\BrOffice.org 2.0\\FriendlyAppName', '1', 'BrOffice.org 2.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\BrOffice.org 2.0\\FriendlyAppName', '0', '', '2007-10-30 17:29:30', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
+            (80, 'Microsoft Access 2000', '3', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Office\\9.0\\Access\\InstallRoot\\Path', '0', '', '3', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Office\\9.0\\Access\\InstallRoot\\Path', '0', '', '0', '', '2008-01-22 11:51:17', '', '', '', '', '', '', 0, '', 'S', 'N', NULL);
 /*!40000 ALTER TABLE `perfis_aplicativos_monitorados` ENABLE KEYS */;
 
 --
@@ -132,7 +275,24 @@ INSERT INTO `perfis_aplicativos_monitorados` VALUES (8,'Windows 2000','0','','0'
 
 
 /*!40000 ALTER TABLE `so` DISABLE KEYS */;
-INSERT INTO `so` VALUES (0,'S.O. Desconhecido','Desc.',""),(1,'Windows 95','W95',""),(2,'Windows 95 OSR2','W95OSR2',""),(3,'Windows 98','W98',""),(4,'Windows 98 SE','W98SE',""),(5,'Windows ME','WME',""),(6,'Windows NT','WNT',""),(7,'Windows 2000','W2K',""),(8,'Windows XP','WXP',""),(9,'GNU/Linux','LNX',""),(10,'FreeBSD','FBSD',""),(11,'NetBSD','NBSD',""),(12,'OpenBSD','OBSD',""),(13,'Windows 2003','W2003',"");
+INSERT INTO `so`
+            (`id_so`, `te_desc_so`, `sg_so`, `te_so`)
+     VALUES
+            (0, 'S.O. Desconhecido', 'Desc.', ''),
+            (1, 'Windows 95', 'W95', '1.4.0'),
+            (2, 'Windows 95 OSR2', 'W95OSR2', ''),
+            (3, 'Windows 98', 'W98', '1.4.10'),
+            (4, 'Windows 98 SE', 'W98SE', '1.4.10.A'),
+            (5, 'Windows ME', 'WME', ''),
+            (6, 'Windows NT', 'WNT', ''),
+            (7, 'Windows 2000', 'W2K', '2.5.0.Service Pack 4'),
+            (8, 'Windows XP', 'WXP', '2.5.1.Service Pack 2'),
+            (9, 'GNU/Linux', 'LNX', ''),
+            (10, 'FreeBSD', 'FBSD', ''),
+            (11, 'NetBSD', 'NBSD', ''),
+            (12, 'OpenBSD', 'OBSD', ''),
+            (13, 'Windows 2003', 'W2003', ''),
+            (14, 'Windows VISTA', 'VISTA', '2.6.0');
 /*!40000 ALTER TABLE `so` ENABLE KEYS */;
 
 --
@@ -141,7 +301,17 @@ INSERT INTO `so` VALUES (0,'S.O. Desconhecido','Desc.',""),(1,'Windows 95','W95'
 
 
 /*!40000 ALTER TABLE `tipos_software` DISABLE KEYS */;
-INSERT INTO `tipos_software` VALUES (0,'Versão de Avaliação (Trial)'),(1,'Correção/Atualização'),(2,'Sistema Interno'),(3,'Software Livre'),(4,'Software Licenciado'),(5,'Software Suspeito'),(6,'Software Descontinuado'),(7,'Jogos e Similares');
+INSERT INTO `tipos_software`
+            (`id_tipo_software`, `te_descricao_tipo_software`)
+     VALUES
+            (0, 'Versão Trial'),
+            (1, 'Correção/Atualização'),
+            (2, 'Sistema Interno'),
+            (3, 'Software Livre'),
+            (4, 'Software Licenciado'),
+            (5, 'Software Suspeito'),
+            (6, 'Software Descontinuado'),
+            (7, 'Jogos e Similares');
 /*!40000 ALTER TABLE `tipos_software` ENABLE KEYS */;
 
 --
@@ -150,5 +320,11 @@ INSERT INTO `tipos_software` VALUES (0,'Versão de Avaliação (Trial)'),(1,'Correç
 
 
 /*!40000 ALTER TABLE `tipos_unidades_disco` DISABLE KEYS */;
-INSERT INTO `tipos_unidades_disco` VALUES ('1','Removível'),('2','Disco Rígido'),('3','CD-ROM'),('4','Unid.Remota');
+INSERT INTO `tipos_unidades_disco`
+            (`id_tipo_unid_disco`, `te_tipo_unid_disco`)
+     VALUES
+            ('1', 'Removí­vel'),
+            ('2', 'Disco Rí­gido'),
+            ('3', 'CD-ROM'),
+            ('4', 'Unid.Remota');
 /*!40000 ALTER TABLE `tipos_unidades_disco` ENABLE KEYS */;

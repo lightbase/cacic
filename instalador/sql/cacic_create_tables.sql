@@ -21,8 +21,8 @@ CREATE TABLE `acoes` (
 --
 
 CREATE TABLE `acoes_excecoes` (
+  `id_local` int(11) NOT NULL,
   `te_node_address` varchar(17) NOT NULL default '',
-  `id_local` int(11) NOT NULL DEFAULT '0',
   `id_acao` varchar(20) NOT NULL default '',
   `id_so` int(11) NOT NULL default '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -126,6 +126,18 @@ CREATE TABLE `compartilhamentos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Table structure for table `componentes_estacoes`
+--
+
+CREATE TABLE `componentes_estacoes` (
+  `te_node_address` varchar(17) NOT NULL,
+  `id_so` int(11) NOT NULL,
+  `cs_tipo_componente` varchar(100) NOT NULL,
+  `te_valor` text NOT NULL,
+  KEY `te_node_address` (`te_node_address`,`id_so`,`cs_tipo_componente`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Componentes de hardware instalados nas estações';
+
+--
 -- Table structure for table `computadores`
 --
 
@@ -195,7 +207,8 @@ CREATE TABLE `configuracoes_locais` (
   `nu_exec_apos` int(11) default '10',
   `dt_hr_alteracao_patrim_interface` datetime default NULL,
   `dt_hr_alteracao_patrim_uon1` datetime default '0000-00-00 00:00:00',
-  `dt_hr_alteracao_patrim_uon2` datetime default NULL,
+  `dt_hr_alteracao_patrim_uon1a` datetime default '0000-00-00 00:00:00',
+  `dt_hr_alteracao_patrim_uon2` datetime default '0000-00-00 00:00:00',
   `dt_hr_coleta_forcada` datetime default NULL,
   `te_notificar_mudanca_patrim` text,
   `nm_organizacao` varchar(150) default NULL,
@@ -395,6 +408,18 @@ CREATE TABLE `historicos_software_completo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Table structure for table `insucessos_instalacao`
+--
+
+CREATE TABLE `insucessos_instalacao` (
+  `te_ip` varchar(15) NOT NULL,
+  `te_so` varchar(60) NOT NULL,
+  `id_usuario` varchar(60) NOT NULL,
+  `dt_datahora` datetime NOT NULL,
+  `cs_indicador` char(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Table structure for table `locais`
 --
 
@@ -441,10 +466,10 @@ CREATE TABLE `officescan` (
 --
 
 CREATE TABLE `patrimonio` (
-  `id_unid_organizacional_nivel1` int(11) default NULL,
+  `id_unid_organizacional_nivel1a` int(11) NOT NULL,
   `id_so` int(11) NOT NULL default '0',
   `dt_hr_alteracao` datetime NOT NULL default '0000-00-00 00:00:00',
-  `te_node_address` varchar(17) default NULL,
+  `te_node_address` varchar(17) NOT NULL,
   `id_unid_organizacional_nivel2` int(11) default NULL,
   `te_localizacao_complementar` varchar(100) default NULL,
   `te_info_patrimonio1` varchar(20) default NULL,
@@ -542,12 +567,12 @@ CREATE TABLE `redes` (
 --
 
 CREATE TABLE `redes_grupos_ftp` (
-  `id_ftp` int(11) NOT NULL auto_increment,
   `id_local` int(11) NOT NULL default '0',
   `id_ip_rede` varchar(15) NOT NULL default '0',
   `id_ip_estacao` varchar(15) NOT NULL default '0',
   `nu_hora_inicio` int(12) NOT NULL default '0',
   `nu_hora_fim` varchar(12) NOT NULL default '0',
+  `id_ftp` int(11) NOT NULL auto_increment,
   PRIMARY KEY ( `id_ftp` )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -560,7 +585,8 @@ CREATE TABLE `redes_versoes_modulos` (
   `id_ip_rede` varchar(15) NOT NULL default '',
   `nm_modulo` varchar(20) NOT NULL default '',
   `te_versao_modulo` varchar(20) default NULL,
-  PRIMARY KEY  (`id_ip_rede`,`nm_modulo`)
+  `dt_atualizacao` datetime NOT NULL,
+  PRIMARY KEY  (`id_ip_rede`,`nm_modulo`,`id_local`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -571,8 +597,8 @@ CREATE TABLE `so` (
   `id_so` int(11) NOT NULL default '0',
   `te_desc_so` varchar(50) default NULL,
   `sg_so` varchar(10) default NULL,
-  `te_so` varchar(50) DEFAULT NULL,
-  PRIMARY KEY  (`id_so`)
+  `te_so` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY  (`id_so`,`te_so`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -617,6 +643,7 @@ CREATE TABLE `softwares_inventariados` (
   `nm_software_inventariado` varchar(100) NOT NULL default '',
   `id_tipo_software` int(11) default '0',
   `id_software` int(10) unsigned default NULL,
+  `te_hash` varchar(40) NOT NULL,
   PRIMARY KEY  (`id_software_inventariado`),
   KEY `nm_software_inventariado` (`nm_software_inventariado`),
   KEY `id_software` (`id_software_inventariado`),
@@ -650,7 +677,7 @@ CREATE TABLE `tipos_licenca` (
 --
 
 CREATE TABLE `tipos_software` (
-  `id_tipo_software` int(10) unsigned NOT NULL,
+  `id_tipo_software` int(10) unsigned NOT NULL default '0',
   `te_descricao_tipo_software` varchar(30) NOT NULL default '',
   PRIMARY KEY  (`id_tipo_software`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -684,13 +711,24 @@ CREATE TABLE `unid_organizacional_nivel1` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Table structure for table `unid_organizacional_nivel1a`
+--
+
+CREATE TABLE `unid_organizacional_nivel1a` (
+  `id_unid_organizacional_nivel1` int(11) NOT NULL,
+  `id_unid_organizacional_nivel1a` int(11) NOT NULL auto_increment,
+  `nm_unid_organizacional_nivel1a` varchar(50) default NULL,
+  PRIMARY KEY  (`id_unid_organizacional_nivel1a`)
+) ENGINE=InnoDB AUTO_INCREMENT=262 DEFAULT CHARSET=latin1;
+
+--
 -- Table structure for table `unid_organizacional_nivel2`
 --
 
 CREATE TABLE `unid_organizacional_nivel2` (
   `id_local` int(11) unsigned NOT NULL default '0',
   `id_unid_organizacional_nivel2` int(11) NOT NULL auto_increment,
-  `id_unid_organizacional_nivel1` int(11) NOT NULL default '0',
+  `id_unid_organizacional_nivel1a` int(11) NOT NULL default '0',
   `nm_unid_organizacional_nivel2` varchar(50) NOT NULL default '',
   `te_endereco_uon2` varchar(80) default NULL,
   `te_bairro_uon2` varchar(30) default NULL,
@@ -701,7 +739,7 @@ CREATE TABLE `unid_organizacional_nivel2` (
   `nu_tel1_responsavel_uon2` varchar(10) default NULL,
   `nu_tel2_responsavel_uon2` varchar(10) default NULL,
   `dt_registro` datetime default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`id_unid_organizacional_nivel2`,`id_unid_organizacional_nivel1`),
+  PRIMARY KEY  (`id_unid_organizacional_nivel2`,`id_unid_organizacional_nivel1a`,`id_local`),
   KEY `id_localizacao` (`id_local`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -733,7 +771,7 @@ CREATE TABLE `usuarios` (
   `nm_usuario_completo` varchar(60) NOT NULL default '',
   `te_senha` varchar(50) NOT NULL default '',
   `dt_log_in` datetime NOT NULL default '0000-00-00 00:00:00',
-  `id_grupo_usuarios` int(1) default NULL,
+  `id_grupo_usuarios` int(1) NOT NULL default '1',
   `te_emails_contato` varchar(100) default NULL,
   `te_telefones_contato` varchar(100) default NULL,
   `te_locais_secundarios` varchar(200) default NULL,
@@ -748,6 +786,7 @@ CREATE TABLE `usuarios` (
 CREATE TABLE `variaveis_ambiente` (
   `id_variavel_ambiente` int(10) unsigned NOT NULL auto_increment,
   `nm_variavel_ambiente` varchar(100) NOT NULL default '',
+  `te_hash` varchar(40) NOT NULL,
   PRIMARY KEY  (`id_variavel_ambiente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -781,3 +820,4 @@ CREATE TABLE `versoes_softwares` (
   `te_versao_jre` varchar(6) default NULL,
   PRIMARY KEY  (`te_node_address`,`id_so`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+

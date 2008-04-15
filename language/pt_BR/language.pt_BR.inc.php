@@ -39,7 +39,7 @@ pt_BR     kciq_msg verify                                                       
 pt_BR     kciq_msg build bd                                                                                   instaladorinfo                Construir BD
 pt_BR     kciq_msg new help                                                                                   instaladorinfo                Construir o banco de dados para uma nova instalação do CACIC.
 pt_BR     kciq_msg inst database build fail                                                                   instaladorinfo                Construção do banco de dados para o CACIC não realizada adequadamente!
-pt_BR     kciq_msg inst building tables on database                                                           instaladorinfo                Criando as tabelas no banco de dados...
+pt_BR     kciq_msg inst building tables on database                                                           instaladorinfo                Criando as tabelas no banco de dados (%1)...
 pt_BR     kciq_msg inst build database                                                                        instaladorinfo                Criando o banco (%1) ...
 pt_BR     kciq_msg build bd help                                                                              instaladorinfo                Criar banco de dados.
 pt_BR     kciq_msg database table build                                                                       instaladorinfo                Criação das tabelas do banco de dados!
@@ -104,8 +104,8 @@ pt_BR     kciq_msg inst local insert                                            
 pt_BR     kciq_msg demo help                                                                                  instaladorinfo                Inserir dados para demonstração do CACIC.
 pt_BR     kciq_msg instalada                                                                                  geral     info                Instalada
 pt_BR     instalador                                                                                          geral     TagHeader           Instalador
-pt_BR     kciq_installertitle                                                                                 instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
+pt_BR     kciq_installertitle                                                                                 instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_msg inst finished and verified                                                                 instaladorinfo                Instalação do CACIC finalizada e veficada!
 pt_BR     kciq_msg advise_title                                                                               instaladorinfo                Instrução PHP/Apache
 pt_BR     kciq_installerintrotitle                                                                            instaladorinfo                Introdução
@@ -134,6 +134,7 @@ pt_BR     kciq_msg showcfgfile help                                             
 pt_BR     kciq_msg js_enable                                                                                  instaladorinfo                Necessário ativar <b>JavaScript</b> para usar o Instalador Web
 pt_BR     kciq_msg login needed                                                                               geral     info                Necessário haver autenticação
 pt_BR     nenhum usuario cadastrado ou sua sessao expirou!                                                    admin     info                Nenhum usuario cadastrado ou sua sessao expirou!
+pt_BR     kciq_msg repositorio help                                                                           admin     info                Nesta página é possível verificar o conteúdo do repositório, bem como excluir os objetos que não serão utilizados nos updates das SubRedes.
 pt_BR     neste modulo deverao ser cadastrados os usuarios que acessarao o sistema.                           admin     info                Neste modulo deverao ser cadastrados os usuarios que acessarao o sistema.
 pt_BR     nome                                                                                                admin     info                Nome
 pt_BR     kciq_msg name                                                                                       geral     info                Nome
@@ -170,6 +171,7 @@ pt_BR     ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expir
 pt_BR     ocorreu um erro no acesso a tabela %1 ou sua sessao expirou                                         admin     info                Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou
 pt_BR     kciq_msg ok                                                                                         geral     info                Ok
 pt_BR     kciq_msg mcrypt_suporte                                                                             instaladorinfo      php-MCryptPHP com suporte a criptografia com MCrypt
+pt_BR     kciq_msg mail_suporte                                                                               install   info                PHP com suporte a envio de email
 pt_BR     kciq_msg gd_suporte                                                                                 instaladorinfo      php-GD    PHP com suporte a imagens com GD
 pt_BR     kciq_msg ftp_suporte                                                                                instaladorinfo      php-FTP   PHP com suporte a troca de arquivos por FTP.
 pt_BR     kciq_msg mysql_suporte                                                                              instaladorinfo      php-MySQL PHP com suporte ao MySQL versão
@@ -265,5 +267,3 @@ pt_BR     kciq_msg license pt_read                                              
 pt_BR     kciq_msg last agents access                                                                         geral     info                Últimos acessos dos agentes
 pt_BR     kciq_msg last agents access on local                                                                geral     info                Últimos acessos dos agentes deste local
 pt_BR     kciq_msg last agents access per local                                                               geral     info                Últimos acessos dos agentes por local nesta data
-pt_BR     kciq_msg mail_suporte                                                                               install   info                PHP com suporte a envio de email
-pt_BR     kciq_msg Repositorio help                                                                           admin     info                Nesta página é possível verificar o conteúdo do repositório, bem como excluir os objetos que não serão utilizados nos updates das SubRedes.

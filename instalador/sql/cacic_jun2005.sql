@@ -55,8 +55,9 @@ CREATE TABLE `configuracoes_locais` (
   `in_exibe_bandeja` char(1) DEFAULT 'S',
   `nu_exec_apos` integer(11) DEFAULT '10',
   `dt_hr_alteracao_patrim_interface` datetime DEFAULT NULL,
-  `dt_hr_alteracao_patrim_uon1` datetime DEFAULT '0000-00-00 00:00:00',
-  `dt_hr_alteracao_patrim_uon2` datetime DEFAULT NULL,
+  `dt_hr_alteracao_patrim_uon1` datetime default '0000-00-00 00:00:00',
+  `dt_hr_alteracao_patrim_uon1a` datetime default '0000-00-00 00:00:00',
+  `dt_hr_alteracao_patrim_uon2` datetime default '0000-00-00 00:00:00',
   `dt_hr_coleta_forcada` datetime DEFAULT NULL,
   `te_notificar_mudanca_patrim` text,
   `nm_organizacao` varchar(150) DEFAULT NULL,
@@ -178,6 +179,17 @@ CREATE TABLE `historicos_software_completo` (
   PRIMARY KEY (`te_node_address`, `id_so`, `id_software_inventariado`, `dt_hr_inclusao`)
 ) ENGINE=InnoDB CHARACTER SET=latin1;
 
+--
+-- Table structure for table `insucessos_instalacao`
+--
+
+CREATE TABLE `insucessos_instalacao` (
+  `te_ip` varchar(15) NOT NULL,
+  `te_so` varchar(60) NOT NULL,
+  `id_usuario` varchar(60) NOT NULL,
+  `dt_datahora` datetime NOT NULL,
+  `cs_indicador` char(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Table: `locais`
@@ -299,6 +311,7 @@ ALTER TABLE officescan ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE officescan CHANGE te_node_address te_node_address varchar(17) NOT NULL DEFAULT '';
 ALTER TABLE officescan CHANGE id_so id_so int(11) NOT NULL DEFAULT '0';
 ALTER TABLE patrimonio ENGINE=InnoDB CHARACTER SET=latin1;
+ALTER TABLE patrimonio CHANGE id_unid_organizacional_nivel1a id_unid_organizacional_nivel1a int(11) NOT NULL;
 CREATE INDEX te_node_address ON patrimonio (te_node_address,id_so);
 ALTER TABLE patrimonio_config_interface DROP PRIMARY KEY;
 ALTER TABLE patrimonio_config_interface ENGINE=InnoDB CHARACTER SET=latin1;
@@ -317,13 +330,23 @@ ALTER TABLE redes_grupos_ftp ADD id_ftp int(11) NOT NULL auto_increment;
 ALTER TABLE redes_grupos_ftp ADD PRIMARY KEY ( `id_ftp` ); 
 ALTER TABLE redes_versoes_modulos ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE redes_versoes_modulos ADD id_local int(11) DEFAULT '0' NOT NULL;
+ALTER TABLE redes_versoes_modulos
+        ADD dt_atualizacao datetime NOT NULL,
+       DROP PRIMARY KEY,
+        ADD PRIMARY KEY (`id_ip_rede`,`nm_modulo`,`id_local`);
+
 ALTER TABLE so ENGINE=InnoDB CHARACTER SET=latin1;
-ALTER TABLE so ADD te_so varchar(50) DEFAULT NULL;
+ALTER TABLE so 
+        ADD te_so varchar(50) NOT NULL DEFAULT '',
+       DROP PRIMARY KEY,
+        ADD PRIMARY KEY (`id_so`,`te_so`);
 ALTER TABLE softwares_inventariados ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE softwares_inventariados ADD id_tipo_software int(11) DEFAULT '0';
 ALTER TABLE softwares_inventariados ADD id_software int(10) DEFAULT NULL;
 CREATE INDEX id_software ON softwares_inventariados (id_software_inventariado);
 ALTER TABLE softwares_inventariados_estacoes ENGINE=InnoDB CHARACTER SET=latin1;
+ALTER TABLE softwares_inventariados
+        ADD te_hash varchar(40) NOT NULL;
 CREATE INDEX id_software ON softwares_inventariados_estacoes (id_software_inventariado);
 ALTER TABLE tipos_unidades_disco ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE unid_organizacional_nivel1 ENGINE=InnoDB CHARACTER SET=latin1;
@@ -332,12 +355,15 @@ ALTER TABLE unid_organizacional_nivel2 ADD id_local int(11) DEFAULT '0' NOT NULL
 CREATE INDEX id_localizacao ON unid_organizacional_nivel2 (id_local);
 ALTER TABLE unidades_disco ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE usuarios ENGINE=InnoDB CHARACTER SET=latin1;
-ALTER TABLE usuarios ADD id_local int(11) DEFAULT '0' NOT NULL;
-ALTER TABLE usuarios ADD te_emails_contato varchar(100) DEFAULT NULL;
-ALTER TABLE usuarios ADD te_telefones_contato varchar(100) DEFAULT NULL;
-ALTER TABLE usuarios ADD te_locais_secundarios varchar(200) DEFAULT NULL;
-ALTER TABLE usuarios CHANGE te_senha te_senha varchar(50) NOT NULL DEFAULT '';
-ALTER TABLE usuarios CHANGE nm_usuario_acesso varchar(20) NOT NULL default '';
+ALTER TABLE usuarios
+        ADD id_local int(11) DEFAULT '0' NOT NULL,
+        ADD te_emails_contato varchar(100) DEFAULT NULL,
+        ADD te_telefones_contato varchar(100) DEFAULT NULL,
+     CHANGE te_senha te_senha varchar(50) NOT NULL DEFAULT '',
+     CHANGE nm_usuario_acesso varchar(20) NOT NULL default '',
+        ADD te_locais_secundarios varchar(200) DEFAULT NULL,
+     CHANGE id_grupo_usuarios id_grupo_usuarios int(1) NOT NULL default '1';
+
 CREATE INDEX id_localizacao ON usuarios (id_local);
 ALTER TABLE variaveis_ambiente ENGINE=InnoDB CHARACTER SET=latin1;
 ALTER TABLE variaveis_ambiente_estacoes ENGINE=InnoDB CHARACTER SET=latin1;
@@ -353,3 +379,35 @@ ALTER TABLE versoes_softwares ADD PRIMARY KEY (te_node_address, id_so);
 DROP TABLE configuracoes;
 DROP TABLE gerentes;
 DROP TABLE gerentes_versoes_modulos;
+
+--
+-- Table structure for table `componentes_estacoes`
+--
+
+CREATE TABLE `componentes_estacoes` (
+  `te_node_address` varchar(17) NOT NULL,
+  `id_so` int(11) NOT NULL,
+  `cs_tipo_componente` varchar(100) NOT NULL,
+  `te_valor` text NOT NULL,
+  KEY `te_node_address` (`te_node_address`,`id_so`,`cs_tipo_componente`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Componentes de hardware instalados nas estações';
+
+--
+-- Table structure for table `unid_organizacional_nivel1a`
+--
+
+CREATE TABLE `unid_organizacional_nivel1a` (
+  `id_unid_organizacional_nivel1` int(11) NOT NULL,
+  `id_unid_organizacional_nivel1a` int(11) NOT NULL auto_increment,
+  `nm_unid_organizacional_nivel1a` varchar(50) default NULL,
+  PRIMARY KEY  (`id_unid_organizacional_nivel1a`)
+) ENGINE=InnoDB AUTO_INCREMENT=262 DEFAULT CHARSET=latin1;
+
+ALTER TABLE unid_organizacional_nivel2
+     CHANGE id_unid_organizacional_nivel1 id_unid_organizacional_nivel1a int(11) NOT NULL default '0',
+       DROP PRIMARY KEY,
+        ADD PRIMARY KEY (`id_unid_organizacional_nivel2`,`id_unid_organizacional_nivel1a`,`id_local`);
+
+ALTER TABLE variaveis_ambiente
+        ADD te_hash varchar(40) NOT NULL;
+
