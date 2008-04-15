@@ -208,7 +208,7 @@ function SetaServidorUpdates()
 
 function valida_form(frmForm) 
 	{
-	VerificaRedeMascara(frmForm);
+	
 	if ( document.form.frm_nu_limite_ftp.value == "" ) 
 		{	
 		document.form.frm_nu_limite_ftp.value = "30";
@@ -290,7 +290,10 @@ function valida_form(frmForm)
 		alert("Digite a Senha para Login no Servidor de Updates pelo Módulo Gerente");
 		document.form.frm_te_senha_login_serv_updates_gerente.focus();
 		return false;
-		}					
+		}
+		
+	VerificaRedeMascara(frmForm);
+						
 	return true;
 	}
 </script>
