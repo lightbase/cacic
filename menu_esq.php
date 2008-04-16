@@ -20,8 +20,8 @@ require_once('include/config.php');
 require_once('include/define.php');
 require_once "include/library.php";
 
-// IP?s onde ser?o exibidas mensagens de Debug, para acompanhamento de atualiza??o de scripts.
-// Os IP?s devem estar entre "[" e "]". Exemplo: s_SESSION['cIpsDisplayDebugs'] = '[10.71.0.58][10.71.0.52]';
+// IP's onde serao exibidas mensagens de Debug, para acompanhamento de atualizacao de scripts.
+// Os IP's devem estar entre "[" e "]". Exemplo: s_SESSION['cIpsDisplayDebugs'] = '[10.71.0.58][10.71.0.52]';
 $_SESSION['cIpsDisplayDebugs'] = '[10.71.0.58][10.71.0.52]';
 
 conecta_bd_cacic();
@@ -47,7 +47,7 @@ function PegaConfiguracoesLocais($p_id_local)
 	$row_configs_locais  				= @mysql_fetch_array($res_configs_locais);
 	$_SESSION['id_default_body_bgcolor']= $row_configs_locais['id_default_body_bgcolor'];				
 	}
-// Caso o usu?rio clique em "logoff" a sua sess?o ? destru?da
+// Caso o usuario clique em "logoff" a sua sessao eh destruida
 if($_POST['logoff'])
      {
 	 session_unregister('id_grupo_usuarios');	 
@@ -110,7 +110,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	$result_qry_usuario = mysql_query($query);
 	if (mysql_num_rows($result_qry_usuario)<=0)
 		{
-		// Para MySQL at? 4.0	
+		// Para MySQL ate 4.0	
 		// Anderson Peterle - Dataprev/ES - 04/09/2006		
 		$query = $qry_usuario . $v_AUTH_PASSWORD;
 		$result_qry_usuario = mysql_query($query);
@@ -121,7 +121,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 			{ 			
 			$_SESSION["id_grupo_usuarios"] 		=             $reg_result['id_grupo_usuarios'];			
 			$_SESSION["nm_usuario"] 			= PrimUltNome($reg_result['nm_usuario_completo']);
-			$_SESSION["menu_usuario"]      		=             getMenu($reg_result['te_menu_grupo']); //'language/menus/'.$reg_result['te_menu_grupo'];			 			 
+			$_SESSION["menu_usuario"]      		=             getMenu($reg_result['te_menu_grupo']);
 			$_SESSION["id_usuario"] 			=             $reg_result['id_usuario'];						 
 			$_SESSION["id_usuario_crypted"] 	=             EnCrypt($key,$iv,$reg_result['id_usuario'],"1","0","0");
 			$_SESSION["id_local"]				=             $reg_result['id_local'];			 			 			 
@@ -196,7 +196,7 @@ if (!$_SESSION["id_usuario"])
 		{
 	 	$_SESSION["id_grupo_usuarios"] 		=             3; // Convidado
 		$_SESSION["nm_usuario"] 			= 			  '';
-		$_SESSION["menu_usuario"]      		=             getMenu("menu_con.txt"); //'language/menus/menu_con.txt';			 			 
+		$_SESSION["menu_usuario"]      		=             getMenu("menu_con.txt");
 		$_SESSION["id_usuario"] 			=             1;
 		$_SESSION["id_local"]				=             $v_dados_rede['id_local'];			 			 
 		$_SESSION["nm_local"]				=             $v_dados_rede['nm_local'];			 			 			 
@@ -231,8 +231,8 @@ if (!$_SESSION["id_usuario"])
         <div align="justify">
         <table width="99%" height="99%" border="1">
         <tr> 
-        <td><div align="justify"><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
-        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></div></td>
+        <td><noscript><div align="justify"><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
+        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></div></noscript></td>
         </tr>
         </table>
         </div>
@@ -298,7 +298,7 @@ else
 		{
 		var campo = document.getElementById('mensagem_pesquisa');
    		campo.style.backgroundColor = "#ebebeb";		
-		campo.value = "Nome da Esta??o, IP ou MAC";
+		campo.value = "Nome da Estação, IP ou MAC";
 		}
 	function DesligaHelp()
 		{
@@ -319,7 +319,7 @@ else
 	</SCRIPT>		
 	
 	<?
-	if ($_SESSION['id_grupo_usuarios']<>3) // Caso n?o seja usu?rio "Convidado" (atribu?do automaticamente quando rede e local s?o identificados)
+	if ($_SESSION['id_grupo_usuarios']<>3) // Caso nao seja usuario "Convidado" (atribuido automaticamente quando rede e local sao identificados)
 		{
 		?>
 		<!-- Inicio Marisol 24-07-06 --> 
@@ -346,7 +346,7 @@ else
   		<table border="0" align="center">
 		<tr nowrap> 
 		<?
-	if ($_SESSION['id_grupo_usuarios']<>3) // Caso n?o seja usu?rio "Convidado" (atribu?do automaticamente quando rede e local s?o identificados)		
+	if ($_SESSION['id_grupo_usuarios']<>3) // Caso nao seja usuario "Convidado" (atribuido automaticamente quando rede e local sao identificados)		
 		{	
 		?>  			
       	<td nowrap class="label_peq_sem_fundo" valign="bottom"><?= $oTranslator->_('kciq_msg user'); ?>:</td>		
@@ -358,8 +358,8 @@ else
         <div align="justify">
         <table width="99%" height="99%" border="1">
         <tr> 
-        <td><div align="justify"><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
-        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></div></td>
+        <td><noscript><div align="justify"><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
+        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></div></noscript></td>
         </tr>
         </table>
         </div>
@@ -399,8 +399,8 @@ else
         <div align="justify">
         <table width="99%" height="99%" border="1">
         <tr> 
-        <td><div align="justify"><noscript><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
-        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></noscript></div></td>
+        <td><noscript><div align="justify"><font color="#FF0000" size="2"><strong><?= $oTranslator->_('kciq_msg attention');?>:</strong></font><font color="#0000FF" size="1"> 
+        <?= $oTranslator->_('kciq_msg javascript not enabled');?></font></div></noscript></td>
         </tr>
         </table>
         </div>
