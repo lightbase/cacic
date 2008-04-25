@@ -14,6 +14,14 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+session_start();
+/*
+ * verifica se houve login e também as permissões de usuário
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para verificar permissões do usuário!
+}
 require_once('../include/library.php');
 AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 1 - Administra<E7><E3>o

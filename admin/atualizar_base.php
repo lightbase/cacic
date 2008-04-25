@@ -13,8 +13,14 @@
  Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral GNU, sob o tï¿½tulo "LICENCA.txt", junto com este programa, se nï¿½o, escreva para a Fundaï¿½ï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-?>
-<?
+session_start();
+/*
+ * verifica se houve login e também as permissões de usuário
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso negado!');
+else { // Inserir regras para verificar permissões do usuário!
+}
 require_once('../include/library.php');
 $where = '';
 if ($_GET['v_id_ip_gerente'])
