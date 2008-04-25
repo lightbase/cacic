@@ -24,7 +24,11 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../include/library.php'); 
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 ?>
 <html>
 <head>
@@ -32,8 +36,15 @@ require_once('../include/library.php');
 <title><?=$oTranslator->_('Coleta induzida por Computador');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <? // O require abaixo será usado pelo inc_opcoes_administrativas/coleta_forcada.php - Não remova! - A.A.P. 23/09/2004
-require_once('../include/opcoes_avancadas_combos.js'); ?> 
-
+require_once('../include/opcoes_avancadas_combos.js'); ?>
+<style type="text/css">
+<!--
+.style1 {
+	color: #000099;
+	font-weight: bold;
+}
+-->
+</style>
 </head>
 
 <body>
@@ -46,26 +57,26 @@ require_once('../include/opcoes_avancadas_combos.js'); ?>
   <tr> 
       <td class="descricao"><?=$oTranslator->_('Esta pagina permite induzir coletas em determinado computador');?></td>
   </tr>
+    	<tr> 
+      	<td><br>
+      	  <span class="style1"><u>Observa&ccedil;&otilde;es</u>: </span><br>
+      	  1) 
+      	  Este comando informar&aacute; ao computador alvo que a pr&oacute;xima coleta deve ser enviada ao gerente incondicionalmente, ou seja, mesmo que seja id&ecirc;ntica &agrave; anterior;<br>
+      	  2)  A coleta acontecer&aacute; obedecendo ao intervalo previamente configurado por usu&aacute;rio com o devido privil&eacute;gio de acesso.</td>
+    	</tr>
 
 <br>
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
 	<?
 	$forca_coleta_estacao = 'OK'; // Variável a ser verificada pela rotina em opcoes_avancadas.php
 	require_once('../include/opcoes_avancadas.php');
 	?>
-    
-    	<tr> 
-      	<td height="1" bgcolor="#333333"></td>
-    	</tr>
-    	<tr> 
-      	<td>&nbsp;</td>
-    	</tr>
+	<br>
+	<br>
     	<tr> 
       	<td><div align="center"> 
         <input name="submit" type="submit" value="<?=$oTranslator->_('Induzir coletas');?>">
         </div></td>
     	</tr>
-  </table>
 </table>
 </form>
 <p>&nbsp;</p>

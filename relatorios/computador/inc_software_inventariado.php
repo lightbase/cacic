@@ -62,7 +62,7 @@ else
 					$strCor = '';  					
 					while ($row = mysql_fetch_array($result_software)) 
 					{
-					$strCor = ($strCor==''?'#CCCCFF':'');						  
+					$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
 					
 					$v_achei = 1;
 					$intContaItem ++;

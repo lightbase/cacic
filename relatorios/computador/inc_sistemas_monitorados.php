@@ -47,7 +47,7 @@ else
 <?
 if ($_SESSION['aplicativo_monitorado'] == true) 
 	{
-	$linha = '	<tr bgcolor="#e7e7e7"> 
+	$linha = '	<tr bgcolor="'.$strCorDaLinha.'"> 
 				<td height="1" colspan="6"></td>
 				</tr>';
 		
@@ -90,7 +90,7 @@ if ($_SESSION['aplicativo_monitorado'] == true)
 		while ($row = mysql_fetch_array($result_software)) 
 			{
 			$v_achei = 1;
-			$strCor = ($strCor==''?'#CCCCFF':'');						  			
+			$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  			
 			?>
 			<tr bgcolor="<? echo $strCor;?>"> 
 			<td class="descricao">&nbsp;<? echo $row['nm_aplicativo']; ?></td>

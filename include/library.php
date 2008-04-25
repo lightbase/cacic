@@ -13,8 +13,7 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-
-@session_start();
+session_start();
 @define('CACIC',1);
 
 @include_once('config.php');
@@ -30,7 +29,50 @@ $oTranslator = new Translator( CACIC_LANGUAGE, CACIC_PATH.CACIC_LANGUAGE_PATH, C
 $oTranslator->setURLPath(TRANSLATOR_PATH_URL);
 $oTranslator->setLangFilesInSubDirs(true);
 $oTranslator->initStdLanguages();
+//Debug($_SERVER['SCRIPT_FILENAME']);
 
+// --------------------------------------------------------------------------
+// Função para retorno dos nomes das colunas de hardware passível de controle
+// --------------------------------------------------------------------------
+function getDescricoesColunasComputadores()
+	{
+	// Conecto ao banco
+	conecta_bd_cacic();	
+	
+	// Consulto lista de colunas de hardware e retorno em um array
+	$queryDescricoesColunasComputadores  = "SELECT 	nm_campo, 
+											te_descricao_campo
+								 FROM 		descricoes_colunas_computadores";
+	$resultDescricoesColunasComputadores = mysql_query($queryDescricoesColunasComputadores) or die('Ocorreu um erro durante a consulta à tabela descricoes_colunas_computadores.');
+
+	// Crio um array que conterá nm_campo => te_descricao_campo.	 
+	$arrDescricoesColunasComputadoresAux = array();
+	while($rowHardware = mysql_fetch_array($resultDescricoesColunasComputadores)) 	
+		$arrDescricoesColunasComputadoresAux[trim($rowHardware['nm_campo'])] = $rowHardware['te_descricao_campo'];
+	return $arrDescricoesColunasComputadoresAux;
+	}
+
+// --------------------------------------------------------------
+// Função para retorno dos nomes de hardware passível de controle
+// --------------------------------------------------------------
+function getDescricaoHardware()
+	{
+	// Conecto ao banco
+	conecta_bd_cacic();	
+	
+	// Consulto lista de descrições de hardware e retorno em um array
+	$queryDescricaoHardware  = "SELECT 	nm_campo_tab_hardware, 
+										te_desc_hardware
+							 FROM 		descricao_hardware";
+	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware.');
+
+	// Crio um array que conterá nm_campo => te_descricao_campo.	 
+	$arrDescricaoHardwareAux = array();
+	while($rowHardware = mysql_fetch_array($resultDescricaoHardware)) 	
+		$arrDescricaoHardwareAux[trim($rowHardware['nm_campo_tab_hardware'])] = $rowHardware['te_desc_hardware'];
+	return $arrDescricaoHardwareAux;
+	}
+	
 // --------------------------------------------------------------------------------------
 // Função para bloqueio de acesso indevido
 // --------------------------------------------------------------------------------------
@@ -46,11 +88,11 @@ function AntiSpy($strNiveisPermitidos = '')
 	include $mainFolder.'/include/config.php'; // Incluo o config.php para pegar as chaves de criptografia	
 
 	if (session_is_registered("id_usuario") && session_is_registered("id_usuario_crypted") && 
-	    $_SESSION["id_usuario_crypted"] == EnCrypt($key,$iv,$_SESSION["id_usuario"],"1","0","0") &&
+	    $_SESSION["id_usuario_crypted"] == EnCrypt($key,$iv,$_SESSION["id_usuario"],"1","0","0","") &&
 	    $boolNivelPermitido)
    		return true;
 	//$_SERVER['HTTP_HOST']
-	$strLocation = 'http://'.$_SERVER['HTTP_HOST'].'/cacic2/include/acesso_nao_permitido.php';	
+	$strLocation = 'http://'.$_SERVER['SERVER_ADDR'].'/cacic2/include/acesso_nao_permitido.php';	
 	header ("Location: $strLocation");		
 	exit;		
 	}
@@ -228,8 +270,14 @@ function stripos2($strString, $strSubString, $boolRetornaPosicao = true)
 // To decrypt values 
 // p_cs_cipher => Y/N 
 // ---------------------------------
-function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnCompress='0') 
+function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnCompress='0', $p_PaddingKey = '') 
 	{
+	$p_CipherKey .= $p_PaddingKey;
+	
+	GravaTESTES('Em DeCrypt: p_CipherKey   = "'.$p_CipherKey.'"');
+	GravaTESTES('Em DeCrypt: p_IV          = "'.$p_IV.'"');	
+	GravaTESTES('Em DeCrypt: p_CriptedData = "'.$p_CriptedData.'"');		
+	GravaTESTES('Em DeCrypt: p_cs_Cipher   = "'.$p_cs_Cipher.'"');	
 	// Bloco de Substituições para antes da Decriptação
 	// ------------------------------------------------
 	// Razão: Dependendo da configuração do servidor, os valores
@@ -266,6 +314,15 @@ function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnComp
 	if ($p_cs_UnCompress == '1')
 		$v_result = gzinflate($v_result);		
 
+	GravaTESTES('Em DeCrypt: p_PaddingKey = "'.$p_PaddingKey.'"');					
+	// Aqui retiro do resultado a ocorrência do preenchimento, caso exista. (o agente Python faz esse preenchimento)
+	if ($p_PaddingKey <> '') 
+		{               
+		$char 		= substr($p_PaddingKey,0,1);
+       	$re 		= "/".$char."*$/";
+       	$v_result 	= preg_replace($re, "", $v_result);
+   		} 
+	GravaTESTES('Em DeCrypt: v_result = "'.$v_result.'"');				
 	return trim($v_result);
 	}
 
@@ -288,9 +345,10 @@ if(!function_exists('hash'))
 // To crypt values
 // p_cs_cipher => Y/N 
 // ------------------------------
-function EnCrypt($p_CipherKey, $p_IV, $p_PlainData, $p_cs_Cipher, $p_cs_Compress, $p_compress_level=0) 
+function EnCrypt($p_CipherKey, $p_IV, $p_PlainData, $p_cs_Cipher, $p_cs_Compress, $p_compress_level=0, $p_PaddingKey = '') 
 	{
-
+	$p_CipherKey .= $p_PaddingKey;
+	
 	if ($p_cs_Cipher=='1') 
 		$v_result = base64_encode(@mcrypt_cbc(MCRYPT_RIJNDAEL_128,$p_CipherKey,$p_PlainData,MCRYPT_ENCRYPT,$p_IV));		
 	else
@@ -627,12 +685,21 @@ function dectobin($dectobin)
 	return $cadtemp.$dectobin;
 	}
 
-function autentica_agente($p_CipherKey, $p_IV, $p_cs_cipher, $p_cs_compress) 
+function autentica_agente($p_CipherKey, $p_IV, $p_cs_cipher, $p_cs_compress, $p_PaddingKey='') 
 	{
-
-	if ((strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['HTTP_USER_AGENT'],$p_cs_cipher, $p_cs_compress)) != 'AGENTE_CACIC') ||
-	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_USER'],$p_cs_cipher, $p_cs_compress)) != 'USER_CACIC') ||
-	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_PW'],$p_cs_cipher, $p_cs_compress)) != 'PW_CACIC'))   
+	
+	GravaTESTES('###########################################');		
+	GravaTESTES('Script Chamador:  '.$_SERVER['REQUEST_URI']);		
+	GravaTESTES('1:  '.$_SERVER['HTTP_USER_AGENT']);	
+	GravaTESTES('11: '.strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['HTTP_USER_AGENT'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)));
+	GravaTESTES('2:  '.$_SERVER['PHP_AUTH_USER']);	
+	GravaTESTES('22: '.strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_USER'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)));	
+	GravaTESTES('3:  '.$_SERVER['PHP_AUTH_PW']);		
+	GravaTESTES('33: '.strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_PW'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)));			
+	GravaTESTES('###########################################');			
+	if ((strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['HTTP_USER_AGENT'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)) != 'AGENTE_CACIC') ||
+	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_USER'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)) != 'USER_CACIC') ||
+	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_PW'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)) != 'PW_CACIC'))   
 	   	{
         echo 'Acesso não autorizado.';
 		exit;
@@ -689,21 +756,21 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 	if (substr_count($v_te_ip,'zf')>0 || trim($v_te_ip)=='')
 		$v_te_ip = 	$_SERVER['REMOTE_ADDR'];
 	
-	//GravaTESTES('Script Chamador: '.$_SERVER['REQUEST_URI']);		
-	//GravaTESTES('v_te_ip: '.$v_te_ip);			
+	GravaTESTES('Script Chamador: '.$_SERVER['REQUEST_URI']);		
+	GravaTESTES('v_te_ip: '.$v_te_ip);			
 	
 
-	//	{
-		//GravaTESTES('te_node_address: '.$te_node_address);			
-		//GravaTESTES('id_so_new: '.$id_so_new);			
-		//GravaTESTES('te_so_new: '.$te_so_new);			
-		//GravaTESTES('te_so_new_new: '.$te_so_new_new);					
-		//GravaTESTES('id_ip_rede: '.$id_ip_rede);			
-		//GravaTESTES('te_ip: '.$te_ip);			
-		//GravaTESTES('v_te_ip: '.$v_te_ip);				
-		//GravaTESTES('te_nome_computador: '.$te_nome_computador);			
-		//GravaTESTES('te_workgroup: '.$te_workgroup);									
-	//	}
+	
+		GravaTESTES('te_node_address: '.$te_node_address);			
+		GravaTESTES('id_so_new: '.$id_so_new);			
+		GravaTESTES('te_so_new: '.$te_so_new);			
+		GravaTESTES('te_so_new_new: '.$te_so_new_new);					
+		GravaTESTES('id_ip_rede: '.$id_ip_rede);			
+		GravaTESTES('te_ip: '.$te_ip);			
+		GravaTESTES('v_te_ip: '.$v_te_ip);				
+		GravaTESTES('te_nome_computador: '.$te_nome_computador);			
+		GravaTESTES('te_workgroup: '.$te_workgroup);									
+	
 	
 	$id_so = get_valor_campo('so', 'id_so', 'id_so = '.$id_so_new);
 	$te_so = get_valor_campo('so', 'te_so', 'te_so = "'.$te_so_new.'"');
@@ -717,6 +784,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 		$query = 'UPDATE so 
        	  		  SET te_so = "'.$te_so_new.'"
 			      WHERE id_so = '.$id_so;
+		GravaTESTES('query 1: '.$query);							  
 		$result = mysql_query($query);
 		}	
 	elseif ($te_so <> '' && ($id_so == '' || $id_so == 0)) // Encontrei somente o Identificador Interno (TE_SO)
@@ -725,6 +793,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 		$query = 'SELECT id_so 
 				  FROM   so
 			      WHERE  te_so = "'.$te_so.'"';
+		GravaTESTES('query 2: '.$query);							  				  
 		$result = mysql_query($query);
 		$row = mysql_fetch_array($result);
 		$id_so = $row['id_so'];
@@ -751,6 +820,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 			$queryINS  = 'INSERT 
 						  INTO 		so(id_so,te_desc_so,sg_so,te_so) 
 						  VALUES    ('.$id_so.',"S.O. a Cadastrar","Sigla a Cadastrar","'.$te_so_new.'")';
+		GravaTESTES('queryINS: '.$queryINS);							  						  
 			$resultINS = mysql_query($queryINS);		
 	
 			// Carrego os dados referente à rede da estação		
@@ -761,6 +831,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 						  FROM   	acoes_so
 						  WHERE  	id_local = '.$v_dados_rede['id_local'].' 
 						  GROUP BY 	id_acao';							  						
+		GravaTESTES('querySEL: '.$querySEL);							  						  						  
 			$resultSEL = mysql_query($querySEL);
 			
 			// Caso existam ações configuradas para o local, incluo o S.O. para que também execute-as...
@@ -803,7 +874,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 				      WHERE te_node_address = "'.$te_node_address.'"
 							AND id_so = "'.$id_so.'"';
 			} 
-//GravaTESTES($query);			
+GravaTESTES('QUERY : '.$query);			
 		$result = mysql_query($query);			
 		$arrRetorno = array('id_so'=>$id_so,'te_so'=>$te_so);
 		// OK! O computador foi INCLUIDO/ATUALIZADO.

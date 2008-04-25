@@ -31,12 +31,29 @@ $v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Deco
 $retorno_xml_header  = '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS><CONFIGS>';
 $retorno_xml_values	 = '';
 
+LimpaTESTES();
+
 // Essas variáveis conterão os indicadores de criptografia e compactação
 $v_cs_cipher	= (trim($_POST['cs_cipher'])   <> ''?trim($_POST['cs_cipher'])   : '4');
 $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) : '4');
 
+$strPaddingKey = '';
+
+// O agente PyCACIC envia o valor "padding_key" para preenchimento da palavra chave para decriptação/encriptação
+if ($_POST['padding_key'])
+	{
+	// Valores específicos para trabalho com o PyCACIC - 04 de abril de 2008 - Rogério Lino - Dataprev/ES
+	$strPaddingKey 	= $_POST['padding_key']; // A versão inicial do agente em Python exige esse complemento na chave...
+	$boolPyCACIC 	= (trim(DeCrypt($key,$iv,$_POST['agente'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) == 'pycacic'?1:0);
+
+	if ($_POST['agente'] <> '')
+		foreach($HTTP_POST_VARS as $i => $v) 	
+			GravaTESTES('i: "'.$i.'" v: "'.$v.'"');
+	}
+
+
 // Obtenho o IP da estação por meio da decriptografia...
-$v_id_ip_estacao = trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress));
+$v_id_ip_estacao = trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey));
 
 // ...caso o IP esteja inválido, obtenho-o a partir de variável do servidor
 if (substr_count($v_id_ip_estacao,'zf')>0 || trim($v_id_ip_estacao)=='')
@@ -45,12 +62,12 @@ if (substr_count($v_id_ip_estacao,'zf')>0 || trim($v_id_ip_estacao)=='')
 $v_dados_rede = getDadosRede();
 
 // Essa condição testa se foi o "chkcacic" chamado para instalação ou o "Gerente de Coletas" para validar IP da estação...
-if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='chkcacic' || 
-	trim(DeCrypt($key,$iv,$_POST['in_teste']   ,$v_cs_cipher,$v_cs_compress))=='OK')
+if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress,$strPaddingKey))=='chkcacic' || 
+	trim(DeCrypt($key,$iv,$_POST['in_teste']   ,$v_cs_cipher,$v_cs_compress,$strPaddingKey))=='OK')
 	{	
-	$retorno_xml_values .= '<TE_REDE_OK>'                    . EnCrypt($key,$iv,($v_dados_rede['id_ip_rede'] <> ''?'S':'N')		,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_REDE_OK>';		
+	$retorno_xml_values .= '<TE_REDE_OK>'                    . EnCrypt($key,$iv,($v_dados_rede['id_ip_rede'] <> ''?'S':'N')		,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_REDE_OK>';		
 
-	if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='chkcacic')
+	if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress,$strPaddingKey))=='chkcacic')
 		{
 		// Retorno as versões dos três principais agentes ao CHKCACIC para que sejam verificadas...
 		$MainFolder		= GetMainFolder();
@@ -58,17 +75,17 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='
 		if (file_exists($MainFolder . '/repositorio/versoes_agentes.ini'))
 			{
 			$v_array_versoes_agentes = parse_ini_file($MainFolder . '/repositorio/versoes_agentes.ini');
-			$retorno_xml_values .= '<CACIC2>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['cacic2.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level)   . '<' . '/CACIC2>';
-			$retorno_xml_values .= '<GER_COLS>' . EnCrypt($key,$iv,$v_array_versoes_agentes['ger_cols.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '<' . '/GER_COLS>';			
-			$retorno_xml_values .= '<CHKSIS>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['chksis.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level)   . '<' . '/CHKSIS>';						
+			$retorno_xml_values .= '<CACIC2>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['cacic2.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CACIC2>';
+			$retorno_xml_values .= '<GER_COLS>' . EnCrypt($key,$iv,$v_array_versoes_agentes['ger_cols.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/GER_COLS>';			
+			$retorno_xml_values .= '<CHKSIS>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['chksis.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CHKSIS>';						
 			}
 		}
 
 	$v_te_fila_ftp = '0';
-	$v_id_ftp      = ($_POST['id_ftp']?trim(DeCrypt($key,$iv,$_POST['id_ftp'],$v_cs_cipher,$v_cs_compress)):'');
+	$v_id_ftp      = ($_POST['id_ftp']?trim(DeCrypt($key,$iv,$_POST['id_ftp'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)):'');
 	
 	// Operações para agrupamento de FTP por subredes	
-	if (trim(DeCrypt($key,$iv,$_POST['te_fila_ftp'],$v_cs_cipher,$v_cs_compress))=='1' &&
+	if (trim(DeCrypt($key,$iv,$_POST['te_fila_ftp'],$v_cs_cipher,$v_cs_compress,$strPaddingKey))=='1' &&
 	    !$v_id_ftp)
 		{
 		// TimeOut definido para 5 minutos, ou seja, tempo máximo para as estações efetuarem FTP dos módulos necessários
@@ -111,7 +128,7 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='
 		$retorno_xml_values .= '<TE_FILA_FTP>' . $v_te_fila_ftp . '</TE_FILA_FTP>';											
 		$retorno_xml_values .= '<ID_FTP>' . mysql_insert_id() . '</ID_FTP>';													
 		}		
-	elseif (trim(DeCrypt($key,$iv,$_POST['te_fila_ftp'],$v_cs_cipher,$v_cs_compress))=='2') // Operação concluída com sucesso!
+	elseif (trim(DeCrypt($key,$iv,$_POST['te_fila_ftp'],$v_cs_cipher,$v_cs_compress,$strPaddingKey))=='2') // Operação concluída com sucesso!
 		{
 		$query_del = 'DELETE 
 					  FROM  redes_grupos_ftp
@@ -119,13 +136,16 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress))=='
 					  	    id_ip_rede = "'.$v_dados_rede['id_ip_rede'].'" AND
 					        id_ip_estacao = "'.$v_id_ip_estacao.'"';
 		$result_del = mysql_query($query_del);
-		// Refaço o retorno_xml para redução do pacote a retornar...
 		}
 	}
 else
 	{	 
+	GravaTESTES('Chamando autentica_agente: key="'.$key.'"');
+	GravaTESTES('Chamando autentica_agente: iv="'.$iv.'"');	
+	GravaTESTES('Chamando autentica_agente: v_cs_cipher="'.$v_cs_cipher.'"');		
+	
 	// Autenticação dos agentes:
-	autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
+	autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress,$strPaddingKey);
 
 	$id_ip_rede 					 = $v_dados_rede['id_ip_rede'];
 	$v_te_serv_updates 				 = $v_dados_rede['te_serv_updates'];
@@ -135,14 +155,14 @@ else
 	$v_te_senha_login_serv_updates	 = $v_dados_rede['te_senha_login_serv_updates'];		
 	$v_nu_porta_serv_updates	 	 = $v_dados_rede['nu_porta_serv_updates'];				
 
-	$te_node_address 				 = DeCrypt($key,$iv,$_POST['te_node_address']		,$v_cs_cipher,$v_cs_compress); 
-	$id_so_new         				 = DeCrypt($key,$iv,$_POST['id_so']					,$v_cs_cipher,$v_cs_compress); 
-	$te_so           				 = DeCrypt($key,$iv,$_POST['te_so']					,$v_cs_cipher,$v_cs_compress); 	
-	$te_nome_computador				 = DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress); 
-	$te_workgroup 					 = DeCrypt($key,$iv,$_POST['te_workgroup']			,$v_cs_cipher,$v_cs_compress); 
-	$te_versao_cacic				 = DeCrypt($key,$iv,$_POST['te_versao_cacic']		,$v_cs_cipher,$v_cs_compress); 		
-	$te_versao_gercols				 = DeCrypt($key,$iv,$_POST['te_versao_gercols']		,$v_cs_cipher,$v_cs_compress); 			
-	$te_tripa_perfis    			 = DeCrypt($key,$iv,$_POST['te_tripa_perfis']		,$v_cs_cipher,$v_cs_compress); 
+	$te_node_address 				 = DeCrypt($key,$iv,$_POST['te_node_address']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+	$id_so_new         				 = DeCrypt($key,$iv,$_POST['id_so']					,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+	$te_so           				 = DeCrypt($key,$iv,$_POST['te_so']					,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 	
+	$te_nome_computador				 = DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+	$te_workgroup 					 = DeCrypt($key,$iv,$_POST['te_workgroup']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+	$te_versao_cacic				 = DeCrypt($key,$iv,$_POST['te_versao_cacic']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 		
+	$te_versao_gercols				 = DeCrypt($key,$iv,$_POST['te_versao_gercols']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 			
+	$te_tripa_perfis    			 = DeCrypt($key,$iv,$_POST['te_tripa_perfis']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 
 	/* Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
 	 o computador deste agente no BD, caso ainda não esteja inserido. */
@@ -246,7 +266,7 @@ else
 		$id_acao = $campos['id_acao'];
 		if (eh_excecao($id_acao, $te_node_address) == 0)
 			{ 			
-			$retorno_xml_values .= '<' . $id_acao . '>'.EnCrypt($key,$iv,'S',$v_cs_cipher,$v_cs_compress,$v_compress_level).'</' . $id_acao . '>';
+			$retorno_xml_values .= '<' . $id_acao . '>'.EnCrypt($key,$iv,'S',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</' . $id_acao . '>';
 
 			if ($campos['dt_hr_coleta_forcada'] || $te_tripa_coleta['dt_hr_coleta_forcada_estacao'])
 				{
@@ -257,7 +277,7 @@ else
 					{
 					$v_dt_hr_coleta_forcada = $te_tripa_coleta['dt_hr_coleta_forcada_estacao'];
 					}
-				$retorno_xml_values .= '<' . 'DT_HR_COLETA_FORCADA_' . $campos["te_nome_curto_modulo"] . '>' . EnCrypt($key,$iv,$v_dt_hr_coleta_forcada,$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</' . 'DT_HR_COLETA_FORCADA_' . $campos["te_nome_curto_modulo"] . '>';
+				$retorno_xml_values .= '<' . 'DT_HR_COLETA_FORCADA_' . $campos["te_nome_curto_modulo"] . '>' . EnCrypt($key,$iv,$v_dt_hr_coleta_forcada,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</' . 'DT_HR_COLETA_FORCADA_' . $campos["te_nome_curto_modulo"] . '>';
 				}
 			if (trim($id_acao) == "cs_coleta_monitorado" && mysql_num_rows($result_monitorado))
 				{
@@ -375,10 +395,10 @@ else
 	
 	$result_modulos	= mysql_query($query_modulos);
 	while ($row_modulos = mysql_fetch_array($result_modulos))
-		$retorno_xml_values .= '<' . 'DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>' . EnCrypt($key,$iv,$row_modulos['te_versao_modulo'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '<' . '/DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>';
+		$retorno_xml_values .= '<' . 'DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>' . EnCrypt($key,$iv,$row_modulos['te_versao_modulo'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>';
 	
 	if ($v_retorno_MONITORADOS <> '') 
-		$retorno_xml_values .= '<SISTEMAS_MONITORADOS_PERFIS>'.EnCrypt($key,$iv,$v_retorno_MONITORADOS,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</SISTEMAS_MONITORADOS_PERFIS>';
+		$retorno_xml_values .= '<SISTEMAS_MONITORADOS_PERFIS>'.EnCrypt($key,$iv,$v_retorno_MONITORADOS,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</SISTEMAS_MONITORADOS_PERFIS>';
 
 	// Configurações relacionadas ao comportamento do agente.
 	$query = 'SELECT 	in_exibe_bandeja,
@@ -399,7 +419,7 @@ else
 	for ($i=0; $i < mysql_num_fields($result_configs); $i++) 
 		{
 		$nome_campo = mysql_field_name($result_configs, $i); 
-		$retorno_xml_values .= '<' . $nome_campo . '>' . EnCrypt($key,$iv,$campos_configs[$nome_campo],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</' . $nome_campo . '>';      
+		$retorno_xml_values .= '<' . $nome_campo . '>' . EnCrypt($key,$iv,$campos_configs[$nome_campo],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</' . $nome_campo . '>';      
 		}
 
 	// Caso não haja identificador de servidor de updates informado, assumirá o nome do servidor gerente
@@ -411,12 +431,12 @@ else
 
 	}						
 
-$retorno_xml_values .= '<TE_SERV_CACIC>'                 . EnCrypt($key,$iv,$v_dados_rede['te_serv_cacic']					,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_SERV_CACIC>';		
-$retorno_xml_values .= '<TE_SERV_UPDATES>'               . EnCrypt($key,$iv,$v_dados_rede['te_serv_updates']				,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_SERV_UPDATES>';			
-$retorno_xml_values .= '<NU_PORTA_SERV_UPDATES>'         . EnCrypt($key,$iv,$v_dados_rede['nu_porta_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</NU_PORTA_SERV_UPDATES>';
-$retorno_xml_values .= '<TE_PATH_SERV_UPDATES>'          . EnCrypt($key,$iv,$v_dados_rede['te_path_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_PATH_SERV_UPDATES>';			
-$retorno_xml_values .= '<NM_USUARIO_LOGIN_SERV_UPDATES>' . EnCrypt($key,$iv,$v_dados_rede['nm_usuario_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</NM_USUARIO_LOGIN_SERV_UPDATES>';	
-$retorno_xml_values .= '<TE_SENHA_LOGIN_SERV_UPDATES>'   . EnCrypt($key,$iv,$v_dados_rede['te_senha_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level). '</TE_SENHA_LOGIN_SERV_UPDATES>';						
+$retorno_xml_values .= '<TE_SERV_CACIC>'                 . EnCrypt($key,$iv,$v_dados_rede['te_serv_cacic']					,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_SERV_CACIC>';		
+$retorno_xml_values .= '<TE_SERV_UPDATES>'               . EnCrypt($key,$iv,$v_dados_rede['te_serv_updates']				,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_SERV_UPDATES>';			
+$retorno_xml_values .= '<NU_PORTA_SERV_UPDATES>'         . EnCrypt($key,$iv,$v_dados_rede['nu_porta_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</NU_PORTA_SERV_UPDATES>';
+$retorno_xml_values .= '<TE_PATH_SERV_UPDATES>'          . EnCrypt($key,$iv,$v_dados_rede['te_path_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_PATH_SERV_UPDATES>';			
+$retorno_xml_values .= '<NM_USUARIO_LOGIN_SERV_UPDATES>' . EnCrypt($key,$iv,$v_dados_rede['nm_usuario_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</NM_USUARIO_LOGIN_SERV_UPDATES>';	
+$retorno_xml_values .= '<TE_SENHA_LOGIN_SERV_UPDATES>'   . EnCrypt($key,$iv,$v_dados_rede['te_senha_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_SENHA_LOGIN_SERV_UPDATES>';						
 	
 // --------------- Retorno de Classificador de CRIPTOGRAFIA --------------- //
 if ($v_cs_cipher <> '1') $v_cs_cipher --;	

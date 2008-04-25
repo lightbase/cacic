@@ -40,7 +40,7 @@ if ($te_versao_mapa <> '')
 	$v_array_versoes_agentes = parse_ini_file('../repositorio/install/versoes_agentes.ini');	
 	if ($v_array_versoes_agentes['mapacacic.exe'] <> $te_versao_mapa)
 		{
-		$retorno_xml_values	 = '<TE_VERSAO_MAPA>'.EnCrypt($key,$iv,$v_array_versoes_agentes['mapacacic.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level).'</TE_VERSAO_MAPA>';	
+		$retorno_xml_values	 = '<TE_VERSAO_MAPA>'.EnCrypt($key,$iv,$v_array_versoes_agentes['mapacacic.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level,'').'</TE_VERSAO_MAPA>';	
 		$boolVersaoCorreta = false;
 		}
 	}
@@ -48,10 +48,10 @@ if ($te_versao_mapa <> '')
 if ($boolVersaoCorreta)
 	{
 	// Autenticação do agente MapaCacic.exe:
-	autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
+	autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress,'');
 	
 	// Essa condição testa se a chamada trouxe o valor de cs_mapa-cacic, enviado por MapaCacic.exe
-	if (trim(DeCrypt($key,$iv,$_POST['cs_MapaCacic'],$v_cs_cipher,$v_cs_compress))=='S')
+	if (trim(DeCrypt($key,$iv,$_POST['cs_MapaCacic'],$v_cs_cipher,$v_cs_compress,''))=='S')
 		{	
 		$v_dados_rede = getDadosRede();	
 		conecta_bd_cacic();
@@ -63,15 +63,15 @@ if ($boolVersaoCorreta)
 								locais c
 						WHERE 	a.id_grupo_usuarios = b.id_grupo_usuarios AND
 								b.id_grupo_usuarios = 7 AND
-								a.nm_usuario_acesso = '". trim(DeCrypt($key,$iv,$_POST['nm_acesso'],$v_cs_cipher,$v_cs_compress)) ."' AND 
+								a.nm_usuario_acesso = '". trim(DeCrypt($key,$iv,$_POST['nm_acesso'],$v_cs_cipher,$v_cs_compress,'')) ."' AND 
 								a.id_local = c.id_local AND 
 								a.te_senha = ";
 								//SHA1('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress)) ."')";
 								
 		// Solução temporária, até total convergência para versões 4.0.2 ou maior de MySQL 
 		// Anderson Peterle - Dataprev/ES - 04/09/2006
-		$v_AUTH_SHA1 	 = " SHA1('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress)) ."')";
-		$v_AUTH_PASSWORD = " PASSWORD('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress)) ."')";	
+		$v_AUTH_SHA1 	 = " SHA1('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress,'')) ."')";
+		$v_AUTH_PASSWORD = " PASSWORD('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress,'')) ."')";	
 	
 		// Para MySQL 4.0.2 ou maior	
 		// Anderson Peterle - Dataprev/ES - 04/09/2006
@@ -89,8 +89,8 @@ if ($boolVersaoCorreta)
 		if (mysql_num_rows($result_qry_usuario)>0)
 			{
 			$row = mysql_fetch_array($result_qry_usuario);
-			$retorno_xml_values .= '<ID_USUARIO>'.EnCrypt($key,$iv,$row['id_usuario'],$v_cs_cipher,$v_cs_compress,$v_compress_level).'</ID_USUARIO>';								
-			$retorno_xml_values .= '<NM_USUARIO_COMPLETO>'.EnCrypt($key,$iv,$row['nm_usuario_completo'],$v_cs_cipher,$v_cs_compress,$v_compress_level).'</NM_USUARIO_COMPLETO>';										
+			$retorno_xml_values .= '<ID_USUARIO>'.EnCrypt($key,$iv,$row['id_usuario'],$v_cs_cipher,$v_cs_compress,$v_compress_level,'').'</ID_USUARIO>';								
+			$retorno_xml_values .= '<NM_USUARIO_COMPLETO>'.EnCrypt($key,$iv,$row['nm_usuario_completo'],$v_cs_cipher,$v_cs_compress,$v_compress_level,'').'</NM_USUARIO_COMPLETO>';										
 			$_SESSION['id_usuario'] = $row['id_usuario'];		
 			GravaLog('ACE',$_SERVER['SCRIPT_NAME'],'acesso');						
 			}

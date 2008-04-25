@@ -17,19 +17,12 @@
 if (!$_SESSION['compartilhamento'])
 	$_SESSION['compartilhamento'] = false;
 if ($exibir == 'compartilhamento')
-	{
 	$_SESSION['compartilhamento'] = !($_SESSION['compartilhamento']);
-	}
 else
-	{
 	$_SESSION['compartilhamento'] = false;
-	}
 	
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
-  <tr> 
-    <td> </td>
-  </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>

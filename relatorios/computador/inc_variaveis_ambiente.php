@@ -17,13 +17,9 @@
 if (!$_SESSION['variavel_ambiente'])
 	$_SESSION['variavel_ambiente'] = false;
 if ($exibir == 'variavel_ambiente')
-	{
 	$_SESSION['variavel_ambiente'] = !($_SESSION['variavel_ambiente']);
-	}
 else
-	{
 	$_SESSION['variavel_ambiente'] = false;
-	}
 		
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
@@ -65,7 +61,7 @@ else
 
 					while ($row = @mysql_fetch_array($result_software)) 
 						{
-						$strCor = ($strCor==''?'#CCCCFF':'');						
+						$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						
 						$v_achei = 1;
 						$intContaItem ++;
 						?>

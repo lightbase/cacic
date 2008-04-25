@@ -17,21 +17,15 @@
 if (!$_SESSION['patrimonio'])
 	$_SESSION['patrimonio'] = false;
 if ($exibir == 'patrimonio')
-	{
 	$_SESSION['patrimonio'] = !($_SESSION['patrimonio']);
-	}
 else
-	{
 	$_SESSION['patrimonio'] = false;
-	}
+	
 $strCor = '';  
-$strCor = ($strCor==''?'#CCCCFF':'');						  
+$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
 		
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
-  <tr> 
-    <td colspan="5"> </td>
-  </tr>
   <tr> 
     <td colspan="5" height="1" bgcolor="#333333"></td>
   </tr>
@@ -93,7 +87,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td colspan="3" class="dado"><? echo mysql_result($result_patrimonio, 0, "nm_unid_organizacional_nivel1"); ?></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?>   
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
@@ -102,7 +96,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
   </tr>
   
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?>
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
@@ -110,7 +104,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td colspan="3" class="dado"><? echo mysql_result($result_patrimonio, 0, 'nm_unid_organizacional_nivel2'); ?></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?>
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
@@ -118,7 +112,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td colspan="3" class="dado"><? echo mysql_result($result_patrimonio, 0, "te_localizacao_complementar"); ?></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
@@ -126,7 +120,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td class="dado" colspan="3"><? echo date('d/m/Y H:i', strtotime(mysql_result($result_patrimonio, 0, 'dt_hr_alteracao'))); ?></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
   <tr> 
     <td colspan="5" height="1" bgcolor="#333333"></td>
@@ -142,8 +136,9 @@ $strCor = ($strCor==''?'#CCCCFF':'');
 										 ?></td>
     <td class="dado" colspan="3"><? if ($var_aux) { echo mysql_result($result_patrimonio, 0, 'te_info_patrimonio1') ; } ?></td>
   </tr>
-  <?
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+	<?
+	echo $linha;  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?>   
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
@@ -155,7 +150,8 @@ $strCor = ($strCor==''?'#CCCCFF':'');
       <? if ($var_aux) { echo mysql_result($result_patrimonio, 0, 'te_info_patrimonio2'); } ?>      </td>
   </tr>
   <?
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+	echo $linha;  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
   <tr bgcolor="<? echo $strCor;?>">
     <td class="opcao_tabela">&nbsp;</td>
@@ -167,7 +163,8 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td class="dado" colspan="3"><? if ($var_aux) { echo mysql_result($result_patrimonio, 0, 'te_info_patrimonio3'); } ?></td>
   </tr>
   <?
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+	echo $linha;  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
   
   <tr bgcolor="<? echo $strCor;?>"> 
@@ -180,7 +177,8 @@ $strCor = ($strCor==''?'#CCCCFF':'');
       <? if ($var_aux) { echo mysql_result($result_patrimonio, 0, 'te_info_patrimonio4'); } ?>      </td>
   </tr>
   <?
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+	echo $linha;  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
   <tr bgcolor="<? echo $strCor;?>">
     <td>&nbsp;</td>
@@ -192,7 +190,8 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td>&nbsp;</td>
   </tr>
   <?
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+	echo $linha;  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
   
   <tr bgcolor="<? echo $strCor;?>"> 
@@ -205,7 +204,8 @@ $strCor = ($strCor==''?'#CCCCFF':'');
       <? if ($var_aux) { echo mysql_result($result_patrimonio, 0, 'te_info_patrimonio6'); } ?>    </td>
   </tr>
   <?
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+	echo $linha;  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?>   
   <tr> 
     <td>&nbsp;</td>

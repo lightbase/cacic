@@ -3,12 +3,14 @@ session_start();
 $sqlContador = 'SELECT  DATE_FORMAT(min(dt_acao), "%d/%m/%Y") as MenorData,
 						count(cs_acao) as TotalAcessos
 				FROM	log
-				WHERE	cs_acao="ACE"';
+				WHERE	cs_acao="ACE" AND 
+				 		nm_script = "menu_esq.php"';
 conecta_bd_cacic();				
 $resultContador = mysql_query($sqlContador);				
 $rowContador = mysql_fetch_array($resultContador);
 $_SESSION['TotalAcessos']=$rowContador['TotalAcessos'];
 $_SESSION['MenorData']=$rowContador['MenorData'];
+
 
 ?>
 <script>

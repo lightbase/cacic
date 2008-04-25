@@ -17,29 +17,26 @@
 if (!$_SESSION['hardware'])
 	$_SESSION['hardware'] = false;
 if ($exibir == 'hardware')
-	{
 	$_SESSION['hardware'] = !($_SESSION['hardware']);
-	}
 else
-	{
 	$_SESSION['hardware'] = false;
-	}
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
-    <td colspan="3" height="1" bgcolor="#333333"></td>
+    <td colspan="5" height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td colspan="3" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=hardware&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
+    <td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=hardware&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['hardware'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> Hardware  Instalado</a></td>
   </tr>
   <tr> 
-    <td colspan="3" height="1" bgcolor="#333333"></td>
+    <td colspan="5" height="1" bgcolor="#333333"></td>
   </tr>
   <?
+
   $strCor = '';  
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
 		if ( $_SESSION['hardware'] == true) {
 		// EXIBIR INFORMAÇÕES DE HARDWARE DO COMPUTADOR
 			$query = "SELECT 	cs_situacao
@@ -49,147 +46,145 @@ else
 			$result_acoes =  mysql_query($query);
 			if (mysql_result($result_acoes, 0, "cs_situacao") <> 'N') {
 		?>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
-
   <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Placa M&atilde;e:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_placa_mae_desc"); ?></td>
+    <td></td>
+    <td class="opcao_tabela"         align="left">Placa M&atilde;e</td>
+    <td class="opcao_tabela" align="left">Descri&ccedil;&atilde;o:</td>
+    <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "te_placa_mae_desc"); ?></b></td>	
   </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
-
+  <?
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						    
+  ?>
   <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Fabricante da Placa M&atilde;e:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_placa_mae_fabricante"); ?></td>
+    <td colspan="2"></td>  
+    <td class="opcao_tabela" align="left">Fabricante:</td>
+    <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "te_placa_mae_fabricante"); ?></b></td>	
   </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  <?
+  echo $linha;
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						      
   ?> 
 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela">Placa de V&iacute;deo:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_placa_video_desc"); ?></td>
+    <td class="opcao_tabela" 		 	align="left">BIOS</td>
+    <td class="opcao_tabela" 	align="left">Descrição:</td>
+    <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_bios_desc"); ?></b></td>	
   </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
-
+  <?
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						    
+  ?>
   <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Quant. Cores placa de V&iacute;deo:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "qt_placa_video_cores"); ?></td>
+    <td colspan="2"></td>
+    <td class="opcao_tabela" 	align="left">Fabricante:</td>
+    <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_bios_fabricante"); ?></b></td>	
   </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  
+  <? 
+  echo $linha;
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						 
+  $arrMemRAM = explode('Slot ',mysql_result($result, 0, "te_mem_ram_desc")); 
+  $intContaSlots = 0;
+  for ($intRAM=0;$intRAM < count($arrMemRAM);$intRAM++)
+  	{
+	if ($arrMemRAM[$intRAM]<>'')
+		{
+		$strSlot = $intContaSlots.':';
+  		?> 
+	  	<tr bgcolor="<? echo $strCor;?>"> 
+    	<td></td>
+	    <td class="opcao_tabela" 		 align="left"><? echo ($intContaSlots==0?'Mem&oacute;ria RAM':'');?></td>
+    	<td class="opcao_tabela" align="left">Slot <? echo $intContaSlots;?>:</td>
+    	<td class="opcao_tabela" align="left"><b><? echo str_replace($intContaSlots.': ','',str_replace(' - ','',$arrMemRAM[$intRAM])); ?></b></td>		
+	  	</tr>
+  		<? 	
+		$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  	
+		$intContaSlots ++;
+		}
+	}
+  
+  echo $linha;
   ?> 
-
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela">Resolu&ccedil;&atilde;o da Placa de V&iacute;deo:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_placa_video_resolucao"); ?></td>
+    <td class="opcao_tabela" 		 	align="left">Teclado</td>
+    <td class="opcao_tabela" 	align="left">Descrição:</td>
+    <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_teclado_desc"); ?></b></td>	
   </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
 
-  <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Mem. da Placa de V&iacute;deo:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "qt_placa_video_mem").' MB'; ?></td>
-  </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  
+  <? 
+  echo $linha;
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
-
   <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Mem&oacute;ria RAM:</td>
-    <td class="dado"><? echo mysql_result($result, 0, 'qt_mem_ram').' MB'; ?></td>
-  </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
-
-  <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Detalhes da Mem&oacute;ria RAM:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_mem_ram_desc"); ?></td>
-  </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
-
-  <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Descri&ccedil;&atilde;o da BIOS:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_bios_desc"); ?></td>
-  </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
-
-  <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Fabricante da BIOS:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_bios_fabricante"); ?></td>
-  </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
-
-  <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Placa de Som:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_placa_som_desc"); ?></td>
-  </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
-
-  <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Modem:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_modem_desc"); ?></td>
-  </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
-
-  <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Teclado:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_teclado_desc"); ?></td>
-  </tr>
-  <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
-  ?> 
-
-  <tr bgcolor="<? echo $strCor;?>"> 
-    <td>&nbsp;</td>
-    <td class="opcao_tabela">Mouse:</td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_mouse_desc"); ?></td>
+  	<td>&nbsp;</td>
+  	<td class="OPCAO_TABELA" 			align="left">Mouse</td>
+    <td class="opcao_tabela" 	align="left">Descrição:</td>
+    <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_mouse_desc"); ?></b></td>	
   	</tr>
+
+  <? 
+  echo $linha;
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
+  ?> 
+  <tr bgcolor="<? echo $strCor;?>"> 
+    <td>&nbsp;</td>
+    <td class="opcao_tabela" 		 	align="left">Modem</td>
+    <td class="opcao_tabela" 	align="left">Descrição:</td>
+    <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_modem_desc"); ?></b></td>	
+  </tr>
+
+  <?
+  	echo $linha;  
+  	$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  	
+  ?>
+  <tr bgcolor="<? echo $strCor;?>"> 
+    <td>&nbsp;</td>
+    <td class="opcao_tabela" 		 	align="left">Placa de Som</td>
+    <td class="opcao_tabela" 	align="left">Descrição:</td>
+    <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_placa_som_desc"); ?></b></td>	
+  </tr>	
   	<? 
-  	echo $linha;
-  	$strCor = ($strCor==''?'#CCCCFF':'');						  
+  	$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
+ 	echo $linha;
+	?>
+  <tr bgcolor="<? echo $strCor;?>"> 
+    <td></td>
+    <td class="opcao_tabela" 		 align="left">Placa de V&iacute;deo</td>
+    <td class="opcao_tabela" align="left">Descrição:</td>
+    <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "te_placa_video_desc"); ?></b></td>	
+  </tr>
+  <? 
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
+  ?> 
+  <tr bgcolor="<? echo $strCor;?>"> 
+    <td colspan="2"></td>
+    <td class="opcao_tabela" align="left">Quantidade de Cores:</td>
+    <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "qt_placa_video_cores"); ?></b></td>	
+  </tr>
+  <? 
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
+  ?> 
 
-	conecta_bd_cacic();
-	// Consulto lista de colunas de hardware
-	$queryDescricoesColunas  = "SELECT 	nm_campo, 
-										te_descricao_campo
-								FROM 	descricoes_colunas_computadores";
-	$resultDescricoesColunas = mysql_query($queryDescricoesColunas) or die('Ocorreu um erro durante a consulta à tabela descricoes_colunas_computadores.');
+  <tr bgcolor="<? echo $strCor;?>"> 
+    <td colspan="2"></td>	
+    <td class="opcao_tabela" align="left">Resolu&ccedil;&atilde;o:</td>
+    <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "te_placa_video_resolucao"); ?></b></td>	
+  </tr>
+  <? 
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
+  ?> 
 
-	// Crio um array que conterá nm_campo => te_descricao_campo.	 
-	$arrDescricoesColunas = array();			
-	while($rowColunasComputadores = mysql_fetch_array($resultDescricoesColunas)) 	
-		$arrDescricoesColunas[trim($rowColunasComputadores['nm_campo'])] = $rowColunasComputadores['te_descricao_campo'];
+  <tr bgcolor="<? echo $strCor;?>"> 
+    <td colspan="2"></td>	
+    <td class="opcao_tabela" align="left">Quantidade de Mem&oacute;ria:</td>
+    <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "qt_placa_video_mem").' MB'; ?></b></td>	
+  </tr>
+	<?
+	echo $linha;
+	// Obtenho os nomes do hardware passível de controle
+	$arrDescricoesColunasComputadores = getDescricoesColunasComputadores();
   
 	$strQueryTotalizaGeralExistentes = ' SELECT  	cs_tipo_componente,
 												 	te_valor
@@ -203,33 +198,53 @@ else
 	$intSequencial      = 0;
   	while ($rowTotalizaGeralExistentes = mysql_fetch_array($resultTotalizaGeralExistentes))
   		{
-		if ($strComponenteAtual <> $rowTotalizaGeralExistentes['te_valor'])
+		if ($strComponenteAtual <> $rowTotalizaGeralExistentes['cs_tipo_componente'])
 			{
-			$strComponenteAtual = $rowTotalizaGeralExistentes['te_valor'];
-			?> 
-			<tr bgcolor="<? echo $strCor;?>"> 
-			<?			
+			$strComponenteAtual = $rowTotalizaGeralExistentes['cs_tipo_componente'];
+			$intSequencial = 1;
 			}
+		else
+			$intSequencial ++;
 
 		$arrColunasValores = explode('#FIELD#',$rowTotalizaGeralExistentes['te_valor']);
 		for ($i=0; $i<count($arrColunasValores);$i++)
 			{
-			$arrColunas = explode('###',$arrColunasValores[$i]);?>		
+			$arrColunas = explode('###',$arrColunasValores[$i]);	
+		  	$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  						
+			?>	
+			<tr bgcolor="<? echo $strCor;?>"> 
 			<td>&nbsp;</td>
-			<td class="opcao_tabela"><? echo $arrDescricoesColunas[$arrColunas[0]];?>:</td>
-			<td class="dado"><? echo $arrColunas[1]; ?></td>
+			<?
+			if ($i > 0)
+				{
+				?>
+				<td>&nbsp;</td>				
+				<?
+				}
+			?>
+			<td class="opcao_tabela"><? echo $arrDescricoesColunasComputadores[$arrColunas[0]].($i==0?' '.$intSequencial:':');?></td>
+			<?
+			if ($i == 0)
+				{
+				?>
+				<td class="opcao_tabela"><? echo 'Descrição:';?></td>				
+				<?
+				}
+			?>
+			<td class="dado" colspan="3"><? echo $arrColunas[1]; ?></td>
 			</tr>
 			<?
 			}
+		echo $linha;			
 		}
-	echo $linha;
-  	$strCor = ($strCor==''?'#CCCCFF':'');						  		
+
+  	$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  		
   	?> 
   	<tr> 
     <td>&nbsp;</td>
-    <td colspan="2"> <form action="historico.php" method="post" name="form1" target="_blank">
+    <td colspan="4"> <form action="historico.php" method="post" name="form1" target="_blank">
         <div align="center"><br>
-          <input name=historico_hardware type=submit id=historico_hardware value="Hist&oacute;rico de Altera&ccedil;&otilde;es na Configura&ccedil;&atilde;o de Hardware" >
+          <input name="historico_hardware" type=submit id="historico_hardware" value="Hist&oacute;rico de Altera&ccedil;&otilde;es na Configura&ccedil;&atilde;o de Hardware" >
           <br>
           &nbsp; 
           <input name="te_node_address" type="hidden" id="te_node_address" value="<? echo mysql_result($result, 0, "te_node_address");?>">

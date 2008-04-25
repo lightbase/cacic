@@ -164,11 +164,16 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 						$RedeAnt = $row["id_ip_rede"];
 						}
 
-					if ($WorkGroupAnt <> $row["te_workgroup"] || $RedeAntAux <> $RedeAnt)
+					$arrGrupo = explode('@',$row["te_workgroup"]);						
+					if (count($arrGrupo) > 1)
+						$strGrupo = $arrGrupo[1];
+					else
+						$strGrupo = $row["te_workgroup"];						
+
+					if ($WorkGroupAnt <> $strGrupo || $RedeAntAux <> $RedeAnt)
 						{		
-						$v_grupo = $row["te_workgroup"];
-						$_SESSION['Tripa'] 		   .= '...' . $row["te_workgroup"].'#';												
-						$WorkGroupAnt 	= $row["te_workgroup"];
+						$_SESSION['Tripa'] 		   .= '...' . $strGrupo.'#';												
+						$WorkGroupAnt 	= $strGrupo;
 						$RedeAntAux 	= $RedeAnt;						
 						}
 						

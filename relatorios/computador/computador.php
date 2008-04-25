@@ -47,7 +47,12 @@ $result = mysql_query($query);
 
 if (@mysql_num_rows($result)) 
 	{  
-    require_once('inc_detalhes_computador.php'); ?>
+    require_once('inc_detalhes_computador.php'); 
+	$strPreenchimentoPadrao = '#CCCCFF';
+	$strCorDaLinha 			= '#E1E1E1';	
+	$linha = '<tr><td colspan="5" height="1" bgcolor="'.$strCorDaLinha.'"></td></tr>';
+	
+	?>
 
 	<table width="100%" border="0" cellpadding="0" cellspacing="2">
 	<tr><td>

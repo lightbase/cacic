@@ -17,19 +17,12 @@
 if (!$_SESSION['unidades_disco'])
 	$_SESSION['unidades_disco'] = false;
 if ($exibir == 'unidades_disco')
-	{
 	$_SESSION['unidades_disco'] = !($_SESSION['unidades_disco']);
-	}
 else
-	{
 	$_SESSION['unidades_disco'] = false;
-	}
 
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
-  <tr> 
-    <td> </td>
-  </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
@@ -60,7 +53,7 @@ else
 			if(mysql_num_rows($result_disco) > 0) {
 				echo '<tr><td><br> 
 					  <table border="1" align="center" cellpadding="1" cellspacing="0" bordercolor="#999999" bordercolordark="#E1E1E1">
-						<tr bgcolor="#FFFFCC">						 
+						<tr bgcolor="'.$strPreenchimentoPadrao.'">						 
 						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Letra</div></td>';
 				echo '<td nowrap rowspan="2" class="opcao_tabela"><div align="center">Sist. Arq.</div></td>
 						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Nº Serial</div></td>
@@ -68,7 +61,7 @@ else
 						  <td nowrap colspan="2" class="opcao_tabela"><div align="center">Espaço (MB)</div></td>
 						  <td nowrap colspan="2" rowspan="2" class="opcao_tabela"><div align="center">Utilização (%)</div></td>
 						</tr>
-						<tr bgcolor="#FFFFCC">
+						<tr bgcolor="'.$strPreenchimentoPadrao.'">
 						  <td nowrap class="opcao_tabela"><div align="center">Utilizado</div></td>
 						  <td nowrap class="opcao_tabela"><div align="center">Livre</div></td>
 						</tr>';

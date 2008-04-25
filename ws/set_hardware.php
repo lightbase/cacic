@@ -24,28 +24,67 @@ require_once('../include/library.php');
 $v_cs_cipher	= (trim($_POST['cs_cipher'])   <> ''?trim($_POST['cs_cipher'])   : '4');
 $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) : '4');
 
-autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
+$strPaddingKey = '';
+
+// O agente PyCACIC envia o valor "padding_key" para preenchimento da palavra chave para decriptação/encriptação
+// Valores específicos para trabalho com o PyCACIC - 04 de abril de 2008 - Rogério Lino - Dataprev/ES
+if ($_POST['padding_key'])
+	$strPaddingKey 	= $_POST['padding_key']; // A versão inicial do agente em Python exige esse complemento na chave...
+
+autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress, $strPaddingKey);
 
 // Obtenho o IP da estação por meio da decriptografia...
-$v_id_ip_estacao = trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress));
+$v_id_ip_estacao = trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress, $strPaddingKey));
 
 // ...caso o IP esteja inválido, obtenho-o a partir de variável do servidor
 if (substr_count($v_id_ip_estacao,'zf')>0 || trim($v_id_ip_estacao)=='')
 	$v_id_ip_estacao = 	$_SERVER['REMOTE_ADDR'];
 
-$te_node_address 	= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher, $v_cs_compress); 
-$id_so_new         	= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher, $v_cs_compress); 
-$te_so           	= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher, $v_cs_compress); 
-$id_ip_rede     	= DeCrypt($key,$iv,$_POST['id_ip_rede']			,$v_cs_cipher, $v_cs_compress);
-$te_nome_computador	= DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher, $v_cs_compress); 
-$te_workgroup 		= DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher, $v_cs_compress); 
+$te_node_address 	= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher, $v_cs_compress, $strPaddingKey); 
+$id_so_new         	= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher, $v_cs_compress, $strPaddingKey); 
+$te_so           	= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher, $v_cs_compress, $strPaddingKey); 
+$id_ip_rede     	= DeCrypt($key,$iv,$_POST['id_ip_rede']			,$v_cs_cipher, $v_cs_compress, $strPaddingKey);
+$te_nome_computador	= DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher, $v_cs_compress, $strPaddingKey); 
+$te_workgroup 		= DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher, $v_cs_compress, $strPaddingKey); 
 
-$strTripa_CPU   	= DeCrypt($key,$iv,$_POST['te_Tripa_CPU']  		,$v_cs_cipher, $v_cs_compress);				
-$strTripa_CDROM 	= DeCrypt($key,$iv,$_POST['te_Tripa_CDROM']		,$v_cs_cipher, $v_cs_compress);
-$strTripa_TCPIP 	= DeCrypt($key,$iv,$_POST['te_Tripa_TCPIP']		,$v_cs_cipher, $v_cs_compress);
+
+// *****************************************************************************************************
+// Procedimentos para o Tratamento de Múltiplos Componentes de Hardware - Anderson Peterle em Março/2008
+// *****************************************************************************************************
+
+// ==============================================================================================================================================================
+// Informe no array abaixo os tipos de componentes para a verificação de multiplicidade
+// ***** ATENÇÃO ***** Para acrescentar tipo de componente à lista (array) é necessário implementar o envio das informações no agente Col_Hard, em forma de Tripa
+// ==============================================================================================================================================================
+$arrTiposComponentes = array( 'CDROM',
+							  'CPU',
+							  'TCPIP');
+
+// Informe abaixo os ítens de componentes contidos na tripa oriunda do agente coletor							  
+// ----------------------------------------------------------------------------------
+// te_Tripa_CDROM								
+// --------------
+// CDROMName
+//
+// te_Tripa_CPU
+// ------------
+// CPUName, Vendor, Serial Number, Frequency
+//
+// te_Tripa_TCPIP
+// --------------
+// Name, PhysicalAddress, IPAddress, IPMask, Gateway_IPAddress, DHCP_IPAddress, PrimaryWINS_IPAddress, SecondaryWINS_IPAddress
+
+
+// Criação das "Tripas" na memória com os dados dos componentes a serem tratados
+for ($intTiposComponentes = 0;$intTiposComponentes < count($arrTiposComponentes);$intTiposComponentes++)
+	{
+	$strNomeTripaMemoria  = 'strTripa_'.$arrTiposComponentes[$intTiposComponentes];	
+	$strNomeTripaRecebida = 'te_Tripa_'.$arrTiposComponentes[$intTiposComponentes];
+	$$strNomeTripaMemoria = DeCrypt($key,$iv,$_POST[$strNomeTripaRecebida]	,$v_cs_cipher, $v_cs_compress, $strPaddingKey);				
+	}
 
 // Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
-//  o computador deste agente no BD, caso ainda não esteja inserido. 
+// o computador deste agente no BD, caso ainda não esteja inserido. 
 if ($te_node_address <> '')
 	{ 
 	$arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
@@ -65,302 +104,131 @@ if ($te_node_address <> '')
 	$resultTotalizaGeralExistentes   = mysql_query($strQueryTotalizaGeralExistentes) or die('Problema Consultando Tabela Componentes_Estações 1!');
 	$rowTotalizaGeralExistentes      = mysql_fetch_array($resultTotalizaGeralExistentes);	
 
-	// ================================================================================
-	// A função VerificaComponentes retornará um array contendo os seguintes elementos:
-	// ================================================================================
-	// ACR     => Acrescentados
-	// REM     => Removidos
-	// ALT     => Alterados
-	// ALT_OLD => Registros Antigos, afetados pelas ALTERAÇÕES
-	// ================================================================================
+	$boolHardwareAlterado = false;
+	for ($intTiposComponentes = 0;$intTiposComponentes < count($arrTiposComponentes);$intTiposComponentes++)
+		{
+		$strNomeArray  = 'arr'.$arrTiposComponentes[$intTiposComponentes];
+		$strNomeTripa  = 'strTripa_'.$arrTiposComponentes[$intTiposComponentes];
+		$$strNomeArray = VerificaComponentes($arrTiposComponentes[$intTiposComponentes],$$strNomeTripa,$rowTotalizaGeralExistentes['TotalGeralExistentes']);			
+		$arrTemp 	   = $$strNomeArray;
+
+		if (($arrTemp['ACR'])<>'' || ($arrTemp['REM'])<>'')
+			$boolHardwareAlterado = true;
+		}
 	
-	// Itens de componentes CDROM								
-	// --------------------------
-	// 00 - CDROMName
-	$arrCDROM 	= VerificaComponentes('CDROM',$strTripa_CDROM,$rowTotalizaGeralExistentes['TotalGeralExistentes']);	
-
-	// Itens de componentes CPU
-	// ------------------------
-	// 00 - CPUName
-	// 01 - Vendor
-	// 02 - Serial Number
-	// 03 - Frequency
-	$arrCPU 	= VerificaComponentes('CPU',$strTripa_CPU,$rowTotalizaGeralExistentes['TotalGeralExistentes']);
-
-	// Itens de componentes TCPIP
-	// --------------------------
-	// 00 - Name
-	// 01 - PhysicalAddress
-	// 02 - IPAddress
-	// 03 - IPMask
-	// 04 - Gateway_IPAddress
-	// 05 - DHCP_IPAddress
-	// 06 - PrimaryWINS_IPAddress
-	// 07 - SecondaryWINS_IPAddress
-	$arrTCPIP	= VerificaComponentes('TCPIP',$strTripa_TCPIP,$rowTotalizaGeralExistentes['TotalGeralExistentes']);	
-		
-	if ($arrCDROM['ACR'] <> '' ||
-		$arrCDROM['REM'] <> '' ||
-		$arrCDROM['ALT'] <> '' ||	
-		$arrCPU['ACR']   <> '' ||
-		$arrCPU['REM']   <> '' ||
-		$arrCPU['ALT']   <> '' ||		    
-		$arrTCPIP['ACR'] <> '' ||
-		$arrTCPIP['REM'] <> '' ||
-		$arrTCPIP['ALT'] <> '')
+	if ($boolHardwareAlterado)
 		{
 		$v_dados_rede = getDadosRede();
-				
-	    // Agora, verifico se os administradores deverão ser notificados da alteração na configuração de hardware.
-	  	if (trim($destinatarios = get_valor_campo('configuracoes_locais', 'te_notificar_mudanca_hardware','id_local='.$v_dados_rede['id_local'])) <> '') 
+		
+		$strValues = '';
+		for ($intTiposComponentes = 0;$intTiposComponentes < count($arrTiposComponentes);$intTiposComponentes++)
 			{
-	        // Consulto lista de colunas de hardware
-			$queryDescricoesColunas  = "SELECT 	nm_campo, 
-									 			te_descricao_campo
-					  				    FROM 	descricoes_colunas_computadores";
-			$resultDescricoesColunas = mysql_query($queryDescricoesColunas) or die('Ocorreu um erro durante a consulta à tabela descricoes_colunas_computadores.');
-
-			// Crio um array que conterá nm_campo => te_descricao_campo.	 
-			$arrDescricoesColunas = array();			
-			while($rowColunasComputadores = mysql_fetch_array($resultDescricoesColunas)) 	
-				$arrDescricoesColunas[trim($rowColunasComputadores['nm_campo'])] = $rowColunasComputadores['te_descricao_campo'];
-
+			$strNomeArray  	 = 'arr'.$arrTiposComponentes[$intTiposComponentes];
+			$arrTemp 	   	 = $$strNomeArray;			
+			$strValueACR 	 = ($arrTemp['ACR']<>''?'("'.$te_node_address.'",'.$arrSO['id_so'].',"'.$arrTiposComponentes[$intTiposComponentes].'","'.$arrTemp['ACR'].'",now(),"ACR")':'');
+			$strValueREM 	 = ($arrTemp['REM']<>''?'("'.$te_node_address.'",'.$arrSO['id_so'].',"'.$arrTiposComponentes[$intTiposComponentes].'","'.$arrTemp['REM'].'",now(),"REM")':'');
+				
+			$strValues 		.= ($strValues <> '' && ($strValueACR . $strValueREM)<>''?',':'');
+			$strVirgula		 = ($strValueACR <> '' && $strValueREM <> ''?',':'');
+			$strValues 		.= $strValueACR . $strVirgula . $strValueREM;
+			}
+			
+		if ($strValues)
+			{
+			// Armazeno as ocorrências no Histórico
+			$strQueryInsereHistorico  =  ' INSERT
+										   INTO	 	componentes_estacoes_historico(	te_node_address,
+																		  			id_so,
+																		  			cs_tipo_componente,
+																		  			te_valor,
+																					dt_alteracao,
+																					cs_tipo_alteracao)
+						   				   VALUES '.$strValues;
+			$resultInsereHistorico 	  = mysql_query($strQueryInsereHistorico) or die('Problema Inserindo Dados na Tabela Componentes_Estações_Histórico!');												
+			}
+										
+	    // Verifico se há emails para notificação de alteração na configuração de hardware.
+	  	if (trim($strEmailsDestinatarios = get_valor_campo('configuracoes_locais', 'te_notificar_mudanca_hardware','id_local='.$v_dados_rede['id_local'])) <> '') 
+			{
+			// Obtenho os nomes do hardware passível de controle
+			$arrDescricoesColunasComputadores = getDescricoesColunasComputadores();
 			
 	        // Consulto todos os hardwares que foram selecionados para notificacao. Isso é setado pelo administrador na página de 'Configurações Gerais'.
-			$queryColunasSelecionadas  = "SELECT 	nm_campo_tab_hardware, 
+			$queryHardwareSelecionado  = "SELECT 	nm_campo_tab_hardware, 
 													te_desc_hardware
 					  					  FROM 		descricao_hardware 
 					  					  WHERE 	te_locais_notificacao_ativada like '%,".$v_dados_rede['id_local'].",%'";
-			$resultColunasSelecionadas = mysql_query($queryColunasSelecionadas) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware.');
+			$resultHardwareSelecionado = mysql_query($queryHardwareSelecionado) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware.');
 
-			// Crio um array que conterá nm_campo_tab_hardware => te_desc_hardware.	 
-			$arrColunasSelecionadas = array();			
-			while($rowColunasSelecionadas = mysql_fetch_array($resultColunasSelecionadas)) 	
-				$arrColunasSelecionadas[trim($rowColunasSelecionadas['nm_campo_tab_hardware'])] = $rowColunasSelecionadas['te_desc_hardware'];
+			// Crio um array que conterá nm_campo_tab_hardware => te_desc_hardware dos hardwares selecionados para notificação
+			$arrHardwareSelecionado = array();			
+			while($rowHardwareSelecionado = mysql_fetch_array($resultHardwareSelecionado)) 	
+				$arrHardwareSelecionado[trim($rowHardwareSelecionado['nm_campo_tab_hardware'])] = $rowHardwareSelecionado['te_desc_hardware'];
 
-			$cont_aux = 0;
-			$campos_alterados = '';
+			// Obtenho uma string contendo as alterações/inclusões/exclusões efetuadas
+			$strCamposAlterados .= TrataAlteracoes($arrTiposComponentes, $arrHardwareSelecionado,$arrDescricoesColunasComputadores);
 
-		
-			// =====================================================================================
-			// ================ Início do Tratamento de ACRESCENTADOS ==============================
-			// =====================================================================================			
-			$campos_alterados .= TrataAlteracoes('CDROM, CPU, TCPIP', $arrColunasSelecionadas,$arrDescricoesColunas);
-GravaTESTES('Campos_Alterados: '.$campos_alterados);			
-			/*
-			// =====
-			// CDROM
-			// =====
-			$boolConteudo = false;
-			$arrAcrescentadosCDROM = explode('#CDROM#',$arrCDROM['ACR']);
-			for ($i=0; $i < count($arrAcrescentadosCDROM); $i++) 
-				{
-				$arrItensAcrescentadosCDROM = explode('###',$arrAcrescentadosCDROM[$i]);
-				$campos_alterados .= ($campos_alterados?'<br><br>':'');
-				for ($j=0; $j < count($arrItensAcrescentadosCDROM); $j+=2)
-					if ($arrItensAcrescentadosCDROM[$j])				
-						{
-						$campos_alterados .= $descricoes_campos[trim($arrItensAcrescentadosCDROM[$j])] .': '.$arrItensAcrescentadosCDROM[$j+1].'\n';
-						$boolConteudo = true;
-						}
-				}
-
-			if ($boolConteudo)
-				$campos_alterados = ($campos_alterados?'Itens Acrescentados:<br><br>':'').$campos_alterados.'<br>';
-
-			// ===
-			// CPU
-			// ===
-			$boolConteudo = false;
-			$arrAcrescentadosCPU = explode('#CPU#',$arrCPU['ACR']);
-			for ($i=0; $i < count($arrAcrescentadosCPU); $i++) 
-				{
-				$arrItensAcrescentadosCPU = explode('###',$arrAcrescentadosCPU[$i]);
-				$campos_alterados .= ($campos_alterados?'<br><br>':'');
-				for ($j=0; $j < count($arrItensAcrescentadosCPU); $j+=2)
-					if ($arrItensAcrescentadosCPU[$j])				
-						{
-						$campos_alterados .= $descricoes_campos[trim($arrItensAcrescentadosCPU[$j])] .': '.$arrItensAcrescentadosCPU[$j+1].'\n';
-						$boolConteudo = true;
-						}
-				}
-
-			if ($boolConteudo)
-				$campos_alterados = ($campos_alterados?'Itens Acrescentados:<br><br>':'').$campos_alterados.'<br>';
-
-			// =====
-			// TCPIP
-			// =====
-			$boolConteudo = false;
-			$arrAcrescentadosTCPIP = explode('#CPU#',$arrTCPIP['ACR']);
-			for ($i=0; $i < count($arrAcrescentadosTCPIP); $i++) 
-				{
-				$arrItensAcrescentadosTCPIP = explode('###',$arrAcrescentadosTCPIP[$i]);
-				$campos_alterados .= ($campos_alterados?'<br><br>':'');
-				for ($j=0; $j < count($arrItensAcrescentadosTCPIP); $j+=2)
-					if ($arrItensAcrescentadosTCPIP[$j])				
-						{
-						$campos_alterados .= $descricoes_campos[trim($arrItensAcrescentadosTCPIP[$j])] .': '.$arrItensAcrescentadosTCPIP[$j+1].'\n';
-						$boolConteudo = true;
-						}
-				}
-
-			if ($boolConteudo)
-				$campos_alterados = ($campos_alterados?'Itens Acrescentados:<br><br>':'').$campos_alterados.'<br>';
-
-			// ==================================================================================
-			// ================ Fim do Tratamento de ACRESCENTADOS ==============================
-			// ==================================================================================			
-
-
-			// REMOVIDOS
-			// =========
-			$boolConteudo = false;
-			$arrRemovidosCDROM = explode('#CDROM#',$arrCDROM['REM']);
-			for ($i=0; $i < count($arrRemovidosCDROM); $i++) 
-				{
-				$arrItensRemovidosCDROM = explode('###',$arrRemovidosCDROM[$i]);
-				$campos_alterados .= ($campos_alterados?'<br><br>':'');
-				for ($j=0; $j < count($arrItensRemovidosCDROM); $j+=2)
-					if ($arrItensRemovidosCDROM[$j])				
-						{
-						$campos_alterados .= $descricoes_campos[trim($arrItensRemovidosCDROM[$j])] .': '.$arrItensRemovidosCDROM[$j+1].'<br>';
-						$boolConteudo = true;
-						}
-				}
-
-			if ($boolConteudo)
-				$campos_alterados = ($campos_alterados?'Itens Removidos:<br><br>':'').$campos_alterados.'<br>';
-			
-			// ALTERADOS
-			// =========
-			$boolConteudo = false;
-			$arrAlteradosCDROM = explode('#CDROM#',$arrCDROM['ALT']);
-			for ($i=0; $i < count($arrAlteradosCDROM); $i++) 
-				{
-				$arrItensAlteradosCDROM = explode('###',$arrAlteradosCDROM[$i]);
-				$campos_alterados .= ($campos_alterados?'<br><br>':'');
-				for ($j=0; $j < count($arrItensAlteradosCDROM); $j+=2)
-					if ($arrItensAlteradosCDROM[$j])
-						{
-						$campos_alterados .= $descricoes_campos[trim($arrItensAlteradosCDROM[$j])] .': '.$arrItensAlteradosCDROM[$j+1].'<br>';
-						$boolConteudo = true;
-						}
-				}
-
-			if ($boolConteudo)
-				$campos_alterados = ($campos_alterados?'Itens Alterados:<br><br>':'').$campos_alterados;
-			
-			// ================== Fim do Tratamento de ACRESCENTADOS ===============================
-			
-			/*
-			// ================ Início do Tratamento de ACRESCENTADOS ==============================			
-
-			// CDROM
-			// =============
-			$boolConteudo = false;
-			$arrAcrescentadosCDROM = explode('#CDROM#',$arrCDROM['ACR']);
-			for ($i=0; $i < count($arrAcrescentadosCDROM); $i++) 
-				{
-				$arrItensAcrescentadosCDROM = explode('###',$arrAcrescentadosCDROM[$i]);
-				$campos_alterados .= ($campos_alterados?'<br><br>':'');
-				for ($j=0; $j < count($arrItensAcrescentadosCDROM); $j+=2)
-					if ($arrItensAcrescentadosCDROM[$j])				
-						{
-						$campos_alterados .= $descricoes_campos[trim($arrItensAcrescentadosCDROM[$j])] .': '.$arrItensAcrescentadosCDROM[$j+1].'\n';
-						$boolConteudo = true;
-						}
-				}
-
-			if ($boolConteudo)
-				$campos_alterados = ($campos_alterados?'Itens Acrescentados:<br><br>':'').$campos_alterados.'<br>';
-
-			// REMOVIDOS
-			// =========
-			$boolConteudo = false;
-			$arrRemovidosCDROM = explode('#CDROM#',$arrCDROM['REM']);
-			for ($i=0; $i < count($arrRemovidosCDROM); $i++) 
-				{
-				$arrItensRemovidosCDROM = explode('###',$arrRemovidosCDROM[$i]);
-				$campos_alterados .= ($campos_alterados?'<br><br>':'');
-				for ($j=0; $j < count($arrItensRemovidosCDROM); $j+=2)
-					if ($arrItensRemovidosCDROM[$j])				
-						{
-						$campos_alterados .= $descricoes_campos[trim($arrItensRemovidosCDROM[$j])] .': '.$arrItensRemovidosCDROM[$j+1].'<br>';
-						$boolConteudo = true;
-						}
-				}
-
-			if ($boolConteudo)
-				$campos_alterados = ($campos_alterados?'Itens Removidos:<br><br>':'').$campos_alterados.'<br>';
-			
-			// ALTERADOS
-			// =========
-			$boolConteudo = false;
-			$arrAlteradosCDROM = explode('#CDROM#',$arrCDROM['ALT']);
-			for ($i=0; $i < count($arrAlteradosCDROM); $i++) 
-				{
-				$arrItensAlteradosCDROM = explode('###',$arrAlteradosCDROM[$i]);
-				$campos_alterados .= ($campos_alterados?'<br><br>':'');
-				for ($j=0; $j < count($arrItensAlteradosCDROM); $j+=2)
-					if ($arrItensAlteradosCDROM[$j])
-						{
-						$campos_alterados .= $descricoes_campos[trim($arrItensAlteradosCDROM[$j])] .': '.$arrItensAlteradosCDROM[$j+1].'<br>';
-						$boolConteudo = true;
-						}
-				}
-
-			if ($boolConteudo)
-				$campos_alterados = ($campos_alterados?'Itens Alterados:<br><br>':'').$campos_alterados;
-			
-			// ================== Fim do Tratamento de ACRESCENTADOS ===============================
-			*/
-
-			// ================== Início da Montagem do Email ======================================				
-			 if ($campos_alterados <> '') 
+			// Caso a string acima não esteja vazia, monto o email para notificação
+			 if ($strCamposAlterados <> '') 
 				{ 
-				$corpo_mail = '';
-				$corpo_mail .= " Prezado administrador,\n\n";
-				$corpo_mail .= " foi identificada uma alteração na configuração de hardware do seguinte computador:\n\n";				
-				$corpo_mail .= " Nome...........: ". $te_nome_computador ."\n";
-				$corpo_mail .= " Endereço IP: ". $v_id_ip_estacao . "\n";
-				$corpo_mail .= " Rede............: ". $v_dados_rede['id_ip_rede'] ."\n\n\n";
-				$corpo_mail .= " A alteracao refere-se a:\n\n";
-				$corpo_mail .= str_replace('<br>',(chr(13).chr(10)),$campos_alterados) ;
-				$corpo_mail .= "\n\nPara visualizar mais informações sobre esse computador, acesse o endereço\nhttp://";
-				$corpo_mail .= $_SERVER['SERVER_ADDR'] . '/cacic2/relatorios/computador/computador.php?te_node_address=' . $te_node_address . '&id_so=' . $arrSO['id_so'];
-				$corpo_mail .= "\n\n\n________________________________________________\n";
-				$corpo_mail .= "CACIC - " . date('d/m/Y H:i') . "h \n";
-				$corpo_mail .= "Desenvolvido pela Dataprev - Unidade Regional Espírito Santo";
+				$strCorpoMail = '';
+				$strCorpoMail .= " Prezado administrador,\n\n";
+				$strCorpoMail .= " foi identificada uma alteração na configuração de hardware do seguinte computador:\n\n";				
+				$strCorpoMail .= " Nome...........: ". $te_nome_computador ."\n";
+				$strCorpoMail .= " Endereço IP: ". $v_id_ip_estacao . "\n";
+				$strCorpoMail .= " Rede............: ". $v_dados_rede['id_ip_rede'] ."\n";
+				$strCorpoMail .= str_replace('<br>',(chr(13).chr(10)),$strCamposAlterados) ;
+				$strCorpoMail .= "\n\nPara visualizar mais informações sobre esse computador, acesse o endereço\nhttp://";
+				$strCorpoMail .= $_SERVER['SERVER_ADDR'] . '/cacic2/relatorios/computador/computador.php?te_node_address=' . $te_node_address . '&id_so=' . $arrSO['id_so'];
+				$strCorpoMail .= "\n\n\n________________________________________________\n";
+				$strCorpoMail .= "CACIC - " . date('d/m/Y H:i') . "h \n";
+				$strCorpoMail .= "Desenvolvido pela Dataprev - Unidade Regional Espírito Santo";
 	
 				// Manda mail para os administradores.
-				mail("$destinatarios", "[Sistema CACIC] Alteracao de Hardware Detectada", "$corpo_mail", "From: cacic@{$_SERVER['SERVER_NAME']}");
-				GravaTESTES('EMAIL ENVIADO!');
-				}
-			else
-				GravaTESTES('EMAIL NÃO ENVIADO!');			
-				
+				mail("$strEmailsDestinatarios", "[Sistema CACIC] Alteracao de Hardware Detectada", "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
+				}				
 			}
 		}
+		
+	// Lembre-se de que o computador já existe. Ele é criado durante a obtenção das configurações, no arquivo get_config.php.
+	$query = "	UPDATE 	computadores 
+				SET		te_mem_ram_desc          = '" . DeCrypt($key,$iv,$_POST['te_mem_ram_desc']			,$v_cs_cipher,$v_cs_compress) . "',
+						qt_mem_ram               = '" . DeCrypt($key,$iv,$_POST['qt_mem_ram']				,$v_cs_cipher,$v_cs_compress) . "',
+						te_bios_desc             = '" . DeCrypt($key,$iv,$_POST['te_bios_desc']				,$v_cs_cipher,$v_cs_compress) . "',
+						te_bios_data             = '" . DeCrypt($key,$iv,$_POST['te_bios_data']				,$v_cs_cipher,$v_cs_compress) . "',
+						te_bios_fabricante       = '" . DeCrypt($key,$iv,$_POST['te_bios_fabricante']		,$v_cs_cipher,$v_cs_compress) . "',
+						te_placa_mae_desc        = '" . DeCrypt($key,$iv,$_POST['te_placa_mae_desc']		,$v_cs_cipher,$v_cs_compress) . "',
+						te_placa_mae_fabricante  = '" . DeCrypt($key,$iv,$_POST['te_placa_mae_fabricante']	,$v_cs_cipher,$v_cs_compress) . "',
+						qt_placa_video_mem       = '" . DeCrypt($key,$iv,$_POST['qt_placa_video_mem']		,$v_cs_cipher,$v_cs_compress) . "',
+						qt_placa_video_cores     = '" . DeCrypt($key,$iv,$_POST['qt_placa_video_cores']		,$v_cs_cipher,$v_cs_compress) . "',
+						te_placa_video_desc      = '" . DeCrypt($key,$iv,$_POST['te_placa_video_desc']		,$v_cs_cipher,$v_cs_compress) . "',
+						te_placa_video_resolucao = '" . DeCrypt($key,$iv,$_POST['te_placa_video_resolucao']	,$v_cs_cipher,$v_cs_compress) . "',
+						te_placa_som_desc        = '" . DeCrypt($key,$iv,$_POST['te_placa_som_desc']		,$v_cs_cipher,$v_cs_compress) . "',
+						te_teclado_desc          = '" . DeCrypt($key,$iv,$_POST['te_teclado_desc']			,$v_cs_cipher,$v_cs_compress) . "',
+						te_mouse_desc            = '" . DeCrypt($key,$iv,$_POST['te_mouse_desc']			,$v_cs_cipher,$v_cs_compress) . "',
+						te_modem_desc            = '" . DeCrypt($key,$iv,$_POST['te_modem_desc']			,$v_cs_cipher,$v_cs_compress) . "'
+				WHERE 	te_node_address    		 = '" . $te_node_address . "' and id_so = '" . $arrSO['id_so'] . "'";
+	$result = mysql_query($query);		
+		
 	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';	
 	}
 else
 	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>Chave (TE_NODE_ADDRESS + ID_SO) Inválida</STATUS>';
 
 // Função para montagem do texto de componentes acrescentados
-function TrataAlteracoes($strTripaComponentes, $arrColunasSelecionadas,$arrDescricoesColunas)
+function TrataAlteracoes($arrTiposComponentes, $arrHardwareSelecionado,$arrDescricoesColunasComputadores)
 	{
 	$strAlteracoes  = '';
-	$arrOperacoes 	   = explode(',','REM,ACR'); 
-	$arrComponentes    = explode(',',$strTripaComponentes);
+	$arrOperacoes 	   = array('REM','ACR'); 
+	$strAlteracoes = '';
+	$strOperacaoAtual = '';
 	for ($g=0; $g < count($arrOperacoes); $g++)
 		{
-		if ($strAlteracoes)
-			$strAlteracoes = ($strAlteracoes?' Itens '.($arrOperacoes[$g-1]=='ACR'?'Acrescentados':($arrOperacoes[$g-1]=='REM'?'Removidos':'Alterados')).':<br> ================<br>':'').$strAlteracoes.'<br>';			
-		
-		for ($h=0; $h < count($arrComponentes);$h++)
+		$boolNovaOperacao = true;				
+		$strOperacaoAtual = $arrOperacoes[$g];
+		for ($h=0; $h < count($arrTiposComponentes);$h++)
 			{		
-			$strNomeArrayComponente = 'arr'.trim($arrComponentes[$h]);
+			$strNomeArrayComponente = 'arr'.trim($arrTiposComponentes[$h]);
 
 			// Importo a variável array do componente via variável-variável
 			global $$strNomeArrayComponente;
@@ -368,7 +236,7 @@ function TrataAlteracoes($strTripaComponentes, $arrColunasSelecionadas,$arrDescr
 			$arrItensAlteracoesExterno = $$strNomeArrayComponente;
 
 			// Explodo os tipos de componentes
-			$arrAlteracoes = explode('#'.trim($arrComponentes[$h]).'#',$arrItensAlteracoesExterno[$arrOperacoes[$g]]);
+			$arrAlteracoes = explode('#'.trim($arrTiposComponentes[$h]).'#',$arrItensAlteracoesExterno[$arrOperacoes[$g]]);
 
 			for ($i=0; $i < count($arrAlteracoes); $i++) 
 				{
@@ -384,7 +252,7 @@ function TrataAlteracoes($strTripaComponentes, $arrColunasSelecionadas,$arrDescr
 						{
 						// Explodo os campos
 						$arrCampos = explode('###',$arrItensAlteracoes[$j]);					
-						if ($arrColunasSelecionadas[trim($arrCampos[0])]<>'')
+						if ($arrHardwareSelecionado[trim($arrCampos[0])]<>'')
 							{
 							$boolAlerta = true;
 							$j = count($arrItensAlteracoes);
@@ -399,27 +267,47 @@ function TrataAlteracoes($strTripaComponentes, $arrColunasSelecionadas,$arrDescr
 							{
 							// Explodo os campos
 							$arrCampos = explode('###',$arrItensAlteracoes[$j]);					
-							$strDescricaoColuna = $arrDescricoesColunas[trim($arrCampos[0])];
+							$strDescricaoColuna = $arrDescricoesColunasComputadores[trim($arrCampos[0])];
 							$strDescricaoColuna = ($strDescricaoColuna?$strDescricaoColuna:trim($arrCampos[0]));						
+							if ($boolNovaOperacao)
+								{
+								$strPluralItem = 'ns';
+								$strPlural = 's';								
+								if (count($arrAlteracoes)==1)
+									{
+									$strPluralItem = 'm';
+									$strPlural = '';									
+									}
+								$boolNovaOperacao = false;
+								$strAlteracoes .= '<br><br>'.str_repeat('=',50).' Ite'.$strPluralItem.' '.($strOperacaoAtual=='ACR'?'Acrescentado'.$strPlural:($strOperacaoAtual=='REM'?'Removido'.$strPlural:'Alterado'.$strPlural)).' '.str_repeat('=',50).'<br>';			
+								}
 							
 							if ($j == 0)										
-								$strAlteracoes .= ($strAlteracoes<>''?'<br><br>':'').$arrDescricoesColunas[trim($arrCampos[0])] . '  =>  ' . $arrCampos[1].'<br>';
+								{
+								$strTextoItem = $arrDescricoesColunasComputadores[trim($arrCampos[0])] . '  =>  ';
+								$strAlteracoes .= $strTextoItem;
+								}
 							else
-								$strAlteracoes .= '       '. $strDescricaoColuna . ': ' . $arrCampos[1].'<br>';							
+								$strAlteracoes .= str_repeat('  ',strlen($strTextoItem)). $strDescricaoColuna . ': ';							
+							$strAlteracoes .= $arrCampos[1].'<br>';
 							}
 					}			
 				}
 			}
 		}		
-
-	if ($strAlteracoes)
-		$strAlteracoes = ($strAlteracoes?' Itens '.($arrOperacoes[$g-1]=='ACR'?'Acrescentados':($arrOperacoes[$g-1]=='REM'?'Removidos':'Alterados')).':<br> ================<br>':'').$strAlteracoes.'<br>';			
-		
+	
 	return $strAlteracoes;
 	}
 	
 function VerificaComponentes($strCsTipoComponente, $strTripaComponentesRecebidos, $intTotalGeralExistentes = 0)
 	{
+	// =============================================================
+	// Esta função retorna um array contendo os seguintes elementos:
+	// =============================================================
+	// ACR     => Acrescentados
+	// REM     => Removidos
+	// =============================================================
+	
 	global $te_node_address;
 	global $arrSO;
 
@@ -427,8 +315,6 @@ function VerificaComponentes($strCsTipoComponente, $strTripaComponentesRecebidos
 
 	$strTripaACR 	 	= '';
 	$strTripaREM 	 	= '';
-	$strTripaALT 	 	= '';	
-	$strTripaALT_OLD 	= '';		
 	$intTotalExistentes = 0;
 	$intTotalRecebidos  = 0;
 
@@ -454,9 +340,9 @@ function VerificaComponentes($strCsTipoComponente, $strTripaComponentesRecebidos
 	$resultComponentesExistentes = mysql_query($strQueryComponentesExistentes) or die('Problema Consultando Tabela Componentes_Estações 2!');
 	$intTotalExistentes = @mysql_num_rows($resultComponentesExistentes);
 	
-	// ===============================================================================================
-	// Se já existem componentes associados à estação, vou tratar ACRESCENTADOS, REMOVIDOS e ALTERADOS
-	// ===============================================================================================
+	// ====================================================================================
+	// Se já existem componentes associados à estação, vou tratar ACRESCENTADOS e REMOVIDOS
+	// ====================================================================================
 	if ($intTotalExistentes > 0)			
 		{
 		while ($rowComponentesExistentes = mysql_fetch_array($resultComponentesExistentes))		
@@ -505,6 +391,7 @@ function VerificaComponentes($strCsTipoComponente, $strTripaComponentesRecebidos
 	// ===============================
 	if (count($arrComponentesAcrescentados)>0)
 		{
+
 		$strTripaInsereComponentes = '';
 		$strTripaACR			   = '';
 		for ($intItemComponentesAcrescentados = 0;$intItemComponentesAcrescentados < count($arrComponentesAcrescentados);$intItemComponentesAcrescentados ++)
@@ -566,36 +453,8 @@ function VerificaComponentes($strCsTipoComponente, $strTripaComponentesRecebidos
 			}
 		}
 
-	/*
-	// ===============================================================================================================================================
-	// Verifico se houve apenas ALTERAÇÃO de componentes
-	// ===============================================================================================================================================		
-	if ( count($arrComponentesAcrescentados) > 0 &&
-	    (count($arrComponentesAcrescentados) == count($arrComponentesRemovidos)) &&
-		 $strTripaComponentesRecebidosAux    <> '#'.$strCsTipoComponente.'#' && 
-		 $strTripaComponentesExistentesAux   <> '#'.$strCsTipoComponente.'#')
-		{
-		// Neste caso, entendo que houve apenas uma alteração e esvazio as tripas de ACRÉSCIMO e REMOÇÃO, informando apenas ALTERAÇÃO.
-		$strTripaACR	 = '';
-		$strTripaREM	 = '';		
-		$strTripaALT     = $strTripaComponentesRecebidosAux;
-		$strTripaALT_OLD = $strTripaComponentesExistentesAux;			
-		}
-	// ===============================================================================================================================================				
-	*/
-
-	// =======================================================
-	// Será retornado um array com os elementos:
-	// =======================================================
-	// ACR     => Acrescentados
-	// REM     => Removidos
-	// ALT     => Alterados
-	// ALT_OLD => Registros Antigos, afetados pelas ALTERAÇÕES
-	// =======================================================
 	$arrRetorno = array('ACR' 	  => $strTripaACR, 
-						'REM' 	  => $strTripaREM,
-						'ALT' 	  => $strTripaALT, 
-						'ALT_OLD' => $strTripaALT_OLD);													
+						'REM' 	  => $strTripaREM);													
 	return $arrRetorno;
 	}
 ?>

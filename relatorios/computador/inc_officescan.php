@@ -17,23 +17,17 @@
 if (!$_SESSION['officescan'])
 	$_SESSION['officescan'] = false;
 if ($exibir == 'officescan')
-	{
 	$_SESSION['officescan'] = !($_SESSION['officescan']);
-	}
 else
-	{
 	$_SESSION['officescan'] = false;
-	}
+
 $strCor = '';  
-$strCor = ($strCor==''?'#CCCCFF':'');						  
+$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
 	
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
-    <td colspan="5"> </td>
-  </tr>
-  <tr> 
-    <td colspan="5" height="1" bgcolor="#333333"></td>
+    <td colspan="5" bgcolor="#333333" height="1"></td>
   </tr>
   <tr> 
     <td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp; <a href="computador.php?exibir=officescan&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
@@ -42,11 +36,14 @@ $strCor = ($strCor==''?'#CCCCFF':'');
       OfficeScan</a></td>
   </tr>
   <tr> 
-    <td colspan="5" height="1" bgcolor="#333333"></td>
+    <td colspan="5" bgcolor="#333333" height="1"></td>
   </tr>
+  
   <?
-		if ($_SESSION['officescan'] == true) {
-		// EXIBIR INFORMAÇÕES DO OFFICESCAN DO COMPUTADOR
+
+		if ($_SESSION['officescan'] == true) 
+			{
+			// EXIBIR INFORMAÇÕES DO OFFICESCAN DO COMPUTADOR
 			$query = "SELECT 	cs_situacao
 					  FROM 		acoes_redes 
 					  WHERE 	id_acao = 'cs_coleta_officescan' AND
@@ -69,7 +66,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td class="dado"><div align="left"><? echo mysql_result($result_officescan, 0, "te_servidor"); ?>&nbsp;</div></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
 
   <tr bgcolor="<? echo $strCor;?>"> 
@@ -80,7 +77,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td class="dado"><? echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result_officescan, 0, "dt_hr_instalacao"))); ?></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
 
   <tr bgcolor="<? echo $strCor;?>"> 
@@ -95,10 +92,6 @@ $strCor = ($strCor==''?'#CCCCFF':'');
       </td>
     <td class="opcao_tabela">Data da &Uacute;ltima Coleta:</td>
     <td class="dado"><? echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result_officescan, 0, "dt_hr_coleta"))); ?></td>
-  </tr>
-  <? echo $linha?> 
-  <tr> 
-    <td colspan="5">&nbsp;</td>
   </tr>
   <?
 			}
@@ -126,4 +119,5 @@ $strCor = ($strCor==''?'#CCCCFF':'');
 		}
 		// FIM DA EXIBIÇÃO DE INFORMAÇÕES DO OFFICESCAN DO COMPUTADOR
 		?>
+		
 </table>

@@ -25,16 +25,25 @@ require_once('../include/library.php');
 $v_cs_cipher	= (trim($_POST['cs_cipher'])   <> ''?trim($_POST['cs_cipher'])   : '4');
 $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) : '4');
 
-autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
+$strPaddingKey = '';
 
-$te_node_address 			= DeCrypt($key,$iv,$_POST['te_node_address']		,$v_cs_cipher,$v_cs_compress); 
-$id_so_new         			= DeCrypt($key,$iv,$_POST['id_so']					,$v_cs_cipher,$v_cs_compress); 
-$te_so           			= DeCrypt($key,$iv,$_POST['te_so']					,$v_cs_cipher,$v_cs_compress); 
-$te_ip           			= DeCrypt($key,$iv,$_POST['te_ip']					,$v_cs_cipher,$v_cs_compress); 
-$id_ip_rede     			= DeCrypt($key,$iv,$_POST['id_ip_rede']				,$v_cs_cipher,$v_cs_compress);
-$te_nome_computador			= DeCrypt($key,$iv,$_POST['te_nome_computador']		,$v_cs_cipher,$v_cs_compress); 
-$te_workgroup 				= DeCrypt($key,$iv,$_POST['te_workgroup']			,$v_cs_cipher,$v_cs_compress); 
-$v_tripa_monitorados 		= DeCrypt($key,$iv,$_POST['te_tripa_monitorados']	,$v_cs_cipher,$v_cs_compress);
+// O agente PyCACIC envia o valor "padding_key" para preenchimento da palavra chave para decriptação/encriptação
+if ($_POST['padding_key'])
+	{
+	// Valores específicos para trabalho com o PyCACIC - 04 de abril de 2008 - Rogério Lino - Dataprev/ES
+	$strPaddingKey 	= $_POST['padding_key']; // A versão inicial do agente em Python exige esse complemento na chave...
+	}
+
+autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress, $strPaddingKey);
+
+$te_node_address 			= DeCrypt($key,$iv,$_POST['te_node_address']	 ,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$id_so_new         			= DeCrypt($key,$iv,$_POST['id_so']				 ,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_so           			= DeCrypt($key,$iv,$_POST['te_so']				 ,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_ip           			= DeCrypt($key,$iv,$_POST['te_ip']				 ,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$id_ip_rede     			= DeCrypt($key,$iv,$_POST['id_ip_rede']			 ,$v_cs_cipher,$v_cs_compress,$strPaddingKey);
+$te_nome_computador			= DeCrypt($key,$iv,$_POST['te_nome_computador']	 ,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_workgroup 				= DeCrypt($key,$iv,$_POST['te_workgroup']		 ,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$v_tripa_monitorados 		= DeCrypt($key,$iv,$_POST['te_tripa_monitorados'],$v_cs_cipher,$v_cs_compress,$strPaddingKey);
 
 
 /* Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 

@@ -30,17 +30,26 @@ $v_compress_level = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Deco
 $v_cs_cipher	= (trim($_POST['cs_cipher'])   <> ''?trim($_POST['cs_cipher'])   : '4');
 $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) : '4');
 
-autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
+$strPaddingKey = '';
+
+// O agente PyCACIC envia o valor "padding_key" para preenchimento da palavra chave para decriptação/encriptação
+if ($_POST['padding_key'])
+	{
+	// Valores específicos para trabalho com o PyCACIC - 04 de abril de 2008 - Rogério Lino - Dataprev/ES
+	$strPaddingKey 	= $_POST['padding_key']; // A versão inicial do agente em Python exige esse complemento na chave...
+	}
+
+autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress, $strPaddingKey);
 
 $v_dados_rede = getDadosRede();
 
-$te_node_address 	= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress); 
-$id_so_new         	= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress); 
-$te_so           	= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress); 
-$id_ip_rede     	= DeCrypt($key,$iv,$_POST['id_ip_rede']			,$v_cs_cipher,$v_cs_compress);
-$te_ip 				= DeCrypt($key,$iv,$_POST['te_ip']				,$v_cs_cipher,$v_cs_compress); 
-$te_nome_computador	= DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress); 
-$te_workgroup 		= DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_cs_compress); 
+$te_node_address 	= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress, $strPaddingKey); 
+$id_so_new         	= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress, $strPaddingKey); 
+$te_so           	= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress, $strPaddingKey); 
+$id_ip_rede     	= DeCrypt($key,$iv,$_POST['id_ip_rede']			,$v_cs_cipher,$v_cs_compress, $strPaddingKey);
+$te_ip 				= DeCrypt($key,$iv,$_POST['te_ip']				,$v_cs_cipher,$v_cs_compress, $strPaddingKey); 
+$te_nome_computador	= DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress, $strPaddingKey); 
+$te_workgroup 		= DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_cs_compress, $strPaddingKey); 
 
 /* Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
  o computador deste agente no BD, caso ainda não esteja inserido. */
@@ -70,7 +79,7 @@ $query = 'SELECT 	dt_hr_alteracao_patrim_interface,
 conecta_bd_cacic();			  
 $result = mysql_query($query);
 $campos = mysql_fetch_array($result);				
-$retorno_xml='<?xml version="1.0" encoding="iso-8859-1" ?><CONFIGS><STATUS>OK</STATUS><dt_hr_alteracao_patrim_interface>' . EnCrypt($key,$iv,$campos['dt_hr_alteracao_patrim_interface'],$v_cs_cipher,$v_cs_compress,$v_compress_level) .'</dt_hr_alteracao_patrim_interface><dt_hr_alteracao_patrim_uon1>' . EnCrypt($key,$iv,$campos['dt_hr_alteracao_patrim_uon1'],$v_cs_cipher,$v_cs_compress,$v_compress_level) .'</dt_hr_alteracao_patrim_uon1><dt_hr_alteracao_patrim_uon2>' . EnCrypt($key,$iv,$campos['dt_hr_alteracao_patrim_uon2'],$v_cs_cipher,$v_cs_compress,$v_compress_level) .'</dt_hr_alteracao_patrim_uon2><cs_abre_janela_patr>' . EnCrypt($key,$iv,$campos['cs_abre_janela_patr'],$v_cs_cipher,$v_cs_compress,$v_compress_level) .'</cs_abre_janela_patr>';
+$retorno_xml='<?xml version="1.0" encoding="iso-8859-1" ?><CONFIGS><STATUS>OK</STATUS><dt_hr_alteracao_patrim_interface>' . EnCrypt($key,$iv,$campos['dt_hr_alteracao_patrim_interface'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) .'</dt_hr_alteracao_patrim_interface><dt_hr_alteracao_patrim_uon1>' . EnCrypt($key,$iv,$campos['dt_hr_alteracao_patrim_uon1'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) .'</dt_hr_alteracao_patrim_uon1><dt_hr_alteracao_patrim_uon2>' . EnCrypt($key,$iv,$campos['dt_hr_alteracao_patrim_uon2'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) .'</dt_hr_alteracao_patrim_uon2><cs_abre_janela_patr>' . EnCrypt($key,$iv,$campos['cs_abre_janela_patr'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) .'</cs_abre_janela_patr>';
 
 
 /*
@@ -104,9 +113,9 @@ while ($campos = mysql_fetch_array($result))
 		{
 		$id = $i;
 		}
-	$retorno_xml .= '<te_etiqueta'        . $id . '>'. EnCrypt($key,$iv,$campos["te_etiqueta"],$v_cs_cipher,$v_cs_compress,$v_compress_level)        . '</te_etiqueta'        . $id . '>' . 
-	                '<in_exibir_etiqueta' . $id . '>'. EnCrypt($key,$iv,$campos["in_exibir_etiqueta"],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</in_exibir_etiqueta' . $id . '>' . 
-					'<te_help_etiqueta'   . $id . '>'. EnCrypt($key,$iv,$campos["te_help_etiqueta"],$v_cs_cipher,$v_cs_compress,$v_compress_level)   . '</te_help_etiqueta'   . $id . '>';
+	$retorno_xml .= '<te_etiqueta'        . $id . '>'. EnCrypt($key,$iv,$campos["te_etiqueta"],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey)        . '</te_etiqueta'        . $id . '>' . 
+	                '<in_exibir_etiqueta' . $id . '>'. EnCrypt($key,$iv,$campos["in_exibir_etiqueta"],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</in_exibir_etiqueta' . $id . '>' . 
+					'<te_help_etiqueta'   . $id . '>'. EnCrypt($key,$iv,$campos["te_help_etiqueta"],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey)   . '</te_help_etiqueta'   . $id . '>';
 	$i++ ;
 	}
 
@@ -142,7 +151,7 @@ while ($campos = mysql_fetch_array($result))
 	$pos1 = stripos2($strTripaIdUON1,$strAux,false);	
 	if (!$pos1)	
 		{	
-	  	$retorno_xml .= '<IT1><ID1>' . EnCrypt($key,$iv,$campos['uo1_id'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</ID1><NM1>' . EnCrypt($key,$iv,$campos['uo1_nm'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</NM1></IT1>'; 		
+	  	$retorno_xml .= '<IT1><ID1>' . EnCrypt($key,$iv,$campos['uo1_id'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</ID1><NM1>' . EnCrypt($key,$iv,$campos['uo1_nm'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</NM1></IT1>'; 		
 		$strTripaIdUON1 .= '#'.$campos['uo1_id'].'-'.$campos['uo1_nm'].'#';
 		}			
 	}
@@ -166,14 +175,14 @@ while ($campos = mysql_fetch_array($result))
 
 	if (!$pos1)	
 		{
-	  	$retorno_xml .= '<IT1a><ID1>' . EnCrypt($key,$iv,$campos['uo1_id'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</ID1><SG_LOC>' . EnCrypt($key,$iv,$campos['loc_sg'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</SG_LOC><ID1a>' . EnCrypt($key,$iv,$campos['uo1a_id'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</ID1a><NM1a>' . EnCrypt($key,$iv,$campos['uo1a_nm'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</NM1a><ID_LOCAL>' . EnCrypt($key,$iv,$campos['uo2_id_local'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</ID_LOCAL></IT1a>';
+	  	$retorno_xml .= '<IT1a><ID1>' . EnCrypt($key,$iv,$campos['uo1_id'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</ID1><SG_LOC>' . EnCrypt($key,$iv,$campos['loc_sg'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</SG_LOC><ID1a>' . EnCrypt($key,$iv,$campos['uo1a_id'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</ID1a><NM1a>' . EnCrypt($key,$iv,$campos['uo1a_nm'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</NM1a><ID_LOCAL>' . EnCrypt($key,$iv,$campos['uo2_id_local'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</ID_LOCAL></IT1a>';
 		$strTripaIdUON1a .= '#'.$campos['uo1a_id'].'-'.$campos['uo2_id_local'].'#';
 		}		
 	}
 
 mysql_data_seek($result,0);
 while ($campos = mysql_fetch_array($result))
-  	$retorno_xml .= '<IT2><ID1a>' . EnCrypt($key,$iv,$campos['uo1a_id'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</ID1a><ID2>' . EnCrypt($key,$iv,$campos['uo2_id'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</ID2><NM2>' . EnCrypt($key,$iv,$campos['uo2_nm'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</NM2><ID_LOCAL>' . EnCrypt($key,$iv,$campos['uo2_id_local'],$v_cs_cipher,$v_cs_compress,$v_compress_level) . '</ID_LOCAL></IT2>';
+  	$retorno_xml .= '<IT2><ID1a>' . EnCrypt($key,$iv,$campos['uo1a_id'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</ID1a><ID2>' . EnCrypt($key,$iv,$campos['uo2_id'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</ID2><NM2>' . EnCrypt($key,$iv,$campos['uo2_nm'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</NM2><ID_LOCAL>' . EnCrypt($key,$iv,$campos['uo2_id_local'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey) . '</ID_LOCAL></IT2>';
 
 
 // Envio os valores já existentes no banco, referentes ao ID_SO+TE_NODE_ADDRESS da estação chamadora...
@@ -199,16 +208,16 @@ $result = mysql_query($query);
 if (count($result)>0)
 	{
 	$valores = mysql_fetch_array($result);
-	$retorno_xml .= '<ID_UON1a>'	.EnCrypt($key,$iv,$valores['id_unid_organizacional_nivel1a'],$v_cs_cipher,$v_cs_compress,$v_compress_level).'</ID_UON1a>';		
-	$retorno_xml .= '<ID_UON2>'		.EnCrypt($key,$iv,$valores['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</ID_UON2>';		
-	$retorno_xml .= '<ID_LOCAL>'	.EnCrypt($key,$iv,$valores['id_local']						,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</ID_LOCAL>';				
-	$retorno_xml .= '<TE_LOC_COMPL>'.EnCrypt($key,$iv,$valores['te_localizacao_complementar']	,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</TE_LOC_COMPL>';			
-	$retorno_xml .= '<TE_INFO1>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio1']			,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</TE_INFO1>';				
-	$retorno_xml .= '<TE_INFO2>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio2']			,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</TE_INFO2>';				
-	$retorno_xml .= '<TE_INFO3>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio3']			,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</TE_INFO3>';				
-	$retorno_xml .= '<TE_INFO4>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio4']			,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</TE_INFO4>';				
-	$retorno_xml .= '<TE_INFO5>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio5']			,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</TE_INFO5>';				
-	$retorno_xml .= '<TE_INFO6>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio6']			,$v_cs_cipher,$v_cs_compress,$v_compress_level).'</TE_INFO6>';									
+	$retorno_xml .= '<ID_UON1a>'	.EnCrypt($key,$iv,$valores['id_unid_organizacional_nivel1a'],$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey).'</ID_UON1a>';		
+	$retorno_xml .= '<ID_UON2>'		.EnCrypt($key,$iv,$valores['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey).'</ID_UON2>';		
+	$retorno_xml .= '<ID_LOCAL>'	.EnCrypt($key,$iv,$valores['id_local']						,$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey).'</ID_LOCAL>';				
+	$retorno_xml .= '<TE_LOC_COMPL>'.EnCrypt($key,$iv,$valores['te_localizacao_complementar']	,$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey).'</TE_LOC_COMPL>';			
+	$retorno_xml .= '<TE_INFO1>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio1']			,$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey).'</TE_INFO1>';				
+	$retorno_xml .= '<TE_INFO2>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio2']			,$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey).'</TE_INFO2>';				
+	$retorno_xml .= '<TE_INFO3>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio3']			,$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey).'</TE_INFO3>';				
+	$retorno_xml .= '<TE_INFO4>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio4']			,$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey).'</TE_INFO4>';				
+	$retorno_xml .= '<TE_INFO5>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio5']			,$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey).'</TE_INFO5>';				
+	$retorno_xml .= '<TE_INFO6>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio6']			,$v_cs_cipher,$v_cs_compress,$v_compress_level, $strPaddingKey).'</TE_INFO6>';									
 	}
 
 // --------------- Retorno de Classificador de CRIPTOGRAFIA --------------- //

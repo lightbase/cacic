@@ -17,18 +17,11 @@
 if (!$_SESSION['ferramentas'])
 	$_SESSION['ferramentas'] = false;
 if ($exibir == 'ferramentas')
-	{
 	$_SESSION['ferramentas'] = !($_SESSION['ferramentas']);
-	}
 else
-	{
 	$_SESSION['ferramentas'] = false;
-	}
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
-  <tr> 
-    <td colspan="3"> </td>
-  </tr>
   <tr> 
     <td colspan="3" height="1" bgcolor="#333333"></td>
   </tr>

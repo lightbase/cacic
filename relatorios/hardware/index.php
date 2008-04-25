@@ -16,6 +16,7 @@
 		// Essa variável é usada pelo arquivo de include selecao_redes_inc.php e inicio_relatorios_inc.php.
 		$id_acao = 'cs_coleta_hardware';
   require_once('../../include/inicio_relatorios_inc.php'); 
+  require_once('../../include/library.php');   
 ?>
 
 <table width="90%" border="0" align="center">
@@ -132,14 +133,19 @@
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list5[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? 	$query = "SELECT 	nm_campo_tab_hardware, te_desc_hardware
+                        <? 	
+						// Obtenho os nomes do hardware passível de controle
+						$arrDescricaoHardware = getDescricaoHardware();
+						/*
+						$query = "SELECT 	nm_campo_tab_hardware, te_desc_hardware
 								  	  FROM 		descricao_hardware 
 									  ORDER BY 	te_desc_hardware";
 						$result_hardwares_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware ou sua sessão expirou!');
+						*/
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
-       while($campos_hardwares_selecionados=mysql_fetch_array($result_hardwares_selecionados)) 	{
-						   echo '<option value=", ' . $campos_hardwares_selecionados['nm_campo_tab_hardware'] . ' as &quot;' .  $campos_hardwares_selecionados['te_desc_hardware'] . '&quot;">' . $campos_hardwares_selecionados['te_desc_hardware']  . '</option>';
-						}  ?>
+					foreach($arrDescricaoHardware as $i => $v)						
+						echo '<option value="' . trim($i) . '">' . $v  . '</option>';
+					?>
                       </select>
                       </div></td>
                   <td>&nbsp;</td>

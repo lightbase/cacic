@@ -27,8 +27,10 @@ else
 	}
 
 $strCor = '';  
-$strCor = ($strCor==''?'#CCCCFF':'');						  
-	
+$strCor = ($strCor==''?$strPreenchimentoPadrao:'');		
+$linha = '<tr bgcolor="'.$strCorDaLinha.'"> 
+		  <td height="1" colspan="5"></td>
+          </tr>';	  				  
 ?>
 <table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
@@ -38,7 +40,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=tcp_ip&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['tcp_ip'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> Protocolo 
-      TCP/IP</a></td>
+      TCP/IP (Configura&ccedil;&atilde;o Principal) </a></td>
   </tr>
   <tr> 
     <td colspan="5" height="1" bgcolor="#333333"></td>
@@ -55,7 +57,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td class="dado"><? echo mysql_result($result, 0, "te_wins_primario"); ?></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
 
   <tr bgcolor="<? echo $strCor;?>"> 
@@ -66,7 +68,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td class="dado"><? echo mysql_result($result, 0, "te_wins_secundario"); ?></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
 
   <tr bgcolor="<? echo $strCor;?>"> 
@@ -77,7 +79,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td class="dado"><? echo mysql_result($result, 0, "te_dns_primario"); ?></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
 
   <tr bgcolor="<? echo $strCor;?>"> 
@@ -88,7 +90,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td class="dado"><? echo mysql_result($result, 0, "te_dns_secundario"); ?></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
 
   <tr bgcolor="<? echo $strCor;?>"> 
@@ -99,7 +101,7 @@ $strCor = ($strCor==''?'#CCCCFF':'');
     <td class="dado"><? echo mysql_result($result, 0, "te_serv_dhcp");?></td>
   </tr>
   <? echo $linha;
-  $strCor = ($strCor==''?'#CCCCFF':'');						  
+  $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
 
   <tr bgcolor="<? echo $strCor;?>"> 
