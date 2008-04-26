@@ -52,6 +52,23 @@ if( ! @include_once("classes/install.ajax.php") )
    die("Install mal construí­do (Install miss-built)!");
 }
 
-InstallAjax::processAjax();
+if(isset($_POST['cacic_config'])) {
+   $_SESSION['cacic_config'] = $_POST['cacic_config'];
+   $_SESSION['cacic_config']['path'] = CACIC_PATH;
+   $_SESSION['cacic_config']['url'] = CACIC_URL;
+}
+if(isset($_POST['cacic_cfgftp'])) {
+   $_SESSION['cacic_cfgftp'] = $_POST['cacic_cfgftp'];
+}
+
+if(isset($_SESSION['cacic_language']))
+   $_SESSION['cacic_config']['cacic_language'] = $_SESSION['cacic_language'];
+   
+if(isset($_POST['cacic_admin']))
+   $_SESSION['cacic_admin'] = $_POST['cacic_admin'];
+ 
+$task = $_POST['task'];
+
+InstallAjax::processAjax($task);
 
 ?>

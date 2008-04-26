@@ -150,6 +150,7 @@ Class Template extends patTemplate {
      $this->addVar('tmplNavBarMailVerify',  'KCIQ_INST_MAILPASS_HELP', $this->oLang->_('kciq_msg mail password help'));
      
      $this->addVar('tmplNavBarFtpVerify',  'KCIQ_CONFIGURATIONS', $this->oLang->_('kciq_msg configurations'));
+     $this->addVar('tmplNavBarFtpVerify',  'KCIQ_INST_FTPVERIFY_HELP', $this->oLang->_('kciq_msg ftp verify help'));
      $this->addVar('tmplNavBarFtpVerify',  'KCIQ_INST_FTPVERIFY', $this->oLang->_('kciq_msg ftp verify'));
      $this->addVar('tmplNavBarFtpVerify',  'KCIQ_PREVIOUS', $this->oLang->_('kciq_msg previous'));
      $this->addVar('tmplNavBarFtpVerify',  'KCIQ_NEXT', $this->oLang->_('kciq_msg next'));
@@ -229,6 +230,8 @@ Class Template extends patTemplate {
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_PHONE', $this->oLang->_('kciq_msg phone'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_PHONE_HELP', $this->oLang->_('kciq_msg admin mgm phone help'));
      
+     $this->addVar('tmplNavBarFinish',  'KCIQ_SHOWCFGFILE_HELP', $this->oLang->_('kciq_msg showcfgfile help'));
+     $this->addVar('tmplNavBarFinish',  'KCIQ_SHOWCFGFILE', $this->oLang->_('kciq_msg showcfgfile'));
      $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_TITLE', $this->oLang->_('kciq_msg inst end title'));
      $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_ADVISE', $this->oLang->_('kciq_msg inst end advise'));
      $this->addVar('tmplNavBarFinish',  'KCIQ_INST_END_ADVISE_TITLE', $this->oLang->_('kciq_msg inst end advise title'));

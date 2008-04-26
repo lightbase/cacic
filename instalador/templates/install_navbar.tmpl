@@ -244,7 +244,7 @@
 		     <td colspan=2>
 				<div class="navbar-btn">
 						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'checkinstall' );" title="{KCIQ_PREVIOUS}">{KCIQ_PREVIOUS}</a></div></div>
-						<div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'FtpVerify' );" title="{KCIQ_NEXT}">{KCIQ_NEXT}</a></div></div>
+						<div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'adminSetup' );" title="{KCIQ_NEXT}">{KCIQ_NEXT}</a></div></div>
 				</div>
 		     </td>
 		  </tr>
@@ -266,18 +266,6 @@
 				               <a onClick="setDocVar( 'task', 'dbBuild' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="{KCIQ_BUILDBD_HELP}">
 				                  {KCIQ_BUILDBD}</a>
 				        </div></div>
-				        <div class="btnleft"><div class="btnright">
-				               <a onClick="setDocVar( 'task', 'showCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="{KCIQ_SHOWCFGFILE_HELP}">
-				               {KCIQ_SHOWCFGFILE}</a>
-				        </div></div>
-						<cacicInstall:tmpl name="tmplNavBarCouldSaveCFGFile" type="condition" conditionvar="salvar">
-							<cacicInstall:sub condition="sim">
-						        <div class="btnleft"><div class="btnright">
-						               <a onClick="setDocVar( 'task', 'saveCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="{KCIQ_SAVECFGFILE_HELP}">
-						                  {KCIQ_SAVECFGFILE}</a>
-						        </div></div>
-							</cacicInstall:sub>
-						</cacicInstall:tmpl>
 				       </div>
 				    </td>
 				  </tr>
@@ -425,8 +413,8 @@
 		  <tr class="navbar">
 		     <td colspan=2>
 				<div class="navbar-btn">
-						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'FtpVerify' );" title="{KCIQ_PREVIOUS}">{KCIQ_PREVIOUS}</a></div></div>
-						<div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'Finish' );" title="{KCIQ_NEXT}">{KCIQ_NEXT}</a></div></div>
+						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'configuration' );" title="{KCIQ_PREVIOUS}">{KCIQ_PREVIOUS}</a></div></div>
+						<div class="navbar-btn-left"><div class="proximo"><a onclick="submitForm( installForm, 'FtpVerify' );" title="{KCIQ_NEXT}">{KCIQ_NEXT}</a></div></div>
 				</div>
 		     </td>
 		  </tr>
@@ -526,12 +514,39 @@
 		  <tr class="navbar">
 		     <td colspan=2>
 				<div class="navbar-btn">
-						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'adminSetup' );" title="{KCIQ_PREVIOUS}">{KCIQ_PREVIOUS}</a></div></div>
+						<div class="navbar-btn-right"><div class="anterior"><a onclick="submitForm( installForm, 'FtpVerify' );" title="{KCIQ_PREVIOUS}">{KCIQ_PREVIOUS}</a></div></div>
 						<div class="navbar-btn-left"><div class="proximo"><a onclick="javascript:document.location.href='{CACIC_URL}';" title="{KCIQ_FINISH_TITLE}">{KCIQ_FINISH}</a></div></div>
 				</div>
 		     </td>
 		  </tr>
 		</table>
+        <fieldset>
+            <span id="botoes">
+                <table>
+                  <tr>
+                    <td colspan=3>
+                          <script language="JavaScript" type="text/javascript">
+                            asvAjaxInit("ajax.php"); asvAjaxSetCharset('{CACIC_LANG_CHARSET}');
+                          </script>
+                      <div class="botoes">
+                        <div class="btnleft"><div class="btnright">
+                               <a onClick="setDocVar( 'task', 'showCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="{KCIQ_SHOWCFGFILE_HELP}">
+                               {KCIQ_SHOWCFGFILE}</a>
+                        </div></div>
+                        <cacicInstall:tmpl name="tmplNavBarCouldSaveCFGFile" type="condition" conditionvar="salvar">
+                            <cacicInstall:sub condition="sim">
+                                <div class="btnleft"><div class="btnright">
+                                       <a onClick="setDocVar( 'task', 'saveCFGFile' ); asvAjaxGetFormData('installForm', 'msgStatus'); return false;" title="{KCIQ_SAVECFGFILE_HELP}">
+                                          {KCIQ_SAVECFGFILE}</a>
+                                </div></div>
+                            </cacicInstall:sub>
+                        </cacicInstall:tmpl>
+                       </div>
+                    </td>
+                  </tr>
+                </table>
+            </span> 
+        </fieldset>
 		<fieldset>
 		  <legend>{KCIQ_INST_END_TITLE}</legend>
 		    {KCIQ_INST_END_ADVISE}
@@ -572,7 +587,8 @@
     		</fieldset>
 		</fieldset>
 		</div>
-        <input type="hidden" name="step" value="" />
+        <input type="hidden" id="task" name="task" value="{TASK}" />
+        <input type="hidden" name="step" value="{STEP}" />
 	 </form>
 </cacicInstall:tmpl>
 

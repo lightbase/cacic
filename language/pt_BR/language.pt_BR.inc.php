@@ -248,6 +248,7 @@ pt_BR     kciq_msg inst verify admin                                            
 pt_BR     kciq_msg inst verify database existence                                                             instaladorinfo                Verificando existência do banco de dados (%1)...
 pt_BR     kciq_msg inst verify local                                                                          instaladorinfo                Verificando local (%1)...
 pt_BR     kciq_msg check                                                                                      geral     info                Verificar
+pt_BR     kciq_msg ftp verify help                                                                            geral     info                Realiza teste de verificação de servidor FTP, não salva na base de dados do sistema devendo ser configurado pós instalação.
 pt_BR     kciq_msg ftp verify                                                                                 geral     info                Verificação de servidor FTP
 pt_BR     kciq_msg check_notok                                                                                geral     info                Verificação não satisfeita
 pt_BR     kciq_msg check_ok                                                                                   geral     info                Verificação satisfeita

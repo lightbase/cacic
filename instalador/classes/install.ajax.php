@@ -57,21 +57,7 @@ class InstallAjax {
 	 /**
 	  * Processa as requisições AJAX
 	  */
-	  function processAjax() {
-    	if(isset($_POST['cacic_config'])) {
-    	   $_SESSION['cacic_config'] = $_POST['cacic_config'];
-    	   $_SESSION['cacic_config']['path'] = CACIC_PATH;
-    	   $_SESSION['cacic_config']['url'] = CACIC_URL;
-    	   $_SESSION['cacic_config']['cacic_language'] = $_SESSION['cacic_language'];
-    	}
-    	if(isset($_POST['cacic_cfgftp'])) {
-    	   $_SESSION['cacic_cfgftp'] = $_POST['cacic_cfgftp'];
-    	}
-    	
-    	if(isset($_POST['cacic_admin']))
-    	   $_SESSION['cacic_admin'] = $_POST['cacic_admin'];
-    	 
-     	$task = $_POST['task'];
+	  function processAjax($task) {
 	  	switch (strtolower($task)) {
 	  		case 'testconnftp' : InstallAjax::checkFtpServer($_SESSION['cacic_cfgftp']); break;
 	  		case 'testconn' : InstallAjax::checkDBConnection($_SESSION['cacic_config']); break;
@@ -197,7 +183,7 @@ class InstallAjax {
     	        $dadosOK = false;
 				$msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database sqlbuild not defined',array(CACIC_SQLFILE_CREATEDB)).'</span><br>';
 			}
-    		$fileName = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_STDDATA;
+    		$fileName = $cacic_config['path'].'language'.CACIC_DS.$cacic_config['cacic_language'].CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_STDDATA;
     		if(!is_readable($fileName)) {
     	        $dadosOK = false;
 				$msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database sqldata not defined',array(CACIC_SQLFILE_STDDATA)).'</span><br>';
@@ -563,7 +549,7 @@ class InstallAjax {
 		   /*
 		    * Inclui dados básicos para CACIC
 		    */
-		   $fileName = $cacic_config['path'].'instalador/sql/'.CACIC_SQLFILE_STDDATA;
+		   $fileName = $cacic_config['path'].'language'.CACIC_DS.$cacic_config['cacic_language'].CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_STDDATA;
 		   if(is_readable($fileName)) {
 			 $cacic_sql_dadosbase = $fileName;
 			 echo "<br>".InstallAjax::_('kciq_msg inst insert basic data',array($cacic_config['db_name']));

@@ -450,6 +450,9 @@ class Install {
 	    $cacic_admin = $_SESSION['cacic_admin'];
 	    
     	$this->oTmpl->addVar('tmplNavBarFinish', 'CACIC_URL', $cacic_config['url']);
+    	
+	  	if(isset($_SESSION['saveCfgFile']) and $_SESSION['saveCfgFile']) {
+	  	    $this->oTmpl->addVar('tmplNavBarCouldSaveCFGFile', 'salvar', 'sim'); }
      	
 	    $cfgFileName = $cacic_config['path'].CACIC_DS.'include'.CACIC_DS.'config.php';
 
