@@ -6,7 +6,6 @@
 -- Dumping data for table `acoes`
 --
 
-
 /*!40000 ALTER TABLE `acoes` DISABLE KEYS */;
 INSERT INTO `acoes` (`id_acao`, `te_descricao_breve`, `te_descricao`, `te_nome_curto_modulo`, `dt_hr_alteracao`, `cs_situacao`) VALUES 
 ('cs_auto_update', 'Auto Atualização dos Agentes', 'Essa ação permite que seja realizada a auto atualização dos agentes do CACIC nos computadores onde os agentes são executados. \r\n\r\n', NULL, '0000-00-00 00:00:00', NULL),
@@ -18,48 +17,6 @@ INSERT INTO `acoes` (`id_acao`, `te_descricao_breve`, `te_descricao`, `te_nome_c
 ('cs_coleta_software', 'Coleta Informações de Software', 'Essa ação permite que sejam coletadas informações sobre as versões de diversos softwares instalados nos computadores onde os agentes são executados. São coletadas, por exemplo, informações sobre as versões do Internet Explorer, Mozilla, DirectX, ADO, BDE, DAO, Java Runtime Environment, etc.', 'SOFT', '0000-00-00 00:00:00', NULL),
 ('cs_coleta_unid_disc', 'Coleta Informações sobre Unidades de Disco', 'Essa ação permite que sejam coletadas informações sobre as unidades de disco disponí­veis nos computadores onde os agentes são executados. São coletadas, por exemplo, informações sobre o sistema de arquivos das unidades, suas capacidades de armazenamento, ocupação, espaço livre, etc.', 'UNDI', '0000-00-00 00:00:00', NULL);
 /*!40000 ALTER TABLE `acoes` ENABLE KEYS */;
-
---
--- Dumping data for table `acoes_so`
---
-
-
-/*!40000 ALTER TABLE `acoes_so` DISABLE KEYS */;
-INSERT INTO `acoes_so` (`id_local`, `id_acao`, `id_so`) VALUES 
-(1, 'cs_auto_update', 1),
-(1, 'cs_auto_update', 2),
-(1, 'cs_auto_update', 3),
-(1, 'cs_auto_update', 4),
-(1, 'cs_auto_update', 5),
-(1, 'cs_auto_update', 6),
-(1, 'cs_auto_update', 7),
-(1, 'cs_auto_update', 8),
-(1, 'cs_auto_update', 9),
-(1, 'cs_auto_update', 10),
-(1, 'cs_auto_update', 11),
-(1, 'cs_auto_update', 12),
-(1, 'cs_auto_update', 13),
-(1, 'cs_auto_update', 14),
-(1, 'cs_coleta_compart', 1),
-(1, 'cs_coleta_compart', 2),
-(1, 'cs_coleta_compart', 3),
-(1, 'cs_coleta_compart', 4),
-(1, 'cs_coleta_compart', 5),
-(1, 'cs_coleta_compart', 6),
-(1, 'cs_coleta_compart', 7),
-(1, 'cs_coleta_compart', 8),
-(1, 'cs_coleta_compart', 9),
-(1, 'cs_coleta_compart', 10),
-(1, 'cs_coleta_compart', 11),
-(1, 'cs_coleta_compart', 12),
-(1, 'cs_coleta_compart', 13),
-(1, 'cs_coleta_compart', 14),
-(1, 'cs_coleta_hardware', 1),
-(1, 'cs_coleta_hardware', 2),
-(1, 'cs_coleta_hardware', 3),
-(1, 'cs_coleta_hardware', 4),
-(1, 'cs_coleta_hardware', 5);
-/*!40000 ALTER TABLE `acoes_so` ENABLE KEYS */;
 
 --
 -- Dumping data for table `configuracoes_locais`
@@ -212,8 +169,7 @@ INSERT INTO `patrimonio_config_interface`
             (`id_local`, `id_etiqueta`, `nm_etiqueta`, `te_etiqueta`, `in_exibir_etiqueta`, `te_help_etiqueta`,
              `te_plural_etiqueta`, `nm_campo_tab_patrimonio`, `in_destacar_duplicidade`)
      VALUES
-            (1, 'etiqueta1', 'Etiqueta 1', 'Entidade', '', 'Selecione a Entidade', 'Entidades',
- 'id_unid_organizacional_nivel1', 'N'),
+            (1, 'etiqueta1', 'Etiqueta 1', 'Entidade', '', 'Selecione a Entidade', 'Entidades', 'id_unid_organizacional_nivel1', 'N'),
             (1, 'etiqueta1a', 'Etiqueta 1a', 'Linha de Negócio', 'S', 'Selecione a Linha de Negócio', 'Linhas de Negócio', 'id_unid_organizacional_nivel1a', 'N'),
             (1, 'etiqueta2', 'Etiqueta 2', 'Órgão', '', 'Selecione o Órgão', 'Órgãos', 'id_unid_organizacional_nivel2', ''),
             (1, 'etiqueta3', 'Etiqueta 3', 'Seção / Sala / Ramal', '', 'Informe a Seção onde está instalado o equipamento.', '', 'te_localizacao_complementar', ''),
