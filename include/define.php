@@ -108,7 +108,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /*
  * CACIC application language
  */
- if(isset($cacic_language))
+ if(isset($cacic_language) and !empty($cacic_language))
     define( 'CACIC_LANGUAGE', $cacic_language );
  else
     define( 'CACIC_LANGUAGE', 'pt_BR');

@@ -185,8 +185,11 @@ class InstallAjax {
 			}
     		$fileName = $cacic_config['path'].'language'.CACIC_DS.$cacic_config['cacic_language'].CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_STDDATA;
     		if(!is_readable($fileName)) {
-    	        $dadosOK = false;
-				$msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database sqldata not defined',array(CACIC_SQLFILE_STDDATA)).'</span><br>';
+	    		$fileName = $cacic_config['path'].'language'.CACIC_DS.CACIC_LANGUAGE.CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_STDDATA;
+	    		if(!is_readable($fileName)) {
+	    	        $dadosOK = false;
+					$msg .= '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('kciq_msg inst database sqldata not defined',array(CACIC_SQLFILE_STDDATA)).'</span><br>';
+	    		}
 			}
     		if($cacic_config['dbdet']['demo'] == 'demo') {
     			$fileName = $cacic_config['path'].'instalador'.CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_DEMODATA;
@@ -547,9 +550,12 @@ class InstallAjax {
 					  
 		if($installType == 'createDB') {
 		   /*
-		    * Inclui dados básicos para CACIC
+		    * Inclui dados básicos para CACIC, do idioma selecionado ou, caso não exista, do idioma padrão
 		    */
 		   $fileName = $cacic_config['path'].'language'.CACIC_DS.$cacic_config['cacic_language'].CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_STDDATA;
+		   if(!is_readable($fileName))
+	    		$fileName = $cacic_config['path'].'language'.CACIC_DS.CACIC_LANGUAGE.CACIC_DS.'sql'.CACIC_DS.CACIC_SQLFILE_STDDATA;
+	    		
 		   if(is_readable($fileName)) {
 			 $cacic_sql_dadosbase = $fileName;
 			 echo "<br>".InstallAjax::_('kciq_msg inst insert basic data',array($cacic_config['db_name']));
