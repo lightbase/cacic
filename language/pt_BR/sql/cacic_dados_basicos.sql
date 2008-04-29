@@ -19,25 +19,6 @@ INSERT INTO `acoes` (`id_acao`, `te_descricao_breve`, `te_descricao`, `te_nome_c
 /*!40000 ALTER TABLE `acoes` ENABLE KEYS */;
 
 --
--- Dumping data for table `configuracoes_locais`
---
-
-/*!40000 ALTER TABLE `configuracoes_locais` DISABLE KEYS */;
-INSERT INTO `configuracoes_locais` 
-      (`id_local`, `te_notificar_mudanca_hardware`, `in_exibe_erros_criticos`, `in_exibe_bandeja`, `nu_exec_apos`,
-       `dt_hr_alteracao_patrim_interface`, `dt_hr_alteracao_patrim_uon1`, `dt_hr_alteracao_patrim_uon1a`,
-       `dt_hr_alteracao_patrim_uon2`, `dt_hr_coleta_forcada`, `te_notificar_mudanca_patrim`, `nm_organizacao`,
-       `nu_intervalo_exec`, `nu_intervalo_renovacao_patrim`, `te_senha_adm_agente`, `te_serv_updates_padrao`,
-       `te_serv_cacic_padrao`, `te_enderecos_mac_invalidos`, `te_janelas_excecao`, `te_nota_email_gerentes`,
-       `cs_abre_janela_patr`, `id_default_body_bgcolor`, `te_exibe_graficos`)
-     VALUES 
-      (1, '', 'N', 'S', 10, '2007-12-19 12:20:55', '2007-07-25 18:59:54', '2008-01-16 19:22:53', '2008-01-16 20:02:53',
-       '2004-07-25 14:19:39', '', 'Nome de Sua Empresa', 4, 0, 'xyz', '10.71.0.121', '10.71.0.121',
-       '00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08',
-       'openoffice.org, microsoft word, photoshop, hod', '', 'N', '#EBEBEB', '');
-/*!40000 ALTER TABLE `configuracoes_locais` ENABLE KEYS */;
-
---
 -- Dumping data for table `configuracoes_padrao`
 --
 
@@ -181,49 +162,6 @@ INSERT INTO `patrimonio_config_interface`
             (1, 'etiqueta9', 'Etiqueta 9', 'Nº Série Impres. (Opcional)', 'S', 'Caso não disponha do nº de PIB, informe o Nº de Série da Impressora', '', 'te_info_patrimonio6', 'S');
 /*!40000 ALTER TABLE `patrimonio_config_interface` ENABLE KEYS */;
 
---
--- Dumping data for table `perfis_aplicativos_monitorados`
---
-
-
-/*!40000 ALTER TABLE `perfis_aplicativos_monitorados` DISABLE KEYS */;
-INSERT INTO `perfis_aplicativos_monitorados`
-            (`id_aplicativo`, `nm_aplicativo`, `cs_car_inst_w9x`, `te_car_inst_w9x`, `cs_car_ver_w9x`, `te_car_ver_w9x`,
-             `cs_car_inst_wnt`, `te_car_inst_wnt`, `cs_car_ver_wnt`, `te_car_ver_wnt`, `cs_ide_licenca`, `te_ide_licenca`,
-             `dt_atualizacao`, `te_arq_ver_eng_w9x`, `te_arq_ver_pat_w9x`, `te_arq_ver_eng_wnt`, `te_arq_ver_pat_wnt`,
-             `te_dir_padrao_w9x`, `te_dir_padrao_wnt`, `id_so`, `te_descritivo`, `in_disponibiliza_info`,
-             `in_disponibiliza_info_usuario_comum`, `dt_registro`)
-     VALUES
-            (8, 'Windows 2000', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 10:28:29', '', '', '', '', '', '', 7, '', 'S', 'N', NULL),
-            (16, 'Windows 98 SE', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 14:39:25', '', '', '', '', '', '', 4, '', 'S', 'N', NULL),
-            (20, 'Windows XP', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 10:29:29', '', '', '', '', '', '', 8, '', 'S', 'N', NULL),
-            (21, 'Windows 95', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 10:28:38', '', '', '', '', '', '', 1, '', 'S', 'N', NULL),
-            (22, 'Windows 95 OSR2', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 10:28:49', '', '', '', '', '', '', 2, '', 'S', 'N', NULL),
-            (23, 'Windows NT', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\ProductId', '2006-04-11 10:29:18', '', '', '', '', '', '', 6, '', 'S', 'N', NULL),
-            (24, 'Microsoft Office 2000', '0', '', '0', '', '0', '', '0', '', '1', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Office\\9.0\\Registration\\ProductID\\(Padr?o)', '2006-04-11 10:28:15', '', '', '', '', '', '', 0, 'SuÃ­te para escritÃ³rio com Editor de Textos, Planilha EletrÃ´nica, Banco de Dados, etc.', 'S', 'N', NULL),
-            (34, 'Plenus GateWay', '0', '', '3', 'c:\\gplenus\\tcp2lcw.ini/sock1/nome', '0', '', '3', 'c:\\gplenus\\tcp2lcw.ini/sock1/nome', '0', '', '2006-01-05 10:27:50', '', '', '', '', '', '', 0, '', 'S', 'S', '0000-00-00 00:00:00'),
-            (35, 'Plenus for Windows', '0', '', '3', 'c:\\wplenus\\plenus.trp/CV3/Nome', '0', '', '3', 'c:\\wplenus\\plenus.trp/CV3/Nome', '0', '', '2006-01-05 10:28:06', '', '', '', '', '', '', 0, '', 'S', 'S', '0000-00-00 00:00:00'),
-            (50, 'OpenOffice.org 1.1.3#DESATIVADO#', '1', 'OpenOffice.org1.1.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.3\\FriendlyAppName', '0', 'OpenOffice.org1.1.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.3\\FriendlyAppName', '0', '', '2007-10-30 17:30:27', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (51, 'OpenOffice.org.br 1.1.3#DESATIVADO#', '1', 'OpenOffice.org.br1.1.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 1.1.3\\FriendlyAppName', '0', 'OpenOffice.org.br1.1.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 1.1.3\\FriendlyAppName', '0', '', '2007-10-30 17:31:02', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (52, 'OpenOffice.org 1.1.0#DESATIVADO#', '1', 'OpenOffice.org1.1.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.0\\FriendlyAppName', '1', 'OpenOffice.org1.1.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.0\\FriendlyAppName', '0', '', '2007-10-30 17:30:00', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (53, 'OpenOffice.org 1.0.3#DESATIVADO#', '1', 'OpenOffice.org1.0.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.0.3\\FriendlyAppName', '1', 'OpenOffice.org1.0.3\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.0.3\\FriendlyAppName', '0', '', '2007-10-30 17:29:47', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (54, 'OpenOffice.org 1.1.1a#DESATIVADO#', '1', 'OpenOffice.org1.1.1a\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.1a\\FriendlyAppName', '1', 'OpenOffice.org1.1.1a\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org 1.1.1a\\FriendlyAppName', '0', '', '2007-10-30 17:30:17', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (65, 'Plenus Estação', '0', '', '3', 'c:\\wplenus\\plenus.trp/RPRINT/Nome', '0', '', '3', 'c:\\wplenus\\plenus.trp/RPRINT/Nome', '0', '', '2006-01-05 10:28:22', '', '', '', '', '', '', 0, 'Grava a chave da Estação Plenus', 'S', 'S', '0000-00-00 00:00:00'),
-            (66, 'SART#DESATIVADO#', '1', 'sart.exe', '1', 'sart.exe', '1', 'sart.exe', '1', 'sart.exe', '0', '', '2007-05-11 12:25:18', '', '', '', '', '', '', 0, '', 'N', 'N', '0000-00-00 00:00:00'),
-            (68, 'CACIC - Col_Moni - Col. de Inf. de Sistemas Monitorados', '0', '', '4', 'cacic\\modulos\\col_moni.exe', '0', '', '4', 'cacic\\modulos\\col_moni.exe', '0', '', '2007-07-27 17:59:27', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
-            (69, 'CACIC - Col_Patr - Col. de Inf. de Patrimônio e Loc. Fí­sica', '0', '', '4', 'cacic\\modulos\\col_patr.exe', '0', '', '4', 'cacic\\modulos\\col_patr.exe', '0', '', '2007-07-27 17:59:39', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
-            (70, 'CACIC - Col_Hard - Col. de Inf. de Hardware', '0', '', '4', 'cacic\\modulos\\col_hard.exe', '0', '', '4', 'cacic\\modulos\\col_hard.exe', '0', '', '2007-07-27 17:59:19', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
-            (71, 'CACIC - Col_Soft - Col. de Inf. de Softwares Básicos', '0', '', '4', 'cacic\\modulos\\col_soft.exe', '0', '', '4', 'cacic\\modulos\\col_soft.exe', '0', '', '2007-07-27 17:59:48', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
-            (72, 'CACIC - Col_Undi - Col. de Inf. de Unidades de Disco', '0', '', '4', 'cacic\\modulos\\col_undi.exe', '0', '', '4', 'cacic\\modulos\\col_undi.exe', '0', '', '2007-07-27 17:59:56', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
-            (73, 'CACIC - Col_Comp - Col. de Inf. de Compartilhamentos', '0', '', '4', 'cacic\\modulos\\col_comp.exe', '0', '', '4', 'cacic\\modulos\\col_comp.exe', '0', '', '2007-07-27 19:06:39', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (74, 'CACIC - Ini_Cols - Inicializador de Coletas', '0', '', '4', 'cacic\\modulos\\ini_cols.exe', '0', '', '4', 'cacic\\modulos\\ini_cols.exe', '0', '', '2007-07-27 18:00:09', '', '', '', '', '', '', 0, '', 'N', 'N', NULL),
-            (75, 'CACIC - Agente Principal', '0', '', '4', 'Cacic\\cacic2.exe', '0', '', '4', 'Cacic\\cacic2.exe', '0', '', '2007-07-27 18:52:32', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (76, 'CACIC - Gerente de Coletas', '0', '', '4', 'Cacic\\modulos\\ger_cols.exe', '0', '', '4', 'Cacic\\modulos\\ger_cols.exe', '0', '', '2007-08-13 15:44:14', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (77, 'OpenOffice.org 2.0#DESATIVADO#', '0', 'Arquivos de programas\\OpenOffice.org 2.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 2.0\\FriendlyAppName', '0', 'Arquivos de programas\\OpenOffice.org 2.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\OpenOffice.org.br 2.0\\FriendlyAppName', '0', '', '2007-10-30 17:30:37', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (78, 'Oracle Client 7', '3', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\ORACLE\\OTRACE73', '0', '', '3', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\ORACLE\\OTRACE73', '0', '', '0', '', '2007-09-20 19:48:09', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (79, 'BrOffice.org 2.0#DESATIVADO#', '1', 'BrOffice.org 2.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\BrOffice.org 2.0\\FriendlyAppName', '1', 'BrOffice.org 2.0\\program\\soffice.exe', '2', 'HKEY_CLASSES_ROOT\\applications\\BrOffice.org 2.0\\FriendlyAppName', '0', '', '2007-10-30 17:29:30', '', '', '', '', '', '', 0, '', 'S', 'N', NULL),
-            (80, 'Microsoft Access 2000', '3', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Office\\9.0\\Access\\InstallRoot\\Path', '0', '', '3', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Office\\9.0\\Access\\InstallRoot\\Path', '0', '', '0', '', '2008-01-22 11:51:17', '', '', '', '', '', '', 0, '', 'S', 'N', NULL);
-/*!40000 ALTER TABLE `perfis_aplicativos_monitorados` ENABLE KEYS */;
 
 --
 -- Dumping data for table `so`
@@ -248,7 +186,11 @@ INSERT INTO `so`
             (11, 'NetBSD', 'NBSD', ''),
             (12, 'OpenBSD', 'OBSD', ''),
             (13, 'Windows 2003', 'W2003', ''),
-            (14, 'Windows VISTA', 'VISTA', '2.6.0');
+            (14, 'Windows VISTA', 'VISTA', '2.6.0'),
+            (15, 'Ubuntu 7.10 (Gutsy)', 'Ubuntu_710', 'Ubuntu - 7.10'),
+            (16, 'CentOS 4', 'CentOS_4', 'CentOS release - 4'),
+            (17, 'CentOS 5', 'CentOS_5', 'CentOS release - 5');
+            (18, 'Ubuntu 8.04 (Hardy)', 'Ubuntu_804', 'Ubuntu - 8.04'),
 /*!40000 ALTER TABLE `so` ENABLE KEYS */;
 
 --
