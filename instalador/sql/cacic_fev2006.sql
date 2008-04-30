@@ -1,12 +1,10 @@
 -- --------------------------------------------------------
--- Atualização de Tabelas do banco de dados CACIC-jun2005
+-- Atualização de Tabelas do banco de dados CACIC-fev2006
 -- SGBD: MySQL-4.1.20
 -- --------------------------------------------------------
 #
 # criado com o auxilio de: MySQL Diff 1.5.0
 # http://www.mysqldiff.com
-
-SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE TABLE aplicativos_redes (
     id_local int(11) NOT NULL DEFAULT '0' COMMENT '',
@@ -102,13 +100,6 @@ CREATE TABLE contas (
     nm_responsavel varchar(30) NOT NULL DEFAULT '' COMMENT '' COLLATE latin1_swedish_ci,
     PRIMARY KEY (id_conta)
 ) DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='InnoDB free: 15360 kB';
-
-CREATE TABLE descricoes_colunas_computadores (
-    nm_campo varchar(100) NOT NULL DEFAULT '' COMMENT '' COLLATE latin1_swedish_ci,
-    te_descricao_campo varchar(100) NOT NULL DEFAULT '' COMMENT '' COLLATE latin1_swedish_ci,
-    cs_condicao_pesquisa char(1) NOT NULL DEFAULT 'S' COMMENT '' COLLATE latin1_swedish_ci,
-    UNIQUE nm_campo (nm_campo)
-) DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='Tabela para auxílio na opção Exclusão de Informações; InnoDB free: 15360 kB';
 
 CREATE TABLE historicos_hardware (
     te_node_address varchar(17) NOT NULL DEFAULT '' COMMENT '' COLLATE latin1_swedish_ci,
@@ -247,7 +238,6 @@ ALTER TABLE compartilhamentos
 
 ALTER TABLE computadores
     ADD te_so varchar(50) NULL DEFAULT NULL COMMENT '' COLLATE latin1_swedish_ci AFTER id_so,
-    ADD te_versao_gercols varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE latin1_swedish_ci AFTER te_versao_cacic,
     ADD id_conta int(10) unsigned NULL DEFAULT NULL COMMENT '' AFTER te_origem_mac,
     MODIFY te_mem_ram_desc varchar(200) NULL DEFAULT NULL COMMENT '' COLLATE latin1_swedish_ci,
     ADD INDEX te_ip (te_ip),
@@ -261,9 +251,9 @@ ALTER TABLE descricao_hardware
     DROP cs_notificacao_ativada;
 
 
-DROP TABLE gerentes;
+ALTER TABLE descricoes_colunas_computadores
+    COMMENT='Tabela para auxílio na opção Exclusão de Informações; InnoDB free: 15360 kB';
 
-DROP TABLE gerentes_versoes_modulos;
 
 ALTER TABLE grupo_usuarios
     ADD cs_nivel_administracao tinyint(2) NOT NULL DEFAULT '0' COMMENT '' AFTER te_descricao_grupo,
@@ -330,7 +320,7 @@ ALTER TABLE softwares_inventariados
 
 ALTER TABLE softwares_inventariados_estacoes
     ADD INDEX id_software (id_software_inventariado),
-&nbsp;&nbsp;&nbsp;&nbsp;COMMENT='InnoDB free: 15360 kB';
+    COMMENT='InnoDB free: 15360 kB';
 
 
 ALTER TABLE unid_organizacional_nivel2
@@ -364,4 +354,3 @@ ALTER TABLE versoes_softwares
     ADD PRIMARY KEY (te_node_address, id_so);
 
 
-SET FOREIGN_KEY_CHECKS = 1;

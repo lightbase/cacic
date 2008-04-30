@@ -138,13 +138,27 @@ CREATE TABLE `componentes_estacoes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Componentes de hardware instalados nas estações';
 
 --
+-- Table structure for table `componentes_estacoes_historico`
+--
+
+CREATE TABLE `componentes_estacoes_historico` (
+  `te_node_address` varchar(17) NOT NULL,
+  `id_so` int(11) NOT NULL,
+  `cs_tipo_componente` varchar(100) NOT NULL,
+  `te_valor` varchar(200) NOT NULL,
+  `dt_alteracao` datetime NOT NULL,
+  `cs_tipo_alteracao` varchar(3) NOT NULL,
+  KEY `te_node_address` (`te_node_address`,`id_so`,`cs_tipo_componente`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COMMENT='Componentes de hardware instalados nas estaÃ§Ãµes';
+
+--
 -- Table structure for table `computadores`
 --
 
 CREATE TABLE `computadores` (
   `te_node_address` varchar(17) NOT NULL default '',
   `id_so` int(11) NOT NULL default '0',
-  `te_so` varchar(10) default NULL,
+  `te_so` varchar(50) default NULL,
   `te_nome_computador` varchar(50) default NULL,
   `id_ip_rede` varchar(15) NOT NULL default '',
   `te_dominio_windows` varchar(50) default NULL,
@@ -168,7 +182,7 @@ CREATE TABLE `computadores` (
   `te_cpu_serial` varchar(50) default NULL,
   `te_cpu_fabricante` varchar(100) default NULL,
   `te_cpu_freq` varchar(6) default NULL,
-  `te_mem_ram_desc` varchar(100) default NULL,
+  `te_mem_ram_desc` varchar(200) default NULL,
   `te_bios_desc` varchar(100) default NULL,
   `te_bios_data` varchar(10) default NULL,
   `dt_hr_ult_acesso` datetime default NULL,
@@ -220,9 +234,9 @@ CREATE TABLE `configuracoes_locais` (
   `te_enderecos_mac_invalidos` text,
   `te_janelas_excecao` text,
   `te_nota_email_gerentes` text,
-  `te_exibe_graficos` varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]',
   `cs_abre_janela_patr` char(1) NOT NULL default 'N',
   `id_default_body_bgcolor` varchar(10) NOT NULL default '#EBEBEB',
+  `te_exibe_graficos` varchar(100) NOT NULL default '[acessos_locais][so][acessos][locais]',
   PRIMARY KEY  (`id_local`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -242,9 +256,9 @@ CREATE TABLE `configuracoes_padrao` (
   `te_serv_cacic_padrao` varchar(20) default NULL,
   `te_enderecos_mac_invalidos` text,
   `te_janelas_excecao` text,
-  `te_exibe_graficos` varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]',
   `cs_abre_janela_patr` char(1) NOT NULL default 'S',
-  `id_default_body_bgcolor` varchar(10) NOT NULL default '#EBEBEB'
+  `id_default_body_bgcolor` varchar(10) NOT NULL default '#EBEBEB',
+  `te_exibe_graficos` varchar(100) NOT NULL default '[acessos_locais][so][acessos][locais]'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -597,7 +611,7 @@ CREATE TABLE `so` (
   `id_so` int(11) NOT NULL default '0',
   `te_desc_so` varchar(50) default NULL,
   `sg_so` varchar(10) default NULL,
-  `te_so` varchar(50) NOT NULL DEFAULT '',
+  `te_so` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`id_so`,`te_so`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -769,7 +783,7 @@ CREATE TABLE `usuarios` (
   `id_usuario` int(10) unsigned NOT NULL auto_increment,
   `nm_usuario_acesso` varchar(20) NOT NULL default '',
   `nm_usuario_completo` varchar(60) NOT NULL default '',
-  `te_senha` varchar(50) NOT NULL default '',
+  `te_senha` varchar(60) NOT NULL default '',
   `dt_log_in` datetime NOT NULL default '0000-00-00 00:00:00',
   `id_grupo_usuarios` int(1) NOT NULL default '1',
   `te_emails_contato` varchar(100) default NULL,
