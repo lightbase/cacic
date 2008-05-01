@@ -613,6 +613,11 @@ class InstallAjax {
 	  function checkAdminSetupData($cacic_admin) {
 	    $dadosOK = true;
 	    $msg = "";
+	  	if(empty($cacic_admin['org_name'])) {
+	        $dadosOK = false;
+	        $msg .= "<span class='Erro'>".InstallAjax::_('kciq_msg org label needed')."</span><br>";
+	  	}
+	  	
 	  	if(empty($cacic_admin['local_sigla'])) {
 	        $dadosOK = false;
 	        $msg .= "<span class='Erro'>".InstallAjax::_('kciq_msg local abbr needed')."</span><br>";
@@ -669,7 +674,7 @@ class InstallAjax {
     		if (!$oDB->conecta()) {
       		   $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
     		   $msg .= InstallAjax::_('kciq_msg database connect fail').'!</span>'.
-    					'<br>'.InstallAjax::_('kciq_msg database server msg').':';
+    					'<br>'.InstallAjax::_('kciq_msg server msg').':';
     		   $msg .= '<pre>'.$oDB->getMessage().'</pre>';
     		   die($msg);
     		}
@@ -683,7 +688,7 @@ class InstallAjax {
 			if (!$oDB->selectDB()) {
 			  $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			  $msg .= InstallAjax::_('kciq_msg database not exist', array($cacic_config['db_name'])).'!</span>'.
-					  '<br>'.InstallAjax::_('kciq_msg database server msg').':';
+					  '<br>'.InstallAjax::_('kciq_msg server msg').':';
 			  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			  die($msg);
 			}
@@ -739,6 +744,22 @@ class InstallAjax {
     		   }
     		
     		   /*
+    		    * Insere o empresa informada
+    		    */
+	  	        $sql_update_orgname = "UPDATE configuracoes_padrao SET nm_organizacao='".
+	  	                                                               $cacic_admin['org_name']."'";
+			   echo "<br>".InstallAjax::_('kciq_msg inst org name update', array($cacic_admin['org_name']));
+			   if (!$oDB->query($sql_update_orgname)) {
+				  $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
+			      $msg .= InstallAjax::_('kciq_msg org name update error').'</span>'.
+						  '<br>'.InstallAjax::_('kciq_msg server msg').':';
+				  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
+			      die($msg);
+			   }
+			   else
+				  echo "[ ".InstallAjax::_('kciq_msg ok')."! ]";
+    		
+    		   /*
     		    * Insere o local informado
     		    */
 	  	        $sql_insert_local = "INSERT INTO locais VALUES (0,'".
@@ -750,7 +771,7 @@ class InstallAjax {
 			   if (!$oDB->query($sql_insert_local)) {
 				  $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= InstallAjax::_('kciq_msg local insert error', array($cacic_admin['local_sigla'])).'</span>'.
-						  '<br>'.InstallAjax::_('kciq_msg database server msg').':';
+						  '<br>'.InstallAjax::_('kciq_msg server msg').':';
 				  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);
 			   }
@@ -763,7 +784,7 @@ class InstallAjax {
 			   if (!$oDB->query($sql_get_local_id)) {
 				  $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= InstallAjax::_('kciq_msg login not exist', array($cacic_admin['admin_login'])).'</span>'.
-						  '<br>'.InstallAjax::_('kciq_msg database server msg').':';
+						  '<br>'.InstallAjax::_('kciq_msg server msg').':';
 				  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);
 			   }
@@ -784,7 +805,7 @@ class InstallAjax {
 			   if (!$oDB->query($sql_insert_admin)) {
 				  $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
 			      $msg .= InstallAjax::_('kciq_msg login insert error', array($cacic_admin['admin_login'])).'</span>'.
-						  '<br>'.InstallAjax::_('kciq_msg database server msg').':';
+						  '<br>'.InstallAjax::_('kciq_msg server msg').':';
 				  $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);
 			   }

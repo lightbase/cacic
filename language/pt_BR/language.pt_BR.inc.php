@@ -17,6 +17,7 @@ pt_BR     kciq_msg cfgfile_writeable                                            
 pt_BR     kciq_msg detalhes de usuario help                                                                   admin     info                As informações abaixo referem-se ao usuário cadastrado no sistema. Após o logon, serão exibidas a primeira e última parte do campo <i>Nome completo</i>. Ao reinicializar a senha esta assume o valor contido no campo <i>Identificação</i>.
 pt_BR     kciq_msg inclusao de novo usuario help                                                              admin     info                As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso. <u><em>A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção <i>Acesso - Troca de Senha</i> no Menu Principal</em></u>. Após o logon, serão exibidas a primeira e última parte do campo <i>Nome completo</i>.
 pt_BR     kciq_msg attention                                                                                  geral     info                Atenção
+pt_BR     kciq_msg inst org name update                                                                       instaladorinfo                Atualizando nome da empresa...
 pt_BR     kciq_msg update help                                                                                instaladorinfo                Atualizar as tabelas do banco conforme versão a ser escolhida.
 pt_BR     kciq_msg update                                                                                     geral     info                Atualização
 pt_BR     kciq_msg inst update tables on database                                                             instaladorinfo                Atualização das tabelas no banco de dados (%1)...
@@ -56,6 +57,7 @@ pt_BR     detalhes de usuario                                                   
 pt_BR     dica: use shift ou ctrl para selecionar multiplos itens                                             admin     info                Dica: use SHIFT ou CTRL para selecionar multiplos itens
 pt_BR     kciq_msg ftp change dir ok                                                                          geral     info                Diretório FTP mudado com sucesso
 pt_BR     emails para contato                                                                                 admin     info                Emails para Contato
+pt_BR     kciq_msg org label                                                                                  geral     info                Empresa
 pt_BR     kciq_msg email                                                                                      geral     info                Endereço eletrônico
 pt_BR     kciq_msg admin mgm email help                                                                       instaladorinfo                Endereço eletrônico do Administrador do CACIC para envio de mesagens
 pt_BR     language_en-us                                                                                      Geral     info      en-US     English (US)
@@ -104,8 +106,8 @@ pt_BR     kciq_msg inst local insert                                            
 pt_BR     kciq_msg demo help                                                                                  instaladorinfo                Inserir dados para demonstração do CACIC.
 pt_BR     kciq_msg instalada                                                                                  geral     info                Instalada
 pt_BR     instalador                                                                                          geral     TagHeader           Instalador
-pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_installertitle                                                                                 instaladorinfo                Instalador WEB para o CACIC
+pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_msg inst finished and verified                                                                 instaladorinfo                Instalação do CACIC finalizada e veficada!
 pt_BR     kciq_msg advise_title                                                                               instaladorinfo                Instrução PHP/Apache
 pt_BR     kciq_installerintrotitle                                                                            instaladorinfo                Introdução
@@ -139,6 +141,8 @@ pt_BR     neste modulo deverao ser cadastrados os usuarios que acessarao o siste
 pt_BR     nome                                                                                                admin     info                Nome
 pt_BR     kciq_msg name                                                                                       geral     info                Nome
 pt_BR     nome completo                                                                                       admin     info                Nome completo
+pt_BR     kciq_msg org label needed                                                                           geral     erro                Nome da empresa deve ser informado!
+pt_BR     kciq_msg org label help                                                                             geral     ajuda               Nome da empresa onde está instalado o gerente
 pt_BR     kciq_msg admin mgm adminname help                                                                   instaladorinfo                Nome do Administrador do CACIC
 pt_BR     kciq_msg admin name needed                                                                          geral     info                Nome do administrador deve ser informado!
 pt_BR     kciq_msg database name                                                                              instaladorinfo                Nome do banco de dados
@@ -196,6 +200,7 @@ pt_BR     kciq_msg inst database build process ok                               
 pt_BR     kciq_msg next                                                                                       Geral     info                Próximo
 pt_BR     kciq_msg database type help                                                                         instaladorinfo                Qual o tipo de banco de dados a usar (Somente MySQL por enquanto).
 pt_BR     kciq_msg real                                                                                       instaladorinfo                Real
+pt_BR     kciq_msg ftp verify help                                                                            geral     info                Realiza teste de verificação de servidor FTP, não salva na base de dados do sistema devendo ser configurado pós instalação.
 pt_BR     kciq_msg backup help                                                                                geral     info                Realizar cópia do banco de dados por segurança.
 pt_BR     kciq_msg inst end advise title                                                                      instaladorinfo                Recomendações
 pt_BR     kciq_installerresources                                                                             instaladorinfo                Recursos do Instalador:
@@ -248,7 +253,6 @@ pt_BR     kciq_msg inst verify admin                                            
 pt_BR     kciq_msg inst verify database existence                                                             instaladorinfo                Verificando existência do banco de dados (%1)...
 pt_BR     kciq_msg inst verify local                                                                          instaladorinfo                Verificando local (%1)...
 pt_BR     kciq_msg check                                                                                      geral     info                Verificar
-pt_BR     kciq_msg ftp verify help                                                                            geral     info                Realiza teste de verificação de servidor FTP, não salva na base de dados do sistema devendo ser configurado pós instalação.
 pt_BR     kciq_msg ftp verify                                                                                 geral     info                Verificação de servidor FTP
 pt_BR     kciq_msg check_notok                                                                                geral     info                Verificação não satisfeita
 pt_BR     kciq_msg check_ok                                                                                   geral     info                Verificação satisfeita
@@ -268,3 +272,4 @@ pt_BR     kciq_msg license pt_read                                              
 pt_BR     kciq_msg last agents access                                                                         geral     info                Últimos acessos dos agentes
 pt_BR     kciq_msg last agents access on local                                                                geral     info                Últimos acessos dos agentes deste local
 pt_BR     kciq_msg last agents access per local                                                               geral     info                Últimos acessos dos agentes por local nesta data
+pt_BR     kciq_msg org name update error                                                                      geral     erro                Erro ao tentar atualizar o nome da empresa

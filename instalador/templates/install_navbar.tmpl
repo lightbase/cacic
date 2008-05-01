@@ -443,6 +443,11 @@
 			<fieldset>
 			  <legend>{KCIQ_INST_ADMMGM_LOCAL}</legend>
 		     	<table class="configinstall">
+                  <tr>
+                    <td class="item"><span class="necessario">*</span>{KCIQ_INST_ADMORG_LABEL}:</td>
+                    <td><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_admin[org_name]" value="{ORG_NAME}" size="50" maxlength="150"/></div></td>
+                    <td class="help">{KCIQ_INST_ADMORG_LABEL_HELP}</td>
+                  </tr>
 		     	  <tr>
 				    <td class="item"><span class="necessario">*</span>{KCIQ_INST_ADMMGM_ABBR}:</td>
 				    <td><input class="input" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');"  type="text" name="cacic_admin[local_sigla]" value="{LOCAL_SIGLA}" maxlength="20"/></div></td>

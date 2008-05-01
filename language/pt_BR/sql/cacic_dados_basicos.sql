@@ -189,8 +189,8 @@ INSERT INTO `so`
             (14, 'Windows VISTA', 'VISTA', '2.6.0'),
             (15, 'Ubuntu 7.10 (Gutsy)', 'Ubuntu_710', 'Ubuntu - 7.10'),
             (16, 'CentOS 4', 'CentOS_4', 'CentOS release - 4'),
-            (17, 'CentOS 5', 'CentOS_5', 'CentOS release - 5');
-            (18, 'Ubuntu 8.04 (Hardy)', 'Ubuntu_804', 'Ubuntu - 8.04'),
+            (17, 'CentOS 5', 'CentOS_5', 'CentOS release - 5'),
+            (18, 'Ubuntu 8.04 (Hardy)', 'Ubuntu_804', 'Ubuntu - 8.04');
 /*!40000 ALTER TABLE `so` ENABLE KEYS */;
 
 --

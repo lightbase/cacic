@@ -210,11 +210,13 @@ Class Template extends patTemplate {
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_SAVE', $this->oLang->_('kciq_msg save'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_SAVE_TITLE', $this->oLang->_('kciq_msg save title'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_TITLE', $this->oLang->_('kciq_msg admin mgm title'));
+     $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMORG_LABEL', $this->oLang->_('kciq_msg org label'));
+     $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMORG_LABEL_HELP', $this->oLang->_('kciq_msg org label help'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_LOCAL', $this->oLang->_('kciq_msg admin mgm local'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_ABBR', $this->oLang->_('kciq_msg abbr'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_ABBR_HELP', $this->oLang->_('kciq_msg admin mgm abbr help'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_NAME', $this->oLang->_('kciq_msg name'));
-     $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_LOCAL_NAME_HELP', $this->oLang->_('kciq_msg admin mgm localname help'));
+     $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_NAME_HELP', $this->oLang->_('kciq_msg admin mgm name help'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_PS', $this->oLang->_('kciq_msg obs'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_PS_HELP', $this->oLang->_('kciq_msg admin mgm obs help'));
      $this->addVar('tmplNavBarAdminSetup',  'KCIQ_INST_ADMMGM_DATA_TITLE', $this->oLang->_('kciq_msg admin mgm data title'));

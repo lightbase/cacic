@@ -424,6 +424,7 @@ class Install {
 	  	// Dados administrativos
 	  	if(isset($_SESSION['cacic_admin'])) {
     	  	$cacic_admin = $_SESSION['cacic_admin'];
+    	  	$this->oTmpl->addVar($template, 'ORG_NAME', $cacic_admin['org_name']);
     	  	$this->oTmpl->addVar($template, 'LOCAL_SIGLA', $cacic_admin['local_sigla']);
     	  	$this->oTmpl->addVar($template, 'LOCAL_NOME', $cacic_admin['local_nome']);
     	  	$this->oTmpl->addVar($template, 'LOCAL_OBSERVACAO', $cacic_admin['local_observacao']);
