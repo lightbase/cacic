@@ -109,7 +109,6 @@ function SetaServidorUpdates()
 <?
 $frm_id_local = ($_POST['frm_id_local']<>''?$_POST['frm_id_local']:$_SESSION['id_local']);
 
-require_once('../include/library.php');
 conecta_bd_cacic();
 $where = ' AND loc.id_local ='.$frm_id_local;
 

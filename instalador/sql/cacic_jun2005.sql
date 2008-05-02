@@ -391,6 +391,11 @@ UPDATE redes_grupos_ftp SET id_local=1;
 UPDATE redes_versoes_modulos SET id_local=1;
 UPDATE unid_organizacional_nivel2 SET id_local=1;
 UPDATE usuarios SET id_local=1;
+UPDATE grupo_usuarios SET cs_nivel_administracao=0 WHERE id_grupo_usuarios=1;
+UPDATE grupo_usuarios SET cs_nivel_administracao=1 WHERE id_grupo_usuarios=2;
+UPDATE grupo_usuarios SET cs_nivel_administracao=2 WHERE id_grupo_usuarios=5;
+UPDATE grupo_usuarios SET cs_nivel_administracao=3 WHERE id_grupo_usuarios=6;
+UPDATE grupo_usuarios SET cs_nivel_administracao=0 WHERE id_grupo_usuarios=7;
 INSERT INTO `locais` (`nm_local`,`sg_local`,`te_observacao`) VALUES ("Local Padrão","DFT","Colocar aqui informações sobre o local");
 
 SET FOREIGN_KEY_CHECKS = 1;
