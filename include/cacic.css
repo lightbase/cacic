@@ -136,5 +136,13 @@ a.dcontexto:hover span
 #nav a.dcontexto:hover span 
 	{
 	visibility:visible!important;
-	} 	
+	}
+
+.necessario {
+    padding: 0px 02px 0px 0px;
+    color: red;
+    font-size: 10px;
+}
+
+	 	
 </style>

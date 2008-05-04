@@ -81,7 +81,7 @@ $query = 'SELECT 	uo1.id_unid_organizacional_nivel1 as uo1_id_unid_organizaciona
 		  FROM 		unid_organizacional_nivel1 uo1,
 		   			unid_organizacional_nivel2 uo2,
 					locais loc
-		  WHERE		uo2.id_unid_organizacional_nivel1 = uo1.id_unid_organizacional_nivel1 '.$where.' and
+		  WHERE		uo2.id_unid_organizacional_nivel1a = uo1.id_unid_organizacional_nivel1 '.$where.' and
 		  			uo2.id_local = loc.id_local			
 		  ORDER BY 	loc.sg_local,
 		  			uo1_nm_unid_organizacional_nivel1, 

@@ -43,3 +43,11 @@ td.dynCalendar_today {
 	font-family: Arial, Verdana, Helvetica, Sans-Serif;
 	font-size: 8pt;
 }
+
+.dynCalendarImg {
+   background: url(../imgs/dyncalendar.gif) no-repeat scroll 100% 0pt;
+   width: 16;
+   height: 16;
+   padding: 5px 26px 10px 0px;
+   cursor: pointer;
+}

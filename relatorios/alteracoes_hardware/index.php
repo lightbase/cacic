@@ -27,7 +27,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 $id_acao = 'cs_coleta_hardware';
 require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
- <script src="../../sniffer.js" type="text/javascript" language="javascript"></script>
+ <script src="../../include/sniffer.js" type="text/javascript" language="javascript"></script>
  <script src="../../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
  <link href="../../include/dyncalendar.css" media="screen" rel="stylesheet">
 
@@ -48,7 +48,7 @@ require_once('../../include/inicio_relatorios_inc.php');
 				</td>
   </tr>
 </table>
-<form action="rel_alteracoes_hardware.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
+<form action="rel_alteracoes_hardware.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="form1"   onsubmit="return valida_form()">
   <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
     <tr>
 	<?

@@ -33,7 +33,9 @@
   </tr>
   <tr> 
     <td>
-				</td>
+      <span class="necessario">*</span>
+      Campos obrigatórios 
+	</td>
   </tr>
 </table>
 <form action="rel_hardware.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
@@ -112,8 +114,9 @@
 	?>		 
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label">Selecione 
-              as configura&ccedil;&otilde;es de hardware que deseja exibir:</td>
+            <td class="label">
+               Selecione as configura&ccedil;&otilde;es de hardware que deseja exibir:
+            </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -126,7 +129,7 @@
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela">Selecionados:</td>
+                  <td nowrap class="cabecalho_tabela"><span class="necessario">*</span>Selecionados:</td>
                   <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 

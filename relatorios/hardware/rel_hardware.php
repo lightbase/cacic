@@ -103,9 +103,9 @@ else
 		{
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 		}
-	$query_redes = 'AND a.id_ip_rede = redes.id_ip_rede AND 
-						redes.id_local IN ('. $locais_selecionados .') AND
-						redes.id_local = locais.id_local ';
+	$query_redes = ' AND a.id_ip_rede = redes.id_ip_rede ';
+	$query_redes .=	' AND redes.id_local IN ('. $locais_selecionados .')';
+	$query_redes .=	' AND redes.id_local = locais.id_local ';
 	$select = ' ,sg_local as Local ';	
 	$from = ' ,redes,locais ';	
 	}	
@@ -127,7 +127,6 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ )
 // Aqui substitui todas as strings \ por vazio que a variável $campos_hardware retorna
 $campos_hardware = str_replace('\\', '', $campos_hardware);
 
-echo $campos_hardware . '<br>';
 if ($_GET['orderby']) { $orderby = $_GET['orderby']; }
 else { $orderby = '3'; } //por Nome Comp.
  $query = ' SELECT 	distinct a.te_node_address, 
@@ -135,15 +134,16 @@ else { $orderby = '3'; } //por Nome Comp.
 					a.te_nome_computador as "Nome Comp.", 
 					sg_so as "S.O.", 
 					a.te_ip as "IP"' . 
-					$select .'
+					$select .
+					($campos_hardware?','.$campos_hardware:"") .
+							'
 		   FROM 	so LEFT JOIN computadores a ON (a.id_so = so.id_so) '.
 		   			$from . ' 		 		 
 		   WHERE  	TRIM(a.te_nome_computador) <> "" AND 
 		   			a.id_so IN ('. $so_selecionados .') '. 
 					$query_redes .' 
 		   ORDER BY ' . $orderby; 
-//					$campos_hardware .		   
-echo $query . '<br>';
+
 $result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 $cor = 0;

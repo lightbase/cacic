@@ -27,7 +27,7 @@
           <td>&nbsp;&nbsp;</td>
           <td width="40">&nbsp;</td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap class="cabecalho_tabela">Selecionados:</td>
+          <td nowrap class="cabecalho_tabela"><span class="necessario">*</span>Selecionados:</td>
           <td nowrap>&nbsp;&nbsp;</td>
         </tr>
         <tr> 

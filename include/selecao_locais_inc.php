@@ -43,7 +43,7 @@ $result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabel
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela">Selecionados:<br></td>
+                  <td nowrap class="cabecalho_tabela"><span class="necessario">*</span>Selecionados:<br></td>
                   <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 

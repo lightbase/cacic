@@ -137,9 +137,10 @@ $query = "SELECT DISTINCT 	compartilhamentos.id_so,
 		  					compartilhamentos.id_so = computadores.id_so) AND 
 							compartilhamentos.id_so IN ($so_selecionados) AND  
 							nm_dir_compart <> '' 
-							$query_redes 
+							$query_redes
+		  GROUP BY          compartilhamentos.id_so,compartilhamentos.te_node_address
 		  ORDER BY 			computadores.te_nome_computador ASC ";
-echo $query . '<br>';          
+          
 $resultado = mysql_query($query) or die('Erro no select '. mysql_error().' ou sua sessão expirou!');
 
 while ($linha = mysql_fetch_array($resultado))

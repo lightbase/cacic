@@ -42,7 +42,7 @@ if($_POST['gravainformacaoUON2']) {
 				   	 te_email_responsavel_uon2,
 				   	 nu_tel1_responsavel_uon2,
 				   	 nu_tel2_responsavel_uon2,
-					 id_unid_organizacional_nivel1,
+					 id_unid_organizacional_nivel1a,
 					 id_local) 
 				  	VALUES ('".
 					 $_POST['frm_nm_unid_organizacional_nivel2']."','". 
