@@ -1,0 +1,82 @@
+.<b>Página Principal<b>|principal.php|mainFrame
+.<b>Administracion</b>||mainFrame|imgs/config_gerais.gif
+..Configurar Gerente|admin/config_gerais.php|mainFrame||Configurações do Módulo Gerente
+..Configurar Agentes|admin/config_agentes.php|mainFrame||Configurações do Módulo Agente
+..Clasificar Softwares|admin/softwares/classificacao_software.php|mainFrame||
+..Softwares No Usados|admin/softwares/remover_softwares_nao_instalados.php|mainFrame||
+..Módulos|admin/modulos.php|mainFrame||Configurações dos vários módulos disponíveis do CACIC
+..<b>Logs</b>||mainFrame|imgs/config_gerais.gif
+...Accesos|admin/log_acessos.php|mainFrame||Visualização do Log de Acessos ocorridos no Sistema
+...Actividades|admin/log_atividades.php|mainFrame||Visualização do Log de Atividades(INS/UPD/DEL) do Sistema
+...Insucessos Instalação|admin/log_insucessos.php|mainFrame||Visualização do Log de Insucessoes nas Instalações
+..<b>Importar Datos</b>||mainFrame|imgs/config_gerais.gif
+...Aquisiciones|admin/gerencia_licencas/importacao/aquisicoes.php|mainFrame||
+...Aquisiciones-Item|admin/gerencia_licencas/importacao/aquisicoes_item.php|mainFrame||
+...Softwares|admin/gerencia_licencas/importacao/software.php|mainFrame||
+..<b>Registros</b>||mainFrame|imgs/config_gerais.gif
+...Aquisiciones|admin/gerencia_licencas/arquivo/aquisicoes.php|mainFrame||
+...Locales|admin/locais/index.php|mainFrame||Cadastro de Locais para Controle Centralizado
+...SubRedes|admin/redes/index.php|mainFrame||Cadastro de SubRedes
+...Perfiles Sistemas|admin/perfis_aplicativos_monitorados/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
+...Usuarios|admin/usuarios/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
+...Tipos Softwares|admin/tipos_softwares/index.php|mainFrame||
+...S.Operacionales|admin/sistemas_operacionais/index.php|mainFrame||
+...Softwares|admin/softwares/index.php|mainFrame||
+...Softwares por Estacion|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||
+..<b>Patrimonio</b>||mainFrame|imgs/config_gerais.gif
+...Interface|admin/patrimonio/config_tela_patrimonio.php|mainFrame||Configuração da Tela de Coleta de Informações de Patrimônio
+...U. O. Nível 1|admin/patrimonio/nivel1/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 1
+...U. O. Nível 1a|admin/patrimonio/nivel1a/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 1a (Linhas de Negócio)
+...U. O. Nível 2|admin/patrimonio/nivel2/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 2
+...Opciones|admin/patrimonio/opcoes.php|mainFrame||Opções da coleta de Informações de Patrimônio e Localização Física
+.<b>Mantenimiento</b>||mainFrame|imgs/config_gerais.gif
+..Actualizacion de SubRedes|admin/updates_subredes/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
+..Excluir Computadores|admin/exclui_informacoes_computadores.php|mainFrame||Exclusão de Informações de Computadores da base
+..Atualização Especial|admin/atualizacao_especial.php|mainFrame||Atualização de Scripts e Afins
+..Consulta Especial|admin/consulta_especial.php|mainFrame||Consulta Informações do Servidor
+..Traductor|admin/tradutor.php|mainFrame||Tradução de textos e mensagens do CACIC
+.<b>Computadores</b>||mainFrame|imgs/config_gerais.gif
+..Consulta|relatorios/computadores.php|mainFrame||Consulta de informações de computadores
+..Navegacion|relatorios/navegacao.php|mainFrame||Navegação pelos computadores da rede
+.<b>Reportes</b>||mainFrame|imgs/config_gerais.gif
+..<b>Softwares</b>||mainFrame|imgs/config_gerais.gif
+...Antivírus OfficeScan|relatorios/antivirus/index.php|mainFrame||
+...Softwares Básicos|relatorios/software/index.php|mainFrame||
+...Inventariados|relatorios/inventario_softwares/index.php|mainFrame||
+...Licenciados|relatorios/software/licenciados.php|mainFrame||
+...Permitidos por Organo|relatorios/software/softwares_orgao.php|mainFrame||
+...Aquisiciones|admin/gerencia_licencas/consulta/lista_aquisicoes.php|mainFrame||
+...Adquiridos|admin/gerencia_licencas/consulta/lista_softwares.php|mainFrame||
+...Procesos de Compra|admin/gerencia_licencas/consulta/lista_processos.php|mainFrame||
+...Tipos|relatorios/software/tipos_software.php|mainFrame||
+...Últimos Identificados|relatorios/software/ultimos_identificados.php|mainFrame||
+...Sospechosos y juegos Identificados|relatorios/software/ultimos_outros_softwares.php|mainFrame||
+...Histórico por Estacion|relatorios/software/historico_estacao.php|mainFrame||
+...No vinculados|relatorios/software/nao_vinculados.php|mainFrame||
+...Genéricos|relatorios/software/softwares_generico.php|mainFrame||
+..<b>Hardwares</b>||mainFrame|imgs/config_gerais.gif
+...Configuraciones|relatorios/hardware/index.php|mainFrame||
+...Compartidos|relatorios/compartilhamentos/index.php|mainFrame||
+...Alteraciones|relatorios/alteracoes_hardware/index.php|mainFrame||
+...Histórico Desactualizado|relatorios/computador/historico_desatualizado.php|mainFrame||
+...Inventário Desactualizado|relatorios/computador/inventario_desatualizado.php|mainFrame||
+...Nombres Repetidos|relatorios/computador/nomes_repetidos.php|mainFrame||Relatorio de Maquinas com nomes repetidos
+...IPs Repetidas|relatorios/computador/ips_repetidos.php|mainFrame||Relatorio de Maquinas com IPs repetidos
+...Inventarios en Blanco|relatorios/computador/inventario_em_branco.php|mainFrame||
+...Últimas Alteraciones|relatorios/computador/ultimos_alterados.php|mainFrame||
+..<b>Licencias</b>||mainFrame|imgs/config_gerais.gif
+...Resumen|admin/gerencia_licencas/consulta/resumo_licencas.php|mainFrame||
+...Autorizadas por estacion|admin/gerencia_licencas/consulta/autorizados_por_estacao.php|mainFrame||
+...Particulares|admin/gerencia_licencas/consulta/software_particular.php|mainFrame||
+..Autorizaciones|admin/autorizacoes.php|mainFrame||
+..TCP/IP|relatorios/tcpip/index.php|mainFrame||
+..Variables de Ambiente|relatorios/variaveis_ambiente/index.php|mainFrame||
+..Patrimonio|relatorios/patrimonio/index.php|mainFrame||
+.<b>Estadísticas</b>||mainFrame|imgs/config_gerais.gif
+..Antivírus OfficeScan|estatisticas/officescan.php|mainFrame||
+..Sistemas Monitoreados|estatisticas/aplicativos/index.php|mainFrame||
+.<b>Acceso</b>||mainFrame|imgs/config_gerais.gif
+..Cambio de Clave|admin/usuarios/troca_senha.php|mainFrame||
+.<b>Repositório|repositorio_install.php|mainFrame||Repositório do Sistema CACIC
+.<b>Projecto CACIC<b>|tribo/|new||Link de Acesso à Home Page do Projeto CACIC
+.<b>Comunidad CACIC<b>|http://www.softwarepublico.gov.br/spb/ver-comunidade?community_id=3585|new||Link de Acesso à Home Page da Comunidade CACIC

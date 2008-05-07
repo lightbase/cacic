@@ -30,7 +30,7 @@
 ...U. O. Nível 2|admin/patrimonio/nivel2/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 2
 ...Opções|admin/patrimonio/opcoes.php|mainFrame||Opções da coleta de Informações de Patrimônio e Localização Física
 .<b>Manutenção</b>||mainFrame|imgs/config_gerais.gif
-..Updates de SubRedes|admin/updates_subredes/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
+..Atualização de SubRedes|admin/updates_subredes/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
 ..Excluir Computadores|admin/exclui_informacoes_computadores.php|mainFrame||Exclusão de Informações de Computadores da base
 ..Atualização Especial|admin/atualizacao_especial.php|mainFrame||Atualização de Scripts e Afins
 ..Consulta Especial|admin/consulta_especial.php|mainFrame||Consulta Informações do Servidor
