@@ -19,6 +19,16 @@ INSERT INTO `acoes` (`id_acao`, `te_descricao_breve`, `te_descricao`, `te_nome_c
 /*!40000 ALTER TABLE `acoes` ENABLE KEYS */;
 
 --
+-- Dumping data for table `configuracoes_locais`
+--
+
+
+/*!40000 ALTER TABLE `configuracoes_locais` DISABLE KEYS */;
+INSERT INTO `configuracoes_locais` (`id_local`) VALUES (1);
+/*!40000 ALTER TABLE `configuracoes_locais` ENABLE KEYS */;
+
+
+--
 -- Dumping data for table `configuracoes_padrao`
 --
 

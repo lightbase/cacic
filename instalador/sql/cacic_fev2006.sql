@@ -371,8 +371,7 @@ ALTER TABLE versoes_softwares
 UPDATE acoes_excecoes SET id_local=1;
 UPDATE acoes_redes SET id_local=1;
 UPDATE acoes_so SET id_local=1;
-UPDATE aplicativos_redes SET id_local=1;
-UPDATE configuracoes_locais SET id_local=1;
+INSERT INTO `configuracoes_locais` (`id_local`) VALUES (1);
 UPDATE patrimonio_config_interface SET id_local=1;
 UPDATE redes SET id_local=1;
 UPDATE redes_grupos_ftp SET id_local=1;
