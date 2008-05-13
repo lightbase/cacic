@@ -15,6 +15,17 @@
  */
 session_start();
 require_once 'config.php';
+if(!include_once( TRANSLATOR_PATH.'/Translator.php'))
+  die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
+
+/*
+ * componente (objeto) para realizar traducao
+ */
+$oTranslator = new Translator( CACIC_LANGUAGE, CACIC_PATH.CACIC_LANGUAGE_PATH, CACIC_LANGUAGE_STANDARD );
+$oTranslator->setURLPath(TRANSLATOR_PATH_URL);
+$oTranslator->setLangFilesInSubDirs(true);
+$oTranslator->initStdLanguages();
+
 //Debug($_SERVER['SCRIPT_FILENAME']);
 
 // --------------------------------------------------------------------------
