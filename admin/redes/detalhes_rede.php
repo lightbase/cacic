@@ -14,14 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-/*
- * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
-}
-
 require_once('../../include/library.php');
 
 AntiSpy();
@@ -289,8 +281,8 @@ function valida_form()
 $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
 ?>
 <body <? if (!$pos) echo 'background="../../imgs/linha_v.gif"';?> onLoad="SetaCampo('<? echo ($_SESSION['cs_nivel_administracao']<>1?'frm_te_mascara_rede':'frm_id_local')?>')">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<form action="detalhes_rede.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
+<script language="javascript" type="text/javascript" src="../../include/cacic.js"></script>
+<form action="detalhes_rede.php"  method="post" ENCTYPE="multipart/form-data" name="form" id="form" onSubmit="return valida_form()">
 <table width="90%" border="0" align="center">
   <tr> 
       <td class="cabecalho">Detalhes da Subrede <? echo mysql_result($result, 0, 'id_ip_rede'); ?></td>
@@ -366,7 +358,8 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
               Subrede:</td>
             <td class="label"><br>
               M&aacute;scara:</td>
-            <td class="label">&nbsp;</td>
+            <td class="label"><br>
+            Abrang&ecirc;ncia:</td>
           </tr>
           <tr> 
             <td colspan="4" height="1" bgcolor="#333333"></td>
@@ -375,8 +368,11 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
             <td>&nbsp;</td>
             <td> <input name="frm_id_ip_rede" id="frm_id_ip_rede" readonly="" type="text" value="<? echo mysql_result($result, 0, 'id_ip_rede'); ?>" size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
               <input name="id_ip_rede"  type="hidden" id="id_ip_rede" value="<? echo mysql_result($result, 0, 'id_ip_rede'); ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >            </td>
-            <td> <input name="frm_te_mascara_rede" type="text" id="frm_te_mascara_rede" value="<? echo mysql_result($result, 0, 'te_mascara_rede'); ?>" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="return VerificaRedeMascara(this.form);SetaClassNormal(this);" >            </td>
-            <td>&nbsp;</td>
+            <td> <input name="frm_te_mascara_rede" type="text" id="frm_te_mascara_rede" value="<? echo mysql_result($result, 0, 'te_mascara_rede'); ?>" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="return VerRedeMascara(this.form.name,false,true);SetaClassNormal(this);" >            </td>
+            <td nowrap="nowrap"><input name="frm_id_ip_inicio" id="frm_id_ip_inicio" disabled="disabled" type="text" class="normal">
+								&nbsp;a&nbsp;
+								<input name="frm_id_ip_fim" id="frm_id_ip_fim" disabled="disabled" type="text" class="normal">
+			</td>
           </tr>
           <tr> 
             <td>&nbsp;</td>
@@ -390,7 +386,8 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
           </tr>
           <tr> 
             <td nowrap>&nbsp;</td>
-            <td nowrap><input name="frm_nm_rede" type="text" id="frm_nm_rede" value="<? echo mysql_result($result, 0, 'nm_rede'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+            <td nowrap><input name="frm_nm_rede" type="text" id="frm_nm_rede" value="<? echo mysql_result($result, 0, 'nm_rede'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+			</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
@@ -865,6 +862,10 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
           </p>
         </table>  
 </table>
+<script language="javascript" type="text/javascript">
+VerRedeMascara('form',true,false);
+</script>
+
 </form>
 </body>
 </html>

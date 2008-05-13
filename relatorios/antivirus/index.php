@@ -141,9 +141,9 @@
                         do Engine</option>
                         <option value=", nu_versao_pattern as &quot;Vers&atilde;o Pattern&quot;">Vers&atilde;o 
                         do Pattern</option>
-                        <option value=", DATE_FORMAT(dt_hr_instalacao,'%d/%m/%Y às %H:%ih') as &quot;Data/Hora Instala&ccedil;&atilde;o&quot;">Data/Hora 
+                        <option value=", DATE_FORMAT(dt_hr_instalacao,'%d/%m/%Y às %H:%ih') as &quot;Data/Hora Instala&ccedil;&atilde;o&quot;,DATE_FORMAT(dt_hr_instalacao,'%Y%m%d%H%i') as &quot;DHI&quot;">Data/Hora 
                         Instala&ccedil;&atilde;o</option>
-                        <option value=", DATE_FORMAT(dt_hr_coleta,'%d/%m/%Y às %H:%ih') as &quot;Data/Hora &Uacute;ltima Coleta&quot;">Data/Hora 
+                        <option value=", DATE_FORMAT(dt_hr_coleta,'%d/%m/%Y às %H:%ih') as &quot;Data/Hora &Uacute;ltima Coleta&quot;,DATE_FORMAT(dt_hr_coleta,'%Y%m%d%H%i') as &quot;DHUC&quot;">Data/Hora 
                         &Uacute;ltima Coleta</option>
                         <option value=", te_servidor as &quot;Servidor&quot;">Endere&ccedil;o 
                         Servidor</option>
@@ -177,9 +177,7 @@
           </tr>
         </table></td>
     </tr>
-    <tr> 
-      <td valign="top">&nbsp;</td>
-    </tr>
+    
 <?	
 /*	
     <tr> 
@@ -235,22 +233,66 @@
       <td valign="top">&nbsp;</td>
     </tr>
 */
+	$date_input1 = date('d/m/Y');
+	$date_input2 = $date_input1;	
+
 ?>	
 	
+    <tr>
+      <td valign="top">&nbsp;</td>
+    </tr>
+    <tr>
+      <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1" align="center">
+    <tr> 
+      <td class="label" colspan="2">Informe o per&iacute;odo (data de instala&ccedil;&atilde;o) em que dever&aacute; 
+        ser realizada a consulta: (ou deixe em branco) </td>
+    </tr>
+    <tr> 
+      <td height="1" bgcolor="#333333" colspan="2"></td>
+    </tr>
+    <tr valign="middle"> 
+      <td width="33%" height="1" nowrap valign="middle">
+<input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>">
+&nbsp; 
+<font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
+&nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>">
+</td>
+      <td align="left" class="descricao">&nbsp;&nbsp;(formato: dd/mm/aaaa)</td>
+      </tr>
+  </table></td>
+    </tr>
+    <tr>
+      <td valign="top">&nbsp;</td>
+    </tr>
+    <tr>
+      <td valign="top">
+      <table width="100%" border="0" cellpadding="0" cellspacing="1" align="center">
+    
+    <tr> 
+      <td height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr valign="middle"> 
+      <td width="33%" height="1" nowrap valign="middle" class="label"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+        <input type="checkbox" name="frmCsExibeInfoPatrimonial" value="S" id="frmCsExibeInfoPatrimonial" />Exibir Informa&ccedil;&otilde;es de Patrim&ocirc;nio</font></td>
+      </tr>
+  </table></td>
+    </tr>
+	
+    <tr>
+      <td valign="top">&nbsp;</td>
+    </tr>
     <tr> 
       <td valign="top"> 
         <?  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
-		?>
-      </td>
+		?>      </td>
     </tr>
     <tr> 
       <td valign="top">&nbsp;</td>
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>
-      </td>
+        <?  require_once('../../include/selecao_so_inc.php');		?>      </td>
     </tr>
     <tr> 
       <td valign="top">&nbsp;</td>

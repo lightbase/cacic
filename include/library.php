@@ -13,22 +13,8 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-@session_start();
-@define('CACIC',1);
-
-@include_once('config.php');
-require_once('define.php');
-
-if(!include_once( TRANSLATOR_PATH.'/Translator.php'))
-  die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
-
-/*
- * componente (objeto) para realizar traducao
- */
-$oTranslator = new Translator( CACIC_LANGUAGE, CACIC_PATH.CACIC_LANGUAGE_PATH, CACIC_LANGUAGE_STANDARD );
-$oTranslator->setURLPath(TRANSLATOR_PATH_URL);
-$oTranslator->setLangFilesInSubDirs(true);
-$oTranslator->initStdLanguages();
+session_start();
+require_once 'config.php';
 //Debug($_SERVER['SCRIPT_FILENAME']);
 
 // --------------------------------------------------------------------------
@@ -178,8 +164,8 @@ function returnMacAddress1()
 
 	$remoteIp = rtrim($_SERVER['REMOTE_ADDR']);
 	$location = rtrim(`arp -a $remoteIp`);
-	for ($i=0;$i < count($location);$i++)
-		GravaTESTES('location['.$i.']:'.$location[$i]);	
+	//for ($i=0;$i < count($location);$i++)
+	//	GravaTESTES('location['.$i.']:'.$location[$i]);	
 	//print_r($remoteIp.$location);//display
 
 	//reduce no of white spaces then
@@ -225,27 +211,6 @@ function Debug($p_ScriptFileName)
 			}
 		}
 	}
-
-/**
- * Menu a ser apresentado ao usuario conforme o idioma selecionado
- * 
- * @param string $_menu_name Nome do menu a ser pesquisado
- * @return string Caminho do menu
- */
-function getMenu($_menu_name) {
-	$_file_lang = 'language'.DIRECTORY_SEPARATOR.CACIC_LANGUAGE.DIRECTORY_SEPARATOR.$_menu_name;
-	if(is_file($_file_lang) and is_readable($_file_lang)) {
-		return $_file_lang;
-	}
-	else {
-		$_file_lang = 'language'.DIRECTORY_SEPARATOR.CACIC_LANGUAGE_STANDARD.DIRECTORY_SEPARATOR.$_menu_name;
-		if(is_file($_file_lang) and is_readable($_file_lang)) {
-			return $_file_lang;
-		}
-		else return "Erro no menu (Menu error)!".$_file_lang;
-	}
-}
-
 // __________________________________________________________________
 // Apenas uma alternativa mais completa à função "stripos" do PHP5...
 // __________________________________________________________________
@@ -274,10 +239,11 @@ function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnComp
 	{
 	$p_CipherKey .= $p_PaddingKey;
 	
-	GravaTESTES('Em DeCrypt: p_CipherKey   = "'.$p_CipherKey.'"');
-	GravaTESTES('Em DeCrypt: p_IV          = "'.$p_IV.'"');	
-	GravaTESTES('Em DeCrypt: p_CriptedData = "'.$p_CriptedData.'"');		
-	GravaTESTES('Em DeCrypt: p_cs_Cipher   = "'.$p_cs_Cipher.'"');	
+	/*GravaTESTES('Em DeCrypt: p_CipherKey   = "'.$p_CipherKey.'"');
+	  GravaTESTES('Em DeCrypt: p_IV          = "'.$p_IV.'"');	
+	  GravaTESTES('Em DeCrypt: p_CriptedData = "'.$p_CriptedData.'"');		
+	  GravaTESTES('Em DeCrypt: p_cs_Cipher   = "'.$p_cs_Cipher.'"');	
+	*/
 	// Bloco de Substituições para antes da Decriptação
 	// ------------------------------------------------
 	// Razão: Dependendo da configuração do servidor, os valores
@@ -314,7 +280,8 @@ function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnComp
 	if ($p_cs_UnCompress == '1')
 		$v_result = gzinflate($v_result);		
 
-	GravaTESTES('Em DeCrypt: p_PaddingKey = "'.$p_PaddingKey.'"');					
+	//GravaTESTES('Em DeCrypt: p_PaddingKey = "'.$p_PaddingKey.'"');					
+	
 	// Aqui retiro do resultado a ocorrência do preenchimento, caso exista. (o agente Python faz esse preenchimento)
 	if ($p_PaddingKey <> '') 
 		{               
@@ -322,7 +289,8 @@ function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnComp
        	$re 		= "/".$char."*$/";
        	$v_result 	= preg_replace($re, "", $v_result);
    		} 
-	GravaTESTES('Em DeCrypt: v_result = "'.$v_result.'"');				
+	//GravaTESTES('Em DeCrypt: v_result = "'.$v_result.'"');				
+	
 	return trim($v_result);
 	}
 
@@ -687,7 +655,7 @@ function dectobin($dectobin)
 
 function autentica_agente($p_CipherKey, $p_IV, $p_cs_cipher, $p_cs_compress, $p_PaddingKey='') 
 	{
-	
+	/*
 	GravaTESTES('###########################################');		
 	GravaTESTES('Script Chamador:  '.$_SERVER['REQUEST_URI']);		
 	GravaTESTES('1:  '.$_SERVER['HTTP_USER_AGENT']);	
@@ -697,6 +665,7 @@ function autentica_agente($p_CipherKey, $p_IV, $p_cs_cipher, $p_cs_compress, $p_
 	GravaTESTES('3:  '.$_SERVER['PHP_AUTH_PW']);		
 	GravaTESTES('33: '.strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_PW'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)));			
 	GravaTESTES('###########################################');			
+	*/
 	if ((strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['HTTP_USER_AGENT'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)) != 'AGENTE_CACIC') ||
 	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_USER'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)) != 'USER_CACIC') ||
 	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_PW'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)) != 'PW_CACIC'))   
@@ -756,6 +725,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 	if (substr_count($v_te_ip,'zf')>0 || trim($v_te_ip)=='')
 		$v_te_ip = 	$_SERVER['REMOTE_ADDR'];
 	
+	/*
 	GravaTESTES('Script Chamador: '.$_SERVER['REQUEST_URI']);		
 	GravaTESTES('v_te_ip: '.$v_te_ip);			
 	
@@ -770,7 +740,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 		GravaTESTES('v_te_ip: '.$v_te_ip);				
 		GravaTESTES('te_nome_computador: '.$te_nome_computador);			
 		GravaTESTES('te_workgroup: '.$te_workgroup);									
-	
+	*/
 	
 	$id_so = get_valor_campo('so', 'id_so', 'id_so = '.$id_so_new);
 	$te_so = get_valor_campo('so', 'te_so', 'te_so = "'.$te_so_new.'"');
@@ -784,7 +754,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 		$query = 'UPDATE so 
        	  		  SET te_so = "'.$te_so_new.'"
 			      WHERE id_so = '.$id_so;
-		GravaTESTES('query 1: '.$query);							  
+		//GravaTESTES('query 1: '.$query);							  
 		$result = mysql_query($query);
 		}	
 	elseif ($te_so <> '' && ($id_so == '' || $id_so == 0)) // Encontrei somente o Identificador Interno (TE_SO)
@@ -793,7 +763,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 		$query = 'SELECT id_so 
 				  FROM   so
 			      WHERE  te_so = "'.$te_so.'"';
-		GravaTESTES('query 2: '.$query);							  				  
+		//GravaTESTES('query 2: '.$query);							  				  
 		$result = mysql_query($query);
 		$row = mysql_fetch_array($result);
 		$id_so = $row['id_so'];
@@ -820,7 +790,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 			$queryINS  = 'INSERT 
 						  INTO 		so(id_so,te_desc_so,sg_so,te_so) 
 						  VALUES    ('.$id_so.',"S.O. a Cadastrar","Sigla a Cadastrar","'.$te_so_new.'")';
-		GravaTESTES('queryINS: '.$queryINS);							  						  
+		//GravaTESTES('queryINS: '.$queryINS);							  						  
 			$resultINS = mysql_query($queryINS);		
 	
 			// Carrego os dados referente à rede da estação		
@@ -831,7 +801,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 						  FROM   	acoes_so
 						  WHERE  	id_local = '.$v_dados_rede['id_local'].' 
 						  GROUP BY 	id_acao';							  						
-		GravaTESTES('querySEL: '.$querySEL);							  						  						  
+		//GravaTESTES('querySEL: '.$querySEL);							  						  						  
 			$resultSEL = mysql_query($querySEL);
 			
 			// Caso existam ações configuradas para o local, incluo o S.O. para que também execute-as...
@@ -874,7 +844,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 				      WHERE te_node_address = "'.$te_node_address.'"
 							AND id_so = "'.$id_so.'"';
 			} 
-GravaTESTES('QUERY : '.$query);			
+//GravaTESTES('QUERY : '.$query);			
 		$result = mysql_query($query);			
 		$arrRetorno = array('id_so'=>$id_so,'te_so'=>$te_so);
 		// OK! O computador foi INCLUIDO/ATUALIZADO.
@@ -979,9 +949,10 @@ function quebra_linha($string, $tamanho_desejado) {
 // --------------------------------------------------------------------------------------
 // Função usada para fazer updates das versões dos módulos nas subredes...
 // --------------------------------------------------------------------------------------
-function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo, $p_id_local)
+function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo, $p_id_local, $p_cs_tipo_so)
 	{
 	$MainFolder		= GetMainFolder();
+	$arrCsTipoSO = explode('#',$p_cs_tipo_so);
 	conecta_bd_cacic();
 	$query_UPD = '	UPDATE 	redes 
 					set dt_verifica_updates = NOW() 
@@ -993,7 +964,8 @@ function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo,
 				   FROM 	redes_versoes_modulos
 				   WHERE 	TRIM(id_ip_rede) = "'.trim($pp_id_ip_rede).'" AND
 				   			TRIM(nm_modulo)="'.trim($p_nm_modulo).'" AND
-							id_local = '.$p_id_local;
+							id_local = '.$p_id_local.' AND
+							cs_tipo_so = "'.$arrCsTipoSO[1].'"';
 	$result_DEL = mysql_query($query_DEL);
 
 	$v_te_versao_modulo = $p_te_versao_modulo;
@@ -1007,12 +979,14 @@ function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo,
 													   nm_modulo,
 													   te_versao_modulo,
 													   id_local,
-													   dt_atualizacao)
+													   dt_atualizacao,
+													   cs_tipo_so)
 						   values					   ("'.$pp_id_ip_rede.'",
 														"'.$p_nm_modulo.'",
 														"'.$v_te_versao_modulo.'","'.
 														$p_id_local.'",
-														now())';
+														now(),
+														"'.$arrCsTipoSO[1].'")';
 
 	$result_INS = mysql_query($query_INS);
 	}
@@ -1020,9 +994,10 @@ function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo,
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 // Função usada para fazer updates das versões dos módulos nos servidores de updates quando a chamada tem origem na página, via opção Update de Subredes...
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
-function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_versao_modulo)
+function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_versao_modulo, $p_cs_tipo_so)
 	{
 	$MainFolder		= GetMainFolder();
+	$arrCsTipoSO = explode('#',$p_cs_tipo_so);	
 	conecta_bd_cacic();
 	$query_SEL = '  SELECT id_ip_rede,
 						   id_local
@@ -1049,7 +1024,8 @@ function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_ve
 	$query_DEL	= 'DELETE 	
 				   FROM 	redes_versoes_modulos
 				   WHERE 	TRIM(id_ip_rede) IN ('.$redes.') AND
-				            nm_modulo = "'.$p_nm_modulo.'"';
+				            nm_modulo = "'.$p_nm_modulo.'" AND
+							cs_tipo_so = "'.$arrCsTipoSO[1].'"';
 							// AND	id_local = '.$p_id_local;
 	//GravaTESTES('query_DEL: '.$query_DEL);						   							
 	$result_DEL = mysql_query($query_DEL);
@@ -1065,7 +1041,8 @@ function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_ve
 													   nm_modulo,
 													   te_versao_modulo,
 													   id_local,
-													   dt_atualizacao) values ';
+													   dt_atualizacao,
+													   cs_tipo_so) values ';
 	$query_INS	= 'INSERT  
 				   INTO 		redes_versoes_modulos values ';
 													   
@@ -1077,7 +1054,8 @@ function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_ve
 								  "'.$row['id_ip_rede'].'",
 								  "'.$p_nm_modulo.'",
 								  "'.$p_te_versao_modulo.'",'.
-								    'now())';
+								    'now(),
+								  "'.$arrCsTipoSO[1].'")';
 		$virgula = ',';
 		}
 	//GravaTESTES('query_INS: '.$query_INS);						   
@@ -1308,8 +1286,9 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 					  ' ORDER BY nm_modulo';
 	conecta_bd_cacic();
 	
-	$v_nomes_arquivos_FTP = array();
+	$v_nomes_arquivos_FTP 	= array();
 	$v_versoes_arquivos_FTP = array();				
+	$v_tipos_so_FTP 		= array();					
 	
 	$Result_SEL_REDES = mysql_query($query_SEL_REDES);
 	$v_achei = 0;
@@ -1317,6 +1296,7 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 		{
 		array_push($v_nomes_arquivos_FTP, trim($row['nm_modulo']));
 		array_push($v_versoes_arquivos_FTP, trim($row['nm_modulo']).'#'.trim($row['te_versao_modulo']));										
+		array_push($v_tipos_so_FTP, trim($row['nm_modulo']).'#'.trim($row['cs_tipo_so']));												
 		for ($cnt_arquivos_REP = 0; $cnt_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_arquivos_REP++)
 			{
 			if (trim($v_nomes_arquivos_REP[$cnt_arquivos_REP]) == trim($row['nm_modulo']) &&
@@ -1391,6 +1371,7 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 					sort($v_nomes_arquivos_REP,SORT_STRING);						
 					sort($v_versoes_arquivos_REP,SORT_STRING);											
 					sort($v_nomes_arquivos_FTP,SORT_STRING);											
+					sort($v_tipos_so_FTP,SORT_STRING);																
 					sort($v_versoes_arquivos_FTP,SORT_STRING);																
 					$v_efetua_conexao_ftp = 1;
 	
@@ -1416,9 +1397,9 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 										array_push($v_array_objetos_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
 										$arr_versao_arquivo = explode('#',$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
 										if ($p_origem == 'Pagina')										
-											atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1]);
+											atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$v_tipos_so_FTP[$cnt_nomes_arquivos_REP]);
 										else
-											atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$row['id_local']);
+											atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$row['id_local'],$v_tipos_so_FTP[$cnt_nomes_arquivos_REP]);
 										echo '<font size="1px" color="orange">Atualizado...: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';											
 										$v_conta_objetos_atualizados ++;
 										flush();																													

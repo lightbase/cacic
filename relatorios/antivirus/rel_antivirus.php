@@ -1,22 +1,34 @@
 <? session_start();
-/*
- * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
-}
 
+if($_POST['submit']) 
+	{
+	$_SESSION["list2"] 		 				= $_POST['list2'];
+	$_SESSION["list4"] 		 				= $_POST['list4'];
+	$_SESSION["list6"] 		 				= $_POST['list6'];
+	$_SESSION["list8"] 		 				= $_POST['list8'];
+	$_SESSION["list10"]		 				= $_POST['list10'];
+	$_SESSION["list12"]		 				= $_POST['list12'];
+	$_SESSION["cs_situacao"] 				= $_POST["cs_situacao"];
+	$_SESSION["cs_exibe_info_patrimonial"] 	= $_POST["frmCsExibeInfoPatrimonial"];
 
-if($_POST['submit']) {
-	$_SESSION["list2"] 	= $_POST['list2'];
-	$_SESSION["list4"] 	= $_POST['list4'];
-	$_SESSION["list6"] 	= $_POST['list6'];
-	$_SESSION["list8"] 	= $_POST['list8'];	
-	$_SESSION["list10"]	= $_POST['list10'];		
-	$_SESSION["list12"]	= $_POST['list12'];			
-	$_SESSION["cs_situacao"] = $_POST["cs_situacao"];
-}
+	$_SESSION['where_date']  				= '';
+
+	if ($_POST['date_input1'] <> '')
+		{
+		$arrDateInput  = explode('/',$_POST['date_input1']);
+		$_SESSION['where_date']   .= ' AND officescan.dt_hr_instalacao >= "'.$arrDateInput[2].'-'.$arrDateInput[1].'-'.$arrDateInput[0].' 00:00:00"';
+		}
+
+	if ($_POST['date_input2'] <> '')
+		{
+		$arrDateInput  = explode('/',$_POST['date_input2']);
+		$_SESSION['where_date']   .= ' AND officescan.dt_hr_instalacao <= "'.$arrDateInput[2].'-'.$arrDateInput[1].'-'.$arrDateInput[0].' 23:59:59"';
+		}
+	
+	if ($_SESSION['where_date'])
+		$_SESSION['where_date'] = ' AND trim(officescan.dt_hr_instalacao) <> "" '.$_SESSION['where_date'];	
+	
+	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -57,71 +69,74 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <? 
 require_once('../../include/library.php');
-// Comentado temporariamente - AntiSpy();
+AntiSpy();
 conecta_bd_cacic();
 
 $redes_selecionadas = '';
+$from				= '';
+$select				= '';
+$query_redes		= '';
+
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
-	//if($_SESSION["cs_situacao"] == 'S') 
-	//	{
-		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes	
-		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
-		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
-			{
-			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
-			}
-	//	}
-		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+	$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
+	for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
+		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
+
+	$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
 	}
 else
 	{
 	// Aqui pego todos os locais selecionados e faço uma query p/ condição de redes/locais
 	$locais_selecionados = "'" . $_SESSION["list12"][0] . "'";
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
-		{
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
-		}
+
 	$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
-	$select = ' ,sg_local as Local ';	
-	$from = ' ,redes,locais ';	
+	$select = ' ,sg_local as "Local" ';	
+	$from = ' ,redes, locais ';	
 	}	
 
 // Aqui pego todos os SO selecionados
 $so_selecionados = "'" . $_SESSION["list4"][0] . "'";
-for( $i = 1; $i < count($_SESSION["list4"] ); $i++ ) {
+for( $i = 1; $i < count($_SESSION["list4"] ); $i++ ) 
 	$so_selecionados = $so_selecionados . ",'" . $_SESSION["list4"][$i] . "'";
-}
 
 // Aqui pego todas as configurações de hardware que deseja exibir
-for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
+for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) 
 	$campos_software = $campos_software . $_SESSION["list6"][$i];
-}
+
 // Aqui substitui todas as strings \ por vazio que a variável $campos_hardware retorna
 $campos_software = str_replace('\\', '', $campos_software);
 
-if ($_GET['orderby']) { $orderby = $_GET['orderby']; }
-
-else { $orderby = 'te_nome_computador'; }
+if ($_GET['orderby']) 
+	$orderby = $_GET['orderby'];
+else
+	$orderby = 'computadores.te_nome_computador';
 
 $query = 'SELECT 	distinct computadores.te_node_address, 
 					so.id_so, 
-					te_nome_computador as "Nome Comp.", 
-					sg_so as "S.O.", 
-					te_ip as "IP"' .
+					computadores.te_nome_computador as "Nome Comp.", 
+					so.sg_so as "S.O.", 
+					computadores.te_ip as "IP"' .
           			$campos_software . 
 					$select . ' 
 		  FROM 		so,
-		  			computadores LEFT JOIN officescan ON (computadores.te_node_address = officescan.te_node_address and computadores.id_so = officescan.id_so) '.
+		  			computadores 
+		  			LEFT JOIN officescan ON computadores.te_node_address = officescan.te_node_address and computadores.id_so = officescan.id_so '.
 					$from. ' 		 
 		  WHERE  	TRIM(computadores.te_nome_computador) <> "" AND 
 		  			computadores.id_so = so.id_so AND 
 					computadores.id_so IN ('. $so_selecionados .')'. 
+					$_SESSION['where_date'].
 		  			$query_redes .' 
 		  ORDER BY ' . $orderby; 
 
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//	echo $query . '<br>';		  
+	
 $result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
@@ -132,29 +147,177 @@ echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bo
      <tr bgcolor="#E1E1E1" >
       <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
 
-for ($i=2; $i < mysql_num_fields($result); $i++) { //Table Header
-   print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></font><b></td>';
-}
+$intColunaDHI = 0; // Coluna apenas para ordenar pela Data/Hora de Instalacao
+
+for ($i=2; $i < mysql_num_fields($result); $i++) 
+	{//Table Header
+	$iAux = $i;
+	$iAux = ($iAux==6?7:$iAux);
+	$iAux = ($iAux==8?9:$iAux);	
+	// Não mostro as colunas datas/horas, usadas para ordenação	
+	if (mysql_field_name($result, $i)<>'DHI' && mysql_field_name($result, $i)<>'DHUC')
+	   	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($iAux+1) . '">'. mysql_field_name($result, $i) .'</a></font><b></td>';
+	}
+	
+// Caso seja selecionada a exibição de Informações Patrimoniais...
+if ($_SESSION['cs_exibe_info_patrimonial']<>'')
+	{
+	$strTripaMacSO = '';
+
+	// Foi necessário implementar essa P.O.G. devido a erro #1054 do MySQL 5.x!!!		
+	while ($row = mysql_fetch_array($result))
+		{
+		$strTripaMacSO .= ($strTripaMacSO <> ''?',':'');
+		$strTripaMacSO .= '"'.$row['te_node_address'].'_'.$row['id_so'].'"';		
+		}
+		
+	// Restauro o ponteiro da consulta
+	mysql_data_seek($result,0);
+
+	$query_pat = 'SELECT nm_campo_tab_patrimonio,
+						 te_etiqueta
+				  FROM   patrimonio_config_interface
+				  WHERE	 id_local = '.$_SESSION['id_local'];
+	$result_pat = mysql_query($query_pat);	
+
+	$select_pat = 'pat.te_node_address,pat.id_so';
+	
+
+	while ($row_pat = mysql_fetch_array($result_pat))
+		{
+		$boolMostraColuna = false;
+		if ($row_pat['nm_campo_tab_patrimonio']    =='id_unid_organizacional_nivel1')
+			{
+			$select_pat .= ', uon1.nm_unid_organizacional_nivel1 as "' . $row_pat['te_etiqueta'].'"';
+			$boolMostraColuna = true;
+			}
+		elseif ($row_pat['nm_campo_tab_patrimonio']=='id_unid_organizacional_nivel1a')
+			{
+			$select_pat .= ', uon1a.nm_unid_organizacional_nivel1a as "' . $row_pat['te_etiqueta'].'"';
+			$boolMostraColuna = true;			
+			}
+		elseif ($row_pat['nm_campo_tab_patrimonio']=='id_unid_organizacional_nivel2')
+			{
+			$select_pat .= ', uon2.nm_unid_organizacional_nivel2 as "' . $row_pat['te_etiqueta'].'"';			
+			$boolMostraColuna = true;			
+			}
+		else
+			{
+			$select_pat .= ', ' . $row_pat['nm_campo_tab_patrimonio'] . ' as "' . $row_pat['te_etiqueta'].'"';			
+			$boolMostraColuna = true;			
+			}
+		
+		// Mostro apenas as colunas interessantes	
+		if ($boolMostraColuna)
+			{
+			$iAux ++;
+		   	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial">'. $row_pat['te_etiqueta'] .'</font><b></td>';			
+			}
+		}
+		
+	$from_pat = '  	unid_organizacional_nivel1  uon1, 
+					unid_organizacional_nivel1a uon1a,
+					unid_organizacional_nivel2  uon2,
+					patrimonio pat,
+					computadores comp';
+					
+	$where_pat = '  comp.te_node_address = pat.te_node_address AND 
+					comp.id_so = pat.id_so AND 
+					pat.id_unid_organizacional_nivel1a = uon1a.id_unid_organizacional_nivel1a AND
+					pat.id_unid_organizacional_nivel2  = uon2.id_unid_organizacional_nivel2 AND
+					uon1a.id_unid_organizacional_nivel1a = uon2.id_unid_organizacional_nivel1a AND
+					uon1a.id_unid_organizacional_nivel1  = uon1.id_unid_organizacional_nivel1 ';
+	$query_pat = ' SELECT ' .$select_pat.
+				 ' FROM '	.$from_pat.
+				 ' WHERE '	.$where_pat.
+				 		 ' AND concat(pat.te_node_address,"_",pat.id_so) in ('.$strTripaMacSO.') '; 
+	
+	$result_pat = mysql_query($query_pat);
+	while ($row_pat = mysql_fetch_array($result_pat))
+		{
+		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['uon1']  							= $row_pat[2];
+		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['uon1a'] 							= $row_pat[3];
+		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['uon2']  							= $row_pat[4];				
+		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_localizacao_complementar']  	= $row_pat[5];						
+		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio1']  			= $row_pat[6];								
+		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio2'] 	 		= $row_pat[7];								
+		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio3']  			= $row_pat[8];								
+		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio4']  			= $row_pat[9];								
+		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio5']  			= $row_pat[10];								
+		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio6']  			= $row_pat[11];																		
+		}						 
+	}
+
+	
 echo '</tr>';
 
-while ($row = mysql_fetch_row($result)) { //Table body
+while ($row = mysql_fetch_row($result)) 
+	{//Table body
     echo '<tr ';
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
 	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
-    for ($i=3; $i < $fields; $i++) {
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial" ';
-		if 		($row[$i] == 'N') 
-			{echo 'color="#FF0000"><strong>N</strong>';}
-		else 	
-			{echo '>'.$row[$i]; }
-		echo '&nbsp;</td>'; 		
-	}
+    for ($i=3; $i < $fields; $i++) 
+		{
+		if ($i <> 7 && $i <> 9) // Não mostro os valores datas/horas, usados para ordenação
+			{
+			echo '<td nowrap align="left"><font size="1" face="Verdana, Arial" ';
+			if 		($row[$i] == 'N') 
+				echo 'color="#FF0000"><strong>N</strong>';
+			else 	
+				echo '>'.$row[$i];
+				
+			echo '&nbsp;</td>'; 		
+			}
+		}
+	if ($_SESSION['cs_exibe_info_patrimonial']<>'')
+		{
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
+		echo $arrMacSO[$row[0].'_'.$row[1]]['uon1'];
+		echo '&nbsp;</td>'; 				
+
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
+		echo $arrMacSO[$row[0].'_'.$row[1]]['uon1a'];
+		echo '&nbsp;</td>'; 				
+
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
+		echo $arrMacSO[$row[0].'_'.$row[1]]['uon2'];
+		echo '&nbsp;</td>'; 				
+
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
+		echo $arrMacSO[$row[0].'_'.$row[1]]['te_localizacao_complementar'];
+		echo '&nbsp;</td>'; 				
+
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
+		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio1'];
+		echo '&nbsp;</td>'; 				
+
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
+		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio2'];
+		echo '&nbsp;</td>'; 				
+
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
+		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio3'];
+		echo '&nbsp;</td>'; 				
+
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
+		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio4'];
+		echo '&nbsp;</td>'; 				
+
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
+		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio5'];
+		echo '&nbsp;</td>'; 				
+
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
+		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio6'];
+		echo '&nbsp;</td>'; 				
+		
+		}
     $cor=!$cor;
 	$num_registro++;
     echo '</tr>';
-}
+	}
 echo '</table><br><br>';
 if (count($_SESSION["list8"])>0)
 	{	
@@ -167,6 +330,6 @@ if (count($_SESSION["list8"])>0)
   gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Escrit&oacute;rio do Esp&iacute;rito Santo</font></p>
+  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 </body>
 </html>

@@ -302,6 +302,31 @@ require_once('../../include/library.php');
 				  ORDER BY te_etiqueta";
 
 		$res_fields = mysql_query($query);
+
+		// Caso o usuário não tenha nível administrativo, filtro as UON2 para seleção das UON1a
+		if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
+			{
+		
+			$selectUON1a 	= ' SELECT 	distinct id_unid_organizacional_nivel1a  ';
+			$fromUON1a		= ' FROM	unid_organizacional_nivel2 UON2 ';
+			$whereUON1a		= ' WHERE 	UON2.id_local = '.$_SESSION['id_local'];
+			if ($_SESSION['te_locais_secundarios'] <> '')
+				$whereUON1a .= ' OR UON2.id_local in ('.$_SESSION['te_locais_secundarios'].')';
+			
+			$strTripaUON1a 	= '';
+			$queryUON1a		= $selectUON1a . $fromUON1a . $whereUON1a;
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+	//echo $queryUON1a . '<br>';			
+			$resUON1a		= mysql_query($queryUON1a);
+			
+			while ($rowUON1a = mysql_fetch_array($resUON1a))
+				{
+				$strTripaUON1a .= ($strTripaUON1a <> ''?',':'');
+				$strTripaUON1a .= $rowUON1a['id_unid_organizacional_nivel1a'];
+				}
+				
+			}
+		
 		$idUO = '';
 		while ($row_fields = mysql_fetch_array($res_fields)) 
 			{
@@ -318,15 +343,24 @@ require_once('../../include/library.php');
 			</select>
 
 			<?
-			$select1  = ($idUO=='1'?'id_unid_organizacional_nivel1 as id,nm_unid_organizacional_nivel1 as nm':($idUO=='1a'?'id_unid_organizacional_nivel1a as id,nm_unid_organizacional_nivel1a as nm':'id_unid_organizacional_nivel2 as id,nm_unid_organizacional_nivel2 as nm'));
-			$from1    = ($idUO=='1'?'unid_organizacional_nivel1 UO':($idUO=='1a'?'unid_organizacional_nivel1a UO':'unid_organizacional_nivel2 UO'));
-			$where1   = ($idUO<>'1' && $idUO<>'1a'?' WHERE UO.id_local = '.$_SESSION['id_local']:' ');						
-			$orderby1 = ($idUO=='1'?'nm_unid_organizacional_nivel1':($idUO=='1a'?'nm_unid_organizacional_nivel1a':'nm_unid_organizacional_nivel2'));
+			$select1  =  ($idUO=='1' ? ' id_unid_organizacional_nivel1 as id,nm_unid_organizacional_nivel1 as nm':($idUO=='1a'?'id_unid_organizacional_nivel1a as id,nm_unid_organizacional_nivel1a as nm':' id_unid_organizacional_nivel2 as id,nm_unid_organizacional_nivel2 as nm'));
+			$from1    =  ($idUO=='1' ? ' unid_organizacional_nivel1 UO':($idUO=='1a'?'unid_organizacional_nivel1a UO':'unid_organizacional_nivel2 UO'));
+			$where1	  = '';
+			if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
+				{
+				$where1   .=  ($idUO<>'1' && $idUO<>'1a' ? ' WHERE UO.id_local = '.$_SESSION['id_local']:'');	
+				$where1   .= ($idUO<>'1' && $idUO<>'1a' && $_SESSION['te_locais_secundarios']<>''?' OR (UO.id_local in ('.$_SESSION['te_locais_secundarios'].')) ':'');									
+				$where1   .= ($idUO<>'1' && $idUO<>'1a' && $_SESSION['te_locais_secundarios']<>''?' OR (UO.id_local in ('.$_SESSION['te_locais_secundarios'].')) ':'');												
+				$where1	   = ($idUO=='1a'?' WHERE id_unid_organizacional_nivel1a in ('.$strTripaUON1a.') ':$where1);				
+				}
+			$orderby1 =  ($idUO=='1' ? ' nm_unid_organizacional_nivel1':($idUO=='1a'?'nm_unid_organizacional_nivel1a':'nm_unid_organizacional_nivel2'));
 			
 			$query1 = "SELECT  $select1
 					   FROM    $from1
 					   $where1
 					   ORDER BY $orderby1";
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//	echo $query1 . '<br>';					   
 			?>
 			<td align="left">
 			<select name="frm_UO<? echo $idUO .'_' . $row_fields['id_etiqueta']; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);montaComboMulti('frm_UO<? echo $idUO .'_' . $row_fields['id_etiqueta'];?>',false);">

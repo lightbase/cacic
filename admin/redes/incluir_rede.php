@@ -14,14 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-/*
- * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
-}
-
 include_once "../../include/library.php";
 
 AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
@@ -208,7 +200,7 @@ function SetaServidorUpdates()
 
 function valida_form(frmForm) 
 	{
-	
+	VerRedeMascara(frmForm.name,true,false);
 	if ( document.form.frm_nu_limite_ftp.value == "" ) 
 		{	
 		document.form.frm_nu_limite_ftp.value = "30";
@@ -290,10 +282,7 @@ function valida_form(frmForm)
 		alert("Digite a Senha para Login no Servidor de Updates pelo Módulo Gerente");
 		document.form.frm_te_senha_login_serv_updates_gerente.focus();
 		return false;
-		}
-		
-	VerificaRedeMascara(frmForm);
-						
+		}					
 	return true;
 	}
 </script>
@@ -322,7 +311,7 @@ MM_reloadPage(true);
       s&atilde;o obrigat&oacute;rios.</td>
   </tr>
 </table>
-<form action="incluir_rede.php"  method="post" ENCTYPE="multipart/form-data" name="form">
+<form action="incluir_rede.php"  method="post" ENCTYPE="multipart/form-data" name="form" id="form">
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
 		<td>&nbsp;</td>
@@ -382,7 +371,7 @@ MM_reloadPage(true);
 	<td>&nbsp;</td>
       <td><input name="frm_id_ip_rede" id="frm_id_ip_rede" type="text"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" size="16" maxlength="16" > 
         <font color="#000099" size="1">Ex.: 10.71.0.0</font></font></td>
-      <td><input name="frm_te_mascara_rede" id="frm_te_mascara_rede" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="return VerificaRedeMascara(this.form);SetaClassNormal(this);" value="255.255.255.0" size="15" maxlength="15" > 
+      <td><input name="frm_te_mascara_rede" id="frm_te_mascara_rede" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="return VerRedeMascara(this.form.name,false,true);SetaClassNormal(this);" value="255.255.255.0" size="15" maxlength="15" > 
       </td>
       <td>&nbsp;</td>
     </tr>
@@ -644,8 +633,8 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td> <input name="in_habilita_acoes" type="radio" value="S" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-        Sim<br> <input type="radio" name="in_habilita_acoes" value="N" checked class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+      <td> <input name="in_habilita_acoes" type="radio" value="S" checked class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+        Sim<br> <input type="radio" name="in_habilita_acoes" value="N" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
         N&atilde;o</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>

@@ -14,14 +14,6 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-/*
- * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
-}
-
 require_once('../../include/library.php');
 
 AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
@@ -33,7 +25,9 @@ if ($_POST['ExecutaUpdates']=='Executar Updates')
 	{				
 	// Enviarei também ao updates_subredes.php uma relação de agentes e versões para inserção na tabela redes_versoes_modulos, no caso da ocorrência de Servidor de Updates verificado anteriormente.
 	// Exemplo de estrutura de agentes_versoes: col_soft.exe#22010103*col_undi.exe#22010103
+	// 						   agentes_hashs:   col_soft.exe#4228204d66e268ad42d9d738a09800e8*col_undi.exe#2428204d67e268ad42d9d738a09800ff	
 	$v_agentes_versoes = '';
+	$v_agentes_hashs   = '';	
 	foreach($HTTP_POST_VARS as $i => $v) 
 		{
 		//echo 'v: '.$v.'   i: '.$i.'<br>';
@@ -61,16 +55,16 @@ if ($_POST['ExecutaUpdates']=='Executar Updates')
 			if ($v_force_modulos == '') $v_force_modulos = '_fm_versoes_agentes.ini_fm_';
 			
 			if ($v_force_modulos <> '') 
-				{
 				$v_force_modulos .= ",";			
-				}
+
 			$v_force_modulos .= '_fm_'.$v.'_fm_';		
 			}								
 
 		if ($v && substr($i,0,15)=='agentes_versoes')
-			{
 			$v_agentes_versoes = '_-_'.$v;
-			}						
+
+		if ($v && substr($i,0,13)=='agentes_hashs')
+			$v_agentes_hashs = '_-_'.$v;			
 		}
 		
 	//echo 'v_updates: '.$v_updates.'<br><br>';
@@ -83,7 +77,7 @@ if ($_POST['ExecutaUpdates']=='Executar Updates')
 	// objeto1__objeto2__objetoN_-_rede1__rede2__rede3__redeN  
 	// Onde: __  = Separador de itens
 	//       _-_ = Separador de Matrizes		
-        header ("Location: updates_subredes.php?v_parametros=".$v_updates.'_-_'.$v_redes.'_-_'.$v_force_modulos.$v_agentes_versoes);			
+        header ("Location: updates_subredes.php?v_parametros=".$v_updates.'_-_'.$v_redes.'_-_'.$v_force_modulos.$v_agentes_versoes.$v_agentes_hashs);			
 	}
 else
 	{
@@ -134,14 +128,11 @@ function verificar()
 	else
 		{
 		if (!boolModulos)
-			{
 			strFraseErro = 'Módulos';
-			}
 
 		if (!boolRedes)
-			{
 			strFraseErro = (!boolModulos?' e ':'') + 'SubRedes';
-			}
+
 		alert('ATENÇÃO: Verifique as seleções de '+strFraseErro);	
 //		formRedes.elements[min(intInicioModulos,intInicioRedes)].focus();		
 		}
@@ -213,8 +204,10 @@ function verificar()
       </tr>
       <tr> 
         <td class="destaque" align="center" colspan="3" valign="middle"><input name="update_subredes" id="update_subredes" type="checkbox" onClick="MarcaDesmarcaTodos(this.form.update_subredes),MarcaIncondicional(this.form.update_subredes,'update_subredes_versoes_agentes.ini'),MarcaIncondicional(this.form.update_subredes,'force_update_subredes_versoes_agentes.ini');">  
-          &nbsp;&nbsp;Marca/Desmarca todos os objetos
-	    </td>
+          &nbsp;&nbsp;Marca/Desmarca todos os objetos	    </td>
+      </tr>
+      <tr>
+        <td nowrap colspan="2">&nbsp;</td>
       </tr>
       <tr> 
         <td nowrap colspan="2">&nbsp;</td>
@@ -222,13 +215,19 @@ function verificar()
       <tr> 
         <td nowrap colspan="2"><table border="1" align="center" cellpadding="2" bordercolor="#999999">
             <tr bgcolor="#FFFFCC"> 
+              <td colspan="8" class="cabecalho_tabela" align="center"><b>Agentes para MS-Windows</b></td>			  
+            </tr>
+		
+            <tr bgcolor="#FFFFCC"> 
               <td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>
               <td bgcolor="#EBEBEB" class="cabecalho_tabela">Arquivo</td>
               <td bgcolor="#EBEBEB" class="cabecalho_tabela">Tamanho(KB)</td>
               <td align="center" colspan="3" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Vers&atilde;o</td>
+              <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Hash</td>
 			  <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">For&ccedil;ar</td>			  
             </tr>
             <? 
+
 	  if ($handle = opendir('../../repositorio')) 
 		{
 		$v_nomes_arquivos = array();	
@@ -237,9 +236,10 @@ function verificar()
 			{
 			$v_arquivo = strtolower($v_arquivo);
 			if (substr($v_arquivo,0,1) != "." and 
-			    $v_arquivo != "netlogon" and 
+			    $v_arquivo != "agentes_linux" and 
+			    $v_arquivo != "netlogon" and 				
 				$v_arquivo != "supergerentes" and 
-				$v_arquivo != "install" and 				
+				$v_arquivo != "install" and 								
 				$v_arquivo != "chkcacic.exe" and
 				$v_arquivo != "chkcacic.ini" and				
 				$v_arquivo != "vaca.exe") // Versoes Agentes Creator/Atualizator //and 				
@@ -256,14 +256,18 @@ function verificar()
 			}
 
 		sort($v_nomes_arquivos,SORT_STRING);
-		$v_agentes_versoes = ''; // Conterá as versões dos agentes para tratamento em updates_subredes.php
+		$v_agentes_versoes 	= ''; // Conterá as versões dos agentes para tratamento em updates_subredes.php
+		$v_agentes_hashs 	= ''; // Conterá os hashies referentes aos agentes
 		for ($cnt_arquivos = 0; $cnt_arquivos < count($v_nomes_arquivos); $cnt_arquivos++)
 			{
+			$te_hash = hash_file('md5','../../repositorio/'.$v_nomes_arquivos[$cnt_arquivos]);
 			$v_dados_arquivo = lstat('../../repositorio/'.$v_nomes_arquivos[$cnt_arquivos]);
+				
 			echo '<tr>';
 			echo '<td><input name="update_subredes_'.$v_nomes_arquivos[$cnt_arquivos].'" id="update_subredes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="'.$v_nomes_arquivos[$cnt_arquivos].'"';
 			if ($v_nomes_arquivos[$cnt_arquivos] == 'versoes_agentes.ini') echo ' checked disabled'; // Implementar o OnChange para impedir o Marca/Desmarca todos para este campo...
-			echo ' ></td>';
+			echo ' >';
+			echo '</td>';
 			echo '<td>'.$v_nomes_arquivos[$cnt_arquivos].'</td>';										
 //			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/1024), 1, '', '.').'</td>';			
 			// Adequação ao resultado no Debian Etch
@@ -277,18 +281,76 @@ function verificar()
 				$versao_agente = strftime("%d/%m/%Y  %H:%Mh", $v_dados_arquivo[9]);
 				echo '<td align="center" colspan="3">'.$versao_agente.'</td>';							
 				}
-			$v_agentes_versoes .= ($v_agentes_versoes<>''?'#':'');
-			$v_agentes_versoes .= $v_nomes_arquivos[$cnt_arquivos].'*'.$versao_agente;	
+
+			$v_agentes_versoes .= ($v_agentes_versoes<>''?'#':'');			
+			$v_agentes_versoes .= $v_nomes_arquivos[$cnt_arquivos].'*'.$versao_agente;				
+
+			$v_agentes_hashs   .= ($v_agentes_hashs <>''?'#':'');			
+			$v_agentes_hashs   .= $v_nomes_arquivos[$cnt_arquivos].'*'.$te_hash;	
+			
+			echo '<td align="center">'.$te_hash.'</td>';
+						
 			echo '<td align="center"><input name="force_update_subredes_'.$v_nomes_arquivos[$cnt_arquivos].'" id="force_update_subredes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="'.$v_nomes_arquivos[$cnt_arquivos].'"';
 			if ($v_nomes_arquivos[$cnt_arquivos] == 'versoes_agentes.ini') echo ' checked disabled';
-			echo '></td></tr>';											
+			echo '>';
+			echo '</td></tr>';											
 			}
-		echo '<input name="agentes_versoes" id="agentes_versoes" type="hidden" value="'.$v_agentes_versoes.'">';
+		}
+
+	  if ($handle = opendir('../../repositorio/agentes_linux')) 		
+	  	{
+	 	?>
+		<tr><td colspan="8">&nbsp;</td></tr>
+           <tr bgcolor="#FFFFCC"> 
+              <td colspan="8" class="cabecalho_tabela" align="center"><b>Agentes para GNU/Linux</b></td>			  
+            </tr>
+            <tr bgcolor="#FFFFCC"> 
+              <td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>
+              <td bgcolor="#EBEBEB" class="cabecalho_tabela">Arquivo</td>
+              <td bgcolor="#EBEBEB" class="cabecalho_tabela">Tamanho(KB)</td>
+              <td align="center" colspan="3" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Vers&atilde;o</td>
+			  <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Hash</td>
+			  <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">For&ccedil;ar</td>			  
+            </tr>
+	 <?
+		$v_nomes_arquivos = array();	
+
+		while (false !== ($v_arquivo = readdir($handle))) 
+			if (substr($v_arquivo,0,1) != ".")
+				array_push($v_nomes_arquivos, $v_arquivo);	// Armazeno o nome do arquivo
+
+		for ($cnt_arquivos = 0; $cnt_arquivos < count($v_nomes_arquivos); $cnt_arquivos++)
+			{
+			$te_hash = hash_file('md5','../../repositorio/agentes_linux/'.$v_nomes_arquivos[$cnt_arquivos]);			
+			$v_dados_arquivo = lstat('../../repositorio/'.$v_nomes_arquivos[$cnt_arquivos]);
+
+			$arrNomeArquivo = explode('.tgz',$v_nomes_arquivos[$cnt_arquivos]);
+			$arrNomeArquivo = explode('_',$arrNomeArquivo[0]);
+			
+			echo '<tr>';
+			echo '<td><input name="update_subredes_'.$v_nomes_arquivos[$cnt_arquivos].'" id="update_subredes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="'.$v_nomes_arquivos[$cnt_arquivos].'"></td>';
+			echo '<td>'.$arrNomeArquivo[0].'</td>';										
+//			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/1024), 1, '', '.').'</td>';			
+			// Adequação ao resultado no Debian Etch
+			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/10240), 1, '', '.').'</td>';						
+			
+			echo '<td align="center" colspan="3">'.$arrNomeArquivo[1].'</td>';																
+			echo '<td align="center">'.$te_hash.'</td>';
+
+			echo '<td align="center"><input name="force_update_subredes_'.$v_nomes_arquivos[$cnt_arquivos].'" id="force_update_subredes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="'.$v_nomes_arquivos[$cnt_arquivos].'"></td></tr>';											
+			$v_agentes_versoes 	.= ($v_agentes_versoes<>''?'#':'');
+			$v_agentes_versoes 	.= $v_nomes_arquivos[$cnt_arquivos].'*'.$arrNomeArquivo[1];	
+
+			$v_agentes_hashs 	.= ($v_agentes_hashs<>''?'#':'');
+			$v_agentes_hashs	.= $v_nomes_arquivos[$cnt_arquivos].'*'.$te_hash;				
+			}
 
 		}
-	 ?>
+	echo '<input name="agentes_versoes" id="agentes_versoes" type="hidden" value="'.$v_agentes_versoes.'">';		
+	echo '<input name="agentes_hashs"   id="agentes_hashs"   type="hidden" value="'.$v_agentes_hashs.'">';			
+	?>
+	 
           </table></td>
-
       </tr>
     </table>
     <br>

@@ -15,13 +15,6 @@
  */
 
 session_start();
-/*
- * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
- */
-if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
-}
 
 require_once('../../include/library.php');
 
@@ -85,8 +78,8 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 		$v_array_redes = explode('__',str_replace('_fr_',"'",$v_array_parametros[1]));	
 
 		
-		//echo '_REQUEST[v_parametros] = '.$_REQUEST['v_parametros'].'<br>';
-		//echo 'v_array_parametros[1] = '.$v_array_parametros[1].'<br>';
+		echo '_REQUEST[v_parametros] = '.$_REQUEST['v_parametros'].'<br>';
+		echo 'v_array_parametros[1] = '.$v_array_parametros[1].'<br>';
 
 		if (count($v_array_redes)>0)
 			{

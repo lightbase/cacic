@@ -25,7 +25,7 @@ function preparaEnvio()
 				// Codificação dos campos NOME e SENHA para submissão pelo método POST
 				window.document.forms[i].elements[j].value = encode64(window.document.forms[i].elements[j].value);		
 	}
-	
+
 function SetaCampo(p_campo)
 	{
 	for (i=0;i<window.document.forms.length;i++)
@@ -116,9 +116,10 @@ function Trim(Dado)
   		}
   	return Result;
 	}	
-
-function VerificaRedeMascara(frmForm) 
+function VerRedeMascara(strFormName,boolPreencheIPs,boolConfirma) 
 	{
+	alert('1');
+	var frmForm 		 = document.getElementById(strFormName);
 	var arrIdIpRede      = (frmForm.frm_id_ip_rede.value).split('.');
 	var arrTeMascaraRede = (frmForm.frm_te_mascara_rede.value).split('.');
 	
@@ -153,14 +154,34 @@ function VerificaRedeMascara(frmForm)
   	var strOctetoMascara3	=	arrIdIpRede[2] | (arrTeMascaraRede[2] ^ 255);
   	var strOctetoMascara4	=  (arrIdIpRede[3] | (arrTeMascaraRede[3] ^ 255))-1;
 	
-	if (Confirma('ATENÇÃO:\n\nCom esta máscara, esta subrede atenderá à faixa "'+strOctetoRede1+'.'+strOctetoRede2+'.'+strOctetoRede3+'.'+strOctetoRede4+'" a "'+strOctetoMascara1+'.'+strOctetoMascara2+'.'+strOctetoMascara3+'.'+strOctetoMascara4+'"\n\n\nConfirma?'))
+	var strIPInicio      = strOctetoRede1    + '.' + strOctetoRede2    + '.' + strOctetoRede3    + '.' + strOctetoRede4;
+	var strIPFim         = strOctetoMascara1 + '.' + strOctetoMascara2 + '.' + strOctetoMascara3 + '.' + strOctetoMascara4;
+
+	if (boolPreencheIPs)
+		PreencheIPs(strFormName,strIPInicio,strIPFim);
+
+	if (boolConfirma && Confirma('ATENÇÃO:\n\nCom esta máscara, esta subrede atenderá à faixa "'+ strIPInicio+'" a "'+strIPFim+'"\n\n\nConfirma?'))
+		{
+		PreencheIPs(strFormName,strIPInicio,strIPFim);			
 		return true;
+		}
 	else
 		{
-		frmForm.frm_te_mascara_rede.select();			
-		frmForm.frm_te_mascara_rede.focus();
+		if (!boolPreencheIPs)
+			{
+			frmForm.frm_te_mascara_rede.select();			
+			frmForm.frm_te_mascara_rede.focus();
+			}
 		return false;
 		}
+	}
+
+function PreencheIPs(strFormName,strIPInicio,strIPFim)
+	{
+	alert('Recebí "'+strFormName+'"');
+	var frmForm 		 = document.getElementById(strFormName);		
+	frmForm.frm_id_ip_inicio.value 	= strIPInicio;
+	frmForm.frm_id_ip_fim.value 	= strIPFim;
 	}
 	
 function TestaIP(IP1, IP2, IP3, IP4) 
@@ -242,3 +263,4 @@ function TestaMascara(IP1, IP2, IP3, IP4)
     	} 
 	return 0;
   }	
+
