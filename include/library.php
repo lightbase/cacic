@@ -222,6 +222,28 @@ function Debug($p_ScriptFileName)
 			}
 		}
 	}
+
+/**
+ * Menu a ser apresentado ao usuario conforme o idioma selecionado
+ *
+ * @param string $_menu_name Nome do menu a ser pesquisado
+ * @return string Caminho do menu
+ */
+function getMenu($_menu_name) {
+       $_file_lang = 'language'.DIRECTORY_SEPARATOR.CACIC_LANGUAGE.DIRECTORY_SEPARATOR.$_menu_name;
+       if(is_file($_file_lang) and is_readable($_file_lang)) {
+               return $_file_lang;
+       }
+       else {
+               $_file_lang = 'language'.DIRECTORY_SEPARATOR.CACIC_LANGUAGE_STANDARD.DIRECTORY_SEPARATOR.$_menu_name;
+               if(is_file($_file_lang) and is_readable($_file_lang)) {
+                       return $_file_lang;
+               }
+               else return "Erro no menu (Menu error)!".$_file_lang;
+       }
+}
+
+
 // __________________________________________________________________
 // Apenas uma alternativa mais completa à função "stripos" do PHP5...
 // __________________________________________________________________
