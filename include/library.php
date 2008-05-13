@@ -13,8 +13,13 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-session_start();
-require_once 'config.php';
+
+@session_start();
+@define('CACIC',1);
+
+@include_once('config.php');
+require_once('define.php');
+
 if(!include_once( TRANSLATOR_PATH.'/Translator.php'))
   die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
 
