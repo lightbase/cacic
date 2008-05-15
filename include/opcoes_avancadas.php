@@ -53,7 +53,7 @@ if (!$forca_coleta_estacao=='OK')
 	{
 	?>
     <input name="v_todas_acoes_redes" type="checkbox" onClick="MarcaDesmarcaTodasAcoesRedes(this.checked)"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">				
-    <td width="453" nowrap class="label"><div align="left"><em><strong>Marca/Desmarca todas as A&ccedil;&otilde;es para todas as Redes abaixo</em></div></td>
+    <td width="453" nowrap class="label"><div align="left"><em><strong><?=$oTranslator->_('Marca/Desmarca todas as Acoes para todas as Redes abaixo');?></em></div></td>
 	<?
 	}
 ?>

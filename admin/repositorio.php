@@ -106,7 +106,7 @@ if ($_REQUEST['nm_arquivo'])
 			$v_dados_arquivo = lstat($_SERVER['DOCUMENT_ROOT'] . '/repositorio/'.$v_nomes_arquivos[$cnt_arquivos]);
 			echo '<tr>';
 			?>
-			<td><a href="repositorio.php?nm_arquivo=<? echo $v_nomes_arquivos[$cnt_arquivos];?>" onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao (');?><? echo $v_nomes_arquivos[$cnt_arquivos];?>)');"><img src="../imgs/lixeira.ico" width="20" height="20" border="0"></a></td>
+			<td><a href="repositorio.php?nm_arquivo=<? echo $v_nomes_arquivos[$cnt_arquivos];?>" onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao?');?><? echo $v_nomes_arquivos[$cnt_arquivos];?>)');"><img src="../imgs/lixeira.ico" width="20" height="20" border="0"></a></td>
 			<?
 			echo '<td>'.$v_nomes_arquivos[$cnt_arquivos].'</td>';										
 			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/1024), 1, '', '.').'</td>';			

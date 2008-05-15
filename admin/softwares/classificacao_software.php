@@ -2,13 +2,14 @@
 	// Relatorio de classificacao de softwares
 	// Essa variável é usada pelo arquivo de include selecao_redes_inc.php e inicio_relatorios_inc.php.
 	$id_acao = 'cs_coleta_hardware';
-  	require_once('../../include/inicio_relatorios_inc.php'); 
+  	require_once('../../include/inicio_relatorios_inc.php');
+	require_once('../../include/library.php'); 
 ?>
 <html>
 <body>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Formul&aacute;rio para classifica&ccedil;&atilde;o de softwares</td>
+    <td class="cabecalho"><?=$oTranslator->_('Formulario para classificacao de softwares');?></td>
   </tr>
 </table>
 <form action="../softwares.php" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
@@ -16,8 +17,7 @@
     <tr> 
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label">Selecione 
-              os softwares que deseja classificar:</td>
+            <td class="label"><?=$oTranslator->_('Selecione os softwares que deseja classificar:');?></td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -26,13 +26,13 @@
             <td height="1"><table border="0" cellpadding="0" cellspacing="0">
                 <tr> 
                   <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left">N&atilde;o classificados:</div></td>
+                  <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Nao classificados:');?></div></td>
                   <td>&nbsp;&nbsp;</td>
                   <td width="90">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela">Selecionados:</td>
+                  <td nowrap class="cabecalho_tabela"><?=$oTranslator->_('Selecionados:');?></td>
                   <td width="90">&nbsp;&nbsp;</td>
-		  <td nowrap class="cabecalho_tabela">Tipo do software:</td>
+		  <td nowrap class="cabecalho_tabela"><?=$oTranslator->_('Tipo do software:');?></td>
 		  <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 
@@ -98,7 +98,7 @@
       <td valign="top"> <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="        Classificar Softwares Selecionados        " onClick="SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['tiponovo'])" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+                <input name="submit" type="submit" value=" <?=$oTranslator->_('Classificar Softwares Selecionados');?> " onClick="SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['tiponovo'])" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
               </div></td>
           </tr>
           <tr> 

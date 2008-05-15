@@ -208,3 +208,54 @@ es_UR     kciq_msg license en_read                                              
 es_UR     kciq_msg license pt_read                                                                            instaladorinfo                lea en portugués
 es_UR     kciq_mnt_lang traducao                                                                              Manutençãoinfo                Idioma a traducir
 es_UR     kciq_mnt_tradutor                                                                                   Manutençãoinfo                Traducción de texto de CACIC
+es_UR     Configuracoes do Modulo Gerente                                                                     admin     info                Configuraciones del Modulo Gerente
+es_UR	  ATENCAO: Verifique os campos para notificacao de alteracao de hardware                              admin     info                 ATENCION: Verifique los campos para notificar las alteraciones de hardware
+es_UR     As opcoes abaixo determinam como o modulo gerente devera se comportar.                              admin     info                 Las opciones de abajo determinan el comportamiento del modulo gerente
+es_UR     Locais                                                                                              admin     info                 Locales
+es_UR     Nome da organizacao-empresa-orgao                                                                   admin     info                 Nombre de la organizacion-empresa-organo
+es_UR     E-mails para notificar alteracoes de hardware                                                       admin     info                 Correos para notificar las alteraciones del hardware
+es_UR     Atencao: informe os emails separados por virgulas                                                   admin     info                 Atencion: informe los correos separados por comas
+es_UR     Exemplo                                                                                             admin     info                 Ejemplo
+es_UR     Realizar notificacao caso haja alteracoes nas seguintes configuracoes de hardware                   admin     info                 Realizar notificaciones en caso de que hayan alteraciones en las siguientes configuraciones de hardware
+es_UR     Disponiveis                                                                                         admin     info                 Disponibles
+es_UR     Selecionadas                                                                                        admin     info                 Seleccionadas
+es_UR     Exibir Graficos na Pagina Principal e Detalhes                                                      admin     info                 Mostrar Graficos en la Pagina Principal y detalles
+es_UR     Dica: use SHIFT ou CTRL para selecionar multiplos itens                                             admin     info                 Ayuda: use SHIFT o CTRL para seleccionar multiples items
+es_UR     Servidor de Aplicacao padrao                                                                        admin     info                 Servidor de Aplicacion principal
+es_UR     Servidor de Updates padrao                                                                          admin     info                 Servidor de actualizaciones principal
+es_UR     Gravar informacoes                                                                                  admin     info                 Grabar informaciones
+es_UR     Configuracoes dos Modulos Agentes                                                                   admin     info                 Configuraciones de los modulos Agentes
+es_UR     As opcoes abaixo determinam qual sera o comportamento dos agentes do                                admin     info                 Las opciones de abajo determinan cual sera el comportamiento de los agentes del
+es_UR     Exibir o icone do CACIC na bandeja do Windows (systray)                                             admin     info                 Mostrar el icono de CACIC en la bandeja del Windows (systray)
+es_UR     ksiq_msg not                                                                                        admin     info                 No
+es_UR     Exibir erros criticos aos usuarios                                                                  admin     info                 Mostrar errores criticos a los usuarios
+es_UR     Senha usada para configurar e finalizar os agentes                                                  admin     info                 Clave utilizada para configurar y finalizar los agentes
+es_UR     Inicio de execucao das acoes                                                                        admin     info                 Inicio de ejecucion de las accciones
+es_UR     Imediatamente apos a inicializacao do CACIC                                                         admin     info                 Inmediatamente despues de la inicializacion de CACIC
+es_UR     10 minutos apos a inicializacao do CACIC                                                            admin     info                 10 minutos despues de la incializacion de CACIC
+es_UR     20 minutos apos a inicializacao do CACIC                                                            admin     info                 20 minutos despues de la incializacion de CACIC 
+es_UR     30 minutos apos a inicializacao do CACIC                                                            admin     info                 30 minutos despues de la incializacion de CACIC
+es_UR     1 hora apos a inicializacao do CACIC                                                                admin     info                 1 hora despues de la incializacion de CACIC
+es_UR     Intervalo de execucao das acoes                                                                     admin     info                 Intervalo de ejecucion de las acciones
+es_UR     A cada 2 horas                                                                                      admin     info                 Cada 2 horas
+es_UR     A cada 4 horas                                                                                      admin     info                 Cada 4 horas
+es_UR     A cada 6 horas                                                                                      admin     info                 Cada 6 horas
+es_UR     A cada 8 horas                                                                                      admin     info                 Cada 8 horas
+es_UR     A cada 10 horas                                                                                     admin     info                 Cada 10 horas
+es_UR     Opcoes avancadas                                                                                    admin     info                 Opciones avanzadas
+es_UR     Enderecos MAC a desconsiderar                                                                       admin     info                 Direcciones MAC a descartar
+es_UR     kciq_msg MAC Address Help                                                                           admin     info                 Estaq opcion tiene por finalidad informar a los agentes recolectores de informaciones de TCP/IP acerca de las direcciones MAC invalidas, o sea, las direcciones utilizadas como padrones en protocolos y/o dispoisitivos diferentes de TCP/Ethernet. Los recolectores consideraran solo las direcciones MAC diferentes o que no contengan informaciones aqui recolectadas, pudiendo ser partes de
+es_UR     Atencao: informe os enderecos separados por virgulas                                                admin     info                 Atencion: informe las direcciones separadas por comas
+es_UR     Aplicativos (janelas) a evitar                                                                      admin     info                 Aplicaciones (ventanas) a evitar
+es_UR     Evita que o Gerente de Coletas seja acionado enquanto tais aplicativos (janelas) estiverem ativos   admin     info                 Evita que el Gerente de Recoleccion sea accionado cuando estas aplicaciones (ventanas) esten activas
+es_UR     Atencao: informe os nomes separados por virgulas                                                    admin     info                 Atencion: informe los nombres separados por comas
+es_UR     Induzir o envio das informacoes coletadas                                                           admin     info                 Forzar el envio de las informaciones recolectadas
+es_UR     kciq_msg help - Induzir o envio das informacoes coletadas                                           admin     info                 Por padron, los agentes de CACIC solo enviaran las informaciones recolectadas para el servidor en caso que sea idnetificado alguna alteracion en relacion con la recoleccion anterior. Abajo estan relacionadas las acciones de recoleccion posibles y las redes habilitadas via opcion Administracion/Modulos. en caso que que selecciones alguna red abajo, el envio de las informaciones recolectadas seran forzadas, o sea, las informaciones seran enviadas al Módulo Gerente aunque sean identicas a la de la ultima recoleccion.
+es_UR     Ação                                                                                                admin     info                 Accion
+es_UR     Marca/Desmarca todas as Acoes para todas as Redes abaixo                                            admin     info                 Marca/Desmarca todas las acciones para todas las redes de abajo
+es_UR     Formulario para classificacao de softwares                                                          admin     info                 Formulario para la clasificacion de softwares
+es_UR     Selecione os softwares que deseja classificar:                                                      admin     info                 Seleccione los softwares que desea clasificar:
+es_UR     Nao classificados:                                                                                  admin     info                 No clasificados
+es_UR     Selecionados:                                                                                       admin     info                 Seleccionados
+es_UR     Tipo do software:                                                                                   admin     info                 Tipo de software
+es_UR     Classificar Softwares Selecionados                                                                  admin     info                 Clasificar softwares Seleccionados
