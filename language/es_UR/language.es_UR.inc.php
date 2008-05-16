@@ -317,3 +317,59 @@ es_UR     Totais de Redes Alvo                                                  
 es_UR     Verificacao Ativa                                                                                   admin     info                 Verificacion Activa
 es_UR     sim                                                                                                 admin     info                 SI
 es_UR     nao                                                                                                 admin     info                 NO
+es_UR     Cadastro de usuarios                                                                                admin     info                 Registro de Usuarios
+es_UR     Neste modulo deverao ser cadastrados os usuarios que acessarao o sistema.                           admin     info                 En este modulo deberan ser registrados los usuarios que accederan al sistema.
+es_UR     Incluir novo usuario                                                                                admin     info                 Incluir nuevo Usuario
+es_UR     Acesso                                                                                              admin     info                 Acceso
+es_UR     Data                                                                                                admin     info                 Fecha
+es_UR     Local/Rede                                                                                          admin     info                 Local/Red
+es_UR     Estacao                                                                                             admin     info                 Estacion
+es_UR     Sistema Operacional                                                                                 admin     info                 Sistema Operativo
+es_UR     Usuario                                                                                             admin     info                 Usuario
+es_UR     Motivo                                                                                              admin     info                 Motivo
+es_UR     Resumo das Tentativas de Instalacao                                                                 admin     info                 Resumen de las tentativas de Instalacion
+es_UR     Quant.                                                                                              admin     info                 Cant.
+es_UR     Motivo                                                                                              admin     info                 Motivo
+es_UR     Acoes - Configuracoes                                                                               admin     info                 Acciones - Configuraciones
+es_UR     Nao foi selecionada nenhuma rede. Deseja continuar?                                                 admin     info                 No fue seleccionada ninguna red. Desea continuar?
+es_UR     Nao foi selecionado nenhum sistema operacional. Deseja continuar?                                   admin     info                 No fue seleccionado ningun sistema operativo. Desea continuar?
+es_UR     Onde executar essa acao-configuracao                                                                admin     info                 Donde ejecutar esta accion-configuracion
+es_UR     Desabilitar acao-configuracao nas redes                                                             admin     info                 Deshabilitar accion-configuracion en las redes
+es_UR     Habilitar acao-configuracao em todas as redes                                                       admin     info                 Habilitar accion-configuracion en todas las redes
+es_UR     Apenas nas redes selecionadas                                                                       admin     info                 Solo en las redes seleccionadas
+es_UR     Disponiveis                                                                                         admin     info                 Disponibles
+es_UR     Selecionadas                                                                                        admin     info                 Seleccionadas
+es_UR     Sistemas Operacionais onde essa acao-configuracao devera ser aplicada                               admin     info                 Sistemas Operativos donde esta accion-configuracion deberan ser aplicados
+es_UR     Computadores onde esta acao-configuracao nao devera ser aplicada                                    admin     info                 Computadoras donde esta accion-configuracion no deberan ser aplicados
+es_UR     Informe o endereco MAC do computador.                                                               admin     info                 Informe la MAC de la computadora
+es_UR     Relatorio de Autorizacoes Cadastradas                                                               admin     info                 Reporte de Autorizaciones Registradas
+es_UR     Gerado em                                                                                           admin     info                 Generado el
+es_UR     Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou                                         admin     info                 Ocurrio un error en el acceso a la tabla %1 o su sesion expiro
+es_UR     Patrimonio                                                                                          admin     info                 Patrimonio
+es_UR     Nome da rede                                                                                        admin     info                 Nombre de la Red
+es_UR     Observacao                                                                                          admin     info                 Observacion
+es_UR     Excluir Computadores                                                                                admin     info                 Excluir Computadoras
+es_UR     Esta opcao permite a selecao final para exclusao dos computadores selecionados na pesquisa          admin     info                 Esta opcion permite la seleccion final para la exclusion de las computadoras seleccionadas en la busqueda
+es_UR     Excluir computadores selecionados                                                                   admin     info                 Excluir computadoras seleccionadas
+es_UR     Selecionar novamente                                                                                admin     info                 Seleccionar nuevamente
+es_UR     Nome da maquina                                                                                     admin     info                 Nombre de la maquina
+es_UR     Endereco IP                                                                                         admin     info                 Direccion IP
+es_UR     Endereco MAC                                                                                        admin     info                 Direccion MAC
+es_UR     Ultimo acesso                                                                                       admin     info                 ultimo acceso
+es_UR     Inclusao                                                                                            admin     info                 Inclusion
+es_UR     Nao foram encontrados registros                                                                     admin     info                 No fueron encontrados registros
+es_UR     Eh necessario informar ao menos uma condicao para pesquisa                                          admin     info                 Es necesario informar al menos una condicion para la busqueda
+es_UR     Selecionar computadores para exclusao                                                               admin     info                 Seleccionar computadoras para excluir
+es_UR     Campo                                                                                               admin     info                 Campo
+es_UR     Condicao                                                                                            admin     info                 Condicion
+es_UR     Valor para pesquisa                                                                                 admin     info                 Valor para la busqueda
+es_UR     Igual a                                                                                             admin     info                 Igual a
+es_UR     MAIOR QUE                                                                                           admin     info                 Mayor que
+es_UR     MENOR QUE                                                                                           admin     info                 Menor que
+es_UR     CONTENHA                                                                                            admin     info                 Contenga
+es_UR     NAO CONTENHA                                                                                        admin     info                 No Contenga
+es_UR     INICIE COM                                                                                          admin     info                 Inicie con
+es_UR     TERMINE COM                                                                                         admin     info                 Termine con
+es_UR     SEJA VAZIO                                                                                          admin     info                 Sea Vacio
+es_UR     SEJA NULO                                                                                           admin     info                 Sea Nulo
+es_UR     

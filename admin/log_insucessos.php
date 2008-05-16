@@ -158,17 +158,17 @@ $result = mysql_query($query);
             <td></td>
             <td></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left">Data</div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Data');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left">Local/Rede </div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Local/Rede');?> </div></td>
             <td nowrap class="cabecalho_tabela">&nbsp;</td>
-            <td nowrap class="cabecalho_tabela"><div align="left">Esta&ccedil;&atilde;o </div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Estacao');?> </div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left">Sistema Operacional</div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Sistema Operacional');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left">Usu&aacute;rio</div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Usuario');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left">Motivo</div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Motivo');?></div></td>
             <td></td>
           	</tr>
           	<tr> 
@@ -267,15 +267,15 @@ $result = mysql_query($query);
 	  </table>
 				<table width="293" border="0" align="center" cellpadding="0" cellspacing="1">
 				<tr> 
-				<td colspan="3" nowrap><div align="center"><font color="#004080" size="4">Resumo 
-				das Tentativas de Instala&ccedil;&atilde;o</font></div></td>
+				<td colspan="3" nowrap><div align="center"><font color="#004080" size="4">
+				<?=$oTranslator->_('Resumo das Tentativas de Instalacao');?></font></div></td>
 				</tr>
 				<tr> 
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong>Data</strong></font></div></td>
-				<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Data');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
@@ -322,8 +322,8 @@ $result = mysql_query($query);
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong>Rede</strong></font></div></td>
-				<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Rede');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?=$oTranslator->('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
@@ -370,8 +370,8 @@ $result = mysql_query($query);
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong>Estação</strong></font></div></td>
-				<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Estacao');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
@@ -419,8 +419,8 @@ $result = mysql_query($query);
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong>Sistema Operacional</strong></font></div></td>
-				<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Sistema Operacional');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
@@ -465,8 +465,8 @@ $result = mysql_query($query);
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong>Usuário</strong></font></div></td>
-				<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Usuario');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');</strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
@@ -511,8 +511,8 @@ $result = mysql_query($query);
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong>Motivo</strong></font></div></td>
-				<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Motivo');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
