@@ -63,7 +63,7 @@ $result = mysql_query($query);
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title>Log de Insucessos na Instala&ccedil;&atilde;o</title>
+<title><?=$oTranslator->_('Log de Insucessos nas Instalacoes dos Agentes');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 <style type="text/css">
@@ -79,19 +79,17 @@ $result = mysql_query($query);
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><div align="left">Log de Insucessos nas Instala&ccedil;&otilde;es dos Agentes</div></td>
+    <td class="cabecalho"><div align="left"><?=$oTranslator->_('Log de Insucessos nas Instalacoes dos Agentes');?></div></td>
   </tr>
   <tr> 
-      <td class="descricao">Este m&oacute;dulo permite a visualiza&ccedil;&atilde;o 
-        das tentativas de instala&ccedil;&atilde;o dos agentes cujos resultados tenham obtido INSUCESSO.</td>
+      <td class="descricao"><?=$oTranslator->_('ksiq_msg insuceso help');?></td>
   </tr>
 </table>
 	<p><br></p>
 	
   <table width="90%" border="0" cellpadding="0" cellspacing="1" align="center">
     <tr> 
-      <td class="label" colspan="3">Selecione o per&iacute;odo em que dever&aacute; 
-        ser realizada a consulta:</td>
+      <td class="label" colspan="3"><?=$oTranslator->_('Selecione o periodo em que devera ser realizada a consulta:');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="2"></td>

@@ -56,7 +56,7 @@ $query = 'SELECT 	*
 $result = mysql_query($query);
 $msg = '<div align="center">
 		<font color="#c0c0c0" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-		Clique nas Colunas para Ordenar</font><br><br></div>';				
+		'.$oTranslator->_('Clique nas Colunas para Ordenar').'</font><br><br></div>';				
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -72,18 +72,17 @@ $msg = '<div align="center">
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 
-      <td class="cabecalho">Cadastro de Subredes</td>
+      <td class="cabecalho"><?=$oTranslator->_('Cadastro de Subredes');?></td>
   </tr>
   <tr> 
-      <td class="descricao">Neste m&oacute;dulo dever&atilde;o ser cadastradas 
-        todas as subredes onde os agentes do CACIC ser&atilde;o instalados.</td>
+      <td class="descricao"><?=$oTranslator->_('ksiq_msg subredes help');?></td>
   </tr>
 </table>
 <br><table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
 
-          <input name="submit" type="submit" id="submit" value="  Incluir Nova Subrede " <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Nova Subrede');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 
         
       </div></td>
@@ -104,11 +103,11 @@ $msg = '<div align="center">
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=id_ip_rede">Endere&ccedil;o/M&aacute;scara</a></div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=id_ip_rede"><?=$oTranslator->_('Endereco/Mascara');?></a></div></td>
             <td nowrap >&nbsp;</td>
-            <td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede">Subrede</a></div></td>
+            <td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede"><?=$oTranslator->_('Subrede');?></a></div></td>
             <td nowrap >&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local,nm_rede">Local</a></div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local,nm_rede"><?=$oTranslator->_('Local');?></a></div></td>
             <td nowrap >&nbsp;</td>
           </tr>
   	<tr> 
@@ -120,7 +119,7 @@ if(@mysql_num_rows($result)==0)
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhuma rede cadastrada ou sua sessão expirou!</font><br><br></div>';				
+				'.$oTranslator->_('Nenhuma rede cadastrada ou sua sessao expirou!').'</font><br><br></div>';				
 	}
 else 
 	{
@@ -160,7 +159,7 @@ else
   <tr> 
     <td><div align="center">
 
-          <input name="submit" type="submit" id="submit" value="  Incluir Nova Subrede" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Nova Subrede');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 
         
       </div></td>

@@ -1,7 +1,6 @@
 <? 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
-
  Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
 
  O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
@@ -14,6 +13,7 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
+
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
@@ -76,7 +76,7 @@ $query = 'SELECT 	*
 $result = mysql_query($query);
 $msg = '<div align="center">
 		<font color="#c0c0c0" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-		Clique nas Colunas para Ordenar</font><br><br></div>';				
+		'.$oTranslator->_('Clique nas Colunas para Ordenar').'</font><br><br></div>';				
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -92,18 +92,16 @@ $msg = '<div align="center">
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 
-      <td class="cabecalho">Cadastro de Local</td>
+      <td class="cabecalho"><?=$oTranslator->_('Cadastro de Local');?></td>
   </tr>
   <tr> 
-      <td class="descricao">Neste m&oacute;dulo dever&atilde;o ser cadastrados 
-        todos os locais origin&aacute;rios de chamada ao sistema, para poss&iacute;vel 
-        controle centralizado.</td>
+      <td class="descricao"><?=$oTranslator->_('ksiq_msg cadastro help');?></td>
   </tr>
 </table>
 <br><table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
-          <input name="submit" type="submit" id="submit" value="Incluir Informa&ccedil;&otilde;es de Novo Local" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Informacoes de Novo Local');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
       </div></td>
   </tr>
   <tr> 
@@ -124,13 +122,13 @@ $msg = '<div align="center">
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local">Sigla</a></div></td>
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_local">Descri&ccedil;&atilde;o</a></div></td>
+          <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_local"><?=$oTranslator->_('Descripcao');?></a></div></td>
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="left"> Redes</div></td>
+          <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Redes');?></div></td>
           <td nowrap class="cabecalho_tabela">&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="left"> Usu&aacute;rios Prim&aacute;rios </div></td>
+          <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Usuarios Primarios');?> </div></td>
           <td nowrap class="cabecalho_tabela">&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="left"> Usu&aacute;rios Secund&aacute;rios </div></td>
+          <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Usuarios Secundarios');?> </div></td>
           <td nowrap >&nbsp;</td>
         </tr>
   	<tr> 
@@ -223,7 +221,7 @@ else
   	</tr>
   	<tr> 
     <td><div align="center">
-  	<input name="submit" type="submit" id="submit" value="Incluir Informa&ccedil;&otilde;es de Novo Local" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
+  	<input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Informacoes de Novo Local');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
   	</div></td>
   	</tr>
 	</table>

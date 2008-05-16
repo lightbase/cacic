@@ -18,6 +18,7 @@
 <tr> 
 <td class="label">  
 <?
+require_once "../include/library.php";
 $query = "SELECT 	*
 		  FROM 		locais ".
 		  $whereLocais . "
@@ -31,7 +32,7 @@ $result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabel
 		   	$itens_combo_locais = $itens_combo_locais . '<option value="' . $campos['id_local']. '">' . $campos['sg_local'] . '</option>';
 			}  
 			?>
-         Selecione os locais: 
+         <?=$oTranslator->_('Selecione os locais:');?> 
           <tr> 
             <td height="1" bgcolor="#333333"></td>
           </tr>
@@ -39,11 +40,11 @@ $result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabel
 			
                 <tr> 
                   <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left">Dispon&iacute;veis:</div></td>
+                  <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Disponiveis:');?></div></td>
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela"><span class="necessario">*</span>Selecionados:<br></td>
+	  <td nowrap class="cabecalho_tabela"><span class="necessario">*</span><?=$oTranslator->_('Selecionados:');?><br></td>
                   <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 
@@ -68,7 +69,7 @@ $result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabel
                   <td>&nbsp;</td>
                 </tr>
           <tr> 
-            <td colspan="6" class="descricao">&nbsp;&nbsp;(Dica: use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
+            <td colspan="6" class="descricao">(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)</td>
           </tr>
 				
               </table></td>

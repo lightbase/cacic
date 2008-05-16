@@ -259,3 +259,61 @@ es_UR     Nao classificados:                                                    
 es_UR     Selecionados:                                                                                       admin     info                 Seleccionados
 es_UR     Tipo do software:                                                                                   admin     info                 Tipo de software
 es_UR     Classificar Softwares Selecionados                                                                  admin     info                 Clasificar softwares Seleccionados
+es_UR     Exclusao de Softwares nao Associados a nenhuma maquina                                              admin     info                 Excluir Softwares no asociados a ninguna maquina
+es_UR     ksiq_msg help Exclusao                                                                              admin     info                 Exibe los softwares inventariados en las computadoras que no estan asociados a ninguna maquina
+es_UR     Selecione os softwares que deseja remover: (Softwares nao classificados e softwares lixo)           admin     info                 Seleccione los softwares que desea remover: (Softwares no clasificados y software basura)
+es_UR     Nao instalados:                                                                                     admin     info                 No instalados:
+es_UR     Selecionados:                                                                                       admin     info                 Seleccionados:
+es_UR     Dica: use SHIFT ou CTRL para selecionar multiplos itens                                             admin     info                 Ayuda: use SHIFT o CTRL para seleccionar multiples items
+es_UR     Remover Softwares da Base de Dados                                                                  admin     info                 Remover software de la base de datos
+es_UR     Nao e executado em nenhuma rede                                                                     admin     info                 No es ejecutado en ninguna red
+es_UR     Executado apenas nas redes selecionadas                                                             admin     info                 Ejecutado solo en las redes seleccionadas
+es_UR     Executado em todas as redes                                                                         admin     info                 Ejecutado en todas las redes
+es_UR     Log de Acessos                                                                                      admin     info                 Log de Accesos
+es_UR     kciq_msg Log de acessos help                                                                        admin     info                 Este modulo permite la visualizacion de los accesos efectuados en el sistema. Es  posible visualizar las actividades ejecutadas por el usuario en una fecha, basta clickear sobre una de sus informaciones.
+es_UR     Selecione o periodo no qual devera ser realizada a consulta                                         admin     info                 Seleccione el periodo en el cual debera ser realizada la consulta
+es_UR     Formato da data                                                                                     admin     info                 Formato de fecha
+es_UR     Nenhum acesso realizado no período informado                                                        admin     info                 Ningun acceso fue realizado en el periodo informado
+es_UR     Disponiveis:                                                                                        admin     info                 Disponibles:
+es_UR     Log de Atividades                                                                                   admin     info                 Log de Actividades
+es_UR     kciq_msg Log de atividades help                                                                     admin     info                 Este modulo permite la visualizacion de las actividades realizadas con el uso de las operaciones de INSERT/UPDATE/DELETE ocurridas en el Sistema CACIC. Una ordenacion de las columnas podrá ser definida clickeando en sus nombres.
+es_UR     Quantidade                                                                                          admin     info                 Cantidad
+es_UR     Percentual                                                                                          admin     info                 Porcentual
+es_UR     Retorna para                                                                                        admin     info                 Vuelve a
+es_UR     Resumo das Operacoes                                                                                admin     info                 Resumen de las Operaciones
+es_UR     Selecione os locais:                                                                                admin     info                 Seleccione los locales:
+es_UR     Log de Insucessos nas Instalacoes dos Agentes                                                       admin     info                 Log de insucesos en las instalaciones de los Agentes
+es_UR     ksiq_msg insuceso help                                                                              admin     info                 Este modulo permite la visualizacion de las tentativas de instalacion de los agentes cuyos resultados sean un INSUCESO.
+es_UR     Selecione o periodo em que devera ser realizada a consulta:                                         admin     info                 Seleccione el periodo en que debera ser realizada la consulta:
+es_UR     Formulario para importar dados de aquisicoes                                                        admin     info                 Formulario para importar datos de adquisiciones
+es_UR     Formulario para importar dados de itens de aquisicoes                                               admin     info                 Formulario para importar datos de items de adquisiciones
+es_UR     Formulario para importar dados de software                                                          admin     info                 Formulario para importar datos de software
+es_UR     Cadastro de Aquisicoes                                                                              admin     info                 Registro de Adquisiciones
+es_UR     Informe o periodo em que foi realizada a aquisicao:                                                 admin     info                 Informe el periodo en que fue realizada la adquisicion:
+es_UR     Informe o numero do processo:                                                                       admin     info                 Informe el numero del proceso:
+es_UR     Incluir Aquisicao                                                                                   admin     info                 Incluir adquisicion
+es_UR     Voce deve informar a data de aquisicao.                                                             admin     info                 Usted debe informar la fecha de la adquisicion
+es_UR     Voce deve informar o numero do processo no formato aaaa/nnnnnn.                                     admin     info                 Usted debe informar el numero de procesos en el formato aaaa/nnnnnn.
+es_UR     Cadastro de Local                                                                                   admin     info                 Registro de locales
+es_UR     ksiq_msg cadastro help                                                                              admin     info                 En este modulo deberan ser registrados todos los locales originales al sistema, para que sea posible el control centralizado
+es_UR     Incluir Informacoes de Novo Local                                                                   admin     info                 Incluir informaciones del Nuevo Local
+es_UR     Descripcao                                                                                          admin     info                 Descripcion
+es_UR     Redes                                                                                               admin     info                 Redes
+es_UR     Usuarios Primarios                                                                                  admin     info                 Usuarios Primarios
+es_UR     Usuarios Secundarios                                                                                admin     info                 Usuarios Secundarios
+es_UR     Clique nas Colunas para Ordenar                                                                     admin     info                 Clickee en las columnas para Ordenar
+es_UR     Cadastro de Subredes                                                                                admin     info                 Registro de Subredes
+es_UR     ksiq_msg subredes help                                                                              admin     info                 En este modulo deberan ser registradas todas las subredes donde los agentes de CACIC seran instalados.
+es_UR     Incluir Nova Subrede                                                                                admin     info                 Incluir Subred Nueva
+es_UR     Endereco/Mascara                                                                                    admin     info                 Direccion/Mascara
+es_UR     Subrede                                                                                             admin     info                 Subred
+es_UR     Local	                                                                                              admin     info                 Local
+es_UR     Nenhuma rede cadastrada ou sua sessao expirou!                                                      admin     info                 Ninguna red fue registrada o su sesion expiro!
+es_UR     Cadastro de Perfis de Sistemas Monitorados                                                          admin     info                 Registro de Perfiles de los Sistemas Monitoreados
+es_UR     ksiq_msg perfis                                                                                     admin     info                 En este modulo deberan ser registrados los perfiles de los sistemas que seran monitoreados por CACIC.
+es_UR     Incluir Novo Perfil de Sistema                                                                      admin     info                 Inlcuir Nuevo Perfil de Sistema
+es_UR     Sistema Monitorado                                                                                  admin     info                 Sistema Monitoreado
+es_UR     Totais de Redes Alvo                                                                                admin     info                 Total de Redes incluidas
+es_UR     Verificacao Ativa                                                                                   admin     info                 Verificacion Activa
+es_UR     sim                                                                                                 admin     info                 SI
+es_UR     nao                                                                                                 admin     info                 NO

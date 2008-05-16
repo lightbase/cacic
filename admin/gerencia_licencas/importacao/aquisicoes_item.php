@@ -49,7 +49,7 @@ if ($_POST['consultar']) {
 <form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
 <table width="90%" border="0" align="center">
 <tr> 
-<td class="cabecalho">Formul&aacute;rio para importar dados de &iacute;tens de aquisi&ccedil;&otilde;es</td>
+<td class="cabecalho"><?=$oTranslator->_('Formulario para importar dados de itens de aquisicoes');?></td>
 </tr>
 <tr> 
 <td>&nbsp;</td>

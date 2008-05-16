@@ -77,20 +77,17 @@ $result = mysql_query($query);
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Cadastro 
-      de Perfis de Sistemas Monitorados</td>
+    <td class="cabecalho"><?=$oTranslator->_('Cadastro de Perfis de Sistemas Monitorados');?></td>
   </tr>
   <tr> 
-    <td class="descricao">Neste m&oacute;dulo 
-      dever&atilde;o ser cadastrados os perf&iacute;s dos sistemas a serem monitorados 
-      pelo CACIC.</td>
+    <td class="descricao"><?=$oTranslator->_('ksiq_msg perfis');?></td>
   </tr>
 </table>
 <br><table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
 
-          <input name="submit" type="submit" id="submit" value="  Incluir Novo Perfil de Sistema  " <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Novo Perfil de Sistema');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
 
         
       </div></td>
@@ -111,12 +108,11 @@ $result = mysql_query($query);
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Sistema 
-              Monitorado</div></td>
+          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Sistema Monitorado');?></div></td>
           <td nowrap >&nbsp;</td>
-            <td nowrap  class="cabecalho_tabela">Totais de Redes Alvo</td>
+            <td nowrap  class="cabecalho_tabela"><?=$oTranslator->_('Totais de Redes Alvo');?></td>
             <td nowrap  class="cabecalho_tabela">&nbsp;</td>
-            <td nowrap  class="cabecalho_tabela">Verifica&ccedil;&atilde;o Ativa</td>
+            <td nowrap  class="cabecalho_tabela"><?=$oTranslator->_('Verificacao Ativa');?></td>
         </tr>
 	  <tr> 
     	<td height="1" bgcolor="#333333" colspan="8"></td>
@@ -161,9 +157,9 @@ else
         <td nowrap 
 		<?
 		if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
-			echo 'class="destaque_laranja"><div align="center">NÃO'; 
+			echo 'class="destaque_laranja"><div align="center">'.$oTranslator->_('nao'); 
 		else
-			echo 'class="opcao_tabela"><div align="center">SIM'; 
+			echo 'class="opcao_tabela"><div align="center">'.$oTranslator->_('sim'); 
 		?>
 		</td>
 		<?
@@ -185,7 +181,7 @@ else
   </tr>
   <tr> 
     <td><div align="center">
-          <input name="submit" type="submit" id="submit" value="  Incluir Novo Perfil de Sistema  " <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>       
+          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Novo Perfil de Sistema');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>       
       </div></td>
   </tr>
 </table>
