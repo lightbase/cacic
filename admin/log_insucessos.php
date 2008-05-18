@@ -323,7 +323,7 @@ $result = mysql_query($query);
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
 				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Rede');?></strong></font></div></td>
-				<td><div align="right"><font size="2"><strong><?=$oTranslator->('Quant.');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
@@ -466,7 +466,7 @@ $result = mysql_query($query);
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
 				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Usuario');?></strong></font></div></td>
-				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');</strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 

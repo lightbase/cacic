@@ -39,7 +39,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /**
  * define o nome do arquivo SQL para inserir dados BASE do CACIC
  */
- define( 'CACIC_SQLFILE_STDDATA', 'cacic_dados_basicos.sql');
+ define( 'CACIC_SQLFILE_STDDATA', 'cacic_dados_basicos-LANGUAGE.sql');
 
 /**
  * define o nome do arquivo SQL para inserir dados de DEMONSTRAÇÃO base do CACIC
@@ -62,7 +62,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  * que deverá existir na pasta "sql" do instalador 
  * Sintaxe: array( 'JUN2005'=>'Junho de 2005', 'FEV2006'=>'Fevereiro de 2006' )
  */
- $cacic_updateFromVersion = array( 'JUN2005'=>'Junho de 2005',
+ $cacic_updateFromVersion = array( 'JUN2005'=>'junho de 2005',
+                                   'FEV2006'=>'fevereiro de 2006',
                                    'v2.2.2'=>'Versão 2.2.2'
                                  );
 

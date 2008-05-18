@@ -8,7 +8,7 @@
 
 /*!40000 ALTER TABLE `acoes` DISABLE KEYS */;
 INSERT INTO `acoes` (`id_acao`, `te_descricao_breve`, `te_descricao`, `te_nome_curto_modulo`, `dt_hr_alteracao`, `cs_situacao`) VALUES 
-('cs_auto_update','Auto Actualizacion de los Agentes','Esta accion permite que sea realizada una auto actualizacion de los agentes de CACIC en las computadoras donde los agentes son ejecutados. \r\n\r\n',NULL,'0000-00-00 00:00:00',NULL)
+('cs_auto_update','Auto Actualizacion de los Agentes','Esta accion permite que sea realizada una auto actualizacion de los agentes de CACIC en las computadoras donde los agentes son ejecutados. \r\n\r\n',NULL,'0000-00-00 00:00:00',NULL),
 ('cs_coleta_compart','Recolecta Informaciones de Directorios e impresoras compartidas','Esta accion permite que sean recolectadas informaciones sobre directorios e impresoras compartidas de las computadoras donde los agentes estan instalados.','COMP','0000-00-00 00:00:00',NULL),
 ('cs_coleta_hardware','Recolecta Informaciones de Hardware','Esta accion permite que sean recolectadas diversas informaciones sobre el hardware de las computadoras donde los agentes estan instalados, tales como Memoria, Tarjeta de Vídeo, CPU, Discos Duros, BIOS, Tarjeta de Red, Placa Madre, etc.','HARD','0000-00-00 00:00:00',NULL),
 ('cs_coleta_monitorado','Recolecta Informaciones sobre los Sistemas Monitoreados','Esta accion permite que sean recolectadas, en las estaciones donde los agentes Cacic estan instalados, las informaciones acerca de los perfiles de los sistemas, previamente registrados por la Administracion Central.','MONI','0000-00-00 00:00:00',NULL),
@@ -74,7 +74,7 @@ INSERT INTO `descricao_hardware`
             ('te_placa_som_desc','Tarjeta de sonido','1'),
             ('te_placa_video_desc','Tarjeta de Video','1'),
             ('te_placa_video_resolucao','Resolucion Tarjeta de Video','0'),
-            ('te_teclado_desc','Teclado','1')
+            ('te_teclado_desc','Teclado','1');
 /*!40000 ALTER TABLE `descricao_hardware` ENABLE KEYS */;
 
 --
