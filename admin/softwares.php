@@ -70,11 +70,11 @@ $v_atualizei = '';
 if (count($_SESSION["list6"]) == 0) {
 	$mensagemErro = 'Selecione pelo menos 1 software.<BR>';
 	if ($_POST['tiponovo'] == '') {
-		$mensagemErro = $mensagemErro . $oTranslator->_('Informe a classificação para o software.').'<BR>';
+		$mensagemErro = $mensagemErro . $oTranslator->_('Informe a classificacao para o software.').'<BR>';
 	}
 } else
 	if ($_POST['tiponovo'] == '') {
-		$mensagemErro = $oTranslator->_('Informe a classificação para o software.').'<BR>'; 
+		$mensagemErro = $oTranslator->_('Informe a classificacao para o software.').'<BR>'; 
 	}
 	else {
 		//Pego os aplicativos selecionados para o relatório

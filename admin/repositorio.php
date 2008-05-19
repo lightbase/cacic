@@ -32,13 +32,13 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 if ($_REQUEST['nm_arquivo'])
 	{if(!@unlink($_SERVER['DOCUMENT_ROOT'] . '/repositorio/'.$_REQUEST['nm_arquivo']))
 		{
-		echo '<script>alert("'.$oTranslator->_('Nao foi possível excluir o arquivo %1. Verifique as permissoes de escrita no diretorio repositorio!', array($_REQUEST['nm_arquivo'])).'")</script>';
+		echo '<script>alert("'.$oTranslator->_('Nao foi possivel excluir o arquivo %1. Verifique as permissoes de escrita no diretorio repositorio!', array($_REQUEST['nm_arquivo'])).'")</script>';
 		}
 	else
 		{
 		conecta_bd_cacic();
 		$query = "DELETE from redes_versoes_modulos WHERE nm_modulo = '".$_REQUEST['nm_arquivo']."'";
-		$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro durante exclusão de referência em %1 ou sua sessão expirou!', array('redes_versoes_modulos')));		
+		$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro durante exclusao de referencia em %1 ou sua sessao expirou!', array('redes_versoes_modulos')));		
 		}
 	}
 
@@ -72,7 +72,7 @@ if ($_REQUEST['nm_arquivo'])
       </tr>
       <tr> 
         <td nowrap align="center" colspan="4" class="<? echo $v_classe; ?>"><br>
-          <?=$oTranslator->_('Conteúdo do repositorio');?>:</td>
+          <?=$oTranslator->_('Conteudo do repositorio');?>:</td>
       </tr>
       <tr> 
         <td colspan="4" height="1" bgcolor="#333333"></td>

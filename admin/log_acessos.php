@@ -156,7 +156,7 @@ require_once('../include/selecao_listbox.js');
 		{
 		$msg = '<div align="center">
 		<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">'.
-		$oTranslator->_('Nenhum acesso realizado no período informado').'</font><br><br></div>';
+		$oTranslator->_('Nenhum acesso realizado no periodo informado').'</font><br><br></div>';
 
 		$where_usuarios = '';
 	
