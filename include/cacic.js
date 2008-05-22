@@ -118,7 +118,6 @@ function Trim(Dado)
 	}	
 function VerRedeMascara(strFormName,boolPreencheIPs,boolConfirma) 
 	{
-	alert('1');
 	var frmForm 		 = document.getElementById(strFormName);
 	var arrIdIpRede      = (frmForm.frm_id_ip_rede.value).split('.');
 	var arrTeMascaraRede = (frmForm.frm_te_mascara_rede.value).split('.');
@@ -178,8 +177,7 @@ function VerRedeMascara(strFormName,boolPreencheIPs,boolConfirma)
 
 function PreencheIPs(strFormName,strIPInicio,strIPFim)
 	{
-	alert('Recebí "'+strFormName+'"');
-	var frmForm 		 = document.getElementById(strFormName);		
+	var frmForm = document.getElementById(strFormName);		
 	frmForm.frm_id_ip_inicio.value 	= strIPInicio;
 	frmForm.frm_id_ip_fim.value 	= strIPFim;
 	}

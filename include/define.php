@@ -87,6 +87,14 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  	define( 'CACIC_PHPRG', 'on');
 
 /**
+ * define a Short_open_tag para executar PHP para o CACIC
+ */
+ if(isset($cacic_short_open_tag))
+ 	define( 'CACIC_PHPSOT', $cacic_short_open_tag);
+ else
+ 	define( 'CACIC_PHPSOT', 'on');
+
+/**
  * define a register_long_arrays para executar PHP para o CACIC
  */
  if(isset($cacic_register_long_arrays))

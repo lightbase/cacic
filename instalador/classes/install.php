@@ -224,6 +224,26 @@ class Install {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_HELP', $this->oLang->_('kciq_msg phpcfgfile_help'));
 	 	  $_SESSION['saveCfgFile'] = false;
 	 	}
+	 	 echo "Short tags [".ini_get('short_open_tag') ."]";
+	 	/*
+	 	 * verifica se short_open_tag está ativa
+	 	 */
+	 	 $phpShortOpenTag = ((strtoupper(ini_get('short_open_tag')) == 'ON') or (ini_get('short_open_tag') == 1)) ? "ON" : "OFF";
+	 	 $cacicSOT = (strtoupper(CACIC_PHPSOT) == 'ON' or CACIC_PHPSOT == 1) ? "ON" : "OFF";
+	 	  
+	 	if ($cacicSOT == $phpShortOpenTag) {
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CACIC_PHPSOT', $cacicSOT );
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPSOT_STATUS', $phpShortOpenTag);
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPSOT_CLASS', "SimImg");
+	 	}
+	 	else {
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CACIC_PHPSOT', $cacicSOT);
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPSOT_STATUS', $phpShortOpenTag);
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPSOT_CLASS', "NaoImg");
+	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPSOT_HELP', $this->oLang->_('kciq_msg php_flag_on'));
+	 	  $lCouldContinue = false;
+	 	}
+	 	
 	 	
 	 	/*
 	 	 * verifica se Register_globals está ativa
