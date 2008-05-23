@@ -21,12 +21,12 @@ Necessidades para o instalador:
     * Deve realizar cópia de segurança da base de dados existente.
     * Deve verificar caracteres "especiais" em campos que não podem conter.
 OK  * Excluir solicitação de caminhos (url e físico)
-    * Criar instalação multi-idioma
+OK  * Criar instalação multi-idioma
       - deve mostrar licença traduzida no idioma selecionado
 OK  * Criar seletor de idiomas (deve ler os idiomas disponíveis em "language")
 OK  * Gravar idioma selecionado no config.php
     * Criar opção de atualização de versões anteriores
     * desmembrar "templates" (navbar) dos passos da instalação
 OK  * verificar seriviço FTP
-      - realizar teste de conexão
+OK    - realizar teste de conexão
     * validar formulários

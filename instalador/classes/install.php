@@ -224,7 +224,7 @@ class Install {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CFGFILE_HELP', $this->oLang->_('kciq_msg phpcfgfile_help'));
 	 	  $_SESSION['saveCfgFile'] = false;
 	 	}
-	 	 echo "Short tags [".ini_get('short_open_tag') ."]";
+
 	 	/*
 	 	 * verifica se short_open_tag está ativa
 	 	 */
