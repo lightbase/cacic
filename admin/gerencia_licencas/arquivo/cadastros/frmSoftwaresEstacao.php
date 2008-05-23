@@ -53,11 +53,12 @@ if (texto.substring(0,1) != saida)
 <body bgcolor="#FFFFFF" topmargin="5" onLoad="document.forms[0].patrimonio.focus()" background="../../../../imgs/linha_v.gif">
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Cadastro de Softwares por Esta&ccedil;&atilde;o</td>
+    <td class="cabecalho"><?=$oTranslator->_('Cadastro de Softwares po Estacao');?></td>
   </tr>
   <tr> 
-    <td class="descricao">M&oacute;dulo para cadastramento manual de softwares 
-      por esta&ccedil;&atilde;o</td>
+    <td class="descricao">
+      <?=$oTranslator->_('Modulo para cadastramento manual de softwares por estacao');?>
+    </td>
   </tr>
   <tr> 
     <td> </td>
@@ -67,7 +68,7 @@ if (texto.substring(0,1) != saida)
 <form action="softwaresEstacao.php" method="post" name="softwaresEstacao" onSubmit="return validaForm()">
 <table width="90%" align="center">
     <tr>
-      <td>Patrim&ocirc;nio:</td>
+      <td><?=$oTranslator->_('Patrimonio:');?></td>
       <td><input type=text name="patrimonio" size="20"></td>
     </tr>
     <tr>
@@ -86,28 +87,28 @@ if (texto.substring(0,1) != saida)
       </td>
     </tr>
     <tr>
-      <td>Computador:</td>
+      <td><?=$oTranslator->_('Computador:');?></td>
       <td><input type=text name="computador" size="30"></td>
     </tr>
     <tr>
-      <td>Data de Autoriza&ccedil;&atilde;o:</td>
+      <td><?=$oTranslator->_('Data de Autorizacao:');?></td>
       <td><input type=text name="dataAutorizacao" size="30" maxlength="10" onKeypress="return formatar(this,'##/##/####')";></td>
     </tr>
     <tr>
-      <td>N&ordm; do Processo:</td>
+      <td><?=$oTranslator->_('Numero do Processo:');?></td>
       <td><input type=text name="numeroProcesso" size="30" maxlength="11" onKeypress="return formatar(this,'####/######')"></td>
     </tr>
     <tr>
-      <td>Data de Expira&ccedil;&atilde;o:</td>
+      <td><?=$oTranslator->_('Data de Expiracao:');?></td>
       <td><input type=text name="dataExpiracao" size="30" maxlength="10" onKeypress="return formatar(this,'##/##/####')";></td>
     </tr>
     <tr>
-      <td>Aquisi&ccedil;&atilde;o:</td>
+      <td><?=$oTranslator->_('Aquisicao:');?></td>
       <td>
         <select name="aquisicao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
 	        <? 
 	          	$query = "SELECT id_aquisicao, nm_proprietario FROM aquisicoes ORDER BY nm_proprietario";
-			    $result = mysql_query($query) or die('Ocorreu um erro no select ou sua sessão expirou!');
+			    $result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no select ou sua sessão expirou!'));
 			    echo '<option value=-1></option>';
 			    while ($aquisicoes=mysql_fetch_array($result)) {
 					echo '<option value=' . $aquisicoes['id_aquisicao'] . '>' . $aquisicoes['nm_proprietario'] . '</option>';
@@ -117,15 +118,15 @@ if (texto.substring(0,1) != saida)
       </td>
     </tr>
     <tr>
-      <td>Data de Desinstala&ccedil;&atilde;o:</td>
+      <td><?=$oTranslator->_('Data de Desinstalacao:');?></td>
       <td><input type=text name="dataDesinstalacao" size="30" maxlength="10" onKeypress="return formatar(this,'##/##/####')";></td>
     </tr>
     <tr>
-      <td>Observa&ccedil;&atilde;o:</td>
+      <td><?=$oTranslator->_('Observacao:');?></td>
       <td><textarea cols="23" rows="2" name="observacao"></textarea></td>
     </tr>
     <tr>
-      <td>Patrim&ocirc;nio de Destino:</td>
+      <td><?=$oTranslator->_('Patrimonio de Destino:');?></td>
       <td><input type=text name="patrimonioDestino"></td>
     </tr>
 	<tr>
@@ -133,7 +134,7 @@ if (texto.substring(0,1) != saida)
 	  <td></td>
 	</tr>
 	<tr>
-	  <td align="center" colspan="2"><input type="submit" name="gravar" value="Gravar" width="100" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>></td>
+	  <td align="center" colspan="2"><input type="submit" name="gravar" value="<?=$oTranslator->_('Gravar');?>" width="100" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>></td>
 	</tr>
 </table>
 <p>&nbsp;</p>

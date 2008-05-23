@@ -9,10 +9,6 @@
 ...Acessos|admin/log_acessos.php|mainFrame||Visualização do Log de Acessos ocorridos no Sistema
 ...Atividades|admin/log_atividades.php|mainFrame||Visualização do Log de Atividades(INS/UPD/DEL) do Sistema
 ...Insucessos Instalação|admin/log_insucessos.php|mainFrame||Visualização do Log de Insucessoes nas Instalações
-..<b>Importar Dados</b>||mainFrame|imgs/config_gerais.gif
-...Aquisições|admin/gerencia_licencas/importacao/aquisicoes.php|mainFrame||
-...Aquisições-Item|admin/gerencia_licencas/importacao/aquisicoes_item.php|mainFrame||
-...Softwares|admin/gerencia_licencas/importacao/software.php|mainFrame||
 ..<b>Cadastros</b>||mainFrame|imgs/config_gerais.gif
 ...Aquisições|admin/gerencia_licencas/arquivo/aquisicoes.php|mainFrame||
 ...Locais|admin/locais/index.php|mainFrame||Cadastro de Locais para Controle Centralizado

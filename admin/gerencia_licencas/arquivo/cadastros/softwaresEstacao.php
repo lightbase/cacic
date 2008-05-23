@@ -37,10 +37,10 @@ conecta_bd_cacic();
    	$result_ins = mysql_query($query_insert);
    	
    	if (!$result_ins){
-		echo mensagem('Não foi possível gravar o registro!');
+		echo mensagem($oTranslator->_('Nao foi possivel gravar o registro!'));
 	}else {
-		echo mensagem('Registro gravado!');
+		echo mensagem($oTranslator->_('Registro gravado!'));
    	}
 ?>
 <br><br>
-<div align="center"><input type="button" name="btnVoltar" value="Voltar" onClick="javascript:window.location='frmSoftwaresEstacao.php'"/></div>
+<div align="center"><input type="button" name="btnVoltar" value="<?=$oTranslator->_('Voltar');?>" onClick="javascript:window.location='frmSoftwaresEstacao.php'"/></div>
