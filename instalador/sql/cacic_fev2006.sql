@@ -384,3 +384,8 @@ UPDATE grupo_usuarios SET cs_nivel_administracao=2 WHERE id_grupo_usuarios=5;
 UPDATE grupo_usuarios SET cs_nivel_administracao=3 WHERE id_grupo_usuarios=6;
 UPDATE grupo_usuarios SET cs_nivel_administracao=0 WHERE id_grupo_usuarios=7;
 INSERT INTO `locais` (`nm_local`,`sg_local`,`te_observacao`) VALUES ("Local Padrão","DFT","Colocar aqui informações sobre o local");
+INSERT INTO `patrimonio_config_interface` 
+        (`id_local`, `id_etiqueta`, `nm_etiqueta`, `te_etiqueta`, `in_exibir_etiqueta`, `te_help_etiqueta`,
+         `te_plural_etiqueta`, `nm_campo_tab_patrimonio`, `in_destacar_duplicidade`)
+     VALUES
+        (1, 'etiqueta1a', 'Etiqueta 1a', 'Linha de Negócio', 'S', 'Selecione a Linha de Negócio', 'Linhas de Negócio', 'id_unid_organizacional_nivel1a', 'N');
