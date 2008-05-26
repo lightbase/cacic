@@ -50,6 +50,7 @@ ALTER TABLE acoes_excecoes
 ALTER TABLE computadores
     MODIFY te_so varchar(50) NULL DEFAULT NULL COMMENT '',
     MODIFY te_mem_ram_desc varchar(200) NULL DEFAULT NULL COMMENT '',
+    MODIFY te_palavra_chave char(30) NOT NULL DEFAULT 'abcdefghij',
     ENGINE=InnoDB CHARACTER SET=latin1;
 
 
@@ -86,6 +87,8 @@ ALTER TABLE redes_grupos_ftp
 
 ALTER TABLE redes_versoes_modulos
     ADD dt_atualizacao datetime NOT NULL COMMENT '' AFTER te_versao_modulo,
+    ADD cs_tipo_so char(20) NOT NULL DEFAULT 'MS-Windows' AFTER dt_atualizacao,
+    ADD te_hash varchar(40) NULL DEFAULT 'a' AFTER cs_tipo_so,    
     DROP PRIMARY KEY,
     ADD PRIMARY KEY (id_ip_rede, nm_modulo, id_local),
     ENGINE=InnoDB CHARACTER SET=latin1;
@@ -123,6 +126,12 @@ ALTER TABLE variaveis_ambiente
     ADD te_hash varchar(40) NOT NULL DEFAULT '' COMMENT '' AFTER nm_variavel_ambiente,
     ENGINE=InnoDB CHARACTER SET=latin1;
 
+INSERT INTO `patrimonio_config_interface` 
+        (`id_local`, `id_etiqueta`, `nm_etiqueta`, `te_etiqueta`, `in_exibir_etiqueta`, `te_help_etiqueta`,
+         `te_plural_etiqueta`, `nm_campo_tab_patrimonio`, `in_destacar_duplicidade`)
+     VALUES
+        (1, 'etiqueta1a', 'Etiqueta 1a', 'Linha de Negócio', 'S', 'Selecione a Linha de Negócio', 'Linhas de Negócio', 'id_unid_organizacional_nivel1a', 'N');
+        
 --
 -- Update ID_LOCAL on tables
 --

@@ -250,6 +250,7 @@ ALTER TABLE computadores
     ADD te_versao_gercols varchar(10) NULL DEFAULT NULL COMMENT '' AFTER te_versao_cacic,
     ADD id_conta int(10) unsigned NULL COMMENT '' AFTER te_origem_mac,
     MODIFY te_mem_ram_desc varchar(200) NULL DEFAULT NULL COMMENT '',
+    MODIFY te_palavra_chave char(30) NOT NULL DEFAULT 'abcdefghij',
     ADD INDEX te_ip (te_ip),
     ADD INDEX te_node_address (te_node_address),
     ADD INDEX te_nome_computador (te_nome_computador),
@@ -319,6 +320,8 @@ ALTER TABLE redes_grupos_ftp
 ALTER TABLE redes_versoes_modulos
     ADD id_local int(11) unsigned NOT NULL COMMENT '' FIRST,
     ADD dt_atualizacao datetime NOT NULL COMMENT '' AFTER te_versao_modulo,
+    ADD cs_tipo_so char(20) NOT NULL DEFAULT 'MS-Windows' AFTER dt_atualizacao,
+    ADD te_hash varchar(40) NULL DEFAULT 'a' AFTER cs_tipo_so,    
     DROP PRIMARY KEY,
     ADD PRIMARY KEY (id_ip_rede, nm_modulo, id_local),
     ENGINE=InnoDB CHARACTER SET=latin1;

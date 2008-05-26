@@ -189,6 +189,7 @@ CREATE TABLE `computadores` (
   `te_versao_cacic` varchar(10) default NULL,
   `te_versao_gercols` varchar(10) default NULL,
   `te_bios_fabricante` varchar(100) default NULL,
+  `te_palavra_chave` char(30) NOT NULL DEFAULT 'abcdefghij',
   `te_placa_mae_fabricante` varchar(100) default NULL,
   `qt_placa_video_cores` int(11) default NULL,
   `te_placa_video_resolucao` varchar(10) default NULL,
@@ -600,6 +601,8 @@ CREATE TABLE `redes_versoes_modulos` (
   `nm_modulo` varchar(20) NOT NULL default '',
   `te_versao_modulo` varchar(20) default NULL,
   `dt_atualizacao` datetime NOT NULL,
+  `cs_tipo_so` char(20) NOT NULL DEFAULT 'MS-Windows',
+  `te_hash` varchar(40) NULL DEFAULT 'a',    
   PRIMARY KEY  (`id_ip_rede`,`nm_modulo`,`id_local`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
