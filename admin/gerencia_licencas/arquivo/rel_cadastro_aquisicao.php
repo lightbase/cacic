@@ -64,7 +64,7 @@ conecta_bd_cacic();
    $query =  "SELECT id_aquisicao, dt_aquisicao, nr_processo 
 		FROM aquisicoes ORDER BY nr_processo desc";
 
-	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
 
 
 $cor = 0;
