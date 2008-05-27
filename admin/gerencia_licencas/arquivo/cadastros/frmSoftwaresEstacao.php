@@ -77,7 +77,7 @@ if (texto.substring(0,1) != saida)
         <select name="software" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
           <? 
           	$query = "SELECT id_software, nm_software FROM softwares ORDER BY nm_software";
-		    $result = mysql_query($query) or die('Ocorreu um erro no select ou sua sessão expirou!');
+		    $result = mysql_query($query) or die('Ocorreu um erro no select ou sua sessao expirou!');
 		    echo '<option value=-1></option>';
 		    while ($softwares=mysql_fetch_array($result)) {
 				echo '<option value=' . $softwares['id_software'] . '>' . $softwares['nm_software'] . '</option>';
@@ -108,7 +108,7 @@ if (texto.substring(0,1) != saida)
         <select name="aquisicao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
 	        <? 
 	          	$query = "SELECT id_aquisicao, nm_proprietario FROM aquisicoes ORDER BY nm_proprietario";
-			    $result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no select ou sua sessão expirou!'));
+			    $result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no select ou sua sessao expirou!'));
 			    echo '<option value=-1></option>';
 			    while ($aquisicoes=mysql_fetch_array($result)) {
 					echo '<option value=' . $aquisicoes['id_aquisicao'] . '>' . $aquisicoes['nm_proprietario'] . '</option>';

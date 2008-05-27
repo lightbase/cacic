@@ -14,7 +14,7 @@ require_once('../../../../include/library.php');
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../../../include/cacic.css">
-<title>Cadastro de Softwares</title>
+<title><?=$oTranslator->_('Cadastro de Softwares');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
 function validaForm() {

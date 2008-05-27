@@ -468,3 +468,31 @@ pt_BR     kciq_msg license pt_read                                              
 pt_BR     kciq_msg last agents access                                                                         geral     info                Últimos acessos dos agentes
 pt_BR     kciq_msg last agents access on local                                                                geral     info                Últimos acessos dos agentes deste local
 pt_BR     kciq_msg last agents access per local                                                               geral     info                Últimos acessos dos agentes por local nesta data
+pt_BR     cadastro de aquisicao                                                                               info      info                Cadastro de Aquisicao
+pt_BR     nao foi possivel gravar o registro!                                                                 info      info                Nao foi possivel gravar o registro!
+pt_BR     registro gravado!                                                                                   info      info                Registro gravado!
+pt_BR     voltar                                                                                              info      info                Voltar
+pt_BR     cadastro de softwares                                                                               info      info                Cadastro de Softwares
+pt_BR     descricao:                                                                                          info      info                Descricao:
+pt_BR     quantidade de licencas:                                                                             info      info                Quantidade de Licencas:
+pt_BR     numero da midia:                                                                                    info      info                Numero da Midia:
+pt_BR     localizacao da midia:                                                                               info      info                Localizacao da Midia:
+pt_BR     observacao:                                                                                         info      info                Observacao:
+pt_BR     cancelar                                                                                            info      info                Cancelar
+pt_BR     gravar                                                                                              info      info                Gravar
+pt_BR     cadastro de softwares po estacao                                                                    info      info                Cadastro de Softwares po Estacao
+pt_BR     modulo para cadastramento manual de softwares por estacao                                           info      info                Modulo para cadastramento manual de softwares por estacao
+pt_BR     patrimonio:                                                                                         info      info                Patrimonio:
+pt_BR     computador:                                                                                         info      info                Computador:
+pt_BR     data de autorizacao:                                                                                info      info                Data de Autorizacao:
+pt_BR     numero do processo:                                                                                 info      info                Numero do Processo:
+pt_BR     data de expiracao:                                                                                  info      info                Data de Expiracao:
+pt_BR     aquisicao:                                                                                          info      info                Aquisicao:
+pt_BR     ocorreu um erro no select ou sua sessao expirou!                                                    info      info                Ocorreu um erro no select ou sua sessao expirou!
+pt_BR     data de desinstalacao:                                                                              info      info                Data de Desinstalacao:
+pt_BR     patrimonio de destino:                                                                              info      info                Patrimonio de Destino:
+pt_BR     cadastro de aquisicoes                                                                              info      info                Cadastro de Aquisicoes
+pt_BR     informe o periodo em que foi realizada a aquisicao:                                                 info      info                Informe o periodo em que foi realizada a aquisicao:
+pt_BR     formato:                                                                                            info      info                formato:
+pt_BR     informe o numero do processo:                                                                       info      info                Informe o numero do processo:
+pt_BR     incluir aquisicao                                                                                   info      info                Incluir Aquisicao

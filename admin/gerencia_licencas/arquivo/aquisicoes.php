@@ -9,7 +9,7 @@
 
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Cadastro de Aquisi&ccedil;&otilde;es</td>
+    <td class="cabecalho"><?=$oTranslator->_('Cadastro de Aquisicoes');?></td>
   </tr>
   <tr> 
     <td class="descricao">Colocar algo aqui</td>
@@ -39,8 +39,9 @@ function valida_form_cadastro_aquisicao() {
     <tr> 
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label" colspan="2">Informe
-              o per&iacute;odo em que foi realizada a aquisi&ccedil;&atilde;o:</td>
+            <td class="label" colspan="2">
+              <?=$oTranslator->_('Informe o periodo em que foi realizada a aquisicao:');?>
+            </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333" colspan="2"></td>
@@ -59,7 +60,7 @@ function valida_form_cadastro_aquisicao() {
   	calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 //-->
 </script>
-              </td><td align="left" class="descricao">(formato: aaaa/mm)</td>
+              </td><td align="left" class="descricao">(<?=$oTranslator->_('formato:');?> aaaa/mm)</td>
           </tr>
         </table>
       </td>
@@ -67,7 +68,7 @@ function valida_form_cadastro_aquisicao() {
     <tr> 
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label" colspan="2">Informe o n&uacute;mero do processo:</td>
+            <td class="label" colspan="2"><?=$oTranslator->_('Informe o numero do processo:');?></td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333" colspan="2"></td>
@@ -75,7 +76,7 @@ function valida_form_cadastro_aquisicao() {
           <tr> 
             <td width="33%" height="1" nowrap>&nbsp;<br>
               <input name="numero_processo" type="text" size="11"  maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
-              </td><td align="left" class="descricao">(formato: aaaa/nnnnnn)</td>
+              </td><td align="left" class="descricao">(<?=$oTranslator->_('formato:');?> aaaa/nnnnnn)</td>
           </tr>
         </table>
       </td>
@@ -90,7 +91,7 @@ function valida_form_cadastro_aquisicao() {
           </tr>
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="        Incluir Aquisi&ccedil;&atilde;o      " onClick="">
+                <input name="submit" type="submit" value="<?=$oTranslator->_('Incluir Aquisicao');?>" onClick="">
               </div></td>
           </tr>
           <tr> 

@@ -17,11 +17,12 @@ if($_POST['submit']) {
 	$v_data_ini = $v_elementos[2] .'/'. $v_elementos[1] .'/'. $v_elementos[0];	
  	$_SESSION["data_ini"] = $v_data_ini;
 }
+require_once('../../../include/library.php');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Cadastro de Aquisi&ccedil;&atilde;o</title>
+<title><?=$oTranslator->_('Cadastro de Aquisicao');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -41,14 +42,15 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr bgcolor="#E1E1E1"> 
     <td nowrap bgcolor="#FFFFFF"><div align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC 
-        - Cadastro de Aquisi&ccedil;&atilde;o</strong></font></div></td>
+        - <?=$oTranslator->_('Cadastro de Aquisicao');?></strong></font></div></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+    <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+      <?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y à\s H:i"); ?></font></p>
+    </td>
   </tr>
 </table>
 <br>
