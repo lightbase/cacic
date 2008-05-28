@@ -35,12 +35,12 @@ if ($_POST['consultar']) {
 
 if (($_SESSION['ftr_autorizado_estacao'] == 'nome') or ($_SESSION['ftr_autorizado_estacao'] == '')) {
 	$valor_padrao_autorizado_estacao = '<option value="nome">Nome do Computador</option>
-			<option value="patrimonio">Número do Patrim&ocirc;nio</option>';
+			<option value="patrimonio">'.$oTranslator->_('Numero do Patrimonio').'</option>';
 }
 
 if ($_SESSION['ftr_autorizado_estacao'] == 'patrimonio') {
 	$valor_padrao_autorizado_estacao = '<option value="patrimonio">Número do Patrim&ocirc;nio</option>
-			<option value="nome">Nome do Computador</option>';
+			<option value="nome">'.$oTranslator->_('Nome do Computador').'</option>';
 }
 
 ?>  
@@ -48,7 +48,7 @@ if ($_SESSION['ftr_autorizado_estacao'] == 'patrimonio') {
 <form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
 <table width="90%" border="0" align="center">
 <tr> 
-<td class="cabecalho">Licenças autorizadas por esta&ccedil;&atilde;o</td>
+<td class="cabecalho"><?=$oTranslator->_('Licencas autorizadas por estacao');?></td>
 </tr>
 <tr> 
 <td>&nbsp;</td>
@@ -56,7 +56,7 @@ if ($_SESSION['ftr_autorizado_estacao'] == 'patrimonio') {
 </table>
 <tr><td height="1" colspan="2" bgcolor="#333333"></td></tr>
 <tr><td height="30" colspan="2"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
-<tr><td colspan="2" class="label">Selecione os filtros da consulta:</td></tr>
+<tr><td colspan="2" class="label"><?=$oTranslator->_('Selecione os filtros da consulta:');?></td></tr>
 <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
 <tr> 
 <td height="1" bgcolor="#333333"></td>
@@ -72,7 +72,7 @@ if ($_SESSION['ftr_autorizado_estacao'] == 'patrimonio') {
             <td> 
               <input name="string_autorizado_estacao" type="text" id="string_autorizado_estacao2" value="<? echo $_REQUEST['string_autorizado_estacao'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
               </td>
-            <td><input name="consultar" type="submit" id="consultar2" value="Consultar"></td>
+            <td><input name="consultar" type="submit" id="consultar2" value="<?=$oTranslator->_('Consultar');?>"></td>
           </tr>
         </table></td>
     </tr>
@@ -119,15 +119,15 @@ if ($_POST['consultar']) {
 	}
 
 	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
-	$resultDesinstaladoTransferido = mysql_query($queryDesinstaladoTransferido) or die('Erro no select ou sua sessão expirou!');
+	$resultDesinstaladoTransferido = mysql_query($queryDesinstaladoTransferido) or die($oTranslator->_('Erro no select ou sua sessão expirou!'));
 	
 	if (strlen($_SESSION['str_autorizado_estacao']) < 3) {
-		echo $mensagem = mensagem('Digite pelo menos 03 caracteres...');
+		echo $mensagem = mensagem($oTranslator->_('Digite pelo menos 03 caracteres...'));
 		}
 		else
 		{
 			if(($nu_reg= mysql_num_rows($result))<0){
-			echo $mensagem = mensagem('Nenhum registro encontrado!');
+			echo $mensagem = mensagem($oTranslator->_('Nenhum registro encontrado!'));
 				}
 				else
 				{
@@ -144,19 +144,19 @@ if ($_POST['consultar']) {
 	  <td align="center" nowrap>&nbsp;</td>
 	  <td align="center" nowrap><div align="left"><strong></strong></div></td>
 	  <td align="center" nowrap >&nbsp; </td>
-	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Software</font></strong></div></td>
+	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Software');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Autoriza&ccedil;&atilde;o</font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Autorizacao');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Processo</font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Processo');?></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Computador</font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Computador');?></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Patrim&ocirc;nio</font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Patrimonio');?></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Particular</font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Particular');?></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Observa&ccedil;&atilde;o</font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Observacao');?></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
         </tr>
         <?  
@@ -164,7 +164,7 @@ if ($_POST['consultar']) {
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
-		if ($NumRegistro == 1) { echo '<tr><td colspan=16 align=center>Autorizados</td></tr>'; }		  
+		if ($NumRegistro == 1) { echo '<tr><td colspan=16 align=center>'.$oTranslator->_('Autorizados').'</td></tr>'; }		  
 		/*
 	 ?>
         <tr <? if (!$Cor) { echo 'bgcolor="#00CC00"'; } else echo 'bgcolor="#99FF33"' ?>> 
@@ -202,7 +202,7 @@ if ($_POST['consultar']) {
 	$NumRegistro++;
 }
 //	if ($NumRegistro == 1) { echo '<tr bgcolor="#00CC00"><td colspan=17 align=center>N&atilde;o h&aacute; autoriza&ccedil;&atilde;o para esta m&aacute;quina</td><tr>'; }
-	if ($NumRegistro == 1) { echo '<tr bgcolor="#C0C0C0"><td colspan=17 align=center><b>N&atilde;o h&aacute; autoriza&ccedil;&atilde;o para esta m&aacute;quina</b></td><tr>'; }	
+	if ($NumRegistro == 1) { echo '<tr bgcolor="#C0C0C0"><td colspan=17 align=center><b>'.$oTranslator->_('Nao ha autorizacao para esta maquina').'</b></td><tr>'; }	
 ?>
 	<tr>
 	 <td colspan=17 height="3" bgcolor="#333333"></td>
@@ -210,7 +210,7 @@ if ($_POST['consultar']) {
 	<? $NumRegistroAutorizados = $NumRegistro; ?>
 <?	while ($row = mysql_fetch_array($resultDesinstaladoTransferido)) { 
 	if ($NumRegistroAutorizados == $NumRegistro) {
-	  echo '<tr><td colspan=16 align=center>Hist&oacute;rico</td></tr>';
+	  echo '<tr><td colspan=16 align=center>'.$oTranslator->_('Historico').'</td></tr>';
         } ?>
         <tr <? 
 		
@@ -249,7 +249,7 @@ if ($_POST['consultar']) {
 }	
 	if ($NumRegistroAutorizados == $NumRegistro) {
 //	  echo '<tr bgcolor="#FF9900"><td colspan=17 align=center>N&atilde;o h&aacute; hist&oacute;rico desta m&aacute;quina</td><tr>';
-	  echo '<tr bgcolor="#C0C0C0"><td colspan=17 align=center><b>N&atilde;o h&aacute; hist&oacute;rico desta m&aacute;quina</b></td><tr>';	  
+	  echo '<tr bgcolor="#C0C0C0"><td colspan=17 align=center><b>'.$oTranslator->_('Nao ha historico desta maquina').'</b></td><tr>';	  
 	}
 ?>
 

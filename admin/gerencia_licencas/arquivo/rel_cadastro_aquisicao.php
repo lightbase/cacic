@@ -96,10 +96,11 @@ echo '<br><br>';
 
 ?></p>
 <p></p>
-<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
-  de Informa&ccedil;&otilde;es Computacionais</font><br>
-  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
+<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  <?=$oTranslator->_('Relatorio gerado pelo');?>
+  <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor de Informa&ccedil;&otilde;es Computacionais</font><br>
+  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  <?=$oTranslator->_('desenvolvido por');?> Dataprev - Unidade Regional Esp&iacute;rito Santo
+  </font></p>
 </body>
 </html>

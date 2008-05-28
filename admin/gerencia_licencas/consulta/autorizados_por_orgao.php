@@ -34,7 +34,7 @@ if ($_POST['consultar']) {
 <form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
 <table width="90%" border="0" align="center">
 <tr> 
-<td class="cabecalho">Consulta de softwares autorizados por &oacute;rg&atilde;o</td>
+<td class="cabecalho"><?=$oTranslator->_('Consulta de softwares autorizados por orgao');?></td>
 </tr>
 <tr> 
 <td>&nbsp;</td>

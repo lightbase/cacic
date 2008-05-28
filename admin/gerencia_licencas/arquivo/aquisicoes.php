@@ -12,7 +12,7 @@
     <td class="cabecalho"><?=$oTranslator->_('Cadastro de Aquisicoes');?></td>
   </tr>
   <tr> 
-    <td class="descricao">Colocar algo aqui</td>
+    <td class="descricao"></td>
   </tr>
   <tr> 
     <td>
