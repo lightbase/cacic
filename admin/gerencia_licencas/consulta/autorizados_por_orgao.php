@@ -4,7 +4,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -54,7 +54,7 @@ if ($_POST['consultar']) {
             <td> 
               <input name="string_autorizado_orgao" type="text" id="string_autorizado_orgao2" value="<? echo $_REQUEST['string_autorizado_orgao'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
               </td>
-            <td><input name="consultar" type="submit" id="consultar2" value="Consultar"></td>
+            <td><input name="consultar" type="submit" id="consultar2" value="<?=$oTranslator->_('Consultar');?>"></td>
           </tr>
         </table></td>
     </tr>
@@ -75,15 +75,15 @@ if ($_POST['consultar']) {
 		  GROUP BY s.id_software  
 		  ORDER BY nm_software";
 
-	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
+	$result = mysql_query($query) or die($oTranslator->_('Erro no select ou sua sessao expirou!'));
 	
 	if (strlen($_SESSION['str_autorizado_orgao']) < 3) {
-		echo $mensagem = mensagem('Digite pelo menos 03 caracteres...');
+		echo $mensagem = mensagem($oTranslator->_('Digite pelo menos 03 caracteres...'));
 		}
 		else
 		{
 			if(($nu_reg= mysql_num_rows($result))==0){
-			echo $mensagem = mensagem('Nenhum registro encontrado!');
+			echo $mensagem = mensagem($oTranslator->_('Nenhum registro encontrado!'));
 				}
 				else
 				{
@@ -100,9 +100,9 @@ if ($_POST['consultar']) {
 	  <td align="center" nowrap>&nbsp;</td>
 	  <td align="center" nowrap><div align="left"><strong></strong></div></td>
 	  <td align="center" nowrap >&nbsp; </td>
-	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Software</font></strong></div></td>
+	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Software');?></font></strong></div></td>
 	  <td align="center" nowrap >&nbsp; </td>
-	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">M&aacute;quinas</font></strong></div></td>
+	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Maquinas');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
         </tr>
         <?  

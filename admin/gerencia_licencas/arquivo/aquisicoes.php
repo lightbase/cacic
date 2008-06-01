@@ -23,11 +23,11 @@
 <!--
 function valida_form_cadastro_aquisicao() {
 	if (document.form_aquisicao.date_aquisicao.value == "") {
-		alert("Voce deve informar a data de aquisicao.");
+		alert(<?=$oTranslator->_("Voce deve informar a data de aquisicao.");?>);
 		return false;
 	}
 	else if (document.form_aquisicao.numero_processo.value.length != 11) {
-		alert("Voce deve informar o numero do processo no formato 'aaaa/nnnnnn'.");
+		alert(<?=$oTranslator->_("Voce deve informar o numero do processo no formato");?> + ' aaaa/nnnnnn');
 		return false;
 	}
 	return true;

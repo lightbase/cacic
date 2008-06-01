@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -46,14 +46,19 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><div align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC - Relatorio de Instala&ccedil;&otilde;es de Software</strong></font></div></td>
+    <td nowrap bgcolor="#FFFFFF">
+      <div align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+      <strong><?=$oTranslator->_('Relatorio de Instalacoes de Software');?></strong>
+      </font></div>
+    </td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+    <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+       <?=$oTranslator->_('Gerado em');?> 
+       <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
@@ -69,12 +74,12 @@ conecta_bd_cacic();
 		WHERE (s.id_software = " . $v_id_software . ") AND 
 		      (se.id_software = s.id_software) AND (se.dt_desinstalacao IS NULL)  
 		GROUP BY s.id_software";
-	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou: '.$query);
+	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou').' '.$query);
 	$row = mysql_fetch_row($result);
 
 echo '<table border="0" align="center" width="80%">
-<tr><td align="left" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Software: '.$row[0].'</strong></font></td>
-<td align="right" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Instala&ccedil;&otilde;es: '.$row[1].'</strong></font></td></tr>
+<tr><td align="left" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>'.$oTranslator->_('Software').' '.$row[0].'</strong></font></td>
+<td align="right" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>'.$oTranslator->_('Instalacoes').' '.$row[1].'</strong></font></td></tr>
 </table><br>';
 
 	$query =  "SELECT nm_computador, nr_patrimonio, dt_autorizacao, nr_processo, te_observacao  
@@ -83,7 +88,7 @@ echo '<table border="0" align="center" width="80%">
 		         (se.dt_desinstalacao IS NULL)  
 		   ORDER BY nr_patrimonio";
 	
-	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
 
 $cor = 0;
 $num_registro = 1;
@@ -92,11 +97,11 @@ $fields=mysql_num_fields($result);
 echo '<table align="center" width="80%" cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
      <tr bgcolor="#E1E1E1" >
       <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Computador</font><b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Patrim&ocirc;nio</font><b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Autoriza&ccedil;&atilde;o</font><b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Processo</font><b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Observa&ccedil;&atilde;o</font><b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Computador').'</font><b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Patrimonio').'</font><b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Autorizacao').'</font><b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Processo').'</font><b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Observacao').'</font><b></td>';
 
 echo '</tr>';
 
@@ -124,10 +129,12 @@ echo '<br><br>';
 
 ?></p>
 <p></p>
-<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  <?=$oTranslator->_('Gerado por');?> 
+  <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
-  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
+  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+    <?=$oTranslator->_('Desenvolvido por');?> 
+    Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 </body>
 </html>

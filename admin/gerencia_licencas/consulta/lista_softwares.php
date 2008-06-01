@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -26,7 +26,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Relat&oacute;rio de Altera&ccedil;&otilde;es de Hardware</title>
+<title><?=$oTranslator->_('Relatorio de Softwares Adquiridos');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -45,14 +45,20 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><div align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC - Relat&oacute;rio de Softwares Adquiridos</strong></font></div></td>
+    <td nowrap bgcolor="#FFFFFF">
+      <div align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+      <strong><?=$oTranslator->_('Relatorio de Softwares Adquiridos');?></strong>
+      </font></div>
+    </td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+    <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+       <?=$oTranslator->_('Gerado em');?> 
+       <? echo date("d/m/Y à\s H:i"); ?></font></p>
+    </td>
   </tr>
 </table>
 <br>
@@ -67,7 +73,7 @@ conecta_bd_cacic();
 		FROM softwares 
 		ORDER BY nm_software";
 
-	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
 
 
 $cor = 0;
@@ -77,12 +83,12 @@ $fields=mysql_num_fields($result);
 echo '<table align="center" width="80%" cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
      <tr bgcolor="#E1E1E1" >
       <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
-echo '<td nowrap align="left"><b><font size="1" face="Verdana, Arial">Software</font></b></td>';
-echo '<td nowrap align="left"><b><font size="1" face="Verdana, Arial">Descri&ccedil;&atilde;o</font></b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Licen&ccedil;as</font></b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">N&uacute;mero da M&iacute;dia</font></b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Local da M&iacute;dia</font></b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Observa&ccedil;&atilde;o</font></b></td>';
+echo '<td nowrap align="left"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Software').'</font></b></td>';
+echo '<td nowrap align="left"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Descricao').'</font></b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Licencas').'</font></b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Numero da Midia').'</font></b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Local da Midia').'</font></b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Observacao').'</font></b></td>';
 
 echo '</tr>';
 
@@ -106,10 +112,12 @@ echo '<br><br>';
 
 ?></p>
 <p></p>
-<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  <?=$oTranslator->_('Gerado por');?> 
+  <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
-  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
+  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+    <?=$oTranslator->_('Desenvolvido por');?> 
+    Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 </body>
 </html>

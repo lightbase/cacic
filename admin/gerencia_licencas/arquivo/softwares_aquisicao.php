@@ -6,7 +6,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -59,7 +59,7 @@ conecta_bd_cacic();
 		WHERE (ai.id_software = s.id_software) AND (ai.id_tipo_licenca = tl.id_tipo_licenca) AND  
 		      (ai.id_aquisicao = '" . $v_aquisicao . "') ORDER BY nm_software";
 
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessão expirou!'));
+	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
 
 $cor = 0;
 $num_registro = 1;

@@ -4,7 +4,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -16,7 +16,7 @@ require_once('../../../include/library.php');
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
-<title>Relat&oacute;rio de Softwares Inventariados por M&aacute;quinas</title>
+<title><?=$oTranslator->_('Relatorio de Softwares Particulares');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -35,15 +35,19 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC 
-      - Relat&oacute;rio de Softwares Particulares</strong></font></td>
+    <td nowrap bgcolor="#FFFFFF">
+      <font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+        <strong><?=$oTranslator->_('Relatorio de Softwares Particulares');?></strong>
+      </font>
+    </td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+      <?=$oTranslator->_('Gerado em');?> 
+      <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
@@ -75,7 +79,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 			     GROUP BY id_software) AS tblInstalado 
 		  ON tblCompra.id_software = tblInstalado.id_software 
 		  ORDER BY nm_software";
-	$result = mysql_query($query) or die('erro no select ou sua sessão expirou!');
+	$result = mysql_query($query) or die($oTranslator->_('Erro no select ou sua sessao expirou!'));
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
@@ -90,13 +94,13 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td align="center"  nowrap>&nbsp;&nbsp;</td>
           <td align="center"  nowrap><div align="left"><strong></strong></div></td>
           <td align="center"  nowrap>&nbsp;&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Software</font></strong></div></td>
+          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Software');?></font></strong></div></td>
           <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Qtde. Comprada</font></strong></div></td>
+	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Quantidade Comprada');?></font></strong></div></td>
           <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Qtde. Instalada</font></strong></div></td>
+	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Quantidade Instalada');?></font></strong></div></td>
           <td nowrap >&nbsp;&nbsp;</td>
-	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Saldo</font></strong></div></td>
+	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Saldo');?></font></strong></div></td>
 	  <td nowrap >&nbsp;&nbsp;</td>
         </tr>
         <?  
@@ -134,11 +138,12 @@ $linha = '<tr bgcolor="#e7e7e7">
     <td height="10"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font></td>
   </tr>
 </table>
-<p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+<p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  <?=$oTranslator->_('Gerado por');?> 
+  <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
-  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>	
-
+  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+    <?=$oTranslator->_('Desenvolvido por');?> 
+    Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>	
 </body>
 </html>

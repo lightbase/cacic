@@ -19,7 +19,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -27,7 +27,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Relat&oacute;rio de Altera&ccedil;&otilde;es de Hardware</title>
+<title><?=$oTranslator->_('Relatorio de Processos de Compra de Software');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -46,14 +46,20 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><div align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC - Relat&oacute;rio de Processos de Compra de Software</strong></font></div></td>
+    <td nowrap bgcolor="#FFFFFF">
+      <div align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+       <strong><?=$oTranslator->_('Relatorio de Processos de Compra de Software');?></strong>
+       </font></div>
+    </td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+    <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+      <?=$oTranslator->_('Gerado em');?> 
+      <? echo date("d/m/Y à\s H:i"); ?></font></p>
+    </td>
   </tr>
 </table>
 <br>
@@ -69,7 +75,7 @@ conecta_bd_cacic();
 		GROUP BY nr_processo
 		ORDER BY nr_processo desc";
 
-	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
 
 
 $cor = 0;
@@ -79,8 +85,8 @@ $fields=mysql_num_fields($result);
 echo '<table align="center" width="80%" cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
      <tr bgcolor="#E1E1E1" >
       <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Processo</font></b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Aquisi&ccedil;&otilde;es</font></b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Processo').'</font></b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Aquisicoes').'</font></b></td>';
 
 echo '</tr>';
 
@@ -101,7 +107,7 @@ if ($num_registro == 1)
 	{
     echo '<tr>';
     echo '<td nowrap align="right">&nbsp;</td>';
-    echo '<td nowrap align="center"><font size="2" face="Verdana, Arial" color="red"><b>Não Há Registro de Aquisição de Softwares</b></td>';
+    echo '<td nowrap align="center"><font size="2" face="Verdana, Arial" color="red"><b>'.$oTranslator->_('Nao Ha Registro de Aquisicao de Softwares').'</b></td>';
     echo '<td nowrap align="center">&nbsp;</td>';
     echo '</tr>';	
 	}
@@ -111,10 +117,12 @@ echo '<br><br>';
 
 ?></p>
 <p></p>
-<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  <?=$oTranslator->_('Gerado por');?> 
+  <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
-  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
+  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+    <?=$oTranslator->_('Desenvolvido por');?> 
+    Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 </body>
 </html>

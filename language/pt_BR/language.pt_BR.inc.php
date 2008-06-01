@@ -27,6 +27,9 @@ pt_BR     apenas nas redes selecionadas                                         
 pt_BR     aplicativos (janelas) a evitar                                                                      admin     info                Aplicativos (janelas) a evitar
 pt_BR     kciq_msg apoio                                                                                      Geral     info                Apoio colaborativo
 pt_BR     kciq_msg modulos help                                                                               admin     info                Aqui você podera configurar os vários modulos disponíveis do CACIC. Clique sobre o modulo desejado e, em seguida, realize as configurações.
+pt_BR     aquisicao                                                                                           admin     info                Aquisicao
+pt_BR     aquisicao:                                                                                          admin     info                Aquisicao:
+pt_BR     aquisicoes                                                                                          admin     info                Aquisicoes
 pt_BR     arquivo                                                                                             admin     info                Arquivo
 pt_BR     kciq_msg file saved                                                                                 geral     info                Arquivo (%1) foi salvo
 pt_BR     kciq_msg cfgfile_writeable                                                                          instaladorinfo                Arquivo <i><b>config.php</b></i> pode ser gravado
@@ -44,21 +47,31 @@ pt_BR     kciq_msg inst org name update                                         
 pt_BR     kciq_msg update help                                                                                instaladorinfo                Atualizar as tabelas do banco conforme versão a ser escolhida.
 pt_BR     kciq_msg update                                                                                     geral     info                Atualização
 pt_BR     kciq_msg inst update tables on database                                                             instaladorinfo                Atualização das tabelas no banco de dados (%1)...
+pt_BR     autorizacao                                                                                         admin     info                Autorizacao
+pt_BR     autorizado                                                                                          admin     info                Autorizado
+pt_BR     autorizados                                                                                         admin     info                Autorizados
 pt_BR     kciq_msg database                                                                                   instaladorinfo                Banco de dados
 pt_BR     kciq_msg inst database exist                                                                        instaladorinfo                Banco de dados (%1) já existe!
 pt_BR     kciq_msg database not exist                                                                         geral     info                Banco de dados (%1) não existe!
 pt_BR     contenha                                                                                            admin     info                CONTENHA
 pt_BR     cacic2                                                                                              admin     info                Cacic2
+pt_BR     cadastro de aquisicao                                                                               admin     info                Cadastro de Aquisicao
+pt_BR     cadastro de aquisicoes                                                                              admin     info                Cadastro de Aquisicoes
 pt_BR     cadastro de local                                                                                   admin     info                Cadastro de Local
 pt_BR     cadastro de perfis de sistemas monitorados                                                          admin     info                Cadastro de Perfis de Sistemas Monitorados
+pt_BR     cadastro de softwares                                                                               admin     info                Cadastro de Softwares
+pt_BR     cadastro de softwares po estacao                                                                    admin     info                Cadastro de Softwares po Estacao
 pt_BR     cadastro de subredes                                                                                admin     info                Cadastro de Subredes
 pt_BR     cadastro de usuarios                                                                                admin     info                Cadastro de usuarios
 pt_BR     campo                                                                                               admin     info                Campo
+pt_BR     cancelar                                                                                            admin     info                Cancelar
 pt_BR     classificacao de software                                                                           admin     info                Classificacao de software
 pt_BR     classificar softwares selecionados                                                                  admin     info                Classificar Softwares Selecionados
 pt_BR     clique nas colunas para ordenar                                                                     admin     info                Clique nas Colunas para Ordenar
 pt_BR     coleta induzida por computador                                                                      admin     info                Coleta induzida por Computador
+pt_BR     computador                                                                                          admin     info                Computador
 pt_BR     computador removido!                                                                                admin     info                Computador removido!
+pt_BR     computador:                                                                                         admin     info                Computador:
 pt_BR     kciq_msg computadores monitorados hoje                                                              geral     info                Computadores monitorados por local nesta data
 pt_BR     computadores onde esta acao-configuracao nao devera ser aplicada                                    admin     info                Computadores onde esta acao-configuracao nao devera ser aplicada
 pt_BR     kciq_msg inst make database permissions                                                             instaladorinfo                Concedendo permissões ao usuário (%1).
@@ -83,6 +96,9 @@ pt_BR     kciq_msg verify                                                       
 pt_BR     kciq_msg build bd                                                                                   instaladorinfo                Construir BD
 pt_BR     kciq_msg new help                                                                                   instaladorinfo                Construir o banco de dados para uma nova instalação do CACIC.
 pt_BR     kciq_msg inst database build fail                                                                   instaladorinfo                Construção do banco de dados para o CACIC não realizada adequadamente!
+pt_BR     consulta de softwares autorizados por orgao                                                         admin     info                Consulta de softwares autorizados por orgao
+pt_BR     consulta quantidade de licencas                                                                     admin     info                Consulta quantidade de licencas
+pt_BR     consultar                                                                                           admin     info                Consultar
 pt_BR     conteudo do repositorio                                                                             admin     info                Conteudo do repositorio
 pt_BR     kciq_msg inst building tables on database                                                           instaladorinfo                Criando as tabelas no banco de dados (%1)...
 pt_BR     kciq_msg inst build database                                                                        instaladorinfo                Criando o banco (%1) ...
@@ -97,14 +113,20 @@ pt_BR     kciq_msg inst database data save fail                                 
 pt_BR     kciq_msg inst admin help                                                                            instaladorinfo                Dados do administrador para criar o banco de dados.
 pt_BR     kciq_msg check cacic configfile data                                                                instaladorinfo                Dados do arquivo de configuração (%1) devem ser verificados.
 pt_BR     data                                                                                                admin     info                Data
+pt_BR     data de autorizacao:                                                                                admin     info                Data de Autorizacao:
+pt_BR     data de desinstalacao:                                                                              admin     info                Data de Desinstalacao:
+pt_BR     data de expiracao:                                                                                  admin     info                Data de Expiracao:
 pt_BR     data e hora                                                                                         admin     info                Data e hora
 pt_BR     kciq_msg demo                                                                                       instaladorinfo                Demonstração
 pt_BR     desabilitar acao-configuracao nas redes                                                             admin     info                Desabilitar acao-configuracao nas redes
 pt_BR     descricao                                                                                           admin     info                Descricao
 pt_BR     descricao do tipo de acesso                                                                         admin     info                Descricao do tipo de acesso
+pt_BR     descricao:                                                                                          admin     info                Descricao:
 pt_BR     descripcao                                                                                          admin     info                Descripcao
 pt_BR     detalhes de usuario                                                                                 admin     info                Detalhes de usuario
+pt_BR     detalhes do software                                                                                admin     info                Detalhes do Software
 pt_BR     dica: use shift ou ctrl para selecionar multiplos itens                                             admin     info                Dica: use SHIFT ou CTRL para selecionar multiplos itens
+pt_BR     digite pelo menos 03 caracteres...                                                                  admin     info                Digite pelo menos 03 caracteres...
 pt_BR     kciq_msg ftp change dir ok                                                                          geral     info                Diretório FTP mudado com sucesso
 pt_BR     disponiveis                                                                                         admin     info                Disponiveis
 pt_BR     e-mails para notificar alteracoes de hardware                                                       admin     info                E-mails para notificar alteracoes de hardware
@@ -131,6 +153,7 @@ pt_BR     kciq_msg local insert error                                           
 pt_BR     kciq_msg user insert error                                                                          geral     erro                Erro ao tentar inserir o usuário (%1)
 pt_BR     kciq_msg select on table fail                                                                       geral     erro                Erro ao tentar obter registros na(s) tabela(s) (%1)
 pt_BR     kciq_msg inst build database error                                                                  instaladorerro                Erro na criação do banco de dados (%1)!
+pt_BR     erro no select ou sua sessao expirou!                                                               admin     info                Erro no select ou sua sessao expirou!
 pt_BR     language_es                                                                                         Geral     info      es        Español
 pt_BR     kciq_msg php_memory_help                                                                            instaladorinfo                Essa diretiva irá afetar o desempenho de execução dos programas em PHP.
 pt_BR     kciq_msg php_flag_on_advise                                                                         instaladorinfo                Essa diretiva é verificada apenas para versão PHP = 5.x.y.
@@ -168,24 +191,31 @@ pt_BR     language_fr                                                           
 pt_BR     gercols                                                                                             admin     info                GerCols
 pt_BR     gerado em                                                                                           admin     info                Gerado em
 pt_BR     gerado por                                                                                          admin     info                Gerado por
+pt_BR     gerafo em                                                                                           admin     info                Gerafo em
 pt_BR     geral                                                                                               Geral     TagHeader           Geral
+pt_BR     gravar                                                                                              admin     info                Gravar
 pt_BR     kciq_msg savecfgfile                                                                                instaladorinfo                Gravar <i>config.php</i>
 pt_BR     gravar alteracoes                                                                                   admin     info                Gravar alteracoes
 pt_BR     gravar informacoes                                                                                  admin     info                Gravar informacoes
 pt_BR     kciq_msg inst config file saved                                                                     instaladorinfo                Gravação do arquivo de configurações não realizada adequadamente!
 pt_BR     hod - microsoft word - corel draw - photoshop                                                       admin     info                HOD - Microsoft Word - Corel Draw - PhotoShop
 pt_BR     habilitar acao-configuracao em todas as redes                                                       admin     info                Habilitar acao-configuracao em todas as redes
+pt_BR     consulta quantidade de licencas help                                                                admin     info                Havendo saldo positivo numa versão não implica disponibilidade de licença. O saldo pode estar cobrindo saldo negativo de versães anteriores.
+pt_BR     resumo quantitativo de licencas help                                                                admin     info                Havendo saldo positivo numa versão não implica disponibilidade de licença. O saldo pode estar cobrindo saldo negativo de versões anteriores
+pt_BR     historico                                                                                           admin     info                Historico
 pt_BR     historio de softwares excluidos com sucesso da base de dados                                        admin     info                Historio de softwares excluidos com sucesso da base de dados
 pt_BR     kciq_msg inst end hist title                                                                        instaladorinfo                Histórico de alterações no CACIC
 pt_BR     igual a                                                                                             admin     info                IGUAL A
 pt_BR     inicie com                                                                                          admin     info                INICIE COM
 pt_BR     ip gerente                                                                                          admin     info                IP Gerente
+pt_BR     ide                                                                                                 admin     info                Ide
 pt_BR     kciq_msg ideal                                                                                      instaladorinfo                Ideal
 pt_BR     identificacao                                                                                       admin     info                Identificacao
 pt_BR     language                                                                                            Geral     info                Idioma
 pt_BR     kciq_msg def_language                                                                               instaladorinfo                Idioma
 pt_BR     kciq_mnt_lang traducao                                                                              Manutençãoinfo                Idioma a traduzir
 pt_BR     imediatamente apos a inicializacao do cacic                                                         admin     info                Imediatamente apos a inicializacao do CACIC
+pt_BR     incluir aquisicao                                                                                   admin     info                Incluir Aquisicao
 pt_BR     incluir informacoes de novo local                                                                   admin     info                Incluir Informacoes de Novo Local
 pt_BR     incluir nova subrede                                                                                admin     info                Incluir Nova Subrede
 pt_BR     incluir novo perfil de sistema                                                                      admin     info                Incluir Novo Perfil de Sistema
@@ -198,11 +228,14 @@ pt_BR     induzir coletas                                                       
 pt_BR     informe a classificacao para o software.                                                            admin     info                Informe a classificacao para o software.
 pt_BR     informe a senha anterior, caso nao se lembre, solicite a um administrador que a reinicialize.       admin     info                Informe a senha anterior, caso nao se lembre, solicite a um Administrador que a reinicialize.
 pt_BR     informe o endereco mac do computador.                                                               admin     info                Informe o endereco MAC do computador.
+pt_BR     informe o numero do processo:                                                                       admin     info                Informe o numero do processo:
+pt_BR     informe o periodo em que foi realizada a aquisicao:                                                 admin     info                Informe o periodo em que foi realizada a aquisicao:
 pt_BR     kciq_msg finish title                                                                               instaladorinfo                Iniciar uso do CACIC!
 pt_BR     inicio de execucao das acoes                                                                        admin     info                Inicio de execucao das acoes
 pt_BR     kciq_msg inst login insert                                                                          instaladorinfo                Inserindo dados do administrador (%1)...
 pt_BR     kciq_msg inst local insert                                                                          instaladorinfo                Inserindo local (%1)...
 pt_BR     kciq_msg demo help                                                                                  instaladorinfo                Inserir dados para demonstração do CACIC.
+pt_BR     instalacoes                                                                                         admin     info                Instalacoes
 pt_BR     kciq_msg instalada                                                                                  geral     info                Instalada
 pt_BR     instalador                                                                                          geral     TagHeader           Instalador
 pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
@@ -213,6 +246,8 @@ pt_BR     intervalo de execucao das acoes                                       
 pt_BR     kciq_installerintrotitle                                                                            instaladorinfo                Introdução
 pt_BR     legenda                                                                                             admin     info                Legenda
 pt_BR     kciq_msg legenda                                                                                    geral     info                Legenda
+pt_BR     licencas                                                                                            admin     info                Licencas
+pt_BR     licencas autorizadas por estacao                                                                    admin     info                Licencas autorizadas por estacao
 pt_BR     kciq_msg license title                                                                              instaladorinfo                Licença
 pt_BR     locais                                                                                              admin     info                Locais
 pt_BR     locais secundarios                                                                                  admin     info                Locais secundarios
@@ -220,8 +255,10 @@ pt_BR     local                                                                 
 pt_BR     kciq_msg local already exist                                                                        geral     info                Local (%1) já está cadastrado!
 pt_BR     kciq_msg local not exist                                                                            geral     info                Local (%1) não cadastrado!
 pt_BR     kciq_msg admin mgm name help                                                                        instaladorinfo                Local ao qual a aplicação gerente está associada.
+pt_BR     local da midia                                                                                      admin     info                Local da Midia
 pt_BR     kciq_msg local not reg                                                                              geral     info                Local não foi cadastrado
 pt_BR     local/rede                                                                                          admin     info                Local/Rede
+pt_BR     localizacao da midia:                                                                               admin     info                Localizacao da Midia:
 pt_BR     log de acessos                                                                                      admin     info                Log de Acessos
 pt_BR     log de atividades                                                                                   admin     info                Log de Atividades
 pt_BR     log de insucessos nas instalacoes dos agentes                                                       admin     info                Log de Insucessos nas Instalacoes dos Agentes
@@ -236,27 +273,35 @@ pt_BR     kciq_msg logout                                                       
 pt_BR     maior que                                                                                           admin     info                MAIOR QUE
 pt_BR     menor que                                                                                           admin     info                MENOR QUE
 pt_BR     manutenção                                                                                          geral     TagHeader           Manutenção
+pt_BR     maquinas                                                                                            admin     info                Maquinas
 pt_BR     kciq_msg php_memory                                                                                 instaladorinfo                Memória para execução de programas PHP
 pt_BR     kciq_msg mensagem                                                                                   Geral     info                Mensagem
 pt_BR     kciq_msg server msg                                                                                 geral     info                Mensagem do servidor
 pt_BR     modulo para atualizacao das informacoes coletadas dos modulos gerentes descentralizados             admin     info                Modulo para atualizacao das informacoes coletadas dos modulos gerentes descentralizados
-pt_BR     kciq_msg cadastro de softwares help                                                                 admin     info                Módulo para cadastramento manual de softwares para posterior utilização referencial junto aos dados de licenças.
+pt_BR     modulo para cadastramento manual de softwares por estacao                                           admin     info                Modulo para cadastramento manual de softwares por estacao
 pt_BR     modulos                                                                                             admin     info                Modulos
 pt_BR     kciq_msg showcfgfile                                                                                instaladorinfo                Mostrar <i>config.php</i>
+pt_BR     mostrar todos                                                                                       admin     info                Mostrar Todos
 pt_BR     kciq_msg showcfgfile help                                                                           instaladorinfo                Mostrar o arquivo de configurações para o CACIC.
 pt_BR     motivo                                                                                              admin     info                Motivo
+pt_BR     kciq_msg cadastro de softwares help                                                                 admin     info                Módulo para cadastramento manual de softwares para posterior utilização referencial junto aos dados de licenças.
 pt_BR     nao contenha                                                                                        admin     info                NAO CONTENHA
 pt_BR     nao atualizado                                                                                      admin     info                Nao Atualizado
 pt_BR     nao enviado                                                                                         admin     info                Nao Enviado
+pt_BR     nao ha registro de aquisicao de softwares                                                           admin     info                Nao Ha Registro de Aquisicao de Softwares
 pt_BR     nao classificados:                                                                                  admin     info                Nao classificados:
 pt_BR     nao e executado em nenhuma rede                                                                     admin     info                Nao e executado em nenhuma rede
 pt_BR     nao foi possivel excluir o arquivo %1. verifique as permissoes de escrita no diretorio repositorio! admin     info                Nao foi possivel excluir o arquivo %1. Verifique as permissoes de escrita no diretorio repositorio!
+pt_BR     nao foi possivel gravar o registro!                                                                 admin     info                Nao foi possivel gravar o registro!
 pt_BR     nao foi selecionada nenhuma rede. deseja continuar?                                                 admin     info                Nao foi selecionada nenhuma rede. Deseja continuar?
 pt_BR     nao foi selecionado nenhum sistema operacional. deseja continuar?                                   admin     info                Nao foi selecionado nenhum sistema operacional. Deseja continuar?
 pt_BR     nao foram encontrados registros                                                                     admin     info                Nao foram encontrados registros
+pt_BR     nao ha autorizacao para esta maquina                                                                admin     info                Nao ha autorizacao para esta maquina
+pt_BR     nao ha historico desta maquina                                                                      admin     info                Nao ha historico desta maquina
 pt_BR     kciq_msg js_enable                                                                                  instaladorinfo                Necessário ativar <b>JavaScript</b> para usar o Instalador Web
 pt_BR     kciq_msg login needed                                                                               geral     info                Necessário haver autenticação
 pt_BR     nenhum acesso realizado no periodo informado                                                        admin     info                Nenhum acesso realizado no periodo informado
+pt_BR     nenhum registro encontrado!                                                                         admin     info                Nenhum registro encontrado!
 pt_BR     nenhum usuario cadastrado ou sua sessao expirou!                                                    admin     info                Nenhum usuario cadastrado ou sua sessao expirou!
 pt_BR     nenhuma atividade realizada no periodo informado                                                    admin     info                Nenhuma atividade realizada no periodo informado
 pt_BR     nenhuma rede cadastrada ou sua sessao expirou!                                                      admin     info                Nenhuma rede cadastrada ou sua sessao expirou!
@@ -275,6 +320,7 @@ pt_BR     nome da organizacao-empresa-orgao                                     
 pt_BR     nome da rede                                                                                        admin     info                Nome da rede
 pt_BR     nome de rede                                                                                        admin     info                Nome de rede
 pt_BR     kciq_msg admin mgm adminname help                                                                   instaladorinfo                Nome do Administrador do CACIC
+pt_BR     nome do computador                                                                                  admin     info                Nome do Computador
 pt_BR     kciq_msg admin name needed                                                                          geral     info                Nome do administrador deve ser informado!
 pt_BR     kciq_msg database name                                                                              instaladorinfo                Nome do banco de dados
 pt_BR     kciq_msg inst database name not defined                                                             instaladorerro                Nome do banco de dados deve ser informado!
@@ -286,8 +332,12 @@ pt_BR     kciq_msg dbuser help                                                  
 pt_BR     kciq_msg ftp host help                                                                              geral     help                Nome ou IP do servidor FTP
 pt_BR     kciq_msg new                                                                                        Geral     info                Nova
 pt_BR     nova senha                                                                                          admin     info                Nova senha
-pt_BR     nao                                                                                                 admin     info                Não
+pt_BR     numero da midia                                                                                     admin     info                Numero da Midia
+pt_BR     numero da midia:                                                                                    admin     info                Numero da Midia:
+pt_BR     numero do patrimonio                                                                                admin     info                Numero do Patrimonio
+pt_BR     numero do processo:                                                                                 admin     info                Numero do Processo:
 pt_BR     ksiq_msg not                                                                                        admin     info                Não
+pt_BR     nao                                                                                                 admin     info                Não
 pt_BR     kciq_msg no                                                                                         geral     info                Não
 pt_BR     kciq_msg database connect fail                                                                      geral     erro                Não foi possível conectar ao banco de dados
 pt_BR     kciq_msg inst config file read                                                                      instaladorinfo                Não foi possível ler o arquivo (%1) de configurações
@@ -304,11 +354,14 @@ pt_BR     kciq_msg access level                                                 
 pt_BR     kciq_msg admin mgm phone help                                                                       instaladorinfo                Número do telefone do Administrador do CACIC para contato.
 pt_BR     kciq_msg javascript not enabled                                                                     geral     erro                O Javascript é indispensável ao perfeito funcionamento do Sistema
 pt_BR     observacao                                                                                          admin     info                Observacao
+pt_BR     observacao:                                                                                         admin     info                Observacao:
 pt_BR     kciq_msg obs                                                                                        geral     info                Observação
 pt_BR     kciq_msg admin mgm obs help                                                                         instaladorinfo                Observações (informações) para o local ao qual a aplicação gerente está associada.
 pt_BR     ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou                            admin     info                Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou
 pt_BR     ocorreu um erro durante exclusao de referencia em %1 ou sua sessao expirou!                         admin     info                Ocorreu um erro durante exclusao de referencia em %1 ou sua sessao expirou!
 pt_BR     ocorreu um erro no acesso a tabela %1 ou sua sessao expirou                                         admin     info                Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou
+pt_BR     ocorreu um erro no select ou sua sessao expirou!                                                    admin     info                Ocorreu um erro no select ou sua sessao expirou!
+pt_BR     ocorreu um erro no select ou sua sessÃ£o expirou!                                                   admin     info                Ocorreu um erro no select ou sua sessÃ£o expirou!
 pt_BR     kciq_msg ok                                                                                         geral     info                Ok
 pt_BR     ok!                                                                                                 admin     info                Ok!
 pt_BR     onde executar essa acao-configuracao                                                                admin     info                Onde executar essa acao-configuracao
@@ -326,7 +379,10 @@ pt_BR     kciq_msg phpmysql_help                                                
 pt_BR     kciq_msg phpversion_help                                                                            instaladorinfo                Para executar o CACIC é necessário instalar a versão do PHP indicada.
 pt_BR     kciq_msg inst database admin not defined                                                            instaladorerro                Para instalação nova, informe o usuário administrador do banco de dados!
 pt_BR     kciq_msg php_flag_on                                                                                instaladorinfo                Para que o CACIC funcione corretamente é necessário - por enquanto - ativar essa diretiva.
+pt_BR     particular                                                                                          admin     info                Particular
 pt_BR     patrimonio                                                                                          admin     info                Patrimonio
+pt_BR     patrimonio de destino:                                                                              admin     info                Patrimonio de Destino:
+pt_BR     patrimonio:                                                                                         admin     info                Patrimonio:
 pt_BR     percentual                                                                                          admin     info                Percentual
 pt_BR     kciq_menu fast search                                                                               Geral     info                Pesquisa rápida
 pt_BR     kciq_menu search                                                                                    Geral     info                Pesquisar
@@ -338,12 +394,19 @@ pt_BR     kciq_msg ftp port help                                                
 pt_BR     kciq_msg database port help                                                                         instaladorinfo                Porta de conexão ao banco de dados.
 pt_BR     kciq_msg inst database server port not defined                                                      instaladorerro                Porta no servidor de banco de dados deve ser informada!
 pt_BR     language_pt_br                                                                                      Geral     info      pt_BR     Português Brasileiro
+pt_BR     processo                                                                                            admin     info                Processo
 pt_BR     kciq_msg inst database build process ok                                                             instaladorinfo                Processo de construção do banco de dados (%1) finalizado com sucesso!
+pt_BR     processo:                                                                                           admin     info                Processo:
 pt_BR     programa                                                                                            admin     info                Programa
+pt_BR     proprietario                                                                                        admin     info                Proprietario
 pt_BR     kciq_msg next                                                                                       Geral     info                Próximo
 pt_BR     kciq_msg database type help                                                                         instaladorinfo                Qual o tipo de banco de dados a usar (Somente MySQL por enquanto).
 pt_BR     quant.                                                                                              admin     info                Quant.
 pt_BR     quantidade                                                                                          admin     info                Quantidade
+pt_BR     quantidade comprada                                                                                 admin     info                Quantidade Comprada
+pt_BR     quantidade instalada                                                                                admin     info                Quantidade Instalada
+pt_BR     quantidade de licencas                                                                              admin     info                Quantidade de Licencas
+pt_BR     quantidade de licencas:                                                                             admin     info                Quantidade de Licencas:
 pt_BR     kciq_msg real                                                                                       instaladorinfo                Real
 pt_BR     kciq_msg ftp verify help                                                                            geral     info                Realiza teste de verificação de servidor FTP, não salva na base de dados do sistema devendo ser configurado pós instalação.
 pt_BR     kciq_msg backup help                                                                                geral     info                Realizar cópia do banco de dados por segurança.
@@ -353,10 +416,22 @@ pt_BR     kciq_installerresources                                               
 pt_BR     kciq_msg features title                                                                             instaladorinfo                Recursos para as próximas versões do CACIC
 pt_BR     rede                                                                                                admin     info                Rede
 pt_BR     redes                                                                                               admin     info                Redes
+pt_BR     registro gravado!                                                                                   admin     info                Registro gravado!
 pt_BR     reinicializar senha                                                                                 admin     info                Reinicializar senha
+pt_BR     relatorio de aquisicoes de software                                                                 admin     info                Relatorio de Aquisicoes de Software
+pt_BR     relatorio de aquisicoes de software particular                                                      admin     info                Relatorio de Aquisicoes de Software Particular
 pt_BR     relatorio de autorizacoes cadastradas                                                               admin     info                Relatorio de Autorizacoes Cadastradas
 pt_BR     relatorio de cadastros inconsistentes                                                               admin     info                Relatorio de Cadastros Inconsistentes
+pt_BR     relatorio de instalacoes de software                                                                admin     info                Relatorio de Instalacoes de Software
+pt_BR     relatorio de instalacoes de software particular                                                     admin     info                Relatorio de Instalacoes de Software Particular
+pt_BR     relatorio de inventario de softwares                                                                admin     info                Relatorio de Inventario de Softwares
+pt_BR     relatorio de processos de compra de software                                                        admin     info                Relatorio de Processos de Compra de Software
+pt_BR     relatorio de softwares adquiridos                                                                   admin     info                Relatorio de Softwares Adquiridos
+pt_BR     relatorio de softwares inventariados                                                                admin     info                Relatorio de Softwares Inventariados
 pt_BR     relatorio de softwares inventariados por maquinas                                                   admin     info                Relatorio de Softwares Inventariados por Maquinas
+pt_BR     relatorio de softwares particulares                                                                 admin     info                Relatorio de Softwares Particulares
+pt_BR     relatorio de softwares por aquisicao                                                                admin     info                Relatorio de Softwares por Aquisicao
+pt_BR     relatorio de softwares por processo                                                                 admin     info                Relatorio de Softwares por Processo
 pt_BR     relatorio de cadastros inconsistentes ii                                                            admin     info                Relatorio de cadastros inconsistentes II
 pt_BR     relatorio gerado pelo                                                                               admin     info                Relatorio gerado pelo
 pt_BR     remocao de computador                                                                               admin     info                Remocao de computador
@@ -366,9 +441,11 @@ pt_BR     kciq_msg requisitos                                                   
 pt_BR     resultado da consulta                                                                               admin     info                Resultado da consulta
 pt_BR     resumo das operacoes                                                                                admin     info                Resumo das Operacoes
 pt_BR     resumo das tentativas de instalacao                                                                 admin     info                Resumo das Tentativas de Instalacao
+pt_BR     resumo quantitativo de licencas                                                                     admin     info                Resumo quantitativo de licencas
 pt_BR     retorna para                                                                                        admin     info                Retorna para
 pt_BR     seja nulo                                                                                           admin     info                SEJA NULO
 pt_BR     seja vazio                                                                                          admin     info                SEJA VAZIO
+pt_BR     saldo                                                                                               admin     info                Saldo
 pt_BR     kciq_msg savecfgfile help                                                                           instaladorinfo                Salva o arquivo de configurações para o CACIC.
 pt_BR     kciq_msg save                                                                                       geral     info                Salvar
 pt_BR     kciq_msg save title                                                                                 instaladorinfo                Salvar dados do administrador do CACIC.
@@ -382,6 +459,8 @@ pt_BR     kciq_msg inst version to update                                       
 pt_BR     kciq_msg version help                                                                               instaladorinfo                Selecione a versão do CACIC a ser atualizada.
 pt_BR     selecione o periodo em que devera ser realizada a consulta:                                         admin     info                Selecione o periodo em que devera ser realizada a consulta:
 pt_BR     selecione o periodo no qual devera ser realizada a consulta                                         admin     info                Selecione o periodo no qual devera ser realizada a consulta
+pt_BR     selecione o software                                                                                admin     info                Selecione o software
+pt_BR     selecione os filtros da consulta:                                                                   admin     info                Selecione os filtros da consulta:
 pt_BR     selecione os softwares que deseja classificar:                                                      admin     info                Selecione os softwares que deseja classificar:
 pt_BR     kciq_msg inst type not defined                                                                      instaladorerro                Selecione um dos tipos de instalação!
 pt_BR     kciq_msg password                                                                                   Geral     info                Senha
@@ -407,6 +486,9 @@ pt_BR     kciq_msg yes                                                          
 pt_BR     sistema monitorado                                                                                  admin     info                Sistema Monitorado
 pt_BR     sistema operacional                                                                                 admin     info                Sistema Operacional
 pt_BR     sistemas operacionais onde essa acao-configuracao devera ser aplicada                               admin     info                Sistemas Operacionais onde essa acao-configuracao devera ser aplicada
+pt_BR     software                                                                                            admin     info                Software
+pt_BR     software interno                                                                                    admin     info                Software Interno
+pt_BR     softwares por aquisicao                                                                             admin     info                Softwares por Aquisicao
 pt_BR     status                                                                                              admin     info                Status
 pt_BR     sua tentativa foi registrada no log                                                                 admin     info                Sua tentativa foi registrada no log
 pt_BR     kciq_msg ftp subdir                                                                                 geral     info                Subdiretório FTP
@@ -420,7 +502,10 @@ pt_BR     telefones para contato                                                
 pt_BR     kciq_msg test conn help                                                                             instaladorinfo                Testar conexão com o servidor.
 pt_BR     kciq_msg test conn                                                                                  instaladorinfo                Teste de conexão
 pt_BR     kciq_msg database type                                                                              instaladorinfo                Tipo
+pt_BR     tipo licenca                                                                                        admin     info                Tipo Licenca
+pt_BR     tipo da licenca                                                                                     admin     info                Tipo da Licenca
 pt_BR     tipo de acesso                                                                                      admin     info                Tipo de Acesso
+pt_BR     tipo de licenca                                                                                     admin     info                Tipo de Licenca
 pt_BR     kciq_msg inst database type not defined                                                             instaladorinfo                Tipo de banco de dados deve ser informado!
 pt_BR     kciq_msg install type                                                                               instaladorinfo                Tipo de instalação
 pt_BR     tipo do software:                                                                                   admin     info                Tipo do software:
@@ -457,8 +542,13 @@ pt_BR     kciq_msg def_version                                                  
 pt_BR     kciq_msg version header                                                                             instaladorinfo                Versão a ser atualizada.
 pt_BR     kciq_msg phpversion                                                                                 instaladorinfo                Versão do PHP
 pt_BR     kciq_msg database server version invalid                                                            instaladorerro                Versão do Servidor de banco de dados inválida
+pt_BR     voce deve informar a data de aquisicao.                                                             admin     info                Voce deve informar a data de aquisicao.
+pt_BR     voce deve informar o numero do processo no formato                                                  admin     info                Voce deve informar o numero do processo no formato
 pt_BR     kciq_msg phpcfgfile_help                                                                            instaladorinfo                Você poderá continuar a instalação e o arquivo poderá (opcionalmente) ser mostrado na tela. Assim, você poderá copiá-lo e colá-lo no devido diretório.
+pt_BR     voltar                                                                                              admin     info                Voltar
 pt_BR     a                                                                                                   admin     info                a
+pt_BR     desenvolvido por                                                                                    admin     info                desenvolvido por
+pt_BR     formato:                                                                                            admin     info                formato:
 pt_BR     kciq_msg inst end advise file                                                                       instaladorarquivo             inst_end_advise_file.html
 pt_BR     kciq_msg features file                                                                              instaladorarquivo             inst_end_features_file.html
 pt_BR     kciq_msg inst end hist file                                                                         instaladorarquivo             inst_end_hist_file.html
@@ -468,31 +558,5 @@ pt_BR     kciq_msg license pt_read                                              
 pt_BR     kciq_msg last agents access                                                                         geral     info                Últimos acessos dos agentes
 pt_BR     kciq_msg last agents access on local                                                                geral     info                Últimos acessos dos agentes deste local
 pt_BR     kciq_msg last agents access per local                                                               geral     info                Últimos acessos dos agentes por local nesta data
-pt_BR     cadastro de aquisicao                                                                               info      info                Cadastro de Aquisicao
-pt_BR     nao foi possivel gravar o registro!                                                                 info      info                Nao foi possivel gravar o registro!
-pt_BR     registro gravado!                                                                                   info      info                Registro gravado!
-pt_BR     voltar                                                                                              info      info                Voltar
-pt_BR     cadastro de softwares                                                                               info      info                Cadastro de Softwares
-pt_BR     descricao:                                                                                          info      info                Descricao:
-pt_BR     quantidade de licencas:                                                                             info      info                Quantidade de Licencas:
-pt_BR     numero da midia:                                                                                    info      info                Numero da Midia:
-pt_BR     localizacao da midia:                                                                               info      info                Localizacao da Midia:
-pt_BR     observacao:                                                                                         info      info                Observacao:
-pt_BR     cancelar                                                                                            info      info                Cancelar
-pt_BR     gravar                                                                                              info      info                Gravar
-pt_BR     cadastro de softwares po estacao                                                                    info      info                Cadastro de Softwares po Estacao
-pt_BR     modulo para cadastramento manual de softwares por estacao                                           info      info                Modulo para cadastramento manual de softwares por estacao
-pt_BR     patrimonio:                                                                                         info      info                Patrimonio:
-pt_BR     computador:                                                                                         info      info                Computador:
-pt_BR     data de autorizacao:                                                                                info      info                Data de Autorizacao:
-pt_BR     numero do processo:                                                                                 info      info                Numero do Processo:
-pt_BR     data de expiracao:                                                                                  info      info                Data de Expiracao:
-pt_BR     aquisicao:                                                                                          info      info                Aquisicao:
-pt_BR     ocorreu um erro no select ou sua sessao expirou!                                                    info      info                Ocorreu um erro no select ou sua sessao expirou!
-pt_BR     data de desinstalacao:                                                                              info      info                Data de Desinstalacao:
-pt_BR     patrimonio de destino:                                                                              info      info                Patrimonio de Destino:
-pt_BR     cadastro de aquisicoes                                                                              info      info                Cadastro de Aquisicoes
-pt_BR     informe o periodo em que foi realizada a aquisicao:                                                 info      info                Informe o periodo em que foi realizada a aquisicao:
-pt_BR     formato:                                                                                            info      info                formato:
-pt_BR     informe o numero do processo:                                                                       info      info                Informe o numero do processo:
-pt_BR     incluir aquisicao                                                                                   info      info                Incluir Aquisicao
+pt_BR     erro no select ou sua sessao expirou                                                                admin     info                Erro no select ou sua sessao expirou
+pt_BR     erro ao acessar tabela softwares_estacao ou sua sessao expirou!                                     admin     info                Erro ao acessar tabela softwares_estacao ou sua sessao expirou!

@@ -4,7 +4,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -34,12 +34,12 @@ if ($_POST['consultar']) {
 <?
 
 if (($_SESSION['ftr_autorizado_estacao'] == 'nome') or ($_SESSION['ftr_autorizado_estacao'] == '')) {
-	$valor_padrao_autorizado_estacao = '<option value="nome">Nome do Computador</option>
+	$valor_padrao_autorizado_estacao = '<option value="nome">'.$oTranslator->_('Nome do Computador').'</option>
 			<option value="patrimonio">'.$oTranslator->_('Numero do Patrimonio').'</option>';
 }
 
 if ($_SESSION['ftr_autorizado_estacao'] == 'patrimonio') {
-	$valor_padrao_autorizado_estacao = '<option value="patrimonio">Número do Patrim&ocirc;nio</option>
+	$valor_padrao_autorizado_estacao = '<option value="patrimonio">'.$oTranslator->_('Numero do Patrimonio').'</option>
 			<option value="nome">'.$oTranslator->_('Nome do Computador').'</option>';
 }
 
@@ -118,8 +118,8 @@ if ($_POST['consultar']) {
 			  ORDER BY nm_software";
 	}
 
-	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
-	$resultDesinstaladoTransferido = mysql_query($queryDesinstaladoTransferido) or die($oTranslator->_('Erro no select ou sua sessão expirou!'));
+	$result = mysql_query($query) or die($oTranslator->_('Erro no select ou sua sessao expirou!'));
+	$resultDesinstaladoTransferido = mysql_query($queryDesinstaladoTransferido) or die($oTranslator->_('Erro no select ou sua sessao expirou!'));
 	
 	if (strlen($_SESSION['str_autorizado_estacao']) < 3) {
 		echo $mensagem = mensagem($oTranslator->_('Digite pelo menos 03 caracteres...'));
@@ -191,7 +191,7 @@ if ($_POST['consultar']) {
 	  <td nowrap class="opcao_tabela"><div align="center">
 		<? if ($row['id_aquisicao_particular'])  
 			echo "<a href='softwares_aquisicao.php?id_aquisicao=" . $row['id_aquisicao_particular'] . "' target='_blank'>SIM</a>"; 
-                   else  echo "N&Atilde;O"; 
+                   else  echo $oTranslator->_('kciq_msg no'); 
 		?> 
 	  </div></td>
           <td nowrap>&nbsp;</td>
@@ -213,8 +213,6 @@ if ($_POST['consultar']) {
 	  echo '<tr><td colspan=16 align=center>'.$oTranslator->_('Historico').'</td></tr>';
         } ?>
         <tr <? 
-		
-//		if ($Cor) { echo 'bgcolor="#FF9900"'; } else echo 'bgcolor="#FFCC00"'; 
 		if ($Cor) { echo 'bgcolor="#C0C0C0"'; } else echo 'bgcolor="#000000"'; 		
 		?>> 
           <td nowrap>&nbsp;</td>
@@ -237,7 +235,7 @@ if ($_POST['consultar']) {
 	  <td nowrap class="opcao_tabela"><div align="center">
 		<? if ($row['id_aquisicao_particular'])  
 			echo "<a href='softwares_aquisicao.php?id_aquisicao=" . $row['id_aquisicao_particular'] . "' target='_blank'>SIM</a>"; 
-                   else  echo "N&Atilde;O"; 
+                   else  echo $oTranslator('kciq_msg no'); 
 		?> 
 	  </div></td>
           <td nowrap>&nbsp;</td>

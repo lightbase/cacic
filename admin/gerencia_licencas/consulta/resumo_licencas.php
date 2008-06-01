@@ -4,7 +4,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -22,7 +22,7 @@ if ($_POST['consultar']) {
 <head>
 <link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
 
-<title></title>
+<title><?=$oTranslator->_('Resumo quantitativo de licencas');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -32,10 +32,14 @@ if ($_POST['consultar']) {
 <form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
 <table width="90%" border="0" align="center">
 <tr> 
-      <td class="cabecalho">Resumo quantitativo de licen&ccedil;as</td>
+      <td class="cabecalho"><?=$oTranslator->_('Resumo quantitativo de licencas');?></td>
 </tr>
 <tr>
-<td><b>Observa&ccedil;&atilde;o:</b><i><u> Havendo saldo positivo numa vers&atilde;o n&atilde;o implica disponibilidade de licen&ccedil;a. O saldo pode estar cobrindo saldo negativo de vers&otilde;es anteriores.</u></i></td>
+<td><b><?=$oTranslator->_('Observacao');?></b> - 
+   <i><u>
+     <?=$oTranslator->_('Resumo quantitativo de licencas help');?>
+   </u></i>
+</td>
 </tr>
 <tr> 
 <td>&nbsp;</td>
@@ -43,7 +47,7 @@ if ($_POST['consultar']) {
 </table>
 <tr><td height="1" colspan="2" bgcolor="#333333"></td></tr>
 <tr><td height="30" colspan="2"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
-<tr><td colspan="2" class="label">Selecione o software:</td></tr>
+<tr><td colspan="2" class="label"><?=$oTranslator->_('Selecione o software');?></td></tr>
 <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
 <tr> 
 <td height="1" bgcolor="#333333"></td>
@@ -56,15 +60,15 @@ if ($_POST['consultar']) {
 	<?	$query = "SELECT id_software, nm_software 
 			  FROM softwares 
 			  ORDER BY nm_software";
-		$result = mysql_query($query) or die('Ocorreu um erro no select ou sua sessão expirou!');
-		echo '<option value=0>Mostrar Todos</option>';
+		$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no select ou sua sessao expirou!'));
+		echo '<option value=0>'.$oTranslator->_('Mostrar Todos').'</option>';
 		while ($softwares=mysql_fetch_array($result)) {
 			echo '<option value=' . $softwares['id_software'] . '>' . $softwares['nm_software'] . '</option>';
 		}
 	?>
 	</select>
 </td> 
-            <td><input name="consultar" type="submit" id="consultar2" value="Consultar"></td>
+            <td><input name="consultar" type="submit" id="consultar2" value="<?=$oTranslator->_('Consultar');?>"></td>
           </tr>
         </table></td>
     </tr>
@@ -100,7 +104,7 @@ if ($_POST['consultar']) {
 	}
 	$query = $query . " ORDER BY nm_software";
 
-	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
+	$result = mysql_query($query) or die($oTranslator->_('Erro no select ou sua sessao expirou!'));
 	
 ?> 
 <p align="center" class="cabecalho"></p> 
@@ -114,15 +118,15 @@ if ($_POST['consultar']) {
 	  <td align="center" nowrap>&nbsp;</td>
 	  <td align="center" nowrap><div align="left"><strong></strong></div></td>
 	  <td align="center" nowrap >&nbsp; </td>
-	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Software</font></strong></div></td>
+	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Software');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Licen&ccedil;as</font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Licencas');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Autorizado</font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Autorizado');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
           <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">CACIC</font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Saldo</font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Saldo');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
         </tr>
         <?  

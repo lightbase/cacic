@@ -18,7 +18,7 @@
 <tr> 
 <td class="label">  
 <?
-require_once "../include/library.php";
+require_once "library.php";
 $query = "SELECT 	*
 		  FROM 		locais ".
 		  $whereLocais . "
