@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -31,9 +31,9 @@ conecta_bd_cacic();
 
 if ($_POST['ExcluiLocal'] <> '') 
 	{
-	$result 	= mysql_list_tables('cacic'); //Retorna a lista de tabelas do CACIC
-	while ($row = mysql_fetch_row($result)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO
-		{		
+	$result 	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do BD do CACIC (em config.php)
+	while ($row = mysql_fetch_row($result))
+		{
 		$query_DEL 	= 'DELETE FROM '.$row[0] .' WHERE id_local = "'. $_POST['frm_id_local'] .'"';
 		$result_DEL = @mysql_query($query_DEL);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
 		if ($result_DEL)
@@ -49,7 +49,7 @@ elseif ($_POST['GravaAlteracoes']<>'')
 			  			te_observacao = '".$_POST['frm_te_observacao']."'			  
 			  WHERE 	id_local = ".$_POST['frm_id_local'];
 
-	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
+	mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('locais')));
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'locais');		
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/locais/index.php&tempo=1");				
 	}
@@ -57,7 +57,7 @@ else
 	{
 	$query = "SELECT 	* 
 			  FROM 		locais ";
-	$result = mysql_query($query) or die ('Erro no acesso à tabela locais ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('locais')));
 	
 	$v_arr_locais = array();
 	while ($row = mysql_fetch_array($result))
@@ -82,7 +82,7 @@ else
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Detalhes de Local</title>
+<title><?=$oTranslator->_('Detalhes do Local');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
 
@@ -110,12 +110,12 @@ function valida_form()
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Detalhes 
-      do Local "<? echo $v_sg_local;?>"</td>
+    <td class="cabecalho"><?=$oTranslator->_('Detalhes do Local');?> "<? echo $v_sg_local;?>"</td>
   </tr>
   <tr> 
-    <td class="descricao">As informa&ccedil;&otilde;es 
-      referem-se a um local originário de chamadas ao sistema CACIC.</td>
+    <td class="descricao">
+       <?=$oTranslator->_('As informacoes referem-se a um local originario de chamadas ao sistema CACIC');?>
+    </td>
   </tr>
 </table>
 <form action="detalhes_local.php"  method="post" ENCTYPE="multipart/form-data" name="form">
@@ -123,14 +123,16 @@ function valida_form()
     <tr> 
       <td>&nbsp;</td>
       <td class="label"><br>
-        Sigla do Local:</td>
+        <?=$oTranslator->_('Sigla do Local');?></td>
       <td><br> </td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="3"></td>    </tr>
     <tr> 
       <td>&nbsp;</td>
-      <td class="dado_peq_sem_fundo"> <input name="frm_sg_local" type="text" value="<? echo $v_sg_local; ?>" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >&nbsp;&nbsp;Ex.: DTP - URES 
+      <td class="dado_peq_sem_fundo">
+        <input name="frm_sg_local" type="text" value="<? echo $v_sg_local; ?>" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+        <?=$oTranslator->_('Exemplo');?> - "DTP-URES" 
         <input name="frm_id_local" type="hidden" id="frm_id_local" value="<? echo $_GET['id_local']; ?>"> 
       </td>
       <td>&nbsp;</td>
@@ -138,7 +140,7 @@ function valida_form()
     <tr> 
       <td>&nbsp;</td>
       <td class="label"><br>
-        Nome do Local:</td>
+        <?=$oTranslator->_('Nome do Local');?></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
@@ -151,7 +153,7 @@ function valida_form()
     <tr> 
       <td>&nbsp;</td>
       <td class="label"><br>
-        Observa&ccedil;&otilde;es:</td>
+        <?=$oTranslator->_('Observacoes');?></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
@@ -170,7 +172,7 @@ function valida_form()
 	  
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
-      <td colspan="5" class="label">Redes Associadas ao Local:</td>
+      <td colspan="5" class="label"><?=$oTranslator->_('Redes Associadas ao Local');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="5"></td>
@@ -178,9 +180,9 @@ function valida_form()
     <tr>
       <td class="cabecalho_tabela">&nbsp;</td>
       <td class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela">IP</td>
+      <td align="left" nowrap class="cabecalho_tabela"><?=$oTranslator->_('Endereco IP');?></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" class="cabecalho_tabela">Rede</td>
+      <td align="left" class="cabecalho_tabela"><?=$oTranslator->_('Nome da Rede');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="5"></td>
@@ -192,7 +194,7 @@ function valida_form()
 						nm_rede 
 			  FROM 		redes a
 			  WHERE 	a.id_local = '".$_GET['id_local']."'";
-	$result = mysql_query($query) or die ('Erro no acesso à tabela redes ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('redes')));
 	$seq = 1;
 	$Cor = 1;	
 	while ($row = mysql_fetch_array($result))
@@ -210,7 +212,7 @@ function valida_form()
 		$Cor=!$Cor;
 		}
 	if ($seq==1)
-		echo '<tr><td colspan="5" class="label_vermelho">Ainda não existem redes associadas ao local!</td></tr>';		
+		echo '<tr><td colspan="5" class="label_vermelho">'.$oTranslator->_('Ainda nao existem redes associadas ao local!').'</td></tr>';		
 		?>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="5"></td>
@@ -231,7 +233,7 @@ $queryCONFIG = "SELECT 		DISTINCT
 		  		ORDER BY 	id_etiqueta
 				LIMIT       3";
 
-$resultCONFIG 	= mysql_query($queryCONFIG);
+$resultCONFIG 	= mysql_query($queryCONFIG) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('patrimonio_config_interface')));
 
 session_register('etiqueta1');
 session_register('etiqueta1a');
@@ -243,7 +245,7 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 ?>
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
-      <td colspan="8" class="label">Informa&ccedil;&otilde;es de Patrim&ocirc;nio Associadas ao Local:</td>
+      <td colspan="8" class="label"><?=$oTranslator->_('Informacoes de Patrimonio Associadas ao Local');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="8"></td>
@@ -279,7 +281,7 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 						uo1a_nm_unid_organizacional_nivel1a, 
 						uo2_nm_unid_organizacional_nivel2';		  
 
-	$result = mysql_query($query) or die ('Erro no acesso ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('unidades organizacionais')));
 	
 	$seq = 1;
 	$Cor = 1;	
@@ -301,7 +303,7 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 		$Cor=!$Cor;
 		}
 	if ($seq==1)
-		echo '<tr><td colspan="5" class="label_vermelho">Ainda não existem informações de patrimônio associadas ao local!</td></tr>';		
+		echo '<tr><td colspan="5" class="label_vermelho">'.$oTranslator->_('Ainda nao existem informacoes de patrimonio associadas ao local!').'</td></tr>';		
 		?>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="8"></td>
@@ -311,7 +313,7 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
-      <td colspan="7" class="label">Usu&aacute;rios Associados ao Local:</td>
+      <td colspan="7" class="label"><?=$oTranslator->_('Usuarios Associados ao Local');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="9"></td>
@@ -319,13 +321,13 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
     <tr> 
       <td class="cabecalho_tabela">&nbsp;</td>
       <td class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela">Nome</td>
+      <td align="left" nowrap class="cabecalho_tabela"><?=$oTranslator->_('Nome');?></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela"><div align="center">N&iacute;vel de Acesso</div></td>
+      <td align="left" nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Nivel de Acesso');?></div></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela"><div align="center">Tipo de Acesso</div></td>
+      <td align="left" nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Tipo de Acesso');?></div></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" class="cabecalho_tabela">Emails</td>	  
+      <td align="left" class="cabecalho_tabela"><?=$oTranslator->_('Endereco eletronico');?></td>	  
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="9"></td>
@@ -348,7 +350,7 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 			            b.id_grupo_usuarios = a.id_grupo_usuarios
 			  ORDER BY  a.nm_usuario_completo";
 
-	$result = mysql_query($query) or die ('Erro no acesso à tabela usuarios ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('usuarios/grupo_usuarios')));
 	$seq = 1;
 	$Cor = 1;	
 	while ($row = mysql_fetch_array($result))
@@ -382,7 +384,7 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 		$Cor=!$Cor;
 		}
 	if ($seq==1)
-		echo '<tr><td colspan="3" class="label_vermelho">Ainda não existem usuários associados ao local!</td></tr>';		
+		echo '<tr><td colspan="3" class="label_vermelho">'.$oTranslator->_('Ainda nao existem usuarios associados ao local!').'</td></tr>';		
 		?>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="9"></td>
@@ -390,9 +392,9 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
   </table>
   <p align="center"> <br>
     <br>
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para o Local?');return valida_form();" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="<?=$oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma(<?=$oTranslator->_('Confirma Informacoes para o Local?');?>);return valida_form();" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="ExcluiLocal" type="submit" value="  Excluir Local" onClick="return Confirma('Confirma Exclusão do Local E TODAS AS SUAS DEPENDÊNCIAS?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="ExcluiLocal" type="submit" value="<?=$oTranslator->_('Excluir Local');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Exclusao do Local E TODAS AS SUAS DEPENDENCIAS?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
   </p>
 </form>		  
 		

@@ -742,7 +742,7 @@ class InstallAjax {
 	  	       $adminNome = $cacic_admin['admin_nome'];
     		   if(function_exists('utf8_decode')) {
         		  $localNome = utf8_decode(trim($cacic_admin['local_nome']));
-        		  $localObservacao = utf8_decode(trim($cacic_admin['local_nome']));
+        		  $localObservacao = utf8_decode(trim($cacic_admin['local_observacao']));
 	  	          $adminNome = utf8_decode(trim($cacic_admin['admin_nome']));
     		   }
     		

@@ -560,3 +560,26 @@ pt_BR     kciq_msg last agents access on local                                  
 pt_BR     kciq_msg last agents access per local                                                               geral     info                Últimos acessos dos agentes por local nesta data
 pt_BR     erro no select ou sua sessao expirou                                                                admin     info                Erro no select ou sua sessao expirou
 pt_BR     erro ao acessar tabela softwares_estacao ou sua sessao expirou!                                     admin     info                Erro ao acessar tabela softwares_estacao ou sua sessao expirou!
+pt_BR     endereco eletronico                                                                                 admin     info                Endereco eletronico
+pt_BR     falha na atualizacao da tabela (%1) ou sua sessao expirou!                                          admin     info                Falha na atualizacao da tabela (%1) ou sua sessao expirou!
+pt_BR     falha na consulta a tabela (%1) ou sua sessao expirou!                                              admin     info                Falha na Consulta a tabela (%1) ou sua sessao expirou!
+pt_BR     detalhes do local                                                                                   admin     info                Detalhes do Local
+pt_BR     as informacoes referem-se a um local originario de chamadas ao sistema cacic                        admin     info                As informacoes referem-se a um local originario de chamadas ao sistema CACIC
+pt_BR     sigla do local                                                                                      admin     info                Sigla do Local
+pt_BR     nome do local                                                                                       admin     info                Nome do Local
+pt_BR     observacoes                                                                                         admin     info                Observacoes
+pt_BR     redes associadas ao local                                                                           admin     info                Redes Associadas ao Local
+pt_BR     ainda nao existem redes associadas ao local!                                                        admin     info                Ainda nao existem redes associadas ao local!
+pt_BR     informacoes de patrimonio associadas ao local                                                       admin     info                Informacoes de Patrimonio Associadas ao Local
+pt_BR     ainda nao existem informacoes de patrimonio associadas ao local!                                    admin     info                Ainda nao existem informacoes de patrimonio associadas ao local!
+pt_BR     usuarios associados ao local                                                                        admin     info                Usuarios Associados ao Local
+pt_BR     nivel de acesso                                                                                     admin     info                Nivel de Acesso
+pt_BR     ainda nao existem usuarios associados ao local!                                                     admin     info                Ainda nao existem usuarios associados ao local!
+pt_BR     confirma informacoes para o local?                                                                  admin     info                Confirma Informacoes para o Local?
+pt_BR     excluir local                                                                                       admin     info                Excluir Local
+pt_BR     confirma exclusao do local e todas as suas dependencias?                                            admin     info                Confirma Exclusao do Local E TODAS AS SUAS DEPENDENCIAS?
+pt_BR     falha na insercao em (%1) ou sua sessao expirou!                                                    admin     info                Falha na Insercao em (%1) ou sua sessao expirou!
+pt_BR     inclusao de local                                                                                   admin     info                Inclusao de Local
+pt_BR     inclusao de local help                                                                              admin     info                Inclusao de Local help
+pt_BR     confirma inclusao de local?                                                                         admin     info                Confirma Inclusao de Local?
+pt_BR     nenhum local cadastrado ou sua sessao expirou                                                       admin     info                Nenhum local cadastrado ou sua sessao expirou

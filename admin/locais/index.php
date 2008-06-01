@@ -18,7 +18,7 @@ session_start();
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
 if(!isset($_SESSION['id_usuario'])) 
-  die('Acesso negado!');
+  die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
@@ -83,7 +83,7 @@ $msg = '<div align="center">
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Cadastro de Local</title>
+<title><?=$oTranslator->_('Cadastro de Local');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -140,7 +140,7 @@ if(mysql_num_rows($result)==0)
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhum local cadastrado ou sua sessão expirou!</font><br><br></div>';			
+				'.$oTranslator->_('Nenhum local cadastrado ou sua sessao expirou').'</font><br><br></div>';			
 	}
 else 
 	{

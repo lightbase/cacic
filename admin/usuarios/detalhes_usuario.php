@@ -309,7 +309,7 @@ else
 				  <input name="id_local" type="hidden" id="id_usuario" value="<? echo $_GET['id_local']; ?>"></td>
 			  </tr>
 			  <tr nowrap> 
-				<td nowrap class="label"><?=$oTranslator->_('Emails para Contato');?>:</td>
+				<td nowrap class="label"><?=$oTranslator->_('Endereco eletronico');?>:</td>
 				<td nowrap><input name="frm_te_emails_contato" type="text" id="frm_te_emails_contato" value="<? echo mysql_result($result, 0, 'te_emails_contato'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
 			  </tr>
 			  <tr nowrap> 

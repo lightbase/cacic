@@ -284,7 +284,7 @@ else
 		$result_qry_grp = mysql_query($qry_grp_usu) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou', array('grupo_usuarios')));
 	?>
 		<tr nowrap> 
-		  <td class="label"><?=$oTranslator->_('Emails para contato');?>:</td>
+		  <td class="label"><?=$oTranslator->_('Endereco eletronico');?>:</td>
 		  <td><input name="frm_te_emails_contato" type="text" id="frm_te_emails_contato" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
 		</tr>
 		<tr nowrap> 
