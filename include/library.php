@@ -81,20 +81,21 @@ function getDescricaoHardware()
 function AntiSpy($strNiveisPermitidos = '')
 	{
 	$mainFolder = GetMainFolder();
-	
+
 	if ($strNiveisPermitidos <> '')
 		$boolNivelPermitido = stripos2(','.$strNiveisPermitidos.',',','.$_SESSION['cs_nivel_administracao'].',',false);
 	else
 		$boolNivelPermitido = true;
-
+		
+	$url_aplicacao = ''; // do arquivo de configuracao
 	include $mainFolder.'/include/config.php'; // Incluo o config.php para pegar as chaves de criptografia	
 
 	if (session_is_registered("id_usuario") && session_is_registered("id_usuario_crypted") && 
 	    $_SESSION["id_usuario_crypted"] == EnCrypt($key,$iv,$_SESSION["id_usuario"],"1","0","0","") &&
 	    $boolNivelPermitido)
    		return true;
-	//$_SERVER['HTTP_HOST']
-	$strLocation = 'http://'.$_SERVER['SERVER_ADDR'].'/cacic2/include/acesso_nao_permitido.php';	
+	$strLocation = $url_aplicacao.'/include/acesso_nao_permitido.php';
+
 	header ("Location: $strLocation");		
 	exit;		
 	}

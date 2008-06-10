@@ -91,13 +91,13 @@ function valida_form()
 
 	if ( document.form.frm_sg_local.value == "" ) 
 		{	
-		alert("A sigla do local é obrigatória");
+		alert("<?=$oTranslator->_('A sigla do local e obrigatoria');?>");
 		document.form.frm_sg_local.focus();
 		return false;
 		}
 	else if ( document.form.frm_nm_local.value == "" ) 
 		{	
-		alert("O nome do local é obrigatório.");
+		alert("<?=$oTranslator->_('O nome do local e obrigatorio');?>");
 		document.form.frm_nm_local.focus();
 		return false;
 		}

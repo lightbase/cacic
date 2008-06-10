@@ -89,6 +89,8 @@ $query = 'SELECT 	uo1.id_unid_organizacional_nivel1 as uo1_id_unid_organizaciona
 
 $result = mysql_query($query);
 
+$titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta2'];
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -98,17 +100,19 @@ $result = mysql_query($query);
 
 <body background="../../../imgs/linha_v.gif">
 <script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
-<title>Cadastro de U. O. N&iacute;vel 2</title>
+<title><?=$titulo;?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Cadastro de <? echo $_SESSION['plural_etiqueta2'];?> (U. 
-      O. Nível 2)</td>
+    <td class="cabecalho">
+      <?=$titulo;?> 
+      (<?=$oTranslator->_('Unidade Organizacional Nivel 2');?>)
+    </td>
   </tr>
   <tr> 
-    <td class="descricao">M&oacute;dulo para cadastramento de Unidades Organizacionais de N&iacute;vel 2.</td>
+    <td class="descricao"><?=$oTranslator->_('Modulo para cadastramento de Unidades Organizacionais de Nivel 2');?></td>
   </tr>
 </table>
 
@@ -116,7 +120,7 @@ $result = mysql_query($query);
   <tr> 
     <td><div align="center">
 
-          <input name="incluirUON2" type="submit" id="incluirUON2" value="Incluir <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 
         
       </div></td>
@@ -140,7 +144,7 @@ $result = mysql_query($query);
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><? echo $_SESSION['etiqueta1'] .'-'.$_SESSION['etiqueta2'];?></div></td>
           <td nowrap >&nbsp;</td>
-          <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Local</div></td>
+          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Local');?></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
 <?  
@@ -148,7 +152,7 @@ if(mysql_num_rows($result)==0)
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhuma Unidade Organizacional de nível 2 cadastrada
+				'.$oTranslator->_('Nenhuma Unidade Organizacional de Nivel %1 cadastrada',array('2')).'
 			</font><br><br></div>';			
 	}
 else 
@@ -187,7 +191,7 @@ else
   <tr> 
     <td><div align="center">
 
-          <input name="incluirUON2" type="submit" id="incluirUON2" value="Incluir <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 
         
       </div></td>

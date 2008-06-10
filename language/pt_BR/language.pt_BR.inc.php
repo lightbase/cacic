@@ -583,3 +583,38 @@ pt_BR     kciq_msg license en_read                                              
 pt_BR     kciq_msg license pt_read                                                                            instaladorinfo                leia em português
 pt_BR     kciq_mnt_lang traducao                                                                              Manutençãoinfo                Idioma a traduzir
 pt_BR     kciq_mnt_tradutor                                                                                   Manutençãoinfo                Tradução de texto do CACIC
+pt_BR     a sigla do local e obrigatoria                                                                      admin     info                A sigla do local e obrigatoria
+pt_BR     o nome do local e obrigatorio                                                                       admin     info                O nome do local e obrigatorio
+pt_BR     cadastro de                                                                                         admin     info                Cadastro de
+pt_BR     unidade organizacional nivel 1a                                                                     admin     info                Unidade Organizacional Nivel 1a
+pt_BR     modulo para cadastramento de unidades organizacionais de nivel 1a                                   admin     info                Modulo para cadastramento de Unidades Organizacionais de Nivel 1a
+pt_BR     importante                                                                                          admin     info                Importante
+pt_BR     a inclusao de %1 e restrita ao administrador do sistema                                             admin     info                A inclusao de %1 e restrita ao Administrador do sistema
+pt_BR     incluir                                                                                             admin     info                Incluir
+pt_BR     nenhuma unidade organizacional de nivel %1 cadastrada                                               admin     info                Nenhuma Unidade Organizacional de Nivel %1 cadastrada
+pt_BR     falha em exclusao na tabela (%1) ou sua sessao expirou!                                             admin     info                Falha em exclusao na tabela (%1) ou sua sessao expirou!
+pt_BR     falha na exclusao de configuracoes                                                                  admin     info                Falha na exclusao de configuracoes
+pt_BR     falha na atualizacao de configuracoes                                                               admin     info                Falha na atualizacao de configuracoes
+pt_BR     confirma exclusao de                                                                                admin     info                Confirma exclusao de
+pt_BR     por favor, preencha campo                                                                           admin     info                Por favor, preencha campo
+pt_BR     detalhes de                                                                                         admin     info                Detalhes de
+pt_BR     confirma informacoes para                                                                           admin     info                Confirma Informacoes para
+pt_BR     excluir                                                                                             admin     info                Excluir
+pt_BR     inclusao de                                                                                         admin     info                Inclusao de
+pt_BR     unidade organizacional nivel 1                                                                      admin     info                Unidade Organizacional Nivel 1
+pt_BR     endereco                                                                                            admin     info                Endereco
+pt_BR     bairro                                                                                              admin     info                Bairro
+pt_BR     cidade                                                                                              admin     info                Cidade
+pt_BR     unidade da federacao                                                                                admin     info                Unidade da Federacao
+pt_BR     responsavel                                                                                         admin     info                Responsavel
+pt_BR     telefone                                                                                            admin     info                Telefone
+pt_BR     um                                                                                                  admin     info                Um
+pt_BR     dois                                                                                                admin     info                Dois
+pt_BR     modulo para cadastramento de unidades organizacionais de nivel 1                                    admin     info                Modulo para cadastramento de Unidades Organizacionais de Nivel 1
+pt_BR     unidade organizacional nivel 2                                                                      admin     info                Unidade Organizacional Nivel 2
+pt_BR     modulo para cadastramento de unidades organizacionais de nivel 2                                    admin     info                Modulo para cadastramento de Unidades Organizacionais de Nivel 2
+pt_BR     por favor, selecione                                                                                admin     info                Por favor, selecione
+pt_BR     selecione local                                                                                     admin     info                Selecione local
+pt_BR     cadastro de unidade organizacional nivel 2                                                          admin     info                Cadastro de Unidade Organizacional Nivel 2
+pt_BR     unidade organizacional                                                                              admin     info                Unidade Organizacional
+pt_BR     nivel                                                                                               admin     info                Nivel

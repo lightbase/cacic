@@ -29,11 +29,11 @@ if ($_POST['exclui_uon1a'])
 				FROM 	unid_organizacional_nivel1a 
 				WHERE 	id_unid_organizacional_nivel1a = '$frm_id_unid_organizacional_nivel1a'";
 
-	mysql_query($query) or die('1-Delete falhou ou sua sessão expirou!');
+	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a');			
 	if (!atualiza_configuracoes_uonx('1a'))
 		{
-		echo mensagem('Falha na atualização de configurações');
+		echo mensagem($oTranslator->_('Falha na exclusao de configuracoes'));
 		}
 	else
 		{
@@ -53,11 +53,11 @@ elseif ($_POST['grava_alteracao_uon1a'])
 				   		  	id_unid_organizacional_nivel1 	= '$selectUON1' 
 					WHERE 	id_unid_organizacional_nivel1a 	= '$frm_id_unid_organizacional_nivel1a'";
 
-		mysql_query($query) or die('2-Update falhou ou sua sessão expirou!');
+		mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
 		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a');					
 		if (!atualiza_configuracoes_uonx('1a'))
 			{
-			echo mensagem('Falha na atualização de UON1a');
+			echo mensagem($oTranslator->_('Falha na atualizacao de configuracoes'));
 			}
 		else
 			{
@@ -76,7 +76,7 @@ else
 						nm_unid_organizacional_nivel1a	
 				FROM 	unid_organizacional_nivel1a 
 				WHERE 	id_unid_organizacional_nivel1a = '$id_unid_organizacional_nivel1a'";
-	$result 		= mysql_query($query) or die ('3-Select Falhou ou sua sessão expirou!');
+	$result 		= mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
 	$fetch_result_sel = mysql_fetch_array($result);
 	$result_sel		= implode('#',$fetch_result_sel);
 	
@@ -93,7 +93,7 @@ else
 <script language="JavaScript" type="text/JavaScript">
 function ConfirmaExclusao() 
 	{
-	if (confirm ("Confirma exclusão de "+ document.form.etiqueta1a.value+"?")) 
+	if (confirm ("<?=$oTranslator->_('Confirma exclusao de');?> "+ document.form.etiqueta1a.value+"?")) 
 		{
 		return true;
 		} 
@@ -105,7 +105,7 @@ function valida_form()
 
 	if (document.form.frm_nm_unid_organizacional_nivel1a.value == "")
 		{
-		alert("Por favor, preencha campo "+ document.form.etiqueta1a.value+".");
+		alert("<?=$oTranslator->_('Por favor, preencha campo');?> "+ document.form.etiqueta1a.value+".");
 		document.form.frm_nm_unid_organizacional_nivel1a.focus();
 		return false;
 		} 
@@ -115,7 +115,7 @@ function valida_form()
 </head>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Detalhes de <? echo $_SESSION['etiqueta1a'];?> (U. O. N&iacute;vel 1a)</td>
+    <td class="cabecalho"><?=$oTranslator->_('Detalhes de');?> <? echo $_SESSION['etiqueta1a'];?> (<?=$oTranslator->_('Unidade Organizacional Nivel 1a');?>)</td>
   </tr>
   <tr> 
     <td>&nbsp;</td>
@@ -127,7 +127,7 @@ function valida_form()
       <td nowrap class="label"><? echo $_SESSION['etiqueta1']; ?>:</td>
       <td colspan="3"> <div align="left"> 
           <select name="selectUON1" id="selectUON1"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-            <option value="0" selected>Selecione <? echo $_SESSION['etiqueta1']; ?></option>
+            <option value="0" selected><?=$oTranslator->_('Selecione');?> <? echo $_SESSION['etiqueta1']; ?></option>
             <?
 $querySEL1 = 'SELECT 	uo1.id_unid_organizacional_nivel1,
 						uo1.nm_unid_organizacional_nivel1
@@ -172,11 +172,11 @@ if(mysql_num_rows($result_sel1))
         </table>
 		<p align="center"> 
 		  <? 
-			$v_frase = "Confirma('Confirma Informações para ".$_SESSION['etiqueta1a']."?')";
-		  echo '<input name="grava_alteracao_uon1a" type="submit" id="grava_alteracao_uon1a" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return '.$v_frase.'"; '.($_SESSION['cs_nivel_administracao']<>1?'disabled':'').'>';
+			$v_frase = "Confirma('".$oTranslator->_('Confirma Informacoes para')." ".$_SESSION['etiqueta1a']."?')";
+		  echo '<input name="grava_alteracao_uon1a" type="submit" id="grava_alteracao_uon1a" value="'.$oTranslator->_('Gravar Alteracoes').'" onClick="return '.$v_frase.'"; '.($_SESSION['cs_nivel_administracao']<>1?'disabled':'').'>';
 		  ?>
 &nbsp; &nbsp; 		  
-          <input name="exclui_uon1a" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon1a" value="  Excluir <? echo $_SESSION['etiqueta1a'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>		  
+          <input name="exclui_uon1a" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon1a" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta1a'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>		  
         </p>		
       </td>
   </tr>

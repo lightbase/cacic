@@ -41,11 +41,11 @@ if ($_POST['exclui_uon2'])
 				FROM 	unid_organizacional_nivel2 
 				WHERE 	id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2']." and
 						id_unid_organizacional_nivel1 = ".$_POST['frm_id_unid_organizacional_nivel1']. $where;
-	mysql_query($query) or die('1-Delete falhou ou sua sessão expirou!');
+	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
 	if (!atualiza_configuracoes_uonx('2'))
 		{
-		echo mensagem('Falha na atualização de configurações');
+		echo mensagem($oTranslator->_('Falha na exclusao de configuracoes'));
 		}
 	else
 		{
@@ -84,11 +84,11 @@ elseif ($_POST['grava_alteracao_uon2'])
 					WHERE 	id_unid_organizacional_nivel2 	= $frm_id_unid_organizacional_nivel2 and
 							id_unid_organizacional_nivel1   = $frm_id_unid_organizacional_nivel1 ".
 							$where;
-			mysql_query($query) or die('2-Update falhou ou sua sessão expirou!');
+			mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
 			GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
 			if (!atualiza_configuracoes_uonx('2'))
 				{
-				echo mensagem('Falha na atualização de configurações');
+				echo mensagem($oTranslator->_('Falha na atualizacao de configuracoes'));
 				}
 			else
 				{
@@ -107,7 +107,7 @@ else
 				WHERE 	uo2.id_unid_organizacional_nivel2 = $id_unid_organizacional_nivel2 and
 						uo2.id_unid_organizacional_nivel1 = $id_unid_organizacional_nivel1";
 
-	$result 		= mysql_query($query) or die ('3-Select Falhou ou sua sessão expirou!');
+	$result 		= mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
 	$fetch_result_sel = mysql_fetch_array($result);
 	$result_sel		= implode('#',$fetch_result_sel);
 	
@@ -129,7 +129,7 @@ else
 <script language="JavaScript" type="text/JavaScript">
 function ConfirmaExclusao() 
 {
-	if (confirm ("Confirma exclusão de "+ document.form.etiqueta2.value+"?")) 
+	if (confirm ("<?=$oTranslator->_('Confirma exclusao de');?> "+ document.form.etiqueta2.value+"?")) 
 		{
 		return true;
 		} 
@@ -145,7 +145,7 @@ function valida_form()
 		} 
 	if (document.form.frm_nm_unid_organizacional_nivel2.value == "")
 		{
-		alert("Por favor, preencha campo "+ document.form.etiqueta2.value+".");
+		alert("<?=$oTranslator->_('Por favor, preencha campo');?> "+ document.form.etiqueta2.value+".");
 		document.form.frm_nm_unid_organizacional_nivel2.focus();
 		return false;
 		} 
@@ -159,8 +159,10 @@ function valida_form()
 
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Detalhes de <? echo $_SESSION['etiqueta2'];?> (U. O. N&iacute;vel 
-      2)</td>
+    <td class="cabecalho">
+      <?=$oTranslator->_('Detalhes de');?> <? echo $_SESSION['etiqueta2'];?> 
+      (<?=$oTranslator->_('Unidade Organizacional Nivel 2');?>)
+    </td>
   </tr>
   <tr> 
     <td>&nbsp;</td>
@@ -170,7 +172,7 @@ function valida_form()
 <form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
   <table width="61%" border="0" align="center" cellpadding="2" cellspacing="2">
           <tr> 
-            <td class="label">Local:</td>
+            <td class="label"><?=$oTranslator->_('Local');?>:</td>
             <td><select name="frm_id_local" id="frm_id_local"" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 <? 
 			$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' WHERE id_local = '.$_SESSION['id_local']:'');				
@@ -187,7 +189,7 @@ function valida_form()
 								 			$where ."
 								 ORDER BY	sg_local";
 
-		    $result_locais = mysql_query($qry_locais) or die ('4-Select falhou ou sua sessão expirou!');
+		    $result_locais = mysql_query($qry_locais) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('locais')));
 			while ($row_qry=mysql_fetch_array($result_locais))
 		  		{
 				echo '<option value="'.$row_qry[0].'"';
@@ -209,7 +211,7 @@ function valida_form()
   <tr> 
       <td width="20%" nowrap class="label"><? echo $_SESSION['etiqueta1']; ?>:</td>
 	  <td colspan="3"><select name="selectUON1"  class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-<option value="0">Selecione <? echo $_SESSION['etiqueta1']; ?></option>
+<option value="0"><?=$oTranslator->_('Selecione');?> <? echo $_SESSION['etiqueta1']; ?></option>
 <?
 if(mysql_num_rows($result_sel1))
 	{	              
@@ -238,44 +240,44 @@ if(mysql_num_rows($result_sel1))
               </div></td>
           </tr>
           <tr> 
-            <td class="label"><div align="left">Endere&ccedil;o:</div></td>
+            <td class="label"><div align="left"><?=$oTranslator->_('Endereco');?>:</div></td>
             <td colspan="3"> <div align="left"> 
                 <input name="frm_te_endereco_uon2" type="text" id="frm_te_endereco_uon2" size="60" maxlength="80" value="<? echo mysql_result($result, 0, 'te_endereco_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
               </div></td>
           </tr>
           <tr> 
-            <td class="label"><div align="left">Bairro:</div></td>
+            <td class="label"><div align="left"><?=$oTranslator->_('Bairro');?>:</div></td>
             <td colspan="3"> <div align="left"> 
                 <input name="frm_te_bairro_uon2" type="text" id="frm_te_bairro_uon2" size="60" maxlength="30" value="<? echo mysql_result($result, 0, 'te_bairro_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
               </div></td>
           </tr>
           <tr> 
-            <td class="label">Cidade:</td>
+            <td class="label"><?=$oTranslator->_('Cidade');?>:</td>
             <td><input name="frm_te_cidade_uon2" type="text" id="frm_te_cidade_uon2" size="20" maxlength="50" value="<? echo mysql_result($result, 0, 'te_cidade_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
               </td>
             <td>&nbsp;</td>
-            <td class="label"><div align="right">UF: 
+            <td class="label"><div align="right"><?=$oTranslator->_('Unidade da Federacao',T_SIGLA);?>: 
                 <input name="frm_te_uf_uon2" type="text" id="frm_te_uf_uon2" size="2" maxlength="2" value="<? echo mysql_result($result, 0, 'te_uf_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 </div></td>
           </tr>
           <tr> 
-            <td class="label">Respons&aacute;vel:</td>
+            <td class="label"><?=$oTranslator->_('Responsavel');?>:</td>
             <td colspan="3"><div align="left">
                 <input name="frm_nm_responsavel_uon2" type="text" id="frm_nm_responsavel_uon2" size="60" maxlength="80" value="<? echo mysql_result($result, 0, 'nm_responsavel_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 </div></td>
           </tr>
           <tr> 
-            <td class="label">E-mail:</td>
+            <td class="label"><?=$oTranslator->_('Endereco eletronico');?>:</td>
             <td colspan="3"><div align="left"> 
                 <input name="frm_te_email_responsavel_uon2" type="text" id="frm_te_email_responsavel_uon2" size="60" maxlength="50" value="<? echo mysql_result($result, 0, 'te_email_responsavel_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 </div></td>
           </tr>
           <tr> 
-            <td class="label">Tel. 1:</td>
+            <td class="label"><?=$oTranslator->_('Telefone').' '.$oTranslator->_('Um',T_SIGLA);?>:</td>
             <td><div align="left"> 
                 <input name="frm_nu_tel1_responsavel_uon2" type="text" id="frm_nu_tel1_responsavel_uon2" size="20" maxlength="10" value="<? echo mysql_result($result, 0, 'nu_tel1_responsavel_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 </div></td>
-            <td nowrap class="label"><div align="right">Tel. 2:</div></td>
+            <td nowrap class="label"><div align="right"><?=$oTranslator->_('Telefone').' '.$oTranslator->_('Dois',T_SIGLA);?>:</div></td>
             <td><div align="right"> 
                 <input name="frm_nu_tel2_responsavel_uon2" type="text" id="frm_nu_telefone2" size="20" maxlength="10" value="<? echo mysql_result($result, 0, 'nu_tel2_responsavel_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 </div></td>
@@ -290,11 +292,11 @@ if(mysql_num_rows($result_sel1))
   </table>
   <p align="center">
 	<?
-	$v_frase = "Confirma('Confirma Informações para ".$_SESSION['etiqueta2']."?')";
-    echo '<input name="grava_alteracao_uon2" type="submit" id="grava_alteracao_uon2" value="  Gravar Altera&ccedil;&otilde;es" onClick="return '.$v_frase.'"; '.($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'').'>';
+	$v_frase = "Confirma('".$oTranslator->_('Confirma Informacoes para')." ".$_SESSION['etiqueta2']."?')";
+    echo '<input name="grava_alteracao_uon2" type="submit" id="grava_alteracao_uon2" value="'.$oTranslator->_('Gravar Alteracoes').'" onClick="return '.$v_frase.'"; '.($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'').'>';
 	?>
 &nbsp;&nbsp;		
-    <input name="exclui_uon2" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon2" value="  Excluir <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 &&  $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
+    <input name="exclui_uon2" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon2" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 &&  $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
   </p>
 </form>
 </td>

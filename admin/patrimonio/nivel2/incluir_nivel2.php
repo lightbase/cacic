@@ -56,11 +56,11 @@ if($_POST['gravainformacaoUON2']) {
 				     $_POST['frm_nu_tel2_responsavel_uon2']."',".
 					 $_POST['selectUON1'].",".
 				     $_POST['frm_id_local'].")";
-		$result = mysql_query($query) or die ('1-Insert falhou ou sua sessão expirou!');
+		$result = mysql_query($query) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
 		if (!atualiza_configuracoes_uonx('2'))
 			{
-			echo mensagem('Falha na atualização de configurações');
+			echo mensagem($oTranslator->_('Falha na atualizacao de configuracoes'));
 			}
 		else
 			{
@@ -91,13 +91,13 @@ function valida_form()
 	{
 		if (document.form.selectUON1.value == 0)
 			{
-			alert("Por favor, selecione "+ document.form.etiqueta1.value+".");
+			alert("<?=$oTranslator->_('Por favor, selecione');?> "+ document.form.etiqueta1.value+".");
 			document.form.selectUON1.focus();
 			return false;
 			} 
 		if (document.form.frm_nm_unid_organizacional_nivel2.value == "")
 			{
-			alert("Por favor, preencha campo "+ document.form.etiqueta2.value+".");
+			alert("<?=$oTranslator->_('Por favor, preencha campo');?> "+ document.form.etiqueta2.value+".");
 			document.form.frm_nm_unid_organizacional_nivel2.focus();
 			return false;
 			} 
@@ -119,8 +119,10 @@ $result_sel1 = mysql_query($querySEL1);
 <script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Inclus&atilde;o de <? echo $_SESSION['etiqueta2'];?> (U. O. N&iacute;vel 
-      2)</td>
+    <td class="cabecalho">
+      <?=$oTranslator->_('Inclusao de');?> <? echo $_SESSION['etiqueta2'];?> 
+      (<?=$oTranslator->_('Unidade Organizacional Nivel 2');?>)
+    </td>
   </tr>
   <tr> 
     <td>&nbsp;</td>
@@ -142,7 +144,7 @@ $qry_locais = "SELECT 	id_local,
 					 			$where." 
 					 ORDER BY	sg_local";
 					
-$result_locais = mysql_query($qry_locais) or die ('2-Select falhou ou sua sessão expirou!');
+$result_locais = mysql_query($qry_locais) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('locais')));
 ?>
 
 <form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
@@ -151,7 +153,7 @@ $result_locais = mysql_query($qry_locais) or die ('2-Select falhou ou sua sessão
       <td nowrap class="label">Local:</td>
       <td colspan="3"><select name="frm_id_local" id="frm_id_local" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <?
-			echo '<option value="0">Selecione Local</option>';		  
+			echo '<option value="0">'.$oTranslator->_('Selecione local').'</option>';		  
 		  	while($row = mysql_fetch_row($result_locais))
 		  		{
 				echo '<option value="'.$row[0].'"';
@@ -166,7 +168,7 @@ $result_locais = mysql_query($qry_locais) or die ('2-Select falhou ou sua sessão
           <input name="etiqueta1" type="hidden" id="etiqueta1" value="<? echo $_SESSION['etiqueta1']; ?>">
           <input name="etiqueta2" type="hidden" id="etiqueta2" value="<? echo $_SESSION['etiqueta2']; ?>">
           <select name="selectUON1" id="selectUON1"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-            <option value="0" selected>Selecione <? echo $_SESSION['etiqueta1']; ?></option>
+            <option value="0" selected><?=$oTranslator->_('Selecione');?> <? echo $_SESSION['etiqueta1']; ?></option>
             <?
 if(mysql_num_rows($result_sel1))
 	{	              
@@ -185,44 +187,44 @@ if(mysql_num_rows($result_sel1))
         </div></td>
     </tr>
     <tr> 
-      <td class="label"><div align="left">Endere&ccedil;o:</div></td>
+      <td class="label"><div align="left"><?=$oTranslator->_('Endereco');?>:</div></td>
       <td colspan="3"> <div align="left"> 
           <input name="frm_te_endereco_uon2" type="text"  id="frm_te_endereco_uon2" size="60" maxlength="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
     </tr>
     <tr> 
-      <td class="label"><div align="left">Bairro:</div></td>
+      <td class="label"><div align="left"><?=$oTranslator->_('Bairro');?>:</div></td>
       <td colspan="3"> <div align="left"> 
           <input name="frm_te_bairro_uon2" type="text"  id="frm_te_bairro_uon2" size="60" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
     </tr>
     <tr> 
-      <td class="label">Cidade:</td>
+      <td class="label"><?=$oTranslator->_('Cidade');?>:</td>
       <td><input name="frm_te_cidade_uon2" type="text"  id="frm_te_cidade_uon2" size="20" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"> 
       </td>
       <td>&nbsp;</td>
-      <td class="label"><div align="right">UF: 
+      <td class="label"><div align="right"><?=$oTranslator->_('Unidade da Federacao',T_SIGLA);?>: 
           <input name="frm_te_uf_uon2" type="text"  id="frm_te_uf_uon2" size="2" maxlength="2" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
     </tr>
     <tr> 
-      <td class="label">Respons&aacute;vel:</td>
+      <td class="label"><?=$oTranslator->_('Responsavel');?>:</td>
       <td colspan="3"><div align="left">
           <input name="frm_nm_responsavel_uon2" type="text"  id="frm_nm_responsavel_uon2" size="60" maxlength="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
     </tr>
     <tr> 
-      <td class="label">E-mail:</td>
+      <td class="label"><?=$oTranslator->_('Endereco eletronico');?>:</td>
       <td colspan="3"><div align="left"> 
           <input name="frm_te_email_responsavel_uon2" type="text"  id="frm_te_email_responsavel_uon2" size="60" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
     </tr>
     <tr> 
-      <td class="label">Tel. 1:</td>
+      <td class="label"><?=$oTranslator->_('Telefone').' '.$oTranslator->_('Um',T_SIGLA);?>:</td>
       <td><div align="left"> 
           <input name="frm_nu_tel1_responsavel_uon2" type="text"  id="frm_nu_tel1_responsavel_uon2" size="20" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
-      <td nowrap class="label"><div align="right">Tel. 2:</div></td>
+      <td nowrap class="label"><div align="right"><?=$oTranslator->_('Telefone').' '.$oTranslator->_('Dois',T_SIGLA);?>:</div></td>
       <td><div align="right"> 
           <input name="frm_nu_tel2_responsavel_uon2" type="text"  id="frm_nu_telefone2" size="20" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
@@ -236,8 +238,8 @@ if(mysql_num_rows($result_sel1))
   <p align="center"> 
     
   <?
-  $v_frase = "Confirma('Confirma Inclusão de ".$_SESSION['etiqueta2']."?')";
-  echo '<input name="gravainformacaoUON2" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return '.$v_frase.'";>';
+  $v_frase = "Confirma('".$oTranslator->_('Confirma Informacoes para')." ".$_SESSION['etiqueta2']."?')";
+  echo '<input name="gravainformacaoUON2" type="submit" value="'.$oTranslator->_('Gravar Informacoes').'" onClick="return '.$v_frase.'";>';
   ?>
 	
   </p>

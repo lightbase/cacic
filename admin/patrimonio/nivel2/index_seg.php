@@ -41,14 +41,15 @@ $result = mysql_query($query);
 <html>
 <head>
 <body background="../../../imgs/linha_v.gif">
-<title>Cadastro de UO N&iacute;vel 2</title>
+<title><?=$oTranslator->_('Cadastro de Unidade Organizacional Nivel 2');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <table width="90%" border="0" align="center">
   <tr> 
-    <td><font color="#FF0000" size="4" face="Verdana, Arial, Helvetica, sans-serif"><b>Cadastro 
-      de UO N&iacute;vel 2</b></font></td>
+    <td><font color="#FF0000" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+       <b><?=$oTranslator->_('Cadastro de Unidade Organizacional Nivel 2');?></b></font>
+    </td>
   </tr>
 </table>
 <br><table width="292" border="0" align="center" cellpadding="0" cellspacing="1">
@@ -61,8 +62,8 @@ $result = mysql_query($query);
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap><div align="left"><strong></strong></div></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">UOs 
-              N&iacute;vel 2</font></strong></div></td>
+          <td align="center"  nowrap><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
+          <?=$oTranslator->_('Unidade Organizacional').' '.$oTranslator->_('Nivel').' '.$oTranslator->_('Dois',T_SIGLA);?></font></strong></div></td>
           <td nowrap >&nbsp;</td>
           <td nowrap ><div align="left"></div></td>
           <td nowrap >&nbsp;</td>
@@ -71,7 +72,7 @@ $result = mysql_query($query);
 if(mysql_num_rows($result)==0) {
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhuma Unidade Organizacional de Nível 1 cadastrada
+				'.$oTranslator->_('Nenhuma Unidade Organizacional de Nivel %1 cadastrada',array('1')).'
 			</font><br><br></div>';
 			
 }
@@ -110,7 +111,7 @@ else {
   <tr> 
     <td><div align="center">
         <form name="form1" method="post" action="">
-          <input name="incluirUON2" type="submit" id="incluirUON2" value="Incluir Nova U.O. N&iacute;vel 2">
+          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir').' '.$oTranslator->_('Unidade Organizacional').' '.$oTranslator->_('Nivel').' '.$oTranslator->_('Dois',T_SIGLA);?>">
         </form>
         
       </div></td>
