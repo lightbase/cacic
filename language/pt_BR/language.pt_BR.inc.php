@@ -618,3 +618,4 @@ pt_BR     selecione local                                                       
 pt_BR     cadastro de unidade organizacional nivel 2                                                          admin     info                Cadastro de Unidade Organizacional Nivel 2
 pt_BR     unidade organizacional                                                                              admin     info                Unidade Organizacional
 pt_BR     nivel                                                                                               admin     info                Nivel
+pt_BR     retorne aos passos anteriores e configure adequadamente                                             instaladorinfo                Retorne aos passos anteriores e configure adequadamente

@@ -458,7 +458,7 @@ class Install {
 	  } 
 	  
 	 /*
-	  * Verifica finalizacao da instalação
+	  * Finalizacao da instalação e gravacao do arquivo "config.php"
 	  */
 	  function finishInstall() {
 	  
@@ -474,7 +474,21 @@ class Install {
     	
 	  	if(isset($_SESSION['saveCfgFile']) and $_SESSION['saveCfgFile']) {
 	  	    $this->oTmpl->addVar('tmplNavBarCouldSaveCFGFile', 'salvar', 'sim'); }
-     	
+	  }
+	  
+	 /*
+	  * Verifica a instalação
+	  */
+	  function checkInstallation() {
+	  
+	    $msg = "";
+	    $ip_servidor = ""; 
+	    $usuario_bd = ""; 
+	    $senha_usuario_bd = "";
+	    $nome_bd = "";
+	    $cacic_config = $_SESSION['cacic_config'];
+	    $cacic_admin = $_SESSION['cacic_admin'];
+	    
 	    $cfgFileName = $cacic_config['path'].CACIC_DS.'include'.CACIC_DS.'config.php';
 
 	    $cfgFileOk = false;

@@ -82,8 +82,7 @@ class InstallAjax {
 	  * Cria arquivo de configuração para o CACIC
 	  * @access private
 	  */
-	  function buildCFGFile($show=true) {
-		$cacic_config = $_POST['cacic_config'];
+	  function buildCFGFile($cacic_config) {
 		$oTmpl = new patTemplate();
 		$oTmpl->setNamespace('cacicInstall');
 		$oTmpl->setRoot('templates');
@@ -99,16 +98,9 @@ class InstallAjax {
 		$oTmpl->addVar('tmplCFGFile', 'CACIC_IV', CACIC_IV );
 		$oTmpl->addVar('tmplCFGFile', 'CACIC_LANGUAGE', $_SESSION['cacic_language']);
 		
-		
-		if($show) {
-			$oTmpl->addVar('tmplCFGFileCab', 'show_path', CACIC_PATH );
-			$oTmpl->addVar('tmplCFGFileCab', 'cacic_ds', CACIC_DS );
-			$oTmpl->displayParsedTemplate('tmplCFGFile');
-		}
-		else {
-			$tmpl = $oTmpl->getParsedTemplate('tmplCFGFile');
-			return $tmpl;
-		}
+		$oTmpl->addVar('tmplCFGFileCab', 'show_path', CACIC_PATH );
+		$oTmpl->addVar('tmplCFGFileCab', 'cacic_ds', CACIC_DS );
+		$oTmpl->displayParsedTemplate('tmplCFGFile');
 	  }
 	  
 	 /*
@@ -227,26 +219,30 @@ class InstallAjax {
 	  * Mostra arquivo de configuração para o CACIC
 	  */
 	  function showCFGFile($cacic_config) {
+	    $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('Retorne aos passos anteriores e configure adequadamente').'</span><br>';
 	 	$connOk = InstallAjax::checkDBConnection($cacic_config);
 	 	if(!$connOk) // Se não conectar para o processo
-	 	  die();
+	 	  die($msg);
 	 	  
      	$dadosOK = InstallAjax::checkCFGFileData($cacic_config);
-	    if($dadosOK)
-	  	  InstallAjax::buildCFGFile(); // dados informados adequadamente
+	    if(!$dadosOK)
+	 	  die($msg);
+	 	
+	 	InstallAjax::buildCFGFile($cacic_config); // dados informados adequadamente
 	  }
 	  
 	 /**
 	  * Grava arquivo de configuração para o CACIC
 	  */
 	  function saveCFGFile($cacic_config) {
+	    $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ".InstallAjax::_('Retorne aos passos anteriores e configure adequadamente').'</span><br>';
 	 	$connOk = InstallAjax::checkDBConnection($cacic_config);
 	 	if(!$connOk) // Se não conectar para o processo
-	 	  die();
+	 	  die($msg);
 	      
      	$dadosOK = InstallAjax::checkCFGFileData($cacic_config);
 	    if(!$dadosOK)
-	      die(); // se dados incorretos
+	      die($msg); // se dados incorretos
 	      
 		$fileName = $cacic_config['path'].CACIC_DS.'include'.CACIC_DS.'config.php';
 		$fileContent = '<?php
@@ -328,7 +324,7 @@ class InstallAjax {
 	  function checkDBConnection($cacic_config) {
      	$dadosOK = InstallAjax::checkCFGFileData($cacic_config);
 	    if(!$dadosOK)
-	      die(); // se dados incorretos
+	      return false; // se dados incorretos
 	    
      	$connOk = true;
      	$oDB = new ADO($cacic_config['db_type']);
