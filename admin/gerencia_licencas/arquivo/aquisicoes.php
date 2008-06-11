@@ -4,8 +4,8 @@
 	require_once('../../../include/inicio_gerencia_licencas_inc.php');
 ?>
  <script src="../../../include/sniffer.js" type="text/javascript" language="javascript"></script>
- <script src="../../../include/dynCalendar.js" type="text/javascript" language="javascript"></script>
- <link href="../../../include/dynCalendar.css" media="screen" rel="stylesheet">
+ <script src="../../../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
+ <link href="../../../include/dyncalendar.css" media="screen" rel="stylesheet">
 
 <table width="90%" border="0" align="center">
   <tr> 
@@ -23,11 +23,11 @@
 <!--
 function valida_form_cadastro_aquisicao() {
 	if (document.form_aquisicao.date_aquisicao.value == "") {
-		alert(<?=$oTranslator->_("Voce deve informar a data de aquisicao.");?>);
+		alert('<?=$oTranslator->_("Voce deve informar a data de aquisicao.");?>');
 		return false;
 	}
 	else if (document.form_aquisicao.numero_processo.value.length != 11) {
-		alert(<?=$oTranslator->_("Voce deve informar o numero do processo no formato");?> + ' aaaa/nnnnnn');
+		alert('<?=$oTranslator->_("Voce deve informar o numero do processo no formato");?>' + ' aaaa/nnnnnn');
 		return false;
 	}
 	return true;
