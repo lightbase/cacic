@@ -260,7 +260,7 @@ else
 	{
 	$from .= ' ,patrimonio, computadores ';
 	}	
-$query = " SELECT 	computadores.te_node_address, 
+$query = " SELECT 	DISTINCT computadores.te_node_address, 
 					so.id_so, 
 					computadores.te_nome_computador as 'Nome Comp.', 
 					sg_so as 'S.O.', 
@@ -321,7 +321,7 @@ else
 				{
 				if (trim($row[$i])<>'' && in_array($i,$arr_in_destacar_duplicidade)) 
 					{
-					array_push($v_arr_campos_valores,$i . ',' . trim($row[$i]));			
+					array_push($v_arr_campos_valores,$i . ',' . trim(strtolower($row[$i])));			
 					}
 				}
 			$num_registro ++;
@@ -341,7 +341,9 @@ else
 					$v_chave = $i . ',' . trim($row[$i]);
 					if ($v_arr_total_campos_valores[$v_chave]>1)
 						{
-						if ($v_registro_atual <> $num_registro) $v_campos_valores_duplicados .= 'r='.$num_registro.'#';
+						if ($v_registro_atual <> $num_registro) 
+							$v_campos_valores_duplicados .= 'r='.$num_registro.'#';
+
 						$v_registro_atual = $num_registro;
 						$v_campos_valores_duplicados .= '#c='.$i.'#';					
 						}

@@ -54,7 +54,7 @@ else
 				echo '<tr><td><br> 
 					  <table border="1" align="center" cellpadding="1" cellspacing="0" bordercolor="#999999" bordercolordark="#E1E1E1">
 						<tr bgcolor="'.$strPreenchimentoPadrao.'">						 
-						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Letra</div></td>';
+						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Rótulo</div></td>';
 				echo '<td nowrap rowspan="2" class="opcao_tabela"><div align="center">Sist. Arq.</div></td>
 						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Nº Serial</div></td>
 						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Tam. (MB)</div></td>
@@ -87,7 +87,7 @@ else
 					     $grafico = '&nbsp;';	
 					 									
 					 echo '<tr>						  
-							<td nowrap align="center" class="opcao_tabela">'. $row['te_letra'] .':</td>';
+							<td nowrap align="center" class="opcao_tabela">'. $row['te_letra'] .'</td>';
 							echo '<td nowrap align="center" class="opcao_tabela">&nbsp;'. $row['cs_sist_arq'] .'</td>
 							<td nowrap align="center" class="opcao_tabela">&nbsp;'. $row['nu_serial'] .'</td>
 							<td nowrap align="center" class="opcao_tabela">&nbsp;'. $row['nu_capacidade'] .'</td>

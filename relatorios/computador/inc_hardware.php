@@ -183,7 +183,7 @@ else
   </tr>
 	<?
 	echo $linha;
-	// Obtenho os nomes do hardware passível de controle
+	// Obtenho os nomes dos hardwares passíveis de controle
 	$arrDescricoesColunasComputadores = getDescricoesColunasComputadores();
   
 	$strQueryTotalizaGeralExistentes = ' SELECT  	cs_tipo_componente,

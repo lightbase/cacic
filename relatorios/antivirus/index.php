@@ -265,6 +265,64 @@
       <td valign="top">&nbsp;</td>
     </tr>
     <tr>
+      <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1" align="center">
+    <tr> 
+            <td class="label" colspan="2">Selecione os servidores de atualiza&ccedil;&atilde;o 
+              para consulta: (opcional)</td>
+    </tr>
+    <tr> 
+      <td height="1" bgcolor="#333333" colspan="2"></td>
+    </tr>
+    <tr> 
+      <td height="1"><table border="0" cellpadding="0" cellspacing="0">
+      	<tr>
+        <td><div align="left">
+			<?    /* Consulto todos os servidores já catalogados no banco. */ 
+					  	$query = "SELECT 	distinct te_servidor
+								  FROM 		officescan
+								  WHERE		te_servidor <> ''
+								  ORDER BY 	te_servidor";
+						$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela officescan ou sua sessão expirou!');
+
+						/* Agora monto os itens do combo de so's. */ 
+						while($campos = mysql_fetch_array($result)) {
+						   $itens_combo_servidores = $itens_combo_servidores . '<option value="' . $campos['te_servidor']. '">' . $campos['te_servidor'] . '</option>';
+						}
+						?>
+
+<select multiple id="frm_te_servidor[]" name="frm_te_servidor[]" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+<? 
+/*echo '<option value="" selected>Todos</option>';*/
+echo $itens_combo_servidores; ?>
+                      </select></div>
+		      </td>
+		      <td width="40">
+		      	<div align="center">
+		      		<input type="button" value="   &gt;   " onClick="move(this.form.elements['frm_te_servidor[]'], this.form.elements['frm_te_serv_sel[]'])" name="B332">
+		      		<br>
+		      		<br>
+		      		<input type="button" value="   &lt;   " onClick="move(this.form.elements['frm_te_serv_sel[]'], this.form.elements['frm_te_servidor[]'])" name="B432">
+			</div>
+		      </td>
+		      <td>&nbsp;</td>
+<td><select multiple name="frm_te_serv_sel[]" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+
+        </select></td>
+	<td>&nbsp;</td>
+	</tr>
+	</table></td>
+      </tr>
+	  <tr> 
+    <td colspan="2" class="descricao">&nbsp;(Dica: 
+      use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
+  </tr>
+  </table></td>
+    </tr>	
+    <tr>
+      <td valign="top">&nbsp;</td>
+    </tr>
+	
+    <tr>
       <td valign="top">
       <table width="100%" border="0" cellpadding="0" cellspacing="1" align="center">
     
@@ -313,7 +371,9 @@
                 <input name="submit" type="submit" id="submit" onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
 																				 $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>,
 																		SelectAll(this.form.elements['list4[]']), 
-																		SelectAll(this.form.elements['list6[]'])" value="     Gerar Relat&oacute;rio     ">				
+																		SelectAll(this.form.elements['list6[]']),
+																		SelectAll(this.form.elements['frm_te_servidor[]']),
+																		SelectAll(this.form.elements['frm_te_serv_sel[]'])" value="     Gerar Relat&oacute;rio     ">				
               </div></td>
           </tr>
           <tr> 

@@ -10,6 +10,28 @@ if($_POST['submit'])
 	$_SESSION["list12"]		 				= $_POST['list12'];
 	$_SESSION["cs_situacao"] 				= $_POST["cs_situacao"];
 	$_SESSION["cs_exibe_info_patrimonial"] 	= $_POST["frmCsExibeInfoPatrimonial"];
+	$_SESSION["te_servidor"]				= '';			
+	if (count($_POST["frm_te_serv_sel"]) > 0)
+		{
+		for ( $i = 0; $i < count($_POST["frm_te_serv_sel"]); $i++ )
+			if ($_POST["frm_te_serv_sel"])
+				{
+				$_SESSION["te_servidor"] .= ($_SESSION["te_servidor"]<>''?',':'');
+				$_SESSION["te_servidor"] .= '"'.$_POST["frm_te_serv_sel"][$i].'"';
+				}
+		$_SESSION["te_servidor"] = ($_SESSION["te_servidor"]<>''?' AND officescan.te_servidor in ('.$_SESSION["te_servidor"].')':'');
+		}
+	else
+		{
+		// se nenhum servidor foi escolhido (opcional), então utiliza todos disponiveis
+		for( $i = 0; $i < count($_POST["frm_te_servidor"]); $i++ )
+			if ($_POST["frm_te_servidor"])
+				{ 
+				$_SESSION["te_servidor"] .= ($_SESSION["te_servidor"]<>''?',':'');
+				$_SESSION["te_servidor"] .= '"'.$_POST["frm_te_servidor"][$i].'"';
+				}
+		$_SESSION["te_servidor"] = ($_SESSION["te_servidor"]<>''?' AND officescan.te_servidor in ('.$_SESSION["te_servidor"].')':'');		
+		}
 
 	$_SESSION['where_date']  				= '';
 
@@ -106,8 +128,8 @@ for( $i = 1; $i < count($_SESSION["list4"] ); $i++ )
 
 // Aqui pego todas as configurações de hardware que deseja exibir
 for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) 
-	$campos_software = $campos_software . $_SESSION["list6"][$i];
-
+	$campos_software .= $_SESSION["list6"][$i];
+	
 // Aqui substitui todas as strings \ por vazio que a variável $campos_hardware retorna
 $campos_software = str_replace('\\', '', $campos_software);
 
@@ -126,6 +148,7 @@ $query = 'SELECT 	distinct computadores.te_node_address,
 		  FROM 		so,
 		  			computadores 
 		  			LEFT JOIN officescan ON computadores.te_node_address = officescan.te_node_address and computadores.id_so = officescan.id_so '.
+					$_SESSION["te_servidor"].
 					$from. ' 		 
 		  WHERE  	TRIM(computadores.te_nome_computador) <> "" AND 
 		  			computadores.id_so = so.id_so AND 
@@ -133,10 +156,6 @@ $query = 'SELECT 	distinct computadores.te_node_address,
 					$_SESSION['where_date'].
 		  			$query_redes .' 
 		  ORDER BY ' . $orderby; 
-
-//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-//	echo $query . '<br>';		  
-	
 $result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 $cor = 0;
@@ -148,17 +167,20 @@ echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bo
       <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
 
 $intColunaDHI = 0; // Coluna apenas para ordenar pela Data/Hora de Instalacao
-
+$strTripaColunasValidas = '#';
 for ($i=2; $i < mysql_num_fields($result); $i++) 
 	{//Table Header
 	$iAux = $i;
 	$iAux = ($iAux==6?7:$iAux);
 	$iAux = ($iAux==8?9:$iAux);	
-	// Não mostro as colunas datas/horas, usadas para ordenação	
+	// Não posso mostrar as colunas datas/horas usadas para ordenação	
 	if (mysql_field_name($result, $i)<>'DHI' && mysql_field_name($result, $i)<>'DHUC')
+		{
 	   	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($iAux+1) . '">'. mysql_field_name($result, $i) .'</a></font><b></td>';
+		$strTripaColunasValidas .= $i . '#';
+		}
 	}
-	
+
 // Caso seja selecionada a exibição de Informações Patrimoniais...
 if ($_SESSION['cs_exibe_info_patrimonial']<>'')
 	{
@@ -260,16 +282,26 @@ while ($row = mysql_fetch_row($result))
 	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
     for ($i=3; $i < $fields; $i++) 
 		{
-		if ($i <> 7 && $i <> 9) // Não mostro os valores datas/horas, usados para ordenação
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial" ';
+		if 		($row[$i] == 'N') 
+			echo 'color="#FF0000"><strong>N</strong>';
+		else 	
 			{
-			echo '<td nowrap align="left"><font size="1" face="Verdana, Arial" ';
-			if 		($row[$i] == 'N') 
-				echo 'color="#FF0000"><strong>N</strong>';
-			else 	
-				echo '>'.$row[$i];
-				
-			echo '&nbsp;</td>'; 		
-			}
+			echo '>';
+
+			// Não posso mostrar as colunas datas/horas usadas para ordenação				
+			$boolExibe = false;
+			$j = $i-1;
+			while ($j < $fields && !$boolExibe)
+				{
+				$j++;
+				$boolExibe = stripos2($strTripaColunasValidas, '#'.$j.'#',false);
+				}
+			$i = $j;
+
+			echo $row[$i];
+			}			
+		echo '&nbsp;</td>'; 		
 		}
 	if ($_SESSION['cs_exibe_info_patrimonial']<>'')
 		{

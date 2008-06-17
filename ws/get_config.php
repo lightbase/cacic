@@ -44,8 +44,7 @@ if ($_POST['padding_key'])
 	$strPaddingKey 	= $_POST['padding_key']; // A versão inicial do agente em Python exige esse complemento na chave...
 	}
 	
-//$boolPyCACIC 		= (trim(DeCrypt($key,$iv,$_POST['agente'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) == 'pycacic'?1:0);
-$boolAgenteLinux 	= (trim(DeCrypt($key,$iv,$_POST['AgenteLinux'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) <> ''?1:0);
+$boolAgenteLinux 	= (trim(DeCrypt($key,$iv,$_POST['AgenteLinux'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) <> ''?true:false);
 
 // Obtenho o IP da estação por meio da decriptografia...
 $v_id_ip_estacao = trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey));
@@ -53,7 +52,7 @@ $v_id_ip_estacao = trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v
 // ...caso o IP esteja inválido, obtenho-o a partir de variável do servidor
 if (substr_count($v_id_ip_estacao,'zf')>0 || trim($v_id_ip_estacao)=='')
 	$v_id_ip_estacao = 	$_SERVER['REMOTE_ADDR'];
-	
+		
 $v_dados_rede = getDadosRede();
 
 // Essa condição testa se foi o "chkcacic" chamado para instalação ou o "Gerente de Coletas" para validar IP da estação...
@@ -71,12 +70,16 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress,$str
 			{
 			$v_array_versoes_agentes = parse_ini_file($MainFolder . '/repositorio/versoes_agentes.ini');
 			if ($boolAgenteLinux)
-				$retorno_xml_values .= '<PYCACIC>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['PyCACIC'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/PYCACIC>';				
+				{
+				// Arghh! O PyCACIC espera pelo nome completo do pacote TGZ
+				$retorno_xml_values .= '<' . 'TE_PACOTE_PYCACIC_DISPONIVEL>' . EnCrypt($key,$iv,$v_array_versoes_agentes['te_pacote_PyCACIC']     ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/TE_PACOTE_PYCACIC_DISPONIVEL>';			
+				$retorno_xml_values .= '<' . 'TE_HASH_PYCACIC>' 			 . EnCrypt($key,$iv,$v_array_versoes_agentes['te_pacote_PyCACIC_HASH'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/TE_HASH_PYCACIC>';													
+				}
 			else
 				{
-				$retorno_xml_values .= '<CACIC2>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['cacic2.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CACIC2>';
+				$retorno_xml_values .= '<CACIC2>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['cacic2.exe']  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CACIC2>';
 				$retorno_xml_values .= '<GER_COLS>' . EnCrypt($key,$iv,$v_array_versoes_agentes['ger_cols.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/GER_COLS>';			
-				$retorno_xml_values .= '<CHKSIS>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['chksis.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CHKSIS>';						
+				$retorno_xml_values .= '<CHKSIS>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['chksis.exe']  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CHKSIS>';						
 				}
 			}
 		}
@@ -388,16 +391,21 @@ else
 						FROM	redes_versoes_modulos
 						WHERE 	id_ip_rede = "'.$id_ip_rede.'" AND
 								id_local = '.$v_dados_rede['id_local'];
-	
+
+	//if $boolAgenteLinux && 
 	$result_modulos	= mysql_query($query_modulos);
 	while ($row_modulos = mysql_fetch_array($result_modulos))
 		{
-		if ($boolAgenteLinux && $row['cs_tipo_so'] == 'GNU/LINUX')
-			$retorno_xml_values .= '<' . 'TE_VERSAO_PYCACIC_DISPONIVEL>' . EnCrypt($key,$iv,$row_modulos['te_versao_modulo'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/TE_VERSAO_PYCACIC_DISPONIVEL>';
-		else
-			$retorno_xml_values .= '<' . 'DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>' . EnCrypt($key,$iv,$row_modulos['te_versao_modulo'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>';
-			
-		$retorno_xml_values .= '<' . 'TE_HASH>' . EnCrypt($key,$iv,$row_modulos['te_hash'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/TE_HASH>';						
+		if ($boolAgenteLinux && trim($row_modulos['cs_tipo_so']) == 'GNU/LINUX')
+			{
+			$retorno_xml_values .= '<' . 'TE_PACOTE_PYCACIC_DISPONIVEL>' . EnCrypt($key,$iv,$row_modulos['nm_modulo'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/TE_PACOTE_PYCACIC_DISPONIVEL>';			
+			$retorno_xml_values .= '<' . 'TE_HASH_PYCACIC>' . EnCrypt($key,$iv,$row_modulos['te_hash'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/TE_HASH_PYCACIC>';									
+			}
+		elseif (!$boolAgenteLinux)
+			{			
+			$retorno_xml_values .= '<' . 'DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>' . EnCrypt($key,$iv,$row_modulos['te_versao_modulo'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/DT_VERSAO_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '_DISPONIVEL>';			
+			$retorno_xml_values .= '<' . 'TE_HASH_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '>' . EnCrypt($key,$iv,$row_modulos['te_hash'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/TE_HASH_' . str_replace('.EXE','',strtoupper($row_modulos['nm_modulo'])) . '>';						
+			}
 		}
 	
 	if ($v_retorno_MONITORADOS <> '') 
