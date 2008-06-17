@@ -4,7 +4,7 @@ session_start();
 // Passei a restringir a visão das estatísticas na página principal ao nível de acesso atual
 // ===========================================================================================================
 	$where 	= ($_SESSION['cs_nivel_administracao'] <> 1 &&
-			   $_SESSION['cs_nivel_administracao'] <> 2    ) ? '':' AND redes.id_local = '.$_SESSION['id_local'];
+			   $_SESSION['cs_nivel_administracao'] <> 2 ? ' AND redes.id_local = '.$_SESSION['id_local']:'');
 
 	// Caso hajam locais secundários associados ao usuário, incluo-os na cláusula Where
 	if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')

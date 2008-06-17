@@ -27,15 +27,30 @@ include_once "../../../include/library.php";
 // Comentado temporariamente - AntiSpy();
 Conecta_bd_cacic();
 
-if ($_POST['exclui_uon2']) 
-	{
-	$where = ($_SESSION['cs_nivel_administracao']<>1?' AND id_local = '.$_SESSION['id_local']:'');
-	if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
+if ($exclui_uon2) 
+	{	
+	$query = "	DELETE 
+				FROM 	unid_organizacional_nivel2 
+				WHERE 	id_unid_organizacional_nivel2 = '$frm_id_unid_organizacional_nivel2_anterior'";
+
+	mysql_query($query) or die('1-Delete UON2 falhou ou sua sessão expirou!');
+	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
+	if (!atualiza_configuracoes_uonx('2'))
 		{
-		// Faço uma inserção de "(" para ajuste da lógica para consulta	
-		$where = str_replace(' id_local = ',' (id_local = ',$where);
-		$where .= ' OR id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+		echo mensagem('Falha na atualização de configurações');
 		}
+	else
+		{
+	    header ("Location: ../../../include/operacao_ok.php?chamador=../admin/patrimonio/nivel2/index.php&tempo=1");								
+		}	
+	}
+else if($_POST['gravainformacaoUON2']) 
+	{
 	
 	$query = "	DELETE 
 				FROM 	unid_organizacional_nivel2 
@@ -53,91 +68,45 @@ if ($_POST['exclui_uon2'])
 		}
 	
 	}
-elseif ($_POST['grava_alteracao_uon2']) 
-	{
-	$rowSEL = explode('#',$result_sel);
-
-	if ($rowSEL[2]	<>	$selectUON1 						||
-		$rowSEL[5]	<>	$frm_nm_unid_organizacional_nivel2 	||
-		$rowSEL[7]	<>	$frm_te_endereco_uon2				||
-		$rowSEL[9]	<>	$frm_te_bairro_uon2					||
-		$rowSEL[11]	<>	$frm_te_cidade_uon2					||
-		$rowSEL[13]	<>	$frm_te_uf_uon2						||
-		$rowSEL[15]	<>	$frm_nm_responsavel_uon2			||
-		$rowSEL[17]	<>	$frm_te_email_responsavel_uon2		||
-		$rowSEL[19]	<>	$frm_nu_tel1_responsavel_uon2		||
-		$rowSEL[21]	<>	$frm_nu_tel2_responsavel_uon2){
-
-		$where = ($_SESSION['cs_nivel_administracao']<>1?' AND id_local='.$_SESSION['id_local']:'');				
-		$query = "	UPDATE  unid_organizacional_nivel2 
-					SET		id_unid_organizacional_nivel1 	= '$selectUON1',				
-							nm_unid_organizacional_nivel2 	= '$frm_nm_unid_organizacional_nivel2',
-				   		  	te_endereco_uon2 				= '$frm_te_endereco_uon2',
-				   		  	te_bairro_uon2 					= '$frm_te_bairro_uon2',
-				   		  	te_cidade_uon2 					= '$frm_te_cidade_uon2',
-				   		  	te_uf_uon2 						= '$frm_te_uf_uon2',
-				   		  	nm_responsavel_uon2 			= '$frm_nm_responsavel_uon2',
-				   		  	te_email_responsavel_uon2 		= '$frm_te_email_responsavel_uon2',
-				   		  	nu_tel1_responsavel_uon2 		= '$frm_nu_tel1_responsavel_uon2',
-				   		  	nu_tel2_responsavel_uon2 		= '$frm_nu_tel2_responsavel_uon2',
-							id_local					= '$frm_id_local' 
-					WHERE 	id_unid_organizacional_nivel2 	= $frm_id_unid_organizacional_nivel2 and
-							id_unid_organizacional_nivel1   = $frm_id_unid_organizacional_nivel1 ".
-							$where;
-			mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
-			GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
-			if (!atualiza_configuracoes_uonx('2'))
-				{
-				echo mensagem($oTranslator->_('Falha na atualizacao de configuracoes'));
-				}
-			else
-				{
-				header ("Location: ../../../include/operacao_ok.php?chamador=../admin/patrimonio/nivel2/index.php&tempo=1");								
-				}
-			}
-		else
-			{
-			header ("Location: ../../../include/nenhuma_operacao_realizada.php?chamador=../admin/patrimonio/nivel2/index.php&tempo=1");								
-			}				
-}
 else 
-{
-	$query = "	SELECT 	* 
-				FROM 	unid_organizacional_nivel2 uo2 
-				WHERE 	uo2.id_unid_organizacional_nivel2 = $id_unid_organizacional_nivel2 and
-						uo2.id_unid_organizacional_nivel1 = $id_unid_organizacional_nivel1";
-
-	$result 		= mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
-	$fetch_result_sel = mysql_fetch_array($result);
-	$result_sel		= implode('#',$fetch_result_sel);
-	
-	$querySEL1 = 'SELECT 	uo1.id_unid_organizacional_nivel1,
-							uo1.nm_unid_organizacional_nivel1
-			  	  FROM 		unid_organizacional_nivel1 uo1
-				  ORDER BY	uo1.nm_unid_organizacional_nivel1';
-
-	$result_sel1 = mysql_query($querySEL1);			
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
-<body background="../../../imgs/linha_v.gif"  onLoad="SetaCampo('frm_id_local');">
-<script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
-<title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language="JavaScript" type="text/JavaScript">
-function ConfirmaExclusao() 
-{
-	if (confirm ("<?=$oTranslator->_('Confirma exclusao de');?> "+ document.form.etiqueta2.value+"?")) 
+	{	
+	?>
+	<head>
+	<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">	
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<SCRIPT LANGUAGE="JavaScript">
+	function ConfirmaExclusao() 
 		{
+		if (confirm ("Confirma exclusão de "+ window.document.forms[0].frm_etiqueta2.value+"?")) 
+			{
+			return true;
+			} 
+		return false;
+		}
+	
+	function ListarUON1a(ObjLocal)
+		{
+		var frm_id_unid_organizacional_nivel1a =window.document.forms[0].frm_id_unid_organizacional_nivel1a;	
+		var contaUON1a = 0;
+	
+		frm_id_unid_organizacional_nivel1a.options.length = 0;
+		for (j=0;j<document.all.listaUON1a.options.length;j++)
+			{
+			if (document.all.listaUON1a.options[j].id == ObjLocal.options[ObjLocal.options.selectedIndex].value)
+				{
+				frm_id_unid_organizacional_nivel1a.options[contaUON1a]       = new Option(document.all.listaUON1a.options[j].text);
+				frm_id_unid_organizacional_nivel1a.options[contaUON1a].id    = 		   document.all.listaUON1a.options[j].id;
+				frm_id_unid_organizacional_nivel1a.options[contaUON1a].value = 		   document.all.listaUON1a.options[j].value;
+				contaUON1a ++;			
+				}		
+			}
+			
 		return true;
-		} 
-	return false;
-}
-function valida_form() 
-	{
-	if (document.form.selectUON1.value == 0)
+	
+		}
+	
+	function valida_form() 
 		{
 		alert("Por favor, selecione "+ document.form.etiqueta1.value+".");
 		document.form.selectUON1.focus();
@@ -153,156 +122,207 @@ function valida_form()
 	return true;	
 	}
 
-</script>
+	$queryUON1a = 'SELECT 	uo1a.id_unid_organizacional_nivel1a,
+							uo1a.nm_unid_organizacional_nivel1a,
+							uo1a.id_unid_organizacional_nivel1
+				   FROM 	unid_organizacional_nivel1a uo1a
+				   ORDER BY	uo1a.nm_unid_organizacional_nivel1a';	
 
-</head>
+	$queryUON2 	= 'SELECT 	uo2.id_unid_organizacional_nivel2,
+							uo2.nm_unid_organizacional_nivel2,
+							uo2.id_unid_organizacional_nivel1a,
+							uo2.id_local
+				   FROM 	unid_organizacional_nivel2 uo2 
+				   WHERE    uo2.id_unid_organizacional_nivel2 = '.$_GET['id_uon2'].' 
+				   ORDER BY	uo2.nm_unid_organizacional_nivel2';	
+				   
+	$queryLOCAIS= "SELECT 	id_local,
+							sg_local 
+				   FROM 	locais
+				   ORDER BY	sg_local";
 
-<table width="90%" border="0" align="center">
-  <tr> 
-    <td class="cabecalho">
-      <?=$oTranslator->_('Detalhes de');?> <? echo $_SESSION['etiqueta2'];?> 
-      (<?=$oTranslator->_('Unidade Organizacional Nivel 2');?>)
-    </td>
-  </tr>
-  <tr> 
-    <td>&nbsp;</td>
-  </tr>
-</table>
+	Conecta_bd_cacic();			  
+	
+	$result_UON1   = mysql_query($queryUON1);			
+	$result_UON1a  = mysql_query($queryUON1a);			
+	$result_UON2   = mysql_query($queryUON2);	
+	$result_LOCAIS = mysql_query($queryLOCAIS);					
+		
+	$row_UON2      = mysql_fetch_array($result_UON2);			
 
-<form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
-  <table width="61%" border="0" align="center" cellpadding="2" cellspacing="2">
-          <tr> 
-            <td class="label"><?=$oTranslator->_('Local');?>:</td>
-            <td><select name="frm_id_local" id="frm_id_local"" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                <? 
-			$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' WHERE id_local = '.$_SESSION['id_local']:'');				
-			if ($_SESSION['te_locais_secundarios']<>'' && $where <>'')
-				{
-				// Faço uma inserção de "(" para ajuste da lógica para consulta	
-				$where = str_replace(' id_local = ',' (id_local = ',$where);
-				$where .= ' OR id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
-				}
-			
-			$qry_locais = "SELECT 	id_local,
-											sg_local 
-								 FROM 		locais ".
-								 			$where ."
-								 ORDER BY	sg_local";
-
-		    $result_locais = mysql_query($qry_locais) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('locais')));
-			while ($row_qry=mysql_fetch_array($result_locais))
-		  		{
-				echo '<option value="'.$row_qry[0].'"';
-				if ($row_qry['id_local'] == $_GET["id_local"]) 
-					{
-				  	$v_sg_local = $row_qry[1]; 					
-					echo 'selected';
-					}
-					?> id='
-                <? 
-				echo $row_qry[1];?>'><? echo $row_qry[1];?> 
-                <?
-				}
-						
-			?>
-              </select></td>
-          </tr>
-  
-  <tr> 
-      <td width="20%" nowrap class="label"><? echo $_SESSION['etiqueta1']; ?>:</td>
-	  <td colspan="3"><select name="selectUON1"  class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-<option value="0"><?=$oTranslator->_('Selecione');?> <? echo $_SESSION['etiqueta1']; ?></option>
-<?
-if(mysql_num_rows($result_sel1))
-	{	              
-	while($row = mysql_fetch_array($result_sel1)){
-		echo "<option value='". $row['id_unid_organizacional_nivel1'] . "'";
-		if ($row['id_unid_organizacional_nivel1'] == $id_unid_organizacional_nivel1)
+	$id_UON1  = '';
+	if(mysql_num_rows($result_UON1a))
+		{	              
+		while($row_UON1a = mysql_fetch_array($result_UON1a))
 			{
-			echo ' selected';
-			}
-		echo ">".$row['nm_unid_organizacional_nivel1'].'</option>';
-		} 		
-	}
+			if ($row_UON1a['id_unid_organizacional_nivel1a'] == $row_UON2['id_unid_organizacional_nivel1a'])
+				{
+				$id_UON1  = $row_UON1a['id_unid_organizacional_nivel1'];
+				break;
+				}
+			} 		
+		}
+
 	?>
-</select>
-<tr> 
-            <td class="label"><div align="left"> 
-              <? echo $_SESSION['etiqueta2'];?>:</td>
-            <td colspan="3"> <div align="left"> 
-                <input name="frm_id_unid_organizacional_nivel1" type="hidden" id="id_unid_organizacional_nivel1" value="<? echo mysql_result($result, 0, 'id_unid_organizacional_nivel1'); ?>">			
-                <input name="etiqueta1" type="hidden" id="etiqueta1" value="<? echo $_SESSION['etiqueta1']; ?>">							
-                <input name="etiqueta2" type="hidden" id="etiqueta2" value="<? echo $_SESSION['etiqueta2']; ?>">											
-                <input name="frm_id_unid_organizacional_nivel2" type="hidden" id="id_unid_organizacional_nivel2" value="<? echo mysql_result($result, 0, 'id_unid_organizacional_nivel2'); ?>">							
-                <input name="result_sel" type="hidden" id="result_sel" value="<? echo $result_sel; ?>">							
-                <input name="frm_nm_unid_organizacional_nivel2" type="text"   id="frm_nm_unid_organizacional_nivel2" size="60" maxlength="50" value="<? echo mysql_result($result, 0, 'nm_unid_organizacional_nivel2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-				
-              </div></td>
-          </tr>
-          <tr> 
-            <td class="label"><div align="left"><?=$oTranslator->_('Endereco');?>:</div></td>
-            <td colspan="3"> <div align="left"> 
-                <input name="frm_te_endereco_uon2" type="text" id="frm_te_endereco_uon2" size="60" maxlength="80" value="<? echo mysql_result($result, 0, 'te_endereco_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-              </div></td>
-          </tr>
-          <tr> 
-            <td class="label"><div align="left"><?=$oTranslator->_('Bairro');?>:</div></td>
-            <td colspan="3"> <div align="left"> 
-                <input name="frm_te_bairro_uon2" type="text" id="frm_te_bairro_uon2" size="60" maxlength="30" value="<? echo mysql_result($result, 0, 'te_bairro_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-              </div></td>
-          </tr>
-          <tr> 
-            <td class="label"><?=$oTranslator->_('Cidade');?>:</td>
-            <td><input name="frm_te_cidade_uon2" type="text" id="frm_te_cidade_uon2" size="20" maxlength="50" value="<? echo mysql_result($result, 0, 'te_cidade_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-              </td>
-            <td>&nbsp;</td>
-            <td class="label"><div align="right"><?=$oTranslator->_('Unidade da Federacao',T_SIGLA);?>: 
-                <input name="frm_te_uf_uon2" type="text" id="frm_te_uf_uon2" size="2" maxlength="2" value="<? echo mysql_result($result, 0, 'te_uf_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                </div></td>
-          </tr>
-          <tr> 
-            <td class="label"><?=$oTranslator->_('Responsavel');?>:</td>
-            <td colspan="3"><div align="left">
-                <input name="frm_nm_responsavel_uon2" type="text" id="frm_nm_responsavel_uon2" size="60" maxlength="80" value="<? echo mysql_result($result, 0, 'nm_responsavel_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                </div></td>
-          </tr>
-          <tr> 
-            <td class="label"><?=$oTranslator->_('Endereco eletronico');?>:</td>
-            <td colspan="3"><div align="left"> 
-                <input name="frm_te_email_responsavel_uon2" type="text" id="frm_te_email_responsavel_uon2" size="60" maxlength="50" value="<? echo mysql_result($result, 0, 'te_email_responsavel_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                </div></td>
-          </tr>
-          <tr> 
-            <td class="label"><?=$oTranslator->_('Telefone').' '.$oTranslator->_('Um',T_SIGLA);?>:</td>
-            <td><div align="left"> 
-                <input name="frm_nu_tel1_responsavel_uon2" type="text" id="frm_nu_tel1_responsavel_uon2" size="20" maxlength="10" value="<? echo mysql_result($result, 0, 'nu_tel1_responsavel_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                </div></td>
-            <td nowrap class="label"><div align="right"><?=$oTranslator->_('Telefone').' '.$oTranslator->_('Dois',T_SIGLA);?>:</div></td>
-            <td><div align="right"> 
-                <input name="frm_nu_tel2_responsavel_uon2" type="text" id="frm_nu_telefone2" size="20" maxlength="10" value="<? echo mysql_result($result, 0, 'nu_tel2_responsavel_uon2'); ?>" class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                </div></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td><div align="left"></div></td>
-            <td>&nbsp;</td>
-            <td><div align="right"></div></td>
-          </tr>	
-		  
-  </table>
-  <p align="center">
+	<body background="../../../imgs/linha_v.gif" onLoad="Javascript: SetaCampo('frm_id_local');">
+	<div id="LayerDados" style="position:absolute; width:200px; height:115px; z-index:1; left: 100px; top: 0px; visibility: hidden">
 	<?
-	$v_frase = "Confirma('".$oTranslator->_('Confirma Informacoes para')." ".$_SESSION['etiqueta2']."?')";
-    echo '<input name="grava_alteracao_uon2" type="submit" id="grava_alteracao_uon2" value="'.$oTranslator->_('Gravar Alteracoes').'" onClick="return '.$v_frase.'"; '.($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'').'>';
+	$queryLayerUON1a = "SELECT		UON1a.id_unid_organizacional_nivel1,
+									UON1a.id_unid_organizacional_nivel1a,
+									UON1a.nm_unid_organizacional_nivel1a
+					   FROM 		unid_organizacional_nivel1a UON1a
+					   ORDER BY		UON1a.nm_unid_organizacional_nivel1a";
+	$resultLayerUON1a = mysql_query($queryLayerUON1a) or die('Select Impossível na tabela UON1a');
+	
+	$intIdUON1a  = 0;
+	
+	while ($rowUON1a = mysql_fetch_array($resultLayerUON1a)) 
+		$strUON1a .= '<option id="'.$rowUON1a['id_unid_organizacional_nivel1'].'" value="'.$rowUON1a['id_unid_organizacional_nivel1a'].'">'.$rowUON1a['nm_unid_organizacional_nivel1a'].'</option>';			
+	
+	$arrUON1a = explode('#',$strUON1a);	
+	
+	echo '<select name="listaUON1a">';
+	for ($i=0; $i < count($arrUON1a);$i++)
+		{
+		echo $arrUON1a[$i];
+		}
+	echo '</select>';		
+		
 	?>
-&nbsp;&nbsp;		
-    <input name="exclui_uon2" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon2" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 &&  $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
-  </p>
-</form>
-</td>
-  </tr>
+	</div>
+	<script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
+	<table width="90%" border="0" align="center">
+	  <tr> 
+		<td class="cabecalho">Detalhes de <? echo $_SESSION['etiqueta2'];?> (U. O. N&iacute;vel 
+	    2)</td>
+	  </tr>
+	  <tr> 
+		<td>&nbsp;</td>
+	  </tr>
+	</table>
+	
+	<form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
+	<table width="61%" border="0" align="center" cellpadding="2" cellspacing="2">
+	<tr>
+	<td nowrap class="label">Local:</td>
+	<td colspan="3"><select name="frm_id_local" id="frm_id_local" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
+	<?			  
+	while($row_LOCAIS = mysql_fetch_array($result_LOCAIS))
+		{
+		echo '<option value="'.$row_LOCAIS['id_local'].'" '.($row_LOCAIS['id_local']==$row_UON2['id_local']?'selected':'').'>'.$row_LOCAIS['sg_local'].'</option>';
+		}
+		?>
+	</select></td></tr>  
+	<tr> 
+  	<td nowrap class="label"><? echo $_SESSION['etiqueta1']; ?>:</td>
+	<td colspan="3"> <div align="left"> 
+  	<select name="frm_id_unid_organizacional_nivel1" id="frm_id_unid_organizacional_nivel1"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="ListarUON1a(this)">
+	<option value="0">Selecione <? echo $_SESSION['etiqueta1']; ?></option>
+				<?
+				
+	if(mysql_num_rows($result_UON1))
+		{	              
+		while($row_UON1 = mysql_fetch_array($result_UON1))
+			{
+			echo "<option value='". $row_UON1['id_unid_organizacional_nivel1']."' ".($row_UON1['id_unid_organizacional_nivel1']==$id_UON1?'selected':'').'>'.$row_UON1['nm_unid_organizacional_nivel1'].'</option>';
+			} 		
+		}
+		?>
+			  </select>
+			</div></td>
+			</tr>  
+	
+		<tr> 
+		  <td nowrap class="label"><? echo $_SESSION['etiqueta1a']; ?>:</td>
+		  <td colspan="3"> <div align="left"> 
+			  <select name="frm_id_unid_organizacional_nivel1a" id="frm_id_unid_organizacional_nivel1a"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
+				<option value="0" selected>Selecione <? echo $_SESSION['etiqueta1a']; ?></option>
+				<?
+	mysql_data_seek($result_UON1a,0);
+	if(mysql_num_rows($result_UON1a))
+		{	              
+		while($row_UON1a = mysql_fetch_array($result_UON1a))
+			{
+			echo "<option value='". $row_UON1a['id_unid_organizacional_nivel1a'] . "' " . ($row_UON1a['id_unid_organizacional_nivel1a'] == $row_UON2['id_unid_organizacional_nivel1a']?'selected':'').">".$row_UON1a['nm_unid_organizacional_nivel1a'].'</option>';
+			} 		
+		}
+		?>
+			  </select>
+			</div></td>
+		</tr>
+		<tr> 
+		  <td nowrap class="label"><? echo $_SESSION['etiqueta2']; ?>:</td>
+		  <td colspan="3"> <div align="left"> 
+			  <input name="frm_etiqueta1a"  type="hidden" id="frm_etiqueta1a" value="<? echo $_SESSION['etiqueta1a'];?>">
+			  <input name="frm_etiqueta2"  type="hidden" id="frm_etiqueta2" value="<? echo $_SESSION['etiqueta2'];?>">			  
+			  <input name="frm_id_unid_organizacional_nivel2_anterior"  type="hidden" id="frm_id_unid_organizacional_nivel2_anterior" value="<? echo $row_UON2['id_unid_organizacional_nivel2'];?>">			  
+			  <input name="frm_nm_unid_organizacional_nivel2"  type="text" id="frm_nm_unid_organizacional_nivel2" size="60" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['nm_unid_organizacional_nivel2'];?>">			  
+			</div></td>
+		</tr>
+		<tr> 
+		  <td class="label"><div align="left">Endere&ccedil;o:</div></td>
+		  <td colspan="3"> <div align="left"> 
+			  <input name="frm_te_endereco_uon2" type="text"  id="frm_te_endereco_uon2" size="60" maxlength="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['te_endereco_uon2'];?>">
+			</div></td>
+		</tr>
+		<tr> 
+		  <td class="label"><div align="left">Bairro:</div></td>
+		  <td colspan="3"> <div align="left"> 
+			  <input name="frm_te_bairro_uon2" type="text"  id="frm_te_bairro_uon2" size="60" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['te_bairro_uon2'];?>">
+			</div></td>
+		</tr>
+		<tr> 
+		  <td class="label">Cidade:</td>
+		  <td><input name="frm_te_cidade_uon2" type="text"  id="frm_te_cidade_uon2" size="20" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['te_cidade_uon2'];?>"> 
+		  </td>
+		  <td>&nbsp;</td>
+		  <td class="label"><div align="right">UF: 
+			  <input name="frm_te_uf_uon2" type="text"  id="frm_te_uf_uon2" size="2" maxlength="2" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['te_uf_uon2'];?>">
+			</div></td>
+		</tr>
+		<tr> 
+		  <td class="label">Respons&aacute;vel:</td>
+		  <td colspan="3"><div align="left">
+			  <input name="frm_nm_responsavel_uon2" type="text"  id="frm_nm_responsavel_uon2" size="60" maxlength="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['nm_responsavel_uon2'];?>">
+			</div></td>
+		</tr>
+		<tr> 
+		  <td class="label">E-mail:</td>
+		  <td colspan="3"><div align="left"> 
+			  <input name="frm_te_email_responsavel_uon2" type="text"  id="frm_te_email_responsavel_uon2" size="60" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['te_email_responsavel_uon2'];?>">
+			</div></td>
+		</tr>
+		<tr> 
+		  <td class="label">Tel. 1:</td>
+		  <td><div align="left"> 
+			  <input name="frm_nu_tel1_responsavel_uon2" type="text"  id="frm_nu_tel1_responsavel_uon2" size="20" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['nu_tel1_responsavel_uon2'];?>">
+			</div></td>
+		  <td nowrap class="label"><div align="right">Tel. 2:</div></td>
+		  <td><div align="right"> 
+			  <input name="frm_nu_tel2_responsavel_uon2" type="text"  id="frm_nu_telefone2" size="20" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['nu_tel2_responsavel_uon2'];?>">
+			</div></td>
+		</tr>
+		<tr> 
+		  <td><div align="left"></div></td>
+		  <td>&nbsp;</td>
+		  <td><div align="right"></div></td>
+		</tr>
+	  </table>
+	  <p align="center"> 
+		
+	  <?
+	  $v_frase = "Confirma('Confirma Alteração de ".$_SESSION['etiqueta2']."?')";
+	  ?>
+	  <input name="gravainformacaoUON2" type="submit" value="  Gravar Informa&ccedil;&otilde;es  "<? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'');?>  onClick="return <? echo $v_frase;?>">
+	&nbsp; &nbsp; 		  
+      <input name="exclui_uon2" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon2" value="  Excluir <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'');?>>
+		
+	  </p>
+	</form>
+	<p>
+  	<?
+	}
+?>
+</p>
 </body>
 </html>
-<?
-}
-?>

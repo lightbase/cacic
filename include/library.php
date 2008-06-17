@@ -988,25 +988,32 @@ function quebra_linha($string, $tamanho_desejado) {
 // --------------------------------------------------------------------------------------
 // Função usada para fazer updates das versões dos módulos nas subredes...
 // --------------------------------------------------------------------------------------
-function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo, $p_id_local, $p_cs_tipo_so)
+function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo, $p_te_hash, $p_id_local)
 	{
 	$MainFolder		= GetMainFolder();
-	$arrCsTipoSO = explode('#',$p_cs_tipo_so);
+	$cs_tipo_so = (stripos2($p_nm_modulo,'.exe',false)?'MS-Windows':'GNU/LINUX');
+	$cs_tipo_so = (stripos2($p_nm_modulo,'.ini',false)?'MS-Windows':$cs_tipo_so);		
+
 	conecta_bd_cacic();
 	$query_UPD = '	UPDATE 	redes 
 					set dt_verifica_updates = NOW() 
 					WHERE 	id_ip_rede = "'.$pp_id_ip_rede.'" AND
 					        id_local = '.$p_id_local;		
 	$result = mysql_query($query_UPD);
-	
+
+	// Aqui eu excluo a versão anterior...
+	// No caso do Linux é um pacote, por isso mato pelo tipo de S.O.
 	$query_DEL	= 'DELETE 	
 				   FROM 	redes_versoes_modulos
-				   WHERE 	TRIM(id_ip_rede) = "'.trim($pp_id_ip_rede).'" AND
-				   			TRIM(nm_modulo)="'.trim($p_nm_modulo).'" AND
-							id_local = '.$p_id_local.' AND
-							cs_tipo_so = "'.$arrCsTipoSO[1].'"';
+				   WHERE 	id_local = '.$p_id_local.' AND
+				   			TRIM(id_ip_rede) = "'.trim($pp_id_ip_rede).'" AND
+							trim(cs_tipo_so) = "'.$cs_tipo_so.'" ';
+	
+	if ($cs_tipo_so == 'MS-Windows')
+		$query_DEL	.= ' AND TRIM(nm_modulo)="'.trim($p_nm_modulo).'"';
+	//GravaTESTES('mod query_DEL: '.$query_DEL);						   																
 	$result_DEL = mysql_query($query_DEL);
-
+	
 	$v_te_versao_modulo = $p_te_versao_modulo;
 	if (file_exists($MainFolder . '/repositorio/versoes_agentes.ini'))
 		{
@@ -1019,24 +1026,28 @@ function atualiza_red_ver_mod($pp_id_ip_rede, $p_nm_modulo, $p_te_versao_modulo,
 													   te_versao_modulo,
 													   id_local,
 													   dt_atualizacao,
-													   cs_tipo_so)
+													   cs_tipo_so,
+													   te_hash)
 						   values					   ("'.$pp_id_ip_rede.'",
 														"'.$p_nm_modulo.'",
 														"'.$v_te_versao_modulo.'","'.
 														$p_id_local.'",
 														now(),
-														"'.$arrCsTipoSO[1].'")';
-
+														"'.$cs_tipo_so.'",
+														"'.$p_te_hash.'")';
+	//GravaTESTES('mod query_INS: '.$query_INS);						   																														
 	$result_INS = mysql_query($query_INS);
 	}
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 // Função usada para fazer updates das versões dos módulos nos servidores de updates quando a chamada tem origem na página, via opção Update de Subredes...
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
-function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_versao_modulo, $p_cs_tipo_so)
+function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_versao_modulo,$p_te_hash)
 	{
 	$MainFolder		= GetMainFolder();
-	$arrCsTipoSO = explode('#',$p_cs_tipo_so);	
+	$cs_tipo_so = (stripos2($p_nm_modulo,'.exe',false)?'MS-Windows':'GNU/LINUX');
+	$cs_tipo_so = (stripos2($p_nm_modulo,'.ini',false)?'MS-Windows':$cs_tipo_so);	
+
 	conecta_bd_cacic();
 	$query_SEL = '  SELECT id_ip_rede,
 						   id_local
@@ -1059,16 +1070,31 @@ function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_ve
 					// AND id_local = '.$p_id_local;
 	//GravaTESTES('query_UPD: '.$query_UPD);						   							
 	$result_UPD = mysql_query($query_UPD);
+
+	// Aqui eu excluo a versão anterior...
+	// No caso do Linux é um pacote, por isso mato pelo tipo de S.O.
+	$query_DEL	= 'DELETE 	
+				   FROM 	redes_versoes_modulos
+				   WHERE 	TRIM(id_ip_rede) IN ('.$redes.') AND
+							trim(cs_tipo_so) = "'.$cs_tipo_so.'" ';
 	
+	if ($cs_tipo_so == 'MS-Windows')
+		$query_DEL	.= ' AND TRIM(nm_modulo)="'.trim($p_nm_modulo).'"';
+	//GravaTESTES('mod_pagina query_DEL: '.$query_DEL);						   									
+	$result_DEL = mysql_query($query_DEL);
+
+	/*
 	$query_DEL	= 'DELETE 	
 				   FROM 	redes_versoes_modulos
 				   WHERE 	TRIM(id_ip_rede) IN ('.$redes.') AND
 				            nm_modulo = "'.$p_nm_modulo.'" AND
-							cs_tipo_so = "'.$arrCsTipoSO[1].'"';
+							trim(cs_tipo_so) = "'.$cs_tipo_so.'"';
 							// AND	id_local = '.$p_id_local;
 	//GravaTESTES('query_DEL: '.$query_DEL);						   							
 	$result_DEL = mysql_query($query_DEL);
 
+	*/
+	
 	$v_te_versao_modulo = $p_te_versao_modulo;
 	if (file_exists($MainFolder . '/repositorio/versoes_agentes.ini'))
 		{
@@ -1076,14 +1102,13 @@ function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_ve
 		}
 
 	$query_INS	= 'INSERT  
-				   INTO 		redes_versoes_modulos (id_ip_rede,
+				   INTO 		redes_versoes_modulos (id_local,
+				   									   id_ip_rede,
 													   nm_modulo,
 													   te_versao_modulo,
-													   id_local,
 													   dt_atualizacao,
-													   cs_tipo_so) values ';
-	$query_INS	= 'INSERT  
-				   INTO 		redes_versoes_modulos values ';
+													   cs_tipo_so,
+													   te_hash) values ';
 													   
 	$virgula = '';													   
 	mysql_data_seek($result_SEL,0);
@@ -1094,7 +1119,8 @@ function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_ve
 								  "'.$p_nm_modulo.'",
 								  "'.$p_te_versao_modulo.'",'.
 								    'now(),
-								  "'.$arrCsTipoSO[1].'")';
+								  "'.$cs_tipo_so.'",
+								  "'.$p_te_hash.'")';
 		$virgula = ',';
 		}
 	//GravaTESTES('query_INS: '.$query_INS);						   
@@ -1282,7 +1308,7 @@ function GetMainFolder()
 // Função usada para fazer updates de subredes...
 // A variável p_origem poderá conter "Agente" ou "Pagina" para o tratamento de variáveis $_SESSION
 // --------------------------------------------------------------------------------------
-function update_subredes($p_id_ip_rede, $p_origem, $p_objetos, $p_id_local) 
+function update_subredes($p_id_ip_rede, $p_origem, $p_objetos, $p_id_local, $p_array_agentes_hashs) 
 {
 $MainFolder		= GetMainFolder();
 
@@ -1292,9 +1318,31 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 	$v_nomes_arquivos_REP = array();
 	$v_versoes_arquivos_REP = array();	
 	if (file_exists($MainFolder . '/repositorio/versoes_agentes.ini'))
-		{
 		$v_array_versoes_agentes = parse_ini_file($MainFolder . '/repositorio/versoes_agentes.ini');
+	
+	// Para tratamento dos agentes GNU/Linux  -  Anderson Peterle - Maio/2008 (Dataprev/ES)
+	if ($handle = opendir($MainFolder . '/repositorio/agentes_linux')) 
+		{
+		while (false !== ($v_arquivo = readdir($handle))) 
+			{
+			if ((strpos($p_objetos,$v_arquivo) > 0 || $p_objetos=='*') and substr($v_arquivo,0,1) != ".") 				
+				{
+				
+				// Armazeno o nome do arquivo
+				array_push($v_nomes_arquivos_REP, $v_arquivo);
+
+				$caminho_arquivo = $MainFolder . '/repositorio/agentes_linux/' . $v_arquivo;
+
+				if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes['PyCACIC'])			
+					array_push($v_versoes_arquivos_REP, $v_arquivo . '#'.str_replace('.','',$versao_agente));
+				else
+					array_push($v_versoes_arquivos_REP, $v_arquivo . '#'. strftime("%Y%m%d%H%M", filemtime($caminho_arquivo)));
+				}
+			}	
 		}
+
+	// Para tratamento dos agentes MS-Windows - Anderson Peterle - Maio/2008 (Dataprev/ES)
+	$handle = opendir($MainFolder . '/repositorio');
 	while (false !== ($v_arquivo = readdir($handle))) 
 		{
 		if ((strpos($p_objetos,$v_arquivo) > 0 || $p_objetos=='*') and substr($v_arquivo,0,1) != ".") 				
@@ -1327,7 +1375,6 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 	
 	$v_nomes_arquivos_FTP 	= array();
 	$v_versoes_arquivos_FTP = array();				
-	$v_tipos_so_FTP 		= array();					
 	
 	$Result_SEL_REDES = mysql_query($query_SEL_REDES);
 	$v_achei = 0;
@@ -1335,7 +1382,6 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 		{
 		array_push($v_nomes_arquivos_FTP, trim($row['nm_modulo']));
 		array_push($v_versoes_arquivos_FTP, trim($row['nm_modulo']).'#'.trim($row['te_versao_modulo']));										
-		array_push($v_tipos_so_FTP, trim($row['nm_modulo']).'#'.trim($row['cs_tipo_so']));												
 		for ($cnt_arquivos_REP = 0; $cnt_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_arquivos_REP++)
 			{
 			if (trim($v_nomes_arquivos_REP[$cnt_arquivos_REP]) == trim($row['nm_modulo']) &&
@@ -1410,12 +1456,13 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 					sort($v_nomes_arquivos_REP,SORT_STRING);						
 					sort($v_versoes_arquivos_REP,SORT_STRING);											
 					sort($v_nomes_arquivos_FTP,SORT_STRING);											
-					sort($v_tipos_so_FTP,SORT_STRING);																
 					sort($v_versoes_arquivos_FTP,SORT_STRING);																
 					$v_efetua_conexao_ftp = 1;
 	
 					for ($cnt_nomes_arquivos_REP = 0; $cnt_nomes_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_nomes_arquivos_REP++) 
 						{
+						// Atenção: acertar depois...
+						$v_pasta_agente_linux = (stripos2($v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],'.tgz',false)?'agentes_linux/':'');
 						$v_achei = 0;
 						for ($cnt_nomes_arquivos_FTP = 0; $cnt_nomes_arquivos_FTP < count($v_nomes_arquivos_FTP); $cnt_nomes_arquivos_FTP++)
 							{
@@ -1430,15 +1477,15 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 									
 									if (@ftp_put($v_conexao_ftp,
 												$row['te_path_serv_updates'] . '/' . $v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP],
-												$MainFolder . '/repositorio/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
+												$MainFolder . '/repositorio/'. $v_pasta_agente_linux . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
 												FTP_BINARY))
 										{
 										array_push($v_array_objetos_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
 										$arr_versao_arquivo = explode('#',$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
 										if ($p_origem == 'Pagina')										
-											atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$v_tipos_so_FTP[$cnt_nomes_arquivos_REP]);
+											atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]]);
 										else
-											atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$row['id_local'],$v_tipos_so_FTP[$cnt_nomes_arquivos_REP]);
+											atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]],$row['id_local']);
 										echo '<font size="1px" color="orange">Atualizado...: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';											
 										$v_conta_objetos_atualizados ++;
 										flush();																													
@@ -1467,14 +1514,14 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 								
 							if (@ftp_put($v_conexao_ftp,
 										$row['te_path_serv_updates'] . '/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
-										$MainFolder . '/repositorio/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
+										$MainFolder . '/repositorio/' . $v_pasta_agente_linux . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
 										FTP_BINARY))
 								{
 								array_push($v_array_objetos_enviados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
 								if ($p_origem == 'Pagina')										
-									atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1]);
+									atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]]);
 								else
-									atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$row['id_local']);
+									atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]],$row['id_local']);
 								
 								//atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
 								$v_conta_objetos_enviados ++;

@@ -28,42 +28,48 @@ if ($_POST['incluirUON2'])
 	}
 
 include_once "../../../include/library.php";
-// Comentado temporariamente - AntiSpy();
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
+
 Conecta_bd_cacic();
-$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
+//$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
 $where = ' AND id_local = '.$_SESSION['id_local'];
 $queryCONFIG = "SELECT 		DISTINCT 
 							id_etiqueta,
 							te_etiqueta,
 							te_plural_etiqueta
 		  		FROM 		patrimonio_config_interface patcon
-				WHERE		patcon.id_etiqueta in ('".'etiqueta1'."','".'etiqueta2'."') ".
+				WHERE		patcon.id_etiqueta in ('".'etiqueta1'."','".'etiqueta1a'."','".'etiqueta2'."') ".
 							$where. "
-		  		ORDER BY 	id_etiqueta";
+		  		ORDER BY 	id_etiqueta
+				LIMIT       3";
 
 $resultCONFIG 	= mysql_query($queryCONFIG);
 
 session_register('etiqueta1');
 session_register('plural_etiqueta1');
+session_register('etiqueta1a');
+session_register('plural_etiqueta1a');
 session_register('etiqueta2');
 session_register('plural_etiqueta2');
 
-$row 	= mysql_fetch_array($resultCONFIG);
-$_SESSION['etiqueta1'] 	= $row['te_etiqueta'];
-$_SESSION['plural_etiqueta1'] 	= $row['te_plural_etiqueta'];
-
-$row 	= mysql_fetch_array($resultCONFIG);
-$_SESSION['etiqueta2'] 	= $row['te_etiqueta'];
-$_SESSION['plural_etiqueta2'] 	= $row['te_plural_etiqueta'];
+$_SESSION['etiqueta1'] 			= mysql_result($resultCONFIG,0,'te_etiqueta');
+$_SESSION['plural_etiqueta1'] 	= mysql_result($resultCONFIG,0,'te_plural_etiqueta');
+$_SESSION['etiqueta1a'] 		= mysql_result($resultCONFIG,1,'te_etiqueta');
+$_SESSION['plural_etiqueta1a'] 	= mysql_result($resultCONFIG,1,'te_plural_etiqueta');
+$_SESSION['etiqueta2'] 			= mysql_result($resultCONFIG,2,'te_etiqueta');
+$_SESSION['plural_etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_plural_etiqueta');
 
 $where = '';
-if ($id_unid_organizacional_nivel1)
+if ($id_unid_organizacional_nivel1a)
 	{
-	$where = ' and uo2.id_unid_organizacional_nivel1='.$id_unid_organizacional_nivel1;
+	$where = ' and uo2.id_unid_organizacional_nivel1a='.$id_unid_organizacional_nivel1a;
 	}
 
 $where .= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND uo2.id_local = '.$_SESSION['id_local']:'');
-$where .= ' AND uo2.id_local = '.$_SESSION['id_local'];
+//$where .= ' AND uo2.id_local = '.$_SESSION['id_local'];
 
 if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	{
@@ -72,21 +78,20 @@ if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	$where .= ' OR uo2.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
 	}
 
-$query = 'SELECT 	uo1.id_unid_organizacional_nivel1 as uo1_id_unid_organizacional_nivel1,
-					uo1.nm_unid_organizacional_nivel1 as uo1_nm_unid_organizacional_nivel1,
-					uo2.id_unid_organizacional_nivel2 as uo2_id_unid_organizacional_nivel2,
-					uo2.nm_unid_organizacional_nivel2 as uo2_nm_unid_organizacional_nivel2,
+$query = 'SELECT 	uo1a.id_unid_organizacional_nivel1a as uo1a_id_unid_organizacional_nivel1a,
+					uo1a.nm_unid_organizacional_nivel1a as uo1a_nm_unid_organizacional_nivel1a,
+					uo2.id_unid_organizacional_nivel2   as uo2_id_unid_organizacional_nivel2,
+					uo2.nm_unid_organizacional_nivel2   as uo2_nm_unid_organizacional_nivel2,
 					loc.id_local,
 					loc.sg_local
-		  FROM 		unid_organizacional_nivel1 uo1,
+		  FROM 		unid_organizacional_nivel1a uo1a,
 		   			unid_organizacional_nivel2 uo2,
 					locais loc
-		  WHERE		uo2.id_unid_organizacional_nivel1a = uo1.id_unid_organizacional_nivel1 '.$where.' and
+		  WHERE		uo2.id_unid_organizacional_nivel1a = uo1a.id_unid_organizacional_nivel1a '.$where.' and
 		  			uo2.id_local = loc.id_local			
 		  ORDER BY 	loc.sg_local,
-		  			uo1_nm_unid_organizacional_nivel1, 
+		  			uo1a_nm_unid_organizacional_nivel1a, 
 					uo2_nm_unid_organizacional_nivel2';		  
-
 $result = mysql_query($query);
 
 $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta2'];
@@ -114,6 +119,10 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta2'];
   <tr> 
     <td class="descricao"><?=$oTranslator->_('Modulo para cadastramento de Unidades Organizacionais de Nivel 2');?></td>
   </tr>
+  <tr> 
+    <td class="destaque_laranja"><u>Importante:</u> A inclus&atilde;o de <? echo $_SESSION['plural_etiqueta2'];?> &eacute; restrita ao n&iacute;vel &quot;Administra&ccedil;&atilde;o&quot;.</td>
+  </tr>
+  
 </table>
 
 <br><table width="42%" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -142,9 +151,9 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta2'];
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap><div align="left"></div></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><? echo $_SESSION['etiqueta1'] .'-'.$_SESSION['etiqueta2'];?></div></td>
+          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><? echo $_SESSION['etiqueta1a'] .'/'.$_SESSION['etiqueta2'];?></div></td>
           <td nowrap >&nbsp;</td>
-          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Local');?></div></td>
+          <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Local</div></td>
           <td nowrap >&nbsp;</td>
         </tr>
 <?  
@@ -166,10 +175,10 @@ else
 			  <td nowrap>&nbsp;</td>
 			  <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="left"><a href="../nivel2/detalhes_nivel2.php?id_unid_organizacional_nivel1=<? echo $row['uo1_id_unid_organizacional_nivel1'];?>&id_unid_organizacional_nivel2=<? echo $row['uo2_id_unid_organizacional_nivel2'];?>&id_local=<? echo $row['id_local'];?>"><? echo PrimNome($row['uo1_nm_unid_organizacional_nivel1']) . '-' . $row['uo2_nm_unid_organizacional_nivel2']; ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="left"><a href="../nivel2/detalhes_nivel2.php?id_uon2=<? echo $row['uo2_id_unid_organizacional_nivel2'];?>"><? echo $row['uo1a_nm_unid_organizacional_nivel1a'] . '/' . $row['uo2_nm_unid_organizacional_nivel2']; ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
 			  
-            <td nowrap><div align="left"><a href="../nivel2/detalhes_nivel2.php?id_unid_organizacional_nivel1=<? echo $row['uo1_id_unid_organizacional_nivel1'];?>&id_unid_organizacional_nivel2=<? echo $row['uo2_id_unid_organizacional_nivel2'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['sg_local']; ?></a></div></td>			  
+            <td nowrap><div align="left"><a href="../nivel2/detalhes_nivel2.php?id_uon2=<? echo $row['uo2_id_unid_organizacional_nivel2'];?>"><? echo $row['sg_local']; ?></a></div></td>			  
 			  <td nowrap>&nbsp;</td>			  			  
 			  <? 
 		$Cor=!$Cor;
@@ -191,7 +200,7 @@ else
   <tr> 
     <td><div align="center">
 
-          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="incluirUON2" type="submit" id="incluirUON2" value="Incluir <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
 
         
       </div></td>

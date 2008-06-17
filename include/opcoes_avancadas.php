@@ -130,6 +130,10 @@ while ($row = mysql_fetch_array($result_acoes))
 								ac.id_acao = '" . $row['id_acao']."' 
 					GROUP BY    re.id_ip_rede
 					ORDER BY	re.nm_rede"; 
+//								ac_re.id_local = re.id_local AND
+//								ac_re.id_local = ".$_SESSION['id_local']." AND
+//								ac.id_acao = '" . $row['id_acao']."' 
+					
 		}
 
 	$result_redes = mysql_query($query) or die($oTranslator->_('kciq_msg select on table fail', array('redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
