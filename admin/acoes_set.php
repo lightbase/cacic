@@ -28,6 +28,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 2 - Gestão Central
 // 3 - Supervisão
 
+
 $id_acao = $_POST['id_acao']; 
 
 // Leio o array 1 que contém as subredes NÃO selecionadas...

@@ -194,7 +194,7 @@ function remove(box)
 ?>
 
 <body background="../imgs/linha_v.gif" onLoad="verifica_status();">
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
     <td class="cabecalho"><? echo $_GET['te_descricao_breve']; ?></td>
@@ -250,7 +250,7 @@ function remove(box)
 							{
 							// Faço uma inserção de "(" para ajuste da lógica para consulta
 							$where = str_replace('AND acoes_redes.id_local = ','AND (acoes_redes.id_local = ',$where);
-							$where .= ' OR acoes_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].')';	
+							$where .= ' OR acoes_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
 							}
 						
 				        /* Consulto todas as redes que foram previamente selecionadas para a a ação em questão. */ 

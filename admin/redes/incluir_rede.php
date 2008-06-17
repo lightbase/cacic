@@ -291,7 +291,6 @@ function valida_form(frmForm)
 		document.form.frm_te_senha_login_serv_updates_gerente.focus();
 		return false;
 		}					
-	
 	return true;
 	}
 </script>

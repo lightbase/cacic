@@ -31,7 +31,6 @@ include_once "../../include/library.php";
 require '../../include/piechart.php';
 AntiSpy('1,2,3');
 Conecta_bd_cacic();
-//LimpaTESTES();
 
 $where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND (trim(g_usu.cs_nivel_administracao) <> "") AND usu.id_local = '.$_SESSION['id_local']:'');
 

@@ -54,61 +54,109 @@ if ($_POST['ExcluiAplicativo'])
 	}
 elseif ($_POST['GravaAlteracoes']) 
 	{
-		
-	$v_nm_aplicativo = $frm_nm_aplicativo;
-	if ($frm_in_ativa == 'N')
-		{
-		$v_nm_aplicativo .= '#DESATIVADO#';
+
+	if ($_SESSION['cs_nivel_administracao']==1)
+		{		
+		$v_nm_aplicativo = $frm_nm_aplicativo;
+		if ($frm_in_ativa == 'N')
+			{
+			$v_nm_aplicativo .= '#DESATIVADO#';
+			}
+		$query = "UPDATE 	perfis_aplicativos_monitorados 
+				  SET 		nm_aplicativo = '$v_nm_aplicativo',  
+				  			te_dir_padrao_w9x = '$frm_te_dir_padrao_w9x',
+							te_dir_padrao_wnt = '$frm_te_dir_padrao_wnt',			  
+			  				cs_car_inst_w9x = '$frm_cs_car_inst_w9x', 
+							cs_car_inst_wnt = '$frm_cs_car_inst_wnt', 
+			  				te_car_inst_w9x = '$frm_te_car_inst_w9x', 
+							te_car_inst_wnt = '$frm_te_car_inst_wnt', 
+				  			cs_car_ver_w9x = '$frm_cs_car_ver_w9x', 
+							cs_car_ver_wnt = '$frm_cs_car_ver_wnt', 
+				  			te_car_ver_w9x = '$frm_te_car_ver_w9x', 
+							te_car_ver_wnt = '$frm_te_car_ver_wnt', 
+			  				te_arq_ver_eng_w9x = '$frm_te_arq_ver_eng_w9x', 
+							te_arq_ver_pat_w9x = '$frm_te_arq_ver_pat_w9x', 			  
+				  			te_arq_ver_eng_wnt = '$frm_te_arq_ver_eng_wnt', 
+							te_arq_ver_pat_wnt = '$frm_te_arq_ver_pat_wnt', 			  			  
+				  			cs_ide_licenca = '$frm_cs_ide_licenca', 
+							te_ide_licenca = '$frm_te_ide_licenca', 			  
+			  				id_so = '$frm_id_so', 
+							te_descritivo = '$frm_te_descritivo', 			  			   			  			  
+			  				dt_atualizacao = now(),
+				  			in_disponibiliza_info = '$frm_in_disponibiliza_info',
+				  			in_disponibiliza_info_usuario_comum = '$frm_in_disponibiliza_info_usuario_comum'			    			  			  
+				  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
+
+		mysql_query($query) or die('4-Update falhou ou sua sessão expirou!');
+		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');		
 		}
-	$query = "UPDATE 	perfis_aplicativos_monitorados 
-			  SET 		nm_aplicativo = '$v_nm_aplicativo',  
-			  			te_dir_padrao_w9x = '$frm_te_dir_padrao_w9x',
-						te_dir_padrao_wnt = '$frm_te_dir_padrao_wnt',			  
-			  			cs_car_inst_w9x = '$frm_cs_car_inst_w9x', 
-						cs_car_inst_wnt = '$frm_cs_car_inst_wnt', 
-			  			te_car_inst_w9x = '$frm_te_car_inst_w9x', 
-						te_car_inst_wnt = '$frm_te_car_inst_wnt', 
-			  			cs_car_ver_w9x = '$frm_cs_car_ver_w9x', 
-						cs_car_ver_wnt = '$frm_cs_car_ver_wnt', 
-			  			te_car_ver_w9x = '$frm_te_car_ver_w9x', 
-						te_car_ver_wnt = '$frm_te_car_ver_wnt', 
-			  			te_arq_ver_eng_w9x = '$frm_te_arq_ver_eng_w9x', 
-						te_arq_ver_pat_w9x = '$frm_te_arq_ver_pat_w9x', 			  
-			  			te_arq_ver_eng_wnt = '$frm_te_arq_ver_eng_wnt', 
-						te_arq_ver_pat_wnt = '$frm_te_arq_ver_pat_wnt', 			  			  
-			  			cs_ide_licenca = '$frm_cs_ide_licenca', 
-						te_ide_licenca = '$frm_te_ide_licenca', 			  
-			  			id_so = '$frm_id_so', 
-						te_descritivo = '$frm_te_descritivo', 			  			   			  			  
-			  			dt_atualizacao = now(),
-			  			in_disponibiliza_info = '$frm_in_disponibiliza_info',
-			  			in_disponibiliza_info_usuario_comum = '$frm_in_disponibiliza_info_usuario_comum'			    			  			  
-			  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
 
-	mysql_query($query) or die('4-Update falhou ou sua sessão expirou!');
-	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');		
-
-
-	$query = "DELETE
-			  FROM		aplicativos_redes
-			  WHERE		id_aplicativo = ".$_POST['id_aplicativo'];
-	$result = mysql_query($query) or die ('5-Delete falhou ou sua sessão expirou!');				
-
-	$strInsertAplicativosRedes = '';
-	for ($i=0; $i < count($_POST['list2']);$i++)
+/*
+if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+	{
+	foreach($HTTP_POST_VARS as $i => $v) 
 		{
-		$dado = explode('_',$_POST['list2'][$i]);
-		if ($strInsertAplicativosRedes)
-			$strInsertAplicativosRedes .= ',';
-		$strInsertAplicativosRedes .= "(".$dado[0].",'".$dado[1]."',".$_POST['id_aplicativo'].")";		
+		echo 'i: '.$i.' v: '.$v.'<br>';
+		}	
+	}
+*/
+	$strDeleteAplicativosRedes_Locais = '';
+	$strDeleteAplicativosRedes_Redes  = '';		
+	if ($_POST['list1'])
+		{
+		for ($i=0; $i < count($_POST['list1']);$i++)
+			{
+			$dado = explode('_',$_POST['list1'][$i]);
+			if ($strDeleteAplicativosRedes_Locais)
+				$strDeleteAplicativosRedes_Locais .= ',';
+			$strDeleteAplicativosRedes_Locais .= $dado[0];		
+		
+			if ($strDeleteAplicativosRedes_Redes)
+				$strDeleteAplicativosRedes_Redes .= ',';
+			$strDeleteAplicativosRedes_Redes .= "'".$dado[1]."'";					
+			}
+		$query = "DELETE
+				  FROM		aplicativos_redes
+				  WHERE		id_aplicativo = ".$_POST['id_aplicativo']." AND 
+				  			id_local in (".$strDeleteAplicativosRedes_Locais.") AND
+  							id_ip_rede in (".$strDeleteAplicativosRedes_Redes.")";			
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//		echo $query . '<br>';
+		$result = mysql_query($query) or die ('5-Delete falhou ou sua sessão expirou!');											
 		}
 		
-	if ($strInsertAplicativosRedes)
+	if ($_POST['list2'])
 		{
+		$strInsertAplicativosRedes = '';
+		$strDeleteAplicativosRedes = " AND (";
+		for ($i=0; $i < count($_POST['list2']);$i++)
+			{
+			$dado = explode('_',$_POST['list2'][$i]);
+			if ($strInsertAplicativosRedes)
+				$strInsertAplicativosRedes .= ',';
+			$strInsertAplicativosRedes .= "(".$dado[0].",'".$dado[1]."',".$_POST['id_aplicativo'].")";		
 
+			if ($strDeleteAplicativosRedes <> " AND (")
+				$strDeleteAplicativosRedes .= ' OR ';
+			
+			$strDeleteAplicativosRedes .= " (id_local = ".$dado[0]." AND id_ip_rede = '".$dado[1]."')";
+			}
+		$strDeleteAplicativosRedes .= ") ";			
+		$query = "DELETE
+				  FROM		aplicativos_redes
+				  WHERE		id_aplicativo = ".$_POST['id_aplicativo'].
+		$strDeleteAplicativosRedes;
+		
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//		echo $query . '<br>';
+		$result = mysql_query($query) or die ('5.1-Delete falhou ou sua sessão expirou!');								  
+			
 		$query = "INSERT 
-				  INTO 		aplicativos_redes
+				  INTO 		aplicativos_redes(id_local,id_ip_rede,id_aplicativo)
 				  VALUES 	".$strInsertAplicativosRedes;
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//		echo $query . '<br>';
+				  
 		$result = mysql_query($query) or die ('6-Insert falhou ou sua sessão expirou!');								  
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');				
 		}
@@ -207,7 +255,7 @@ function valida_form() {
           </tr>
           <tr> 
             <td width="58%" nowrap class="label">&Eacute; um Sistema Operacional? 
-              Qual?<br> <select name="frm_id_so" id="select13" onChange="SetaNomeSistema();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+              Qual?<br> <select name="frm_id_so" id="select13" onChange="SetaNomeSistema();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"<? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?> >
                 <option value="0"></option>
                 <?
 			Conecta_bd_cacic();
@@ -392,7 +440,7 @@ function valida_form() {
 
 
   <p align="center"> 
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="SelectAll(this.form.elements['list2[]']),return Confirma('Confirma Informações para Perfil de Sistema Monitorado?') " <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Perfil de Sistema Monitorado?'),SelectAll(this.form.elements['list1[]']),SelectAll(this.form.elements['list2[]']) " <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
     &nbsp; &nbsp; 
     <input name="ExcluiAplicativo" type="submit" value="Excluir Perfil de Sistema Monitorado" onClick="return Confirma('Confirma Exclusão de Perfil de Sistema Monitorado?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
   </p>
