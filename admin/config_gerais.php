@@ -27,7 +27,6 @@ require_once('../include/library.php');
 <head>
 <title><?=$oTranslator->_('Configuracoes do Modulo Gerente');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script type="text/javascript" src="../include/cacic.js"></script>
 <?
 require_once('../include/selecao_listbox.js');
 ?>
@@ -109,6 +108,7 @@ function SetaServidorUpdates()
 <?
 $frm_id_local = ($_POST['frm_id_local']<>''?$_POST['frm_id_local']:$_SESSION['id_local']);
 
+require_once('../include/library.php');
 conecta_bd_cacic();
 $where = ' AND loc.id_local ='.$frm_id_local;
 
@@ -224,6 +224,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 			}
  		?> 
     	</select>
+
 		</td>
     	</tr>
 		<?
@@ -367,8 +368,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 			// Gráficos disponíveis para exibição na página principal
 			// [so][acessos][locais][acessos_locais]
 			// A variável de sessão menu_seg->_SESSION['te_exibe_graficos'] contém os gráficos selecionados para exibição
-			$te_exibe_graficos = get_valor_campo('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$frm_id_local);			
-
+			$te_exibe_graficos = get_valor_campo('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$frm_id_local);		
 			?>
                 <select multiple size="10" name="listaExibeGraficosDisponiveis[]" id="listaExibeGraficosDisponiveis" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 </select>

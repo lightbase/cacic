@@ -23,10 +23,10 @@ if(!isset($_SESSION['id_usuario']))
 else { // Inserir regras para verificar permissões do usuário!
 }
 require_once('../include/library.php');
-AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
-// 1 - Administra<E7><E3>o
-// 2 - Gest<E3>o Central
-// 3 - Supervis<E3>o
+AntiSpy('1,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administração
+// 2 - Gestão Central
+// 3 - Supervisão
 
 $acoes_computador = '';
 foreach($HTTP_POST_VARS as $i => $v) 

@@ -156,6 +156,9 @@ while ($row = mysql_fetch_array($result))
   <tr> 
     <td><div align="center"></div></td>
   </tr>
+  <tr> 
+    <td><div align="center"></div></td>
+  </tr>
 </table>
 </body>
 </html>

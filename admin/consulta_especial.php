@@ -71,6 +71,55 @@ if ($_POST['frmChangePermissions'])
 		}
 	}
 
+if ($_POST['frmExtractFileTGZ'])
+	{
+	if (PHP_OS == "Linux" || PHP_OS == "Unix")	
+		{
+		foreach($HTTP_POST_VARS as $i => $v) 
+			{
+			$intPos = stripos2($i,'extractFileTGZ#',false);								
+			if ($intPos)
+				{
+				$arrExtractFileTGZ = explode('#',$i);				
+				$strExtractFileTGZ = "tar -xvzf ".$_POST['frmPath'].str_replace('_ponto_','.',$arrExtractFileTGZ[1]);
+				$cmdExtractFileTGZ = shell_exec($strExtractFileTGZ);
+				}
+			}
+		}
+	else
+		{
+		?>
+		<script language="javascript">alert('ATENÇÃO: Este recurso está disponível apenas para Servidor com LINUX!');</script>
+		<?
+		}
+	}
+
+if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+	echo $_POST['frmCreateNewFolder'].'<br>';
+if ($_POST['frmCreateNewFolder'])
+	{
+if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+	echo PHP_OS.'<br>';
+	
+	if (PHP_OS == "Linux" || PHP_OS == "Unix")	
+		{
+		$strCreateNewFolder = "mkdir ".$_POST['frmPath'].$_POST['frmCreateNewFolder'];
+if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+	echo $strCreateNewFolder.'<br>';
+		
+		if ($cmdCreateNewFolder = shell_exec($strCreateNewFolder))
+			echo 'OK!';
+		else
+			echo 'Oops!';			
+		}
+	else
+		{
+		?>
+		<script language="javascript">alert('ATENÇÃO: Este recurso está disponível apenas para Servidor com LINUX!');</script>
+		<?
+		}
+	}
+
 if ($_POST['frmDeleteFile'])
 	{
 	$intFilesToDelete = 0;
@@ -136,6 +185,10 @@ function deleteFile()
 
 		if (window.document.forms[0].elements[j].id.substring(0,11) == 'deleteFile#'     && window.document.forms[0].elements[j].checked)
 			intFilesToDelete ++;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'extractFileTGZ#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+			
 		}
 
 	if (intFilesToDelete > 0 && (confirm('Confirma EXCLUS'+(intFilesToDelete == 1?'ÃO':'ÕES')+' DO'+(intFilesToDelete == 1?'':'S') + ' ARQUIVO'+(intFilesToDelete == 1?'':'S')+' SELECIONADO'+(intFilesToDelete == 1?'':'S') + '?')))
@@ -166,6 +219,10 @@ function timeStamp()
 			
 		if (window.document.forms[0].elements[j].id.substring(0,15) == 'touchTimeStamp#' && window.document.forms[0].elements[j].checked)
 			intFilesToTimeStamp ++;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'extractFileTGZ#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+			
 		}
 
 	if (intFilesToTimeStamp > 0)
@@ -221,6 +278,10 @@ function changePermissions()
 
 		if (window.document.forms[0].elements[j].id.substring(0,18) == 'changePermissions#' && window.document.forms[0].elements[j].checked)
 			intFilesToChangePermissions ++;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'extractFileTGZ#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+			
 		}
 
 	if (intFilesToChangePermissions > 0)
@@ -245,6 +306,36 @@ function changePermissions()
 		alert('ATENÇÃO: É necessário marcar algum ítem para alteração das PERMISSÕES!');
 		return false;
 		}	
+	}
+
+function createNewFolder()
+	{
+	for (j=0;j<window.document.forms[0].elements.length;j++)
+		{
+		if (window.document.forms[0].elements[j].id.substring(0,11) == 'deleteFile#'     && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'touchTimeStamp#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,18) == 'changePermissions#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'extractFileTGZ#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+			
+		}
+	var strCreateNewFolder 	= prompt('Informe Nome para Nova Pasta');
+	if (strCreateNewFolder && confirm('Confirma CRIAÇÃO DE PASTA?'))
+		{
+		for (j=0;j<window.document.forms[0].elements.length;j++)
+			if (window.document.forms[0].elements[j].name == 'frmCreateNewFolder')
+				window.document.forms[0].elements[j].value = strCreateNewFolder;
+		
+		window.document.forms[0].submit();
+		}
+	else
+		return false;
 	}
 
 function validaData(strData) 
@@ -431,10 +522,11 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 		  <td width="6%"><div align="center"><strong><a href="consulta_especial.php?frmPath=<? echo $path;?>&ordem=datahora">Data</a></strong></div></td>
 		  <td width="6%"><div align="center"><strong><a href="consulta_especial.php?frmPath=<? echo $path;?>&ordem=datahora">Hora</a></strong></div></td>
 		  <td width="11%"><div align="right"><strong>Tamanho</strong></div></td>
-		  <td width="36%"><strong><a href="consulta_especial.php?frmPath=<? echo $path;?>&ordem=nome">Arquivo/Pasta</a></strong></td>
+		  <td width="36%"><strong><a href="consulta_especial.php?frmPath=<? echo $path;?>&ordem=nome">Arquivo/Pasta</a>&nbsp;&nbsp;&nbsp;<img src="../imgs/newfolder.gif" alt="Nova Pasta" width="18" height="18" title="Criar Nova Pasta" onClick="return createNewFolder()" border="none"></strong></td>
 		  <td align="center"><img src="../imgs/b_drop.gif" border="0" width="18" height="18" title="Exclusão de Arquivos" onClick="return deleteFile()"></td>
 		  <td align="center"><img src="../imgs/timestamp.gif" border="0" width="18" height="18" title="Alterar TimeStamp de Arquivos" onClick="return timeStamp()"></td>
 		  <td align="center"><img src="../imgs/details.gif" width="18" height="18" title="Alterar Permissões de Arquivos" onClick="return changePermissions()"></td>
+	      <td align="center"><img src="../imgs/extractfile.gif" width="18" height="18" title="Extrair Arquivo TGZ" onClick="return extractFileTGZ()"></td>
 		</tr>
 		  
 		<?
@@ -531,8 +623,18 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 						?>
 					<td align="center" valign="middle"><input type="checkbox" id="touchTimeStamp#<? echo str_replace('.','_ponto_',$strItem);?>" name="touchTimeStamp#<? echo str_replace('.','_ponto_',$strItem);?>" title="Marque para alterar o TimeStamp d<? echo (!$intPos?'o arquivo':'a pasta');?> '<? echo $strItem;?>'"></td>
 					<td align="center" valign="middle"><input type="checkbox" id="changePermissions#<? echo str_replace('.','_ponto_',$strItem);?>" name="changePermissions#<? echo str_replace('.','_ponto_',$strItem);?>" title="Marque para alterar as Permissões d<? echo (!$intPos?'o arquivo':'a pasta');?> '<? echo $strItem;?>'"></td>
+					<?
+					$isTGZ = stripos2(strtolower($strItem),'.tgz');					
+					?>
+					<td align="center" valign="middle">
+					<? if ($isTGZ)
+							echo '<input type="checkbox" id="extractFileTGZ#'. str_replace('.','_ponto_',$strItem) . '" name="extractFileTGZ#'. str_replace('.','_ponto_',$strItem) .'" title="Marque para extrair o arquivo '. $strItem . '">';
+					?>
+					</td>
 					<input type="hidden" id="frmTouchTimeStamp" name="frmTouchTimeStamp" value="">
 					<input type="hidden" id="frmChangePermissions" name="frmChangePermissions" value="">					
+					<input type="hidden" id="frmCreateNewFolder" name="frmCreateNewFolder" value="">										
+					<input type="hidden" id="frmExtractFileTGZ" name="frmExtractFileTGZ" value="">															
 					</tr>				
 					<?
 					}
@@ -553,7 +655,7 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 		?>
 		<tr>								
 		<td colspan="6"><div align="right"><strong><? echo ($strTotal/2);?></strong></div></td>
-		<TD colspan="4">&nbsp;</TD>
+		<TD colspan="5">&nbsp;</TD>
 		</tr>		
 	  </table>
 	  </table>
