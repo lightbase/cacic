@@ -55,6 +55,12 @@ if (!session_is_registered('cs_nivel_administracao'))
 	<tr>
 	<td class="descricao"><div align="center"><?= $oTranslator->_('kciq_msg computadores monitorados hoje');?></div></td>
 	</tr>  
+	<tr> 
+	<td height="1"  bgcolor="#e7e7e7"></td>
+	</tr>
+	<tr> 
+	<td>&nbsp;</td>
+	</tr>
 	<?
 	}	
 else
@@ -103,6 +109,10 @@ else
 	
 	<tr> 
 	<td height="1"  bgcolor="#e7e7e7"></td>
+	</tr>
+	
+	<tr> 
+	<td>&nbsp;</td>
 	</tr>
 	<tr> 
 	<td>
@@ -178,15 +188,22 @@ else
 		?>
 		</td>
 		</tr>
+		<tr><td></td></tr>		
 		<tr>
 		<td class="descricao"><div align="center"><?=$oTranslator->_('kciq_msg total of computers per local');?></div></td>
 		</tr>  
 		<tr> 
 		<td height="1"  bgcolor="#e7e7e7"></td>
 		</tr>
+		<tr> 
+		<td>&nbsp;</td>
+		</tr>
 		<?
 		}
 		?>
+		<tr> 
+		<td>&nbsp;</td>
+		</tr>
 		<tr> 
 		<td>
 		<? 
@@ -231,6 +248,18 @@ else
 	<tr> 
 	<td class="descricao"><div align="center"><? echo $te_title;?></div></td>
 	</tr>
+	<?
+	/*
+	if ($_SESSION['te_locais_secundarios']  <> '' || 
+	    $_SESSION["cs_nivel_administracao"] == 1  || 
+		$_SESSION["cs_nivel_administracao"] == 2  ||
+		$_SESSION["cs_nivel_administracao"] == 3)
+		{
+		echo '<tr><td class="label_peq_sem_fundo"><div align="center"><b>ATENÇÃO:</b> Informação referente a mais de uma localidade. (<a href="#" onclick="MyWindow=window.open(\'graficos/detalhes_estatisticas.php\', \'JANELA\',\'toolbar=no,location=no,width=600,left=200,height=600,top=50,scrollbars=yes,menubar=no\');MyWindow.document.close()"><font color="#FF0000"><b>Detalhes</b></font></a>)</div></td></tr>';
+		}
+		*/
+		?>
+
 	<tr> 
 	<td height="1"  bgcolor="#e7e7e7"></td>
 	</tr>

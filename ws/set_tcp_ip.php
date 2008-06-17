@@ -27,6 +27,7 @@ $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) 
 $strPaddingKey = '';
 
 // O agente PyCACIC envia o valor "padding_key" para preenchimento da palavra chave para decriptação/encriptação
+// Valores específicos para trabalho com o PyCACIC - 04 de abril de 2008 - Rogério Lino - Dataprev/ES
 if ($_POST['padding_key'])
 	{
 	// Valores específicos para trabalho com o PyCACIC - 04 de abril de 2008 - Rogério Lino - Dataprev/ES

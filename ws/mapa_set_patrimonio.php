@@ -24,22 +24,33 @@ require_once('../include/library.php');
 $v_cs_cipher	= (trim($_POST['cs_cipher'])   <> ''?trim($_POST['cs_cipher'])   : '4');
 $v_cs_compress	= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) : '4');
 
-autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress);
+$strPaddingKey = '';
+
+// O agente PyCACIC envia o valor "padding_key" para preenchimento da palavra chave para decriptação/encriptação
+if ($_POST['padding_key'])
+	{
+	// Valores específicos para trabalho com o PyCACIC - 04 de abril de 2008 - Rogério Lino - Dataprev/ES
+	$strPaddingKey 	= $_POST['padding_key']; // A versão inicial do agente em Python exige esse complemento na chave...
+	}
+	
+$boolAgenteLinux 	= (trim(DeCrypt($key,$iv,$_POST['AgenteLinux'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) <> ''?true:false);
+
+autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress,$strPaddingKey);
 
 $v_dados_rede = getDadosRede();
 
 // Se o envio de informações foi feito com dados criptografados... (Versões 2.0.2.5+)
-$te_node_address 		= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress); 
-$id_so_new         		= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress); 
-$te_so           		= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress); 
+$te_node_address 		= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$id_so_new         		= DeCrypt($key,$iv,$_POST['id_so']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_so           		= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 
 //Para implementação futura após alteração do agente, para que ele também envie os dados abaixo
-$te_nome_computador 	= DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress); 
-$te_ip              	= DeCrypt($key,$iv,$_POST['te_ip']				,$v_cs_cipher,$v_cs_compress); 
-$te_nome_host       	= DeCrypt($key,$iv,$_POST['te_nome_host']		,$v_cs_cipher,$v_cs_compress); 
-$id_ip_rede         	= DeCrypt($key,$iv,$_POST['id_ip_rede']			,$v_cs_cipher,$v_cs_compress);
-$te_workgroup       	= DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_cs_compress);
-$id_usuario 			= DeCrypt($key,$iv,$_POST['id_usuario']			,$v_cs_cipher,$v_cs_compress); 
+$te_nome_computador 	= DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_ip              	= DeCrypt($key,$iv,$_POST['te_ip']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_nome_host       	= DeCrypt($key,$iv,$_POST['te_nome_host']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$id_ip_rede         	= DeCrypt($key,$iv,$_POST['id_ip_rede']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey);
+$te_workgroup       	= DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey);
+$id_usuario 			= DeCrypt($key,$iv,$_POST['id_usuario']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 
 /* Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
  o computador deste agente no BD, caso ainda não esteja inserido. */
@@ -81,15 +92,15 @@ if ($te_node_address <> '')
 				 VALUES ('" . $te_node_address . "', 
 						 '" . $arrSO['id_so'] . "',
 													NOW(),
-													'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1a']	,$v_cs_cipher,$v_cs_compress) . "', 
-													'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress) . "', 
-													'" . DeCrypt($key,$iv,$_POST['te_localizacao_complementar']		,$v_cs_cipher,$v_cs_compress) . "', 
-													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio1']				,$v_cs_cipher,$v_cs_compress) . "', 
-													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio2']				,$v_cs_cipher,$v_cs_compress) . "', 
-													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio3']				,$v_cs_cipher,$v_cs_compress) . "', 
-													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio4']				,$v_cs_cipher,$v_cs_compress) . "',
-													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio5']				,$v_cs_cipher,$v_cs_compress) . "',
-													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio6']				,$v_cs_cipher,$v_cs_compress) . "')";													
+													'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1a']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+													'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+													'" . DeCrypt($key,$iv,$_POST['te_localizacao_complementar']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio1']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio2']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio3']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio4']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio5']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+													'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio6']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "')";													
 		$result = mysql_query($query);
 		$_SESSION['id_usuario'] = $id_usuario;			
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'patrimonio');				

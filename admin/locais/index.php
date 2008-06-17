@@ -1,6 +1,7 @@
 <? 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+
  Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
 
  O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 

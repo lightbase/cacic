@@ -1,16 +1,16 @@
 <? 
 /*
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informa??es da Previd?ncia Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
- Este arquivo ? parte do programa CACIC - Configurador Autom?tico e Coletor de Informa??es Computacionais
+ Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
 
- O CACIC ? um software livre; voc? pode redistribui-lo e/ou modifica-lo dentro dos termos da Licen?a P?blica Geral GNU como 
- publicada pela Funda??o do Software Livre (FSF); na vers?o 2 da Licen?a, ou (na sua opni?o) qualquer vers?o.
+ O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
+ publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
 
- Este programa ? distribuido na esperan?a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUA??O a qualquer
- MERCADO ou APLICA??O EM PARTICULAR. Veja a Licen?a P?blica Geral GNU para maiores detalhes.
+ Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
+ MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
 
- Voc? deve ter recebido uma c?pia da Licen?a P?blica Geral GNU, sob o t?tulo "LICENCA.txt", junto com este programa, se n?o, escreva para a Funda??o do Software
+ Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
@@ -58,6 +58,7 @@ if($_POST['logoff'])
 	 session_unregister('nm_usuario');
 	 session_unregister('menu_usuario');
 	 session_unregister('id_usuario');	 
+	 session_unregister('id_usuario_crypted');
 	 session_unregister('te_grupo_usuarios');			 
 	 session_unregister('id_default_body_bgcolor');	 
 	 session_unregister('cIpsDisplayDebugs');	 
@@ -67,7 +68,8 @@ if($_POST['logoff'])
 	 session_unregister('plural_etiqueta1a');
 	 session_unregister('etiqueta2');
 	 session_unregister('plural_etiqueta2');
-	 //Adicionado pela Marisol em 12/06/2006
+	 
+     //Adicionado pela Marisol em 12/06/2006
      session_destroy();
 	 
 	 ?>
@@ -79,7 +81,7 @@ if($_POST['logoff'])
 	 
 if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	{
-	// Solu??o tempor?ria, at? total converg?ncia para vers?es 4.0.2 ou maior de MySQL 
+	// Solução temporária, até total convergência para versões 4.0.2 ou maior de MySQL 
 	// Anderson Peterle - Dataprev/ES - 04/09/2006
 	$v_AUTH_SHA1 	 = " SHA1('". trim(base64_decode($_POST['frm_te_senha'])) ."')";
 	$v_AUTH_PASSWORD = " PASSWORD('". trim(base64_decode($_POST['frm_te_senha'])) ."')";	
@@ -110,7 +112,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	$result_qry_usuario = mysql_query($query);
 	if (mysql_num_rows($result_qry_usuario)<=0)
 		{
-		// Para MySQL ate 4.0	
+		// Para MySQL até 4.0	
 		// Anderson Peterle - Dataprev/ES - 04/09/2006		
 		$query = $qry_usuario . $v_AUTH_PASSWORD;
 		$result_qry_usuario = mysql_query($query);
@@ -160,6 +162,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		session_unregister('plural_etiqueta1a');
 		session_unregister('etiqueta2');
 		session_unregister('plural_etiqueta2');
+		
 		?>
 		<SCRIPT LANGUAGE="Javascript">
 		alert('<?= $oTranslator->_('kciq_msg invalid user or pass'); ?>!');
@@ -251,6 +254,7 @@ if (!$_SESSION["id_usuario"])
 	}
 else
 	{	
+	//
 	$queryCONFIG = "SELECT 		DISTINCT 
 								id_etiqueta,
 								te_etiqueta,

@@ -420,6 +420,7 @@ function VerificaComponentes($strCsTipoComponente, $strTripaComponentesRecebidos
 																		  cs_tipo_componente,
 																		  te_valor)
 								   		   VALUES				'.$strTripaInsereComponentes;
+										   
 			$resultInsereComponente = mysql_query($strQueryInsereComponente) or die('Problema Inserindo Dados na Tabela Componentes_Estações!');					
 			}
 		}

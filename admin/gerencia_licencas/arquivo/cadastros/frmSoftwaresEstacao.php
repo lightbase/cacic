@@ -49,6 +49,7 @@ if (texto.substring(0,1) != saida)
   }
 }
 </script>
+<link href="../../../../include/cacic.css" rel="stylesheet" type="text/css">
 </head>
 <body bgcolor="#FFFFFF" topmargin="5" onLoad="document.forms[0].patrimonio.focus()" background="../../../../imgs/linha_v.gif">
 <table width="90%" border="0" align="center">

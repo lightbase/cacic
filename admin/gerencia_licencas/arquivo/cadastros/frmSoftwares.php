@@ -34,6 +34,7 @@ function validaForm() {
 	}
 }
 </script>
+<link href="../../../../include/cacic.css" rel="stylesheet" type="text/css">
 </head>
 <body bgcolor="#FFFFFF" topmargin="5" onload="document.forms[0].nome.focus()" background="../../../../imgs/linha_v.gif">
 <table width="90%" border="0" align="center">
