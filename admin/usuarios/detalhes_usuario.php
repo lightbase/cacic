@@ -47,14 +47,14 @@ elseif ($_POST['GravaAlteracoes'])
 		}
 		
 	$query = "UPDATE 	usuarios 
-			  SET 		nm_usuario_acesso = '$frm_nm_usuario_acesso',  
-			  			nm_usuario_completo = '$frm_nm_usuario_completo', 
-						id_grupo_usuarios = '$frm_id_grupo_usuarios',
-						id_local = $frm_id_local,
-						te_emails_contato = '$frm_te_emails_contato',
-						te_telefones_contato = '$frm_te_telefones_contato',
-						te_locais_secundarios = '$v_te_locais_secundarios'						
-			  WHERE 	id_usuario = ". $_POST['frm_id_usuario'];
+			  SET 		nm_usuario_acesso 		= '".$_POST['frm_nm_usuario_acesso']	."',  
+			  			nm_usuario_completo 	= '".$_POST['frm_nm_usuario_completo']	."',
+						id_grupo_usuarios 		= '".$_POST['frm_id_grupo_usuarios']	."',
+						id_local 				=  ".$_POST['frm_id_local']				.",
+						te_emails_contato 		= '".$_POST['frm_te_emails_contato']	."',
+						te_telefones_contato 	= '".$_POST['frm_te_telefones_contato']	."',
+						te_locais_secundarios 	= '".$v_te_locais_secundarios			."'						
+			  WHERE 	id_usuario 				= ". $_POST['frm_id_usuario'];
 
 	mysql_query($query) or die($oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('usuarios')));
 

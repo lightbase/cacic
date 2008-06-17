@@ -133,7 +133,7 @@ MM_reloadPage(true);
     <tr> 
       <td><input name="frm_te_desc_so" type="text" size="50" maxlength="50"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
-      <td><input name="frm_sg_so" type="text" id="frm_sg_so" size="10" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+      <td><input name="frm_sg_so" type="text" id="frm_sg_so" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
     </tr>
     <tr> 
       <td class="label">&nbsp;</td>

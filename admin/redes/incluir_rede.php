@@ -208,7 +208,7 @@ function SetaServidorUpdates()
 
 function valida_form(frmForm) 
 	{
-	//VerRedeMascara(frmForm.name,true,false);
+	VerRedeMascara(frmForm.name,true,false);
 	if ( document.form.frm_nu_limite_ftp.value == "" ) 
 		{	
 		document.form.frm_nu_limite_ftp.value = "30";
@@ -220,7 +220,7 @@ function valida_form(frmForm)
 		return false;
 	}
 
-	
+	/*	
 	var ip = document.form.frm_id_ip_rede.value;
 	var ipSplit = ip.split(/\./);
 	
@@ -236,7 +236,7 @@ function valida_form(frmForm)
 		document.form.frm_te_mascara_rede.focus();
 		return false;
 		}
-	
+	*/	
 	if ( document.form.frm_nm_rede.value == "" ) 
 		{	
 		alert("O nome da rede é obrigatório. Por favor, informe-o.");
@@ -261,6 +261,12 @@ function valida_form(frmForm)
 		document.form.frm_nu_porta_serv_updates.focus();
 		return false;
 		}		
+	else if ( document.form.frm_te_path_serv_updates.value == "" ) 
+		{	
+		alert("Digite o Path no Servidor de Updates");
+		document.form.frm_te_path_serv_updates.focus();
+		return false;
+		}			
 	else if ( document.form.frm_nm_usuario_login_serv_updates.value == "" ) 
 		{	
 		alert("Digite o Nome do Usuário para Login no Servidor de Updates pelo Módulo Agente");
@@ -285,12 +291,7 @@ function valida_form(frmForm)
 		document.form.frm_te_senha_login_serv_updates_gerente.focus();
 		return false;
 		}					
-	else if ( document.form.frm_te_path_serv_updates.value == "" ) 
-		{	
-		alert("Digite o Path no Servidor de Updates");
-		document.form.frm_te_path_serv_updates.focus();
-		return false;
-		}			
+	
 	return true;
 	}
 </script>

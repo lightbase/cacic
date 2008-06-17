@@ -64,7 +64,7 @@ if ($_POST['ExecutaUpdates']=='Executar Updates')
 			$v_agentes_versoes = '_-_'.$v;
 
 		if ($v && substr($i,0,13)=='agentes_hashs')
-			$v_agentes_hashs = '_-_'.$v;			
+			$v_agentes_hashs = '_-_'.$v;
 		}
 		
 	//echo 'v_updates: '.$v_updates.'<br><br>';
@@ -73,11 +73,13 @@ if ($_POST['ExecutaUpdates']=='Executar Updates')
 
 	// O tratamento de v_force_modulos foi transferido para updates_subredes.php
 
+	$v_parametros = urlencode($v_updates.'_-_'.$v_redes.'_-_'.$v_force_modulos.$v_agentes_versoes.$v_agentes_hashs);
+
 	// O script updates_subredes.php espera receber o parâmetro v_parametros contendo uma string com a seguinte formação:
 	// objeto1__objeto2__objetoN_-_rede1__rede2__rede3__redeN  
 	// Onde: __  = Separador de itens
 	//       _-_ = Separador de Matrizes		
-        header ("Location: updates_subredes.php?v_parametros=".$v_updates.'_-_'.$v_redes.'_-_'.$v_force_modulos.$v_agentes_versoes.$v_agentes_hashs);			
+    header ("Location: updates_subredes.php?v_parametros=".$v_parametros);			
 	}
 else
 	{
@@ -104,23 +106,25 @@ function verificar()
 	var boolModulos = false;
 	var boolRedes   = false;
 	var strFraseErro = '';
-	var intInicioModulos = 0;
-	var intInicioRedes   = 0;
 
 	for (j=0;j<formRedes.elements.length;j++)
 		if (formRedes.elements[j].type == 'checkbox' && (formRedes.elements[j].name).substring(0,16) == 'update_subredes_')
 			{
-			intInicioModulos = (intInicioModulos == 0?j:intInicioModulos);
 			if (formRedes[j].checked && formRedes.elements[j].value != 'versoes_agentes.ini')
+				{
 				boolModulos = true;
+				j = formRedes.elements.length;
+				}
 			}
 
 	for (j=0;j<formRedes.elements.length;j++)
 		if (formRedes.elements[j].type == 'checkbox' && formRedes.elements[j].id == 'redes')
 			{
-			intInicioRedes = (intInicioRedes == 0?j:intInicioRedes);			
 			if (formRedes[j].checked)
+				{
 				boolRedes = true;
+				j = formRedes.elements.length;				
+				}
 			}
 
 	if (boolModulos && boolRedes)
@@ -175,6 +179,24 @@ function verificar()
 				{
 				arrRede = (Formulario[i].name).split('_');
 				if (strIdLocal == arrRede[2])
+					if (Formulario[i].checked)
+						Formulario[i].checked = false;			
+					else
+						Formulario[i].checked = true;								
+				}
+
+		return true;
+		}
+
+	function MarcaDesmarcaTodaLegenda(strCor) 
+		{
+		var Formulario = window.document.forms[0];
+		var arrRede;
+		for (i = 0; i < Formulario.length; i++) 
+			if (Formulario[i].type == 'checkbox' && (Formulario[i].name).substring(0,6) == 'redes_')
+				{
+				arrRede = (Formulario[i].name).split('_');
+				if (strCor == arrRede[3])
 					if (Formulario[i].checked)
 						Formulario[i].checked = false;			
 					else
@@ -251,9 +273,7 @@ function verificar()
 			}
 
 		if (file_exists('../../repositorio/versoes_agentes.ini'))
-			{
 			$v_array_versoes_agentes = parse_ini_file('../../repositorio/versoes_agentes.ini');
-			}
 
 		sort($v_nomes_arquivos,SORT_STRING);
 		$v_agentes_versoes 	= ''; // Conterá as versões dos agentes para tratamento em updates_subredes.php
@@ -382,18 +402,23 @@ function verificar()
                     <td height="10" colspan="2" nowrap><div align="center"><strong>Legenda para as SubRedes</strong></div></td>
                   </tr>
                   <tr>
-                    <td height="10" nowrap bordercolor="#000000" class="td_amarelo"><div align="center">Amarelo</div></td>
+                    <td height="10" nowrap bordercolor="#000000" class="td_amarelo"><a style="cursor: pointer"><div align="center" onClick="MarcaDesmarcaTodaLegenda('amarelo');" title="Clique para Marcar/Desmarcar as Redes Nesta Situação" >Amarelo</div></a></td>
+					
                     <td align="left" valign="middle" nowrap class="dado_peq_sem_fundo">Exist&ecirc;ncia de <b>M&Oacute;DULO COM VERS&Atilde;O DIFERENTE</b></td>
                   </tr>
                   <tr>
-                    <td height="10" nowrap bordercolor="#000000" class="td_laranja"><div align="center">Laranja</div></td>
+                    <td height="10" nowrap bordercolor="#000000" class="td_laranja"><a style="cursor: pointer"><div align="center" onClick="MarcaDesmarcaTodaLegenda('laranja');" title="Clique para Marcar/Desmarcar as Redes Nesta Situação">Laranja</td>					
                     <td align="left" valign="middle" nowrap class="dado_peq_sem_fundo"><span class="opcao_tabela"><b>INEXIST&Ecirc;NCIA PARCIAL</b>  de M&oacute;dulos</span></td>
                   </tr>
-                  <tr>
-                    <td height="10" nowrap bordercolor="#000000" class="td_vermelho"><div align="center">Vermelho</div></td>
+                  <tr>				  					  
+                    <td height="10" nowrap bordercolor="#000000" class="td_vermelho"><a style="cursor: pointer"><div align="center" onClick="MarcaDesmarcaTodaLegenda('vermelho');" title="Clique para Marcar/Desmarcar as Redes Nesta Situação">Vermelho</td>
                     <td align="left" valign="middle" nowrap class="dado_peq_sem_fundo"><span class="opcao_tabela"><b>INEXIST&Ecirc;NCIA TOTAL</b>  de M&oacute;dulos</span></td>
                   </tr>
-                </table></td>
+                </table>
+		          <div align="center">
+		            <p>Obs.: Clique nas Cores da Legenda para  Marcar/Desmarcar  Subredes em Bloco </p>
+		            <p>&nbsp;</p>
+		          </div></td>
     </tr>
 			  
 
@@ -438,7 +463,8 @@ function verificar()
 // ********************
 			  	$queryALERTA = "	SELECT 		re.id_ip_rede,
 												rvm.nm_modulo,
-												rvm.te_versao_modulo
+												rvm.te_versao_modulo,
+												rvm.cs_tipo_so
 									FROM 		redes re,
 												redes_versoes_modulos rvm,
 												locais loc
@@ -454,20 +480,35 @@ function verificar()
 			$intFrequenciaRede = 0; // Acumulará a frequência de cada rede e deverá ser igual ao tamanho de versoes_agentes!
 			$strRedeAtual = '';
 
+			$intTotalAgentes = 0; // Contarei no arquivo versoes_agentes.ini os nomes com a string "_HASH"
+
+			$lines = file ('../../repositorio/versoes_agentes.ini');
+
+			// Percorre o array, mostrando o fonte HTML com numeração de linhas.
+			foreach ($lines as $line_num => $line) 
+				{
+				$boolHASH = stripos2($line,'_HASH',false);		
+				$intTotalAgentes += ($boolHASH?1:0);		
+				}
+
 			while ($rowALERTA = mysql_fetch_array($resultALERTA))
 				{
-				if ($rowALERTA['nm_modulo'] <> 'chkcacic.exe' &&
-				    $rowALERTA['nm_modulo'] <> 'chkcacic.ini' &&
-					$rowALERTA['nm_modulo'] <> 'versoes_agentes.ini' &&
-					$rowALERTA['nm_modulo'] <> 'vaca.exe' &&					
-					$rowALERTA['nm_modulo'] <> 'install' &&										
-					$rowALERTA['nm_modulo'] <> '' &&															
-					isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes[$rowALERTA['nm_modulo']])
+				$boolAgenteLinux = stripos2($rowALERTA['nm_modulo'],'PyCACIC',false);
+				$str_nm_modulo 	 = ($boolAgenteLinux?'PyCACIC':$rowALERTA['nm_modulo']);
+				
+				if ($str_nm_modulo <> 'chkcacic.exe' &&
+				    $str_nm_modulo <> 'chkcacic.ini' &&
+					$str_nm_modulo <> 'versoes_agentes.ini' &&
+					$str_nm_modulo <> 'vaca.exe' &&					
+					$str_nm_modulo <> 'install' &&										
+					$str_nm_modulo <> 'agentes_linux' &&															
+					$str_nm_modulo <> '' &&															
+					isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes[$str_nm_modulo])
 					{
 				
 					if ($strRedeAtual <> '' && $strRedeAtual <> $rowALERTA['id_ip_rede'])
 						{
-						if ($intFrequenciaRede <> count($v_array_versoes_agentes))
+						if ($intFrequenciaRede <> $intTotalAgentes)
 							$strTripaLaranja .= $strRedeAtual . '#';
 
 						$intFrequenciaRede = 1;
@@ -477,9 +518,14 @@ function verificar()
 	
 					$strRedeAtual = $rowALERTA['id_ip_rede'];					
 					
-					$versao_agente = str_replace('.','',$versao_agente) . '0103';
+					if ($rowALERTA['cs_tipo_so'] <> 'GNU/LINUX')
+						$versao_agente = str_replace('.','',$versao_agente) . '0103';
+					else
+						$versao_agente = str_replace('.','',$versao_agente);					
+
 					if ($versao_agente <> $rowALERTA['te_versao_modulo'])
 						{
+						
 						$strPesquisaRede = '#'.$strRedeAtual.'#';
 						$intPos = stripos2($strTripaAmarelo,$strPesquisaRede);
 						if ($intPos === false)
@@ -540,7 +586,7 @@ function verificar()
 			?>
 		    <tr>
 		      <td class="<? echo $strClasseTD;?>" align="right"><? echo $intSequencial;?></td>									
-			  <td class="<? echo $strClasseTD;?>"><input name="redes_<? echo $row['id_ip_rede'].'_'.$row['id_local'];?>" id="redes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="<? echo $row['id_ip_rede'];?>" <? echo $strCheck;?>></td>
+			  <td class="<? echo $strClasseTD;?>"><input name="redes_<? echo $row['id_ip_rede'].'_'.$row['id_local'].'_'.str_replace('td_','',$strClasseTD);?>" id="redes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="<? echo $row['id_ip_rede'];?>" <? echo $strCheck;?>></td>
 			  <td class="<? echo $strClasseTD;?>"><? echo $row['id_ip_rede'];?></td>
 			  <td class="<? echo $strClasseTD;?>"><? echo $row['nm_rede'];?></td>
 			  <td class="<? echo $strClasseTD;?>"><? echo $row['te_serv_updates'];?></td>

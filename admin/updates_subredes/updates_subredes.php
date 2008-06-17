@@ -73,13 +73,21 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 		</tr>
 	
 		<?
-		$v_array_parametros = explode('_-_',$_REQUEST['v_parametros']);
+		$v_array_parametros = explode('_-_',url_decode($_REQUEST['v_parametros']));
 
 		$v_array_redes = explode('__',str_replace('_fr_',"'",$v_array_parametros[1]));	
+		$v_array_hashs = explode('#',$v_array_parametros[4]);			
 
-		
-		echo '_REQUEST[v_parametros] = '.$_REQUEST['v_parametros'].'<br>';
-		echo 'v_array_parametros[1] = '.$v_array_parametros[1].'<br>';
+		$v_tripa_agentes_hashs = '';
+		for ($i=0;$i<count($v_array_hashs);$i++)
+			{
+			$arrTmp = explode('*',$v_array_hashs[$i]);
+			$v_array_agentes_hashs[$arrTmp[0]] = $arrTmp[1];
+			}
+
+		//echo '_REQUEST[v_parametros] = '.url_decode($_REQUEST['v_parametros']).'<br>';
+		//for ($i = 0;$i < count($v_array_parametros);$i++)
+		//	echo 'v_array_parametros['.$i.'] = '.$v_array_parametros[$i].'<br>';
 
 		if (count($v_array_redes)>0)
 			{
@@ -98,7 +106,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 					 FROM		redes re,
 					            locais lo 
 					 WHERE      re.id_local = lo.id_local AND (" . $v_where . ") 
-					 ORDER BY    re.nm_rede";
+					 ORDER BY   re.nm_rede";
 		conecta_bd_cacic();					
 		$result_REDES = mysql_query($query_REDES);
 		$_SESSION['v_tripa_objetos_enviados']   = ''; // Conterá a lista de agentes e versões enviadas aos servidores.
@@ -145,14 +153,32 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 			$strTeServUpdatesToCheck = '#'.trim($row['te_serv_updates']).'#';
 			if (@substr_count($_SESSION['v_tripa_servidores_updates'],$strTeServUpdatesToCheck)>0)
 				{
-				$insert = "INSERT INTO redes_versoes_modulos (id_local,id_ip_rede,nm_modulo,te_versao_modulo,dt_atualizacao) ";
-				$values = "";
 				$v_arr_agentes_versoes_enviados = explode('#',$_SESSION['v_tripa_objetos_enviados']);
 				for ($intAgentesVersoesEnviados = 0;$intAgentesVersoesEnviados < count($v_arr_agentes_versoes_enviados);$intAgentesVersoesEnviados++)			
 					{
+					// Procuro por pacotes Linux previamente gravados na tabela de versões
+					$cs_tipo_so = (stripos2($v_arr_aux[0],'.exe',false)?'MS-Windows':'GNU/LINUX');
+					$cs_tipo_so = (stripos2($v_arr_aux[0],'.ini',false)?'MS-Windows':$cs_tipo_so);		
+					
+					if ($cs_tipo_so == 'GNU/LINUX')
+						$intAgentesVersoesEnviados < count($v_arr_agentes_versoes_enviados);
+					}	
+		
+				if ($cs_tipo_so == 'GNU/LINUX')
+					{
+					// Excluo o pacote Linux previamente gravado na tabela				
+					$delete = 'DELETE from redes_versoes_modulos WHERE id_local = '.$row['id_local'].' AND id_ip_rede = "'.trim($row['id_ip_rede']).'" AND cs_tipo_so="GNU/LINUX"';
+					$result_DELETE = mysql_query($delete);									
+					}			
+				
+				$insert = "INSERT INTO redes_versoes_modulos (id_local,id_ip_rede,nm_modulo,te_versao_modulo,dt_atualizacao,cs_tipo_so,te_hash) ";
+				$values = "";
+				for ($intAgentesVersoesEnviados = 0;$intAgentesVersoesEnviados < count($v_arr_agentes_versoes_enviados);$intAgentesVersoesEnviados++)			
+					{
+					$cs_tipo_so = (stripos2('.exe',$v_arr_aux[0],false)?'MS-Windows':'GNU/LINUX');
 					$v_arr_aux = explode(',',$v_arr_agentes_versoes_enviados[$intAgentesVersoesEnviados]);				
 					$values .= ($values?",":"VALUES ");
-					$values .= '('.$row['id_local'].',"'.trim($row['id_ip_rede']).'","'.$v_arr_aux[0].'","'.$v_arr_aux[1].'",now())';
+					$values .= '('.$row['id_local'].',"'.trim($row['id_ip_rede']).'","'.$v_arr_aux[0].'","'.$v_arr_aux[1].'",now(),"'.$cs_tipo_so.'","'.$v_array_agentes_hashs[$v_arr_aux[0]].'")';
 					}	
 
 				$result_INSERT = mysql_query($insert . $values);				
@@ -161,7 +187,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 				}
 			else
 				{
-				update_subredes($row['id_ip_rede'],'Pagina','__'.$v_array_parametros[0],$row['id_local']);			
+				update_subredes($row['id_ip_rede'],'Pagina','__'.$v_array_parametros[0],$row['id_local'],$v_array_agentes_hashs);			
 				flush();
 				if ($_SESSION['v_efetua_conexao_ftp'] == 1)
 					{

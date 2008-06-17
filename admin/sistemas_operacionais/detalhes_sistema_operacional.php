@@ -121,7 +121,7 @@ function valida_form()
     <tr> 
       <td><input name="frm_te_desc_so" type="text"  class="normal" id="frm_te_desc_so" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" size="50" maxlength="50" value="<? echo $row['te_desc_so'];?>" > 
       </td>
-      <td><input name="frm_sg_so" type="text" id="frm_sg_so" size="10" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row['sg_so'];?>" ></td>
+      <td><input name="frm_sg_so" type="text" id="frm_sg_so" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row['sg_so'];?>" ></td>
     </tr>
     <tr> 
       <td class="label">&nbsp;</td>

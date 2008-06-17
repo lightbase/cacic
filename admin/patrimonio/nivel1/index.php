@@ -76,6 +76,10 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta1'];
   <tr> 
     <td class="descricao"><?=$oTranslator->_('Modulo para cadastramento de Unidades Organizacionais de Nivel 1');?></td>
   </tr>
+  <tr> 
+    <td class="destaque_laranja"><u>Importante:</u> A inclus&atilde;o de <? echo $_SESSION['plural_etiqueta1'];?> &eacute; restrita ao n&iacute;vel &quot;Administra&ccedil;&atilde;o&quot;.</td>
+  </tr>
+  
 </table>
 <br><table width="292" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
