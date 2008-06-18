@@ -613,7 +613,7 @@ CREATE TABLE `redes_versoes_modulos` (
 CREATE TABLE `so` (
   `id_so` int(11) NOT NULL default '0',
   `te_desc_so` varchar(50) default NULL,
-  `sg_so` varchar(10) default NULL,
+  `sg_so` varchar(20) default NULL,
   `te_so` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`id_so`,`te_so`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
