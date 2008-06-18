@@ -134,7 +134,7 @@ else { $orderby = '3'; } //por Nome Comp.
 					a.te_nome_computador as "Nome Comp.", 
 					sg_so as "S.O.", 
 					a.te_ip as "IP"' . 
-					$select .'
+					$select . ($campos_hardware?','.$campos_hardware:"") . '
 		   FROM 	so LEFT JOIN computadores a ON (a.id_so = so.id_so) '.
 		   			$from . ' 		 		 
 		   WHERE  	TRIM(a.te_nome_computador) <> "" AND 
