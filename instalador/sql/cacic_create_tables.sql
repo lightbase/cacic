@@ -694,7 +694,7 @@ CREATE TABLE `tipos_licenca` (
 --
 
 CREATE TABLE `tipos_software` (
-  `id_tipo_software` int(10) unsigned NOT NULL default '0',
+  `id_tipo_software` int(10) unsigned NOT NULL auto_increment,
   `te_descricao_tipo_software` varchar(30) NOT NULL default '',
   PRIMARY KEY  (`id_tipo_software`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

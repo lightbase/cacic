@@ -113,6 +113,8 @@ ALTER TABLE unid_organizacional_nivel2
     ADD PRIMARY KEY (id_unid_organizacional_nivel2, id_unid_organizacional_nivel1a, id_local),
     ENGINE=InnoDB CHARACTER SET=latin1;
 
+ALTER TABLE tipos_software
+    MODIFY id_tipo_software int(10) unsigned NOT NULL auto_increment;
 
 ALTER TABLE usuarios
     ADD te_locais_secundarios varchar(200) NULL DEFAULT NULL COMMENT '' AFTER te_telefones_contato,
