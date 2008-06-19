@@ -32,7 +32,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 ?>
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
 <title><?=$oTranslator->_('Coleta induzida por Computador');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <? // O require abaixo será usado pelo inc_opcoes_administrativas/coleta_forcada.php - Não remova! - A.A.P. 23/09/2004
@@ -48,17 +48,17 @@ require_once('../include/opcoes_avancadas_combos.js'); ?>
 </head>
 
 <body>
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
 <form action="forca_coleta_estacao_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma">
 <table width="90%" border="0" align="center">
   <tr> 
-      <td class="cabecalho"><?=$oTranslator->_('Coleta induzida por Computador');?> <u><em><? echo $_GET['te_nome_computador']; ?></em></u></td>
+      <td colspan="2" class="cabecalho"><?=$oTranslator->_('Coleta induzida por Computador');?> <u><em><? echo $_GET['te_nome_computador']; ?></em></u></td>
   </tr>
   <tr> 
-      <td class="descricao"><?=$oTranslator->_('Esta pagina permite induzir coletas em determinado computador');?></td>
+      <td colspan="2" class="descricao"><?=$oTranslator->_('Esta pagina permite induzir coletas em determinado computador');?></td>
   </tr>
     	<tr> 
-      	<td><br>
+      	<td colspan="2"><br>
       	  <span class="style1"><u>Observa&ccedil;&otilde;es</u>: </span><br>
       	  1) 
       	  Este comando informar&aacute; ao computador alvo que a pr&oacute;xima coleta deve ser enviada ao gerente incondicionalmente, ou seja, mesmo que seja id&ecirc;ntica &agrave; anterior;<br>
