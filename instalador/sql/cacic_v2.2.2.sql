@@ -96,6 +96,7 @@ ALTER TABLE redes_versoes_modulos
 
 ALTER TABLE so
     ADD te_so varchar(50) NOT NULL DEFAULT '' COMMENT '' AFTER sg_so,
+    MODIFY `sg_so` varchar(20) default NULL,
     DROP PRIMARY KEY,
     ADD PRIMARY KEY (id_so, te_so),
     ENGINE=InnoDB CHARACTER SET=latin1;

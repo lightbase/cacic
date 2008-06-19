@@ -317,6 +317,7 @@ ALTER TABLE redes_versoes_modulos
 
 ALTER TABLE so
     ADD te_so varchar(50) NOT NULL DEFAULT '' COMMENT '' AFTER sg_so,
+    MODIFY `sg_so` varchar(20) default NULL,
     DROP PRIMARY KEY,
     ADD PRIMARY KEY (id_so, te_so),
     ENGINE=InnoDB CHARACTER SET=latin1;
@@ -334,7 +335,6 @@ ALTER TABLE softwares_inventariados
 ALTER TABLE softwares_inventariados_estacoes
     ADD INDEX id_software (id_software_inventariado),
     ENGINE=InnoDB CHARACTER SET=latin1;
-
 
 ALTER TABLE unid_organizacional_nivel2
     ADD id_local int(11) unsigned NOT NULL COMMENT '' FIRST,
