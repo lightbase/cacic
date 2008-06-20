@@ -180,9 +180,9 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  * Atribui URL de instalação do CACIC 
  */
  if(isset($cacicURL))
-    define( 'CACIC_URL_INSTALL', $cacicURL.'instalador');
+    define( 'CACIC_URL_INSTALL', $cacicURL.CACIC_DS.'instalador');
  else 
-    define( 'CACIC_URL_INSTALL', CACIC_URL.'instalador');
+    define( 'CACIC_URL_INSTALL', CACIC_URL.CACIC_DS.'instalador');
 
 /*
  * PATH for phpTranslator class

@@ -182,7 +182,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 	$campos_configuracoes = mysql_fetch_array($result_configuracoes);
 ?>
         &nbsp;<br>
-        <?=$oTranslator->_('Exibir o icone do CACIC na bandeja do Windows (systray)');?>:</td>
+        <?=$oTranslator->_('Exibir o icone do CACIC na bandeja (systray)');?>:</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>

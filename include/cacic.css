@@ -144,5 +144,76 @@ a.dcontexto:hover span
     font-size: 10px;
 }
 
-	 	
+/*
+ * Redefinicao de CSS para futura criacao de "temas"
+ */
+.frameprincipal {
+	background: url('../imgs/linha_v.gif');
+}
+.frameprincipal table {
+    text-align: justify; 
+    color: black; 
+    width: 90%;
+    margin-left: auto; 
+    margin-right: auto;
+    border: 0;
+    padding: 0;
+}
+
+.frameprincipal .header {
+	background: #CFCFCD;
+    text-align: center;
+    font-size: 12px; 
+}
+
+.frameprincipal .help {
+	//background: url('../imgs/help.png') no-repeat;
+    text-align: center;
+    //cursor: pointer;
+    font-size: 10px; 
+	font-style: italic;
+    padding: 2;
+	color: green;
+}
+
+.frameprincipal .buildingAjax {
+	background: url('../imgs/carregando.gif') no-repeat;
+	padding: 0px 0px 0px 20px;
+	height: 16px;
+	width: 16px;
+}
+
+.frameprincipal .odd {
+	background: #CCCCCC;
+}
+
+.frameprincipal .btnForm {
+	background: #CCCCCC;
+}
+
+.frameprincipal .inputFocus {
+	text-align: left;
+	//vertical-align: top;
+	background-color: yellow;
+}
+
+.frameprincipal .input {
+	text-align: left;
+	vertical-align: top;
+}
+
+.frameprincipal .hidden {
+	display: none;
+}
+.frameprincipal .inputError {
+	text-align: left;
+	//vertical-align: top;
+	border-color: red red red red;
+}
+
+.frameprincipal .even {
+	background: #DBDBDB;
+}
+.frameprincipal .cabecalho {background-color: #FFFFFF; font-weight: bold; font-size: 17px; color: red; font-family: Verdana, Arial, sans;}
+.frameprincipal .descricao {font-weight: normal; font-size: 10px; color: black; font-family: Verdana, Arial, sans;}
 </style>
