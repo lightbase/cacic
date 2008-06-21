@@ -93,10 +93,12 @@ if( ! @include("pat/patTemplate.php") )
      	$this->addVar('CommonSetup_head', 'CACIC_LANG_CHARSET', CACIC_LANG_CHARSET );
      	$this->addVar('CommonSetup_head', 'CACIC_THEME', CACIC_THEME );
      	$this->addVar('CommonSetup_head', 'CACIC_URL', CACIC_URL );
+     	$this->addVar('CommonSetup_messages', 'MESSAGES', $this->oTranslator->_('Mensagens') );
  	}
  	
 	/**
 	 * Armazena na "sessao" os dados de configuração comuns
+	 * @access protected
 	 */
  	function setup() {
  		global $configuracao;
@@ -105,11 +107,29 @@ if( ! @include("pat/patTemplate.php") )
  	
  	/**
  	 * Atribui o tipo de configuração a ser processada
+ 	 * @access protected
  	 */
  	function setSetupType($type) {
  		$this->setup_type = $type;
  	}
   	
+ 	/**
+ 	 * Atribui o tipo de configuração a ser processada
+ 	 * @access protected
+ 	 */
+ 	function showMessage($msg) {
+ 		$this->clearVar('CommonSetup_messages', 'MESSAGE');
+     	$this->addVar('CommonSetup_messages', 'MESSAGE', $msg );
+ 	}
+  	
+    /**
+     * Lança execeção se ocorrer erro
+     * @access protected
+     */
+    function throwError($msg) {
+    	throw new Exception($msg);
+    }
+    
  }
  
 ?>

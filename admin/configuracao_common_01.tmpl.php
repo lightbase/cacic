@@ -46,7 +46,17 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 </cfgCommon:tmpl>
 
 <cfgCommon:tmpl name="CommonSetup_messages">
-<span id='message' class="message"></span>
+<div class="cabecalho">
+<table>
+  <tr> 
+    <td>
+	   <fieldset class="messages">
+	     <legend>{MESSAGES}</legend>
+	       <span id='message' class="message">{MESSAGE}</span>
+	    </fieldset>
+    </td>
+  </tr>
+</table>
 </cfgCommon:tmpl>
 
 <cfgCommon:tmpl name="CommonSetup_foot">

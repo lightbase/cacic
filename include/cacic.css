@@ -150,10 +150,48 @@ a.dcontexto:hover span
 .frameprincipal {
 	background: url('../imgs/linha_v.gif');
 }
-.frameprincipal table {
+
+.frameprincipal .cabecalho {
+    background-color: #FFFFFF;
+    font-weight: bold;
+    font-size: 17px;
+    color: red;
+    font-family: Verdana, Arial, sans;
+}
+
+.frameprincipal .cabecalho table {
     text-align: justify; 
     color: black; 
-    width: 90%;
+    width: 98%;
+    margin-left: auto; 
+    margin-right: auto;
+    border: 0;
+    padding: 0;
+}
+
+.frameprincipal .cabecalho img {
+    //opacity:0.65;
+    //-moz-opacity: 0.65;
+    //filter: alpha(opacity=65);
+    //border: 1px solid #0000ff;
+    margin: 2px;
+    height: 40;
+    width: 40;
+    float: left;
+    text-align: center;
+}
+
+.frameprincipal .descricao {
+    font-weight: normal;
+    font-size: 10px;
+    color: black;
+    font-family: Verdana, Arial, sans;
+}
+
+.frameprincipal .corpo table {
+    text-align: justify; 
+    color: black; 
+    width: 100%;
     margin-left: auto; 
     margin-right: auto;
     border: 0;
@@ -163,7 +201,7 @@ a.dcontexto:hover span
 .frameprincipal .header {
 	background: #CFCFCD;
     text-align: center;
-    font-size: 12px; 
+    font-size: 12px;
 }
 
 .frameprincipal .help {
@@ -183,37 +221,115 @@ a.dcontexto:hover span
 	width: 16px;
 }
 
-.frameprincipal .odd {
-	background: #CCCCCC;
-}
-
 .frameprincipal .btnForm {
 	background: #CCCCCC;
 }
 
+.frameprincipal input, textarea {
+    text-align: left;
+    vertical-align: top;
+}
+
 .frameprincipal .inputFocus {
 	text-align: left;
-	//vertical-align: top;
+	vertical-align: top;
 	background-color: yellow;
 }
 
-.frameprincipal .input {
-	text-align: left;
-	vertical-align: top;
+.frameprincipal .inputError {
+    text-align: left;
+    vertical-align: top;
+    border-color: red red red red;
 }
 
 .frameprincipal .hidden {
 	display: none;
 }
-.frameprincipal .inputError {
-	text-align: left;
-	//vertical-align: top;
-	border-color: red red red red;
+
+.frameprincipal .odd {
+    background: #CCCCCC;
 }
 
 .frameprincipal .even {
 	background: #DBDBDB;
 }
-.frameprincipal .cabecalho {background-color: #FFFFFF; font-weight: bold; font-size: 17px; color: red; font-family: Verdana, Arial, sans;}
-.frameprincipal .descricao {font-weight: normal; font-size: 10px; color: black; font-family: Verdana, Arial, sans;}
+
+.frameprincipal .botoes input {
+    height: 26px;
+    float: right;
+    line-height: 26px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.frameprincipal .messages {
+    height: 30px;
+    //line-height: 26px;
+    //font-size: 12px;
+    //font-weight: bold;
+    color: #333;
+    vertical-align: top;
+}
+
+.Sim, .Ok, .Gravavel {
+    padding: 05 26px 0 0px;
+    font-weight: bold;
+    font-size: 12px;
+    color: green;
+}
+
+.SimImg, .OkImg, .GravavelImg {
+    background: url('../imgs/checked.png') 100% 0 no-repeat;
+    padding: 05 26px 10 0px;
+    font-weight: bold;
+    font-size: 12px;
+    color: green;
+}
+
+.Nao, .Erro, .NaoGravavel {
+    padding: 05 22px 10 0px;
+    font-weight: bold;
+    font-size: 12px;
+    color: red;
+}
+
+.NaoImg, .ErroImg, .NaoGravavelImg {
+    background: url('../imgs/error.png') 100% 0 no-repeat;
+    padding: 05 22px 10 0px;
+    font-weight: bold;
+    font-size: 12px;
+    color: red;
+}
+
+.NoJavaScript {
+    font-size: 14px;
+    text-align: center; 
+    background-color: red;
+    color: white;
+}
+
+.Aviso {
+    padding: 05 10px 10 0px;
+    font-weight: bold;
+    font-size: 12px;
+    color: #f6bf01;
+}
+
+.AvisoImg {
+    background: url('../imgs/warning.png') 100% 0 no-repeat;
+    padding: 05 10px 10 0px;
+    font-weight: bold;
+    font-size: 12px;
+    color: #f6bf01;
+}
+
+.necessario {
+    padding: 0px 02px 0px 0px;
+    color: red;
+    font-size: 10px;
+}
+
 </style>

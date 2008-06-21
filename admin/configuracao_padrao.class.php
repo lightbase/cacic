@@ -63,6 +63,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      	$this->addVar('StandardSetup_form', 'TE_JANELAS_EXCECAO_TITLE', $this->oTranslator->_('Aplicativos (janelas) a evitar') );
      	$this->addVar('StandardSetup_form', 'TE_JANELAS_EXCECAO_HELP', $this->oTranslator->_('Evita que o Gerente de Coletas seja acionado enquanto tais aplicativos (janelas) estiverem ativos') );
      	$this->addVar('StandardSetup_form', 'BTN_SALVAR', $this->oTranslator->_('Gravar alteracoes') );
+     	$this->addVar('StandardSetup_form', 'BTN_RESET', $this->oTranslator->_('Restaurar valores') );
     }
     
 	/**
@@ -83,8 +84,33 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	$this->clearVar('StandardSetup_form', 'SET_FOCUS');
      	$this->addVar('StandardSetup_form', 'SET_FOCUS', 'nm_organizacao' );
     	$btn_salvar = Security::read('btn_salvar');
+    	if(isset($btn_salvar) and ($btn_salvar)) {
+			try {
+				$this->salvarDados();
+			}
+			catch( Exception $erro ) {
+				$msg = '<span class="ErroImg"></span>';
+				$msg .= '<span class="Erro">'.$erro->getMessage()."</span>";
+				$this->showMessage($msg);
+			}    		
+    	}
     	$this->showForm();
     } 
+    
+    /**
+     * Executa a configuracao padrão do CACIC
+     * @access public
+     */
+    function salvarDados() {
+    	$error = true;
+    	$msg = $this->oTranslator->_('Ocorreu erro no processamento...');
+    	
+    	$this->showMessage('<span class="OK">'.$this->oTranslator->_('Aguarde processamento...')."</span>");
+    	
+    	($error) ? $this->throwError($msg):""; // Lança execeção se ocorrer erro
+
+    	$this->showMessage('<span class="OKImg">'.$this->oTranslator->_('Processamento realizado com sucesso')."</span>");
+    }
     
     /**
      * Mostra formulario da configuracao padrao

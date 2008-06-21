@@ -38,24 +38,28 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 </cfgPadrao:tmpl>
 
 <cfgPadrao:tmpl name="StandardSetup_form">
+<div class="cabecalho">
 <table>
   <tr> 
-    <td class="cabecalho">{TITULO}</td>
+    <td class="cabecalho">
+      <cfgPadrao:comment><img src="../imgs/cacic_logo.png" /></cfgPadrao:comment>
+      {TITULO}
+    </td>
   </tr>
   <tr> 
-    <td class="descricao">
-	  <fieldset>
-	    <legend>{DESCRICAO}</legend>
-	     <form id="StandardSetup_form" method="post">
+    <td>
+      <form id="StandardSetup_form" name="StandardSetup_form" method="post">
+	   <fieldset class="corpo">
+	     <legend>{DESCRICAO}</legend>
 	      <table>
 		  	<tr class="header">
-                <th>Diretiva</th>
+                <th width="37%">Diretiva</th>
                 <th>Valor</th>
 		  	</tr>
 		  	<tr class="even">
 		  		<td>{NM_ORGANIZACAO_TITLE}</td>
 		  		<td>
-		  		   <input {OU_ENABLED} type="text" id="nm_organizacao" name="nm_organizacao" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" size="70" maxlength="150" value="{NM_ORGANIZACAO}" />
+		  		   <input {OU_ENABLED} type="text" id="nm_organizacao" name="nm_organizacao" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" size="55" maxlength="150" value="{NM_ORGANIZACAO}" />
 		  		</td>
 		  	</tr>
 		  	<tr class="odd">
@@ -88,7 +92,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		  		   <span class="help">{TE_MACADDR_INVALID_HELP}</span>
 		  		</td>
 		  		<td>
-		  		   <textarea {TE_MACADDR_INVALID_ENABLED} id="te_enderecos_mac_invalidos" name="te_enderecos_mac_invalidos" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" rows="3" cols="70" wrap="off">{TE_MACADDR_INVALID}</textarea>
+		  		   <textarea {TE_MACADDR_INVALID_ENABLED} id="te_enderecos_mac_invalidos" name="te_enderecos_mac_invalidos" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" rows="3" cols="65" wrap="off">{TE_MACADDR_INVALID}</textarea>
 		  		</td>
 		  	</tr>
 		  	<tr class="even">
@@ -97,21 +101,23 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		  		   <span class="help">{TE_JANELAS_EXCECAO_HELP}</span>
 		  		</td>
 		  		<td>
-		  		   <textarea {TE_JANELAS_EXCECAO_ENABLED} id="te_janelas_excecao" name="te_janelas_excecao" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" rows="3" cols="70" wrap="off">{TE_JANELAS_EXCECAO}</textarea>
+		  		   <textarea {TE_JANELAS_EXCECAO_ENABLED} id="te_janelas_excecao" name="te_janelas_excecao" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" rows="3" cols="65" wrap="off">{TE_JANELAS_EXCECAO}</textarea>
 		  		</td>
 		  	</tr>
-		  	<tr class="btnForm">
-		  		<td colspan="2">
-		  		   <input {EXIBE_ERROS_CRITICOS_ENABLED} type="submit" id="salvar" name="salvar" value="{BTN_SALVAR}" onClick="setDocVar( 'btn_salvar', 1 );" />
-		  		   <input type="hidden" id="btn_salvar" name="btn_salvar" value="" />
+		  	<tr>
+		  		<td colspan="2" class="botoes">
+		  		      <input type="hidden" id="btn_salvar" name="btn_salvar" value="" />
+				      <input type='button' title="{BTN_SALVAR}" name="{BTN_SALVAR}" onClick="setDocVar( 'btn_salvar', 1 ); sendForm(this.form);" value="{BTN_SALVAR}" />
+				      <input type='reset' onClick="setFocus('nm_organizacao');" title="{BTN_RESET}" value="{BTN_RESET}" />
 		  		</td>
 		  	</tr>
 		 </table>
-		</form>
-	  </fieldset>
+	    </fieldset>
+	  </form>
     </td>
   </tr>
 </table>
+</div>
 <cfgPadrao:comment>
 <pre>
 SCHEMA 
