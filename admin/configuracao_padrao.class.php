@@ -38,7 +38,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  * 
  */
  class Configuracao_Padrao extends Configuracao {
-
+ 	
     function Configuracao_Padrao() {
     	parent::Configuracao();
     	$this->setSetupType('standard');
@@ -92,6 +92,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	$this->clearVar('StandardSetup_form', 'SET_FOCUS');
      	$this->addVar('StandardSetup_form', 'SET_FOCUS', 'nm_organizacao' );
     	$btn_salvar = Security::read('btn_salvar');
+    	$this->fillForm($btn_salvar);
     	if(isset($btn_salvar) and ($btn_salvar)) {
 			try {
 				$this->salvarDados();
@@ -137,7 +138,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	/*
     	 * monta sql de atualizacao dos dados padrao
     	 */
-    	$sql_update = 'UPDATE config_padrao SET ';
+    	$sql_update = 'UPDATE configuracoes_padrao SET ';
     	$sql_update .= "in_exibe_erros_criticos = '$in_exibe_erros_criticos', 
 						in_exibe_bandeja = '$in_exibe_bandeja',
 						nu_exec_apos = 10,
@@ -153,16 +154,95 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 						id_default_body_bgcolor = '#EBEBEB',
 						te_exibe_graficos = '$te_exibe_graficos'";
 						
-    	// temp pra testes 
-    	//$this->showMessage($sql_update);
-    	//return;
-    	
+		$sql = 'select in_exibe_erros_criticos from configuracoes_padrao';
+    	$db_link = mysql_query($sql);
+		if(mysql_num_rows($db_link)<1) {
+			$sql = "INSERT INTO configuracoes_padrao (`in_exibe_erros_criticos`) VALUES ('N')";
+	    	$db_link = mysql_query($sql);
+		}
+		
+		/*
+		 * Atualiza dados na tabela
+		 */				
+	    $db_result = mysql_query($sql_update);
+	    $error = mysql_errno($this->db_link);
+	    $msg .= $this->oTranslator->_('kciq_msg server msg').": ";
+	    $msg .= mysql_error($this->db_link);
+	    
     	/*
     	 *  Lança execeção se ocorrer erro
     	 */
     	($error) ? $this->throwError($msg):"";
 
     	$this->showMessage('<span class="OKImg">'.$this->oTranslator->_('Processamento realizado com sucesso')."</span>");
+    }
+    
+    /**
+     * Obtem e preenche dados de formulario
+     * @access private
+     * @param string $btn_salvar Se botao para salvar foi acionado
+     */
+    function fillForm($btn_salvar) {
+    	
+    	$error = true;
+    	
+    	if($btn_salvar) {
+	    	/*
+	    	 * Obtem dados do formulario
+	    	 */
+	    	$nm_organizacao = (Security::read('nm_organizacao'))?Security::read('nm_organizacao'):""; 
+	    	$te_senha_adm_agente = (Security::read('te_senha_adm_agente'))?Security::read('te_senha_adm_agente'):""; 
+	    	$te_serv_updates_padrao = (Security::read('te_serv_updates_padrao'))?Security::read('te_serv_updates_padrao'):""; 
+	    	$te_serv_cacic_padrao = (Security::read('te_serv_cacic_padrao'))?Security::read('te_serv_cacic_padrao'):""; 
+	    	$te_enderecos_mac_invalidos = (Security::read('te_enderecos_mac_invalidos'))?Security::read('te_enderecos_mac_invalidos'):""; 
+	    	$te_janelas_excecao = (Security::read('te_janelas_excecao'))?Security::read('te_janelas_excecao'):"";
+	    	$te_exibe_graficos_so = (Security::read('te_exibe_graficos_so'))?"checked":"";
+	    	$te_exibe_graficos_acessos = (Security::read('te_exibe_graficos_acessos'))?"checked":"";
+	    	$te_exibe_graficos_acessoslocais = (Security::read('te_exibe_graficos_acessoslocais'))?"checked":"";
+	    	$te_exibe_graficos_locais = (Security::read('te_exibe_graficos_locais'))?"checked":"";
+	    	$in_exibe_erros_criticos = (Security::read('in_exibe_erros_criticos'))?"checked":""; 
+	    	$in_exibe_bandeja = (Security::read('in_exibe_bandeja'))?"checked":""; 
+	    	$cs_abre_janela_patr = (Security::read('cs_abre_janela_patr'))?"checked":""; 
+    	}
+    	else {
+	    	/*
+	    	 * Obtem dados do banco de dados
+	    	 */
+	    	$sql = "select * from configuracoes_padrao";
+	    	$db_result = mysql_query($sql);
+	    	$cfgStdData = mysql_fetch_assoc($db_result);
+	    	
+	    	$nm_organizacao = $cfgStdData['nm_organizacao']; 
+	    	$te_senha_adm_agente = $cfgStdData['te_senha_adm_agente']; 
+	    	$te_serv_updates_padrao = $cfgStdData['te_serv_updates_padrao']; 
+	    	$te_serv_cacic_padrao = $cfgStdData['te_serv_cacic_padrao']; 
+	    	$te_enderecos_mac_invalidos = $cfgStdData['te_enderecos_mac_invalidos']; 
+	    	$te_janelas_excecao = $cfgStdData['te_janelas_excecao'];
+	    	$te_exibe_graficos_so = (strpos($cfgStdData['te_exibe_graficos'], "[so]")===false)?"":"checked";
+	    	$te_exibe_graficos_acessos = (strpos($cfgStdData['te_exibe_graficos'], "[acessos]")===false)?"":"checked";
+	    	$te_exibe_graficos_acessoslocais = (strpos($cfgStdData['te_exibe_graficos'], "[acessos_locais]")===false)?"":"checked";
+	    	$te_exibe_graficos_locais = (strpos($cfgStdData['te_exibe_graficos'], "[locais]")===false)?"":"checked";
+	    	$in_exibe_erros_criticos = ($cfgStdData['in_exibe_erros_criticos']=="S")?"checked":""; 
+	    	$in_exibe_bandeja = ($cfgStdData['in_exibe_bandeja']=="S")?"checked":""; 
+	    	$cs_abre_janela_patr = ($cfgStdData['cs_abre_janela_patr']=="S")?"checked":""; 
+    	}
+    	
+    	/*
+    	 * Preenche formulário com dados
+    	 */
+     	$this->addVar('StandardSetup_form', 'NM_ORGANIZACAO', $nm_organizacao );
+     	$this->addVar('StandardSetup_form', 'TE_SERVUPDT_STD', $te_serv_updates_padrao );
+     	$this->addVar('StandardSetup_form', 'TE_SERVCACIC_STD', $te_serv_cacic_padrao );
+     	$this->addVar('StandardSetup_form', 'EXIBE_ERROS_CRITICOS', $in_exibe_erros_criticos );
+     	$this->addVar('StandardSetup_form', 'EXIBE_BANDEJA', $in_exibe_bandeja );
+     	$this->addVar('StandardSetup_form', 'TE_MACADDR_INVALID', $te_enderecos_mac_invalidos );
+     	$this->addVar('StandardSetup_form', 'TE_JANELAS_EXCECAO', $te_janelas_excecao );
+     	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_SO', $te_exibe_graficos_so );
+     	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_ACESSOS', $te_exibe_graficos_acessos );
+     	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_LOCAIS', $te_exibe_graficos_locais );
+     	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_ACESSOSLOCAIS', $te_exibe_graficos_acessoslocais );
+     	$this->addVar('StandardSetup_form', 'EXIBE_JANELAPATR', $cs_abre_janela_patr );
+     	$this->addVar('StandardSetup_form', 'SENHA_AGENTE', $te_senha_adm_agente );
     }
     
     /**
@@ -182,6 +262,12 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	// Monta area de mensages e rodape da pagina
      	$this->displayParsedTemplate('CommonSetup_messages');
      	$this->displayParsedTemplate('CommonSetup_foot');
+    }
+    
+    function varDump($var) {
+    	echo "<pre>";
+    	var_dump($var);
+    	echo "</pre>";
     }
  }
 

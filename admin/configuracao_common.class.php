@@ -51,11 +51,6 @@ if( ! @include("pat/patTemplate.php") )
  define( 'SECURITY', 1 );
  require_once('security/security.php');
 
-/*
- * Uma classe ADO (simples) usada pelo instalador 
- */
- require_once('../instalador/classes/install.ado.php');
-
  /**
   * Dados de configuração para o CACIC 
   */
@@ -76,13 +71,14 @@ if( ! @include("pat/patTemplate.php") )
  	/**
  	 * Componente (objeto)para acesso a banco de dados
  	 */
- 	var $oADO;
+ 	var $db_link;
  	
  	function Configuracao() {
- 		global $oTranslator, $oADO;
+ 		global $oTranslator, $ip_servidor, $usuario_bd, $senha_usuario_bd, $nome_bd;
+    	$this->db_link = mysql_connect( $ip_servidor, $usuario_bd, $senha_usuario_bd);
+    	mysql_select_db($nome_bd,$this->db_link); 
  		parent::patTemplate();
  		$this->oTranslator = $oTranslator;
- 		$this->oADO = $oADO;
     	/*
     	 * Inicializa template
     	 */

@@ -1,5 +1,6 @@
 .<b>Página Principal<b>|principal.php|mainFrame
 .<b>Administração</b>||mainFrame|imgs/config_gerais.gif
+..Configurar Padrões|admin/configuracao.php|mainFrame||Configurações Padrão para o Sistema
 ..Configurar Gerente|admin/config_gerais.php|mainFrame||Configurações do Módulo Gerente
 ..Configurar Agentes|admin/config_agentes.php|mainFrame||Configurações do Módulo Agente
 ..Classificar Softwares|admin/softwares/classificacao_software.php|mainFrame||

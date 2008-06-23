@@ -410,7 +410,12 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td nowrap> <input name="frm_te_serv_cacic" type="text" id="frm_te_serv_cacic" size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="UXRJO115"> 
+	<?
+    	$sql = "select * from configuracoes_padrao";
+    	$db_result = mysql_query($sql);
+    	$cfgStdData = (!mysql_errno())?mysql_fetch_assoc($db_result):'';
+	?>
+      <td nowrap> <input name="frm_te_serv_cacic" type="text" id="frm_te_serv_cacic" size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$cfgStdData['te_serv_cacic_padrao']?>"> 
         <select name="sel_te_serv_cacic" id="sel_te_serv_cacic" onChange="SetaServidorBancoDados();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="">===> Selecione <===</option>
           <?
@@ -446,7 +451,7 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td nowrap><input name="frm_te_serv_updates" type="text" id="frm_te_serv_updates"  size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td nowrap><input name="frm_te_serv_updates" type="text" id="frm_te_serv_updates"  size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$cfgStdData['te_serv_updates_padrao']?>"> 
         <select name="sel_te_serv_updates" id="sel_te_serv_updates" onChange="SetaServidorUpdates();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="">===> Selecione <===</option>
           <?

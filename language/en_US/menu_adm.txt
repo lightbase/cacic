@@ -1,5 +1,6 @@
 .<b>Home<b>|principal.php|mainFrame
 .<b>Administration</b>||mainFrame|imgs/config_gerais.gif
+..Standard Setup|admin/configuracao.php|mainFrame||Systen standard setup
 ..Server Setup|admin/config_gerais.php|mainFrame||Server module setup
 ..Client Setup|admin/config_agentes.php|mainFrame||Client module setup
 ..Classificar Softwares|admin/softwares/classificacao_software.php|mainFrame||

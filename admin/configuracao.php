@@ -27,7 +27,7 @@
  */
 
 session_start();
-
+$time_start = microtime(true);
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
@@ -40,21 +40,17 @@ if(!isset($_SESSION['id_usuario']))
 require_once('../include/library.php');
 AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 
-/*
- * Uma classe ADO (simples) criada para o instalador (posteriormente criar uma específica ou usar PDO)
- */
-require_once(CACIC_PATH.CACIC_DS.'instalador'.CACIC_DS.'classes'.CACIC_DS.'install.ado.php');
-
-/*
- * componente (objeto) para manipulacao de banco de dados
- */
- // colocar em library depois
-$oADO = new ADO();
-$oADO->conecta( $ip_servidor, $usuario_bd, $senha_usuario_bd, $nome_bd );
-
 require_once('configuracao_padrao.class.php');
 
 $oCacicSetup = new Configuracao_Padrao();
 $oCacicSetup->setup();
 $oCacicSetup->run();
+
+/*
+ * Contabiliza tempo de processamento da página
+ */
+$time_end = microtime(true);
+$time_proc = ($time_end-$time_start);
+echo '<!-- in '.($time_proc)."ms -->";
+
 ?>
