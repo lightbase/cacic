@@ -100,15 +100,6 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		  	</tr>
 		  	<tr class="even">
 		  		<td>
-		  		   {TE_JANELAS_EXCECAO_TITLE}<br />
-		  		   <span class="help">{TE_JANELAS_EXCECAO_HELP}</span>
-		  		</td>
-		  		<td>
-		  		   <textarea {TE_JANELAS_EXCECAO_ENABLED} id="te_janelas_excecao" name="te_janelas_excecao" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" rows="3" cols="65" wrap="off">{TE_JANELAS_EXCECAO}</textarea>
-		  		</td>
-		  	</tr>
-		  	<tr class="odd">
-		  		<td>
 		  		  <fieldset>
 		  		   <legend>{TE_EXIBEGRAFICOS_TITLE}</legend>
 		  		   <table>

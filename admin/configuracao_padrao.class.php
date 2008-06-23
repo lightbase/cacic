@@ -54,7 +54,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      	$this->addVar('StandardSetup_form', 'TITULO', $this->oTranslator->_('Configuracao Padrao') );
      	$this->addVar('StandardSetup_form', 'DESCRICAO', $this->oTranslator->_('Definir as configuracoes para sugestoes em formularios') );
      	$this->addVar('StandardSetup_form', 'NM_ORGANIZACAO_TITLE', $this->oTranslator->_('Nome da organizacao') );
-     	$this->addVar('StandardSetup_form', 'TE_SERVUPDT_STD_TITLE', $this->oTranslator->_('Nome ou IP do servidor de atualizacao') );
+     	$this->addVar('StandardSetup_form', 'TE_SERVUPDT_STD_TITLE', $this->oTranslator->_('Nome ou IP do servidor de atualizacao (FTP)') );
      	$this->addVar('StandardSetup_form', 'TE_SERVCACIC_STD_TITLE', $this->oTranslator->_('Nome ou IP do servidor de aplicacao (gerente)') );
      	$this->addVar('StandardSetup_form', 'EXIBE_ERROS_CRITICOS_TITLE', $this->oTranslator->_('Exibir erros criticos aos usuarios') );
      	$this->addVar('StandardSetup_form', 'EXIBE_BANDEJA_TITLE', $this->oTranslator->_('Exibir o icone do CACIC na bandeja (systray)') );

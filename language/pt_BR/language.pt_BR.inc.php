@@ -622,7 +622,7 @@ pt_BR     retorne aos passos anteriores e configure adequadamente               
 pt_BR     configuracao padrao                                                                                 admin     info                Configuracao Padrao
 pt_BR     definir as configuracoes para sugestoes em formularios                                              admin     info                Definir as configuracoes para sugestoes em formularios
 pt_BR     nome da organizacao                                                                                 admin     info                Nome da organizacao
-pt_BR     nome ou ip do servidor de atualizacao                                                               admin     info                Nome ou IP do servidor de atualizacao
+pt_BR     nome ou ip do servidor de atualizacao (ftp)                                                         admin     info                Nome ou IP do servidor de atualizacao (FTP)
 pt_BR     nome ou ip do servidor de aplicacao (gerente)                                                       admin     info                Nome ou IP do servidor de aplicacao (gerente)
 pt_BR     restaurar valores                                                                                   admin     info                Restaurar valores
 pt_BR     graficos a serem exibidos                                                                           admin     info                Graficos a serem exibidos
