@@ -43,7 +43,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	parent::Configuracao();
     	$this->setSetupType('standard');
     	/*
-    	 * Inicializa template
+    	 * Inicializa template com textos basicos
     	 */
     	$this->setNamespace('cfgPadrao');
     	$this->readTemplatesFromInput('configuracao_padrao_01.tmpl.php');
@@ -64,6 +64,14 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      	$this->addVar('StandardSetup_form', 'TE_JANELAS_EXCECAO_HELP', $this->oTranslator->_('Evita que o Gerente de Coletas seja acionado enquanto tais aplicativos (janelas) estiverem ativos') );
      	$this->addVar('StandardSetup_form', 'BTN_SALVAR', $this->oTranslator->_('Gravar alteracoes') );
      	$this->addVar('StandardSetup_form', 'BTN_RESET', $this->oTranslator->_('Restaurar valores') );
+     	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_TITLE', $this->oTranslator->_('Graficos a serem exibidos') );
+     	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_SO_TITLE', $this->oTranslator->_('Sistemas operacionais') );
+     	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_ACESSOS_TITLE', $this->oTranslator->_('Acessos') );
+     	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_LOCAIS_TITLE', $this->oTranslator->_('Locais') );
+     	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_ACESSOSLOCAIS_TITLE', $this->oTranslator->_('Acessos locais') );
+     	$this->addVar('StandardSetup_form', 'EXIBE_JANELAPATR_TITLE', $this->oTranslator->_('Exibe janela de patrimonio') );
+     	$this->addVar('StandardSetup_form', 'SENHA_AGENTE_TITLE', $this->oTranslator->_('Senha padrao para administrar o agente') );
+     	$this->addVar('StandardSetup_form', 'TE_EXIBEOUTROS_TITLE', $this->oTranslator->_('Outros ') );
     }
     
 	/**
@@ -103,11 +111,56 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      */
     function salvarDados() {
     	$error = true;
-    	$msg = $this->oTranslator->_('Ocorreu erro no processamento...');
+    	$msg = $this->oTranslator->_('Ocorreu erro no processamento...(programa ainda nao finalizado)');
     	
+    	// usar ajax ou js para envio de mensagens de processo :D
     	$this->showMessage('<span class="OK">'.$this->oTranslator->_('Aguarde processamento...')."</span>");
     	
-    	($error) ? $this->throwError($msg):""; // Lança execeção se ocorrer erro
+    	/*
+    	 * Obtem dados do formulario
+    	 */
+    	$in_exibe_erros_criticos = (Security::read('in_exibe_erros_criticos'))?"S":"N"; 
+    	$in_exibe_bandeja = (Security::read('in_exibe_bandeja'))?"S":"N"; 
+    	$cs_abre_janela_patr = (Security::read('cs_abre_janela_patr'))?"S":"N"; 
+    	$nm_organizacao = (Security::read('nm_organizacao'))?Security::read('nm_organizacao'):""; 
+    	$te_senha_adm_agente = (Security::read('te_senha_adm_agente'))?Security::read('te_senha_adm_agente'):""; 
+    	$te_serv_updates_padrao = (Security::read('te_serv_updates_padrao'))?Security::read('te_serv_updates_padrao'):""; 
+    	$te_serv_cacic_padrao = (Security::read('te_serv_cacic_padrao'))?Security::read('te_serv_cacic_padrao'):""; 
+    	$te_enderecos_mac_invalidos = (Security::read('te_enderecos_mac_invalidos'))?Security::read('te_enderecos_mac_invalidos'):""; 
+    	$te_janelas_excecao = (Security::read('te_janelas_excecao'))?Security::read('te_janelas_excecao'):"";
+    	$te_exibe_graficos = '';
+    	$te_exibe_graficos .= (Security::read('te_exibe_graficos_so'))?"[so]":"";
+    	$te_exibe_graficos .= (Security::read('te_exibe_graficos_acessos'))?"[acessos]":"";
+    	$te_exibe_graficos .= (Security::read('te_exibe_graficos_acessoslocais'))?"[acessos_locais]":"";
+    	$te_exibe_graficos .= (Security::read('te_exibe_graficos_locais'))?"[locais]":"";
+    	
+    	/*
+    	 * monta sql de atualizacao dos dados padrao
+    	 */
+    	$sql_update = 'UPDATE config_padrao SET ';
+    	$sql_update .= "in_exibe_erros_criticos = '$in_exibe_erros_criticos', 
+						in_exibe_bandeja = '$in_exibe_bandeja',
+						nu_exec_apos = 10,
+						nm_organizacao = '$nm_organizacao',
+						nu_intervalo_exec = 4,
+						nu_intervalo_renovacao_patrim = 0,
+						te_senha_adm_agente = '$te_senha_adm_agente',
+						te_serv_updates_padrao = '$te_serv_updates_padrao',
+						te_serv_cacic_padrao =  '$te_serv_cacic_padrao',
+						te_enderecos_mac_invalidos = '$te_enderecos_mac_invalidos',
+						te_janelas_excecao = '$te_janelas_excecao', 
+						cs_abre_janela_patr = '$cs_abre_janela_patr',
+						id_default_body_bgcolor = '#EBEBEB',
+						te_exibe_graficos = '$te_exibe_graficos'";
+						
+    	// temp pra testes 
+    	//$this->showMessage($sql_update);
+    	//return;
+    	
+    	/*
+    	 *  Lança execeção se ocorrer erro
+    	 */
+    	($error) ? $this->throwError($msg):"";
 
     	$this->showMessage('<span class="OKImg">'.$this->oTranslator->_('Processamento realizado com sucesso')."</span>");
     }

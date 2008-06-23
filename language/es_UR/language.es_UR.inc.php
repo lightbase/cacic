@@ -226,7 +226,7 @@ es_UR     Servidor de Updates padrao                                            
 es_UR     Gravar informacoes                                                                                  admin     info                 Grabar informaciones
 es_UR     Configuracoes dos Modulos Agentes                                                                   admin     info                 Configuraciones de los modulos Agentes
 es_UR     As opcoes abaixo determinam qual sera o comportamento dos agentes do                                admin     info                 Las opciones de abajo determinan cual sera el comportamiento de los agentes del
-es_UR     Exibir o icone do CACIC na bandeja do Windows (systray)                                             admin     info                 Mostrar el icono de CACIC en la bandeja del Windows (systray)
+es_UR     exibir o icone do cacic na bandeja (systray)                                                        admin     info                 Mostrar el icono de CACIC en la bandeja (systray)
 es_UR     ksiq_msg not                                                                                        admin     info                 No
 es_UR     Exibir erros criticos aos usuarios                                                                  admin     info                 Mostrar errores criticos a los usuarios
 es_UR     Senha usada para configurar e finalizar os agentes                                                  admin     info                 Clave utilizada para configurar y finalizar los agentes

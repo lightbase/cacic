@@ -121,7 +121,7 @@ pt_BR     executado em todas as redes                                           
 pt_BR     exemplo                                                                                             admin     info                Exemplo
 pt_BR     exibir graficos na pagina principal e detalhes                                                      admin     info                Exibir Graficos na Pagina Principal e Detalhes
 pt_BR     exibir erros criticos aos usuarios                                                                  admin     info                Exibir erros criticos aos usuarios
-pt_BR     exibir o icone do cacic na bandeja do windows (systray)                                             admin     info                Exibir o icone do CACIC na bandeja do Windows (systray)
+pt_BR     exibir o icone do cacic na bandeja (systray)                                                        admin     info                Exibir o icone do CACIC na bandeja (systray)
 pt_BR     ftp nao configurado                                                                                 admin     info                FTP nao configurado
 pt_BR     falha na consulta a tabela (%1) ou sua sessao expirou!                                              admin     info                Falha na Consulta a tabela (%1) ou sua sessao expirou!
 pt_BR     falha na insercao em (%1) ou sua sessao expirou!                                                    admin     info                Falha na Insercao em (%1) ou sua sessao expirou!
@@ -619,3 +619,22 @@ pt_BR     cadastro de unidade organizacional nivel 2                            
 pt_BR     unidade organizacional                                                                              admin     info                Unidade Organizacional
 pt_BR     nivel                                                                                               admin     info                Nivel
 pt_BR     retorne aos passos anteriores e configure adequadamente                                             instaladorinfo                Retorne aos passos anteriores e configure adequadamente
+pt_BR     configuracao padrao                                                                                 admin     info                Configuracao Padrao
+pt_BR     definir as configuracoes para sugestoes em formularios                                              admin     info                Definir as configuracoes para sugestoes em formularios
+pt_BR     nome da organizacao                                                                                 admin     info                Nome da organizacao
+pt_BR     nome ou ip do servidor de atualizacao                                                               admin     info                Nome ou IP do servidor de atualizacao
+pt_BR     nome ou ip do servidor de aplicacao (gerente)                                                       admin     info                Nome ou IP do servidor de aplicacao (gerente)
+pt_BR     restaurar valores                                                                                   admin     info                Restaurar valores
+pt_BR     graficos a serem exibidos                                                                           admin     info                Graficos a serem exibidos
+pt_BR     sistemas operacionais                                                                               admin     info                Sistemas operacionais
+pt_BR     acessos                                                                                             admin     info                Acessos
+pt_BR     acessos locais                                                                                      admin     info                Acessos locais
+pt_BR     exibe janela de patrimonio                                                                          admin     info                Exibe janela de patrimonio
+pt_BR     senha padrao para administrar o agente                                                              admin     info                Senha padrao para administrar o agente
+pt_BR     outros                                                                                              admin     info                Outros
+pt_BR     ocorreu erro no processamento...(programa ainda nao finalizado)                                     admin     info                Ocorreu erro no processamento...(programa ainda nao finalizado)
+pt_BR     aguarde processamento...                                                                            admin     info                Aguarde processamento...
+pt_BR     processamento realizado com sucesso                                                                 admin     info                Processamento realizado com sucesso
+pt_BR     configuracao basica                                                                                 admin     info                Configuracao Basica
+pt_BR     mensagens                                                                                           admin     info                Mensagens
+pt_BR     outros                                                                                              admin     info                Outros

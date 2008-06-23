@@ -248,10 +248,12 @@ a.dcontexto:hover span
 
 .frameprincipal .odd {
     background: #CCCCCC;
+    vertical-align: top;
 }
 
 .frameprincipal .even {
 	background: #DBDBDB;
+    vertical-align: top;
 }
 
 .frameprincipal .botoes input {
@@ -266,7 +268,7 @@ a.dcontexto:hover span
 }
 
 .frameprincipal .messages {
-    height: 30px;
+    //height: 30px;
     //line-height: 26px;
     //font-size: 12px;
     //font-weight: bold;
