@@ -126,6 +126,16 @@ if( ! @include("pat/patTemplate.php") )
     	throw new Exception($msg);
     }
     
+    /**
+     * Dump de variaceis
+     * @access protected
+     */
+    function varDump($var) {
+    	echo "<pre>";
+    	var_dump($var);
+    	echo "</pre>";
+    }
+    
  }
  
 ?>

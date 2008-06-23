@@ -166,49 +166,6 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
   </tr>
 </table>
 </div>
-<cfgPadrao:comment>
-<pre>
-SCHEMA 
---  `in_exibe_erros_criticos` char(1) default NULL,
---  `in_exibe_bandeja` char(1) default NULL,
-  `nu_exec_apos` int(11) default NULL,
---  `nm_organizacao` varchar(150) default NULL,
-  `nu_intervalo_exec` int(11) default NULL,
-  `nu_intervalo_renovacao_patrim` int(11) default NULL,
---  `te_senha_adm_agente` varchar(30) default NULL,
---  `te_serv_updates_padrao` varchar(20) default NULL,
---  `te_serv_cacic_padrao` varchar(20) default NULL,
---  `te_enderecos_mac_invalidos` text,
---  `te_janelas_excecao` text,
---  `cs_abre_janela_patr` char(1) NOT NULL default 'S',
-  `id_default_body_bgcolor` varchar(10) NOT NULL default '#EBEBEB',
---  `te_exibe_graficos` varchar(100) NOT NULL default '[acessos_locais][so][acessos][locais]'
-DADOS 
-   (`in_exibe_erros_criticos`, `in_exibe_bandeja`, `nu_exec_apos`, `nm_organizacao`, `nu_intervalo_exec`,
-    `nu_intervalo_renovacao_patrim`, `te_senha_adm_agente`, `te_serv_updates_padrao`, `te_serv_cacic_padrao`,
-    `te_enderecos_mac_invalidos`, `te_janelas_excecao`, `cs_abre_janela_patr`, `id_default_body_bgcolor`,
-    `te_exibe_graficos`)
-   ('N', 'S', 10, 'Nome da Organização - Tabela Configurações Padrão', 4, 0, '5a584f8a61b65baf', '10.71.0.121',
-    '10.71.0.121', '00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08', 
-    'openoffice.org, microsoft word, photoshop, hod, aor.exe, pc2003.exe, cpp.exe, sal.exe, sal.bat, girafa4.exe, dro.exe, plenus', 
-    'N', '#EBEBEB', '[so][acessos][locais][acessos_locais]');
-    
-  "in_exibe_erros_criticos = 'N', 
-  in_exibe_bandeja = 'S',
-  nu_exec_apos = 10,
-  nm_organizacao = 'Nome da Organização - Tabela Configurações Padrão',
-  nm_organizacao = 4,
-  nu_intervalo_renovacao_patrim = 0,
-  te_senha_adm_agente = '5a584f8a61b65baf',
-  te_serv_updates_padrao = '10.71.0.121',
-  te_serv_cacic_padrao =  '10.71.0.121',
-  te_enderecos_mac_invalidos = '00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08',
-  te_janelas_excecao = 'openoffice.org, microsoft word, photoshop, hod, aor.exe, pc2003.exe, cpp.exe, sal.exe, sal.bat, girafa4.exe, dro.exe, plenus', 
-  cs_abre_janela_patr = 'N',
-  id_default_body_bgcolor = '#EBEBEB',
-  te_exibe_graficos = '[so][acessos][locais][acessos_locais]'";
-</pre>
-</cfgPadrao:comment>
 
 <script type="text/javascript">
   setFocus('{SET_FOCUS}');

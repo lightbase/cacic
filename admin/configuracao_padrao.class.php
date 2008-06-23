@@ -183,9 +183,6 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      * @param string $btn_salvar Se botao para salvar foi acionado
      */
     function fillForm($btn_salvar) {
-    	
-    	$error = true;
-    	
     	if($btn_salvar) {
 	    	/*
 	    	 * Obtem dados do formulario
@@ -250,7 +247,6 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      * @access private
      */
     function showForm() {
-    	global $configuracao;
     	// Monta cabecalho da pagina
      	$this->displayParsedTemplate('CommonSetup_head');
      	// Monta cabecalho da pagina para "configuracao_padrao"
@@ -262,12 +258,6 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	// Monta area de mensages e rodape da pagina
      	$this->displayParsedTemplate('CommonSetup_messages');
      	$this->displayParsedTemplate('CommonSetup_foot');
-    }
-    
-    function varDump($var) {
-    	echo "<pre>";
-    	var_dump($var);
-    	echo "</pre>";
     }
  }
 
