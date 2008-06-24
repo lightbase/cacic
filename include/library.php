@@ -514,6 +514,7 @@ function conecta_bd_cacic()
 		die('<b>Problemas durante a conexão ao BD ou sua sessão expirou!</b>');
 
 		}
+	return $ident_bd;
 }
 
 // ------------------------------------------------------------------------------

@@ -14,6 +14,7 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
+require_once ('../../include/multipagina.class.php');
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
@@ -24,7 +25,8 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 require_once('../../include/library.php');
 AntiSpy();
-conecta_bd_cacic();
+
+$DbConnect = conecta_bd_cacic();
 
 if ($_GET['principal'])
 	{
@@ -231,41 +233,86 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 		$query .= ' desc';
 		}
 
-$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
+//$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
-$cor = 0;
-$num_registro = 1;
+// *****************************************************
+// Código para Paginação - Anderson Peterle - 24/06/2008
+// *****************************************************
 
-$fields=mysql_num_fields($result);
+// definicoes de variaveis
+$max_links 	= 100; // máximo de links à serem exibidos
+$max_res 	= 100; // máximo de resultados à serem exibidos por tela ou pagina
+$mult_pag 	= new Mult_Pag(); // cria um novo objeto navbar
+$mult_pag->num_pesq_pag = $max_res; // define o número de pesquisas (detalhada ou não) por página
+
+
+// metodo que realiza a pesquisa
+$resultado = $mult_pag->executar($query, $DbConnect, "", "mysql");
+$reg_pag = mysql_num_rows($resultado); // total de registros por paginas ou telas
+
 echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
-     <tr bgcolor="#E1E1E1" >
-      <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
+	 <tr bgcolor="#E1E1E1" >
+	  <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
 
-for ($i=2; $i < mysql_num_fields($result); $i++) 
+for ($i=2; $i < mysql_num_fields($resultado); $i++) 
 	{ //Table Header
-   	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '&principal='.$_GET['principal'].'">'. mysql_field_name($result, $i) .'</a></font><b></td>';
+	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '&principal='.$_GET['principal'].'">'. mysql_field_name($resultado, $i) .'</a></font><b></td>';
 	}
 echo '</tr>';
 
-while ($row = mysql_fetch_row($result)) 
-	{ //Table body
-    echo '<tr ';
+$cor = 0;
+$num_registro = 1 + ($max_res * $pagina);
+
+// visualizacao do conteudo
+for ($n = 0; $n < $reg_pag; $n++) 
+	{
+  	$linha  = mysql_fetch_object($resultado); // retorna o resultado da pesquisa linha por linha em um array
+	$fields = mysql_num_fields($resultado);  
+	
+	$strFieldTeNodeAddress    = mysql_field_name($resultado, 0);
+	$strFieldIdSo			  = mysql_field_name($resultado, 1);
+	$strFieldTeNomeComputador = mysql_field_name($resultado, 2);
+		
+	//Table body
+	echo '<tr ';
 	if ($cor) 
 		echo 'bgcolor="#E1E1E1"';
-		
+			
 	echo '>';
-    echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
-    for ($i=3; $i < $fields; $i++) 
+	echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $linha->$strFieldTeNodeAddress ."&id_so=". $linha->$strFieldIdSo ."' target='_blank'>" . $linha->$strFieldTeNomeComputador ."</a>&nbsp;</td>"; 
+	for ($i=3; $i < $fields; $i++) 
 		{
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
+		$strNomeCampo = mysql_field_name($resultado, $i);
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $linha->$strNomeCampo .'&nbsp;</td>'; 
 		}
-    $cor=!$cor;
+	$cor=!$cor;
 	$num_registro++;
-    echo '</tr>';
+	echo '</tr>';
 	}
 echo '</table>';
 echo '<br><br>';
+
+// pega todos os links e define que 'Próxima' e 'Anterior' serão exibidos como texto plano
+//$todos_links = $mult_pag->Construir_Links("todos", "sim");
+$todos_links = $mult_pag->Construir_Links("strings", "sim");
+//echo "<P>Esta é a lista de todos os links paginados</P>\n";
+
+//for ($n = 0; $n < count($todos_links); $n++) {
+//  echo $todos_links[$n] . "&nbsp;";
+//}
+
+// função que limita a quantidade de links no rodape
+$links_limitados = $mult_pag->Mostrar_Parte($todos_links, $coluna, $max_links);
+
+
+//echo "<P>Esta é a lista dos links limitados</P>\n";
+for ($n = 0; $n < count($links_limitados); $n++) {
+  echo $links_limitados[$n] . "&nbsp;";
+}
+
+//
+
 if (count($_SESSION["list8"])>0)
 	{	
 	$v_opcao = 'software'; // Nome do pie que será chamado por tabela_estatisticas
