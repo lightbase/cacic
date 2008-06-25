@@ -112,10 +112,15 @@ if( ! @include("pat/patTemplate.php") )
  	/**
  	 * Atribui o tipo de configuração a ser processada
  	 * @access protected
+ 	 * @param string $msg A mensagem a ser mostrada
+ 	 * @param boolean $js Mostra mensagem usando recurso de javascript
  	 */
- 	function showMessage($msg) {
- 		$this->clearVar('CommonSetup_messages', 'MESSAGE');
-     	$this->addVar('CommonSetup_messages', 'MESSAGE', $msg );
+ 	function showMessage($msg, $js=false) {
+ 		$this->clearVar('CommonSetup_messages_cond', 'MESSAGE');
+ 		if($js)
+ 			$this->addVar('CommonSetup_messages_cond', 'msgtype', 'js' );
+ 			
+ 		$this->addVar('CommonSetup_messages_cond', 'MESSAGE', $msg );
  	}
   	
     /**

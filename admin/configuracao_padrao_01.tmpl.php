@@ -82,6 +82,14 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		  	</tr>
 		  	<tr class="even">
 		  		<td>
+		  		   {REL_MAXLINHAS_TITLE}<br />
+		  		</td>
+		  		<td>
+		  		   <input {REL_MAXLINHAS_ENABLED} type="text" id="rel_maxlinhas" name="rel_maxlinhas" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" size="10" maxlength="10" value="{REL_MAXLINHAS}" />
+		  		</td>
+		  	</tr>
+		  	<tr class="odd">
+		  		<td>
 		  		   {TE_MACADDR_INVALID_TITLE}<br />
 		  		   <span class="help">{TE_MACADDR_INVALID_HELP}</span>
 		  		</td>
@@ -89,7 +97,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		  		   <textarea {TE_MACADDR_INVALID_ENABLED} id="te_enderecos_mac_invalidos" name="te_enderecos_mac_invalidos" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" rows="3" cols="65" wrap="off">{TE_MACADDR_INVALID}</textarea>
 		  		</td>
 		  	</tr>
-		  	<tr class="odd">
+		  	<tr class="even">
 		  		<td>
 		  		   {TE_JANELAS_EXCECAO_TITLE}<br />
 		  		   <span class="help">{TE_JANELAS_EXCECAO_HELP}</span>
@@ -98,7 +106,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		  		   <textarea {TE_JANELAS_EXCECAO_ENABLED} id="te_janelas_excecao" name="te_janelas_excecao" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" rows="3" cols="65" wrap="off">{TE_JANELAS_EXCECAO}</textarea>
 		  		</td>
 		  	</tr>
-		  	<tr class="even">
+		  	<tr class="odd">
 		  		<td>
 		  		  <fieldset>
 		  		   <legend>{TE_EXIBEGRAFICOS_TITLE}</legend>

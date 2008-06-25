@@ -40,11 +40,14 @@ Adaptações Realizadas / Motivos:
 // classe que multiplica paginas
 class Mult_Pag {
   // Valores padrão para a navegação dos links
+  /*
+   * define o número de pesquisas (detalhada ou não) por página
+   */
   var $num_pesq_pag;
-  var $str_anterior = " Anterior ";
-  var $str_proxima 	= " Próxima ";
-  var $str_primeira	= " Primeira      ";
-  var $str_ultima	= "      Última ";
+  var $str_anterior = "<span class='prev'>&nbsp;&nbsp;&nbsp;&nbsp;</span>Anterior";
+  var $str_proxima 	= "Próxima<span class='next'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+  var $str_primeira	= "<span class='first'>&nbsp;&nbsp;&nbsp;&nbsp;</span>Primeira";
+  var $str_ultima	= "Última<span class='last'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>";
   // Variáveis usadas internamente
   var $nome_arq;
   var $total_reg;
@@ -55,10 +58,11 @@ class Mult_Pag {
      o número atual de colunas e outros métodos que
      podem ser re-usados mais tarde.
   */
-  function Mult_Pag ()
+  function Mult_Pag ($num_lin_pag=100, $num_link_pag=100)
   {
     global $pagina;
     $this->pagina = $pagina ? $pagina : 0;
+    $this->num_pesq_pag = $num_lin_pag;
   }
 
   /*
@@ -162,11 +166,11 @@ class Mult_Pag {
       // escreve a string esquerda (Pagina Anterior)
       if ((($opcao == "todos") || ($opcao == "strings")) && ($atual == 0)) {
         if ($this->pagina != 0){
-		  $array[++$indice] = '<a href="' . $arquivo . '?pagina=' . $atual . $extra_vars . '">' . " Primeira" . '</a>      ';
+		  $array[++$indice] = '<a href="' . $arquivo . '?pagina=' . $atual . $extra_vars . '">' . $this->str_primeira . '</a>     ';
           $array[++$indice] = '<a href="' . $arquivo . '?pagina=' . ($this->pagina - 1) . $extra_vars . '">' . $this->str_anterior . '</a>';                 }
         elseif (($this->pagina == 0) && ($mostra_string == "sim")){		
-		  $array[++$indice] = $this->str_primeira;
-          $array[++$indice] = $this->str_anterior;
+		  //$array[++$indice] = $this->str_primeira;
+          //$array[++$indice] = $this->str_anterior;
 		  }
       }
 
@@ -197,12 +201,12 @@ class Mult_Pag {
       // escreve a string direita (Proxima Pagina)
       if ((($opcao == "todos") || ($opcao == "strings")) && ($atual == ($num_mult_pag - 1))) {
         if ($this->pagina != ($num_mult_pag - 1)){
-          $array[++$indice] = '<a href="' . $arquivo . '?pagina=' . ($this->pagina + 1) . $extra_vars . '">' . $this->str_proxima . '</a>';		
-		   $array[++$indice] = '      <a href="' . $arquivo . '?pagina=' . ($num_mult_pag-1) . $extra_vars . '">' . " Última" . '</a>';
+          $array[++$indice]  = '    <a href="' . $arquivo . '?pagina=' . ($this->pagina + 1) . $extra_vars . '">' . $this->str_proxima . '</a>';		
+		   $array[++$indice] = '    <a href="' . $arquivo . '?pagina=' . ($num_mult_pag-1) . $extra_vars . '">' . $this->str_ultima . '</a>';
 		}  
         elseif (($this->pagina == ($num_mult_pag - 1)) && ($mostra_string == "sim")){
-          $array[++$indice] = $this->str_proxima;
-		  $array[++$indice] = $this->str_ultima;
+          //$array[++$indice] = $this->str_proxima;
+		  //$array[++$indice] = $this->str_ultima;
 		}
       }
     }
@@ -227,8 +231,6 @@ class Mult_Pag {
   */
   function Mostrar_Parte($array, $atual, $tam_desejado)
   {
-
-  
     $size = count($array);
     if (($size <= 2) || ($size < $tam_desejado)) {
       $temp = $array;

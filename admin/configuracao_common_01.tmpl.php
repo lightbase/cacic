@@ -52,8 +52,17 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     <td>
 	   <fieldset class="messages">
 	     <legend>{MESSAGES}</legend>
-	       <span id='message' class="message">{MESSAGE}</span>
-	    </fieldset>
+	      <cfgCommon:tmpl name="CommonSetup_messages_cond" type="condition" conditionvar="msgtype">
+		      <cfgCommon:sub condition="js">
+					<script language="javascript">
+					document.write('{MESSAGE}');
+					</script>
+			  </cfgCommon:sub>
+			  <cfgCommon:sub condition="__default">
+			     <span id='message' class="message">{MESSAGE}</span>
+			  </cfgCommon:sub>
+		  </cfgCommon:tmpl>
+	   </fieldset>
     </td>
   </tr>
 </table>

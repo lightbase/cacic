@@ -249,6 +249,7 @@ CREATE TABLE `configuracoes_padrao` (
   `in_exibe_erros_criticos` char(1) default NULL,
   `in_exibe_bandeja` char(1) default NULL,
   `nu_exec_apos` int(11) default NULL,
+  `rel_maxlinhas` int(1) default 50,
   `nm_organizacao` varchar(150) default NULL,
   `nu_intervalo_exec` int(11) default NULL,
   `nu_intervalo_renovacao_patrim` int(11) default NULL,

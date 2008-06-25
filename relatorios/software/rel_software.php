@@ -14,7 +14,7 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
-require_once ('../../include/multipagina.class.php');
+
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
@@ -26,6 +26,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 require_once('../../include/library.php');
 AntiSpy();
 
+require_once ('../../include/multipagina.class.php');
 $DbConnect = conecta_bd_cacic();
 
 if ($_GET['principal'])
@@ -66,6 +67,7 @@ elseif($_POST['submit'])
 <head>
 <title>Relat&oacute;rio de Configura&ccedil;&otilde;es de Software</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link href="<?=CACIC_URL?>/include/cacic.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" type="text/JavaScript">
 <!--
 function MM_openBrWindow(theURL,winName,features) { //v2.0
@@ -240,11 +242,13 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 // *****************************************************
 
 // definicoes de variaveis
-$max_links 	= 100; // máximo de links à serem exibidos
-$max_res 	= 100; // máximo de resultados à serem exibidos por tela ou pagina
-$mult_pag 	= new Mult_Pag(); // cria um novo objeto navbar
-$mult_pag->num_pesq_pag = $max_res; // define o número de pesquisas (detalhada ou não) por página
+$sql = "select rel_maxlinhas from configuracoes_padrao";
+$db_result = mysql_query($sql);
+$cfgStdData = mysql_fetch_assoc($db_result);
 
+$max_links 	= 100; // máximo de links à serem exibidos
+$max_res 	= ($cfgStdData['rel_maxlinhas'])?$cfgStdData['rel_maxlinhas']:100; // máximo de resultados à serem exibidos por tela ou pagina
+$mult_pag 	= new Mult_Pag($max_res); // cria um novo objeto navbar
 
 // metodo que realiza a pesquisa
 $resultado = $mult_pag->executar($query, $DbConnect, "", "mysql");
