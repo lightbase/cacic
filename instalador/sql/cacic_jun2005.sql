@@ -84,7 +84,7 @@ CREATE TABLE configuracoes_padrao (
     in_exibe_erros_criticos char(1) NULL DEFAULT NULL COMMENT '',
     in_exibe_bandeja char(1) NULL DEFAULT NULL COMMENT '',
     nu_exec_apos int(11) NULL DEFAULT NULL COMMENT '',
-    rel_maxlinhas int(1) default 50,
+    nu_rel_maxlinhas int(3) default 50,
     nm_organizacao varchar(150) NULL DEFAULT NULL COMMENT '',
     nu_intervalo_exec int(11) NULL DEFAULT NULL COMMENT '',
     nu_intervalo_renovacao_patrim int(11) NULL DEFAULT NULL COMMENT '',
