@@ -72,11 +72,7 @@ if($_POST['logoff'])
      //Adicionado pela Marisol em 12/06/2006
      session_destroy();
 	 
-	 ?>
-	 <SCRIPT LANGUAGE="Javascript">
-	    top.location = 'index.php';
-	 </script>
-	 <?
+	 die(); //interrompe qualquer outra execução após logoff
 	 }
 	 
 if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
