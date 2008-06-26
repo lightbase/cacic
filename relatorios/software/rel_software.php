@@ -242,12 +242,12 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 // *****************************************************
 
 // definicoes de variaveis
-$sql = "select rel_maxlinhas from configuracoes_padrao";
+$sql = "select nu_rel_maxlinhas from configuracoes_padrao";
 $db_result = mysql_query($sql);
 $cfgStdData = mysql_fetch_assoc($db_result);
 
 $max_links 	= 100; // máximo de links à serem exibidos
-$max_res 	= ($cfgStdData['rel_maxlinhas'])?$cfgStdData['rel_maxlinhas']:100; // máximo de resultados à serem exibidos por tela ou pagina
+$max_res 	= ($cfgStdData['nu_rel_maxlinhas'])?$cfgStdData['nu_rel_maxlinhas']:100; // máximo de resultados à serem exibidos por tela ou pagina
 $mult_pag 	= new Mult_Pag($max_res); // cria um novo objeto navbar
 
 // metodo que realiza a pesquisa
