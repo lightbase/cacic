@@ -82,10 +82,10 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		  	</tr>
 		  	<tr class="even">
 		  		<td>
-		  		   {REL_MAXLINHAS_TITLE}<br />
+		  		   {NU_REL_MAXLINHAS_TITLE}<br />
 		  		</td>
 		  		<td>
-		  		   <input {REL_MAXLINHAS_ENABLED} type="text" id="rel_maxlinhas" name="rel_maxlinhas" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" size="10" maxlength="10" value="{REL_MAXLINHAS}" />
+		  		   <input {NU_REL_MAXLINHAS_ENABLED} type="text" id="nu_rel_maxlinhas" name="nu_rel_maxlinhas" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" size="10" maxlength="10" value="{NU_REL_MAXLINHAS}" />
 		  		</td>
 		  	</tr>
 		  	<tr class="odd">

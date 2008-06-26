@@ -28,7 +28,14 @@ require_once("include/library.php");
 <body bgcolor="#FFFFFF" background="imgs/linha_v.gif">
 <table width="90%" border="0" align="center">
 <tr>
-<td class="cabecalho"><?= $oTranslator->_('kciq_msg cacic statistics');?></td>
+<td class="cabecalho">
+   <?php
+   /*
+    * Mostra se houver local registrado na sessao (g..)
+    */
+    echo ($_SESSION['id_local'])?$oTranslator->_('kciq_msg cacic statistics'):'';
+   ?>
+</td>
 </tr>
 <? 
 // Reinicializo as variáveis para tratamento de gráficos

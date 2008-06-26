@@ -65,8 +65,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      	$this->addVar('StandardSetup_form', 'BTN_SALVAR', $this->oTranslator->_('Gravar alteracoes') );
      	$this->addVar('StandardSetup_form', 'BTN_RESET', $this->oTranslator->_('Restaurar valores') );
      	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_TITLE', $this->oTranslator->_('Graficos a serem exibidos') );
-     	$this->addVar('StandardSetup_form', 'REL_MAXLINHAS_TITLE', $this->oTranslator->_('Quantidade máxima de linhas em relatorios') );
-     	$this->addVar('StandardSetup_form', 'REL_MAXLINHAS_HELP', $this->oTranslator->_('Quantidade máxima de linhas em relatorios') );
+     	$this->addVar('StandardSetup_form', 'NU_REL_MAXLINHAS_TITLE', $this->oTranslator->_('Quantidade máxima de linhas em relatorios') );
+     	$this->addVar('StandardSetup_form', 'NU_REL_MAXLINHAS_HELP', $this->oTranslator->_('Quantidade máxima de linhas em relatorios') );
      	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_SO_TITLE', $this->oTranslator->_('Sistemas operacionais') );
      	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_ACESSOS_TITLE', $this->oTranslator->_('Acessos') );
      	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_LOCAIS_TITLE', $this->oTranslator->_('Locais') );
@@ -120,7 +120,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	 * Obtem dados do formulario
     	 */
     	$in_exibe_erros_criticos = (Security::read('in_exibe_erros_criticos'))?"S":"N"; 
-    	$rel_maxlinhas = (Security::read('rel_maxlinhas'))?Security::read('rel_maxlinhas'):0; 
+    	$nu_rel_maxlinhas = (Security::read('nu_rel_maxlinhas'))?Security::read('nu_rel_maxlinhas'):0; 
     	$in_exibe_bandeja = (Security::read('in_exibe_bandeja'))?"S":"N"; 
     	$cs_abre_janela_patr = (Security::read('cs_abre_janela_patr'))?"S":"N"; 
     	$nm_organizacao = (Security::read('nm_organizacao'))?Security::read('nm_organizacao'):""; 
@@ -142,7 +142,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	$sql_update .= "in_exibe_erros_criticos = '$in_exibe_erros_criticos', 
 						in_exibe_bandeja = '$in_exibe_bandeja',
 						nu_exec_apos = 10,
-						rel_maxlinhas = $rel_maxlinhas,
+						nu_rel_maxlinhas = $nu_rel_maxlinhas,
 						nm_organizacao = '$nm_organizacao',
 						nu_intervalo_exec = 4,
 						nu_intervalo_renovacao_patrim = 0,
@@ -189,7 +189,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 	    	 * Obtem dados do formulario
 	    	 */
 	    	$nm_organizacao = (Security::read('nm_organizacao'))?Security::read('nm_organizacao'):""; 
-	    	$rel_maxlinhas = (Security::read('rel_maxlinhas'))?Security::read('rel_maxlinhas'):""; 
+	    	$nu_rel_maxlinhas = (Security::read('nu_rel_maxlinhas'))?Security::read('nu_rel_maxlinhas'):""; 
 	    	$te_senha_adm_agente = (Security::read('te_senha_adm_agente'))?Security::read('te_senha_adm_agente'):""; 
 	    	$te_serv_updates_padrao = (Security::read('te_serv_updates_padrao'))?Security::read('te_serv_updates_padrao'):""; 
 	    	$te_serv_cacic_padrao = (Security::read('te_serv_cacic_padrao'))?Security::read('te_serv_cacic_padrao'):""; 
@@ -212,7 +212,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 	    	$cfgStdData = mysql_fetch_assoc($db_result);
 	    	
 	    	$nm_organizacao = $cfgStdData['nm_organizacao']; 
-			$rel_maxlinhas = $cfgStdData['rel_maxlinhas'];
+			$nu_rel_maxlinhas = $cfgStdData['nu_rel_maxlinhas'];
 	    	$te_senha_adm_agente = $cfgStdData['te_senha_adm_agente']; 
 	    	$te_serv_updates_padrao = $cfgStdData['te_serv_updates_padrao']; 
 	    	$te_serv_cacic_padrao = $cfgStdData['te_serv_cacic_padrao']; 
@@ -231,7 +231,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	 * Preenche formulário com dados
     	 */
      	$this->addVar('StandardSetup_form', 'NM_ORGANIZACAO', $nm_organizacao );
-     	$this->addVar('StandardSetup_form', 'REL_MAXLINHAS', $rel_maxlinhas );
+     	$this->addVar('StandardSetup_form', 'NU_REL_MAXLINHAS', $nu_rel_maxlinhas );
      	$this->addVar('StandardSetup_form', 'TE_SERVUPDT_STD', $te_serv_updates_padrao );
      	$this->addVar('StandardSetup_form', 'TE_SERVCACIC_STD', $te_serv_cacic_padrao );
      	$this->addVar('StandardSetup_form', 'EXIBE_ERROS_CRITICOS', $in_exibe_erros_criticos );

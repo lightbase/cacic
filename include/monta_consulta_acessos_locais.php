@@ -3,6 +3,13 @@ session_start();
 // ===========================================================================================================
 // Passei a restringir a visão das estatísticas na página principal ao nível de acesso atual
 // ===========================================================================================================
+
+/*
+ * Se não ha local registrado para o usuario nao permite consultar (ex: anonymous)
+ */
+ if(!$_SESSION['id_local'])
+   die;
+   
 	$where 	= ($_SESSION['cs_nivel_administracao'] <> 1 &&
 			   $_SESSION['cs_nivel_administracao'] <> 2 ? ' AND redes.id_local = '.$_SESSION['id_local']:'');
 
