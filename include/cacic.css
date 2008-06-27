@@ -1,4 +1,3 @@
-<style type=text/css>
 BODY 
   	{ 
 	font-family : Verdana,Arial; 
@@ -26,8 +25,8 @@ input.digitacao {background-color: #CCCCCC; font-weight: bold; font-size: 9px; c
 input.normal {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; z-index:2}
 input.normal_numero {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; z-index:2; text-align:right}
 input.anormal {background-color: #FFFFCC; font-weight: normal; font-size: 9px; color: black; z-index:2}
-input.texto_ajuda {background-color: #FFFFFF; font-weight: normal;  font-style: verdana; font-size: 9px; color: black; border: 0px}
-input.texto_pesquisa {background-color: #EBEBEB; font-weight: normal;  font-style: verdana; font-size: 9px; color: blue; border: 0px; size: 30;}
+input.texto_ajuda {background-color: #FFFFFF; font-weight: normal;  font-family: verdana; font-size: 9px; color: black; border: 0px}
+input.texto_pesquisa {background-color: #EBEBEB; font-weight: normal;  font-family: verdana; font-size: 9px; color: blue; border: 0px; size: 30;}
 input.destaque{background-color: #ffFF66; font-weight: bold; font-size: 10px; color: black;}
 input.dado_peq_sem_fundo {background-color: #CCCCCC; font-weight: bold; font-size: 9px; color: black; }
 textarea.normal {background-color: #FFFFFF; font-weight: normal; font-size: 10px; color: black; font-family: Verdana; z-index:2}
@@ -83,7 +82,7 @@ a
 	}
 a:link 
 	{
-	font-style: bold;
+	font-weight: bold;
 	z-index:2;
 	}
 a:hover 
@@ -91,11 +90,6 @@ a:hover
 	color: #FF9900;
 	z-index:2;
 	}
-
-scrollbar-arrow-color: #003366; 
-scrollbar-base-color: #CCCCCC; 
-scrollbar-dark-shadow-color: #003366; 
-scrollbar-track-color: #003366
 	
 /* Inicio Marisol 24-07-2006: Utilizado no menu rapido menu_esq.php */
 /* Por motivos de incompatibilidade do SPAN com o Mozilla Firefox, optou-se em usar INPUT - Anderson Peterle - Dataprev/ES */
@@ -170,10 +164,10 @@ a.dcontexto:hover span
 }
 
 .frameprincipal .cabecalho img {
-    //opacity:0.65;
+    /*opacity:0.65;
     //-moz-opacity: 0.65;
     //filter: alpha(opacity=65);
-    //border: 1px solid #0000ff;
+    //border: 1px solid #0000ff; */
     margin: 2px;
     height: 40;
     width: 40;
@@ -205,9 +199,9 @@ a.dcontexto:hover span
 }
 
 .frameprincipal .help {
-	//background: url('../imgs/help.png') no-repeat;
+	/*background: url('../imgs/help.png') no-repeat;*/
     text-align: center;
-    //cursor: pointer;
+    /*cursor: pointer;*/
     font-size: 10px; 
 	font-style: italic;
     padding: 2;
@@ -268,10 +262,10 @@ a.dcontexto:hover span
 }
 
 .frameprincipal .messages {
-    //height: 30px;
-    //line-height: 26px;
-    //font-size: 12px;
-    //font-weight: bold;
+    /*height: 30px;
+    line-height: 26px;
+    font-size: 12px;
+    font-weight: bold;*/
     color: #333;
     vertical-align: top;
 }
@@ -368,5 +362,3 @@ a.dcontexto:hover span
 	text-decoration: none;
 	z-index:2;
 }
-
-</style>
