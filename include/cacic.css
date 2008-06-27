@@ -358,6 +358,7 @@ a.dcontexto:hover span
 .menu a	{
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-style: normal;
+    font-weight: normal;
 	color: #000000;	
 	text-decoration: none;
 	z-index:2;

@@ -230,7 +230,7 @@ if (!$_SESSION["id_usuario"])
 	    </tr>
 		<tr> 
 		<td colspan="2" class="dado_peq_sem_fundo">
-        <div id="Layer1" style="position:absolute; width:168px; height:55px; z-index:1; left: 12px; top: 270px; background-color: #FFFFCC; layer-background-color: #FFFFCC; border: 1px none #000000; overflow: visible; visibility: visible;">
+        <div id="Layer1" style="position:absolute; width:168px; height:55px; z-index:1; left: 12px; top: 270px; background-color: #FFFFCC; border: 1px none #000000; overflow: visible; visibility: visible;">
         <div align="justify">
         <table width="99%" height="99%" border="1">
         <tr> 
@@ -358,7 +358,7 @@ else
     	</tr>
     	<tr>
       	<td colspan="2" class="dado_peq_sem_fundo" align="center" valign="top">
-        <div id="Layer1" style="position:absolute; width:168px; height:55px; z-index:1; left: 12px; top: 270px; background-color: #FFFFCC; layer-background-color: #FFFFCC; border: 1px none #000000; overflow: visible; visibility: visible;">
+        <div id="Layer1" style="position:absolute; width:168px; height:55px; z-index:1; left: 12px; top: 270px; background-color: #FFFFCC; border: 1px none #000000; overflow: visible; visibility: visible;">
         <div align="justify">
         <table width="99%" height="99%" border="1">
         <tr> 
@@ -399,7 +399,7 @@ else
     	</tr>
     	<tr> 
       	<td colspan="2" class="dado_peq_sem_fundo">
-        <div id="Layer1" style="position:absolute; width:168px; height:55px; z-index:1; left: 12px; top: 270px; background-color: #FFFFCC; layer-background-color: #FFFFCC; border: 1px none #000000; overflow: visible; visibility: visible;">
+        <div id="Layer1" style="position:absolute; width:168px; height:55px; z-index:1; left: 12px; top: 270px; background-color: #FFFFCC; border: 1px none #000000; overflow: visible; visibility: visible;">
         <div align="justify">
         <table width="99%" height="99%" border="1">
         <tr> 
