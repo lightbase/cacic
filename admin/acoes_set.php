@@ -153,8 +153,12 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 				   WHERE	id_local=".$dadosRedes[1];
 		$result = mysql_query($query) or die('7-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 			
-		while($campos=mysql_fetch_array($result)) 
-			{
+		while($campos=mysql_fetch_array($result)) { 
+			
+			$sql_delete = "DELETE FROM acoes_redes WHERE id_ip_rede = '".$campos[0]."'".
+                                                         " AND id_acao = '".$id_acao."'".
+                                                         " AND id_local = '".$dadosRedes[1]."'";
+			mysql_query($sql_delete);
 			$query = "INSERT	
 					  INTO 		acoes_redes (id_ip_rede, 
 					  			id_acao, 
@@ -166,7 +170,7 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 								".$dadosRedes[1].",
 								'T',
 								now())";
-			mysql_query($query) or die('8-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+			mysql_query($query) or die('8-'.mysql_error()." - ".$oTranslator->_('kciq_msg insert row on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');		
 			}
 		}											

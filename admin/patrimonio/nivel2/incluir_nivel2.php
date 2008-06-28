@@ -23,6 +23,7 @@ if(!isset($_SESSION['id_usuario']))
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
+require_once('../../../include/library.php');
 AntiSpy();
 if($_POST['gravainformacaoUON2']) 
 	{
@@ -155,7 +156,7 @@ while ($rowUON1a = mysql_fetch_array($resultUON1a))
 
 $arrUON1a = explode('#',$strUON1a);	
 
-echo '<select name="listaUON1a">';
+echo '<select id="listaUON1a" name="listaUON1a">';
 for ($i=0; $i < count($arrUON1a);$i++)
 	{
 	echo $arrUON1a[$i];
