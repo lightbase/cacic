@@ -53,7 +53,7 @@ require_once('include/selecao_listbox.js');
 	
 	    <tr> 
 	    <td bgcolor="#CCCCCC" class="label"><br>
-	      <a href="repositorio/install/Cacic-Implantacao-Ambiente-Centralizado.pdf" target="_self">Roteiro para Instala&ccedil;&atilde;o do Sistema CACIC em Ambiente Centralizado<span class="style2"><a href="repositorio/install/Cacic-Implantacao-Ambiente-Centralizado.pdf" target="_self"><span class="style2"><span class="style6">&nbsp;(249K)</span></span></a></td>
+	      <a href="tribo/docs/Cacic-Implantacao-Ambiente-Centralizado.pdf" target="_self">Roteiro para Instala&ccedil;&atilde;o do Sistema CACIC em Ambiente Centralizado<span class="style2"><a href="repositorio/install/Cacic-Implantacao-Ambiente-Centralizado.pdf" target="_self"><span class="style2"><span class="style6">&nbsp;(249K)</span></span></a></td>
     	</tr>  
     <tr> 
       <td height="17">&nbsp;</td>
@@ -68,7 +68,7 @@ require_once('include/selecao_listbox.js');
     <tr> 
       <td class="label"> 
         &nbsp; &nbsp;<br>
-        <a href="repositorio/chkcacic.exe">ChkCACIC -  Verificador/Instalador/Atualizador do Sistema CACIC  <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['chkcacic.exe'];?>  ~  260K)</span></span></a><a href="repositorio/install/chkcacic.ini" class="descricao"> (configurado para  UXRJO115)</a></td>
+        <a href="repositorio/chkcacic.exe">ChkCACIC -  Verificador/Instalador/Atualizador do Sistema CACIC  <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['chkcacic.exe'];?>  ~  260K)</span></span></a></td>
     </tr>
     
 	  
