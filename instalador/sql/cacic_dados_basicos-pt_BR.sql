@@ -210,16 +210,16 @@ INSERT INTO `so`
 
 /*!40000 ALTER TABLE `tipos_software` DISABLE KEYS */;
 INSERT INTO `tipos_software`
-            (`id_tipo_software`, `te_descricao_tipo_software`)
+            (`te_descricao_tipo_software`)
      VALUES
-            (0, 'Versão Trial'),
-            (1, 'Correção/Atualização'),
-            (2, 'Sistema Interno'),
-            (3, 'Software Livre'),
-            (4, 'Software Licenciado'),
-            (5, 'Software Suspeito'),
-            (6, 'Software Descontinuado'),
-            (7, 'Jogos e Similares');
+            ('Versão Trial'),
+            ('Correção/Atualização'),
+            ('Sistema Interno'),
+            ('Software Livre'),
+            ('Software Licenciado'),
+            ('Software Suspeito'),
+            ('Software Descontinuado'),
+            ('Jogos e Similares');
 /*!40000 ALTER TABLE `tipos_software` ENABLE KEYS */;
 
 --

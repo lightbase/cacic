@@ -194,7 +194,7 @@ function remove(box)
 ?>
 
 <body background="../imgs/linha_v.gif" onLoad="verifica_status();">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
     <td class="cabecalho"><? echo $_GET['te_descricao_breve']; ?></td>
@@ -456,7 +456,7 @@ function remove(box)
           </tr>
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="SelectAll(this.form.elements['list1[]']);SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('Confirma Configuração de Ação?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+                <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="SelectAll(this.form.elements['list1[]']);SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('<?=$oTranslator->_('Confirma Configuracao de Acao?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
               </div></td>
           </tr>
           <tr> 
