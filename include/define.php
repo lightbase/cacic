@@ -54,7 +54,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /**
  * define a versão do CACIC
  */
- define( 'CACIC_VERSION', '2.3.99-(2.4.0alpha2)');
+ define( 'CACIC_VERSION', '2.x.0-(trunk)');
 
 /**
  * define as versões atualizaveis do CACIC
