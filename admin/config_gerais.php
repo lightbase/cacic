@@ -139,7 +139,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 
 	$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$orderby) or die('2-'.$oTranslator->_('kciq_msg delete row on table fail', array('Locais/Configuracoes_Locais'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 
-	echo '<select name="SELECTconfiguracoes_locais">';
+	echo '<select id="SELECTconfiguracoes_locais" name="SELECTconfiguracoes_locais">';
 	while ($rowConfiguracoesLocais = mysql_fetch_array($resultConfiguracoesLocais))
 		{
 		echo '<option id="'.$rowConfiguracoesLocais['id_local'].'" value="'. $rowConfiguracoesLocais['nm_local'].'#'.
@@ -158,7 +158,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 
 	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('3-'.$oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou',array('descricao_hardware')));
 
-	echo '<select name="SELECTdescricao_hardware">';
+	echo '<select id="SELECTdescricao_hardware" name="SELECTdescricao_hardware">';
 	while ($rowDescricaoHardware = mysql_fetch_array($resultDescricaoHardware))
 		{
 		echo '<option value="'.$rowDescricaoHardware['te_locais_notificacao_ativada'].'" id="'. $rowDescricaoHardware['nm_campo_tab_hardware'].'">'.$rowDescricaoHardware['te_desc_hardware'].'</option>';					
@@ -212,7 +212,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 		$result_locais = mysql_query($query_locais) or die('4-'.$oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou',array('locais'))); 
 
 		?>
-    	<select size="5" name="SELECTlocais"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="setLocal(this);">	
+    	<select size="5" id="SELECTlocais" name="SELECTlocais" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="setLocal(this);">	
     	<? 		
 		while ($row_locais = mysql_fetch_array($result_locais))
 			{
@@ -460,7 +460,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
       <td>&nbsp;</td>
     </tr>
 		<script language="javascript">
-		setLocal(document.all.SELECTlocais);
+		setLocal(document.getElementById('SELECTlocais'));
 		MontaListasDisponiveisSelecionados('[so][acessos][acessos_locais][locais]','Totais de Computadores por Sistemas Operacionais#Últimos Acessos dos Agentes do Local#Últimos Acessos dos Agentes por Local na Data#Totais de Computadores Monitorados por Local','<? echo $te_exibe_graficos;?>');
 		</script>					  	
 		
