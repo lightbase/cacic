@@ -43,7 +43,7 @@ $result = mysql_query($query) or die('Falha na consulta (computadores, redes, lo
 $arr_acessos_locais = array();
 while ($row_result = mysql_fetch_assoc($result))		
 	{ 
-	$v_row_result = str_pad($row_result['sg_local'],15,'.',STR_PAD_RIGHT);
+	$v_row_result = str_pad($row_result['sg_local'],28,'.',STR_PAD_RIGHT);
 	$arr_acessos_locais[$v_row_result] = $row_result['total'];			
 	} 
 /* Para testes de redimensionamento da pizza (Anderson Peterle - FEV2008)

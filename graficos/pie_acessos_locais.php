@@ -52,7 +52,7 @@ $Height    		= (count($arr_acessos_locais)*13.5);//855; //Cabem 65 linhas
 $Height    		= ($Height < 400?400:$Height);
 $DisplaySequence= 2; // Quantidade de posições para o sequencial
 $ImgType		= 'PNG';
-$myLineSize		= 185;
+$myLineSize		= 263; //185
 $CenterX		= 450;
 $DiameterX		= 480;
 

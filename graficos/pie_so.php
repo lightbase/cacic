@@ -43,6 +43,7 @@ else
 
 require '../include/monta_consulta_so.php';
 
+
 $CreatePie 		= 1;
 $ShowText		= 0;
 $DisplaySequence= 0;
@@ -50,7 +51,7 @@ $Sort      		= 1;
 $width     		= 700;
 $height    		= 500;//250;
 $ImgType		= 'PNG';
-$myLineSize		= 215;
+$myLineSize		= 263;
 $CenterX		= 450;
 $DiameterX		= 480;
 

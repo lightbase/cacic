@@ -18,7 +18,7 @@ $result = mysql_query($query) or die('Falha na criação de consulta por sistema o
 $arr_so = array();
 while ($row_result = mysql_fetch_assoc($result))		
 	{ 
-	$v_row_result = str_pad($row_result['te_desc_so'],20,'.',STR_PAD_RIGHT);
+	$v_row_result = str_pad($row_result['te_desc_so'],28,'.',STR_PAD_RIGHT);
 	$arr_so[$v_row_result] = $row_result['qtd'];			
 	} 
 		  
