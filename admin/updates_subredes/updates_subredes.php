@@ -150,7 +150,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 
 			// Verifico se o Servidor de Updates já foi atualizado.
 			// Neste caso, preciso atualizar a tabela Redes_Versoes_Modulos para a rede atual.
-			$strTeServUpdatesToCheck = '#'.trim($row['te_serv_updates']).'#';
+			$strTeServUpdatesToCheck = '#'.trim($row['id_local']).trim($row['te_serv_updates']).'#';
 			if (@substr_count($_SESSION['v_tripa_servidores_updates'],$strTeServUpdatesToCheck)>0)
 				{
 				$v_arr_agentes_versoes_enviados = explode('#',$_SESSION['v_tripa_objetos_enviados']);

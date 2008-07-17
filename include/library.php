@@ -1453,7 +1453,7 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 
 				if ($v_conexao_ftp)
 					{
-					$_SESSION['v_tripa_servidores_updates'] .= ($p_origem == 'Pagina'?'#'.trim($row['te_serv_updates']).'#':'');
+					$_SESSION['v_tripa_servidores_updates'] .= ($p_origem == 'Pagina'?'#'.trim($row['id_local']).trim($row['te_serv_updates']).'#':'');
 					sort($v_nomes_arquivos_REP,SORT_STRING);						
 					sort($v_versoes_arquivos_REP,SORT_STRING);											
 					sort($v_nomes_arquivos_FTP,SORT_STRING);											
