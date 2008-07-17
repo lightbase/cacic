@@ -106,7 +106,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 					 FROM		redes re,
 					            locais lo 
 					 WHERE      re.id_local = lo.id_local AND (" . $v_where . ") 
-					 ORDER BY   re.nm_rede";
+					 ORDER BY   lo.sg_local,re.nm_rede";
 		conecta_bd_cacic();					
 		$result_REDES = mysql_query($query_REDES);
 		$_SESSION['v_tripa_objetos_enviados']   = ''; // Conterá a lista de agentes e versões enviadas aos servidores.
@@ -161,7 +161,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 					$cs_tipo_so = (stripos2($v_arr_aux[0],'.ini',false)?'MS-Windows':$cs_tipo_so);		
 					
 					if ($cs_tipo_so == 'GNU/LINUX')
-						$intAgentesVersoesEnviados < count($v_arr_agentes_versoes_enviados);
+						$intAgentesVersoesEnviados = count($v_arr_agentes_versoes_enviados);
 					}	
 		
 				if ($cs_tipo_so == 'GNU/LINUX')
@@ -175,8 +175,10 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 				$values = "";
 				for ($intAgentesVersoesEnviados = 0;$intAgentesVersoesEnviados < count($v_arr_agentes_versoes_enviados);$intAgentesVersoesEnviados++)			
 					{
-					$cs_tipo_so = (stripos2('.exe',$v_arr_aux[0],false)?'MS-Windows':'GNU/LINUX');
 					$v_arr_aux = explode(',',$v_arr_agentes_versoes_enviados[$intAgentesVersoesEnviados]);				
+					$cs_tipo_so = (stripos2($v_arr_aux[0],'.exe',false)?'MS-Windows':'GNU/LINUX');
+					$cs_tipo_so = (stripos2($v_arr_aux[0],'.ini',false)?'MS-Windows':$cs_tipo_so);		
+					
 					$values .= ($values?",":"VALUES ");
 					$values .= '('.$row['id_local'].',"'.trim($row['id_ip_rede']).'","'.$v_arr_aux[0].'","'.$v_arr_aux[1].'",now(),"'.$cs_tipo_so.'","'.$v_array_agentes_hashs[$v_arr_aux[0]].'")';
 					}	
