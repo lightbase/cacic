@@ -24,7 +24,7 @@ INSERT INTO `acoes` (`id_acao`, `te_descricao_breve`, `te_descricao`, `te_nome_c
 
 
 /*!40000 ALTER TABLE `configuracoes_locais` DISABLE KEYS */;
-INSERT INTO `configuracoes_locais` (`id_local`) VALUES (1);
+INSERT INTO `configuracoes_locais` (`id_local`, `te_exibe_graficos`) VALUES (1, '[so][acessos][locais][acessos_locais]');
 /*!40000 ALTER TABLE `configuracoes_locais` ENABLE KEYS */;
 
 

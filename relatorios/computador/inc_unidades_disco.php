@@ -79,12 +79,15 @@ else
 										</tr>
 									 </table>';
 							// Exibe em vermelho percentuais acima de 90%.			
-							if ($percent_espaco_utilizado  > 90) $percent_espaco_utilizado = '<font color="#FF0000">' . $percent_espaco_utilizado . '%</font>';
-							else $percent_espaco_utilizado = $percent_espaco_utilizado . '%';
+							//if ($percent_espaco_utilizado  > 90) $percent_espaco_utilizado = '<font color="#FF0000">' . $percent_espaco_utilizado . '%</font>';
+							//else $percent_espaco_utilizado = $percent_espaco_utilizado . '%';
 					 }
 						
 					 else
-					     $grafico = '&nbsp;';	
+					     $grafico = '&nbsp;';
+					 
+					 $usado = $percent_espaco_utilizado;
+					 $img = "../../imgs/grad.png";	
 					 									
 					 echo '<tr>						  
 							<td nowrap align="center" class="opcao_tabela">'. $row['te_letra'] .'</td>';
@@ -93,8 +96,7 @@ else
 							<td nowrap align="center" class="opcao_tabela">&nbsp;'. $row['nu_capacidade'] .'</td>
 							<td nowrap align="center" class="opcao_tabela">&nbsp;'. $espaco_utilizado .'</td>
 							<td nowrap align="center" class="opcao_tabela">&nbsp;'. $row['nu_espaco_livre'] .'</td>
-							<td nowrap align="center" class="opcao_tabela">&nbsp;'. $percent_espaco_utilizado .'</td>
-							<td nowrap class="opcao_tabela">'. $grafico .'</td>
+							<td nowrap class="opcao_tabela"><img src="inc_unidades_disco_ocupacao.php?usado='.($percent_espaco_utilizado).'&img=../../imgs/grad.png&livre='.$oTranslator->_('% livre').'&ocupado='.$oTranslator->_('% ocupado').'" /></td>
 						   </tr>';
 				}
 				echo '</table></td></tr>';
