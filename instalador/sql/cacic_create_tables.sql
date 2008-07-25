@@ -532,7 +532,7 @@ CREATE TABLE `perfis_aplicativos_monitorados` (
   `cs_car_ver_wnt` char(2) default NULL,
   `te_car_ver_wnt` varchar(100) default NULL,
   `cs_ide_licenca` char(2) default NULL,
-  `te_ide_licenca` varchar(100) default NULL,
+  `te_ide_licenca` varchar(200) default NULL,
   `dt_atualizacao` datetime NOT NULL default '0000-00-00 00:00:00',
   `te_arq_ver_eng_w9x` varchar(100) default NULL,
   `te_arq_ver_pat_w9x` varchar(100) default NULL,

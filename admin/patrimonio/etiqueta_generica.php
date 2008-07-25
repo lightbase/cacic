@@ -53,13 +53,13 @@ else
 			  FROM 		patrimonio_config_interface 
 			  WHERE 	id_etiqueta = '" . $_GET['id_etiqueta'] . "'".
 						$where; 
-	$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de configurações de patrimônio ou sua sessão expirou!'); 
+	$result = mysql_query($query) or die($oTranslator->_('Falha na consulta a tabela (%1) ou sua sessao expirou!',array('patrimonio_config_interface'))); 
 	$campos = mysql_fetch_array($result);
 	?>
 	<html>
 	<head>
 	<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-	<title>Configura&ccedil;&atilde;o da Tela de Patrim&ocirc;nio</title>
+	<title><?=$oTranslator->_('Configuracao da Tela de Patrimonio');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	</head>
 	<body background="../../imgs/linha_v.gif">
@@ -69,43 +69,47 @@ else
 	<form name="form1" method="post" action="<? echo $PHP_SELF; ?>">
 	  <table border="0" align="center">
 		<tr>
-		  <td nowrap class="label"><div align="right">Exibir 
+		  <td nowrap class="label"><div align="right"><?=$oTranslator->_('Exibir');?> 
 			  &quot;<? echo $campos['nm_etiqueta'];  ?>&quot;:</div></td>
 		  <td><select name="in_exibir_etiqueta" id="in_exibir_etiqueta"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-			  <option value="S" <? if ($campos['in_exibir_etiqueta'] == 'S') echo 'selected'; ?>>Sim</option>
-			  <option value="N" <? if ($campos['in_exibir_etiqueta'] == 'N') echo 'selected'; ?>>N&atilde;o</option>
+			  <option value="S" <? if ($campos['in_exibir_etiqueta'] == 'S') echo 'selected'; ?>><?=$oTranslator->_('Sim');?></option>
+			  <option value="N" <? if ($campos['in_exibir_etiqueta'] == 'N') echo 'selected'; ?>><?=$oTranslator->_('Nao');?></option>
 			</select></td>
 		  <td>&nbsp;</td>
 		</tr>
 		<tr> 
 		  <td nowrap class="label"><div align="right"> 
 			  <input name="id_etiqueta" type="hidden" id="id_etiqueta" value="<? echo $_GET['id_etiqueta']; ?>">
-			  Texto da &quot;<? echo $campos['nm_etiqueta'];  ?>&quot;:</div></td>
+			  <?=$oTranslator->_('Texto da');?> &quot;<? echo $campos['nm_etiqueta'];  ?>&quot;:</div></td>
 		  <td class="descricao"><input name="te_etiqueta" type="text" id="te_etiqueta" value="<? echo $campos['te_etiqueta'];  ?>" size="25" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"> 
 		  </td>
 		  <td>&nbsp;</td>
 		</tr>
 		<tr> 
-		  <td nowrap class="label"><div align="right">Texto 
-			  de ajuda da &quot;<? echo $campos['nm_etiqueta'];  ?>&quot;:</div></td>
+		  <td nowrap class="label"><div align="right">
+		     <?=$oTranslator->_('Texto de ajuda da');?> 
+			   &quot;<? echo $campos['nm_etiqueta'];  ?>&quot;:</div></td>
 		  <td class="descricao"><input name="te_help_etiqueta" type="text" id="te_help_etiqueta" value="<? echo $campos['te_help_etiqueta'];  ?>" size="25" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
 		  <td>&nbsp;</td>
 		</tr>
 	
 	<tr> 
-		  <td nowrap class="label"><div align="right">Destacar 
-			  duplicidades neste campo:</div></td>
+		  <td nowrap class="label">
+		    <div align="right">
+		      <?=$oTranslator->_('Destacar duplicidades neste campo');?>
+			</div>
+		  </td>
 		  <td><select name="in_destacar_duplicidade" id="in_destacar_duplicidade" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-			  <option value="N" <? if ($campos['in_destacar_duplicidade'] == 'N') echo 'selected'; ?>>N&atilde;o</option>
-			  <option value="S" <? if ($campos['in_destacar_duplicidade'] == 'S') echo 'selected'; ?>>Sim</option>		  
+			  <option value="N" <? if ($campos['in_destacar_duplicidade'] == 'N') echo 'selected'; ?>><?=$oTranslator->_('Nao');?></option>
+			  <option value="S" <? if ($campos['in_destacar_duplicidade'] == 'S') echo 'selected'; ?>><?=$oTranslator->_('Sim');?></option>		  
 			</select></td>
 		  <td>&nbsp;</td>
 		</tr>	
 		<tr> 
 		  <td colspan="3" nowrap> <div align="center"> 
 		  <? 
-		  $v_frase = "Confirma('Confirma Configuração de ".$campos["nm_etiqueta"]."?')";
-		  echo '<input name="gravar" type="submit" id="gravar" value="   Gravar   " onClick="return '.$v_frase.'" ';
+		  $v_frase = "Confirma('".$oTranslator->_('Confirma Configuracao de')." ".$campos["nm_etiqueta"]."?')";
+		  echo '<input name="gravar" type="submit" id="gravar" value="'.$oTranslator->_('Gravar Alteracoes').'" onClick="return '.$v_frase.'" ';
 		  echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'');
 		  echo '>';
 		  ?>

@@ -1,11 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Configura&ccedil;&atilde;o da Tela de Patrim&ocirc;nio</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-</head>
- <!--
+<?php
+/*
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
  Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
@@ -18,18 +12,38 @@
 
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- -->
+ * 
+ */
+session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso restrito (Restricted access)!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
 
+require_once('../../include/library.php');
+AntiSpy();
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<title>Configura&ccedil;&atilde;o da Tela de Patrim&ocirc;nio</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
 <body bgcolor="#FFFFFF" background="../../imgs/linha_v.gif" text="#000000" topmargin="4">
 <table width="90%" border="0" align="center">
   <tr>
-    <td class="cabecalho">Tela de Coleta de Informa&ccedil;&otilde;es de Patrim&ocirc;nio</td>
+    <td class="cabecalho">
+      <?=$oTranslator->_('Tela de Coleta de Informacoes de Patrimonio');?>
+    </td>
   </tr>
   <tr>
-    <td class="descricao">Para configurar 
-      a interface da tela de coleta de informa&ccedil;&otilde;es de Patrim&ocirc;nio 
-      que ser&aacute; exibida aos usu&aacute;rios, clique  sobre os itens 
-      da tela abaixo e informe os valores desejados.</td>
+    <td class="descricao">
+      <?=$oTranslator->_('Tela de Coleta de Informacoes de Patrimonio - ajuda');?>
+    </td>
   </tr>
 </table>
 <br>

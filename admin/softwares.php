@@ -68,7 +68,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 $mensagemErro = '';
 $v_atualizei = '';
 if (count($_SESSION["list6"]) == 0) {
-	$mensagemErro = 'Selecione pelo menos 1 software.<BR>';
+	$mensagemErro = $oTranslator->_('Selecione pelo menos 1 software.').'<BR>';
 	if ($_POST['tiponovo'] == '') {
 		$mensagemErro = $mensagemErro . $oTranslator->_('Informe a classificacao para o software.').'<BR>';
 	}
@@ -133,7 +133,7 @@ if (count($_SESSION["list6"]) == 0) {
  			{
 			echo '<tr><td colspan="2" align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><B>' . $mensagemErro . '</B></td></tr>';
 			} else {
-			echo '<tr><td colspan="2" align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><B>Software(s) classificado(s) com sucesso!</B></td></tr>';
+			echo '<tr><td colspan="2" align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><B>'.$oTranslator->_('Software(s) classificado(s) com sucesso!').'</B></td></tr>';
 		}
 
 ?>

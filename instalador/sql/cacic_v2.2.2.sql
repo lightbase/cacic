@@ -136,6 +136,9 @@ INSERT INTO `patrimonio_config_interface`
      VALUES
         (1, 'etiqueta1a', 'Etiqueta 1a', 'Linha de Negócio', 'S', 'Selecione a Linha de Negócio', 'Linhas de Negócio', 'id_unid_organizacional_nivel1a', 'N');
         
+ALTER TABLE perfis_aplicativos_monitorados
+    MODIFY te_ide_licenca varchar(200) default NULL,
+    ENGINE=InnoDB CHARACTER SET=latin1;
 --
 -- Update ID_LOCAL on tables
 --

@@ -115,7 +115,10 @@ function valida_form()
 </head>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><?=$oTranslator->_('Detalhes de');?> <? echo $_SESSION['etiqueta1a'];?> (<?=$oTranslator->_('Unidade Organizacional Nivel 1a');?>)</td>
+    <td class="cabecalho">
+      <?=$oTranslator->_('Detalhes de');?> <? echo $_SESSION['etiqueta1a'];?> 
+      (<?=$oTranslator->_('Unidade Organizacional Nivel 1a');?>)
+    </td>
   </tr>
   <tr> 
     <td>&nbsp;</td>

@@ -299,6 +299,7 @@ ALTER TABLE patrimonio_config_interface
 
 ALTER TABLE perfis_aplicativos_monitorados
     ADD in_disponibiliza_info_usuario_comum char(1) NOT NULL DEFAULT 'N' COMMENT '' AFTER in_disponibiliza_info,
+    MODIFY te_ide_licenca varchar(200) default NULL,
     ENGINE=InnoDB CHARACTER SET=latin1;
 
 

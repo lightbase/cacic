@@ -24,23 +24,23 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 require_once('../../include/library.php');
 AntiSpy();
- conecta_bd_cacic(); ?>
+conecta_bd_cacic(); ?>
+ 
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Configura&ccedil;&atilde;o da Tela de Patrim&ocirc;nio</title>
+<title><?=$oTranslator->_('Configuracao da Tela de Patrimonio');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <?
-	 	$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');	   	
-	 	$where = ' AND id_local = '.$_SESSION['id_local'];				
-		$query = "SELECT 	te_etiqueta, 
-		
+	 	$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
+	 	$where = ' AND id_local = '.$_SESSION['id_local'];		
+	   	$query = "SELECT 	te_etiqueta, 
 							te_help_etiqueta, 
 							te_plural_etiqueta 
 				  FROM 		patrimonio_config_interface 
-				  WHERE 	id_etiqueta = 'etiqueta2' ".
+				  WHERE 	id_etiqueta = 'etiqueta2' " . 
 				  			$where; 
 		$result = mysql_query($query);
 		$default = mysql_fetch_array($result);
@@ -52,32 +52,46 @@ AntiSpy();
 <form name="form1" method="post" action="etiqueta_generica.php">
   <table width="600" border="0" align="center">
     <tr> 
-      <td nowrap class="label">Texto da &quot;Etiqueta 2&quot;:</td>
-      <td ><input name="te_etiqueta" type="text" id="te_etiqueta" value="<?  echo $default[0]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
-      <td class="descricao">Ex: Divis&atilde;o</td>
+      <td nowrap class="label">
+        <?=$oTranslator->_('Texto da');?>
+        &quot;<?=$oTranslator->_('Etiqueta 2');?>&quot;:
+      </td>
+      <td><input name="te_etiqueta" type="text" id="te_etiqueta" value="<?  echo $default[0]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
+      <td class="descricao">
+        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?=$oTranslator->_('Divisao');?>&quot;
+      </td>
     </tr>
     <tr> 
-      <td class="label">Plural de Texto da &quot;Etiqueta 2&quot;:</td>
-      <td><input name="te_plural_etiqueta" type="text" id="te_plural_etiqueta" value="<?  echo $default[2]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
-      <td class="descricao">Ex: 
-        Divis&otilde;es</td>
+      <td nowrap class="label">
+        <?=$oTranslator->_('Plural de texto da');?>
+        &quot;<?=$oTranslator->_('Etiqueta 2');?>&quot;:
+      </td>
+      <td><input name="te_plural_etiqueta" type="text" id="te_etiqueta" value="<?  echo $default[2]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
+      <td class="descricao">
+        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?=$oTranslator->_('Divisoes');?>&quot;
+      </td>
     </tr>
 	
     <tr> 
-      <td nowrap class="label">Texto 
-        de ajuda da &quot;Etiqueta 2&quot;:</td>
+      <td nowrap class="label">
+        <?=$oTranslator->_('Texto de ajuda da');?>
+        &quot;<?=$oTranslator->_('Etiqueta 2');?>&quot;:
       <td><input name="te_help_etiqueta" type="text" id="te_help_etiqueta" value="<?  echo $default	[1]  ?>" size="25" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
-      <td class="descricao">Ex: 
-        Selecione a Divis&atilde;o onde encontra-se 
-        este equipamento.</td>
+      <td class="descricao">
+        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?=$oTranslator->_('Selecione a divisao onde encontra-se este equipamento');?>&quot;
+      </td>
     </tr>
+    <tr> 
 	
     <tr>
       <td colspan="3" nowrap><input name="id_etiqueta" type="hidden" value="etiqueta2">&nbsp;</td>
     </tr>
     <tr> 
       <td colspan="3" nowrap> <div align="center"> 
-          <input name="gravar" type="submit" id="gravar" value="   Gravar   " onClick="return Confirma('Confirma Configuração de Etiqueta 2?');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="gravar" type="submit" id="gravar" value="<?=$oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Configuracao de Etiqueta 2?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     </tr>
   </table>

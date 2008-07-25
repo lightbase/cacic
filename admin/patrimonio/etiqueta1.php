@@ -29,7 +29,7 @@ conecta_bd_cacic(); ?>
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Configura&ccedil;&atilde;o da Tela de Patrim&ocirc;nio</title>
+<title><?=$oTranslator->_('Configuracao da Tela de Patrimonio');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -52,21 +52,37 @@ conecta_bd_cacic(); ?>
 <form name="form1" method="post" action="etiqueta_generica.php">
   <table width="600" border="0" align="center">
     <tr> 
-      <td nowrap class="label">Texto 
-        da &quot;Etiqueta 1&quot;:</td>
+      <td nowrap class="label">
+        <?=$oTranslator->_('Texto da');?>
+        &quot;<?=$oTranslator->_('Etiqueta 1');?>&quot;:
+      </td>
       <td><input name="te_etiqueta" type="text" id="te_etiqueta" value="<?  echo $default[0]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
-      <td class="descricao">Ex: Ger&ecirc;ncia</td>
+      <td class="descricao">
+        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?=$oTranslator->_('Gerencia');?>&quot;
+      </td>
     </tr>
     <tr> 
-      <td nowrap class="label">Plural de Texto da &quot;Etiqueta 1&quot;:</td>
+      <td nowrap class="label">
+        <?=$oTranslator->_('Plural de texto da');?>
+        &quot;<?=$oTranslator->_('Etiqueta 1');?>&quot;:
+      </td>
       <td><input name="te_plural_etiqueta" type="text" id="te_etiqueta" value="<?  echo $default[2]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
-      <td class="descricao">Ex: Ger&ecirc;ncias</td>
+      <td class="descricao">
+        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?=$oTranslator->_('Gerencias');?>&quot;
+      </td>
     </tr>
 	
     <tr> 
-      <td nowrap class="label">Texto de ajuda da &quot;Etiqueta 1&quot;:</td>
+      <td nowrap class="label">
+        <?=$oTranslator->_('Texto de ajuda da');?>
+        &quot;<?=$oTranslator->_('Etiqueta 1');?>&quot;:
       <td><input name="te_help_etiqueta" type="text" id="te_help_etiqueta" value="<?  echo $default	[1]  ?>" size="25" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
-      <td class="descricao">Ex: Selecione a Ger&ecirc;ncia de localiza&ccedil;&atilde;o este equipamento.</td>
+      <td class="descricao">
+        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?=$oTranslator->_('Selecione a Gerencia de localizacao este equipamento');?>&quot;
+      </td>
     </tr>
     <tr> 
 	
@@ -75,7 +91,7 @@ conecta_bd_cacic(); ?>
     </tr>
     <tr> 
       <td colspan="3" nowrap> <div align="center"> 
-          <input name="gravar" type="submit" id="gravar" value="   Gravar   " onClick="return Confirma('Confirma Configuração de Etiqueta 1?');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="gravar" type="submit" id="gravar" value="<?=$oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Configuracao de Etiqueta 1?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     </tr>
   </table>

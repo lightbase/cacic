@@ -120,7 +120,10 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta2'];
     <td class="descricao"><?=$oTranslator->_('Modulo para cadastramento de Unidades Organizacionais de Nivel 2');?></td>
   </tr>
   <tr> 
-    <td class="destaque_laranja"><u>Importante:</u> A inclus&atilde;o de <? echo $_SESSION['plural_etiqueta2'];?> &eacute; restrita ao n&iacute;vel &quot;Administra&ccedil;&atilde;o&quot;.</td>
+    <td class="destaque_laranja">
+       <u><?=$oTranslator->_('Importante');?></u>&nbsp;
+        <?=$oTranslator->_('A inclusao de %1 e restrita ao Administrador do sistema', array($_SESSION['plural_etiqueta2']));?>
+    </td>
   </tr>
   
 </table>
@@ -153,7 +156,7 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta2'];
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><? echo $_SESSION['etiqueta1a'] .'/'.$_SESSION['etiqueta2'];?></div></td>
           <td nowrap >&nbsp;</td>
-          <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Local</div></td>
+          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Local');?></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
 <?  
@@ -161,7 +164,7 @@ if(mysql_num_rows($result)==0)
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				'.$oTranslator->_('Nenhuma Unidade Organizacional de Nivel %1 cadastrada',array('2')).'
+				'.$oTranslator->_('Nenhuma Unidade Organizacional de Nivel %1 cadastrada',array($oTranslator->_('Dois',T_SIGLA))).'
 			</font><br><br></div>';			
 	}
 else 
@@ -200,7 +203,7 @@ else
   <tr> 
     <td><div align="center">
 
-          <input name="incluirUON2" type="submit" id="incluirUON2" value="Incluir <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
 
         
       </div></td>

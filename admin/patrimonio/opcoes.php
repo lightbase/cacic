@@ -40,12 +40,12 @@ if ($submit)
 			  			nu_intervalo_renovacao_patrim = '" 	. $_POST['nu_intervalo_renovacao_patrim'] . "',
 			  			cs_abre_janela_patr = '"			.$cs_abre_janela_patr."' 
 			  WHERE		id_local ="					.$_SESSION['id_local'];
-	$result = mysql_query($query) or die('1-Ocorreu um erro durante a atualização da tabela configuracoes ou sua sessão expirou!'); 
+	$result = mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('configuracoes_locais'))); 
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');		
 	$query_etiquetas = "UPDATE	patrimonio_config_interface set 
 								in_destacar_duplicidade='N' 
 						WHERE	id_local = ".$_SESSION['id_local'];
-	$result_etiquetas = mysql_query($query_etiquetas) or die('2-Ocorreu um erro durante a inicialização de in_destacar_duplicidade na tabela patrimonio_config_interface ou sua sessão expirou!'); 				
+	$result_etiquetas = mysql_query($query_etiquetas) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('patrimonio_config_interface'))); 				
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'patrimonio_config_interface');		
 	while(list($key, $value) = each($HTTP_POST_VARS))
 		{
@@ -55,7 +55,7 @@ if ($submit)
 										in_destacar_duplicidade='".$value."' 
 								WHERE 	id_etiqueta='".$key."' AND
 										id_local = ".$_SESSION['id_local'];
-			$result_etiquetas = mysql_query($query_etiquetas) or die('3-Ocorreu um erro durante a atualização da tabela patrimonio_config_interface ou sua sessão expirou!'); 				
+			$result_etiquetas = mysql_query($query_etiquetas) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('patrimonio_config_interface'))); 				
 			}
 		} 
 	
@@ -68,7 +68,7 @@ $query = "SELECT 	te_notificar_mudanca_patrim,
 		  WHERE		id_local = ".$_SESSION['id_local']." 
 		  			limit 1";
 
-$result = mysql_query($query) or die('4-Ocorreu um erro durante a consulta à tabela "configuracoes" ou sua sessão expirou!'); 
+$result = mysql_query($query) or die($oTranslator->_('Falha na consulta a tabela (%1) ou sua sessao expirou!',array('patrimonio_config_interface'))); 
 $campos = mysql_fetch_array($result);
 ?>
 
@@ -76,15 +76,16 @@ $campos = mysql_fetch_array($result);
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 
-<title>A&ccedil;&otilde;es/Configura&ccedil;&otilde;es</title>
+<title><?=$oTranslator->_('Opcoes da Coleta de Informacoes Patrimoniais e Localizacao Fisica');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('nu_intervalo_renovacao_patrim');">
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Op&ccedil;&otilde;es da Coleta de Informa&ccedil;&otilde;es 
-      Patrimoniais e Localiza&ccedil;&atilde;o F&iacute;sica</td>
+    <td class="cabecalho">
+    <?=$oTranslator->_('Opcoes da Coleta de Informacoes Patrimoniais e Localizacao Fisica');?>
+    </td>
   </tr>
   <tr> 
     <td></td>
@@ -95,7 +96,7 @@ $campos = mysql_fetch_array($result);
   <form action="opcoes.php"  method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return valida_form()">
     <table width="100%" border="0" cellpadding="0" cellspacing="1">
 		<tr>
-        <td class="label">Local de Aplicação:</td>	
+        <td class="label"><?=$oTranslator->_('Local de Aplicacao');?></td>	
 		</tr>
       <tr> 
         <td height="1" bgcolor="#333333"></td>
@@ -107,9 +108,9 @@ $campos = mysql_fetch_array($result);
 		<tr><td>&nbsp;</td></tr>			
   	
       <tr> 
-        <td class="label">Intervalo de solicita&ccedil;&atilde;o aos usu&aacute;rios 
-          de renova&ccedil;&atilde;o das informa&ccedil;&otilde;es de patrim&ocirc;nio 
-          e Local f&iacute;sica: </td>
+        <td class="label">
+          <?=$oTranslator->_('Intervalo de solicitacao aos usuarios de renovacao das informacoes de patrimonio e Local fisica');?>
+        </td>
       </tr>
       <tr> 
         <td height="1" bgcolor="#333333"></td>
@@ -117,32 +118,45 @@ $campos = mysql_fetch_array($result);
       <tr> 
         <td><p> 
             <select name="nu_intervalo_renovacao_patrim"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-              <option value="0" <? if ($campos['nu_intervalo_renovacao_patrim'] == '0') echo 'selected'; ?>>N&atilde;o 
-              solicitar renova&ccedil;&atilde;o</option>
-              <option value="1" <? if ($campos['nu_intervalo_renovacao_patrim'] == '1') echo 'selected'; ?>>1 
-              m&ecirc;s</option>
-              <option value="2" <? if ($campos['nu_intervalo_renovacao_patrim'] == '2') echo 'selected'; ?>>2 
-              meses</option>
-              <option value="3" <? if ($campos['nu_intervalo_renovacao_patrim'] == '3') echo 'selected'; ?>>3 
-              meses</option>
-              <option value="4" <? if ($campos['nu_intervalo_renovacao_patrim'] == '4') echo 'selected'; ?>>4 
-              meses</option>
-              <option value="5" <? if ($campos['nu_intervalo_renovacao_patrim'] == '5') echo 'selected'; ?>>5 
-              meses</option>
-              <option value="6" <? if ($campos['nu_intervalo_renovacao_patrim'] == '6') echo 'selected'; ?>>6 
-              meses</option>
-              <option value="7" <? if ($campos['nu_intervalo_renovacao_patrim'] == '7') echo 'selected'; ?>>7 
-              meses</option>
-              <option value="8" <? if ($campos['nu_intervalo_renovacao_patrim'] == '8') echo 'selected'; ?>>8 
-              meses</option>
-              <option value="9" <? if ($campos['nu_intervalo_renovacao_patrim'] == '9') echo 'selected'; ?>>9 
-              meses</option>
-              <option value="10" <? if ($campos['nu_intervalo_renovacao_patrim'] == '10') echo 'selected'; ?>>10 
-              meses</option>
-              <option value="11" <? if ($campos['nu_intervalo_renovacao_patrim'] == '11') echo 'selected'; ?>>11 
-              meses</option>
-              <option value="12" <? if ($campos['nu_intervalo_renovacao_patrim'] == '12') echo 'selected'; ?>>12 
-              meses</option>
+              <option value="0" <? if ($campos['nu_intervalo_renovacao_patrim'] == '0') echo 'selected'; ?>>
+                 <?=$oTranslator->_('Nao solicitar renovacao');?>
+              </option>
+              <option value="1" <? if ($campos['nu_intervalo_renovacao_patrim'] == '1') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Um',T_SIGLA)." ".$oTranslator->_('mes');?>
+              </option>
+              <option value="2" <? if ($campos['nu_intervalo_renovacao_patrim'] == '2') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Dois',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
+              <option value="3" <? if ($campos['nu_intervalo_renovacao_patrim'] == '3') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Tres',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
+              <option value="4" <? if ($campos['nu_intervalo_renovacao_patrim'] == '4') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Quatro',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
+              <option value="5" <? if ($campos['nu_intervalo_renovacao_patrim'] == '5') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Cinco',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
+              <option value="6" <? if ($campos['nu_intervalo_renovacao_patrim'] == '6') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Seis',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
+              <option value="7" <? if ($campos['nu_intervalo_renovacao_patrim'] == '7') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Sete',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
+              <option value="8" <? if ($campos['nu_intervalo_renovacao_patrim'] == '8') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Oito',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
+              <option value="9" <? if ($campos['nu_intervalo_renovacao_patrim'] == '9') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Nove',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
+              <option value="10" <? if ($campos['nu_intervalo_renovacao_patrim'] == '10') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Dez',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
+              <option value="11" <? if ($campos['nu_intervalo_renovacao_patrim'] == '11') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Onze',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
+              <option value="12" <? if ($campos['nu_intervalo_renovacao_patrim'] == '12') echo 'selected'; ?>> 
+                 <?=$oTranslator->_('Doze',T_SIGLA)." ".$oTranslator->_('meses');?>
+              </option>
             </select>
           </p></td>
       </tr>
@@ -153,8 +167,9 @@ $campos = mysql_fetch_array($result);
       </tr>
       <tr> 
         <td valign="middle" class="label"><input name=frm_cs_abre_janela_patr type="checkbox" value="S" <? if ($campos['cs_abre_janela_patr']=='S') echo 'checked';?>>
-          Abrir janela de coleta ao detectar altera&ccedil;&otilde;es de localização 
-          f&iacute;sica (IP&acute;s de esta&ccedil;&atilde;o e rede)</td>
+          <?=$oTranslator->_('Abrir janela de coleta ao detectar alteracoes de localizacao fisica');?>
+           (<?=$oTranslator->_('Exemplo',T_SIGLA);?> <?=$oTranslator->_('IP de estacao e rede');?>)
+        </td>
       </tr>
       <tr> 
         <td height="1" bgcolor="#333333"></td>
@@ -167,9 +182,9 @@ $campos = mysql_fetch_array($result);
         <td>&nbsp;</td>
       </tr>
       <tr> 
-        <td class="label"> Notificar os e-mails abaixo ao detectar altera&ccedil;&otilde;es 
-          nas informa&ccedil;&otilde;es de patrim&ocirc;nio e Local 
-          f&iacute;sica:</td>
+        <td class="label">
+          <?=$oTranslator->_('Enderooso eletronicos a notificar ao detectar alteracoes de patrimonio ou localizacao fisica');?>
+        </td>
       </tr>
       <tr> 
         <td height="1" bgcolor="#333333"></td>
@@ -180,9 +195,11 @@ $campos = mysql_fetch_array($result);
           </p></td>
       </tr>
       <tr> 
-        <td class="ajuda">Aten&ccedil;&atilde;o: informe os e-mails separados 
-          por v&iacute;rgulas (&quot;,&quot;). <br>
-          Exemplo: jose.silva@es.previdenciasocial.gov.br, luis.almeida@xyz.com</td>
+        <td class="ajuda">
+          <?=$oTranslator->_('Atencao');?> <?=$oTranslator->_('Informe os enderecos eletronicos separados por virgulas');?> 
+          <br>
+          <?=$oTranslator->_('Exemplo',T_SIGLA);?> <?=$oTranslator->_('jose.silva@es.previdenciasocial.gov.br, luis.almeida@xyz.com');?>
+        </td>
       </tr>
       <tr> 
         <td height="1" bgcolor="#333333"></td>
@@ -202,14 +219,16 @@ $campos = mysql_fetch_array($result);
 												id_local = ".$_SESSION['id_local'] . " 									
 									ORDER BY	id_etiqueta"; 
 									
-		$result_etiquetas = mysql_query($query_etiquetas) or die('5-Ocorreu um erro durante a consulta à tabela de etiquetas ou sua sessão expirou!'); 
+		$result_etiquetas = mysql_query($query_etiquetas) or die($oTranslator->_('Falha na consulta a tabela (%1) ou sua sessao expirou!',array('patrimonio_config_interface'))); 
 
 		if (mysql_num_rows($result_etiquetas)>0)
 			{
 			?>
       <tr> 
-        <td class="label">No Relat&oacute;rio de Patrim&ocirc;nio, destacar as 
-          seguintes duplicidades:</td>
+        <td class="label">
+          <?=$oTranslator->_('Destacar as seguintes duplicidades no relatorio de Patrimonio');?>
+           
+        </td>
       </tr>
       <tr> 
         <td height="1" bgcolor="#333333"></td>
@@ -242,7 +261,7 @@ $campos = mysql_fetch_array($result);
       </tr>
       <tr> 
         <td> <div align="center"> 
-            <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return Confirma('Confirma Configuração para Coleta de Patrimônio?');document.forma.elements['list2[]'].disabled=false; SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list5[]'])" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+            <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma configuracao para coleta de Patrimonio?');?>');document.forma.elements['list2[]'].disabled=false; SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list5[]'])" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
           </div></td>
       </tr>
     </table>

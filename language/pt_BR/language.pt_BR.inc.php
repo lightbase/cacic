@@ -7,11 +7,17 @@ pt_BR     a cada 2 horas                                                        
 pt_BR     a cada 4 horas                                                                                      admin     info                A cada 4 horas
 pt_BR     a cada 6 horas                                                                                      admin     info                A cada 6 horas
 pt_BR     a cada 8 horas                                                                                      admin     info                A cada 8 horas
+pt_BR     a inclusao de %1 e restrita ao administrador do sistema                                             admin     info                A inclusao de %1 e restrita ao Administrador do sistema
+pt_BR     a sigla do local e obrigatoria                                                                      admin     info                A sigla do local e obrigatoria
 pt_BR     admin - excluir historico de software                                                               admin     info                ADMIN - Excluir historico de software
 pt_BR     atencao: verifique os campos para notificacao de alteracao de hardware                              admin     info                ATENCAO: Verifique os campos para notificacao de alteracao de hardware
+pt_BR     abrir janela de coleta ao detectar alteracoes de localizacao fisica                                 admin     info                Abrir janela de coleta ao detectar alteracoes de localizacao fisica
 pt_BR     acesso                                                                                              admin     info                Acesso
 pt_BR     acesso nao autorizado                                                                               admin     info                Acesso nao autorizado
+pt_BR     acessos                                                                                             admin     info                Acessos
+pt_BR     acessos locais                                                                                      admin     info                Acessos locais
 pt_BR     acoes - configuracoes                                                                               admin     info                Acoes - Configuracoes
+pt_BR     aguarde processamento...                                                                            admin     info                Aguarde processamento...
 pt_BR     ainda nao existem informacoes de patrimonio associadas ao local!                                    admin     info                Ainda nao existem informacoes de patrimonio associadas ao local!
 pt_BR     ainda nao existem redes associadas ao local!                                                        admin     info                Ainda nao existem redes associadas ao local!
 pt_BR     ainda nao existem usuarios associados ao local!                                                     admin     info                Ainda nao existem usuarios associados ao local!
@@ -24,9 +30,11 @@ pt_BR     aquisicoes                                                            
 pt_BR     arquivo                                                                                             admin     info                Arquivo
 pt_BR     as informacoes referem-se a um local originario de chamadas ao sistema cacic                        admin     info                As informacoes referem-se a um local originario de chamadas ao sistema CACIC
 pt_BR     kciq_msg detalhes de usuario help                                                                   admin     info                As informações abaixo referem-se ao usuário cadastrado no sistema. Após o logon, serão exibidas a primeira e última parte do campo <i>Nome completo</i>. Ao reinicializar a senha esta assume o valor contido no campo <i>Identificação</i>.
+pt_BR     inclusao de local help                                                                              admin     info                As informações que deverão ser cadastradas abaixo referem-se a um local originário de chamada ao sistema CACIC. Como por exemplo uma região, um estado, um orgão etc.
 pt_BR     kciq_msg inclusao de novo usuario help                                                              admin     info                As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso. <u><em>A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção <i>Acesso - Troca de Senha</i> no Menu Principal</em></u>. Após o logon, serão exibidas a primeira e última parte do campo <i>Nome completo</i>.
 pt_BR     as opcoes abaixo determinam como o modulo gerente devera se comportar.                              admin     info                As opcoes abaixo determinam como o modulo gerente devera se comportar.
 pt_BR     as opcoes abaixo determinam qual sera o comportamento dos agentes do                                admin     info                As opcoes abaixo determinam qual sera o comportamento dos agentes do
+pt_BR     atencao                                                                                             admin     info                Atencao
 pt_BR     atencao: informe os emails separados por virgulas                                                   admin     info                Atencao: informe os emails separados por virgulas
 pt_BR     atencao: informe os enderecos separados por virgulas                                                admin     info                Atencao: informe os enderecos separados por virgulas
 pt_BR     atencao: informe os nomes separados por virgulas                                                    admin     info                Atencao: informe os nomes separados por virgulas
@@ -35,8 +43,10 @@ pt_BR     atualizando                                                           
 pt_BR     autorizacao                                                                                         admin     info                Autorizacao
 pt_BR     autorizado                                                                                          admin     info                Autorizado
 pt_BR     autorizados                                                                                         admin     info                Autorizados
+pt_BR     bairro                                                                                              admin     info                Bairro
 pt_BR     contenha                                                                                            admin     info                CONTENHA
 pt_BR     cacic2                                                                                              admin     info                Cacic2
+pt_BR     cadastro de                                                                                         admin     info                Cadastro de
 pt_BR     cadastro de aquisicao                                                                               admin     info                Cadastro de Aquisicao
 pt_BR     cadastro de aquisicoes                                                                              admin     info                Cadastro de Aquisicoes
 pt_BR     cadastro de local                                                                                   admin     info                Cadastro de Local
@@ -44,9 +54,12 @@ pt_BR     cadastro de perfis de sistemas monitorados                            
 pt_BR     cadastro de softwares                                                                               admin     info                Cadastro de Softwares
 pt_BR     cadastro de softwares po estacao                                                                    admin     info                Cadastro de Softwares po Estacao
 pt_BR     cadastro de subredes                                                                                admin     info                Cadastro de Subredes
+pt_BR     cadastro de unidade organizacional nivel 2                                                          admin     info                Cadastro de Unidade Organizacional Nivel 2
 pt_BR     cadastro de usuarios                                                                                admin     info                Cadastro de usuarios
 pt_BR     campo                                                                                               admin     info                Campo
 pt_BR     cancelar                                                                                            admin     info                Cancelar
+pt_BR     cidade                                                                                              admin     info                Cidade
+pt_BR     cinco                                                                                               admin     info                Cinco
 pt_BR     classificacao de software                                                                           admin     info                Classificacao de software
 pt_BR     classificar softwares selecionados                                                                  admin     info                Classificar Softwares Selecionados
 pt_BR     clique nas colunas para ordenar                                                                     admin     info                Clique nas Colunas para Ordenar
@@ -56,14 +69,26 @@ pt_BR     computador removido!                                                  
 pt_BR     computador:                                                                                         admin     info                Computador:
 pt_BR     computadores onde esta acao-configuracao nao devera ser aplicada                                    admin     info                Computadores onde esta acao-configuracao nao devera ser aplicada
 pt_BR     condicao                                                                                            admin     info                Condicao
+pt_BR     configuracao basica                                                                                 admin     info                Configuracao Basica
+pt_BR     configuracao padrao                                                                                 admin     info                Configuracao Padrao
+pt_BR     configuracao da tela de patrimonio                                                                  admin     info                Configuracao da Tela de Patrimonio
 pt_BR     configuracoes do modulo gerente                                                                     admin     info                Configuracoes do Modulo Gerente
 pt_BR     configuracoes dos modulos agentes                                                                   admin     info                Configuracoes dos Modulos Agentes
+pt_BR     confirma configuracao de                                                                            admin     info                Confirma Configuracao de
+pt_BR     confirma configuracao de acao?                                                                      admin     info                Confirma Configuracao de Acao?
 pt_BR     confirma configuracao de agentes?                                                                   admin     info                Confirma Configuracao de Agentes?
+pt_BR     confirma configuracao de etiqueta 1?                                                                admin     info                Confirma Configuracao de Etiqueta 1?
+pt_BR     confirma configuracao de etiqueta 1a?                                                               admin     info                Confirma Configuracao de Etiqueta 1a?
+pt_BR     confirma configuracao de etiqueta 2?                                                                admin     info                Confirma Configuracao de Etiqueta 2?
+pt_BR     confirma configuracao de etiqueta 3?                                                                admin     info                Confirma Configuracao de Etiqueta 3?
 pt_BR     confirma exclusao do local e todas as suas dependencias?                                            admin     info                Confirma Exclusao do Local E TODAS AS SUAS DEPENDENCIAS?
 pt_BR     confirma inclusao de local?                                                                         admin     info                Confirma Inclusao de Local?
+pt_BR     confirma informacoes para                                                                           admin     info                Confirma Informacoes para
 pt_BR     confirma informacoes para o local?                                                                  admin     info                Confirma Informacoes para o Local?
 pt_BR     confirma a remocao deste computador?                                                                admin     info                Confirma a remocao deste computador?
+pt_BR     confirma configuracao para coleta de patrimonio?                                                    admin     info                Confirma configuracao para coleta de Patrimonio?
 pt_BR     confirma exclusao                                                                                   admin     info                Confirma exclusao
+pt_BR     confirma exclusao de                                                                                admin     info                Confirma exclusao de
 pt_BR     confirma exclusao de usuario?                                                                       admin     info                Confirma exclusao de usuario?
 pt_BR     confirma exclusao?                                                                                  admin     info                Confirma exclusao?
 pt_BR     confirma inclusao de usuario?                                                                       admin     info                Confirma inclusao de usuario?
@@ -73,32 +98,44 @@ pt_BR     consulta de softwares autorizados por orgao                           
 pt_BR     consulta quantidade de licencas                                                                     admin     info                Consulta quantidade de licencas
 pt_BR     consultar                                                                                           admin     info                Consultar
 pt_BR     conteudo do repositorio                                                                             admin     info                Conteudo do repositorio
+pt_BR     dd/mm/aaaa                                                                                          admin     info                DD/MM/AAAA
 pt_BR     diferente de                                                                                        admin     info                DIFERENTE DE
 pt_BR     data                                                                                                admin     info                Data
 pt_BR     data de autorizacao:                                                                                admin     info                Data de Autorizacao:
 pt_BR     data de desinstalacao:                                                                              admin     info                Data de Desinstalacao:
 pt_BR     data de expiracao:                                                                                  admin     info                Data de Expiracao:
 pt_BR     data e hora                                                                                         admin     info                Data e hora
+pt_BR     definir as configuracoes para sugestoes em formularios                                              admin     info                Definir as configuracoes para sugestoes em formularios
 pt_BR     desabilitar acao-configuracao nas redes                                                             admin     info                Desabilitar acao-configuracao nas redes
 pt_BR     descricao                                                                                           admin     info                Descricao
 pt_BR     descricao do tipo de acesso                                                                         admin     info                Descricao do tipo de acesso
 pt_BR     descricao:                                                                                          admin     info                Descricao:
 pt_BR     descripcao                                                                                          admin     info                Descripcao
+pt_BR     destacar as seguintes duplicidades no relatorio de patrimonio                                       admin     info                Destacar as seguintes duplicidades no relatorio de Patrimonio
+pt_BR     destacar duplicidades neste campo                                                                   admin     info                Destacar duplicidades neste campo
+pt_BR     detalhes de                                                                                         admin     info                Detalhes de
 pt_BR     detalhes de usuario                                                                                 admin     info                Detalhes de usuario
 pt_BR     detalhes do local                                                                                   admin     info                Detalhes do Local
 pt_BR     detalhes do software                                                                                admin     info                Detalhes do Software
+pt_BR     dez                                                                                                 admin     info                Dez
 pt_BR     dica: use shift ou ctrl para selecionar multiplos itens                                             admin     info                Dica: use SHIFT ou CTRL para selecionar multiplos itens
 pt_BR     digite pelo menos 03 caracteres...                                                                  admin     info                Digite pelo menos 03 caracteres...
 pt_BR     disponiveis                                                                                         admin     info                Disponiveis
+pt_BR     divisao                                                                                             admin     info                Divisao
+pt_BR     divisoes                                                                                            admin     info                Divisoes
+pt_BR     dois                                                                                                admin     info                Dois
+pt_BR     doze                                                                                                admin     info                Doze
 pt_BR     e-mails para notificar alteracoes de hardware                                                       admin     info                E-mails para notificar alteracoes de hardware
 pt_BR     eh necessario informar ao menos uma condicao para pesquisa                                          admin     info                Eh necessario informar ao menos uma condicao para pesquisa
 pt_BR     emails para contato                                                                                 admin     info                Emails para Contato
+pt_BR     endereco                                                                                            admin     info                Endereco
 pt_BR     endereco ip                                                                                         admin     info                Endereco IP
 pt_BR     endereco ip origem                                                                                  admin     info                Endereco IP origem
 pt_BR     endereco mac                                                                                        admin     info                Endereco MAC
 pt_BR     endereco eletronico                                                                                 admin     info                Endereco eletronico
 pt_BR     endereco/mascara                                                                                    admin     info                Endereco/Mascara
 pt_BR     enderecos mac a desconsiderar                                                                       admin     info                Enderecos MAC a desconsiderar
+pt_BR     enderooso eletronicos a notificar ao detectar alteracoes de patrimonio ou localizacao fisica        admin     info                Enderooso eletronicos a notificar ao detectar alteracoes de patrimonio ou localizacao fisica
 pt_BR     enviando                                                                                            admin     info                Enviando
 pt_BR     erro ao acessar tabela softwares_estacao ou sua sessao expirou!                                     admin     info                Erro ao acessar tabela softwares_estacao ou sua sessao expirou!
 pt_BR     erro no select ou sua sessao expirou                                                                admin     info                Erro no select ou sua sessao expirou
@@ -111,7 +148,12 @@ pt_BR     estacao                                                               
 pt_BR     kciq_msg log de atividades help                                                                     admin     info                Este módulo permite a visualização das atividades realizados com o uso das operações de INSERT/UPDATE/DELETE ocorridas no Sistema CACIC. A ordenação das colunas poderá ser definida clicando-se em seus nomes.
 pt_BR     ksiq_msg insuceso help                                                                              admin     info                Este módulo permite a visualização das tentativas de instalação dos agentes cujos resultados sejam INSUCESSO.
 pt_BR     kciq_msg log de acessos help                                                                        admin     info                Este módulo permite a visualização dos acessos efetuados no sistema. É possível visualizar as atividades executadas pelo usuário na data, bastando clicar sobre uma de suas informações.
+pt_BR     etiqueta 1                                                                                          admin     info                Etiqueta 1
+pt_BR     etiqueta 1a                                                                                         admin     info                Etiqueta 1a
+pt_BR     etiqueta 2                                                                                          admin     info                Etiqueta 2
+pt_BR     etiqueta 3                                                                                          admin     info                Etiqueta 3
 pt_BR     evita que o gerente de coletas seja acionado enquanto tais aplicativos (janelas) estiverem ativos   admin     info                Evita que o Gerente de Coletas seja acionado enquanto tais aplicativos (janelas) estiverem ativos
+pt_BR     excluir                                                                                             admin     info                Excluir
 pt_BR     excluir computadores                                                                                admin     info                Excluir Computadores
 pt_BR     excluir local                                                                                       admin     info                Excluir Local
 pt_BR     excluir computadores selecionados                                                                   admin     info                Excluir computadores selecionados
@@ -119,13 +161,18 @@ pt_BR     excluir usuario                                                       
 pt_BR     executado apenas nas redes selecionadas                                                             admin     info                Executado apenas nas redes selecionadas
 pt_BR     executado em todas as redes                                                                         admin     info                Executado em todas as redes
 pt_BR     exemplo                                                                                             admin     info                Exemplo
+pt_BR     exibe janela de patrimonio                                                                          admin     info                Exibe janela de patrimonio
+pt_BR     exibir                                                                                              admin     info                Exibir
 pt_BR     exibir graficos na pagina principal e detalhes                                                      admin     info                Exibir Graficos na Pagina Principal e Detalhes
 pt_BR     exibir erros criticos aos usuarios                                                                  admin     info                Exibir erros criticos aos usuarios
 pt_BR     exibir o icone do cacic na bandeja (systray)                                                        admin     info                Exibir o icone do CACIC na bandeja (systray)
 pt_BR     ftp nao configurado                                                                                 admin     info                FTP nao configurado
+pt_BR     falha em exclusao na tabela (%1) ou sua sessao expirou!                                             admin     info                Falha em exclusao na tabela (%1) ou sua sessao expirou!
 pt_BR     falha na consulta a tabela (%1) ou sua sessao expirou!                                              admin     info                Falha na Consulta a tabela (%1) ou sua sessao expirou!
 pt_BR     falha na insercao em (%1) ou sua sessao expirou!                                                    admin     info                Falha na Insercao em (%1) ou sua sessao expirou!
 pt_BR     falha na atualizacao da tabela (%1) ou sua sessao expirou!                                          admin     info                Falha na atualizacao da tabela (%1) ou sua sessao expirou!
+pt_BR     falha na atualizacao de configuracoes                                                               admin     info                Falha na atualizacao de configuracoes
+pt_BR     falha na exclusao de configuracoes                                                                  admin     info                Falha na exclusao de configuracoes
 pt_BR     formato da data                                                                                     admin     info                Formato da data
 pt_BR     formulario para classificacao de softwares                                                          admin     info                Formulario para classificacao de softwares
 pt_BR     formulario para importar dados de aquisicoes                                                        admin     info                Formulario para importar dados de aquisicoes
@@ -135,6 +182,9 @@ pt_BR     gercols                                                               
 pt_BR     gerado em                                                                                           admin     info                Gerado em
 pt_BR     gerado por                                                                                          admin     info                Gerado por
 pt_BR     gerafo em                                                                                           admin     info                Gerafo em
+pt_BR     gerencia                                                                                            admin     info                Gerencia
+pt_BR     gerencias                                                                                           admin     info                Gerencias
+pt_BR     graficos a serem exibidos                                                                           admin     info                Graficos a serem exibidos
 pt_BR     gravar                                                                                              admin     info                Gravar
 pt_BR     gravar alteracoes                                                                                   admin     info                Gravar alteracoes
 pt_BR     gravar informacoes                                                                                  admin     info                Gravar informacoes
@@ -147,17 +197,21 @@ pt_BR     historio de softwares excluidos com sucesso da base de dados          
 pt_BR     igual a                                                                                             admin     info                IGUAL A
 pt_BR     inicie com                                                                                          admin     info                INICIE COM
 pt_BR     ip gerente                                                                                          admin     info                IP Gerente
+pt_BR     ip origem                                                                                           admin     info                IP Origem
+pt_BR     ip de estacao e rede                                                                                admin     info                IP de estacao e rede
 pt_BR     ide                                                                                                 admin     info                Ide
 pt_BR     identificacao                                                                                       admin     info                Identificacao
 pt_BR     imediatamente apos a inicializacao do cacic                                                         admin     info                Imediatamente apos a inicializacao do CACIC
+pt_BR     importante                                                                                          admin     info                Importante
+pt_BR     incluir                                                                                             admin     info                Incluir
 pt_BR     incluir aquisicao                                                                                   admin     info                Incluir Aquisicao
 pt_BR     incluir informacoes de novo local                                                                   admin     info                Incluir Informacoes de Novo Local
 pt_BR     incluir nova subrede                                                                                admin     info                Incluir Nova Subrede
 pt_BR     incluir novo perfil de sistema                                                                      admin     info                Incluir Novo Perfil de Sistema
 pt_BR     incluir novo usuario                                                                                admin     info                Incluir novo usuario
 pt_BR     inclusao                                                                                            admin     info                Inclusao
+pt_BR     inclusao de                                                                                         admin     info                Inclusao de
 pt_BR     inclusao de local                                                                                   admin     info                Inclusao de Local
-pt_BR     inclusao de local help                                                                              admin     info                As informações que deverão ser cadastradas abaixo referem-se a um local originário de chamada ao sistema CACIC. Como por exemplo uma região, um estado, um orgão etc.
 pt_BR     inclusao de novo usuario                                                                            admin     info                Inclusao de novo usuario
 pt_BR     induzir coletas                                                                                     admin     info                Induzir coletas
 pt_BR     informacoes de patrimonio associadas ao local                                                       admin     info                Informacoes de Patrimonio Associadas ao Local
@@ -166,16 +220,22 @@ pt_BR     informe a senha anterior, caso nao se lembre, solicite a um administra
 pt_BR     informe o endereco mac do computador.                                                               admin     info                Informe o endereco MAC do computador.
 pt_BR     informe o numero do processo:                                                                       admin     info                Informe o numero do processo:
 pt_BR     informe o periodo em que foi realizada a aquisicao:                                                 admin     info                Informe o periodo em que foi realizada a aquisicao:
+pt_BR     informe o setor onde esta localizado o equipamento.                                                 admin     info                Informe o setor onde esta localizado o equipamento.
+pt_BR     informe os enderecos eletronicos separados por virgulas                                             admin     info                Informe os enderecos eletronicos separados por virgulas
 pt_BR     inicio de execucao das acoes                                                                        admin     info                Inicio de execucao das acoes
 pt_BR     instalacoes                                                                                         admin     info                Instalacoes
 pt_BR     intervalo de execucao das acoes                                                                     admin     info                Intervalo de execucao das acoes
+pt_BR     intervalo de solicitacao aos usuarios de renovacao das informacoes de patrimonio e local fisica     admin     info                Intervalo de solicitacao aos usuarios de renovacao das informacoes de patrimonio e Local fisica
 pt_BR     legenda                                                                                             admin     info                Legenda
 pt_BR     licencas                                                                                            admin     info                Licencas
 pt_BR     licencas autorizadas por estacao                                                                    admin     info                Licencas autorizadas por estacao
+pt_BR     linha de negocio                                                                                    admin     info                Linha de negocio
+pt_BR     linhas de negocios                                                                                  admin     info                Linhas de negocios
 pt_BR     locais                                                                                              admin     info                Locais
 pt_BR     locais secundarios                                                                                  admin     info                Locais secundarios
 pt_BR     local                                                                                               admin     info                Local
 pt_BR     local da midia                                                                                      admin     info                Local da Midia
+pt_BR     local de aplicacao                                                                                  admin     info                Local de Aplicacao
 pt_BR     local/rede                                                                                          admin     info                Local/Rede
 pt_BR     localizacao da midia:                                                                               admin     info                Localizacao da Midia:
 pt_BR     log de acessos                                                                                      admin     info                Log de Acessos
@@ -184,7 +244,11 @@ pt_BR     log de insucessos nas instalacoes dos agentes                         
 pt_BR     maior que                                                                                           admin     info                MAIOR QUE
 pt_BR     menor que                                                                                           admin     info                MENOR QUE
 pt_BR     maquinas                                                                                            admin     info                Maquinas
+pt_BR     mensagens                                                                                           admin     info                Mensagens
 pt_BR     modulo para atualizacao das informacoes coletadas dos modulos gerentes descentralizados             admin     info                Modulo para atualizacao das informacoes coletadas dos modulos gerentes descentralizados
+pt_BR     modulo para cadastramento de unidades organizacionais de nivel 1                                    admin     info                Modulo para cadastramento de Unidades Organizacionais de Nivel 1
+pt_BR     modulo para cadastramento de unidades organizacionais de nivel 1a                                   admin     info                Modulo para cadastramento de Unidades Organizacionais de Nivel 1a
+pt_BR     modulo para cadastramento de unidades organizacionais de nivel 2                                    admin     info                Modulo para cadastramento de Unidades Organizacionais de Nivel 2
 pt_BR     modulo para cadastramento manual de softwares por estacao                                           admin     info                Modulo para cadastramento manual de softwares por estacao
 pt_BR     modulos                                                                                             admin     info                Modulos
 pt_BR     mostrar todos                                                                                       admin     info                Mostrar Todos
@@ -203,10 +267,13 @@ pt_BR     nao foi selecionado nenhum sistema operacional. deseja continuar?     
 pt_BR     nao foram encontrados registros                                                                     admin     info                Nao foram encontrados registros
 pt_BR     nao ha autorizacao para esta maquina                                                                admin     info                Nao ha autorizacao para esta maquina
 pt_BR     nao ha historico desta maquina                                                                      admin     info                Nao ha historico desta maquina
+pt_BR     nao solicitar renovacao                                                                             admin     info                Nao solicitar renovacao
 pt_BR     nenhum acesso realizado no periodo informado                                                        admin     info                Nenhum acesso realizado no periodo informado
 pt_BR     nenhum local cadastrado ou sua sessao expirou                                                       admin     info                Nenhum local cadastrado ou sua sessao expirou
 pt_BR     nenhum registro encontrado!                                                                         admin     info                Nenhum registro encontrado!
 pt_BR     nenhum usuario cadastrado ou sua sessao expirou!                                                    admin     info                Nenhum usuario cadastrado ou sua sessao expirou!
+pt_BR     nenhuma unidade organizacional de nivel %1 cadastrada                                               admin     info                Nenhuma Unidade Organizacional de Nivel %1 cadastrada
+pt_BR     nenhuma acao realizada no periodo informado.                                                        admin     info                Nenhuma acao realizada no periodo informado.
 pt_BR     nenhuma atividade realizada no periodo informado                                                    admin     info                Nenhuma atividade realizada no periodo informado
 pt_BR     nenhuma rede cadastrada ou sua sessao expirou!                                                      admin     info                Nenhuma rede cadastrada ou sua sessao expirou!
 pt_BR     kciq_msg repositorio help                                                                           admin     info                Nesta página é possível verificar o conteúdo do repositório, bem como excluir os objetos que não serão utilizados nos updates das SubRedes.
@@ -214,40 +281,56 @@ pt_BR     neste modulo deverao ser cadastrados os usuarios que acessarao o siste
 pt_BR     ksiq_msg subredes help                                                                              admin     info                Neste módulo deverão ser registradas todas as subredes onde os agentes do CACIC serão instalados.
 pt_BR     ksiq_msg perfis                                                                                     admin     info                Neste módulo deverão ser registrados os perfís dos sistemas que serão monitorados pelo CACIC.
 pt_BR     ksiq_msg cadastro help                                                                              admin     info                Neste módulo deverão ser registrados todos os locais originais do sistema, para que seja possível o controle centralizado
+pt_BR     nivel                                                                                               admin     info                Nivel
 pt_BR     nivel de acesso                                                                                     admin     info                Nivel de Acesso
 pt_BR     nome                                                                                                admin     info                Nome
 pt_BR     nome completo                                                                                       admin     info                Nome completo
 pt_BR     nome da maquina                                                                                     admin     info                Nome da maquina
+pt_BR     nome da organizacao                                                                                 admin     info                Nome da organizacao
 pt_BR     nome da organizacao-empresa-orgao                                                                   admin     info                Nome da organizacao-empresa-orgao
 pt_BR     nome da rede                                                                                        admin     info                Nome da rede
 pt_BR     nome de rede                                                                                        admin     info                Nome de rede
 pt_BR     nome do computador                                                                                  admin     info                Nome do Computador
 pt_BR     nome do local                                                                                       admin     info                Nome do Local
+pt_BR     nome ou ip do servidor de aplicacao (gerente)                                                       admin     info                Nome ou IP do servidor de aplicacao (gerente)
+pt_BR     nome ou ip do servidor de atualizacao (ftp)                                                         admin     info                Nome ou IP do servidor de atualizacao (FTP)
 pt_BR     nova senha                                                                                          admin     info                Nova senha
+pt_BR     nove                                                                                                admin     info                Nove
 pt_BR     numero da midia                                                                                     admin     info                Numero da Midia
 pt_BR     numero da midia:                                                                                    admin     info                Numero da Midia:
 pt_BR     numero do patrimonio                                                                                admin     info                Numero do Patrimonio
 pt_BR     numero do processo:                                                                                 admin     info                Numero do Processo:
 pt_BR     ksiq_msg not                                                                                        admin     info                Não
 pt_BR     nao                                                                                                 admin     info                Não
+pt_BR     o nome do local e obrigatorio                                                                       admin     info                O nome do local e obrigatorio
 pt_BR     observacao                                                                                          admin     info                Observacao
 pt_BR     observacao:                                                                                         admin     info                Observacao:
 pt_BR     observacoes                                                                                         admin     info                Observacoes
+pt_BR     ocorreu erro no processamento...                                                                    admin     info                Ocorreu erro no processamento...
 pt_BR     ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou                            admin     info                Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou
 pt_BR     ocorreu um erro durante exclusao de referencia em %1 ou sua sessao expirou!                         admin     info                Ocorreu um erro durante exclusao de referencia em %1 ou sua sessao expirou!
 pt_BR     ocorreu um erro no acesso a tabela %1 ou sua sessao expirou                                         admin     info                Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou
 pt_BR     ocorreu um erro no select ou sua sessao expirou!                                                    admin     info                Ocorreu um erro no select ou sua sessao expirou!
 pt_BR     ocorreu um erro no select ou sua sessÃ£o expirou!                                                   admin     info                Ocorreu um erro no select ou sua sessÃ£o expirou!
+pt_BR     oito                                                                                                admin     info                Oito
 pt_BR     ok!                                                                                                 admin     info                Ok!
 pt_BR     onde executar essa acao-configuracao                                                                admin     info                Onde executar essa acao-configuracao
+pt_BR     onze                                                                                                admin     info                Onze
 pt_BR     opcoes avancadas                                                                                    admin     info                Opcoes avancadas
+pt_BR     opcoes da coleta de informacoes patrimoniais e localizacao fisica                                   admin     info                Opcoes da Coleta de Informacoes Patrimoniais e Localizacao Fisica
 pt_BR     operacao                                                                                            admin     info                Operacao
+pt_BR     outros                                                                                              admin     info                Outros
+pt_BR     tela de coleta de informacoes de patrimonio - ajuda                                                 admin     info                Para configurar a interface da tela de coleta de informações de patrimônio que será exibida aos usuários, clique sobre os itens da tela abaixo e informe os valores desejados.
 pt_BR     particular                                                                                          admin     info                Particular
 pt_BR     patrimonio                                                                                          admin     info                Patrimonio
 pt_BR     patrimonio de destino:                                                                              admin     info                Patrimonio de Destino:
 pt_BR     patrimonio:                                                                                         admin     info                Patrimonio:
 pt_BR     percentual                                                                                          admin     info                Percentual
+pt_BR     plural de texto da                                                                                  admin     info                Plural de texto da
+pt_BR     por favor, preencha campo                                                                           admin     info                Por favor, preencha campo
+pt_BR     por favor, selecione                                                                                admin     info                Por favor, selecione
 pt_BR     kciq_msg help - induzir o envio das informacoes coletadas                                           admin     info                Por padrão, os agentes do CACIC só enviam as informações coletadas para o servidor caso seja identificada alguma alteração em relação à coleta anterior. Abaixo estão relacionadas as ações de coletas possíveis e as redes habilitadas via opção Administração/Módulos. Caso você selecione alguma rede abaixo, o envio das informações coletadas será <i>forçado</i>, ou seja, as informações serão enviadas ao Módulo Gerente mesmo que sejam idênticas à última coleta. <br><i><b>Use essa opção apenas quando realmente necessário</b></i>.
+pt_BR     processamento realizado com sucesso                                                                 admin     info                Processamento realizado com sucesso
 pt_BR     processo                                                                                            admin     info                Processo
 pt_BR     processo:                                                                                           admin     info                Processo:
 pt_BR     programa                                                                                            admin     info                Programa
@@ -258,6 +341,8 @@ pt_BR     quantidade comprada                                                   
 pt_BR     quantidade instalada                                                                                admin     info                Quantidade Instalada
 pt_BR     quantidade de licencas                                                                              admin     info                Quantidade de Licencas
 pt_BR     quantidade de licencas:                                                                             admin     info                Quantidade de Licencas:
+pt_BR     quantidade maxima de linhas em relatorios                                                           admin     info                Quantidade maxima de linhas em relatorios
+pt_BR     quatro                                                                                              admin     info                Quatro
 pt_BR     realizar notificacao caso haja alteracoes nas seguintes configuracoes de hardware                   admin     info                Realizar notificacao caso haja alteracoes nas seguintes configuracoes de hardware
 pt_BR     rede                                                                                                admin     info                Rede
 pt_BR     redes                                                                                               admin     info                Redes
@@ -282,6 +367,8 @@ pt_BR     relatorio de cadastros inconsistentes ii                              
 pt_BR     relatorio gerado pelo                                                                               admin     info                Relatorio gerado pelo
 pt_BR     remocao de computador                                                                               admin     info                Remocao de computador
 pt_BR     repositorio                                                                                         admin     info                Repositorio
+pt_BR     responsavel                                                                                         admin     info                Responsavel
+pt_BR     restaurar valores                                                                                   admin     info                Restaurar valores
 pt_BR     resultado da consulta                                                                               admin     info                Resultado da consulta
 pt_BR     resumo das operacoes                                                                                admin     info                Resumo das Operacoes
 pt_BR     resumo das tentativas de instalacao                                                                 admin     info                Resumo das Tentativas de Instalacao
@@ -290,29 +377,42 @@ pt_BR     retorna para                                                          
 pt_BR     seja nulo                                                                                           admin     info                SEJA NULO
 pt_BR     seja vazio                                                                                          admin     info                SEJA VAZIO
 pt_BR     saldo                                                                                               admin     info                Saldo
+pt_BR     script                                                                                              admin     info                Programa
+pt_BR     seis                                                                                                admin     info                Seis
 pt_BR     selecionadas                                                                                        admin     info                Selecionadas
 pt_BR     selecionados                                                                                        admin     info                Selecionados
 pt_BR     selecionados:                                                                                       admin     info                Selecionados:
 pt_BR     selecionar computadores para exclusao                                                               admin     info                Selecionar computadores para exclusao
 pt_BR     selecionar novamente                                                                                admin     info                Selecionar novamente
 pt_BR     selecione                                                                                           admin     info                Selecione
+pt_BR     selecione a gerencia de localizacao este equipamento                                                admin     info                Selecione a Gerencia de localizacao este equipamento
+pt_BR     selecione a linha de negocio de localizacao deste equipamento                                       admin     info                Selecione a Linha de negocio de localizacao deste equipamento
+pt_BR     selecione a divisao onde encontra-se este equipamento                                               admin     info                Selecione a divisao onde encontra-se este equipamento
+pt_BR     selecione local                                                                                     admin     info                Selecione local
+pt_BR     selecione o periodo em que devera ser realizada a consulta                                          admin     info                Selecione o periodo em que devera ser realizada a consulta
 pt_BR     selecione o periodo em que devera ser realizada a consulta:                                         admin     info                Selecione o periodo em que devera ser realizada a consulta:
 pt_BR     selecione o periodo no qual devera ser realizada a consulta                                         admin     info                Selecione o periodo no qual devera ser realizada a consulta
 pt_BR     selecione o software                                                                                admin     info                Selecione o software
 pt_BR     selecione os filtros da consulta:                                                                   admin     info                Selecione os filtros da consulta:
 pt_BR     selecione os softwares que deseja classificar:                                                      admin     info                Selecione os softwares que deseja classificar:
+pt_BR     selecione pelo menos 1 software.                                                                    admin     info                Selecione pelo menos 1 software.
 pt_BR     senha atual                                                                                         admin     info                Senha Atual
+pt_BR     senha padrao para administrar o agente                                                              admin     info                Senha padrao para administrar o agente
 pt_BR     senha usada para configurar e finalizar os agentes                                                  admin     info                Senha usada para configurar e finalizar os agentes
 pt_BR     servidor offline                                                                                    admin     info                Servidor OffLine
 pt_BR     servidor de aplicacao padrao                                                                        admin     info                Servidor de Aplicacao padrao
 pt_BR     servidor de updates padrao                                                                          admin     info                Servidor de Updates padrao
+pt_BR     sete                                                                                                admin     info                Sete
+pt_BR     setor                                                                                               admin     info                Setor
 pt_BR     sigla do local                                                                                      admin     info                Sigla do Local
 pt_BR     sim                                                                                                 admin     info                Sim
 pt_BR     sistema monitorado                                                                                  admin     info                Sistema Monitorado
 pt_BR     sistema operacional                                                                                 admin     info                Sistema Operacional
 pt_BR     sistemas operacionais onde essa acao-configuracao devera ser aplicada                               admin     info                Sistemas Operacionais onde essa acao-configuracao devera ser aplicada
+pt_BR     sistemas operacionais                                                                               admin     info                Sistemas operacionais
 pt_BR     software                                                                                            admin     info                Software
 pt_BR     software interno                                                                                    admin     info                Software Interno
+pt_BR     software(s) classificado(s) com sucesso!                                                            admin     info                Software(s) classificado(s) com sucesso!
 pt_BR     softwares por aquisicao                                                                             admin     info                Softwares por Aquisicao
 pt_BR     status                                                                                              admin     info                Status
 pt_BR     sua tentativa foi registrada no log                                                                 admin     info                Sua tentativa foi registrada no log
@@ -320,7 +420,11 @@ pt_BR     subrede                                                               
 pt_BR     termine com                                                                                         admin     info                TERMINE COM
 pt_BR     tabela                                                                                              admin     info                Tabela
 pt_BR     tamanho(kb)                                                                                         admin     info                Tamanho(kb)
+pt_BR     tela de coleta de informacoes de patrimonio                                                         admin     info                Tela de Coleta de Informacoes de Patrimonio
+pt_BR     telefone                                                                                            admin     info                Telefone
 pt_BR     telefones para contato                                                                              admin     info                Telefones para Contato
+pt_BR     texto da                                                                                            admin     info                Texto da
+pt_BR     texto de ajuda da                                                                                   admin     info                Texto de ajuda da
 pt_BR     tipo licenca                                                                                        admin     info                Tipo Licenca
 pt_BR     tipo da licenca                                                                                     admin     info                Tipo da Licenca
 pt_BR     tipo de acesso                                                                                      admin     info                Tipo de Acesso
@@ -328,9 +432,16 @@ pt_BR     tipo de licenca                                                       
 pt_BR     tipo do software:                                                                                   admin     info                Tipo do software:
 pt_BR     totais de redes alvo                                                                                admin     info                Totais de Redes Alvo
 pt_BR     total                                                                                               admin     info                Total
+pt_BR     tres                                                                                                admin     info                Tres
 pt_BR     troca de senha de acesso                                                                            admin     info                Troca de Senha de Acesso
 pt_BR     ultima alteracao em                                                                                 admin     info                Ultima Alteracao em
 pt_BR     ultimo acesso                                                                                       admin     info                Ultimo acesso
+pt_BR     um                                                                                                  admin     info                Um
+pt_BR     unidade organizacional                                                                              admin     info                Unidade Organizacional
+pt_BR     unidade organizacional nivel 1                                                                      admin     info                Unidade Organizacional Nivel 1
+pt_BR     unidade organizacional nivel 1a                                                                     admin     info                Unidade Organizacional Nivel 1a
+pt_BR     unidade organizacional nivel 2                                                                      admin     info                Unidade Organizacional Nivel 2
+pt_BR     unidade da federacao                                                                                admin     info                Unidade da Federacao
 pt_BR     usuario                                                                                             admin     info                Usuario
 pt_BR     usuarios associados ao local                                                                        admin     info                Usuarios Associados ao Local
 pt_BR     usuarios primarios                                                                                  admin     info                Usuarios Primarios
@@ -338,12 +449,17 @@ pt_BR     usuarios secundarios                                                  
 pt_BR     valor para pesquisa                                                                                 admin     info                Valor para pesquisa
 pt_BR     verificacao ativa                                                                                   admin     info                Verificacao Ativa
 pt_BR     verificacao efetuada                                                                                admin     info                Verificacao efetuada
+pt_BR     visualizacao das ocorrencias com as operacoes de atualizacao, inclusao e exclusao no sistema.       admin     info                Visualizacao das ocorrencias com as operacoes de atualizacao, inclusao e exclusao no sistema.
 pt_BR     voce deve informar a data de aquisicao.                                                             admin     info                Voce deve informar a data de aquisicao.
 pt_BR     voce deve informar o numero do processo no formato                                                  admin     info                Voce deve informar o numero do processo no formato
 pt_BR     voltar                                                                                              admin     info                Voltar
 pt_BR     a                                                                                                   admin     info                a
 pt_BR     desenvolvido por                                                                                    admin     info                desenvolvido por
+pt_BR     formato                                                                                             admin     info                formato
 pt_BR     formato:                                                                                            admin     info                formato:
+pt_BR     jose.silva@es.previdenciasocial.gov.br, luis.almeida@xyz.com                                        admin     info                jose.silva@es.previdenciasocial.gov.br, luis.almeida@xyz.com
+pt_BR     mes                                                                                                 admin     info                mes
+pt_BR     meses                                                                                               admin     info                meses
 pt_BR     kciq_msg total referente a multi-locais                                                             geral     info                <b>ATENÇÃO:</b> Total referente a mais de uma localidade.
 pt_BR     kciq_msg access denied                                                                              geral     erro                Acesso não permitido
 pt_BR     kciq_msg admin not reg                                                                              geral     info                Administrador não foi cadastrado
@@ -493,8 +609,8 @@ pt_BR     kciq_msg finish title                                                 
 pt_BR     kciq_msg inst login insert                                                                          instaladorinfo                Inserindo dados do administrador (%1)...
 pt_BR     kciq_msg inst local insert                                                                          instaladorinfo                Inserindo local (%1)...
 pt_BR     kciq_msg demo help                                                                                  instaladorinfo                Inserir dados para demonstração do CACIC.
-pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_installertitle                                                                                 instaladorinfo                Instalador WEB para o CACIC
+pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_msg inst finished and verified                                                                 instaladorinfo                Instalação do CACIC finalizada e veficada!
 pt_BR     kciq_msg advise_title                                                                               instaladorinfo                Instrução PHP/Apache
 pt_BR     kciq_installerintrotitle                                                                            instaladorinfo                Introdução
@@ -548,6 +664,7 @@ pt_BR     kciq_msg inst end advise title                                        
 pt_BR     kciq_installerresources                                                                             instaladorinfo                Recursos do Instalador:
 pt_BR     kciq_msg features title                                                                             instaladorinfo                Recursos para as próximas versões do CACIC
 pt_BR     kciq_msg requisitos                                                                                 instaladorinfo                Requisitos
+pt_BR     retorne aos passos anteriores e configure adequadamente                                             instaladorinfo                Retorne aos passos anteriores e configure adequadamente
 pt_BR     kciq_msg savecfgfile help                                                                           instaladorinfo                Salva o arquivo de configurações para o CACIC.
 pt_BR     kciq_msg save title                                                                                 instaladorinfo                Salvar dados do administrador do CACIC.
 pt_BR     kciq_msg inst version to update                                                                     instaladorerro                Selecione a versão a ser atualizada!
@@ -583,58 +700,3 @@ pt_BR     kciq_msg license en_read                                              
 pt_BR     kciq_msg license pt_read                                                                            instaladorinfo                leia em português
 pt_BR     kciq_mnt_lang traducao                                                                              Manutençãoinfo                Idioma a traduzir
 pt_BR     kciq_mnt_tradutor                                                                                   Manutençãoinfo                Tradução de texto do CACIC
-pt_BR     a sigla do local e obrigatoria                                                                      admin     info                A sigla do local e obrigatoria
-pt_BR     o nome do local e obrigatorio                                                                       admin     info                O nome do local e obrigatorio
-pt_BR     cadastro de                                                                                         admin     info                Cadastro de
-pt_BR     unidade organizacional nivel 1a                                                                     admin     info                Unidade Organizacional Nivel 1a
-pt_BR     modulo para cadastramento de unidades organizacionais de nivel 1a                                   admin     info                Modulo para cadastramento de Unidades Organizacionais de Nivel 1a
-pt_BR     importante                                                                                          admin     info                Importante
-pt_BR     a inclusao de %1 e restrita ao administrador do sistema                                             admin     info                A inclusao de %1 e restrita ao Administrador do sistema
-pt_BR     incluir                                                                                             admin     info                Incluir
-pt_BR     nenhuma unidade organizacional de nivel %1 cadastrada                                               admin     info                Nenhuma Unidade Organizacional de Nivel %1 cadastrada
-pt_BR     falha em exclusao na tabela (%1) ou sua sessao expirou!                                             admin     info                Falha em exclusao na tabela (%1) ou sua sessao expirou!
-pt_BR     falha na exclusao de configuracoes                                                                  admin     info                Falha na exclusao de configuracoes
-pt_BR     falha na atualizacao de configuracoes                                                               admin     info                Falha na atualizacao de configuracoes
-pt_BR     confirma exclusao de                                                                                admin     info                Confirma exclusao de
-pt_BR     por favor, preencha campo                                                                           admin     info                Por favor, preencha campo
-pt_BR     detalhes de                                                                                         admin     info                Detalhes de
-pt_BR     confirma informacoes para                                                                           admin     info                Confirma Informacoes para
-pt_BR     excluir                                                                                             admin     info                Excluir
-pt_BR     inclusao de                                                                                         admin     info                Inclusao de
-pt_BR     unidade organizacional nivel 1                                                                      admin     info                Unidade Organizacional Nivel 1
-pt_BR     endereco                                                                                            admin     info                Endereco
-pt_BR     bairro                                                                                              admin     info                Bairro
-pt_BR     cidade                                                                                              admin     info                Cidade
-pt_BR     unidade da federacao                                                                                admin     info                Unidade da Federacao
-pt_BR     responsavel                                                                                         admin     info                Responsavel
-pt_BR     telefone                                                                                            admin     info                Telefone
-pt_BR     um                                                                                                  admin     info                Um
-pt_BR     dois                                                                                                admin     info                Dois
-pt_BR     modulo para cadastramento de unidades organizacionais de nivel 1                                    admin     info                Modulo para cadastramento de Unidades Organizacionais de Nivel 1
-pt_BR     unidade organizacional nivel 2                                                                      admin     info                Unidade Organizacional Nivel 2
-pt_BR     modulo para cadastramento de unidades organizacionais de nivel 2                                    admin     info                Modulo para cadastramento de Unidades Organizacionais de Nivel 2
-pt_BR     por favor, selecione                                                                                admin     info                Por favor, selecione
-pt_BR     selecione local                                                                                     admin     info                Selecione local
-pt_BR     cadastro de unidade organizacional nivel 2                                                          admin     info                Cadastro de Unidade Organizacional Nivel 2
-pt_BR     unidade organizacional                                                                              admin     info                Unidade Organizacional
-pt_BR     nivel                                                                                               admin     info                Nivel
-pt_BR     retorne aos passos anteriores e configure adequadamente                                             instaladorinfo                Retorne aos passos anteriores e configure adequadamente
-pt_BR     configuracao padrao                                                                                 admin     info                Configuracao Padrao
-pt_BR     definir as configuracoes para sugestoes em formularios                                              admin     info                Definir as configuracoes para sugestoes em formularios
-pt_BR     nome da organizacao                                                                                 admin     info                Nome da organizacao
-pt_BR     nome ou ip do servidor de atualizacao (ftp)                                                         admin     info                Nome ou IP do servidor de atualizacao (FTP)
-pt_BR     nome ou ip do servidor de aplicacao (gerente)                                                       admin     info                Nome ou IP do servidor de aplicacao (gerente)
-pt_BR     restaurar valores                                                                                   admin     info                Restaurar valores
-pt_BR     graficos a serem exibidos                                                                           admin     info                Graficos a serem exibidos
-pt_BR     sistemas operacionais                                                                               admin     info                Sistemas operacionais
-pt_BR     acessos                                                                                             admin     info                Acessos
-pt_BR     acessos locais                                                                                      admin     info                Acessos locais
-pt_BR     exibe janela de patrimonio                                                                          admin     info                Exibe janela de patrimonio
-pt_BR     senha padrao para administrar o agente                                                              admin     info                Senha padrao para administrar o agente
-pt_BR     outros                                                                                              admin     info                Outros
-pt_BR     ocorreu erro no processamento...(programa ainda nao finalizado)                                     admin     info                Ocorreu erro no processamento...(programa ainda nao finalizado)
-pt_BR     aguarde processamento...                                                                            admin     info                Aguarde processamento...
-pt_BR     processamento realizado com sucesso                                                                 admin     info                Processamento realizado com sucesso
-pt_BR     configuracao basica                                                                                 admin     info                Configuracao Basica
-pt_BR     mensagens                                                                                           admin     info                Mensagens
-pt_BR     outros                                                                                              admin     info                Outros

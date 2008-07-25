@@ -15,6 +15,13 @@
  */
 
 session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario']))
+  die('Acesso restrito (Restricted access)!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
 include_once "../../../include/library.php";
 
 Conecta_bd_cacic();
@@ -30,11 +37,11 @@ if ($exclui_uon2)
 				FROM 	unid_organizacional_nivel2 
 				WHERE 	id_unid_organizacional_nivel2 = '$frm_id_unid_organizacional_nivel2_anterior'";
 
-	mysql_query($query) or die('1-Delete UON2 falhou ou sua sessão expirou!');
+	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
 	if (!atualiza_configuracoes_uonx('2'))
 		{
-		echo mensagem('Falha na atualização de configurações');
+		echo mensagem($oTranslator->_('Falha na atualizacao de configuracoes'));
 		}
 	else
 		{
@@ -58,11 +65,11 @@ else if($_POST['gravainformacaoUON2'])
 				 	id_local 						= '".$_POST['frm_id_local']."' 
 			  	WHERE id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2_anterior'];
 								
-	$result = mysql_query($query) or die ('1-Insert falhou ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
 	if (!atualiza_configuracoes_uonx('2'))
 		{
-		echo mensagem('Falha na atualização de UON2');
+		echo mensagem($oTranslator->_('Falha na atualizacao de configuracoes'));
 		}
 	else
 		{
@@ -79,7 +86,7 @@ else
 	<SCRIPT LANGUAGE="JavaScript">
 	function ConfirmaExclusao() 
 		{
-		if (confirm ("Confirma exclusão de "+ window.document.forms[0].frm_etiqueta2.value+"?")) 
+		if (confirm ("<?=$oTranslator->_('Confirma exclusao de');?> "+ window.document.forms[0].frm_etiqueta2.value+"?")) 
 			{
 			return true;
 			} 
@@ -111,13 +118,13 @@ else
 		{
 			if (document.form.frm_id_unid_organizacional_nivel1a.value == 0)
 				{
-				alert("Por favor, selecione "+ window.document.forms[0].frm_etiqueta1a.value+".");
+				alert("<?=$oTranslator->_('Por favor, selecione');?> "+ window.document.forms[0].frm_etiqueta1a.value+".");
 				document.form.frm_id_unid_organizacional_nivel1a.focus();
 				return false;
 				} 
 			if (document.form.frm_nm_unid_organizacional_nivel2.value == "")
 				{
-				alert("Por favor, preencha campo "+ window.document.forms[0].frm_etiqueta2.value+".");
+				alert("<?=$oTranslator->_('Por favor, preencha campo');?> "+ window.document.forms[0].frm_etiqueta2.value+".");
 				document.form.frm_nm_unid_organizacional_nivel2.focus();
 				return false;
 				} 
@@ -181,7 +188,7 @@ else
 									UON1a.nm_unid_organizacional_nivel1a
 					   FROM 		unid_organizacional_nivel1a UON1a
 					   ORDER BY		UON1a.nm_unid_organizacional_nivel1a";
-	$resultLayerUON1a = mysql_query($queryLayerUON1a) or die('Select Impossível na tabela UON1a');
+	$resultLayerUON1a = mysql_query($queryLayerUON1a) or die($oTranslator->_('Falha na consulta a tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
 	
 	$intIdUON1a  = 0;
 	
@@ -202,8 +209,10 @@ else
 	<script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
 	<table width="90%" border="0" align="center">
 	  <tr> 
-		<td class="cabecalho">Detalhes de <? echo $_SESSION['etiqueta2'];?> (U. O. N&iacute;vel 
-	    2)</td>
+		<td class="cabecalho">
+		 <?=$oTranslator->_('Detalhes de');?> <? echo $_SESSION['etiqueta2'];?>
+		 (<?=$oTranslator->_('Unidade Organizacional Nivel 2');?>)
+		</td>
 	  </tr>
 	  <tr> 
 		<td>&nbsp;</td>
@@ -213,7 +222,7 @@ else
 	<form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
 	<table width="61%" border="0" align="center" cellpadding="2" cellspacing="2">
 	<tr>
-	<td nowrap class="label">Local:</td>
+	<td nowrap class="label"><?=$oTranslator->_('Local');?></td>
 	<td colspan="3"><select name="frm_id_local" id="frm_id_local" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
 	<?			  
 	while($row_LOCAIS = mysql_fetch_array($result_LOCAIS))
@@ -226,7 +235,7 @@ else
   	<td nowrap class="label"><? echo $_SESSION['etiqueta1']; ?>:</td>
 	<td colspan="3"> <div align="left"> 
   	<select name="frm_id_unid_organizacional_nivel1" id="frm_id_unid_organizacional_nivel1"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="ListarUON1a(this)">
-	<option value="0">Selecione <? echo $_SESSION['etiqueta1']; ?></option>
+	<option value="0"><?=$oTranslator->_('Selecione');?> <? echo $_SESSION['etiqueta1']; ?></option>
 				<?
 				
 	if(mysql_num_rows($result_UON1))
@@ -245,7 +254,7 @@ else
 		  <td nowrap class="label"><? echo $_SESSION['etiqueta1a']; ?>:</td>
 		  <td colspan="3"> <div align="left"> 
 			  <select name="frm_id_unid_organizacional_nivel1a" id="frm_id_unid_organizacional_nivel1a"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-				<option value="0" selected>Selecione <? echo $_SESSION['etiqueta1a']; ?></option>
+				<option value="0" selected><?=$oTranslator->_('Selecione');?> <? echo $_SESSION['etiqueta1a']; ?></option>
 				<?
 	mysql_data_seek($result_UON1a,0);
 	if(mysql_num_rows($result_UON1a))
@@ -269,44 +278,44 @@ else
 			</div></td>
 		</tr>
 		<tr> 
-		  <td class="label"><div align="left">Endere&ccedil;o:</div></td>
+		  <td class="label"><div align="left"><?=$oTranslator->_('Endereco');?></div></td>
 		  <td colspan="3"> <div align="left"> 
 			  <input name="frm_te_endereco_uon2" type="text"  id="frm_te_endereco_uon2" size="60" maxlength="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['te_endereco_uon2'];?>">
 			</div></td>
 		</tr>
 		<tr> 
-		  <td class="label"><div align="left">Bairro:</div></td>
+		  <td class="label"><div align="left"><?=$oTranslator->_('Bairro');?></div></td>
 		  <td colspan="3"> <div align="left"> 
 			  <input name="frm_te_bairro_uon2" type="text"  id="frm_te_bairro_uon2" size="60" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['te_bairro_uon2'];?>">
 			</div></td>
 		</tr>
 		<tr> 
-		  <td class="label">Cidade:</td>
+		  <td class="label"><?=$oTranslator->_('Cidade');?></td>
 		  <td><input name="frm_te_cidade_uon2" type="text"  id="frm_te_cidade_uon2" size="20" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['te_cidade_uon2'];?>"> 
 		  </td>
 		  <td>&nbsp;</td>
-		  <td class="label"><div align="right">UF: 
+		  <td class="label"><div align="right"><?=$oTranslator->_('Unidade da Federacao',T_SIGLA);?> 
 			  <input name="frm_te_uf_uon2" type="text"  id="frm_te_uf_uon2" size="2" maxlength="2" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['te_uf_uon2'];?>">
 			</div></td>
 		</tr>
 		<tr> 
-		  <td class="label">Respons&aacute;vel:</td>
+		  <td class="label"><?=$oTranslator->_('Responsavel');?></td>
 		  <td colspan="3"><div align="left">
 			  <input name="frm_nm_responsavel_uon2" type="text"  id="frm_nm_responsavel_uon2" size="60" maxlength="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['nm_responsavel_uon2'];?>">
 			</div></td>
 		</tr>
 		<tr> 
-		  <td class="label">E-mail:</td>
+		  <td class="label"><?=$oTranslator->_('Endereco eletronico');?></td>
 		  <td colspan="3"><div align="left"> 
 			  <input name="frm_te_email_responsavel_uon2" type="text"  id="frm_te_email_responsavel_uon2" size="60" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['te_email_responsavel_uon2'];?>">
 			</div></td>
 		</tr>
 		<tr> 
-		  <td class="label">Tel. 1:</td>
+		  <td class="label"><?=$oTranslator->_('Telefone').' '.$oTranslator->_('Um',T_SIGLA);?></td>
 		  <td><div align="left"> 
 			  <input name="frm_nu_tel1_responsavel_uon2" type="text"  id="frm_nu_tel1_responsavel_uon2" size="20" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['nu_tel1_responsavel_uon2'];?>">
 			</div></td>
-		  <td nowrap class="label"><div align="right">Tel. 2:</div></td>
+		  <td nowrap class="label"><div align="right"><?=$oTranslator->_('Telefone').' '.$oTranslator->_('Dois',T_SIGLA);?></div></td>
 		  <td><div align="right"> 
 			  <input name="frm_nu_tel2_responsavel_uon2" type="text"  id="frm_nu_telefone2" size="20" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row_UON2['nu_tel2_responsavel_uon2'];?>">
 			</div></td>
@@ -320,11 +329,11 @@ else
 	  <p align="center"> 
 		
 	  <?
-	  $v_frase = "Confirma('Confirma Alteração de ".$_SESSION['etiqueta2']."?')";
+	  $v_frase = "Confirma('".$oTranslator->_('Confirma informacoes para')." ".$_SESSION['etiqueta2']."?')";
 	  ?>
-	  <input name="gravainformacaoUON2" type="submit" value="  Gravar Informa&ccedil;&otilde;es  "<? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'');?>  onClick="return <? echo $v_frase;?>">
+	  <input name="gravainformacaoUON2" type="submit" value="<?=$oTranslator->_('Gravar Alteracoes');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'');?>  onClick="return <? echo $v_frase;?>">
 	&nbsp; &nbsp; 		  
-      <input name="exclui_uon2" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon2" value="  Excluir <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'');?>>
+      <input name="exclui_uon2" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon2" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'');?>>
 		
 	  </p>
 	</form>

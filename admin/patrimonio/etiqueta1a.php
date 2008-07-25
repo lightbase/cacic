@@ -14,6 +14,14 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
+/*
+ * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso restrito (Restricted access)!');
+else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+}
+
 require_once('../../include/library.php');
 AntiSpy();
 conecta_bd_cacic(); ?>
@@ -21,7 +29,7 @@ conecta_bd_cacic(); ?>
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Configura&ccedil;&atilde;o da Tela de Patrim&ocirc;nio</title>
+<title><?=$oTranslator->_('Configuracao da Tela de Patrimonio');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -44,21 +52,37 @@ conecta_bd_cacic(); ?>
 <form name="form1" method="post" action="etiqueta_generica.php">
   <table width="600" border="0" align="center">
     <tr> 
-      <td nowrap class="label">Texto 
-        da &quot;Etiqueta 1&quot;:</td>
+      <td nowrap class="label">
+        <?=$oTranslator->_('Texto da');?>
+        &quot;<?=$oTranslator->_('Etiqueta 1a');?>&quot;:
+      </td>
       <td><input name="te_etiqueta" type="text" id="te_etiqueta" value="<?  echo $default[0]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
-      <td class="descricao">Ex: Linha de Neg&oacute;cio</td>
+      <td class="descricao">
+        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?=$oTranslator->_('Linha de negocio');?>&quot;
+      </td>
     </tr>
     <tr> 
-      <td nowrap class="label">Plural de Texto da &quot;Etiqueta 1&quot;:</td>
+      <td nowrap class="label">
+        <?=$oTranslator->_('Plural de texto da');?>
+        &quot;<?=$oTranslator->_('Etiqueta 1a');?>&quot;:
+      </td>
       <td><input name="te_plural_etiqueta" type="text" id="te_etiqueta" value="<?  echo $default[2]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
-      <td class="descricao">Ex: Linhas de Neg&oacute;cio</td>
+      <td class="descricao">
+        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?=$oTranslator->_('Linhas de negocios');?>&quot;
+      </td>
     </tr>
 	
     <tr> 
-      <td nowrap class="label">Texto de ajuda da &quot;Etiqueta 1&quot;:</td>
+      <td nowrap class="label">
+        <?=$oTranslator->_('Texto de ajuda da');?>
+        &quot;<?=$oTranslator->_('Etiqueta 1a');?>&quot;:
       <td><input name="te_help_etiqueta" type="text" id="te_help_etiqueta" value="<?  echo $default	[1]  ?>" size="25" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
-      <td class="descricao">Ex: Selecione a Linha de Neg&oacute;cio referente a localiza&ccedil;&atilde;o deste equipamento.</td>
+      <td class="descricao">
+        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?=$oTranslator->_('Selecione a Linha de negocio de localizacao deste equipamento');?>&quot;
+      </td>
     </tr>
     <tr> 
 	
@@ -67,7 +91,7 @@ conecta_bd_cacic(); ?>
     </tr>
     <tr> 
       <td colspan="3" nowrap> <div align="center"> 
-          <input name="gravar" type="submit" id="gravar" value="   Gravar   " onClick="return Confirma('Confirma Configuração de Etiqueta 1a?');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="gravar" type="submit" id="gravar" value="<?=$oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Configuracao de Etiqueta 1a?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     </tr>
   </table>

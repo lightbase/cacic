@@ -127,7 +127,7 @@ require_once('../include/selecao_listbox.js');
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->
 	</script>*/?> </td>
-      <td align="left" class="descricao">(<?=$oTranslator->_('Formato da data');?>: dd/mm/aaaa)</td>
+      <td align="left" class="descricao">(<?=$oTranslator->_('Formato da data');?> <?=$oTranslator->_('dd/mm/aaaa');?>)</td>
       <td rowspan="2" align="left" valign="middle" class="descricao"><div align="center">
           <input name="consultar" type="submit" value="   Filtrar   " onClick="SelectAll(this.form.elements['list12[]'])">
         </div></td>

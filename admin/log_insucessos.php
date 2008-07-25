@@ -118,7 +118,7 @@ $result = mysql_query($query);
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->
 	</script>*/?> </td>
-      <td align="left" class="descricao">&nbsp;&nbsp;(formato: dd/mm/aaaa)</td>
+      <td align="left" class="descricao">&nbsp;&nbsp;(<?=$oTranslator->_('Formato da data');?> <?=$oTranslator->_('dd/mm/aaaa');?>)</td>
       <td rowspan="4" align="left" valign="middle" class="descricao"><div align="center">
           <input name="consultar" type="submit" value="   Filtrar   " onClick="SelectAll(this.form.elements['list12[]'])">
         </div></td>

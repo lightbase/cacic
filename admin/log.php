@@ -40,7 +40,7 @@ else
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title>Log de Atividades</title>
+<title><?=$oTranslator->_('Log de Atividades');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -49,20 +49,21 @@ else
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><div align="left">Log de Atividades</div></td>
+    <td class="cabecalho"><div align="left"><?=$oTranslator->_('Log de Atividades');?></div></td>
   </tr>
   <tr> 
-      <td class="descricao">Neste m&oacute;dulo s&atilde;o visualizadas as ocorr&ecirc;ncias 
-        com as opera&ccedil;&otilde;es de INSERT/UPDATE/DELETE ocorridas no Sistema 
-        CACIC.</td>
+      <td class="descricao">
+        <?=$oTranslator->_('Visualizacao das ocorrencias com as operacoes de atualizacao, inclusao e exclusao no sistema.');?>
+      </td>
   </tr>
 </table>
 	<p><br></p>
 	
   <table width="90%" border="0" cellpadding="0" cellspacing="1" align="center">
     <tr> 
-      <td class="label" colspan="3">Selecione o per&iacute;odo em que dever&aacute; 
-        ser realizada a consulta:</td>
+      <td class="label" colspan="3">
+        <?=$oTranslator->_('Selecione o periodo em que devera ser realizada a consulta');?>
+      </td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="3"></td>
@@ -89,7 +90,7 @@ else
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->
 	</script> </td>
-      <td align="left" class="descricao">&nbsp;&nbsp;(formato: dd/mm/aaaa)</td>
+      <td align="left" class="descricao">&nbsp;&nbsp;(<?=$oTranslator->_('Formato da data');?> <?=$oTranslator->_('dd/mm/aaaa');?>)</td>
       <td align="left" class="descricao" valign="middle"><div align="center">
           <input name="consultar" type="submit" value="   Filtrar   ">
         </div></td>
@@ -137,18 +138,18 @@ else
 		<table width="90%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
           <tr bgcolor="#E1E1E1"> 
             <td colspan="3"></td>
-            <td align="center" nowrap class="cabecalho_tabela"><div align="left">Data</div></td>
+            <td align="center" nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Data');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left">Op.</div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Operacao');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left">Tabela</div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Tabela');?></div></td>
             <td></td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Script 
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Script');?>
                 (.php)</div></td>
             <td></td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Usu&aacute;rio</div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Usuario');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela">IP Origem</td>
+            <td nowrap class="cabecalho_tabela"><?=$oTranslator->_('IP Origem');?></td>
             <td></td>
           </tr>
           <tr> 
@@ -156,8 +157,9 @@ else
           </tr>
           <?  
 		$msg = '<div align="center">
-		<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-		Nenhuma ação realizada no período informado.</font><br><br></div>';
+		       <font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">'.
+		       $oTranslator->_('Nenhuma acao realizada no periodo informado.') .
+		       '</font><br><br></div>';
 		
 		$Cor = 0;
 		$NumRegistro = mysql_num_rows($result);
@@ -234,16 +236,17 @@ else
 		</table>
 		<table width="293" border="0" align="center" cellpadding="0" cellspacing="1">
 		<tr> 
-		<td colspan="3"><div align="center"><font color="#004080" size="4">Resumo 
-          das Opera&ccedil;&otilde;es</font></div></td>
+		<td colspan="3"><div align="center"><font color="#004080" size="4">
+		  <?=$oTranslator->_('Resumo das Operacoes');?>
+          </font></div></td>
 		</tr>
 		<tr> 
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
 		<tr bgcolor="#CCCCCC"> 
-		<td><div align="left"><font size="2"><strong>Opera&ccedil;&atilde;o</strong></font></div></td>
-		<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
-		<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
+		<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Operacao');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
 		</tr>
 		<tr> 
 		<td height="1" colspan="3" bgcolor="#333333"></td>
@@ -287,9 +290,9 @@ else
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
 		<tr bgcolor="#CCCCCC"> 
-		<td><div align="left"><font size="2"><strong>Tabela</strong></font></div></td>
-		<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
-		<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
+		<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Tabela');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
 		</tr>
 		<tr> 
 		<td height="1" colspan="3" bgcolor="#333333"></td>
@@ -333,9 +336,9 @@ else
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
 		<tr bgcolor="#CCCCCC"> 
-		<td><div align="left"><font size="2"><strong>Script (.php)</strong></font></div></td>
-		<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
-		<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
+		<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Script');?> (.php)</strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
 		</tr>
 		<tr> 
 		<td height="1" colspan="3" bgcolor="#333333"></td>
@@ -379,9 +382,9 @@ else
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
 		<tr bgcolor="#CCCCCC"> 
-		<td><div align="left"><font size="2"><strong>Usu&aacute;rio</strong></font></div></td>
-		<td><div align="right"><font size="2"><strong>Quant.</strong></font></div></td>
-		<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
+		<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Usuario');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
 		</tr>
 		<tr> 
 		<td height="1" colspan="3" bgcolor="#333333"></td>

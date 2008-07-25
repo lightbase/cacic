@@ -115,7 +115,7 @@ function valida_form()
 	{
 		if (document.form.frm_id_unid_organizacional_nivel1a.value == 0)
 			{
-			alert("Por favor, selecione "+ document.form.etiqueta1a.value+".");
+			alert("<?=$oTranslator->_('Por favor, selecione');?> "+ document.form.etiqueta1a.value+".");
 			document.form.frm_id_unid_organizacional_nivel1a.focus();
 			return false;
 			} 
@@ -147,7 +147,7 @@ $queryUON1a = "SELECT		UON1a.id_unid_organizacional_nivel1,
 							UON1a.nm_unid_organizacional_nivel1a
 			   FROM 		unid_organizacional_nivel1a UON1a
 			   ORDER BY		UON1a.nm_unid_organizacional_nivel1a";
-$resultUON1a = mysql_query($queryUON1a) or die('Select Impossível na tabela UON1a');
+$resultUON1a = mysql_query($queryUON1a) or die($oTranslator->_('Falha na consulta a tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
 
 $intIdUON1a  = 0;
 
@@ -185,26 +185,26 @@ $qry_locais = "SELECT 	id_local,
 			   FROM 	locais
 			   ORDER BY	sg_local";
 					
-$result_locais = mysql_query($qry_locais) or die ('2-Select em tabela locais falhou ou sua sessão expirou!');
+$result_locais = mysql_query($qry_locais) or die ($oTranslator->_('Falha na consulta a tabela (%1) ou sua sessao expirou!',array('locais')));
 
 $qry_UON1 = "SELECT 	id_unid_organizacional_nivel1,
 			 			nm_unid_organizacional_nivel1
 			 FROM 		unid_organizacional_nivel1
 			 ORDER BY	nm_unid_organizacional_nivel1";
 					
-$result_UON1 = mysql_query($qry_UON1) or die ('2.1-Select em tabela UON1 falhou ou sua sessão expirou!');
+$result_UON1 = mysql_query($qry_UON1) or die ($oTranslator->_('Falha na consulta a tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1')));
 
 ?>
 
 <form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
   <table width="61%" border="0" align="center" cellpadding="2" cellspacing="2">
     <tr>
-      <td nowrap class="label">Local:</td>
+      <td nowrap class="label"><?=$oTranslator->_('Local');?></td>
       <td colspan="3"><select name="frm_id_local" id="frm_id_local" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
           <?
 			echo '<option value="0" ';
 			echo ($_SESSION['cs_nivel_administracao']<>1?' selected ':'');			
-			echo '>Selecione Local</option>';		  
+			echo '>'.$oTranslator->_('Selecione').'</option>';		  
 		  	while($row = mysql_fetch_row($result_locais))
 				echo '<option value="'.$row[0].'">'.$row[1].'</option>';
 				?>
@@ -213,7 +213,7 @@ $result_UON1 = mysql_query($qry_UON1) or die ('2.1-Select em tabela UON1 falhou 
       <td nowrap class="label"><? echo $_SESSION['etiqueta1']; ?>:</td>
       <td colspan="3"> <div align="left"> 
           <select name="frm_id_unid_organizacional_nivel1" id="frm_id_unid_organizacional_nivel1"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="ListarUON1a(this)">
-            <option value="0" selected>Selecione <? echo $_SESSION['etiqueta1']; ?></option>
+            <option value="0" selected><?=$oTranslator->_('Selecione');?> <? echo $_SESSION['etiqueta1']; ?></option>
             <?
 if(mysql_num_rows($result_UON1))
 	{	              
@@ -231,7 +231,7 @@ if(mysql_num_rows($result_UON1))
       <td nowrap class="label"><? echo $_SESSION['etiqueta1a']; ?>:</td>
       <td colspan="3"> <div align="left"> 
           <select name="frm_id_unid_organizacional_nivel1a" id="frm_id_unid_organizacional_nivel1a"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" disabled="disabled">
-            <option value="0" selected>Selecione <? echo $_SESSION['etiqueta1a']; ?></option>
+            <option value="0" selected><?=$oTranslator->_('Selecione');?> <? echo $_SESSION['etiqueta1a']; ?></option>
             <?
 if(mysql_num_rows($result_sel1))
 	{	              
