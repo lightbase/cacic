@@ -111,7 +111,6 @@ else
 	{
 	$Cor = 0;
 	$NumRegistro = 1;
-	
 	while($row = mysql_fetch_array($result)) 
 		{
 		?>
@@ -130,7 +129,7 @@ else
             <td nowrap>&nbsp;</td>
             <td nowrap><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<? echo $row['id_so'];?>"><? echo $row['sg_so']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<? echo $row['id_so'];?>"><? echo $row['TotalEstacoes']; ?></a></div></td>
+            <td nowrap><div align="center"><a href="../../relatorios/software/rel_software.php?orderby=4&principal=so&id_so=<? echo $row['id_so'];?>"><? echo $row['TotalEstacoes']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
 			
             <? 

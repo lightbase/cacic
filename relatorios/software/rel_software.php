@@ -33,7 +33,10 @@ $DbConnect = conecta_bd_cacic();
 if ($_GET['principal'])
 	{
 	$query = ' SELECT 	id_so
-			   FROM   	so';	   
+			   FROM   	so';	  
+    if ($_GET['id_so']<>'')
+		$query .= ' WHERE id_so='.$_GET['id_so'];
+
 	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 	$_SESSION["list4"] = '';				
 	while ($row = mysql_fetch_array($result))
@@ -245,13 +248,12 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 // *****************************************************
 
 // definicoes de variaveis
-$sql = "select nu_rel_maxlinhas from configuracoes_padrao";
-$db_result = mysql_query($sql);
-$cfgStdData = mysql_fetch_assoc($db_result);
+$arrValores 					= getValores('configuracoes_padrao', 'nu_rel_maxlinhas', '1');			
 
-$max_links 	= 100; // máximo de links à serem exibidos
-$max_res 	= ($cfgStdData['nu_rel_maxlinhas'])?$cfgStdData['nu_rel_maxlinhas']:100; // máximo de resultados à serem exibidos por tela ou pagina
-$mult_pag 	= new Mult_Pag($max_res); // cria um novo objeto navbar
+$max_links 		  				= 100; // máximo de links à serem exibidos
+$nu_rel_maxlinhas 				= ($arrValores['nu_rel_maxlinhas']<>''?$arrValores['nu_rel_maxlinhas']:100); // máximo de resultados a serem exibidos por tela ou pagina
+$mult_pag 	      				= new Mult_Pag(); // cria um novo objeto navbar
+$mult_pag->nu_rel_maxlinhas	= $nu_rel_maxlinhas;
 
 // metodo que realiza a pesquisa
 $resultado = $mult_pag->Executar($query, $DbConnect, "", "mysql");
@@ -268,7 +270,7 @@ for ($i=2; $i < mysql_num_fields($resultado); $i++)
 echo '</tr>';
 
 $cor = 0;
-$num_registro = 1 + ($max_res * $pagina);
+$num_registro = 1 + ($nu_rel_maxlinhas * $pagina);
 
 // visualizacao do conteudo
 for ($n = 0; $n < $reg_pag; $n++) 

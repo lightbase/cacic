@@ -28,15 +28,16 @@ Adaptações Realizadas / Motivos:
 class Mult_Pag 
 	{
   	// Valores padrão para a navegação dos links
-  	var $num_pesq_pag;
   	var $str_anterior 	= " Anterior ";
   	var $str_proxima 	= " Próxima ";
   	var $str_primeira	= " Primeira      ";
   	var $str_ultima		= "      Última ";
+
   	// Variáveis usadas internamente
   	var $nome_arq;
   	var $total_reg;
   	var $pagina;
+	var $nu_rel_maxlinhas;
 
   	/*
      Metodo construtor. Isto é somente usado para setar
@@ -67,9 +68,10 @@ class Mult_Pag
   	*/
   	function Executar($sql, $conexao, $velocidade, $tipo)
   		{
-		$this->num_pesq_pag = ($this->num_pesq_pag > 0?$this->num_pesq_pag:1);
+		global $nu_rel_maxlinhas;
+
     	// variavel para o inicio das pesquisas
-    	$inicio_pesq = $this->pagina * $this->num_pesq_pag;
+    	$inicio_pesq = $this->pagina * $this->nu_rel_maxlinhas;
 
     	if ($velocidade == "otimizada") 
 			{
@@ -85,7 +87,7 @@ class Mult_Pag
 			{
       		$resultado = mysql_query($total_sql);
       		$this->total_reg = mysql_num_rows($resultado); // total de registros da pesquisa inteira	  
-      		$sql .= " LIMIT $inicio_pesq, $this->num_pesq_pag";
+      		$sql .= " LIMIT $inicio_pesq, $this->nu_rel_maxlinhas";
       		$resultado = mysql_query($sql); // pesquisa com limites por pagina
     		}
     	else if ($tipo == "pgsql") 
@@ -96,7 +98,7 @@ class Mult_Pag
           		// total de registros da pesquisa inteira
          		$this->total_reg = pg_numrows( $resultado );//pg_Result($resultado, 0, 0);
       			}
-      		$sql .= " LIMIT $this->num_pesq_pag, $inicio_pesq";
+      		$sql .= " LIMIT $this->nu_rel_maxlinhas, $inicio_pesq";
       		$resultado = pg_Exec($conexao, $sql);// pesquisa com limites por pagina
     		}
     	return $resultado;
@@ -149,7 +151,7 @@ class Mult_Pag
   		{
     	$extra_vars = $this->Construir_Url();
     	$arquivo = $this->nome_arq;
-    	$num_mult_pag = ceil($this->total_reg / $this->num_pesq_pag); // numero de multiplas paginas
+    	$num_mult_pag = ceil($this->total_reg / $this->nu_rel_maxlinhas); // numero de multiplas paginas
     	$indice = -1; // indice do array final
 		$numero_links_proximos=4;
 

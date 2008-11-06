@@ -368,7 +368,8 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 			// Gráficos disponíveis para exibição na página principal
 			// [so][acessos][locais][acessos_locais]
 			// A variável de sessão menu_seg->_SESSION['te_exibe_graficos'] contém os gráficos selecionados para exibição
-			$te_exibe_graficos = get_valor_campo('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$frm_id_local);		
+			$arrValores = getValores('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$frm_id_local);
+			$te_exibe_graficos = $arrValores['te_exibe_graficos'];
 			?>
                 <select multiple size="10" name="listaExibeGraficosDisponiveis[]" id="listaExibeGraficosDisponiveis" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 </select>
