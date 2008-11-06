@@ -101,7 +101,8 @@ function scrollit(seed)
 				else 
 					{
 					require_once('include/library.php');					
-					echo get_valor_campo('configuracoes_padrao', 'nm_organizacao'); 
+					$arrConfiguracoesPadrao = getValores('configuracoes_padrao', 'nm_organizacao'); 
+					echo $arrConfiguracoesPadrao['nm_organizacao'];
 					}				
 				?>
 				</font></b></div></td>

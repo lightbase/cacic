@@ -42,7 +42,8 @@ require_once("include/library.php");
 session_unregister('te_exibe_graficos');
 
 // Resgato a configuração sobre exibição dos gráficos da página principal
-$_SESSION['te_exibe_graficos'] = get_valor_campo('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$_SESSION['id_local']);			
+$arrConfiguracoesLocais = getValores('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$_SESSION['id_local']);			
+$_SESSION['te_exibe_graficos'] = $arrConfiguracoesLocais['te_exibe_graficos'];
 
 // Caso o usuário atual não esteja logado, mostro apenas os números de acessos por local
 if (!session_is_registered('cs_nivel_administracao'))

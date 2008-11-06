@@ -83,9 +83,51 @@ if ($_POST['submit_cond'])
 								c.id_local = d.id_local '.
 								$where . ' 
 						ORDER 	by a.te_nome_computador';
+
+	$Query_Pesquisa = 'SELECT 	computadores.id_so,
+								computadores.te_node_address,
+								computadores.te_nome_computador, 
+								computadores.te_ip, 
+								computadores.te_versao_cacic, 
+								computadores.te_versao_gercols, 
+								computadores.dt_hr_ult_acesso,
+								computadores.dt_hr_inclusao,								
+								so.sg_so,
+								redes.id_local
+						FROM	computadores								
+								LEFT JOIN so    ON (computadores.id_so      = so.id_so)
+								LEFT JOIN redes ON (computadores.id_ip_rede = redes.id_ip_rede)
+						WHERE   '.stripslashes($query_sele_exclui).
+								$where . ' 
+						ORDER 	by computadores.te_nome_computador';
+						
 	conecta_bd_cacic();
-	$result = mysql_query($Query_Pesquisa) or die($oTranslator->_('kciq_msg select on table fail', array('computadores/so/redes/locais'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-	
+	$result = mysql_query($Query_Pesquisa) or die('Erro no select (1) ou sua sessão expirou!');
+
+	$strIdLocal = '';
+	$arrSgLocal = array();
+	while($row = mysql_fetch_array($result)) 
+		{		  
+		if ($row['id_local']<>'' && $arrSgLocal[$row['id_local']]=='')
+			{
+			$arrSgLocal[$row['id_local']] = '*';
+			$strIdLocal .= ($strIdLocal==''?'':',');
+			$strIdLocal .= $row['id_local'];
+			}
+		}	
+	if ($strIdLocal <> '')
+		{
+		$Query_Locais = 'SELECT 	locais.id_local,
+									locais.sg_local
+						 FROM		locais
+						 WHERE   	locais.id_local in ('.$strIdLocal.')';
+		if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+			echo 'Query_Locais: '.$Query_Locais.'<br>';											 
+		$resultLocais = mysql_query($Query_Locais) or die('Erro no select (2) ou sua sessão expirou!');		
+		while($row = mysql_fetch_array($resultLocais)) 
+			$arrSgLocal[$row['id_local']] = $row['sg_local'];
+		}
+		
 	?>
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
@@ -250,24 +292,66 @@ else
 		{
 		$v_cs_exclui = '';
 		conecta_bd_cacic();			
+
+	
+		// Faço testes para identificar as tabelas válidas para as consultas...
+		$result_tables	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do CACIC
+			
+		/*
+		while ($row_consulta = mysql_fetch_row($result_tables)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO				
+			{
+			$v_query_consulta 	= 'SELECT count(id_so) FROM '.$row_consulta[0] .' WHERE concat(te_node_address,id_so) <> ""';
+			if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+				echo 'v_query_consulta: '.$v_query_consulta.'<br>';
+			
+			$consulta 			= @mysql_query($v_query_consulta);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
+			if ($consulta)
+				$strTripaTabelasValidas .= '#'.$row_consulta[0].'#';
+			}							
+		*/
+		$strTripaTabelasValidas = '#acoes_excecoes#aplicativos_monitorados#compartilhamentos#componentes_estacoes#componentes_estacoes_historico#historico_hardware#historico_tcp_ip#historicos_hardware#historicos_outros_softwares#historicos_software#historicos_software_completo#officescan#patrimonio#softwares_inventariados_estacoes#unidades_disco#variaveis_ambiente_estacoes#versoes_softwares#';			
+			
+		//				
+		$v_cs_exclui = '';
+		//
+		$strTripaCampos = '';
+		$intContaMaquinas = 0;
 		while(list($key, $value) = each($HTTP_POST_VARS))
 			{
 			if (strpos($key,'chk_')>-1)
-				{
-				if (!$result_tables) $result_tables	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do CACIC
+				{				
+				$strTripaCampos .= ($strTripaCampos == ''?'':',');				
+				$strTripaCampos .= '"#'.str_replace('chk_','',$key).'#"';
+				$intContaMaquinas ++;
+				}			
+			}
+
+
+//		for ($intContaMaquinasAux = 0; $intContaMaquinasAux <= $intContaMaquinas; $intContaMaquinasAux ++)		
+//			{
+			//if (!$result_tables) $result_tables	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do CACIC
 				
-				mysql_data_seek($result_tables,0);
-				$v_arr_exclui = explode('#',$key);
-				while ($row_exclui = mysql_fetch_row($result_tables)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO				
+			mysql_data_seek($result_tables,0);
+			//$v_arr_exclui = explode('#',$key);
+			$boolOK = false;
+			while ($row_exclui = mysql_fetch_row($result_tables)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO				
+				{
+				$boolOK = stripos2($strTripaTabelasValidas, '#'.$row_exclui[0].'#',false);
+				if ($boolOK)
 					{
-					$v_query_exclui = 'DELETE FROM '.$row_exclui[0] .' WHERE te_node_address = "'. str_replace('chk_','',$v_arr_exclui[0]) . '" and id_so="'.str_replace('chk_','',$v_arr_exclui[1]).'"';
-					$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
+					$v_query_exclui = 'DELETE FROM '.$row_exclui[0] .' WHERE concat("#",te_node_address,"#",id_so,"#") in ('.$strTripaCampos.')';
+					$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()									
+					GravaTESTES('Deleção de registros de "'.$row_exclui[0].'" => '.$exclui);					
 					$v_cs_exclui = '1';
-					}			
-				}
+					}
+				}			
+			$v_query_exclui = 'DELETE FROM computadores WHERE concat("#",te_node_address,"#",id_so,"#") in ('.$strTripaCampos.')';
+			$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()												
+
 			if ($v_cs_exclui)
 				GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'computadores');
-			}
+
+//			}
 		}
 	?>	
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

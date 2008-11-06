@@ -262,6 +262,7 @@ else
 	}	
 $query = " SELECT 	DISTINCT computadores.te_node_address, 
 					so.id_so, 
+					UNIX_TIMESTAMP(computadores.dt_hr_ult_acesso),
 					computadores.te_nome_computador as 'Nome Comp.', 
 					sg_so as 'S.O.', 
 					computadores.te_ip as 'IP'" .
@@ -299,7 +300,7 @@ else
 	if ($in_destacar_duplicidade_total) $arr_in_destacar_duplicidade_total = explode('#',$in_destacar_duplicidade_total);
 
 	$in_destacar_duplicidade_tmp = '';
-	for ($i=2; $i < mysql_num_fields($result); $i++) 
+	for ($i=3; $i < mysql_num_fields($result); $i++) 
 		{ //Table Header
 	   	print '<td nowrap align="left"><font size="1" face="Verdana, Arial"><b><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></b></font></td>';
 		if ($in_destacar_duplicidade_total && in_array(mysql_field_name($result, $i),$arr_in_destacar_duplicidade_total)) 
@@ -357,6 +358,24 @@ else
 	$num_registro = 1;
 	@mysql_data_seek($result,0);
 	while ($row = mysql_fetch_row($result)) 
+	{//pre Table body
+		
+		// ja existe entrada para este MAC?
+		if (isset($table[$row[0]]))
+		{
+			// acesso mais rencente?
+			if ($row[2] > $table[$row[0]][2])
+			{
+				$table[$row[0]] = $row;
+			}
+		}
+		else
+		{
+			$table[$row[0]] = $row;
+		}
+	}
+
+	foreach ($table as $row) 
 		{ //Table body
 		$v_key_campos_valores_duplicados = strpos($v_campos_valores_duplicados,'r='.$num_registro.'#',0);
 		echo '<tr ';
@@ -369,9 +388,9 @@ else
 		echo '>';
 	
 		echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
-		echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
+		echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[3] ."</a>&nbsp;</td>"; 
 	
-		for ($i=3; $i < $fields; $i++) 
+		for ($i=4; $i < $fields; $i++) 
 			{
 			$v_bold='';
 	

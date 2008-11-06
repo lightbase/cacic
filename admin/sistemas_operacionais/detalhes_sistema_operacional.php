@@ -26,7 +26,7 @@ require_once('../../include/library.php');
 AntiSpy();
 Conecta_bd_cacic();
 
-if ($_REQUEST['ExcluiSO']) 
+if ($_REQUEST['ExcluiSO'] && $_SESSION['cs_nivel_administracao']==1) 
 	{
 	$query = "DELETE 
 			  FROM 		so 
@@ -35,13 +35,15 @@ if ($_REQUEST['ExcluiSO'])
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'so');				
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/sistemas_operacionais/index.php&tempo=1");									 				
 	}
-elseif ($_POST['GravaAlteracoes']) 
+elseif ($_POST['GravaAlteracoes']  && $_SESSION['cs_nivel_administracao']==1) 
 	{
+	$strMsWindows = ($_POST['frm_in_mswindows']=='S'?'S':'N');
 	$query = "UPDATE 	so SET 
-			  			te_desc_so 	= '".$_POST['frm_te_desc_so']."',
-			  			sg_so		= '".$_POST['frm_sg_so']."', 
-			  			te_so		= '".$_POST['frm_te_so']."'
-			  WHERE 	id_so 		= ".$_REQUEST['frm_id_so'];
+			  			te_desc_so 	 = '".$_POST['frm_te_desc_so']."',
+			  			sg_so		 = '".$_POST['frm_sg_so']."', 
+			  			te_so		 = '".$_POST['frm_te_so']."',
+			  			in_mswindows = '".$strMsWindows."'						
+			  WHERE 	id_so 		 = ".$_REQUEST['frm_id_so'];
 	mysql_query($query) or die('Falha na atualização da tabela SO ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'SO');
 			
@@ -139,12 +141,33 @@ function valida_form()
       <td nowrap><input name="frm_te_so" type="text"          class="normal" id="frm_te_so" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row['te_so'];?>" size="50" maxlength="50" <? if (trim($row['te_so']) <> '') echo 'disabled readonly="true"';?>></td>
       <td nowrap><input name="frm_id_so" type="text" disabled class="normal" id="frm_id_so" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row['id_so'];?>" size="50" maxlength="11" readonly="true"></td>
     </tr>
+    <tr>
+      <td nowrap>&nbsp;</td>
+      <td nowrap>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td height="1" bgcolor="#333333"></td>
+      <td bgcolor="#333333"></td>
+    </tr>
+	
+    <tr>
+      <td nowrap class="label"><div align="left"><input type="checkbox" name="frm_in_mswindows" id="frm_in_mswindows" value="S" <? if ($row['in_mswindows']=='S') echo 'checked';?>>
+      Sistema Operacional MS-Windows</div></td>
+      <td nowrap>&nbsp;</td>
+    </tr>
   </table>
   <p align="center"> <br>
     <br>
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return valida_form();return Confirma('Confirma Informações para Local?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="ExcluiSO" type="submit" id="ExcluiSO" onClick="return Confirma('Confirma Exclusão de Sistema Operacional?');" value="  Excluir Sistema Operacional" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+	<?
+	if ($_SESSION['cs_nivel_administracao']==1)
+		{
+		?>
+	    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Alterações  " onClick="return valida_form();return Confirma('Confirma Informações para Local?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+	     
+    	<input name="ExcluiSO" type="submit" id="ExcluiSO" onClick="return Confirma('Confirma Exclusão de Sistema Operacional?');" value="  Excluir Sistema Operacional" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+		<?
+		}
+		?>
   </p>
 <input type="hidden" id="frm_id_so" name="frm_id_so" value="<? echo $_GET['id_so'];?>">  
 </form>

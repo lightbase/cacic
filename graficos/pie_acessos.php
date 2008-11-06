@@ -51,7 +51,7 @@ $width 			= 700;
 $height 		= 500;//250;
 $DisplaySequence= 0; // Quantidade de posições para o sequencial
 $ImgType		= 'PNG';
-$myLineSize		= 275;
+$myLineSize		= 263;
 $CenterX		= 450;
 $DiameterX		= 480;
 

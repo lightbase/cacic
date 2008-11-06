@@ -13,6 +13,7 @@
 ..<b>Registros</b>||mainFrame|imgs/config_gerais.gif
 ...Aquisiciones|admin/gerencia_licencas/arquivo/aquisicoes.php|mainFrame||
 ...Locales|admin/locais/index.php|mainFrame||Cadastro de Locais para Controle Centralizado
+...Domínios|admin/dominios/index.php|mainFrame||Cadastro de Domínios para Autenticação do srCACIC
 ...SubRedes|admin/redes/index.php|mainFrame||Cadastro de SubRedes
 ...Perfiles Sistemas|admin/perfis_aplicativos_monitorados/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
 ...Usuarios|admin/usuarios/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados

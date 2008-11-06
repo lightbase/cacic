@@ -10,7 +10,8 @@ if($_POST['submit'])
 	$_SESSION["list12"]		 				= $_POST['list12'];
 	$_SESSION["cs_situacao"] 				= $_POST["cs_situacao"];
 	$_SESSION["cs_exibe_info_patrimonial"] 	= $_POST["frmCsExibeInfoPatrimonial"];
-	$_SESSION["te_servidor"]				= '';			
+	$_SESSION["te_servidor"]				= '';
+	$_SESSION['orderby'] = '';		
 	if (count($_POST["frm_te_serv_sel"]) > 0)
 		{
 		for ( $i = 0; $i < count($_POST["frm_te_serv_sel"]); $i++ )
@@ -52,6 +53,8 @@ if($_POST['submit'])
 	
 	}
 ?>
+<?php
+/*
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -89,8 +92,15 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <br>
 <br>
+*/
+?>
 <? 
 require_once('../../include/library.php');
+require_once('../../include/RelatorioHTML.php');
+require_once('../../include/RelatorioPDF.php');
+require_once('../../include/RelatorioODS.php');
+require_once('../../include/RelatorioCSV.php');
+
 AntiSpy();
 conecta_bd_cacic();
 
@@ -133,14 +143,24 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ )
 // Aqui substitui todas as strings \ por vazio que a variável $campos_hardware retorna
 $campos_software = str_replace('\\', '', $campos_software);
 
-if ($_GET['orderby']) 
+if (isset($_GET['orderby']))
+{
 	$orderby = $_GET['orderby'];
+	$_SESSION['orderby'] = $orderby;
+}
+else if ($_SESSION['orderby'] != '')
+{
+	$orderby = $_SESSION['orderby'];
+}
 else
+{
 	$orderby = 'computadores.te_nome_computador';
+}
 
-$query = 'SELECT 	distinct computadores.te_node_address, 
-					so.id_so, 
-					computadores.te_nome_computador as "Nome Comp.", 
+$query = 'SELECT 	DISTINCT computadores.te_node_address, 
+					so.id_so,
+					UNIX_TIMESTAMP(computadores.dt_hr_ult_acesso) as "ult_acesso",
+					computadores.te_nome_computador as "Nome Comp.", 				
 					so.sg_so as "S.O.", 
 					computadores.te_ip as "IP"' .
           			$campos_software . 
@@ -161,25 +181,53 @@ $result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 $cor = 0;
 $num_registro = 1;
 
+if (isset($_GET['formato']))
+{
+	$formato = $_GET['formato'];
+}
+else
+{
+	$formato = $_POST['formato'];
+}
+switch ($formato)
+{
+	case "pdf":
+		$relatorio = new RelatorioPDF();
+		break;
+	case "ods":
+		$relatorio = new RelatorioODS();
+		break;
+	case "csv":
+		$relatorio = new RelatorioCSV();
+		break;
+	default:
+		$relatorio = new RelatorioHTML();
+		break;
+}
+
+$relatorio->setTitulo('CACIC  - Relatório de Configurações do Antivírus OfficeScan');
+
 $fields=mysql_num_fields($result);
-echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
-     <tr bgcolor="#E1E1E1" >
-      <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
 
 $intColunaDHI = 0; // Coluna apenas para ordenar pela Data/Hora de Instalacao
-$strTripaColunasValidas = '#';
-for ($i=2; $i < mysql_num_fields($result); $i++) 
-	{//Table Header
+$strTripaColunasValidas = array();
+$tra = array();
+$header = array('#');
+for ($i=3; $i < mysql_num_fields($result); $i++) 
+{//Table Header
 	$iAux = $i;
 	$iAux = ($iAux==6?7:$iAux);
 	$iAux = ($iAux==8?9:$iAux);	
 	// Não posso mostrar as colunas datas/horas usadas para ordenação	
 	if (mysql_field_name($result, $i)<>'DHI' && mysql_field_name($result, $i)<>'DHUC')
-		{
-	   	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($iAux+1) . '">'. mysql_field_name($result, $i) .'</a></font><b></td>';
-		$strTripaColunasValidas .= $i . '#';
-		}
+	{
+	   	#print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($iAux+1) . '">'. mysql_field_name($result, $i) .'</a></font><b></td>';
+		$header[] = '<b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($iAux+1) . '">'. mysql_field_name($result, $i) .'</a></font></b>';
+		$strTripaColunasValidas[] = $i;
+		$tra[$i] = mysql_field_name($result, $i);
 	}
+}
+
 
 // Caso seja selecionada a exibição de Informações Patrimoniais...
 if ($_SESSION['cs_exibe_info_patrimonial']<>'')
@@ -233,7 +281,8 @@ if ($_SESSION['cs_exibe_info_patrimonial']<>'')
 		if ($boolMostraColuna)
 			{
 			$iAux ++;
-		   	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial">'. $row_pat['te_etiqueta'] .'</font><b></td>';			
+		   	#print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial">'. $row_pat['te_etiqueta'] .'</font><b></td>';
+			$header[] = '<b><font size="1" face="Verdana, Arial">'. $row_pat['te_etiqueta'] .'</font></b>';
 			}
 		}
 		
@@ -271,92 +320,163 @@ if ($_SESSION['cs_exibe_info_patrimonial']<>'')
 	}
 
 	
-echo '</tr>';
+#echo '</tr>';
+$relatorio->setTableHeader($header);
 
+$table = array();
 while ($row = mysql_fetch_row($result)) 
-	{//Table body
-    echo '<tr ';
+{//Table body
+    
+	// ja existe entrada para este MAC?
+	if (isset($table[$row[0]]))
+	{
+		// acesso mais rencente?
+		if ($row[2] > $table[$row[0]][2])
+		{
+			$table[$row[0]] = $row;
+		}
+	}
+	else
+	{
+		$table[$row[0]] = $row;
+	}
+}
+
+// adiciona informacoes patrimoniais
+foreach ($table as $row)
+{
+	#exibe_row($num_registro, $cor, $row, $fields, $strTripaColunasValidas);
+
+	if ($_SESSION['cs_exibe_info_patrimonial']<>'')
+	{
+		#echo '<td nowrap align="left">';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['uon1'].'</font>';
+		#echo '&nbsp;</td>'; 				
+
+		#echo '<td nowrap align="left">';
+		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['uon1a'].'</font>';
+		#echo '&nbsp;</td>'; 				
+
+		#echo '<td nowrap align="left">';
+		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['uon2'].'</font>';
+		#echo '&nbsp;</td>'; 				
+
+		#echo '<td nowrap align="left">';
+		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_localizacao_complementar'].'</font>';
+		#echo '&nbsp;</td>'; 				
+
+		#echo '<td nowrap align="left">';
+		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio1'].'</font>';
+		#echo '&nbsp;</td>'; 				
+
+		#echo '<td nowrap align="left">';
+		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio2'].'</font>';
+		#echo '&nbsp;</td>'; 				
+
+		#echo '<td nowrap align="left">';
+		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio3'].'</font>';
+		#echo '&nbsp;</td>'; 				
+
+		#echo '<td nowrap align="left">';
+		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio4'].'</font>';
+		#echo '&nbsp;</td>'; 				
+
+		#echo '<td nowrap align="left">';
+		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio5'].'</font>';
+		#echo '&nbsp;</td>'; 				
+
+		#echo '<td nowrap align="left">';
+		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio6'].'</font>';
+		#echo '&nbsp;</td>'; 				
+		
+	}
+    $cor = !$cor;
+
+	$relatorio->addRow(gera_row($num_registro, $row, $fields, $strTripaColunasValidas, $tra));
+	$num_registro++;
+}
+#echo '</table><br><br>';
+
+function gera_row($num_registro, $row, $fields, $strTripaColunasValidas, $tra)
+{
+	$c1 = '<font size="1" face="Verdana, Arial">' . $num_registro . '</font>'; 
+	$c2 = "<font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[3] ."</a>";
+
+	unset($row[0]);
+	unset($row[1]);
+	unset($row[2]);
+	unset($row[3]);
+
+	for ($i=4; $i < $fields; $i++) 
+	{
+		
+		if ($row[$i] == 'N')
+		{
+			$row[$i] = '<font size="1" face="Verdana, Arial" color="#FF0000"><center><strong>N</strong></center</font>';
+		}
+		else 	
+		{
+			if (array_search($i, $strTripaColunasValidas) !== FALSE)
+			{
+				$row[$i] = '<font size="1" face="Verdana, Arial" >'.$row[$i].'</font>';
+			}
+			else
+			{
+				unset($row[$i]);
+			}
+		}		
+	}
+
+	array_unshift($row, $c1, $c2);
+	#print_r($row);
+	#die();
+	return $row;
+}
+
+function exibe_row($num_registro, $cor, $row, $fields, $strTripaColunasValidas)
+{
+	global $tra;
+
+	echo '<tr ';
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
-    for ($i=3; $i < $fields; $i++) 
-		{
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial" ';
-		if 		($row[$i] == 'N') 
-			echo 'color="#FF0000"><strong>N</strong>';
-		else 	
-			{
-			echo '>';
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[3] ."</a>&nbsp;</td>";
 
-			// Não posso mostrar as colunas datas/horas usadas para ordenação				
-			$boolExibe = false;
-			$j = $i-1;
-			while ($j < $fields && !$boolExibe)
-				{
-				$j++;
-				$boolExibe = stripos2($strTripaColunasValidas, '#'.$j.'#',false);
-				}
-			$i = $j;
-
-			echo $row[$i];
-			}			
-		echo '&nbsp;</td>'; 		
-		}
-	if ($_SESSION['cs_exibe_info_patrimonial']<>'')
-		{
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
-		echo $arrMacSO[$row[0].'_'.$row[1]]['uon1'];
-		echo '&nbsp;</td>'; 				
-
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
-		echo $arrMacSO[$row[0].'_'.$row[1]]['uon1a'];
-		echo '&nbsp;</td>'; 				
-
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
-		echo $arrMacSO[$row[0].'_'.$row[1]]['uon2'];
-		echo '&nbsp;</td>'; 				
-
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
-		echo $arrMacSO[$row[0].'_'.$row[1]]['te_localizacao_complementar'];
-		echo '&nbsp;</td>'; 				
-
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
-		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio1'];
-		echo '&nbsp;</td>'; 				
-
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
-		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio2'];
-		echo '&nbsp;</td>'; 				
-
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
-		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio3'];
-		echo '&nbsp;</td>'; 				
-
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
-		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio4'];
-		echo '&nbsp;</td>'; 				
-
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
-		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio5'];
-		echo '&nbsp;</td>'; 				
-
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">';
-		echo $arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio6'];
-		echo '&nbsp;</td>'; 				
+	for ($i=4; $i < $fields; $i++) 
+	{
 		
+		if ($row[$i] == 'N')
+		{
+			echo '<td nowrap align="left"><font size="1" face="Verdana, Arial" ';
+			echo 'color="#FF0000"><strong>N</strong>';
+			echo '&nbsp;</td>'; 
 		}
-    $cor=!$cor;
-	$num_registro++;
-    echo '</tr>';
+		else 	
+		{
+			if (array_search($i, $strTripaColunasValidas) !== FALSE)
+			{
+				echo '<td nowrap align="left"><font size="1" face="Verdana, Arial" >';
+				echo /*$i." - ".$tra[$i]." - ".*/$row[$i];
+				echo '&nbsp;</td>'; 
+			}
+		}		
 	}
-echo '</table><br><br>';
+}
+
+$relatorio->output();
+
+/*
 if (count($_SESSION["list8"])>0)
 	{	
 	$v_opcao = 'antivirus'; // Nome do pie que será chamado por tabela_estatisticas
 	require_once('../../include/tabela_estatisticas.php');
 	}
-?></p>
+*/
+?>
+<?
+/*
+</p>
 
 <p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
   gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
@@ -365,3 +485,5 @@ if (count($_SESSION["list8"])>0)
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 </body>
 </html>
+*/
+?>

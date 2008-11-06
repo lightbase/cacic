@@ -69,7 +69,8 @@ if($_REQUEST['submit'])
 							nm_usuario_login_serv_updates_gerente, 
 							te_senha_login_serv_updates_gerente, 
 							nu_porta_serv_updates,
-							id_local) 
+							id_dominio, 
+							id_local) 							
 				 VALUES 	('$frm_id_ip_rede', 
 				  		  	'$frm_te_mascara_rede', 
 						  	'$frm_nm_rede', 						  
@@ -89,7 +90,8 @@ if($_REQUEST['submit'])
 						  	'$frm_nm_usuario_login_serv_updates_gerente',
 						  	'$frm_te_senha_login_serv_updates_gerente',					  
 						  	'$frm_nu_porta_serv_updates',
-							'$frm_id_local')";									  
+							'$frm_id_dominio',									  
+							'$frm_id_local')";									  							
 
 		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'redes');
@@ -324,7 +326,7 @@ MM_reloadPage(true);
     <tr> 
 		<td>&nbsp;</td>
       <td class="label"><br>Local:</td>
-      <td class="label" colspan="2">&nbsp;</td>
+      <td class="label" colspan="2"><br>Dom&iacute;nio:</td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#333333"></td>
@@ -363,7 +365,22 @@ MM_reloadPage(true);
 		//if ($_SESSION['cs_nivel_administracao']<>1)
 		//	echo '<input name="frm_id_local" id="frm_id_local" type="hidden" value="'.$_SESSION['id_local'].'">';
 		?> </td>
-      <td>&nbsp; </td>
+      <td nowrap><select name="frm_id_dominio" id="frm_id_dominio" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <option value="" selected></option>
+          <?
+			  
+		$qry_dominio = "SELECT 		id_dominio, 
+									nm_dominio
+						FROM 		dominios
+						ORDER BY	nm_dominio";
+
+		$result_dominio = mysql_query($qry_dominio) or die ('Falha na consulta &agrave; tabela Dominios ou sua sess&atilde;o expirou!');
+			  
+				while($row = mysql_fetch_array($result_dominio))
+					echo '<option value="'.$row['id_dominio'].'" '.($row_usuario['id_dominio']==$row['id_dominio']?'selected':'').'>'.$row['nm_dominio'].'</option>';
+					
+					?>
+        </select></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 

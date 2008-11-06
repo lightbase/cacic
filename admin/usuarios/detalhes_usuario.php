@@ -51,6 +51,7 @@ elseif ($_POST['GravaAlteracoes'])
 			  			nm_usuario_completo 	= '".$_POST['frm_nm_usuario_completo']	."',
 						id_grupo_usuarios 		= '".$_POST['frm_id_grupo_usuarios']	."',
 						id_local 				=  ".$_POST['frm_id_local']				.",
+						id_dominio 				=  ".$_POST['frm_id_dominio']			.",						
 						te_emails_contato 		= '".$_POST['frm_te_emails_contato']	."',
 						te_telefones_contato 	= '".$_POST['frm_te_telefones_contato']	."',
 						te_locais_secundarios 	= '".$v_te_locais_secundarios			."'						
@@ -79,6 +80,7 @@ else
 						a.nm_usuario_completo, 
 						a.id_grupo_usuarios, 
 						a.id_local,
+						a.id_dominio,
 						a.te_emails_contato,
 						a.te_telefones_contato, 
 						loc.sg_local,
@@ -298,6 +300,30 @@ else
 				<td class="label">&nbsp;</td>
 				<td>&nbsp;</td>
 			  </tr>
+			  <tr nowrap>
+                <td nowrap class="label">Dom&iacute;nio:</td>
+			    <td nowrap><select name="frm_id_dominio" id="frm_id_dominio" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+					<option value="" selected></option>                
+                    <?
+			  
+		$qry_dominio = "SELECT 		id_dominio, 
+									nm_dominio
+						FROM 		dominios
+						ORDER BY	nm_dominio";
+
+		$result_dominio = mysql_query($qry_dominio) or die ('Falha na consulta &agrave; tabela Dominios ou sua sess&atilde;o expirou!');
+			  
+				while($row = mysql_fetch_array($result_dominio))
+					echo '<option value="'.$row['id_dominio'].'" '.($row_usuario['id_dominio']==$row['id_dominio']?'selected':'').'>'.$row['nm_dominio'].'</option>';
+					
+					?>
+                  </select>
+                    <strong>Obs.: </strong>Usado para autentica&ccedil;&atilde;o de Suporte Remoto.</td>
+		      </tr>
+			  <tr>
+			    <td class="label">&nbsp;</td>
+			    <td>&nbsp;</td>
+		      </tr>
 			  <tr> 
 				<td class="label"><?=$oTranslator->_('Identificacao');?>:</td>
 				<td><input name="frm_nm_usuario_acesso"  readonly="" type="text" id="frm_nm_usuario_acesso" value="<? echo mysql_result($result, 0, 'nm_usuario_acesso'); ?>" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>

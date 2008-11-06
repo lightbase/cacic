@@ -78,11 +78,21 @@ $arrTiposComponentes = array( 'CDROM',
 // Criação das "Tripas" na memória com os dados dos componentes a serem tratados
 for ($intTiposComponentes = 0;$intTiposComponentes < count($arrTiposComponentes);$intTiposComponentes++)
 	{
-	$strNomeTripaMemoria  = 'strTripa_'.$arrTiposComponentes[$intTiposComponentes];	
-	$strNomeTripaRecebida = 'te_Tripa_'.$arrTiposComponentes[$intTiposComponentes];
-	$$strNomeTripaMemoria = DeCrypt($key,$iv,$_POST[$strNomeTripaRecebida]	,$v_cs_cipher, $v_cs_compress, $strPaddingKey);				
+	$strNomeTripaMemoria  = 'strTripa_'.$arrTiposComponentes[$intTiposComponentes];		
+	$strNomeTripaRecebida = 'te_Tripa_'.$arrTiposComponentes[$intTiposComponentes];	
+	$$strNomeTripaMemoria = DeCrypt($key,$iv,$_POST[$strNomeTripaRecebida]	,$v_cs_cipher, $v_cs_compress, $strPaddingKey);		
 	}
 
+// Devido à grande variação de frequência, causada pelo recurso de gerenciamento de energia existentes nos processadores atuais,
+// o bloco abaixo retira a informação referente à Frequência da CPU.
+if ($strTripa_CPU)
+	{
+	$strTripa_CPUaux = $strTripa_CPU;
+	$intPos = stripos2($strTripa_CPUaux,'#FIELD#te_cpu_frequencia',true);
+	if ($intPos)
+		$strTripa_CPU = substr($strTripa_CPUaux,0,$intPos);
+	}	
+	
 // Todas as vezes em que é feita a recuperação das configurações por um agente, é incluído 
 // o computador deste agente no BD, caso ainda não esteja inserido. 
 if ($te_node_address <> '')
@@ -148,7 +158,8 @@ if ($te_node_address <> '')
 			}
 										
 	    // Verifico se há emails para notificação de alteração na configuração de hardware.
-	  	if (trim($strEmailsDestinatarios = get_valor_campo('configuracoes_locais', 'te_notificar_mudanca_hardware','id_local='.$v_dados_rede['id_local'])) <> '') 
+		$arrConfiguracoesLocais = getValores('configuracoes_locais', 'te_notificar_mudanca_hardware','id_local='.$v_dados_rede['id_local']);
+	  	if (trim($strEmailsDestinatarios = $arrConfiguracoesLocais['te_notificar_mudanca_hardware']) <> '') 
 			{
 			// Obtenho os nomes do hardware passível de controle
 			$arrDescricoesColunasComputadores = getDescricoesColunasComputadores();

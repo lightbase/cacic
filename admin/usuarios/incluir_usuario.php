@@ -48,6 +48,7 @@ if($_POST['submit'])
 							 dt_log_in, 
 							 id_grupo_usuarios,
 							 id_local,
+							 id_dominio,							 
 							 te_emails_contato,
 							 te_telefones_contato,
 							 te_locais_secundarios) 
@@ -57,6 +58,7 @@ if($_POST['submit'])
 							now(),
 							'".$_POST['frm_id_grupo_usuarios']."',
 							'".$_POST['frm_id_local']."',
+							'".$_POST['frm_id_dominio']."',							
 							'".$_POST['frm_te_emails_contato']."',
 							'".$_POST['frm_te_telefones_contato']."',
 							'".$_POST['frm_te_locais_secundarios']."')";
@@ -264,6 +266,29 @@ else
 		  <td class="label">&nbsp;</td>
 		  <td>&nbsp;</td>
 		</tr>
+		<tr nowrap>
+          <td nowrap class="label">Dom&iacute;nio:</td>
+		  <td nowrap><select name="frm_id_dominio" id="frm_id_dominio" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+              <?
+			  
+		$qry_dominio = "SELECT 		id_dominio, 
+									nm_dominio
+						FROM 		dominios
+						ORDER BY	nm_dominio";
+
+		$result_dominio = mysql_query($qry_dominio) or die ('Falha na consulta à tabela Dominios ou sua sessão expirou!');
+			  
+				while($row = mysql_fetch_array($result_dominio))
+					echo '<option value="'.$row['id_dominio'].'">'.$row['nm_dominio'].'</option>';
+					
+					?>
+          </select>
+	      <strong>Obs.: </strong>Usado para autentica&ccedil;&atilde;o de Suporte Remoto.</td>
+	    </tr>
+		<tr>
+		  <td class="label">&nbsp;</td>
+		  <td>&nbsp;</td>
+	    </tr>
 		<tr> 
 		  <td class="label"><?=$oTranslator->_('Identificacao');?>:</td>
 		  <td> <input name="frm_nm_usuario_acesso" type="text" id="frm_nm_usuario_acesso" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 

@@ -82,7 +82,32 @@ if ($_POST['frmExtractFileTGZ'])
 				{
 				$arrExtractFileTGZ = explode('#',$i);				
 				$strExtractFileTGZ = "tar -xvzf ".$_POST['frmPath'].str_replace('_ponto_','.',$arrExtractFileTGZ[1]);
+				echo 'Tentarei executar "'.$strExtractFileTGZ.'"<br>';
 				$cmdExtractFileTGZ = shell_exec($strExtractFileTGZ);
+				}
+			}
+		}
+	else
+		{
+		?>
+		<script language="javascript">alert('ATENÇÃO: Este recurso está disponível apenas para Servidor com LINUX!');</script>
+		<?
+		}
+	}
+
+if ($_POST['frmCompactFileTGZ'])
+	{
+	if (PHP_OS == "Linux" || PHP_OS == "Unix")	
+		{
+		foreach($HTTP_POST_VARS as $i => $v) 
+			{
+			$intPos = stripos2($i,'compactFileTGZ#',false);								
+			if ($intPos)
+				{
+				$arrCompactFileTGZ = explode('#',$i);				
+				$strCompactFileTGZ = "tar -cvzf CompactFile.tgz ".$_POST['frmPath'].str_replace('_ponto_','.',$arrCompactFileTGZ[1]);
+				echo 'Tentarei executar "'.$strCompactFileTGZ.'"<br>';
+				$cmdExtractFileTGZ = shell_exec($strCompactFileTGZ);
 				}
 			}
 		}
@@ -188,6 +213,9 @@ function deleteFile()
 
 		if (window.document.forms[0].elements[j].id.substring(0,15) == 'extractFileTGZ#' && window.document.forms[0].elements[j].checked)
 			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'compactFileTGZ#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;			
 			
 		}
 
@@ -222,7 +250,9 @@ function timeStamp()
 
 		if (window.document.forms[0].elements[j].id.substring(0,15) == 'extractFileTGZ#' && window.document.forms[0].elements[j].checked)
 			window.document.forms[0].elements[j].checked = false;
-			
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'compactFileTGZ#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;						
 		}
 
 	if (intFilesToTimeStamp > 0)
@@ -281,7 +311,9 @@ function changePermissions()
 
 		if (window.document.forms[0].elements[j].id.substring(0,15) == 'extractFileTGZ#' && window.document.forms[0].elements[j].checked)
 			window.document.forms[0].elements[j].checked = false;
-			
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'compactFileTGZ#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;						
 		}
 
 	if (intFilesToChangePermissions > 0)
@@ -308,6 +340,89 @@ function changePermissions()
 		}	
 	}
 
+function extractFileTGZ()
+	{
+	var intFilesToExtract = 0;
+	for (j=0;j<window.document.forms[0].elements.length;j++)
+		{
+		if (window.document.forms[0].elements[j].id.substring(0,11) == 'deleteFile#'     && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'touchTimeStamp#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,18) == 'changePermissions#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'extractFileTGZ#' && window.document.forms[0].elements[j].checked)
+			intFilesToExtract ++;			
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'compactFileTGZ#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;						
+		}
+
+	if (intFilesToExtract > 0)
+		{
+															 
+		if (confirm('Confirma EXTRAÇÃO DO'+(intFilesToExtract == 1?'':'S') + ' ARQUIVO'+(intFilesToExtract == 1?'':'S') + ' SELECIONADO'+(intFilesToExtract == 1?'':'S') + '?'))
+			{
+			for (j=0;j<window.document.forms[0].elements.length;j++)
+				if (window.document.forms[0].elements[j].name == 'frmExtractFileTGZ')
+					window.document.forms[0].elements[j].value = 'A';
+		
+			window.document.forms[0].submit();
+			}
+		else
+			return false;
+		}
+	else
+		{
+		alert('ATENÇÃO: É necessário marcar algum ítem para extração!');
+		return false;
+		}	
+	}
+function compactFileTGZ()
+	{
+	var intFilesToCompact = 0;
+	for (j=0;j<window.document.forms[0].elements.length;j++)
+		{
+		if (window.document.forms[0].elements[j].id.substring(0,11) == 'deleteFile#'     && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'touchTimeStamp#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,18) == 'changePermissions#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'extractFileTGZ#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'compactFileTGZ#' && window.document.forms[0].elements[j].checked)
+			intFilesToCompact ++;			
+		}
+
+	if (intFilesToCompact > 0)
+		{
+															 
+		if (confirm('Confirma COMPACTAÇÃO DO'+(intFilesToCompact == 1?'':'S') + ' ITE'+(intFilesToCompact == 1?'M':'NS') + ' SELECIONADO'+(intFilesToCompact == 1?'':'S') + '?'))
+			{
+			for (j=0;j<window.document.forms[0].elements.length;j++)
+				if (window.document.forms[0].elements[j].name == 'frmCompactFileTGZ')
+					window.document.forms[0].elements[j].value = 'A';
+		
+			window.document.forms[0].submit();
+			}
+		else
+			return false;
+		}
+	else
+		{
+		alert('ATENÇÃO: É necessário marcar algum ítem para compactação!');
+		return false;
+		}	
+	}
+
 function createNewFolder()
 	{
 	for (j=0;j<window.document.forms[0].elements.length;j++)
@@ -323,7 +438,9 @@ function createNewFolder()
 
 		if (window.document.forms[0].elements[j].id.substring(0,15) == 'extractFileTGZ#' && window.document.forms[0].elements[j].checked)
 			window.document.forms[0].elements[j].checked = false;
-			
+
+		if (window.document.forms[0].elements[j].id.substring(0,15) == 'compactFileTGZ#' && window.document.forms[0].elements[j].checked)
+			window.document.forms[0].elements[j].checked = false;						
 		}
 	var strCreateNewFolder 	= prompt('Informe Nome para Nova Pasta');
 	if (strCreateNewFolder && confirm('Confirma CRIAÇÃO DE PASTA?'))
@@ -527,6 +644,7 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 		  <td align="center"><img src="../imgs/timestamp.gif" border="0" width="18" height="18" title="Alterar TimeStamp de Arquivos" onClick="return timeStamp()"></td>
 		  <td align="center"><img src="../imgs/details.gif" width="18" height="18" title="Alterar Permissões de Arquivos" onClick="return changePermissions()"></td>
 	      <td align="center"><img src="../imgs/extractfile.gif" width="18" height="18" title="Extrair Arquivo TGZ" onClick="return extractFileTGZ()"></td>
+		  <td align="center"><img src="../imgs/compactfile.ico" width="18" height="18" title="Gerar Arquivo TGZ" onClick="return compactFileTGZ()"></td>
 		</tr>
 		  
 		<?
@@ -629,12 +747,18 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 					<td align="center" valign="middle">
 					<? if ($isTGZ)
 							echo '<input type="checkbox" id="extractFileTGZ#'. str_replace('.','_ponto_',$strItem) . '" name="extractFileTGZ#'. str_replace('.','_ponto_',$strItem) .'" title="Marque para extrair o arquivo '. $strItem . '">';
-					?>
+					?>					
 					</td>
+					<?
+						echo '<td align="center" valign="middle">';						
+						echo '<input type="checkbox" id="compactFileTGZ#'. str_replace('.','_ponto_',$strItem) . '" name="compactFileTGZ#'. str_replace('.','_ponto_',$strItem) .'" title="Marque para compactar o ítem '. $strItem . '">';
+						echo '</td>';
+					?>
 					<input type="hidden" id="frmTouchTimeStamp" name="frmTouchTimeStamp" value="">
 					<input type="hidden" id="frmChangePermissions" name="frmChangePermissions" value="">					
 					<input type="hidden" id="frmCreateNewFolder" name="frmCreateNewFolder" value="">										
 					<input type="hidden" id="frmExtractFileTGZ" name="frmExtractFileTGZ" value="">															
+					<input type="hidden" id="frmCompactFileTGZ" name="frmCompactFileTGZ" value="">																				
 					</tr>				
 					<?
 					}
@@ -655,7 +779,7 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 		?>
 		<tr>								
 		<td colspan="6"><div align="right"><strong><? echo ($strTotal/2);?></strong></div></td>
-		<TD colspan="5">&nbsp;</TD>
+		<TD colspan="6">&nbsp;</TD>
 		</tr>		
 	  </table>
 	  </table>

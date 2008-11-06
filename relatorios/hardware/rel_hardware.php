@@ -70,7 +70,11 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <? 
 require_once('../../include/library.php');
-AntiSpy();
+require_once('../../include/RelatorioHTML.php');
+require_once('../../include/RelatorioPDF.php');
+require_once('../../include/RelatorioODS.php');
+require_once('../../include/RelatorioCSV.php');
+// Comentado temporariamente - AntiSpy();
 conecta_bd_cacic();
 
 $redes_selecionadas = '';
@@ -119,58 +123,332 @@ for( $i = 1; $i < count($_SESSION["list4"] ); $i++ )
 
 $campos_hardware = '';
 // Aqui pego todas as configurações de hardware que deseja exibir
+$campos_hardware = '';
+$campo_componentes_estacoes = '';
+$join_componentes_estacoes = '';
+$cs_componentes_estacoes = array();
+$exibe_componentes = array();
+$where_operador = FALSE;
+
+$componentes_estacoes[0]['value'] = 'te_cpu_desc';
+$componentes_estacoes[0]['tipo'] = 'CPU';
+
+$componentes_estacoes[1]['value'] = 'te_cdrom_desc';
+$componentes_estacoes[1]['tipo'] = 'CDROM';
+
+$componentes_estacoes[2]['value'] = 'te_placa_rede_desc';
+$componentes_estacoes[2]['tipo'] = 'TCPIP';
+
 for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) 
 	{
-	$campos_hardware .= ($campos_hardware <> ''?',':'');
-	$campos_hardware = $campos_hardware . $_SESSION["list6"][$i];
+	$campo = $_SESSION['list6'][$i];
+	$pcampo = explode('###', $campo);
+
+	for ( $j = 0; $j < count($componentes_estacoes); $j++)
+		{
+			$pos = strpos($campo, $componentes_estacoes[$j]['value']);
+			if ($pos !== FALSE)
+				{
+				$campo_componentes_estacoes = ', ce.te_valor, ce.cs_tipo_componente';
+				$join_componentes_estacoes = 'LEFT OUTER JOIN componentes_estacoes ce ON (a.te_node_address = ce.te_node_address AND a.id_so = ce.id_so)';
+				$cs_componentes_estacoes[] = $componentes_estacoes[$j]['tipo'];
+				
+				$exibe_componentes[] = $pcampo[1];
+
+				break;
+				}
+		}
+	$campos_hardware = $campos_hardware . ', '.$pcampo[0];//.' AS "'.$pcampo[1].'"';
 	}
 // Aqui substitui todas as strings \ por vazio que a variável $campos_hardware retorna
 $campos_hardware = str_replace('\\', '', $campos_hardware);
 
-if ($_GET['orderby']) { $orderby = $_GET['orderby']; }
-else { $orderby = '3'; } //por Nome Comp.
- $query = ' SELECT 	distinct a.te_node_address, 
- 					so.id_so, 
+// Monta a a clausula WHERE referente a tabela componentes_estacoes
+if (isset($_GET['orderby']))
+{
+	$orderby = $_GET['orderby'];
+	$_SESSION['orderby'] = $orderby;
+}
+else if ($_SESSION['orderby'] != '')
+{
+	$orderby = $_SESSION['orderby'];
+}
+else
+{
+	$orderby = '4'; //por Nome Comp.
+} 
+ $query = ' SELECT	a.te_node_address,
+ 					so.id_so,					
+					UNIX_TIMESTAMP(a.dt_hr_ult_acesso) as ult_acesso,
 					a.te_nome_computador as "Nome Comp.", 
 					sg_so as "S.O.", 
-					a.te_ip as "IP"' . 
-					$select . ($campos_hardware?','.$campos_hardware:"") . '
-		   FROM 	so LEFT JOIN computadores a ON (a.id_so = so.id_so) '.
-		   			$from . ' 		 		 
+					a.te_ip as "IP"' .
+					$campo_componentes_estacoes .
+					$campos_hardware .
+					$select .'
+		   FROM 	so LEFT OUTER JOIN computadores a ON (a.id_so = so.id_so)
+		   		'.$join_componentes_estacoes.'
+				'.$from . ' 		 		 
 		   WHERE  	TRIM(a.te_nome_computador) <> "" AND 
-		   			a.id_so IN ('. $so_selecionados .') '. 
-					$query_redes .' 
-		   ORDER BY ' . $orderby; 
-//					$campos_hardware .		   
-
-$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
-
+		   			a.id_so IN ('. $so_selecionados .') '
+					.$query_redes .' 
+		   ORDER BY ' . $orderby;
+$result = mysql_query($query) or die('Erro na query SQL ou sua Sessão expirou! '.mysql_error());
+#echo('<br><br>'.$query.'<br><br>');
 $cor = 0;
 $num_registro = 1;
 
 $fields=mysql_num_fields($result);
+/* PRE CLASSES RELATORIO (REMOVER)
 echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
      <tr bgcolor="#E1E1E1" >
-      <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
+      <td nowrap align="left"><font size="1" face="Verdana, Arial"> </font></td>';
+*/
 
-for ($i=2; $i < mysql_num_fields($result); $i++) { //Table Header
-   print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></font><b></td>';
+if (isset($_GET['formato']))
+{
+	$formato = $_GET['formato'];
 }
-echo '</tr>';
+else
+{
+	$formato = $_POST['formato'];
+}
+switch ($formato)
+{
+	case "pdf":
+		$relatorio = new RelatorioPDF();
+		break;
+	case "ods":
+		$relatorio = new RelatorioODS();
+		break;
+	case "csv":
+		$relatorio = new RelatorioCSV();
+		break;
+	default:
+		$relatorio = new RelatorioHTML();
+		break;
+}
 
-while ($row = mysql_fetch_row($result)) { //Table body
-    echo '<tr ';
-	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
-	echo '>';
-    echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>';
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
-    for ($i=3; $i < $fields; $i++) {
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
+$relatorio->setTitulo('CACIC  - Relatório de Configurações de Hardware');
+
+$dicionario = carrega_dicionario();
+
+// incializa com o header da coluna para o numero dos registros
+$header = array('#');
+for ($i=3; $i < mysql_num_fields($result); $i++) { //Table Header
+	$name =  mysql_field_name($result, $i);
+
+	// se nao constar no dicionario assumir que ja existe o alias
+	if (isset($dicionario[$name]))
+	{
+		$name_tra = $dicionario[mysql_field_name($result, $i)];
 	}
-    $cor=!$cor;
-	$num_registro++;
+	else
+	{
+		$name_tra = $name;
+	}
+
+	if ($name != 'te_valor' AND $name != 'cs_tipo_componente')
+	{
+		if ($name == 'te_cpu_desc' OR $name == 'te_cdrom_desc' OR $name == 'te_placa_rede_desc')
+		{
+			$header[] = '<b><font size="1" face="Verdana, Arial">'. $name_tra .'</font></b>';
+		}
+		else
+		{
+			$header[] = '<b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '">'. $name_tra .'</a></font></b>';
+		}
+	}
+}
+$relatorio->setTableHeader($header);
+
+
+
+
+$table = array();
+while ($row = mysql_fetch_assoc($result)) //Table body
+{
+	for ($i = 0; $i < count($componentes_estacoes); $i++)
+	{
+		if (array_search($componentes_estacoes[$i]['tipo'], $cs_componentes_estacoes) !== FALSE)
+		{
+			$row[$componentes_estacoes[$i]['value']] = array();
+		}
+	}
+
+	if (isset($table[$row['te_node_address']]))
+	{
+		// $trow referencia a linha no array (ao inves de copiar)
+		$trow = &$table[$row['te_node_address']];
+		if ($row['ult_acesso'] > $trow['ult_acesso'])
+		{
+			$table[$row['te_node_address']] = $row;
+			$trow = &$table[$row['te_node_address']];
+		}
+	}
+	else
+	{
+		$table[$row['te_node_address']] = $row;
+		$trow = &$table[$row['te_node_address']];
+	}
+	
+
+	if ($row['id_so'] == $trow['id_so'])
+	{
+		// concatena componentes
+		if (array_search($row['cs_tipo_componente'], $cs_componentes_estacoes) !== FALSE)
+		{
+			switch ($row['cs_tipo_componente'])
+			{
+				case 'CPU':
+					$trow['te_cpu_desc'][] = $row['te_valor'];
+					break;
+				case 'CDROM':
+					$trow['te_cdrom_desc'][] = $row['te_valor'];
+					break;
+				case 'TCPIP':
+					$trow['te_placa_rede_desc'][] = $row['te_valor'];
+					break;
+			}
+		}
+	}
+}
+
+foreach ($table as $row)
+{
+	$relatorio->addRow(geraRow($row, $num_registro++, $dicionario));
+	#exibe_row($row, $num_registro++, $cor, $dicionario);
+}
+
+function geraRow($row, $num_registro, $dicionario)
+{
+	# adiciona numero e nome no inicio da linha
+	$c1 = '<font size="1" face="Verdana, Arial">' . $num_registro . '</font>';
+	$c2 = "<font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row['te_node_address'] ."&id_so=". $row['id_so'] ."' target='_blank'>" . $row['Nome Comp.'] ."</a></font>";
+	
+
+	unset($row['te_node_address']);
+	unset($row['id_so']);
+	unset($row['Nome Comp.']);
+	unset($row['cs_tipo_componente']);
+	unset($row['te_valor']);
+	unset($row['ult_acesso']);
+
+	// processa tripas
+	if (isset($row['te_cpu_desc']))
+	{
+		$row['te_cpu_desc'] = exibe_tripa($row['te_cpu_desc'], $dicionario);
+	}
+	if (isset($row['te_cdrom_desc']))
+	{
+		$row['te_cdrom_desc'] = exibe_tripa($row['te_cdrom_desc'], $dicionario);
+	}
+	if (isset($row['te_placa_rede_desc']))
+	{
+		$row['te_placa_rede_desc'] = exibe_tripa($row['te_placa_rede_desc'], $dicionario);
+	}
+
+	foreach ($row as $key => $value)
+	{
+		$row[$key] = '<font size="1" face="Verdana, Arial">' . $value .' </font>';
+	}
+
+	array_unshift($row, $c1, $c2);
+	return $row;
+}
+
+function carrega_dicionario()
+{
+	$query = 'SELECT nm_campo, te_descricao_campo FROM descricoes_colunas_computadores';
+	$result = mysql_query($query) or die("Erro MySQL: ".mysql_error());
+	while ($row = mysql_fetch_row($result))
+	{
+		$dicionario[$row[0]] = $row[1];
+	}
+	return $dicionario;
+}
+
+function exibe_tripa($tripas, $dicionario)
+{
+	$ret = array();
+	
+	if (!is_array($tripas))
+	{
+		return $tripas;
+	}
+
+	foreach ($tripas as $tripa)
+	{
+		$item = array();
+		$pares = explode('#FIELD#', $tripa);
+		foreach ($pares as $par)
+		{
+			$cv = explode('###', $par);
+			$chave = $cv[0];
+			$valor = $cv[1];
+			$item[] = $dicionario[$cv[0]].": ".$cv[1];
+		}
+		$ret[] = implode("<br>", $item);
+	}
+	return implode("<br><br>", $ret);
+}
+
+function exibe_row($relatorio, $row, $num_registro, $cor, $dicionario)
+{
+
+	echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>';
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row['te_node_address'] ."&id_so=". $row['id_so'] ."' target='_blank'>" . $row['Nome Comp.'] ."</a></font> </td>"; 
+    unset($row['te_node_address']);
+	unset($row['id_so']);
+	unset($row['Nome Comp.']);
+	unset($row['cs_tipo_componente']);
+	unset($row['te_valor']);
+	unset($row['ult_acesso']);
+	
+	// processa tripas
+	if (isset($row['te_cpu_desc']))
+	{
+		$row['te_cpu_desc'] = exibe_tripa($row['te_cpu_desc'], $dicionario);
+	}
+	if (isset($row['te_cdrom_desc']))
+	{
+		$row['te_cdrom_desc'] = exibe_tripa($row['te_cdrom_desc'], $dicionario);
+	}
+	if (isset($row['te_placa_rede_desc']))
+	{
+		$row['te_placa_rede_desc'] = exibe_tripa($row['te_placa_rede_desc'], $dicionario);
+	}
+	
+	if ($formato == "html")
+	{
+		foreach ($row as $key => $value)
+		{
+			if ($value == '') $value = '&nbsp';
+			echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $value .' </td>'; 
+		}
+	}
+	else
+	{
+		// processa tripas
+		if (isset($row['te_cpu_desc']))
+		{
+			$row['te_cpu_desc'] = $row['te_cpu_desc'];
+		}
+		if (isset($row['te_cdrom_desc']))
+		{
+			$row['te_cdrom_desc'] = $row['te_cdrom_desc'];
+		}
+		if (isset($row['te_placa_rede_desc']))
+		{
+			$row['te_placa_rede_desc'] = $row['te_placa_rede_desc'];
+		}
+		$relatorio->addRow($row);
+	}
     echo '</tr>';
 }
+$relatorio->output();
+#ob_end_flush();
+/*
 echo '</table>';
 echo '<br><br>';
 if (count($_SESSION["list8"])>0)
@@ -186,3 +464,4 @@ if (count($_SESSION["list8"])>0)
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 </body>
 </html>
+*/

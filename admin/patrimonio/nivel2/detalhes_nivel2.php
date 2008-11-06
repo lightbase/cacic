@@ -52,12 +52,22 @@ if ($exclui_uon2)
 else if($_POST['gravainformacaoUON2']) 
 	{
 	
-	$query = "	DELETE 
-				FROM 	unid_organizacional_nivel2 
-				WHERE 	id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2']." and
-						id_unid_organizacional_nivel1 = ".$_POST['frm_id_unid_organizacional_nivel1']. $where;
-	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
+	$query = "	UPDATE unid_organizacional_nivel2 
+				SET nm_unid_organizacional_nivel2 	= '".$_POST['frm_nm_unid_organizacional_nivel2']."',
+			   	 	te_endereco_uon2 				= '".$_POST['frm_te_endereco_uon2']."',
+			   	 	te_bairro_uon2 					= '".$_POST['frm_te_bairro_uon2']."',
+			   	 	te_cidade_uon2 					= '".$_POST['frm_te_cidade_uon2']."',
+			   	 	te_uf_uon2 						= '".$_POST['frm_te_uf_uon2']."',
+			   	 	nm_responsavel_uon2 			= '".$_POST['frm_nm_responsavel_uon2']."',
+			   	 	te_email_responsavel_uon2 		= '".$_POST['frm_te_email_responsavel_uon2']."',
+			   	 	nu_tel1_responsavel_uon2 		= '".$_POST['frm_nu_tel1_responsavel_uon2']."',
+			   	 	nu_tel2_responsavel_uon2 		= '".$_POST['frm_nu_tel2_responsavel_uon2']."',
+				 	id_unid_organizacional_nivel1a 	= '".$_POST['frm_id_unid_organizacional_nivel1a']."',
+				 	id_local 						= '".$_POST['frm_id_local']."' 
+			  	WHERE id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2_anterior'];
+								
+	$result = mysql_query($query) or die ('1-Insert falhou ou sua sessão expirou!');
+	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
 	if (!atualiza_configuracoes_uonx('2'))
 		{
 		echo mensagem($oTranslator->_('Falha na exclusao de configuracoes'));

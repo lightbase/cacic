@@ -15,6 +15,7 @@
  */
 session_start();
 
+require_once ('../../include/multipagina.php');
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
@@ -24,9 +25,9 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../../include/library.php');
+
 AntiSpy();
 
-require_once ('../../include/multipagina.class.php');
 $DbConnect = conecta_bd_cacic();
 
 if ($_GET['principal'])
@@ -40,6 +41,7 @@ if ($_GET['principal'])
 		if ($_SESSION["list4"] <> '') $_SESSION["list4"] .= '#';
 		$_SESSION["list4"] .= $row['id_so'];
 		}
+
 	$_SESSION["list4"] = explode('#',$_SESSION["list4"]);					
 	
 	//if ($_GET['orderby']=='6')
@@ -61,6 +63,7 @@ elseif($_POST['submit'])
 	$_SESSION["list12"] = $_POST['list12'];		
 	$_SESSION["cs_situacao"] = $_POST["cs_situacao"];
 	}
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -144,8 +147,8 @@ else
 </table>
 <br>
 <? 
-$from = ' ,redes ';			
-$local = '';
+$from 				= ' ,redes ';			
+$local 				= '';
 $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
@@ -251,7 +254,7 @@ $max_res 	= ($cfgStdData['nu_rel_maxlinhas'])?$cfgStdData['nu_rel_maxlinhas']:10
 $mult_pag 	= new Mult_Pag($max_res); // cria um novo objeto navbar
 
 // metodo que realiza a pesquisa
-$resultado = $mult_pag->executar($query, $DbConnect, "", "mysql");
+$resultado = $mult_pag->Executar($query, $DbConnect, "", "mysql");
 $reg_pag = mysql_num_rows($resultado); // total de registros por paginas ou telas
 
 echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">

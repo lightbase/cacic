@@ -49,7 +49,7 @@ if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 $ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'sg_local,nm_rede');
 			
 $query = 'SELECT 	* 
-		  FROM 		redes '.
+		  FROM 		redes LEFT JOIN dominios ON redes.id_dominio = dominios.id_dominio '.
 		  $where .' 		  			
 		  ORDER BY '.$ordem;
 
@@ -103,15 +103,17 @@ $msg = '<div align="center">
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=id_ip_rede"><?=$oTranslator->_('Endereco/Mascara');?></a></div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=id_ip_rede">Endere&ccedil;o/M&aacute;scara</a></div></td>
             <td nowrap >&nbsp;</td>
-            <td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede"><?=$oTranslator->_('Subrede');?></a></div></td>
+			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede"><?=$oTranslator->_('Subrede');?></a></div></td>            
+            <td nowrap >&nbsp;</td>            
+			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_dominio">Domínio</a></div></td>
             <td nowrap >&nbsp;</td>
             <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local,nm_rede"><?=$oTranslator->_('Local');?></a></div></td>
             <td nowrap >&nbsp;</td>
           </tr>
   	<tr> 
-    <td height="1" bgcolor="#333333" colspan="9"></td>
+    <td height="1" bgcolor="#333333" colspan="11"></td>
   	</tr>
 		  
           <?  
@@ -136,6 +138,8 @@ else
             <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['id_ip_rede'].'/'.$row['te_mascara_rede']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_rede']; ?></a></div></td>
+            <td nowrap>&nbsp;</td>
+            <td nowrap><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_dominio']; ?></a></td>
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['sg_local']; ?></a></div></td>
             <td nowrap>&nbsp;</td>

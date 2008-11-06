@@ -460,6 +460,24 @@ function GravaTESTES($p_Valor)
 	}
 
 //________________________________________________________________________________________________
+// Grava na tabela SRCACIC_LOGS as informações de atividades na estação visitada
+//________________________________________________________________________________________________
+function GravaLogSrCacic($p_id_sessao, $p_te_acao)
+	{
+	conecta_bd_cacic();
+	$queryINS  = "INSERT 
+				  INTO		srcacic_logs
+				  			(id_sessao,
+							 dt_hr_acao,
+							 te_acao) 
+				  VALUES 	(".$p_id_sessao.",
+				  			  NOW(),
+							'".$p_te_acao."')";
+	$resultINS = mysql_query($queryINS);
+	}
+
+
+//________________________________________________________________________________________________
 // Grava na tabela LOG informações de atividades
 //________________________________________________________________________________________________
 function GravaLog($p_cs_acao, $p_nm_script, $p_nm_tabela)
@@ -747,6 +765,79 @@ function computador_existe($te_node_address, $id_so)
 		}
 	}
 
+// --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
+function ChecaSO($te_node_address,$id_so)
+	{
+	$boolRetorno = '0';
+	conecta_bd_cacic();
+	$query = 'SELECT id_so FROM so WHERE id_so <> '.$id_so.' AND in_mswindows = "S"';
+	$result = mysql_query($query);
+	
+	while ($row = mysql_fetch_array($result))
+		{	
+		$arrComputadores = getValores('computadores', 'count(te_node_address) as TotalSO', 'te_node_address = "'.$te_node_address.'" and id_so = '.$row['id_so']);
+		$intTotalSO = $arrComputadores['TotalSO'];
+		if ($intTotalSO > 0)
+			{
+			$boolRetorno = '1';
+			//GravaTESTES('***** Processo DePara de Versão do MS-Windows *****');			
+			//GravaTESTES('te_node_address='.$te_node_address.'#id_so_atual='.$id_so.'#id_so_antigo='.$row['id_so']);			
+
+			$arrPatrimonio = getValores('patrimonio', 'count(te_node_address) as TotalPAT', 'te_node_address = "'.$te_node_address.'" and id_so = '.$row['id_so']);			
+			$intTotalPAT   = $arrPatrimonio['TotalPAT']; 
+			if ($intTotalPAT > 0)
+				{
+				//GravaTESTES('***** Gravando novo ID_SO na tabela PATRIMONIO *****');											
+
+				$query = 'UPDATE patrimonio SET id_so = '.$id_so.' WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+				$result = mysql_query($query);				
+				}
+			
+			$arrOfficescan = getValores('officescan', 'count(te_node_address) as TotalOFF', 'te_node_address = "'.$te_node_address.'" and id_so = '.$row['id_so']);			
+			$intTotalOFF = $arrOfficescan['TotalOFF'];
+			if ($intTotalOFF > 0)
+				{
+				//GravaTESTES('***** Gravando novo ID_SO na tabela OFFICESCAN *****');											
+				$query = 'UPDATE officescan SET id_so = '.$id_so.' WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+				$result = mysql_query($query);				
+				}
+
+			$query = 'UPDATE historico_hardware SET id_so = '.$id_so.' WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+			$result = mysql_query($query);		
+				
+			$query = 'UPDATE historico_tcpip    SET id_so = '.$id_so.' WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+			$result = mysql_query($query);				
+			
+
+			//GravaTESTES('* Deletando ID antigo de comput., apl_mon, compart, compon_est_hist, soft_inv_est, unid_disco, var_amb_est *');
+
+			$query = 'DELETE from computadores                     WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+			$result = mysql_query($query);				
+
+			$query = 'DELETE from aplicativos_monitorados          WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+			$result = mysql_query($query);				
+
+			$query = 'DELETE from compartilhamentos                WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+			$result = mysql_query($query);				
+
+			$query = 'DELETE from componentes_estacoes_historico   WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+			$result = mysql_query($query);				
+
+			$query = 'DELETE from softwares_inventariados_estacoes WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+			$result = mysql_query($query);				
+
+			$query = 'DELETE from unidades_disco                   WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+			$result = mysql_query($query);				
+
+			$query = 'DELETE from variaveis_ambiente_estacoes      WHERE te_node_address = "'.$te_node_address.'" AND id_so='.$row['id_so'];
+			$result = mysql_query($query);				
+
+			//GravaTESTES('======================================================================');										
+			}
+		}
+	return $boolRetorno;
+	}
 
 // --------------------------------------------------------------------------------------
 // Função que insere se um dado computador no BD, caso ele não esteja inserido.
@@ -768,22 +859,22 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 	/*
 	GravaTESTES('Script Chamador: '.$_SERVER['REQUEST_URI']);		
 	GravaTESTES('v_te_ip: '.$v_te_ip);			
-	
-
-	
-		GravaTESTES('te_node_address: '.$te_node_address);			
-		GravaTESTES('id_so_new: '.$id_so_new);			
-		GravaTESTES('te_so_new: '.$te_so_new);			
-		GravaTESTES('te_so_new_new: '.$te_so_new_new);					
-		GravaTESTES('id_ip_rede: '.$id_ip_rede);			
-		GravaTESTES('te_ip: '.$te_ip);			
-		GravaTESTES('v_te_ip: '.$v_te_ip);				
-		GravaTESTES('te_nome_computador: '.$te_nome_computador);			
-		GravaTESTES('te_workgroup: '.$te_workgroup);									
+	GravaTESTES('te_node_address: '.$te_node_address);			
+	GravaTESTES('id_so_new: '.$id_so_new);			
+	GravaTESTES('te_so_new: '.$te_so_new);			
+	GravaTESTES('te_so_new_new: '.$te_so_new_new);					
+	GravaTESTES('id_ip_rede: '.$id_ip_rede);			
+	GravaTESTES('te_ip: '.$te_ip);			
+	GravaTESTES('v_te_ip: '.$v_te_ip);				
+	GravaTESTES('te_nome_computador: '.$te_nome_computador);			
+	GravaTESTES('te_workgroup: '.$te_workgroup);									
 	*/
 	
-	$id_so = get_valor_campo('so', 'id_so', 'id_so = '.$id_so_new);
-	$te_so = get_valor_campo('so', 'te_so', 'te_so = "'.$te_so_new.'"');
+	$arrSO = getValores('so', 'id_so', 'id_so = '.$id_so_new);
+	$id_so = $arrSO['id_so'];
+	
+	$arrSO = getValores('so', 'te_so', 'te_so = "'.$te_so_new.'"');
+	$te_so = $arrSO['te_so'];
 	
 	if ($te_so == '' && $id_so <> '' && $id_so <> 0 && $te_so_new <> '') // Encontrei somente o Identificador Externo (ID_SO)
 		{
@@ -897,30 +988,65 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 		$result = mysql_query($query);												
 		}
 
+	// ******************************************************************************************************************************
+	// ******************************************************************************************************************************
+	// Novo Conceito:
+	// As estações poderão ter uma licença MS-Windows e n sabores de Linux
+	// Desta forma, será customizada a ocupação do banco e será mantida a versão do S.O. mais atual para fins de Gestão de Licenças e
+	// estatísticas
+	//
+	// Anderson Peterle - Dataprev/ES - 01/08/2008 12:04h
+	// ******************************************************************************************************************************
+	// ******************************************************************************************************************************
+	$arrSO = getValores('so', 'in_mswindows', 'te_so = "'.$te_so_new.'"');
+	$in_mswindows = $arrSO['in_mswindows'];	
+	
+	if ($in_mswindows == 'S')
+		{	
+		$arrSO = getValores('so', 'id_so', 'te_so = "'.$te_so_new.'"');		
+		$id_so = $arrSO['id_so'];
+		if (ChecaSO($te_node_address,$id_so))
+			{
+			//GravaTESTES('***** Forçando coletas ANVI COMP HARD MONI SOFT UNDI para a estação *****');											
+			$query = '	UPDATE	computadores 
+						SET 	dt_hr_coleta_forcada_estacao = now(),
+								te_nomes_curtos_modulos="COMP#HARD#SOFT#ANVI#MONI#UNDI" 
+						WHERE 	te_node_address="'.$te_node_address.'" AND
+								id_so='.$id_so; 
+			$result = mysql_query($query);		
+			//GravaTESTES('======================================================================');														
+			}							
+		}
+		
+	// ******************************************************************************************************************************
+	// ******************************************************************************************************************************
+
 	return $arrRetorno; 
 	}
 
 
 /* --------------------------------------------------------------------------------------
  Função usada para recuperar valores de campos únicos. Útil para a tabela de configurações.
+ Passou a retornar array com colunas a partir de 22/10/2008
  -------------------------------------------------------------------------------------- */
-function get_valor_campo($tabela, $campo, $where="1") 
-	{
+function getValores($tabela, $campos, $where="1") 
+	{	
+	$arrRetorno = array();	
 	conecta_bd_cacic();
-	$query = 'SELECT 	'.$campo.' 
-	          FROM 		'.$tabela.' 
-			  WHERE 	'.$where.' 
-			  LIMIT 	1';
-	$result = mysql_query($query);
-	if (mysql_num_rows($result) > 0) 
+	$query_SEL = 'SELECT '.$campos.' FROM '.$tabela.' WHERE '.$where.' LIMIT 1';
+
+	$result_SEL = mysql_query($query_SEL);
+	if (mysql_num_rows($result_SEL) > 0) 
 		{
-		$campos = mysql_fetch_array($result);
-		return $campos[$campo];
+		$row_SEL = mysql_fetch_array($result_SEL);		
+
+		for ($i=0;$i < mysql_num_fields($result_SEL);$i++)
+			{
+			$arrTMP = array(mysql_field_name($result_SEL,$i) => $row_SEL[$i]);
+			$arrRetorno = array_merge($arrRetorno,$arrTMP);
+			}
 		} 
-	else 
-		{ 
-		return ''; 
-		}
+	return $arrRetorno;
 	}
 
 
@@ -1050,24 +1176,30 @@ function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_ve
 	$cs_tipo_so = (stripos2($p_nm_modulo,'.ini',false)?'MS-Windows':$cs_tipo_so);	
 
 	conecta_bd_cacic();
-	$query_SEL = '  SELECT id_ip_rede,
-						   id_local
-					FROM   redes
-					WHERE  te_serv_updates = "'.$pp_te_serv_updates.'"';
+//	$query_SEL = '  SELECT id_ip_rede,
+//						   id_local
+//					FROM   redes
+//					WHERE  te_serv_updates = "'.$pp_te_serv_updates.'"';
+	$query_SEL = '
+	SELECT	id_ip_rede,
+			nm_rede,
+			id_local
+	FROM	redes
+	WHERE	te_serv_updates = "'.$pp_te_serv_updates.'"';
 					// AND id_local = '.$p_id_local;
 	//GravaTESTES('query_SEL: '.$query_SEL);						   
 	$result_SEL = mysql_query($query_SEL);
 	
-	$redes = '';
+	$locais_redes = '';
 	while ($row = mysql_fetch_array($result_SEL))
 		{
-		if ($redes <> '') $redes .= ',';
-		$redes .= '"'.$row['id_ip_rede'].'"';
+		if ($locais_redes <> '') $locais_redes .= ',';
+		$locais_redes .= '"#'.$row['id_local'].$row['id_ip_rede'].'#"';
 		}
 					
 	$query_UPD = '	UPDATE 	redes 
 					set dt_verifica_updates = NOW() 
-					WHERE 	TRIM(id_ip_rede) IN ('.$redes.')';
+					WHERE 	CONCAT("#",id_local,id_ip_rede,"#") IN ('.$locais_redes.')';
 					// AND id_local = '.$p_id_local;
 	//GravaTESTES('query_UPD: '.$query_UPD);						   							
 	$result_UPD = mysql_query($query_UPD);
@@ -1076,7 +1208,7 @@ function atualiza_red_ver_mod_pagina($pp_te_serv_updates, $p_nm_modulo, $p_te_ve
 	// No caso do Linux é um pacote, por isso mato pelo tipo de S.O.
 	$query_DEL	= 'DELETE 	
 				   FROM 	redes_versoes_modulos
-				   WHERE 	TRIM(id_ip_rede) IN ('.$redes.') AND
+				   WHERE 	CONCAT("#",id_local,id_ip_rede,"#") IN ('.$locais_redes.') AND
 							trim(cs_tipo_so) = "'.$cs_tipo_so.'" ';
 	
 	if ($cs_tipo_so == 'MS-Windows')
@@ -1334,7 +1466,7 @@ if ($handle = opendir($MainFolder . '/repositorio'))
 
 				$caminho_arquivo = $MainFolder . '/repositorio/agentes_linux/' . $v_arquivo;
 
-				if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes['PyCACIC'])			
+				if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes['pycacic'])			
 					array_push($v_versoes_arquivos_REP, $v_arquivo . '#'.str_replace('.','',$versao_agente));
 				else
 					array_push($v_versoes_arquivos_REP, $v_arquivo . '#'. strftime("%Y%m%d%H%M", filemtime($caminho_arquivo)));
@@ -1622,7 +1754,7 @@ function CheckFtpLogin($server, $user, $pass, $port)
 		$data = fgets($sck, 1024);
 		fputs($sck, "PASS $pass\n");
 		$data = fgets($sck, 1024);
-		if (ereg("230", $data) or ereg("220", $data)) 
+		if (ereg("230", $data)) 
 			{
 			# User logged in
 			return 1;
