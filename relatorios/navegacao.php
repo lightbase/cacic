@@ -108,11 +108,13 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 								compartilhamentos.nm_compartilhamento,
 								redes.id_local,
 								sg_local,
-								nm_local
+								nm_local,
+								dominios.nm_dominio
 					 FROM 		computadores 
-					 			LEFT JOIN redes ON (computadores.id_ip_rede = redes.id_ip_rede)
+					 			LEFT JOIN redes             ON (computadores.id_ip_rede = redes.id_ip_rede)
 					 			LEFT JOIN compartilhamentos ON (computadores.id_so=compartilhamentos.id_so and computadores.te_node_address=compartilhamentos.te_node_address and compartilhamentos.cs_tipo_compart='I')
-					 			LEFT JOIN locais ON (redes.id_local = locais.id_local)								
+					 			LEFT JOIN locais            ON (redes.id_local = locais.id_local)								
+								LEFT JOIN dominios          ON (redes.id_dominio = dominios.id_dominio)
 					 WHERE		".$where.$where1."
 				  	 GROUP BY 	sg_local,
 					 			computadores.id_ip_rede,
@@ -159,7 +161,9 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 							$nm_rede = 'SubRede Não Cadastrada';
 							}
 							
-						$_SESSION['Tripa'] 	.= '..' . $row["id_ip_rede"] . ' (' . $nm_rede . ')|'.$row["sg_local"] . ' (' . $row['nm_local'] . ')#';						
+						$_SESSION['Tripa'] 	.= '..' . $row["id_ip_rede"] . ' (' . $nm_rede . ')|'.$row["sg_local"] . ' (' . $row['nm_local'] . ')|'.$row["nm_dominio"].'#';
+
+						
 						$RedeAnt = $row["id_ip_rede"];
 						}
 
@@ -247,7 +251,8 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 			  $generic_imgs_path		= "../imgs/";
 			  $img_totals		    = $generic_imgs_path . "totals.gif";  			  	
 			  $img_details		    = $generic_imgs_path . "details.gif";  			  				  
-			  $img_compart_print    = $generic_imgs_path . "compart_print.gif";  			  				  			  
+			  $img_compart_print    = $generic_imgs_path . "compart_print.gif";  			  			
+			  $img_domain		    = $generic_imgs_path . "domain.gif";  			  				  			  	  			  
 
 			  $img_os_win95 		= "<B>95</B>";  			  			  
 			  $img_os_win95_osr2	= "<B>95 OSR2</B>";  			  			  			  			  			  
@@ -308,7 +313,8 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 				$monta = 1;
 				}
 				
-			  $Arvore = explode('#',$_SESSION['Tripa']);  			  
+			  $Arvore = explode('#',$_SESSION['Tripa']);  	
+
 			  $TamanhoArvore = count($Arvore)-2;
 
 			  while ($cnt <= $TamanhoArvore)
@@ -337,6 +343,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 				$tree[$cnt][18]	=	''			; 	// Localization name to general use
 				$tree[$cnt][19]	=	''			; 	// SubNet name to general use
 				$tree[$cnt][20]	=	''			; 	// WorkGroup name to general use
+				$tree[$cnt][21]	=	''			; 	// Domain Name
 				
 								
 				if ($tree[$cnt][0] > $maxlevel) $maxlevel=$tree[$cnt][0];    
@@ -368,7 +375,8 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 					$id_ip_rede_atual 	= substr($tree[$cnt][1],0,strpos($tree[$cnt][1], " ")); 
 					$cnt_aux_rede 		= 	$cnt;
 					$v_SubNetName		= 	$tree[$cnt][1];
-					$tree[$cnt][19]		=	$v_SubNetName;					
+					$tree[$cnt][19]		=	$v_SubNetName;	
+					$tree[$cnt][21]		=	$node[2];								
 					}				
 					
 				$tree[$cnt][6]=$id_ip_rede_atual;														
@@ -751,9 +759,13 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 						}
 
 					// Atenção: foi necessário usar a condição "id_grupo_usuarios" abaixo devido ao "cs_nivel_administracao" == 0
-					if ($tree[$cnt][0]==2 && ($_SESSION["cs_nivel_administracao"] <> 0 || $_SESSION["id_grupo_usuarios"] == 7))
+					if ($tree[$cnt][0]==2)
 						{
-						echo "<a href=../admin/redes/detalhes_rede.php?id_ip_rede=".$tree[$cnt][6]."&id_local=".$tree[$cnt][17]." target='_blank'><img src=\"".$img_details."\" border=no width=16 height=16 Title='Detalhes da SubRede'></a>";						
+						if ($_SESSION["cs_nivel_administracao"] <> 0 || $_SESSION["id_grupo_usuarios"] == 7)
+							echo "<a href=../admin/redes/detalhes_rede.php?id_ip_rede=".$tree[$cnt][6]."&id_local=".$tree[$cnt][17]." target='_blank'><img src=\"".$img_details."\" border=no width=16 height=16 Title='Detalhes da SubRede'></a>";						
+							
+						if ($tree[$cnt][21])
+							echo "<img src=\"".$img_domain."\" border=no width=16 height=16 Title='Sub-Rede Associada ao Domínio \"".$tree[$cnt][21]."\"'>";												
 						}
 						
 					}
