@@ -61,7 +61,7 @@ if ($_POST['submit_cond'])
 								a.te_versao_gercols, 
 								a.dt_hr_ult_acesso,
 								a.dt_hr_inclusao,								
-								b.sg_so						 
+								b.te_desc_so						 
 						FROM	computadores a,
 								so b '.
 								$from . ' 
@@ -111,8 +111,8 @@ if ($_POST['submit_cond'])
 	</script>	
 	</head>
 
-	<body background="../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+	<body background="../../imgs/linha_v.gif">
+	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 	<form name="form1" method="post">
 	<table width="95%" border="0" align="center">
 	<tr> 
@@ -165,24 +165,24 @@ if ($_POST['submit_cond'])
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
-	    <td align="center"  nowrap><img src="../imgs/comp.gif" width="23" height="23"></td>
-            <td align="center"  nowrap><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+	    <td align="center"  nowrap><img src="../../imgs/comp.gif" width="23" height="23"></td>
+            <td align="center"  nowrap><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Nome 
                 da M&aacute;quina</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">IP</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">Endereço MAC</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">S.O.</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center"> Cacic2</div></td>
-            <td nowrap ><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"> GerCols</td>
-            <td nowrap class="cabecalho_tabela"><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap class="cabecalho_tabela"><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">&Uacute;lt. 
                 Acesso</div></td>
-            <td nowrap class="cabecalho_tabela"><img src="../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap class="cabecalho_tabela"><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">Inclusão</div></td>
             <td nowrap >&nbsp;</td>
           </tr>
@@ -202,21 +202,21 @@ if ($_POST['submit_cond'])
             <td nowrap>&nbsp;</td>
 	    <td nowrap><input type="checkbox" name="chk_<? echo $row['te_node_address'].'#'. $row['id_so']; ?>" value="1" checked onClick="Verifica_Check_Cria();"></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="center"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_so']; ?></a></div></td>
+            <td nowrap><div align="center"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_desc_so']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_gercols']; ?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_gercols']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
+            <td nowrap><div align="right"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div></td>
+            <td nowrap><div align="right"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div></td>
             <td nowrap>&nbsp;</td>
           </tr>
           <? 
@@ -317,20 +317,31 @@ else
 
 				}
 			}
-			$nome_arquivo='relatorio_' .$_SESSION['id_usuario'] . time(). '.csv';
-                        $v_query_cria = 'SELECT a.id_so,
-                                                        a.te_node_address,
-                                                        a.te_nome_computador,
-                                                        a.te_ip,
-                                                        a.te_versao_cacic,
-                                                        a.te_versao_gercols,
-                                                        a.dt_hr_ult_acesso,
-                                                        a.dt_hr_inclusao,
-                                                        b.sg_so
-                        into outfile \'/var/www/html/cacic2/exportado/' . $nome_arquivo . '\' fields terminated by \',\' lines terminated by \'\n\' from computadores a, so b WHERE '.$where;
+			$file_dir = '/tmp/';
+			$nome_arquivo='relatorio_' .$_SESSION['id_usuario']. '_' . time(). '.csv';
+            $v_query_cria = 'SELECT b.te_desc_so,
+                                    a.te_node_address,
+                                    a.te_nome_computador,
+                                    a.te_ip,
+                                    a.te_versao_cacic,
+                                    a.te_versao_gercols,
+                                    a.dt_hr_ult_acesso,
+                                    a.dt_hr_inclusao
+                        INTO OUTFILE \''. $file_dir . $nome_arquivo .
+                                    '\' fields terminated by \',\' lines terminated by \'\n\' 
+                        FROM computadores a, so b 
+                        WHERE '.$where;
 
-		        $cria = @mysql_query($v_query_cria);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
+	        $cria = @mysql_query($v_query_cria) or die( @mysql_error() . "<br>Erro no SQL: $v_query_cria" );
+	        header("Content-type: application/vnd.ms-excel");
+            header("Content-disposition: csv" . date("Y-m-d") . ".xls");
+            header( "Content-disposition: filename=$nome_arquivo");
+            // Cabeçalho do arquivo
+            echo 'S.O.,Endereco MAC,Nome da maquina,IP,Cacic2,GerCols,Ultimo acesso,Inclusao'."\n";
+	        readfile($file_dir.$nome_arquivo);
+	        flush();
 			GravaLog('CRIA',$_SERVER['SCRIPT_NAME'],'computadores');
+			exit();
 		}
 	?>	
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -341,7 +352,7 @@ else
 	
 	<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
 	<SCRIPT>
-	<?isset($nome_arquivo) and printf("window.open('../exportado/%s');", $nome_arquivo); ?>
+	<?isset($nome_arquivo) and printf("window.open('%s');", $nome_arquivo); ?>
 	function Preenche_Condicao_VAZIO(p_campo)
 		{
 		for (i=0;i<window.document.forms.length;i++)
@@ -419,8 +430,8 @@ else
 	</SCRIPT>
 	</head>
 
-	<body background="../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+	<body background="../../imgs/linha_v.gif">
+	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 	<form name="form1" method="post">
 	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr> 
@@ -455,7 +466,7 @@ else
 	
 	<?
 	$cor = 0;
-	require_once('../include/library.php');
+	require_once('../../include/library.php');
 	conecta_bd_cacic();	
 	$res_fields = mysql_query("SHOW COLUMNS FROM computadores");
 	$v_arr_nomes_campos = array();
