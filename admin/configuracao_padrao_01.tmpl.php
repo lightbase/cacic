@@ -88,6 +88,17 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		  		   <input {NU_REL_MAXLINHAS_ENABLED} type="text" id="nu_rel_maxlinhas" name="nu_rel_maxlinhas" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" size="10" maxlength="10" value="{NU_REL_MAXLINHAS}" />
 		  		</td>
 		  	</tr>
+		  	<tr class="even">
+		  		<td>
+		  		   {RESOLUCAO_GRAFICO_TITLE}<br />
+		  		</td>
+		  		<td>
+		  		   {NU_RESOLUCAO_GRAFICO_H_TITLE}
+		  		   <input {NU_RESOLUCAO_GRAFICO_H_ENABLED} type="text" id="nu_resolucao_grafico_h" name="nu_resolucao_grafico_h" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" size="10" maxlength="10" value="{NU_RESOLUCAO_GRAFICO_H}" />
+		  		   {NU_RESOLUCAO_GRAFICO_W_TITLE}
+		  		   <input {NU_RESOLUCAO_GRAFICO_W_ENABLED} type="text" id="nu_resolucao_grafico_w" name="nu_resolucao_grafico_w" onFocus="setClass(this, 'inputFocus');" onBlur="setClass(this, 'input');" size="10" maxlength="10" value="{NU_RESOLUCAO_GRAFICO_W}" />
+		  		</td>
+		  	</tr>
 		  	<tr class="odd">
 		  		<td>
 		  		   {TE_MACADDR_INVALID_TITLE}<br />

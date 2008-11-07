@@ -64,6 +64,8 @@ ALTER TABLE configuracoes_locais
 ALTER TABLE configuracoes_padrao
     ADD te_exibe_graficos varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]' COMMENT '' AFTER id_default_body_bgcolor,
     ADD nu_rel_maxlinhas smallint unsigned default 50 AFTER nu_exec_apos,
+    ADD nu_resolucao_grafico_h smallint unsigned default 320,
+    ADD nu_resolucao_grafico_w smallint unsigned default 240,
     ENGINE=InnoDB CHARACTER SET=latin1;
 
 

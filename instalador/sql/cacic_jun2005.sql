@@ -95,7 +95,9 @@ CREATE TABLE configuracoes_padrao (
     te_janelas_excecao text NULL DEFAULT NULL COMMENT '',
     cs_abre_janela_patr char(1) NOT NULL DEFAULT 'S' COMMENT '',
     id_default_body_bgcolor varchar(10) NOT NULL DEFAULT '#EBEBEB' COMMENT '',
-    te_exibe_graficos varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]' COMMENT ''
+    te_exibe_graficos varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]' COMMENT '',
+    nu_resolucao_grafico_h smallint unsigned default 320,
+    nu_resolucao_grafico_w smallint unsigned default 240
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE contas (

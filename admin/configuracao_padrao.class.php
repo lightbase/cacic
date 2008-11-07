@@ -65,6 +65,9 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      	$this->addVar('StandardSetup_form', 'BTN_SALVAR', $this->oTranslator->_('Gravar alteracoes') );
      	$this->addVar('StandardSetup_form', 'BTN_RESET', $this->oTranslator->_('Restaurar valores') );
      	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_TITLE', $this->oTranslator->_('Graficos a serem exibidos') );
+     	$this->addVar('StandardSetup_form', 'RESOLUCAO_GRAFICO_TITLE', $this->oTranslator->_('Resolucao dos graficos a serem exibidos') );
+     	$this->addVar('StandardSetup_form', 'NU_RESOLUCAO_GRAFICO_H_TITLE', $this->oTranslator->_('Altura') );
+     	$this->addVar('StandardSetup_form', 'NU_RESOLUCAO_GRAFICO_W_TITLE', $this->oTranslator->_('Largura') );
      	$this->addVar('StandardSetup_form', 'NU_REL_MAXLINHAS_TITLE', $this->oTranslator->_('Quantidade máxima de linhas em relatorios') );
      	$this->addVar('StandardSetup_form', 'NU_REL_MAXLINHAS_HELP', $this->oTranslator->_('Quantidade máxima de linhas em relatorios') );
      	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_SO_TITLE', $this->oTranslator->_('Sistemas operacionais') );
@@ -121,6 +124,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	 */
     	$in_exibe_erros_criticos = (Security::read('in_exibe_erros_criticos'))?"S":"N"; 
     	$nu_rel_maxlinhas = (Security::read('nu_rel_maxlinhas'))?Security::read('nu_rel_maxlinhas'):0; 
+    	$nu_resolucao_grafico_h = (Security::read('nu_resolucao_grafico_h'))?Security::read('nu_resolucao_grafico_h'):0; 
+    	$nu_resolucao_grafico_w = (Security::read('nu_resolucao_grafico_w'))?Security::read('nu_resolucao_grafico_w'):0; 
     	$in_exibe_bandeja = (Security::read('in_exibe_bandeja'))?"S":"N"; 
     	$cs_abre_janela_patr = (Security::read('cs_abre_janela_patr'))?"S":"N"; 
     	$nm_organizacao = (Security::read('nm_organizacao'))?Security::read('nm_organizacao'):""; 
@@ -142,6 +147,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	$sql_update .= "in_exibe_erros_criticos = '$in_exibe_erros_criticos', 
 						in_exibe_bandeja = '$in_exibe_bandeja',
 						nu_exec_apos = 10,
+						nu_resolucao_grafico_h = '$nu_resolucao_grafico_h', 
+						nu_resolucao_grafico_w = '$nu_resolucao_grafico_w', 
 						nu_rel_maxlinhas = $nu_rel_maxlinhas,
 						nm_organizacao = '$nm_organizacao',
 						nu_intervalo_exec = 4,
@@ -190,6 +197,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 	    	 */
 	    	$nm_organizacao = (Security::read('nm_organizacao'))?Security::read('nm_organizacao'):""; 
 	    	$nu_rel_maxlinhas = (Security::read('nu_rel_maxlinhas'))?Security::read('nu_rel_maxlinhas'):""; 
+	    	$nu_resolucao_grafico_h = (Security::read('nu_resolucao_grafico_h'))?Security::read('nu_resolucao_grafico_h'):0;
+	    	$nu_resolucao_grafico_w = (Security::read('nu_resolucao_grafico_w'))?Security::read('nu_resolucao_grafico_w'):0; 
 	    	$te_senha_adm_agente = (Security::read('te_senha_adm_agente'))?Security::read('te_senha_adm_agente'):""; 
 	    	$te_serv_updates_padrao = (Security::read('te_serv_updates_padrao'))?Security::read('te_serv_updates_padrao'):""; 
 	    	$te_serv_cacic_padrao = (Security::read('te_serv_cacic_padrao'))?Security::read('te_serv_cacic_padrao'):""; 
@@ -213,6 +222,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 	    	
 	    	$nm_organizacao = $cfgStdData['nm_organizacao']; 
 			$nu_rel_maxlinhas = $cfgStdData['nu_rel_maxlinhas'];
+			$nu_resolucao_grafico_h = $cfgStdData['nu_resolucao_grafico_h'];
+			$nu_resolucao_grafico_w = $cfgStdData['nu_resolucao_grafico_w']; 
 	    	$te_senha_adm_agente = $cfgStdData['te_senha_adm_agente']; 
 	    	$te_serv_updates_padrao = $cfgStdData['te_serv_updates_padrao']; 
 	    	$te_serv_cacic_padrao = $cfgStdData['te_serv_cacic_padrao']; 
@@ -232,6 +243,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	 */
      	$this->addVar('StandardSetup_form', 'NM_ORGANIZACAO', $nm_organizacao );
      	$this->addVar('StandardSetup_form', 'NU_REL_MAXLINHAS', $nu_rel_maxlinhas );
+     	$this->addVar('StandardSetup_form', 'NU_RESOLUCAO_GRAFICO_H', $nu_resolucao_grafico_h );
+     	$this->addVar('StandardSetup_form', 'NU_RESOLUCAO_GRAFICO_W', $nu_resolucao_grafico_w );
      	$this->addVar('StandardSetup_form', 'TE_SERVUPDT_STD', $te_serv_updates_padrao );
      	$this->addVar('StandardSetup_form', 'TE_SERVCACIC_STD', $te_serv_cacic_padrao );
      	$this->addVar('StandardSetup_form', 'EXIBE_ERROS_CRITICOS', $in_exibe_erros_criticos );
