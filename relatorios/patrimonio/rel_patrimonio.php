@@ -114,6 +114,8 @@ for( $i = 1; $i < count($_SESSION["list4"] ); $i++ )
 // Inicializo variável para registro de destaques de duplicidades
 $in_destacar_duplicidade_total = '';
 
+$intTotalCampos = 0;
+
 // Aqui pego todas as U.O. que deseja exibir
 for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) 
 	{
@@ -133,16 +135,27 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ )
 		}
 
 	$campos_patrimonio .= $_SESSION["list6"][$i];
+	$intTotalCampos ++;
 	}
 
 	
-// Aqui substitui todas as strings \ por vazio que a variável $campos_hardware retorna
+// Aqui substitui todas as strings \ por vazio que a variável $campos_patrimonio retorna
 $campos_patrimonio = str_replace('\\', '', $campos_patrimonio);
 $campos_patrimonio = str_replace('"', "'", $campos_patrimonio);
+$campos_patrimonio .= ",dt_hr_alteracao,DATE_FORMAT( dt_hr_alteracao,'%d/%m/%Y %H:%ih') as 'Data/Hora de Alteração'";
 
+$intTotalCampos += 9; // Acrescento o total de campos fixos  - Anderson Peterle - 07/11/2008 12:32h
 
-if ($_GET['orderby']) { $orderby = $_GET['orderby']; }
-else { $orderby = '3'; } //por Nome de Computador
+if ($_GET['orderby']) 
+	{ 
+	$orderby = $_GET['orderby']; 
+	if ($orderby == ($intTotalCampos-1)) // Desvio da coluna com a formatação da data de alteração - Anderson Peterle - 07/11/2008 12:38h
+		$orderby --;
+	}
+else 
+	{ 
+	$orderby = '3'; 
+	} //por Nome de Computador
 
 // Caso a versão do MySQL utilizado não disponha de subquery...
 $query = 'SELECT 	concat(computadores.te_node_address, DATE_FORMAT( max(patrimonio.dt_hr_alteracao),"%d%m%Y%H%i")) as tripa_node_data '.
@@ -299,15 +312,26 @@ else
 
 	if ($in_destacar_duplicidade_total) $arr_in_destacar_duplicidade_total = explode('#',$in_destacar_duplicidade_total);
 
+	// Coloco na string abaixo os nomes dos campos que não devem ser mostrados, concatenando-os com # para fins de busca em substring.
+	$strNaoMostrarCamposNomes   = '#dt_hr_alteracao#';
+	// Mais adiante eu coloco os indices das colunas que não serão mostradas, concatenando-os com # para fins de busca em substring.
+	$strNaoMostrarCamposIndices = '';	
+	
 	$in_destacar_duplicidade_tmp = '';
 	for ($i=3; $i < mysql_num_fields($result); $i++) 
 		{ //Table Header
-	   	print '<td nowrap align="left"><font size="1" face="Verdana, Arial"><b><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></b></font></td>';
-		if ($in_destacar_duplicidade_total && in_array(mysql_field_name($result, $i),$arr_in_destacar_duplicidade_total)) 
+		$boolNaoMostrar = stripos2($strNaoMostrarCamposNomes,'#'.mysql_field_name($result, $i).'#',false);
+		if (!$boolNaoMostrar)
 			{
-			if ($in_destacar_duplicidade_tmp) $in_destacar_duplicidade_tmp .= '#';
-			$in_destacar_duplicidade_tmp .= $i;
+		   	print '<td nowrap align="left"><font size="1" face="Verdana, Arial"><b><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></b></font></td>';
+			if ($in_destacar_duplicidade_total && in_array(mysql_field_name($result, $i),$arr_in_destacar_duplicidade_total)) 
+				{
+				if ($in_destacar_duplicidade_tmp) $in_destacar_duplicidade_tmp .= '#';
+				$in_destacar_duplicidade_tmp .= $i;
+				}
 			}
+		else
+			$strNaoMostrarCamposIndices .= '#'.$i.'#';
 		}
 	echo '</tr>';
 
@@ -316,6 +340,7 @@ else
 		$arr_in_destacar_duplicidade = explode('#',$in_destacar_duplicidade_tmp);
 		$v_arr_campos_valores = array();
 		$num_registro = 1;
+		
 		while ($row = mysql_fetch_row($result)) 
 			{
 		    for ($i=3; $i < $fields; $i++) 
@@ -392,37 +417,42 @@ else
 	
 		for ($i=4; $i < $fields; $i++) 
 			{
-			$v_bold='';
-	
-			echo '<td nowrap align="left"><font size="1" face="Verdana, Arial"';
-	
-			$j=$v_key_campos_valores_duplicados;			
-			if ($j>-1)
-				{
-				$v_pesquisa_campo = 'c='.trim($i).'#';
-				while ($j < strlen($v_campos_valores_duplicados))
-					{
-					if (substr($v_campos_valores_duplicados,$j,strlen($v_pesquisa_campo))==$v_pesquisa_campo)
-						{			
-						echo 'color="#FF0000"';
-						$v_bold = 'OK';
-						$j = strlen($v_campos_valores_duplicados);				
-						}
-					$j++;
-	
-					if (substr($v_campos_valores_duplicados,$j,2)=='r=')
-						{
-						$j = strlen($v_campos_valores_duplicados);
-						}			
-					}
-					
-				}
+			$boolNaoMostrar = stripos2($strNaoMostrarCamposIndices,'#'.$i.'#',false);
+			if (!$boolNaoMostrar)
+				{				
 			
-			echo '>';
-			if ($v_bold) echo '<strong>';
-			echo $row[$i];
-			if ($v_bold) echo '</strong>';
-			echo '&nbsp;</td>'; 		
+				$v_bold='';
+		
+				echo '<td nowrap align="left"><font size="1" face="Verdana, Arial"';
+		
+				$j=$v_key_campos_valores_duplicados;			
+				if ($j>-1)
+					{
+					$v_pesquisa_campo = 'c='.trim($i).'#';
+					while ($j < strlen($v_campos_valores_duplicados))
+						{
+						if (substr($v_campos_valores_duplicados,$j,strlen($v_pesquisa_campo))==$v_pesquisa_campo)
+							{			
+							echo 'color="#FF0000"';
+							$v_bold = 'OK';
+							$j = strlen($v_campos_valores_duplicados);				
+							}
+						$j++;
+		
+						if (substr($v_campos_valores_duplicados,$j,2)=='r=')
+							{
+							$j = strlen($v_campos_valores_duplicados);
+							}			
+						}
+						
+					}
+				
+				echo '>';
+				if ($v_bold) echo '<strong>';
+				echo $row[$i];
+				if ($v_bold) echo '</strong>';
+				echo '&nbsp;</td>'; 
+				}		
 			}
 		$cor=!$cor;
 		$num_registro++;
