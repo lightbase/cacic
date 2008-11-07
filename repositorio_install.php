@@ -63,12 +63,17 @@ require_once('include/selecao_listbox.js');
       	<td height="1" bgcolor="#333333"></td>
     	</tr>
 	<?
-	$v_array_versoes_agentes = parse_ini_file('repositorio/install/versoes_agentes.ini');
+	if(file_exists('repositorio/versoes_agentes.ini') and is_readable('repositorio/versoes_agentes.ini'))
+		$v_array_versoes_agentes = parse_ini_file('repositorio/versoes_agentes.ini');
+	else {
+		$v_array_versoes_agentes['chkcacic.exe'] = '???';
+		$v_array_versoes_agentes['mapacacic.exe'] = '???';
+	}
 	?>		
     <tr> 
       <td class="label"> 
         &nbsp; &nbsp;<br>
-        <a href="repositorio/install/chkcacic.exe">ChkCACIC -  Verificador/Instalador/Atualizador do Sistema CACIC  <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['chkcacic.exe'];?>  ~  260K)</span></span></a></td>
+        <a href="repositorio/chkcacic.exe">ChkCACIC -  Verificador/Instalador/Atualizador do Sistema CACIC  <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['chkcacic.exe'];?>  ~  260K)</span></span></a></td>
     </tr>
     
 	  
@@ -87,7 +92,7 @@ require_once('include/selecao_listbox.js');
     <tr> 
       <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label"><a href="repositorio/install/mapacacic.exe">MapaCACIC - M&oacute;dulo Avulso para Coleta de Informa&ccedil;&otilde;es Patrimoniais <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['mapacacic.exe'];?>  ~  248K)</span></span></a> </td>
+            <td class="label"><a href="repositorio/mapacacic.exe">MapaCACIC - M&oacute;dulo Avulso para Coleta de Informa&ccedil;&otilde;es Patrimoniais <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['mapacacic.exe'];?>  ~  248K)</span></span></a> </td>
           </tr>
     <tr> 
       <td>&nbsp;</td>
