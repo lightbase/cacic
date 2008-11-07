@@ -37,7 +37,7 @@ if(!isset($_SESSION['id_usuario']))
 // Ativa modo de depuração (mostra todas as mensagens na página)
 // $cacicDebug = true;
 
-require_once('../include/library.php');
+include_once('../include/library.php');
 AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 
 require_once('configuracao_padrao.class.php');

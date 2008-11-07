@@ -62,6 +62,7 @@
 ...IPs Repetidas|relatorios/computador/ips_repetidos.php|mainFrame||Relatorio de Maquinas com IPs repetidos
 ...Inventarios en Blanco|relatorios/computador/inventario_em_branco.php|mainFrame||
 ...Últimas Alteraciones|relatorios/computador/ultimos_alterados.php|mainFrame||
+...Criar Relatório|relatorios/computador/cria_informacoes_computadores.php|mainFrame||Criação de Relatório parametrizado
 ..<b>Licencias</b>||mainFrame|imgs/config_gerais.gif
 ...Resumen|admin/gerencia_licencas/consulta/resumo_licencas.php|mainFrame||
 ...Autorizadas por estacion|admin/gerencia_licencas/consulta/autorizados_por_estacao.php|mainFrame||

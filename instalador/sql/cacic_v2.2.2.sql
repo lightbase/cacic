@@ -50,7 +50,7 @@ ALTER TABLE acoes_excecoes
 ALTER TABLE computadores
     MODIFY te_so varchar(50) NULL DEFAULT NULL COMMENT '',
     MODIFY te_mem_ram_desc varchar(200) NULL DEFAULT NULL COMMENT '',
-    MODIFY te_palavra_chave char(30) NOT NULL DEFAULT 'abcdefghij',
+    ADD te_palavra_chave char(30) NOT NULL DEFAULT 'abcdefghij',
     ENGINE=InnoDB CHARACTER SET=latin1;
 
 

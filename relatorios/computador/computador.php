@@ -34,6 +34,12 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js'"></script>
 <?
 require_once "../../include/library.php";
+/*
+ * Uma classe para implementar segurança em transações 
+ */
+ define( 'SECURITY', 1 );
+ require_once('security/security.php');
+ 
 AntiSpy();
 conecta_bd_cacic();	
 $query = "SELECT 	* 
@@ -46,7 +52,8 @@ $query = "SELECT 	*
 $result = mysql_query($query);
 
 if (@mysql_num_rows($result)) 
-	{  
+	{
+		$exibir = Security::read('exibir');  
     require_once('inc_detalhes_computador.php'); 
 	$strPreenchimentoPadrao = '#CCCCFF';
 	$strCorDaLinha 			= '#E1E1E1';	

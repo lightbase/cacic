@@ -63,6 +63,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      	$this->addVar('StandardSetup_form', 'TE_JANELAS_EXCECAO_TITLE', $this->oTranslator->_('Aplicativos (janelas) a evitar') );
      	$this->addVar('StandardSetup_form', 'TE_JANELAS_EXCECAO_HELP', $this->oTranslator->_('Evita que o Gerente de Coletas seja acionado enquanto tais aplicativos (janelas) estiverem ativos') );
      	$this->addVar('StandardSetup_form', 'BTN_SALVAR', $this->oTranslator->_('Gravar alteracoes') );
+     	$this->addVar('StandardSetup_form', 'BTN_SALVAR_DENY',  ($_SESSION['cs_nivel_administracao']<>1?'disabled':''));
      	$this->addVar('StandardSetup_form', 'BTN_RESET', $this->oTranslator->_('Restaurar valores') );
      	$this->addVar('StandardSetup_form', 'TE_EXIBEGRAFICOS_TITLE', $this->oTranslator->_('Graficos a serem exibidos') );
      	$this->addVar('StandardSetup_form', 'RESOLUCAO_GRAFICO_TITLE', $this->oTranslator->_('Resolucao dos graficos a serem exibidos') );

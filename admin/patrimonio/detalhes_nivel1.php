@@ -15,7 +15,7 @@
  */
 
 session_start();
-include_once "../../../include/library.php";
+include_once("../include/library.php");
 AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 1 - Administração
 // 2 - Gestão Central

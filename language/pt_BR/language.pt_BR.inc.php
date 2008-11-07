@@ -700,3 +700,5 @@ pt_BR     kciq_msg license en_read                                              
 pt_BR     kciq_msg license pt_read                                                                            instaladorinfo                leia em português
 pt_BR     kciq_mnt_lang traducao                                                                              Manutençãoinfo                Idioma a traduzir
 pt_BR     kciq_mnt_tradutor                                                                                   Manutençãoinfo                Tradução de texto do CACIC
+pt_BR     atualizacao especial                                                                                admin     info                Atualizacao Especial
+pt_BR     mecanismo para atualizacao de arquivos diversos no servidor, no ambito da aplicacao.                admin     info                Mecanismo para atualizacao de arquivos diversos no servidor, no ambito da aplicacao.

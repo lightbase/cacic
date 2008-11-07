@@ -51,10 +51,10 @@ elseif ($_POST['GravaAlteracoes'])
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/softwares/index.php&tempo=1");									 					
 }
 else {
-	$query = "	SELECT 	* 
-				FROM 	redes
-						LEFT JOIN locais ON (redes.id_local = locais.id_local AND redes.id_local = ".$_GET['id_local'].") 
-				WHERE 	redes.id_ip_rede = '".$_GET['id_ip_rede']."'";
+        $query = ' SELECT  *
+                           FROM  softwares
+                           WHERE id_software = '.$_REQUEST['id_software'];
+
 	$result = mysql_query($query) or die ('Falha na consulta às tabelas Redes, Locais ou sua sessão expirou!');
 ?>
 
@@ -173,13 +173,14 @@ function valida_form()
 </head>
 <?
 $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
+$data = mysql_fetch_array($result);
 ?>
 <body <? if (!$pos) echo 'background="../../imgs/linha_v.gif"';?> onLoad="SetaCampo('<? echo ($_SESSION['cs_nivel_administracao']<>1?'frm_te_mascara_rede':'frm_id_local')?>')">
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<form action="detalhes_rede.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
+<form action="detalhes_software.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
 <table width="90%" border="0" align="center">
   <tr> 
-      <td class="cabecalho">Detalhes do Software<? echo mysql_result($result, 0, 'id_ip_rede'); ?></td>
+      <td class="cabecalho">Detalhes do Software <i><? echo mysql_result($result, 0, 'nm_software'); ?></i></td>
   </tr>
   <tr> 
       <td class="descricao">As informa&ccedil;&otilde;es abaixo referem-se a um 
@@ -196,7 +197,9 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td><input name="frm_nm_software" type="text" size="50" maxlength="150"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td>
+          <input name="frm_id_software" type="hidden" value="<?=$data['id_software'];?>"> 
+          <input name="frm_nm_software" type="text" size="50" maxlength="150"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['nm_software'];?>"> 
       </td>
     </tr>
     <tr> 
@@ -206,7 +209,9 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td nowrap><input name="frm_te_descricao_software" type="text" id="frm_te_descricao_software" size="50" maxlength="255" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+      <td nowrap>
+          <input name="frm_te_descricao_software" type="text" id="frm_te_descricao_software" size="50" maxlength="255" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['te_descricao_software'];?>">
+      </td>
     </tr>
     <tr> 
       <td nowrap class="label"><br>
@@ -216,7 +221,9 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td nowrap> <input name="frm_qt_licenca" type="text" id="frm_qt_licenca" size="11" maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"> 
+      <td nowrap>
+         <input name="frm_qt_licenca" type="text" id="frm_qt_licenca" size="11" maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['qt_licenca'];?>">
+      </td> 
     </tr>
     <tr> 
       <td nowrap class="label"><div align="left"><br>
@@ -226,7 +233,9 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td nowrap><input name="frm_nr_midia" type="text" id="frm_nr_midia"  size="11" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td nowrap>
+         <input name="frm_nr_midia" type="text" id="frm_nr_midia"  size="11" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['nr_midia'];?>">
+      </td>
     </tr>
     <tr> 
       <td nowrap class="label"><br>
@@ -236,7 +245,8 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td nowrap> <input name="frm_te_local_midia" type="text" id="frm_te_local_midia" size="50" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td nowrap>
+         <input name="frm_te_local_midia" type="text" id="frm_te_local_midia" size="50" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['te_local_midia'];?>"> 
       </td>
     </tr>
     <tr> 
@@ -247,7 +257,16 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td><input name="frm_te_obs" size="50" maxlength="200" id="frm_te_obs" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+      <td>
+         <input name="frm_te_obs" size="50" maxlength="200" id="frm_te_obs" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['te_obs'];?>">
+      </td>
+    </tr>
+    <tr> 
+      <td>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return valida_form();return Confirma('Confirma Informações para Local?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input name="ExcluiSoftware" type="submit" id="ExcluiSO" onClick="return Confirma('Confirma exclusao de software?');" value="Excluir software" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+      </td>
     </tr>
   </table>
 </form>

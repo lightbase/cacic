@@ -42,7 +42,7 @@ else
 	<html>
 	<head>
 	<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-	<title></title>
+	<title><?=$oTranslator->_('Atualizacao Especial');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	
 	<SCRIPT LANGUAGE="JavaScript">
@@ -81,10 +81,13 @@ else
 	<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
 	<table width="90%" border="0" align="center">
 	  <tr> 
-		<td class="cabecalho">Atualiza&ccedil;&atilde;o Especial </td>
+		<td class="cabecalho"><?=$oTranslator->_('Atualizacao Especial');?></td>
 	  </tr>
 	  <tr> 
-		<td class="descricao">Mecanismo para atualiza&ccedil;&atilde;o de arquivos diversos no servidor, no &acirc;mbito da aplica&ccedil;&atilde;o.</td>
+		<td class="descricao">
+		  <?=$oTranslator->_('Mecanismo para atualizacao de arquivos diversos no servidor, no ambito da aplicacao.');?>
+		
+		</td>
 	  </tr>
 	</table>
 	<form method="post" ENCTYPE="multipart/form-data" name="form">

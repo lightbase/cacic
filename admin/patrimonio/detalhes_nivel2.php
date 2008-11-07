@@ -22,7 +22,7 @@ if(!isset($_SESSION['id_usuario']))
   die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
-include_once "../../../include/library.php";
+include_once("../include/library.php");
 
 Conecta_bd_cacic();
 

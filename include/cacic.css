@@ -261,6 +261,10 @@ a.dcontexto:hover span
     vertical-align: top;
 }
 
+.frameprincipal .botoesdisabled input {
+    color: #999;
+    cursor: default;
+}
 .frameprincipal .messages {
     /*height: 30px;
     line-height: 26px;

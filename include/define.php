@@ -70,7 +70,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /**
  * define a versão do PHP para o CACIC
  */
- define( 'CACIC_PHPVERSION', '4.2.0');
+ define( 'CACIC_PHPVERSION', '5.1.0');
 
 /**
  * define a versão do MySQL para o CACIC 

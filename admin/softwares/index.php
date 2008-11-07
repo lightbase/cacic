@@ -110,7 +110,7 @@ else
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_software.php?id_software=<? echo $row['id_software'];?>"><? echo $row['nm_software']; ?></a></div></td>
+            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_software.php?id_software=<? echo $row['id_software'];?>"><?=$row['nm_software']." - ".$row['te_descricao_software']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
             <? 
 		$Cor=!$Cor;

@@ -9,8 +9,6 @@
 ..Patrimônio|relatorios/patrimonio/index.php|mainFrame||
 ..TCP/IP|relatorios/tcpip/index.php|mainFrame||
 ..Variáveis de Ambiente|relatorios/variaveis_ambiente/index.php|mainFrame||
-.<b>Estatísticas</b>||mainFrame|imgs/config_gerais.gif
-..Sistemas Monitorados|estatisticas/aplicativos/index.php|mainFrame||
 .<b>Acesso</b>||mainFrame|imgs/config_gerais.gif
 ..Troca de Senha|admin/usuarios/troca_senha.php|mainFrame||
 .<b>Repositório|repositorio_install.php|mainFrame||Repositório do Sistema CACIC

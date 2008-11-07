@@ -253,7 +253,7 @@ ALTER TABLE computadores
     ADD te_versao_gercols varchar(10) NULL DEFAULT NULL COMMENT '' AFTER te_versao_cacic,
     ADD id_conta int(10) unsigned NULL COMMENT '' AFTER te_origem_mac,
     MODIFY te_mem_ram_desc varchar(200) NULL DEFAULT NULL COMMENT '',
-    MODIFY te_palavra_chave char(30) NOT NULL DEFAULT 'abcdefghij',
+    ADD te_palavra_chave char(30) NOT NULL DEFAULT 'abcdefghij',
     ADD INDEX te_ip (te_ip),
     ADD INDEX te_node_address (te_node_address),
     ADD INDEX te_nome_computador (te_nome_computador),

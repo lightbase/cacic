@@ -16,6 +16,7 @@
 */
 @session_start(); 
 require_once("include/library.php");
+if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == '')) { // Limita acesso a usuarios cadastrados e autenticados
 ?>
 <html>
 <head>
@@ -284,3 +285,6 @@ else
 </table>
 </body>
 </html>
+<?
+}
+?>

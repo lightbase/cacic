@@ -245,7 +245,7 @@ ALTER TABLE computadores
     ADD te_so varchar(50) NULL DEFAULT NULL COMMENT '' AFTER id_so,
     ADD id_conta int(10) unsigned NULL COMMENT '' AFTER te_origem_mac,
     MODIFY te_mem_ram_desc varchar(200) NULL DEFAULT NULL COMMENT '',
-    MODIFY te_palavra_chave char(30) NOT NULL DEFAULT 'abcdefghij',
+    ADD te_palavra_chave char(30) NOT NULL DEFAULT 'abcdefghij',
     ADD INDEX te_ip (te_ip),
     ADD INDEX te_node_address (te_node_address),
     ADD INDEX te_nome_computador (te_nome_computador),

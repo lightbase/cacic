@@ -22,6 +22,7 @@ if(!isset($_SESSION['id_usuario']))
   die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
+require_once('../../../include/library.php');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

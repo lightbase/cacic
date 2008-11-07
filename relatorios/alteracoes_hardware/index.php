@@ -136,7 +136,7 @@ require_once('../../include/inicio_relatorios_inc.php');
 	<!--
 	function calendar1Callback(date, month, year)	
 		{
-		document.forms['form1'].date_input1.value = date + '/' + month + '/' + year;
+		document.forms['forma'].date_input1.value = date + '/' + month + '/' + year;
 		}
   	calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 	//-->
@@ -146,7 +146,7 @@ require_once('../../include/inicio_relatorios_inc.php');
 	<!--
 	function calendar2Callback(date, month, year)	
 		{
-		document.forms['form1'].date_input2.value = date + '/' + month + '/' + year;
+		document.forms['forma'].date_input2.value = date + '/' + month + '/' + year;
 		}
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->

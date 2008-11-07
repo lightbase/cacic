@@ -174,7 +174,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		  	<tr>
 		  		<td colspan="2" class="botoes">
 		  		      <input type="hidden" id="btn_salvar" name="btn_salvar" value="" />
-				      <input type='button' title="{BTN_SALVAR}" name="{BTN_SALVAR}" onClick="setDocVar( 'btn_salvar', 1 ); sendForm(this.form);" value="{BTN_SALVAR}" />
+				      <span  class='botoes{BTN_SALVAR_DENY}'><input type='button' title="{BTN_SALVAR}" name="{BTN_SALVAR}" onClick="setDocVar( 'btn_salvar', 1 ); sendForm(this.form);" value="{BTN_SALVAR}" {BTN_SALVAR_DENY} /></span>
 				      <input type='reset' onClick="setFocus('nm_organizacao');" title="{BTN_RESET}" value="{BTN_RESET}" />
 		  		</td>
 		  	</tr>

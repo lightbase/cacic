@@ -392,7 +392,7 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
   </table>
   <p align="center"> <br>
     <br>
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="<?=$oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma(<?=$oTranslator->_('Confirma Informacoes para o Local?');?>);return valida_form();" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="<?=$oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Informacoes para o Local?');?>');return valida_form();" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input name="ExcluiLocal" type="submit" value="<?=$oTranslator->_('Excluir Local');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Exclusao do Local E TODAS AS SUAS DEPENDENCIAS?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
   </p>

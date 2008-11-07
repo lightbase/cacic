@@ -121,7 +121,6 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 								computadores.te_node_address,
 								computadores.id_so
 					 ORDER BY   sg_local,
-					 			nm_rede,
 								computadores.id_ip_rede,					 
 					 			te_workgroup,
 								computadores.te_ip,
