@@ -275,7 +275,16 @@
 																				 						$_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>,
 																				 						SelectAll(this.form.elements['list4[]']),
 																										SelectAll(this.form.elements['list6[]'])">				
-              </div></td>
+              
+Formato:<select name="formato" size="1">
+
+        <option value="html">HTML</option>
+        <option value="ods">Planilha (.ods)</option>
+        <option value="pdf">PDF</option>
+        <option value="csv">CSV</option>
+
+    </select>
+</div></td>
           </tr>
           <tr> 
             <td>&nbsp;</td>

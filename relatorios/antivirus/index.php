@@ -373,7 +373,15 @@ echo $itens_combo_servidores; ?>
 																		SelectAll(this.form.elements['list4[]']), 
 																		SelectAll(this.form.elements['list6[]']),
 																		SelectAll(this.form.elements['frm_te_servidor[]']),
-																		SelectAll(this.form.elements['frm_te_serv_sel[]'])" value="     Gerar Relat&oacute;rio     ">				
+																		SelectAll(this.form.elements['frm_te_serv_sel[]'])" value="     Gerar Relat&oacute;rio     ">
+Formato:<select name="formato" size="1">
+
+        <option value="html">HTML</option>
+        <option value="ods">Planilha (.ods)</option>
+        <option value="pdf">PDF</option>
+        <option value="csv">CSV</option>
+
+    </select>	
               </div></td>
           </tr>
           <tr> 

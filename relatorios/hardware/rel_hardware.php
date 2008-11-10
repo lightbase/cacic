@@ -29,6 +29,7 @@ if($_POST['submit']) {
 	$_SESSION["list8"] 	= $_POST['list8'];		
 	$_SESSION["list12"] = $_POST['list12'];			
 	$_SESSION["cs_situacao"] = $_POST["cs_situacao"];
+	$_SESSION['orderby'] = '';
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

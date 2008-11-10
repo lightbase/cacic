@@ -27,10 +27,17 @@ if($_POST['submit'])
 	$_SESSION["list2"]       = $_POST['list2'];
 	$_SESSION["list4"]       = $_POST['list4'];
 	$_SESSION["list6"]       = $_POST['list6'];
+	$_SESSION["list6o"]       = $_POST['list6'];
 	$_SESSION["list8"]       = $_POST['list8'];			
 	$_SESSION["list12"]      = $_POST['list12'];				
 	$_SESSION["cs_situacao"] = $_POST["cs_situacao"];
-	}
+	$_SESSION['orderby'] = '';
+	$_SESSION['post'] = $_POST;
+}
+else
+{	
+	$_SESSION["list6"] = $_SESSION['list6o'];
+}
 
 ?>
 <html>
@@ -69,6 +76,10 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <? 
 require_once('../../include/library.php');
+require_once('../../include/RelatorioHTML.php');
+require_once('../../include/RelatorioPDF.php');
+require_once('../../include/RelatorioODS.php');
+require_once('../../include/RelatorioCSV.php');
 conecta_bd_cacic();
 
 $redes_selecionadas = '';
@@ -126,8 +137,8 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ )
 	else if (strpos(strtolower($_SESSION["list6"][$i]), "patrimonio.id_unid_organizacional_nivel1")) 
 		$_SESSION["list6"][$i] = str_replace("patrimonio.id_unid_organizacional_nivel1", "unid_organizacional_nivel1.nm_unid_organizacional_nivel1",  $_SESSION["list6"][$i]); 
 
-	if (strpos($_SESSION["list6"][$i],'#in_destacar_duplicidade.S')>-1)
-		{
+	if (strpos($_SESSION["list6"][$i],'#in_destacar_duplicidade.S') !== FALSE)
+	{
 		if ($in_destacar_duplicidade_total) $in_destacar_duplicidade_total .= '#';
 		$_SESSION["list6"][$i] = str_replace("#in_destacar_duplicidade.S", "",  $_SESSION["list6"][$i]); 					
 		$arr_in_destacar_duplicidade_tmp = explode('\"',$_SESSION["list6"][$i]);
@@ -181,11 +192,10 @@ $where = " AND concat(computadores.te_node_address, DATE_FORMAT(patrimonio.dt_hr
 	$join_UO2		= '';
 		
 	// Monto as strings de critérios de Unidade Organizacional de Nível 1 e Nível 2, escolhidos para a consulta patrimonial
-	while(list($key, $value) = each($HTTP_POST_VARS))
-		{
-
+	while(list($key, $value) = each($_SESSION['post']))
+	{
 		if (trim($value)<>'' && trim($value)<>'123456' && (trim(strpos($key,'frm_condicao1'))<>'' || trim(strpos($key,'IDS_frm'))<>'')) 
-			{
+		{
 			if 	(trim(strpos($key,'nivel2'))<>'') // Identificador(es) de UO2
 				$join_UO2 = $value;				
 			elseif (trim(strpos($key,'IDS_frm_UO2'))<>'') // Desvio do campo Option do select UO2...
@@ -209,27 +219,28 @@ $where = " AND concat(computadores.te_node_address, DATE_FORMAT(patrimonio.dt_hr
 				$join_UO1 = str_replace('frm_te_valor_condicao1',$value,$join_UO1);
 				$join_UO1 = str_replace('__','.',$join_UO1);				
 				$join_UO1 = str_replace("\'",'',$join_UO1);												
-				}				
-			}
+			}				
 		}
+	}
 
 	// Reinicializo o array para nova listagem, agora para os critérios posteriores
-	reset($HTTP_POST_VARS);
-	while(list($key, $value) = each($HTTP_POST_VARS))
-		{
+	reset($_SESSION['post']);
+	while(list($key, $value) = each($_SESSION['post']))
+	{
 		if (trim($value)<>'' && trim(strpos($key,'frm_'))<>'' && trim(strpos($key,'frm_UO'))=='') 
-			{
+		{
 			if (trim(strpos($key,'frm_condicao2_'))<>'')
-				{
+			{
 				$criterios .= str_replace('frm_condicao2_','',$value);
-				}
-			elseif (trim(strpos($key,'frm_te_valor_condicao2_'))<>'')
-				{
-				$criterios = str_replace('frm_te_valor_condicao2',$value,$criterios);
-				}			
-			$value_anterior = $value;
 			}
-		} 
+			elseif (trim(strpos($key,'frm_te_valor_condicao2_'))<>'')
+			{
+				$criterios = str_replace('frm_te_valor_condicao2',$value,$criterios);
+			}			
+			$value_anterior = $value;
+		}
+
+	} 
 
 	if ($criterios)
 		{
@@ -250,25 +261,25 @@ if ($join_UO1 || $join_UO1a || $join_UO2)
 		}
 
 	if ($join_UO1a)
-		{
+	{
 		$where_uon1a = $where_uon . " AND unid_organizacional_nivel1a.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 AND ".$join_UO1a." " ;	
 //		$where_uon = '';
 //		$from .= " ,unid_organizacional_nivel1a";		
-		}
+	}
 
 	if ($join_UO2)
-		{
+	{
 		$where_uon2 = $where_uon . " AND patrimonio.id_unid_organizacional_nivel2 = unid_organizacional_nivel2.id_unid_organizacional_nivel2 AND ".$join_UO2." " ;	
 //		$from .= " ,unid_organizacional_nivel2";		
-		}
 	}
+}
 // O valor para join_opcional é relativo à seleção de critérios para a pesquisa.
 // O LEFT JOIN só deverá ser utilizado para os casos em que não forem apontados critérios...
 $join_opcional = '';
 if (!$join_UO1 && !$join_UO1a && !$join_UO2)
-	{
+{
 	$join_opcional = ',computadores left join patrimonio on (computadores.te_node_address = patrimonio.te_node_address AND computadores.id_so = patrimonio.id_so) ';
-	}
+}
 else
 	{
 	$from .= ' ,patrimonio, computadores ';
@@ -276,6 +287,7 @@ else
 $query = " SELECT 	DISTINCT computadores.te_node_address, 
 					so.id_so, 
 					UNIX_TIMESTAMP(computadores.dt_hr_ult_acesso),
+					UNIX_TIMESTAMP(patrimonio.dt_hr_alteracao),
 					computadores.te_nome_computador as 'Nome Comp.', 
 					sg_so as 'S.O.', 
 					computadores.te_ip as 'IP'" .
@@ -299,89 +311,62 @@ $query = " SELECT 	DISTINCT computadores.te_node_address,
 		   ORDER BY " . $orderby; 
 $result = mysql_query($query) or die('Não Existem Registros para os Parâmetros de Consulta Fornecidos ou sua sessão expirou!');
 if (mysql_num_rows($result)==0)
+{
+	die('Não Existem Registros para os Parâmetros de Consulta Fornecidos.');	
+}
+else
+{
+	$fields=mysql_num_fields($result);
+	if ($in_destacar_duplicidade_total)
 	{
-	echo mensagem('Não Existem Registros para os Parâmetros de Consulta Fornecidos.');	
+		$arr_in_destacar_duplicidade_total = explode('#',$in_destacar_duplicidade_total);
+	}
+
+	if (isset($_GET['formato']))
+	{
+		$formato = $_GET['formato'];
+	}
+	else
+	{
+		$formato = $_POST['formato'];
+	}
+	switch ($formato)
+	{
+		case "pdf":
+			$relatorio = new RelatorioPDF();
+			break;
+		case "ods":
+			$relatorio = new RelatorioODS();
+			break;
+		case "csv":
+			$relatorio = new RelatorioCSV();
+			break;
+		default:
+			$relatorio = new RelatorioHTML();
+			break;
+	}
+
+	$relatorio->setTitulo('CACIC - Relatório de informações de Patrimônio e Localização Física');
+
+	$in_destacar_duplicidade_tmp = '';
+	$header = array('#');
+	for ($i=4; $i < mysql_num_fields($result); $i++) 
+	{ //Table Header
+		$header[] = '<font size="1" face="Verdana, Arial"><b><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></b></font>';
+		if ($in_destacar_duplicidade_total && in_array(mysql_field_name($result, $i), $arr_in_destacar_duplicidade_total))
+		{
+			if ($in_destacar_duplicidade_tmp) $in_destacar_duplicidade_tmp .= '#';
+			$in_destacar_duplicidade_tmp .= $i;
+		}
 	}
 else
 	{	
 
-	$fields=mysql_num_fields($result);
-	echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
-	     <tr bgcolor="#E1E1E1" >
-	      <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
-
-	if ($in_destacar_duplicidade_total) $arr_in_destacar_duplicidade_total = explode('#',$in_destacar_duplicidade_total);
-
-	// Coloco na string abaixo os nomes dos campos que não devem ser mostrados, concatenando-os com # para fins de busca em substring.
-	$strNaoMostrarCamposNomes   = '#dt_hr_alteracao#';
-	// Mais adiante eu coloco os indices das colunas que não serão mostradas, concatenando-os com # para fins de busca em substring.
-	$strNaoMostrarCamposIndices = '';	
+	$relatorio->setTableHeader($header);
 	
-	$in_destacar_duplicidade_tmp = '';
-	for ($i=3; $i < mysql_num_fields($result); $i++) 
-		{ //Table Header
-		$boolNaoMostrar = stripos2($strNaoMostrarCamposNomes,'#'.mysql_field_name($result, $i).'#',false);
-		if (!$boolNaoMostrar)
-			{
-		   	print '<td nowrap align="left"><font size="1" face="Verdana, Arial"><b><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></b></font></td>';
-			if ($in_destacar_duplicidade_total && in_array(mysql_field_name($result, $i),$arr_in_destacar_duplicidade_total)) 
-				{
-				if ($in_destacar_duplicidade_tmp) $in_destacar_duplicidade_tmp .= '#';
-				$in_destacar_duplicidade_tmp .= $i;
-				}
-			}
-		else
-			$strNaoMostrarCamposIndices .= '#'.$i.'#';
-		}
-	echo '</tr>';
 
-	if ($in_destacar_duplicidade_tmp) 
-		{
-		$arr_in_destacar_duplicidade = explode('#',$in_destacar_duplicidade_tmp);
-		$v_arr_campos_valores = array();
-		$num_registro = 1;
-		
-		while ($row = mysql_fetch_row($result)) 
-			{
-		    for ($i=3; $i < $fields; $i++) 
-				{
-				if (trim($row[$i])<>'' && in_array($i,$arr_in_destacar_duplicidade)) 
-					{
-					array_push($v_arr_campos_valores,$i . ',' . trim(strtolower($row[$i])));			
-					}
-				}
-			$num_registro ++;
-			}
-		$v_arr_total_campos_valores = array();
-		$v_arr_total_campos_valores = array_count_values($v_arr_campos_valores);	
-
-		$num_registro = 1;
-		$v_registro_atual = '';
-		@mysql_data_seek($result,0);
-		while ($row = mysql_fetch_row($result)) 
-			{
-		    for ($i=3; $i < $fields; $i++) 
-				{
-				if (trim($row[$i])<>'' && in_array($i,$arr_in_destacar_duplicidade)) 
-					{
-					$v_chave = $i . ',' . trim($row[$i]);
-					if ($v_arr_total_campos_valores[$v_chave]>1)
-						{
-						if ($v_registro_atual <> $num_registro) 
-							$v_campos_valores_duplicados .= 'r='.$num_registro.'#';
-
-						$v_registro_atual = $num_registro;
-						$v_campos_valores_duplicados .= '#c='.$i.'#';					
-						}
-					}
-				}
-			$num_registro++;
-			}
-		}
-
-	$cor = 0;	
-	$num_registro = 1;
 	@mysql_data_seek($result,0);
+	$table = array();
 	while ($row = mysql_fetch_row($result)) 
 	{//pre Table body
 		
@@ -393,6 +378,14 @@ else
 			{
 				$table[$row[0]] = $row;
 			}
+			if ($row[2] == $table[$row[0]][2])
+			{
+				// desempatar pela entrada de patrimonio mais recente
+				if ($row[3] > $table[$row[0]][3])
+				{
+					$table[$row[0]] = $row;
+				}
+			}
 		}
 		else
 		{
@@ -400,80 +393,105 @@ else
 		}
 	}
 
-	foreach ($table as $row) 
-		{ //Table body
-		$v_key_campos_valores_duplicados = strpos($v_campos_valores_duplicados,'r='.$num_registro.'#',0);
-		echo '<tr ';
-		
-		if ($v_key_campos_valores_duplicados>-1) 
-			echo 'bgcolor="#FFFF99"';
-		elseif ($cor) 
-			echo 'bgcolor="#E1E1E1"';
-	
-		echo '>';
-	
-		echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
-		echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[3] ."</a>&nbsp;</td>"; 
-	
-		for ($i=4; $i < $fields; $i++) 
+	if ($in_destacar_duplicidade_tmp) 
+		{
+		$arr_in_destacar_duplicidade = explode('#',$in_destacar_duplicidade_tmp);
+		$v_arr_campos_valores = array();
+		$num_registro = 1;
+		foreach ($table as $row)
+		{
+		    for ($i = 5; $i < $fields; $i++) 
 			{
-			$boolNaoMostrar = stripos2($strNaoMostrarCamposIndices,'#'.$i.'#',false);
-			if (!$boolNaoMostrar)
-				{				
-			
-				$v_bold='';
-		
-				echo '<td nowrap align="left"><font size="1" face="Verdana, Arial"';
-		
-				$j=$v_key_campos_valores_duplicados;			
-				if ($j>-1)
-					{
-					$v_pesquisa_campo = 'c='.trim($i).'#';
-					while ($j < strlen($v_campos_valores_duplicados))
-						{
-						if (substr($v_campos_valores_duplicados,$j,strlen($v_pesquisa_campo))==$v_pesquisa_campo)
-							{			
-							echo 'color="#FF0000"';
-							$v_bold = 'OK';
-							$j = strlen($v_campos_valores_duplicados);				
-							}
-						$j++;
-		
-						if (substr($v_campos_valores_duplicados,$j,2)=='r=')
-							{
-							$j = strlen($v_campos_valores_duplicados);
-							}			
-						}
-						
-					}
-				
-				echo '>';
-				if ($v_bold) echo '<strong>';
-				echo $row[$i];
-				if ($v_bold) echo '</strong>';
-				echo '&nbsp;</td>'; 
-				}		
+				if (trim($row[$i])<>'' && in_array($i,$arr_in_destacar_duplicidade)) 
+				{
+					array_push($v_arr_campos_valores,$i . ',' . trim(strtolower($row[$i])));
+				}
 			}
-		$cor=!$cor;
-		$num_registro++;
-		echo '</tr>';
+			$num_registro ++;
 		}
-	}	
-	
-echo '</table>';
-echo '<br><br>';
-/*
-if (count($_SESSION["list8"])>0)
-	{	
-	$v_opcao = 'patrimonio'; // Nome do pie que será chamado por tabela_estatisticas
-	require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/tabela_estatisticas.php');
+		$v_arr_total_campos_valores = array();
+		$v_arr_total_campos_valores = array_count_values($v_arr_campos_valores);	
+
+		$num_registro = 1;
+		$registros_valores_duplicados = array();
+		foreach ($table as $row)
+		{
+		    for ($i = 5; $i < $fields; $i++) 
+			{
+				if (trim($row[$i]) != '' && in_array($i, $arr_in_destacar_duplicidade)) 
+				{
+					$v_chave = $i . ',' . trim($row[$i]);
+					// se o valor aparece mais de 1 vez
+					if ($v_arr_total_campos_valores[strtolower($v_chave)] > 1)
+					{
+						if (!isset($registros_valores_duplicados[$num_registro]))
+						{
+							$registros_valores_duplicados[$num_registro] = array();
+						}
+						$registros_valores_duplicados[$num_registro][] = $i;
+					}
+				}
+			}
+			$num_registro++;
+		}
 	}
-*/
-?></p>
-<p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
-  de Informa&ccedil;&otilde;es Computacionais</font><br>
-  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
-</body>
-</html>
+
+	$cor = FALSE;
+	$num_registro = 1;
+	foreach ($table as $key => $row) 
+	{ //Table body
+		$possuiCampoDuplicado = isset($registros_valores_duplicados[$num_registro]);
+		if ($possuiCampoDuplicado) 
+		{
+			$relatorio->setRowColor($num_registro - 1, 0xFF, 0xFF, 0x99); //'bgcolor="#FFFF99"');
+		}
+	
+		$c1 = '<font size="1" face="Verdana, Arial">' . $num_registro . '</font>'; 
+		$c2 = "<font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[4] ."</a>";
+	
+		unset($row[0]);
+		unset($row[1]);
+		unset($row[2]);
+		unset($row[3]);
+		unset($row[4]);
+		for ($i=5; $i < $fields; $i++) 
+		{
+			$cell = '<font size="1" face="Verdana, Arial"';
+			$campoDuplicado = FALSE;
+
+			if ($possuiCampoDuplicado)
+			{
+				if (in_array($i, $registros_valores_duplicados[$num_registro]))
+				{	
+					$cell .= 'color="#FF0000" ';
+					$campoDuplicado = TRUE;
+					$relatorio->setCellColor($num_registro - 1, $i - 3, array(0xFF, 0, 0));
+				}
+			}
+			
+			$cell .= '>';
+			if ($campoDuplicado) 
+			{
+				$cell .= '<b>';
+			}
+			$cell .= $row[$i];
+			
+			if ($campoDuplicado)
+			{
+				$cell .= '</b>';
+			}
+
+			$row[$i] = $cell;
+		}
+
+		array_unshift($row, $c1, $c2);
+		$relatorio->addRow($row);
+		$cor = !$cor;
+		$num_registro++;
+		
+		
+	}
+
+	$relatorio->output();
+}
+?>

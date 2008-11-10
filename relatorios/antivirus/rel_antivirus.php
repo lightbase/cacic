@@ -392,12 +392,12 @@ foreach ($table as $row)
 	}
     $cor = !$cor;
 
-	$relatorio->addRow(gera_row($num_registro, $row, $fields, $strTripaColunasValidas, $tra));
+	$relatorio->addRow(gera_row($num_registro, $row, $fields, $strTripaColunasValidas, $relatorio));
 	$num_registro++;
 }
 #echo '</table><br><br>';
 
-function gera_row($num_registro, $row, $fields, $strTripaColunasValidas, $tra)
+function gera_row($num_registro, $row, $fields, $strTripaColunasValidas, $relatorio)
 {
 	$c1 = '<font size="1" face="Verdana, Arial">' . $num_registro . '</font>'; 
 	$c2 = "<font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[3] ."</a>";
@@ -413,6 +413,7 @@ function gera_row($num_registro, $row, $fields, $strTripaColunasValidas, $tra)
 		if ($row[$i] == 'N')
 		{
 			$row[$i] = '<font size="1" face="Verdana, Arial" color="#FF0000"><center><strong>N</strong></center</font>';
+			$relatorio->setCellColor($num_registro - 1, $i - 2, array(0xFF, 0, 0));
 		}
 		else 	
 		{
