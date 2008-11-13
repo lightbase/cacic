@@ -1036,7 +1036,7 @@ function Output($name='',$dest='')
 			else
 				header('Content-Type: application/octet-stream');
 			if(headers_sent())
-				$this->Error('Saome data has already been output to browser, can\'t send PDF file');
+				$this->Error('Some data has already been output to browser, can\'t send PDF file');
 			header('Content-Length: '.strlen($this->buffer));
 			header('Content-disposition: attachment; filename="'.$name.'"');
 			echo $this->buffer;

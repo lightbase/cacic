@@ -19,73 +19,34 @@ session_start();
  */
 if(!isset($_SESSION['id_usuario'])) 
   die('Acesso negado (Access denied)!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
-}
+else 
+	{ // Inserir regras para outras verificações (ex: permissões do usuário)!
+	}
+require_once('../../include/library.php');	
 
 if($_POST['submit']) 
 	{
-	$_SESSION["list2"]       = $_POST['list2'];
-	$_SESSION["list4"]       = $_POST['list4'];
-	$_SESSION["list6"]       = $_POST['list6'];
-	$_SESSION["list6o"]       = $_POST['list6'];
-	$_SESSION["list8"]       = $_POST['list8'];			
-	$_SESSION["list12"]      = $_POST['list12'];				
-	$_SESSION["cs_situacao"] = $_POST["cs_situacao"];
-	$_SESSION['orderby'] = '';
-	$_SESSION['post'] = $_POST;
-}
+	$_SESSION["list2"]       	= $_POST['list2'];
+	$_SESSION["list4"]       	= $_POST['list4'];
+	$_SESSION["list6"]       	= $_POST['list6'];
+	$_SESSION["list6o"]      	= $_POST['list6'];
+	$_SESSION["list8"]       	= $_POST['list8'];			
+	$_SESSION["list12"]      	= $_POST['list12'];				
+	$_SESSION["cs_situacao"]	= $_POST["cs_situacao"];
+	$_SESSION['orderby'] 	 	= '';
+	$_SESSION['post'] 		 	= $_POST;
+	}
 else
-{	
-	$_SESSION["list6"] = $_SESSION['list6o'];
-}
-
-?>
-<html>
-<head>
-<title>Relat&oacute;rio de informa&ccedil;&otilde;es de Patrim&ocirc;nio e Localiza&ccedil;&atilde;o F&iacute;sica </title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language="JavaScript" type="text/JavaScript">
-<!--
-function MM_openBrWindow(theURL,winName,features) { //v2.0
-  window.open(theURL,winName,features);
-}
-//-->
-</script>
-</head>
-
-<body bgcolor="#FFFFFF" topmargin="5">
-<table border="0" align="default" cellpadding="0" cellspacing="0" bordercolor="#999999">
-  <tr bgcolor="#E1E1E1"> 
-    <td rowspan="5" bgcolor="#FFFFFF">&nbsp;</td>
-    <td rowspan="5" bgcolor="#FFFFFF"><img src="../../imgs/cacic_logo.png" width="50" height="50"></td>
-    <td bgcolor="#FFFFFF">&nbsp;</td>
-  </tr>
-  <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC 
-      - Relat&oacute;rio de informa&ccedil;&otilde;es de Patrim&ocirc;nio e Localiza&ccedil;&atilde;o 
-      F&iacute;sica </strong></font></td>
-  </tr>
-  <tr> 
-    <td height="1" bgcolor="#333333"></td>
-  </tr>
-  <tr> 
-    <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
-  </tr>
-</table>
-<br>
-<? 
-require_once('../../include/library.php');
-require_once('../../include/RelatorioHTML.php');
-require_once('../../include/RelatorioPDF.php');
-require_once('../../include/RelatorioODS.php');
-require_once('../../include/RelatorioCSV.php');
+	{	
+	GravaTESTES('Entrei 2...');		
+	$_SESSION["list6"]			= $_SESSION['list6o'];
+	GravaTESTES('Entrei 2a...');		
+	}
 conecta_bd_cacic();
 
 $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
-
 	//if($_SESSION["cs_situacao"] == 'S') 
 		//{
 		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
@@ -348,19 +309,32 @@ else
 
 	$relatorio->setTitulo('CACIC - Relatório de informações de Patrimônio e Localização Física');
 
+	// String com nomes dos campos que não devem ser mostrados, concatenando-os com # para fins de busca em substring. 
+ 	$strNaoMostrarCamposNomes   = '#dt_hr_alteracao#'; 
+ 	
+	// String para indices das colunas que não serão mostradas, concatenando-os com # para fins de busca em substring. 
+ 	$strNaoMostrarCamposIndices = ''; 
+	
 	$in_destacar_duplicidade_tmp = '';
+	
 	$header = array('#');
+
+	//Table Header
 	for ($i=4; $i < mysql_num_fields($result); $i++) 
-	{ //Table Header
-		$header[] = '<font size="1" face="Verdana, Arial"><b><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></b></font>';
-		if ($in_destacar_duplicidade_total && in_array(mysql_field_name($result, $i), $arr_in_destacar_duplicidade_total))
 		{
-			if ($in_destacar_duplicidade_tmp) $in_destacar_duplicidade_tmp .= '#';
-			$in_destacar_duplicidade_tmp .= $i;
+		$boolNaoMostrar = stripos2($strNaoMostrarCamposNomes,'#'.mysql_field_name($result, $i).'#',false); 
+ 		if (!$boolNaoMostrar) 
+			{
+			$header[] = '<font size="1" face="Verdana, Arial"><b><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></b></font>';
+			if ($in_destacar_duplicidade_total && in_array(mysql_field_name($result, $i), $arr_in_destacar_duplicidade_total))
+				{
+				if ($in_destacar_duplicidade_tmp) $in_destacar_duplicidade_tmp .= '#';
+				$in_destacar_duplicidade_tmp .= $i;
+				}
+			}
+		else 
+ 			$strNaoMostrarCamposIndices .= '#'.$i.'#';			
 		}
-	}
-else
-	{	
 
 	$relatorio->setTableHeader($header);
 	
@@ -368,30 +342,23 @@ else
 	@mysql_data_seek($result,0);
 	$table = array();
 	while ($row = mysql_fetch_row($result)) 
-	{//pre Table body
+		{//pre Table body
 		
 		// ja existe entrada para este MAC?
 		if (isset($table[$row[0]]))
-		{
+			{
 			// acesso mais rencente?
 			if ($row[2] > $table[$row[0]][2])
-			{
 				$table[$row[0]] = $row;
-			}
+
+			// desempatar pela entrada de patrimonio mais recente
 			if ($row[2] == $table[$row[0]][2])
-			{
-				// desempatar pela entrada de patrimonio mais recente
 				if ($row[3] > $table[$row[0]][3])
-				{
 					$table[$row[0]] = $row;
-				}
 			}
-		}
 		else
-		{
 			$table[$row[0]] = $row;
 		}
-	}
 
 	if ($in_destacar_duplicidade_tmp) 
 		{
@@ -399,99 +366,89 @@ else
 		$v_arr_campos_valores = array();
 		$num_registro = 1;
 		foreach ($table as $row)
-		{
-		    for ($i = 5; $i < $fields; $i++) 
 			{
+		    for ($i = 5; $i < $fields; $i++) 
 				if (trim($row[$i])<>'' && in_array($i,$arr_in_destacar_duplicidade)) 
-				{
 					array_push($v_arr_campos_valores,$i . ',' . trim(strtolower($row[$i])));
-				}
 			}
-			$num_registro ++;
 		}
-		$v_arr_total_campos_valores = array();
-		$v_arr_total_campos_valores = array_count_values($v_arr_campos_valores);	
+	$v_arr_total_campos_valores = array();
+	$v_arr_total_campos_valores = array_count_values($v_arr_campos_valores);
 
-		$num_registro = 1;
-		$registros_valores_duplicados = array();
-		foreach ($table as $row)
+	$num_registro = 1;
+	$registros_valores_duplicados = array();
+
+	foreach ($table as $row)
 		{
-		    for ($i = 5; $i < $fields; $i++) 
+	    for ($i = 5; $i < $fields; $i++) 
 			{
-				if (trim($row[$i]) != '' && in_array($i, $arr_in_destacar_duplicidade)) 
+			if (trim($row[$i]) != '' && in_array($i, $arr_in_destacar_duplicidade)) 
 				{
-					$v_chave = $i . ',' . trim($row[$i]);
-					// se o valor aparece mais de 1 vez
-					if ($v_arr_total_campos_valores[strtolower($v_chave)] > 1)
+				$v_chave = $i . ',' . trim($row[$i]);
+				// se o valor aparece mais de 1 vez
+				if ($v_arr_total_campos_valores[strtolower($v_chave)] > 1)
 					{
-						if (!isset($registros_valores_duplicados[$num_registro]))
-						{
-							$registros_valores_duplicados[$num_registro] = array();
-						}
-						$registros_valores_duplicados[$num_registro][] = $i;
+					if (!isset($registros_valores_duplicados[$num_registro]))
+						$registros_valores_duplicados[$num_registro] = array();
+
+					$registros_valores_duplicados[$num_registro][] = $i;
 					}
 				}
 			}
-			$num_registro++;
+		$num_registro++;
 		}
-	}
 
 	$cor = FALSE;
 	$num_registro = 1;
 	foreach ($table as $key => $row) 
-	{ //Table body
-		$possuiCampoDuplicado = isset($registros_valores_duplicados[$num_registro]);
-		if ($possuiCampoDuplicado) 
-		{
-			$relatorio->setRowColor($num_registro - 1, 0xFF, 0xFF, 0x99); //'bgcolor="#FFFF99"');
-		}
-	
+		{ //Table body	
 		$c1 = '<font size="1" face="Verdana, Arial">' . $num_registro . '</font>'; 
 		$c2 = "<font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[4] ."</a>";
-	
 		unset($row[0]);
 		unset($row[1]);
 		unset($row[2]);
 		unset($row[3]);
 		unset($row[4]);
-		for ($i=5; $i < $fields; $i++) 
-		{
-			$cell = '<font size="1" face="Verdana, Arial"';
-			$campoDuplicado = FALSE;
+		
+		for ($i=4; $i < $fields; $i++) 
+			{			
+			$campoDuplicado = FALSE;		
+			$boolNaoMostrar = stripos2($strNaoMostrarCamposIndices,'#'.$i.'#',false); 
+			if (!$boolNaoMostrar) 
+				{  			
+				$possuiCampoDuplicado = isset($registros_valores_duplicados[$num_registro]);
+				if ($possuiCampoDuplicado) 
+					$relatorio->setRowColor($num_registro - 1, 0xFF, 0xFF, 0x99); //'bgcolor="#FFFF99"');
+		
+				$cell = '<font size="1" face="Verdana, Arial"';
+	
+				if ($possuiCampoDuplicado)
+					if (in_array($i, $registros_valores_duplicados[$num_registro]))
+						{	
+						$cell .= 'color="#FF0000" ';
+						$campoDuplicado = TRUE;
+						$relatorio->setCellColor($num_registro - 1, $i - 3, array(0xFF, 0, 0));
+						}
+				
+				$cell .= '>';
+				if ($campoDuplicado) 
+					$cell .= '<b>';
 
-			if ($possuiCampoDuplicado)
-			{
-				if (in_array($i, $registros_valores_duplicados[$num_registro]))
-				{	
-					$cell .= 'color="#FF0000" ';
-					$campoDuplicado = TRUE;
-					$relatorio->setCellColor($num_registro - 1, $i - 3, array(0xFF, 0, 0));
-				}
-			}
-			
-			$cell .= '>';
-			if ($campoDuplicado) 
-			{
-				$cell .= '<b>';
-			}
-			$cell .= $row[$i];
-			
-			if ($campoDuplicado)
-			{
-				$cell .= '</b>';
-			}
-
-			$row[$i] = $cell;
-		}
-
+				$cell .= $row[$i];
+				if ($campoDuplicado)
+					$cell .= '</b>';	
+				$row[$i] = $cell;
+				$cell = '';
+				}				
+			else
+				unset($row[$i]);				
+			}	
 		array_unshift($row, $c1, $c2);
 		$relatorio->addRow($row);
 		$cor = !$cor;
-		$num_registro++;
-		
-		
-	}
+		$num_registro++;										
+		}
 
 	$relatorio->output();
-}
-?>
+	}
+	?>

@@ -6,7 +6,6 @@ class PDFMTable extends FPDF
 {
 	private $widths;
 	private $aligns;
-	private $fill;
 	
 	public function PDFMTable()
 	{
@@ -22,8 +21,6 @@ class PDFMTable extends FPDF
 		{
 			$fullwidth += $wh;
 		}
-		#$this->hPt=$this->fwPt;
-		#$this->w = $fullwidth;
 		$this->fhPt = ($fullwidth + $this->lMargin + $this->rMargin) * $this->k;
 	}
 
@@ -33,12 +30,11 @@ class PDFMTable extends FPDF
 		$this->aligns=$a;
 	}
 
-	function Row($data)
+	function Row($data, $fillcolor, $fill, $cellColors)
 	{
+		$this->SetFillColor($fillcolor[0], $fillcolor[1], $fillcolor[2]);
 		//Calculate the height of the row
 		$nb=0;
-		#for($i=0;$i<count($data);$i++)
-		#    $nb=max($nb,$this->NbLines($this->widths[$i],$data[$i]));
 		$i = 0;
 		foreach ($data as $value)
 		{
@@ -48,18 +44,17 @@ class PDFMTable extends FPDF
 		$h=5*$nb;
 		//Issue a page break first if needed
 		$this->CheckPageBreak($h);
-		//Draw the cells of the row
-		#for($i=0;$i<count($data);$i++)
-		#{
+
 		$i = 0;		
 		foreach ($data as $value)
 		{
+			$this->SetTextColor($cellColors[$i][0], $cellColors[$i][1], $cellColors[$i][2]);
 		    $w=$this->widths[$i];
 		    $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
 		    //Save the current position
 		    $x=$this->GetX();
 		    $y=$this->GetY();
-			if ($this->fill)
+			if ($fill)
 			{
 				$style = 'DF';
 			}
@@ -70,12 +65,11 @@ class PDFMTable extends FPDF
 		    //Draw the border
 		    $this->Rect($x,$y,$w,$h, $style);
 		    //Print the text
-		    $this->MultiCell($w,5,$value,0,$a/*, $this->fill*/);
+		    $this->MultiCell($w,5,$value,0,$a);
 		    //Put the position to the right of the cell
 		    $this->SetXY($x+$w,$y);
 			$i++;
 		}
-		$this->fill = !$this->fill;
 		//Go to the next line
 		$this->Ln($h);
 	}
@@ -191,6 +185,25 @@ class RelatorioPDF extends Relatorio
 		return $maxWidths;
 	}
 
+	public function html2rgb($color)
+	{
+		if ($color[0] == '#')
+		    $color = substr($color, 1);
+
+		if (strlen($color) == 6)
+		    list($r, $g, $b) = array($color[0].$color[1],
+		                             $color[2].$color[3],
+		                             $color[4].$color[5]);
+		elseif (strlen($color) == 3)
+		    list($r, $g, $b) = array($color[0].$color[0], $color[1].$color[1], $color[2].$color[2]);
+		else
+		    return false;
+
+		$r = hexdec($r); $g = hexdec($g); $b = hexdec($b);
+
+		return array($r, $g, $b);
+	}
+
     public function output()
 	{
 		$pdf = new PDFMTable();
@@ -222,7 +235,9 @@ class RelatorioPDF extends Relatorio
 		$pdf->Ln();
 		//Color and font restoration
 		$pdf->SetFillColor(224, 235, 255);
-		$pdf->SetTextColor(0);
+		$defaultFillColor = array(224, 235, 255);
+		$defaultTextColor = 0;
+		$pdf->SetTextColor($defaultTextColor);
 		$pdf->SetFont('Arial');
 		//Data
 		$fill = 0;
@@ -231,31 +246,26 @@ class RelatorioPDF extends Relatorio
 		$size = count($body);
 		for ($i = 0; $i < $size; $i++)
 		{
-			#echo 'ROW: '.$i.'<BR>';
 			$row = &$body[$i];
-			//unset($body[$i]);
-			//$px = $pdf->GetX();
-			//$py = $pdf->GetY();
-			//for ($i = 0; $i < count($row); $i++)
-			//{
-			//	$pn = $pdf->PageNo();
-			//	$pdf->MultiCell($w[$i], 6, iconv('utf-8' ,'iso-8859-1', /*'X: '.$px.*/'Y: '.$py/*$row[$i]*/), 1, 'L', $fill);
-			//	$px += $w[$i];
-			//	if ($pdf->PageNo() > $pn)
-			//	{
-			//		$py = 0;
-			//	}
-			//	$pdf->SetXY($px, $py);
-			//}
+			$fillcolor = $defaultFillColor;
+			$color = $this->getRowColor($i);
+			if ($color)
+			{
+				$fillcolor = $color;
+				$fill = 1;
+			}
 			$count = count($row);
+			$j = 0;
+			$cellColors = array();			
 			foreach ($row as $key => $value)
 			{
+				$cellColors[$j] = $this->getCellColor($i, $j);
 				$row[$key] = $this->relstrip($value);// iconv('utf-8' ,'iso-8859-1', 'AAA'/*strip_tags($row[$j])*/);
+				$j++;
 			}
-			$pdf->Row($row);
+			$pdf->Row($row, $fillcolor, $fill, $cellColors);
 		    $fill = !$fill;
 		}
-		//$pdf->Cell(array_sum($w), 0, '', 'T');
 
 		$pdf->Output('relatorio.pdf', 'D');
 	}

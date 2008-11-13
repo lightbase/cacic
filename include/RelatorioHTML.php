@@ -3,6 +3,24 @@ require_once('Relatorio.php');
 
 class RelatorioHTML extends Relatorio
 {
+	public function rgb2html($r, $g=-1, $b=-1)
+	{
+		if (is_array($r) && sizeof($r) == 3)
+		    list($r, $g, $b) = $r;
+
+		$r = intval($r); $g = intval($g);
+		$b = intval($b);
+
+		$r = dechex($r<0?0:($r>255?255:$r));
+		$g = dechex($g<0?0:($g>255?255:$g));
+		$b = dechex($b<0?0:($b>255?255:$b));
+
+		$color = (strlen($r) < 2?'0':'').$r;
+		$color .= (strlen($g) < 2?'0':'').$g;
+		$color .= (strlen($b) < 2?'0':'').$b;
+		return '#'.$color;
+	}
+
 	public function output()
 	{
 		$cor = FALSE;
@@ -36,7 +54,8 @@ class RelatorioHTML extends Relatorio
 			
 		  </tr>
 		  <tr> 
-			<td height="1" bgcolor="#333333"></td>
+			<td height="1" bgcolor="#333333"></td>
+
 		  <tr> 
 			<td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
 				em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
@@ -63,14 +82,22 @@ class RelatorioHTML extends Relatorio
 		echo '</tr>';
 
 		//Data
+		$i = 0;
 		foreach ($this->getBody() as $row)
 		{
-			echo '<tr ';
-			if ($cor)
+			$attr = $this->getRowColor($i++);
+			if (!$attr)
 			{
-				echo 'bgcolor="#E1E1E1"';
+				if ($cor)
+				{
+					$attr = 'bgcolor="#E1E1E1"';
+				}
 			}
-			echo '>';
+			else
+			{
+				$attr = 'bgcolor="'.$this->rgb2html($attr[0], $attr[1], $attr[2]).'"';
+			}
+			echo "<tr $attr>";
 			
 			foreach ($row as $cell)
 			{
