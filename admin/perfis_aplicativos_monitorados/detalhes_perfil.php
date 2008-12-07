@@ -247,7 +247,7 @@ function valida_form() {
 					$v_nm_aplicativo = substr($row['nm_aplicativo'], 0, strpos($row['nm_aplicativo'], "#DESATIVADO#"));
 					}
 			?>
-              <input name="frm_nm_aplicativo" type="text" id="frm_nm_aplicativo3" size="80" maxlength="100" value="<? echo $v_nm_aplicativo;?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"<? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?> > 
+              <input name="frm_nm_aplicativo" type="text" id="frm_nm_aplicativo3" size="80" maxlength="150" value="<? echo $v_nm_aplicativo;?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"<? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?> > 
             </td>
           </tr>
           <tr> 
@@ -318,7 +318,7 @@ function valida_form() {
                 em Registry</option>
                 <option value="2" <? if ($row['cs_ide_licenca']=='2') echo 'selected';?>  id="Ex.:  Arquivos de Programas\Cacic\Cacic2.ini/Patrimonio/nu_CPU">Nome/Se&ccedil;&atilde;o\Chave 
                 de Arquivo INI</option>
-              </select> <br> <input name="frm_te_ide_licenca" type="text" id="frm_te_ide_licenca" value="<? echo $row['te_ide_licenca'];?>" size="80" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
+              </select> <br> <input name="frm_te_ide_licenca" type="text" id="frm_te_ide_licenca" value="<? echo $row['te_ide_licenca'];?>" size="80" maxlength="150" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda1" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
               <br> <input name="Ajuda11" type="text" style="border:0" size="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
               <div align="left"> <br>
@@ -343,7 +343,7 @@ function valida_form() {
                 de Arquivo de Configura&ccedil;&atilde;o</option>
                 <option value="3" <? if ($row['cs_car_inst_w9x']=='3') echo 'selected';?> id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
                 em Registry</option>
-              </select> <br> <input name="frm_te_car_inst_w9x" type="text" id="frm_te_car_inst_w9x3" size="80" maxlength="100" value="<? echo $row['te_car_inst_w9x'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
+              </select> <br> <input name="frm_te_car_inst_w9x" type="text" id="frm_te_car_inst_w9x3" size="80" maxlength="150" value="<? echo $row['te_car_inst_w9x'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda2" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda22" type="text" style="border:0" size="80"></td>
           </tr>
@@ -364,7 +364,7 @@ function valida_form() {
                 de Arquivo INI</option>
                 <option value="4"<? if ($row['cs_car_ver_w9x']=='4') echo 'selected';?> id="Ex.:  Cacic\modulos\col_moni.exe">Versão 
                 de Executável</option>
-              </select> <br> <input name="frm_te_car_ver_w9x" type="text" id="frm_te_car_ver_w9x3" size="80" maxlength="100" value="<? echo $row['te_car_ver_w9x'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
+              </select> <br> <input name="frm_te_car_ver_w9x" type="text" id="frm_te_car_ver_w9x3" size="80" maxlength="150" value="<? echo $row['te_car_ver_w9x'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda3" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda33" type="text" style="border:0" size="80"></td>
           </tr>
@@ -387,7 +387,7 @@ function valida_form() {
                 de Arquivo de Configura&ccedil;&atilde;o</option>
                 <option value="3" <? if ($row['cs_car_inst_wnt']=='3') echo 'selected';?> id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
                 em Registry</option>
-              </select> <br> <input name="frm_te_car_inst_wnt" type="text" id="frm_te_car_inst_wnt3" size="80" maxlength="100" value="<? echo $row['te_car_inst_wnt'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
+              </select> <br> <input name="frm_te_car_inst_wnt" type="text" id="frm_te_car_inst_wnt3" size="80" maxlength="150" value="<? echo $row['te_car_inst_wnt'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda4" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda44" type="text" style="border:0" size="80"></td>
           </tr>
@@ -408,7 +408,7 @@ function valida_form() {
                 de Arquivo INI</option>
                 <option value="4"<? if ($row['cs_car_ver_wnt']=='4') echo 'selected';?> id="Ex.:  Cacic\modulos\col_moni.exe">Versão 
                 de Executável</option>
-              </select> <br> <input name="frm_te_car_ver_wnt" type="text" id="frm_te_car_ver_wnt3" size="80" maxlength="100" value="<? echo $row['te_car_ver_wnt'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
+              </select> <br> <input name="frm_te_car_ver_wnt" type="text" id="frm_te_car_ver_wnt3" size="80" maxlength="150" value="<? echo $row['te_car_ver_wnt'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda5" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda55" type="text" style="border:0" size="80"></td>
           </tr>

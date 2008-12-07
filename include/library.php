@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -17,7 +17,7 @@
 @session_start();
 @define('CACIC',1);
 
-@include_once('config.php');
+include_once('config.php');
 require_once('define.php');
 
 if(!include_once( TRANSLATOR_PATH.'/Translator.php'))

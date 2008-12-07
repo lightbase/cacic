@@ -29,18 +29,19 @@ AntiSpy('1,2'); // Permitido somente a estes cs_nivel_administracao...
 
 conecta_bd_cacic();
 
-if ($_POST['ExcluiLocal'] <> '') 
-	{
+if ($_POST['ExcluiLocal'] <> '') {
 	$result 	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do BD do CACIC (em config.php)
 	while ($row = mysql_fetch_row($result))
-		{
-		$query_DEL 	= 'DELETE FROM '.$row[0] .' WHERE id_local = "'. $_POST['frm_id_local'] .'"';
-		$result_DEL = @mysql_query($query_DEL);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
-		if ($result_DEL)
-			GravaLog('DEL',$_SERVER['SCRIPT_NAME'],$row[0]);				
+	{
+		if(!( $row[0] == "usuarios") ) { // Nao exclui dados de usuarios quando exclui locais
+		   $query_DEL 	= 'DELETE FROM '.$row[0] .' WHERE id_local = "'. $_POST['frm_id_local'] .'"';
+		   $result_DEL = @mysql_query($query_DEL);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
+		   if ($result_DEL)
+			   GravaLog('DEL',$_SERVER['SCRIPT_NAME'],$row[0]);				
 		}					
+	}					
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/locais/index.php&tempo=1");					
-	}
+}
 elseif ($_POST['GravaAlteracoes']<>'') 
 	{
 	$query = "UPDATE 	locais 

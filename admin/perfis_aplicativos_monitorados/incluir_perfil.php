@@ -210,7 +210,7 @@ function SetaAjuda(p_index, p_texto)
   <br>
   <table width="90%" border="0" align="center">
     <tr> 
-      <td nowrap class="label">Nome do sistema:<br> <input name="frm_nm_aplicativo" type="text" id="frm_nm_aplicativo2" size="80" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+      <td nowrap class="label">Nome do sistema:<br> <input name="frm_nm_aplicativo" type="text" id="frm_nm_aplicativo2" size="80" maxlength="150" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
     </tr>
     <tr> 
       <td nowrap> <div align="left"> </div></td>
@@ -290,7 +290,7 @@ function SetaAjuda(p_index, p_texto)
           de Arquivo de Configura&ccedil;&atilde;o</option>
           <option value="3" id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
           em Registry</option>
-        </select> <br> <input name="frm_te_car_inst_w9x" type="text" id="frm_te_car_inst_w9x" size="80" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+        </select> <br> <input name="frm_te_car_inst_w9x" type="text" id="frm_te_car_inst_w9x" size="80" maxlength="150" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
         <br> <input name="Ajuda2" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
         <br> <input name="Ajuda22" type="text" style="border:0" size="80"> </td>
     </tr>
@@ -309,7 +309,7 @@ function SetaAjuda(p_index, p_texto)
           de Arquivo INI</option>
           <option value="4" id="Ex.:  C:\Cacic\modulos\col_moni.exe">Vers&atilde;o 
           de Executável</option>
-        </select> <br> <input name="frm_te_car_ver_w9x" type="text" id="frm_te_car_ver_w9x" size="80" maxlength="100"> 
+        </select> <br> <input name="frm_te_car_ver_w9x" type="text" id="frm_te_car_ver_w9x" size="80" maxlength="150"> 
         <br> <input name="Ajuda3" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
         <br> <input name="Ajuda33" type="text" style="border:0" size="80"> </td>
     </tr>
@@ -329,7 +329,7 @@ function SetaAjuda(p_index, p_texto)
           de Arquivo de Configura&ccedil;&atilde;o</option>
           <option value="3" id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
           em Registry</option>
-        </select> <br> <input name="frm_te_car_inst_wnt" type="text" id="frm_te_car_inst_wnt" size="80" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+        </select> <br> <input name="frm_te_car_inst_wnt" type="text" id="frm_te_car_inst_wnt" size="80" maxlength="150" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
         <br> <input name="Ajuda4" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
         <br> <input name="Ajuda44" type="text" style="border:0" size="80"> </td>
     </tr>
@@ -348,7 +348,7 @@ function SetaAjuda(p_index, p_texto)
           de Arquivo INI</option>
           <option value="4" id="Ex.:  C:\Cacic\modulos\col_moni.exe">Vers&atilde;o 
           de Executável</option>
-        </select> <br> <input name="frm_te_car_ver_wnt" type="text" id="frm_te_car_ver_wnt" size="80" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+        </select> <br> <input name="frm_te_car_ver_wnt" type="text" id="frm_te_car_ver_wnt" size="80" maxlength="150" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
         <br> <input name="Ajuda5" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
         <br> <input name="Ajuda55" type="text" style="border:0" size="80"> </td>		
     </tr>
@@ -413,7 +413,7 @@ function SetaAjuda(p_index, p_texto)
     <tr> 
       <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
           </font><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
-          <input name="frm_te_arq_ver_pat_w9x" type="text" id="frm_te_arq_ver_pat_w9x" size="101" maxlength="100">
+          <input name="frm_te_arq_ver_pat_w9x" type="text" id="frm_te_arq_ver_pat_w9x" size="101" maxlength="150">
   		<br>
            <input name="Ajuda7" type="text" style="border:0;font-size:9;color:#000099" size="90" value="Ex.:  Trend\pattern32.vxd">			
 		  
@@ -460,7 +460,7 @@ function SetaAjuda(p_index, p_texto)
     </tr>
     <tr> 
       <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
-          <input name="frm_te_arq_ver_pat_wnt" type="text" id="frm_te_arq_ver_pat_wnt" size="101" maxlength="100">
+          <input name="frm_te_arq_ver_pat_wnt" type="text" id="frm_te_arq_ver_pat_wnt" size="101" maxlength="150">
   		<br>
            <input name="Ajuda8" type="text" style="border:0;font-size:9;color:#000099" size="90" value="Ex.:  Trend\pattern-nt.vxd">			
 		  

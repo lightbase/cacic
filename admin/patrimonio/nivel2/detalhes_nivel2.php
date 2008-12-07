@@ -34,9 +34,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 
 if ($exclui_uon2) 
 	{	
-	$query = "	DELETE 
-				FROM 	unid_organizacional_nivel2 
-				WHERE 	id_unid_organizacional_nivel2 = '$frm_id_unid_organizacional_nivel2_anterior'";
+	$query = "DELETE FROM unid_organizacional_nivel2 WHERE id_unid_organizacional_nivel2 = '$frm_id_unid_organizacional_nivel2_anterior'";
 
 	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
@@ -52,30 +50,26 @@ if ($exclui_uon2)
 else if($_POST['gravainformacaoUON2']) 
 	{
 	
-	$query = "	UPDATE unid_organizacional_nivel2 
-				SET nm_unid_organizacional_nivel2 	= '".$_POST['frm_nm_unid_organizacional_nivel2']."',
-			   	 	te_endereco_uon2 				= '".$_POST['frm_te_endereco_uon2']."',
-			   	 	te_bairro_uon2 					= '".$_POST['frm_te_bairro_uon2']."',
-			   	 	te_cidade_uon2 					= '".$_POST['frm_te_cidade_uon2']."',
-			   	 	te_uf_uon2 						= '".$_POST['frm_te_uf_uon2']."',
-			   	 	nm_responsavel_uon2 			= '".$_POST['frm_nm_responsavel_uon2']."',
-			   	 	te_email_responsavel_uon2 		= '".$_POST['frm_te_email_responsavel_uon2']."',
-			   	 	nu_tel1_responsavel_uon2 		= '".$_POST['frm_nu_tel1_responsavel_uon2']."',
-			   	 	nu_tel2_responsavel_uon2 		= '".$_POST['frm_nu_tel2_responsavel_uon2']."',
-				 	id_unid_organizacional_nivel1a 	= '".$_POST['frm_id_unid_organizacional_nivel1a']."',
-				 	id_local 						= '".$_POST['frm_id_local']."' 
-			  	WHERE id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2_anterior'];
-								
-	$result = mysql_query($query) or die ('1-Insert falhou ou sua sessão expirou!');
-	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');		
-	if (!atualiza_configuracoes_uonx('2'))
+	$rowSEL = explode('#',$result_sel);
+	
+		if ($rowSEL[2]	<>	$frm_nm_unid_organizacional_nivel2 || $rowSEL[4] <> $frm_te_endereco_uon2 || $rowSEL[6] <> $frm_te_bairro_uon2	||$rowSEL[8] <> $frm_te_cidade_uon2 || $rowSEL[10]	<>	$frm_te_uf_uon2 || $rowSEL[12] <> $frm_nm_responsavel_uon2 || $rowSEL[14] <> $frm_te_email_responsavel_uon2 || $rowSEL[16]	<>	$frm_nu_tel1_responsavel_uon2	||	$rowSEL[18]	<>	$frm_nu_tel2_responsavel_uon2)
 		{
-		echo mensagem($oTranslator->_('Falha na exclusao de configuracoes'));
-		}
-	else
+			$query = "UPDATE unid_organizacional_nivel2 SET id_unid_organizacional_nivel1a=$frm_id_unid_organizacional_nivel1a, nm_unid_organizacional_nivel2 = '$frm_nm_unid_organizacional_nivel2', te_endereco_uon2= '$frm_te_endereco_uon2', te_bairro_uon2= '$frm_te_bairro_uon2', te_cidade_uon2= '$frm_te_cidade_uon2',te_uf_uon2= '$frm_te_uf_uon1',nm_responsavel_uon2= '$frm_nm_responsavel_uon2',te_email_responsavel_uon2 = '$frm_te_email_responsavel_uon2', nu_tel1_responsavel_uon2 = '$frm_nu_tel1_responsavel_uon2', nu_tel2_responsavel_uon2= '$frm_nu_tel2_responsavel_uon2' WHERE id_unid_organizacional_nivel2 = $frm_id_unid_organizacional_nivel2_anterior";				
+			mysql_query($query) or die($oTranslator->_('Falha na atualizacao na tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
+			GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
+			if (!atualiza_configuracoes_uonx('2'))
+			{
+					echo mensagem($oTranslator->_('Falha na atualizacao de configuracoes'));
+			}
+			else
+			{
+				header ("Location: ../../../include/operacao_ok.php?chamador=../admin/patrimonio/nivel2/index.php&tempo=1");								
+			}
+		}				
+		else
 		{
-		header ("Location: ../../../include/operacao_ok.php?chamador=../admin/patrimonio/nivel2/index.php&tempo=1");								
-		}
+		    	header ("Location: ../../../include/nenhuma_operacao_realizada.php?chamador=../admin/patrimonio/nive2/index.php&tempo=1");											
+		}		
 	
 	}
 else 
@@ -95,14 +89,21 @@ else
 		return false;
 		}
 	
-	function ListarUON1a(ObjLocal)
+	
+		function upduon1(und1)
 		{
+			window.location.href="http://teste"; 
+		}	
+	
+	function ListarUON1a(ObjLocal)
+	{
 		var frm_id_unid_organizacional_nivel1a =window.document.forms[0].frm_id_unid_organizacional_nivel1a;	
 		var contaUON1a = 0;
 	
 		frm_id_unid_organizacional_nivel1a.options.length = 0;
+		
 		for (j=0;j<document.all.listaUON1a.options.length;j++)
-			{
+		{
 			if (document.all.listaUON1a.options[j].id == ObjLocal.options[ObjLocal.options.selectedIndex].value)
 				{
 				frm_id_unid_organizacional_nivel1a.options[contaUON1a]       = new Option(document.all.listaUON1a.options[j].text);
@@ -114,74 +115,60 @@ else
 			
 		return true;
 	
-		}
+	}
 	
 	function valida_form() 
-		{
+	{
 		alert("<?=$oTranslator->_('Por favor, selecione');?> "+ document.form.etiqueta1.value+".");
 		document.form.selectUON1.focus();
-		return false;
-		} 
+		return true;
 	if (document.form.frm_nm_unid_organizacional_nivel2.value == "")
-		{
+	{
 		alert("<?=$oTranslator->_('Por favor, preencha campo');?> "+ document.form.etiqueta2.value+".");
 		document.form.frm_nm_unid_organizacional_nivel2.focus();
-		return false;
-		} 
-		
-	return true;	
+		return true;
 	}
+	 
+	}		
+	<?
 
-	$queryUON1a = 'SELECT 	uo1a.id_unid_organizacional_nivel1a,
-							uo1a.nm_unid_organizacional_nivel1a,
-							uo1a.id_unid_organizacional_nivel1
-				   FROM 	unid_organizacional_nivel1a uo1a
-				   ORDER BY	uo1a.nm_unid_organizacional_nivel1a';	
-
-	$queryUON2 	= 'SELECT 	uo2.id_unid_organizacional_nivel2,
-							uo2.nm_unid_organizacional_nivel2,
-							uo2.id_unid_organizacional_nivel1a,
-							uo2.id_local
-				   FROM 	unid_organizacional_nivel2 uo2 
-				   WHERE    uo2.id_unid_organizacional_nivel2 = '.$_GET['id_uon2'].' 
-				   ORDER BY	uo2.nm_unid_organizacional_nivel2';	
+	$queryUON1 = 'SELECT uo1.id_unid_organizacional_nivel1, uo1.nm_unid_organizacional_nivel1 FROM unid_organizacional_nivel1 uo1 ORDER BY uo1.nm_unid_organizacional_nivel1';	
+			
+	$queryUON1a = 'SELECT uo1a.id_unid_organizacional_nivel1a,uo1a.nm_unid_organizacional_nivel1a,uo1a.id_unid_organizacional_nivel1 FROM 	unid_organizacional_nivel1a uo1a ORDER BY	uo1a.nm_unid_organizacional_nivel1a';	
+	$queryUON2 	= 'SELECT * FROM unid_organizacional_nivel2 uo2 WHERE uo2.id_unid_organizacional_nivel2 = '.$_GET['id_uon2'].' ORDER BY uo2.nm_unid_organizacional_nivel2';	
 				   
-	$queryLOCAIS= "SELECT 	id_local,
-							sg_local 
-				   FROM 	locais
-				   ORDER BY	sg_local";
+	$queryLOCAIS= "SELECT id_local,sg_local FROM	locais ORDER BY sg_local";
+
 
 	Conecta_bd_cacic();			  
 	
-	$result_UON1   = mysql_query($queryUON1);			
-	$result_UON1a  = mysql_query($queryUON1a);			
+	
+   $result_UON1  = mysql_query($queryUON1);
+   $result_UON1a  = mysql_query($queryUON1a);			
 	$result_UON2   = mysql_query($queryUON2);	
 	$result_LOCAIS = mysql_query($queryLOCAIS);					
 		
-	$row_UON2      = mysql_fetch_array($result_UON2);			
+	$row_UON2= mysql_fetch_array($result_UON2);			
 
 	$id_UON1  = '';
 	if(mysql_num_rows($result_UON1a))
-		{	              
+	{	              
 		while($row_UON1a = mysql_fetch_array($result_UON1a))
-			{
+		{
 			if ($row_UON1a['id_unid_organizacional_nivel1a'] == $row_UON2['id_unid_organizacional_nivel1a'])
-				{
+			{
 				$id_UON1  = $row_UON1a['id_unid_organizacional_nivel1'];
 				break;
-				}
-			} 		
-		}
-
+			}
+		} 		
+	}
+   		
 	?>
+	</script>
 	<body background="../../../imgs/linha_v.gif" onLoad="Javascript: SetaCampo('frm_id_local');">
 	<div id="LayerDados" style="position:absolute; width:200px; height:115px; z-index:1; left: 100px; top: 0px; visibility: hidden">
 	<?
-	$queryLayerUON1a = "SELECT		UON1a.id_unid_organizacional_nivel1,
-									UON1a.id_unid_organizacional_nivel1a,
-									UON1a.nm_unid_organizacional_nivel1a
-					   FROM 		unid_organizacional_nivel1a UON1a
-					   ORDER BY		UON1a.nm_unid_organizacional_nivel1a";
+	$queryLayerUON1a = "SELECT	UON1a.id_unid_organizacional_nivel1,UON1a.id_unid_organizacional_nivel1a,UON1a.nm_unid_organizacional_nivel1a FROM unid_organizacional_nivel1a UON1a ORDER BY UON1a.nm_unid_organizacional_nivel1a";
 	$resultLayerUON1a = mysql_query($queryLayerUON1a) or die($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
 	
 	$intIdUON1a  = 0;
@@ -193,10 +180,14 @@ else
 	
 	echo '<select name="listaUON1a">';
 	for ($i=0; $i < count($arrUON1a);$i++)
-		{
+	{
 		echo $arrUON1a[$i];
-		}
+	}
 	echo '</select>';		
+	$query = "SELECT * FROM unid_organizacional_nivel2 WHERE id_unid_organizacional_nivel2 = '".$row_UON2['id_unid_organizacional_nivel2']."'";
+	$result = mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
+	$fetch_result_sel = mysql_fetch_array($result);
+	$result_sel	= implode('#',$fetch_result_sel);
 		
 	?>
 	</div>
@@ -220,9 +211,9 @@ else
 	<td colspan="3"><select name="frm_id_local" id="frm_id_local" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
 	<?			  
 	while($row_LOCAIS = mysql_fetch_array($result_LOCAIS))
-		{
+	{
 		echo '<option value="'.$row_LOCAIS['id_local'].'" '.($row_LOCAIS['id_local']==$row_UON2['id_local']?'selected':'').'>'.$row_LOCAIS['sg_local'].'</option>';
-		}
+	}
 		?>
 	</select></td></tr>  
 	<tr> 
@@ -233,12 +224,12 @@ else
 				<?
 				
 	if(mysql_num_rows($result_UON1))
-		{	              
+	{	              
 		while($row_UON1 = mysql_fetch_array($result_UON1))
-			{
+		{
 			echo "<option value='". $row_UON1['id_unid_organizacional_nivel1']."' ".($row_UON1['id_unid_organizacional_nivel1']==$id_UON1?'selected':'').'>'.$row_UON1['nm_unid_organizacional_nivel1'].'</option>';
-			} 		
-		}
+		} 		
+	}
 		?>
 			  </select>
 			</div></td>
@@ -252,12 +243,12 @@ else
 				<?
 	mysql_data_seek($result_UON1a,0);
 	if(mysql_num_rows($result_UON1a))
-		{	              
+	{	            
 		while($row_UON1a = mysql_fetch_array($result_UON1a))
-			{
-			echo "<option value='". $row_UON1a['id_unid_organizacional_nivel1a'] . "' " . ($row_UON1a['id_unid_organizacional_nivel1a'] == $row_UON2['id_unid_organizacional_nivel1a']?'selected':'').">".$row_UON1a['nm_unid_organizacional_nivel1a'].'</option>';
-			} 		
-		}
+		{
+				echo "<option value='". $row_UON1a['id_unid_organizacional_nivel1a'] . "' " . ($row_UON1a['id_unid_organizacional_nivel1a'] == $row_UON2['id_unid_organizacional_nivel1a']?'selected':'').">".$row_UON1a['nm_unid_organizacional_nivel1a'].'</option>';
+		} 		
+	}
 		?>
 			  </select>
 			</div></td>

@@ -51,14 +51,11 @@ $query = 'SELECT 	usu.id_usuario,
 					g_usu.id_grupo_usuarios, 									
 					loc.sg_local,
 					loc.id_local
-		  FROM 		usuarios usu, 
-		  			grupo_usuarios g_usu, 
-					locais loc
-		  WHERE 	usu.id_grupo_usuarios=g_usu.id_grupo_usuarios and 
-		  			usu.id_local=loc.id_local '.
-					$where . ' 
+		  FROM 		grupo_usuarios g_usu, usuarios usu 
+		  LEFT JOIN     locais loc ON (loc.id_local=usu.id_local)
+		  WHERE 	usu.id_grupo_usuarios=g_usu.id_grupo_usuarios '. $where . ' 
 		  ORDER BY 	'.$ordem;
-$result = mysql_query($query);
+$result = mysql_query($query) or die(mysql_error(). " " . $query);
 
 $where = ' WHERE g_usu.cs_nivel_administracao <> 0 or 
 			  	 g_usu.id_grupo_usuarios = 1 or
@@ -222,12 +219,12 @@ else
 				   ($_SESSION['cs_nivel_administracao'] == 3 && ($row['cs_nivel_administracao']==0 || $row['cs_nivel_administracao']==4)))			
 					{
 					?>
-					<a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&cs_nivel_administracao=<? echo $row['cs_nivel_administracao'];?>"><? echo $row['sg_local']; ?></a>
+					<a href="detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&cs_nivel_administracao=<? echo $row['cs_nivel_administracao'];?>"><? echo ($row['sg_local']?$row['sg_local']:"???"); ?></a>
 					<?
 					}
 			   else
 			   		{
-					echo $row['sg_local'];
+					echo ($row['sg_local']?$row['sg_local']:"???");
 					}
 					?>
 			</div></td>

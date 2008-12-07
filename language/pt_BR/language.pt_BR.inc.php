@@ -702,3 +702,4 @@ pt_BR     kciq_mnt_lang traducao                                                
 pt_BR     kciq_mnt_tradutor                                                                                   Manutençãoinfo                Tradução de texto do CACIC
 pt_BR     atualizacao especial                                                                                admin     info                Atualizacao Especial
 pt_BR     mecanismo para atualizacao de arquivos diversos no servidor, no ambito da aplicacao.                admin     info                Mecanismo para atualizacao de arquivos diversos no servidor, no ambito da aplicacao.
+pt_BR     falha na atualizacao na tabela (%1) ou sua sessao expirou!                                          admin     info                Falha na atualizacao na tabela (%1) ou sua sessao expirou!

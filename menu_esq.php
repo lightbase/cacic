@@ -168,7 +168,6 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		alert('<?= $oTranslator->_('kciq_msg invalid user or pass'); ?>!');
 		</script>
 		<?
-		break;		
 		}					
 	}
 	?>
