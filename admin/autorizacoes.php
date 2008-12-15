@@ -63,7 +63,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 		   FROM softwares_estacao 
 		   WHERE (dt_desinstalacao IS NULL) 
 		   ORDER BY nr_patrimonio";
-	$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou',array('softwares_estacao')).'!');
+	$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('softwares_estacao')));
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

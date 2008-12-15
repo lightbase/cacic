@@ -84,12 +84,12 @@ CREATE TABLE `aplicativos_redes` (
 --
 
 CREATE TABLE `aquisicoes` (
-  `id_aquisicao` int(10) unsigned NOT NULL default '0',
+  `id_aquisicao` int(10) unsigned NOT NULL default '0' auto_increment,
   `dt_aquisicao` date default NULL,
   `nr_processo` varchar(11) default NULL,
   `nm_empresa` varchar(45) default NULL,
   `nm_proprietario` varchar(45) default NULL,
-  `nr_notafiscal` int(10) unsigned default NULL,
+  `nr_notafiscal` varchar(20) unsigned default NULL,
   PRIMARY KEY  (`id_aquisicao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

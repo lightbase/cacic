@@ -21,7 +21,7 @@
 		<br>
 		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#666666">
 <?
-require_once('file:///K|/cacic2/include/library.php');
+require_once('../../include/library.php');
 // Função para replicação do conteúdo do REPOSITÓRIO nos repositórios dos módulos gerentes
 if ($handle = opendir($_SERVER['DOCUMENT_ROOT'] . '/cacic2/repositorio')) 
 {

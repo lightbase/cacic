@@ -31,7 +31,7 @@ AntiSpy('1,2,3,4');
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Rela&ccedil;&atilde;o de Computadores</title>
+<title><?=$oTranslator->_('Estatisticas de sistemas monitorados');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body bgcolor="#FFFFFF">
@@ -41,13 +41,13 @@ AntiSpy('1,2,3,4');
     <td rowspan="5" bgcolor="#FFFFFF"><img src="../../imgs/cacic_logo.png" width="50" height="50"></td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td class="cabecalho_rel">Estat&iacute;sticas de Sistemas Monitorados</td>
+    <td class="cabecalho_rel"<?=$oTranslator->_('Estatisticas de sistemas monitorados');?></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td class="descricao"><p>Gerado em <? echo date("d/m/Y à\s H:i"); ?></p></td>
+    <td class="descricao"><p><?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y - H:i"); ?></p></td>
   </tr>
 </table>
 <br>
@@ -114,10 +114,8 @@ $query = "SELECT 	computadores.id_so,
 					b.id_aplicativo = '". $_SESSION['id_aplicativo'] ."' ".
 					$_SESSION['query_redes']."  
 					$orderby ";
-//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-//	echo 'est_maquinas=>query: '.$query . '<br><br>';
 
-$result = mysql_query($query) or die();
+$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('aplicativos_monitorados')));
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
@@ -135,13 +133,22 @@ $result = mysql_query($query) or die();
         <tr bgcolor="#E1E1E1"> 
           <td nowrap >&nbsp;</td>
           <td nowrap >&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="center"><a href="est_maquinas_aplicativos.php?teversao=<? echo $_SESSION['te_versao'] ?>&nmversao=<? echo $_SESSION['nm_versao'] ?>&idversao=<? echo $_SESSION['id_aplicativo'] ?>&campo=te_nome_computador">Nome da M&aacute;quina</a></div></td>
+          <td align="center"  nowrap bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="center">
+             <a href="est_maquinas_aplicativos.php?teversao=<? echo $_SESSION['te_versao'] ?>&nmversao=<? echo $_SESSION['nm_versao'] ?>&idversao=<? echo $_SESSION['id_aplicativo'] ?>&campo=te_nome_computador">
+                <?=$oTranslator->_('Nome da maquina');?>
+             </a></div></td>
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="center"><a href="est_maquinas_aplicativos.php?teversao=<? echo $_SESSION['te_versao'] ?>&nmversao=<? echo $_SESSION['nm_versao'] ?>&idversao=<? echo $_SESSION['id_aplicativo'] ?>&campo=te_ip">IP</a></div></td>
+          <td nowrap class="cabecalho_tabela"><div align="center">
+             <a href="est_maquinas_aplicativos.php?teversao=<? echo $_SESSION['te_versao'] ?>&nmversao=<? echo $_SESSION['nm_versao'] ?>&idversao=<? echo $_SESSION['id_aplicativo'] ?>&campo=te_ip">
+               <?=$oTranslator->_('IP');?>
+             </a></div></td>
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="center">Local</div></td>		  
+          <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Local');?></div></td>		  
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="center"><a href="est_maquinas_aplicativos.php?teversao=<? echo $_SESSION['te_versao'] ?>&nmversao=<? echo $_SESSION['nm_versao'] ?>&idversao=<? echo $_SESSION['id_aplicativo'] ?>&campo=dt_hr_ult_acesso">&Uacute;ltima Coleta</a></div></td>
+          <td nowrap class="cabecalho_tabela"><div align="center">
+             <a href="est_maquinas_aplicativos.php?teversao=<? echo $_SESSION['te_versao'] ?>&nmversao=<? echo $_SESSION['nm_versao'] ?>&idversao=<? echo $_SESSION['id_aplicativo'] ?>&campo=dt_hr_ult_acesso">
+                <?=$oTranslator->_('ultima coleta');?>
+             </a></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
         <?  
@@ -173,13 +180,15 @@ $result = mysql_query($query) or die();
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td class="ajuda">Clique sobre o nome da m&aacute;quina para ver os detalhes da mesma</td>
+    <td class="ajuda">
+       <?=$oTranslator->_('Clique sobre o nome da maquina para ver os detalhes da mesma');?>
+    </td>
   </tr>
 </table>
 <br><br>
 <table><tr><td class="descricao_rel">
-<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  <?=$oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>	

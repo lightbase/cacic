@@ -11,7 +11,7 @@
 ...Actividades|admin/log_atividades.php|mainFrame||Visualização do Log de Atividades(INS/UPD/DEL) do Sistema
 ...Insucessos Instalação|admin/log_insucessos.php|mainFrame||Visualização do Log de Insucessoes nas Instalações
 ..<b>Registros</b>||mainFrame|imgs/config_gerais.gif
-...Aquisiciones|admin/gerencia_licencas/arquivo/aquisicoes.php|mainFrame||
+...Aquisiciones|admin/gerencia_licencas/arquivo/index.php|mainFrame||
 ...Locales|admin/locais/index.php|mainFrame||Cadastro de Locais para Controle Centralizado
 ...Domínios|admin/dominios/index.php|mainFrame||Cadastro de Domínios para Autenticação do srCACIC
 ...SubRedes|admin/redes/index.php|mainFrame||Cadastro de SubRedes

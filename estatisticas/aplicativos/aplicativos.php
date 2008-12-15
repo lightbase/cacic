@@ -65,14 +65,15 @@ function open_window(theURL,winName,features) {
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td bgcolor="#FFFFFF" class="cabecalho_rel">Estat&iacute;sticas 
-      de Sistemas Monitorados</td>
+    <td bgcolor="#FFFFFF" class="cabecalho_rel">
+      <?=$oTranslator->_('Estatisticas de sistemas monitorados');?>
+    </td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p class="descricao">Gerado em <? echo date("d/m/Y à\s H:i"); ?></p></td>
+    <td><p class="descricao"><?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y - H:i"); ?></p></td>
   </tr>
 </table>
 <p><br>
@@ -150,10 +151,7 @@ $query_select = 'SELECT 	id_aplicativo,
 				            nm_aplicativo not like "%#DESATIVADO#%"
 				 ORDER BY 	nm_aplicativo';
 
-//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-//	echo 'query_select: '.$query_select . '<br><br>';
-	
-$result_query_selecao = mysql_query($query_select);
+$result_query_selecao = mysql_query($query_select) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));
 ?>
 </p>
 <table width="100%" border="0" align="center">
@@ -217,9 +215,6 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 					 					$groupBy."  
 					 ORDER BY 			total_equip DESC,a.te_versao,b.nm_aplicativo ".
 					 					$orderBy;
-//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-//	echo 'query_aplicativo: '.$query_aplicativo . '<br><br>';
-										
 	$result_query_versoes = mysql_query($query_aplicativo);
 	/*
 	Informações importantes:
@@ -266,7 +261,7 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 			?>
 			<table width="50%" border="0" align="center">		
         	<tr valign="top" bgcolor="#E1E1E1"> 
-	        <td class="cabecalho_tabela"><div align="left">Seq.</div></td>		
+	        <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Sequencial');?></div></td>		
     	    <td class="cabecalho_tabela"><div align="left"><? echo $label;?></div></td>
 			<? 
 			/*
@@ -279,8 +274,8 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 			*/
 			?>
 			
-        	<td class="cabecalho_tabela"><div align="right">M&aacute;quinas</div></td>
-	        <td class="cabecalho_tabela"><div align="right">%</div></td>		
+        	<td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Maquinas');?></div></td>
+	        <td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Percentual', T_SIGLA);?></div></td>		
     	    </tr>
 			<?		
 
@@ -303,17 +298,6 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
     	      	<tr> 
         	    <td nowrap class="opcao_tabela"><div align="left"><? echo $sequencial; ?></a></div></td>			
             	<td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?teversao=<? echo $reg_versoes['te_versao']?>&idaplicativo=<? echo $reg_versoes['id_aplicativo']?>&nmversao=<? echo $reg_versoes['nm_aplicativo']?>&cs_car_inst=<? echo ($reg_versoes['cs_car_inst_wnt']<>''?$reg_versoes['cs_car_inst_wnt']:$reg_versoes['cs_car_inst_w9x']);?>" target="_blank"><? echo ($te_versao<>''?$reg_versoes['te_versao']:$label) ?></a></div></td>				
-			<? 
-			/*
-			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
-				{
-				?>
-				<td nowrap class="opcao_tabela"><div align="left"><? echo $reg_versoes['SgLocal']; ?></div></td>		
-				<?
-				}
-			*/
-				?>        	
-				
 	            <td nowrap class="opcao_tabela"><div align="right"><? echo $reg_versoes['total_equip']; ?></div></td>
     	        <td nowrap class="ajuda"><div align="right">&nbsp;&nbsp;&nbsp;<? echo sprintf("%01.2f", $reg_versoes['total_equip'] * 100 / $total_maquinas); ?></div></td>
         	  	</tr>
@@ -324,18 +308,7 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 			} //Fim do while
 			?>
     	    <tr valign="top" bgcolor="#E1E1E1"> 
-        	<td colspan="2" class="cabecalho_tabela"><div align="left">Total de Máquinas</div></td>
-			<?
-			/* 
-			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
-				{
-				?>
-				<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">&nbsp;</div></td>		
-				<?
-				}
-			*/
-			?>
-			
+        	<td colspan="2" class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Total de maquinas');?></div></td>
 	        <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><? echo $total_maquinas; ?></div></td>
     	    <td bgcolor="#E1E1E1" class="opcao_tabela"><div align="right">&nbsp;&nbsp;&nbsp;100.00</div></td>				
         	</tr>
@@ -365,8 +338,6 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 											$_SESSION['query_redes'] ." 
 								GROUP BY 	a.id_aplicativo, a.te_licenca
 								ORDER BY 	total_equip desc";
-//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-//	echo 'query_aplicativo_licencas: '.$query_aplicativo_licencas . '<br><br>';
 
 	$result_query_licencas = mysql_query($query_aplicativo_licencas);
 	if (mysql_num_rows($result_query_licencas))
@@ -374,19 +345,9 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 		?>
 		<table width="50%" border="0" align="center">		
 		<tr valign="top" bgcolor="#FFFFFF"> 
-		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">Seq.</div></td>		
-		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">Licen&ccedil;a</div></td>
-		<? 
-		/*
-		if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
-			{
-			?>
-			<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">Local</div></td>		
-			<?
-			}
-		*/
-		?>
-		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right">M&aacute;quinas</div></td>
+		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Sequencial');?></div></td>		
+		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Licenca');?></div></td>
+		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Maquinas');?></div></td>
 		</tr>
 		<?
 		$total_maquinas = 0;		
@@ -398,16 +359,6 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 	        <tr> 
     	    <td nowrap class="opcao_tabela"><div align="left"><? echo $sequencial; ?></a></div></td>			
     	    <td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?telicenca=<? echo $reg_licencas['te_licenca']?>&idaplicativo=<? echo $reg_licencas['id_aplicativo']?>&nmversao=<? echo $reg_licencas['nm_aplicativo']?>" target="_blank"><? echo $te_informacao; ?></a></div></td>
-			<? 
-			/*
-			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
-				{
-				?>
-				<td nowrap class="opcao_tabela"><div align="left"><? echo $reg_licencas[4]; ?></div></td>		
-				<?
-				}
-			*/
-			?>        	
         	<td nowrap class="opcao_tabela"><div align="right"><? echo $reg_licencas['total_equip'] ?></div></td>			
 	        </tr>	  
 			<?
@@ -418,19 +369,7 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 			?>
 		</tr>
         <tr valign="top" bgcolor="#E1E1E1"> 
-        <td class="cabecalho_tabela" colspan="2"><div align="left">Total de M&aacute;quinas</div></td>
-
-		<? 
-		/*
-		if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
-			{
-			?>
-			<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">&nbsp;</div></td>		
-			<?
-			}
-		*/
-		?>
-		
+        <td class="cabecalho_tabela" colspan="2"><div align="left"><?=$oTranslator->_('Total de maquinas');?></div></td>
         <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><? echo $total_maquinas; ?></div></td>		
         </tr>
         </table>							
@@ -447,7 +386,7 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 	 	{
 		?>
 		<tr  align="center"> 
-	    <td colspan="3" align="center" class="label_vermelho">A pesquisa não retornou registros</td>
+	    <td colspan="3" align="center" class="label_vermelho"><?=$oTranslator->_('A pesquisa nao retornou registros');?></td>
 	    </tr>
 		<?
 		} 
@@ -456,8 +395,8 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 </p>
 
 <table><br><br><tr><td class="descricao_rel">
-<p align="left">Relat&oacute;rio 
-  gerado pelo <b>CACIC</b> - Configurador Autom&aacute;tico e Coletor 
+<p align="left">
+  <?=$oTranslator->_('Gerado por');?> <b>CACIC</b> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais<br>Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</p>	
 </td></tr></table>  

@@ -16,12 +16,12 @@ CREATE TABLE aplicativos_redes (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE aquisicoes (
-    id_aquisicao int(10) unsigned NOT NULL DEFAULT '0' COMMENT '',
+    id_aquisicao int(10) unsigned NOT NULL DEFAULT '0' COMMENT '' auto_increment,
     dt_aquisicao date NULL DEFAULT NULL COMMENT '',
     nr_processo varchar(11) NULL DEFAULT NULL COMMENT '',
     nm_empresa varchar(45) NULL DEFAULT NULL COMMENT '',
     nm_proprietario varchar(45) NULL DEFAULT NULL COMMENT '',
-    nr_notafiscal int(10) unsigned NULL DEFAULT NULL COMMENT '',
+    nr_notafiscal varchar(20) unsigned NULL DEFAULT NULL COMMENT '',
     PRIMARY KEY (id_aquisicao)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

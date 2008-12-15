@@ -16,6 +16,7 @@
 
 @session_start();
 @define('CACIC',1);
+@define('SECURITY',1);
 
 include_once('config.php');
 require_once('define.php');
@@ -524,10 +525,10 @@ function FatorDecremento($Numero)
 function conecta_bd_cacic() 
 {
 
-	$ident_bd = mysql_connect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"], 
+	$ident_bd = @mysql_connect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"], 
 							  $GLOBALS["usuario_bd"], 
 							  $GLOBALS["senha_usuario_bd"]);
-	if (mysql_select_db($GLOBALS["nome_bd"], $ident_bd) == 0) 
+	if (@mysql_select_db($GLOBALS["nome_bd"], $ident_bd) == 0) 
 		{ 
 		die('<b>Problemas durante a conexão ao BD ou sua sessão expirou!</b>');
 

@@ -37,7 +37,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Sistemas Monitorados</title>
+<title><?=$oTranslator->_('Estatisticas de sistemas monitorados');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <? require_once('../../include/selecao_listbox.js');  ?>
 <?
@@ -60,15 +60,12 @@ function open_window(theURL,winName,features) {
 <br>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Estat&iacute;sticas 
-      de Sistemas Monitorados</td>
+    <td class="cabecalho"><?=$oTranslator->_('Estatisticas de sistemas monitorados');?></td>
   </tr>
   <tr> 
-    <td class="descricao">Esta op&ccedil;&atilde;o 
-      exibe estat&iacute;sticas sobre os sistemas monitorados nos computadores 
-      das redes selecionadas. &Eacute; poss&iacute;vel determinar quais sistemas 
-      ser&atilde;o exibidos, os sistemas operacionais e a abrang&ecirc;ncia das 
-      redes.</td>
+    <td class="descricao">
+      <?=$oTranslator->_('Estatisticas de sistemas monitorados - informe');?>
+    </td>
   </tr>
   <tr> 
     <td>
@@ -83,10 +80,10 @@ function open_window(theURL,winName,features) {
     </tr>
     <tr> 
       <td valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="1">
-          <tr> 
-            
-          <td class="label">Selecione 
-            os sistemas monitorados que deseja exibir:</td>
+          <tr>
+            <td class="label">
+              <?=$oTranslator->_('Selecione os sistemas monitorados que deseja exibir:');?>
+            </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -95,11 +92,11 @@ function open_window(theURL,winName,features) {
             <td height="1"><table width="50%" border="0" align="left" cellpadding="0" cellspacing="0">
                 <tr> 
                   <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left">Dispon&iacute;veis:</div></td>
+                  <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Disponiveis:');?></div></td>
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela">Selecionados:</td>
+                  <td nowrap class="cabecalho_tabela"><?=$oTranslator->_('Selecionados:');?></td>
                   <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 
@@ -120,7 +117,7 @@ function open_window(theURL,winName,features) {
 									  		trim(cs_ide_licenca)  <> '0')) ".$where_usuario_comum." 
 									  ORDER BY nm_aplicativo";
 
-						$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware.');
+						$result_aplicativos_selecionados = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('descricao_hardware')));
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
        while($campos_aplicativos_selecionados=mysql_fetch_array($result_aplicativos_selecionados)) 	
 	   		{
@@ -143,8 +140,9 @@ function open_window(theURL,winName,features) {
               </table></td>
           </tr>
           <tr> 
-            <td class="ajuda">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT or CTRL para selecionar m&uacute;ltiplos itens)</td>
+            <td class="ajuda">
+              (<?=$oTranslator->_('Dica: use SHIFT or CTRL para selecionar multiplos itens');?>)
+            </td>
           </tr>
         </table></td>
     </tr>
@@ -190,7 +188,7 @@ function open_window(theURL,winName,features) {
 				<?
                 //<input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list9[]']), SelectAll(this.form.elements['list8[]'])">
 				?>
-                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list9[]']),ChecaTodasAsRedes()">				
+                <input name="submit" type="submit" value="<?=$oTranslator->_('Gerar relatorio');?>" onClick="<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list9[]']),ChecaTodasAsRedes()">				
               </div></td>
           </tr>
           <tr> 

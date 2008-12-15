@@ -96,7 +96,7 @@ echo '<table align="center" width="80%" cellpadding="2" cellspacing="0" border="
       <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
 echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Software').'</font><b></td>';
 echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Licencas').'</font><b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Tipo Licenca').'</font><b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Tipo de licenca').'</font><b></td>';
 echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Observacao').'</font><b></td>';
 
 echo '</tr>';

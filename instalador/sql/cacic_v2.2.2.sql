@@ -1,5 +1,5 @@
 -- --------------------------------------------------------
--- Atualização de Tabelas do banco de dados CACIC-jun2005
+-- Atualização de Tabelas do banco de dados CACIC-v2.2.2
 -- SGBD: MySQL-4.1.20
 -- --------------------------------------------------------
 #
@@ -146,6 +146,13 @@ ALTER TABLE perfis_aplicativos_monitorados
 --
 
 UPDATE acoes_excecoes SET id_local=1;
+
+ALTER TABLE aquisicoes
+    DROP PRIMARY KEY,
+    MODIFY id_aquisicao int(10) auto_increment,
+    MODIFY nr_notafiscal varchar(20),
+    ADD PRIMARY KEY (id_aquisicao),
+    ENGINE=InnoDB CHARACTER SET=latin1;
 
 -- ---------------------------------------------------------------------------------------------
 -- Estrutura da tabela `srcacic_sessoes`

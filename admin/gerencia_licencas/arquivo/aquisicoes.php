@@ -48,19 +48,19 @@ function valida_form_cadastro_aquisicao() {
           </tr>
           <tr> 
             <td width="33%" height="1" nowrap>&nbsp;<br>
-              <input name="date_aquisicao" type="text" size="7"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+              <input name="date_aquisicao" size="12"  maxlength="12" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
               <script type="text/javascript" language="JavaScript">
 <!--
 		function calendar1Callback(date, month, year)	{
 			if (String(month).length == 1) {
 				month = '0' + month;
 			}
-			document.forms['form_aquisicao'].date_aquisicao.value = year + '/' + month;
+			document.forms['form_aquisicao'].date_aquisicao.value = date + '/' + month + '/' + year;
 		}
   	calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 //-->
 </script>
-              </td><td align="left" class="descricao">(<?=$oTranslator->_('formato:');?> aaaa/mm)</td>
+              </td><td align="left" class="descricao">(<?=$oTranslator->_('formato:');?> <?=$oTranslator->_('dd/mm/aaaa');?>)</td>
           </tr>
         </table>
       </td>
@@ -76,10 +76,31 @@ function valida_form_cadastro_aquisicao() {
           <tr> 
             <td width="33%" height="1" nowrap>&nbsp;<br>
               <input name="numero_processo" type="text" size="11"  maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
-              </td><td align="left" class="descricao">(<?=$oTranslator->_('formato:');?> aaaa/nnnnnn)</td>
+              </td><td align="left" class="descricao">(<?=$oTranslator->_('formato:');?> <?=$oTranslator->_('aaaa/nnnnnn');?>)</td>
+          </tr>
+          <tr> 
+            <td height="1" bgcolor="#333333" colspan="2"></td>
           </tr>
         </table>
       </td>
+    </tr>
+    <tr> 
+        <td class="label">
+          <?=$oTranslator->_('Nome da empresa:');?>
+          <input name="nm_empresa" type="text" size="45"  maxlength="45" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+        </td>
+    </tr>
+    <tr> 
+        <td class="label">
+          <?=$oTranslator->_('Nome do proprietario:');?>
+          <input name="nm_proprietario" type="text" size="45"  maxlength="45" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+        </td>
+    </tr>
+    <tr> 
+        <td class="label">
+          <?=$oTranslator->_('Numero da nota fiscal:');?>
+          <input name="nr_notafiscal" type="text" size="20"  maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+        </td>
     </tr>
     <tr> 
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
@@ -97,7 +118,8 @@ function valida_form_cadastro_aquisicao() {
           <tr> 
             <td>&nbsp;</td>
           </tr>
-        </table></td>
+        </table>
+      </td>
     </tr>
   </table>
 </form>

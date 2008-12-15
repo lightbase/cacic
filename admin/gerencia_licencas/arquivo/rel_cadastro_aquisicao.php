@@ -10,14 +10,29 @@ if(!isset($_SESSION['id_usuario']))
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
+require_once('../../../include/library.php');
+require_once('security/security.php');
+
+conecta_bd_cacic();
+
 if($_POST['submit']) {
 
 // Aqui eu inverto as datas para YYYYMMDD
-	$v_elementos = explode("/",$_POST['date_aquisicao']);
+	$v_elementos = explode("/",Security::read('date_aquisicao'));
+	$v_numero_processo = Security::read('numero_processo');
+	$v_nm_empresa = Security::read('nm_empresa');
+	$v_nm_proprietario = Security::read('nm_proprietario');
+	$v_nr_notafiscal = Security::read('nr_notafiscal');
 	$v_data_ini = $v_elementos[2] .'/'. $v_elementos[1] .'/'. $v_elementos[0];	
  	$_SESSION["data_ini"] = $v_data_ini;
+ 	
+ 	$sql_insert = "INSERT INTO aquisicoes (dt_aquisicao, nr_processo, nm_empresa, nm_proprietario, nr_notafiscal)
+                          VALUES ('$v_data_ini', '$v_numero_processo','$v_nm_empresa','$v_nm_proprietario','$v_nr_notafiscal');
+ 			      ";
+ 	
+ 	$result = mysql_query($sql_insert) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!', array('aquisicoes')));
 }
-require_once('../../../include/library.php');
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -57,21 +72,28 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <br>
 <br>
+<form action="aquisicoes.php" method="post" ENCTYPE="multipart/form-data" name="form_aquisicao"   onsubmit="return valida_form_cadastro_aquisicao(this)">
+  <table align="right">
+      <tr> 
+        <td> 
+            <input name="submit" type="submit" value="<?=$oTranslator->_('Incluir Aquisicao');?>">
+        </td>
+      </tr>
+  </table>
+</form>
 <? 
-require_once('../../../include/library.php');
-conecta_bd_cacic();
 
    $query =  "SELECT id_aquisicao, dt_aquisicao, nr_processo 
 		FROM aquisicoes ORDER BY nr_processo desc";
 
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('aquisicoes')));
 
 
 $cor = 0;
 $num_registro = 1;
 
 $fields=mysql_num_fields($result);
-echo '<table align="center" width="80%" cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
+echo '<table align="center" width="100%" cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
      <tr bgcolor="#E1E1E1" >
       <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
 echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Processo</font><b></td>';

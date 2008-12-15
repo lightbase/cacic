@@ -73,7 +73,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 		  AND (se.nm_computador LIKE '%" . $_GET['nm_maquina'] . "%') AND 
 		      (se.dt_desinstalacao IS NULL)  
 		ORDER BY se.nm_computador, se.nr_patrimonio";
-	$result = mysql_query($query) or die($oTranslator->_('Erro ao acessar tabela softwares_estacao ou sua sessao expirou!'));
+	$result = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('softwares_estacao')));
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 

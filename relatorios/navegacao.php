@@ -680,44 +680,12 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 						}
 
 					$v_id_so=trim(substr($tree[$cnt][3],strpos($tree[$cnt][3], 'id_so=')+6,2));						
-					if ($v_id_so=='1')
-						{
-						$img_os = $img_os_win95;						
-						}
-					elseif ($v_id_so=='2')
-						{
-						$img_os = $img_os_win95_osr2;
-						}
-					elseif ($v_id_so=='3')
-						{
-						$img_os = $img_os_win98;
-						}
-					elseif ($v_id_so=='4')
-						{
-						$img_os = $img_os_win98_se;
-						}
-					elseif ($v_id_so=='5')
-						{
-						$img_os = $img_os_winme;
-						}
-					elseif ($v_id_so=='6')
-						{
-						$img_os = $img_os_winnt;
-						}
-					elseif ($v_id_so=='7')
-						{
-						$img_os = $img_os_win2k;
-						}
-					elseif ($v_id_so=='8')
-						{
-						$img_os = $img_os_winxp;
-						}
-					elseif ($v_id_so=='9')
-						{
-						$img_os = $img_os_linux;
-						}
-						
-					echo '<td nowrap><div align="left"><a href=computador/computador.php?'.$tree[$cnt][3]." target='_blank'><img src=\"".$img_leaf."\" border=no>".$img_os."</div></td>";										
+                                        $qry_sg_so = 'select sg_so from so where id_so='.$v_id_so;
+		                        conecta_bd_cacic();
+		                        $result_qry_sg_so = mysql_query($qry_sg_so) or die ('Erro no acesso à tabela "so" ou sua sessão expirou! '.mysql_error());
+                                        $sg_so = mysql_fetch_array($result_qry_sg_so);
+		                        $img_os = $sg_so['sg_so'];
+					echo '<td nowrap><div align="left"><a href=computador/computador.php?'.$tree[$cnt][3]." target='_blank'><img src=\"".$img_leaf."\" border=no>".$img_os."</div></td>";
 				  	}
 				  
 				  
