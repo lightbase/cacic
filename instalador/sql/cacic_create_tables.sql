@@ -891,12 +891,12 @@ ALTER TABLE `redes` ADD `id_dominio` INT( 11 ) NULL AFTER `id_local` ;
 -- Insercao da coluna `id_dominio`
 -- Relacionamento de usuarios com servidores de dominios
 -- -----------------------------------------------------------------------------------------------------------
-ALTER TABLE `usuarios` ADD `id_dominio` INT( 11 ) NULL AFTER `id_local` 
+ALTER TABLE `usuarios` ADD `id_dominio` INT( 11 ) NULL AFTER `id_local`;
 
 -- -----------------------------------------------------------------------------------------------------------
 -- Redimensionamento de coluna `nm_modulo` para armazenamento de nomes maiores
 -- -----------------------------------------------------------------------------------------------------------
-ALTER TABLE `redes_versoes_modulos` CHANGE `nm_modulo` `nm_modulo` VARCHAR( 100 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL  
+ALTER TABLE `redes_versoes_modulos` CHANGE `nm_modulo` `nm_modulo` VARCHAR( 100 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;  
 
 -- -------------------------------------------------------------------------------------------------------------
 -- Insercao de coluna `in_mswindows` para classificacao do Sistema Operacional pelo tipo
