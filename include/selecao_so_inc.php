@@ -38,7 +38,7 @@
 								  FROM so
 								  WHERE id_so > 0
 								  ORDER BY te_desc_so";
-						$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela so ou sua sessão expirou!');
+						$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('so')));
 
 						/* Agora monto os itens do combo de so's. */ 
 						while($campos = mysql_fetch_array($result)) {
@@ -63,7 +63,8 @@
       </table></td>
   </tr>
   <tr> 
-    <td class="descricao">&nbsp;&nbsp;&nbsp;(Dica: 
-      use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
+     <td class="descricao">
+        <?php echo $oTranslator->_('(Dica: use SHIFT ou CTRL para selecionar multiplos itens)'); ?>
+     </td>
   </tr>
 </table>

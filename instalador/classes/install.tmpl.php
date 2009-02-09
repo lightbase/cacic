@@ -14,15 +14,15 @@
 // direct access is denied
 defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 
-if( ! @include("pat/patErrorManager.php") )
+if( ! @include("pat".CACIC_DS."patErrorManager.php") )
 {
 	die('Erro na inclusão da biblioteca patTemplate! (patTemplate include error!).');
 }
-if( ! @include("pat/patError.php") )
+if( ! @include("pat".CACIC_DS."patError.php") )
 {
 	die('Erro na inclusão da biblioteca patTemplate! (patTemplate include error!).');
 }
-if( ! @include("pat/patTemplate.php") )
+if( ! @include("pat".CACIC_DS."patTemplate.php") )
 {
 	die('Erro na inclusão da biblioteca patTemplate! (patTemplate include error!).');
 }

@@ -14,8 +14,8 @@
 // direct access is denied
 defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 
-include_once("classes/install.tmpl.php");
-include_once("classes/install.ado.php");
+include_once("classes".CACIC_DS."install.tmpl.php");
+include_once("classes".CACIC_DS."install.ado.php");
 
 /**
  * Prove a metodos para recursos AJAX na Instalação pela WEB
@@ -503,7 +503,7 @@ class InstallAjax {
 	     	   $oDB_result = $oDB->parse_mysql_dump($cacic_sql_create_tables);
 			   if (!$oDB_result) {
 				   $msg = '<span class="Erro">['.InstallAjax::_('kciq_msg error', '',2)."! ] - ";
-			      $msg .= InstallAjax::_('kciq_msg inst database table build').'</span>'.
+			      $msg .= InstallAjax::_('kciq_msg inst database build fail').'</span>'.
 						   '<br>'.InstallAjax::_('kciq_msg server msg').':';
 				   $msg .= '<pre>'.$oDB->getMessage().'</pre>';
 			      die($msg);

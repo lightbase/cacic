@@ -21,7 +21,7 @@ CREATE TABLE aquisicoes (
     nr_processo varchar(11) NULL DEFAULT NULL COMMENT '',
     nm_empresa varchar(45) NULL DEFAULT NULL COMMENT '',
     nm_proprietario varchar(45) NULL DEFAULT NULL COMMENT '',
-    nr_notafiscal varchar(20) unsigned NULL DEFAULT NULL COMMENT '',
+    nr_notafiscal varchar(20) DEFAULT NULL COMMENT '',
     PRIMARY KEY (id_aquisicao)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

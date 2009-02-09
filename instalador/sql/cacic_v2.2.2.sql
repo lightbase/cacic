@@ -229,4 +229,10 @@ ALTER TABLE `unid_organizacional_nivel1a` CHANGE `nm_unid_organizacional_nivel1a
 -- ----------------------------------------------------------------------------------------------------------------------
 ALTER TABLE `unid_organizacional_nivel2`  CHANGE `nm_unid_organizacional_nivel2`  `nm_unid_organizacional_nivel2`  VARCHAR( 100 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL  
 
+DELETE FROM `descricoes_colunas_computadores` WHERE nm_campo='te_cpu_freq';
+INSERT INTO `descricoes_colunas_computadores` 
+             (`nm_campo`,`te_descricao_campo`,`cs_condicao_pesquisa`)
+            VALUES
+             ('te_cpu_frequencia','Frequência da CPU','S');
+
 SET FOREIGN_KEY_CHECKS = 1;

@@ -26,7 +26,7 @@ define('CACIC_PATH', $cacic_path);
 /*
  * atribuições para o ambiente
  */
-if( ! @include("../include/library.php") )
+if( ! @include("..".DIRECTORY_SEPARATOR."include".DIRECTORY_SEPARATOR."library.php") )
 {
    die("Install mal definido (Install miss-defined)!");
 }
@@ -47,7 +47,7 @@ $_SESSION['cacic_language_available'] = $oTranslator->getLanguagesSetup();
 /*
  * classe para instanciar a instalação
  */
-if( ! @include_once("classes/install.ajax.php") )
+if( ! @include_once("classes".CACIC_DS."install.ajax.php") )
 {
    die("Install mal construí­do (Install miss-built)!");
 }

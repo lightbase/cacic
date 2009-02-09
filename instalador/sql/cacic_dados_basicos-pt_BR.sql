@@ -56,7 +56,7 @@ INSERT INTO `configuracoes_padrao`
 INSERT INTO `descricao_hardware`
             (`nm_campo_tab_hardware`, `te_desc_hardware`, `te_locais_notificacao_ativada`)
      VALUES 
-            (' te_cdrom_desc', 'CD-ROM', ','),
+            ('te_cdrom_desc', 'CD-ROM', ','),
             ('qt_mem_ram', 'Memória RAM', ','),
             ('qt_placa_video_cores', 'Qtd. Cores Placa Ví­deo', ','),
             ('qt_placa_video_mem', 'Memória Placa Ví­deo', ',,1,'),

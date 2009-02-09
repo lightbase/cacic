@@ -10,7 +10,7 @@ $query ='SELECT 	to_days(curdate()) - to_days(dt_hr_ult_acesso) as nr_dias, coun
 					$where . ' 
 		 GROUP BY 	nr_dias';
 conecta_bd_cacic();		 
-$result = mysql_query($query) or die('Falha na criação de consulta por acessos de estações ou sua sessão expirou!');
+$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('softwares_estacao')));
 
 $intSum = 0;
 if (!function_exists('qt_comp'))

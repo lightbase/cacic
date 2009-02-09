@@ -38,7 +38,7 @@ $query = 'SELECT 	count(computadores.te_node_address) as total,
 		  GROUP BY 	locais.sg_local
 		  ORDER BY  locais.sg_local';
 conecta_bd_cacic();
-$result = mysql_query($query) or die('Falha na consulta (computadores, redes, locais) ou sua sessão expirou!');
+$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('computadores, redes, locais')));
 
 $arr_acessos_locais = array();
 while ($row_result = mysql_fetch_assoc($result))		
@@ -46,15 +46,5 @@ while ($row_result = mysql_fetch_assoc($result))
 	$v_row_result = str_pad($row_result['sg_local'],28,'.',STR_PAD_RIGHT);
 	$arr_acessos_locais[$v_row_result] = $row_result['total'];			
 	} 
-/* Para testes de redimensionamento da pizza (Anderson Peterle - FEV2008)
-$arr_acessos_locais = array();
-$intLinhas = 0;
-while ($intLinhas <= 100)		
-	{ 
-	$v_row_result = str_pad($intLinhas,15,'.',STR_PAD_RIGHT);
-	$arr_acessos_locais[$v_row_result] = $intLinhas;			
-	$intLinhas ++;
-	} 
-*/
 	
 ?>

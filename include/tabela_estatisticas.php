@@ -33,7 +33,6 @@ foreach ($_SESSION["list8"] as $v)
 	$v_label = trim(str_replace('"', '',str_replace('as ', '',substr($v_campo_estatistica,strpos($v_campo_estatistica,' ',1),strlen($v_campo_estatistica)))));			
 	
 	echo "<img src='../../graficos/pie_" . $v_opcao . ".php?v_query_redes=".str_replace("'", "-=-",$query_redes)."&v_so_selecionados=" . str_replace("'","-=-",$so_selecionados) . "&v_nome_campo=" . $v_nome_campo . "&v_label=" . $v_label."&v_from=" . $v_from."'>";
-	//echo $v_opcao . ".php?v_query_redes=".str_replace("'", "-=-",$query_redes)."&v_so_selecionados=" . str_replace("'","-=-",$so_selecionados) . "&v_nome_campo=" . $v_nome_campo . "&v_label=" . $v_label."&v_from=" . $v_from."'>";
 	?>	
 	</td></tr>
 	</table>

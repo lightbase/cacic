@@ -21,23 +21,21 @@ if(!isset($_SESSION['id_usuario']))
   die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
-
 require_once('library.php');
 conecta_bd_cacic();
 ?>
 <html>
 <head>
 
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="<?=CACIC_URL?>/include/cacic.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-
+<script language="JavaScript" type="text/javascript" src="<?=CACIC_URL?>/include/cacic.js"></script>
 <?
 // JavaScripts para fazer a selecao entre os listbox, movendo itens entre eles.
-require_once('../../include/selecao_listbox.js');
+require_once(CACIC_PATH.'/include/selecao_listbox.js');
 ?>
 </head>
-<body background="../../imgs/linha_v.gif" onLoad="verifica_status();">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<body background="<?=CACIC_URL?>/imgs/linha_v.gif" onLoad="verifica_status();">
 <?
 if (!$id_acao) 
 	{ 
@@ -50,7 +48,7 @@ else
 			  FROM 		acoes_redes 
 			  WHERE 	id_acao='$id_acao' ".
 						$where . " LIMIT 1";
-	$result = mysql_query($query) or die ('Erro na consulta à tabela acoes ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('acoes_redes')));
 	
 	$cs_situacao = (mysql_num_rows($result) > 0?mysql_result($result, 0, 'cs_situacao'):$cs_situacao);
 	}	 

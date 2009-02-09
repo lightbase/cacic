@@ -33,8 +33,7 @@
 								  FROM 		redes ".
 								  			$where ."
 								  ORDER BY  nm_rede";
-		//echo 'queryRedesDisponiveis: '.$queryRedesDisponiveis.'<br>'; 								  								  
-		$resultRedesDisponiveis = mysql_query($queryRedesDisponiveis) or die('Problema no acesso à tabela Redes ou sua sessão expirou!');	
+		$resultRedesDisponiveis = mysql_query($queryRedesDisponiveis) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('redes')));	
 		
 		if ($boolDetalhes)
 			{
@@ -48,8 +47,7 @@
 												redes.id_ip_rede = AR.id_ip_rede AND
 												AR.id_aplicativo = ".$_GET['id_aplicativo']."
 									  ORDER BY  nm_rede";
-			//echo 'queryRedesSelecionadas: '.$queryRedesSelecionadas.'<br>'; 								  
-			$resultRedesSelecionadas = mysql_query($queryRedesSelecionadas) or die('Problema no acesso à tabela Redes ou sua sessão expirou!');	
+			$resultRedesSelecionadas = mysql_query($queryRedesSelecionadas) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('redes')));	
 
 			$strTripaRedesSelecionadas = '';
 			$redesDisponiveis  = '';
@@ -64,7 +62,7 @@
 			
 			$strTripaRedesSelecionadas = '#' . $strTripaRedesSelecionadas;
 		
-			$msg = '(OBS: Estão sendo exibidas somente as redes selecionadas pelo administrador.)';
+			$msg = $oTranslator->_('(OBS: Estao sendo exibidas somente as redes selecionadas pelo administrador.)');
 			}
 		
 		/* Agora monto os itens dos combos de redes disponíveis e selecionadas. */ 
@@ -87,11 +85,11 @@
 			
                 <tr> 
                   <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left">Dispon&iacute;veis:</div></td>
+                  <td class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Disponiveis:');?></div></td>
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela">Selecionadas:<br></td>
+                  <td nowrap class="cabecalho_tabela"><?php echo $oTranslator->_('Selecionadas:');?><br></td>
                   <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 
@@ -117,7 +115,8 @@
               </table></td>
           </tr>
           <tr> 
-            <td class="descricao">&nbsp;&nbsp;(Dica: 
-              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
+            <td class="descricao">
+              <?php echo $oTranslator->_('(Dica: use SHIFT ou CTRL para selecionar multiplos itens)'); ?>
+            </td>
           </tr>
 </table>

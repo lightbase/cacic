@@ -461,7 +461,7 @@ function VerificaComponentes($strCsTipoComponente, $strTripaComponentesRecebidos
 										   WHERE	te_node_address = "'.$te_node_address.'" AND
 										   			id_so = '.$arrSO['id_so'].' AND
 													cs_tipo_componente = "'.$strCsTipoComponente.'" AND
-													te_valor IN ('.$strTripaRemoveComponentes.')';
+													te_valor IN (\''.$strTripaRemoveComponentes.'\')';
 			$resultRemoveComponente = mysql_query($strQueryRemoveComponente) or die('Problema Removendo Dados na Tabela Componentes_Estações!');					
 			}
 		}

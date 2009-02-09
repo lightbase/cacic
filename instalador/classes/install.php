@@ -14,8 +14,8 @@
 // direct access is denied
 defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 
-require_once("classes/install.tmpl.php");
-require_once("classes/install.ado.php");
+require_once("classes".CACIC_DS."install.tmpl.php");
+require_once("classes".CACIC_DS."install.ado.php");
 
 /**
  * Prove a Instalação pela WEB

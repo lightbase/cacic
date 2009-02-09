@@ -161,7 +161,7 @@ while ($row = mysql_fetch_array($result_acoes))
         <td colspan="3"><hr></td>
    	  	</tr>
    		<tr> 
-       	<td width="39" class="label"><?=$oTranslator->_('Ação');?>:</td>
+       	<td width="39" class="label"><?=$oTranslator->_('Acao');?>:</td>
        	<td colspan="3" nowrap class="destaque"><u><? echo $row['te_descricao_breve'];?></u></td>
    		</tr>
 		<?

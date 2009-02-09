@@ -20,17 +20,18 @@
 	<tr><td colspan="4">&nbsp;</td></tr>
     <tr> 
 	<td>&nbsp;</td>
-    <td class="label" colspan="3">Sele&ccedil;&atilde;o para coleta de informa&ccedil;&otilde;es 
-        de sistemas monitorados:<br></td>
+    <td class="label" colspan="3">
+       <?php echo $oTranslator->_('Selecao para coleta de informacoes de sistemas monitorados:');?>
+    </td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-    <td colspan="3" class="descricao">Essa op&ccedil;&atilde;o 
-          permitir&aacute; a sele&ccedil;&atilde;o de coletas de informa&ccedil;&otilde;es 
-          de sistemas monitorados para essa rede.</font></td>
+    <td colspan="3" class="descricao">
+       <?php echo $oTranslator->_('Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede.');?>
+    </td>
     </tr>	
  <tr> 
  <td colspan="4" height="1" bgcolor="#CCCCCC"></td>
@@ -47,7 +48,7 @@ if ($detalhes)
 				FROM 		aplicativos_redes
 				WHERE		id_local = ".$_REQUEST['id_local']." AND
 							id_ip_rede = '".$_REQUEST['id_ip_rede']."'"; 
-	$result_aplicativos_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes com sistemas monitorados ou sua sessão expirou!'); 
+	$result_aplicativos_redes = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('aplicativos_redes'))); 
 	$v_aplicativos_redes = '';
 	while ($row = mysql_fetch_array($result_aplicativos_redes))
 		{
@@ -57,7 +58,7 @@ if ($detalhes)
 $query = "	SELECT 		*
 			FROM 		perfis_aplicativos_monitorados
 			ORDER BY	nm_aplicativo"; 						
-$result_monitorados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de perfis de sistemas monitorados ou sua sessão expirou!'); 
+$result_monitorados = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('perfis_aplicativos_monitorados'))); 
 $total_registros = count($result_monitorados);
 $seq = 0;
 while ($row = mysql_fetch_array($result_monitorados))
@@ -72,7 +73,7 @@ while ($row = mysql_fetch_array($result_monitorados))
 		<td>&nbsp;</td>
 		<td class="opcao_tabela" colspan="3"><div align="left"><? echo str_pad($seq,($total_registros>999?4:$total_registros>99?3:2),'0',STR_PAD_LEFT); ?> -  
 		<input name="id_aplicativo_<? echo $row['id_aplicativo']; ?>" value="<? echo $row['id_aplicativo']; ?>" type="checkbox" class="normal" <? if ($pos || !$detalhes){ echo 'checked';} ?>>
-		<? echo $row['nm_aplicativo'] ; ?></u></div></td>
+		<? echo $row['nm_aplicativo'] ; ?></div></td>
 		</tr>
 		<?					
 		}

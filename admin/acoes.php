@@ -62,34 +62,58 @@ function valida_form()
 	}
 
 function verifica_status() 
+{
+   if (document.forma.elements.cs_situacao[2].checked) 
+   {
+       		document.forma.elements['list1[]'].disabled=false;
+       		document.forma.elements['list2[]'].disabled=false;
+       		document.forma.elements['B1'].disabled=false;
+       		document.forma.elements['B2'].disabled=false;
+		DesSelectAll(document.forma.elements['list1[]'])
+		DesSelectAll(document.forma.elements['list2[]'])
+   }
+   else if(document.forma.elements.cs_situacao[0].checked) 					
+   {
+	if(document.forma.elements['list2[]'].length > 0)
 	{
-	if (document.forma.elements.cs_situacao[2].checked) 
-		{
-       	document.forma.elements['list1[]'].disabled=false;
-       	document.forma.elements['list2[]'].disabled=false;
-       	document.forma.elements['B1'].disabled=false;
-       	document.forma.elements['B2'].disabled=false;
-   		}
-   else 
-   		{ 
-		if (document.forma.elements.cs_situacao[0].checked && document.forma.elements['list2[]'].length > 0) 							
-			{
-			SelectAll(document.forma.elements['list2[]']);
-			move(document.forma.elements['list2[]'],document.forma.elements['list1[]']);
-			SelectAll(document.forma.elements['list1[]']);			
-			}
-       	document.forma.elements['list1[]'].disabled=true;
+		SelectAll(document.forma.elements['list2[]']);
+		move(document.forma.elements['list2[]'],document.forma.elements['list1[]']);
+		SelectAll(document.forma.elements['list1[]']);
+	}			
+      	document.forma.elements['list1[]'].disabled=true;
        	document.forma.elements['list2[]'].disabled=true;
        	document.forma.elements['B1'].disabled=true;
        	document.forma.elements['B2'].disabled=true;
-   		}
-	}
+    }
+    else
+    {
+	if(document.forma.elements['list1[]'].length > 0)
+	{
+		SelectAll(document.forma.elements['list1[]']);
+		move(document.forma.elements['list1[]'],document.forma.elements['list2[]']);
+		SelectAll(document.forma.elements['list2[]']);
+	}			
+      	document.forma.elements['list1[]'].disabled=false;
+       	document.forma.elements['list2[]'].disabled=false;
+       	document.forma.elements['B1'].disabled=false;
+       	document.forma.elements['B2'].disabled=false;
 
+    }
+
+}
 function SelectAll(combo) 
 	{
   	for (var i=0;i<combo.options.length;i++) 
 		{
     	combo.options[i].selected=true;
+   		}
+	}
+
+function DesSelectAll(combo) 
+	{
+  	for (var i=0;i<combo.options.length;i++) 
+		{
+    	combo.options[i].selected=false;
    		}
 	}
 

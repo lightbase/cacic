@@ -21,7 +21,7 @@
 include_once('config.php');
 require_once('define.php');
 
-if(!include_once( TRANSLATOR_PATH.'/Translator.php'))
+if(!include_once( TRANSLATOR_PATH.CACIC_DS.'Translator.php'))
   die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
 
 /*
@@ -1370,7 +1370,7 @@ function lista_updates($p_te_serv_updates,
 				{
 				$itens = explode(' ',$buff[$i]);
 
-				if ($itens[8] == 'versoes_agentes.ini')
+				if ( !( array_search('versoes_agentes.ini',$itens) === false ) )
 					{
 					$i = count($buff);
 					// define some variables
@@ -1386,15 +1386,15 @@ function lista_updates($p_te_serv_updates,
 		 	for ($i=0;$i<count($buff);$i++)
 				{
 				$itens = explode(' ',$buff[$i]);
-				if ($itens[8] <> 'supergerentes' && $itens[8] <> 'install' && $itens[8] <> '.' && $itens[8] <> '..')
+				if ( array_search('supergerentes',$itens) === false  && array_search('install',$itens) === false && array_search('.',$itens) === false &&  array_search('..',$itens) === false)
 					{
 					$tamanho = ($itens[4]/1024);		
 					if ($itens[4]<1024) $tamanho = 0;
 
-					$resultado .= '<tr><td align="right">'.($i+1).'</td><td>'.$itens[8].'</td><td align="right">'.$tamanho.'</td><td colspan="3">';
-					if ($v_array_versoes_agentes[$itens[8]])
+					$resultado .= '<tr><td align="right">'.($i+1).'</td><td>'.end($itens).'</td><td align="right">'.$tamanho.'</td><td colspan="3">';
+					if ($v_array_versoes_agentes[end($itens)])
 						{
-						$resultado .= $v_array_versoes_agentes[$itens[8]];
+						$resultado .= $v_array_versoes_agentes[end($itens)];
 						}
 					else
 						{
@@ -1406,10 +1406,7 @@ function lista_updates($p_te_serv_updates,
 			}
 		if (!$resultado) $resultado .= '<tr><td colspan="4" align="center"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><b>PASTA DE UPDATES VAZIA OU INACESSÍVEL!</b></font></td></tr>';	
 	}
-
-// fecha a conexão
-//ftp_close($v_conexao_ftp);
-	
+ftp_close($v_conexao_ftp);
 return $resultado;
 }
 

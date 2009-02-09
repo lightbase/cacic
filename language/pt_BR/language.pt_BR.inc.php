@@ -728,3 +728,15 @@ pt_BR     aaaa/nnnnnn                                                           
 pt_BR     nome da empresa:                                                                                    admin     info                Nome da empresa:
 pt_BR     nome do proprietario:                                                                               admin     info                Nome do proprietario:
 pt_BR     numero da nota fiscal:                                                                              admin     info                Numero da nota fiscal:
+pt_BR     selecao para coleta de informacoes de sistemas monitorados:                                         geral     info                Selecao para coleta de informacoes de sistemas monitorados:
+pt_BR     essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede.      geral     info                Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede.
+pt_BR     (obs: estao sendo exibidas somente as redes selecionadas pelo administrador.)                       geral     info                (OBS: Estao sendo exibidas somente as redes selecionadas pelo administrador.)
+pt_BR     <strong>todas</strong> as redes                                                                     geral     info                <strong>Todas</strong> as redes
+pt_BR     apenas redes <strong>selecionadas</strong>                                                          geral     info                Apenas redes <strong>selecionadas</strong>
+pt_BR     selecionadas:                                                                                       geral     info                Selecionadas:
+pt_BR     (dica: use shift ou ctrl para selecionar multiplos itens)                                           geral     info                (Dica: use SHIFT ou CTRL para selecionar multiplos itens)
+pt_BR     selecione os locais:                                                                                geral     info                Selecione os locais:
+pt_BR     induzir o envio das informacoes coletadas                                                           geral     info                Induzir o envio das informacoes coletadas
+pt_BR     marca/desmarca todas as acoes para todas as redes abaixo                                            geral     info                Marca/Desmarca todas as Acoes para todas as Redes abaixo
+pt_BR     acao                                                                                                geral     info                Acao
+pt_BR     marca ou desmarca acao para as redes abaixo                                                         geral     info                Marca ou Desmarca Acao para as Redes abaixo

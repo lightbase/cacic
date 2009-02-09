@@ -48,7 +48,7 @@ $query = 'SELECT 	count(a.id_so) as qtd,
 		  GROUP BY 	a.id_so 
 		  ORDER BY 	a.id_so';
 
-$result = mysql_query($query) or die('Falha na consulta (computadores, so, redes, locais) ou sua sessão expirou!');
+$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('computadores, redes, so')));
 while ($row_result = mysql_fetch_assoc($result))		
 	{ 
 	$v_row_result = str_pad($row_result['te_desc_so'],20,'.',STR_PAD_RIGHT);

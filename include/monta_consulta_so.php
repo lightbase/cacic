@@ -13,7 +13,7 @@ $query = 'SELECT 	count(computadores.id_so) as qtd,
 		  ORDER BY 	qtd DESC';
 
 conecta_bd_cacic();		  
-$result = mysql_query($query) or die('Falha na criação de consulta por sistema operacional ou sua sessão expirou!');
+$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('computadores, redes, so')));
 
 $arr_so = array();
 while ($row_result = mysql_fetch_assoc($result))		

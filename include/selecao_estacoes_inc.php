@@ -23,8 +23,8 @@
 			$query = "SELECT te_nome_computador, te_node_address
 				  FROM computadores
                                   ORDER BY te_nome_computador";
-			$msg = '(OBS: Estão sendo exibidas somente as redes selecionadas pelo administrador.)';
-		$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela redes ou sua sessão expirou!');
+			$msg = $oTranslator->_('(OBS: Estao sendo exibidas somente as redes selecionadas pelo administrador.)');
+		$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('computadores')));
 		/* Agora monto os itens do combo de redes . */ 
 		while($campos=mysql_fetch_array($result)) 	{
 		   $itens_combo_soft = $itens_combo_soft . '<option value="' . 
@@ -39,22 +39,21 @@
           <tr> 
             <td class="descricao"><p>  
                 <input type="radio" name="cs_situacaos" value="T" onclick="verifica_status();SetaClassDigitacao(this.form.elements['list3[]']);"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                <strong>Todas</strong> as redes<br>
+                <?php echo $oTranslator->_('<strong>Todas</strong> as redes');?><br>
                 <input name="cs_situacaos" type="radio" onclick="verifica_status();SetaClassNormal(this.form.elements['list3[]']);" value="S" checked  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                Apenas redes <strong>selecionadas<br>
-                &nbsp;<? //echo $msg?></p></td>
+                <?php echo $oTranslator->_('Apenas redes <strong>selecionadas</strong>');?><br>
+                </p></td>
           </tr>
           <tr> 
-<tr><td><br></td></tr>
             <td><table border="0" cellpadding="0" cellspacing="0">
 			
                 <tr> 
                   <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left">Dispon&iacute;veis:</div></td>
+                  <td class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Disponiveis:');?></div></td>
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela">Selecionadas:<br></td>
+                  <td nowrap class="cabecalho_tabela"><?php echo $oTranslator->_('Selecionadas:');?><br></td>
                   <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 
@@ -79,7 +78,8 @@
               </table></td>
           </tr>
           <tr> 
-            <td class="descricao">&nbsp;&nbsp;(Dica: 
-              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
+            <td class="descricao">
+              <?php echo $oTranslator->_('(Dica: use SHIFT ou CTRL para selecionar multiplos itens)'); ?>
+            </td>
           </tr>
 </table>

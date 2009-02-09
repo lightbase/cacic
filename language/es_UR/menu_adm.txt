@@ -18,7 +18,7 @@
 ...Perfiles Sistemas|admin/perfis_aplicativos_monitorados/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
 ...Usuarios|admin/usuarios/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
 ...Tipos Softwares|admin/tipos_softwares/index.php|mainFrame||
-...S.Operacionales|admin/sistemas_operacionais/index.php|mainFrame||
+...Sistemas Operacionales|admin/sistemas_operacionais/index.php|mainFrame||
 ...Softwares|admin/softwares/index.php|mainFrame||
 ...Softwares por Estacion|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||
 ..<b>Patrimonio</b>||mainFrame|imgs/config_gerais.gif

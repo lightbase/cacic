@@ -77,19 +77,19 @@ CREATE TABLE `aplicativos_redes` (
   `id_ip_rede` varchar(15) NOT NULL default '',
   `id_aplicativo` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id_local`,`id_ip_rede`,`id_aplicativo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Relacionamento entre redes e perfis de aplicativos monitorados';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Relacionamento redes e perfis_aplicativos_monitorados';
 
 --
 -- Table structure for table `aquisicoes`
 --
 
 CREATE TABLE `aquisicoes` (
-  `id_aquisicao` int(10) unsigned NOT NULL default '0' auto_increment,
+  `id_aquisicao` int(10) unsigned NOT NULL auto_increment,
   `dt_aquisicao` date default NULL,
   `nr_processo` varchar(11) default NULL,
   `nm_empresa` varchar(45) default NULL,
   `nm_proprietario` varchar(45) default NULL,
-  `nr_notafiscal` varchar(20) unsigned default NULL,
+  `nr_notafiscal` varchar(20) default NULL,
   PRIMARY KEY  (`id_aquisicao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -149,7 +149,7 @@ CREATE TABLE `componentes_estacoes_historico` (
   `dt_alteracao` datetime NOT NULL,
   `cs_tipo_alteracao` varchar(3) NOT NULL,
   KEY `te_node_address` (`te_node_address`,`id_so`,`cs_tipo_componente`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COMMENT='Componentes de hardware instalados nas estaÃ§Ãµes';
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COMMENT='Componentes de hardware instalados nas estações';
 
 --
 -- Table structure for table `computadores`

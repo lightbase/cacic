@@ -219,29 +219,17 @@ if ($_POST['submit_cond'])
 		{		  
 	 	?>
           <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
             <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><? echo $NumRegistro; ?></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><input type="checkbox" name="chk_<? echo $row['te_node_address'].'#'. $row['id_so']; ?>" value="1" checked onClick="Verifica_Check_Exclui();"></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_local']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_so']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_gercols']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><input type="checkbox" name="chk_<? echo $row['te_node_address'].'#'. $row['id_so']; ?>" value="1" checked onClick="Verifica_Check_Exclui();">&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div>&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_local']; ?></a></div>&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div>&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div>&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_so']; ?></a></div>&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div>&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_gercols']; ?></a></div>&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div>&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div>&nbsp;</td>
           </tr>
           <? 
 		$Cor=!$Cor;

@@ -24,7 +24,7 @@ $query = "SELECT 	*
 		  $whereLocais . "
 		  ORDER BY	sg_local";
 conecta_bd_cacic();		  
-$result = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela locais ou sua sessão expirou!');
+$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('locais')));
 
 		/* Montagem dos itens do combo de locais . */ 
 		while($campos=mysql_fetch_array($result)) 	

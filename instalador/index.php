@@ -27,7 +27,7 @@
 	/*
 	 * atribuições para o ambiente
 	 */
-	if( ! @include("../include/library.php") )
+	if( ! @include("..".DIRECTORY_SEPARATOR."include".DIRECTORY_SEPARATOR."library.php") )
 	{
 	   die("Instalador mal definido (Installer miss-defined)!");
 	}
@@ -35,12 +35,12 @@
 	/*
 	 * classe para instanciar a instalação
 	 */
-	if( ! @include("classes/install.php") )
+	if( ! @include("classes".CACIC_DS."install.php") )
 	{
 	   die("Install mal construído (Install miss-built)!");
 	}
 
-	if(!@include_once( TRANSLATOR_PATH.'/Translator.php'))
+	if(!@include_once( TRANSLATOR_PATH.CACIC_DS.'Translator.php'))
 	  die ("<h1>There is a trouble with phpTranslator package. It isn't found.</h1>");
 	  
     /*

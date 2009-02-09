@@ -111,6 +111,16 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  *  NAO ALTERAR NADA DAQUI PARA BAIXO
  * ******************************************************/
 
+/*
+ * Obtem PATH_SEPARATOR
+ */
+ define( 'CACIC_PS', PATH_SEPARATOR);
+
+/*
+ * Obtem DIRECTORY_SEPARATOR
+ */
+ define( 'CACIC_DS', DIRECTORY_SEPARATOR);
+ 
 /**
  * Atribui Idioma padrao
  */
@@ -131,7 +141,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /*
  * CACIC application standard language path
  */
- define( 'CACIC_LANGUAGE_PATH', '/language/' );
+ define( 'CACIC_LANGUAGE_PATH', CACIC_DS.'language'.CACIC_DS );
 
 /**
  * Atribui CHARSET padrao
@@ -157,16 +167,6 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     define( 'CACIC_URL', "http://" . $_SERVER['SERVER_NAME'] . $urlRequest);
 
 /*
- * Obtem PATH_SEPARATOR
- */
- define( 'CACIC_PS', PATH_SEPARATOR);
-
-/*
- * Obtem DIRECTORY_SEPARATOR
- */
- define( 'CACIC_DS', DIRECTORY_SEPARATOR);
- 
-/*
  * define caminho do pacote de instalacao do CACIC
  */
  define( 'CACIC_INSTALL_PATH', CACIC_PATH.CACIC_DS.'instalador');
@@ -180,14 +180,14 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  * Atribui URL de instalação do CACIC 
  */
  if(isset($cacicURL))
-    define( 'CACIC_URL_INSTALL', $cacicURL.CACIC_DS.'instalador');
+    define( 'CACIC_URL_INSTALL', $cacicURL.'/instalador');
  else 
-    define( 'CACIC_URL_INSTALL', CACIC_URL.CACIC_DS.'instalador');
+    define( 'CACIC_URL_INSTALL', CACIC_URL.'/instalador');
 
 /*
  * PATH for phpTranslator class
  */
- define('TRANSLATOR_PATH', CACIC_PATH."/bibliotecas/phpTranslator/");
+ define('TRANSLATOR_PATH', CACIC_PATH.CACIC_DS."bibliotecas".CACIC_DS."phpTranslator".CACIC_DS);
 /*
  * URL for phpTranslator class
  */
