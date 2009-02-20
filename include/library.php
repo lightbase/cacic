@@ -452,8 +452,8 @@ function LimpaTESTES()
 //___________________________________
 function GravaTESTES($p_Valor)
 	{
-	$v_Valor = str_replace('"','<AD>',$p_Valor);
-	$v_Valor = str_replace("'",'<AS>',$v_Valor);	
+	$v_Valor = str_replace('"','<AspaDupla>',$p_Valor);
+	$v_Valor = str_replace("'",'<AspaSimples>',$v_Valor);	
 	conecta_bd_cacic();
 	$date = @getdate(); 
 	$queryINS  = "INSERT into testes(te_linha) VALUES ( '(".$date['mday'].'/'.$date['mon'].'/'.$date['year'].' - '.$date['hours'].':'.$date['minutes'].':'.$date['seconds'].")Server " .$_SERVER['HTTP_HOST']." Station: ".$_SERVER['REMOTE_ADDR']." - ".$v_Valor . "')";

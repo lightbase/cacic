@@ -42,10 +42,12 @@ require_once "../../include/library.php";
  
 AntiSpy();
 conecta_bd_cacic();	
-$query = "SELECT       *
-             FROM      computadores
-             LEFT JOIN so ON (computadores.id_so = so.id_so)
-             WHERE     te_node_address = '". $_GET['te_node_address'] ."' AND computadores.id_so = ". $_GET['id_so'];
+$query = "SELECT 	* 
+		  FROM 		computadores, 
+		  			so
+		  WHERE 	te_node_address = '". $_GET['te_node_address'] ."' AND
+		  			computadores.id_so = ". $_GET['id_so'] ." AND 
+		  			computadores.id_so = so.id_so";
 
 $result = mysql_query($query);
 
@@ -151,12 +153,12 @@ if (@mysql_num_rows($result))
 		?>
 		<tr>
 		<td>
-		<? require_once('inc_opcoes_administrativas.php'); ?>
+		<?
+		require_once('inc_opcoes_administrativas.php');} ?>
 	  	</td>
 	  	</tr>
-		<?
-		}	
-	} 
+		<?	
+		} 
 	else 
 		{ 
 		?>

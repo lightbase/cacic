@@ -38,9 +38,9 @@ if($_POST['submit'])
 	}
 else
 	{	
-	GravaTESTES('Entrei 2...');		
+	//GravaTESTES('Entrei 2...');		
 	$_SESSION["list6"]			= $_SESSION['list6o'];
-	GravaTESTES('Entrei 2a...');		
+	//GravaTESTES('Entrei 2a...');		
 	}
 conecta_bd_cacic();
 
@@ -50,12 +50,11 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 	//if($_SESSION["cs_situacao"] == 'S') 
 		//{
 		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
-		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
-		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
-			{
-			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
-			}
-		$query_redes = "AND computadores.id_ip_rede IN (". $redes_selecionadas .")";
+	$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
+	for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
+		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
+
+	$query_redes = "AND computadores.id_ip_rede IN (". $redes_selecionadas .")";
 		//}
 	}
 else
@@ -63,9 +62,8 @@ else
 	// Aqui pego todos os locais selecionados e faço uma query p/ condição de redes/locais
 	$locais_selecionados = "'" . $_SESSION["list12"][0] . "'";
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
-		{
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
-		}
+
 	$query_redes = ' AND computadores.id_ip_rede = redes.id_ip_rede ';
 
 	if (trim($locais_selecionados) <> "''")
@@ -79,9 +77,7 @@ else
 // Aqui pego todos os SO selecionados
 $so_selecionados = "'" . $_SESSION["list4"][0] . "'";
 for( $i = 1; $i < count($_SESSION["list4"] ); $i++ ) 
-	{
 	$so_selecionados = $so_selecionados . ",'" . $_SESSION["list4"][$i] . "'";
-	}
 
 // Inicializo variável para registro de destaques de duplicidades
 $in_destacar_duplicidade_total = '';
@@ -99,7 +95,7 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ )
 		$_SESSION["list6"][$i] = str_replace("patrimonio.id_unid_organizacional_nivel1", "unid_organizacional_nivel1.nm_unid_organizacional_nivel1",  $_SESSION["list6"][$i]); 
 
 	if (strpos($_SESSION["list6"][$i],'#in_destacar_duplicidade.S') !== FALSE)
-	{
+		{
 		if ($in_destacar_duplicidade_total) $in_destacar_duplicidade_total .= '#';
 		$_SESSION["list6"][$i] = str_replace("#in_destacar_duplicidade.S", "",  $_SESSION["list6"][$i]); 					
 		$arr_in_destacar_duplicidade_tmp = explode('\"',$_SESSION["list6"][$i]);
@@ -125,9 +121,7 @@ if ($_GET['orderby'])
 		$orderby --;
 	}
 else 
-	{ 
-	$orderby = '3'; 
-	} //por Nome de Computador
+	$orderby = '3'; // por Nome de Computador
 
 // Caso a versão do MySQL utilizado não disponha de subquery...
 $query = 'SELECT 	concat(computadores.te_node_address, DATE_FORMAT( max(patrimonio.dt_hr_alteracao),"%d%m%Y%H%i")) as tripa_node_data '.
@@ -141,110 +135,91 @@ $query = 'SELECT 	concat(computadores.te_node_address, DATE_FORMAT( max(patrimon
 $result = mysql_query($query) or die('Erro no select (1) ou sua sessão expirou!');
 
 $where = '';
-while ($row = mysql_fetch_array($result)) 
-	{ 
+while ($row = @mysql_fetch_array($result)) 
 	$where .= ",'" . $row['tripa_node_data'] . "'";
-	}
+
 $where = " AND concat(computadores.te_node_address, DATE_FORMAT(patrimonio.dt_hr_alteracao,'%d%m%Y%H%i'))  in (" . substr($where,1).")";
 
-	$criterios 		= '';
-	$value_anterior = '';
-	$join_UO1		= '';
-	$join_UO2		= '';
-		
-	// Monto as strings de critérios de Unidade Organizacional de Nível 1 e Nível 2, escolhidos para a consulta patrimonial
-	while(list($key, $value) = each($_SESSION['post']))
+$criterios 		= '';
+$value_anterior = '';
+$join_UO1		= '';
+$join_UO2		= '';
+// Monto as strings de critérios de Unidade Organizacional de Nível 1 e Nível 2, escolhidos para a consulta patrimonial
+while(list($key, $value) = each($_SESSION['post']))
 	{
-		if (trim($value)<>'' && trim($value)<>'123456' && (trim(strpos($key,'frm_condicao1'))<>'' || trim(strpos($key,'IDS_frm'))<>'')) 
+	if (trim($value)<>'' && trim($value)<>'123456' && (trim(strpos($key,'frm_condicao1'))<>'' || trim(strpos($key,'IDS_frm'))<>'')) 
 		{
-			if 	(trim(strpos($key,'nivel2'))<>'') // Identificador(es) de UO2
-				$join_UO2 = $value;				
-			elseif (trim(strpos($key,'IDS_frm_UO2'))<>'') // Desvio do campo Option do select UO2...
-				{
-				$join_UO2 = str_replace('frm_te_valor_condicao1',$value,$join_UO2);
-				$join_UO2 = str_replace('__','.',$join_UO2);				
-				$join_UO2 = str_replace("\'",'',$join_UO2);								
-				}			
-			elseif 	(trim(strpos($key,'nivel1a'))<>'') // Identificador(es) de UO1a
-				$join_UO1a = $value;
-			elseif (trim(strpos($key,'IDS_frm_UO1a'))<>'') // Desvio do campo Option do select UO1a...
-				{
-				$join_UO1a = str_replace('frm_te_valor_condicao1',$value,$join_UO1a);
-				$join_UO1a = str_replace('__','.',$join_UO1a);				
-				$join_UO1a = str_replace("\'",'',$join_UO1a);												
-				}				
-			elseif 		(trim(strpos($key,'nivel1'))<>'') // Identificador(es) de UO1
-				$join_UO1 = $value;
-			elseif (trim(strpos($key,'IDS_frm_UO1'))<>'') // Desvio do campo Option do select UO1...
-				{
-				$join_UO1 = str_replace('frm_te_valor_condicao1',$value,$join_UO1);
-				$join_UO1 = str_replace('__','.',$join_UO1);				
-				$join_UO1 = str_replace("\'",'',$join_UO1);												
+		if 	(trim(strpos($key,'nivel2'))<>'') // Identificador(es) de UO2
+			$join_UO2 = $value;				
+		elseif (trim(strpos($key,'IDS_frm_UO2'))<>'') // Desvio do campo Option do select UO2...
+			{
+			$join_UO2 = str_replace('frm_te_valor_condicao1',$value,$join_UO2);
+			$join_UO2 = str_replace('__','.',$join_UO2);				
+			$join_UO2 = str_replace("\'",'',$join_UO2);								
+			}			
+		elseif 	(trim(strpos($key,'nivel1a'))<>'') // Identificador(es) de UO1a
+			$join_UO1a = $value;
+		elseif (trim(strpos($key,'IDS_frm_UO1a'))<>'') // Desvio do campo Option do select UO1a...
+			{
+			$join_UO1a = str_replace('frm_te_valor_condicao1',$value,$join_UO1a);
+			$join_UO1a = str_replace('__','.',$join_UO1a);				
+			$join_UO1a = str_replace("\'",'',$join_UO1a);												
 			}				
+		elseif 		(trim(strpos($key,'nivel1'))<>'') // Identificador(es) de UO1
+			$join_UO1 = $value;
+		elseif (trim(strpos($key,'IDS_frm_UO1'))<>'') // Desvio do campo Option do select UO1...
+			{
+			$join_UO1 = str_replace('frm_te_valor_condicao1',$value,$join_UO1);
+			$join_UO1 = str_replace('__','.',$join_UO1);				
+			$join_UO1 = str_replace("\'",'',$join_UO1);												
+			}					
 		}
 	}
 
-	// Reinicializo o array para nova listagem, agora para os critérios posteriores
-	reset($_SESSION['post']);
-	while(list($key, $value) = each($_SESSION['post']))
+// Reinicializo o array para nova listagem, agora para os critérios posteriores
+reset($_SESSION['post']);
+while(list($key, $value) = each($_SESSION['post']))
 	{
-		if (trim($value)<>'' && trim(strpos($key,'frm_'))<>'' && trim(strpos($key,'frm_UO'))=='') 
+	if (trim($value)<>'' && trim(strpos($key,'frm_'))<>'' && trim(strpos($key,'frm_UO'))=='') 
 		{
-			if (trim(strpos($key,'frm_condicao2_'))<>'')
-			{
-				$criterios .= str_replace('frm_condicao2_','',$value);
-			}
-			elseif (trim(strpos($key,'frm_te_valor_condicao2_'))<>'')
-			{
-				$criterios = str_replace('frm_te_valor_condicao2',$value,$criterios);
-			}			
-			$value_anterior = $value;
-		}
+		if (trim(strpos($key,'frm_condicao2_'))<>'')
+			$criterios .= str_replace('frm_condicao2_','',$value);
+		elseif (trim(strpos($key,'frm_te_valor_condicao2_'))<>'')
+			$criterios = str_replace('frm_te_valor_condicao2',$value,$criterios);
 
+		$value_anterior = $value;
+		}
 	} 
 
-	if ($criterios)
-		{
-		$criterios = (substr($criterios,-5)==' AND '?substr($criterios,0,strlen($criterios)-5):$criterios);
-		$criterios = str_replace('-MENOR-',' < ',$criterios);
-		$criterios = str_replace('-MAIOR-',' > ',$criterios);	
-		$criterios = str_replace("\'","'",$criterios);		
-		}
+if ($criterios)
+	{
+	$criterios = (substr($criterios,-5)==' AND '?substr($criterios,0,strlen($criterios)-5):$criterios);
+	$criterios = str_replace('-MENOR-',' < ',$criterios);
+	$criterios = str_replace('-MAIOR-',' > ',$criterios);	
+	$criterios = str_replace("\'","'",$criterios);		
+	}
 	
 if ($join_UO1 || $join_UO1a || $join_UO2)
-	{	
+	{
 	$where_uon = " AND computadores.te_node_address = patrimonio.te_node_address ";
 	if ($join_UO1)
-		{
 		$where_uon1 = $where_uon . " AND patrimonio.id_unid_organizacional_nivel1a = unid_organizacional_nivel1a.id_unid_organizacional_nivel1a AND ".$join_UO1." " ;	
-//		$where_uon = '';
-//		$from .= " ,unid_organizacional_nivel1";		
-		}
 
 	if ($join_UO1a)
-	{
 		$where_uon1a = $where_uon . " AND unid_organizacional_nivel1a.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 AND ".$join_UO1a." " ;	
-//		$where_uon = '';
-//		$from .= " ,unid_organizacional_nivel1a";		
-	}
 
 	if ($join_UO2)
-	{
 		$where_uon2 = $where_uon . " AND patrimonio.id_unid_organizacional_nivel2 = unid_organizacional_nivel2.id_unid_organizacional_nivel2 AND ".$join_UO2." " ;	
-//		$from .= " ,unid_organizacional_nivel2";		
 	}
-}
+	
 // O valor para join_opcional é relativo à seleção de critérios para a pesquisa.
 // O LEFT JOIN só deverá ser utilizado para os casos em que não forem apontados critérios...
 $join_opcional = '';
 if (!$join_UO1 && !$join_UO1a && !$join_UO2)
-{
 	$join_opcional = ',computadores left join patrimonio on (computadores.te_node_address = patrimonio.te_node_address AND computadores.id_so = patrimonio.id_so) ';
-}
 else
-	{
 	$from .= ' ,patrimonio, computadores ';
-	}	
+
 $query = " SELECT 	DISTINCT computadores.te_node_address, 
 					so.id_so, 
 					UNIX_TIMESTAMP(computadores.dt_hr_ult_acesso),
@@ -266,47 +241,50 @@ $query = " SELECT 	DISTINCT computadores.te_node_address,
 					patrimonio.id_so = computadores.id_so AND 
 					patrimonio.id_unid_organizacional_nivel2 = unid_organizacional_nivel2.id_unid_organizacional_nivel2 AND
 					unid_organizacional_nivel2.id_unid_organizacional_nivel1a = unid_organizacional_nivel1a.id_unid_organizacional_nivel1a AND
-					unid_organizacional_nivel1a.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 " . 								 
+					unid_organizacional_nivel1a.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 ".
    					$where . 
 					" AND computadores.id_so IN (". $so_selecionados .") ". $criterios . $query_redes .	$where_uon1 . $where_uon2 . " 
-		   ORDER BY " . $orderby; 
+		   ORDER BY " . $orderby;
 $result = mysql_query($query) or die('Não Existem Registros para os Parâmetros de Consulta Fornecidos ou sua sessão expirou!');
+
 if (mysql_num_rows($result)==0)
-{
 	die('Não Existem Registros para os Parâmetros de Consulta Fornecidos.');	
-}
 else
-{
+	{
 	$fields=mysql_num_fields($result);
 	if ($in_destacar_duplicidade_total)
-	{
 		$arr_in_destacar_duplicidade_total = explode('#',$in_destacar_duplicidade_total);
-	}
 
-	if (isset($_GET['formato']))
-	{
+	if (@isset($_GET['formato']))
 		$formato = $_GET['formato'];
-	}
 	else
-	{
 		$formato = $_POST['formato'];
-	}
+	GravaTESTES('Criando o relatório...');		
 	switch ($formato)
-	{
+		{
 		case "pdf":
+			GravaTESTES('PDF...');				
+			require_once('../../include/RelatorioPDF.php');
 			$relatorio = new RelatorioPDF();
 			break;
 		case "ods":
+			GravaTESTES('ODS...');						
+			require_once('../../include/RelatorioODS.php');		
 			$relatorio = new RelatorioODS();
 			break;
 		case "csv":
+			GravaTESTES('CSV...');						
+			require_once('../../include/RelatorioCSV.php');
 			$relatorio = new RelatorioCSV();
 			break;
 		default:
+			GravaTESTES('HTML...');						
+			require_once('../../include/RelatorioHTML.php');
 			$relatorio = new RelatorioHTML();
 			break;
-	}
+		}
 
+	GravaTESTES('Criando título...');				
 	$relatorio->setTitulo('CACIC - Relatório de informações de Patrimônio e Localização Física');
 
 	// String com nomes dos campos que não devem ser mostrados, concatenando-os com # para fins de busca em substring. 
@@ -337,7 +315,6 @@ else
 		}
 
 	$relatorio->setTableHeader($header);
-	
 
 	@mysql_data_seek($result,0);
 	$table = array();

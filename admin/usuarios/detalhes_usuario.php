@@ -31,7 +31,8 @@ if ($_POST['ExcluiUsuario'])
 	{
 	$query = "DELETE 
 			  FROM 		usuarios 
-			  WHERE 	id_usuario = '". $_POST['frm_id_usuario'] ."'";
+			  WHERE 	id_usuario = '". $_POST['frm_id_usuario'] ."' AND
+			  			id_local = ".$_REQUEST['id_local'];
 	mysql_query($query) or die($oTranslator->_('kciq_msg delete row on table fail', array('usuarios'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'usuarios');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 							
@@ -66,7 +67,8 @@ elseif ($_POST['ReinicializaSenha'])
 	{
 	$query = "UPDATE 	usuarios 
 			  SET		te_senha = PASSWORD('".$_POST['frm_nm_usuario_acesso']."')
-			  WHERE 	id_usuario = ". $_POST['frm_id_usuario'] ;
+			  WHERE 	id_usuario = ". $_POST['frm_id_usuario'] ." AND
+			  			id_local = ".$_POST['frm_id_local'];
 	mysql_query($query) or die($oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('usuarios')));
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'usuarios');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 							
@@ -85,7 +87,8 @@ else
 						loc.nm_local
 			  FROM 		usuarios a, 
 			  			locais loc
-			  WHERE 	a.id_usuario = ".$_GET['id_usuario'];
+			  WHERE 	a.id_usuario = ".$_GET['id_usuario']." and 
+			  			a.id_local = loc.id_local";
 
 	$result = mysql_query($query) or die ($oTranslator->_('kciq_msg select on table fail', array('usuarios'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 	$row_usuario = mysql_fetch_array($result);

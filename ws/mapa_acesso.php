@@ -48,7 +48,7 @@ $boolVersaoCorreta   = true;
 
 if ($te_versao_mapa <> '')
 	{
-	$v_array_versoes_agentes = parse_ini_file('../repositorio/versoes_agentes.ini');	
+	$v_array_versoes_agentes = parse_ini_file('../repositorio/install/versoes_agentes.ini');	
 	if ($v_array_versoes_agentes['mapacacic.exe'] <> $te_versao_mapa)
 		{
 		$retorno_xml_values	 = '<TE_VERSAO_MAPA>'.EnCrypt($key,$iv,$v_array_versoes_agentes['mapacacic.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_VERSAO_MAPA>';	

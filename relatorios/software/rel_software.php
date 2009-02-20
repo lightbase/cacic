@@ -262,8 +262,8 @@ $reg_pag = mysql_num_rows($resultado); // total de registros por paginas ou tela
 echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
 	 <tr bgcolor="#E1E1E1" >
 	  <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
-$num_fields =  mysql_num_fields($resultado);
-for ($i=2; $i < $num_fields; $i++) 
+
+for ($i=2; $i < mysql_num_fields($resultado); $i++) 
 	{ //Table Header
 	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '&principal='.$_GET['principal'].'">'. mysql_field_name($resultado, $i) .'</a></font><b></td>';
 	}
@@ -276,6 +276,7 @@ $num_registro = 1 + ($nu_rel_maxlinhas * $pagina);
 for ($n = 0; $n < $reg_pag; $n++) 
 	{
   	$linha  = mysql_fetch_object($resultado); // retorna o resultado da pesquisa linha por linha em um array
+	$fields = mysql_num_fields($resultado);  
 	
 	$strFieldTeNodeAddress    = mysql_field_name($resultado, 0);
 	$strFieldIdSo			  = mysql_field_name($resultado, 1);
@@ -289,7 +290,7 @@ for ($n = 0; $n < $reg_pag; $n++)
 	echo '>';
 	echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
 	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $linha->$strFieldTeNodeAddress ."&id_so=". $linha->$strFieldIdSo ."' target='_blank'>" . $linha->$strFieldTeNomeComputador ."</a>&nbsp;</td>"; 
-	for ($i=3; $i < $num_fields; $i++) 
+	for ($i=3; $i < $fields; $i++) 
 		{
 		$strNomeCampo = mysql_field_name($resultado, $i);
 		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $linha->$strNomeCampo .'&nbsp;</td>'; 

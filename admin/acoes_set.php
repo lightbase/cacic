@@ -59,14 +59,12 @@ if ($queryDEL)
 	
 // Leio o array 2 que contém as subredes selecionadas...
 $arrListaRedesSelecionadas = $_POST['list2'];
-//echo count($arrListaRedesSelecionadas);
-//echo $_POST['cs_situacao'];
+
 // Caso não existam redes selecionadas, a situação torna-se em Nenhuma Rede
 $cs_situacao = (count($arrListaRedesSelecionadas)>0?$_POST['cs_situacao']:'N');
-//echo $cs_situacao;
 
 // Caso tenha sido marcado "Em todas as redes", concateno o array 1, que contém as redes "não selecionadas".
-if ($cs_situacao == 'N')
+if ($cs_situacao == 'T' || $cs_situacao == 'N')
 	{
 	if ($arrListaRedesSelecionadas)
 		$arrListaRedesSelecionadas = array_merge($_POST['list1'],$_POST['list2']);

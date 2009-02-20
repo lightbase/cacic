@@ -97,9 +97,10 @@ else
 						te_ip,dt_hr_inclusao,
 						te_desc_so,
 						dt_hr_ult_acesso 
-                FROM    computadores
-                LEFT JOIN so  ON (computadores.id_so = so.id_so)
-                WHERE   te_node_address = '". $_GET['te_node_address'] ."' AND computadores.id_so = ". $_GET['id_so'];
+				FROM 	computadores, so
+		  		WHERE 	te_node_address = '". $_GET['te_node_address'] ."' AND
+		  				computadores.id_so = ". $_GET['id_so'] ." AND 
+		  				computadores.id_so = so.id_so";
 
     $result = mysql_query($query);
 	include_once "../relatorios/computador/inc_detalhes_computador.php"; 	

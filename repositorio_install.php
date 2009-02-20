@@ -92,7 +92,7 @@ require_once('include/selecao_listbox.js');
     <tr> 
       <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label"><a href="repositorio/mapacacic.exe">MapaCACIC - M&oacute;dulo Avulso para Coleta de Informa&ccedil;&otilde;es Patrimoniais <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['mapacacic.exe'];?>  ~  248K)</span></span></a> </td>
+            <td class="label"><a href="repositorio/install/mapacacic.exe">MapaCACIC - M&oacute;dulo Avulso para Coleta de Informa&ccedil;&otilde;es Patrimoniais <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['mapacacic.exe'];?>  ~  248K)</span></span></a> </td>
           </tr>
     <tr> 
       <td>&nbsp;</td>

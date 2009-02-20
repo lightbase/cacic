@@ -57,7 +57,7 @@ $strTePalavraChave	= $arrComputadores['te_palavra_chave'];
 // Valido a Palavra-Chave e monto a tripa com os nomes e ids dos domínios
 if ($te_palavra_chave == $strTePalavraChave)
 	{
-	GravaTESTES('Palavra-Chave OK!'); 	
+	GravaTESTES('SetSession: Palavra-Chave OK!'); 	
 	conecta_bd_cacic();	
 
 	if (!$_POST['id_sessao'])
@@ -96,7 +96,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 						if ($te_email <> '')
 							{
 							// Envio e-mail informando da abertura de sessão
-							$corpo_mail = "Prezado usuário ".$nm_nome_completo.",\n\n
+							$corpo_mail = "Prezado usuário(a) ".$nm_nome_completo.",\n\n
 											informamos que foi iniciada uma sessão para Suporte Remoto Seguro através do Sistema CACIC em ".$dt_hr_inicio_sessao . "\n\n\n\n
 											_______________________________________________________________________
 											CACIC - Configurador Automático e Coletor de Informações Computacionais\n
@@ -111,18 +111,20 @@ if ($te_palavra_chave == $strTePalavraChave)
 													 nm_nome_acesso_visitado,
 													 nm_nome_completo_visitado,
 													 te_node_address_visitado,
-													 id_so_visitado)
+													 id_so_visitado,
+													 dt_hr_ultimo_contato)
 										VALUES ('" . $dt_hr_inicio_sessao 		. "', 
 												'" . $nm_nome_acesso_dominio 	. "',
 												'" . $nm_nome_completo 			. "',									 
 												'" . $te_node_address			. "',
-												'" . $arrSO['id_so']			. "')";
+												'" . $arrSO['id_so']			. "',
+												'" . $dt_hr_inicio_sessao		. "')";
 						$result_SESSAO = mysql_query($query_SESSAO);	
 						$arrSessoes = getValores('srcacic_sessoes','id_sessao','dt_hr_inicio_sessao="'.$dt_hr_inicio_sessao.'" AND
 																				te_node_address_visitado="'.$te_node_address.'" AND
 																				id_so_visitado = "'.$arrSO['id_so'].'"');
 
-						$retorno_xml_values .= '<NM_COMPLETO>'.EnCrypt($key,$iv,$nm_nome_completo,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NOME_COMPLETO>';						
+						$retorno_xml_values .= '<NM_COMPLETO>'.EnCrypt($key,$iv,$nm_nome_completo,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_COMPLETO>';						
 						$retorno_xml_values .= '<ID_SESSAO>'.EnCrypt($key,$iv,$arrSessoes['id_sessao'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_SESSAO>';
 						}
 					}
@@ -131,15 +133,52 @@ if ($te_palavra_chave == $strTePalavraChave)
 		}
 	else
 		{
-		$id_sessao 					= DeCrypt($key,$iv,$_POST['id_sessao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 					
-		$id_usuario_visitante 		= DeCrypt($key,$iv,$_POST['id_usuario_visitante'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 			
-		$te_node_address_visitante 	= DeCrypt($key,$iv,$_POST['te_node_address_visitante'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 					
+		$id_sessao 	  = DeCrypt($key,$iv,$_POST['id_sessao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 					
+
 		$query_SESSAO = "UPDATE srcacic_sessoes 
-						 SET	id_usuario_visitante = ".$id_usuario_visitante.",
-						 		te_node_address_visitante = ".$te_node_address_visitante.",						 
-						        dt_hr_ultimo_contato = '".date('d/m/Y às H:i')."'
-						 WHERE  id_sessao = ".$id_sessao;						 
+						 SET	dt_hr_ultimo_contato = '".date('Y-m-d H:i:s')."'
+						 WHERE  id_sessao = ".$id_sessao;												
 		$result_SESSAO = mysql_query($query_SESSAO);			
+		
+		if ($_POST['te_log'] == '')
+			{
+			$arr_id_usuario_visitante      = explode('<REG>',$_POST['id_usuario_visitante']);
+			$arr_te_node_address_visitante = explode('<REG>',$_POST['te_node_address_visitante']);		
+		
+			for ($i=0; $i < count($arr_id_usuario_visitante); $i++)
+				{
+				$id_usuario_visitante 		= DeCrypt($key,$iv,$arr_id_usuario_visitante[$i],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 			
+				$te_node_address_visitante 	= DeCrypt($key,$iv,$arr_te_node_address_visitante[$i],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 					
+
+				$query_SESSAO = "UPDATE srcacic_sessoes_logs 
+								 SET	dt_hr_ultimo_contato = '".date('Y-m-d H:i:s')."'
+								 WHERE  id_sessao = ".$id_sessao." and
+								        id_usuario_visitante = ".$id_usuario_visitante;		
+									
+				GravaTESTES('SetSession: POST[id_sessao] => '.$_POST['id_sessao']);						 				 						 
+				GravaTESTES('SetSession: id_sessao => '.$id_sessao);						 				 						 		
+				GravaTESTES('SetSession: query_SESSAO => '.$query_SESSAO);						 				 						 		
+		
+				$result_SESSAO = mysql_query($query_SESSAO);			
+			
+				}
+			}
+		else
+			{
+			$te_log = DeCrypt($key,$iv,$_POST['te_log']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+		
+			$query_SESSAO = "UPDATE srcacic_sessoes 
+							 SET	te_log = '".$te_log."'
+							 WHERE  id_sessao = ".$id_sessao;		
+									
+			GravaTESTES('SetSession: POST[id_sessao] => '.$_POST['id_sessao']);						 				 						 
+			GravaTESTES('SetSession: id_sessao => '.$id_sessao);						 				 						 		
+			GravaTESTES('SetSession: query_SESSAO => '.$query_SESSAO);						 				 						 		
+		
+			$result_SESSAO = mysql_query($query_SESSAO);			
+			
+			}
+		
 		$retorno_xml_values .= '<OK>'.EnCrypt($key,$iv,'OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</OK>';		
 		}
 	}
@@ -147,8 +186,8 @@ if ($te_palavra_chave == $strTePalavraChave)
 if ($retorno_xml_values <> '')
 	$retorno_xml_values = '<STATUS>'.EnCrypt($key,$iv,'OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>'.$retorno_xml_values;
 else
-	$retorno_xml_values = '<STATUS>'.EnCrypt($key,$iv,'ERRO!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
-			
+	$retorno_xml_values = '<STATUS>'.EnCrypt($key,$iv,'SetSession ERRO!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
+
 $retorno_xml = $retorno_xml_header . $retorno_xml_values; 
 
 echo $retorno_xml;	
@@ -162,11 +201,13 @@ function getBindedValue($arrBINDED,$strValue)
 		if (strtolower(gettype(current($arrBINDED)))=='array')
 			getBindedValue(current($arrBINDED),$strValue);
 		else
+			{
 			if (current($arrBINDED) == $strValue)
 				{
 				$getBindedValue = $arrBINDED[current($arrBINDED)][0]; 
 				break;
 				}
+			}
 		next($arrBINDED);
 		}
 	return $getBindedValue;
@@ -174,3 +215,4 @@ function getBindedValue($arrBINDED,$strValue)
 
 //  
 ?>
+	

@@ -80,7 +80,7 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress,$str
 				$retorno_xml_values .= '<CACIC2>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['cacic2.exe']  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CACIC2>';
 				$retorno_xml_values .= '<GER_COLS>' . EnCrypt($key,$iv,$v_array_versoes_agentes['ger_cols.exe'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/GER_COLS>';			
 				$retorno_xml_values .= '<CHKSIS>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['chksis.exe']  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CHKSIS>';						
-				$retorno_xml_values .= '<SRCACIC>'  . EnCrypt($key,$iv,$v_array_versoes_agentes['srcacic.exe'] ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/SRCACIC>';										
+				$retorno_xml_values .= '<SRCACICSRV>'  . EnCrypt($key,$iv,$v_array_versoes_agentes['srcacicsrv.exe'] ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/SRCACICSRV>';										
 				}
 			}
 		}
