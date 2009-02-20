@@ -391,7 +391,7 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
           </tr>
           <tr> 
             <td>&nbsp;</td>
-            <td> <input name="frm_id_ip_rede" id="frm_id_ip_rede" readonly="" type="text" value="<? echo mysql_result($result, 0, 'id_ip_rede'); ?>" size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+            <td> <input name="frm_id_ip_rede" id="frm_id_ip_rede" readonly type="text" value="<? echo mysql_result($result, 0, 'id_ip_rede'); ?>" size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
               <input name="id_ip_rede"  type="hidden" id="id_ip_rede" value="<? echo mysql_result($result, 0, 'id_ip_rede'); ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >            </td>
             <td> <input name="frm_te_mascara_rede" type="text" id="frm_te_mascara_rede" value="<? echo mysql_result($result, 0, 'te_mascara_rede'); ?>" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="return VerRedeMascara(this.form.name,false,true);SetaClassNormal(this);" >            </td>
             <td nowrap="nowrap"><input name="frm_id_ip_inicio" id="frm_id_ip_inicio" disabled="disabled" type="text" class="normal">

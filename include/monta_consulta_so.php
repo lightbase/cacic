@@ -18,7 +18,7 @@ $result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso 
 $arr_so = array();
 while ($row_result = mysql_fetch_assoc($result))		
 	{ 
-	$v_row_result = str_pad($row_result['te_desc_so'],28,'.',STR_PAD_RIGHT);
+	$v_row_result = str_pad($row_result['te_desc_so'],35,'.',STR_PAD_RIGHT);
 	$arr_so[$v_row_result] = $row_result['qtd'];			
 	} 
 		  

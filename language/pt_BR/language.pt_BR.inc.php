@@ -740,3 +740,15 @@ pt_BR     induzir o envio das informacoes coletadas                             
 pt_BR     marca/desmarca todas as acoes para todas as redes abaixo                                            geral     info                Marca/Desmarca todas as Acoes para todas as Redes abaixo
 pt_BR     acao                                                                                                geral     info                Acao
 pt_BR     marca ou desmarca acao para as redes abaixo                                                         geral     info                Marca ou Desmarca Acao para as Redes abaixo
+pt_BR     % livre                                                                                             geral     info                % livre
+pt_BR     % ocupado                                                                                           geral     info                % ocupado
+pt_BR     relatorio de estacoes por sistema operacional                                                       geral     info                Relatorio de estacoes por sistema operacional
+pt_BR     id externa                                                                                          geral     info                ID Externa
+pt_BR     versao do agente principal                                                                          geral     info                Versao do agente principal
+pt_BR     nao disponivel                                                                                      geral     info                Nao disponivel
+pt_BR     redes cadastradas                                                                                   geral     info                Redes cadastradas
+pt_BR     navegar nas redes detectadas pelos agentes nas estacoes                                             geral     info                Navegar nas redes detectadas pelos agentes nas estacoes
+pt_BR     verificacao-atualizacao dos servidores de updates help                                              geral     info                Módulo para verificação/atualização das versões dos objetos localizados nos servidores de updates das subredes monitoradas.
+
+pt_BR     verificacao/atualizacao dos servidores de updates                                                   geral     info                Verificacao/Atualizacao dos Servidores de Updates
+pt_BR     localizacao ou nome da subrede                                                                      geral     info                Localizacao ou nome da SubRede

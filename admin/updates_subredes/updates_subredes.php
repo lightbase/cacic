@@ -32,7 +32,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 		<head>
 		<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 	
-		<title>Verifica&ccedil;&atilde;o/Atualiza&ccedil;&atilde;o dos Servidores de Updates</title>
+		<title><?=$oTranslator->_('Verificacao/Atualizacao dos Servidores de Updates');?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		</head>
 		<body background="../../imgs/linha_v.gif">
@@ -41,18 +41,19 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 		<form name="frm_update_subredes" id="frm_update_subredes">
 		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
 		<tr nowrap> 
-		<td class="cabecalho">Verifica&ccedil;&atilde;o dos Servidores de Updates das SubRedes</td>
+		<td class="cabecalho"><?=$oTranslator->_('Verificacao/Atualizacao dos Servidores de Updates');?></td>
 		</tr>
 		<tr> 
-		<td class="descricao">M&oacute;dulo para verifica&ccedil;&atilde;o/atualiza&ccedil;&atilde;o das vers&otilde;es 
-		dos objetos localizados nos servidores de updates das subredes monitoradas.</td>
+		<td class="descricao">
+                   <?=$oTranslator->_('Verificacao-Atualizacao dos Servidores de Updates help');?>
+                </td>
 		</tr>
 		</table>
 		<br>
 		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#666666">
 		<tr bordercolor="#000000" bgcolor="#CCCCCC">	
 		<td valign="center" class="cabecalho_tabela">
-		<p align="left">Endere&ccedil;o IP</p>
+		<p align="left"><?=$oTranslator->_('Endereco IP');?></p>
 		</td>
 
 		<td valign="center" class="cabecalho_tabela">
@@ -60,7 +61,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 		</td>
 		
 		<td valign="center" class="cabecalho_tabela">
-		<p align="left">Localiza&ccedil;&atilde;o/Nome da SubRede
+		<p align="left"><?=$oTranslator->_('Localizacao ou nome da SubRede');?>
 		</p>
 		</td>		
 		<td valign="center" class="cabecalho_tabela">
@@ -68,7 +69,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 		</td>
 	
 		<td valign="center" class="cabecalho_tabela">
-		<p align="left">Status </p>
+		<p align="left"><?=$oTranslator->_('Status');?></p>
 		</td>			
 		</tr>
 	
@@ -84,10 +85,6 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 			$arrTmp = explode('*',$v_array_hashs[$i]);
 			$v_array_agentes_hashs[$arrTmp[0]] = $arrTmp[1];
 			}
-
-		//echo '_REQUEST[v_parametros] = '.url_decode($_REQUEST['v_parametros']).'<br>';
-		//for ($i = 0;$i < count($v_array_parametros);$i++)
-		//	echo 'v_array_parametros['.$i.'] = '.$v_array_parametros[$i].'<br>';
 
 		if (count($v_array_redes)>0)
 			{

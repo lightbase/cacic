@@ -10,3 +10,7 @@ ALTER TABLE aquisicoes
     ADD PRIMARY KEY (id_aquisicao),
     ENGINE=InnoDB CHARACTER SET=latin1;
 
+UPDATE descricoes_colunas_computadores 
+    SET nm_campo='te_cpu_frequencia' 
+    WHERE nm_campo='te_cpu_freq';
+

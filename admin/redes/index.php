@@ -35,6 +35,24 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 3 - Supervisão
 
 Conecta_bd_cacic();
+
+// Obtem quantidade de máquinas por rede
+function getNetPCs($p_id_ip_rede) {
+   $qry_net_pc = "SELECT computadores.id_ip_rede, 
+                         count(te_node_address) AS quantidade_pc
+                    FROM      computadores 
+                    LEFT JOIN redes ON (computadores.id_ip_rede = redes.id_ip_rede AND computadores.te_mascara = redes.te_mascara_rede)
+                    WHERE     computadores.id_ip_rede='".$p_id_ip_rede."'
+                    GROUP BY  id_ip_rede
+                    ORDER BY  computadores.id_ip_rede;";
+   $result_net_pc = mysql_query($qry_net_pc);
+   $row = mysql_fetch_array($result_net_pc);
+
+   return ($row['quantidade_pc']);
+}
+
+$total_geral_pc = 0;
+
 $where = ($_SESSION['cs_nivel_administracao']==1||$_SESSION['cs_nivel_administracao']==2?
 			' LEFT JOIN locais ON (locais.id_local = redes.id_local)':
 			', locais WHERE redes.id_local = locais.id_local AND redes.id_local='.$_SESSION['id_local']);
@@ -99,6 +117,9 @@ $msg = '<div align="center">
   </tr>
   <tr> 
     <td> <table border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
+       <tr> 
+          <th colspan="10" align="left"><?=$oTranslator->_('Redes cadastradas');?></th>
+       </tr>
           <tr bgcolor="#E1E1E1"> 
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
@@ -110,7 +131,7 @@ $msg = '<div align="center">
 			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_dominio">Domínio</a></div></td>
             <td nowrap >&nbsp;</td>
             <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local,nm_rede"><?=$oTranslator->_('Local');?></a></div></td>
-            <td nowrap >&nbsp;</td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Total de Maquinas');?></div></td>
           </tr>
   	<tr> 
     <td height="1" bgcolor="#333333" colspan="11"></td>
@@ -142,13 +163,19 @@ else
             <td nowrap><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_dominio']; ?></a></td>
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['sg_local']; ?></a></div></td>
-            <td nowrap>&nbsp;</td>
+            <td nowrap align="right">
+                <a href="../../relatorios/navegacao.php" title="<?=$oTranslator->_('Navegar nas redes detectadas pelos agentes nas estacoes');?>">
+                   <?php $total_ip_rede = getNetPCs($row['id_ip_rede']); $total_geral_pc += $total_ip_rede; echo $total_ip_rede;?>
+                </a>
+            </td>
+           </tr>
             <? 
 		$Cor=!$Cor;
 		$NumRegistro++;
 		}
 	}
 	?>
+        
     </table></td>
   	</tr>
   	<tr> 
