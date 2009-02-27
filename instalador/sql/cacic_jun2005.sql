@@ -431,7 +431,7 @@ CREATE TABLE `srcacic_sessoes`
 		KEY `idx_idUsuario` (`id_usuario_visitante`),
 		KEY `idx_dtHrInicioSessao` (`dt_hr_inicio_sessao`)
 	) 
-ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Log de Atividades no Sistema CACIC' AUTO_INCREMENT=1 ;
+ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Log de Atividades no Sistema CACIC';
 
 -- -----------------------------------------------------------------------------------------------------------
 -- Estrutura da tabela `dominios`
@@ -450,7 +450,7 @@ CREATE TABLE `dominios`
 	`in_ativo` char(1) NOT NULL default 'S',
 	PRIMARY KEY  (`id_dominio`)
 	) 
-ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Servidores de Dominio para Autenticacao do srCACIC' AUTO_INCREMENT=2 ;
+ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Servidores de Dominio para Autenticacao do srCACIC';
 
 -- -----------------------------------------------------------------------------------------------------------
 -- Insercao da coluna `id_dominio`
