@@ -7,6 +7,7 @@
 ...Log de Accesos|admin/log_acessos.php|mainFrame||Visualização do Log de Acessos ocorridos no Sistema
 ...Log de Actividades|admin/log_atividades.php|mainFrame||Visualização do Log de Atividades(INS/UPD/DEL) do Sistema
 ...Insucessos Instalação|admin/log_insucessos.php|mainFrame||Visualização do Log de Insucessoes nas Instalações
+...Suporte Remoto Seguro|admin/log_suporte_remoto.php|mainFrame||Visualização do Log de Suporte Remoto Seguro
 ..<b>Registros</b>||mainFrame|imgs/config_gerais.gif
 ...Locales|admin/locais/index.php|mainFrame||Cadastro de Locais para Controle Centralizado
 ...SubRedes|admin/redes/index.php|mainFrame||Cadastro de SubRedes

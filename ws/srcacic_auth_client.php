@@ -49,7 +49,8 @@ $strPaddingKey  	= '';
 // Autenticação da Estação Visitada
 $te_node_address   	= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 $te_so             	= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-$te_palavra_chave  	= DeCrypt($key,$iv,$_POST['te_palavra_chave']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_palavra_chave  	= DeCrypt($key,$iv,urldecode($_POST['te_palavra_chave'])	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+
 
 // ATENÇÃO: Apenas retornará um ARRAY contendo "id_so" e "te_so".
 $arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
@@ -81,52 +82,67 @@ if ($te_palavra_chave == $strTePalavraChave)
 		GravaTESTES('AuthClient: te_senha_visitante   		=> '.$te_senha_visitante);		
 
 		// Autentico o usuário técnico, verificando nome, senha e local
-		$query_AUTENTICA = "SELECT  id_usuario,
-									nm_usuario_completo,
-									id_local,
-									te_locais_secundarios,
-									te_emails_contato
-						 	FROM	usuarios
-							WHERE   nm_usuario_acesso = '".$nm_usuario_visitante."' AND
-							        te_senha = PASSWORD('".$te_senha_visitante."')";
-		$result_AUTENTICA = mysql_query($query_AUTENTICA);			
-		$row = mysql_fetch_array($result_AUTENTICA);
-		if ($row['id_usuario']<>'')			
+		$arrUsuarios = getValores('usuarios','id_usuario,
+								  			  nm_usuario_completo,
+											  id_local,
+											  te_locais_secundarios,
+											  te_emails_contato','nm_usuario_acesso = "'.$nm_usuario_visitante.'" AND
+							        		  te_senha = PASSWORD("'.$te_senha_visitante.'")');
+		if ($arrUsuarios['id_usuario']<>'')			
 			{			
-			$boolIdLocal = stripos2($row['te_locais_secundarios'],$arrComputadores['id_local'],false);
-			GravaTESTES('AuthClient: boolIdLocal => '.$boolIdLocal); 				
-			GravaTESTES('AuthClient: arrComputadores[id_local] => '.$arrComputadores['id_local']); 					
-			GravaTESTES('AuthClient: row[id_local] => '.$row['id_local']); 						
-			if ($row['id_local'] == $arrComputadores['id_local'] || $boolIdLocal)
-				{
+			$boolIdLocal = stripos2($arrUsuarios['te_locais_secundarios'],$arrComputadores['id_local'],false);
+			//GravaTESTES('AuthClient: boolIdLocal => '.$boolIdLocal); 				
+			//GravaTESTES('AuthClient: arrComputadores[id_local] => '.$arrComputadores['id_local']); 					
+			//GravaTESTES('AuthClient: arrUsuarios[id_local] => '.$arrUsuarios['id_local']); 						
+			if ($arrUsuarios['id_local'] == $arrComputadores['id_local'] || $boolIdLocal)
+				{								
 				$id_sessao	  			   = DeCrypt($key,$iv,$_POST['id_sessao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 							
-				$id_usuario_visitante 	   = $row['id_usuario'];
+				$id_usuario_visitante 	   = $arrUsuarios['id_usuario'];
 				$te_node_address_visitante = DeCrypt($key,$iv,$_POST['te_node_address_visitante'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 															
+				$te_so_visitante 		   = DeCrypt($key,$iv,$_POST['te_so_visitante'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 																			
+				//GravaTESTES('AuthClient: te_node_address_visitante => '.$te_node_address_visitante); 										
+				//GravaTESTES('AuthClient: te_so_visitante => '.$te_so_visitante); 													
+				$te_motivo_conexao 		   = DeCrypt($key,$iv,$_POST['te_motivo_conexao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 																			
 				$dt_hr_autenticacao	 	   = date('Y-m-d H:i:s');						
-				
+
+				// ATENÇÃO: Apenas retornará um ARRAY contendo "id_so" e "te_so".
+				$arrSO_visitante = inclui_computador_caso_nao_exista($te_node_address_visitante, 
+																	'',
+																	$te_so_visitante,
+																	'', 
+																	'', 
+																	'',
+																	'');									
+
 				$query_SESSAO = "INSERT INTO srcacic_sessoes_logs 
 											(id_sessao,
 											 id_usuario_visitante,
 											 te_node_address_visitante,											 
-											 dt_hr_ultimo_contato)
+											 id_so_visitante,											 											 
+											 te_motivo_conexao,
+											 dt_hr_ultimo_contato,
+											 dt_hr_conexao)											
 								VALUES ("  . $id_sessao 				. ", 
 										"  . $id_usuario_visitante 		. ",
 										'" . $te_node_address_visitante . "',
-										'" . $dt_hr_autenticacao		. "')";
+										" . $arrSO_visitante['id_so'] . ",										
+										'" . $te_motivo_conexao . "',										
+										'" . $dt_hr_autenticacao		. "',
+										'" . $dt_hr_autenticacao		. "')";								
 				$result_SESSAO = mysql_query($query_SESSAO);	
 
-				GravaTESTES('AuthClient: query_SESSAO => '.$query_SESSAO); 										
+				// GravaTESTES('AuthClient: query_SESSAO => '.$query_SESSAO); 										
 
 				$retorno_xml_values = '<STATUS>'.EnCrypt($key,$iv,'OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>'.$retorno_xml_values;			
-				$retorno_xml_values .= '<ID_USUARIO_VISITANTE>'.EnCrypt($key,$iv,$row['id_usuario'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_USUARIO_VISITANTE>';		
-				$retorno_xml_values .= '<NM_USUARIO_COMPLETO>'.EnCrypt($key,$iv,$row['nm_usuario_completo'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_USUARIO_COMPLETO>';								
-				if ($row['te_emails_contato'] <> '')
+				$retorno_xml_values .= '<ID_USUARIO_VISITANTE>'.str_ireplace('+','<MAIS>',EnCrypt($key,$iv,$arrUsuarios['id_usuario'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey),$countMAIS).'</ID_USUARIO_VISITANTE>';		
+				$retorno_xml_values .= '<NM_USUARIO_COMPLETO>'.EnCrypt($key,$iv,$arrUsuarios['nm_usuario_completo'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_USUARIO_COMPLETO>';								
+				if ($arrUsuarios['te_emails_contato'] <> '')
 					{
 					$strTeNomeComputador = $arrComputadores['te_nome_computador'];				
 					$strTeIp 			 = $arrComputadores['te_ip'];							
 			
 					// Envio e-mail informando da abertura de sessão
-					$corpo_mail = "Prezado usuário(a) ".$row['nm_usuario_completo'].",\n\n
+					$corpo_mail = "Prezado usuário(a) ".$arrUsuarios['nm_usuario_completo'].",\n\n
 									informamos que foi realizada autenticação de acesso para Suporte Remoto Seguro à estação '".$strTeNomeComputador."' (IP: ".$strTeIp.") através do Sistema CACIC em ".$dt_hr_inicio_sessao . " a partir de seu usuário '".$nm_usuario_visitante.", cadastrado no www-cacic.'\n\n\n\n
 									_______________________________________________________________________
 								CACIC - Configurador Automático e Coletor de Informações Computacionais\n
@@ -134,7 +150,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 								Desenvolvido pela Dataprev - Unidade Regional Espírito Santo";
 
 					// Manda mail para os administradores.
-					mail($row['te_emails_contato'], "Sistema CACIC - Módulo srCACIC - Autenticação para Suporte Remoto Seguro", "$corpo_mail", "From: cacic@{$_SERVER['SERVER_NAME']}");
+					//mail($arrUsuarios['te_emails_contato'], "Sistema CACIC - Módulo srCACIC - Autenticação para Suporte Remoto Seguro", "$corpo_mail", "From: cacic@{$_SERVER['SERVER_NAME']}");
 					}										
 				}
 			else

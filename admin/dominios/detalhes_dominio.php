@@ -38,14 +38,16 @@ if ($_POST['ExcluiDominio'] <> '' && $_SESSION['cs_nivel_administracao']==1)
 else if ($_POST['GravaAlteracoes'] <> '' && $_SESSION['cs_nivel_administracao']==1) 
 	{
 	$query = "UPDATE 	dominios 
-			  SET		nm_dominio 			= '".$_POST['frm_nm_dominio']         ."', 
-				  		te_ip_dominio 		= '".$_POST['frm_te_ip_dominio']      ."',
-						id_tipo_protocolo	= '".$_POST['frm_id_tipo_protocolo']  ."',
-						nu_versao_protocolo	= '".$_POST['frm_nu_versao_protocolo']."',
-						te_string_DN		= '".$_POST['frm_te_string_DN']       ."',
-						te_observacao		= '".$_POST['frm_te_observacao']      ."'				  						
-			  WHERE 	id_dominio 			=  ".$_POST['frm_id_dominio'];
-
+			  SET		nm_dominio 					= '".$_POST['frm_nm_dominio']         		."', 
+				  		te_ip_dominio 				= '".$_POST['frm_te_ip_dominio']      		."',
+						id_tipo_protocolo			= '".$_POST['frm_id_tipo_protocolo']  		."',
+						nu_versao_protocolo			= '".$_POST['frm_nu_versao_protocolo']		."',
+						te_base_consulta_raiz		= '".$_POST['frm_te_base_consulta_raiz']    ."',
+						te_base_consulta_folha		= '".$_POST['frm_te_base_consulta_folha']   ."',
+						te_atributo_identificador	= '".$_POST['frm_te_atributo_identificador']."',
+						te_atributo_retorna_nome	= '".$_POST['frm_te_atributo_retorna_nome'] ."',
+						te_atributo_retorna_email	= '".$_POST['frm_te_atributo_retorna_email']."',														
+						te_observacao				= '".$_POST['frm_te_observacao']      		."'				  			  WHERE 	id_dominio 					=  ".$_POST['frm_id_dominio'];
 	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'dominios');		
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/dominios/index.php&tempo=1");				
@@ -86,6 +88,36 @@ else
             {	
             alert("Selecione o Tipo de Protocolo.");
             document.form.frm_id_tipo_protocolo.focus();
+            return false;
+            }
+        else if ( document.form.frm_te_base_consulta_raiz.value == "" ) 
+            {	
+            alert("A base para consulta em raiz é obrigatória.");
+            document.form.frm_te_base_consulta_raiz.focus();
+            return false;
+            }
+        else if ( document.form.frm_te_base_consulta_folha.value == "" ) 
+            {	
+            alert("A base para consulta em folha é obrigatória.");
+            document.form.frm_te_base_consulta_folha.focus();
+            return false;
+            }
+        else if ( document.form.frm_te_atributo_retorna_nome.value == "" ) 
+            {	
+            alert("O atributo para retorno de nome completo é obrigatório.");
+            document.form.frm_te_atributo_retorna_nome.focus();
+            return false;
+            }
+        else if ( document.form.frm_te_atributo_retorna_email.value == "" ) 
+            {	
+            alert("O atributo para retorno de email é obrigatório.");
+            document.form.frm_te_atributo_retorna_email.focus();
+            return false;
+            }
+        else if ( document.form.frm_te_atributo_identificador.value == "" ) 
+            {	
+            alert("O atributo identificador é obrigatório.");
+            document.form.frm_te_atributo_identificador.focus();
             return false;
             }
         return true;	
@@ -136,30 +168,72 @@ else
     <option value="Open LDAP"<? if ($row['id_tipo_protocolo']=='Open LDAP') echo 'selected';?>>Open LDAP</option>
     </select>
     </label></td>
-    <td class="label"><div align="left"><span class="label_peq_sem_fundo">
-    <input name="frm_nu_versao_protocolo" type="text" size="30" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_nu_versao_protocolo" value="<? echo $row['nu_versao_protocolo'];?>" >
+    <td class="label"><div align="left"><span class="label_peq_sem_fundo" id="frm_nu_versao_protocolo">
+    <input name="frm_nu_versao_protocolo" type="text" size="60" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_nu_versao_protocolo" value="<? echo $row['nu_versao_protocolo'];?>" >
     </span></div></td>
     </tr>
     <tr> 
-    <td class="label"><br>
-      String de Pesquisa: <span class="normal style2">(Ex.: o=dominio.com.br / DC=dominio, DC=com, DC=br)</span></td>
-    <td class="label"><div align="left"><br>
-      Observa&ccedil;&otilde;es:</div></td>
+    <td class="label"><p><br>
+      Base para Consulta em Ra&iacute;z: <span class="normal style2">(Ex.: &quot;dc=br, dc=com, dc=dominio&quot;</span><span class="normal style2">)</span></p></td>
+    <td class="label"><p><br>
+      Base para Consulta em Folha: <span class="normal style2">(Ex.: &quot;ou=pessoas, ou=usuarios&quot;</span><span class="normal style2">)</span></p></td>
     </tr>
     <tr> 
     <td height="1" bgcolor="#333333" colspan="3"></td>
     </tr>
     <tr> 
     <td><span class="label_peq_sem_fundo">
-    <input name="frm_te_string_DN" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_string_DN" value="<? echo $row['te_string_DN'];?>" >
+    <input name="frm_te_base_consulta_raiz" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_base_consulta_raiz" value="<? echo $row['te_base_consulta_raiz'];?>" >
     </span></td>
     <td><span class="label_peq_sem_fundo">
-      <input name="frm_te_observacao" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_observacao" value="<? echo $row['te_observacao'];?>" >
+      <input name="frm_te_base_consulta_folha" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_base_consulta_folha" value="<? echo $row['te_base_consulta_folha'];?>" >
     </span></td>   
     </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td class="label"><p><br>
+        Atributo para Identifica&ccedil;&atilde;o: <span class="normal style2">(Ex.: &quot;uniqueID&quot;</span><span class="normal style2">)</span></p></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_identificador" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_identificador" value="<? echo $row['te_atributo_identificador'];?>" >
+      </span></td>
+      <td>&nbsp;</td>
+    </tr>
 
-    <tr> 
-    <td colspan="3">&nbsp;</td>
+    <tr>
+      <td class="label"><p><br>
+        Atributo para Retorno de Nome Completo: <span class="normal style2">(Ex.: &quot;fullName&quot;</span><span class="normal style2">)</span></p></td>
+      <td class="label"><p><br>
+        Atributo para Retorno de Email: <span class="normal style2">(Ex: &quot;email&quot;</span><span class="normal style2">)</span></p></td> 
+    <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_retorna_nome" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_nome" value="<? echo $row['te_atributo_retorna_nome'];?>" >
+      </span></td>
+      <td><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_retorna_email" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_email" value="<? echo $row['te_atributo_retorna_email'];?>" >
+      </span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2" class="label"><div align="left"><br>
+        Observa&ccedil;&otilde;es:</div></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2"><span class="label_peq_sem_fundo">
+        <input name="frm_te_observacao" type="text" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_observacao" value="<? echo $row['te_observacao'];?>" >
+      </span></td>
+      <td>&nbsp;</td>
     </tr>
     </table>
           

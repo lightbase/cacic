@@ -67,9 +67,10 @@ $arrSO = inclui_computador_caso_nao_exista(	$te_node_address,
 											'', 
 											'', 
 											'',
-											'');									
+											'');
 
-$arrComputadores 	= getValores('computadores', 'te_palavra_chave,id_ip_rede'   , 'te_node_address = "'.$te_node_address.'" and id_so = '.$arrSO['id_so']);;
+$arrComputadores 	= getValores('computadores', 'te_palavra_chave,id_ip_rede'   , 'te_node_address = "'.$te_node_address.'" and id_so = '.$arrSO['id_so']);
+
 $strTePalavraChave	= $arrComputadores['te_palavra_chave'];
 $strIdIpRede		= $arrComputadores['id_ip_rede'];
 
