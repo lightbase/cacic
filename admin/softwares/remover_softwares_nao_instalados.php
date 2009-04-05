@@ -15,12 +15,14 @@
 
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Exclus&atilde;o de Softwares n&atilde;o Associados a nenhuma m&aacute;quina</td> 
+    <td class="cabecalho">
+     <?=$oTranslator->_('Exclusao de softwares nao associados a nenhuma maquina');?>
+    </td> 
   </tr>
   <tr> 
-    <td class="descricao">Este formul&aacute;rio  
-      exibe os softwares inventariados nos computadores que n&atilde;o est&atilde;o
-      associados a nenhuma m&aacute;quina.</td>
+    <td class="descricao">
+      <?=$oTranslator->_('Exibe os softwares inventariados nos computadores que nao estao associados a nenhuma maquina.');?>
+    </td>
   </tr>
 </table>
 <form action="confirma_remocao_softwares_nao_instalados.php" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
@@ -28,8 +30,10 @@
     <tr> 
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label">Selecione 
-              os softwares que deseja remover:<font size=0> (Softwares n&atilde;o classificados e softwares lixo)</font></td>
+            <td class="label">
+              <?=$oTranslator->_('Selecione os softwares que deseja remover:');?>
+              <font size=0> <?=$oTranslator->_('(Softwares nao classificados e softwares lixo)');?></font>
+            </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -38,11 +42,11 @@
             <td height="1"><table border="0" cellpadding="0" cellspacing="0">
                 <tr> 
                   <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left">N&atilde;o instalados:</div></td>
+                  <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Nao instalados:');?></div></td>
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela">Selecionados:</td>
+                  <td nowrap class="cabecalho_tabela"><?=$oTranslator->_('Selecionados:');?></td>
 		  <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 
@@ -54,7 +58,7 @@
 			  WHERE ((si.id_tipo_software = 0) or (si.id_tipo_software = 6)) AND si.id_software_inventariado NOT IN (
 			  SELECT DISTINCT id_software_inventariado FROM softwares_inventariados_estacoes sie)
 			  ORDER BY nm_software_inventariado LIMIT 300";
-			$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados ou sua sessão expirou!');
+			$result_aplicativos_selecionados = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('softwares_inventariados_estacoes')));
 			/* Agora monto os itens do combo de hardwares selecionadas. */ 
        while($campos_aplicativos_selecionados=mysql_fetch_array($result_aplicativos_selecionados)) 	{
 						   echo '<option value=' . $campos_aplicativos_selecionados['id_software_inventariado'] . '>' . capa_string($campos_aplicativos_selecionados['nm_software_inventariado'],80)  . '</option>';
@@ -76,8 +80,9 @@
               </table></td>
           </tr>
           <tr> 
-            <td class="descricao">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
+            <td class="descricao">&nbsp;&nbsp;&nbsp;
+              <?=$oTranslator->_('(Dica: use SHIFT ou CTRL para selecionar multiplos itens)');?>
+            </td>
           </tr>
         </table></td>
     </tr>
@@ -95,7 +100,7 @@
       <td valign="top"> <br> <br> <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="        Remover Softwares da Base de Dados        " onClick="SelectAll(this.form.elements['list6[]'])">
+                <input name="submit" type="submit" value="        <?=$oTranslator->_('Remover Softwares da Base de Dados');?>        " onClick="SelectAll(this.form.elements['list6[]'])">
               </div></td>
           </tr>
           <tr> 

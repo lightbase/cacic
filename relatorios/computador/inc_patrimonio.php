@@ -50,21 +50,14 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
 			$result_acoes =  mysql_query($query);
 			if (@mysql_result($result_acoes, 0, "cs_situacao") <> 'N') 
 				{
-						$query = "SELECT 	a.*, 
-											b.nm_unid_organizacional_nivel1, 
-											c.nm_unid_organizacional_nivel2,
-											d.nm_unid_organizacional_nivel1a											
-								  FROM 		patrimonio a, 
-								  			unid_organizacional_nivel1 b, 
-											unid_organizacional_nivel2 c,
-											unid_organizacional_nivel1a d											
-								  WHERE		a.te_node_address = '". $_GET['te_node_address'] ."' AND 
-											a.id_so = '". $_GET['id_so'] ."' and
-											a.id_unid_organizacional_nivel1a = d.id_unid_organizacional_nivel1a AND											
-											a.id_unid_organizacional_nivel2  = c.id_unid_organizacional_nivel2 AND																																	
-											b.id_unid_organizacional_nivel1  = d.id_unid_organizacional_nivel1 and
-											c.id_unid_organizacional_nivel1a = d.id_unid_organizacional_nivel1a 
-								  ORDER BY	dt_hr_alteracao desc limit 1";
+					$query = " SELECT a.*, nm_unid_organizacional_nivel1, nm_unid_organizacional_nivel1a, nm_unid_organizacional_nivel2 
+								  FROM patrimonio a
+								  LEFT JOIN unid_organizacional_nivel2 c ON (a.id_unid_organizacional_nivel2=c.id_unid_organizacional_nivel2)
+								  LEFT JOIN unid_organizacional_nivel1a d ON (a.id_unid_organizacional_nivel1a=d.id_unid_organizacional_nivel1a)
+								  LEFT JOIN unid_organizacional_nivel1 b ON (d.id_unid_organizacional_nivel1= b.id_unid_organizacional_nivel1)
+								  WHERE a.te_node_address='00-0C-29-66-78-C9' and id_so=25
+								  ORDER BY dt_hr_alteracao desc limit 1";
+
 						$result_patrimonio = mysql_query($query);
 						if(mysql_num_rows($result_patrimonio) > 0) 
 							{

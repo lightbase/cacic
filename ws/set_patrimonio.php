@@ -207,32 +207,55 @@ if ($te_node_address <> '')
 		}
 	
 	
-	// Inclui as informações no histórico.
-	$query = "INSERT INTO patrimonio 
-											(te_node_address,
-												id_so,
-												dt_hr_alteracao,
-												id_unid_organizacional_nivel1a,
-												id_unid_organizacional_nivel2,
-												te_localizacao_complementar,
-												te_info_patrimonio1,
-												te_info_patrimonio2,
-												te_info_patrimonio3,
-												te_info_patrimonio4,
-												te_info_patrimonio5,
-												te_info_patrimonio6)
-			 VALUES ('" . $te_node_address . "', 
-					 '" . $arrSO['id_so'] . "',
-												NOW(),
-												'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1a']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-												'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-												'" . DeCrypt($key,$iv,$_POST['te_localizacao_complementar']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio1']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio2']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio3']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio4']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio5']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
-												'" . DeCrypt($key,$iv,$_POST['te_info_patrimonio6']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "')";
+	// Inclui dados patrimoniais.
+	$query_verify = "SELECT te_node_address, id_so FROM patrimonio
+	                        WHERE te_node_address = '" . $te_node_address . "' AND id_so = '" . $arrSO['id_so'] . "'";
+	$result = mysql_query($query_verify);
+	
+        if(mysql_num_rows($result) <> 0) {
+	     $query = "UPDATE patrimonio 
+	                  SET id_unid_organizacional_nivel1a = '".
+	                      DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1a'],$v_cs_cipher,$v_cs_compress,$strPaddingKey). "'".
+	                         
+	                ", id_unid_organizacional_nivel2 = '".
+	                      DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel2'],$v_cs_cipher,$v_cs_compress,$strPaddingKey). "'".
+	                        
+	                ", te_localizacao_complementar = '".
+	                      DeCrypt($key,$iv,$_POST['te_localizacao_complementar']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."'".
+	                      
+	                ", te_info_patrimonio1 = '".DeCrypt($key,$iv,$_POST['te_info_patrimonio1'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)."'".
+	                ", te_info_patrimonio2 = '".DeCrypt($key,$iv,$_POST['te_info_patrimonio2'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)."'".
+	                ", te_info_patrimonio3 = '".DeCrypt($key,$iv,$_POST['te_info_patrimonio3'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)."'".
+	                ", te_info_patrimonio4 = '".DeCrypt($key,$iv,$_POST['te_info_patrimonio4'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)."'".
+	                ", te_info_patrimonio5 = '".DeCrypt($key,$iv,$_POST['te_info_patrimonio5'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)."'".
+	                ", te_info_patrimonio6 = '".DeCrypt($key,$iv,$_POST['te_info_patrimonio6'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)."'".
+	                  
+	              " WHERE te_node_address = '" . $te_node_address . "' AND id_so = '" . $arrSO['id_so'] . "'";
+	}
+        else {
+	     $query = "INSERT INTO patrimonio ( te_node_address, id_so, dt_hr_alteracao,
+	                                   id_unid_organizacional_nivel1a,
+	                                   id_unid_organizacional_nivel2,
+	                                   te_localizacao_complementar,
+	                                   te_info_patrimonio1,
+	                                   te_info_patrimonio2,
+	                                   te_info_patrimonio3,
+	                                   te_info_patrimonio4,
+	                                   te_info_patrimonio5,
+	                                   te_info_patrimonio6 )
+			 VALUES ( '" . $te_node_address . "', 
+			          '" . $arrSO['id_so'] . "', NOW(),
+			          '" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1a'],$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+			          '" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+			          '" . DeCrypt($key,$iv,$_POST['te_localizacao_complementar']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+			          '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio1']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+			          '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio2']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+			          '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio3']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+			          '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio4']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+			          '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio5']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+			          '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio6']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "')";
+	}
+			          
 	$result = mysql_query($query);
 	echo '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS>';
 	}

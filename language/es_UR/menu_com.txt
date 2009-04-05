@@ -1,7 +1,7 @@
 .<b>Página Principal<b>|principal.php|mainFrame
 .<b>Computadores</b>||mainFrame|imgs/config_gerais.gif
-..Consulta|relatorios/computadores.php|mainFrame||Consulta de informações de computadores
-..Navegacion|relatorios/navegacao.php|mainFrame||Navegação pelos computadores da rede
+..Consulta|relatorios/computadores.php|mainFrame||Consulta de informaciones de computadores
+..Navegacion|relatorios/navegacao.php|mainFrame||Navegacion por los computadores de la red
 .<b>Reportes</b>||mainFrame|imgs/config_gerais.gif
 ..Antivírus OfficeScan|relatorios/antivirus/index.php|mainFrame||
 ..Hardware|relatorios/hardware/index.php|mainFrame||
@@ -9,6 +9,6 @@
 ..Softwares Básicos|relatorios/software/index.php|mainFrame||
 .<b>Acceso</b>||mainFrame|imgs/config_gerais.gif
 ..Cambio de Clave|admin/usuarios/troca_senha.php|mainFrame||
-.<b>Projecto CACIC<b>|tribo/|new||Link de Acesso à Home Page do Projeto CACIC
-.<b>Comunidad CACIC<b>|http://www.softwarepublico.gov.br/spb/ver-comunidade?community_id=3585|new||Link de Acesso à Home Page da Comunidade CACIC
+.<b>Projecto CACIC<b>|tribo/|new||Link de Acceso a la Home Page del Projecto CACIC
+.<b>Comunidad CACIC<b>|http://www.softwarepublico.gov.br/spb/ver-comunidade?community_id=3585|new||Link de Acceso a la Home Page de la Comunidad CACIC
 

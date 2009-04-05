@@ -41,7 +41,7 @@ $result = mysql_query($query);
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Cadastro de Softwares</title>
+<title><?=$oTranslator->_('Cadastro de Softwares');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -50,17 +50,18 @@ $result = mysql_query($query);
 <form name="form1" method="post" action="">
 <table width="90%" border="0" align="center">
   <tr> 
-      <td class="cabecalho">Cadastro de Softwares</td>
+      <td class="cabecalho"><?=$oTranslator->_('Cadastro de Softwares');?></td>
   </tr>
   <tr> 
-      <td class="descricao">Neste m&oacute;dulo dever&atilde;o ser cadastrados 
-        os softwares avulsos, manipulados pelo sistema.</td>
+      <td class="descricao">
+        <?=$oTranslator->_('Neste modulo deverao ser cadastrados os softwares avulsos, manipulados pelo sistema');?>.
+      </td>
   </tr>
 </table>
 <br><table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
-          <input name="submit" type="submit" id="submit" value="Incluir Novo Software" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Novo Software');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
       </div></td>
   </tr>
   <tr> 
@@ -80,7 +81,7 @@ $result = mysql_query($query);
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap><div align="left"></div></td>
             <td align="center"  nowrap>&nbsp;</td>
-            <td nowrap class="cabecalho_tabela"><div align="left">Nome do Software</div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Nome do Software');?></div></td>
             <td nowrap >&nbsp;</td>
           </tr>
 		  <tr> 
@@ -91,8 +92,8 @@ $result = mysql_query($query);
 if(mysql_num_rows($result)==0) 
 	{
 	$msg = '<div align="center">
-			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhum software cadastrado
+			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">'.
+			$oTranslator->_('Nenhum software cadastrado').'
 			</font><br><br></div>';			
 	}
 else 
@@ -132,7 +133,7 @@ else
   	</tr>
   	<tr> 
     <td><div align="center">
-  	<input name="submit" type="submit" id="submit" value="Incluir Novo Software" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
+  	<input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Novo Software');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
   	</div></td>
   	</tr>
 	</table>

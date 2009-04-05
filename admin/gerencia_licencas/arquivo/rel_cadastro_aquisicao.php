@@ -119,7 +119,7 @@ echo '<br><br>';
 ?></p>
 <p></p>
 <p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-  <?=$oTranslator->_('Relatorio gerado pelo');?>
+  <?=$oTranslator->_('Gerado por');?> 
   <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
   <?=$oTranslator->_('desenvolvido por');?> Dataprev - Unidade Regional Esp&iacute;rito Santo

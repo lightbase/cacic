@@ -145,7 +145,7 @@ CREATE TABLE `componentes_estacoes_historico` (
   `te_node_address` varchar(17) NOT NULL,
   `id_so` int(11) NOT NULL,
   `cs_tipo_componente` varchar(100) NOT NULL,
-  `te_valor` varchar(200) NOT NULL,
+  `te_valor` varchar(3072) NOT NULL,
   `dt_alteracao` datetime NOT NULL,
   `cs_tipo_alteracao` varchar(3) NOT NULL,
   KEY `te_node_address` (`te_node_address`,`id_so`,`cs_tipo_componente`)

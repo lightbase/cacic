@@ -25,10 +25,11 @@ en_US     kciq_msg check_advise                                                 
 en_US     kciq_msg previous                                                                                   instaladorinfo                Back
 en_US     kciq_msg cfgfile_writeable                                                                          instaladorinfo                Could write <i><b>config.php</b></i> file?
 en_US     kciq_msg finish                                                                                     instaladorinfo                Finish
+en_US     kciq_msg inst end hist title                                                                        instaladorinfo                CACIC changelog history
 en_US     kciq_msg def_language                                                                               instaladorinfo                Language
 en_US     kciq_msg finish title                                                                               instaladorinfo                Start using CACIC!
-en_US     kciq_msg web_installer                                                                              instaladorinfo                CACIC Web Installer
 en_US     kciq_installertitle                                                                                 instaladorinfo                CACIC Web Installer
+en_US     kciq_msg web_installer                                                                              instaladorinfo                CACIC Web Installer
 en_US     kciq_msg advise_title                                                                               instaladorinfo                PHP/Apache flags
 en_US     kciq_installerintrotitle                                                                            instaladorinfo                Introdution
 en_US     kciq_msg license title                                                                              instaladorinfo                License
@@ -43,8 +44,12 @@ en_US     kciq_installerresources                                               
 en_US     kciq_msg requisitos                                                                                 instaladorinfo                Requiriment
 en_US     kciq_msg def_version                                                                                instaladorinfo                Version
 en_US     kciq_msg phpversion                                                                                 instaladorinfo                PHP version
+en_US     e mais...                                                                                           instaladorinfo                and more...
+en_US     kciq_msg inst end advise file                                                                       instaladorarquivo             inst_end_advise_file.html
+en_US     kciq_msg features file                                                                              instaladorarquivo             inst_end_features_file.html
+en_US     kciq_msg inst end hist file                                                                         instaladorarquivo             inst_end_hist_file.html
 en_US     kciq_installer_introdution                                                                          instaladorarquivo             introduction.html
 en_US     kciq_msg license en_read                                                                            instaladorinfo                read it in English
 en_US     kciq_msg license pt_read                                                                            instaladorinfo                read it in Portuguese
-en_US     kciq_mnt_lang traducao                                                                              Manutençãoinfo                Language
-en_US     kciq_mnt_tradutor                                                                                   Manutençãoinfo                CACIC Language translate
+en_US     kciq_mnt_lang traducao                                                                              manutencaoinfo                Language
+en_US     kciq_mnt_tradutor                                                                                   manutencaoinfo                CACIC Language translate

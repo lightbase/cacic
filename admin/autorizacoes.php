@@ -117,7 +117,7 @@ $linha = '<tr bgcolor="#e7e7e7">
   </tr>
 </table>
 <p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-<?=$oTranslator->_('Relatorio gerado pelo');?> 
+<?=$oTranslator->_('Gerado por');?>  
 <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor de Informa&ccedil;&otilde;es Computacionais
 </font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">

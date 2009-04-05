@@ -40,7 +40,7 @@ INSERT INTO `configuracoes_padrao`
              `te_enderecos_mac_invalidos`, `te_janelas_excecao`, `cs_abre_janela_patr`, `id_default_body_bgcolor`,
              `te_exibe_graficos`)
      VALUES 
-            ('N', 'S', 10, 'Nome da Organização - Tabela Configurações Padrão', 4, 0, '5a584f8a61b65baf', '10.71.0.121',
+            ('N', 'S', 10, 'Nombre de la Organizacion - Tabla de Configuraciones Padron', 4, 0, '5a584f8a61b65baf', '10.71.0.121',
              '10.71.0.121', '00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,\r\n00-53-45-00-00-00,00-50-56-C0-00-01,00-50-56-C0-00-08', 
              'openoffice.org, microsoft word, photoshop, hod, aor.exe, pc2003.exe, cpp.exe, sal.exe, sal.bat, girafa4.exe, dro.exe, plenus', 
              'N', '#EBEBEB', '[so][acessos][locais][acessos_locais]');
@@ -113,10 +113,10 @@ INSERT INTO `descricoes_colunas_computadores`
             ('te_modem_desc', 'Descripcion del modem', 'S'),
             ('te_mouse_desc', 'Descripcion del mouse', 'S'),
             ('te_node_address', 'Direccion MAC de la estacion', 'S'),
-            ('te_nomes_curtos_modulos', 'te_nomes_curtos_modulos', 'N'),
+            ('te_nomes_curtos_modulos', 'Nombres cortos de modulos', 'N'),
             ('te_nome_computador', 'Nombre de la computadora', 'S'),
             ('te_nome_host', 'Nombre de Host', 'S'),
-            ('te_origem_mac', 'te_origem_mac', 'N'),
+            ('te_origem_mac', 'Mac origen', 'N'),
             ('te_placa_mae_desc', 'Descripcion de la placa-m', 'S'),
             ('te_placa_mae_fabricante', 'Fabricante de la placa-m', 'S'),
             ('te_placa_rede_desc', 'Descripcion de la placa de red', 'S'),
@@ -160,7 +160,7 @@ INSERT INTO `patrimonio_config_interface`
              `te_plural_etiqueta`, `nm_campo_tab_patrimonio`, `in_destacar_duplicidade`)
      VALUES
             (1,'etiqueta1','Etiqueta 1','Entidad','','Seleccione una Entidad','Entidades','id_unid_organizacional_nivel1','N'),
-            (1, 'etiqueta1a', 'Etiqueta 1a', 'Linha de Negócio', 'S', 'Selecione a Linha de Negócio', 'Linhas de Negócio', 'id_unid_organizacional_nivel1a', 'N'),
+            (1, 'etiqueta1a', 'Etiqueta 1a', 'Linea de Negocio', 'S', 'Seleccione una Linea de Negocio', 'Lineas de Negocio', 'id_unid_organizacional_nivel1a', 'N'),
             (1,'etiqueta2','Etiqueta 2','Organo','','Seleccione un organo','organos','id_unid_organizacional_nivel2','N'),
             (1,'etiqueta3','Etiqueta 3','Seccion','','Informe una seccion donde está instalado el equipamiento.','Secciones','te_localizacao_complementar','N'),
             (1,'etiqueta4','Etiqueta 4','PIB de la CPU','S','Informe el número de PIB de la CPU','','te_info_patrimonio1','S'),
@@ -181,7 +181,7 @@ INSERT INTO `patrimonio_config_interface`
 INSERT INTO `so`
             (`id_so`, `te_desc_so`, `sg_so`, `te_so`)
      VALUES
-            (0, 'S.O. Desconhecido', 'Desc.', ''),
+            (0, 'S.O. Desconocido', 'Desc.', ''),
             (1, 'Windows 95', 'W95', '1.4.0'),
             (2, 'Windows 95 OSR2', 'W95OSR2', ''),
             (3, 'Windows 98', 'W98', '1.4.10'),

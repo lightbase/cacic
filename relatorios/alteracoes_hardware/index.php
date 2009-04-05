@@ -25,7 +25,9 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 $id_acao = 'cs_coleta_hardware';
-require_once('../../include/inicio_relatorios_inc.php'); 
+require_once('../../include/inicio_relatorios_inc.php');
+
+$historical_data_help = $oTranslator->_("Dados historicos obtidos de versoes anteriores a 2.4");
 ?>
  <script src="../../include/sniffer.js" type="text/javascript" language="javascript"></script>
  <script src="../../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
@@ -33,99 +35,24 @@ require_once('../../include/inicio_relatorios_inc.php');
 
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Relat&oacute;rio 
-      de Altera&ccedil;&atilde;o de Hardware</td>
+    <td class="cabecalho">
+      <?php echo $oTranslator->_('Relatorio de alteracao de hardware'); ?>
+    </td>
   </tr>
   <tr> 
-    <td class="descricao">Este relat&oacute;rio 
-      exibe as altera&ccedil;&otilde;es nas configura&ccedil;&otilde;es de hardware 
-      dos computadores das redes selecionadas. &Eacute; poss&iacute;vel selecionar 
-      os sistemas operacionais desejados e tamb&eacute;m determinar quais configura&ccedil;&otilde;es 
-      de hardware ser&atilde;o exibidas no relat&oacute;rio.</td>
-  </tr>
-  <tr> 
-    <td>
-				</td>
+    <td class="descricao">
+      <?php echo $oTranslator->_('Exibe as alteracoes nas configuracoes de hardware dos computadores.'); ?>
+    </td>
   </tr>
 </table>
-<form action="rel_alteracoes_hardware.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
+<form action="rel_alteracoes_hardware_02.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
   <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
     <tr>
-	<?
-	/*
-	 if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
-  		{
-	?>
-<td valign="top">
-	  <table width="100%" border="0" cellpadding="0" cellspacing="1">
-          <tr> 
-            <td>&nbsp;</td>
-          </tr>
-          <tr> 
-            <td class="label">Selecione os locais:</td>
-          </tr>
-          <tr> 
-            <td height="1" bgcolor="#333333"></td>
-          </tr>
-          <tr> 
-            <td height="1"><table border="0" cellpadding="0" cellspacing="0">
-                <tr> 
-                  <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left">Dispon&iacute;veis:</div></td>
-                  <td>&nbsp;&nbsp;</td>
-                  <td width="40">&nbsp;</td>
-                  <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela">Selecionados:</td>
-                  <td nowrap>&nbsp;&nbsp;</td>
-                </tr>
-                <tr> 
-                  <td>&nbsp;</td>
-                  <td> <div align="left"> 
-                      <select multiple name="list11[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <?
-                        $query = "SELECT 	id_local,
-											sg_local
-                                  FROM 		locais
-                                  ORDER BY	sg_local";
-                        $result = mysql_query($query) or die('Erro na consulta à tabela "locais".');
-                        while ($row = mysql_fetch_array($result)) 
-							{ 
-                            echo '<option value=' . $row['id_local'] . '>' . $row["sg_local"] . '</option>';
-                        	}
-						?>
-                      </select>
-                      </div></td>
-                  <td>&nbsp;</td>
-                  <td width="40"> <div align="center"> 
-                      <input type="button" value="   &gt;   " onClick="move(this.form.elements['list11[]'],this.form.elements['list12[]'])" name="B132">					  
-                      <br>
-                      <br>
-                      <input type="button" value="   &lt;   " onClick="move(this.form.elements['list12[]'],this.form.elements['list11[]'])" name="B232">					  
-                    </div></td>
-                  <td>&nbsp;</td>
-                  <td><select multiple name="list12[]" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                    </select></td>
-                  <td>&nbsp;</td>
-                </tr>
-              </table></td>
-          </tr>
-          <tr> 
-            <td class="descricao">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
-          </tr>
-        </table></td>
-    </tr>
-    <tr> 
-      <td valign="top">&nbsp;</td>
-    </tr>	 
-	<?
-	}
-	*/
-	?>
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1" align="center">
           <tr> 
-            <td class="label" colspan="2">Selecione o per&iacute;odo em que dever&aacute; 
-              ser realizada a consulta:</td>
+            <td class="label" colspan="2">
+              <?php echo $oTranslator->_('Selecione o periodo em que devera ser realizada a consulta:') ?>
+            </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333" colspan="2"></td>
@@ -139,7 +66,7 @@ require_once('../../include/inicio_relatorios_inc.php');
 		document.forms['forma'].date_input1.value = date + '/' + month + '/' + year;
 		}
   	calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
-	//-->
+	-->
 	</script> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
               &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>"> 
               <script type="text/javascript" language="JavaScript">
@@ -149,29 +76,50 @@ require_once('../../include/inicio_relatorios_inc.php');
 		document.forms['forma'].date_input2.value = date + '/' + month + '/' + year;
 		}
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
-	//-->
+	-->
 	</script> </td>
-            <td align="left" class="descricao">&nbsp;&nbsp;(formato: dd/mm/aaaa)</td>
+            <td align="left" class="descricao"><?php echo $oTranslator->_('formato:'); ?> dd/mm/aaaa</td>
+          </tr>
+          <tr> 
+            <td height="1" bgcolor="#333333" colspan="2"></td>
+          </tr>
+          <tr> 
+            <td>
+             <input type="checkbox" class="checkbox" name="historical_data" value="historical_data"
+                    onchange="toggleDetails('hardware_type');"
+                    title="<?=$historical_data_help;?>" />
+             <b title="<?=$historical_data_help;?>">
+                <?php echo $oTranslator->_('Mostrar também dados historicos?'); ?>
+             </b>
+            </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333" colspan="2"></td>
           </tr>
         </table>
-        
       </td>
     </tr>
     <tr> 
-      <td valign="top"> <p>&nbsp;</p></td>
-    </tr>
-    <tr> 
-      <td valign="top"><table width="90%" border="0" cellpadding="0" cellspacing="1">
+      <td valign="top">
+        <div id='hardware_type'  style="display: none;">
+        <table width="90%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label">Selecione 
-              as configura&ccedil;&otilde;es de hardware que deseja exibir:</td>
+            <td class="label">
+               <?php echo $oTranslator->_('Selecione os tipos de hardware a serem exibidos no relatorio.'); ?>
+            </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
           </tr>
+          <tr> 
+            <td>
+             <input type="checkbox" class="checkbox" name="historical_data_only" value="historical_data_only"
+                    title="<?=$historical_data_help;?>" />
+             <b title="<?=$historical_data_help;?>">
+                <?php echo $oTranslator->_('Mostrar somente dados historicos?'); ?>
+             </b>
+            </td>
+          </tr> 
           <tr> 
             <td height="1"><table border="0" cellpadding="0" cellspacing="0">
                 <tr> 
@@ -191,11 +139,16 @@ require_once('../../include/inicio_relatorios_inc.php');
 												te_desc_hardware
 								  	  FROM 		descricao_hardware 
 									  ORDER BY 	te_desc_hardware";
-						$result_hardwares_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware ou sua sessão expirou!');
+						$result_hardwares_selecionados = mysql_query($query) or 
+						                                 die('Ocorreu um erro durante a consulta à tabela descricao_hardware ou sua sessão expirou!');
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
-       while($campos_hardwares_selecionados=mysql_fetch_array($result_hardwares_selecionados)) 	{
-						   echo '<option value=", ' . $campos_hardwares_selecionados['nm_campo_tab_hardware'] . ' as &quot;' .  $campos_hardwares_selecionados['te_desc_hardware'] . '&quot;">' . $campos_hardwares_selecionados['te_desc_hardware']  . '</option>';
-						}  ?>
+                        while($campos_hardwares_selecionados=mysql_fetch_array($result_hardwares_selecionados)) {
+						   echo '<option value=", ' . $campos_hardwares_selecionados['nm_campo_tab_hardware'] . 
+                                          ' as &quot;' .  $campos_hardwares_selecionados['te_desc_hardware'] . 
+                                          '&quot;">' . $campos_hardwares_selecionados['te_desc_hardware']  .
+                                '</option>\n';
+						}
+						?>
                       </select>
                       </div></td>
                   <td>&nbsp;</td>
@@ -216,7 +169,9 @@ require_once('../../include/inicio_relatorios_inc.php');
                     </select></td>
                   <td>&nbsp;</td>
                 </tr>
-              </table></td>
+              </table>
+              </div>
+            </td>
           </tr>
           <tr> 
             <td class="descricao">&nbsp;&nbsp;&nbsp;(Dica: 
@@ -224,65 +179,6 @@ require_once('../../include/inicio_relatorios_inc.php');
           </tr>
         </table></td>
     </tr>
-    <tr> 
-      <td valign="top">&nbsp;</td>
-    </tr>
-    <tr> 
-      <td valign="top"> <p>&nbsp;</p></td>
-    </tr>
-<?	
-/*	
-    <tr> 
-      <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
-          <tr> 
-            <td class="label">Selecione 
-              as configura&ccedil;&otilde;es de hardware para estat&iacute;sticas:</td>
-          </tr>
-          <tr> 
-            <td height="1" bgcolor="#333333"></td>
-          </tr>
-          <tr> 
-            <td height="1"><table border="0" cellpadding="0" cellspacing="0">
-                <tr> 
-                  <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left">Dispon&iacute;veis:</div></td>
-                  <td>&nbsp;&nbsp;</td>
-                  <td width="40">&nbsp;</td>
-                  <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela">Selecionados:</td>
-                  <td nowrap>&nbsp;&nbsp;</td>
-                </tr>
-                <tr> 
-                  <td>&nbsp;</td>
-                  <td> <div align="left"> 
-                      <select multiple name="list7[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-					  </select>
-                      </div></td>
-                  <td>&nbsp;</td>
-                  <td width="40"> <div align="center"> 
-                      <input type="button" value="   &gt;   " onClick="move(this.form.elements['list7[]'],this.form.elements['list8[]'])" name="B132">
-                      <br>
-                      <br>
-                      <input type="button" value="   &lt;   " onClick="move(this.form.elements['list8[]'],this.form.elements['list7[]'])" name="B232">
-                    </div></td>
-                  <td>&nbsp;</td>
-                  <td><select multiple name="list8[]" size="10">
-                    </select></td>
-                  <td>&nbsp;</td>
-                </tr>
-              </table></td>
-          </tr>
-          <tr> 
-            <td class="descricao">&nbsp;&nbsp;&nbsp;(Dica: 
-              use SHIFT ou CTRL para selecionar m&uacute;ltiplos itens)</td>
-          </tr>
-        </table></td>
-    </tr>
-    <tr> 
-      <td valign="top">&nbsp;</td>
-    </tr>
-	*/
-	?>	
     <tr> 
       <td valign="top"> 
         <?  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
@@ -292,29 +188,18 @@ require_once('../../include/inicio_relatorios_inc.php');
       </td>
     </tr>
     <tr> 
-      <td valign="top">&nbsp;</td>
-    </tr>
-    <tr> 
       <td valign="top"> 
         <?  require_once('../../include/selecao_so_inc.php');		?>
       </td>
     </tr>
     <tr> 
-      <td valign="top">&nbsp;</td>
-    </tr>
-    <tr> 
-      <td valign="top"> <br> <br> <table width="100%" border="0" cellpadding="0" cellspacing="1">
+      <td valign="top">
+        <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
             <td height="1" bgcolor="#333333"></td>
           </tr>
           <tr> 
-            <td>&nbsp;</td>
-          </tr>
-          <tr> 
             <td> <div align="center"> 
-				<?
-                //<input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['list8[]'])">
-				?>
                 <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
 																										 SelectAll(this.form.elements['list4[]']), 
 																										 SelectAll(this.form.elements['list6[]'])">				
@@ -323,7 +208,8 @@ require_once('../../include/inicio_relatorios_inc.php');
           <tr> 
             <td>&nbsp;</td>
           </tr>
-        </table></td>
+        </table>
+      </td>
     </tr>
   </table>
 </form>

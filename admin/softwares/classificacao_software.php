@@ -68,7 +68,7 @@
 		  $query 	= "	SELECT  *
 		  				FROM	tipos_software
 						ORDER BY	te_descricao_tipo_software";
-		  $result 	= mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela tipos_software ou sua sessão expirou!');		  
+		  $result 	= mysql_query($query) or die($oTranslator->_('Ocorreu um erro durante a consulta a tabela tipos_software ou sua sessao expirou!'));		  
 		  while ($row = mysql_fetch_array($result))
 		  	{
 			?>

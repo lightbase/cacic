@@ -73,8 +73,7 @@ $query = 'SELECT   computadores.te_node_address,
                    computadores.te_ip AS "'.$oTranslator->_('IP') .'",
                    computadores.dt_hr_ult_acesso AS "'.$oTranslator->_('Ultimo acesso') .'",
                    locais.sg_local AS "'.$oTranslator->_('Local') .'",
-                   computadores.te_versao_cacic AS "'.$oTranslator->_('Versao do agente principal') .'"
-          FROM     computadores
+                   computadores.te_versao_cacic AS "'.$oTranslator->_('Agente principal') .'",                   computadores.te_versao_cacic AS "'.$oTranslator->_('Gerente de coletas') .'"          FROM     computadores
                    LEFT JOIN so ON ( computadores.id_so = so.id_so )
                    LEFT JOIN redes ON ( computadores.id_ip_rede = redes.id_ip_rede )
                    LEFT JOIN locais ON ( redes.id_local=locais.id_local )

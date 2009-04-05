@@ -752,3 +752,45 @@ pt_BR     verificacao-atualizacao dos servidores de updates help                
 
 pt_BR     verificacao/atualizacao dos servidores de updates                                                   geral     info                Verificacao/Atualizacao dos Servidores de Updates
 pt_BR     localizacao ou nome da subrede                                                                      geral     info                Localizacao ou nome da SubRede
+pt_BR     agente principal                                                                                    relatoriosinfo                Agente principal
+pt_BR     gerente de coletas                                                                                  relatoriosinfo                Gerente de coletas
+pt_BR     relatorio de maquinas com nome repetido                                                             relatoriosinfo                Relatorio de Maquinas com Nome Repetido
+pt_BR     registros                                                                                           relatoriosinfo                Registros
+pt_BR     clique sobre o nome da maquina para ver os detalhes                                                 relatoriosinfo                Clique sobre o nome da maquina para ver os detalhes
+pt_BR     relatorio de maquinas com inventario em branco                                                      relatoriosinfo                Relatorio de Maquinas com Inventario em Branco
+pt_BR     cpu                                                                                                 relatoriosinfo                CPU
+pt_BR     remover computador                                                                                  relatoriosinfo                Remover computador
+pt_BR     versao do gerente de coletas                                                                        relatoriosinfo                Versao do gerente de coletas
+pt_BR     relatorio de maquinas com inventario desatualizado                                                  relatoriosinfo                Relatorio de Maquinas com Inventario Desatualizado
+pt_BR     relatorios                                                                                          geral     TagHeader           Relatórios
+pt_BR     kciq_msg mail verify                                                                                instaladorinfo                kciq_msg mail verify
+pt_BR     kciq_msg mail host help                                                                             instaladorinfo                kciq_msg mail host help
+pt_BR     kciq_msg mail port help                                                                             instaladorinfo                kciq_msg mail port help
+pt_BR     kciq_msg mail subdir                                                                                instaladorinfo                kciq_msg mail subdir
+pt_BR     kciq_msg mail subdir help                                                                           instaladorinfo                kciq_msg mail subdir help
+pt_BR     kciq_msg mail user help                                                                             instaladorinfo                kciq_msg mail user help
+pt_BR     kciq_msg mail password help                                                                         instaladorinfo                kciq_msg mail password help
+pt_BR     e mais...                                                                                           instaladorinfo                e mais...
+pt_BR     kciq_msg phpemail_help                                                                              instaladorinfo                kciq_msg phpemail_help
+pt_BR     exclusao de softwares nao associados a nenhuma maquina                                              admin     info                Exclusao de softwares nao associados a nenhuma maquina
+pt_BR     exibe os softwares inventariados nos computadores que nao estao associados a nenhuma maquina.       admin     info                Exibe os softwares inventariados nos computadores que nao estao associados a nenhuma maquina.
+pt_BR     selecione os softwares que deseja remover:                                                          admin     info                Selecione os softwares que deseja remover:
+pt_BR     (softwares nao classificados e softwares lixo)                                                      admin     info                (Softwares nao classificados e softwares lixo)
+pt_BR     nao instalados:                                                                                     admin     info                Nao instalados:
+pt_BR     remover softwares da base de dados                                                                  admin     info                Remover Softwares da Base de Dados
+pt_BR     ocorreu um erro durante a consulta a tabela tipos_software ou sua sessao expirou!                   admin     info                Ocorreu um erro durante a consulta a tabela tipos_software ou sua sessao expirou!
+pt_BR     neste modulo deverao ser cadastrados os softwares avulsos, manipulados pelo sistema                 admin     info                Neste modulo deverao ser cadastrados os softwares avulsos, manipulados pelo sistema
+pt_BR     incluir novo software                                                                               admin     info                Incluir Novo Software
+pt_BR     nome do software                                                                                    admin     info                Nome do Software
+pt_BR     nenhum software cadastrado                                                                          admin     info                Nenhum software cadastrado
+pt_BR     exclusao de softwares                                                                               admin     info                Exclusao de Softwares
+pt_BR     selecione pelo menos um software                                                                    admin     info                Selecione pelo menos um software
+pt_BR     software(s) deletado(s) com sucesso da base de dados.                                               admin     info                Software(s) deletado(s) com sucesso da base de dados.
+pt_BR     manutencao de redes/subredes                                                                        admin     info                Manutencao de redes/subredes
+pt_BR     importante:                                                                                         admin     info                Importante:
+pt_BR     a inclusao de %1 e restrita ao nivel administrativo.                                                admin     info                A inclusao de %1 e restrita ao nivel administrativo.
+pt_BR     falha em inclusao na tabela (%1) ou sua sessao expirou!                                             admin     info                Falha em inclusao na tabela (%1) ou sua sessao expirou!
+pt_BR     detalhes de perfil de sistema monitorado                                                            admin     info                Detalhes de Perfil de Sistema Monitorado
+pt_BR     verificacao ativa?                                                                                  admin     info                Verificacao Ativa?
+pt_BR     nome do sistema:                                                                                    admin     info                Nome do sistema:
+pt_BR     eh um sistema operacional?                                                                          admin     info                Eh um Sistema Operacional?

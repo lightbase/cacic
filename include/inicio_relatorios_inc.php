@@ -30,6 +30,7 @@ conecta_bd_cacic();
 <link rel="stylesheet"   type="text/css" href="<?=CACIC_URL?>/include/cacic.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/javascript" src="<?=CACIC_URL?>/include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="<?=CACIC_URL?>/bibliotecas/javascript/asv/asvUtils.js"></script>
 <?
 // JavaScripts para fazer a selecao entre os listbox, movendo itens entre eles.
 require_once(CACIC_PATH.'/include/selecao_listbox.js');

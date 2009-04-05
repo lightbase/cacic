@@ -50,13 +50,20 @@ elseif ($_POST['GravaAlteracoes']<>'')
 			  WHERE 	id_local = ".$_POST['frm_id_local'];
 
 	mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('locais')));
+	$query = "UPDATE 	configuracoes_locais 
+			  SET 		te_senha_adm_agente = '".$_POST['frm_te_senha_adm_agente']."' 
+			  WHERE 	id_local = ".$_POST['frm_id_local'];
+
+	mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('configuracoes_locais')));
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'locais');		
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/locais/index.php&tempo=1");				
 	}
 else 
 	{
 	$query = "SELECT 	* 
-			  FROM 		locais ";
+			  FROM 		locais 
+			  LEFT JOIN configuracoes_locais ON (configuracoes_locais.id_local=locais.id_local)
+			  ";
 	$result = mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('locais')));
 	
 	$v_arr_locais = array();
@@ -66,6 +73,7 @@ else
 			{
 			$v_sg_local = $row['sg_local'];
 			$v_nm_local = $row['nm_local'];
+			$v_te_senha_adm_agente = $row['te_senha_adm_agente'];
 			$v_te_observacao = $row['te_observacao'];
 			}
 		else
@@ -148,6 +156,20 @@ function valida_form()
     <tr> 
       <td nowrap>&nbsp;</td>
       <td nowrap><input name="frm_nm_local" type="text" id="frm_nm_local" value="<? echo $v_nm_local; ?>" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td>&nbsp;</td>
+      <td class="label"><br>
+        <?=$oTranslator->_('Senha para admnistrar o agente');?></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td height="1" bgcolor="#333333" colspan="3"></td>
+    </tr>
+    <tr> 
+      <td nowrap>&nbsp;</td>
+      <td nowrap><input name="frm_te_senha_adm_agente" type="text" id="frm_te_senha_adm_agente" value="<? echo $v_te_senha_adm_agente; ?>" size="30" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 

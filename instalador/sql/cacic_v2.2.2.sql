@@ -21,7 +21,7 @@ CREATE TABLE componentes_estacoes_historico (
     te_node_address varchar(17) NOT NULL DEFAULT '' COMMENT '',
     id_so int(11) NOT NULL COMMENT '',
     cs_tipo_componente varchar(100) NOT NULL DEFAULT '' COMMENT '',
-    te_valor varchar(200) NOT NULL DEFAULT '' COMMENT '',
+    te_valor text NOT NULL DEFAULT '' COMMENT '',
     dt_alteracao datetime NOT NULL COMMENT '',
     cs_tipo_alteracao varchar(3) NOT NULL DEFAULT '' COMMENT '',
     INDEX te_node_address (te_node_address, id_so, cs_tipo_componente)
@@ -235,4 +235,17 @@ INSERT INTO `descricoes_colunas_computadores`
             VALUES
              ('te_cpu_frequencia','Frequência da CPU','S');
 
+--
+-- Update SO identication
+--
+UPDATE so SET te_so='1.4.0' WHERE id_so=1;
+UPDATE so SET te_so='1.4.0.B' WHERE id_so=2;
+UPDATE so SET te_so='1.4.10' WHERE id_so=3;
+UPDATE so SET te_so='1.4.10.A' WHERE id_so=4;
+UPDATE so SET te_so='1.4.90' WHERE id_so=5;
+UPDATE so SET te_so='2.5.0.3.272', te_desc_so='Windows 2000 Sever' WHERE id_so=7;
+UPDATE so SET te_so='2.5.1.1.256', te_desc_so='Windows XP Professional' WHERE id_so=8;
+UPDATE so SET te_so='2.5.2.3.274', te_desc_so='Windows Enterprise' WHERE id_so=13;
+
 SET FOREIGN_KEY_CHECKS = 1;
+

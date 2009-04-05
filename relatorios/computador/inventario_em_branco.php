@@ -10,12 +10,15 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 
 //Mostrar computadores com nomes repetidos na base
 require_once('../../include/library.php');
+
+$titulo = $oTranslator->_('Relatorio de Maquinas com Inventario em Branco');
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Relat&oacute;rio de Softwares Inventariados por M&aacute;quinas</title>
+<title><?php echo $titulo;?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -24,7 +27,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
-<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
+<link href="<?=CACIC_URL?>/include/cacic.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
@@ -35,15 +38,19 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC 
-      - Relat&oacute;rio de M&aacute;quinas com Invent&aacute;rio em Branco</strong></font></td>
+    <td nowrap bgcolor="#FFFFFF">
+       <font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+         <strong><?php echo $titulo;?></strong>
+       </font>
+    </td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+       <?php echo $oTranslator->_('Gerado em') . ' ' . date("d/m/Y - H:i"); ?></font></p>
+    </td>
   </tr>
 </table>
 <br>
@@ -58,13 +65,18 @@ $linha = '<tr bgcolor="#e7e7e7">
          </tr>';
 ?>
 <?
-	 $query = "SELECT a.te_nome_computador as nm_maquina, a.te_node_address, a.id_so, a.te_ip, a.dt_hr_ult_acesso, te_cpu_desc  
+	 $query = "SELECT a.te_nome_computador as nm_maquina, 
+                          a.te_node_address, 
+                          a.id_so, a.te_ip, 
+                          a.dt_hr_ult_acesso, 
+                          te_cpu_desc,
+                          a.te_versao_cacic  
 		FROM computadores a 
 		WHERE (a.te_node_address NOT IN
 			(SELECT DISTINCT te_node_address 
 			 FROM softwares_inventariados_estacoes))
 		ORDER BY a.dt_hr_ult_acesso, te_cpu_desc, a.te_nome_computador"; 
-	$result = mysql_query($query) or die('Erro no acesso à tabela "computadores" ou sua sessão expirou!');
+	$result = mysql_query($query) or die($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('computadores')));
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
@@ -79,14 +91,15 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td class="cabecalho_tabela" align="center"  nowrap>&nbsp;&nbsp;</td>
           <td class="cabecalho_tabela" align="center"  nowrap><div align="left"></div></td>
           <td class="cabecalho_tabela" align="center"  nowrap>&nbsp;&nbsp;</td>
-          <td class="cabecalho_tabela" align="center"  nowrap bgcolor="#E1E1E1"><div align="center">Nome
-              da M&aacute;quina</div></td>
+          <td class="cabecalho_tabela" align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><?=$oTranslator->_('Nome da Maquina');?></div></td>
           <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
-	  <td class="cabecalho_tabela" nowrap ><div align="center">IP</div></td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center"><?=$oTranslator->_('Endereco IP');?></div></td>
 	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
-	  <td class="cabecalho_tabela" nowrap ><div align="center">&Uacute;ltima Coleta</div></td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center"><?=$oTranslator->_('Ultima Coleta');?></div></td>
 	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
-	  <td class="cabecalho_tabela" nowrap ><div align="center">CPU</div></td>
+  	  <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Versao do agente principal');?></div></td>
+  	  <td nowrap class="cabecalho_tabela" >&nbsp;&nbsp;</td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center"><?=$oTranslator->_('CPU');?></div></td>
 	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
 
         </tr>
@@ -107,6 +120,8 @@ $linha = '<tr bgcolor="#e7e7e7">
 	  	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
 	  	  <td class="dado_med_sem_fundo" align="center" nowrap><? echo date("d/m/Y H:i", strtotime($row['dt_hr_ult_acesso'])); ?></td>
 	  	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
+	  	  <td class="dado_med_sem_fundo" align="center" wrap><? echo $row['te_versao_cacic']; ?></td>
+	  	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
 	  	  <td class="dado_med_sem_fundo" align="center" wrap><? echo $row['te_cpu_desc']; ?></td>
 	  	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
           <? 
@@ -120,12 +135,15 @@ $linha = '<tr bgcolor="#e7e7e7">
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td height="10"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Clique 
-      sobre o nome da m&aacute;quina para ver os detalhes</font> </td>
+    <td height="10">
+       <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+         <?=$oTranslator->_('Clique sobre o nome da maquina para ver os detalhes');?>
+       </font>
+    </td>
   </tr>
 </table>
-<p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+<p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+   <?=$oTranslator->_('Gerado por');?> - <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>	

@@ -40,48 +40,9 @@ if($_POST['submit'])
  	$_SESSION["data_fim"] = $v_data_fim;
 	}
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>Relat&oacute;rio de Altera&ccedil;&otilde;es de Hardware</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language="JavaScript" type="text/JavaScript">
-<!--
-function MM_openBrWindow(theURL,winName,features) 
-	{
-  	window.open(theURL,winName,features); //v2.0
-	}
-//-->
-</script>
-</head>
-
-<body bgcolor="#FFFFFF" topmargin="5">
-<table border="0" align="left" cellpadding="0" cellspacing="0" bordercolor="#999999">
-  <tr bgcolor="#E1E1E1"> 
-    <td rowspan="5" bgcolor="#FFFFFF"><img src="../../imgs/cacic_logo.png" width="50" height="50"></td>
-    <td rowspan="5" bgcolor="#FFFFFF">&nbsp;</td>
-    <td bgcolor="#FFFFFF">&nbsp;</td>
-  </tr>
-  <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><div align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC 
-        - Relat&oacute;rio de Altera&ccedil;&otilde;es de Hardware</strong></font></div></td>
-  </tr>
-  <tr> 
-    <td height="1" bgcolor="#333333"></td>
-  </tr>
-  <tr> 
-    <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
-  </tr>
-</table>
-<br>
-<br>
-<br>
-<br>
 <? 
 require_once('../../include/library.php');
 AntiSpy();
-conecta_bd_cacic();
 
 $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
@@ -109,6 +70,9 @@ else
 	$select = ' ,sg_local as Local ';	
 	$from = ' ,redes,locais ';			
 	}
+
+// houve impressao de dados historicos
+$obteve_dados = true;
 
 // Aqui pego todos os SO selecionados
 $so_selecionados = "'" . $_SESSION["list4"][0] . "'";
@@ -146,7 +110,7 @@ else
 							comp.id_so = hist.id_so ".
 							$query_redes. " 
 			  ORDER BY 		$orderby ";
-//echo $query . '<br>';
+
 	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 
 
@@ -154,12 +118,16 @@ $cor = 0;
 $num_registro = 1;
 
 $fields=mysql_num_fields($result);
-echo '<table align="center" cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
-     <tr bgcolor="#E1E1E1" >
+
+echo '<br><br>';
+echo '<table align="center" cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">' .
+        "<tr><th colspan=200>".$oTranslator->_('Dados historicos')."</th></tr>".      
+		'<tr bgcolor="#E1E1E1" >
       <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
 
-for ($i=2; $i < $fields; $i++) //Table Header
-   	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '">'. mysql_field_name($result, $i) .'</a></font><b></td>';
+echo '<td nowrap align="left"><b><font size="1" face="Verdana, Arial">Computador</font><b></td>';
+for ($i=3; $i < $fields; $i++) //Table Header
+   	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial">'. mysql_field_name($result, $i) .'</font><b></td>';
 
 echo '</tr>';
 
@@ -170,7 +138,7 @@ while ($row = mysql_fetch_row($result)) //Table body
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>';
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[2] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[2] ."&id_so=". $row[1] ."' target='_blank'>" . $row[0] ."</a>&nbsp;</td>"; 
     for ($i=3; $i < $fields; $i++) 
 		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
 
@@ -189,12 +157,5 @@ if (count($_SESSION["list8"])>0)
 	require_once('../../include/tabela_estatisticas.php');
 	}
 
-?></p>
-<p></p>
-<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
-  de Informa&ccedil;&otilde;es Computacionais</font><br>
-  <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
-  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
-</body>
-</html>
+?>
+</p>

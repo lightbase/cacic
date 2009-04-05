@@ -16,6 +16,9 @@ UPDATE descricoes_colunas_computadores
     SET nm_campo='te_cpu_frequencia' 
     WHERE nm_campo='te_cpu_freq';
 
+ALTER TABLE componentes_estacoes_historico
+    MODIFY te_valor text;
+
 -- ---------------------------------------------------------------------------------------------
 -- Estrutura da tabela `srcacic_sessoes`
 -- Armazenamento de sessoes de Suporte Remoto Seguro

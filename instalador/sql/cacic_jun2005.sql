@@ -47,7 +47,7 @@ CREATE TABLE componentes_estacoes_historico (
     te_node_address varchar(17) NOT NULL DEFAULT '' COMMENT '',
     id_so int(11) NOT NULL COMMENT '',
     cs_tipo_componente varchar(100) NOT NULL DEFAULT '' COMMENT '',
-    te_valor varchar(200) NOT NULL DEFAULT '' COMMENT '',
+    te_valor text NOT NULL DEFAULT '' COMMENT '',
     dt_alteracao datetime NOT NULL COMMENT '',
     cs_tipo_alteracao varchar(3) NOT NULL DEFAULT '' COMMENT '',
     INDEX te_node_address (te_node_address, id_so, cs_tipo_componente)

@@ -34,19 +34,19 @@ if ($_POST['ExcluiAplicativo'])
 	$query = "DELETE 
 			  FROM 		perfis_aplicativos_monitorados 
 			  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
-	mysql_query($query) or die('1-Delete PERFIS_APLICATIVOS_MONITORADOS falhou ou sua sessão expirou!');
+	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');			
 	
 	$query = "DELETE 
 			  FROM 		aplicativos_monitorados 
 			  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
-	mysql_query($query) or die('2-Delete APLICATIVOS_MONITORADOS falhou ou sua sessão expirou!');
+	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('aplicativos_monitorados')));
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'aplicativos_monitorados');			
 
 	$query = "DELETE
 			  FROM		aplicativos_redes
 			  WHERE		id_aplicativo = ".$_POST['id_aplicativo'];
-	$result = mysql_query($query) or die ('3-Delete falhou ou sua sessão expirou!');				
+	$result = mysql_query($query) or die ($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('aplicativos_redes')));				
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');			
 		
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/perfis_aplicativos_monitorados/index.php&tempo=1");									 		
@@ -87,19 +87,10 @@ elseif ($_POST['GravaAlteracoes'])
 				  			in_disponibiliza_info_usuario_comum = '$frm_in_disponibiliza_info_usuario_comum'			    			  			  
 				  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
 
-		mysql_query($query) or die('4-Update falhou ou sua sessão expirou!');
+		mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));
 		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');		
 		}
 
-/*
-if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-	{
-	foreach($HTTP_POST_VARS as $i => $v) 
-		{
-		echo 'i: '.$i.' v: '.$v.'<br>';
-		}	
-	}
-*/
 	$strDeleteAplicativosRedes_Locais = '';
 	$strDeleteAplicativosRedes_Redes  = '';		
 	if ($_POST['list1'])
@@ -120,9 +111,7 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 				  WHERE		id_aplicativo = ".$_POST['id_aplicativo']." AND 
 				  			id_local in (".$strDeleteAplicativosRedes_Locais.") AND
   							id_ip_rede in (".$strDeleteAplicativosRedes_Redes.")";			
-//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-//		echo $query . '<br>';
-		$result = mysql_query($query) or die ('5-Delete falhou ou sua sessão expirou!');											
+		$result = mysql_query($query) or die ($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('aplicativos_redes')));											
 		}
 		
 	if ($_POST['list2'])
@@ -147,17 +136,13 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 				  WHERE		id_aplicativo = ".$_POST['id_aplicativo'].
 		$strDeleteAplicativosRedes;
 		
-//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-//		echo $query . '<br>';
-		$result = mysql_query($query) or die ('5.1-Delete falhou ou sua sessão expirou!');								  
+		$result = mysql_query($query) or die ($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('aplicativos_redes')));								  
 			
 		$query = "INSERT 
 				  INTO 		aplicativos_redes(id_local,id_ip_rede,id_aplicativo)
 				  VALUES 	".$strInsertAplicativosRedes;
-//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-//		echo $query . '<br>';
 				  
-		$result = mysql_query($query) or die ('6-Insert falhou ou sua sessão expirou!');								  
+		$result = mysql_query($query) or die ($oTranslator->_('Falha em inclusao na tabela (%1) ou sua sessao expirou!',array('aplicativos_redes')));								  
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');				
 		}
 	
@@ -169,7 +154,7 @@ else
 	$query = "SELECT 	* 
 			  FROM 		perfis_aplicativos_monitorados 
 			  WHERE 	id_aplicativo = ".$_GET['id_aplicativo'];
-	$result = mysql_query($query) or die ('7-Select falhou ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Falha na consulta a tabela (%1) ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));
 	$row = mysql_fetch_array($result);
 ?>
 
@@ -211,7 +196,8 @@ function valida_form() {
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
 	<tr> 
-    	<td class="cabecalho">Detalhes de Perfil de Sistema Monitorado
+    	<td class="cabecalho">
+    	  <?=$oTranslator->_('Detalhes de Perfil de Sistema Monitorado');?>
 		</td>
 	</tr>
   	<tr> 
@@ -230,17 +216,17 @@ function valida_form() {
 <div align="center"><br>
         <table width="90%" border="0" align="center">
           <tr> 
-            <td nowrap class="label">Verifica&ccedil;&atilde;o Ativa?: 
+            <td nowrap class="label"><?=$oTranslator->_('Verificacao Ativa?');?> 
               <select name="frm_in_ativa" id="select16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?> >
-                <option value="N" <? if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) echo " selected ";?>>Não</option>
-                <option value="S" <? if (strpos($row['nm_aplicativo'], "#DESATIVADO#")==0) echo " selected ";?>>Sim</option>
+                <option value="N" <? if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) echo " selected ";?>><?=$oTranslator->_('Nao');?></option>
+                <option value="S" <? if (strpos($row['nm_aplicativo'], "#DESATIVADO#")==0) echo " selected ";?>><?=$oTranslator->_('Sim');?></option>
               </select></td>
           </tr>
           <tr> 
             <td nowrap class="label">&nbsp;</td>
           </tr>
           <tr> 
-            <td nowrap class="label">Nome do sistema:<br> 
+            <td nowrap class="label"><?=$oTranslator->_('Nome do sistema:');?><br> 
               <? $v_nm_aplicativo = $row['nm_aplicativo']; 
 			if (strpos($v_nm_aplicativo, "#DESATIVADO#")>0) 
 					{
@@ -254,7 +240,7 @@ function valida_form() {
             <td nowrap class="label">&nbsp;</td>
           </tr>
           <tr> 
-            <td width="58%" nowrap class="label">&Eacute; um Sistema Operacional? 
+            <td width="58%" nowrap class="label"><?=$oTranslator->_('Eh um Sistema Operacional?');?> 
               Qual?<br> <select name="frm_id_so" id="select13" onChange="SetaNomeSistema();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"<? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?> >
                 <option value="0"></option>
                 <?

@@ -73,16 +73,13 @@ if ($_POST['submit_cond'])
 								a.dt_hr_inclusao,								
 								b.sg_so,
 								d.sg_local						 
-						FROM	computadores a,
-								so b,
-								redes c,
-								locais d   
-						WHERE   '.stripslashes($query_sele_exclui).' AND 
-								a.id_so = b.id_so AND 
-								a.id_ip_rede = c.id_ip_rede AND 
-								c.id_local = d.id_local '.
-								$where . ' 
+						FROM	computadores a
+						LEFT JOIN so b ON (a.id_so = b.id_so)
+						LEFT JOIN redes c ON (a.id_ip_rede = c.id_ip_rede)
+						LEFT JOIN locais d ON (c.id_local = d.id_local)
+						WHERE   '.stripslashes($query_sele_exclui).' '.$where . ' 
 						ORDER 	by a.te_nome_computador';
+
 
 	$Query_Pesquisa = 'SELECT 	computadores.id_so,
 								computadores.te_node_address,

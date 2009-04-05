@@ -54,7 +54,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /**
  * define a versão do CACIC
  */
- define( 'CACIC_VERSION', '2.x.0-(trunk)');
+ define( 'CACIC_VERSION', '2.5.x-(trunk)');
 
 /**
  * define as versões atualizaveis do CACIC
@@ -64,7 +64,9 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  */
  $cacic_updateFromVersion = array( 'JUN2005'=>'junho de 2005',
                                    'FEV2006'=>'fevereiro de 2006',
-                                   'v2.2.2'=>'Versão 2.2.2'
+                                   'v2.2.2'=>'Versão 2.2.2',
+                                   'v2.4.0-rc1'=>'Versão v2.4.0-RC1',
+                                   'v2.4.0-rc2'=>'Versão v2.4.0-RC2'
                                  );
 
 /**
@@ -204,8 +206,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /*
  * atribui os caminhos de inclusão para a aplicação 
  */
- ini_set("include_path", ini_get("include_path").CACIC_PS.
-                         CACIC_PATH.CACIC_DS."bibliotecas".CACIC_DS
+ ini_set("include_path", ini_get("include_path").CACIC_PS.CACIC_PATH.
+                         CACIC_PS.CACIC_PATH.CACIC_DS."bibliotecas".CACIC_DS
          );
 
 /*

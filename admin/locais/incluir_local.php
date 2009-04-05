@@ -74,12 +74,14 @@ if($_POST['submit']<>'')
 							te_enderecos_mac_invalidos,
 							te_serv_updates_padrao,
 							te_serv_cacic_padrao,
+							te_senha_adm_agente,
 							id_default_body_bgcolor,
 							te_exibe_graficos) 
 				  VALUES 	(".$row_max_id_local['max_id_local'].",'".
 				  			$row_padrao['te_enderecos_mac_invalidos']."','".
 							$row_padrao['te_serv_updates_padrao']."','".
 							$row_padrao['te_serv_cacic_padrao']."','".
+							$row_padrao['te_senha_adm_agente']."','".
 							$row_padrao['id_default_body_bgcolor']."','".
 							$row_padrao['te_exibe_graficos']."')";
 								

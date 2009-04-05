@@ -132,7 +132,7 @@ $query = 'SELECT 	concat(computadores.te_node_address, DATE_FORMAT( max(patrimon
 		  WHERE 	patrimonio.te_node_address = computadores.te_node_address '.
 		  			$query_redes . ' 
 		  GROUP  BY computadores.te_node_address';
-$result = mysql_query($query) or die('Erro no select (1) ou sua sessão expirou!');
+$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('patrimonio')));
 
 $where = '';
 while ($row = @mysql_fetch_array($result)) 
@@ -245,10 +245,10 @@ $query = " SELECT 	DISTINCT computadores.te_node_address,
    					$where . 
 					" AND computadores.id_so IN (". $so_selecionados .") ". $criterios . $query_redes .	$where_uon1 . $where_uon2 . " 
 		   ORDER BY " . $orderby;
-$result = mysql_query($query) or die('Não Existem Registros para os Parâmetros de Consulta Fornecidos ou sua sessão expirou!');
+$result = mysql_query($query) or die($oTranslator->_('Registros nao encontrados na tabela %1 ou sua sessao expirou!',array('unid_organizacional_nivel1')));
 
 if (mysql_num_rows($result)==0)
-	die('Não Existem Registros para os Parâmetros de Consulta Fornecidos.');	
+	die($oTranslator->_('Registros nao encontrados na tabela %1 para os dados fornecidos!',array('unid_organizacional_nivel1')));	
 else
 	{
 	$fields=mysql_num_fields($result);
@@ -284,8 +284,8 @@ else
 			break;
 		}
 
-	GravaTESTES('Criando título...');				
-	$relatorio->setTitulo('CACIC - Relatório de informações de Patrimônio e Localização Física');
+	GravaTESTES($oTranslator->_('Criando título...'));				
+	$relatorio->setTitulo($oTranslator->_('Relatorio de informacoes de Patrimonio e Localizacao Fisica'));
 
 	// String com nomes dos campos que não devem ser mostrados, concatenando-os com # para fins de busca em substring. 
  	$strNaoMostrarCamposNomes   = '#dt_hr_alteracao#'; 

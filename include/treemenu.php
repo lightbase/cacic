@@ -34,6 +34,9 @@ require_once('library.php');
   /*                                           */ 
   /*********************************************/
   
+  // Modifiquei os lacos pois o autor usava de forma indevida a funcao count dentro delas, fazendo com que a cada
+  // repeticao fosse uma nova contagem de algo que o sistema poderia ja conhecer - khf.
+  
   if(isset($PATH_INFO)) {
 	  $script       =  $PATH_INFO; 
   } else {
@@ -92,8 +95,9 @@ require_once('library.php');
 		}
   	}
   fclose($fd);
-
-  for ($i=0; $i<count($tree); $i++) {
+  
+  $d_contagem = count($tree);
+  for ($i=0; $i<$d_contagem; $i++) {
      $expand[$i]=0;
      $visible[$i]=0;
      $levels[$i]=0;
@@ -106,7 +110,8 @@ require_once('library.php');
   if ($_GET['p']!="") $explevels = explode("|",$_GET['p']);
   
   $i=0;
-  while($i<count($explevels))
+  $d_contagem = count($explevels);
+  while($i<$d_contagem)
   {
 	$expand[$explevels[$i]]=1;
     $i++;
@@ -117,7 +122,8 @@ require_once('library.php');
   /*  Permito apenas uma expansão              */
   /*********************************************/
   $i=0;
-  while($i<count($tree))
+  $d_contagem = count($tree);
+  while($i<$d_contagem)
   	{
 	if ($tree[$i][0] == 1 and $_GET['v_no'])
 		{
@@ -135,7 +141,8 @@ require_once('library.php');
   /*********************************************/
   
   $lastlevel=$maxlevel;
-  for ($i=count($tree)-1; $i>=0; $i--)
+  $d_contagem = count($tree);
+  for ($i=$d_contagem-1; $i>=0; $i--)
   {
      if ( $tree[$i][0] < $lastlevel )
      {
@@ -160,10 +167,11 @@ require_once('library.php');
   /*********************************************/
   
 // all root nodes are always visible
-  for ($i=0; $i < count($tree); $i++) if ($tree[$i][0]==1) $visible[$i]=1;
+  $d_contagem = count($tree);
+  for ($i=0; $i < $d_contagem; $i++) if ($tree[$i][0]==1) $visible[$i]=1;
 
-
-  for ($i=0; $i < count($explevels); $i++)
+  $d_contagem = count($explevels);
+  for ($i=0; $i < $d_contagem; $i++)
   {
     $n=$explevels[$i];
     if ( ($visible[$n]==1) && ($expand[$n]==1) )
@@ -191,7 +199,8 @@ require_once('library.php');
   for ($i=0; $i<$maxlevel; $i++) echo "<td width=16></td>";
   echo "<td width=100%>&nbsp;</td></tr>\n";
   $cnt=0;
-  while ($cnt<count($tree))
+  $d_contagem = count($tree);
+  while ($cnt<$d_contagem)
   {
     if ($tree[$cnt][6]) 
 		{	
@@ -252,8 +261,9 @@ require_once('library.php');
         /****************************************/
         /* Create expand/collapse parameters    */
         /****************************************/
-        $i=0; $params="?p=";		
-        while($i<count($expand))
+        $i=0; $params="?p=";
+	$d_contagem = count($expand);
+        while($i<$d_contagem)
         {
           if ( ($expand[$i]==1) && ($cnt!=$i) || ($expand[$i]==0 && $cnt==$i))
           {
@@ -263,20 +273,14 @@ require_once('library.php');
           $i++;
         }
 		if ($tree[$cnt][0]==1) $params.="&v_no=".$cnt;				
-//        echo "<td nowrap>";               
         if ($expand[$cnt]==0)
 			{
             echo "<td nowrap><a href=\"".$script.$params."#$cnt\"><img src=\"".$img_expand."\" border=no></a></td>";
-//            echo "<a href=\"".$script.$params."#$cnt\"><img src=\"".$img_expand."\" border=no></a>";
-//			echo "<a href=\"".$script.$params."#$cnt\"><img src=\"".$tree[$cnt][4]."\" border=no></a>";
 			}
         else
 			{
             echo "<td nowrap><a href=\"".$script.$params."#$cnt\"><img src=\"".$img_collapse."\" border=no></a></td>";         
-//            echo "<a href=\"".$script.$params."#$cnt\"><img src=\"".$img_collapse."\" border=no></a>";
-//            echo "<a href=\"".$script.$params."#$cnt\"><img src=\"".$tree[$cnt][4]."\" border=no></a>";
 			}
-//		echo "</td>";				
       }
       else
       {
