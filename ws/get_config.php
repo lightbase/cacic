@@ -77,12 +77,14 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress,$str
 				}
 			else
 				{
-				$retorno_xml_values .= '<CACIC2>'   	 . EnCrypt($key,$iv,$v_array_versoes_agentes['cacic2.exe']  	 ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CACIC2>';
-				$retorno_xml_values .= '<CACIC2_HASH>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['cacic2.exe_HASH']  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CACIC2_HASH>';				
-				$retorno_xml_values .= '<GER_COLS>' 	 . EnCrypt($key,$iv,$v_array_versoes_agentes['ger_cols.exe']	 ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/GER_COLS>';			
-				$retorno_xml_values .= '<GER_COLS_HASH>' . EnCrypt($key,$iv,$v_array_versoes_agentes['ger_cols.exe_HASH'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/GER_COLS_HASH>';							
-				$retorno_xml_values .= '<CHKSIS>'   	 . EnCrypt($key,$iv,$v_array_versoes_agentes['chksis.exe']  	 ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CHKSIS>';						
-				$retorno_xml_values .= '<CHKSIS_HASH>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['chksis.exe_HASH']  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   . '<' . '/CHKSIS_HASH>';										
+				$retorno_xml_values .= '<CACICSVC>'   	    . EnCrypt($key,$iv,$v_array_versoes_agentes['cacicsvc.exe']  	 ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   	. '<' . '/CACICSVC>';
+				$retorno_xml_values .= '<TE_HASH_CACICSVC>' . EnCrypt($key,$iv,$v_array_versoes_agentes['cacicsvc.exe_HASH'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   	. '<' . '/TE_HASH_CACICSVC>';								
+				$retorno_xml_values .= '<CACIC2>'   	 	. EnCrypt($key,$iv,$v_array_versoes_agentes['cacic2.exe']  	 ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   		. '<' . '/CACIC2>';
+				$retorno_xml_values .= '<TE_HASH_CACIC2>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['cacic2.exe_HASH']  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   	. '<' . '/TE_HASH_CACIC2>';				
+				$retorno_xml_values .= '<GER_COLS>' 	 	. EnCrypt($key,$iv,$v_array_versoes_agentes['ger_cols.exe']	 ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) 		. '<' . '/GER_COLS>';			
+				$retorno_xml_values .= '<TE_HASH_GER_COLS>' . EnCrypt($key,$iv,$v_array_versoes_agentes['ger_cols.exe_HASH'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) 		. '<' . '/TE_HASH_GER_COLS>';							
+				$retorno_xml_values .= '<CHKSIS>'   	 	. EnCrypt($key,$iv,$v_array_versoes_agentes['chksis.exe']  	 ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   		. '<' . '/CHKSIS>';						
+				$retorno_xml_values .= '<TE_HASH_CHKSIS>'   . EnCrypt($key,$iv,$v_array_versoes_agentes['chksis.exe_HASH']  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)   	. '<' . '/TE_HASH_CHKSIS>';										
 				}
 			}
 		}
@@ -422,7 +424,8 @@ else
 						nu_intervalo_renovacao_patrim,
 						te_senha_adm_agente,
 						te_enderecos_mac_invalidos,
-						te_janelas_excecao
+						te_janelas_excecao,
+						nu_porta_srcacic
 			FROM 		configuracoes_locais
 			WHERE		id_local = '.$v_dados_rede['id_local'];
 
@@ -450,8 +453,9 @@ $retorno_xml_values .= '<TE_SERV_UPDATES>'               . EnCrypt($key,$iv,$v_d
 $retorno_xml_values .= '<NU_PORTA_SERV_UPDATES>'         . EnCrypt($key,$iv,$v_dados_rede['nu_porta_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</NU_PORTA_SERV_UPDATES>';
 $retorno_xml_values .= '<TE_PATH_SERV_UPDATES>'          . EnCrypt($key,$iv,$v_dados_rede['te_path_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_PATH_SERV_UPDATES>';			
 $retorno_xml_values .= '<NM_USUARIO_LOGIN_SERV_UPDATES>' . EnCrypt($key,$iv,$v_dados_rede['nm_usuario_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</NM_USUARIO_LOGIN_SERV_UPDATES>';	
-$retorno_xml_values .= '<TE_SENHA_LOGIN_SERV_UPDATES>'   . EnCrypt($key,$iv,$v_dados_rede['te_senha_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_SENHA_LOGIN_SERV_UPDATES>';						
-	
+$retorno_xml_values .= '<TE_SENHA_LOGIN_SERV_UPDATES>'   . EnCrypt($key,$iv,$v_dados_rede['te_senha_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_SENHA_LOGIN_SERV_UPDATES>';
+$retorno_xml_values .= '<CS_PERMITIR_DESATIVAR_SRCACIC>' . EnCrypt($key,$iv,$v_dados_rede['cs_permitir_desativar_srcacic']        ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</CS_PERMITIR_DESATIVAR_SRCACIC>';
+
 // --------------- Retorno de Classificador de CRIPTOGRAFIA --------------- //
 if ($v_cs_cipher <> '1') $v_cs_cipher --;	
 

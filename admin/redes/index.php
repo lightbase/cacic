@@ -67,7 +67,7 @@ if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 $ordem = ($_GET['cs_ordem']<>''?$_GET['cs_ordem']:'sg_local,nm_rede');
 			
 $query = 'SELECT 	* 
-		  FROM 		redes LEFT JOIN dominios ON redes.id_dominio = dominios.id_dominio '.
+		  FROM 		redes LEFT JOIN servidores_autenticacao ON redes.id_servidor_autenticacao = servidores_autenticacao.id_servidor_autenticacao '.
 		  $where .' 		  			
 		  ORDER BY '.$ordem;
 
@@ -128,7 +128,7 @@ $msg = '<div align="center">
             <td nowrap >&nbsp;</td>
 			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede"><?=$oTranslator->_('Subrede');?></a></div></td>            
             <td nowrap >&nbsp;</td>            
-			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_dominio">Domínio</a></div></td>
+			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_servidor_autenticacao">Servidor de Autenticação</a></div></td>
             <td nowrap >&nbsp;</td>
             <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local,nm_rede"><?=$oTranslator->_('Local');?></a></div></td>
             <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Total de Maquinas');?></div></td>
@@ -160,7 +160,7 @@ else
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_rede']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_dominio']; ?></a></td>
+            <td nowrap><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_servidor_autenticacao']; ?></a></td>
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['sg_local']; ?></a></div></td>
             <td nowrap align="right">

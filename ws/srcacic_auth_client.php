@@ -24,17 +24,6 @@ require_once('../include/library.php');
 //$v_compress_level = 9;
 $v_compress_level   = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
 						  // Há necessidade de testes para Análise de Viabilidade Técnica 
-
-
-GravaTESTES('AuthClient: Valores Recebidos:');
-foreach($HTTP_POST_VARS as $i => $v) 
-	GravaTESTES('AuthClient: POST => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
-
-foreach($HTTP_GET_VARS as $i => $v) 
-	GravaTESTES('AuthClient: GET => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
-
-GravaTESTES('');	
-
 $retorno_xml_header = '<?xml version="1.0" encoding="iso-8859-1" ?>';
 $retorno_xml_values = '';
 
@@ -45,12 +34,33 @@ $v_cs_compress		= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress'])
 $v_cs_cipher		= '1';
 
 $strPaddingKey  	= '';
+
+
+GravaTESTES('AuthClient: Valores Recebidos:');
+foreach($HTTP_POST_VARS as $i => $v)
+        GravaTESTES('AuthClient: POST => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+
+foreach($HTTP_GET_VARS as $i => $v)
+        GravaTESTES('AuthClient: GET => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+
+GravaTESTES('');
+
 	
-// Autenticação da Estação Visitada
-$te_node_address   	= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-$te_so             	= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+// Autenticação da Estação Visitante
+$te_node_address = DeCrypt($key,$iv,$_POST['te_node_address'],$v_cs_cipher,$v_cs_compress,$strPaddingKey);
+$te_so          = DeCrypt($key,$iv,$_POST['te_so']      ,$v_cs_cipher,$v_cs_compress,$strPaddingKey);
+
+//$te_node_address_visitante = DeCrypt($key,$iv,$_POST['te_node_address_visitante'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_so_visitante        = DeCrypt($key,$iv,$_POST['te_so_visitante']    ,$v_cs_cipher,$v_cs_compress,$strPaddingKey);
 $te_palavra_chave  	= DeCrypt($key,$iv,urldecode($_POST['te_palavra_chave'])	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 
+
+/*
+GravaTESTES('AuthClient: te_node_address => '.$te_node_address);
+GravaTESTES('AuthClient: te_so => '.$te_so);
+GravaTESTES('AuthClient: te_node_address_visitante => '.$te_node_address_visitante);         
+GravaTESTES('AuthClient: te_so_visitante => '.$te_so_visitante); 
+*/
 
 // ATENÇÃO: Apenas retornará um ARRAY contendo "id_so" e "te_so".
 $arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
@@ -61,25 +71,27 @@ $arrSO = inclui_computador_caso_nao_exista(	$te_node_address,
 											'',
 											'');									
 
-GravaTESTES('AuthClient: te_palavra_chave: '.$te_palavra_chave); 	
+//GravaTESTES('AuthClient: te_palavra_chave: '.$te_palavra_chave); 	
 $arrComputadores 	= getValores('computadores c, redes r', 'c.te_palavra_chave,c.te_nome_computador,c.te_ip,r.id_local'   , 'c.te_node_address = "'.$te_node_address.'" and c.id_so = '.$arrSO['id_so'].' and r.id_ip_rede = c.id_ip_rede');
 $strTePalavraChave	= $arrComputadores['te_palavra_chave'];
 
-GravaTESTES('AuthClient: strTePalavraChave: '.$strTePalavraChave); 	
+//GravaTESTES('AuthClient: strTePalavraChave: '.$strTePalavraChave); 	
 
 
-// Valido a Palavra-Chave e monto a tripa com os nomes e ids dos domínios
+// Valido a Palavra-Chave e monto a tripa com os nomes e ids dos servidores de autenticação
 if ($te_palavra_chave == $strTePalavraChave)
 	{
-	GravaTESTES('AuthClient: Palavra-Chave OK!'); 	
+//	GravaTESTES('AuthClient: Palavra-Chave OK!'); 	
 	conecta_bd_cacic();	
 
 	if ($_POST['nm_usuario_visitante'] && $_POST['te_senha_visitante'])
 		{
 		$nm_usuario_visitante 		= DeCrypt($key,$iv,$_POST['nm_usuario_visitante'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 					
 		$te_senha_visitante	  		= DeCrypt($key,$iv,$_POST['te_senha_visitante'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 			
+		/*
 		GravaTESTES('AuthClient: nm_usuario_visitante 		=> '.$nm_usuario_visitante);
 		GravaTESTES('AuthClient: te_senha_visitante   		=> '.$te_senha_visitante);		
+		*/
 
 		// Autentico o usuário técnico, verificando nome, senha e local
 		$arrUsuarios = getValores('usuarios','id_usuario,
@@ -91,47 +103,45 @@ if ($te_palavra_chave == $strTePalavraChave)
 		if ($arrUsuarios['id_usuario']<>'')			
 			{			
 			$boolIdLocal = stripos2($arrUsuarios['te_locais_secundarios'],$arrComputadores['id_local'],false);
-			//GravaTESTES('AuthClient: boolIdLocal => '.$boolIdLocal); 				
-			//GravaTESTES('AuthClient: arrComputadores[id_local] => '.$arrComputadores['id_local']); 					
-			//GravaTESTES('AuthClient: arrUsuarios[id_local] => '.$arrUsuarios['id_local']); 						
+			/*
+			GravaTESTES('AuthClient: boolIdLocal => '.$boolIdLocal); 				
+			GravaTESTES('AuthClient: arrComputadores[id_local] => '.$arrComputadores['id_local']); 					     GravaTESTES('AuthClient: arrUsuarios[id_local] => '.$arrUsuarios['id_local']); 						  */
 			if ($arrUsuarios['id_local'] == $arrComputadores['id_local'] || $boolIdLocal)
 				{								
 				$id_sessao	  			   = DeCrypt($key,$iv,$_POST['id_sessao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 							
 				$id_usuario_visitante 	   = $arrUsuarios['id_usuario'];
-				$te_node_address_visitante = DeCrypt($key,$iv,$_POST['te_node_address_visitante'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 															
-				$te_so_visitante 		   = DeCrypt($key,$iv,$_POST['te_so_visitante'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 																			
-				//GravaTESTES('AuthClient: te_node_address_visitante => '.$te_node_address_visitante); 										
-				//GravaTESTES('AuthClient: te_so_visitante => '.$te_so_visitante); 													
 				$te_motivo_conexao 		   = DeCrypt($key,$iv,$_POST['te_motivo_conexao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 																			
+				$te_documento_referencial	   = DeCrypt($key,$iv,$_POST['te_documento_referencial'],$v_cs_cipher,$v_cs_compress,$strPaddingKey);
+
 				$dt_hr_autenticacao	 	   = date('Y-m-d H:i:s');						
 
-				// ATENÇÃO: Apenas retornará um ARRAY contendo "id_so" e "te_so".
-				$arrSO_visitante = inclui_computador_caso_nao_exista($te_node_address_visitante, 
-																	'',
-																	$te_so_visitante,
-																	'', 
-																	'', 
-																	'',
-																	'');									
+				// Identifico o SO da máquina visitante
+				$arrIdSO = getValores('so','id_so','trim(te_so) = "'.trim($te_so_visitante).'"');
+				
+				$id_so_visitante = $arrIdSO['id_so'];
+				GravaTESTES('AuthClient: id_so_visitante => '.$id_so_visitante); 														
+				
+				if ($id_so_visitante == '')
+					$id_so_visitante = insereNovoSO($te_so_visitante);
 
 				$query_SESSAO = "INSERT INTO srcacic_sessoes_logs 
 											(id_sessao,
 											 id_usuario_visitante,
-											 te_node_address_visitante,											 
-											 id_so_visitante,											 											 
+											 te_documento_referencial,
 											 te_motivo_conexao,
 											 dt_hr_ultimo_contato,
-											 dt_hr_conexao)											
+											 dt_hr_conexao,
+											 id_so_visitante)											
 								VALUES ("  . $id_sessao 				. ", 
 										"  . $id_usuario_visitante 		. ",
-										'" . $te_node_address_visitante . "',
-										" . $arrSO_visitante['id_so'] . ",										
+										'" . $te_documento_referencial . "',
 										'" . $te_motivo_conexao . "',										
 										'" . $dt_hr_autenticacao		. "',
-										'" . $dt_hr_autenticacao		. "')";								
+										'" . $dt_hr_autenticacao		. "',
+										 " . $id_so_visitante			.")";								
 				$result_SESSAO = mysql_query($query_SESSAO);	
 
-				// GravaTESTES('AuthClient: query_SESSAO => '.$query_SESSAO); 										
+				GravaTESTES('AuthClient: query_SESSAO => '.$query_SESSAO); 										
 
 				$retorno_xml_values = '<STATUS>'.EnCrypt($key,$iv,'OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>'.$retorno_xml_values;			
 				$retorno_xml_values .= '<ID_USUARIO_VISITANTE>'.str_ireplace('+','<MAIS>',EnCrypt($key,$iv,$arrUsuarios['id_usuario'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey),$countMAIS).'</ID_USUARIO_VISITANTE>';		
@@ -164,4 +174,25 @@ if ($te_palavra_chave == $strTePalavraChave)
 $retorno_xml = $retorno_xml_header . $retorno_xml_values; 
 GravaTESTES('AuthClient XML: '.$retorno_xml);				
 echo $retorno_xml;	
+
+function insereNovoSO($te_so_new)
+	{
+	conecta_bd_cacic();
+	
+	// Busco o último valor do Identificador Externo caso não tenha recebido valor para o ID Externo
+	$querySEL  = 'SELECT max(id_so) as MaxIdSo
+				  FROM   so';
+	$resultSEL = mysql_query($querySEL);
+	$rowSEL    = mysql_fetch_array($resultSEL);			
+	$id_so = ($rowSEL['MaxIdSo']+1);														   
+
+	// Insiro a informação na tabela de Sistemas Operacionais incrementando o Identificador Externo
+	$queryINS  = 'INSERT 
+				  INTO 		so(id_so,te_desc_so,sg_so,te_so) 
+				  VALUES    ('.$id_so.',"S.O. a Cadastrar","Sigla a Cadastrar","'.$te_so_new.'")';
+
+	$resultINS = mysql_query($queryINS);		
+	return $id_so;
+	}
+
 ?>

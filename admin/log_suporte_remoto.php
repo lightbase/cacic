@@ -30,16 +30,19 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 
 if (!$_REQUEST['date_input1'])
 	{
-	$from_usuarios = '';
+	$from_usuarios  = '';
 	$where_usuarios = '';
+	$where_locais	= '';
 	
 	if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 		{
 		$from_usuarios  = ', usuarios b';
-		$where_usuarios = ' AND a.id_usuario = b.id_usuario AND b.id_local = '.$_SESSION['id_local'];
-		if ($_SESSION['te_locais_secundarios'])
+		$where_usuarios = ' a.id_usuario = b.id_usuario ';
+		$where_locais   = ' AND c.id_local = '.$_SESSION['id_local'];
+		if (trim($_SESSION['te_locais_secundarios'])<>'')
 			{
-			$whereLocais = 'WHERE id_local = '.$_SESSION['id_local'].' OR id_local IN ('.$_SESSION['te_locais_secundarios'].') ';
+			$where_locais = str_replace(' AND c.id_local',' AND (c.id_local',$where_locais);
+			$where_locais .= ' OR c.id_local IN ('.$_SESSION['te_locais_secundarios'].')) ';
 			}		
 		}
 	
@@ -50,6 +53,7 @@ if (!$_REQUEST['date_input1'])
 					 			$from_usuarios .' 
 					 WHERE		'.
 					 			$where_usuarios;
+
 	$result_minmax = mysql_query($query_minmax);
 	$row_minmax = mysql_fetch_array($result_minmax);
 	$date_input1 = date('d/m/Y');
@@ -103,7 +107,7 @@ require_once('../include/selecao_listbox.js');
     </tr>
     <tr valign="middle"> 
       <td width="33%" height="1" nowrap valign="middle">
-	<input name="whereLocais" type="hidden" value="<? echo $whereLocais;?>"> 	  
+	<input name="where_locais" type="hidden" value="<? echo $where_locais;?>"> 	  
 <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>"> 
 <? /*
         <script type="text/javascript" language="JavaScript">
@@ -162,60 +166,63 @@ require_once('../include/selecao_listbox.js');
 		$OrderBy = ($_GET['OrderBy']<>''?$_GET['OrderBy']:'1');
 		$OrderBy = ($OrderBy=='1'?$OrderBy . ' DESC ':$OrderBy);		
 
-		$where_usuarios = '';
+		//$where_usuarios = '';
+		$itens_locais = '';
+                for ($i =0; $i < count($_POST['list12']);$i++)
+                	{
+                        if ($itens_locais)
+                        	$itens_locais .= ',';
+                        $itens_locais .= $_POST['list12'][$i];
+                        }
+                //$where_usuarios = ' AND b.id_local IN ('.$itens_locais.')';
+                if (count($_POST['list12'])==0)
+                	$msg = '<div align="center">
+                                <font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
+                                Nenhum suporte remoto realizado no <u>período informado</u> ou nenhum <u>local selecionado</>.</font><br><br></div>';
 	
-		if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
-			{
-			$where_usuarios = ' AND b.id_local = '.$_SESSION['id_local'];
-			}
-		else
-			{
-			$itens_locais = '';
-			for ($i =0; $i < count($_POST['list12']);$i++)
-				{
-				if ($itens_locais)
-					$itens_locais .= ',';
-				$itens_locais .= $_POST['list12'][$i];
-				}
-			$where_usuarios = ' AND b.id_local IN ('.$itens_locais.')';
-			if (count($_POST['list12'])==0)
-				$msg = '<div align="center">
-				<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhum suporte remoto realizado no <u>período informado</u> ou nenhum <u>local selecionado</u>.</font><br><br></div>';				
-			
-			}
+              	$where_locais   = ' AND c.id_local = '.$_SESSION['id_local'];
+                if ($itens_locais <> '')
+                        {
+                        $where_locais = str_replace(' AND c.id_local',' AND (c.id_local',$where_locais);
+                        $where_locais .= ' OR c.id_local IN ('.$itens_locais.')) ';
+                        }
 
 		conecta_bd_cacic();
 		$query = 'SELECT 	DATE_FORMAT(a.dt_hr_ultimo_contato, "%y-%m-%d %H:%i") as dt_hr_ultimo_contato,
 							DATE_FORMAT(a.dt_hr_conexao, "%y-%m-%d %H:%i") as dt_hr_conexao,
+							a.te_documento_referencial,
 							a.te_motivo_conexao,							
 							DATE_FORMAT(aa.dt_hr_inicio_sessao, "%y-%m-%d %H:%i") as dt_hr_inicio_sessao,
-							aa.nm_nome_completo_visitado,
+							aa.nm_completo_usuario_visitado,
 							d.te_ip te_ip_visitado,
 							d.te_nome_computador te_nome_computador_visitado,
-							dd.te_ip te_ip_visitante,
-							dd.te_nome_computador te_nome_computador_visitante,
 							b.nm_usuario_completo,														
 							b.nm_usuario_acesso,																					
 							b.id_usuario,							
-							c.sg_local
+							c.sg_local,
+							e.sg_so
 				  FROM 		srcacic_sessoes_logs a,
 				  			srcacic_sessoes aa,
 				  			usuarios b, 
 							locais c,
 							computadores d,
-							computadores dd
+							so e
 				  WHERE 	aa.id_sessao = a.id_sessao AND
 				  			a.id_usuario_visitante = b.id_usuario AND
-				  			b.id_local = c.id_local AND
+				  			b.id_local = c.id_local AND							
 							a.dt_hr_ultimo_contato between "' . substr($_REQUEST['date_input1'],-4)."-".substr($_REQUEST['date_input1'],3,2)."-".substr($_REQUEST['date_input1'],0,2).' 00:00" AND "' . substr($_REQUEST['date_input2'],-4)."-".substr($_REQUEST['date_input2'],3,2)."-".substr($_REQUEST['date_input2'],0,2). ' 23:59" '.
 							$where .
-							$where_usuarios . ' AND
+							$where_locais . ' AND
 							d.te_node_address = aa.te_node_address_visitado AND
 							d.id_so = aa.id_so_visitado AND
-							dd.te_node_address = a.te_node_address_visitante AND
-							dd.id_so = a.id_so_visitante
+							e.id_so = a.id_so_visitante
 				  ORDER BY 	'.$OrderBy;
+/*
+... SELECT ...  dd.te_nome_computador te_nome_computador_visitante,a.te_ip te_ip_visitante,
+... FROM ... computadores dd 
+... WHERE ... dd.te_node_address = a.te_node_address_visitante AND
+                                   dd.id_so = a.id_so_visitante
+*/
 //echo $query . '<br>';
 		$result = mysql_query($query);
 		$NumRegistro = mysql_num_rows($result);
@@ -240,9 +247,9 @@ require_once('../include/selecao_listbox.js');
             <td colspan="3"></td>
             <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=1&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Início de Sessão');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=2&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Estação Origem');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuario Tecnico');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuário Origem');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('S.O. do Tecnico');?></a></div></td>
             <td></td>
             <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=4&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Estação Destino');?></a></div></td>
             <td></td>
@@ -276,13 +283,13 @@ require_once('../include/selecao_listbox.js');
             	<td nowrap></td>
             	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $day_inicio_sessao.'/'.$month_inicio_sessao.'/'.$year_inicio_sessao. ' '. substr($hour_inicio_sessao,0,5);?>h</td>
             	<td nowrap></td>
-            	<td nowrap class="opcao_tabela_destaque" title="<? echo $row['te_motivo_conexao'];?>"><? echo $row['te_ip_visitante'].'/'.$row['te_nome_computador_visitante'];?></td>
-            	<td nowrap></td>
             	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $row['nm_usuario_acesso'].'/'.$row['nm_usuario_completo'];?></td>
+            	<td nowrap></td>
+            	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $row['sg_so'];?></td>
             	<td nowrap></td>
 				<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $row['te_ip_visitado'].'/'.$row['te_nome_computador_visitado'].' - '.$row['sg_local'];?></td>
             	<td nowrap></td>
-            	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $row['nm_nome_completo_visitado'];?></td>
+            	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $row['nm_completo_usuario_visitado'];?></td>
             	<td nowrap></td>
             	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $day_conexao.'/'.$month_conexao.'/'.$year_conexao. ' '. substr($hour_conexao,0,5) . 'h - '.$day_ultimo_contato.'/'.$month_ultimo_contato.'/'.$year_ultimo_contato. ' '. substr($hour_ultimo_contato,0,5);?>h</td>
             	<td nowrap></td>

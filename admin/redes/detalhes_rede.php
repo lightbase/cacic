@@ -96,7 +96,7 @@ elseif ($_POST['GravaAlteracoes'])
 							nm_usuario_login_serv_updates 			= '".$_POST['frm_nm_usuario_login_serv_updates']."', 
 							nu_porta_serv_updates 					= '".$_POST['frm_nu_porta_serv_updates']."',
 							nm_usuario_login_serv_updates_gerente 	= '".$_POST['frm_nm_usuario_login_serv_updates_gerente']."', 
-							id_dominio 								= '".$_POST['frm_id_dominio']."', 							
+							id_servidor_autenticacao				= '".$_POST['frm_id_servidor_autenticacao']."', 							
 							id_local 								=  ".$_POST['frm_id_local'].
 							$senhas . " 
 				  WHERE 	trim(id_ip_rede) = '".trim($_REQUEST['id_ip_rede'])."' AND
@@ -312,7 +312,7 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
             <td>&nbsp;</td>
             <td class="label"><br>Local:</td>
             <td class="label" colspan="2"><br>
-            Dom&iacute;nio:</td>
+            Servidor para Autentica&ccedil;&atilde;o:</td>
           </tr>
           <tr> 
             <td colspan="4" height="1" bgcolor="#333333"></td>
@@ -359,19 +359,19 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
 			?>
 			  <input name="id_local_anterior"  type="hidden" id="id_local_anterior" value="<? echo $id_local_anterior; ?>">
 			  <input name="id_local"  type="hidden" id="id_local" value="<? echo $_GET['id_local']; ?>">            </td>
-            <td nowrap><select name="frm_id_dominio" id="frm_id_dominio" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+            <td nowrap><select name="frm_id_servidor_autenticacao" id="frm_id_servidor_autenticacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
                 <option value="" selected></option>
                 <?
 			  
-		$qry_dominio = "SELECT 		id_dominio, 
-									nm_dominio
-						FROM 		dominios
-						ORDER BY	nm_dominio";
+		$qry_servidor_autenticacao = "SELECT 		id_servidor_autenticacao, 
+									nm_servidor_autenticacao
+						FROM 		servidores_autenticacao
+						ORDER BY	nm_servidor_autenticacao";
 
-		$result_dominio = mysql_query($qry_dominio) or die ('Falha na consulta &agrave; tabela Dominios ou sua sess&atilde;o expirou!');
+		$result_servidor_autenticacao = mysql_query($qry_servidor_autenticacao) or die ('Falha na consulta &agrave; tabela Servidores de Autenticação ou sua sess&atilde;o expirou!');
 			  
-				while($row = mysql_fetch_array($result_dominio))
-					echo '<option value="'.$row['id_dominio'].'" '.(mysql_result($result, 0, 'id_dominio')==$row['id_dominio']?'selected':'').'>'.$row['nm_dominio'].'</option>';
+				while($row = mysql_fetch_array($result_servidor_autenticacao))
+					echo '<option value="'.$row['id_servidor_autenticacao'].'" '.(mysql_result($result, 0, 'id_servidor_autenticacao')==$row['id_servidor_autenticacao']?'selected':'').'>'.$row['nm_servidor_autenticacao'].'</option>';
 					
 					?>
             </select></td>

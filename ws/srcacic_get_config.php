@@ -19,7 +19,7 @@
  estação/usuário em questão. São levados em consideração a rede do agente, sistema operacional e Mac-Address.
  
  Retorno:
- 1) <DOMINIOS>Domínios cadastrados no Gerente WEB. O domínio referente à subrede da estação será acrescido de "*".</DOMINIOS>
+ 1) <SERVIDORES_AUTENTICACAO>Servidores de Autenticação cadastrados no Gerente WEB. O servidor de autenticação referente à subrede da estação será acrescido de "*".</SERVIDORES_AUTENTICACAO>
  2) <STATUS>Retornará OK se a palavra chave informada "bater" com a chave armazenada previamente no BD</STATUS>
 */
 
@@ -41,24 +41,29 @@ $v_cs_cipher		= '1';
 
 $strPaddingKey  	= '';
 
-/*	
+
 LimpaTESTES();
-GravaTESTES('Valores POST Recebidos:');
+GravaTESTES('srCACIC_getConfig.Valores POST Recebidos:');
 foreach($HTTP_POST_VARS as $i => $v) 
-	GravaTESTES('Nome/Valor do POST_Request: "'.$i.'"/"'.$v.'"');
+	GravaTESTES('srCACIC_getConfig.Nome/Valor do POST_Request: "'.$i.'"/"'.$v.'"');
 
-GravaTESTES('Valores GET Recebidos:');
+GravaTESTES('srCACIC_getConfig.Valores GET Recebidos:');
 foreach($HTTP_GET_VARS as $i => $v) 
-	GravaTESTES('Nome/Valor do GET_Request: "'.$i.'"/"'.$v.'"');
+	GravaTESTES('srCACIC_getConfig.Nome/Valor do GET_Request: "'.$i.'"/"'.$v.'"');
 
 GravaTESTES('');	
 GravaTESTES('');	
-*/
 
 // Autenticação da Estação Visitada
-$te_node_address   	= DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-$te_so             	= DeCrypt($key,$iv,$_POST['te_so']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-$te_palavra_chave  	= DeCrypt($key,$iv,$_POST['te_palavra_chave']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_node_address   	= DeCrypt($key,$iv,$_POST['te_node_address'] ,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_so             	= DeCrypt($key,$iv,$_POST['te_so']		     ,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+$te_palavra_chave  	= DeCrypt($key,$iv,$_POST['te_palavra_chave'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+
+/*
+GravaTESTES('srCACIC_getConfig.te_node_address:'.$te_node_address);
+GravaTESTES('srCACIC_getConfig.te_so:'.$te_so);
+GravaTESTES('srCACIC_getConfig.te_palavra_chave:'.$te_palavra_chave);
+*/
 
 // ATENÇÃO: Apenas retornará um ARRAY contendo "id_so" e "te_so".
 $arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
@@ -74,32 +79,34 @@ $arrComputadores 	= getValores('computadores', 'te_palavra_chave,id_ip_rede'   ,
 $strTePalavraChave	= $arrComputadores['te_palavra_chave'];
 $strIdIpRede		= $arrComputadores['id_ip_rede'];
 
-/*
-LimpaTESTES();
-GravaTESTES('strTePalavraChave:'.$strTePalavraChave);
-GravaTESTES('strIdIpRede:'.$strIdIpRede);
-*/
 
-// Valido a Palavra-Chave e monto a tripa com os nomes e ids dos domínios
+//GravaTESTES('srCACIC_getConfig.strTePalavraChave:'.$strTePalavraChave);
+//GravaTESTES('srCACIC_getConfig.strIdIpRede:'.$strIdIpRede);
+
+
+// Valido a Palavra-Chave e monto a tripa com os nomes e ids dos servidores para autenticação
 if ($te_palavra_chave == $strTePalavraChave)
 	{
-	$arrRedes 		= getValores('redes','id_dominio','id_ip_rede = "'.$strIdIpRede.'"');
-	$strIdDominio	= $arrRedes['id_dominio'];
+	$arrRedes 		= getValores('redes','id_servidor_autenticacao','id_ip_rede = "'.$strIdIpRede.'"');
+	$strIdServidor	= $arrRedes['id_servidor_autenticacao'];
 	
 	conecta_bd_cacic();	
-	$query_SEL	= 'SELECT		id_dominio,
-								nm_dominio  
-				   FROM			dominios
-				   WHERE		in_ativo = "S"
-				   ORDER BY		nm_dominio';
+	$query_SEL	= 'SELECT		id_servidor_autenticacao,
+								nm_servidor_autenticacao  
+				   FROM			servidores_autenticacao
+				   WHERE		in_ativo = "S" AND
+				   			    id_servidor_autenticacao = '.$strIdServidor.' 
+				   ORDER BY		nm_servidor_autenticacao';
 	$result_SEL = mysql_query($query_SEL);
 	
-	$strTripaDominios = '';
+	$strTripaServidores = '';
 	while ($row_SEL = mysql_fetch_array($result_SEL))
-		$strTripaDominios .= $row_SEL['id_dominio'].';'.$row_SEL['nm_dominio'].($row_SEL['id_dominio']==$strIdDominio?'*':'').';';
+		$strTripaServidores .= $row_SEL['id_servidor_autenticacao'].';'.$row_SEL['nm_servidor_autenticacao'].($row_SEL['id_servidor_autenticacao']==$strIdServidor?'*':'').';';
 
-	if ($strTripaDominios <> '')
-		$retorno_xml_values = '<DOMINIOS>'.EnCrypt($key,$iv,$strTripaDominios  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</DOMINIOS>';
+	if ($strTripaServidores == '')
+		$strTripaServidores = '0;0';	
+
+	$retorno_xml_values = '<SERVIDORES_AUTENTICACAO>'.EnCrypt($key,$iv,$strTripaServidores  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</SERVIDORES_AUTENTICACAO>';
 	}
 
 if ($retorno_xml_values <> '')

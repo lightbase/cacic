@@ -48,7 +48,6 @@ if($_POST['submit'])
 							 dt_log_in, 
 							 id_grupo_usuarios,
 							 id_local,
-							 id_dominio,							 
 							 te_emails_contato,
 							 te_telefones_contato,
 							 te_locais_secundarios) 
@@ -58,7 +57,6 @@ if($_POST['submit'])
 							now(),
 							'".$_POST['frm_id_grupo_usuarios']."',
 							'".$_POST['frm_id_local']."',
-							'".$_POST['frm_id_dominio']."',							
 							'".$_POST['frm_te_emails_contato']."',
 							'".$_POST['frm_te_telefones_contato']."',
 							'".$_POST['frm_te_locais_secundarios']."')";
@@ -266,6 +264,7 @@ else
 		  <td class="label">&nbsp;</td>
 		  <td>&nbsp;</td>
 		</tr>
+<? /*
 		<tr nowrap>
           <td nowrap class="label">Dom&iacute;nio:</td>
 		  <td nowrap><select name="frm_id_dominio" id="frm_id_dominio" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
@@ -289,6 +288,7 @@ else
 		  <td class="label">&nbsp;</td>
 		  <td>&nbsp;</td>
 	    </tr>
+*/ ?>
 		<tr> 
 		  <td class="label"><?=$oTranslator->_('Identificacao');?>:</td>
 		  <td> <input name="frm_nm_usuario_acesso" type="text" id="frm_nm_usuario_acesso" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 

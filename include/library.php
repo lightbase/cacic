@@ -279,24 +279,19 @@ function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnComp
 	{
 	$p_CipherKey .= $p_PaddingKey;
 	
-	/*GravaTESTES('Em DeCrypt: p_CipherKey   = "'.$p_CipherKey.'"');
-	  GravaTESTES('Em DeCrypt: p_IV          = "'.$p_IV.'"');	
-	  GravaTESTES('Em DeCrypt: p_CriptedData = "'.$p_CriptedData.'"');		
-	  GravaTESTES('Em DeCrypt: p_cs_Cipher   = "'.$p_cs_Cipher.'"');	
-	*/
 	// Bloco de Substituições para antes da Decriptação
 	// ------------------------------------------------
 	// Razão: Dependendo da configuração do servidor, os valores
 	//        enviados, pertinentes à criptografia, tendem a ser interpretados incorretamente.
 	// Obs.:  Vide Lista de Convenções Abaixo
 	// =======================================================================================
-	$_p_CriptedData = str_ireplace('<MAIS>','+',$p_CriptedData,$countMAIS);
+	$pp_CriptedData = str_ireplace('<MAIS>','+',$p_CriptedData,$countMAIS);
 	// =======================================================================================
 	
 	if ($p_cs_Cipher=='1') 
-		$v_result = (trim($_p_CriptedData)<>''?@mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$p_CipherKey,base64_decode($_p_CriptedData),MCRYPT_MODE_CBC,$p_IV):'');
+		$v_result = (trim($pp_CriptedData)<>''?@mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$p_CipherKey,base64_decode($pp_CriptedData),MCRYPT_MODE_CBC,$p_IV):'');
 	else
-		$v_result = $_p_CriptedData;	
+		$v_result = $p_CriptedData;	
 
 	// Bloco de Substituições para depois da Decriptação
 	// -------------------------------------------------
@@ -329,8 +324,10 @@ function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnComp
        	$re 		= "/".$char."*$/";
        	$v_result 	= preg_replace($re, "", $v_result);
    		} 
-	//GravaTESTES('Em DeCrypt: v_result = "'.$v_result.'"');				
-	
+	/*
+	GravaTESTES('Em DeCrypt: p_CriptedData = "'.$p_CriptedData.'"');				
+	GravaTESTES('Em DeCrypt: v_result = "'.$v_result.'"');				
+	*/
 	return trim($v_result);
 	}
 
@@ -540,7 +537,7 @@ function conecta_bd_cacic()
 // Função para obtenção de dados da subrede de acesso, em função do IP e Máscara.
 // Function to retrieve access subnet data, based on IP/Mask address.
 // ------------------------------------------------------------------------------
-function GetDadosRede($strTeIP = '')
+function getDadosRede($strTeIP = '')
 	{
 	conecta_bd_cacic();	
 
@@ -589,6 +586,7 @@ function GetDadosRede($strTeIP = '')
 							te_senha_login_serv_updates,
 							id_ip_rede,
 							redes.id_local,
+							cs_permitir_desativar_srcacic,
 							sg_local,
 							nm_local							
 					FROM	redes,
@@ -610,6 +608,7 @@ function GetDadosRede($strTeIP = '')
 								redes.te_senha_login_serv_updates,
 								redes.te_serv_cacic,
 								redes.id_local,
+								redes.cs_permitir_desativar_srcacic,
 								"Alternative"
 						FROM	redes,
 								configuracoes_locais conf
@@ -857,19 +856,16 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 	if (substr_count($v_te_ip,'zf')>0 || trim($v_te_ip)=='')
 		$v_te_ip = 	$_SERVER['REMOTE_ADDR'];
 	
-	/*
-	GravaTESTES('Script Chamador: '.$_SERVER['REQUEST_URI']);		
-	GravaTESTES('v_te_ip: '.$v_te_ip);			
-	GravaTESTES('te_node_address: '.$te_node_address);			
-	GravaTESTES('id_so_new: '.$id_so_new);			
-	GravaTESTES('te_so_new: '.$te_so_new);			
-	GravaTESTES('te_so_new_new: '.$te_so_new_new);					
-	GravaTESTES('id_ip_rede: '.$id_ip_rede);			
-	GravaTESTES('te_ip: '.$te_ip);			
-	GravaTESTES('v_te_ip: '.$v_te_ip);				
-	GravaTESTES('te_nome_computador: '.$te_nome_computador);			
-	GravaTESTES('te_workgroup: '.$te_workgroup);									
-	*/
+	/*	
+	GravaTESTES('Library_iccne: Script Chamador: '.$_SERVER['REQUEST_URI']);		
+	GravaTESTES('Library_iccne: v_te_ip: '.$v_te_ip);			
+	GravaTESTES('Library_iccne: te_node_address: '.$te_node_address);			
+	GravaTESTES('Library_iccne: id_so_new: '.$id_so_new);			
+	GravaTESTES('Library_iccne: te_so_new: '.$te_so_new);			
+	GravaTESTES('Library_iccne: id_ip_rede: '.$id_ip_rede);			
+	GravaTESTES('Library_iccne: te_ip: '.$te_ip);			
+	GravaTESTES('Library_iccne: te_nome_computador: '.$te_nome_computador);			
+	GravaTESTES('Library_iccne: te_workgroup: '.$te_workgroup);								     */
 	
 	$arrSO = getValores('so', 'id_so', 'id_so = '.$id_so_new);
 	$id_so = $arrSO['id_so'];
@@ -886,7 +882,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 		$query = 'UPDATE so 
        	  		  SET te_so = "'.$te_so_new.'"
 			      WHERE id_so = '.$id_so;
-		//GravaTESTES('query 1: '.$query);							  
+		//GravaTESTES('Library_iccne_query 1: '.$query);							  
 		$result = mysql_query($query);
 		}	
 	elseif ($te_so <> '' && ($id_so == '' || $id_so == 0)) // Encontrei somente o Identificador Interno (TE_SO)
@@ -895,7 +891,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 		$query = 'SELECT id_so 
 				  FROM   so
 			      WHERE  te_so = "'.$te_so.'"';
-		//GravaTESTES('query 2: '.$query);							  				  
+		//GravaTESTES('Library_iccne_query 2: '.$query);							  				  
 		$result = mysql_query($query);
 		$row = mysql_fetch_array($result);
 		$id_so = $row['id_so'];
@@ -903,7 +899,8 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 
 	if ($te_so == '' && ($id_so == '' || $id_so == 0)) // Nada Encontrado, provavelmente versão antiga de agente.
 		{		
-		if ($te_so_new <> '' && ($id_so_new <> '' && $id_so_new <> 0)) // Só insiro se houver conteúdo chegando...
+		if (($te_so_new <> '' && ($id_so_new <> '' && $id_so_new <> 0)) ||
+		   ($te_so_new <> '')) // Só insiro se houver conteúdo chegando...
 			{
 			conecta_bd_cacic();			
 			if ($id_so == 0 || $id_so == '')
@@ -922,7 +919,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 			$queryINS  = 'INSERT 
 						  INTO 		so(id_so,te_desc_so,sg_so,te_so) 
 						  VALUES    ('.$id_so.',"S.O. a Cadastrar","Sigla a Cadastrar","'.$te_so_new.'")';
-		//GravaTESTES('queryINS: '.$queryINS);							  						  
+		//GravaTESTES('Library_iccne_queryINS: '.$queryINS);							  						  
 			$resultINS = mysql_query($queryINS);		
 	
 			// Carrego os dados referente à rede da estação		
@@ -933,7 +930,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 						  FROM   	acoes_so
 						  WHERE  	id_local = '.$v_dados_rede['id_local'].' 
 						  GROUP BY 	id_acao';							  						
-		//GravaTESTES('querySEL: '.$querySEL);							  						  						  
+		//GravaTESTES('Library_iccne_querySEL: '.$querySEL);							  						  						  
 			$resultSEL = mysql_query($querySEL);
 			
 			// Caso existam ações configuradas para o local, incluo o S.O. para que também execute-as...
@@ -976,7 +973,7 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 				      WHERE te_node_address = "'.$te_node_address.'"
 							AND id_so = "'.$id_so.'"';
 			} 
-//GravaTESTES('QUERY : '.$query);			
+//GravaTESTES('Library_iccne_QUERY : '.$query);			
 		$result = mysql_query($query);			
 		$arrRetorno = array('id_so'=>$id_so,'te_so'=>$te_so);
 		// OK! O computador foi INCLUIDO/ATUALIZADO.
@@ -1035,7 +1032,9 @@ function getValores($tabela, $campos, $where="1")
 	$arrRetorno = array();	
 	conecta_bd_cacic();
 	$query_SEL = 'SELECT '.$campos.' FROM '.$tabela.' WHERE '.$where.' LIMIT 1';
-
+    	
+	//GravaTESTES('Library: getValores: '.$query_SEL);
+	
 	$result_SEL = mysql_query($query_SEL);
 	if (mysql_num_rows($result_SEL) > 0) 
 		{
