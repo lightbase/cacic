@@ -60,7 +60,7 @@ if ($_POST['consultar']) {
 	<?	$query = "SELECT id_software, nm_software 
 			  FROM softwares 
 			  ORDER BY nm_software";
-		$result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no select ou sua sessao expirou!'));
+		$result = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('softwares')));
 		echo '<option value=0>'.$oTranslator->_('Mostrar Todos').'</option>';
 		while ($softwares=mysql_fetch_array($result)) {
 			echo '<option value=' . $softwares['id_software'] . '>' . $softwares['nm_software'] . '</option>';
@@ -104,7 +104,7 @@ if ($_POST['consultar']) {
 	}
 	$query = $query . " ORDER BY nm_software";
 
-	$result = mysql_query($query) or die($oTranslator->_('Erro no select ou sua sessao expirou!'));
+	$result = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('softwares_inventariados')));
 	
 ?> 
 <p align="center" class="cabecalho"></p> 

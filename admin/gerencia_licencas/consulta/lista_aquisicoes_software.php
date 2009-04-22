@@ -72,7 +72,7 @@ conecta_bd_cacic();
 	$query = "SELECT s.nm_software, s.qt_licenca 
 		FROM softwares s 
 		WHERE (s.id_software = " . $v_id_software . ")";
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou').' '.$query);
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('softwares')).' '.$query);
 	$row = mysql_fetch_row($result);
 
 echo '<table border="0" align="center" width="80%">
@@ -88,7 +88,7 @@ echo '<table border="0" align="center" width="80%">
 			(ai.id_software = " . $v_id_software . ") 
 		ORDER BY a.id_aquisicao"; 
 	
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('aquisicoes')));
 
 $cor = 0;
 $num_registro = 1;

@@ -76,7 +76,7 @@ conecta_bd_cacic();
 		      (a.id_aquisicao = ai.id_aquisicao) AND 
 		      (a.nm_proprietario IS NOT NULL) 
 		GROUP BY s.id_software";
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou').' '.$query);
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!',array('aquisicoes')).' '.$query);
 	$row = mysql_fetch_row($result);
 
 echo '<table border="0" align="center" width="80%">
@@ -93,7 +93,7 @@ echo '<table border="0" align="center" width="80%">
 			(a.nm_proprietario IS NOT NULL)  
 		ORDER BY a.id_aquisicao"; 
 	
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('aquisicoes')));
 
 $cor = 0;
 $num_registro = 1;

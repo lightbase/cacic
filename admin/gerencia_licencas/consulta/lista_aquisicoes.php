@@ -81,7 +81,7 @@ conecta_bd_cacic();
 		FROM aquisicoes  
 		ORDER BY id_aquisicao";
    }
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('aquisicoes')));
 
 $cor = 0;
 $num_registro = 1;

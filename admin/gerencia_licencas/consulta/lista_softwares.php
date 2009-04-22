@@ -74,7 +74,7 @@ conecta_bd_cacic();
 		FROM softwares 
 		ORDER BY nm_software";
 
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('softwares')));
 
 
 $cor = 0;

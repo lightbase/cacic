@@ -794,3 +794,40 @@ pt_BR     detalhes de perfil de sistema monitorado                              
 pt_BR     verificacao ativa?                                                                                  admin     info                Verificacao Ativa?
 pt_BR     nome do sistema:                                                                                    admin     info                Nome do sistema:
 pt_BR     eh um sistema operacional?                                                                          admin     info                Eh um Sistema Operacional?
+pt_BR     senha para admnistrar o agente                                                                      admin     info                Senha para admnistrar o agente
+pt_BR     o aplicativo (%1) ja esta cadastrado                                                                admin     info                O aplicativo (%1) ja esta cadastrado
+pt_BR     o campo nome do aplicativo e obrigatorio.                                                           admin     info                O campo nome do aplicativo e obrigatorio.
+pt_BR     as informacoes abaixo referem-se as caracteristicas de instalacao de sistema a serem monitorados    admin     info                As informacoes abaixo referem-se as caracteristicas de instalacao de sistema a serem monitorados
+pt_BR     deve-se ter o cuidado quanto a sensibilidade no uso de letras maiusculas e minusculas.              admin     info                Deve-se ter o cuidado quanto a sensibilidade no uso de letras maiusculas e minusculas.
+pt_BR     disponibilizar informacoes no systray?                                                              admin     info                Disponibilizar informacoes no Systray?
+pt_BR     (icone na bandeja da estacao):                                                                      admin     info                (icone na bandeja da estacao):
+pt_BR     disponibilizar informacoes ao usuario comum?                                                        admin     info                Disponibilizar informacoes ao usuario comum?
+pt_BR     (diferente de administrador):                                                                       admin     info                (diferente de administrador):
+pt_BR     identificador de licenca                                                                            admin     info                Identificador de licenca
+pt_BR     exemplo: hkey_local_machine\\software\\dataprev\\cacic2\\id_versao                                  admin     info                Exemplo: HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao
+pt_BR     caminho\\chave\\valor em registry                                                                   admin     info                Caminho\\Chave\\Valor em Registry
+pt_BR     exemplo: arquivos de programas\\cacic\\dados\\config.ini/patrimonio/nu_cpu                          admin     info                Exemplo: Arquivos de Programas\\Cacic\\Dados\\config.ini/Patrimonio/nu_CPU
+pt_BR     caminho\\nome do arquivo/secao/chave de arquivo ini                                                 admin     info                Caminho\\nome do arquivo/Secao/Chave de Arquivo INI
+pt_BR     caracteristicas em ambientes windows 9x/me                                                          admin     info                Caracteristicas em ambientes Windows 9x/Me
+pt_BR     identificador de instalacao                                                                         admin     info                Identificador de instalacao
+pt_BR     exemplo:                                                                                            admin     info                Exemplo:
+pt_BR     nome de executavel                                                                                  admin     info                Nome de executavel
+pt_BR     identificador de versao/configuracao                                                                admin     info                Identificador de versao/configuracao
+pt_BR     data de arquivo                                                                                     admin     info                Data de arquivo
+pt_BR     versao de executavel                                                                                admin     info                Versao de executavel
+pt_BR     caracteristicas em ambientes windows nt/2000/xp/2003                                                admin     info                Caracteristicas em ambientes Windows NT/2000/XP/2003
+pt_BR     selecao de redes para aplicacao desta coleta de informacoes                                         admin     info                Selecao de redes para aplicacao desta coleta de informacoes
+pt_BR     gravar alteracoes?                                                                                  admin     info                Gravar alteracoes?
+pt_BR     confirma informacoes para perfil de sistema monitorado?                                             admin     info                Confirma Informacoes para perfil de sistema monitorado?
+pt_BR     excluir perfil de sistema monitorado                                                                admin     info                Excluir perfil de sistema monitorado
+pt_BR     confirma exclusao de perfil de sistema monitorado?                                                  admin     info                Confirma exclusao de perfil de sistema monitorado?
+pt_BR     quantidade real baseada em mac-address                                                              geral     info                Quantidade real baseada em MAC-Address
+pt_BR     hoje................                                                                                geral     info                Hoje................
+pt_BR     ha 1 dia............                                                                                geral     info                Ha 1 dia............
+pt_BR     ha 2 dias...........                                                                                geral     info                Ha 2 dias...........
+pt_BR     ha 3 dias...........                                                                                geral     info                Ha 3 dias...........
+pt_BR     ha 4 dias...........                                                                                geral     info                Ha 4 dias...........
+pt_BR     de 5 a 30 dias......                                                                                geral     info                De 5 a 30 dias......
+pt_BR     de 30 a 180 dias....                                                                                geral     info                De 30 a 180 dias....
+pt_BR     de 180 a 365 dias...                                                                                geral     info                De 180 a 365 dias...
+pt_BR     ha mais de 365 dias.                                                                                geral     info                Ha mais de 365 dias.

@@ -75,7 +75,7 @@ conecta_bd_cacic();
 		WHERE (s.id_software = " . $v_id_software . ") AND 
 		      (se.id_software = s.id_software) AND (se.dt_desinstalacao IS NULL)  
 		GROUP BY s.id_software";
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou').' '.$query);
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('softwares')).' '.$query);
 	$row = mysql_fetch_row($result);
 
 echo '<table border="0" align="center" width="80%">
@@ -89,7 +89,7 @@ echo '<table border="0" align="center" width="80%">
 		         (se.dt_desinstalacao IS NULL)  
 		   ORDER BY nr_patrimonio";
 	
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('softwares_estacao')));
 
 $cor = 0;
 $num_registro = 1;

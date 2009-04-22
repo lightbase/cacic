@@ -30,7 +30,7 @@
 		}
 		?>
   		<tr> 
-    	<td class="dado">&nbsp;Total&nbsp;</td>
+    	<td class="dado"><?php echo $oTranslator->_('Total');?></td>
     	<td class="dado"><div align="right">&nbsp;<? echo number_format($intTotalGeral,0,',','.');?>&nbsp;</div></td>
   		</tr>		
 </table>

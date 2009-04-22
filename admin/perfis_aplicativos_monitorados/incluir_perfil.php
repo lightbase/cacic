@@ -25,7 +25,7 @@ if($_POST['submit'])
 	$frm_nm_aplicativo = $_POST['frm_nm_aplicativo'];  
 	
 	$query = "SELECT * FROM perfis_aplicativos_monitorados WHERE nm_aplicativo = '".$frm_nm_aplicativo."'";
-	$result = mysql_query($query) or die ('1-Select falhou ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Falha na consulta a tabela (%1) ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));
 	
 	if (mysql_num_rows($result) > 0) 
 		{
@@ -36,7 +36,7 @@ if($_POST['submit'])
 			    <tr> 
 				  <td valign="top" bgcolor="#EEEEEE"><div align="center">
 					<div align="center">
-				    <font size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>O aplicativo ' . $frm_nm_aplicativo . '<br>j&aacute; est&aacute; cadastrado</strong></font>
+				    <font size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>'.$oTranslator->_('O aplicativo (%1) ja esta cadastrado',array($frm_nm_aplicativo)).'</strong></font>
 				   </div>
 				</td>
 				</tr>
@@ -96,7 +96,7 @@ if($_POST['submit'])
 						  '$frm_in_disponibiliza_info',
 						  '$frm_in_disponibiliza_info_usuario_comum')";
 
-		$result = mysql_query($query) or die ('2-Insert falhou ou sua sessão expirou!');
+		$result = mysql_query($query) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));
 		$id_aplicativo = mysql_insert_id(); // Não tirar daqui...
 				
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');		
@@ -118,7 +118,7 @@ if($_POST['submit'])
 					  INTO 		aplicativos_redes
 					  VALUES 	".$strInsertAplicativosRedes;
 
-			$result = mysql_query($query) or die ('3-Insert falhou ou sua sessão expirou!');								  
+			$result = mysql_query($query) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!',array('aplicativos_redes')));								  
 			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');				
 			}
 		
@@ -156,7 +156,7 @@ function valida_form() {
 	
 	if ( document.forma.frm_nm_aplicativo.value == "" ) 
 	{	
-		alert("O campo Nome do Aplicativo é obrigatório.");
+		alert("<?=$oTranslator->_('O campo nome do aplicativo e obrigatorio.');?>");
 		document.forma.frm_nm_aplicativo.focus();
 		return false;
 	}

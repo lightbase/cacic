@@ -182,24 +182,20 @@ INSERT INTO `so`
             (`id_so`, `te_desc_so`, `sg_so`, `te_so`)
      VALUES
             (0, 'S.O. Desconocido', 'Desc.', ''),
-            (1, 'Windows 95', 'W95', '1.4.0'),
-            (2, 'Windows 95 OSR2', 'W95OSR2', ''),
-            (3, 'Windows 98', 'W98', '1.4.10'),
-            (4, 'Windows 98 SE', 'W98SE', '1.4.10.A'),
-            (5, 'Windows ME', 'WME', ''),
-            (6, 'Windows NT', 'WNT', ''),
-            (7, 'Windows 2000', 'W2K', '2.5.0.Service Pack 4'),
-            (8, 'Windows XP', 'WXP', '2.5.1.Service Pack 2'),
-            (9, 'GNU/Linux', 'LNX', ''),
-            (10, 'FreeBSD', 'FBSD', ''),
-            (11, 'NetBSD', 'NBSD', ''),
-            (12, 'OpenBSD', 'OBSD', ''),
-            (13, 'Windows 2003', 'W2003', ''),
-            (14, 'Windows VISTA', 'VISTA', '2.6.0'),
-            (15, 'Ubuntu 7.10 (Gutsy)', 'Ubuntu_710', 'Ubuntu - 7.10'),
-            (16, 'CentOS 4', 'CentOS_4', 'CentOS release - 4'),
-            (17, 'CentOS 5', 'CentOS_5', 'CentOS release - 5'),
-            (18, 'Ubuntu 8.04 (Hardy)', 'Ubuntu_804', 'Ubuntu - 8.04');
+            (1, 'Windows 95 OSR2', 'Win95', '1.4.0.B'),
+            (2, 'Windows 98 SE', 'Win98SE', '1.4.10.A'),
+            (3, 'Windows XP Professional', 'WinXP', '2.5.1.1.256'),
+            (4, 'Windows 2000 Advanced', 'Win2000', '2.5.0.1.2'),
+            (5, 'Windows 2003 Enterprise', 'Win2003', '2.5.2.3.274'),
+            (6, 'Windows Vista', 'WinVista', '2.6.0.1.256'),
+            (7, 'GNU/Linux', 'LNX', ''),
+            (8, 'FreeBSD', 'FBSD', ''),
+            (9, 'NetBSD', 'NBSD', ''),
+            (10, 'OpenBSD', 'OBSD', ''),
+            (11, 'Ubuntu 7.10 (Gutsy)', 'Ubuntu_710', 'Ubuntu - 7.10'),
+            (12, 'CentOS 4', 'CentOS_4', 'CentOS release - 4'),
+            (13, 'CentOS 5', 'CentOS_5', 'CentOS release - 5'),
+            (14, 'Ubuntu 8.04 (Hardy)', 'Ubuntu_804', 'Ubuntu - 8.04');
 /*!40000 ALTER TABLE `so` ENABLE KEYS */;
 
 --

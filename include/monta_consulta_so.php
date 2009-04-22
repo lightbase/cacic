@@ -9,7 +9,7 @@ $query = 'SELECT 	count(computadores.id_so) as qtd,
 					computadores.dt_hr_ult_acesso IS NOT NULL AND
 					computadores.id_ip_rede = redes.id_ip_rede '.
 					$where . ' 
-		  GROUP BY 	computadores.id_so 
+		  GROUP BY 	so.te_desc_so 
 		  ORDER BY 	qtd DESC';
 
 conecta_bd_cacic();		  

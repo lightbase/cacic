@@ -52,9 +52,11 @@ es_UR     cadastro de aquisicao                                                 
 es_UR     cadastro de aquisicoes                                                                              admin     info                Registro de Adquisiciones
 es_UR     cadastro de local                                                                                   admin     info                Registro de locales
 es_UR     cadastro de perfis de sistemas monitorados                                                          admin     info                Registro de Perfiles de los Sistemas Monitoreados
+es_UR     cadastro de sistemas operacionais                                                                   admin                         Registro de Sistemas Operativos
 es_UR     cadastro de softwares                                                                               admin     info                Registro de Softwares
 es_UR     cadastro de softwares po estacao                                                                    admin     info                Registro de Softwares por Estacion
 es_UR     cadastro de subredes                                                                                admin     info                Registro de Subredes
+es_UR     cadastro de tipos de softwares                                                                      admin     info                Registro de Tipo de Softwares
 es_UR     cadastro de unidade organizacional nivel 2                                                          admin     info                Registro de Unidad Organizacional Nivel 2
 es_UR     cadastro de usuarios                                                                                admin     info                Registro de Usuarios
 es_UR     campo                                                                                               admin     info                Campo
@@ -145,6 +147,7 @@ es_UR     kciq_msg excluir computadores advise                                  
 es_UR     kciq_msg mac address help                                                                           admin     info                Estaq opcion tiene por finalidad informar a los agentes recolectores de informaciones de TCP/IP acerca de las direcciones MAC invalidas, o sea, las direcciones utilizadas como padrones en protocolos y/o dispoisitivos diferentes de TCP/Ethernet. Los recolectores consideraran solo las direcciones MAC diferentes o que no contengan informaciones aqui recolectadas, pudiendo ser partes de
 es_UR     esta pagina permite induzir coletas em determinado computador                                       admin     info                Esta pagina permite inducir recoleccion en determinado computador
 es_UR     estacao                                                                                             admin     info                Estacion
+es_UR     ksiq_msg exclusaosoftware                                                                           admin     info                Este formulario muestra los softwares inventariados en las computadoras que no estan asociados a ninguna computadora
 es_UR     kciq_msg log de atividades help                                                                     admin     info                Este modulo permite la visualizacion de las actividades realizadas con el uso de las operaciones de INSERT/UPDATE/DELETE ocurridas en el Sistema CACIC. Una ordenacion de las columnas podrá ser definida clickeando en sus nombres.
 es_UR     ksiq_msg insuceso help                                                                              admin     info                Este modulo permite la visualizacion de las tentativas de instalacion de los agentes cuyos resultados sean un INSUCESO.
 es_UR     kciq_msg log de acessos help                                                                        admin     info                Este modulo permite la visualizacion de los accesos efectuados en el sistema. Es  posible visualizar las actividades ejecutadas por el usuario en una fecha, basta clickear sobre una de sus informaciones.
@@ -158,6 +161,7 @@ es_UR     excluir computadores                                                  
 es_UR     excluir local                                                                                       admin     info                Excluir local
 es_UR     excluir computadores selecionados                                                                   admin     info                Excluir computadoras seleccionadas
 es_UR     excluir usuario                                                                                     admin     info                Excluir Usuario
+es_UR     exclusaosoftware                                                                                    admin     info                Exclusion de Softwares no Asociados a ninguna maquina
 es_UR     executado apenas nas redes selecionadas                                                             admin     info                Ejecutado solo en las redes seleccionadas
 es_UR     executado em todas as redes                                                                         admin     info                Ejecutado en todas las redes
 es_UR     exemplo                                                                                             admin     info                Ejemplo
@@ -209,6 +213,8 @@ es_UR     incluir aquisicao                                                     
 es_UR     incluir informacoes de novo local                                                                   admin     info                Incluir informaciones del Nuevo Local
 es_UR     incluir nova subrede                                                                                admin     info                Incluir Subred Nueva
 es_UR     incluir novo perfil de sistema                                                                      admin     info                Inlcuir Nuevo Perfil de Sistema
+es_UR     incluir novo sistema operacional                                                                    admin     info                Incluir Nuevo Sistema Operativo
+es_UR     incluir novo software                                                                               admin     info                Inlcuir nuevo software
 es_UR     incluir novo usuario                                                                                admin     info                Incluir nuevo Usuario
 es_UR     inclusao                                                                                            admin     info                Inclusion
 es_UR     inclusao de                                                                                         admin     info                Inclusion de
@@ -255,6 +261,7 @@ es_UR     modulo para cadastramento manual de softwares por estacao             
 es_UR     modulos                                                                                             admin     info                Modulos
 es_UR     mostrar todos                                                                                       admin     info                Mostrar todos
 es_UR     motivo                                                                                              admin     info                Motivo
+es_UR     kciq_msg cadastro de softwares help                                                                 admin     info                Modulo para registro manual de software para despues ser utilizado como referencia junto con los datos de las licencias
 es_UR     nao contenha                                                                                        admin     info                No Contenga
 es_UR     nao atualizado                                                                                      admin     info                No actualizado
 es_UR     nao enviado                                                                                         admin     info                No Enviado
@@ -278,6 +285,9 @@ es_UR     nenhuma acao realizada no periodo informado.                          
 es_UR     nenhuma atividade realizada no periodo informado                                                    admin     info                Ninguna actividad realizada en el periodo informado
 es_UR     nenhuma rede cadastrada ou sua sessao expirou!                                                      admin     info                Ninguna red fue registrada o su sesion expiro!
 es_UR     kciq_msg repositorio help                                                                           admin     info                En esta pagina es posible verificar el contenido del repositorio, bien como excluir objetos que no seran utilizados en las actualizaciones de las Subredes
+es_UR     ksiq_msg cadastro de sistemas operacionais                                                          admin     info                En este modulo se debera registrar los sistemas operativos instalados en el parque de computadoras monitoreados.
+es_UR     ksiq_msg cadastro de softwares                                                                      admin     info                En este modulo se debera ser registrados los softwares individuales en el parque computacional monitoreados.
+es_UR     ksiq_msg cadastro de tipos de softwares                                                             admin     info                En este modulo se debera registrar todos los tipos de software manejados por el sistema.
 es_UR     neste modulo deverao ser cadastrados os usuarios que acessarao o sistema.                           admin     info                En este modulo deberan ser registrados los usuarios que accederan al sistema.
 es_UR     ksiq_msg subredes help                                                                              admin     info                En este modulo deberan ser registradas todas las subredes donde los agentes de CACIC seran instalados.
 es_UR     ksiq_msg perfis                                                                                     admin     info                En este modulo deberan ser registrados los perfiles de los sistemas que seran monitoreados por CACIC.
@@ -294,6 +304,7 @@ es_UR     nome da rede                                                          
 es_UR     nome de rede                                                                                        admin     info                Nombre de la red
 es_UR     nome do computador                                                                                  admin     info                Nombre del computador
 es_UR     nome do local                                                                                       admin     info                Nombre del local
+es_UR     nome do software                                                                                    admin     info                Nombre del Software
 es_UR     nome do proprietario:                                                                               admin     info                Nombre del propietario:
 es_UR     nome ou ip do servidor de aplicacao (gerente)                                                       admin     info                Nombre o IP del servidor de aplicacion (gerente)
 es_UR     nome ou ip do servidor de atualizacao (ftp)                                                         admin     info                Nombre o IP del servidor de actualizacion (FTP)
@@ -304,8 +315,9 @@ es_UR     numero da midia:                                                      
 es_UR     numero da nota fiscal:                                                                              admin     info                Numero de la nota fiscal:
 es_UR     numero do patrimonio                                                                                admin     info                Numero del patrimonio
 es_UR     numero do processo:                                                                                 admin     info                Numero del proceso
-es_UR     nao                                                                                                 admin     info                NO
 es_UR     ksiq_msg not                                                                                        admin     info                No
+es_UR     nao                                                                                                 admin     info                NO
+es_UR     nao instalados:                                                                                     admin                         No instalados
 es_UR     o nome do local e obrigatorio                                                                       admin     info                El nombre del local es obligatorio
 es_UR     observacao                                                                                          admin     info                Observacion
 es_UR     observacao:                                                                                         admin     info                Observacion:
@@ -371,6 +383,7 @@ es_UR     relatorio de softwares por processo                                   
 es_UR     relatorio de cadastros inconsistentes ii                                                            admin     info                Reporte de registros inconsistentes!!!
 es_UR     relatorio gerado pelo                                                                               admin     info                Reporte generado por
 es_UR     remocao de computador                                                                               admin     info                Remover computador
+es_UR     remover softwares da base de dados                                                                  admin     info                Remover Softwares de la Base de Datos
 es_UR     repositorio                                                                                         admin     info                Repositorio
 es_UR     responsavel                                                                                         admin     info                Responsable
 es_UR     restaurar valores                                                                                   admin     info                Restaurar valores
@@ -399,6 +412,7 @@ es_UR     selecione o periodo no qual devera ser realizada a consulta           
 es_UR     selecione o software                                                                                admin     info                Seleccione el software
 es_UR     selecione os filtros da consulta:                                                                   admin     info                Seleccione los filtros de la consulta:
 es_UR     selecione os softwares que deseja classificar:                                                      admin     info                Seleccione los softwares que desea clasificar:
+es_UR     selecionesoftware                                                                                   admin     info                Seleccione los softwares que desea remover (Softwares no clasificados y software basura)
 es_UR     selecione pelo menos 1 software.                                                                    admin     info                Seleccione por los menos 1 software
 es_UR     senha atual                                                                                         admin     info                Clave actual
 es_UR     senha padrao para administrar o agente                                                              admin     info                Clave padron para administrar el agente
@@ -459,6 +473,7 @@ es_UR     aaaa/nnnnnn                                                           
 es_UR     desenvolvido por                                                                                    admin     info                desarrollado por
 es_UR     formato                                                                                             admin     info                formato
 es_UR     formato:                                                                                            admin     info                formato:
+es_UR     incluir informacoes de novo tipo de software                                                        admin     info                Inlcuir informaciones de nuevo tipo de Software
 es_UR     jose.silva@es.previdenciasocial.gov.br, luis.almeida@xyz.com                                        admin     info                jose.silva@es.previdenciasocial.gov.br, jdelavega@centrolinux.com.uy
 es_UR     mes                                                                                                 admin     info                mes
 es_UR     meses                                                                                               admin     info                meses
@@ -543,8 +558,8 @@ es_UR     kciq_msg login not exist                                              
 es_UR     kciq_msg ftp login ok                                                                               geral     info                Login con exito en el FTP
 es_UR     kciq_msg admin login needed                                                                         geral     info                Login del administrador debe ser informado!
 es_UR     kciq_msg logout                                                                                     Geral     info                Logoff
-es_UR     manutencao                                                                                          geral     TagHeader           Mantenimiento
 es_UR     manutenção                                                                                          geral     TagHeader           Mantenimiento
+es_UR     manutencao                                                                                          geral     TagHeader           Mantenimiento
 es_UR     marca ou desmarca acao para as redes abaixo                                                         geral     info                Marca o Desmarca Accion para las redes de abajo
 es_UR     marca/desmarca todas as acoes para todas as redes abaixo                                            geral     info                Marca/Desmarca todas las acciones para todas las redes de abajo
 es_UR     kciq_msg mensagem                                                                                   Geral     info                Mensaje

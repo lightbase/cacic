@@ -27,7 +27,7 @@ $query = 'SELECT 	count(te_node_address) as qtd
 		  GROUP BY 	computadores.te_node_address';
 $result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('computadores, redes, so')));
 
-$v_row_result = 'Quantidade Real Baseada em Mac-Address';
+$v_row_result = $oTranslator->_('Quantidade real baseada em MAC-Address');
 session_register('arr_mac');
 $_SESSION['arr_mac'] = array();
 $_SESSION['arr_mac'][$v_row_result] = 0;

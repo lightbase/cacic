@@ -80,7 +80,7 @@ conecta_bd_cacic();
 					   WHERE nr_processo = '" . $v_processo. "'))
 	        ORDER BY nm_software";
 
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('aquisicoes_item')));
 
 $cor = 0;
 $num_registro = 1;

@@ -76,7 +76,7 @@ conecta_bd_cacic();
 		GROUP BY nr_processo
 		ORDER BY nr_processo desc";
 
-	$result = mysql_query($query) or die ($oTranslator->_('Erro no select ou sua sessao expirou!'));
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('aquisicoes')));
 
 
 $cor = 0;

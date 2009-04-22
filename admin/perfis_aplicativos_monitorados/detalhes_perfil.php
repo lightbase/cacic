@@ -183,7 +183,7 @@ function SetaNomeSistema()
 function valida_form() {
 	if ( document.forma.frm_nm_aplicativo.value == "" ) 
 	{	
-		alert("O campo Nome do Aplicativo é obrigatório.");
+		alert("<?=$oTranslator->_('O campo nome do aplicativo e obrigatorio.');?>");
 		document.forma.frm_nm_aplicativo.focus();
 		return false;
 	}
@@ -201,10 +201,9 @@ function valida_form() {
 		</td>
 	</tr>
   	<tr> 
-    	<td class="descricao">As informa&ccedil;&otilde;es 
-      	abaixo referem-se &agrave;s caracter&iacute;sticas de instala&ccedil;&atilde;o 
-      	do sistema a ser monitorado pelos agentes CACIC. &Eacute; necess&aacute;rio 
-      	o cuidado especial quanto ao uso de letras mai&uacute;sculas e min&uacute;sculas.
+    	<td class="descricao">
+    	  <?=$oTranslator->_('As informacoes abaixo referem-se as caracteristicas de instalacao de sistema a serem monitorados');?>
+    	  <?=$oTranslator->_('Deve-se ter o cuidado quanto a sensibilidade no uso de letras maiusculas e minusculas.');?>
 		</td>
   	</tr>
 </table>
@@ -249,7 +248,7 @@ function valida_form() {
 			          FROM   so
 					  WHERE  id_so <> '0'
 					  ORDER  BY te_desc_so";
-			mysql_query($query) or die('8-Select falhou ou sua sessão expirou!');
+			mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!',array('so')));
 		    $sql_result=mysql_query($query);			
 		while ($row_so=mysql_fetch_array($sql_result))
 			{ 
@@ -264,28 +263,31 @@ function valida_form() {
             <td>&nbsp;</td>
           </tr>
           <tr> 
-            <td nowrap class="label">Disponibilizar Informa&ccedil;&otilde;es 
-              no Systray? (&iacute;cone na bandeja da esta&ccedil;&atilde;o):<br> 
+            <td nowrap class="label">
+              <?=$oTranslator->_('Disponibilizar informacoes no Systray?');?>
+              <?=$oTranslator->_('(icone na bandeja da estacao):');?><br> 
               <select name="frm_in_disponibiliza_info" id="frm_in_disponibiliza_info" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"<? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?> >
-                <option value="N" <? if ($row['in_disponibiliza_info'] == "N") echo " selected ";?>>Não</option>
-                <option value="S" <? if ($row['in_disponibiliza_info'] == "S") echo " selected ";?>>Sim</option>
+                <option value="N" <? if ($row['in_disponibiliza_info'] == "N") echo " selected ";?>><?=$oTranslator->_('Nao');?></option>
+                <option value="S" <? if ($row['in_disponibiliza_info'] == "S") echo " selected ";?>><?=$oTranslator->_('Sim');?></option>
               </select> </td>
           </tr>
           <tr> 
             <td>&nbsp;</td>
           </tr>
           <tr> 
-            <td nowrap class="label">Disponibilizar Informa&ccedil;&otilde;es 
-              ao Usu&aacute;rio Comum? (diferente de Administrador):<br> <select name="frm_in_disponibiliza_info_usuario_comum" id="frm_in_disponibiliza_info_usuario_comum" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"<? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?> >
-                <option value="N" <? if ($row['in_disponibiliza_info_usuario_comum'] == "N") echo " selected ";?>>Não</option>
-                <option value="S" <? if ($row['in_disponibiliza_info_usuario_comum'] == "S") echo " selected ";?>>Sim</option>
+            <td nowrap class="label">
+              <?=$oTranslator->_('Disponibilizar informacoes ao usuario comum?');?>
+              <?=$oTranslator->_('(diferente de administrador):');?><br> 
+              <select name="frm_in_disponibiliza_info_usuario_comum" id="frm_in_disponibiliza_info_usuario_comum" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"<? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?> >
+                <option value="N" <? if ($row['in_disponibiliza_info_usuario_comum'] == "N") echo " selected ";?>><?=$oTranslator->_('Nao');?></option>
+                <option value="S" <? if ($row['in_disponibiliza_info_usuario_comum'] == "S") echo " selected ";?>><?=$oTranslator->_('Sim');?></option>
               </select> </td>
           </tr>
           <tr> 
             <td nowrap>&nbsp;</td>
           </tr>
           <tr> 
-            <td nowrap class="label"> Descri&ccedil;&atilde;o:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Descricao');?></td>
           </tr>
           <tr> 
             <td nowrap> <textarea name="frm_te_descritivo" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?> cols="60" rows="3" id="textarea" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $row['te_descritivo'];?></textarea> 
@@ -295,15 +297,17 @@ function valida_form() {
             <td nowrap>&nbsp;</td>
           </tr>
           <tr> 
-            <td nowrap class="label">Identificador de Licen&ccedil;a:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Identificador de licenca');?></td>
           </tr>
           <tr> 
             <td nowrap> <select name="frm_cs_ide_licenca" id="select6" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda1')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
                 <option value="0" id=""></option>
-                <option value="1" <? if ($row['cs_ide_licenca']=='1') echo 'selected';?>  id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
-                em Registry</option>
-                <option value="2" <? if ($row['cs_ide_licenca']=='2') echo 'selected';?>  id="Ex.:  Arquivos de Programas\Cacic\Cacic2.ini/Patrimonio/nu_CPU">Nome/Se&ccedil;&atilde;o\Chave 
-                de Arquivo INI</option>
+                <option value="1" <? if ($row['cs_ide_licenca']=='1') echo 'selected';?>  id="<?=$oTranslator->_('Exemplo: HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao');?>">
+                <?=$oTranslator->_('Caminho\Chave\Valor em Registry');?>
+                </option>
+                <option value="2" <? if ($row['cs_ide_licenca']=='2') echo 'selected';?>  id="<?=$oTranslator->_('Exemplo: Arquivos de Programas\Cacic\Dados\config.ini/Patrimonio/nu_CPU');?>">
+                 <?=$oTranslator->_('Caminho\nome do arquivo/Secao/Chave de Arquivo INI');?>
+                </option>
               </select> <br> <input name="frm_te_ide_licenca" type="text" id="frm_te_ide_licenca" value="<? echo $row['te_ide_licenca'];?>" size="80" maxlength="150" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda1" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
               <br> <input name="Ajuda11" type="text" style="border:0" size="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
@@ -314,21 +318,25 @@ function valida_form() {
             <td nowrap>&nbsp;</td>
           </tr>
           <tr> 
-            <td nowrap class="cabecalho_secao"><u>Caracter&iacute;sticas em ambientes 
-              Windows 9x/Me</u></td>
+            <td nowrap class="cabecalho_secao">
+              <u><?=$oTranslator->_('Caracteristicas em ambientes Windows 9x/Me');?></u>
+            </td>
           </tr>
           <tr> 
-            <td nowrap class="label">Identificador de Instala&ccedil;&atilde;o:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Identificador de instalacao');?></td>
           </tr>
           <tr> 
             <td nowrap><select name="frm_cs_car_inst_w9x" id="select17" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda2')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
                 <option value="0" id=""></option>
-                <option value="1" <? if ($row['cs_car_inst_w9x']=='1') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic\Programas\cacic.exe">Nome 
-                de Execut&aacute;vel</option>
-                <option value="2" <? if ($row['cs_car_inst_w9x']=='2') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic\Dados\config.ini">Nome 
-                de Arquivo de Configura&ccedil;&atilde;o</option>
-                <option value="3" <? if ($row['cs_car_inst_w9x']=='3') echo 'selected';?> id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
-                em Registry</option>
+                <option value="1" <? if ($row['cs_car_inst_w9x']=='1') echo 'selected';?> id="<?=$oTranslator->_('Exemplo:');?> Cacic\modulos\ger_cols.exe">
+                  <?=$oTranslator->_('Nome de executavel');?>
+                </option>
+                <option value="2" <? if ($row['cs_car_inst_w9x']=='2') echo 'selected';?> id="<?=$oTranslator->_('Exemplo: Arquivos de Programas\Cacic\Dados\config.ini/Patrimonio/nu_CPU');?>">
+                 <?=$oTranslator->_('Caminho\nome do arquivo/Secao/Chave de Arquivo INI');?>
+                </option>
+                <option value="3" <? if ($row['cs_car_inst_w9x']=='3') echo 'selected';?> id="<?=$oTranslator->_('Exemplo: HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao');?>">
+                 <?=$oTranslator->_('Caminho\Chave\Valor em Registry');?>
+                </option>
               </select> <br> <input name="frm_te_car_inst_w9x" type="text" id="frm_te_car_inst_w9x3" size="80" maxlength="150" value="<? echo $row['te_car_inst_w9x'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda2" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda22" type="text" style="border:0" size="80"></td>
@@ -337,19 +345,23 @@ function valida_form() {
             <td nowrap>&nbsp;</td>
           </tr>
           <tr> 
-            <td nowrap class="label">Identificador de Vers&atilde;o/Configura&ccedil;&atilde;o:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Identificador de versao/configuracao');?></td>
           </tr>
           <tr> 
             <td nowrap> <select name="frm_cs_car_ver_w9x" id="select18" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda3')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
                 <option value="0" id=""></option>
-                <option value="1"<? if ($row['cs_car_ver_w9x']=='1') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic2\Programas\ger_cols.exe">Data 
-                de Arquivo</option>
-                <option value="2"<? if ($row['cs_car_ver_w9x']=='2') echo 'selected';?> id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
-                em Registry</option>
-                <option value="3"<? if ($row['cs_car_ver_w9x']=='3') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic\Cacic2.ini/Patrimonio/nu_CPU">Nome/Se&ccedil;&atilde;o/Chave 
-                de Arquivo INI</option>
-                <option value="4"<? if ($row['cs_car_ver_w9x']=='4') echo 'selected';?> id="Ex.:  Cacic\modulos\col_moni.exe">Versão 
-                de Executável</option>
+                <option value="1"<? if ($row['cs_car_ver_w9x']=='1') echo 'selected';?> id="<?=$oTranslator->_('Exemplo:');?> Cacic\modulos\ger_cols.exe">
+                  <?=$oTranslator->_('Data de arquivo');?>
+                </option>
+                <option value="2"<? if ($row['cs_car_ver_w9x']=='2') echo 'selected';?> id="<?=$oTranslator->_('Exemplo: HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao');?>">
+                 <?=$oTranslator->_('Caminho\Chave\Valor em Registry');?>
+                </option>
+                <option value="3"<? if ($row['cs_car_ver_w9x']=='3') echo 'selected';?> id="<?=$oTranslator->_('Exemplo: Arquivos de Programas\Cacic\Dados\config.ini/Patrimonio/nu_CPU');?>">
+                 <?=$oTranslator->_('Caminho\nome do arquivo/Secao/Chave de Arquivo INI');?>
+                </option>
+                <option value="4"<? if ($row['cs_car_ver_w9x']=='4') echo 'selected';?> id="<?=$oTranslator->_('Exemplo:');?> Cacic\cacic.exe">
+                 <?=$oTranslator->_('Versao de executavel');?>
+                </option>
               </select> <br> <input name="frm_te_car_ver_w9x" type="text" id="frm_te_car_ver_w9x3" size="80" maxlength="150" value="<? echo $row['te_car_ver_w9x'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda3" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda33" type="text" style="border:0" size="80"></td>
@@ -358,21 +370,25 @@ function valida_form() {
             <td nowrap>&nbsp;</td>
           </tr>
           <tr> 
-            <td nowrap class="cabecalho_secao"><u>Caracter&iacute;sticas em ambientes 
-              Windows NT/2000/XP/2003</u></td>
+            <td nowrap class="cabecalho_secao">
+             <u><?=$oTranslator->_('Caracteristicas em ambientes Windows NT/2000/XP/2003');?></u>
+            </td>
           </tr>
           <tr> 
-            <td nowrap class="label">Identificador de Instala&ccedil;&atilde;o:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Identificador de instalacao');?></td>
           </tr>
           <tr> 
             <td nowrap> <select name="frm_cs_car_inst_wnt" id="select19" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda4')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
                 <option value="0" id=""></option>
-                <option value="1" <? if ($row['cs_car_inst_wnt']=='1') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic2\Programas\ger_cols.exe">Nome 
-                de Execut&aacute;vel</option>
-                <option value="2" <? if ($row['cs_car_inst_wnt']=='2') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic\Dados\config.ini">Nome 
-                de Arquivo de Configura&ccedil;&atilde;o</option>
-                <option value="3" <? if ($row['cs_car_inst_wnt']=='3') echo 'selected';?> id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
-                em Registry</option>
+                <option value="1" <? if ($row['cs_car_inst_wnt']=='1') echo 'selected';?> id="<?=$oTranslator->_('Exemplo:');?> Cacic\modulos\ger_cols.exe">
+                  <?=$oTranslator->_('Nome de executavel');?>
+                </option>
+                <option value="2" <? if ($row['cs_car_inst_wnt']=='2') echo 'selected';?> id=<?=$oTranslator->_('Exemplo: Arquivos de Programas\Cacic\Dados\config.ini/Patrimonio/nu_CPU');?>">
+                 <?=$oTranslator->_('Caminho\nome do arquivo/Secao/Chave de Arquivo INI');?>
+                </option>
+                <option value="3" <? if ($row['cs_car_inst_wnt']=='3') echo 'selected';?> id="<?=$oTranslator->_('Exemplo: HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao');?>">
+                 <?=$oTranslator->_('Caminho\Chave\Valor em Registry');?>
+                </option>
               </select> <br> <input name="frm_te_car_inst_wnt" type="text" id="frm_te_car_inst_wnt3" size="80" maxlength="150" value="<? echo $row['te_car_inst_wnt'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda4" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda44" type="text" style="border:0" size="80"></td>
@@ -381,19 +397,23 @@ function valida_form() {
             <td nowrap>&nbsp;</td>
           </tr>
           <tr> 
-            <td nowrap class="label">Identificador de Vers&atilde;o/Configura&ccedil;&atilde;o:</td>
+            <td nowrap class="label"><?=$oTranslator->_('Identificador de versao/configuracao');?></td>
           </tr>
           <tr> 
             <td nowrap> <select name="frm_cs_car_ver_wnt" id="select20" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda5')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
                 <option value="0" id=""></option>
-                <option value="1"<? if ($row['cs_car_ver_wnt']=='1') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic2\Programas\ger_cols.exe">Data 
-                de Arquivo</option>
-                <option value="2"<? if ($row['cs_car_ver_wnt']=='2') echo 'selected';?> id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
-                em Registry</option>
-                <option value="3"<? if ($row['cs_car_ver_wnt']=='3') echo 'selected';?> id="Ex.:  Arquivos de Programas\Cacic\Cacic2.ini/Patrimonio/nu_CPU">Nome/Se&ccedil;&atilde;o/Chave 
-                de Arquivo INI</option>
-                <option value="4"<? if ($row['cs_car_ver_wnt']=='4') echo 'selected';?> id="Ex.:  Cacic\modulos\col_moni.exe">Versão 
-                de Executável</option>
+                <option value="1"<? if ($row['cs_car_ver_wnt']=='1') echo 'selected';?> id="<?=$oTranslator->_('Exemplo:');?> Cacic\modulos\ger_cols.exe">
+                  <?=$oTranslator->_('Data de arquivo');?>
+                </option>
+                <option value="2"<? if ($row['cs_car_ver_wnt']=='2') echo 'selected';?> id="<?=$oTranslator->_('Exemplo: HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao');?>">
+                 <?=$oTranslator->_('Caminho\Chave\Valor em Registry');?>
+                </option>
+                <option value="3"<? if ($row['cs_car_ver_wnt']=='3') echo 'selected';?> id="<?=$oTranslator->_('Exemplo: Arquivos de Programas\Cacic\Dados\config.ini/Patrimonio/nu_CPU');?>">
+                 <?=$oTranslator->_('Caminho\nome do arquivo/Secao/Chave de Arquivo INI');?>
+                </option>
+                <option value="4"<? if ($row['cs_car_ver_wnt']=='4') echo 'selected';?> id="<?=$oTranslator->_('Exemplo:');?> Cacic\cacic.exe">
+                 <?=$oTranslator->_('Versao de executavel');?>
+                </option>
               </select> <br> <input name="frm_te_car_ver_wnt" type="text" id="frm_te_car_ver_wnt3" size="80" maxlength="150" value="<? echo $row['te_car_ver_wnt'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?'readonly':'')?>> 
               <br> <input name="Ajuda5" type="text" style="border:0;font-size:9;color:#000099" size="80" maxlength="200"> 
               <br> <input name="Ajuda55" type="text" style="border:0" size="80"></td>
@@ -403,7 +423,9 @@ function valida_form() {
     </tr>
 	
     <tr> 
-      <td nowrap class="cabecalho_secao"><u>Sele&ccedil;&atilde;o de redes para  aplica&ccedil;&atilde;o desta coleta de informa&ccedil;&otilde;es</u></td>
+      <td nowrap class="cabecalho_secao">
+        <u><?=$oTranslator->_('Selecao de redes para aplicacao desta coleta de informacoes');?></u>
+      </td>
     </tr>
 	
 	<tr>
@@ -426,9 +448,9 @@ function valida_form() {
 
 
   <p align="center"> 
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Perfil de Sistema Monitorado?'),SelectAll(this.form.elements['list1[]']),SelectAll(this.form.elements['list2[]']) " <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  <?=$oTranslator->_('Gravar alteracoes?');?>  " onClick="return Confirma('<?=$oTranslator->_('Confirma Informacoes para perfil de sistema monitorado?');?>'),SelectAll(this.form.elements['list1[]']),SelectAll(this.form.elements['list2[]']) " <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
     &nbsp; &nbsp; 
-    <input name="ExcluiAplicativo" type="submit" value="Excluir Perfil de Sistema Monitorado" onClick="return Confirma('Confirma Exclusão de Perfil de Sistema Monitorado?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="ExcluiAplicativo" type="submit" value="<?=$oTranslator->_('Excluir perfil de sistema monitorado');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao de perfil de sistema monitorado?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
   </p>
   </form>
 </body>
