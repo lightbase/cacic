@@ -89,7 +89,7 @@ $historical_data_help = $oTranslator->_("Dados historicos obtidos de versoes ant
                     onchange="toggleDetails('hardware_type');"
                     title="<?=$historical_data_help;?>" />
              <b title="<?=$historical_data_help;?>">
-                <?php echo $oTranslator->_('Mostrar também dados historicos?'); ?>
+                <?php echo $oTranslator->_('Mostrar tambem dados historicos?'); ?>
              </b>
             </td>
           </tr>

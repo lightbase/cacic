@@ -55,7 +55,7 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
 								  LEFT JOIN unid_organizacional_nivel2 c ON (a.id_unid_organizacional_nivel2=c.id_unid_organizacional_nivel2)
 								  LEFT JOIN unid_organizacional_nivel1a d ON (a.id_unid_organizacional_nivel1a=d.id_unid_organizacional_nivel1a)
 								  LEFT JOIN unid_organizacional_nivel1 b ON (d.id_unid_organizacional_nivel1= b.id_unid_organizacional_nivel1)
-								  WHERE a.te_node_address='00-0C-29-66-78-C9' and id_so=25
+								  WHERE         a.te_node_address = '". $_GET['te_node_address'] ."' AND a.id_so = '". $_GET['id_so'] ."'
 								  ORDER BY dt_hr_alteracao desc limit 1";
 
 						$result_patrimonio = mysql_query($query);

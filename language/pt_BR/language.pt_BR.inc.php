@@ -831,3 +831,23 @@ pt_BR     de 5 a 30 dias......                                                  
 pt_BR     de 30 a 180 dias....                                                                                geral     info                De 30 a 180 dias....
 pt_BR     de 180 a 365 dias...                                                                                geral     info                De 180 a 365 dias...
 pt_BR     ha mais de 365 dias.                                                                                geral     info                Ha mais de 365 dias.
+pt_BR     relatorio de informacoes de patrimonio e localizacao fisica                                         relatoriosinfo                Relatorio de informacoes de Patrimonio e Localizacao Fisica
+pt_BR     registros nao encontrados na tabela %1 ou sua sessao expirou!                                       relatoriosinfo                Registros nao encontrados na tabela %1 ou sua sessao expirou!
+pt_BR     registros nao encontrados na tabela %1 para os dados fornecidos!                                    relatoriosinfo                Registros nao encontrados na tabela %1 para os dados fornecidos!
+pt_BR     gerador por                                                                                         relatoriosinfo                Gerador por
+pt_BR     dados historicos obtidos de versoes anteriores a 2.4                                                relatoriosinfo                Dados historicos obtidos de versoes anteriores a 2.4
+pt_BR     relatorio de alteracao de hardware                                                                  relatoriosinfo                Relatorio de alteracao de hardware
+pt_BR     exibe as alteracoes nas configuracoes de hardware dos computadores.                                 relatoriosinfo                Exibe as alteracoes nas configuracoes de hardware dos computadores.
+pt_BR     mostrar tambem dados historicos?                                                                    relatoriosinfo                Mostrar tambem dados historicos?
+pt_BR     selecione os tipos de hardware a serem exibidos no relatorio.                                       relatoriosinfo                Selecione os tipos de hardware a serem exibidos no relatorio.
+pt_BR     mostrar somente dados historicos?                                                                   relatoriosinfo                Mostrar somente dados historicos?
+pt_BR     relatorio de alteracoes de hardware                                                                 relatoriosinfo                Relatorio de alteracoes de hardware
+pt_BR     tipo componente                                                                                     relatoriosinfo                Tipo componente
+pt_BR     data de alteracao                                                                                   relatoriosinfo                Data de alteracao
+pt_BR     tipo de alteracao                                                                                   relatoriosinfo                Tipo de alteracao
+pt_BR     dados da modificacao                                                                                relatoriosinfo                Dados da modificacao
+pt_BR     acrescentado                                                                                        relatoriosinfo                Acrescentado
+pt_BR     removido                                                                                            relatoriosinfo                Removido
+pt_BR     nao foram encontradas alteracoes de hardware!                                                       relatoriosinfo                Nao foram encontradas alteracoes de hardware!
+pt_BR     sao necessarios parametros para gerar o relatorios!                                                 relatoriosinfo                Sao necessarios parametros para gerar o relatorios!
+pt_BR     dados historicos                                                                                    relatoriosinfo                Dados historicos
