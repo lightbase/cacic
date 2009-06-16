@@ -69,6 +69,7 @@ td.dado {font-weight: bold; font-size: 11px; color: black; font-family: Verdana,
 td.opcao {background-color: #FFFFFF; font-weight: normal; font-size: 11px; color: black; font-family: Verdana, Arial, sans;}
 td.destaque {font-weight: bold; font-size: 10px; color: black; font-family: Verdana, Arial, sans;}
 td.destaque_laranja {font-weight: bold; font-size: 10px; color: orange; font-family: Verdana, Arial, sans;}
+td.destaque_chat {font-weight: bold; font-size: 20px; color: orange; font-family: Verdana, Arial, sans;}
 td.cabecalho_secao {background-color: #FFFFFF; font-weight: bold; font-size: 17px; color: black; font-family: Verdana, Arial, sans;}
 td.ajuda {background-color: #FFFFFF; font-weight: normal; font-size: 10px; color: black; font-family: Verdana, Arial, sans;}
 
@@ -302,6 +303,21 @@ a.dcontexto:hover span
     font-weight: bold;
     font-size: 12px;
     color: red;
+}
+
+.Chat {
+    padding: 05 22px 10 0px;
+    font-weight: bold;
+    font-size: 12px;
+    color: blue;
+}
+
+.ChatImg{
+    background: url('../imgs/chat.png') 100% 0 no-repeat;
+    padding: 05 22px 10 0px;
+    font-weight: bold;
+    font-size: 12px;
+    color: blue;
 }
 
 .NoJavaScript {

@@ -49,7 +49,7 @@ if (!$_REQUEST['date_input1'])
 	conecta_bd_cacic();
 	$query_minmax = 'SELECT 	DATE_FORMAT(min(a.dt_hr_ultimo_contato), "%d-%m-%Y") as minima,
 								DATE_FORMAT(max(a.dt_hr_ultimo_contato), "%d-%m-%Y") as maxima
-			  		 FROM 		srcacic_sessoes_logs a '.
+			  		 FROM 		srcacic_conexoes a '.
 					 			$from_usuarios .' 
 					 WHERE		'.
 					 			$where_usuarios;
@@ -164,7 +164,7 @@ require_once('../include/selecao_listbox.js');
 		$where = ($_REQUEST['nm_chamador']<>''?' AND b.id_usuario = '.$_REQUEST['id_usuario']:'');
 		
 		$OrderBy = ($_GET['OrderBy']<>''?$_GET['OrderBy']:'1');
-		$OrderBy = ($OrderBy=='1'?$OrderBy . ' DESC ':$OrderBy);		
+		$OrderBy = ($OrderBy=='1' || $OrderBy=='3'?$OrderBy . ' DESC ':$OrderBy);		
 
 		//$where_usuarios = '';
 		$itens_locais = '';
@@ -188,40 +188,46 @@ require_once('../include/selecao_listbox.js');
                         }
 
 		conecta_bd_cacic();
-		$query = 'SELECT 	DATE_FORMAT(a.dt_hr_ultimo_contato, "%y-%m-%d %H:%i") as dt_hr_ultimo_contato,
-							DATE_FORMAT(a.dt_hr_conexao, "%y-%m-%d %H:%i") as dt_hr_conexao,
-							a.te_documento_referencial,
-							a.te_motivo_conexao,							
-							DATE_FORMAT(aa.dt_hr_inicio_sessao, "%y-%m-%d %H:%i") as dt_hr_inicio_sessao,
-							aa.nm_completo_usuario_visitado,
-							d.te_ip te_ip_visitado,
-							d.te_nome_computador te_nome_computador_visitado,
+		$query = 'SELECT 	DATE_FORMAT(aa.dt_hr_inicio_conexao, "%y-%m-%d %H:%i") as dt_hr_inicio_conexao,
+							DATE_FORMAT(aa.dt_hr_ultimo_contato, "%y-%m-%d %H:%i") as dt_hr_ultimo_contato,									
+							DATE_FORMAT(a.dt_hr_inicio_sessao, "%y-%m-%d %H:%i") as dt_hr_inicio_sessao,
+							aa.te_documento_referencial,
+							aa.te_motivo_conexao,							
+							a.nm_completo_usuario_srv,
+							aaa.dt_hr_mensagem,
+							aaa.te_mensagem,
+							aaa.cs_origem,							
+							d.te_ip te_ip_srv,
+							d.te_nome_computador te_nome_computador_srv,
 							b.nm_usuario_completo,														
 							b.nm_usuario_acesso,																					
 							b.id_usuario,							
 							c.sg_local,
-							e.sg_so
-				  FROM 		srcacic_sessoes_logs a,
-				  			srcacic_sessoes aa,
+							e.sg_so,
+							a.id_sessao,
+							aa.id_conexao
+				  FROM 		srcacic_conexoes aa
+				  			LEFT JOIN srcacic_chats aaa ON (aaa.id_conexao = aa.id_conexao)
+				  			LEFT JOIN srcacic_sessoes  a  ON (a.id_sessao = aa.id_sessao) ,
 				  			usuarios b, 
 							locais c,
 							computadores d,
 							so e
-				  WHERE 	aa.id_sessao = a.id_sessao AND
-				  			a.id_usuario_visitante = b.id_usuario AND
+				  WHERE 	a.id_sessao = aa.id_sessao AND				  			
+				  			aa.id_usuario_cli = b.id_usuario AND
 				  			b.id_local = c.id_local AND							
-							a.dt_hr_ultimo_contato between "' . substr($_REQUEST['date_input1'],-4)."-".substr($_REQUEST['date_input1'],3,2)."-".substr($_REQUEST['date_input1'],0,2).' 00:00" AND "' . substr($_REQUEST['date_input2'],-4)."-".substr($_REQUEST['date_input2'],3,2)."-".substr($_REQUEST['date_input2'],0,2). ' 23:59" '.
+							aa.dt_hr_ultimo_contato between "' . substr($_REQUEST['date_input1'],-4)."-".substr($_REQUEST['date_input1'],3,2)."-".substr($_REQUEST['date_input1'],0,2).' 00:00" AND "' . substr($_REQUEST['date_input2'],-4)."-".substr($_REQUEST['date_input2'],3,2)."-".substr($_REQUEST['date_input2'],0,2). ' 23:59" '.
 							$where .
 							$where_locais . ' AND
-							d.te_node_address = aa.te_node_address_visitado AND
-							d.id_so = aa.id_so_visitado AND
-							e.id_so = a.id_so_visitante
+							d.te_node_address = a.te_node_address_srv AND
+							d.id_so = a.id_so_srv AND
+							e.id_so = aa.id_so_cli
 				  ORDER BY 	'.$OrderBy;
 /*
-... SELECT ...  dd.te_nome_computador te_nome_computador_visitante,a.te_ip te_ip_visitante,
+... SELECT ...  dd.te_nome_computador te_nome_computador_cli,a.te_ip te_ip_cli,
 ... FROM ... computadores dd 
-... WHERE ... dd.te_node_address = a.te_node_address_visitante AND
-                                   dd.id_so = a.id_so_visitante
+... WHERE ... dd.te_node_address = a.te_node_address_cli AND
+                                   dd.id_so = a.id_so_cli
 */
 //echo $query . '<br>';
 		$result = mysql_query($query);
@@ -241,61 +247,95 @@ require_once('../include/selecao_listbox.js');
       		<td height="1" colspan="3" bgcolor="#333333"></td>
     		</tr>
     		<tr> 
-      		<td colspan="3"> 
+      		<td colspan="5"> 
 			<table width="90%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
           	<tr bgcolor="#E1E1E1"> 
             <td colspan="3"></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=1&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Início de Sessão');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Início de Sessão');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuario Tecnico');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=7&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Estação Local');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('S.O. do Tecnico');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=6&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuário Local');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=4&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Estação Destino');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=10&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuário Remoto');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=5&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuário Destino');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=13&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Sigla S.O. Remoto');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=6&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Conexão - Último Contato');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=1&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Conexão - Último Contato');?></a></div></td>
             <td></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php#"><?=$oTranslator->_('Chat');?></a></div></td>
+            <td></td>            
           	</tr>
           	<tr> 
-            <td height="1" colspan="15" bgcolor="#333333"></td>
+            <td height="1" colspan="17" bgcolor="#333333"></td>
           	</tr>
           	<?  
 			$Cor = 0;
-			$NumRegistro = mysql_num_rows($result);
+			$NumRegistro = 0;
 			$msg = ($NumRegistro > 1?'':$msg);	
+
+			$strRegistroAnterior = '';
 			while($row = mysql_fetch_array($result)) 
 				{
-				list($year_inicio_sessao, $month_inicio_sessao, $day_inicio_sessao) = explode("-", $row['dt_hr_inicio_sessao']);
-				list($day_inicio_sessao,$hour_inicio_sessao) = explode(" ",$day_inicio_sessao); 
+				$strRegistroAtual = $row['id_sessao'] . $row['id_conexao'];
+				if ($strRegistroAnterior <> $strRegistroAtual)
+					{
+					$strRegistroAnterior = $strRegistroAtual;
+					$NumRegistro ++;
+					}
+				}
+			
+			mysql_data_seek($result,0);
+			
+			$strRegistroAnterior = '';
+			while($row = mysql_fetch_array($result)) 
+				{
+				$strRegistroAtual = $row['id_sessao'] . $row['id_conexao'];
+				if ($strRegistroAnterior <> $strRegistroAtual)
+					{
+					$strRegistroAnterior = $strRegistroAtual;
+					
+					list($year_inicio_sessao, $month_inicio_sessao, $day_inicio_sessao) = explode("-", $row['dt_hr_inicio_sessao']);
+					list($day_inicio_sessao,$hour_inicio_sessao) = explode(" ",$day_inicio_sessao); 
 				
-				list($year_ultimo_contato, $month_ultimo_contato, $day_ultimo_contato) = explode("-", $row['dt_hr_ultimo_contato']);
-				list($day_ultimo_contato,$hour_ultimo_contato) = explode(" ",$day_ultimo_contato); 
+					list($year_ultimo_contato, $month_ultimo_contato, $day_ultimo_contato) = explode("-", $row['dt_hr_ultimo_contato']);	
+					list($day_ultimo_contato,$hour_ultimo_contato) = explode(" ",$day_ultimo_contato); 
 
-				list($year_conexao, $month_conexao, $day_conexao) = explode("-", $row['dt_hr_conexao']);
-				list($day_conexao,$hour_conexao) = explode(" ",$day_conexao); 
+					list($year_conexao, $month_conexao, $day_conexao) = explode("-", $row['dt_hr_inicio_conexao']);
+					list($day_conexao,$hour_conexao) = explode(" ",$day_conexao); 
 
-				?>
-          		<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
-            	<td nowrap></td>
-            	<td align="left" nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $NumRegistro; ?></td>
-            	<td nowrap></td>
-            	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $day_inicio_sessao.'/'.$month_inicio_sessao.'/'.$year_inicio_sessao. ' '. substr($hour_inicio_sessao,0,5);?>h</td>
-            	<td nowrap></td>
-            	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $row['nm_usuario_acesso'].'/'.$row['nm_usuario_completo'];?></td>
-            	<td nowrap></td>
-            	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $row['sg_so'];?></td>
-            	<td nowrap></td>
-				<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $row['te_ip_visitado'].'/'.$row['te_nome_computador_visitado'].' - '.$row['sg_local'];?></td>
-            	<td nowrap></td>
-            	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $row['nm_completo_usuario_visitado'];?></td>
-            	<td nowrap></td>
-            	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $day_conexao.'/'.$month_conexao.'/'.$year_conexao. ' '. substr($hour_conexao,0,5) . 'h - '.$day_ultimo_contato.'/'.$month_ultimo_contato.'/'.$year_ultimo_contato. ' '. substr($hour_ultimo_contato,0,5);?>h</td>
-            	<td nowrap></td>
-            	<? 
-				$Cor=!$Cor;
-				$NumRegistro--;
+					?>                   
+    	      		<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        	    	<td nowrap></td>
+	            	<td align="left" nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $NumRegistro; ?></td>
+	            	<td nowrap></td>
+            		<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $day_inicio_sessao.'/'.$month_inicio_sessao.'/'.$year_inicio_sessao. ' '. substr($hour_inicio_sessao,0,5).'h';?></a></td>
+            		<td nowrap></td>
+					<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['te_ip_srv'].'/'.$row['te_nome_computador_srv'].' ('.$row['sg_local'].')';?></a></td>                
+	            	<td nowrap></td>
+    	        	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['nm_completo_usuario_srv'];?></a></td>                
+        	    	<td nowrap></td>
+            		<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['nm_usuario_acesso'].'/'.$row['nm_usuario_completo'];?></a></td>	
+	            	<td nowrap></td>
+    	        	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['sg_so'];?></a></td>
+        	    	<td nowrap></td>
+            		<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $day_conexao.'/'.$month_conexao.'/'.$year_conexao. ' '. substr($hour_conexao,0,5) . 'h - '.$day_ultimo_contato.'/'.$month_ultimo_contato.'/'.$year_ultimo_contato. ' '. substr($hour_ultimo_contato,0,5).'h';?></a></td>
+            		<td nowrap></td>
+	            	<td nowrap class="opcao_tabela">
+					<? 
+					if ($row['te_mensagem']<>'') 
+						{
+						?>
+						<a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><img src="../imgs/chat.png" border="0" height="20" width="20"></a>
+	                    <?
+						}
+						?>
+    	             </td>
+	            	<td nowrap></td>    
+    	        	<? 
+					$Cor=!$Cor;
+					$NumRegistro--;										
+					}
 				}
 			?>
         	</table></td>

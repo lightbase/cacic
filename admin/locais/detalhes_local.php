@@ -335,15 +335,17 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
-      <td colspan="7" class="label"><?=$oTranslator->_('Usuarios Associados ao Local');?></td>
+      <td colspan="9" class="label"><?=$oTranslator->_('Usuarios Associados ao Local');?></td>
     </tr>
     <tr> 
-      <td height="1" bgcolor="#333333" colspan="9"></td>
+      <td height="1" bgcolor="#333333" colspan="11"></td>
     </tr>
     <tr> 
       <td class="cabecalho_tabela">&nbsp;</td>
       <td class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela"><?=$oTranslator->_('Nome');?></td>
+      <td align="left" nowrap class="cabecalho_tabela"><?=$oTranslator->_('Nome para Acesso');?></td>
+      <td class="cabecalho_tabela">&nbsp;</td>
+      <td align="left" nowrap class="cabecalho_tabela"><?=$oTranslator->_('Nome Completo');?></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
       <td align="left" nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Nivel de Acesso');?></div></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
@@ -352,11 +354,12 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
       <td align="left" class="cabecalho_tabela"><?=$oTranslator->_('Endereco eletronico');?></td>	  
     </tr>
     <tr> 
-      <td height="1" bgcolor="#333333" colspan="9"></td>
+      <td height="1" bgcolor="#333333" colspan="11"></td>
     </tr>
     <?
 	$query = "SELECT 	a.id_usuario,
-						a.nm_usuario_completo,
+						a.nm_usuario_acesso,
+						a.nm_usuario_completo,						
 						a.id_local,
 						a.te_locais_secundarios,
 						a.te_emails_contato,
@@ -381,6 +384,9 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
     <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
       <td width="2%" align="center" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $seq; ?></a></td>
       <td width="1%" align="left" nowrap class="opcao_tabela">&nbsp;&nbsp;</td>
+      <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['nm_usuario_acesso']; 
+	  ?></a></td>
+      <td width="1%" align="left" nowrap class="opcao_tabela">&nbsp;</td>
       <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['nm_usuario_completo']; 
 	  if ($row['te_locais_secundarios']<>'' && $row['id_local'] <> $_GET['id_local'])
 	  	{
@@ -409,7 +415,7 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 		echo '<tr><td colspan="3" class="label_vermelho">'.$oTranslator->_('Ainda nao existem usuarios associados ao local!').'</td></tr>';		
 		?>
     <tr> 
-      <td height="1" bgcolor="#333333" colspan="9"></td>
+      <td height="1" bgcolor="#333333" colspan="11"></td>
     </tr>
   </table>
   <p align="center"> <br>

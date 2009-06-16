@@ -98,7 +98,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 		
 		$query_sel = "SELECT 	IF(TRIM(redes.nm_rede)=''                   OR redes.nm_rede is null,'Rede Desconhecida', redes.nm_rede) as nm_rede,
 								IF(TRIM(computadores.te_nome_computador)='' OR computadores.te_nome_computador is null,'Computador Desconhecido',computadores.te_nome_computador) as te_nome_computador,
-								IF(TRIM(computadores.te_workgroup)=''       OR computadores.te_workgroup is null,'Grupo de Trabalho Desconhecido',LOWER(computadores.te_workgroup)) as te_workgroup,
+								IF(TRIM(SUBSTRING_INDEX(computadores.te_workgroup, '@', -1))='' OR computadores.te_workgroup is null,'Grupo de Trabalho Desconhecido',LOWER(SUBSTRING_INDEX(computadores.te_workgroup, '@', -1))) as te_workgroup,
 								computadores.id_ip_rede,
 								computadores.te_ip,							
 								computadores.dt_hr_ult_acesso,
@@ -109,12 +109,12 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 								redes.id_local,
 								sg_local,
 								nm_local,
-								dominios.nm_dominio
+								servidores_autenticacao.nm_servidor_autenticacao
 					 FROM 		computadores 
 					 			LEFT JOIN redes             ON (computadores.id_ip_rede = redes.id_ip_rede)
 					 			LEFT JOIN compartilhamentos ON (computadores.id_so=compartilhamentos.id_so and computadores.te_node_address=compartilhamentos.te_node_address and compartilhamentos.cs_tipo_compart='I')
 					 			LEFT JOIN locais            ON (redes.id_local = locais.id_local)								
-								LEFT JOIN dominios          ON (redes.id_dominio = dominios.id_dominio)
+								LEFT JOIN servidores_autenticacao ON (redes.id_servidor_autenticacao = servidores_autenticacao.id_servidor_autenticacao)
 					 WHERE		".$where.$where1."
 				  	 GROUP BY 	sg_local,
 					 			computadores.id_ip_rede,
@@ -161,7 +161,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 							$nm_rede = 'SubRede Não Cadastrada';
 							}
 							
-						$_SESSION['Tripa'] 	.= '..' . $row["id_ip_rede"] . ' (' . $nm_rede . ')|'.$row["sg_local"] . ' (' . $row['nm_local'] . ')|'.$row["nm_dominio"].'#';
+						$_SESSION['Tripa'] 	.= '..' . $row["id_ip_rede"] . ' (' . $nm_rede . ')|'.$row["sg_local"] . ' (' . $row['nm_local'] . ')|'.$row["nm_servidor_autenticacao"].'#';
 
 						
 						$RedeAnt = $row["id_ip_rede"];
@@ -252,7 +252,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 			  $img_totals		    = $generic_imgs_path . "totals.gif";  			  	
 			  $img_details		    = $generic_imgs_path . "details.gif";  			  				  
 			  $img_compart_print    = $generic_imgs_path . "compart_print.gif";  			  			
-			  $img_domain		    = $generic_imgs_path . "domain.gif";  			  				  			  	  			  
+			  $img_authentication_server = $generic_imgs_path . "authentication_server.gif";  			  				  			  	  			  
 
 			  $img_os_win95 		= "<B>95</B>";  			  			  
 			  $img_os_win95_osr2	= "<B>95 OSR2</B>";  			  			  			  			  			  
@@ -343,7 +343,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 				$tree[$cnt][18]	=	''			; 	// Localization name to general use
 				$tree[$cnt][19]	=	''			; 	// SubNet name to general use
 				$tree[$cnt][20]	=	''			; 	// WorkGroup name to general use
-				$tree[$cnt][21]	=	''			; 	// Domain Name
+				$tree[$cnt][21]	=	''			; 	// Authentication Server Name
 				
 								
 				if ($tree[$cnt][0] > $maxlevel) $maxlevel=$tree[$cnt][0];    
@@ -727,13 +727,13 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 						}
 
 					// Atenção: foi necessário usar a condição "id_grupo_usuarios" abaixo devido ao "cs_nivel_administracao" == 0
-					if ($tree[$cnt][0]==2)
+					if ($tree[$cnt][0]==2 && ($_SESSION["cs_nivel_administracao"] <> 0 || $_SESSION["id_grupo_usuarios"] == 7))
 						{
 						if ($_SESSION["cs_nivel_administracao"] <> 0 || $_SESSION["id_grupo_usuarios"] == 7)
 							echo "<a href=../admin/redes/detalhes_rede.php?id_ip_rede=".$tree[$cnt][6]."&id_local=".$tree[$cnt][17]." target='_blank'><img src=\"".$img_details."\" border=no width=16 height=16 Title='Detalhes da SubRede'></a>";						
 							
 						if ($tree[$cnt][21])
-							echo "<img src=\"".$img_domain."\" border=no width=16 height=16 Title='Sub-Rede Associada ao Domínio \"".$tree[$cnt][21]."\"'>";												
+							echo "<img src=\"".$img_authentication_server."\" border=no width=16 height=16 Title='Sub-Rede Associada ao Servidor de Autenticação \"".$tree[$cnt][21]."\"'>";												
 						}
 						
 					}

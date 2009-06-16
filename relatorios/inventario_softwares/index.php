@@ -211,7 +211,9 @@ require_once('../../include/inicio_relatorios_inc.php');
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
+        <?  
+		$cs_situacao = 'T';
+		$v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
 		?>      </td>
     </tr>

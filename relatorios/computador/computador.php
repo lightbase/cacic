@@ -141,6 +141,13 @@ if (@mysql_num_rows($result))
   	<tr> 
     <td>
     <? 
+	require_once('inc_suporte_remoto.php'); 
+	?>
+    </td>
+  	</tr>    
+  	<tr> 
+    <td>
+    <? 
 	require_once('inc_ferramentas.php'); 
 	?>
     </td>

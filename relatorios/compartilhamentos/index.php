@@ -39,7 +39,8 @@ Com o objetivo de desenvolver um relatorio de pastas compartilhadas.
   <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
     <tr> 
       <td valign="top"> 
-        <? /* require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/selecao_redes_inc.php'); */	
+        <? /* require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/selecao_redes_inc.php'); */
+		$cs_situacao = 'T';	
 		$v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
 		?>
