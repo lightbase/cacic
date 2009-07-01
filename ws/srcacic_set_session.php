@@ -249,6 +249,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 		$result_SESSAO = mysql_query($query_SESSAO);			
 
 		GravaTESTES('SetSession: POST_te_mensagem: '.$_POST['te_mensagem']);								
+		conecta_bd_cacic();			
 		if ($_POST['te_mensagem']<>'')
 			{
 			$id_conexao 	= DeCrypt($key,$iv,$_POST['id_conexao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 								
@@ -257,8 +258,8 @@ if ($te_palavra_chave == $strTePalavraChave)
 			
 			$query_CHAT = "INSERT INTO srcacic_chats(id_conexao,dt_hr_mensagem,te_mensagem,cs_origem)
 			 					  VALUES (".$id_conexao.",'".date('Y-m-d H:i:s')."','".$te_mensagem."','".$cs_origem."')";
-			GravaTESTES('SetSession: Gravando CHAT: '.$query_CHAT);								
 			$result_CHAT = mysql_query($query_CHAT);			
+			GravaTESTES('SetSession: Gravando CHAT: '.$query_CHAT);											
 			
 			}
 		else
@@ -295,7 +296,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 				GravaTESTES('SetSession: id_sessao => '.$id_sessao);						 				 						 		
 				GravaTESTES('SetSession: id_conexao => '.$id_conexao);						 				 						 					
 				GravaTESTES('SetSession: query_SESSAO => '.$query_SESSAO);						 				 						 		
-
+				conecta_bd_cacic();			
 				$result_SESSAO = mysql_query($query_SESSAO);					
 				}
 			}

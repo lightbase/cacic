@@ -56,14 +56,17 @@ $v_cs_cipher		= '1';
 $strPaddingKey  	= '';
 
 
-foreach($HTTP_POST_VARS as $i => $v)
-        GravaTESTES('AuthClient: POST => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+GravaTESTES('***** authClient *****');
+if (count($HTTP_POST_VARS)>0)
+	foreach($HTTP_POST_VARS as $i => $v)
+    	    GravaTESTES('AuthClient: POST => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
 
-foreach($HTTP_GET_VARS as $i => $v)
-        GravaTESTES('AuthClient: GET => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+if (count($HTTP_GET_VARS)>0)
+	foreach($HTTP_GET_VARS as $i => $v)
+    	GravaTESTES('AuthClient: GET => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
 
 GravaTESTES('');
-
+conecta_bd_cacic();	
 	
 // Autenticação da Estação Visitante
 $te_node_address = DeCrypt($key,$iv,$_POST['te_node_address'],$v_cs_cipher,$v_cs_compress,$strPaddingKey);

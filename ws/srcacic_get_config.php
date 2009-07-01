@@ -43,16 +43,24 @@ $strPaddingKey  	= '';
 
 
 LimpaTESTES();
-GravaTESTES('srCACIC_getConfig.Valores POST Recebidos:');
-foreach($HTTP_POST_VARS as $i => $v) 
-	GravaTESTES('srCACIC_getConfig.Nome/Valor do POST_Request: "'.$i.'"/"'.$v.'"');
 
-GravaTESTES('srCACIC_getConfig.Valores GET Recebidos:');
-foreach($HTTP_GET_VARS as $i => $v) 
-	GravaTESTES('srCACIC_getConfig.Nome/Valor do GET_Request: "'.$i.'"/"'.$v.'"');
+if (count($HTTP_POST_VARS) > 0)
+	{
+	GravaTESTES('***** getConfig *****');
+	foreach($HTTP_POST_VARS as $i => $v) 
+		GravaTESTES('GetConfig: POST => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+	GravaTESTES('');
+	}
 
-GravaTESTES('');	
-GravaTESTES('');	
+if (count($HTTP_GET_VARS)>0)
+	{
+	GravaTESTES('srCACIC_getConfig.Valores GET Recebidos:');
+	foreach($HTTP_GET_VARS as $i => $v) 
+		GravaTESTES('GetConfig: GET => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+	GravaTESTES('');	
+	}
+
+conecta_bd_cacic();			
 
 // Autenticação da Estação Visitada
 $te_node_address   	= DeCrypt($key,$iv,$_POST['te_node_address'] ,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
