@@ -851,3 +851,8 @@ pt_BR     removido                                                              
 pt_BR     nao foram encontradas alteracoes de hardware!                                                       relatoriosinfo                Nao foram encontradas alteracoes de hardware!
 pt_BR     sao necessarios parametros para gerar o relatorios!                                                 relatoriosinfo                Sao necessarios parametros para gerar o relatorios!
 pt_BR     dados historicos                                                                                    relatoriosinfo                Dados historicos
+pt_BR     patrimonio e um campo obrigatorio!                                                                  admin     info                Patrimonio e um campo obrigatorio!
+pt_BR     software e um campo obrigatorio!                                                                    admin     info                Software e um campo obrigatorio!
+pt_BR     data de autorizacao e um campo obrigatorio!                                                         admin     info                Data de autorizacao e um campo obrigatorio!
+pt_BR     nome e um campo obrigatorio!                                                                        admin     info                Nome e um campo obrigatorio!
+pt_BR     quantidade de licencas e um campo obrigatorio!                                                      admin     info                Quantidade de licencas e um campo obrigatorio!

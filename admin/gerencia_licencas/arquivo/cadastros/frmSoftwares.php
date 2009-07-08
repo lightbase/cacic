@@ -20,11 +20,11 @@ require_once('../../../../include/library.php');
 function validaForm() {
 	msg="";
 	if((document.forms[0].nome.value=="") || (document.forms[0].nome.value.substring(0,1)==" ")){
-		msg="- NOME é um campo obrigatório!";
+		msg="- <?=$oTranslator->_('Nome e um campo obrigatorio!');?>";
 	}
 	
 	if((document.forms[0].quantidadeLicenca.value=="") || (document.forms[0].quantidadeLicenca.value.substring(0,1)==" ")){
-		msg=msg+"\n- QUANTIDADE DE LICENÇA é um campo obrigatório!";
+		msg=msg+"\n- <?=$oTranslator->_('Quantidade de licencas e um campo obrigatorio!');?>";
 	}
 	
 	if (msg!="") {
@@ -51,7 +51,7 @@ function validaForm() {
   </tr>
 </table>
 <br><br>
-<form action="softwares.php" method="post" name="frmSoftwares" onSubmit="return validaForm()">
+<form action="softwares.php" method="post" name="frmSoftwares" onSubmit="return validaForm();">
 <table width="90%" align="center">
 <tr>
   <td>Nome:</td>
@@ -84,7 +84,7 @@ function validaForm() {
   <td align="right"><input type="reset" name="cancelar" value="<?=$oTranslator->_('Cancelar');?>"/></td>
   <td align="left"><input type="submit" name="gravar" value="<?=$oTranslator->_('Gravar');?>" width="100"></td>
 </tr>
-</table></font>
+</table>
 </form>
 <p>&nbsp;</p>
 </body>

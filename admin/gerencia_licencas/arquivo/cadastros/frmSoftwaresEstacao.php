@@ -21,15 +21,15 @@ conecta_bd_cacic();
 function validaForm() {
 	msg="";
 	if((document.forms[0].patrimonio.value=="") || (document.forms[0].patrimonio.value.substring(0,1)==" ")){
-		msg="- PATRIMÔNIO é um campo obrigatório!";
+		msg="- <?=$oTranslator->_('Patrimonio e um campo obrigatorio!');?>";
 	}
 	
 	if((document.forms[0].software.value==-1) || (document.forms[0].software.value.substring(0,1)==" ")){
-		msg=msg+"\n- SOFTWARE é um campo obrigatório!";
+		msg=msg+"\n- <?=$oTranslator->_('Software e um campo obrigatorio!');?>";
 	}
 	
 	if((document.forms[0].dataAutorizacao.value=="") || (document.forms[0].dataAutorizacao.value.substring(0,1)==" ")){
-		msg=msg+"\n- DATA DE AUTORIZAÇÃO é um campo obrigatório!";
+		msg=msg+"\n- <?=$oTranslator->_('Data de autorizacao e um campo obrigatorio!');?>";
 	}
 	
 	if (msg!="") {
