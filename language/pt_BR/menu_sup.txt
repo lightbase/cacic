@@ -32,7 +32,6 @@
 ...Inventariados|relatorios/inventario_softwares/index.php|mainFrame||
 ..<b>Hardwares</b>||mainFrame|imgs/config_gerais.gif
 ...Configurações|relatorios/hardware/index.php|mainFrame||
-...Compartilhamentos|relatorios/compartilhamentos/index.php|mainFrame||
 ...Alterações|relatorios/alteracoes_hardware/index.php|mainFrame||
 ...Histórico Desatualizado|relatorios/computador/historico_desatualizado.php|mainFrame||
 ...Inventário Desatualizado|relatorios/computador/inventario_desatualizado.php|mainFrame||
@@ -40,6 +39,7 @@
 ...IPs Repetidos|relatorios/computador/ips_repetidos.php|mainFrame||Relatorio de Maquinas com IPs repetidos
 ...Inventários em Branco|relatorios/computador/inventario_em_branco.php|mainFrame||
 ...Últimos Alterados|relatorios/computador/ultimos_alterados.php|mainFrame||
+..Compartilhamentos|relatorios/compartilhamentos/index.php|mainFrame||
 ..TCP/IP|relatorios/tcpip/index.php|mainFrame||
 ..Variáveis de Ambiente|relatorios/variaveis_ambiente/index.php|mainFrame||
 ..Patrimônio|relatorios/patrimonio/index.php|mainFrame||

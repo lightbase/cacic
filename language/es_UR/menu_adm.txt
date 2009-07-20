@@ -55,7 +55,6 @@
 ...Genéricos|relatorios/software/softwares_generico.php|mainFrame||
 ..<b>Hardwares</b>||mainFrame|imgs/config_gerais.gif
 ...Configuraciones|relatorios/hardware/index.php|mainFrame||
-...Compartidos|relatorios/compartilhamentos/index.php|mainFrame||
 ...Alteraciones|relatorios/alteracoes_hardware/index.php|mainFrame||
 ...Histórico Desactualizado|relatorios/computador/historico_desatualizado.php|mainFrame||
 ...Inventário Desactualizado|relatorios/computador/inventario_desatualizado.php|mainFrame||
@@ -69,6 +68,7 @@
 ...Autorizadas por estacion|admin/gerencia_licencas/consulta/autorizados_por_estacao.php|mainFrame||
 ...Particulares|admin/gerencia_licencas/consulta/software_particular.php|mainFrame||
 ..Autorizaciones|admin/autorizacoes.php|mainFrame||
+..Compartidos|relatorios/compartilhamentos/index.php|mainFrame||
 ..TCP/IP|relatorios/tcpip/index.php|mainFrame||
 ..Variables de Ambiente|relatorios/variaveis_ambiente/index.php|mainFrame||
 ..Patrimonio|relatorios/patrimonio/index.php|mainFrame||

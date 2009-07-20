@@ -638,9 +638,12 @@ function atualiza_configuracoes_uonx($p_uonx)
     if (mysql_query($query)) 
 		{ 
 		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');		
-		return '1'; 
+		$strResult = '1'; 
 		}
-	else return '0';
+	else 
+		$strResult = '0';
+	
+	return $strResult;
 	}
 
 
@@ -861,7 +864,8 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 	GravaTESTES('Library_iccne: id_ip_rede: '.$id_ip_rede);			
 	GravaTESTES('Library_iccne: te_ip: '.$te_ip);			
 	GravaTESTES('Library_iccne: te_nome_computador: '.$te_nome_computador);			
-	GravaTESTES('Library_iccne: te_workgroup: '.$te_workgroup);								     */
+	GravaTESTES('Library_iccne: te_workgroup: '.$te_workgroup);								     
+	*/
 	
 	$arrSO = getValores('so', 'id_so', 'id_so = '.$id_so_new);
 	$id_so = $arrSO['id_so'];
