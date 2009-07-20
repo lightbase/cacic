@@ -55,7 +55,7 @@ $v_cs_cipher		= '1';
 
 $strPaddingKey  	= '';
 
-
+/*
 GravaTESTES('***** authClient *****');
 if (count($HTTP_POST_VARS)>0)
 	foreach($HTTP_POST_VARS as $i => $v)
@@ -66,6 +66,7 @@ if (count($HTTP_GET_VARS)>0)
     	GravaTESTES('AuthClient: GET => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
 
 GravaTESTES('');
+*/
 conecta_bd_cacic();	
 	
 // Autenticação da Estação Visitante
@@ -98,7 +99,7 @@ $strTePalavraChave	= $arrComputadores['te_palavra_chave'];
 if ($te_palavra_chave == $strTePalavraChave)
 	{
 //	GravaTESTES('AuthClient: Palavra-Chave OK!'); 	
-	conecta_bd_cacic();	
+	//conecta_bd_cacic();	
 
 	if ($_POST['nm_usuario_cli'] && $_POST['te_senha_cli'])
 		{
@@ -124,14 +125,14 @@ if ($te_palavra_chave == $strTePalavraChave)
 				$te_documento_referencial  = DeCrypt($key,$iv,$_POST['te_documento_referencial'],$v_cs_cipher,$v_cs_compress,$strPaddingKey);
 
 				$dt_hr_autenticacao	 	   = date('Y-m-d H:i:s');	
-				GravaTESTES('AuthClient: dt_hr_autenticacao => '.$dt_hr_autenticacao); 																		
+				//GravaTESTES('AuthClient: dt_hr_autenticacao => '.$dt_hr_autenticacao); 																		
 				$dt_hr_inicio_sessao	   = date('d-m-Y') . ' às ' . date('H:i') . 'h';
-				GravaTESTES('AuthClient: dt_hr_inicio_sessao => '.$dt_hr_inicio_sessao); 																		
+				//GravaTESTES('AuthClient: dt_hr_inicio_sessao => '.$dt_hr_inicio_sessao); 																		
 				// Identifico o SO da máquina visitante
 				$arrIdSO = getValores('so','id_so','trim(te_so) = "'.trim($te_so_cli).'"');
 				
 				$id_so_cli = $arrIdSO['id_so'];
-				GravaTESTES('AuthClient: id_so_cli => '.$id_so_cli); 														
+				//GravaTESTES('AuthClient: id_so_cli => '.$id_so_cli); 														
 				
 				if ($id_so_cli == '')
 					$id_so_cli = insereNovoSO($te_so_cli);
@@ -162,7 +163,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 				$row_CONEXAO	= mysql_fetch_array($result_CONEXAO);
 					
 
-				GravaTESTES('AuthClient: query_SESSAO => '.$query_SESSAO); 										
+				//GravaTESTES('AuthClient: query_SESSAO => '.$query_SESSAO); 										
 
 				$retorno_xml_values  = '<STATUS>'				.EnCrypt($key,$iv,'OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)										.'</STATUS>';			
 				$retorno_xml_values .= '<ID_USUARIO_CLI>'	.EnCrypt($key,$iv,trim($arrUsuarios['id_usuario']),$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)			.'</ID_USUARIO_CLI>';		

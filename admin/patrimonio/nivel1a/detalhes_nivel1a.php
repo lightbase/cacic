@@ -27,7 +27,7 @@ if ($_POST['exclui_uon1a'])
 	{
 	$query = "	DELETE 
 				FROM 	unid_organizacional_nivel1a 
-				WHERE 	id_unid_organizacional_nivel1a = '$frm_id_unid_organizacional_nivel1a'";
+				WHERE 	id_unid_organizacional_nivel1a = ".$_POST['frm_id_unid_organizacional_nivel1a'];
 
 	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a');			
@@ -49,9 +49,9 @@ elseif ($_POST['grava_alteracao_uon1a'])
 		$rowSEL[2]	<>	$frm_nm_unid_organizacional_nivel1a)
 		{				
 		$query = "	UPDATE  unid_organizacional_nivel1a 
-					SET		nm_unid_organizacional_nivel1a 	= '$frm_nm_unid_organizacional_nivel1a',
-				   		  	id_unid_organizacional_nivel1 	= '$selectUON1' 
-					WHERE 	id_unid_organizacional_nivel1a 	= '$frm_id_unid_organizacional_nivel1a'";
+					SET		nm_unid_organizacional_nivel1a 	= '".$_POST['frm_nm_unid_organizacional_nivel1a']."',
+				   		  	id_unid_organizacional_nivel1 	= ".$_POST['selectUON1']." 
+					WHERE 	id_unid_organizacional_nivel1a 	= ".$_POST['frm_id_unid_organizacional_nivel1a'] ;
 
 		mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
 		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a');					
@@ -75,7 +75,7 @@ else
 						id_unid_organizacional_nivel1a,
 						nm_unid_organizacional_nivel1a	
 				FROM 	unid_organizacional_nivel1a 
-				WHERE 	id_unid_organizacional_nivel1a = '$id_unid_organizacional_nivel1a'";
+				WHERE 	id_unid_organizacional_nivel1a = ".$_GET['id_unid_organizacional_nivel1a'];
 	$result 		= mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
 	$fetch_result_sel = mysql_fetch_array($result);
 	$result_sel		= implode('#',$fetch_result_sel);

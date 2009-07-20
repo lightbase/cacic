@@ -86,7 +86,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	$v_AUTH_SHA1 	 = " SHA1('". trim(base64_decode($_POST['frm_te_senha'])) ."')";
 	$v_AUTH_PASSWORD = " PASSWORD('". trim(base64_decode($_POST['frm_te_senha'])) ."')";	
 	// 
-	conecta_bd_cacic();
+	//conecta_bd_cacic();
 	$qry_usuario = "SELECT 	a.id_grupo_usuarios,    
 							a.nm_usuario_completo,  
 							b.te_menu_grupo,

@@ -28,6 +28,8 @@ AntiSpy('1,3'); // Permitido somente a estes cs_nivel_administracao...
 // 2 - Gestão Central
 // 3 - Supervisão
 
+conecta_bd_cacic();
+
 if ($_POST['submit_cond'])
 	{
 	$query_sele_exclui = '';
@@ -81,24 +83,23 @@ if ($_POST['submit_cond'])
 						ORDER 	by a.te_nome_computador';
 
 
-	$Query_Pesquisa = 'SELECT 	computadores.id_so,
-								computadores.te_node_address,
-								computadores.te_nome_computador, 
-								computadores.te_ip, 
-								computadores.te_versao_cacic, 
-								computadores.te_versao_gercols, 
-								computadores.dt_hr_ult_acesso,
-								computadores.dt_hr_inclusao,								
+	$Query_Pesquisa = 'SELECT 	a.id_so,
+								a.te_node_address,
+								a.te_nome_computador, 
+								a.te_ip, 
+								a.te_versao_cacic, 
+								a.te_versao_gercols, 
+								a.dt_hr_ult_acesso,
+								a.dt_hr_inclusao,								
 								so.sg_so,
 								redes.id_local
-						FROM	computadores								
-								LEFT JOIN so    ON (computadores.id_so      = so.id_so)
-								LEFT JOIN redes ON (computadores.id_ip_rede = redes.id_ip_rede)
+						FROM	computadores a								
+								LEFT JOIN so    ON (a.id_so      = so.id_so)
+								LEFT JOIN redes ON (a.id_ip_rede = redes.id_ip_rede)
 						WHERE   '.stripslashes($query_sele_exclui).
 								$where . ' 
-						ORDER 	by computadores.te_nome_computador';
+						ORDER 	by a.te_nome_computador';
 						
-	conecta_bd_cacic();
 	$result = mysql_query($Query_Pesquisa) or die('Erro no select (1) ou sua sessão expirou!');
 
 	$strIdLocal = '';
@@ -165,7 +166,7 @@ if ($_POST['submit_cond'])
 	</head>
 
 	<body background="../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
 	<form name="form1" method="post">
 	<table width="95%" border="0" align="center">
 	<tr> 
@@ -180,8 +181,15 @@ if ($_POST['submit_cond'])
 	<br><br>
   	<table width="90%" align="center"><tr>
     <td><div align="center"> 
-   	<input name="submit_exc" type="submit" value="<?=$oTranslator->_('Excluir computadores selecionados');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
-   	&nbsp;&nbsp;
+    <?
+	if ($_SESSION['cs_nivel_administracao'] == '1' || $_SESSION['cs_nivel_administracao'] == '3')
+		{
+		?>
+   		<input name="submit_exc" type="submit" value="<?=$oTranslator->_('Excluir computadores selecionados');?>" <? if ($NumRegistro == 1) echo 'disabled'; ?> onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
+   		&nbsp;&nbsp;
+        <?
+		}
+		?>
    	<input name="submit_nova" type="submit" value="<?=$oTranslator->_('Selecionar novamente');?>">	
 	</div></td>		
    	</tr></table>
@@ -211,7 +219,7 @@ if ($_POST['submit_cond'])
           <?  
 	$Cor = 0;
 	$NumRegistro = 1;
-	
+	mysql_data_seek($result,0);
 	while($row = mysql_fetch_array($result)) 
 		{		  
 	 	?>
@@ -219,7 +227,7 @@ if ($_POST['submit_cond'])
             <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><? echo $NumRegistro; ?></div></td>
             <td nowrap class="dado_peq_sem_fundo_normal"><input type="checkbox" name="chk_<? echo $row['te_node_address'].'#'. $row['id_so']; ?>" value="1" checked onClick="Verifica_Check_Exclui();">&nbsp;</td>
             <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div>&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_local']; ?></a></div>&nbsp;</td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $arrSgLocal[$row['id_local']]; ?></a></div>&nbsp;</td>
             <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div>&nbsp;</td>
             <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div>&nbsp;</td>
             <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_so']; ?></a></div>&nbsp;</td>
@@ -261,8 +269,15 @@ if ($_POST['submit_cond'])
   	<br><br>
   	<table width="90%" align="center"><tr>
     <td><div align="center"> 
-   	<input name="submit_exc" type="submit" value="<?=$oTranslator->_('Excluir computadores selecionados');?>" <? if ($NumRegistro == 1) echo 'disabled'; ?> onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
-   	&nbsp;&nbsp;
+    <?
+	if (($_SESSION['cs_nivel_administracao'] == '1' || $_SESSION['cs_nivel_administracao'] == '3') && $NumRegistro > 1)
+		{
+		?>
+   		<input name="submit_exc" type="submit" value="<?=$oTranslator->_('Excluir computadores selecionados');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao');?>');">		  
+   		&nbsp;&nbsp;
+        <?
+		}
+		?>
    	<input name="submit_nova" type="submit" value="<?=$oTranslator->_('Selecionar novamente');?>">	
 	</div></td>		
    	</tr></table>
@@ -276,11 +291,16 @@ else
 	if ($_POST['submit_exc'])
 		{
 		$v_cs_exclui = '';
-		conecta_bd_cacic();			
 
-	
 		// Faço testes para identificar as tabelas válidas para as consultas...
+		$strTables = '';
 		$result_tables	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do CACIC
+		while ($row_tables = mysql_fetch_array($result_tables)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO						
+			{
+			$strTables .= ($strTables <> ''?',':'');
+			$strTables .= $row_tables[0];
+			}
+		$arrTables = explode(',',$strTables);
 			
 		/*
 		while ($row_consulta = mysql_fetch_row($result_tables)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO				
@@ -294,7 +314,23 @@ else
 				$strTripaTabelasValidas .= '#'.$row_consulta[0].'#';
 			}							
 		*/
-		$strTripaTabelasValidas = '#acoes_excecoes#aplicativos_monitorados#compartilhamentos#componentes_estacoes#componentes_estacoes_historico#historico_hardware#historico_tcp_ip#historicos_hardware#historicos_outros_softwares#historicos_software#historicos_software_completo#officescan#patrimonio#softwares_inventariados_estacoes#unidades_disco#variaveis_ambiente_estacoes#versoes_softwares#';			
+		$strTripaTabelasValidas =  '#acoes_excecoes#
+									#aplicativos_monitorados#
+									#compartilhamentos#
+									#componentes_estacoes#
+									#componentes_estacoes_historico#
+									#historico_hardware#
+									#historico_tcp_ip#
+									#historicos_hardware#
+									#historicos_outros_softwares#
+									#historicos_software#
+									#historicos_software_completo#
+									#officescan#
+									#patrimonio#
+									#softwares_inventariados_estacoes#
+									#unidades_disco#
+									#variaveis_ambiente_estacoes#
+									#versoes_softwares#';			
 			
 		//				
 		$v_cs_exclui = '';
@@ -315,18 +351,20 @@ else
 //		for ($intContaMaquinasAux = 0; $intContaMaquinasAux <= $intContaMaquinas; $intContaMaquinasAux ++)		
 //			{
 			//if (!$result_tables) $result_tables	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do CACIC
-				
-			mysql_data_seek($result_tables,0);
+
+
 			//$v_arr_exclui = explode('#',$key);
+			conecta_bd_cacic();								
 			$boolOK = false;
-			while ($row_exclui = mysql_fetch_row($result_tables)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO				
+			for ($i = 0; $i < count($arrTables); $i++ ) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO				
 				{
-				$boolOK = stripos2($strTripaTabelasValidas, '#'.$row_exclui[0].'#',false);
+//				GravaTESTES('Verificando se "'.'#'.$row_exclui[0].'#'.'" está em "'.$strTripaTabelasValidas.'"');									
+				$boolOK = stripos2($strTripaTabelasValidas, '#'.$arrTables[$i].'#',false);
 				if ($boolOK)
 					{
-					$v_query_exclui = 'DELETE FROM '.$row_exclui[0] .' WHERE concat("#",te_node_address,"#",id_so,"#") in ('.$strTripaCampos.')';
+					$v_query_exclui = 'DELETE FROM '.$arrTables[$i] .' WHERE concat("#",te_node_address,"#",id_so,"#") in ('.$strTripaCampos.')';
 					$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()									
-					GravaTESTES('Deleção de registros de "'.$row_exclui[0].'" => '.$exclui);					
+//					GravaTESTES('Deleção de registros de "'.$row_exclui[0].'" => '.$exclui. ' => '.$v_query_exclui);					
 					$v_cs_exclui = '1';
 					}
 				}			
@@ -440,7 +478,7 @@ else
 	</head>
 
 	<body background="../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
 	<form name="form1" method="post">
 	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr> 
@@ -476,7 +514,7 @@ else
 	<?
 	$cor = 0;
 	require_once('../include/library.php');
-	conecta_bd_cacic();	
+
 	$res_fields = mysql_query("SHOW COLUMNS FROM computadores");
 	$v_arr_nomes_campos = array();
 	while ($row_fields = mysql_fetch_array($res_fields)) 

@@ -32,11 +32,11 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 2 - Gestão Central
 // 3 - Supervisão
 
-if ($exclui_uon2) 
+if ($_POST['exclui_uon2']) 
 	{	
 	$query = "	DELETE 
 				FROM 	unid_organizacional_nivel2 
-				WHERE 	id_unid_organizacional_nivel2 = '$frm_id_unid_organizacional_nivel2_anterior'";
+				WHERE 	id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2_anterior'];
 
 	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
@@ -56,7 +56,18 @@ else if($_POST['gravainformacaoUON2'])
 	
 		if ($rowSEL[2]	<>	$frm_nm_unid_organizacional_nivel2 || $rowSEL[4] <> $frm_te_endereco_uon2 || $rowSEL[6] <> $frm_te_bairro_uon2	||$rowSEL[8] <> $frm_te_cidade_uon2 || $rowSEL[10]	<>	$frm_te_uf_uon2 || $rowSEL[12] <> $frm_nm_responsavel_uon2 || $rowSEL[14] <> $frm_te_email_responsavel_uon2 || $rowSEL[16]	<>	$frm_nu_tel1_responsavel_uon2	||	$rowSEL[18]	<>	$frm_nu_tel2_responsavel_uon2)
 		{
-			$query = "UPDATE unid_organizacional_nivel2 SET id_unid_organizacional_nivel1a=$frm_id_unid_organizacional_nivel1a, nm_unid_organizacional_nivel2 = '$frm_nm_unid_organizacional_nivel2', te_endereco_uon2= '$frm_te_endereco_uon2', te_bairro_uon2= '$frm_te_bairro_uon2', te_cidade_uon2= '$frm_te_cidade_uon2',te_uf_uon2= '$frm_te_uf_uon1',nm_responsavel_uon2= '$frm_nm_responsavel_uon2',te_email_responsavel_uon2 = '$frm_te_email_responsavel_uon2', nu_tel1_responsavel_uon2 = '$frm_nu_tel1_responsavel_uon2', nu_tel2_responsavel_uon2= '$frm_nu_tel2_responsavel_uon2' WHERE id_unid_organizacional_nivel2 = $frm_id_unid_organizacional_nivel2_anterior";				
+			$query = "UPDATE unid_organizacional_nivel2 
+						SET id_unid_organizacional_nivel1a="	. $_POST['frm_id_unid_organizacional_nivel1a']	. ", 
+							nm_unid_organizacional_nivel2 = '"	. $_POST['frm_nm_unid_organizacional_nivel2']	. "', 
+							te_endereco_uon2= '"				. $_POST['frm_te_endereco_uon2']					. "',
+							te_bairro_uon2= '"					. $_POST['frm_te_bairro_uon2']					. "',
+							te_cidade_uon2= '"					. $_POST['frm_te_cidade_uon2']					. "',
+							te_uf_uon2= '"						. $_POST['frm_te_uf_uon1']						. "',
+							nm_responsavel_uon2= '"				. $_POST['frm_nm_responsavel_uon2']				. "',
+							te_email_responsavel_uon2 = '"		. $_POST['frm_te_email_responsavel_uon2']		. "',
+							nu_tel1_responsavel_uon2 = '"		. $_POST['frm_nu_tel1_responsavel_uon2']			. "',
+							nu_tel2_responsavel_uon2= '"		. $_POST['frm_nu_tel2_responsavel_uon2']			. "' 
+					  WHERE id_unid_organizacional_nivel2 = ".$_POST['frm_id_unid_organizacional_nivel2_anterior'];				
 			mysql_query($query) or die($oTranslator->_('Falha na atualizacao na tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel2')));
 			GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel2');			
 			if (!atualiza_configuracoes_uonx('2'))
@@ -76,8 +87,7 @@ else if($_POST['gravainformacaoUON2'])
 	}
 else 
 	{	
-	?>
-	<head>
+	?><head>
 	<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">	
 	<title></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -127,7 +137,8 @@ else
 		
 	return true;	
 	}
-
+	</SCRIPT>
+	<?
 	$queryUON1 = 'SELECT uo1.id_unid_organizacional_nivel1, uo1.nm_unid_organizacional_nivel1 FROM unid_organizacional_nivel1 uo1 ORDER BY uo1.nm_unid_organizacional_nivel1';	
 			
 	$queryUON1a = 'SELECT uo1a.id_unid_organizacional_nivel1a,uo1a.nm_unid_organizacional_nivel1a,uo1a.id_unid_organizacional_nivel1 FROM 	unid_organizacional_nivel1a uo1a ORDER BY	uo1a.nm_unid_organizacional_nivel1a';	
@@ -188,6 +199,7 @@ else
 	?>
 	</div>
 	<script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
+	
 	<table width="90%" border="0" align="center">
 	  <tr> 
 		<td class="cabecalho">

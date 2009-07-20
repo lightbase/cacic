@@ -27,7 +27,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 2 - Gestão Central
 // 3 - Supervisão
 
-if($grava_alteracao_uon1a) 
+if($_POST['grava_alteracao_uon1a']) 
 	{
 	Conecta_bd_cacic();
 	
@@ -37,7 +37,7 @@ if($grava_alteracao_uon1a)
 				  		 (id_unid_organizacional_nivel1, 
 				  		  nm_unid_organizacional_nivel1a) 
 				  VALUES (".$_POST['selectUON1'].", 
-				  		  '$frm_nm_unid_organizacional_nivel1a')";
+				  		  '".$_POST['frm_nm_unid_organizacional_nivel1a']."')";
 		$result = mysql_query($query) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a');
 		if (!atualiza_configuracoes_uonx('1a'))

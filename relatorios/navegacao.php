@@ -23,11 +23,11 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../include/library.php');
-AntiSpy();
+//AntiSpy();
 $_SESSION['tipo_consulta1']=$_REQUEST['tipo_consulta'];
 $_SESSION['string_consulta1']=$_REQUEST['string_consulta'];
 $_SESSION['consultar1']=$_REQUEST['consultar'];
-if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
+if ($_GET['p']=='' && $_POST['consultar'] == '')
 	{
 	if ($_SESSION['tipo_consulta1']=='')
 		{
@@ -48,13 +48,14 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 	<body bgcolor="#FFFFFF" background="../imgs/linha_v.gif">
 	
 <script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+<form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
 <table width="90%" border="0" align="center">
   <tr nowrap> 
     <td nowrap class="cabecalho">Navega&ccedil;&atilde;o pelos Computadores das 
       Subredes</td>
   </tr>
   <tr nowrap> 
-    <td nowrap><form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
+    <td nowrap>
         <select name="tipo_consulta" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="menulist">Selecione o Filtro desejado</option>
           <option value="nome">Nome do Computador</option>
@@ -64,13 +65,13 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
         <input name="string_consulta" type="text"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? if ($_SESSION['string_consulta1']<>'') echo $_SESSION['string_consulta1'];?>">
         &nbsp;&nbsp; </font> 
         <input name="consultar" type="submit" value="   Filtrar   ">
-      </form></td>
+      </td>
   </tr>
   <tr nowrap>
     <td nowrap> 
       <?
 	  
-	if ($_SESSION['consultar1'] || $consultar)
+	if ($_SESSION['consultar1'] || $_POST['consultar'])
 		{
 		if($_SESSION['tipo_consulta1'] == 'nome') 
 			{
@@ -128,7 +129,6 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 								computadores.te_ip,
 								computadores.te_node_address,
 								computadores.id_so";					 
-
 		conecta_bd_cacic();					 
 		$result_sel = mysql_query($query_sel) or die ('Erro no acesso à tabela "computadores" ou sua sessão expirou!');
 		$_SESSION['Tripa'] = '';
@@ -349,7 +349,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 				if ($tree[$cnt][0] > $maxlevel) $maxlevel=$tree[$cnt][0];    
 				if ($monta && ($tree[$cnt][0]==2 || $tree[$cnt][0]==3)) // SubNet or Work Group
 					{
-					$p .= $cnt.'|';
+					$_GET['p'] .= $cnt.'|';
 					$ultimo = $cnt;
 					}
 
@@ -481,7 +481,7 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 				
 			  if ($monta)
 					{
-					$p .= ($cnt-1).'#'.$ultimo;
+					$_GET['p'] .= ($cnt-1).'#'.$ultimo;
 					}
 			  
 			  for ($i=0; $i<count($tree); $i++) 
@@ -491,9 +491,9 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 				 $levels[$i]=0;
 			  }
 			  //  Get Node numbers to expand	 
-			  if ($p!="") 
+			  if ($_GET['p']!="") 
 			  	{
-				$explevels = explode("|",$p);
+				$explevels = explode("|",$_GET['p']);
 				}
 
 			  $i=0;
@@ -755,5 +755,6 @@ if ($_REQUEST['p']=='' && $_REQUEST['consultar'] == '')
 </td>
 </tr>
 </table>	
+</form>
 </body>
 </html>

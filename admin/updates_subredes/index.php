@@ -149,7 +149,7 @@ function verificar()
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>					
 	<table width="90%" border="0" align="center">
 	  <tr> 
-		<td class="cabecalho">Updates de SubRedes</td>
+		<td class="cabecalho">Atualiza&ccedil;&atilde;o de SubRedes</td>
 	  </tr>
 	  <tr> 
 		

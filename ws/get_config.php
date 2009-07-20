@@ -52,8 +52,12 @@ $v_id_ip_estacao = trim(DeCrypt($key,$iv,$_POST['id_ip_estacao'],$v_cs_cipher,$v
 // ...caso o IP esteja inválido, obtenho-o a partir de variável do servidor
 if (substr_count($v_id_ip_estacao,'zf')>0 || trim($v_id_ip_estacao)=='')
 	$v_id_ip_estacao = 	$_SERVER['REMOTE_ADDR'];
-		
-$v_dados_rede = getDadosRede();
+
+$v_id_ip_estacao = 	$_SERVER['REMOTE_ADDR'];	
+
+//LimpaTESTES();
+
+$v_dados_rede = getDadosRede($v_id_ip_estacao);
 
 // Essa condição testa se foi o "chkcacic" chamado para instalação ou o "Gerente de Coletas" para validar IP da estação...
 if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress,$strPaddingKey))=='chkcacic' || 
@@ -91,7 +95,8 @@ if (trim(DeCrypt($key,$iv,$_POST['in_chkcacic'],$v_cs_cipher,$v_cs_compress,$str
 
 	$v_te_fila_ftp = '0';
 	$v_id_ftp      = ($_POST['id_ftp']?trim(DeCrypt($key,$iv,$_POST['id_ftp'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)):'');
-	
+
+	conecta_bd_cacic();	
 	// Operações para agrupamento de FTP por subredes	
 	if (trim(DeCrypt($key,$iv,$_POST['te_fila_ftp'],$v_cs_cipher,$v_cs_compress,$strPaddingKey))=='1' &&
 	    !$v_id_ftp)
@@ -211,6 +216,7 @@ else
 							FROM 	acoes_excecoes
 							WHERE 	id_acao = "'.$id_acao.'" AND 
 									te_node_address = "'.$te_node_address.'"';
+			conecta_bd_cacic();
 			$result_exc = mysql_query($query_exc);
 			$campos_exc = mysql_fetch_array($result_exc);
 			return ($campos_exc['num_registros'] == 0?0:1);
@@ -227,7 +233,6 @@ else
 										b.id_local = '.$v_dados_rede['id_local'].' 										
 							ORDER BY	a.id_aplicativo';				
 	
-	conecta_bd_cacic();
 	$result_monitorado 	= mysql_query($query_monitorado);
 	$v_tripa_perfis1 = explode('#',$te_tripa_perfis);
 	$v_retorno_MONITORADOS = '';			
@@ -239,7 +244,6 @@ else
 								FROM 		computadores
 								WHERE 		te_node_address = "'.$te_node_address.'" AND 
 											id_so = "'.$arrSO['id_so'].'"';
-	conecta_bd_cacic();
 	$result_coleta_forcada 	= mysql_query($query_coleta_forcada);
 	$te_tripa_coleta = mysql_fetch_array($result_coleta_forcada);
 	$v_tripa_coleta = explode('#',$te_tripa_coleta['te_nomes_curtos_modulos']);
@@ -262,11 +266,9 @@ else
 							 acoes_redes.id_local = '.$v_dados_rede['id_local'].' AND 
 							 acoes.id_acao = acoes_redes.id_acao AND
 							 acoes_so.id_acao = acoes.id_acao AND 
-							 acoes_so.id_so = "'.$arrSO['id_so'].'" AND
+							 acoes_so.id_so = '.$arrSO['id_so'].' AND
 							 acoes_so.id_local = '.$v_dados_rede['id_local'];	
-
-
-	conecta_bd_cacic();
+//GravaTESTES($query);							 
 	$result = mysql_query($query);
 
 	while ($campos = mysql_fetch_array($result))
@@ -429,7 +431,7 @@ else
 			FROM 		configuracoes_locais
 			WHERE		id_local = '.$v_dados_rede['id_local'];
 
-	conecta_bd_cacic();										
+	//conecta_bd_cacic();										
 	$result_configs = mysql_query($query);
 	$campos_configs = mysql_fetch_array($result_configs);
 
@@ -447,7 +449,6 @@ else
 	if (trim($v_te_path_serv_updates) == '') $v_te_path_serv_updates = '/home/cacic/updates';
 
 	}						
-
 $retorno_xml_values .= '<TE_SERV_CACIC>'                 . EnCrypt($key,$iv,$v_dados_rede['te_serv_cacic']					,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_SERV_CACIC>';		
 $retorno_xml_values .= '<TE_SERV_UPDATES>'               . EnCrypt($key,$iv,$v_dados_rede['te_serv_updates']				,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_SERV_UPDATES>';			
 $retorno_xml_values .= '<NU_PORTA_SERV_UPDATES>'         . EnCrypt($key,$iv,$v_dados_rede['nu_porta_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</NU_PORTA_SERV_UPDATES>';

@@ -201,7 +201,7 @@ $result = mysql_query($query);
 					{
 					if ($arr_DadosRede['Alternative']=='')
 						{
-						$strNmIpRede = $arr_DadosRede['sg_local'].'/'.$arr_DadosRede['id_ip_rede'].' ('.$arr_DadosRede['nm_rede'].')';
+						$strNmIpRede = $arr_DadosRede['sg_local'].'/'.$arr_DadosRede['id_ip_rede'].' ('.capa_string($arr_DadosRede['nm_rede'],30).')';
 						$strIdIpRede = $arr_DadosRede['id_ip_rede'];
 						}
 					else
@@ -215,7 +215,7 @@ $result = mysql_query($query);
 					$arr_dt_data[$row['dt_data']]++;			
 					$arr_te_ip[$row['te_ip']]++;
 				
-					$arr_te_so[$row['te_so'].' => '.$row['te_desc_so']]++;
+					$arr_te_so[$row['te_desc_so']]++;
 					$arr_id_usuario[$row['id_usuario']]++;
 
 					$v_cs_indicador = ($row['cs_indicador']=='0'?'Sem Privilégios':'FTP/Cópia Impossível');
@@ -232,7 +232,7 @@ $result = mysql_query($query);
             		<td nowrap class="opcao_tabela"></td>
     	        	<td nowrap class="opcao_tabela"><? echo $row['te_ip'];?></td>
 	            	<td nowrap></td>
-        	    	<td nowrap class="opcao_tabela"><? echo $row['te_so'].' => '.$row['te_desc_so'];?></td>
+        	    	<td nowrap class="opcao_tabela"><? echo $row['te_desc_so'];?></td>
             		<td nowrap></td>
             		<td nowrap class="opcao_tabela"><? echo $row['id_usuario'];?></td>
 	            	<td nowrap></td>

@@ -749,20 +749,16 @@ function computador_existe($te_node_address, $id_so)
 
 
     if (mysql_num_rows($result) == 0)
-		{
-		return '0'; // O computador não existe, deverá ser incluido
-		}
+		$strResult = '0'; // O computador não existe, deverá ser incluido
 	elseif ($row['te_nome_computador'] == '' || 
 			$row['te_ip'] == '' ||
 			$row['id_ip_rede'] == '' || 
 			$row['te_workgroup'] == '') 									
-		{
-		 return '2';  // O computador existe porém sem uma dessas informações...  - Anderson 16/04/2004 - 21:31h!!!!!!!!!!!!
-		}
+		 $strResult = '2';  // O computador existe porém sem uma dessas informações...  - Anderson 16/04/2004 - 21:31h!!!!!!!!!!!!
 	else 
-		{ 
-		return '1';  // O computador existe, sem necessidade de atualizações
-		}
+		$strResult = '1';  // O computador existe, sem necessidade de atualizações
+
+	return $strResult;
 	}
 
 // --------------------------------------------------------------------------------------
@@ -872,26 +868,23 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 	
 	$arrSO = getValores('so', 'te_so', 'te_so = "'.$te_so_new.'"');
 	$te_so = $arrSO['te_so'];
-	
+
+	conecta_bd_cacic();	
 	if ($te_so == '' && $id_so <> '' && $id_so <> 0 && $te_so_new <> '') // Encontrei somente o Identificador Externo (ID_SO)
 		{
 		
-		$te_so = $te_so_new;
-				
-		conecta_bd_cacic();
+		$te_so = $te_so_new;	
+
 		$query = 'UPDATE so 
        	  		  SET te_so = "'.$te_so_new.'"
 			      WHERE id_so = '.$id_so;
-		//GravaTESTES('Library_iccne_query 1: '.$query);							  
 		$result = mysql_query($query);
 		}	
 	elseif ($te_so <> '' && ($id_so == '' || $id_so == 0)) // Encontrei somente o Identificador Interno (TE_SO)
 		{
-		conecta_bd_cacic();
 		$query = 'SELECT id_so 
 				  FROM   so
 			      WHERE  te_so = "'.$te_so.'"';
-		//GravaTESTES('Library_iccne_query 2: '.$query);							  				  
 		$result = mysql_query($query);
 		$row = mysql_fetch_array($result);
 		$id_so = $row['id_so'];
@@ -902,7 +895,6 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 		if (($te_so_new <> '' && ($id_so_new <> '' && $id_so_new <> 0)) ||
 		   ($te_so_new <> '')) // Só insiro se houver conteúdo chegando...
 			{
-			conecta_bd_cacic();			
 			if ($id_so == 0 || $id_so == '')
 				{
 				// Busco o último valor do Identificador Externo caso não tenha recebido valor para o ID Externo
@@ -955,7 +947,6 @@ function inclui_computador_caso_nao_exista(	$te_node_address,
 	if ($id_so > 0 && $te_node_address <> '') // Não é interessante inserir uma máquina sem ID_SO e nem TE_NODE_ADDRESS!!!
 		{		
 		$checa_existe = computador_existe($te_node_address, $id_so);
-		conecta_bd_cacic();		
 	    if ($checa_existe == '0') // O computador não existe: INCLUIR.
 			{ 
 
@@ -1439,280 +1430,280 @@ function GetMainFolder()
 // A variável p_origem poderá conter "Agente" ou "Pagina" para o tratamento de variáveis $_SESSION
 // --------------------------------------------------------------------------------------
 function update_subredes($p_id_ip_rede, $p_origem, $p_objetos, $p_id_local, $p_array_agentes_hashs) 
-{
-$MainFolder		= GetMainFolder();
-
-// Função para replicação do conteúdo do REPOSITÓRIO nos servidores de UPDATES das redes cadastradas.
-if ($handle = opendir($MainFolder . '/repositorio')) 
 	{
-	$v_nomes_arquivos_REP = array();
-	$v_versoes_arquivos_REP = array();	
-	if (file_exists($MainFolder . '/repositorio/versoes_agentes.ini'))
-		$v_array_versoes_agentes = parse_ini_file($MainFolder . '/repositorio/versoes_agentes.ini');
+	conecta_bd_cacic();
 	
-	// Para tratamento dos agentes GNU/Linux  -  Anderson Peterle - Maio/2008 (Dataprev/ES)
-	if ($handle = opendir($MainFolder . '/repositorio/agentes_linux')) 
+	$MainFolder		= GetMainFolder();
+	
+	// Função para replicação do conteúdo do REPOSITÓRIO nos servidores de UPDATES das redes cadastradas.
+	if ($handle = opendir($MainFolder . '/repositorio')) 
 		{
+		$v_nomes_arquivos_REP = array();
+		$v_versoes_arquivos_REP = array();	
+		if (file_exists($MainFolder . '/repositorio/versoes_agentes.ini'))
+			$v_array_versoes_agentes = parse_ini_file($MainFolder . '/repositorio/versoes_agentes.ini');
+		
+		// Para tratamento dos agentes GNU/Linux  -  Anderson Peterle - Maio/2008 (Dataprev/ES)
+		if ($handle = opendir($MainFolder . '/repositorio/agentes_linux')) 
+			{
+			while (false !== ($v_arquivo = readdir($handle))) 
+				{
+				if ((strpos($p_objetos,$v_arquivo) > 0 || $p_objetos=='*') and substr($v_arquivo,0,1) != ".") 				
+					{
+					
+					// Armazeno o nome do arquivo
+					array_push($v_nomes_arquivos_REP, $v_arquivo);
+	
+					$caminho_arquivo = $MainFolder . '/repositorio/agentes_linux/' . $v_arquivo;
+	
+					if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes['pycacic'])			
+						array_push($v_versoes_arquivos_REP, $v_arquivo . '#'.str_replace('.','',$versao_agente));
+					else
+						array_push($v_versoes_arquivos_REP, $v_arquivo . '#'. strftime("%Y%m%d%H%M", filemtime($caminho_arquivo)));
+					}
+				}	
+			}
+	
+		// Para tratamento dos agentes MS-Windows - Anderson Peterle - Maio/2008 (Dataprev/ES)
+		$handle = opendir($MainFolder . '/repositorio');
 		while (false !== ($v_arquivo = readdir($handle))) 
 			{
 			if ((strpos($p_objetos,$v_arquivo) > 0 || $p_objetos=='*') and substr($v_arquivo,0,1) != ".") 				
 				{
-				
 				// Armazeno o nome do arquivo
 				array_push($v_nomes_arquivos_REP, $v_arquivo);
-
-				$caminho_arquivo = $MainFolder . '/repositorio/agentes_linux/' . $v_arquivo;
-
-				if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes['pycacic'])			
-					array_push($v_versoes_arquivos_REP, $v_arquivo . '#'.str_replace('.','',$versao_agente));
+	
+				$caminho_arquivo = $MainFolder . '/repositorio/' . $v_arquivo;
+	
+				if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes[$v_arquivo])			
+					{				
+					// A string 0103 será concatenada em virtude da inserção da informação de versão nos agentes
+					// até então era usada a data do arquivo como versão, a string 0103 fará com que o Gerente de Coletas 
+					// entenda que as versões atuais são maiores, ou seja, a versão 20100103 é maior que 20051201
+					array_push($v_versoes_arquivos_REP, $v_arquivo . '#'.str_replace('.','',$versao_agente) . '0103');
+					}
 				else
+					{
 					array_push($v_versoes_arquivos_REP, $v_arquivo . '#'. strftime("%Y%m%d%H%M", filemtime($caminho_arquivo)));
-				}
-			}	
-		}
-
-	// Para tratamento dos agentes MS-Windows - Anderson Peterle - Maio/2008 (Dataprev/ES)
-	$handle = opendir($MainFolder . '/repositorio');
-	while (false !== ($v_arquivo = readdir($handle))) 
-		{
-		if ((strpos($p_objetos,$v_arquivo) > 0 || $p_objetos=='*') and substr($v_arquivo,0,1) != ".") 				
-			{
-			// Armazeno o nome do arquivo
-			array_push($v_nomes_arquivos_REP, $v_arquivo);
-
-			$caminho_arquivo = $MainFolder . '/repositorio/' . $v_arquivo;
-
-			if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes[$v_arquivo])			
-				{				
-				// A string 0103 será concatenada em virtude da inserção da informação de versão nos agentes
-				// até então era usada a data do arquivo como versão, a string 0103 fará com que o Gerente de Coletas 
-				// entenda que as versões atuais são maiores, ou seja, a versão 20100103 é maior que 20051201
-				array_push($v_versoes_arquivos_REP, $v_arquivo . '#'.str_replace('.','',$versao_agente) . '0103');
-				}
-			else
-				{
-				array_push($v_versoes_arquivos_REP, $v_arquivo . '#'. strftime("%Y%m%d%H%M", filemtime($caminho_arquivo)));
+					}
 				}
 			}
-		}
-
-	$query_SEL_REDES= '	SELECT 	*
-						FROM	redes_versoes_modulos
-						WHERE 	id_ip_rede = "' . $p_id_ip_rede . '" AND
-						        id_local = '.$p_id_local.
-					  ' ORDER BY nm_modulo';
-	conecta_bd_cacic();
 	
-	$v_nomes_arquivos_FTP 	= array();
-	$v_versoes_arquivos_FTP = array();				
-	
-	$Result_SEL_REDES = mysql_query($query_SEL_REDES);
-	$v_achei = 0;
-	while ($row = mysql_fetch_array($Result_SEL_REDES))
-		{
-		array_push($v_nomes_arquivos_FTP, trim($row['nm_modulo']));
-		array_push($v_versoes_arquivos_FTP, trim($row['nm_modulo']).'#'.trim($row['te_versao_modulo']));										
-		for ($cnt_arquivos_REP = 0; $cnt_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_arquivos_REP++)
-			{
-			if (trim($v_nomes_arquivos_REP[$cnt_arquivos_REP]) == trim($row['nm_modulo']) &&
-				trim($v_versoes_arquivos_REP[$cnt_arquivos_REP]) == trim($row['te_versao_modulo']))
-				{
-				$v_achei ++;
-				$cnt_arquivos_REP = count($v_nomes_arquivos_REP);
-				}
-			}
-		}
-
-	if ($v_achei < count($v_nomes_arquivos_REP))
-		{	
-		$query_SEL_REDES= '	SELECT 		re.id_ip_rede,
-										re.nm_rede,
-										re.te_serv_updates,
-										re.nu_porta_serv_updates, 
-										re.te_path_serv_updates, 
-										re.nm_usuario_login_serv_updates_gerente,								
-										re.te_senha_login_serv_updates_gerente,
-										re.id_local								
-							FROM		redes re 
-							WHERE 		re.id_ip_rede = "' . $p_id_ip_rede . '" AND
-										re.id_local = '.$p_id_local;
-		conecta_bd_cacic();
+		$query_SEL_REDES= '	SELECT 	*
+							FROM	redes_versoes_modulos
+							WHERE 	id_ip_rede = "' . $p_id_ip_rede . '" AND
+									id_local = '.$p_id_local.
+						  ' ORDER BY nm_modulo';
+		
+		$v_nomes_arquivos_FTP 	= array();
+		$v_versoes_arquivos_FTP = array();				
+		
 		$Result_SEL_REDES = mysql_query($query_SEL_REDES);
-	
-		$row = mysql_fetch_array($Result_SEL_REDES);
-		if (trim($row['te_serv_updates'] . 
-				 $row['nu_porta_serv_updates'] .
-				 $row['te_path_serv_updates'] .
-				 $row['nm_usuario_login_serv_updates_gerente'] .
-				 $row['te_senha_login_serv_updates_gerente'] .
-				 $row['nu_porta_serv_updates']) != '')
+		$v_achei = 0;
+		while ($row = mysql_fetch_array($Result_SEL_REDES))
+			{
+			array_push($v_nomes_arquivos_FTP, trim($row['nm_modulo']));
+			array_push($v_versoes_arquivos_FTP, trim($row['nm_modulo']).'#'.trim($row['te_versao_modulo']));										
+			for ($cnt_arquivos_REP = 0; $cnt_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_arquivos_REP++)
 				{
-				$v_tripa_objetos_enviados 			= '';
-				$v_conta_objetos_enviados 			= 0;				
-				$v_conta_objetos_nao_enviados 		= 0;			
-				$v_conta_objetos_atualizados 		= 0;
-				$v_conta_objetos_nao_atualizados 	= 0;			
-				$v_conta_objetos_diferentes			= 0;
-				$v_conta_objetos_inexistentes		= 0;
-				$v_array_objetos_enviados 			= array();			
-				$v_array_objetos_nao_enviados 		= array();						
-				$v_array_objetos_atualizados 		= array();
-				$v_array_objetos_nao_atualizados	= array();
-				$v_efetua_conexao_ftp 				= -1;	
-				$v_conexao_ftp 						= '';
-				$v_efetua_conexao_ftp = -1;												
-
-				//if (TentaPing("ftp://".$row['nm_usuario_login_serv_updates'].":".
-			    //                   	   $row['te_senha_login_serv_updates']."@".
-				//				       $row['te_serv_updates']).
-				//					   $row['te_path_serv_updates']."/cacic.txt")
-				if (CheckFtpLogin($row['te_serv_updates'],
-							  	  $row['nm_usuario_login_serv_updates_gerente'],
-							  	  $row['te_senha_login_serv_updates_gerente'],
-								  $row['nu_porta_serv_updates']))
+				if (trim($v_nomes_arquivos_REP[$cnt_arquivos_REP]) == trim($row['nm_modulo']) &&
+					trim($v_versoes_arquivos_REP[$cnt_arquivos_REP]) == trim($row['te_versao_modulo']))
 					{
-					$v_efetua_conexao_ftp = 0 ;
-					$v_conexao_ftp = conecta_ftp($row['te_serv_updates'],
-												 $row['nm_usuario_login_serv_updates_gerente'],
-												 $row['te_senha_login_serv_updates_gerente'],
-												 $row['nu_porta_serv_updates'],
-												 false
-												);
+					$v_achei ++;
+					$cnt_arquivos_REP = count($v_nomes_arquivos_REP);
 					}
-
-				if ($v_conexao_ftp)
-					{
-					$_SESSION['v_tripa_servidores_updates'] .= ($p_origem == 'Pagina'?'#'.trim($row['id_local']).trim($row['te_serv_updates']).'#':'');
-					sort($v_nomes_arquivos_REP,SORT_STRING);						
-					sort($v_versoes_arquivos_REP,SORT_STRING);											
-					sort($v_nomes_arquivos_FTP,SORT_STRING);											
-					sort($v_versoes_arquivos_FTP,SORT_STRING);																
-					$v_efetua_conexao_ftp = 1;
+				}
+			}
 	
-					for ($cnt_nomes_arquivos_REP = 0; $cnt_nomes_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_nomes_arquivos_REP++) 
+		if ($v_achei < count($v_nomes_arquivos_REP))
+			{	
+			$query_SEL_REDES= '	SELECT 		re.id_ip_rede,
+											re.nm_rede,
+											re.te_serv_updates,
+											re.nu_porta_serv_updates, 
+											re.te_path_serv_updates, 
+											re.nm_usuario_login_serv_updates_gerente,								
+											re.te_senha_login_serv_updates_gerente,
+											re.id_local								
+								FROM		redes re 
+								WHERE 		re.id_ip_rede = "' . $p_id_ip_rede . '" AND
+											re.id_local = '.$p_id_local;
+			$Result_SEL_REDES = mysql_query($query_SEL_REDES);
+		
+			$row = mysql_fetch_array($Result_SEL_REDES);
+			if (trim($row['te_serv_updates'] . 
+					 $row['nu_porta_serv_updates'] .
+					 $row['te_path_serv_updates'] .
+					 $row['nm_usuario_login_serv_updates_gerente'] .
+					 $row['te_senha_login_serv_updates_gerente'] .
+					 $row['nu_porta_serv_updates']) != '')
+					{
+					$v_tripa_objetos_enviados 			= '';
+					$v_conta_objetos_enviados 			= 0;				
+					$v_conta_objetos_nao_enviados 		= 0;			
+					$v_conta_objetos_atualizados 		= 0;
+					$v_conta_objetos_nao_atualizados 	= 0;			
+					$v_conta_objetos_diferentes			= 0;
+					$v_conta_objetos_inexistentes		= 0;
+					$v_array_objetos_enviados 			= array();			
+					$v_array_objetos_nao_enviados 		= array();						
+					$v_array_objetos_atualizados 		= array();
+					$v_array_objetos_nao_atualizados	= array();
+					$v_efetua_conexao_ftp 				= -1;	
+					$v_conexao_ftp 						= '';
+					$v_efetua_conexao_ftp = -1;												
+	
+					//if (TentaPing("ftp://".$row['nm_usuario_login_serv_updates'].":".
+					//                   	   $row['te_senha_login_serv_updates']."@".
+					//				       $row['te_serv_updates']).
+					//					   $row['te_path_serv_updates']."/cacic.txt")
+					if (CheckFtpLogin($row['te_serv_updates'],
+									  $row['nm_usuario_login_serv_updates_gerente'],
+									  $row['te_senha_login_serv_updates_gerente'],
+									  $row['nu_porta_serv_updates']))
 						{
-						// Atenção: acertar depois...
-						$v_pasta_agente_linux = (stripos2($v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],'.tgz',false)?'agentes_linux/':'');
-						$v_achei = 0;
-						for ($cnt_nomes_arquivos_FTP = 0; $cnt_nomes_arquivos_FTP < count($v_nomes_arquivos_FTP); $cnt_nomes_arquivos_FTP++)
+						$v_efetua_conexao_ftp = 0 ;
+						$v_conexao_ftp = conecta_ftp($row['te_serv_updates'],
+													 $row['nm_usuario_login_serv_updates_gerente'],
+													 $row['te_senha_login_serv_updates_gerente'],
+													 $row['nu_porta_serv_updates'],
+													 false
+													);
+						}
+	
+					if ($v_conexao_ftp)
+						{
+						$_SESSION['v_tripa_servidores_updates'] .= ($p_origem == 'Pagina'?'#'.trim($row['id_local']).trim($row['te_serv_updates']).'#':'');
+						sort($v_nomes_arquivos_REP,SORT_STRING);						
+						sort($v_versoes_arquivos_REP,SORT_STRING);											
+						sort($v_nomes_arquivos_FTP,SORT_STRING);											
+						sort($v_versoes_arquivos_FTP,SORT_STRING);																
+						$v_efetua_conexao_ftp = 1;
+		
+						for ($cnt_nomes_arquivos_REP = 0; $cnt_nomes_arquivos_REP < count($v_nomes_arquivos_REP); $cnt_nomes_arquivos_REP++) 
 							{
-							if ($v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP] == $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP])
+							// Atenção: acertar depois...
+							$v_pasta_agente_linux = (stripos2($v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],'.tgz',false)?'agentes_linux/':'');
+							$v_achei = 0;
+							for ($cnt_nomes_arquivos_FTP = 0; $cnt_nomes_arquivos_FTP < count($v_nomes_arquivos_FTP); $cnt_nomes_arquivos_FTP++)
 								{
-								$v_achei = 1;
-								if ($v_versoes_arquivos_FTP[$cnt_nomes_arquivos_FTP] <> $v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP])
+								if ($v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP] == $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP])
 									{
-									$v_conta_objetos_diferentes ++;
-									@ftp_chdir($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP]);									
-									@ftp_delete($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP]);									
-									
-									if (@ftp_put($v_conexao_ftp,
-												$row['te_path_serv_updates'] . '/' . $v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP],
-												$MainFolder . '/repositorio/'. $v_pasta_agente_linux . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
-												FTP_BINARY))
+									$v_achei = 1;
+									if ($v_versoes_arquivos_FTP[$cnt_nomes_arquivos_FTP] <> $v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP])
 										{
-										array_push($v_array_objetos_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
-										$arr_versao_arquivo = explode('#',$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
-										if ($p_origem == 'Pagina')										
-											atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]]);
+										$v_conta_objetos_diferentes ++;
+										@ftp_chdir($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP]);									
+										@ftp_delete($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP]);									
+										
+										if (@ftp_put($v_conexao_ftp,
+													$row['te_path_serv_updates'] . '/' . $v_nomes_arquivos_FTP[$cnt_nomes_arquivos_FTP],
+													$MainFolder . '/repositorio/'. $v_pasta_agente_linux . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
+													FTP_BINARY))
+											{
+											array_push($v_array_objetos_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
+											$arr_versao_arquivo = explode('#',$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);
+											if ($p_origem == 'Pagina')										
+												atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]]);
+											else
+												atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]],$row['id_local']);
+											echo '<font size="1px" color="orange">Atualizado...: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';											
+											$v_conta_objetos_atualizados ++;
+											flush();																													
+											}
 										else
-											atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]],$row['id_local']);
-										echo '<font size="1px" color="orange">Atualizado...: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';											
-										$v_conta_objetos_atualizados ++;
-										flush();																													
+											{
+											array_push($v_array_objetos_nao_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);											
+											echo '<font color=red size="1px" color="red">Não Atualizado: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';
+											$v_conta_objetos_nao_atualizados ++;
+											flush();																													
+											}	
 										}
-									else
-										{
-										array_push($v_array_objetos_nao_atualizados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);											
-										echo '<font color=red size="1px" color="red">Não Atualizado: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';
-										$v_conta_objetos_nao_atualizados ++;
-										flush();																													
-										}	
-									}
-								$cnt_nomes_arquivos_FTP = count($v_nomes_arquivos_FTP);
-								}										
-							}
-
-						if ($v_achei == 0)
-							{
-							$arr_versao_arquivo = explode('#',$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);							
-							$v_conta_objetos_inexistentes ++;
-							$v_conta_objetos_enviados ++;
-							$v_tripa_objetos_enviados .= ($v_tripa_objetos_enviados?'#':'');							
-							$v_tripa_objetos_enviados .= $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].','.$arr_versao_arquivo[1];
-							@ftp_chdir($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);									
-							@ftp_delete($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);									
-								
-							if (@ftp_put($v_conexao_ftp,
-										$row['te_path_serv_updates'] . '/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
-										$MainFolder . '/repositorio/' . $v_pasta_agente_linux . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
-										FTP_BINARY))
-								{
-								array_push($v_array_objetos_enviados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
-								if ($p_origem == 'Pagina')										
-									atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]]);
-								else
-									atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]],$row['id_local']);
-								
-								//atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
-								$v_conta_objetos_enviados ++;
-								echo '<font size="1px" color="green">Enviado.......: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';
-								flush();																			
+									$cnt_nomes_arquivos_FTP = count($v_nomes_arquivos_FTP);
+									}										
 								}
-							else
+	
+							if ($v_achei == 0)
 								{
-								array_push($v_array_objetos_nao_enviados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
-								$v_conta_objetos_nao_enviados ++;
-								echo '<font color=red size="1px" color="red">Não Enviado: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';
-								$v_achei = 0;
-								flush();																											
-								}									
-							}												
-						}	
-						if (($v_conta_objetos_diferentes   > 0 and $v_conta_objetos_diferentes   == $v_conta_objetos_atualizados) ||
-							($v_conta_objetos_inexistentes > 0 and $v_conta_objetos_inexistentes == $v_conta_objetos_enviados)    ||
-							($v_conta_objetos_diferentes  == 0 and $v_conta_objetos_inexistentes == 0))
-							{
-							Marca_Atualizado($p_id_ip_rede,$p_id_local);
-							}
-						ftp_quit($v_conexao_ftp);							
-					}
-				else
-					{
-	
-					if (trim($row['te_serv_updates'])						== 	'' || 
-						trim($row['nu_porta_serv_updates'])					== 	'' ||
-						trim($row['te_path_serv_updates'])  				== 	'' ||
-						trim($row['nm_usuario_login_serv_updates_gerente']) == 	'' ||
-						trim($row['te_senha_login_serv_updates_gerente'])	==	'' ||
-						trim($row['nu_porta_serv_updates'])					==	'')
-						{
-	
-						$_SESSION['v_status_conexao'] = 'NC'; // Não Configurado
+								$arr_versao_arquivo = explode('#',$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP]);							
+								$v_conta_objetos_inexistentes ++;
+								$v_conta_objetos_enviados ++;
+								$v_tripa_objetos_enviados .= ($v_tripa_objetos_enviados?'#':'');							
+								$v_tripa_objetos_enviados .= $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].','.$arr_versao_arquivo[1];
+								@ftp_chdir($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);									
+								@ftp_delete($v_conexao_ftp,$row['te_path_serv_updates'].'/'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);									
+									
+								if (@ftp_put($v_conexao_ftp,
+											$row['te_path_serv_updates'] . '/' . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
+											$MainFolder . '/repositorio/' . $v_pasta_agente_linux . $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],
+											FTP_BINARY))
+									{
+									array_push($v_array_objetos_enviados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
+									if ($p_origem == 'Pagina')										
+										atualiza_red_ver_mod_pagina($row['te_serv_updates'], $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]]);
+									else
+										atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$arr_versao_arquivo[1],$p_array_agentes_hashs[$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]],$row['id_local']);
+									
+									//atualiza_red_ver_mod($row['id_ip_rede'],$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP],$v_versoes_arquivos_REP[$cnt_nomes_arquivos_REP],$row['id_local']);
+									$v_conta_objetos_enviados ++;
+									echo '<font size="1px" color="green">Enviado.......: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';
+									flush();																			
+									}
+								else
+									{
+									array_push($v_array_objetos_nao_enviados, $v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP]);
+									$v_conta_objetos_nao_enviados ++;
+									echo '<font color=red size="1px" color="red">Não Enviado: <font color="black">'.$v_nomes_arquivos_REP[$cnt_nomes_arquivos_REP].'</font></font><br>';
+									$v_achei = 0;
+									flush();																											
+									}									
+								}												
+							}	
+							if (($v_conta_objetos_diferentes   > 0 and $v_conta_objetos_diferentes   == $v_conta_objetos_atualizados) ||
+								($v_conta_objetos_inexistentes > 0 and $v_conta_objetos_inexistentes == $v_conta_objetos_enviados)    ||
+								($v_conta_objetos_diferentes  == 0 and $v_conta_objetos_inexistentes == 0))
+								{
+								Marca_Atualizado($p_id_ip_rede,$p_id_local);
+								}
+							ftp_quit($v_conexao_ftp);							
 						}
 					else
 						{
-						$_SESSION['v_status_conexao'] = 'OFF'; // Off Line
+		
+						if (trim($row['te_serv_updates'])						== 	'' || 
+							trim($row['nu_porta_serv_updates'])					== 	'' ||
+							trim($row['te_path_serv_updates'])  				== 	'' ||
+							trim($row['nm_usuario_login_serv_updates_gerente']) == 	'' ||
+							trim($row['te_senha_login_serv_updates_gerente'])	==	'' ||
+							trim($row['nu_porta_serv_updates'])					==	'')
+							{
+		
+							$_SESSION['v_status_conexao'] = 'NC'; // Não Configurado
+							}
+						else
+							{
+							$_SESSION['v_status_conexao'] = 'OFF'; // Off Line
+							}
 						}
+	
+				if ($p_origem == 'Pagina')
+					{
+					$_SESSION['v_tripa_objetos_enviados'] 			= 	$v_tripa_objetos_enviados;
+					$_SESSION['v_conta_objetos_enviados'] 			= 	$v_conta_objetos_enviados;				
+					$_SESSION['v_conta_objetos_nao_enviados']		= 	$v_conta_objetos_nao_enviados;
+					$_SESSION['v_conta_objetos_atualizados']		=	$v_conta_objetos_atualizados;
+					$_SESSION['v_conta_objetos_nao_atualizados']	= 	$v_conta_objetos_nao_atualizados;
+					$_SESSION['v_efetua_conexao_ftp'] 				= 	$v_efetua_conexao_ftp;
+					$_SESSION['v_conexao_ftp'] 						= 	$v_conexao_ftp;
 					}
-
-			if ($p_origem == 'Pagina')
-				{
-				$_SESSION['v_tripa_objetos_enviados'] 			= 	$v_tripa_objetos_enviados;
-				$_SESSION['v_conta_objetos_enviados'] 			= 	$v_conta_objetos_enviados;				
-				$_SESSION['v_conta_objetos_nao_enviados']		= 	$v_conta_objetos_nao_enviados;
-				$_SESSION['v_conta_objetos_atualizados']		=	$v_conta_objetos_atualizados;
-				$_SESSION['v_conta_objetos_nao_atualizados']	= 	$v_conta_objetos_nao_atualizados;
-				$_SESSION['v_efetua_conexao_ftp'] 				= 	$v_efetua_conexao_ftp;
-				$_SESSION['v_conexao_ftp'] 						= 	$v_conexao_ftp;
 				}
 			}
-		}
-	else
-		{
-		$_SESSION['v_efetua_conexao_ftp'] = 1;
+		else
+			{
+			$_SESSION['v_efetua_conexao_ftp'] = 1;
+			}
 		}
 	}
-}
 
 
 // --------------------------------------------------------------------------------------

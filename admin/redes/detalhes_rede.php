@@ -464,7 +464,7 @@ $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
 			if ($v_conexao_ftp_AGENTE && (@ftp_chdir($v_conexao_ftp_AGENTE,mysql_result($result, 0, 'te_path_serv_updates').'/')) &&
 			    $v_conexao_ftp_GERENTE && (@ftp_chdir($v_conexao_ftp_GERENTE,mysql_result($result, 0, 'te_path_serv_updates').'/')))			
 				{
-				echo '<img src="../../imgs/ftp_conectado.gif" height="55" width="55">';
+				echo '<img src="../../imgs/comp.gif" height="55" width="55">';
 				?>
 				<br>
               	</font><span class="style7">OK! </span><font color="#000000"><br>

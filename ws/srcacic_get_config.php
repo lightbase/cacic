@@ -43,7 +43,7 @@ $strPaddingKey  	= '';
 
 
 LimpaTESTES();
-
+/*
 if (count($HTTP_POST_VARS) > 0)
 	{
 	GravaTESTES('***** getConfig *****');
@@ -59,7 +59,7 @@ if (count($HTTP_GET_VARS)>0)
 		GravaTESTES('GetConfig: GET => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
 	GravaTESTES('');	
 	}
-
+*/
 conecta_bd_cacic();			
 
 // Autenticação da Estação Visitada
@@ -98,7 +98,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 	$arrRedes 		= getValores('redes','id_servidor_autenticacao','id_ip_rede = "'.$strIdIpRede.'"');
 	$strIdServidor	= $arrRedes['id_servidor_autenticacao'];
 	
-	conecta_bd_cacic();	
+	//conecta_bd_cacic();	
 	$query_SEL	= 'SELECT		id_servidor_autenticacao,
 								nm_servidor_autenticacao  
 				   FROM			servidores_autenticacao

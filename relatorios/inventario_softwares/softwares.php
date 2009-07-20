@@ -169,7 +169,7 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
 										a.id_software_inventariado = b.id_software_inventariado " . $query_redes . " AND 
 										computadores.id_so IN (". $so_selecionados .") ".
 										$_SESSION['query_redes'] . "
-					GROUP BY 			a.nm_software_inventariado,locais.id_local
+					GROUP BY 			a.nm_software_inventariado
 					ORDER BY 			a.nm_software_inventariado";
 					$result_query_versoes = mysql_query($query_aplicativo);
 					while($reg_versoes = @mysql_fetch_row($result_query_versoes)) 

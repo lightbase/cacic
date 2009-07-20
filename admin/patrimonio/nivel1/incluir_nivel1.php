@@ -28,12 +28,12 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 2 - Gestão Central
 // 3 - Supervisão
 
-if($grava_alteracao_uon1) 
+if($_POST['grava_alteracao_uon1']) 
 	{
 	Conecta_bd_cacic();
 	
 	$frm_nm_unid_organizacional_nivel1 = $_POST['frm_nm_unid_organizacional_nivel1'];  
-	if ($frm_nm_unid_organizacional_nivel1)
+	if ($_POST['frm_nm_unid_organizacional_nivel1'])
 		{
 		$query = "INSERT INTO unid_organizacional_nivel1 
 				  		 (nm_unid_organizacional_nivel1, 
@@ -45,15 +45,15 @@ if($grava_alteracao_uon1)
 				   		  te_email_responsavel_uon1,
 				   		  nu_tel1_responsavel_uon1,
 				   		  nu_tel2_responsavel_uon1) 
-				  VALUES ('$frm_nm_unid_organizacional_nivel1', 
-				   		  '$frm_te_endereco_uon1',
-				   		  '$frm_te_bairro_uon1',
-				   		  '$frm_te_cidade_uon1',
-				   		  '$frm_te_uf_uon1',
-				   		  '$frm_nm_responsavel_uon1',
-				   		  '$frm_te_email_responsavel_uon1',
-				   		  '$frm_nu_tel1_responsavel_uon1',
-				   		  '$frm_nu_tel2_responsavel_uon1')";
+				  VALUES ('".$_POST['frm_nm_unid_organizacional_nivel1']."', 
+				   		  '".$_POST['frm_te_endereco_uon1']."',
+				   		  '".$_POST['frm_te_bairro_uon1']."',
+				   		  '".$_POST['frm_te_cidade_uon1']."',
+				   		  '".$_POST['frm_te_uf_uon1']."',
+				   		  '".$_POST['frm_nm_responsavel_uon1']."',
+				   		  '".$_POST['frm_te_email_responsavel_uon1']."',
+				   		  '".$_POST['frm_nu_tel1_responsavel_uon1']."',
+				   		  '".$_POST['frm_nu_tel2_responsavel_uon1']."')";
 		$result = mysql_query($query) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1')));
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1');
 		if (!atualiza_configuracoes_uonx('1'))

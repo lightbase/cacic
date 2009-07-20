@@ -80,7 +80,9 @@ $v_cs_cipher		= '1';
 // Algumas estações enviarão uma string para extensão de bloco
 $strPaddingKey  	= '';
 
-//LimpaTESTES();
+/*
+LimpaTESTES();
+
 GravaTESTES('***** setSession *****');
 foreach($HTTP_POST_VARS as $i => $v)
         GravaTESTES('SetSession: POST => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
@@ -89,6 +91,7 @@ foreach($HTTP_GET_VARS as $i => $v)
         GravaTESTES('SetSession: GET => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
 
 GravaTESTES('');	
+*/
 // Autenticação da Estação Visitada
 $te_node_address   	= DeCrypt($key,$iv,$_POST['te_node_address']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 $te_so             	= DeCrypt($key,$iv,$_POST['te_so']							,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
@@ -108,7 +111,6 @@ $arrComputadores 	= getValores('computadores', 'te_palavra_chave,id_ip_rede' , '
 $arrRedes 			= getValores('redes'       , 'id_local'   				   , 'id_ip_rede= "'.$arrComputadores['id_ip_rede'].'"'); 
 $strTePalavraChave	= $arrComputadores['te_palavra_chave'];
 
-//LimpaTESTES();
 
 // Valido a Palavra-Chave e monto a tripa com os nomes e ids dos servidores de autenticação
 if ($te_palavra_chave == $strTePalavraChave)
@@ -170,21 +172,21 @@ if ($te_palavra_chave == $strTePalavraChave)
 			$ldap = ldap_connect($te_host,389);
 			
 			ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, $arrServidores['nu_versao_protocolo']);
-			GravaTESTES('SetSession: Após SET_OPTION => '.ldap_error($ldap)); 			
+			//GravaTESTES('SetSession: Após SET_OPTION => '.ldap_error($ldap)); 			
 			
 			//ldap_start_tls($ldap);
 	
 			if (ldap_errno($ldap) == 0) 
 				{
-				GravaTESTES('SetSession: Tentando BIND Identificado com "'.$nm_nome_acesso_autenticacao.' / **********"');
+				//GravaTESTES('SetSession: Tentando BIND Identificado com "'.$nm_nome_acesso_autenticacao.' / **********"');
 					
 				$bindTesteAnonimo=ldap_bind($ldap);    // this is an "anonymous" bind, typically
 							   // read-only access
-				GravaTESTES("Bind Anônimo retornou " . $bindTesteAnonimo);
+				//GravaTESTES("Bind Anônimo retornou " . $bindTesteAnonimo);
 					
 				//ob_start();
 				$strBind = $arrServidores['te_atributo_identificador'].'='.$nm_nome_acesso_autenticacao.','.$arrServidores['te_base_consulta_folha'].','.$arrServidores['te_base_consulta_raiz'];
-				GravaTESTES('SetSession: strBind => "'.$strBind);				
+				//GravaTESTES('SetSession: strBind => "'.$strBind);				
 				$bind = ldap_bind($ldap, "$strBind", $te_senha_acesso_autenticacao);
 				//ob_end_flush();
 				
@@ -192,10 +194,10 @@ if ($te_palavra_chave == $strTePalavraChave)
 					{
 					$strRootDN = $arrServidores['te_base_consulta_raiz'];
 					$strNodeDN = $arrServidores['te_base_consulta_folha'];
-					GravaTESTES('SetSession: Preparando Search : '.'"'.$strNodeDN.','.$strRootDN.'" / '.'"'.$arrDominios['te_atributo_identificador'].'='.$nm_nome_acesso_dominio.'"');
+					//GravaTESTES('SetSession: Preparando Search : '.'"'.$strNodeDN.','.$strRootDN.'" / '.'"'.$arrDominios['te_atributo_identificador'].'='.$nm_nome_acesso_dominio.'"');
 					$searchResults = ldap_search($ldap, "$strNodeDN,$strRootDN",$arrServidores['te_atributo_identificador'].'='.$nm_nome_acesso_autenticacao);
 				
-					GravaTESTES('SetSession: Após SEARCH => '.ldap_error($ldap));		
+					//GravaTESTES('SetSession: Após SEARCH => '.ldap_error($ldap));		
 					// OK! Dados encontrados!
 					if (!$searchResults === false)
 						{
@@ -210,11 +212,11 @@ if ($te_palavra_chave == $strTePalavraChave)
 								}
 							}
 					
-						GravaTESTES('SetSession: Após GET_ENTRIES => '.ldap_error($ldap));		
+						//GravaTESTES('SetSession: Após GET_ENTRIES => '.ldap_error($ldap));		
 						$nm_nome_completo  		= $arrLDAPdata[strtolower($arrServidores['te_atributo_retorna_nome'])];					
 						$te_email 				= $arrLDAPdata[strtolower($arrServidores['te_atributo_retorna_email'])];					
-						GravaTESTES('SetSession: Após GET_ENTRIES => nm_nome_completo: '.$nm_nome_completo);							
-						GravaTESTES('SetSession: Após GET_ENTRIES => te_email: '.$te_email);												
+						//GravaTESTES('SetSession: Após GET_ENTRIES => nm_nome_completo: '.$nm_nome_completo);							
+						//GravaTESTES('SetSession: Após GET_ENTRIES => te_email: '.$te_email);												
 						
 						if ($nm_nome_completo <> '')
 							criaSessao($dt_hr_inicio_sessao,
@@ -248,7 +250,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 						 WHERE  id_sessao = ".$id_sessao;												
 		$result_SESSAO = mysql_query($query_SESSAO);			
 
-		GravaTESTES('SetSession: POST_te_mensagem: '.$_POST['te_mensagem']);								
+		//GravaTESTES('SetSession: POST_te_mensagem: '.$_POST['te_mensagem']);								
 		conecta_bd_cacic();			
 		if ($_POST['te_mensagem']<>'')
 			{
@@ -259,7 +261,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 			$query_CHAT = "INSERT INTO srcacic_chats(id_conexao,dt_hr_mensagem,te_mensagem,cs_origem)
 			 					  VALUES (".$id_conexao.",'".date('Y-m-d H:i:s')."','".$te_mensagem."','".$cs_origem."')";
 			$result_CHAT = mysql_query($query_CHAT);			
-			GravaTESTES('SetSession: Gravando CHAT: '.$query_CHAT);											
+			//GravaTESTES('SetSession: Gravando CHAT: '.$query_CHAT);											
 			
 			}
 		else
@@ -269,8 +271,8 @@ if ($te_palavra_chave == $strTePalavraChave)
 			$arr_id_conexao		= explode('<REG>',DeCrypt($key,$iv,$_POST['id_conexao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey));		
 			$arr_te_so_cli 	   	= explode('<REG>',DeCrypt($key,$iv,$_POST['te_so_cli']	 	,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
 
-			GravaTESTES('SetSession: POST_id_usuario_cli: '.DeCrypt($key,$iv,$_POST['id_usuario_cli'],$v_cs_cipher,$v_cs_compress,$strPaddingKey));
-			GravaTESTES('SetSession: Tamanho de arr_id_usuario_cli: '.count($arr_id_usuario_cli));
+			//GravaTESTES('SetSession: POST_id_usuario_cli: '.DeCrypt($key,$iv,$_POST['id_usuario_cli'],$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+			//GravaTESTES('SetSession: Tamanho de arr_id_usuario_cli: '.count($arr_id_usuario_cli));
 		
 			for ($i=0; $i < count($arr_id_usuario_cli); $i++)
 				{
@@ -290,13 +292,14 @@ if ($te_palavra_chave == $strTePalavraChave)
 	/*." and
 										te_node_address_cli = '".$te_node_address_cli."' and
 										id_so_cli = ".$arrSO_cli['id_so'];		*/
-
+				/*
 				GravaTESTES('SetSession: POST[id_sessao] => '.$_POST['id_sessao']);						 				 						 
 				GravaTESTES('SetSession: POST[id_conexao] => '.$_POST['id_conexao']);						 				 						 			
 				GravaTESTES('SetSession: id_sessao => '.$id_sessao);						 				 						 		
 				GravaTESTES('SetSession: id_conexao => '.$id_conexao);						 				 						 					
 				GravaTESTES('SetSession: query_SESSAO => '.$query_SESSAO);						 				 						 		
 				conecta_bd_cacic();			
+				*/
 				$result_SESSAO = mysql_query($query_SESSAO);					
 				}
 			}
@@ -311,6 +314,6 @@ else
 	$retorno_xml_values = '<STATUS>'.EnCrypt($key,$iv,'SetSession ERRO! '.ldap_error($ldap),$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
 
 $retorno_xml = $retorno_xml_header . $retorno_xml_values; 
-GravaTESTES('Retorno setSession: '.$retorno_xml);
+//GravaTESTES('Retorno setSession: '.$retorno_xml);
 echo $retorno_xml;	
 ?>

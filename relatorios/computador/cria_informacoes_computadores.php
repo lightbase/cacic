@@ -117,11 +117,11 @@ if ($_POST['submit_cond'])
 	<table width="95%" border="0" align="center">
 	<tr> 
 	
-	  <td class="cabecalho">Relacao de Computadores</td>
+	  <td class="cabecalho">Computadores Selecionados para Cria&ccedil;&atilde;o de Relat&oacute;rio</td>
 	</tr>
 	<tr> 
 	
-	  <td class="descricao">Relacao de computadores selecionados na pesquisa.</td>
+	  <td class="descricao">Rela&ccedil;&atilde;o de computadores selecionados na consulta parametrizada, para cria&ccedil;&atilde;o de relat&oacute;rio de hardware.</td>
 	</tr>
 	</table>
 	<br><br>
@@ -436,7 +436,7 @@ else
 	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr> 
 	
-  	<td class="cabecalho">Pesquisar Computadores</td>
+  	<td class="cabecalho">Criar Relatório</td>
 	</tr>
 	<tr> 
 	
