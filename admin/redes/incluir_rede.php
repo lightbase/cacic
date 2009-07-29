@@ -29,15 +29,13 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 2 - Gestão Central
 // 3 - Supervisão
 
-if($_REQUEST['submit']) 
+if($_POST['submit']) 
 	{
 	Conecta_bd_cacic();
 	
-	$frm_id_ip_rede = $_POST['frm_id_ip_rede'];  
-	
 	$query = "SELECT 	* 
 			  FROM 		redes 
-			  WHERE 	id_ip_rede = '$frm_id_ip_rede' AND
+			  WHERE 	id_ip_rede = '".$_POST['frm_id_ip_rede']."' AND
 			  			id_local = ".$_POST['frm_id_local'];
 						
 	$result = mysql_query($query) or die ('Select falhou ou sua sessão expirou!');
@@ -71,27 +69,27 @@ if($_REQUEST['submit'])
 							nu_porta_serv_updates,
 							id_servidor_autenticacao, 
 							id_local) 							
-				 VALUES 	('$frm_id_ip_rede', 
-				  		  	'$frm_te_mascara_rede', 
-						  	'$frm_nm_rede', 						  
-				  		  	'$frm_te_observacao', 						  
-				  		  	'$frm_nm_pessoa_contato1', 
-							'$frm_nm_pessoa_contato2', 
-						  	'$frm_nu_telefone1',  
-							'$frm_nu_telefone2', 
-							'$frm_te_email_contato1', 
-						  	'$frm_te_email_contato2',
-						  	'$frm_te_serv_cacic',
-						  	'$frm_te_serv_updates',
-							 $frm_nu_limite_ftp,
-						  	'$frm_te_path_serv_updates',						  
-						  	'$frm_nm_usuario_login_serv_updates',
-						  	'$frm_te_senha_login_serv_updates',
-						  	'$frm_nm_usuario_login_serv_updates_gerente',
-						  	'$frm_te_senha_login_serv_updates_gerente',					  
-						  	'$frm_nu_porta_serv_updates',
-							'$frm_id_servidor_autenticacao',									  
-							'$frm_id_local')";									  							
+				 VALUES 	('".$_POST['frm_id_ip_rede']."',
+				  		  	 '".$_POST['frm_te_mascara_rede']."',
+						  	 '".$_POST['frm_nm_rede']."',
+				  		  	 '".$_POST['frm_te_observacao']."', 						  
+				  		  	 '".$_POST['frm_nm_pessoa_contato1']."', 
+							 '".$_POST['frm_nm_pessoa_contato2']."', 
+						  	 '".$_POST['frm_nu_telefone1']."',  
+							 '".$_POST['frm_nu_telefone2']."', 
+							 '".$_POST['frm_te_email_contato1']."', 
+						  	 '".$_POST['frm_te_email_contato2']."',
+						  	 '".$_POST['frm_te_serv_cacic']."',
+						  	 '".$_POST['frm_te_serv_updates']."',
+							  ".$_POST['frm_nu_limite_ftp'].",
+						  	 '".$_POST['frm_te_path_serv_updates']."',						  
+						  	 '".$_POST['frm_nm_usuario_login_serv_updates']."',
+						  	 '".$_POST['frm_te_senha_login_serv_updates']."',
+						  	 '".$_POST['frm_nm_usuario_login_serv_updates_gerente']."',
+						  	 '".$_POST['frm_te_senha_login_serv_updates_gerente']."',			  
+						  	 '".$_POST['frm_nu_porta_serv_updates']."',
+							  ".$_POST['frm_id_servidor_autenticacao'].",								  
+							  ".$_POST['frm_id_local'].")";									  							
 
 		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'redes');
@@ -101,7 +99,7 @@ if($_REQUEST['submit'])
 
 		$query_del = "DELETE 
 					  FROM		acoes_redes 
-					  WHERE		id_ip_rede = '$frm_id_ip_rede' AND
+					  WHERE		id_ip_rede = '".$_POST['frm_id_ip_rede']."' AND
 								id_local = ".$_POST['frm_id_local'];
 		mysql_query($query_del) or die('Ocorreu um erro durante a exclusão de registros na tabela acoes_redes ou sua sessão expirou!');			
 		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');
@@ -125,7 +123,7 @@ if($_REQUEST['submit'])
 									id_acao, 
 									id_local,
 									cs_situacao) 
-						  VALUES	('$frm_id_ip_rede', 
+						  VALUES	('".$_POST['frm_id_ip_rede']."', 
 									'".$row_acoes['id_acao']."',
 									".$_POST['frm_id_local'].",
 									'".$v_cs_situacao."')";

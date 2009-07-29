@@ -41,6 +41,7 @@ $query = "UPDATE 	configuracoes_locais
 			WHERE 	id_local 				= ".$_POST['frm_id_local'];
 $result_acoes_redes = mysql_query($query) or die('1-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('configuracoes')).'!'); 
 GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');	
+
 $query_acoes_redes = '';
 foreach($HTTP_POST_VARS as $i => $v) 
 	{
@@ -63,6 +64,5 @@ if ($query_acoes_redes)
 	$result_acoes_redes = mysql_query($query_acoes_redes) or die('2-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('acoes_redes')).'!'); 	
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'acoes_redes');		
 	}
-
 header ("Location: ../include/operacao_ok.php?chamador=../admin/config_agentes.php&tempo=1");
 ?>

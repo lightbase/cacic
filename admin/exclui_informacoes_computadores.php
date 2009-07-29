@@ -106,6 +106,7 @@ if ($_POST['submit_cond'])
 	$arrSgLocal = array();
 	while($row = mysql_fetch_array($result)) 
 		{		  
+
 		if ($row['id_local']<>'' && $arrSgLocal[$row['id_local']]=='')
 			{
 			$arrSgLocal[$row['id_local']] = '*';
@@ -113,14 +114,14 @@ if ($_POST['submit_cond'])
 			$strIdLocal .= $row['id_local'];
 			}
 		}	
+
 	if ($strIdLocal <> '')
 		{
 		$Query_Locais = 'SELECT 	locais.id_local,
 									locais.sg_local
 						 FROM		locais
 						 WHERE   	locais.id_local in ('.$strIdLocal.')';
-		if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-			echo 'Query_Locais: '.$Query_Locais.'<br>';											 
+
 		$resultLocais = mysql_query($Query_Locais) or die('Erro no select (2) ou sua sessão expirou!');		
 		while($row = mysql_fetch_array($resultLocais)) 
 			$arrSgLocal[$row['id_local']] = $row['sg_local'];

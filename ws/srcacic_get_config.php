@@ -114,7 +114,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 	if ($strTripaServidores == '')
 		$strTripaServidores = '0;0';	
 
-	$retorno_xml_values = '<SERVIDORES_AUTENTICACAO>'.EnCrypt($key,$iv,$strTripaServidores  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</SERVIDORES_AUTENTICACAO>';
+	$retorno_xml_values .= '<SERVIDORES_AUTENTICACAO>'.EnCrypt($key,$iv,$strTripaServidores  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</SERVIDORES_AUTENTICACAO>';
 	}
 
 if ($retorno_xml_values <> '')

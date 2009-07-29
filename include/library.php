@@ -52,6 +52,7 @@ function getDescricoesColunasComputadores()
 	$arrDescricoesColunasComputadoresAux = array();
 	while($rowHardware = mysql_fetch_array($resultDescricoesColunasComputadores)) 	
 		$arrDescricoesColunasComputadoresAux[trim($rowHardware['nm_campo'])] = $rowHardware['te_descricao_campo'];
+
 	return $arrDescricoesColunasComputadoresAux;
 	}
 
@@ -520,18 +521,15 @@ function FatorDecremento($Numero)
 // Função de conexão ao BD do CACIC
 // --------------------------------------------------------------------------------------
 function conecta_bd_cacic() 
-{
-
+	{
 	$ident_bd = @mysql_connect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"], 
 							  $GLOBALS["usuario_bd"], 
 							  $GLOBALS["senha_usuario_bd"]);
 	if (@mysql_select_db($GLOBALS["nome_bd"], $ident_bd) == 0) 
-		{ 
 		die('<b>Problemas durante a conexão ao BD ou sua sessão expirou!</b>');
 
-		}
 	return $ident_bd;
-}
+	}
 
 // ------------------------------------------------------------------------------
 // Função para obtenção de dados da subrede de acesso, em função do IP e Máscara.
@@ -651,7 +649,7 @@ function atualiza_configuracoes_uonx($p_uonx)
 
 function conecta_bd_cacic_web() 
 	{
-    if (conecta_bd_cacic() == '0') 
+    if (!conecta_bd_cacic()) 
 		{
  	    echo '<br><br><br><br><br> 
 		<table border="1" cellpadding="0" cellspacing="0" align="center" width="0%">

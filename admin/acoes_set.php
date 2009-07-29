@@ -46,9 +46,8 @@ for( $i = 0; $i < count($arrListaRedesNaoSelecionadas); $i++ )
 				  id_ip_rede = '".$dadosRedes[0]."' AND
 			  	  id_local   = ".$dadosRedes[1].")";							
 	}
-	
-conecta_bd_cacic();	
 
+conecta_bd_cacic();	
 if ($queryDEL)
 	{
 	$queryDEL = 'DELETE FROM acoes_redes WHERE '.$queryDEL;
@@ -72,7 +71,6 @@ if ($cs_situacao == 'T' || $cs_situacao == 'N')
 		$arrListaRedesSelecionadas = $_POST['list1'];	
 	}
 
-
 for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ ) 
 	{
 	$dadosRedes = explode('#',$arrListaRedesSelecionadas[$i]);	
@@ -82,8 +80,8 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 			  WHERE 	id_acao    = '".$id_acao."' AND
 						id_ip_rede = '".$dadosRedes[0]."' AND
 			  			id_local   = ".$dadosRedes[1];
-						
 	$result = mysql_query($query) or die('2-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');			
 
     // Removo todos os sistemas operacionais associadas à ação em questão.
@@ -103,8 +101,8 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 				      INTO 		acoes_so (id_so, id_acao, id_local) 
 					  VALUES 	('".$_POST['list4'][$j]."', '".$id_acao."', ".$dadosRedes[1].")";
 			mysql_query($query) or die('4-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_so');		
 			}
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_so');					
 		}
 
     // Removo todos os mac address associados à ação em questão.
@@ -114,7 +112,7 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 			            id_local=".$dadosRedes[1];
 	$result = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
 	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_excecoes');
-	
+
 	if ($cs_situacao <> 'N')
 		{	
 		// Incluo todas os mac address selecionados.
@@ -127,8 +125,8 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 			// Não uso o die, pois não quero que sejam ecoadas mensagens de erro caso se tente gravar 
 			// registros duplicados. lembre que é um ambiente multiusuário.
 			mysql_query($query); 
-			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_excecoes');
 			}
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_excecoes');			
 		}
 	
 	if($cs_situacao == 'S')
@@ -153,7 +151,8 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 				   WHERE	id_local=".$dadosRedes[1];
 		$result = mysql_query($query) or die('7-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 			
-		while($campos=mysql_fetch_array($result)) { 
+		while($campos=mysql_fetch_array($result)) 
+			{ 
 			
 			$sql_delete = "DELETE FROM acoes_redes WHERE id_ip_rede = '".$campos[0]."'".
                                                          " AND id_acao = '".$id_acao."'".
@@ -171,8 +170,8 @@ for( $i = 0; $i < count($arrListaRedesSelecionadas); $i++ )
 								'T',
 								now())";
 			mysql_query($query) or die('8-'.mysql_error()." - ".$oTranslator->_('kciq_msg insert row on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');		
 			}
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');					
 		}											
 	}
 

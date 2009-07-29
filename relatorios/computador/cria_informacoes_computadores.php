@@ -117,7 +117,7 @@ if ($_POST['submit_cond'])
 	<table width="95%" border="0" align="center">
 	<tr> 
 	
-	  <td class="cabecalho">Computadores Selecionados para Cria&ccedil;&atilde;o de Relat&oacute;rio</td>
+	  <td class="cabecalho">Computadores Selecionados</td>
 	</tr>
 	<tr> 
 	
@@ -165,7 +165,7 @@ if ($_POST['submit_cond'])
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
-	    <td align="center"  nowrap><img src="../../imgs/comp.gif" width="23" height="23"></td>
+	    <td align="center"  nowrap><img src="../../imgs/checked.png" width="22" height="22"></td>
             <td align="center"  nowrap><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Nome 
                 da M&aacute;quina</div></td>

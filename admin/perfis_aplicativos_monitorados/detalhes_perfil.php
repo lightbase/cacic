@@ -57,35 +57,35 @@ elseif ($_POST['GravaAlteracoes'])
 
 	if ($_SESSION['cs_nivel_administracao']==1)
 		{		
-		$v_nm_aplicativo = $frm_nm_aplicativo;
-		if ($frm_in_ativa == 'N')
+		$v_nm_aplicativo = $_POST['frm_nm_aplicativo'];
+		if ($_POST['frm_in_ativa'] == 'N')
 			{
 			$v_nm_aplicativo .= '#DESATIVADO#';
 			}
 		$query = "UPDATE 	perfis_aplicativos_monitorados 
-				  SET 		nm_aplicativo = '$v_nm_aplicativo',  
-				  			te_dir_padrao_w9x = '$frm_te_dir_padrao_w9x',
-							te_dir_padrao_wnt = '$frm_te_dir_padrao_wnt',			  
-			  				cs_car_inst_w9x = '$frm_cs_car_inst_w9x', 
-							cs_car_inst_wnt = '$frm_cs_car_inst_wnt', 
-			  				te_car_inst_w9x = '$frm_te_car_inst_w9x', 
-							te_car_inst_wnt = '$frm_te_car_inst_wnt', 
-				  			cs_car_ver_w9x = '$frm_cs_car_ver_w9x', 
-							cs_car_ver_wnt = '$frm_cs_car_ver_wnt', 
-				  			te_car_ver_w9x = '$frm_te_car_ver_w9x', 
-							te_car_ver_wnt = '$frm_te_car_ver_wnt', 
-			  				te_arq_ver_eng_w9x = '$frm_te_arq_ver_eng_w9x', 
-							te_arq_ver_pat_w9x = '$frm_te_arq_ver_pat_w9x', 			  
-				  			te_arq_ver_eng_wnt = '$frm_te_arq_ver_eng_wnt', 
-							te_arq_ver_pat_wnt = '$frm_te_arq_ver_pat_wnt', 			  			  
-				  			cs_ide_licenca = '$frm_cs_ide_licenca', 
-							te_ide_licenca = '$frm_te_ide_licenca', 			  
-			  				id_so = '$frm_id_so', 
-							te_descritivo = '$frm_te_descritivo', 			  			   			  			  
-			  				dt_atualizacao = now(),
-				  			in_disponibiliza_info = '$frm_in_disponibiliza_info',
-				  			in_disponibiliza_info_usuario_comum = '$frm_in_disponibiliza_info_usuario_comum'			    			  			  
-				  WHERE 	id_aplicativo = ".$_POST['id_aplicativo'];
+				  SET 		nm_aplicativo 						= '".$v_nm_aplicativo."',  
+				  			te_dir_padrao_w9x 					= '".$_POST['frm_te_dir_padrao_w9x']."',  
+							te_dir_padrao_wnt 					= '".$_POST['frm_te_dir_padrao_wnt']."',  
+			  				cs_car_inst_w9x 					= '".$_POST['frm_cs_car_inst_w9x']."',   
+							cs_car_inst_wnt 					= '".$_POST['frm_cs_car_inst_wnt']."',  
+			  				te_car_inst_w9x 					= '".$_POST['frm_te_car_inst_w9x']."',  
+							te_car_inst_wnt 					= '".$_POST['frm_te_car_inst_wnt']."',  
+				  			cs_car_ver_w9x 						= '".$_POST['frm_cs_car_ver_w9x']."',  
+							cs_car_ver_wnt 						= '".$_POST['frm_cs_car_ver_wnt']."',  
+				  			te_car_ver_w9x 						= '".$_POST['frm_te_car_ver_w9x']."',  
+							te_car_ver_wnt 						= '".$_POST['frm_te_car_ver_wnt']."',  
+			  				te_arq_ver_eng_w9x 					= '".$_POST['frm_te_arq_ver_eng_w9x']."',  
+							te_arq_ver_pat_w9x 					= '".$_POST['frm_te_arq_ver_pat_w9x']."',  	  
+				  			te_arq_ver_eng_wnt 					= '".$_POST['frm_te_arq_ver_eng_wnt']."',  
+							te_arq_ver_pat_wnt 					= '".$_POST['frm_te_arq_ver_pat_wnt']."',  	  			  
+				  			cs_ide_licenca 						= '".$_POST['frm_cs_ide_licenca']."',  
+							te_ide_licenca 						= '".$_POST['frm_te_ide_licenca']."',  	  
+			  				id_so 								= '".$_POST['frm_id_so']."',  
+							te_descritivo 						= '".$_POST['frm_te_descritivo']."',  
+			  				dt_atualizacao 						= now(),
+				  			in_disponibiliza_info 				= '".$_POST['frm_in_disponibiliza_info']."',  
+				  			in_disponibiliza_info_usuario_comum = '".$_POST['frm_in_disponibiliza_info_usuario_comum']."' 
+				  WHERE 	id_aplicativo 						=  ".$_POST['id_aplicativo'];
 
 		mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));
 		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');		

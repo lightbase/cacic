@@ -37,10 +37,10 @@ require_once('include/selecao_listbox.js');
 <table width="90%" border="0" align="center">
 
   <tr> 
-      <td class="cabecalho">Documentos e Programas para Instala&ccedil;&atilde;o do Sistema CACIC</td>
+      <td class="cabecalho">Sistema CACIC - Documentos e Programas Avulsos</td>
   </tr>
   <tr> 
-      <td class="descricao">Os &iacute;tens  abaixo referem-se a um kit b&aacute;sico de documenta&ccedil;&atilde;o e programas para verifica&ccedil;&atilde;o/instala&ccedil;&atilde;o/atualiza&ccedil;&atilde;o dos agentes principais do sistema CACIC. A opera&ccedil;&atilde;o de &quot;download&quot; se d&aacute; clicando-se sobre os referidos objetos. </td>
+      <td class="descricao">Os &iacute;tens  abaixo referem-se a um kit b&aacute;sico de documenta&ccedil;&atilde;o e programas para <strong>Instala&ccedil;&atilde;o de  Agentes Principais do Sistema em MS-Windows ou GNU/Linux</strong>, <strong>Coleta de Dados Patrimoniais atrav&eacute;s de M&oacute;dulo Avulso</strong> e <strong>Cliente Espec&iacute;fico</strong> para uso com o m&oacute;dulo <strong>srCACIC - Suporte Remoto Seguro</strong>. A opera&ccedil;&atilde;o de &quot;download&quot; se d&aacute; clicando-se sobre os referidos objetos. </td>
   </tr>
 </table>
 <br><br>
@@ -66,32 +66,26 @@ require_once('include/selecao_listbox.js');
 	<?
 	if(file_exists($path_relativo_repositorio_instalacao.'/versoes_agentes.ini') and is_readable($path_relativo_repositorio_instalacao.'/versoes_agentes.ini'))
 		$v_array_versoes_agentes = parse_ini_file($path_relativo_repositorio_instalacao.'/versoes_agentes.ini');
-	else {
-		$v_array_versoes_agentes['chkcacic.exe'] = '???';
-		$v_array_versoes_agentes['mapacacic.exe'] = '???';
-		$v_array_versoes_agentes['srcaciccli.exe'] = '???';		
-	}
+	else 
+		{
+		$v_array_versoes_agentes['chkcacic.exe'] 	= '???';
+		$v_array_versoes_agentes['mapacacic.exe'] 	= '???';
+		$v_array_versoes_agentes['srcaciccli.exe'] 	= '???';		
+		}
+		
+	if(file_exists($path_relativo_repositorio_instalacao.'/../versoes_agentes.ini') and is_readable($path_relativo_repositorio_instalacao.'/../versoes_agentes.ini'))
+		$v_array_versoes_agentes_LINUX = parse_ini_file($path_relativo_repositorio_instalacao.'/../versoes_agentes.ini');
+	else 
+		{
+		$v_array_versoes_agentes_LINUX['PyCACIC'] 			= '???';				
+		$v_array_versoes_agentes_LINUX['te_pacote_PyCACIC'] = '???';						
+		}
+		
 	?>		
     <tr> 
       <td class="label"> 
         &nbsp; &nbsp;<br>
-        <a href="<? echo $path_relativo_repositorio_instalacao;?>/chkcacic.exe">ChkCACIC -  Verificador/Instalador/Atualizador do Sistema CACIC  <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['chkcacic.exe'];?>  ~  260K)</span></span></a></td>
-    </tr>
-    
-	  
-    
-    <tr> 
-      <td height="17">&nbsp;</td>
-    </tr>
-	
-    <tr> 
-      <td height="1" bgcolor="#333333"></td>
-    </tr>
-    
-    <tr> 
-      <td class="label"> 
-        &nbsp; &nbsp;<br>
-        <a href="<? echo $path_relativo_repositorio_instalacao;?>/srcaciccli.exe">srCACICcli -  Cliente para Suporte Remoto Seguro do Sistema CACIC  <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['srcaciccli.exe'];?>  ~  258K)</span></span></a></td>
+        <a href="<? echo $path_relativo_repositorio_instalacao;?>/chkcacic.exe">ChkCACIC -  Instalador de Agentes CACIC em plataforma MS-Windows <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['chkcacic.exe'];?>  ~  270K)</span></span></a></td>
     </tr>
     
 	  
@@ -110,7 +104,39 @@ require_once('include/selecao_listbox.js');
     <tr> 
       <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/mapacacic.exe">MapaCACIC - M&oacute;dulo Avulso para Coleta de Informa&ccedil;&otilde;es Patrimoniais <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['mapacacic.exe'];?>  ~  248K)</span></span></a> </td>
+            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/PyCACIC-<? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>-Debian.deb">PyCACIC (DEBIAN) - Instalador de Agentes CACIC em plataforma GNU/Linux - Distros Debian <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>  ~  800K)</span></span></a> </td>
+          </tr>
+    <tr> 
+      <td>&nbsp;</td>
+    </tr>
+		  
+    <tr> 
+      <td height="1" bgcolor="#333333"></td>
+    </tr>
+    
+    <tr> 
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
+          <tr> 
+            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/PyCACIC-<? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>-RedHat.rpm">PyCACIC (RedHat) - Instalador de Agentes CACIC em plataforma GNU/Linux - Distros RedHat <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>  ~  800K)</span></span></a> </td>
+          </tr>
+    <tr> 
+      <td>&nbsp;</td>
+    </tr>
+		  
+    <tr> 
+      <td height="1" bgcolor="#333333"></td>
+    </tr>
+    
+    <tr> 
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
+          <tr> 
+            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/PyCACIC-<? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>-Generic.tar.gz">PyCACIC (Generic) - Instalador de Agentes CACIC em plataforma GNU/Linux - Distros Genéricas <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>  ~  800K)</span></span></a> </td>
           </tr>
     <tr> 
       <td>&nbsp;</td>
@@ -119,7 +145,34 @@ require_once('include/selecao_listbox.js');
           <tr> 
             <td height="1" bgcolor="#333333"></td>
           </tr>
-          
+    
+    <tr> 
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
+          <tr> 
+            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/mapacacic.exe">MapaCACIC - M&oacute;dulo Avulso para Coleta de Informa&ccedil;&otilde;es Patrimoniais <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['mapacacic.exe'];?>  ~  250K)</span></span></a> </td>
+          </tr>
+    <tr> 
+      <td>&nbsp;</td>
+    </tr>
+		  
+          <tr> 
+            <td height="1" bgcolor="#333333"></td>
+          </tr>
+    
+    <tr> 
+      <td class="label"> 
+        &nbsp; &nbsp;<br>
+        <a href="<? echo $path_relativo_repositorio_instalacao;?>/srcaciccli.exe">srCACICcli -  Cliente Espec&iacute;fico para Suporte Remoto Seguro do Sistema CACIC  <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['srcaciccli.exe'];?>  ~  258K)</span></span></a></td>
+    </tr>
+    <tr> 
+      <td>&nbsp;</td>
+    </tr>
+          <tr> 
+            <td height="1" bgcolor="#333333"></td>
+          </tr>
         </table></td>
     </tr>
     

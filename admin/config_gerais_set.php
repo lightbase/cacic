@@ -100,6 +100,5 @@ $queryUPDATE = "UPDATE 	configuracoes_locais set
 						te_exibe_graficos = '".$te_exibe_graficos."'
 		  		WHERE   id_local=".$_POST['frm_id_local'];
 $resultUPDATE = mysql_query($queryUPDATE) or die('6-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('configuracoes_locais')).'!'); 
-
 header ("Location: ../include/operacao_ok.php?chamador=../admin/config_gerais.php&tempo=1");		
 ?>

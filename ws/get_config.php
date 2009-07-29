@@ -427,7 +427,8 @@ else
 						te_senha_adm_agente,
 						te_enderecos_mac_invalidos,
 						te_janelas_excecao,
-						nu_porta_srcacic
+						nu_porta_srcacic,
+						nu_timeout_srcacic
 			FROM 		configuracoes_locais
 			WHERE		id_local = '.$v_dados_rede['id_local'];
 
