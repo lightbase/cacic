@@ -23,6 +23,12 @@ if(!isset($_SESSION['id_usuario']))
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
+/*
+if (count($HTTP_POST_VARS) > 0)
+	foreach($HTTP_POST_VARS as $i => $v) 
+		echo 'POST => '.$i.' => '.$v.'<br>';
+*/
+
 if($_POST['submit']) 
 	{
 	$_SESSION["list2"] = $_POST['list2']; //Redes selecionadas
@@ -86,7 +92,7 @@ $_SESSION['select']  			= '';
 $_SESSION['from']  				= '';
 $_SESSION['where'] 				= '';
 $_SESSION['redes_selecionadas'] = '';
-$_SESSION['query_redes'] = ' AND computadores.id_ip_rede = redes.id_ip_rede AND ';
+$_SESSION['query_redes'] = ' AND computadores.id_ip_rede = redes.id_ip_rede ';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
 	{
 	// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
@@ -98,7 +104,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 		$_SESSION['redes_selecionadas'] .= "'".$_SESSION["list2"][$i]."'";
 		}
 
-	$_SESSION['query_redes'] .= 'redes.id_ip_rede IN ('. $_SESSION['redes_selecionadas'] .')';	
+	$_SESSION['query_redes'] .= ' AND redes.id_ip_rede IN ('. $_SESSION['redes_selecionadas'] .')';	
 	}
 else
 	{
@@ -111,15 +117,13 @@ else
 		$locais_selecionados .= $_SESSION["list12"][$i];
 		}
 
-	$_SESSION['query_redes'] .= 'redes.id_local = locais.id_local ';
 	if ($locais_selecionados)
 		$_SESSION['query_redes'] .= ' AND locais.id_local IN ('.$locais_selecionados.') ';
-		
-	$_SESSION['select'] = ' ,sg_local as SgLocal ';	
-	$_SESSION['from'] = ' ,locais ';			
 	}
 
-$_SESSION['from'] .= ',redes ';
+$_SESSION['query_redes'] .= ' AND redes.id_local = locais.id_local ';		
+$_SESSION['select'] = ' ,nm_rede,nm_local ';	
+$_SESSION['from'] = ' ,locais, redes ';			
 
 // Aqui pego todos os SO selecionados
 $so_selecionados = "'" . $_SESSION["list4"][0] . "'";
@@ -151,20 +155,54 @@ $query_select = 'SELECT 	id_aplicativo,
 				            nm_aplicativo not like "%#DESATIVADO#%"
 				 ORDER BY 	nm_aplicativo';
 
-$result_query_selecao = mysql_query($query_select) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));
+//if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+//	echo 'query_select: '.$query_select . '<br><br>';
+	
+$result_query_selecao = mysql_query($query_select);
+
+$strGroupByVersao	= ($_POST['rdCsSaidaDetalhada']=='S'?'':' GROUP BY a.te_versao ');
+$strGroupByLicenca	= ($_POST['rdCsSaidaDetalhada']=='S'?'':' GROUP BY a.id_aplicativo, a.te_licenca ');	
+
+$strOrderByVersao	= ($_POST['rdCsSaidaDetalhada']=='S'?' ORDER BY a.te_versao,nm_local,nm_rede,te_ip ':' ORDER BY total_equip DESC,a.te_versao,b.nm_aplicativo ');
+$strOrderByLicenca	= ($_POST['rdCsSaidaDetalhada']=='S'?' ORDER BY a.te_licenca,nm_local,nm_rede,te_ip ':' ORDER BY total_equip DESC ');	
+
+$strCountVersao		= ($_POST['rdCsSaidaDetalhada']=='S'?'':' ,COUNT(a.te_versao) as total_equip ');
+$strCountLicenca	= ($_POST['rdCsSaidaDetalhada']=='S'?'':' ,COUNT(a.te_licenca) as total_equip ');	
+
 ?>
 </p>
 <table width="100%" border="0" align="center">
-<td>
+<tr>
+<td align="center">
 <? 
 while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 	{
+	if ($v_nm_aplicativo <> '')
+		{
+		if (($total_maquinas_versao + $total_maquinas_licenca) == 0)
+			{
+			?>
+	    	<td align="center" class="label_vermelho"><?=$oTranslator->_('A pesquisa nao retornou registros');?></td>
+            <?
+            }
+			?>
+		</table>
+		<br><br>		
+		</table>        
+		<?			
+		} 			    
 	?>
-   	<table width="50%" border="1" align="center" cellpadding="0" cellspacing="0">
+   	<table width="80%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr bordercolor="#FFFFFF" bgcolor="#E1E1E1"> 
-    <td colspan="3" bgcolor="#FFFFFF" nowrap class="cabecalho_tabela">	
+    <td colspan="3" bgcolor="#FFFFFF" nowrap class="cabecalho_secao">	
 	<div align="center">
 	<? 
+	$where   		= '';
+	if ($reg_selecao['cs_car_inst_w9x'] > 0 || $reg_selecao['cs_car_inst_wnt'] > 0)
+		$where   = " AND (a.cs_instalado = 'S' OR (a.te_versao <> '' AND a.te_versao <> '?')) ";
+	elseif ($reg_selecao['cs_car_ver_w9x'] > 0 && $reg_selecao['cs_car_ver_wnt'] > 0)
+		$where   = " AND a.te_versao <> '' AND a.te_versao <> '?' ";
+	
 	$v_nm_aplicativo = $reg_selecao['nm_aplicativo'];
 	echo $v_nm_aplicativo;
 	$reg_id_aplicativo = $reg_selecao['id_aplicativo'];
@@ -173,23 +211,9 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 	</td>
     </tr>
 	<?
-	$groupBy = '';
-	$orderBy = '';	
-	$where   = '';
-	if ($reg_selecao['cs_car_inst_w9x'] > 0 || $reg_selecao['cs_car_inst_wnt'] > 0)
-		{
-		$where   = " AND a.cs_instalado = 'S' ";
-		}	
-	elseif ($reg_selecao['cs_car_ver_w9x'] > 0 && $reg_selecao['cs_car_ver_wnt'] > 0)
-		{
-		$where   = " AND a.te_versao <> '' ";
-//		$groupBy = ', a.te_versao ';
-//		$orderBy = ', a.te_versao ';		
-		}
 	
 	// Exibir informações sobre a quantidade de máquinas e versões instaladas	
  	$query_aplicativo ="SELECT DISTINCT a.te_versao, 
-										COUNT(a.te_versao) as total_equip, 
 										a.id_aplicativo, 
 					 					b.nm_aplicativo,
 										b.cs_car_inst_w9x,
@@ -200,7 +224,13 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 										$_SESSION['select'].",
 										b.cs_car_ver_w9x,
 										b.cs_car_ver_wnt,
-										b.cs_ide_licenca 
+										b.cs_ide_licenca,
+										computadores.te_nome_computador,
+										computadores.te_ip, 
+										computadores.id_ip_rede,
+										computadores.id_so,
+										computadores.te_node_address ".
+										$strCountVersao. " 
 					 FROM  				aplicativos_monitorados a, 
 					 					perfis_aplicativos_monitorados b, 
 										computadores ".
@@ -210,12 +240,15 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 					 					a.id_aplicativo = ".$reg_id_aplicativo. " AND 
 					 					a.id_aplicativo = b.id_aplicativo " . $_SESSION['query_redes'] . " AND 
 					 					computadores.id_so IN (". $_SESSION['so_selecionados'] .") ".
-										$where ."
-					 GROUP BY 			a.te_versao ".
-					 					$groupBy."  
-					 ORDER BY 			total_equip DESC,a.te_versao,b.nm_aplicativo ".
-					 					$orderBy;
+										$where .
+										$strGroupByVersao.
+										$strOrderByVersao;
 	$result_query_versoes = mysql_query($query_aplicativo);
+	
+	
+	//if ($_SERVER['REMOTE_ADDR'] == '10.71.0.33' || $_SERVER['REMOTE_ADDR'] == '10.71.0.63')	
+	//	echo $query_aplicativo . '<br>';
+	
 	/*
 	Informações importantes:
 	
@@ -232,97 +265,193 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 	=======================
 	cs_instalado	S/N
 	*/
-	$total_maquinas = 0;
-	$sequencial = 1;
+
+	$total_maquinas_versao 	= 0;
+	$sequencial 			= 0;
 
 	$in_se_instalado = false;
 	if (mysql_num_rows($result_query_versoes))
 		{ 
+		// Crio variáveis array a partir do resultado da consulta, para exibição de detalhes (reuso)
+		// Anderson Peterle - 31/Julho/2009
+		$arrTotalNaVersao		= array();
+		$arrTeVersao 			= array();
+		$arrTotalEquip 			= array();
+		$arrIdAplicativo 		= array();
+		$arrNmAplicativo		= array();
+		$arrCsCarInstW9X		= array();
+		$arrCsCarInstWNT		= array();
+		$arrCsInstalado			= array();
+		$arrTeCarInstW9X		= array();
+		$arrTeCarInstWNT		= array();	
+		$arrNmRede				= array();
+		$arrNmLocal				= array();
+		$arrCsCarVerW9X			= array();
+		$arrCsCarVerWNT			= array();
+		$arrCsIdeLicenca		= array();	
+		$arrTeNomeComputador	= array();
+		$arrTeIp				= array();	
+		$arrIdIpRede			= array();		
+		$arrIdSo				= array();
+		$arrTeNodeAddress		= array();	
+		
 		while($reg_versoes = mysql_fetch_array($result_query_versoes)) 
 			{ 
-			$te_versao      =  $reg_versoes['te_versao'];									
-			//$cs_instalado   = ($reg_versoes['cs_instalado']  <>'' && $reg_versoes['cs_instalado']<>'0');			
+			$arrTotalNaVersao[$reg_versoes['te_versao']] ++;
 			
-			$cs_instalado   = (($reg_versoes['cs_car_inst_w9x']<>'' && $reg_versoes['cs_car_inst_w9x']<>'0') || ($reg_versoes['cs_car_inst_wnt'] <> '' && $reg_versoes['cs_car_inst_wnt'] <> '0'));						
+			$arrTeVersao[$sequencial]			=	$reg_versoes['te_versao'];
+			$arrTotalEquip[$sequencial] 		=	($_POST['rdCsSaidaDetalhada']=='S'?0:$reg_versoes['total_equip']);
+			$arrIdAplicativo[$sequencial]		=	$reg_versoes['id_aplicativo'];
+			$arrNmAplicativo[$sequencial]		=	$reg_versoes['nm_aplicativo'];
+			$arrCsCarInstW9X[$sequencial]		=	$reg_versoes['cs_car_inst_w9x'];
+			$arrCsCarInstWNT[$sequencial]		=	$reg_versoes['cs_car_inst_wnt'];
+			$arrCsInstalado[$sequencial]		=	$reg_versoes['cs_instalado'];
+			$arrTeCarInstW9X[$sequencial]		=	$reg_versoes['te_car_inst_w9x'];
+			$arrTeCarInstWNT[$sequencial]		=	$reg_versoes['te_car_inst_wnt'];
+			$arrNmRede[$sequencial]				=	$reg_versoes['nm_rede'];
+			$arrNmLocal[$sequencial]			=	$reg_versoes['nm_local'];
+			$arrCsCarVerW9X[$sequencial]		=	$reg_versoes['cs_car_ver_w9x'];
+			$arrCsCarVerWNT[$sequencial]		=	$reg_versoes['cs_car_ver_wnt'];
+			$arrCsIdeLicenca[$sequencial]		=	$reg_versoes['cs_ide_licenca'];
+			$arrTeNomeComputador[$sequencial]	=	$reg_versoes['te_nome_computador'];
+			$arrTeIp[$sequencial]				=	$reg_versoes['te_ip'];
+			$arrIdIpRede[$sequencial]			=	$reg_versoes['id_ip_rede'];
+			$arrIdSO[$sequencial]				=	$reg_versoes['id_so'];
+			$arrTeNodeAddress[$sequencial]		=	$reg_versoes['te_node_address'];
+							
+			$cs_instalado   = (($arrCsCarInstW9X[$sequencial]<>'' && $arrCsCarInstW9X[$sequencial]<>'0') || ($arrCsCarInstWNT[$sequencial] <> '' && $arrCsCarInstWNT[$sequencial] <> '0'));						
 			if (!$cs_instalado)
-				$cs_instalado   = (($reg_versoes['cs_car_ver_w9x']<>'' && $reg_versoes['cs_car_ver_w9x']<>'0') || ($reg_versoes['cs_car_ver_wnt'] <> '' && $reg_versoes['cs_car_ver_wnt'] <> '0'));						
+				$cs_instalado   = (($arrCsCarVerW9X[$sequencial]<>'' && $arrCsCarVerW9X[$sequencial]<>'0') || ($arrCsCarVerWNT[$sequencial] <> '' && $arrCsCarVerWNT[$sequencial] <> '0'));						
 				
-			$cs_ide_licenca = ($reg_versoes['cs_ide_licenca']<>'' && $reg_versoes['cs_ide_licenca']<>'0');		
+			$cs_ide_licenca = ($arrCsIdeLicenca[$sequencial]<>'' && $arrCsIdeLicenca[$sequencial]<>'0');		
 	
-			$label = ($te_versao<>''?'Versão/Configuração':'Instalação Detectada');			
+			$label = ($arrTeVersao[$sequencial]<>''?'Versão/Configuração':'Instalação Detectada');			
 			if ($cs_instalado)			
-				$te_car_inst = ($reg_versoes['te_car_inst_w9x'] <> ''?$reg_versoes['te_car_inst_w9x']:$reg_versoes['te_car_inst_wnt']);
+				$te_car_inst = ($arrTeCarInstW9X[$sequencial] <> ''?$arrTeCarInstW9X[$sequencial]:$arrTeCarInstWNT[$sequencial]);
 				
-			$total_maquinas += $reg_versoes['total_equip'];
-
+			$total_maquinas_versao += ($_POST['rdCsSaidaDetalhada']=='S'?1:$arrTotalEquip[$sequencial]);
+			$sequencial ++;
 			} //Fim do while
-		if ($total_maquinas > 0 && $cs_instalado && !$cs_ide_licenca)
+			
+		if ($total_maquinas_versao > 0 && $cs_instalado && !$cs_ide_licenca)
 			{
 			?>
-			<table width="50%" border="0" align="center">		
+			<table width="50%" border="1" align="center">		
         	<tr valign="top" bgcolor="#E1E1E1"> 
-	        <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Sequencial');?></div></td>		
-    	    <td class="cabecalho_tabela"><div align="left"><? echo $label;?></div></td>
-			<? 
-			/*
-			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
-				{
-				?>
-				<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left">Local</div></td>		
-				<?
-				}
-			*/
-			?>
-			
+	        <td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Sequencial');?></div></td>		
+    	    <td class="cabecalho_tabela"><div align="center"><? echo $label;?></div></td>
         	<td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Maquinas');?></div></td>
 	        <td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Percentual', T_SIGLA);?></div></td>		
     	    </tr>
-			<?		
-
-		mysql_data_seek($result_query_versoes,0);
-		while($reg_versoes = mysql_fetch_array($result_query_versoes)) 
-			{
-			$label = ($te_versao<>''?'Versão/Configuração':'Instalação Detectada');			
-			$cs_instalado   = ($reg_versoes['cs_instalado']  <>'' && $reg_versoes['cs_instalado']<>'0');			
-			$cs_ide_licenca = ($reg_versoes['cs_ide_licenca']<>'' && $reg_versoes['cs_ide_licenca']<>'0');		
-			$te_versao      =  $reg_versoes['te_versao'];					
-
-			//echo 'cs_instalado: '.$cs_instalado.' => '.$reg_versoes['cs_instalado'].'<br>';
-			//echo 'cs_ide_licenca: '.$cs_ide_licenca.' => '.$reg_versoes['cs_ide_licenca'].'<br>';			
-			//echo 'te_versao: '.$reg_versoes['te_versao'].'<br>';						
-			$cs_ide_licenca = ($reg_versoes['cs_ide_licenca']<>'' && $reg_versoes['cs_ide_licenca']<>'0');		
-			
-			if ($cs_instalado && !$cs_ide_licenca)
-				{ 	
-				?>			  
-    	      	<tr> 
-        	    <td nowrap class="opcao_tabela"><div align="left"><? echo $sequencial; ?></a></div></td>			
-            	<td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?teversao=<? echo $reg_versoes['te_versao']?>&idaplicativo=<? echo $reg_versoes['id_aplicativo']?>&nmversao=<? echo $reg_versoes['nm_aplicativo']?>&cs_car_inst=<? echo ($reg_versoes['cs_car_inst_wnt']<>''?$reg_versoes['cs_car_inst_wnt']:$reg_versoes['cs_car_inst_w9x']);?>" target="_blank"><? echo ($te_versao<>''?$reg_versoes['te_versao']:$label) ?></a></div></td>				
-	            <td nowrap class="opcao_tabela"><div align="right"><? echo $reg_versoes['total_equip']; ?></div></td>
-    	        <td nowrap class="ajuda"><div align="right">&nbsp;&nbsp;&nbsp;<? echo sprintf("%01.2f", $reg_versoes['total_equip'] * 100 / $total_maquinas); ?></div></td>
-        	  	</tr>
-				<?
-				$sequencial ++;
-				echo $linha; 
-				}
-			} //Fim do while
+			<?	
+			$intSequenciaVersoes = 0;	
+			for ($intAuxVersoes = 0; $intAuxVersoes < count($arrTeVersao); $intAuxVersoes ++)
+				{
+				$intSequenciaVersoes ++;
+				$label 			= ($arrTeVersao[$intAuxVersoes]		<> '' ? 'Versão/Configuração':'Instalação Detectada');			
+				$cs_instalado   = ($arrCsInstalado[$intAuxVersoes]  	<> '' && $arrCsInstalado[$intAuxVersoes] <> '0');			
+				$cs_ide_licenca = ($arrCsIdeLicenca[$intAuxVersoes]	<> '' && $arrCsIdeLicenca[$intAuxVersoes] <> '0');		
+				
+				if ($cs_instalado && !$cs_ide_licenca || ($arrTeVersao[$intAuxVersoes]))
+					{ 	
+					if ($intAuxVersoes > 0 && $_POST['rdCsSaidaDetalhada']=='S')
+						{
+						?>
+						<tr><td colspan="4"></td></tr>
+						<tr><td colspan="4"></td></tr>                        
+						<tr valign="top" bgcolor="#E1E1E1"> 
+						<td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Sequencial');?></div></td>		
+						<td class="cabecalho_tabela"><div align="center"><? echo $label;?></div></td>
+						<td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Maquinas');?></div></td>
+						<td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Percentual', T_SIGLA);?></div></td>		
+						</tr>                    
+						<?
+						}
+					?>			  
+					<tr> 
+					<td nowrap class="opcao_tabela"><div align="right"><? echo $intSequenciaVersoes; ?></a></div></td>			
+					<td nowrap class="opcao_tabela"><div align="center"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?teversao=<? echo $arrTeVersao[$intAuxVersoes]?>&idaplicativo=<? echo $arrIdAplicativo[$intAuxVersoes]?>&nmversao=<? echo $arrNmAplicativo[$intAuxVersoes]?>&cs_car_inst=<? echo ($arrCsCarInstWNT[$intAuxVersoes]<>''?$arrCsCarInstWNT[$intAuxVersoes]:$arrCsCarInstW9X[$intAuxVersoes]);?>" target="_blank"><? echo ($arrTeVersao[$intAuxVersoes]<>''?$arrTeVersao[$intAuxVersoes]:$label); ?></a></div></td>								
+					<td nowrap class="opcao_tabela"><div align="right"><? echo ($_POST['rdCsSaidaDetalhada']=='S'?$arrTotalNaVersao[$arrTeVersao[$intAuxVersoes]]:$arrTotalEquip[$intAuxVersoes]); ?></div></td>
+					<td nowrap class="ajuda"><div align="right"><? echo sprintf("%01.2f", ($_POST['rdCsSaidaDetalhada']=='S'?$arrTotalNaVersao[$arrTeVersao[$intAuxVersoes]]:$arrTotalEquip[$intAuxVersoes]) * 100 / $total_maquinas_versao); ?></div></td>
+					</tr>
+					<?
+					
+					// Caso o usuário tenha optado por Saída Detalhada...
+					// Neste ponto serão exibidos os detalhes em forma de links para os registros de computadores constantes do resultado da consulta
+					// Anderson Peterle - 31/Julho/2009
+					if ($_POST['rdCsSaidaDetalhada']=='S')
+						{
+						?>
+						<tr valign="top"> 
+						<td></td>
+						<td>
+						<table border="0" align="center" cellpadding="0" cellspacing="0" width="80%">
+						<tr bgcolor="#E1E1E1">
+						<td nowrap class="cabecalho_tabela" width="20%"><div align="right"><?=$oTranslator->_('Sequencial');?></div></td>	
+						<td>|</td>			
+						<td nowrap class="cabecalho_tabela" width="20%"><div align="left"><?=$oTranslator->_('Computador');?></div></td>				
+						<td>|</td>			                    
+						<td nowrap class="cabecalho_tabela" width="20%"><div align="left"><?=$oTranslator->_('SubRede');?></div></td>				                        
+						<td>|</td>			                    
+						<td nowrap class="cabecalho_tabela" width="20%"><div align="left"><?=$oTranslator->_('Local');?></div></td>				                        
+						</tr>
+						<?
+					  
+						$intSequencialDetalhes 	= 1;
+						$intAuxDetalhes 		= $intAuxVersoes;					
+						$te_versao 				= $arrTeVersao[$intAuxDetalhes];
+						$strCorFundo			= '.';	
+						while ($te_versao == $arrTeVersao[$intAuxDetalhes]) 
+							{
+							?>
+							<tr <? if ($strCorFundo) { echo 'bgcolor="#CCCCFF"'; } ?>> 
+							<td nowrap class="opcao_tabela" width="20%"><div align="right"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $arrTeNodeAddress[$intAuxDetalhes];?>&id_so=<? echo $arrIdSO[$intAuxDetalhes];?>" target="_blank"><? echo $intSequencialDetalhes; ?></a></div></td>				
+							<td>|</td>			                        
+							<td nowrap class="opcao_tabela" width="20%"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $arrTeNodeAddress[$intAuxDetalhes];?>&id_so=<? echo $arrIdSO[$intAuxDetalhes];?>" target="_blank"><? echo $arrTeIp[$intAuxDetalhes].' ('.$arrTeNomeComputador[$intAuxDetalhes].')'; ?></a></div></td>				
+							<td>|</td>			                        
+							<td nowrap class="opcao_tabela" width="20%"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $arrTeNodeAddress[$intAuxDetalhes];?>&id_so=<? echo $arrIdSO[$intAuxDetalhes];?>" target="_blank"><? echo $arrIdIpRede[$intAuxDetalhes].' ('.$arrNmRede[$intAuxDetalhes].')'; ?></a></div></td>				                        
+							<td>|</td>			                        
+							<td nowrap class="opcao_tabela" width="20%"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $arrTeNodeAddress[$intAuxDetalhes];?>&id_so=<? echo $arrIdSO[$intAuxDetalhes];?>" target="_blank"><? echo $arrNmLocal[$intAuxDetalhes]; ?></a></div></td>				                        
+							</tr>
+							<?
+							$strCorFundo = !$strCorFundo;							
+							$intAuxDetalhes ++;
+							$intSequencialDetalhes ++;						
+							}
+						?>
+						</table></td></tr>					
+						<?
+						$intAuxVersoes = ($intAuxDetalhes-1);	
+						}
+					//else
+					//	echo $linha; 					
+					}
+				} //Fim do for
 			?>
     	    <tr valign="top" bgcolor="#E1E1E1"> 
         	<td colspan="2" class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Total de maquinas');?></div></td>
-	        <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><? echo $total_maquinas; ?></div></td>
+	        <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><? echo $total_maquinas_versao; ?></div></td>            
     	    <td bgcolor="#E1E1E1" class="opcao_tabela"><div align="right">&nbsp;&nbsp;&nbsp;100.00</div></td>				
         	</tr>
 	        </table>					
 			<?
 			}
  		} //Fim do if das versões
+		
+		
 	// Exibir informações sobre a quantidade de máquinas e licenças
 	 $query_aplicativo_licencas = "SELECT 	a.te_licenca, 
-	 										COUNT(a.te_licenca) as total_equip, 
+	 										a.te_versao,
 											a.id_aplicativo, 
 											b.nm_aplicativo ".
 											$_SESSION['select'] . ",
-											b.cs_ide_licenca 
+											computadores.te_nome_computador,
+											computadores.te_ip, 
+											computadores.id_ip_rede,
+											computadores.id_so,
+											computadores.te_node_address, 											
+											b.cs_ide_licenca ".
+											$strCountLicenca . " 
 								   FROM  	aplicativos_monitorados a, 
 								   			perfis_aplicativos_monitorados b, 
 											computadores ".
@@ -334,63 +463,152 @@ while($reg_selecao = @mysql_fetch_array($result_query_selecao))
 											trim(a.te_licenca) <> '?' AND 								
 											trim(a.te_licenca) <> 'none' AND 																
 						 					trim(a.te_licenca) <> '' AND 
+											redes.id_ip_rede = computadores.id_ip_rede AND 
+											locais.id_local = redes.id_local AND										
 											computadores.id_so IN (". $_SESSION['so_selecionados'] .") ".
-											$_SESSION['query_redes'] ." 
-								GROUP BY 	a.id_aplicativo, a.te_licenca
-								ORDER BY 	total_equip desc";
+											$_SESSION['query_redes'] .
+											$strGroupByLicenca . 
+											$strOrderByLicenca;
 
 	$result_query_licencas = mysql_query($query_aplicativo_licencas);
 	if (mysql_num_rows($result_query_licencas))
  		{ 
+		// Crio variáveis array a partir do resultado da consulta, para exibição de detalhes (reuso)
+		// Anderson Peterle - 31/Julho/2009
+		$arrTotalNaLicenca		= array();
+		$arrTeLicenca 			= array();
+		$arrTeVersao 			= array();		
+		$arrTotalEquip 			= array();
+		$arrIdAplicativo 		= array();
+		$arrNmAplicativo		= array();
+		$arrCsIdeLicenca		= array();
+		$arrNmRede				= array();
+		$arrNmLocal				= array();
+		$arrTeNomeComputador	= array();
+		$arrTeIp				= array();	
+		$arrIdIpRede			= array();		
+		$arrIdSo				= array();
+		$arrTeNodeAddress		= array();			
 		?>
-		<table width="50%" border="0" align="center">		
+		<table width="50%" border="1" align="center">		
 		<tr valign="top" bgcolor="#FFFFFF"> 
-		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Sequencial');?></div></td>		
-		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Licenca');?></div></td>
+		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Sequencial');?></div></td>	
+		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Licenca');?></div></td>
 		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Maquinas');?></div></td>
+		<td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Percentual', T_SIGLA);?></div></td>		        
 		</tr>
 		<?
-		$total_maquinas = 0;		
-		$sequencial = 1;
+		$total_maquinas_licenca = 0;		
+		$sequencial = 0;
 		while($reg_licencas = mysql_fetch_array($result_query_licencas)) 
 			{ 
-			$te_informacao = ($reg_licencas['te_licenca']?$reg_licencas['te_licenca']:$reg_licencas['te_versao']);
+			$arrTeLicenca[$sequencial]			=	$reg_licencas['te_licenca'];
+			$arrTeVersao[$sequencial]			=	$reg_licencas['te_versao'];			
+			$arrIdAplicativo[$sequencial]		=	$reg_licencas['id_aplicativo'];
+			$arrNmAplicativo[$sequencial]		=	$reg_licencas['nm_aplicativo'];
+			$arrNmRede[$sequencial]				=	$reg_licencas['nm_rede'];
+			$arrNmLocal[$sequencial]			=	$reg_licencas['nm_local'];
+			$arrCsIdeLicenca[$sequencial]		=	$reg_licencas['cs_ide_licenca'];
+			$arrTeNomeComputador[$sequencial]	=	$reg_licencas['te_nome_computador'];
+			$arrTeIp[$sequencial]				=	$reg_licencas['te_ip'];
+			$arrIdIpRede[$sequencial]			=	$reg_licencas['id_ip_rede'];
+			$arrIdSO[$sequencial]				=	$reg_licencas['id_so'];
+			$arrTeNodeAddress[$sequencial]		=	$reg_licencas['te_node_address'];
+			
+			$arrTotalEquip[$arrTeLicenca[$sequencial]] += ($_POST['rdCsSaidaDetalhada']=='S'?1:0);			
+			
+			$sequencial ++;			
+			$total_maquinas_licenca += ($_POST['rdCsSaidaDetalhada']=='S'?1:$reg_licencas['total_equip']);		
+			} //Fim do while
+		
+		$intSequenciaLicencas = 0;
+		for ($intAuxLicencas = 0; $intAuxLicencas < count($arrTeLicenca); $intAuxLicencas ++)			
+			{ 			
+			$intSequenciaLicencas ++;
+			$te_informacao = ($arrTeLicenca[$intAuxLicencas]?$arrTeLicenca[$intAuxLicencas]:$arrTeVersao[$intAuxLicencas]);
+			if ($intAuxLicencas > 0 && $_POST['rdCsSaidaDetalhada']=='S')
+				{
+				?>
+				<tr><td colspan="4"></td></tr>
+				<tr><td colspan="4"></td></tr>                        
+				<tr valign="top" bgcolor="#E1E1E1"> 
+				<td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Sequencial');?></div></td>		
+				<td class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Licenca');?></div></td>
+				<td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Maquinas');?></div></td>
+				<td class="cabecalho_tabela"><div align="right"><?=$oTranslator->_('Percentual', T_SIGLA);?></div></td>		
+				</tr>                    
+				<?
+				}							
 			?>			  
 	        <tr> 
-    	    <td nowrap class="opcao_tabela"><div align="left"><? echo $sequencial; ?></a></div></td>			
-    	    <td nowrap class="opcao_tabela"><div align="left"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?telicenca=<? echo $reg_licencas['te_licenca']?>&idaplicativo=<? echo $reg_licencas['id_aplicativo']?>&nmversao=<? echo $reg_licencas['nm_aplicativo']?>" target="_blank"><? echo $te_informacao; ?></a></div></td>
-        	<td nowrap class="opcao_tabela"><div align="right"><? echo $reg_licencas['total_equip'] ?></div></td>			
+    	    <td nowrap class="opcao_tabela"><div align="right"><? echo $intSequenciaLicencas; ?></a></div></td>			
+    	    <td nowrap class="opcao_tabela"><div align="center"><a href="../../estatisticas/aplicativos/est_maquinas_aplicativos.php?telicenca=<? echo $arrTeLicenca[$intAuxLicencas]?>&idaplicativo=<? echo $arrIdAplicativo[$intAuxLicencas]?>&nmversao=<? echo $arrNmAplicativo[$intAuxLicencas]?>" target="_blank"><? echo $te_informacao; ?></a></div></td>
+        	<td nowrap class="opcao_tabela"><div align="right"><? echo ($_POST['rdCsSaidaDetalhada']=='S'?$arrTotalEquip[$arrTeLicenca[$intAuxLicencas]]:$total_maquinas_licenca); ?></div></td>			
+			<td nowrap class="opcao_tabela"><div align="right"><? echo sprintf("%01.2f", ($_POST['rdCsSaidaDetalhada']=='S'?$arrTotalEquip[$arrTeLicenca[$intAuxLicencas]]:$total_maquinas_licenca) * 100 / $total_maquinas_licenca); ?></div></td>            
 	        </tr>	  
 			<?
-			echo $linha; 
-			$sequencial ++;
-			$total_maquinas += $reg_licencas['total_equip'];			
-			} //Fim do while
+			//echo $linha; 
+			// Caso o usuário tenha optado por Saída Detalhada...
+			// Neste ponto serão exibidos os detalhes em forma de links para os registros de computadores constantes do resultado da consulta
+			// Anderson Peterle - 31/Julho/2009
+			if ($_POST['rdCsSaidaDetalhada']=='S')
+				{
+				?>
+				<tr valign="top"> 
+				<td></td>
+				<td>
+				<table border="0" align="center" cellpadding="0" cellspacing="0" width="80%">
+				<tr bgcolor="#E1E1E1">
+				<td nowrap class="cabecalho_tabela" width="20%"><div align="right"><?=$oTranslator->_('Sequencial');?></div></td>	
+				<td>|</td>			
+				<td nowrap class="cabecalho_tabela" width="20%"><div align="left"><?=$oTranslator->_('Computador');?></div></td>				
+				<td>|</td>			                    
+				<td nowrap class="cabecalho_tabela" width="20%"><div align="left"><?=$oTranslator->_('SubRede');?></div></td>				                        
+				<td>|</td>			                    
+				<td nowrap class="cabecalho_tabela" width="20%"><div align="left"><?=$oTranslator->_('Local');?></div></td>				                        
+				</tr>
+				<?
+			  
+				$intSequencialDetalhes 	= 1;
+				$intAuxDetalhes 		= $intAuxLicencas;					
+				$te_licenca				= $arrTeLicenca[$intAuxDetalhes];
+
+				$strCorFundo			= '.';
+				while ($te_licenca == $arrTeLicenca[$intAuxDetalhes]) 
+					{
+					?>
+					<tr <? if ($strCorFundo) { echo 'bgcolor="#CCCCFF"'; } ?>> 
+					<td nowrap class="opcao_tabela" width="20%"><div align="right"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $arrTeNodeAddress[$intAuxDetalhes];?>&id_so=<? echo $arrIdSO[$intAuxDetalhes];?>" target="_blank"><? echo $intSequencialDetalhes; ?></a></div></td>				
+					<td>|</td>			                        
+					<td nowrap class="opcao_tabela" width="20%"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $arrTeNodeAddress[$intAuxDetalhes];?>&id_so=<? echo $arrIdSO[$intAuxDetalhes];?>" target="_blank"><? echo $arrTeIp[$intAuxDetalhes].' ('.$arrTeNomeComputador[$intAuxDetalhes].')'; ?></a></div></td>				
+					<td>|</td>			                        
+					<td nowrap class="opcao_tabela" width="20%"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $arrTeNodeAddress[$intAuxDetalhes];?>&id_so=<? echo $arrIdSO[$intAuxDetalhes];?>" target="_blank"><? echo $arrIdIpRede[$intAuxDetalhes].' ('.$arrNmRede[$intAuxDetalhes].')'; ?></a></div></td>				                        
+					<td>|</td>			                        
+					<td nowrap class="opcao_tabela" width="20%"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $arrTeNodeAddress[$intAuxDetalhes];?>&id_so=<? echo $arrIdSO[$intAuxDetalhes];?>" target="_blank"><? echo $arrNmLocal[$intAuxDetalhes]; ?></a></div></td>				                        
+					</tr>
+					<?
+					$strCorFundo = !$strCorFundo;												
+					$intAuxDetalhes ++;
+					$intSequencialDetalhes ++;						
+					}
+				?>
+				</table></td></tr>					
+				<?
+				$intAuxLicencas = ($intAuxDetalhes-1);	
+				}
+			
+			} //Fim do for
 			?>
 		</tr>
         <tr valign="top" bgcolor="#E1E1E1"> 
         <td class="cabecalho_tabela" colspan="2"><div align="left"><?=$oTranslator->_('Total de maquinas');?></div></td>
-        <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><? echo $total_maquinas; ?></div></td>		
+        <td bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right"><? echo $total_maquinas_licenca; ?></div></td>	
+   	    <td bgcolor="#E1E1E1" class="opcao_tabela"><div align="right">&nbsp;&nbsp;&nbsp;100.00</div></td>				        	
         </tr>
         </table>							
-		<?
+		<?		
 		} //Fim do if else das versões
-	?>	
-	</table>
-	<br><br>		
-	</table>
-	<? 
 	}
-
-	if (!$result_query_versoes)
-	 	{
-		?>
-		<tr  align="center"> 
-	    <td colspan="3" align="center" class="label_vermelho"><?=$oTranslator->_('A pesquisa nao retornou registros');?></td>
-	    </tr>
-		<?
-		} 
-	
 	?>
 </p>
 

@@ -41,7 +41,7 @@ AntiSpy('1,2,3,4');
     <td rowspan="5" bgcolor="#FFFFFF"><img src="../../imgs/cacic_logo.png" width="50" height="50"></td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td class="cabecalho_rel"<?=$oTranslator->_('Estatisticas de sistemas monitorados');?></td>
+    <td class="cabecalho_rel"<?=$oTranslator->_('Estatisticas de sistemas monitorados'); ?></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>

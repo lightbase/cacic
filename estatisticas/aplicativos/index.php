@@ -73,7 +73,28 @@ function open_window(theURL,winName,features) {
   </tr>
 </table>
 <form action="../aplicativos/aplicativos.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-<table width="90%" border="0" align="center">
+<table width="90%" border="0" align="center" cellpadding="0">
+              <tr>
+            <td class="label">
+              <?=$oTranslator->_('Saida Detalhada:');?>            </td>
+          </tr>
+          <tr> 
+            <td height="1" bgcolor="#333333"></td>
+          </tr>
+    <tr>
+      <td valign="top">
+        <tr>
+          <td><label>
+            <input type="radio" name="rdCsSaidaDetalhada" value="S" id="rdCsSaidaDetalhada_0">
+            Sim</label>&nbsp;&nbsp;
+          <label>
+            <input type="radio" name="rdCsSaidaDetalhada" value="N" id="rdCsSaidaDetalhada_1" checked>
+            Não</label></td>
+        </tr>
+
+      </td>
+    </tr>
+
   <tr> 
       
     <td valign="top">&nbsp;</td>
@@ -82,8 +103,7 @@ function open_window(theURL,winName,features) {
       <td valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="1">
           <tr>
             <td class="label">
-              <?=$oTranslator->_('Selecione os sistemas monitorados que deseja exibir:');?>
-            </td>
+              <?=$oTranslator->_('Selecione os sistemas monitorados que deseja exibir:');?>            </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -141,8 +161,7 @@ function open_window(theURL,winName,features) {
           </tr>
           <tr> 
             <td class="ajuda">
-              (<?=$oTranslator->_('Dica: use SHIFT or CTRL para selecionar multiplos itens');?>)
-            </td>
+              (<?=$oTranslator->_('Dica: use SHIFT or CTRL para selecionar multiplos itens');?>)            </td>
           </tr>
         </table></td>
     </tr>
@@ -160,21 +179,19 @@ function open_window(theURL,winName,features) {
       <td valign="top"> 
         <?  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
-		?>
-
-      </td>
+		?>      </td>
     </tr>
     <tr> 
       <td valign="top">&nbsp;</td>
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>
-      </td>
+        <?  require_once('../../include/selecao_so_inc.php');		?>      </td>
     </tr>
-    <tr> 
+    <tr>
       <td valign="top">&nbsp;</td>
     </tr>
+
     <tr> 
       <td valign="top"> <br> <br> <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
