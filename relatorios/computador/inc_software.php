@@ -32,7 +32,7 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
 if($_SESSION['software'] == true) 
 	echo 'menos';
 else 
-	echo 'mais'; ?>.gif" width="12" height="12" border="0"> Vers&otilde;es de Softwares B&aacute;sicos</a></td>
+	echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?=$oTranslator->_('Versoes de softwares basicos');?></a></td>
 </tr>
 <tr><td colspan="5" height="1" bgcolor="#333333"></td></tr>
 <?
@@ -58,9 +58,9 @@ if ($_SESSION['software'] == true)
 			?>
 	  		<tr bgcolor="<? echo $strCor;?>"> 
     		<td>&nbsp;</td>
-    		<td class="opcao_tabela">Sistema Operacional:</td>
+    		<td class="opcao_tabela"><?=$oTranslator->_('Sistema operacional');?></td>
     		<td class="dado"><? echo mysql_result($result, 0, "te_desc_so"); ?></td>
-    		<td class="opcao_tabela">Vers&atilde;o do DirectX:</td>
+    		<td class="opcao_tabela"><?=$oTranslator->_('Versao do DirectX');?></td>
     		<td class="dado"><? echo mysql_result($result_software, 0, "te_versao_directx"); ?></td>
   			</tr>
   			<? echo $linha;
@@ -68,9 +68,9 @@ if ($_SESSION['software'] == true)
   			?> 
   			<tr bgcolor="<? echo $strCor;?>"> 
     		<td>&nbsp;</td>
-    		<td class="opcao_tabela">Vers&atilde;o do Internet Explorer:</td>
+    		<td class="opcao_tabela"><?=$oTranslator->_('Versao do internet explorer');?></td>
     		<td class="dado"><? echo mysql_result($result_software, 0, "te_versao_ie"); ?></td>
-    		<td class="opcao_tabela">Vers&atilde;o do ODBC:</td>
+    		<td class="opcao_tabela"><?=$oTranslator->_('Versao do ODBC');?></td>
     		<td class="dado"><? echo mysql_result($result_software, 0, "te_versao_odbc"); ?></td>
   			</tr>
   			<? echo $linha;
@@ -78,9 +78,9 @@ if ($_SESSION['software'] == true)
   			?> 
   			<tr bgcolor="<? echo $strCor;?>"> 
     		<td>&nbsp;</td>
-    		<td class="opcao_tabela">Vers&atilde;o do Mozilla:</td>
+    		<td class="opcao_tabela"><?=$oTranslator->_('Versao do Mozilla');?></td>
     		<td class="dado"><div align="left"><? echo mysql_result($result_software, 0, "te_versao_mozilla"); ?></div></td>
-    		<td class="opcao_tabela">Vers&atilde;o do DAO:</td>
+    		<td class="opcao_tabela"><?=$oTranslator->_('Versao do DAO');?></td>
     		<td class="dado"><? echo mysql_result($result_software, 0, "te_versao_dao"); ?></td>
   			</tr>
   			<? echo $linha;
@@ -88,9 +88,9 @@ if ($_SESSION['software'] == true)
   			?> 
   			<tr bgcolor="<? echo $strCor;?>"> 
     		<td>&nbsp;</td>
-    		<td class="opcao_tabela">Vers&atilde;o do Acrobat Reader:</td>
+    		<td class="opcao_tabela"><?=$oTranslator->_('Versao do Acrobat Reader');?></td>
     		<td class="dado"><? echo mysql_result($result_software, 0, "te_versao_acrobat_reader"); ?></td>
-    		<td class="opcao_tabela">Vers&atilde;o do ADO:</td>
+    		<td class="opcao_tabela"><?=$oTranslator->_('Versao do ADO');?></td>
     		<td class="dado"><? echo mysql_result($result_software, 0, "te_versao_ado"); ?></td>
   			</tr>
   			<? echo $linha;
@@ -98,9 +98,9 @@ if ($_SESSION['software'] == true)
   			?> 
   			<tr bgcolor="<? echo $strCor;?>"> 
     		<td>&nbsp;</td>
-    		<td class="opcao_tabela">Vers&atilde;o do Java Runtime (JVM):</td>
+    		<td class="opcao_tabela"><?=$oTranslator->_('Versao da maquina virtual java (JVM)');?></td>
     		<td class="dado"><? echo mysql_result($result_software, 0, "te_versao_jre"); ?></td>
-    		<td>Vers&atilde;o do BDE:</td>
+    		<td><?=$oTranslator->_('Versao do BDE');?></td>
     		<td class="dado"><? echo mysql_result($result_software, 0, "te_versao_bde"); ?></td>
   			</tr>
   			<?
@@ -112,7 +112,7 @@ if ($_SESSION['software'] == true)
 					<div align="center">
 					<br>
 					<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-					Não foram coletadas informações de software referente a esta máquina
+					'.$oTranslator->_('Nao foram coletadas informacoes de software referente a esta maquina').'
 					</font></div>
 					</p>
 					</td></tr>';
@@ -123,7 +123,7 @@ if ($_SESSION['software'] == true)
 		echo   '<tr><td> 
 				<div align="center">
 				<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-				O módulo de Coleta de Informações de Software não foi habilitado pelo Administrador do CACIC.
+				'.$oTranslator->_('O modulo de coleta de informacoes de software nao foi habilitado pelo Administrador').'
 				</font></div>
 				</td></tr>';
 		}

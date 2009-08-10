@@ -33,8 +33,8 @@ else
   <tr bgcolor="#E1E1E1"> 
     <td class="cabecalho_tabela" colspan="6">&nbsp;<a href="computador.php?exibir=software_inventariado&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['software_inventariado'] == true) echo 'menos';
-   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> Softwares 
-      Inventariados</a></td>
+   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">
+   			 <?=$oTranslator->_('Softwares inventariados');?></a></td>
   </tr>
   <tr>
     <td colspan="6" height="1" bgcolor="#333333"></td>
@@ -84,7 +84,7 @@ else
 							<div align="center">
 							<br>
 							<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-							Não foram coletadas informações de software inventariado referente a esta máquina
+							'.$oTranslator->_('Nao foram coletadas informacoes de software inventariado referente a esta maquina').'
 							</font></div>
 							</p>
 						  </td></tr>';
@@ -94,7 +94,7 @@ else
 				echo '<tr><td> 
 						<div align="center">
 						<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-						O módulo de Coleta de Informações de Software não foi habilitado pelo Administrador do CACIC.
+						'.$oTranslator->_('O modulo de coleta de informacoes de software nao foi habilitado pelo Administrador').'
 						</font></div>
 					  </td></tr>';
 			}

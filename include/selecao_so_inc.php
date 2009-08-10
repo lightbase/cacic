@@ -23,11 +23,11 @@
     <td height="1"><table border="0" cellpadding="0" cellspacing="0">
         <tr> 
           <td>&nbsp;&nbsp;</td>
-          <td class="cabecalho_tabela"><div align="left">Dispon&iacute;veis:</div></td>
+          <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Disponiveis');?></div></td>
           <td>&nbsp;&nbsp;</td>
           <td width="40">&nbsp;</td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><span class="necessario">*</span>Selecionados:</td>
+          <td nowrap class="cabecalho_tabela"><span class="necessario">*</span><?=$oTranslator->_('Selecionados');?></td>
           <td nowrap>&nbsp;&nbsp;</td>
         </tr>
         <tr> 
@@ -64,7 +64,7 @@
   </tr>
   <tr> 
      <td class="descricao">
-        <?php echo $oTranslator->_('(Dica: use SHIFT ou CTRL para selecionar multiplos itens)'); ?>
+        <i><?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i>
      </td>
   </tr>
 </table>

@@ -22,11 +22,13 @@ if($_POST['submit']) {
 	$_SESSION["list12"] = $_POST['list12'];		
 	$_SESSION["cs_situacao"] = $_POST["cs_situacao"];
 }
+require_once('../../include/library.php');
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Relatório de Pastas Compartilhadas</title>
+<title><?=$oTranslator->_('Relatorio de pastas compartilhadas');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -50,15 +52,17 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC 
-      - Relatório de Pastas Compartilhadas</strong></font></td>
+    <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+      <strong><?=$oTranslator->_('Relatorio de pastas compartilhadas');?></strong></font>
+    </td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
+    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+      <?=$oTranslator->_('Gerado em');?> 
+        <? echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
   </tr>
 </table>
 <br>
@@ -101,27 +105,6 @@ $so_selecionados = "'" . $_SESSION["list4"][0] . "'";
 for( $i = 1; $i < count($_SESSION["list4"] ); $i++ ) {
 	$so_selecionados = $so_selecionados . ",'" . $_SESSION["list4"][$i] . "'";
 }
-//$query = 'SELECT DISTINCT compartilhamentos.te_node_address
-//          FROM compartilhamentos
-//          ORDER BY compartilhamentos.te_node_address ASC';
-
-//$query = 'SELECT distinct computadores.te_node_address, so.id_so, te_nome_computador as "Nome Comp.", sg_so as "S.O.", te_ip as "IP"' .
-//          $campos_software . '
-//		  FROM 		computadores,so LEFT JOIN officescan ON (computadores.te_node_address = officescan.te_node_address and computadores.id_so = officescan.id_so)
-//		  WHERE  TRIM(computadores.te_nome_computador) <> "" AND computadores.id_so = so.id_so
-//				AND computadores.id_so IN ('. $so_selecionados .')'.
-//		  $query_redes .'
-//		  ORDER BY ' . $orderby
-
-// Exibe a lista de computadores cadastrados na tabela compartilhamentos e <> de branco
-
-//SELECT DISTINCT compartilhamentos.id_so, compartilhamentos.te_node_address, computadores.te_node_address, computadores.te_nome_computador, so.sg_so
-//FROM computadores, compartilhamentos, so
-//WHERE (
-//compartilhamentos.te_node_address = computadores.te_node_address
-//AND compartilhamentos.id_so = so.id_so
-//)
-//
 $query = "SELECT DISTINCT 	compartilhamentos.id_so, 
 							compartilhamentos.te_node_address, 
 							computadores.te_node_address, 
@@ -141,16 +124,10 @@ $query = "SELECT DISTINCT 	compartilhamentos.id_so,
 		  GROUP BY          computadores.te_nome_computador,compartilhamentos.id_so,compartilhamentos.te_node_address 
 		  ORDER BY 			computadores.te_nome_computador ASC ";
           
-$resultado = mysql_query($query) or die('Erro no select '. mysql_error().' ou sua sessão expirou!');
+$resultado = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('computadores')));
 
 while ($linha = mysql_fetch_array($resultado))
 {
-      // EXIBIR INFORMAÇÕES DOS COMPARTILHAMENTOS DO COMPUTADOR
-//      $query = "SELECT * FROM compartilhamentos
-//	         	WHERE te_node_address = '". $linha['te_node_address'] ."' AND
-//			    id_so = '". $linha['id_so'] ."'";
-//
-	// EXIBIR INFORMAÇÕES DOS COMPARTILHAMENTOS DO COMPUTADOR
 
        $NOME_COMPUTADOR = $linha['te_nome_computador'];
 
@@ -162,7 +139,7 @@ while ($linha = mysql_fetch_array($resultado))
        $query = "SELECT * FROM compartilhamentos
 	             WHERE te_node_address = '$MAC' AND id_so = '$SO'";
 
-       $result_compartilhamento = mysql_query($query) or die('Erro no Select dos compartilhamentos'. mysql_error().' ou sua sessão expirou!');
+       $result_compartilhamento = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('compartilhamentos')));
 
                               echo" <table width=\"98%\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\">
                                         <tr>
@@ -181,25 +158,25 @@ while ($linha = mysql_fetch_array($resultado))
 
 										if( mysql_result($result_compartilhamento, 0, "id_so") <= 5 ) {
 											echo '<td nowrap rowspan="2" class="opcao_tabela"><div align="center">&nbsp;</div></td>
-												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Nome</div></td>
-												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Diret&oacute;rio</div></td>
-												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Comentário</div></td>
-												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Tipo</div></td>';
+												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Nome').'</div></td>
+												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Diretorio').'</div></td>
+												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Comentario').'</div></td>
+												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Tipo').'</div></td>';
 										}
 										else {
-											echo '<td nowrap class="opcao_tabela"><div align="center">Nome</div></td>
-												  <td nowrap class="opcao_tabela"><div align="center">Diret&oacute;rio</div></td>
-												  <td nowrap class="opcao_tabela"><div align="center">Comentário</div></td>
-												  <td nowrap class="opcao_tabela"><div align="center">Tipo</div></td>';
+											echo '<td nowrap class="opcao_tabela"><div align="center">'.$oTranslator->_('Nome').'</div></td>
+												  <td nowrap class="opcao_tabela"><div align="center">'.$oTranslator->_('Diretorio').'</div></td>
+												  <td nowrap class="opcao_tabela"><div align="center">'.$oTranslator->_('Comentario').'</div></td>
+												  <td nowrap class="opcao_tabela"><div align="center">'.$oTranslator->_('Tipo').'</div></td>';
 										}
 
 										if( mysql_result($result_compartilhamento, 0, "id_so") <= 5 ) {
-											echo '	<td nowrap rowspan="2" class="opcao_tabela"><div align="center">Permiss&atilde;o</div></td>
-													<td nowrap colspan="2" class="opcao_tabela"><div align="center">Senha</div></td>
+											echo '	<td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Permissao').'</div></td>
+													<td nowrap colspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Senha').'</div></td>
 													</tr>
 													<tr bgcolor="#E1E1E1">
-													<td nowrap  bgcolor="#E1E1E1" class="opcao_tabela"><div align="center">Leitura</div></td>
-													<td nowrap  bgcolor="#E1E1E1" class="opcao_tabela"><div align="center">Gravação</div></td>
+													<td nowrap  bgcolor="#E1E1E1" class="opcao_tabela"><div align="center">'.$oTranslator->_('Leitura').'</div></td>
+													<td nowrap  bgcolor="#E1E1E1" class="opcao_tabela"><div align="center">'.$oTranslator->_('Gravacao').'</div></td>
 													</tr>';
 										}
 										else
@@ -209,22 +186,22 @@ while ($linha = mysql_fetch_array($resultado))
 											while($row = mysql_fetch_assoc($result_compartilhamento)) {
 													$img_alerta == '&nbsp;';
 													if ($row['cs_tipo_compart'] == 'D')
-													$tipo_compart = '<img src="/cacic2/imgs/compart_dir.gif" title="Compartilhamento de Diretório">';
+													$tipo_compart = '<img src="/cacic2/imgs/compart_dir.gif" title="'.$oTranslator->_('Compartilhamento de diretorio').'">';
 													else
-													$tipo_compart = '<img src="/cacic2/imgs/compart_print.gif" title="Compartilhamento de Impressora">';
+													$tipo_compart = '<img src="/cacic2/imgs/compart_print.gif" title="'.$oTranslator->_('Compartilhamento de impressora').'">';
 
 													if( $row['in_senha_leitura'] == 1 )
 														$senha_leitura = '<img src="/cacic2/imgs/checked.gif">';
 													else {
 														$senha_leitura = '<img src="/cacic2/imgs/unchecked.gif">';
-													$img_alerta = '<img src="/cacic2/imgs/alerta_amarelo.gif" title="Risco Médio: Privacidade" width="8" height="8">';
+													$img_alerta = '<img src="/cacic2/imgs/alerta_amarelo.gif" title="'.$oTranslator->_('Risco medio: privacidade').'" width="8" height="8">';
 													}
 
 													if( $row['in_senha_escrita'] == 1 )
 														$senha_escrita = '<img src="/cacic2/imgs/checked.gif">';
 													else {
 														$senha_escrita = '<img src="/cacic2/imgs/unchecked.gif">';
-													$img_alerta = '<img src="/cacic2/imgs/alerta_vermelho.gif" title="Risco Alto: Integridade e Privacidade" width="8" height="8">';
+													$img_alerta = '<img src="/cacic2/imgs/alerta_vermelho.gif" title="'.$oTranslator->_('Risco alto: integridade e privacidade').'" width="8" height="8">';
 													}
 
 													if( $row['cs_tipo_permissao'] == 'L' )
@@ -250,9 +227,9 @@ while ($linha = mysql_fetch_array($resultado))
 											$result_compartilhamento = mysql_query($query);
 											while($row = mysql_fetch_assoc($result_compartilhamento)) {
 													if ($row['cs_tipo_compart'] == 'D')
-													$tipo_compart = '<img src="/cacic2/imgs/compart_dir.gif" title="Compartilhamento de Diretório">';
+													$tipo_compart = '<img src="/cacic2/imgs/compart_dir.gif" title="'.$oTranslator->_('Compartilhamento de diretorio').'">';
 													else
-													$tipo_compart = '<img src="/cacic2/imgs/compart_print.gif" title="Compartilhamento de Impressora">';
+													$tipo_compart = '<img src="/cacic2/imgs/compart_print.gif" title="'.$oTranslator->_('Compartilhamento de impressora').'">';
 
 													echo '<tr>
 														<td nowrap class="dado">&nbsp;'. $row['nm_compartilhamento'] .'</td>
@@ -267,12 +244,12 @@ while ($linha = mysql_fetch_array($resultado))
 								// FIM DA EXIBIÇÃO DE INFORMAÇÕES DOS COMPARTILHAMENTOS DO COMPUTADOR
 }
 ?>
-<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  <?=$oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo
-  <br>Relatório adaptado por Emerson Pellis</font>
+  </font>
   </p>
 </body>
 </html>

@@ -144,7 +144,7 @@ if ($parametros_informados) {  // somente processa o relatorio se os paramentros
 			                
 
 	$result = mysql_query($query) or 
-	             die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('componentes_estacoes_historico')));
+	             die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('componentes_estacoes_historico')));
 	             
 	$num_rows = mysql_num_rows($result);
 

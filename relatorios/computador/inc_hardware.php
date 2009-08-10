@@ -28,7 +28,7 @@ else
   <tr> 
     <td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=hardware&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['hardware'] == true) echo 'menos';
-   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> Hardware  Instalado</a></td>
+   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?=$oTranslator->_('Hardware instalado');?></a></td>
   </tr>
   <tr> 
     <td colspan="5" height="1" bgcolor="#333333"></td>
@@ -48,8 +48,8 @@ else
 		?>
   <tr bgcolor="<? echo $strCor;?>"> 
     <td></td>
-    <td class="opcao_tabela"         align="left">Placa M&atilde;e</td>
-    <td class="opcao_tabela" align="left">Descri&ccedil;&atilde;o:</td>
+    <td class="opcao_tabela" align="left"><?=$oTranslator->_('Placa mae');?></td>
+    <td class="opcao_tabela" align="left"><?=$oTranslator->_('Descricao');?></td>
     <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "te_placa_mae_desc"); ?></b></td>	
   </tr>
   <?
@@ -57,7 +57,7 @@ else
   ?>
   <tr bgcolor="<? echo $strCor;?>"> 
     <td colspan="2"></td>  
-    <td class="opcao_tabela" align="left">Fabricante:</td>
+    <td class="opcao_tabela" align="left"><?=$oTranslator->_('Fabricante');?></td>
     <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "te_placa_mae_fabricante"); ?></b></td>	
   </tr>
   <?
@@ -67,8 +67,8 @@ else
 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela" 		 	align="left">BIOS</td>
-    <td class="opcao_tabela" 	align="left">Descrição:</td>
+    <td class="opcao_tabela" 	align="left"><?=$oTranslator->_('BIOS');?></td>
+    <td class="opcao_tabela" 	align="left"><?=$oTranslator->_('Descricao');?></td>
     <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_bios_desc"); ?></b></td>	
   </tr>
   <?
@@ -76,7 +76,7 @@ else
   ?>
   <tr bgcolor="<? echo $strCor;?>"> 
     <td colspan="2"></td>
-    <td class="opcao_tabela" 	align="left">Fabricante:</td>
+    <td class="opcao_tabela" 	align="left"><?=$oTranslator->_('Fabricante');?></td>
     <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_bios_fabricante"); ?></b></td>	
   </tr>
   
@@ -93,8 +93,8 @@ else
   		?> 
 	  	<tr bgcolor="<? echo $strCor;?>"> 
     	<td></td>
-	    <td class="opcao_tabela" 		 align="left"><? echo ($intContaSlots==0?'Mem&oacute;ria RAM':'');?></td>
-    	<td class="opcao_tabela" align="left">Slot <? echo $intContaSlots;?>:</td>
+	    <td class="opcao_tabela" align="left"><? echo ($intContaSlots==0?$oTranslator->_('Memoria RAM'):'');?></td>
+    	<td class="opcao_tabela" align="left"><?=$oTranslator->_('Slot');?> <? echo $intContaSlots;?>:</td>
     	<td class="opcao_tabela" align="left"><b><? echo str_replace($intContaSlots.': ','',str_replace(' - ','',$arrMemRAM[$intRAM])); ?></b></td>		
 	  	</tr>
   		<? 	
@@ -107,8 +107,8 @@ else
   ?> 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela" 		 	align="left">Teclado</td>
-    <td class="opcao_tabela" 	align="left">Descrição:</td>
+    <td class="opcao_tabela" 		 	align="left"><?=$oTranslator->_('Teclado');?></td>
+    <td class="opcao_tabela" 	align="left"><?=$oTranslator->_('Descricao');?></td>
     <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_teclado_desc"); ?></b></td>	
   </tr>
 
@@ -119,8 +119,8 @@ else
   ?> 
   <tr bgcolor="<? echo $strCor;?>"> 
   	<td>&nbsp;</td>
-  	<td class="OPCAO_TABELA" 			align="left">Mouse</td>
-    <td class="opcao_tabela" 	align="left">Descrição:</td>
+  	<td class="OPCAO_TABELA" 			align="left"><?=$oTranslator->_('Mouse');?></td>
+    <td class="opcao_tabela" 	align="left"><?=$oTranslator->_('Descricao');?></td>
     <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_mouse_desc"); ?></b></td>	
   	</tr>
 
@@ -130,8 +130,8 @@ else
   ?> 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela" 		 	align="left">Modem</td>
-    <td class="opcao_tabela" 	align="left">Descrição:</td>
+    <td class="opcao_tabela" 		 	align="left"><?=$oTranslator->_('Modem');?></td>
+    <td class="opcao_tabela" 	align="left"><?=$oTranslator->_('Descricao');?></td>
     <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_modem_desc"); ?></b></td>	
   </tr>
 
@@ -141,8 +141,8 @@ else
   ?>
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela" 		 	align="left">Placa de Som</td>
-    <td class="opcao_tabela" 	align="left">Descrição:</td>
+    <td class="opcao_tabela" 		 	align="left"><?=$oTranslator->_('Placa de som');?></td>
+    <td class="opcao_tabela" 	align="left"><?=$oTranslator->_('Descricao');?></td>
     <td class="opcao_tabela" 	align="left"><b><? echo mysql_result($result, 0, "te_placa_som_desc"); ?></b></td>	
   </tr>	
   	<? 
@@ -151,8 +151,8 @@ else
 	?>
   <tr bgcolor="<? echo $strCor;?>"> 
     <td></td>
-    <td class="opcao_tabela" 		 align="left">Placa de V&iacute;deo</td>
-    <td class="opcao_tabela" align="left">Descrição:</td>
+    <td class="opcao_tabela" 		 align="left"><?=$oTranslator->_('Placa de video');?></td>
+    <td class="opcao_tabela" align="left"><?=$oTranslator->_('Descricao');?></td>
     <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "te_placa_video_desc"); ?></b></td>	
   </tr>
   <? 
@@ -160,7 +160,7 @@ else
   ?> 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td colspan="2"></td>
-    <td class="opcao_tabela" align="left">Quantidade de Cores:</td>
+    <td class="opcao_tabela" align="left"><?=$oTranslator->_('Quantidade de cores');?></td>
     <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "qt_placa_video_cores"); ?></b></td>	
   </tr>
   <? 
@@ -169,7 +169,7 @@ else
 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td colspan="2"></td>	
-    <td class="opcao_tabela" align="left">Resolu&ccedil;&atilde;o:</td>
+    <td class="opcao_tabela" align="left"><?=$oTranslator->_('Resolucao');?></td>
     <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "te_placa_video_resolucao"); ?></b></td>	
   </tr>
   <? 
@@ -178,7 +178,7 @@ else
 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td colspan="2"></td>	
-    <td class="opcao_tabela" align="left">Quantidade de Mem&oacute;ria:</td>
+    <td class="opcao_tabela" align="left"><?=$oTranslator->_('Quantidade de memoria');?></td>
     <td class="opcao_tabela" align="left"><b><? echo mysql_result($result, 0, "qt_placa_video_mem").' MB'; ?></b></td>	
   </tr>
 	<?
@@ -192,7 +192,7 @@ else
 										 WHERE   	te_node_address = "'.mysql_result($result, 0, "te_node_address") . '" AND
 									 		 	  			   id_so='  . mysql_result($result, 0, "id_so").'
 										 ORDER BY 	cs_tipo_componente,te_valor';
-	$resultTotalizaGeralExistentes   = mysql_query($strQueryTotalizaGeralExistentes) or die('Problema Consultando Tabela Componentes_Estações 1!');
+	$resultTotalizaGeralExistentes   = mysql_query($strQueryTotalizaGeralExistentes) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('componentes_estacoes')));
 
 	$strComponenteAtual = '';
 	$intSequencial      = 0;
@@ -227,7 +227,7 @@ else
 			if ($i == 0)
 				{
 				?>
-				<td class="opcao_tabela"><? echo 'Descrição:';?></td>				
+				<td class="opcao_tabela"><?=$oTranslator->_('Descricao');?></td>				
 				<?
 				}
 			?>
@@ -244,7 +244,7 @@ else
     <td>&nbsp;</td>
     <td colspan="4"> <form action="historico.php" method="post" name="form1" target="_blank">
         <div align="center"><br>
-          <input name="historico_hardware" type=submit id="historico_hardware" value="Hist&oacute;rico de Altera&ccedil;&otilde;es na Configura&ccedil;&atilde;o de Hardware" >
+          <input name="historico_hardware" type=submit id="historico_hardware" value="<?=$oTranslator->_('Historico de alteracoes na configuracao de hardware');?>" >
           <br>
           &nbsp; 
           <input name="te_node_address" type="hidden" id="te_node_address" value="<? echo mysql_result($result, 0, "te_node_address");?>">
@@ -257,9 +257,9 @@ else
 			else {
 				echo '<tr><td> 
 						<div align="center">
-						<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-						O módulo de Coleta de Informações de Hardware não foi habilitado pelo Administrador do CACIC.
-						</font></div>
+						<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">'.
+						$oTranslator->_('O modulo de coleta de informacoes de hardware nao foi habilitado pelo Administrador').
+						'</font></div>
 					  </td></tr>';
 			}
 		}

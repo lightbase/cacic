@@ -32,8 +32,8 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
   <tr> 
     <td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp; <a href="computador.php?exibir=officescan&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['officescan'] == true) echo 'menos';
-   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> Antiv&iacute;rus 
-      OfficeScan</a></td>
+   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">
+   			 <?=$oTranslator->_('Antivirus officeScan');?></a></td>
   </tr>
   <tr> 
     <td colspan="5" bgcolor="#333333" height="1"></td>
@@ -60,9 +60,9 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
 		?>
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela">Vers&atilde;o do Engine:</td>
+    <td class="opcao_tabela"><?=$oTranslator->_('Versao do engine');?></td>
     <td class="dado"><? echo mysql_result($result_officescan, 0, "nu_versao_engine"); ?></td>
-    <td class="opcao_tabela">Servidor do OfficeScan:</td>
+    <td class="opcao_tabela"><?=$oTranslator->_('Servidor do OfficeScan');?></td>
     <td class="dado"><div align="left"><? echo mysql_result($result_officescan, 0, "te_servidor"); ?>&nbsp;</div></td>
   </tr>
   <? echo $linha;
@@ -71,9 +71,9 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela">Vers&atilde;o do Pattern:</td>
+    <td class="opcao_tabela"><?=$oTranslator->_('Versao do Pattern');?></td>
     <td class="dado"><? echo mysql_result($result_officescan, 0, "nu_versao_pattern"); ?></td>
-    <td class="opcao_tabela">Data de Instala&ccedil;&atilde;o:</td>
+    <td class="opcao_tabela"><?=$oTranslator->_('Data de instalacao');?></td>
     <td class="dado"><? echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result_officescan, 0, "dt_hr_instalacao"))); ?></td>
   </tr>
   <? echo $linha;
@@ -82,15 +82,15 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela">Estado do OfficeScan:</td>
+    <td class="opcao_tabela"><?=$oTranslator->_('Estado do OfficeScan');?></td>
     <td class="dado"> 
       <? if (mysql_result($result_officescan, 0, "in_ativo") == 1)
-					echo 'Ativo'; 
+					echo $oTranslator->_('Ativo'); 
 				 else
-					echo 'Desativado';
+					echo $oTranslator->_('Desativado');
 		    ?>
       </td>
-    <td class="opcao_tabela">Data da &Uacute;ltima Coleta:</td>
+    <td class="opcao_tabela"><?=$oTranslator->_('Data da ultima coleta');?></td>
     <td class="dado"><? echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result_officescan, 0, "dt_hr_coleta"))); ?></td>
   </tr>
   <?
@@ -101,7 +101,7 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
 						<div align="center">
 						<br>
 						<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-						Não foram coletadas informações do OfficeScan referente a esta máquina
+						'.$oTranslator->_('Nao foram coletadas informacoes do OfficeScan referente a esta maquina').'
 						</font></div>
 						</p>
 					  </td></tr>';
@@ -111,7 +111,7 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
 				echo '<tr><td> 
 						<div align="center">
 						<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-						O módulo de Coleta de Informações do Antivírus OfficeScan não foi habilitado pelo Administrador do CACIC.
+						'.$oTranslator->_('O modulo de coleta de informacoes do Antivirus OfficeScan nao foi habilitado pelo Administrador').'
 						</font></div>
 					  </td></tr>';
 			}

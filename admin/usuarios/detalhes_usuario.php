@@ -291,7 +291,7 @@ else
 					?> 
 				</select> <input name="frm_te_locais_secundarios" type="hidden" id="frm_te_locais_secundarios">	
 				  <br> <font color="#000080" size="1">
-				  	(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)
+				  	<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>
 				  </font></td>
 			  </tr>
 			  <tr>
@@ -386,7 +386,7 @@ else
 					{
 					?>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-					<input name="Retorna" type="button" value="  Retorna para <? echo str_replace("_"," ",$_REQUEST['nm_chamador']);?>  " onClick="history.back()">
+					<input name="Retorna" type="button" value="<?=$oTranslator->_('Retorna para');?> <? echo str_replace("_"," ",$_REQUEST['nm_chamador']);?>  " onClick="history.back()">
 					<?
 					}
 					?>

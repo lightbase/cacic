@@ -30,7 +30,7 @@ else
     <td bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=unidades_disco&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['unidades_disco'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> 
-      Unidades de Discos R&iacute;gidos</a></td>
+      <?=$oTranslator->_('Unidades de discos');?></a></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
@@ -49,21 +49,21 @@ else
 						  FROM 		unidades_disco
 					  	  WHERE 	te_node_address = '". $_GET['te_node_address'] ."' AND 
 					  				id_so = '". $_GET['id_so'] ."'";
-			$result_disco = mysql_query($query) or die('Erro na consulta à tabela  unidades_disco ou sua sessão expirou!');
+			$result_disco = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('unidades_disco')));
 			if(mysql_num_rows($result_disco) > 0) {
 				echo '<tr><td><br> 
 					  <table border="1" align="center" cellpadding="1" cellspacing="0" bordercolor="#999999" bordercolordark="#E1E1E1">
 						<tr bgcolor="'.$strPreenchimentoPadrao.'">						 
-						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Rótulo</div></td>';
-				echo '<td nowrap rowspan="2" class="opcao_tabela"><div align="center">Sist. Arq.</div></td>
-						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Nº Serial</div></td>
-						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Tam. (MB)</div></td>
-						  <td nowrap colspan="2" class="opcao_tabela"><div align="center">Espaço (MB)</div></td>
-						  <td nowrap colspan="2" rowspan="2" class="opcao_tabela"><div align="center">Utilização (%)</div></td>
+						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Rotulo').'</div></td>';
+				echo '<td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Sistema de arquivos').'</div></td>
+						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Numero serial').'</div></td>
+						  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Tamanho (MB)').'</div></td>
+						  <td nowrap colspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Espaco (MB)').'</div></td>
+						  <td nowrap colspan="2" rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Utilizacao (%)').'</div></td>
 						</tr>
 						<tr bgcolor="'.$strPreenchimentoPadrao.'">
-						  <td nowrap class="opcao_tabela"><div align="center">Utilizado</div></td>
-						  <td nowrap class="opcao_tabela"><div align="center">Livre</div></td>
+						  <td nowrap class="opcao_tabela"><div align="center">'.$oTranslator->_('Utilizado').'</div></td>
+						  <td nowrap class="opcao_tabela"><div align="center">'.$oTranslator->_('Livre').'</div></td>
 						</tr>';
 				
 				while($row = mysql_fetch_assoc($result_disco)) {
@@ -78,9 +78,6 @@ else
 										  <td height="10" bgcolor="#FF0099"><font size="1">&nbsp;</font></td>
 										</tr>
 									 </table>';
-							// Exibe em vermelho percentuais acima de 90%.			
-							//if ($percent_espaco_utilizado  > 90) $percent_espaco_utilizado = '<font color="#FF0000">' . $percent_espaco_utilizado . '%</font>';
-							//else $percent_espaco_utilizado = $percent_espaco_utilizado . '%';
 					 }
 						
 					 else
@@ -112,7 +109,7 @@ else
 						<div align="center">
 						<br>
 						<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-						Não existem unidades de disco nesta máquina
+						'.$oTranslator->_('Nao existem unidades de disco nesta maquina').'
 						</font></div>
 						</p>
 					  </td></tr>';
@@ -122,7 +119,7 @@ else
 									echo '<tr><td> 
 											<div align="center">
 											<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-											O módulo de coleta de informações das Unidades de Disco não foi habilitado pelo Administrador do CACIC.
+											'.$oTranslator->_('O modulo de coleta de informacoes das Unidades de Disco nao foi habilitado pelo Administrador').'
 											</font></div>
 												</td></tr>';
 								}

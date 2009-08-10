@@ -33,8 +33,8 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
     <td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela"> 
       &nbsp;<a href="computador.php?exibir=patrimonio&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['patrimonio'] == true) echo 'menos';
-   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> Informa&ccedil;&otilde;es 
-      de Patrim&ocirc;nio e Localiza&ccedil;&atilde;o F&iacute;sica</a></td>
+   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">
+   			 <?=$oTranslator->_('Informacoes de patrimonio e localizacao fisica');?></a></td>
   </tr>
   <tr> 
     <td colspan="5" height="1" bgcolor="#333333"></td>
@@ -109,7 +109,7 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
   ?> 
   <tr bgcolor="<? echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela">Data da Altera&ccedil;&atilde;o:</td>
+    <td class="opcao_tabela"><?=$oTranslator->_('Data da alteracao');?></td>
     <td class="dado" colspan="3"><? echo date('d/m/Y H:i', strtotime(mysql_result($result_patrimonio, 0, 'dt_hr_alteracao'))); ?></td>
   </tr>
   <? echo $linha;
@@ -204,7 +204,7 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
     <td>&nbsp;</td>
     <td colspan="4"> <form action="historico.php" method="post" name="form1" target="_blank">
         <div align="center"> <br>
-          <input name=historico_patrimonio type=submit value="Hist&oacute;rico de Altera&ccedil;&otilde;es das Informa&ccedil;&otilde;es de Patrim&ocirc;nio" >
+          <input name=historico_patrimonio type=submit value="<?=$oTranslator->_('Historico de alteracoes das informacoes de patrimonio');?>" >
           &nbsp; 
           <input name="te_node_address" type="hidden" id="te_node_address" value="<? echo mysql_result($result, 0, "te_node_address");?>">
           <input name="id_so" type="hidden" id="id_so" value="<? echo mysql_result($result, 0, "id_so");?>">
@@ -220,7 +220,7 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
 						<div align="center">
 						<br>
 						<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-						Não foram coletadas informações de Patrimônio e/ou Localização Física.
+						'.$oTranslator->_('Nao foram coletadas informacoes de patrimonio e/ou Localizacao fisica').'
 						</font></div>
 						</p>
 					  </td></tr>';
@@ -230,7 +230,7 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
 				echo '<tr><td> 
 						<div align="center">
 						<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-						O módulo de Coleta de Informações de Patrimônio não foi habilitado pelo Administrador do CACIC.
+						'.$oTranslator->_('O modulo de coleta de informacoes de patrimonio nao foi habilitado pelo Administrador').'
 						</font></div>
 					  </td></tr>';
 			}

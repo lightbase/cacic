@@ -30,7 +30,7 @@ else
     <td bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=compartilhamento&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['compartilhamento'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> 
-      Compartilhamentos de Diret&oacute;rios e Impressoras</a></td>
+      <?=$oTranslator->_('Compartilhamentos de diretorios e impressoras');?></a></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
@@ -51,7 +51,7 @@ else
 											  FROM 		compartilhamentos
 											  WHERE 	te_node_address = '". $_GET['te_node_address'] ."' AND 
 														id_so = '". $_GET['id_so'] ."'";
-									$result_compartilhamento = mysql_query($query) or die('Erro no Select dos compartilhamentos ou sua sessão expirou!');
+									$result_compartilhamento = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('compartilhamentos')));
 									if(mysql_num_rows($result_compartilhamento) > 0) {
 										echo '<tr><td><br> 
 													<table width="98%" border="1" align="center" cellpadding="1" cellspacing="0" bordercolor="#999999" bordercolordark="#E1E1E1">
@@ -59,25 +59,25 @@ else
 													
 										if( mysql_result($result_compartilhamento, 0, "id_so") <= 5 ) {
 											echo '<td nowrap rowspan="2" class="opcao_tabela"><div align="center">&nbsp;</div></td>
-												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Nome</div></td>
-												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Diret&oacute;rio</div></td>
-												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Comentário</div></td>
-												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">Tipo</div></td>';
+												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Nome').'</div></td>
+												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Diretorio').'</div></td>
+												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Comentario').'</div></td>
+												  <td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Tipo').'</div></td>';
 										}
 										else {
-											echo '<td nowrap class="opcao_tabela"><div align="center">Nome</div></td>
-												  <td nowrap class="opcao_tabela"><div align="center">Diret&oacute;rio</div></td>
-												  <td nowrap class="opcao_tabela"><div align="center">Comentário</div></td>
-												  <td nowrap class="opcao_tabela"><div align="center">Tipo</div></td>';
+											echo '<td nowrap class="opcao_tabela"><div align="center">'.$oTranslator->_('Nome').'</div></td>
+												  <td nowrap class="opcao_tabela"><div align="center">'.$oTranslator->_('Diretorio').'</div></td>
+												  <td nowrap class="opcao_tabela"><div align="center">'.$oTranslator->_('Comentario').'</div></td>
+												  <td nowrap class="opcao_tabela"><div align="center">'.$oTranslator->_('Tipo').'</div></td>';
 										}
 													
 										if( mysql_result($result_compartilhamento, 0, "id_so") <= 5 ) {
-											echo '	<td nowrap rowspan="2" class="opcao_tabela"><div align="center">Permiss&atilde;o</div></td>
-													<td nowrap colspan="2" class="opcao_tabela"><div align="center">Senha</div></td>
+											echo '	<td nowrap rowspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Permissao').'</div></td>
+													<td nowrap colspan="2" class="opcao_tabela"><div align="center">'.$oTranslator->_('Senha').'</div></td>
 													</tr>
 													<tr bgcolor="#E1E1E1">
-													<td nowrap  bgcolor="#FFFFCC" class="opcao_tabela"><div align="center">Leitura</div></td>
-													<td nowrap  bgcolor="#FFFFCC" class="opcao_tabela"><div align="center">Gravação</div></td>
+													<td nowrap  bgcolor="#FFFFCC" class="opcao_tabela"><div align="center">'.$oTranslator->_('Leitura').'</div></td>
+													<td nowrap  bgcolor="#FFFFCC" class="opcao_tabela"><div align="center">'.$oTranslator->_('Gravacao').'</div></td>
 													</tr>';
 										}
 										else						
@@ -87,30 +87,30 @@ else
 											while($row = mysql_fetch_assoc($result_compartilhamento)) {
 													$img_alerta == '&nbsp;';
 													if ($row['cs_tipo_compart'] == 'D')
-													$tipo_compart = '<img src="../../imgs/compart_dir.gif" title="Compartilhamento de Diretório">';
+													$tipo_compart = '<img src="../../imgs/compart_dir.gif" title="'.$oTranslator->_('Compartilhamento de diretorio').'">';
 													else
-													$tipo_compart = '<img src="../../imgs/compart_print.gif" title="Compartilhamento de Impressora">';
+													$tipo_compart = '<img src="../../imgs/compart_print.gif" title="'.$oTranslator->_('Compartilhamento de impressora').'">';
 													
 													if( $row['in_senha_leitura'] == 1 )
 														$senha_leitura = '<img src="../../imgs/checked.gif">';
 													else {
 														$senha_leitura = '<img src="../../imgs/unchecked.gif">';
-													$img_alerta = '<img src="../../imgs/alerta_amarelo.gif" title="Risco Médio: Privacidade" width="8" height="8">';
+													$img_alerta = '<img src="../../imgs/alerta_amarelo.gif" title="'.$oTranslator->_('Risco Medio: Privacidade').'" width="8" height="8">';
 													}
 													
 													if( $row['in_senha_escrita'] == 1 )
 														$senha_escrita = '<img src="../../imgs/checked.gif">';
 													else {
 														$senha_escrita = '<img src="../../imgs/unchecked.gif">';
-													$img_alerta = '<img src="../../imgs/alerta_vermelho.gif" title="Risco Alto: Integridade e Privacidade" width="8" height="8">';
+													$img_alerta = '<img src="../../imgs/alerta_vermelho.gif" title="'.$oTranslator->_('Risco Alto: Integridade e Privacidade').'" width="8" height="8">';
 													}
 													
 													if( $row['cs_tipo_permissao'] == 'L' )
-														$tipo_permissao = 'Leitura';
+														$tipo_permissao = $oTranslator->_('Leitura');
 													if( $row['cs_tipo_permissao'] == 'G' )
-														$tipo_permissao = 'Gravaçao';
+														$tipo_permissao = $oTranslator->_('Gravacao');
 													if( $row['cs_tipo_permissao'] == 'D' )
-														$tipo_permissao = 'Depende de Senha';
+														$tipo_permissao = $oTranslator->_('Depende de senha');
 													
 													echo '<tr>						  
 														<td nowrap align="center" class="opcao_tabela">'. $img_alerta .'</td>
@@ -128,9 +128,9 @@ else
 											$result_compartilhamento = mysql_query($query);										
 											while($row = mysql_fetch_assoc($result_compartilhamento)) {
 													if ($row['cs_tipo_compart'] == 'D')
-													$tipo_compart = '<img src="../../imgs/compart_dir.gif" title="Compartilhamento de Diretório">';
+													$tipo_compart = '<img src="../../imgs/compart_dir.gif" title="'.$oTranslator->_('Compartilhamento de diretorio').'">';
 													else
-													$tipo_compart = '<img src="../../imgs/compart_print.gif" title="Compartilhamento de Impressora">';
+													$tipo_compart = '<img src="../../imgs/compart_print.gif" title="'.$oTranslator->_('Compartilhamento de impressora').'">';
 													
 													echo '<tr>						  
 														<td nowrap class="dado">&nbsp;'. $row['nm_compartilhamento'] .'</td>
@@ -153,7 +153,7 @@ else
 												<div align="center">
 												<br>
 												<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-												Não existem compartilhamentos nesta máquina
+												'.$oTranslator->_('Nao existem compartilhamentos nesta maquina').'
 												</font></div>
 												</p>
 													</td></tr>';
@@ -163,7 +163,7 @@ else
 									echo '<tr><td> 
 											<div align="center">
 											<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-											O módulo de coleta de informações sobre Compartilhamentos de Diretórios e<br>Impressoras não foi habilitado pelo Administrador do CACIC.
+											'.$oTranslator->_('Modulo de coleta de Compartilhamentos de Diretorios e impressoras nao habilitado pelo Administrador').'
 											</font></div>
 												</td></tr>';
 								}

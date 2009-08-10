@@ -23,12 +23,12 @@ Com o objetivo de desenvolver um relatorio de pastas compartilhadas.
 ?>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Relatório de Pastas Compartilhadas</td>
+    <td class="cabecalho"><?=$oTranslator->_('Relatorio de pastas compartilhadas');?></td>
   </tr>
   <tr> 
-    <td class="descricao">Este 
-      relat&oacute;rio exibe os compartilhamentos dos microcomputadores
-      das redes selecionadas.</td>
+    <td class="descricao">
+      <?=$oTranslator->_('Relatorio que exibe os compartilhamentos nos microcomputadores das redes selecionadas');?>
+    </td>
   </tr>
   <tr> 
     <td>
@@ -72,10 +72,9 @@ Com o objetivo de desenvolver um relatorio de pastas compartilhadas.
                 //<input name="submit" type="submit" id="submit" onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['list8[]'])" value="     Gerar Relat&oacute;rio     ">
                 //<input name="submit" type="submit" id="submit" onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]'])" value="     Gerar Relat&oacute;rio     ">
 				?>
-                <!-- <input name="submit" type="submit" id="submit" onClick="SelectAll(SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]'])" value="     Gerar Relat&oacute;rio     "> -->
                 <input name="submit" type="submit" id="submit" onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
 																				 $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
-																		SelectAll(this.form.elements['list4[]'])" value="     Gerar Relat&oacute;rio     ">
+																		SelectAll(this.form.elements['list4[]'])" value="<?=$oTranslator->_('Gerar relatorio');?>">
               </div></td>
           </tr>
           <tr> 

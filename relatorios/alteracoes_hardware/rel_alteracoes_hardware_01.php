@@ -111,7 +111,7 @@ else
 							$query_redes. " 
 			  ORDER BY 		$orderby ";
 
-	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('historico_hardware')));
 
 
 $cor = 0;

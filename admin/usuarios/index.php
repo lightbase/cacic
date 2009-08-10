@@ -71,7 +71,7 @@ $query_grp = 'SELECT	g_usu.te_grupo_usuarios,
 		  	  FROM 		grupo_usuarios g_usu '.
 			  $where . '
 		  	  ORDER BY 	g_usu.te_grupo_usuarios';
-$result_grp = mysql_query($query_grp) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou', array('grupo_usuarios')));
+$result_grp = mysql_query($query_grp) or die ($oTranslator->_('Falha na consulta a tabela (%1) ou sua sessao expirou!', array('grupo_usuarios')));
 $msg = '<div align="center">
 		<font color="#c0c0c0" size="1" face="Verdana, Arial, Helvetica, sans-serif">
 		Clique nas Colunas para Ordenar</font><br><br></div>';				

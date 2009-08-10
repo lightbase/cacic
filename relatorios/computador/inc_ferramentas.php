@@ -27,7 +27,7 @@ else
   </tr>
   <tr> 
     <td colspan="3" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;&nbsp;<a href="computador.php?exibir=ferramentas&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"><img src="../../imgs/<? if($_SESSION['ferramentas'] == true) echo 'menos';
-   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;Ferramentas</a></td>
+   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?=$oTranslator->_('Ferramentas');?></a></td>
   </tr>
   <tr> 
     <td colspan="3" height="1" bgcolor="#333333"></td>
@@ -44,13 +44,13 @@ function open_window(theURL,winName,features) {
     <td colspan="3"><table border="0">
         <tr> 
           <td><img src="../../imgs/ping.gif" width="23" height="23"></td>
-          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=ping&ip=<? echo mysql_result($result, 0, "te_ip"); ?>','','width=550,height=370');return false">ping</a></td>
+          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=ping&ip=<? echo mysql_result($result, 0, "te_ip"); ?>','','width=550,height=370');return false"><?=$oTranslator->_('Analise se ativo na rede');?></a></td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           <td><img src="../../imgs/tracert.gif" width="25" height="22"></td>
-          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=traceroute&ip=<? echo mysql_result($result, 0, "te_ip"); ?>','','width=550,height=370');return false">traceroute</a></td>
+          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=traceroute&ip=<? echo mysql_result($result, 0, "te_ip"); ?>','','width=550,height=370');return false"><?=$oTranslator->_('Analisar rota de rede');?></a></td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           <td><img src="../../imgs/nmap.gif" width="22" height="18"></td>
-          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=nmap&ip=<? echo mysql_result($result, 0, "te_ip"); ?>','','width=550,height=370');return false">Servi&ccedil;os em Execu&ccedil;&atilde;o (nmap)</a></td>
+          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=nmap&ip=<? echo mysql_result($result, 0, "te_ip"); ?>','','width=550,height=370');return false"><?=$oTranslator->_('Servicos abertos para a rede');?></a></td>
         </tr>
       </table>
   </tr>

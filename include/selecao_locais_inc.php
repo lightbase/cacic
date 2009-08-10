@@ -69,7 +69,7 @@ $result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso 
                   <td>&nbsp;</td>
                 </tr>
           <tr> 
-            <td colspan="6" class="descricao">(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)</td>
+            <td colspan="6" class="descricao"><i><?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i></td>
           </tr>
 				
               </table></td>

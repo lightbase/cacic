@@ -36,7 +36,7 @@ else
 <img src="../../imgs/<? if($_SESSION['aplicativo_monitorado'] == true) 
 							echo 'menos';
    			 			else 
-							echo 'mais'; ?>.gif" width="12" height="12" border="0"> Sistemas Monitorados</a></font>
+							echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?=$oTranslator->_('Sistemas monitorados');?></a></font>
 </td>
 
 </tr>
@@ -53,12 +53,12 @@ if ($_SESSION['aplicativo_monitorado'] == true)
 		
 	?>
 	<tr> 
-	<td class="cabecalho_tabela">&nbsp;<u>Nome</u></td>
-	<td class="cabecalho_tabela"><u>Identificador/Versão</u></td>		
-	<td class="cabecalho_tabela"><u>Licença</u></td>	
-	<td class="cabecalho_tabela"><u>Engine</u></td>	
-	<td class="cabecalho_tabela"><u>Pattern</u></td>	
-	<td class="cabecalho_tabela"><u>Inst.?</u></td>		
+	<td class="cabecalho_tabela">&nbsp;<u><?=$oTranslator->_('Nome');?></u></td>
+	<td class="cabecalho_tabela"><u><?=$oTranslator->_('Identificador/versao');?></u></td>		
+	<td class="cabecalho_tabela"><u><?=$oTranslator->_('Licenca');?></u></td>	
+	<td class="cabecalho_tabela"><u><?=$oTranslator->_('Engine');?></u></td>	
+	<td class="cabecalho_tabela"><u><?=$oTranslator->_('Pattern');?></u></td>	
+	<td class="cabecalho_tabela"><u><?=$oTranslator->_('Instalado');?></u></td>		
 	</tr>
 	<?		
 	echo $linha;		
@@ -110,7 +110,7 @@ if ($_SESSION['aplicativo_monitorado'] == true)
 					<div align="center">
 					<br>
 					<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-					Não foram coletadas informações de aplicativos monitorados referente a esta máquina
+					'.$oTranslator->_('Nao foram coletadas informacoes de aplicativos monitorados referente a esta maquina').'
 					</font></div>
 					</p>
 				  </td></tr>';
@@ -121,7 +121,7 @@ if ($_SESSION['aplicativo_monitorado'] == true)
 		echo '<tr><td colspan="6"> 
 				<div align="center">
 				<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-				O módulo de Coleta de Informações de Sistemas Monitorados não foi habilitado pelo Administrador do CACIC.
+				'.$oTranslator->_('O modulo de coleta de informacoes de sistemas monitorados nao foi habilitado pelo administrador').'
 				</font></div>
 			  </td></tr>';
 		}

@@ -29,8 +29,7 @@ else
   <tr bgcolor="#E1E1E1"> 
     <td colspan="4" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=variavel_ambiente&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
       <img src="../../imgs/<? if($_SESSION['variavel_ambiente'] == true) echo 'menos';
-   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> Variáveis 
-      de Ambiente</a></td>
+   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?=$oTranslator->_('Variaveis de ambiente');?></a></td>
   	</tr>
   	<tr> 
     <td height="1" colspan="4" bgcolor="#333333"></td>
@@ -83,7 +82,7 @@ else
 								<div align="center">
 								<br>
 								<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-								Não foram coletadas informações de variáveis de ambiente referente a esta máquina
+								'.$oTranslator->_('Nao foram coletadas informacoes de variaveis de ambiente referente a esta maquina').'
 								</font></div>
 								</p>
 							  </td></tr>';
@@ -94,7 +93,7 @@ else
 					echo '<tr><td> 
 							<div align="center">
 							<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
-							O módulo de Coleta de Informações de Software não foi habilitado pelo Administrador do CACIC.
+							'.$oTranslator->_('O modulo de coleta de informacoes de software nao foi habilitado pelo Administrador').'
 							</font></div>
 						  </td></tr>';
 					}

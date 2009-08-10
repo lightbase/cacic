@@ -123,7 +123,7 @@ $msg = '<div align="center">
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local">Sigla</a></div></td>
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_local"><?=$oTranslator->_('Descripcao');?></a></div></td>
+          <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_local"><?=$oTranslator->_('Descricao');?></a></div></td>
           <td nowrap >&nbsp;</td>
           <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Redes');?></div></td>
           <td nowrap class="cabecalho_tabela">&nbsp;</td>

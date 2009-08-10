@@ -1,4 +1,5 @@
 <? session_start();
+require_once('../../include/library.php');
 
 if($_POST['submit']) 
 	{
@@ -58,7 +59,7 @@ if($_POST['submit'])
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Relat&oacute;rio de Configura&ccedil;&otilde;es do Antiv&iacute;rus OfficeScan</title>
+<title><?=$oTranslator->_('Relatorio de configuracoes do antivirus officeScan');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -77,15 +78,15 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>CACIC 
-      - Relat&oacute;rio de Configura&ccedil;&otilde;es do Antiv&iacute;rus OfficeScan</strong></font></td>
+    <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+      <strong><?=$oTranslator->_('Relatorio de configuracoes do antivirus officeScan');?></strong></font></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
+    <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+        <?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
   </tr>
 </table>
 <br>
@@ -95,7 +96,6 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 */
 ?>
 <? 
-require_once('../../include/library.php');
 require_once('../../include/RelatorioHTML.php');
 require_once('../../include/RelatorioPDF.php');
 require_once('../../include/RelatorioODS.php');
@@ -176,7 +176,7 @@ $query = 'SELECT 	DISTINCT computadores.te_node_address,
 					$_SESSION['where_date'].
 		  			$query_redes .' 
 		  ORDER BY ' . $orderby; 
-$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
+$result = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('so')));
 
 $cor = 0;
 $num_registro = 1;
@@ -479,8 +479,8 @@ if (count($_SESSION["list8"])>0)
 /*
 </p>
 
-<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+<p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  <?=$oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>

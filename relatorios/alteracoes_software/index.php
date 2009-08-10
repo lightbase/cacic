@@ -33,9 +33,9 @@ Conecta_bd_cacic();
 if ($_REQUEST['Excluir']) 
 	{
 	$query = "DELETE FROM softwares_inventariados_grupos WHERE id_si_grupo = '".$_POST['id_si_grupo']."'";
-	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
+	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('softwares_inventariados_grupos')));
 	$query = "DELETE FROM acoes_redes WHERE id_ip_rede = '".$_GET['id_ip_rede']."'";
-	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');	
+	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('acoes_redes')));	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/software/index_grupos.php&tempo=1");									
 	}
 $datai = "";
@@ -129,7 +129,7 @@ $resultR = mysql_query($queryR);
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Cadastro de Grupos</title>
+<title><?=$oTranslator->_('Relatorio de alteracoes de software');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
 function mudapagina(valor4,valor,valor1,valor3,valor2,valor5)
@@ -188,28 +188,29 @@ function limpa(){
 <form action="" method="post" name="forma" id="forma">
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Relat&oacute;rio 
-      de Altera&ccedil;&atilde;o de Software </td>
+    <td class="cabecalho">
+      <?=$oTranslator->_('Relatorio de alteracoes de software');?>
+    </td>
   </tr>
   <tr> 
-    <td class="descricao">Este relat&oacute;rio 
-      exibe as altera&ccedil;&otilde;es dos sowftares instalados
-      nos computadores das redes selecionadas.</td>
+    <td class="descricao">
+      <?=$oTranslator->_('Relatorio de alteracoes de softwares instalados nos computadores da rede selecionada');?>
+    </td>
   </tr>
 </table>
 <iframe src="" height="0" width="0" frameborder="0" name="lista"></iframe>
 	<br>
 	<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr>
-    <td width="20%" valign="bottom">Por Rede<br>
+    <td width="20%" valign="bottom"><?=$oTranslator->_('Rede');?><br>
         <select name="rede" class="normal" id="rede" >
-          <option value="0">Todas</option>
+          <option value="0"><?=$oTranslator->_('Todas');?></option>
           <? while($rowR = mysql_fetch_array($resultR)) {?>
           <option value="<? echo $rowR['id_ip_rede']; ?>" <? if ($rede==$rowR['id_ip_rede']){?>selected<? }?>><? echo $rowR['nm_rede']; ?></option>
           <? }?>
         </select>
       <br></td>
-    <td width="33%" height="10" valign="bottom">Por per&iacute;odo:<br>
+    <td width="33%" height="10" valign="bottom"><?=$oTranslator->_('Periodo');?><br>
       <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" readonly value="<? echo $datai?>">
       <script type="text/javascript" language="JavaScript">
 <!--
@@ -229,11 +230,11 @@ function limpa(){
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 //-->
 </script></td>
-    <td width="47%" valign="bottom">Por palavra:<br>
+    <td width="47%" valign="bottom"><?=$oTranslator->_('Texto');?><br>
       <input name="palavra" type="text" class="normal" id="palavra" value="<? echo $palavra?>">
       &nbsp;&nbsp;
-      <input name="Button" type="button" class="normal" value="Pesquisar" onClick="pesquisa_()">
-      <input name="Button2" type="button" class="normal" value="Limpar" onClick="limpa()"></td>
+      <input name="Button" type="button" class="normal" value="<?=$oTranslator->_('Pesquisar');?>" onClick="pesquisa_()">
+      <input name="Button2" type="button" class="normal" value="<?=$oTranslator->_('Limpar');?>" onClick="limpa()"></td>
     </tr>
   <tr> 
     <td height="10" colspan="3"><div align="right"></div></td>
@@ -284,13 +285,13 @@ function limpa(){
           <td width="50" align="center"  nowrap><strong>
             <input name="nomeanterior" type="hidden" id="nomeanterior" />
           </strong></td>
-          <td colspan="3" nowrap  class="cabecalho_tabela">Computador</td>
+          <td colspan="3" nowrap  class="cabecalho_tabela"><?=$oTranslator->_('Computador');?></td>
           </tr>
 <?  
 if(mysql_num_rows($result)==0) {
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhum software cadastrado
+				'.$oTranslator->_('Nenhum software cadastrado').'
 			</font><br><br></div>';
 			
 }
@@ -300,12 +301,6 @@ else {
 	$marcador = 0; 
 	while($row = mysql_fetch_array($result)) {		  
 		if ($marcador < $total_reg) {    
-			/*$query_Cont = "SELECT count(*) as numero FROM softwares_inventariados_estacoes b, computadores c,so s where c.id_so = s.id_so and  b.te_node_address  = c.te_node_address AND b.id_so = c.id_so and  b.id_software_inventariado=".$row['id_software_inventariado'];
-			if ($rede!="0"){
-				$query_Cont .=" and c.id_ip_rede='".$rede."'";
-			}			
-			$result_Cont = mysql_query($query_Cont);
-			$linha = mysql_fetch_array($result_Cont);*/		
 	 ?>
 			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?> onMouseOver="mOvr(this,'#999999');" onMouseOut="mOut(this,'<? if ($Cor) { echo "#E1E1E1"; } ?>');" onClick="carrega('<? echo $row['te_node_address'] ?>','<? echo $row['te_nome_computador'] ?>');">
 			  <td>&nbsp;</td>

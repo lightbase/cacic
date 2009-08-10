@@ -21,19 +21,19 @@ if(!isset($_SESSION['id_usuario']))
   die('Acesso negado (Access denied)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
+require_once "../../include/library.php";
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title>Detalhes do Computador</title>
+<title><?=$oTranslator->_('Detalhes do Computador');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body bgcolor="#FFFFFF" leftmargin="2" topmargin="10" marginwidth="0" marginheight="0">
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js'"></script>
 <?
-require_once "../../include/library.php";
 /*
  * Uma classe para implementar segurança em transações 
  */
@@ -170,7 +170,7 @@ if (@mysql_num_rows($result))
 		{ 
 		?>
 		<tr>
-    	<td align="center" class="destaque">Computador Inexistente!
+    	<td align="center" class="destaque"><?=$oTranslator->_('Computador inexistente');?>
 		</td>	
 		</tr>
 		<?  

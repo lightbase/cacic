@@ -7,6 +7,7 @@ if(!isset($_SESSION['id_usuario']))
   die('Acesso negado (Access denied)!');
 else { // Inserir regras para verificar permissões do usuário!
 }
+require_once "../include/library.php";
 ?>
 <html>
 <head>
@@ -25,7 +26,8 @@ else { // Inserir regras para verificar permissões do usuário!
           <td bgcolor="#000064"> 
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
               <tr>
-                  <td><font face="Arial" color="#ffffff"><strong><small><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;CACIC 
+                  <td><font face="Arial" color="#ffffff"><strong><small><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;
+                  <?=$oTranslator->_('Gerado por');?> CACIC - <?=$tool;?>
                     </font></small></strong></font></td>
                 <td>
                   <div align="right"><img src="../imgs/close.gif" width="16" height="14" onClick="window.close()"></div>
@@ -42,7 +44,7 @@ else { // Inserir regras para verificar permissões do usuário!
                      
                   <td bgcolor="#000000">
                       <p><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF" size="2"> 
-                        # 
+                        $ 
 <? 
 /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
@@ -77,7 +79,7 @@ if ($tool == 'ping')
 	echo $result; 
 ?>
 	<br>
-	#</font> </td>
+	$</font> </td>
 </tr>
                 </table>
               </div>
@@ -85,7 +87,7 @@ if ($tool == 'ping')
             </tr>
             <tr align="middle"> 
               
-            <td align="left" bgcolor="#c0c0c0"><font color="#000032" size="1" face="Verdana, Arial, Helvetica, sans-serif"><small><small>&nbsp;ESES</small></small></font></td>
+            <td align="left" bgcolor="#c0c0c0"><font color="#000032" size="1" face="Verdana, Arial, Helvetica, sans-serif"><small><small>&nbsp;<?php echo $oTranslator->_('Gerado em') . ' ' . date("d/m/Y - H:i"); ?></small></small></font></td>
             </tr>
           </table>
         </div>

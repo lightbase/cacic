@@ -60,7 +60,7 @@
 		   	$itens_combo_redes = $itens_combo_redes . '<option value="' . $campos['id_ip_rede']. '">' . $campos['id_ip_rede'] . ' - ' . capa_string($campos['nm_rede'], 22) . '</option>';
 			}  
 			?>
-              Selecione as redes: </td>
+              <?=$oTranslator->_('Selecione as redes');?></td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -108,7 +108,7 @@
           </tr>
           <tr> 
             <td class="descricao">
-              <?php echo $oTranslator->_('(Dica: use SHIFT ou CTRL para selecionar multiplos itens)'); ?>
+              <i><?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i>
             </td>
           </tr>
 </table>

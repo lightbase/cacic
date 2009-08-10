@@ -23,7 +23,9 @@ foreach ($_SESSION["list8"] as $v)
 	<br>
 	<table align="center" cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
 	<tr bgcolor="#E1E1E1" align="center">
-	<td nowrap align="center"><font size="2" face="Verdana, Arial">Estat&iacute;sticas por <? echo trim(str_replace('as ', '',substr($v_campo_estatistica,strpos($v_campo_estatistica,' ',1),strlen($v_campo_estatistica)))); ?></font></td></tr>
+	<td nowrap align="center">
+	  <font size="2" face="Verdana, Arial">
+	    <?=$oTranslator->_('Estatisticas por');?> <? echo trim(str_replace('as ', '',substr($v_campo_estatistica,strpos($v_campo_estatistica,' ',1),strlen($v_campo_estatistica)))); ?></font></td></tr>
 	<tr>
 	<td nowrap align="center">
 	<?
