@@ -236,11 +236,8 @@ if ($te_palavra_chave == $strTePalavraChave)
 																	te_node_address_srv="'.$te_node_address.'" AND
 																	id_so_srv = "'.$arrSO['id_so'].'"');
 
-			$arrConfiguracoesLocais   = getValores('configuracoes_locais','nu_timeout_srcacic','id_local = '.$arrRedes['id_local']);
-
 			$retorno_xml_values .= '<NM_COMPLETO>'.EnCrypt($key,$iv,$nm_nome_completo,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_COMPLETO>';						
 			$retorno_xml_values .= '<ID_SESSAO>'.EnCrypt($key,$iv,$arrSessoes['id_sessao'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_SESSAO>';
-			$retorno_xml_values .= '<NU_TIMEOUT_SRCACIC>'.EnCrypt($key,$iv,$arrConfiguracoesLocais['nu_timeout_srcacic'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NU_TIMEOUT_SRCACIC>';					
 			}			
 		}
 	else
