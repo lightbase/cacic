@@ -129,9 +129,9 @@ else
 	<tr>	
 	<td nowrap><div align="center">		
 	<form name="form1" method="post" action="">				
-	<input name="remove_sim" 	type="submit" id="remove_sim" 	value="   Sim   ">
+	<input name="remove_sim" 	type="submit" id="remove_sim" 	value="<?=$oTranslator->_('Sim');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 	&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-	<input name="remove_nao" 	type="submit" id="remove_nao" 	value="<?=$oTranslator->_('kciq_msg no');?>" onClick="window.close();">
+	<input name="remove_nao" 	type="submit" id="remove_nao" 	value="<?=$oTranslator->_('Nao');?>" onClick="window.close();">
 	</form></div>
 	</td>				
 	</tr>

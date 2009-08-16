@@ -21,6 +21,7 @@ if(!isset($_SESSION['id_usuario']))
   die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
+require_once('../../../include/library.php');
 
 	$v_aquisicao = $_GET['id_aquisicao'];
 	$v_processo = $_GET['nr_processo'];
