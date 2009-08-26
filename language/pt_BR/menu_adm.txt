@@ -3,7 +3,7 @@
 ..Configurar Padrões|admin/configuracao.php|mainFrame||Configurações Padrão para o Sistema
 ..Configurar Gerente|admin/config_gerais.php|mainFrame||Configurações do Módulo Gerente
 ..Configurar Agentes|admin/config_agentes.php|mainFrame||Configurações do Módulo Agente
-..Classificar Softwares|admin/softwares/classificacao_software.php|mainFrame||
+..Classificar Softwares|admin/softwares/softwares_classificar.php|mainFrame||
 ..Softwares Não Usados|admin/softwares/remover_softwares_nao_instalados.php|mainFrame||
 ..Módulos|admin/modulos.php|mainFrame||Configurações dos vários módulos disponíveis do CACIC
 ..<b>Logs</b>||mainFrame|imgs/config_gerais.gif

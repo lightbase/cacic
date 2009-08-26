@@ -1014,3 +1014,15 @@ pt_BR     versao do internet explorer                                           
 pt_BR     versao do pattern                                                                                   relatoriosinfo                Versão do pattern
 pt_BR     versoes de softwares basicos                                                                        relatoriosinfo                Versões de softwares básicos
 pt_BR     ultimo login                                                                                        relatoriosinfo                Último login
+pt_BR     classificacao de softwares                                                                          softwares info                Classificacao de softwares
+pt_BR     classificacao de softwares conforme tipos possiveis                                                 softwares info                Classificacao de softwares conforme tipos possiveis
+pt_BR     apenas os nao classificados?                                                                        softwares info                Apenas os nao classificados?
+pt_BR     paginacao                                                                                           geral     info                Paginacao
+pt_BR     primeira                                                                                            geral     info                Primeira
+pt_BR     primeira pagina                                                                                     geral     info                Primeira pagina
+pt_BR     anterior                                                                                            geral     info                Anterior
+pt_BR     pagina anterior                                                                                     geral     info                Pagina anterior
+pt_BR     proxima                                                                                             geral     info                Proxima
+pt_BR     proxima pagina                                                                                      geral     info                Proxima pagina
+pt_BR     ultima                                                                                              geral     info                Ultima
+pt_BR     ultima pagina                                                                                       geral     info                Ultima pagina
