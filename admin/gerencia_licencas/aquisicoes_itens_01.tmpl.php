@@ -268,9 +268,9 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 					  {VENCIMENTO_LICENCA}
 					</td>
 					<td>
-					  <img style='width: 16px; height: 16px;' src="../../imgs/error.png" title="{TIPO_LICENCA_ACTIONS_DELETE_TITLE}" 
+					  <img style='width: 16px; height: 16px; cursor:pointer;' src="../../imgs/error.png" title="{TIPO_LICENCA_ACTIONS_DELETE_TITLE}" 
 					       onClick="setDocVar( 'btn_action_excluir', '{AQUISICAO_ID}_{SOFTWARE_ID}_{TIPO_LICENCA_ID}' ); sendForm(document.CacicCommon_form);" />
-					  <img style='width: 16px; height: 16px;' src="../../imgs/details.gif" title="{TIPO_LICENCA_ACTIONS_EDIT_TITLE}" 
+					  <img style='width: 16px; height: 16px; cursor:pointer;' src="../../imgs/details.gif" title="{TIPO_LICENCA_ACTIONS_EDIT_TITLE}" 
 					       onClick="setDocVar( 'btn_action_edit', '{AQUISICAO_ID}_{SOFTWARE_ID}_{TIPO_LICENCA_ID}' ); sendForm(document.CacicCommon_form);" />
 					</td>
 					</tr>
