@@ -1,14 +1,16 @@
 <?php
 /**
- * @version $Id: softwares_classificar.php 2009-02-17 22:18 harpiain $
+ * @version $Id: aquisicoes_itens.php 2009-08-31 20:21 harpiain $
  * @package CACIC-Admin
- * @subpackage SoftwaresClassificar
+ * @subpackage GerenciaLicencas
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>
  * @copyright Copyright (C) 2008 Adriano dos Santos Vieira. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * CACIC is free software and parts of it may contain or be derived from the
  * GNU General Public License or other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
+ * 
+ * Itens Adquiridos
  */
 
 session_start();
@@ -25,11 +27,10 @@ if(!isset($_SESSION['id_usuario']))
 include_once('../../include/library.php');
 AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 
-require_once('softwares_classificar.class.php');
+require_once('aquisicoes_itens.class.php');
 
-$oCacicAdminRede = new Softwares_Classificar();
-$oCacicAdminRede->setup();
-$oCacicAdminRede->run();
+$oCacic = new Tipos_Licenca();
+$oCacic->run();
 
 /*
  * Contabiliza tempo de processamento da página

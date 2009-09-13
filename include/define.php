@@ -207,7 +207,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  * atribui os caminhos de inclusão para a aplicação 
  */
  ini_set("include_path", ini_get("include_path").CACIC_PS.CACIC_PATH.
-                         CACIC_PS.CACIC_PATH.CACIC_DS."bibliotecas".CACIC_DS
+                         CACIC_PS.CACIC_PATH.CACIC_DS."bibliotecas".CACIC_DS.
+                         CACIC_PS.CACIC_PATH.CACIC_DS."bibliotecas/pear".CACIC_DS
          );
 
 /*

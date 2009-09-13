@@ -22,6 +22,7 @@ pt_BR     acesso                                                                
 pt_BR     acesso nao autorizado                                                                               admin     info                Acesso não autorizado
 pt_BR     acessos                                                                                             admin     info                Acessos
 pt_BR     acessos locais                                                                                      admin     info                Acessos locais
+pt_BR     acoes                                                                                               admin     info                Acoes
 pt_BR     acoes - configuracoes                                                                               admin     info                Acoes - Configurações
 pt_BR     aguarde processamento...                                                                            admin     info                Aguarde processamento...
 pt_BR     ainda nao existem informacoes de patrimonio associadas ao local!                                    admin     info                Ainda não existem informações de patrimônio associadas ao local!
@@ -70,6 +71,7 @@ pt_BR     caminho\\chave\\valor em registry                                     
 pt_BR     caminho\\nome do arquivo/secao/chave de arquivo ini                                                 admin     info                Caminho\\nome do arquivo/Seção/Chave de Arquivo INI
 pt_BR     campo                                                                                               admin     info                Campo
 pt_BR     cancelar                                                                                            admin     info                Cancelar
+pt_BR     cancelar alteracoes                                                                                 admin     info                Cancelar alteracoes
 pt_BR     caracteristicas em ambientes windows 9x/me                                                          admin     info                Características em ambientes Windows 9x/Me
 pt_BR     caracteristicas em ambientes windows nt/2000/xp/2003                                                admin     info                Características em ambientes Windows NT/2000/XP/2003
 pt_BR     cidade                                                                                              admin     info                Cidade
@@ -118,6 +120,8 @@ pt_BR     contato                                                               
 pt_BR     contatos para a subrede                                                                             admin     info                Contatos para a subrede
 pt_BR     conteudo do repositorio                                                                             admin     info                Conteúdo do repositório
 pt_BR     conteudo do servidor de atualizacoes                                                                admin     info                Conteúdo do servidor de atualizações
+pt_BR     controle de itens adiquiridos                                                                       admin     info                Controle de itens adiquiridos
+pt_BR     controle de tipos de licencas                                                                       admin     info                Controle de tipos de licencas
 pt_BR     dd/mm/aaaa                                                                                          admin     info                DD/MM/AAAA
 pt_BR     diferente de                                                                                        admin     info                DIFERENTE DE
 pt_BR     data                                                                                                admin     info                Data
@@ -126,6 +130,7 @@ pt_BR     data de desinstalacao:                                                
 pt_BR     data de expiracao:                                                                                  admin     info                Data de Expiração:
 pt_BR     data de arquivo                                                                                     admin     info                Data de arquivo
 pt_BR     data de autorizacao e um campo obrigatorio!                                                         admin     info                Data de autorização e um campo obrigatório!
+pt_BR     data de vencimento                                                                                  admin     info                Data de vencimento
 pt_BR     data e hora                                                                                         admin     info                Data e hora
 pt_BR     definir as configuracoes para sugestoes em formularios                                              admin     info                Definir as configurações para sugestões em formulários
 pt_BR     desabilitar acao-configuracao nas redes                                                             admin     info                Desabilitar ação-configuração nas redes
@@ -159,6 +164,7 @@ pt_BR     divisoes                                                              
 pt_BR     dois                                                                                                admin     info                Dois
 pt_BR     doze                                                                                                admin     info                Doze
 pt_BR     e-mails para notificar alteracoes de hardware                                                       admin     info                E-mails para notificar alteracoes de hardware
+pt_BR     editar registro                                                                                     admin     info                Editar registro
 pt_BR     eh necessario informar ao menos uma condicao para pesquisa                                          admin     info                Eh necessario informar ao menos uma condicao para pesquisa
 pt_BR     eh um sistema operacional?                                                                          admin     info                Eh um Sistema Operacional?
 pt_BR     emails para contato                                                                                 admin     info                Emails para Contato
@@ -193,6 +199,7 @@ pt_BR     excluir local                                                         
 pt_BR     excluir computadores selecionados                                                                   admin     info                Excluir computadores selecionados
 pt_BR     excluir perfil de sistema monitorado                                                                admin     info                Excluir perfil de sistema monitorado
 pt_BR     excluir rede                                                                                        admin     info                Excluir rede
+pt_BR     excluir registro                                                                                    admin     info                Excluir registro
 pt_BR     excluir usuario                                                                                     admin     info                Excluir usuario
 pt_BR     exclusao de softwares                                                                               admin     info                Exclusao de Softwares
 pt_BR     exclusao de softwares nao associados a nenhuma maquina                                              admin     info                Exclusao de softwares nao associados a nenhuma maquina
@@ -217,6 +224,7 @@ pt_BR     falha na atualizacao da tabela (%1) ou sua sessao expirou!            
 pt_BR     falha na atualizacao de configuracoes                                                               admin     info                Falha na atualizacao de configuracoes
 pt_BR     falha na atualizacao na tabela (%1) ou sua sessao expirou!                                          admin     info                Falha na atualizacao na tabela (%1) ou sua sessao expirou!
 pt_BR     falha na exclusao de configuracoes                                                                  admin     info                Falha na exclusao de configuracoes
+pt_BR     date view format                                                                                    admin     info      d/m/Y     Formatação de data
 pt_BR     formato da data                                                                                     admin     info                Formato da data
 pt_BR     formulario para classificacao de softwares                                                          admin     info                Formulario para classificacao de softwares
 pt_BR     formulario para importar dados de aquisicoes                                                        admin     info                Formulario para importar dados de aquisicoes
@@ -259,6 +267,7 @@ pt_BR     incluir nova subrede                                                  
 pt_BR     incluir novo perfil de sistema                                                                      admin     info                Incluir Novo Perfil de Sistema
 pt_BR     incluir novo software                                                                               admin     info                Incluir Novo Software
 pt_BR     incluir novo usuario                                                                                admin     info                Incluir novo usuario
+pt_BR     incluir registro                                                                                    admin     info                Incluir registro
 pt_BR     inclusao                                                                                            admin     info                Inclusao
 pt_BR     inclusao de                                                                                         admin     info                Inclusao de
 pt_BR     inclusao de local                                                                                   admin     info                Inclusao de Local
@@ -267,15 +276,21 @@ pt_BR     induzir coletas                                                       
 pt_BR     informacoes de patrimonio associadas ao local                                                       admin     info                Informacoes de Patrimonio Associadas ao Local
 pt_BR     informe a classificacao para o software.                                                            admin     info                Informe a classificacao para o software.
 pt_BR     informe a senha anterior, caso nao se lembre, solicite a um administrador que a reinicialize.       admin     info                Informe a senha anterior, caso nao se lembre, solicite a um Administrador que a reinicialize.
+pt_BR     informe data valida                                                                                 admin     info                Informe data valida
+pt_BR     informe esse campo                                                                                  admin     info                Informe esse campo
 pt_BR     informe o endereco mac do computador.                                                               admin     info                Informe o endereco MAC do computador.
 pt_BR     informe o numero do processo:                                                                       admin     info                Informe o numero do processo:
 pt_BR     informe o periodo em que foi realizada a aquisicao:                                                 admin     info                Informe o periodo em que foi realizada a aquisicao:
 pt_BR     informe o setor onde esta localizado o equipamento.                                                 admin     info                Informe o setor onde esta localizado o equipamento.
 pt_BR     informe os enderecos eletronicos separados por virgulas                                             admin     info                Informe os enderecos eletronicos separados por virgulas
+pt_BR     informe processo de aquisicao                                                                       admin     info                Informe processo de aquisicao
+pt_BR     informe software                                                                                    admin     info                Informe software
+pt_BR     informe tipo de licenca                                                                             admin     info                Informe tipo de licenca
 pt_BR     inicio de execucao das acoes                                                                        admin     info                Inicio de execucao das acoes
 pt_BR     instalacoes                                                                                         admin     info                Instalacoes
 pt_BR     intervalo de execucao das acoes                                                                     admin     info                Intervalo de execucao das acoes
 pt_BR     intervalo de solicitacao aos usuarios de renovacao das informacoes de patrimonio e local fisica     admin     info                Intervalo de solicitacao aos usuarios de renovacao das informacoes de patrimonio e Local fisica
+pt_BR     itens adiquiridos                                                                                   admin     info                Itens adiquiridos
 pt_BR     legenda                                                                                             admin     info                Legenda
 pt_BR     licencas                                                                                            admin     info                Licenças
 pt_BR     licencas autorizadas por estacao                                                                    admin     info                Licenças autorizadas por estacao
@@ -321,6 +336,7 @@ pt_BR     nao foi selecionado nenhum sistema operacional. deseja continuar?     
 pt_BR     nao foram encontrados registros                                                                     admin     info                Nao foram encontrados registros
 pt_BR     nao ha autorizacao para esta maquina                                                                admin     info                Nao ha autorizacao para esta maquina
 pt_BR     nao ha historico desta maquina                                                                      admin     info                Nao ha historico desta maquina
+pt_BR     nao informada descricao do tipo de licenca                                                          admin     info                Nao informada descricao do tipo de licenca
 pt_BR     nao instalados:                                                                                     admin     info                Nao instalados:
 pt_BR     nao solicitar renovacao                                                                             admin     info                Nao solicitar renovacao
 pt_BR     nenhum acesso realizado no periodo informado                                                        admin     info                Nenhum acesso realizado no periodo informado
@@ -365,8 +381,8 @@ pt_BR     numero da midia:                                                      
 pt_BR     numero da nota fiscal:                                                                              admin     info                Numero da nota fiscal:
 pt_BR     numero do patrimonio                                                                                admin     info                Numero do Patrimonio
 pt_BR     numero do processo:                                                                                 admin     info                Numero do Processo:
-pt_BR     nao                                                                                                 admin     info                Não
 pt_BR     ksiq_msg not                                                                                        admin     info                Não
+pt_BR     nao                                                                                                 admin     info                Não
 pt_BR     o aplicativo (%1) ja esta cadastrado                                                                admin     info                O aplicativo (%1) ja esta cadastrado
 pt_BR     o campo nome do aplicativo e obrigatorio.                                                           admin     info                O campo nome do aplicativo e obrigatorio.
 pt_BR     o local da rede e obrigatorio                                                                       admin     info                O local da rede e obrigatorio
@@ -404,9 +420,10 @@ pt_BR     kciq_msg help - induzir o envio das informacoes coletadas             
 pt_BR     porta                                                                                               admin     info                Porta
 pt_BR     processamento realizado com sucesso                                                                 admin     info                Processamento realizado com sucesso
 pt_BR     processo                                                                                            admin     info                Processo
+pt_BR     processo de aquisicao                                                                               admin     info                Processo de aquisicao
 pt_BR     processo:                                                                                           admin     info                Processo:
-pt_BR     programa                                                                                            admin     info                Programa
 pt_BR     script                                                                                              admin     info                Programa
+pt_BR     programa                                                                                            admin     info                Programa
 pt_BR     proprietario                                                                                        admin     info                Proprietario
 pt_BR     quant.                                                                                              admin     info                Quant.
 pt_BR     quantidade                                                                                          admin     info                Quantidade
@@ -415,6 +432,7 @@ pt_BR     quantidade instalada                                                  
 pt_BR     quantidade de licencas                                                                              admin     info                Quantidade de Licencas
 pt_BR     quantidade de licencas:                                                                             admin     info                Quantidade de Licencas:
 pt_BR     quantidade de licencas e um campo obrigatorio!                                                      admin     info                Quantidade de licencas e um campo obrigatorio!
+pt_BR     quantidade deve ser valor numerico                                                                  admin     info                Quantidade deve ser valor numerico
 pt_BR     quantidade maxima de linhas em relatorios                                                           admin     info                Quantidade maxima de linhas em relatorios
 pt_BR     quatro                                                                                              admin     info                Quatro
 pt_BR     realizar notificacao caso haja alteracoes nas seguintes configuracoes de hardware                   admin     info                Realizar notificacao caso haja alteracoes nas seguintes configuracoes de hardware
@@ -443,6 +461,7 @@ pt_BR     remocao de computador                                                 
 pt_BR     remover softwares da base de dados                                                                  admin     info                Remover Softwares da Base de Dados
 pt_BR     repositorio                                                                                         admin     info                Repositorio
 pt_BR     responsavel                                                                                         admin     info                Responsavel
+pt_BR     restaurar                                                                                           admin     info                Restaurar
 pt_BR     restaurar valores                                                                                   admin     info                Restaurar valores
 pt_BR     resultado da consulta                                                                               admin     info                Resultado da consulta
 pt_BR     resumo das operacoes                                                                                admin     info                Resumo das Operacoes
@@ -515,7 +534,9 @@ pt_BR     texto de ajuda da                                                     
 pt_BR     tipo da licenca                                                                                     admin     info                Tipo da Licenca
 pt_BR     tipo de acesso                                                                                      admin     info                Tipo de Acesso
 pt_BR     tipo de licenca                                                                                     admin     info                Tipo de Licenca
+pt_BR     tipo de licenca ja cadastrado                                                                       admin     info                Tipo de licenca ja cadastrado
 pt_BR     tipo do software:                                                                                   admin     info                Tipo do software:
+pt_BR     tipos de licenca                                                                                    admin     info                Tipos de licenca
 pt_BR     totais de redes alvo                                                                                admin     info                Totais de Redes Alvo
 pt_BR     total                                                                                               admin     info                Total
 pt_BR     tres                                                                                                admin     info                Tres
@@ -548,6 +569,7 @@ pt_BR     formato:                                                              
 pt_BR     jose.silva@es.previdenciasocial.gov.br, luis.almeida@xyz.com                                        admin     info                jose.silva@es.previdenciasocial.gov.br, luis.almeida@xyz.com
 pt_BR     mes                                                                                                 admin     info                mes
 pt_BR     meses                                                                                               admin     info                meses
+pt_BR     messagem do servidor:                                                                               admin     info                messagem do servidor:
 pt_BR     para acesso do agente                                                                               admin     info                para acesso do agente
 pt_BR     para acesso do gerente                                                                              admin     info                para acesso do gerente
 pt_BR     a pesquisa nao retornou registros                                                                   statisticsinfo                A pesquisa nao retornou registros
@@ -580,6 +602,7 @@ pt_BR     kciq_msg access denied                                                
 pt_BR     kciq_msg admin not reg                                                                              geral     info                Administrador não foi cadastrado
 pt_BR     admin                                                                                               geral     TagHeader           Administração
 pt_BR     kciq_msg advise                                                                                     geral     info                Alerta
+pt_BR     anterior                                                                                            geral     info                Anterior
 pt_BR     apenas redes <strong>selecionadas</strong>                                                          geral     info                Apenas redes <strong>selecionadas</strong>
 pt_BR     kciq_msg apoio                                                                                      Geral     info                Apoio colaborativo
 pt_BR     kciq_msg file saved                                                                                 geral     info                Arquivo (%1) foi salvo
@@ -640,8 +663,8 @@ pt_BR     kciq_msg login not exist                                              
 pt_BR     kciq_msg ftp login ok                                                                               geral     info                Login com sucesso no FTP
 pt_BR     kciq_msg admin login needed                                                                         geral     info                Login do administrador deve ser informado!
 pt_BR     kciq_msg logout                                                                                     Geral     info                Logoff
-pt_BR     manutencao                                                                                          geral     TagHeader           Manutenção
 pt_BR     manutenção                                                                                          geral     TagHeader           Manutenção
+pt_BR     manutencao                                                                                          geral     TagHeader           Manutenção
 pt_BR     marca ou desmarca acao para as redes abaixo                                                         geral     info                Marca ou Desmarca Acao para as Redes abaixo
 pt_BR     marca/desmarca todas as acoes para todas as redes abaixo                                            geral     info                Marca/Desmarca todas as Acoes para todas as Redes abaixo
 pt_BR     kciq_msg mensagem                                                                                   Geral     info                Mensagem
@@ -665,10 +688,16 @@ pt_BR     kciq_msg javascript not enabled                                       
 pt_BR     kciq_msg obs                                                                                        geral     info                Observação
 pt_BR     ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!                                        geral     info                Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!
 pt_BR     kciq_msg ok                                                                                         geral     info                Ok
+pt_BR     pagina anterior                                                                                     geral     info                Pagina anterior
+pt_BR     paginacao                                                                                           geral     info                Paginacao
 pt_BR     kciq_menu fast search                                                                               Geral     info                Pesquisa rápida
 pt_BR     kciq_menu search                                                                                    Geral     info                Pesquisar
 pt_BR     kciq_msg ftp port help                                                                              geral     ajuda               Porta FTP no servidor
 pt_BR     language_pt_br                                                                                      Geral     info      pt_BR     Português Brasileiro
+pt_BR     primeira                                                                                            geral     info                Primeira
+pt_BR     primeira pagina                                                                                     geral     info                Primeira pagina
+pt_BR     proxima                                                                                             geral     info                Proxima
+pt_BR     proxima pagina                                                                                      geral     info                Proxima pagina
 pt_BR     kciq_msg next                                                                                       Geral     info                Próximo
 pt_BR     quantidade real baseada em mac-address                                                              geral     info                Quantidade real baseada em MAC-Address
 pt_BR     kciq_msg ftp verify help                                                                            geral     info                Realiza teste de verificação de servidor FTP, não salva na base de dados do sistema devendo ser configurado pós instalação.
@@ -695,6 +724,8 @@ pt_BR     kciq_msg phone                                                        
 pt_BR     kciq_msg total of computers per local                                                               geral     info                Totais de computadores monitorados por local
 pt_BR     kciq_msg total of computers per os                                                                  geral     info                Totais de computadores monitorados por sistemas operacionais
 pt_BR     kciq_msg real total of computers mac based                                                          geral     info                Total real de computadores monitorados (com base no Mac-Address)
+pt_BR     ultima                                                                                              geral     info                Ultima
+pt_BR     ultima pagina                                                                                       geral     info                Ultima pagina
 pt_BR     ultimo acesso                                                                                       geral     info                Ultimo acesso
 pt_BR     um                                                                                                  geral     info                Um
 pt_BR     kciq_msg user                                                                                       Geral     info                Usuário
@@ -758,8 +789,8 @@ pt_BR     kciq_msg finish title                                                 
 pt_BR     kciq_msg inst login insert                                                                          instaladorinfo                Inserindo dados do administrador (%1)...
 pt_BR     kciq_msg inst local insert                                                                          instaladorinfo                Inserindo local (%1)...
 pt_BR     kciq_msg demo help                                                                                  instaladorinfo                Inserir dados para demonstração do CACIC.
-pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_installertitle                                                                                 instaladorinfo                Instalador WEB para o CACIC
+pt_BR     kciq_msg web_installer                                                                              instaladorinfo                Instalador WEB para o CACIC
 pt_BR     kciq_msg inst finished and verified                                                                 instaladorinfo                Instalação do CACIC finalizada e veficada!
 pt_BR     kciq_msg advise_title                                                                               instaladorinfo                Instrução PHP/Apache
 pt_BR     kciq_installerintrotitle                                                                            instaladorinfo                Introdução
@@ -1014,15 +1045,6 @@ pt_BR     versao do internet explorer                                           
 pt_BR     versao do pattern                                                                                   relatoriosinfo                Versão do pattern
 pt_BR     versoes de softwares basicos                                                                        relatoriosinfo                Versões de softwares básicos
 pt_BR     ultimo login                                                                                        relatoriosinfo                Último login
+pt_BR     apenas os nao classificados?                                                                        softwares info                Apenas os nao classificados?
 pt_BR     classificacao de softwares                                                                          softwares info                Classificacao de softwares
 pt_BR     classificacao de softwares conforme tipos possiveis                                                 softwares info                Classificacao de softwares conforme tipos possiveis
-pt_BR     apenas os nao classificados?                                                                        softwares info                Apenas os nao classificados?
-pt_BR     paginacao                                                                                           geral     info                Paginacao
-pt_BR     primeira                                                                                            geral     info                Primeira
-pt_BR     primeira pagina                                                                                     geral     info                Primeira pagina
-pt_BR     anterior                                                                                            geral     info                Anterior
-pt_BR     pagina anterior                                                                                     geral     info                Pagina anterior
-pt_BR     proxima                                                                                             geral     info                Proxima
-pt_BR     proxima pagina                                                                                      geral     info                Proxima pagina
-pt_BR     ultima                                                                                              geral     info                Ultima
-pt_BR     ultima pagina                                                                                       geral     info                Ultima pagina

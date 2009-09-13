@@ -73,6 +73,12 @@ defined( 'SECURITY' ) or die( 'Acesso restrito (Restricted access)!' );
  		return $string;
  	} // end func getString :P
  	
+ 	function getDate($_var2read) {
+ 		$date = (string)(Security::read($_var2read));
+ 		// validar data
+ 		return $date;
+ 	} // end func getString :P
+ 	
  	/**
  	 * Read escaped string value from form data to MySQL DBMS
  	 * @access public

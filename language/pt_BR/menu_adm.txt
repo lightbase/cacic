@@ -13,13 +13,15 @@
 ...Suporte Remoto Seguro|admin/log_suporte_remoto.php|mainFrame||Visualização do Log de Suporte Remoto Seguro
 ..<b>Cadastros</b>||mainFrame|imgs/config_gerais.gif
 ...Aquisições|admin/gerencia_licencas/arquivo/aquisicoes.php|mainFrame||
+...Itens adiquiridos|admin/gerencia_licencas/aquisicoes_itens.php|mainFrame||
 ...Locais|admin/locais/index.php|mainFrame||Cadastro de Locais para Controle Centralizado
 ...Servidores Autenticação|admin/servidores_autenticacao/index.php|mainFrame||Cadastro de Servidores para Autenticação do srCACIC
 ...SubRedes|admin/redes/index.php|mainFrame||Cadastro de SubRedes
 ...Perfis Sistemas|admin/perfis_aplicativos_monitorados/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
 ...Usuários|admin/usuarios/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
 ...Tipos Softwares|admin/tipos_softwares/index.php|mainFrame||
-...S.Operacionais|admin/sistemas_operacionais/index.php|mainFrame||
+...Tipos de Licença|admin/gerencia_licencas/tipos_licenca.php|mainFrame||
+...Sistemas Operacionais|admin/sistemas_operacionais/index.php|mainFrame||
 ...Softwares|admin/softwares/index.php|mainFrame||
 ...Softwares por Esta&ccedil;&atilde;o|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||
 ..<b>Patrimônio</b>||mainFrame|imgs/config_gerais.gif

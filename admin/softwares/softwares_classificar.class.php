@@ -15,7 +15,7 @@
 defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 
 /*
- * Classe geral para configurações 
+ * Classe geral 
  */
  include_once('common/cacic_common.class.php');
  
