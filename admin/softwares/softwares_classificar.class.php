@@ -43,11 +43,22 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_NAME_TITLE', $this->oTranslator->_('Nome do software') );
      	$this->addVar('SoftwaresClassificar_form', 'NO', $this->oTranslator->_('Nao') );     	
      	$this->addVar('SoftwaresClassificar_form', 'YES', $this->oTranslator->_('Sim') );
+     	$this->addVar('SoftwaresType_list', 'IMG_TYPE', $this->isIEBrowser()?'gd':'svg' );
      	$this->addRows('SoftwaresType_list', $this->fillListSoftwaresType() );
      	$this->addVar('SoftwaresClassificar_form', 'COLSPAN', 20 );
      	$this->addVar('SoftwaresClassificar_form', 'BTN_SALVAR', $this->oTranslator->_('Gravar alteracoes') );
      	$this->addVar('SoftwaresClassificar_form', 'BTN_SALVAR_DENY',  ($this->isAdminUser()?'enabled':'disabled'));
      	$this->addVar('SoftwaresClassificar_form', 'BTN_RESET', $this->oTranslator->_('Restaurar valores') );
+    }
+    
+    /**
+     * Detecta se o navegador é IE
+     */
+    function isIEBrowser() {
+    	if (isset($_SERVER['HTTP_USER_AGENT']) and (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false))
+    	   return true;
+    	else
+    	   return false;
     }
     
 	/**
