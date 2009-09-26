@@ -3,7 +3,7 @@
 ..Configurar Padrones|admin/configuracao.php|mainFrame||Configuraciones Padron para el Sistema
 ..Configurar Gerente|admin/config_gerais.php|mainFrame||Configuraciones del Módulo Gerente
 ..Configurar Agentes|admin/config_agentes.php|mainFrame||Configuraciones del Módulo Agente
-..Clasificar Softwares|admin/softwares/softwares_classificar.php|mainFrame||
+..Clasificar Softwares por tipo|admin/softwares/softwares_classificar.php|mainFrame||Clasificar Softwares por tipo
 ..Softwares No Usados|admin/softwares/remover_softwares_nao_instalados.php|mainFrame||
 ..Módulos|admin/modulos.php|mainFrame||Configuraciones de varios modulos disponibles de CACIC
 ..<b>Logs</b>||mainFrame|imgs/config_gerais.gif
@@ -12,14 +12,11 @@
 ...Actividades|admin/log_atividades.php|mainFrame||Visualizacion de los Log de Actividades(INS/UPD/DEL) del Sistema
 ...Insucesos Instalación|admin/log_insucessos.php|mainFrame||Visualizacion de los Logs de Insucesos en las Instalaciones
 ..<b>Registros</b>||mainFrame|imgs/config_gerais.gif
-...Aquisiciones|admin/gerencia_licencas/arquivo/aquisicoes.php|mainFrame||
-...Itens adiquiridos|admin/gerencia_licencas/aquisicoes_itens.php|mainFrame||
 ...Locales|admin/locais/index.php|mainFrame||Registro de Locales para el Control Centralizado
 ...SubRedes|admin/redes/index.php|mainFrame||Registro de SubRedes
 ...Perfiles Sistemas|admin/perfis_aplicativos_monitorados/index.php|mainFrame||Registro de Perfiles de Aplicativos Monitoreados
 ...Usuarios|admin/usuarios/index.php|mainFrame||Registro de Perfiles de Aplicativos Monitoreados
 ...Tipos Softwares|admin/tipos_softwares/index.php|mainFrame||
-...Tipos de Licença|admin/gerencia_licencas/tipos_licenca.php|mainFrame||
 ...Sistemas Operativos|admin/sistemas_operacionais/index.php|mainFrame||
 ...Softwares|admin/softwares/index.php|mainFrame||
 ...Softwares por Estacion|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||
@@ -29,6 +26,12 @@
 ...U. O. Nível 1a|admin/patrimonio/nivel1a/index.php|mainFrame||Captura de Unidades Organizacionales de Nível 1a (Lineas de Negocio)
 ...U. O. Nível 2|admin/patrimonio/nivel2/index.php|mainFrame||Captura de Unidades Organizacionales de Nível 2
 ...Opciones|admin/patrimonio/opcoes.php|mainFrame||Opciones de captura de Informaciones de Patrimonio y Localizacion Física
+..<b>Gerencia Aquisições</b>||mainFrame||Controle de softwares e licenças
+...Adquisiciones|admin/gerencia_licencas/arquivo/index.php|mainFrame||Processos de aquisições de softwares
+...Itens adiquiridos|admin/gerencia_licencas/aquisicoes_itens.php|mainFrame||Itens adiquiridos por processos de aquisições de softwares
+...Softwares por Estacion|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||Softwares autorizados por estação
+...Tipos de Licença|admin/gerencia_licencas/tipos_licenca.php|mainFrame||Controle de tipos de licenças
+...Classificar Softwares|admin/gerencia_licencas/softwares_classificar.php|mainFrame||Classificar Softwares adiquiridos X inventariados
 .<b>Mantenimiento</b>||mainFrame|imgs/config_gerais.gif
 ..Actualizacion de SubRedes|admin/updates_subredes/index.php|mainFrame||Verifica/Actualiza Servidores de Updates de las Sub-Redes Locales
 ..Excluir Computadores|admin/exclui_informacoes_computadores.php|mainFrame||Exclusion de Informaciones de Computadores de la base

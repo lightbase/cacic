@@ -1048,3 +1048,7 @@ pt_BR     ultimo login                                                          
 pt_BR     apenas os nao classificados?                                                                        softwares info                Apenas os nao classificados?
 pt_BR     classificacao de softwares                                                                          softwares info                Classificacao de softwares
 pt_BR     classificacao de softwares conforme tipos possiveis                                                 softwares info                Classificacao de softwares conforme tipos possiveis
+pt_BR     classificacao de softwares inventariados                                                            admin     info                Classificacao de softwares inventariados
+pt_BR     classificacao de softwares inventariados conforme tipos possiveis                                   admin     info                Classificacao de softwares inventariados conforme tipos possiveis
+pt_BR     nome do software inventariado                                                                       admin     info                Nome do software inventariado
+pt_BR     classificacao de softwares inventariados conforme softwares adiquiridos                             admin     info                Classificacao de softwares inventariados conforme softwares adiquiridos

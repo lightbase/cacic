@@ -86,7 +86,7 @@ if ($_POST['consultar']) {
 	FROM softwares  
 	LEFT JOIN (SELECT softwares_estacao.id_software AS id, count(*) as instalado 
                    FROM softwares_estacao 
-	           WHERE (softwares_estacao.dt_desinstalacao IS NULL)  
+	           WHERE (softwares_estacao.dt_desinstalacao IS NULL OR DATE(NOW())<dt_desinstalacao )  
 		   GROUP BY softwares_estacao.id_software) AS tempTable 
 	ON (softwares.id_software = tempTable.id) ";
 	$query = $query . " LEFT JOIN (SELECT id_software AS id2, count(*) AS cacic 

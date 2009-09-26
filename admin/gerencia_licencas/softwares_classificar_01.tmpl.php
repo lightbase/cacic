@@ -49,7 +49,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 			 </th>
              <softwareClassificacao:tmpl name="SoftwaresType_list">
 			  <td width="5%" class="header">
-			   <object data="softwares_classificar_tipo_{IMG_TYPE}image.php?texto={SOFTWARE_TYPE_NAME}" type="image/svg+xml"></object>
+			   <object data="softwares_classificar_{IMG_TYPE}image.php?texto={SOFTWARE_TYPE_NAME}" type="image/svg+xml"></object>
 			  </td>
 			 </softwareClassificacao:tmpl>
 			</tr>

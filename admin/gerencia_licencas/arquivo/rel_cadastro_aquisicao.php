@@ -96,8 +96,8 @@ $fields=mysql_num_fields($result);
 echo '<table align="center" width="100%" cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
      <tr bgcolor="#E1E1E1" >
       <td nowrap align="left"><font size="1" face="Verdana, Arial">&nbsp;</font></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Processo</font><b></td>';
-echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">Aquisi&ccedil;&atilde;o</font><b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Processo').'</font><b></td>';
+echo '<td nowrap align="center"><b><font size="1" face="Verdana, Arial">'.$oTranslator->_('Aquisicao').'</font><b></td>';
 
 echo '</tr>';
 

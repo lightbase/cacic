@@ -38,7 +38,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	
      	$this->addVar('SoftwaresClassificar', 'CACIC_URL', CACIC_URL );
      	$this->addVar('SoftwaresClassificar_form', 'TITULO', $titulo );
-     	$this->addVar('SoftwaresClassificar_form', 'DESCRICAO', $this->oTranslator->_('Classificacao de softwares inventariados conforme tipos possiveis') );
+     	$this->addVar('SoftwaresClassificar_form', 'DESCRICAO', $this->oTranslator->_('Classificacao de softwares inventariados conforme softwares adiquiridos') );
      	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_CLASSIFICADO_SELECT', '<span class="Aviso">'.$this->oTranslator->_('Apenas os nao classificados?')."</span>" );
      	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_NAME_TITLE', $this->oTranslator->_('Nome do software inventariado') );
      	$this->addVar('SoftwaresClassificar_form', 'NO', $this->oTranslator->_('Nao') );     	
@@ -110,7 +110,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	 */
     	$sql_update = '';
 		foreach($software_classificado as $id_software => $id_tipo) {
-			$sql_update = "update softwares_inventariados set id_tipo_software = " . $id_tipo .
+			$sql_update = "update softwares_inventariados set id_software = " . $id_tipo .
 			                                            " where id_software_inventariado = ".$id_software."; ";
 						
 		/*
@@ -131,15 +131,15 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     }
     
     /**
-     * Obtem e preenche dados de formulario - tipos de software
+     * Obtem e preenche dados de formulario - softwares cadastrados
      * @access private
      */
     function fillListSoftwaresType() {
-    	$sql = "select * from tipos_software order by id_tipo_software";
+    	$sql = "select * from softwares order by id_software";
     	$db_result = mysql_query($sql);
      	$list = array();
     	while( $tipos = mysql_fetch_assoc($db_result) ) {
-			$_arrAux = array( array('SOFTWARE_TYPE_NAME'=>$tipos['te_descricao_tipo_software'] ) );
+			$_arrAux = array( array('SOFTWARE_TYPE_NAME'=>$tipos['te_descricao_software'] ) );
 			$list = array_merge($list, $_arrAux);
     	}
      	return $list;           
@@ -151,11 +151,11 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      * @param string $btn_salvar Se botao para salvar foi acionado
      */
     function fillForm($_btn_salvar) {
-    	$sql = "select * from tipos_software order by id_tipo_software";
+    	$sql = "select * from softwares order by id_software";
     	$db_result = mysql_query($sql);
     	$_tipos_list = array();
     	while( $tipos = mysql_fetch_assoc($db_result) ) {
-			$_tipos_list[ $tipos['id_tipo_software'] ]['te_descricao_tipo_software'] = $tipos['te_descricao_tipo_software'];
+			$_tipos_list[ $tipos['id_software'] ]['te_descricao_software'] = $tipos['te_descricao_software'];
     	}
     	
     	/*
@@ -166,7 +166,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		
      	$this->addVar('SoftwaresClassificar_form', 'YES_CHECKED', ((!isset($software_nao_classificado) or $software_nao_classificado)?'checked':'') );
 
-		$where = " where id_tipo_software=0 ";
+		$where = " where (id_software IS NULL OR id_software=0)";
 		if (isset($software_nao_classificado) and ($software_nao_classificado==0)) {
 		   $where = " "; // esvazia a condicional de listagem
 		   $this->addVar('SoftwaresClassificar_form', 'NO_CHECKED', 'checked' );
@@ -188,18 +188,18 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 			    	if($software_classificado[$soft['id_software_inventariado']])
 			    		$checked = ($tipo_id == $software_classificado[$soft['id_software_inventariado']] )?" checked ":"";
 			    	else /* Obtem dados do banco de dados */
-			    	    $checked = ($tipo_id == $soft['id_tipo_software'] )?" checked ":"";
+			    	    $checked = ($tipo_id == $soft['id_software'] )?" checked ":"";
 			    	}
 		    	else {
 			    	/* Obtem dados do banco de dados */
-			    	 $checked = ($tipo_id == $soft['id_tipo_software'] )?" checked ":"";
+			    	 $checked = ($tipo_id == $soft['id_software'] )?" checked ":"";
 		    	}
 		    	
     			$softwares_classificar_tipo .= '
 							<td>
 							  <input type="radio" name="software_classificado['.$soft['id_software_inventariado'].']"'
 							                                 .' value="'.$tipo_id.'"'
-							                                 .' title="'.$tipo_valor['te_descricao_tipo_software'].'" '
+							                                 .' title="'.$tipo_valor['te_descricao_software'].'" '
 							                                 .$checked
 							                                 .' />
 							</td>
