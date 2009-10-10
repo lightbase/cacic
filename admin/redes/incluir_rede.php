@@ -38,7 +38,7 @@ if($_POST['submit'])
 			  WHERE 	id_ip_rede = '".$_POST['frm_id_ip_rede']."' AND
 			  			id_local = ".$_POST['frm_id_local'];
 						
-	$result = mysql_query($query) or die ('Select falhou ou sua sessão expirou!');
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!',array('redes')));
 	
 	if (mysql_num_rows($result) > 0) 
 		{
@@ -91,7 +91,7 @@ if($_POST['submit'])
 							  ".$_POST['frm_id_servidor_autenticacao'].",								  
 							  ".$_POST['frm_id_local'].")";									  							
 
-		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
+		$result = mysql_query($query) or die ($oTranslator->_('Falha na insercao em (%1) ou sua sessao expirou!',array('redes')));
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'redes');
 
 		$v_tripa_acoes = '';
@@ -101,14 +101,14 @@ if($_POST['submit'])
 					  FROM		acoes_redes 
 					  WHERE		id_ip_rede = '".$_POST['frm_id_ip_rede']."' AND
 								id_local = ".$_POST['frm_id_local'];
-		mysql_query($query_del) or die('Ocorreu um erro durante a exclusão de registros na tabela acoes_redes ou sua sessão expirou!');			
+		mysql_query($query_del) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('acoes_redes')));			
 		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');
 
 		$v_cs_situacao = ($_POST['in_habilita_acoes'] == 'S'?'S':'N');
 
 		$query_acoes = "SELECT 	* 
 						FROM 	acoes";
-		$result_acoes = mysql_query($query_acoes) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
+		$result_acoes = mysql_query($query_acoes) or die($oTranslator->_('Falha na insercao em (%1) ou sua sessao expirou!',array('acoes'))); 
 					
 		while ($row_acoes = mysql_fetch_array($result_acoes))
 			{
@@ -127,7 +127,7 @@ if($_POST['submit'])
 									'".$row_acoes['id_acao']."',
 									".$_POST['frm_id_local'].",
 									'".$v_cs_situacao."')";
-			mysql_query($query_ins) or die('Ocorreu um erro durante a inclusão de registros na tabela acoes_redes ou sua sessão expirou!');
+			mysql_query($query_ins) or die($oTranslator->_('Falha na insercao em (%1) ou sua sessao expirou!',array('acoes_redes')));
 			
 			}						
 			
@@ -165,6 +165,7 @@ else
 <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<?php initJSTranslateConst();?>
 <script language=JavaScript>
 <!--
 
@@ -208,86 +209,72 @@ function SetaServidorUpdates()
 
 function valida_form(frmForm) 
 	{
-	VerRedeMascara(frmForm.name,true,false);
 	if ( document.form.frm_nu_limite_ftp.value == "" ) 
 		{	
 		document.form.frm_nu_limite_ftp.value = "30";
 		}					
 	
 	if (document.form.frm_id_local.selectedIndex==0) {	
-		alert("O local da rede é obrigatório");
+		alert("<?=$oTranslator->_('O local da rede e obrigatorio')?>");
 		document.form.frm_id_local.focus();
 		return false;
 	}
 
-	/*	
-	var ip = document.form.frm_id_ip_rede.value;
-	var ipSplit = ip.split(/\./);
-	
-	if ( document.form.frm_id_ip_rede.value == "" ) 
+	if( !VerRedeMascara(frmForm.form.name,true,false)) {
+	   return false;	
+	}
+		
+	if ( document.form.frm_nm_rede.value == "" ) 
 		{	
-		alert("O endereço TCP/IP da rede é obrigatório.\nPor favor, informe-o, usando o formato X.X.X.0\nExemplo: 10.70.4.0");
-		document.form.frm_id_ip_rede.focus();
-		return false;
-		}
-	*/
-	if ( document.form.frm_te_mascara_rede.value == "" ) 
-		{	
-		alert("A máscara de rede é obrigatória.\nPor favor, informe-a, usando o formato X.X.X.0\nExemplo: 255.255.255.0");
-		document.form.frm_te_mascara_rede.focus();
-		return false;
-		}		
-	else if ( document.form.frm_nm_rede.value == "" ) 
-		{	
-		alert("O nome da rede é obrigatório. Por favor, informe-o.");
+		alert("<?=$oTranslator->_('O nome da rede e obrigatorio')?>");
 		document.form.frm_nm_rede.focus();
 		return false;
 		}
 	else if ( document.form.frm_te_serv_cacic.value == "" ) 
 		{	
-		alert("Digite o Identificador do Servidor de Banco de Dados");
+		alert("<?=$oTranslator->_('Identificador do servidor de aplicacao e obrigatorio')?>");
 		document.form.frm_te_serv_cacic.focus();
 		return false;
 		}	
 	else if ( document.form.frm_te_serv_updates.value == "" ) 
 		{	
-		alert("Digite o Identificador do Servidor de Updates");
+		alert("<?=$oTranslator->_('Identificador do servidor de atualizacoes e obrigatorio')?>");
 		document.form.frm_te_serv_updates.focus();
 		return false;
 		}		
 	else if ( document.form.frm_nu_porta_serv_updates.value == "" ) 
 		{	
-		alert("Digite a Porta FTP do Servidor de Updates");
+		alert("<?=$oTranslator->_('Informe porta FTP do servidor de atualizacoes')?>");
 		document.form.frm_nu_porta_serv_updates.focus();
 		return false;
 		}		
 	else if ( document.form.frm_te_path_serv_updates.value == "" ) 
 		{	
-		alert("Digite o Path no Servidor de Updates");
+		alert("<?=$oTranslator->_('Informe o caminho FTP no servidor de atualizacoes')?>");
 		document.form.frm_te_path_serv_updates.focus();
 		return false;
 		}			
 	else if ( document.form.frm_nm_usuario_login_serv_updates.value == "" ) 
 		{	
-		alert("Digite o Nome do Usuário para Login no Servidor de Updates pelo Módulo Agente");
+		alert("<?=$oTranslator->_('Informe o usuario de acesso FTP ao servidor de atualizacoes pelo agente de coletas')?>");
 		document.form.frm_nm_usuario_login_serv_updates.focus();
 		return false;
 		}			
 	else if ( document.form.frm_te_senha_login_serv_updates.value == "" ) 
 		{	
-		alert("Digite a Senha para Login no Servidor de Updates pelo Módulo Agente");
+		alert("<?=$oTranslator->_('Informe a senha do usuario de acesso FTP ao servidor de atualizacoes pelo agente de coletas')?>");
 		document.form.frm_te_senha_login_serv_updates.focus();
 		return false;
 		}				
 	else if ( document.form.frm_nm_usuario_login_serv_updates_gerente.value == "" ) 
 		{	
-		alert("Digite o Nome do Usuário para Login no Servidor de Updates pelo Módulo Gerente");
+		alert("<?=$oTranslator->_('Informe o usuario de acesso FTP ao servidor de atualizacoes pelo gerente')?>");
 		document.form.frm_nm_usuario_login_serv_updates_gerente.focus();
 		return false;
 		}		
 	else if ( document.form.frm_te_senha_login_serv_updates_gerente.value == "" ) 
 		{	
-		alert("Digite a Senha para Login no Servidor de Updates pelo Módulo Gerente");
+		alert("<?=$oTranslator->_('Informe a senha do usuario de acesso FTP ao servidor de atualizacoes pelo gerente')?>");
 		document.form.frm_te_senha_login_serv_updates_gerente.focus();
 		return false;
 		}					
@@ -310,20 +297,19 @@ MM_reloadPage(true);
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
 <table width="90%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Inclus&atilde;o de Nova Subrede</td>
+    <td class="cabecalho"><?=$oTranslator->_('Inclusao de nova subrede')?></td>
   </tr>
   <tr> 
-    <td class="descricao">As informa&ccedil;&otilde;es que dever&atilde;o ser 
-      cadastradas abaixo referem-se a uma subrede onde ser&atilde;o instalados 
-      os agentes oper&aacute;rios do CACIC. Os campos &quot;Subrede&quot; e &quot;Descri&ccedil;&atilde;o&quot; 
-      s&atilde;o obrigat&oacute;rios.</td>
+    <td class="descricao">
+       <?=$oTranslator->_('Inclusao de nova subrede - texto de ajuda')?>
+    </td>
   </tr>
 </table>
 <form action="incluir_rede.php"  method="post" ENCTYPE="multipart/form-data" name="form" id="form">
   <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
 		<td>&nbsp;</td>
-      <td class="label"><br>Local:</td>
+      <td class="label"><?=$oTranslator->_('Local')?> <span class="necessario">*</span></td>
       <td class="label" colspan="2"><br>Servidor para Autentica&ccedil;&atilde;o:</td>
     </tr>
     <tr> 
@@ -348,8 +334,8 @@ MM_reloadPage(true);
 								 			$where." 
 								 ORDER BY	sg_local";
 
-	    $result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sessão expirou!');
-		echo '<option value="0">Selecione Local</option>';		  				
+	    $result_locais = mysql_query($qry_locais) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!',array('locais')));
+		echo '<option value="0">'.$oTranslator->_('--- selecione ---').'</option>';		  				
 		while ($row=mysql_fetch_array($result_locais))
 			{ 
 			echo "<option value=\"" . $row["id_local"] . "\"";			
@@ -359,10 +345,7 @@ MM_reloadPage(true);
 		   	} 
 			?>
         </select>
-		<?
-		//if ($_SESSION['cs_nivel_administracao']<>1)
-		//	echo '<input name="frm_id_local" id="frm_id_local" type="hidden" value="'.$_SESSION['id_local'].'">';
-		?> </td>
+        </td>
       <td nowrap><select name="frm_id_servidor_autenticacao" id="frm_id_servidor_autenticacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="" selected></option>
           <?
@@ -383,8 +366,8 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td class="label"><br>Subrede:</td>
-      <td nowrap class="label"><br>M&aacute;scara:</td>
+      <td class="label"><br><?=$oTranslator->_('Subrede')?> <span class="necessario">*</span></td>
+      <td nowrap class="label"><br><?=$oTranslator->_('Mascara')?> <span class="necessario">*</span></td>
       <td nowrap class="label">&nbsp;</td>
     </tr>
     <tr> 
@@ -400,7 +383,7 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td class="label"><div align="left">Descri&ccedil;&atilde;o:</div></td>
+      <td class="label"><div align="left"><?=$oTranslator->_('Descricao')?> <span class="necessario">*</span></div></td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
@@ -416,7 +399,7 @@ MM_reloadPage(true);
     <tr> 
 	<td>&nbsp;</td>
       <td nowrap class="label"><br>
-        Servidor de Aplica&ccedil;&atilde;o:</td>
+        <?=$oTranslator->_('Servidor de aplicacoes')?> <span class="necessario">*</span></td>
       <td>&nbsp;&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
@@ -432,7 +415,7 @@ MM_reloadPage(true);
 	?>
       <td nowrap> <input name="frm_te_serv_cacic" type="text" id="frm_te_serv_cacic" size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$cfgStdData['te_serv_cacic_padrao']?>"> 
         <select name="sel_te_serv_cacic" id="sel_te_serv_cacic" onChange="SetaServidorBancoDados();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <option value="">===> Selecione <===</option>
+          <option value=""><?=$oTranslator->_('--- selecione ---');?></option>
           <?
 			Conecta_bd_cacic();
 			$query = "SELECT DISTINCT 	configuracoes_locais.te_serv_cacic_padrao, 
@@ -454,12 +437,15 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td nowrap class="label"><div align="left"><br>
-          Servidor de Updates (FTP):</div></td>
-      <td class="label"><div align="left"><br>
-          Porta:</div></td>
-      <td valign="bottom" class="label"><br>
-	  Limite FTP:</td>
+      <td nowrap class="label">
+          <br><?=$oTranslator->_('Servidor de atualizacoes (FTP)')?> <span class="necessario">*</span>
+      </td>
+      <td class="label">
+          <br><?=$oTranslator->_('Porta')?> <span class="necessario">*</span>
+      </td>
+      <td valign="bottom" class="label">
+         <br><?=$oTranslator->_('Limite FTP')?>
+      </td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#333333"></td>
@@ -468,7 +454,7 @@ MM_reloadPage(true);
 	<td>&nbsp;</td>
       <td nowrap><input name="frm_te_serv_updates" type="text" id="frm_te_serv_updates"  size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$cfgStdData['te_serv_updates_padrao']?>"> 
         <select name="sel_te_serv_updates" id="sel_te_serv_updates" onChange="SetaServidorUpdates();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <option value="">===> Selecione <===</option>
+          <option value=""><?=$oTranslator->_('--- selecione ---');?></option>
           <?
 			Conecta_bd_cacic();
 			$query = "SELECT DISTINCT 	redes.te_serv_updates, 
@@ -498,10 +484,12 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td nowrap class="label"><br>
-        Usu&aacute;rio do Servidor de Updates: (para AGENTE)</td>
-      <td nowrap class="label"><div align="left"><br>
-          Senha para Login:</div></td>
+      <td nowrap class="label">
+        <br><?=$oTranslator->_('Usuario de acesso FTP ao servidor de atualizacoes pelo agente de coletas')?> <span class="necessario">*</span>
+      </td>
+      <td nowrap class="label">
+          <br><?=$oTranslator->_('Senha de acesso')?> <span class="necessario">*</span>
+      </td>
       <td nowrap class="label">&nbsp;</td>
     </tr>
     <tr> 
@@ -517,10 +505,12 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td nowrap class="label"><br>
-        Usu&aacute;rio do Servidor de Updates: (para GERENTE)</td>
-      <td nowrap class="label"><div align="left"><br>
-          Senha para Login:</div></td>
+      <td nowrap class="label">
+        <br><?=$oTranslator->_('Usuario de acesso FTP ao servidor de atualizacoes pelo gerente')?> <span class="necessario">*</span>
+      </td>
+      <td nowrap class="label">
+          <br><?=$oTranslator->_('Senha de acesso')?> <span class="necessario">*</span>
+      </td>
       <td nowrap class="label">&nbsp;</td>
     </tr>
     <tr> 
@@ -536,8 +526,9 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td nowrap class="label"><br>
-        Path no Servidor de Updates:</td>
+      <td nowrap class="label">
+        <br><?=$oTranslator->_('Caminho (path) FTP no servidor de atualizacoes')?> <span class="necessario">*</span>
+      </td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
@@ -553,7 +544,7 @@ MM_reloadPage(true);
     <tr> 
 	<td>&nbsp;</td>
       <td class="label"><br>
-        Observa&ccedil;&otilde;es:</td>
+        <?=$oTranslator->_('Observacoes')?></td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
@@ -562,17 +553,17 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td><textarea name="frm_te_observacao" cols="38" id="textarea" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></textarea></td>
+      <td><textarea name="frm_te_observacao" cols="60" id="textarea" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></textarea></td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
 	<td>&nbsp;</td>
       <td class="label"><br>
-        Contato 1:</td>
+        <?=$oTranslator->_('Contato um')?></td>
       <td width="144" class="label"><br>
-        Telefone: </td>
-      <td width="144" class="label">&nbsp;</td>
+        <?=$oTranslator->_('Telefone')?></td>
+      <td class="label"><br><?=$oTranslator->_('Endereco eletronico')?></td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#333333"></td>
@@ -583,12 +574,14 @@ MM_reloadPage(true);
       </td>
       <td> <input name="frm_nu_telefone1" type="text" id="frm_nu_telefone12" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
-      <td>&nbsp;</td>
+      <td>
+          <input name="frm_te_email_contato1" type="text" id="frm_te_email_contato1" size="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+      </td>
     </tr>
     <tr> 
 	<td>&nbsp;</td>
       <td class="label"><br>
-        E-mail:</td>
+        </td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
@@ -597,18 +590,11 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td><input name="frm_te_email_contato1" type="text" id="frm_te_email_contato1" size="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
-      </td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr> 
-	<td>&nbsp;</td>
       <td class="label"><br>
-        Contato 2:</td>
-      <td class="label"><br>
-        Telefone:</td>
-      <td class="label">&nbsp;</td>
+        <?=$oTranslator->_('Contato dois')?></td>
+      <td width="144" class="label"><br>
+        <?=$oTranslator->_('Telefone')?></td>
+      <td class="label"><br><?=$oTranslator->_('Endereco eletronico')?></td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#333333"></td>
@@ -619,51 +605,51 @@ MM_reloadPage(true);
       </td>
       <td> <input name="frm_nu_telefone2" type="text" id="frm_nu_telefone2" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
-      <td>&nbsp;</td>
+      <td>
+           <input name="frm_te_email_contato2" type="text" id="frm_te_email_contato22" size="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+      </td>
     </tr>
     <tr> 
 	<td>&nbsp;</td>
       <td class="label"><br>
-        E-mail:</td>
+        </td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#333333"></td>
-    </tr>
-    <tr> 
-	<td>&nbsp;</td>
-      <td> <input name="frm_te_email_contato2" type="text" id="frm_te_email_contato22" size="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
-      </td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
     </tr>
     <tr> 
       <td colspan="4">&nbsp;</td>
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td colspan="3" class="label">Marcar todas as a&ccedil;&otilde;es para essa 
-        rede:</td>
+      <td colspan="3" class="label">
+        <?=$oTranslator->_('Marcar todas as acoes para essa rede')?>
+      </td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
 		<td>&nbsp;</td>
-      <td colspan="3" class="descricao"><div align="justify"> Essa op&ccedil;&atilde;o 
-          habilitar&aacute; as a&ccedil;&otilde;es de auto-update e coletas nas 
-          esta&ccedil;&otilde;es situadas nesta rede. Caso seja necess&aacute;rio 
-          algum ajuste, este poder&aacute; ser feito em Administra&ccedil;&atilde;o/M&oacute;dulos.</div></td>
+      <td colspan="3" class="descricao"><div align="justify">
+         <?=$oTranslator->_('Marcar todas as acoes para essa rede - texto de ajuda')?>
+          </div>
+      </td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#CCCCCC"></td>
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td> <input name="in_habilita_acoes" type="radio" value="S" checked class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-        Sim<br> <input type="radio" name="in_habilita_acoes" value="N" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-        N&atilde;o</td>
+      <td>
+        <input name="in_habilita_acoes" type="radio" value="S" checked class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+        <?=$oTranslator->_('Sim')?>
+        <br>
+        <input type="radio" name="in_habilita_acoes" value="N" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+        <?=$oTranslator->_('Nao')?>
+      </td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
@@ -672,7 +658,7 @@ MM_reloadPage(true);
 	?>
   </table>
   <p align="center"> 
-    <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  "  onClick="return valida_form(this);return Confirma('Confirma Inclusão de Rede?');">
+    <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes')?>"  onClick="return valida_form(this);return Confirma('<?=$oTranslator->_('Confirma inclusao de rede?')?>');">
   </p>
 </form>
 <p>

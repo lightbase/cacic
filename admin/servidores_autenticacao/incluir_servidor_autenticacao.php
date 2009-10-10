@@ -107,6 +107,12 @@ else
             document.form.frm_te_base_consulta_folha.focus();
             return false;
             }
+        else if ( document.form.frm_te_atributo_identificador.value == "" ) 
+            {	
+            alert("O atributo identificador é obrigatório.");
+            document.form.frm_te_atributo_identificador.focus();
+            return false;
+            }
         else if ( document.form.frm_te_atributo_retorna_nome.value == "" ) 
             {	
             alert("O atributo para retorno de nome completo é obrigatório.");
@@ -117,12 +123,6 @@ else
             {	
             alert("O atributo para retorno de email é obrigatório.");
             document.form.frm_te_atributo_retorna_email.focus();
-            return false;
-            }
-        else if ( document.form.frm_te_atributo_identificador.value == "" ) 
-            {	
-            alert("O atributo identificador é obrigatório.");
-            document.form.frm_te_atributo_identificador.focus();
             return false;
             }
         return true;	
@@ -261,7 +261,7 @@ else
     </tr>
       </table>
       <p align="center"> 
-        <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return Confirma('Confirma Inclusão de Servidor de Autenticação?');">
+        <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return valida_form(); return Confirma('Confirma Inclusão de Servidor de Autenticação?');">
       </p>
     </form>
     <p>

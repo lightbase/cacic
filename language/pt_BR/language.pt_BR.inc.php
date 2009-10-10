@@ -1052,3 +1052,33 @@ pt_BR     classificacao de softwares inventariados                              
 pt_BR     classificacao de softwares inventariados conforme tipos possiveis                                   admin     info                Classificacao de softwares inventariados conforme tipos possiveis
 pt_BR     nome do software inventariado                                                                       admin     info                Nome do software inventariado
 pt_BR     classificacao de softwares inventariados conforme softwares adiquiridos                             admin     info                Classificacao de softwares inventariados conforme softwares adiquiridos
+pt_BR     o nome da rede e obrigatorio                                                                        rede      info                O nome da rede e obrigatorio
+pt_BR     identificador do servidor de aplicacao e obrigatorio                                                rede      info                Identificador do servidor de aplicacao e obrigatorio
+pt_BR     identificador do servidor de atualizacoes e obrigatorio                                             rede      info                Identificador do servidor de atualizacoes e obrigatorio
+pt_BR     informe porta ftp do servidor de atualizacoes                                                       rede      info                Informe porta FTP do servidor de atualizacoes
+pt_BR     informe o caminho ftp no servidor de atualizacoes                                                   rede      info                Informe o caminho FTP no servidor de atualizacoes
+pt_BR     informe o usuario de acesso ftp ao servidor de atualizacoes pelo agente de coletas                  rede      info                Informe o usuario de acesso FTP ao servidor de atualizacoes pelo agente de coletas
+pt_BR     informe a senha do usuario de acesso ftp ao servidor de atualizacoes pelo agente de coletas         rede      info                Informe a senha do usuario de acesso FTP ao servidor de atualizacoes pelo agente de coletas
+pt_BR     informe o usuario de acesso ftp ao servidor de atualizacoes pelo gerente                            rede      info                Informe o usuario de acesso FTP ao servidor de atualizacoes pelo gerente
+pt_BR     informe a senha do usuario de acesso ftp ao servidor de atualizacoes pelo gerente                   rede      info                Informe a senha do usuario de acesso FTP ao servidor de atualizacoes pelo gerente
+pt_BR     inclusao de nova subrede                                                                            rede      info                Inclusao de nova subrede
+pt_BR     inclusao de nova subrede - texto de ajuda                                                           rede      info                As informações que deverão ser cadastradas abaixo referem-se a uma subrede onde serão instalados os agentes do CACIC.
+pt_BR     servidor de aplicacoes                                                                              rede      info                Servidor de aplicacoes
+pt_BR     limite ftp                                                                                          rede      info                Limite FTP
+pt_BR     usuario de acesso ftp ao servidor de atualizacoes pelo agente de coletas                            rede      info                Usuario de acesso FTP ao servidor de atualizacoes pelo agente de coletas
+pt_BR     senha de acesso                                                                                     rede      info                Senha de acesso
+pt_BR     usuario de acesso ftp ao servidor de atualizacoes pelo gerente                                      rede      info                Usuario de acesso FTP ao servidor de atualizacoes pelo gerente
+pt_BR     caminho (path) ftp no servidor de atualizacoes                                                      rede      info                Caminho (path) FTP no servidor de atualizacoes
+pt_BR     contato um                                                                                          geral     info                Contato um
+pt_BR     contato dois                                                                                        geral     info                Contato dois
+pt_BR     marcar todas as acoes para essa rede                                                                rede      info                Marcar todas as acoes para essa rede
+pt_BR     marcar todas as acoes para essa rede - texto de ajuda                                               rede      info                 Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede. Caso seja necessário algum ajuste, este poderá ser feito em Administração/Módulos.
+pt_BR     confirma inclusao de rede?                                                                          rede      info                Confirma inclusao de rede?
+pt_BR     estatisticas por                                                                                    geral      info                Estatisticas por
+pt_BR     endereco de subrede invalido!                                                                       rede      info                Endereco de subrede invalido!
+pt_BR     mascara de subrede invalida!                                                                        rede      info                Mascara de subrede invalida!
+pt_BR     atencao:                                                                                            geral     info                Atencao:
+pt_BR     com esta mascara, esta subrede atendera a faixa                                                     rede      info                Com esta mascara, esta subrede atendera a faixa
+pt_BR     confirma?                                                                                           geral     info                Confirma?
+pt_BR     atualizacoes de subredes                                                                            rede      info                Atualizacoes de subredes
+pt_BR     atualizacoes de subredes - texto de ajuda                                                           rede      info                As informações referem-se aos objetos constantes do repositório, os quais poderão ser assinalados para verificação de existência e/ou versões nas SubRedes cadastradas

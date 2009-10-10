@@ -67,10 +67,6 @@ if ($_POST['ExecutaUpdates']=='Executar Updates')
 			$v_agentes_hashs = '_-_'.$v;
 		}
 		
-	//echo 'v_updates: '.$v_updates.'<br><br>';
-	//echo 'v_redes: '.$v_redes.'<br><br>';
-	//echo 'v_force_modulos: '.$v_force_modulos.'<br><br>';
-
 	// O tratamento de v_force_modulos foi transferido para updates_subredes.php
 
 	$v_parametros = urlencode($v_updates.'_-_'.$v_redes.'_-_'.$v_force_modulos.$v_agentes_versoes.$v_agentes_hashs);
@@ -149,14 +145,11 @@ function verificar()
 <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>					
 	<table width="90%" border="0" align="center">
 	  <tr> 
-		<td class="cabecalho">Atualiza&ccedil;&atilde;o de SubRedes</td>
+		<td class="cabecalho"><?=$oTranslator->_('Atualizacoes de subredes');?></td>
 	  </tr>
 	  <tr> 
 		
-    <td class="descricao">As informa&ccedil;&otilde;es referem-se aos objetos 
-      constantes do reposit&oacute;rio, os quais poder&atilde;o ser assinalados 
-      para verifica&ccedil;&atilde;o de exist&ecirc;ncia e/ou vers&otilde;es nas 
-      SubRedes cadastradas.</td>
+    <td class="descricao"><?=$oTranslator->_('Atualizacoes de subredes - texto de ajuda');?></td>
 	  </tr>
 	</table>
 	
@@ -219,14 +212,16 @@ function verificar()
 	  
       <tr> 
         <td nowrap align="center" colspan="5" class="<? echo $v_classe; ?>"><br>
-          Conteúdo do Reposit&oacute;rio:</td>
+          <?=$oTranslator->_('Conteudo do repositorio');?></td>
       </tr>
       <tr> 
         <td colspan="5" height="1" bgcolor="#333333"></td>
       </tr>
       <tr> 
-        <td class="destaque" align="center" colspan="3" valign="middle"><input name="update_subredes" id="update_subredes" type="checkbox" onClick="MarcaDesmarcaTodos(this.form.update_subredes),MarcaIncondicional(this.form.update_subredes,'update_subredes_versoes_agentes.ini'),MarcaIncondicional(this.form.update_subredes,'force_update_subredes_versoes_agentes.ini');">  
-          &nbsp;&nbsp;Marca/Desmarca todos os objetos	    </td>
+        <td class="destaque" align="center" colspan="3" valign="middle">
+           <input name="update_subredes" id="update_subredes" type="checkbox" onClick="MarcaDesmarcaTodos(this.form.update_subredes),MarcaIncondicional(this.form.update_subredes,'update_subredes_versoes_agentes.ini'),MarcaIncondicional(this.form.update_subredes,'force_update_subredes_versoes_agentes.ini');">  
+          <?=$oTranslator->_('Marca/desmarca todos os objetos');?>
+        </td>
       </tr>
       <tr>
         <td nowrap colspan="2">&nbsp;</td>
@@ -237,16 +232,16 @@ function verificar()
       <tr> 
         <td nowrap colspan="2"><table border="1" align="center" cellpadding="2" bordercolor="#999999">
             <tr bgcolor="#FFFFCC"> 
-              <td colspan="8" class="cabecalho_tabela" align="center"><b>Agentes para MS-Windows</b></td>			  
+              <td colspan="8" class="cabecalho_tabela" align="center"><b><?=$oTranslator->_('Agentes para MS-Windows');?></b></td>			  
             </tr>
 		
             <tr bgcolor="#FFFFCC"> 
               <td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>
-              <td bgcolor="#EBEBEB" class="cabecalho_tabela">Arquivo</td>
-              <td bgcolor="#EBEBEB" class="cabecalho_tabela">Tamanho(KB)</td>
-              <td align="center" colspan="3" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Vers&atilde;o</td>
-              <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Hash</td>
-			  <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">For&ccedil;ar</td>			  
+              <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Arquivo');?></td>
+              <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Tamanho(KB)');?></td>
+              <td align="center" colspan="3" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Versao');?></td>
+              <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Hash');?></td>
+			  <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Forcar');?></td>			  
             </tr>
             <? 
 
@@ -289,7 +284,7 @@ function verificar()
 			echo ' >';
 			echo '</td>';
 			echo '<td>'.$v_nomes_arquivos[$cnt_arquivos].'</td>';										
-//			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/1024), 1, '', '.').'</td>';			
+
 			// Adequação ao resultado no Debian Etch
 			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/10240), 1, '', '.').'</td>';						
 			if (isset($v_array_versoes_agentes) && $versao_agente = $v_array_versoes_agentes[$v_nomes_arquivos[$cnt_arquivos]])
@@ -322,15 +317,15 @@ function verificar()
 	 	?>
 		<tr><td colspan="8">&nbsp;</td></tr>
            <tr bgcolor="#FFFFCC"> 
-              <td colspan="8" class="cabecalho_tabela" align="center"><b>Agentes para GNU/Linux</b></td>			  
+              <td colspan="8" class="cabecalho_tabela" align="center"><b><?=$oTranslator->_('Agentes para GNU/Linux');?></b></td>			  
             </tr>
             <tr bgcolor="#FFFFCC"> 
               <td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>
-              <td bgcolor="#EBEBEB" class="cabecalho_tabela">Arquivo</td>
-              <td bgcolor="#EBEBEB" class="cabecalho_tabela">Tamanho(KB)</td>
-              <td align="center" colspan="3" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Vers&atilde;o</td>
-			  <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">Hash</td>
-			  <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela">For&ccedil;ar</td>			  
+              <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Arquivo');?></td>
+              <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Tamanho(KB)');?></td>
+              <td align="center" colspan="3" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Versao');?></td>
+              <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Hash');?></td>
+			  <td align="center" nowrap bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Forcar');?></td>			  
             </tr>
 	 <?
 		$v_nomes_arquivos = array();	
@@ -350,7 +345,7 @@ function verificar()
 			echo '<tr>';
 			echo '<td><input name="update_subredes_'.$v_nomes_arquivos[$cnt_arquivos].'" id="update_subredes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="'.$v_nomes_arquivos[$cnt_arquivos].'"></td>';
 			echo '<td>'.$arrNomeArquivo[0].'</td>';										
-//			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/1024), 1, '', '.').'</td>';			
+
 			// Adequação ao resultado no Debian Etch
 			echo '<td align="right">'.number_format(($v_dados_arquivo[7]/10240), 1, '', '.').'</td>';						
 			
@@ -381,14 +376,14 @@ function verificar()
 		?>
 		<tr> 
 		  <td nowrap align="center" colspan="4" class="<? echo $v_classe; ?>"><br>
-        SubRedes Cadastradas:</td>
+             <?=$oTranslator->_('SubRedes Cadastradas');?></td>
 		</tr>
 		<tr> 
 		  <td colspan="4" height="1" bgcolor="#333333"></td>
 		</tr>
 			  <tr> 
 				<td class="destaque" align="center" colspan="4" valign="middle"><input name="redes" type="checkbox" id="redes" onClick="MarcaDesmarcaTodos(this.form.redes);">
-        &nbsp;&nbsp;Marca/Desmarca todas as SubRedes</td>
+				  <?=$oTranslator->_('Marcar/desmarcar todas as subRedes');?></td>
 			  </tr>
 			  <tr>
 			    <td height="10" colspan="2">&nbsp;</td>
@@ -399,25 +394,24 @@ function verificar()
 			  <tr>
 			    <td height="10" colspan="2"><table width="200" border="1" align="center">
                   <tr>
-                    <td height="10" colspan="2" nowrap><div align="center"><strong>Legenda para as SubRedes</strong></div></td>
+                    <td height="10" colspan="2" nowrap><div align="center"><strong><?=$oTranslator->_('Legenda para as SubRedes');?></strong></div></td>
                   </tr>
                   <tr>
-                    <td height="10" nowrap bordercolor="#000000" class="td_amarelo"><a style="cursor: pointer"><div align="center" onClick="MarcaDesmarcaTodaLegenda('amarelo');" title="Clique para Marcar/Desmarcar as Redes Nesta Situação" >Amarelo</div></a></td>
+                    <td height="10" nowrap bordercolor="#000000" class="td_amarelo"><a style="cursor: pointer"><div align="center" onClick="MarcaDesmarcaTodaLegenda('amarelo');" title="Clique para Marcar/Desmarcar as Redes Nesta Situação" ><?=$oTranslator->_('Amarelo');?></div></a></td>
 					
-                    <td align="left" valign="middle" nowrap class="dado_peq_sem_fundo">Exist&ecirc;ncia de <b>M&Oacute;DULO COM VERS&Atilde;O DIFERENTE</b></td>
+                    <td align="left" valign="middle" nowrap><?=$oTranslator->_('Existencia de modulo com versao diferente');?></td>
                   </tr>
                   <tr>
-                    <td height="10" nowrap bordercolor="#000000" class="td_laranja"><a style="cursor: pointer"><div align="center" onClick="MarcaDesmarcaTodaLegenda('laranja');" title="Clique para Marcar/Desmarcar as Redes Nesta Situação">Laranja</td>					
-                    <td align="left" valign="middle" nowrap class="dado_peq_sem_fundo"><span class="opcao_tabela"><b>INEXIST&Ecirc;NCIA PARCIAL</b>  de M&oacute;dulos</span></td>
+                    <td height="10" nowrap bordercolor="#000000" class="td_laranja"><a style="cursor: pointer"><div align="center" onClick="MarcaDesmarcaTodaLegenda('laranja');" title="Clique para Marcar/Desmarcar as Redes Nesta Situação"><?=$oTranslator->_('Laranja');?></td>					
+                    <td align="left" valign="middle" nowrap><span class="opcao_tabela"><?=$oTranslator->_('Inexistencia parcial de modulos');?></span></td>
                   </tr>
                   <tr>				  					  
-                    <td height="10" nowrap bordercolor="#000000" class="td_vermelho"><a style="cursor: pointer"><div align="center" onClick="MarcaDesmarcaTodaLegenda('vermelho');" title="Clique para Marcar/Desmarcar as Redes Nesta Situação">Vermelho</td>
-                    <td align="left" valign="middle" nowrap class="dado_peq_sem_fundo"><span class="opcao_tabela"><b>INEXIST&Ecirc;NCIA TOTAL</b>  de M&oacute;dulos</span></td>
+                    <td height="10" nowrap bordercolor="#000000" class="td_vermelho"><a style="cursor: pointer"><div align="center" onClick="MarcaDesmarcaTodaLegenda('vermelho');" title="Clique para Marcar/Desmarcar as Redes Nesta Situação"><?=$oTranslator->_('Vermelho');?></td>
+                    <td align="left" valign="middle" nowrap><span class="opcao_tabela"><?=$oTranslator->_('Inexistencia total de modulos');?></span></td>
                   </tr>
                 </table>
 		          <div align="center">
-		            <p>Obs.: Clique nas Cores da Legenda para  Marcar/Desmarcar  Subredes em Bloco </p>
-		            <p>&nbsp;</p>
+		            <small><?=$oTranslator->_('Dica: Clique nas Cores da legenda para marcar/desmarcar subredes em bloco');?></small>
 		          </div></td>
     </tr>
 			  
@@ -426,14 +420,14 @@ function verificar()
 		  <td nowrap colspan="4"><br>
 		  <table border="1" align="center" cellpadding="2" bordercolor="#999999">
 		    <tr bgcolor="#FFFFCC"> 
-		      <td bgcolor="#EBEBEB" class="cabecalho_tabela">Seq.</td>			
+		      <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Sequencia');?></td>			
 				  <td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>				
-				  <td bgcolor="#EBEBEB" class="cabecalho_tabela">IP</td>
+				  <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Endereco IP');?></td>
 				  
-            <td bgcolor="#EBEBEB" class="cabecalho_tabela">Nome da Subrede</td>			
-				  <td bgcolor="#EBEBEB" class="cabecalho_tabela">Serv. de Updates</td>							
-				  <td bgcolor="#EBEBEB" class="cabecalho_tabela">Path</td>											
-				  <td colspan="2" bgcolor="#EBEBEB" class="cabecalho_tabela">Localização</td>											
+            <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Nome da Subrede');?></td>			
+				  <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Servidor de atualizacoes');?></td>							
+				  <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Caminho (path) FTP');?></td>											
+				  <td colspan="2" bgcolor="#EBEBEB" class="cabecalho_tabela"><?=$oTranslator->_('Localizacao');?></td>											
 	        </tr>
 		    
 		    <? 
@@ -473,7 +467,7 @@ function verificar()
 												$where ." and loc.id_local = re.id_local
 									ORDER BY	re.id_ip_rede,
 							            		rvm.nm_modulo"; 
-			$resultALERTA = mysql_query($queryALERTA) or die('Ocorreu um erro durante a consulta à tabela de redes ou sua sessão expirou!'); 																
+			$resultALERTA = mysql_query($queryALERTA) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!',array('redes_versoes_modulos'))); 																
 			$strTripaAmarelo = '#'; // Conterá os IPS das redes cujas versões de módulos divergirem das existentes no repositório
 			$strTripaLaranja = '#'; // Conterá os IPS das redes cuja quantidade de módulos seja diferente do total de módulos disponíveis
 			$strTripaRedes   = '#'; // Conterá os IPS de todas as redes, para verificação de ausência total de módulos			
@@ -539,8 +533,9 @@ function verificar()
 					
 				}
 
-// ********************										
-		$result_redes = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela de redes ou sua sessão expirou!'); 										
+// ********************	
+									
+		$result_redes = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!',array('redes'))); 										
 		$intSequencial = 1;
 		while ($row = mysql_fetch_array($result_redes))
 			{
@@ -617,9 +612,9 @@ function verificar()
 	      </table></td></tr>
 	</table>        
 	<p align="center">
-	<br>
-	<input name="ExecutaUpdates" type="submit" id="ExecutaUpdates" value="Executar Updates"  onClick="return (verificar() && Confirma('Confirma Verificação/Atualização de SubRedes?'));" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
-	
+	<input name="ExecutaUpdates" type="submit" id="ExecutaUpdates" value="<?=$oTranslator->_('Executar atualizacoes');?>"
+	       onClick="return (verificar() && Confirma('<?=$oTranslator->_('Confirma verificacao/atualizacao de subredes?');?>'));"
+	       <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 	</p>
 	</form>		  			
 	</body>

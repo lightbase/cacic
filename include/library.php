@@ -32,7 +32,22 @@ $oTranslator->setURLPath(TRANSLATOR_PATH_URL);
 $oTranslator->setLangFilesInSubDirs(true);
 $oTranslator->initStdLanguages();
 
-//Debug($_SERVER['SCRIPT_FILENAME']);
+/**
+ * Inicializa constantes para traducao de mensagens em javascript
+ */
+function initJSTranslateConst() {
+	global $oTranslator;
+?>
+<script language=JavaScript>
+  const CACIC_JS_MSG_IP_REDE_INVALIDA = '<?=$oTranslator->_('Endereco de subrede invalido!')?>';
+  const CACIC_JS_MSG_MASCARA_REDE_INVALIDA = '<?=$oTranslator->_('Mascara de subrede invalida!')?>';
+  const CACIC_JS_MSG_ATENCAO = '<?=strtoupper($oTranslator->_('Atencao:'))?>';
+  const CACIC_JS_MSG_REDE_AVISO = '<?=$oTranslator->_('Com esta mascara, esta subrede atendera a faixa')?>';
+  const CACIC_JS_MSG_CONFIRMA = '<?=$oTranslator->_('Confirma?')?>';
+  const CACIC_JS_MSG_A = '<?=$oTranslator->_('a')?>';
+</script>
+<?php
+} // end initJSTranslateConst
 
 // --------------------------------------------------------------------------
 // Função para retorno dos nomes das colunas de hardware passível de controle

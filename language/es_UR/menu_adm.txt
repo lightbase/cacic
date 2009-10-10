@@ -19,7 +19,6 @@
 ...Tipos Softwares|admin/tipos_softwares/index.php|mainFrame||
 ...Sistemas Operativos|admin/sistemas_operacionais/index.php|mainFrame||
 ...Softwares|admin/softwares/index.php|mainFrame||
-...Softwares por Estacion|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||
 ..<b>Patrimonio</b>||mainFrame|imgs/config_gerais.gif
 ...Interface|admin/patrimonio/config_tela_patrimonio.php|mainFrame||Configuracion de la pantalla que captura Informaciones de Patrimonio
 ...U. O. Nível 1|admin/patrimonio/nivel1/index.php|mainFrame||Captura de Unidades Organizacionales de Nível 1

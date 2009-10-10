@@ -125,7 +125,7 @@ function VerRedeMascara(strFormName,boolPreencheIPs,boolConfirma)
   	var intTesteIdIpRede = TestaIP(arrIdIpRede[0],arrIdIpRede[1],arrIdIpRede[2],arrIdIpRede[3]);  	
 	if (intTesteIdIpRede > 0) 
 		{
-		alert("Endereço de Subrede Inválido!"); 
+		alert(CACIC_JS_MSG_IP_REDE_INVALIDA); 
 		frmForm.frm_id_ip_rede.select();			
 		frmForm.frm_id_ip_rede.focus();		
 		return false; 
@@ -134,7 +134,7 @@ function VerRedeMascara(strFormName,boolPreencheIPs,boolConfirma)
   	var intTesteTeMascaraRede = TestaMascara(arrTeMascaraRede[0],arrTeMascaraRede[1],arrTeMascaraRede[2],arrTeMascaraRede[3]);  		
   	if (intTesteTeMascaraRede > 0) 
 		{ 
-		alert("Máscara de Subrede Inválida!" ); 
+		alert(CACIC_JS_MSG_MASCARA_REDE_INVALIDA); 
 		frmForm.frm_te_mascara_rede.select();			
 		frmForm.frm_te_mascara_rede.focus();		
 		return false; 
@@ -159,7 +159,7 @@ function VerRedeMascara(strFormName,boolPreencheIPs,boolConfirma)
 	if (boolPreencheIPs)
 		PreencheIPs(strFormName,strIPInicio,strIPFim);
 
-	if (boolConfirma && Confirma('ATENÇÃO:\n\nCom esta máscara, esta subrede atenderá à faixa "'+ strIPInicio+'" a "'+strIPFim+'"\n\n\nConfirma?'))
+	if (boolConfirma && Confirma(CACIC_JS_MSG_ATENCAO+'\n'+CACIC_JS_MSG_REDE_AVISO+' '+ strIPInicio+' '+CACIC_JS_MSG_A+' '+strIPFim+'\n\n'+CACIC_JS_MSG_CONFIRMA))
 		{
 		PreencheIPs(strFormName,strIPInicio,strIPFim);			
 		return true;
@@ -184,16 +184,16 @@ function PreencheIPs(strFormName,strIPInicio,strIPFim)
 	
 function TestaIP(IP1, IP2, IP3, IP4) 
 	{
-  	if ((IP1 > 255) || (IP1 < 1))
+  	if ((IP1 > 255) || (IP1 < 1) || (IP1=="") || (IP1==undefined))
 		return 1;
 
-	if ((IP2 > 255) || (IP2 < 0))
+	if ((IP2 > 255) || (IP2 < 0) || (IP2=="") || (IP2==undefined))
 		return 2;
 
-	if ((IP3 > 255) || (IP3 < 0))
+	if ((IP3 > 255) || (IP3 < 0) || (IP3=="") || (IP3==undefined))
 		return 3;
 
-	if ((IP4 > 255) || (IP4 < 0))
+	if ((IP4 > 255) || (IP4 < 0) || (IP4=="") || (IP4==undefined))
 		return 4;
 		
   	return 0;
@@ -201,16 +201,16 @@ function TestaIP(IP1, IP2, IP3, IP4)
 	
 function TestaMascara(IP1, IP2, IP3, IP4) 
 	{
-  	if ((IP1 > 255) || (IP1 < 0)) 
+  	if ((IP1 > 255) || (IP1 < 0) || (IP1=="") || (IP1==undefined)) 
 		return 1;
 		
-  	if ((IP2 > 255) || (IP2 < 0))
+  	if ((IP2 > 255) || (IP2 < 0) || (IP2=="") || (IP2==undefined))
 		return 2;
 		
-	if ((IP3 > 255) || (IP3 < 0)) 
+	if ((IP3 > 255) || (IP3 < 0) || (IP3=="") || (IP3==undefined)) 
 		return 3;
 		
-  	if ((IP4 > 255) || (IP4 < 0))
+  	if ((IP4 > 255) || (IP4 < 0) || (IP4=="") || (IP4==undefined))
 		return 4;
 		
   	var IPX =5;
