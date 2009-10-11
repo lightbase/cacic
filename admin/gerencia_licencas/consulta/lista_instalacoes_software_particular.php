@@ -21,6 +21,7 @@ if(!isset($_SESSION['id_usuario']))
   die('Acesso restrito (Restricted access)!');
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
+require_once('../../../include/library.php');
 
 $v_id_software = $_GET['id_software'];
 ?>
@@ -67,7 +68,6 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <br>
 <? 
-require_once('../../../include/library.php');
 conecta_bd_cacic();
 	
 	$query = "SELECT s.nm_software, COUNT(se.id_software) 

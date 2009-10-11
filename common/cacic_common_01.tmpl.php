@@ -25,6 +25,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 	<link href="{CACIC_URL}/include/cacic.css" rel="stylesheet" type="text/css" />
 	<link href="{CACIC_URL}/common/cacic_common_01.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript" type="text/javascript" src="{CACIC_URL}/include/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="{CACIC_URL}/common/cacic_common_01.js"></script>
 	<script language="JavaScript" type="text/javascript" src="{CACIC_URL}/bibliotecas/javascript/asv/asvAjax.js"></script>
 	<script language="JavaScript" type="text/javascript" src="{CACIC_URL}/bibliotecas/javascript/asv/asvUtils.js"></script>
 </head>

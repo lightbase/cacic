@@ -15,12 +15,6 @@
 // valor de retorno global
 var g_resp = true;
 
-function isInt(x) {
-   var y=parseInt(x);
-   if (isNaN(y)) return false;
-   return x==y && x.toString()==y.toString();
-} 
- 
 function validaTipoLicenca(_msg) {
     var resp = true;
     if((document.CacicCommon_form.id_tipo_licenca.value=="") || (document.CacicCommon_form.id_tipo_licenca.value.substring(0,1)==" ")){

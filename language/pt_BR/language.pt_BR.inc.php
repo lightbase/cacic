@@ -1082,3 +1082,34 @@ pt_BR     com esta mascara, esta subrede atendera a faixa                       
 pt_BR     confirma?                                                                                           geral     info                Confirma?
 pt_BR     atualizacoes de subredes                                                                            rede      info                Atualizacoes de subredes
 pt_BR     atualizacoes de subredes - texto de ajuda                                                           rede      info                As informações referem-se aos objetos constantes do repositório, os quais poderão ser assinalados para verificação de existência e/ou versões nas SubRedes cadastradas
+pt_BR     cadastro de processos de aquisicoes                                                                 admin     info                Cadastro de Processos de Aquisicoes
+pt_BR     controle de processos de aquisicoes                                                                 admin     info                Controle de processos de aquisicoes
+pt_BR     nome da empresa                                                                                     admin     info                Nome da empresa
+pt_BR     nome do proprietario                                                                                admin     info                Nome do proprietario
+pt_BR     nota fiscal                                                                                         admin     info                Nota Fiscal
+pt_BR     data de aquisicao                                                                                   admin     info                Data de aquisicao
+pt_BR     informe numero da nota fiscal                                                                       admin     info                Informe numero da nota fiscal
+pt_BR     informe nome do proprietario                                                                        admin     info                Informe nome do proprietario
+pt_BR     informe nome da empresa                                                                             admin     info                Informe nome da empresa
+pt_BR     marca/desmarca todos os objetos                                                                     admin     info                Marca/desmarca todos os objetos
+pt_BR     agentes para ms-windows                                                                             admin     info                Agentes para MS-Windows
+pt_BR     hash                                                                                                admin     info                Hash
+pt_BR     forcar                                                                                              admin     info                Forcar
+pt_BR     agentes para gnu/linux                                                                              admin     info                Agentes para GNU/Linux
+pt_BR     subredes cadastradas                                                                                admin     info                SubRedes Cadastradas
+pt_BR     marcar/desmarcar todas as subredes                                                                  admin     info                Marcar/desmarcar todas as subRedes
+pt_BR     legenda para as subredes                                                                            admin     info                Legenda para as SubRedes
+pt_BR     amarelo                                                                                             admin     info                Amarelo
+pt_BR     existencia de modulo com versao diferente                                                           admin     info                Existencia de modulo com versao diferente
+pt_BR     laranja                                                                                             admin     info                Laranja
+pt_BR     inexistencia parcial de modulos                                                                     admin     info                Inexistencia parcial de modulos
+pt_BR     vermelho                                                                                            admin     info                Vermelho
+pt_BR     inexistencia total de modulos                                                                       admin     info                Inexistencia total de modulos
+pt_BR     dica: clique nas cores da legenda para marcar/desmarcar subredes em bloco                           admin     info                Dica: Clique nas Cores da legenda para marcar/desmarcar subredes em bloco
+pt_BR     sequencia                                                                                           admin     info                Sequencia
+pt_BR     nome da subrede                                                                                     admin     info                Nome da Subrede
+pt_BR     servidor de atualizacoes                                                                            admin     info                Servidor de atualizacoes
+pt_BR     caminho (path) ftp                                                                                  admin     info                Caminho (path) FTP
+pt_BR     localizacao                                                                                         admin     info                Localizacao
+pt_BR     executar atualizacoes                                                                               admin     info                Executar atualizacoes
+pt_BR     confirma verificacao/atualizacao de subredes?                                                       admin     info                Confirma verificacao/atualizacao de subredes?

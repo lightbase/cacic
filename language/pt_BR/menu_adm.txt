@@ -27,7 +27,7 @@
 ...U. O. Nível 2|admin/patrimonio/nivel2/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 2
 ...Opções|admin/patrimonio/opcoes.php|mainFrame||Opções da coleta de Informações de Patrimônio e Localização Física
 ..<b>Gerencia Aquisições</b>||mainFrame||Controle de softwares e licenças
-...Aquisições|admin/gerencia_licencas/arquivo/index.php|mainFrame||Processos de aquisições de softwares
+...Aquisições|admin/gerencia_licencas/aquisicoes.php|mainFrame||Cadatro de processos de aquisições de softwares
 ...Itens adiquiridos|admin/gerencia_licencas/aquisicoes_itens.php|mainFrame||Itens adiquiridos por processos de aquisições de softwares
 ...Softwares por Esta&ccedil;&atilde;o|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||Softwares autorizados por estação
 ...Tipos de Licença|admin/gerencia_licencas/tipos_licenca.php|mainFrame||Controle de tipos de licenças

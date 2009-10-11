@@ -228,7 +228,7 @@ a.dcontexto:hover span
 .frameprincipal .inputFocus {
 	text-align: left;
 	vertical-align: top;
-	background-color: yellow;
+	background-color: #CCCCCC;
 }
 
 .frameprincipal .inputError {
