@@ -1113,3 +1113,15 @@ pt_BR     caminho (path) ftp                                                    
 pt_BR     localizacao                                                                                         admin     info                Localizacao
 pt_BR     executar atualizacoes                                                                               admin     info                Executar atualizacoes
 pt_BR     confirma verificacao/atualizacao de subredes?                                                       admin     info                Confirma verificacao/atualizacao de subredes?
+pt_BR     cadastro de software por estacao                                                                    admin     info                Cadastro de Software por Estacao
+pt_BR     controle de software por estacao                                                                    admin     info                Controle de software por estacao
+pt_BR     data de autorizacao                                                                                 admin     info                Data de autorizacao
+pt_BR     patrimonio de destino                                                                               admin     info                Patrimonio de destino
+pt_BR     data de expiracao                                                                                   admin     info                Data de expiracao
+pt_BR     data de desinstalacao                                                                               admin     info                Data de desinstalacao
+pt_BR     data de autorizacao da instalacao                                                                   admin     info                Data de autorizacao da instalacao
+pt_BR     data de expiracao da instalacao                                                                     admin     info                Data de expiracao da instalacao
+pt_BR     data de desinstalacao do software do computador                                                     admin     info                Data de desinstalacao do software do computador
+pt_BR     informe computador                                                                                  admin     info                Informe computador
+pt_BR     informe patrimonio                                                                                  admin     info                Informe patrimonio
+pt_BR     software por estacao                                                                                admin     info                software por estacao

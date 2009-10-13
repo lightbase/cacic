@@ -342,6 +342,21 @@ a.dcontexto:hover span
     color: #f6bf01;
 }
 
+.Help {
+    padding: 00 10px 10 0px;
+    font-weight: bold;
+    font-size: 12px;
+    color: #9eaef3;
+}
+
+.HelpImg {
+    background: url('../imgs/question.png') 100% 0 no-repeat;
+    padding: 00 10px 10 0px;
+    font-weight: bold;
+    font-size: 12px;
+    color: #9eaef3;
+}
+
 .necessario {
     padding: 0px 02px 0px 0px;
     color: red;

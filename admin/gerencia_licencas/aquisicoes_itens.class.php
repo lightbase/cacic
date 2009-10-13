@@ -21,12 +21,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  */
  include_once('common/cacic_common.class.php');
  
-/*
- * 
- */
- unset($g_tipos_licenca);
 /**
- * Implementa controle de tipos de licença
+ * Implementa controle de itens adquiridos
  */
  class Tipos_Licenca extends Cacic_Common {
  	

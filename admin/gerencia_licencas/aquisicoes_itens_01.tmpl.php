@@ -156,7 +156,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		  		              onFocus="setClass(this, 'inputFocus');" 
 		  		              onBlur="setClass(this, 'input');" />{OBSERVACAO}</textarea>
 		  		            
-		  		    <span class="erro" id="error_data_vencimento"></span>
+		  		    <span class="erro" id="error_observacao"></span>
 		  		   </td>
 		  		  </tr>
 		  		  </table>

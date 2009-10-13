@@ -29,7 +29,7 @@
 ..<b>Gerencia Aquisições</b>||mainFrame||Controle de softwares e licenças
 ...Aquisições|admin/gerencia_licencas/aquisicoes.php|mainFrame||Cadastro de processos de aquisições de softwares
 ...Itens adiquiridos|admin/gerencia_licencas/aquisicoes_itens.php|mainFrame||Itens adiquiridos por processos de aquisições de softwares
-...Softwares por Esta&ccedil;&atilde;o|admin/gerencia_licencas/arquivo/cadastros/frmSoftwaresEstacao.php|mainFrame||Softwares autorizados por estação
+...Softwares por Esta&ccedil;&atilde;o|admin/gerencia_licencassoftware_estacao.php|mainFrame||Softwares autorizados por estação
 ...Tipos de Licença|admin/gerencia_licencas/tipos_licenca.php|mainFrame||Controle de tipos de licenças
 ...Classificar Softwares|admin/gerencia_licencas/softwares_classificar.php|mainFrame||Classificar Softwares adiquiridos X inventariados
 .<b>Maintenance</b>||mainFrame|imgs/config_gerais.gif

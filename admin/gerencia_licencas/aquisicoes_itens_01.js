@@ -25,7 +25,6 @@ function validaTipoLicenca(_msg) {
     }
     else {
         document.getElementById('error_id_tipo_licenca').innerHTML="";
-        g_resp = true;
     }
     return resp;
 }
@@ -40,7 +39,6 @@ function validaAquisicao(_msg) {
     }
     else {
         document.getElementById('error_id_aquisicao').innerHTML="";
-        g_resp = true;
     }
     return resp;
 }
@@ -55,7 +53,6 @@ function validaSoftware(_msg) {
     }
     else {
         document.getElementById('error_id_software').innerHTML="";
-        g_resp = true;
     }
     return resp;
 }
@@ -76,7 +73,6 @@ function validaQtdeLicenca(_msg) {
     }
     else {
         document.getElementById('error_qtde_licenca').innerHTML="";
-        g_resp = true;
     }
     return resp;
 }
@@ -91,12 +87,12 @@ function validaDataVencimento(_msg) {
     }
     else {
         document.getElementById('error_data_vencimento').innerHTML="";
-        g_resp = true;
     }
     return resp;
 }
 
 function validaForm(_msg) {
+    g_resp = true;
 	validaTipoLicenca(_msg);
 	validaAquisicao(_msg);
 	validaSoftware(_msg);
