@@ -213,7 +213,7 @@ if ($_POST['consultar']) {
 	  echo '<tr><td colspan=16 align=center>'.$oTranslator->_('Historico').'</td></tr>';
         } ?>
         <tr <? 
-		if ($Cor) { echo 'bgcolor="#C0C0C0"'; } else echo 'bgcolor="#000000"'; 		
+		if ($Cor) { echo 'bgcolor="#C0C0C0"'; } else echo 'bgcolor="#CCCCCC"'; 		
 		?>> 
           <td nowrap>&nbsp;</td>
           <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
@@ -235,7 +235,7 @@ if ($_POST['consultar']) {
 	  <td nowrap class="opcao_tabela"><div align="center">
 		<? if ($row['id_aquisicao_particular'])  
 			echo "<a href='softwares_aquisicao.php?id_aquisicao=" . $row['id_aquisicao_particular'] . "' target='_blank'>SIM</a>"; 
-                   else  echo $oTranslator('kciq_msg no'); 
+                   else  echo $oTranslator->_('kciq_msg no'); 
 		?> 
 	  </div></td>
           <td nowrap>&nbsp;</td>

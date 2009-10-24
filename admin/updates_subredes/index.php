@@ -21,7 +21,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 2 - Gestão Central
 // 3 - Supervisão
 
-if ($_POST['ExecutaUpdates']=='Executar Updates')
+if (isset($_POST['ExecutaUpdates']))
 	{				
 	// Enviarei também ao updates_subredes.php uma relação de agentes e versões para inserção na tabela redes_versoes_modulos, no caso da ocorrência de Servidor de Updates verificado anteriormente.
 	// Exemplo de estrutura de agentes_versoes: col_soft.exe#22010103*col_undi.exe#22010103
