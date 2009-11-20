@@ -23,9 +23,10 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 require_once('../../include/library.php');
-AntiSpy('1,2'); // Permitido somente a estes cs_nivel_administracao...
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 1 - Administração
 // 2 - Gestão Central
+// 3 - Supervisão
 
 conecta_bd_cacic();
 if ($submit) 

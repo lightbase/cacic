@@ -110,6 +110,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 		$arrUsuarios = getValores('usuarios','id_usuario,
 								  			  nm_usuario_completo,
 											  id_local,
+											  id_grupo_usuarios,
 											  te_locais_secundarios,
 											  te_emails_contato','nm_usuario_acesso = "'.$nm_usuario_cli.'" AND
 							        		  te_senha = PASSWORD("'.$te_senha_cli.'")');
@@ -117,7 +118,10 @@ if ($te_palavra_chave == $strTePalavraChave)
 			{			
 			$boolIdLocal = stripos2(trim($arrUsuarios['te_locais_secundarios']),$arrComputadores['id_local'],false);
 
-			if ($arrUsuarios['id_local'] == $arrComputadores['id_local'] || $boolIdLocal)
+			// Caso o usuario tenha como local primario o local do computador ou
+			// Caso o usuario seja do nivel "Administracao" ou
+			// Caso o usuario tenha como local secundario o local do computador.
+			if ($arrUsuarios['id_local'] == $arrComputadores['id_local'] ||$arrUsuarios['id_grupo_usuarios'] == '2' || $boolIdLocal)
 				{								
 				$id_sessao	  			   = DeCrypt($key,$iv,$_POST['id_sessao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 							
 				$id_usuario_cli 	   		= $arrUsuarios['id_usuario'];
@@ -170,7 +174,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 				$retorno_xml_values .= '<NM_USUARIO_COMPLETO>'	.EnCrypt($key,$iv,trim($arrUsuarios['nm_usuario_completo']),$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	.'</NM_USUARIO_COMPLETO>';								
 				$retorno_xml_values .= '<DT_HR_INICIO_SESSAO>'	.EnCrypt($key,$iv,$dt_hr_inicio_sessao			   ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)			.'</DT_HR_INICIO_SESSAO>';												
 				$retorno_xml_values .= '<ID_CONEXAO>'			.EnCrypt($key,$iv,$row_CONEXAO['id_conexao']	   ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)			.'</ID_CONEXAO>';																
-
+		
 				if ($arrUsuarios['te_emails_contato'] <> '')
 					{
 					$strTeNomeComputador = $arrComputadores['te_nome_computador'];				

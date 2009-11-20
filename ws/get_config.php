@@ -456,7 +456,8 @@ $retorno_xml_values .= '<NU_PORTA_SERV_UPDATES>'         . EnCrypt($key,$iv,$v_d
 $retorno_xml_values .= '<TE_PATH_SERV_UPDATES>'          . EnCrypt($key,$iv,$v_dados_rede['te_path_serv_updates']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_PATH_SERV_UPDATES>';			
 $retorno_xml_values .= '<NM_USUARIO_LOGIN_SERV_UPDATES>' . EnCrypt($key,$iv,$v_dados_rede['nm_usuario_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</NM_USUARIO_LOGIN_SERV_UPDATES>';	
 $retorno_xml_values .= '<TE_SENHA_LOGIN_SERV_UPDATES>'   . EnCrypt($key,$iv,$v_dados_rede['te_senha_login_serv_updates']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</TE_SENHA_LOGIN_SERV_UPDATES>';
-$retorno_xml_values .= '<CS_PERMITIR_DESATIVAR_SRCACIC>' . EnCrypt($key,$iv,$v_dados_rede['cs_permitir_desativar_srcacic']        ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</CS_PERMITIR_DESATIVAR_SRCACIC>';
+$retorno_xml_values .= '<CS_PERMITIR_DESATIVAR_SRCACIC>' . EnCrypt($key,$iv,$v_dados_rede['cs_permitir_desativar_srcacic']  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</CS_PERMITIR_DESATIVAR_SRCACIC>';
+$retorno_xml_values .= '<ID_LOCAL>' 					 . EnCrypt($key,$iv,$v_dados_rede['id_local']        				,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</ID_LOCAL>';
 
 // --------------- Retorno de Classificador de CRIPTOGRAFIA --------------- //
 if ($v_cs_cipher <> '1') $v_cs_cipher --;	

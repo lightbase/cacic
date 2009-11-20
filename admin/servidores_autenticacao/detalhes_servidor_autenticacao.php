@@ -25,12 +25,11 @@ AntiSpy('1,2'); // Permitido somente a estes cs_nivel_administracao...
 conecta_bd_cacic();
 
 
-if ($_POST['ExcluiServidorAutencicacao'] <> '' && $_SESSION['cs_nivel_administracao']==1) 
+if ($_POST['ExcluiServidorAutenticacao'] <> '' && $_SESSION['cs_nivel_administracao']==1) 
 	{
 	$query = "UPDATE 	servidores_autenticacao 
 			  SET 		in_ativo = 'N'
 			  WHERE 	id_servidor_autenticacao = ".$_POST['frm_id_servidor_autenticacao'];
-
 	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
 	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'servidores_autenticacao');		
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/servidores_autenticacao/index.php&tempo=1");				
@@ -200,7 +199,7 @@ else
     </tr>
     <tr>
       <td class="label"><p><br>
-        Atributo para Identifica&ccedil;&atilde;o: <span class="normal style2">(Ex.: &quot;uniqueID&quot;</span><span class="normal style2">)</span></p></td>
+          Atributo para Identifica&ccedil;&atilde;o: <span class="normal style2">(Ex.: &quot;uniqueID&quot;</span><span class="normal style2">)</span></p></td>
       <td>&nbsp;</td>
     </tr>
     <tr>

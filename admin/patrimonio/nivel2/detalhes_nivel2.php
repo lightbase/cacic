@@ -323,10 +323,15 @@ else
 		
 	  <?
 	  $v_frase = "Confirma('".$oTranslator->_('Confirma Informacoes para')." ".$_SESSION['etiqueta2']."?')";
-	  ?>
-	  <input name="gravainformacaoUON2" type="submit" value="<?=$oTranslator->_('Gravar Informacoes');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'');?>  onClick="return <? echo $v_frase;?>">
+	  if ($_SESSION['cs_nivel_administracao'] == 1)
+			{
+			?>	  
+ 	 		<input name="gravainformacaoUON2" type="submit" value="<?=$oTranslator->_('Gravar Informacoes');?>" onClick="return <? echo $v_frase;?>">
 	&nbsp; &nbsp; 		  
-      <input name="exclui_uon2" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon2" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'');?>>
+      <input name="exclui_uon2" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon2" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta2'];?>">
+      	<?
+        }
+        ?>
 		
 	  </p>
 	</form>

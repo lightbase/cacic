@@ -373,7 +373,7 @@ function formButtons() {
 			  <input name="id_local_anterior"  type="hidden" id="id_local_anterior" value="<? echo $id_local_anterior; ?>">
 			  <input name="id_local"  type="hidden" id="id_local" value="<? echo $_GET['id_local']; ?>">            </td>
             <td nowrap><select name="frm_id_servidor_autenticacao" id="frm_id_servidor_autenticacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                <option value="" selected></option>
+                <option value="0" selected></option>
                 <?
 			  
 		$qry_servidor_autenticacao = "SELECT 		id_servidor_autenticacao, 

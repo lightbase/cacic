@@ -41,6 +41,9 @@ $boolAgenteLinux 	= (trim(DeCrypt($key,$iv,$_POST['AgenteLinux'],$v_cs_cipher,$v
 // Para agilizar o processo de verificação da versão...
 $te_versao_mapa		= DeCrypt($key,$iv,$_POST['te_versao_mapa']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 
+// Diferenciar entre operação de Autenticação e de Acesso
+$te_operacao		= DeCrypt($key,$iv,$_POST['te_operacao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+
 $retorno_xml_header = '<?xml version="1.0" encoding="iso-8859-1" ?><STATUS>OK</STATUS><' .'CONFIGS>'; //(?? Deve ser coisa do Macromedia DreamWeaver... - Anderson Peterle)
 $retorno_xml_values	 = '';
 
@@ -56,28 +59,28 @@ if ($te_versao_mapa <> '')
 		}
 	}
 
-if ($boolVersaoCorreta)
+if ($boolVersaoCorreta && $te_operacao == 'Autentication')
 	{
 	// Autenticação do agente MapaCacic.exe:
 	autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress,$strPaddingKey);
 	// Essa condição testa se a chamada trouxe o valor de cs_mapa-cacic, enviado por MapaCacic.exe
 	if (trim(DeCrypt($key,$iv,$_POST['cs_MapaCacic'],$v_cs_cipher,$v_cs_compress,$strPaddingKey))=='S')
 		{	
+		// Foi retirada a obrigatoriedade de Nível "Técnico" em Outubro/2009
 		$v_dados_rede = getDadosRede();	
 		conecta_bd_cacic();
 		$qry_usuario = "SELECT 	a.id_usuario,
 								a.nm_usuario_completo,
-								b.id_grupo_usuarios
+								a.id_local,
+								a.te_locais_secundarios,
+								c.sg_local
 						FROM 	usuarios a, 
-								grupo_usuarios b, 
 								locais c
-						WHERE 	a.id_grupo_usuarios = b.id_grupo_usuarios AND
-								b.id_grupo_usuarios = 7 AND
-								a.nm_usuario_acesso = '". trim(DeCrypt($key,$iv,$_POST['nm_acesso'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) ."' AND 
+						WHERE 	a.nm_usuario_acesso = '". trim(DeCrypt($key,$iv,$_POST['nm_acesso'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) ."' AND 
 								a.id_local = c.id_local AND 
 								a.te_senha = ";
 								//SHA1('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress)) ."')";
-								
+
 		// Solução temporária, até total convergência para versões 4.0.2 ou maior de MySQL 
 		// Anderson Peterle - Dataprev/ES - 04/09/2006
 		$v_AUTH_SHA1 	 = " SHA1('". trim(DeCrypt($key,$iv,$_POST['te_senha'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) ."')";
@@ -100,10 +103,11 @@ if ($boolVersaoCorreta)
 			{
 			$row = mysql_fetch_array($result_qry_usuario);
 			$retorno_xml_values .= '<ID_USUARIO>'.EnCrypt($key,$iv,$row['id_usuario'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_USUARIO>';								
-			$retorno_xml_values .= '<NM_USUARIO_COMPLETO>'.EnCrypt($key,$iv,$row['nm_usuario_completo'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_USUARIO_COMPLETO>';										
+			$retorno_xml_values .= '<NM_USUARIO_COMPLETO>'.EnCrypt($key,$iv,$row['nm_usuario_completo'].' ('.$row['sg_local'].')',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_USUARIO_COMPLETO>';										
 			$_SESSION['id_usuario'] = $row['id_usuario'];		
 			GravaLog('ACE',$_SERVER['SCRIPT_NAME'],'acesso');						
 			}
+
 		}
 	}
 $retorno_xml = $retorno_xml_header . $retorno_xml_values . "</CONFIGS>";  

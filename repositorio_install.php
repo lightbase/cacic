@@ -85,7 +85,7 @@ require_once('include/selecao_listbox.js');
     <tr> 
       <td class="label"> 
         &nbsp; &nbsp;<br>
-        <a href="<? echo $path_relativo_repositorio_instalacao;?>/chkcacic.exe">ChkCACIC -  Instalador de Agentes CACIC em plataforma MS-Windows <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['chkcacic.exe'];?>  ~  270K)</span></span></a></td>
+        <a href="<? echo $path_relativo_repositorio_instalacao;?>/chkcacic.exe">ChkCACIC -  Instalador para plataformas MS-Windows <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes['chkcacic.exe'];?>  ~  270K)</span></span></a></td>
     </tr>
     
 	  
@@ -104,7 +104,7 @@ require_once('include/selecao_listbox.js');
     <tr> 
       <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/PyCACIC-<? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>-Debian.deb">PyCACIC (DEBIAN) - Instalador de Agentes CACIC em plataforma GNU/Linux - Distros Debian <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>  ~  800K)</span></span></a> </td>
+            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/PyCACIC-<? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>-Debian.deb">PyCACIC (DEBIAN) - Instalador em plataforma GNU/Linux - Distros Debian <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>  ~  800K)</span></span></a> </td>
           </tr>
     <tr> 
       <td>&nbsp;</td>
@@ -120,7 +120,7 @@ require_once('include/selecao_listbox.js');
     <tr> 
       <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/PyCACIC-<? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>-RedHat.rpm">PyCACIC (RedHat) - Instalador de Agentes CACIC em plataforma GNU/Linux - Distros RedHat <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>  ~  800K)</span></span></a> </td>
+            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/PyCACIC-<? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>-RedHat.rpm">PyCACIC (RedHat) - Instalador plataforma GNU/Linux - Distros RedHat <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>  ~  800K)</span></span></a> </td>
           </tr>
     <tr> 
       <td>&nbsp;</td>
@@ -136,7 +136,7 @@ require_once('include/selecao_listbox.js');
     <tr> 
       <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/PyCACIC-<? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>-Generic.tar.gz">PyCACIC (Generic) - Instalador de Agentes CACIC em plataforma GNU/Linux - Distros Genéricas <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>  ~  800K)</span></span></a> </td>
+            <td class="label"><a href="<? echo $path_relativo_repositorio_instalacao;?>/PyCACIC-<? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>-Generic.tar.gz">PyCACIC (Generic) - Instalador em plataforma GNU/Linux - Distros Genéricas <span class="style2"><span class="style6">(versão <? echo $v_array_versoes_agentes_LINUX['PyCACIC'];?>  ~  800K)</span></span></a> </td>
           </tr>
     <tr> 
       <td>&nbsp;</td>

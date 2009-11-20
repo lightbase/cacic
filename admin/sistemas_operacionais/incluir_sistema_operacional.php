@@ -39,18 +39,18 @@ if($_REQUEST['submit'])
 		}
 	else 
 		{
-		$v_qt_licenca = ($_REQUEST['frm_qt_licenca']?$_REQUEST['frm_qt_licenca']:'0');
 		$query = "INSERT 
 				  INTO 		so 
 				  			(id_so,
 							 te_desc_so, 
 							 sg_so, 
-							 te_so) 
+							 te_so,
+							 in_mswindows) 
 				 VALUES 	(".	$_REQUEST['frm_id_so'].",'".
 				 				$_REQUEST['frm_te_desc_so']."','".
 				 				$_REQUEST['frm_sg_so']."','".
-								$_REQUEST['frm_te_so']."')"; 
-
+								$_REQUEST['frm_te_so']."','".
+								$_REQUEST['frm_in_mswindows']."')"; 
 		$result = mysql_query($query) or die ('Insert so falhou ou sua sessão expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'so');
 
@@ -131,7 +131,7 @@ MM_reloadPage(true);
       <td bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td><input name="frm_te_desc_so" type="text" size="50" maxlength="50"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td><input name="frm_te_desc_so" type="text" id="frm_te_desc_so" size="50" maxlength="50"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
       </td>
       <td><input name="frm_sg_so" type="text" id="frm_sg_so" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
     </tr>
@@ -147,10 +147,25 @@ MM_reloadPage(true);
       <td height="1" bgcolor="#333333"></td>
       <td bgcolor="#333333"></td>
     </tr>
-    <tr> 
-      <td nowrap><input name="frm_te_so" type="text" class="normal" id="frm_te_so3" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" size="50" maxlength="50"></td>
-      <td nowrap><input name="frm_id_so" type="text" id="frm_te_so" size="50" maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
+	<tr> 
+	<td nowrap><input name="frm_te_so" type="text" id="frm_te_so" size="50" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
+      <td nowrap><input name="frm_id_so" type="text" class="normal" id="frm_id_so" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" size="50" maxlength="11"></td>
     </tr>
+    <tr>
+      <td nowrap>&nbsp;</td>
+      <td nowrap>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td height="1" bgcolor="#333333"></td>
+      <td bgcolor="#333333"></td>
+    </tr>
+	
+    <tr>
+      <td nowrap class="label"><div align="left"><input type="checkbox" name="frm_in_mswindows" id="frm_in_mswindows" value="S" <? if ($row['in_mswindows']=='S') echo 'checked';?>>
+      Sistema Operacional MS-Windows</div></td>
+      <td nowrap>&nbsp;</td>
+    </tr>
+
   </table>
   <p align="center"> 
     <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  "  onClick="return valida_form();return Confirma('Confirma Inclusão de Sistema Operacional?');">

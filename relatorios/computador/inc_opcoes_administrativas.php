@@ -47,13 +47,12 @@ else
    		<td nowrap class="opcao_tabela"><a href="../../admin/forca_coleta_estacao.php?te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>&te_nome_computador=<? echo mysql_result($result, 0, "te_nome_computador");?>"><?=$oTranslator->_('Forcar coletas');?></a>&nbsp;&nbsp;&nbsp;</td>
 		<?
 		if ($_SESSION["cs_nivel_administracao"] == 1 ||
-			//$_SESSION["cs_nivel_administracao"] == 2 ||
+			$_SESSION["cs_nivel_administracao"] == 2 ||
 			$_SESSION["cs_nivel_administracao"] == 3)			
 			{
 			?>
     		<td align="left" valign="middle" class="opcao_tabela"><a href="../../admin/remove_computador.php?te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"><img src="../../imgs/exclui_computador.gif" width="24" height="24" border="0"></a></td>
-    		<td nowrap class="opcao_tabela">
-    		   <a href="../../admin/remove_computador.php?te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so'];?>"><?=$oTranslator->_('Remover computador');?></a></td>
+    		<td nowrap class="opcao_tabela"><a href="../../admin/remove_computador.php?te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so'];?>"><?=$oTranslator->_('Remover computador');?></a></td>
 			<?
 			}
 			?>		

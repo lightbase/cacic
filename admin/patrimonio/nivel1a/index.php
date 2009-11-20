@@ -96,8 +96,13 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta1a'];
 <br><table width="292" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
-
-          <input name="incluirUON1a" type="submit" id="incluirUON1a" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta1a'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+			<? if ($_SESSION['cs_nivel_administracao'] == 1)
+			{
+			?>
+          <input name="incluirUON1a" type="submit" id="incluirUON1a" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta1a'];?>">
+          <?
+		  }
+		  ?>
 
         
       </div></td>
@@ -165,9 +170,14 @@ else {
   </tr>
   <tr> 
     <td><div align="center">
+			<? if ($_SESSION['cs_nivel_administracao'] == 1)
+			{
+			?>
 
           <input name="incluirUON1a" type="submit" id="incluirUON1a" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta1a'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
-
+			<?
+			}
+			?>
         
       </div></td>
   </tr>

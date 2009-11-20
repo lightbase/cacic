@@ -199,16 +199,17 @@ $result = mysql_query($query);
 if (count($result)>0)
 	{
 	$valores = mysql_fetch_array($result);
-	$retorno_xml .= '<ID_UON1a>'	.EnCrypt($key,$iv,$valores['id_unid_organizacional_nivel1a'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_UON1a>';		
-	$retorno_xml .= '<ID_UON2>'		.EnCrypt($key,$iv,$valores['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_UON2>';		
-	$retorno_xml .= '<ID_LOCAL>'	.EnCrypt($key,$iv,$valores['id_local']						,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_LOCAL>';			
-	$retorno_xml .= '<TE_LOC_COMPL>'.EnCrypt($key,$iv,$valores['te_localizacao_complementar']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_LOC_COMPL>';			
-	$retorno_xml .= '<TE_INFO1>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio1']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO1>';				
-	$retorno_xml .= '<TE_INFO2>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio2']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO2>';				
-	$retorno_xml .= '<TE_INFO3>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio3']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO3>';				
-	$retorno_xml .= '<TE_INFO4>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio4']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO4>';				
-	$retorno_xml .= '<TE_INFO5>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio5']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO5>';				
-	$retorno_xml .= '<TE_INFO6>'	.EnCrypt($key,$iv,$valores['te_info_patrimonio6']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO6>';									
+	$retorno_xml .= '<ID_UON1a>'		.EnCrypt($key,$iv,$valores['id_unid_organizacional_nivel1a'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_UON1a>';		
+	$retorno_xml .= '<ID_UON2>'			.EnCrypt($key,$iv,$valores['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_UON2>';		
+	$retorno_xml .= '<ID_LOCAL>'		.EnCrypt($key,$iv,$valores['id_local']						,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_LOCAL>';			
+	$retorno_xml .= '<TE_LOC_COMPL>'	.EnCrypt($key,$iv,$valores['te_localizacao_complementar']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_LOC_COMPL>';			
+	$retorno_xml .= '<TE_INFO1>'		.EnCrypt($key,$iv,$valores['te_info_patrimonio1']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO1>';				
+	$retorno_xml .= '<TE_INFO2>'		.EnCrypt($key,$iv,$valores['te_info_patrimonio2']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO2>';				
+	$retorno_xml .= '<TE_INFO3>'		.EnCrypt($key,$iv,$valores['te_info_patrimonio3']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO3>';				
+	$retorno_xml .= '<TE_INFO4>'		.EnCrypt($key,$iv,$valores['te_info_patrimonio4']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO4>';				
+	$retorno_xml .= '<TE_INFO5>'		.EnCrypt($key,$iv,$valores['te_info_patrimonio5']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO5>';				
+	$retorno_xml .= '<TE_INFO6>'		.EnCrypt($key,$iv,$valores['te_info_patrimonio6']			,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</TE_INFO6>';									
+	$retorno_xml .= '<DT_HR_ALTERACAO>'	.EnCrypt($key,$iv,$valores['dt_hr_alteracao']				,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</DT_HR_ALTERACAO>';										
 	}
 
 $retorno_xml .= '</CONFIGS>';

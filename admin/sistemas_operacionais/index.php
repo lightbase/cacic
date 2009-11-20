@@ -88,6 +88,8 @@ $msg = '<div align="center">
             <td align="center"  nowrap>&nbsp;</td>
             <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=te_desc_so">Descri&ccedil;&atilde;o</a></div></td>
             <td align="center"  nowrap>&nbsp;</td>
+	<td nowrap class="cabecalho_tabela"><div align="center"><a href="index.php?cs_ordem=te_desc_so">MS-Windows?</a></div></td>
+            <td align="center"  nowrap>&nbsp;</td>
             <td nowrap class="cabecalho_tabela"><div align="center"><a href="index.php?cs_ordem=te_so">ID Interna</a></div></td>
             <td align="center"  nowrap>&nbsp;</td>
             <td nowrap class="cabecalho_tabela"><div align="center"><a href="index.php?cs_ordem=id_so">ID Externa</a></div></td>
@@ -98,7 +100,7 @@ $msg = '<div align="center">
             <td nowrap >&nbsp;</td>			
           </tr>
           <tr> 
-            <td height="1" bgcolor="#333333" colspan="13"></td>
+            <td height="1" bgcolor="#333333" colspan="15"></td>
           </tr>
           <?  
 if(mysql_num_rows($result)==0) 
@@ -123,6 +125,8 @@ else
             <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
             <td nowrap>&nbsp;</td>
             <td nowrap><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<? echo $row['id_so'];?>"><? echo $row['te_desc_so']; ?></a></td>
+            <td nowrap>&nbsp;</td>
+            <td nowrap><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<? echo $row['id_so'];?>"><? echo $row['in_mswindows']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
             <td nowrap><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<? echo $row['id_so'];?>"><? echo $row['te_so']; ?></a></div></td>
             <td nowrap>&nbsp;</td>

@@ -52,8 +52,8 @@ if ($_SESSION['suporte_remoto'] == true)
 	<td class="cabecalho_tabela">&nbsp;<u>Usuário Remoto (Técnico)</u></td>	
 	<td class="cabecalho_tabela">&nbsp;<u>Conexão</u></td>		    
 	<td class="cabecalho_tabela">&nbsp;<u>Documento Referencial</u></td>	
-	<td class="cabecalho_tabela">&nbsp;<u>Motivo de Conexão</u></td>	    
-  	</tr>
+	<td class="cabecalho_tabela">&nbsp;<u>Chat?</u></td>  	
+</tr>
   	<?
 	// EXIBIR INFORMAÇÕES DE SUPORTE_REMOTO REALIZADOS NO COMPUTADOR
 	$query = "SELECT 	cs_situacao
@@ -64,16 +64,18 @@ if ($_SESSION['suporte_remoto'] == true)
 	
 	if (mysql_result($result_acoes, 0, "cs_situacao") <> 'N') 
 		{
-		$query = "	SELECT 		dt_hr_inicio_conexao,
+		$query = "	SELECT 		DISTINCT dt_hr_inicio_conexao,
 								sr2.dt_hr_ultimo_contato,
 								te_motivo_conexao,
+								sr2.id_conexao,
+								TRIM(srcacic_chats.te_mensagem),
 								te_documento_referencial,
 								nm_usuario_acesso,
 								nm_usuario_completo,
 								nm_acesso_usuario_srv,
 								nm_completo_usuario_srv								
 					FROM 		srcacic_sessoes sr1,
-								srcacic_conexoes sr2,
+								srcacic_conexoes sr2 LEFT JOIN srcacic_chats ON (sr2.id_conexao = srcacic_chats.id_conexao),
 								usuarios
 					WHERE 		sr1.te_node_address_srv = '".$_GET['te_node_address']."' AND
 								sr1.id_so_srv = '". $_GET['id_so'] ."' AND
@@ -109,11 +111,11 @@ if ($_SESSION['suporte_remoto'] == true)
 			?>
 			<tr bgcolor="<? echo $strCor;?>">
 			<td align="right" class="descricao"><div align="right"><B><? echo $intContaItem;?></B></div></td> 
-			<td align="left" nowrap="nowrap" class="descricao">&nbsp;<? echo $row['nm_acesso_usuario_srv'].'/'.$row['nm_completo_usuario_srv']; ?></td>                        
-			<td align="left" nowrap="nowrap" class="descricao">&nbsp;<? echo $row['nm_usuario_acesso'].'/'.$row['nm_usuario_completo']; ?></td>
-			<td align="left" nowrap="nowrap" class="descricao">&nbsp;<? echo $arrDataConexao[2].'/'.$arrDataConexao[1].'/'.$arrDataConexao[0] .' '.$arrHoraConexao[0].':'.$arrHoraConexao[1].'h => '.$arrDataUltimoContato[2].'/'.$arrDataUltimoContato[1].'/'.$arrDataUltimoContato[0] .' '.$arrHoraUltimoContato[0].':'.$arrHoraUltimoContato[1].'h'; ?></td>            
-			<td align="left" nowrap="nowrap" class="descricao">&nbsp;<? echo $row['te_documento_referencial']; ?></td>
-			<td align="left" class="descricao">&nbsp;<? echo $row['te_motivo_conexao']; ?></td>                
+			<td align="left" nowrap="nowrap" class="descricao">&nbsp;<a href="../../admin/detalha_conexao?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['nm_acesso_usuario_srv'].'/'.$row['nm_completo_usuario_srv']; ?></a></td>                        
+			<td align="left" nowrap="nowrap" class="descricao">&nbsp;<a href="../../admin/detalha_conexao?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['nm_usuario_acesso'].'/'.$row['nm_usuario_completo']; ?></a></td>
+			<td align="left" nowrap="nowrap" class="descricao">&nbsp;<a href="../../admin/detalha_conexao?id_conexao=<? echo $row['id_conexao'];?>"><? echo $arrDataConexao[2].'/'.$arrDataConexao[1].'/'.$arrDataConexao[0] .' '.$arrHoraConexao[0].':'.$arrHoraConexao[1].'h => '.$arrDataUltimoContato[2].'/'.$arrDataUltimoContato[1].'/'.$arrDataUltimoContato[0] .' '.$arrHoraUltimoContato[0].':'.$arrHoraUltimoContato[1].'h'; ?></a></td>            
+			<td align="left" nowrap="nowrap" class="descricao">&nbsp;<a href="../../admin/detalha_conexao?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['te_documento_referencial']; ?></a></td>
+<td align="left" nowrap="nowrap" class="descricao"><? if ($row['te_mensagem']<>''){?>&nbsp;<a href="../../admin/detalha_conexao?id_conexao=<? echo $row['id_conexao'];?>"><img src="../../imgs/chat.png" border="0" height="20" width="20"></a><?}?></td>
 			</tr>
 			<?
 			echo $linha;
@@ -121,7 +123,7 @@ if ($_SESSION['suporte_remoto'] == true)
 
 		if (!$v_achei)
 			{
-			echo '<tr><td> 
+			echo '<tr><td colspan="5"> 
 				<p>
 				<div align="center">
 				<br>
@@ -134,7 +136,7 @@ if ($_SESSION['suporte_remoto'] == true)
 		}
 	else
 		{
-		echo '<tr><td colspan="6"> 
+		echo '<tr><td colspan="5"> 
 				<div align="center">
 				<font font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#FF0000">
 				O módulo de Suporte Remoto não foi habilitado pelo Administrador do CACIC.

@@ -131,8 +131,13 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta2'];
 <br><table width="42%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr> 
     <td><div align="center">
-
-          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+			<? if ($_SESSION['cs_nivel_administracao'] == 1)
+			{
+			?>
+          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta2'];?>">
+          	<?
+			}
+			?>
 
         
       </div></td>
@@ -203,7 +208,14 @@ else
   <tr> 
     <td><div align="center">
 
-          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+			<? if ($_SESSION['cs_nivel_administracao'] == 1)
+			{
+			?>
+          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta2'];?>">
+          	<?
+			}
+			?>
+
 
         
       </div></td>

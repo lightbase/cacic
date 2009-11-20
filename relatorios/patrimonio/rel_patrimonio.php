@@ -1,4 +1,5 @@
- <?
+<?
+session_start();
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -13,7 +14,8 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-session_start();
+
+
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */

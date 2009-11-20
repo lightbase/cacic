@@ -309,24 +309,24 @@ require_once('../include/selecao_listbox.js');
         	    	<td nowrap></td>
 	            	<td align="left" nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><? echo $NumRegistro; ?></td>
 	            	<td nowrap></td>
-            		<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $day_inicio_sessao.'/'.$month_inicio_sessao.'/'.$year_inicio_sessao. ' '. substr($hour_inicio_sessao,0,5).'h';?></a></td>
+            		<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="detalha_conexao.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $day_inicio_sessao.'/'.$month_inicio_sessao.'/'.$year_inicio_sessao. ' '. substr($hour_inicio_sessao,0,5).'h';?></a></td>
             		<td nowrap></td>
-					<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['te_ip_srv'].'/'.$row['te_nome_computador_srv'].' ('.$row['sg_local'].')';?></a></td>                
+					<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="detalha_conexao.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['te_ip_srv'].'/'.$row['te_nome_computador_srv'].' ('.$row['sg_local'].')';?></a></td>                
 	            	<td nowrap></td>
-    	        	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['nm_completo_usuario_srv'];?></a></td>                
+    	        	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="detalha_conexao.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['nm_completo_usuario_srv'];?></a></td>                
         	    	<td nowrap></td>
-            		<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['nm_usuario_acesso'].'/'.$row['nm_usuario_completo'];?></a></td>	
+            		<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="detalha_conexao.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['nm_usuario_acesso'].'/'.$row['nm_usuario_completo'];?></a></td>	
 	            	<td nowrap></td>
-    	        	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['sg_so'];?></a></td>
+    	        	<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="detalha_conexao.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $row['sg_so'];?></a></td>
         	    	<td nowrap></td>
-            		<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $day_conexao.'/'.$month_conexao.'/'.$year_conexao. ' '. substr($hour_conexao,0,5) . 'h - '.$day_ultimo_contato.'/'.$month_ultimo_contato.'/'.$year_ultimo_contato. ' '. substr($hour_ultimo_contato,0,5).'h';?></a></td>
+            		<td nowrap class="opcao_tabela" title="<? echo $row['te_motivo_conexao'];?>"><a href="detalha_conexao.php?id_conexao=<? echo $row['id_conexao'];?>"><? echo $day_conexao.'/'.$month_conexao.'/'.$year_conexao. ' '. substr($hour_conexao,0,5) . 'h - '.$day_ultimo_contato.'/'.$month_ultimo_contato.'/'.$year_ultimo_contato. ' '. substr($hour_ultimo_contato,0,5).'h';?></a></td>
             		<td nowrap></td>
 	            	<td nowrap class="opcao_tabela">
 					<? 
 					if ($row['te_mensagem']<>'') 
 						{
 						?>
-						<a href="lista_chats.php?id_conexao=<? echo $row['id_conexao'];?>"><img src="../imgs/chat.png" border="0" height="20" width="20"></a>
+						<a href="detalha_conexao.php?id_conexao=<? echo $row['id_conexao'];?>"><img src="../imgs/chat.png" border="0" height="20" width="20"></a>
 	                    <?
 						}
 						?>

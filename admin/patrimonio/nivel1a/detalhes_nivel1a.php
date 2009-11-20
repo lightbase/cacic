@@ -176,10 +176,15 @@ if(mysql_num_rows($result_sel1))
 		<p align="center"> 
 		  <? 
 			$v_frase = "Confirma('".$oTranslator->_('Confirma Informacoes para')." ".$_SESSION['etiqueta1a']."?')";
-		  echo '<input name="grava_alteracao_uon1a" type="submit" id="grava_alteracao_uon1a" value="'.$oTranslator->_('Gravar Alteracoes').'" onClick="return '.$v_frase.'"; '.($_SESSION['cs_nivel_administracao']<>1?'disabled':'').'>';
+		if ($_SESSION['cs_nivel_administracao'] == 1)
+			{
+		  echo '<input name="grava_alteracao_uon1a" type="submit" id="grava_alteracao_uon1a" value="'.$oTranslator->_('Gravar Alteracoes').'" onClick="return '.$v_frase.'";>';
 		  ?>
 &nbsp; &nbsp; 		  
-          <input name="exclui_uon1a" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon1a" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta1a'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>		  
+          <input name="exclui_uon1a" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon1a" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta1a'];?>">		  
+          <?
+		  }
+		  ?>
         </p>		
       </td>
   </tr>

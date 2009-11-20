@@ -56,6 +56,7 @@ if ($_POST['submit_cond'])
 	$Query_Pesquisa = 'SELECT 	a.id_so,
 								a.te_node_address,
 								a.te_nome_computador, 
+								a.te_dominio_dns, 								
 								a.te_ip, 
 								a.te_versao_cacic, 
 								a.te_versao_gercols, 
@@ -165,11 +166,12 @@ if ($_POST['submit_cond'])
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
-	    <td align="center"  nowrap><img src="../../imgs/checked.png" width="22" height="22"></td>
+		    <td align="center"  nowrap><img src="../../imgs/checked.png" width="22" height="22"></td>
             <td align="center"  nowrap><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Nome 
-                da M&aacute;quina</div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left">Nome da M&aacute;quina</div></td>
             <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
+            <td nowrap class="cabecalho_tabela"><div align="center">Domínio DNS</div></td>
+            <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>			
             <td nowrap class="cabecalho_tabela"><div align="center">IP</div></td>
             <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">Endereço MAC</div></td>
@@ -204,6 +206,8 @@ if ($_POST['submit_cond'])
             <td nowrap>&nbsp;</td>
             <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
+            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_dominio_dns']; ?></a></div></td>
+            <td nowrap>&nbsp;</td>			
             <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
             <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div></td>
@@ -322,6 +326,7 @@ else
             $v_query_cria = 'SELECT b.te_desc_so,
                                     a.te_node_address,
                                     a.te_nome_computador,
+									a.te_dominio_dns,
                                     a.te_ip,
                                     a.te_versao_cacic,
                                     a.te_versao_gercols,

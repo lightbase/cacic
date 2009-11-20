@@ -75,6 +75,8 @@ $result = mysql_query($query);
 $msg = '<div align="center">
 		<font color="#c0c0c0" size="1" face="Verdana, Arial, Helvetica, sans-serif">
 		'.$oTranslator->_('Clique nas Colunas para Ordenar').'</font><br><br></div>';				
+		
+$arrTeServCacicPadrao = getValores('configuracoes_padrao', 'te_serv_cacic_padrao');		
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -118,23 +120,42 @@ $msg = '<div align="center">
   <tr> 
     <td> <table border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
        <tr> 
-          <th colspan="10" align="left"><?=$oTranslator->_('Redes cadastradas');?></th>
+          <th colspan="18" align="left"><?=$oTranslator->_('Redes cadastradas');?></th>
        </tr>
+          <tr bgcolor="#E1E1E1">
+            <td align="center"  nowrap>&nbsp;</td>
+            <td align="center"  nowrap>&nbsp;</td>
+            <td align="center"  nowrap>&nbsp;</td>
+            <td align="center"  nowrap class="cabecalho_tabela">&nbsp;</td>
+            <td nowrap >&nbsp;</td>
+            <td nowrap  class="cabecalho_tabela">&nbsp;</td>
+            <td nowrap >&nbsp;</td>
+            <td align="center"  nowrap class="cabecalho_tabela">&nbsp;</td>
+            <td nowrap class="cabecalho_tabela">&nbsp;</td>
+            <td nowrap >&nbsp;</td>
+            <td nowrap >&nbsp;</td>
+            <td colspan="5" nowrap  class="destaque_laranja"><div align="center">SERVIDORES</div></td>
+          </tr>
           <tr bgcolor="#E1E1E1"> 
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=id_ip_rede">Endere&ccedil;o/M&aacute;scara</a></div></td>
             <td nowrap >&nbsp;</td>
-			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede"><?=$oTranslator->_('Subrede');?></a></div></td>            
+			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede"><?=$oTranslator->_('Subrede');?></a></div></td>  
+            <td nowrap>&nbsp;</td>			          
+	        <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local,nm_rede"><?=$oTranslator->_('Local');?></a></div></td>
+            <td nowrap>&nbsp;</td>			
+            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Maquinas');?></div></td>			
             <td nowrap >&nbsp;</td>            
-			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_servidor_autenticacao">Servidor de Autenticação</a></div></td>
-            <td nowrap >&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local,nm_rede"><?=$oTranslator->_('Local');?></a></div></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Total de Maquinas');?></div></td>
+			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_servidor_autenticacao">Autenticação</a></div></td>
+            <td nowrap  class="cabecalho_tabela">&nbsp;</td>
+            <td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=te_serv_cacic">Aplica&ccedil;&atilde;o</a></div></td>
+            <td nowrap  class="cabecalho_tabela">&nbsp;</td>
+            <td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=te_serv_updates">Atualiza&ccedil;&atilde;o</a></div></td>
           </tr>
   	<tr> 
-    <td height="1" bgcolor="#333333" colspan="11"></td>
+    <td height="1" bgcolor="#333333" colspan="18"></td>
   	</tr>
 		  
           <?  
@@ -160,14 +181,18 @@ else
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_rede']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_servidor_autenticacao']; ?></a></td>
-            <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['sg_local']; ?></a></div></td>
+            <td nowrap>&nbsp;</td>			
             <td nowrap align="right">
                 <a href="../../relatorios/navegacao.php" title="<?=$oTranslator->_('Navegar nas redes detectadas pelos agentes nas estacoes');?>">
                    <?php $total_ip_rede = getNetPCs($row['id_ip_rede']); $total_geral_pc += $total_ip_rede; echo $total_ip_rede;?>
-                </a>
-            </td>
+                </a>            </td>			
+            <td nowrap>&nbsp;</td>				
+            <td nowrap><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_servidor_autenticacao']; ?></a></td>
+            <td nowrap>&nbsp;</td>
+            <td nowrap class="<? if ($row['te_serv_cacic'] <> $arrTeServCacicPadrao['te_serv_cacic_padrao']) echo 'td_amarelo'; else echo 'opcao_tabela';?>"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['te_serv_cacic']; ?></a></td>
+            <td nowrap>&nbsp;</td>
+            <td nowrap class="opcao_tabela"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['te_serv_updates']; ?></a></td>
            </tr>
             <? 
 		$Cor=!$Cor;

@@ -201,10 +201,15 @@ function valida_form()
 		<p align="center"> 
 		  <? 
 			$v_frase = "Confirma('".$oTranslator->_('Confirma Informacoes para')." ".$_SESSION['etiqueta1']."?')";
-		  echo '<input name="grava_alteracao_uon1" type="submit" id="grava_alteracao_uon1" value="'.$oTranslator->_('Gravar Alteracoes').'" onClick="return '.$v_frase.'"; '.($_SESSION['cs_nivel_administracao']<>1?'disabled':'').'>';
+		if ($_SESSION['cs_nivel_administracao'] == 1)
+			{			
+		  echo '<input name="grava_alteracao_uon1" type="submit" id="grava_alteracao_uon1" value="'.$oTranslator->_('Gravar Alteracoes').'" onClick="return '.$v_frase.'";>';
 		  ?>
 &nbsp; &nbsp; 		  
-          <input name="exclui_uon1" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon1" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta1'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>		  
+          <input name="exclui_uon1" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon1" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta1'];?>" >		  
+          <?
+		  }
+		  ?>
         </p>		
       </form></td>
   </tr>
