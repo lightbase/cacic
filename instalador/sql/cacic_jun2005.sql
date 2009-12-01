@@ -1,6 +1,7 @@
 -- --------------------------------------------------------
 -- Atualização de Tabelas do banco de dados CACIC-jun2005
 -- SGBD: MySQL-4.1.20
+-- MySQL Workbench 5.2.8 Beta
 -- --------------------------------------------------------
 #
 # criado com o auxilio de: MySQL Diff 1.5.0
@@ -95,9 +96,7 @@ CREATE TABLE configuracoes_padrao (
     te_janelas_excecao text NULL DEFAULT NULL COMMENT '',
     cs_abre_janela_patr char(1) NOT NULL DEFAULT 'S' COMMENT '',
     id_default_body_bgcolor varchar(10) NOT NULL DEFAULT '#EBEBEB' COMMENT '',
-    te_exibe_graficos varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]' COMMENT '',
-    nu_resolucao_grafico_h smallint unsigned default 320,
-    nu_resolucao_grafico_w smallint unsigned default 240
+    te_exibe_graficos varchar(100) NOT NULL DEFAULT '[acessos_locais][so][acessos][locais]' COMMENT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE contas (
@@ -410,79 +409,114 @@ INSERT INTO `patrimonio_config_interface`
      VALUES
         (1, 'etiqueta1a', 'Etiqueta 1a', 'Linha de Negócio', 'S', 'Selecione a Linha de Negócio', 'Linhas de Negócio', 'id_unid_organizacional_nivel1a', 'N');
 
--- ---------------------------------------------------------------------------------------------
--- Estrutura da tabela `srcacic_sessoes`
--- Armazenamento de sessoes de Suporte Remoto Seguro
--- Contera os dados dos usuarios visitante e visitado e suas sessoes para fins de suporte remoto
--- ---------------------------------------------------------------------------------------------
-CREATE TABLE `srcacic_sessoes` 
-	(
-	`id_sessao` int(11) NOT NULL auto_increment,
-	`dt_hr_inicio_sessao` datetime NOT NULL,
-	`dt_hr_fim_sessao` datetime default NULL,
-	`id_usuario_visitante` int(11) NOT NULL default '0',
-	`nm_nome_acesso_visitado` varchar(30) character set utf8 NOT NULL,
-	`nm_nome_completo_visitado` varchar(100) NOT NULL default 'NoNoNo',
-	`te_node_address_visitado` varchar(17) character set utf8 NOT NULL,
-	`id_so_visitado` int(11) NOT NULL,
-	`te_node_address_visitante` varchar(17) character set utf8 NOT NULL default 'NoNoNo',
-	`dt_hr_ult_contato` datetime default NULL,
-	PRIMARY KEY  (`id_sessao`),
-		KEY `idx_idUsuario` (`id_usuario_visitante`),
-		KEY `idx_dtHrInicioSessao` (`dt_hr_inicio_sessao`)
-	) 
-ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Log de Atividades no Sistema CACIC';
+DELETE FROM `descricoes_colunas_computadores` WHERE nm_campo='te_cpu_freq';
+INSERT INTO `descricoes_colunas_computadores` 
+             (`nm_campo`,`te_descricao_campo`,`cs_condicao_pesquisa`)
+            VALUES
+             ('te_cpu_frequencia','Frequência da CPU','S');
 
--- -----------------------------------------------------------------------------------------------------------
--- Estrutura da tabela `dominios`
--- Armazenamento de dados de servidores de dominios
--- Esses dados serao utilizados nas autenticacoes de usuarios e criacao de sessoes para fins de suporte remoto
--- -----------------------------------------------------------------------------------------------------------
-CREATE TABLE `dominios` 
-	(
-	`id_dominio` int(11) NOT NULL auto_increment,
-      `nm_dominio` varchar(60) NOT NULL,
-	`te_ip_dominio` varchar(15) NOT NULL,
-	`id_tipo_protocolo` varchar(20) NOT NULL,
-	`nu_versao_protocolo` varchar(10) NOT NULL,
-	`te_string_DN` varchar(100) NOT NULL,
-	`te_observacao` text NOT NULL,
-	`in_ativo` char(1) NOT NULL default 'S',
-	PRIMARY KEY  (`id_dominio`)
-	) 
-ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Servidores de Dominio para Autenticacao do srCACIC';
+--
+-- Update SO identication
+--
+UPDATE so SET te_so='1.4.0' WHERE id_so=1;
+UPDATE so SET te_so='1.4.0.B' WHERE id_so=2;
+UPDATE so SET te_so='1.4.10' WHERE id_so=3;
+UPDATE so SET te_so='1.4.10.A' WHERE id_so=4;
+UPDATE so SET te_so='1.4.90' WHERE id_so=5;
+UPDATE so SET te_so='2.5.0.3.272', te_desc_so='Windows 2000 Sever' WHERE id_so=7;
+UPDATE so SET te_so='2.5.1.1.256', te_desc_so='Windows XP Professional' WHERE id_so=8;
+UPDATE so SET te_so='2.5.2.3.274', te_desc_so='Windows Enterprise' WHERE id_so=13;
 
--- -----------------------------------------------------------------------------------------------------------
--- Insercao da coluna `id_dominio`
--- Relacionamento de redes com servidores de dominios
--- -----------------------------------------------------------------------------------------------------------
-ALTER TABLE `redes` ADD `id_dominio` INT( 11 ) NULL AFTER `id_local` ;
 
--- -----------------------------------------------------------------------------------------------------------
--- Insercao da coluna `id_dominio`
--- Relacionamento de usuarios com servidores de dominios
--- -----------------------------------------------------------------------------------------------------------
-ALTER TABLE `usuarios` ADD `id_dominio` INT( 11 ) NULL AFTER `id_local` 
+--
+-- Update 2.5 Dataprev
+-- 
+CREATE  TABLE IF NOT EXISTS `servidores_autenticacao` (
+  `id_servidor_autenticacao` INT(11) NOT NULL AUTO_INCREMENT ,
+  `nm_servidor_autenticacao` VARCHAR(60) NOT NULL ,
+  `te_ip_servidor_autenticacao` VARCHAR(15) NOT NULL ,
+  `id_tipo_protocolo` VARCHAR(20) NOT NULL ,
+  `nu_versao_protocolo` VARCHAR(10) NOT NULL ,
+  `te_base_consulta_raiz` VARCHAR(100) NOT NULL ,
+  `te_base_consulta_folha` VARCHAR(100) NOT NULL ,
+  `te_atributo_identificador` VARCHAR(100) NOT NULL ,
+  `te_atributo_retorna_nome` VARCHAR(100) NOT NULL ,
+  `te_atributo_retorna_email` VARCHAR(100) NOT NULL ,
+  `te_observacao` TEXT NOT NULL ,
+  `in_ativo` CHAR(1) NOT NULL DEFAULT 'S' ,
+  PRIMARY KEY (`id_servidor_autenticacao`) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_swedish_ci
+COMMENT = 'Servidores para Autenticacao do srCACIC';
 
--- -----------------------------------------------------------------------------------------------------------
--- Redimensionamento de coluna `nm_modulo` para armazenamento de nomes maiores
--- -----------------------------------------------------------------------------------------------------------
-ALTER TABLE `redes_versoes_modulos` CHANGE `nm_modulo` `nm_modulo` VARCHAR( 100 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL  
+CREATE  TABLE IF NOT EXISTS `srcacic_chats` (
+  `id_conexao` INT(11) NOT NULL ,
+  `dt_hr_mensagem` DATETIME NOT NULL ,
+  `te_mensagem` TEXT CHARACTER SET 'utf8' NOT NULL ,
+  `cs_origem` CHAR(3) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL DEFAULT 'cli' ,
+  INDEX `id_conexao` (`id_conexao` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_swedish_ci
+COMMENT = 'Log de Atividades no Sistema CACIC';
 
--- -------------------------------------------------------------------------------------------------------------
--- Insercao de coluna `in_mswindows` para classificacao do Sistema Operacional pelo tipo
--- Essa informacao sera usada principalmente na resposta do Gerente WEB aos Agentes quando estes fizerem contato
--- -------------------------------------------------------------------------------------------------------------
-ALTER TABLE `so` ADD `in_mswindows` CHAR( 1 ) NOT NULL DEFAULT 'S';
+CREATE  TABLE IF NOT EXISTS `srcacic_conexoes` (
+  `id_conexao` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador da conexão' ,
+  `id_sessao` INT(11) NOT NULL ,
+  `id_usuario_cli` INT(11) NOT NULL DEFAULT '0' ,
+  `te_node_address_cli` VARCHAR(17) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL ,
+  `te_documento_referencial` VARCHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL ,
+  `id_so_cli` INT(11) NOT NULL ,
+  `te_motivo_conexao` TEXT CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL COMMENT 'Descritivo breve sobre o motivo da conexão' ,
+  `dt_hr_inicio_conexao` DATETIME NOT NULL ,
+  `dt_hr_ultimo_contato` DATETIME NOT NULL ,
+  PRIMARY KEY (`id_conexao`) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 306
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_swedish_ci
+COMMENT = 'Registros de Conexões efetuadas às sessões abertas';
 
--- ----------------------------------------------------------------------------------------------------------------------------------
--- Redimensionamento de coluna `nm_unid_organizacional_nivel1a` para armazenamento de nomes maiores de linhas de negocio ou similares
--- ----------------------------------------------------------------------------------------------------------------------------------
-ALTER TABLE `unid_organizacional_nivel1a` CHANGE `nm_unid_organizacional_nivel1a` `nm_unid_organizacional_nivel1a` VARCHAR( 100 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL
+CREATE  TABLE IF NOT EXISTS `srcacic_sessoes` (
+  `id_sessao` INT(11) NOT NULL AUTO_INCREMENT ,
+  `dt_hr_inicio_sessao` DATETIME NOT NULL ,
+  `nm_acesso_usuario_srv` VARCHAR(30) CHARACTER SET 'utf8' NOT NULL ,
+  `nm_completo_usuario_srv` VARCHAR(100) NOT NULL DEFAULT 'NoNoNo' ,
+  `te_email_usuario_srv` VARCHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL ,
+  `te_node_address_srv` VARCHAR(17) CHARACTER SET 'utf8' NOT NULL ,
+  `id_so_srv` INT(11) NOT NULL ,
+  `dt_hr_ultimo_contato` DATETIME NULL DEFAULT NULL ,
+  PRIMARY KEY (`id_sessao`) ,
+  INDEX `idx_dtHrInicioSessao` (`dt_hr_inicio_sessao` ASC) )
+ENGINE = InnoDB
+AUTO_INCREMENT = 569
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_swedish_ci
+COMMENT = 'Log de Atividades no Sistema CACIC';
 
--- ----------------------------------------------------------------------------------------------------------------------
--- Redimensionamento de coluna `nm_unid_organizacional_nivel2` para armazenamento de nomes maiores de orgaos ou similares
--- ----------------------------------------------------------------------------------------------------------------------
-ALTER TABLE `unid_organizacional_nivel2`  CHANGE `nm_unid_organizacional_nivel2`  `nm_unid_organizacional_nivel2`  VARCHAR( 100 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL  
+ALTER TABLE `unidades_disco` CHANGE COLUMN `te_letra` `te_letra` CHAR(20) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL  ;
+
+ALTER TABLE `componentes_estacoes_historico` CHARACTER SET = latin1 , CHANGE COLUMN `te_valor` `te_valor` VARCHAR(200) NOT NULL  ;
+
+ALTER TABLE `configuracoes_locais` ADD COLUMN `nu_porta_srcacic` VARCHAR(5) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL DEFAULT '5900'  AFTER `te_exibe_graficos` , ADD COLUMN `nu_timeout_srcacic` TINYINT(3) NOT NULL DEFAULT '30' COMMENT 'Valor para timeout do servidor srCACIC'  AFTER `nm_organizacao` , CHANGE COLUMN `te_serv_updates_padrao` `te_serv_updates_padrao` VARCHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NULL DEFAULT NULL  , CHANGE COLUMN `te_serv_cacic_padrao` `te_serv_cacic_padrao` VARCHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NULL DEFAULT NULL  ;
+
+ALTER TABLE `configuracoes_padrao` ADD COLUMN `nu_porta_srcacic` VARCHAR(5) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL DEFAULT '5900'  AFTER `te_exibe_graficos` , ADD COLUMN `nu_resolucao_grafico_h` SMALLINT(5) NOT NULL DEFAULT '0'  AFTER `nu_porta_srcacic` , ADD COLUMN `nu_resolucao_grafico_w` SMALLINT(5) NOT NULL DEFAULT '0'  AFTER `nu_resolucao_grafico_h` , ADD COLUMN `nu_timeout_srcacic` TINYINT(3) NOT NULL DEFAULT '30' COMMENT 'Valor padrao para timeout do servidor srCACIC'  AFTER `nm_organizacao` , CHANGE COLUMN `te_serv_updates_padrao` `te_serv_updates_padrao` VARCHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NULL DEFAULT NULL  , CHANGE COLUMN `te_serv_cacic_padrao` `te_serv_cacic_padrao` VARCHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NULL DEFAULT NULL  ;
+
+ALTER TABLE `perfis_aplicativos_monitorados` CHANGE COLUMN `te_car_inst_w9x` `te_car_inst_w9x` VARCHAR(255) NULL DEFAULT NULL  , CHANGE COLUMN `te_car_ver_w9x` `te_car_ver_w9x` VARCHAR(255) NULL DEFAULT NULL  , CHANGE COLUMN `te_car_inst_wnt` `te_car_inst_wnt` VARCHAR(255) NULL DEFAULT NULL  , CHANGE COLUMN `te_car_ver_wnt` `te_car_ver_wnt` VARCHAR(255) NULL DEFAULT NULL  , CHANGE COLUMN `te_ide_licenca` `te_ide_licenca` VARCHAR(255) NULL DEFAULT NULL  ;
+
+ALTER TABLE `redes` ADD COLUMN `cs_permitir_desativar_srcacic` CHAR(1) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL DEFAULT 'S'  AFTER `nu_limite_ftp` , ADD COLUMN `id_servidor_autenticacao` INT(11) NULL DEFAULT NULL  AFTER `id_local` , CHANGE COLUMN `te_serv_cacic` `te_serv_cacic` VARCHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL  , CHANGE COLUMN `te_serv_updates` `te_serv_updates` VARCHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL  ;
+
+ALTER TABLE `redes_versoes_modulos` CHANGE COLUMN `nm_modulo` `nm_modulo` VARCHAR(100) NOT NULL  ;
+
+ALTER TABLE `so` ADD COLUMN `in_mswindows` CHAR(1) NOT NULL DEFAULT 'S'  AFTER `te_so` ;
+
+ALTER TABLE `unid_organizacional_nivel1a` CHANGE COLUMN `nm_unid_organizacional_nivel1a` `nm_unid_organizacional_nivel1a` VARCHAR(70) NULL DEFAULT NULL  ;
+
+ALTER TABLE `unid_organizacional_nivel2` ADD COLUMN `cs_atualizado` CHAR(1) NOT NULL DEFAULT 'N'  AFTER `dt_registro` , CHANGE COLUMN `nm_unid_organizacional_nivel2` `nm_unid_organizacional_nivel2` VARCHAR(70) NOT NULL  ;
+
+ALTER TABLE `usuarios` ADD COLUMN `id_servidor_autenticacao` INT(11) NULL DEFAULT NULL  AFTER `id_local` ;
 
 SET FOREIGN_KEY_CHECKS = 1;
+

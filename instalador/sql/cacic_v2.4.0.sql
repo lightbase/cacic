@@ -1,26 +1,13 @@
--- ----------------------------------------------------------
--- Atualização de Tabelas do banco de dados CACIC-v2.4.0-rc1
+-- --------------------------------------------------------
+-- Atualização de Tabelas do banco de dados CACIC-v2.4.0
 -- SGBD: MySQL-4.1.20
 -- MySQL Workbench 5.2.8 Beta
--- ----------------------------------------------------------
+-- --------------------------------------------------------
 
-ALTER TABLE aquisicoes
-    DROP PRIMARY KEY,
-    MODIFY id_aquisicao int(10) auto_increment,
-    MODIFY nr_notafiscal varchar(20),
-    ADD PRIMARY KEY (id_aquisicao),
-    ENGINE=InnoDB CHARACTER SET=latin1;
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-UPDATE descricoes_colunas_computadores 
-    SET nm_campo='te_cpu_frequencia' 
-    WHERE nm_campo='te_cpu_freq';
-
-ALTER TABLE componentes_estacoes_historico
-    MODIFY te_valor text;
-
---
--- Update 2.5 Dataprev
--- 
 CREATE  TABLE IF NOT EXISTS `servidores_autenticacao` (
   `id_servidor_autenticacao` INT(11) NOT NULL AUTO_INCREMENT ,
   `nm_servidor_autenticacao` VARCHAR(60) NOT NULL ,
@@ -108,3 +95,7 @@ ALTER TABLE `unid_organizacional_nivel2` ADD COLUMN `cs_atualizado` CHAR(1) NOT 
 
 ALTER TABLE `usuarios` ADD COLUMN `id_servidor_autenticacao` INT(11) NULL DEFAULT NULL  AFTER `id_local` ;
 
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

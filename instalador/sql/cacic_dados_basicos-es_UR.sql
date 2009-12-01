@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Dados basicos para o banco de dados CACIC 2.2.2
--- SGBD: MySQL-4.1.20
+-- SGBD: MySQL-5.0.51
 -- --------------------------------------------------------
 --
 -- Dumping data for table `acoes`
