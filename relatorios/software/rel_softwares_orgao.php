@@ -9,7 +9,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 //Mostrar computadores baseados no tipo de pesquisa solicitada pelo usuário
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+require_once( dirname(__FILE__). '/../../include/library.php');
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -110,7 +110,7 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td nowrap>&nbsp;</td>
           <td nowrap class="opcao_tabela"><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? if ($row['te_nome_computador']) { echo $row['te_nome_computador']; } else { echo '<i>Em Branco</i>'; } ?></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? if ($row['te_nome_computador']) { echo $row['te_nome_computador']; } else { echo '<i>Em Branco</i>'; } ?></div></td>
           <td nowrap>&nbsp;</td>
 	  <td nowrap class="opcao_tabela"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_ip']; ?></font></td>
 	  <td nowrap>&nbsp;</td>

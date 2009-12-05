@@ -41,10 +41,9 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      	$this->addVar('SoftwaresClassificar_form', 'DESCRICAO', $this->oTranslator->_('Classificacao de softwares inventariados conforme tipos possiveis') );
      	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_CLASSIFICADO_SELECT', '<span class="Aviso">'.$this->oTranslator->_('Apenas os nao classificados?')."</span>" );
      	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_NAME_TITLE', $this->oTranslator->_('Nome do software inventariado') );
-     	$this->addVar('SoftwaresClassificar_form', 'NO', $this->oTranslator->_('Nao') );     	
-     	$this->addVar('SoftwaresClassificar_form', 'YES', $this->oTranslator->_('Sim') );
      	$this->addVar('SoftwaresType_list', 'IMG_TYPE', $this->isIEBrowser()?'gd':'svg' );
      	$this->addRows('SoftwaresType_list', $this->fillListSoftwaresType() );
+     	$this->addRows('SoftwaresSelectType_list', $this->fillListSoftwaresTypeSelection(Security::read('software_nao_classificado')) );
      	$this->addVar('SoftwaresClassificar_form', 'COLSPAN', 20 );
      	$this->addVar('SoftwaresClassificar_form', 'BTN_SALVAR', $this->oTranslator->_('Gravar alteracoes') );
      	$this->addVar('SoftwaresClassificar_form', 'BTN_SALVAR_DENY',  ($this->isAdminUser()?'enabled':'disabled'));
@@ -134,12 +133,41 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      * Obtem e preenche dados de formulario - tipos de software
      * @access private
      */
-    function fillListSoftwaresType() {
+    function fillListSoftwaresTypeSelection($id_selected="") {
+    	$sql = "select * from tipos_software order by id_tipo_software";
+    	$db_result = mysql_query($sql);
+     	$list = array();
+		$_arrAux = array( array('SOFTWARE_TYPE_NAME'=>"Softwares nao classificados",
+		                        'SOFTWARE_TYPE_ID'=>-1,
+		                        'SOFTWARE_TYPE_ID_SELECTED'=>($id_selected==-1)?"selected":""
+		                       ) );
+		$list = array_merge($list, $_arrAux);
+		
+		$_arrAux = $this->fillListSoftwaresType($id_selected);
+		$list = array_merge($list, $_arrAux);
+		
+		$_arrAux = array( array('SOFTWARE_TYPE_NAME'=>"Todos (classificados ou nao)",
+		                        'SOFTWARE_TYPE_ID'=>-2,
+		                        'SOFTWARE_TYPE_ID_SELECTED'=>($id_selected==-2)?"selected":""
+		                       ) );
+		$list = array_merge($list, $_arrAux);
+		
+     	return $list;           
+    }
+    
+    /**
+     * Obtem e preenche dados de formulario - tipos de software
+     * @access private
+     */
+    function fillListSoftwaresType($id_selected="") {
     	$sql = "select * from tipos_software order by id_tipo_software";
     	$db_result = mysql_query($sql);
      	$list = array();
     	while( $tipos = mysql_fetch_assoc($db_result) ) {
-			$_arrAux = array( array('SOFTWARE_TYPE_NAME'=>$tipos['te_descricao_tipo_software'] ) );
+			$_arrAux = array( array('SOFTWARE_TYPE_NAME'=>$tipos['te_descricao_tipo_software'],
+			                        'SOFTWARE_TYPE_ID'=>$tipos['id_tipo_software'],
+			                        'SOFTWARE_TYPE_ID_SELECTED'=>$id_selected===$tipos['id_tipo_software']?"selected":""
+			                       ) );
 			$list = array_merge($list, $_arrAux);
     	}
      	return $list;           
@@ -164,20 +192,24 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		$software_classificado = Security::read('software_classificado');
 		$software_nao_classificado = Security::read('software_nao_classificado');
 		
-     	$this->addVar('SoftwaresClassificar_form', 'YES_CHECKED', ((!isset($software_nao_classificado) or $software_nao_classificado)?'checked':'') );
-
 		$where = " where id_tipo_software=0 ";
-		if (isset($software_nao_classificado) and ($software_nao_classificado==0)) {
-		   $where = " "; // esvazia a condicional de listagem
-		   $this->addVar('SoftwaresClassificar_form', 'NO_CHECKED', 'checked' );
+		if (($software_nao_classificado==-1)) {
+		   $where = " where id_tipo_software=0 ";
+		}
+		else if (isset($software_nao_classificado) and ($software_nao_classificado>0) and ($software_nao_classificado)) {
+		   $where = " where id_tipo_software=$software_nao_classificado ";
+		}
+		else if (isset($software_nao_classificado) and ($software_nao_classificado==-2)) {
+		   $where = " "; // esvazia a condicional de listagem (lista tudo)
 		}
 
     	$sql_soft_count = "select count(*) as count from softwares_inventariados ".$where;
     	$db_result_soft = mysql_query($sql_soft_count);
     	$count = mysql_fetch_row($db_result_soft);
-     	$this->setPageTotalItems($count[0]);
+     	$this->setPageTotalItems($count[0]); 
      	$this->setPageCurrent();
-    	$sql_soft = "select * from softwares_inventariados ".$where." order by lower(nm_software_inventariado) limit ".$this->getPageItems()." offset ".$this->getPageFristItem();
+    	$sql_soft = "select * from softwares_inventariados ".$where.
+                            " order by lower(nm_software_inventariado) limit ".$this->getPageItems()." offset ".$this->getPageFristItem();
     	$db_result_soft = mysql_query($sql_soft);
      	$list = array();
     	while( $soft = mysql_fetch_assoc($db_result_soft) ) {

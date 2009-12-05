@@ -36,8 +36,7 @@ if ($_GET['principal'])
 			   FROM   	so';	  
     if ($_GET['id_so']<>'')
 		$query .= ' WHERE id_so='.$_GET['id_so'];
-
-	$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
+	$result = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('id_so')));
 	$_SESSION["list4"] = '';				
 	while ($row = mysql_fetch_array($result))
 		{
@@ -46,15 +45,7 @@ if ($_GET['principal'])
 		}
 
 	$_SESSION["list4"] = explode('#',$_SESSION["list4"]);					
-	
-	//if ($_GET['orderby']=='6')
-		//{
-		$_SESSION["list6"] = explode('#',', dt_hr_ult_acesso as "Último Acesso"');
-		//}
-	//else
-		//{
-		//$_SESSION["list6"] = explode('#','');							
-	//}	
+	$_SESSION["list6"] = explode('#',', dt_hr_ult_acesso as "'.$oTranslator->_('Ultimo acesso').'"');
 	$_SESSION["cs_situacao"] 	= 'T';
 	}
 elseif($_POST['submit']) 
@@ -71,7 +62,7 @@ elseif($_POST['submit'])
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Relat&oacute;rio de Configura&ccedil;&otilde;es de Software</title>
+<title><?=$oTranslator->_('Relatorio de configuracoes de software');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<link href="<?=CACIC_URL?>/include/cacic.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" type="text/JavaScript">
@@ -104,19 +95,19 @@ else
 	<?
 	if ($_GET['principal'] == 'so')
 		{
-		echo 'Distribui&ccedil;&atilde;o de sistemas operacionais dos computadores gerenciados';
+		echo $oTranslator->_('Distribuicao de sistemas operacionais dos computadores gerenciados');
 		}
 	elseif ($_GET['principal'] == 'acessos')
 		{
-		echo 'Distribui&ccedil;&atilde;o do último acesso dos agentes';
+		echo $oTranslator->_('Distribuicao do ultimo acesso dos agentes');
 		}
 	elseif ($_GET['orderby'] == 6 || $_GET['orderby']==7)
 		{		
-		echo 'Distribui&ccedil;&atilde;o por Versoes de Agentes do CACIC';		
+		echo $oTranslator->_('Distribuicao por versoes de agentes do CACIC');		
 		}
 	elseif (!$_GET['orderby'])
 		{
-		echo 'Relat&oacute;rio de Configura&ccedil;&otilde;es de Software';
+		echo $oTranslator->_('Relatorio de configuracoes de software');
 		}				
 	?>
 	</strong></font></td>
@@ -128,7 +119,7 @@ else
   	{
 	?>
   	<tr> 
-   	<td bgcolor="#CCCCCC"><div align="center">Local: <strong><? echo $_GET['nm_local'].' ('.$_GET['sg_local'].')';?></strong>
+   	<td bgcolor="#CCCCCC"><div align="center"><?=$oTranslator->_('Local');?> <strong><? echo $_GET['nm_local'].' ('.$_GET['sg_local'].')';?></strong>
     </div></td>
   	</tr>	
 	<?
@@ -142,7 +133,7 @@ else
 	<? 
 	if (!$_GET['principal'])
 		{
-		echo 'Gerado em ' . date("d/m/Y à\s H:i"); 
+		echo $oTranslator->_('Gerado em'). " " . date("d/m/Y à\s H:i"); 
 		}
 	?>
 	</font></p></td>
@@ -183,7 +174,11 @@ else
 if (($_SESSION['te_locais_secundarios']  <> '' || $_GET['id_local'] == '') && $local <> '')		
 	{
 	$local = str_replace(' redes.id_ip_rede AND redes.id_local = ',' redes.id_ip_rede AND (redes.id_local = ',$local);
-	$local .= ' OR redes.id_local IN ('.$_SESSION['te_locais_secundarios'].'))';						
+
+	if($_SESSION['te_locais_secundarios']<>'')
+	   $local .= ' OR redes.id_local IN ('.$_SESSION['te_locais_secundarios'].')';
+	
+	$local .= ')'; 						
 	}
 
 // Aqui pego todos os SO selecionados
@@ -240,8 +235,6 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 		{
 		$query .= ' desc';
 		}
-
-//$result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 
 // *****************************************************
 // Código para Paginação - Anderson Peterle - 24/06/2008
@@ -303,19 +296,14 @@ echo '</table>';
 echo '<br><br>';
 
 // pega todos os links e define que 'Próxima' e 'Anterior' serão exibidos como texto plano
-//$todos_links = $mult_pag->Construir_Links("todos", "sim");
-$todos_links = $mult_pag->Construir_Links("strings", "sim");
-//echo "<P>Esta é a lista de todos os links paginados</P>\n";
 
-//for ($n = 0; $n < count($todos_links); $n++) {
-//  echo $todos_links[$n] . "&nbsp;";
-//}
+$todos_links = $mult_pag->Construir_Links("strings", "sim");
 
 // função que limita a quantidade de links no rodape
 $links_limitados = $mult_pag->Mostrar_Parte($todos_links, $coluna, $max_links);
 
 
-//echo "<P>Esta é a lista dos links limitados</P>\n";
+//Esta é a lista dos links limitados";
 for ($n = 0; $n < count($links_limitados); $n++) {
   echo $links_limitados[$n] . "&nbsp;";
 }
@@ -333,8 +321,8 @@ if (count($_SESSION["list8"])>0)
 if (!$_GET['principal']) 
 	{
 	?>
-	<p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
-	gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+	<p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+	<?=$oTranslator->_('Gerado por');?><strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   	de Informa&ccedil;&otilde;es Computacionais</font><br>
   	<font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   	pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>

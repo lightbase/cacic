@@ -40,8 +40,11 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 			 <td align="right" class="botoes">{SOFTWARE_CLASSIFICADO_SELECT}
 			 </td>
 			 <td align="left" colspan={COLSPAN}>
-			     <input type="radio" name="software_nao_classificado" value="1" {YES_CHECKED} onClick="sendForm(this.form);" />{YES}
-			     <input type="radio" name="software_nao_classificado" value="0" {NO_CHECKED} onClick="sendForm(this.form);" />{NO}
+			     <select name="software_nao_classificado" onChange="setDocVar( 'page', 1 ); sendForm(this.form);">
+	             <softwareClassificacao:tmpl name="SoftwaresSelectType_list">
+				  <option value="{SOFTWARE_TYPE_ID}" {SOFTWARE_TYPE_ID_SELECTED}>{SOFTWARE_TYPE_NAME}</option>
+				 </softwareClassificacao:tmpl>
+				 </select>
 			 </td>
 			</tr>
 			<tr  height="70">

@@ -1128,3 +1128,11 @@ pt_BR     data de desinstalacao do software do computador                       
 pt_BR     informe computador                                                                                  admin     info                Informe computador
 pt_BR     informe patrimonio                                                                                  admin     info                Informe patrimonio
 pt_BR     software por estacao                                                                                admin     info                software por estacao
+pt_BR     relatorio de configuracoes de software                                                              relatoriosinfo                Relatorio de configuracoes de software
+pt_BR     distribuicao de sistemas operacionais dos computadores gerenciados                                  relatoriosinfo                Distribuicao de sistemas operacionais dos computadores gerenciados
+pt_BR     distribuicao do ultimo acesso dos agentes                                                           relatoriosinfo                Distribuicao do ultimo acesso dos agentes
+pt_BR     distribuicao por versoes de agentes do cacic                                                        relatoriosinfo                Distribuicao por versoes de agentes do CACIC
+pt_BR     historico de hardware                                                                               relatoriosinfo                Historico de Hardware
+pt_BR     historico de patrimonio                                                                             relatoriosinfo                Historico de Patrimonio
+pt_BR     historico de tcp/ip                                                                                 relatoriosinfo                Historico de TCP/IP
+pt_BR     nao foi encontrado nenhum registro                                                                  relatoriosinfo                Nao foi encontrado nenhum registro

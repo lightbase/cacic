@@ -21,7 +21,7 @@ conecta_bd_cacic();
 
 if ($_POST['historico_hardware']) 
 	{
-	$query = "SELECT 	DATE_FORMAT(dt_hr_alteracao,'%d/%m/%Y às %H:%ih') as 'Data de Alteração',
+	$query = "SELECT 	DATE_FORMAT(dt_hr_alteracao,'%d/%m/%Y às %H:%ih') as '".$oTranslator->_('Data de alteracao')."',
 						dt_hr_alteracao, 
 						te_placa_rede_desc, 
 			  			te_cpu_desc, 
@@ -47,8 +47,8 @@ if ($_POST['historico_hardware'])
 			  WHERE 	te_node_address = '". $_POST['te_node_address'] ."' AND 
 			  			id_so = '". $_POST['id_so'] ."'  
 			  ORDER BY 	dt_hr_alteracao DESC";
-	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
-	$tipo_historico = 'de Hardware';
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('historico_hardware')));
+	$tipo_historico = $oTranslator->_('Historico de Hardware');
 	}
 else if ($_POST['historico_patrimonio']) 
 	{
@@ -56,13 +56,17 @@ else if ($_POST['historico_patrimonio'])
 						nm_campo_tab_patrimonio
 			  FROM 		patrimonio_config_interface
 			  WHERE 	in_exibir_etiqueta = 'S'";
-	$result = mysql_query($query) or die('Erro na consulta à tabela "patrimonio_config_interface" ou sua sessão expirou!');
+	$result = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('patrimonio_config_interface')));
 
 	while ($row = mysql_fetch_array($result)) 
 		{ 
 		if (strtolower($row['nm_campo_tab_patrimonio']) == 'id_unid_organizacional_nivel1' ) 
 			{ 
 			$row['nm_campo_tab_patrimonio'] = 'b.nm_unid_organizacional_nivel1'; 
+			}
+		else if (strtolower($row['nm_campo_tab_patrimonio']) == 'id_unid_organizacional_nivel1a' ) 
+			{ 
+			$row['nm_campo_tab_patrimonio'] = 'd.nm_unid_organizacional_nivel1a'; 
 			}
 		else if (strtolower($row['nm_campo_tab_patrimonio']) == 'id_unid_organizacional_nivel2' ) 
 			{ 
@@ -71,24 +75,25 @@ else if ($_POST['historico_patrimonio'])
 		$campos = $campos . ", " . $row['nm_campo_tab_patrimonio'] . " AS '" . $row["te_etiqueta"] . "'";
 		}
 
-	$query = "SELECT 	DATE_FORMAT(dt_hr_alteracao,'%d/%m/%Y às %H:%ih') as 'Data de Alteração',
+	$query = "SELECT 	DATE_FORMAT(dt_hr_alteracao,'%d/%m/%Y às %H:%ih') as '".$oTranslator->_('Data de alteracao')."', 
 						dt_hr_alteracao " . $campos . "
-		  	  FROM 		patrimonio a, 
-			  			unid_organizacional_nivel1 b, 
-						unid_organizacional_nivel2 c
+		  	  FROM 		patrimonio a 
+
+			  LEFT JOIN unid_organizacional_nivel1a d on (a.id_unid_organizacional_nivel1a=d.id_unid_organizacional_nivel1a )
+			  LEFT JOIN unid_organizacional_nivel1 b on (d.id_unid_organizacional_nivel1=b.id_unid_organizacional_nivel1) 
+			  LEFT JOIN unid_organizacional_nivel2 c on (d.id_unid_organizacional_nivel1a=c.id_unid_organizacional_nivel1a)
+						
 		  	  WHERE 	a.te_node_address = '" . $_POST['te_node_address'] . "' AND 
-		  				a.id_so = '" . $_POST['id_so'] . "' AND
-						a.id_unid_organizacional_nivel1 =  b.id_unid_organizacional_nivel1 AND
-						a.id_unid_organizacional_nivel1 =  c.id_unid_organizacional_nivel1 AND
-						a.id_unid_organizacional_nivel2 =  c.id_unid_organizacional_nivel2
+		  				a.id_so = '" . $_POST['id_so'] . "'
+
 		  	  ORDER BY 	dt_hr_alteracao";	
 
-	$result = mysql_query($query) or die ('Erro na consulta à tabela "patrimonio" ou sua sessão expirou!');
-	$tipo_historico = 'de Patrimônio';
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('patrimonio')));
+	$tipo_historico = $oTranslator->_('Historico de Patrimonio');
 	}
 else if ($_POST['historico_rede']) 
 	{
-	$query = "SELECT 	DATE_FORMAT(dt_hr_alteracao,'%d/%m/%Y às %H:%ih') as 'Data de Alteração',
+	$query = "SELECT 	DATE_FORMAT(dt_hr_alteracao,'%d/%m/%Y às %H:%ih') as '".$oTranslator->_('Data de alteracao')."',
 						dt_hr_alteracao, 
 						te_nome_computador as 'Nome da Máquina', 
 						te_ip as 'IP', 
@@ -104,8 +109,8 @@ else if ($_POST['historico_rede'])
 			  WHERE 	te_node_address = '".$_POST['te_node_address']."' AND 
 			  			id_so = '". $_POST['id_so'] ."'   
 			  ORDER BY 	dt_hr_alteracao";
-	$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
-	$tipo_historico = 'TCP/IP';
+	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('historico_tcp_ip')));
+	$tipo_historico = $oTranslator->_('Historico de TCP/IP');
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -123,7 +128,9 @@ else if ($_POST['historico_rede'])
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>Hist&oacute;rico <? echo $tipo_historico?>
+    <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
+      <strong>
+        <? echo $tipo_historico?>
       </strong></font></td>
   </tr>
   <tr> 
@@ -180,11 +187,11 @@ if (mysql_num_rows($result) > 0)
 else 
 	{
 	echo '</table>';
-	echo mensagem('Não foi encontrado nenhum registro');
+	echo mensagem($oTranslator->_('Nao foi encontrado nenhum registro'));
 	}
 ?>
-<p><font size="1" face="Verdana, Arial, Helvetica, sans-serif"> Hit&oacute;rico 
-  gerado pelo <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+<p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+  <?=$oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>

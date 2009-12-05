@@ -78,6 +78,7 @@ AntiSpy();
     </tr>
     <tr> 
       <td colspan="3" nowrap> <div align="center"> 
+          <input type="hidden" name="in_exibir_etiqueta" value="S">
           <input name="gravar" type="submit" id="gravar" value="<?=$oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Configuracao de Etiqueta 3?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     </tr>

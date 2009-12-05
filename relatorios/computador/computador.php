@@ -154,7 +154,6 @@ if (@mysql_num_rows($result))
   	</tr>
 	<?  
 	if ($_SESSION["cs_nivel_administracao"] == 1 ||
-		$_SESSION["cs_nivel_administracao"] == 2 ||
 		$_SESSION["cs_nivel_administracao"] == 3) 		
 		{
 		?>

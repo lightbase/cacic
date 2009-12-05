@@ -34,7 +34,6 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 3 - Supervisão
 
 Conecta_bd_cacic();
-//$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
 $where = ' AND id_local = '.$_SESSION['id_local'];
 $queryCONFIG = "SELECT 		DISTINCT 
 							id_etiqueta,
@@ -69,7 +68,6 @@ if ($id_unid_organizacional_nivel1a)
 	}
 
 $where .= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND uo2.id_local = '.$_SESSION['id_local']:'');
-//$where .= ' AND uo2.id_local = '.$_SESSION['id_local'];
 
 if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 	{
@@ -208,13 +206,7 @@ else
   <tr> 
     <td><div align="center">
 
-			<? if ($_SESSION['cs_nivel_administracao'] == 1)
-			{
-			?>
-          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta2'];?>">
-          	<?
-			}
-			?>
+          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta2'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 
 
         
