@@ -99,10 +99,14 @@
     <tr> 
       <td valign="top"> <br> <br> <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
-            <td> <div align="center"> 
-                <input name="submit" type="submit" value="        <?=$oTranslator->_('Remover Softwares da Base de Dados');?>        "
-                       <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>
-                       onClick="SelectAll(this.form.elements['list6[]'])">
+            <td> <div align="center">
+			<? if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 3) 
+					{
+					?>
+                <input name="submit" type="submit" value="        <?=$oTranslator->_('Remover Softwares da Base de Dados');?>        " onClick="SelectAll(this.form.elements['list6[]'])">
+						<?
+					}
+					?>
               </div></td>
           </tr>
           <tr> 

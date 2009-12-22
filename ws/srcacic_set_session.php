@@ -201,7 +201,6 @@ if ($te_palavra_chave == $strTePalavraChave)
 		$query_SESSAO = "UPDATE srcacic_sessoes 
 						 SET	dt_hr_ultimo_contato = '".date('Y-m-d H:i:s')."'
 						 WHERE  id_sessao = ".$id_sessao;												
-		GravaTESTES('Atualizando SESSAO (id_sessao='.$id_sessao.')');
 		$result_SESSAO = mysql_query($query_SESSAO);			
 
 		conecta_bd_cacic();			
@@ -213,7 +212,6 @@ if ($te_palavra_chave == $strTePalavraChave)
 			
 			$query_CHAT = "INSERT INTO srcacic_chats(id_conexao,dt_hr_mensagem,te_mensagem,cs_origem)
 			 					  VALUES (".$id_conexao.",'".date('Y-m-d H:i:s')."','".$te_mensagem."','".$cs_origem."')";
-			GravaTESTES('Gravando chat da CONEXAO (id_conexao='.$id_conexao.')');									  
 			$result_CHAT = mysql_query($query_CHAT);			
 			}
 		else
@@ -226,11 +224,6 @@ if ($te_palavra_chave == $strTePalavraChave)
 				$arr_id_conexao		= explode('<REG>',DeCrypt($key,$iv,$_POST['id_conexao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey));		
 				$arr_te_so_cli 	   	= explode('<REG>',DeCrypt($key,$iv,$_POST['te_so_cli']	 	,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
 				
-GravaTESTES('Atualização de CONEXAO *****');		
-GravaTESTES('Tamanho da lista usuario: '.count($arr_id_usuario_cli));		
-GravaTESTES('Tamanho da lista conexao: '.count($arr_id_conexao));		
-GravaTESTES('Tamanho da lista te_so: '  .count($arr_te_so_cli));		
-
 				for ($i=0; $i < count($arr_id_usuario_cli); $i++)
 					{
 					$te_so_cli 		= $arr_te_so_cli[$i]; 								
@@ -241,7 +234,6 @@ GravaTESTES('Tamanho da lista te_so: '  .count($arr_te_so_cli));
 					E se o tecnico utilizar um notebook externo ao parque computacional da corporacao?
 					Nao insiro a maquina do visitante...
 					*/
-					GravaTESTES('Atualizando CONEXAO (id_conexao='.$id_conexao.')');	
 					$query_SESSAO = "UPDATE srcacic_conexoes 
 									 SET	dt_hr_ultimo_contato = '".date('Y-m-d H:i:s')."'							 		
 									 WHERE  id_sessao  = ".$id_sessao ." and
