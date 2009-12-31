@@ -16,7 +16,7 @@ CREATE  TABLE IF NOT EXISTS `acoes` (
   `te_descricao_breve` VARCHAR(100) NULL DEFAULT NULL ,
   `te_descricao` TEXT NULL DEFAULT NULL ,
   `te_nome_curto_modulo` VARCHAR(20) NULL DEFAULT NULL ,
-  `dt_hr_alteracao` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_hr_alteracao` DATETIME NULL ,
   `cs_situacao` CHAR(1) NULL DEFAULT NULL ,
   PRIMARY KEY (`id_acao`) )
 ENGINE = InnoDB
@@ -44,7 +44,7 @@ CREATE  TABLE IF NOT EXISTS `acoes_redes` (
   `id_ip_rede` VARCHAR(15) NOT NULL DEFAULT '' ,
   `dt_hr_coleta_forcada` DATETIME NULL DEFAULT NULL ,
   `cs_situacao` CHAR(1) NOT NULL DEFAULT 'T' ,
-  `dt_hr_alteracao` DATETIME NULL DEFAULT NULL ,
+  `dt_hr_alteracao` DATETIME NULL ,
   PRIMARY KEY (`id_local`, `id_ip_rede`, `id_acao`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
@@ -243,9 +243,9 @@ CREATE  TABLE IF NOT EXISTS `configuracoes_locais` (
   `in_exibe_bandeja` CHAR(1) NULL DEFAULT 'S' ,
   `nu_exec_apos` INT(11) NULL DEFAULT '10' ,
   `dt_hr_alteracao_patrim_interface` DATETIME NULL DEFAULT NULL ,
-  `dt_hr_alteracao_patrim_uon1` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
-  `dt_hr_alteracao_patrim_uon1a` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
-  `dt_hr_alteracao_patrim_uon2` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_hr_alteracao_patrim_uon1` DATETIME NULL ,
+  `dt_hr_alteracao_patrim_uon1a` DATETIME NULL ,
+  `dt_hr_alteracao_patrim_uon2` DATETIME NULL ,
   `dt_hr_coleta_forcada` DATETIME NULL DEFAULT NULL ,
   `te_notificar_mudanca_patrim` TEXT NULL DEFAULT NULL ,
   `nm_organizacao` VARCHAR(150) NULL DEFAULT NULL ,
@@ -355,9 +355,9 @@ CREATE  TABLE IF NOT EXISTS `historicos_hardware` (
   `id_so` INT(11) NOT NULL DEFAULT '0' ,
   `campo_alterado` VARCHAR(45) NULL DEFAULT '' ,
   `valor_antigo` VARCHAR(45) NULL DEFAULT '' ,
-  `data_anterior` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
+  `data_anterior` DATETIME NULL ,
   `novo_valor` VARCHAR(45) NULL DEFAULT '' ,
-  `nova_data` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
+  `nova_data` DATETIME NULL ,
   PRIMARY KEY (`te_node_address`, `id_so`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
@@ -370,8 +370,8 @@ CREATE  TABLE IF NOT EXISTS `historicos_outros_softwares` (
   `te_node_address` VARCHAR(17) NOT NULL DEFAULT '' ,
   `id_so` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
   `id_software_inventariado` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
-  `dt_hr_inclusao` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
-  `dt_hr_ult_coleta` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_hr_inclusao` DATETIME NOT NULL ,
+  `dt_hr_ult_coleta` DATETIME NOT NULL ,
   PRIMARY KEY (`te_node_address`, `id_so`, `id_software_inventariado`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
@@ -384,8 +384,8 @@ CREATE  TABLE IF NOT EXISTS `historicos_software` (
   `te_node_address` VARCHAR(17) NOT NULL DEFAULT '' ,
   `id_so` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
   `id_software_inventariado` INT(11) UNSIGNED NOT NULL DEFAULT '0' ,
-  `dt_hr_inclusao` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
-  `dt_hr_ult_coleta` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_hr_inclusao` DATETIME NOT NULL ,
+  `dt_hr_ult_coleta` DATETIME NOT NULL ,
   PRIMARY KEY (`te_node_address`, `id_so`, `id_software_inventariado`) ,
   INDEX `id_software` (`id_software_inventariado` ASC) )
 ENGINE = InnoDB
@@ -399,8 +399,8 @@ CREATE  TABLE IF NOT EXISTS `historicos_software_completo` (
   `te_node_address` VARCHAR(17) NOT NULL DEFAULT '' ,
   `id_so` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
   `id_software_inventariado` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
-  `dt_hr_inclusao` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
-  `dt_hr_ult_coleta` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_hr_inclusao` DATETIME NOT NULL ,
+  `dt_hr_ult_coleta` DATETIME NOT NULL ,
   PRIMARY KEY (`te_node_address`, `id_so`, `id_software_inventariado`, `dt_hr_inclusao`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
@@ -412,7 +412,7 @@ DEFAULT CHARACTER SET = latin1;
 CREATE  TABLE IF NOT EXISTS `historico_hardware` (
   `te_node_address` VARCHAR(17) NOT NULL DEFAULT '' ,
   `id_so` INT(11) NOT NULL DEFAULT '0' ,
-  `dt_hr_alteracao` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_hr_alteracao` DATETIME NOT NULL,
   `te_placa_video_desc` VARCHAR(100) NULL DEFAULT NULL ,
   `te_placa_rede_desc` VARCHAR(100) NULL DEFAULT NULL ,
   `te_cpu_desc` VARCHAR(100) NULL DEFAULT NULL ,
@@ -447,7 +447,7 @@ DEFAULT CHARACTER SET = latin1;
 CREATE  TABLE IF NOT EXISTS `historico_tcp_ip` (
   `te_node_address` VARCHAR(17) NOT NULL DEFAULT '' ,
   `id_so` INT(11) NOT NULL DEFAULT '0' ,
-  `dt_hr_alteracao` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_hr_alteracao` DATETIME NOT NULL ,
   `te_nome_computador` VARCHAR(25) NULL DEFAULT NULL ,
   `te_dominio_windows` VARCHAR(30) NULL DEFAULT NULL ,
   `te_dominio_dns` VARCHAR(30) NULL DEFAULT NULL ,
@@ -500,7 +500,7 @@ COMMENT = 'Localizações para regionalização de acesso a dados';
 -- Table `log`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `log` (
-  `dt_acao` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_acao` DATETIME NOT NULL ,
   `cs_acao` VARCHAR(20) NOT NULL DEFAULT '' ,
   `nm_script` VARCHAR(255) NOT NULL DEFAULT '' ,
   `nm_tabela` VARCHAR(255) NOT NULL DEFAULT '' ,
@@ -534,7 +534,7 @@ DEFAULT CHARACTER SET = latin1;
 CREATE  TABLE IF NOT EXISTS `patrimonio` (
   `id_unid_organizacional_nivel1a` INT(11) NOT NULL ,
   `id_so` INT(11) NOT NULL DEFAULT '0' ,
-  `dt_hr_alteracao` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_hr_alteracao` DATETIME NOT NULL,
   `te_node_address` VARCHAR(17) NOT NULL ,
   `id_unid_organizacional_nivel2` INT(11) NULL DEFAULT NULL ,
   `te_localizacao_complementar` VARCHAR(100) NULL DEFAULT NULL ,
@@ -585,7 +585,7 @@ CREATE  TABLE IF NOT EXISTS `perfis_aplicativos_monitorados` (
   `te_car_ver_wnt` VARCHAR(255) NULL DEFAULT NULL ,
   `cs_ide_licenca` CHAR(2) NULL DEFAULT NULL ,
   `te_ide_licenca` VARCHAR(255) NULL DEFAULT NULL ,
-  `dt_atualizacao` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_atualizacao` DATETIME NOT NULL ,
   `te_arq_ver_eng_w9x` VARCHAR(100) NULL DEFAULT NULL ,
   `te_arq_ver_pat_w9x` VARCHAR(100) NULL DEFAULT NULL ,
   `te_arq_ver_eng_wnt` VARCHAR(100) NULL DEFAULT NULL ,
@@ -596,7 +596,7 @@ CREATE  TABLE IF NOT EXISTS `perfis_aplicativos_monitorados` (
   `te_descritivo` TEXT NULL DEFAULT NULL ,
   `in_disponibiliza_info` CHAR(1) NULL DEFAULT 'N' ,
   `in_disponibiliza_info_usuario_comum` CHAR(1) NOT NULL DEFAULT 'N' ,
-  `dt_registro` DATETIME NULL DEFAULT NULL ,
+  `dt_registro` DATETIME NULL ,
   PRIMARY KEY (`id_aplicativo`) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 85
@@ -940,7 +940,7 @@ CREATE  TABLE IF NOT EXISTS `unid_organizacional_nivel2` (
   `te_email_responsavel_uon2` VARCHAR(50) NULL DEFAULT NULL ,
   `nu_tel1_responsavel_uon2` VARCHAR(10) NULL DEFAULT NULL ,
   `nu_tel2_responsavel_uon2` VARCHAR(10) NULL DEFAULT NULL ,
-  `dt_registro` DATETIME NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_registro` DATETIME NULL ,
   `cs_atualizado` CHAR(1) NOT NULL DEFAULT 'N' ,
   PRIMARY KEY (`id_unid_organizacional_nivel2`, `id_unid_organizacional_nivel1a`, `id_local`) ,
   INDEX `id_localizacao` (`id_local` ASC) )
@@ -959,7 +959,7 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   `nm_usuario_acesso` VARCHAR(20) NOT NULL DEFAULT '' ,
   `nm_usuario_completo` VARCHAR(60) NOT NULL DEFAULT '' ,
   `te_senha` VARCHAR(60) NOT NULL DEFAULT '' ,
-  `dt_log_in` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  `dt_log_in` DATETIME NOT NULL ,
   `id_grupo_usuarios` INT(1) NOT NULL DEFAULT '1' ,
   `te_emails_contato` VARCHAR(100) NULL DEFAULT NULL ,
   `te_telefones_contato` VARCHAR(100) NULL DEFAULT NULL ,
