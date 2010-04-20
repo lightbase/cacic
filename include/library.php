@@ -1759,7 +1759,7 @@ function CheckFtpLogin($server, $user, $pass, $port)
 		$data = fgets($sck, 1024);
 		fputs($sck, "PASS $pass\n");
 		$data = fgets($sck, 1024);
-		if (ereg("230", $data)) 
+		if (ereg("230", $data) or ereg("220", $data)) 
 			{
 			# User logged in
 			return 1;
