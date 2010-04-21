@@ -843,7 +843,7 @@ DEFAULT CHARACTER SET = latin1;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `tipos_licenca` (
   `id_tipo_licenca` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `te_tipo_licenca` VARCHAR(20) NULL DEFAULT NULL ,
+  `te_tipo_licenca` VARCHAR(50) NULL DEFAULT NULL ,
   PRIMARY KEY (`id_tipo_licenca`) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
