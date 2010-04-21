@@ -108,3 +108,5 @@ ALTER TABLE `unid_organizacional_nivel2` ADD COLUMN `cs_atualizado` CHAR(1) NOT 
 
 ALTER TABLE `usuarios` ADD COLUMN `id_servidor_autenticacao` INT(11) NULL DEFAULT NULL  AFTER `id_local` ;
 
+ALTER TABLE tipos_licenca
+  MODIFY te_tipo_licenca VARCHAR(50) NULL DEFAULT NULL;
