@@ -71,29 +71,29 @@ else
 
 if (($_SESSION['tp_consulta'] == 'nome') or ($_SESSION['tp_consulta']== '')) 
 	{
-	$valor_padrao = '<option value="nome" selected>Nome do Computador</option>
-					 <option value="ip">IP do Computador</option>
-					 <option value="te_node_address">MAC Address do Computador</option>';
+	$valor_padrao = '<option value="nome" selected>'.$oTranslator->_('Nome do Computador').'</option>
+					 <option value="ip">'.$oTranslator->_('IP do Computador').'</option>
+					 <option value="te_node_address">'.$oTranslator->_('Endereco MAC do Computador').'</option>';
 	}
 
 if (($_SESSION['tp_consulta'])== 'ip') 
 	{
-	$valor_padrao = '<option value="ip" selected>IP do Computador</option>
-					 <option value="te_node_address">MAC Address do Computador</option>				 
-					 <option value="nome">Nome do Computador</option>';
+	$valor_padrao = '<option value="ip" selected>'.$oTranslator->_('IP do Computador').'</option>
+					 <option value="te_node_address">'.$oTranslator->_('Endereco MAC do Computador').'</option>				 
+					 <option value="nome">'.$oTranslator->_('Nome do Computador').'</option>';
 	}
 
 if (($_SESSION['tp_consulta'])== 'te_node_address') 
 	{
-	$valor_padrao = '<option value="te_node_address" selected>MAC Address do Computador</option>
-					 <option value="nome">Nome do Computador</option>
-					 <option value="ip">IP do Computador</option>';
+	$valor_padrao = '<option value="te_node_address" selected>'.$oTranslator->_("Endereco MAC do Computador").'</option>
+					 <option value="nome">'.$oTranslator->_("Nome do Computador").'</option>
+					 <option value="ip">'.$oTranslator->_("IP do Computador").'</option>';
 	}
 ?>
 <form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
 <table width="90%" border="0" align="center">
 <tr> 
-      <td class="cabecalho">Consulta de Informa&ccedil;&otilde;es de Computadores</td>
+      <td class="cabecalho"><?=$oTranslator->_('Consulta de Informacoes de Computadores');?></td>
 </tr>
 <tr> 
 <td>&nbsp;</td>
@@ -101,7 +101,7 @@ if (($_SESSION['tp_consulta'])== 'te_node_address')
 </table>
 <tr><td height="1" colspan="2" bgcolor="#333333"></td></tr>
 <tr><td height="30" colspan="2"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
-<tr><td colspan="2" class="label">Selecione os filtros da consulta:</td></tr>
+<tr><td colspan="2" class="label"><?=$oTranslator->_('Selecione os filtros da consulta:');?></td></tr>
 <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
 <tr> 
 <td height="1" bgcolor="#333333"></td>
@@ -146,9 +146,6 @@ if ($_POST['consultar'] || ($_GET['campo']))
 		}
 	if($_SESSION['tp_consulta'] == 'te_node_address') 
 		{
-		?>
-          <!--Marisol 22-06-2006 <td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_node_address">te_node_address</a></div></td>-->		
-		<?
 		$where1	.=	" te_node_address like '%". $_SESSION['str_consulta'] ."%' ";				
 		}
 
@@ -167,22 +164,22 @@ if ($_POST['consultar'] || ($_GET['campo']))
 							
 	$query = $select1 . $from1 . $from2 . $where1 . $where2 . $where3 . $orderby;
 
-	$result = mysql_query($query) or die('Falha na consulta às tabelas Computadores, SO ou sua sessão expirou!');
+	$result = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('computadores')));
 	
 	if ((strlen($_SESSION['str_consulta']) < 3) && ($_SESSION['tp_consulta'] == 'nome')) 
 		{
-		echo $mensagem = mensagem('Digite pelo menos 03 caracteres...');
+		echo $mensagem = mensagem($oTranslator->_('Digite pelo menos 03 caracteres...'));
 		}
 	else
 		{
 		if(($nu_reg= mysql_num_rows($result))==0)
 			{
-			echo $mensagem = mensagem('Nenhum registro encontrado!');
+			echo $mensagem = mensagem($oTranslator->_('Nenhum registro encontrado!'));
 			}
 		else
 			{
 			?>
-			<p align="center" class="descricao">Clique sobre o nome da m&aacute;quina para ver os detalhes da mesma</p>
+			<p align="center" class="descricao"><?=$oTranslator->_('Clique sobre o nome da maquina para ver os detalhes da mesma');?></p>
 			<table border="0" align="center" cellpadding="0" cellspacing="1">
 			<tr> 
 			<td height="1" bgcolor="#333333"></td>
@@ -194,9 +191,9 @@ if ($_POST['consultar'] || ($_GET['campo']))
 			<td align="center"  nowrap>&nbsp;</td>
 			<td align="center"  nowrap>&nbsp;</td>
 			<td align="center"  nowrap>&nbsp;</td>
-			<td align="center"  nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_nome_computador">Nome da M&aacute;quina</a></div></td>
+			<td align="center"  nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_nome_computador"><?=$oTranslator->_('Nome da maquina');?></a></div></td>
 		  	<td nowrap >&nbsp;</td>
-			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_ip">IP</a></div></td>
+			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_ip"><?=$oTranslator->_('IP');?></a></div></td>
 			<td nowrap >&nbsp;</td>
 			<? 
 			if($_SESSION['tp_consulta'] == 'te_node_address') 
@@ -207,9 +204,9 @@ if ($_POST['consultar'] || ($_GET['campo']))
 				<?
 				}
 				?>
-			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_versao_cacic">Vers&atilde;o Cacic</a></div></td>
+			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_versao_cacic"><?=$oTranslator->_('Versao Cacic');?></a></div></td>
 		  	<td nowrap >&nbsp;</td>
-			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=dt_hr_ult_acesso">&Uacute;ltima Coleta</a></div></td>
+			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=dt_hr_ult_acesso"><?=$oTranslator->_('Ultima coleta');?></a></div></td>
 			<td nowrap >&nbsp;</td>
 			</tr>
 			<?  

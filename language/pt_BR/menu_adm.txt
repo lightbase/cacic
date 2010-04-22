@@ -19,7 +19,6 @@
 ...Usuários|admin/usuarios/index.php|mainFrame||Cadastro de Perfis de Aplicativos Monitorados
 ...Tipos Softwares|admin/tipos_softwares/index.php|mainFrame||
 ...Sistemas Operacionais|admin/sistemas_operacionais/index.php|mainFrame||
-...Softwares|admin/softwares/index.php|mainFrame||
 ..<b>Patrimônio</b>||mainFrame|imgs/config_gerais.gif
 ...Interface|admin/patrimonio/config_tela_patrimonio.php|mainFrame||Configuração da Tela de Coleta de Informações de Patrimônio
 ...U. O. Nível 1|admin/patrimonio/nivel1/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 1
@@ -27,11 +26,12 @@
 ...U. O. Nível 2|admin/patrimonio/nivel2/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 2
 ...Opções|admin/patrimonio/opcoes.php|mainFrame||Opções da coleta de Informações de Patrimônio e Localização Física
 ..<b>Gerencia Aquisições</b>||mainFrame||Controle de softwares e licenças
+...Softwares adiquiridos|admin/softwares/index.php|mainFrame||Controle de softwares adiquiridos
+...Tipos de Licença|admin/gerencia_licencas/tipos_licenca.php|mainFrame||Controle de tipos de licenças
 ...Aquisições|admin/gerencia_licencas/aquisicoes.php|mainFrame||Cadatro de processos de aquisições de softwares
 ...Itens adiquiridos|admin/gerencia_licencas/aquisicoes_itens.php|mainFrame||Itens adiquiridos por processos de aquisições de softwares
 ...Softwares por Esta&ccedil;&atilde;o|admin/gerencia_licencas/software_estacao.php|mainFrame||Softwares autorizados por estação
-...Tipos de Licença|admin/gerencia_licencas/tipos_licenca.php|mainFrame||Controle de tipos de licenças
-...Classificar Softwares|admin/gerencia_licencas/softwares_classificar.php|mainFrame||Classificar Softwares adiquiridos X inventariados
+...Classificar Softwares|admin/gerencia_licencas/softwares_classificar.php|mainFrame||Classificar Softwares adiquiridos X inventariados e tipificados
 .<b>Manutenção</b>||mainFrame|imgs/config_gerais.gif
 ..Atualização de SubRedes|admin/updates_subredes/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
 ..Excluir Computadores|admin/exclui_informacoes_computadores.php|mainFrame||Exclusão de Informações de Computadores da base

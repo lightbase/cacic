@@ -1136,3 +1136,11 @@ pt_BR     historico de hardware                                                 
 pt_BR     historico de patrimonio                                                                             relatoriosinfo                Historico de Patrimonio
 pt_BR     historico de tcp/ip                                                                                 relatoriosinfo                Historico de TCP/IP
 pt_BR     nao foi encontrado nenhum registro                                                                  relatoriosinfo                Nao foi encontrado nenhum registro
+pt_BR     ip do computador                                                                                    relatoriosinfo                IP do Computador
+pt_BR     endereco mac do computador                                                                          relatoriosinfo                Endereco MAC do Computador
+pt_BR     consulta de informacoes de computadores                                                             relatoriosinfo                Consulta de Informacoes de Computadores
+pt_BR     versao cacic                                                                                        relatoriosinfo                Versao Cacic
+pt_BR     classificacao de softwares inventariados e ja tipificados                                           softwares info                Classificacao de softwares inventariados e ja tipificados
+pt_BR     classificacao de softwares inventariados conforme cadastro de softwares adiquiridos                 softwares info                Classificacao de softwares inventariados conforme cadastro de softwares adiquiridos
+pt_BR     mostrar lista de:                                                                                   softwares info                Mostrar lista de:
+pt_BR     classificacao de softwares inventariados por tipo                                                   softwares info                Classificacao de softwares inventariados por tipo

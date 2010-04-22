@@ -26,7 +26,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  	
     function Softwares_Classificar() {
     	parent::Cacic_Common();
-    	$titulo = $this->oTranslator->_('Classificacao de softwares inventariados');
+    	$titulo = $this->oTranslator->_('Classificacao de softwares inventariados por tipo');
     	/*
     	 * Inicializa template com textos basicos
     	 */
@@ -39,7 +39,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      	$this->addVar('SoftwaresClassificar', 'CACIC_URL', CACIC_URL );
      	$this->addVar('SoftwaresClassificar_form', 'TITULO', $titulo );
      	$this->addVar('SoftwaresClassificar_form', 'DESCRICAO', $this->oTranslator->_('Classificacao de softwares inventariados conforme tipos possiveis') );
-     	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_CLASSIFICADO_SELECT', '<span class="Aviso">'.$this->oTranslator->_('Apenas os nao classificados?')."</span>" );
+     	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_CLASSIFICADO_SELECT', '<span class="Aviso">'.$this->oTranslator->_('Mostrar lista de:')."</span>" );
      	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_NAME_TITLE', $this->oTranslator->_('Nome do software inventariado') );
      	$this->addVar('SoftwaresType_list', 'IMG_TYPE', $this->isIEBrowser()?'gd':'svg' );
      	$this->addRows('SoftwaresType_list', $this->fillListSoftwaresType() );
@@ -192,9 +192,9 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		$software_classificado = Security::read('software_classificado');
 		$software_nao_classificado = Security::read('software_nao_classificado');
 		
-		$where = " where id_tipo_software=0 ";
+		$where = " where id_tipo_software IS NULL OR id_tipo_software=0 ";
 		if (($software_nao_classificado==-1)) {
-		   $where = " where id_tipo_software=0 ";
+		   $where = " where id_tipo_software IS NULL OR id_tipo_software=0 ";
 		}
 		else if (isset($software_nao_classificado) and ($software_nao_classificado>0) and ($software_nao_classificado)) {
 		   $where = " where id_tipo_software=$software_nao_classificado ";

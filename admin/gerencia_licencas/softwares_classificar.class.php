@@ -26,7 +26,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  	
     function Softwares_Classificar() {
     	parent::Cacic_Common();
-    	$titulo = $this->oTranslator->_('Classificacao de softwares inventariados');
+    	$titulo = $this->oTranslator->_('Classificacao de softwares inventariados e ja tipificados');
     	/*
     	 * Inicializa template com textos basicos
     	 */
@@ -38,13 +38,14 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
     	
      	$this->addVar('SoftwaresClassificar', 'CACIC_URL', CACIC_URL );
      	$this->addVar('SoftwaresClassificar_form', 'TITULO', $titulo );
-     	$this->addVar('SoftwaresClassificar_form', 'DESCRICAO', $this->oTranslator->_('Classificacao de softwares inventariados conforme softwares adiquiridos') );
-     	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_CLASSIFICADO_SELECT', '<span class="Aviso">'.$this->oTranslator->_('Apenas os nao classificados?')."</span>" );
+     	$this->addVar('SoftwaresClassificar_form', 'DESCRICAO', $this->oTranslator->_('Classificacao de softwares inventariados conforme cadastro de softwares adiquiridos') );
+     	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_CLASSIFICADO_SELECT', '<span class="Aviso">'.$this->oTranslator->_('Mostrar lista de:')."</span>" );
      	$this->addVar('SoftwaresClassificar_form', 'SOFTWARE_NAME_TITLE', $this->oTranslator->_('Nome do software inventariado') );
      	$this->addVar('SoftwaresClassificar_form', 'NO', $this->oTranslator->_('Nao') );     	
      	$this->addVar('SoftwaresClassificar_form', 'YES', $this->oTranslator->_('Sim') );
      	$this->addVar('SoftwaresType_list', 'IMG_TYPE', $this->isIEBrowser()?'gd':'svg' );
      	$this->addRows('SoftwaresType_list', $this->fillListSoftwaresType() );
+     	$this->addRows('SoftwaresSelectType_list', $this->fillListSoftwaresTypeSelection(Security::read('software_nao_classificado')) );
      	$this->addVar('SoftwaresClassificar_form', 'COLSPAN', 20 );
      	$this->addVar('SoftwaresClassificar_form', 'BTN_SALVAR', $this->oTranslator->_('Gravar alteracoes') );
      	$this->addVar('SoftwaresClassificar_form', 'BTN_SALVAR_DENY',  ($this->isAdminUser()?'enabled':'disabled'));
@@ -134,14 +135,43 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      * Obtem e preenche dados de formulario - softwares cadastrados
      * @access private
      */
-    function fillListSoftwaresType() {
-    	$sql = "select * from softwares order by id_software";
+    function fillListSoftwaresType($id_selected="") {
+    	$sql = "select * from softwares order by te_descricao_software";
     	$db_result = mysql_query($sql);
      	$list = array();
     	while( $tipos = mysql_fetch_assoc($db_result) ) {
-			$_arrAux = array( array('SOFTWARE_TYPE_NAME'=>$tipos['te_descricao_software'] ) );
+			$_arrAux = array( array('SOFTWARE_TYPE_NAME'=>$tipos['te_descricao_software'],
+			                        'SOFTWARE_TYPE_ID'=>$tipos['id_software'],
+			                        'SOFTWARE_TYPE_ID_SELECTED'=>$id_selected===$tipos['id_software']?"selected":""
+			                        ) );
 			$list = array_merge($list, $_arrAux);
     	}
+     	return $list;           
+    }
+    
+    /**
+     * Obtem e preenche dados de formulario - tipos de software
+     * @access private
+     */
+    function fillListSoftwaresTypeSelection($id_selected="") {
+    	$sql = "select * from softwares order by te_descricao_software";
+    	$db_result = mysql_query($sql);
+     	$list = array();
+		$_arrAux = array( array('SOFTWARE_TYPE_NAME'=>"Softwares nao classificados",
+		                        'SOFTWARE_TYPE_ID'=>-1,
+		                        'SOFTWARE_TYPE_ID_SELECTED'=>($id_selected==-1)?"selected":""
+		                       ) );
+		$list = array_merge($list, $_arrAux);
+		
+		$_arrAux = $this->fillListSoftwaresType($id_selected);
+		$list = array_merge($list, $_arrAux);
+		
+		$_arrAux = array( array('SOFTWARE_TYPE_NAME'=>"Todos (classificados ou nao)",
+		                        'SOFTWARE_TYPE_ID'=>-2,
+		                        'SOFTWARE_TYPE_ID_SELECTED'=>($id_selected==-2)?"selected":""
+		                       ) );
+		$list = array_merge($list, $_arrAux);
+		
      	return $list;           
     }
     
@@ -151,7 +181,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
      * @param string $btn_salvar Se botao para salvar foi acionado
      */
     function fillForm($_btn_salvar) {
-    	$sql = "select * from softwares order by id_software";
+    	$sql = "select * from softwares order by te_descricao_software";
     	$db_result = mysql_query($sql);
     	$_tipos_list = array();
     	while( $tipos = mysql_fetch_assoc($db_result) ) {
@@ -170,6 +200,16 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 		if (isset($software_nao_classificado) and ($software_nao_classificado==0)) {
 		   $where = " "; // esvazia a condicional de listagem
 		   $this->addVar('SoftwaresClassificar_form', 'NO_CHECKED', 'checked' );
+		}
+		$where = " where (id_tipo_software<>0) AND (id_software IS NULL OR id_software=0) ";
+		if (($software_nao_classificado==-1)) {
+		   $where = " where (id_tipo_software<>0) AND (id_software IS NULL OR id_software=0) ";
+		}
+		else if (isset($software_nao_classificado) and ($software_nao_classificado>0) and ($software_nao_classificado)) {
+		   $where = " where (id_tipo_software<>0) AND id_software=$software_nao_classificado ";
+		}
+		else if (isset($software_nao_classificado) and ($software_nao_classificado==-2)) {
+		   $where = " where (id_tipo_software<>0) "; // esvazia a condicional de listagem (lista tudo)
 		}
 
     	$sql_soft_count = "select count(*) as count from softwares_inventariados ".$where;
