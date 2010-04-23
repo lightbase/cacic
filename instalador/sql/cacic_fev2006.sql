@@ -504,6 +504,19 @@ ALTER TABLE `usuarios` ADD COLUMN `id_servidor_autenticacao` INT(11) NULL DEFAUL
 
 ALTER TABLE tipos_licenca
   MODIFY te_tipo_licenca VARCHAR(50) NULL DEFAULT NULL;
+  
+ALTER TABLE configuracoes_padrao
+  ADD  `te_standard_language` VARCHAR(5) NOT NULL DEFAULT 'pt_BR';
+
+-- -----------------------------------------------------
+-- Table `preferencia_usuarios`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `preferencia_usuarios` (
+  `id_usuario` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `te_std_language` VARCHAR(05) ,
+  PRIMARY KEY (`id_usuario`) 
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
