@@ -54,7 +54,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /**
  * define a versão do CACIC
  */
- define( 'CACIC_VERSION', '2.5 (trunk)');
+ define( 'CACIC_VERSION', '2.7 (trunk)');
 
 /**
  * define as versões atualizaveis do CACIC
@@ -66,7 +66,8 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
                                    'FEV2006'=>'fevereiro de 2006',
                                    'v2.2.2'=>'Versão 2.2.2',
                                    'v2.4.0-rc1'=>'Versão v2.4.0-RC1',
-                                   'v2.4.0-rc2'=>'Versão v2.4.0-RC2'
+                                   'v2.4.0-rc2'=>'Versão v2.4.0-RC2',
+                                   'v2.4.0'=>'Versão v2.4.0'
                                  );
 
 /**

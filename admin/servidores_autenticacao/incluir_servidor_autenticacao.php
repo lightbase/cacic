@@ -72,7 +72,7 @@ else
 	<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
 	<title>Inclus&atilde;o de Servidor de Autentica&ccedil;&atilde;o</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<SCRIPT LANGUAGE="JavaScript">
+	<script LANGUAGE="JavaScript">
     
     function valida_form() 
         {
