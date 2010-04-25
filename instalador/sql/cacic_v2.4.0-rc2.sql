@@ -108,7 +108,7 @@ ALTER TABLE configuracoes_padrao
 CREATE  TABLE IF NOT EXISTS `preferencia_usuarios` (
   `id_usuario` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `te_std_language` VARCHAR(05) ,
-  PRIMARY KEY (`id_usuario`) 
+  PRIMARY KEY (`id_usuario`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 

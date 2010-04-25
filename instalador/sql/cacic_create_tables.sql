@@ -782,19 +782,19 @@ COMMENT = 'Log de Atividades no Sistema CACIC';
 -- Table `srcacic_conexoes`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `srcacic_conexoes` (
-  `id_conexao` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador da conex√£o' ,
+  `id_conexao` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador da conex„o' ,
   `id_sessao` INT(11) NOT NULL ,
   `id_usuario_cli` INT(11) NOT NULL DEFAULT '0' ,
   `te_node_address_cli` VARCHAR(17) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL ,
   `te_documento_referencial` VARCHAR(60) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL ,
   `id_so_cli` INT(11) NOT NULL ,
-  `te_motivo_conexao` TEXT CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL COMMENT 'Descritivo breve sobre o motivo da conex√£o' ,
+  `te_motivo_conexao` TEXT CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL COMMENT 'Descritivo breve sobre o motivo da conex„o' ,
   `dt_hr_inicio_conexao` DATETIME NOT NULL ,
   `dt_hr_ultimo_contato` DATETIME NOT NULL ,
   PRIMARY KEY (`id_conexao`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1
-COMMENT = 'Registros de Conex√µes efetuadas √†s sess√µes abertas';
+COMMENT = 'Registros de Conexıes efetuadas ‡s sessıes abertas';
 
 
 -- -----------------------------------------------------
@@ -949,7 +949,7 @@ DEFAULT CHARACTER SET = latin1;
 CREATE  TABLE IF NOT EXISTS `preferencia_usuarios` (
   `id_usuario` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `te_std_language` VARCHAR(05) ,
-  PRIMARY KEY (`id_usuario`) 
+  PRIMARY KEY (`id_usuario`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
