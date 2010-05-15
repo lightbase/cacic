@@ -1144,3 +1144,20 @@ pt_BR     classificacao de softwares inventariados e ja tipificados             
 pt_BR     classificacao de softwares inventariados conforme cadastro de softwares adiquiridos                 softwares info                Classificacao de softwares inventariados conforme cadastro de softwares adiquiridos
 pt_BR     mostrar lista de:                                                                                   softwares info                Mostrar lista de:
 pt_BR     classificacao de softwares inventariados por tipo                                                   softwares info                Classificacao de softwares inventariados por tipo
+pt_BR     saida detalhada:                                                                                    relatoriosinfo                Saida Detalhada:
+pt_BR     resolucao dos graficos a serem exibidos                                                             admin     info                Resolucao dos graficos a serem exibidos
+pt_BR     altura                                                                                              admin     info                Altura
+pt_BR     largura                                                                                             admin     info                Largura
+pt_BR     incluir registro                                                                                    admin     info                Incluir registro
+pt_BR     nome para acesso                                                                                    admin     info                Nome para Acesso
+pt_BR     log de suporte remoto                                                                               admin     info                Log de Suporte Remoto
+pt_BR     kciq_msg log de suporte remoto help                                                                 admin     info                kciq_msg Log de suporte remoto help
+pt_BR     nenhum suporte remoto realizado no periodo informado                                                admin     info                Nenhum suporte remoto realizado no periodo informado
+pt_BR     inicio de sessao                                                                                    admin     info                Inicio de Sessao
+pt_BR     estacao local                                                                                       admin     info                Estacao Local
+pt_BR     usuario local                                                                                       admin     info                Usuario Local
+pt_BR     usuario remoto                                                                                      admin     info                Usuario Remoto
+pt_BR     sigla s.o. remoto                                                                                   admin     info                Sigla S.O. Remoto
+pt_BR     conexao - ultimo contato                                                                            admin     info                Conexao - Ultimo Contato
+pt_BR     chat                                                                                                admin     info                Chat
+pt_BR     criando titulo...                                                                                   relatoriosinfo                Criando titulo...

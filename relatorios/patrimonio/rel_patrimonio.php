@@ -261,7 +261,7 @@ else
 		$formato = $_GET['formato'];
 	else
 		$formato = $_POST['formato'];
-	GravaTESTES('Criando o relatório...');		
+	GravaTESTES('Criando o relatorio...');		
 	switch ($formato)
 		{
 		case "pdf":
@@ -286,7 +286,7 @@ else
 			break;
 		}
 
-	GravaTESTES($oTranslator->_('Criando título...'));				
+	GravaTESTES($oTranslator->_('Criando titulo...'));				
 	$relatorio->setTitulo($oTranslator->_('Relatorio de informacoes de Patrimonio e Localizacao Fisica'));
 
 	// String com nomes dos campos que não devem ser mostrados, concatenando-os com # para fins de busca em substring. 

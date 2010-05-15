@@ -111,6 +111,19 @@ CREATE  TABLE IF NOT EXISTS `preferencia_usuarios` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
+ALTER TABLE perfis_aplicativos_monitorados
+    MODIFY te_car_inst_w9x varchar(255),
+    MODIFY te_car_ver_w9x varchar(255),
+    MODIFY te_car_inst_wnt varchar(255),
+    MODIFY te_ide_licenca varchar(255),
+    MODIFY te_arq_ver_eng_w9x varchar(255),
+    MODIFY te_arq_ver_pat_w9x varchar(255),
+    MODIFY te_arq_ver_eng_wnt varchar(255),
+    MODIFY te_arq_ver_pat_wnt varchar(255),
+    MODIFY te_dir_padrao_w9x varchar(255),
+    MODIFY te_dir_padrao_wnt varchar(255),
+    MODIFY te_car_ver_wnt varchar(255);
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

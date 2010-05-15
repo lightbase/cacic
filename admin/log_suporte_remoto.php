@@ -251,17 +251,17 @@ require_once('../include/selecao_listbox.js');
 			<table width="90%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
           	<tr bgcolor="#E1E1E1"> 
             <td colspan="3"></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Início de Sessão');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Inicio de Sessao');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=7&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Estação Local');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=7&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Estacao Local');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=6&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuário Local');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=6&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuario Local');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=10&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuário Remoto');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=10&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuario Remoto');?></a></div></td>
             <td></td>
             <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=13&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Sigla S.O. Remoto');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=1&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Conexão - Último Contato');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php?OrderBy=1&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Conexao - Ultimo Contato');?></a></div></td>
             <td></td>
             <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_suporte_remoto.php#"><?=$oTranslator->_('Chat');?></a></div></td>
             <td></td>            
