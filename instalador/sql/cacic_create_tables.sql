@@ -104,6 +104,7 @@ CREATE  TABLE IF NOT EXISTS `aquisicoes` (
   `nr_notafiscal` VARCHAR(20) NULL DEFAULT NULL ,
   PRIMARY KEY (`id_aquisicao`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -302,6 +303,7 @@ CREATE  TABLE IF NOT EXISTS `contas` (
   `nm_responsavel` VARCHAR(30) NOT NULL DEFAULT '' ,
   PRIMARY KEY (`id_conta`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -342,6 +344,7 @@ CREATE  TABLE IF NOT EXISTS `grupo_usuarios` (
   `nm_grupo_usuarios` VARCHAR(20) NOT NULL DEFAULT '' ,
   PRIMARY KEY (`id_grupo_usuarios`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -489,6 +492,7 @@ CREATE  TABLE IF NOT EXISTS `locais` (
   PRIMARY KEY (`id_local`) ,
   INDEX `sg_localizacao` (`sg_local` ASC) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1
 COMMENT = 'Localiza√ß√µes para regionaliza√ß√£o de acesso a dados';
 
@@ -596,6 +600,7 @@ CREATE  TABLE IF NOT EXISTS `perfis_aplicativos_monitorados` (
   `dt_registro` DATETIME NULL ,
   PRIMARY KEY (`id_aplicativo`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -644,6 +649,7 @@ CREATE  TABLE IF NOT EXISTS `redes_grupos_ftp` (
   `id_ftp` INT(11) NOT NULL AUTO_INCREMENT ,
   PRIMARY KEY (`id_ftp`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -681,6 +687,7 @@ CREATE  TABLE IF NOT EXISTS `servidores_autenticacao` (
   `in_ativo` CHAR(1) NOT NULL DEFAULT 'S' ,
   PRIMARY KEY (`id_servidor_autenticacao`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1
 COMMENT = 'Servidores para Autenticacao do srCACIC';
 
@@ -712,6 +719,7 @@ CREATE  TABLE IF NOT EXISTS `softwares` (
   `te_obs` VARCHAR(200) NULL DEFAULT NULL ,
   PRIMARY KEY (`id_software`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -748,6 +756,7 @@ CREATE  TABLE IF NOT EXISTS `softwares_inventariados` (
   INDEX `id_software` (`id_software_inventariado` ASC) ,
   INDEX `idx_nm_software_inventariado` (`nm_software_inventariado` ASC) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -793,6 +802,7 @@ CREATE  TABLE IF NOT EXISTS `srcacic_conexoes` (
   `dt_hr_ultimo_contato` DATETIME NOT NULL ,
   PRIMARY KEY (`id_conexao`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1
 COMMENT = 'Registros de Conexıes efetuadas ‡s sessıes abertas';
 
@@ -812,6 +822,7 @@ CREATE  TABLE IF NOT EXISTS `srcacic_sessoes` (
   PRIMARY KEY (`id_sessao`) ,
   INDEX `idx_dtHrInicioSessao` (`dt_hr_inicio_sessao` ASC) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1
 COMMENT = 'Log de Atividades no Sistema CACIC';
 
@@ -824,6 +835,7 @@ CREATE  TABLE IF NOT EXISTS `tipos_licenca` (
   `te_tipo_licenca` VARCHAR(50) NULL DEFAULT NULL ,
   PRIMARY KEY (`id_tipo_licenca`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -835,6 +847,7 @@ CREATE  TABLE IF NOT EXISTS `tipos_software` (
   `te_descricao_tipo_software` VARCHAR(30) NOT NULL DEFAULT '' ,
   PRIMARY KEY (`id_tipo_software`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -883,6 +896,7 @@ CREATE  TABLE IF NOT EXISTS `unid_organizacional_nivel1` (
   `nu_tel2_responsavel_uon1` VARCHAR(10) NULL DEFAULT NULL ,
   PRIMARY KEY (`id_unid_organizacional_nivel1`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -895,6 +909,7 @@ CREATE  TABLE IF NOT EXISTS `unid_organizacional_nivel1a` (
   `nm_unid_organizacional_nivel1a` VARCHAR(70) NULL DEFAULT NULL ,
   PRIMARY KEY (`id_unid_organizacional_nivel1a`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -919,6 +934,7 @@ CREATE  TABLE IF NOT EXISTS `unid_organizacional_nivel2` (
   PRIMARY KEY (`id_unid_organizacional_nivel2`, `id_unid_organizacional_nivel1a`, `id_local`) ,
   INDEX `id_localizacao` (`id_local` ASC) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -940,6 +956,7 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   PRIMARY KEY (`id_usuario`) ,
   INDEX `id_localizacao` (`id_local` ASC) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -951,6 +968,7 @@ CREATE  TABLE IF NOT EXISTS `preferencia_usuarios` (
   `te_std_language` VARCHAR(05) ,
   PRIMARY KEY (`id_usuario`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -963,6 +981,7 @@ CREATE  TABLE IF NOT EXISTS `variaveis_ambiente` (
   `te_hash` VARCHAR(40) NOT NULL ,
   PRIMARY KEY (`id_variavel_ambiente`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 

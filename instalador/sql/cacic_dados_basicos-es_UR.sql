@@ -159,10 +159,10 @@ INSERT INTO `patrimonio_config_interface`
             (`id_local`, `id_etiqueta`, `nm_etiqueta`, `te_etiqueta`, `in_exibir_etiqueta`, `te_help_etiqueta`,
              `te_plural_etiqueta`, `nm_campo_tab_patrimonio`, `in_destacar_duplicidade`)
      VALUES
-            (1,'etiqueta1','Etiqueta 1','Entidad','','Seleccione una Entidad','Entidades','id_unid_organizacional_nivel1','N'),
-            (1, 'etiqueta1a', 'Etiqueta 1a', 'Linea de Negocio', 'S', 'Seleccione una Linea de Negocio', 'Lineas de Negocio', 'id_unid_organizacional_nivel1a', 'N'),
-            (1,'etiqueta2','Etiqueta 2','Organo','','Seleccione un organo','organos','id_unid_organizacional_nivel2','N'),
-            (1,'etiqueta3','Etiqueta 3','Seccion','','Informe una seccion donde está instalado el equipamiento.','Secciones','te_localizacao_complementar','N'),
+            (1,'etiqueta1','Etiqueta 1','Entidad','','Seleccione una Entidad','Entidades','id_unid_organizacional_nivel1','S'),
+            (1, 'etiqueta1a', 'Etiqueta 1a', 'Linea de Negocio', 'S', 'Seleccione una Linea de Negocio', 'Lineas de Negocio', 'id_unid_organizacional_nivel1a', 'S'),
+            (1,'etiqueta2','Etiqueta 2','Organo','','Seleccione un organo','organos','id_unid_organizacional_nivel2','S'),
+            (1,'etiqueta3','Etiqueta 3','Seccion','','Informe una seccion donde está instalado el equipamiento.','Secciones','te_localizacao_complementar','S'),
             (1,'etiqueta4','Etiqueta 4','PIB de la CPU','S','Informe el número de PIB de la CPU','','te_info_patrimonio1','S'),
             (1,'etiqueta5','Etiqueta 5','PIB del Monitor','S','Informe el número de PIB del Monitor','','te_info_patrimonio2','S'),
             (1,'etiqueta6','Etiqueta 6','PIB de la Impresora','S','En Caso si hay una Impresora conectada informe número de PIB','','te_info_patrimonio3','S'),
