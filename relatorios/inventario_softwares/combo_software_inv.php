@@ -25,7 +25,7 @@ $today=date('m-d-Y');
 
 while($row = mysql_fetch_array($RResult)) {		
 	$access_day = explode('-',$row['dt_hr_ult_acesso']);	
-	$diference = date_diff(trim(substr($access_day[1],0,2)).'-'.$access_day[2].'-'.$access_day[0],$today);	
+	$diference = data_diff(trim(substr($access_day[1],0,2)).'-'.$access_day[2].'-'.$access_day[0],$today);	
 	
 	if ($diference > 4) // Acima de 5 dias
 		$img_date = '<img src=http://' . $_SERVER['HTTP_HOST'] . '/cacic2/imgs/arvore/tree_computer_red.gif title=Último_acesso_realizado_há_mais_de_5_dias_(120_horas) width=16 height=16 hspace=5>';

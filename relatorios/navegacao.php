@@ -184,7 +184,7 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 				
 						$today=date('m-d-Y');	
 						$access_day = explode('-',$row["dt_hr_ult_acesso"]);	
-						$diference = date_diff(trim(substr($access_day[1],0,2)).'-'.$access_day[2].'-'.$access_day[0],$today);
+						$diference = data_diff(trim(substr($access_day[1],0,2)).'-'.$access_day[2].'-'.$access_day[0],$today);
 
 						// Mostrarei a quantidade de dias e a data de último acesso para a diferença maior que 4 dias
 						if     ($diference > 4) 						

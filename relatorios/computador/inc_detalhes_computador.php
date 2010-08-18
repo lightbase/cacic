@@ -56,7 +56,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 	<?
 	$today=date('m-d-Y');	
 	$access_day = explode('-',mysql_result($result, 0, "dt_hr_ult_acesso"));	
-	$diference = date_diff(trim(substr($access_day[1],0,2)).'-'.$access_day[2].'-'.$access_day[0],$today);	
+	$diference = data_diff(trim(substr($access_day[1],0,2)).'-'.$access_day[2].'-'.$access_day[0],$today);	
 	
 	if ($diference > 4) // Acima de 5 dias
 		$img_date = '<img src="../../imgs/arvore/tree_computer_red.gif" title="Último acesso realizado há mais de 5 dias (120 horas)" width="16" height="16">';

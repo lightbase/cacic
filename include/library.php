@@ -1421,7 +1421,7 @@ return $resultado;
 // Função usada para calcular diferença entre datas...
 // É necessário usar o formato MM-DD-AAAA nessa função
 // --------------------------------------------------------------------------------------
-function date_diff($from, $to) 
+function data_diff($from, $to) 
 	{ 
   	list($from_month, $from_day, $from_year) = explode("-", $from);
   	list($to_month, $to_day, $to_year) = explode("-", $to);
