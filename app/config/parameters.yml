@@ -4,11 +4,11 @@ parameters:
     database_port: null
     database_name: symfony
     database_user: root
-    database_password: 
+    database_password: w1f1t1d1
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
     locale: pt-BR
-    secret: 
+    secret: 53d3d9a4c081dbdc722010f9742eb05910
     database_path: null
