@@ -1,0 +1,43 @@
+    # Autenticacao no diretorio
+    <Location /statsvn/internet.sistemas.cnes/stat>
+       AuthType Basic
+       AuthName "Somente para usuarios autorizados! ;)" 
+       AuthUserFile /etc/apache2/localhost.users.auth
+       AuthGroupFile /etc/apache2/localhost.groups.auth
+       Require group admin statsvn
+    </Location>
+
+    # CACIC 
+    <Directory /var/www/cacic>
+       #php_flag register_globals on
+       php_admin_value register_globals "On"
+       AddDefaultCharset ISO-8859-1
+       #AddDefaultCharset UTF-8
+    </Directory>
+
+    # SUBVERSION Cacic-install
+    <Location /repos/cacic-install>
+        DAV svn 
+        SVNPath /var/local/svn/repos/cacic-install
+
+        # Require SSL connection for password protection.
+        #SSLRequireSSL
+
+        #AuthType Basic
+        #AuthName "Instalador WEB para o CACIC"
+        #AuthUserFile /projeto-exemplo.auth
+        #require valid-user
+    </Location>
+
+    # TRAC Cacic-install
+    <Location /trac/cacic-install>
+       SetHandler mod_python
+       PythonHandler trac.web.modpython_frontend
+       PythonOption TracEnv /var/local/svn/trac/cacic-install
+       PythonOption TracUriRoot /trac/cacic-install
+
+       #AuthType Basic
+       #AuthName "Instalador WEB para o CACIC"
+       #AuthUserFile /projeto-exemplo.auth
+       #Require valid-user
+    </Location>

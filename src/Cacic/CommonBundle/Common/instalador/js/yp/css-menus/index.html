@@ -1,0 +1,122 @@
+<script language="javascript" src="../ypSlideOutMenusC.js"></script>
+<script language="javascript">
+	var menus = [
+		new ypSlideOutMenu("menu1", "down", 5, 80, 210, 59),
+		new ypSlideOutMenu("menu2", "down", 57, 80, 170, 40),
+		new ypSlideOutMenu("menu3", "down", 147, 80, 170, 97),
+		new ypSlideOutMenu("menu4", "down", 237, 80, 170, 21)
+	]
+
+	for (var i = 0; i < menus.length; i++) {
+		menus[i].onactivate = new Function("document.getElementById('act" + i + "').className='active';");
+		menus[i].ondeactivate = new Function("document.getElementById('act" + i + "').className='';");
+	}
+</script>
+
+<style type="text/css">
+	/* just basic text formatting - nothing special */
+	@import "/_common/demo.css";
+		
+	body {
+		font-size:11px;
+		font-family:arial, sans-serif;
+		color:#444444;
+	}
+	#menubar {
+		position:absolute;
+		width:450px;
+		left:5px;
+		top:55px;
+		background-color:#F9F1C8;
+		border:1px solid #AD5800;
+		padding:2px;
+	}
+	#menubar a {
+		color:#AD5800;
+		letter-spacing:1px;
+		border:1px solid #F9F1C8;
+		padding-left:5px;
+		padding-right:5px;
+		text-decoration:none;
+	}
+	#menubar a.active {
+		border-bottom-color:#CCC599;
+		border-right-color:#CCC599;
+		border-left-color:#FFFFFF;
+		border-top-color:#FFFFFF;
+	}
+	.menu .options {
+		margin-right:1px;
+		margin-bottom:1px;
+		border:1px solid #AD5800;
+		background-color:#F9F1C8;
+	}
+	.menu a {
+		color:#AD5800;
+		display:block;
+		padding:2px 10px;
+		text-decoration:none;
+		background-color:transparent;
+	}
+	.menu a:hover {
+		background-color:#AD5800;
+		color:#FAF7E1;
+	}
+
+	#about {
+		position:absolute;
+		left:5px;
+		top:200px;
+	}
+</style>
+
+<div id="menubar">
+	<a id="act0" href="/ideas/" onmouseover="ypSlideOutMenu.showMenu('menu1')" onmouseout="ypSlideOutMenu.hideMenu('menu1')" title="onmouseover=ypSlideOutMenu.showMenu('menu1'); onmouseout=ypSlideOutMenu.hideMenu('menu1')">ideas</a>&nbsp;
+	<a id="act1" href="/experiments/" onmouseover="ypSlideOutMenu.showMenu('menu2')" onmouseout="ypSlideOutMenu.hideMenu('menu2')" title="onmouseover=ypSlideOutMenu.showMenu('menu2'); onmouseout=ypSlideOutMenu.hideMenu('menu2')">experiments</a>&nbsp;
+	<a id="act2" href="/components/" onmouseover="ypSlideOutMenu.showMenu('menu3')" onmouseout="ypSlideOutMenu.hideMenu('menu3')" title="onmouseover=ypSlideOutMenu.showMenu('menu3'); onmouseout=ypSlideOutMenu.hideMenu('menu3')">components</a>&nbsp;
+	<a id="act3" href="/writings/" onmouseover="ypSlideOutMenu.showMenu('menu4')" onmouseout="ypSlideOutMenu.hideMenu('menu4')" title="onmouseover=ypSlideOutMenu.showMenu('menu4'); onmouseout=ypSlideOutMenu.hideMenu('menu4')">writings</a>
+</div>
+
+
+<div id="menu1Container">
+	<div id="menu1Content" class="menu">
+		<div class="options">
+			<a href="/ideas/javascript_debugger/">javascript debugger</a>
+			<a href="/ideas/onRollMouseWheel/">monitoring the mouse-wheel</a>
+			<a href="/ideas/resizeable_flash_textfield/">resizable text fields in flash</a>
+		</div>
+	</div>
+</div>
+
+<div id="menu2Container">
+	<div id="menu2Content" class="menu">
+		<div class="options">
+			<a href="/experiments/email_wiretap/">email wiretap</a>
+			<a href="/experiments/beatnik_piano/">beatnik piano</a>
+		</div>
+	</div>
+</div>
+
+<div id="menu3Container">
+	<div id="menu3Content" class="menu">
+		<div class="options">
+			<a href="/components/ypXmlTree/">ypXmlTree</a>
+			<a href="/components/ypRing/">ypRing</a>
+			<a href="/components/ypBranch/">ypBranch</a>
+			<a href="/components/ypSlideOutMenu/">ypSlideOutMenu</a>
+			<a href="/components/ypSimpleScroll/">ypSimpleScroll</a>
+		</div>
+	</div>
+</div>
+
+<div id="menu4Container">
+	<div id="menu4Content" class="menu">
+		<div class="options">
+			<a href="/writings/i_want_my_DOM/">i want my DOM, dammit</a>
+		</div>
+	</div>
+</div>
+
+<div id="about">
+	<code>Note that this sample doesn't look good in older browsers (even ie5!) that don't support all of CSS. This has nothing to do with the component, I've just implemented some extra CSS here to make it look cool. The same could be achieved with TABLE elements, but I just didn't feel like making them.</code>
+</div>
