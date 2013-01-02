@@ -1,0 +1,55 @@
+<html>
+<head>
+	<script language="javascript" src="../ypSlideOutMenusC.js"></script>
+	<script language="javascript">
+ 
+		var myOffset = -37;
+
+		// the number you pass to initLeft doesn't matter since it will get
+		// changed onactivate
+		var myMenu = new ypSlideOutMenu("menu1", "down", 0, 25, 180, 200)
+ 
+		myMenu.onactivate = repositionMenu
+ 
+		function repositionMenu()
+		{
+			var newLeft = getWindowWidth() / 2 + myOffset;
+			myMenu.container.style ? myMenu.container.style.left = newLeft + "px" : myMenu.container.left = newLeft;
+		}
+		 
+		function getWindowWidth()
+		{
+			return window.innerWidth ? window.innerWidth : document.body.offsetWidth;
+		}	
+
+	</script>
+
+	<style type="text/css">
+		.menuActuator a { 
+			color:#666666;
+			font-weight:bold;
+			font-size:12px;
+			font-family:arial;
+		}
+
+		.menu {
+			font-family:verdana;
+			color:#666666;
+			font-size:10px;
+			background-color:#cccccc;
+			layer-background-color:#cccccc;
+		}
+	</style>
+</head>
+
+<body leftmargin=0 topmargin=0 marginwidth=0 marginheight=0 bgcolor="white">
+	<table align="center" bgcolor="#CCCCCC" cellpadding="2" cellspacing="0" border="0">
+	<tr>
+		<td width="50" align="center" class="menuActuator"><a href="#" onmouseover="ypSlideOutMenu.showMenu('menu1');" onmouseout="ypSlideOutMenu.hideMenu('menu1')">menu1</a></td>
+	</tr>
+	</table>
+
+	<div id="menu1Container">
+		<div id="menu1Content" class="menu">this is menu 1!</div>
+	</div>
+</body>

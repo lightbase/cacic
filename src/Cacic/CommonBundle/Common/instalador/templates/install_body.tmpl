@@ -1,0 +1,33 @@
+<cacicInstall:comment>
+/**
+ * @version $Id: index.php 2007-02-08 22:20 harpiain $
+ * @package Cacic-Installer
+ * @subpackage Instalador
+ * @author Adriano dos Santos Vieira <harpiain at gmail.com>
+ * @copyright Copyright (C) 2007 Adriano dos Santos Vieira. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * CACIC-Install is free software and parts of it may contain or be derived from the
+ * GNU General Public License or other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ * @description Templates para para o Instalador do CACIC
+ */
+</cacicInstall:comment>
+
+<cacicInstall:tmpl name="tmplPageBody">
+  <body>
+	<cacicInstall:comment>
+	CABECALHO do Instalador
+	</cacicInstall:comment>
+	<div  class="cabecalho">
+		<table>
+		  <tr>
+		     <td class="logoCACIC"></td>
+		     <td class="titulo-ext"><div class="titulo"><br><p class="version">{KCIQ_DEF_VERSION}:{CACIC_VERSION}</div></td>
+		  </tr>
+		  <tr align=center>
+		     <td colspan="2"><b>{KCIQ_WEB_INSTALLER}</b></td>
+		  </tr>
+		</table>
+	</div>
+	<noscript><p class="NoJavaScript">{KCIQ_JS_ENABLE}</noscript>
+</cacicInstall:tmpl>

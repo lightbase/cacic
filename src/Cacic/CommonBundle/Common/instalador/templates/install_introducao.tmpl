@@ -1,0 +1,46 @@
+<cacicInstall:comment>
+/**
+ * @version $Id: index.php 2007-02-08 22:20 harpiain $
+ * @package Cacic-Installer
+ * @subpackage Instalador
+ * @author Adriano dos Santos Vieira <harpiain at gmail.com>
+ * @copyright Copyright (C) 2007 Adriano dos Santos Vieira. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * CACIC-Install is free software and parts of it may contain or be derived from the
+ * GNU General Public License or other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ * @description Templates para para o Instalador do CACIC
+ */
+</cacicInstall:comment>
+
+<cacicInstall:tmpl name="tmplIntroducao">
+
+	<fieldset>
+          <table width="100%">
+               <tr align="right" >
+                  <td>{KCIQ_DEF_LANGUAGE}:
+                     <select id="translate_lang" name="translate_lang" onchange="submitForm( installForm, 'preinstall' );">
+                        <option value=""></option>
+                        <cacicInstall:tmpl name="tmplLang_list">
+                         <option {LANG_SELECTED} value="{LANG_ABBR}">{LANG_DESCR}</option>
+                        </cacicInstall:tmpl>
+                     </select>
+                  </td>
+               </tr>
+               <tfoot>
+               <tr>
+                  <td colspan="2">
+                  </td>
+               </tr>
+               </tfoot>
+          </table>
+	</fieldset>
+
+
+	<div id="introducao">
+	<fieldset>
+	<legend>{KCIQ_INSTALLERINTROTITLE}</legend>
+	 {KCIQ_INSTALLER_INTRODUTION}
+	</fieldset>
+	</div>
+</cacicInstall:tmpl>
