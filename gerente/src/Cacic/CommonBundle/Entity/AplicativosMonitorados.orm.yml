@@ -9,12 +9,6 @@ AplicativosMonitorados:
             fixed: true
             nullable: false
             column: te_node_address
-        idSo:
-            id: true
-            type: integer
-            unsigned: true
-            nullable: false
-            column: id_so
         idAplicativo:
             id: true
             type: integer
@@ -51,4 +45,14 @@ AplicativosMonitorados:
             fixed: true
             nullable: true
             column: cs_instalado
+    oneToOne:
+        idSo:
+            targetEntity: So
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_so:
+                    referencedColumnName: id_so
+            orphanRemoval: false
     lifecycleCallbacks: {  }

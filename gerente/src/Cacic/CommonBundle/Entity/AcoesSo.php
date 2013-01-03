@@ -13,41 +13,50 @@ use Doctrine\ORM\Mapping as ORM;
 class AcoesSo
 {
     /**
-     * @var string
+     * @var \Acoes
      *
-     * @ORM\Column(name="id_acao", type="string", length=20, nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Acoes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_acao", referencedColumnName="id_acao")
+     * })
      */
     private $idAcao;
 
     /**
-     * @var integer
+     * @var \Locais
      *
-     * @ORM\Column(name="id_so", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idSo;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_local", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Locais")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
+     * })
      */
     private $idLocal;
+
+    /**
+     * @var \So
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="So")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_so", referencedColumnName="id_so")
+     * })
+     */
+    private $idSo;
 
 
 
     /**
      * Set idAcao
      *
-     * @param string $idAcao
+     * @param \Cacic\CommonBundle\Entity\Acoes $idAcao
      * @return AcoesSo
      */
-    public function setIdAcao($idAcao)
+    public function setIdAcao(\Cacic\CommonBundle\Entity\Acoes $idAcao)
     {
         $this->idAcao = $idAcao;
     
@@ -57,7 +66,7 @@ class AcoesSo
     /**
      * Get idAcao
      *
-     * @return string 
+     * @return \Cacic\CommonBundle\Entity\Acoes 
      */
     public function getIdAcao()
     {
@@ -65,35 +74,12 @@ class AcoesSo
     }
 
     /**
-     * Set idSo
-     *
-     * @param integer $idSo
-     * @return AcoesSo
-     */
-    public function setIdSo($idSo)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSo
-     *
-     * @return integer 
-     */
-    public function getIdSo()
-    {
-        return $this->idSo;
-    }
-
-    /**
      * Set idLocal
      *
-     * @param integer $idLocal
+     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
      * @return AcoesSo
      */
-    public function setIdLocal($idLocal)
+    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal)
     {
         $this->idLocal = $idLocal;
     
@@ -103,10 +89,33 @@ class AcoesSo
     /**
      * Get idLocal
      *
-     * @return integer 
+     * @return \Cacic\CommonBundle\Entity\Locais 
      */
     public function getIdLocal()
     {
         return $this->idLocal;
+    }
+
+    /**
+     * Set idSo
+     *
+     * @param \Cacic\CommonBundle\Entity\So $idSo
+     * @return AcoesSo
+     */
+    public function setIdSo(\Cacic\CommonBundle\Entity\So $idSo)
+    {
+        $this->idSo = $idSo;
+    
+        return $this;
+    }
+
+    /**
+     * Get idSo
+     *
+     * @return \Cacic\CommonBundle\Entity\So 
+     */
+    public function getIdSo()
+    {
+        return $this->idSo;
     }
 }

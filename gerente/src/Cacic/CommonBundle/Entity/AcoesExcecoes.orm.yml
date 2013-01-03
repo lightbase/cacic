@@ -10,26 +10,38 @@ AcoesExcecoes:
             column: id_acao_excecao
             generator:
                 strategy: IDENTITY
-        idLocal:
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_local
         teNodeAddress:
             type: string
             length: 17
             fixed: true
             nullable: false
             column: te_node_address
-        idAcao:
-            type: string
-            length: 20
-            fixed: true
-            nullable: false
-            column: id_acao
+    manyToOne:
         idSo:
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_so
+            targetEntity: So
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_so:
+                    referencedColumnName: id_so
+            orphanRemoval: false
+        idLocal:
+            targetEntity: Locais
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
+        idAcao:
+            targetEntity: Acoes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_acao:
+                    referencedColumnName: id_acao
+            orphanRemoval: false
     lifecycleCallbacks: {  }
