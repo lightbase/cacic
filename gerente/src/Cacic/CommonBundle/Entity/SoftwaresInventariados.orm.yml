@@ -1,0 +1,35 @@
+SoftwaresInventariados:
+    type: entity
+    table: softwares_inventariados
+    fields:
+        idSoftwareInventariado:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_software_inventariado
+            generator:
+                strategy: IDENTITY
+        nmSoftwareInventariado:
+            type: string
+            length: 100
+            fixed: true
+            nullable: false
+            column: nm_software_inventariado
+        idTipoSoftware:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: id_tipo_software
+        idSoftware:
+            type: integer
+            unsigned: true
+            nullable: true
+            column: id_software
+        teHash:
+            type: string
+            length: 40
+            fixed: true
+            nullable: false
+            column: te_hash
+    lifecycleCallbacks: {  }

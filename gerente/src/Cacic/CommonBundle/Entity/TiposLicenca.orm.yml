@@ -1,0 +1,19 @@
+TiposLicenca:
+    type: entity
+    table: tipos_licenca
+    fields:
+        idTipoLicenca:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_tipo_licenca
+            generator:
+                strategy: IDENTITY
+        teTipoLicenca:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_tipo_licenca
+    lifecycleCallbacks: {  }

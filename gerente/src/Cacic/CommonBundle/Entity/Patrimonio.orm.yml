@@ -1,0 +1,80 @@
+Patrimonio:
+    type: entity
+    table: patrimonio
+    fields:
+        idPatrimonio:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_patrimonio
+            generator:
+                strategy: IDENTITY
+        idUnidOrganizacionalNivel1a:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_unid_organizacional_nivel1a
+        idSo:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_so
+        dtHrAlteracao:
+            type: datetime
+            nullable: false
+            column: dt_hr_alteracao
+        teNodeAddress:
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idUnidOrganizacionalNivel2:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: id_unid_organizacional_nivel2
+        teLocalizacaoComplementar:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_localizacao_complementar
+        teInfoPatrimonio1:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_info_patrimonio1
+        teInfoPatrimonio2:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_info_patrimonio2
+        teInfoPatrimonio3:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_info_patrimonio3
+        teInfoPatrimonio4:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_info_patrimonio4
+        teInfoPatrimonio5:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_info_patrimonio5
+        teInfoPatrimonio6:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_info_patrimonio6
+    lifecycleCallbacks: {  }

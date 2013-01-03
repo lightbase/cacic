@@ -1,0 +1,24 @@
+SoftwaresInventariadosEstacoes:
+    type: entity
+    table: softwares_inventariados_estacoes
+    fields:
+        teNodeAddress:
+            id: true
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idSo:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_so
+        idSoftwareInventariado:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_software_inventariado
+    lifecycleCallbacks: {  }

@@ -1,0 +1,31 @@
+DescricoesColunasComputadores:
+    type: entity
+    table: descricoes_colunas_computadores
+    fields:
+        idDescricaoColunaComputador:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_descricao_coluna_computador
+            generator:
+                strategy: IDENTITY
+        nmCampo:
+            type: string
+            length: 100
+            fixed: true
+            nullable: false
+            column: nm_campo
+        teDescricaoCampo:
+            type: string
+            length: 100
+            fixed: true
+            nullable: false
+            column: te_descricao_campo
+        csCondicaoPesquisa:
+            type: string
+            length: 1
+            fixed: true
+            nullable: false
+            column: cs_condicao_pesquisa
+    lifecycleCallbacks: {  }

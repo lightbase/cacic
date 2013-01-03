@@ -1,0 +1,107 @@
+HistoricoTcpIp:
+    type: entity
+    table: historico_tcp_ip
+    fields:
+        teNodeAddress:
+            id: true
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idSo:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_so
+        dtHrAlteracao:
+            id: true
+            type: datetime
+            nullable: false
+            column: dt_hr_alteracao
+        teNomeComputador:
+            type: string
+            length: 25
+            fixed: true
+            nullable: true
+            column: te_nome_computador
+        teDominioWindows:
+            type: string
+            length: 30
+            fixed: true
+            nullable: true
+            column: te_dominio_windows
+        teDominioDns:
+            type: string
+            length: 30
+            fixed: true
+            nullable: true
+            column: te_dominio_dns
+        teIp:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_ip
+        teMascara:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_mascara
+        idIpRede:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: id_ip_rede
+        teNomeHost:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_nome_host
+        teGateway:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_gateway
+        teWinsPrimario:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_wins_primario
+        teWinsSecundario:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_wins_secundario
+        teDnsPrimario:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_dns_primario
+        teDnsSecundario:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_dns_secundario
+        teServDhcp:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_serv_dhcp
+        teWorkgroup:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_workgroup
+    lifecycleCallbacks: {  }

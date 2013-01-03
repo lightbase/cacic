@@ -1,0 +1,33 @@
+HistoricosSoftwareCompleto:
+    type: entity
+    table: historicos_software_completo
+    fields:
+        teNodeAddress:
+            id: true
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idSo:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_so
+        idSoftwareInventariado:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_software_inventariado
+        dtHrInclusao:
+            id: true
+            type: datetime
+            nullable: false
+            column: dt_hr_inclusao
+        dtHrUltColeta:
+            type: datetime
+            nullable: false
+            column: dt_hr_ult_coleta
+    lifecycleCallbacks: {  }

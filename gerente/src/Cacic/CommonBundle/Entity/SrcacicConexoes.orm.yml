@@ -1,0 +1,52 @@
+SrcacicConexoes:
+    type: entity
+    table: srcacic_conexoes
+    fields:
+        idConexao:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_conexao
+            generator:
+                strategy: IDENTITY
+        idSessao:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_sessao
+        idUsuarioCli:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_usuario_cli
+        teNodeAddressCli:
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address_cli
+        teDocumentoReferencial:
+            type: string
+            length: 60
+            fixed: true
+            nullable: false
+            column: te_documento_referencial
+        idSoCli:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_so_cli
+        teMotivoConexao:
+            type: text
+            nullable: false
+            column: te_motivo_conexao
+        dtHrInicioConexao:
+            type: datetime
+            nullable: false
+            column: dt_hr_inicio_conexao
+        dtHrUltimoContato:
+            type: datetime
+            nullable: false
+            column: dt_hr_ultimo_contato
+    lifecycleCallbacks: {  }

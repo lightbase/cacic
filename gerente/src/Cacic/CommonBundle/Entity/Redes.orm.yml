@@ -1,0 +1,140 @@
+Redes:
+    type: entity
+    table: redes
+    fields:
+        idIpRede:
+            id: true
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: id_ip_rede
+        idLocal:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_local
+        idServidorAutenticacao:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: id_servidor_autenticacao
+        nmRede:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: nm_rede
+        teObservacao:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_observacao
+        nmPessoaContato1:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: nm_pessoa_contato1
+        nmPessoaContato2:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: nm_pessoa_contato2
+        nuTelefone1:
+            type: string
+            length: 11
+            fixed: true
+            nullable: true
+            column: nu_telefone1
+        teEmailContato2:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_email_contato2
+        nuTelefone2:
+            type: string
+            length: 11
+            fixed: true
+            nullable: true
+            column: nu_telefone2
+        teEmailContato1:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_email_contato1
+        teServCacic:
+            type: string
+            length: 60
+            fixed: true
+            nullable: false
+            column: te_serv_cacic
+        teServUpdates:
+            type: string
+            length: 60
+            fixed: true
+            nullable: false
+            column: te_serv_updates
+        tePathServUpdates:
+            type: string
+            length: 255
+            fixed: true
+            nullable: true
+            column: te_path_serv_updates
+        nmUsuarioLoginServUpdates:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: nm_usuario_login_serv_updates
+        teSenhaLoginServUpdates:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_senha_login_serv_updates
+        nuPortaServUpdates:
+            type: string
+            length: 4
+            fixed: true
+            nullable: true
+            column: nu_porta_serv_updates
+        teMascaraRede:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_mascara_rede
+        dtVerificaUpdates:
+            type: date
+            nullable: true
+            column: dt_verifica_updates
+        nmUsuarioLoginServUpdatesGerente:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: nm_usuario_login_serv_updates_gerente
+        teSenhaLoginServUpdatesGerente:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_senha_login_serv_updates_gerente
+        nuLimiteFtp:
+            type: integer
+            unsigned: true
+            nullable: false
+            column: nu_limite_ftp
+        csPermitirDesativarSrcacic:
+            type: string
+            length: 1
+            fixed: true
+            nullable: false
+            column: cs_permitir_desativar_srcacic
+    lifecycleCallbacks: {  }

@@ -1,0 +1,276 @@
+Computadores:
+    type: entity
+    table: computadores
+    fields:
+        teNodeAddress:
+            id: true
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idSo:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_so
+        teSo:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_so
+        teNomeComputador:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_nome_computador
+        idIpRede:
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: id_ip_rede
+        teDominioWindows:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_dominio_windows
+        teDominioDns:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_dominio_dns
+        tePlacaVideoDesc:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_placa_video_desc
+        teIp:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_ip
+        teMascara:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_mascara
+        teNomeHost:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_nome_host
+        tePlacaRedeDesc:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_placa_rede_desc
+        dtHrInclusao:
+            type: datetime
+            nullable: true
+            column: dt_hr_inclusao
+        teGateway:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_gateway
+        teWinsPrimario:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_wins_primario
+        teCpuDesc:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_cpu_desc
+        teWinsSecundario:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_wins_secundario
+        teDnsPrimario:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_dns_primario
+        qtPlacaVideoMem:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: qt_placa_video_mem
+        teDnsSecundario:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_dns_secundario
+        tePlacaMaeDesc:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_placa_mae_desc
+        teServDhcp:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_serv_dhcp
+        qtMemRam:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: qt_mem_ram
+        teCpuSerial:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_cpu_serial
+        teCpuFabricante:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_cpu_fabricante
+        teCpuFreq:
+            type: string
+            length: 6
+            fixed: true
+            nullable: true
+            column: te_cpu_freq
+        teMemRamDesc:
+            type: string
+            length: 200
+            fixed: true
+            nullable: true
+            column: te_mem_ram_desc
+        teBiosDesc:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_bios_desc
+        teBiosData:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: te_bios_data
+        dtHrUltAcesso:
+            type: datetime
+            nullable: true
+            column: dt_hr_ult_acesso
+        teVersaoCacic:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: te_versao_cacic
+        teVersaoGercols:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: te_versao_gercols
+        teBiosFabricante:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_bios_fabricante
+        tePalavraChave:
+            type: string
+            length: 30
+            fixed: true
+            nullable: false
+            column: te_palavra_chave
+        tePlacaMaeFabricante:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_placa_mae_fabricante
+        qtPlacaVideoCores:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: qt_placa_video_cores
+        tePlacaVideoResolucao:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: te_placa_video_resolucao
+        tePlacaSomDesc:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_placa_som_desc
+        teCdromDesc:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_cdrom_desc
+        teTecladoDesc:
+            type: string
+            length: 100
+            fixed: true
+            nullable: false
+            column: te_teclado_desc
+        teMouseDesc:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_mouse_desc
+        teModemDesc:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_modem_desc
+        teWorkgroup:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_workgroup
+        dtHrColetaForcadaEstacao:
+            type: datetime
+            nullable: true
+            column: dt_hr_coleta_forcada_estacao
+        teNomesCurtosModulos:
+            type: string
+            length: 255
+            fixed: true
+            nullable: true
+            column: te_nomes_curtos_modulos
+        teOrigemMac:
+            type: text
+            nullable: true
+            column: te_origem_mac
+        idConta:
+            type: integer
+            unsigned: true
+            nullable: true
+            column: id_conta
+    lifecycleCallbacks: {  }

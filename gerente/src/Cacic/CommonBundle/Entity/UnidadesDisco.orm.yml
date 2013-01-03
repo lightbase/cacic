@@ -1,0 +1,59 @@
+UnidadesDisco:
+    type: entity
+    table: unidades_disco
+    fields:
+        teLetra:
+            id: true
+            type: string
+            length: 20
+            fixed: true
+            nullable: false
+            column: te_letra
+        idSo:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_so
+        teNodeAddress:
+            id: true
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idTipoUnidDisco:
+            type: string
+            length: 1
+            fixed: true
+            nullable: true
+            column: id_tipo_unid_disco
+        nuSerial:
+            type: string
+            length: 12
+            fixed: true
+            nullable: true
+            column: nu_serial
+        nuCapacidade:
+            type: integer
+            unsigned: true
+            nullable: true
+            column: nu_capacidade
+        nuEspacoLivre:
+            type: integer
+            unsigned: true
+            nullable: true
+            column: nu_espaco_livre
+        teUnc:
+            type: string
+            length: 60
+            fixed: true
+            nullable: true
+            column: te_unc
+        csSistArq:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: cs_sist_arq
+    lifecycleCallbacks: {  }

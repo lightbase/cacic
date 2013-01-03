@@ -1,0 +1,30 @@
+VariaveisAmbienteEstacoes:
+    type: entity
+    table: variaveis_ambiente_estacoes
+    fields:
+        teNodeAddress:
+            id: true
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idSo:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_so
+        idVariavelAmbiente:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_variavel_ambiente
+        vlVariavelAmbiente:
+            type: string
+            length: 100
+            fixed: true
+            nullable: false
+            column: vl_variavel_ambiente
+    lifecycleCallbacks: {  }

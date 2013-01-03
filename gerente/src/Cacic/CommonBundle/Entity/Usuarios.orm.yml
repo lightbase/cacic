@@ -1,0 +1,66 @@
+Usuarios:
+    type: entity
+    table: usuarios
+    fields:
+        idUsuario:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_usuario
+            generator:
+                strategy: IDENTITY
+        idLocal:
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_local
+        idServidorAutenticacao:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: id_servidor_autenticacao
+        nmUsuarioAcesso:
+            type: string
+            length: 20
+            fixed: true
+            nullable: false
+            column: nm_usuario_acesso
+        nmUsuarioCompleto:
+            type: string
+            length: 60
+            fixed: true
+            nullable: false
+            column: nm_usuario_completo
+        teSenha:
+            type: string
+            length: 60
+            fixed: true
+            nullable: false
+            column: te_senha
+        dtLogIn:
+            type: datetime
+            nullable: false
+            column: dt_log_in
+        idGrupoUsuarios:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_grupo_usuarios
+        teEmailsContato:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_emails_contato
+        teTelefonesContato:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_telefones_contato
+        teLocaisSecundarios:
+            type: text
+            nullable: true
+            column: te_locais_secundarios
+    lifecycleCallbacks: {  }

@@ -1,0 +1,25 @@
+VariaveisAmbiente:
+    type: entity
+    table: variaveis_ambiente
+    fields:
+        idVariavelAmbiente:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_variavel_ambiente
+            generator:
+                strategy: IDENTITY
+        nmVariavelAmbiente:
+            type: string
+            length: 100
+            fixed: true
+            nullable: false
+            column: nm_variavel_ambiente
+        teHash:
+            type: string
+            length: 40
+            fixed: true
+            nullable: false
+            column: te_hash
+    lifecycleCallbacks: {  }

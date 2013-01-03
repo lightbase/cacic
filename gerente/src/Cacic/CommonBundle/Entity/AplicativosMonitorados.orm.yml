@@ -1,0 +1,54 @@
+AplicativosMonitorados:
+    type: entity
+    table: aplicativos_monitorados
+    fields:
+        teNodeAddress:
+            id: true
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idSo:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_so
+        idAplicativo:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_aplicativo
+        teVersao:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_versao
+        teLicenca:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_licenca
+        teVerEngine:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_ver_engine
+        teVerPattern:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_ver_pattern
+        csInstalado:
+            type: string
+            length: 1
+            fixed: true
+            nullable: true
+            column: cs_instalado
+    lifecycleCallbacks: {  }

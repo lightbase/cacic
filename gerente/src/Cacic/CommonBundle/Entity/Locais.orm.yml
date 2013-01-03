@@ -1,0 +1,31 @@
+Locais:
+    type: entity
+    table: locais
+    fields:
+        idLocal:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_local
+            generator:
+                strategy: IDENTITY
+        nmLocal:
+            type: string
+            length: 100
+            fixed: true
+            nullable: false
+            column: nm_local
+        sgLocal:
+            type: string
+            length: 20
+            fixed: true
+            nullable: false
+            column: sg_local
+        teObservacao:
+            type: string
+            length: 255
+            fixed: true
+            nullable: true
+            column: te_observacao
+    lifecycleCallbacks: {  }

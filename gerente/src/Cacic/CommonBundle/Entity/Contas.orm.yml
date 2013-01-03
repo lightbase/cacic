@@ -1,0 +1,19 @@
+Contas:
+    type: entity
+    table: contas
+    fields:
+        idConta:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_conta
+            generator:
+                strategy: IDENTITY
+        nmResponsavel:
+            type: string
+            length: 30
+            fixed: true
+            nullable: false
+            column: nm_responsavel
+    lifecycleCallbacks: {  }

@@ -1,0 +1,71 @@
+VersoesSoftwares:
+    type: entity
+    table: versoes_softwares
+    fields:
+        teNodeAddress:
+            id: true
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idSo:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_so
+        teVersaoBde:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: te_versao_bde
+        teVersaoDao:
+            type: string
+            length: 5
+            fixed: true
+            nullable: true
+            column: te_versao_dao
+        teVersaoAdo:
+            type: string
+            length: 5
+            fixed: true
+            nullable: true
+            column: te_versao_ado
+        teVersaoOdbc:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_versao_odbc
+        teVersaoDirectx:
+            type: integer
+            unsigned: true
+            nullable: true
+            column: te_versao_directx
+        teVersaoAcrobatReader:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: te_versao_acrobat_reader
+        teVersaoIe:
+            type: string
+            length: 18
+            fixed: true
+            nullable: true
+            column: te_versao_ie
+        teVersaoMozilla:
+            type: string
+            length: 12
+            fixed: true
+            nullable: true
+            column: te_versao_mozilla
+        teVersaoJre:
+            type: string
+            length: 6
+            fixed: true
+            nullable: true
+            column: te_versao_jre
+    lifecycleCallbacks: {  }
