@@ -24,15 +24,6 @@ class AplicativosMonitorados
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_so", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idSo;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="id_aplicativo", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
@@ -74,6 +65,18 @@ class AplicativosMonitorados
      */
     private $csInstalado;
 
+    /**
+     * @var \So
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="So")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_so", referencedColumnName="id_so")
+     * })
+     */
+    private $idSo;
+
 
 
     /**
@@ -97,29 +100,6 @@ class AplicativosMonitorados
     public function getTeNodeAddress()
     {
         return $this->teNodeAddress;
-    }
-
-    /**
-     * Set idSo
-     *
-     * @param integer $idSo
-     * @return AplicativosMonitorados
-     */
-    public function setIdSo($idSo)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSo
-     *
-     * @return integer 
-     */
-    public function getIdSo()
-    {
-        return $this->idSo;
     }
 
     /**
@@ -258,5 +238,28 @@ class AplicativosMonitorados
     public function getCsInstalado()
     {
         return $this->csInstalado;
+    }
+
+    /**
+     * Set idSo
+     *
+     * @param \Cacic\CommonBundle\Entity\So $idSo
+     * @return AplicativosMonitorados
+     */
+    public function setIdSo(\Cacic\CommonBundle\Entity\So $idSo)
+    {
+        $this->idSo = $idSo;
+    
+        return $this;
+    }
+
+    /**
+     * Get idSo
+     *
+     * @return \Cacic\CommonBundle\Entity\So 
+     */
+    public function getIdSo()
+    {
+        return $this->idSo;
     }
 }

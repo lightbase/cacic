@@ -22,13 +22,6 @@ class AcoesExcecoes
     private $idAcaoExcecao;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_local", type="integer", nullable=false)
-     */
-    private $idLocal;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="te_node_address", type="string", length=17, nullable=false)
@@ -36,18 +29,34 @@ class AcoesExcecoes
     private $teNodeAddress;
 
     /**
-     * @var string
+     * @var \So
      *
-     * @ORM\Column(name="id_acao", type="string", length=20, nullable=false)
-     */
-    private $idAcao;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_so", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="So")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_so", referencedColumnName="id_so")
+     * })
      */
     private $idSo;
+
+    /**
+     * @var \Locais
+     *
+     * @ORM\ManyToOne(targetEntity="Locais")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
+     * })
+     */
+    private $idLocal;
+
+    /**
+     * @var \Acoes
+     *
+     * @ORM\ManyToOne(targetEntity="Acoes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_acao", referencedColumnName="id_acao")
+     * })
+     */
+    private $idAcao;
 
 
 
@@ -59,29 +68,6 @@ class AcoesExcecoes
     public function getIdAcaoExcecao()
     {
         return $this->idAcaoExcecao;
-    }
-
-    /**
-     * Set idLocal
-     *
-     * @param integer $idLocal
-     * @return AcoesExcecoes
-     */
-    public function setIdLocal($idLocal)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
-
-    /**
-     * Get idLocal
-     *
-     * @return integer 
-     */
-    public function getIdLocal()
-    {
-        return $this->idLocal;
     }
 
     /**
@@ -108,35 +94,12 @@ class AcoesExcecoes
     }
 
     /**
-     * Set idAcao
-     *
-     * @param string $idAcao
-     * @return AcoesExcecoes
-     */
-    public function setIdAcao($idAcao)
-    {
-        $this->idAcao = $idAcao;
-    
-        return $this;
-    }
-
-    /**
-     * Get idAcao
-     *
-     * @return string 
-     */
-    public function getIdAcao()
-    {
-        return $this->idAcao;
-    }
-
-    /**
      * Set idSo
      *
-     * @param integer $idSo
+     * @param \Cacic\CommonBundle\Entity\So $idSo
      * @return AcoesExcecoes
      */
-    public function setIdSo($idSo)
+    public function setIdSo(\Cacic\CommonBundle\Entity\So $idSo = null)
     {
         $this->idSo = $idSo;
     
@@ -146,10 +109,56 @@ class AcoesExcecoes
     /**
      * Get idSo
      *
-     * @return integer 
+     * @return \Cacic\CommonBundle\Entity\So 
      */
     public function getIdSo()
     {
         return $this->idSo;
+    }
+
+    /**
+     * Set idLocal
+     *
+     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
+     * @return AcoesExcecoes
+     */
+    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal = null)
+    {
+        $this->idLocal = $idLocal;
+    
+        return $this;
+    }
+
+    /**
+     * Get idLocal
+     *
+     * @return \Cacic\CommonBundle\Entity\Locais 
+     */
+    public function getIdLocal()
+    {
+        return $this->idLocal;
+    }
+
+    /**
+     * Set idAcao
+     *
+     * @param \Cacic\CommonBundle\Entity\Acoes $idAcao
+     * @return AcoesExcecoes
+     */
+    public function setIdAcao(\Cacic\CommonBundle\Entity\Acoes $idAcao = null)
+    {
+        $this->idAcao = $idAcao;
+    
+        return $this;
+    }
+
+    /**
+     * Get idAcao
+     *
+     * @return \Cacic\CommonBundle\Entity\Acoes 
+     */
+    public function getIdAcao()
+    {
+        return $this->idAcao;
     }
 }

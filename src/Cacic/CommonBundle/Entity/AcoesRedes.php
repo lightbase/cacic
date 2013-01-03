@@ -13,33 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class AcoesRedes
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_local", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idLocal;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="id_ip_rede", type="string", length=15, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idIpRede;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="id_acao", type="string", length=20, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idAcao;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dt_hr_coleta_forcada", type="datetime", nullable=true)
@@ -60,76 +33,43 @@ class AcoesRedes
      */
     private $dtHrAlteracao;
 
-
+    /**
+     * @var \Redes
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Redes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ip_rede", referencedColumnName="id_ip_rede")
+     * })
+     */
+    private $idIpRede;
 
     /**
-     * Set idLocal
+     * @var \Acoes
      *
-     * @param integer $idLocal
-     * @return AcoesRedes
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Acoes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_acao", referencedColumnName="id_acao")
+     * })
      */
-    public function setIdLocal($idLocal)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
+    private $idAcao;
 
     /**
-     * Get idLocal
+     * @var \Locais
      *
-     * @return integer 
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Locais")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
+     * })
      */
-    public function getIdLocal()
-    {
-        return $this->idLocal;
-    }
+    private $idLocal;
 
-    /**
-     * Set idIpRede
-     *
-     * @param string $idIpRede
-     * @return AcoesRedes
-     */
-    public function setIdIpRede($idIpRede)
-    {
-        $this->idIpRede = $idIpRede;
-    
-        return $this;
-    }
 
-    /**
-     * Get idIpRede
-     *
-     * @return string 
-     */
-    public function getIdIpRede()
-    {
-        return $this->idIpRede;
-    }
-
-    /**
-     * Set idAcao
-     *
-     * @param string $idAcao
-     * @return AcoesRedes
-     */
-    public function setIdAcao($idAcao)
-    {
-        $this->idAcao = $idAcao;
-    
-        return $this;
-    }
-
-    /**
-     * Get idAcao
-     *
-     * @return string 
-     */
-    public function getIdAcao()
-    {
-        return $this->idAcao;
-    }
 
     /**
      * Set dtHrColetaForcada
@@ -198,5 +138,74 @@ class AcoesRedes
     public function getDtHrAlteracao()
     {
         return $this->dtHrAlteracao;
+    }
+
+    /**
+     * Set idIpRede
+     *
+     * @param \Cacic\CommonBundle\Entity\Redes $idIpRede
+     * @return AcoesRedes
+     */
+    public function setIdIpRede(\Cacic\CommonBundle\Entity\Redes $idIpRede)
+    {
+        $this->idIpRede = $idIpRede;
+    
+        return $this;
+    }
+
+    /**
+     * Get idIpRede
+     *
+     * @return \Cacic\CommonBundle\Entity\Redes 
+     */
+    public function getIdIpRede()
+    {
+        return $this->idIpRede;
+    }
+
+    /**
+     * Set idAcao
+     *
+     * @param \Cacic\CommonBundle\Entity\Acoes $idAcao
+     * @return AcoesRedes
+     */
+    public function setIdAcao(\Cacic\CommonBundle\Entity\Acoes $idAcao)
+    {
+        $this->idAcao = $idAcao;
+    
+        return $this;
+    }
+
+    /**
+     * Get idAcao
+     *
+     * @return \Cacic\CommonBundle\Entity\Acoes 
+     */
+    public function getIdAcao()
+    {
+        return $this->idAcao;
+    }
+
+    /**
+     * Set idLocal
+     *
+     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
+     * @return AcoesRedes
+     */
+    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal)
+    {
+        $this->idLocal = $idLocal;
+    
+        return $this;
+    }
+
+    /**
+     * Get idLocal
+     *
+     * @return \Cacic\CommonBundle\Entity\Locais 
+     */
+    public function getIdLocal()
+    {
+        return $this->idLocal;
     }
 }

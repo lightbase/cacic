@@ -2,26 +2,6 @@ AcoesRedes:
     type: entity
     table: acoes_redes
     fields:
-        idLocal:
-            id: true
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_local
-        idIpRede:
-            id: true
-            type: string
-            length: 15
-            fixed: true
-            nullable: false
-            column: id_ip_rede
-        idAcao:
-            id: true
-            type: string
-            length: 20
-            fixed: true
-            nullable: false
-            column: id_acao
         dtHrColetaForcada:
             type: datetime
             nullable: true
@@ -36,4 +16,32 @@ AcoesRedes:
             type: datetime
             nullable: true
             column: dt_hr_alteracao
+    oneToOne:
+        idIpRede:
+            targetEntity: Redes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_ip_rede:
+                    referencedColumnName: id_ip_rede
+            orphanRemoval: false
+        idAcao:
+            targetEntity: Acoes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_acao:
+                    referencedColumnName: id_acao
+            orphanRemoval: false
+        idLocal:
+            targetEntity: Locais
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -1,24 +1,32 @@
 AcoesSo:
     type: entity
     table: acoes_so
-    fields:
+    oneToOne:
         idAcao:
-            id: true
-            type: string
-            length: 20
-            fixed: true
-            nullable: false
-            column: id_acao
-        idSo:
-            id: true
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_so
+            targetEntity: Acoes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_acao:
+                    referencedColumnName: id_acao
+            orphanRemoval: false
         idLocal:
-            id: true
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_local
+            targetEntity: Locais
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
+        idSo:
+            targetEntity: So
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_so:
+                    referencedColumnName: id_so
+            orphanRemoval: false
     lifecycleCallbacks: {  }
