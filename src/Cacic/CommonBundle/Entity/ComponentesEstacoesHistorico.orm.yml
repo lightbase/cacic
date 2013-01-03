@@ -1,0 +1,46 @@
+ComponentesEstacoesHistorico:
+    type: entity
+    table: componentes_estacoes_historico
+    fields:
+        idComponenteEstacaoHistorico:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_componente_estacao_historico
+            generator:
+                strategy: IDENTITY
+        teNodeAddress:
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idSo:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_so
+        csTipoComponente:
+            type: string
+            length: 100
+            fixed: true
+            nullable: false
+            column: cs_tipo_componente
+        teValor:
+            type: string
+            length: 200
+            fixed: true
+            nullable: false
+            column: te_valor
+        dtAlteracao:
+            type: datetime
+            nullable: false
+            column: dt_alteracao
+        csTipoAlteracao:
+            type: string
+            length: 3
+            fixed: true
+            nullable: false
+            column: cs_tipo_alteracao
+    lifecycleCallbacks: {  }

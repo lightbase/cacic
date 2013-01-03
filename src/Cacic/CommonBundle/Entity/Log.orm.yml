@@ -1,0 +1,46 @@
+Log:
+    type: entity
+    table: log
+    fields:
+        idLog:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_log
+            generator:
+                strategy: IDENTITY
+        dtAcao:
+            type: datetime
+            nullable: false
+            column: dt_acao
+        csAcao:
+            type: string
+            length: 20
+            fixed: true
+            nullable: false
+            column: cs_acao
+        nmScript:
+            type: string
+            length: 255
+            fixed: true
+            nullable: false
+            column: nm_script
+        nmTabela:
+            type: string
+            length: 255
+            fixed: true
+            nullable: false
+            column: nm_tabela
+        idUsuario:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_usuario
+        teIpOrigem:
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: te_ip_origem
+    lifecycleCallbacks: {  }

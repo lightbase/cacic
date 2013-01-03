@@ -1,0 +1,19 @@
+TiposSoftware:
+    type: entity
+    table: tipos_software
+    fields:
+        idTipoSoftware:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_tipo_software
+            generator:
+                strategy: IDENTITY
+        teDescricaoTipoSoftware:
+            type: string
+            length: 30
+            fixed: true
+            nullable: false
+            column: te_descricao_tipo_software
+    lifecycleCallbacks: {  }

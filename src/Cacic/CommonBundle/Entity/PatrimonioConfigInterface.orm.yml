@@ -1,0 +1,60 @@
+PatrimonioConfigInterface:
+    type: entity
+    table: patrimonio_config_interface
+    fields:
+        idEtiqueta:
+            id: true
+            type: string
+            length: 30
+            fixed: true
+            nullable: false
+            column: id_etiqueta
+        idLocal:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_local
+        nmEtiqueta:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: nm_etiqueta
+        teEtiqueta:
+            type: string
+            length: 50
+            fixed: true
+            nullable: false
+            column: te_etiqueta
+        inExibirEtiqueta:
+            type: string
+            length: 1
+            fixed: true
+            nullable: true
+            column: in_exibir_etiqueta
+        teHelpEtiqueta:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_help_etiqueta
+        tePluralEtiqueta:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_plural_etiqueta
+        nmCampoTabPatrimonio:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: nm_campo_tab_patrimonio
+        inDestacarDuplicidade:
+            type: string
+            length: 1
+            fixed: true
+            nullable: true
+            column: in_destacar_duplicidade
+    lifecycleCallbacks: {  }

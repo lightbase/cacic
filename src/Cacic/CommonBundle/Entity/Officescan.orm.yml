@@ -1,0 +1,50 @@
+Officescan:
+    type: entity
+    table: officescan
+    fields:
+        teNodeAddress:
+            id: true
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idSo:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_so
+        nuVersaoEngine:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: nu_versao_engine
+        nuVersaoPattern:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: nu_versao_pattern
+        dtHrInstalacao:
+            type: datetime
+            nullable: true
+            column: dt_hr_instalacao
+        dtHrColeta:
+            type: datetime
+            nullable: true
+            column: dt_hr_coleta
+        teServidor:
+            type: string
+            length: 30
+            fixed: true
+            nullable: true
+            column: te_servidor
+        inAtivo:
+            type: string
+            length: 1
+            fixed: true
+            nullable: true
+            column: in_ativo
+    lifecycleCallbacks: {  }

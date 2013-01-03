@@ -1,0 +1,24 @@
+AplicativosRedes:
+    type: entity
+    table: aplicativos_redes
+    fields:
+        idLocal:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_local
+        idIpRede:
+            id: true
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: id_ip_rede
+        idAplicativo:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_aplicativo
+    lifecycleCallbacks: {  }

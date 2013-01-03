@@ -1,0 +1,41 @@
+RedesGruposFtp:
+    type: entity
+    table: redes_grupos_ftp
+    fields:
+        idFtp:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_ftp
+            generator:
+                strategy: IDENTITY
+        idLocal:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_local
+        idIpRede:
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: id_ip_rede
+        idIpEstacao:
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: id_ip_estacao
+        nuHoraInicio:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: nu_hora_inicio
+        nuHoraFim:
+            type: string
+            length: 12
+            fixed: true
+            nullable: false
+            column: nu_hora_fim
+    lifecycleCallbacks: {  }

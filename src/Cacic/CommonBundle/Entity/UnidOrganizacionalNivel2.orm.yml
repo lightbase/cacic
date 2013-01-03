@@ -1,0 +1,81 @@
+UnidOrganizacionalNivel2:
+    type: entity
+    table: unid_organizacional_nivel2
+    fields:
+        idUnidOrganizacionalNivel2:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_unid_organizacional_nivel2
+        idUnidOrganizacionalNivel1a:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_unid_organizacional_nivel1a
+        idLocal:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_local
+        nmUnidOrganizacionalNivel2:
+            type: string
+            length: 50
+            fixed: true
+            nullable: false
+            column: nm_unid_organizacional_nivel2
+        teEnderecoUon2:
+            type: string
+            length: 80
+            fixed: true
+            nullable: true
+            column: te_endereco_uon2
+        teBairroUon2:
+            type: string
+            length: 30
+            fixed: true
+            nullable: true
+            column: te_bairro_uon2
+        teCidadeUon2:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_cidade_uon2
+        teUfUon2:
+            type: string
+            length: 2
+            fixed: true
+            nullable: true
+            column: te_uf_uon2
+        nmResponsavelUon2:
+            type: string
+            length: 80
+            fixed: true
+            nullable: true
+            column: nm_responsavel_uon2
+        teEmailResponsavelUon2:
+            type: string
+            length: 50
+            fixed: true
+            nullable: true
+            column: te_email_responsavel_uon2
+        nuTel1ResponsavelUon2:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: nu_tel1_responsavel_uon2
+        nuTel2ResponsavelUon2:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: nu_tel2_responsavel_uon2
+        dtRegistro:
+            type: datetime
+            nullable: true
+            column: dt_registro
+    lifecycleCallbacks: {  }

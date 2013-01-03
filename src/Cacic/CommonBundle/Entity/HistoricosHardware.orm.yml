@@ -1,0 +1,44 @@
+HistoricosHardware:
+    type: entity
+    table: historicos_hardware
+    fields:
+        teNodeAddress:
+            id: true
+            type: string
+            length: 17
+            fixed: true
+            nullable: false
+            column: te_node_address
+        idSo:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_so
+        campoAlterado:
+            type: string
+            length: 45
+            fixed: true
+            nullable: true
+            column: campo_alterado
+        valorAntigo:
+            type: string
+            length: 45
+            fixed: true
+            nullable: true
+            column: valor_antigo
+        dataAnterior:
+            type: datetime
+            nullable: true
+            column: data_anterior
+        novoValor:
+            type: string
+            length: 45
+            fixed: true
+            nullable: true
+            column: novo_valor
+        novaData:
+            type: datetime
+            nullable: true
+            column: nova_data
+    lifecycleCallbacks: {  }

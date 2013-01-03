@@ -1,0 +1,47 @@
+RedesVersoesModulos:
+    type: entity
+    table: redes_versoes_modulos
+    fields:
+        idIpRede:
+            id: true
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: id_ip_rede
+        nmModulo:
+            id: true
+            type: string
+            length: 100
+            fixed: true
+            nullable: false
+            column: nm_modulo
+        idLocal:
+            id: true
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_local
+        teVersaoModulo:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_versao_modulo
+        dtAtualizacao:
+            type: datetime
+            nullable: false
+            column: dt_atualizacao
+        csTipoSo:
+            type: string
+            length: 20
+            fixed: true
+            nullable: false
+            column: cs_tipo_so
+        teHash:
+            type: string
+            length: 40
+            fixed: true
+            nullable: true
+            column: te_hash
+    lifecycleCallbacks: {  }

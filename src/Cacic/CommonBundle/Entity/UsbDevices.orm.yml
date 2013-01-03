@@ -1,0 +1,35 @@
+UsbDevices:
+    type: entity
+    table: usb_devices
+    fields:
+        idUsbDevice:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_usb_device
+            generator:
+                strategy: IDENTITY
+        idVendor:
+            type: string
+            length: 5
+            fixed: true
+            nullable: false
+            column: id_vendor
+        idDevice:
+            type: string
+            length: 5
+            fixed: true
+            nullable: false
+            column: id_device
+        nmDevice:
+            type: string
+            length: 127
+            fixed: true
+            nullable: false
+            column: nm_device
+        teObservacao:
+            type: text
+            nullable: false
+            column: te_observacao
+    lifecycleCallbacks: {  }
