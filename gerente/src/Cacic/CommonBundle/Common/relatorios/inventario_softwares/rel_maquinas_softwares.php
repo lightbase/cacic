@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -57,14 +57,14 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
@@ -74,16 +74,17 @@ $linha = '<tr bgcolor="#e7e7e7">
 ?>
 <table border="0" align="center" width="300" >
   <tr> 
-    <td align="center" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong><? echo $_GET['nm_software_inventariado']; ?></strong></font></td>
+    <td align="center" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong><?php echo $_GET['nm_software_inventariado']; ?></strong></font></td>
   </tr>
 </table>
-<?
+<?php
 	 $query = "SELECT 
 	 		   distinct 	computadores.id_so, 
 			   				computadores.te_nome_computador, 
-							computadores.te_ip, 
+							computadores.te_ip_computador, 
 							computadores.te_node_address, 
 							computadores.dt_hr_ult_acesso,
+							computadores.id_computador,							
 			   				b.nm_software_inventariado ".
 							$_SESSION['select'] . " 
 			   FROM 		computadores, 
@@ -91,8 +92,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 							softwares_inventariados_estacoes c ".
 							$_SESSION['from']. " 
 			   WHERE 		computadores.id_so IN (".$_SESSION["so_selecionados"].") ". $_SESSION["redes_selecionadas"] ." AND 
-			   				computadores.te_node_address = c.te_node_address AND 
-							computadores.id_so = c.id_so AND 			  		
+			   				computadores.id_computador = c.id_computador AND 			  		
 					 		b.id_software_inventariado = ". $_GET['id_software_inventariado'] ." AND 
 							b.id_software_inventariado = c.id_software_inventariado ".
 							$_SESSION['query_redes']." 
@@ -112,17 +112,16 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap><div align="left"><strong></strong></div></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../inventario_softwares/rel_maquinas_softwares.php?id_software_inventariado=<? echo $_GET['id_software_inventariado'];?>">Nome 
+          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../inventario_softwares/rel_maquinas_softwares.php?id_software_inventariado=<?php echo $_GET['id_software_inventariado'];?>">Nome 
               da M&aacute;quina</a></font></strong></div></td>
           <td nowrap >&nbsp;</td>
           <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">IP</font></strong></div></td>
           <td nowrap >&nbsp;</td>
-		  <?
-		  if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+		  <?php if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
 		  	{
 			?>
 			<td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Local</font></strong></div></td>		  
-			<?
+			<?php
 			}
 			?>
           <td nowrap >&nbsp;</td>
@@ -130,34 +129,33 @@ $linha = '<tr bgcolor="#e7e7e7">
               Coleta</a></font></strong></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $NumRegistro; ?></font></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_ip']; ?></font></td>
+          <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['te_ip_computador']; ?></font></td>
           <td nowrap>&nbsp;</td>
-		  <?
-		  if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+		  <?php if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
 		  	{
 			?>
-			<td nowrap><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['Local']; ?></font></div></td>		  
-			<?
+			<td nowrap><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['Local']; ?></font></div></td>		  
+			<?php
 			}
 			?>
 		  
           <td nowrap>&nbsp;</td>
-          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></font></div></td>
+          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></font></div></td>
           <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

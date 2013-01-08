@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -21,7 +21,7 @@
     /*
      * Nome do banco de dados
      */
-    $nome_bd = "cacic260b2";
+    $nome_bd = "cacic3";
     
     /*
      * Nome/IP do servidor de banco de dados
@@ -52,13 +52,7 @@
      * Caminho fisico da aplicacao "CACIC"
      * Valor utilizado principalmente pela função de Update de SubRedes...
      */
-    $path_aplicacao		= "/var/www/default/cacic260b2";
-
-   /*
-     * Caminho fisico para componentes de instalação, coleta avulsa de informações patrimoniais e cliente de Suporte Remoto
-     */
-    $path_relativo_repositorio_instalacao  = "repositorio/install";
-
+    $path_aplicacao		= "/var/www/default/cacic3";
 
     /*
      * CACIC application language
@@ -72,7 +66,7 @@
 
 // ATENÇÃO:
 // As chaves abaixo, até a presente versão, são assiméticas, ou seja, 
-// caso seja necessário alterá-las, os agentes "Cacic2.exe", "ChkCacic.exe" e  
+// caso seja necessário alterá-las, os agentes "CacicXXX.exe", "InstallCacic.exe" e  
 // "ChkSis.exe" também deverão ser alterados, 
 // via programação Delphi 7.
 // -------------------------------------------------------------------------------------------------

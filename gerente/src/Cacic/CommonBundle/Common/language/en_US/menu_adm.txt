@@ -20,7 +20,7 @@
 ...Tipos Softwares|admin/tipos_softwares/index.php|mainFrame||
 ...Sistemas Operacionais|admin/sistemas_operacionais/index.php|mainFrame||
 ...Softwares|admin/softwares/index.php|mainFrame||
-...Dispositivos USB|admin/usb_devices/index.php|mainFrame||Cadastro de Dispositivos USB
+...USB Devices|admin/usb_devices/index.php|mainFrame||Cadastro de Dispositivos USB
 ..<b>Patrimônio</b>||mainFrame|imgs/config_gerais.gif
 ...Interface|admin/patrimonio/config_tela_patrimonio.php|mainFrame||Configuração da Tela de Coleta de Informações de Patrimônio
 ...U. O. Nível 1|admin/patrimonio/nivel1/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 1
@@ -34,7 +34,7 @@
 ...Tipos de Licença|admin/gerencia_licencas/tipos_licenca.php|mainFrame||Controle de tipos de licenças
 ...Classificar Softwares|admin/gerencia_licencas/softwares_classificar.php|mainFrame||Classificar Softwares adiquiridos X inventariados
 .<b>Maintenance</b>||mainFrame|imgs/config_gerais.gif
-..Updates de SubRedes|admin/updates_subredes/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
+..Updates de SubRedes|admin/update_subrede/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
 ..Excluir Computadores|admin/exclui_informacoes_computadores.php|mainFrame||Exclusão de Informações de Computadores da base
 ..Atualização Especial|admin/atualizacao_especial.php|mainFrame||Atualização de Scripts e Afins
 ..Consulta Especial|admin/consulta_especial.php|mainFrame||Consulta Informações do Servidor
@@ -83,6 +83,6 @@
 ..Sistemas Monitorados|estatisticas/aplicativos/index.php|mainFrame||
 .<b>Access</b>||mainFrame|imgs/config_gerais.gif
 ..Troca de Senha|admin/usuarios/troca_senha.php|mainFrame||
-.<b>Repositório|repositorio_install.php|mainFrame||Repositório do Sistema CACIC
+.<b>Downloads|downloads.php|mainFrame||Área de Downloads do Sistema CACIC
 .<b>CACIC Project<b>|tribo/|new||Click here to access CACIC Project home page
 .<b>CACIC Community<b>|http://www.softwarepublico.gov.br/spb/ver-comunidade?community_id=3585|new||Click here to access community website

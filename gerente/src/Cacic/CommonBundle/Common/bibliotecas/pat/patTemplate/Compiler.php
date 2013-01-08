@@ -2,7 +2,7 @@
 /**
  * Compiler for patTemplate
  *
- * $Id: Compiler.php 206 2004-05-14 16:49:34Z schst $
+ * $Id: Compiler.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * WARNING: This is still experimental!
  *
@@ -14,7 +14,7 @@
 /**
  * Compiler for patTemplate
  *
- * $Id: Compiler.php 206 2004-05-14 16:49:34Z schst $
+ * $Id: Compiler.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * WARNING: This is still experimental!
  *

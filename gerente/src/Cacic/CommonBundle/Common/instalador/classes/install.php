@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: index.php 2007-02-08 22:20 harpiain $
+ * @version $Id: install.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package Cacic-Installer
  * @subpackage Instalador
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>
@@ -262,8 +262,8 @@ class Install {
 	 	/*
 	 	 * verifica se Register_globals está ativa
 	 	 */
-	 	 $phpRGStatus = ((strtoupper(ini_get('register_globals')) == 'ON') or (ini_get('register_globals') == 1)) ? "ON" : "OFF";
-	 	 $cacicRG = (strtoupper(CACIC_PHPRG) == 'ON' or CACIC_PHPRG == 1) ? "ON" : "OFF";
+	 	 $phpRGStatus = ((strtoupper(ini_get('register_globals')) == 'OFF') or (ini_get('register_globals') <> 1)) ? "OFF" : "ON";
+	 	 $cacicRG = (strtoupper(CACIC_PHPRG) == 'OFF' or CACIC_PHPRG == 0) ? "OFF" : "ON";
 	 	  
 	 	if ($cacicRG == $phpRGStatus) {
 	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'CACIC_PHPRG', $cacicRG );

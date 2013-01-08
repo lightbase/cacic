@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -30,7 +30,7 @@ AntiSpy();
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Relat&oacute;rio de Vari&aacute;veis de Ambiente</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
@@ -43,7 +43,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <table border="0" align="left" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
     <td rowspan="5" bgcolor="#FFFFFF"><img src="../../imgs/cacic_logo.png" width="50" height="50"></td>
@@ -59,14 +59,14 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td class="descricao"><p align="left">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
@@ -76,10 +76,10 @@ $linha = '<tr bgcolor="#e7e7e7">
 ?>
 <table border="0" align="center" width="300" >
   <tr> 
-    <td align="center" nowrap class="cabecalho_tabela">Vari&aacute;vel de Ambiente: &quot;<u><? echo $_GET['nm_variavel_ambiente']; ?></u>&quot;</td>
+    <td align="center" nowrap class="cabecalho_tabela">Vari&aacute;vel de Ambiente: &quot;<u><?php echo $_GET['nm_variavel_ambiente']; ?></u>&quot;</td>
   </tr>
 </table>
-<?
+<?php
 	 $query = "SELECT distinct 	computadores.id_so, 
 	 							computadores.te_nome_computador, 
 								computadores.te_ip, 
@@ -95,8 +95,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 								variaveis_ambiente_estacoes c ".
 								$_SESSION['from']." 
 			   WHERE 			computadores.id_so IN (".$_SESSION["so_selecionados"].") ". $_SESSION["redes_selecionadas"] ." AND 
-			   					computadores.te_node_address = c.te_node_address AND 
-								computadores.id_so = c.id_so AND 			  		
+			   					computadores.id_computador = c.id_computador AND 
 					 			b.id_variavel_ambiente = ". $_GET['id_variavel_ambiente'] ." AND 
 								b.id_variavel_ambiente = c.id_variavel_ambiente " .
 								$_SESSION['query_redes']." 								
@@ -125,25 +124,25 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td nowrap >&nbsp;</td>
           <td nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/variaveis_ambiente/rel_maquinas_variaveis.php?id_variavel_ambiente= <? echo $row['id_variavel_ambiente']; ?>&vl_variavel_ambiente=<? echo str_replace('"','***',$row['vl_variavel_ambiente']); ?>" target="_blank"><? echo $row['vl_variavel_ambiente'];?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/variaveis_ambiente/rel_maquinas_variaveis.php?id_variavel_ambiente= <?php echo $row['id_variavel_ambiente']; ?>&vl_variavel_ambiente=<?php echo str_replace('"','***',$row['vl_variavel_ambiente']); ?>" target="_blank"><?php echo $row['vl_variavel_ambiente'];?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="right"><? echo $row['total']; ?></div></td>
-          <td nowrap>&nbsp;</td>
-          <td nowrap>&nbsp;</td>
+          <td nowrap class="opcao_tabela"><div align="right"><?php echo $row['total']; ?></div></td>
           <td nowrap>&nbsp;</td>
           <td nowrap>&nbsp;</td>
-          <? 
+          <td nowrap>&nbsp;</td>
+          <td nowrap>&nbsp;</td>
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

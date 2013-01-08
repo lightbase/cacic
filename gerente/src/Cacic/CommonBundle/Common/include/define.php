@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: index.php 2007-02-08 22:20 harpiain $
+* @version $Id: define.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
 * @package Cacic-Install
 * @subpackage Instalador
 * @copyright Copyright (C) 2007 Adriano dos Santos Vieira. All rights reserved.
@@ -24,7 +24,18 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /**
  * define o nome do agente principal do CACIC
  */
- define( 'CACIC_MAIN_PROGRAM_NAME', 'CACIC260');
+ define( 'CACIC_MAIN_PROGRAM_NAME', 'CACIC280');
+
+/**
+ * define o nome da pasta local para o CACIC
+ */
+ define( 'CACIC_LOCAL_FOLDER_NAME', 'Cacic');
+
+/**
+ * define o nome da pasta de scripts de interface com os agentes
+ */
+ define( 'CACIC_WEB_SERVICES_FOLDER_NAME', 'ws/');
+
 
 /**
  * define chave para agentes CACIC
@@ -59,7 +70,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /**
  * define a versão do CACIC
  */
- define( 'CACIC_VERSION', '2.6.0-Beta-2 (<b><i>Bocaina</i></b>)');
+ define( 'CACIC_VERSION', '2.8.0-Beta-2 (<b><i>Bocaina</i></b>)');
 
 /**
  * define as versões atualizaveis do CACIC
@@ -72,10 +83,12 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
                                    'v2.2.2'=>'Versão 2.2.2',
                                    'v2.4.0-rc1'=>'Versão v2.4.0-RC1',
                                    'v2.4.0-rc2'=>'Versão v2.4.0-RC2',
-				   				   'v2.6.0-Alpha-1'=>'Versão v2.6.0-Alpha-1',
+                                   'v2.6.0-Alpha-1'=>'Versão v2.6.0-Alpha-1',
                                    'v2.6.0-Beta-1'=>'Versão v.2.6.0-Beta-1',
-                                   'v2.6.0-Beta-2'=>'Versão v.2.6.0-Beta-2'								   
-                                 );
+                                   'v2.6.0-Beta-2'=>'Versão v.2.6.0-Beta-2',
+				   'v2.8.0-Beta-1'=>'Versão v.2.8.0-Beta-1',
+                   'v2.8.0-Beta-2'=>'Versão v.2.8.0-Beta-2',
+                   'v2.8.0-Beta-3'=>'Versão v.2.8.0-Beta-3');				   
 
 /**
  * define a versão do PHP para o CACIC
@@ -94,7 +107,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  if(isset($cacic_register_globals))
  	define( 'CACIC_PHPRG', $cacic_register_globals);
  else
- 	define( 'CACIC_PHPRG', 'on');
+ 	define( 'CACIC_PHPRG', 'off');
 
 /**
  * define a Short_open_tag para executar PHP para o CACIC
@@ -102,7 +115,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
  if(isset($cacic_short_open_tag))
  	define( 'CACIC_PHPSOT', $cacic_short_open_tag);
  else
- 	define( 'CACIC_PHPSOT', 'on');
+ 	define( 'CACIC_PHPSOT', 'off');
 
 /**
  * define a register_long_arrays para executar PHP para o CACIC
@@ -169,8 +182,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /*
  * path para componentes de instalação, coleta de dados de patrimônio e cliente de Suporte Remoto do CACIC
  */
- $path_relativo_repositorio_instalacao = 'repositorio/install';
- define('CACIC_PATH_RELATIVO_REPOSITORIO_INSTALACAO', $path_relativo_repositorio_instalacao);
+ define('CACIC_PATH_RELATIVO_DOWNLOADS', 'downloads/');
 
 /*
  * Atribui URL CACIC

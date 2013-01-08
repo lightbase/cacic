@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -29,7 +29,7 @@ if($_REQUEST['submit'])
 						  		$_POST['frm_nm_arquivo_destino'],
 						  		$_POST['frm_nm_pasta_backup']))
 		{
-		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'atualizacao_especial_arquivo_destino_'.$_POST['frm_nm_arquivo_destino']);															
+		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'atualizacao_especial_arquivo_destino_'.$_POST['frm_nm_arquivo_destino'],$_SESSION["id_usuario"]);															
 		header ("Location: ../include/operacao_ok.php?chamador=../admin/atualizacao_especial.php&tempo=1");												
 		}
 	else
@@ -41,8 +41,8 @@ else
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
 	<head>
-	<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-	<title><?=$oTranslator->_('Atualizacao Especial');?></title>
+	<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
+	<title><?php echo $oTranslator->_('Atualizacao Especial');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	
 	<SCRIPT LANGUAGE="JavaScript">
@@ -78,14 +78,14 @@ else
 	</head>
 	
 	<body background="../imgs/linha_v.gif" onLoad="SetaCampo('frm_nm_pasta_origem')">
-	<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
-	<table width="90%" border="0" align="center">
+	<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
+	<table width="85%" border="0" align="center">
 	  <tr> 
-		<td class="cabecalho"><?=$oTranslator->_('Atualizacao Especial');?></td>
+		<td class="cabecalho"><?php echo $oTranslator->_('Atualizacao Especial');?></td>
 	  </tr>
 	  <tr> 
 		<td class="descricao">
-		  <?=$oTranslator->_('Mecanismo para atualizacao de arquivos diversos no servidor, no ambito da aplicacao.');?>
+		  <?php echo $oTranslator->_('Mecanismo para atualizacao de arquivos diversos no servidor, no ambito da aplicacao.');?>
 		
 		</td>
 	  </tr>
@@ -275,11 +275,11 @@ else
 	    </tr>
 	  </table>
 	  <p align="center"> 
-		<input name="submit" type="submit" value="  Efetuar Atualiza&ccedil;&otilde;es"  onClick="return valida_form();return Confirma('Confirma Inclusão de Rede?');"<? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?' disabled ':'')?>>
+		<input name="submit" type="submit" value="  Efetuar Atualiza&ccedil;&otilde;es"  onClick="return valida_form();return Confirma('Confirma Inclusão de Rede?');"<?php echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?' disabled ':'')?>>
 	  </p>
 	</form>
 	</body>
 	</html>
-	<?
+	<?php
 	}
 	?>

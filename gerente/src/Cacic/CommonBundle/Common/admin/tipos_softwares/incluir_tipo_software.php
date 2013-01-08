@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -44,7 +44,7 @@ if($submit)
 				  			(te_descricao_tipo_software) 
 				  VALUES 	('$frm_te_descricao_tipo_software')";									  						  
 		$result = mysql_query($query) or die ('Falha na Inserção em Tipos Softwares ou sua sessão expirou!');
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'tipos_software');		
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'tipos_software',$_SESSION["id_usuario"]);		
 		
 		// Provavelmente uma solução temporária!...
 		// Probaly a temporary solution...
@@ -53,7 +53,7 @@ if($submit)
 		$result = mysql_query($query) or die ('Falha na Consulta à tabela Tipos Software ou sua sessão expirou!');
 		$row_max_id_tipo_software = mysql_fetch_array($result);
 		
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'tipos_software');
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'tipos_software',$_SESSION["id_usuario"]);
 	
 	    header ("Location: index.php");		
 		}
@@ -61,13 +61,13 @@ if($submit)
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<?
+<?php
 }
 else 
 {
 ?>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Inclus&atilde;o de Tipo de Software</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
@@ -97,8 +97,8 @@ MM_reloadPage(true);
 </head>
 
 <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_te_descricao_tipo_software');">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Inclus&atilde;o 
       de Tipo de Software</td>
@@ -112,7 +112,7 @@ MM_reloadPage(true);
   </tr>
 </table>
 <form action="incluir_tipo_software.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
       <td height="1" bgcolor="#333333" colspan="2"></td>
     </tr>
@@ -137,7 +137,7 @@ MM_reloadPage(true);
   </p>
 </form>
 <p>
-  <?
+  <?php
 }
 ?>
 </p>

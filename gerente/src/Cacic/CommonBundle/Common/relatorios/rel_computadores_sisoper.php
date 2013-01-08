@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -36,7 +36,7 @@ $titulo = $oTranslator->_('Relatorio de estacoes por sistema operacional')." (".
 <head>
 <title><?php echo $titulo;?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<link href="<?=CACIC_URL?>/include/cacic.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo CACIC_URL?>/include/css/cacic.css" rel="stylesheet" type="text/css" />
 </head>
 <body bgcolor="#FFFFFF" background="../../imgs/linha_v.gif">
 <table border="0" align="default" cellpadding="0" cellspacing="0" bordercolor="#999999">
@@ -62,20 +62,23 @@ $titulo = $oTranslator->_('Relatorio de estacoes por sistema operacional')." (".
   </tr>
 </table>
 <br>
-<? 
+<?php 
 // Obtem ID_SO
 $so_selecionado = $_GET['id_so'];
 
 $query = 'SELECT   computadores.te_node_address,
                    computadores.id_so,
+                   computadores.id_computador,				   
                    computadores.te_nome_computador AS "'.$oTranslator->_('Nome do computador') .'",
                    so.te_desc_so AS "'.$oTranslator->_('Sistema operacional') .'",
-                   computadores.te_ip AS "'.$oTranslator->_('IP') .'",
+                   computadores.te_ip_computador AS "'.$oTranslator->_('IP') .'",
                    computadores.dt_hr_ult_acesso AS "'.$oTranslator->_('Ultimo acesso') .'",
                    locais.sg_local AS "'.$oTranslator->_('Local') .'",
-                   computadores.te_versao_cacic AS "'.$oTranslator->_('Agente principal') .'",                   computadores.te_versao_cacic AS "'.$oTranslator->_('Gerente de coletas') .'"          FROM     computadores
+                   computadores.te_versao_cacic AS "'.$oTranslator->_('Agente principal') .'",
+                   computadores.te_versao_cacic AS "'.$oTranslator->_('Gerente de coletas') .'"
+          FROM     computadores
                    LEFT JOIN so ON ( computadores.id_so = so.id_so )
-                   LEFT JOIN redes ON ( computadores.id_ip_rede = redes.id_ip_rede )
+                   LEFT JOIN redes ON ( computadores.id_rede = redes.id_rede )
                    LEFT JOIN locais ON ( redes.id_local=locais.id_local )
           WHERE    computadores.id_so='.$so_selecionado.' 
           ORDER BY te_nome_computador';
@@ -115,9 +118,10 @@ for ($n = 0; $n < $reg_pag; $n++)
 	{
   	$linha  = mysql_fetch_object($resultado); // retorna o resultado da pesquisa linha por linha em um array
 	
-	$strFieldTeNodeAddress    = mysql_field_name($resultado, 0);
-	$strFieldIdSo		  = mysql_field_name($resultado, 1);
-	$strFieldTeNomeComputador = mysql_field_name($resultado, 2);
+	$strFieldTeNodeAddress    	= mysql_field_name($resultado, 0);
+	$strFieldIdSo		  		= mysql_field_name($resultado, 1);
+	$strFieldIdComputador 		= mysql_field_name($resultado, 2);
+	$strFieldTeNomeComputador 	= mysql_field_name($resultado, 3);	
 		
 	//Table body
 	echo '<tr ';
@@ -129,8 +133,7 @@ for ($n = 0; $n < $reg_pag; $n++)
     $nomeComputador = $nomeComputador?$nomeComputador:$oTranslator->_('Nao disponivel');
 	echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
 	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'>
-           &nbsp;<a href='computador/computador.php?te_node_address=". 
-                   $linha->$strFieldTeNodeAddress ."&id_so=". $linha->$strFieldIdSo ."' target='_blank'>" . 
+           &nbsp;<a href='computador/computador.php?id_computador=".$linha->$strFieldIdComputador."' target='_blank'>" . 
                    $nomeComputador . "
                 </a>
           </td>";
@@ -163,7 +166,7 @@ for ($n = 0; $n < count($links_limitados); $n++) {
 ?>
 <p>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-    <?=$oTranslator->_('Gerado por');?> - 
+    <?php echo $oTranslator->_('Gerado por');?> - 
     <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor de Informa&ccedil;&otilde;es Computacionais
   </font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">

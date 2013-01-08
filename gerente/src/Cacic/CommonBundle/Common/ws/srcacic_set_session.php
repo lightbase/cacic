@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -18,14 +18,13 @@
  Esse script tem como objetivo enviar ao servidor de suporte remoto na estação as configurações (em XML) que são específicas para a 
  estação em questão. São levados em consideração a rede do agente, sistema operacional e Mac-Address.
 */
-require_once('../include/library.php');
+require_once('../include/common_top.php');
 
 function criaSessao($p_dt_hr_inicio_sessao,
 					$p_nm_nome_acesso_autenticacao,
 					$p_nm_nome_completo,
 					$p_te_email,
-					$p_te_node_address,
-					$p_id_so)
+					$p_id_computador)
 	{				
 	if ($p_te_email <> '')
 		{
@@ -49,67 +48,25 @@ function criaSessao($p_dt_hr_inicio_sessao,
 								 	nm_acesso_usuario_srv,
 								 	nm_completo_usuario_srv,
 								 	te_email_usuario_srv,													 
-								 	te_node_address_srv,
-								 	id_so_srv,
+								 	id_computador,
 								 	dt_hr_ultimo_contato)
 					  VALUES ('" . $p_dt_hr_inicio_sessao			. "', 
 							  '" . $p_nm_nome_acesso_autenticacao	. "',
 							  '" . $p_nm_nome_completo 				. "',									
 							  '" . $p_te_email 						. "',																					
-							  '" . $p_te_node_address				. "',
-							  '" . $p_id_so							. "',
+							   " . $p_id_computador					. ",
 							  '" . $p_dt_hr_inicio_sessao			. "')";
+//GravaTESTES('Cria Sessao: '.$query_SESSAO);
 	$result_SESSAO = mysql_query($query_SESSAO);			
 	}
-
-// Definição do nível de compressão (Default = 9 => máximo)
-//$v_compress_level = 9;
-$v_compress_level   = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
-						  // Há necessidade de testes para Análise de Viabilidade Técnica 
-
-$retorno_xml_header = '<?xml version="1.0" encoding="iso-8859-1" ?>';
-$retorno_xml_values = '';
-
-// Essas variáveis conterão os indicadores de criptografia e compactação
-$v_cs_cipher		= (trim($_POST['cs_cipher'])   <> ''?trim($_POST['cs_cipher'])   : '4');
-$v_cs_compress		= (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compress']) : '4');
-
-$v_cs_cipher		= '1';
-
-/*
-GravaTESTES('***** setSession *****');
-foreach($HTTP_POST_VARS as $i => $v)
-        GravaTESTES('SetSession: POST => '.$i.' => '.$v.' => '.DeCrypt($key,$iv,$v,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
-*/
-
-// Algumas estações enviarão uma string para extensão de bloco
-$strPaddingKey  	= '';
-
-// Autenticação da Estação Visitada
-$te_node_address   	= DeCrypt($key,$iv,$_POST['te_node_address']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-$te_so             	= DeCrypt($key,$iv,$_POST['te_so']							,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-$te_palavra_chave  	= DeCrypt($key,$iv,urldecode($_POST['te_palavra_chave'])	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-$id_sessao			= DeCrypt($key,$iv,$_POST['id_sessao']						,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-
-// ATENÇÃO: Apenas retornará um ARRAY contendo "id_so" e "te_so".
-$arrSO = inclui_computador_caso_nao_exista(	$te_node_address, 
-											'',
-											$te_so,
-											'', 
-											'', 
-											'',
-											'');									
-
-$arrComputadores 	= getValores('computadores', 'te_palavra_chave,id_ip_rede' , 'te_node_address = "'.$te_node_address.'" and id_so = '.$arrSO['id_so']);
-$arrRedes 			= getValores('redes'       , 'id_local'   				   , 'id_ip_rede= "'.$arrComputadores['id_ip_rede'].'"'); 
-$strTePalavraChave	= $arrComputadores['te_palavra_chave'];
-
-//GravaTESTES('setSession : Key Recebida: "'.$te_palavra_chave.'" Key Armazenada: "'.$strTePalavraChave.'"');
-//GravaTESTES('setSession : id_sessao: "'.$id_sessao.'"');
+	
+	
+$strErrorMessage    = '';
 
 // Valido a Palavra-Chave e monto a tripa com os nomes e ids dos servidores de autenticação
-if ($te_palavra_chave == $strTePalavraChave)
+if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 	{
+	$id_sessao	= DeCrypt($key,$iv,$_POST['id_sessao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 	
 	conecta_bd_cacic();	
 	if (!$id_sessao)
 		{			
@@ -117,13 +74,7 @@ if ($te_palavra_chave == $strTePalavraChave)
 		$id_servidor_autenticacao	  	= DeCrypt($key,$iv,$_POST['id_servidor_autenticacao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 		$nm_nome_acesso_autenticacao  	= DeCrypt($key,$iv,$_POST['nm_nome_acesso_autenticacao']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 		$te_senha_acesso_autenticacao 	= DeCrypt($key,$iv,$_POST['te_senha_acesso_autenticacao']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-		$nm_nome_completo  				= '';					
-		$dt_hr_inicio_sessao			= date('Y-m-d H:i:s');								
 				
-//GravaTESTES('id_servidor_autenticacao: '.$id_servidor_autenticacao);
-//GravaTESTES('nm_nome_acesso_autenticacao: '.$nm_nome_acesso_autenticacao); 
-//GravaTESTES('te_senha_acesso_autenticacao: '.$te_senha_acesso_autenticacao);
-
 		$nm_nome_completo  				= '';					
 		$dt_hr_inicio_sessao			= date('Y-m-d H:i:s');								
 		if ($id_servidor_autenticacao == '0')
@@ -133,78 +84,36 @@ if ($te_palavra_chave == $strTePalavraChave)
 					   $nm_nome_acesso_autenticacao,
 					   $nm_nome_completo,
 					   $te_email,
-					   $te_node_address,
-					   $arrSO['id_so']);			
+					   $arrDadosComputador['id_computador']);			
 			}
 		else
 			{	
-			$arrServidores = getValores('servidores_autenticacao',  
-										'nm_servidor_autenticacao,
-										te_ip_servidor_autenticacao,
-										id_tipo_protocolo,
-										nu_porta_servidor_autenticacao,										
-										nu_versao_protocolo,
-										te_atributo_identificador,
-										te_atributo_retorna_nome,
-										te_atributo_retorna_email'   , 
-										'id_servidor_autenticacao = '.$id_servidor_autenticacao.' AND in_ativo="S"');
-		
-			/*	
-			
-			// APLICACAO DO BLOCO DE CODIGO DO JARBAS PEIXOTO - URMS
-			// 1 - Fazer a pesquisa no OpenLDAP 
-			// 2 - Contar os resultados
-			// 2.1 - Caso resultado = 0 ERRO
-			// 2.2 - Caso resultado > 1 ERRO
-			// 2.3 - Caso resultado = 1 OK
-			// 3 - No script, acontece a obtencao do DN do unico usuario encontrado
-			// 4 - A partir do DN obtido, realizar o BIND.
-			*/
-		
-			// Comunicação com o servidor de Autenticação
-			$ldap = ldap_connect($arrServidores['nm_servidor_autenticacao'],$arrServidores['nu_porta_servidor_autenticacao']);
-						
-			ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, $arrServidores['nu_versao_protocolo']);			
-			
-			if (ldap_errno($ldap) == 0) 
-				{			
-				$searchResults = ldap_search($ldap, '','('.$arrServidores['te_atributo_identificador'].'='.$nm_nome_acesso_autenticacao.')');				
-				$ldapResults = ldap_get_entries($ldap, $searchResults);				
+			$arrAutenticaLDAP = AutenticaLDAP($id_servidor_autenticacao, $nm_nome_acesso_autenticacao, $te_senha_acesso_autenticacao);
 				
-				$bind = ldap_bind($ldap, $ldapResults[0]["dn"], $te_senha_acesso_autenticacao);
-
-				if ($bind)
-					{			
-//GravaTESTES('BIND OK!');									
-					$nm_nome_completo  		= $ldapResults[0][strtolower($arrServidores['te_atributo_retorna_nome'])][0];					
-					$te_email 				= $ldapResults[0][strtolower($arrServidores['te_atributo_retorna_email'])][0];					
-						
-					if ($nm_nome_completo <> '')
-						criaSessao($dt_hr_inicio_sessao,
-								   $nm_nome_acesso_autenticacao,
-								   $nm_nome_completo,
-								   $te_email,
-								   $te_node_address,
-								   $arrSO['id_so']);
-					}
+			if ($arrAutenticaLDAP['nm_nome_completo'] <> '')
+				{
+				$nm_nome_completo = $arrAutenticaLDAP['nm_nome_completo'];
+				criaSessao($dt_hr_inicio_sessao,
+						   $nm_nome_acesso_autenticacao,
+						   $nm_nome_completo,
+						   $arrAutenticaLDAP['te_email'],
+						   $arrDadosComputador['id_computador']);
 				}
 			}
-//GravaTESTES('nm_nome_completo='.$nm_nome_completo);									
+
 		if ($nm_nome_completo <> '')
 			{
 			$arrSessoes = getValores('srcacic_sessoes','id_sessao','dt_hr_inicio_sessao="'.$dt_hr_inicio_sessao.'" AND
-																	te_node_address_srv="'.$te_node_address.'" AND
-																	id_so_srv = "'.$arrSO['id_so'].'"');
+																	id_computador='.$arrDadosComputador['id_computador']);
 
-			$retorno_xml_values .= '<NM_COMPLETO>'.EnCrypt($key,$iv,$nm_nome_completo,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_COMPLETO>';						
-			$retorno_xml_values .= '<ID_SESSAO>'.EnCrypt($key,$iv,$arrSessoes['id_sessao'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_SESSAO>';
-			GravaTESTES($nm_nome_completo);
-			GravaTESTES($arrSessoes['id_sessao']);
+			$strXML_Values .= '<NM_COMPLETO>'.EnCrypt($key,$iv,$nm_nome_completo,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_COMPLETO>';						
+			$strXML_Values .= '<ID_SESSAO>'.EnCrypt($key,$iv,$arrSessoes['id_sessao'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_SESSAO>';
 			}			
+		else
+			$strErrorMessage = 'U.N.A.'; // Usuário Não Autenticado
 		}
 	else
-		{
-//		GravaTESTES('setSession : id_sessao = '.$id_sessao);				
+		{			
 		$query_SESSAO = "UPDATE srcacic_sessoes 
 						 SET	dt_hr_ultimo_contato = '".date('Y-m-d H:i:s')."'
 						 WHERE  id_sessao = ".$id_sessao;												
@@ -227,9 +136,9 @@ if ($te_palavra_chave == $strTePalavraChave)
 			// Neste caso, testo se o valor que chega refere-se a "0" criptografado com uma determinada chave...
 			if ($_POST['id_conexao'] <> 'pibWRa7Dc7gciUJjHEB4Ww==')
 				{
-				$arr_id_usuario_cli = explode('<REG>',DeCrypt($key,$iv,$_POST['id_usuario_cli']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
-				$arr_id_conexao		= explode('<REG>',DeCrypt($key,$iv,$_POST['id_conexao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey));		
-				$arr_te_so_cli 	   	= explode('<REG>',DeCrypt($key,$iv,$_POST['te_so_cli']	 	,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+				$arr_id_usuario_cli = explode('[REG]',DeCrypt($key,$iv,$_POST['id_usuario_cli']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+				$arr_id_conexao		= explode('[REG]',DeCrypt($key,$iv,$_POST['id_conexao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey));		
+				$arr_te_so_cli 	   	= explode('[REG]',DeCrypt($key,$iv,$_POST['te_so_cli']	 	,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
 				
 				for ($i=0; $i < count($arr_id_usuario_cli); $i++)
 					{
@@ -250,16 +159,12 @@ if ($te_palavra_chave == $strTePalavraChave)
 				}
 			}
 		
-		$retorno_xml_values .= '<OK>'.EnCrypt($key,$iv,'OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</OK>';		
+		$strXML_Values .= '<OK>' 	 . EnCrypt($key,$iv,'OK', $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</OK>';					
+		$strXML_Values .= '<STATUS>' . EnCrypt($key,$iv,'S' , $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</STATUS>';							
 		}
 	}
-
-if ($retorno_xml_values <> '')
-	$retorno_xml_values = '<STATUS>'. EnCrypt($key,$iv,'OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>'.str_replace('+','<MAIS>',$retorno_xml_values);
 else
-	$retorno_xml_values = '<STATUS>'.EnCrypt($key,$iv,'SetSession ERRO! '.ldap_error($ldap),$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
-
-$retorno_xml = $retorno_xml_header . $retorno_xml_values; 
-//GravaTESTES('srCACIC_Set_Session: ' . $retorno_xml);
-echo $retorno_xml;	
+	$strXML_Values .= '<STATUS>'.EnCrypt($key,$iv,'Palavra-Chave Incorreta!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';	
+	
+require_once('../include/common_bottom.php');
 ?>

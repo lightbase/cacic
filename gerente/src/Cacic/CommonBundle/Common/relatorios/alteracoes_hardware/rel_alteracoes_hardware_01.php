@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -40,7 +40,7 @@ if($_POST['submit'])
  	$_SESSION["data_fim"] = $v_data_fim;
 	}
 ?>
-<? 
+<?php 
 require_once('../../include/library.php');
 AntiSpy();
 
@@ -54,7 +54,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+		$query_redes = 'AND id_rede IN ('. $redes_selecionadas .')';
 		//}	
 	}
 else
@@ -64,7 +64,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$query_redes = 'AND comp.id_ip_rede = redes.id_ip_rede AND 
+	$query_redes = 'AND comp.id_rede = redes.id_rede AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
 	$select = ' ,sg_local as Local ';	
@@ -98,7 +98,8 @@ else
    $query =  "SELECT 
    			  distinct 		comp.te_nome_computador,
 							comp.id_so, 
-							comp.te_node_address " . 
+							comp.te_node_address,
+							comp.id_computador " . 
 							$campos_hardware .
 							$select . " 
 			  FROM 			historico_hardware hist, 
@@ -138,7 +139,7 @@ while ($row = mysql_fetch_row($result)) //Table body
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>';
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[2] ."&id_so=". $row[1] ."' target='_blank'>" . $row[0] ."</a>&nbsp;</td>"; 
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row[3]."' target='_blank'>" . $row[0] ."</a>&nbsp;</td>"; 
     for ($i=3; $i < $fields; $i++) 
 		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
 

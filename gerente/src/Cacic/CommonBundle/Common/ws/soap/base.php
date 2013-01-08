@@ -31,13 +31,13 @@
 // | Authors: Dietrich Ayala <dietrich@ganx4.com> Original Author         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Base.php,v 1.4 2002/03/09 02:02:30 shane Exp $
+// $Id: base.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 
 /**
 * Common base class of all Soap lclasses
 * 
-* @version  $Id: Base.php,v 1.4 2002/03/09 02:02:30 shane Exp $
+* @version  $Id: base.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @package  SOAP::Client
 * @author   Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
 * @author   Dietrich Ayala <dietrich@ganx4.com> Original Author

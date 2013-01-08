@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -17,17 +17,17 @@
  ---------
  Esse script tem como objetivo responder a uma solicitação de teste de comunicação.
 */
+require_once('../include/common_top.php');
+	
+if (file_exists(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini'))
+	{
+	$arrVersionsAndHashes = parse_ini_file(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
+	$strXML_Values .= '<INSTALLCACIC.EXE_HASH>'	. EnCrypt($key,$iv,$arrVersionsAndHashes['installcacic.exe_HASH']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/INSTALLCACIC.EXE_HASH>';	
+	$strXML_Values .= '<MainProgramName>'  		. EnCrypt($key,$iv,CACIC_MAIN_PROGRAM_NAME.'.EXE'					,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/MainProgramName>';
+	$strXML_Values .= '<LocalFolderName>' 		. EnCrypt($key,$iv,CACIC_LOCAL_FOLDER_NAME							,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/LocalFolderName>';											
+	}		
 
-require_once('../include/library.php');
+$strXML_Values .= '<STATUS>' 					. 'OK' . '</STATUS>';		
 
-$retorno_xml_header  = '<?xml version="1.0" encoding="iso-8859-1" ?>';
-$retorno_xml_values	 = '';
-
-// Esta condição responde TRUE para o teste de comunicação efetuado pelo chkCACIC
-if (trim($_POST['in_chkcacic'])=='chkcacic_GetTest')
-	$retorno_xml_values .= '<STATUS>OK</STATUS>';
-
-$retorno_xml = $retorno_xml_header . $retorno_xml_values;  
-
-echo $retorno_xml;	  
+require_once('../include/common_bottom.php');
 ?>

@@ -2,7 +2,7 @@
 /**
  * patTemplate modfifier Dateformat
  *
- * $Id: Dateformat.php,v 1.1 2004/05/20 16:01:41 schst Exp $
+ * $Id: Dateformat.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @package		patTemplate
  * @subpackage	Modifiers

@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -27,21 +27,20 @@ else
     <td height="1" colspan="4" bgcolor="#333333"></td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td colspan="4" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=variavel_ambiente&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
-      <img src="../../imgs/<? if($_SESSION['variavel_ambiente'] == true) echo 'menos';
-   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?=$oTranslator->_('Variaveis de ambiente');?></a></td>
+    <td colspan="4" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=variavel_ambiente&id_computador=<?php echo $_GET['id_computador']?>"> 
+      <img src="../../imgs/<?php if($_SESSION['variavel_ambiente'] == true) echo 'menos';
+   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?php echo $oTranslator->_('Variaveis de ambiente');?></a></td>
   	</tr>
   	<tr> 
     <td height="1" colspan="4" bgcolor="#333333"></td>
   	</tr>
-  	<?
-			if ($_SESSION['variavel_ambiente'] == true) 
+  	<?php if ($_SESSION['variavel_ambiente'] == true) 
 				{
 			// EXIBIR INFORMAÇÕES DE VARIÁVEIS DE AMBIENTE NO COMPUTADOR
 				$query = "SELECT 	cs_situacao
 						  FROM 		acoes_redes 
 						  WHERE 	id_acao = 'cs_coleta_software' AND
-						  			id_ip_rede = '".mysql_result($result,0,'id_ip_rede')."'";
+						  			id_rede = '".mysql_result($result,0,'id_rede')."'";
 				$result_acoes =  mysql_query($query);
 				
 				if (@mysql_result($result_acoes, 0, "cs_situacao") <> 'N') 
@@ -49,8 +48,7 @@ else
 					$query = "	SELECT 		DISTINCT va.nm_variavel_ambiente, vae.vl_variavel_ambiente
 								FROM 		variaveis_ambiente va,
 											variaveis_ambiente_estacoes vae
-							  	WHERE 		vae.te_node_address = '".$_GET['te_node_address']."' AND
-											vae.id_so = '". $_GET['id_so'] ."' AND
+							  	WHERE 		vae.id_computador = ". $_GET['id_computador'] ." AND
 											vae.id_variavel_ambiente = va.id_variavel_ambiente
 								ORDER BY	va.nm_variavel_ambiente";
 					$result_software = mysql_query($query);
@@ -64,16 +62,15 @@ else
 						$v_achei = 1;
 						$intContaItem ++;
 						?>
-  						<tr bgcolor="<? echo $strCor;?>">
+  						<tr bgcolor="<?php echo $strCor;?>">
   						  <td width="2%" class="descricao">
-  						    <div align="right"><B><? echo $intContaItem;?></B></div>
+  						    <div align="right"><B><?php echo $intContaItem;?></B></div>
   						  </td> 
     					  <td class="descricao">&nbsp;</td>
-    					  <td width="63%" align="left" class="descricao">&nbsp;<? echo $row['nm_variavel_ambiente']; ?></td>
-    					<td width="35%" class="descricao">&nbsp;<? echo $row['vl_variavel_ambiente']; ?></td>
+    					  <td width="63%" align="left" class="descricao">&nbsp;<?php echo $row['nm_variavel_ambiente']; ?></td>
+    					<td width="35%" class="descricao">&nbsp;<?php echo $row['vl_variavel_ambiente']; ?></td>
   						</tr>
-  						<?
-  						echo $linha;
+  						<?php echo $linha;
 						}
 					if (!$v_achei)
 						{

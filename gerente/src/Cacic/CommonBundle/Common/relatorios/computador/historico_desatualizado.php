@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -25,7 +25,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
-<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
+<link href="../../include/css/cacic.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
@@ -44,25 +44,25 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
-	 $query = "SELECT a.te_nome_computador as nm_maquina, a.te_node_address, a.id_so, a.id_ip_rede, a.te_ip, a.dt_hr_ult_acesso, max(h.dt_hr_ult_coleta) AS UltHistorico 
+<?php
+	 $query = "SELECT a.te_nome_computador as nm_maquina, a.te_node_address, a.id_so, a.te_ip_computador, a.dt_hr_ult_acesso, max(h.dt_hr_ult_coleta) AS UltHistorico, a.id_computador  
 		FROM computadores a, historicos_software h  
-		WHERE (a.te_node_address = h.te_node_address) AND (a.id_so = h.id_so) 
-		GROUP BY h.te_node_address, h.id_so HAVING UltHistorico < '2006-08-11'  
+		WHERE (a.id_computador = h.id_computador) 
+		GROUP BY h.id_computador HAVING UltHistorico < '2006-08-11'  
 		ORDER BY UltHistorico"; 
 	$result = mysql_query($query) or die('Erro no acesso à tabela "computadores" e "historicos_software" ou sua sessão expirou!');
 ?>
@@ -88,26 +88,26 @@ $linha = '<tr bgcolor="#e7e7e7">
 	  <td class="cabecalho_tabela" nowrap ><div align="center">&Uacute;ltimo Hist&oacute;rico</div></td>
 	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
      </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
-          <td nowrap class="dado_med_sem_fundo"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="dado_med_sem_fundo"><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
-          <td nowrap class="dado_med_sem_fundo"><div align="left"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
+          <td nowrap class="dado_med_sem_fundo"><div align="left"><a href="../../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['nm_maquina']; ?></div></td>
           <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
-	  <td align="center" nowrap class="dado_med_sem_fundo"><? echo $row['te_ip']; ?></td>
+	  <td align="center" nowrap class="dado_med_sem_fundo"><?php echo $row['te_ip']; ?></td>
 	  <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
-	  <td align="center" nowrap class="dado_med_sem_fundo"><? echo date("d/m/Y H:i", strtotime($row['dt_hr_ult_acesso'])); ?></td>
+	  <td align="center" nowrap class="dado_med_sem_fundo"><?php echo date("d/m/Y H:i", strtotime($row['dt_hr_ult_acesso'])); ?></td>
 	  <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
-	  <td align="center" nowrap class="dado_med_sem_fundo"><? echo date("d/m/Y H:i", strtotime($row['UltHistorico'])); ?></td>
+	  <td align="center" nowrap class="dado_med_sem_fundo"><?php echo date("d/m/Y H:i", strtotime($row['UltHistorico'])); ?></td>
 	  <td nowrap class="dado_med_sem_fundo">&nbsp;&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

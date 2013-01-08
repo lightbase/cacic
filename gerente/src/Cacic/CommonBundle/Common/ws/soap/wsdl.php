@@ -31,7 +31,7 @@
 // | Authors: Dietrich Ayala <dietrich@ganx4.com> Original Author         |
 // +----------------------------------------------------------------------+
 //
-// $Id: WSDL.php,v 1.15 2002/03/21 02:13:29 shane Exp $
+// $Id: wsdl.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 require_once 'SOAP/Base.php';
 require_once 'SOAP/Fault.php';
@@ -52,7 +52,7 @@ DEFINE("WSDL_CACHE_USE",0); // set to zero to turn off caching
 *    implement IDL type syntax declaration so we can generate WSDL
 *
 * @access public
-* @version $Id: WSDL.php,v 1.15 2002/03/21 02:13:29 shane Exp $
+* @version $Id: wsdl.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @package SOAP::Client
 * @author Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 * @author Dietrich Ayala <dietrich@ganx4.com> Original Author

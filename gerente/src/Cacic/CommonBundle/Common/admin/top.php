@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -190,7 +190,7 @@ $v_versao = '2.3.0-RC28';
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>Topo</title></head>
-<body bgcolor=<? echo ($_SESSION['id_default_body_bgcolor']<>''?$_SESSION['id_default_body_bgcolor']:'#EBEBEB'); ?> leftmargin="1" topmargin="0">	
+<body bgcolor=<?php echo ($_SESSION['id_default_body_bgcolor']<>''?$_SESSION['id_default_body_bgcolor']:'#EBEBEB'); ?> leftmargin="1" topmargin="0">	
 
 <SCRIPT language=JavaScript>
 <!--
@@ -247,7 +247,7 @@ function scrollit(seed)
                 <td><img src="imgs/cacic_tit.gif"></td>
               </tr>
               <tr>
-                <td><div align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">v.<? echo $v_versao;?></font></div></td>
+                <td><div align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">v.<?php echo $v_versao;?></font></div></td>
               </tr>
             </table>
             
@@ -259,8 +259,7 @@ function scrollit(seed)
               </tr>
               <tr> 
                 <td><div align="right"><b><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
-				<? 
-				if ($_SESSION['nm_local'])
+				<?php if ($_SESSION['nm_local'])
 					echo $_SESSION['nm_local']; 					
 				else 
 					{

@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -37,15 +37,13 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="/cacic2/include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="/cacic2/include/css/cacic.css">
 
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<?
-
-if ($tp_consulta) {
+<?php if ($tp_consulta) {
 	if($tp_consulta == 'nome') {
 		$query = "SELECT * FROM computadores, so
 				  WHERE te_nome_computador like '%". $str_consulta ."%' AND 
@@ -54,7 +52,7 @@ if ($tp_consulta) {
 	}
 	if($tp_consulta == 'ip') {
 		$query = "SELECT * FROM computadores, so
-				  WHERE te_ip like '%". $str_consulta ."%' AND 
+				  WHERE te_ip_computador like '%". $str_consulta ."%' AND 
 				  computadores.id_so = so.id_so 
 				  $orderby";
 	}
@@ -90,42 +88,42 @@ if ($tp_consulta) {
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_nome_computador">Nome 
+          <td align="center"  nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=te_nome_computador">Nome 
               da M&aacute;quina</a></div></td>
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_ip">IP</a></div></td>
+          <td nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=te_ip_computador">IP</a></div></td>
           <td nowrap >&nbsp;</td>
-			  <td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_node_address">MAC Address</a></div></td>
+			  <td nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=te_node_address">MAC Address</a></div></td>
 			  <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_versao_cacic">Vers&atilde;o 
+          <td nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=te_versao_cacic">Vers&atilde;o 
               Cacic</a></div></td>
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=dt_hr_ult_acesso">&Uacute;ltima 
+          <td nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=dt_hr_ult_acesso">&Uacute;ltima 
               Coleta</a></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><a href="../computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><a href="../computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><a href="../computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></td>
+          <td nowrap class="opcao_tabela"><a href="../computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_ip_computador']; ?></a></td>
           <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="center"><a href="../computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address']; ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="center"><a href="../computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_node_address']; ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="center"><a href="../computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="center"><a href="../computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_versao_cacic']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="center"><a href="../computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="center"><a href="../computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 }
@@ -140,7 +138,7 @@ if ($tp_consulta) {
     <td height="10">&nbsp;</td>
   </tr>
 </table>
-<?
+<?php
 				}
 		}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: tipos_licenca_01.tmpl.php 2009-08-26 23:25 harpiain $
+ * @version $Id: tipos_licenca_01.tmpl.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package CACIC-Admin
  * @subpackage GerenciaLicencas
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>

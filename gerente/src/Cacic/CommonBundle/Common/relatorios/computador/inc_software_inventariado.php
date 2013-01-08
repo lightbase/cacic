@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -31,29 +31,27 @@ else
     <td colspan="6" height="1" bgcolor="#333333"></td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td class="cabecalho_tabela" colspan="6">&nbsp;<a href="computador.php?exibir=software_inventariado&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
-      <img src="../../imgs/<? if($_SESSION['software_inventariado'] == true) echo 'menos';
+    <td class="cabecalho_tabela" colspan="6">&nbsp;<a href="computador.php?exibir=software_inventariado&id_computador=<?php echo $_GET['id_computador']?>"> 
+      <img src="../../imgs/<?php if($_SESSION['software_inventariado'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">
-   			 <?=$oTranslator->_('Softwares inventariados');?></a></td>
+   			 <?php echo $oTranslator->_('Softwares inventariados');?></a></td>
   </tr>
   <tr>
     <td colspan="6" height="1" bgcolor="#333333"></td>
   </tr>
-  <?
-			if ($_SESSION['software_inventariado'] == true) {
+  <?php if ($_SESSION['software_inventariado'] == true) {
 			// EXIBIR INFORMAÇÕES DE SOFTWARES INVENTARIADOS NO COMPUTADOR
 				$query = "SELECT 	cs_situacao
 						  FROM 		acoes_redes 
 						  WHERE 	id_acao = 'cs_coleta_software' AND
-						  			id_ip_rede = '".mysql_result($result,0,'id_ip_rede')."'";
+						  			id_rede = '".mysql_result($result,0,'id_rede')."'";
 				$result_acoes =  mysql_query($query);
 				
 				if (mysql_result($result_acoes, 0, "cs_situacao") <> 'N') {
 					$query = "	SELECT 		DISTINCT si.nm_software_inventariado 
 								FROM softwares_inventariados si,
 											softwares_inventariados_estacoes sie
-							  	WHERE 		sie.te_node_address = '".$_GET['te_node_address']."' AND
-											sie.id_so = '". $_GET['id_so'] ."' AND
+							  	WHERE 		sie.id_computador = ". $_GET['id_computador'] ." AND
 											sie.id_software_inventariado = si.id_software_inventariado
 								ORDER BY	si.nm_software_inventariado";
 					$result_software = mysql_query($query);
@@ -67,14 +65,13 @@ else
 					$v_achei = 1;
 					$intContaItem ++;
 					?>
-  <tr bgcolor="<? echo $strCor;?>">
+  <tr bgcolor="<?php echo $strCor;?>">
     <td width="2%" class="descricao">
-  						    <div align="right"><B><? echo $intContaItem;?></B></div>
+  						    <div align="right"><B><?php echo $intContaItem;?></B></div>
   						  </td> 
-    <td width="98%" align="left" nowrap="nowrap" class="descricao">&nbsp;<? echo $row['nm_software_inventariado']; ?></td>
+    <td width="98%" align="left" nowrap="nowrap" class="descricao">&nbsp;<?php echo $row['nm_software_inventariado']; ?></td>
   </tr>
-  <?
-  echo $linha;
+  <?php echo $linha;
 
 				}
 				if (!$v_achei)

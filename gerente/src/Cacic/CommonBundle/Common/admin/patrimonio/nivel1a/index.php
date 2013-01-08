@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -68,27 +68,27 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta1a'];
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../../include/css/cacic.css">
 <body background="../../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<title><?=$titulo;?></title>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<title><?php echo $titulo;?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">
-      <?=$titulo;?> 
-      (<?=$oTranslator->_('Unidade Organizacional Nivel 1a');?>)
+      <?php echo $titulo;?> 
+      (<?php echo $oTranslator->_('Unidade Organizacional Nivel 1a');?>)
     </td>
   </tr>
   <tr> 
-    <td class="descricao"><?=$oTranslator->_('Modulo para cadastramento de Unidades Organizacionais de Nivel 1a');?></td>
+    <td class="descricao"><?php echo $oTranslator->_('Modulo para cadastramento de Unidades Organizacionais de Nivel 1a');?></td>
   </tr>
   <tr> 
     <td class="destaque_laranja">
-       <u><?=$oTranslator->_('Importante');?>:</u>
-        <?=$oTranslator->_('A inclusao de %1 e restrita ao Administrador do sistema', array($_SESSION['plural_etiqueta1a']));?>
+       <u><?php echo $oTranslator->_('Importante');?>:</u>
+        <?php echo $oTranslator->_('A inclusao de %1 e restrita ao Administrador do sistema', array($_SESSION['plural_etiqueta1a']));?>
     </td>
   </tr>
   
@@ -96,11 +96,11 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta1a'];
 <br><table width="292" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
-			<? if ($_SESSION['cs_nivel_administracao'] == 1)
+			<?php if ($_SESSION['cs_nivel_administracao'] == 1)
 			{
 			?>
-          <input name="incluirUON1a" type="submit" id="incluirUON1a" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta1a'];?>">
-          <?
+          <input name="incluirUON1a" type="submit" id="incluirUON1a" value="<?php echo $oTranslator->_('Incluir');?> <?php echo $_SESSION['etiqueta1a'];?>">
+          <?php
 		  }
 		  ?>
 
@@ -111,7 +111,7 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta1a'];
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10" class="ajuda"><? echo $msg;?></td>
+    <td height="10" class="ajuda"><?php echo $msg;?></td>
   </tr>
 
 <tr>
@@ -123,13 +123,12 @@ $titulo = $oTranslator->_('Cadastro de').' '. $_SESSION['plural_etiqueta1a'];
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap><div align="left"></div></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><? echo $_SESSION['plural_etiqueta1'].'/'.$_SESSION['plural_etiqueta1a'];?></div></td>
+          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?php echo $_SESSION['plural_etiqueta1'].'/'.$_SESSION['plural_etiqueta1a'];?></div></td>
           <td nowrap >&nbsp;</td>
           <td nowrap ><div align="left"></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
-<?  
-if(mysql_num_rows($result)==0) {
+<?php if(mysql_num_rows($result)==0) {
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
 				'.$oTranslator->_('Nenhuma Unidade Organizacional de Nivel %1 cadastrada',array('1a')).'
@@ -143,15 +142,15 @@ else {
 	while($row = mysql_fetch_array($result)) 
 		{		  
 	 	?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+			  <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_nivel1a.php?id_unid_organizacional_nivel1a=<? echo $row['id_unid_organizacional_nivel1a'];?>"><? echo $row['nm_unid_organizacional_nivel1'].'/'.$row['nm_unid_organizacional_nivel1a']; ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_nivel1a.php?id_unid_organizacional_nivel1a=<?php echo $row['id_unid_organizacional_nivel1a'];?>"><?php echo $row['nm_unid_organizacional_nivel1'].'/'.$row['nm_unid_organizacional_nivel1a']; ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
 			  <td nowrap>&nbsp;</td>			  
 			  <td nowrap>&nbsp;</td>			  			  
-			  <? 
+			  <?php 
 		$Cor=!$Cor;
 		$NumRegistro++;
 	}
@@ -166,16 +165,16 @@ else {
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
   <tr> 
     <td><div align="center">
-			<? if ($_SESSION['cs_nivel_administracao'] == 1)
+			<?php if ($_SESSION['cs_nivel_administracao'] == 1)
 			{
 			?>
 
-          <input name="incluirUON1a" type="submit" id="incluirUON1a" value="<?=$oTranslator->_('Incluir');?> <? echo $_SESSION['etiqueta1a'];?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
-			<?
+          <input name="incluirUON1a" type="submit" id="incluirUON1a" value="<?php echo $oTranslator->_('Incluir');?> <?php echo $_SESSION['etiqueta1a'];?>" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+			<?php
 			}
 			?>
         

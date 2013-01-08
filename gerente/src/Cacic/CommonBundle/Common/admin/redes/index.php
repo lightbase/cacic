@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -37,18 +37,19 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 Conecta_bd_cacic();
 
 // Obtem quantidade de máquinas por rede
-function getNetPCs($p_id_ip_rede) {
-   $qry_net_pc = "SELECT computadores.id_ip_rede, 
-                         count(te_node_address) AS quantidade_pc
-                    FROM      computadores 
-                    LEFT JOIN redes ON (computadores.id_ip_rede = redes.id_ip_rede AND computadores.te_mascara = redes.te_mascara_rede)
-                    WHERE     computadores.id_ip_rede='".$p_id_ip_rede."'
-                    GROUP BY  id_ip_rede
-                    ORDER BY  computadores.id_ip_rede;";
-   $result_net_pc = mysql_query($qry_net_pc);
-   $row = mysql_fetch_array($result_net_pc);
+function getNetPCs($pIdRede) 
+	{
+   	$queryGetNetPCS = "	SELECT 		computadores.id_rede, 
+                         			count(te_node_address) AS quantidade_pc
+                   		FROM    	computadores 
+                   		LEFT JOIN 	redes ON (computadores.id_rede = redes.id_rede AND computadores.te_mascara = redes.te_mascara_rede)
+                   		WHERE     	computadores.id_rede=".$pIdRede." 
+                   		GROUP BY  	id_rede
+                   		ORDER BY  	computadores.id_rede;";
+   $resultGetNetPCS = mysql_query($queryGetNetPCS);
+   $rowGetNetPCS = mysql_fetch_array($resultGetNetPCS);
 
-   return ($row['quantidade_pc']);
+   return ($rowGetNetPCS['quantidade_pc']);
 }
 
 $total_geral_pc = 0;
@@ -82,27 +83,27 @@ $arrTeServCacicPadrao = getValores('configuracoes_padrao', 'te_serv_cacic_padrao
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Cadastro de Redes</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-      <td class="cabecalho"><?=$oTranslator->_('Cadastro de Subredes');?></td>
+      <td class="cabecalho"><?php echo $oTranslator->_('Cadastro de Subredes');?></td>
   </tr>
   <tr> 
-      <td class="descricao"><?=$oTranslator->_('ksiq_msg subredes help');?></td>
+      <td class="descricao"><?php echo $oTranslator->_('ksiq_msg subredes help');?></td>
   </tr>
 </table>
 <br><table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
 
-          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Nova Subrede');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="<?php echo $oTranslator->_('Incluir Nova Subrede');?>" <?php echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 
         
       </div></td>
@@ -111,7 +112,7 @@ $arrTeServCacicPadrao = getValores('configuracoes_padrao', 'te_serv_cacic_padrao
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
 
   <tr> 
@@ -120,7 +121,7 @@ $arrTeServCacicPadrao = getValores('configuracoes_padrao', 'te_serv_cacic_padrao
   <tr> 
     <td> <table border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
        <tr> 
-          <th colspan="18" align="left"><?=$oTranslator->_('Redes cadastradas');?></th>
+          <th colspan="18" align="left"><?php echo $oTranslator->_('Redes cadastradas');?></th>
        </tr>
           <tr bgcolor="#E1E1E1">
             <td align="center"  nowrap>&nbsp;</td>
@@ -140,13 +141,13 @@ $arrTeServCacicPadrao = getValores('configuracoes_padrao', 'te_serv_cacic_padrao
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap>&nbsp;</td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=id_ip_rede">Endere&ccedil;o/M&aacute;scara</a></div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=te_ip_rede">Endere&ccedil;o/M&aacute;scara</a></div></td>
             <td nowrap >&nbsp;</td>
-			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede"><?=$oTranslator->_('Subrede');?></a></div></td>  
+			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_rede"><?php echo $oTranslator->_('Subrede');?></a></div></td>  
             <td nowrap>&nbsp;</td>			          
-	        <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local,nm_rede"><?=$oTranslator->_('Local');?></a></div></td>
+	        <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local,nm_rede"><?php echo $oTranslator->_('Local');?></a></div></td>
             <td nowrap>&nbsp;</td>			
-            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Maquinas');?></div></td>			
+            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Maquinas');?></div></td>			
             <td nowrap >&nbsp;</td>            
 			<td nowrap  class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_servidor_autenticacao">Autenticação</a></div></td>
             <td nowrap  class="cabecalho_tabela">&nbsp;</td>
@@ -158,8 +159,7 @@ $arrTeServCacicPadrao = getValores('configuracoes_padrao', 'te_serv_cacic_padrao
     <td height="1" bgcolor="#333333" colspan="18"></td>
   	</tr>
 		  
-          <?  
-if(@mysql_num_rows($result)==0) 
+          <?php if(@mysql_num_rows($result)==0) 
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
@@ -173,28 +173,28 @@ else
 	while($row = mysql_fetch_array($result)) 
 		{		  
 	 	?>
-          <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+          <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+            <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['id_ip_rede'].'/'.$row['te_mascara_rede']; ?></a></div></td>
+            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>"><?php echo $row['te_ip_rede'].'/'.$row['te_mascara_rede']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_rede']; ?></a></div></td>
+            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>"><?php echo $row['nm_rede']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['sg_local']; ?></a></div></td>
+            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>"><?php echo $row['sg_local']; ?></a></div></td>
             <td nowrap>&nbsp;</td>			
             <td nowrap align="right">
-                <a href="../../relatorios/navegacao.php" title="<?=$oTranslator->_('Navegar nas redes detectadas pelos agentes nas estacoes');?>">
-                   <?php $total_ip_rede = getNetPCs($row['id_ip_rede']); $total_geral_pc += $total_ip_rede; echo $total_ip_rede;?>
+                <a href="../../relatorios/navegacao.php" title="<?php echo $oTranslator->_('Navegar nas redes detectadas pelos agentes nas estacoes');?>">
+                   <?php $total_ip_rede = getNetPCs($row['id_rede']); $total_geral_pc += $total_ip_rede; echo $total_ip_rede;?>
                 </a>            </td>			
             <td nowrap>&nbsp;</td>				
-            <td nowrap><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['nm_servidor_autenticacao']; ?></a></td>
+            <td nowrap><a href="detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>"><?php echo $row['nm_servidor_autenticacao']; ?></a></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="<? if ($row['te_serv_cacic'] <> $arrTeServCacicPadrao['te_serv_cacic_padrao']) echo 'td_amarelo'; else echo 'opcao_tabela';?>"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['te_serv_cacic']; ?></a></td>
+            <td nowrap class="<?php if ($row['te_serv_cacic'] <> $arrTeServCacicPadrao['te_serv_cacic_padrao']) echo 'td_amarelo'; else echo 'opcao_tabela';?>"><a href="detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>"><?php echo $row['te_serv_cacic']; ?></a></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><a href="detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>"><? echo $row['te_serv_updates']; ?></a></td>
+            <td nowrap class="opcao_tabela"><a href="detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>"><?php echo $row['te_serv_updates']; ?></a></td>
            </tr>
-            <? 
+            <?php 
 		$Cor=!$Cor;
 		$NumRegistro++;
 		}
@@ -210,12 +210,12 @@ else
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
   <tr> 
     <td><div align="center">
 
-          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Nova Subrede');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="<?php echo $oTranslator->_('Incluir Nova Subrede');?>" <?php echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 
         
       </div></td>

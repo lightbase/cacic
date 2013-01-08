@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -23,6 +23,6 @@
 </head>
 
 <body>
-<img src="<? echo 'imgs/screenshots/'.$_REQUEST['p_foto']; ?>" width="800" height="600">
+<img src="<?php echo 'imgs/screenshots/'.$_REQUEST['p_foto']; ?>" width="800" height="600">
 </body>
 </html>

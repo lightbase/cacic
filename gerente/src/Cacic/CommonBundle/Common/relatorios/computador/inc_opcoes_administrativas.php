@@ -1,5 +1,4 @@
-<? 
- /* 
+<?php /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
  Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
@@ -30,36 +29,33 @@ else
     <td colspan="3" height="1" bgcolor="#333333"></td>
   	</tr>
   	<tr> 
-    <td colspan="3" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;&nbsp;<a href="computador.php?exibir=opcoes_administrativas&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"><img src="../../imgs/<? if($_SESSION['opcoes_administrativas'] == true) echo 'menos';
-   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?=$oTranslator->_('Opcoes administrativas');?></a></td>
+    <td colspan="3" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;&nbsp;<a href="computador.php?exibir=opcoes_administrativas&id_computador=<?php echo $_GET['id_computador']?>"><img src="../../imgs/<?php if($_SESSION['opcoes_administrativas'] == true) echo 'menos';
+   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?php echo $oTranslator->_('Opcoes administrativas');?></a></td>
   	</tr>
   	<tr> 
     <td colspan="3" height="1" bgcolor="#333333"></td>
   	</tr>
-	<?	
-	if ($_SESSION['opcoes_administrativas']) 
+	<?php if ($_SESSION['opcoes_administrativas']) 
 		{ 
 		?>
   		<tr> 
     	<td colspan="6"><table border="0">
     	<tr> 
-    	<td align="left" valign="middle" class="opcao_tabela"><a href="../../admin/forca_coleta_estacao.php?te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>&te_nome_computador=<? echo mysql_result($result, 0, "te_nome_computador");?>"><img src="../../imgs/forca_coleta.gif" width="24" height="24" border="0"></a></td>
-   		<td nowrap class="opcao_tabela"><a href="../../admin/forca_coleta_estacao.php?te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>&te_nome_computador=<? echo mysql_result($result, 0, "te_nome_computador");?>"><?=$oTranslator->_('Forcar coletas');?></a>&nbsp;&nbsp;&nbsp;</td>
-		<?
-		if ($_SESSION["cs_nivel_administracao"] == 1 ||
+    	<td align="left" valign="middle" class="opcao_tabela"><a href="../../admin/forca_coleta_estacao.php?id_computador=<?php echo $_GET['id_computador']?>&te_nome_computador=<?php echo mysql_result($result, 0, "te_nome_computador");?>"><img src="../../imgs/forca_coleta.gif" width="24" height="24" border="0"></a></td>
+   		<td nowrap class="opcao_tabela"><a href="../../admin/forca_coleta_estacao.php?id_computador=<?php echo $_GET['id_computador']?>&te_nome_computador=<?php echo mysql_result($result, 0, "te_nome_computador");?>"><?php echo $oTranslator->_('Forcar coletas');?></a>&nbsp;&nbsp;&nbsp;</td>
+		<?php if ($_SESSION["cs_nivel_administracao"] == 1 ||
 			$_SESSION["cs_nivel_administracao"] == 2 ||
 			$_SESSION["cs_nivel_administracao"] == 3)			
 			{
 			?>
-    		<td align="left" valign="middle" class="opcao_tabela"><a href="../../admin/remove_computador.php?te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"><img src="../../imgs/exclui_computador.gif" width="24" height="24" border="0"></a></td>
-    		<td nowrap class="opcao_tabela"><a href="../../admin/remove_computador.php?te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so'];?>"><?=$oTranslator->_('Remover computador');?></a></td>
-			<?
-			}
+    		<td align="left" valign="middle" class="opcao_tabela"><a href="../../admin/remove_computador.php?id_computador=<?php echo $_GET['id_computador']?>"><img src="../../imgs/exclui_computador.gif" width="24" height="24" border="0"></a></td>
+    		<td nowrap class="opcao_tabela"><a href="../../admin/remove_computador.php?id_computador=<?php echo $_GET['id_computador'];?>"><?php echo $oTranslator->_('Remover computador');?></a></td>
+			<?php }
 			?>		
     	</tr>
     	</table>
 		</tr>
-  		<? echo $linha; 
+  		<?php echo $linha; 
 		} 
 		?> 		
 	</table>

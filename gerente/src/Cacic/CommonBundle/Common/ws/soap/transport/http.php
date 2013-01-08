@@ -30,7 +30,7 @@
 // | Authors: Shane Caraveo <Shane@Caraveo.com>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: HTTP.php,v 1.8 2002/03/05 16:55:29 uw Exp $
+// $Id: http.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 
 require_once 'SOAP/globals.php';
@@ -40,7 +40,7 @@ require_once 'SOAP/Base.php';
 *  HTTP Transport for SOAP
 *
 * @access public
-* @version $Id: HTTP.php,v 1.8 2002/03/05 16:55:29 uw Exp $
+* @version $Id: http.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @package SOAP::Transport::HTTP
 * @author Shane Caraveo <shane@php.net>
 */

@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -56,7 +56,7 @@ if($_REQUEST['submit'])
 							$_REQUEST['frm_te_obs']."')"; 
 
 		$result = mysql_query($query) or die ('Insert softwares falhou ou sua sessão expirou!');
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'softwares');
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'softwares',$_SESSION["id_usuario"]);
 
 		header ("Location: ../../include/operacao_ok.php?chamador=../admin/softwares/index.php&tempo=1");									 						
 	}
@@ -64,13 +64,13 @@ if($_REQUEST['submit'])
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<?
+<?php
 }
 else 
 {
 ?>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
@@ -105,8 +105,8 @@ MM_reloadPage(true);
 </head>
 
 <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_nm_software')">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Inclus&atilde;o de Novo Software</td>
   </tr>
@@ -119,7 +119,7 @@ MM_reloadPage(true);
   </tr>
 </table>
 <form action="incluir_software.php"  method="post" ENCTYPE="multipart/form-data" name="form">
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
       <td class="label"><br>
         Nome:</td>
@@ -187,7 +187,7 @@ MM_reloadPage(true);
   </p>
 </form>
 <p>
-  <?
+  <?php
 }
 ?>
 </p>

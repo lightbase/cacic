@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -19,7 +19,7 @@
   require_once('../../include/library.php');   
 ?>
 
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">
       <?php echo $oTranslator->_('Relatorio de configuracoes de hardware'); ?>
@@ -33,7 +33,7 @@
   </tr>
 </table>
 <form action="rel_hardware.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-  <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="5" cellspacing="1">
     <tr>
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
@@ -48,18 +48,18 @@
             <td height="1"><table border="0" cellpadding="0" cellspacing="0">
                 <tr> 
                   <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Disponiveis'); ?></div></td>
+                  <td class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Disponiveis'); ?></div></td>
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela"><span class="necessario">*</span><?=$oTranslator->_('Selecionados'); ?></td>
+                  <td nowrap class="cabecalho_tabela"><span class="necessario">*</span><?php echo $oTranslator->_('Selecionados'); ?></td>
                   <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list5[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? 	
+                        <?php 	
 						// Obtenho os nomes do hardware passível de controle
 						$arrDescricaoHardware = getDescricaoHardware();
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
@@ -83,7 +83,7 @@
               </table></td>
           </tr>
           <tr> 
-            <td class="descricao"><i><?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i></td>
+            <td class="descricao"><i><?php echo $oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i></td>
           </tr>
         </table></td>
     </tr>
@@ -92,7 +92,7 @@
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  
+        <?php  
 		$cs_situacao = 'T';
 		$v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
@@ -105,7 +105,7 @@
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>
+        <?php  require_once('../../include/selecao_so_inc.php');		?>
       </td>
     </tr>
     <tr> 
@@ -121,7 +121,7 @@
           </tr>
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
+                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<?php echo ($_SESSION['cs_nivel_administracao']<>1 && 
 																				 						$_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>,
 																				 						SelectAll(this.form.elements['list4[]']),
 																										SelectAll(this.form.elements['list6[]'])">				

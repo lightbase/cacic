@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -66,7 +66,7 @@ if ($periodo)
 		{
 		$query = "SELECT 	dt_hr_alteracao as 'Data da Alteração', 
 							te_nome_computador as 'Nome da Máquina', 
-							te_ip as 'IP', 
+							te_ip_computador as 'IP', 
 			  				te_mascara as 'Mascara de Rede', 
 							te_gateway as 'Gateway', 
 							te_wins_primario as 'Wins Primário', 
@@ -83,7 +83,7 @@ if ($periodo)
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Hist&oacute;rico <? echo $tipo_historico?></title>
+<title>Hist&oacute;rico <?php echo $tipo_historico?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -95,7 +95,7 @@ if ($periodo)
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>Hist&oacute;rico <? echo $tipo_historico?>
+    <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>Hist&oacute;rico <?php echo $tipo_historico?>
       </strong></font></td>
   </tr>
   <tr> 
@@ -106,7 +106,7 @@ if ($periodo)
   </tr>
 </table>
 <p><br>
-  <? 
+  <?php 
 $cor = 0;
 $num_registro = 1;
 
@@ -171,7 +171,7 @@ else {
   </table>
   </form>
 <p>&nbsp;</p>
-<?
+<?php
 }
 ?>
 <p><font size="1" face="Verdana, Arial, Helvetica, sans-serif"> Hit&oacute;rico 

@@ -50,7 +50,7 @@ class RelatorioHTML extends Relatorio
 			<td bgcolor="#FFFFFF"> </td>
 		  </tr>
 		  <tr width="100%" bgcolor="#E1E1E1">
-			<td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><?=$titulo;?></strong></font></td>
+			<td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><?php echo $titulo;?></strong></font></td>
 			
 		  </tr>
 		  <tr> 
@@ -58,7 +58,7 @@ class RelatorioHTML extends Relatorio
 
 		  <tr> 
 			<td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-				em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+				em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
 		  </tr>
 		  <tr cellpadding="10"	> 
 			<td></td>

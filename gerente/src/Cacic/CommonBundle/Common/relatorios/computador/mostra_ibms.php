@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -42,22 +42,21 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
-	if ($_GET['disco'] == '') {
+<?php if ($_GET['disco'] == '') {
 	 $query = "SELECT CASE WHEN ((te_cpu_freq >= 2390) AND (te_cpu_freq <= 2533)) THEN 2400  
 			       WHEN ((te_cpu_freq >= 2790) AND (te_cpu_freq <= 2800)) THEN 2800 
 			       ELSE te_cpu_freq 
@@ -71,7 +70,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 			       ELSE te_cpu_fabricante 
 			  END AS CPUFabricante,
 			  te_nome_computador, te_node_address, id_so,
-   			  te_ip, dt_hr_ult_acesso
+   			  te_ip_computador, dt_hr_ult_acesso
 		FROM computadores  
 		WHERE (te_placa_mae_fabricante LIKE 'IBM') 
 		HAVING (CPUFreq = " . $_GET['CPUFreq'] . ") AND (Memoria = " . $_GET['Memoria'] . ") AND 
@@ -83,13 +82,13 @@ $linha = '<tr bgcolor="#e7e7e7">
 				      WHEN ((tbl.capacidade < 120000) AND (tbl.capacidade > 114400)) THEN 120000 
 				      WHEN ((tbl.capacidade < 160000) AND (tbl.capacidade > 152500)) THEN 160000 
 				      ELSE tbl.capacidade 
-				END AS disco, te_nome_computador, te_node_address, id_so, te_ip, dt_hr_ult_acesso 
-			FROM (SELECT SUM(nu_capacidade) AS capacidade, te_nome_computador, c.te_node_address, c.id_so, te_ip, dt_hr_ult_acesso  
+				END AS disco, te_nome_computador, te_node_address, id_so, te_ip_computador, dt_hr_ult_acesso 
+			FROM (SELECT SUM(nu_capacidade) AS capacidade, te_nome_computador, c.te_node_address, c.id_so, te_ip_computador, dt_hr_ult_acesso  
 				FROM unidades_disco u, computadores c 
 				WHERE (id_tipo_unid_disco = 2) AND 
-					(c.te_node_address = u.te_node_address) AND 
+					(c.id_computador = u.id_computador) AND 
 					(c.te_placa_mae_fabricante LIKE '%IBM%') 
-				GROUP BY u.te_node_address, u.id_so 
+				GROUP BY u.id_computador 
 				ORDER BY capacidade) AS tbl 
 			HAVING (disco = " . $_GET['disco'] . ") 
 			ORDER BY te_nome_computador";
@@ -97,7 +96,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 	$result = mysql_query($query) or die('erro no select');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
-  <? if ($_GET['disco'] == '') { 
+  <?php if ($_GET['disco'] == '') { 
   	echo '<tr>';
   	echo '<td align="center" nowrap><strong>Frequ&ecirc;ncia da CPU: ' .  $_GET['CPUFreq'] . '</strong></td>';
 	echo '</tr>';
@@ -132,25 +131,25 @@ $linha = '<tr bgcolor="#e7e7e7">
 	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&Uacute;ltima Coleta</a></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $NumRegistro; ?></font></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></div></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_ip']; ?></font></td>
+	  <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['te_ip_computador']; ?></font></td>
 	  <td nowrap>&nbsp;</td>
 	  <td nowrap>&nbsp;</td>
-	  <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></font></div></td>
+	  <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></font></div></td>
 	  <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

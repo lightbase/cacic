@@ -2,7 +2,7 @@
 /**
  * patTemplate HighlightPHP filter
  *
- * $Id: HighlightPhp.php 378 2005-03-26 08:38:51Z schst $
+ * $Id: HighlightPhp.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * Highlights PHP code in the output.
  *
@@ -14,7 +14,7 @@
 /**
  * patTemplate HighlightPHP filter
  *
- * $Id: HighlightPhp.php 378 2005-03-26 08:38:51Z schst $
+ * $Id: HighlightPhp.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * Highlights PHP code in the output.
  *

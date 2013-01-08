@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -32,8 +32,8 @@ $linha = '<tr bgcolor="#e7e7e7">
 <table width="102%" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#999999">
 <tr bgcolor="#E1E1E1"> 
 <td bgcolor="#FFFFFF" class="cabecalho"> <div align="center"><b><br>
-<?=$oTranslator->_('Detalhes do Computador');?> 
-<? echo mysql_result($result, 0, "te_nome_computador");  ?>
+<?php echo $oTranslator->_('Detalhes do Computador');?> 
+<?php echo mysql_result($result, 0, "te_nome_computador");  ?>
 </b></div></td>
 </tr>
 </table>
@@ -48,12 +48,12 @@ $linha = '<tr bgcolor="#e7e7e7">
 <td colspan="5" height="1" bgcolor="#333333"></td>
 </tr>
 <tr> 
-<td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<?=$oTranslator->_('Informacoes basicas');?></td>
+<td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<?php echo $oTranslator->_('Informacoes basicas');?></td>
 </tr>
 <tr> 
 <td colspan="5" height="1" bgcolor="#333333"></td>
 </tr>
-	<?
+	<?php
 	$today=date('m-d-Y');	
 	$access_day = explode('-',mysql_result($result, 0, "dt_hr_ult_acesso"));	
 	$diference = date_difference(trim(substr($access_day[1],0,2)).'-'.$access_day[2].'-'.$access_day[0],$today);	
@@ -68,34 +68,34 @@ $linha = '<tr bgcolor="#e7e7e7">
 	?>
     <tr> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Nome do Computador');?></td>
-    <td class="dado" colspan="3"><? echo mysql_result($result, 0, "te_nome_computador");?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Nome do Computador');?></td>
+    <td class="dado" colspan="3"><?php echo mysql_result($result, 0, "te_nome_computador");?></td>
 	
     </tr>
-    <? echo $linha?> 
+    <?php echo $linha?> 
     <tr> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Versao agente principal');?></td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_versao_cacic"); ?></td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Versao gerente de coletas');?></td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_versao_gercols"); ?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Versao agente principal');?></td>
+    <td class="dado"><?php echo mysql_result($result, 0, "te_versao_cacic"); ?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Versao gerente de coletas');?></td>
+    <td class="dado"><?php echo mysql_result($result, 0, "te_versao_gercols"); ?></td>
     </tr>
-    <? echo $linha?> 
+    <?php echo $linha?> 
 	
     <tr> 
     <td><p>&nbsp;</p></td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Endereco TCP/IP');?></td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_ip"); ?></td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Data/Hora inclusao');?></td>
-    <td class="dado"><? echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result, 0, "dt_hr_inclusao"))); ?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Endereco TCP/IP');?></td>
+    <td class="dado"><?php echo mysql_result($result, 0, "te_ip_computador"); ?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Data/Hora inclusao');?></td>
+    <td class="dado"><?php echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result, 0, "dt_hr_inclusao"))); ?></td>
     </tr>
-    <? echo $linha?> 
+    <?php echo $linha?> 
     <tr> 
     <td><p>&nbsp;</p></td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Sistema operacional');?></td>
-    <td class="dado"><? echo mysql_result($result, 0, "te_desc_so"); ?></td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Data/Hora do ultimo acesso');?></td>
-    <td class="dado"><? echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result, 0, "dt_hr_ult_acesso"))). ' ' .$img_date; ?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Sistema operacional');?></td>
+    <td class="dado"><?php echo mysql_result($result, 0, "te_desc_so"); ?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Data/Hora do ultimo acesso');?></td>
+    <td class="dado"><?php echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result, 0, "dt_hr_ult_acesso"))). ' ' .$img_date; ?></td>
     </tr>
 
 <tr> 

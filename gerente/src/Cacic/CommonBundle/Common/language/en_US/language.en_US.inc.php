@@ -31,17 +31,18 @@ en_US     kciq_msg finish title                                                 
 en_US     kciq_installertitle                                                                                 instaladorinfo                CACIC Web Installer
 en_US     kciq_msg web_installer                                                                              instaladorinfo                CACIC Web Installer
 en_US     kciq_msg advise_title                                                                               instaladorinfo                PHP/Apache flags
-en_US     kciq_installerintrotitle                                                                            instaladorinfo                Introdution
+en_US     kciq_installerintrotitle                                                                            instaladorinfo                Introduction
 en_US     kciq_msg license title                                                                              instaladorinfo                License
 en_US     kciq_msg php_memory                                                                                 instaladorinfo                Memory for PHP scripts
 en_US     kciq_msg js_enable                                                                                  instaladorinfo                <b>JavaScript</b> is needed for web installer process.
-en_US     kciq_msg mcrypt_suporte                                                                             instaladorinfo      php-MCryptPHP MCrypt support needed
-en_US     kciq_msg gd_suporte                                                                                 instaladorinfo      php-GD    PHP GD library support needed
-en_US     kciq_msg ftp_suporte                                                                                instaladorinfo      php-FTP   PHP FTP support needed
-en_US     kciq_msg mysql_suporte                                                                              instaladorinfo      php-MySQL PHP MySQL version support needed
+en_US     kciq_msg mcrypt_suporte                                                                             instaladorinfo                PHP MCrypt support needed
+en_US     kciq_msg gd_suporte                                                                                 instaladorinfo                PHP GD library support needed
+en_US     kciq_msg ftp_suporte                                                                                instaladorinfo                PHP FTP support needed
+pt_BR     kciq_msg ldap_suporte                                                                               instaladorinfo                PHP LDAP support needed
+en_US     kciq_msg mysql_suporte                                                                              instaladorinfo                PHP MySQL version support needed
 en_US     kciq_msg license advise                                                                             instaladorinfo                Please, read the license bellow. You need to accept it to continue the installation process!
 en_US     kciq_installerresources                                                                             instaladorinfo                Installer features:
-en_US     kciq_msg requisitos                                                                                 instaladorinfo                Requiriment
+en_US     kciq_msg requisitos                                                                                 instaladorinfo                Requirement
 en_US     kciq_msg def_version                                                                                instaladorinfo                Version
 en_US     kciq_msg phpversion                                                                                 instaladorinfo                PHP version
 en_US     e mais...                                                                                           instaladorinfo                and more...

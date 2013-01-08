@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -24,7 +24,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
-<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
+<link href="../../include/css/cacic.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
@@ -43,26 +43,26 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
-	 $query = "SELECT a.te_nome_computador as nm_maquina, b.te_node_address, b.id_so, a.id_ip_rede, 
+<?php
+	 $query = "SELECT a.te_nome_computador as nm_maquina, a.id_rede, 
 			b.campo_alterado, b.valor_antigo, b.data_anterior, 
-			b.novo_valor, b.nova_data 
+			b.novo_valor, b.nova_data,a.id_computador 
 		FROM computadores a, historicos_hardware b 
-		WHERE (a.te_node_address = b.te_node_address) AND (a.id_so = b.id_so) 
+		WHERE (a.id_computador = b.id_computador) 
 		ORDER BY data_anterior DESC 
 		LIMIT 300"; 
 	$result = mysql_query($query) or die('Erro no select');
@@ -92,28 +92,28 @@ $linha = '<tr bgcolor="#e7e7e7">
 	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
 
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-          <td class="dado_med_sem_fundo" nowrap><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td class="dado_med_sem_fundo" nowrap><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-          <td class="dado_med_sem_fundo" nowrap><div align="left"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
+          <td class="dado_med_sem_fundo" nowrap><div align="left"><a href="../../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['nm_maquina']; ?></div></td>
 	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-	  <td class="dado_med_sem_fundo" align="left" nowrap><? echo $row['campo_alterado']; ?></td>
+	  <td class="dado_med_sem_fundo" align="left" nowrap><?php echo $row['campo_alterado']; ?></td>
 	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-	  <td class="dado_med_sem_fundo" align="center" nowrap><? echo $row['valor_antigo']; ?></td>
+	  <td class="dado_med_sem_fundo" align="center" nowrap><?php echo $row['valor_antigo']; ?></td>
 	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-	  <td class="dado_med_sem_fundo" align="center" nowrap><? echo $row['novo_valor']; ?></td>
+	  <td class="dado_med_sem_fundo" align="center" nowrap><?php echo $row['novo_valor']; ?></td>
 	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-	  <td class="dado_med_sem_fundo" align="center" nowrap><? echo date("d/m/Y H:i", strtotime($row['data_anterior'])); ?></td>
+	  <td class="dado_med_sem_fundo" align="center" nowrap><?php echo date("d/m/Y H:i", strtotime($row['data_anterior'])); ?></td>
 	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

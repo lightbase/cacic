@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -37,16 +37,16 @@ $linha = '<tr bgcolor="#e7e7e7">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?=$oTranslator->_('Estatisticas de sistemas monitorados');?></title>
+<title><?php echo $oTranslator->_('Estatisticas de sistemas monitorados');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<? require_once('../../include/selecao_listbox.js');  ?>
-<?
+<?php require_once('../../include/js/selecao_listbox.js');  ?>
+<?php
 // Essa variável é usada pelo arquivo de include selecao_redes_inc.php e inicio_relatorios_inc.php.
 $id_acao = 'cs_coleta_monitorado';
 $cs_situacao = 'S';
 
 ?>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <script LANGUAGE="JavaScript">
 <!-- Begin
 function open_window(theURL,winName,features) { 
@@ -56,15 +56,15 @@ function open_window(theURL,winName,features) {
 </script>
 </head>
 <body bgcolor="#FFFFFF" background="../../imgs/linha_v.gif" leftmargin="2" topmargin="10" marginwidth="0" marginheight="0">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <br>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><?=$oTranslator->_('Estatisticas de sistemas monitorados');?></td>
+    <td class="cabecalho"><?php echo $oTranslator->_('Estatisticas de sistemas monitorados');?></td>
   </tr>
   <tr> 
     <td class="descricao">
-      <?=$oTranslator->_('Estatisticas de sistemas monitorados - informe');?>
+      <?php echo $oTranslator->_('Estatisticas de sistemas monitorados - informe');?>
     </td>
   </tr>
   <tr> 
@@ -73,10 +73,10 @@ function open_window(theURL,winName,features) {
   </tr>
 </table>
 <form action="../aplicativos/aplicativos.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-<table width="90%" border="0" align="center" cellpadding="0">
+<table width="85%" border="0" align="center" cellpadding="0">
               <tr>
             <td class="label">
-              <?=$oTranslator->_('Saida Detalhada:');?>            </td>
+              <?php echo $oTranslator->_('Saida Detalhada:');?>            </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -103,7 +103,7 @@ function open_window(theURL,winName,features) {
       <td valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="1">
           <tr>
             <td class="label">
-              <?=$oTranslator->_('Selecione os sistemas monitorados que deseja exibir:');?>            </td>
+              <?php echo $oTranslator->_('Selecione os sistemas monitorados que deseja exibir:');?>            </td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -112,18 +112,18 @@ function open_window(theURL,winName,features) {
             <td height="1"><table width="50%" border="0" align="left" cellpadding="0" cellspacing="0">
                 <tr> 
                   <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Disponiveis:');?></div></td>
+                  <td class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Disponiveis:');?></div></td>
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela"><?=$oTranslator->_('Selecionados:');?></td>
+                  <td nowrap class="cabecalho_tabela"><?php echo $oTranslator->_('Selecionados:');?></td>
                   <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list5[]" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? 	$where_usuario_comum = '';	
+                        <?php 	$where_usuario_comum = '';	
 							if ($_SESSION["cs_nivel_administracao"] == 0)
 								{
 								$where_usuario_comum = ' AND in_disponibiliza_info_usuario_comum="S" ';
@@ -161,7 +161,7 @@ function open_window(theURL,winName,features) {
           </tr>
           <tr> 
             <td class="ajuda">
-              (<?=$oTranslator->_('Dica: use SHIFT or CTRL para selecionar multiplos itens');?>)            </td>
+              (<?php echo $oTranslator->_('Dica: use SHIFT or CTRL para selecionar multiplos itens');?>)            </td>
           </tr>
         </table></td>
     </tr>
@@ -177,7 +177,7 @@ function open_window(theURL,winName,features) {
     </tr>	
     <tr> 
       <td valign="top"> 
-        <?  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
+        <?php  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
 		?>      </td>
     </tr>
@@ -186,7 +186,7 @@ function open_window(theURL,winName,features) {
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>      </td>
+        <?php  require_once('../../include/selecao_so_inc.php');		?>      </td>
     </tr>
     <tr>
       <td valign="top">&nbsp;</td>
@@ -202,10 +202,10 @@ function open_window(theURL,winName,features) {
           </tr>
           <tr> 
             <td> <div align="center"> 
-				<?
+				<?php
                 //<input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list9[]']), SelectAll(this.form.elements['list8[]'])">
 				?>
-                <input name="submit" type="submit" value="<?=$oTranslator->_('Gerar relatorio');?>" onClick="<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list9[]']),ChecaTodasAsRedes()">				
+                <input name="submit" type="submit" value="<?php echo $oTranslator->_('Gerar relatorio');?>" onClick="<?php echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list9[]']),ChecaTodasAsRedes()">				
               </div></td>
           </tr>
           <tr> 

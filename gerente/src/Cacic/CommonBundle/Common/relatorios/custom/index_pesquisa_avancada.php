@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -27,7 +27,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
   require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
 
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Relat&oacute;rio 
       de Levantamento de Hardware / Software</td>
@@ -43,7 +43,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
   </tr>
 </table>
 <form action="pesquisa_avancada.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-  <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="5" cellspacing="1">
     <tr> 
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 

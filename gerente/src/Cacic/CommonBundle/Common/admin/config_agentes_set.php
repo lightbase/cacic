@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -41,7 +41,7 @@ $query = "UPDATE 	configuracoes_locais
 			WHERE 	id_local 				= ".$_POST['frm_id_local'];
 
 $result_acoes_redes = mysql_query($query) or die('1-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('configuracoes')).'!'); 
-GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');	
+GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais',$_SESSION["id_usuario"]);	
 
 $query_acoes_redes = '';
 foreach($HTTP_POST_VARS as $i => $v) 
@@ -55,7 +55,7 @@ foreach($HTTP_POST_VARS as $i => $v)
 			$query_acoes_redes .= 'Update acoes_redes set dt_hr_coleta_forcada = now() where '; 
 			$v_or = '';
 			}
-		$query_acoes_redes .= $v_or . " id_acao = '" . $v_acao_rede[0] . "' and id_ip_rede = '" . $v . "'"; 			
+		$query_acoes_redes .= $v_or . " id_acao = '" . $v_acao_rede[0] . "' and id_rede = " . $v; 			
 		$v_or = ' or ';
 		}
 	}
@@ -63,7 +63,7 @@ foreach($HTTP_POST_VARS as $i => $v)
 if ($query_acoes_redes)	
 	{
 	$result_acoes_redes = mysql_query($query_acoes_redes) or die('2-'.$oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('acoes_redes')).'!'); 	
-	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'acoes_redes');		
+	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);		
 	}
 header ("Location: ../include/operacao_ok.php?chamador=../admin/config_agentes.php&tempo=1");
 ?>

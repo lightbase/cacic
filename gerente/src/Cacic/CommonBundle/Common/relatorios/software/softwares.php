@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -30,7 +30,7 @@ if($_POST['submit']) {
 	$_SESSION["cs_situacao"] = $_POST["cs_situacao"];
 }
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic3/include/library.php');
 
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
@@ -56,7 +56,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <body bgcolor="#FFFFFF" topmargin="5">
 <table border="0" align="left" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
-    <td rowspan="5" bgcolor="#FFFFFF"><img src="/cacic2/imgs/cacic_novo.gif" width="50" height="50"></td>
+    <td rowspan="5" bgcolor="#FFFFFF"><img src="/cacic3/imgs/cacic_novo.gif" width="50" height="50"></td>
     <td rowspan="5" bgcolor="#FFFFFF">&nbsp;</td>
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
@@ -69,13 +69,13 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
-<br><?
+<br><?php
 
 //Pego os aplicativos selecionados para o relatório
 $v_achei = '';
@@ -103,17 +103,16 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
                     Inventariados</strong></font></div></td>
                 <td width="28%" nowrap bgcolor="#E1E1E1"><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>M&aacute;quinas</strong></font></div></td>
               </tr>
-              <? 
+              <?php 
 			  while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 					{
 	 				$reg_id_aplicativo = $reg_selecao[0]; 	
 					// Exibir informações sobre a quantidade de máquinas e os softwares inventariados
 					$query_aplicativo = 
-					"SELECT DISTINCT a.nm_software_inventariado, COUNT(a.id_software_inventariado) as total_equip, a.id_software_inventariado
+					"SELECT DISTINCT a.nm_software_inventariado, COUNT(a.id_software_inventariado) as total_equip, a.id_software_inventariado, c.id_computador
 					FROM softwares_inventariados a, softwares_inventariados_estacoes b, computadores c
 					WHERE 
-					b.te_node_address  = c.te_node_address AND 
-					b.id_so = c.id_so AND 
+					b.id_computador  = c.id_computador AND 
 					a.id_software_inventariado = ".$reg_id_aplicativo. " AND 
 					a.id_software_inventariado = b.id_software_inventariado   
 					GROUP BY a.nm_software_inventariado
@@ -125,11 +124,10 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
 						$v_achei = '.';
 						?>
               			<tr> 
-		                <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="rel_maquinas_softwares.php?id_software_inventariado=<? echo $reg_versoes[2]?>&nm_software_inventariado=<? echo $reg_versoes[0]?>" target="_blank"><? echo $reg_versoes[0] ?></a></font></td>
-		                <td nowrap><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $reg_versoes[1] ?></font></div></td>
+		                <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="rel_maquinas_softwares.php?id_software_inventariado=<?php echo $reg_versoes[2]?>&nm_software_inventariado=<?php echo $reg_versoes[0]?>" target="_blank"><?php echo $reg_versoes[0] ?></a></font></td>
+		                <td nowrap><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $reg_versoes[1] ?></font></div></td>
 		              	</tr>	  
-		              	<?
-						echo $linha; 
+		              	<?php echo $linha; 
 		 				} //Fim do if else das versões
  				 	} //Fim do while
 

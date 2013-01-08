@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -30,70 +30,67 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
     <td colspan="5" bgcolor="#333333" height="1"></td>
   </tr>
   <tr> 
-    <td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp; <a href="computador.php?exibir=officescan&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
-      <img src="../../imgs/<? if($_SESSION['officescan'] == true) echo 'menos';
+    <td colspan="5" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp; <a href="computador.php?exibir=officescan&te_node_address=<?php echo $_GET['te_node_address']?>&id_so=<?php echo $_GET['id_so']?>"> 
+      <img src="../../imgs/<?php if($_SESSION['officescan'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">
-   			 <?=$oTranslator->_('Antivirus officeScan');?></a></td>
+   			 <?php echo $oTranslator->_('Antivirus officeScan');?></a></td>
   </tr>
   <tr> 
     <td colspan="5" bgcolor="#333333" height="1"></td>
   </tr>
   
-  <?
-
-		if ($_SESSION['officescan'] == true) 
+  <?php if ($_SESSION['officescan'] == true) 
 			{
 			// EXIBIR INFORMAÇÕES DO OFFICESCAN DO COMPUTADOR
 			$query = "SELECT 	cs_situacao
 					  FROM 		acoes_redes 
 					  WHERE 	id_acao = 'cs_coleta_officescan' AND
-					  			id_ip_rede = '".mysql_result($result,0,'id_ip_rede')."'";
+					  			id_rede = '".mysql_result($result,0,'id_rede')."'";
 							
 			$result_acoes =  mysql_query($query);
 			if (mysql_result($result_acoes, 0, "cs_situacao") <> 'N') {
 						$query = "SELECT 	* 
 								  FROM 		officescan 
-								  WHERE 	te_node_address = '". $_GET['te_node_address'] ."' AND 
-											id_so = '". $_GET['id_so'] ."'";
+								  WHERE 	id_computador = ". $_GET['id_computador'];
 						$result_officescan = mysql_query($query);
 						if(mysql_num_rows($result_officescan) > 0) {
 		?>
-  <tr bgcolor="<? echo $strCor;?>"> 
+  <tr bgcolor="<?php echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Versao do engine');?></td>
-    <td class="dado"><? echo mysql_result($result_officescan, 0, "nu_versao_engine"); ?></td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Servidor do OfficeScan');?></td>
-    <td class="dado"><div align="left"><? echo mysql_result($result_officescan, 0, "te_servidor"); ?>&nbsp;</div></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Versao do engine');?></td>
+    <td class="dado"><?php echo mysql_result($result_officescan, 0, "nu_versao_engine"); ?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Servidor do OfficeScan');?></td>
+    <td class="dado"><div align="left"><?php echo mysql_result($result_officescan, 0, "te_servidor"); ?>&nbsp;</div></td>
   </tr>
-  <? echo $linha;
+  <?php echo $linha;
   $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
 
-  <tr bgcolor="<? echo $strCor;?>"> 
+  <tr bgcolor="<?php echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Versao do Pattern');?></td>
-    <td class="dado"><? echo mysql_result($result_officescan, 0, "nu_versao_pattern"); ?></td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Data de instalacao');?></td>
-    <td class="dado"><? echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result_officescan, 0, "dt_hr_instalacao"))); ?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Versao do Pattern');?></td>
+    <td class="dado"><?php echo mysql_result($result_officescan, 0, "nu_versao_pattern"); ?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Data de instalacao');?></td>
+    <td class="dado"><?php echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result_officescan, 0, "dt_hr_instalacao"))); ?></td>
   </tr>
-  <? echo $linha;
+  <?php echo $linha;
   $strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  
   ?> 
 
-  <tr bgcolor="<? echo $strCor;?>"> 
+  <tr bgcolor="<?php echo $strCor;?>"> 
     <td>&nbsp;</td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Estado do OfficeScan');?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Estado do OfficeScan');?></td>
     <td class="dado"> 
-      <? if (mysql_result($result_officescan, 0, "in_ativo") == 1)
+      <?php if (mysql_result($result_officescan, 0, "in_ativo") == 1)
 					echo $oTranslator->_('Ativo'); 
 				 else
 					echo $oTranslator->_('Desativado');
 		    ?>
       </td>
-    <td class="opcao_tabela"><?=$oTranslator->_('Data da ultima coleta');?></td>
-    <td class="dado"><? echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result_officescan, 0, "dt_hr_coleta"))); ?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('Data da ultima coleta');?></td>
+    <td class="dado"><?php echo date("d/m/Y à\s H:i\h", strtotime(mysql_result($result_officescan, 0, "dt_hr_coleta"))); ?></td>
   </tr>
-  <?
+  <?php
 			}
 			else {
 				echo '<tr><td> 

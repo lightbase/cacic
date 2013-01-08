@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -67,13 +67,13 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
-<br><?
+<br><?php
 
 $array_siglas = explode(';',$_SESSION["string_siglas"]);
 for ($i=0; $i < count($array_siglas); $i ++) {
@@ -99,19 +99,19 @@ if ($_SESSION["filtro_tr"] == 'estacao') {
 	$resultComputadores = mysql_query($queryComputadores);
 	?>
 	<table width=100%>
-	<?
+	<?php
 	while ($reg_computador = @mysql_fetch_row($resultComputadores)) {
 		?>
 		<tr bgcolor='#CECECE' align=center>
 		<td colspan=2>
-		<b><? echo $reg_computador[0];?></b>
+		<b><?php echo $reg_computador[0];?></b>
 		</td>
 		</tr>
-		<?
+		<?php
 		$querySoftwares = "SELECT si.nm_software_inventariado, ts.te_descricao_tipo_software 
 						   FROM softwares_inventariados si, softwares_inventariados_estacoes sie, 
 							    computadores c, tipos_software ts 
-						   WHERE (sie.te_node_address = c.te_node_address) AND 
+						   WHERE (sie.id_computador = c.id_computador) AND 
 								 (si.id_software_inventariado = sie.id_software_inventariado) AND 
 								 (c.te_nome_computador = '" . $reg_computador[0] . "') 
 								 $condicaoTipoSoftware AND 
@@ -121,15 +121,15 @@ if ($_SESSION["filtro_tr"] == 'estacao') {
 		while ($reg_software = @mysql_fetch_row($resultSoftwares)) {
 			?>
 			<tr>
-			<td align=left><? echo $reg_software[0];?></td>
-			<td align=right><? echo $reg_software[1];?></td>
+			<td align=left><?php echo $reg_software[0];?></td>
+			<td align=right><?php echo $reg_software[1];?></td>
 			</tr>
-			<?
+			<?php
 		}
 	}
 	?>
 	</table>
-	<?
+	<?php
 }
 
 ?>

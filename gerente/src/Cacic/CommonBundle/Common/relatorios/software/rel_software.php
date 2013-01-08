@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -44,8 +44,9 @@ if ($_GET['principal'])
 		$_SESSION["list4"] .= $row['id_so'];
 		}
 
+	$strLabelUltimoAcesso = $oTranslator->_('Ultimo acesso');
 	$_SESSION["list4"] = explode('#',$_SESSION["list4"]);					
-	$_SESSION["list6"] = explode('#',', dt_hr_ult_acesso as "'.$oTranslator->_('Ultimo acesso').'"');
+	$_SESSION["list6"] = explode('#',', dt_hr_ult_acesso as "'.$strLabelUltimoAcesso.'"');
 	$_SESSION["cs_situacao"] 	= 'T';
 	}
 elseif($_POST['submit']) 
@@ -62,9 +63,9 @@ elseif($_POST['submit'])
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?=$oTranslator->_('Relatorio de configuracoes de software');?></title>
+<title><?php echo $oTranslator->_('Relatorio de configuracoes de software');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<link href="<?=CACIC_URL?>/include/cacic.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo CACIC_URL?>/include/css/cacic.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" type="text/JavaScript">
 <!--
 function MM_openBrWindow(theURL,winName,features) { //v2.0
@@ -73,8 +74,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 //-->
 </script>
 </head>
-<?
-if ($_GET['principal'])
+<?php if ($_GET['principal'])
 	{
 	echo '<body bgcolor="#FFFFFF" background="../../imgs/linha_v.gif">';
 	}
@@ -87,13 +87,12 @@ else
 <table border="0" align="default" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
     <td rowspan="5" bgcolor="#FFFFFF">&nbsp;</td>
-    <td rowspan="5" bgcolor="#FFFFFF"><? if (!$_GET['principal']) echo '<img src="../../imgs/cacic_logo.png" width="50" height="50">'; ?> </td>
+    <td rowspan="5" bgcolor="#FFFFFF"><?php if (!$_GET['principal']) echo '<img src="../../imgs/cacic_logo.png" width="50" height="50">'; ?> </td>
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
     <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
-	<?
-	if ($_GET['principal'] == 'so')
+	<?php if ($_GET['principal'] == 'so')
 		{
 		echo $oTranslator->_('Distribuicao de sistemas operacionais dos computadores gerenciados');
 		}
@@ -112,17 +111,17 @@ else
 	?>
 	</strong></font></td>
   </tr>
-  <?
+  <?php
   // Caso a chamada tenha origem nos detalhamentos a partir da página principal, é enviado o ID_LOCAL 
   // para consulta individual
   if ($_GET['id_local']<>'')
   	{
 	?>
   	<tr> 
-   	<td bgcolor="#CCCCCC"><div align="center"><?=$oTranslator->_('Local');?> <strong><? echo $_GET['nm_local'].' ('.$_GET['sg_local'].')';?></strong>
+   	<td bgcolor="#CCCCCC"><div align="center"><?php echo $oTranslator->_('Local');?> <strong><?php echo $_GET['nm_local'].' ('.$_GET['sg_local'].')';?></strong>
     </div></td>
   	</tr>	
-	<?
+	<?php
 	}
   ?>
   <tr> 
@@ -130,8 +129,7 @@ else
   </tr>
   <tr> 
     <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-	<? 
-	if (!$_GET['principal'])
+	<?php if (!$_GET['principal'])
 		{
 		echo $oTranslator->_('Gerado em'). " " . date("d/m/Y à\s H:i"); 
 		}
@@ -140,7 +138,7 @@ else
   </tr>
 </table>
 <br>
-<? 
+<?php 
 $from 				= ' ,redes ';			
 $local 				= '';
 $redes_selecionadas = '';
@@ -151,10 +149,10 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 	for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-	if (!$_GET['principal']) $query_redes = 'AND redes.id_ip_rede IN ('. $redes_selecionadas .')';		
+	if (!$_GET['principal']) $query_redes = 'AND redes.id_rede IN ('. $redes_selecionadas .')';		
 
 	if ($_GET['id_local']=='')
-		$local = ' AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local = '.$_SESSION['id_local'];	
+		$local = ' AND computadores.id_rede = redes.id_rede AND redes.id_local = '.$_SESSION['id_local'];	
 
 	}
 else
@@ -164,7 +162,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND
+	$query_redes = 'AND computadores.id_rede = redes.id_rede AND
 						redes.id_local = locais.id_local ';
 						
 	$select = ' ,sg_local as Local ';	
@@ -173,7 +171,7 @@ else
 
 if (($_SESSION['te_locais_secundarios']  <> '' || $_GET['id_local'] == '') && $local <> '')		
 	{
-	$local = str_replace(' redes.id_ip_rede AND redes.id_local = ',' redes.id_ip_rede AND (redes.id_local = ',$local);
+	$local = str_replace(' redes.id_rede AND redes.id_local = ',' redes.id_rede AND (redes.id_local = ',$local);
 
 	if($_SESSION['te_locais_secundarios']<>'')
 	   $local .= ' OR redes.id_local IN ('.$_SESSION['te_locais_secundarios'].')';
@@ -209,19 +207,19 @@ else
 $from_join = '';
 if ($_GET['id_local'] <> '')	
 	{
-	$query_redes .= ' AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local = '.$_GET['id_local'];
+	$query_redes .= ' AND computadores.id_rede = redes.id_rede AND redes.id_local = '.$_GET['id_local'];
 	}
 else
 	{
-	$from_join = ' LEFT JOIN versoes_softwares ON (computadores.id_so = versoes_softwares.id_so and
-			 													versoes_softwares.te_node_address = computadores.te_node_address) ';
+	$from_join = ' LEFT JOIN versoes_softwares ON (computadores.id_computador = versoes_softwares.id_computador) ';
 	}																			
 
 $query = ' SELECT 	distinct computadores.te_node_address, 
 					so.id_so, 
 					te_nome_computador as "Nome Comp.", 
 					sg_so as "S.O.", 
-					te_ip as "IP"' . 
+					te_ip_computador as "IP",
+					computadores.id_computador,' . 
 					$campos_software .
 					$select .
 		 ' FROM   	so, computadores '.$from_join . $from . ' 																																				 		 
@@ -274,6 +272,7 @@ for ($n = 0; $n < $reg_pag; $n++)
 	$strFieldTeNodeAddress    = mysql_field_name($resultado, 0);
 	$strFieldIdSo			  = mysql_field_name($resultado, 1);
 	$strFieldTeNomeComputador = mysql_field_name($resultado, 2);
+	$strFieldIdComputador 	  = mysql_field_name($resultado, 5);	
 		
 	//Table body
 	echo '<tr ';
@@ -282,11 +281,16 @@ for ($n = 0; $n < $reg_pag; $n++)
 			
 	echo '>';
 	echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $linha->$strFieldTeNodeAddress ."&id_so=". $linha->$strFieldIdSo ."' target='_blank'>" . $linha->$strFieldTeNomeComputador ."</a>&nbsp;</td>"; 
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $linha->$strFieldIdComputador ."' target='_blank'>" . $linha->$strFieldTeNomeComputador ."</a>&nbsp;</td>"; 
 	for ($i=3; $i < $fields; $i++) 
 		{
 		$strNomeCampo = mysql_field_name($resultado, $i);
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $linha->$strNomeCampo .'&nbsp;</td>'; 
+		$strConteudo  = $linha->$strNomeCampo;
+				
+		if ($strNomeCampo == $strLabelUltimoAcesso)
+			$strConteudo = date("d/m/Y H:i:s", strtotime($strConteudo));
+			
+		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $strConteudo .'&nbsp;</td>'; 
 		}
 	$cor=!$cor;
 	$num_registro++;
@@ -317,16 +321,15 @@ if (count($_SESSION["list8"])>0)
 	}
 
 ?></p>
-<?
-if (!$_GET['principal']) 
+<?php if (!$_GET['principal']) 
 	{
 	?>
 	<p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-	<?=$oTranslator->_('Gerado por');?><strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+	<?php echo $oTranslator->_('Gerado por');?><strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   	de Informa&ccedil;&otilde;es Computacionais</font><br>
   	<font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   	pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
-	<?
+	<?php
 	}
 	?>
 </body>

@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -32,7 +32,7 @@ if ($_REQUEST['ExcluiSO'] && $_SESSION['cs_nivel_administracao']==1)
 			  FROM 		so 
 			  WHERE 	id_so = ".$_REQUEST['frm_id_so'];
 	mysql_query($query) or die('Falha de deleção na tabela so ou sua sessão expirou!');
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'so');				
+	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'so',$_SESSION["id_usuario"]);				
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/sistemas_operacionais/index.php&tempo=1");									 				
 	}
 elseif ($_POST['GravaAlteracoes']  && $_SESSION['cs_nivel_administracao']==1) 
@@ -45,7 +45,7 @@ elseif ($_POST['GravaAlteracoes']  && $_SESSION['cs_nivel_administracao']==1)
 			  			in_mswindows = '".$strMsWindows."'						
 			  WHERE 	id_so 		 = ".$_REQUEST['frm_id_so'];
 	mysql_query($query) or die('Falha na atualização da tabela SO ou sua sessão expirou!');
-	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'SO');
+	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'SO',$_SESSION["id_usuario"]);
 			
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/sistemas_operacionais/index.php&tempo=1");									 					
 	}
@@ -62,7 +62,7 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
@@ -96,21 +96,21 @@ function valida_form()
 	}
 </script>
 </head>
-<body <? if (!$pos) echo 'background="../../imgs/linha_v.gif"';?> onLoad="SetaCampo('frm_te_desc_so')">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<body <?php if (!$pos) echo 'background="../../imgs/linha_v.gif"';?> onLoad="SetaCampo('frm_te_desc_so')">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form method="post" ENCTYPE="multipart/form-data" name="form">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-      <td class="cabecalho">Detalhes do Sistema Operacional <? echo $row['te_desc_so']; ?></td>
+      <td class="cabecalho">Detalhes do Sistema Operacional <?php echo $row['te_desc_so']; ?></td>
   </tr>
   <tr> 
       <td class="descricao">As informa&ccedil;&otilde;es abaixo referem-se a um 
         sistema operacional instalado em parque computacional inventariado pelo 
-        CACIC, onde a ID Interna refere-se ao valor enviado pelo Gerente de Coletas (ger_cols.exe), composto por <strong>platformId</strong>, <strong>majorVer</strong>, <strong>minorVer</strong> e <strong>CSDVersion</strong>. </td>
+        CACIC, onde a ID Interna refere-se ao valor enviado pelo Gerente de Coletas (gercols.exe), composto por <strong>platformId</strong>, <strong>majorVer</strong>, <strong>minorVer</strong> e <strong>CSDVersion</strong>. </td>
   </tr>
 </table>
 
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
       <td class="label"><br>
         Descri&ccedil;&atilde;o:</td>
@@ -121,9 +121,9 @@ function valida_form()
       <td bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td><input name="frm_te_desc_so" type="text"  class="normal" id="frm_te_desc_so" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" size="50" maxlength="50" value="<? echo $row['te_desc_so'];?>" > 
+      <td><input name="frm_te_desc_so" type="text"  class="normal" id="frm_te_desc_so" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" size="50" maxlength="50" value="<?php echo $row['te_desc_so'];?>" > 
       </td>
-      <td><input name="frm_sg_so" type="text" id="frm_sg_so" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row['sg_so'];?>" ></td>
+      <td><input name="frm_sg_so" type="text" id="frm_sg_so" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $row['sg_so'];?>" ></td>
     </tr>
     <tr> 
       <td class="label">&nbsp;</td>
@@ -138,8 +138,8 @@ function valida_form()
       <td bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td nowrap><input name="frm_te_so" type="text"          class="normal" id="frm_te_so" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row['te_so'];?>" size="50" maxlength="50" <? if (trim($row['te_so']) <> '') echo 'disabled readonly="true"';?>></td>
-      <td nowrap><input name="frm_id_so" type="text" disabled class="normal" id="frm_id_so" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row['id_so'];?>" size="50" maxlength="11" readonly="true"></td>
+      <td nowrap><input name="frm_te_so" type="text"          class="normal" id="frm_te_so" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $row['te_so'];?>" size="50" maxlength="50" <?php if (trim($row['te_so']) <> '') echo 'disabled readonly="true"';?>></td>
+      <td nowrap><input name="frm_id_so" type="text" disabled class="normal" id="frm_id_so" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $row['id_so'];?>" size="50" maxlength="11" readonly="true"></td>
     </tr>
     <tr>
       <td nowrap>&nbsp;</td>
@@ -151,28 +151,27 @@ function valida_form()
     </tr>
 	
     <tr>
-      <td nowrap class="label"><div align="left"><input type="checkbox" name="frm_in_mswindows" id="frm_in_mswindows" value="S" <? if ($row['in_mswindows']=='S') echo 'checked';?>>
+      <td nowrap class="label"><div align="left"><input type="checkbox" name="frm_in_mswindows" id="frm_in_mswindows" value="S" <?php if ($row['in_mswindows']=='S') echo 'checked';?>>
       Sistema Operacional MS-Windows</div></td>
       <td nowrap>&nbsp;</td>
     </tr>
   </table>
   <p align="center"> <br>
     <br>
-	<?
-	if ($_SESSION['cs_nivel_administracao']==1)
+	<?php if ($_SESSION['cs_nivel_administracao']==1)
 		{
 		?>
-	    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Alterações  " onClick="return valida_form();return Confirma('Confirma Informações para Local?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+	    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Alterações  " onClick="return valida_form();return Confirma('Confirma Informações para Local?');" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
 	     
-    	<input name="ExcluiSO" type="submit" id="ExcluiSO" onClick="return Confirma('Confirma Exclusão de Sistema Operacional?');" value="  Excluir Sistema Operacional" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
-		<?
+    	<input name="ExcluiSO" type="submit" id="ExcluiSO" onClick="return Confirma('Confirma Exclusão de Sistema Operacional?');" value="  Excluir Sistema Operacional" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+		<?php
 		}
 		?>
   </p>
-<input type="hidden" id="frm_id_so" name="frm_id_so" value="<? echo $_GET['id_so'];?>">  
+<input type="hidden" id="frm_id_so" name="frm_id_so" value="<?php echo $_GET['id_so'];?>">  
 </form>
 </body>
 </html>
-<?
+<?php
 }
 ?>

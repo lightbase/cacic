@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -54,8 +54,8 @@ $nomes_duplicados = true;
 
 
 if ($nomes_duplicados) {
-	$query = " SELECT a.te_nome_computador, a.id_ip_rede, b.te_desc_so, a.te_dominio_windows, a.te_ip, 
-			a.te_node_address, a.dt_hr_ult_acesso
+	$query = " SELECT a.te_nome_computador, a.id_rede, b.te_desc_so, a.te_dominio_windows, a.te_ip_computador, 
+			a.te_node_address, a.dt_hr_ult_acesso,a.id_computador
 				FROM computadores a, so b
 				WHERE a.id_so = b.id_so
 				GROUP  BY $encontrar
@@ -95,7 +95,7 @@ if (mysql_num_rows($result) > 0) {
                 $NOME_COMPUTADOR = $linha['te_nome_computador'];
                 $U_LOGADO = $linha['te_dominio_windows'];
                 $MAC = $linha['te_node_address'];
-                $IP =  $linha['te_ip'];
+                $IP =  $linha['te_ip_computador'];
                 $U_ACESSO = $linha['dt_hr_ult_acesso'];
 
                 if ($encontrar == "te_nome_computador"){

@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -61,11 +61,11 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
-<? 
+<?php 
 require_once('../../include/library.php');
 AntiSpy();
 conecta_bd_cacic();
@@ -80,11 +80,11 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-		$query_redes = 'AND computadores.id_ip_rede IN ('. $redes_selecionadas .')';		
+		$query_redes = 'AND computadores.id_rede IN ('. $redes_selecionadas .')';		
 		//}	
 	//else // Todas as Redes
 		//{
-		//$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+		//$query_redes = 'AND computadores.te_ip = redes.te_ip AND 
 		//					redes.id_local = '. $_SESSION['id_local'].' AND
 		//					redes.id_local = locais.id_local ';
 		//$select = ' ,sg_local as Local ';	
@@ -98,7 +98,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+	$query_redes = 'AND computadores.id_rede = redes.id_rede AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
 	$select = ' ,sg_local as Local ';	
@@ -125,7 +125,8 @@ $query = ' SELECT 	computadores.te_node_address,
 					te_nome_computador as "Nome Comp.",
 					te_nome_host as "Nome Host", 
 					sg_so as "S.O.", 
-					te_ip as "IP"' .
+					computadores.id_computador, 					
+					te_ip_computador as "IP"' .
           			$campos_tcpip .
 					$select.'  
 		   FROM 	computadores LEFT JOIN so ON (computadores.id_so = so.id_so) '.
@@ -153,7 +154,7 @@ while ($row = mysql_fetch_row($result)) { //Table body
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row[5] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
     for ($i=3; $i < $fields; $i++) {
 		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
 	}

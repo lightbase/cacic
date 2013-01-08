@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<? 
+<?php 
 include_once "../../include/library.php";
    Conecta_bd_cacic();
    

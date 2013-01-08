@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -30,7 +30,7 @@ $query = 'SELECT '.$v_novo_campo. ',
 		  FROM computadores a,so, versoes_softwares b
 		  WHERE a.te_nome_computador IS NOT NULL AND a.id_so = so.id_so 
  		  AND a.id_so IN ('. str_replace("-=-", '"',$_GET['v_so_selecionados']) .') '.str_replace("-=-", '"',$_GET['v_query_redes']).' AND
-		  a.te_node_address = b.te_node_address and a.id_so = b.id_so 
+		  a.id_computador = b.id_computador  
 		  GROUP BY '.$v_novo_campo .' 
 		  ORDER BY '.$v_novo_campo ;	  
   

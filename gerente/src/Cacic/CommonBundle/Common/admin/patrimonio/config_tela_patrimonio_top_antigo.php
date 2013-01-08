@@ -29,20 +29,20 @@ AntiSpy();
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Configura&ccedil;&atilde;o da Tela de Patrim&ocirc;nio</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body bgcolor="#FFFFFF" background="../../imgs/linha_v.gif" text="#000000" topmargin="4">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr>
     <td class="cabecalho">
-      <?=$oTranslator->_('Tela de Coleta de Informacoes de Patrimonio');?>
+      <?php echo $oTranslator->_('Tela de Coleta de Informacoes de Patrimonio');?>
     </td>
   </tr>
   <tr>
     <td class="descricao">
-      <?=$oTranslator->_('Tela de Coleta de Informacoes de Patrimonio - ajuda');?>
+      <?php echo $oTranslator->_('Tela de Coleta de Informacoes de Patrimonio - ajuda');?>
     </td>
   </tr>
 </table>

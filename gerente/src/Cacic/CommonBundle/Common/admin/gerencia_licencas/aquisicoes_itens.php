@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: aquisicoes_itens.php 2009-08-31 20:21 harpiain $
+ * @version $Id: aquisicoes_itens.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package CACIC-Admin
  * @subpackage GerenciaLicencas
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>

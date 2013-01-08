@@ -2,7 +2,7 @@
 /**
  * creates a new function alias
  *
- * $Id: Alias.php 283 2004-09-07 19:09:56Z schst $
+ * $Id: Alias.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -16,7 +16,7 @@
  * - alias => new alias
  * - function => function to call
  *
- * $Id: Alias.php 283 2004-09-07 19:09:56Z schst $
+ * $Id: Alias.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @package		patTemplate
  * @subpackage	Functions

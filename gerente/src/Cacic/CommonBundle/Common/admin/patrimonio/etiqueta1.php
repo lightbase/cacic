@@ -1,4 +1,4 @@
-<?  
+<?php  
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -28,12 +28,12 @@ conecta_bd_cacic(); ?>
  
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title><?=$oTranslator->_('Configuracao da Tela de Patrimonio');?></title>
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Configuracao da Tela de Patrimonio');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<?
+<?php
 	 	$where = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
 	 	$where = ' AND id_local = '.$_SESSION['id_local'];		
 	   	$query = "SELECT 	te_etiqueta, 
@@ -48,40 +48,40 @@ conecta_bd_cacic(); ?>
 ?>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form name="form1" method="post" action="etiqueta_generica.php">
   <table width="600" border="0" align="center">
     <tr> 
       <td nowrap class="label">
-        <?=$oTranslator->_('Texto da');?>
-        &quot;<?=$oTranslator->_('Etiqueta 1');?>&quot;:
+        <?php echo $oTranslator->_('Texto da');?>
+        &quot;<?php echo $oTranslator->_('Etiqueta 1');?>&quot;:
       </td>
-      <td><input name="te_etiqueta" type="text" id="te_etiqueta" value="<?  echo $default[0]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
+      <td><input name="te_etiqueta" type="text" id="te_etiqueta" value="<?php echo $default[0]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
       <td class="descricao">
-        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
-        &quot;<?=$oTranslator->_('Gerencia');?>&quot;
+        <?php echo $oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?php echo $oTranslator->_('Gerencia');?>&quot;
       </td>
     </tr>
     <tr> 
       <td nowrap class="label">
-        <?=$oTranslator->_('Plural de texto da');?>
-        &quot;<?=$oTranslator->_('Etiqueta 1');?>&quot;:
+        <?php echo $oTranslator->_('Plural de texto da');?>
+        &quot;<?php echo $oTranslator->_('Etiqueta 1');?>&quot;:
       </td>
-      <td><input name="te_plural_etiqueta" type="text" id="te_etiqueta" value="<?  echo $default[2]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
+      <td><input name="te_plural_etiqueta" type="text" id="te_etiqueta" value="<?php echo $default[2]  ?>" size="25" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
       <td class="descricao">
-        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
-        &quot;<?=$oTranslator->_('Gerencias');?>&quot;
+        <?php echo $oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?php echo $oTranslator->_('Gerencias');?>&quot;
       </td>
     </tr>
 	
     <tr> 
       <td nowrap class="label">
-        <?=$oTranslator->_('Texto de ajuda da');?>
-        &quot;<?=$oTranslator->_('Etiqueta 1');?>&quot;:
-      <td><input name="te_help_etiqueta" type="text" id="te_help_etiqueta" value="<?  echo $default	[1]  ?>" size="25" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
+        <?php echo $oTranslator->_('Texto de ajuda da');?>
+        &quot;<?php echo $oTranslator->_('Etiqueta 1');?>&quot;:
+      <td><input name="te_help_etiqueta" type="text" id="te_help_etiqueta" value="<?php echo $default	[1]  ?>" size="25" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"></td>
       <td class="descricao">
-        <?=$oTranslator->_('Exemplo',T_SIGLA);?>
-        &quot;<?=$oTranslator->_('Selecione a Gerencia de localizacao este equipamento');?>&quot;
+        <?php echo $oTranslator->_('Exemplo',T_SIGLA);?>
+        &quot;<?php echo $oTranslator->_('Selecione a Gerencia de localizacao este equipamento');?>&quot;
       </td>
     </tr>
     <tr> 
@@ -92,7 +92,7 @@ conecta_bd_cacic(); ?>
     <tr> 
       <td colspan="3" nowrap> <div align="center"> 
           <input type="hidden" name="in_exibir_etiqueta" value="S">
-          <input name="gravar" type="submit" id="gravar" value="<?=$oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Configuracao de Etiqueta 1?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+          <input name="gravar" type="submit" id="gravar" value="<?php echo $oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma('<?php echo $oTranslator->_('Confirma Configuracao de Etiqueta 1?');?>');" <?php echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     </tr>
   </table>

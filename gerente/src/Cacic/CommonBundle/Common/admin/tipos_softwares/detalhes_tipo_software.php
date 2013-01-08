@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -32,7 +32,7 @@ if ($ExcluiTipoSoftware)
 			  FROM 		tipos_software 
 			  WHERE 	id_tipo_software = '$frm_id_tipo_software'";
 	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'tipos_software');			
+	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'tipos_software',$_SESSION["id_usuario"]);			
 
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/tipos_softwares/index.php&tempo=1");					
 	}
@@ -42,7 +42,7 @@ elseif ($GravaAlteracoes)
 			  SET 		te_descricao_tipo_software = '".$_REQUEST['frm_te_descricao_tipo_software']."'			  
 			  WHERE 	id_tipo_software = ".$_REQUEST['frm_id_tipo_software'];
 	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
-	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'tipos_software');		
+	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'tipos_software',$_SESSION["id_usuario"]);		
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/tipos_softwares/index.php&tempo=1");				
 	}
 else 
@@ -58,7 +58,7 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Detalhes de Tipo de Software</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
@@ -78,10 +78,10 @@ function valida_form()
 </head>
 
 <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_te_descricao_tipo_software');">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<table width="85%" border="0" align="center">
   <tr> 
-    <td class="cabecalho">Detalhes do Tipo de Software "<? echo $row['te_descricao_tipo_software'];?>"</td>
+    <td class="cabecalho">Detalhes do Tipo de Software "<?php echo $row['te_descricao_tipo_software'];?>"</td>
   </tr>
   <tr> 
     <td class="descricao">As informa&ccedil;&otilde;es referem-se a um tipo de 
@@ -89,7 +89,7 @@ function valida_form()
   </tr>
 </table>
 <form action="detalhes_tipo_software.php"  method="post" ENCTYPE="multipart/form-data" name="form">
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
       <td height="1" bgcolor="#333333" colspan="3"></td>
     </tr>
@@ -103,8 +103,8 @@ function valida_form()
     </tr>
     <tr> 
       <td nowrap>&nbsp;</td>
-      <td nowrap><input name="frm_te_descricao_tipo_software" type="text" id="frm_te_descricao_tipo_software" value="<? echo $row['te_descricao_tipo_software']; ?>" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-	  <input name="frm_id_tipo_software" type="hidden" id="frm_id_tipo_software" value="<? echo $_REQUEST['id_tipo_software']; ?>"></td>
+      <td nowrap><input name="frm_te_descricao_tipo_software" type="text" id="frm_te_descricao_tipo_software" value="<?php echo $row['te_descricao_tipo_software']; ?>" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+	  <input name="frm_id_tipo_software" type="hidden" id="frm_id_tipo_software" value="<?php echo $_REQUEST['id_tipo_software']; ?>"></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
@@ -113,14 +113,14 @@ function valida_form()
   </table>
   <p align="center"> <br>
 
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Tipo de Software?');return valida_form();" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para Tipo de Software?');return valida_form();" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="ExcluiTipoSoftware" type="submit" value="  Excluir Tipo de Software" onClick="return Confirma('Confirma Exclusão de Tipo de Software e TODAS AS DEPENDÊNCIAS? (Redes e Usuários)');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="ExcluiTipoSoftware" type="submit" value="  Excluir Tipo de Software" onClick="return Confirma('Confirma Exclusão de Tipo de Software e TODAS AS DEPENDÊNCIAS? (Redes e Usuários)');" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
   </p>
       </form>		  
 		
 </body>
 </html>
-<?
+<?php
 }
 ?>

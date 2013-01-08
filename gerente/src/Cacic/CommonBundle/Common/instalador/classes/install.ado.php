@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: index.php 2007-02-08 22:20 harpiain $
+ * @version $Id: install.ado.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package Cacic-Installer
  * @subpackage Instalador
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>
@@ -315,3 +315,4 @@ class ADO {
    return true;
   }  
 }
+?>

@@ -1,4 +1,4 @@
-<? 
+<?php 
 /*
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -25,14 +25,13 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 require_once('../include/library.php');
 
 AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
-$id_acao = $_GET['id_acao']; 
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title><?=$oTranslator->_('Acoes - Configuracoes');?></title>
+<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Acoes - Configuracoes');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
 function Volta() 
@@ -40,92 +39,37 @@ function Volta()
 	top.location = '../arquivos/index.php';
 	}
 
+
 function PreencheFormListas(comboLista)
 	{
-	var strValores;
-	strValores = "";
+	var strValues;
+	strValues = "";
   	for (var i=0;i < comboLista.length;i++) 
 		{
-		if (strValores != "")
-			strValores = strValores + "#FD#";
-		strValores = strValores + comboLista.options[i].value;
+		strValues = strValues + (strValues != "" ? "," : "");			
+		strValues = strValues + comboLista.options[i].value;
    		}	
-	return strValores;
+	return strValues;
 	}
 	
 function valida_form() 
 	{
-	if ((document.forma.elements.cs_situacao[2].checked) && (document.forma.elements['list2[]'].length <= 0)) 
-		{
-		if (!confirm ("<?=$oTranslator->_('Nao foi selecionada nenhuma rede. Deseja continuar?');?>")) 
-			{	
-			return false; 
-			}
-		}
-	else if (document.forma.elements['list4[]'].length <= 0) 
-		{
-		if (!confirm ("<?=$oTranslator->_('Nao foi selecionado nenhum sistema operacional. Deseja continuar?');?>")) 
-			{	
-			return false; 
-			}
-		}
-
 	// Os procedimentos abaixo foram implementados como solução de contorno às limitações impostas pela
 	// extensão Suhosin	em um servidor de produção cujas alterações levavam burocraticamente até 5 dias!!!
-	document.forma.elements['frmList1'].value = PreencheFormListas(document.forma.elements['list1[]']);
-	document.forma.elements['frmList2'].value = PreencheFormListas(document.forma.elements['list2[]']);
-	document.forma.elements['frmList4'].value = PreencheFormListas(document.forma.elements['list4[]']);
-	document.forma.elements['frmList5'].value = PreencheFormListas(document.forma.elements['list5[]']);
+	PreencheFormChecksRedes();	
+	document.forma.elements['frmSO_NaoSelecionados'].value = PreencheFormListas(document.forma.elements['list3[]']);
+	document.forma.elements['frmSO_Selecionados'].value    = PreencheFormListas(document.forma.elements['list4[]']);	
+	document.forma.elements['frmMAC_Selecionados'].value   = PreencheFormListas(document.forma.elements['list5[]']);
 
 	// Desabilito as listas para que não sejam enviadas no POST
-	document.forma.elements['list1[]'].disabled=true;
-	document.forma.elements['list2[]'].disabled=true;
-	document.forma.elements['list4[]'].disabled=true;
+	document.forma.elements['list3[]'].disabled=true;
+	document.forma.elements['list4[]'].disabled=true;	
 	document.forma.elements['list5[]'].disabled=true;
 	document.forma.elements['list6[]'].disabled=true;	
 	
 	return true;
 	}
 
-function verifica_status() 
-	{
-   	if (document.forma.elements.cs_situacao[2].checked) 
-   		{
-       	document.forma.elements['list1[]'].disabled=false;
-       	document.forma.elements['list2[]'].disabled=false;
-       	document.forma.elements['B1'].disabled=false;
-       	document.forma.elements['B2'].disabled=false;
-		DesSelectAll(document.forma.elements['list1[]'])
-		DesSelectAll(document.forma.elements['list2[]'])
-   		}
-   else if(document.forma.elements.cs_situacao[0].checked) 					
-   		{
-		if(document.forma.elements['list2[]'].length > 0)
-			{
-			SelectAll(document.forma.elements['list2[]']);
-			move(document.forma.elements['list2[]'],document.forma.elements['list1[]']);
-			SelectAll(document.forma.elements['list1[]']);
-			}			
-      	document.forma.elements['list1[]'].disabled=true;
-       	document.forma.elements['list2[]'].disabled=true;
-       	document.forma.elements['B1'].disabled=true;
-       	document.forma.elements['B2'].disabled=true;
-    	}
-    else
-    	{
-		if(document.forma.elements['list1[]'].length > 0)
-			{
-			SelectAll(document.forma.elements['list1[]']);
-			move(document.forma.elements['list1[]'],document.forma.elements['list2[]']);
-			SelectAll(document.forma.elements['list2[]']);
-			}			
-      	document.forma.elements['list1[]'].disabled=false;
-       	document.forma.elements['list2[]'].disabled=false;
-       	document.forma.elements['B1'].disabled=false;
-       	document.forma.elements['B2'].disabled=false;
-    	}
-	}
-	
 function SelectAll(combo) 
 	{
   	for (var i=0;i<combo.options.length;i++) 
@@ -211,226 +155,162 @@ function remove(box)
 </script>
 </head>
 
-<? 
+<?php 
     conecta_bd_cacic();
-	/*
-	$query = "SELECT 	* 
-			  FROM 		acoes,
-			  			acoes_redes
-			  WHERE		acoes.id_acao='$id_acao' AND
-			  			acoes_redes.id_acao = acoes.id_acao AND
-						acoes_redes.id_local = ".$_SESSION['id_local'];
-	*/
-	$query = "SELECT 	*
-			  FROM 		acoes_redes
-			  WHERE		id_acao = '".$_GET['id_acao']."' ";
+	$queryAcaoRedes = "SELECT 	re.id_rede
+					  FROM 		acoes_redes ar,
+					  			redes re
+					  WHERE		id_acao = '".$_GET['id_acao']."' AND 
+					  			ar.id_rede = re.id_rede";
 	if ($_SESSION['cs_nivel_administracao'] <> 1 && $_SESSION['cs_nivel_administracao'] <> 2)			 
-		$query .= " AND id_local = ".$_SESSION['id_local'];
+		$queryAcaoRedes .= " AND re.id_local = ".$_SESSION['id_local'];
 
 	if ($_SESSION['te_locais_secundarios']<>'')
 		{
 		// Faço uma inserção de "(" para ajuste da lógica para consulta
-		$query = str_replace('id_local = ','(id_local = ',$query);
-		$query .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
+		$queryAcaoRedes = str_replace('re.id_local = ','(re.id_local = ',$queryAcaoRedes);
+		$queryAcaoRedes .= ' OR re.id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
 		}
 
-	$result_acoes = mysql_query($query) or die('1-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
-	$campos_acoes = mysql_fetch_array($result_acoes);
+	$resultAcaoRedes= mysql_query($queryAcaoRedes) or die('1-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+	$arrSelecaoRedes = array();	
+	while ($rowAcaoRedes = mysql_fetch_array($resultAcaoRedes))
+		$arrSelecaoRedes[$rowAcaoRedes['id_rede']] = 1;		
 ?>
 
-<body background="../imgs/linha_v.gif" onLoad="verifica_status();">
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
-  <tr> 
-    <td class="cabecalho"><? echo $_GET['te_descricao_breve']; ?></td>
-  </tr>
-  <tr> 
-    <td class="descricao"><? echo $_GET['te_descricao']; ?></td>
-  </tr>
-  <tr> 
-    <td class="descricao"><div align="right">&nbsp;&nbsp;<br>
-        <?=$oTranslator->_('Ultima Alteracao em');?> <? echo date("d/m/Y H:i", strtotime($campos_acoes['dt_hr_alteracao'])); ?></div></td>
-  </tr>
-</table>
-<table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
-  <tr> 
-    <td valign="top"> <form action="acoes_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return valida_form()">
-        <table width="100%" border="0" cellpadding="0" cellspacing="1">
-          <tr> 
-            <td class="label">&nbsp;<br>
-              <?=$oTranslator->_('Onde executar essa acao-configuracao');?>: 
-              <input name="id_acao" type="hidden" id="id_acao" value="<? echo $id_acao; ?>">
-              </td>
-          </tr>
-          <tr> 
-            <td height="1" bgcolor="#333333"></td>
-          </tr>
-          <tr> 
-            <td class="opcao"><p> 
-                <input name="cs_situacao" type="radio" value="N" <? if (strtoupper($campos_acoes['cs_situacao']) == 'N' ||$campos_acoes['cs_situacao'] == NULL) echo 'checked'; ?> onClick="verifica_status();" >
-                <?=$oTranslator->_('Desabilitar acao-configuracao nas redes');?></font><br>
-                <input type="radio" name="cs_situacao" value="T" <? if (strtoupper($campos_acoes['cs_situacao']) == 'T') echo 'checked'; ?> onClick="verifica_status();" >
-                <?=$oTranslator->_('Habilitar acao-configuracao em todas as redes');?><br>
-                <input type="radio" name="cs_situacao" value="S" <? if (strtoupper($campos_acoes['cs_situacao']) == 'S') echo 'checked'; ?> onClick="verifica_status();" >
-                <?=$oTranslator->_('Apenas nas redes selecionadas');?></p></td>
-          </tr>
-        </table>
-        <table border="0" cellpadding="0" cellspacing="0">
-          <tr> 
-            <td>&nbsp;&nbsp;</td>
-            <td class="label"><div align="left"><?=$oTranslator->_('Disponiveis');?></div></td>
-            <td>&nbsp;&nbsp;</td>
-            <td width="40">&nbsp;</td>
-            <td nowrap>&nbsp;&nbsp;</td>
-            <td class="label" nowrap><p><?=$oTranslator->_('Selecionadas');?>:</p></td>
-            <td nowrap>&nbsp;&nbsp;</td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td class="opcao"> <div align="left"> 
-                <?    
-						$where = ($_SESSION['cs_nivel_administracao']<>1?' AND acoes_redes.id_local = '.$_SESSION['id_local']:'');
+<body background="../imgs/linha_v.gif">
+<?php require_once('../include/js/opcoes_avancadas_combos.js');  ?>
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
+<table width="85%" border="0" align="center">
+  <tr><td class="cabecalho"><?php echo $_GET['te_descricao_breve']; ?></td></tr>
+  <tr><td class="descricao"><?php echo $_GET['te_descricao']; ?></td></tr>
+  <tr><td class="cabecalho">&nbsp;</td></tr>  
+  <tr><td><form action="acoes_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return valida_form()">
+        <tr><td class="label">&nbsp;<br>
+        <?php echo $oTranslator->_('Subredes onde a acao sera executada');?>: 
+        <input name="id_acao" type="hidden" id="id_acao" value="<?php echo $_GET['id_acao']; ?>">
+        <input name="frmRedes_Selecionadas" type="hidden" id="frmRedes_Selecionadas" value="">  
+        <input name="frmRedes_NaoSelecionadas" type="hidden" id="frmRedes_NaoSelecionadas" value="">                
+        </td>
+        </tr>
+        <tr><td height="1" bgcolor="#333333"></td></tr>
+		<tr><td class="destaque" align="center" colspan="4" valign="middle"><input name="redes" type="checkbox" id="redes" onClick="MarcaDesmarcaTodos(this.form.redes);">
+				  <?php echo $oTranslator->_('Marcar/desmarcar todas as subRedes');?></td>
+		</tr>
+		<tr><td height="10" colspan="2">&nbsp;</td></tr>
+		<tr> 
+		<td nowrap colspan="4"><br>
+		<table border="0" align="center" cellpadding="0" bordercolor="#999999">
+		<tr bgcolor="#FFFFCC"> 
+		<td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Sequencia');?></td>			
+		<td bgcolor="#EBEBEB" align="center"><img src="../imgs/checked.gif" border="no"></td>				
+		<td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Endereco IP');?></td>				  
+        <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Nome da Subrede');?></td>			
+		<td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Localizacao');?></td>											
+	    </tr>		    
+		<?php 
+	   	$whereREDES = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND loc.id_local = '.$_SESSION['id_local']:'');
+		if ($_SESSION['te_locais_secundarios']<>'' && $whereREDES <> '')
+			{
+			// Faço uma inserção de "(" para ajuste da lógica para consulta	
+			$whereREDES = str_replace(' loc.id_local = ',' (loc.id_local = ',$whereREDES);
+			$whereREDES .= ' OR loc.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+			}
+			
+			
+		$queryREDES = "	SELECT 		re.te_ip_rede,
+									re.nm_rede,
+									loc.id_local,
+									loc.sg_local,
+									re.id_rede
+						FROM 		redes re,
+									locais loc
+						WHERE		re.id_local = loc.id_local ".
+									$whereREDES ."
+						ORDER BY	loc.sg_local,
+									re.te_ip_rede,
+									re.nm_rede"; 
+									
+		$resultREDES = mysql_query($queryREDES) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!',array('redes'))); 										
 
-						if ($_SESSION['te_locais_secundarios']<>'')
-							{
-							// Faço uma inserção de "(" para ajuste da lógica para consulta
-							$where = str_replace('AND acoes_redes.id_local = ','AND (acoes_redes.id_local = ',$where);
-							$where .= ' OR acoes_redes.id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
-							}
-						
-				        /* Consulto todas as redes que foram previamente selecionadas para a a ação em questão. */ 
-					  	$query = "SELECT 	acoes_redes.id_ip_rede, 
-											acoes_redes.id_local,
-											nm_rede
-								  FROM 		acoes_redes, 
-								  			redes
-								  WHERE 	id_acao='$id_acao' AND 
-								  			acoes_redes.id_ip_rede = redes.id_ip_rede AND
-											acoes_redes.id_local = redes.id_local ".
-											$where;
-						$result_redes_ja_selecionadas = mysql_query($query) or die('2-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+		$intSequencial = 1;
 
-						/* Agora monto os itens do combo de redes selecionadas e preparo a string de exclusao (NOT IN) para a proxima consulta. */ 
-						while($campos_redes_selecionadas = mysql_fetch_array($result_redes_ja_selecionadas)) 
-							{
-						   	$itens_combo_redes_selecionadas = $itens_combo_redes_selecionadas . '<option value="' . $campos_redes_selecionadas['id_ip_rede'].'#'.$campos_redes_selecionadas['id_local']. '">' . $campos_redes_selecionadas['id_ip_rede'] . ' - ' . capa_string($campos_redes_selecionadas['nm_rede'], 22) . '</option>'; 
-						   	$not_in_ja_selecionadas = $not_in_ja_selecionadas . "'" . $campos_redes_selecionadas['id_ip_rede'] .  "',";
-							}
-						$not_in_ja_selecionadas = $not_in_ja_selecionadas . "''";
+		while ($rowREDES = mysql_fetch_array($resultREDES))
+			{
+			$strIdRedes       .= ($strIdRedes ? ',' : '');			
+			$strIdRedes       .=  $rowREDES['id_rede'];
+			
+			$strCheck 	 = '';
+			$strClasseTD = 'td_normal';
+							
+			$strCheck = ($arrSelecaoRedes[$rowREDES['id_rede']] ? 'checked' : '');
+			?>
+		    <tr>
+		      <td class="<?php echo $strClasseTD;?>" align="right"><?php echo $intSequencial;?></td>									
+			  <td class="<?php echo $strClasseTD;?>" align="center"><input name="rede_<?php echo $rowREDES['id_rede'].'_'.str_replace('td_','',$strClasseTD);?>" id="redes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="<?php echo $rowREDES['id_rede'];?>" <?php echo $strCheck;?>></td>
+			  <td class="<?php echo $strClasseTD;?>"><?php echo $rowREDES['te_ip_rede'];?></td>
+			  <td class="<?php echo $strClasseTD;?>" nowrap="nowrap"><?php echo $rowREDES['nm_rede'];?></td>
+			  <td class="<?php echo $strClasseTD;?>" nowrap="nowrap"><?php echo $rowREDES['sg_local'];?></td>
+	        </tr>
+		    <?php
+			$intSequencial ++;							
+			}
+	?> 
+	    <tr><td colspan="5">&nbsp;</td></tr>
+	    <tr><td colspan="5">&nbsp;</td></tr>
+        <tr><td class="label" colspan="5"><?php echo $oTranslator->_('Sistemas Operacionais onde essa acao-configuracao devera ser aplicada');?>:</td></tr>
+        <tr><td height="1" bgcolor="#333333" colspan="5"></td></tr>
+        <tr><td colspan="5">&nbsp;</td>
+        <tr><td>&nbsp;</td>
+        	<td class="label"><div align="left"><?php echo $oTranslator->_('Disponiveis');?></div></td>
+        	<td>&nbsp;</td>
+        	<td class="label" nowrap>&nbsp;&nbsp;</td>
+        	<td nowrap><?php echo $oTranslator->_('Selecionados');?>:</td>
+        </tr>
+        <tr><td>&nbsp;</td>
+        	<td class="opcao"> <div align="left"> 
+        	<?php    
+		 	$where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' and locais.id_local = '.$_SESSION['id_local']:'');
+			/* Consulto todas os sistemas operacionais que foram previamente selecionadas para a a ação em questão. */ 
+			$query = "SELECT 	DISTINCT so.id_so, so.te_desc_so
+					  FROM 		acoes_so, so,locais,redes
+				  	WHERE 	acoes_so.id_acao='".$_GET['id_acao']."' AND acoes_so.id_rede = redes.id_rede and redes.id_local = locais.id_local ".
+								$where ." AND 
+								acoes_so.id_so = so.id_so AND
+								so.id_so <> 0";
+			$result_so_ja_selecionados = mysql_query($query) or die('4-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 
-					    $where = ($_SESSION['cs_nivel_administracao']<>1?' AND id_local = '.$_SESSION['id_local']:'');						
-
-						if ($_SESSION['te_locais_secundarios']<>'')
-							{
-							// Faço uma inserção de "(" para ajuste da lógica para consulta
-							$where = str_replace('id_local = ','(id_local = ',$where);
-							$where .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
-							}
-
-						/* Consulto as redes que não foram previamente selecionadas. */ 
-					  	$query = "SELECT 	id_ip_rede, 
-											nm_rede,
-											id_local
-								  FROM 		redes
-								  WHERE 	id_ip_rede NOT IN ($not_in_ja_selecionadas) ".
-								  			$where;
-						$result_redes_nao_selecionadas = mysql_query($query) or die('3-'.$oTranslator->_('kciq_msg select on table fail', array('redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-						/* Agora monto os itens do combo de redes NÃO selecionadas. */ 
-                        while($campos_redes_nao_selecionadas=mysql_fetch_array($result_redes_nao_selecionadas)) 	
-							{
-							if (trim($campos_redes_nao_selecionadas['id_ip_rede']) <> '' && trim($campos_redes_nao_selecionadas['id_local']) <> '')
-						   	$itens_combo_redes_nao_selecionadas = $itens_combo_redes_nao_selecionadas . '<option value="' . $campos_redes_nao_selecionadas['id_ip_rede'].'#'.$campos_redes_nao_selecionadas['id_local']. '">' . $campos_redes_nao_selecionadas['id_ip_rede'] . ' - ' . capa_string($campos_redes_nao_selecionadas['nm_rede'], 22) . '</option>';
-							}  ?>
-                <input name="frmList1" type="hidden" id="frmList1" value="">                        
-                <select multiple size="10" name="list1[]"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                  <? echo $itens_combo_redes_nao_selecionadas; ?> 
-                </select>
-                </div></td>
-            <td>&nbsp;</td>
-            <td width="40"> <div align="center"> 
-                <input type="button" value="   &gt;   " onClick="move(this.form.elements['list1[]'],this.form.elements['list2[]'])" name="B1">
-                <br>
-                <br>
-                <input type="button" value="   &lt;   " onClick="move(this.form.elements['list2[]'],this.form.elements['list1[]'])" name="B2">
-              </div></td>
-            <td>&nbsp;</td>
-            <td>
-            <input name="frmList2" type="hidden" id="frmList2" value="">                                    
-            <select multiple size="10" name="list2[]"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                <? echo $itens_combo_redes_selecionadas; ?> </select></td>
-            <td>&nbsp;</td>
-          </tr>
-          <tr> 
-            <td colspan="7" class="ajuda"><div align="center">
-            	(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)</div></td>
-          </tr>
-        </table>
-        <table width="100%" border="0" cellpadding="0" cellspacing="1">
-          <tr> 
-            <td>&nbsp;</td>
-          </tr>
-          <tr> 
-            <td class="label"><?=$oTranslator->_('Sistemas Operacionais onde essa acao-configuracao devera ser aplicada');?>:</td>
-          </tr>
-          <tr> 
-            <td height="1" bgcolor="#333333"></td>
-          </tr>
-        </table>
-        <table border="0" cellpadding="0" cellspacing="0">
-          <tr> 
-            <td>&nbsp;&nbsp;</td>
-            <td class="label"><div align="left"><?=$oTranslator->_('Disponiveis');?></div></td>
-            <td>&nbsp;&nbsp;</td>
-            <td width="40">&nbsp;</td>
-            <td nowrap>&nbsp;&nbsp;</td>
-            <td class="label" nowrap><?=$oTranslator->_('Selecionados');?>:</td>
-            <td nowrap>&nbsp;&nbsp;</td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td class="opcao"> <div align="left"> 
-                <?    
-						 $where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' AND id_local = '.$_SESSION['id_local']:'');
-						/* Consulto todas os sistemas operacionais que foram previamente selecionadas para a a ação em questão. */ 
-					  	$query = "SELECT 	DISTINCT so.id_so, so.te_desc_so,acoes_so.id_local
-								  FROM 		acoes_so, so
-								  WHERE 	acoes_so.id_acao='$id_acao' ".
-								  			$where ." AND 
-											acoes_so.id_so = so.id_so AND
-											so.id_so <> 0";
-						$result_so_ja_selecionados = mysql_query($query) or die('4-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-
-						/* Agora monto os itens do combo de so's selecionados e preparo a string de exclusao (NOT IN) para a proxima consulta. */ 
-						$soDisponiveis = '';
-						while($campos_so_selecionados = mysql_fetch_array($result_so_ja_selecionados)) 
-							{
-							if (substr_count($soDisponiveis,'#'.$campos_so_selecionados['id_so'].'#')==0)
-								{
-								$soDisponiveis .= '#'.$campos_so_selecionados['id_so'].'#';
-							   	$itens_combo_so_selecionados .= '<option value="' . $campos_so_selecionados['id_so'].'">' . capa_string($campos_so_selecionados['te_desc_so'], 35) . '</option>';
-							   	$not_in_so_ja_selecionados .= "'" . $campos_so_selecionados['id_so'] .  "',";
-								}
-							}
-						$not_in_so_ja_selecionados .= "''";
-						
-						/* Consulto os so's que não foram previamente selecionadas. */ 
-					  	$query = "SELECT 	DISTINCT id_so, 
-											te_desc_so
-								  FROM 		so
-								  WHERE 	id_so NOT IN ($not_in_so_ja_selecionados) AND
-								  			id_so <> 0
-								  ORDER BY  te_desc_so";
-						$result_so_nao_selecionados = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg select on table fail', array('so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-						
-						/* Agora monto os itens do combo de so's NÃO selecionadas. */ 
-                        while($campos_so_nao_selecionados=mysql_fetch_array($result_so_nao_selecionados)) 	
-							{
-						   	$itens_combo_so_nao_selecionados = $itens_combo_so_nao_selecionados . '<option value="' . $campos_so_nao_selecionados['id_so']. '">' . capa_string($campos_so_nao_selecionados['te_desc_so'], 35) . '</option>';
-							}  ?>
-                <select multiple size="10" name="list3[]">
-                  <? echo $itens_combo_so_nao_selecionados; ?> 
-                </select>
-                </div></td>
+			/* Agora monto os itens do combo de so's selecionados e preparo a string de exclusao (NOT IN) para a proxima consulta. */ 
+			$soDisponiveis = '';
+			while($campos_so_selecionados = mysql_fetch_array($result_so_ja_selecionados)) 
+				{
+				if (substr_count($soDisponiveis,'#'.$campos_so_selecionados['id_so'].'#')==0)
+					{
+					$soDisponiveis .= '#'.$campos_so_selecionados['id_so'].'#';
+					$itens_combo_so_selecionados .= '<option value="' . $campos_so_selecionados['id_so'].'">' . capa_string($campos_so_selecionados['te_desc_so'], 35) . '</option>';	
+					$not_in_so_ja_selecionados .= "'" . $campos_so_selecionados['id_so'] .  "',";
+					}
+				}
+			$not_in_so_ja_selecionados .= "''";
+		
+			/* Consulto os so's que não foram previamente selecionadas. */ 
+			$query = "SELECT 	DISTINCT id_so, 
+								te_desc_so
+					  FROM 		so
+					  WHERE 	id_so NOT IN ($not_in_so_ja_selecionados) AND
+								id_so <> 0
+					  ORDER BY  te_desc_so";
+			$result_so_nao_selecionados = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg select on table fail', array('so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+		
+			/* Agora monto os itens do combo de so's NÃO selecionadas. */ 
+			while($campos_so_nao_selecionados=mysql_fetch_array($result_so_nao_selecionados)) 	
+				{
+				$itens_combo_so_nao_selecionados = $itens_combo_so_nao_selecionados . '<option value="' . $campos_so_nao_selecionados['id_so']. '">' . capa_string($campos_so_nao_selecionados['te_desc_so'], 35) . '</option>';
+				}  ?>
+           	<select multiple size="10" name="list3[]" class="normal">
+              <?php echo $itens_combo_so_nao_selecionados; ?> 
+            </select>
+            </div></td>
             <td>&nbsp;</td>
             <td width="40"> <div align="center"> 
                 <input type="button" value="   &gt;   " onClick="move(this.form.elements['list3[]'],this.form.elements['list4[]'])" name="B13">
@@ -438,99 +318,63 @@ function remove(box)
                 <br>
                 <input type="button" value="   &lt;   " onClick="move(this.form.elements['list4[]'],this.form.elements['list3[]'])" name="B23">
               </div></td>
-            <td>&nbsp;</td>
             <td>
-            <input name="frmList4" type="hidden" id="frmList4" value="">                                    
-            <select multiple size="10" name="list4[]"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                <? echo $itens_combo_so_selecionados; ?> </select></td>
-            <td>&nbsp;</td>
-          </tr>
-        </table>
-        <table width="100%" border="0" cellpadding="0" cellspacing="1">
-          <tr> 
-            <td class="ajuda">
-            	(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)
-            </td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-          </tr>
-          <tr> 
-            <td class="label">
-              <?=$oTranslator->_('Computadores onde esta acao-configuracao nao devera ser aplicada');?>:
-              </td>
-          </tr>
-          <tr> 
-            <td height="1" bgcolor="#333333"></td>
-          </tr>
-          <tr>
-            <td class="ajuda"><?=$oTranslator->_('Informe o endereco MAC do computador.');?> (<?=$oTranslator->_('Exemplo');?>: 00-10-4B-65-83-C8)</td>
-          </tr>
-        </table>
-        <table width="0" border="0" cellpadding="2" cellspacing="2">
-          <tr> 
-            <td valign="top"> <div align="left"> 
-                <input name="list6" type="text" size="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                </font></div></td>
-            <td width="40" valign="top"> <div align="center"> &nbsp; 
-                <input type="button" value="   +   " onClick="Add(this.form.list6,this.form.elements['list5[]'])" name="B12">
-                &nbsp;<br>
-                <br>
-                &nbsp; 
-                <input type="button" value="   -   " onClick="remove(this.form.elements['list5[]'])" name="B22">
-                &nbsp;</div></td>
-            <td> 
-              <?
-				        // Exibo os te_node_address e o nome do computador (se estiver cadastrado). 
-				 	  	$query = "SELECT 	acoes_excecoes.te_node_address, 
-											te_nome_computador
-								  FROM 		acoes_excecoes
-								  			LEFT OUTER JOIN computadores
-								  			ON  acoes_excecoes.te_node_address = computadores.te_node_address
-								  WHERE 	acoes_excecoes.id_acao='$id_acao'";
-						$result_excecoes = mysql_query($query) or die('6-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-				?>
-              <input name="frmList5" type="hidden" id="frmList5" value="">                                        
-              <select name="list5[]" size="10" multiple class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                <?
-				while($campos_excecoes=mysql_fetch_array($result_excecoes)) 
-					{
-				    if (strlen($campos_excecoes['te_nome_computador']) > 0) 
-						$strAux = $campos_excecoes['te_node_address'] . ' (' . $campos_excecoes['te_nome_computador'] . ')'; 
-					else 
-						$strAux = $campos_excecoes['te_node_address']; 
+    	    <input name="frmSO_NaoSelecionados" type="hidden" id="frmSO_NaoSelecionados" value="">                            
+	        <input name="frmSO_Selecionados"    type="hidden" id="frmSO_Selecionados"    value="">  
 
-					if (trim($strAux) <> '')
-						echo '<option value="' . $campos_excecoes['te_node_address']. '">' . capa_string($strAux, 60) . '</option>';
-					}	
+            <select multiple size="10" name="list4[]"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+                <?php echo $itens_combo_so_selecionados; ?> </select></td>
+          </tr>
+          <tr><td colspan="5" class="ajuda">(<?php echo $oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)</td></tr>
+          <tr><td colspan="5">&nbsp;</td></tr>
+          <tr><td class="label" colspan="5"><?php echo $oTranslator->_('Computadores onde esta acao-configuracao nao devera ser aplicada');?>:</td></tr>
+          <tr><td height="1" bgcolor="#333333" colspan="5"></td></tr>
+          <tr><td class="ajuda" colspan="5"><?php echo $oTranslator->_('Informe o endereco MAC do computador.');?> (<?php echo $oTranslator->_('Exemplo');?>: 00-10-4B-65-83-C8)</td></tr>
+          <tr>
+          <td valign="top"> <div align="left"> 
+          <input name="list6" type="text" size="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          </font></div></td>
+          <td>&nbsp;</td>
+          <td width="40" valign="top"> <div align="center"> &nbsp; 
+          <input type="button" value="   +   " onClick="Add(this.form.list6,this.form.elements['list5[]'])" name="B12">
+          &nbsp;<br>
+          <br>
+          &nbsp; 
+          <input type="button" value="   -   " onClick="remove(this.form.elements['list5[]'])" name="B22">
+          &nbsp;</div></td>
+          <td>&nbsp;</td>          
+          <td> 
+          <?php
+		  // Exibo os te_node_address e o nome do computador (se estiver cadastrado). 
+		  $query = "SELECT 	DISTINCT ae.te_node_address
+					  FROM 		acoes_excecoes ae, locais,redes
+				  	WHERE 	ae.id_acao='".$_GET['id_acao']."' AND ae.id_rede = redes.id_rede and redes.id_local = locais.id_local ".
+								$where;
+							
+		  $result_excecoes = mysql_query($query) or die('6-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+				?>
+ 	        <input name="frmMAC_Selecionados"    type="hidden" id="frmMAC_Selecionados"    value="">  
+              <select name="list5[]" size="10" multiple class="normal"  onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+                <?php
+				while($campos_excecoes=mysql_fetch_array($result_excecoes)) 
+					echo '<option value="' . $campos_excecoes['te_node_address']. '">' . $campos_excecoes['te_node_address'] . '</option>';
 			?>
               </select></td>
           </tr>
-        </table>
-        <table width="100%" border="0" cellpadding="0" cellspacing="1">
-          <tr> 
-            <td>&nbsp;</td>
-          </tr>
-          <tr> 
-            <td height="1" bgcolor="#333333"></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-          </tr>
-          <tr> 
-            <td> <div align="center"> 
-            <?
+          <tr><td colspan="5">&nbsp;</td></tr>
+          <tr><td height="1" bgcolor="#333333" colspan="5"></td></tr>
+          <tr><td colspan="5">&nbsp;</td></tr>
+          <tr><td colspan="5"> <div align="center"> 
+            <?php
 			/*
-                <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="SelectAll(this.form.elements['list1[]']);SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('<?=$oTranslator->_('Confirma Configuracao de Acao?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+                <input name="submit" type="submit" value="<?php echo $oTranslator->_('Gravar informacoes');?>" onClick="SelectAll(this.form.elements['list1[]']);SelectAll(this.form.elements['list2[]']); SelectAll(this.form.elements['list4[]']); SelectAll(this.form.elements['list5[]']);return Confirma('<?php echo $oTranslator->_('Confirma Configuracao de Acao?');?>');" <?php echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
 			
 			*/
             ?>
-                <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Configuracao de Acao?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+                <input name="submit" type="submit" value="<?php echo $oTranslator->_('Gravar informacoes');?>" onClick="return Confirma('<?php echo $oTranslator->_('Confirma Configuracao de Acao?');?>');" <?php echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
               </div></td>
           </tr>
-          <tr> 
-            <td>&nbsp;</td>
-          </tr>
+          <tr><td colspan="5">&nbsp;</td></tr>
         </table>
         </form></td>
   </tr>

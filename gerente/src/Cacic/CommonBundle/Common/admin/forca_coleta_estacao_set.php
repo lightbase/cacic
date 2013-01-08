@@ -1,5 +1,4 @@
-<? 
- /* 
+<?php /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
  Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
@@ -45,11 +44,10 @@ if ($acoes_computador)
 	{
 	$query_computador .= '	Update 	computadores set dt_hr_coleta_forcada_estacao = now(),
 														te_nomes_curtos_modulos="'.$acoes_computador.'" 
-							Where 	te_node_address="'.trim($_POST['te_node_address']).'" AND
-									id_so="'.trim($_POST['id_so']).'"'; 
+							Where 	id_computador='.trim($_POST['id_computador']); 
 	conecta_bd_cacic();									
 	$result_computador = mysql_query($query_computador) or die($oTranslator->_('Ocorreu um erro durante a atualizacao da tabela %1 ou sua sessao expirou', array('configuracoes_locais'))); 		
-	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'computadores');		
+	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'computadores',$_SESSION["id_usuario"]);		
 	}
 	header ("Location: ../include/operacao_ok.php?chamador=../index.php&tempo=1");
 ?>

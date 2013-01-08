@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -40,35 +40,35 @@ $result = mysql_query($query);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title><?=$oTranslator->_('Cadastro de Softwares');?></title>
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Cadastro de Softwares');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-      <td class="cabecalho"><?=$oTranslator->_('Cadastro de Softwares');?></td>
+      <td class="cabecalho"><?php echo $oTranslator->_('Cadastro de Softwares');?></td>
   </tr>
   <tr> 
       <td class="descricao">
-        <?=$oTranslator->_('Neste modulo deverao ser cadastrados os softwares avulsos, manipulados pelo sistema');?>.
+        <?php echo $oTranslator->_('Neste modulo deverao ser cadastrados os softwares avulsos, manipulados pelo sistema');?>.
       </td>
   </tr>
 </table>
 <br><table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
-          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Novo Software');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="<?php echo $oTranslator->_('Incluir Novo Software');?>" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
       </div></td>
   </tr>
   <tr> 
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
 
   <tr> 
@@ -81,15 +81,14 @@ $result = mysql_query($query);
             <td align="center"  nowrap>&nbsp;</td>
             <td align="center"  nowrap><div align="left"></div></td>
             <td align="center"  nowrap>&nbsp;</td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Nome do Software');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Nome do Software');?></div></td>
             <td nowrap >&nbsp;</td>
           </tr>
 		  <tr> 
 		    <td height="1" bgcolor="#333333" colspan="5"></td>
 		  </tr>
 		  
-          <?  
-if(mysql_num_rows($result)==0) 
+          <?php if(mysql_num_rows($result)==0) 
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">'.
@@ -105,15 +104,15 @@ else
 		{
 		?>
           <tr 
-		<? if ($Cor) 
+		<?php if ($Cor) 
 		echo 'bgcolor="#E1E1E1"';
 		?>> 
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+            <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_software.php?id_software=<? echo $row['id_software'];?>"><?=$row['nm_software']." - ".$row['te_descricao_software']; ?></a></div></td>
+            <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_software.php?id_software=<?php echo $row['id_software'];?>"><?php echo $row['nm_software']." - ".$row['te_descricao_software']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <? 
+            <?php 
 		$Cor=!$Cor;
 		$NumRegistro++;
 		}
@@ -129,11 +128,11 @@ else
     <td height="10">&nbsp;</td>
   	</tr>
   	<tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   	</tr>
   	<tr> 
     <td><div align="center">
-  	<input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Novo Software');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
+  	<input name="submit" type="submit" id="submit" value="<?php echo $oTranslator->_('Incluir Novo Software');?>" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
   	</div></td>
   	</tr>
 	</table>

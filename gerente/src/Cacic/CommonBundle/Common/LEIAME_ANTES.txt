@@ -6,5 +6,4 @@ A partir da versão JAN2006, o módulo gerente WEB do CACIC passou a usar criptogr
 
 Alertamos que sejam feitas prévias de utilização/atualização das novas versões em pequenas redes, para que seja evitada a eventual necessidade de retrabalho técnico, quanto à reinstalação manual dos agentes nas estações.
 
-Os pacotes de instalação de agentes para o Sistema Operacional GNU/Linux poderão ser gerados a partir da descompactação e leitura do arquivo README do arquivo pyCACIC_Packages_Generator_2.6.0.2.zip existente na pasta raiz do módulo gerente web. 
 

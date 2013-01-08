@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -20,7 +20,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
             <td class="label">  
-<?
+<?php
 		$where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' redes.id_local = '.$_SESSION['id_local']:'');
 		if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 			{
@@ -33,8 +33,9 @@
 			{
 			$where = ($where<>''?' WHERE '.$where:$where);
 			
-			$query = "SELECT 	distinct id_ip_rede, 
-								nm_rede
+			$query = "SELECT 	distinct te_ip_rede, 
+								nm_rede,
+								id_rede
 					  FROM 		redes ".
 					  			$where;
 			}
@@ -43,11 +44,12 @@
 			$where = ($where<>''?' AND '.$where:$where);
 			// Usei o trecho abaixo para o caso da coleta avulsa de informações patrimoniais...			
 			$where = ($id_acao == 'cs_coleta_patrimonio'?' OR "'.$id_acao.'" = "cs_coleta_patrimonio") '.$where:$where.') ');						
-			$query = "SELECT 	distinct redes.id_ip_rede, 
-								nm_rede
+			$query = "SELECT 	distinct redes.te_ip_rede, 
+								nm_rede,
+								id_rede
 					  FROM 		redes, 
 					  			acoes_redes 
-					  WHERE 	(redes.id_ip_rede = acoes_redes.id_ip_rede AND 
+					  WHERE 	(redes.id_rede = acoes_redes.id_rede AND 
 					  			acoes_redes.id_acao = '$id_acao' ".
 								$where;
 			$msg = $oTranslator->_('(OBS: Estao sendo exibidas somente as redes selecionadas pelo administrador.)');
@@ -57,10 +59,10 @@
 		/* Agora monto os itens do combo de redes . */ 
 		while($campos=mysql_fetch_array($result)) 	
 			{
-		   	$itens_combo_redes = $itens_combo_redes . '<option value="' . $campos['id_ip_rede']. '">' . $campos['id_ip_rede'] . ' - ' . capa_string($campos['nm_rede'], 22) . '</option>';
+		   	$itens_combo_redes = $itens_combo_redes . '<option value="' . $campos['id_rede']. '">' . $campos['te_ip_rede'] . ' - ' . capa_string($campos['nm_rede'], 22) . '</option>';
 			}  
 			?>
-              <?=$oTranslator->_('Selecione as redes');?></td>
+              <?php echo $oTranslator->_('Selecione as redes');?></td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333"></td>
@@ -71,7 +73,7 @@
                 <?php echo $oTranslator->_('<strong>Todas</strong> as redes');?><br>
                 <input type="radio" name="cs_situacao" id="cs_situacao" value="S" onclick="verifica_status();SetaClassNormal(this.form.elements['list1[]']);"    class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" checked>
                 <?php echo $oTranslator->_('Apenas redes <strong>selecionadas</strong>');?><br>
-                &nbsp;<? echo $msg?></p></td>
+                &nbsp;<?php echo $msg?></p></td>
           </tr>
           <tr> 
             <td><table border="0" cellpadding="0" cellspacing="0">
@@ -89,7 +91,7 @@
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple size="10" name="list1[]" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? echo $itens_combo_redes; ?> 
+                        <?php echo $itens_combo_redes; ?> 
                       </select>
                       </div></td>
                   <td>&nbsp;</td>
@@ -108,7 +110,7 @@
           </tr>
           <tr> 
             <td class="descricao">
-              <i><?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i>
+              <i><?php echo $oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i>
             </td>
           </tr>
 </table>

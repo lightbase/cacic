@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -37,7 +37,7 @@ if ($_POST['ExcluiLocal'] <> '')
 		$query_DEL 	= 'DELETE FROM '.$row[0] .' WHERE id_local = "'. $_POST['frm_id_local'] .'"';
 		$result_DEL = @mysql_query($query_DEL);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
 		if ($result_DEL)
-			GravaLog('DEL',$_SERVER['SCRIPT_NAME'],$row[0]);				
+			GravaLog('DEL',$_SERVER['SCRIPT_NAME'],$row[0],$_SESSION["id_usuario"]);				
 		}					
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/locais/index.php&tempo=1");					
 	}
@@ -55,7 +55,7 @@ elseif ($_POST['GravaAlteracoes']<>'')
 			  WHERE 	id_local = ".$_POST['frm_id_local'];
 
 	mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('configuracoes_locais')));
-	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'locais');		
+	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'locais',$_SESSION["id_usuario"]);		
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/locais/index.php&tempo=1");				
 	}
 else 
@@ -89,8 +89,8 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title><?=$oTranslator->_('Detalhes do Local');?></title>
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Detalhes do Local');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
 
@@ -99,13 +99,13 @@ function valida_form()
 
 	if ( document.form.frm_sg_local.value == "" ) 
 		{	
-		alert("<?=$oTranslator->_('A sigla do local e obrigatoria');?>");
+		alert("<?php echo $oTranslator->_('A sigla do local e obrigatoria');?>");
 		document.form.frm_sg_local.focus();
 		return false;
 		}
 	else if ( document.form.frm_nm_local.value == "" ) 
 		{	
-		alert("<?=$oTranslator->_('O nome do local e obrigatorio');?>");
+		alert("<?php echo $oTranslator->_('O nome do local e obrigatorio');?>");
 		document.form.frm_nm_local.focus();
 		return false;
 		}
@@ -115,23 +115,23 @@ function valida_form()
 </head>
 
 <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_sg_local');">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<table width="85%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><?=$oTranslator->_('Detalhes do Local');?> "<? echo $v_sg_local;?>"</td>
+    <td class="cabecalho"><?php echo $oTranslator->_('Detalhes do Local');?> "<?php echo $v_sg_local;?>"</td>
   </tr>
   <tr> 
     <td class="descricao">
-       <?=$oTranslator->_('As informacoes referem-se a um local originario de chamadas ao sistema CACIC');?>
+       <?php echo $oTranslator->_('As informacoes referem-se a um local originario de chamadas ao sistema CACIC');?>
     </td>
   </tr>
 </table>
 <form action="detalhes_local.php"  method="post" ENCTYPE="multipart/form-data" name="form">
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
       <td>&nbsp;</td>
       <td class="label"><br>
-        <?=$oTranslator->_('Sigla do Local');?></td>
+        <?php echo $oTranslator->_('Sigla do Local');?></td>
       <td><br> </td>
     </tr>
     <tr> 
@@ -139,29 +139,29 @@ function valida_form()
     <tr> 
       <td>&nbsp;</td>
       <td class="dado_peq_sem_fundo">
-        <input name="frm_sg_local" type="text" value="<? echo $v_sg_local; ?>" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-        <?=$oTranslator->_('Exemplo');?> - "DTP-URES" 
-        <input name="frm_id_local" type="hidden" id="frm_id_local" value="<? echo $_GET['id_local']; ?>"> 
+        <input name="frm_sg_local" type="text" value="<?php echo $v_sg_local; ?>" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+        <?php echo $oTranslator->_('Exemplo');?> - "DTP-URES" 
+        <input name="frm_id_local" type="hidden" id="frm_id_local" value="<?php echo $_GET['id_local']; ?>"> 
       </td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
       <td>&nbsp;</td>
       <td class="label"><br>
-        <?=$oTranslator->_('Nome do Local');?></td>
+        <?php echo $oTranslator->_('Nome do Local');?></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="3"></td>    </tr>
     <tr> 
       <td nowrap>&nbsp;</td>
-      <td nowrap><input name="frm_nm_local" type="text" id="frm_nm_local" value="<? echo $v_nm_local; ?>" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+      <td nowrap><input name="frm_nm_local" type="text" id="frm_nm_local" value="<?php echo $v_nm_local; ?>" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
       <td>&nbsp;</td>
       <td class="label"><br>
-        <?=$oTranslator->_('Senha para admnistrar o agente');?></td>
+        <?php echo $oTranslator->_('Senha para admnistrar o agente');?></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
@@ -169,20 +169,20 @@ function valida_form()
     </tr>
     <tr> 
       <td nowrap>&nbsp;</td>
-      <td nowrap><input name="frm_te_senha_adm_agente" type="text" id="frm_te_senha_adm_agente" value="<? echo $v_te_senha_adm_agente; ?>" size="30" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+      <td nowrap><input name="frm_te_senha_adm_agente" type="text" id="frm_te_senha_adm_agente" value="<?php echo $v_te_senha_adm_agente; ?>" size="30" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
       <td>&nbsp;</td>
       <td class="label"><br>
-        <?=$oTranslator->_('Observacoes');?></td>
+        <?php echo $oTranslator->_('Observacoes');?></td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="3"></td>    </tr>
     <tr> 
       <td>&nbsp;</td>
-      <td><textarea name="frm_te_observacao" cols="70" id="textarea"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $v_te_observacao; ?></textarea></td>
+      <td><textarea name="frm_te_observacao" cols="70" id="textarea"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><?php echo $v_te_observacao; ?></textarea></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -192,9 +192,9 @@ function valida_form()
     </tr>
   </table>
 	  
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
-      <td colspan="5" class="label"><?=$oTranslator->_('Redes Associadas ao Local');?></td>
+      <td colspan="5" class="label"><?php echo $oTranslator->_('Redes Associadas ao Local');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="5"></td>
@@ -202,34 +202,35 @@ function valida_form()
     <tr>
       <td class="cabecalho_tabela">&nbsp;</td>
       <td class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela"><?=$oTranslator->_('Endereco IP');?></td>
+      <td align="left" nowrap class="cabecalho_tabela"><?php echo $oTranslator->_('Endereco IP');?></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" class="cabecalho_tabela"><?=$oTranslator->_('Nome da Rede');?></td>
+      <td align="left" class="cabecalho_tabela"><?php echo $oTranslator->_('Nome da Rede');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="5"></td>
     </tr>
 	
-    <?
+    <?php
 	$query = "SELECT 	id_local,
-						id_ip_rede,
+						te_ip_rede,
+						id_rede,
 						nm_rede 
 			  FROM 		redes a
-			  WHERE 	a.id_local = '".$_GET['id_local']."'";
+			  WHERE 	a.id_local = ".$_GET['id_local'];
 	$result = mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('redes')));
 	$seq = 1;
 	$Cor = 1;	
 	while ($row = mysql_fetch_array($result))
 		{
 		?>
-    <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
-      <td width="3%" align="center" nowrap class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $seq; ?></a></td>
+    <tr <?php if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
+      <td width="3%" align="center" nowrap class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>&id_local=<?php echo $row['id_local'];?>&nm_chamador=Locais"><?php echo $seq; ?></a></td>
       <td width="1%" align="left" nowrap class="opcao_tabela">&nbsp;&nbsp;</td>
-      <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['id_ip_rede']; ?></a></td>
+      <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>&id_local=<?php echo $row['id_local'];?>&nm_chamador=Locais"><?php echo $row['te_ip_rede']; ?></a></td>
       <td width="1%" align="left" class="opcao_tabela">&nbsp;&nbsp;</td>
-      <td width="92%" align="left" class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['nm_rede']; ?></a></td>
+      <td width="92%" align="left" class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>&id_local=<?php echo $row['id_local'];?>&nm_chamador=Locais"><?php echo $row['nm_rede']; ?></a></td>
     </tr>
-    <?
+    <?php
 		$seq++;
 		$Cor=!$Cor;
 		}
@@ -243,7 +244,7 @@ function valida_form()
 		
   </table>
 <br>        
-<?
+<?php
 $where = ' AND id_local = '.$_GET['id_local'];
 $queryCONFIG = "SELECT 		DISTINCT 
 							id_etiqueta,
@@ -265,9 +266,9 @@ $_SESSION['etiqueta1'] 	= mysql_result($resultCONFIG,0,'te_etiqueta');
 $_SESSION['etiqueta1a'] 	= mysql_result($resultCONFIG,1,'te_etiqueta');
 $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 ?>
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
-      <td colspan="8" class="label"><?=$oTranslator->_('Informacoes de Patrimonio Associadas ao Local');?></td>
+      <td colspan="8" class="label"><?php echo $oTranslator->_('Informacoes de Patrimonio Associadas ao Local');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="8"></td>
@@ -275,18 +276,18 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
     <tr>
       <td class="cabecalho_tabela">&nbsp;</td>
       <td class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela"><? echo $_SESSION['etiqueta1']; ?></td>
+      <td align="left" nowrap class="cabecalho_tabela"><?php echo $_SESSION['etiqueta1']; ?></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" class="cabecalho_tabela"><? echo $_SESSION['etiqueta1a']; ?></td>
+      <td align="left" class="cabecalho_tabela"><?php echo $_SESSION['etiqueta1a']; ?></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" class="cabecalho_tabela"><? echo $_SESSION['etiqueta2']; ?></td>
+      <td align="left" class="cabecalho_tabela"><?php echo $_SESSION['etiqueta2']; ?></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="8"></td>
     </tr>
 	
-    <?
+    <?php
 	$query = 'SELECT 	uo1.id_unid_organizacional_nivel1   as uo1_id_unid_organizacional_nivel1,
 						uo1.nm_unid_organizacional_nivel1   as uo1_nm_unid_organizacional_nivel1,
 						uo1a.id_unid_organizacional_nivel1a as uo1a_id_unid_organizacional_nivel1a,
@@ -310,17 +311,17 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 	while ($row = mysql_fetch_array($result))
 		{
 		?>
-    <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
-      <td align="center" nowrap class="opcao_tabela"><? echo $seq; ?></td>	
+    <tr <?php if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
+      <td align="center" nowrap class="opcao_tabela"><?php echo $seq; ?></td>	
       <td align="left" nowrap class="opcao_tabela">&nbsp;&nbsp;</td>	  
-      <td align="center" nowrap class="opcao_tabela"><div align="left"><? echo $row['uo1_nm_unid_organizacional_nivel1'];?></div></td>
+      <td align="center" nowrap class="opcao_tabela"><div align="left"><?php echo $row['uo1_nm_unid_organizacional_nivel1'];?></div></td>
       <td align="left" nowrap class="opcao_tabela">&nbsp;&nbsp;</td>
-      <td align="center" nowrap class="opcao_tabela"><div align="left"><? echo $row['uo1a_nm_unid_organizacional_nivel1a'];?></div></td>
+      <td align="center" nowrap class="opcao_tabela"><div align="left"><?php echo $row['uo1a_nm_unid_organizacional_nivel1a'];?></div></td>
       <td align="center" nowrap class="opcao_tabela">&nbsp;</td>
-      <td align="center" nowrap class="opcao_tabela"><div align="left"><? echo $row['uo2_nm_unid_organizacional_nivel2'];?></div></td>
+      <td align="center" nowrap class="opcao_tabela"><div align="left"><?php echo $row['uo2_nm_unid_organizacional_nivel2'];?></div></td>
       <td align="center" nowrap class="opcao_tabela">&nbsp;</td>
     </tr>
-    <?
+    <?php
 		$seq++;
 		$Cor=!$Cor;
 		}
@@ -333,9 +334,9 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
   </table>
 <br>        
 
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
-      <td colspan="9" class="label"><?=$oTranslator->_('Usuarios Associados ao Local');?></td>
+      <td colspan="9" class="label"><?php echo $oTranslator->_('Usuarios Associados ao Local');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="11"></td>
@@ -343,20 +344,20 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
     <tr> 
       <td class="cabecalho_tabela">&nbsp;</td>
       <td class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela"><?=$oTranslator->_('Nome para Acesso');?></td>
+      <td align="left" nowrap class="cabecalho_tabela"><?php echo $oTranslator->_('Nome para Acesso');?></td>
       <td class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela"><?=$oTranslator->_('Nome Completo');?></td>
+      <td align="left" nowrap class="cabecalho_tabela"><?php echo $oTranslator->_('Nome Completo');?></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Nivel de Acesso');?></div></td>
+      <td align="left" nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Nivel de Acesso');?></div></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Tipo de Acesso');?></div></td>
+      <td align="left" nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Tipo de Acesso');?></div></td>
       <td align="left" class="cabecalho_tabela">&nbsp;</td>
-      <td align="left" class="cabecalho_tabela"><?=$oTranslator->_('Endereco eletronico');?></td>	  
+      <td align="left" class="cabecalho_tabela"><?php echo $oTranslator->_('Endereco eletronico');?></td>	  
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="11"></td>
     </tr>
-    <?
+    <?php
 	$query = "SELECT 	a.id_usuario,
 						a.nm_usuario_acesso,
 						a.nm_usuario_completo,						
@@ -381,13 +382,13 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 	while ($row = mysql_fetch_array($result))
 		{
 		?>
-    <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
-      <td width="2%" align="center" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $seq; ?></a></td>
+    <tr <?php if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
+      <td width="2%" align="center" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&id_local=<?php echo $row['id_local'];?>&nm_chamador=Locais"><?php echo $seq; ?></a></td>
       <td width="1%" align="left" nowrap class="opcao_tabela">&nbsp;&nbsp;</td>
-      <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['nm_usuario_acesso']; 
+      <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&id_local=<?php echo $row['id_local'];?>&nm_chamador=Locais"><?php echo $row['nm_usuario_acesso']; 
 	  ?></a></td>
       <td width="1%" align="left" nowrap class="opcao_tabela">&nbsp;</td>
-      <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['nm_usuario_completo']; 
+      <td width="3%" align="left" nowrap class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&id_local=<?php echo $row['id_local'];?>&nm_chamador=Locais"><?php echo $row['nm_usuario_completo']; 
 	  if ($row['te_locais_secundarios']<>'' && $row['id_local'] <> $_GET['id_local'])
 	  	{
 		echo ' ('.$v_arr_locais[array_search($row['id_local'],$v_arr_locais)+1] . ')';
@@ -401,13 +402,13 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
 	  
 	  ?></a></td>
       <td width="1%" align="left" class="opcao_tabela">&nbsp;&nbsp;</td>
-      <td width="30%" align="left" class="opcao_tabela"><div align="center"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><img src="<? echo '../../imgs/'.$UserGroup;?>" width="17" height="14" border="0" title="Nível: '<? echo $row['te_grupo_usuarios'];?>'"></a></div></td>
+      <td width="30%" align="left" class="opcao_tabela"><div align="center"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&id_local=<?php echo $row['id_local'];?>&nm_chamador=Locais"><img src="<?php echo '../../imgs/'.$UserGroup;?>" width="17" height="14" border="0" title="Nível: '<?php echo $row['te_grupo_usuarios'];?>'"></a></div></td>
       <td width="1%" align="left" class="opcao_tabela">&nbsp;</td>
-      <td width="62%" align="left" class="opcao_tabela"><div align="center"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo ($row['id_local']==$_REQUEST['id_local']?'Primário':'Secundário'); ?></a></div></td>
+      <td width="62%" align="left" class="opcao_tabela"><div align="center"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&id_local=<?php echo $row['id_local'];?>&nm_chamador=Locais"><?php echo ($row['id_local']==$_REQUEST['id_local']?'Primário':'Secundário'); ?></a></div></td>
       <td width="1%" align="left" class="opcao_tabela">&nbsp;</td>
-      <td width="62%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&id_local=<? echo $row['id_local'];?>&nm_chamador=Locais"><? echo $row['te_emails_contato']; ?></a></td>	  
+      <td width="62%" align="left" class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&id_local=<?php echo $row['id_local'];?>&nm_chamador=Locais"><?php echo $row['te_emails_contato']; ?></a></td>	  
     </tr>
-    <?
+    <?php
 		$seq++;
 		$Cor=!$Cor;
 		}
@@ -420,14 +421,14 @@ $_SESSION['etiqueta2'] 	= mysql_result($resultCONFIG,2,'te_etiqueta');
   </table>
   <p align="center"> <br>
     <br>
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="<?=$oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Informacoes para o Local?');?>');return valida_form();" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="<?php echo $oTranslator->_('Gravar Alteracoes');?>" onClick="return Confirma('<?php echo $oTranslator->_('Confirma Informacoes para o Local?');?>');return valida_form();" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="ExcluiLocal" type="submit" value="<?=$oTranslator->_('Excluir Local');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Exclusao do Local E TODAS AS SUAS DEPENDENCIAS?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="ExcluiLocal" type="submit" value="<?php echo $oTranslator->_('Excluir Local');?>" onClick="return Confirma('<?php echo $oTranslator->_('Confirma Exclusao do Local E TODAS AS SUAS DEPENDENCIAS?');?>');" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
   </p>
 </form>		  
 		
 </body>
 </html>
-<?
+<?php
 }
 ?>

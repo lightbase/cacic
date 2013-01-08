@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -24,7 +24,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
-<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
+<link href="../../include/css/cacic.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
@@ -43,25 +43,25 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
+<?php
 	 $query = "SELECT a.te_nome_computador, a.te_node_address, a.id_so,
-   			a.te_ip, a.dt_hr_ult_acesso
+   			a.te_ip_computador, a.dt_hr_ult_acesso,a.id_computador
 		FROM computadores a
-		WHERE a.te_ip = '" . $_GET['te_ip'] . "'";
+		WHERE a.te_ip_computador = '" . $_GET['te_ip_computador'] . "'";
 	$result = mysql_query($query) or die('Erro no acesso à tabela "computadores" ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
@@ -86,25 +86,25 @@ $linha = '<tr bgcolor="#e7e7e7">
 	  <td class="cabecalho_tabela" nowrap ><div align="center">&Uacute;ltima Coleta</a></div></td>
 	  <td class="cabecalho_tabela" nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td class="dado_med_sem_fundo" nowrap>&nbsp;</td>
-          <td class="dado_med_sem_fundo" nowrap><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td class="dado_med_sem_fundo" nowrap><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td class="dado_med_sem_fundo" nowrap>&nbsp;</td>
-          <td class="dado_med_sem_fundo" nowrap><div align="left"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></div></td>
+          <td class="dado_med_sem_fundo" nowrap><div align="left"><a href="../../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></div></td>
           <td class="dado_med_sem_fundo" nowrap>&nbsp;</td>
-	  <td class="dado_med_sem_fundo" nowrap><? echo $row['te_ip']; ?></td>
+	  <td class="dado_med_sem_fundo" nowrap><?php echo $row['te_ip_computador']; ?></td>
 	  <td class="dado_med_sem_fundo" nowrap>&nbsp;</td>
 	  <td class="dado_med_sem_fundo" nowrap>&nbsp;</td>
-	  <td class="dado_med_sem_fundo" nowrap><div align="center"><? echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></div></td>
+	  <td class="dado_med_sem_fundo" nowrap><div align="center"><?php echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></div></td>
 	  <td class="dado_med_sem_fundo" nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

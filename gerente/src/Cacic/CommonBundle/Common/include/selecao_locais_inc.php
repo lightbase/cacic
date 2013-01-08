@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -17,7 +17,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="1">
 <tr> 
 <td class="label">  
-<?
+<?php
 require_once "library.php";
 $query = "SELECT 	*
 		  FROM 		locais ".
@@ -32,7 +32,7 @@ $result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso 
 		   	$itens_combo_locais = $itens_combo_locais . '<option value="' . $campos['id_local']. '">' . $campos['sg_local'] . '</option>';
 			}  
 			?>
-         <?=$oTranslator->_('Selecione os locais:');?> 
+         <?php echo $oTranslator->_('Selecione os locais:');?> 
           <tr> 
             <td height="1" bgcolor="#333333"></td>
           </tr>
@@ -40,19 +40,18 @@ $result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso 
 			
                 <tr> 
                   <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Disponiveis:');?></div></td>
+                  <td class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Disponiveis:');?></div></td>
                   <td>&nbsp;&nbsp;</td>
                   <td width="40">&nbsp;</td>
                   <td nowrap>&nbsp;&nbsp;</td>
-	  <td nowrap class="cabecalho_tabela"><span class="necessario">*</span><?=$oTranslator->_('Selecionados:');?><br></td>
+	  <td nowrap class="cabecalho_tabela"><span class="necessario">*</span><?php echo $oTranslator->_('Selecionados:');?><br></td>
                   <td nowrap>&nbsp;&nbsp;</td>
                 </tr>
                 <tr> 
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple size="10" name="list11[]" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-					  	<?
-						echo $itens_combo_locais; 
+					  	<?php echo $itens_combo_locais; 
 						?>
                       </select>
                       </div></td>
@@ -69,7 +68,7 @@ $result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso 
                   <td>&nbsp;</td>
                 </tr>
           <tr> 
-            <td colspan="6" class="descricao"><i><?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i></td>
+            <td colspan="6" class="descricao"><i><?php echo $oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i></td>
           </tr>
 				
               </table></td>

@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -56,8 +56,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 //-->
 </script>
 </head>
-<?
-if ($_GET['principal'])
+<?php if ($_GET['principal'])
 	{
 	echo '<body bgcolor="#FFFFFF" background="../../imgs/linha_v.gif">';
 	}
@@ -70,13 +69,12 @@ else
 <table border="0" align="default" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
     <td rowspan="5" bgcolor="#FFFFFF">&nbsp;</td>
-    <td rowspan="5" bgcolor="#FFFFFF"><? if (!$_GET['principal']) echo '<img src="../../imgs/cacic_logo.png" width="50" height="50">'; ?> </td>
+    <td rowspan="5" bgcolor="#FFFFFF"><?php if (!$_GET['principal']) echo '<img src="../../imgs/cacic_logo.png" width="50" height="50">'; ?> </td>
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
     <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
-	<?
-	if (!$_GET['orderby'])
+	<?php if (!$_GET['orderby'])
 		{
 		echo 'Relat&oacute;rio de Configura&ccedil;&otilde;es de Software';
 		}
@@ -97,8 +95,7 @@ else
   </tr>
   <tr> 
     <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-	<? 
-	if (!$_GET['principal'])
+	<?php if (!$_GET['principal'])
 		{
 		echo 'Gerado em ' . date("d/m/Y à\s H:i"); 
 		}
@@ -107,7 +104,7 @@ else
   </tr>
 </table>
 <br>
-<? 
+<?php 
 $redes_selecionadas = '';
 if($_SESSION["cs_situacao"] == 'S') 
 	{
@@ -117,7 +114,7 @@ if($_SESSION["cs_situacao"] == 'S')
 		{
 		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 		}
-	if (!$_GET['principal']) $query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+	if (!$_GET['principal']) $query_redes = 'AND id_rede IN ('. $redes_selecionadas .')';
 }
 
 // Aqui pego todos os SO selecionados
@@ -159,10 +156,11 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 					so.id_so, 
 					te_nome_computador as "Nome Comp.", 
 					sg_so as "S.O.", 
-					te_ip as "IP"' . $campos_software .
+					computadores.id_computador,
+					te_ip_computador as "IP"' . $campos_software .
 		 ' FROM   	computadores,so LEFT JOIN versoes_softwares ON (so.id_so = versoes_softwares.id_so and
 		  															computadores.id_so = versoes_softwares.id_so and
-																	versoes_softwares.te_node_address = computadores.te_node_address)		 		 
+																	versoes_softwares.id_computador = computadores.id_computador)		 		 
 		   WHERE  	trim(computadores.te_nome_computador) <> ""  and
 		   			computadores.id_so = so.id_so and
 					computadores.id_so IN ('. $so_selecionados .') '. $query_redes .' 
@@ -193,7 +191,7 @@ while ($row = mysql_fetch_row($result)) { //Table body
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row[4] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
     for ($i=3; $i < $fields; $i++) {
 		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
 	}
@@ -210,8 +208,7 @@ if (count($_SESSION["list8"])>0)
 	}
 
 ?></p>
-<?
-if (!$_GET['principal']) 
+<?php if (!$_GET['principal']) 
 	{
 	?>
 	<p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Relat&oacute;rio 
@@ -219,7 +216,7 @@ if (!$_GET['principal'])
   	de Informa&ccedil;&otilde;es Computacionais</font><br>
   	<font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   	pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
-	<?
+	<?php
 	}
 	?>
 </body>

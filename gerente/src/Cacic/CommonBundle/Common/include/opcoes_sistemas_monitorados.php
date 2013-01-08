@@ -1,5 +1,4 @@
-
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -38,7 +37,7 @@
  </tr>
 
 <br>
-<? 
+<?php 
 // Se a chamada veio de ...detalhes_rede.php
 $detalhes = strpos($_SERVER['REQUEST_URI'],'detalhes_rede');
 if ($detalhes)
@@ -46,8 +45,7 @@ if ($detalhes)
 	conecta_bd_cacic();			
 	$query = "	SELECT 		*
 				FROM 		aplicativos_redes
-				WHERE		id_local = ".$_REQUEST['id_local']." AND
-							id_ip_rede = '".$_REQUEST['id_ip_rede']."'"; 
+				WHERE		id_rede = ".$_REQUEST['id_rede']; 
 	$result_aplicativos_redes = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('aplicativos_redes'))); 
 	$v_aplicativos_redes = '';
 	while ($row = mysql_fetch_array($result_aplicativos_redes))
@@ -71,11 +69,10 @@ while ($row = mysql_fetch_array($result_monitorados))
 		?>
 		<tr> 
 		<td>&nbsp;</td>
-		<td class="opcao_tabela" colspan="3"><div align="left"><? echo str_pad($seq,($total_registros>999?4:$total_registros>99?3:2),'0',STR_PAD_LEFT); ?> -  
-		<input name="id_aplicativo_<? echo $row['id_aplicativo']; ?>" value="<? echo $row['id_aplicativo']; ?>" type="checkbox" class="normal" <? if ($pos || !$detalhes){ echo 'checked';} ?>>
-		<? echo $row['nm_aplicativo'] ; ?></div></td>
+		<td class="opcao_tabela" colspan="3"><div align="left"><?php echo str_pad($seq,($total_registros>999?4:$total_registros>99?3:2),'0',STR_PAD_LEFT); ?>)&nbsp;<input name="id_aplicativo_<?php echo $row['id_aplicativo']; ?>" value="<?php echo $row['id_aplicativo']; ?>" type="checkbox" class="normal" <?php if ($pos || !$detalhes){ echo 'checked';} ?>>
+		<?php echo $row['nm_aplicativo'] ; ?></div></td>
 		</tr>
-		<?					
+		<?php					
 		}
 	}				
 ?>

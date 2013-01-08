@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate functions
  *
- * $Id: Function.php,v 1.3 2004/05/25 20:38:38 schst Exp $
+ * $Id: Function.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -12,7 +12,7 @@
 /**
  * Base class for patTemplate functions
  *
- * $Id: Function.php,v 1.3 2004/05/25 20:38:38 schst Exp $
+ * $Id: Function.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @abstract
  * @package		patTemplate

@@ -1,4 +1,4 @@
-<?
+<?php
 // Cria a imagem (150px por 15px)
 $im = ImageCreateTrueColor(150, 15);
 

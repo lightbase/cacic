@@ -10,7 +10,7 @@ function open_window(theURL) {
 </script>
 </head>
 <body background="../imgs/linha_v.gif">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td><font color="#FF0000" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>Situa&ccedil;&atilde;o 
       dos agentes do CACIC</strong></font></td>
@@ -34,7 +34,7 @@ function open_window(theURL) {
           </tr>
           <tr> 
             <td> 
-              <? 
+              <?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -53,14 +53,14 @@ function open_window(theURL) {
   															require_once($_SERVER['DOCUMENT_ROOT'] . 'include/library.php');
 															AntiSpy();
 		  													conecta_bd_cacic();
-																	$query = ' SELECT id_ip_rede, nm_rede
+																	$query = ' SELECT te_ip_rede, nm_rede
               												  FROM redes
               												 	ORDER BY nm_rede'; 
         									$result = mysql_query($query) or die('Erro na consulta à tabela "redes" ou sua sessão expirou!'); ?>
               <select name="rede" id="rede">
-                <?	while ($row = mysql_fetch_array($result)) { 	?>
-                <option value="<? echo $row['id_ip_rede']; ?>"><? echo $row["nm_rede"] . '  (' . $row['id_ip_rede'] . ')' ; ?></option>
-                <? } ?>
+                <?php	while ($row = mysql_fetch_array($result)) { 	?>
+                <option value="<?php echo $row['te_ip_rede']; ?>"><?php echo $row["nm_rede"] . '  (' . $row['te_ip_rede'] . ')' ; ?></option>
+                <?php } ?>
               </select> <font size="1" face="Verdana, Arial, Helvetica, sans-serif">&nbsp; 
               </font></td>
           </tr>
@@ -77,7 +77,7 @@ function open_window(theURL) {
   </tr>
 </table>
 
-<?
+<?php
 set_time_limit(120);
 if($_POST['submit']) {
 
@@ -185,7 +185,7 @@ parser has completed parsing. We can then store the data in our array $registro[
           <td align="center"  nowrap><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
               TCP/IP </font></strong></div></td>
         </tr>
-        <? 
+        <?php 
 $cor = 0;
 $num_registro = 1;
 $cont_ativado = 0;
@@ -193,18 +193,18 @@ $cont_desativado = 0;
 		
 $result = parseFile();
 foreach ($result as $arr) { ?>
-        <tr <? if ($cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
-          <td nowrap><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $num_registro; ?>&nbsp;</font></div></td>
+        <tr <?php if ($cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+          <td nowrap><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $num_registro; ?>&nbsp;</font></div></td>
           <td> 
-            <?
+            <?php
 									  $arr['port'] = strtolower(trim($arr['port']));
 											if ($arr['port'] == 'closed') {
-											   $checkbox = '<img src="/cacic2/imgs/unchecked.gif">';
-														$alerta =  '<img src="/cacic2/imgs/alerta_vermelho.gif">';
+											   $checkbox = '<img src="/cacic3/imgs/unchecked.gif">';
+														$alerta =  '<img src="/cacic3/imgs/alerta_vermelho.gif">';
 														$cont_desativado++;
 											}
 								   else if ($arr['port'] == 'open') {
-											   $checkbox = '<img src="/cacic2/imgs/checked.gif">';
+											   $checkbox = '<img src="/cacic3/imgs/checked.gif">';
 														$alerta =  '<img src="/cacic2/imgs/alerta_verde.gif">';
 														$cont_ativado++;
 											}
@@ -212,9 +212,9 @@ foreach ($result as $arr) { ?>
 										echo $alerta;
 										?>
           </td>
-          <td><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $arr['host']; ?></font></div></td>
+          <td><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $arr['host']; ?></font></div></td>
         </tr>
-        <? 
+        <?php 
 		$cor=!$cor;
 		$num_registro++;
 } ?>
@@ -226,11 +226,11 @@ foreach ($result as $arr) { ?>
   </table>
 <p>&nbsp;</p>
 <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Neste 
-  momento, <strong><? echo ($num_registro - 1); ?></strong> computadores ou dispositivos 
+  momento, <strong><?php echo ($num_registro - 1); ?></strong> computadores ou dispositivos 
   <br>
   de rede (roteadores, switchs, etc) foram identificados <br>
-  na rede. Deste total, <strong><? echo $cont_ativado; ?></strong> t&ecirc;m o 
+  na rede. Deste total, <strong><?php echo $cont_ativado; ?></strong> t&ecirc;m o 
   agente do CACIC instalado<br>
-  e ativo e <strong><? echo $cont_desativado; ?> </strong> n&atilde;o t&ecirc;m 
+  e ativo e <strong><?php echo $cont_desativado; ?> </strong> n&atilde;o t&ecirc;m 
   o CACIC instalado ou ativo.</font></p>
-<? } ?>
+<?php } ?>

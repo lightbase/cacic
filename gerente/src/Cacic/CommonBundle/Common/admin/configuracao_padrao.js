@@ -1,5 +1,5 @@
 /**
- * @version $Id: configuracao_padrao.class.php 2008-06-18 22:10 harpiain $
+ * @version $Id: configuracao_padrao.js,v 1.1.1.1 2012/09/14 16:01:07 d302112 Exp $
  * @package CACIC-Admin
  * @subpackage AdminSetup
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>

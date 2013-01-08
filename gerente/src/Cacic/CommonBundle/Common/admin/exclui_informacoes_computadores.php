@@ -1,32 +1,32 @@
-<?
+<?php
  /*
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e InformaÃƒÂ§ÃƒÂµes da PrevidÃƒÂªncia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ÃƒÂ© parte do programa CACIC - Configurador AutomÃƒÂ¡tico e Coletor de InformaÃƒÂ§ÃƒÂµes Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ÃƒÂ© um software livre; vocÃƒÂª pode redistribui-lo e/ou modifica-lo dentro dos termos da LicenÃƒÂ§a PÃƒÂºblica Geral GNU como
+ publicada pela FundaÃƒÂ§ÃƒÂ£o do Software Livre (FSF); na versÃƒÂ£o 2 da LicenÃƒÂ§a, ou (na sua opniÃƒÂ£o) qualquer versÃƒÂ£o.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ÃƒÂ© distribuido na esperanÃƒÂ§a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÃƒâ€¡Ãƒâ€šO a qualquer
+ MERCADO ou APLICAÃƒâ€¡ÃƒÆ’O EM PARTICULAR. Veja a LicenÃƒÂ§a PÃƒÂºblica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ VocÃƒÂª deve ter recebido uma cÃƒÂ³pia da LicenÃƒÂ§a PÃƒÂºblica Geral GNU, sob o tÃƒÂ­tulo "LICENCA.txt", junto com este programa, se nÃƒÂ£o, escreva para a FundaÃƒÂ§ÃƒÂ£o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start(); 
 /*
- * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ * verifica se houve login e tambÃƒÂ©m regras para outras verificaÃƒÂ§ÃƒÂµes (ex: permissÃƒÂµes do usuÃƒÂ¡rio)!
  */
 if(!isset($_SESSION['id_usuario'])) 
   die('Acesso negado (Access denied)!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+else { // Inserir regras para outras verificaÃƒÂ§ÃƒÂµes (ex: permissÃƒÂµes do usuÃƒÂ¡rio)!
 }
 
 require_once('../include/library.php'); 
 AntiSpy('1,3'); // Permitido somente a estes cs_nivel_administracao...
-// 1 - Administração
-// 2 - Gestão Central
-// 3 - Supervisão
+// 1 - AdministraÃƒÂ§ÃƒÂ£o
+// 2 - GestÃƒÂ£o Central
+// 3 - SupervisÃƒÂ£o
 
 conecta_bd_cacic();
 
@@ -57,27 +57,28 @@ if ($_POST['submit_cond'])
 	$query_sele_exclui = str_replace('-MENOR-',' < ',$query_sele_exclui);
 	$query_sele_exclui = str_replace('-MAIOR-',' > ',$query_sele_exclui);	
 
-    $where 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND c.id_local = '.$_SESSION['id_local']:'');		
+    $where 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND redes.id_local = '.$_SESSION['id_local']:'');		
 	if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
 		{
-		// Faço uma inserção de "(" para ajuste da lógica para consulta	
-		$where = str_replace('c.id_local = ','(c.id_local = ',$where);
-		$where .= ' OR c.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+		// FaÃƒÂ§o uma inserÃƒÂ§ÃƒÂ£o de "(" para ajuste da lÃƒÂ³gica para consulta	
+		$where = str_replace('redes.id_local = ','(redes.id_local = ',$where);
+		$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
 		}
 	
 	$Query_Pesquisa = 'SELECT 	a.id_so,
 								a.te_node_address,
 								a.te_nome_computador, 
-								a.te_ip, 
+								a.te_ip_computador, 
 								a.te_versao_cacic, 
 								a.te_versao_gercols, 
 								a.dt_hr_ult_acesso,
 								a.dt_hr_inclusao,								
 								b.sg_so,
-								d.sg_local						 
+								d.sg_local,
+								a.id_computador						 
 						FROM	computadores a
 						LEFT JOIN so b ON (a.id_so = b.id_so)
-						LEFT JOIN redes c ON (a.id_ip_rede = c.id_ip_rede)
+						LEFT JOIN redes c ON (a.id_rede = c.id_rede)
 						LEFT JOIN locais d ON (c.id_local = d.id_local)
 						WHERE   '.stripslashes($query_sele_exclui).' '.$where . ' 
 						ORDER 	by a.te_nome_computador';
@@ -86,21 +87,24 @@ if ($_POST['submit_cond'])
 	$Query_Pesquisa = 'SELECT 	a.id_so,
 								a.te_node_address,
 								a.te_nome_computador, 
-								a.te_ip, 
+								a.te_ip_computador, 
 								a.te_versao_cacic, 
 								a.te_versao_gercols, 
 								a.dt_hr_ult_acesso,
 								a.dt_hr_inclusao,								
 								so.sg_so,
-								redes.id_local
+								redes.id_local,
+								a.id_computador
 						FROM	computadores a								
-								LEFT JOIN so    ON (a.id_so      = so.id_so)
-								LEFT JOIN redes ON (a.id_ip_rede = redes.id_ip_rede)
+								LEFT JOIN so    ON (a.id_so   = so.id_so)
+								LEFT JOIN redes ON (a.id_rede = redes.id_rede)
 						WHERE   '.stripslashes($query_sele_exclui).
 								$where . ' 
 						ORDER 	by a.te_nome_computador';
-						
-	$result = mysql_query($Query_Pesquisa) or die('Erro no select (1) ou sua sessão expirou!');
+//echo 'IP: ' . $_SERVER['REMOTE_ADDRESS'].'<BR>';
+//echo 'Query: '.$Query_Pesquisa.'<br>';
+							
+	$result = mysql_query($Query_Pesquisa) or die('Erro no select (1) ou sua sessÃƒÂ£o expirou!');
 
 	$strIdLocal = '';
 	$arrSgLocal = array();
@@ -122,7 +126,7 @@ if ($_POST['submit_cond'])
 						 FROM		locais
 						 WHERE   	locais.id_local in ('.$strIdLocal.')';
 
-		$resultLocais = mysql_query($Query_Locais) or die('Erro no select (2) ou sua sessão expirou!');		
+		$resultLocais = mysql_query($Query_Locais) or die('Erro no select (2) ou sua sessÃƒÂ£o expirou!');		
 		while($row = mysql_fetch_array($resultLocais)) 
 			$arrSgLocal[$row['id_local']] = $row['sg_local'];
 		}
@@ -131,10 +135,10 @@ if ($_POST['submit_cond'])
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
 	<head>
-	<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-	<title><?=$oTranslator->_('Excluir Computadores');?></title>
+	<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
+	<title><?php echo $oTranslator->_('Excluir Computadores');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">	
-	<link href="../include/cacic.css" rel="stylesheet" type="text/css">
+	<link href="../include/css/cacic.css" rel="stylesheet" type="text/css">
 	<SCRIPT>
 	function Verifica_Check_Exclui()
 		{
@@ -167,31 +171,29 @@ if ($_POST['submit_cond'])
 	</head>
 
 	<body background="../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
 	<form name="form1" method="post">
 	<table width="95%" border="0" align="center">
 	<tr> 
 	
-	  <td class="cabecalho"><?=$oTranslator->_('Excluir Computadores');?></td>
+	  <td class="cabecalho"><?php echo $oTranslator->_('Excluir Computadores');?></td>
 	</tr>
 	<tr> 
 	
-	  <td class="descricao"><?=$oTranslator->_('Esta opcao permite a selecao final para exclusao dos computadores selecionados na pesquisa');?>.</td>
+	  <td class="descricao"><?php echo $oTranslator->_('Esta opcao permite a selecao final para exclusao dos computadores selecionados na pesquisa');?>.</td>
 	</tr>
 	</table>
 	<br><br>
-  	<table width="90%" align="center"><tr>
+  	<table width="85%" align="center"><tr>
     <td><div align="center"> 
-    <?
-	if ($_SESSION['cs_nivel_administracao'] == '1' || $_SESSION['cs_nivel_administracao'] == '3')
+    <?php if ($_SESSION['cs_nivel_administracao'] == '1' || $_SESSION['cs_nivel_administracao'] == '3')
 		{
 		?>
-   		<input name="submit_exc" type="submit" value="<?=$oTranslator->_('Excluir computadores selecionados');?>" <? if ($NumRegistro == 1) echo 'disabled'; ?> onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
-   		&nbsp;&nbsp;
-        <?
+   		<input name="submit_exc" type="submit" value="<?php echo $oTranslator->_('Excluir computadores selecionados');?>" <?php if ($NumRegistro == 1) echo 'disabled'; ?> onClick="return Confirma('<?php echo $oTranslator->_('Confirma exclusao');?>');" <?php echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>&nbsp;&nbsp;&nbsp;
+		<?php
 		}
 		?>
-   	<input name="submit_nova" type="submit" value="<?=$oTranslator->_('Selecionar novamente');?>">	
+   	<input name="submit_nova" type="submit" value="<?php echo $oTranslator->_('Selecionar novamente');?>">	
 	</div></td>		
    	</tr></table>
 	<br><br>
@@ -204,47 +206,47 @@ if ($_POST['submit_cond'])
 	
           <tr bgcolor="#E1E1E1"> 
             <td align="center" colspan="2" nowrap><img src="../imgs/exclui_computador.gif" width="23" height="23"></td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Nome da maquina');?></div></td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Local');?></div></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Endereco IP');?></div></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Endereco MAC');?></div></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Sistema operacional');?></div></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Cacic2');?></div></td>
-            <td nowrap class="cabecalho_tabela"><?=$oTranslator->_('GerCols');?></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Ultimo acesso');?></div></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Inclusao');?></div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Nome da maquina');?></div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Local');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Endereco IP');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Endereco MAC');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Sistema operacional');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Agente Principal');?></div></td>
+            <td nowrap class="cabecalho_tabela"><?php echo $oTranslator->_('GerCols');?></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Ultimo acesso');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Inclusao');?></div></td>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333" colspan="23"></td>
           </tr>
-          <?  
+          <?php
 	$Cor = 0;
 	$NumRegistro = 1;
 	mysql_data_seek($result,0);
 	while($row = mysql_fetch_array($result)) 
 		{		  
 	 	?>
-          <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><? echo $NumRegistro; ?></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><input type="checkbox" name="chk_<? echo $row['te_node_address'].'#'. $row['id_so']; ?>" value="1" checked onClick="Verifica_Check_Exclui();">&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div>&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $arrSgLocal[$row['id_local']]; ?></a></div>&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div>&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div>&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['sg_so']; ?></a></div>&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div>&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_gercols']; ?></a></div>&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div>&nbsp;</td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div>&nbsp;</td>
+          <tr <?php if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><?php echo $NumRegistro; ?></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><input type="checkbox" name="chk_<?php echo $row['id_computador']; ?>" value="1" checked onClick="Verifica_Check_Exclui();"></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $arrSgLocal[$row['id_local']]; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_ip_computador']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_node_address'];?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['sg_so']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_versao_cacic']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_versao_gercols']; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div></td>
           </tr>
-          <? 
+          <?php 
 		$Cor=!$Cor;
 		$NumRegistro++;
 		}		
 	if ($NumRegistro == 1)
 		{
 		?>
-          <td colspan="20" align="center" class="label_vermelho"><?=$oTranslator->_('Nao foram encontrados registros');?></TD>
+          <td colspan="20" align="center" class="label_vermelho"><?php echo $oTranslator->_('Nao foram encontrados registros');?></TD>
           <script language="JavaScript">
 		for (i=0;i<window.document.forms.length;i++)
 			{
@@ -257,7 +259,7 @@ if ($_POST['submit_cond'])
 				}
 			}		
 		</script>
-          <?
+          <?php
 		}
 		?>
         </table></td>
@@ -268,24 +270,22 @@ if ($_POST['submit_cond'])
 	</table>
 
   	<br><br>
-  	<table width="90%" align="center"><tr>
+  	<table width="85%" align="center"><tr>
     <td><div align="center"> 
-    <?
-	if (($_SESSION['cs_nivel_administracao'] == '1' || $_SESSION['cs_nivel_administracao'] == '3') && $NumRegistro > 1)
+    <?php if (($_SESSION['cs_nivel_administracao'] == '1' || $_SESSION['cs_nivel_administracao'] == '3') && $NumRegistro > 1)
 		{
 		?>
-   		<input name="submit_exc" type="submit" value="<?=$oTranslator->_('Excluir computadores selecionados');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma exclusao');?>');">		  
-   		&nbsp;&nbsp;
-        <?
+   		<input name="submit_exc" type="submit" value="<?php echo $oTranslator->_('Excluir computadores selecionados');?>" onClick="return Confirma('<?php echo $oTranslator->_('Confirma exclusao');?>');">&nbsp;&nbsp;&nbsp;
+        <?php
 		}
 		?>
-   	<input name="submit_nova" type="submit" value="<?=$oTranslator->_('Selecionar novamente');?>">	
+   	<input name="submit_nova" type="submit" value="<?php echo $oTranslator->_('Selecionar novamente');?>">	
 	</div></td>		
    	</tr></table>
 	<p><p><p>  
 	</form>
 	</html>	
-	<?				
+	<?php
 	} 
 else	
 	{
@@ -293,28 +293,16 @@ else
 		{
 		$v_cs_exclui = '';
 
-		// Faço testes para identificar as tabelas válidas para as consultas...
+		// FaÃƒÂ§o testes para identificar as tabelas vÃƒÂ¡lidas para as consultas...
 		$strTables = '';
 		$result_tables	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do CACIC
-		while ($row_tables = mysql_fetch_array($result_tables)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO						
+		while ($row_tables = mysql_fetch_array($result_tables)) //Percorre as tabelas comandando a exclusÃƒÂ£o, conforme TE_NODE_ADDRESS e ID_SO						
 			{
 			$strTables .= ($strTables <> ''?',':'');
 			$strTables .= $row_tables[0];
 			}
 		$arrTables = explode(',',$strTables);
 			
-		/*
-		while ($row_consulta = mysql_fetch_row($result_tables)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO				
-			{
-			$v_query_consulta 	= 'SELECT count(id_so) FROM '.$row_consulta[0] .' WHERE concat(te_node_address,id_so) <> ""';
-			if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-				echo 'v_query_consulta: '.$v_query_consulta.'<br>';
-			
-			$consulta 			= @mysql_query($v_query_consulta);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
-			if ($consulta)
-				$strTripaTabelasValidas .= '#'.$row_consulta[0].'#';
-			}							
-		*/
 		$strTripaTabelasValidas =  '#acoes_excecoes#
 									#aplicativos_monitorados#
 									#compartilhamentos#
@@ -345,21 +333,15 @@ else
 			if (strpos($key,'chk_')>-1)
 				{				
 				$strTripaCampos .= ($strTripaCampos == ''?'':',');				
-				$strTripaCampos .= '"#'.str_replace('chk_','',$key).'#"';
+				$strTripaCampos .= str_replace('chk_','',$key);
 				$intContaMaquinas ++;
 				}			
 			}
 
 
-//		for ($intContaMaquinasAux = 0; $intContaMaquinasAux <= $intContaMaquinas; $intContaMaquinasAux ++)		
-//			{
-			//if (!$result_tables) $result_tables	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do CACIC
-
-
-			//$v_arr_exclui = explode('#',$key);
 			conecta_bd_cacic();								
 			$boolOK = false;
-			for ($i = 0; $i < count($arrTables); $i++ ) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO				
+			for ($i = 0; $i < count($arrTables); $i++ ) //Percorre as tabelas comandando a exclusÃƒÂ£o, conforme TE_NODE_ADDRESS e ID_SO				
 				{
 				$boolOK = stripos2($strTripaTabelasValidas, '#'.$arrTables[$i].'#',false);
 				if ($boolOK)
@@ -368,35 +350,31 @@ else
 						{
 						$v_query_exclui = 'DELETE srcacic_sessoes, srcacic_conexoes, srcacic_chats, srcacic_transfs FROM   
 srcacic_sessoes LEFT JOIN srcacic_conexoes ON srcacic_sessoes.id_sessao   = srcacic_conexoes.id_sessao LEFT JOIN srcacic_transfs  ON 
-srcacic_conexoes.id_conexao = srcacic_transfs.id_conexao LEFT JOIN srcacic_chats    ON srcacic_conexoes.id_conexao = srcacic_chats.id_conexao WHERE 
-concat("#",srcacic_sessoes.te_node_address_srv,"#",srcacic_sessoes.id_so_srv,"#") in ('.$strTripaCampos.')';
+srcacic_conexoes.id_conexao = srcacic_transfs.id_conexao LEFT JOIN srcacic_chats    ON srcacic_conexoes.id_conexao = srcacic_chats.id_conexao WHERE srcacic_sessoes.id_computador_srv in ('.$strTripaCampos.')';
 						}
 					else
 						{
-						$v_query_exclui = 'DELETE FROM '.$arrTables[$i] .' WHERE concat("#",te_node_address,"#",id_so,"#") in 
-('.$strTripaCampos.')';
+						$v_query_exclui = 'DELETE FROM '.$arrTables[$i] .' WHERE id_computador in ('.$strTripaCampos.')';
 						}
-					$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()									
+					$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela funÃƒÂ§ÃƒÂ£o MYSQL_QUERY()									
 					$v_cs_exclui = '1';
 					}
 				}			
-			$v_query_exclui = 'DELETE FROM computadores WHERE concat("#",te_node_address,"#",id_so,"#") in ('.$strTripaCampos.')';
-			$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()												
+			$v_query_exclui = 'DELETE FROM computadores WHERE id_computador in ('.$strTripaCampos.')';
+			$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela funÃƒÂ§ÃƒÂ£o MYSQL_QUERY()												
 
 			if ($v_cs_exclui)
-				GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'computadores');
-
-//			}
+				GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'computadores',$_SESSION["id_usuario"]);
 		}
 	?>	
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
 	<head>
-	<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-	<title><?=$oTranslator->_('Excluir Computadores');?></title>
+	<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
+	<title><?php echo $oTranslator->_('Excluir Computadores');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	
-	<link href="../include/cacic.css" rel="stylesheet" type="text/css">
+	<link href="../include/css/cacic.css" rel="stylesheet" type="text/css">
 	<SCRIPT>
 	function Preenche_Condicao_VAZIO(p_campo)
 		{
@@ -480,7 +458,7 @@ concat("#",srcacic_sessoes.te_node_address_srv,"#",srcacic_sessoes.id_so_srv,"#"
 
 		if (v_conteudo == '')
 			{
-			alert('<?=$oTranslator->_('Eh necessario informar ao menos uma condicao para pesquisa');?>!');
+			alert('<?php echo $oTranslator->_('Eh necessario informar ao menos uma condicao para pesquisa');?>!');
 			return false;
 			}
 
@@ -490,40 +468,40 @@ concat("#",srcacic_sessoes.te_node_address_srv,"#",srcacic_sessoes.id_so_srv,"#"
 	</head>
 
 	<body background="../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
 	<form name="form1" method="post">
-	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
+	<table width="85%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr> 
 	
-  	<td class="cabecalho"><?=$oTranslator->_('Excluir Computadores');?></td>
+  	<td class="cabecalho"><?php echo $oTranslator->_('Excluir Computadores');?></td>
 	</tr>
 	<tr> 
 	
-  	<td class="descricao"><?=$oTranslator->_('kciq_msg Excluir Computadores advise');?></td>
+  	<td class="descricao"><?php echo $oTranslator->_('kciq_msg Excluir Computadores advise');?></td>
 	</tr>
 	</table>
 	<br><br>
-	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
+	<table width="85%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
     <td colspan="3"><div align="center"> 
-   	<input name="submit_cond" type="submit" value="<?=$oTranslator->_('Selecionar computadores para exclusao');?>" onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">
+   	<input name="submit_cond" type="submit" value="<?php echo $oTranslator->_('Selecionar computadores para exclusao');?>" onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">
    	</div></td>
    	</tr></table>
 
 	<br><br>	
-	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
+	<table width="85%" align="center" border="0" cellpadding="0" cellspacing="0">
   	<tr> 
     <td colspan="3" height="1" bgcolor="#333333"></td>
   	</tr>	
 	<tr bgcolor="#CCCCCC"> 
-  	<td class="destaque"><?=$oTranslator->_('Campo');?></font></strong></td>
-  	<td class="destaque"><?=$oTranslator->_('Condicao');?></font></strong></td>
-  	<td class="destaque"><?=$oTranslator->_('Valor para pesquisa');?></font></strong></td>
+  	<td class="destaque"><?php echo $oTranslator->_('Campo');?></font></strong></td>
+  	<td class="destaque"><?php echo $oTranslator->_('Condicao');?></font></strong></td>
+  	<td class="destaque"><?php echo $oTranslator->_('Valor para pesquisa');?></font></strong></td>
 	</tr>
   	<tr> 
     <td colspan="3" height="1" bgcolor="#333333"></td>
   	</tr>
 	
-	<?
+	<?php
 	$cor = 0;
 	require_once('../include/library.php');
 
@@ -534,7 +512,7 @@ concat("#",srcacic_sessoes.te_node_address_srv,"#",srcacic_sessoes.id_so_srv,"#"
 		$query_desc = 'SELECT 	* 
 					   FROM 	descricoes_colunas_computadores 
 					   WHERE 	TRIM(nm_campo) = "'. $row_fields[0].'"';
-		$res_desc 	= @mysql_query($query_desc);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela função MYSQL_QUERY()
+		$res_desc 	= @mysql_query($query_desc);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela funÃƒÂ§ÃƒÂ£o MYSQL_QUERY()
 		if (!@$row_desc = mysql_fetch_array($res_desc))
 			{
 			$query_ins_desc = 'INSERT 
@@ -543,7 +521,6 @@ concat("#",srcacic_sessoes.te_node_address_srv,"#",srcacic_sessoes.id_so_srv,"#"
 							   			te_descricao_campo="'.$row_fields[0].'", 
 										nm_tipo_campo = "datetime"';
 			$res_ins_desc 	= @mysql_query($query_ins_desc);
-			//GravaLog('INS',$_SERVER['SCRIPT_NAME'],'descricoes_colunas_computadores');
 			}
 			
 		if ($row_desc['cs_condicao_pesquisa']=='S')
@@ -557,43 +534,41 @@ concat("#",srcacic_sessoes.te_node_address_srv,"#",srcacic_sessoes.id_so_srv,"#"
 		{
 		$v_arr_campo = explode('#',$v_arr_nomes_campos[$i]);
 		?>
-		<tr <? if ($cor) echo 'bgcolor="#E1E1E1"';?>> 
-		<td nowrap><? echo $v_arr_campo[0];?></td>
-		<td><select name="frm_condicao_<? echo $v_arr_campo[1]; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+		<tr <?php if ($cor) echo 'bgcolor="#E1E1E1"';?>> 
+		<td nowrap><?php echo $v_arr_campo[0];?></td>
+		<td><select name="frm_condicao_<?php echo $v_arr_campo[1]; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
 		<option value=""></option>
-		<?
-		if ($v_arr_campo[2] == 'datetime') 
+		<?php if ($v_arr_campo[2] == 'datetime') 
 			{
 			$v_operacao = "(TO_DAYS(NOW())-TO_DAYS(a.".$v_arr_campo[1].")";
 			?>
-			<option value="<? echo $v_operacao . ' =       frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('Igual a');?></option>					
-			<option value="<? echo $v_operacao . ' -MAIOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('MAIOR QUE');?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>					
-			<option value="<? echo $v_operacao . ' -MENOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('MENOR QUE');?></option>											
-			<?
+			<option value="<?php echo $v_operacao . ' =       frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('Igual a');?></option>					
+			<option value="<?php echo $v_operacao . ' -MAIOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('MAIOR QUE');?></option>					
+			<option value="<?php echo $v_operacao . ' -MENOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('MENOR QUE');?></option>											
+			<?php
 			}
 		else
 			{
 			?>
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." =       'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('IGUAL A');?></option>		
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." <>      'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('DIFERENTE DE');?></option>			
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." -MAIOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('MAIOR QUE');?></option>
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." -MENOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('MENOR QUE');?></option>						
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao%'";?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('CONTENHA');?></option>
-			<option value="<? echo "'%frm_te_valor_condicao%' not like  (a.".$v_arr_campo[1].")  ";?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('NAO CONTENHA');?></option>			
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    'frm_te_valor_condicao%'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('INICIE COM');?></option>
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?=$oTranslator->_('TERMINE COM');?></option>				
-			<option value="<? echo 'TRIM(a.'.$v_arr_campo[1].") = '' and " 					      ;?>" onClick="Preenche_Condicao_VAZIO('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 ><?=$oTranslator->_('SEJA VAZIO');?></option>		
-			<option value="<? echo 'a.'.$v_arr_campo[1]." IS NULL " 					          ;?>" onClick="Preenche_Condicao_NULO('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 ><?=$oTranslator->_('SEJA NULO');?></option>					
-			<?
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." =       'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('IGUAL A');?></option>		
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." <>      'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('DIFERENTE DE');?></option>			
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." -MAIOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('MAIOR QUE');?></option>
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." -MENOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('MENOR QUE');?></option>						
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao%'";?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('CONTENHA');?></option>
+			<option value="<?php echo "'%frm_te_valor_condicao%' not like  (a.".$v_arr_campo[1].")  ";?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('NAO CONTENHA');?></option>			
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." like    'frm_te_valor_condicao%'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('INICIE COM');?></option>
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('TERMINE COM');?></option>				
+			<option value="<?php echo 'TRIM(a.'.$v_arr_campo[1].") = '' and " 					      ;?>" onClick="Preenche_Condicao_VAZIO('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 ><?php echo $oTranslator->_('SEJA VAZIO');?></option>		
+			<option value="<?php echo 'a.'.$v_arr_campo[1]." IS NULL " 					          ;?>" onClick="Preenche_Condicao_NULO('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 ><?php echo $oTranslator->_('SEJA NULO');?></option>					
+			<?php
 			}
 			?>
 		</select> </td>
-		<td><input name="frm_te_valor_condicao_<? echo $v_arr_campo[1]; ?>" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);Verifica_Selecao(this,'<? echo "frm_condicao_". $v_arr_campo[1]; ?>');" size="60" maxlength="100"></td>
+		<td><input name="frm_te_valor_condicao_<?php echo $v_arr_campo[1]; ?>" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);Verifica_Selecao(this,'<?php echo "frm_condicao_". $v_arr_campo[1]; ?>');" size="60" maxlength="100"></td>
 		</tr>
-		<?			
+		<?php			
 		$cor=!$cor;
 		}
-
 	?>
   	<tr> 
     <td colspan="3" height="1" bgcolor="#333333"></td>
@@ -601,15 +576,15 @@ concat("#",srcacic_sessoes.te_node_address_srv,"#",srcacic_sessoes.id_so_srv,"#"
 	
 	</table>
 	<br><br>
-	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
+	<table width="85%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
 	<td colspan="3"><div align="center"> 
-   	<input name="submit_cond" type="submit" value="<?=$oTranslator->_('Selecionar computadores para exclusao');?>" onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">	
+   	<input name="submit_cond" type="submit" value="<?php echo $oTranslator->_('Selecionar computadores para exclusao');?>" onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">	
 	</div></td>
 	</tr></table>
 
 	<p><p><p>  
 	</form>
 	</html>	
-	<?			
+	<?php
 	}
 	?>

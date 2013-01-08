@@ -17,7 +17,7 @@
 <head>
 <title>Registro Já Existente!</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta http-equiv="refresh" content="<? echo $_REQUEST['tempo'];?> ;URL=<? echo $_REQUEST['chamador']; ?>">
+<meta http-equiv="refresh" content="<?php echo $_REQUEST['tempo'];?> ;URL=<?php echo $_REQUEST['chamador']; ?>">
 </head>
 <body bgcolor="#F0F0F0" background="../imgs/linha_v.gif">
 

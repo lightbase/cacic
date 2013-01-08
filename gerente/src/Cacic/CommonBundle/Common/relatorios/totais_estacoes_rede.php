@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -26,7 +26,7 @@ foreach($HTTP_GET_VARS as $i => $v)
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Totais de Esta&ccedil;&otilde;es por Sistema Operacional</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
@@ -42,8 +42,7 @@ foreach($HTTP_GET_VARS as $i => $v)
 	</tr>
 	<tr>
       <td align="center">
-	  <? 
-	  if ($_GET['nm_local']) 	echo '<font color="#400040"><strong>Localização:</strong></font><br><font color="#804040">'	.$_GET['nm_local'].'</font><br><br>';
+	  <?php if ($_GET['nm_local']) 	echo '<font color="#400040"><strong>Localização:</strong></font><br><font color="#804040">'	.$_GET['nm_local'].'</font><br><br>';
 	  if ($_GET['nm_subnet'])  		echo '<font color="#400040"><strong>SubRede:</strong></font><br><font color="#804040">'  		.$_GET['nm_subnet'].'</font><br><br>'; 	  
 	  if ($_GET['nm_workgroup']) 	echo '<font color="#400040"><strong>WorkGroup:</strong></font><br><font color="#804040">'		.$_GET['nm_workgroup'].'</font>'; 
 	  ?>
@@ -64,7 +63,7 @@ foreach($HTTP_GET_VARS as $i => $v)
             <td colspan="2"><div align="center"><strong>S.O.</strong></div></td>
             <td><div align="right"><strong>Total</strong></div></td>
           </tr>
-          <?
+          <?php
 		  $so_estacoes = explode('_',$_GET['nu_totais_estacoes']);
 		  $total = 0;
 		  $contador = 1;
@@ -90,7 +89,7 @@ foreach($HTTP_GET_VARS as $i => $v)
 		?>
           <tr> 
             <td colspan="2"><div align="center"><strong>Total</strong></div></td>
-            <td><div align="right"><strong><? echo $total;?> </strong></div></td>
+            <td><div align="right"><strong><?php echo $total;?> </strong></div></td>
           </tr>
         </table>
           <p align="center"> <br>

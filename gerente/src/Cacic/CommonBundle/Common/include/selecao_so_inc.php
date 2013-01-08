@@ -1,4 +1,4 @@
-<? /*
+<?php /*
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
  Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
@@ -23,17 +23,17 @@
     <td height="1"><table border="0" cellpadding="0" cellspacing="0">
         <tr> 
           <td>&nbsp;&nbsp;</td>
-          <td class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Disponiveis');?></div></td>
+          <td class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Disponiveis');?></div></td>
           <td>&nbsp;&nbsp;</td>
           <td width="40">&nbsp;</td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><span class="necessario">*</span><?=$oTranslator->_('Selecionados');?></td>
+          <td nowrap class="cabecalho_tabela"><span class="necessario">*</span><?php echo $oTranslator->_('Selecionados');?></td>
           <td nowrap>&nbsp;&nbsp;</td>
         </tr>
         <tr> 
           <td>&nbsp;</td>
           <td> <div align="left"> 
-              <?    /* Consulto todos os sistemas operacionais. */ 
+              <?php    /* Consulto todos os sistemas operacionais. */ 
 					  	$query = "SELECT id_so, te_desc_so
 								  FROM so
 								  WHERE id_so > 0
@@ -57,14 +57,14 @@
             </div></td>
           <td>&nbsp;</td>
           <td><select multiple size="10" name="list4[]" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-              <? echo $itens_combo_so; ?> </select></td>
+              <?php echo $itens_combo_so; ?> </select></td>
           <td>&nbsp;</td>
         </tr>
       </table></td>
   </tr>
   <tr> 
      <td class="descricao">
-        <i><?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i>
+        <i><?php echo $oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?></i>
      </td>
   </tr>
 </table>

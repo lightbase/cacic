@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: security.php 2008-06-20 22:20 harpiain $
+ * @version $Id: security.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package Security
  * @subpackage n.a.
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>
@@ -93,3 +93,4 @@ defined( 'SECURITY' ) or die( 'Acesso restrito (Restricted access)!' );
  	} // end func getStringEscaped
  	
  } // end class Security
+?>

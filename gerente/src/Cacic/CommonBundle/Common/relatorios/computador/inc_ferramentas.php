@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -26,13 +26,13 @@ else
     <td colspan="3" height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td colspan="3" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;&nbsp;<a href="computador.php?exibir=ferramentas&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"><img src="../../imgs/<? if($_SESSION['ferramentas'] == true) echo 'menos';
-   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?=$oTranslator->_('Ferramentas');?></a></td>
+    <td colspan="3" bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;&nbsp;<a href="computador.php?exibir=ferramentas&id_computador=<?php echo $_GET['id_computador']?>"><img src="../../imgs/<?php if($_SESSION['ferramentas'] == true) echo 'menos';
+   			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?php echo $oTranslator->_('Ferramentas');?></a></td>
   </tr>
   <tr> 
     <td colspan="3" height="1" bgcolor="#333333"></td>
   </tr>
-		<?	if ($_SESSION['ferramentas'] == true) { ?>
+		<?php if ($_SESSION['ferramentas'] == true) { ?>
 <script LANGUAGE="JavaScript">
 <!-- Begin
 function open_window(theURL,winName,features) { 
@@ -44,17 +44,17 @@ function open_window(theURL,winName,features) {
     <td colspan="3"><table border="0">
         <tr> 
           <td><img src="../../imgs/ping.gif" width="23" height="23"></td>
-          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=ping&ip=<? echo mysql_result($result, 0, "te_ip"); ?>','','width=550,height=370');return false"><?=$oTranslator->_('Analise se ativo na rede');?></a></td>
+          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=ping&ip=<?php echo mysql_result($result, 0, "te_ip_computador"); ?>','','width=550,height=370');return false"><?php echo $oTranslator->_('Analise se ativo na rede');?></a></td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           <td><img src="../../imgs/tracert.gif" width="25" height="22"></td>
-          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=traceroute&ip=<? echo mysql_result($result, 0, "te_ip"); ?>','','width=550,height=370');return false"><?=$oTranslator->_('Analisar rota de rede');?></a></td>
+          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=traceroute&ip=<?php echo mysql_result($result, 0, "te_ip_computador"); ?>','','width=550,height=370');return false"><?php echo $oTranslator->_('Analisar rota de rede');?></a></td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           <td><img src="../../imgs/nmap.gif" width="22" height="18"></td>
-          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=nmap&ip=<? echo mysql_result($result, 0, "te_ip"); ?>','','width=550,height=370');return false"><?=$oTranslator->_('Servicos abertos para a rede');?></a></td>
+          <td class="opcao_tabela"><a href="#" onClick="open_window('../../relatorios/comandos_rede.php?tool=nmap&ip=<?php echo mysql_result($result, 0, "te_ip_computador"); ?>','','width=550,height=370');return false"><?php echo $oTranslator->_('Servicos abertos para a rede');?></a></td>
         </tr>
       </table>
   </tr>
-  <? echo $linha; 
+  <?php echo $linha; 
 		 } ?> 
 		
 </table>

@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -41,11 +41,11 @@ elseif (strpos($_GET['v_nome_campo'],'nivel2')>0)
 
 $query = 'SELECT '.$v_novo_campo. ', 
 				 count('. $v_novo_campo . ') as "' . $_GET['v_label'] . '"
-		  FROM so, '.$from.' computadores a left join patrimonio on (a.te_node_address = patrimonio.te_node_address and a.id_so = patrimonio.id_so) ' . $where . $where_uon1 .  $where_uon2 . '		  
+		  FROM so, '.$from.' computadores a left join patrimonio on (a.id_computador = patrimonio.id_computador) ' . $where . $where_uon1 .  $where_uon2 . '		  
 		  WHERE a.te_nome_computador IS NOT NULL AND 
 				a.id_so = so.id_so AND 
 				a.id_so IN ('. str_replace("-=-", '"',$_GET['v_so_selecionados']) .') '.str_replace("-=-", '"',$_GET['v_query_redes']). ' AND
-				a.te_node_address = patrimonio.te_node_address and a.id_so = patrimonio.id_so 
+				a.id_computador = patrimonio.id_computador 
 		  GROUP BY '.$v_novo_campo .' 
 		  ORDER BY '.$v_novo_campo ;	  
 /*

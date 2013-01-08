@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -59,17 +59,15 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
 
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body bgcolor="#FFFFFF" background="../imgs/linha_v.gif" onLoad="SetaCampo('tipo_consulta')">
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
-<?
-
-if (($_SESSION['tp_consulta'] == 'nome') or ($_SESSION['tp_consulta']== '')) 
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
+<?php if (($_SESSION['tp_consulta'] == 'nome') or ($_SESSION['tp_consulta']== '')) 
 	{
 	$valor_padrao = '<option value="nome" selected>Nome do Computador</option>
 					 <option value="ip">IP do Computador</option>
@@ -90,8 +88,8 @@ if (($_SESSION['tp_consulta'])== 'te_node_address')
 					 <option value="ip">IP do Computador</option>';
 	}
 ?>
-<form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
-<table width="90%" border="0" align="center">
+<form action="<?php echo $PHP_SELF; ?>" method="post" name="form1">
+<table width="85%" border="0" align="center">
 <tr> 
       <td class="cabecalho">Consulta de Informa&ccedil;&otilde;es de Computadores</td>
 </tr>
@@ -100,9 +98,9 @@ if (($_SESSION['tp_consulta'])== 'te_node_address')
 </tr>
 </table>
 <tr><td height="1" colspan="2" bgcolor="#333333"></td></tr>
-<tr><td height="30" colspan="2"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<tr><td height="30" colspan="2"><table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 <tr><td colspan="2" class="label">Selecione os filtros da consulta:</td></tr>
-<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 <tr> 
 <td height="1" bgcolor="#333333"></td>
 </tr>
@@ -111,11 +109,11 @@ if (($_SESSION['tp_consulta'])== 'te_node_address')
 <tr> 
 <td> 
 <select name="tipo_consulta" id="select" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-<? echo $valor_padrao ;?> 
+<?php echo $valor_padrao ;?> 
 </select>
 </td>
 <td> 
-<input name="string_consulta" type="text" id="string_consulta2" value="<? echo $_REQUEST['string_consulta'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+<input name="string_consulta" type="text" id="string_consulta2" value="<?php echo $_REQUEST['string_consulta'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
 </td>
 <td><input name="consultar" type="submit" id="consultar2" value="Consultar"></td>
 </tr>
@@ -126,9 +124,7 @@ if (($_SESSION['tp_consulta'])== 'te_node_address')
 </tr>
 </table>
 </form>
-<?
-
-if ($_POST['consultar'] || ($_GET['campo'])) 
+<?php if ($_POST['consultar'] || ($_GET['campo'])) 
 	{
 	$select1	=	" SELECT 	* "; 
 	$from1		=	" FROM 		computadores, 
@@ -142,18 +138,18 @@ if ($_POST['consultar'] || ($_GET['campo']))
 		}
 	if($_SESSION['tp_consulta'] == 'ip') 
 		{
-		$where1	.=	" te_ip like '%". $_SESSION['str_consulta'] ."%' ";		
+		$where1	.=	" te_ip_computador like '%". $_SESSION['str_consulta'] ."%' ";		
 		}
 	if($_SESSION['tp_consulta'] == 'te_node_address') 
 		{
 		?>
-          <!--Marisol 22-06-2006 <td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_node_address">te_node_address</a></div></td>-->		
-		<?
+          <!--Marisol 22-06-2006 <td nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=te_node_address">te_node_address</a></div></td>-->		
+		<?php
 		$where1	.=	" te_node_address like '%". $_SESSION['str_consulta'] ."%' ";				
 		}
 
 	$where1	.= 	" AND computadores.id_so = so.id_so ";
-	$where2	= 	($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?" AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local = loc.id_local ":'');
+	$where2	= 	($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?" AND computadores.id_rede = redes.id_rede AND redes.id_local = loc.id_local ":'');
 	$where3	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND loc.id_local='.$_SESSION['id_local'].' ':'');
 
 	if ($_SESSION['te_locais_secundarios']<>'' && $where3 <> '')
@@ -194,53 +190,51 @@ if ($_POST['consultar'] || ($_GET['campo']))
 			<td align="center"  nowrap>&nbsp;</td>
 			<td align="center"  nowrap>&nbsp;</td>
 			<td align="center"  nowrap>&nbsp;</td>
-			<td align="center"  nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_nome_computador">Nome da M&aacute;quina</a></div></td>
+			<td align="center"  nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=te_nome_computador">Nome da M&aacute;quina</a></div></td>
 		  	<td nowrap >&nbsp;</td>
-			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_ip">IP</a></div></td>
+			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=te_ip_computador">IP</a></div></td>
 			<td nowrap >&nbsp;</td>
-			<? 
-			if($_SESSION['tp_consulta'] == 'te_node_address') 
+			<?php if($_SESSION['tp_consulta'] == 'te_node_address') 
 				{
 				?>
-			 	<td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_node_address">te_node_address</a></div></td>
+			 	<td nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=te_node_address">te_node_address</a></div></td>
 				<td nowrap >&nbsp;</td>
-				<?
+				<?php
 				}
 				?>
-			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=te_versao_cacic">Vers&atilde;o Cacic</a></div></td>
+			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=te_versao_cacic">Vers&atilde;o Cacic</a></div></td>
 		  	<td nowrap >&nbsp;</td>
-			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<? echo $PHP_SELF; ?>?campo=dt_hr_ult_acesso">&Uacute;ltima Coleta</a></div></td>
+			<td nowrap class="cabecalho_tabela"><div align="center"><a href="<?php echo $PHP_SELF; ?>?campo=dt_hr_ult_acesso">&Uacute;ltima Coleta</a></div></td>
 			<td nowrap >&nbsp;</td>
 			</tr>
-			<?  
+			<?php
 			$Cor = 0;
 			$NumRegistro = 1;
 				
 			while($row = mysql_fetch_array($result)) 
 				{					  
 			 	?>
-				<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+				<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
 				<td nowrap>&nbsp;</td>
-				<td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+				<td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
 				<td nowrap>&nbsp;</td>
-				<td nowrap class="opcao_tabela"><div align="left"><a href="computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+				<td nowrap class="opcao_tabela"><div align="left"><a href="computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
 				<td nowrap>&nbsp;</td>
-				<td nowrap class="opcao_tabela"><a href="computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></td>
+				<td nowrap class="opcao_tabela"><a href="computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_ip_computador']; ?></a></td>
 				<td nowrap>&nbsp;</td>
-				<? 
-				if($_SESSION['tp_consulta'] == 'te_node_address') 
+				<?php if($_SESSION['tp_consulta'] == 'te_node_address') 
 					{ 
 					?>
-					<td nowrap class="opcao_tabela"><div align="center"><a href="computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address']; ?></a></div></td>
+					<td nowrap class="opcao_tabela"><div align="center"><a href="computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_node_address']; ?></a></div></td>
 					<td nowrap>&nbsp;</td>
-					<? 
+					<?php 
 					}
 					?>
-				<td nowrap class="opcao_tabela"><div align="center"><a href="computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div></td>
+				<td nowrap class="opcao_tabela"><div align="center"><a href="computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_versao_cacic']; ?></a></div></td>
 				<td nowrap>&nbsp;</td>
-				<td nowrap class="opcao_tabela"><div align="center"><a href="computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
+				<td nowrap class="opcao_tabela"><div align="center"><a href="computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
 				<td nowrap>&nbsp;</td>
-				<? 
+				<?php 
 				$Cor=!$Cor;
 				$NumRegistro++;
 				}					
@@ -254,7 +248,7 @@ if ($_POST['consultar'] || ($_GET['campo']))
 			<td height="10">&nbsp;</td>
 			</tr>
 			</table>
-			<?
+			<?php
 			}
 		}
 	}

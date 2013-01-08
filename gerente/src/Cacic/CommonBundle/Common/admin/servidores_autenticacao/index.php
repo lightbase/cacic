@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -35,15 +35,15 @@ $msg = '<div align="center">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Cadastro de Servidor de Autentica&ccedil;&atilde;o</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
       <td class="cabecalho">Cadastro de Servidor de Autentica&ccedil;&atilde;o</td>
   </tr>
@@ -55,12 +55,11 @@ $msg = '<div align="center">
 <br><table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
-    <?
-	if ($_SESSION['cs_nivel_administracao']==1)
+    <?php if ($_SESSION['cs_nivel_administracao']==1)
 		{
 		?>
         <input name="submit" type="submit" id="submit" value="Incluir Informa&ccedil;&otilde;es de Novo Servidor de Autentica&ccedil;&atilde;o">
-        <?
+        <?php
 		}
 		?>
       </div></td>
@@ -69,7 +68,7 @@ $msg = '<div align="center">
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
 
   <tr> 
@@ -83,6 +82,8 @@ $msg = '<div align="center">
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_servidor_autenticacao">Nome</a></div></td>
           <td nowrap >&nbsp;</td>
+          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_servidor_autenticacao_dns">Identificador no DNS</a></div></td>
+          <td nowrap >&nbsp;</td>          
           <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=te_ip_servidor_autenticacao">Endere&ccedil;o IP</a></div></td>
           <td nowrap >&nbsp;</td>
           <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nu_porta_servidor_autenticacao">Porta</a></div></td>
@@ -93,11 +94,10 @@ $msg = '<div align="center">
           <td nowrap class="cabecalho_tabela">&nbsp;</td>
           </tr>
   	<tr> 
-    <td height="1" bgcolor="#333333" colspan="13"></td>
+    <td height="1" bgcolor="#333333" colspan="15"></td>
   	</tr>
 		
-<?  
-if(mysql_num_rows($result)==0) 
+<?php if(mysql_num_rows($result)==0) 
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
@@ -112,19 +112,18 @@ else
 		{
 		?>
 		<tr 
-		<? if ($Cor) 
+		<?php if ($Cor) 
 		echo 'bgcolor="#E1E1E1"';
 		?>>
 		<td nowrap>&nbsp;</td>
-		<td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+		<td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
 		<td nowrap>&nbsp;</td>
 		<td nowrap class="opcao_tabela"><div align="left">
-		<?
-		if ($_SESSION['cs_nivel_administracao']==1)
+		<?php if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
-			<a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<? echo $row['id_servidor_autenticacao'];?>">
-			<?
+			<a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<?php echo $row['id_servidor_autenticacao'];?>">
+			<?php
 			}
 
 		echo $row['nm_servidor_autenticacao'];
@@ -132,46 +131,64 @@ else
 			{
 			?>
 			</a>
-			<?
+			<?php
 			}
 			?>
 		
 		</div></td>
 		<td nowrap>&nbsp;</td>
 		<td nowrap class="opcao_tabela"><div align="left">
-		
-		<?
+		<?php if ($_SESSION['cs_nivel_administracao']==1)
+			{
+			?>
+			<a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<?php echo $row['id_servidor_autenticacao'];?>">
+			<?php
+			}
+
+		echo $row['nm_servidor_autenticacao_dns'];
 		if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
-			<a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<? echo $row['id_servidor_autenticacao'];?>">
-			<?
+			</a>
+			<?php
+			}
+			?>
+		
+		</div></td>
+		<td nowrap>&nbsp;</td>
+        
+		<td nowrap class="opcao_tabela"><div align="left">
+		
+		<?php if ($_SESSION['cs_nivel_administracao']==1)
+			{
+			?>
+			<a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<?php echo $row['id_servidor_autenticacao'];?>">
+			<?php
 			}
 		echo $row['te_ip_servidor_autenticacao'];
 		if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
 			</a>
-			<?
+			<?php
 			}
 			?>
 		</div></td>
 		<td nowrap>&nbsp;</td>
 		<td nowrap class="opcao_tabela"><div align="right">
 		
-		<?
-		if ($_SESSION['cs_nivel_administracao']==1)
+		<?php if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
-			<a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<? echo $row['id_servidor_autenticacao'];?>">
-			<?
+			<a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<?php echo $row['id_servidor_autenticacao'];?>">
+			<?php
 			}
 		echo $row['nu_porta_servidor_autenticacao'];
 		if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
 			</a>
-			<?
+			<?php
 			}
 			?>
             
@@ -180,36 +197,34 @@ else
 		<td nowrap class="opcao_tabela">
 		
 		  <div align="center">
-		    <?
-		if ($_SESSION['cs_nivel_administracao']==1)
+		    <?php if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
-		    <a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<? echo $row['id_servidor_autenticacao'];?>">
-		      <?
+		    <a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<?php echo $row['id_servidor_autenticacao'];?>">
+		      <?php
 			}
 		echo $row['id_tipo_protocolo'] . '/'.$row['nu_versao_protocolo'];
 		if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
 		      </a>
-		    <?
+		    <?php
 			}
 			?>
 		      </div></td>
 		<td nowrap class="opcao_tabela">&nbsp;</td>
-		<td nowrap class="opcao_tabela"><div align="center"><a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<? echo $row['id_servidor_autenticacao'];?>">
-		  <?
-		echo $row['in_ativo'];
+		<td nowrap class="opcao_tabela"><div align="center"><a href="detalhes_servidor_autenticacao.php?id_servidor_autenticacao=<?php echo $row['id_servidor_autenticacao'];?>">
+		  <?php echo $row['in_ativo'];
 		if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
 		  </a>
-		  <?
+		  <?php
             }
 			?>
 		  </div></td>
 		<td nowrap class="opcao_tabela">&nbsp;</td>
-		<? 
+		<?php 
 		$Cor=!$Cor;
 		$NumRegistro++;
 		}
@@ -224,11 +239,11 @@ else
     <td height="10">&nbsp;</td>
   	</tr>
   	<tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   	</tr>
   	<tr> 
     <td><div align="center">
-  	<input name="submit" type="submit" id="submit" value="Incluir Informa&ccedil;&otilde;es de Novo Servidor de Autentica&ccedil;&atilde;o" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
+  	<input name="submit" type="submit" id="submit" value="Incluir Informa&ccedil;&otilde;es de Novo Servidor de Autentica&ccedil;&atilde;o" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
   	</div></td>
   	</tr>
 	</table>

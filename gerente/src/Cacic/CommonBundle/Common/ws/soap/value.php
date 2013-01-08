@@ -31,7 +31,7 @@
 // | Authors: Dietrich Ayala <dietrich@ganx4.com> Original Author         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Value.php,v 1.17 2002/03/19 06:47:16 shane Exp $
+// $Id: value.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 require_once 'Base.php';
 require_once 'globals.php';
@@ -45,7 +45,7 @@ require_once 'globals.php';
 * originaly based on SOAPx4 by Dietrich Ayala http://dietrich.ganx4.com/soapx4
 *
 * @access public
-* @version $Id: Value.php,v 1.17 2002/03/19 06:47:16 shane Exp $
+* @version $Id: value.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @package SOAP::Client
 * @author Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 * @author Dietrich Ayala <dietrich@ganx4.com> Original Author

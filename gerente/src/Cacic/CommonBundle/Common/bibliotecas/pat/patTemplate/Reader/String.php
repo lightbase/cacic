@@ -2,7 +2,7 @@
 /**
  * patTemplate Reader that reads from a string
  *
- * $Id: String.php 181 2004-04-23 22:01:02Z schst $
+ * $Id: String.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @package		patTemplate
  * @subpackage	Readers

@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -27,18 +27,17 @@ conecta_bd_cacic();
 <html>
 <head>
 
-<link rel="stylesheet"   type="text/css" href="<?=CACIC_URL?>/include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="<?php echo CACIC_URL?>/include/css/cacic.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language="JavaScript" type="text/javascript" src="<?=CACIC_URL?>/include/cacic.js"></script>
-<script language="JavaScript" type="text/javascript" src="<?=CACIC_URL?>/bibliotecas/javascript/asv/asvUtils.js"></script>
-<?
+<script language="JavaScript" type="text/javascript" src="<?php echo CACIC_URL?>/include/js/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="<?php echo CACIC_URL?>/bibliotecas/javascript/asv/asvUtils.js"></script>
+<?php
 // JavaScripts para fazer a selecao entre os listbox, movendo itens entre eles.
-require_once(CACIC_PATH.'/include/selecao_listbox.js');
+require_once(CACIC_PATH.'/include/js/selecao_listbox.js');
 ?>
 </head>
-<body background="<?=CACIC_URL?>/imgs/linha_v.gif" onLoad="verifica_status();">
-<?
-if (!$id_acao) 
+<body background="<?php echo CACIC_URL?>/imgs/linha_v.gif" onLoad="verifica_status();">
+<?php if (!$id_acao) 
 	{ 
 	$cs_situacao = 'T'; 
 	} // Se não for setada a var id_acao, serão exibidas todas as redes para selecao.

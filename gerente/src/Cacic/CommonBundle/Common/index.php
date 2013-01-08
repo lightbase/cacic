@@ -31,7 +31,7 @@
 
 <frameset rows="55,*" cols="*" framespacing="0" frameborder="no" border="0">
   <frame src="top.php" name="topFrame" scrolling="NO" noresize >
-  <frameset rows="*" cols="181,*" framespacing="0" frameborder="NO" border="0">
+  <frameset rows="*" cols="190,*" framespacing="0" frameborder="NO" border="0">
     <frame src="menu_esq.php" name="leftFrame" noresize>
     <frame src="principal.php" name="mainFrame"></frameset>
 <noframes><body>

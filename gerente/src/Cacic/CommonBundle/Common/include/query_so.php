@@ -1,4 +1,4 @@
-<?		
+<?php		
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -43,7 +43,7 @@ $query = 'SELECT 	count(a.id_so) as qtd,
 		  WHERE 	(a.id_so = b.id_so OR a.te_so = b.te_so) AND 
 		  			a.te_nome_computador IS NOT NULL AND 
 					a.dt_hr_ult_acesso IS NOT NULL AND
-					a.id_ip_rede = c.id_ip_rede '.
+					a.id_rede = c.id_rede '.
 					$where . ' 
 		  GROUP BY 	a.id_so 
 		  ORDER BY 	a.id_so';

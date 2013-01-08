@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -56,7 +56,7 @@ if($_POST['submitGerarRelatorio'])
 			for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 				$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 	
-			$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+			$query_redes = 'AND id_rede IN ('. $redes_selecionadas .')';
 			//}	
 		}
 	else
@@ -66,7 +66,7 @@ if($_POST['submitGerarRelatorio'])
 		for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 			$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 	
-		$query_redes = 'AND comp.id_ip_rede = redes.id_ip_rede AND 
+		$query_redes = 'AND comp.id_rede = redes.id_rede AND 
 							redes.id_local IN ('. $locais_selecionados .') AND
 							redes.id_local = locais.id_local ';
 		$select = ' ,sg_local as Local ';	
@@ -97,7 +97,8 @@ if($_POST['submitGerarRelatorio'])
 	   $query =  "SELECT 
 				  distinct 		comp.te_nome_computador,
 								comp.id_so, 
-								comp.te_node_address " . 
+								comp.te_node_address, 
+								comp.id_computador " . 								
 								$campos_hardware .
 								$select . " 
 				  FROM 			historico_hardware hist, 
@@ -146,7 +147,7 @@ if($_POST['submitGerarRelatorio'])
 		  </tr>
 		  <tr> 
 			<td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-				em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+				em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
 		  </tr>
 		</table>
 		<br>
@@ -154,7 +155,7 @@ if($_POST['submitGerarRelatorio'])
 		<br>
 		<br>
 		
-		<?
+		<?php
 		$cor = 0;
 		$num_registro = 1;
 		
@@ -175,7 +176,7 @@ if($_POST['submitGerarRelatorio'])
 			if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 			echo '>';
 			echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>';
-			echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[2] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
+			echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row[3]."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
 			for ($i=3; $i < $fields; $i++) 
 				echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
 		
@@ -203,7 +204,7 @@ if($_POST['submitGerarRelatorio'])
 		  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 		</body>
 		</html>    
-		<?		
+		<?php		
 		}
 	else
 		{
@@ -217,11 +218,11 @@ else
 	
 	$historical_data_help = $oTranslator->_("Dados historicos obtidos de versoes anteriores a 2.4");
 	?>
-	 <script src="../../include/sniffer.js" type="text/javascript" language="javascript"></script>
-	 <script src="../../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
-	 <link href="../../include/dyncalendar.css" media="screen" rel="stylesheet">
+	 <script src="../../include/js/sniffer.js" type="text/javascript" language="javascript"></script>
+	 <script src="../../include/js/dyncalendar.js" type="text/javascript" language="javascript"></script>
+	 <link href="../../include/css/dyncalendar.css" media="screen" rel="stylesheet">
 	
-	<table width="90%" border="0" align="center">
+	<table width="85%" border="0" align="center">
 	  <tr> 
 		<td class="cabecalho">
 		  <?php echo $oTranslator->_('Relatorio de alteracao de hardware'); ?>
@@ -234,7 +235,7 @@ else
 	  </tr>
 	</table>
 	<form method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-	  <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
+	  <table width="85%" border="0" align="center" cellpadding="5" cellspacing="1">
 		<tr>
 		  <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1" align="center">
 			  <tr> 
@@ -245,7 +246,7 @@ else
 				<td height="1" bgcolor="#333333" colspan="2"></td>
 			  </tr>
 			  <tr valign="middle"> 
-				<td width="33%" height="1" nowrap valign="middle"> <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>"> 
+				<td width="33%" height="1" nowrap valign="middle"> <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input1;?>"> 
 				  <script type="text/javascript" language="JavaScript">
 		<!--
 		function calendar1Callback(date, month, year)	
@@ -255,7 +256,9 @@ else
 		calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 		-->
 		</script> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
-				  &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>"> 
+				  &nbsp;&nbsp;                 
+                  <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input2;?>"> 
+
 				  <script type="text/javascript" language="JavaScript">
 		<!--
 		function calendar2Callback(date, month, year)	
@@ -274,8 +277,8 @@ else
 				<td colspan="2">
 				 <input type="checkbox" class="checkbox" name="historical_data" value="historical_data"
 						onchange="toggleDetails('hardware_type');"
-						title="<?=$historical_data_help;?>" />
-				<b title="<?=$historical_data_help;?>"><?php echo $oTranslator->_('Mostrar tambem dados historicos?'); ?></b></td>
+						title="<?php echo $historical_data_help;?>" />
+				<b title="<?php echo $historical_data_help;?>"><?php echo $oTranslator->_('Mostrar tambem dados historicos?'); ?></b></td>
 			  </tr>
 			  <tr> 
 				<td height="1" bgcolor="#333333" colspan="2"></td>
@@ -286,7 +289,7 @@ else
 		<tr> 
 		  <td valign="top">
 			<div id='hardware_type'  style="display: none;">
-			<table width="90%" border="0" cellpadding="0" cellspacing="1">
+			<table width="85%" border="0" cellpadding="0" cellspacing="1">
 			  <tr> 
 				<td class="label">
 				   <?php echo $oTranslator->_('Selecione os tipos de hardware a serem exibidos no relatorio.'); ?>
@@ -298,8 +301,8 @@ else
 			  <tr> 
 				<td>
 				 <input type="checkbox" class="checkbox" name="historical_data_only" value="historical_data_only"
-						title="<?=$historical_data_help;?>" />
-				 <b title="<?=$historical_data_help;?>">
+						title="<?php echo $historical_data_help;?>" />
+				 <b title="<?php echo $historical_data_help;?>">
 					<?php echo $oTranslator->_('Mostrar somente dados historicos?'); ?>
 				 </b>
 				</td>
@@ -319,7 +322,7 @@ else
 					  <td>&nbsp;</td>
 					  <td> <div align="left"> 
 						  <select multiple name="list5[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-							<? 	$query = "SELECT 	nm_campo_tab_hardware, 
+							<?php 	$query = "SELECT 	nm_campo_tab_hardware, 
 													te_desc_hardware
 										  FROM 		descricao_hardware 
 										  ORDER BY 	te_desc_hardware";
@@ -337,13 +340,13 @@ else
 						  </div></td>
 					  <td>&nbsp;</td>
 					  <td width="40"> <div align="center"> 
-							<?
+							<?php
 						  //<input type="button" value="   &gt;   " onClick="copia(this.form.elements['list5[]'],this.form.elements['list7[]']); move(this.form.elements['list5[]'],this.form.elements['list6[]'])" name="B132">
 						  ?>
 						  <input type="button" value="   &gt;   " onClick="move(this.form.elements['list5[]'],this.form.elements['list6[]'])" name="B132">					  
 						  <br>
 						  <br>
-						  <?
+						  <?php
 						  //<input type="button" value="   &lt;   " onClick="exclui(this.form.elements['list6[]'],this.form.elements['list8[]']); exclui(this.form.elements['list6[]'],this.form.elements['list7[]']); move(this.form.elements['list6[]'],this.form.elements['list5[]'])" name="B232">
 						  ?>
 						  <input type="button" value="   &lt;   " onClick="move(this.form.elements['list6[]'],this.form.elements['list5[]'])" name="B232">					  
@@ -365,7 +368,7 @@ else
 		</tr>
 		<tr> 
 		  <td valign="top"> 
-			<?  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
+			<?php  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 			require_once($v_require);		
 			?>
 	
@@ -373,7 +376,7 @@ else
 		</tr>
 		<tr> 
 		  <td valign="top"> 
-			<?  require_once('../../include/selecao_so_inc.php');		?>
+			<?php  require_once('../../include/selecao_so_inc.php');		?>
 		  </td>
 		</tr>
 		<tr> 
@@ -384,7 +387,7 @@ else
 			  </tr>
 			  <tr> 
 				<td> <div align="center"> 
-					<input name="submitGerarRelatorio" id="submitGerarRelatorio" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
+					<input name="submitGerarRelatorio" id="submitGerarRelatorio" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<?php echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
 																											 SelectAll(this.form.elements['list4[]']), 
 																											 SelectAll(this.form.elements['list6[]'])">				
 				  </div></td>
@@ -399,6 +402,6 @@ else
 	</form>
 	</body>
 	</html>
-    <?
+    <?php
 	}
 	?>

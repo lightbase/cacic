@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -42,10 +42,10 @@ if ($_POST['historico_hardware'])
 			  			te_modem_desc, 
 						te_cdrom_desc, 
 						te_teclado_desc, 
-			  			te_mouse_desc 
+			  			te_mouse_desc, 
+			  			id_computador 						
 			  FROM 		historico_hardware 
-			  WHERE 	te_node_address = '". $_POST['te_node_address'] ."' AND 
-			  			id_so = '". $_POST['id_so'] ."'  
+			  WHERE 	id_computador = ". $_POST['id_computador'] ."    
 			  ORDER BY 	dt_hr_alteracao DESC";
 	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('historico_hardware')));
 	$tipo_historico = $oTranslator->_('Historico de Hardware');
@@ -83,9 +83,7 @@ else if ($_POST['historico_patrimonio'])
 			  LEFT JOIN unid_organizacional_nivel1 b on (d.id_unid_organizacional_nivel1=b.id_unid_organizacional_nivel1) 
 			  LEFT JOIN unid_organizacional_nivel2 c on (d.id_unid_organizacional_nivel1a=c.id_unid_organizacional_nivel1a)
 						
-		  	  WHERE 	a.te_node_address = '" . $_POST['te_node_address'] . "' AND 
-		  				a.id_so = '" . $_POST['id_so'] . "'
-
+		  	  WHERE 	a.id_computador = " . $_POST['id_computador'] . " 
 		  	  ORDER BY 	dt_hr_alteracao";	
 
 	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('patrimonio')));
@@ -96,7 +94,7 @@ else if ($_POST['historico_rede'])
 	$query = "SELECT 	DATE_FORMAT(dt_hr_alteracao,'%d/%m/%Y às %H:%ih') as '".$oTranslator->_('Data de alteracao')."',
 						dt_hr_alteracao, 
 						te_nome_computador as 'Nome da Máquina', 
-						te_ip as 'IP', 
+						te_ip_computador as 'IP', 
 			  			te_mascara as 'Mascara de Rede', 
 						te_gateway as 'Gateway', 
 						te_wins_primario as 'Wins Primário', 
@@ -104,10 +102,10 @@ else if ($_POST['historico_rede'])
 						te_dns_primario as 'DNS Primário', 
 			  			te_dns_secundario as 'DNS Secundario', 
 						te_dominio_dns as 'Domínio DNS', 
-			  			te_serv_dhcp as 'Servidor DHCP'
+			  			te_serv_dhcp as 'Servidor DHCP',
+			  			id_computador
 			  FROM 		historico_tcp_ip   
-			  WHERE 	te_node_address = '".$_POST['te_node_address']."' AND 
-			  			id_so = '". $_POST['id_so'] ."'   
+			  WHERE 	id_computador = ".$_POST['id_computador'] ."    
 			  ORDER BY 	dt_hr_alteracao";
 	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('historico_tcp_ip')));
 	$tipo_historico = $oTranslator->_('Historico de TCP/IP');
@@ -116,7 +114,7 @@ else if ($_POST['historico_rede'])
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Hist&oacute;rico <? echo $tipo_historico?></title>
+<title>Hist&oacute;rico <?php echo $tipo_historico?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -130,7 +128,7 @@ else if ($_POST['historico_rede'])
   <tr bgcolor="#E1E1E1"> 
     <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
       <strong>
-        <? echo $tipo_historico?>
+        <?php echo $tipo_historico?>
       </strong></font></td>
   </tr>
   <tr> 
@@ -141,7 +139,7 @@ else if ($_POST['historico_rede'])
   </tr>
 </table>
 <br>
-<? 
+<?php 
 $cor = 0;
 $num_registro = 1;
 
@@ -191,7 +189,7 @@ else
 	}
 ?>
 <p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-  <?=$oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+  <?php echo $oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>

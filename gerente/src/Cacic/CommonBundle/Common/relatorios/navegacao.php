@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -41,15 +41,15 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
 	<head>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	</head>
 	
 	<body bgcolor="#FFFFFF" background="../imgs/linha_v.gif">
 	
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
-<form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
-<table width="90%" border="0" align="center">
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
+<form action="<?php echo $PHP_SELF; ?>" method="post" name="form1">
+<table width="85%" border="0" align="center">
   <tr nowrap> 
     <td nowrap class="cabecalho">Navega&ccedil;&atilde;o pelos Computadores das 
       Subredes</td>
@@ -62,16 +62,14 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
           <option value="ip">IP do Computador</option>
         </select>
         &nbsp;&nbsp; 
-        <input name="string_consulta" type="text"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? if ($_SESSION['string_consulta1']<>'') echo $_SESSION['string_consulta1'];?>">
+        <input name="string_consulta" type="text"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php if ($_SESSION['string_consulta1']<>'') echo $_SESSION['string_consulta1'];?>">
         &nbsp;&nbsp; </font> 
         <input name="consultar" type="submit" value="   Filtrar   ">
       </td>
   </tr>
   <tr nowrap>
     <td nowrap> 
-      <?
-	  
-	if ($_SESSION['consultar1'] || $_POST['consultar'])
+      <?php if ($_SESSION['consultar1'] || $_POST['consultar'])
 		{
 		if($_SESSION['tipo_consulta1'] == 'nome') 
 			{
@@ -79,14 +77,14 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 			}
 		elseif($_SESSION['tipo_consulta1'] == 'ip') 
 			{
-			$where = "computadores.te_ip like '%". $_SESSION['string_consulta1']."%'";
+			$where = "computadores.te_ip_computador like '%". $_SESSION['string_consulta1']."%'";
 			}
 		else
 			{
 			$where = '1';
 			}
 
-	$where1 = 	($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?" AND computadores.id_ip_rede = redes.id_ip_rede AND redes.id_local=".$_SESSION['id_local']:'');		
+	$where1 = 	($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?" AND computadores.id_rede = redes.id_rede AND redes.id_local=".$_SESSION['id_local']:'');		
 
 
 	if ($_SESSION['te_locais_secundarios']<>'' && $where1 <> '')
@@ -100,35 +98,35 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 		$query_sel = "SELECT 	IF(TRIM(redes.nm_rede)=''                   OR redes.nm_rede is null,'Rede Desconhecida', redes.nm_rede) as nm_rede,
 								IF(TRIM(computadores.te_nome_computador)='' OR computadores.te_nome_computador is null,'Computador Desconhecido',computadores.te_nome_computador) as te_nome_computador,
 								IF(TRIM(SUBSTRING_INDEX(computadores.te_workgroup, '@', -1))='' OR computadores.te_workgroup is null,'Grupo de Trabalho Desconhecido',LOWER(SUBSTRING_INDEX(computadores.te_workgroup, '@', -1))) as te_workgroup,
-								computadores.id_ip_rede,
-								computadores.te_ip,							
+								computadores.id_rede,
+								computadores.te_ip_computador,							
 								computadores.dt_hr_ult_acesso,
 								computadores.te_node_address,
+								computadores.id_computador,								
 								computadores.id_so,
 								compartilhamentos.te_comentario,
 								compartilhamentos.nm_compartilhamento,
 								redes.id_local,
+								redes.te_ip_rede,								
 								sg_local,
 								nm_local,
 								servidores_autenticacao.nm_servidor_autenticacao
 					 FROM 		computadores 
-					 			LEFT JOIN redes             ON (computadores.id_ip_rede = redes.id_ip_rede)
-					 			LEFT JOIN compartilhamentos ON (computadores.id_so=compartilhamentos.id_so and computadores.te_node_address=compartilhamentos.te_node_address and compartilhamentos.cs_tipo_compart='I')
+					 			LEFT JOIN redes             ON (computadores.id_rede = redes.id_rede)
+					 			LEFT JOIN compartilhamentos ON (computadores.id_computador=compartilhamentos.id_computador and compartilhamentos.cs_tipo_compart='I')
 					 			LEFT JOIN locais            ON (redes.id_local = locais.id_local)								
 								LEFT JOIN servidores_autenticacao ON (redes.id_servidor_autenticacao = servidores_autenticacao.id_servidor_autenticacao)
 					 WHERE		".$where.$where1."
 				  	 GROUP BY 	sg_local,
-					 			computadores.id_ip_rede,
+					 			computadores.id_rede,
 					 			te_workgroup,
-								computadores.te_ip,
-								computadores.te_node_address,
-								computadores.id_so
+								computadores.te_ip_computador,
+								computadores.id_computador
 					 ORDER BY   sg_local,
-								computadores.id_ip_rede,					 
+								redes.te_ip_rede,					 
 					 			te_workgroup,
-								computadores.te_ip,
-								computadores.te_node_address,
-								computadores.id_so";					 
+								computadores.te_ip_computador,
+								computadores.id_computador";					 
 		conecta_bd_cacic();					 
 		$result_sel = mysql_query($query_sel) or die ('Erro no acesso à tabela "computadores" ou sua sessão expirou!');
 		$_SESSION['Tripa'] = '';
@@ -153,7 +151,7 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 						$LocalAnt = $row["sg_local"];
 						}
 					
-					if ($RedeAnt <> $row["id_ip_rede"])
+					if ($RedeAnt <> $row["te_ip_rede"])
 						{
 						$nm_rede = $row["nm_rede"];
 						if (!$nm_rede)
@@ -161,10 +159,10 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 							$nm_rede = 'SubRede Não Cadastrada';
 							}
 							
-						$_SESSION['Tripa'] 	.= '..' . $row["id_ip_rede"] . ' (' . $nm_rede . ')|'.$row["sg_local"] . ' (' . $row['nm_local'] . ')|'.$row["nm_servidor_autenticacao"].'#';
+						$_SESSION['Tripa'] 	.= '..' . $row["te_ip_rede"] . ' (' . $nm_rede . ')|'.$row["sg_local"] . ' (' . $row['nm_local'] . ')|'.$row["nm_servidor_autenticacao"].'#';
 
 						
-						$RedeAnt = $row["id_ip_rede"];
+						$RedeAnt = $row["te_ip_rede"];
 						}
 
 					$arrGrupo = explode('@',$row["te_workgroup"]);						
@@ -180,7 +178,7 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 						$RedeAntAux 	= $RedeAnt;						
 						}
 						
-						$_SESSION['Tripa'] .= 	'....' . $row["te_ip"] . ' (' . $row["te_nome_computador"] . ')';
+						$_SESSION['Tripa'] .= 	'....' . $row["te_ip_computador"] . ' (' . $row["te_nome_computador"] . ')';
 				
 						$today=date('m-d-Y');	
 						$access_day = explode('-',$row["dt_hr_ult_acesso"]);	
@@ -201,7 +199,7 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 							$_SESSION['Tripa'] .= 	'|1';	//Green  Computer Icon
 							}
 						
-						$_SESSION['Tripa'] .= 	'|te_node_address='.$row["te_node_address"] . '&id_so=' . $row["id_so"].'|';
+						$_SESSION['Tripa'] .= 	'|id_computador=' . $row["id_computador"].'|';
 
 						if ($row["nm_compartilhamento"] || $row["te_comentario"]){
 							if ($row["nm_compartilhamento"]) $_SESSION['Tripa'] .= 	'Nome: '.$row["nm_compartilhamento"].' ';
@@ -305,7 +303,7 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 			  $v_conta_os_winxp		=	0;
 			  $v_conta_os_linux		=	0;
 		  	  $monta 				= 	0;
-			  $id_ip_rede_atual 	= 	'';			  
+			  $te_ip_atual 	= 	'';			  
 
 			  if (strpos($_SERVER['REQUEST_URI'],'relatorios/arvore/index.php?tipo_consulta='))
 //			  if(substr($_SERVER['REQUEST_URI'],0,50) == '/cacic2/relatorios/arvore/index.php?tipo_consulta=')
@@ -372,14 +370,14 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 				// if SubNet...								
 				if ($tree[$cnt][0]==2) 
 					{	
-					$id_ip_rede_atual 	= substr($tree[$cnt][1],0,strpos($tree[$cnt][1], " ")); 
+					$te_ip_atual 	= substr($tree[$cnt][1],0,strpos($tree[$cnt][1], " ")); 
 					$cnt_aux_rede 		= 	$cnt;
 					$v_SubNetName		= 	$tree[$cnt][1];
 					$tree[$cnt][19]		=	$v_SubNetName;	
 					$tree[$cnt][21]		=	$node[2];								
 					}				
 					
-				$tree[$cnt][6]=$id_ip_rede_atual;														
+				$tree[$cnt][6]=$te_ip_atual;														
 				
 				// if Work Group...
 				if ($tree[$cnt][0]==3) 
@@ -556,15 +554,15 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 			  	{
 //      			<div align="justify"></div>				
 			  	?>
-      			<table cellspacing=0 cellpadding=0 border=0 cols="<? echo ($maxlevel+4); ?>" align='left' width="100">
-			  	<?				
+      			<table cellspacing=0 cellpadding=0 border=0 cols="<?php echo ($maxlevel+4); ?>" align='left' width="100">
+			  	<?php				
 				}
 				
 			  for ($i=0; $i<$maxlevel; $i++)
 			  	{ 
 				?>
 			  	<tr nowrap></tr>
-				<?
+				<?php
 			  	}
 			  if (count($tree) > 0)	
 			  	{
@@ -581,11 +579,9 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 										$v_conta_os_winxp		."_".
 										$v_conta_os_linux;
 				?>
-				<a href="#" onClick="MyWindow=window.open('totais_estacoes_rede.php?nu_totais_estacoes=<? echo $nu_totais_estacoes;?>', 'newWindow','toolbar=no,location=no,scrollbars=yes,menubar=no');
-				MyWindow.document.close()"><img src="<? echo $img_totals;?>" border=no width=16 height=16 Title="Totais de Estações por Sistema Operacional"></a>				
-				<?
-						
-				echo "</tr>";				
+				<a href="#" onClick="MyWindow=window.open('totais_estacoes_rede.php?nu_totais_estacoes=<?php echo $nu_totais_estacoes;?>', 'newWindow','toolbar=no,location=no,scrollbars=yes,menubar=no');
+				MyWindow.document.close()"><img src="<?php echo $img_totals;?>" border=no width=16 height=16 Title="Totais de Estações por Sistema Operacional"></a>				
+				<?php echo "</tr>";				
 				}
 			  $cnt=0;
 			  while ($cnt<count($tree))
@@ -721,16 +717,16 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 														  '&nu_totais_estacoes='.$nu_totais_estacoes;
 
 						?>
-						<a href="#" onClick="MyWindow=window.open('<? echo $v_path; ?>', 'JANELA','toolbar=no,location=no,scrollbars=yes,menubar=no');
-						MyWindow.document.close()"><img src="<? echo $img_totals;?>" border=no width=16 height=16 Title="Totais de Estações por Sistema Operacional"></a>				
-						<?
+						<a href="#" onClick="MyWindow=window.open('<?php echo $v_path; ?>', 'JANELA','toolbar=no,location=no,scrollbars=yes,menubar=no');
+						MyWindow.document.close()"><img src="<?php echo $img_totals;?>" border=no width=16 height=16 Title="Totais de Estações por Sistema Operacional"></a>				
+						<?php
 						}
 
 					// Atenção: foi necessário usar a condição "id_grupo_usuarios" abaixo devido ao "cs_nivel_administracao" == 0
 					if ($tree[$cnt][0]==2 && ($_SESSION["cs_nivel_administracao"] <> 0 || $_SESSION["id_grupo_usuarios"] == 7))
 						{
 						if ($_SESSION["cs_nivel_administracao"] <> 0 || $_SESSION["id_grupo_usuarios"] == 7)
-							echo "<a href=../admin/redes/detalhes_rede.php?id_ip_rede=".$tree[$cnt][6]."&id_local=".$tree[$cnt][17]." target='_blank'><img src=\"".$img_details."\" border=no width=16 height=16 Title='Detalhes da SubRede'></a>";						
+							echo "<a href=../admin/redes/detalhes_rede.php?id_rede=".$tree[$cnt][6]."&id_local=".$tree[$cnt][17]." target='_blank'><img src=\"".$img_details."\" border=no width=16 height=16 Title='Detalhes da SubRede'></a>";						
 							
 						if ($tree[$cnt][21])
 							echo "<img src=\"".$img_authentication_server."\" border=no width=16 height=16 Title='Sub-Rede Associada ao Servidor de Autenticação \"".$tree[$cnt][21]."\"'>";												

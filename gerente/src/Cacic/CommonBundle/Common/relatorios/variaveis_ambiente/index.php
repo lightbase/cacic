@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -26,7 +26,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 		$id_acao = 'cs_coleta_hardware';
   require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Relat&oacute;rio 
       de Vari&aacute;veis de Ambiente</td>
@@ -44,9 +44,9 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
   </tr>
 </table>
 <form action="../variaveis_ambiente/variaveis.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-  <table width="90%" border="0" align="center">
+  <table width="85%" border="0" align="center">
     <tr> 
-	<?
+	<?php
 	/*
   if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
   	{
@@ -78,7 +78,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list11[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <?
+                        <?php
                         $query = "SELECT 	id_local,
 											sg_local
                                   FROM 		locais
@@ -115,7 +115,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
     <tr> 
       <td valign="top">&nbsp;</td>
     </tr>  
-	<?
+	<?php
 	}
 	*/
 	?>	
@@ -143,7 +143,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list5[]" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? 	$query = "SELECT id_variavel_ambiente, nm_variavel_ambiente
+                        <?php 	$query = "SELECT id_variavel_ambiente, nm_variavel_ambiente
 									  FROM variaveis_ambiente
 									  ORDER BY nm_variavel_ambiente";
 
@@ -164,9 +164,8 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 												redes r,
 												computadores c
 									  WHERE     va.id_variavel_ambiente = vae.id_variavel_ambiente AND 
-									            vae.te_node_address = c.te_node_address AND
-												vae.id_so = c.id_so AND 
-												r.id_ip_rede = c.id_ip_rede AND ".
+									            vae.id_computador = c.id_computador AND
+												r.id_rede = c.id_rede AND ".
 												$where."
 									  ORDER BY 	va.nm_variavel_ambiente";
 						$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela variaveis_ambiente ou sua sessão expirou!');
@@ -211,7 +210,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  
+        <?php  
 		$cs_situacao = 'T';
 		$v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
@@ -224,7 +223,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>
+        <?php  require_once('../../include/selecao_so_inc.php');		?>
       </td>
     </tr>
     <tr> 
@@ -240,7 +239,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
           </tr>
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
+                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<?php echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
 																										SelectAll(this.form.elements['list4[]']), 
 																										SelectAll(this.form.elements['list6[]'])">
               </div></td>

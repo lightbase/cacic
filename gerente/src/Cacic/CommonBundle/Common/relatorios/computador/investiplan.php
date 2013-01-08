@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -42,25 +42,25 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
+<?php
 	 $query = "SELECT a.te_nome_computador as nm_maquina, 
 			  a.te_placa_video_desc, a.te_cpu_desc, 
 			  a.te_placa_mae_desc, a.te_cpu_freq, 
-			  a.te_node_address, a.id_so  
+			  a.te_node_address, a.id_so,a.id_computador  
 		FROM computadores a 
 		WHERE (a.te_cpu_desc NOT LIKE '%ibm%') AND 
 		      (a.te_cpu_desc NOT LIKE '%duron%') AND 
@@ -96,28 +96,28 @@ $linha = '<tr bgcolor="#e7e7e7">
 	  <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Freq.</font></strong></div></td>
 	  <td nowrap >&nbsp;&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $NumRegistro; ?></font></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['nm_maquina']; ?></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_placa_video_desc']; ?></font></td>
+	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['te_placa_video_desc']; ?></font></td>
           <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_cpu_desc']; ?></font></td>
+	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['te_cpu_desc']; ?></font></td>
           <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_placa_mae_desc']; ?></font></td>
+	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['te_placa_mae_desc']; ?></font></td>
           <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_cpu_freq']; ?></font></td>
+	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['te_cpu_freq']; ?></font></td>
 	  <td nowrap>&nbsp;&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

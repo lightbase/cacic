@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -39,7 +39,7 @@ $row = @mysql_fetch_array($result)
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Atualizar Grupos</title>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 
 <style type="text/css">
 <!--
@@ -54,7 +54,7 @@ body {
 </style>
 </head>
 <body scroll="no" bgcolor="#FFFFFF" background="../../../imgs/linha_v.gif">
-<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0"> 
+<table width="85%" border="0" align="center" cellpadding="0" cellspacing="0"> 
   <tr> 
     <td class="cabecalho">Atualizar grupos</td>
   </tr>
@@ -68,12 +68,12 @@ body {
     <td class="descricao">
       <form name="form1" method="post" action="">
         <select name="id_si_grupo" id="id_si_grupo" class="normal" onChange="document.form1.submit()">
-          <? while($rowG = mysql_fetch_array($resultG)) {?>
-          <option value="<? echo $rowG['id_si_grupo']; ?>" <? if ($row['id_si_grupo']==$rowG['id_si_grupo']){?>selected<? }?>><? echo $rowG['nm_si_grupo']; ?></option>
-          <? }?>
+          <?php while($rowG = mysql_fetch_array($resultG)) {?>
+          <option value="<?php echo $rowG['id_si_grupo']; ?>" <?php if ($row['id_si_grupo']==$rowG['id_si_grupo']){?>selected<?php }?>><?php echo $rowG['nm_si_grupo']; ?></option>
+          <?php }?>
         </select>
-        <input name="id_software_inventariado" type="hidden" id="id_software_inventariado" value="<? echo $_REQUEST["id_software_inventariado"]?>">
-        <input name="numero" type="hidden" id="numero" value="<? echo $_REQUEST["numero"]?>">
+        <input name="id_software_inventariado" type="hidden" id="id_software_inventariado" value="<?php echo $_REQUEST["id_software_inventariado"]?>">
+        <input name="numero" type="hidden" id="numero" value="<?php echo $_REQUEST["numero"]?>">
         <input name="Submit" type="hidden" id="Submit">
       </form></td>
   </tr>

@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -24,7 +24,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
-<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
+<link href="../../include/css/cacic.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
@@ -43,25 +43,25 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
-	 $query = "SELECT a.te_ip as ip_maquina, count(*) as qtde 
+<?php
+	 $query = "SELECT a.te_ip_computador as ip_maquina, count(*) as qtde 
 		FROM computadores a 
-		GROUP BY a.te_ip HAVING count(*) > 1 
-		ORDER BY qtde desc, a.te_ip"; 
+		GROUP BY a.te_ip_computador HAVING count(*) > 1 
+		ORDER BY qtde desc, a.te_ip_computador"; 
 	$result = mysql_query($query) or die('Erro no acesso à tabela "computadores" ou sua sessão expirou!');
 ?>
 <table border="0" align="center" cellpadding="0" cellspacing="1">
@@ -83,22 +83,22 @@ $linha = '<tr bgcolor="#e7e7e7">
 	  <td class="cabecalho_tabela" nowrap ><div align="center">Registros</div></td>
 	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-          <td class="dado_med_sem_fundo" nowrap><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td class="dado_med_sem_fundo" nowrap><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-          <td class="dado_med_sem_fundo" nowrap><div align="left"><a href="rel_ips_repetidos.php?te_ip=<? echo $row['ip_maquina'];?>" target="_blank"><? echo $row['ip_maquina']; ?></div></td>
+          <td class="dado_med_sem_fundo" nowrap><div align="left"><a href="rel_ips_repetidos.php?te_ip=<?php echo $row['ip_maquina'];?>" target="_blank"><?php echo $row['ip_maquina']; ?></div></td>
           <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-	  <td class="dado_med_sem_fundo" align="center" nowrap><? echo $row['qtde']; ?></td>
+	  <td class="dado_med_sem_fundo" align="center" nowrap><?php echo $row['qtde']; ?></td>
 	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

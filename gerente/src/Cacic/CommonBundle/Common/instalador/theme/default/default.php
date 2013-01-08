@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: index.php 2007-02-08 22:20 harpiain $
+* @version $Id: default.php,v 1.1.1.1 2012/09/14 16:01:09 d302112 Exp $
 * @package Cacic-Install
 * @subpackage Instalador
 * @copyright Copyright (C) 2007 Adriano dos Santos Vieira. All rights reserved.

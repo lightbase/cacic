@@ -1,4 +1,5 @@
-<? session_start();
+<?php
+session_start();
 require_once('../../include/library.php');
 
 if($_POST['submit']) 
@@ -59,7 +60,7 @@ if($_POST['submit'])
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?=$oTranslator->_('Relatorio de configuracoes do antivirus officeScan');?></title>
+<title><?php echo $oTranslator->_('Relatorio de configuracoes do antivirus officeScan');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -79,14 +80,14 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr bgcolor="#E1E1E1"> 
     <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
-      <strong><?=$oTranslator->_('Relatorio de configuracoes do antivirus officeScan');?></strong></font></td>
+      <strong><?php echo $oTranslator->_('Relatorio de configuracoes do antivirus officeScan');?></strong></font></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-        <?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
+        <?php echo $oTranslator->_('Gerado em');?> <?php echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
   </tr>
 </table>
 <br>
@@ -95,7 +96,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 */
 ?>
-<? 
+<?php 
 require_once('../../include/RelatorioHTML.php');
 require_once('../../include/RelatorioPDF.php');
 require_once('../../include/RelatorioODS.php');
@@ -115,7 +116,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 	for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-	$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+	$query_redes = 'AND id_rede IN ('. $redes_selecionadas .')';
 	}
 else
 	{
@@ -124,7 +125,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+	$query_redes = 'AND computadores.id_rede = redes.id_rede AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
 	$select = ' ,sg_local as "Local" ';	
@@ -162,12 +163,13 @@ $query = 'SELECT 	DISTINCT computadores.te_node_address,
 					UNIX_TIMESTAMP(computadores.dt_hr_ult_acesso) as "ult_acesso",
 					computadores.te_nome_computador as "Nome Comp.", 				
 					so.sg_so as "S.O.", 
-					computadores.te_ip as "IP"' .
+					computadores.te_ip_computador as "IP",
+					computadores.id_computador ' .					
           			$campos_software . 
 					$select . ' 
 		  FROM 		so,
 		  			computadores 
-		  			LEFT JOIN officescan ON computadores.te_node_address = officescan.te_node_address and computadores.id_so = officescan.id_so '.
+		  			LEFT JOIN officescan ON computadores.id_computador = officescan.id_computador '.
 					$_SESSION["te_servidor"].
 					$from. ' 		 
 		  WHERE  	TRIM(computadores.te_nome_computador) <> "" AND 
@@ -232,13 +234,13 @@ for ($i=3; $i < mysql_num_fields($result); $i++)
 // Caso seja selecionada a exibição de Informações Patrimoniais...
 if ($_SESSION['cs_exibe_info_patrimonial']<>'')
 	{
-	$strTripaMacSO = '';
+	$strTripaIdComputador = '';
 
 	// Foi necessário implementar essa P.O.G. devido a erro #1054 do MySQL 5.x!!!		
 	while ($row = mysql_fetch_array($result))
 		{
-		$strTripaMacSO .= ($strTripaMacSO <> ''?',':'');
-		$strTripaMacSO .= '"'.$row['te_node_address'].'_'.$row['id_so'].'"';		
+		$strTripaIdComputador .= ($strTripaIdComputador ? ',' : '');
+		$strTripaIdComputador .= $row['id_computador'];		
 		}
 		
 	// Restauro o ponteiro da consulta
@@ -250,7 +252,7 @@ if ($_SESSION['cs_exibe_info_patrimonial']<>'')
 				  WHERE	 id_local = '.$_SESSION['id_local'];
 	$result_pat = mysql_query($query_pat);	
 
-	$select_pat = 'pat.te_node_address,pat.id_so';
+	$select_pat = 'pat.id_computador ';
 	
 
 	while ($row_pat = mysql_fetch_array($result_pat))
@@ -292,8 +294,7 @@ if ($_SESSION['cs_exibe_info_patrimonial']<>'')
 					patrimonio pat,
 					computadores comp';
 					
-	$where_pat = '  comp.te_node_address = pat.te_node_address AND 
-					comp.id_so = pat.id_so AND 
+	$where_pat = '  comp.id_computador = pat.id_computador AND 
 					pat.id_unid_organizacional_nivel1a = uon1a.id_unid_organizacional_nivel1a AND
 					pat.id_unid_organizacional_nivel2  = uon2.id_unid_organizacional_nivel2 AND
 					uon1a.id_unid_organizacional_nivel1a = uon2.id_unid_organizacional_nivel1a AND
@@ -301,21 +302,21 @@ if ($_SESSION['cs_exibe_info_patrimonial']<>'')
 	$query_pat = ' SELECT ' .$select_pat.
 				 ' FROM '	.$from_pat.
 				 ' WHERE '	.$where_pat.
-				 		 ' AND concat(pat.te_node_address,"_",pat.id_so) in ('.$strTripaMacSO.') '; 
+				 		 ' AND pat.id_computador in ('.$strTripaIdComputador.') '; 
 	
 	$result_pat = mysql_query($query_pat);
 	while ($row_pat = mysql_fetch_array($result_pat))
 		{
-		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['uon1']  							= $row_pat[2];
-		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['uon1a'] 							= $row_pat[3];
-		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['uon2']  							= $row_pat[4];				
-		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_localizacao_complementar']  	= $row_pat[5];						
-		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio1']  			= $row_pat[6];								
-		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio2'] 	 		= $row_pat[7];								
-		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio3']  			= $row_pat[8];								
-		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio4']  			= $row_pat[9];								
-		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio5']  			= $row_pat[10];								
-		$arrMacSO[$row_pat['te_node_address'].'_'.$row_pat['id_so']]['te_info_patrimonio6']  			= $row_pat[11];																		
+		$strTripaIdComputador[$row_pat['id_computador']]['uon1']  							= $row_pat[2];
+		$strTripaIdComputador[$row_pat['id_computador']]['uon1a'] 							= $row_pat[3];
+		$strTripaIdComputador[$row_pat['id_computador']]['uon2']  							= $row_pat[4];				
+		$strTripaIdComputador[$row_pat['id_computador']]['te_localizacao_complementar']  	= $row_pat[5];						
+		$strTripaIdComputador[$row_pat['id_computador']]['te_info_patrimonio1']  			= $row_pat[6];								
+		$strTripaIdComputador[$row_pat['id_computador']]['te_info_patrimonio2'] 	 		= $row_pat[7];								
+		$strTripaIdComputador[$row_pat['id_computador']]['te_info_patrimonio3']  			= $row_pat[8];								
+		$strTripaIdComputador[$row_pat['id_computador']]['te_info_patrimonio4']  			= $row_pat[9];								
+		$strTripaIdComputador[$row_pat['id_computador']]['te_info_patrimonio5']  			= $row_pat[10];								
+		$strTripaIdComputador[$row_pat['id_computador']]['te_info_patrimonio6']  			= $row_pat[11];																		
 		}						 
 	}
 
@@ -350,43 +351,43 @@ foreach ($table as $row)
 	if ($_SESSION['cs_exibe_info_patrimonial']<>'')
 	{
 		#echo '<td nowrap align="left">';
-		$row[] =  '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['uon1'].'</font>';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$strTripaIdComputador[$row[6]]['uon1'].'</font>';
 		#echo '&nbsp;</td>'; 				
 
 		#echo '<td nowrap align="left">';
-		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['uon1a'].'</font>';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$strTripaIdComputador[$row[6]]['uon1a'].'</font>';
 		#echo '&nbsp;</td>'; 				
 
 		#echo '<td nowrap align="left">';
-		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['uon2'].'</font>';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$strTripaIdComputador[$row[6]]['uon2'].'</font>';
 		#echo '&nbsp;</td>'; 				
 
 		#echo '<td nowrap align="left">';
-		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_localizacao_complementar'].'</font>';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$strTripaIdComputador[$row[6]]['te_localizacao_complementar'].'</font>';
 		#echo '&nbsp;</td>'; 				
 
 		#echo '<td nowrap align="left">';
-		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio1'].'</font>';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$strTripaIdComputador[$row[6]]['te_info_patrimonio1'].'</font>';
 		#echo '&nbsp;</td>'; 				
 
 		#echo '<td nowrap align="left">';
-		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio2'].'</font>';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$strTripaIdComputador[$row[6]]['te_info_patrimonio2'].'</font>';
 		#echo '&nbsp;</td>'; 				
 
 		#echo '<td nowrap align="left">';
-		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio3'].'</font>';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$strTripaIdComputador[$row[6]]['te_info_patrimonio3'].'</font>';
 		#echo '&nbsp;</td>'; 				
 
 		#echo '<td nowrap align="left">';
-		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio4'].'</font>';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$strTripaIdComputador[$row[6]]['te_info_patrimonio4'].'</font>';
 		#echo '&nbsp;</td>'; 				
 
 		#echo '<td nowrap align="left">';
-		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio5'].'</font>';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$strTripaIdComputador[$row[6]]['te_info_patrimonio5'].'</font>';
 		#echo '&nbsp;</td>'; 				
 
 		#echo '<td nowrap align="left">';
-		$row[] = '<font size="1" face="Verdana, Arial">'.$arrMacSO[$row[0].'_'.$row[1]]['te_info_patrimonio6'].'</font>';
+		$row[] =  '<font size="1" face="Verdana, Arial">'.$strTripaIdComputador[$row[6]]['te_info_patrimonio6'].'</font>';
 		#echo '&nbsp;</td>'; 				
 		
 	}
@@ -442,7 +443,7 @@ function exibe_row($num_registro, $cor, $row, $fields, $strTripaColunasValidas)
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[3] ."</a>&nbsp;</td>";
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row[6] ."' target='_blank'>" . $row[3] ."</a>&nbsp;</td>";
 
 	for ($i=4; $i < $fields; $i++) 
 	{
@@ -475,12 +476,12 @@ if (count($_SESSION["list8"])>0)
 	}
 */
 ?>
-<?
+<?php
 /*
 </p>
 
 <p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-  <?=$oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+  <?php echo $oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: index.php 2007-02-08 22:20 harpiain $
+ * @version $Id: install.ajax.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package Cacic-Installer
  * @subpackage Instalador
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>
@@ -248,7 +248,7 @@ class InstallAjax {
 		$fileContent = '<?php
     /*
      * Arquivo de configuracoes para o CACIC
-     * @version $Id: config.php 2007-02-08 22:20 harpiain $
+     * @version $Id: install.ajax.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
      * @package Cacic
      * @license GNU/GPL, see LICENSE.php
      */
@@ -301,12 +301,12 @@ class InstallAjax {
    /*
      * Caminho fisico para componentes de instalação, coleta avulsa de informações patrimoniais e cliente de Suporte Remoto
      */
-    $path_relativo_repositorio_instalacao  = "'.addslashes(CACIC_PATH_RELATIVO_REPOSITORIO_INSTALACAO).'";
+    $path_RELATIVO_DOWNLOADS_instalacao  = "'.addslashes(CACIC_PATH_RELATIVO_DOWNLOADS_INSTALACAO).'";
 
     /*
      * Atencao:
      * As chaves abaixo, ate a presente versao, sao assimeticas, ou seja, 
-     * caso seja necessario altera-las, os agentes "Cacic2.exe", "ChkCacic.exe" e   
+     * caso seja necessario altera-las, os agentes "CacicXXX.exe", "InstallCACIC.exe" e   
      * "ChkSis.exe" tambem deverao ser alterados, via programacao Delphi 7.
      */
     $key = "'.CACIC_KEY.'";

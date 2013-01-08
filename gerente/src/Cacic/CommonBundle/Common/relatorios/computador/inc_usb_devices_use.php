@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -31,15 +31,15 @@ else
     <td colspan="6" height="1" bgcolor="#333333"></td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td class="cabecalho_tabela" colspan="6">&nbsp;<a href="computador.php?exibir=usb_device_use&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
-      <img src="../../imgs/<? if($_SESSION['usb_device_use'] == true) echo 'menos';
+    <td class="cabecalho_tabela" colspan="6">&nbsp;<a href="computador.php?exibir=usb_device_use&id_computador=<?php echo $_GET['id_computador']?>"> 
+      <img src="../../imgs/<?php if($_SESSION['usb_device_use'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0">
-   			 <?=$oTranslator->_('Informações Sobre Utilização de Dispositivos USB');?></a></td>
+   			 <?php echo $oTranslator->_('Informações Sobre Utilização de Dispositivos USB');?></a></td>
   </tr>
   <tr>
     <td colspan="6" height="1" bgcolor="#333333"></td>
   </tr>
-  <?
+  <?php
 	if ($_SESSION['usb_device_use'] == true) 
 		{
 		$linha = '	<tr bgcolor="'.$strCorDaLinha.'"> 
@@ -47,25 +47,28 @@ else
 					</tr>';		
 		?>
 		<tr> 
-		<td class="cabecalho_tabela">&nbsp;<u><?=$oTranslator->_('Fabricante');?></u></td>
-		<td class="cabecalho_tabela"><u><?=$oTranslator->_('Dispositivo');?></u></td>		
-		<td class="cabecalho_tabela"><u><?=$oTranslator->_('Data/Hora');?></u></td>	
-		<td class="cabecalho_tabela"><u><?=$oTranslator->_('Evento');?></u></td>	
+		<td class="cabecalho_tabela">&nbsp;<u><?php echo $oTranslator->_('Fabricante');?></u></td>
+		<td class="cabecalho_tabela"><u><?php echo $oTranslator->_('Dispositivo');?></u></td>		
+		<td class="cabecalho_tabela"><u><?php echo $oTranslator->_('Data/Hora');?></u></td>	
+		<td class="cabecalho_tabela"><u><?php echo $oTranslator->_('Evento');?></u></td>	
 		</tr>
-		<?		
+		<?php		
 		echo $linha;
-		$query = "	SELECT 		usb_vendors.id_vendor,
-								usb_vendors.nm_vendor,
-								usb_devices.id_device,
-								usb_devices.nm_device,
-								usb_logs.dt_event,
-								usb_logs.cs_event
-					FROM 		usb_logs
-								LEFT JOIN usb_vendors ON usb_logs.id_vendor = usb_vendors.id_vendor
-				 				LEFT JOIN usb_devices ON usb_logs.id_vendor = usb_devices.id_vendor AND usb_logs.id_device = usb_devices.id_device
-					WHERE 		usb_logs.te_node_address = '".$_GET['te_node_address']."' AND
-								usb_logs.id_so = '". $_GET['id_so'] ."' 
-					ORDER BY	usb_logs.dt_event DESC";
+		$query = "	SELECT 		v.id_vendor,
+								v.nm_vendor,
+								d.id_device,
+								d.nm_device,
+								l.dt_event,
+								l.cs_event
+					FROM 		usb_logs l,
+								usb_devices d,
+								usb_vendors v
+					WHERE 		trim(l.te_node_address) = '".trim($_GET['te_node_address'])."' AND
+								trim(l.id_so) = '". ($_GET['id_so']) ."' AND 
+								l.id_vendor = d.id_vendor AND
+								l.id_device = d.id_device AND
+								v.id_vendor = d.id_vendor 
+					ORDER BY	l.dt_event DESC";
 		//echo $query.'<br>';					
 		$result_usb_use = mysql_query($query);
 		$v_achei = 0;
@@ -78,13 +81,13 @@ else
 			$v_achei = 1;
 			$intContaItem ++;
 			?>
-			<tr bgcolor="<? echo $strCor;?>"> 
-			<td class="descricao">&nbsp;<? echo $row['id_vendor'] . ($row['nm_vendor'] <> ''?' - ' . $row['nm_vendor']:'Fabricante Desconhecido'); ?></td>
-			<td class="descricao"><? echo $row['id_device'] . ($row['nm_device'] <> ''?' - ' . $row['nm_device']:'Dispositivo Desconhecido'); ?></td>
-			<td class="descricao"><? echo substr($row['dt_event'],6,2).'/'.substr($row['dt_event'],4,2).'/'.substr($row['dt_event'],0,4).' às '.substr($row['dt_event'],8,2).':'.substr($row['dt_event'],10,2).'h'; ?></td>	
-			<td class="descricao"><? echo ($row['cs_event']=='I'?'Inserção':'Remoção'); ?></td>	
+			<tr bgcolor="<?php echo $strCor;?>"> 
+			<td class="descricao">&nbsp;<?php echo '('.$row['id_vendor'] . ') ' . $row['nm_vendor']; ?></td>
+			<td class="descricao"><?php echo '('.$row['id_device'] . ') ' . $row['nm_device']; ?></td>
+			<td class="descricao"><?php echo substr($row['dt_event'],6,2).'/'.substr($row['dt_event'],4,2).'/'.substr($row['dt_event'],0,4).' às '.substr($row['dt_event'],8,2).':'.substr($row['dt_event'],10,2).'h'; ?></td>	
+			<td class="descricao"><?php echo ($row['cs_event']=='I'?'Inserção':'Remoção'); ?></td>	
 			</tr>
-			<?
+			<?php
 			echo $linha;
 			}
 		if (!$v_achei)

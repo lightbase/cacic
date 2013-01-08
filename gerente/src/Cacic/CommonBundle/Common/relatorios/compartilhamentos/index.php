@@ -1,4 +1,4 @@
-<?
+<?php
 /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -21,13 +21,13 @@ Com o objetivo de desenvolver um relatorio de pastas compartilhadas.
 	$id_acao = 'cs_coleta_software';
   	require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><?=$oTranslator->_('Relatorio de pastas compartilhadas');?></td>
+    <td class="cabecalho"><?php echo $oTranslator->_('Relatorio de pastas compartilhadas');?></td>
   </tr>
   <tr> 
     <td class="descricao">
-      <?=$oTranslator->_('Relatorio que exibe os compartilhamentos nos microcomputadores das redes selecionadas');?>
+      <?php echo $oTranslator->_('Relatorio que exibe os compartilhamentos nos microcomputadores das redes selecionadas');?>
     </td>
   </tr>
   <tr> 
@@ -36,10 +36,10 @@ Com o objetivo de desenvolver um relatorio de pastas compartilhadas.
   </tr>
 </table>
 <form action="rel_compartilhamentos.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="valida_form()">
-  <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="5" cellspacing="1">
     <tr> 
       <td valign="top"> 
-        <? /* require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/selecao_redes_inc.php'); */
+        <?php /* require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/selecao_redes_inc.php'); */
 		$cs_situacao = 'T';	
 		$v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
@@ -52,7 +52,7 @@ Com o objetivo de desenvolver um relatorio de pastas compartilhadas.
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>
+        <?php  require_once('../../include/selecao_so_inc.php');		?>
       </td>
     </tr>
     <tr> 
@@ -68,13 +68,13 @@ Com o objetivo de desenvolver um relatorio de pastas compartilhadas.
           </tr>
           <tr> 
             <td> <div align="center"> 
-				<?
+				<?php
                 //<input name="submit" type="submit" id="submit" onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['list8[]'])" value="     Gerar Relat&oacute;rio     ">
                 //<input name="submit" type="submit" id="submit" onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]'])" value="     Gerar Relat&oacute;rio     ">
 				?>
-                <input name="submit" type="submit" id="submit" onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
+                <input name="submit" type="submit" id="submit" onClick="ChecaTodasAsRedes(),<?php echo ($_SESSION['cs_nivel_administracao']<>1 && 
 																				 $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
-																		SelectAll(this.form.elements['list4[]'])" value="<?=$oTranslator->_('Gerar relatorio');?>">
+																		SelectAll(this.form.elements['list4[]'])" value="<?php echo $oTranslator->_('Gerar relatorio');?>">
               </div></td>
           </tr>
           <tr> 

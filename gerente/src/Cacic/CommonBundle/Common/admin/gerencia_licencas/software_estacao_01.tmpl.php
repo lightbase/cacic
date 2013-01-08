@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: software_estacao_01.tmpl.php 2009-10-12 14:06 harpiain $
+ * @version $Id: software_estacao_01.tmpl.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package CACIC-Admin
  * @subpackage GerenciaLicencas
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>
@@ -21,9 +21,9 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 	<link href="{CACIC_URL}/admin/gerencia_licencas/aquisicoes_01.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript" type="text/javascript" src="{CACIC_URL}/admin/gerencia_licencas/software_estacao_01.js"></script>
 	
-    <script src="{CACIC_URL}/include/sniffer.js" type="text/javascript" language="javascript"></script>
-    <script src="{CACIC_URL}/include/dyncalendar.js" type="text/javascript" language="javascript"></script>
-    <link href="{CACIC_URL}/include/dyncalendar.css" media="screen" rel="stylesheet">
+    <script src="{CACIC_URL}/include/js/sniffer.js" type="text/javascript" language="javascript"></script>
+    <script src="{CACIC_URL}/include/js/dyncalendar.js" type="text/javascript" language="javascript"></script>
+    <link href="{CACIC_URL}/include/css/dyncalendar.css" media="screen" rel="stylesheet">
 </softwareEstacao:tmpl>
 
 <softwareEstacao:tmpl name="SoftwareEstacao_form">

@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -54,7 +54,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+		$query_redes = 'AND id_rede IN ('. $redes_selecionadas .')';
 		//}	
 	}
 else
@@ -64,7 +64,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$query_redes = 'AND comp.id_ip_rede = redes.id_ip_rede AND 
+	$query_redes = 'AND comp.id_rede = redes.id_rede AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
 	$select = ' ,sg_local as Local ';	
@@ -95,7 +95,8 @@ else
    $query =  "SELECT 
    			  distinct 		comp.te_nome_computador,
 							comp.id_so, 
-							comp.te_node_address " . 
+							comp.te_node_address, 
+							comp.id_computador " . 							
 							$campos_hardware .
 							$select . " 
 			  FROM 			historico_hardware hist, 
@@ -103,8 +104,7 @@ else
 							$from . " 
 			  WHERE 		DATE_FORMAT(hist.dt_hr_alteracao, '%Y%m%d') >= DATE_FORMAT('" . $_SESSION["data_ini"] . "', '%Y%m%d') AND 
 							DATE_FORMAT(hist.dt_hr_alteracao, '%Y%m%d') <= DATE_FORMAT('" . $_SESSION["data_fim"] . "', '%Y%m%d') AND 
-							comp.te_node_address = hist.te_node_address AND 
-							comp.id_so = hist.id_so ".
+							comp.id_computador = hist.id_computador ".
 							$query_redes. " 
 			  ORDER BY 		$orderby ";
 //echo $query . '<br>';
@@ -144,7 +144,7 @@ if (mysql_num_rows($result) > 0)
       </tr>
       <tr> 
         <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-            em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+            em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
       </tr>
     </table>
     <br>
@@ -152,7 +152,7 @@ if (mysql_num_rows($result) > 0)
     <br>
     <br>
     
-    <?
+    <?php
 	$cor = 0;
 	$num_registro = 1;
 	
@@ -173,7 +173,7 @@ if (mysql_num_rows($result) > 0)
 		if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 		echo '>';
 		echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>';
-		echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[2] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
+		echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row[3] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
 		for ($i=3; $i < $fields; $i++) 
 			echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
 	
@@ -201,7 +201,7 @@ if (mysql_num_rows($result) > 0)
 	  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 	</body>
 	</html>    
-    <?		
+    <?php		
 	}
 else
 	{
