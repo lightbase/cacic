@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -42,7 +42,7 @@ if($_POST['submit']) {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?=$oTranslator->_('Relatorio de alteracoes de software');?></title>
+<title><?php echo $oTranslator->_('Relatorio de alteracoes de software');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -65,7 +65,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
        <div align="center">
         <font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
          <strong>
-           <?=$oTranslator->_('Relatorio de alteracoes de software');?>
+           <?php echo $oTranslator->_('Relatorio de alteracoes de software');?>
         </strong>
        </font>
       </div>
@@ -76,14 +76,14 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-     <?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+     <?php echo $oTranslator->_('Gerado em');?> <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<? 
+<?php 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
 conecta_bd_cacic();
 
@@ -94,7 +94,7 @@ $redes_selecionadas = '';
 	for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) {
 		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 //	}
-	$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+	$query_redes = 'AND id_rede IN ('. $redes_selecionadas .')';
 }
 
 // Aqui pego todos os SO selecionados
@@ -119,12 +119,12 @@ else { $orderby = '1'; }
 		
    $query =  "SELECT distinct 	comp.te_nome_computador,
 								comp.id_so, 
-								comp.te_node_address" . $campos_hardware .
+								comp.te_node_address,
+								comp.id_computador " . $campos_hardware .
 			  " FROM historico_hardware hist, computadores comp
 			  WHERE DATE_FORMAT(hist.dt_hr_alteracao, '%Y%m%d') >= DATE_FORMAT('" . $_SESSION["data_ini"] . "', '%Y%m%d') 
 				AND DATE_FORMAT(hist.dt_hr_alteracao, '%Y%m%d') <=DATE_FORMAT('" . $_SESSION["data_fim"] . "', '%Y%m%d') 
-				AND comp.te_node_address = hist.te_node_address 
-				AND comp.id_so = hist.id_so $query_redes
+				AND comp.id_computador = hist.id_computador $query_redes
 			  ORDER BY $orderby ";
 
 	$result = mysql_query($query) or die ($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('historico_hardware')));
@@ -149,7 +149,7 @@ while ($row = mysql_fetch_row($result)) { //Table body
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>';
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[2] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row[3]."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
     for ($i=3; $i < $fields; $i++) {
 		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
 	}
@@ -171,7 +171,7 @@ if (count($_SESSION["list8"])>0)
 ?></p>
 <p></p>
 <p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-  <?=$oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+  <?php echo $oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>

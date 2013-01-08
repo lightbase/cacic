@@ -1,4 +1,4 @@
-<? 
+<?php 
 /*
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -19,10 +19,10 @@ require_once("include/library.php");
 ?>
 <html>
 <head>
-<title><?= $oTranslator->_('kciq_msg statistics');?></title>
+<title><?php echo $oTranslator->_('kciq_msg statistics');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="refresh" content="180">
-<link rel="stylesheet"   type="text/css" href="include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="include/css/cacic.css">
 <style type="text/css">
 <!--
 .style5 {
@@ -42,34 +42,12 @@ require_once("include/library.php");
 </head>
 
 <body bgcolor="#FFFFFF" background="imgs/linha_v.gif">
-<?
+<?php
 // Limita acesso a usuarios cadastrados e autenticados
 if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == '')) 
 	{ 
 	?>
-	<table width="90%" border="0" align="center">
-	<? if ($_SESSION['cs_nivel_administracao'] <> 0 && true==false)
-		{
-		?>
-		<tr>
-    	<td nowrap="nowrap" bgcolor="#FFFFCC"><div align="center">
-    	  <p><span class="style5"><u> CADPF</u></span><br />  
-            <br />
-            <span class="style8">O CACIC continua auxiliando no processo de atualiza&ccedil;&atilde;o(reinstala&ccedil;&atilde;o) do aplicativo <em><strong>CADPF - Cadastro de Pessoa F&iacute;sica</strong></em>.<br>
-            <br>
-        Ap&oacute;s o processo de atualiza&ccedil;&atilde;o, o nome correto 
-        para o servidor padr&atilde;o ser&aacute; &quot;<span class="style10">w3b3</span>&quot;.      	</p>
-    	  <p class="style11">A visualização dos quantitativos de estações de trabalho atualizadas/desatualizadas pode ser realizada atrav&eacute;s dos  links &quot;Estat&iacute;sticas / Sistemas Monitorados&quot;, <br>
-   	      selecionando-se o perfil &quot;<strong>CADPF - Identifica&ccedil;&atilde;o do Servidor Padr&atilde;o</strong>&quot;.</p>
-    	  </div>
-      	<p align="center" class="style1 style8 style13">Recomendamos especial aten&ccedil;&atilde;o  &agrave; op&ccedil;&atilde;o &quot;<em><strong>Sa&iacute;da Detalhada</strong></em>&quot;, na página de gera&ccedil;&atilde;o da consulta.</p>
-      	<p align="center" class="style1 style8 style12">Esse recurso do CACIC tamb&eacute;m est&aacute; ativo no servidor UXRJO115 (www-cacic)</p>
-      	<p align="center" class="style1 style8 style12">&nbsp;</p></td>
-  		</tr>			
-  		<tr><td></td></tr>
-		<?
-		}
-		?>
+	<table width="85%" border="0" align="center">
 
 	<tr>
 	<td class="cabecalho">
@@ -81,7 +59,7 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 	   ?>
 	</td>
 	</tr>
-	<? 
+	<?php 
 	// Reinicializo as variáveis para tratamento de gráficos
 	session_unregister('te_exibe_graficos');
 	
@@ -94,33 +72,33 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 		{		
 		?>
 		<tr><td>
-		<?
+		<?php
 		$_SESSION['in_grafico']	= 'acessos_locais';
 		if (substr_count($_SESSION['te_exibe_graficos'],'[acessos_locais]')>0)
 			echo '<img src="graficos/pie_acessos_locais.php" border="no">';
 		else
 			require "include/exibe_consultas_texto.php";					
-		?>
+		?>        
 		</td>
 		</tr>
 		<tr><td></td></tr>
 		<tr>
-		<td class="descricao"><div align="center"><?= $oTranslator->_('kciq_msg computadores monitorados hoje');?></div></td>
+		<td class="descricao"><div align="center"><?php echo  $oTranslator->_('kciq_msg computadores monitorados hoje');?></div></td>
 		</tr>  
 		<tr> 
 		<td height="1"  bgcolor="#e7e7e7"></td>
 		</tr>
 		<tr> 
-		<td>&nbsp;</td>
+		<td> </td>
 		</tr>
-		<?
+		<?php
 		}	
 	else
 		{
 		?>
 
 		<tr><td>
-		<?
+		<?php
 		$_SESSION['in_grafico']	= 'so';	
 		if ($_SESSION["cs_nivel_administracao"] <> 0)
 			echo '<a href="relatorios/software/rel_software.php?orderby=4&principal=so">';
@@ -140,7 +118,7 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 		<tr><td></td></tr>	
 		<tr> 
 		<td class="descricao"><div align="center">
-		<?
+		<?php
 		if ($_SESSION["cs_nivel_administracao"] <> 0)
 			echo '<a href="relatorios/software/rel_software.php?orderby=4&principal=so">';
 	
@@ -152,7 +130,7 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 		</div></td>
 		</tr>  
 	
-		<?
+		<?php
 		if ($_SESSION['te_locais_secundarios']  <> '' || 
 			$_SESSION["cs_nivel_administracao"] == 1  || 
 			$_SESSION["cs_nivel_administracao"] == 2  || 
@@ -165,11 +143,11 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 		</tr>
 		
 		<tr> 
-		<td>&nbsp;</td>
+		<td> </td>
 		</tr>
 		<tr> 
 		<td>
-		<? 
+		<?php 
 		$_SESSION['in_grafico']	= 'acessos';	
 		$te_title = $oTranslator->_('kciq_msg last agents access');
 			
@@ -187,7 +165,7 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 		<tr><td></td></tr>		
 		<tr> 
 		<td class="descricao"><div align="center">	
-		<?
+		<?php
 		if ($_SESSION["cs_nivel_administracao"] <> 0)
 			echo '<a href="relatorios/software/rel_software.php?orderby=6&principal=acessos">';
 	
@@ -200,7 +178,7 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 		</tr>  
 		</td>
 		</tr>
-		<?
+		<?php
 		$te_title = $oTranslator->_('kciq_msg last agents access per local');
 		if ($_SESSION['te_locais_secundarios']  <> '' || 
 			$_SESSION["cs_nivel_administracao"] == 1  || 
@@ -212,9 +190,9 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 			?>
 			<tr><td></td></tr>		
 			<tr> 
-			<td class="descricao"><div align="center"><?=$oTranslator->_('kciq_msg last agents access on local');?></div></td>
+			<td class="descricao"><div align="center"><?php echo $oTranslator->_('kciq_msg last agents access on local');?></div></td>
 			</tr>
-			<?
+			<?php
 			}
 			?>
 		<tr> 
@@ -222,16 +200,16 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 		</tr>
 		
 		<tr> 
-		<td>&nbsp;</td>
+		<td> </td>
 		</tr>
-		<?
+		<?php
 		if ($_SESSION["cs_nivel_administracao"] == 1 ||
 			$_SESSION["cs_nivel_administracao"] == 2 ||
 			$_SESSION["cs_nivel_administracao"] == 3)
 			{
 			?>
 			<tr><td>
-			<?
+			<?php
 			$_SESSION['in_grafico']	= 'locais';		
 			if (substr_count($_SESSION['te_exibe_graficos'],'[locais]')>0)
 				echo '<img src="graficos/pie_locais.php" border="no">';
@@ -243,23 +221,23 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 			</tr>
 			<tr><td></td></tr>		
 			<tr>
-			<td class="descricao"><div align="center"><?=$oTranslator->_('kciq_msg total of computers per local');?></div></td>
+			<td class="descricao"><div align="center"><?php echo $oTranslator->_('kciq_msg total of computers per local');?></div></td>
 			</tr>  
 			<tr> 
 			<td height="1"  bgcolor="#e7e7e7"></td>
 			</tr>
 			<tr> 
-			<td>&nbsp;</td>
+			<td> </td>
 			</tr>
-			<?
+			<?php
 			}
 			?>
 			<tr> 
-			<td>&nbsp;</td>
+			<td> </td>
 			</tr>
 			<tr> 
 			<td>
-			<? 
+			<?php 
 			if ($_SESSION["cs_nivel_administracao"] <> 0)
 				echo '<a href="relatorios/software/rel_software.php?orderby=6&principal=acessos_locais">';
 				
@@ -277,7 +255,7 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 			</tr>
 			<tr><td></td></tr>		
 			<tr> 
-			<td class="descricao"><div align="center"><? echo $te_title;?></div></td>
+			<td class="descricao"><div align="center"><?php echo $te_title;?></div></td>
 			</tr>
 			<tr> 
 			<td height="1"  bgcolor="#e7e7e7"></td>
@@ -285,23 +263,26 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 		
 		<tr> 
 		<td>
-		<? 
-		$_SESSION['in_grafico'] = 'mac';		
+                <tr><td></td></tr><tr><td class="cabecalho"><div align="center">*** TOTALIZAÇÃO SUSPENSA TEMPORARIAMENTE ***</div></td></tr>         
+ 
+		<?php 
+                /*
+		$_SESSION['in_grafico'] = 'mac';	
 		
 		// Insiro a consulta específica para Mac
 		require "include/monta_consulta_mac.php";			
 	
 		require "include/exibe_consultas_texto.php";					
-			
+		*/	
 		$te_title = $oTranslator->_('kciq_msg real total of computers mac based');
 		?>	
 		</td>
 		</tr>
 		<tr><td></td></tr>	
 		<tr> 
-		<td class="descricao"><div align="center"><? echo $te_title;?></div></td>
+		<td class="descricao"><div align="center"><?php echo $te_title;?></div></td>
 		</tr>
-		<?
+		<?php
 		/*
 		if ($_SESSION['te_locais_secundarios']  <> '' || 
 			$_SESSION["cs_nivel_administracao"] == 1  || 
@@ -317,18 +298,19 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 		<td height="1"  bgcolor="#e7e7e7"></td>
 		</tr>
 </table>
-		<?
+		<?php
 		}
 		?>
-	<table width="90%">
+	<table width="85%">
 	<tr><td height="30"></td></tr>
 	<tr><td class="descricao">
-	<p align="center">Desenvolvido pela Dataprev - Unidade Regional Esp&iacute;rito Santo 
-	<p align="center"><a href="http://www.anybrowser.org/campaign/anybrowser_br.html" target="_blank"><img src="imgs/anybrowser.gif" alt="Vis&iacute;vel por qualquer browser" width="88" height="31" border="0"></a>
+	<p align="center">Desenvolvido pela Dataprev - Unidade Regional Espírito Santo 
+	<p align="center"><a href="http://www.anybrowser.org/campaign/anybrowser_br.html" target="_blank"><img src="imgs/anybrowser.gif" alt="Visível por qualquer browser" width="88" height="31" border="0"></a>
 	</td></tr>
 	</table>
-    <?
+    <?php
 	}
 	?>
 </body>
+
 </html>

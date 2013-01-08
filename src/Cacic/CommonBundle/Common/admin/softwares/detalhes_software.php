@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -32,7 +32,7 @@ if ($_REQUEST['ExcluiSoftware'])
 			  FROM 		softwares 
 			  WHERE 	id_software = ".$_REQUEST['frm_id_software'];
 	mysql_query($query) or die('Falha de deleção na tabela softwares ou sua sessão expirou!');
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'softwares');				
+	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'softwares',$_SESSION["id_usuario"]);				
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/softwares/index.php&tempo=1");									 				
 	}
 elseif ($_POST['GravaAlteracoes']) 
@@ -46,7 +46,7 @@ elseif ($_POST['GravaAlteracoes'])
 			  			te_obs					= '".$_POST['frm_te_obs']."'
 			  WHERE 	id_software = ".$_REQUEST['frm_id_software'];
 	mysql_query($query) or die('Falha na atualização da tabela Softwares ou sua sessão expirou!');
-	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'softwares');
+	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'softwares',$_SESSION["id_usuario"]);
 			
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/softwares/index.php&tempo=1");									 					
 }
@@ -62,7 +62,7 @@ else {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
@@ -96,13 +96,13 @@ function valida_form()
 		return false;
 		}
 	
-	var ip = document.form.frm_id_ip_rede.value;
+	var ip = document.form.frm_te_ip.value;
 	var ipSplit = ip.split(/\./);
 	
 	if ( ip == "" ) 
 		{	
 		alert("Digite o IP da rede");
-		document.form.frm_id_ip_rede.focus();
+		document.form.frm_te_ip.focus();
 		return false;
 		}
 	else if ( document.form.frm_te_mascara_rede.value == "" ) 
@@ -163,7 +163,7 @@ function valida_form()
 		else 
 			{
 		    alert("O endereço TCP/IP da rede foi informado incorretamente.\nPor favor, informe-o, usando o formato X.X.X.0\nExemplo: 10.70.4.0");
-			document.form.frm_id_ip_rede.focus();
+			document.form.frm_te_ip.focus();
 			return false;
 			}
 		}
@@ -171,16 +171,16 @@ function valida_form()
 	}
 </script>
 </head>
-<?
+<?php
 $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
 $data = mysql_fetch_array($result);
 ?>
-<body <? if (!$pos) echo 'background="../../imgs/linha_v.gif"';?> onLoad="SetaCampo('<? echo ($_SESSION['cs_nivel_administracao']<>1?'frm_te_mascara_rede':'frm_id_local')?>')">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<body <?php if (!$pos) echo 'background="../../imgs/linha_v.gif"';?> onLoad="SetaCampo('<?php echo ($_SESSION['cs_nivel_administracao']<>1?'frm_te_mascara_rede':'frm_id_local')?>')">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form action="detalhes_software.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-      <td class="cabecalho">Detalhes do Software <i><? echo mysql_result($result, 0, 'nm_software'); ?></i></td>
+      <td class="cabecalho">Detalhes do Software <i><?php echo mysql_result($result, 0, 'nm_software'); ?></i></td>
   </tr>
   <tr> 
       <td class="descricao">As informa&ccedil;&otilde;es abaixo referem-se a um 
@@ -188,7 +188,7 @@ $data = mysql_fetch_array($result);
   </tr>
 </table>
 
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
       <td class="label"><br>
         Nome:</td>
@@ -198,8 +198,8 @@ $data = mysql_fetch_array($result);
     </tr>
     <tr> 
       <td>
-          <input name="frm_id_software" type="hidden" value="<?=$data['id_software'];?>"> 
-          <input name="frm_nm_software" type="text" size="50" maxlength="150"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['nm_software'];?>"> 
+          <input name="frm_id_software" type="hidden" value="<?php echo $data['id_software'];?>"> 
+          <input name="frm_nm_software" type="text" size="50" maxlength="150"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $data['nm_software'];?>"> 
       </td>
     </tr>
     <tr> 
@@ -210,7 +210,7 @@ $data = mysql_fetch_array($result);
     </tr>
     <tr> 
       <td nowrap>
-          <input name="frm_te_descricao_software" type="text" id="frm_te_descricao_software" size="50" maxlength="255" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['te_descricao_software'];?>">
+          <input name="frm_te_descricao_software" type="text" id="frm_te_descricao_software" size="50" maxlength="255" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $data['te_descricao_software'];?>">
       </td>
     </tr>
     <tr> 
@@ -222,7 +222,7 @@ $data = mysql_fetch_array($result);
     </tr>
     <tr> 
       <td nowrap>
-         <input name="frm_qt_licenca" type="text" id="frm_qt_licenca" size="11" maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['qt_licenca'];?>">
+         <input name="frm_qt_licenca" type="text" id="frm_qt_licenca" size="11" maxlength="11" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $data['qt_licenca'];?>">
       </td> 
     </tr>
     <tr> 
@@ -234,7 +234,7 @@ $data = mysql_fetch_array($result);
     </tr>
     <tr> 
       <td nowrap>
-         <input name="frm_nr_midia" type="text" id="frm_nr_midia"  size="11" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['nr_midia'];?>">
+         <input name="frm_nr_midia" type="text" id="frm_nr_midia"  size="11" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $data['nr_midia'];?>">
       </td>
     </tr>
     <tr> 
@@ -246,7 +246,7 @@ $data = mysql_fetch_array($result);
     </tr>
     <tr> 
       <td nowrap>
-         <input name="frm_te_local_midia" type="text" id="frm_te_local_midia" size="50" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['te_local_midia'];?>"> 
+         <input name="frm_te_local_midia" type="text" id="frm_te_local_midia" size="50" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $data['te_local_midia'];?>"> 
       </td>
     </tr>
     <tr> 
@@ -258,20 +258,20 @@ $data = mysql_fetch_array($result);
     </tr>
     <tr> 
       <td>
-         <input name="frm_te_obs" size="50" maxlength="200" id="frm_te_obs" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$data['te_obs'];?>">
+         <input name="frm_te_obs" size="50" maxlength="200" id="frm_te_obs" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $data['te_obs'];?>">
       </td>
     </tr>
     <tr> 
       <td>
-    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return valida_form();return Confirma('Confirma Informações para Local?');" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return valida_form();return Confirma('Confirma Informações para Local?');" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="ExcluiSoftware" type="submit" id="ExcluiSO" onClick="return Confirma('Confirma exclusao de software?');" value="Excluir software" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+    <input name="ExcluiSoftware" type="submit" id="ExcluiSO" onClick="return Confirma('Confirma exclusao de software?');" value="Excluir software" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
       </td>
     </tr>
   </table>
 </form>
 </body>
 </html>
-<?
+<?php
 }
 ?>

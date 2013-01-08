@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -25,10 +25,10 @@ foreach ($_SESSION["list8"] as $v)
 	<tr bgcolor="#E1E1E1" align="center">
 	<td nowrap align="center">
 	  <font size="2" face="Verdana, Arial">
-	    <?=$oTranslator->_('Estatisticas por');?> <? echo trim(str_replace('as ', '',substr($v_campo_estatistica,strpos($v_campo_estatistica,' ',1),strlen($v_campo_estatistica)))); ?></font></td></tr>
+	    <?php echo $oTranslator->_('Estatisticas por');?> <?php echo trim(str_replace('as ', '',substr($v_campo_estatistica,strpos($v_campo_estatistica,' ',1),strlen($v_campo_estatistica)))); ?></font></td></tr>
 	<tr>
 	<td nowrap align="center">
-	<?
+	<?php
 	
 	$v_nome_campo = substr($v_campo_estatistica,0,strpos($v_campo_estatistica,' ',1));		
 	
@@ -38,6 +38,6 @@ foreach ($_SESSION["list8"] as $v)
 	?>	
 	</td></tr>
 	</table>
-	<?
+	<?php
 	}
 ?>

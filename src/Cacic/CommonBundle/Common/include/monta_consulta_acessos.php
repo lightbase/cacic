@@ -1,4 +1,4 @@
-<?
+<?php
 $query ='SELECT 	to_days(curdate()) - to_days(dt_hr_ult_acesso) as nr_dias, count(*)
 		 FROM 		computadores,
 					redes,
@@ -6,7 +6,7 @@ $query ='SELECT 	to_days(curdate()) - to_days(dt_hr_ult_acesso) as nr_dias, coun
 		 WHERE  	computadores.id_so = so.id_so AND
 		 			computadores.te_nome_computador IS NOT NULL AND 
 		 			computadores.dt_hr_ult_acesso IS NOT NULL AND
-					computadores.id_ip_rede = redes.id_ip_rede '.
+					computadores.id_rede = redes.id_rede '.
 					$where . ' 
 		 GROUP BY 	nr_dias';
 conecta_bd_cacic();		 

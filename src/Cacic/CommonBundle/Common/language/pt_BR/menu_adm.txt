@@ -34,7 +34,7 @@
 ...Tipos de Licença|admin/gerencia_licencas/tipos_licenca.php|mainFrame||Controle de tipos de licenças
 ...Classificar Softwares|admin/gerencia_licencas/softwares_classificar.php|mainFrame||Classificar Softwares adiquiridos X inventariados
 .<b>Manutenção</b>||mainFrame|imgs/config_gerais.gif
-..Atualização de SubRedes|admin/updates_subredes/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
+..Atualização de SubRedes|admin/update_subrede/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
 ..Excluir Computadores|admin/exclui_informacoes_computadores.php|mainFrame||Exclusão de Informações de Computadores da base
 ..Atualização Especial|admin/atualizacao_especial.php|mainFrame||Atualização de Scripts e Afins
 ..Consulta Especial|admin/consulta_especial.php|mainFrame||Consulta Informações do Servidor
@@ -82,6 +82,6 @@
 ..Sistemas Monitorados|estatisticas/aplicativos/index.php|mainFrame||
 .<b>Acesso</b>||mainFrame|imgs/config_gerais.gif
 ..Troca de Senha|admin/usuarios/troca_senha.php|mainFrame||
-.<b>Repositório|repositorio_install.php|mainFrame||Repositório do Sistema CACIC
+.<b>Downloads|downloads.php|mainFrame||Downloads do Sistema CACIC
 .<b>Projeto CACIC<b>|tribo/|new||Link de Acesso à Home Page do Projeto CACIC
 .<b>Comunidade CACIC<b>|http://www.softwarepublico.gov.br/spb/ver-comunidade?community_id=3585|new||Link de Acesso à Home Page da Comunidade CACIC

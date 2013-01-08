@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -83,33 +83,33 @@ $msg = '<div align="center">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title><?=$oTranslator->_('Cadastro de Local');?></title>
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Cadastro de Local');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-      <td class="cabecalho"><?=$oTranslator->_('Cadastro de Local');?></td>
+      <td class="cabecalho"><?php echo $oTranslator->_('Cadastro de Local');?></td>
   </tr>
   <tr> 
-      <td class="descricao"><?=$oTranslator->_('ksiq_msg cadastro help');?></td>
+      <td class="descricao"><?php echo $oTranslator->_('ksiq_msg cadastro help');?></td>
   </tr>
 </table>
 <br><table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
-          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Informacoes de Novo Local');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="<?php echo $oTranslator->_('Incluir Informacoes de Novo Local');?>" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
       </div></td>
   </tr>
   <tr> 
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
 
   <tr> 
@@ -123,21 +123,20 @@ $msg = '<div align="center">
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=sg_local">Sigla</a></div></td>
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_local"><?=$oTranslator->_('Descricao');?></a></div></td>
+          <td nowrap class="cabecalho_tabela"><div align="left"><a href="index.php?cs_ordem=nm_local"><?php echo $oTranslator->_('Descricao');?></a></div></td>
           <td nowrap >&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Redes');?></div></td>
+          <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Redes');?></div></td>
           <td nowrap class="cabecalho_tabela">&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Usuarios Primarios');?> </div></td>
+          <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Usuarios Primarios');?> </div></td>
           <td nowrap class="cabecalho_tabela">&nbsp;</td>
-          <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Usuarios Secundarios');?> </div></td>
+          <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Usuarios Secundarios');?> </div></td>
           <td nowrap >&nbsp;</td>
         </tr>
   	<tr> 
     <td height="1" bgcolor="#333333" colspan="13"></td>
   	</tr>
 		
-<?  
-if(mysql_num_rows($result)==0) 
+<?php if(mysql_num_rows($result)==0) 
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
@@ -152,19 +151,18 @@ else
 		{
 		?>
 		<tr 
-		<? if ($Cor) 
+		<?php if ($Cor) 
 		echo 'bgcolor="#E1E1E1"';
 		?>>
 		<td nowrap>&nbsp;</td>
-		<td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+		<td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
 		<td nowrap>&nbsp;</td>
 		<td nowrap class="opcao_tabela"><div align="left">
-		<?
-		if ($_SESSION['cs_nivel_administracao']==1)
+		<?php if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
-			<a href="detalhes_local.php?id_local=<? echo $row['id_local'];?>">
-			<?
+			<a href="detalhes_local.php?id_local=<?php echo $row['id_local'];?>">
+			<?php
 			}
 
 		echo $row['sg_local'];
@@ -172,7 +170,7 @@ else
 			{
 			?>
 			</a>
-			<?
+			<?php
 			}
 			?>
 		
@@ -180,30 +178,29 @@ else
 		<td nowrap>&nbsp;</td>
 		<td nowrap class="opcao_tabela"><div align="left">
 		
-		<?
-		if ($_SESSION['cs_nivel_administracao']==1)
+		<?php if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
-			<a href="detalhes_local.php?id_local=<? echo $row['id_local'];?>">
-			<?
+			<a href="detalhes_local.php?id_local=<?php echo $row['id_local'];?>">
+			<?php
 			}
 		echo $row['nm_local'];
 		if ($_SESSION['cs_nivel_administracao']==1)
 			{
 			?>
 			</a>
-			<?
+			<?php
 			}
 			?>
 		</div></td>
 		<td nowrap>&nbsp;</td>
-		<td nowrap class="opcao_tabela"><div align="right"><? echo $arrTotaisRedes[$row['id_local']]; ?></div></td>
+		<td nowrap class="opcao_tabela"><div align="right"><?php echo $arrTotaisRedes[$row['id_local']]; ?></div></td>
 		<td nowrap class="opcao_tabela">&nbsp;</td>
-		<td nowrap class="opcao_tabela"><div align="right"><? echo $arrTotaisUsuariosPrimarios[$row['id_local']]; ?></div></td>
+		<td nowrap class="opcao_tabela"><div align="right"><?php echo $arrTotaisUsuariosPrimarios[$row['id_local']]; ?></div></td>
 		<td nowrap class="opcao_tabela">&nbsp;</td>
-		<td nowrap class="opcao_tabela"><div align="right"><? echo $arrTotaisUsuariosSecundarios[$row['id_local']]; ?></div></td>
+		<td nowrap class="opcao_tabela"><div align="right"><?php echo $arrTotaisUsuariosSecundarios[$row['id_local']]; ?></div></td>
 		<td nowrap>&nbsp;</td>
-		<? 
+		<?php 
 		$Cor=!$Cor;
 		$NumRegistro++;
 		}
@@ -218,11 +215,11 @@ else
     <td height="10">&nbsp;</td>
   	</tr>
   	<tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   	</tr>
   	<tr> 
     <td><div align="center">
-  	<input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Informacoes de Novo Local');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
+  	<input name="submit" type="submit" id="submit" value="<?php echo $oTranslator->_('Incluir Informacoes de Novo Local');?>" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
   	</div></td>
   	</tr>
 	</table>

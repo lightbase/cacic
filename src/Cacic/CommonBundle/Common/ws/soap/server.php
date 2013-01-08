@@ -31,7 +31,7 @@
 // | Authors: Dietrich Ayala <dietrich@ganx4.com> Original Author         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Server.php,v 1.8 2002/03/19 06:47:16 shane Exp $
+// $Id: server.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 
 require_once('SOAP/globals.php');
@@ -49,7 +49,7 @@ error_reporting(2039);
 * originaly based on SOAPx4 by Dietrich Ayala http://dietrich.ganx4.com/soapx4
 *
 * @access   public
-* @version  $Id: Server.php,v 1.8 2002/03/19 06:47:16 shane Exp $
+* @version  $Id: server.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @package  SOAP::Client
 * @author   Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 * @author   Dietrich Ayala <dietrich@ganx4.com> Original Author

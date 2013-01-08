@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -41,14 +41,14 @@ $result = mysql_query($query);
 <html>
 <head>
 <body background="../../../imgs/linha_v.gif">
-<title><?=$oTranslator->_('Cadastro de Unidade Organizacional Nivel 2');?></title>
+<title><?php echo $oTranslator->_('Cadastro de Unidade Organizacional Nivel 2');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td><font color="#FF0000" size="4" face="Verdana, Arial, Helvetica, sans-serif">
-       <b><?=$oTranslator->_('Cadastro de Unidade Organizacional Nivel 2');?></b></font>
+       <b><?php echo $oTranslator->_('Cadastro de Unidade Organizacional Nivel 2');?></b></font>
     </td>
   </tr>
 </table>
@@ -63,13 +63,12 @@ $result = mysql_query($query);
           <td align="center"  nowrap><div align="left"><strong></strong></div></td>
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
-          <?=$oTranslator->_('Unidade Organizacional').' '.$oTranslator->_('Nivel').' '.$oTranslator->_('Dois',T_SIGLA);?></font></strong></div></td>
+          <?php echo $oTranslator->_('Unidade Organizacional').' '.$oTranslator->_('Nivel').' '.$oTranslator->_('Dois',T_SIGLA);?></font></strong></div></td>
           <td nowrap >&nbsp;</td>
           <td nowrap ><div align="left"></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
-<?  
-if(mysql_num_rows($result)==0) {
+<?php if(mysql_num_rows($result)==0) {
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
 				'.$oTranslator->_('Nenhuma Unidade Organizacional de Nivel %1 cadastrada',array('1')).'
@@ -83,15 +82,15 @@ else {
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
+			  <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $NumRegistro; ?></font></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../nivel1/detalhes_nivel1.php?id_unid_organizacional_nivel1=<? echo $row['id_unid_organizacional_nivel1'];?>"><? echo $row['nm_unid_organizacional_nivel1']; ?></a></font></div></td>
+			  <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../nivel1/detalhes_nivel1.php?id_unid_organizacional_nivel1=<?php echo $row['id_unid_organizacional_nivel1'];?>"><?php echo $row['nm_unid_organizacional_nivel1']; ?></a></font></div></td>
 			  <td nowrap>&nbsp;</td>
 			  <td nowrap>&nbsp;</td>			  
 			  <td nowrap>&nbsp;</td>			  			  
-			  <? 
+			  <?php 
 		$Cor=!$Cor;
 		$NumRegistro++;
 	}
@@ -106,12 +105,12 @@ else {
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
   <tr> 
     <td><div align="center">
         <form name="form1" method="post" action="">
-          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?=$oTranslator->_('Incluir').' '.$oTranslator->_('Unidade Organizacional').' '.$oTranslator->_('Nivel').' '.$oTranslator->_('Dois',T_SIGLA);?>">
+          <input name="incluirUON2" type="submit" id="incluirUON2" value="<?php echo $oTranslator->_('Incluir').' '.$oTranslator->_('Unidade Organizacional').' '.$oTranslator->_('Nivel').' '.$oTranslator->_('Dois',T_SIGLA);?>">
         </form>
         
       </div></td>

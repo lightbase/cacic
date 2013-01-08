@@ -19,7 +19,7 @@ require_once "../include/library.php";
     <td valign="top" align="center"> 
         <div align="center"> 
           
-        <table cellspacing="0" cellpadding="0" border="2" width="90%">
+        <table cellspacing="0" cellpadding="0" border="2" width="85%">
           <tr> 
               
             
@@ -27,7 +27,7 @@ require_once "../include/library.php";
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
               <tr>
                   <td><font face="Arial" color="#ffffff"><strong><small><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;
-                  <?=$oTranslator->_('Gerado por');?> CACIC - <?=$tool;?>
+                  <?php echo $oTranslator->_('Gerado por');?> CACIC - <?php echo $tool;?>
                     </font></small></strong></font></td>
                 <td>
                   <div align="right"><img src="../imgs/close.gif" width="16" height="14" onClick="window.close()"></div>
@@ -45,7 +45,7 @@ require_once "../include/library.php";
                   <td bgcolor="#000000">
                       <p><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF" size="2"> 
                         $ 
-<? 
+<?php 
 /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 

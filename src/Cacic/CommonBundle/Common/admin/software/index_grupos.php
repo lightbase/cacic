@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -34,7 +34,7 @@ if ($_REQUEST['Excluir'])
 	{
 	$query = "DELETE FROM softwares_inventariados_grupos WHERE id_si_grupo = '".$_POST['id_si_grupo']."'";
 	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
-	$query = "DELETE FROM acoes_redes WHERE id_ip_rede = '".$_GET['id_ip_rede']."'";
+	$query = "DELETE FROM acoes_redes WHERE id_rede = ".$_GET['id_rede'];
 	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/software/index_grupos.php&tempo=1");									
 	}
@@ -49,15 +49,15 @@ $result = mysql_query($query);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Cadastro de Grupos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Cadastro de Grupos</td>
   </tr>
@@ -78,7 +78,7 @@ $result = mysql_query($query);
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
 
   <tr> 
@@ -96,8 +96,7 @@ $result = mysql_query($query);
           <td width="11" nowrap >&nbsp;</td>
           <td width="96" nowrap >&nbsp;</td>
         </tr>
-<?  
-if(@mysql_num_rows($result)==0) {
+<?php if(@mysql_num_rows($result)==0) {
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
 				Nenhum grupo cadastrado
@@ -114,22 +113,22 @@ else {
 		$linha = mysql_fetch_array($result_Cont);
 		  
 	 ?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+			  <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="center"><a href="detalhes_grupos.php?id_si_grupo=<? echo $row['id_si_grupo'];?>"><? echo $row['id_si_grupo']; ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="center"><a href="detalhes_grupos.php?id_si_grupo=<?php echo $row['id_si_grupo'];?>"><?php echo $row['id_si_grupo']; ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_grupos.php?id_si_grupo=<? echo $row['id_si_grupo'];?>"><? echo $row['nm_si_grupo']; ?></a> [<? echo $linha['numero']?>] </div></td>
+			  <td nowrap class="opcao_tabela"><div align="left"><a href="detalhes_grupos.php?id_si_grupo=<?php echo $row['id_si_grupo'];?>"><?php echo $row['nm_si_grupo']; ?></a> [<?php echo $linha['numero']?>] </div></td>
 			  <td nowrap>&nbsp;</td>
 			  <td nowrap><div align="center">
-			  <? if ($linha['numero'] == 0){?>
-			  	<a href="index_grupos.php?Excluir=1&id_si_grupo=<? echo $row['id_si_grupo']?>" onClick="return Confirma('Confirma Exclusão do Grupo?');"><img src="excluir.jpg" width="16" height="16" border="0"></a>
-			  <? }else{?>	
+			  <?php if ($linha['numero'] == 0){?>
+			  	<a href="index_grupos.php?Excluir=1&id_si_grupo=<?php echo $row['id_si_grupo']?>" onClick="return Confirma('Confirma Exclusão do Grupo?');"><img src="excluir.jpg" width="16" height="16" border="0"></a>
+			  <?php }else{?>	
 			  		<img src="excluir_cinza.jpg" width="16" height="16" border="0">
-			  <? }?>
+			  <?php }?>
 			  </div></td>
-			  <? 
+			  <?php 
 		$Cor=!$Cor;
 		$NumRegistro++;
 	}
@@ -144,7 +143,7 @@ else {
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
   <tr> 
     <td><div align="center">

@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -18,7 +18,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 
 ?>
 
-<? if ($_SESSION["nm_grupo_usuarios"] <> "adm1")
+<?php if ($_SESSION["nm_grupo_usuarios"] <> "adm1")
 	die("<h1><font color='red'>".$oTranslator->_('Acesso nao autorizado')."</font></h1>
 	     <h3>".$oTranslator->_('Sua tentativa foi registrada no log')."</h3>
 	     <b>".$oTranslator->_('Nome').":</b> " . $_SESSION["nm_usuario"] );
@@ -27,7 +27,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?=$oTranslator->_('ADMIN - Excluir historico de software');?></title>
+<title><?php echo $oTranslator->_('ADMIN - Excluir historico de software');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -49,7 +49,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td nowrap bgcolor="#FFFFFF">
     	<font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
     		<strong>
-    		<?=$oTranslator->_('ADMIN - Excluir historico de software');?>
+    		<?php echo $oTranslator->_('ADMIN - Excluir historico de software');?>
     		</strong>
     	</font>
     </td>
@@ -59,41 +59,34 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-    <?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+    <?php echo $oTranslator->_('Gerado em');?> <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
-<br><?
+<br><?php
 
 $mensagemErro = '';
 $v_apaguei = 'sim';
 	
-$query_Insert = 'INSERT INTO historicos_software_completo(te_node_address,
-				id_so, id_software_inventariado, 
-				dt_hr_inclusao, dt_hr_ult_coleta) 
-		 SELECT h.te_node_address, h.id_so, h.id_software_inventariado,
-			h.dt_hr_inclusao, h.dt_hr_ult_coleta 
-		 FROM historicos_software h, 
-		      (SELECT te_node_address, id_so, 
-			      MAX(dt_hr_ult_coleta) AS ULT_COLETA 
-		       FROM historicos_software 
-		       GROUP BY te_node_address, id_so) AS tableUltColeta 
-		 WHERE (tableUltColeta.te_node_address = h.te_node_address) AND
-			(tableUltColeta.id_so = h.id_so) AND 
-			(h.dt_hr_ult_coleta < DATE_SUB(tableUltColeta.ULT_COLETA, 
-				INTERVAL 1 day))';
+$query_Insert = 'INSERT INTO historicos_software_completo(id_computador,   id_software_inventariado,  dt_hr_inclusao,   dt_hr_ult_coleta) 
+					 SELECT 								  h.id_computador, h.id_software_inventariado,h.dt_hr_inclusao, h.dt_hr_ult_coleta 
+			 		 FROM 		historicos_software h,(SELECT id_computador, MAX(dt_hr_ult_coleta) AS ULT_COLETA 
+				      									FROM historicos_software
+														GROUP BY id_computador) AS tableUltColeta 
+					 WHERE (tableUltColeta.id_computador = h.id_computador) AND 
+							(h.dt_hr_ult_coleta < DATE_SUB(tableUltColeta.ULT_COLETA, 
+						INTERVAL 1 day))';
 
 $result_query_Insert = mysql_query($query_Insert);
 
 $query_Delete = 'DELETE historicos_software 
 		 FROM historicos_software, 
-		      (SELECT te_node_address, id_so, MAX(dt_hr_ult_coleta) AS ULT_COLETA 
+		      (SELECT id_computador, MAX(dt_hr_ult_coleta) AS ULT_COLETA 
 		       FROM historicos_software 
-		       GROUP BY te_node_address, id_so) AS tableUltColeta  
-		 WHERE (tableUltColeta.te_node_address = historicos_software.te_node_address) AND 
-			(tableUltColeta.id_so = historicos_software.id_so) AND
+		       GROUP BY id_computador) AS tableUltColeta  
+		 WHERE (tableUltColeta.id_computador = historicos_software.id_computador) AND
 			(historicos_software.dt_hr_ult_coleta < DATE_SUB(tableUltColeta.ULT_COLETA, INTERVAL 1 day))';
 
 $result_query_Delete = mysql_query($query_Delete);
@@ -105,9 +98,7 @@ $result_query_Delete = mysql_query($query_Delete);
       <table width="98%" border="0" align="center">
         <tr valign="top"> 
           <td nowrap > <table width="100%" border="0" align="center">
-              <? 
-
-	 	if ($v_apaguei=='')
+              <?php if ($v_apaguei=='')
  		{
 		echo '<tr><td colspan="2" align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><B>' . $mensagemErro . '</B></td></tr>';
 		} else {
@@ -123,7 +114,7 @@ $result_query_Delete = mysql_query($query_Delete);
 </table>
 <p align="center">
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-	<?=$oTranslator->_('Gerado por');?> 
+	<?php echo $oTranslator->_('Gerado por');?> 
 	<strong>CACIC</strong>
 	 - Configurador Autom&aacute;tico e Coletor de Informa&ccedil;&otilde;es Computacionais
 	</font><br>

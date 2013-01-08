@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -39,7 +39,7 @@ if($_POST['grava_alteracao_uon1a'])
 				  VALUES (".$_POST['selectUON1'].", 
 				  		  '".$_POST['frm_nm_unid_organizacional_nivel1a']."')";
 		$result = mysql_query($query) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a');
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a',$_SESSION["id_usuario"]);
 		if (!atualiza_configuracoes_uonx('1a'))
 			{
 			echo mensagem($oTranslator->_('Falha na atualizacao de configuracoes'));
@@ -56,13 +56,13 @@ if($_POST['grava_alteracao_uon1a'])
 	?>
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
-	<?
+	<?php
 	}
 else 
 	{
 ?>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../../include/css/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
@@ -70,7 +70,7 @@ function valida_form()
 	{
 	if (document.form.frm_nm_unid_organizacional_nivel1a.value == "")
 		{
-		alert("<?=$oTranslator->_('Por favor, preencha campo');?> "+ document.form.etiqueta1a.value+".");
+		alert("<?php echo $oTranslator->_('Por favor, preencha campo');?> "+ document.form.etiqueta1a.value+".");
 		document.form.frm_nm_unid_organizacional_nivel1a.focus();
 		return false;
 		} 
@@ -85,12 +85,12 @@ function SetaCampo()
 </head>
 
 <body background="../../../imgs/linha_v.gif" onLoad="Javascript: SetaCampo('selectUON1')">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">
-      <?=$oTranslator->_('Inclusao de');?> <? echo $_SESSION['etiqueta1a'];?> 
-      (<?=$oTranslator->_('Unidade Organizacional Nivel 1a');?>)
+      <?php echo $oTranslator->_('Inclusao de');?> <?php echo $_SESSION['etiqueta1a'];?> 
+      (<?php echo $oTranslator->_('Unidade Organizacional Nivel 1a');?>)
     </td>
   </tr>
   <tr> 
@@ -100,13 +100,13 @@ function SetaCampo()
 <form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
   <table width="61%" border="0" align="center" cellpadding="2" cellspacing="2">
     <tr> 
-      <td nowrap class="label"><? echo $_SESSION['etiqueta1']; ?>:</td>
+      <td nowrap class="label"><?php echo $_SESSION['etiqueta1']; ?>:</td>
       <td colspan="3"> <div align="left"> 
-          <input name="etiqueta1" type="hidden" id="etiqueta1" value="<? echo $_SESSION['etiqueta1']; ?>">
-          <input name="etiqueta1a" type="hidden" id="etiqueta1a" value="<? echo $_SESSION['etiqueta1a']; ?>">
+          <input name="etiqueta1" type="hidden" id="etiqueta1" value="<?php echo $_SESSION['etiqueta1']; ?>">
+          <input name="etiqueta1a" type="hidden" id="etiqueta1a" value="<?php echo $_SESSION['etiqueta1a']; ?>">
           <select name="selectUON1" id="selectUON1"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-            <option value="0" selected><?=$oTranslator->_('Selecione');?> <? echo $_SESSION['etiqueta1']; ?></option>
-            <?
+            <option value="0" selected><?php echo $oTranslator->_('Selecione');?> <?php echo $_SESSION['etiqueta1']; ?></option>
+            <?php
 $querySEL1 = 'SELECT 	uo1.id_unid_organizacional_nivel1,
 						uo1.nm_unid_organizacional_nivel1
 		  	  FROM 		unid_organizacional_nivel1 uo1
@@ -127,21 +127,21 @@ if(mysql_num_rows($result_sel1))
         </div></td>
     </tr> 
     <tr> 
-      <td class="label"><div align="left"><? echo $_SESSION['etiqueta1a'];?>:</div></td>
+      <td class="label"><div align="left"><?php echo $_SESSION['etiqueta1a'];?>:</div></td>
       <td colspan="3"> <div align="left"> 
           <input name="frm_nm_unid_organizacional_nivel1a" type="text" id="frm_nm_unid_organizacional_nivel1a" size="60" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
     </tr>
   </table>
   <p align="center"> 
-  <?
+  <?php
   $v_frase = "Confirma('".$oTranslator->_('Confirma Informacoes para')." ".$_SESSION['etiqueta1a']."?')";
   echo '<input name="grava_alteracao_uon1a" type="submit" id="grava_alteracao_uon1a" value="'.$oTranslator->_('Gravar Alteracoes').'"'. ($_SESSION['cs_nivel_administracao']<>1?'disabled':'') .' onClick="return '.$v_frase.'";>';
   ?>
   </p>
 </form>
 <p>
-  <?
+  <?php
 }
 ?>
 </p>

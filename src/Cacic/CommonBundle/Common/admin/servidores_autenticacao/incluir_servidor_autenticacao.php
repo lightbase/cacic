@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -38,25 +38,35 @@ if($_POST['submit']<>'' && $_SESSION['cs_nivel_administracao']==1)
 		$query = "INSERT 
 				  INTO 		servidores_autenticacao 
 				  			(nm_servidor_autenticacao, 
+							 nm_servidor_autenticacao_dns, 
 				  			 te_ip_servidor_autenticacao,
 				  			 nu_porta_servidor_autenticacao,							 
 							 id_tipo_protocolo,
 							 nu_versao_protocolo,
 							 te_atributo_identificador,
+							 te_atributo_identificador_alternativo,							 
 							 te_atributo_retorna_nome,
 							 te_atributo_retorna_email,
+							 te_atributo_retorna_telefone,							 
+							 te_atributo_status_conta,							 							 
+							 te_atributo_valor_status_conta_valida,
 							 te_observacao) 
 				  VALUES 	('".$_POST['frm_nm_servidor_autenticacao']."', 
+				  			 '".$_POST['frm_nm_servidor_autenticacao_dns']."', 
 						  	 '".$_POST['frm_te_ip_servidor_autenticacao']."',									  
 						  	 '".$_POST['frm_nu_porta_servidor_autenticacao']."',									  							 
 							 '".$_POST['frm_id_tipo_protocolo']."',
 							 '".$_POST['frm_nu_versao_protocolo']."',
 							 '".$_POST['frm_te_atributo_identificador']."',
+							 '".$_POST['frm_te_atributo_identificador_alternativo']."',							 
 							 '".$_POST['frm_te_atributo_retorna_nome']."',
 							 '".$_POST['frm_te_atributo_retorna_email']."',							 
+							 '".$_POST['frm_te_atributo_retorna_telefone']."',							 							 
+							 '".$_POST['frm_te_atributo_status_conta']."',							 							 							 
+							 '".$_POST['frm_te_atributo_valor_status_conta_valida']."',							 							 							 							 
 							 '".$_POST['frm_te_observacao']."')";							 									  						  
 		$result = mysql_query($query) or die ('2-Falha na Inserção em Servidores de Autenticação ou sua sessão expirou!');
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'servidores_autenticacao');			
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'servidores_autenticacao',$_SESSION["id_usuario"]);			
 		
 	    header ("Location: index.php");		
 		}
@@ -67,59 +77,9 @@ else
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
 	<head>
-	<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+	<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 	<title>Inclus&atilde;o de Servidor de Autentica&ccedil;&atilde;o</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<SCRIPT LANGUAGE="JavaScript">
-    
-    function valida_form() 
-        {
-    
-        if ( document.form.frm_nm_servidor_autenticacao.value == "" ) 
-            {	
-            alert("O nome é obrigatório.");
-            document.form.frm_nm_servidor_autenticacao.focus();
-            return false;
-            }		
-        else if ( document.form.frm_te_ip_servidor_autenticacao.value == "" ) 
-            {	
-            alert("O IP é obrigatório.");
-            document.form.frm_te_ip_servidor_autenticacao.focus();
-            return false;
-            }
-        else if ( document.form.frm_nu_porta_servidor_autenticacao.value == "" ) 
-            {	
-            alert("A porta é obrigatória.");
-            document.form.frm_nu_porta_servidor_autenticacao.focus();
-            return false;
-            }			
-        else if ( document.form.frm_id_tipo_protocolo.value == "" ) 
-            {	
-            alert("Selecione o Tipo de Protocolo.");
-            document.form.frm_id_tipo_protocolo.focus();
-            return false;
-            }
-        else if ( document.form.frm_te_atributo_retorna_nome.value == "" ) 
-            {	
-            alert("O atributo para retorno de nome completo é obrigatório.");
-            document.form.frm_te_atributo_retorna_nome.focus();
-            return false;
-            }
-        else if ( document.form.frm_te_atributo_retorna_email.value == "" ) 
-            {	
-            alert("O atributo para retorno de email é obrigatório.");
-            document.form.frm_te_atributo_retorna_email.focus();
-            return false;
-            }
-        else if ( document.form.frm_te_atributo_identificador.value == "" ) 
-            {	
-            alert("O atributo identificador é obrigatório.");
-            document.form.frm_te_atributo_identificador.focus();
-            return false;
-            }
-        return true;	
-        }
-    </script>
     <script language="JavaScript" type="text/JavaScript">
     <!--
     function MM_reloadPage(init) {  //reloads the window if Nav4 resized
@@ -141,8 +101,9 @@ else
     </head>
     
     <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_nm_servidor_autenticacao');">
-    <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-    <table width="90%" border="0" align="center">
+    <script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+    <script language="JavaScript" type="text/javascript" src="../../include/js/servidores_autenticacao.js"></script>    
+    <table width="85%" border="0" align="center">
       <tr> 
         <td class="cabecalho">Inclus&atilde;o 
           de Servidor de Autenticação</td>
@@ -152,13 +113,13 @@ else
           cadastradas abaixo referem-se a um servidor a ser utilizado na autentica&ccedil;&atilde;o de usu&aacute;rios do suporte remoto seguro. </td>
       </tr>
     </table>
-    <form action="incluir_servidor_autenticacao.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
-      <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <form action="incluir_servidor_autenticacao.php"  method="post" ENCTYPE="multipart/form-data" name="form">
+      <table width="85%" border="0" align="center" cellpadding="0" cellspacing="0">
         <tr> 
           <td class="label"><br>
             Nome:</td>
           <td class="label">&nbsp;</td>
-          <td nowrap class="label">&nbsp;</td>
+          <td nowrap class="label">Identificador no DNS:</td>
         </tr>
         <tr> 
           <td height="1" bgcolor="#333333" colspan="4"></td>
@@ -167,7 +128,7 @@ else
           <td class="label_peq_sem_fundo"> <input name="frm_nm_servidor_autenticacao" type="text" size="60" maxlength="60" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           &nbsp;&nbsp;</td>
           <td class="label_peq_sem_fundo">&nbsp;</td>
-          <td class="label_peq_sem_fundo">&nbsp;</td>
+          <td class="label_peq_sem_fundo"><input name="frm_nm_servidor_autenticacao_dns" type="text" size="60" maxlength="60" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
         </tr>
         <tr>
           <td nowrap class="label"><br>
@@ -222,56 +183,90 @@ else
     <tr>
       <td colspan="3" class="label_peq_sem_fundo"><input name="frm_te_observacao" type="text" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_observacao" >        &nbsp;&nbsp;</td>
       </tr>
-    <tr>
-      <td class="label">&nbsp;</td>
-      <td class="label">&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td class="label">&nbsp;</td>
-      <td class="label">&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td colspan="3" class="cabecalho_secao"><div align="center">Atributos para Consulta de Dados de Pessoas no Servi&ccedil;o de Diret&oacute;rios</div></td>
-      </tr>
-    <tr>
-      <td class="label"><p><br>
-          Identifica&ccedil;&atilde;o: <span class="normal style2">(Ex.: &quot;uid&quot;</span><span class="normal style2">)</span></p></td>
-      <td class="label"><p><br>
-         Retorno de Nome Completo: <span class="normal style2">(Ex.: &quot;cn&quot;</span><span class="normal style2">)</span></p></td>
-      <td class="label"><p><br>
-         Retorno de Email: <span class="normal style2">(Ex: &quot;mail&quot;</span><span class="normal style2">)</span></p></td>
-    </tr>
-        <tr> 
-          <td height="1" bgcolor="#333333" colspan="3"></td>
-        </tr>
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
     
     <tr>
+      <td colspan="4" class="cabecalho_secao"><div align="center">Atributos para Consulta de Dados de Pessoas no Servi&ccedil;o de Diret&oacute;rios</div></td>
+    </tr>
+    
+    <tr> 
+    <td height="1" bgcolor="#333333" colspan="4"></td>
+    </tr>
+    
+    <tr>
+      <td class="label" nowrap><p><br>
+           Identificador Principal: <span class="normal style2">(Ex.: &quot;uid&quot;</span><span class="normal style2">)</span></p></td>
+      <td class="label" nowrap><p><br>
+        Identificador Alternativo: <span class="normal style2">(Ex: &quot;employeenumber&quot;</span><span class="normal style2">)</span></p></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
       <td><span class="label_peq_sem_fundo">
-        <input name="frm_te_atributo_identificador" type="text" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_identificador" >
+        <input name="frm_te_atributo_identificador" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_identificador" value="uid" >
       </span></td>
       <td><span class="label_peq_sem_fundo">
-        <input name="frm_te_atributo_retorna_nome" type="text" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_nome" >
+        <input name="frm_te_atributo_identificador_alternativo" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_identificador_alternativo" value="employeenumber" >
       </span></td>
-      <td><span class="label_peq_sem_fundo">
-        <input name="frm_te_atributo_retorna_email" type="text" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_email" >
-      </span></td>
+      <td>&nbsp;</td>
+    </tr>
+
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+        
+    <tr>
+      <td colspan="4" class="cabecalho_secao"><div align="center">Atributos para Retorno de Dados de Pessoas no Servi&ccedil;o de Diret&oacute;rios</div></td>
+    </tr>
+    
+    <tr> 
+    <td height="1" bgcolor="#333333" colspan="4"></td>
+    </tr>
+    
+    <tr>
+      <td class="label" nowrap><p><br>Nome Completo: <span class="normal style2">(Ex.: &quot;cn&quot;</span><span class="normal style2">)</span></p></td>
+      <td class="label" nowrap><p><br>Email: <span class="normal style2">(Ex: &quot;mail&quot;</span><span class="normal style2">)</span></p></td>
+      <td class="label" nowrap><p><br>Telefone: <span class="normal style2">(Ex.: &quot;telephonenumber&quot;</span><span class="normal style2">)</span></p></td>
+      <td>&nbsp;</td>
     </tr>
 
     <tr>
-      <td colspan="4">&nbsp;</td>
+      <td><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_retorna_nome" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_nome" value="cn" >
+      </span></td>
+      <td><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_retorna_email" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_email" value="mail" >
+      </span></td>
+      <td><span class="label_peq_sem_fundo">
+		<input name="frm_te_atributo_retorna_telefone" type="text" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_telefone"  value="telephonenumber" >        
+      </span></td>
+      <td>&nbsp;</td>
     </tr>
+    
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+    
     <tr>
-      <td colspan="4">&nbsp;</td>
+      <td class="label" nowrap><p><br>Status de Conta: <span class="normal style2">(Ex.: &quot;accountstatus&quot;</span><span class="normal style2">)</span></p></td>
+      <td colspan="2" class="label" nowrap><p><br>Valor para Status de Conta Válida: <span class="normal style2">(Ex.: &quot;active&quot;</span><span class="normal style2">)</span></p></td>
     </tr>
+
+    <tr>
+      <td><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_status_conta" type="text" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_status_conta" value="accountstatus">
+      </span></td>
+      <td colspan="2"><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_valor_status_conta_valida" type="text" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_valor_status_conta_valida" value="active">
+      </span></td>
+    </tr>
+
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
       </table>
       <p align="center"> 
-        <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return Confirma('Confirma Inclusão de Servidor de Autenticação?');">
+        <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  " onClick="return valida_form();return Confirma('Confirma Inclusão de Servidor de Autenticação?');">
       </p>
     </form>
     <p>
-      <?
+      <?php
     }
 ?>
 </p>

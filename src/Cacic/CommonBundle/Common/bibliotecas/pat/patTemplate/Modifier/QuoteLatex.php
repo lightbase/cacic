@@ -2,7 +2,7 @@
 /**
  * patTemplate modifier that quotes LaTeX special chars
  *
- * $Id: QuoteLatex.php 355 2005-01-03 15:56:52Z schst $
+ * $Id: QuoteLatex.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @package		patTemplate
  * @subpackage	Modifiers

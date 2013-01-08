@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -53,15 +53,15 @@ if ($pesquisa_avancada) {
 	    c.te_placa_video_desc AS Placa_Video,
             c.te_placa_rede_desc AS Placa_Rede, c.te_modem_desc AS Modem, c.id_so, c.te_node_address, c.te_nome_computador
             FROM redes a, so b, computadores c
-            WHERE a.id_ip_rede = c.id_ip_rede AND b.id_so = c.id_so ";
+            WHERE a.id_rede = c.id_rede AND b.id_so = c.id_so ";
   } else {
        $query = " SELECT a.nm_rede AS REDE, b.te_desc_so AS Sistema_Operacional, e.nm_software_inventariado AS Software,
              concat(c.te_cpu_desc,'-', c.te_cpu_fabricante) AS CPU, concat(c.te_placa_mae_desc,'-', 
 	     c.te_placa_mae_fabricante) AS Placa_Mae, c.qt_mem_ram AS Memoria,  c.te_placa_video_desc AS Placa_Video, 
             c.te_placa_rede_desc AS Placa_Rede, c.te_modem_desc AS Modem, c.id_so, c.te_node_address, c.te_nome_computador
             FROM redes a, so b, computadores c, softwares_inventariados_estacoes d, softwares_inventariados e
-            WHERE a.id_ip_rede = c.id_ip_rede AND b.id_so = c.id_so AND c.te_node_address = d.te_node_address AND
-	          c.id_so = d.id_so AND d.id_software_inventariado = e.id_software_inventariado and ";
+            WHERE a.id_rede = c.id_rede AND b.id_so = c.id_so AND c.id_computador = d.id_computador AND 
+			d.id_software_inventariado = e.id_software_inventariado and ";
        $query = $query . "e.nm_software_inventariado like '%" . $software_valor . "%' ";    
    }
        	    
@@ -130,7 +130,7 @@ if ($pesquisa_avancada) {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title> Maquinas por Rede <? echo $tipo_historico?></title>
+<title> Maquinas por Rede <?php echo $tipo_historico?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -143,7 +143,7 @@ if ($pesquisa_avancada) {
   </tr>
   <tr bgcolor="#E1E1E1"> 
     <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
-        <strong>Máquinas por Rede<? echo $tipo_historico?>
+        <strong>Máquinas por Rede<?php echo $tipo_historico?>
       </strong></font></td>
   </tr>
   <tr> 
@@ -151,11 +151,11 @@ if ($pesquisa_avancada) {
   </tr>
   <tr bgcolor="#E1E1E1"> 
     <td bgcolor="#FFFFFF"><font color="#333333" size="3" face="Verdana, Arial, Helvetica, sans-serif">
-        <strong> Palavra chave : </strong><? echo $palavra_chave?> </font></td>
+        <strong> Palavra chave : </strong><?php echo $palavra_chave?> </font></td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
     <td bgcolor="#FFFFFF"><font color="#333333" size="3" face="Verdana, Arial, Helvetica, sans-serif">
-       <strong>Filtro : </strong><? echo $descricao?> </td>
+       <strong>Filtro : </strong><?php echo $descricao?> </td>
   </tr>
   
   
@@ -164,7 +164,7 @@ if ($pesquisa_avancada) {
   </tr>
 </table>
 <p><br>
-  <? 
+  <?php 
 $cor = 0;
 $num_registro = 1;
 $rede = '';
@@ -217,3 +217,4 @@ else {
 	echo '</table>';
 	echo mensagem('Não foi encontrado nenhum registro');
 }
+?>

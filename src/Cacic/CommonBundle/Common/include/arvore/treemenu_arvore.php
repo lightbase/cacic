@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -148,9 +148,9 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 			  $maxlevel++;
 			  ?>
 			  <p align="center">
-			  <table cellspacing=0 cellpadding=0 border=0 cols="<? echo ($maxlevel+3); ?>" width=500 align='left'>
+			  <table cellspacing=0 cellpadding=0 border=0 cols="<?php echo ($maxlevel+3); ?>" width=500 align='left'>
 			  <tr>
-			  <?
+			  <?php
 			  for ($i=0; $i<$maxlevel; $i++) 
 			  echo "<td width=16></td>";
 			  echo "<td width=16></td>";    

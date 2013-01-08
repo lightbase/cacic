@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -20,24 +20,24 @@ if ($_POST['consultar']) {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../../include/css/cacic.css">
 
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body bgcolor="#FFFFFF" background="../../../imgs/linha_v.gif" onLoad="SetaCampo('filtro_consulta')">
-<script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../../include/js/cacic.js"></script>
 
-<form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
-<table width="90%" border="0" align="center">
+<form action="<?php echo $PHP_SELF; ?>" method="post" name="form1">
+<table width="85%" border="0" align="center">
 <tr> 
-<td class="cabecalho"><?=$oTranslator->_('Consulta quantidade de licencas');?></td>
+<td class="cabecalho"><?php echo $oTranslator->_('Consulta quantidade de licencas');?></td>
 </tr>
 <tr>
-<td><b><?=$oTranslator->_('Observacao');?></b> - 
+<td><b><?php echo $oTranslator->_('Observacao');?></b> - 
   <i><u>
-    <?=$oTranslator->_('Consulta quantidade de licencas help');?>
+    <?php echo $oTranslator->_('Consulta quantidade de licencas help');?>
   </u></i>
 </td>
 </tr>
@@ -46,9 +46,9 @@ if ($_POST['consultar']) {
 </tr>
 </table>
 <tr><td height="1" colspan="2" bgcolor="#333333"></td></tr>
-<tr><td height="30" colspan="2"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
-<tr><td colspan="2" class="label"><?=$oTranslator->_('Selecione o software');?></td></tr>
-<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<tr><td height="30" colspan="2"><table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
+<tr><td colspan="2" class="label"><?php echo $oTranslator->_('Selecione o software');?></td></tr>
+<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 <tr> 
 <td height="1" bgcolor="#333333"></td>
 </tr>
@@ -57,7 +57,7 @@ if ($_POST['consultar']) {
 <tr>
 <td>
 	<select name="filtro_consulta" id="select" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-	<?	$query = "SELECT id_software, nm_software 
+	<?php	$query = "SELECT id_software, nm_software 
 			  FROM softwares 
 			  WHERE nm_software LIKE '%project%' 
 			  ORDER BY nm_software";
@@ -69,7 +69,7 @@ if ($_POST['consultar']) {
 	?>
 	</select>
 </td> 
-            <td><input name="consultar" type="submit" id="consultar2" value="<?=$oTranslator->_('Consultar');?>"></td>
+            <td><input name="consultar" type="submit" id="consultar2" value="<?php echo $oTranslator->_('Consultar');?>"></td>
           </tr>
         </table></td>
     </tr>
@@ -78,9 +78,7 @@ if ($_POST['consultar']) {
     </tr>
   </table>
   </form>
-<?
-
-if ($_POST['consultar']) {
+<?php if ($_POST['consultar']) {
 
 	$query = "SELECT softwares.id_software, softwares.nm_software, softwares.qt_licenca, 
 		         tempTable.instalado, tempTable3.cacic   
@@ -97,7 +95,7 @@ if ($_POST['consultar']) {
                                                     softwares_inventariados_estacoes.id_software_inventariado ) AND 
 			                           (softwares_inventariados.id_software IS NOT NULL) 
 		                             GROUP BY softwares_inventariados.id_software, 
-                                                      softwares_inventariados_estacoes.te_node_address) AS tempTable2
+                                                      softwares_inventariados_estacoes.id_computador) AS tempTable2
  				       GROUP BY id2) AS tempTable3 
         ON (softwares.id_software = tempTable3.id2) WHERE softwares.nm_software LIKE '%project%' "; 
         if ($_POST['filtro_consulta'] <> 0) { 
@@ -119,48 +117,48 @@ if ($_POST['consultar']) {
 	  <td align="center" nowrap>&nbsp;</td>
 	  <td align="center" nowrap><div align="left"><strong></strong></div></td>
 	  <td align="center" nowrap >&nbsp; </td>
-	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Software');?></font></strong></div></td>
+	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Software');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Licencas');?></font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Licencas');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Autorizado');?></font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Autorizado');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
           <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">CACIC</font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Saldo');?></font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Saldo');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td nowrap>&nbsp;</td>
           <td nowrap class="opcao_tabela">
-		<? if (($_SESSION['nm_grupo_usuarios'] == 'adm1') || ($_SESSION['nm_grupo_usuarios'] == 'saute_operador')) echo '<a href="detalhes_software.php?id_software=' . $row['id_software'] . '" target="_blank">'; ?>
-		<? echo $row['nm_software']; ?>
-		<? if ($_SESSION['nm_grupo_usuarios'] == 'adm1') echo '</a>'; ?>
+		<?php if (($_SESSION['nm_grupo_usuarios'] == 'adm1') || ($_SESSION['nm_grupo_usuarios'] == 'saute_operador')) echo '<a href="detalhes_software.php?id_software=' . $row['id_software'] . '" target="_blank">'; ?>
+		<?php echo $row['nm_software']; ?>
+		<?php if ($_SESSION['nm_grupo_usuarios'] == 'adm1') echo '</a>'; ?>
 	  </td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><a href="lista_aquisicoes_software.php?id_software=<? echo $row['id_software']; ?> "target="_blank" ""><? echo $row['qt_licenca']; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><a href="lista_aquisicoes_software.php?id_software=<?php echo $row['id_software']; ?> "target="_blank" ""><?php echo $row['qt_licenca']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><a href="lista_instalacoes_software.php?id_software=<? echo $row['id_software']; ?> "target="_blank" ""><? echo $row['instalado']+0; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><a href="lista_instalacoes_software.php?id_software=<?php echo $row['id_software']; ?> "target="_blank" ""><?php echo $row['instalado']+0; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><a href="softwares_inventario_cacic.php?id_software=<? echo $row['id_software']; ?> "target="_blank" ""><? echo $row['cacic']+0; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><a href="softwares_inventario_cacic.php?id_software=<?php echo $row['id_software']; ?> "target="_blank" ""><?php echo $row['cacic']+0; ?></a></div></td>
           <td nowrap>&nbsp;</td>
 	  <td nowrap class="opcao_tabela"><div align="center">
-	  <? if ($row['qt_licenca'] < $row['cacic']) { 
+	  <?php if ($row['qt_licenca'] < $row['cacic']) { 
 		echo '<font color="red">'; }
 	  ?> 
-	  <? echo $row['qt_licenca']-$row['cacic']; ?>
-	  <? if ($row['qt_licenca']-$row['cacic']) echo '</font>'; ?></a></div></td> 
+	  <?php echo $row['qt_licenca']-$row['cacic']; ?>
+	  <?php if ($row['qt_licenca']-$row['cacic']) echo '</font>'; ?></a></div></td> 
           <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 }
@@ -175,7 +173,7 @@ if ($_POST['consultar']) {
     <td height="10">&nbsp;</td>
   </tr>
 </table>
-<?
+<?php
 }
 ?>
 </body>

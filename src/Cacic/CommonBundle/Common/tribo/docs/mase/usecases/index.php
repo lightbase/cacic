@@ -7,7 +7,7 @@
 <body>
 <p>&nbsp;<br>
 </p>
-<table width="90%" align="center">
+<table width="85%" align="center">
   <tr> 
     <td><p><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Casos 
         de Uso</font></strong></p>

@@ -31,7 +31,7 @@
 // | Authors: Dietrich Ayala <dietrich@ganx4.com> Original Author         |
 // +----------------------------------------------------------------------+
 //
-// $Id: globals.php,v 1.10 2002/03/21 02:13:29 shane Exp $
+// $Id: globals.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 
 /**
@@ -39,7 +39,7 @@
 * 
 * @module   globals 
 * @package  SOAP
-* @version  $Id: globals.php,v 1.10 2002/03/21 02:13:29 shane Exp $
+* @version  $Id: globals.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @author   Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
 * @author   Dietrich Ayala <dietrich@ganx4.com> Original Author
 */

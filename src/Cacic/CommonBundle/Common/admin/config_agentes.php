@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -27,14 +27,14 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 <head>
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<? 
-require_once('../include/opcoes_avancadas_combos.js');  
+<?php 
+require_once('../include/js/opcoes_avancadas_combos.js');  
 ?>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
 </head>
 
 <body background="../imgs/linha_v.gif"  onLoad="SetaCampo('in_exibe_bandeja');">
-<?
+<?php
 $frm_id_local = ($_POST['frm_id_local']<>''?$_POST['frm_id_local']:$_SESSION['id_local']);
 
 require_once('../include/library.php');
@@ -70,7 +70,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 	{	
 	?>
 	<div id="LayerLocais" style="position:absolute; width:200px; height:115px; z-index:1; left: 0px; top: 0px; visibility:hidden">
-	<?
+	<?php
 
 	$resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$orderby) or die('2-'.$oTranslator->_('kciq_msg select on table fail', array('Locais/Configuracoes_Locais'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 
@@ -91,37 +91,37 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 	echo '</select>';		
 	?>
 	</div>
-	<?
+	<?php
 	}
 	?>
 
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
-<script language="JavaScript" type="text/javascript" src="../include/setLocalConfigAgentes.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/js/setLocalConfigAgentes.js"></script>
 <form action="config_agentes_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-      <td class="cabecalho"><?=$oTranslator->_('Configuracoes dos Modulos Agentes');?></td>
+      <td class="cabecalho"><?php echo $oTranslator->_('Configuracoes dos Modulos Agentes');?></td>
   </tr>
   <tr> 
-    <td class="descricao"><?=$oTranslator->_('As opcoes abaixo determinam qual sera o comportamento dos agentes do');?> CACIC.</td>
+    <td class="descricao"><?php echo $oTranslator->_('As opcoes abaixo determinam qual sera o comportamento dos agentes do');?> CACIC.</td>
   </tr>
 </table>
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
-  	<? 
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
+  	<?php 
 
 	// Será mostrado apenas para os níveis Administração, Gestão Central e Supervisão com acessos a locais secundários.
 	if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
 		{
 		?>
 	    <tr> 
-	    <td class="label"><br><?=$oTranslator->_('Locais');?>: </td>
+	    <td class="label"><br><?php echo $oTranslator->_('Locais');?>: </td>
     	</tr>  
     	<tr> 
       	<td height="1" bgcolor="#333333"></td>
     	</tr>
     	<tr> 	
 		<td>
-		<?
+		<?php
 		if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2)
 			$where = '';
 
@@ -136,7 +136,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 
 		?>
     	<select size="5" name="SELECTlocais"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="setLocal(this);">	
-    	<? 		
+    	<?php 		
 		while ($row_locais = mysql_fetch_array($result_locais))
 			{
 			echo '<option id="'.$row_locais['id_local'].'" value="'. $row_locais['id_local'].'"';
@@ -149,14 +149,14 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     	</select>
 		</td>
     	</tr>
-		<?
+		<?php
 		}
 		?>
   
     <tr> 
       <td class="label">
 
-        <? 
+        <?php 
 
 	AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 	// 1 - Administração
@@ -180,85 +180,85 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 	$campos_configuracoes = mysql_fetch_array($result_configuracoes);
 ?>
         &nbsp;<br>
-        <?=$oTranslator->_('Exibir o icone do CACIC na bandeja (systray)');?>:</td>
+        <?php echo $oTranslator->_('Exibir o icone do CACIC na bandeja (systray)');?>:</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td class="opcao"><p><input name="in_exibe_bandeja" type="radio" value="S"  <? if (strtoupper($campos_configuracoes['in_exibe_bandeja']) == 'S') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('kciq_msg yes');?><br>
-          <input type="radio" name="in_exibe_bandeja" value="N" <? if (strtoupper($campos_configuracoes['in_exibe_bandeja']) == 'N') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><?=$oTranslator->_('ksiq_msg not');?><br>	  
-	  <input name="frm_id_local" id="frm_id_local" type="hidden" value="<? echo $frm_id_local; ?>"></p></td>
+      <td class="opcao"><p><input name="in_exibe_bandeja" type="radio" value="S"  <?php if (strtoupper($campos_configuracoes['in_exibe_bandeja']) == 'S') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('kciq_msg yes');?><br>
+          <input type="radio" name="in_exibe_bandeja" value="N" <?php if (strtoupper($campos_configuracoes['in_exibe_bandeja']) == 'N') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><?php echo $oTranslator->_('ksiq_msg not');?><br>	  
+	  <input name="frm_id_local" id="frm_id_local" type="hidden" value="<?php echo $frm_id_local; ?>"></p></td>
     </tr>
     <tr> 
       <td class="label">&nbsp;&nbsp; <br>
-        <?=$oTranslator->_('Exibir erros criticos aos usuarios');?>: </td>
+        <?php echo $oTranslator->_('Exibir erros criticos aos usuarios');?>: </td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td class="opcao"><p><input name="in_exibe_erros_criticos" type="radio" value="S"  <? if (strtoupper($campos_configuracoes['in_exibe_erros_criticos']) == 'S') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-           <?=$oTranslator->_('kciq_msg yes');?><br>
-          <input type="radio" name="in_exibe_erros_criticos" value="N" <? if (strtoupper($campos_configuracoes['in_exibe_erros_criticos']) == 'N') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('kciq_msg no');?><br>
+      <td class="opcao"><p><input name="in_exibe_erros_criticos" type="radio" value="S"  <?php if (strtoupper($campos_configuracoes['in_exibe_erros_criticos']) == 'S') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+           <?php echo $oTranslator->_('kciq_msg yes');?><br>
+          <input type="radio" name="in_exibe_erros_criticos" value="N" <?php if (strtoupper($campos_configuracoes['in_exibe_erros_criticos']) == 'N') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('kciq_msg no');?><br>
           </p></td>
     </tr>
     <tr> 
       <td class="label">&nbsp;&nbsp; <br>
-        <?=$oTranslator->_('Senha usada para configurar e finalizar os agentes');?>: </td>
+        <?php echo $oTranslator->_('Senha usada para configurar e finalizar os agentes');?>: </td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
       <td><p>
-          <input name="te_senha_adm_agente" type="password"  value="<? echo $campos_configuracoes['te_senha_adm_agente']; ?>" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <input name="te_senha_adm_agente" type="password"  value="<?php echo $campos_configuracoes['te_senha_adm_agente']; ?>" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <br></p></td>
     </tr>
     <tr> 
-      <td class="label">&nbsp;<br><?=$oTranslator->_('Inicio de execucao das acoes');?>: </td>
+      <td class="label">&nbsp;<br><?php echo $oTranslator->_('Inicio de execucao das acoes');?>: </td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
       <td class="opcao"> <p>
-          <input name="nu_exec_apos" type="radio" value="0" <? if ($campos_configuracoes['nu_exec_apos'] == '0') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('Imediatamente apos a inicializacao do CACIC');?><br>
-          <input type="radio" name="nu_exec_apos" value="10"  <? if ($campos_configuracoes['nu_exec_apos'] == '10') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('10 minutos apos a inicializacao do CACIC');?><br>
-          <input name="nu_exec_apos" type="radio" value="20"  <? if ($campos_configuracoes['nu_exec_apos'] == '20') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('20 minutos apos a inicializacao do CACIC');?><br>
-          <input type="radio" name="nu_exec_apos" value="30"  <? if ($campos_configuracoes['nu_exec_apos'] == '30') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('30 minutos apos a inicializacao do CACIC');?><br>
-          <input type="radio" name="nu_exec_apos" value="60"  <? if ($campos_configuracoes['nu_exec_apos'] == '60') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('1 hora apos a inicializacao do CACIC');?><br>
+          <input name="nu_exec_apos" type="radio" value="0" <?php if ($campos_configuracoes['nu_exec_apos'] == '0') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('Imediatamente apos a inicializacao do CACIC');?><br>
+          <input type="radio" name="nu_exec_apos" value="10"  <?php if ($campos_configuracoes['nu_exec_apos'] == '10') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('10 minutos apos a inicializacao do CACIC');?><br>
+          <input name="nu_exec_apos" type="radio" value="20"  <?php if ($campos_configuracoes['nu_exec_apos'] == '20') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('20 minutos apos a inicializacao do CACIC');?><br>
+          <input type="radio" name="nu_exec_apos" value="30"  <?php if ($campos_configuracoes['nu_exec_apos'] == '30') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('30 minutos apos a inicializacao do CACIC');?><br>
+          <input type="radio" name="nu_exec_apos" value="60"  <?php if ($campos_configuracoes['nu_exec_apos'] == '60') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('1 hora apos a inicializacao do CACIC');?><br>
           </p></td>
     </tr>
     <tr> 
-      <td class="label">&nbsp;<br><?=$oTranslator->_('Intervalo de execucao das acoes');?>:</td>
+      <td class="label">&nbsp;<br><?php echo $oTranslator->_('Intervalo de execucao das acoes');?>:</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
       <td class="opcao"><p> 
-          <input type="radio" name="nu_intervalo_exec" value="2"   <? if ($campos_configuracoes['nu_intervalo_exec'] == '2') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('A cada 2 horas');?><br>
+          <input type="radio" name="nu_intervalo_exec" value="2"   <?php if ($campos_configuracoes['nu_intervalo_exec'] == '2') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('A cada 2 horas');?><br>
            
-          <input type="radio" name="nu_intervalo_exec" value="4" <? if ($campos_configuracoes['nu_intervalo_exec'] == '4') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('A cada 4 horas');?><br>
+          <input type="radio" name="nu_intervalo_exec" value="4" <?php if ($campos_configuracoes['nu_intervalo_exec'] == '4') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('A cada 4 horas');?><br>
            
-          <input type="radio" name="nu_intervalo_exec" value="6"  <? if ($campos_configuracoes['nu_intervalo_exec'] == '6') echo 'checked'; ?> class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('A cada 6 horas');?><br>
+          <input type="radio" name="nu_intervalo_exec" value="6"  <?php if ($campos_configuracoes['nu_intervalo_exec'] == '6') echo 'checked'; ?> class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('A cada 6 horas');?><br>
            
-          <input type="radio" name="nu_intervalo_exec" value="8"  <? if ($campos_configuracoes['nu_intervalo_exec'] == '8') echo 'checked'; ?> class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('A cada 8 horas');?><br>
+          <input type="radio" name="nu_intervalo_exec" value="8"  <?php if ($campos_configuracoes['nu_intervalo_exec'] == '8') echo 'checked'; ?> class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('A cada 8 horas');?><br>
            
-          <input type="radio" name="nu_intervalo_exec" value="10"  <? if ($campos_configuracoes['nu_intervalo_exec'] == '10') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-          <?=$oTranslator->_('A cada 10 horas');?><br>
+          <input type="radio" name="nu_intervalo_exec" value="10"  <?php if ($campos_configuracoes['nu_intervalo_exec'] == '10') echo 'checked'; ?>  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <?php echo $oTranslator->_('A cada 10 horas');?><br>
           </p></td>
 
     </tr>
@@ -267,7 +267,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     </tr>
 
 	<tr> 	
-    <td class="label"><?=$oTranslator->_('Opcoes avancadas');?>:</td>
+    <td class="label"><?php echo $oTranslator->_('Opcoes avancadas');?>:</td>
     </tr>
     <tr> 
     <td height="1" bgcolor="#333333"></td>
@@ -277,54 +277,54 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
       <td>&nbsp;</td>
     </tr>
     <tr> 
-      <td class="label"> <p><u><?=$oTranslator->_('Enderecos MAC a desconsiderar');?></u><br></p></td>
+      <td class="label"> <p><u><?php echo $oTranslator->_('Enderecos MAC a desconsiderar');?></u><br></p></td>
     </tr>
     <tr> 
-      <td class="ajuda"><?=$oTranslator->_('kciq_msg MAC Address Help');?></td>
+      <td class="ajuda"><?php echo $oTranslator->_('kciq_msg MAC Address Help');?></td>
     </tr>
 	
     <tr> 
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td><p><textarea name="te_enderecos_mac_invalidos" cols="60" id="te_enderecos_mac_invalidos" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $campos_configuracoes['te_enderecos_mac_invalidos']; ?></textarea>
+      <td><p><textarea name="te_enderecos_mac_invalidos" cols="60" id="te_enderecos_mac_invalidos" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><?php echo $campos_configuracoes['te_enderecos_mac_invalidos']; ?></textarea>
           </p></td>
     </tr>
     <tr> 
-      <td class="descricao"><?=$oTranslator->_('Atencao: informe os enderecos separados por virgulas');?>(&quot;,&quot;). 
+      <td class="descricao"><?php echo $oTranslator->_('Atencao: informe os enderecos separados por virgulas');?>(&quot;,&quot;). 
         <br>
-        <?=$oTranslator->_('Exemplo');?>: &quot;00-53-45-00-00-00,00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,28-41-53&quot;</td>
+        <?php echo $oTranslator->_('Exemplo');?>: &quot;00-53-45-00-00-00,00-00-00-00-00-00,44-45-53-54-00-00,44-45-53-54-00-01,28-41-53&quot;</td>
     </tr>
 
     <tr> 
       <td>&nbsp;</td>
     </tr>
     <tr> 
-      <td class="label"> <p><u><?=$oTranslator->_('Aplicativos (janelas) a evitar');?></u><br></p>
+      <td class="label"> <p><u><?php echo $oTranslator->_('Aplicativos (janelas) a evitar');?></u><br></p>
         </td>
     </tr>
     <tr> 
-      <td class="descricao"><?=$oTranslator->_('Evita que o Gerente de Coletas seja acionado enquanto tais aplicativos (janelas) estiverem ativos');?>.</td>
+      <td class="descricao"><?php echo $oTranslator->_('Evita que o Gerente de Coletas seja acionado enquanto tais aplicativos (janelas) estiverem ativos');?>.</td>
     </tr>
 	
     <tr> 
       <td height="1" bgcolor="#333333"></td>
     </tr>
     <tr> 
-      <td><p><textarea name="te_janelas_excecao" cols="60" id="te_janelas_excecao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $campos_configuracoes['te_janelas_excecao']; ?></textarea>
+      <td><p><textarea name="te_janelas_excecao" cols="60" id="te_janelas_excecao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><?php echo $campos_configuracoes['te_janelas_excecao']; ?></textarea>
           </p></td>
     </tr>
     <tr> 
       <td class="descricao">
-      <?=$oTranslator->_('Atencao: informe os nomes separados por virgulas');?>(&quot;,&quot;).<br>
-        <?=$oTranslator->_('Exemplo');?>: &quot;<?=$oTranslator->_('HOD - Microsoft Word - Corel Draw - PhotoShop');?>&quot;</td>
+      <?php echo $oTranslator->_('Atencao: informe os nomes separados por virgulas');?>(&quot;,&quot;).<br>
+        <?php echo $oTranslator->_('Exemplo');?>: &quot;<?php echo $oTranslator->_('HOD - Microsoft Word - Corel Draw - PhotoShop');?>&quot;</td>
     </tr>
 	
-    <?
+    <?php
 	require_once('../include/opcoes_avancadas.php');
 	?>
   </table>
-<script language="javascript">setLocal(document.all.SELECTlocais);</script>					    
+<script language="javascript">setLocal(document.getElementById('SELECTlocais'));</script>					    
   <tr> 
       	<td height="1" bgcolor="#333333"></td>
     	</tr>
@@ -333,7 +333,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
     	</tr>
     	<tr> 
       	<td><div align="center"> 
-        <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="return SelectAll_Forca_Coleta();return Confirma('<?=$oTranslator->_('Confirma Configuracao de Agentes?');?>');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+        <input name="submit" type="submit" value="<?php echo $oTranslator->_('Gravar informacoes');?>" onClick="return SelectAll_Forca_Coleta();return Confirma('<?php echo $oTranslator->_('Confirma Configuracao de Agentes?');?>');" <?php echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
         </div></td>
     	</tr>
   </table>

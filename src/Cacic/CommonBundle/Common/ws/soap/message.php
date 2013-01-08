@@ -31,7 +31,7 @@
 // | Authors: Dietrich Ayala <dietrich@ganx4.com> Original Author         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Message.php,v 1.9 2002/03/08 09:25:14 shane Exp $
+// $Id: message.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 
 require_once 'SOAP/globals.php';
@@ -46,7 +46,7 @@ require_once 'SOAP/Value.php';
 * originaly based on SOAPx4 by Dietrich Ayala http://dietrich.ganx4.com/soapx4
 *
 * @access   public
-* @version  $Id: Message.php,v 1.9 2002/03/08 09:25:14 shane Exp $
+* @version  $Id: message.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @package  SOAP::Message
 * @author   Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 * @author   Dietrich Ayala <dietrich@ganx4.com> Original Author
@@ -153,7 +153,7 @@ class SOAP_Message extends SOAP_Base
         $value = $this->value;
         $payload = $this->_makeEnvelope($this->_makeBody($value->serialize()));
         $this->debug($value->debug_data);
-        $payload = "<?xml version=\"1.0\"?>\n\n" . $payload;
+        $payload = "<?php xml version=\"1.0\"?>\n\n" . $payload;
         if ($this->debug_flag) {
             $payload .= $this->serializeDebug();
         }

@@ -1,4 +1,4 @@
-	<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -14,114 +14,73 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 ?>		
-<table width="100%" border="0" cellpadding="0" cellspacing="1">
-          <tr> 
-            <td class="label">  
-<?
-		$where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' WHERE redes.id_local = '.$_SESSION['id_local']:'WHERE 1=1 ');
-
-		if ($_SESSION['te_locais_secundarios'] <> '' && $where <> '')
+<table width="85%" border="0" align="center">
+  <tr><td class="cabecalho">&nbsp;</td></tr>  
+  <tr><td><input name="frmRedes_Selecionadas" type="hidden" id="frmRedes_Selecionadas" value="">  
+        <input name="frmRedes_NaoSelecionadas" type="hidden" id="frmRedes_NaoSelecionadas" value="">                
+		<tr><td class="destaque" align="center" colspan="4" valign="middle"><input name="redes" type="checkbox" id="redes" onClick="MarcaDesmarcaTodos(this.form.redes);">
+				  <?php echo $oTranslator->_('Marcar/desmarcar todas as subRedes');?></td>
+		</tr>
+		<tr><td height="10" colspan="2">&nbsp;</td></tr>
+		<tr> 
+		<td nowrap colspan="4"><br>
+		<table border="0" align="center" cellpadding="0" bordercolor="#999999">
+		<tr bgcolor="#FFFFCC"> 
+		<td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Sequencia');?></td>			
+		<td bgcolor="#EBEBEB" align="center"><img src="../../imgs/checked.gif" border="no"></td>				
+		<td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Endereco IP');?></td>				  
+        <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Nome da Subrede');?></td>			
+		<td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Localizacao');?></td>											
+	    </tr>		    
+		<?php 
+	   	$whereREDES = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND loc.id_local = '.$_SESSION['id_local']:'');
+		if ($_SESSION['te_locais_secundarios']<>'' && $whereREDES <> '')
 			{
-			// Faço uma inserção de "(" para ajuste da lógica para consulta
-			$where = str_replace(' WHERE redes.id_local = ',' WHERE (redes.id_local = ',$where);
-			$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+			// Faço uma inserção de "(" para ajuste da lógica para consulta	
+			$whereREDES = str_replace(' loc.id_local = ',' (loc.id_local = ',$whereREDES);
+			$whereREDES .= ' OR loc.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
 			}
-
-		$queryRedesDisponiveis = "SELECT 	distinct redes.id_ip_rede, 
-											redes.nm_rede,
-											redes.id_local 
-								  FROM 		redes ".
-								  			$where ."
-								  ORDER BY  nm_rede";
-		$resultRedesDisponiveis = mysql_query($queryRedesDisponiveis) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('redes')));	
-		
-		if ($boolDetalhes)
-			{
-			$queryRedesSelecionadas = "SELECT 	redes.id_local, 
-												redes.id_ip_rede,
-												redes.nm_rede
-									  FROM 		redes,
-									  			aplicativos_redes AR ".
-												$where ." AND
-									  			redes.id_local = AR.id_local AND
-												redes.id_ip_rede = AR.id_ip_rede AND
-												AR.id_aplicativo = ".$_GET['id_aplicativo']."
-									  ORDER BY  nm_rede";
-			$resultRedesSelecionadas = mysql_query($queryRedesSelecionadas) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('redes')));	
-
-			$strTripaRedesSelecionadas = '';
-			$redesDisponiveis  = '';
-			$redesSelecionadas = '';		
-
-				$strTripaRedesSelecionadas .= '1000_1000#';			
-			   	$redesSelecionadas .= '<option value="1000_1000">1000 - Rede de Testes</option>';						
-				
-			/* Monto uma tripa com as redes selecionadas */
-			while($campos=mysql_fetch_array($resultRedesSelecionadas)) 	
-				{
-				$strTripaRedesSelecionadas .= $campos['id_local'].'_'.$campos['id_ip_rede'].'#';			
-			   	$redesSelecionadas .= '<option value="' . $campos['id_local'].'_'.$campos['id_ip_rede']. '">' . $campos['id_ip_rede'] . ' - ' . capa_string($campos['nm_rede'], 35) . '</option>';						
-				}
 			
-			$strTripaRedesSelecionadas = '#' . $strTripaRedesSelecionadas;
-		
-			$msg = $oTranslator->_('(OBS: Estao sendo exibidas somente as redes selecionadas pelo administrador.)');
+			
+		$queryREDES = "	SELECT 		re.te_ip_rede,
+									re.nm_rede,
+									loc.id_local,
+									loc.sg_local,
+									re.id_rede
+						FROM 		redes re,
+									locais loc
+						WHERE		re.id_local = loc.id_local ".
+									$whereREDES ."
+						ORDER BY	loc.sg_local,
+									re.te_ip_rede,
+									re.nm_rede"; 
+									
+		$resultREDES = mysql_query($queryREDES) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!',array('redes'))); 										
+
+		$intSequencial = 1;
+
+		while ($rowREDES = mysql_fetch_array($resultREDES))
+			{
+			$strIdRedes       .= ($strIdRedes ? ',' : '');			
+			$strIdRedes       .=  $rowREDES['id_rede'];
+			
+			$strCheck 	 = '';
+			$strClasseTD = 'td_normal';
+							
+			$strCheck = ($arrSelecaoRedes[$rowREDES['id_rede']] ? 'checked' : '');
+			?>
+		    <tr>
+		      <td class="<?php echo $strClasseTD;?>" align="right"><?php echo $intSequencial;?></td>									
+			  <td class="<?php echo $strClasseTD;?>" align="center"><input name="rede_<?php echo $rowREDES['id_rede'].'_'.str_replace('td_','',$strClasseTD);?>" id="redes" type="checkbox" class="normal" onBlur="SetaClassNormal(this);" value="<?php echo $rowREDES['id_rede'];?>" <?php echo $strCheck;?>></td>
+			  <td class="<?php echo $strClasseTD;?>"><?php echo $rowREDES['te_ip_rede'];?></td>
+			  <td class="<?php echo $strClasseTD;?>" nowrap="nowrap"><?php echo $rowREDES['nm_rede'];?></td>
+			  <td class="<?php echo $strClasseTD;?>" nowrap="nowrap"><?php echo $rowREDES['sg_local'];?></td>
+	        </tr>
+		    <?php
+			$intSequencial ++;							
 			}
-		
-		/* Agora monto os itens dos combos de redes disponíveis e selecionadas. */ 
-		while($campos=mysql_fetch_array($resultRedesDisponiveis)) 	
-			{
-			$strRedeDisponivel = '#'.$campos['id_local'].'_'.$campos['id_ip_rede'].'#';
-			$intPos = stripos2($strTripaRedesSelecionadas,$strRedeDisponivel);
-			if ($intPos === false)
-			   	$redesDisponiveis  .= '<option value="' . $campos['id_local'].'_'.$campos['id_ip_rede']. '">' . $campos['id_ip_rede'] . ' - ' . capa_string($campos['nm_rede'], 35) . '</option>';
-			}  
-			
-		?>
-             Selecione as redes: </td>
-          </tr>
-          <tr> 
-            <td height="1" bgcolor="#333333"></td>
-          </tr>
-          <tr> 
-            <td><table border="0" cellpadding="0" cellspacing="0">
-			
-                <tr> 
-                  <td>&nbsp;&nbsp;</td>
-                  <td class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Disponiveis:');?></div></td>
-                  <td>&nbsp;&nbsp;</td>
-                  <td width="40">&nbsp;</td>
-                  <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="cabecalho_tabela"><?php echo $oTranslator->_('Selecionadas:');?><br></td>
-                  <td nowrap>&nbsp;&nbsp;</td>
-                </tr>
-                <tr> 
-                  <td>&nbsp;</td>
-                  <td> <div align="left"> 
-                      <select multiple size="10" name="list1[]" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? echo $redesDisponiveis; ?> 
-                      </select>
-                      </div></td>
-                  <td>&nbsp;</td>
-                  <td width="40"> <div align="center"> 
-                      <input type="button" value="   &gt;   " onClick="move(this.form.elements['list1[]'],this.form.elements['list2[]'])" name="B1">
-                      <br>
-                      <br>
-                      <input type="button" value="   &lt;   " onClick="move(this.form.elements['list2[]'],this.form.elements['list1[]'])" name="B2">
-                    </div></td>
-                  <td>&nbsp;</td>
-                  <td><select multiple size="10" name="list2[]" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? echo $redesSelecionadas; ?> 				  
-                    </select>
-					<input name="Teste" type="text" style="border:0" size="80" value="Testessssss">                    
-                    </td>
-                  <td>&nbsp;</td>
-                </tr>
-              </table></td>
-          </tr>
-          <tr> 
-            <td class="descricao">
-              <?php echo $oTranslator->_('(Dica: use SHIFT ou CTRL para selecionar multiplos itens)'); ?>
-            </td>
-          </tr>
-</table>
+	?> 
+	    <tr><td colspan="5">&nbsp;</td></tr>
+	    <tr><td colspan="5">&nbsp;</td></tr>
+        </table>
+

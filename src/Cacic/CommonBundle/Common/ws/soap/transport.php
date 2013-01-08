@@ -31,7 +31,7 @@
 // | Authors: Dietrich Ayala <dietrich@ganx4.com> Original Author         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Transport.php,v 1.10 2002/03/08 09:25:14 shane Exp $
+// $Id: transport.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 
 require_once 'SOAP/Base.php';
@@ -44,7 +44,7 @@ require_once 'SOAP/Base.php';
 * no knowlege of the transport protocols is available at this level
 *
 * @access   public
-* @version  $Id: Transport.php,v 1.10 2002/03/08 09:25:14 shane Exp $
+* @version  $Id: transport.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @package  SOAP::Transport
 * @author   Shane Caraveo <shane@php.net>
 */

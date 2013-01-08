@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -28,7 +28,7 @@ $v_id_software = $_GET['id_software'];
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?=$oTranslator->_('Relatorio de Aquisicoes de Software Particular');?></title>
+<title><?php echo $oTranslator->_('Relatorio de Aquisicoes de Software Particular');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -49,7 +49,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   <tr bgcolor="#E1E1E1"> 
     <td nowrap bgcolor="#FFFFFF">
       <div align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
-        <strong><?=$oTranslator->_('Relatorio de Aquisicoes de Software Particular');?></strong>
+        <strong><?php echo $oTranslator->_('Relatorio de Aquisicoes de Software Particular');?></strong>
         </font></div>
     </td>
   </tr>
@@ -58,15 +58,15 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-       <?=$oTranslator->_('Gerado em');?> 
-       <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+       <?php echo $oTranslator->_('Gerado em');?> 
+       <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<? 
+<?php 
 conecta_bd_cacic();
 	
 	$query = "SELECT s.nm_software, SUM(ai.qt_licenca) as qtde 
@@ -131,11 +131,11 @@ echo '<br><br>';
 ?></p>
 <p></p>
 <p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-  <?=$oTranslator->_('Gerado por');?> 
+  <?php echo $oTranslator->_('Gerado por');?> 
   <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-  <?=$oTranslator->_('Desenvolvido por');?> 
+  <?php echo $oTranslator->_('Desenvolvido por');?> 
   Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 </body>
 </html>

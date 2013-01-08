@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -17,7 +17,7 @@
   		$id_acao = '';
     require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Relat&oacute;rio 
       de Configura&ccedil;&otilde;es de TCP/IP</td>
@@ -32,9 +32,9 @@
   </tr>
 </table>
 <form action="rel_tcpip.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-  <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="5" cellspacing="1">
     <tr>
-	<?
+	<?php
 	/*
   if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
   	{
@@ -66,7 +66,7 @@
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list11[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <?
+                        <?php
                         $query = "SELECT 	id_local,
 											sg_local
                                   FROM 		locais
@@ -101,7 +101,7 @@
     <tr> 
       <td valign="top">&nbsp;</td>
     </tr>  
-	<?
+	<?php
 	}
 	*/
 	?>		 
@@ -131,7 +131,7 @@
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list5[]" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <option value=", computadores.id_ip_rede as &quot;IP Rede&quot;">IP 
+                        <option value=", computadores.id_rede as &quot;IP Rede&quot;">IP 
                         da Rede</option>
                         <option value=", te_mascara as &quot;M&aacute;scara&quot;">M&aacute;scara</option>
                         <option value=", te_gateway as &quot;Gateway&quot;">Gateway</option>
@@ -149,13 +149,13 @@
                       </div></td>
                   <td>&nbsp;</td>
                   <td width="40"> <div align="center"> 
-                      <?
+                      <?php
 					  //<input type="button" value="   &gt;   " onClick="copia(this.form.elements['list5[]'],this.form.elements['list7[]']); move(this.form.elements['list5[]'],this.form.elements['list6[]'])" name="B132">
 					  ?>
                       <input type="button" value="   &gt;   " onClick="move(this.form.elements['list5[]'],this.form.elements['list6[]'])" name="B132">					  
                       <br>
                       <br>
-					  <?
+					  <?php
                       //<input type="button" value="   &lt;   " onClick="exclui(this.form.elements['list6[]'],this.form.elements['list8[]']); exclui(this.form.elements['list6[]'],this.form.elements['list7[]']); move(this.form.elements['list6[]'],this.form.elements['list5[]'])" name="B232">
 					  ?>
                       <input type="button" value="   &lt;   " onClick="move(this.form.elements['list6[]'],this.form.elements['list5[]'])" name="B232">					  
@@ -176,7 +176,7 @@
     <tr> 
       <td valign="top">&nbsp;</td>
     </tr>
-<?
+<?php
 /*	
     <tr>
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
@@ -231,7 +231,7 @@
 ?>	
     <tr> 
       <td valign="top"> 
-        <?  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
+        <?php  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
 		?>
 
@@ -242,7 +242,7 @@
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>
+        <?php  require_once('../../include/selecao_so_inc.php');		?>
       </td>
     </tr>
     <tr> 
@@ -258,10 +258,10 @@
           </tr>
           <tr> 
             <td> <div align="center"> 
-				<?
+				<?php
                 //<input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['list8[]'])">
 				?>
-                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
+                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<?php echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
 																										SelectAll(this.form.elements['list4[]']), 
 																										SelectAll(this.form.elements['list6[]'])">				
               </div></td>

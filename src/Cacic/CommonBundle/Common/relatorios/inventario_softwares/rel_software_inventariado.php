@@ -1,8 +1,8 @@
-<? 
+<?php 
  /* 
  
 Caminho do css
- /cacic2/include/cacic.css
+ /cacic2/include/css/cacic.css
  
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -38,7 +38,7 @@ if ($_REQUEST['Excluir'])
 	{
 	$query = "DELETE FROM softwares_inventariados_grupos WHERE id_si_grupo = '".$_POST['id_si_grupo']."'";
 	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
-	$query = "DELETE FROM acoes_redes WHERE id_ip_rede = '".$_GET['id_ip_rede']."'";
+	$query = "DELETE FROM acoes_redes WHERE id_rede = '".$_GET['id_rede']."'";
 	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/software/index_grupos.php&tempo=1");									
 	}
@@ -59,7 +59,7 @@ if (isset($_REQUEST["palavra"])){
 
 //Paginação
 $queryP = "SELECT distinct(a.id_software_inventariado),a.nm_software_inventariado  FROM  softwares_inventariados a, softwares_inventariados_estacoes b, computadores c";
-$queryP .= " where b.te_node_address  = c.te_node_address AND b.id_so = c.id_so and a.id_software_inventariado = b.id_software_inventariado  ";
+$queryP .= " where b.id_computador  = c.id_computador and a.id_software_inventariado = b.id_software_inventariado  ";
 if ($pesquisa!="0"){
 	$queryP .= "and id_si_grupo=".$pesquisa;
 }
@@ -71,7 +71,7 @@ if ($palavra!=""){
 	}	
 }
 if ($rede!="0"){
-	$queryP .= " AND c.id_ip_rede ='".$rede."'";
+	$queryP .= " AND c.id_rede =".$rede;
 }
 $resultP = mysql_query($queryP);
 $num = mysql_num_rows($resultP);
@@ -89,7 +89,7 @@ if (($rede!=0) ||($pesquisa!=0) || ($palavra!="")){
 }
 
 $query = "SELECT distinct(a.id_software_inventariado),a.nm_software_inventariado FROM softwares_inventariados a, softwares_inventariados_estacoes b, computadores c";
-$query .= " where b.te_node_address  = c.te_node_address AND b.id_so = c.id_so and a.id_software_inventariado = b.id_software_inventariado ";
+$query .= " where b.id_computador = c.id_computador and a.id_software_inventariado = b.id_software_inventariado ";
 if ($pesquisa!="0"){
 	$query .= "AND a.id_si_grupo=".$pesquisa;
 }
@@ -101,7 +101,7 @@ if ($palavra!=""){
 	}	
 }
 if ($rede!="0"){
-	$query .= " AND c.id_ip_rede ='".$rede."'";
+	$query .= " AND c.id_rede =".$rede;
 }
 
 $query .= " ORDER BY nm_software_inventariado LIMIT ".$inicial.",".$total_reg."";
@@ -110,7 +110,7 @@ $result = mysql_query($query);
 $queryG = 'SELECT * FROM softwares_inventariados_grupos ORDER BY id_si_grupo';
 $resultG = mysql_query($queryG);
 
-$queryR = "SELECT id_ip_rede, nm_rede FROM redes";
+$queryR = "SELECT id_rede, nm_rede FROM redes";
 $resultR = mysql_query($queryR);
 
 ?>
@@ -118,7 +118,7 @@ $resultR = mysql_query($queryR);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Cadastro de Grupos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
@@ -156,7 +156,7 @@ function mOut(src,clrIn) {
       }
 }
 function carrega(nome){
-	document.all.lista.src = "combo_software_inv.php?rede=<? echo $rede?>&id_software_inventariado="+nome;
+	document.all.lista.src = "combo_software_inv.php?rede=<?php echo $rede?>&id_software_inventariado="+nome;
 }
 function mostratab(nome){
 	eval("document.all.tr_micros_" + nome +".style.display= ''");				
@@ -175,9 +175,9 @@ function mostratab(nome){
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="http://<? echo $_SERVER['HTTP_HOST'].'/cacic2/include/cacic.js';?>"></script>
+<script language="JavaScript" type="text/javascript" src="http://<?php echo $_SERVER['HTTP_HOST'].'/cacic3/include/js/cacic.js';?>"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Relat&oacute;rio 
       de Softwares Invent&aacute;rios</td>
@@ -188,25 +188,25 @@ function mostratab(nome){
   </tr>
 </table>
 <iframe src="" height="0" width="0" frameborder="0" name="lista"></iframe>
-<br><table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<br><table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr>
     <td width="20%" valign="bottom">Por Rede<br>
         <select name="rede" class="normal" id="rede" >
           <option value="0">Todas</option>
-          <? while($rowR = mysql_fetch_array($resultR)) {?>
-          <option value="<? echo $rowR['id_ip_rede']; ?>" <? if ($rede==$rowR['id_ip_rede']){?>selected<? }?>><? echo $rowR['nm_rede']; ?></option>
-          <? }?>
+          <?php while($rowR = mysql_fetch_array($resultR)) {?>
+          <option value="<?php echo $rowR['id_rede']; ?>" <?php if ($rede==$rowR['id_rede']){?>selected<?php }?>><?php echo $rowR['nm_rede']; ?></option>
+          <?php }?>
         </select>
       <br></td>
     <td width="14%" height="10" valign="bottom">Por grupo:<br>
       <select name="pesquisa" class="normal" id="pesquisa" ><!-- onChange="mudapagina(this.value,'1')"-->
         <option value="0">Todos</option>
-		<? while($rowG = mysql_fetch_array($resultG)) {?>
-			<option value="<? echo $rowG['id_si_grupo']; ?>" <? if ($pesquisa==$rowG['id_si_grupo']){?>selected<? }?>><? echo $rowG['nm_si_grupo']; ?></option>
-		<? }?>	
+		<?php while($rowG = mysql_fetch_array($resultG)) {?>
+			<option value="<?php echo $rowG['id_si_grupo']; ?>" <?php if ($pesquisa==$rowG['id_si_grupo']){?>selected<?php }?>><?php echo $rowG['nm_si_grupo']; ?></option>
+		<?php }?>	
       </select></td>
     <td valign="bottom">Por palavra:<br>
-      <input name="palavra" type="text" class="normal" id="palavra" value="<? echo $palavra?>">
+      <input name="palavra" type="text" class="normal" id="palavra" value="<?php echo $palavra?>">
       &nbsp;&nbsp;
       <input name="Button" type="button" class="normal" value="Pesquisar" onClick="pesquisa_()"></td>
     </tr>
@@ -214,20 +214,19 @@ function mostratab(nome){
     <td height="10" colspan="3"><div align="right"></div></td>
   </tr>
   <tr> 
-    <td height="10" colspan="3" align="center" valign="middle"><? echo $msg;?>
+    <td height="10" colspan="3" align="center" valign="middle"><?php echo $msg;?>
       <div align="center"></div></td>
     </tr>
   <tr>
     <td height="10" colspan="3">
 	<div align="right">
-	<?  
-		if ($pagina > 1) {
+	<?php if ($pagina > 1) {
 	?>
-      << <a href="rel_software_inventariado.php?rede=<? echo $rede?>&pesquisa=<? echo $pesquisa?>&pagina=<? echo ($pagina - 1)?>&palavra=<? echo $palavra?>" target="_self">anterior</a> |
-        <?	}		
+      << <a href="rel_software_inventariado.php?rede=<?php echo $rede?>&pesquisa=<?php echo $pesquisa?>&pagina=<?php echo ($pagina - 1)?>&palavra=<?php echo $palavra?>" target="_self">anterior</a> |
+        <?php	}		
 	?>
-          <select name="select2" class="normal" onChange="mudapagina('<? echo $rede?>','<? echo $pesquisa?>',this.value,'<? echo $palavra?>')">
-            <?
+          <select name="select2" class="normal" onChange="mudapagina('<?php echo $rede?>','<?php echo $pesquisa?>',this.value,'<?php echo $palavra?>')">
+            <?php
 		$i = 1;		
 		while ($i <= $total_paginas) {
 			if ($i == $pagina) {
@@ -236,14 +235,14 @@ function mostratab(nome){
 			else {
 				$seleciona = "";
 			} ?>
-                  <option value="<? echo $i; ?>" <? echo $seleciona?>><? echo $i; ?></option>
-            <? 
+                  <option value="<?php echo $i; ?>" <?php echo $seleciona?>><?php echo $i; ?></option>
+            <?php 
 			$i = $i + 1; 
 		}?>
           </select>
-          <?	if ($pagina < $total_paginas) { ?>
-          <a href="rel_software_inventariado.php?rede=<? echo $rede?>&pesquisa=<? echo $pesquisa?>&pagina=<? echo ($pagina + 1)?>&palavra=<? echo $palavra?>" target="_self">próxima</a>>>
-          <? }		
+          <?php if ($pagina < $total_paginas) { ?>
+          <a href="rel_software_inventariado.php?rede=<?php echo $rede?>&pesquisa=<?php echo $pesquisa?>&pagina=<?php echo ($pagina + 1)?>&palavra=<?php echo $palavra?>" target="_self">próxima</a>>>
+          <?php }		
 	?>
       </div></td>
   </tr>
@@ -261,8 +260,7 @@ function mostratab(nome){
           <td width="66" align="center"  nowrap class="cabecalho_tabela"><div align="center">C&oacute;digo</div></td>
           <td width="571" nowrap  class="cabecalho_tabela">Software</td>
           </tr>
-<?  
-if(mysql_num_rows($result)==0) {
+<?php if(mysql_num_rows($result)==0) {
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
 				Nenhum software cadastrado
@@ -275,26 +273,26 @@ else {
 	$marcador = 0; 
 	while($row = mysql_fetch_array($result)) {		  
 		if ($marcador < $total_reg) {    
-			$query_Cont = "SELECT count(*) as numero FROM softwares_inventariados_estacoes b, computadores c,so s where c.id_so = s.id_so and  b.te_node_address  = c.te_node_address AND b.id_so = c.id_so and  b.id_software_inventariado=".$row['id_software_inventariado'];
+			$query_Cont = "SELECT count(*) as numero FROM softwares_inventariados_estacoes b, computadores c,so s where c.id_so = s.id_so and  b.id_computador = c.id_computador and  b.id_software_inventariado=".$row['id_software_inventariado'];
 			if ($rede!="0"){
-				$query_Cont .=" and c.id_ip_rede='".$rede."'";
+				$query_Cont .=" and c.id_rede='".$rede."'";
 			}			
 			$result_Cont = mysql_query($query_Cont);
 			$linha = mysql_fetch_array($result_Cont);		
 	 ?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?> onMouseOver="mOvr(this,'#999999');" onMouseOut="mOut(this,'<? if ($Cor) { echo "#E1E1E1"; } ?>');" onClick="carrega('<? echo $row['id_software_inventariado'] ?>');">
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?> onMouseOver="mOvr(this,'#999999');" onMouseOut="mOut(this,'<?php if ($Cor) { echo "#E1E1E1"; } ?>');" onClick="carrega('<?php echo $row['id_software_inventariado'] ?>');">
 			  <td>&nbsp;</td>
-			  <td class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
-			  <td class="opcao_tabela"><div align="center"><? echo $row['id_software_inventariado']; ?></div></td>
-			  <td class="opcao_tabela"><div align="left"><? echo $row['nm_software_inventariado']; ?> [<? echo $linha['numero']?>] </div></td>
+			  <td class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
+			  <td class="opcao_tabela"><div align="center"><?php echo $row['id_software_inventariado']; ?></div></td>
+			  <td class="opcao_tabela"><div align="left"><?php echo $row['nm_software_inventariado']; ?> [<?php echo $linha['numero']?>] </div></td>
 			</tr>
-			<tr id="tr_micros_<? echo $row['id_software_inventariado'] ?>" style="display:none">
+			<tr id="tr_micros_<?php echo $row['id_software_inventariado'] ?>" style="display:none">
 			  <td colspan="4">
 			  <table width="97%" border="0" cellpadding="0" cellspacing="0" align="center">         
-			  	<div id="texto_<? echo $row['id_software_inventariado'] ?>"></div>
+			  	<div id="texto_<?php echo $row['id_software_inventariado'] ?>"></div>
               </table>			  </td>
 		  </tr>
-			  <? 
+			  <?php 
 			$Cor=!$Cor;
 			$NumRegistro++;
 		}
@@ -312,7 +310,7 @@ else {
     <td height="10" colspan="3">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10" colspan="3"><? echo $msg;?></td>
+    <td height="10" colspan="3"><?php echo $msg;?></td>
   </tr>
   
 </table>

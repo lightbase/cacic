@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -54,7 +54,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+		$query_redes = 'AND id_rede IN ('. $redes_selecionadas .')';
 		//}	
 	}
 else
@@ -64,7 +64,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$query_redes = 'AND comp.id_ip_rede = redes.id_ip_rede AND 
+	$query_redes = 'AND comp.id_rede = redes.id_rede AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
 	$select = ' ,sg_local as Local ';	
@@ -92,8 +92,7 @@ else
 							$from . " 
 			  WHERE 		usblogs.dt_event >= '" . $_SESSION["data_ini"] . "' AND 
 							usblogs.dt_event <= '" . $_SESSION["data_fim"] . "' AND 
-							comp.te_node_address = usblogs.te_node_address AND 
-							comp.id_so = usblogs.id_so ".
+							comp.id_computador = usblogs.id_computador  ".
 							$query_redes. " 
 			  ORDER BY 		$orderby ";
 //echo $query . '<br>';
@@ -133,7 +132,7 @@ if (mysql_num_rows($result) > 0)
       </tr>
       <tr> 
         <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-            em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+            em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
       </tr>
     </table>
     <br>
@@ -141,7 +140,7 @@ if (mysql_num_rows($result) > 0)
     <br>
     <br>
     
-    <?
+    <?php
 	$cor = 0;
 	$num_registro = 1;
 	
@@ -174,32 +173,32 @@ if (mysql_num_rows($result) > 0)
           <td nowrap class="cabecalho_tabela"><div align="right">Evento</div></td>
           <td nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="right"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}
@@ -215,7 +214,7 @@ if (mysql_num_rows($result) > 0)
 	  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 	</body>
 	</html>    
-    <?		
+    <?php		
 	}
 else
 	{

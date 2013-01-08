@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -39,30 +39,30 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title><?=$oTranslator->_('Log de Atividades');?></title>
+<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Log de Atividades');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body background="../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><div align="left"><?=$oTranslator->_('Log de Atividades');?></div></td>
+    <td class="cabecalho"><div align="left"><?php echo $oTranslator->_('Log de Atividades');?></div></td>
   </tr>
   <tr> 
       <td class="descricao">
-        <?=$oTranslator->_('Visualizacao das ocorrencias com as operacoes de atualizacao, inclusao e exclusao no sistema.');?>
+        <?php echo $oTranslator->_('Visualizacao das ocorrencias com as operacoes de atualizacao, inclusao e exclusao no sistema.');?>
       </td>
   </tr>
 </table>
 	<p><br></p>
 	
-  <table width="90%" border="0" cellpadding="0" cellspacing="1" align="center">
+  <table width="85%" border="0" cellpadding="0" cellspacing="1" align="center">
     <tr> 
       <td class="label" colspan="3">
-        <?=$oTranslator->_('Selecione o periodo em que devera ser realizada a consulta');?>
+        <?php echo $oTranslator->_('Selecione o periodo em que devera ser realizada a consulta');?>
       </td>
     </tr>
     <tr> 
@@ -70,7 +70,7 @@ else
     </tr>
     <tr valign="middle"> 
       <td width="33%" height="1" nowrap valign="middle">
-<input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>"> 
+<input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input1;?>"> 
         <script type="text/javascript" language="JavaScript">
 	<!--
 	function calendar1Callback(date, month, year)	
@@ -80,7 +80,7 @@ else
   	calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 	//-->
 	</script> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
-        &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>"> 
+        &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input2;?>"> 
         <script type="text/javascript" language="JavaScript">
 	<!--
 	function calendar2Callback(date, month, year)	
@@ -90,7 +90,7 @@ else
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->
 	</script> </td>
-      <td align="left" class="descricao">&nbsp;&nbsp;(<?=$oTranslator->_('Formato da data');?> <?=$oTranslator->_('dd/mm/aaaa');?>)</td>
+      <td align="left" class="descricao">&nbsp;&nbsp;(<?php echo $oTranslator->_('Formato da data');?> <?php echo $oTranslator->_('dd/mm/aaaa');?>)</td>
       <td align="left" class="descricao" valign="middle"><div align="center">
           <input name="consultar" type="submit" value="   Filtrar   ">
         </div></td>
@@ -99,8 +99,7 @@ else
       <td height="1" bgcolor="#333333" colspan="3"></td>
     </tr>
   </table>
-	<?
-	if ($_POST['date_input1'])
+	<?php if ($_POST['date_input1'])
 		{
 		conecta_bd_cacic();
 		$query = 'SELECT 	DATE_FORMAT(a.dt_acao, "%y-%m-%d %h:%i") as dt_acao,
@@ -123,7 +122,7 @@ else
 		
 		?>	
 	<p></p>				
-	 	<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+	 	<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     	<tr> 
       	<td height="10" colspan="3">&nbsp;</td>
     	</tr>
@@ -135,27 +134,27 @@ else
     	</tr>
     	<tr> 
       	<td colspan="3"> 
-		<table width="90%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
+		<table width="85%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
           <tr bgcolor="#E1E1E1"> 
             <td colspan="3"></td>
-            <td align="center" nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Data');?></div></td>
+            <td align="center" nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Data');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Operacao');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Operacao');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Tabela');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Tabela');?></div></td>
             <td></td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Script');?>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Script');?>
                 (.php)</div></td>
             <td></td>
-            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Usuario');?></div></td>
+            <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Usuario');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><?=$oTranslator->_('IP Origem');?></td>
+            <td nowrap class="cabecalho_tabela"><?php echo $oTranslator->_('IP Origem');?></td>
             <td></td>
           </tr>
           <tr> 
             <td height="1" colspan="15" bgcolor="#333333"></td>
           </tr>
-          <?  
+          <?php  
 		$msg = '<div align="center">
 		       <font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">'.
 		       $oTranslator->_('Nenhuma acao realizada no periodo informado.') .
@@ -196,23 +195,23 @@ else
 				$arr_nm_usuario[$nm_usuario]++;
 		
 			?>
-          <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+          <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
             <td nowrap></td>
-            <td align="left" nowrap class="opcao_tabela"><? echo $NumRegistro; ?></td>
+            <td align="left" nowrap class="opcao_tabela"><?php echo $NumRegistro; ?></td>
             <td nowrap></td>
-            <td nowrap class="opcao_tabela"><? echo $day.'/'.$month.'/'.$year. ' '. substr($hour,0,5);?></td>
+            <td nowrap class="opcao_tabela"><?php echo $day.'/'.$month.'/'.$year. ' '. substr($hour,0,5);?></td>
             <td nowrap></td>
-            <td nowrap class="opcao_tabela"><? echo $row['cs_acao'];?></td>
+            <td nowrap class="opcao_tabela"><?php echo $row['cs_acao'];?></td>
             <td nowrap></td>
-            <td nowrap class="opcao_tabela"><? echo $row['nm_tabela'];?></td>
+            <td nowrap class="opcao_tabela"><?php echo $row['nm_tabela'];?></td>
             <td nowrap></td>
-				<td nowrap class="opcao_tabela"><? echo $nm_script;?></td>
+				<td nowrap class="opcao_tabela"><?php echo $nm_script;?></td>
             <td nowrap></td>
-            <td nowrap class="opcao_tabela"><? echo $nm_usuario;?></td>
+            <td nowrap class="opcao_tabela"><?php echo $nm_usuario;?></td>
             <td nowrap></td>
-            <td nowrap class="opcao_tabela"><? echo $row['te_ip_origem'];?></td>
+            <td nowrap class="opcao_tabela"><?php echo $row['te_ip_origem'];?></td>
             <td nowrap></td>
-            <? 
+            <?php 
 			$Cor=!$Cor;
 			$NumRegistro--;
 			}
@@ -237,21 +236,21 @@ else
 		<table width="293" border="0" align="center" cellpadding="0" cellspacing="1">
 		<tr> 
 		<td colspan="3"><div align="center"><font color="#004080" size="4">
-		  <?=$oTranslator->_('Resumo das Operacoes');?>
+		  <?php echo $oTranslator->_('Resumo das Operacoes');?>
           </font></div></td>
 		</tr>
 		<tr> 
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
 		<tr bgcolor="#CCCCCC"> 
-		<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Operacao');?></strong></font></div></td>
-		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
-		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
+		<td><div align="left"><font size="2"><strong><?php echo $oTranslator->_('Operacao');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Quantidade');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
 		</tr>
 		<tr> 
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
-		<?
+		<?php
 		$total_key = 0;
 		foreach ($arr_cs_acao as $key => $value) 
 			{
@@ -263,9 +262,8 @@ else
 		foreach ($arr_cs_acao as $key => $value) 
 			{
 			?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-			<?
-			echo '<td nowrap><div align="left">'.$key.'</div></td>';
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+			<?php echo '<td nowrap><div align="left">'.$key.'</div></td>';
 			echo '<td nowrap><div align="right">'.$value.'</div></td>';
 			echo '<td nowrap><div align="right">'.number_format(($value/$total_key)*100,2).'</div></td>';		
 			echo '</tr>';
@@ -277,7 +275,7 @@ else
 		</tr>
 		<tr> 
 		<td nowrap>&nbsp;</td>
-		<td align="right"><? echo $total_key;?></td>
+		<td align="right"><?php echo $total_key;?></td>
 		<td>&nbsp;</td>
 		</tr>
 		<tr>
@@ -290,14 +288,14 @@ else
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
 		<tr bgcolor="#CCCCCC"> 
-		<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Tabela');?></strong></font></div></td>
-		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
-		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
+		<td><div align="left"><font size="2"><strong><?php echo $oTranslator->_('Tabela');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Quantidade');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
 		</tr>
 		<tr> 
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
-		<?
+		<?php
 		$total_key = 0;
 		foreach ($arr_nm_tabela as $key => $value) 
 			{
@@ -309,9 +307,8 @@ else
 		foreach ($arr_nm_tabela as $key => $value) 
 			{
 			?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-			<?
-			echo '<td nowrap><div align="left">'.$key.'</div></td>';
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+			<?php echo '<td nowrap><div align="left">'.$key.'</div></td>';
 			echo '<td nowrap><div align="right">'.$value.'</div></td>';
 			echo '<td nowrap><div align="right">'.number_format(($value/$total_key)*100,2).'</div></td>';		
 			echo '</tr>';
@@ -323,7 +320,7 @@ else
 		</tr>
 		<tr> 
 		<td nowrap>&nbsp;</td>
-		<td align="right"><? echo $total_key;?></td>
+		<td align="right"><?php echo $total_key;?></td>
 		<td>&nbsp;</td>
 		</tr>
 		<tr>
@@ -336,14 +333,14 @@ else
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
 		<tr bgcolor="#CCCCCC"> 
-		<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Script');?> (.php)</strong></font></div></td>
-		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
-		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
+		<td><div align="left"><font size="2"><strong><?php echo $oTranslator->_('Script');?> (.php)</strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Quantidade');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
 		</tr>
 		<tr> 
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
-		<?
+		<?php
 		$total_key = 0;
 		foreach ($arr_nm_script as $key => $value) 
 			{
@@ -355,9 +352,8 @@ else
 		foreach ($arr_nm_script as $key => $value) 
 			{
 			?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-			<?
-			echo '<td nowrap><div align="left">'.$key.'</div></td>';
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+			<?php echo '<td nowrap><div align="left">'.$key.'</div></td>';
 			echo '<td nowrap><div align="right">'.$value.'</div></td>';
 			echo '<td nowrap><div align="right">'.number_format(($value/$total_key)*100,2).'%</div></td>';		
 			echo '</tr>';
@@ -369,7 +365,7 @@ else
 		</tr>
 		<tr> 
 		<td nowrap>&nbsp;</td>
-		<td align="right"><? echo $total_key;?></td>
+		<td align="right"><?php echo $total_key;?></td>
 		<td>&nbsp;</td>
 		</tr>
 		<tr>
@@ -382,14 +378,14 @@ else
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
 		<tr bgcolor="#CCCCCC"> 
-		<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Usuario');?></strong></font></div></td>
-		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quantidade');?></strong></font></div></td>
-		<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
+		<td><div align="left"><font size="2"><strong><?php echo $oTranslator->_('Usuario');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Quantidade');?></strong></font></div></td>
+		<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Percentual', T_SIGLA);?></strong></font></div></td>
 		</tr>
 		<tr> 
 		<td height="1" colspan="3" bgcolor="#333333"></td>
 		</tr>
-		<?
+		<?php
 		$total_key = 0;
 		foreach ($arr_nm_usuario as $key => $value) 
 			{
@@ -401,9 +397,8 @@ else
 		foreach ($arr_nm_usuario as $key => $value) 
 			{
 			?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-			<?
-			echo '<td nowrap><div align="left">'.$key.'</div></td>';
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+			<?php echo '<td nowrap><div align="left">'.$key.'</div></td>';
 			echo '<td nowrap><div align="right">'.$value.'</div></td>';
 			echo '<td nowrap><div align="right">'.number_format(($value/$total_key)*100,2).'%</div></td>';		
 			echo '</tr>';
@@ -415,7 +410,7 @@ else
 		</tr>
 		<tr> 
 		<td nowrap>&nbsp;</td>
-		<td align="right"><? echo $total_key;?></td>
+		<td align="right"><?php echo $total_key;?></td>
 		<td>&nbsp;</td>
 		</tr>
 		<tr>
@@ -425,10 +420,10 @@ else
 		<td>&nbsp;</td>
 		</tr>
 	    <tr> 
-	    <td height="10" colspan="3"><? echo $msg;?></td>
+	    <td height="10" colspan="3"><?php echo $msg;?></td>
 	    </tr>
 		
-		<?
+		<?php
 		}
 		?>
     <tr> 

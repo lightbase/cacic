@@ -1,25 +1,25 @@
-<?
+<?php
  /* 
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informaï¿½ï¿½es da Previdï¿½ncia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ï¿½ parte do programa CACIC - Configurador Automï¿½tico e Coletor de Informaï¿½ï¿½es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ï¿½ um software livre; vocï¿½ pode redistribui-lo e/ou modifica-lo dentro dos termos da Licenï¿½a Pï¿½blica Geral GNU como 
+ publicada pela Fundaï¿½ï¿½o do Software Livre (FSF); na versï¿½o 2 da Licenï¿½a, ou (na sua opniï¿½o) qualquer versï¿½o.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ï¿½ distribuido na esperanï¿½a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAï¿½ï¿½O a qualquer
+ MERCADO ou APLICAï¿½ï¿½O EM PARTICULAR. Veja a Licenï¿½a Pï¿½blica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral GNU, sob o tï¿½tulo "LICENCA.txt", junto com este programa, se nï¿½o, escreva para a Fundaï¿½ï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
 /*
- * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ * verifica se houve login e tambï¿½m regras para outras verificaï¿½ï¿½es (ex: permissï¿½es do usuï¿½rio)!
  */
 if(!isset($_SESSION['id_usuario'])) 
   die('Acesso negado (Access denied)!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+else { // Inserir regras para outras verificaï¿½ï¿½es (ex: permissï¿½es do usuï¿½rio)!
 }
 
 include_once "../../include/library.php";
@@ -48,6 +48,8 @@ if($_POST['submit'])
 							 dt_log_in, 
 							 id_grupo_usuarios,
 							 id_local,
+							 id_servidor_autenticacao,							 
+							 id_usuario_ldap,
 							 te_emails_contato,
 							 te_telefones_contato,
 							 te_locais_secundarios) 
@@ -57,159 +59,52 @@ if($_POST['submit'])
 							now(),
 							'".$_POST['frm_id_grupo_usuarios']."',
 							'".$_POST['frm_id_local']."',
+							'".$_POST['frm_id_servidor_autenticacao']."',							
+							'".$_POST['frm_id_usuario_ldap']."',														
 							'".$_POST['frm_te_emails_contato']."',
 							'".$_POST['frm_te_telefones_contato']."',
 							'".$_POST['frm_te_locais_secundarios']."')";
 		$result = mysql_query($query) or die ($oTranslator->_('kciq_msg insert row on table fail', array('usuarios'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'usuarios');		
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'usuarios',$_SESSION["id_usuario"]);		
 		header ("Location: ../../include/operacao_ok.php?chamador=../admin/usuarios/index.php&tempo=1");									 											
 		}
 	?>
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
-	<?
+	<?php
 	}
 else 
 	{
 	?>
 	<head>
-	<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+	<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 	<title></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	
-	<SCRIPT LANGUAGE="JavaScript">
-	function SetaDescGrupo(p_descricao,p_destino) 
-		{
-		document.forms[0].elements[p_destino].value = p_descricao;		
-		}
-			
-	function valida_form() 
-		{
-		if (document.form.frm_id_local.selectedIndex==0) 
-			{	
-			alert("O local do usuário é obrigatório");
-			document.form.frm_id_local.focus();
-			return false;
-			}
-	
-		if (document.form.frm_nm_usuario_acesso.value == "" ) 
-			{	
-			alert("A identificação do usuário é obrigatória");
-			document.form.frm_nm_usuario_acesso.focus();
-			return false;
-			}
-		if (document.form.frm_nm_usuario_completo.value == "" ) 
-			{	
-			alert("O nome completo do usuário é obrigatório");
-			document.form.frm_nm_usuario_completo.focus();
-			return false;
-			}
-	
-		if (document.form.frm_sel_id_locais_secundarios.value != "" ) 
-			{
-			var intLoop;
-			var strIdLocaisSecundarios;
-			
-			strIdLocaisSecundarios = "";
-			
-			for (intLoop = 0; intLoop < document.form.frm_sel_id_locais_secundarios.options.length; intLoop++)
-				{
-				if (document.form.frm_sel_id_locais_secundarios.options[intLoop].selected)
-					{
-					if (strIdLocaisSecundarios != "")
-						strIdLocaisSecundarios += ",";
-						
-					strIdLocaisSecundarios += Trim(document.form.frm_sel_id_locais_secundarios.options[intLoop].value);
-					}
-				}
-			document.form.frm_te_locais_secundarios.value = strIdLocaisSecundarios;
-			}		
-		return true;
-		}
-	team = new Array(
-	<?
-	$sql='select * from locais ';
-	$where = '';
-	if ($_SESSION['te_locais_secundarios']<>'')
-		{
-		$where = ' where id_local = '.$_SESSION['id_local'].' OR id_local in ('.$_SESSION['te_locais_secundarios'].') ';
-		}
-	$sql .= $where . ' order by nm_local'; 
-
-	conecta_bd_cacic();
-
-	$sql_result=mysql_query($sql); 
-	$num=mysql_numrows($sql_result); 
-	$contador = 0;
-	while ($row=mysql_fetch_array($sql_result))
-		{ 
-		$contador ++;
-		if ($contador > 1)
-			echo ",\n";
-	
-		$v_id_local=$row["id_local"]; 
-		$v_sg_local=$row["sg_local"] . ' / '.$row["nm_local"]; 
-		echo "new Array(\"$v_id_local\", \"$v_sg_local\")"; 
-		} 
-	echo ");\n"; 	
-	?> 
-	
-	function fillSelectFromArray(selectCtrl, itemArray, itemAtual) 
-		{ 	
-		var i, j; 
-		selectCtrl.disabled = true;			
-		// empty existing items 
-		for (i = selectCtrl.options.length; i >= 0; i--) 
-			{ 
-			selectCtrl.options[i] = null; 
-			} 
-	
-		if (itemArray != null && itemAtual != 0) 
-			{ 
-			selectCtrl.size = 5;
-			selectCtrl.disabled = false;			
-			j = 1;
-			// add new items 
-			selectCtrl.options[0] = new Option("","          "); 		
-
-			for (i = 0; i < itemArray.length; i++) 
-				{ 
-				if (itemArray[i][0] != itemAtual)
-					{
-					selectCtrl.options[j] = new Option(itemArray[i][0]); 
-					if (itemArray[i][0] != null) 
-						{ 
-						selectCtrl.options[j].value = itemArray[i][0]; 					
-						selectCtrl.options[j].text = itemArray[i][1]; 										
-						} 
-					j++; 
-					}				
-				} 
-			// select first item (prompt) for sub list 
-			selectCtrl.options[0].selected = true; 
-		   } 
-		}
-	
-	</script>
+	<script language="JavaScript" type="text/javascript" src="../../include/js/jquery.js"></script>            
+	<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>    
+	<script language="JavaScript" type="text/javascript" src="../../include/js/ajax/usuarios.js"></script>                    
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<?php
+	include_once "../../include/selecao_locais_usuarios_inc.php";
+	?>	
 	</head>
 	
 	<body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_id_local')">
-	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-	<table width="90%" border="0" align="center">
+
+	<table width="85%" border="0" align="center">
 	  <tr> 
-		<td class="cabecalho"><div align="left"><?=$oTranslator->_('Inclusao de novo usuario');?></div></td>
+		<td class="cabecalho"><div align="left"><?php echo $oTranslator->_('Inclusao de novo usuario');?></div></td>
 	  </tr>
 	  <tr> 
 		<td class="descricao">
-			<?=$oTranslator->_('kciq_msg Inclusao de novo usuario help');?>
+			<?php echo $oTranslator->_('kciq_msg Inclusao de novo usuario help');?>
 		</td>
 	  </tr>
 	</table>
-	<?
+	<?php
 	$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE id_local = '.$_SESSION['id_local']:'');
 	if (trim($_SESSION['te_locais_secundarios'])<>'' && $where <> '')
 		{
-		// Faço uma inserção de "(" para ajuste da lógica para consulta
+		// Faï¿½o uma inserï¿½ï¿½o de "(" para ajuste da lï¿½gica para consulta
 		$where = str_replace('id_local = ','(id_local = ',$where);
 		$where .= ' OR id_local IN ('.$_SESSION['te_locais_secundarios'].'))';	
 		}
@@ -227,10 +122,10 @@ else
 	  <p>&nbsp;</p><form action="incluir_usuario.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
 	  <table border="0" align="center" cellpadding="2" cellspacing="2">
 		<tr> 
-		  <td class="label"><?=$oTranslator->_('Local');?>:</td>
-		  <td><select name="frm_id_local" id="frm_id_local" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="fillSelectFromArray(this.form.frm_sel_id_locais_secundarios, team,this.form.frm_id_local.value);" <? echo ($_SESSION['cs_nivel_administracao']<>1 && ($_SESSION['cs_nivel_administracao']<>3 && !$_SESSION['cs_nivel_administracao'])?"disabled":"");?>>
-			  <?
-				echo '<option value="0">Selecione Local</option>';		  
+		  <td class="label"><?php echo $oTranslator->_('Local primario');?>:</td>
+		  <td><select name="frm_id_local" id="frm_id_local" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" onChange="fillSecundariosFromPrimarios(this.form.frm_sel_id_locais_secundarios, arrayLocais,this.form.frm_id_local.value);fillModoAutenticacao(this.form.frm_id_local.value,this.form.frm_id_servidor_autenticacao);" <?php echo ($_SESSION['cs_nivel_administracao']<>1 && ($_SESSION['cs_nivel_administracao']<>3 && !$_SESSION['cs_nivel_administracao'])?"disabled":"");?>>
+			  <?php
+				echo '<option value="0">Selecione Local Primario</option>';		  
 				while($row = mysql_fetch_row($result_local))
 					{
 					echo '<option value="'.$row[0].'"';
@@ -239,8 +134,8 @@ else
 					}
 					?>
 			</select> 
-			<?
-			// Se não for nível Administrador então fixa o id_local...
+			<?php
+			// Se nï¿½o for nï¿½vel Administrador entï¿½o fixa o id_local...
 			if ($_SESSION['cs_nivel_administracao']<>1 && ($_SESSION['cs_nivel_administracao']<>3 && !$_SESSION['cs_nivel_administracao']))
 				echo '<input name="frm_id_local" type="hidden" id="frm_id_local" value="'.$_SESSION['id_local'].'">';		
 			?>
@@ -248,57 +143,49 @@ else
 		</tr>
 		<tr valign="top"> 
 		  <td align="left" valign="top" nowrap class="label">
-		  	<?=$oTranslator->_('Locais secundarios');?>:
+		  	<?php echo $oTranslator->_('Locais secundarios');?>:
 		  </td>
 		  <td>
-	<select name="frm_sel_id_locais_secundarios" id="frm_sel_id_locais_secundarios" multiple disabled size="5" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <? echo ($_SESSION['cs_nivel_administracao']<>1?"disabled":"");?>>
+	<select name="frm_sel_id_locais_secundarios" id="frm_sel_id_locais_secundarios" multiple disabled size="5" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" <?php echo ($_SESSION['cs_nivel_administracao']<>1?"disabled":"");?>>
 			  <option value=""></option>
 			</select>
 			<input name="frm_te_locais_secundarios" type="hidden" id="frm_te_locais_secundarios">		
 			<br>
 			<font color="#000080" size="1">
-				(<?=$oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)
+				(<?php echo $oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)
 			</font></td>
 		</tr>
 		<tr>
 		  <td class="label">&nbsp;</td>
 		  <td>&nbsp;</td>
 		</tr>
-<? /*
+        
+        
 		<tr nowrap>
-          <td nowrap class="label">Dom&iacute;nio:</td>
-		  <td nowrap><select name="frm_id_dominio" id="frm_id_dominio" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-              <?
-			  
-		$qry_dominio = "SELECT 		id_dominio, 
-									nm_dominio
-						FROM 		dominios
-						ORDER BY	nm_dominio";
-
-		$result_dominio = mysql_query($qry_dominio) or die ('Falha na consulta à tabela Dominios ou sua sessão expirou!');
-			  
-				while($row = mysql_fetch_array($result_dominio))
-					echo '<option value="'.$row['id_dominio'].'">'.$row['nm_dominio'].'</option>';
-					
-					?>
-          </select>
-	      <strong>Obs.: </strong>Usado para autentica&ccedil;&atilde;o de Suporte Remoto.</td>
+          <td nowrap class="label"><?php echo $oTranslator->_('Servidor de Autenticacao');?>:</td>
+		  <td nowrap><select name="frm_id_servidor_autenticacao" id="frm_id_servidor_autenticacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
+			<option value="0">Base CACIC</option>          
+          </select></td>
 	    </tr>
 		<tr>
 		  <td class="label">&nbsp;</td>
 		  <td>&nbsp;</td>
 	    </tr>
-*/ ?>
-		<tr> 
-		  <td class="label"><?=$oTranslator->_('Identificacao');?>:</td>
-		  <td> <input name="frm_nm_usuario_acesso" type="text" id="frm_nm_usuario_acesso" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
-			&nbsp;&nbsp;<strong><?=$oTranslator->_('Exemplo');?>: </strong>d308951</td>
+
+		<tr> 		          
+		  <td class="label"><?php echo $oTranslator->_('Identificacao');?>:</td>
+		  <td> <input name="frm_nm_usuario_acesso" type="text"   id="frm_nm_usuario_acesso" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+               <input name="frm_id_usuario_ldap"   type="hidden" id="frm_id_usuario_ldap">
+            </td>
 		</tr>
+		</div>                    
 		<tr> 
-		  <td class="label"><?=$oTranslator->_('Nome completo');?>:</td>
-		  <td><input name="frm_nm_usuario_completo" type="text" id="frm_nm_usuario_completo" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+
+		  <td class="label"><?php echo $oTranslator->_('Nome completo');?>:</td>
+		  <td><input name="frm_nm_usuario_completo" type="text" id="frm_nm_usuario_completo" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          &nbsp;&nbsp;</td>
 		</tr>
-		<?
+		<?php
 		$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE (cs_nivel_administracao > '.$_SESSION['cs_nivel_administracao'].' OR cs_nivel_administracao=0)':'');
 		$qry_grp_usu = "SELECT 		id_grupo_usuarios, 
 									te_grupo_usuarios, 
@@ -309,17 +196,17 @@ else
 		$result_qry_grp = mysql_query($qry_grp_usu) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou', array('grupo_usuarios')));
 	?>
 		<tr nowrap> 
-		  <td class="label"><?=$oTranslator->_('Endereco eletronico');?>:</td>
+		  <td class="label"><?php echo $oTranslator->_('Endereco eletronico');?>:</td>
 		  <td><input name="frm_te_emails_contato" type="text" id="frm_te_emails_contato" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
 		</tr>
 		<tr nowrap> 
-		  <td class="label"><?=$oTranslator->_('Telefones para contato');?>:</td>
+		  <td class="label"><?php echo $oTranslator->_('Telefones para contato');?>:</td>
 		  <td><input name="frm_te_telefones_contato" type="text" id="frm_te_telefones_contato" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
 		</tr>
 		<tr nowrap> 
-		  <td class="label"><?=$oTranslator->_('Tipo de acesso');?>:</td>
+		  <td class="label"><?php echo $oTranslator->_('Tipo de acesso');?>:</td>
 		  <td> <select name="frm_id_grupo_usuarios" id="frm_id_grupo_usuarios" onChange="SetaDescGrupo(this.options[selectedIndex].id,'frm_te_descricao_grupo')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-			  <?
+			  <?php
 				while($row = mysql_fetch_row($result_qry_grp))
 					{
 					if (!$v_te_descricao_grupo) $v_te_descricao_grupo = $row[2]; 				
@@ -329,17 +216,23 @@ else
 			</select></td>
 		</tr>
 		<tr nowrap> 
-		  <td class="label"><?=$oTranslator->_('Descricao do tipo de acesso');?>:</td>
-		  <td><textarea name="frm_te_descricao_grupo" cols="50" rows="4" id="frm_te_descricao_grupo" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><? echo $v_te_descricao_grupo;?></textarea></td>
+		  <td class="label"><?php echo $oTranslator->_('Descricao do tipo de acesso');?>:</td>
+		  <td><textarea name="frm_te_descricao_grupo" cols="50" rows="4" id="frm_te_descricao_grupo" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ><?php echo $v_te_descricao_grupo;?></textarea></td>
 		</tr>
+		<tr>
+          <div style="text-align:left;">        
+		  <td><div class="dado_peq_sem_fundo_sem_bordas"   			name="te_origem_label" id="te_origem_label"></div></td>
+          <td><div class="dado_peq_sem_fundo_sem_bordas_destacado" 	name="te_origem_value" id="te_origem_value"></div></td>
+          </div>          
+        </tr>        
 	  </table>
 	  <p align="center"> <br>
 		<br>
-		<input name="submit" type="submit" value="<?=$oTranslator->_('Gravar informacoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma inclusao de usuario?');?>');">
+		<input name="submit" type="submit" value="<?php echo $oTranslator->_('Gravar informacoes');?>" onClick="return Confirma('<?php echo $oTranslator->_('Confirma inclusao de usuario?');?>');">
 	  </p>
 	</form>
 	<p>
-	<?
+	<?php
 	}
 ?>
 </p>

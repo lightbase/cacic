@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: softwares_classificar.class.php 2009-08-17 21:03 harpiain $
+ * @version $Id: softwares_classificar.class.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package CACIC-Admin
  * @subpackage SoftwaresClassificar
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>

@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 $sqlContador = 'SELECT  DATE_FORMAT(min(dt_acao), "%d/%m/%Y") as MenorData,
 						count(cs_acao) as TotalAcessos
@@ -35,6 +35,6 @@ $_SESSION['MenorData']=$rowContador['MenorData'];
 
 </script>
 		<tr><td class="label_peq_sem_fundo" colspan="2" align="center"><br><BR><BR><br></td></tr>		
-		<tr><td colspan="2" align="center"><script>document.write(MontaContador('<? echo number_format($_SESSION['TotalAcessos'],0,',','.');?>'));</script></td></tr>
-		<tr><td class="label_peq_sem_fundo" colspan="2" align="center">Acessos desde<br><b><? echo $_SESSION['MenorData'];?></b></td></tr>
+		<tr><td colspan="2" align="center"><script>document.write(MontaContador('<?php echo number_format($_SESSION['TotalAcessos'],0,',','.');?>'));</script></td></tr>
+		<tr><td class="label_peq_sem_fundo" colspan="2" align="center">Acessos desde<br><b><?php echo $_SESSION['MenorData'];?></b></td></tr>
 		

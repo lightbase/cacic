@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -53,7 +53,7 @@ else {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
@@ -88,16 +88,16 @@ function valida_form()
 	}
 </script>
 </head>
-<?
+<?php
 $pos = substr_count($_SERVER['HTTP_REFERER'],'navegacao');
 ?>
-<body <? if (!$pos) echo 'background="../../imgs/linha_v.gif"';?> onLoad="SetaCampo('frm_nm_si_grupo')">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<body <?php if (!$pos) echo 'background="../../imgs/linha_v.gif"';?> onLoad="SetaCampo('frm_nm_si_grupo')">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form action="detalhes_grupos.php"  method="post" ENCTYPE="multipart/form-data" name="form">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Detalhes 
-      do Grupo <? echo mysql_result($result, 0, 'nm_si_grupo'); ?>
+      do Grupo <?php echo mysql_result($result, 0, 'nm_si_grupo'); ?>
    </td>
   </tr>
 </table>
@@ -115,8 +115,8 @@ Grupo:</span></td>
             <td height="1" bgcolor="#333333"></td>
           </tr>
           <tr>
-            <td><input name="frm_nm_si_grupo" type="text" class="normal" id="frm_nm_si_grupo" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo mysql_result($result, 0, 'nm_si_grupo'); ?>" size="70" maxlength="16">
-              <input name="id_si_grupo"  type="hidden" id="id_ip_rede2" value="<? echo mysql_result($result, 0, 'id_si_grupo'); ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+            <td><input name="frm_nm_si_grupo" type="text" class="normal" id="frm_nm_si_grupo" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo mysql_result($result, 0, 'nm_si_grupo'); ?>" size="70" maxlength="16">
+              <input name="id_si_grupo"  type="hidden" id="te_ip2" value="<?php echo mysql_result($result, 0, 'id_si_grupo'); ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
           </tr>
           <tr>
             <td class="label"><br>
@@ -126,7 +126,7 @@ Descri&ccedil;&atilde;o:</span></td>
             <td height="1" bgcolor="#333333"></td>
           </tr>
           <tr>
-            <td><textarea name="frm_desc_si_grupo" cols="50" wrap="virtual" class="normal" id="frm_nm_rede2" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"><? echo mysql_result($result, 0, 'desc_si_grupo'); ?></textarea></td>
+            <td><textarea name="frm_desc_si_grupo" cols="50" wrap="virtual" class="normal" id="frm_nm_rede2" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"><?php echo mysql_result($result, 0, 'desc_si_grupo'); ?></textarea></td>
           </tr>
           <tr>
             <td class="label"><br>
@@ -136,7 +136,7 @@ Descri&ccedil;&atilde;o:</span></td>
             <td height="1" bgcolor="#333333"></td>
           </tr>
           <tr>
-            <td><textarea name="frm_email_si_grupo" cols="50" wrap="virtual" class="normal" id="textarea2" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"><? echo mysql_result($result, 0, 'email_si_grupo'); ?></textarea></td>
+            <td><textarea name="frm_email_si_grupo" cols="50" wrap="virtual" class="normal" id="textarea2" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"><?php echo mysql_result($result, 0, 'email_si_grupo'); ?></textarea></td>
           </tr>
           <tr>
             <td><p>&nbsp;
@@ -151,6 +151,6 @@ Descri&ccedil;&atilde;o:</span></td>
 </form>
 </body>
 </html>
-<?
+<?php
 }
 ?>

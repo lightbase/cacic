@@ -15,7 +15,7 @@
  * $tmpl->setOption( 'lang', 'de' );
  * </code>
  *
- * $Id: Translate.php,v 1.5.4.1 2004/10/27 11:23:49 schst Exp $
+ * $Id: Translate.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -38,7 +38,7 @@
  * $tmpl->setOption( 'lang', 'de' );
  * </code>
  *
- * $Id: Translate.php,v 1.5.4.1 2004/10/27 11:23:49 schst Exp $
+ * $Id: Translate.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @package		patTemplate
  * @subpackage	Functions

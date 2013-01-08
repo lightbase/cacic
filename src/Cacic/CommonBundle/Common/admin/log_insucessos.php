@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -41,7 +41,7 @@ else
 //          será visível somente pelos níveis "Administração" e "Gestão Central".
 //			É preciso estudar uma opção que permita o acesso pelo nível "Supervisão".
 conecta_bd_cacic();
-$query = 'SELECT 	a.te_ip,
+$query = 'SELECT 	a.te_ip_computador,
 					a.te_so,
 					a.id_usuario,
 					DATE_FORMAT(a.dt_datahora, "%d/%m/%Y %H:%i") as datahora,
@@ -62,8 +62,8 @@ $result = mysql_query($query);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title><?=$oTranslator->_('Log de Insucessos nas Instalacoes dos Agentes');?></title>
+<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Log de Insucessos nas Instalacoes dos Agentes');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 <style type="text/css">
@@ -74,31 +74,31 @@ $result = mysql_query($query);
 </head>
 
 <body background="../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
 
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><div align="left"><?=$oTranslator->_('Log de Insucessos nas Instalacoes dos Agentes');?></div></td>
+    <td class="cabecalho"><div align="left"><?php echo $oTranslator->_('Log de Insucessos nas Instalacoes dos Agentes');?></div></td>
   </tr>
   <tr> 
-      <td class="descricao"><?=$oTranslator->_('ksiq_msg insuceso help');?></td>
+      <td class="descricao"><?php echo $oTranslator->_('ksiq_msg insuceso help');?></td>
   </tr>
 </table>
 	<p><br></p>
 	
-  <table width="90%" border="0" cellpadding="0" cellspacing="1" align="center">
+  <table width="85%" border="0" cellpadding="0" cellspacing="1" align="center">
     <tr> 
-      <td class="label" colspan="3"><?=$oTranslator->_('Selecione o periodo em que devera ser realizada a consulta:');?></td>
+      <td class="label" colspan="3"><?php echo $oTranslator->_('Selecione o periodo em que devera ser realizada a consulta:');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="2"></td>
     </tr>
     <tr valign="middle"> 
       <td width="33%" height="1" nowrap valign="middle">
-	<input name="whereLocais" type="hidden" value="<? echo $whereLocais;?>"> 	  
-<input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>"> 
-<? /*
+	<input name="whereLocais" type="hidden" value="<?php echo $whereLocais;?>"> 	  
+<input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input1;?>"> 
+<?php /*
         <script type="text/javascript" language="JavaScript">
 	<!--
 	function calendar1Callback(date, month, year)	
@@ -108,8 +108,8 @@ $result = mysql_query($query);
   	calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 	//-->
 	</script>*/?> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
-        &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>"> 
-<? /*        <script type="text/javascript" language="JavaScript">
+        &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input2;?>"> 
+<?php /*        <script type="text/javascript" language="JavaScript">
 	<!--
 	function calendar2Callback(date, month, year)	
 		{
@@ -118,7 +118,7 @@ $result = mysql_query($query);
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->
 	</script>*/?> </td>
-      <td align="left" class="descricao">&nbsp;&nbsp;(<?=$oTranslator->_('Formato da data');?> <?=$oTranslator->_('dd/mm/aaaa');?>)</td>
+      <td align="left" class="descricao">&nbsp;&nbsp;(<?php echo $oTranslator->_('Formato da data');?> <?php echo $oTranslator->_('dd/mm/aaaa');?>)</td>
       <td rowspan="4" align="left" valign="middle" class="descricao"><div align="center">
           <input name="consultar" type="submit" value="   Filtrar   " onClick="SelectAll(this.form.elements['list12[]'])">
         </div></td>
@@ -129,8 +129,7 @@ $result = mysql_query($query);
   </tr>
 	
   </table>
-	<?
-	if ($_REQUEST['date_input1'])
+	<?php if ($_REQUEST['date_input1'])
 		{
 		$msg = '<div align="center">
 		<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
@@ -141,7 +140,7 @@ $result = mysql_query($query);
 			{
 			?>	
 			<p></p>				
-	 		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+	 		<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     		<tr> 
       		<td height="10" colspan="3" bgcolor="#CCCCCC" class="destaque"><div align="center" class="style2">RESULTADO DA CONSULTA </div></td>
     		</tr>
@@ -153,67 +152,67 @@ $result = mysql_query($query);
     		</tr>
     		<tr> 
       		<td colspan="3"> 
-			<table width="90%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
+			<table width="85%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
           	<tr bgcolor="#E1E1E1"> 
             <td></td>
             <td></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Data');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Data');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Local/Rede');?> </div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Local/Rede');?> </div></td>
             <td nowrap class="cabecalho_tabela">&nbsp;</td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Estacao');?> </div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Estacao');?> </div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Sistema Operacional');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Sistema Operacional');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Usuario');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Usuario');?></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Motivo');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Motivo');?></div></td>
             <td></td>
           	</tr>
           	<tr> 
             <td height="1" colspan="15" bgcolor="#333333"></td>
           	</tr>
-          	<?  
+          	<?php  
 			$Cor = 0;
 			$NumRegistro = mysql_num_rows($result);
 
-			$arr_dt_data		= array();
-			$arr_id_ip_rede		= array();			
-			$arr_te_ip	 		= array();
-			$arr_te_so	 		= array();	
-			$arr_id_usuario	 	= array();		
-			$arr_cs_indicador 	= array();					
+			$arr_dt_data		  = array();
+			$arr_id_rede		  = array();			
+			$arr_te_ip_computador = array();
+			$arr_te_so	 		  = array();	
+			$arr_id_usuario	 	  = array();		
+			$arr_cs_indicador 	  = array();					
 
-			$arr_DadosRede		= array();
-			$arr_te_ip_rede		= array();
+			$arrDadosRede		  = array();
+			$arr_te_ip_rede		  = array();
 			while($row = mysql_fetch_array($result)) 
 				{	
-				$arr_DadosRede = GetDadosRede($row['te_ip'],0); // Verifico se o IP "pertence" a alguma rede
+				$arrDadosRede = getDadosRede(); // Verifico se o IP "pertence" a alguma rede
 
 				$str_te_locais_secundarios = ','.$_SESSION['te_locais_secundarios'].',';
-				$intPos2 = stripos2($str_te_locais_secundarios,$arr_DadosRede['id_local']);
+				$intPos2 = stripos2($str_te_locais_secundarios,$arrDadosRede['id_local']);
 				if ($_SESSION['cs_nivel_administracao'] == 1 || 
 				    $_SESSION['cs_nivel_administracao'] == 2 ||
-					$arr_DadosRede['id_local'] == $_SESSION['id_local'] || 
+					$arrDadosRede['id_local'] == $_SESSION['id_local'] || 
 					$intPos2 || 
-					$arr_DadosRede['Alternative'] <> '')
+					$arrDadosRede['Alternative'] <> '')
 					{
-					if ($arr_DadosRede['Alternative']=='')
+					if ($arrDadosRede['Alternative']=='')
 						{
-						$strNmIpRede = $arr_DadosRede['sg_local'].'/'.$arr_DadosRede['id_ip_rede'].' ('.capa_string($arr_DadosRede['nm_rede'],30).')';
-						$strIdIpRede = $arr_DadosRede['id_ip_rede'];
+						$strNmIpRede = $arrDadosRede['sg_local'].'/'.$arrDadosRede['te_ip_rede'].' ('.capa_string($arrDadosRede['nm_rede'],30).')';
+						$strTeIpRede = $arrDadosRede['te_ip_rede'];
 						}
 					else
 						{
 						$strNmIpRede = 'Rede Não Cadastrada';
-						$strIdIpRede = 'Rede Não Cadastrada';
+						$strTeIpRede = 'Rede Não Cadastrada';
 						}
 
-					$arr_id_ip_rede[$strNmIpRede]++;
+					$arr_id_rede[$strIdRede]++;
 
 					$arr_dt_data[$row['dt_data']]++;			
-					$arr_te_ip[$row['te_ip']]++;
+					$arr_te_ip_rede[$row['te_ip_rede']]++;
 				
 					$arr_te_so[$row['te_desc_so']]++;
 					$arr_id_usuario[$row['id_usuario']]++;
@@ -222,23 +221,23 @@ $result = mysql_query($query);
 					$arr_cs_indicador[$v_cs_indicador]++;		
 		
 					?>
-    	      		<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+    	      		<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
         	    	<td nowrap></td>
-            		<td align="left" nowrap class="opcao_tabela"><? echo $NumRegistro; ?></td>
+            		<td align="left" nowrap class="opcao_tabela"><?php echo $NumRegistro; ?></td>
 	            	<td nowrap></td>
-    	        	<td nowrap class="opcao_tabela"><? echo $row['datahora'];?></td>
+    	        	<td nowrap class="opcao_tabela"><?php echo $row['datahora'];?></td>
         	    	<td nowrap></td>
-            		<td nowrap class="opcao_tabela"><? echo $strNmIpRede;?></td>
+            		<td nowrap class="opcao_tabela"><?php echo $strNmIpRede;?></td>
             		<td nowrap class="opcao_tabela"></td>
-    	        	<td nowrap class="opcao_tabela"><? echo $row['te_ip'];?></td>
+    	        	<td nowrap class="opcao_tabela"><?php echo $row['te_ip_computador'];?></td>
 	            	<td nowrap></td>
-        	    	<td nowrap class="opcao_tabela"><? echo $row['te_desc_so'];?></td>
+        	    	<td nowrap class="opcao_tabela"><?php echo $row['te_desc_so'];?></td>
             		<td nowrap></td>
-            		<td nowrap class="opcao_tabela"><? echo $row['id_usuario'];?></td>
+            		<td nowrap class="opcao_tabela"><?php echo $row['id_usuario'];?></td>
 	            	<td nowrap></td>
-    	        	<td nowrap class="opcao_tabela"><? echo ($row['cs_indicador']=='0'?'Sem Privilégios':'FTP/Cópia Impossível');?></td>
+    	        	<td nowrap class="opcao_tabela"><?php echo ($row['cs_indicador']=='0'?'Sem Privilégios':'FTP/Cópia Impossível');?></td>
         	    	<td nowrap></td>
-            		<? 
+            		<?php 
 					$Cor=!$Cor;
 					$NumRegistro--;					
 					}
@@ -250,7 +249,7 @@ $result = mysql_query($query);
 //				arsort($arr_dt_data,SORT_REGULAR);			
 				arsort($arr_te_so,SORT_REGULAR);			
 				arsort($arr_id_usuario,SORT_REGULAR);
-				arsort($arr_id_ip_rede,SORT_REGULAR);			
+				arsort($arr_id_rede,SORT_REGULAR);			
 				arsort($arr_cs_indicador,SORT_REGULAR);					
 				?>
 				</table></td>
@@ -268,20 +267,20 @@ $result = mysql_query($query);
 				<table width="293" border="0" align="center" cellpadding="0" cellspacing="1">
 				<tr> 
 				<td colspan="3" nowrap><div align="center"><font color="#004080" size="4">
-				<?=$oTranslator->_('Resumo das Tentativas de Instalacao');?></font></div></td>
+				<?php echo $oTranslator->_('Resumo das Tentativas de Instalacao');?></font></div></td>
 				</tr>
 				<tr> 
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Data');?></strong></font></div></td>
-				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?php echo $oTranslator->_('Data');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
-				<?
+				<?php
 				$total_key = 0;
 				foreach ($arr_dt_data as $key => $value) 
 					{
@@ -293,12 +292,12 @@ $result = mysql_query($query);
 				foreach ($arr_dt_data as $key => $value) 
 					{
 					?>
-					<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-					<td nowrap class="opcao_tabela"><div align="left"><? echo $key;?></div></td>
-					<td nowrap><div align="right"><? echo $value;?></div></td>
-					<td nowrap><div align="right"><? echo number_format(($value/$total_key)*100,2);?></div></td>
+					<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+					<td nowrap class="opcao_tabela"><div align="left"><?php echo $key;?></div></td>
+					<td nowrap><div align="right"><?php echo $value;?></div></td>
+					<td nowrap><div align="right"><?php echo number_format(($value/$total_key)*100,2);?></div></td>
 					</tr>
-					<?
+					<?php
 					$Cor=!$Cor;
 					}
 				?>
@@ -308,7 +307,7 @@ $result = mysql_query($query);
 				</tr>
 				<tr> 
 				<td nowrap>&nbsp;</td>
-				<td align="right"><? echo $total_key;?></td>
+				<td align="right"><?php echo $total_key;?></td>
 				<td>&nbsp;</td>
 				</tr>
 				<tr>
@@ -322,31 +321,31 @@ $result = mysql_query($query);
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Rede');?></strong></font></div></td>
-				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?php echo $oTranslator->_('Rede');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
-				<?
+				<?php
 				$total_key = 0;
-				foreach ($arr_id_ip_rede as $key => $value) 
+				foreach ($arr_id_rede as $key => $value) 
 					{
 					$total_key += $value;
 					}
 			
 			
 				$Cor='1';
-				foreach ($arr_id_ip_rede as $key => $value) 
+				foreach ($arr_id_rede as $key => $value) 
 					{
 					?>
-					<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-					<td nowrap class="opcao_tabela"><div align="left"><? echo $key;?></div></td>
-					<td nowrap><div align="right"><? echo $value;?></div></td>
-					<td nowrap><div align="right"><? echo number_format(($value/$total_key)*100,2);?></div></td>
+					<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+					<td nowrap class="opcao_tabela"><div align="left"><?php echo $key;?></div></td>
+					<td nowrap><div align="right"><?php echo $value;?></div></td>
+					<td nowrap><div align="right"><?php echo number_format(($value/$total_key)*100,2);?></div></td>
 					</tr>
-					<?
+					<?php
 					$Cor=!$Cor;
 					}
 				?>
@@ -356,7 +355,7 @@ $result = mysql_query($query);
 				</tr>
 				<tr> 
 				<td nowrap>&nbsp;</td>
-				<td align="right"><? echo $total_key;?></td>
+				<td align="right"><?php echo $total_key;?></td>
 				<td>&nbsp;</td>
 				</tr>
 				<tr>
@@ -370,14 +369,14 @@ $result = mysql_query($query);
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Estacao');?></strong></font></div></td>
-				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?php echo $oTranslator->_('Estacao');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
-				<?
+				<?php
 				$total_key = 0;
 				foreach ($arr_te_ip as $key => $value) 
 					{
@@ -389,12 +388,12 @@ $result = mysql_query($query);
 				foreach ($arr_te_ip as $key => $value) 
 					{
 					?>
-					<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-					<td nowrap class="opcao_tabela"><div align="left"><? echo $key;?></div></td>
-					<td nowrap><div align="right"><? echo $value;?></div></td>
-					<td nowrap><div align="right"><? echo number_format(($value/$total_key)*100,2);?></div></td>
+					<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+					<td nowrap class="opcao_tabela"><div align="left"><?php echo $key;?></div></td>
+					<td nowrap><div align="right"><?php echo $value;?></div></td>
+					<td nowrap><div align="right"><?php echo number_format(($value/$total_key)*100,2);?></div></td>
 					</tr>
-					<?
+					<?php
 					$Cor=!$Cor;
 					}
 				?>
@@ -404,7 +403,7 @@ $result = mysql_query($query);
 				
 				<tr> 
 				<td nowrap>&nbsp;</td>
-				<td align="right"><? echo $total_key;?></td>
+				<td align="right"><?php echo $total_key;?></td>
 				<td>&nbsp;</td>
 				</tr>
 				
@@ -419,14 +418,14 @@ $result = mysql_query($query);
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Sistema Operacional');?></strong></font></div></td>
-				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?php echo $oTranslator->_('Sistema Operacional');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
-				<?
+				<?php
 				$total_key = 0;
 				foreach ($arr_te_so as $key => $value) 
 					{	
@@ -438,9 +437,8 @@ $result = mysql_query($query);
 				foreach ($arr_te_so as $key => $value) 
 					{
 					?>
-					<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-					<?
-					echo '<td nowrap><div align="left">'.$key.'</div></td>';
+					<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+					<?php echo '<td nowrap><div align="left">'.$key.'</div></td>';
 					echo '<td nowrap><div align="right">'.$value.'</div></td>';
 					echo '<td nowrap><div align="right">'.number_format(($value/$total_key)*100,2).'</div></td>';		
 					echo '</tr>';
@@ -452,7 +450,7 @@ $result = mysql_query($query);
 				</tr>
 				<tr> 
 				<td nowrap>&nbsp;</td>
-				<td align="right"><? echo $total_key;?></td>
+				<td align="right"><?php echo $total_key;?></td>
 				<td>&nbsp;</td>
 				</tr>
 				<tr>
@@ -465,14 +463,14 @@ $result = mysql_query($query);
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Usuario');?></strong></font></div></td>
-				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?php echo $oTranslator->_('Usuario');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
-				<?
+				<?php
 				$total_key = 0;
 				foreach ($arr_id_usuario as $key => $value) 
 					{
@@ -484,9 +482,8 @@ $result = mysql_query($query);
 				foreach ($arr_id_usuario as $key => $value) 
 					{
 					?>
-					<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-					<?
-					echo '<td nowrap><div align="left">'.$key.'</div></td>';
+					<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+					<?php echo '<td nowrap><div align="left">'.$key.'</div></td>';
 					echo '<td nowrap><div align="right">'.$value.'</div></td>';
 					echo '<td nowrap><div align="right">'.number_format(($value/$total_key)*100,2).'%</div></td>';		
 					echo '</tr>';
@@ -498,7 +495,7 @@ $result = mysql_query($query);
 				</tr>
 				<tr> 
 				<td nowrap>&nbsp;</td>
-				<td align="right"><? echo $total_key;?></td>
+				<td align="right"><?php echo $total_key;?></td>
 				<td>&nbsp;</td>
 				</tr>
 				<tr>
@@ -511,14 +508,14 @@ $result = mysql_query($query);
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
 				<tr bgcolor="#CCCCCC"> 
-				<td><div align="left"><font size="2"><strong><?=$oTranslator->_('Motivo');?></strong></font></div></td>
-				<td><div align="right"><font size="2"><strong><?=$oTranslator->_('Quant.');?></strong></font></div></td>
+				<td><div align="left"><font size="2"><strong><?php echo $oTranslator->_('Motivo');?></strong></font></div></td>
+				<td><div align="right"><font size="2"><strong><?php echo $oTranslator->_('Quant.');?></strong></font></div></td>
 				<td><div align="right"><font size="2"><strong>%</strong></font></div></td>
 				</tr>
 				<tr> 
 				<td height="1" colspan="3" bgcolor="#333333"></td>
 				</tr>
-				<?
+				<?php
 				$total_key = 0;
 				foreach ($arr_cs_indicador as $key => $value) 
 					{
@@ -530,9 +527,8 @@ $result = mysql_query($query);
 				foreach ($arr_cs_indicador as $key => $value) 
 					{
 					?>
-					<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-					<?
-					echo '<td nowrap><div align="left">'.$key.'</div></td>';
+					<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+					<?php echo '<td nowrap><div align="left">'.$key.'</div></td>';
 					echo '<td nowrap><div align="right">'.$value.'</div></td>';
 					echo '<td nowrap><div align="right">'.number_format(($value/$total_key)*100,2).'%</div></td>';		
 					echo '</tr>';
@@ -544,7 +540,7 @@ $result = mysql_query($query);
 				</tr>
 				<tr> 
 				<td nowrap>&nbsp;</td>
-				<td align="right"><? echo $total_key;?></td>
+				<td align="right"><?php echo $total_key;?></td>
 				<td>&nbsp;</td>
 				</tr>
 				<tr>
@@ -554,15 +550,15 @@ $result = mysql_query($query);
 				<td>&nbsp;</td>
 				</tr>
 				
-				<?
+				<?php
 				$msg = '';
 				}
 			}
 			?>
 	    <tr> 
-	    <td height="10" colspan="12"><? echo $msg;?></td>
+	    <td height="10" colspan="12"><?php echo $msg;?></td>
 	    </tr>		
-		<?
+		<?php
 		}		
 		?>
     <tr> 

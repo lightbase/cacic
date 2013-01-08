@@ -1,4 +1,4 @@
-<?
+<?php
 /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -17,7 +17,7 @@
 	$id_acao = 'cs_coleta_officescan';
   	require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Relat&oacute;rio 
       de Configura&ccedil;&otilde;es do Antiv&iacute;rus OfficeScan</td>
@@ -38,9 +38,9 @@
   </tr>
 </table>
 <form action="rel_antivirus.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="valida_form()">
-  <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="5" cellspacing="1">
     <tr>
-	<?
+	<?php
 	/*
   if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
   	{
@@ -71,7 +71,7 @@
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list11[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <?
+                        <?php
                         $query = "SELECT 	id_local,
 											sg_local
                                   FROM 		locais
@@ -106,7 +106,7 @@
 		    <tr> 
       <td valign="top">&nbsp;</td>
     </tr>  
-	<?
+	<?php
 	
 	}
 	*/
@@ -153,13 +153,13 @@
                       </div></td>
                   <td>&nbsp;</td>
                   <td width="40"> <div align="center"> 
-					<?				  
+					<?php				  
                       //<input type="button" value="   &gt;   " onClick="copia(this.form.elements['list5[]'],this.form.elements['list7[]']); move(this.form.elements['list5[]'],this.form.elements['list6[]'])" name="B132">
 					 ?>
                       <input type="button" value="   &gt;   " onClick="move(this.form.elements['list5[]'],this.form.elements['list6[]'])" name="B132">					  
                       <br>
                       <br>
-					  <?
+					  <?php
                       //<input type="button" value="   &lt;   " onClick="exclui(this.form.elements['list6[]'],this.form.elements['list8[]']); exclui(this.form.elements['list6[]'],this.form.elements['list7[]']); move(this.form.elements['list6[]'],this.form.elements['list5[]'])" name="B232">
 					  ?>
                       <input type="button" value="   &lt;   " onClick="move(this.form.elements['list6[]'],this.form.elements['list5[]'])" name="B232">					  
@@ -178,7 +178,7 @@
         </table></td>
     </tr>
     
-<?	
+<?php	
 /*	
     <tr> 
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
@@ -252,10 +252,10 @@
     </tr>
     <tr valign="middle"> 
       <td width="33%" height="1" nowrap valign="middle">
-<input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>">
+<input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input1;?>">
 &nbsp; 
 <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
-&nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>">
+&nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input2;?>">
 </td>
       <td align="left" class="descricao">&nbsp;&nbsp;(formato: dd/mm/aaaa)</td>
       </tr>
@@ -277,7 +277,7 @@
       <td height="1"><table border="0" cellpadding="0" cellspacing="0">
       	<tr>
         <td><div align="left">
-			<?    /* Consulto todos os servidores já catalogados no banco. */ 
+			<?php    /* Consulto todos os servidores já catalogados no banco. */ 
 					  	$query = "SELECT 	distinct te_servidor
 								  FROM 		officescan
 								  WHERE		te_servidor <> ''
@@ -291,7 +291,7 @@
 						?>
 
 <select multiple id="frm_te_servidor[]" name="frm_te_servidor[]" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-<? 
+<?php 
 /*echo '<option value="" selected>Todos</option>';*/
 echo $itens_combo_servidores; ?>
                       </select></div>
@@ -341,7 +341,7 @@ echo $itens_combo_servidores; ?>
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  
+        <?php  
 	$cs_situacao = 'T';
 	$v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
@@ -352,7 +352,7 @@ echo $itens_combo_servidores; ?>
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>      </td>
+        <?php  require_once('../../include/selecao_so_inc.php');		?>      </td>
     </tr>
     <tr> 
       <td valign="top">&nbsp;</td>
@@ -367,10 +367,10 @@ echo $itens_combo_servidores; ?>
           </tr>
           <tr> 
             <td> <div align="center"> 
-				<?
+				<?php
                 //<input name="submit" type="submit" id="submit" onClick="SelectAll(this.form.elements['list2[]']), SelectAll(this.form.elements['list4[]']), SelectAll(this.form.elements['list6[]']), SelectAll(this.form.elements['list8[]'])" value="     Gerar Relat&oacute;rio     ">
 				?>
-                <input name="submit" type="submit" id="submit" onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
+                <input name="submit" type="submit" id="submit" onClick="ChecaTodasAsRedes(),<?php echo ($_SESSION['cs_nivel_administracao']<>1 && 
 																				 $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>,
 																		SelectAll(this.form.elements['list4[]']), 
 																		SelectAll(this.form.elements['list6[]']),

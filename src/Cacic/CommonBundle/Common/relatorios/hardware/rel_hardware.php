@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -62,14 +62,14 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<? 
+<?php 
 require_once('../../include/library.php');
 require_once('../../include/RelatorioHTML.php');
 require_once('../../include/RelatorioPDF.php');
@@ -89,11 +89,11 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 			{
 			$redes_selecionadas .= ",'" . $_SESSION["list2"][$i] . "'";
 			}
-		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+		$query_redes = 'AND id_rede IN ('. $redes_selecionadas .')';
 		//}
 	//else // Todas as Redes
 		//{
-		//$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+		//$query_redes = 'AND computadores.te_ip = redes.te_ip AND 
 		//					redes.id_local = '. $_SESSION['id_local'].' AND
 		//					redes.id_local = locais.id_local ';
 		//$select = ' ,sg_local as Local ';	
@@ -108,7 +108,7 @@ else
 		{
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 		}
-	$query_redes = 'AND a.id_ip_rede = redes.id_ip_rede AND 
+	$query_redes = 'AND a.id_rede = redes.id_rede AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
 	$select = ' ,sg_local as Local ';	
@@ -151,7 +151,7 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ )
 			if ($pos !== FALSE)
 				{
 				$campo_componentes_estacoes = ', ce.te_valor, ce.cs_tipo_componente';
-				$join_componentes_estacoes = 'LEFT OUTER JOIN componentes_estacoes ce ON (a.te_node_address = ce.te_node_address AND a.id_so = ce.id_so)';
+				$join_componentes_estacoes = 'LEFT OUTER JOIN componentes_estacoes ce ON (a.id_computador = ce.id_computador)';
 				$cs_componentes_estacoes[] = $componentes_estacoes[$j]['tipo'];
 				
 				$exibe_componentes[] = $pcampo[1];
@@ -183,7 +183,8 @@ else
 					UNIX_TIMESTAMP(a.dt_hr_ult_acesso) as ult_acesso,
 					a.te_nome_computador as "Nome Comp.", 
 					sg_so as "S.O.", 
-					a.te_ip as "IP"' .
+					a.te_ip_computador as "IP", .
+					a.id_computador' .					
 					$campo_componentes_estacoes .
 					$campos_hardware .
 					$select .'
@@ -277,20 +278,20 @@ while ($row = mysql_fetch_assoc($result)) //Table body
 		}
 	}
 
-	if (isset($table[$row['te_node_address']]))
+	if (isset($table[$row['id_computador']]))
 	{
 		// $trow referencia a linha no array (ao inves de copiar)
-		$trow = &$table[$row['te_node_address']];
+		$trow = &$table[$row['id_computador']];
 		if ($row['ult_acesso'] > $trow['ult_acesso'])
 		{
-			$table[$row['te_node_address']] = $row;
-			$trow = &$table[$row['te_node_address']];
+			$table[$row['id_computador']] = $row;
+			$trow = &$table[$row['id_computador']];
 		}
 	}
 	else
 	{
-		$table[$row['te_node_address']] = $row;
-		$trow = &$table[$row['te_node_address']];
+		$table[$row['id_computador']] = $row;
+		$trow = &$table[$row['id_computador']];
 	}
 	
 
@@ -325,10 +326,11 @@ function geraRow($row, $num_registro, $dicionario)
 {
 	# adiciona numero e nome no inicio da linha
 	$c1 = '<font size="1" face="Verdana, Arial">' . $num_registro . '</font>';
-	$c2 = "<font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row['te_node_address'] ."&id_so=". $row['id_so'] ."' target='_blank'>" . $row['Nome Comp.'] ."</a></font>";
+	$c2 = "<font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row['id_computador'] ."' target='_blank'>" . $row['Nome Comp.'] ."</a></font>";
 	
 
 	unset($row['te_node_address']);
+	unset($row['id_computador']);	
 	unset($row['id_so']);
 	unset($row['Nome Comp.']);
 	unset($row['cs_tipo_componente']);
@@ -398,8 +400,9 @@ function exibe_row($relatorio, $row, $num_registro, $cor, $dicionario)
 {
 
 	echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>';
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row['te_node_address'] ."&id_so=". $row['id_so'] ."' target='_blank'>" . $row['Nome Comp.'] ."</a></font> </td>"; 
-    unset($row['te_node_address']);
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row['id_computador'] ."' target='_blank'>" . $row['Nome Comp.'] ."</a></font> </td>"; 
+    unset($row['id_computador']);
+    unset($row['te_node_address']);	
 	unset($row['id_so']);
 	unset($row['Nome Comp.']);
 	unset($row['cs_tipo_componente']);

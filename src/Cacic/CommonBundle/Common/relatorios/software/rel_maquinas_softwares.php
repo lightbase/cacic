@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -23,7 +23,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
 //Mostrar computadores baseados no tipo de pesquisa solicitada pelo usuário
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic3/include/library.php');
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -43,7 +43,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <body bgcolor="#FFFFFF" topmargin="5">
 <table border="0" align="left" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
-    <td rowspan="5" bgcolor="#FFFFFF"><img src="/cacic2/imgs/cacic_novo.gif" width="50" height="50"></td>
+    <td rowspan="5" bgcolor="#FFFFFF"><img src="/cacic3/imgs/cacic_novo.gif" width="50" height="50"></td>
     <td rowspan="5" bgcolor="#FFFFFF">&nbsp;</td>
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
@@ -56,14 +56,14 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
@@ -72,14 +72,14 @@ $linha = '<tr bgcolor="#e7e7e7">
 ?>
 <table border="0" align="center" width="300" >
   <tr> 
-    <td align="center" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong><? echo $_GET['nm_software_inventariado']; ?></strong></font></td>
+    <td align="center" nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong><?php echo $_GET['nm_software_inventariado']; ?></strong></font></td>
   </tr>
 </table>
-<?
-	 $query = "SELECT distinct a.id_so, a.te_nome_computador, a.te_ip, a.te_node_address, a.dt_hr_ult_acesso,
-			   b.nm_software_inventariado 
+<?php
+	 $query = "SELECT distinct a.id_so, a.te_nome_computador, a.te_ip_computador, a.te_node_address, a.dt_hr_ult_acesso,
+			   b.nm_software_inventariado, a.id_computador  
 			   FROM computadores a, softwares_inventariados b , softwares_inventariados_estacoes c
-			   WHERE a.te_node_address = c.te_node_address AND a.id_so = c.id_so AND 			  		
+			   WHERE a.te_node_address = c.id_computador AND 			  		
 					 b.id_software_inventariado = ". $_GET['id_software_inventariado'] ." AND b.id_software_inventariado = c.id_software_inventariado ORDER BY a.te_nome_computador ";
 
 	$result = mysql_query($query) or die('Erro de acesso ao banco ou sua sessão expirou!');
@@ -107,25 +107,25 @@ $linha = '<tr bgcolor="#e7e7e7">
               Coleta</a></font></strong></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $NumRegistro; ?></font></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_ip']; ?></font></td>
+          <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['te_ip_computador']; ?></font></td>
           <td nowrap>&nbsp;</td>
           <td nowrap>&nbsp;</td>
-          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></font></div></td>
+          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></font></div></td>
           <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

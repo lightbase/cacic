@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -102,13 +102,13 @@ if($_POST['submit'])
 				  		  '".mysql_real_escape_string($_POST['frm_te_arq_ver_pat_wnt'])."',	  				  						
 				  		  '".$_POST['frm_id_so']."',	  				  												  
 				  		  '".mysql_real_escape_string($_POST['frm_te_descritivo'])."',	  				  												
-						  '".now()."',
+						  'now()',
 						  '".$_POST['frm_in_disponibiliza_info']."',
 						  '".$_POST['frm_in_disponibiliza_info_usuario_comum']."')";
 		$result = mysql_query($query) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));
 		$id_aplicativo = mysql_insert_id(); // Não tirar daqui...
 				
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados');		
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'perfis_aplicativos_monitorados',$_SESSION["id_usuario"]);		
 				
 
 		
@@ -128,7 +128,7 @@ if($_POST['submit'])
 					  VALUES 	".$strInsertAplicativosRedes;
 
 			$result = mysql_query($query) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!',array('aplicativos_redes')));								  
-			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'aplicativos_redes');				
+			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'aplicativos_redes',$_SESSION["id_usuario"]);				
 			}
 		
 		header ("Location: ../../include/operacao_ok.php?chamador=../admin/perfis_aplicativos_monitorados/index.php&tempo=1");									 				
@@ -137,17 +137,17 @@ if($_POST['submit'])
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<?
+<?php
 }
 else 
 {
 ?>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<?
-require_once('../../include/selecao_listbox.js');  
+<?php
+require_once('../../include/js/selecao_listbox.js');  
 ?>
 
 <SCRIPT LANGUAGE="JavaScript">
@@ -165,7 +165,7 @@ function valida_form() {
 	
 	if ( document.forma.frm_nm_aplicativo.value == "" ) 
 	{	
-		alert("<?=$oTranslator->_('O campo nome do aplicativo e obrigatorio.');?>");
+		alert("<?php echo $oTranslator->_('O campo nome do aplicativo e obrigatorio.');?>");
 		document.forma.frm_nm_aplicativo.focus();
 		return false;
 	}
@@ -201,8 +201,8 @@ function SetaAjuda(p_index, p_texto)
 </head>
 
 <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_nm_aplicativo')">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<table width="85%" border="0" align="center">
   <tr> 
     <td nowrap class="cabecalho">Inclus&atilde;o 
       de novo perfil de sistema monitorado</td>
@@ -217,7 +217,7 @@ function SetaAjuda(p_index, p_texto)
 </table>
 <form method="post" ENCTYPE="multipart/form-data" name="forma" onSubmit="return valida_form()">
   <br>
-  <table width="90%" border="0" align="center">
+  <table width="85%" border="0" align="center">
     <tr> 
       <td nowrap class="label">Nome do sistema:<br> <input name="frm_nm_aplicativo" type="text" id="frm_nm_aplicativo2" size="80" maxlength="150" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
     </tr>
@@ -228,7 +228,7 @@ function SetaAjuda(p_index, p_texto)
       <td nowrap class="label">&Eacute; um Sistema Operacional? &nbsp;Qual?<br> 
         <select name="frm_id_so" id="select3" onChange="SetaNomeSistema();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="0"></option>
-          <?
+          <?php
 			Conecta_bd_cacic();
 			$query = "SELECT id_so,te_desc_so
 			          FROM   so
@@ -310,7 +310,7 @@ function SetaAjuda(p_index, p_texto)
       <td nowrap class="label">Identificador de Vers&atilde;o/Configura&ccedil;&atilde;o:<br> 
         <select name="frm_cs_car_ver_w9x" id="select8" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda3')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="0" id=""></option>
-          <option value="1" id="Ex.:  Arquivos de Programas\Cacic2\Programas\ger_cols.exe">Data 
+          <option value="1" id="Ex.:  Arquivos de Programas\Cacic2\Programas\gercols.exe">Data 
           de Arquivo</option>
           <option value="2" id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
           em Registry</option>
@@ -332,7 +332,7 @@ function SetaAjuda(p_index, p_texto)
     <tr> 
       <td nowrap class="label">Identificador de Instala&ccedil;&atilde;o:<br> <select name="frm_cs_car_inst_wnt" id="select9" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda4')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="0" id=""></option>
-          <option value="1" id="Ex.:  Arquivos de Programas\Cacic2\Programas\ger_cols.exe">Nome 
+          <option value="1" id="Ex.:  Arquivos de Programas\Cacic2\Programas\gercols.exe">Nome 
           de Execut&aacute;vel</option>
           <option value="2" id="Ex.:  Arquivos de Programas\Cacic\Dados\config.ini">Nome 
           de Arquivo de Configura&ccedil;&atilde;o</option>
@@ -349,7 +349,7 @@ function SetaAjuda(p_index, p_texto)
       <td nowrap class="label">Identificador de Vers&atilde;o/Configura&ccedil;&atilde;o:<br> 
         <select name="frm_cs_car_ver_wnt" id="select10" onChange="SetaDescGrupo(this.options[selectedIndex].id,'Ajuda5')" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="0" id=""></option>
-          <option value="1" id="Ex.:  Arquivos de Programas\Cacic2\Programas\ger_cols.exe">Data 
+          <option value="1" id="Ex.:  Arquivos de Programas\Cacic2\Programas\gercols.exe">Data 
           de Arquivo</option>
           <option value="2" id="Ex.:  HKEY_LOCAL_MACHINE\Software\Dataprev\Cacic2\id_versao">Caminho\Chave\Valor 
           em Registry</option>
@@ -371,16 +371,16 @@ function SetaAjuda(p_index, p_texto)
 	
 	<tr>
 	<td>
-	<?
+	<?php
 	include_once "../../include/selecao_redes_perfil_inc.php";	
 	?>
 	</td>	
 	</tr>
   </table>
-<?
+<?php
 
 	/*
-    <table width="90%" border="0" align="center" cellspacing="1">
+    <table width="85%" border="0" align="center" cellspacing="1">
       <tr>
         <td colspan="3" nowrap>&nbsp;</td>
       </tr>
@@ -393,7 +393,7 @@ function SetaAjuda(p_index, p_texto)
       </tr>
     </table>
   </div>
-  <table width="90%" border="0" align="center" cellspacing="1">
+  <table width="85%" border="0" align="center" cellspacing="1">
     <tr> 
       <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
         <strong><font color="#333333">Arquivo p/Vers&atilde;o de Engine:</font></strong></font></td>
@@ -411,7 +411,7 @@ function SetaAjuda(p_index, p_texto)
           </font></div></td>
     </tr>
   </table>
-  <table width="90%" border="0" align="center" cellspacing="1">
+  <table width="85%" border="0" align="center" cellspacing="1">
     <tr> 
       <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
         <strong><font color="#333333">Arquivo p/Vers&atilde;o de Pattern:</font></strong></font></td>
@@ -429,7 +429,7 @@ function SetaAjuda(p_index, p_texto)
           </font></div></td>
     </tr>
   </table>
-  <table width="90%" border="0" align="center" cellspacing="1">
+  <table width="85%" border="0" align="center" cellspacing="1">
     <tr>
       <td colspan="3" nowrap>&nbsp;</td>
     </tr>
@@ -441,7 +441,7 @@ function SetaAjuda(p_index, p_texto)
           </strong></font></div></td>
     </tr>
   </table>
-  <table width="90%" border="0" align="center" cellspacing="1">
+  <table width="85%" border="0" align="center" cellspacing="1">
     <tr> 
       <td nowrap>
         <div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
@@ -460,7 +460,7 @@ function SetaAjuda(p_index, p_texto)
         </font></td>
     </tr>
   </table>
-  <table width="90%" border="0" align="center" cellspacing="1">
+  <table width="85%" border="0" align="center" cellspacing="1">
     <tr> 
       <td nowrap>
         <div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
@@ -484,7 +484,7 @@ function SetaAjuda(p_index, p_texto)
   </p>
   </form>
 <p>
-<?
+<?php
 }
 ?>
 </p>

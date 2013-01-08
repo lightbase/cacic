@@ -2,7 +2,7 @@
 /**
  * patTemplate GZip output filter
  *
- * $Id: Gzip.php,v 1.4.4.1 2005/02/18 19:02:23 schst Exp $
+ * $Id: Gzip.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * Checks the accept encoding of the browser and
  * compresses the data before sending it to the client.
@@ -15,7 +15,7 @@
 /**
  * patTemplate GZip output filter
  *
- * $Id: Gzip.php,v 1.4.4.1 2005/02/18 19:02:23 schst Exp $
+ * $Id: Gzip.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * Checks the accept encoding of the browser and
  * compresses the data before sending it to the client.

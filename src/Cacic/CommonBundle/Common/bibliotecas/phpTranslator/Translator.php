@@ -45,7 +45,7 @@
  * @author     Adriano dos Santos Vieira (harpiain) <harpiain@users.sourceforge.net>
  * @copyright  2005-2007 Adriano dos Santos Vieira
  * @license    http://www.gnu.org/copyleft/gpl.html  GNU/GPL License 3.0
- * @version    subVersion: $Id: phpTranslator, v 0.2.0-40 feb/23/2006 $
+ * @version    subVersion: $Id: Translator.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @link       http://obiblioopac4j.sourceforge.net
  * @see        Translator()
  * @since      File available since Release 0.0.1

@@ -1,4 +1,4 @@
-<? session_start();
+<?php session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
@@ -38,7 +38,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <style type="text/css">
        TR {font-size:10pt ; font-family: Verdana, Arial}
 </style>
@@ -60,14 +60,14 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<? 
+<?php 
 require_once('../../include/library.php');
 conecta_bd_cacic();
 
@@ -78,7 +78,7 @@ if($_SESSION["cs_situacao"] == 'S') {
 	for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) {
 		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 	}
-	$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+	$query_redes = 'AND id_rede IN ('. $redes_selecionadas .')';
 }
 
 // Aqui pego todos os SO selecionados
@@ -166,11 +166,12 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
     $query = "SELECT computadores.te_node_address,
                      computadores.te_nome_computador,
                      so.sg_so,
-                     computadores.te_ip,
+                     computadores.te_ip_computador,
                      dt_hr_ult_acesso,
                      computadores.id_so,
                      te_workgroup,
-                     te_dominio_windows
+                     te_dominio_windows,
+					 id_computador
               FROM computadores, so
               WHERE (computadores.id_so = so.id_so)
                      AND dt_hr_ult_acesso is not null
@@ -242,9 +243,10 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
                 $SO = $linha['id_so'];
                 $U_LOGADO = $linha['te_dominio_windows'];
                 $MAC = $linha['te_node_address'];
+                $idComputador = $linha['id_computador'];				
                 $SO_NOME = $linha['sg_so'];
                 $SO = $linha['id_so'];
-                $IP =  $linha['te_ip'];
+                $IP =  $linha['te_ip_computador'];
                 $U_ACESSO = $linha['dt_hr_ult_acesso'];
                 echo "<tr ";
 	            if ($cor) { echo 'bgcolor="#E1E1E1"'; }
@@ -252,7 +254,7 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
                          <td>$num_registro</td>
                          <td>$GRUPO</td>
                          <td>
-                         <a href=../computador/computador.php?te_node_address=$MAC&id_so=$SO target=_blank>
+                         <a href=../computador/computador.php?id_computador=$idComputador target=_blank>
                          <B>$NOME_COMPUTADOR</B></a>
                          </td>
                          <td>$SO_NOME</td>
@@ -261,8 +263,8 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
                          <td>$MAC</td>
                          <td>$U_ACESSO</td>
                          <td align=center>";?>
-                           <a href="#" onClick="window.open('../../relatorios/comandos_rede.php?tool=ping&ip=<? echo $IP; ?>','','width=550,height=370');return false">
-                           <? PING($IP);
+                           <a href="#" onClick="window.open('../../relatorios/comandos_rede.php?tool=ping&ip=<?php echo $IP; ?>','','width=550,height=370');return false">
+                           <?php PING($IP);
                 echo "</a></td></tr>";
                 $cor=!$cor;
             	$num_registro++;

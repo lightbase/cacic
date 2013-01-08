@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -26,7 +26,7 @@ else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 $id_acao = 'cs_coleta_hardware';
 require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Relat&oacute;rio de Softwares Inventariados</td>
   </tr>
@@ -45,9 +45,9 @@ require_once('../../include/inicio_relatorios_inc.php');
 <div align="center" style="vertical-align:middle;" id="textAguarde">Aguarde...</div>
 </div>
 <form action="../inventario_softwares/softwares.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-  <table width="90%" border="0" align="center">
+  <table width="85%" border="0" align="center">
     <tr>
-	<?
+	<?php
 	/*
   if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
   	{
@@ -79,7 +79,7 @@ require_once('../../include/inicio_relatorios_inc.php');
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list11[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <?
+                        <?php
                         $query = "SELECT 	id_local,
 											sg_local
                                   FROM 		locais
@@ -114,7 +114,7 @@ require_once('../../include/inicio_relatorios_inc.php');
     <tr> 
       <td valign="top">&nbsp;</td>
     </tr>  
-	<?
+	<?php
 	}
 	*/
 	?>		 
@@ -144,7 +144,7 @@ require_once('../../include/inicio_relatorios_inc.php');
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list5[]" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? 	
+                        <?php 	
 						// Dessa forma eu preencho a lista somente com dados de estações/redes/locais acessìveis pelo usuário... (Anderson Peterle - JAN/08)
 						$where = ($_SESSION['cs_nivel_administracao']=='1' || $_SESSION['cs_nivel_administracao']=='2'?
 								' 1 = 1 ':' r.id_local='.$_SESSION['id_local']);
@@ -163,9 +163,8 @@ require_once('../../include/inicio_relatorios_inc.php');
 												redes r,
 												computadores c
 									  WHERE     si.id_software_inventariado = sie.id_software_inventariado AND 
-									            sie.te_node_address = c.te_node_address AND
-												sie.id_so = c.id_so AND 
-												r.id_ip_rede = c.id_ip_rede AND ".
+									            sie.id_computador = c.id_computador AND 
+												r.id_rede = c.id_rede AND ".
 												$where."
 									  ORDER BY 	si.nm_software_inventariado";
 						$result_aplicativos_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela softwares_inventariados ou sua sessão expirou!');
@@ -211,7 +210,7 @@ require_once('../../include/inicio_relatorios_inc.php');
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  
+        <?php  
 		$cs_situacao = 'T';
 		$v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
@@ -222,7 +221,7 @@ require_once('../../include/inicio_relatorios_inc.php');
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>      </td>
+        <?php  require_once('../../include/selecao_so_inc.php');		?>      </td>
     </tr>
     <tr> 
       <td valign="top">&nbsp;</td>
@@ -238,7 +237,7 @@ require_once('../../include/inicio_relatorios_inc.php');
           <tr> 
             <td>
 			 <div align="center"> 
-                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
+                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<?php echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
 																											SelectAll(this.form.elements['list4[]']), 
 																											SelectAll(this.form.elements['list6[]'])">
               </div></td>

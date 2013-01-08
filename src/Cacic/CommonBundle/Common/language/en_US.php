@@ -10,5 +10,5 @@
   // Versão da tradução
   $language_version = '0.1';
   // Versão do CACIC
-  $language_cacic_version = '2.6.0-Beta-2';
+  $language_cacic_version = '2.8.0-Beta-2';
 ?>

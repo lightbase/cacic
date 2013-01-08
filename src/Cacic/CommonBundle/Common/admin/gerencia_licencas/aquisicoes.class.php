@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: aquisicoes.class.php 2009-10-11 11:28 harpiain $
+ * @version $Id: aquisicoes.class.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package CACIC-Admin
  * @subpackage GerenciaLicencas
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>

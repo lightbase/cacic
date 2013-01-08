@@ -2,7 +2,7 @@
 /**
  * patTemplate modfifier Expression
  *
- * $Id: Expression.php,v 1.1 2004/06/29 21:12:57 schst Exp $
+ * $Id: Expression.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @package		patTemplate
  * @subpackage	Modifiers

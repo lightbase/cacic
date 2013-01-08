@@ -2,7 +2,7 @@
 /**
  * patTemplate modfifier Surround
  *
- * $Id: Surround.php 297 2004-10-03 11:35:57Z gerd $
+ * $Id: Surround.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * @package		patTemplate
  * @subpackage	Modifiers

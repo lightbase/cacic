@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -47,15 +47,15 @@ $msg = '<div align="center">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Cadastro de Sistemas Operacionais</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
       <td class="cabecalho">Cadastro de Sistemas Operacionais</td>
   </tr>
@@ -67,14 +67,14 @@ $msg = '<div align="center">
 <br><table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
-          <input name="submit" type="submit" id="submit" value="Incluir Novo Sistema Operacional" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="Incluir Novo Sistema Operacional" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
       </div></td>
   </tr>
   <tr> 
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
 
   <tr> 
@@ -102,8 +102,7 @@ $msg = '<div align="center">
           <tr> 
             <td height="1" bgcolor="#333333" colspan="15"></td>
           </tr>
-          <?  
-if(mysql_num_rows($result)==0) 
+          <?php if(mysql_num_rows($result)==0) 
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
@@ -118,36 +117,36 @@ else
 		{
 		?>
           <tr 
-		<? if ($Cor) 
+		<?php if ($Cor) 
 		echo 'bgcolor="#E1E1E1"';
 		?>> 
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+            <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<? echo $row['id_so'];?>"><? echo $row['te_desc_so']; ?></a></td>
+            <td nowrap><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<?php echo $row['id_so'];?>"><?php echo $row['te_desc_so']; ?></a></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<? echo $row['id_so'];?>"><? echo $row['in_mswindows']; ?></a></div></td>
+            <td nowrap><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<?php echo $row['id_so'];?>"><?php echo $row['in_mswindows']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<? echo $row['id_so'];?>"><? echo $row['te_so']; ?></a></div></td>
+            <td nowrap><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<?php echo $row['id_so'];?>"><?php echo $row['te_so']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="opcao_tabela"><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<? echo $row['id_so'];?>"><? echo $row['id_so']; ?></a></div></td>
+            <td nowrap class="opcao_tabela"><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<?php echo $row['id_so'];?>"><?php echo $row['id_so']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<? echo $row['id_so'];?>"><? echo $row['sg_so']; ?></a></div></td>
+            <td nowrap><div align="center"><a href="../sistemas_operacionais/detalhes_sistema_operacional.php?id_so=<?php echo $row['id_so'];?>"><?php echo $row['sg_so']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
             <?php if ($row['TotalEstacoes']>0) { ?>
                 <td nowrap>
                   <div align="center" title="Lista computadores por sistema operacional">
-                    <a href="../../relatorios/rel_computadores_sisoper.php?principal=so&id_so=<? echo $row['id_so'];?>" target="_blank">
-                       <? echo $row['TotalEstacoes']; ?>
+                    <a href="../../relatorios/rel_computadores_sisoper.php?principal=so&id_so=<?php echo $row['id_so'];?>" target="_blank">
+                       <?php echo $row['TotalEstacoes']; ?>
                     </a>
                   </div>
                 </td>
             <?php } else { ?>
-                <td nowrap><div align="center"><? echo $row['TotalEstacoes']; ?></div></td>
+                <td nowrap><div align="center"><?php echo $row['TotalEstacoes']; ?></div></td>
             <?php } ?>
             <td nowrap>&nbsp;</td>
 			
-            <? 
+            <?php 
 		$Cor=!$Cor;
 		$NumRegistro++;
 		}
@@ -162,11 +161,11 @@ else
     <td height="10">&nbsp;</td>
   	</tr>
   	<tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   	</tr>
   	<tr> 
     <td><div align="center">
-  	<input name="submit" type="submit" id="submit" value="Incluir Novo Sistema Operacional" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
+  	<input name="submit" type="submit" id="submit" value="Incluir Novo Sistema Operacional" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>  
   	</div></td>
   	</tr>
 	</table>

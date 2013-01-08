@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -22,7 +22,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 
 ?>
 
-<?
+<?php
 /*
 	if ($_SESSION["nm_grupo_usuarios"] <> "adm1")
 		die("<h1><font color='red'>Acesso n&atilde;o autorizado!</font></h1>
@@ -34,7 +34,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?=$oTranslator->_('Exclusao de Softwares');?></title>
+<title><?php echo $oTranslator->_('Exclusao de Softwares');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -54,7 +54,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr bgcolor="#E1E1E1"> 
     <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
-    <strong>CACIC - <?=$oTranslator->_('Exclusao de Softwares');?></strong></font>
+    <strong>CACIC - <?php echo $oTranslator->_('Exclusao de Softwares');?></strong></font>
     </td>
   </tr>
   <tr> 
@@ -62,13 +62,13 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-        <?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        <?php echo $oTranslator->_('Gerado em');?> <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
-<br><?
+<br><?php
 
 $mensagemErro = '';
 $v_apaguei = '';
@@ -97,9 +97,7 @@ if (count($_SESSION["list6"]) == 0) {
       <table width="98%" border="0" align="center">
         <tr valign="top"> 
           <td nowrap > <table width="100%" border="0" align="center">
-              <? 
-
-	 	if ($v_apaguei=='')
+              <?php if ($v_apaguei=='')
  		{
 		echo '<tr><td colspan="2" align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><B>' . $mensagemErro . '</B></td></tr>';
 		} else {
@@ -116,7 +114,7 @@ if (count($_SESSION["list6"]) == 0) {
  </tr>  
 </table>
 <p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-  <?=$oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+  <?php echo $oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>	

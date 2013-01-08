@@ -30,7 +30,7 @@
 // | Authors: Shane Caraveo <Shane@Caraveo.com>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: SMTP.php,v 1.5 2002/03/05 16:55:29 uw Exp $
+// $Id: smtp.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 // Status: rough draft, untested
 //
@@ -49,7 +49,7 @@ require_once 'SOAP/Base.php';
 *  SMTP Transport for SOAP
 *
 * @access public
-* @version $Id: SMTP.php,v 1.5 2002/03/05 16:55:29 uw Exp $
+* @version $Id: smtp.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @package SOAP::Transport::SMTP
 * @author Shane Caraveo <shane@php.net>
 */

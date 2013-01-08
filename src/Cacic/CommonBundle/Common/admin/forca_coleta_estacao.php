@@ -1,5 +1,4 @@
-<?
- /* 
+<?php /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
  Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
@@ -32,11 +31,11 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 ?>
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title><?=$oTranslator->_('Coleta induzida por Computador');?></title>
+<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Coleta induzida por Computador');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<? // O require abaixo será usado pelo inc_opcoes_administrativas/coleta_forcada.php - Não remova! - A.A.P. 23/09/2004
-require_once('../include/opcoes_avancadas_combos.js'); ?>
+<?php // O require abaixo será usado pelo inc_opcoes_administrativas/coleta_forcada.php - Não remova! - A.A.P. 23/09/2004
+require_once('../include/js/opcoes_avancadas_combos.js'); ?>
 <style type="text/css">
 <!--
 .style1 {
@@ -48,14 +47,14 @@ require_once('../include/opcoes_avancadas_combos.js'); ?>
 </head>
 
 <body>
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
 <form action="forca_coleta_estacao_set.php"  method="post" ENCTYPE="multipart/form-data" name="forma">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-      <td colspan="2" class="cabecalho"><?=$oTranslator->_('Coleta induzida por Computador');?> <u><em><? echo $_GET['te_nome_computador']; ?></em></u></td>
+      <td colspan="2" class="cabecalho"><?php echo $oTranslator->_('Coleta induzida por Computador');?> <u><em><?php echo $_GET['te_nome_computador']; ?></em></u></td>
   </tr>
   <tr> 
-      <td colspan="2" class="descricao"><?=$oTranslator->_('Esta pagina permite induzir coletas em determinado computador');?></td>
+      <td colspan="2" class="descricao"><?php echo $oTranslator->_('Esta pagina permite induzir coletas em determinado computador');?></td>
   </tr>
     	<tr> 
       	<td colspan="2"><br>
@@ -66,15 +65,14 @@ require_once('../include/opcoes_avancadas_combos.js'); ?>
     	</tr>
 
 <br>
-	<?
-	$forca_coleta_estacao = 'OK'; // Variável a ser verificada pela rotina em opcoes_avancadas.php
+	<?php $forca_coleta_estacao = 'OK'; // Variável a ser verificada pela rotina em opcoes_avancadas.php
 	require_once('../include/opcoes_avancadas.php');
 	?>
 	<br>
 	<br>
     	<tr> 
       	<td><div align="center"> 
-        <input name="submit" type="submit" value="<?=$oTranslator->_('Induzir coletas');?>">
+        <input name="submit" type="submit" value="<?php echo $oTranslator->_('Induzir coletas');?>">
         </div></td>
     	</tr>
 </table>

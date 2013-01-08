@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -27,13 +27,13 @@ require_once "../../include/library.php";
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title><?=$oTranslator->_('Detalhes do Computador');?></title>
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Detalhes do Computador');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body bgcolor="#FFFFFF" leftmargin="2" topmargin="10" marginwidth="0" marginheight="0">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js'"></script>
-<?
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js'"></script>
+<?php
 /*
  * Uma classe para implementar segurança em transações 
  */
@@ -45,8 +45,7 @@ conecta_bd_cacic();
 $query = "SELECT 	* 
 		  FROM 		computadores, 
 		  			so
-		  WHERE 	te_node_address = '". $_GET['te_node_address'] ."' AND
-		  			computadores.id_so = ". $_GET['id_so'] ." AND 
+		  WHERE 	id_computador = ". $_GET['id_computador'] ." AND 
 		  			computadores.id_so = so.id_so";
 
 $result = mysql_query($query);
@@ -63,124 +62,122 @@ if (@mysql_num_rows($result))
 
 	<table width="100%" border="0" cellpadding="0" cellspacing="2">
 	<tr><td>
-    <? 
+    <?php 
 	require_once('inc_tcp_ip.php'); 
 	?>
     </td>
   	</tr>
   	<tr> 
     <td>
-    <? 
+    <?php 
 	require_once('inc_hardware.php'); 
 	?>
     </td>
   	</tr>
   	<tr> 
     <td>
-    <? 
+    <?php 
 	require_once('inc_software.php'); 
 	?>
     </td>
   	</tr>
-	<?
-	if ($_SESSION["cs_nivel_administracao"] == 1 ||
+	<?php if ($_SESSION["cs_nivel_administracao"] == 1 ||
 		$_SESSION["cs_nivel_administracao"] == 2 ||
 		$_SESSION["cs_nivel_administracao"] == 3) 		
 		{
 		?>
 	  	<tr> 
     	<td>
-	    <? require_once('inc_software_inventariado.php'); ?>
+	    <?php require_once('inc_software_inventariado.php'); ?>
 	    </td>
 	  	</tr>	
-		<?
+		<?php
 		}
 		?>
   	<tr> 
    	<td>
-    <? 
+    <?php 
 	require_once('inc_sistemas_monitorados.php'); 
 	?>
     </td>
   	</tr>	
   	<tr> 
     <td>
-    <? 
+    <?php 
 	require_once('inc_variaveis_ambiente.php'); 
 	?>
     </td>
   	</tr>		
   	<tr>
     <td>
-	<? 
+	<?php 
 	require_once('inc_patrimonio.php'); 
 	?>
 	</td>
   	</tr>
   	<tr>
     <td>
-	<? 
+	<?php 
 	require_once('inc_usb_devices_use.php'); 
 	?>
 	</td>
   	</tr>    
   	<tr> 
     <td>
-    <? 
+    <?php 
 	require_once('inc_officescan.php'); 
 	?>
     </td>
   	</tr>
   	<tr> 
     <td>
-    <? 
+    <?php 
 	require_once('inc_compartilhamento.php'); 
 	?>
     </td>
   	</tr>
   	<tr> 
     <td>
-    <? 
+    <?php 
 	require_once('inc_unidades_disco.php'); 
 	?>
     </td>
   	</tr>
   	<tr> 
     <td>
-    <? 
+    <?php 
 	require_once('inc_suporte_remoto.php'); 
 	?>
     </td>
   	</tr>    
   	<tr> 
     <td>
-    <? 
+    <?php 
 	require_once('inc_ferramentas.php'); 
 	?>
     </td>
   	</tr>
-	<?  
-	if ($_SESSION["cs_nivel_administracao"] == 1 ||
+	<?php if ($_SESSION["cs_nivel_administracao"] == 1 ||
 		$_SESSION["cs_nivel_administracao"] == 2 ||
 		$_SESSION["cs_nivel_administracao"] == 3) 		
 		{
 		?>
 		<tr>
 		<td>
-		<?
+		<?php
 		require_once('inc_opcoes_administrativas.php');} ?>
 	  	</td>
 	  	</tr>
-		<?	
+		<?php	
 		} 
 	else 
 		{ 
 		?>
 		<tr>
-    	<td align="center" class="destaque"><?=$oTranslator->_('Computador inexistente');?>
+    	<td align="center" class="destaque"><?php echo $oTranslator->_('Computador inexistente');?>
 		</td>	
 		</tr>
-		<?  
+		<?php  
 		} 
 		?>	
 	</table>

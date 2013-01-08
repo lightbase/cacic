@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -32,8 +32,8 @@ else
 </tr>
 
 <tr bgcolor="#E1E1E1"> 
-<td colspan="4" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=devices_cpus&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
-<img src="../../imgs/<? if($_SESSION['devices_cpus'] == true) 
+<td colspan="4" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=devices_cpus&id_computador=<?php echo $_GET['id_computador']?>"> 
+<img src="../../imgs/<?php if($_SESSION['devices_cpus'] == true) 
 							echo 'menos';
    			 			else 
 							echo 'mais'; ?>.gif" width="12" height="12" border="0"> CPU&acute;s</a></font></td>
@@ -42,8 +42,7 @@ else
 <td height="1" bgcolor="#333333" colspan="4"></td>
 </tr>
 
-<?
-if ($_SESSION['devices_cpus'] == true) 
+<?php if ($_SESSION['devices_cpus'] == true) 
 	{
 	$linha = '	<tr bgcolor="#e7e7e7"> 
 				<td height="1" colspan="6"></td>
@@ -56,13 +55,12 @@ if ($_SESSION['devices_cpus'] == true)
 	<td class="cabecalho_tabela"><u>Fabricante</u></td>	
 	<td class="cabecalho_tabela"><u>Serial</u></td>	
 	</tr>
-	<?		
-	echo $linha;		
+	<?php echo $linha;		
 	// EXIBIR INFORMAÇÕES DE SISTEMAS MONITORADOS NO COMPUTADOR
 	$query = "SELECT 	cs_situacao
 			  FROM 		acoes_redes 
 			  WHERE 	id_acao = 'cs_coleta_hardware' AND
-						id_ip_rede = '".mysql_result($result,0,'id_ip_rede')."'";
+						id_rede = '".mysql_result($result,0,'id_rede')."'";
 	$result_acoes =  mysql_query($query);
 			
 	if (mysql_result($result_acoes, 0, "cs_situacao") <> 'N') 
@@ -72,8 +70,7 @@ if ($_SESSION['devices_cpus'] == true)
 										 cpus.te_cpu_fabricante,
 										 cpus.te_cpu_freq
 					FROM 		cpus
-					WHERE 		cpus.te_node_address = '".$_GET['te_node_address']."' AND
-								cpus.id_so = '". $_GET['id_so'] ."'									
+					WHERE 		cpus.id_computador = ". $_GET['id_computador'] ."									
 					ORDER BY	cpus.te_cpu_desc";
 
 		$result_software = mysql_query($query);
@@ -83,13 +80,12 @@ if ($_SESSION['devices_cpus'] == true)
 			$v_achei = 1;
 			?>
 			<tr> 
-			<td class="descricao">&nbsp;<? echo $row['te_cpu_desc']; ?></td>
-			<td class="descricao"><? echo $row['te_cpu_freq']; ?></td>
-			<td class="descricao"><? echo $row['te_cpu_fabricante']; ?></td>	
-			<td class="descricao"><? echo $row['te_cpu_serial']; ?></td>	
+			<td class="descricao">&nbsp;<?php echo $row['te_cpu_desc']; ?></td>
+			<td class="descricao"><?php echo $row['te_cpu_freq']; ?></td>
+			<td class="descricao"><?php echo $row['te_cpu_fabricante']; ?></td>	
+			<td class="descricao"><?php echo $row['te_cpu_serial']; ?></td>	
 			</tr>
-			<?
-			echo $linha;
+			<?php echo $linha;
 			}
 		if (!$v_achei)
 			{

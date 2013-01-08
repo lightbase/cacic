@@ -31,7 +31,7 @@
 // | Authors: Dietrich Ayala <dietrich@ganx4.com> Original Author         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Parser.php,v 1.10 2002/03/11 08:32:20 shane Exp $
+// $Id: parser.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 
 require_once('SOAP/globals.php');
@@ -44,7 +44,7 @@ require_once('SOAP/Value.php');
 * originaly based on SOAPx4 by Dietrich Ayala http://dietrich.ganx4.com/soapx4
 *
 * @access public
-* @version $Id: Parser.php,v 1.10 2002/03/11 08:32:20 shane Exp $
+* @version $Id: parser.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @package SOAP::Parser
 * @author Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 * @author Dietrich Ayala <dietrich@ganx4.com> Original Author
@@ -450,7 +450,7 @@ class SOAP_Parser
 }
 
 /*
-$testtext = '<?xml version=\'1.0\' encoding=\'UTF-8\'?>
+$testtext = '<?php xml version=\'1.0\' encoding=\'UTF-8\'?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/SOAP/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <SOAP-ENV:Body>
 <ns1:echoStringResponse xmlns:ns1="http://soapinterop.org/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/SOAP/encoding/">

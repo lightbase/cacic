@@ -3,7 +3,7 @@
 	* : Gerente "trunk" atualizado
 	  - Instalador passa a verificar suporte a conexão LDAP	
 	  - Desmembramento dos Logs de Atividades, exibido via menu de pop-up do agente principal
-	  - Extinção do agente Inicializador de Coletas (Ini_Cols.exe), com transferência de suas funções ao Gerente de Coletas (Ger_Cols.exe)
+	  - Extinção do agente Inicializador de Coletas (Ini_Cols.exe), com transferência de suas funções ao Gerente de Coletas (GerCols.exe)
 	  - Extinção do agente coletor automático de Informações Patrimoniais (Col_Patr.exe), sendo substituído pelo Módulo Avulso para Coleta de Informações Patrimoniais (MapaCACIC.exe)	  
 
 2008-05-23  harpiain
@@ -474,8 +474,7 @@
 	* : Gerente "trunk" atualizado
 	  
 	  - instalador passa a mostrar dados de "sigla" dos módulos php
-	  - corrigida inclusão de javascript para verificação de
-	  "updates_subredes"
+	  - corrigida inclusão de javascript para verificação de "update_subrede"
 	* : Gerente "trunk" atualizado
 	  
 	  - phpTranslator - adicionados arquivos de idioma com nome padrao do

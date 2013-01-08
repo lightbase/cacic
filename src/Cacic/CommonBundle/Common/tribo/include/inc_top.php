@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -24,7 +24,7 @@ include('../include/define.php');
     <td width="36%" valign="bottom">
 <div align="right"><font color="#FFFFFF" size="1" face="Verdana, Arial, Helvetica, sans-serif"><br>
         </font> <font color="#FFFFFF" size="1" face="Verdana, Arial, Helvetica, sans-serif"><a onClick="javascript:window.open('versoes.htm','','width=460,height=470,top=0,scrollbars=YES')" href="#">Vers&atilde;o 
-        <?=CACIC_VERSION;?><br>
+        <?php echo CACIC_VERSION;?><br>
         </a></font></p>Desenvolvido pela Dataprev/URES&nbsp;</font> </div></td>
   </tr>
   <tr bgcolor="#CCCCCC"> 

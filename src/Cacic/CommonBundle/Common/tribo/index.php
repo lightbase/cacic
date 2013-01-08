@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -21,7 +21,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="links.css" rel="stylesheet" type="text/css">
 </head>
-<?  include "./include/inc_top.php";  ?>
+<?php  include "./include/inc_top.php";  ?>
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr> 
     <td width="150" valign="top" bgcolor="#D7D7D7">
@@ -80,11 +80,11 @@
     <td width="1" background="imgs/linha.gif"></td>
     <td width="15"></td>
     <td valign="top">
-       <?  if (! $pg) { include "home.php"; }
+       <?php if (! $pg) { include "home.php"; }
 	       else {  include $pg; } ?>	
     </td>
   </tr>
 </table>
-<?  include "./include/inc_bottom.php";  ?>
+<?php  include "./include/inc_bottom.php";  ?>
 </body>
 </html>

@@ -17,7 +17,7 @@
 <head>
 <title>Opera&ccedil;&atilde;o realizada com sucesso!</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta http-equiv="refresh" content="<? echo $_REQUEST['tempo'];?> ;URL=<? echo $_REQUEST['chamador']; ?>">
+<meta http-equiv="refresh" content="<?php echo $_REQUEST['tempo'];?> ;URL=<?php echo $_REQUEST['chamador']; ?>">
 </head>
 <body bgcolor="#F0F0F0" background="../imgs/linha_v.gif">
 
@@ -25,8 +25,7 @@
 <p>&nbsp;</p>
 <table width="450" border="0" align="center" cellpadding="15" cellspacing="1" bgcolor="#666666">
   <tr> 
-    <td valign="top" bgcolor="#99FFFF"><p align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><br>
-      Opera&ccedil;&atilde;o <? echo (@$_GET['texto']?@$_GET['texto']:'Realizada com Sucesso');?>!</strong></font><br>
+    <td valign="top" bgcolor="#99FFFF"><p align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong><br><?php echo (@$_GET['texto']?@$_GET['texto']:'Operação Realizada com Sucesso');?>!</strong></font><br>
         <br>
     </p>
     </td>

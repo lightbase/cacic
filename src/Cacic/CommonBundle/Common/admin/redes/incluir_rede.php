@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -35,8 +35,7 @@ if($_POST['submit'])
 	
 	$query = "SELECT 	* 
 			  FROM 		redes 
-			  WHERE 	id_ip_rede = '".$_POST['frm_id_ip_rede']."' AND
-			  			id_local = ".$_POST['frm_id_local'];
+			  WHERE 	id_rede = ".$_POST['frm_id_rede'];
 						
 	$result = mysql_query($query) or die ('Select falhou ou sua sessão expirou!');
 	
@@ -48,7 +47,7 @@ if($_POST['submit'])
 		{
 		$query = "INSERT 
 				  INTO 		redes 
-				  			(id_ip_rede, 
+				  			(te_ip_rede, 
 							te_mascara_rede, 
 							nm_rede, 
 							te_observacao, 
@@ -70,7 +69,7 @@ if($_POST['submit'])
 							id_servidor_autenticacao, 
 							cs_permitir_desativar_srcacic,
 							id_local) 							
-				 VALUES 	('".$_POST['frm_id_ip_rede']."',
+				 VALUES 	('".$_POST['frm_te_ip_rede']."',
 				  		  	 '".$_POST['frm_te_mascara_rede']."',
 						  	 '".$_POST['frm_nm_rede']."',
 				  		  	 '".$_POST['frm_te_observacao']."', 						  
@@ -93,17 +92,18 @@ if($_POST['submit'])
 							 '".$_POST['frm_cs_permitir_desativar_srcacic']."',								  							  
 							  ".$_POST['frm_id_local'].")";									  							
 		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'redes');
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'redes',$_SESSION["id_usuario"]);
+
+		$arrDadosRede = getValores('redes', 'id_rede', 'te_ip_rede = "'.$_POST['frm_te_ip_rede'].'" and id_local = '.$_POST['frm_id_local']);
 
 		$v_tripa_acoes = '';
 		conecta_bd_cacic();
 
 		$query_del = "DELETE 
 					  FROM		acoes_redes 
-					  WHERE		id_ip_rede = '".$_POST['frm_id_ip_rede']."' AND
-								id_local = ".$_POST['frm_id_local'];
+					  WHERE		id_rede = ".$arrDadosRede['id_rede'];
 		mysql_query($query_del) or die('Ocorreu um erro durante a exclusão de registros na tabela acoes_redes ou sua sessão expirou!');			
-		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');
+		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);
 
 		$v_cs_situacao = ($_POST['in_habilita_acoes'] == 'S'?'S':'N');
 
@@ -130,13 +130,11 @@ if($_POST['submit'])
 				$v_tripa_acoes .= $row_acoes['id_acao'];
 				$query_ins = "INSERT 
 							  INTO 		acoes_redes 
-										(id_ip_rede, 
-										id_acao, 
-										id_local,
+										(id_rede, 
+										id_acao,
 										cs_situacao) 
-							  VALUES	('".$_POST['frm_id_ip_rede']."', 
+							  VALUES	(".$arrDadosRede['id_rede'].", 
 										'".$row_acoes['id_acao']."',
-										".$_POST['frm_id_local'].",
 										'".$v_cs_situacao."')";
 				mysql_query($query_ins) or die('Ocorreu um erro durante a inclusão de registros na tabela acoes_redes ou sua sessão expirou!');
 
@@ -149,40 +147,45 @@ if($_POST['submit'])
 				}
 			}						
 			
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');							
-		$v_perfis = '';
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);							
+		$strPerfis = '';
 		foreach($HTTP_POST_VARS as $i => $v) 
 			{
 			if ($v && substr($i,0,14)=='id_aplicativo_')
 				{
-				if ($v_perfis <> '') $v_perfis .= '__';
-				$v_perfis .= $v;		
+				if ($strPerfis <> '') 
+					$strPerfis .= '__';
+				$strPerfis .= $v;		
 				}
 			}
 
-		seta_perfis_rede($_POST['frm_id_local'],$_POST['frm_id_ip_rede'], $v_perfis); 			
-		update_subredes($_POST['frm_id_ip_rede'],'', '*' ,$_POST['frm_id_local']); 		
+		seta_perfis_rede($arrDadosRede['id_rede'], $strPerfis); 			
+		update_subredes($arrDadosRede['id_rede'],'', '*'); 		
 
 		?>
 	 	<SCRIPT LANGUAGE="Javascript">
 	    	location = '../../include/operacao_ok.php?chamador=../admin/redes/index.php&tempo=2';
 	 	</script>
-		<?
+		<?php
 		
 	}
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<?
+<?php
 }
 else 
 {
 ?>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/jquery.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/ajax/common.js"></script>	            
+<script language="JavaScript" type="text/javascript" src="../../include/js/ajax/test_serv_updates.js"></script>	            
 <script language=JavaScript>
 <!--
 
@@ -193,9 +196,7 @@ function desabilitar()
 document.oncontextmenu=desabilitar
 
 // -->
-</script>
 
-<SCRIPT LANGUAGE="JavaScript">
 function SetaServidorBancoDados()	
 	{
 	document.form.frm_te_serv_cacic.value = document.form.sel_te_serv_cacic.value;	
@@ -238,17 +239,6 @@ function valida_form(frmForm)
 		return false;
 	}
 
-	/*	
-	var ip = document.form.frm_id_ip_rede.value;
-	var ipSplit = ip.split(/\./);
-	
-	if ( document.form.frm_id_ip_rede.value == "" ) 
-		{	
-		alert("O endereço TCP/IP da rede é obrigatório.\nPor favor, informe-o, usando o formato X.X.X.0\nExemplo: 10.70.4.0");
-		document.form.frm_id_ip_rede.focus();
-		return false;
-		}
-	*/
 	if ( document.form.frm_te_mascara_rede.value == "" ) 
 		{	
 		alert("A máscara de rede é obrigatória.\nPor favor, informe-a, usando o formato X.X.X.0\nExemplo: 255.255.255.0");
@@ -311,22 +301,28 @@ function valida_form(frmForm)
 		}					
 	return true;
 	}
-</script>
-<script language="JavaScript" type="text/JavaScript">
+
 <!--
-function MM_reloadPage(init) {  //reloads the window if Nav4 resized
-  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
-    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
-  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
-}
+function MM_reloadPage(init) 
+	{  //reloads the window if Nav4 resized
+  	if (init==true) with (navigator) 
+		{
+		if ((appName=="Netscape")&&(parseInt(appVersion)==4)) 
+			{
+    		document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; 
+			}
+		}
+  	else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) 
+		location.reload();
+	}
 MM_reloadPage(true);
 //-->
+
 </script>
 </head>
 
 <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_id_local')">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Inclus&atilde;o de Nova Subrede</td>
   </tr>
@@ -338,11 +334,11 @@ MM_reloadPage(true);
   </tr>
 </table>
 <form action="incluir_rede.php"  method="post" ENCTYPE="multipart/form-data" name="form" id="form">
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
 		<td>&nbsp;</td>
-      <td class="label"><br>Local:</td>
-      <td class="label" colspan="2"><br>Servidor para Autentica&ccedil;&atilde;o:</td>
+      <td class="label"><br><?php echo $oTranslator->_('Local');?>:</td>
+      <td class="label" colspan="2"><br><?php echo $oTranslator->_('Servidor para Autenticacao');?>:</td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#333333"></td>
@@ -350,7 +346,7 @@ MM_reloadPage(true);
     <tr> 
 	<td>&nbsp;</td>
       <td> <select name="frm_id_local" id="frm_id_local"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-          <?
+          <?php
 			$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE id_local = '.$_SESSION['id_local']:'');
 			if (trim($_SESSION['te_locais_secundarios'])<>'' && $where <> '')
 				{
@@ -377,13 +373,13 @@ MM_reloadPage(true);
 		   	} 
 			?>
         </select>
-		<?
+		<?php
 		//if ($_SESSION['cs_nivel_administracao']<>1)
 		//	echo '<input name="frm_id_local" id="frm_id_local" type="hidden" value="'.$_SESSION['id_local'].'">';
 		?> </td>
       <td nowrap><select name="frm_id_servidor_autenticacao" id="frm_id_servidor_autenticacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="0" selected></option>
-          <?
+          <?php
 			  
 		$qry_servidor_autenticacao = "SELECT 		id_servidor_autenticacao, 
 									nm_servidor_autenticacao
@@ -411,7 +407,7 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td><input name="frm_id_ip_rede" id="frm_id_ip_rede" type="text"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" size="16" maxlength="16" > 
+      <td><input name="frm_te_ip_rede" id="frm_te_ip_rede" type="text"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" size="16" maxlength="16" > 
         <font color="#000099" size="1">Ex.: 10.71.0.0</font></font></td>
       <td><input name="frm_te_mascara_rede" id="frm_te_mascara_rede" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="return VerRedeMascara(this.form.name,false,true);SetaClassNormal(this);" value="255.255.255.0" size="15" maxlength="15" > 
       </td>
@@ -444,15 +440,15 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-	<?
+	<?php
     	$sql = "select * from configuracoes_padrao";
     	$db_result = mysql_query($sql);
     	$cfgStdData = (!mysql_errno())?mysql_fetch_assoc($db_result):'';
 	?>
-      <td nowrap> <input name="frm_te_serv_cacic" type="text" id="frm_te_serv_cacic" size="60" maxlength="60" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$cfgStdData['te_serv_cacic_padrao']?>"><font color="#000099" size="1">Ex.: 10.71.0.204/cacic26b2</font>&nbsp;&nbsp; 
+      <td nowrap> <input name="frm_te_serv_cacic" type="text" id="frm_te_serv_cacic" size="60" maxlength="60" class="normal insucesso" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $cfgStdData['te_serv_cacic_padrao']?>"><font color="#000099" size="1"></font>&nbsp;&nbsp; 
         <select name="sel_te_serv_cacic" id="sel_te_serv_cacic" onChange="SetaServidorBancoDados();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="">===> Selecione <===</option>
-          <?
+          <?php
 			Conecta_bd_cacic();
 			$query = "SELECT DISTINCT 	configuracoes_locais.te_serv_cacic_padrao, 
 										redes.te_serv_cacic
@@ -474,7 +470,7 @@ MM_reloadPage(true);
     <tr> 
 	<td>&nbsp;</td>
       <td nowrap class="label"><div align="left"><br>
-          Servidor de Updates (FTP):</div></td>
+          Servidor de Updates (FTP):<div id="divMsgTeServUpdates" name="divMsgTeServUpdates"></div></div></td>
       <td class="label"><div align="left"><br>
           Porta:</div></td>
       <td valign="bottom" class="label"><br>
@@ -485,10 +481,10 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td nowrap><input name="frm_te_serv_updates" type="text" id="frm_te_serv_updates"  size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?=$cfgStdData['te_serv_updates_padrao']?>"> 
+      <td nowrap><input name="frm_te_serv_updates" type="text" id="frm_te_serv_updates"  size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="return testServUpdates(); SetaClassNormal(this);  " value="<?php echo $cfgStdData['te_serv_updates_padrao']?>"> 
         <select name="sel_te_serv_updates" id="sel_te_serv_updates" onChange="SetaServidorUpdates();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
           <option value="">===> Selecione <===</option>
-          <?
+          <?php
 			Conecta_bd_cacic();
 			$query = "SELECT DISTINCT 	redes.te_serv_updates, 
 										redes.te_path_serv_updates,
@@ -518,7 +514,7 @@ MM_reloadPage(true);
     <tr> 
 	<td>&nbsp;</td>
       <td nowrap class="label"><br>
-        Usu&aacute;rio do Servidor de Updates: (para AGENTE)</td>
+        Usu&aacute;rio do Servidor de Updates: (para AGENTES)<div id="divMsgNmUsuarioLoginServUpdates" name="divMsgNmUsuarioLoginServUpdates"></div></td>
       <td nowrap class="label"><div align="left"><br>
           Senha para Login:</div></td>
       <td nowrap class="label">&nbsp;</td>
@@ -528,16 +524,17 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td nowrap> <input name="frm_nm_usuario_login_serv_updates" type="text" id="frm_nm_usuario_login_serv_updates" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td nowrap> <input name="frm_nm_usuario_login_serv_updates" type="text" id="frm_nm_usuario_login_serv_updates" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this); return testServUpdates();" >		
       </td>
-      <td> <input name="frm_te_senha_login_serv_updates" type="password" id="frm_te_senha_login_serv_updates" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td> <input name="frm_te_senha_login_serv_updates" type="password" id="frm_te_senha_login_serv_updates" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this); return testServUpdates();" >
+      
       </td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
 	<td>&nbsp;</td>
       <td nowrap class="label"><br>
-        Usu&aacute;rio do Servidor de Updates: (para GERENTE)</td>
+        Usu&aacute;rio do Servidor de Updates: (para GERENTE)<div id="divMsgNmUsuarioLoginServUpdatesGerente" name="divMsgNmUsuarioLoginServUpdatesGerente"></div></td>
       <td nowrap class="label"><div align="left"><br>
           Senha para Login:</div></td>
       <td nowrap class="label">&nbsp;</td>
@@ -547,16 +544,17 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td nowrap> <input name="frm_nm_usuario_login_serv_updates_gerente" type="text" id="frm_nm_usuario_login_serv_updates_gerente" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td nowrap> <input name="frm_nm_usuario_login_serv_updates_gerente" type="text" id="frm_nm_usuario_login_serv_updates_gerente" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this); return testServUpdates();" >
+      
       </td>
-      <td> <input name="frm_te_senha_login_serv_updates_gerente" type="password" id="frm_te_senha_login_serv_updates_gerente" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      <td> <input name="frm_te_senha_login_serv_updates_gerente" type="password" id="frm_te_senha_login_serv_updates_gerente" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this); return testServUpdates();" > 
       </td>
       <td>&nbsp;</td>
     </tr>
     <tr> 
 	<td>&nbsp;</td>
       <td nowrap class="label"><br>
-        Path no Servidor de Updates:</td>
+        Path no Servidor de Updates:<div id="divMsgTePathServUpdates" name="divMsgTePathServUpdates"></div></td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
@@ -565,7 +563,8 @@ MM_reloadPage(true);
     </tr>
     <tr> 
 	<td>&nbsp;</td>
-      <td><input name="frm_te_path_serv_updates" type="text" id="frm_te_path_serv_updates" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+      <td><input name="frm_te_path_serv_updates" type="text" id="frm_te_path_serv_updates" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this); return testServUpdates();" >
+      </td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
@@ -713,7 +712,7 @@ MM_reloadPage(true);
       <td>&nbsp;</td>
     </tr>
     
-	<?
+	<?php
 	include "../../include/opcoes_sistemas_monitorados.php";
 	?>
   </table>
@@ -722,7 +721,7 @@ MM_reloadPage(true);
   </p>
 </form>
 <p>
-  <?
+  <?php
 }
 ?>
 </p>

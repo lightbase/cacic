@@ -2,7 +2,7 @@
 /**
  * patTemplate
  *
- * $Id: patTemplate.php,v 1.94.4.7 2004/12/31 14:01:46 schst Exp $
+ * $Id: patTemplate.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * powerful templating engine
  *

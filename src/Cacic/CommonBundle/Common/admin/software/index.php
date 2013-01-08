@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -34,7 +34,7 @@ if ($_REQUEST['Excluir'])
 	{
 	$query = "DELETE FROM softwares_inventariados_grupos WHERE id_si_grupo = '".$_POST['id_si_grupo']."'";
 	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');
-	$query = "DELETE FROM acoes_redes WHERE id_ip_rede = '".$_GET['id_ip_rede']."'";
+	$query = "DELETE FROM acoes_redes WHERE id_rede = ".$_GET['id_rede'];
 	mysql_query($query) or die('Delete falhou ou sua sessão expirou!');	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/software/index_grupos.php&tempo=1");									
 	}
@@ -98,7 +98,7 @@ $resultG = mysql_query($queryG);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Cadastro de Grupos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
@@ -130,10 +130,10 @@ function cria_janela_cent(horizontal,vertical,valor,numero) {
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Cadastro de Softwares </td>
   </tr>
@@ -141,37 +141,36 @@ function cria_janela_cent(horizontal,vertical,valor,numero) {
     <td class="descricao">Neste m&oacute;dulo dever&atilde;o ser alterados os grupos dos os  Softwares cadastrados no Cacic.</td>
   </tr>
 </table>
-<br><table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<br><table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr>
     <td width="13%" height="10" valign="baseline">Por grupo:<br>
       <select name="pesquisa" class="normal" id="pesquisa" ><!-- onChange="mudapagina(this.value,'1')"-->
         <option value="0">Todos</option>
-		<? while($rowG = mysql_fetch_array($resultG)) {?>
-			<option value="<? echo $rowG['id_si_grupo']; ?>" <? if ($pesquisa==$rowG['id_si_grupo']){?>selected<? }?>><? echo $rowG['nm_si_grupo']; ?></option>
-		<? }?>	
+		<?php while($rowG = mysql_fetch_array($resultG)) {?>
+			<option value="<?php echo $rowG['id_si_grupo']; ?>" <?php if ($pesquisa==$rowG['id_si_grupo']){?>selected<?php }?>><?php echo $rowG['nm_si_grupo']; ?></option>
+		<?php }?>	
       </select>      </td>
     <td width="18%" valign="baseline">Por palavra:<br>
-      <input name="palavra" type="text" class="normal" id="palavra" value="<? echo $palavra?>"></td>
+      <input name="palavra" type="text" class="normal" id="palavra" value="<?php echo $palavra?>"></td>
     <td width="69%" valign="bottom"><input name="Button" type="button" class="normal" value="Pesquisar" onClick="pesquisa_()"></td>
   </tr>
   <tr> 
     <td height="10" colspan="3"><div align="right"></div></td>
   </tr>
   <tr> 
-    <td height="10" colspan="3" align="center" valign="middle"><? echo $msg;?>
+    <td height="10" colspan="3" align="center" valign="middle"><?php echo $msg;?>
       <div align="center"></div></td>
     </tr>
   <tr>
     <td height="10" colspan="3">
 	<div align="right">
-	<?  
-		if ($pagina > 1) {
+	<?php if ($pagina > 1) {
 	?>
-      << <a href="index.php?pesquisa=<? echo $pesquisa?>&pagina=<? echo ($pagina - 1)?>&palavra=<? echo $palavra?>" target="_self">anterior</a> |
-        <?	}		
+      << <a href="index.php?pesquisa=<?php echo $pesquisa?>&pagina=<?php echo ($pagina - 1)?>&palavra=<?php echo $palavra?>" target="_self">anterior</a> |
+        <?php	}		
 	?>
-          <select name="select2" class="normal" onChange="mudapagina('<? echo $pesquisa?>',this.value,'<? echo $palavra?>')">
-            <?
+          <select name="select2" class="normal" onChange="mudapagina('<?php echo $pesquisa?>',this.value,'<?php echo $palavra?>')">
+            <?php
 		$i = 1;		
 		while ($i <= $total_paginas) {
 			if ($i == $pagina) {
@@ -180,14 +179,14 @@ function cria_janela_cent(horizontal,vertical,valor,numero) {
 			else {
 				$seleciona = "";
 			} ?>
-                  <option value="<? echo $i; ?>" <? echo $seleciona?>><? echo $i; ?></option>
-            <? 
+                  <option value="<?php echo $i; ?>" <?php echo $seleciona?>><?php echo $i; ?></option>
+            <?php 
 			$i = $i + 1; 
 		}?>
           </select>
-          <?	if ($pagina < $total_paginas) { ?>
-          <a href="index.php?pesquisa=<? echo $pesquisa?>&pagina=<? echo ($pagina + 1)?>&palavra=<? echo $palavra?>" target="_self">próxima</a>>>
-          <? }		
+          <?php if ($pagina < $total_paginas) { ?>
+          <a href="index.php?pesquisa=<?php echo $pesquisa?>&pagina=<?php echo ($pagina + 1)?>&palavra=<?php echo $palavra?>" target="_self">próxima</a>>>
+          <?php }		
 	?>
       </div></td>
   </tr>
@@ -204,8 +203,7 @@ function cria_janela_cent(horizontal,vertical,valor,numero) {
           <td width="513" nowrap  class="cabecalho_tabela">Software</td>
           <td width="66" nowrap class="cabecalho_tabela">Grupo</td>
         </tr>
-<?  
-if(mysql_num_rows($result)==0) {
+<?php if(mysql_num_rows($result)==0) {
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
 				Nenhum software cadastrado
@@ -219,15 +217,15 @@ else {
 	while($row = mysql_fetch_array($result)) {		  
 		if ($marcador < $total_reg) {     
 	 ?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
-			  <td><a name="<? echo $NumRegistro?>"></a></td>
-			  <td class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
-			  <td class="opcao_tabela"><div align="center"><? echo $row['id_software_inventariado']; ?></div></td>
-			  <td class="opcao_tabela"><div align="left"><? echo $row['nm_software_inventariado']; ?> </div></td>
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+			  <td><a name="<?php echo $NumRegistro?>"></a></td>
+			  <td class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
+			  <td class="opcao_tabela"><div align="center"><?php echo $row['id_software_inventariado']; ?></div></td>
+			  <td class="opcao_tabela"><div align="left"><?php echo $row['nm_software_inventariado']; ?> </div></td>
 			  <td>
-			  <iframe src="atualizar_grupos.php?id_software_inventariado=<? echo $row['id_software_inventariado']?>" height="20" width="110"></iframe>
+			  <iframe src="atualizar_grupos.php?id_software_inventariado=<?php echo $row['id_software_inventariado']?>" height="20" width="110"></iframe>
 			  </td>
-			  <? 
+			  <?php 
 			$Cor=!$Cor;
 			$NumRegistro++;
 		}
@@ -245,7 +243,7 @@ else {
     <td height="10" colspan="3">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10" colspan="3"><? echo $msg;?></td>
+    <td height="10" colspan="3"><?php echo $msg;?></td>
   </tr>
   
 </table>

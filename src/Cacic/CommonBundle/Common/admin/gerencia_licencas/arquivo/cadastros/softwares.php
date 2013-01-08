@@ -37,4 +37,4 @@ conecta_bd_cacic();
    	}
 ?>
 <br><br>
-<div align="center"><input type="button" name="btnVoltar" value="<?=$oTranslator->_('Voltar');?>'" onClick="javascript:window.location='frmSoftwares.php'"/></div>
+<div align="center"><input type="button" name="btnVoltar" value="<?php echo $oTranslator->_('Voltar');?>'" onClick="javascript:window.location='frmSoftwares.php'"/></div>

@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -42,21 +42,21 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
+<?php
 	 $query = "SELECT CASE WHEN ((te_cpu_freq >= 2390) AND (te_cpu_freq <= 2533)) THEN 2400 
 			       WHEN ((te_cpu_freq >= 2790) AND (te_cpu_freq <= 2800)) THEN 2800 
 			       ELSE te_cpu_freq
@@ -86,9 +86,9 @@ $linha = '<tr bgcolor="#e7e7e7">
 			FROM (SELECT SUM(nu_capacidade) AS capacidade 
 	      			FROM unidades_disco u, computadores c 
 	      			WHERE (u.id_tipo_unid_disco = 2) AND 
-		    			(c.te_node_address = u.te_node_address) AND 
+		    			(c.id_computador = u.id_computador) AND 
 		    			(c.te_placa_mae_fabricante LIKE '%IBM%') 
-	      			GROUP BY u.te_node_address, u.id_so 
+	      			GROUP BY u.id_computador 
 	      			ORDER BY capacidade) as tbl 
 			GROUP BY disco 
 			ORDER BY disco";
@@ -116,7 +116,7 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Quantidade</font></strong></div></td>
 	  <td nowrap >&nbsp;&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	$TotalMaquinas = 0;
@@ -124,27 +124,27 @@ $linha = '<tr bgcolor="#e7e7e7">
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $NumRegistro; ?></font></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['CPUFreq']; ?></font></div></td>
+          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['CPUFreq']; ?></font></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['Memoria']; ?></font></div></td>
+          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['Memoria']; ?></font></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['CPUFabricante']; ?></font></div></td>
+          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['CPUFabricante']; ?></font></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="mostra_ibms.php?CPUFreq=<? echo $row['CPUFreq'];?>&Memoria=<? echo $row['Memoria'];?>&CPUFabricante=<? echo $row['CPUFabricante'];?>" target="_blank"><? echo $row['QTDE']; ?></font></div></td>
+          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="mostra_ibms.php?CPUFreq=<?php echo $row['CPUFreq'];?>&Memoria=<?php echo $row['Memoria'];?>&CPUFabricante=<?php echo $row['CPUFabricante'];?>" target="_blank"><?php echo $row['QTDE']; ?></font></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	$TotalMaquinas += $row['QTDE'];
 	}
 ?>
-	</tr><tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+	</tr><tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
 	<td align="center" nowrap colspan=9><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Total de M&aacute;quinas</font></strong></div></td>
-	<td align="center" nowrap><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $TotalMaquinas; ?></font></strong></div></td>
+	<td align="center" nowrap><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $TotalMaquinas; ?></font></strong></div></td>
 	<td align="center" nowrap>&nbsp;&nbsp;</td></tr>
       </table></td>
   </tr>
@@ -166,7 +166,7 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Quantidade</font></strong></div></td>
 	  <td nowrap >&nbsp;&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	$TotalMaquinas = 0;
@@ -174,23 +174,23 @@ $linha = '<tr bgcolor="#e7e7e7">
 	while($row = mysql_fetch_array($resultDisco)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $NumRegistro; ?></font></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['disco']; ?> (MB)</font></div></td>
+          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['disco']; ?> (MB)</font></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="mostra_ibms.php?disco=<? echo $row['disco'];?>" target="_blank"><? echo $row['QTDE']; ?></font></div></td>
+          <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="mostra_ibms.php?disco=<?php echo $row['disco'];?>" target="_blank"><?php echo $row['QTDE']; ?></font></div></td>
           <td nowrap>&nbsp;&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	$TotalMaquinas += $row['QTDE'];
 	}
 ?>
-	</tr><tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
+	</tr><tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>>
 	<td align="center" nowrap colspan=5><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">Total de M&aacute;quinas</font></strong></div></td>
-	<td align="center" nowrap><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $TotalMaquinas; ?></font></strong></div></td>
+	<td align="center" nowrap><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $TotalMaquinas; ?></font></strong></div></td>
 	<td align="center" nowrap>&nbsp;&nbsp;</td></tr>
 	<tr><td colspan=7 heigth="1" bgcolor="#333333"></td></tr>
       </table></td>

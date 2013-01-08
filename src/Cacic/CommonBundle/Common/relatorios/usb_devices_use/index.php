@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -48,22 +48,19 @@ if($_POST['submitGerarRelatorio'])
 		// Aqui pego todas as redes selecionadas e faço uma query p/ condição de redes
 		$redes_selecionadas = "'" . $_SESSION["list2"][0] . "'";
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
-			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
+			$redes_selecionadas = $redes_selecionadas . "," . $_SESSION["list2"][$i];
 	
-		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+		$query_redes = ' AND redes.id_rede IN ('. $redes_selecionadas .')';
 		}
 	else
 		{
 		// Aqui pego todos os locais selecionados e faço uma query p/ condição de redes/locais
 		$locais_selecionados = "'" . $_SESSION["list12"][0] . "'";
 		for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
-			$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
+			$locais_selecionados .= "," . $_SESSION["list12"][$i]
 	
-		$query_redes = 'AND comp.id_ip_rede = redes.id_ip_rede AND 
-							redes.id_local IN ('. $locais_selecionados .') AND
-							redes.id_local = locais.id_local ';
+		$query_redes = ' redes.id_local IN ('. $locais_selecionados .') ';
 		$select = ' ,sg_local as Local ';	
-		$from = ' ,redes,locais ';			
 		}
 	
 	// Aqui pego todos os SO selecionados
@@ -80,8 +77,7 @@ if($_POST['submitGerarRelatorio'])
 			
 	   $query =  "SELECT 
 				  distinct 		comp.te_nome_computador,
-				  				comp.te_ip,
-								comp.id_ip_rede,
+				  				comp.te_ip_computador,
 								usbl.dt_event,
 								usbl.cs_event,								
 								usbd.id_device,
@@ -89,20 +85,24 @@ if($_POST['submitGerarRelatorio'])
 								usbv.id_vendor,
 								usbv.nm_vendor,																
 								comp.id_so, 
-								comp.te_node_address " . 
+								comp.te_node_address,
+								redes.te_ip_rede, 
+								redes.id_rede " . 								
 								$select . " 
 				  FROM 			usb_logs    usbl, 
 				  				usb_vendors usbv,
 								usb_devices usbd,
-								computadores comp ".
-								$from . " 
+								computadores comp,
+								redes,
+								locais 			
 				  WHERE 		usbl.dt_event >= '" . $_SESSION["data_ini"] . "' AND 
 								usbl.dt_event <= '" . $_SESSION["data_fim"] . "' AND 
 								usbv.id_vendor = usbl.id_vendor AND
 								usbd.id_vendor = usbl.id_vendor AND
 								usbd.id_device = usbl.id_device AND
-								comp.te_node_address = usbl.te_node_address AND 
-								comp.id_so = usbl.id_so ".
+								comp.id_rede   = redes.id_rede AND 
+								redes.id_local = locais.id_local AND								
+								comp.id_computador = usbl.id_computador ".
 								$query_redes. " 
 				  ORDER BY 		$orderby ";
 	//echo $query . '<br>';
@@ -142,7 +142,7 @@ if($_POST['submitGerarRelatorio'])
 		  </tr>
 		  <tr> 
 			<td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-				em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+				em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
 		  </tr>
 		</table>
 		<br>
@@ -150,7 +150,7 @@ if($_POST['submitGerarRelatorio'])
 		<br>
 		<br>
 		
-		<?
+		<?php
 		$cor = 0;
 		$num_registro = 1;
 		
@@ -183,7 +183,7 @@ if($_POST['submitGerarRelatorio'])
 			  <td nowrap class="cabecalho_tabela"><div align="left">Evento</div></td>
 			  <td nowrap >&nbsp;</td>
 			</tr>
-			<?  
+			<?php  
 		$Cor = 0;
 		$NumRegistro = 1;
 		
@@ -191,25 +191,25 @@ if($_POST['submitGerarRelatorio'])
 			{
 			  
 		 	?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+			  <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="center"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="center"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_ip_computador']; ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="center"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['id_ip_rede']; ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="center"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_ip_rede']; ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['Local']; ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['Local']; ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="center"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo substr($row['dt_event'],6,2).'/'.substr($row['dt_event'],4,2).'/'.substr($row['dt_event'],0,4).' às '.substr($row['dt_event'],8,2).':'.substr($row['dt_event'],10,2).'h'; ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="center"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo substr($row['dt_event'],6,2).'/'.substr($row['dt_event'],4,2).'/'.substr($row['dt_event'],0,4).' às '.substr($row['dt_event'],8,2).':'.substr($row['dt_event'],10,2).'h'; ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_vendor'] . ' / ' . $row['nm_device']; ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['nm_vendor'] . ' / ' . $row['nm_device']; ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
-			  <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo ($row['cs_event']=='I'?'Inserção':'Remoção'); ?></a></div></td>
+			  <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo ($row['cs_event']=='I'?'Inserção':'Remoção'); ?></a></div></td>
 			  <td nowrap>&nbsp;</td>
-			<? 
+			<?php 
 			$Cor=!$Cor;
 			$NumRegistro++;
 			}
@@ -224,7 +224,7 @@ if($_POST['submitGerarRelatorio'])
 		  pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>
 		</body>
 		</html>    
-		<?		
+		<?php		
 		}
 	}
 else
@@ -234,11 +234,11 @@ else
 	
 	//$historical_data_help = $oTranslator->_("Dados historicos obtidos de versoes anteriores a 2.4");
 	?>
-	 <script src="../../include/sniffer.js" type="text/javascript" language="javascript"></script>
-	 <script src="../../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
-	 <link href="../../include/dyncalendar.css" media="screen" rel="stylesheet">
+	 <script src="../../include/js/sniffer.js" type="text/javascript" language="javascript"></script>
+	 <script src="../../include/js/dyncalendar.js" type="text/javascript" language="javascript"></script>
+	 <link href="../../include/css/dyncalendar.css" media="screen" rel="stylesheet">
 	
-	<table width="90%" border="0" align="center">
+	<table width="85%" border="0" align="center">
 	  <tr> 
 		<td class="cabecalho">
 		  <?php echo $oTranslator->_('Relatorio de utilização de dispositivos USB'); ?>
@@ -251,7 +251,7 @@ else
 	  </tr>
 	</table>
 	<form method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-	  <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
+	  <table width="85%" border="0" align="center" cellpadding="5" cellspacing="1">
 		<tr>
 		  <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1" align="center">
 			  <tr> 
@@ -262,7 +262,7 @@ else
 				<td height="1" bgcolor="#333333" colspan="2"></td>
 			  </tr>
 			  <tr valign="middle"> 
-				<td width="33%" height="1" nowrap valign="middle"> <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>"> 
+				<td width="33%" height="1" nowrap valign="middle"> <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input1;?>"> 
 				  <script type="text/javascript" language="JavaScript">
 		<!--
 		function calendar1Callback(date, month, year)	
@@ -272,7 +272,7 @@ else
 		calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 		-->
 		</script> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif">a</font> 
-				  &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>"> 
+				  &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input2;?>"> 
 				  <script type="text/javascript" language="JavaScript">
 		<!--
 		function calendar2Callback(date, month, year)	
@@ -292,7 +292,7 @@ else
 		</tr>
 		<tr> 
 		  <td valign="top"> 
-			<?  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
+			<?php  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 			require_once($v_require);		
 			?>
 	
@@ -300,7 +300,7 @@ else
 		</tr>
 		<tr> 
 		  <td valign="top"> 
-			<?  require_once('../../include/selecao_so_inc.php');		?>
+			<?php  require_once('../../include/selecao_so_inc.php');		?>
 		  </td>
 		</tr>
 		<tr> 
@@ -311,7 +311,7 @@ else
 			  </tr>
 			  <tr> 
 				<td> <div align="center"> 
-					<input name="submitGerarRelatorio" id="submitGerarRelatorio" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
+					<input name="submitGerarRelatorio" id="submitGerarRelatorio" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<?php echo ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
 																											 SelectAll(this.form.elements['list4[]']), 
 																											 SelectAll(this.form.elements['list6[]'])">				
 				  </div></td>
@@ -326,6 +326,6 @@ else
 	</form>
 	</body>
 	</html>
-    <?
+    <?php
 	}
 	?>

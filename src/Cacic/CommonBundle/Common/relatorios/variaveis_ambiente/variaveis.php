@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -45,7 +45,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Vari&aacute;veis de Ambiente</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
@@ -58,7 +58,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <table border="0" align="left" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
     <td rowspan="5" bgcolor="#FFFFFF"><img src="../../imgs/cacic_logo.png" width="50" height="50"></td>
@@ -73,13 +73,13 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td class="descricao_rel"><p align="left">Gerado em <? echo date("d/m/Y à\s H:i"); ?></p></td>
+    <td class="descricao_rel"><p align="left">Gerado em <?php echo date("d/m/Y à\s H:i"); ?></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
-<br><?
+<br><?php
 
 $redes_selecionadas = '';
 if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2)
@@ -91,7 +91,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-		$_SESSION['query_redes'] = 'AND computadores.id_ip_rede IN ('. $redes_selecionadas .')';		
+		$_SESSION['query_redes'] = 'AND computadores.id_rede IN ('. $redes_selecionadas .')';		
 		
 		//}	
 
@@ -103,7 +103,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$_SESSION['query_redes'] = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+	$_SESSION['query_redes'] = 'AND computadores.id_rede = redes.id_rede AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
 	$_SESSION['select'] = ' ,sg_local as Local ';	
@@ -143,16 +143,15 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
               <tr valign="top" bgcolor="#E1E1E1"> 
                 <td nowrap class="cabecalho_tabela"><div align="left">Vari&aacute;veis de Ambiente</div></td>
                 <td nowrap bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right">M&aacute;quinas</div></td>
-				<?
-  				if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+				<?php if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
 					{
 					?>
 					<td nowrap bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right">Local</div></td>				
-					<?
+					<?php
 					}
 					?>
               </tr>
-              <? 
+              <?php 
 			  while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 					{
 	 				$reg_id_aplicativo = $reg_selecao[0]; 	
@@ -166,8 +165,7 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
 										variaveis_ambiente_estacoes b, 
 										computadores ".
 										$_SESSION['from'] . " 
-					WHERE 				b.te_node_address  = computadores.te_node_address AND 
-										b.id_so = computadores.id_so AND 
+					WHERE 				b.id_computador  = computadores.id_computador AND 
 										a.id_variavel_ambiente = ".$reg_id_aplicativo. " AND 
 										a.id_variavel_ambiente = b.id_variavel_ambiente " . $_SESSION['query_redes'] . " AND 
 										computadores.id_so IN (". $so_selecionados .") ".
@@ -181,16 +179,14 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
 						$v_achei = '.';
 						?>
               			<tr> 
-		                <td nowrap class="opcao_tabela"><a href="../variaveis_ambiente/rel_variaveis_valores.php?id_variavel_ambiente=<? echo $reg_versoes[2]?>&nm_variavel_ambiente=<? echo $reg_versoes[0];?>" target="_blank"><? echo $reg_versoes[0]; ?></a></td>
-		                <td nowrap class="opcao_tabela"><div align="right"><? echo $reg_versoes[1] ?></div></td>
-						<?
-		  				if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+		                <td nowrap class="opcao_tabela"><a href="../variaveis_ambiente/rel_variaveis_valores.php?id_variavel_ambiente=<?php echo $reg_versoes[2]?>&nm_variavel_ambiente=<?php echo $reg_versoes[0];?>" target="_blank"><?php echo $reg_versoes[0]; ?></a></td>
+		                <td nowrap class="opcao_tabela"><div align="right"><?php echo $reg_versoes[1] ?></div></td>
+						<?php if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
 							?>
-		                <td nowrap class="opcao_tabela"><div align="right"><? echo $reg_versoes[3] ?></div></td>						
+		                <td nowrap class="opcao_tabela"><div align="right"><?php echo $reg_versoes[3] ?></div></td>						
 
 		              	</tr>	  
-		              	<?
-						echo $linha; 
+		              	<?php echo $linha; 
 		 				} //Fim do if else das versões
  				 	} //Fim do while
 

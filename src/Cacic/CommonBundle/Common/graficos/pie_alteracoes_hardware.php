@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -21,8 +21,7 @@ conecta_bd_cacic();
 $query = 'SELECT a.'.$_GET['v_nome_campo']. ', 
 				 count(a.'. $_GET['v_nome_campo'] . ') as "' . $_GET['v_label'] . '"
 		  FROM historico_hardware a, computadores b, descricao_hardware c, so d
-		  WHERE b.te_node_address = a.te_node_address 
-				AND b.id_so = a.id_so 
+		  WHERE b.id_computador = a.id_computador 
 				AND c.nm_campo_tab_hardware = "'.$_GET['v_nome_campo'].'" 
 		  		AND b.te_nome_computador IS NOT NULL AND b.id_so = d.id_so 
  		  		AND b.id_so IN ('. str_replace("-=-", '"',$_GET['v_so_selecionados']) .') '.str_replace("-=-", '"',$_GET['v_query_redes']).'  				

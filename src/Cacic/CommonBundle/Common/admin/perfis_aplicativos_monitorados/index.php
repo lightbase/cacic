@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -67,27 +67,27 @@ $result = mysql_query($query);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Cadastro de Perf&iacute;s de Aplicativos Monitorados</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><?=$oTranslator->_('Cadastro de Perfis de Sistemas Monitorados');?></td>
+    <td class="cabecalho"><?php echo $oTranslator->_('Cadastro de Perfis de Sistemas Monitorados');?></td>
   </tr>
   <tr> 
-    <td class="descricao"><?=$oTranslator->_('ksiq_msg perfis');?></td>
+    <td class="descricao"><?php echo $oTranslator->_('ksiq_msg perfis');?></td>
   </tr>
 </table>
 <br><table border="0" align="center" cellpadding="0" cellspacing="1">
   <tr> 
     <td><div align="center">
 
-          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Novo Perfil de Sistema');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
+          <input name="submit" type="submit" id="submit" value="<?php echo $oTranslator->_('Incluir Novo Perfil de Sistema');?>" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>
 
         
       </div></td>
@@ -96,7 +96,7 @@ $result = mysql_query($query);
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
 
   <tr> 
@@ -108,18 +108,17 @@ $result = mysql_query($query);
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?=$oTranslator->_('Sistema Monitorado');?></div></td>
+          <td align="center"  nowrap class="cabecalho_tabela"><div align="left"><?php echo $oTranslator->_('Sistema Monitorado');?></div></td>
           <td nowrap >&nbsp;</td>
-            <td nowrap  class="cabecalho_tabela"><?=$oTranslator->_('Totais de Redes Alvo');?></td>
+            <td nowrap  class="cabecalho_tabela"><?php echo $oTranslator->_('Totais de Redes Alvo');?></td>
             <td nowrap  class="cabecalho_tabela">&nbsp;</td>
-            <td nowrap  class="cabecalho_tabela"><?=$oTranslator->_('Verificacao Ativa');?></td>
+            <td nowrap  class="cabecalho_tabela"><?php echo $oTranslator->_('Verificacao Ativa');?></td>
         </tr>
 	  <tr> 
     	<td height="1" bgcolor="#333333" colspan="8"></td>
 	  </tr>
 		
-        <?  
-if(mysql_num_rows($result)==0) 
+        <?php if(mysql_num_rows($result)==0) 
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
@@ -135,13 +134,12 @@ else
 	while($row = mysql_fetch_array($result)) 
 		{
 		?>		  
-	 	<tr <? echo ($Cor==1?'bgcolor="#E1E1E1"':'');?>>
+	 	<tr <?php echo ($Cor==1?'bgcolor="#E1E1E1"':'');?>>
         <td nowrap>&nbsp;</td>
-        <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro;?></div></td>
+        <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro;?></div></td>
         <td nowrap>&nbsp;</td>
-        <td nowrap class="opcao_tabela"><div align="left"><a href="../perfis_aplicativos_monitorados/detalhes_perfil.php?id_aplicativo=<? echo $row['id_aplicativo'];?>">
-		<?
-		if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
+        <td nowrap class="opcao_tabela"><div align="left"><a href="../perfis_aplicativos_monitorados/detalhes_perfil.php?id_aplicativo=<?php echo $row['id_aplicativo'];?>">
+		<?php if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
 			{
 			echo substr($row['nm_aplicativo'], 0, strpos($row['nm_aplicativo'], "#DESATIVADO#"));
 			}		  
@@ -152,17 +150,16 @@ else
 		?>					
 		</a></div></td>
         <td nowrap>&nbsp;</td>
-        <td nowrap align="right"><? echo number_format($arrPerfilRede[$row['id_aplicativo']], 0, '', '.');?></td>
+        <td nowrap align="right"><?php echo number_format($arrPerfilRede[$row['id_aplicativo']], 0, '', '.');?></td>
         <td nowrap>&nbsp;</td>		
         <td nowrap 
-		<?
-		if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
+		<?php if (strpos($row['nm_aplicativo'], "#DESATIVADO#")>0) 
 			echo 'class="destaque_laranja"><div align="center">'.$oTranslator->_('nao'); 
 		else
 			echo 'class="opcao_tabela"><div align="center">'.$oTranslator->_('sim'); 
 		?>
 		</td>
-		<?
+		<?php
 		$Cor=!$Cor;
 		$NumRegistro++;
 	}
@@ -177,11 +174,11 @@ else
     <td height="10">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10"><? echo $msg;?></td>
+    <td height="10"><?php echo $msg;?></td>
   </tr>
   <tr> 
     <td><div align="center">
-          <input name="submit" type="submit" id="submit" value="<?=$oTranslator->_('Incluir Novo Perfil de Sistema');?>" <? echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>       
+          <input name="submit" type="submit" id="submit" value="<?php echo $oTranslator->_('Incluir Novo Perfil de Sistema');?>" <?php echo ($_SESSION['cs_nivel_administracao']<>1?'disabled':'')?>>       
       </div></td>
   </tr>
 </table>

@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -31,7 +31,7 @@ if ($_POST['ExcluiServidorAutenticacao'] <> '' && $_SESSION['cs_nivel_administra
 			  SET 		in_ativo = 'N'
 			  WHERE 	id_servidor_autenticacao = ".$_POST['frm_id_servidor_autenticacao'];
 	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
-	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'servidores_autenticacao');		
+	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'servidores_autenticacao',$_SESSION["id_usuario"]);		
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/servidores_autenticacao/index.php&tempo=1");				
 	}
 else if ($_POST['GravaAlteracoes'] <> '' && $_SESSION['cs_nivel_administracao']==1) 
@@ -39,20 +39,25 @@ else if ($_POST['GravaAlteracoes'] <> '' && $_SESSION['cs_nivel_administracao']=
 	$in_ativo = ($_POST['frm_in_ativo']=='S'?$_POST['frm_in_ativo']:'N');
 					
 	$query = "UPDATE 	servidores_autenticacao 
-			  SET		nm_servidor_autenticacao 		= '".$_POST['frm_nm_servidor_autenticacao'] 		."', 
-				  		te_ip_servidor_autenticacao		= '".$_POST['frm_te_ip_servidor_autenticacao']		."',
-				  		nu_porta_servidor_autenticacao	= '".$_POST['frm_nu_porta_servidor_autenticacao']	."',						
-						id_tipo_protocolo				= '".$_POST['frm_id_tipo_protocolo']  				."',
-						nu_versao_protocolo				= '".$_POST['frm_nu_versao_protocolo']				."',
-						te_atributo_identificador		= '".$_POST['frm_te_atributo_identificador']		."',
-						te_atributo_retorna_nome		= '".$_POST['frm_te_atributo_retorna_nome'] 		."',
-						te_atributo_retorna_email		= '".$_POST['frm_te_atributo_retorna_email']		."',														
-						te_observacao					= '".$_POST['frm_te_observacao']      				."',				  			  
-						in_ativo						= '".$in_ativo 	     								."'				  			  						
-			  WHERE 	id_servidor_autenticacao 		=  ".$_POST['frm_id_servidor_autenticacao'];
+			  SET		nm_servidor_autenticacao 				= '".$_POST['frm_nm_servidor_autenticacao'] 			."', 
+						nm_servidor_autenticacao_dns			= '".$_POST['frm_nm_servidor_autenticacao_dns']			."', 			  
+				  		te_ip_servidor_autenticacao				= '".$_POST['frm_te_ip_servidor_autenticacao']			."',
+				  		nu_porta_servidor_autenticacao			= '".$_POST['frm_nu_porta_servidor_autenticacao']		."',						
+						id_tipo_protocolo						= '".$_POST['frm_id_tipo_protocolo']  					."',
+						nu_versao_protocolo						= '".$_POST['frm_nu_versao_protocolo']					."',
+						te_atributo_identificador				= '".$_POST['frm_te_atributo_identificador']			."',
+						te_atributo_identificador_alternativo	= '".$_POST['frm_te_atributo_identificador_alternativo']."',						
+						te_atributo_retorna_nome				= '".$_POST['frm_te_atributo_retorna_nome'] 			."',
+						te_atributo_retorna_email				= '".$_POST['frm_te_atributo_retorna_email']			."',														
+						te_atributo_retorna_telefone			= '".$_POST['frm_te_atributo_retorna_telefone']			."',																				
+						te_atributo_status_conta				= '".$_POST['frm_te_atributo_status_conta']				."',																				
+						te_atributo_valor_status_conta_valida 	= '".$_POST['frm_te_atributo_valor_status_conta_valida']."',																				
+						te_observacao							= '".$_POST['frm_te_observacao']      					."',				  			  
+						in_ativo								= '".$in_ativo 	     									."'				  			  						
+			  WHERE 	id_servidor_autenticacao 				=  ".$_POST['frm_id_servidor_autenticacao'];
 			
 	mysql_query($query) or die('Update falhou ou sua sessão expirou!');
-	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'servidores_autenticacao');		
+	GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'servidores_autenticacao',$_SESSION["id_usuario"]);		
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/servidores_autenticacao/index.php&tempo=1");				
 	}
 else 
@@ -67,59 +72,9 @@ else
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
     <html>
     <head>
-    <link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+    <link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
     <title>Detalhes de Servidor de Autentica&ccedil;&atilde;o</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <SCRIPT LANGUAGE="JavaScript">
-    
-    function valida_form() 
-        {
-    
-        if ( document.form.frm_nm_servidor_autenticacao.value == "" ) 
-            {	
-            alert("O nome é obrigatório.");
-            document.form.frm_nm_servidor_autenticacao.focus();
-            return false;
-            }		
-        else if ( document.form.frm_te_ip_servidor_autenticacao.value == "" ) 
-            {	
-            alert("O IP é obrigatório.");
-            document.form.frm_te_ip_servidor_autenticacao.focus();
-            return false;
-            }
-        else if ( document.form.frm_nu_porta_servidor_autenticacao.value == "" ) 
-            {	
-            alert("A porta é obrigatória.");
-            document.form.frm_nu_porta_servidor_autenticacao.focus();
-            return false;
-            }			
-        else if ( document.form.frm_id_tipo_protocolo.value == "" ) 
-            {	
-            alert("Selecione o Tipo de Protocolo.");
-            document.form.frm_id_tipo_protocolo.focus();
-            return false;
-            }
-        else if ( document.form.frm_te_atributo_retorna_nome.value == "" ) 
-            {	
-            alert("O atributo para retorno de nome completo é obrigatório.");
-            document.form.frm_te_atributo_retorna_nome.focus();
-            return false;
-            }
-        else if ( document.form.frm_te_atributo_retorna_email.value == "" ) 
-            {	
-            alert("O atributo para retorno de email é obrigatório.");
-            document.form.frm_te_atributo_retorna_email.focus();
-            return false;
-            }
-        else if ( document.form.frm_te_atributo_identificador.value == "" ) 
-            {	
-            alert("O atributo identificador é obrigatório.");
-            document.form.frm_te_atributo_identificador.focus();
-            return false;
-            }
-        return true;	
-        }
-    </script>
     <style type="text/css">
 <!--
 .style2 {	font-size: 9px;
@@ -130,45 +85,43 @@ else
     </head>
     
     <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_nm_servidor_autenticacao');">
-    <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-    <table width="90%" border="0" align="center">
+    <script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+    <script language="JavaScript" type="text/javascript" src="../../include/js/servidores_autenticacao.js"></script>        
+    <table width="85%" border="0" align="center">
     <tr> 
-    <td class="cabecalho">Detalhes do Servidor de Autentica&ccedil;&atilde;o "<? echo $row['nm_servidor_autenticacao'];?>"</td>
+    <td class="cabecalho">Detalhes do Servidor de Autentica&ccedil;&atilde;o "<?php echo $row['nm_servidor_autenticacao'];?>"</td>
     </tr>
     <tr> 
     <td class="descricao">As informa&ccedil;&otilde;es referem-se a um servidor usado na autentica&ccedil;&atilde;o de usu&aacute;rios do suporte remoto seguro.</td>
     </tr>
     </table>
     <form action="detalhes_servidor_autenticacao.php"  method="post" ENCTYPE="multipart/form-data" name="form">
-    <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <table width="85%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
-    <td class="label"><br>
-      Nome:</td>
+    <td class="label"><br>Nome:</td>
     <td class="label">&nbsp;</td>
-    <td nowrap class="label">&nbsp;</td>
+    <td nowrap class="label"><br>Identificador no DNS:</td>
     <td nowrap class="label">&nbsp;</td>
     </tr>
-    <tr><td height="1" bgcolor="#333333" colspan="5"></td></tr>
+    <tr><td height="1" bgcolor="#333333" colspan="4"></td></tr>
     <tr> 
-    <td class="label_peq_sem_fundo"> <input name="frm_nm_servidor_autenticacao" type="text" size="60" maxlength="60" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $row['nm_servidor_autenticacao'];?>">
-	<input name="frm_id_servidor_autenticacao" type="hidden" value="<? echo $_GET['id_servidor_autenticacao'];?>"></td>
+    <td class="label_peq_sem_fundo"> <input name="frm_nm_servidor_autenticacao" type="text" size="60" maxlength="60" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $row['nm_servidor_autenticacao'];?>">
+	<input name="frm_id_servidor_autenticacao" type="hidden" value="<?php echo $_GET['id_servidor_autenticacao'];?>"></td>
     <td class="label_peq_sem_fundo">&nbsp;</td>
-    <td class="label_peq_sem_fundo">&nbsp;</td>
+    <td class="label_peq_sem_fundo"><input name="frm_nm_servidor_autenticacao_dns" type="text" size="60" maxlength="60" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $row['nm_servidor_autenticacao_dns'];?>"></td>
     <td class="label_peq_sem_fundo">&nbsp;</td>
     </tr>
     <tr>
-      <td nowrap class="label"><br>
-        Endere&ccedil;o IP do Servidor de Autentica&ccedil;&atilde;o:</td>
+      <td nowrap class="label"><br>Endere&ccedil;o IP do Servidor de Autentica&ccedil;&atilde;o:</td>
       <td nowrap class="label">&nbsp;</td>
-      <td nowrap class="label"><br>
-        Porta:</td>
+      <td nowrap class="label"><br>Porta:</td>
       <td class="label">&nbsp;</td>
     </tr>
-    <tr><td height="1" bgcolor="#333333" colspan="5"></td></tr>    
+    <tr><td height="1" bgcolor="#333333" colspan="4"></td></tr>    
     <tr>
-      <td class="label_peq_sem_fundo"><input name="frm_te_ip_servidor_autenticacao" type="text" size="30" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_ip_servidor_autenticacao" value="<? echo $row['te_ip_servidor_autenticacao'];?>"></td>
+      <td class="label_peq_sem_fundo"><input name="frm_te_ip_servidor_autenticacao" type="text" size="30" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_ip_servidor_autenticacao" value="<?php echo $row['te_ip_servidor_autenticacao'];?>"></td>
       <td class="label_peq_sem_fundo">&nbsp;</td>
-      <td class="label_peq_sem_fundo"><input name="frm_nu_porta_servidor_autenticacao" type="text" size="15" maxlength="5" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_nu_porta_servidor_autenticacao" value="<? echo $row['nu_porta_servidor_autenticacao'];?>"></td>
+      <td class="label_peq_sem_fundo"><input name="frm_nu_porta_servidor_autenticacao" type="text" size="15" maxlength="5" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_nu_porta_servidor_autenticacao" value="<?php echo $row['nu_porta_servidor_autenticacao'];?>"></td>
       <td class="label">&nbsp;</td>
     </tr>
     
@@ -179,18 +132,18 @@ else
     <td class="label">&nbsp;</td>
     </tr>
     <tr> 
-    <td height="1" bgcolor="#333333" colspan="5"></td>
+    <td height="1" bgcolor="#333333" colspan="4"></td>
     </tr>
     <tr> 
     <td nowrap><label>
     <select name="frm_id_tipo_protocolo" class="opcao_tabela" id="frm_id_tipo_protocolo">
-    <option value="LDAP" <? if ($row['id_tipo_protocolo']=='LDAP') echo 'selected';?>>LDAP</option>
-    <option value="Open LDAP"<? if ($row['id_tipo_protocolo']=='Open LDAP') echo 'selected';?>>Open LDAP</option>
+    <option value="LDAP" <?php if ($row['id_tipo_protocolo']=='LDAP') echo 'selected';?>>LDAP</option>
+    <option value="Open LDAP"<?php if ($row['id_tipo_protocolo']=='Open LDAP') echo 'selected';?>>Open LDAP</option>
     </select>
     </label></td>
     <td nowrap>&nbsp;</td>
     <td class="label"><div align="left"><span class="label_peq_sem_fundo" id="frm_nu_versao_protocolo">
-    <input name="frm_nu_versao_protocolo" type="text" size="60" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_nu_versao_protocolo" value="<? echo $row['nu_versao_protocolo'];?>" >
+    <input name="frm_nu_versao_protocolo" type="text" size="60" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_nu_versao_protocolo" value="<?php echo $row['nu_versao_protocolo'];?>" >
     </span></div></td>
     <td class="label">&nbsp;</td>
     </tr>
@@ -201,68 +154,92 @@ else
       <td class="label">&nbsp;</td>
       <td class="label">&nbsp;</td>
     </tr>
-    <tr><td height="1" bgcolor="#333333" colspan="5"></td></tr>    
+    <tr><td height="1" bgcolor="#333333" colspan="4"></td></tr>    
     <tr>
-      <td class="label_peq_sem_fundo"><input name="frm_te_observacao" type="text" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_observacao" value="<? echo $row['te_observacao'];?>" ></td>
+      <td class="label_peq_sem_fundo"><input name="frm_te_observacao" type="text" size="100" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_observacao" value="<?php echo $row['te_observacao'];?>" ></td>
       <td nowrap>&nbsp;</td>
       <td class="label">&nbsp;</td>
       <td class="label">&nbsp;</td>
     </tr>
-    <tr>
-      <td class="label_peq_sem_fundo">&nbsp;</td>
-      <td nowrap>&nbsp;</td>
-      <td class="label">&nbsp;</td>
-      <td class="label">&nbsp;</td>
-    </tr>
-    <tr>
-      <td class="label_peq_sem_fundo">&nbsp;</td>
-      <td nowrap>&nbsp;</td>
-      <td class="label">&nbsp;</td>
-      <td class="label">&nbsp;</td>
-    </tr>
-    <tr>
-      <td colspan="3" class="cabecalho_secao"><div align="center">Atributos para Consulta de Dados de Pessoas no Servi&ccedil;o de Diret&oacute;rios</div></td>
-      <td class="label">&nbsp;</td>
-    </tr>
+    
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+
+    <tr><td colspan="4" class="cabecalho_secao"><div align="center">Atributos para Consulta de Dados de Pessoas no Servi&ccedil;o de Diret&oacute;rios</div></td></tr>
     
     <tr> 
-    <td height="1" bgcolor="#333333" colspan="5"></td>
+    <td height="1" bgcolor="#333333" colspan="4"></td>
     </tr>
     
     <tr>
-      <td class="label"><p><br>
-           Identifica&ccedil;&atilde;o: <span class="normal style2">(Ex.: &quot;uid&quot;</span><span class="normal style2">)</span></p></td>
-      <td class="label"><p><br>
-         Retorno de Nome Completo: <span class="normal style2">(Ex.: &quot;cn&quot;</span><span class="normal style2">)</span></p></td>
-      <td class="label"><p><br>
-        Retorno de Email: <span class="normal style2">(Ex: &quot;mail&quot;</span><span class="normal style2">)</span></p></td>
+      <td class="label" nowrap><p><br>
+           Identificador Principal: <span class="normal style2">(Ex.: &quot;uid&quot;</span><span class="normal style2">)</span></p></td>
+      <td class="label" nowrap><p><br>
+        Identificador Alternativo: <span class="normal style2">(Ex: &quot;employeenumber&quot;</span><span class="normal style2">)</span></p></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td><span class="label_peq_sem_fundo">
-        <input name="frm_te_atributo_identificador" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_identificador" value="<? echo $row['te_atributo_identificador'];?>" >
+        <input name="frm_te_atributo_identificador" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_identificador" value="<?php echo $row['te_atributo_identificador'];?>" >
       </span></td>
       <td><span class="label_peq_sem_fundo">
-        <input name="frm_te_atributo_retorna_nome" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_nome" value="<? echo $row['te_atributo_retorna_nome'];?>" >
-      </span></td>
-      <td><span class="label_peq_sem_fundo">
-        <input name="frm_te_atributo_retorna_email" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_email" value="<? echo $row['te_atributo_retorna_email'];?>" >
+        <input name="frm_te_atributo_identificador_alternativo" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_identificador_alternativo" value="<?php echo $row['te_atributo_identificador_alternativo'];?>" >
       </span></td>
       <td>&nbsp;</td>
     </tr>
 
-    <tr>
-      <td colspan="5">&nbsp;</td>
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+        
+    <tr><td colspan="4" class="cabecalho_secao"><div align="center">Atributos para Retorno de Dados de Pessoas no Servi&ccedil;o de Diret&oacute;rios</div></td></tr>
+    
+    <tr> 
+    <td height="1" bgcolor="#333333" colspan="4"></td>
     </tr>
     
     <tr>
-      <td colspan="4">&nbsp;</td>
+      <td class="label" nowrap><p><br>Nome Completo: <span class="normal style2">(Ex.: &quot;cn&quot;</span><span class="normal style2">)</span></p></td>
+      <td class="label" nowrap><p><br>Email: <span class="normal style2">(Ex: &quot;mail&quot;</span><span class="normal style2">)</span></p></td>
+      <td class="label" nowrap><p><br>Telefone: <span class="normal style2">(Ex.: &quot;telephonenumber&quot;</span><span class="normal style2">)</span></p></td>
       <td>&nbsp;</td>
     </tr>
+    
+    <tr>
+      <td><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_retorna_nome" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_nome" value="<?php echo $row['te_atributo_retorna_nome'];?>" >
+      </span></td>
+      <td><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_retorna_email" type="text" size="60" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_email" value="<?php echo $row['te_atributo_retorna_email'];?>" >
+      </span></td>
+      <td><span class="label_peq_sem_fundo">
+		<input name="frm_te_atributo_retorna_telefone" type="text" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_retorna_telefone"  value="<?php echo $row['te_atributo_retorna_telefone'];?>" >        
+      </span></td>
+      <td>&nbsp;</td>
+    </tr>
+    
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+    
+    <tr>
+      <td class="label" nowrap><p><br>Status de Conta: <span class="normal style2">(Ex.: &quot;accountstatus&quot;</span><span class="normal style2">)</span></p></td>
+      <td colspan="2" class="label" nowrap><p><br>Valor para Status de Conta Válida: <span class="normal style2">(Ex.: &quot;active&quot;</span><span class="normal style2">)</span></p></td>
+    </tr>
+
+    <tr>
+      <td><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_status_conta" type="text" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_status_conta" value="<?php echo $row['te_atributo_status_conta'];?>">
+      </span></td>
+      <td colspan="2"><span class="label_peq_sem_fundo">
+        <input name="frm_te_atributo_valor_status_conta_valida" type="text" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" id="frm_te_atributo_valor_status_conta_valida" value="<?php echo $row['te_atributo_valor_status_conta_valida'];?>">
+      </span></td>
+    </tr>
+
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+    <tr><td colspan="4" class="label">&nbsp;</td></tr>    
+    
     <tr>
       <td colspan="4" class="label"><div align="left"><br>
           <label>
-            <input type="checkbox" name="frm_in_ativo" id="frm_in_ativo" value="S" <? echo ($row['in_ativo']=='S'?'checked':'');?>>
+            <input type="checkbox" name="frm_in_ativo" id="frm_in_ativo" value="S" <?php echo ($row['in_ativo']=='S'?'checked':'');?>>
             Servidor Ativo</label>
       </div></td>
       <td>&nbsp;</td>
@@ -270,14 +247,14 @@ else
     </table>
           
     <br>
-	<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+	<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 	<tr> 
 	<td colspan="7" class="label">Redes Associadas ao Servidor de Autenticação:</td>
 	</tr>
 	<tr> 
 	<td height="1" bgcolor="#333333" colspan="7"></td>
 	</tr>
-	<?
+	<?php
 	$query = "SELECT 	count(id_servidor_autenticacao) as Total
 				FROM 	redes
 				WHERE 	id_servidor_autenticacao = ".$_GET['id_servidor_autenticacao'];
@@ -299,9 +276,10 @@ else
 		<td height="1" bgcolor="#333333" colspan="7"></td>
 		</tr>
 		
-		<?
+		<?php
 
-		$query = "SELECT 	r.id_ip_rede,
+		$query = "SELECT 	r.te_ip_rede,
+							r.id_rede,
 					        r.nm_rede,
 					        l.id_local,
 					        l.sg_local,
@@ -318,16 +296,16 @@ else
 		while ($row = mysql_fetch_array($result))
 			{
 			?>
-			<tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
-			<td width="3%" align="center" 	nowrap 	class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&nm_chamador=servidores_autenticacao"><? echo $seq; ?></a></td>
+			<tr <?php if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
+			<td width="3%" align="center" 	nowrap 	class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>&nm_chamador=servidores_autenticacao"><?php echo $seq; ?></a></td>
 			<td width="1%" align="left" 	nowrap 	class="opcao_tabela">&nbsp;&nbsp;</td>
-			<td width="1%" align="left" 	nowrap 	class="opcao_tabela"><a href="../locais/detalhes_local.php?id_local=<? echo $row['id_local'];?>&nm_chamador=servidores_autenticacao"><? echo $row['sg_local'].'/'.$row['nm_local']; ?></a></td>
+			<td width="1%" align="left" 	nowrap 	class="opcao_tabela"><a href="../locais/detalhes_local.php?id_local=<?php echo $row['id_local'];?>&nm_chamador=servidores_autenticacao"><?php echo $row['sg_local'].'/'.$row['nm_local']; ?></a></td>
 			<td width="1%" align="left" 	nowrap 	class="opcao_tabela">&nbsp;</td>
-			<td width="3%" align="left" 	nowrap 	class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&nm_chamador=servidores_autenticacao"><? echo $row['id_ip_rede']; ?></a></td>
+			<td width="3%" align="left" 	nowrap 	class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>&nm_chamador=servidores_autenticacao"><?php echo $row['te_ip_rede']; ?></a></td>
 			<td width="1%" align="left" 			class="opcao_tabela">&nbsp;&nbsp;</td>
-			<td width="92%" align="left" 			class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_ip_rede=<? echo $row['id_ip_rede'];?>&nm_chamador=servidores_autenticacao"><? echo $row['nm_rede']; ?></a></td>
+			<td width="92%" align="left" 			class="opcao_tabela"><a href="../redes/detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>&nm_chamador=servidores_autenticacao"><?php echo $row['nm_rede']; ?></a></td>
 			</tr>
-			<?
+			<?php
 			$seq++;
 			$Cor=!$Cor;
 			}
@@ -340,17 +318,17 @@ else
 	<td height="1" bgcolor="#333333" colspan="7"></td>
 	</tr>
 	</table>
-    <?
+    <?php
 	/*
 	<br>
-	<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+	<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 	<tr> 
 	<td colspan="10" class="label">Usu&aacute;rios Associados ao Servidor de Autenticação:</td>
 	</tr>
 	<tr> 
 	<td height="1" bgcolor="#333333" colspan="10"></td>
 	</tr>
-	<?
+	<?php
 	$query = "SELECT 	count(id_servidor_autenticacao) as Total
 				FROM 	usuarios
 				WHERE 	id_servidor_autenticacao = ".$_GET['id_servidor_autenticacao'];
@@ -375,7 +353,7 @@ else
 		<td height="1" bgcolor="#333333" colspan="10"></td>
 		</tr>
 		
-		<?
+		<?php
 		$query = "SELECT 	u.id_usuario,
 					        u.nm_usuario_acesso,
 					        u.nm_usuario_completo,
@@ -395,19 +373,19 @@ else
 		while ($row = mysql_fetch_array($result))
 			{
 			?>
-			<tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
-			<td width="3%" align="center" 	nowrap 	class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&nm_chamador=servidores_autenticacao"><? echo $seq; ?></a></td>
+			<tr <?php if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
+			<td width="3%" align="center" 	nowrap 	class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&nm_chamador=servidores_autenticacao"><?php echo $seq; ?></a></td>
 			<td width="1%" align="left" 	nowrap 	class="opcao_tabela">&nbsp;&nbsp;</td>
-			<td width="1%" align="left" 	nowrap 	class="opcao_tabela"><a href="../locais/detalhes_local.php?id_local=<? echo $row['id_local'];?>&nm_chamador=servidores_autenticacao"><? echo $row['sg_local'].'/'.$row['nm_local']; ?></a></td>
+			<td width="1%" align="left" 	nowrap 	class="opcao_tabela"><a href="../locais/detalhes_local.php?id_local=<?php echo $row['id_local'];?>&nm_chamador=servidores_autenticacao"><?php echo $row['sg_local'].'/'.$row['nm_local']; ?></a></td>
 			<td width="1%" align="left" 	nowrap 	class="opcao_tabela">&nbsp;</td>
-			<td width="3%" align="left" 	nowrap 	class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&nm_chamador=servidores_autenticacao"><? echo $row['nm_usuario_acesso']; ?></a></td>
+			<td width="3%" align="left" 	nowrap 	class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&nm_chamador=servidores_autenticacao"><?php echo $row['nm_usuario_acesso']; ?></a></td>
 			<td width="1%" align="left" 			class="opcao_tabela">&nbsp;&nbsp;</td>
-			<td width="92%" align="left" 			class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&nm_chamador=servidores_autenticacao"><? echo $row['nm_usuario_completo']; ?></a></td>
-			<td width="92%" align="left" 			class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&nm_chamador=servidores_autenticacao"><? echo $row['te_emails_contato']; ?></a></td>
-			<td width="92%" align="left" 			class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<? echo $row['id_usuario'];?>&nm_chamador=servidores_autenticacao"><? echo $row['te_telefones_contato']; ?></a></td>
+			<td width="92%" align="left" 			class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&nm_chamador=servidores_autenticacao"><?php echo $row['nm_usuario_completo']; ?></a></td>
+			<td width="92%" align="left" 			class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&nm_chamador=servidores_autenticacao"><?php echo $row['te_emails_contato']; ?></a></td>
+			<td width="92%" align="left" 			class="opcao_tabela"><a href="../usuarios/detalhes_usuario.php?id_usuario=<?php echo $row['id_usuario'];?>&nm_chamador=servidores_autenticacao"><?php echo $row['te_telefones_contato']; ?></a></td>
 			<td width="92%" align="left" 			class="opcao_tabela">&nbsp;</td>
 			</tr>
-			<?
+			<?php
 			$seq++;
 			$Cor=!$Cor;
 			}
@@ -421,18 +399,17 @@ else
 	</table>        
 	*/
 	?>
-	<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">        
-	<tr><td colspan="5" align="center"><?
-	if ($_SESSION['cs_nivel_administracao']==1)
+	<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">        
+	<tr><td colspan="5" align="center"><?php if ($_SESSION['cs_nivel_administracao']==1)
 		{
 		?>
 		<br>                
 		<p>    
-		<input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return Confirma('Confirma Informações para o Servidor de Autenticação?');return valida_form();">
+		<input name="GravaAlteracoes" type="submit" id="GravaAlteracoes" value="  Gravar Altera&ccedil;&otilde;es  " onClick="return valida_form(); return Confirma('Confirma Informações para o Servidor de Autenticação?');">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input name="ExcluiServidorAutenticacao" type="submit" id="ExcluiServidorAutenticacao" onClick="return Confirma('Confirma Exclusão(Desativação) do Servidor de Autenticação?');" value="  Excluir/Desativar Servidor de Autenticação">
 		</p>
-		<?
+		<?php
 		}
 	?>
 	</td></tr>      
@@ -440,6 +417,6 @@ else
 	</form>		              
 	</body>
 </html>
-    <?
+    <?php
     }
 ?>

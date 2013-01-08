@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -32,11 +32,11 @@ else
 </tr>
 
 <tr bgcolor="#E1E1E1"> 
-<td colspan="6" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=aplicativo_monitorado&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
-<img src="../../imgs/<? if($_SESSION['aplicativo_monitorado'] == true) 
+<td colspan="6" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=aplicativo_monitorado&id_computador=<?php echo $_GET['id_computador']?>"> 
+<img src="../../imgs/<?php if($_SESSION['aplicativo_monitorado'] == true) 
 							echo 'menos';
    			 			else 
-							echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?=$oTranslator->_('Sistemas monitorados');?></a></font>
+							echo 'mais'; ?>.gif" width="12" height="12" border="0">&nbsp;<?php echo $oTranslator->_('Sistemas monitorados');?></a></font>
 </td>
 
 </tr>
@@ -44,8 +44,7 @@ else
 <td height="1" bgcolor="#333333" colspan="6"></td>
 </tr>
 
-<?
-if ($_SESSION['aplicativo_monitorado'] == true) 
+<?php if ($_SESSION['aplicativo_monitorado'] == true) 
 	{
 	$linha = '	<tr bgcolor="'.$strCorDaLinha.'"> 
 				<td height="1" colspan="6"></td>
@@ -53,20 +52,19 @@ if ($_SESSION['aplicativo_monitorado'] == true)
 		
 	?>
 	<tr> 
-	<td class="cabecalho_tabela">&nbsp;<u><?=$oTranslator->_('Nome');?></u></td>
-	<td class="cabecalho_tabela"><u><?=$oTranslator->_('Identificador/versao');?></u></td>		
-	<td class="cabecalho_tabela"><u><?=$oTranslator->_('Licenca');?></u></td>	
-	<td class="cabecalho_tabela"><u><?=$oTranslator->_('Engine');?></u></td>	
-	<td class="cabecalho_tabela"><u><?=$oTranslator->_('Pattern');?></u></td>	
-	<td class="cabecalho_tabela"><u><?=$oTranslator->_('Instalado');?></u></td>		
+	<td class="cabecalho_tabela">&nbsp;<u><?php echo $oTranslator->_('Nome');?></u></td>
+	<td class="cabecalho_tabela"><u><?php echo $oTranslator->_('Identificador/versao');?></u></td>		
+	<td class="cabecalho_tabela"><u><?php echo $oTranslator->_('Licenca');?></u></td>	
+	<td class="cabecalho_tabela"><u><?php echo $oTranslator->_('Engine');?></u></td>	
+	<td class="cabecalho_tabela"><u><?php echo $oTranslator->_('Pattern');?></u></td>	
+	<td class="cabecalho_tabela"><u><?php echo $oTranslator->_('Instalado');?></u></td>		
 	</tr>
-	<?		
-	echo $linha;		
+	<?php echo $linha;		
 	// EXIBIR INFORMAÇÕES DE SISTEMAS MONITORADOS NO COMPUTADOR
 	$query = "SELECT 	cs_situacao
 			  FROM 		acoes_redes 
 			  WHERE 	id_acao = 'cs_coleta_monitorado' AND
-						id_ip_rede = '".mysql_result($result,0,'id_ip_rede')."'";
+						id_rede = ".mysql_result($result,0,'id_rede');
 	$result_acoes =  mysql_query($query);
 			
 	if (mysql_result($result_acoes, 0, "cs_situacao") <> 'N') 
@@ -74,8 +72,7 @@ if ($_SESSION['aplicativo_monitorado'] == true)
 		$query = "	SELECT 		DISTINCT pam.nm_aplicativo, am.te_versao,am.te_licenca, am.te_ver_engine, am.te_ver_pattern, am.cs_instalado 
 					FROM 		aplicativos_monitorados am,
 								perfis_aplicativos_monitorados pam
-					WHERE 		pam.nm_aplicativo NOT LIKE '%#DESATIVADO#%' and (am.te_node_address = '".$_GET['te_node_address']."' AND
-								am.id_so = '". $_GET['id_so'] ."' AND
+					WHERE 		pam.nm_aplicativo NOT LIKE '%#DESATIVADO#%' and (am.id_computador = ".$_GET['id_computador']." AND 
 								am.id_aplicativo = pam.id_aplicativo AND
 								(trim(am.te_versao)<>'' OR 
 								 trim(am.te_licenca)<>'' OR 
@@ -92,16 +89,15 @@ if ($_SESSION['aplicativo_monitorado'] == true)
 			$v_achei = 1;
 			$strCor = ($strCor==''?$strPreenchimentoPadrao:'');						  			
 			?>
-			<tr bgcolor="<? echo $strCor;?>"> 
-			<td class="descricao">&nbsp;<? echo $row['nm_aplicativo']; ?></td>
-			<td class="descricao"><? echo $row['te_versao']; ?></td>
-			<td class="descricao"><? echo $row['te_licenca']; ?></td>	
-			<td class="descricao"><? echo $row['te_ver_engine']; ?></td>	
-			<td class="descricao"><? echo $row['te_ver_pattern']; ?></td>	
-			<td class="descricao"><? echo $row['cs_instalado']; ?></td>		
+			<tr bgcolor="<?php echo $strCor;?>"> 
+			<td class="descricao">&nbsp;<?php echo $row['nm_aplicativo']; ?></td>
+			<td class="descricao"><?php echo $row['te_versao']; ?></td>
+			<td class="descricao"><?php echo $row['te_licenca']; ?></td>	
+			<td class="descricao"><?php echo $row['te_ver_engine']; ?></td>	
+			<td class="descricao"><?php echo $row['te_ver_pattern']; ?></td>	
+			<td class="descricao"><?php echo $row['cs_instalado']; ?></td>		
 			</tr>
-			<?
-			echo $linha;
+			<?php echo $linha;
 			}
 		if (!$v_achei)
 			{

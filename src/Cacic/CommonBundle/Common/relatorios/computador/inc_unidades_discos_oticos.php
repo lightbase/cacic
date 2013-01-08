@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -34,28 +34,26 @@ else
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=unidades_disco&te_node_address=<? echo $_GET['te_node_address']?>&id_so=<? echo $_GET['id_so']?>"> 
-      <img src="../../imgs/<? if($_SESSION['unidades_disco'] == true) echo 'menos';
+    <td bgcolor="#E1E1E1" class="cabecalho_tabela">&nbsp;<a href="computador.php?exibir=unidades_disco&id_computador=<?php echo $_GET['id_computador']?>"> 
+      <img src="../../imgs/<?php if($_SESSION['unidades_disco'] == true) echo 'menos';
    			 else echo 'mais'; ?>.gif" width="12" height="12" border="0"> 
       Unidades de Discos &Oacute;ticos</a></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
-  <?
-		if ($_SESSION['unidades_disco'] == true) {
+  <?php if ($_SESSION['unidades_disco'] == true) {
 		// EXIBIR INFORMAÇÕES DAS UNIDADES DE DISCO DO COMPUTADOR
 			$query = "SELECT 	cs_situacao
 					  FROM 		acoes_redes 
 					  WHERE 	id_acao = 'cs_coleta_unid_disc' AND
-					  			id_ip_rede = '".mysql_result($result,0,'id_ip_rede')."'";
+					  			id_rede = ".mysql_result($result,0,'id_rede');
 							
 			$result_acoes =  mysql_query($query);
 			if (mysql_result($result_acoes, 0, "cs_situacao") <> 'N') {
     			$query = "SELECT 	* 
 						  FROM 		unidades_disco
-					  	  WHERE 	te_node_address = '". $_GET['te_node_address'] ."' AND 
-					  				id_so = '". $_GET['id_so'] ."'";
+					  	  WHERE 	id_computador = ". $_GET['id_computador'];
 			$result_disco = mysql_query($query) or die('Erro na consulta à tabela  unidades_disco ou sua sessão expirou!');
 			if(mysql_num_rows($result_disco) > 0) {
 				echo '<tr><td><br> 
@@ -109,7 +107,7 @@ else
   <tr> 
     <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font></td>
   </tr>
-  <?
+  <?php
 			}
 			else {
 				echo '<tr><td> 

@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -59,11 +59,11 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
-<? 
+<?php 
 require_once($_SERVER['DOCUMENT_ROOT'] . 'include/library.php');
 AntiSpy();
 conecta_bd_cacic();
@@ -75,7 +75,7 @@ if($_SESSION["cs_situacao"] == 'S') {
 	for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) {
 		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 	}
-	$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+	$query_redes = 'AND te_ip_rede IN ('. $redes_selecionadas .')';
 }
 
 // Aqui pego todos os SO selecionados
@@ -93,7 +93,7 @@ $campos_hardware = str_replace('\\', '', $campos_hardware);
 
 if ($_GET['orderby']) { $orderby = $_GET['orderby']; }
 else { $orderby = '3'; } //por Nome Comp.
-$query = ' SELECT te_node_address, so.id_so, te_nome_computador as "Nome Comp.", sg_so as "S.O.", te_ip as "IP"' .
+$query = ' SELECT te_node_address, so.id_so, te_nome_computador as "Nome Comp.", sg_so as "S.O.", te_ip_computador as "IP",id_computador' .
           $campos_hardware .
 		  'FROM so LEFT JOIN computadores ON (computadores.id_so = so.id_so)		 		 
 		   WHERE  TRIM(te_nome_computador) <> "" AND computadores.id_so IN ('. $so_selecionados .')  
@@ -120,7 +120,7 @@ while ($row = mysql_fetch_row($result)) { //Table body
 	if ($cor) { echo 'bgcolor="#E1E1E1"'; } 
 	echo '>';
     echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>';
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row[5] ."' target='_blank'>" . $row[2] ."</a>&nbsp;</td>"; 
     for ($i=3; $i < $fields; $i++) {
 		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $row[$i] .'&nbsp;</td>'; 
 	}

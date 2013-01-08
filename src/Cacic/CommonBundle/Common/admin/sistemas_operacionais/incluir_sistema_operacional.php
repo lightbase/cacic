@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -52,7 +52,7 @@ if($_REQUEST['submit'])
 								$_REQUEST['frm_te_so']."','".
 								$_REQUEST['frm_in_mswindows']."')"; 
 		$result = mysql_query($query) or die ('Insert so falhou ou sua sessão expirou!');
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'so');
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'so',$_SESSION["id_usuario"]);
 
 		header ("Location: ../../include/operacao_ok.php?chamador=../admin/sistemas_operacionais/index.php&tempo=1");									 						
 		}
@@ -60,13 +60,13 @@ if($_REQUEST['submit'])
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<?
+<?php
 }
 else 
 {
 ?>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Inclus&atilde;o de Sistema Operacional</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
@@ -108,19 +108,19 @@ MM_reloadPage(true);
 </head>
 
 <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_te_desc_so')">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Inclus&atilde;o de Novo Sistema Operacional</td>
   </tr>
   <tr> 
     <td class="descricao">As informa&ccedil;&otilde;es abaixo referem-se a um 
       sistema operacional instalado em parque computacional inventariado pelo 
-      CACIC, onde a ID Interna refere-se ao valor enviado pelo Gerente de Coletas (ger_cols.exe), composto por <strong>platformId</strong>, <strong>majorVer</strong>, <strong>minorVer</strong> e <strong>CSDVersion</strong>.</td>
+      CACIC, onde a ID Interna refere-se ao valor enviado pelo Gerente de Coletas (gercols.exe), composto por <strong>platformId</strong>, <strong>majorVer</strong>, <strong>minorVer</strong> e <strong>CSDVersion</strong>.</td>
   </tr>
 </table>
 <form method="post" ENCTYPE="multipart/form-data" name="form">
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
       <td class="label"><br>
         Descrição:</td>
@@ -161,7 +161,7 @@ MM_reloadPage(true);
     </tr>
 	
     <tr>
-      <td nowrap class="label"><div align="left"><input type="checkbox" name="frm_in_mswindows" id="frm_in_mswindows" value="S" <? if ($row['in_mswindows']=='S') echo 'checked';?>>
+      <td nowrap class="label"><div align="left"><input type="checkbox" name="frm_in_mswindows" id="frm_in_mswindows" value="S" <?php if ($row['in_mswindows']=='S') echo 'checked';?>>
       Sistema Operacional MS-Windows</div></td>
       <td nowrap>&nbsp;</td>
     </tr>
@@ -172,7 +172,7 @@ MM_reloadPage(true);
   </p>
 </form>
 <p>
-  <?
+  <?php
 }
 ?>
 </p>

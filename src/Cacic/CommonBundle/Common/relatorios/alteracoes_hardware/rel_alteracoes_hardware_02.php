@@ -1,6 +1,6 @@
-<?
+<?php
 /**
- * @version $Id: rel_alteracoes_hardware_02.php 2009-03-08 18:23 harpiain $
+ * @version $Id: rel_alteracoes_hardware_02.php,v 1.1.1.1 2012/09/14 16:01:09 d302112 Exp $
  * @package Cacic-relatorios
  * @subpackage Alteracoes_Hardware
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>
@@ -27,13 +27,13 @@ $titulo = $oTranslator->_('Relatorio de alteracoes de hardware');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<title><?=$titulo?></title>
-	<meta http-equiv="Content-Language" content="<?=CACIC_LANGUAGE?>" />
-	<meta http-equiv="Content-Type" content="text/html; charset=<?=CACIC_LANG_CHARSET?>" />
-	<link href="<?=CACIC_URL?>/include/cacic.css" rel="stylesheet" type="text/css" />
-	<script language="JavaScript" type="text/javascript" src="<?=CACIC_URL?>/include/cacic.js"></script>
-	<script language="JavaScript" type="text/javascript" src="<?=CACIC_URL?>/bibliotecas/javascript/asv/asvAjax.js"></script>
-	<script language="JavaScript" type="text/javascript" src="<?=CACIC_URL?>/bibliotecas/javascript/asv/asvUtils.js"></script>
+	<title><?php echo $titulo?></title>
+	<meta http-equiv="Content-Language" content="<?php echo CACIC_LANGUAGE?>" />
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo CACIC_LANG_CHARSET?>" />
+	<link href="<?php echo CACIC_URL?>/include/css/cacic.css" rel="stylesheet" type="text/css" />
+	<script language="JavaScript" type="text/javascript" src="<?php echo CACIC_URL?>/include/js/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="<?php echo CACIC_URL?>/bibliotecas/javascript/asv/asvAjax.js"></script>
+	<script language="JavaScript" type="text/javascript" src="<?php echo CACIC_URL?>/bibliotecas/javascript/asv/asvUtils.js"></script>
 <script language="JavaScript" type="text/JavaScript">
 </script>
 </head>
@@ -48,7 +48,7 @@ $titulo = $oTranslator->_('Relatorio de alteracoes de hardware');
     <td nowrap bgcolor="#FFFFFF">
       <div align="center">
         <font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
-          <strong><?=$titulo?></strong>
+          <strong><?php echo $titulo?></strong>
         </font>
       </div>
     </td>
@@ -65,7 +65,7 @@ $titulo = $oTranslator->_('Relatorio de alteracoes de hardware');
 <br>
 <br>
 <br>
-<? 
+<?php
 
 // verifica se gera somente o relatorio de dados historicos (de versoes anteriores a 2.4) devido a alteracoes na tabela e estrutura
 if(!( Security::read('historical_data') == 'historical_data' and Security::read('historical_data_only') == 'historical_data_only')) {
@@ -128,7 +128,7 @@ if ($parametros_informados) {  // somente processa o relatorio se os paramentros
 	                 		 
 			  LEFT JOIN		computadores ON (componentes_estacoes_historico.te_node_address = computadores.te_node_address AND 
 							                 componentes_estacoes_historico.id_so = computadores.id_so)  
-              LEFT JOIN     redes ON (computadores.id_ip_rede = redes.id_ip_rede)
+              LEFT JOIN     redes ON (computadores.id_rede = redes.id_rede)
               LEFT JOIN     so ON (componentes_estacoes_historico.id_so = so.id_so)
               LEFT JOIN     locais ON (redes.id_local = locais.id_local)
 	                 		 
@@ -155,28 +155,28 @@ if ($parametros_informados) {  // somente processa o relatorio se os paramentros
 ?>
 <table width="100%" cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bordercolordark="#E1E1E1">
 	<tr>
-		<th><?=$oTranslator->_('Local');?></th>
-		<th><?=$oTranslator->_('Computador');?></th>
-		<th><?=$oTranslator->_('Sistema operacional');?></th>
-		<th><?=$oTranslator->_('Tipo componente');?></th>
-		<th><?=$oTranslator->_('Data de alteracao');?></th>
-		<th><?=$oTranslator->_('Tipo de alteracao');?></th>
-		<th><?=$oTranslator->_('Dados da modificacao');?></th>
+		<th><?php echo $oTranslator->_('Local');?></th>
+		<th><?php echo $oTranslator->_('Computador');?></th>
+		<th><?php echo $oTranslator->_('Sistema operacional');?></th>
+		<th><?php echo $oTranslator->_('Tipo componente');?></th>
+		<th><?php echo $oTranslator->_('Data de alteracao');?></th>
+		<th><?php echo $oTranslator->_('Tipo de alteracao');?></th>
+		<th><?php echo $oTranslator->_('Dados da modificacao');?></th>
 	</tr>
 	<?php while ($dados_obtidos = mysql_fetch_assoc($result)) { ?>
-	<tr <?= $cor?>>
-		<td><?=  $dados_obtidos["sg_local"]; ?></td>
+	<tr <?php echo  $cor?>>
+		<td><?php echo   $dados_obtidos["sg_local"]; ?></td>
 		<td>
-		   <a href="../computador/computador.php?te_node_address=<?=  $dados_obtidos["te_node_address"]; ?>&id_so=<?=  $dados_obtidos["id_so"]; ?>" target='_blank'>
-		      <?=  $dados_obtidos["te_nome_computador"]; ?>
+		   <a href="../computador/computador.php?te_node_address=<?php echo   $dados_obtidos["te_node_address"]; ?>&id_so=<?php echo   $dados_obtidos["id_so"]; ?>" target='_blank'>
+		      <?php echo   $dados_obtidos["te_nome_computador"]; ?>
 		   </a>
 		</td>
-		<td><?=  $dados_obtidos["te_desc_so"]; ?></td>
-		<td><?=  $dados_obtidos["cs_tipo_componente"]; ?></td>
-		<td><?=  date('d/m/Y', strtotime($dados_obtidos["dt_alteracao"])); ?></td>
-		<td><?=  ($dados_obtidos["cs_tipo_alteracao"])=='ACR'?$oTranslator->_("Acrescentado"):$oTranslator->_("Removido"); ?></td>
+		<td><?php echo   $dados_obtidos["te_desc_so"]; ?></td>
+		<td><?php echo   $dados_obtidos["cs_tipo_componente"]; ?></td>
+		<td><?php echo   date('d/m/Y', strtotime($dados_obtidos["dt_alteracao"])); ?></td>
+		<td><?php echo   ($dados_obtidos["cs_tipo_alteracao"])=='ACR'?$oTranslator->_("Acrescentado"):$oTranslator->_("Removido"); ?></td>
 		<td>
-		   <?=  getHistData($dados_obtidos['te_valor']); ?>
+		   <?php echo   getHistData($dados_obtidos['te_valor']); ?>
 		</td>
 	</tr>
 	<?php } ?>
@@ -204,7 +204,7 @@ if ($parametros_informados===false)
 <p></p>
 <p align="left">
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-    <?=$oTranslator->_('Gerado por');?> - 
+    <?php echo $oTranslator->_('Gerado por');?> - 
     <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor de Informa&ccedil;&otilde;es Computacionais
   </font>
   <br>

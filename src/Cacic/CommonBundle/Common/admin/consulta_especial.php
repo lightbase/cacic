@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -45,7 +45,7 @@ if ($_POST['frmTouchTimeStamp'])
 		{
 		?>
 		<script language="javascript">alert('ATENÇÃO: Este recurso está disponível apenas para Servidor com LINUX!');</script>
-		<?
+		<?php
 		}
 	}
 if ($_POST['frmChangePermissions'])
@@ -67,7 +67,7 @@ if ($_POST['frmChangePermissions'])
 		{
 		?>
 		<script language="javascript">alert('ATENÇÃO: Este recurso está disponível apenas para Servidor com LINUX!');</script>
-		<?
+		<?php
 		}
 	}
 
@@ -91,7 +91,7 @@ if ($_POST['frmExtractFileTGZ'])
 		{
 		?>
 		<script language="javascript">alert('ATENÇÃO: Este recurso está disponível apenas para Servidor com LINUX!');</script>
-		<?
+		<?php
 		}
 	}
 
@@ -115,22 +115,18 @@ if ($_POST['frmCompactFileTGZ'])
 		{
 		?>
 		<script language="javascript">alert('ATENÇÃO: Este recurso está disponível apenas para Servidor com LINUX!');</script>
-		<?
+		<?php
 		}
 	}
 
-if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-	echo $_POST['frmCreateNewFolder'].'<br>';
 if ($_POST['frmCreateNewFolder'])
 	{
-if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-	echo PHP_OS.'<br>';
+	if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
+		echo PHP_OS.'<br>';
 	
 	if (PHP_OS == "Linux" || PHP_OS == "Unix")	
 		{
 		$strCreateNewFolder = "mkdir ".$_POST['frmPath'].$_POST['frmCreateNewFolder'];
-if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
-	echo $strCreateNewFolder.'<br>';
 		
 		if ($cmdCreateNewFolder = shell_exec($strCreateNewFolder))
 			echo 'OK!';
@@ -141,7 +137,7 @@ if ($_SERVER['REMOTE_ADDR']=='10.71.0.58')
 		{
 		?>
 		<script language="javascript">alert('ATENÇÃO: Este recurso está disponível apenas para Servidor com LINUX!');</script>
-		<?
+		<?php
 		}
 	}
 
@@ -177,7 +173,7 @@ if ($_POST['frmDeleteFile'])
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
@@ -195,7 +191,7 @@ MM_reloadPage(true);
 </head>
 
 <body background="../imgs/linha_v.gif" onLoad="SetaCampo('frmPath')">
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
 <script>
 function deleteFile()
 	{
@@ -548,13 +544,13 @@ function retiraCaracter(string, caracter)
     return final + string;
 	}
 </script>
-<?
+<?php
 $path = $_REQUEST['frmPath'];
 
 if ($path <> '')
-	GravaLog('SEL',$_SERVER['SCRIPT_NAME'],'consulta_especial');															
+	GravaLog('SEL',$_SERVER['SCRIPT_NAME'],'consulta_especial',$_SESSION["id_usuario"]);															
 	
-$path = ($path?$path:GetMainFolder().'/');
+$path = ($path?$path:CACIC_PATH);
 
 $arrPath = explode('/',$path);
 if ($arrPath[count($arrPath)-2]=='..')
@@ -578,7 +574,7 @@ $filelist = shell_exec( "ls $path -liahp".$ordem.$strRecursivo." --full-time" );
 $file_arr = explode( "\n", $filelist );
 array_pop( $file_arr ); // last line is always blank
 ?>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
 	<td class="cabecalho">Consulta Especial </td>
   </tr>
@@ -586,13 +582,13 @@ array_pop( $file_arr ); // last line is always blank
 	<td class="descricao">Mecanismo para consulta  no &acirc;mbito do servidor de aplica&ccedil;&atilde;o.</td>
   </tr>
 </table>
-<?
+<?php
 if ($_SESSION['cs_nivel_administracao']== 1)
 	{
 	if ($_GET['frm_file'])
 		{
 		if ($path <> '')
-			GravaLog('SEL',$_SERVER['SCRIPT_NAME'],'consulta_especial_file_'.$_GET['frm_file']);															
+			GravaLog('SEL',$_SERVER['SCRIPT_NAME'],'consulta_especial_file_'.$_GET['frm_file'],$_SESSION["id_usuario"]);															
 		
 		$handle = @fopen($_GET['frm_file'], "r");
 		if ($handle) 
@@ -601,11 +597,11 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 			<br><br>
 			<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 			<tr>
-			<td><strong>Conteúdo do Arquivo <i>"<? echo $_GET['frm_file'];?>"</i></strong></td>						
+			<td><strong>Conteúdo do Arquivo <i>"<?php echo $_GET['frm_file'];?>"</i></strong></td>						
 			</tr>
 			<tr>
 			<td><textarea name="listFile" id="listFile" cols="110" rows="10">
-			<?
+			<?php
 			while (!feof($handle)) 
 				{
 				$buffer = ''.fgets($handle, 4096);
@@ -618,7 +614,7 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 			</tr>
 			</table>		
 			<br>
-			<?
+			<?php
 			}
 		}
 	?>
@@ -626,7 +622,7 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 	  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 		<tr>
 		<td><strong>Path Atual:
-		<input name="frmPath" type="text" size="130" maxlength="130" value="<? echo $path;?>" readonly="yes">
+		<input name="frmPath" type="text" size="130" maxlength="130" value="<?php echo $path;?>" readonly="yes">
 		</strong></td>						
 		</tr>
 	  </table>
@@ -636,10 +632,10 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 		  <td width="13%"><strong>Permiss&otilde;es</strong></td>
 		  <td width="6%"><div align="center"><strong>Dono</strong></div></td>
 		  <td width="7%"><div align="center"><strong>Grupo</strong></div></td>
-		  <td width="6%"><div align="center"><strong><a href="consulta_especial.php?frmPath=<? echo $path;?>&ordem=datahora">Data</a></strong></div></td>
-		  <td width="6%"><div align="center"><strong><a href="consulta_especial.php?frmPath=<? echo $path;?>&ordem=datahora">Hora</a></strong></div></td>
+		  <td width="6%"><div align="center"><strong><a href="consulta_especial.php?frmPath=<?php echo $path;?>&ordem=datahora">Data</a></strong></div></td>
+		  <td width="6%"><div align="center"><strong><a href="consulta_especial.php?frmPath=<?php echo $path;?>&ordem=datahora">Hora</a></strong></div></td>
 		  <td width="11%"><div align="right"><strong>Tamanho</strong></div></td>
-		  <td width="36%"><strong><a href="consulta_especial.php?frmPath=<? echo $path;?>&ordem=nome">Arquivo/Pasta</a>&nbsp;&nbsp;&nbsp;<img src="../imgs/newfolder.gif" alt="Nova Pasta" width="18" height="18" title="Criar Nova Pasta" onClick="return createNewFolder()" border="none"></strong></td>
+		  <td width="36%"><strong><a href="consulta_especial.php?frmPath=<?php echo $path;?>&ordem=nome">Arquivo/Pasta</a>&nbsp;&nbsp;&nbsp;<img src="../imgs/newfolder.gif" alt="Nova Pasta" width="18" height="18" title="Criar Nova Pasta" onClick="return createNewFolder()" border="none"></strong></td>
 		  <td align="center"><img src="../imgs/b_drop.gif" border="0" width="18" height="18" title="Exclusão de Arquivos" onClick="return deleteFile()"></td>
 		  <td align="center"><img src="../imgs/timestamp.gif" border="0" width="18" height="18" title="Alterar TimeStamp de Arquivos" onClick="return timeStamp()"></td>
 		  <td align="center"><img src="../imgs/details.gif" width="18" height="18" title="Alterar Permissões de Arquivos" onClick="return changePermissions()"></td>
@@ -647,7 +643,7 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 		  <td align="center"><img src="../imgs/compactfile.ico" width="18" height="18" title="Gerar Arquivo TGZ" onClick="return compactFileTGZ()"></td>
 		</tr>
 		  
-		<?
+		<?php
 	
 		/*
 		for ($i=0; $i < count($file_arr); $i++)
@@ -693,29 +689,29 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 					{
 					$intPos = stripos2($strItem,'/');					
 					?>
-					<tr <? if ($strCorAtual) echo 'bgcolor="#CCCCCC"'; ?>>													
-					<td><? echo $strPermissoes;?></td>			
-					<td><div align="center"><? echo $strDono;?></div></td>							
-					<td><div align="center"><? echo $strGrupo;?></div></td>									  
-					<td><div align="center"><? echo $strData;?></div></td>
-					<td><div align="center"><? echo $strHora;?></div></td>			
-					<td><div align="right"><? echo $strTamanho;?></div></td>			
-					<td <? if ($intPos) echo 'colspan="2"';?>>
+					<tr <?php if ($strCorAtual) echo 'bgcolor="#CCCCCC"'; ?>>													
+					<td><?php echo $strPermissoes;?></td>			
+					<td><div align="center"><?php echo $strDono;?></div></td>							
+					<td><div align="center"><?php echo $strGrupo;?></div></td>									  
+					<td><div align="center"><?php echo $strData;?></div></td>
+					<td><div align="center"><?php echo $strHora;?></div></td>			
+					<td><div align="right"><?php echo $strTamanho;?></div></td>			
+					<td <?php if ($intPos) echo 'colspan="2"';?>>
 					<a href="consulta_especial.php?
-					<? 
+					<?php 
 					$strCorAtual = !$strCorAtual;
 					if ($intPos)
 						{
 						?>				
-						frmPath=<? echo $path.$strItem;?>">
+						frmPath=<?php echo $path.$strItem;?>">
 						<strong><font color="#999999">
-						<?				
+						<?php				
 						} 
 					else
 						{
 						?>
-						frm_file=<? echo $path.$strItem;?>">				
-						<?
+						frm_file=<?php echo $path.$strItem;?>">				
+						<?php
 						}
 					$strItem = str_replace('/','',$strItem);				
 					
@@ -725,32 +721,31 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 						{
 						?>
 						<img src="../imgs/volta_nivel.gif" border="0">					
-						<?
+						<?php
 						}
 					?>
 					</a>					</td>
 
-					<?
+					<?php
 					if (!$intPos)
 						{
 						?>
-						<td align="center" valign="middle"><input type="checkbox" id="deleteFile#<? echo str_replace('.','_ponto_',$strItem);?>" name="deleteFile#<? echo str_replace('.','_ponto_',$strItem);?>" title="Marque para excluir o arquivo '<? echo $strItem;?>'"></td>
+						<td align="center" valign="middle"><input type="checkbox" id="deleteFile#<?php echo str_replace('.','_ponto_',$strItem);?>" name="deleteFile#<?php echo str_replace('.','_ponto_',$strItem);?>" title="Marque para excluir o arquivo '<?php echo $strItem;?>'"></td>
 						<input type="hidden" id="frmDeleteFile" name="frmDeleteFile" value="">						
-						<?						
+						<?php						
 						}
 						?>
-					<td align="center" valign="middle"><input type="checkbox" id="touchTimeStamp#<? echo str_replace('.','_ponto_',$strItem);?>" name="touchTimeStamp#<? echo str_replace('.','_ponto_',$strItem);?>" title="Marque para alterar o TimeStamp d<? echo (!$intPos?'o arquivo':'a pasta');?> '<? echo $strItem;?>'"></td>
-					<td align="center" valign="middle"><input type="checkbox" id="changePermissions#<? echo str_replace('.','_ponto_',$strItem);?>" name="changePermissions#<? echo str_replace('.','_ponto_',$strItem);?>" title="Marque para alterar as Permissões d<? echo (!$intPos?'o arquivo':'a pasta');?> '<? echo $strItem;?>'"></td>
-					<?
+					<td align="center" valign="middle"><input type="checkbox" id="touchTimeStamp#<?php echo str_replace('.','_ponto_',$strItem);?>" name="touchTimeStamp#<?php echo str_replace('.','_ponto_',$strItem);?>" title="Marque para alterar o TimeStamp d<?php echo (!$intPos?'o arquivo':'a pasta');?> '<?php echo $strItem;?>'"></td>
+					<td align="center" valign="middle"><input type="checkbox" id="changePermissions#<?php echo str_replace('.','_ponto_',$strItem);?>" name="changePermissions#<?php echo str_replace('.','_ponto_',$strItem);?>" title="Marque para alterar as Permissões d<?php echo (!$intPos?'o arquivo':'a pasta');?> '<?php echo $strItem;?>'"></td>
+					<?php
 					$isTGZ = stripos2(strtolower($strItem),'.tgz');					
 					?>
 					<td align="center" valign="middle">
-					<? if ($isTGZ)
+					<?php if ($isTGZ)
 							echo '<input type="checkbox" id="extractFileTGZ#'. str_replace('.','_ponto_',$strItem) . '" name="extractFileTGZ#'. str_replace('.','_ponto_',$strItem) .'" title="Marque para extrair o arquivo '. $strItem . '">';
 					?>					
 					</td>
-					<?
-						echo '<td align="center" valign="middle">';						
+					<?php echo '<td align="center" valign="middle">';						
 						echo '<input type="checkbox" id="compactFileTGZ#'. str_replace('.','_ponto_',$strItem) . '" name="compactFileTGZ#'. str_replace('.','_ponto_',$strItem) .'" title="Marque para compactar o ítem '. $strItem . '">';
 						echo '</td>';
 					?>
@@ -760,7 +755,7 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 					<input type="hidden" id="frmExtractFileTGZ" name="frmExtractFileTGZ" value="">															
 					<input type="hidden" id="frmCompactFileTGZ" name="frmCompactFileTGZ" value="">																				
 					</tr>				
-					<?
+					<?php
 					}
 				else
 					$strTotal -= str_replace('K','',$strTamanho);
@@ -778,7 +773,7 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 			}	
 		?>
 		<tr>								
-		<td colspan="6"><div align="right"><strong><? echo ($strTotal/2);?></strong></div></td>
+		<td colspan="6"><div align="right"><strong><?php echo ($strTotal/2);?></strong></div></td>
 		<TD colspan="6">&nbsp;</TD>
 		</tr>		
 	  </table>
@@ -788,5 +783,6 @@ if ($_SESSION['cs_nivel_administracao']== 1)
 	</form>
 	</body>
 	</html>
-	<?
+	<?php
 	}
+?>

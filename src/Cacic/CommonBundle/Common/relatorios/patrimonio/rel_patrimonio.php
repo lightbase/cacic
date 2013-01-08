@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
@@ -56,8 +56,8 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 	for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 		$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-	$query_redes =  " AND computadores.id_ip_rede IN (". $redes_selecionadas .") ";
-	//$query_redes .= " AND redes.id_ip_rede = computadores.id_ip_rede ";	
+	$query_redes =  " AND computadores.id_rede IN (". $redes_selecionadas .") ";
+	//$query_redes .= " AND redes.te_ip = computadores.te_ip ";	
 	//$query_redes .= " AND locais.id_local = redes.id_local ";		
 		//}
 	}
@@ -68,7 +68,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$query_redes = ' AND computadores.id_ip_rede = redes.id_ip_rede ';
+	$query_redes = ' AND computadores.id_rede = redes.id_rede ';
 
 	if (trim($locais_selecionados) <> "''")
 		$query_redes .= ' AND redes.id_local IN ('. $locais_selecionados .') ';
@@ -128,22 +128,22 @@ else
 	$orderby = '3'; // por Nome de Computador
 
 // Caso a versão do MySQL utilizado não disponha de subquery...
-$query = 'SELECT 	concat(computadores.te_node_address, DATE_FORMAT( max(patrimonio.dt_hr_alteracao),"%d%m%Y%H%i")) as tripa_node_data '.
+$query = 'SELECT 	concat(computadores.id_computador, DATE_FORMAT( max(patrimonio.dt_hr_alteracao),"%d%m%Y%H%i")) as tripa_node_data '.
 					$select.' 
 		  FROM 		patrimonio, 
 		  			computadores '.
 					$from . '
-		  WHERE 	patrimonio.te_node_address = computadores.te_node_address '.
+		  WHERE 	patrimonio.id_computador = computadores.id_computador '.
 		  			$query_redes . ' 
-		  GROUP  BY computadores.te_node_address';
-echo $query . '<br>';		  
+		  GROUP  BY computadores.id_computador';
+//echo $query . '<br>';		  
 $result = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('patrimonio')));
 
 $where = '';
 while ($row = @mysql_fetch_array($result)) 
 	$where .= ",'" . $row['tripa_node_data'] . "'";
 
-$where = " AND concat(computadores.te_node_address, DATE_FORMAT(patrimonio.dt_hr_alteracao,'%d%m%Y%H%i'))  in (" . substr($where,1).")";
+$where = " AND concat(computadores.id_computador, DATE_FORMAT(patrimonio.dt_hr_alteracao,'%d%m%Y%H%i'))  in (" . substr($where,1).")";
 
 $criterios 		= '';
 $value_anterior = '';
@@ -206,7 +206,7 @@ if ($criterios)
 	
 if ($join_UO1 || $join_UO1a || $join_UO2)
 	{
-	$where_uon = " AND computadores.te_node_address = patrimonio.te_node_address ";
+	$where_uon = " AND computadores.id_computador = patrimonio.id_computador ";
 	if ($join_UO1)
 		$where_uon1 = $where_uon . " AND patrimonio.id_unid_organizacional_nivel1a = unid_organizacional_nivel1a.id_unid_organizacional_nivel1a AND ".$join_UO1." " ;	
 
@@ -231,7 +231,8 @@ $query = " SELECT 	DISTINCT computadores.te_node_address,
 					UNIX_TIMESTAMP(patrimonio.dt_hr_alteracao),
 					computadores.te_nome_computador as 'Nome Comp.', 
 					sg_so as 'S.O.', 
-					computadores.te_ip as 'IP'" .
+					computadores.te_ip_computador as 'IP',
+					computadores.id_computador " .					
           			$campos_patrimonio . 
 					$select . " 
 		   FROM 	unid_organizacional_nivel1,
@@ -242,8 +243,7 @@ $query = " SELECT 	DISTINCT computadores.te_node_address,
 					$from . "
 		   WHERE  	TRIM(computadores.te_nome_computador) <> '' AND 
 		   			computadores.id_so = so.id_so AND
-					patrimonio.te_node_address = computadores.te_node_address AND
-					patrimonio.id_so = computadores.id_so AND 
+					patrimonio.id_computador = computadores.id_computador AND 
 					patrimonio.id_unid_organizacional_nivel2 = unid_organizacional_nivel2.id_unid_organizacional_nivel2 AND
 					unid_organizacional_nivel2.id_unid_organizacional_nivel1a = unid_organizacional_nivel1a.id_unid_organizacional_nivel1a AND
 					unid_organizacional_nivel1a.id_unid_organizacional_nivel1 = unid_organizacional_nivel1.id_unid_organizacional_nivel1 ".
@@ -380,7 +380,7 @@ else
 	foreach ($table as $key => $row) 
 		{ //Table body	
 		$c1 = '<font size="1" face="Verdana, Arial">' . $num_registro . '</font>'; 
-		$c2 = "<font size='1' face='Verdana, Arial'><a href='../computador/computador.php?te_node_address=". $row[0] ."&id_so=". $row[1] ."' target='_blank'>" . $row[4] ."</a>";
+		$c2 = "<font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $row[7]."' target='_blank'>" . $row[4] ."</a>";
 		unset($row[0]);
 		unset($row[1]);
 		unset($row[2]);

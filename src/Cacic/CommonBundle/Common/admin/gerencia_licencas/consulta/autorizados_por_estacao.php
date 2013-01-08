@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -22,18 +22,16 @@ if ($_POST['consultar']) {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../../include/css/cacic.css">
 
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body bgcolor="#FFFFFF" background="../../../imgs/linha_v.gif" onLoad="SetaCampo('string_autorizado_estacao')">
-<script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../../include/js/cacic.js"></script>
 
-<?
-
-if (($_SESSION['ftr_autorizado_estacao'] == 'nome') or ($_SESSION['ftr_autorizado_estacao'] == '')) {
+<?php if (($_SESSION['ftr_autorizado_estacao'] == 'nome') or ($_SESSION['ftr_autorizado_estacao'] == '')) {
 	$valor_padrao_autorizado_estacao = '<option value="nome">'.$oTranslator->_('Nome do Computador').'</option>
 			<option value="patrimonio">'.$oTranslator->_('Numero do Patrimonio').'</option>';
 }
@@ -45,19 +43,19 @@ if ($_SESSION['ftr_autorizado_estacao'] == 'patrimonio') {
 
 ?>  
 
-<form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
-<table width="90%" border="0" align="center">
+<form action="<?php echo $PHP_SELF; ?>" method="post" name="form1">
+<table width="85%" border="0" align="center">
 <tr> 
-<td class="cabecalho"><?=$oTranslator->_('Licencas autorizadas por estacao');?></td>
+<td class="cabecalho"><?php echo $oTranslator->_('Licencas autorizadas por estacao');?></td>
 </tr>
 <tr> 
 <td>&nbsp;</td>
 </tr>
 </table>
 <tr><td height="1" colspan="2" bgcolor="#333333"></td></tr>
-<tr><td height="30" colspan="2"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
-<tr><td colspan="2" class="label"><?=$oTranslator->_('Selecione os filtros da consulta:');?></td></tr>
-<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<tr><td height="30" colspan="2"><table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
+<tr><td colspan="2" class="label"><?php echo $oTranslator->_('Selecione os filtros da consulta:');?></td></tr>
+<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 <tr> 
 <td height="1" bgcolor="#333333"></td>
 </tr>
@@ -66,13 +64,13 @@ if ($_SESSION['ftr_autorizado_estacao'] == 'patrimonio') {
 <tr>
 <td>
 	<select name="filtro_autorizado_estacao" id="select" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-	<? echo $valor_padrao_autorizado_estacao;?>
+	<?php echo $valor_padrao_autorizado_estacao;?>
 	</select>
 </td> 
             <td> 
-              <input name="string_autorizado_estacao" type="text" id="string_autorizado_estacao2" value="<? echo $_REQUEST['string_autorizado_estacao'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+              <input name="string_autorizado_estacao" type="text" id="string_autorizado_estacao2" value="<?php echo $_REQUEST['string_autorizado_estacao'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
               </td>
-            <td><input name="consultar" type="submit" id="consultar2" value="<?=$oTranslator->_('Consultar');?>"></td>
+            <td><input name="consultar" type="submit" id="consultar2" value="<?php echo $oTranslator->_('Consultar');?>"></td>
           </tr>
         </table></td>
     </tr>
@@ -81,9 +79,7 @@ if ($_SESSION['ftr_autorizado_estacao'] == 'patrimonio') {
     </tr>
   </table>
   </form>
-<?
-
-if ($_POST['consultar']) {
+<?php if ($_POST['consultar']) {
 
 	if ($_SESSION['ftr_autorizado_estacao'] == 'nome') {
 		$query = "SELECT s.nm_software, se.dt_autorizacao, se.nr_processo, se.id_aquisicao_particular, se.nm_computador, se.nr_patrimonio, se.id_aquisicao_particular, se.te_observacao  
@@ -144,22 +140,22 @@ if ($_POST['consultar']) {
 	  <td align="center" nowrap>&nbsp;</td>
 	  <td align="center" nowrap><div align="left"><strong></strong></div></td>
 	  <td align="center" nowrap >&nbsp; </td>
-	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Software');?></font></strong></div></td>
+	  <td align="left" nowrap bgcolor="#E1E1E1"><div align="left"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Software');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Autorizacao');?></font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Autorizacao');?></font></strong></div></td>
 	  <td nowrap >&nbsp; </td> 
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Processo');?></font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Processo');?></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Computador');?></font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Computador');?></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Patrimonio');?></font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Patrimonio');?></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Particular');?></font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Particular');?></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
-          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Observacao');?></font></strong></div></td>
+          <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Observacao');?></font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
@@ -167,37 +163,37 @@ if ($_POST['consultar']) {
 		if ($NumRegistro == 1) { echo '<tr><td colspan=16 align=center>'.$oTranslator->_('Autorizados').'</td></tr>'; }		  
 		/*
 	 ?>
-        <tr <? if (!$Cor) { echo 'bgcolor="#00CC00"'; } else echo 'bgcolor="#99FF33"' ?>> 
+        <tr <?php if (!$Cor) { echo 'bgcolor="#00CC00"'; } else echo 'bgcolor="#99FF33"' ?>> 
 		*/
 		?>
-        <tr <? if (!$Cor) { echo 'bgcolor="#c0CoC0"'; } else echo 'bgcolor="#000O00"' ?>> 		
+        <tr <?php if (!$Cor) { echo 'bgcolor="#c0CoC0"'; } else echo 'bgcolor="#000O00"' ?>> 		
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><? echo $row['nm_software']; ?></td>
+          <td nowrap class="opcao_tabela"><?php echo $row['nm_software']; ?></td>
           <td nowrap>&nbsp;</td>
-          <? if ($row['dt_autorizacao']) { ?>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo date("d/m/Y", strtotime($row['dt_autorizacao'])); ?></a></div></td>
-          <? } else { ?>
+          <?php if ($row['dt_autorizacao']) { ?>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo date("d/m/Y", strtotime($row['dt_autorizacao'])); ?></a></div></td>
+          <?php } else { ?>
 	  <td nowrap class="opcao_tabela"><div align="center">&nbsp;</a></div></td>
-          <? } ?>
+          <?php } ?>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo $row['nr_processo']; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo $row['nr_processo']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo $row['nm_computador']; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo $row['nm_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo $row['nr_patrimonio']; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo $row['nr_patrimonio']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
 	  <td nowrap class="opcao_tabela"><div align="center">
-		<? if ($row['id_aquisicao_particular'])  
+		<?php if ($row['id_aquisicao_particular'])  
 			echo "<a href='softwares_aquisicao.php?id_aquisicao=" . $row['id_aquisicao_particular'] . "' target='_blank'>SIM</a>"; 
                    else  echo $oTranslator->_('kciq_msg no'); 
 		?> 
 	  </div></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo $row['te_observacao']; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo $row['te_observacao']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 }
@@ -207,41 +203,40 @@ if ($_POST['consultar']) {
 	<tr>
 	 <td colspan=17 height="3" bgcolor="#333333"></td>
 	</tr>
-	<? $NumRegistroAutorizados = $NumRegistro; ?>
-<?	while ($row = mysql_fetch_array($resultDesinstaladoTransferido)) { 
+	<?php $NumRegistroAutorizados = $NumRegistro; ?>
+<?php	while ($row = mysql_fetch_array($resultDesinstaladoTransferido)) { 
 	if ($NumRegistroAutorizados == $NumRegistro) {
 	  echo '<tr><td colspan=16 align=center>'.$oTranslator->_('Historico').'</td></tr>';
         } ?>
-        <tr <? 
-		if ($Cor) { echo 'bgcolor="#C0C0C0"'; } else echo 'bgcolor="#CCCCCC"'; 		
+        <tr <?php if ($Cor) { echo 'bgcolor="#C0C0C0"'; } else echo 'bgcolor="#CCCCCC"'; 		
 		?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><? echo $row['nm_software']; ?></td>
+          <td nowrap class="opcao_tabela"><?php echo $row['nm_software']; ?></td>
           <td nowrap>&nbsp;</td>
-          <? if ($row['dt_autorizacao']) { ?>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo date("d/m/Y", strtotime($row['dt_autorizacao'])); ?></a></div></td>
-          <? } else { ?>
+          <?php if ($row['dt_autorizacao']) { ?>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo date("d/m/Y", strtotime($row['dt_autorizacao'])); ?></a></div></td>
+          <?php } else { ?>
 	  <td nowrap class="opcao_tabela"><div align="center">&nbsp;</a></div></td>
-          <? } ?>
+          <?php } ?>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo $row['nr_processo']; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo $row['nr_processo']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo $row['nm_computador']; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo $row['nm_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo $row['nr_patrimonio']; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo $row['nr_patrimonio']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
 	  <td nowrap class="opcao_tabela"><div align="center">
-		<? if ($row['id_aquisicao_particular'])  
+		<?php if ($row['id_aquisicao_particular'])  
 			echo "<a href='softwares_aquisicao.php?id_aquisicao=" . $row['id_aquisicao_particular'] . "' target='_blank'>SIM</a>"; 
                    else  echo $oTranslator->_('kciq_msg no'); 
 		?> 
 	  </div></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo date("d/m/Y", strtotime($row['dt_desinstalacao'])) . ' -> ' . $row['nr_patr_destino'] . ' -> ' . $row['te_observacao']; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo date("d/m/Y", strtotime($row['dt_desinstalacao'])) . ' -> ' . $row['nr_patr_destino'] . ' -> ' . $row['te_observacao']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 }	
@@ -260,7 +255,7 @@ if ($_POST['consultar']) {
     <td height="10">&nbsp;</td>
   </tr>
 </table>
-<?
+<?php
 				}
 		}
 }

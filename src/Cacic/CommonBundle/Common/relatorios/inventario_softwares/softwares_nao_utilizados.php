@@ -1,8 +1,8 @@
-<? 
+<?php 
  /* 
  
 Caminho do css
- /cacic2/include/cacic.css
+ /cacic2/include/css/cacic.css
  
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -73,7 +73,7 @@ if ($palavra!=""){
 	$query .= " and nm_software_inventariado like '%".$palavra."%'";
 }
 if ($rede!="0"){
-	$query .= " AND c.id_ip_rede ='".$rede."'";
+	$query .= " AND c.id_rede =".$rede;
 }
 $query .= " ORDER BY nm_software_inventariado";
 
@@ -82,14 +82,14 @@ $result = mysql_query($query);
 $queryG = 'SELECT * FROM softwares_inventariados_grupos ORDER BY id_si_grupo';
 $resultG = mysql_query($queryG);
 
-$queryR = "SELECT id_ip_rede, nm_rede FROM redes";
+$queryR = "SELECT te_ip_rede, nm_rede FROM redes";
 $resultR = mysql_query($queryR);
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Cadastro de Grupos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
@@ -106,9 +106,9 @@ function pesquisa_()
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="http://<? echo $_SERVER['HTTP_HOST'].'/cacic2/include/cacic.js';?>"></script>
+<script language="JavaScript" type="text/javascript" src="http://<?php echo $_SERVER['HTTP_HOST'].'/cacic2/include/js/cacic.js';?>"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Relat&oacute;rio 
       de Softwares N&atilde;o Utilizados </td>
@@ -119,17 +119,17 @@ function pesquisa_()
   </tr>
 </table>
 <br>
-<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr>
     <td width="14%" height="10" valign="bottom">Por grupo:<br>
       <select name="pesquisa" class="normal" id="pesquisa" ><!-- onChange="mudapagina(this.value,'1')"-->
         <option value="0">Todos</option>
-		<? while($rowG = mysql_fetch_array($resultG)) {?>
-			<option value="<? echo $rowG['id_si_grupo']; ?>" <? if ($pesquisa==$rowG['id_si_grupo']){?>selected<? }?>><? echo $rowG['nm_si_grupo']; ?></option>
-		<? }?>	
+		<?php while($rowG = mysql_fetch_array($resultG)) {?>
+			<option value="<?php echo $rowG['id_si_grupo']; ?>" <?php if ($pesquisa==$rowG['id_si_grupo']){?>selected<?php }?>><?php echo $rowG['nm_si_grupo']; ?></option>
+		<?php }?>	
       </select></td>
     <td valign="bottom">Por palavra:<br>
-      <input name="palavra" type="text" class="normal" id="palavra" value="<? echo $palavra?>">
+      <input name="palavra" type="text" class="normal" id="palavra" value="<?php echo $palavra?>">
       &nbsp;&nbsp;
       <input name="Button" type="button" class="normal" value="Pesquisar" onClick="pesquisa_()"></td>
     </tr>
@@ -137,7 +137,7 @@ function pesquisa_()
     <td height="10" colspan="2"><div align="right"></div></td>
   </tr>
   <tr> 
-    <td height="10" colspan="2" align="center" valign="middle"><? echo $msg;?>
+    <td height="10" colspan="2" align="center" valign="middle"><?php echo $msg;?>
       <div align="center"></div></td>
     </tr>
   <tr>
@@ -158,8 +158,7 @@ function pesquisa_()
           <td width="66" align="center"  nowrap class="cabecalho_tabela"><div align="center">C&oacute;digo</div></td>
           <td colspan="2" nowrap  class="cabecalho_tabela">Software</td>
           </tr>
-<?  
-if(mysql_num_rows($result)==0) {
+<?php if(mysql_num_rows($result)==0) {
 	$msg = '<div align="center"><font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">Nenhum software cadastrado</font><br><br></div>';
 			
 }
@@ -173,26 +172,26 @@ else {
 		$NUM = mysql_num_rows($resultCon);
 		  								
 	 ?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?> >
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?> >
 			  <td>&nbsp;</td>
-			  <td class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
-			  <td class="opcao_tabela"><div align="center"><? echo $row['id_software_inventariado']; ?></div></td>
-			  <td width="372" class="opcao_tabela"><div align="left"><? echo $row['nm_software_inventariado']; ?></div></td>
+			  <td class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
+			  <td class="opcao_tabela"><div align="center"><?php echo $row['id_software_inventariado']; ?></div></td>
+			  <td width="372" class="opcao_tabela"><div align="left"><?php echo $row['nm_software_inventariado']; ?></div></td>
 			  <td width="196" valign="bottom" class="opcao_tabela">&nbsp;&nbsp;
-			    <? if ($NUM == 0){?>
-                <a href="?Excluir=1&id_software_inventariado=<? echo $row['id_software_inventariado']?>" onClick="return Confirma('Confirma Exclus&atilde;o do Software?');"><img src="../../admin/software/excluir.jpg" width="16" height="16" border="0"></a>
-                <? }else{?>
+			    <?php if ($NUM == 0){?>
+                <a href="?Excluir=1&id_software_inventariado=<?php echo $row['id_software_inventariado']?>" onClick="return Confirma('Confirma Exclus&atilde;o do Software?');"><img src="../../admin/software/excluir.jpg" width="16" height="16" border="0"></a>
+                <?php }else{?>
                 <img src="../../admin/software/excluir_cinza.jpg" width="16" height="16" border="0">
-                <? }?></td>
+                <?php }?></td>
 			</tr>
-			<tr id="tr_micros_<? echo $row['id_software_inventariado'] ?>" style="display:none">
+			<tr id="tr_micros_<?php echo $row['id_software_inventariado'] ?>" style="display:none">
 			  <td colspan="5">
 			  <table width="97%" border="0" cellpadding="0" cellspacing="0" align="center">         
-			  	<div id="texto_<? echo $row['id_software_inventariado'] ?>"></div>
+			  	<div id="texto_<?php echo $row['id_software_inventariado'] ?>"></div>
               </table>			  </td>
 		  </tr>
 		 
-			  <? 
+			  <?php 
 			$Cor=!$Cor;
 			$NumRegistro++;
 		//incrementamos o marcador...
@@ -209,7 +208,7 @@ else {
     <td height="10" colspan="2">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10" colspan="2"><? echo $msg;?></td>
+    <td height="10" colspan="2"><?php echo $msg;?></td>
   </tr>
 </table>
 </form>

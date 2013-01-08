@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -19,8 +19,8 @@ conecta_bd_cacic();
 $nomes_duplicados = true;
 
 if ($nomes_duplicados) {
-	$query = " SELECT a.te_nome_computador, a.id_ip_rede, b.te_desc_so, a.te_dominio_windows, a.te_ip, 
-			a.te_node_address, a.dt_hr_ult_acesso
+	$query = " SELECT a.te_nome_computador, a.te_ip_computador, b.te_desc_so, a.te_dominio_windows, 
+			a.te_node_address, a.dt_hr_ult_acesso, a.id_computador
 				FROM computadores a, so b
 				WHERE a.id_so = b.id_so
 				GROUP  BY te_nome_computador
@@ -36,7 +36,7 @@ if ($nomes_duplicados) {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Nomes duplicados<? echo $tipo_historico?></title>
+<title>Nomes duplicados<?php echo $tipo_historico?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
@@ -48,7 +48,7 @@ if ($nomes_duplicados) {
     <td bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
   <tr bgcolor="#E1E1E1"> 
-    <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>Nomes Duplicados <? echo $tipo_historico?>
+    <td bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>Nomes Duplicados <?php echo $tipo_historico?>
       </strong></font></td>
   </tr>
   <tr> 
@@ -59,7 +59,7 @@ if ($nomes_duplicados) {
   </tr>
 </table>
 <p><br>
-  <? 
+  <?php 
 $cor = 0;
 $num_registro = 1;
 
@@ -94,3 +94,4 @@ else {
 	echo '</table>';
 	echo mensagem('Não foi encontrado nenhum registro');
 }
+?>

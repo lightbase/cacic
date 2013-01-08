@@ -20,7 +20,7 @@
 ...U. O. Nível 2|admin/patrimonio/nivel2/index.php|mainFrame||Cadastro de Unidades Organizacionais de Nível 2
 ...Opções|admin/patrimonio/opcoes.php|mainFrame||Opções da coleta de Informações de Patrimônio e Localização Física
 .<b>Manutenção</b>||mainFrame|imgs/config_gerais.gif
-..Updates de SubRedes|admin/updates_subredes/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
+..Atualização de SubRedes|admin/update_subrede/index.php|mainFrame||Verifica/Atualiza Servidores de Updates das Sub-Redes Locais
 ..Excluir Computadores|admin/exclui_informacoes_computadores.php|mainFrame||Exclusão de Informações de Computadores da base
 .<b>Computadores</b>||mainFrame|imgs/config_gerais.gif
 ..Consulta|relatorios/computadores.php|mainFrame||Consulta de informações de computadores
@@ -48,6 +48,6 @@
 ..Sistemas Monitorados|estatisticas/aplicativos/index.php|mainFrame||
 .<b>Acesso</b>||mainFrame|imgs/config_gerais.gif
 ..Troca de Senha|admin/usuarios/troca_senha.php|mainFrame||
-.<b>Repositório|repositorio_install.php|mainFrame||Repositório do Sistema CACIC
+.<b>Downloads|downloads.php|mainFrame||Downloads do Sistema CACIC
 .<b>Projeto CACIC<b>|tribo/|new||Link de Acesso à Home Page do Projeto CACIC
 .<b>Comunidade CACIC<b>|http://www.softwarepublico.gov.br/spb/ver-comunidade?community_id=3585|new||Link de Acesso à Home Page da Comunidade CACIC

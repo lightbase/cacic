@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -71,13 +71,13 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
-<br><?
+<br><?php
 
 $_SESSION['query_redes'] = '';
 $redes_selecionadas = '';
@@ -90,7 +90,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-		$_SESSION['query_redes'] = 'AND id_ip_rede IN ('. $redes_selecionadas .')';		
+		$_SESSION['query_redes'] = 'AND id_rede IN ('. $redes_selecionadas .')';		
 		$_SESSION["redes_selecionadas"] = $_SESSION['query_redes'];		
 		//}	
 	}
@@ -101,7 +101,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$_SESSION['query_redes'] = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+	$_SESSION['query_redes'] = 'AND computadores.id_rede = redes.id_rede AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
 	$_SESSION['select'] = ' ,sg_local as Local ';	
@@ -140,16 +140,16 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
                 <td width="72%" nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Softwares 
                     Inventariados</strong></font></div></td>
                 <td width="28%" nowrap bgcolor="#E1E1E1"><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>M&aacute;quinas</strong></font></div></td>
-				<? if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+				<?php if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
 					{
 					?>
 					<td width="28%" nowrap bgcolor="#E1E1E1"><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Local</strong></font></div></td>					
-					<?
+					<?php
 					}
 					?>
 				
               </tr>
-              <? 
+              <?php 
 			  while($reg_selecao = @mysql_fetch_row($result_query_selecao))
 					{
 	 				$reg_id_aplicativo = $reg_selecao[0]; 	
@@ -163,8 +163,7 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
 										softwares_inventariados_estacoes b, 
 										computadores ".
 										$_SESSION['from'] . " 
-					WHERE				b.te_node_address  = computadores.te_node_address AND 
-										b.id_so = computadores.id_so AND 
+					WHERE				b.id_computador = computadores.id_computador AND 
 										a.id_software_inventariado = ".$reg_id_aplicativo. " AND 
 										a.id_software_inventariado = b.id_software_inventariado " . $query_redes . " AND 
 										computadores.id_so IN (". $so_selecionados .") ".
@@ -177,18 +176,17 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ ) {
 						$v_achei = '.';
 						?>
               			<tr> 
-		                <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../inventario_softwares/rel_maquinas_softwares.php?id_software_inventariado=<? echo $reg_versoes[2]?>&nm_software_inventariado=<? echo $reg_versoes[0]?>" target="_blank"><? echo $reg_versoes[0] ?></a></font></td>
-		                <td nowrap><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $reg_versoes[1] ?></font></div></td>
-						<? if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+		                <td nowrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="../inventario_softwares/rel_maquinas_softwares.php?id_software_inventariado=<?php echo $reg_versoes[2]?>&nm_software_inventariado=<?php echo $reg_versoes[0]?>" target="_blank"><?php echo $reg_versoes[0] ?></a></font></td>
+		                <td nowrap><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $reg_versoes[1] ?></font></div></td>
+						<?php if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
 								{
 								?>
-								<td nowrap><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $reg_versoes[3] ?></font></div></td>					
-								<?
+								<td nowrap><div align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $reg_versoes[3] ?></font></div></td>					
+								<?php
 								}
 								?>						
 		              	</tr>	  
-		              	<?
-						echo $linha; 
+		              	<?php echo $linha; 
 		 				} //Fim do if else das versões
  				 	} //Fim do while
 

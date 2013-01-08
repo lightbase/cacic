@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -22,16 +22,14 @@ conecta_bd_cacic();
                          nm_software_inventariado as Software,
                          sih.ind_acao as Ação 
                   FROM   softwares_inventariados si, historico_softwares_inventariados_estacoes sih
-		  WHERE sih.te_node_address = '". $_POST['te_node_address'] ."' 
-                                AND sih.id_so = '". $_POST['id_so'] ."'  
-                                AND sih.id_software_inventariado = si.id_software_inventariado
+		  WHERE sih.id_computador = ". $_POST['id_computador'] ." AND 
+		  		sih.id_software_inventariado = si.id_software_inventariado
 		  ORDER BY sih.data DESC";
 	$result = mysql_query($query) or die ('Erro no select:'. mysql_error().' ou sua sessão expirou!');
         
         $consulta_estacao = "SELECT te_dominio_windows, te_nome_computador, te_workgroup
                              FROM   computadores
-		             WHERE  te_node_address = '". $_POST['te_node_address'] ."' 
-                             AND id_so = '". $_POST['id_so'] ."'";
+		             WHERE  id_computador = ". $_POST['id_computador'];
         $resultado_estacao= mysql_query($consulta_estacao) or die ('Erro no select:'. mysql_error().' ou sua sessão expirou!');
 
         echo "<p><font size=2 face=verdana>Estação:<b> ". mysql_result($resultado_estacao, 0, 'te_nome_computador') . "</b>";
@@ -40,7 +38,7 @@ conecta_bd_cacic();
 
 ?>
 <br>
-<? 
+<?php 
 $cor = 0;
 $num_registro = 1;
 

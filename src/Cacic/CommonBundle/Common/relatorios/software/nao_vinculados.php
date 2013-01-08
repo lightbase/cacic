@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -24,7 +24,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
-<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
+<link href="../../include/css/cacic.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5"  background="../../imgs/linha_v.gif">
@@ -43,21 +43,21 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
+<?php
 	 $query = "SELECT a.id_software_inventariado AS id_soft, a.nm_software_inventariado AS nm_soft, count(*) AS qtde
 		FROM softwares_inventariados a, softwares_inventariados_estacoes b  
 		WHERE (a.id_software IS NULL) AND (a.id_tipo_software = 4) AND 
@@ -85,22 +85,22 @@ $linha = '<tr bgcolor="#e7e7e7">
 	  <td nowrap >&nbsp;&nbsp;</td>
 
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td wrap>&nbsp;&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $NumRegistro; ?></font></div></td>
 	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="left" wrap class="opcao_tabela"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="rel_softwares_orgao.php?id_software_inventariado=<? echo $row['id_soft'];?>&nm_software_inventariado=<? echo $row['nm_soft'];?>&nm_maquina=<? echo '';?>" target="_blank"><? echo $row['nm_soft']; ?></a></font></td>
+	  <td align="left" wrap class="opcao_tabela"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="rel_softwares_orgao.php?id_software_inventariado=<?php echo $row['id_soft'];?>&nm_software_inventariado=<?php echo $row['nm_soft'];?>&nm_maquina=<?php echo '';?>" target="_blank"><?php echo $row['nm_soft']; ?></a></font></td>
 	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap class="opcao_tabela"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['qtde']; ?></font></td>
+	  <td align="center" wrap class="opcao_tabela"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['qtde']; ?></font></td>
 	  <td nowrap>&nbsp;&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

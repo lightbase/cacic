@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informa��es da Previd�ncia Social, Brasil
 
@@ -45,31 +45,31 @@ $result_GERENTES = mysql_query($query_GERENTES);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-	<title><?=$oTranslator->_('Atualizacao de Base de Dados');?></title>
+	<title><?php echo $oTranslator->_('Atualizacao de Base de Dados');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   </head>
   <body background="file:///h|/cacic2sg/imgs/linha_v.gif">
-	<table width="90%" border="0" align="center">
+	<table width="85%" border="0" align="center">
 	  <tr> 
 	  	<td>
 	  		<font color="#FF0000" size="4" face="Verdana, Arial, Helvetica, sans-serif">
-	  			<b><?=$oTranslator->_('Atualizacao de Base de Dados');?></b>
+	  			<b><?php echo $oTranslator->_('Atualizacao de Base de Dados');?></b>
 	  		</font>
 	  	</td>
 	  </tr>
 	  <tr>
 		<td>
 			<font size="2" face="Verdana, Arial, Helvetica, sans-serif">
-				<?=$oTranslator->_('Modulo para atualizacao das informacoes coletadas dos modulos gerentes descentralizados');?>.
+				<?php echo $oTranslator->_('Modulo para atualizacao das informacoes coletadas dos modulos gerentes descentralizados');?>.
 			</font>
 		</td>
 	  </tr>
 	</table>
-	<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#666666">
+	<table width="85%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#666666">
 	<tr bordercolor="#000000" bgcolor="#CCCCCC">
 	 <td valign="center">
 		<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>
-				<?=$oTranslator->_('IP Gerente');?>.
+				<?php echo $oTranslator->_('IP Gerente');?>.
 		  </strong></font> </p>
 	 </td>
 	 <td valign="center">
@@ -79,7 +79,7 @@ $result_GERENTES = mysql_query($query_GERENTES);
 		
 		<td valign="center">
 		<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>
-				<?=$oTranslator->_('Descricao');?>.
+				<?php echo $oTranslator->_('Descricao');?>.
 		</strong></font> 
       </p>
 </td>		
@@ -90,43 +90,43 @@ $result_GERENTES = mysql_query($query_GERENTES);
 	
 <td valign="center">
 <p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>
-<?=$oTranslator->_('Status');?>.
+<?php echo $oTranslator->_('Status');?>.
 </strong></font>
 </p>
 </td>		
 
 </tr>
-<?	
+<?php
 $v_tripa_repositorios = '';
 while ($row = mysql_fetch_array($result_GERENTES))
 	{
 	if ($v_cor_zebra == '#FFFFFF') $v_cor_zebra = '#EEEEEE'; else $v_cor_zebra = '#FFFFFF';
 	?>
 	<tr> 
-			<td valign="center" bgcolor="<? echo $v_cor_zebra;?>"  style="height: 25">
-	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?
+			<td valign="center" bgcolor="<?php echo $v_cor_zebra;?>"  style="height: 25">
+	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php
 	echo $row['id_ip_gerente'];?></font>
 	</p>
 	</td>
-	<td valign="center" bgcolor="<? echo $v_cor_zebra;?>">
+	<td valign="center" bgcolor="<?php echo $v_cor_zebra;?>">
 	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
 	&nbsp;</font>
 	</p>
 	</td>
 		
-	<td valign="center" bgcolor="<? echo $v_cor_zebra;?>" nowrap>
-	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?
+	<td valign="center" bgcolor="<?php echo $v_cor_zebra;?>" nowrap>
+	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php
 	echo $row['nm_gerente'];?></font>
 	</p>
 	</td>
-	<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+	<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 	<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
 	&nbsp;</font>
 	</p>
 	</td>
-	<td valign="center" bgcolor="<? echo $v_cor_zebra;?>" nowrap>
+	<td valign="center" bgcolor="<?php echo $v_cor_zebra;?>" nowrap>
 	<p align="left">
-	<?
+	<?php
 
 	$v_conta_objetos_enviados 			= 0;
 	$v_conta_objetos_nao_enviados 		= 0;			
@@ -227,8 +227,8 @@ while ($row = mysql_fetch_array($result_GERENTES))
 				{							
 				?>
 				<font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>
-				<?=$oTranslator->_('Verificacao efetuada');?>!</strong></font>
-				<?																	
+				<?php echo $oTranslator->_('Verificacao efetuada');?>!</strong></font>
+				<?php																	
 							
 				if ($v_conta_objetos_atualizados)
 					{
@@ -236,30 +236,30 @@ while ($row = mysql_fetch_array($result_GERENTES))
 						{
 						?>
 						<tr> 
-							<td valign="center" bgcolor="<? echo $v_cor_zebra;?>">
+							<td valign="center" bgcolor="<?php echo $v_cor_zebra;?>">
 							<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
 							</p>
 							</td>
-							<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+							<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 							<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
 							&nbsp;</font>
 							</p>
 							</td>
 						
-							<td valign="center" bgcolor="<? echo $v_cor_zebra;?>">
+							<td valign="center" bgcolor="<?php echo $v_cor_zebra;?>">
 							<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
 							</p>
 							</td>
-							<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+							<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 							<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
 							&nbsp;</font>
 							</p>
 							</td>
-							<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+							<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 							<p align="left"><font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif">
-							<?=$oTranslator->_('Atualizando');?>
-							<? echo $v_array_objetos_atualizados[$cnt_objetos];?>...</font>
-							<?
+							<?php echo $oTranslator->_('Atualizando');?>
+							<?php echo $v_array_objetos_atualizados[$cnt_objetos];?>...</font>
+							<?php
 						}						
 					}
 				if ($v_conta_objetos_nao_atualizados)
@@ -268,29 +268,29 @@ while ($row = mysql_fetch_array($result_GERENTES))
 						{
 						?>
 						<tr> 
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
 								</p>
 								</td>
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
 								&nbsp;</font>
 								</p>
 								</td>				
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
 								</p>
 								</td>
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
 								&nbsp;</font>
 								</p>
 								</td>
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif">
-							    <?=$oTranslator->_('Nao Atualizado');?>: 
-								<? echo $v_array_objetos_nao_atualizados[$cnt_objetos];?>!</font>
-								<?
+							    <?php echo $oTranslator->_('Nao Atualizado');?>: 
+								<?php echo $v_array_objetos_nao_atualizados[$cnt_objetos];?>!</font>
+								<?php
 						}						
 					}
 				if ($v_conta_objetos_enviados)
@@ -299,30 +299,30 @@ while ($row = mysql_fetch_array($result_GERENTES))
 						{
 						?>
 						<tr> 
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
 								</p>
 								</td>
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
 								&nbsp;</font>
 								</p>
 								</td>
 					
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
 								</p>
 								</td>
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
 								&nbsp;</font>
 								</p>
 								</td>
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#000099" size="2" face="Verdana, Arial, Helvetica, sans-serif">
-								<?=$oTranslator->_('Enviando');?>
-								<? echo $v_array_objetos_enviados[$cnt_objetos];?>...</font>
-								<?
+								<?php echo $oTranslator->_('Enviando');?>
+								<?php echo $v_array_objetos_enviados[$cnt_objetos];?>...</font>
+								<?php
 						}						
 					}
 				if ($v_conta_objetos_nao_enviados)
@@ -331,30 +331,30 @@ while ($row = mysql_fetch_array($result_GERENTES))
 						{
 						?>
 						<tr> 
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
 								</p>
 								</td>
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
 								&nbsp;</font>
 								</p>
 								</td>
 		
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font>
 								</p>
 								</td>
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">
 								&nbsp;</font>
 								</p>
 								</td>
-								<td valign="center" bgcolor="<? echo $v_cor_zebra; ?>">
+								<td valign="center" bgcolor="<?php echo $v_cor_zebra; ?>">
 								<p align="left"><font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif">
-								<?=$oTranslator->_('Nao Enviado');?>
-								<? echo $v_array_objetos_nao_enviados[$cnt_objetos];?>!</font>
-								<?
+								<?php echo $oTranslator->_('Nao Enviado');?>
+								<?php echo $v_array_objetos_nao_enviados[$cnt_objetos];?>!</font>
+								<?php
 						}						
 					}										
 				}									
@@ -365,16 +365,16 @@ while ($row = mysql_fetch_array($result_GERENTES))
 				 	trim($row['te_senha_login_repositorio'])	==	'')
 					{
 					?>
-					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>
-					<?=$oTranslator->_('FTP nao configurado');?>!</strong></a></font>
-					<?
+					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<?php echo $row['id_ip_gerente']; ?>" style="color: red"><strong>
+					<?php echo $oTranslator->_('FTP nao configurado');?>!</strong></a></font>
+					<?php
 					}
 				else
 					{
 					?>
-					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<? echo $row['id_ip_gerente']; ?>" style="color: red"><strong>
-					<?=$oTranslator->_('Servidor OffLine');?>!</strong></a></font>
-					<?
+					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<?php echo $row['id_ip_gerente']; ?>" style="color: red"><strong>
+					<?php echo $oTranslator->_('Servidor OffLine');?>!</strong></a></font>
+					<?php
 					}
 			}
 	}			

@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -55,7 +55,7 @@ if($_POST['grava_alteracao_uon1'])
 				   		  '".$_POST['frm_nu_tel1_responsavel_uon1']."',
 				   		  '".$_POST['frm_nu_tel2_responsavel_uon1']."')";
 		$result = mysql_query($query) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1')));
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1');
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1',$_SESSION["id_usuario"]);
 		if (!atualiza_configuracoes_uonx('1'))
 			{
 			echo mensagem($oTranslator->_('Falha na atualizacao de configuracoes'));
@@ -72,13 +72,13 @@ if($_POST['grava_alteracao_uon1'])
 	?>
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
-	<?
+	<?php
 	}
 else 
 	{
 ?>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../../include/css/cacic.css">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
@@ -86,7 +86,7 @@ function valida_form()
 	{
 	if (document.form.frm_nm_unid_organizacional_nivel1.value == "")
 		{
-		alert("<?=$oTranslator->_('Por favor, preencha campo');?> "+ document.form.etiqueta1.value+".");
+		alert("<?php echo $oTranslator->_('Por favor, preencha campo');?> "+ document.form.etiqueta1.value+".");
 		document.form.frm_nm_unid_organizacional_nivel1.focus();
 		return false;
 		} 
@@ -101,12 +101,12 @@ function SetaCampo()
 </head>
 
 <body background="../../../imgs/linha_v.gif" onLoad="Javascript: SetaCampo('frm_nm_unid_organizacional_nivel1')">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">
-      <?=$oTranslator->_('Inclusao de');?> <? echo $_SESSION['etiqueta1'];?> 
-      (<?=$oTranslator->_('Unidade Organizacional Nivel 1');?>)
+      <?php echo $oTranslator->_('Inclusao de');?> <?php echo $_SESSION['etiqueta1'];?> 
+      (<?php echo $oTranslator->_('Unidade Organizacional Nivel 1');?>)
     </td>
   </tr>
   <tr> 
@@ -120,47 +120,47 @@ function SetaCampo()
       <td colspan="3">&nbsp;</td>
     </tr>
     <tr> 
-      <td class="label"><div align="left"><? echo $_SESSION['etiqueta1'];?>:</td>
+      <td class="label"><div align="left"><?php echo $_SESSION['etiqueta1'];?>:</td>
       <td colspan="3"> <div align="left"> 
           <input name="frm_nm_unid_organizacional_nivel1" type="text" id="frm_nm_unid_organizacional_nivel1" size="60" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
     </tr>
     <tr> 
-      <td class="label"><div align="left"><?=$oTranslator->_('Endereco');?>:</div></td>
+      <td class="label"><div align="left"><?php echo $oTranslator->_('Endereco');?>:</div></td>
       <td colspan="3"> <div align="left"> 
           <input name="frm_te_endereco_uon1" type="text" id="frm_te_endereco_uon1" size="60" maxlength="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
     </tr>
     <tr> 
-      <td class="label"><div align="left"><?=$oTranslator->_('Bairro');?>:</div></td>
+      <td class="label"><div align="left"><?php echo $oTranslator->_('Bairro');?>:</div></td>
       <td colspan="3"> <div align="left"> 
           <input name="frm_te_bairro_uon1" type="text" id="frm_te_bairro_uon1" size="60" maxlength="30" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </div></td>
     </tr>
     <tr> 
-      <td class="label"><?=$oTranslator->_('Cidade');?>:</td>
+      <td class="label"><?php echo $oTranslator->_('Cidade');?>:</td>
       <td><input name="frm_te_cidade_uon1" type="text" id="frm_te_cidade_uon1" size="20" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
         </td>
       <td>&nbsp;</td>
-      <td class="label"><div align="right"><?=$oTranslator->_('Unidade da Federacao',T_SIGLA);?>: 
+      <td class="label"><div align="right"><?php echo $oTranslator->_('Unidade da Federacao',T_SIGLA);?>: 
           <input name="frm_te_uf_uon1" type="text" id="frm_te_uf_uon1" size="2" maxlength="2" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
           </div></td>
     </tr>
     <tr> 
-      <td class="label"><?=$oTranslator->_('Responsavel');?>:</td>
+      <td class="label"><?php echo $oTranslator->_('Responsavel');?>:</td>
       <td colspan="3"><div align="left"><input name="frm_nm_responsavel_uon1" type="text" id="frm_nm_responsavel_uon1" size="60" maxlength="80" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
           </div></td>
     </tr>
     <tr> 
-      <td class="label"><?=$oTranslator->_('Endereco eletronico');?>:</td>
+      <td class="label"><?php echo $oTranslator->_('Endereco eletronico');?>:</td>
       <td colspan="3"><div align="left"><input name="frm_te_email_responsavel_uon1" type="text" id="frm_te_email_responsavel_uon1" size="60" maxlength="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
           </div></td>
     </tr>
     <tr> 
-      <td class="label"><?=$oTranslator->_('Telefone').' '.$oTranslator->_('Um',T_SIGLA);?>:</td>
+      <td class="label"><?php echo $oTranslator->_('Telefone').' '.$oTranslator->_('Um',T_SIGLA);?>:</td>
       <td><div align="left"><input name="frm_nu_tel1_responsavel_uon1" type="text" id="frm_nu_tel1_responsavel_uon1" size="20" maxlength="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
           </div></td>
-      <td nowrap class="label"><div align="right"><?=$oTranslator->_('Telefone').' '.$oTranslator->_('Dois',T_SIGLA);?>:</div></td>
+      <td nowrap class="label"><div align="right"><?php echo $oTranslator->_('Telefone').' '.$oTranslator->_('Dois',T_SIGLA);?>:</div></td>
       <td><div align="right"><input name="frm_nu_tel2_responsavel_uon1" type="text" id="frm_nu_telefone2" size="20" maxlength="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
           </div></td>
     </tr>
@@ -172,14 +172,14 @@ function SetaCampo()
     </tr>
   </table>
   <p align="center"> 
-  <?
+  <?php
   $v_frase = "Confirma('".$oTranslator->_('Confirma Informacoes para')." ".$_SESSION['etiqueta1']."?')";
   echo '<input name="grava_alteracao_uon1" type="submit" id="grava_alteracao_uon1" value="'.$oTranslator->_('Gravar Informacoes').'"  onClick="return '.$v_frase.'";>';
   ?>
   </p>
 </form>
 <p>
-  <?
+  <?php
 }
 ?>
 </p>

@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -30,7 +30,7 @@ if ($_POST['exclui_uon1a'])
 				WHERE 	id_unid_organizacional_nivel1a = ".$_POST['frm_id_unid_organizacional_nivel1a'];
 
 	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a');			
+	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a',$_SESSION["id_usuario"]);			
 	if (!atualiza_configuracoes_uonx('1a'))
 		{
 		echo mensagem($oTranslator->_('Falha na exclusao de configuracoes'));
@@ -54,7 +54,7 @@ elseif ($_POST['grava_alteracao_uon1a'])
 					WHERE 	id_unid_organizacional_nivel1a 	= ".$_POST['frm_id_unid_organizacional_nivel1a'] ;
 
 		mysql_query($query) or die($oTranslator->_('Falha na atualizacao da tabela (%1) ou sua sessao expirou!',array('unid_organizacional_nivel1a')));
-		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a');					
+		GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'unid_organizacional_nivel1a',$_SESSION["id_usuario"]);					
 		if (!atualiza_configuracoes_uonx('1a'))
 			{
 			echo mensagem($oTranslator->_('Falha na atualizacao de configuracoes'));
@@ -85,15 +85,15 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../../include/css/cacic.css">
 <body background="../../../imgs/linha_v.gif" onLoad="SetaCampo('frm_nm_unid_organizacional_nivel1a');">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 function ConfirmaExclusao() 
 	{
-	if (confirm ("<?=$oTranslator->_('Confirma exclusao de');?> "+ document.form.etiqueta1a.value+"?")) 
+	if (confirm ("<?php echo $oTranslator->_('Confirma exclusao de');?> "+ document.form.etiqueta1a.value+"?")) 
 		{
 		return true;
 		} 
@@ -105,7 +105,7 @@ function valida_form()
 
 	if (document.form.frm_nm_unid_organizacional_nivel1a.value == "")
 		{
-		alert("<?=$oTranslator->_('Por favor, preencha campo');?> "+ document.form.etiqueta1a.value+".");
+		alert("<?php echo $oTranslator->_('Por favor, preencha campo');?> "+ document.form.etiqueta1a.value+".");
 		document.form.frm_nm_unid_organizacional_nivel1a.focus();
 		return false;
 		} 
@@ -113,11 +113,11 @@ function valida_form()
 	}
 </script>
 </head>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">
-      <?=$oTranslator->_('Detalhes de');?> <? echo $_SESSION['etiqueta1a'];?> 
-      (<?=$oTranslator->_('Unidade Organizacional Nivel 1a');?>)
+      <?php echo $oTranslator->_('Detalhes de');?> <?php echo $_SESSION['etiqueta1a'];?> 
+      (<?php echo $oTranslator->_('Unidade Organizacional Nivel 1a');?>)
     </td>
   </tr>
   <tr> 
@@ -127,11 +127,11 @@ function valida_form()
 <table width="60%" border="0" align="center" cellpadding="5" cellspacing="1">
 <form method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
 	      <tr> 
-      <td nowrap class="label"><? echo $_SESSION['etiqueta1']; ?>:</td>
+      <td nowrap class="label"><?php echo $_SESSION['etiqueta1']; ?>:</td>
       <td colspan="3"> <div align="left"> 
           <select name="selectUON1" id="selectUON1"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-            <option value="0" selected><?=$oTranslator->_('Selecione');?> <? echo $_SESSION['etiqueta1']; ?></option>
-            <?
+            <option value="0" selected><?php echo $oTranslator->_('Selecione');?> <?php echo $_SESSION['etiqueta1']; ?></option>
+            <?php
 $querySEL1 = 'SELECT 	uo1.id_unid_organizacional_nivel1,
 						uo1.nm_unid_organizacional_nivel1
 		  	  FROM 		unid_organizacional_nivel1 uo1
@@ -156,14 +156,14 @@ if(mysql_num_rows($result_sel1))
     </tr> 
 		
           <tr> 
-            <td class="label"><div align="left"><? echo $_SESSION['etiqueta1a'];?>:</td>
+            <td class="label"><div align="left"><?php echo $_SESSION['etiqueta1a'];?>:</td>
             <td colspan="3"> <div align="left"> 
-                <input name="frm_id_unid_organizacional_nivel1"  type="hidden" id="id_unid_organizacional_nivel1" value="<? echo mysql_result($result, 0, 'id_unid_organizacional_nivel1'); ?>">			
-                <input name="frm_id_unid_organizacional_nivel1a" type="hidden" id="id_unid_organizacional_nivel1a" value="<? echo mysql_result($result, 0, 'id_unid_organizacional_nivel1a'); ?>">							
-                <input name="frm_nm_unid_organizacional_nivel1a" type="text"   id="frm_nm_unid_organizacional_nivel1a" size="60" maxlength="50" value="<? echo mysql_result($result, 0, 'nm_unid_organizacional_nivel1a'); ?>"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-                <input name="etiqueta1"  type="hidden" id="etiqueta1" value="<? echo $_SESSION['etiqueta1']; ?>">							
-                <input name="etiqueta1a" type="hidden" id="etiqueta1a" value="<? echo $_SESSION['etiqueta1a']; ?>">															
-                <input name="result_sel" type="hidden" id="result_sel" value="<? echo $result_sel; ?>">															
+                <input name="frm_id_unid_organizacional_nivel1"  type="hidden" id="id_unid_organizacional_nivel1" value="<?php echo mysql_result($result, 0, 'id_unid_organizacional_nivel1'); ?>">			
+                <input name="frm_id_unid_organizacional_nivel1a" type="hidden" id="id_unid_organizacional_nivel1a" value="<?php echo mysql_result($result, 0, 'id_unid_organizacional_nivel1a'); ?>">							
+                <input name="frm_nm_unid_organizacional_nivel1a" type="text"   id="frm_nm_unid_organizacional_nivel1a" size="60" maxlength="50" value="<?php echo mysql_result($result, 0, 'nm_unid_organizacional_nivel1a'); ?>"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
+                <input name="etiqueta1"  type="hidden" id="etiqueta1" value="<?php echo $_SESSION['etiqueta1']; ?>">							
+                <input name="etiqueta1a" type="hidden" id="etiqueta1a" value="<?php echo $_SESSION['etiqueta1a']; ?>">															
+                <input name="result_sel" type="hidden" id="result_sel" value="<?php echo $result_sel; ?>">															
               </div></td>
           </tr>
           <tr> 
@@ -174,15 +174,15 @@ if(mysql_num_rows($result_sel1))
           </tr>
         </table>
 		<p align="center"> 
-		  <? 
+		  <?php 
 			$v_frase = "Confirma('".$oTranslator->_('Confirma Informacoes para')." ".$_SESSION['etiqueta1a']."?')";
 		if ($_SESSION['cs_nivel_administracao'] == 1)
 			{
 		  echo '<input name="grava_alteracao_uon1a" type="submit" id="grava_alteracao_uon1a" value="'.$oTranslator->_('Gravar Alteracoes').'" onClick="return '.$v_frase.'";>';
 		  ?>
 &nbsp; &nbsp; 		  
-          <input name="exclui_uon1a" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon1a" value="<?=$oTranslator->_('Excluir');?> <? echo $_SESSION['etiqueta1a'];?>">		  
-          <?
+          <input name="exclui_uon1a" type="submit" onClick="return ConfirmaExclusao()" id="exclui_uon1a" value="<?php echo $oTranslator->_('Excluir');?> <?php echo $_SESSION['etiqueta1a'];?>">		  
+          <?php
 		  }
 		  ?>
         </p>		
@@ -192,6 +192,6 @@ if(mysql_num_rows($result_sel1))
 </table>
 </body>
 </html>
-<?
+<?php
 }
 ?>

@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -60,13 +60,13 @@ a:hover {
 </style>
 </head>
 <body bgcolor="#FFFFFF" leftmargin="2" topmargin="10" marginwidth="0" marginheight="0">
-<?
+<?php
 /*
 <table border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
     <td bgcolor="#FFFFFF"> <div align="center"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif"> 
         <b><br>
-        &nbsp; Detalhes do computador <? echo mysql_result($result, 0, "te_nome_computador");?></b></font></div></td>
+        &nbsp; Detalhes do computador <?php echo mysql_result($result, 0, "te_nome_computador");?></b></font></div></td>
   </tr>
 </table>
 <br>
@@ -87,7 +87,7 @@ a:hover {
         <tr> 
           <td colspan="5" height="1" bgcolor="#333333"></td>
         </tr>
-        <?
+        <?php
     /* Obtenho os limites para os alertas vermelho e amarelo */     								
     	$query_config = "SELECT nu_horas_vermelho,	nu_horas_amarelo FROM configuracoes limit 1";
     	$resul_config 	= mysql_query($query_config) or die ('Erro na consulta à tabela "configuracoes".');   
@@ -110,82 +110,82 @@ a:hover {
           <td width="1%">&nbsp;</td>
           <td width="21%"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Nome 
             do Computador:</font></td>
-          <td width="28%"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo mysql_result($result, 0, "te_nome_computador");?> 
+          <td width="28%"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo mysql_result($result, 0, "te_nome_computador");?> 
             </font></td>
           <td width="25%"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Vers&atilde;o 
             do CACIC:</font></td>
-          <td width="25%"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo mysql_result($result, 0, "te_versao_cacic"); ?> 
+          <td width="25%"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo mysql_result($result, 0, "te_versao_cacic"); ?> 
             </font></td>
         </tr>
-        <? echo $linha?> 
+        <?php echo $linha?> 
         <tr> 
           <td><p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font></p></td>
           <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Endere&ccedil;o 
             TCP/IP:</font></td>
-          <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo mysql_result($result, 0, "te_ip"); ?> 
+          <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo mysql_result($result, 0, "te_ip"); ?> 
             </font></td>
           <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Data/Hora 
             Inclus&atilde;o:</font></td>
           <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
-            <?	echo date("d/m/Y H:i", strtotime(mysql_result($result, 0, "dt_hr_inclusao"))); ?>
+            <?php echo date("d/m/Y H:i", strtotime(mysql_result($result, 0, "dt_hr_inclusao"))); ?>
             </font></td>
         </tr>
-        <? echo $linha?> 
+        <?php echo $linha?> 
         <tr> 
           <td><p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">&nbsp;</font></p></td>
           <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Sistema 
             Operacional:</font></td>
-          <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo mysql_result($result, 0, "te_desc_so"); ?> 
+          <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo mysql_result($result, 0, "te_desc_so"); ?> 
             </font></td>
           <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Data/Hora 
             &Uacute;ltimo Acesso:</font></td>
-          <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo date("d/m/Y H:i", strtotime(mysql_result($result, 0, "dt_hr_ult_acesso"))). ' ' .$img_date; ?> 
+          <td><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo date("d/m/Y H:i", strtotime(mysql_result($result, 0, "dt_hr_ult_acesso"))). ' ' .$img_date; ?> 
             </font></td>
         </tr>
-        <? echo $linha?> 
+        <?php echo $linha?> 
       </table></td>
   </tr>
   <tr> 
     <td>
-      <? require_once('inc_tcp_ip.php'); ?>
+      <?php require_once('inc_tcp_ip.php'); ?>
     </td>
   </tr>
   <tr> 
     <td>
-      <? require_once('inc_hardware.php'); ?>
+      <?php require_once('inc_hardware.php'); ?>
     </td>
   </tr>
   <tr> 
     <td>
-      <? require_once('inc_software.php'); ?>
+      <?php require_once('inc_software.php'); ?>
     </td>
   </tr>
   <tr>
-    <td><? require_once('inc_patrimonio.php'); ?></td>
+    <td><?php require_once('inc_patrimonio.php'); ?></td>
   </tr>
   <tr> 
     <td>
-      <? require_once('inc_officescan.php'); ?>
+      <?php require_once('inc_officescan.php'); ?>
     </td>
   </tr>
   <tr> 
     <td>
-      <? require_once('inc_compartilhamento.php'); ?>
+      <?php require_once('inc_compartilhamento.php'); ?>
     </td>
   </tr>
   <tr> 
     <td>
-      <? require_once('inc_unidades_disco.php'); ?>
+      <?php require_once('inc_unidades_disco.php'); ?>
     </td>
   </tr>
   <tr> 
     <td>
-      <? require_once('inc_ferramentas.php'); ?>
+      <?php require_once('inc_ferramentas.php'); ?>
     </td>
   </tr>
   <tr> 
     <td>
-      <? require_once('inc_opcoes_administrativas.php');?>
+      <?php require_once('inc_opcoes_administrativas.php');?>
     </td>
   </tr>
   

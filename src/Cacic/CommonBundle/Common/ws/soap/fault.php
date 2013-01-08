@@ -31,7 +31,7 @@
 // | Authors: Dietrich Ayala <dietrich@ganx4.com> Original Author         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Fault.php,v 1.2 2002/03/06 15:43:02 uw Exp $
+// $Id: fault.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 require_once('PEAR.php');
 require_once('SOAP/Message.php');
@@ -43,7 +43,7 @@ require_once('SOAP/Message.php');
 * @access   public
 * @author   Shane Caraveo <Shane@Caraveo.com>   Port to PEAR and more
 * @author   Dietrich Ayala <dietrich@ganx4.com> Original Author
-* @version  $Id: Fault.php,v 1.2 2002/03/06 15:43:02 uw Exp $
+* @version  $Id: fault.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 */
 class SOAP_Fault extends PEAR_Error
 {

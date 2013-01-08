@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -72,7 +72,7 @@ function montaComboMulti(strComboName, fromImage)
 
 	
 </script>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Relat&oacute;rio de Informa&ccedil;&otilde;es Patrimoniais 
       e Localiza&ccedil;&atilde;o F&iacute;sica</td>
@@ -87,7 +87,7 @@ function montaComboMulti(strComboName, fromImage)
   </tr>
   <tr> 
     <td>
-<?
+<?php
 require_once('../../include/library.php'); 
 ?>
 				</td>
@@ -95,8 +95,8 @@ require_once('../../include/library.php');
 		
 </table>
 <form action="rel_patrimonio.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-  <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
-  <? 
+  <table width="85%" border="0" align="center" cellpadding="5" cellspacing="1">
+  <?php 
   /*
   if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
   	{
@@ -128,7 +128,7 @@ require_once('../../include/library.php');
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list11[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <?
+                        <?php
                         $query = "SELECT 	id_local,
 											sg_local
                                   FROM 		locais
@@ -164,7 +164,7 @@ require_once('../../include/library.php');
     <tr> 
       <td valign="top">&nbsp;</td>
     </tr>  
-	<?
+	<?php
 	}
 	*/
 	?>
@@ -196,7 +196,7 @@ require_once('../../include/library.php');
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list5[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <?
+                        <?php
 //						$where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' AND pat.id_local = '.$_SESSION['id_local']:'');						
 						$where = ' AND pat.id_local = '.$_SESSION['id_local'];						
 						
@@ -247,13 +247,13 @@ require_once('../../include/library.php');
                       </div></td>
                   <td>&nbsp;</td>
                   <td width="40"> <div align="center"> 
-				  		<?
+				  		<?php
                       //<input type="button" value="   &gt;   " onClick="copia(this.form.elements['list5[]'],this.form.elements['list7[]']); move(this.form.elements['list5[]'],this.form.elements['list6[]'])" name="B132">
 					  ?>
                       <input type="button" value="   &gt;   " onClick="move(this.form.elements['list5[]'],this.form.elements['list6[]'])" name="B132">					  
                       <br>
                       <br>
-					  <?
+					  <?php
                       //<input type="button" value="   &lt;   " onClick="exclui(this.form.elements['list6[]'],this.form.elements['list8[]']); exclui(this.form.elements['list6[]'],this.form.elements['list7[]']); move(this.form.elements['list6[]'],this.form.elements['list5[]'])" name="B232">
 					  ?>
                       <input type="button" value="   &lt;   " onClick="move(this.form.elements['list6[]'],this.form.elements['list5[]'])" name="B232">					  
@@ -284,7 +284,7 @@ require_once('../../include/library.php');
      <td height="1" bgcolor="#333333" colspan="3"></td>
      </tr>  
  	
-        <?  
+        <?php  
 		$cor = 1;
 		//$where = ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?' AND pat.id_local = '.$_SESSION['id_local']:'');
 		$where = ' AND pat.id_local = '.$_SESSION['id_local'];		
@@ -333,16 +333,16 @@ require_once('../../include/library.php');
 			$idUO = str_replace('etiqueta','',$row_fields['id_etiqueta']);
 
 			?>
-			<tr <? if ($cor) echo 'bgcolor="#E1E1E1"';?> class="normal"> 		
-			<td nowrap align="left"><? echo $row_fields['te_etiqueta'];?></td>
+			<tr <?php if ($cor) echo 'bgcolor="#E1E1E1"';?> class="normal"> 		
+			<td nowrap align="left"><?php echo $row_fields['te_etiqueta'];?></td>
 			<td nowrap align="left">			
-			<select name="frm_condicao1_<? echo $row_fields['nm_campo_tab_patrimonio']; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
+			<select name="frm_condicao1_<?php echo $row_fields['nm_campo_tab_patrimonio']; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
 			<option value=""></option>
-			<option value="<? echo 'unid_organizacional_nivel'.$idUO.'__'.$row_fields['nm_campo_tab_patrimonio']." IN      ('frm_te_valor_condicao1')"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao1_". $row_fields['nm_campo_tab_patrimonio']; ?>');">IGUAL A</option>		
-			<option value="<? echo 'unid_organizacional_nivel'.$idUO.'__'.$row_fields['nm_campo_tab_patrimonio']." NOT IN  ('frm_te_valor_condicao1')"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao1_". $row_fields['nm_campo_tab_patrimonio']; ?>');">DIFERENTE DE</option>			
+			<option value="<?php echo 'unid_organizacional_nivel'.$idUO.'__'.$row_fields['nm_campo_tab_patrimonio']." IN      ('frm_te_valor_condicao1')"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao1_". $row_fields['nm_campo_tab_patrimonio']; ?>');">IGUAL A</option>		
+			<option value="<?php echo 'unid_organizacional_nivel'.$idUO.'__'.$row_fields['nm_campo_tab_patrimonio']." NOT IN  ('frm_te_valor_condicao1')"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao1_". $row_fields['nm_campo_tab_patrimonio']; ?>');">DIFERENTE DE</option>			
 			</select>
 
-			<?
+			<?php
 			$select1  =  ($idUO=='1' ? ' id_unid_organizacional_nivel1 as id,nm_unid_organizacional_nivel1 as nm':($idUO=='1a'?'id_unid_organizacional_nivel1a as id,nm_unid_organizacional_nivel1a as nm':' id_unid_organizacional_nivel2 as id,nm_unid_organizacional_nivel2 as nm'));
 			$from1    =  ($idUO=='1' ? ' unid_organizacional_nivel1 UO':($idUO=='1a'?'unid_organizacional_nivel1a UO':'unid_organizacional_nivel2 UO'));
 			$where1	  = '';
@@ -363,23 +363,23 @@ require_once('../../include/library.php');
 //	echo $query1 . '<br>';					   
 			?>
 			<td align="left">
-			<select name="frm_UO<? echo $idUO .'_' . $row_fields['id_etiqueta']; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);montaComboMulti('frm_UO<? echo $idUO .'_' . $row_fields['id_etiqueta'];?>',false);">
+			<select name="frm_UO<?php echo $idUO .'_' . $row_fields['id_etiqueta']; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);montaComboMulti('frm_UO<?php echo $idUO .'_' . $row_fields['id_etiqueta'];?>',false);">
 			<option value=""></option>			
-			<?
+			<?php
 			$res_fields1 = mysql_query($query1);			
 			while ($row_fields1 = mysql_fetch_array($res_fields1)) 			
 				{
 				?>
-				<option value="<? echo $row_fields1['id'];?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao1_". $row_fields1['id']; ?>');"><? echo $row_fields1['nm'];?></option>		
-				<?
+				<option value="<?php echo $row_fields1['id'];?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao1_". $row_fields1['id']; ?>');"><?php echo $row_fields1['nm'];?></option>		
+				<?php
 				}
 				?>
 			</select>
-			<img name="img_frm_UO<? echo  $idUO .'_' . $row_fields['id_etiqueta'];?>" src="../../imgs/mais.gif" onClick="montaComboMulti('frm_UO<? echo  $idUO .'_' . $row_fields['id_etiqueta']; ?>',true)" id="img_frm_UO<? echo  $idUO .'_' . $row_fields['id_etiqueta'];?>" title="Clique para selecionar múltiplos valores">						
-			<input name="IDS_frm_UO<? echo $idUO .'_' . $row_fields['id_etiqueta']; ?>" type="hidden" value="123456">			
+			<img name="img_frm_UO<?php echo  $idUO .'_' . $row_fields['id_etiqueta'];?>" src="../../imgs/mais.gif" onClick="montaComboMulti('frm_UO<?php echo  $idUO .'_' . $row_fields['id_etiqueta']; ?>',true)" id="img_frm_UO<?php echo  $idUO .'_' . $row_fields['id_etiqueta'];?>" title="Clique para selecionar múltiplos valores">						
+			<input name="IDS_frm_UO<?php echo $idUO .'_' . $row_fields['id_etiqueta']; ?>" type="hidden" value="123456">			
 			</td>			
-			<?			
-/* //mudaCombo('<? echo 'frm_UO_'. $row_fields['id_etiqueta']; ?>');			*/
+			<?php			
+/* //mudaCombo('<?php echo 'frm_UO_'. $row_fields['id_etiqueta']; ?>');			*/
 			$cor=!$cor;
 			}
 
@@ -398,20 +398,20 @@ require_once('../../include/library.php');
 		while ($row_fields = mysql_fetch_array($res_fields)) 
 			{
 			?>
-			<tr <? if ($cor) echo 'bgcolor="#E1E1E1"';?>> 
-			<td nowrap><? echo $row_fields['te_etiqueta'];?></td>
-			<td><select name="frm_condicao2_<? echo $row_fields['nm_campo_tab_patrimonio']; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+			<tr <?php if ($cor) echo 'bgcolor="#E1E1E1"';?>> 
+			<td nowrap><?php echo $row_fields['te_etiqueta'];?></td>
+			<td><select name="frm_condicao2_<?php echo $row_fields['nm_campo_tab_patrimonio']; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
 			<option value=""></option>
-			<option value="<? echo ' AND patrimonio.'     .$row_fields['nm_campo_tab_patrimonio']." =       'frm_te_valor_condicao2'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">IGUAL A</option>		
-			<option value="<? echo ' AND patrimonio.'     .$row_fields['nm_campo_tab_patrimonio']." <>      'frm_te_valor_condicao2'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">DIFERENTE DE</option>			
-			<option value="<? echo ' AND patrimonio.'     .$row_fields['nm_campo_tab_patrimonio']." like    '%frm_te_valor_condicao2%'";?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">CONTENHA</option>
-			<option value="<? echo ' AND patrimonio.'     .$row_fields['nm_campo_tab_patrimonio']." like    'frm_te_valor_condicao2%'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">INICIE COM</option>
-			<option value="<? echo ' AND patrimonio.'     .$row_fields['nm_campo_tab_patrimonio']." like    '%frm_te_valor_condicao2'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">TERMINE COM</option>				
-			<option value="<? echo ' AND TRIM(patrimonio.'.$row_fields['nm_campo_tab_patrimonio'].") = '' and " 					     ;?>" onClick="Preenche_Condicao_VAZIO('      <? echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">VAZIO</option>		
+			<option value="<?php echo ' AND patrimonio.'     .$row_fields['nm_campo_tab_patrimonio']." =       'frm_te_valor_condicao2'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">IGUAL A</option>		
+			<option value="<?php echo ' AND patrimonio.'     .$row_fields['nm_campo_tab_patrimonio']." <>      'frm_te_valor_condicao2'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">DIFERENTE DE</option>			
+			<option value="<?php echo ' AND patrimonio.'     .$row_fields['nm_campo_tab_patrimonio']." like    '%frm_te_valor_condicao2%'";?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">CONTENHA</option>
+			<option value="<?php echo ' AND patrimonio.'     .$row_fields['nm_campo_tab_patrimonio']." like    'frm_te_valor_condicao2%'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">INICIE COM</option>
+			<option value="<?php echo ' AND patrimonio.'     .$row_fields['nm_campo_tab_patrimonio']." like    '%frm_te_valor_condicao2'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">TERMINE COM</option>				
+			<option value="<?php echo ' AND TRIM(patrimonio.'.$row_fields['nm_campo_tab_patrimonio'].") = '' and " 					     ;?>" onClick="Preenche_Condicao_VAZIO('      <?php echo "frm_te_valor_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');">VAZIO</option>		
 			</select> </td>
-			<td><input name="frm_te_valor_condicao2_<? echo $row_fields['nm_campo_tab_patrimonio']; ?>" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);Verifica_Selecao(this,'<? echo "frm_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');" size="50" maxlength="100"></td>
+			<td><input name="frm_te_valor_condicao2_<?php echo $row_fields['nm_campo_tab_patrimonio']; ?>" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);Verifica_Selecao(this,'<?php echo "frm_condicao2_". $row_fields['nm_campo_tab_patrimonio']; ?>');" size="50" maxlength="100"></td>
 			</tr>
-			<?			
+			<?php			
 			$cor=!$cor;
 			}
 			?>
@@ -426,7 +426,7 @@ require_once('../../include/library.php');
 
     <tr> 
       <td valign="top"> 
-        <?  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
+        <?php  $v_require = '../../include/' .($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao']<>2?'selecao_redes_inc.php':'selecao_locais_inc.php');
 		require_once($v_require);		
 		?>
 
@@ -437,7 +437,7 @@ require_once('../../include/library.php');
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once('../../include/selecao_so_inc.php');		?>
+        <?php  require_once('../../include/selecao_so_inc.php');		?>
       </td>
     </tr>
     <tr> 
@@ -453,7 +453,7 @@ require_once('../../include/library.php');
           </tr>
           <tr> 
             <td> <div align="center"> 
-                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<? echo ($_SESSION['cs_nivel_administracao']<>1 && 
+                <input name="submit" type="submit" value="        Gerar Relat&oacute;rio      " onClick="ChecaTodasAsRedes(),<?php echo ($_SESSION['cs_nivel_administracao']<>1 && 
 																				 						 $_SESSION['cs_nivel_administracao']<>2?"SelectAll(this.form.elements['list2[]'])":"SelectAll(this.form.elements['list12[]'])")?>, 
 																										 SelectAll(this.form.elements['list4[]']), 
 																										 SelectAll(this.form.elements['list6[]'])">								

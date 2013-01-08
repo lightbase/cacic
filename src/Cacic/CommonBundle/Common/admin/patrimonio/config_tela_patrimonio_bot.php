@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Configura&ccedil;&atilde;o da Tela de Patrim&ocirc;nio</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>

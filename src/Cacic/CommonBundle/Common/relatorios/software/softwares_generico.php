@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -17,13 +17,13 @@
 		$id_acao = 'cs_coleta_hardware';
   require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Relat&oacute;rio de Invent&aacute;rio de Softwares Gen&eacute;ricos</td>
   </tr>
 </table>
 <form action="rel_softwares_generico.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-  <table width="90%" border="0" align="center">
+  <table width="85%" border="0" align="center">
     <tr> 
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="10">
           <tr> 

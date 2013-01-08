@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -27,9 +27,8 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 // 1 - Administração
 // 2 - Gestão Central
 // 3 - Supervisão
-
-
 /*
+LimpaTESTES();
 foreach($HTTP_POST_VARS as $i => $v) 
 	{
 	GravaTESTES('Em acoes_set => I : '.$i);
@@ -37,163 +36,81 @@ foreach($HTTP_POST_VARS as $i => $v)
 	GravaTESTES('*********************************');		
 	}
 */
+//$_POST['frmSistemasOperacionais'];
+//$_POST['frmRedes'];
+//$_POST['frmEnderecosMac'];
 
-$id_acao = $_POST['id_acao']; 
-
-// Leio o array 1 que contém as subredes NÃO selecionadas...
-$arrListaRedesNaoSelecionadas = explode('#FD#', $_POST['frmList1']);
-
-$queryDEL = '';
-$i = 0;
-
-while ($i < count($arrListaRedesNaoSelecionadas) && trim($_POST['frmList1'])<>'') 
-	{
-	$dadosRedes = explode('#',$arrListaRedesNaoSelecionadas[$i]);	
-	$i++;
-
-	if ($queryDEL)
-		$queryDEL .= ' OR ';
-		
-    // Removo a ação em questão da rede
-	$queryDEL .= "(id_acao    = '".$id_acao."' AND
-				   id_ip_rede = '".$dadosRedes[0]."' AND
-			  	   id_local   = ".$dadosRedes[1].")";						
-	}
-
+// Removo a ação em questão da rede
 conecta_bd_cacic();	
-if ($queryDEL)
+
+$strWhereRedes = '';
+if ($_POST['frmRedes_NaoSelecionadas'])
+	$strWhereRedes .= ' id_rede IN ('. $_POST['frmRedes_NaoSelecionadas'].') ' . ($_POST['frmRedes_Selecionadas'] ? ' OR ' : '');
+
+if ($_POST['frmRedes_Selecionadas'])
+	$strWhereRedes .= ' id_rede IN ('. $_POST['frmRedes_Selecionadas'].') ';
+	
+$query  = 'DELETE FROM acoes_redes WHERE id_acao = "'.$_POST['id_acao'].'" AND (' . 	$strWhereRedes . ')';
+$result = mysql_query($query) or die('1-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_redes'))."! ".	$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);				
+	
+// Removo todos os sistemas operacionais associadas à ação em questão.
+$query  = 'DELETE FROM acoes_so WHERE id_acao="'.$_POST['id_acao'].'" AND (' . 	$strWhereRedes . ')';
+$result = mysql_query($query) or die('3-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_so',$_SESSION["id_usuario"]);
+
+// Removo todos os mac address associados à ação em questão.
+$query = "DELETE FROM acoes_excecoes WHERE 	id_acao='".$_POST['id_acao']."' AND (" . 	$strWhereRedes . ")";
+$result = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_excecoes',$_SESSION["id_usuario"]);
+	
+if (trim($_POST['frmRedes_Selecionadas']))
 	{
-	$queryDEL = 'DELETE FROM acoes_redes WHERE '.$queryDEL;
-	$result = mysql_query($queryDEL) or die('1-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_redes'))."! ".	$oTranslator->_('kciq_msg session fail',false,true)."!"); 
-	GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');				
-	}	
+	$arrRedes_Selecionadas = explode(',',$_POST['frmRedes_Selecionadas']);	
+	$arrSO_Selecionados	   = explode(',',$_POST['frmSO_Selecionados']);
+	$arrMAC_Selecionados   = explode(',',$_POST['frmMAC_Selecionados']);
 	
-
-// Leio o array 2 que contém as subredes selecionadas...
-$arrListaRedesSelecionadas = explode('#FD#', $_POST['frmList2']);
-
-// Caso não existam redes selecionadas, a situação torna-se em Nenhuma Rede
-$cs_situacao = (count($arrListaRedesSelecionadas)>0?$_POST['cs_situacao']:'N');
-
-
-// Caso tenha sido marcado "Em todas as redes", concateno o array 1, que contém as redes "não selecionadas".
-if ($cs_situacao == 'T' || $cs_situacao == 'N')
-	{
-	if ($arrListaRedesSelecionadas)
-		$arrListaRedesSelecionadas = array_merge($arrListaRedesNaoSelecionadas,$arrListaRedesSelecionadas);
-	else
-		$arrListaRedesSelecionadas = $arrListaRedesNaoSelecionadas;	
-	}
-
-$i = 0;
-while ($i < count($arrListaRedesSelecionadas) && trim($_POST['frmList2']) <> '') 
-	{
-	$dadosRedes = explode('#',$arrListaRedesSelecionadas[$i]);	
-	$i++;	
-	if (trim($dadosRedes[0]) <> '' && trim($dadosRedes[1]) <> '')
-		{
-		// Removo a ação em questão da rede
-		$query = "DELETE	from acoes_redes 
-				  WHERE 	id_acao    = '".$id_acao."' AND
-							id_ip_rede = '".$dadosRedes[0]."' AND
-							id_local   = ".$dadosRedes[1];
-		$result = mysql_query($query) or die('2-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
-	
-		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes');			
-	
-		// Removo todos os sistemas operacionais associadas à ação em questão.
-		$query = "DELETE 	
-				  FROM 		acoes_so 
-				  WHERE 	id_acao='".$id_acao."' AND
-							id_local = ".$dadosRedes[1];
-		$result = mysql_query($query) or die('3-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
-		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_so');
-	
-		$arrList4 = explode('#FD#',$_POST['frmList4']);
-		if ($cs_situacao <> 'N')
+	$strValues = '';
+	for ($intRedes = 0; $intRedes < count($arrRedes_Selecionadas); $intRedes ++)
+		for ($intSO = 0; $intSO < count($arrSO_Selecionados); $intSO ++)
 			{
-			// Incluo todas os so's selecionados
-			for( $j = 0; $j < count($arrList4); $j++ ) 
-				{
-				$query = "INSERT 
-						  INTO 		acoes_so (id_so, id_acao, id_local) 
-						  VALUES 	('".$arrList4[$j]."', '".$id_acao."', ".$dadosRedes[1].")";
-				mysql_query($query) or die('4-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-				}
-			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_so');					
+			$strValues .= ($strValues ? ',' : '');
+			$strValues .= '(' . $arrSO_Selecionados[$intSO] . ',"' . $_POST['id_acao'] . '",' . $arrRedes_Selecionadas[$intRedes] . ')';
 			}
+	if ($strValues)
+		{	
+		$query = "INSERT INTO acoes_so (id_so, id_acao, id_rede)  VALUES " . $strValues;
+		mysql_query($query) or die('4-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_so',$_SESSION["id_usuario"]);					
+		}
 	
-		// Removo todos os mac address associados à ação em questão.
-		$query = "DELETE 
-				  FROM 		acoes_excecoes 
-				  WHERE 	id_acao='".$id_acao."' AND
-							id_local=".$dadosRedes[1];
-		$result = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
-		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_excecoes');
-	
-		$arrList5 = explode('#FD#',$_POST['frmList5']);
-		if ($cs_situacao <> 'N')
-			{	
-			// Incluo todas os mac address selecionados.
-			for( $k = 0; $k < count($arrList5); $k++ ) 
-				{
-				$query = "INSERT 
-						  INTO 		acoes_excecoes (id_local,te_node_address, id_acao) 
-						  VALUES 	(".$dadosRedes[1].",'".$arrList5[$k]."', '".$id_acao."')";
-	
-				// Não uso o die, pois não quero que sejam ecoadas mensagens de erro caso se tente gravar 
-				// registros duplicados. lembre que é um ambiente multiusuário.
-				mysql_query($query); 
-				}
-			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_excecoes');			
+	$strValues = '';
+	for ($intRedes = 0; $intRedes < count($arrRedes_Selecionadas); $intRedes ++)
+		for ($intMAC = 0; $intMAC < count($arrMAC_Selecionados); $intMAC ++)
+			{
+			$strValues .= ($strValues ? ',' : '');
+			$strValues .= '("' . $arrMAC_Selecionados[$intMAC] . '","' . $_POST['id_acao'] . '",' . $arrRedes_Selecionadas[$intRedes] . ')';
 			}
-		
-		if($cs_situacao == 'S')
-			{		
-			$query = "INSERT	
-					  INTO 		acoes_redes (id_ip_rede, 
-								id_acao, 
-								id_local, 
-								cs_situacao,
-								dt_hr_alteracao) 
-					  VALUES 	('".$dadosRedes[0]."', 
-								'".$id_acao."',".$dadosRedes[1].",
-								'S',
-								now())";
-			mysql_query($query) or die('6-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');
-			}
-		elseif ($cs_situacao == 'T')		
-			{	
-			$query = "SELECT 	id_ip_rede
-					   FROM 	redes
-					   WHERE	id_local=".$dadosRedes[1];
-			$result = mysql_query($query) or die('7-'.$oTranslator->_('kciq_msg select on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-				
-			while($campos=mysql_fetch_array($result)) 
-				{ 
-				
-				$sql_delete = "DELETE FROM acoes_redes WHERE id_ip_rede = '".$campos[0]."'".
-															 " AND id_acao = '".$id_acao."'".
-															 " AND id_local = '".$dadosRedes[1]."'";
-				mysql_query($sql_delete);
-				$query = "INSERT	
-						  INTO 		acoes_redes (id_ip_rede, 
-									id_acao, 
-									id_local, 
-									cs_situacao,
-									dt_hr_alteracao) 
-						  VALUES	('".$campos[0]."', 
-									'".$id_acao."', 
-									".$dadosRedes[1].",
-									'T',
-									now())";
-				mysql_query($query) or die('8-'.mysql_error()." - ".$oTranslator->_('kciq_msg insert row on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
-				}
-			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes');					
-			}			
-		}								
-	}
+	if ($strValues)
+		{	
+		$query = "INSERT INTO acoes_excecoes (te_node_address, id_acao, id_rede)  VALUES " . $strValues;
+		mysql_query($query) or die('4-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_excecoes',$_SESSION["id_usuario"]);					
+		}
+	
+	$strValues = '';
+	for ($intRedes = 0; $intRedes < count($arrRedes_Selecionadas); $intRedes ++)
+		{
+		$strValues .= ($strValues ? ',' : '');
+		$strValues .= '(' . $arrRedes_Selecionadas[$intRedes] . ',"' . $_POST['id_acao'] . '")';
+		}
+	if ($strValues)
+		{	
+		$query = "INSERT INTO acoes_redes (id_rede,id_acao) VALUES " . $strValues;
+		mysql_query($query) or die('6-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);
+		}
+	}		
 
 header ("Location: ../include/operacao_ok.php?chamador=../admin/modulos.php&tempo=1");	
 ?>

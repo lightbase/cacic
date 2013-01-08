@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -16,7 +16,7 @@ require_once('../include/library.php');
 <html>
 <head>
 <title>
-<?=$oTranslator->_('Relatorio de Autorizacoes Cadastradas');?>
+<?php echo $oTranslator->_('Relatorio de Autorizacoes Cadastradas');?>
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
@@ -37,28 +37,28 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr bgcolor="#E1E1E1"> 
     <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
-    <strong>CACIC - <?=$oTranslator->_('Relatorio de Autorizacoes Cadastradas');?></strong></font></td>
+    <strong>CACIC - <?php echo $oTranslator->_('Relatorio de Autorizacoes Cadastradas');?></strong></font></td>
   </tr>
   <tr> 
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-    <?=$oTranslator->_('Gerado em');?> <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+    <?php echo $oTranslator->_('Gerado em');?> <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
+<?php
 	 $query = "SELECT nr_patrimonio, nm_computador, te_observacao  
 		   FROM softwares_estacao 
 		   WHERE (dt_desinstalacao IS NULL) 
@@ -78,31 +78,31 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap><div align="left"><strong></strong></div></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Patrimonio');?></font></strong></div></td>
+          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Patrimonio');?></font></strong></div></td>
           <td nowrap >&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Nome da rede');?></font></strong></div></td>
+          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Nome da rede');?></font></strong></div></td>
           <td nowrap >&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('Observacao');?></font></strong></div></td>
+          <td align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('Observacao');?></font></strong></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $NumRegistro; ?></font></div></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['nr_patrimonio']; ?></font></div></td>
+	  <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['nr_patrimonio']; ?></font></div></td>
 	  <td nowrap>&nbsp;</td>
-	  <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['nm_computador']; ?></font></div></td>
+	  <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['nm_computador']; ?></font></div></td>
 	  <td nowrap>&nbsp;</td>
-	  <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['te_observacao']; ?></font></div></td>
+	  <td nowrap><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['te_observacao']; ?></font></div></td>
 	  <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}
@@ -117,7 +117,7 @@ $linha = '<tr bgcolor="#e7e7e7">
   </tr>
 </table>
 <p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-<?=$oTranslator->_('Gerado por');?>  
+<?php echo $oTranslator->_('Gerado por');?>  
 <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor de Informa&ccedil;&otilde;es Computacionais
 </font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">

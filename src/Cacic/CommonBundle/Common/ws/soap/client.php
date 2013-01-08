@@ -31,7 +31,7 @@
 // | Authors: Dietrich Ayala <dietrich@ganx4.com> Original Author         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Client.php,v 1.16 2002/03/21 02:13:29 shane Exp $
+// $Id: client.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 //
 
 require_once 'Value.php';
@@ -52,7 +52,7 @@ require_once 'Fault.php';
 * originaly based on SOAPx4 by Dietrich Ayala http://dietrich.ganx4.com/soapx4
 *
 * @access   public
-* @version  $Id: Client.php,v 1.16 2002/03/21 02:13:29 shane Exp $
+* @version  $Id: client.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @package  SOAP::Client
 * @author   Shane Caraveo <shane@php.net> Conversion to PEAR and updates
 * @author   Stig Bakken <ssb@fast.no> Conversion to PEAR

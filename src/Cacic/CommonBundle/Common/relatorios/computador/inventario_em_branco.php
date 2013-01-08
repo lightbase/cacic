@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -27,7 +27,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
-<link href="<?=CACIC_URL?>/include/cacic.css" rel="stylesheet" type="text/css">
+<link href="<?php echo CACIC_URL?>/include/css/cacic.css" rel="stylesheet" type="text/css">
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
@@ -57,23 +57,24 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
+<?php
 	 $query = "SELECT a.te_nome_computador as nm_maquina, 
                           a.te_node_address, 
-                          a.id_so, a.te_ip, 
+                          a.id_so, a.te_ip_computador, 
                           a.dt_hr_ult_acesso, 
                           te_cpu_desc,
-                          a.te_versao_cacic  
+                          a.te_versao_cacic,
+						  a.id_computador  
 		FROM computadores a 
-		WHERE (a.te_node_address NOT IN
-			(SELECT DISTINCT te_node_address 
+		WHERE (a.id_computador NOT IN
+			(SELECT DISTINCT id_computador 
 			 FROM softwares_inventariados_estacoes))
 		ORDER BY a.dt_hr_ult_acesso, te_cpu_desc, a.te_nome_computador"; 
 	$result = mysql_query($query) or die($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('computadores')));
@@ -91,40 +92,40 @@ $linha = '<tr bgcolor="#e7e7e7">
           <td class="cabecalho_tabela" align="center"  nowrap>&nbsp;&nbsp;</td>
           <td class="cabecalho_tabela" align="center"  nowrap><div align="left"></div></td>
           <td class="cabecalho_tabela" align="center"  nowrap>&nbsp;&nbsp;</td>
-          <td class="cabecalho_tabela" align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><?=$oTranslator->_('Nome da Maquina');?></div></td>
+          <td class="cabecalho_tabela" align="center"  nowrap bgcolor="#E1E1E1"><div align="center"><?php echo $oTranslator->_('Nome da Maquina');?></div></td>
           <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
-	  <td class="cabecalho_tabela" nowrap ><div align="center"><?=$oTranslator->_('Endereco IP');?></div></td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center"><?php echo $oTranslator->_('Endereco IP');?></div></td>
 	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
-	  <td class="cabecalho_tabela" nowrap ><div align="center"><?=$oTranslator->_('Ultima Coleta');?></div></td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center"><?php echo $oTranslator->_('Ultima Coleta');?></div></td>
 	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
-  	  <td nowrap class="cabecalho_tabela"><div align="center"><?=$oTranslator->_('Versao do agente principal');?></div></td>
+  	  <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Versao do agente principal');?></div></td>
   	  <td nowrap class="cabecalho_tabela" >&nbsp;&nbsp;</td>
-	  <td class="cabecalho_tabela" nowrap ><div align="center"><?=$oTranslator->_('CPU');?></div></td>
+	  <td class="cabecalho_tabela" nowrap ><div align="center"><?php echo $oTranslator->_('CPU');?></div></td>
 	  <td class="cabecalho_tabela" nowrap >&nbsp;&nbsp;</td>
 
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-          <td class="dado_med_sem_fundo" nowrap><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td class="dado_med_sem_fundo" nowrap><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-          <td class="dado_med_sem_fundo" nowrap><div align="left"><a href="../../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></div></td>
+          <td class="dado_med_sem_fundo" nowrap><div align="left"><a href="../../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['nm_maquina']; ?></div></td>
           <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-	  	  <td class="dado_med_sem_fundo" align="center" nowrap><? echo $row['te_ip']; ?></td>
+	  	  <td class="dado_med_sem_fundo" align="center" nowrap><?php echo $row['te_ip_computador']; ?></td>
 	  	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-	  	  <td class="dado_med_sem_fundo" align="center" nowrap><? echo date("d/m/Y H:i", strtotime($row['dt_hr_ult_acesso'])); ?></td>
+	  	  <td class="dado_med_sem_fundo" align="center" nowrap><?php echo date("d/m/Y H:i", strtotime($row['dt_hr_ult_acesso'])); ?></td>
 	  	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-	  	  <td class="dado_med_sem_fundo" align="center" wrap><? echo $row['te_versao_cacic']; ?></td>
+	  	  <td class="dado_med_sem_fundo" align="center" wrap><?php echo $row['te_versao_cacic']; ?></td>
 	  	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-	  	  <td class="dado_med_sem_fundo" align="center" wrap><? echo $row['te_cpu_desc']; ?></td>
+	  	  <td class="dado_med_sem_fundo" align="center" wrap><?php echo $row['te_cpu_desc']; ?></td>
 	  	  <td class="dado_med_sem_fundo" nowrap>&nbsp;&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}
@@ -137,13 +138,13 @@ $linha = '<tr bgcolor="#e7e7e7">
   <tr> 
     <td height="10">
        <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-         <?=$oTranslator->_('Clique sobre o nome da maquina para ver os detalhes');?>
+         <?php echo $oTranslator->_('Clique sobre o nome da maquina para ver os detalhes');?>
        </font>
     </td>
   </tr>
 </table>
 <p align="center"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-   <?=$oTranslator->_('Gerado por');?> - <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+   <?php echo $oTranslator->_('Gerado por');?> - <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo</font></p>	

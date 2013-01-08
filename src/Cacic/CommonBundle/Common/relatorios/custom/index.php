@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -18,7 +18,7 @@
   require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/inicio_relatorios_inc.php'); 
 ?>
 
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">Relat&oacute;rio 
       de Configura&ccedil;&otilde;es de Hardware</td>
@@ -36,7 +36,7 @@
   </tr>
 </table>
 <form action="rel_hardware.php" target="_blank" method="post" ENCTYPE="multipart/form-data" name="forma"   onsubmit="return valida_form()">
-  <table width="90%" border="0" align="center" cellpadding="5" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="5" cellspacing="1">
     <tr> 
       <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
@@ -61,7 +61,7 @@
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple name="list5[]" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? 	$query = "SELECT nm_campo_tab_hardware, te_desc_hardware
+                        <?php 	$query = "SELECT nm_campo_tab_hardware, te_desc_hardware
 								  FROM descricao_hardware 
 										ORDER BY te_desc_hardware";
 						$result_hardwares_selecionados = mysql_query($query) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware ou sua sessão expirou!');
@@ -77,7 +77,7 @@
                       <br>
                       <br>
                       <input type="button" value="   &lt;   " onClick="exclui(this.form.elements['list6[]'],this.form.elements['list8[]']); exclui(this.form.elements['list6[]'],this.form.elements['list7[]']); move(this.form.elements['list6[]'],this.form.elements['list5[]'])" name="B232">
-					<? /*			  
+					<?php /*			  
                       <input type="button" value="   &gt;   " onClick="move(this.form.elements['list5[]'],this.form.elements['list6[]'])" name="B132">
                       <br>
                       <br>
@@ -151,7 +151,7 @@
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/selecao_redes_inc.php');		?>
+        <?php  require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/selecao_redes_inc.php');		?>
       </td>
     </tr>
     <tr> 
@@ -159,7 +159,7 @@
     </tr>
     <tr> 
       <td valign="top"> 
-        <?  require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/selecao_so_inc.php');		?>
+        <?php  require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/selecao_so_inc.php');		?>
       </td>
     </tr>
     <tr> 

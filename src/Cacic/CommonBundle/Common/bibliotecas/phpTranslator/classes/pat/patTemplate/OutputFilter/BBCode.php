@@ -2,7 +2,7 @@
 /**
  * patTemplate BBCode output filter
  *
- * $Id: BBCode.php,v 1.1 2004/07/23 21:01:43 schst Exp $
+ * $Id: BBCode.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * Uses patBBCode.
  *
@@ -14,7 +14,7 @@
 /**
  * patTemplate BBCode output filter
  *
- * $Id: BBCode.php,v 1.1 2004/07/23 21:01:43 schst Exp $
+ * $Id: BBCode.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  *
  * Uses patBBCode.
  *

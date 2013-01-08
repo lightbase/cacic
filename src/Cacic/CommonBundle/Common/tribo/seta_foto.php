@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -21,14 +21,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 <body background="../../../imgs/linha_v.gif">
-<?
-if ($_REQUEST['p_foto'])
+<?php if ($_REQUEST['p_foto'])
 	{
 	?>
 	<script>
-	window.open("mostra_screen.php?p_foto=<?echo $_REQUEST['p_foto'];?>","","resizable=no,menubar=no,statusbar=no,toolsbar=no,scrollbars=yes,width='800',height='600',left='0',top='0'")		
+	window.open("mostra_screen.php?p_foto=<?php echo $_REQUEST['p_foto'];?>","","resizable=no,menubar=no,statusbar=no,toolsbar=no,scrollbars=yes,width='800',height='600',left='0',top='0'")		
 	</script>
-	<?
+	<?php
 	}
 	?>
 
@@ -37,7 +36,7 @@ if ($_REQUEST['p_foto'])
     
   <td colspan="2"><font color="#FF0000" size="4" face="Verdana, Arial, Helvetica, sans-serif"><b><font size="2">Selecione o screenshot:</font></b></font></td>
 </tr>
-<?
+<?php
 	$v_path_screenshots = 'imgs/screenshots/';
 		
 	$handle=opendir($v_path_screenshots);

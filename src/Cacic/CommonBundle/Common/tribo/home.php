@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -23,7 +23,7 @@
 
 <body>
 <p>&nbsp;</p>
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td><p align="center"><strong><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">Bem-vindo 
         &agrave; p&aacute;gina oficial do Projeto CACIC!</font></strong> 

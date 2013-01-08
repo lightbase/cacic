@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -70,33 +70,33 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
-<title><?=$oTranslator->_('Log de Acessos');?></title>
+<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Log de Acessos');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<?
+<?php
 // JavaScripts para fazer a selecao entre os listbox, movendo itens entre eles.
-require_once('../include/selecao_listbox.js');
+require_once('../include/js/selecao_listbox.js');
 ?>
 
 </head>
 
 <body background="../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><div align="left"><?=$oTranslator->_('Log de Acessos');?></div></td>
+    <td class="cabecalho"><div align="left"><?php echo $oTranslator->_('Log de Acessos');?></div></td>
   </tr>
   <tr> 
-      <td class="descricao"><?=$oTranslator->_('kciq_msg Log de acessos help');?></td>
+      <td class="descricao"><?php echo $oTranslator->_('kciq_msg Log de acessos help');?></td>
   </tr>
 </table>
 	<p><br></p>
 	
-  <table width="90%" border="0" cellpadding="0" cellspacing="1" align="center">
+  <table width="85%" border="0" cellpadding="0" cellspacing="1" align="center">
     <tr> 
       <td class="label" colspan="3">
-      	<?=$oTranslator->_('Selecione o periodo no qual devera ser realizada a consulta');?>:
+      	<?php echo $oTranslator->_('Selecione o periodo no qual devera ser realizada a consulta');?>:
       </td>
     </tr>
     <tr> 
@@ -104,9 +104,9 @@ require_once('../include/selecao_listbox.js');
     </tr>
     <tr valign="middle"> 
       <td width="33%" height="1" nowrap valign="middle">
-	<input name="whereLocais" type="hidden" value="<? echo $whereLocais;?>"> 	  
-<input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input1;?>"> 
-<? /*
+	<input name="whereLocais" type="hidden" value="<?php echo $whereLocais;?>"> 	  
+<input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input1;?>"> 
+<?php /*
         <script type="text/javascript" language="JavaScript">
 	<!--
 	function calendar1Callback(date, month, year)	
@@ -115,9 +115,9 @@ require_once('../include/selecao_listbox.js');
 		}
   	calendar1 = new dynCalendar('calendar1', 'calendar1Callback');
 	//-->
-	</script>*/?> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?=$oTranslator->_('a');?></font> 
-        &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<? echo $date_input2;?>"> 
-		<? /*
+	</script>*/?> &nbsp; <font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $oTranslator->_('a');?></font> 
+        &nbsp;&nbsp; <input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $date_input2;?>"> 
+		<?php /*
         <script type="text/javascript" language="JavaScript">
 	<!--
 	function calendar2Callback(date, month, year)	
@@ -127,23 +127,22 @@ require_once('../include/selecao_listbox.js');
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 	//-->
 	</script>*/?> </td>
-      <td align="left" class="descricao">(<?=$oTranslator->_('Formato da data');?> <?=$oTranslator->_('dd/mm/aaaa');?>)</td>
+      <td align="left" class="descricao">(<?php echo $oTranslator->_('Formato da data');?> <?php echo $oTranslator->_('dd/mm/aaaa');?>)</td>
       <td rowspan="2" align="left" valign="middle" class="descricao"><div align="center">
           <input name="consultar" type="submit" value="   Filtrar   " onClick="SelectAll(this.form.elements['list12[]'])">
         </div></td>
     </tr>
-	<?
-	if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
+	<?php if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
 		{
 		?>
 		<TR><td height="20"></td></TR>		
     	<tr valign="middle">
       	<td height="1" colspan="2" valign="middle" nowrap><div align="left">
-	  	<?
+	  	<?php
 		include_once "../include/selecao_locais_inc.php";	  
 	  	?></div>
 		</td></tr>
-		<?
+		<?php
 		}
 		?>
 	
@@ -151,8 +150,7 @@ require_once('../include/selecao_listbox.js');
       <td height="1" bgcolor="#333333" colspan="2"></td>
     </tr>
   </table>
-	<?
-	if ($_REQUEST['date_input1'])
+	<?php if ($_REQUEST['date_input1'])
 		{
 		$msg = '<div align="center">
 		<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">'.
@@ -205,7 +203,7 @@ require_once('../include/selecao_listbox.js');
 			$msg = '';	
 			?>	
 			<p></p>				
-	 		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+	 		<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 			<tr> 
 			<td height="10" colspan="3">&nbsp;</td>
 			</tr>
@@ -217,20 +215,20 @@ require_once('../include/selecao_listbox.js');
 			</tr>
 			<tr> 
 			<td colspan="3"> 
-			<table width="90%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
+			<table width="85%" border="0" cellpadding="2" cellspacing="0" bordercolor="#333333" align="center">
           	<tr bgcolor="#E1E1E1"> 
             <td colspan="3"></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=1&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Data');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=1&date_input1=<?php echo $date_input1;?>&date_input2=<?php echo $date_input2;?>"><?php echo $oTranslator->_('Data');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=2&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Usuario');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=2&date_input1=<?php echo $date_input1;?>&date_input2=<?php echo $date_input2;?>"><?php echo $oTranslator->_('Usuario');?></a></div></td>
             <td></td>
-            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=3&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>"><?=$oTranslator->_('Endereco IP origem');?></a></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="left"><a href="log_acessos.php?OrderBy=3&date_input1=<?php echo $date_input1;?>&date_input2=<?php echo $date_input2;?>"><?php echo $oTranslator->_('Endereco IP origem');?></a></div></td>
             <td></td>
           	</tr>
           	<tr> 
             <td height="1" colspan="9" bgcolor="#333333"></td>
           	</tr>
-          	<?  
+          	<?php  
 		
 			$Cor = 0;
 			$msg = ($NumRegistro > 1?'':$msg);	
@@ -254,17 +252,17 @@ require_once('../include/selecao_listbox.js');
 				$arr_nm_usuario[$nm_usuario_acessos.'#'.$row['id_usuario']]++;
 			
 				?>
-			  <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+			  <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
 				<td nowrap></td>
-				<td align="left" nowrap class="opcao_tabela"><? echo $NumRegistro; ?></td>
+				<td align="left" nowrap class="opcao_tabela"><?php echo $NumRegistro; ?></td>
 				<td nowrap></td>
-				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $day.'/'.$month.'/'.$year. ' '. substr($hour,0,5);?></a></td>
+				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<?php echo $date_input1;?>&date_input2=<?php echo $date_input2;?>&id_usuario=<?php echo $row['id_usuario'];?>"><?php echo $day.'/'.$month.'/'.$year. ' '. substr($hour,0,5);?></a></td>
 				<td nowrap></td>
-				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $nm_usuario_acessos;?></a></td>
+				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<?php echo $date_input1;?>&date_input2=<?php echo $date_input2;?>&id_usuario=<?php echo $row['id_usuario'];?>"><?php echo $nm_usuario_acessos;?></a></td>
 				<td nowrap></td>
-				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<? echo $date_input1;?>&date_input2=<? echo $date_input2;?>&id_usuario=<? echo $row['id_usuario'];?>"><? echo $row['te_ip_origem'];?></a></td>
+				<td nowrap class="opcao_tabela"><a href="log_atividades.php?nm_chamador=Log_de_Acessos&date_input1=<?php echo $date_input1;?>&date_input2=<?php echo $date_input2;?>&id_usuario=<?php echo $row['id_usuario'];?>"><?php echo $row['te_ip_origem'];?></a></td>
 				<td nowrap></td>
-				<? 
+				<?php 
 				$Cor=!$Cor;
 				$NumRegistro--;
 				}
@@ -279,17 +277,17 @@ require_once('../include/selecao_listbox.js');
 			<tr> 
 			<td height="1" colspan="3" bgcolor="#333333"></td>
 			</tr>
-			<?
+			<?php
 			}
 			?>
 		<tr>
-		<td height="10" colspan="3"><? echo $msg;?></td>
+		<td height="10" colspan="3"><?php echo $msg;?></td>
 		</tr>
 		<tr> 
 		<td height="10" colspan="3">&nbsp;</td>
 		</tr>
 		</table>
-		<?
+		<?php
 		}
 		?>
 </form>

@@ -1,7 +1,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="1">
           <tr> 
             <td class="label">  
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -20,7 +20,7 @@
 		$cs_situacao e $id_acao 
 		antes de dar um include nesse arquivo. */
 
-			$query = "SELECT te_nome_computador, te_node_address
+			$query = "SELECT te_nome_computador, id_computador
 				  FROM computadores
                                   ORDER BY te_nome_computador";
 			$msg = $oTranslator->_('(OBS: Estao sendo exibidas somente as redes selecionadas pelo administrador.)');
@@ -28,7 +28,7 @@
 		/* Agora monto os itens do combo de redes . */ 
 		while($campos=mysql_fetch_array($result)) 	{
 		   $itens_combo_soft = $itens_combo_soft . '<option value="' . 
-                                        $campos['te_node_address']. '">' . 
+                                        $campos['id_computador']. '">' . 
                                         $campos['te_nome_computador'] . '</option>';
 		}  ?>
               Selecione as estações: </td>
@@ -60,7 +60,7 @@
                   <td>&nbsp;</td>
                   <td> <div align="left"> 
                       <select multiple size="10" name="list3[]" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <? echo $itens_combo_soft; ?> 
+                        <?php echo $itens_combo_soft; ?> 
                       </select>
                       </div></td>
                   <td>&nbsp;</td>

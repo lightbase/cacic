@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -30,7 +30,7 @@ AntiSpy();
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 <title>Relat&oacute;rio de Vari&aacute;veis de Ambiente</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
@@ -43,7 +43,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 </head>
 
 <body bgcolor="#FFFFFF" topmargin="5">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 <table border="0" align="left" cellpadding="0" cellspacing="0" bordercolor="#999999">
   <tr bgcolor="#E1E1E1"> 
     <td rowspan="5" bgcolor="#FFFFFF"><img src="../../imgs/cacic_logo.png" width="50" height="50"></td>
@@ -57,14 +57,14 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <td height="1" bgcolor="#333333"></td>
   </tr>
   <tr> 
-    <td class="descricao"><p align="left">Gerado em <? echo date("d/m/Y à\s H:i"); ?></p></td>
+    <td class="descricao"><p align="left">Gerado em <?php echo date("d/m/Y à\s H:i"); ?></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
@@ -74,10 +74,10 @@ $linha = '<tr bgcolor="#e7e7e7">
 ?>
 <table border="0" align="center" width="300" >
   <tr> 
-    <td align="center" nowrap class="cabecalho_tabela"><? echo $_GET['nm_software_inventariado']; ?></td>
+    <td align="center" nowrap class="cabecalho_tabela"><?php echo $_GET['nm_software_inventariado']; ?></td>
   </tr>
 </table>
-<?
+<?php
 $v_vl_variavel_ambiente = trim($_GET['vl_variavel_ambiente']);
 //echo $_GET['vl_variavel_ambiente'];
 
@@ -87,7 +87,7 @@ if ($v_vl_variavel_ambiente == 'Nenhum Valor')
 	}
 	 $query = "SELECT distinct 	computadores.id_so, 
 	 							computadores.te_nome_computador, 
-								computadores.te_ip, 
+								computadores.te_ip_computador, 
 								computadores.te_node_address, 
 								computadores.dt_hr_ult_acesso,
 			   					b.nm_variavel_ambiente,
@@ -98,8 +98,7 @@ if ($v_vl_variavel_ambiente == 'Nenhum Valor')
 								variaveis_ambiente_estacoes c ".
 								$_SESSION['from']." 
 			   WHERE 			computadores.id_so IN (".$_SESSION["so_selecionados"].") ". $_SESSION["redes_selecionadas"] ." AND 
-			   					computadores.te_node_address = c.te_node_address AND 
-								computadores.id_so = c.id_so AND 			  		
+			   					computadores.id_computador = c.id_computador AND 
 					 			b.id_variavel_ambiente = ". $_GET['id_variavel_ambiente'] ." AND 
 								c.id_variavel_ambiente = b.id_variavel_ambiente AND 
 								c.vl_variavel_ambiente = '". str_replace('***','"',$v_vl_variavel_ambiente) ."' 
@@ -121,13 +120,12 @@ if ($v_vl_variavel_ambiente == 'Nenhum Valor')
           <td align="center"  nowrap>&nbsp;</td>
           <td align="center"  nowrap><div align="left"><strong></strong></div></td>
           <td align="center"  nowrap>&nbsp;</td>
-          <td align="center"  nowrap bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="center"><a href="../variaveis_ambiente/rel_maquinas_variaveis.php?id_variavel_ambiente=<? echo $_GET['id_variavel_ambiente'];?>">Nome 
+          <td align="center"  nowrap bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="center"><a href="../variaveis_ambiente/rel_maquinas_variaveis.php?id_variavel_ambiente=<?php echo $_GET['id_variavel_ambiente'];?>">Nome 
               da M&aacute;quina</a></div></td>
           <td nowrap >&nbsp;</td>
           <td nowrap bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="center">IP</div></td>
           <td nowrap >&nbsp;</td>
-			<?
-  			if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+			<?php if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
 			?>
 			<td nowrap bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="right">Local</div></td>				
 
@@ -135,30 +133,29 @@ if ($v_vl_variavel_ambiente == 'Nenhum Valor')
           <td nowrap bgcolor="#E1E1E1" class="cabecalho_tabela"><div align="center">&Uacute;ltima Coleta</a></div></td>
           <td nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><a href="../../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><? echo $row['te_ip']; ?></td>
+          <td nowrap class="opcao_tabela"><?php echo $row['te_ip_computador']; ?></td>
           <td nowrap>&nbsp;</td>
-		  <?
-  		  if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
+		  <?php if ($_SESSION['cs_nivel_administracao']==1 || $_SESSION['cs_nivel_administracao']==2)
 		  ?>
-		  <td nowrap class="opcao_tabela"><div align="right"><? echo $row['Local']; ?></div></td>				
+		  <td nowrap class="opcao_tabela"><div align="right"><?php echo $row['Local']; ?></div></td>				
 					  
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="center"><? echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></div></td>
+          <td nowrap class="opcao_tabela"><div align="center"><?php echo date("d/m/Y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></div></td>
           <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

@@ -1,11 +1,11 @@
-<?
+<?php 
+session_start();
 /*
 Este relatório foi baseado nos seguintes relatórios originais do CACIC:
 antivirus e computadores.
 As modificações foram feitas por Emerson Pellis (epellis@unerj.br).
 */
-?>
-<? session_start();
+
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
  */
@@ -28,7 +28,7 @@ require_once('../../include/library.php');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title><?=$oTranslator->_('Relatorio de pastas compartilhadas');?></title>
+<title><?php echo $oTranslator->_('Relatorio de pastas compartilhadas');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" type="text/JavaScript">
 <!--
@@ -38,7 +38,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 //-->
 </script>
 <!-- Corrigir caminho absoluto abaixo...//-->
-<link rel="stylesheet"   type="text/css" href="/cacic2/include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="/cacic2/include/css/cacic.css">
 <style type="text/css">
        TR {font-size:10pt ; font-family: Verdana, Arial}
 </style>
@@ -54,7 +54,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr bgcolor="#E1E1E1"> 
     <td nowrap bgcolor="#FFFFFF"><font color="#333333" size="4" face="Verdana, Arial, Helvetica, sans-serif">
-      <strong><?=$oTranslator->_('Relatorio de pastas compartilhadas');?></strong></font>
+      <strong><?php echo $oTranslator->_('Relatorio de pastas compartilhadas');?></strong></font>
     </td>
   </tr>
   <tr> 
@@ -62,17 +62,16 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-      <?=$oTranslator->_('Gerado em');?> 
-        <? echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
+      <?php echo $oTranslator->_('Gerado em');?> 
+        <?php echo date("d/m/Y à\s H:i\h"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<? 
+<?php 
 //Corrigir caminho absoluto abaixo
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
 conecta_bd_cacic();
 
 $redes_selecionadas = '';
@@ -85,7 +84,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+		$query_redes = 'AND id_rede IN ('. $redes_selecionadas .')';
 		//}	
 	}
 else
@@ -95,7 +94,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$query_redes = 'AND computadores.id_ip_rede = redes.id_ip_rede AND 
+	$query_redes = 'AND computadores.id_rede = redes.id_rede AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
 	$select = ' ,sg_local as Local ';	
@@ -112,18 +111,18 @@ $query = "SELECT DISTINCT 	compartilhamentos.id_so,
 							computadores.te_node_address, 
 							computadores.te_nome_computador, 
 							so.sg_so, 
-							computadores.te_ip 
+							computadores.te_ip_computador, 
+							computadores.id_computador 							
 							$select
           FROM 				computadores, 
 		  					compartilhamentos, 
 							so
 							$from
-          WHERE 			(compartilhamentos.te_node_address =computadores.te_node_address AND 
-		  					compartilhamentos.id_so = computadores.id_so) AND 
+          WHERE 			(compartilhamentos.id_computador = computadores.id_computador) AND 
 							compartilhamentos.id_so IN ($so_selecionados) AND  
 							nm_dir_compart <> '' 
 							$query_redes
-		  GROUP BY          computadores.te_nome_computador,compartilhamentos.id_so,compartilhamentos.te_node_address 
+		  GROUP BY          computadores.te_nome_computador,compartilhamentos.id_computador 
 		  ORDER BY 			computadores.te_nome_computador ASC ";
           
 $resultado = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('computadores')));
@@ -133,13 +132,14 @@ while ($linha = mysql_fetch_array($resultado))
 
        $NOME_COMPUTADOR = $linha['te_nome_computador'];
 
-       $SO = $linha['id_so'];
-       $MAC = $linha['te_node_address'];
-       $SO_NOME = $linha['sg_so'];
-       $IP =  $linha['te_ip'];
+       $SO 			 = $linha['id_so'];
+       $MAC 		 = $linha['te_node_address'];
+       $idComputador = $linha['id_computador'];	   
+       $SO_NOME 	 = $linha['sg_so'];
+       $IP 			 =  $linha['te_ip_computador'];
        
        $query = "SELECT * FROM compartilhamentos
-	             WHERE te_node_address = '$MAC' AND id_so = '$SO'";
+	             WHERE id_computador = $idComputador";
 
        $result_compartilhamento = mysql_query($query) or die($oTranslator->_('falha na consulta a tabela (%1) ou sua sessao expirou!', array('compartilhamentos')));
 
@@ -147,7 +147,7 @@ while ($linha = mysql_fetch_array($resultado))
                                         <tr>
                                             <td>
                                                 <font size='2' face='Verdana, Arial'>
-                                                <a href=../computador/computador.php?te_node_address=$MAC&id_so=$SO target=_blank>
+                                                <a href=../computador/computador.php?id_computador=$idComputador target=_blank>
                                                 <B>$NOME_COMPUTADOR - $SO_NOME - $IP</B></a>
                                             </td>
                                         </tr>
@@ -188,22 +188,22 @@ while ($linha = mysql_fetch_array($resultado))
 											while($row = mysql_fetch_assoc($result_compartilhamento)) {
 													$img_alerta == '&nbsp;';
 													if ($row['cs_tipo_compart'] == 'D')
-													$tipo_compart = '<img src="/cacic2/imgs/compart_dir.gif" title="'.$oTranslator->_('Compartilhamento de diretorio').'">';
+													$tipo_compart = '<img src="' . CACIC_PATH . 'imgs/compart_dir.gif" title="'.$oTranslator->_('Compartilhamento de diretorio').'">';
 													else
-													$tipo_compart = '<img src="/cacic2/imgs/compart_print.gif" title="'.$oTranslator->_('Compartilhamento de impressora').'">';
+													$tipo_compart = '<img src="' . CACIC_PATH . 'imgs/compart_print.gif" title="'.$oTranslator->_('Compartilhamento de impressora').'">';
 
 													if( $row['in_senha_leitura'] == 1 )
-														$senha_leitura = '<img src="/cacic2/imgs/checked.gif">';
+														$senha_leitura = '<img src="' . CACIC_PATH . 'imgs/checked.gif">';
 													else {
-														$senha_leitura = '<img src="/cacic2/imgs/unchecked.gif">';
-													$img_alerta = '<img src="/cacic2/imgs/alerta_amarelo.gif" title="'.$oTranslator->_('Risco medio: privacidade').'" width="8" height="8">';
+														$senha_leitura = '<img src="' . CACIC_PATH . 'imgs/unchecked.gif">';
+													$img_alerta = '<img src="' . CACIC_PATH . 'imgs/alerta_amarelo.gif" title="'.$oTranslator->_('Risco medio: privacidade').'" width="8" height="8">';
 													}
 
 													if( $row['in_senha_escrita'] == 1 )
-														$senha_escrita = '<img src="/cacic2/imgs/checked.gif">';
+														$senha_escrita = '<img src="' . CACIC_PATH . 'imgs/checked.gif">';
 													else {
-														$senha_escrita = '<img src="/cacic2/imgs/unchecked.gif">';
-													$img_alerta = '<img src="/cacic2/imgs/alerta_vermelho.gif" title="'.$oTranslator->_('Risco alto: integridade e privacidade').'" width="8" height="8">';
+														$senha_escrita = '<img src="' . CACIC_PATH . 'imgs/unchecked.gif">';
+													$img_alerta = '<img src="' . CACIC_PATH . 'imgs/alerta_vermelho.gif" title="'.$oTranslator->_('Risco alto: integridade e privacidade').'" width="8" height="8">';
 													}
 
 													if( $row['cs_tipo_permissao'] == 'L' )
@@ -229,9 +229,9 @@ while ($linha = mysql_fetch_array($resultado))
 											$result_compartilhamento = mysql_query($query);
 											while($row = mysql_fetch_assoc($result_compartilhamento)) {
 													if ($row['cs_tipo_compart'] == 'D')
-													$tipo_compart = '<img src="/cacic2/imgs/compart_dir.gif" title="'.$oTranslator->_('Compartilhamento de diretorio').'">';
+													$tipo_compart = '<img src="' . CACIC_PATH . 'imgs/compart_dir.gif" title="'.$oTranslator->_('Compartilhamento de diretorio').'">';
 													else
-													$tipo_compart = '<img src="/cacic2/imgs/compart_print.gif" title="'.$oTranslator->_('Compartilhamento de impressora').'">';
+													$tipo_compart = '<img src="' . CACIC_PATH . 'imgs/compart_print.gif" title="'.$oTranslator->_('Compartilhamento de impressora').'">';
 
 													echo '<tr>
 														<td nowrap class="dado">&nbsp;'. $row['nm_compartilhamento'] .'</td>
@@ -247,7 +247,7 @@ while ($linha = mysql_fetch_array($resultado))
 }
 ?>
 <p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">
-  <?=$oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
+  <?php echo $oTranslator->_('Gerado por');?> <strong>CACIC</strong> - Configurador Autom&aacute;tico e Coletor 
   de Informa&ccedil;&otilde;es Computacionais</font><br>
   <font size="1" face="Verdana, Arial, Helvetica, sans-serif">Software desenvolvido 
   pela Dataprev - Unidade Regional Esp&iacute;rito Santo

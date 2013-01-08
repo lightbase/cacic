@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -8,7 +8,7 @@ if(!isset($_SESSION['id_usuario']))
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic2/include/library.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/cacic3/include/library.php');
 conecta_bd_cacic();
 
 if ($_POST['consultar']) {
@@ -22,18 +22,16 @@ if ($_POST['consultar']) {
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="/cacic2/include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="/cacic3/include/css/cacic.css">
 
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<body bgcolor="#FFFFFF" background="/cacic2/imgs/linha_v.gif" onLoad="SetaCampo('string_orgao')">
-<script language="JavaScript" type="text/javascript" src="http://<? echo $_SERVER['HTTP_HOST'].'/cacic2/include/cacic.js';?>"></script>
+<body bgcolor="#FFFFFF" background="/cacic3/imgs/linha_v.gif" onLoad="SetaCampo('string_orgao')">
+<script language="JavaScript" type="text/javascript" src="http://<?php echo $_SERVER['HTTP_HOST'].'/cacic3/include/js/cacic.js';?>"></script>
 
-<?
-
-if (($_SESSION['ftr_consulta'] == 'todos') or ($_SESSION['ftr_consulta'] == '')) {
+<?php if (($_SESSION['ftr_consulta'] == 'todos') or ($_SESSION['ftr_consulta'] == '')) {
 	$valor_padrao_software_orgao = '<option value="todos">Mostrar todos</option>
 			<option value="nao_correcao">Não mostrar atualizações/correções</option>
 			<option value="suspeitos">Mostrar somente softwares suspeitos</option>';
@@ -53,8 +51,8 @@ if (($_SESSION['ftr_consulta'] == 'suspeitos')) {
 
 ?>  
 
-<form action="<? echo $PHP_SELF; ?>" method="post" name="form1">
-<table width="90%" border="0" align="center">
+<form action="<?php echo $PHP_SELF; ?>" method="post" name="form1">
+<table width="85%" border="0" align="center">
 <tr> 
 <td class="cabecalho">Consulta de softwares por m&aacute;quina</td>
 </tr>
@@ -63,9 +61,9 @@ if (($_SESSION['ftr_consulta'] == 'suspeitos')) {
 </tr>
 </table>
 <tr><td height="1" colspan="2" bgcolor="#333333"></td></tr>
-<tr><td height="30" colspan="2"><table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<tr><td height="30" colspan="2"><table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 <tr><td colspan="2" class="label">Selecione os filtros da consulta:</td></tr>
-<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 <tr> 
 <td height="1" bgcolor="#333333"></td>
 </tr>
@@ -74,13 +72,13 @@ if (($_SESSION['ftr_consulta'] == 'suspeitos')) {
 <tr>
 <td>
 	<select name="filtro_consulta" id="select" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-	<? echo $valor_padrao_software_orgao ;?>
+	<?php echo $valor_padrao_software_orgao ;?>
 	</select>
 </td> 
 <td>M&aacute;quina: 
               </td>
             <td> 
-              <input name="string_orgao" type="text" id="string_orgao2" value="<? echo $_REQUEST['string_orgao'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+              <input name="string_orgao" type="text" id="string_orgao2" value="<?php echo $_REQUEST['string_orgao'];?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
               </td>
             <td><input name="consultar" type="submit" id="consultar2" value="Consultar"></td>
           </tr>
@@ -91,16 +89,14 @@ if (($_SESSION['ftr_consulta'] == 'suspeitos')) {
     </tr>
   </table>
   </form>
-<?
-
-if ($_POST['consultar']) {
+<?php if ($_POST['consultar']) {
 
 	if ($_SESSION['ftr_consulta'] == 'todos') {
 		$query = "SELECT ss.id_software_inventariado as id_soft, 
 		ss.nm_software_inventariado as nm_soft, count(*) as qtde 
 		FROM softwares_inventariados_estacoes s, computadores c, 
 		softwares_inventariados ss 
-		WHERE (s.te_node_address = c.te_node_address) AND 
+		WHERE (s.id_computador = c.id_computador) AND 
 		(c.te_nome_computador = '". $_SESSION['str_orgao'] ."') 
 		AND (s.id_software_inventariado = ss.id_software_inventariado) 
 		GROUP BY ss.nm_software_inventariado"; 
@@ -111,7 +107,7 @@ if ($_POST['consultar']) {
 		ss.nm_software_inventariado as nm_soft, count(*) as qtde 
 		FROM softwares_inventariados_estacoes s, computadores c,
 		softwares_inventariados ss
-		WHERE (s.te_node_address = c.te_node_address) AND
+		WHERE (s.id_computador = c.id_computador) AND
 		(c.te_nome_computador = '". $_SESSION['str_orgao'] ."')
 		AND (s.id_software_inventariado = ss.id_software_inventariado)
 		AND (ss.id_tipo_software <> 1) 
@@ -123,7 +119,7 @@ if ($_POST['consultar']) {
 		ss.nm_software_inventariado as nm_soft, count(*) as qtde
 		FROM softwares_inventariados_estacoes s, computadores c,
 		softwares_inventariados ss
-		WHERE (s.te_node_address = c.te_node_address) AND
+		WHERE (s.id_computador = c.id_computador) AND
 		(c.te_nome_computador = '". $_SESSION['str_orgao'] ."')
 		AND (s.id_software_inventariado = ss.id_software_inventariado)
 		AND (ss.id_tipo_software = 5) 
@@ -161,22 +157,22 @@ if ($_POST['consultar']) {
           <td nowrap ><div align="center"><strong><font color="#333333" size="2" face="Verdana, Arial, Helvetica, sans-serif">M&aacute;quinas</font></strong></div></td>
 	  <td nowrap >&nbsp;</td>
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
+          <td nowrap class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
           <td nowrap>&nbsp;</td>
-          <td nowrap class="opcao_tabela"><a href="rel_softwares_orgao.php?id_software_inventariado=<? echo $row['id_soft'];?>&nm_software_inventariado=<? echo $row['nm_soft'];?>&nm_maquina=<? echo $_SESSION['str_orgao'];?>" target="_blank"><? echo $row['nm_soft']; ?></a></td>
+          <td nowrap class="opcao_tabela"><a href="rel_softwares_orgao.php?id_software_inventariado=<?php echo $row['id_soft'];?>&nm_software_inventariado=<?php echo $row['nm_soft'];?>&nm_maquina=<?php echo $_SESSION['str_orgao'];?>" target="_blank"><?php echo $row['nm_soft']; ?></a></td>
           <td nowrap>&nbsp;</td>
-	  <td nowrap class="opcao_tabela"><div align="center"><? echo $row['qtde']; ?></a></div></td>
+	  <td nowrap class="opcao_tabela"><div align="center"><?php echo $row['qtde']; ?></a></div></td>
           <td nowrap>&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 }
@@ -191,7 +187,7 @@ if ($_POST['consultar']) {
     <td height="10">&nbsp;</td>
   </tr>
 </table>
-<?
+<?php
 				}
 		}
 }

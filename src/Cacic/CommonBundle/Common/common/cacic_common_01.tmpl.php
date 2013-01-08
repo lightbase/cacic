@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: cacic_common.class.tmpl.php 2009-02-19 22:28 harpiain $
+ * @version $Id: cacic_common_01.tmpl.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package CACIC-Common
  * @subpackage CacicTemplate
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>
@@ -22,9 +22,9 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 	<title>{CACIC_TITLE}</title>
 	<meta http-equiv="Content-Language" content="{CACIC_LANG}" />
 	<meta http-equiv="Content-Type" content="text/html; charset={CACIC_LANG_CHARSET}" />
-	<link href="{CACIC_URL}/include/cacic.css" rel="stylesheet" type="text/css" />
+	<link href="{CACIC_URL}/include/css/cacic.css" rel="stylesheet" type="text/css" />
 	<link href="{CACIC_URL}/common/cacic_common_01.css" rel="stylesheet" type="text/css" />
-	<script language="JavaScript" type="text/javascript" src="{CACIC_URL}/include/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="{CACIC_URL}/include/js/cacic.js"></script>
 	<script language="JavaScript" type="text/javascript" src="{CACIC_URL}/common/cacic_common_01.js"></script>
 	<script language="JavaScript" type="text/javascript" src="{CACIC_URL}/bibliotecas/javascript/asv/asvAjax.js"></script>
 	<script language="JavaScript" type="text/javascript" src="{CACIC_URL}/bibliotecas/javascript/asv/asvUtils.js"></script>

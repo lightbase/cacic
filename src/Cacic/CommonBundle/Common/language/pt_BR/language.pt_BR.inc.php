@@ -810,7 +810,7 @@ pt_BR     kciq_msg js_enable                                                    
 pt_BR     kciq_msg admin mgm adminname help                                                                   instaladorinfo                Nome do Administrador do CACIC
 pt_BR     kciq_msg database name                                                                              instaladorinfo                Nome do banco de dados
 pt_BR     kciq_msg inst database name not defined                                                             instaladorerro                Nome do banco de dados deve ser informado!
-pt_BR     kciq_msg database name help                                                                         instaladorinfo                Nome do banco de dados pré-existente.
+pt_BR     kciq_msg database name help                                                                         instaladorinfo                Nome do banco de dados a ser criado.
 pt_BR     kciq_msg database host help                                                                         instaladorinfo                Nome do servidor (ou IP) do banco de dados.
 pt_BR     kciq_msg dbuser help                                                                                instaladorinfo                Nome do usuário para ser usado pelo CACIC para conectar ao banco de dados.
 pt_BR     kciq_msg inst config file read                                                                      instaladorinfo                Não foi possível ler o arquivo (%1) de configurações
@@ -825,12 +825,12 @@ pt_BR     kciq_msg inst tables build error                                      
 pt_BR     kciq_msg inst insert basic data error                                                               instaladorerro                Não há instruções SQL para inserção de dados base nas tabelas do banco de dados!
 pt_BR     kciq_msg admin mgm phone help                                                                       instaladorinfo                Número do telefone do Administrador do CACIC para contato.
 pt_BR     kciq_msg admin mgm obs help                                                                         instaladorinfo                Observações (informações) para o local ao qual a aplicação gerente está associada.
-pt_BR     kciq_msg mcrypt_suporte                                                                             instaladorinfo      php-MCryptPHP com suporte a criptografia com MCrypt
+pt_BR     kciq_msg mcrypt_suporte                                                                             instaladorinfo                PHP com suporte a criptografia com MCrypt
 pt_BR     kciq_msg mail_suporte                                                                               instaladorinfo                PHP com suporte a envio de email
-pt_BR     kciq_msg gd_suporte                                                                                 instaladorinfo      php-GD    PHP com suporte a imagens com GD
-pt_BR     kciq_msg ftp_suporte                                                                                instaladorinfo      php-FTP   PHP com suporte a troca de arquivos por FTP.
-pt_BR     kciq_msg ldap_suporte                                                                               instaladorinfo      php-LDAP  PHP com suporte a conexão a serviço de diretórios padrão LDAP.
-pt_BR     kciq_msg mysql_suporte                                                                              instaladorinfo      php-MySQL PHP com suporte ao MySQL versão
+pt_BR     kciq_msg gd_suporte                                                                                 instaladorinfo                PHP com suporte a imagens com GD
+pt_BR     kciq_msg ftp_suporte                                                                                instaladorinfo                PHP com suporte a troca de arquivos por FTP.
+pt_BR     kciq_msg ldap_suporte                                                                               instaladorinfo                PHP com suporte a conexão a serviço de diretórios padrão LDAP.
+pt_BR     kciq_msg mysql_suporte                                                                              instaladorinfo                PHP com suporte ao MySQL versão
 pt_BR     kciq_msg phpmcrypt_help                                                                             instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca PHP de manipulação criptográfica com MCrypt.
 pt_BR     kciq_msg phpgd_help                                                                                 instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca de manipulação de imagens com GD.
 pt_BR     kciq_msg phpftp_help                                                                                instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca de para uso de FTP.
@@ -838,7 +838,7 @@ pt_BR     kciq_msg phpldap_help                                                 
 pt_BR     kciq_msg phpmysql_help                                                                              instaladorinfo                Para executar o CACIC é necessário instalar a biblioteca para banco de dados MYSQL.
 pt_BR     kciq_msg phpversion_help                                                                            instaladorinfo                Para executar o CACIC é necessário instalar a versão do PHP indicada.
 pt_BR     kciq_msg inst database admin not defined                                                            instaladorerro                Para instalação nova, informe o usuário administrador do banco de dados!
-pt_BR     kciq_msg php_flag_on                                                                                instaladorinfo                Para que o CACIC funcione corretamente é necessário - por enquanto - ativar essa diretiva.
+pt_BR     kciq_msg php_flag_on                                                                                instaladorinfo                Para que o CACIC funcione de forma segura é necessário desativar essa diretiva.
 pt_BR     kciq_msg fix_requiriment_help                                                                       instaladorinfo                Por favor, corrija pendências para continuar processo de instalação!
 pt_BR     kciq_msg license advise                                                                             instaladorinfo                Por favor, leia os termos da licença a seguir. Você deve aceitar os termos desta para continuar a instalação!
 pt_BR     kciq_msg database port                                                                              instaladorinfo                Porta

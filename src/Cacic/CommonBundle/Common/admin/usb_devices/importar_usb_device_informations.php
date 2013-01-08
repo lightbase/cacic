@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -15,6 +15,8 @@
  */
  session_start();
 include_once "../../include/library.php";
+
+
 AntiSpy('1,2'); // Permitido somente a estes cs_nivel_administracao...
 // 1 - Administração
 // 2 - Gestão Central
@@ -22,78 +24,137 @@ AntiSpy('1,2'); // Permitido somente a estes cs_nivel_administracao...
 if($_POST['submit']<>'' && $_SESSION['cs_nivel_administracao']==1) 
 	{
 	$arrTeImportacao = explode(chr(10),$_POST['frm_te_importacao']);
+
 	$strIdVendor 	 = '';
 	$strNmVendor 	 = '';
 	$strIdDevice 	 = '';
 	$strNmDevice 	 = '';
 	
 	$strQueryVendors = '';
+	$strQueryInsertVendors = '';	
 	$strQueryDevices = '';
+	$strQueryInsertDevices = '';	
+	
 	$strVendors  	 = '';
-	for ($i=0;$i < count($arrTeImportacao); $i++)
-	  {
-	  if ((trim($arrTeImportacao[$i])<>'') && (strspn($arrTeImportacao[$i],'V___') > 0) && (!strpos($strVendors, ('_'.$arrTeImportacao[$i].'_'))))
-	  	{
-	  	$strIdVendor = trim(str_replace('V___','',$arrTeImportacao[$i]));		
-		$arrVendors  = explode(' ',$strIdVendor);
-	  	$strIdVendor = $arrVendors[0];
+	$intContaVendors = 0;
+	$intContaDevices = 0;
+	
+	$intFatorLimite  = 200;
 
-		$strNmVendor = '';
-		for ($intLoopVendor = 1; $intLoopVendor < count($arrVendors); $intLoopVendor++)
-		  	$strNmVendor .= $arrVendors[$intLoopVendor].' ';
-		
-		$strQueryVendors .= ($strQueryVendors <> ''?',':'');
-		$strQueryVendors .= '("'.trim($strIdVendor) . '","' . trim($strNmVendor).'")';
-		}
-		
-	  if ((trim($arrTeImportacao[$i])<>'') && (strspn($arrTeImportacao[$i],'D___') > 0))
-	  	{
-	  	$strIdDevice = trim(str_replace('D___','',$arrTeImportacao[$i]));		
-		$arrDevices  = explode(' ',$strIdDevice);
-	  	$strIdDevice = $arrDevices[0];
+	Conecta_bd_cacic();
 
-		$strNmDevice = '';
-		for ($intLoopDevice = 1; $intLoopDevice < count($arrDevices); $intLoopDevice++)
-		  	$strNmDevice .= $arrDevices[$intLoopDevice].' ';
+	if ($_POST['frmBoolTotalImport'] == '1')
+		{	
+		for ($i=0;$i < count($arrTeImportacao); $i++)
+		  {
+		  if ((trim($arrTeImportacao[$i])<>'') && (strspn($arrTeImportacao[$i],'V___') > 0) && (!strpos($strVendors, ('_'.$arrTeImportacao[$i].'_'))))
+			{
+			$strIdVendor = trim(str_replace('V___','',$arrTeImportacao[$i]));		
+			$arrVendors  = explode(' ',$strIdVendor);
+			$strIdVendor = $arrVendors[0];
+	
+			$strNmVendor = '';
+			for ($intLoopVendor = 1; $intLoopVendor < count($arrVendors); $intLoopVendor++)
+				$strNmVendor .= $arrVendors[$intLoopVendor].' ';
 			
-		if (trim($strIdDevice) <> '')
-			{
-			$strQueryDevices .= ($strQueryDevices <> ''?',':'');
-			$strQueryDevices .= '("'.trim($strIdVendor) . '","' . trim($strIdDevice). '","' . trim($strNmDevice).'")';		
+			$strQueryVendors .= ($strQueryVendors <> ''?',':'');
+			$strQueryVendors .= '("'.trim($strIdVendor) . '","' . trim($strNmVendor).'")';
+			
+			$strVendors .= '_' . $arrTeImportacao[$i] .'_';
+			$intContaVendors ++;
+	
+			if (($intContaVendors == $intFatorLimite) || ($i == (count($arrTeImportacao)-1)))
+				{
+				$intContaVendors = 0;
+	
+				if (($_POST['frmCheckEmptyTable']=='S') && $strQueryInsertVendors == '')
+						{
+						$strQueryDeleteVendors = 'DELETE from usb_vendors';
+						$result = @mysql_query($strQueryDeleteVendors) or die ('1-DELETE falhou ou sua sess o expirou!');
+						}
+	
+				$strQueryInsertVendors = 'INSERT into usb_vendors (id_vendor,nm_vendor) VALUES '.$strQueryVendors;
+				@mysql_query($strQueryInsertVendors);				
+				$strQueryVendors = '';
+				}
 			}
-		} 
-	  }
-		
-	if ($strQueryVendors <> '')
-		{
-		Conecta_bd_cacic();			
-		if ($_POST['frmCheckEmptyTable']=='S')
+			
+		  if ((trim($arrTeImportacao[$i])<>'') && (strspn($arrTeImportacao[$i],'D___') > 0))
 			{
-			$strQueryDeleteVendors = 'DELETE from usb_vendors';
-			$result = @mysql_query($strQueryDeleteVendors) or die ('1-DELETE falhou ou sua sessão expirou!');
-			GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'usb_vendors');					
-			}
-		
-		$strQueryInsertVendors = 'INSERT into usb_vendors (id_vendor,nm_vendor) VALUES '.$strQueryVendors;
-        if (@mysql_query($strQueryInsertVendors))
-			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'usb_vendors');					
+			$strIdDevice = trim(str_replace('D___','',$arrTeImportacao[$i]));		
+			$arrDevices  = explode(' ',$strIdDevice);
+			$strIdDevice = $arrDevices[0];
+	
+			$strNmDevice = '';
+			for ($intLoopDevice = 1; $intLoopDevice < count($arrDevices); $intLoopDevice++)
+				$strNmDevice .= $arrDevices[$intLoopDevice].' ';
+				
+			if (trim($strIdDevice) <> '')
+				{
+				$strQueryDevices .= ($strQueryDevices <> ''?',':'');
+				$strQueryDevices .= '("'.trim($strIdVendor) . '","' . trim($strIdDevice). '","' . trim($strNmDevice).'")';		
+				$intContaDevices ++;
+				}
+			if (($intContaDevices == $intFatorLimite) || ($i == (count($arrTeImportacao)-1)))
+				{
+				$intContaDevices = 0;
+	
+				if (($_POST['frmCheckEmptyTable']=='S') && $strQueryInsertDevices == '')
+						{
+						$strQueryDeleteDevices = 'DELETE from usb_devices';
+						$result = @mysql_query($strQueryDeleteDevices) or die ('2-DELETE falhou ou sua sessão expirou!');
+						GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'usb_devices',$_SESSION["id_usuario"]);					
+						}
+	
+				$strQueryInsertDevices = 'INSERT into usb_devices (id_vendor,id_device,nm_device) VALUES '.$strQueryDevices;
+				@mysql_query($strQueryInsertDevices);
+				GravaLog('INS',$_SERVER['SCRIPT_NAME'],'usb_devices',$_SESSION["id_usuario"]);					
+	
+				$strQueryDevices = '';
+				}
+				
+			} 
+		  }
 		}
+	else
+		{
+		$strVendors = 'SELECT id_vendor,nm_vendor FROM usb_vendors ORDER BY id_vendor';
+		$resVendors = mysql_query($strVendors);				
+		$arrVendors = array();			
+		while ($rowVendors = mysql_fetch_array($resVendors))
+			$arrVendors[trim($rowVendors['id_vendor'])] = $rowVendors['nm_vendor'];
 
-	if ($strQueryDevices <> '')
-		{
-		Conecta_bd_cacic();			
-		if ($_POST['frmCheckEmptyTable']=='S')
-			{		
-			$strQueryDeleteDevices = 'DELETE from usb_devices';
-			$result = @mysql_query($strQueryDeleteDevices) or die ('2-DELETE falhou ou sua sessão expirou!');
-			GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'usb_devices');					
-			}
-		
-		$strQueryInsertDevices = 'INSERT into usb_devices (id_vendor,id_device,nm_device) VALUES '.$strQueryDevices;
-		if (@mysql_query($strQueryInsertDevices))
-			GravaLog('INS',$_SERVER['SCRIPT_NAME'],'usb_devices');					
-		}
-		
+		$strUnknownDevices = 'SELECT id_vendor, id_device, nm_device FROM usb_devices WHERE nm_device like "%Desconhecido%"';
+		$resUnknownDevices = mysql_query($strUnknownDevices);				
+		$arrUnknownDevices = array();		
+		while ($rowUnknownDevices = mysql_fetch_array($resUnknownDevices))
+			$arrUnknownDevices[trim($rowUnknownDevices['id_vendor'])][trim($rowUnknownDevices['id_device'])] = $rowUnknownDevices['nm_device'];
+
+		for ($i=0;$i < count($arrTeImportacao); $i++)
+		  	{		  
+		  	if ((trim($arrTeImportacao[$i])<>'') && (strspn($arrTeImportacao[$i],'V___') > 0) )
+				{
+				$strVendor = trim(str_replace('V___','',$arrTeImportacao[$i]));
+				$arrVendor = explode(' ',$strVendor);
+				if (strpos($arrVendors[$arrVendor[0]], 'Desconhecido'))
+					{
+					$strUpdateUnknownVendor = 'UPDATE usb_vendors SET nm_vendor = "' . trim(str_replace($arrVendor[0],'',$strVendor)) . '" WHERE trim(id_vendor) = "' . $arrVendor[0]. '"';
+					@mysql_query($strUpdateUnknownVendor);				
+					}			
+				}
+			
+		  	if ((trim($arrTeImportacao[$i])<>'') && (strspn($arrTeImportacao[$i],'D___') > 0) )
+				{
+				$strIdDevice = trim(str_replace('D___','',$arrTeImportacao[$i]));		
+				$arrDevice   = explode(' ',$strIdDevice);
+				if ($arrUnknownDevices[$arrVendor[0]][$arrDevice[0]] <> '')
+					{
+					$strUpdateUnknownDevice = 'UPDATE usb_devices SET nm_device = "' . trim(str_replace($arrDevice[0],'',$strIdDevice)) . '" WHERE trim(id_vendor) = "' . $arrVendor[0]. '" AND trim(id_device) = "' . $arrDevice[0]. '"';
+					@mysql_query($strUpdateUnknownDevice);				
+					}			
+				} 
+			}				
+	  	}			
     header ("Location: ../../include/operacao_ok.php?chamador=../admin/usb_devices/index.php&tempo=1");						
 	}
 else 
@@ -102,7 +163,7 @@ else
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
 	<head>
-	<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
+	<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
 	<title>Importa&ccedil;&atilde;o de Informa&ccedil;&otilde;es Sobre Dispositivos USB</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<SCRIPT LANGUAGE="JavaScript">
@@ -171,8 +232,8 @@ else
 	</head>
     
     <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_id_vendor');">
-    <script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-    <table width="90%" border="0" align="center">
+    <script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+    <table width="85%" border="0" align="center">
       <tr> 
         <td class="cabecalho">Importa&ccedil;&atilde;o de Informa&ccedil;&otilde;es de Dispositivos USB</td>
       </tr>
@@ -191,7 +252,7 @@ else
       </tr>
     </table>
     <form action="importar_usb_device_informations.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
-      <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <table width="85%" border="0" align="center" cellpadding="0" cellspacing="0">
     
     <tr>
       <td colspan="2" class="label"><div align="left"><br>
@@ -201,7 +262,7 @@ else
     <tr>
       <td colspan="2"><span class="label_peq_sem_fundo">
         <label>
-          <textarea name="frm_te_importacao" cols="160" rows="30" class="normal" id="frm_te_importacao"></textarea>
+          <textarea name="frm_te_importacao" cols="100" rows="30" class="normal" id="frm_te_importacao"></textarea>
         </label>
       </span></td>
       <td>&nbsp;</td>
@@ -209,8 +270,8 @@ else
     <tr>
       <td colspan="2"><span class="label_peq_sem_fundo">
         <label>
-          <input name="frmCheckEmptyTable" type="checkbox" id="frmCheckEmptyTable" value="S">
-          Esvaziar Tabelas de Fabricantes e Dispositivos Antes da Importação. Caso esta op&ccedil;&atilde;o n&atilde;o seja marcada e haja  coincid&ecirc;ncia de informa&ccedil;&otilde;es, prevalecer&atilde;o as  informa&ccedil;&otilde;es antigas.
+          <input name="frmBoolTotalImport" type="hidden"   id="frmBoolTotalImport" value="<?php echo $_GET['pBoolTotalImport'];?>">          
+ 			<input name="frmCheckEmptyTable" type="checkbox" id="frmCheckEmptyTable" value="S">Esvaziar Tabelas de Fabricantes e Dispositivos Antes da Importação. Caso esta op&ccedil;&atilde;o n&atilde;o seja marcada e haja  coincid&ecirc;ncia de informa&ccedil;&otilde;es, prevalecer&atilde;o as  informa&ccedil;&otilde;es antigas.
         </label>
       </span></td>
       <td>&nbsp;</td>
@@ -223,7 +284,7 @@ else
       </p>
     </form>
     <p>
-      <?
+      <?php
     }
 ?>
 </p>

@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 /*
  * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
@@ -42,25 +42,25 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   </tr>
   <tr> 
     <td><p align="left"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Gerado 
-        em <? echo date("d/m/Y à\s H:i"); ?></font></p></td>
+        em <?php echo date("d/m/Y à\s H:i"); ?></font></p></td>
   </tr>
 </table>
 <br>
 <br>
 <br>
 <br>
-<?
+<?php
 conecta_bd_cacic();
 $linha = '<tr bgcolor="#e7e7e7"> 
 			  <td height="1"></td>
 			  <td height="1"></td>
          </tr>';
 ?>
-<?
-	 $query = "SELECT a.te_nome_computador as nm_maquina, b.te_node_address, b.id_so, a.id_ip_rede, 
-			b.dt_hr_inclusao, c.nm_software_inventariado, b.dt_hr_ult_coleta  
+<?php
+	 $query = "SELECT a.te_nome_computador as nm_maquina, a.id_rede, 
+			b.dt_hr_inclusao, c.nm_software_inventariado, b.dt_hr_ult_coleta,a.id_computador   
 		FROM computadores a, historicos_software b, softwares_inventariados c 
-		WHERE (a.te_node_address = b.te_node_address) AND (a.id_so = b.id_so) AND 
+		WHERE (a.id_computador = b.id_computador) AND 
 			(b.id_software_inventariado = c.id_software_inventariado) AND
 			(b.dt_hr_inclusao > DATE_SUB(NOW(), INTERVAL 5 DAY)) 
 		ORDER BY dt_hr_inclusao DESC, c.nm_software_inventariado 
@@ -98,30 +98,30 @@ Bloco Câmara dos Deputados
 	  <td nowrap >&nbsp;&nbsp;</td>
 
         </tr>
-        <?  
+        <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) {
 		  
 	 ?>
-        <tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
+        <tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?>> 
           <td wrap>&nbsp;&nbsp;</td>
-          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $NumRegistro; ?></font></div></td>
+          <td nowrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $NumRegistro; ?></font></div></td>
           <td wrap>&nbsp;&nbsp;</td>
-          <? if ($row['nm_maquina']) { ?>
-          <td wrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///C|/www/relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['nm_maquina']; ?></a></div></td>
-          <? } else { ?>
-          <td wrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///C|/www/relatorios/computador/computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><i>Fantasma</i></a></div></td>
-	  <? } ?>
+          <?php if ($row['nm_maquina']) { ?>
+          <td wrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///C|/www/relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['nm_maquina']; ?></a></div></td>
+          <?php } else { ?>
+          <td wrap><div align="left"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///C|/www/relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><i>Fantasma</i></a></div></td>
+	  <?php } ?>
 	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="left" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo $row['nm_software_inventariado']; ?></font></td>
+	  <td align="left" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo $row['nm_software_inventariado']; ?></font></td>
 	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo date("d/m/Y H:i", strtotime($row['dt_hr_inclusao'])); ?></font></td>
+	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo date("d/m/Y H:i", strtotime($row['dt_hr_inclusao'])); ?></font></td>
 	  <td nowrap>&nbsp;&nbsp;</td>
-	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><? echo date("d/m/Y H:i", strtotime($row['dt_hr_ult_coleta'])); ?></font></td>
+	  <td align="center" wrap><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><?php echo date("d/m/Y H:i", strtotime($row['dt_hr_ult_coleta'])); ?></font></td>
 	  <td nowrap>&nbsp;&nbsp;</td>
-          <? 
+          <?php 
 	$Cor=!$Cor;
 	$NumRegistro++;
 	}

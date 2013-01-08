@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -36,7 +36,7 @@
 //$query = "DELETE from testes";
 //$result = mysql_query($query);
 
-//$query = "INSERT INTO testes (te_linha,id_ip_rede) VALUES ('pergunta=".$pergunta."',now())";
+//$query = "INSERT INTO testes (te_linha,te_ip) VALUES ('pergunta=".$pergunta."',now())";
 //$result = mysql_query($query);
 
 
@@ -240,7 +240,7 @@
 				}										
 			
 			$sql = $select . $from . $where; 
-//$query = "INSERT INTO testes (te_linha,id_ip_rede) VALUES ('SQL1=".$sql."',now())";
+//$query = "INSERT INTO testes (te_linha,te_ip) VALUES ('SQL1=".$sql."',now())";
 //$result = mysql_query($query);
 			
 			$qySistemaOperacional = mysql_query($sql);
@@ -256,7 +256,7 @@
 				}										
 				
 
-//$query = "INSERT INTO testes (te_linha,id_ip_rede) VALUES ('SQL2=".$sql."',now())";
+//$query = "INSERT INTO testes (te_linha,te_ip) VALUES ('SQL2=".$sql."',now())";
 //$result = mysql_query($query);
 			
 			$qySistemaOperacional = mysql_query($sql);

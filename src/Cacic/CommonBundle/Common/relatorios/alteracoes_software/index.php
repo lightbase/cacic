@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -34,7 +34,7 @@ if ($_REQUEST['Excluir'])
 	{
 	$query = "DELETE FROM softwares_inventariados_grupos WHERE id_si_grupo = '".$_POST['id_si_grupo']."'";
 	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('softwares_inventariados_grupos')));
-	$query = "DELETE FROM acoes_redes WHERE id_ip_rede = '".$_GET['id_ip_rede']."'";
+	$query = "DELETE FROM acoes_redes WHERE id_rede = '".$_GET['id_rede']."'";
 	mysql_query($query) or die($oTranslator->_('Falha em exclusao na tabela (%1) ou sua sessao expirou!',array('acoes_redes')));	
 	header ("Location: ../../include/operacao_ok.php?chamador=../admin/software/index_grupos.php&tempo=1");									
 	}
@@ -76,10 +76,10 @@ if (isset($_REQUEST["palavra"])){
 }
 
 //Paginação
-$queryP = "SELECT distinct(h.te_node_address),c.te_nome_computador,s.te_desc_so FROM computadores c,so s, historico_softwares_inventariados_estacoes h";
-$queryP .= " where c.id_so = s.id_so and h.te_node_address=c.te_node_address";
+$queryP = "SELECT distinct(h.id_computador),c.te_nome_computador,s.te_desc_so FROM computadores c,so s, historico_softwares_inventariados_estacoes h";
+$queryP .= " where c.id_so = s.id_so and h.id_computador=c.id_computador";
 if ($rede!="0"){
-	$queryP .= " AND c.id_ip_rede ='".$rede."'";
+	$queryP .= " AND c.id_rede ='".$rede."'";
 }
 if ($palavra!=""){
 	$queryP .= " And te_nome_computador like '%".$palavra."%'";
@@ -103,10 +103,10 @@ if (($rede!=0) ||($datai!="") || ($palavra!="")){
 	$inicial = (($pagina-1) * $total_reg);
 }
 
-$query = "SELECT distinct(h.te_node_address),c.te_nome_computador,s.te_desc_so,c.te_node_address,c.te_workgroup,c.te_dominio_windows FROM computadores c,so s, historico_softwares_inventariados_estacoes h";
-$query .= " where c.id_so = s.id_so and h.te_node_address=c.te_node_address";
+$query = "SELECT distinct(h.id_computador),c.te_nome_computador,s.te_desc_so,c.te_node_address,c.te_workgroup,c.te_dominio_windows FROM computadores c,so s, historico_softwares_inventariados_estacoes h";
+$query .= " where c.id_so = s.id_so and h.id_computador=c.id_computador";
 if ($rede!="0"){
-	$query .= " AND c.id_ip_rede ='".$rede."'";
+	$query .= " AND c.id_rede ='".$rede."'";
 }
 if ($palavra!=""){
 	$query .= " And te_nome_computador like '%".$palavra."%'";
@@ -120,7 +120,7 @@ $query .= " ORDER BY te_nome_computador LIMIT ".$inicial.",".$total_reg."";
 
 $result = mysql_query($query);
 
-$queryR = "SELECT id_ip_rede, nm_rede FROM redes";
+$queryR = "SELECT id_rede, nm_rede FROM redes";
 $resultR = mysql_query($queryR);
 
 ?>
@@ -128,8 +128,8 @@ $resultR = mysql_query($queryR);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title><?=$oTranslator->_('Relatorio de alteracoes de software');?></title>
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Relatorio de alteracoes de software');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
 function mudapagina(valor4,valor,valor1,valor3,valor2,valor5)
@@ -157,7 +157,7 @@ function mOut(src,clrIn) {
       }
 }
 function carrega(nome,nome2){
-	document.all.lista.src = "combo_software_inv.php?te_nome_computador="+nome2+"&v_data_ini=<? echo $v_data_ini?>&v_data_fim=<? echo $v_data_fim?>&te_node_address="+nome;
+	document.all.lista.src = "combo_software_inv.php?te_nome_computador="+nome2+"&v_data_ini=<?php echo $v_data_ini?>&v_data_fim=<?php echo $v_data_fim?>&id_computador="+nome;
 }
 function mostratab(nome){
 	eval("document.all.tr_micros_" + nome +".style.display= ''");				
@@ -178,40 +178,40 @@ function limpa(){
 	document.forma.palavra.value='';
 }
 </script>
- <script src="../../include/sniffer.js" type="text/javascript" language="javascript"></script>
- <script src="../../include/dyncalendar.js" type="text/javascript" language="javascript"></script>
- <link href="../../include/dyncalendar.css" media="screen" rel="stylesheet">
+ <script src="../../include/js/sniffer.js" type="text/javascript" language="javascript"></script>
+ <script src="../../include/js/dyncalendar.js" type="text/javascript" language="javascript"></script>
+ <link href="../../include/css/dyncalendar.css" media="screen" rel="stylesheet">
 </head>
 
 <body background="../../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
 <form action="" method="post" name="forma" id="forma">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td class="cabecalho">
-      <?=$oTranslator->_('Relatorio de alteracoes de software');?>
+      <?php echo $oTranslator->_('Relatorio de alteracoes de software');?>
     </td>
   </tr>
   <tr> 
     <td class="descricao">
-      <?=$oTranslator->_('Relatorio de alteracoes de softwares instalados nos computadores da rede selecionada');?>
+      <?php echo $oTranslator->_('Relatorio de alteracoes de softwares instalados nos computadores da rede selecionada');?>
     </td>
   </tr>
 </table>
 <iframe src="" height="0" width="0" frameborder="0" name="lista"></iframe>
 	<br>
-	<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+	<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
   <tr>
-    <td width="20%" valign="bottom"><?=$oTranslator->_('Rede');?><br>
+    <td width="20%" valign="bottom"><?php echo $oTranslator->_('Rede');?><br>
         <select name="rede" class="normal" id="rede" >
-          <option value="0"><?=$oTranslator->_('Todas');?></option>
-          <? while($rowR = mysql_fetch_array($resultR)) {?>
-          <option value="<? echo $rowR['id_ip_rede']; ?>" <? if ($rede==$rowR['id_ip_rede']){?>selected<? }?>><? echo $rowR['nm_rede']; ?></option>
-          <? }?>
+          <option value="0"><?php echo $oTranslator->_('Todas');?></option>
+          <?php while($rowR = mysql_fetch_array($resultR)) {?>
+          <option value="<?php echo $rowR['id_rede']; ?>" <?php if ($rede==$rowR['id_rede']){?>selected<?php }?>><?php echo $rowR['nm_rede']; ?></option>
+          <?php }?>
         </select>
       <br></td>
-    <td width="33%" height="10" valign="bottom"><?=$oTranslator->_('Periodo');?><br>
-      <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" readonly value="<? echo $datai?>">
+    <td width="33%" height="10" valign="bottom"><?php echo $oTranslator->_('Periodo');?><br>
+      <input name="date_input1" type="text" size="10"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" readonly value="<?php echo $datai?>">
       <script type="text/javascript" language="JavaScript">
 <!--
 		function calendar1Callback(date, month, year)	{
@@ -221,7 +221,7 @@ function limpa(){
 //-->
       </script>
 &nbsp; a &nbsp;&nbsp;
-<input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" readonly value="<? echo $dataf?>">
+<input name="date_input2" type="text" size="10" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" readonly value="<?php echo $dataf?>">
 <script type="text/javascript" language="JavaScript">
 <!--
 		function calendar2Callback(date, month, year)	{
@@ -230,31 +230,30 @@ function limpa(){
   	calendar2 = new dynCalendar('calendar2', 'calendar2Callback');
 //-->
 </script></td>
-    <td width="47%" valign="bottom"><?=$oTranslator->_('Texto');?><br>
-      <input name="palavra" type="text" class="normal" id="palavra" value="<? echo $palavra?>">
+    <td width="47%" valign="bottom"><?php echo $oTranslator->_('Texto');?><br>
+      <input name="palavra" type="text" class="normal" id="palavra" value="<?php echo $palavra?>">
       &nbsp;&nbsp;
-      <input name="Button" type="button" class="normal" value="<?=$oTranslator->_('Pesquisar');?>" onClick="pesquisa_()">
-      <input name="Button2" type="button" class="normal" value="<?=$oTranslator->_('Limpar');?>" onClick="limpa()"></td>
+      <input name="Button" type="button" class="normal" value="<?php echo $oTranslator->_('Pesquisar');?>" onClick="pesquisa_()">
+      <input name="Button2" type="button" class="normal" value="<?php echo $oTranslator->_('Limpar');?>" onClick="limpa()"></td>
     </tr>
   <tr> 
     <td height="10" colspan="3"><div align="right"></div></td>
   </tr>
   <tr> 
-    <td height="10" colspan="3" align="center" valign="middle"><? echo $msg;?>
+    <td height="10" colspan="3" align="center" valign="middle"><?php echo $msg;?>
       <div align="center"></div></td>
     </tr>
   <tr>
     <td height="10" colspan="3">
 	<div align="right">
-	<?  
-		if ($pagina > 1) {
+	<?php if ($pagina > 1) {
 	?>
 	
-      << <a href="#" onClick="mudapagina('<? echo $rede?>','<? echo $pesquisa?>','<? echo ($pagina - 1)?>','<? echo $palavra?>','<? echo $datai?>','<? echo $dataf?>')" target="_self">anterior</a> |
-        <?	}		
+      << <a href="#" onClick="mudapagina('<?php echo $rede?>','<?php echo $pesquisa?>','<?php echo ($pagina - 1)?>','<?php echo $palavra?>','<?php echo $datai?>','<?php echo $dataf?>')" target="_self">anterior</a> |
+        <?php	}		
 	?>
-          <select name="select2" class="normal" onChange="mudapagina('<? echo $rede?>','<? echo $pesquisa?>',this.value,'<? echo $palavra?>','<? echo $datai?>','<? echo $dataf?>')">
-            <?
+          <select name="select2" class="normal" onChange="mudapagina('<?php echo $rede?>','<?php echo $pesquisa?>',this.value,'<?php echo $palavra?>','<?php echo $datai?>','<?php echo $dataf?>')">
+            <?php
 		$i = 1;		
 		while ($i <= $total_paginas) {
 			if ($i == $pagina) {
@@ -263,14 +262,14 @@ function limpa(){
 			else {
 				$seleciona = "";
 			} ?>
-                  <option value="<? echo $i; ?>" <? echo $seleciona?>><? echo $i; ?></option>
-            <? 
+                  <option value="<?php echo $i; ?>" <?php echo $seleciona?>><?php echo $i; ?></option>
+            <?php 
 			$i = $i + 1; 
 		}?>
           </select>
-          <?	if ($pagina < $total_paginas) { ?>
-          <a href="#" onClick="mudapagina('<? echo $rede?>','<? echo $pesquisa?>','<? echo ($pagina + 1)?>','<? echo $palavra?>','<? echo $datai?>','<? echo $dataf?>')" target="_self">próxima</a>>>
-          <? }		
+          <?php if ($pagina < $total_paginas) { ?>
+          <a href="#" onClick="mudapagina('<?php echo $rede?>','<?php echo $pesquisa?>','<?php echo ($pagina + 1)?>','<?php echo $palavra?>','<?php echo $datai?>','<?php echo $dataf?>')" target="_self">próxima</a>>>
+          <?php }		
 	?>
       </div></td>
   </tr>
@@ -285,10 +284,9 @@ function limpa(){
           <td width="50" align="center"  nowrap><strong>
             <input name="nomeanterior" type="hidden" id="nomeanterior" />
           </strong></td>
-          <td colspan="3" nowrap  class="cabecalho_tabela"><?=$oTranslator->_('Computador');?></td>
+          <td colspan="3" nowrap  class="cabecalho_tabela"><?php echo $oTranslator->_('Computador');?></td>
           </tr>
-<?  
-if(mysql_num_rows($result)==0) {
+<?php if(mysql_num_rows($result)==0) {
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
 				'.$oTranslator->_('Nenhum software cadastrado').'
@@ -302,20 +300,20 @@ else {
 	while($row = mysql_fetch_array($result)) {		  
 		if ($marcador < $total_reg) {    
 	 ?>
-			<tr <? if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?> onMouseOver="mOvr(this,'#999999');" onMouseOut="mOut(this,'<? if ($Cor) { echo "#E1E1E1"; } ?>');" onClick="carrega('<? echo $row['te_node_address'] ?>','<? echo $row['te_nome_computador'] ?>');">
+			<tr <?php if ($Cor) { echo 'bgcolor="#E1E1E1"'; } ?> onMouseOver="mOvr(this,'#999999');" onMouseOut="mOut(this,'<?php if ($Cor) { echo "#E1E1E1"; } ?>');" onClick="carrega('<?php echo $row['id_computador'] ?>','<?php echo $row['te_nome_computador'] ?>');">
 			  <td>&nbsp;</td>
-			  <td class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
-			  <td width="86" class="opcao_tabela"><div align="left"><? echo $row['te_nome_computador']; ?></div></td>
-			  <td width="115" class="opcao_tabela"><? echo $row['te_desc_so']; ?></td>
-			  <td width="423" class="opcao_tabela"><? echo $row['te_workgroup']?> (<? echo $row['te_dominio_windows']?>)</td>
+			  <td class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
+			  <td width="86" class="opcao_tabela"><div align="left"><?php echo $row['te_nome_computador']; ?></div></td>
+			  <td width="115" class="opcao_tabela"><?php echo $row['te_desc_so']; ?></td>
+			  <td width="423" class="opcao_tabela"><?php echo $row['te_workgroup']?> (<?php echo $row['te_dominio_windows']?>)</td>
 			</tr>
-			<tr id="tr_micros_<? echo $row['te_nome_computador'] ?>" style="display:none">
+			<tr id="tr_micros_<?php echo $row['te_nome_computador'] ?>" style="display:none">
 			  <td colspan="5">
 			  <table width="97%" border="0" cellpadding="0" cellspacing="0" align="center">         
-			  	<div id="texto_<? echo $row['te_nome_computador'] ?>"></div>
+			  	<div id="texto_<?php echo $row['te_nome_computador'] ?>"></div>
               </table>			  </td>
 		  </tr>
-			  <? 
+			  <?php 
 			$Cor=!$Cor;
 			$NumRegistro++;
 		}
@@ -333,7 +331,7 @@ else {
     <td height="10" colspan="3">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10" colspan="3"><? echo $msg;?></td>
+    <td height="10" colspan="3"><?php echo $msg;?></td>
   </tr>
   
 </table>

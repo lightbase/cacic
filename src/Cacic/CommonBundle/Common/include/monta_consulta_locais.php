@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 // ===========================================================================================================
 // Passei a restringir a visão das estatísticas na página principal ao nível de acesso atual
@@ -22,7 +22,7 @@ $query = 'SELECT 	count(computadores.te_node_address) as total,
 					locais,
 					so
 		  WHERE 	computadores.te_nome_computador IS NOT NULL AND 
-					computadores.id_ip_rede = redes.id_ip_rede AND
+					computadores.id_rede = redes.id_rede AND
 					computadores.id_so = so.id_so AND
 					redes.id_local = locais.id_local '.$where.' 
 		  GROUP BY 	locais.sg_local

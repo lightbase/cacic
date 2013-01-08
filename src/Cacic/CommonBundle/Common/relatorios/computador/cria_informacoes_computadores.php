@@ -1,4 +1,4 @@
-<?
+<?php
  /*
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -52,17 +52,18 @@ if ($_POST['submit_cond'])
 	$query_sele_cria = str_replace('-MAIOR-',' > ',$query_sele_cria);	
 
     $from 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' ,redes c':'');	
-    $where 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND a.id_ip_rede = c.id_ip_rede AND c.id_local='.$_SESSION['id_local']:'');		
+    $where 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND a.id_rede = c.id_rede AND c.id_local='.$_SESSION['id_local']:'');		
 	$Query_Pesquisa = 'SELECT 	a.id_so,
 								a.te_node_address,
 								a.te_nome_computador, 
 								a.te_dominio_dns, 								
-								a.te_ip, 
+								a.te_ip_computador, 
 								a.te_versao_cacic, 
 								a.te_versao_gercols, 
 								a.dt_hr_ult_acesso,
 								a.dt_hr_inclusao,								
-								b.te_desc_so						 
+								b.te_desc_so,
+								a.id_computador						 
 						FROM	computadores a,
 								so b '.
 								$from . ' 
@@ -80,7 +81,7 @@ if ($_POST['submit_cond'])
 	<head>
 	<title>Consulta Computadores</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">	
-	<link rel="stylesheet" type="text/css" href="../../include/cacic.css">
+	<link rel="stylesheet" type="text/css" href="../../include/css/cacic.css">
 	<SCRIPT>
 	function Verifica_Check_Cria()
 		{
@@ -113,7 +114,7 @@ if ($_POST['submit_cond'])
 	</head>
 
 	<body background="../../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 	<form name="form1" method="post">
 	<table width="95%" border="0" align="center">
 	<tr> 
@@ -126,9 +127,9 @@ if ($_POST['submit_cond'])
 	</tr>
 	</table>
 	<br><br>
-  	<table width="90%" align="center"><tr>
+  	<table width="85%" align="center"><tr>
     <td><div align="center"> 
-	<?          $query_sele_cria = '';
+	<?php          $query_sele_cria = '';
 		   $value_anterior = '';
 
 
@@ -153,7 +154,7 @@ if ($_POST['submit_cond'])
 	?>
 
 
-   	<input name="submit_expo" type="submit" value="  Exportar Selecao" onClick="return Confirma('Confirma EXPORTACAO?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
+   	<input name="submit_expo" type="submit" value="  Exportar Selecao" onClick="return Confirma('Confirma EXPORTACAO?');" <?php echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>
    	&nbsp;&nbsp;
    	<input name="submit_nova" type="submit" value="  Nova Selecao  ">	
 	</div></td>		
@@ -178,9 +179,9 @@ if ($_POST['submit_cond'])
             <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">S.O.</div></td>
             <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"> Cacic2</div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"> Agente Principal</div></td>
             <td nowrap ><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
-            <td nowrap class="cabecalho_tabela"> GerCols</td>
+            <td nowrap class="cabecalho_tabela"> Gerente de Coletas</td>
             <td nowrap class="cabecalho_tabela"><img src="../../imgs/tree_vertline.gif" width="10" height="18"></td>
             <td nowrap class="cabecalho_tabela"><div align="center">&Uacute;lt. 
                 Acesso</div></td>
@@ -191,39 +192,39 @@ if ($_POST['submit_cond'])
           <tr> 
             <td height="1" bgcolor="#333333" colspan="20"></td>
           </tr>
-          <?  
+          <?php  
 	$Cor = 0;
 	$NumRegistro = 1;
 	
 	while($row = mysql_fetch_array($result)) 
 		{		  
 	 	?>
-          <tr <? if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
+          <tr <?php if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><? echo $NumRegistro; ?></div></td>
+            <td nowrap><div align="left"><?php echo $NumRegistro; ?></div></td>
             <td nowrap>&nbsp;</td>
-	    <td nowrap><input type="checkbox" name="chk_<? echo $row['te_node_address'].'#'. $row['id_so']; ?>" value="1" checked onClick="Verifica_Check_Cria();"></td>
+	    <td nowrap><input type="checkbox" name="chk_<?php echo $row['id_computador']; ?>" value="1" checked onClick="Verifica_Check_Cria();"></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_nome_computador']; ?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_dominio_dns']; ?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_dominio_dns']; ?></a></div></td>
             <td nowrap>&nbsp;</td>			
-            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_ip']; ?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_ip_computador']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_node_address'];?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_node_address'];?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="center"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_desc_so']; ?></a></div></td>
+            <td nowrap><div align="center"><a href="computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_desc_so']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_cacic']; ?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_versao_cacic']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="left"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo $row['te_versao_gercols']; ?></a></div></td>
+            <td nowrap><div align="left"><a href="computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_versao_gercols']; ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="right"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
+            <td nowrap><div align="right"><a href="computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap><div align="right"><a href="computador.php?te_node_address=<? echo $row['te_node_address'];?>&id_so=<? echo $row['id_so'];?>" target="_blank"><? echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div></td>
+            <td nowrap><div align="right"><a href="computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div></td>
             <td nowrap>&nbsp;</td>
           </tr>
-          <? 
+          <?php 
 		$Cor=!$Cor;
 		$NumRegistro++;
 		}		
@@ -244,7 +245,7 @@ if ($_POST['submit_cond'])
 				}
 			}		
 		</script>
-          <?
+          <?php
 		}
 		?>
         </table></td>
@@ -255,9 +256,9 @@ if ($_POST['submit_cond'])
 	</table>
 
   	<br><br>
-  	<table width="90%" align="center"><tr>
+  	<table width="85%" align="center"><tr>
     <td><div align="center"> 
-   	<input name="submit_expo" type="submit" value="  Exportar Selecao" <? if ($NumRegistro == 1) echo 'disabled'; ?> onClick="return Confirma('Confirma EXPORTACAO?');" <? echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
+   	<input name="submit_expo" type="submit" value="  Exportar Selecao" <?php if ($NumRegistro == 1) echo 'disabled'; ?> onClick="return Confirma('Confirma EXPORTACAO?');" <?php echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>		  
    	&nbsp;&nbsp;
    	<input name="submit_nova" type="submit" value="  Nova Selecao  ">	
 	</div></td>		
@@ -265,7 +266,7 @@ if ($_POST['submit_cond'])
 	<p><p><p>  
 	</form>
 	</html>	
-	<?				
+	<?php				
 	}
 else	
 	{
@@ -306,14 +307,13 @@ else
 //				if (!$result_tables) $result_tables	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do CACIC
 				
 //				mysql_data_seek($result_tables,0);
-				$v_arr_cria = explode('#',$key);
 
 //$from       = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' ,redes c':'');
-//$where      = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND a.id_ip_rede = c.id_ip_rede AND c.id_local='.$_SESSION['id_local']:'');
+//$where      = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND a.te_ip = c.te_ip AND c.id_local='.$_SESSION['id_local']:'');
 
 //				while ($row_cria = mysql_fetch_row($result_tables)) //Percorre as tabelas comandando a exclusão, conforme TE_NODE_ADDRESS e ID_SO				
 //					{
-				$where='(a.te_node_address = "'. str_replace('chk_','',$v_arr_cria[0]) . '" and b.id_so="'.str_replace('chk_','',$v_arr_cria[1]).'")' . $where;
+				$where='(a.id_computador = '. str_replace('chk_','',$key) . ')' . $where;
                                 if ( $passo > 2 ) //botao e o ultimo
                                         $where =  ' or ' . $where ;
                                 $passo--;
@@ -327,11 +327,12 @@ else
                                     a.te_node_address,
                                     a.te_nome_computador,
 									a.te_dominio_dns,
-                                    a.te_ip,
+                                    a.te_ip_computador,
                                     a.te_versao_cacic,
                                     a.te_versao_gercols,
                                     a.dt_hr_ult_acesso,
-                                    a.dt_hr_inclusao
+                                    a.dt_hr_inclusao,
+                                    a.id_computador									
                         INTO OUTFILE \''. $file_dir . $nome_arquivo .
                                     '\' fields terminated by \',\' lines terminated by \'\n\' 
                         FROM computadores a, so b 
@@ -342,10 +343,10 @@ else
             header("Content-disposition: csv" . date("Y-m-d") . ".xls");
             header( "Content-disposition: filename=$nome_arquivo");
             // Cabeçalho do arquivo
-            echo 'S.O.,Endereco MAC,Nome da maquina,IP,Cacic2,GerCols,Ultimo acesso,Inclusao'."\n";
+            echo 'S.O.,Endereco MAC,Nome da maquina,IP,Agente Principal,Gerente de Coletas,Ultimo acesso,Inclusao'."\n";
 	        readfile($file_dir.$nome_arquivo);
 	        flush();
-			GravaLog('CRIA',$_SERVER['SCRIPT_NAME'],'computadores');
+			GravaLog('CRIA',$_SERVER['SCRIPT_NAME'],'computadores',$_SESSION["id_usuario"]);
 			exit();
 		}
 	?>	
@@ -355,9 +356,9 @@ else
 	<title>Cria Computadores</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	
-	<link href="../../include/cacic.css" rel="stylesheet" type="text/css">
+	<link href="../../include/css/cacic.css" rel="stylesheet" type="text/css">
 	<SCRIPT>
-	<?isset($nome_arquivo) and printf("window.open('%s');", $nome_arquivo); ?>
+	<?php isset($nome_arquivo) and printf("window.open('%s');", $nome_arquivo); ?>
 	function Preenche_Condicao_VAZIO(p_campo)
 		{
 		for (i=0;i<window.document.forms.length;i++)
@@ -436,9 +437,9 @@ else
 	</head>
 
 	<body background="../../imgs/linha_v.gif">
-	<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
 	<form name="form1" method="post">
-	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
+	<table width="85%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr> 
 	
   	<td class="cabecalho">Criar Relatório</td>
@@ -452,14 +453,14 @@ else
 	</tr>
 	</table>
 	<br><br>
-	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
+	<table width="85%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
     <td colspan="3"><div align="center"> 
    	<input name="submit_cond" type="submit" value="  Selecionar Computadores  " onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">
    	</div></td>
    	</tr></table>
 
 	<br><br>	
-	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
+	<table width="85%" align="center" border="0" cellpadding="0" cellspacing="0">
 	<tr bgcolor="#CCCCCC"> 
   	<td class="destaque">Campo</font></strong></td>
   	<td class="destaque">Condi&ccedil;&atilde;o</font></strong></td>
@@ -469,7 +470,7 @@ else
     <td colspan="3" height="1" bgcolor="#333333"></td>
   	</tr>
 	
-	<?
+	<?php
 	$cor = 0;
 	require_once('../../include/library.php');
 	conecta_bd_cacic();	
@@ -489,7 +490,6 @@ else
 							   			te_descricao_campo="'.$row_fields[0].'", 
 										nm_tipo_campo = "datetime"';
 			$res_ins_desc 	= @mysql_query($query_ins_desc);
-			//GravaLog('INS',$_SERVER['SCRIPT_NAME'],'descricoes_colunas_computadores');
 			}
 			
 		if ($row_desc['cs_condicao_pesquisa']=='S')
@@ -503,38 +503,37 @@ else
 		{
 		$v_arr_campo = explode('#',$v_arr_nomes_campos[$i]);
 		?>
-		<tr <? if ($cor) echo 'bgcolor="#E1E1E1"';?>> 
-		<td nowrap><? echo $v_arr_campo[0];?></td>
-		<td><select name="frm_condicao_<? echo $v_arr_campo[1]; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+		<tr <?php if ($cor) echo 'bgcolor="#E1E1E1"';?>> 
+		<td nowrap><?php echo $v_arr_campo[0];?></td>
+		<td><select name="frm_condicao_<?php echo $v_arr_campo[1]; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
 		<option value=""></option>
-		<?
-		if ($v_arr_campo[2] == 'datetime') 
+		<?php if ($v_arr_campo[2] == 'datetime') 
 			{
 			$v_operacao = "(TO_DAYS(NOW())-TO_DAYS(a.".$v_arr_campo[1].")";
 			?>
-			<option value="<? echo $v_operacao . ' =       frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">IGUAL A</option>					
-			<option value="<? echo $v_operacao . ' -MAIOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MAIOR QUE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>					
-			<option value="<? echo $v_operacao . ' -MENOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MENOR QUE</option>											
-			<?
+			<option value="<?php echo $v_operacao . ' =       frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">IGUAL A</option>					
+			<option value="<?php echo $v_operacao . ' -MAIOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MAIOR QUE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>					
+			<option value="<?php echo $v_operacao . ' -MENOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MENOR QUE</option>											
+			<?php
 			}
 		else
 			{
 			?>
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." =       'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">IGUAL A</option>		
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." <>      'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">DIFERENTE DE</option>			
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." -MAIOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MAIOR QUE</option>
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." -MENOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MENOR QUE</option>						
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao%'";?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">CONTENHA</option>
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    'frm_te_valor_condicao%'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">INICIE COM</option>
-			<option value="<? echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">TERMINE COM</option>				
-			<option value="<? echo 'TRIM(a.'.$v_arr_campo[1].") = '' and " 					   ;?>" onClick="Preenche_Condicao_VAZIO('<? echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 >VAZIO</option>		
-			<?
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." =       'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">IGUAL A</option>		
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." <>      'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">DIFERENTE DE</option>			
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." -MAIOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MAIOR QUE</option>
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." -MENOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">MENOR QUE</option>						
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao%'";?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">CONTENHA</option>
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." like    'frm_te_valor_condicao%'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">INICIE COM</option>
+			<option value="<?php echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');">TERMINE COM</option>				
+			<option value="<?php echo 'TRIM(a.'.$v_arr_campo[1].") = '' and " 					   ;?>" onClick="Preenche_Condicao_VAZIO('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 >VAZIO</option>		
+			<?php
 			}
 			?>
 		</select> </td>
-		<td><input name="frm_te_valor_condicao_<? echo $v_arr_campo[1]; ?>" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);Verifica_Selecao(this,'<? echo "frm_condicao_". $v_arr_campo[1]; ?>');" size="70" maxlength="100"></td>
+		<td><input name="frm_te_valor_condicao_<?php echo $v_arr_campo[1]; ?>" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);Verifica_Selecao(this,'<?php echo "frm_condicao_". $v_arr_campo[1]; ?>');" size="70" maxlength="100"></td>
 		</tr>
-		<?			
+		<?php			
 		$cor=!$cor;
 		}
 
@@ -545,7 +544,7 @@ else
 	
 	</table>
 	<br><br>
-	<table width="90%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
+	<table width="85%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
 	<td colspan="3"><div align="center"> 
    	<input name="submit_cond" type="submit" value="  Selecionar Computadores  " onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">	
 	</div></td>
@@ -554,6 +553,6 @@ else
 	<p><p><p>  
 	</form>
 	</html>	
-	<?			
+	<?php			
 	}
 	?>

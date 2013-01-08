@@ -14,7 +14,7 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 /*
-$Id: nusoap.php,v 1.63 2003/10/28 18:50:53 snichol Exp $
+$Id: nusoap.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 
 NuSOAP - Web Services Toolkit for PHP
 
@@ -68,7 +68,7 @@ require_once('class.soap_server.php');*/
 * nusoap_base
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.63 2003/10/28 18:50:53 snichol Exp $
+* @version  $Id: nusoap.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @access   public
 */
 class nusoap_base {
@@ -420,7 +420,7 @@ class nusoap_base {
 	}
 	// serialize envelope
 	return
-	'<?xml version="1.0" encoding="'.$this->soap_defencoding .'"?'.">".
+	'<?php xml version="1.0" encoding="'.$this->soap_defencoding .'"?'.">".
 	'<SOAP-ENV:Envelope'.$ns_string.">".
 	$headers.
 	"<SOAP-ENV:Body>".
@@ -566,7 +566,7 @@ function usleepWindows($usec)
 * mainly used for returning faults from deployed functions
 * in a server instance.
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.63 2003/10/28 18:50:53 snichol Exp $
+* @version  $Id: nusoap.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @access public
 */
 class soap_fault extends nusoap_base {
@@ -602,7 +602,7 @@ class soap_fault extends nusoap_base {
 			$ns_string .= "\n  xmlns:$k=\"$v\"";
 		}
 		$return_msg =
-			'<?xml version="1.0" encoding="'.$this->soap_defencoding.'"?>'.
+			'<?php xml version="1.0" encoding="'.$this->soap_defencoding.'"?>'.
 			'<SOAP-ENV:Envelope SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/SOAP/encoding/"'.$ns_string.">\n".
 				'<SOAP-ENV:Body>'.
 				'<SOAP-ENV:Fault>'.
@@ -631,7 +631,7 @@ class soap_fault extends nusoap_base {
 * tutorials I refer to :)
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.63 2003/10/28 18:50:53 snichol Exp $
+* @version  $Id: nusoap.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @access   public
 */
 class XMLSchema extends nusoap_base  {
@@ -1303,7 +1303,7 @@ class XMLSchema extends nusoap_base  {
 * NOTE: this is only really used when WSDL is not available.
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.63 2003/10/28 18:50:53 snichol Exp $
+* @version  $Id: nusoap.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @access   public
 */
 class soapval extends nusoap_base {
@@ -1360,7 +1360,7 @@ class soapval extends nusoap_base {
 * NOTE: PHP must be compiled with the CURL extension for HTTPS support
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.63 2003/10/28 18:50:53 snichol Exp $
+* @version  $Id: nusoap.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @access public
 */
 class soap_transport_http extends nusoap_base {
@@ -1929,7 +1929,7 @@ class soap_transport_http extends nusoap_base {
 * NOTE: WSDL functionality is experimental
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.63 2003/10/28 18:50:53 snichol Exp $
+* @version  $Id: nusoap.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @access   public
 */
 class soap_server extends nusoap_base {
@@ -2577,7 +2577,7 @@ class soap_server extends nusoap_base {
 * parses a WSDL file, allows access to it's data, other utility methods
 * 
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.63 2003/10/28 18:50:53 snichol Exp $
+* @version  $Id: nusoap.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @access public 
 */
 class wsdl extends XMLSchema {
@@ -3075,7 +3075,7 @@ class wsdl extends XMLSchema {
 	*/
 	function serialize()
 	{
-		$xml = '<?xml version="1.0"?><definitions';
+		$xml = '<?php xml version="1.0"?><definitions';
 		foreach($this->namespaces as $k => $v) {
 			$xml .= " xmlns:$k=\"$v\"";
 		} 
@@ -3593,7 +3593,7 @@ class wsdl extends XMLSchema {
 * soap_parser class parses SOAP XML messages into native PHP values
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.63 2003/10/28 18:50:53 snichol Exp $
+* @version  $Id: nusoap.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @access   public
 */
 class soap_parser extends nusoap_base {
@@ -4117,7 +4117,7 @@ class soap_parser extends nusoap_base {
 * unset($soapclient);
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.63 2003/10/28 18:50:53 snichol Exp $
+* @version  $Id: nusoap.php,v 1.1.1.1 2012/09/14 16:01:15 d302112 Exp $
 * @access   public
 */
 class soapclient extends nusoap_base  {

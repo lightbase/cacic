@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: software_estacao.class.php 2009-10-12 14:05 harpiain $
+ * @version $Id: software_estacao.class.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package CACIC-Admin
  * @subpackage GerenciaLicencas
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>

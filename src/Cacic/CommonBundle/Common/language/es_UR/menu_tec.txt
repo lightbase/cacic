@@ -11,6 +11,6 @@
 ..Variables de Ambiente|relatorios/variaveis_ambiente/index.php|mainFrame||
 .<b>Acceso</b>||mainFrame|imgs/config_gerais.gif
 ..Cambio de Clave|admin/usuarios/troca_senha.php|mainFrame||
-.<b>Repositorio|repositorio_install.php|mainFrame||Repositório do Sistema CACIC
+.<b>Repositorio|downloads.php|mainFrame||Downloads do Sistema CACIC
 .<b>Projecto CACIC<b>|tribo/|new||Link de Acesso à Home Page do Projecto CACIC
 .<b>Comunidad CACIC<b>|http://www.softwarepublico.gov.br/spb/ver-comunidade?community_id=3585|new||Link de Acesso à Home Page da Comunidade CACIC

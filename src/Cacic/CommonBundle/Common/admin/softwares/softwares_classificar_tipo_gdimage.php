@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: softwares_classificar_tipo_gdimage.php 2009-09-14 00:18 harpiain $
+ * @version $Id: softwares_classificar_tipo_gdimage.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package CACIC-Admin
  * @subpackage SoftwaresClassificar
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>

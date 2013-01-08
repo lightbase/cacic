@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -28,17 +28,16 @@ conecta_bd_cacic();
 <html>
 <head>
 
-<link rel="stylesheet"   type="text/css" href="../../../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../../../include/css/cacic.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<?
+<?php
 // JavaScripts para fazer a selecao entre os listbox, movendo itens entre eles.
-require_once('selecao_listbox.js');
+require_once('js/selecao_listbox.js');
 ?>
 </head>
 <body background="../../../imgs/linha_v.gif" onLoad="verifica_status();">
-<script language="JavaScript" type="text/javascript" src="../../../include/cacic.js"></script>
-<?
-if (!$id_acao) 
+<script language="JavaScript" type="text/javascript" src="../../../include/js/cacic.js"></script>
+<?php if (!$id_acao) 
 	{ 
 	$cs_situacao = 'T'; 
 	} // Se não for setada a var id_acao, serão exibidas todas as redes para selecao.

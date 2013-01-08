@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -40,7 +40,7 @@ if($_POST['submit'])
  	$_SESSION["data_fim"] = $v_data_fim;
 	}
 ?>
-<? 
+<?php 
 require_once('../../include/library.php');
 AntiSpy();
 
@@ -54,7 +54,7 @@ if ($_SESSION['cs_nivel_administracao']<>1 && $_SESSION['cs_nivel_administracao'
 		for( $i = 1; $i < count($_SESSION["list2"] ); $i++ ) 
 			$redes_selecionadas = $redes_selecionadas . ",'" . $_SESSION["list2"][$i] . "'";
 
-		$query_redes = 'AND id_ip_rede IN ('. $redes_selecionadas .')';
+		$query_redes = 'AND te_ip IN ('. $redes_selecionadas .')';
 		//}	
 	}
 else
@@ -64,7 +64,7 @@ else
 	for( $i = 1; $i < count($_SESSION["list12"] ); $i++ ) 
 		$locais_selecionados .= ",'" . $_SESSION["list12"][$i] . "'";
 
-	$query_redes = 'AND comp.id_ip_rede = redes.id_ip_rede AND 
+	$query_redes = 'AND comp.te_ip = redes.te_ip AND 
 						redes.id_local IN ('. $locais_selecionados .') AND
 						redes.id_local = locais.id_local ';
 	$select = ' ,sg_local as Local ';	

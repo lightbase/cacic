@@ -1,4 +1,4 @@
-<? 
+<?php 
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -37,7 +37,7 @@ $query = 'SELECT 	DATE_FORMAT(aa.dt_hr_inicio_conexao, "%y-%m-%d %H:%i") as dt_h
 					aaa.dt_hr_mensagem,
 					aaa.te_mensagem,
 					aaa.cs_origem,							
-					d.te_ip te_ip_srv,
+					d.te_ip_computador te_ip_srv,
 					d.te_nome_computador te_nome_computador_srv,
 					b.nm_usuario_completo,														
 					b.nm_usuario_acesso,																					
@@ -61,8 +61,7 @@ $query = 'SELECT 	DATE_FORMAT(aa.dt_hr_inicio_conexao, "%y-%m-%d %H:%i") as dt_h
 		  			a.id_sessao = aa.id_sessao AND				  			
 					aa.id_usuario_cli = b.id_usuario AND
 					b.id_local = c.id_local AND
-					d.te_node_address = a.te_node_address_srv AND
-					d.id_so = a.id_so_srv AND
+					d.id_computador = a.id_computador_srv AND
 					e.id_so = aa.id_so_cli AND
 					f.id_so = a.id_so_srv
 		  ORDER BY 	aaa.dt_hr_mensagem DESC';
@@ -86,16 +85,16 @@ $strCorCli = '#FFFFCC';
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link rel="stylesheet"   type="text/css" href="../include/cacic.css">
+<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
 <title>Lista Chats Realizados nas Conex&otilde;es srCACIC</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
 <body background="../imgs/linha_v.gif">
-<script language="JavaScript" type="text/javascript" src="../include/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../include/js/cacic.js"></script>
 
 <form name="form1" method="post" action="">
-<table width="90%" border="0" align="center">
+<table width="85%" border="0" align="center">
   <tr> 
     <td colspan="2" class="cabecalho">Detalhamento de  conexão para Suporte Remoto</td>
   </tr>
@@ -109,57 +108,57 @@ $strCorCli = '#FFFFCC';
     </tr>
   
   <tr>
-    <td bgcolor="<? echo $strCorSrv; ?>" colspan="2" class="cabecalho_secao" align="left">Estação Local</td>  
+    <td bgcolor="<?php echo $strCorSrv; ?>" colspan="2" class="cabecalho_secao" align="left">Estação Local</td>  
   </tr>
   <tr>
-    <td nowrap bgcolor="<? echo $strCorSrv; ?>" class="destaque"><div align="right">Usu&aacute;rio:</div></td>
-    <td bgcolor="<? echo $strCorSrv; ?>" class="normal"><? echo $row['nm_completo_usuario_srv']; ?></td>
+    <td nowrap bgcolor="<?php echo $strCorSrv; ?>" class="destaque"><div align="right">Usu&aacute;rio:</div></td>
+    <td bgcolor="<?php echo $strCorSrv; ?>" class="normal"><?php echo $row['nm_completo_usuario_srv']; ?></td>
   </tr>
   <tr>
-    <td nowrap bgcolor="<? echo $strCorSrv; ?>" class="destaque"><div align="right">Sistema Operacional:</div></td>
-    <td bgcolor="<? echo $strCorCli; ?>" class="normal"><? echo $row['te_desc_so_srv'].' ('.$row['te_so_srv'].')';?></td>
+    <td nowrap bgcolor="<?php echo $strCorSrv; ?>" class="destaque"><div align="right">Sistema Operacional:</div></td>
+    <td bgcolor="<?php echo $strCorCli; ?>" class="normal"><?php echo $row['te_desc_so_srv'].' ('.$row['te_so_srv'].')';?></td>
   </tr>
   <tr>
-    <td width="16%" nowrap bgcolor="<? echo $strCorSrv; ?>" class="destaque"><div align="right">In&iacute;cio de Sess&atilde;o:</div></td>
-    <td width="83%" bgcolor="<? echo $strCorSrv; ?>" class="normal"><? echo $day_inicio_sessao.'/'.$month_inicio_sessao.'/'.$year_inicio_sessao. ' '. substr($hour_inicio_sessao,0,5).'h'; ?></td>
+    <td width="16%" nowrap bgcolor="<?php echo $strCorSrv; ?>" class="destaque"><div align="right">In&iacute;cio de Sess&atilde;o:</div></td>
+    <td width="83%" bgcolor="<?php echo $strCorSrv; ?>" class="normal"><?php echo $day_inicio_sessao.'/'.$month_inicio_sessao.'/'.$year_inicio_sessao. ' '. substr($hour_inicio_sessao,0,5).'h'; ?></td>
   </tr>
   <tr>
-    <td nowrap bgcolor="<? echo $strCorSrv; ?>" class="destaque"><div align="right">Identifica&ccedil;&atilde;o da Esta&ccedil;&atilde;o</div></td>
-    <td bgcolor="<? echo $strCorSrv; ?>" class="normal"><? echo $row['te_ip_srv'].' / '.$row['te_nome_computador_srv'].' ('.$row['sg_local'].')'; ?></td>
+    <td nowrap bgcolor="<?php echo $strCorSrv; ?>" class="destaque"><div align="right">Identifica&ccedil;&atilde;o da Esta&ccedil;&atilde;o</div></td>
+    <td bgcolor="<?php echo $strCorSrv; ?>" class="normal"><?php echo $row['te_ip_srv'].' / '.$row['te_nome_computador_srv'].' ('.$row['sg_local'].')'; ?></td>
   </tr>
   <tr>
     <td height="1" colspan="2" bgcolor="#FFFFFF"><BR></td>
     </tr>
   
   <tr>
-    <td bgcolor="<? echo $strCorCli; ?>" colspan="2" class="cabecalho_secao" align="left">Estação Remota</td>    
+    <td bgcolor="<?php echo $strCorCli; ?>" colspan="2" class="cabecalho_secao" align="left">Estação Remota</td>    
     </tr>
   
   <tr>
-    <td nowrap bgcolor="<? echo $strCorCli; ?>" class="destaque"><div align="right">Usu&aacute;rio:</div></td>
-    <td bgcolor="<? echo $strCorCli; ?>" class="normal"><? echo $row['nm_usuario_acesso'].' / '.$row['nm_usuario_completo']; ?></td>
+    <td nowrap bgcolor="<?php echo $strCorCli; ?>" class="destaque"><div align="right">Usu&aacute;rio:</div></td>
+    <td bgcolor="<?php echo $strCorCli; ?>" class="normal"><?php echo $row['nm_usuario_acesso'].' / '.$row['nm_usuario_completo']; ?></td>
   </tr>
   <tr>
-    <td nowrap bgcolor="<? echo $strCorCli; ?>" class="destaque"><div align="right">Sistema Operacional:</div></td>
-    <td bgcolor="<? echo $strCorCli; ?>" class="normal"><? echo $row['te_desc_so_cli'].' ('.$row['te_so_cli'].')';?></td>
+    <td nowrap bgcolor="<?php echo $strCorCli; ?>" class="destaque"><div align="right">Sistema Operacional:</div></td>
+    <td bgcolor="<?php echo $strCorCli; ?>" class="normal"><?php echo $row['te_desc_so_cli'].' ('.$row['te_so_cli'].')';?></td>
   </tr>
   <tr>
-    <td nowrap bgcolor="<? echo $strCorCli; ?>" class="destaque"><div align="right">Documento Referencial:</div></td>
-    <td bgcolor="<? echo $strCorCli; ?>" class="normal"><? echo $row['te_documento_referencial']; ?></td>
+    <td nowrap bgcolor="<?php echo $strCorCli; ?>" class="destaque"><div align="right">Documento Referencial:</div></td>
+    <td bgcolor="<?php echo $strCorCli; ?>" class="normal"><?php echo $row['te_documento_referencial']; ?></td>
   </tr>
   <tr>
-    <td nowrap bgcolor="<? echo $strCorCli; ?>" class="destaque"><div align="right">Descritivo  do Atendimento:</div></td>
-    <td bgcolor="<? echo $strCorCli; ?>" class="normal"><? echo $row['te_motivo_conexao'];?></td>
+    <td nowrap bgcolor="<?php echo $strCorCli; ?>" class="destaque"><div align="right">Descritivo  do Atendimento:</div></td>
+    <td bgcolor="<?php echo $strCorCli; ?>" class="normal"><?php echo $row['te_motivo_conexao'];?></td>
   </tr>
   <tr>
-    <td nowrap bgcolor="<? echo $strCorCli; ?>" class="destaque"><div align="right">Conex&atilde;o - Data/Hora &Uacute;ltimo Contato:</div></td>
-    <td bgcolor="<? echo $strCorCli; ?>" class="normal"><? echo $day_ultimo_contato.'/'.$month_ultimo_contato.'/'.$year_ultimo_contato. ' '. substr($hour_ultimo_contato,0,5).'h'; ?></td>
+    <td nowrap bgcolor="<?php echo $strCorCli; ?>" class="destaque"><div align="right">Conex&atilde;o - Data/Hora &Uacute;ltimo Contato:</div></td>
+    <td bgcolor="<?php echo $strCorCli; ?>" class="normal"><?php echo $day_ultimo_contato.'/'.$month_ultimo_contato.'/'.$year_ultimo_contato. ' '. substr($hour_ultimo_contato,0,5).'h'; ?></td>
   </tr>
   <tr>
     <td height="1" colspan="2" bgcolor="#333333"></td>
     </tr>
 </table>
-<table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 <BR>
   <tr>
     <td colspan="2" class="destaque_chat"><div align="center" class="destaque_chat">Chat</div></td>
@@ -180,8 +179,7 @@ $strCorCli = '#FFFFCC';
     <td height="1" colspan="9" bgcolor="#333333"></td>
   </tr>
           
-<?  
-if(mysql_num_rows($result)==0) 
+<?php if(mysql_num_rows($result)==0) 
 	{
 	$msg = '<div align="center">
 			<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
@@ -199,12 +197,12 @@ else
 			list($year_mensagem, $month_mensagem, $day_mensagem) = explode("-", $row['dt_hr_mensagem']);
 			list($day_mensagem,$hour_mensagem) = explode(" ",$day_mensagem); 		
 			?>
-			<tr bgcolor="<? echo ($row['cs_origem']=='srv'?$strCorSrv:$strCorCli);?>">
-			<td><a name="<? echo $NumRegistro?>"></a></td>
-			<td class="opcao_tabela"><div align="left"><? echo $NumRegistro; ?></div></td>
-			<td class="opcao_tabela"><div align="center"><? echo $day_mensagem.'/'.$month_mensagem.'/'.$year_mensagem. ' '. $hour_mensagem . 'h'; ?></div></td>
-			<td class="opcao_tabela"><div align="left"><? echo ($row['cs_origem']=='srv'?$row['nm_completo_usuario_srv']:$row['nm_usuario_completo']) .': '. $row['te_mensagem']; ?> </div></td>
-			<? 
+			<tr bgcolor="<?php echo ($row['cs_origem']=='srv'?$strCorSrv:$strCorCli);?>">
+			<td><a name="<?php echo $NumRegistro?>"></a></td>
+			<td class="opcao_tabela"><div align="left"><?php echo $NumRegistro; ?></div></td>
+			<td class="opcao_tabela"><div align="center"><?php echo $day_mensagem.'/'.$month_mensagem.'/'.$year_mensagem. ' '. $hour_mensagem . 'h'; ?></div></td>
+			<td class="opcao_tabela"><div align="left"><?php echo ($row['cs_origem']=='srv'?$row['nm_completo_usuario_srv']:$row['nm_usuario_completo']) .': '. $row['te_mensagem']; ?> </div></td>
+			<?php 
 			$Cor=!$Cor;
 			$NumRegistro++;
 			}
@@ -215,7 +213,7 @@ else
 		<tr align="center">
 		<td colspan="4" class="Aviso">N&atilde;o Houve Chat Durante a Conex&atilde;o</td>
         </tr>
-		<? 				
+		<?php 				
 		}
 	}
 
@@ -229,7 +227,7 @@ else
     <td height="10" colspan="3">&nbsp;</td>
   </tr>
   <tr> 
-    <td height="10" colspan="3"><? echo $msg;?></td>
+    <td height="10" colspan="3"><?php echo $msg;?></td>
   </tr>
   
 </table>

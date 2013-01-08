@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -21,7 +21,7 @@ function estatistica_cacic($pergunta)
 	require_once("../include/config.php");
 	$conexao = mysql_connect($ip_servidor, $usuario_bd, $senha_usuario_bd);
 	$bancodedados = mysql_select_db($nome_bd, $conexao);
-	$xml_resposta = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
+	$xml_resposta = "<?php xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
 	
 	$xml_resposta = $xml_resposta."<estatisticas>";
   	require("bloco_consultas.php");

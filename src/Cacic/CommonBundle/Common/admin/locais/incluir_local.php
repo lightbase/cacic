@@ -1,4 +1,4 @@
-<?
+<?php
  /* 
  Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
 
@@ -52,7 +52,7 @@ if($_POST['submit']<>'')
 						  	 '".$_POST['frm_nm_local']."',									  
 						  	 '".$_POST['frm_te_observacao']."')";									  						  
 		$result = mysql_query($query) or die ($oTranslator->_('Falha na Insercao em (%1) ou sua sessao expirou!',array('Locais')));
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'locais');		
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'locais',$_SESSION["id_usuario"]);		
 		
 		// Provavelmente uma solução temporária!...
 		// Probaly a temporary solution...
@@ -61,7 +61,7 @@ if($_POST['submit']<>'')
 		$result = mysql_query($query) or die ($oTranslator->_('Falha na Consulta a tabela (%1) ou sua sessao expirou!',array('Locais')));
 		$row_max_id_local = mysql_fetch_array($result);
 		
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'locais');
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'locais',$_SESSION["id_usuario"]);
 
 		$query = "SELECT	*
 				  FROM		configuracoes_padrao";									  						  
@@ -86,7 +86,7 @@ if($_POST['submit']<>'')
 							$row_padrao['te_exibe_graficos']."')";
 								
 		$result = mysql_query($query) or die ($oTranslator->_('Falha na Insercao em (%1) ou sua sessao expirou!',array('configuracoes_locais')));
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'configuracoes_locais');		
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'configuracoes_locais',$_SESSION["id_usuario"]);		
 		
 		// Insiro as configurações padrão para as 9 etiquetas da janela de Informações Patrimoniais, que surge para o usuário preencher...
 		$query = "INSERT 	INTO 		patrimonio_config_interface 
@@ -168,7 +168,7 @@ if($_POST['submit']<>'')
 				}
 			
 			}
-		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_so');									
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_so',$_SESSION["id_usuario"]);									
 		
 	    header ("Location: index.php");		
 		}
@@ -176,14 +176,14 @@ if($_POST['submit']<>'')
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<?
+<?php
 }
 else 
 {
 ?>
 <head>
-<link rel="stylesheet"   type="text/css" href="../../include/cacic.css">
-<title><?=$oTranslator->_('Inclusao de Local');?></title>
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
+<title><?php echo $oTranslator->_('Inclusao de Local');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <SCRIPT LANGUAGE="JavaScript">
 
@@ -219,19 +219,19 @@ MM_reloadPage(true);
 </head>
 
 <body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_sg_local');">
-<script language="JavaScript" type="text/javascript" src="../../include/cacic.js"></script>
-<table width="90%" border="0" align="center">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<table width="85%" border="0" align="center">
   <tr> 
-    <td class="cabecalho"><?=$oTranslator->_('Inclusao de Local');?></td>
+    <td class="cabecalho"><?php echo $oTranslator->_('Inclusao de Local');?></td>
   </tr>
   <tr> 
     <td class="descricao">
-      <?=$oTranslator->_('Inclusao de Local help');?>
+      <?php echo $oTranslator->_('Inclusao de Local help');?>
     </td>
   </tr>
 </table>
 <form action="incluir_local.php"  method="post" ENCTYPE="multipart/form-data" name="form" onSubmit="return valida_form()">
-  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
     <tr> 
       <td class="label" colspan="2"><br>
         Sigla do Local:</td>
@@ -244,7 +244,7 @@ MM_reloadPage(true);
     </tr>
     <tr> 
       <td class="label" colspan="2"><div align="left"><br>
-          <?=$oTranslator->_('Descricao');?></div></td>
+          <?php echo $oTranslator->_('Descricao');?></div></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="2"></td>
@@ -254,7 +254,7 @@ MM_reloadPage(true);
     </tr>
     <tr> 
       <td class="label" colspan="2"><br>
-        <?=$oTranslator->_('Observacoes');?></td>
+        <?php echo $oTranslator->_('Observacoes');?></td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333" colspan="2"></td>
@@ -268,11 +268,11 @@ MM_reloadPage(true);
     </tr>
   </table>
   <p align="center"> 
-    <input name="submit" type="submit" value="<?=$oTranslator->_('Gravar Informacoes');?>" onClick="return Confirma('<?=$oTranslator->_('Confirma Inclusao de Local?');?>');">
+    <input name="submit" type="submit" value="<?php echo $oTranslator->_('Gravar Informacoes');?>" onClick="return Confirma('<?php echo $oTranslator->_('Confirma Inclusao de Local?');?>');">
   </p>
 </form>
 <p>
-  <?
+  <?php
 }
 ?>
 </p>

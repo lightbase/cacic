@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: cacic_common.class.php 2009-02-17 22:33 harpiain $
+ * @version $Id: cacic_common.class.php,v 1.1.1.1 2012/09/14 16:01:08 d302112 Exp $
  * @package CACIC-Admin
  * @subpackage AdminSetup
  * @author Adriano dos Santos Vieira <harpiain at gmail.com>
