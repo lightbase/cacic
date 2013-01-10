@@ -194,34 +194,46 @@ class Install {
 	 	}
 	 	
 	 	/*
-	 	 * verifica se o biblioteca MYSQL está instalada; testando se a função mysql_connect existe
+	 	 * verifica se o biblioteca MYSQL está instalada; testando se a função mysql_get_client_info existe
 	 	 */
 	 	$this->oTmpl->addVar('tmplNavBarCheckInstall', 'CACIC_MYSQLVERSION', CACIC_DBVERSION);
-		if (function_exists('mysql_get_client_info') and (version_compare(mysql_get_client_info(),CACIC_DBVERSION,'>='))) {
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', $this->oLang->_('kciq_msg yes')." ".mysql_get_client_info());
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_CLASS', "SimImg");
-	 	}  
-	 	else {
-	 	  $mysql_version = function_exists('mysql_get_client_info') ? mysql_get_client_info() : "< 4";
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', $this->oLang->_('kciq_msg no')." ".$mysql_version);
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_CLASS', "NaoImg");
-	 	  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_HELP', $this->oLang->_('kciq_msg phpmysql_help'));
-	 	  $lCouldContinue = false;
+	 	if ( function_exists( 'mysql_get_client_info' ) )
+	 	{
+	 		$mysql_version = preg_replace( "#.*(\d+\.\d+\.\d+).*#", '\\1', mysql_get_client_info() );
+	 		if ( version_compare( $mysql_version, CACIC_DBVERSION, '>=' ) )
+	 		{
+	 			$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', $this->oLang->_('kciq_msg yes') ." ". $mysql_version );
+				$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_CLASS', "SimImg");
+	 		}
+	 		else
+	 		{
+	 			$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', $this->oLang->_('kciq_msg no') ." ". $mysql_version );
+				$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_CLASS', "NaoImg");
+				$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_HELP', $this->oLang->_('kciq_msg phpmysql_help'));
+				$lCouldContinue = false;
+	 		}
+	 	}
+	 	else
+	 	{
+	 		$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_STATUS', $this->oLang->_('kciq_msg no')." < 4" );
+			$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_CLASS', "NaoImg");
+			$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPMYSQL_HELP', $this->oLang->_('kciq_msg phpmysql_help'));
+			$lCouldContinue = false;
 	 	}
 
-                /*
-                 * verifica se hÃ¡ suporte ao LDAP; testando se a funï¿½ï¿½o ldap_connect existe
-                 */
-                if (function_exists('ldap_connect')) {
-                  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPLDAP_STATUS', $this->oLang->_('kciq_msg yes'));
-                  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPLDAP_CLASS', "SimImg");
-                }
-                else {
-                  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPLDAP_STATUS', $this->oLang->_('kciq_msg no'));
-                  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPLDAP_CLASS', "NaoImg");
-                  $this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPLDAP_HELP', $this->oLang->_('kciq_msg phpldap_help'));
-                  $lCouldContinue = false;
-                }
+		/*
+		* verifica se hÃ¡ suporte ao LDAP; testando se a funï¿½ï¿½o ldap_connect existe
+		*/
+		if (function_exists('ldap_connect')) {
+			$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPLDAP_STATUS', $this->oLang->_('kciq_msg yes'));
+			$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPLDAP_CLASS', "SimImg");
+		}
+		else {
+			$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPLDAP_STATUS', $this->oLang->_('kciq_msg no'));
+			$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPLDAP_CLASS', "NaoImg");
+			$this->oTmpl->addVar('tmplNavBarCheckInstall', 'PHPLDAP_HELP', $this->oLang->_('kciq_msg phpldap_help'));
+			$lCouldContinue = false;
+		}
 	 	
 	 	/*
 	 	 * verifica se é possivel escrever o arquivo de configurações para o CACIC
