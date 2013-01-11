@@ -1,4 +1,4 @@
-php_value include_path "."
+#php_value include_path "."
 #php_flag register_globals on
 #php_flag short_open_tag on
 php_flag register_long_arrays on
