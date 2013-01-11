@@ -1,3 +1,13 @@
+cacic_common_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: CacicCommonBundle:Default:index }
+
+cacic_usuario_troca_senha:
+    pattern: /usuario/trocasenha/{idUsuario}
+    defaults: { _controller: CacicCommonBundle:Usuario:trocasenha, idUsuario: null}
+    requirements:
+        idUsuario: \d+
+
 cacic_common_instalador:
     pattern:  /instalador
     defaults: { _controller: CacicCommonBundle:Default:instalador }
