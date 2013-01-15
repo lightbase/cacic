@@ -1,5 +1,5 @@
 cacic_common_homepage:
-    pattern:  /hello/{name}
+    pattern:  /
     defaults: { _controller: CacicCommonBundle:Default:index }
 
 cacic_usuario_troca_senha:
