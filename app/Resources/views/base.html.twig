@@ -1,13 +1,36 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+	<head>
+		<title>CACIC - Configurador Automático e Coletor de Informações Computacionais</title>
+		<LINK REL="shortcut icon" HREF="cacic_icon.ico" TYPE="imag/x-icon" >
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		{% block javascripts %}{% endblock %}
+		{% block stylesheets %}
+			<link href="{{ asset('bundles/caciccommon/css/main.css') }}" type="text/css" rel="stylesheet" />
+		{% endblock %}
+	</head>
+	
+	<body>
+		<div id="topo">
+			<div id="logo" style="float: left;">
+				<img src="{{ asset('bundles/caciccommon/images/cacic_logo.png') }}" width="50" height="50">
+				<img src="{{ asset('bundles/caciccommon/images/cacic_tit.gif') }}" height="20">
+				v.<?php echo CACIC_VERSION;?>
+			</div>
+			<div style="float: right;">
+				<img src="{{ asset('bundles/caciccommon/images/cacic_ext.gif')}}" align="bottom">
+						<?php 
+						if ($_SESSION['nm_local'])
+							echo $_SESSION['nm_local']; 					
+						else 
+							{
+							require_once('include/library.php');					
+							$arrConfiguracoesPadrao = getValores('configuracoes_padrao', 'nm_organizacao'); 
+							echo $arrConfiguracoesPadrao['nm_organizacao'];
+							}				
+						?>
+			</div>
+			<div class="clear"></div>
+		{% block body %}{% endblock %}
+	</body>
 </html>

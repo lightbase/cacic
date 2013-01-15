@@ -2,21 +2,24 @@
 
 namespace Cacic\CommonBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cacic\CommonBundle\Common;
 
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
 	
-	public function __construct()
+	/**
+	 * 
+	 * Tela inicial do CACIC
+	 */
+	public function indexAction()
 	{
-		$root_cacic = realpath( dirname(__FILE__) .'/../' ). '/Common';
-		set_include_path( "." . PATH_SEPARATOR . $root_cacic );
+		return $this->render('CacicCommonBundle:Default:index.html.twig');
 	}
 	
-    public function instaladorAction()
-    {
-		require_once( "instalador/index.php" );
-        //return $this->render('CacicCommonBundle:Default:index.html.twig', array('name' => $name));
-    }
+	public function instaladorAction()
+	{
+		require_once 'instalador/index.php';
+		die ('pronto');
+	}
+	
 }

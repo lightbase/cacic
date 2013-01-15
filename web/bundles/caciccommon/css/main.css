@@ -1,0 +1,17 @@
+@CHARSET "ISO-8859-1";
+
+BODY {  
+	margin: 0;
+	padding: 0;
+}
+
+div#topo {
+	background: url('../images/linha_h.gif') repeat-x bottom #ebebeb;
+	height: 60px;
+}
+
+#topo #logo {
+	margin-left: 20px;
+}
+
+.clear { clear: both; }

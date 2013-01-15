@@ -19,7 +19,7 @@
 @define('CACIC',1);
 @define('SECURITY',1);
 
-include_once('config.php');
+include_once('include/config.php');
 require_once('define.php');
 
 if(!include_once( TRANSLATOR_PATH.CACIC_DS.'Translator.php'))

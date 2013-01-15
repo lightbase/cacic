@@ -7,4 +7,11 @@
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ app.php [QSA,L]
+    
+	#RewriteCond %{REQUEST_FILENAME} -s [OR]
+	#RewriteCond %{REQUEST_FILENAME} -l [OR]
+	#RewriteCond %{REQUEST_FILENAME} -d
+	#RewriteRule ^.*$ - [NC,L]
+	#RewriteRule ^.*$ app.php [NC,L]
+	
 </IfModule>
