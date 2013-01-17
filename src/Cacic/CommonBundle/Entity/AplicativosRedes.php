@@ -15,85 +15,43 @@ class AplicativosRedes
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_local", type="integer", nullable=false)
+     * @ORM\Column(name="id_rede", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idLocal;
+    private $idRede;
 
     /**
-     * @var string
+     * @var \PerfisAplicativosMonitorados
      *
-     * @ORM\Column(name="id_ip_rede", type="string", length=15, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idIpRede;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_aplicativo", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\OneToOne(targetEntity="PerfisAplicativosMonitorados")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_aplicativo", referencedColumnName="id_aplicativo")
+     * })
      */
     private $idAplicativo;
 
 
 
     /**
-     * Set idLocal
-     *
-     * @param integer $idLocal
-     * @return AplicativosRedes
-     */
-    public function setIdLocal($idLocal)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
-
-    /**
-     * Get idLocal
+     * Get idRede
      *
      * @return integer 
      */
-    public function getIdLocal()
+    public function getIdRede()
     {
-        return $this->idLocal;
-    }
-
-    /**
-     * Set idIpRede
-     *
-     * @param string $idIpRede
-     * @return AplicativosRedes
-     */
-    public function setIdIpRede($idIpRede)
-    {
-        $this->idIpRede = $idIpRede;
-    
-        return $this;
-    }
-
-    /**
-     * Get idIpRede
-     *
-     * @return string 
-     */
-    public function getIdIpRede()
-    {
-        return $this->idIpRede;
+        return $this->idRede;
     }
 
     /**
      * Set idAplicativo
      *
-     * @param integer $idAplicativo
+     * @param \Cacic\CommonBundle\Entity\PerfisAplicativosMonitorados $idAplicativo
      * @return AplicativosRedes
      */
-    public function setIdAplicativo($idAplicativo)
+    public function setIdAplicativo(\Cacic\CommonBundle\Entity\PerfisAplicativosMonitorados $idAplicativo)
     {
         $this->idAplicativo = $idAplicativo;
     
@@ -103,7 +61,7 @@ class AplicativosRedes
     /**
      * Get idAplicativo
      *
-     * @return integer 
+     * @return \Cacic\CommonBundle\Entity\PerfisAplicativosMonitorados 
      */
     public function getIdAplicativo()
     {

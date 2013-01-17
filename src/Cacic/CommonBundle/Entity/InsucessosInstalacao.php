@@ -13,20 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class InsucessosInstalacao
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_insucesso_instalacao", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idInsucessoInstalacao;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="te_ip", type="string", length=15, nullable=false)
+     * @ORM\Column(name="te_ip_computador", type="string", length=15, nullable=false)
      */
-    private $teIp;
+    private $teIpComputador;
 
     /**
      * @var string
@@ -56,39 +47,41 @@ class InsucessosInstalacao
      */
     private $csIndicador;
 
-
-
     /**
-     * Get idInsucessoInstalacao
+     * @var \InsucessosInstalacao
      *
-     * @return integer 
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="InsucessosInstalacao")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_insucesso_instalacao", referencedColumnName="id_insucesso_instalacao")
+     * })
      */
-    public function getIdInsucessoInstalacao()
-    {
-        return $this->idInsucessoInstalacao;
-    }
+    private $idInsucessoInstalacao;
+
+
 
     /**
-     * Set teIp
+     * Set teIpComputador
      *
-     * @param string $teIp
+     * @param string $teIpComputador
      * @return InsucessosInstalacao
      */
-    public function setTeIp($teIp)
+    public function setTeIpComputador($teIpComputador)
     {
-        $this->teIp = $teIp;
+        $this->teIpComputador = $teIpComputador;
     
         return $this;
     }
 
     /**
-     * Get teIp
+     * Get teIpComputador
      *
      * @return string 
      */
-    public function getTeIp()
+    public function getTeIpComputador()
     {
-        return $this->teIp;
+        return $this->teIpComputador;
     }
 
     /**
@@ -181,5 +174,28 @@ class InsucessosInstalacao
     public function getCsIndicador()
     {
         return $this->csIndicador;
+    }
+
+    /**
+     * Set idInsucessoInstalacao
+     *
+     * @param \Cacic\CommonBundle\Entity\InsucessosInstalacao $idInsucessoInstalacao
+     * @return InsucessosInstalacao
+     */
+    public function setIdInsucessoInstalacao(\Cacic\CommonBundle\Entity\InsucessosInstalacao $idInsucessoInstalacao)
+    {
+        $this->idInsucessoInstalacao = $idInsucessoInstalacao;
+    
+        return $this;
+    }
+
+    /**
+     * Get idInsucessoInstalacao
+     *
+     * @return \Cacic\CommonBundle\Entity\InsucessosInstalacao 
+     */
+    public function getIdInsucessoInstalacao()
+    {
+        return $this->idInsucessoInstalacao;
     }
 }

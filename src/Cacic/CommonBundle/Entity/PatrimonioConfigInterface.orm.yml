@@ -9,12 +9,6 @@ PatrimonioConfigInterface:
             fixed: true
             nullable: false
             column: id_etiqueta
-        idLocal:
-            id: true
-            type: integer
-            unsigned: true
-            nullable: false
-            column: id_local
         nmEtiqueta:
             type: string
             length: 15
@@ -57,4 +51,20 @@ PatrimonioConfigInterface:
             fixed: true
             nullable: true
             column: in_destacar_duplicidade
+        inObrigatorio:
+            type: string
+            length: 1
+            fixed: true
+            nullable: false
+            column: in_obrigatorio
+    oneToOne:
+        idLocal:
+            targetEntity: Locais
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
     lifecycleCallbacks: {  }

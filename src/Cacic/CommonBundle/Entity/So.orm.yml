@@ -8,13 +8,8 @@ So:
             unsigned: false
             nullable: false
             column: id_so
-        teSo:
-            id: true
-            type: string
-            length: 50
-            fixed: true
-            nullable: false
-            column: te_so
+            generator:
+                strategy: IDENTITY
         teDescSo:
             type: string
             length: 50
@@ -27,6 +22,12 @@ So:
             fixed: true
             nullable: true
             column: sg_so
+        teSo:
+            type: string
+            length: 50
+            fixed: true
+            nullable: false
+            column: te_so
         inMswindows:
             type: string
             length: 1

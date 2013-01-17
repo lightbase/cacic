@@ -10,11 +10,6 @@ SrcacicConexoes:
             column: id_conexao
             generator:
                 strategy: IDENTITY
-        idSessao:
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_sessao
         idUsuarioCli:
             type: integer
             unsigned: false
@@ -49,4 +44,14 @@ SrcacicConexoes:
             type: datetime
             nullable: false
             column: dt_hr_ultimo_contato
+    manyToOne:
+        idSessao:
+            targetEntity: SrcacicSessoes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_sessao:
+                    referencedColumnName: id_sessao
+            orphanRemoval: false
     lifecycleCallbacks: {  }

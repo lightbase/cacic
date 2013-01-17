@@ -45,23 +45,19 @@ class UsbLogs
     /**
      * @var string
      *
-     * @ORM\Column(name="te_node_address", type="string", length=17, nullable=false)
-     */
-    private $teNodeAddress;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_so", type="integer", nullable=false)
-     */
-    private $idSo;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="cs_event", type="string", length=1, nullable=false)
      */
     private $csEvent;
+
+    /**
+     * @var \Computadores
+     *
+     * @ORM\ManyToOne(targetEntity="Computadores")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_computador", referencedColumnName="id_computador")
+     * })
+     */
+    private $idComputador;
 
 
 
@@ -145,52 +141,6 @@ class UsbLogs
     }
 
     /**
-     * Set teNodeAddress
-     *
-     * @param string $teNodeAddress
-     * @return UsbLogs
-     */
-    public function setTeNodeAddress($teNodeAddress)
-    {
-        $this->teNodeAddress = $teNodeAddress;
-    
-        return $this;
-    }
-
-    /**
-     * Get teNodeAddress
-     *
-     * @return string 
-     */
-    public function getTeNodeAddress()
-    {
-        return $this->teNodeAddress;
-    }
-
-    /**
-     * Set idSo
-     *
-     * @param integer $idSo
-     * @return UsbLogs
-     */
-    public function setIdSo($idSo)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSo
-     *
-     * @return integer 
-     */
-    public function getIdSo()
-    {
-        return $this->idSo;
-    }
-
-    /**
      * Set csEvent
      *
      * @param string $csEvent
@@ -211,5 +161,28 @@ class UsbLogs
     public function getCsEvent()
     {
         return $this->csEvent;
+    }
+
+    /**
+     * Set idComputador
+     *
+     * @param \Cacic\CommonBundle\Entity\Computadores $idComputador
+     * @return UsbLogs
+     */
+    public function setIdComputador(\Cacic\CommonBundle\Entity\Computadores $idComputador = null)
+    {
+        $this->idComputador = $idComputador;
+    
+        return $this;
+    }
+
+    /**
+     * Get idComputador
+     *
+     * @return \Cacic\CommonBundle\Entity\Computadores 
+     */
+    public function getIdComputador()
+    {
+        return $this->idComputador;
     }
 }

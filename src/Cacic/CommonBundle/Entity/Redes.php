@@ -13,22 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 class Redes
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="id_ip_rede", type="string", length=15, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idIpRede;
-
-    /**
      * @var integer
      *
-     * @ORM\Column(name="id_local", type="integer", nullable=false)
+     * @ORM\Column(name="id_rede", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idLocal;
+    private $idRede;
 
     /**
      * @var integer
@@ -36,6 +27,13 @@ class Redes
      * @ORM\Column(name="id_servidor_autenticacao", type="integer", nullable=true)
      */
     private $idServidorAutenticacao;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="te_ip_rede", type="string", length=15, nullable=false)
+     */
+    private $teIpRede;
 
     /**
      * @var string
@@ -177,52 +175,33 @@ class Redes
      */
     private $csPermitirDesativarSrcacic;
 
-
-
     /**
-     * Set idIpRede
+     * @var string
      *
-     * @param string $idIpRede
-     * @return Redes
+     * @ORM\Column(name="dt_debug", type="string", length=8, nullable=true)
      */
-    public function setIdIpRede($idIpRede)
-    {
-        $this->idIpRede = $idIpRede;
-    
-        return $this;
-    }
+    private $dtDebug;
 
     /**
-     * Get idIpRede
+     * @var \Locais
      *
-     * @return string 
+     * @ORM\ManyToOne(targetEntity="Locais")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
+     * })
      */
-    public function getIdIpRede()
-    {
-        return $this->idIpRede;
-    }
+    private $idLocal;
+
+
 
     /**
-     * Set idLocal
-     *
-     * @param integer $idLocal
-     * @return Redes
-     */
-    public function setIdLocal($idLocal)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
-
-    /**
-     * Get idLocal
+     * Get idRede
      *
      * @return integer 
      */
-    public function getIdLocal()
+    public function getIdRede()
     {
-        return $this->idLocal;
+        return $this->idRede;
     }
 
     /**
@@ -246,6 +225,29 @@ class Redes
     public function getIdServidorAutenticacao()
     {
         return $this->idServidorAutenticacao;
+    }
+
+    /**
+     * Set teIpRede
+     *
+     * @param string $teIpRede
+     * @return Redes
+     */
+    public function setTeIpRede($teIpRede)
+    {
+        $this->teIpRede = $teIpRede;
+    
+        return $this;
+    }
+
+    /**
+     * Get teIpRede
+     *
+     * @return string 
+     */
+    public function getTeIpRede()
+    {
+        return $this->teIpRede;
     }
 
     /**
@@ -706,5 +708,51 @@ class Redes
     public function getCsPermitirDesativarSrcacic()
     {
         return $this->csPermitirDesativarSrcacic;
+    }
+
+    /**
+     * Set dtDebug
+     *
+     * @param string $dtDebug
+     * @return Redes
+     */
+    public function setDtDebug($dtDebug)
+    {
+        $this->dtDebug = $dtDebug;
+    
+        return $this;
+    }
+
+    /**
+     * Get dtDebug
+     *
+     * @return string 
+     */
+    public function getDtDebug()
+    {
+        return $this->dtDebug;
+    }
+
+    /**
+     * Set idLocal
+     *
+     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
+     * @return Redes
+     */
+    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal = null)
+    {
+        $this->idLocal = $idLocal;
+    
+        return $this;
+    }
+
+    /**
+     * Get idLocal
+     *
+     * @return \Cacic\CommonBundle\Entity\Locais 
+     */
+    public function getIdLocal()
+    {
+        return $this->idLocal;
     }
 }

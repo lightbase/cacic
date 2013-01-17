@@ -10,17 +10,6 @@ ComponentesEstacoes:
             column: id_componente_estacao
             generator:
                 strategy: IDENTITY
-        teNodeAddress:
-            type: string
-            length: 17
-            fixed: true
-            nullable: false
-            column: te_node_address
-        idSo:
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_so
         csTipoComponente:
             type: string
             length: 100
@@ -31,4 +20,14 @@ ComponentesEstacoes:
             type: text
             nullable: false
             column: te_valor
+    manyToOne:
+        idComputador:
+            targetEntity: Computadores
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false
     lifecycleCallbacks: {  }

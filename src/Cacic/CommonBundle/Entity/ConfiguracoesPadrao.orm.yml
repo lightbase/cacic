@@ -2,12 +2,13 @@ ConfiguracoesPadrao:
     type: entity
     table: configuracoes_padrao
     fields:
-        idConfiguracaoPadrao:
+        nmOrganizacao:
             id: true
-            type: integer
-            unsigned: false
+            type: string
+            length: 150
+            fixed: true
             nullable: false
-            column: id_configuracao_padrao
+            column: nm_organizacao
             generator:
                 strategy: IDENTITY
         inExibeErrosCriticos:
@@ -31,12 +32,6 @@ ConfiguracoesPadrao:
             type: smallint
             nullable: true
             column: nu_rel_maxlinhas
-        nmOrganizacao:
-            type: string
-            length: 150
-            fixed: true
-            nullable: true
-            column: nm_organizacao
         nuTimeoutSrcacic:
             type: boolean
             nullable: false

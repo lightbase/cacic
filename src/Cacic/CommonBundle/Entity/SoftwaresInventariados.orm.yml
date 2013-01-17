@@ -21,15 +21,20 @@ SoftwaresInventariados:
             unsigned: false
             nullable: true
             column: id_tipo_software
-        idSoftware:
-            type: integer
-            unsigned: true
-            nullable: true
-            column: id_software
         teHash:
             type: string
             length: 40
             fixed: true
             nullable: false
             column: te_hash
+    manyToOne:
+        idSoftware:
+            targetEntity: Softwares
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_software:
+                    referencedColumnName: id_software
+            orphanRemoval: false
     lifecycleCallbacks: {  }

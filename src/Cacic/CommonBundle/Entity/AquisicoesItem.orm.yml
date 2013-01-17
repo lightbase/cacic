@@ -2,24 +2,6 @@ AquisicoesItem:
     type: entity
     table: aquisicoes_item
     fields:
-        idAquisicao:
-            id: true
-            type: integer
-            unsigned: true
-            nullable: false
-            column: id_aquisicao
-        idSoftware:
-            id: true
-            type: integer
-            unsigned: true
-            nullable: false
-            column: id_software
-        idTipoLicenca:
-            id: true
-            type: integer
-            unsigned: true
-            nullable: false
-            column: id_tipo_licenca
         qtLicenca:
             type: integer
             unsigned: false
@@ -35,4 +17,32 @@ AquisicoesItem:
             fixed: true
             nullable: true
             column: te_obs
+    oneToOne:
+        idAquisicao:
+            targetEntity: Aquisicoes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_aquisicao:
+                    referencedColumnName: id_aquisicao
+            orphanRemoval: false
+        idSoftware:
+            targetEntity: Softwares
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_software:
+                    referencedColumnName: id_software
+            orphanRemoval: false
+        idTipoLicenca:
+            targetEntity: TiposLicenca
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_tipo_licenca:
+                    referencedColumnName: id_tipo_licenca
+            orphanRemoval: false
     lifecycleCallbacks: {  }

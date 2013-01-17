@@ -10,16 +10,17 @@ Usuarios:
             column: id_usuario
             generator:
                 strategy: IDENTITY
-        idLocal:
-            type: integer
-            unsigned: true
-            nullable: false
-            column: id_local
         idServidorAutenticacao:
             type: integer
             unsigned: false
-            nullable: true
+            nullable: false
             column: id_servidor_autenticacao
+        idUsuarioLdap:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: id_usuario_ldap
         nmUsuarioAcesso:
             type: string
             length: 20
@@ -32,6 +33,12 @@ Usuarios:
             fixed: true
             nullable: false
             column: nm_usuario_completo
+        nmUsuarioCompletoLdap:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: nm_usuario_completo_ldap
         teSenha:
             type: string
             length: 60
@@ -42,11 +49,6 @@ Usuarios:
             type: datetime
             nullable: false
             column: dt_log_in
-        idGrupoUsuarios:
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_grupo_usuarios
         teEmailsContato:
             type: string
             length: 100
@@ -63,4 +65,23 @@ Usuarios:
             type: text
             nullable: true
             column: te_locais_secundarios
+    manyToOne:
+        idGrupoUsuarios:
+            targetEntity: GrupoUsuarios
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_grupo_usuarios:
+                    referencedColumnName: id_grupo_usuarios
+            orphanRemoval: false
+        idLocal:
+            targetEntity: Locais
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
     lifecycleCallbacks: {  }

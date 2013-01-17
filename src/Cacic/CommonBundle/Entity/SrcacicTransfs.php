@@ -22,13 +22,6 @@ class SrcacicTransfs
     private $idSrcacicTransfs;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_conexao", type="integer", nullable=false)
-     */
-    private $idConexao;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dt_systemtime", type="datetime", nullable=false)
@@ -84,6 +77,16 @@ class SrcacicTransfs
      */
     private $csOperacao;
 
+    /**
+     * @var \SrcacicConexoes
+     *
+     * @ORM\ManyToOne(targetEntity="SrcacicConexoes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_conexao", referencedColumnName="id_conexao")
+     * })
+     */
+    private $idConexao;
+
 
 
     /**
@@ -94,29 +97,6 @@ class SrcacicTransfs
     public function getIdSrcacicTransfs()
     {
         return $this->idSrcacicTransfs;
-    }
-
-    /**
-     * Set idConexao
-     *
-     * @param integer $idConexao
-     * @return SrcacicTransfs
-     */
-    public function setIdConexao($idConexao)
-    {
-        $this->idConexao = $idConexao;
-    
-        return $this;
-    }
-
-    /**
-     * Get idConexao
-     *
-     * @return integer 
-     */
-    public function getIdConexao()
-    {
-        return $this->idConexao;
     }
 
     /**
@@ -301,5 +281,28 @@ class SrcacicTransfs
     public function getCsOperacao()
     {
         return $this->csOperacao;
+    }
+
+    /**
+     * Set idConexao
+     *
+     * @param \Cacic\CommonBundle\Entity\SrcacicConexoes $idConexao
+     * @return SrcacicTransfs
+     */
+    public function setIdConexao(\Cacic\CommonBundle\Entity\SrcacicConexoes $idConexao = null)
+    {
+        $this->idConexao = $idConexao;
+    
+        return $this;
+    }
+
+    /**
+     * Get idConexao
+     *
+     * @return \Cacic\CommonBundle\Entity\SrcacicConexoes 
+     */
+    public function getIdConexao()
+    {
+        return $this->idConexao;
     }
 }

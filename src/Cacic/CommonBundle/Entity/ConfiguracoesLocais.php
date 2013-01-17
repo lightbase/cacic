@@ -13,15 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class ConfiguracoesLocais
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_local", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idLocal;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="te_notificar_mudanca_hardware", type="text", nullable=true)
@@ -203,17 +194,26 @@ class ConfiguracoesLocais
      */
     private $teUsbFilter;
 
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dt_debug", type="string", length=1, nullable=true)
+     */
+    private $dtDebug;
 
     /**
-     * Get idLocal
+     * @var \Locais
      *
-     * @return integer 
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Locais")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
+     * })
      */
-    public function getIdLocal()
-    {
-        return $this->idLocal;
-    }
+    private $idLocal;
+
+
 
     /**
      * Set teNotificarMudancaHardware
@@ -811,5 +811,51 @@ class ConfiguracoesLocais
     public function getTeUsbFilter()
     {
         return $this->teUsbFilter;
+    }
+
+    /**
+     * Set dtDebug
+     *
+     * @param string $dtDebug
+     * @return ConfiguracoesLocais
+     */
+    public function setDtDebug($dtDebug)
+    {
+        $this->dtDebug = $dtDebug;
+    
+        return $this;
+    }
+
+    /**
+     * Get dtDebug
+     *
+     * @return string 
+     */
+    public function getDtDebug()
+    {
+        return $this->dtDebug;
+    }
+
+    /**
+     * Set idLocal
+     *
+     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
+     * @return ConfiguracoesLocais
+     */
+    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal)
+    {
+        $this->idLocal = $idLocal;
+    
+        return $this;
+    }
+
+    /**
+     * Get idLocal
+     *
+     * @return \Cacic\CommonBundle\Entity\Locais 
+     */
+    public function getIdLocal()
+    {
+        return $this->idLocal;
     }
 }

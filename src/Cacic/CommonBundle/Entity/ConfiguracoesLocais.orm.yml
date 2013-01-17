@@ -2,14 +2,6 @@ ConfiguracoesLocais:
     type: entity
     table: configuracoes_locais
     fields:
-        idLocal:
-            id: true
-            type: integer
-            unsigned: true
-            nullable: false
-            column: id_local
-            generator:
-                strategy: IDENTITY
         teNotificarMudancaHardware:
             type: text
             nullable: true
@@ -137,4 +129,20 @@ ConfiguracoesLocais:
             type: text
             nullable: false
             column: te_usb_filter
+        dtDebug:
+            type: string
+            length: 1
+            fixed: true
+            nullable: true
+            column: dt_debug
+    oneToOne:
+        idLocal:
+            targetEntity: Locais
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
     lifecycleCallbacks: {  }

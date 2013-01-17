@@ -26,4 +26,10 @@ UsbVendors:
             type: text
             nullable: false
             column: te_observacao
+        dtRegistro:
+            type: string
+            length: 12
+            fixed: true
+            nullable: true
+            column: dt_registro
     lifecycleCallbacks: {  }

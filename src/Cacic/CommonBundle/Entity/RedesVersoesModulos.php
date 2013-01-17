@@ -13,13 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 class RedesVersoesModulos
 {
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="id_ip_rede", type="string", length=15, nullable=false)
+     * @ORM\Column(name="id_rede", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $idIpRede;
+    private $idRede;
 
     /**
      * @var string
@@ -29,15 +29,6 @@ class RedesVersoesModulos
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $nmModulo;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_local", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idLocal;
 
     /**
      * @var string
@@ -70,26 +61,26 @@ class RedesVersoesModulos
 
 
     /**
-     * Set idIpRede
+     * Set idRede
      *
-     * @param string $idIpRede
+     * @param integer $idRede
      * @return RedesVersoesModulos
      */
-    public function setIdIpRede($idIpRede)
+    public function setIdRede($idRede)
     {
-        $this->idIpRede = $idIpRede;
+        $this->idRede = $idRede;
     
         return $this;
     }
 
     /**
-     * Get idIpRede
+     * Get idRede
      *
-     * @return string 
+     * @return integer 
      */
-    public function getIdIpRede()
+    public function getIdRede()
     {
-        return $this->idIpRede;
+        return $this->idRede;
     }
 
     /**
@@ -113,29 +104,6 @@ class RedesVersoesModulos
     public function getNmModulo()
     {
         return $this->nmModulo;
-    }
-
-    /**
-     * Set idLocal
-     *
-     * @param integer $idLocal
-     * @return RedesVersoesModulos
-     */
-    public function setIdLocal($idLocal)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
-
-    /**
-     * Get idLocal
-     *
-     * @return integer 
-     */
-    public function getIdLocal()
-    {
-        return $this->idLocal;
     }
 
     /**

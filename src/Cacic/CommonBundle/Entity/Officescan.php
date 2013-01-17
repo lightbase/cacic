@@ -15,24 +15,6 @@ class Officescan
     /**
      * @var string
      *
-     * @ORM\Column(name="te_node_address", type="string", length=17, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $teNodeAddress;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_so", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idSo;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="nu_versao_engine", type="string", length=10, nullable=true)
      */
     private $nuVersaoEngine;
@@ -72,53 +54,19 @@ class Officescan
      */
     private $inAtivo;
 
-
-
     /**
-     * Set teNodeAddress
+     * @var \Computadores
      *
-     * @param string $teNodeAddress
-     * @return Officescan
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Computadores")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_computador", referencedColumnName="id_computador")
+     * })
      */
-    public function setTeNodeAddress($teNodeAddress)
-    {
-        $this->teNodeAddress = $teNodeAddress;
-    
-        return $this;
-    }
+    private $idComputador;
 
-    /**
-     * Get teNodeAddress
-     *
-     * @return string 
-     */
-    public function getTeNodeAddress()
-    {
-        return $this->teNodeAddress;
-    }
 
-    /**
-     * Set idSo
-     *
-     * @param integer $idSo
-     * @return Officescan
-     */
-    public function setIdSo($idSo)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSo
-     *
-     * @return integer 
-     */
-    public function getIdSo()
-    {
-        return $this->idSo;
-    }
 
     /**
      * Set nuVersaoEngine
@@ -256,5 +204,28 @@ class Officescan
     public function getInAtivo()
     {
         return $this->inAtivo;
+    }
+
+    /**
+     * Set idComputador
+     *
+     * @param \Cacic\CommonBundle\Entity\Computadores $idComputador
+     * @return Officescan
+     */
+    public function setIdComputador(\Cacic\CommonBundle\Entity\Computadores $idComputador)
+    {
+        $this->idComputador = $idComputador;
+    
+        return $this;
+    }
+
+    /**
+     * Get idComputador
+     *
+     * @return \Cacic\CommonBundle\Entity\Computadores 
+     */
+    public function getIdComputador()
+    {
+        return $this->idComputador;
     }
 }

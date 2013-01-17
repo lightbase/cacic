@@ -2,20 +2,12 @@ InsucessosInstalacao:
     type: entity
     table: insucessos_instalacao
     fields:
-        idInsucessoInstalacao:
-            id: true
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_insucesso_instalacao
-            generator:
-                strategy: IDENTITY
-        teIp:
+        teIpComputador:
             type: string
             length: 15
             fixed: true
             nullable: false
-            column: te_ip
+            column: te_ip_computador
         teSo:
             type: string
             length: 60
@@ -38,4 +30,14 @@ InsucessosInstalacao:
             fixed: true
             nullable: false
             column: cs_indicador
+    oneToOne:
+        idInsucessoInstalacao:
+            targetEntity: InsucessosInstalacao
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_insucesso_instalacao:
+                    referencedColumnName: id_insucesso_instalacao
+            orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -15,36 +15,6 @@ class RedesGruposFtp
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_ftp", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idFtp;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_local", type="integer", nullable=false)
-     */
-    private $idLocal;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="id_ip_rede", type="string", length=15, nullable=false)
-     */
-    private $idIpRede;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="id_ip_estacao", type="string", length=15, nullable=false)
-     */
-    private $idIpEstacao;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="nu_hora_inicio", type="integer", nullable=false)
      */
     private $nuHoraInicio;
@@ -56,86 +26,39 @@ class RedesGruposFtp
      */
     private $nuHoraFim;
 
-
+    /**
+     * @var \Computadores
+     *
+     * @ORM\ManyToOne(targetEntity="Computadores")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_computador", referencedColumnName="id_computador")
+     * })
+     */
+    private $idComputador;
 
     /**
-     * Get idFtp
+     * @var \Redes
      *
-     * @return integer 
+     * @ORM\ManyToOne(targetEntity="Redes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_rede", referencedColumnName="id_rede")
+     * })
      */
-    public function getIdFtp()
-    {
-        return $this->idFtp;
-    }
+    private $idRede;
 
     /**
-     * Set idLocal
+     * @var \RedesGruposFtp
      *
-     * @param integer $idLocal
-     * @return RedesGruposFtp
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="RedesGruposFtp")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_ftp", referencedColumnName="id_ftp")
+     * })
      */
-    public function setIdLocal($idLocal)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
+    private $idFtp;
 
-    /**
-     * Get idLocal
-     *
-     * @return integer 
-     */
-    public function getIdLocal()
-    {
-        return $this->idLocal;
-    }
 
-    /**
-     * Set idIpRede
-     *
-     * @param string $idIpRede
-     * @return RedesGruposFtp
-     */
-    public function setIdIpRede($idIpRede)
-    {
-        $this->idIpRede = $idIpRede;
-    
-        return $this;
-    }
-
-    /**
-     * Get idIpRede
-     *
-     * @return string 
-     */
-    public function getIdIpRede()
-    {
-        return $this->idIpRede;
-    }
-
-    /**
-     * Set idIpEstacao
-     *
-     * @param string $idIpEstacao
-     * @return RedesGruposFtp
-     */
-    public function setIdIpEstacao($idIpEstacao)
-    {
-        $this->idIpEstacao = $idIpEstacao;
-    
-        return $this;
-    }
-
-    /**
-     * Get idIpEstacao
-     *
-     * @return string 
-     */
-    public function getIdIpEstacao()
-    {
-        return $this->idIpEstacao;
-    }
 
     /**
      * Set nuHoraInicio
@@ -181,5 +104,74 @@ class RedesGruposFtp
     public function getNuHoraFim()
     {
         return $this->nuHoraFim;
+    }
+
+    /**
+     * Set idComputador
+     *
+     * @param \Cacic\CommonBundle\Entity\Computadores $idComputador
+     * @return RedesGruposFtp
+     */
+    public function setIdComputador(\Cacic\CommonBundle\Entity\Computadores $idComputador = null)
+    {
+        $this->idComputador = $idComputador;
+    
+        return $this;
+    }
+
+    /**
+     * Get idComputador
+     *
+     * @return \Cacic\CommonBundle\Entity\Computadores 
+     */
+    public function getIdComputador()
+    {
+        return $this->idComputador;
+    }
+
+    /**
+     * Set idRede
+     *
+     * @param \Cacic\CommonBundle\Entity\Redes $idRede
+     * @return RedesGruposFtp
+     */
+    public function setIdRede(\Cacic\CommonBundle\Entity\Redes $idRede = null)
+    {
+        $this->idRede = $idRede;
+    
+        return $this;
+    }
+
+    /**
+     * Get idRede
+     *
+     * @return \Cacic\CommonBundle\Entity\Redes 
+     */
+    public function getIdRede()
+    {
+        return $this->idRede;
+    }
+
+    /**
+     * Set idFtp
+     *
+     * @param \Cacic\CommonBundle\Entity\RedesGruposFtp $idFtp
+     * @return RedesGruposFtp
+     */
+    public function setIdFtp(\Cacic\CommonBundle\Entity\RedesGruposFtp $idFtp)
+    {
+        $this->idFtp = $idFtp;
+    
+        return $this;
+    }
+
+    /**
+     * Get idFtp
+     *
+     * @return \Cacic\CommonBundle\Entity\RedesGruposFtp 
+     */
+    public function getIdFtp()
+    {
+        return $this->idFtp;
     }
 }

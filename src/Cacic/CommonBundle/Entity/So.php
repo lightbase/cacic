@@ -17,18 +17,9 @@ class So
      *
      * @ORM\Column(name="id_so", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idSo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="te_so", type="string", length=50, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $teSo;
 
     /**
      * @var string
@@ -47,24 +38,18 @@ class So
     /**
      * @var string
      *
+     * @ORM\Column(name="te_so", type="string", length=50, nullable=false)
+     */
+    private $teSo;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="in_mswindows", type="string", length=1, nullable=false)
      */
     private $inMswindows;
 
 
-
-    /**
-     * Set idSo
-     *
-     * @param integer $idSo
-     * @return So
-     */
-    public function setIdSo($idSo)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
 
     /**
      * Get idSo
@@ -74,29 +59,6 @@ class So
     public function getIdSo()
     {
         return $this->idSo;
-    }
-
-    /**
-     * Set teSo
-     *
-     * @param string $teSo
-     * @return So
-     */
-    public function setTeSo($teSo)
-    {
-        $this->teSo = $teSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get teSo
-     *
-     * @return string 
-     */
-    public function getTeSo()
-    {
-        return $this->teSo;
     }
 
     /**
@@ -143,6 +105,29 @@ class So
     public function getSgSo()
     {
         return $this->sgSo;
+    }
+
+    /**
+     * Set teSo
+     *
+     * @param string $teSo
+     * @return So
+     */
+    public function setTeSo($teSo)
+    {
+        $this->teSo = $teSo;
+    
+        return $this;
+    }
+
+    /**
+     * Get teSo
+     *
+     * @return string 
+     */
+    public function getTeSo()
+    {
+        return $this->teSo;
     }
 
     /**

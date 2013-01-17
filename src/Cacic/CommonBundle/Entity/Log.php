@@ -13,15 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Log
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_log", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idLog;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dt_acao", type="datetime", nullable=false)
@@ -63,17 +54,19 @@ class Log
      */
     private $teIpOrigem;
 
-
-
     /**
-     * Get idLog
+     * @var \Log
      *
-     * @return integer 
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Log")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_log", referencedColumnName="id_log")
+     * })
      */
-    public function getIdLog()
-    {
-        return $this->idLog;
-    }
+    private $idLog;
+
+
 
     /**
      * Set dtAcao
@@ -211,5 +204,28 @@ class Log
     public function getTeIpOrigem()
     {
         return $this->teIpOrigem;
+    }
+
+    /**
+     * Set idLog
+     *
+     * @param \Cacic\CommonBundle\Entity\Log $idLog
+     * @return Log
+     */
+    public function setIdLog(\Cacic\CommonBundle\Entity\Log $idLog)
+    {
+        $this->idLog = $idLog;
+    
+        return $this;
+    }
+
+    /**
+     * Get idLog
+     *
+     * @return \Cacic\CommonBundle\Entity\Log 
+     */
+    public function getIdLog()
+    {
+        return $this->idLog;
     }
 }

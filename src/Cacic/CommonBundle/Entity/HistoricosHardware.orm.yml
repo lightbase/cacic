@@ -2,19 +2,6 @@ HistoricosHardware:
     type: entity
     table: historicos_hardware
     fields:
-        teNodeAddress:
-            id: true
-            type: string
-            length: 17
-            fixed: true
-            nullable: false
-            column: te_node_address
-        idSo:
-            id: true
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_so
         campoAlterado:
             type: string
             length: 45
@@ -41,4 +28,14 @@ HistoricosHardware:
             type: datetime
             nullable: true
             column: nova_data
+    oneToOne:
+        idComputador:
+            targetEntity: Computadores
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false
     lifecycleCallbacks: {  }

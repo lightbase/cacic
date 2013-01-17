@@ -13,13 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 class ConfiguracoesPadrao
 {
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="id_configuracao_padrao", type="integer", nullable=false)
+     * @ORM\Column(name="nm_organizacao", type="string", length=150, nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idConfiguracaoPadrao;
+    private $nmOrganizacao;
 
     /**
      * @var string
@@ -48,13 +48,6 @@ class ConfiguracoesPadrao
      * @ORM\Column(name="nu_rel_maxlinhas", type="smallint", nullable=true)
      */
     private $nuRelMaxlinhas;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nm_organizacao", type="string", length=150, nullable=true)
-     */
-    private $nmOrganizacao;
 
     /**
      * @var boolean
@@ -157,13 +150,13 @@ class ConfiguracoesPadrao
 
 
     /**
-     * Get idConfiguracaoPadrao
+     * Get nmOrganizacao
      *
-     * @return integer 
+     * @return string 
      */
-    public function getIdConfiguracaoPadrao()
+    public function getNmOrganizacao()
     {
-        return $this->idConfiguracaoPadrao;
+        return $this->nmOrganizacao;
     }
 
     /**
@@ -256,29 +249,6 @@ class ConfiguracoesPadrao
     public function getNuRelMaxlinhas()
     {
         return $this->nuRelMaxlinhas;
-    }
-
-    /**
-     * Set nmOrganizacao
-     *
-     * @param string $nmOrganizacao
-     * @return ConfiguracoesPadrao
-     */
-    public function setNmOrganizacao($nmOrganizacao)
-    {
-        $this->nmOrganizacao = $nmOrganizacao;
-    
-        return $this;
-    }
-
-    /**
-     * Get nmOrganizacao
-     *
-     * @return string 
-     */
-    public function getNmOrganizacao()
-    {
-        return $this->nmOrganizacao;
     }
 
     /**

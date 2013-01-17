@@ -15,33 +15,6 @@ class AquisicoesItem
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_aquisicao", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idAquisicao;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_software", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idSoftware;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_tipo_licenca", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idTipoLicenca;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="qt_licenca", type="integer", nullable=true)
      */
     private $qtLicenca;
@@ -60,76 +33,43 @@ class AquisicoesItem
      */
     private $teObs;
 
-
+    /**
+     * @var \Aquisicoes
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Aquisicoes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_aquisicao", referencedColumnName="id_aquisicao")
+     * })
+     */
+    private $idAquisicao;
 
     /**
-     * Set idAquisicao
+     * @var \Softwares
      *
-     * @param integer $idAquisicao
-     * @return AquisicoesItem
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Softwares")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_software", referencedColumnName="id_software")
+     * })
      */
-    public function setIdAquisicao($idAquisicao)
-    {
-        $this->idAquisicao = $idAquisicao;
-    
-        return $this;
-    }
+    private $idSoftware;
 
     /**
-     * Get idAquisicao
+     * @var \TiposLicenca
      *
-     * @return integer 
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="TiposLicenca")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_tipo_licenca", referencedColumnName="id_tipo_licenca")
+     * })
      */
-    public function getIdAquisicao()
-    {
-        return $this->idAquisicao;
-    }
+    private $idTipoLicenca;
 
-    /**
-     * Set idSoftware
-     *
-     * @param integer $idSoftware
-     * @return AquisicoesItem
-     */
-    public function setIdSoftware($idSoftware)
-    {
-        $this->idSoftware = $idSoftware;
-    
-        return $this;
-    }
 
-    /**
-     * Get idSoftware
-     *
-     * @return integer 
-     */
-    public function getIdSoftware()
-    {
-        return $this->idSoftware;
-    }
-
-    /**
-     * Set idTipoLicenca
-     *
-     * @param integer $idTipoLicenca
-     * @return AquisicoesItem
-     */
-    public function setIdTipoLicenca($idTipoLicenca)
-    {
-        $this->idTipoLicenca = $idTipoLicenca;
-    
-        return $this;
-    }
-
-    /**
-     * Get idTipoLicenca
-     *
-     * @return integer 
-     */
-    public function getIdTipoLicenca()
-    {
-        return $this->idTipoLicenca;
-    }
 
     /**
      * Set qtLicenca
@@ -198,5 +138,74 @@ class AquisicoesItem
     public function getTeObs()
     {
         return $this->teObs;
+    }
+
+    /**
+     * Set idAquisicao
+     *
+     * @param \Cacic\CommonBundle\Entity\Aquisicoes $idAquisicao
+     * @return AquisicoesItem
+     */
+    public function setIdAquisicao(\Cacic\CommonBundle\Entity\Aquisicoes $idAquisicao)
+    {
+        $this->idAquisicao = $idAquisicao;
+    
+        return $this;
+    }
+
+    /**
+     * Get idAquisicao
+     *
+     * @return \Cacic\CommonBundle\Entity\Aquisicoes 
+     */
+    public function getIdAquisicao()
+    {
+        return $this->idAquisicao;
+    }
+
+    /**
+     * Set idSoftware
+     *
+     * @param \Cacic\CommonBundle\Entity\Softwares $idSoftware
+     * @return AquisicoesItem
+     */
+    public function setIdSoftware(\Cacic\CommonBundle\Entity\Softwares $idSoftware)
+    {
+        $this->idSoftware = $idSoftware;
+    
+        return $this;
+    }
+
+    /**
+     * Get idSoftware
+     *
+     * @return \Cacic\CommonBundle\Entity\Softwares 
+     */
+    public function getIdSoftware()
+    {
+        return $this->idSoftware;
+    }
+
+    /**
+     * Set idTipoLicenca
+     *
+     * @param \Cacic\CommonBundle\Entity\TiposLicenca $idTipoLicenca
+     * @return AquisicoesItem
+     */
+    public function setIdTipoLicenca(\Cacic\CommonBundle\Entity\TiposLicenca $idTipoLicenca)
+    {
+        $this->idTipoLicenca = $idTipoLicenca;
+    
+        return $this;
+    }
+
+    /**
+     * Get idTipoLicenca
+     *
+     * @return \Cacic\CommonBundle\Entity\TiposLicenca 
+     */
+    public function getIdTipoLicenca()
+    {
+        return $this->idTipoLicenca;
     }
 }

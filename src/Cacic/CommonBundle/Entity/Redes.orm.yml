@@ -2,24 +2,25 @@ Redes:
     type: entity
     table: redes
     fields:
-        idIpRede:
-            id: true
-            type: string
-            length: 15
-            fixed: true
-            nullable: false
-            column: id_ip_rede
-        idLocal:
+        idRede:
             id: true
             type: integer
-            unsigned: true
+            unsigned: false
             nullable: false
-            column: id_local
+            column: id_rede
+            generator:
+                strategy: IDENTITY
         idServidorAutenticacao:
             type: integer
             unsigned: false
             nullable: true
             column: id_servidor_autenticacao
+        teIpRede:
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: te_ip_rede
         nmRede:
             type: string
             length: 100
@@ -137,4 +138,20 @@ Redes:
             fixed: true
             nullable: false
             column: cs_permitir_desativar_srcacic
+        dtDebug:
+            type: string
+            length: 8
+            fixed: true
+            nullable: true
+            column: dt_debug
+    manyToOne:
+        idLocal:
+            targetEntity: Locais
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
     lifecycleCallbacks: {  }

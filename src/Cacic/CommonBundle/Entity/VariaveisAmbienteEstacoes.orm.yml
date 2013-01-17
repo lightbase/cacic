@@ -2,29 +2,26 @@ VariaveisAmbienteEstacoes:
     type: entity
     table: variaveis_ambiente_estacoes
     fields:
-        teNodeAddress:
-            id: true
-            type: string
-            length: 17
-            fixed: true
-            nullable: false
-            column: te_node_address
-        idSo:
+        idComputador:
             id: true
             type: integer
             unsigned: true
             nullable: false
-            column: id_so
-        idVariavelAmbiente:
-            id: true
-            type: integer
-            unsigned: true
-            nullable: false
-            column: id_variavel_ambiente
+            column: id_computador
         vlVariavelAmbiente:
             type: string
             length: 100
             fixed: true
             nullable: false
             column: vl_variavel_ambiente
+    oneToOne:
+        idVariavelAmbiente:
+            targetEntity: VariaveisAmbiente
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_variavel_ambiente:
+                    referencedColumnName: id_variavel_ambiente
+            orphanRemoval: false
     lifecycleCallbacks: {  }
