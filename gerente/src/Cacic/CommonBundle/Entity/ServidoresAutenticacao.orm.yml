@@ -16,6 +16,12 @@ ServidoresAutenticacao:
             fixed: true
             nullable: false
             column: nm_servidor_autenticacao
+        nmServidorAutenticacaoDns:
+            type: string
+            length: 60
+            fixed: true
+            nullable: false
+            column: nm_servidor_autenticacao_dns
         teIpServidorAutenticacao:
             type: string
             length: 15
@@ -46,6 +52,12 @@ ServidoresAutenticacao:
             fixed: true
             nullable: false
             column: te_atributo_identificador
+        teAtributoIdentificadorAlternativo:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_atributo_identificador_alternativo
         teAtributoRetornaNome:
             type: string
             length: 100
@@ -58,6 +70,24 @@ ServidoresAutenticacao:
             fixed: true
             nullable: false
             column: te_atributo_retorna_email
+        teAtributoRetornaTelefone:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_atributo_retorna_telefone
+        teAtributoStatusConta:
+            type: string
+            length: 100
+            fixed: true
+            nullable: true
+            column: te_atributo_status_conta
+        teAtributoValorStatusContaValida:
+            type: string
+            length: 100
+            fixed: true
+            nullable: false
+            column: te_atributo_valor_status_conta_valida
         teObservacao:
             type: text
             nullable: false

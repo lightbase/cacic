@@ -49,6 +49,13 @@ class UsbDevices
      */
     private $teObservacao;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dt_registro", type="string", length=12, nullable=true)
+     */
+    private $dtRegistro;
+
 
 
     /**
@@ -151,5 +158,28 @@ class UsbDevices
     public function getTeObservacao()
     {
         return $this->teObservacao;
+    }
+
+    /**
+     * Set dtRegistro
+     *
+     * @param string $dtRegistro
+     * @return UsbDevices
+     */
+    public function setDtRegistro($dtRegistro)
+    {
+        $this->dtRegistro = $dtRegistro;
+    
+        return $this;
+    }
+
+    /**
+     * Get dtRegistro
+     *
+     * @return string 
+     */
+    public function getDtRegistro()
+    {
+        return $this->dtRegistro;
     }
 }

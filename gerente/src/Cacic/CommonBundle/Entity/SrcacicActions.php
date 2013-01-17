@@ -22,13 +22,6 @@ class SrcacicActions
     private $idSrcacicAction;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_conexao", type="integer", nullable=false)
-     */
-    private $idConexao;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dt_hr_action", type="datetime", nullable=false)
@@ -63,6 +56,16 @@ class SrcacicActions
      */
     private $teFlag;
 
+    /**
+     * @var \SrcacicConexoes
+     *
+     * @ORM\ManyToOne(targetEntity="SrcacicConexoes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_conexao", referencedColumnName="id_conexao")
+     * })
+     */
+    private $idConexao;
+
 
 
     /**
@@ -73,29 +76,6 @@ class SrcacicActions
     public function getIdSrcacicAction()
     {
         return $this->idSrcacicAction;
-    }
-
-    /**
-     * Set idConexao
-     *
-     * @param integer $idConexao
-     * @return SrcacicActions
-     */
-    public function setIdConexao($idConexao)
-    {
-        $this->idConexao = $idConexao;
-    
-        return $this;
-    }
-
-    /**
-     * Get idConexao
-     *
-     * @return integer 
-     */
-    public function getIdConexao()
-    {
-        return $this->idConexao;
     }
 
     /**
@@ -211,5 +191,28 @@ class SrcacicActions
     public function getTeFlag()
     {
         return $this->teFlag;
+    }
+
+    /**
+     * Set idConexao
+     *
+     * @param \Cacic\CommonBundle\Entity\SrcacicConexoes $idConexao
+     * @return SrcacicActions
+     */
+    public function setIdConexao(\Cacic\CommonBundle\Entity\SrcacicConexoes $idConexao = null)
+    {
+        $this->idConexao = $idConexao;
+    
+        return $this;
+    }
+
+    /**
+     * Get idConexao
+     *
+     * @return \Cacic\CommonBundle\Entity\SrcacicConexoes 
+     */
+    public function getIdConexao()
+    {
+        return $this->idConexao;
     }
 }

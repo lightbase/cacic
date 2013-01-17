@@ -22,31 +22,18 @@ class AcoesExcecoes
     private $idAcaoExcecao;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_rede", type="integer", nullable=false)
+     */
+    private $idRede;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="te_node_address", type="string", length=17, nullable=false)
      */
     private $teNodeAddress;
-
-    /**
-     * @var \So
-     *
-     * @ORM\ManyToOne(targetEntity="So")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_so", referencedColumnName="id_so")
-     * })
-     */
-    private $idSo;
-
-    /**
-     * @var \Locais
-     *
-     * @ORM\ManyToOne(targetEntity="Locais")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
-     * })
-     */
-    private $idLocal;
 
     /**
      * @var \Acoes
@@ -71,6 +58,29 @@ class AcoesExcecoes
     }
 
     /**
+     * Set idRede
+     *
+     * @param integer $idRede
+     * @return AcoesExcecoes
+     */
+    public function setIdRede($idRede)
+    {
+        $this->idRede = $idRede;
+    
+        return $this;
+    }
+
+    /**
+     * Get idRede
+     *
+     * @return integer 
+     */
+    public function getIdRede()
+    {
+        return $this->idRede;
+    }
+
+    /**
      * Set teNodeAddress
      *
      * @param string $teNodeAddress
@@ -91,52 +101,6 @@ class AcoesExcecoes
     public function getTeNodeAddress()
     {
         return $this->teNodeAddress;
-    }
-
-    /**
-     * Set idSo
-     *
-     * @param \Cacic\CommonBundle\Entity\So $idSo
-     * @return AcoesExcecoes
-     */
-    public function setIdSo(\Cacic\CommonBundle\Entity\So $idSo = null)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSo
-     *
-     * @return \Cacic\CommonBundle\Entity\So 
-     */
-    public function getIdSo()
-    {
-        return $this->idSo;
-    }
-
-    /**
-     * Set idLocal
-     *
-     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
-     * @return AcoesExcecoes
-     */
-    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal = null)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
-
-    /**
-     * Get idLocal
-     *
-     * @return \Cacic\CommonBundle\Entity\Locais 
-     */
-    public function getIdLocal()
-    {
-        return $this->idLocal;
     }
 
     /**

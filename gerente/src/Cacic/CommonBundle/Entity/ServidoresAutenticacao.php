@@ -31,6 +31,13 @@ class ServidoresAutenticacao
     /**
      * @var string
      *
+     * @ORM\Column(name="nm_servidor_autenticacao_dns", type="string", length=60, nullable=false)
+     */
+    private $nmServidorAutenticacaoDns;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="te_ip_servidor_autenticacao", type="string", length=15, nullable=false)
      */
     private $teIpServidorAutenticacao;
@@ -66,6 +73,13 @@ class ServidoresAutenticacao
     /**
      * @var string
      *
+     * @ORM\Column(name="te_atributo_identificador_alternativo", type="string", length=100, nullable=true)
+     */
+    private $teAtributoIdentificadorAlternativo;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="te_atributo_retorna_nome", type="string", length=100, nullable=false)
      */
     private $teAtributoRetornaNome;
@@ -76,6 +90,27 @@ class ServidoresAutenticacao
      * @ORM\Column(name="te_atributo_retorna_email", type="string", length=100, nullable=false)
      */
     private $teAtributoRetornaEmail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="te_atributo_retorna_telefone", type="string", length=100, nullable=true)
+     */
+    private $teAtributoRetornaTelefone;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="te_atributo_status_conta", type="string", length=100, nullable=true)
+     */
+    private $teAtributoStatusConta;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="te_atributo_valor_status_conta_valida", type="string", length=100, nullable=false)
+     */
+    private $teAtributoValorStatusContaValida;
 
     /**
      * @var string
@@ -124,6 +159,29 @@ class ServidoresAutenticacao
     public function getNmServidorAutenticacao()
     {
         return $this->nmServidorAutenticacao;
+    }
+
+    /**
+     * Set nmServidorAutenticacaoDns
+     *
+     * @param string $nmServidorAutenticacaoDns
+     * @return ServidoresAutenticacao
+     */
+    public function setNmServidorAutenticacaoDns($nmServidorAutenticacaoDns)
+    {
+        $this->nmServidorAutenticacaoDns = $nmServidorAutenticacaoDns;
+    
+        return $this;
+    }
+
+    /**
+     * Get nmServidorAutenticacaoDns
+     *
+     * @return string 
+     */
+    public function getNmServidorAutenticacaoDns()
+    {
+        return $this->nmServidorAutenticacaoDns;
     }
 
     /**
@@ -242,6 +300,29 @@ class ServidoresAutenticacao
     }
 
     /**
+     * Set teAtributoIdentificadorAlternativo
+     *
+     * @param string $teAtributoIdentificadorAlternativo
+     * @return ServidoresAutenticacao
+     */
+    public function setTeAtributoIdentificadorAlternativo($teAtributoIdentificadorAlternativo)
+    {
+        $this->teAtributoIdentificadorAlternativo = $teAtributoIdentificadorAlternativo;
+    
+        return $this;
+    }
+
+    /**
+     * Get teAtributoIdentificadorAlternativo
+     *
+     * @return string 
+     */
+    public function getTeAtributoIdentificadorAlternativo()
+    {
+        return $this->teAtributoIdentificadorAlternativo;
+    }
+
+    /**
      * Set teAtributoRetornaNome
      *
      * @param string $teAtributoRetornaNome
@@ -285,6 +366,75 @@ class ServidoresAutenticacao
     public function getTeAtributoRetornaEmail()
     {
         return $this->teAtributoRetornaEmail;
+    }
+
+    /**
+     * Set teAtributoRetornaTelefone
+     *
+     * @param string $teAtributoRetornaTelefone
+     * @return ServidoresAutenticacao
+     */
+    public function setTeAtributoRetornaTelefone($teAtributoRetornaTelefone)
+    {
+        $this->teAtributoRetornaTelefone = $teAtributoRetornaTelefone;
+    
+        return $this;
+    }
+
+    /**
+     * Get teAtributoRetornaTelefone
+     *
+     * @return string 
+     */
+    public function getTeAtributoRetornaTelefone()
+    {
+        return $this->teAtributoRetornaTelefone;
+    }
+
+    /**
+     * Set teAtributoStatusConta
+     *
+     * @param string $teAtributoStatusConta
+     * @return ServidoresAutenticacao
+     */
+    public function setTeAtributoStatusConta($teAtributoStatusConta)
+    {
+        $this->teAtributoStatusConta = $teAtributoStatusConta;
+    
+        return $this;
+    }
+
+    /**
+     * Get teAtributoStatusConta
+     *
+     * @return string 
+     */
+    public function getTeAtributoStatusConta()
+    {
+        return $this->teAtributoStatusConta;
+    }
+
+    /**
+     * Set teAtributoValorStatusContaValida
+     *
+     * @param string $teAtributoValorStatusContaValida
+     * @return ServidoresAutenticacao
+     */
+    public function setTeAtributoValorStatusContaValida($teAtributoValorStatusContaValida)
+    {
+        $this->teAtributoValorStatusContaValida = $teAtributoValorStatusContaValida;
+    
+        return $this;
+    }
+
+    /**
+     * Get teAtributoValorStatusContaValida
+     *
+     * @return string 
+     */
+    public function getTeAtributoValorStatusContaValida()
+    {
+        return $this->teAtributoValorStatusContaValida;
     }
 
     /**

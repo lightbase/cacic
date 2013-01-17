@@ -36,18 +36,21 @@ class SoftwaresInventariados
     private $idTipoSoftware;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_software", type="integer", nullable=true)
-     */
-    private $idSoftware;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="te_hash", type="string", length=40, nullable=false)
      */
     private $teHash;
+
+    /**
+     * @var \Softwares
+     *
+     * @ORM\ManyToOne(targetEntity="Softwares")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_software", referencedColumnName="id_software")
+     * })
+     */
+    private $idSoftware;
 
 
 
@@ -108,29 +111,6 @@ class SoftwaresInventariados
     }
 
     /**
-     * Set idSoftware
-     *
-     * @param integer $idSoftware
-     * @return SoftwaresInventariados
-     */
-    public function setIdSoftware($idSoftware)
-    {
-        $this->idSoftware = $idSoftware;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSoftware
-     *
-     * @return integer 
-     */
-    public function getIdSoftware()
-    {
-        return $this->idSoftware;
-    }
-
-    /**
      * Set teHash
      *
      * @param string $teHash
@@ -151,5 +131,28 @@ class SoftwaresInventariados
     public function getTeHash()
     {
         return $this->teHash;
+    }
+
+    /**
+     * Set idSoftware
+     *
+     * @param \Cacic\CommonBundle\Entity\Softwares $idSoftware
+     * @return SoftwaresInventariados
+     */
+    public function setIdSoftware(\Cacic\CommonBundle\Entity\Softwares $idSoftware = null)
+    {
+        $this->idSoftware = $idSoftware;
+    
+        return $this;
+    }
+
+    /**
+     * Get idSoftware
+     *
+     * @return \Cacic\CommonBundle\Entity\Softwares 
+     */
+    public function getIdSoftware()
+    {
+        return $this->idSoftware;
     }
 }

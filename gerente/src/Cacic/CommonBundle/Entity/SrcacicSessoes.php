@@ -50,25 +50,21 @@ class SrcacicSessoes
     private $teEmailUsuarioSrv;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="te_node_address_srv", type="string", length=17, nullable=false)
-     */
-    private $teNodeAddressSrv;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_so_srv", type="integer", nullable=false)
-     */
-    private $idSoSrv;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dt_hr_ultimo_contato", type="datetime", nullable=true)
      */
     private $dtHrUltimoContato;
+
+    /**
+     * @var \Computadores
+     *
+     * @ORM\ManyToOne(targetEntity="Computadores")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_computador", referencedColumnName="id_computador")
+     * })
+     */
+    private $idComputador;
 
 
 
@@ -175,52 +171,6 @@ class SrcacicSessoes
     }
 
     /**
-     * Set teNodeAddressSrv
-     *
-     * @param string $teNodeAddressSrv
-     * @return SrcacicSessoes
-     */
-    public function setTeNodeAddressSrv($teNodeAddressSrv)
-    {
-        $this->teNodeAddressSrv = $teNodeAddressSrv;
-    
-        return $this;
-    }
-
-    /**
-     * Get teNodeAddressSrv
-     *
-     * @return string 
-     */
-    public function getTeNodeAddressSrv()
-    {
-        return $this->teNodeAddressSrv;
-    }
-
-    /**
-     * Set idSoSrv
-     *
-     * @param integer $idSoSrv
-     * @return SrcacicSessoes
-     */
-    public function setIdSoSrv($idSoSrv)
-    {
-        $this->idSoSrv = $idSoSrv;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSoSrv
-     *
-     * @return integer 
-     */
-    public function getIdSoSrv()
-    {
-        return $this->idSoSrv;
-    }
-
-    /**
      * Set dtHrUltimoContato
      *
      * @param \DateTime $dtHrUltimoContato
@@ -241,5 +191,28 @@ class SrcacicSessoes
     public function getDtHrUltimoContato()
     {
         return $this->dtHrUltimoContato;
+    }
+
+    /**
+     * Set idComputador
+     *
+     * @param \Cacic\CommonBundle\Entity\Computadores $idComputador
+     * @return SrcacicSessoes
+     */
+    public function setIdComputador(\Cacic\CommonBundle\Entity\Computadores $idComputador = null)
+    {
+        $this->idComputador = $idComputador;
+    
+        return $this;
+    }
+
+    /**
+     * Get idComputador
+     *
+     * @return \Cacic\CommonBundle\Entity\Computadores 
+     */
+    public function getIdComputador()
+    {
+        return $this->idComputador;
     }
 }

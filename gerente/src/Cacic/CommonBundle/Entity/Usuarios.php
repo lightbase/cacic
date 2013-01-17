@@ -24,16 +24,16 @@ class Usuarios
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_local", type="integer", nullable=false)
-     */
-    private $idLocal;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_servidor_autenticacao", type="integer", nullable=true)
+     * @ORM\Column(name="id_servidor_autenticacao", type="integer", nullable=false)
      */
     private $idServidorAutenticacao;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_usuario_ldap", type="string", length=100, nullable=true)
+     */
+    private $idUsuarioLdap;
 
     /**
      * @var string
@@ -52,6 +52,13 @@ class Usuarios
     /**
      * @var string
      *
+     * @ORM\Column(name="nm_usuario_completo_ldap", type="string", length=100, nullable=true)
+     */
+    private $nmUsuarioCompletoLdap;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="te_senha", type="string", length=60, nullable=false)
      */
     private $teSenha;
@@ -62,13 +69,6 @@ class Usuarios
      * @ORM\Column(name="dt_log_in", type="datetime", nullable=false)
      */
     private $dtLogIn;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_grupo_usuarios", type="integer", nullable=false)
-     */
-    private $idGrupoUsuarios;
 
     /**
      * @var string
@@ -91,6 +91,26 @@ class Usuarios
      */
     private $teLocaisSecundarios;
 
+    /**
+     * @var \GrupoUsuarios
+     *
+     * @ORM\ManyToOne(targetEntity="GrupoUsuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_grupo_usuarios", referencedColumnName="id_grupo_usuarios")
+     * })
+     */
+    private $idGrupoUsuarios;
+
+    /**
+     * @var \Locais
+     *
+     * @ORM\ManyToOne(targetEntity="Locais")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
+     * })
+     */
+    private $idLocal;
+
 
 
     /**
@@ -101,29 +121,6 @@ class Usuarios
     public function getIdUsuario()
     {
         return $this->idUsuario;
-    }
-
-    /**
-     * Set idLocal
-     *
-     * @param integer $idLocal
-     * @return Usuarios
-     */
-    public function setIdLocal($idLocal)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
-
-    /**
-     * Get idLocal
-     *
-     * @return integer 
-     */
-    public function getIdLocal()
-    {
-        return $this->idLocal;
     }
 
     /**
@@ -147,6 +144,29 @@ class Usuarios
     public function getIdServidorAutenticacao()
     {
         return $this->idServidorAutenticacao;
+    }
+
+    /**
+     * Set idUsuarioLdap
+     *
+     * @param string $idUsuarioLdap
+     * @return Usuarios
+     */
+    public function setIdUsuarioLdap($idUsuarioLdap)
+    {
+        $this->idUsuarioLdap = $idUsuarioLdap;
+    
+        return $this;
+    }
+
+    /**
+     * Get idUsuarioLdap
+     *
+     * @return string 
+     */
+    public function getIdUsuarioLdap()
+    {
+        return $this->idUsuarioLdap;
     }
 
     /**
@@ -196,6 +216,29 @@ class Usuarios
     }
 
     /**
+     * Set nmUsuarioCompletoLdap
+     *
+     * @param string $nmUsuarioCompletoLdap
+     * @return Usuarios
+     */
+    public function setNmUsuarioCompletoLdap($nmUsuarioCompletoLdap)
+    {
+        $this->nmUsuarioCompletoLdap = $nmUsuarioCompletoLdap;
+    
+        return $this;
+    }
+
+    /**
+     * Get nmUsuarioCompletoLdap
+     *
+     * @return string 
+     */
+    public function getNmUsuarioCompletoLdap()
+    {
+        return $this->nmUsuarioCompletoLdap;
+    }
+
+    /**
      * Set teSenha
      *
      * @param string $teSenha
@@ -239,29 +282,6 @@ class Usuarios
     public function getDtLogIn()
     {
         return $this->dtLogIn;
-    }
-
-    /**
-     * Set idGrupoUsuarios
-     *
-     * @param integer $idGrupoUsuarios
-     * @return Usuarios
-     */
-    public function setIdGrupoUsuarios($idGrupoUsuarios)
-    {
-        $this->idGrupoUsuarios = $idGrupoUsuarios;
-    
-        return $this;
-    }
-
-    /**
-     * Get idGrupoUsuarios
-     *
-     * @return integer 
-     */
-    public function getIdGrupoUsuarios()
-    {
-        return $this->idGrupoUsuarios;
     }
 
     /**
@@ -331,5 +351,51 @@ class Usuarios
     public function getTeLocaisSecundarios()
     {
         return $this->teLocaisSecundarios;
+    }
+
+    /**
+     * Set idGrupoUsuarios
+     *
+     * @param \Cacic\CommonBundle\Entity\GrupoUsuarios $idGrupoUsuarios
+     * @return Usuarios
+     */
+    public function setIdGrupoUsuarios(\Cacic\CommonBundle\Entity\GrupoUsuarios $idGrupoUsuarios = null)
+    {
+        $this->idGrupoUsuarios = $idGrupoUsuarios;
+    
+        return $this;
+    }
+
+    /**
+     * Get idGrupoUsuarios
+     *
+     * @return \Cacic\CommonBundle\Entity\GrupoUsuarios 
+     */
+    public function getIdGrupoUsuarios()
+    {
+        return $this->idGrupoUsuarios;
+    }
+
+    /**
+     * Set idLocal
+     *
+     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
+     * @return Usuarios
+     */
+    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal = null)
+    {
+        $this->idLocal = $idLocal;
+    
+        return $this;
+    }
+
+    /**
+     * Get idLocal
+     *
+     * @return \Cacic\CommonBundle\Entity\Locais 
+     */
+    public function getIdLocal()
+    {
+        return $this->idLocal;
     }
 }

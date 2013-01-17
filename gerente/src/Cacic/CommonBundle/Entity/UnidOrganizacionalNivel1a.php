@@ -22,18 +22,21 @@ class UnidOrganizacionalNivel1a
     private $idUnidOrganizacionalNivel1a;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_unid_organizacional_nivel1", type="integer", nullable=false)
-     */
-    private $idUnidOrganizacionalNivel1;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="nm_unid_organizacional_nivel1a", type="string", length=50, nullable=true)
      */
     private $nmUnidOrganizacionalNivel1a;
+
+    /**
+     * @var \UnidOrganizacionalNivel1
+     *
+     * @ORM\ManyToOne(targetEntity="UnidOrganizacionalNivel1")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_unid_organizacional_nivel1", referencedColumnName="id_unid_organizacional_nivel1")
+     * })
+     */
+    private $idUnidOrganizacionalNivel1;
 
 
 
@@ -45,29 +48,6 @@ class UnidOrganizacionalNivel1a
     public function getIdUnidOrganizacionalNivel1a()
     {
         return $this->idUnidOrganizacionalNivel1a;
-    }
-
-    /**
-     * Set idUnidOrganizacionalNivel1
-     *
-     * @param integer $idUnidOrganizacionalNivel1
-     * @return UnidOrganizacionalNivel1a
-     */
-    public function setIdUnidOrganizacionalNivel1($idUnidOrganizacionalNivel1)
-    {
-        $this->idUnidOrganizacionalNivel1 = $idUnidOrganizacionalNivel1;
-    
-        return $this;
-    }
-
-    /**
-     * Get idUnidOrganizacionalNivel1
-     *
-     * @return integer 
-     */
-    public function getIdUnidOrganizacionalNivel1()
-    {
-        return $this->idUnidOrganizacionalNivel1;
     }
 
     /**
@@ -91,5 +71,28 @@ class UnidOrganizacionalNivel1a
     public function getNmUnidOrganizacionalNivel1a()
     {
         return $this->nmUnidOrganizacionalNivel1a;
+    }
+
+    /**
+     * Set idUnidOrganizacionalNivel1
+     *
+     * @param \Cacic\CommonBundle\Entity\UnidOrganizacionalNivel1 $idUnidOrganizacionalNivel1
+     * @return UnidOrganizacionalNivel1a
+     */
+    public function setIdUnidOrganizacionalNivel1(\Cacic\CommonBundle\Entity\UnidOrganizacionalNivel1 $idUnidOrganizacionalNivel1 = null)
+    {
+        $this->idUnidOrganizacionalNivel1 = $idUnidOrganizacionalNivel1;
+    
+        return $this;
+    }
+
+    /**
+     * Get idUnidOrganizacionalNivel1
+     *
+     * @return \Cacic\CommonBundle\Entity\UnidOrganizacionalNivel1 
+     */
+    public function getIdUnidOrganizacionalNivel1()
+    {
+        return $this->idUnidOrganizacionalNivel1;
     }
 }

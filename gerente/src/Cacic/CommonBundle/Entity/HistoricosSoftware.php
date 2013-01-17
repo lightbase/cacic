@@ -13,29 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class HistoricosSoftware
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="te_node_address", type="string", length=17, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $teNodeAddress;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_so", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idSo;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="id_software_inventariado", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idSoftwareInventariado;
 
@@ -53,66 +35,19 @@ class HistoricosSoftware
      */
     private $dtHrUltColeta;
 
-
-
     /**
-     * Set teNodeAddress
+     * @var \Computadores
      *
-     * @param string $teNodeAddress
-     * @return HistoricosSoftware
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\OneToOne(targetEntity="Computadores")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_computador", referencedColumnName="id_computador")
+     * })
      */
-    public function setTeNodeAddress($teNodeAddress)
-    {
-        $this->teNodeAddress = $teNodeAddress;
-    
-        return $this;
-    }
+    private $idComputador;
 
-    /**
-     * Get teNodeAddress
-     *
-     * @return string 
-     */
-    public function getTeNodeAddress()
-    {
-        return $this->teNodeAddress;
-    }
 
-    /**
-     * Set idSo
-     *
-     * @param integer $idSo
-     * @return HistoricosSoftware
-     */
-    public function setIdSo($idSo)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSo
-     *
-     * @return integer 
-     */
-    public function getIdSo()
-    {
-        return $this->idSo;
-    }
-
-    /**
-     * Set idSoftwareInventariado
-     *
-     * @param integer $idSoftwareInventariado
-     * @return HistoricosSoftware
-     */
-    public function setIdSoftwareInventariado($idSoftwareInventariado)
-    {
-        $this->idSoftwareInventariado = $idSoftwareInventariado;
-    
-        return $this;
-    }
 
     /**
      * Get idSoftwareInventariado
@@ -168,5 +103,28 @@ class HistoricosSoftware
     public function getDtHrUltColeta()
     {
         return $this->dtHrUltColeta;
+    }
+
+    /**
+     * Set idComputador
+     *
+     * @param \Cacic\CommonBundle\Entity\Computadores $idComputador
+     * @return HistoricosSoftware
+     */
+    public function setIdComputador(\Cacic\CommonBundle\Entity\Computadores $idComputador)
+    {
+        $this->idComputador = $idComputador;
+    
+        return $this;
+    }
+
+    /**
+     * Get idComputador
+     *
+     * @return \Cacic\CommonBundle\Entity\Computadores 
+     */
+    public function getIdComputador()
+    {
+        return $this->idComputador;
     }
 }

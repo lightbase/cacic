@@ -42,6 +42,13 @@ class Locais
      */
     private $teObservacao;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dt_debug", type="string", length=8, nullable=true)
+     */
+    private $dtDebug;
+
 
 
     /**
@@ -121,5 +128,28 @@ class Locais
     public function getTeObservacao()
     {
         return $this->teObservacao;
+    }
+
+    /**
+     * Set dtDebug
+     *
+     * @param string $dtDebug
+     * @return Locais
+     */
+    public function setDtDebug($dtDebug)
+    {
+        $this->dtDebug = $dtDebug;
+    
+        return $this;
+    }
+
+    /**
+     * Get dtDebug
+     *
+     * @return string 
+     */
+    public function getDtDebug()
+    {
+        return $this->dtDebug;
     }
 }

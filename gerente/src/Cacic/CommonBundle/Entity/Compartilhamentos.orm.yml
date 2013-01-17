@@ -9,19 +9,6 @@ Compartilhamentos:
             fixed: true
             nullable: false
             column: nm_compartilhamento
-        idSo:
-            id: true
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_so
-        teNodeAddress:
-            id: true
-            type: string
-            length: 17
-            fixed: true
-            nullable: false
-            column: te_node_address
         nmDirCompart:
             type: string
             length: 100
@@ -58,4 +45,14 @@ Compartilhamentos:
             fixed: true
             nullable: true
             column: te_comentario
+    oneToOne:
+        idComputador:
+            targetEntity: Computadores
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false
     lifecycleCallbacks: {  }

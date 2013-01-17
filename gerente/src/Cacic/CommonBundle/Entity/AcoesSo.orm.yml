@@ -1,6 +1,13 @@
 AcoesSo:
     type: entity
     table: acoes_so
+    fields:
+        idRede:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_rede
     oneToOne:
         idAcao:
             targetEntity: Acoes
@@ -10,15 +17,6 @@ AcoesSo:
             joinColumns:
                 id_acao:
                     referencedColumnName: id_acao
-            orphanRemoval: false
-        idLocal:
-            targetEntity: Locais
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_local:
-                    referencedColumnName: id_local
             orphanRemoval: false
         idSo:
             targetEntity: So

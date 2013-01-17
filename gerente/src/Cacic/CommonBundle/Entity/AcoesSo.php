@@ -13,10 +13,19 @@ use Doctrine\ORM\Mapping as ORM;
 class AcoesSo
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_rede", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idRede;
+
+    /**
      * @var \Acoes
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\OneToOne(targetEntity="Acoes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_acao", referencedColumnName="id_acao")
@@ -25,22 +34,10 @@ class AcoesSo
     private $idAcao;
 
     /**
-     * @var \Locais
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Locais")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
-     * })
-     */
-    private $idLocal;
-
-    /**
      * @var \So
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\OneToOne(targetEntity="So")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_so", referencedColumnName="id_so")
@@ -49,6 +46,16 @@ class AcoesSo
     private $idSo;
 
 
+
+    /**
+     * Get idRede
+     *
+     * @return integer 
+     */
+    public function getIdRede()
+    {
+        return $this->idRede;
+    }
 
     /**
      * Set idAcao
@@ -71,29 +78,6 @@ class AcoesSo
     public function getIdAcao()
     {
         return $this->idAcao;
-    }
-
-    /**
-     * Set idLocal
-     *
-     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
-     * @return AcoesSo
-     */
-    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
-
-    /**
-     * Get idLocal
-     *
-     * @return \Cacic\CommonBundle\Entity\Locais 
-     */
-    public function getIdLocal()
-    {
-        return $this->idLocal;
     }
 
     /**

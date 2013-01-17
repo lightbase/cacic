@@ -13,29 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
 class Computadores
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_computador", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idComputador;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="te_node_address", type="string", length=17, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $teNodeAddress;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_so", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idSo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="te_so", type="string", length=50, nullable=true)
-     */
-    private $teSo;
 
     /**
      * @var string
@@ -43,13 +34,6 @@ class Computadores
      * @ORM\Column(name="te_nome_computador", type="string", length=50, nullable=true)
      */
     private $teNomeComputador;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="id_ip_rede", type="string", length=15, nullable=false)
-     */
-    private $idIpRede;
 
     /**
      * @var string
@@ -75,9 +59,9 @@ class Computadores
     /**
      * @var string
      *
-     * @ORM\Column(name="te_ip", type="string", length=15, nullable=true)
+     * @ORM\Column(name="te_ip_computador", type="string", length=15, nullable=true)
      */
-    private $teIp;
+    private $teIpComputador;
 
     /**
      * @var string
@@ -201,7 +185,7 @@ class Computadores
     /**
      * @var string
      *
-     * @ORM\Column(name="te_mem_ram_desc", type="string", length=200, nullable=true)
+     * @ORM\Column(name="te_mem_ram_desc", type="string", length=512, nullable=true)
      */
     private $teMemRamDesc;
 
@@ -229,14 +213,14 @@ class Computadores
     /**
      * @var string
      *
-     * @ORM\Column(name="te_versao_cacic", type="string", length=10, nullable=true)
+     * @ORM\Column(name="te_versao_cacic", type="string", length=15, nullable=true)
      */
     private $teVersaoCacic;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="te_versao_gercols", type="string", length=10, nullable=true)
+     * @ORM\Column(name="te_versao_gercols", type="string", length=15, nullable=true)
      */
     private $teVersaoGercols;
 
@@ -271,7 +255,7 @@ class Computadores
     /**
      * @var string
      *
-     * @ORM\Column(name="te_placa_video_resolucao", type="string", length=10, nullable=true)
+     * @ORM\Column(name="te_placa_video_resolucao", type="string", length=50, nullable=true)
      */
     private $tePlacaVideoResolucao;
 
@@ -339,13 +323,60 @@ class Computadores
     private $teOrigemMac;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="id_conta", type="integer", nullable=true)
+     * @ORM\Column(name="dt_debug", type="string", length=8, nullable=true)
+     */
+    private $dtDebug;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="te_ultimo_login", type="string", length=100, nullable=true)
+     */
+    private $teUltimoLogin;
+
+    /**
+     * @var \So
+     *
+     * @ORM\ManyToOne(targetEntity="So")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_so", referencedColumnName="id_so")
+     * })
+     */
+    private $idSo;
+
+    /**
+     * @var \Redes
+     *
+     * @ORM\ManyToOne(targetEntity="Redes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_rede", referencedColumnName="id_rede")
+     * })
+     */
+    private $idRede;
+
+    /**
+     * @var \Contas
+     *
+     * @ORM\ManyToOne(targetEntity="Contas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_conta", referencedColumnName="id_conta")
+     * })
      */
     private $idConta;
 
 
+
+    /**
+     * Get idComputador
+     *
+     * @return integer 
+     */
+    public function getIdComputador()
+    {
+        return $this->idComputador;
+    }
 
     /**
      * Set teNodeAddress
@@ -371,52 +402,6 @@ class Computadores
     }
 
     /**
-     * Set idSo
-     *
-     * @param integer $idSo
-     * @return Computadores
-     */
-    public function setIdSo($idSo)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSo
-     *
-     * @return integer 
-     */
-    public function getIdSo()
-    {
-        return $this->idSo;
-    }
-
-    /**
-     * Set teSo
-     *
-     * @param string $teSo
-     * @return Computadores
-     */
-    public function setTeSo($teSo)
-    {
-        $this->teSo = $teSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get teSo
-     *
-     * @return string 
-     */
-    public function getTeSo()
-    {
-        return $this->teSo;
-    }
-
-    /**
      * Set teNomeComputador
      *
      * @param string $teNomeComputador
@@ -437,29 +422,6 @@ class Computadores
     public function getTeNomeComputador()
     {
         return $this->teNomeComputador;
-    }
-
-    /**
-     * Set idIpRede
-     *
-     * @param string $idIpRede
-     * @return Computadores
-     */
-    public function setIdIpRede($idIpRede)
-    {
-        $this->idIpRede = $idIpRede;
-    
-        return $this;
-    }
-
-    /**
-     * Get idIpRede
-     *
-     * @return string 
-     */
-    public function getIdIpRede()
-    {
-        return $this->idIpRede;
     }
 
     /**
@@ -532,26 +494,26 @@ class Computadores
     }
 
     /**
-     * Set teIp
+     * Set teIpComputador
      *
-     * @param string $teIp
+     * @param string $teIpComputador
      * @return Computadores
      */
-    public function setTeIp($teIp)
+    public function setTeIpComputador($teIpComputador)
     {
-        $this->teIp = $teIp;
+        $this->teIpComputador = $teIpComputador;
     
         return $this;
     }
 
     /**
-     * Get teIp
+     * Get teIpComputador
      *
      * @return string 
      */
-    public function getTeIp()
+    public function getTeIpComputador()
     {
-        return $this->teIp;
+        return $this->teIpComputador;
     }
 
     /**
@@ -1406,12 +1368,104 @@ class Computadores
     }
 
     /**
-     * Set idConta
+     * Set dtDebug
      *
-     * @param integer $idConta
+     * @param string $dtDebug
      * @return Computadores
      */
-    public function setIdConta($idConta)
+    public function setDtDebug($dtDebug)
+    {
+        $this->dtDebug = $dtDebug;
+    
+        return $this;
+    }
+
+    /**
+     * Get dtDebug
+     *
+     * @return string 
+     */
+    public function getDtDebug()
+    {
+        return $this->dtDebug;
+    }
+
+    /**
+     * Set teUltimoLogin
+     *
+     * @param string $teUltimoLogin
+     * @return Computadores
+     */
+    public function setTeUltimoLogin($teUltimoLogin)
+    {
+        $this->teUltimoLogin = $teUltimoLogin;
+    
+        return $this;
+    }
+
+    /**
+     * Get teUltimoLogin
+     *
+     * @return string 
+     */
+    public function getTeUltimoLogin()
+    {
+        return $this->teUltimoLogin;
+    }
+
+    /**
+     * Set idSo
+     *
+     * @param \Cacic\CommonBundle\Entity\So $idSo
+     * @return Computadores
+     */
+    public function setIdSo(\Cacic\CommonBundle\Entity\So $idSo = null)
+    {
+        $this->idSo = $idSo;
+    
+        return $this;
+    }
+
+    /**
+     * Get idSo
+     *
+     * @return \Cacic\CommonBundle\Entity\So 
+     */
+    public function getIdSo()
+    {
+        return $this->idSo;
+    }
+
+    /**
+     * Set idRede
+     *
+     * @param \Cacic\CommonBundle\Entity\Redes $idRede
+     * @return Computadores
+     */
+    public function setIdRede(\Cacic\CommonBundle\Entity\Redes $idRede = null)
+    {
+        $this->idRede = $idRede;
+    
+        return $this;
+    }
+
+    /**
+     * Get idRede
+     *
+     * @return \Cacic\CommonBundle\Entity\Redes 
+     */
+    public function getIdRede()
+    {
+        return $this->idRede;
+    }
+
+    /**
+     * Set idConta
+     *
+     * @param \Cacic\CommonBundle\Entity\Contas $idConta
+     * @return Computadores
+     */
+    public function setIdConta(\Cacic\CommonBundle\Entity\Contas $idConta = null)
     {
         $this->idConta = $idConta;
     
@@ -1421,7 +1475,7 @@ class Computadores
     /**
      * Get idConta
      *
-     * @return integer 
+     * @return \Cacic\CommonBundle\Entity\Contas 
      */
     public function getIdConta()
     {

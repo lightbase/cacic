@@ -24,13 +24,6 @@ class SrcacicConexoes
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_sessao", type="integer", nullable=false)
-     */
-    private $idSessao;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="id_usuario_cli", type="integer", nullable=false)
      */
     private $idUsuarioCli;
@@ -77,6 +70,16 @@ class SrcacicConexoes
      */
     private $dtHrUltimoContato;
 
+    /**
+     * @var \SrcacicSessoes
+     *
+     * @ORM\ManyToOne(targetEntity="SrcacicSessoes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_sessao", referencedColumnName="id_sessao")
+     * })
+     */
+    private $idSessao;
+
 
 
     /**
@@ -87,29 +90,6 @@ class SrcacicConexoes
     public function getIdConexao()
     {
         return $this->idConexao;
-    }
-
-    /**
-     * Set idSessao
-     *
-     * @param integer $idSessao
-     * @return SrcacicConexoes
-     */
-    public function setIdSessao($idSessao)
-    {
-        $this->idSessao = $idSessao;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSessao
-     *
-     * @return integer 
-     */
-    public function getIdSessao()
-    {
-        return $this->idSessao;
     }
 
     /**
@@ -271,5 +251,28 @@ class SrcacicConexoes
     public function getDtHrUltimoContato()
     {
         return $this->dtHrUltimoContato;
+    }
+
+    /**
+     * Set idSessao
+     *
+     * @param \Cacic\CommonBundle\Entity\SrcacicSessoes $idSessao
+     * @return SrcacicConexoes
+     */
+    public function setIdSessao(\Cacic\CommonBundle\Entity\SrcacicSessoes $idSessao = null)
+    {
+        $this->idSessao = $idSessao;
+    
+        return $this;
+    }
+
+    /**
+     * Get idSessao
+     *
+     * @return \Cacic\CommonBundle\Entity\SrcacicSessoes 
+     */
+    public function getIdSessao()
+    {
+        return $this->idSessao;
     }
 }

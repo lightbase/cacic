@@ -29,13 +29,6 @@ class ComponentesEstacoesHistorico
     private $teNodeAddress;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_so", type="integer", nullable=false)
-     */
-    private $idSo;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="cs_tipo_componente", type="string", length=100, nullable=false)
@@ -62,6 +55,16 @@ class ComponentesEstacoesHistorico
      * @ORM\Column(name="cs_tipo_alteracao", type="string", length=3, nullable=false)
      */
     private $csTipoAlteracao;
+
+    /**
+     * @var \So
+     *
+     * @ORM\ManyToOne(targetEntity="So")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_so", referencedColumnName="id_so")
+     * })
+     */
+    private $idSo;
 
 
 
@@ -96,29 +99,6 @@ class ComponentesEstacoesHistorico
     public function getTeNodeAddress()
     {
         return $this->teNodeAddress;
-    }
-
-    /**
-     * Set idSo
-     *
-     * @param integer $idSo
-     * @return ComponentesEstacoesHistorico
-     */
-    public function setIdSo($idSo)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSo
-     *
-     * @return integer 
-     */
-    public function getIdSo()
-    {
-        return $this->idSo;
     }
 
     /**
@@ -211,5 +191,28 @@ class ComponentesEstacoesHistorico
     public function getCsTipoAlteracao()
     {
         return $this->csTipoAlteracao;
+    }
+
+    /**
+     * Set idSo
+     *
+     * @param \Cacic\CommonBundle\Entity\So $idSo
+     * @return ComponentesEstacoesHistorico
+     */
+    public function setIdSo(\Cacic\CommonBundle\Entity\So $idSo = null)
+    {
+        $this->idSo = $idSo;
+    
+        return $this;
+    }
+
+    /**
+     * Get idSo
+     *
+     * @return \Cacic\CommonBundle\Entity\So 
+     */
+    public function getIdSo()
+    {
+        return $this->idSo;
     }
 }

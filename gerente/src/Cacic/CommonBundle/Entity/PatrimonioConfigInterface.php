@@ -17,18 +17,9 @@ class PatrimonioConfigInterface
      *
      * @ORM\Column(name="id_etiqueta", type="string", length=30, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idEtiqueta;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_local", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idLocal;
 
     /**
      * @var string
@@ -79,20 +70,26 @@ class PatrimonioConfigInterface
      */
     private $inDestacarDuplicidade;
 
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="in_obrigatorio", type="string", length=1, nullable=false)
+     */
+    private $inObrigatorio;
 
     /**
-     * Set idEtiqueta
+     * @var \Locais
      *
-     * @param string $idEtiqueta
-     * @return PatrimonioConfigInterface
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\OneToOne(targetEntity="Locais")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
+     * })
      */
-    public function setIdEtiqueta($idEtiqueta)
-    {
-        $this->idEtiqueta = $idEtiqueta;
-    
-        return $this;
-    }
+    private $idLocal;
+
+
 
     /**
      * Get idEtiqueta
@@ -102,29 +99,6 @@ class PatrimonioConfigInterface
     public function getIdEtiqueta()
     {
         return $this->idEtiqueta;
-    }
-
-    /**
-     * Set idLocal
-     *
-     * @param integer $idLocal
-     * @return PatrimonioConfigInterface
-     */
-    public function setIdLocal($idLocal)
-    {
-        $this->idLocal = $idLocal;
-    
-        return $this;
-    }
-
-    /**
-     * Get idLocal
-     *
-     * @return integer 
-     */
-    public function getIdLocal()
-    {
-        return $this->idLocal;
     }
 
     /**
@@ -286,5 +260,51 @@ class PatrimonioConfigInterface
     public function getInDestacarDuplicidade()
     {
         return $this->inDestacarDuplicidade;
+    }
+
+    /**
+     * Set inObrigatorio
+     *
+     * @param string $inObrigatorio
+     * @return PatrimonioConfigInterface
+     */
+    public function setInObrigatorio($inObrigatorio)
+    {
+        $this->inObrigatorio = $inObrigatorio;
+    
+        return $this;
+    }
+
+    /**
+     * Get inObrigatorio
+     *
+     * @return string 
+     */
+    public function getInObrigatorio()
+    {
+        return $this->inObrigatorio;
+    }
+
+    /**
+     * Set idLocal
+     *
+     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
+     * @return PatrimonioConfigInterface
+     */
+    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal)
+    {
+        $this->idLocal = $idLocal;
+    
+        return $this;
+    }
+
+    /**
+     * Get idLocal
+     *
+     * @return \Cacic\CommonBundle\Entity\Locais 
+     */
+    public function getIdLocal()
+    {
+        return $this->idLocal;
     }
 }

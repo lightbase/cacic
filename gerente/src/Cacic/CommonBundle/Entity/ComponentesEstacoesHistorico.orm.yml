@@ -16,11 +16,6 @@ ComponentesEstacoesHistorico:
             fixed: true
             nullable: false
             column: te_node_address
-        idSo:
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_so
         csTipoComponente:
             type: string
             length: 100
@@ -43,4 +38,14 @@ ComponentesEstacoesHistorico:
             fixed: true
             nullable: false
             column: cs_tipo_alteracao
+    manyToOne:
+        idSo:
+            targetEntity: So
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_so:
+                    referencedColumnName: id_so
+            orphanRemoval: false
     lifecycleCallbacks: {  }

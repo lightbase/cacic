@@ -2,13 +2,12 @@ RedesVersoesModulos:
     type: entity
     table: redes_versoes_modulos
     fields:
-        idIpRede:
+        idRede:
             id: true
-            type: string
-            length: 15
-            fixed: true
+            type: integer
+            unsigned: false
             nullable: false
-            column: id_ip_rede
+            column: id_rede
         nmModulo:
             id: true
             type: string
@@ -16,12 +15,6 @@ RedesVersoesModulos:
             fixed: true
             nullable: false
             column: nm_modulo
-        idLocal:
-            id: true
-            type: integer
-            unsigned: true
-            nullable: false
-            column: id_local
         teVersaoModulo:
             type: string
             length: 20

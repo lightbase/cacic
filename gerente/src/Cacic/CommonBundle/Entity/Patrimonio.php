@@ -13,48 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Patrimonio
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_patrimonio", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idPatrimonio;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_unid_organizacional_nivel1a", type="integer", nullable=false)
-     */
-    private $idUnidOrganizacionalNivel1a;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_so", type="integer", nullable=false)
-     */
-    private $idSo;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dt_hr_alteracao", type="datetime", nullable=false)
      */
     private $dtHrAlteracao;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="te_node_address", type="string", length=17, nullable=false)
-     */
-    private $teNodeAddress;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_unid_organizacional_nivel2", type="integer", nullable=true)
-     */
-    private $idUnidOrganizacionalNivel2;
 
     /**
      * @var string
@@ -105,63 +68,63 @@ class Patrimonio
      */
     private $teInfoPatrimonio6;
 
-
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_unid_organizacional_nivel1", type="integer", nullable=false)
+     */
+    private $idUnidOrganizacionalNivel1;
 
     /**
-     * Get idPatrimonio
+     * @var integer
      *
-     * @return integer 
+     * @ORM\Column(name="id_usuario", type="integer", nullable=false)
      */
-    public function getIdPatrimonio()
-    {
-        return $this->idPatrimonio;
-    }
+    private $idUsuario;
 
     /**
-     * Set idUnidOrganizacionalNivel1a
+     * @var \Computadores
      *
-     * @param integer $idUnidOrganizacionalNivel1a
-     * @return Patrimonio
+     * @ORM\ManyToOne(targetEntity="Computadores")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_computador", referencedColumnName="id_computador")
+     * })
      */
-    public function setIdUnidOrganizacionalNivel1a($idUnidOrganizacionalNivel1a)
-    {
-        $this->idUnidOrganizacionalNivel1a = $idUnidOrganizacionalNivel1a;
-    
-        return $this;
-    }
+    private $idComputador;
 
     /**
-     * Get idUnidOrganizacionalNivel1a
+     * @var \UnidOrganizacionalNivel1a
      *
-     * @return integer 
+     * @ORM\ManyToOne(targetEntity="UnidOrganizacionalNivel1a")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_unid_organizacional_nivel1a", referencedColumnName="id_unid_organizacional_nivel1a")
+     * })
      */
-    public function getIdUnidOrganizacionalNivel1a()
-    {
-        return $this->idUnidOrganizacionalNivel1a;
-    }
+    private $idUnidOrganizacionalNivel1a;
 
     /**
-     * Set idSo
+     * @var \UnidOrganizacionalNivel2
      *
-     * @param integer $idSo
-     * @return Patrimonio
+     * @ORM\ManyToOne(targetEntity="UnidOrganizacionalNivel2")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_unid_organizacional_nivel2", referencedColumnName="id_unid_organizacional_nivel2")
+     * })
      */
-    public function setIdSo($idSo)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
+    private $idUnidOrganizacionalNivel2;
 
     /**
-     * Get idSo
+     * @var \Patrimonio
      *
-     * @return integer 
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Patrimonio")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_patrimonio", referencedColumnName="id_patrimonio")
+     * })
      */
-    public function getIdSo()
-    {
-        return $this->idSo;
-    }
+    private $idPatrimonio;
+
+
 
     /**
      * Set dtHrAlteracao
@@ -184,52 +147,6 @@ class Patrimonio
     public function getDtHrAlteracao()
     {
         return $this->dtHrAlteracao;
-    }
-
-    /**
-     * Set teNodeAddress
-     *
-     * @param string $teNodeAddress
-     * @return Patrimonio
-     */
-    public function setTeNodeAddress($teNodeAddress)
-    {
-        $this->teNodeAddress = $teNodeAddress;
-    
-        return $this;
-    }
-
-    /**
-     * Get teNodeAddress
-     *
-     * @return string 
-     */
-    public function getTeNodeAddress()
-    {
-        return $this->teNodeAddress;
-    }
-
-    /**
-     * Set idUnidOrganizacionalNivel2
-     *
-     * @param integer $idUnidOrganizacionalNivel2
-     * @return Patrimonio
-     */
-    public function setIdUnidOrganizacionalNivel2($idUnidOrganizacionalNivel2)
-    {
-        $this->idUnidOrganizacionalNivel2 = $idUnidOrganizacionalNivel2;
-    
-        return $this;
-    }
-
-    /**
-     * Get idUnidOrganizacionalNivel2
-     *
-     * @return integer 
-     */
-    public function getIdUnidOrganizacionalNivel2()
-    {
-        return $this->idUnidOrganizacionalNivel2;
     }
 
     /**
@@ -391,5 +308,143 @@ class Patrimonio
     public function getTeInfoPatrimonio6()
     {
         return $this->teInfoPatrimonio6;
+    }
+
+    /**
+     * Set idUnidOrganizacionalNivel1
+     *
+     * @param integer $idUnidOrganizacionalNivel1
+     * @return Patrimonio
+     */
+    public function setIdUnidOrganizacionalNivel1($idUnidOrganizacionalNivel1)
+    {
+        $this->idUnidOrganizacionalNivel1 = $idUnidOrganizacionalNivel1;
+    
+        return $this;
+    }
+
+    /**
+     * Get idUnidOrganizacionalNivel1
+     *
+     * @return integer 
+     */
+    public function getIdUnidOrganizacionalNivel1()
+    {
+        return $this->idUnidOrganizacionalNivel1;
+    }
+
+    /**
+     * Set idUsuario
+     *
+     * @param integer $idUsuario
+     * @return Patrimonio
+     */
+    public function setIdUsuario($idUsuario)
+    {
+        $this->idUsuario = $idUsuario;
+    
+        return $this;
+    }
+
+    /**
+     * Get idUsuario
+     *
+     * @return integer 
+     */
+    public function getIdUsuario()
+    {
+        return $this->idUsuario;
+    }
+
+    /**
+     * Set idComputador
+     *
+     * @param \Cacic\CommonBundle\Entity\Computadores $idComputador
+     * @return Patrimonio
+     */
+    public function setIdComputador(\Cacic\CommonBundle\Entity\Computadores $idComputador = null)
+    {
+        $this->idComputador = $idComputador;
+    
+        return $this;
+    }
+
+    /**
+     * Get idComputador
+     *
+     * @return \Cacic\CommonBundle\Entity\Computadores 
+     */
+    public function getIdComputador()
+    {
+        return $this->idComputador;
+    }
+
+    /**
+     * Set idUnidOrganizacionalNivel1a
+     *
+     * @param \Cacic\CommonBundle\Entity\UnidOrganizacionalNivel1a $idUnidOrganizacionalNivel1a
+     * @return Patrimonio
+     */
+    public function setIdUnidOrganizacionalNivel1a(\Cacic\CommonBundle\Entity\UnidOrganizacionalNivel1a $idUnidOrganizacionalNivel1a = null)
+    {
+        $this->idUnidOrganizacionalNivel1a = $idUnidOrganizacionalNivel1a;
+    
+        return $this;
+    }
+
+    /**
+     * Get idUnidOrganizacionalNivel1a
+     *
+     * @return \Cacic\CommonBundle\Entity\UnidOrganizacionalNivel1a 
+     */
+    public function getIdUnidOrganizacionalNivel1a()
+    {
+        return $this->idUnidOrganizacionalNivel1a;
+    }
+
+    /**
+     * Set idUnidOrganizacionalNivel2
+     *
+     * @param \Cacic\CommonBundle\Entity\UnidOrganizacionalNivel2 $idUnidOrganizacionalNivel2
+     * @return Patrimonio
+     */
+    public function setIdUnidOrganizacionalNivel2(\Cacic\CommonBundle\Entity\UnidOrganizacionalNivel2 $idUnidOrganizacionalNivel2 = null)
+    {
+        $this->idUnidOrganizacionalNivel2 = $idUnidOrganizacionalNivel2;
+    
+        return $this;
+    }
+
+    /**
+     * Get idUnidOrganizacionalNivel2
+     *
+     * @return \Cacic\CommonBundle\Entity\UnidOrganizacionalNivel2 
+     */
+    public function getIdUnidOrganizacionalNivel2()
+    {
+        return $this->idUnidOrganizacionalNivel2;
+    }
+
+    /**
+     * Set idPatrimonio
+     *
+     * @param \Cacic\CommonBundle\Entity\Patrimonio $idPatrimonio
+     * @return Patrimonio
+     */
+    public function setIdPatrimonio(\Cacic\CommonBundle\Entity\Patrimonio $idPatrimonio)
+    {
+        $this->idPatrimonio = $idPatrimonio;
+    
+        return $this;
+    }
+
+    /**
+     * Get idPatrimonio
+     *
+     * @return \Cacic\CommonBundle\Entity\Patrimonio 
+     */
+    public function getIdPatrimonio()
+    {
+        return $this->idPatrimonio;
     }
 }

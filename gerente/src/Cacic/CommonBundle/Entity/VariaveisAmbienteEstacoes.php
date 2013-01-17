@@ -13,31 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 class VariaveisAmbienteEstacoes
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="te_node_address", type="string", length=17, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $teNodeAddress;
-
-    /**
      * @var integer
      *
-     * @ORM\Column(name="id_so", type="integer", nullable=false)
+     * @ORM\Column(name="id_computador", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idSo;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_variavel_ambiente", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $idVariavelAmbiente;
+    private $idComputador;
 
     /**
      * @var string
@@ -46,75 +28,28 @@ class VariaveisAmbienteEstacoes
      */
     private $vlVariavelAmbiente;
 
-
-
     /**
-     * Set teNodeAddress
+     * @var \VariaveisAmbiente
      *
-     * @param string $teNodeAddress
-     * @return VariaveisAmbienteEstacoes
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\OneToOne(targetEntity="VariaveisAmbiente")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_variavel_ambiente", referencedColumnName="id_variavel_ambiente")
+     * })
      */
-    public function setTeNodeAddress($teNodeAddress)
-    {
-        $this->teNodeAddress = $teNodeAddress;
-    
-        return $this;
-    }
+    private $idVariavelAmbiente;
+
+
 
     /**
-     * Get teNodeAddress
-     *
-     * @return string 
-     */
-    public function getTeNodeAddress()
-    {
-        return $this->teNodeAddress;
-    }
-
-    /**
-     * Set idSo
-     *
-     * @param integer $idSo
-     * @return VariaveisAmbienteEstacoes
-     */
-    public function setIdSo($idSo)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSo
+     * Get idComputador
      *
      * @return integer 
      */
-    public function getIdSo()
+    public function getIdComputador()
     {
-        return $this->idSo;
-    }
-
-    /**
-     * Set idVariavelAmbiente
-     *
-     * @param integer $idVariavelAmbiente
-     * @return VariaveisAmbienteEstacoes
-     */
-    public function setIdVariavelAmbiente($idVariavelAmbiente)
-    {
-        $this->idVariavelAmbiente = $idVariavelAmbiente;
-    
-        return $this;
-    }
-
-    /**
-     * Get idVariavelAmbiente
-     *
-     * @return integer 
-     */
-    public function getIdVariavelAmbiente()
-    {
-        return $this->idVariavelAmbiente;
+        return $this->idComputador;
     }
 
     /**
@@ -138,5 +73,28 @@ class VariaveisAmbienteEstacoes
     public function getVlVariavelAmbiente()
     {
         return $this->vlVariavelAmbiente;
+    }
+
+    /**
+     * Set idVariavelAmbiente
+     *
+     * @param \Cacic\CommonBundle\Entity\VariaveisAmbiente $idVariavelAmbiente
+     * @return VariaveisAmbienteEstacoes
+     */
+    public function setIdVariavelAmbiente(\Cacic\CommonBundle\Entity\VariaveisAmbiente $idVariavelAmbiente)
+    {
+        $this->idVariavelAmbiente = $idVariavelAmbiente;
+    
+        return $this;
+    }
+
+    /**
+     * Get idVariavelAmbiente
+     *
+     * @return \Cacic\CommonBundle\Entity\VariaveisAmbiente 
+     */
+    public function getIdVariavelAmbiente()
+    {
+        return $this->idVariavelAmbiente;
     }
 }

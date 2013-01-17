@@ -28,4 +28,10 @@ Locais:
             fixed: true
             nullable: true
             column: te_observacao
+        dtDebug:
+            type: string
+            length: 8
+            fixed: true
+            nullable: true
+            column: dt_debug
     lifecycleCallbacks: {  }

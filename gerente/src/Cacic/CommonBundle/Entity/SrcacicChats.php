@@ -22,13 +22,6 @@ class SrcacicChats
     private $idSrcacicChat;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_conexao", type="integer", nullable=false)
-     */
-    private $idConexao;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="dt_hr_mensagem", type="datetime", nullable=false)
@@ -49,6 +42,16 @@ class SrcacicChats
      */
     private $csOrigem;
 
+    /**
+     * @var \SrcacicConexoes
+     *
+     * @ORM\ManyToOne(targetEntity="SrcacicConexoes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_conexao", referencedColumnName="id_conexao")
+     * })
+     */
+    private $idConexao;
+
 
 
     /**
@@ -59,29 +62,6 @@ class SrcacicChats
     public function getIdSrcacicChat()
     {
         return $this->idSrcacicChat;
-    }
-
-    /**
-     * Set idConexao
-     *
-     * @param integer $idConexao
-     * @return SrcacicChats
-     */
-    public function setIdConexao($idConexao)
-    {
-        $this->idConexao = $idConexao;
-    
-        return $this;
-    }
-
-    /**
-     * Get idConexao
-     *
-     * @return integer 
-     */
-    public function getIdConexao()
-    {
-        return $this->idConexao;
     }
 
     /**
@@ -151,5 +131,28 @@ class SrcacicChats
     public function getCsOrigem()
     {
         return $this->csOrigem;
+    }
+
+    /**
+     * Set idConexao
+     *
+     * @param \Cacic\CommonBundle\Entity\SrcacicConexoes $idConexao
+     * @return SrcacicChats
+     */
+    public function setIdConexao(\Cacic\CommonBundle\Entity\SrcacicConexoes $idConexao = null)
+    {
+        $this->idConexao = $idConexao;
+    
+        return $this;
+    }
+
+    /**
+     * Get idConexao
+     *
+     * @return \Cacic\CommonBundle\Entity\SrcacicConexoes 
+     */
+    public function getIdConexao()
+    {
+        return $this->idConexao;
     }
 }

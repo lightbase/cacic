@@ -10,6 +10,11 @@ AcoesExcecoes:
             column: id_acao_excecao
             generator:
                 strategy: IDENTITY
+        idRede:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_rede
         teNodeAddress:
             type: string
             length: 17
@@ -17,24 +22,6 @@ AcoesExcecoes:
             nullable: false
             column: te_node_address
     manyToOne:
-        idSo:
-            targetEntity: So
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_so:
-                    referencedColumnName: id_so
-            orphanRemoval: false
-        idLocal:
-            targetEntity: Locais
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_local:
-                    referencedColumnName: id_local
-            orphanRemoval: false
         idAcao:
             targetEntity: Acoes
             cascade: {  }
