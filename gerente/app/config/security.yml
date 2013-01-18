@@ -21,6 +21,9 @@ security:
         login:
             pattern:  ^/login$
             security: false
+        usuario:
+             pattern: ^/usuario*
+             security: false
         main:
             form_login:
                 default_target_path: /login
