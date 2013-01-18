@@ -16,10 +16,4 @@ class DefaultController extends BaseController
 		return $this->render('CacicCommonBundle:Default:index.html.twig');
 	}
 	
-	public function instaladorAction()
-	{
-		require_once 'instalador/index.php';
-		die ('pronto');
-	}
-	
 }
