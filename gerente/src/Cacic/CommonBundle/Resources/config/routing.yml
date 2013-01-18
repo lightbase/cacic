@@ -2,12 +2,32 @@ cacic_common_homepage:
     pattern:  /
     defaults: { _controller: CacicCommonBundle:Default:index }
 
-cacic_usuario_troca_senha:
-    pattern: /usuario/trocasenha/{idUsuario}
-    defaults: { _controller: CacicCommonBundle:Usuario:trocasenha, idUsuario: null}
-    requirements:
-        idUsuario: \d+
-
 cacic_common_instalador:
     pattern:  /instalador
     defaults: { _controller: CacicCommonBundle:Default:instalador }
+
+cacic_usuario_index:
+    pattern: /usuario
+    defaults: { _controller: CacicCommonBundle:Usuario:index }
+
+cacic_usuario_trocar_senha:
+    pattern: /usuario/trocarsenha/{idUsuario}
+    defaults: { _controller: CacicCommonBundle:Usuario:trocarsenha, idUsuario: null}
+    requirements:
+        idUsuario: \d+
+
+cacic_usuario_cadastrar:
+    pattern: /usuario/cadastrar
+    defaults: { _controller: CacicCommonBundle:Usuario:cadastrar}
+
+cacic_usuario_editar:
+    pattern: /usuario/editar/{idUsuario}
+    defaults: { _controller: CacicCommonBudle:Usuario:editar, idUsuario: null}
+    requirements:
+        idUsuario: \d+
+
+cacic_usuario_recuperar_senha:
+    pattern: /usuario/recuperarsenha
+    defaults: { _controller: CacicCommonBudle:Usuario:recuperarsenha}
+
+
