@@ -26,10 +26,10 @@ cacic_usuario_cadastrar:
 
 cacic_usuario_editar:
     pattern: /usuario/editar/{idUsuario}
-    defaults: { _controller: CacicCommonBudle:Usuario:editar, idUsuario: null}
+    defaults: { _controller: CacicCommonBundle:Usuario:editar, idUsuario: null}
     requirements:
         idUsuario: \d+
 
 cacic_usuario_recuperar_senha:
     pattern: /usuario/recuperarsenha
-    defaults: { _controller: CacicCommonBudle:Usuario:recuperarsenha}
+    defaults: { _controller: CacicCommonBundle:Usuario:recuperarsenha}
