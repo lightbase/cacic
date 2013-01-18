@@ -3,6 +3,7 @@
 namespace Cacic\CommonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Cacic\CommonBundle\Common;
 
 class UsuarioController extends Controller
 {

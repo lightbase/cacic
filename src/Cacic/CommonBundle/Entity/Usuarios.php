@@ -3,6 +3,7 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Usuarios
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="usuarios")
  * @ORM\Entity
  */
-class Usuarios
+class Usuarios implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -398,4 +399,62 @@ class Usuarios
     {
         return $this->idLocal;
     }
+	
+	/**
+     * 
+     * @see UserInterface::getUsername()
+     */
+    public function getUsername()
+    {
+    	return $this->nmUsuarioAcesso;
+    }
+    
+    /**
+     * @see UserInterface::getPassword()
+     */
+    public function getPassword()
+    {
+    	return $this->teSenha;
+    }
+    
+    /**
+     * 
+     * @see UserInterface::getSalt()
+     */
+    public function getSalt()
+    {
+    	return null;
+    }
+    
+    /**
+     * 
+     * @see UserInterface::getRoles()
+     */
+    public function getRoles(){}
+    
+    /**
+     * 
+     * @see UserInterface::eraseCredentials()
+     */
+    public function eraseCredentials(){}
+    
+    /**
+     * 
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+    	return serialize( array( $this->id ) );
+    }
+    
+    /**
+     * 
+     * @see \Serializable::unserialize()
+     * @param string $serialized
+     */
+    public function unserialize( $serialized )
+    {
+    	list ( $this->id ) = unserialize( $serialized );
+    }
+    
 }

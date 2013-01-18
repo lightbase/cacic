@@ -1,36 +1,79 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<html>
-	<head>
-		<title>CACIC - Configurador Automático e Coletor de Informações Computacionais</title>
-		<LINK REL="shortcut icon" HREF="cacic_icon.ico" TYPE="imag/x-icon" >
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-		{% block javascripts %}{% endblock %}
-		{% block stylesheets %}
-			<link href="{{ asset('bundles/caciccommon/css/main.css') }}" type="text/css" rel="stylesheet" />
-		{% endblock %}
-	</head>
-	
+{#
 	<body>
 		<div id="topo">
 			<div id="logo" style="float: left;">
-				<img src="{{ asset('bundles/caciccommon/images/cacic_logo.png') }}" width="50" height="50">
+				<img src="{{ asset('bundles/caciccommon/images/cacic_logo.png') }}" width="50" height="50" align="left" hspace="10">
 				<img src="{{ asset('bundles/caciccommon/images/cacic_tit.gif') }}" height="20">
-				v.<?php echo CACIC_VERSION;?>
 			</div>
 			<div style="float: right;">
-				<img src="{{ asset('bundles/caciccommon/images/cacic_ext.gif')}}" align="bottom">
-						<?php 
-						if ($_SESSION['nm_local'])
-							echo $_SESSION['nm_local']; 					
-						else 
-							{
-							require_once('include/library.php');					
-							$arrConfiguracoesPadrao = getValores('configuracoes_padrao', 'nm_organizacao'); 
-							echo $arrConfiguracoesPadrao['nm_organizacao'];
-							}				
-						?>
+				<img src="{{ asset('bundles/caciccommon/images/cacic_ext.gif')}}" align="left">
+				<p>{{ app.user.username }}</p>
 			</div>
 			<div class="clear"></div>
-		{% block body %}{% endblock %}
+	</body>
+</html>
+#}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<html lang="en">
+	<head>
+		<title>CACIC - Configurador Automático e Coletor de Informações Computacionais</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		
+		<link rel="shortcut icon" href="/favicon.ico" />
+		{% block stylesheets %}
+		<link href="{{ asset('bundles/caciccommon/css/bootstrap.css') }}" type="text/css" rel="stylesheet" />
+		<link href="{{ asset('bundles/caciccommon/css/main.css') }}" type="text/css" rel="stylesheet" />
+		{% endblock %}
+		
+		{% block javascripts %}{% endblock %}
+	</head>
+
+<body>
+
+	<div class="navbar navbar-fixed">
+		<div class="navbar-inner">
+			<div class="container">
+				<img src="{{ asset('bundles/caciccommon/images/cacic_logo.png') }}" width="40" height="40" align="left" hspace="10">
+				<a class="brand" href="{{ path('cacic_common_homepage') }}">CACIC <small >v. {{ cacic_version }}</small></a>
+				{#
+				<?php if($sf_user->isAuthenticated()): ?>
+				<div>
+				<?php $menu = new sfCreatixMenu($sf_user, 'menu', 'menu', 'h', 'nav nav-pills'); ?>
+				<ul class="nav pull-right">
+				<li class="dropdown" id="fat-menu">
+				<a data-toggle="dropdown" class="dropdown-toggle" href="#">Bem vindo(a) <?php echo $sf_user->getGuardUser()->getUserName(); ?><b class="caret"></b></a>
+				<ul class="dropdown-menu">
+				<li><a href="<?php echo url_for('@reset')?>">Menus dados</a></li>
+				<li><a href="<?php echo url_for('@sf_guard_signout'); ?>">Sair do sistema</a></li>
+				</ul>
+				</li>
+				</ul>
+				</div><!--/.nav-collapse -->
+				<?php endif; ?>
+				#}
+			</div>
+		</div>
+	</div>
+
+		<!-- Message -->
+
+		<div id="modal-content"></div>
+	
+		<div class="container">
+			<div id="mensagens">
+			{# exibição das mensagens do sistema (sucesso, erro, avisos, etc..) #}
+			{% block error %}{% endblock %}
+			</div>
+		
+			<div>
+			{% block body %}{% endblock %}
+			</div>
+			<hr>
+	
+			<footer>
+				<p>CACIC - Configurador Automático e Coletor de Informações Computacionais</p>
+			</footer>
+		</div><!--/.fluid-container-->
 	</body>
 </html>

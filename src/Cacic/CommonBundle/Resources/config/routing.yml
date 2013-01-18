@@ -2,6 +2,10 @@ cacic_common_homepage:
     pattern:  /
     defaults: { _controller: CacicCommonBundle:Default:index }
 
+cacic_common_login:
+    pattern:  /login
+    defaults: { _controller: CacicCommonBundle:Security:login }
+
 cacic_common_instalador:
     pattern:  /instalador
     defaults: { _controller: CacicCommonBundle:Default:instalador }
@@ -29,5 +33,3 @@ cacic_usuario_editar:
 cacic_usuario_recuperar_senha:
     pattern: /usuario/recuperarsenha
     defaults: { _controller: CacicCommonBudle:Usuario:recuperarsenha}
-
-

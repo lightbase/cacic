@@ -19,6 +19,7 @@
 @define('CACIC',1);
 @define('SECURITY',1);
 
+set_include_path( realpath(dirname(__FILE__) .'/..' ) . PATH_SEPARATOR .'.' );
 include_once('include/config.php');
 require_once('define.php');
 
@@ -100,7 +101,7 @@ function getDescricaoHardware()
 function AntiSpy($strNiveisPermitidos = '')
 	{
 	//GravaTESTES('AntiSpy: strNiveisPermitidos="'.$strNiveisPermitidos.'"');
-	//GravaTESTES('AntiSpy: Nivel Atual="'.$_SESSION['cs_nivel_administracao'].'"');	
+	//GravaTESTES('AntiSpy: Nivel Atual="'.$_SESSION['cs_nivel_administracao'].'"');
 	if ($strNiveisPermitidos <> '')
 		$boolNivelPermitido = stripos2(','.$strNiveisPermitidos.',',','.$_SESSION['cs_nivel_administracao'].',',false);
 	else
@@ -108,13 +109,13 @@ function AntiSpy($strNiveisPermitidos = '')
 
 	include CACIC_PATH . 'include/config.php'; // Incluo o config.php para pegar as chaves de criptografia	
 
-	//GravaTESTES('AntiSpy: Caminho do config="'.CACIC_PATH . 'include/config.php'.'"');			
+	//GravaTESTES('AntiSpy: Caminho do config="'.CACIC_PATH . 'include/config.php'.'"');
 	
 	if (session_is_registered("id_usuario") && session_is_registered("id_usuario_crypted") && 
 	    $_SESSION["id_usuario_crypted"] == EnCrypt($key,$iv,$_SESSION["id_usuario"],"1","0","0","") &&
 	    $boolNivelPermitido)
    		return true;
-	$strLocation = CACIC_PATH . 'include/acesso_nao_permitido.php';
+	$strLocation = CACIC_URL . 'include/acesso_nao_permitido.php';
 	
 	//GravaTESTES('AntiSpy: Redirecionando para Nivel Atual="'.CACIC_PATH . 'include/acesso_nao_permitido.php'.'"');	
 	
