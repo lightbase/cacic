@@ -5,6 +5,12 @@ namespace Cacic\CommonBundle\Controller;
 use Cacic\CommonBundle\Common;
 use Symfony\Component\Security\Core\SecurityContext;
 
+/**
+ * 
+ * 
+ * @author LightBase
+ *
+ */
 class SecurityController extends BaseController
 {
 	

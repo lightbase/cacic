@@ -1,8 +1,8 @@
 {% extends '::base.html.twig' %}
 
-{% block error %}
+{% block mensagens_sistema %}
 {% if error %}
-    <div>{{ error.message }}</div>
+    <div class="mensagemErro">{{ error.message }}</div>
 {% endif %}
 {% endblock %}
 
@@ -15,15 +15,19 @@
 		<h1>CACIC - Configurador Automático e Coletor de Informações Computacionais</h1>
 		
 	</div>
-    	<form action="{{ path('cacic_common_login') }}" method="post">
+    	<form action="{{ path('cacic_common_login_check') }}" method="post">
 			<div><label for="login_usuario">Usuário:</label></div>
-			<div><input type="text" name="login[usuario]" id="login_usuario" value="{{ last_username}}" /></div>
+			<div><input type="text" name="_username" id="login_usuario" value="{{ last_username}}" /></div>
 			<br />
+			
 			<div><label for="login_password">Senha:</label></div>
-			<div><input type="password" name="login[password]" id="login_password" /></div>
+			<div><input type="password" name="_password" id="login_password" /></div>
 			<br />
-			<input type="checkbox" name="login[continuar_conectado]" /> <label for="login_continuar_conectado">Continuar conectado</label>
+			
+			<input type="checkbox" name="_remember_me" id="login_continuar_conectado" /> 
+			<label for="login_continuar_conectado">Continuar conectado</label>
 			<br /><br />
+			
 			<a class="btn btn-danger btn-small" href=""><i class="icon-question-sign icon-white"></i> Esqueceu sua senha?</a>
 			<button class="btn btn-primary btn-small" type="submit" ><i class="icon-lock icon-white"></i> Autenticar</button>
 		</form>

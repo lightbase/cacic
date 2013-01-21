@@ -720,7 +720,7 @@ function computador_existe($te_node_address, $id_so)
 function AutenticaLDAP($pIdServidorAutenticacao, $pNmNomeAcessoAutenticacao, $pTeSenhaAcessoAutenticacao)
 	{
 	GravaTESTES(CACIC_PATH . 'include/class.ldap.php');
-	include_once(CACIC_PATH . 'include/class.ldap.php');
+	require_once CACIC_PATH . 'include/class.ldap.php';
 	
 	$arrServidores = getValores('servidores_autenticacao',  
 								'nm_servidor_autenticacao,

@@ -430,7 +430,10 @@ class Usuarios implements UserInterface, \Serializable
      * 
      * @see UserInterface::getRoles()
      */
-    public function getRoles(){}
+    public function getRoles()
+    {
+    	return array( 'ROLE_ADMIN', 'ROLE_USER' );
+    }
     
     /**
      * 
@@ -444,7 +447,7 @@ class Usuarios implements UserInterface, \Serializable
      */
     public function serialize()
     {
-    	return serialize( array( $this->id ) );
+    	return serialize( array( $this->idUsuario ) );
     }
     
     /**
@@ -454,7 +457,7 @@ class Usuarios implements UserInterface, \Serializable
      */
     public function unserialize( $serialized )
     {
-    	list ( $this->id ) = unserialize( $serialized );
+    	list ( $this->idUsuario ) = unserialize( $serialized );
     }
     
 }
