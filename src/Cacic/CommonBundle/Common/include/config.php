@@ -52,7 +52,7 @@
      * Caminho fisico da aplicacao "CACIC"
      * Valor utilizado principalmente pela função de Update de SubRedes...
      */
-    $path_aplicacao		= "/Users/ecio/Sites/cacic/src/Cacic/CommonBundle/Common";
+    $path_aplicacao		= "/Users/ecio/Sites/cacic/src/Cacic/CommonBundle/Common/";
 
     /*
      * CACIC application language

@@ -4,10 +4,10 @@ jms_security_extra:
 
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User:
-            algorithm:        password
-            encode_as_base64: false
-            iterations:       1
+        Cacic\CommonBundle\Entity\Usuarios: plaintext
+            #algorithm:        md5
+            #encode_as_base64: false
+            #iterations:       1
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
@@ -15,19 +15,40 @@ security:
 
     providers:
         bancodedados:
-            entity: { class: Cacic\CommonBundle\Entity\Usuarios, property: nm_usuario_acesso }
+            entity: { class: Cacic\CommonBundle\Entity\Usuarios, property: nmUsuarioAcesso }
 
     firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
         login:
             pattern:  ^/login$
+            security: false
+        recuperarsenha:
+            pattern: ^/usuario/recuperarsenha$
+            security: false
+        instalador:
+            pattern: ^/instalador$
             security: false
         usuario:
              pattern: ^/usuario*
              security: false
+
         main:
+            pattern: .*
+            anonymous: ~
             form_login:
-                default_target_path: /login
+                default_target_path:			/
                 always_use_default_target_path: true
+                login_path: 					/login
+                check_path:						/authenticate
+            logout:
+                path:   /logout
+                target: /
+            remember_me:
+                key:      %secret%
+                lifetime: 3600
+                path:     /
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

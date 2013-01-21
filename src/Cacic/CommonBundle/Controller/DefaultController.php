@@ -2,9 +2,9 @@
 
 namespace Cacic\CommonBundle\Controller;
 
-use Cacic\CommonBundle\Common;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends BaseController
+class DefaultController extends Controller
 {
 	
 	/**

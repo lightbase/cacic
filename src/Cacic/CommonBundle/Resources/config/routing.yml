@@ -6,30 +6,52 @@ cacic_common_login:
     pattern:  /login
     defaults: { _controller: CacicCommonBundle:Security:login }
 
+cacic_common_login_check:
+    pattern:  /authenticate
+
+cacic_common_logout:
+    pattern: /logout
+
 cacic_common_instalador:
     pattern:  /instalador
     defaults: { _controller: CacicCommonBundle:Default:instalador }
 
 cacic_usuario_index:
-    pattern: /usuario
+    pattern:  /usuario
     defaults: { _controller: CacicCommonBundle:Usuario:index }
 
 cacic_usuario_trocar_senha:
-    pattern: /usuario/trocarsenha/{idUsuario}
+    pattern:  /usuario/trocarsenha/{idUsuario}
     defaults: { _controller: CacicCommonBundle:Usuario:trocarsenha, idUsuario: null}
     requirements:
         idUsuario: \d+
 
 cacic_usuario_cadastrar:
-    pattern: /usuario/cadastrar
+    pattern:  /usuario/cadastrar
     defaults: { _controller: CacicCommonBundle:Usuario:cadastrar}
 
 cacic_usuario_editar:
-    pattern: /usuario/editar/{idUsuario}
+    pattern:  /usuario/editar/{idUsuario}
     defaults: { _controller: CacicCommonBundle:Usuario:editar, idUsuario: null}
     requirements:
         idUsuario: \d+
 
 cacic_usuario_recuperar_senha:
-    pattern: /usuario/recuperarsenha
+    pattern:  /usuario/recuperarsenha
     defaults: { _controller: CacicCommonBundle:Usuario:recuperarsenha}
+
+cacic_local_index:
+    pattern:  /local/{page}
+    defaults: { _controller: CacicCommonBundle:Local:index, page: 1}
+    requirements:
+        page: \d+
+
+cacic_local_cadastrar:
+    pattern:  /local/cadastrar
+    defaults: { _controller: CacicCommonBundle:Local:cadastrar}
+
+cacic_local_editar:
+    pattern:  /local/editar/{idLocal}
+    defaults: { _controller: CacicCommonBundle:Local:editar}
+    requirements:
+        idLocal: \d+

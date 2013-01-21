@@ -519,7 +519,9 @@ address {
   font-style: normal;
 }
 small {
-  font-size: 100%;
+  font-size: 60%;
+  line-height: 200%;
+  display: block;
 }
 cite {
   font-style: normal;

@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<div class="page-header">
+    <h1>Locais<small>Lista de locais cadastrados</small></h1>
+</div>
+
+
+<div class="well">
+
+	<table class="paginacao" cellpadding="2" cellspacing="0" width="100%" align="center">
+		<tr>
+			<td align="left"></td>
+			<td align="right"></td>
+		</tr>
+	</table>
+	
+	<table class="list">
+		<thead>
+	    <tr>
+		    <th>Sigla</th>
+		    <th>Descrição</th>
+		    <th>Redes</th>
+		    <th>Usuários Primários</th>
+		    <th>Usuários Secundários</th>
+			<th>Ações</th>
+	    </tr>
+		</thead>
+		
+	  	<tbody>
+		
+	    {% for local in locais %}
+	    
+	    <tr class="">
+		    <td></td>
+		    <td></td>
+		    <td></td>
+		    <td></td>
+		    <td></td>
+			<td></td>
+	    </tr>
+	    {% else %}
+	    <tr>
+			<td align="center" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+		</tr>
+		{% endfor %}
+	    
+	  </tbody>
+	</table>
+	
+</div>
+{% endblock %}

@@ -15,3 +15,15 @@ div#topo {
 }
 
 .clear { clear: both; }
+	
+TABLE.list {
+	width: 100%;
+}
+
+TABLE.list thead {
+	background-color: #a1a1a1;
+}
+
+TABLE.list thead tr th {
+	padding: 5px 0;
+}

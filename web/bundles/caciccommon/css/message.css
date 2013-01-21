@@ -1,0 +1,37 @@
+@CHARSET "ISO-8859-1";
+
+#mensagens{
+	display: block;
+	font-weight: bold;
+	font-size: 8pt;
+	text-transform: uppercase;
+	margin: 10px 0;
+	padding: 0;
+	clear: both;
+	text-align: left;
+}
+
+.mensagemErro, .mensagemSucesso, .mensagemAviso {
+	padding: 10px;
+}
+
+.mensagemErro {
+	background: url("/img/adm/ico_erro.png") no-repeat left center;
+	background-color: #f8caca;
+	border-color: #c00;
+	color: #a00;
+}
+
+.mensagemSucesso {
+	background: url("/img/adm/ico_sucesso.png") no-repeat left center;
+	background-color: #d2edbd;
+	border-color: #0c0;
+	color: #0a0;
+}
+
+.mensagemAviso {
+	background: url("/img/adm/ico_aviso_m.png") no-repeat left center;
+	background-color: #eacc72;
+	border-color: #baab42;
+	color: #00a;
+}
