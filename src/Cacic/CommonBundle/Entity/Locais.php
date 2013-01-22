@@ -3,12 +3,13 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Locais
  *
  * @ORM\Table(name="locais")
- * @ORM\Entity(repositoryClass="LocaisRepository")
+ * @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\LocaisRepository")
  */
 class Locais
 {
@@ -48,8 +49,26 @@ class Locais
      * @ORM\Column(name="dt_debug", type="string", length=8, nullable=true)
      */
     private $dtDebug;
+    
+	/**
+     * @ORM\OneToMany(targetEntity="Usuarios", mappedBy="localPrimario")
+     */
+    private $usuariosPrimarios;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Redes", mappedBy="redes")
+     */
+    private $redes;
 
-
+    /**
+     * 
+     * Construtor da Entidade
+     */
+    public function __construct()
+    {
+        $this->usuariosPrimarios = new ArrayCollection();
+        $this->redes = new ArrayCollection();
+    }
 
     /**
      * Get idLocal
@@ -151,5 +170,71 @@ class Locais
     public function getDtDebug()
     {
         return $this->dtDebug;
+    }
+
+    /**
+     * Add usuariosPrimarios
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuarios $usuariosPrimarios
+     * @return Locais
+     */
+    public function addUsuariosPrimario(\Cacic\CommonBundle\Entity\Usuarios $usuariosPrimarios)
+    {
+        $this->usuariosPrimarios[] = $usuariosPrimarios;
+    
+        return $this;
+    }
+
+    /**
+     * Remove usuariosPrimarios
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuarios $usuariosPrimarios
+     */
+    public function removeUsuariosPrimario(\Cacic\CommonBundle\Entity\Usuarios $usuariosPrimarios)
+    {
+        $this->usuariosPrimarios->removeElement($usuariosPrimarios);
+    }
+
+    /**
+     * Get usuariosPrimarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsuariosPrimarios()
+    {
+        return $this->usuariosPrimarios;
+    }
+
+    /**
+     * Add redes
+     *
+     * @param \Cacic\CommonBundle\Entity\Redes $redes
+     * @return Locais
+     */
+    public function addRede(\Cacic\CommonBundle\Entity\Redes $redes)
+    {
+        $this->redes[] = $redes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove redes
+     *
+     * @param \Cacic\CommonBundle\Entity\Redes $redes
+     */
+    public function removeRede(\Cacic\CommonBundle\Entity\Redes $redes)
+    {
+        $this->redes->removeElement($redes);
+    }
+
+    /**
+     * Get redes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRedes()
+    {
+        return $this->redes;
     }
 }

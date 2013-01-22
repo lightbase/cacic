@@ -1,5 +1,6 @@
-Locais:
+Cacic\CommonBundle\Entity\Locais:
     type: entity
+    repositoryClass: Cacic\CommonBundle\Entity\LocaisRepository
     table: locais
     fields:
         idLocal:
@@ -34,4 +35,11 @@ Locais:
             fixed: true
             nullable: true
             column: dt_debug
+    oneToMany:
+        usuariosPrimarios:
+            targetEntity: Usuarios
+            mappedBy: localPrimario
+        redes:
+            targetEntity: Redes
+            mappedBy: local
     lifecycleCallbacks: {  }

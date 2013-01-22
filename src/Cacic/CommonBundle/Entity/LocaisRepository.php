@@ -20,14 +20,18 @@ class LocaisRepository extends EntityRepository
 	
 	/**
 	 * 
-	 * 
+	 * Método de listagem dos Locais cadastrados e respectivas informações de usuários primários e secundários
 	 */
 	public function listar()
 	{
-		$_dql = "SELECT l.*
-				FROM Locais as l";
+		$_dql = "SELECT l, COUNT(u.idUsuario) AS numUsuariosPrimarios
+				FROM CacicCommonBundle:Locais l
+				LEFT JOIN l.usuariosPrimarios u
+				GROUP BY l.idLocal";
+		
         $query = $this->getEntityManager()->createQuery( $_dql );
         return $query->getArrayResult();
+		
 	}
 	
 }

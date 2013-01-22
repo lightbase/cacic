@@ -93,26 +93,34 @@ class Usuarios implements UserInterface, \Serializable
     private $teLocaisSecundarios;
 
     /**
-     * @var \GrupoUsuarios
-     *
-     * @ORM\ManyToOne(targetEntity="GrupoUsuarios")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_grupo_usuarios", referencedColumnName="id_grupo_usuarios")
-     * })
+     * @var integer
+     * 
+     * @ORM\Column(name="id_grupo_usuarios", type="integer", nullable=false)
      */
     private $idGrupoUsuarios;
 
     /**
-     * @var \Locais
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Locais")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
-     * })
+     * @ORM\Column(name="id_local", type="integer", nullable=false)
      */
     private $idLocal;
-
-
+    
+    /**
+     * @var \Locais
+     * 
+     * @ORM\ManyToOne(targetEntity="Locais", inversedBy="usuariosPrimarios")
+     * @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
+     */
+    private $localPrimario;
+    
+    /**
+     * @var \GrupoUsuarios
+     * 
+     * @ORM\ManyToOne(targetEntity="GrupoUsuarios", inversedBy="usuarios")
+     * @ORM\JoinColumn(name="id_grupo_usuarios", referencedColumnName="id_grupo_usuarios")
+     */
+    private $grupo;
 
     /**
      * Get idUsuario
@@ -432,7 +440,7 @@ class Usuarios implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-    	return array( 'ROLE_ADMIN', 'ROLE_USER' );
+    	return array( 'ROLE_ADMIN' );
     }
     
     /**
@@ -460,4 +468,50 @@ class Usuarios implements UserInterface, \Serializable
     	list ( $this->idUsuario ) = unserialize( $serialized );
     }
     
+
+    /**
+     * Set localPrimario
+     *
+     * @param \Cacic\CommonBundle\Entity\Locais $localPrimario
+     * @return Usuarios
+     */
+    public function setLocalPrimario(\Cacic\CommonBundle\Entity\Locais $localPrimario = null)
+    {
+        $this->localPrimario = $localPrimario;
+    
+        return $this;
+    }
+
+    /**
+     * Get localPrimario
+     *
+     * @return \Cacic\CommonBundle\Entity\Locais 
+     */
+    public function getLocalPrimario()
+    {
+        return $this->localPrimario;
+    }
+
+    /**
+     * Set grupo
+     *
+     * @param \Cacic\CommonBundle\Entity\GrupoUsuarios $grupo
+     * @return Usuarios
+     */
+    public function setGrupo(\Cacic\CommonBundle\Entity\GrupoUsuarios $grupo = null)
+    {
+        $this->grupo = $grupo;
+    
+        return $this;
+    }
+
+    /**
+     * Get grupo
+     *
+     * @return \Cacic\CommonBundle\Entity\GrupoUsuarios 
+     */
+    public function getGrupo()
+    {
+        return $this->grupo;
+    }
 }

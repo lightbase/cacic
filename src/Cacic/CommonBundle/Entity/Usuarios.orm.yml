@@ -1,5 +1,6 @@
-Usuarios:
+Cacic\CommonBundle\Entity\Usuarios:
     type: entity
+    repositoryClass: Cacic\CommonBundle\Entity\UsuariosRepository
     table: usuarios
     fields:
         idUsuario:
@@ -65,21 +66,30 @@ Usuarios:
             type: text
             nullable: true
             column: te_locais_secundarios
-    manyToOne:
+        idLocal:
+            type: integer
+            unsigned: true
+            nullable: false
+            column: id_local
         idGrupoUsuarios:
+            type: integer
+            nullable: false
+            column: id_grupo_usuarios
+    manyToOne:
+        grupo:
             targetEntity: GrupoUsuarios
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: usuarios
             joinColumns:
                 id_grupo_usuarios:
                     referencedColumnName: id_grupo_usuarios
             orphanRemoval: false
-        idLocal:
+        localPrimario:
             targetEntity: Locais
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: usuariosPrimarios
             joinColumns:
                 id_local:
                     referencedColumnName: id_local
