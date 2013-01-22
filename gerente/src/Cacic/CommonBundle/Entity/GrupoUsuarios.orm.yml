@@ -1,5 +1,6 @@
-GrupoUsuarios:
+Cacic\CommonBundle\Entity\GrupoUsuarios:
     type: entity
+    repositoryClass: Cacic\CommonBundle\Entity\GrupoUsuariosRepository
     table: grupo_usuarios
     fields:
         idGrupoUsuarios:
@@ -36,4 +37,8 @@ GrupoUsuarios:
             fixed: true
             nullable: false
             column: nm_grupo_usuarios
+    oneToMany:
+        usuarios:
+            targetEntity: Usuarios
+            mappedBy: grupo
     lifecycleCallbacks: {  }

@@ -19,11 +19,11 @@
 		<thead>
 	    <tr>
 		    <th>Sigla</th>
-		    <th>Descrição</th>
+		    <th>DescriÃ§Ã£o</th>
 		    <th>Redes</th>
-		    <th>Usuários Primários</th>
-		    <th>Usuários Secundários</th>
-			<th>Ações</th>
+		    <th>UsuÃ¡rios PrimÃ¡rios</th>
+		    <th>UsuÃ¡rios SecundÃ¡rios</th>
+			<th>AÃ§Ãµes</th>
 	    </tr>
 		</thead>
 		
@@ -32,12 +32,14 @@
 	    {% for local in locais %}
 	    
 	    <tr class="">
+		    <td>{{ local[0]['sgLocal'] }}</td>
+		    <td>{{ local[0]['nmLocal'] }}</td>
 		    <td></td>
+		    <td>{{ local['numUsuariosPrimarios'] }}</td>
 		    <td></td>
-		    <td></td>
-		    <td></td>
-		    <td></td>
-			<td></td>
+			<td>
+			
+			</td>
 	    </tr>
 	    {% else %}
 	    <tr>

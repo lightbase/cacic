@@ -1,5 +1,6 @@
-Redes:
+Cacic\CommonBundle\Entity\Redes:
     type: entity
+    repositoryClass: Cacic\CommonBundle\Entity\RedesRepository
     table: redes
     fields:
         idRede:
@@ -10,6 +11,11 @@ Redes:
             column: id_rede
             generator:
                 strategy: IDENTITY
+        idLocal:
+            type: integer
+            unsigned: true
+            nullable: true
+            column: id_local
         idServidorAutenticacao:
             type: integer
             unsigned: false
@@ -145,11 +151,11 @@ Redes:
             nullable: true
             column: dt_debug
     manyToOne:
-        idLocal:
+        local:
             targetEntity: Locais
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: redes
             joinColumns:
                 id_local:
                     referencedColumnName: id_local

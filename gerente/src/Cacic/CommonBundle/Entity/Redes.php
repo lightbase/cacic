@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Redes
  *
  * @ORM\Table(name="redes")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\RedesRepository")
  */
 class Redes
 {
@@ -27,6 +27,13 @@ class Redes
      * @ORM\Column(name="id_servidor_autenticacao", type="integer", nullable=true)
      */
     private $idServidorAutenticacao;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_local", type="integer", nullable=true)
+     */
+    private $idLocal;
 
     /**
      * @var string
@@ -181,7 +188,7 @@ class Redes
      * @ORM\Column(name="dt_debug", type="string", length=8, nullable=true)
      */
     private $dtDebug;
-
+    
     /**
      * @var \Locais
      *
@@ -190,10 +197,8 @@ class Redes
      *   @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
      * })
      */
-    private $idLocal;
-
-
-
+    private $local;
+    
     /**
      * Get idRede
      *
@@ -225,6 +230,29 @@ class Redes
     public function getIdServidorAutenticacao()
     {
         return $this->idServidorAutenticacao;
+    }
+
+    /**
+     * Set idLocal
+     *
+     * @param integer $idLocal
+     * @return Redes
+     */
+    public function setIdLocal($idLocal)
+    {
+        $this->idLocal = $idLocal;
+    
+        return $this;
+    }
+    
+	/**
+     * Get idLocal
+     *
+     * @return integer 
+     */
+    public function getIdLocal()
+    {
+        return $this->idLocal;
     }
 
     /**
@@ -732,27 +760,28 @@ class Redes
     {
         return $this->dtDebug;
     }
+    
 
     /**
-     * Set idLocal
+     * Set local
      *
-     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
+     * @param \Cacic\CommonBundle\Entity\Locais $local
      * @return Redes
      */
-    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal = null)
+    public function setLocal(\Cacic\CommonBundle\Entity\Locais $local = null)
     {
-        $this->idLocal = $idLocal;
+        $this->local = $local;
     
         return $this;
     }
 
     /**
-     * Get idLocal
+     * Get local
      *
      * @return \Cacic\CommonBundle\Entity\Locais 
      */
-    public function getIdLocal()
+    public function getLocal()
     {
-        return $this->idLocal;
+        return $this->local;
     }
 }
