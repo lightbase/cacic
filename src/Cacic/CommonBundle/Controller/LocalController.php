@@ -24,4 +24,33 @@ class LocalController extends Controller
 		return $this->render( 'CacicCommonBundle:Local:index.html.twig', array( 'locais' => $arrLocais ) );
 	}
 	
+	/**
+	 * 
+	 * Tela de cadastro de novo Local
+	 */
+	public function cadastrarAction()
+	{
+		
+	}
+	
+	/**
+	 * 
+	 * Tela de edição de Local já cadastrado
+	 * @param integer $idLocal
+	 */
+	public function editarAction( $idLocal )
+	{
+		
+	}
+	
+	/**
+	 * 
+	 * [AJAX] Exclusão de Local já cadastrado
+	 * @param integer $idLocal
+	 */
+	public function excluirAction($idLocal)
+	{
+		
+	}
+	
 }

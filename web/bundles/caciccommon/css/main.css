@@ -4,26 +4,36 @@ BODY {
 	margin: 0;
 	padding: 0;
 }
-
-div#topo {
-	background: url('../images/linha_h.gif') repeat-x bottom #ebebeb;
-	height: 60px;
-}
-
-#topo #logo {
-	margin-left: 20px;
-}
-
-.clear { clear: both; }
 	
 TABLE.list {
 	width: 100%;
+	border: 1px solid #aaa;
 }
 
 TABLE.list thead {
-	background-color: #a1a1a1;
+	background-color: #333;
+	color: #fff;
 }
 
-TABLE.list thead tr th {
-	padding: 5px 0;
+TABLE.list thead tr th, TABLE.list tbody tr td {
+	padding: 5px;
+	text-align: left;
+}
+
+TABLE.list tbody tr.row0 {
+	background-color: #ccc;
+}
+
+TABLE.list tbody tr.row1 {
+	background-color: #fff;
+}
+
+TABLE.list tbody .bt-excluir {
+	cursor: pointer;
+}
+
+.bt-adicionar {
+	background: url('../images/v3/bt_add_p.png') no-repeat left #ddd;
+	padding: 5px 5px 5px 20px;
+	border: 1px solid #a1a1a1;
 }

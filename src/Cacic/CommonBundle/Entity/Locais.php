@@ -56,7 +56,8 @@ class Locais
     private $usuariosPrimarios;
     
     /**
-     * @ORM\OneToMany(targetEntity="Redes", mappedBy="redes")
+     * @ORM\OneToMany(targetEntity="Redes", mappedBy="local")
+     * @ORM\JoinColumn(name="id_local", referencedColumnName="id_local")
      */
     private $redes;
 

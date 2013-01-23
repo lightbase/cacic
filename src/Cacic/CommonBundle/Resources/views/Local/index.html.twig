@@ -5,7 +5,6 @@
     <h1>Locais<small>Lista de locais cadastrados</small></h1>
 </div>
 
-
 <div class="well">
 
 	<table class="paginacao" cellpadding="2" cellspacing="0" width="100%" align="center">
@@ -18,12 +17,12 @@
 	<table class="list">
 		<thead>
 	    <tr>
-		    <th>Sigla</th>
-		    <th>Descrição</th>
-		    <th>Redes</th>
-		    <th>Usuários Primários</th>
-		    <th>Usuários Secundários</th>
-			<th>Ações</th>
+		    <th width="15%">Sigla</th>
+		    <th width="40%">Descrição</th>
+		    <th width="10%" style="text-align: center">Redes</th>
+		    <th width="10%" style="text-align: center">Usuários<br />Primários</th>
+		    <th width="10%" style="text-align: center">Usuários<br />Secundários</th>
+			<th style="text-align: center">Ações</th>
 	    </tr>
 		</thead>
 		
@@ -31,16 +30,20 @@
 		
 	    {% for local in locais %}
 	    
-	    <tr class="">
+	    <tr class="{{ cycle(['row0', 'row1'], loop.index) }}">
 		    <td>{{ local[0]['sgLocal'] }}</td>
 		    <td>{{ local[0]['nmLocal'] }}</td>
-		    <td></td>
-		    <td>{{ local['numUsuariosPrimarios'] }}</td>
-		    <td></td>
-			<td>
-			
+		    <td style="text-align: center">{{ local['numRedes']}}</td>
+		    <td style="text-align: center">{{ local['numUsuariosPrimarios'] }}</td>
+		    <td style="text-align: center"></td>
+			<td style="text-align: center">
+				<a href="{{ path('cacic_local_editar', {'idLocal': local[0]['idLocal']}) }}">
+					<img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Local" title="Editar Local"  /></a>
+				
+				<img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Local" title="Excluir Local" class="bt-excluir" id="bt-excluir-{{ local[0]['idLocal'] }}" />
 			</td>
 	    </tr>
+	    
 	    {% else %}
 	    <tr>
 			<td align="center" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
@@ -51,4 +54,9 @@
 	</table>
 	
 </div>
+
+<div align="right">
+	<a class="bt-adicionar" href="{{ path('cacic_local_cadastrar') }}">Adicionar Local</a>
+</div>
+	
 {% endblock %}

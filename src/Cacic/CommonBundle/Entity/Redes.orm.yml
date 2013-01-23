@@ -152,7 +152,7 @@ Cacic\CommonBundle\Entity\Redes:
             column: dt_debug
     manyToOne:
         local:
-            targetEntity: Locais
+            targetEntity: Cacic\CommonBundle\Entity\Locais
             cascade: {  }
             mappedBy: null
             inversedBy: redes
