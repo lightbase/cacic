@@ -17,8 +17,10 @@ cacic_common_instalador:
     defaults: { _controller: CacicCommonBundle:Default:instalador }
 
 cacic_usuario_index:
-    pattern:  /usuario
-    defaults: { _controller: CacicCommonBundle:Usuario:index }
+    pattern:  /usuario/{page}
+    defaults: { _controller: CacicCommonBundle:Usuario:index, page: 1 }
+    requirements:
+        page: \d+
 
 cacic_usuario_trocar_senha:
     pattern:  /usuario/trocarsenha/{idUsuario}
@@ -42,7 +44,7 @@ cacic_usuario_recuperar_senha:
 
 cacic_local_index:
     pattern:  /local/{page}
-    defaults: { _controller: CacicCommonBundle:Local:index, page: 1}
+    defaults: { _controller: CacicCommonBundle:Local:index, page: 1 }
     requirements:
         page: \d+
 
