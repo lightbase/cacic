@@ -9,30 +9,31 @@ class UsuarioController extends Controller
 {
 	/**
 	 * 
-	 * Listagem dos usu�rios
+	 * Listagem dos usuários
+     * @param $page
 	 */
-    public function indexAction()
+    public function indexAction( $page )
     {
-       	 return $this->render('CacicCommonBundle:Default:index.html.twig');
-       	 
-       	 
-
+        return $this->render(
+            'CacicCommonBundle:Usuario:index.html.twig',
+            array( 'usuarios' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuarios' )->listar() )
+        );
     }
     
     /**
      * 
-     * P�gina de altera��o de senha.
-     * Caso o idUsuario n�o seja informado, carrega os dados do usu�rio logado.
+     * Página de alteraçõo de senha.
+     * Caso o idUsuario não seja informado, carrega os dados do usuário logado.
      * @param int $idUsuario
      */
-    public function trocarsenhaAction($idUsuario)
+    public function trocarsenhaAction( $idUsuario )
     {
     	$objUsuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $idUsuario );
     	echo"<pre>";var_dump($objUsuario);die;
     }
 
     /**
-     * P�gina de Cadastrar novo usuario.
+     * Página de Cadastrar novo usuário.
      *
      */
     public function cadastrarAction()
@@ -41,7 +42,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     *  P�gina de editar dados do Usuario
+     *  Página de editar dados do Usuário
      *  @param int $idusuario
      */
     public function editarAction($idUsuario)
@@ -50,7 +51,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     *  P�gina de recupera��o de senha
+     *  Página de recuperação de senha
      */
     public function recuperarsenhaAction()
     {
