@@ -365,10 +365,10 @@ class Usuarios implements UserInterface, \Serializable
     /**
      * Set idGrupoUsuarios
      *
-     * @param \Cacic\CommonBundle\Entity\GrupoUsuarios $idGrupoUsuarios
+     * @param $idGrupoUsuarios
      * @return Usuarios
      */
-    public function setIdGrupoUsuarios(\Cacic\CommonBundle\Entity\GrupoUsuarios $idGrupoUsuarios = null)
+    public function setIdGrupoUsuarios($idGrupoUsuarios)
     {
         $this->idGrupoUsuarios = $idGrupoUsuarios;
     
@@ -378,7 +378,7 @@ class Usuarios implements UserInterface, \Serializable
     /**
      * Get idGrupoUsuarios
      *
-     * @return \Cacic\CommonBundle\Entity\GrupoUsuarios 
+     * @return integer 
      */
     public function getIdGrupoUsuarios()
     {
@@ -388,10 +388,10 @@ class Usuarios implements UserInterface, \Serializable
     /**
      * Set idLocal
      *
-     * @param \Cacic\CommonBundle\Entity\Locais $idLocal
+     * @param integer $idLocal
      * @return Usuarios
      */
-    public function setIdLocal(\Cacic\CommonBundle\Entity\Locais $idLocal = null)
+    public function setIdLocal($idLocal)
     {
         $this->idLocal = $idLocal;
     
@@ -401,7 +401,7 @@ class Usuarios implements UserInterface, \Serializable
     /**
      * Get idLocal
      *
-     * @return \Cacic\CommonBundle\Entity\Locais 
+     * @return integer 
      */
     public function getIdLocal()
     {
