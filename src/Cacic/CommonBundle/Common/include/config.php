@@ -46,13 +46,13 @@
     /*
      * URL da aplicacao "CACIC"
      */
-    $url_aplicacao = "http://localhost/~ecio/cacic/src/Cacic/CommonBundle/Common/";
+    $url_aplicacao = "http://localhost/cacic/";
 
     /*
      * Caminho fisico da aplicacao "CACIC"
      * Valor utilizado principalmente pela função de Update de SubRedes...
      */
-    $path_aplicacao		= "/Users/ecio/Sites/cacic/src/Cacic/CommonBundle/Common/";
+    $path_aplicacao		= "/srv/cacic/src/Cacic/CommonBundle/Common/";
 
     /*
      * CACIC application language
