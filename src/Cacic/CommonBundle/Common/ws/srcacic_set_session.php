@@ -66,14 +66,14 @@ $strErrorMessage    = '';
 // Valido a Palavra-Chave e monto a tripa com os nomes e ids dos servidores de autenticação
 if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 	{
-	$id_sessao	= DeCrypt($key,$iv,$_POST['id_sessao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 	
+	$id_sessao	= DeCrypt($_POST['id_sessao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 	
 	conecta_bd_cacic();	
 	if (!$id_sessao)
 		{			
 		// Identificador para Autenticação no Servidor de Autenticação
-		$id_servidor_autenticacao	  	= DeCrypt($key,$iv,$_POST['id_servidor_autenticacao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-		$nm_nome_acesso_autenticacao  	= DeCrypt($key,$iv,$_POST['nm_nome_acesso_autenticacao']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
-		$te_senha_acesso_autenticacao 	= DeCrypt($key,$iv,$_POST['te_senha_acesso_autenticacao']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+		$id_servidor_autenticacao	  	= DeCrypt($_POST['id_servidor_autenticacao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+		$nm_nome_acesso_autenticacao  	= DeCrypt($_POST['nm_nome_acesso_autenticacao']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
+		$te_senha_acesso_autenticacao 	= DeCrypt($_POST['te_senha_acesso_autenticacao']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 				
 		$nm_nome_completo  				= '';					
 		$dt_hr_inicio_sessao			= date('Y-m-d H:i:s');								
@@ -106,8 +106,8 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 			$arrSessoes = getValores('srcacic_sessoes','id_sessao','dt_hr_inicio_sessao="'.$dt_hr_inicio_sessao.'" AND
 																	id_computador='.$arrDadosComputador['id_computador']);
 
-			$strXML_Values .= '<NM_COMPLETO>'.EnCrypt($key,$iv,$nm_nome_completo,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_COMPLETO>';						
-			$strXML_Values .= '<ID_SESSAO>'.EnCrypt($key,$iv,$arrSessoes['id_sessao'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_SESSAO>';
+			$strXML_Values .= '<NM_COMPLETO>'.EnCrypt($nm_nome_completo,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_COMPLETO>';						
+			$strXML_Values .= '<ID_SESSAO>'.EnCrypt($arrSessoes[0]['id_sessao'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</ID_SESSAO>';
 			}			
 		else
 			$strErrorMessage = 'U.N.A.'; // Usuário Não Autenticado
@@ -122,9 +122,9 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 		conecta_bd_cacic();			
 		if ($_POST['te_mensagem']<>'')
 			{
-			$id_conexao 	= DeCrypt($key,$iv,$_POST['id_conexao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 								
-			$te_mensagem   	= DeCrypt($key,$iv,$_POST['te_mensagem']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 														
-			$cs_origem   	= DeCrypt($key,$iv,$_POST['cs_origem']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 																	
+			$id_conexao 	= DeCrypt($_POST['id_conexao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 								
+			$te_mensagem   	= DeCrypt($_POST['te_mensagem']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 														
+			$cs_origem   	= DeCrypt($_POST['cs_origem']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 																	
 			
 			$query_CHAT = "INSERT INTO srcacic_chats(id_conexao,dt_hr_mensagem,te_mensagem,cs_origem)
 			 					  VALUES (".$id_conexao.",'".date('Y-m-d H:i:s')."','".$te_mensagem."','".$cs_origem."')";
@@ -136,15 +136,14 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 			// Neste caso, testo se o valor que chega refere-se a "0" criptografado com uma determinada chave...
 			if ($_POST['id_conexao'] <> 'pibWRa7Dc7gciUJjHEB4Ww==')
 				{
-				$arr_id_usuario_cli = explode('[REG]',DeCrypt($key,$iv,$_POST['id_usuario_cli']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
-				$arr_id_conexao		= explode('[REG]',DeCrypt($key,$iv,$_POST['id_conexao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey));		
-				$arr_te_so_cli 	   	= explode('[REG]',DeCrypt($key,$iv,$_POST['te_so_cli']	 	,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+				$arr_id_usuario_cli = explode('[REG]',DeCrypt($_POST['id_usuario_cli']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+				$arr_id_conexao		= explode('[REG]',DeCrypt($_POST['id_conexao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey));		
+				$arr_te_so_cli 	   	= explode('[REG]',DeCrypt($_POST['te_so_cli']	 	,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
 				
 				for ($i=0; $i < count($arr_id_usuario_cli); $i++)
 					{
 					$te_so_cli 		= $arr_te_so_cli[$i]; 								
 					$id_conexao		= $arr_id_conexao[$i]; 											
-					$arr_id_so_cli	= getValores('so','id_so','trim(te_so)="'.trim($te_so_cli).'"');
 
 					/*
 					E se o tecnico utilizar um notebook externo ao parque computacional da corporacao?
@@ -159,12 +158,12 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 				}
 			}
 		
-		$strXML_Values .= '<OK>' 	 . EnCrypt($key,$iv,'OK', $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</OK>';					
-		$strXML_Values .= '<STATUS>' . EnCrypt($key,$iv,'S' , $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</STATUS>';							
+		$strXML_Values .= '<OK>' 	 . EnCrypt('OK', $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</OK>';					
+		$strXML_Values .= '<STATUS>' . EnCrypt('S' , $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</STATUS>';							
 		}
 	}
 else
-	$strXML_Values .= '<STATUS>'.EnCrypt($key,$iv,'Palavra-Chave Incorreta!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';	
+	$strXML_Values .= '<STATUS>'.EnCrypt('Palavra-Chave Incorreta!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';	
 	
 require_once('../include/common_bottom.php');
 ?>

@@ -96,10 +96,8 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 		
 		
 		$query_sel = "SELECT 	IF(TRIM(redes.nm_rede)=''                   OR redes.nm_rede is null,'Rede Desconhecida', redes.nm_rede) as nm_rede,
-								IF(TRIM(computadores.te_nome_computador)='' OR computadores.te_nome_computador is null,'Computador Desconhecido',computadores.te_nome_computador) as te_nome_computador,
-								IF(TRIM(SUBSTRING_INDEX(computadores.te_workgroup, '@', -1))='' OR computadores.te_workgroup is null,'Grupo de Trabalho Desconhecido',LOWER(SUBSTRING_INDEX(computadores.te_workgroup, '@', -1))) as te_workgroup,
 								computadores.id_rede,
-								computadores.te_ip_computador,							
+								computadores_coletas.te_class_values,							
 								computadores.dt_hr_ult_acesso,
 								computadores.te_node_address,
 								computadores.id_computador,								
@@ -112,20 +110,17 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 								nm_local,
 								servidores_autenticacao.nm_servidor_autenticacao
 					 FROM 		computadores 
-					 			LEFT JOIN redes             ON (computadores.id_rede = redes.id_rede)
-					 			LEFT JOIN compartilhamentos ON (computadores.id_computador=compartilhamentos.id_computador and compartilhamentos.cs_tipo_compart='I')
-					 			LEFT JOIN locais            ON (redes.id_local = locais.id_local)								
-								LEFT JOIN servidores_autenticacao ON (redes.id_servidor_autenticacao = servidores_autenticacao.id_servidor_autenticacao)
+					 			LEFT JOIN computadores_coletas 	ON (computadores.id_computador = computadores_coletas.id_computador)
+					 			LEFT JOIN redes             		ON (computadores.id_rede = redes.id_rede)								
+					 			LEFT JOIN compartilhamentos 		ON (computadores.id_computador=compartilhamentos.id_computador and compartilhamentos.cs_tipo_compart='I')
+					 			LEFT JOIN locais            		ON (redes.id_local = locais.id_local)								
+								LEFT JOIN servidores_autenticacao 	ON (redes.id_servidor_autenticacao = servidores_autenticacao.id_servidor_autenticacao)
 					 WHERE		".$where.$where1."
 				  	 GROUP BY 	sg_local,
 					 			computadores.id_rede,
-					 			te_workgroup,
-								computadores.te_ip_computador,
 								computadores.id_computador
 					 ORDER BY   sg_local,
 								redes.te_ip_rede,					 
-					 			te_workgroup,
-								computadores.te_ip_computador,
 								computadores.id_computador";					 
 		conecta_bd_cacic();					 
 		$result_sel = mysql_query($query_sel) or die ('Erro no acesso à tabela "computadores" ou sua sessão expirou!');
@@ -136,7 +131,7 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 				$RedeAnt 		= 'zzz';				
 				$RedeAntAux 	= 'zzz'; //To care ambiguous names of WorkGroup in two nets ...
 				$WorkGroupAnt 	= 'zzz';			
-				$LocalAnt = 'zzz';												
+				$LocalAnt 		= 'zzz';												
 				while($row = mysql_fetch_array($result_sel)) 
 					{
 					if ($LocalAnt <> $row["sg_local"])

@@ -32,7 +32,7 @@ function SelectAll_Forca_Coleta()
     for (var i = 0; i < formulario.elements.length; i++) 
 		{	
 		v_field_name = formulario[i].name;
-		if (v_field_name.substring(0,9) == "cs_coleta" && formulario[i].type == "checkbox" && formulario[i].checked == true && formulario[i+1].type == "hidden") 
+		if (v_field_name.substring(0,4) == "col_" && formulario[i].type == "checkbox" && formulario[i].checked == true && formulario[i+1].type == "hidden") 
 			{			
 			formulario[i+1].value = formulario[i].value;
 			formulario[i+1].name  = formulario[i].name + '#' + formulario[i].value;			
@@ -61,7 +61,7 @@ function MarcaDesmarcaTodasAcoesRedes(p_campo)
     for (var i = 0; i < formulario.elements.length; i++) 
 		{	
 		v_field_name = formulario[i].name;
-		if (v_field_name.substring(0,9) == "cs_coleta" && formulario[i].type == "checkbox") 
+		if (v_field_name.substring(0,4) == "col_" && formulario[i].type == "checkbox") 
 			{			
 			formulario[i].checked = p_campo;
 			}

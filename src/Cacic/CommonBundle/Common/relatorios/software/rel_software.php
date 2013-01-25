@@ -194,7 +194,6 @@ for( $i = 0; $i < count($_SESSION["list6"] ); $i++ )
 // Aqui substitui todas as strings \ por vazio que a variável $campos_software retorna
 $campos_software = str_replace('\\', '', $campos_software);
 
-
 if ($_GET['orderby']) 
 	{ 
 	$orderby = $_GET['orderby']; 
@@ -211,20 +210,18 @@ if ($_GET['id_local'] <> '')
 	}
 else
 	{
-	$from_join = ' LEFT JOIN versoes_softwares ON (computadores.id_computador = versoes_softwares.id_computador) ';
+	//$from_join = ' LEFT JOIN versoes_softwares ON (computadores.id_computador = versoes_softwares.id_computador) ';
 	}																			
 
 $query = ' SELECT 	distinct computadores.te_node_address, 
 					so.id_so, 
-					te_nome_computador as "Nome Comp.", 
+					"Nome Comp.", 
 					sg_so as "S.O.", 
-					te_ip_computador as "IP",
-					computadores.id_computador,' . 
+					computadores.id_computador' . 
 					$campos_software .
 					$select .
 		 ' FROM   	so, computadores '.$from_join . $from . ' 																																				 		 
-		   WHERE  	trim(computadores.te_nome_computador) <> ""  and
-		   			computadores.id_so = so.id_so and
+		   WHERE  	computadores.id_so = so.id_so and
 					computadores.id_so IN ('. $so_selecionados .') '. $query_redes .
 					$local . '  
 		   ORDER BY ' . $orderby;
@@ -233,7 +230,7 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 		{
 		$query .= ' desc';
 		}
-
+//echo $query . '<br>';
 // *****************************************************
 // Código para Paginação - Anderson Peterle - 24/06/2008
 // *****************************************************
@@ -242,7 +239,7 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 $arrValores 					= getValores('configuracoes_padrao', 'nu_rel_maxlinhas', '1');			
 
 $max_links 		  				= 100; // máximo de links à serem exibidos
-$nu_rel_maxlinhas 				= ($arrValores['nu_rel_maxlinhas']<>''?$arrValores['nu_rel_maxlinhas']:100); // máximo de resultados a serem exibidos por tela ou pagina
+$nu_rel_maxlinhas 				= ($arrValores[0]['nu_rel_maxlinhas']<>''?$arrValores[0]['nu_rel_maxlinhas']:100); // máximo de resultados a serem exibidos por tela ou pagina
 $mult_pag 	      				= new Mult_Pag(); // cria um novo objeto navbar
 $mult_pag->nu_rel_maxlinhas	= $nu_rel_maxlinhas;
 
@@ -256,7 +253,8 @@ echo '<table cellpadding="2" cellspacing="0" border="1" bordercolor="#999999" bo
 
 for ($i=2; $i < mysql_num_fields($resultado); $i++) 
 	{ //Table Header
-	print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '&principal='.$_GET['principal'].'">'. mysql_field_name($resultado, $i) .'</a></font><b></td>';
+	if (mysql_field_name($resultado, $i) <> 'id_computador')
+		print '<td nowrap align="left"><b><font size="1" face="Verdana, Arial"><a href="?orderby=' . ($i + 1) . '&principal='.$_GET['principal'].'">'. mysql_field_name($resultado, $i) .'</a></font><b></td>';
 	}
 echo '</tr>';
 
@@ -271,9 +269,7 @@ for ($n = 0; $n < $reg_pag; $n++)
 	
 	$strFieldTeNodeAddress    = mysql_field_name($resultado, 0);
 	$strFieldIdSo			  = mysql_field_name($resultado, 1);
-	$strFieldTeNomeComputador = mysql_field_name($resultado, 2);
-	$strFieldIdComputador 	  = mysql_field_name($resultado, 5);	
-		
+	$strFieldIdComputador 	  = mysql_field_name($resultado, 4);	
 	//Table body
 	echo '<tr ';
 	if ($cor) 
@@ -281,20 +277,24 @@ for ($n = 0; $n < $reg_pag; $n++)
 			
 	echo '>';
 	echo '<td nowrap align="right"><font size="1" face="Verdana, Arial">' . $num_registro . '</font></td>'; 
-	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $linha->$strFieldIdComputador ."' target='_blank'>" . $linha->$strFieldTeNomeComputador ."</a>&nbsp;</td>"; 
+	echo "<td nowrap align='left'><font size='1' face='Verdana, Arial'><a href='../computador/computador.php?id_computador=". $linha->$strFieldIdComputador ."' target='_blank'>" . getComponentValue($linha->$strFieldIdComputador, 'ComputerSystem', 'Caption')  ."</a>&nbsp;</td>"; 
 	for ($i=3; $i < $fields; $i++) 
 		{
 		$strNomeCampo = mysql_field_name($resultado, $i);
-		$strConteudo  = $linha->$strNomeCampo;
+		if ($strNomeCampo <> 'id_computador')		
+			{
+			$strConteudo  = $linha->$strNomeCampo;
 				
-		if ($strNomeCampo == $strLabelUltimoAcesso)
-			$strConteudo = date("d/m/Y H:i:s", strtotime($strConteudo));
+			if ($strNomeCampo == $strLabelUltimoAcesso)
+				$strConteudo = date("d/m/Y H:i:s", strtotime($strConteudo));
 			
-		echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $strConteudo .'&nbsp;</td>'; 
+			echo '<td nowrap align="left"><font size="1" face="Verdana, Arial">' . $strConteudo .'&nbsp;</td>'; 
+			}
 		}
 	$cor=!$cor;
 	$num_registro++;
 	echo '</tr>';
+
 	}
 echo '</table>';
 echo '<br><br>';

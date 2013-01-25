@@ -46,7 +46,7 @@ GravaLog('UPD',$_SERVER['SCRIPT_NAME'],'configuracoes_locais',$_SESSION["id_usua
 $query_acoes_redes = '';
 foreach($HTTP_POST_VARS as $i => $v) 
 	{
-	if ($v && substr($i,0,9)=='cs_coleta')
+	if ($v && substr($i,0,4)=='col_')
 		{
 		$v_acao_rede = explode('#',$i);		
 		

@@ -57,6 +57,7 @@ td.nao_enviado {font-weight: normal; font-size: 8px; color: red; font-family: Ve
 td.atualizado {font-weight: normal; font-size: 8px; color: blue; font-family: Verdana, Arial, sans;}
 td.enviado {font-weight: normal; font-size: 8px; color: blue; font-family: Verdana, Arial, sans;}
 td.opcao_tabela_blue {font-weight: normal; font-size: 12px; color: blue; font-family: Verdana, Arial, sans;}
+td.opcao_tabela_black_bold {font-weight: bold; font-size: 12px; color: black; font-family: Verdana, Arial, sans;}
 td.opcao_tabela_red {font-weight: bold; font-size: 12px; color: red; font-family: Verdana, Arial, sans;}
 td.descricao {font-weight: normal; font-size: 10px; color: black; font-family: Verdana, Arial, sans;}
 td.descricao_rel {background-color: #FFFFFF; font-weight: normal; font-size: 9px; color: black; font-family: Verdana, Arial, sans;}
@@ -86,6 +87,9 @@ div.dado_peq_sem_fundo_sem_bordas {font-weight: bold; font-size: 11px; color: bl
 div.dado_peq_sem_fundo_sem_bordas_destacado {font-weight: bold; font-size: 11px; color: green; font-family: Verdana, Arial, sans; height:25;}
 div.topTitle{font-weight: bold; font-size: 13px; color: blue; font-family: Verdana, Arial, sans; height:20;}
 div.topSubtitle{font-weight: normal; font-size: 10px; color: blue; font-family: Verdana, Arial, sans; height:10;}
+div.propertyDescription {font-weight: normal; font-size: 10px; color: black; font-family: Verdana, Arial, sans; height:10; display: inline-table;text-align:right; width:auto}
+div.propertyValue {font-weight: bold; font-size: 10px; color: black; font-family: Verdana, Arial, sans; height:10; display: inline-table; text-align:left; width:auto}
+</div>}
 
 .frameprincipal .buildingAjax {
 	background: url('../imgs/carregando.gif') no-repeat;

@@ -29,20 +29,19 @@ $query = "INSERT INTO patrimonio (	id_computador,
 									id_usuario)
 		  VALUES 				 (" . $arrDadosComputador['id_computador'] . ", 
 									NOW()									  ,
-								 '" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1a'] ,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
-								 '" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-								 '" . DeCrypt($key,$iv,$_POST['te_localizacao_complementar']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-								 '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio1']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-								 '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio2']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-								 '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio3']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-								 '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio4']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
-								 '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio5']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
-								 '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio6']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
-								  " . DeCrypt($key,$iv,$_POST['id_usuario']						,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . ")";
+								 '" . DeCrypt($_POST['id_unid_organizacional_nivel1a'] ,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+								 '" . DeCrypt($_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+								 '" . DeCrypt($_POST['te_localizacao_complementar']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+								 '" . DeCrypt($_POST['te_info_patrimonio1']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+								 '" . DeCrypt($_POST['te_info_patrimonio2']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+								 '" . DeCrypt($_POST['te_info_patrimonio3']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+								 '" . DeCrypt($_POST['te_info_patrimonio4']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+								 '" . DeCrypt($_POST['te_info_patrimonio5']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+								 '" . DeCrypt($_POST['te_info_patrimonio6']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+								  " . DeCrypt($_POST['id_usuario']						,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . ")";
 conecta_bd_cacic();	
 $result = mysql_query($query);
-GravaLog('INS',$_SERVER['SCRIPT_NAME'],'patrimonio',DeCrypt($key,$iv,$_POST['id_usuario'],$v_cs_cipher,$v_cs_compress,$strPaddingKey));				
+GravaLog('INS',$_SERVER['SCRIPT_NAME'],'patrimonio',DeCrypt($_POST['id_usuario'],$v_cs_cipher,$v_cs_compress,$strPaddingKey));				
 
-$strXML_Values .= '<STATUS>' . EnCrypt($key,$iv,'S', $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</STATUS>';		
 require_once('../include/common_bottom.php');
 ?>

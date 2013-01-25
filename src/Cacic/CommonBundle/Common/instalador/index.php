@@ -28,7 +28,7 @@
 	/*
 	 * atribuições para o ambiente
 	 */
-	if( !include('include'.DIRECTORY_SEPARATOR.'library.php') )
+	if( !include('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'library.php') )
 	{
 	   die("Instalador mal definido (Installer miss-defined)!");
 	}

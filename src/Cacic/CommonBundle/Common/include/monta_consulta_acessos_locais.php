@@ -24,14 +24,13 @@ session_start();
 
 
 
-$query = 'SELECT 	count(computadores.te_node_address) as total,
+$query = 'SELECT 	count(computadores.id_computador) as total,
 					locais.sg_local
 		  FROM		computadores,
 					redes,
 					locais,
 					so
-		  WHERE 	computadores.te_nome_computador IS NOT NULL AND 
-					computadores.id_rede = redes.id_rede AND
+		  WHERE 	computadores.id_rede = redes.id_rede AND
 					redes.id_local = locais.id_local AND
 					computadores.id_so = so.id_so AND 
 					DATE_FORMAT(dt_hr_ult_acesso, "%d%m%Y") = "'.date("dmY").'" '.$where. '

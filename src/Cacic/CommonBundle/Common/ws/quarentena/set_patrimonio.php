@@ -81,12 +81,12 @@ if (mysql_num_rows($result) > 0)
 			$tam_campo_tabela = mysql_field_len($result, $i);
 			$posicao_array_nomes_campos = array_search($nome_campo_tabela, $array_nomes_campos);
 			$nome_campo_tela = $array_nomes_campos[$posicao_array_nomes_campos + 1];
-			if (($campos["$nome_campo_tabela"] != substr(DeCrypt($key,$iv,$_POST[$nome_campo_tabela],$v_cs_cipher,$v_cs_compress,$strPaddingKey), 0, $tam_campo_tabela)) && ($nome_campo_tabela != 'dt_hr_alteracao' && $nome_campo_tabela != 'id_so' && $nome_campo_tabela != 'te_node_address')) 
+			if (($campos["$nome_campo_tabela"] != substr(DeCrypt($_POST[$nome_campo_tabela],$v_cs_cipher,$v_cs_compress,$strPaddingKey), 0, $tam_campo_tabela)) && ($nome_campo_tabela != 'dt_hr_alteracao' && $nome_campo_tabela != 'id_so' && $nome_campo_tabela != 'te_node_address')) 
 				{
 				if ($nome_campo_tabela != 'id_unid_organizacional_nivel1a' && $nome_campo_tabela != 'id_unid_organizacional_nivel2')
 					{
 					$valor_anterior = 	$campos["$nome_campo_tabela"];
-					$valor_atual	=	DeCrypt($key,$iv,$_POST["$nome_campo_tabela"],$v_cs_cipher,$v_cs_compress,$strPaddingKey);
+					$valor_atual	=	DeCrypt($_POST["$nome_campo_tabela"],$v_cs_cipher,$v_cs_compress,$strPaddingKey);
 					}									
 				else
 					{
@@ -94,14 +94,14 @@ if (mysql_num_rows($result) > 0)
 						{
 						$posicao_array_nomes_UON1 = array_search($campos["$nome_campo_tabela"], $array_nomes_UON1);
 						$valor_anterior = $array_nomes_UON1[$posicao_array_nomes_UON1 + 1];
-						$posicao_array_nomes_UON1 = array_search(DeCrypt($key,$iv,$_POST["$nome_campo_tabela"],$v_cs_cipher,$v_cs_compress,$strPaddingKey), $array_nomes_UON1);
+						$posicao_array_nomes_UON1 = array_search(DeCrypt($_POST["$nome_campo_tabela"],$v_cs_cipher,$v_cs_compress,$strPaddingKey), $array_nomes_UON1);
 						$valor_atual = $array_nomes_UON1[$posicao_array_nomes_UON1 + 1];
 						}
 					else
 						{
 						$posicao_array_nomes_UON2 = array_search($campos["$nome_campo_tabela"], $array_nomes_UON2);
 						$valor_anterior = $array_nomes_UON2[$posicao_array_nomes_UON2 + 1];
-						$posicao_array_nomes_UON2 = array_search(DeCrypt($key,$iv,$_POST["$nome_campo_tabela"],$v_cs_cipher,$v_cs_compress,$strPaddingKey), $array_nomes_UON2);
+						$posicao_array_nomes_UON2 = array_search(DeCrypt($_POST["$nome_campo_tabela"],$v_cs_cipher,$v_cs_compress,$strPaddingKey), $array_nomes_UON2);
 						$valor_atual = $array_nomes_UON2[$posicao_array_nomes_UON2 + 1];
 						}
 					}
@@ -148,17 +148,17 @@ $query = "INSERT INTO patrimonio ( id_computador, dt_hr_alteracao,
 						   te_info_patrimonio5,
 						   te_info_patrimonio6 )
  		  VALUES (  " . $arrDadosComputador['id_computador'] . ", NOW(),
-		  			'" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel1a']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
-				    '" . DeCrypt($key,$iv,$_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-				    '" . DeCrypt($key,$iv,$_POST['te_localizacao_complementar']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-				    '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio1']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-				    '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio2']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-				    '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio3']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
-				    '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio4']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
-				    '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio5']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
-				    '" . DeCrypt($key,$iv,$_POST['te_info_patrimonio6']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "')";
+		  			'" . DeCrypt($_POST['id_unid_organizacional_nivel1a']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+				    '" . DeCrypt($_POST['id_unid_organizacional_nivel2']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+				    '" . DeCrypt($_POST['te_localizacao_complementar']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+				    '" . DeCrypt($_POST['te_info_patrimonio1']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+				    '" . DeCrypt($_POST['te_info_patrimonio2']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+				    '" . DeCrypt($_POST['te_info_patrimonio3']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "', 
+				    '" . DeCrypt($_POST['te_info_patrimonio4']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+				    '" . DeCrypt($_POST['te_info_patrimonio5']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "',
+				    '" . DeCrypt($_POST['te_info_patrimonio6']				,$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "')";
 $result = mysql_query($query);
 
-$strXML_Values .= '<STATUS>' . EnCrypt($key,$iv,'S', $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</STATUS>';		
+$strXML_Values .= '<STATUS>' . EnCrypt('S', $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</STATUS>';		
 require_once('../include/common_bottom.php');
 ?>

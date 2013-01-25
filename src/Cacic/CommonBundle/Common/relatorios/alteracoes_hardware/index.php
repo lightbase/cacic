@@ -213,7 +213,7 @@ if($_POST['submitGerarRelatorio'])
 	}
 else
 	{
-	$id_acao = 'cs_coleta_hardware';
+	$id_acao = 'col_hard';
 	require_once('../../include/inicio_relatorios_inc.php');
 	
 	$historical_data_help = $oTranslator->_("Dados historicos obtidos de versoes anteriores a 2.4");

@@ -24,6 +24,8 @@ else { // Inserir regras para outras verificaÃ§Ãµes (ex: permissÃµes do us
 
 require_once('../include/library.php'); 
 AntiSpy('1,3'); // Permitido somente a estes cs_nivel_administracao...
+
+$boolAdmin = ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2);
 // 1 - AdministraÃ§Ã£o
 // 2 - GestÃ£o Central
 // 3 - SupervisÃ£o
@@ -33,104 +35,264 @@ conecta_bd_cacic();
 if ($_POST['submit_cond'])
 	{
 	$query_sele_exclui = '';
-	$value_anterior = '';
+	$arrClassesAndPropertiesToSearch  = array();
+	
 	while(list($key, $value) = each($HTTP_POST_VARS))
-		{
+		{	
 		if (trim($value)<>'' && trim(strpos($key,'frm_'))<>'') 
 			{
-			if (trim(strpos($key,'frm_condicao_'))<>'')
+			if (stripos2($key,'_DB',false))
 				{
-				$query_sele_exclui .= str_replace('frm_condicao_','',$value);
+				if (stripos2($key,'frm_condicao_',false))				
+					{
+					if ($query_sele_exclui) $query_sele_exclui .= ' and ';
+					$query_sele_exclui .= str_replace('frm_condicao_DB_','',$value);
+					}
+				else
+					$query_sele_exclui = str_replace('frm_te_valor_condicao',$value,$query_sele_exclui);
 				}
 			else
 				{
-				if ($value_anterior) $query_sele_exclui .= ' and ';
-				$query_sele_exclui = str_replace('frm_te_valor_condicao',$value,$query_sele_exclui);
+				if (stripos2($key,'frm_condicao_',false))				
+					{
+					$strClassAndPropertyName = str_replace('frm_condicao_','',$key);
+					$strClassAndPropertyName = str_replace('_','.',$strClassAndPropertyName);					
+					$arrClassesAndPropertiesToSearch[$strClassAndPropertyName]= str_replace($strClassAndPropertyName,'',$value);
+					}
+				else
+					{
+					$arrClassesAndPropertiesToSearch[$strClassAndPropertyName] = str_replace('frm_te_valor_condicao',$value,$arrClassesAndPropertiesToSearch[$strClassAndPropertyName]);	
+					$arrClassesAndPropertiesToSearch[$strClassAndPropertyName] = str_replace('[[AS]]',"'",$arrClassesAndPropertiesToSearch[$strClassAndPropertyName]);						
+					}				
 				}
-			
-			$value_anterior = $value;
 			}
 		} 
 
-
-	$query_sele_exclui = (substr($query_sele_exclui,-5)==' and '?substr($query_sele_exclui,0,strlen($query_sele_exclui)-5):$query_sele_exclui);
-	$query_sele_exclui = str_replace('-MENOR-',' < ',$query_sele_exclui);
-	$query_sele_exclui = str_replace('-MAIOR-',' > ',$query_sele_exclui);	
-
-    $where 	= ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND redes.id_local = '.$_SESSION['id_local']:'');		
-	if ($_SESSION['te_locais_secundarios']<>'' && $where <> '')
+	if ($query_sele_exclui)
 		{
-		// FaÃ§o uma inserÃ§Ã£o de "(" para ajuste da lÃ³gica para consulta	
-		$where = str_replace('redes.id_local = ','(redes.id_local = ',$where);
-		$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+		$query_sele_exclui = (substr($query_sele_exclui,-5)==' and '?substr($query_sele_exclui,0,strlen($query_sele_exclui)-5):$query_sele_exclui);
+		$query_sele_exclui = str_replace('-MENOR-'					,' < '	,$query_sele_exclui);
+		$query_sele_exclui = str_replace('-MAIOR-'					,' > '	,$query_sele_exclui);	
+		$query_sele_exclui = str_replace('DB.'	  					,''		,$query_sele_exclui);		
+		$query_sele_exclui = str_replace('__'	  					,'.'	,$query_sele_exclui);	
+		$query_sele_exclui = str_replace('frm_te_valor_condicao'	,''		,$query_sele_exclui);		
+		$query_sele_exclui = str_replace('\\'						,''		,$query_sele_exclui);					
+		$query_sele_exclui = str_replace("[[AS]]"					,"'"	,$query_sele_exclui);					
+		$query_sele_exclui = ' AND ' . $query_sele_exclui;					
 		}
+
+	if (!$boolAdmin && ($_SESSION['te_locais_secundarios']<>'' && $where <> ''))
+		$where .= ' OR redes.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+
+	$where .= (!$boolAdmin ? ' AND redes.id_local = '.$_SESSION['id_local']:'');				
+	$where .= (!$boolAdmin ? ' AND computadores.dt_hr_exclusao IS NULL':'');					
+	// Arrays conforme colunas que ser�o exibidas na tabela de resultados
+	$arrNomeMaquina 		= array();
+	$arrLocal				= array();
+	$arrEnderecoIP			= array();
+	$arrEnderecoMAC 		= array();
+	$arrSistemaOperacional 	= array();
+	$arrAgentePrincipal		= array();
+	$arrGerCols				= array();
+	$arrUltimoAcesso		= array();
+	$arrInclusao			= array();
 	
-	$Query_Pesquisa = 'SELECT 	a.id_so,
-								a.te_node_address,
-								a.te_nome_computador, 
-								a.te_ip_computador, 
-								a.te_versao_cacic, 
-								a.te_versao_gercols, 
-								a.dt_hr_ult_acesso,
-								a.dt_hr_inclusao,								
-								b.sg_so,
-								d.sg_local,
-								a.id_computador						 
-						FROM	computadores a
-						LEFT JOIN so b ON (a.id_so = b.id_so)
-						LEFT JOIN redes c ON (a.id_rede = c.id_rede)
-						LEFT JOIN locais d ON (c.id_local = d.id_local)
-						WHERE   '.stripslashes($query_sele_exclui).' '.$where . ' 
-						ORDER 	by a.te_nome_computador';
+	// Array chave
+	$arrIdComputador		= array();
 
-
-	$Query_Pesquisa = 'SELECT 	a.id_so,
-								a.te_node_address,
-								a.te_nome_computador, 
-								a.te_ip_computador, 
-								a.te_versao_cacic, 
-								a.te_versao_gercols, 
-								a.dt_hr_ult_acesso,
-								a.dt_hr_inclusao,								
+	$Query_Pesquisa = 'SELECT 	computadores.id_so,
+								computadores.te_node_address,
+								computadores.te_versao_cacic, 
+								computadores.te_versao_gercols, 
+								computadores.dt_hr_ult_acesso,
+								computadores.dt_hr_inclusao,								
+								computadores.dt_hr_exclusao,																
+								computadores.id_usuario_exclusao,																								
 								so.sg_so,
 								redes.id_local,
-								a.id_computador
-						FROM	computadores a								
-								LEFT JOIN so    ON (a.id_so   = so.id_so)
-								LEFT JOIN redes ON (a.id_rede = redes.id_rede)
-						WHERE   '.stripslashes($query_sele_exclui).
+								redes.nm_rede,								
+								computadores.id_computador
+						FROM	so,
+								computadores,								
+								redes
+						WHERE   computadores.id_rede = redes.id_rede AND 
+								computadores.id_so = so.id_so '.$query_sele_exclui.
 								$where . ' 
-						ORDER 	by a.te_nome_computador';
-//echo 'IP: ' . $_SERVER['REMOTE_ADDRESS'].'<BR>';
-//echo 'Query: '.$Query_Pesquisa.'<br>';
-							
+						ORDER 	by computadores.dt_hr_ult_acesso,redes.nm_rede,so.sg_so';
+	//echo 'IP: ' . $_SERVER['REMOTE_ADDRESS'].'<BR>';
+	//echo 'Query: '.$Query_Pesquisa.'<br>';
+						
 	$result = mysql_query($Query_Pesquisa) or die('Erro no select (1) ou sua sessÃ£o expirou!');
 
-	$strIdLocal = '';
-	$arrSgLocal = array();
+	$strIdLocal 				= '';
+	$strIdUsuario 				= '';	
+	$arrSgLocal 				= array();
+	$intTotalMicrosSelecionados	= 0;	
+	
+	// Inicializando arrays containers de informa��es
+	$arrIdComputador 		= array();
+	$arrLocal				= array();
+	$arrEnderecoIP			= array();
+	$arrEnderecoMAC			= array();
+	$arrSistemaOperacional	= array();
+	$arrAgentePrincipal		= array();
+	$arrGerCols				= array();
+	$arrUltimoAcesso		= array();
+	$arrInclusao			= array();
+	$arrExclusao			= array();
+	$arrUsuarioExclusao		= array();			
+	
 	while($row = mysql_fetch_array($result)) 
 		{		  
-
-		if ($row['id_local']<>'' && $arrSgLocal[$row['id_local']]=='')
+		if ($row['id_local']<>'' && !$arrSgLocal[$row['id_local']])
 			{
 			$arrSgLocal[$row['id_local']] = '*';
-			$strIdLocal .= ($strIdLocal==''?'':',');
+			$strIdLocal .= ($strIdLocal ? ',' : '');
 			$strIdLocal .= $row['id_local'];
-			}
-		}	
+			}			
+
+		if ($row['id_usuario_exclusao'] <> '' && $row['id_usuario_exclusao'] <> 'NULL' && !$arrUsuarios[$row['id_usuario_exclusao']])
+			{
+			$arrUsuarios[$row['id_usuario_exclusao']] = '*';
+			$strIdUsuario .= ($strIdUsuario ? ',' : '');
+			$strIdUsuario .= $row['id_usuario_exclusao'];
+			}			
+
+		array_push($arrIdComputador,$row['id_computador']);
+
+		$arrLocal[$row['id_computador']] 				= $row['id_local'];
+		$arrEnderecoIP[$row['id_computador']] 			= '';
+		$arrEnderecoMAC[$row['id_computador']] 			= $row['te_node_address'];
+		$arrSistemaOperacional[$row['id_computador']] 	= $row['sg_so'];
+		$arrAgentePrincipal[$row['id_computador']] 		= $row['te_versao_cacic'];
+		$arrGerCols[$row['id_computador']] 				= $row['te_versao_gercols'];
+		$arrUltimoAcesso[$row['id_computador']] 		= date("d/m/y H:i", strtotime($row['dt_hr_ult_acesso']));	
+		$arrInclusao[$row['id_computador']] 			= date("d/m/y H:i", strtotime($row['dt_hr_inclusao']));			
+		$arrExclusao[$row['id_computador']] 			= ($row['dt_hr_exclusao'] <> 'NULL' && $row['dt_hr_exclusao'] <> '' ? date("d/m/y H:i", strtotime($row['dt_hr_exclusao'])) : '');					
+		$arrUsuarioExclusao[$row['id_computador']] 		= $row['id_usuario_exclusao'];									
+		}
+
+	if ($strIdUsuario <> '')
+		{
+		$strQueryUsuarios = 'SELECT usuarios.id_usuario,
+									usuarios.nm_usuario_acesso,
+									usuarios.nm_usuario_completo
+							 FROM	usuarios
+							 WHERE  usuarios.id_usuario in ('.$strIdUsuario.')';
+		$resultUsuarios = mysql_query($strQueryUsuarios) or die('Erro no select (2) ou sua sess�o expirou!');		
+		while($rowUsuarios = mysql_fetch_array($resultUsuarios)) 
+			$arrUsuarios[$rowUsuarios['id_usuario']] = PrimUltNome($rowUsuarios['nm_usuario_completo']) . ' (' . $rowUsuarios['nm_usuario_acesso'] . ')';						
+		}
 
 	if ($strIdLocal <> '')
 		{
-		$Query_Locais = 'SELECT 	locais.id_local,
+		$strQueryLocais = 'SELECT 	locais.id_local,
 									locais.sg_local
 						 FROM		locais
 						 WHERE   	locais.id_local in ('.$strIdLocal.')';
 
-		$resultLocais = mysql_query($Query_Locais) or die('Erro no select (2) ou sua sessÃ£o expirou!');		
-		while($row = mysql_fetch_array($resultLocais)) 
-			$arrSgLocal[$row['id_local']] = $row['sg_local'];
+		$resultLocais = mysql_query($strQueryLocais) or die('Erro no select (3) ou sua sess�o expirou!');		
+		while($rowLocais = mysql_fetch_array($resultLocais)) 
+			$arrSgLocal[$rowLocais['id_local']] = $rowLocais['sg_local'];						
 		}
 		
+	reset($arrClassesAndPropertiesToSearch);
+
+	// Ser� usado na limpeza dos valores recebidos
+	$tstrToRemove = array(	'not like '	,
+							'' 			,
+							'like '		,
+							'()'		,
+							'%'			,
+							'"'			,
+							"'"			,
+							'= '		,
+							'-MAIOR- '	,
+							'-MENOR- '	,
+							'<> ');
+
+	function getOnlyValueToCompare($pStrValueToProcess, $pStrToExcept = '')
+		{
+		global $tstrToRemove;
+																		
+		$strValueToReturn = $pStrValueToProcess;
+				
+		for ($intLoopToRemove = 0; $intLoopToRemove < count($tstrToRemove);$intLoopToRemove ++)
+			{
+			if ($pStrToExcept)
+				$strValueToReturn = ($tstrToRemove[$intLoopToRemove] <> $pStrToExcept ? str_replace($tstrToRemove[$intLoopToRemove]	, '' , $strValueToReturn) : $strValueToReturn);
+			else
+				$strValueToReturn = str_replace($tstrToRemove[$intLoopToRemove]	, '' , $strValueToReturn);
+			}
+
+		return trim($strValueToReturn);
+		}
+
+	$intLoop 			 = 0;
+	$intTotalSelecionado = 0;	
+	reset($arrIdComputador);	
+	while($intLoop < count($arrIdComputador)) 
+		{		  				
+		$boolFilterOK = true;
+		
+		$intLoopArrClassesAndPropertiesToSearch = 0;
+		while ($intLoopArrClassesAndPropertiesToSearch < count($arrClassesAndPropertiesToSearch) && $boolFilterOK)						
+			{
+			$key 			   = key($arrClassesAndPropertiesToSearch);		
+			$strComponentValue = getComponentValue($arrIdComputador[$intLoop], substr($key,0,stripos2($key, '.', true)), substr($key,stripos2($key, '.', true)+1));
+			if (stripos2($arrClassesAndPropertiesToSearch[$key], 'not like ',false))
+				$boolFilterOK 		= !stripos2($strComponentValue, getOnlyValueToCompare($arrClassesAndPropertiesToSearch[$key]),false); // N�O CONTENHA
+			elseif (stripos2($arrClassesAndPropertiesToSearch[$key], 'like ',false))
+				{
+				$intTotalPercents  = substr_count($arrClassesAndPropertiesToSearch[$key],'%');								
+				if ($intTotalPercents == 2) // CONTENHA
+					$boolFilterOK = stripos2($strComponentValue, getOnlyValueToCompare($arrClassesAndPropertiesToSearch[$key]),false);
+				else
+					{
+					$intPos = stripos2(getOnlyValueToCompare($arrClassesAndPropertiesToSearch[$key],'%'),'%');
+					$intLen = strlen(getOnlyValueToCompare($arrClassesAndPropertiesToSearch[$key]));					
+
+					if ($intPos == 0)
+						$boolFilterOK = (substr($strComponentValue,($intLen - (2 * $intLen))) == getOnlyValueToCompare($arrClassesAndPropertiesToSearch[$key])); // TERMINE COM
+					else
+						$boolFilterOK = (substr($strComponentValue,0,$intLen) == getOnlyValueToCompare($arrClassesAndPropertiesToSearch[$key])); // INICIE COM						
+					}				
+				}
+			elseif (stripos2($arrClassesAndPropertiesToSearch[$key], '= ',false))
+				$boolFilterOK = (getOnlyValueToCompare($arrClassesAndPropertiesToSearch[$key]) == $strComponentValue); 	// � IGUAL A
+			elseif (stripos2($arrClassesAndPropertiesToSearch[$key], '-MAIOR- ',false))
+				$boolFilterOK = (getOnlyValueToCompare($arrClassesAndPropertiesToSearch[$key]) < $strComponentValue);	// � MAIOR QUE
+			elseif (stripos2($arrClassesAndPropertiesToSearch[$key], '-MENOR- ',false))
+				$boolFilterOK = (getOnlyValueToCompare($arrClassesAndPropertiesToSearch[$key]) > $strComponentValue);	// � MENOR QUE
+			elseif (stripos2($arrClassesAndPropertiesToSearch[$key], '<> ',false))
+				$boolFilterOK = (getOnlyValueToCompare($arrClassesAndPropertiesToSearch[$key]) <> $strComponentValue);	// � DIFERENTE DE
+			else
+				$boolFilterOK = ($strComponentValue == '');														// SEJA NULO OU VAZIO
+
+			next($arrClassesAndPropertiesToSearch);
+			$intLoopArrClassesAndPropertiesToSearch ++;
+			}
+
+		if (!$boolFilterOK)	
+			{
+			$arrIdComputador[$intLoop]	= '';
+			$arrLocal					= null;
+			$arrEnderecoIP				= null;
+			$arrEnderecoMAC				= null;
+			$arrSistemaOperacional		= null;
+			$arrAgentePrincipal			= null;
+			$arrGerCols					= null;
+			$arrUltimoAcesso			= null;
+			$arrInclusao				= null;
+			$arrExclusao				= null;			
+			$arrUsuarioExclusao			= null;			
+			}
+		else
+			$intTotalSelecionado ++;
+	
+		$intLoop ++;
+		}	
+
 	?>
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<html>
@@ -186,10 +348,10 @@ if ($_POST['submit_cond'])
 	<br><br>
   	<table width="85%" align="center"><tr>
     <td><div align="center"> 
-    <?php if ($_SESSION['cs_nivel_administracao'] == '1' || $_SESSION['cs_nivel_administracao'] == '3')
+    <?php if ($boolAdmin && $intTotalSelecionado)
 		{
 		?>
-   		<input name="submit_exc" type="submit" value="<?php echo $oTranslator->_('Excluir computadores selecionados');?>" <?php if ($NumRegistro == 1) echo 'disabled'; ?> onClick="return Confirma('<?php echo $oTranslator->_('Confirma exclusao');?>');" <?php echo ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>3?'disabled':'')?>>&nbsp;&nbsp;&nbsp;
+   		<input name="submit_exc" type="submit" value="<?php echo $oTranslator->_('Excluir computadores selecionados');?>" onClick="return Confirma('<?php echo $oTranslator->_('Confirma exclusao');?>');">&nbsp;&nbsp;&nbsp;
 		<?php
 		}
 		?>
@@ -211,42 +373,66 @@ if ($_POST['submit_cond'])
             <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Endereco IP');?></div></td>
             <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Endereco MAC');?></div></td>
             <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Sistema operacional');?></div></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Agente Principal');?></div></td>
-            <td nowrap class="cabecalho_tabela"><?php echo $oTranslator->_('GerCols');?></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Agente Principal') . ' (' . CACIC_MAIN_PROGRAM_NAME . ')';?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('GerCols');?></div></td>
             <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Ultimo acesso');?></div></td>
-            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Inclusao');?></div></td>
+            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Inclusao');?></div></td>            
+            <?php
+			if ($boolAdmin)
+				{
+				?>
+	            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Exclusao');?></div></td>
+	            <td nowrap class="cabecalho_tabela"><div align="center"><?php echo $oTranslator->_('Usuario (Exclusao)');?></div></td>                
+                <?php
+				}
+            ?>
           </tr>
           <tr> 
             <td height="1" bgcolor="#333333" colspan="23"></td>
           </tr>
           <?php
-	$Cor = 0;
-	$NumRegistro = 1;
-	mysql_data_seek($result,0);
-	while($row = mysql_fetch_array($result)) 
+	$Cor 		 = 0;
+	$intLoop	 = 0;
+	reset($arrIdComputador);	
+	while($intLoop < count($arrIdComputador)) 
 		{		  
-	 	?>
-          <tr <?php if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
+		if ($arrIdComputador[$intLoop])
+			{
+			$arrComputerSystem 				= getValores('computadores_coletas', 'te_class_values', 'nm_class_name = "ComputerSystem" AND id_computador = ' . $arrIdComputador[$intLoop]);
+			$arrNetworkAdapterConfiguration = getValores('computadores_coletas', 'te_class_values', 'nm_class_name = "NetworkAdapterConfiguration" AND id_computador = ' . $arrIdComputador[$intLoop]);		
+			?>
+			<tr <?php if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
             <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><?php echo $NumRegistro; ?></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><input type="checkbox" name="chk_<?php echo $row['id_computador']; ?>" value="1" checked onClick="Verifica_Check_Exclui();"></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_nome_computador']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $arrSgLocal[$row['id_local']]; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_ip_computador']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_node_address'];?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['sg_so']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_versao_cacic']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo $row['te_versao_gercols']; ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo date("d/m/y H:i", strtotime( $row['dt_hr_ult_acesso'] )); ?></a></div></td>
-            <td nowrap class="dado_peq_sem_fundo_normal"><div align="right"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $row['id_computador'];?>" target="_blank"><?php echo date("d/m/y H:i", strtotime( $row['dt_hr_inclusao'] ));   ?></a></div></td>
-          </tr>
-          <?php 
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><input type="checkbox" name="chk_<?php echo $arrIdComputador[$intLoop]; ?>" value="1" <?php echo ($boolAdmin && $arrExclusao[$arrIdComputador[$intLoop]] ? 'disabled' : 'checked onClick="Verifica_Check_Exclui();"');?>></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"  ><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo getValueFromTags('Caption',$arrComputerSystem[0]['te_class_values']); ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"  ><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo $arrSgLocal[$arrLocal[$arrIdComputador[$intLoop]]]; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo getValueFromTags('IPAddress',$arrNetworkAdapterConfiguration[0]['te_class_values']); ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo getValueFromTags('MACAddress',$arrNetworkAdapterConfiguration[0]['te_class_values']);?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo $arrSistemaOperacional[$arrIdComputador[$intLoop]]; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo $arrAgentePrincipal[$arrIdComputador[$intLoop]]; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo $arrGerCols[$arrIdComputador[$intLoop]]; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo $arrUltimoAcesso[$arrIdComputador[$intLoop]]; ?></a></div></td>
+            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo $arrInclusao[$arrIdComputador[$intLoop]];   ?></a></div></td>
+            <?php
+			if ($boolAdmin)
+				{
+				?>
+	            <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo $arrExclusao[$arrIdComputador[$intLoop]]; ?></a></div></td>
+    	        <td nowrap class="dado_peq_sem_fundo_normal"><div align="center"><a href="../relatorios/computador/computador.php?id_computador=<?php echo $arrIdComputador[$intLoop];?>" target="_blank"><?php echo $arrUsuarios[$arrUsuarioExclusao[$arrIdComputador[$intLoop]]];   ?></a></div></td>
+                <?php
+				}
+            ?>            
+			</tr>
+			<?php 
+			}
 		$Cor=!$Cor;
-		$NumRegistro++;
+		$intLoop++;
 		}		
-	if ($NumRegistro == 1)
+		
+	if ($intLoop == 0)
 		{
 		?>
-          <td colspan="20" align="center" class="label_vermelho"><?php echo $oTranslator->_('Nao foram encontrados registros');?></TD>
+         <td colspan="<?php echo ($boolAdmin ? '22' : '20'); ?>" align="center" class="label_vermelho"><?php echo $oTranslator->_('Nao foram encontrados registros');?></TD>
           <script language="JavaScript">
 		for (i=0;i<window.document.forms.length;i++)
 			{
@@ -272,7 +458,7 @@ if ($_POST['submit_cond'])
   	<br><br>
   	<table width="85%" align="center"><tr>
     <td><div align="center"> 
-    <?php if (($_SESSION['cs_nivel_administracao'] == '1' || $_SESSION['cs_nivel_administracao'] == '3') && $NumRegistro > 1)
+    <?php if ($boolAdmin && $intTotalSelecionado)
 		{
 		?>
    		<input name="submit_exc" type="submit" value="<?php echo $oTranslator->_('Excluir computadores selecionados');?>" onClick="return Confirma('<?php echo $oTranslator->_('Confirma exclusao');?>');">&nbsp;&nbsp;&nbsp;
@@ -292,79 +478,21 @@ else
 	if ($_POST['submit_exc'])
 		{
 		$v_cs_exclui = '';
-
-		// FaÃ§o testes para identificar as tabelas vÃ¡lidas para as consultas...
-		$strTables = '';
-		$result_tables	= mysql_list_tables($nome_bd); //Retorna a lista de tabelas do CACIC
-		while ($row_tables = mysql_fetch_array($result_tables)) //Percorre as tabelas comandando a exclusÃ£o, conforme TE_NODE_ADDRESS e ID_SO						
-			{
-			$strTables .= ($strTables <> ''?',':'');
-			$strTables .= $row_tables[0];
-			}
-		$arrTables = explode(',',$strTables);
-			
-		$strTripaTabelasValidas =  '#acoes_excecoes#
-									#aplicativos_monitorados#
-									#compartilhamentos#
-									#componentes_estacoes#
-									#componentes_estacoes_historico#
-									#historico_hardware#
-									#historico_tcp_ip#
-									#historicos_hardware#
-									#historicos_outros_softwares#
-									#historicos_software#
-									#historicos_software_completo#
-									#officescan#
-									#patrimonio#
-									#softwares_inventariados_estacoes#
-									#srcacic_sessoes#
-									#unidades_disco#
-									#usb_logs#
-									#variaveis_ambiente_estacoes#
-									#versoes_softwares#';			
-			
-		//				
-		$v_cs_exclui = '';
-		//
 		$strTripaCampos = '';
-		$intContaMaquinas = 0;
 		while(list($key, $value) = each($HTTP_POST_VARS))
-			{
 			if (strpos($key,'chk_')>-1)
 				{				
 				$strTripaCampos .= ($strTripaCampos == ''?'':',');				
 				$strTripaCampos .= str_replace('chk_','',$key);
-				$intContaMaquinas ++;
 				}			
-			}
 
+		conecta_bd_cacic();								
+		$boolOK = false;
+		$v_query_exclui = 'UPDATE computadores SET dt_hr_exclusao = "' . @date("Y-m-d- H:i:s") . '", id_usuario_exclusao = ' . $_SESSION["id_usuario"] . ' WHERE id_computador in ('.$strTripaCampos.')';
+		$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela funÃ§Ã£o MYSQL_QUERY()									
+		$v_cs_exclui = '1';
 
-			conecta_bd_cacic();								
-			$boolOK = false;
-			for ($i = 0; $i < count($arrTables); $i++ ) //Percorre as tabelas comandando a exclusÃ£o, conforme TE_NODE_ADDRESS e ID_SO				
-				{
-				$boolOK = stripos2($strTripaTabelasValidas, '#'.$arrTables[$i].'#',false);
-				if ($boolOK)
-					{
-					if ($arrTables[$i]=='srcacic_sessoes')
-						{
-						$v_query_exclui = 'DELETE srcacic_sessoes, srcacic_conexoes, srcacic_chats, srcacic_transfs FROM   
-srcacic_sessoes LEFT JOIN srcacic_conexoes ON srcacic_sessoes.id_sessao   = srcacic_conexoes.id_sessao LEFT JOIN srcacic_transfs  ON 
-srcacic_conexoes.id_conexao = srcacic_transfs.id_conexao LEFT JOIN srcacic_chats    ON srcacic_conexoes.id_conexao = srcacic_chats.id_conexao WHERE srcacic_sessoes.id_computador_srv in ('.$strTripaCampos.')';
-						}
-					else
-						{
-						$v_query_exclui = 'DELETE FROM '.$arrTables[$i] .' WHERE id_computador in ('.$strTripaCampos.')';
-						}
-					$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela funÃ§Ã£o MYSQL_QUERY()									
-					$v_cs_exclui = '1';
-					}
-				}			
-			$v_query_exclui = 'DELETE FROM computadores WHERE id_computador in ('.$strTripaCampos.')';
-			$exclui 		= @mysql_query($v_query_exclui);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela funÃ§Ã£o MYSQL_QUERY()												
-
-			if ($v_cs_exclui)
-				GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'computadores',$_SESSION["id_usuario"]);
+		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'computadores',$_SESSION["id_usuario"]);
 		}
 	?>	
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -373,7 +501,7 @@ srcacic_conexoes.id_conexao = srcacic_transfs.id_conexao LEFT JOIN srcacic_chats
 	<link rel="stylesheet"   type="text/css" href="../include/css/cacic.css">
 	<title><?php echo $oTranslator->_('Excluir Computadores');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	
+	<script language="JavaScript" type="text/javascript" src="../include/js/jquery.js"></script>	    
 	<link href="../include/css/cacic.css" rel="stylesheet" type="text/css">
 	<SCRIPT>
 	function Preenche_Condicao_VAZIO(p_campo)
@@ -445,21 +573,27 @@ srcacic_conexoes.id_conexao = srcacic_transfs.id_conexao LEFT JOIN srcacic_chats
 		var v_tamanho = 0;
 		v_tamanho = p_argumento.length;
 		for (i=0;i<window.document.forms.length;i++)
-			{
 			for (j=0;j<window.document.forms[i].elements.length;j++)
-				{
 				if (window.document.forms[i].elements[j].name.substring(0,v_tamanho) == p_argumento && 
 				    window.document.forms[i].elements[j].value != '')
-					{
 					v_conteudo = v_conteudo + window.document.forms[i].elements[j].value;
-					}
-				}
-			}
 
 		if (v_conteudo == '')
 			{
 			alert('<?php echo $oTranslator->_('Eh necessario informar ao menos uma condicao para pesquisa');?>!');
 			return false;
+			}		
+		else
+			{
+			for (i=0;i<window.document.forms.length;i++)
+				for (j=0;j<window.document.forms[i].elements.length;j++)
+					if (window.document.forms[i].elements[j].value == '')
+						{
+						var objField = window.document.forms[i].elements[j];
+						$(objField).toggleClass('novalue');					
+						}
+			
+			$(".novalue").attr('disabled','disabled');
 			}
 
 		return true;
@@ -483,7 +617,7 @@ srcacic_conexoes.id_conexao = srcacic_transfs.id_conexao LEFT JOIN srcacic_chats
 	<br><br>
 	<table width="85%" align="center" border="0" cellpadding="0" cellspacing="0"><tr>
     <td colspan="3"><div align="center"> 
-   	<input name="submit_cond" type="submit" value="<?php echo $oTranslator->_('Selecionar computadores para exclusao');?>" onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');">
+   	<input name="submit_cond" type="submit" value="<?php echo $oTranslator->_('Selecionar computadores para exclusao');?>" onClick="return Valida_Form_Pesquisa('frm_te_valor_condicao_');return Valida_Form_Pesquisa('frm_condicao_');">
    	</div></td>
    	</tr></table>
 
@@ -505,69 +639,72 @@ srcacic_conexoes.id_conexao = srcacic_transfs.id_conexao LEFT JOIN srcacic_chats
 	$cor = 0;
 	require_once('../include/library.php');
 
-	$res_fields = mysql_query("SHOW COLUMNS FROM computadores");
-	$v_arr_nomes_campos = array();
-	while ($row_fields = mysql_fetch_array($res_fields)) 
-		{
-		$query_desc = 'SELECT 	* 
-					   FROM 	descricoes_colunas_computadores 
-					   WHERE 	TRIM(nm_campo) = "'. $row_fields[0].'"';
-		$res_desc 	= @mysql_query($query_desc);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela funÃ§Ã£o MYSQL_QUERY()
-		if (!@$row_desc = mysql_fetch_array($res_desc))
-			{
-			$query_ins_desc = 'INSERT 
-							   INTO 	descricoes_colunas_computadores 
-							   SET 		nm_campo = "'. $row_fields[0].'", 
-							   			te_descricao_campo="'.$row_fields[0].'", 
-										nm_tipo_campo = "datetime"';
-			$res_ins_desc 	= @mysql_query($query_ins_desc);
-			}
-			
-		if ($row_desc['cs_condicao_pesquisa']=='S')
-			{
-			array_push($v_arr_nomes_campos,$row_desc['te_descricao_campo'].'#'.$row_fields[0].'#'.$row_fields[1]);
-			}
-		}
-
-	sort($v_arr_nomes_campos);
-	for ($i=0;$i<count($v_arr_nomes_campos);$i++)
-		{
-		$v_arr_campo = explode('#',$v_arr_nomes_campos[$i]);
-		?>
-		<tr <?php if ($cor) echo 'bgcolor="#E1E1E1"';?>> 
-		<td nowrap><?php echo $v_arr_campo[0];?></td>
-		<td><select name="frm_condicao_<?php echo $v_arr_campo[1]; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-		<option value=""></option>
-		<?php if ($v_arr_campo[2] == 'datetime') 
-			{
-			$v_operacao = "(TO_DAYS(NOW())-TO_DAYS(a.".$v_arr_campo[1].")";
+	$arrProperties = array();
+	$queryPROPERTIES = 'SELECT 		nm_class_name,
+									te_class_description,
+									nm_property_name,
+									te_property_description 
+				  		FROM 		classes_properties cp,
+									classes c
+						WHERE		c.id_class = cp.id_class 
+						ORDER BY 	te_property_description';
+	$resPROPERTIES 	 = @mysql_query($queryPROPERTIES);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela funÃ§Ã£o MYSQL_QUERY()
+	while ($rowPROPERTIES = mysql_fetch_array($resPROPERTIES))		
+		$arrProperties[$rowPROPERTIES['nm_class_name'].'.'.$rowPROPERTIES['nm_property_name']] = $rowPROPERTIES['te_class_description'] . ' - ' . $rowPROPERTIES['te_property_description'];
+	
+	$queryDESC = 'SELECT 	* 
+				  FROM 		descricoes_colunas_computadores
+				  WHERE		cs_condicao_pesquisa = "S" 
+				  ORDER BY	te_description';
+	$resDESC 	= @mysql_query($queryDESC);	 //Neste caso, o "@" inibe qualquer mensagem de erro retornada pela funÃ§Ã£o MYSQL_QUERY()
+	
+	$arrCampos = array();
+	while ($rowDESC = mysql_fetch_array($resDESC))		
+		$arrCampos[$rowDESC['te_source'].'.'.$rowDESC['te_target']] = ($arrProperties[$rowDESC['te_source'].'.'.$rowDESC['te_target']] ? $arrProperties[$rowDESC['te_source'].'.'.$rowDESC['te_target']] : $rowDESC['te_description']);		
+		
+	asort($arrCampos);
+	for ($i=0; $i < count($arrCampos); $i++) 
+		{	
+		$key = key($arrCampos);
+		if ($arrCampos[$key])
+			{		
 			?>
-			<option value="<?php echo $v_operacao . ' =       frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('Igual a');?></option>					
-			<option value="<?php echo $v_operacao . ' -MAIOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('MAIOR QUE');?></option>					
-			<option value="<?php echo $v_operacao . ' -MENOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('MENOR QUE');?></option>											
-			<?php
+			<tr <?php if ($cor) echo 'bgcolor="#E1E1E1"';?>> 
+			<td nowrap><?php echo $arrCampos[$key];?></td>
+			<td><select name="frm_condicao_<?php echo $key; ?>" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+			<option value=""></option>
+			<?php if (stripos2($key,'dt_')) 
+				{
+				$v_operacao = "(TO_DAYS(NOW())-TO_DAYS(a.".$key.")";
+				?>
+				<option value="<?php echo $v_operacao . ' =       frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo str_pad( $oTranslator->_('IGUAL A')  ,18,'�');?></option>					
+				<option value="<?php echo $v_operacao . ' -MAIOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo str_pad( $oTranslator->_('MAIOR QUE'),18,'�');?></option>					
+				<option value="<?php echo $v_operacao . ' -MENOR- frm_te_valor_condicao)'; ?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo str_pad( $oTranslator->_('MENOR QUE'),18,'�');?></option>											
+				<?php
+				}
+			else
+				{
+				?>
+				<option value="<?php echo       $key." =       [[AS]]frm_te_valor_condicao[[AS]]"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo $oTranslator->_('IGUAL A');?></option>		
+				<option value="<?php echo       $key." <>      [[AS]]frm_te_valor_condicao[[AS]]"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo $oTranslator->_('DIFERENTE DE');?></option>			
+				<option value="<?php echo       $key." -MAIOR- [[AS]]frm_te_valor_condicao[[AS]]"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo $oTranslator->_('MAIOR QUE');?></option>
+				<option value="<?php echo       $key." -MENOR- [[AS]]frm_te_valor_condicao[[AS]]"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo $oTranslator->_('MENOR QUE');?></option>						
+				<option value="<?php echo       $key." like    [[AS]]%frm_te_valor_condicao%[[AS]]";?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo $oTranslator->_('CONTENHA');?></option>
+				<option value="<?php echo "[[AS]]%frm_te_valor_condicao%[[AS]] not like  (".$key.")  ";?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo $oTranslator->_('NAO CONTENHA');?></option>			
+				<option value="<?php echo       $key." like    [[AS]]frm_te_valor_condicao%[[AS]]" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo $oTranslator->_('INICIE COM');?></option>
+				<option value="<?php echo       $key." like    [[AS]]%frm_te_valor_condicao[[AS]]" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $key; ?>');"><?php echo $oTranslator->_('TERMINE COM');?></option>				
+				<option value="<?php echo 'TRIM('.$key.") = [[AS]][[AS]] and " 					      ;?>" onClick="Preenche_Condicao_VAZIO('<?php echo "frm_te_valor_condicao_". $key; ?>');"		 ><?php echo $oTranslator->_('SEJA VAZIO');?></option>		
+				<option value="<?php echo $key." IS NULL " 					          ;?>" onClick="Preenche_Condicao_NULO('<?php echo "frm_te_valor_condicao_". $key; ?>');"		 ><?php echo $oTranslator->_('SEJA NULO');?></option>					
+				<?php
+				}
+				?>
+			</select> </td>
+			<td><input name="frm_te_valor_condicao_<?php echo $key; ?>" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);Verifica_Selecao(this,'<?php echo "frm_condicao_". $key; ?>');" size="60" maxlength="100"></td>
+			</tr>
+			<?php			
+			$cor=!$cor;
 			}
-		else
-			{
-			?>
-			<option value="<?php echo 'a.'      .$v_arr_campo[1]." =       'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('IGUAL A');?></option>		
-			<option value="<?php echo 'a.'      .$v_arr_campo[1]." <>      'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('DIFERENTE DE');?></option>			
-			<option value="<?php echo 'a.'      .$v_arr_campo[1]." -MAIOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('MAIOR QUE');?></option>
-			<option value="<?php echo 'a.'      .$v_arr_campo[1]." -MENOR- 'frm_te_valor_condicao'"  ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('MENOR QUE');?></option>						
-			<option value="<?php echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao%'";?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('CONTENHA');?></option>
-			<option value="<?php echo "'%frm_te_valor_condicao%' not like  (a.".$v_arr_campo[1].")  ";?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('NAO CONTENHA');?></option>			
-			<option value="<?php echo 'a.'      .$v_arr_campo[1]." like    'frm_te_valor_condicao%'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('INICIE COM');?></option>
-			<option value="<?php echo 'a.'      .$v_arr_campo[1]." like    '%frm_te_valor_condicao'" ;?>" onClick="Verifica_Condicoes_Seta_Campo('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"><?php echo $oTranslator->_('TERMINE COM');?></option>				
-			<option value="<?php echo 'TRIM(a.'.$v_arr_campo[1].") = '' and " 					      ;?>" onClick="Preenche_Condicao_VAZIO('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 ><?php echo $oTranslator->_('SEJA VAZIO');?></option>		
-			<option value="<?php echo 'a.'.$v_arr_campo[1]." IS NULL " 					          ;?>" onClick="Preenche_Condicao_NULO('<?php echo "frm_te_valor_condicao_". $v_arr_campo[1]; ?>');"		 ><?php echo $oTranslator->_('SEJA NULO');?></option>					
-			<?php
-			}
-			?>
-		</select> </td>
-		<td><input name="frm_te_valor_condicao_<?php echo $v_arr_campo[1]; ?>" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);Verifica_Selecao(this,'<?php echo "frm_condicao_". $v_arr_campo[1]; ?>');" size="60" maxlength="100"></td>
-		</tr>
-		<?php			
-		$cor=!$cor;
+		next($arrCampos);
 		}
 	?>
   	<tr> 

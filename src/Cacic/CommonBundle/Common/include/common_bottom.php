@@ -13,8 +13,11 @@
  Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+$strXML_Values .= '<Comm_Status>' . 'OK' . '<'	.	'/Comm_Status>';	
+GravaTESTES($strXML_Values);	
+ 
 $strXML_Values = str_replace('+','[[MAIS]]'  , $strXML_Values);
 $strXML_Values = str_replace(' ','[[ESPACE]]', $strXML_Values);
-GravaTESTES($strXML_Begin . $strXML_Values . $strXML_End);
+GravaTESTES('Common_Bottom: '.$strXML_Begin . $strXML_Values . $strXML_End);
 echo $strXML_Begin . $strXML_Values . $strXML_End;
 ?>

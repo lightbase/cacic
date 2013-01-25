@@ -44,13 +44,13 @@ else
   </tr>
   <?php if ($_SESSION['unidades_disco'] == true) {
 		// EXIBIR INFORMAÇÕES DAS UNIDADES DE DISCO DO COMPUTADOR
-			$query = "SELECT 	cs_situacao
+			$query = "SELECT 	id_acao
 					  FROM 		acoes_redes 
-					  WHERE 	id_acao = 'cs_coleta_unid_disc' AND
+					  WHERE 	id_acao = 'col_undi' AND
 					  			id_rede = ".mysql_result($result,0,'id_rede');
 							
 			$result_acoes =  mysql_query($query);
-			if (mysql_result($result_acoes, 0, "cs_situacao") <> 'N') {
+			if (mysql_result($result_acoes, 0, "id_acao") <> '') {
     			$query = "SELECT 	* 
 						  FROM 		unidades_disco
 					  	  WHERE 	id_computador = ". $_GET['id_computador'];

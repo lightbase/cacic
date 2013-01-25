@@ -15,12 +15,11 @@ session_start();
 		}					   
 // ==========================================================================================================
 
-$query = 'SELECT 	count(te_node_address) as qtd
+$query = 'SELECT 	count(id_computador) as qtd
           FROM 		computadores,
 					redes,
 					so
-		  WHERE 	computadores.te_nome_computador IS NOT NULL AND 
-			 	   	computadores.dt_hr_ult_acesso   IS NOT NULL AND
+		  WHERE 	computadores.dt_hr_ult_acesso   IS NOT NULL AND
 					computadores.id_rede = redes.id_rede AND 
 					computadores.id_so = so.id_so '.
 					$where .' 

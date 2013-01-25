@@ -33,21 +33,21 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 													cs_status,
 													cs_operacao,
 													id_conexao)
-					 VALUES						  '".DeCrypt($key,$iv,$_POST['dt_systemtime']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',
-												   ".DeCrypt($key,$iv,$_POST['nu_duracao']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey).",
-												  '".DeCrypt($key,$iv,$_POST['te_path_origem']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',								
-												  '".DeCrypt($key,$iv,$_POST['te_path_destino']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',																
-												  '".DeCrypt($key,$iv,$_POST['nm_arquivo']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',																
-												   ".DeCrypt($key,$iv,$_POST['nu_tamanho_arquivo']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey).",
-												  '".DeCrypt($key,$iv,$_POST['cs_status']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',																								
-												  '".DeCrypt($key,$iv,$_POST['cs_operacao']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',"
-												    .DeCrypt($key,$iv,$_POST['id_conexao']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 								;
+					 VALUES						  '".DeCrypt($_POST['dt_systemtime']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',
+												   ".DeCrypt($_POST['nu_duracao']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey).",
+												  '".DeCrypt($_POST['te_path_origem']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',								
+												  '".DeCrypt($_POST['te_path_destino']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',																
+												  '".DeCrypt($_POST['nm_arquivo']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',																
+												   ".DeCrypt($_POST['nu_tamanho_arquivo']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey).",
+												  '".DeCrypt($_POST['cs_status']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',																								
+												  '".DeCrypt($_POST['cs_operacao']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey)."',"
+												    .DeCrypt($_POST['id_conexao']			,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 								;
 	$result_INSERT = mysql_query($query_INSERT);
-	$strXML_Values .= '<OK>'	. EnCrypt($key,$iv,'OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</OK>';		
-	$strXML_Values .= '<STATUS>'	. EnCrypt($key,$iv,'OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</STATUS>';	
+	$strXML_Values .= '<OK>'	. EnCrypt('OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</OK>';		
+	$strXML_Values .= '<STATUS>'	. EnCrypt('OK',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</STATUS>';	
 	}
 else
-	$strXML_Values .= '<STATUS>'.EnCrypt($key,$iv,'Palavra-Chave Incorreta!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
+	$strXML_Values .= '<STATUS>'.EnCrypt('Palavra-Chave Incorreta!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
 
 require_once('../include/common_bottom.php');
 ?>

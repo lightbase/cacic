@@ -19,9 +19,8 @@
    conecta_bd_cacic();
    $query ='SELECT to_days(curdate()) - to_days(dt_hr_ult_acesso) as nr_dias, count(*)
 			         FROM computadores 
-											 WHERE  computadores.te_nome_computador IS NOT NULL 
-												AND dt_hr_ult_acesso is not null
-												GROUP BY nr_dias';
+			 WHERE  dt_hr_ult_acesso is not null
+ 			GROUP BY nr_dias';
 
    $result = mysql_query($query) or die('Erro no select ou sua sessão expirou!');
 

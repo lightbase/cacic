@@ -19,8 +19,10 @@ session_start();
  */
 if(!isset($_SESSION['id_usuario'])) 
   die('Acesso negado (Access denied)!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
-}
+else 
+	{ 
+	// Inserir regras para outras verificações (ex: permissões do usuário)!
+	}
 require_once "../../include/library.php";
 
 ?>
@@ -37,149 +39,92 @@ require_once "../../include/library.php";
 /*
  * Uma classe para implementar segurança em transações 
  */
- define( 'SECURITY', 1 );
- require_once('security/security.php');
+//define( 'SECURITY', 1 );
+require_once('security/security.php');
  
 AntiSpy();
-conecta_bd_cacic();	
-$query = "SELECT 	* 
-		  FROM 		computadores, 
-		  			so
-		  WHERE 	id_computador = ". $_GET['id_computador'] ." AND 
-		  			computadores.id_so = so.id_so";
+$boolIsAdminOrSupervisor = ($_SESSION["cs_nivel_administracao"] == 1 || $_SESSION["cs_nivel_administracao"] == 2 || $_SESSION["cs_nivel_administracao"] == 3);
 
-$result = mysql_query($query);
-
-if (@mysql_num_rows($result)) 
+$arrDadosComputador = getValores('computadores', '*', 'id_computador = ' . $_GET['id_computador']);		
+?>
+<table width="100%" border="0" cellpadding="0" cellspacing="2">
+<?php    
+if ($arrDadosComputador[0]['id_computador'])
 	{
-		$exibir = Security::read('exibir');  
-    require_once('inc_detalhes_computador.php'); 
+	$intIdComputador = $arrDadosComputador[0]['id_computador'];
+	//$exibir = Security::read('exibir');  
+    require_once('inc_basic_informations.php'); 
 	$strPreenchimentoPadrao = '#CCCCFF';
 	$strCorDaLinha 			= '#E1E1E1';	
-	$linha = '<tr><td colspan="5" height="1" bgcolor="'.$strCorDaLinha.'"></td></tr>';
-	
-	?>
+		
+	$linha 		= '<tr><td colspan="5" height="1" bgcolor="'.$strCorDaLinha.'"></td></tr>';	
+	$arrActions = getValores('acoes_redes', 'id_acao', 'id_rede = ' . $arrDadosComputador[0]['id_rede']);
+		
+	for ($intLoopActions = 0; $intLoopActions < count($arrActions); $intLoopActions++)
+		{
+		if (substr($arrActions[$intLoopActions]['id_acao'],0,4) == 'col_')
+			{		
+			$strCor = $strPreenchimentoPadrao;						  		
+			$strCollectType = $arrActions[$intLoopActions]['id_acao'];
 
-	<table width="100%" border="0" cellpadding="0" cellspacing="2">
-	<tr><td>
-    <?php 
-	require_once('inc_tcp_ip.php'); 
-	?>
-    </td>
-  	</tr>
-  	<tr> 
-    <td>
-    <?php 
-	require_once('inc_hardware.php'); 
-	?>
-    </td>
-  	</tr>
-  	<tr> 
-    <td>
-    <?php 
-	require_once('inc_software.php'); 
-	?>
-    </td>
-  	</tr>
-	<?php if ($_SESSION["cs_nivel_administracao"] == 1 ||
-		$_SESSION["cs_nivel_administracao"] == 2 ||
-		$_SESSION["cs_nivel_administracao"] == 3) 		
-		{
+	
+			$strScriptToRequire = 'inc_' . $strCollectType . '.php';
+			?>    
+			<table width="94%" border="0" align="center" cellpadding="0" cellspacing="1">
+			<tr><td>
+			<?php
+												
+			$arrClassesNames 		= array();
+			$arrCollectsDefClasses 	= array();
+												
+			// Chamo o procedimento (function) que atribuirá os devidos valores aos arrays acima												
+			getClassesDefinitions($strCollectType);
+/*			
+	echo '<pre>';
+	print_r($arrClassesNames);
+	echo '</pre>';	
+	print_r($arrCollectsDefClasses);
+	echo '</pre>';
+*/
+			if ($_GET['exibir'] == $strCollectType)		$_SESSION[$strCollectType] = !($_SESSION[$strCollectType]);
+			else										$_SESSION[$strCollectType] = false;
+			?>
+			<tr><td height="1" bgcolor="#333333" colspan="4"></td></tr>
+			<tr><td bgcolor="#E1E1E1" class="cabecalho_tabela" colspan="4">&nbsp;<a href="computador.php?exibir=<?php echo $strCollectType;?>&id_computador=<?php echo $arrDadosComputador[0]['id_computador'];?>"><img src="../../imgs/<?php 
+			if($_SESSION[$strCollectType]) 	echo 'menos';
+			else 							echo 'mais'; 
+			?>.gif" width="12" height="12" border="0">&nbsp;<?php echo $oTranslator->_($arrCollectsDefClasses[$strCollectType]);?></a></td></tr>
+			<tr><td colspan="4" height="1" bgcolor="#333333"></td></tr>
+			<?php
+			if ($_SESSION[$strCollectType]) 
+				require_once('inc_show_data.php');
+			?>        
+			</td></tr>
+			</table>
+			<?php
+			}
+        }
+		/*
 		?>
-	  	<tr> 
-    	<td>
-	    <?php require_once('inc_software_inventariado.php'); ?>
-	    </td>
-	  	</tr>	
-		<?php
-		}
-		?>
-  	<tr> 
-   	<td>
-    <?php 
-	require_once('inc_sistemas_monitorados.php'); 
+	<?php if ($boolIsAdminOrSupervisor){?>
+  	<tr><td><?php require_once('inc_patrimonio.php'); 				?></td></tr>
+  	<tr><td><?php require_once('inc_usb_devices_use.php'); 			?></td></tr>        
+  	<tr><td><?php require_once('inc_suporte_remoto.php'); 			?></td></tr>    
+  	<tr><td><?php require_once('inc_ferramentas.php'); 				?></td></tr>
+	<?php if ($boolIsAdminOrSupervisor){?>
+	<tr><td><?php require_once('inc_opcoes_administrativas.php'); 	?></td></tr><?php }
+	*/
+	}
+else 
+	{ 
 	?>
-    </td>
-  	</tr>	
-  	<tr> 
-    <td>
-    <?php 
-	require_once('inc_variaveis_ambiente.php'); 
-	?>
-    </td>
-  	</tr>		
-  	<tr>
-    <td>
-	<?php 
-	require_once('inc_patrimonio.php'); 
-	?>
-	</td>
-  	</tr>
-  	<tr>
-    <td>
-	<?php 
-	require_once('inc_usb_devices_use.php'); 
-	?>
-	</td>
-  	</tr>    
-  	<tr> 
-    <td>
-    <?php 
-	require_once('inc_officescan.php'); 
-	?>
-    </td>
-  	</tr>
-  	<tr> 
-    <td>
-    <?php 
-	require_once('inc_compartilhamento.php'); 
-	?>
-    </td>
-  	</tr>
-  	<tr> 
-    <td>
-    <?php 
-	require_once('inc_unidades_disco.php'); 
-	?>
-    </td>
-  	</tr>
-  	<tr> 
-    <td>
-    <?php 
-	require_once('inc_suporte_remoto.php'); 
-	?>
-    </td>
-  	</tr>    
-  	<tr> 
-    <td>
-    <?php 
-	require_once('inc_ferramentas.php'); 
-	?>
-    </td>
-  	</tr>
-	<?php if ($_SESSION["cs_nivel_administracao"] == 1 ||
-		$_SESSION["cs_nivel_administracao"] == 2 ||
-		$_SESSION["cs_nivel_administracao"] == 3) 		
-		{
-		?>
-		<tr>
-		<td>
-		<?php
-		require_once('inc_opcoes_administrativas.php');} ?>
-	  	</td>
-	  	</tr>
-		<?php	
-		} 
-	else 
-		{ 
-		?>
-		<tr>
-    	<td align="center" class="destaque"><?php echo $oTranslator->_('Computador inexistente');?>
-		</td>	
-		</tr>
-		<?php  
-		} 
-		?>	
-	</table>
+	<tr>
+   	<td align="center" class="destaque"><?php echo $oTranslator->_('Computador inexistente');?>
+	</td>	
+	</tr>
+	<?php  
+	} 
+	?>	
+</table>
 </body>
 </html>

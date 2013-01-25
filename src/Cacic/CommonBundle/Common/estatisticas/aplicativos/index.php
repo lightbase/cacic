@@ -42,7 +42,7 @@ $linha = '<tr bgcolor="#e7e7e7">
 <?php require_once('../../include/js/selecao_listbox.js');  ?>
 <?php
 // Essa variável é usada pelo arquivo de include selecao_redes_inc.php e inicio_relatorios_inc.php.
-$id_acao = 'cs_coleta_monitorado';
+$id_acao = 'col_moni';
 $cs_situacao = 'S';
 
 ?>
@@ -137,7 +137,7 @@ function open_window(theURL,winName,features) {
 									  		trim(cs_ide_licenca)  <> '0')) ".$where_usuario_comum." 
 									  ORDER BY nm_aplicativo";
 
-						$result_aplicativos_selecionados = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('descricao_hardware')));
+						$result_aplicativos_selecionados = mysql_query($query) or die($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));
 						/* Agora monto os itens do combo de hardwares selecionadas. */ 
        while($campos_aplicativos_selecionados=mysql_fetch_array($result_aplicativos_selecionados)) 	
 	   		{

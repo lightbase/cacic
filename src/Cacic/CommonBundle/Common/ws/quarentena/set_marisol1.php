@@ -16,8 +16,8 @@
 require_once('../include/library.php');
 //Maquina Lu
 /*autentica_agente($key,$iv,$_POST['cs_cipher']);
-$te_node_address 			= DeCrypt($key,$iv,$_POST['te_node_address'],$_POST['cs_cipher']); 
-$id_so          			= DeCrypt($key,$iv,$_POST['id_so']			,$_POST['cs_cipher']); 
+$te_node_address 			= DeCrypt($_POST['te_node_address'],$_POST['cs_cipher']); 
+$id_so          			= DeCrypt($_POST['id_so']			,$_POST['cs_cipher']); 
 */ 
 $te_node_address 			= "00-08-02-3F-CE-B9";
 $id_so  					= "8";
@@ -40,15 +40,15 @@ if (mysql_result($result, 0, "num_registros") == 0) {
 } 
 
 $query = "UPDATE versoes_softwares 
- 									SET	te_versao_bde            = '" . DeCrypt($key,$iv,$_POST['te_versao_bde']			,$_POST['cs_cipher']) . "', 
-										te_versao_dao            = '" . DeCrypt($key,$iv,$_POST['te_versao_dao']			,$_POST['cs_cipher']) . "', 
-										te_versao_ado            = '" . DeCrypt($key,$iv,$_POST['te_versao_ado']			,$_POST['cs_cipher']) . "', 
-										te_versao_odbc           = '" . DeCrypt($key,$iv,$_POST['te_versao_odbc']			,$_POST['cs_cipher']) . "', 
-										te_versao_directx        = '" . DeCrypt($key,$iv,$_POST['te_versao_directx']		,$_POST['cs_cipher']) . "', 
-										te_versao_acrobat_reader = '" . DeCrypt($key,$iv,$_POST['te_versao_acrobat_reader']	,$_POST['cs_cipher']) . "', 
-										te_versao_ie             = '" . DeCrypt($key,$iv,$_POST['te_versao_ie']				,$_POST['cs_cipher']) . "', 
-										te_versao_mozilla        = '" . DeCrypt($key,$iv,$_POST['te_versao_mozilla']		,$_POST['cs_cipher']) . "', 
-										te_versao_jre            = '" . DeCrypt($key,$iv,$_POST['te_versao_jre']			,$_POST['cs_cipher']) . "' 
+ 									SET	te_versao_bde            = '" . DeCrypt($_POST['te_versao_bde']			,$_POST['cs_cipher']) . "', 
+										te_versao_dao            = '" . DeCrypt($_POST['te_versao_dao']			,$_POST['cs_cipher']) . "', 
+										te_versao_ado            = '" . DeCrypt($_POST['te_versao_ado']			,$_POST['cs_cipher']) . "', 
+										te_versao_odbc           = '" . DeCrypt($_POST['te_versao_odbc']			,$_POST['cs_cipher']) . "', 
+										te_versao_directx        = '" . DeCrypt($_POST['te_versao_directx']		,$_POST['cs_cipher']) . "', 
+										te_versao_acrobat_reader = '" . DeCrypt($_POST['te_versao_acrobat_reader']	,$_POST['cs_cipher']) . "', 
+										te_versao_ie             = '" . DeCrypt($_POST['te_versao_ie']				,$_POST['cs_cipher']) . "', 
+										te_versao_mozilla        = '" . DeCrypt($_POST['te_versao_mozilla']		,$_POST['cs_cipher']) . "', 
+										te_versao_jre            = '" . DeCrypt($_POST['te_versao_jre']			,$_POST['cs_cipher']) . "' 
 	  							WHERE 	te_node_address    		 = '" . $te_node_address . "' and
 										id_so                	 = '" . $id_so . "'";
 
@@ -56,7 +56,7 @@ $result = mysql_query($query);
 */
 
 
-//$v_tripa_inventariados = str_replace("&quot;","'",DeCrypt($key,$iv,$_POST['te_inventario_softwares'],$_POST['cs_cipher']));
+//$v_tripa_inventariados = str_replace("&quot;","'",DeCrypt($_POST['te_inventario_softwares'],$_POST['cs_cipher']));
 // MARISOL - 20/06/06 - Acrescenta no final o #, caso nao seja o ultimo caracter
 $Caracter = substr($variavel,strlen($variavel)-1,strlen($variavel));
 if ($Caracter != "#"){
@@ -215,7 +215,7 @@ if ($v_tripa_inventariados<>'')
 		mail("$destinatarios", "Alteracao de Software Detectada", "$corpo_mail", "From: cacic@{$_SERVER['SERVER_NAME']}");
 		//}
 	}						   
-$v_tripa_variaveis_coletadas = DeCrypt($key,$iv,$_POST['te_variaveis_ambiente'],$_POST['cs_cipher']);	
+$v_tripa_variaveis_coletadas = DeCrypt($_POST['te_variaveis_ambiente'],$_POST['cs_cipher']);	
 while (substr(trim($v_tripa_variaveis_coletadas),0,1)=='=')	
 	{
 	$v_tripa_variaveis_coletadas = substr(trim($v_tripa_variaveis_coletadas),1);

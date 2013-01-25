@@ -44,18 +44,18 @@ if(isset($_SESSION['sessArrVersionsIni']))
 							   'r.id_rede=' . $_GET['pIntIdRede']);
 
 	// Caso o servidor de updates ainda não tenha sido trabalhado...
-	if(!(stripos2($_SESSION['sessStrTripaItensEnviados'],$arrDadosRede['te_serv_updates'].'_'.$arrDadosRede['te_path_serv_updates'].'_'.$_GET['pStrNmItem'].'_',false)))	
+	if(!(stripos2($_SESSION['sessStrTripaItensEnviados'],$arrDadosRede[0]['te_serv_updates'].'_'.$arrDadosRede[0]['te_path_serv_updates'].'_'.$_GET['pStrNmItem'].'_',false)))	
 		{
-		$_SESSION['sessStrTripaItensEnviados'] .= $arrDadosRede['te_serv_updates'].'_'.$arrDadosRede['te_path_serv_updates'].'_'.$_GET['pStrNmItem'] . '_';
+		$_SESSION['sessStrTripaItensEnviados'] .= $arrDadosRede[0]['te_serv_updates'].'_'.$arrDadosRede[0]['te_path_serv_updates'].'_'.$_GET['pStrNmItem'] . '_';
 		require_once('../../include/ftp_check_and_send.php');	
 
 		$strResult = checkAndSend($_GET['pStrNmItem'],
 								  CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . ($_SESSION['sessArrVersionsIni'][$_GET['pStrNmItem'] . '_PATH']),
-								  $arrDadosRede['te_serv_updates'],
-								  $arrDadosRede['te_path_serv_updates'],							  
-								  $arrDadosRede['nm_usuario_login_serv_updates_gerente'],
-								  $arrDadosRede['te_senha_login_serv_updates_gerente'],
-								  $arrDadosRede['nu_porta_serv_updates']);
+								  $arrDadosRede[0]['te_serv_updates'],
+								  $arrDadosRede[0]['te_path_serv_updates'],							  
+								  $arrDadosRede[0]['nm_usuario_login_serv_updates_gerente'],
+								  $arrDadosRede[0]['te_senha_login_serv_updates_gerente'],
+								  $arrDadosRede[0]['nu_porta_serv_updates']);
 		}
 	else
 		$strResult = 'Ja Enviado ao Servidor!_=_Ok!_=_Resended';				

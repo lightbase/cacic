@@ -52,7 +52,7 @@ require_once('include/define.php');
 					{
 					require_once('include/library.php');					
 					$arrConfiguracoesPadrao = getValores('configuracoes_padrao', 'nm_organizacao'); 
-					echo $arrConfiguracoesPadrao['nm_organizacao'];
+					echo $arrConfiguracoesPadrao[0]['nm_organizacao'];
 					}				
 				?>
 				</div></td></tr>

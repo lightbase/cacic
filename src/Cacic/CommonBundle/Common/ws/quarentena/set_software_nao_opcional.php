@@ -21,10 +21,10 @@ require_once('../include/common_top.php');
 conecta_bd_cacic();
 
 $query = "	UPDATE 	computadores 
-			SET		te_versao_cacic   = '" . DeCrypt($key,$iv,$_POST['te_versao_cacic'],$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "'  
+			SET		te_versao_cacic   = '" . DeCrypt($_POST['te_versao_cacic'],$v_cs_cipher,$v_cs_compress,$strPaddingKey) . "'  
 			WHERE 	id_computador     = " . $arrDadosComputador['id_computador'];
 $result = mysql_query($query);
 
-$strXML_Values .= '<STATUS>' . EnCrypt($key,$iv,'S', $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</STATUS>';		
+$strXML_Values .= '<STATUS>' . EnCrypt('S', $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</STATUS>';		
 require_once('../include/common_bottom.php');
 ?>

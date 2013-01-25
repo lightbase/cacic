@@ -43,7 +43,7 @@
 			{			
 			$where = ($where<>''?' AND '.$where:$where);
 			// Usei o trecho abaixo para o caso da coleta avulsa de informações patrimoniais...			
-			$where = ($id_acao == 'cs_coleta_patrimonio'?' OR "'.$id_acao.'" = "cs_coleta_patrimonio") '.$where:$where.') ');						
+			$where = ($id_acao == 'col_patr'?' OR "'.$id_acao.'" = "col_patr") '.$where:$where.') ');						
 			$query = "SELECT 	distinct redes.te_ip_rede, 
 								nm_rede,
 								id_rede

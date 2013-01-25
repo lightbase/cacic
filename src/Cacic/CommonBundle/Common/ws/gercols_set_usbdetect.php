@@ -36,7 +36,7 @@ http://www.linux-usb.org/usb.ids, utilizando-se a opção Administração / Cadastro
 */
 require_once('../include/common_top.php');
 
-$te_usb_info = DeCrypt($key,$iv,$_POST['te_usb_info'],$v_cs_cipher, $v_cs_compress,$strPaddingKey); 
+$te_usb_info = DeCrypt($_POST['te_usb_info'],$v_cs_cipher, $v_cs_compress,$strPaddingKey); 
 if ($te_usb_info <> '')
 	{
 	$arrUsbInfo = explode('_',$te_usb_info);
@@ -60,7 +60,7 @@ if ($te_usb_info <> '')
 
 	$arrDeviceData = getValores('usb_devices', 'id_device,nm_device','trim(id_device)="'.$arrUsbInfo[3].'" AND trim(id_vendor)="'.$arrUsbInfo[2].'"');
 	
-	if (trim($arrDeviceData['nm_device'])=='')
+	if (trim($arrDeviceData[0]['nm_device'])=='')
 		{
 		$query = "INSERT 
 				  INTO 		usb_devices(id_vendor,id_device,nm_device) 
@@ -71,7 +71,7 @@ if ($te_usb_info <> '')
 		}
 
 	$arrVendorData = getValores('usb_vendors', 'id_vendor,nm_vendor','trim(id_vendor)="'.$arrUsbInfo[2].'"');	
-	if (trim($arrVendorData['nm_vendor'])=='')
+	if (trim($arrVendorData[0]['nm_vendor'])=='')
 		{
 		$query = "INSERT 
 				  INTO 		usb_vendors(id_vendor,nm_vendor) 
@@ -80,16 +80,16 @@ if ($te_usb_info <> '')
 		$result = mysql_query($query);
 		}
 
-	if ((trim($arrTeUsbFilter['te_usb_filter'])<>'') && (trim($arrTeNotificarUtilizacaoUSB['te_notificar_utilizacao_usb']) <> ''))
+	if ((trim($arrTeUsbFilter[0]['te_usb_filter'])<>'') && (trim($arrTeNotificarUtilizacaoUSB[0]['te_notificar_utilizacao_usb']) <> ''))
 		{
-		$arrUSBfilter = explode('#',$arrTeUsbFilter['te_usb_filter']);
+		$arrUSBfilter = explode('#',$arrTeUsbFilter[0]['te_usb_filter']);
 		$strUSBkey    = $arrUsbInfo[2] . "." . $arrUsbInfo[3];
 		$indexOf 	  = array_search($strUSBkey,$arrUSBfilter);
 		if ($indexOf <> -1)
 			{
 			$strCorpoMail = '';
 			$strCorpoMail .= " Prezado administrador,\n\n";
-			$strCorpoMail .= " foi " . ($arrUsbInfo[0] == 'I'?'inserido':'removido'). " o dispositivo '(".$arrVendorData['id_vendor'].")".$arrVendorData['nm_vendor']." / (".$arrDeviceData['id_device'].")".$arrDeviceData['nm_device'].($arrUsbInfo[0] == 'I'?'n':'d')."a estação de trabalho abaixo:\n\n";				
+			$strCorpoMail .= " foi " . ($arrUsbInfo[0] == 'I'?'inserido':'removido'). " o dispositivo '(".$arrVendorData[0]['id_vendor'].")".$arrVendorData[0]['nm_vendor']." / (".$arrDeviceData[0]['id_device'].")".$arrDeviceData[0]['nm_device'].($arrUsbInfo[0] == 'I'?'n':'d')."a estação de trabalho abaixo:\n\n";				
 			$strCorpoMail .= " Nome...........: ". $arrDadosComputador['te_nome_computador'] ."\n";
 			$strCorpoMail .= " Endereço IP: ". $arrDadosComputador['te_ip_computador'] . "\n";
 			$strCorpoMail .= " Rede............: ". $arrDadosRede['nm_rede'] ." ('" .$arrDadosRede['te_ip_rede']. "')\n";
@@ -101,11 +101,11 @@ if ($te_usb_info <> '')
 			$strCorpoMail .= "Desenvolvido pela Dataprev - Unidade Regional Espírito Santo";
 				
 			// Manda mail para os administradores.
-			mail($arrTeNotificarUtilizacaoUSB['te_notificar_utilizacao_usb'], "[Sistema CACIC] ".($arrUsbInfo[0] == 'I'?'Inserção':'Remoção')." de Dispositivo USB Detectada", "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
+			mail($arrTeNotificarUtilizacaoUSB[0]['te_notificar_utilizacao_usb'], "[Sistema CACIC] ".($arrUsbInfo[0] == 'I'?'Inserção':'Remoção')." de Dispositivo USB Detectada", "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
 			}
 		}
 	
-	$strXML_Values .= '<NM_DEVICE>' . EnCrypt($key,$iv,'('.$arrVendorData['id_vendor'].')'.$arrVendorData['nm_vendor'].' - (' .$arrDeviceData['id_device'].')'.$arrDeviceData['nm_device'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</NM_DEVICE>';
+	$strXML_Values .= '<NM_DEVICE>' . EnCrypt('('.$arrVendorData[0]['id_vendor'].')'.$arrVendorData[0]['nm_vendor'].' - (' .$arrDeviceData[0]['id_device'].')'.$arrDeviceData[0]['nm_device'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey). '</NM_DEVICE>';
 	}
 
 $strXML_Values .= '<STATUS>OK</STATUS>';		

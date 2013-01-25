@@ -17,20 +17,19 @@ require_once('../include/library.php');
 
 /*
 Bloco para DEBUG - COMENTAR AO FIM DO USO!!!
-*/
+
 GravaTESTES('=================== DEBUG ==================');
-GravaTESTES('PHP_SELF: '    . $_SERVER['PHP_SELF']);
-GravaTESTES('REQUEST_URI: ' . $_SERVER['REQUEST_URI']);
-GravaTESTES('SCRIPT_NAME: ' . $_SERVER['SCRIPT_NAME']); 
-GravaTESTES('Entrada 1 : POST');
+GravaTESTES('Common_Top');
+GravaTESTES('============================================');
 foreach($HTTP_POST_VARS as $i => $v)
         GravaTESTES('I: '.$i.' V: '.$v);
 
-GravaTESTES('Entrada 1.1 : GET');
 foreach($HTTP_GET_VARS as $i => $v)
         GravaTESTES('I: '.$i.' V: '.$v);
 
 GravaTESTES('=============================================');
+*/
+
 // Definição do nível de compressão (Default = 9 => máximo)
 //$v_compress_level = 9;
 $v_compress_level 				 = 0;  // Mantido em 0(zero) para desabilitar a Compressão/Decompressão 
@@ -44,22 +43,24 @@ $v_cs_compress					 = (trim($_POST['cs_compress']) <> ''?trim($_POST['cs_compres
 // Valores específicos para trabalho com o PyCACIC - 04 de abril de 2008 - Rogério Lino - Dataprev/ES
 // A versão inicial do agente em Python exige esse complemento na chave...
 $strPaddingKey 					 = ($_POST['padding_key'] ? $_POST['padding_key'] : '');
-$boolAgenteLinux 				 = (trim(DeCrypt($key,$iv,$_POST['AgenteLinux'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) <> ''?true:false);
+$boolAgenteLinux 				 = (trim($_POST['AgenteLinux']) <> ''?true:false);
 
 // Autenticação da chamada:
-autentica_agente($key,$iv,$v_cs_cipher,$v_cs_compress,$strPaddingKey);
+autentica_agente($strPaddingKey);
 
-$arrDadosComputador 			 = getDadosComputador(DeCrypt($key,$iv,$_POST['te_node_address']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey),
-											 		  DeCrypt($key,$iv,$_POST['te_so']		   		,$v_cs_cipher,$v_cs_compress,$strPaddingKey),
-										 			  DeCrypt($key,$iv,$_POST['te_ip_computador']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey),
-										 			  DeCrypt($key,$iv,$_POST['te_nome_computador']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey),
-										 			  DeCrypt($key,$iv,$_POST['te_dominio_dns']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey),
-										 			  DeCrypt($key,$iv,$_POST['te_dominio_windows']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey),										 
-										 			  DeCrypt($key,$iv,$_POST['te_user_name']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey),
-										 			  DeCrypt($key,$iv,$_POST['te_workgroup']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+$strNetworkAdapterConfiguration  = DeCrypt($_POST['NetworkAdapterConfiguration'], $v_cs_cipher,$v_cs_compress,$strPaddingKey);
+$strComputerSystem  			 = DeCrypt($_POST['ComputerSystem']				, $v_cs_cipher,$v_cs_compress,$strPaddingKey);
+$strOperatingSystem  			 = DeCrypt($_POST['OperatingSystem']			, $v_cs_cipher,$v_cs_compress,$strPaddingKey);
+
+$arrDadosComputador 			 = getDadosComputador(getValueFromTags('MACAddress', $strNetworkAdapterConfiguration), 
+													  $_POST['te_so'],												 
+													  getValueFromTags('UserName'  , $strComputerSystem));
 										 
-$arrDadosRede 					 = getDadosRede($arrDadosComputador['id_rede']);
-$strTePalavraChave				 = DeCrypt($key,$iv,$_POST['te_palavra_chave'],$v_cs_cipher,$v_cs_compress,$strPaddingKey);				 
+$arrDadosRede 					 = getDadosRede($arrDadosComputador[0]['id_rede']);
+
+$strTePalavraChave				 = '';
+if ($_POST['te_palavra_chave'])
+	$strTePalavraChave = DeCrypt($_POST['te_palavra_chave'], $v_cs_cipher,$v_cs_compress,$strPaddingKey);
 
 // --------------- Retorno de Classificador de CRIPTOGRAFIA --------------------------------------------- //
 if ($v_cs_cipher <> '1') $v_cs_cipher --;
@@ -78,14 +79,23 @@ if ($v_compress_level == '0') $v_cs_compress = '0';
 //$v_cs_compress = '0'; 
 // ----------------------------------------------------------------------------------------------------- //
 
-$strXML_Begin  	 = '<?php xml version="1.0" encoding="iso-8859-1" ?><CONFIGS>';
+$strXML_Begin  	 = 	'<?php xml version="1.0" encoding="iso-8859-1" ?><CONFIGS>';
+$strXML_Values 	 = 	'';
 
-$strXML_Values 	 = '<dt_debug_station>' 	 . EnCrypt($key,$iv,$arrDadosComputador['dt_debug']		, $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '<' 	.	'/dt_debug_station>';	
-$strXML_Values  .= '<dt_debug_subnet>'  	 . EnCrypt($key,$iv,$arrDadosRede['dt_debug_subnet']	, $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' 	. 	'/dt_debug_subnet>';	
-$strXML_Values  .= '<dt_debug_local>'   	 . EnCrypt($key,$iv,$arrDadosRede['dt_debug_local']		, $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' 	. 	'/dt_debug_local>';		
-$strXML_Values  .= '<WebServicesFolderName>' . EnCrypt($key,$iv,CACIC_WEB_SERVICES_FOLDER_NAME		, $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '<' 	. 	'/WebServicesFolderName>';			
-$strXML_Values  .= '<IdComputador>' 		 . EnCrypt($key,$iv,$arrDadosComputador['id_computador'], $v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<'	.	'/IdComputador>';
+$strTeDebugging	 = 	(getValueFromTags('DateToDebugging',$arrDadosComputador[0]['te_debugging'])  == date("Ymd") ? $arrDadosComputador[0]['te_debugging']  	:
+					(getValueFromTags('DateToDebugging',$arrDadosRede[0]['te_debugging_local'])  == date("Ymd") ? $arrDadosRede[0]['te_debugging_local']  	:
+					(getValueFromTags('DateToDebugging',$arrDadosRede[0]['te_debugging_subnet']) == date("Ymd") ? $arrDadosRede[0]['te_debugging_subnet'] 	: 	'')));
+					
+GravaTESTES('strTeDebugging: '.$strTeDebugging);
 
-$strXML_End 	 = '<cs_compress>'			 . $v_cs_compress	. '</cs_compress>';
-$strXML_End 	.= '<cs_cipher>'			 . $v_cs_cipher		. '</cs_cipher>';		
-$strXML_End		.= '</CONFIGS>';
+$strXML_Values  .= 	($strTeDebugging ? '<TeDebugging>' 																										: 	'');
+$strXML_Values  .= 	($strTeDebugging ? getValueFromTags('DetailsToDebugging',$strTeDebugging)																:	'');
+$strXML_Values  .= 	($strTeDebugging ? '</TeDebugging>' 																									: 	'');
+
+$strXML_Values  .= 	'<IdComputador>' 		 . 	$arrDadosComputador[0]['id_computador']	. '<'	.	'/IdComputador>';
+$strXML_Values  .= 	'<WebManagerAddress>'     .	$arrDadosRede[0]['te_serv_cacic']		. '<' 	. 	'/WebManagerAddress>';			
+$strXML_Values  .= 	'<WebServicesFolderName>' . 	CACIC_WEB_SERVICES_FOLDER_NAME			. '<' 	. 	'/WebServicesFolderName>';			
+
+$strXML_End 	 = 	'<cs_compress>'			 . 	$v_cs_compress							. '<' 	.	'/cs_compress>';
+$strXML_End 	.= 	'<cs_cipher>'			 . 	$v_cs_cipher							. '<'	.	'/cs_cipher>';		
+$strXML_End		.= 	'</CONFIGS>';

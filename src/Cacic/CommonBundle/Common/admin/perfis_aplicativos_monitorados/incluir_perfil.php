@@ -102,7 +102,7 @@ if($_POST['submit'])
 				  		  '".mysql_real_escape_string($_POST['frm_te_arq_ver_pat_wnt'])."',	  				  						
 				  		  '".$_POST['frm_id_so']."',	  				  												  
 				  		  '".mysql_real_escape_string($_POST['frm_te_descritivo'])."',	  				  												
-						  now(),
+						  'now()',
 						  '".$_POST['frm_in_disponibiliza_info']."',
 						  '".$_POST['frm_in_disponibiliza_info_usuario_comum']."')";
 		$result = mysql_query($query) or die ($oTranslator->_('falha na insercao em (%1) ou sua sessao expirou!',array('perfis_aplicativos_monitorados')));

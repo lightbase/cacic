@@ -23,7 +23,7 @@ if(!isset($_SESSION['id_usuario']))
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
-$id_acao = 'cs_coleta_hardware';
+$id_acao = 'col_hard';
 require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
 <table width="85%" border="0" align="center">

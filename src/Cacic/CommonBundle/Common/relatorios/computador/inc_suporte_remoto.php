@@ -56,13 +56,13 @@ if ($_SESSION['suporte_remoto'] == true)
 </tr>
   	<?php
 	// EXIBIR INFORMAÇÕES DE SUPORTE_REMOTO REALIZADOS NO COMPUTADOR
-	$query = "SELECT 	cs_situacao
+	$query = "SELECT 	id_acao
 			  FROM 		acoes_redes 
-			  WHERE 	id_acao = 'cs_suporte_remoto' AND
+			  WHERE 	id_acao = 'srcacic' AND
 						id_rede = '".mysql_result($result,0,'id_rede')."'";
 	$result_acoes =  mysql_query($query);
 	
-	if (mysql_result($result_acoes, 0, "cs_situacao") <> 'N') 
+	if (mysql_result($result_acoes, 0, "id_acao") <> '') 
 		{
 		$query = "	SELECT 		DISTINCT dt_hr_inicio_conexao,
 								sr2.dt_hr_ultimo_contato,

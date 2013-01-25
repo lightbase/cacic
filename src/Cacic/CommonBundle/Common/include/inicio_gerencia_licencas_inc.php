@@ -44,12 +44,12 @@ require_once('js/selecao_listbox.js');
 else 
 	{
 	$where = ($_SESSION['cs_nivel_administrativo']<>1 && $_SESSION['cs_nivel_administrativo']<>2?' AND id_local='.$_SESSION['id_local']:'');	
-	$query = "SELECT 	cs_situacao 
+	$query = "SELECT 	id_acao 
 			  FROM 		acoes_redes 
 			  WHERE 	id_acao='$id_acao' ".
 						$where . " LIMIT 1";
 	$result = mysql_query($query) or die ($oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou!',array('acoes_redes')));
 	
-	$cs_situacao = (mysql_num_rows($result) > 0?mysql_result($result, 0, 'cs_situacao'):$cs_situacao);
+	$cs_situacao = (mysql_num_rows($result) > 0?mysql_result($result, 0, 'id_acao'):$cs_situacao);
 	}	 
 ?>
