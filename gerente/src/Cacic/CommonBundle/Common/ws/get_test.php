@@ -22,12 +22,10 @@ require_once('../include/common_top.php');
 if (file_exists(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini'))
 	{
 	$arrVersionsAndHashes = parse_ini_file(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
-	$strXML_Values .= '<INSTALLCACIC.EXE_HASH>'	. EnCrypt($key,$iv,$arrVersionsAndHashes['installcacic.exe_HASH']	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/INSTALLCACIC.EXE_HASH>';	
-	$strXML_Values .= '<MainProgramName>'  		. EnCrypt($key,$iv,CACIC_MAIN_PROGRAM_NAME.'.EXE'					,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/MainProgramName>';
-	$strXML_Values .= '<LocalFolderName>' 		. EnCrypt($key,$iv,CACIC_LOCAL_FOLDER_NAME							,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '<' . '/LocalFolderName>';											
+	$strXML_Values .= '<INSTALLCACIC.EXE_HASH>'	. 	EnCrypt($arrVersionsAndHashes['installcacic.exe_HASH'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey,true) 	. '<' 	. 	'/INSTALLCACIC.EXE_HASH>';	
+	$strXML_Values .= '<MainProgramName>'  		. 	CACIC_MAIN_PROGRAM_NAME.'.exe'																								. '<' 	. 	'/MainProgramName>';
+	$strXML_Values .= '<LocalFolderName>' 		. 	CACIC_LOCAL_FOLDER_NAME																										. '<' 	. 	'/LocalFolderName>';											
 	}		
-
-$strXML_Values .= '<STATUS>' 					. 'OK' . '</STATUS>';		
 
 require_once('../include/common_bottom.php');
 ?>

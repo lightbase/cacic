@@ -45,6 +45,7 @@ $selectAcoes   	= "SELECT 	acoes.id_acao,
 							acoes.te_descricao,
 							acoes.te_nome_curto_modulo 
 				   FROM 	acoes 
+				   WHERE	acoes.cs_opcional = 'S' 
 				   ORDER BY acoes.id_acao";
 $resultAcoes = mysql_query($selectAcoes) or die($oTranslator->_('kciq_msg select on table fail', array('acoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
 

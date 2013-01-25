@@ -90,8 +90,8 @@ if (($_SESSION['sessStrIdRedes'][0] <> '') &&
 			else 
 				$strZebraColor = '#FFFFFF';					
 
-			$strIdIpRede = ($intLoopItens == 0 ? $arrDadosRede['te_ip_rede'] 									: '&nbsp;');
-			$strNmRede   = ($intLoopItens == 0 ? $arrDadosRede['sg_local'] . ' / ' . $arrDadosRede['nm_rede'] 	: '&nbsp;');
+			$strIdIpRede = ($intLoopItens == 0 ? $arrDadosRede[0]['te_ip_rede'] 										: '&nbsp;');
+			$strNmRede   = ($intLoopItens == 0 ? $arrDadosRede[0]['sg_local'] . ' / ' . $arrDadosRede[0]['nm_rede'] 	: '&nbsp;');
 
 			?>		
 	        <tr id="tr<?php echo $strSufixoIdentificador;?>" bgcolor="<?php echo $strZebraColor;?>">

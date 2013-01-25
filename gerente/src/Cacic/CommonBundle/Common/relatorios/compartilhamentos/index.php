@@ -18,7 +18,7 @@ Com o objetivo de desenvolver um relatorio de pastas compartilhadas.
 
 */
 		// Essa variável é usada pelo arquivo de include selecao_redes_inc.php e inicio_relatorios_inc.php.
-	$id_acao = 'cs_coleta_software';
+	$id_acao = 'col_soft';
   	require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
 <table width="85%" border="0" align="center">

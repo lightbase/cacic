@@ -44,9 +44,9 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 	if ($strTripaServidores == '')
 		$strTripaServidores = '0;0';	
 
-	$strXML_Values .= '<SERVIDORES_AUTENTICACAO>'.EnCrypt($key,$iv,$strTripaServidores  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</SERVIDORES_AUTENTICACAO>';
-	$strXML_Values .= '<STATUS>'				 .EnCrypt($key,$iv,'OK'					,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
+	$strXML_Values .= '<SERVIDORES_AUTENTICACAO>'.EnCrypt($strTripaServidores  ,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</SERVIDORES_AUTENTICACAO>';
+	$strXML_Values .= '<STATUS>'				 .EnCrypt('OK'					,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
 	}
 else
-	$strXML_Values .= '<STATUS>'.EnCrypt($key,$iv,'Palavra-Chave Incorreta!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';	
+	$strXML_Values .= '<STATUS>'.EnCrypt('Palavra-Chave Incorreta!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';	
 ?>

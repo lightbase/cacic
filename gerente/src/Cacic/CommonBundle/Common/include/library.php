@@ -19,8 +19,9 @@
 @define('CACIC',1);
 @define('SECURITY',1);
 
-set_include_path( realpath(dirname(__FILE__) .'/..' ) . PATH_SEPARATOR .'.' );
-include_once('include/config.php');
+@define('DEBUG',$_POST['cs_debug']);
+
+include_once('config.php');
 require_once('define.php');
 
 if(!include_once( TRANSLATOR_PATH.CACIC_DS.'Translator.php'))
@@ -61,15 +62,16 @@ function getDescricoesColunasComputadores()
 	conecta_bd_cacic();	
 	
 	// Consulto lista de colunas de hardware e retorno em um array
-	$queryDescricoesColunasComputadores  = "SELECT 	nm_campo, 
-											te_descricao_campo
-								 FROM 		descricoes_colunas_computadores";
+	$queryDescricoesColunasComputadores  = "SELECT 	te_source, 
+													te_target,
+													te_description
+								 			FROM 	descricoes_colunas_computadores dcc";
 	$resultDescricoesColunasComputadores = mysql_query($queryDescricoesColunasComputadores) or die('Ocorreu um erro durante a consulta à tabela descricoes_colunas_computadores.');
 
 	// Crio um array que conterá nm_campo => te_descricao_campo.	 
 	$arrDescricoesColunasComputadoresAux = array();
 	while($rowHardware = mysql_fetch_array($resultDescricoesColunasComputadores)) 	
-		$arrDescricoesColunasComputadoresAux[trim($rowHardware['nm_campo'])] = $rowHardware['te_descricao_campo'];
+		$arrDescricoesColunasComputadoresAux[trim($rowHardware['te_source']) . '.' . trim($rowHardware['te_target'])] = $rowHardware['te_description'];
 
 	return $arrDescricoesColunasComputadoresAux;
 	}
@@ -83,15 +85,18 @@ function getDescricaoHardware()
 	conecta_bd_cacic();	
 	
 	// Consulto lista de descrições de hardware e retorno em um array
-	$queryDescricaoHardware  = "SELECT 	nm_campo_tab_hardware, 
-										te_desc_hardware
-							 FROM 		descricao_hardware";
-	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('Ocorreu um erro durante a consulta à tabela descricao_hardware.');
+	$queryDescricaoHardware  = "SELECT 	nm_class_name,
+										nm_property_name,
+										te_property_description
+							 FROM 		classes_properties cp,
+							 			classes c
+							 WHERE		cp.id_class = c.id_class";
+	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('Ocorreu um erro durante a consulta à tabela classes_properties.');
 
 	// Crio um array que conterá nm_campo => te_descricao_campo.	 
 	$arrDescricaoHardwareAux = array();
 	while($rowHardware = mysql_fetch_array($resultDescricaoHardware)) 	
-		$arrDescricaoHardwareAux[trim($rowHardware['nm_campo_tab_hardware'])] = $rowHardware['te_desc_hardware'];
+		$arrDescricaoHardwareAux[trim($rowHardware['nm_class_name']) . '.' . trim($rowHardware['nm_property_name'])] = $rowHardware['te_property_description'];
 	return $arrDescricaoHardwareAux;
 	}
 	
@@ -101,7 +106,7 @@ function getDescricaoHardware()
 function AntiSpy($strNiveisPermitidos = '')
 	{
 	//GravaTESTES('AntiSpy: strNiveisPermitidos="'.$strNiveisPermitidos.'"');
-	//GravaTESTES('AntiSpy: Nivel Atual="'.$_SESSION['cs_nivel_administracao'].'"');
+	//GravaTESTES('AntiSpy: Nivel Atual="'.$_SESSION['cs_nivel_administracao'].'"');	
 	if ($strNiveisPermitidos <> '')
 		$boolNivelPermitido = stripos2(','.$strNiveisPermitidos.',',','.$_SESSION['cs_nivel_administracao'].',',false);
 	else
@@ -109,13 +114,13 @@ function AntiSpy($strNiveisPermitidos = '')
 
 	include CACIC_PATH . 'include/config.php'; // Incluo o config.php para pegar as chaves de criptografia	
 
-	//GravaTESTES('AntiSpy: Caminho do config="'.CACIC_PATH . 'include/config.php'.'"');
+	//GravaTESTES('AntiSpy: Caminho do config="'.CACIC_PATH . 'include/config.php'.'"');			
 	
 	if (session_is_registered("id_usuario") && session_is_registered("id_usuario_crypted") && 
-	    $_SESSION["id_usuario_crypted"] == EnCrypt($key,$iv,$_SESSION["id_usuario"],"1","0","0","") &&
+	    $_SESSION["id_usuario_crypted"] == EnCrypt($_SESSION["id_usuario"],"1","0","0","") &&
 	    $boolNivelPermitido)
    		return true;
-	$strLocation = CACIC_URL . 'include/acesso_nao_permitido.php';
+	$strLocation = CACIC_PATH . 'include/acesso_nao_permitido.php';
 	
 	//GravaTESTES('AntiSpy: Redirecionando para Nivel Atual="'.CACIC_PATH . 'include/acesso_nao_permitido.php'.'"');	
 	
@@ -167,14 +172,14 @@ function getMenu($_menu_name)
 	}
 
 
-// __________________________________________________________________
-// Apenas uma alternativa mais completa à função "stripos" do PHP5...
-// __________________________________________________________________
 /*
-// Retornará 0 ou 1 se $pos for FALSE
-// 		0 -> Se a String haystack NÃO CONTIVER a subString needle
-// 		1 -> Se a String haystack CONTIVER     a subString needle
-// Retornará a posição da subString needle na string haystack se $boolRetornaPosicao for TRUE ou NULO
+__________________________________________________________________
+Apenas uma alternativa mais completa à função "stripos" do PHP5...
+__________________________________________________________________
+Retornará 0 ou 1 se $pos for FALSE
+		0 -> Se a String haystack NÃO CONTIVER a subString needle
+		1 -> Se a String haystack CONTIVER     a subString needle
+Retornará a posição da subString needle na string haystack se $boolRetornaPosicao for TRUE ou NULO
 */
 function stripos2($strString, $strSubString, $boolRetornaPosicao = true)
 	{
@@ -185,15 +190,56 @@ function stripos2($strString, $strSubString, $boolRetornaPosicao = true)
 
 	return $intPos;
 	}
+//---------------------------------------------------------------------------------
+//  Substituir alguns valores inválidos ao tráfego HTTP
+//
+//  @return String contendo o string com valores inválidos substituidos por válidos
+//---------------------------------------------------------------------------------
+function replaceInvalidHTTPChars($pStrString)
+	{
+    $strNewString = str_replace('+'  , '[[MAIS]]'		, $pStrString);
+    $strNewString = str_replace(' '  , '[[ESPACE]]'  	, $strNewString);
+    $strNewString = str_replace('"'  , '[[AD]]'      	, $strNewString);
+    $strNewString = str_replace("'"  , '[[AS]]'      	, $strNewString);
+    $strNewString = str_replace('\\' , '[[BarrInv]]' 	, $strNewString);
+
+	return $strNewString;
+	}	
 	
+//------------------------------------------------------------------------------
+//  Repor valores substituidos durante tráfego HTTP
+//
+//  @return String contendo o string com valores substituidos
+//------------------------------------------------------------------------------
+function replacePseudoTagsWithCorrectChars($pStrString)
+	{
+	// Convenções Adotadas para as Substituições
+	// -----------------------------------------
+	// [[MAIS]]    => Sinal de Mais   => "+" (comumente interpretado como espaço, prejudicando a decriptografia) (Deve ser substituído ANTES da decriptografia!!!!)
+	// [[BarrInv]] => Barra Invertida => "\" (comumente interpretado como ESCAPE na recepçâo)
+	// [[AS]]      => Aspa Simples    => "'"
+	// [[AD]]      => Aspa Dupla      => '"'
+	// [[ESPACE]]  => Espaço          => ' '
+	// =============================================================================================
+	
+    $strNewString = str_replace('[[MAIS]]' 		, '+' 	, $pStrString);
+    $strNewString = str_replace('[[ESPACE]]' 	, ' ' 	, $strNewString);	
+    $strNewString = str_replace('[[AD]]'     	, '"' 	, $strNewString);
+    $strNewString = str_replace('[[AS]]'     	, "'"	, $strNewString);
+    $strNewString = str_replace('[[BarrInv]]'	, '.'	, $strNewString); // Ao substituir [[BarrInv]] por "\\" tive problemas, preferí deixar "."
+	return $strNewString;
+	}	
 // ---------------------------------
 // Função usada para descriptografia 
 // To decrypt values 
 // p_cs_cipher => Y/N 
 // ---------------------------------
-function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnCompress='0', $p_PaddingKey = '') 
+function DeCrypt($pStrCriptedData, $pStrCsCipher, $pIntCsUnCompress='0', $pStrPaddingKey = '', $pBoolForceDecrypt = false) 
 	{
-	$p_CipherKey .= $p_PaddingKey;
+	global $key;
+	global $iv;
+	
+	$pStrCipherKey .= $pStrPaddingKey;
 	
 	// Bloco de Substituições para antes da Decriptação
 	// ------------------------------------------------
@@ -201,50 +247,42 @@ function DeCrypt($p_CipherKey, $p_IV, $p_CriptedData, $p_cs_Cipher, $p_cs_UnComp
 	//        enviados, pertinentes à criptografia, tendem a ser interpretados incorretamente.
 	// Obs.:  Vide Lista de Convenções Abaixo
 	// =======================================================================================
-	$pp_CriptedData = str_ireplace('[[MAIS]]','+',$p_CriptedData,$countMAIS);
+	$ppStrCriptedData = str_ireplace('[[MAIS]]','+',$pStrCriptedData,$countMAIS);
 	// =======================================================================================
 	
-	if ($p_cs_Cipher=='1') 
-		$v_result = (trim($pp_CriptedData)<>''?@mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$p_CipherKey,base64_decode($pp_CriptedData),MCRYPT_MODE_CBC,$p_IV):'');
+	if ( (substr($ppStrCriptedData,-11) == '__CRYPTED__') && ((($pStrCsCipher=='1') && !DEBUG) || $pBoolForceDecrypt))
+		{
+	    $ppStrCriptedData = str_replace('__CRYPTED__' , '' 	, $ppStrCriptedData);		
+		$strResult = (trim($ppStrCriptedData)<>''?@mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$key,base64_decode($ppStrCriptedData),MCRYPT_MODE_CBC,$iv):'');
+		}
 	else
-		$v_result = $p_CriptedData;	
+		$strResult = $pStrCriptedData;	
 
 	// Bloco de Substituições para depois da Decriptação
 	// -------------------------------------------------
 	// Razão: Ídem acima, porém, com dados pertinentes aos valores a serem recebidos
 	// =============================================================================		
-	$v_result = str_ireplace('[[AD]]'     ,'"'   ,$v_result,$countAD);		
-	$v_result = str_ireplace('[[AS]]'     ,"'"   ,$v_result,$countAS);				
-	$v_result = str_ireplace('[[BarrInv]]','\\\\',$v_result,$countINV);			
-	$v_result = str_ireplace('[[ESPACE]]' ,' '   ,$v_result,$countESPACE);						
+	$strResult = replacePseudoTagsWithCorrectChars($strResult);		
 	// =============================================================================
 
-	// Convenções Adotadas para as Substituições
-	// -----------------------------------------
-	// [[MAIS]]    => Sinal de Mais   => "+" (comumente interpretado como espaço, prejudicando a decriptografia)
-	// [[BarrInv]] => Barra Invertida => "\" (comumente interpretado como ESCAPE na recepçâo)
-	// [[AS]]      => Aspa Simples    => "'"
-	// [[AD]]      => Aspa Dupla      => '"'
-	// [[ESPACE]]  => Espaço          => ' '
-	// =============================================================================================
 	
-	if ($p_cs_UnCompress == '1')
-		$v_result = gzinflate($v_result);		
+	if ($pIntCsUnCompress == '1')
+		$strResult = gzinflate($strResult);		
 
 	//GravaTESTES('Em DeCrypt: p_PaddingKey = "'.$p_PaddingKey.'"');					
 	
 	// Aqui retiro do resultado a ocorrência do preenchimento, caso exista. (o agente Python faz esse preenchimento)
-	if ($p_PaddingKey <> '') 
+	if ($pStrPaddingKey <> '') 
 		{               
-		$char 		= substr($p_PaddingKey,0,1);
+		$char 		= substr($pStrPaddingKey,0,1);
        	$re 		= "/".$char."*$/";
-       	$v_result 	= preg_replace($re, "", $v_result);
+       	$strResult 	= preg_replace($re, "", $strResult);
    		} 
 
-	GravaTESTES('Em DeCrypt: p_CriptedData = "'.$p_CriptedData.'"');				
-	GravaTESTES('Em DeCrypt: v_result = "'.$v_result.'"');				
+	//GravaTESTES('Em DeCrypt: pStrCriptedData = "'.$pStrCriptedData.'"');				
+	//GravaTESTES('Em DeCrypt: strResult = "'.$strResult.'"');				
 
-	return trim($v_result);
+	return trim($strResult);
 	}
 
 // ---------------------------------
@@ -266,20 +304,28 @@ if(!function_exists('hash'))
 // To crypt values
 // p_cs_cipher => Y/N 
 // ------------------------------
-function EnCrypt($p_CipherKey, $p_IV, $p_PlainData, $p_cs_Cipher, $p_cs_Compress, $p_compress_level=0, $p_PaddingKey = '') 
+function EnCrypt($pStrPlainData, $pStrCsCipher, $pStrCsCompress, $pIntCompressLevel=0, $pStrPaddingKey = '', $pBoolForceEncrypt = false) 
 	{
-	$p_CipherKey .= $p_PaddingKey;
+	global $key;
+	global $iv;
 	
-	if ($p_cs_Cipher=='1') 
-		$v_result = base64_encode(@mcrypt_cbc(MCRYPT_RIJNDAEL_128,$p_CipherKey,$p_PlainData,MCRYPT_ENCRYPT,$p_IV));		
+	$pStrCipherKey .= $pStrPaddingKey;
+	
+	if ((($pStrCsCipher=='1') && !DEBUG) || $pBoolForceEncrypt)
+		{
+		$strResult = base64_encode(@mcrypt_cbc(MCRYPT_RIJNDAEL_128,$key,$pStrPlainData,MCRYPT_ENCRYPT,$iv));		
+		$strResult .= '__CRYPTED__';
+		}
 	else
-		$v_result = $p_PlainData;	
-
-	if (($p_cs_Compress == '1' || $p_cs_Compress == '2') && $p_compress_level > 0)
-		$v_result = gzdeflate($v_result,$p_compress_level);
+		$strResult = $pStrPlainData;	
+	
+	if (($pStrCsCompress == '1' || $pStrCsCompress == '2') && $pIntCompressLevel > 0)
+		$strResult = gzdeflate($strResult,$pIntCompressLevel);
 //		$v_result = url_encode(gzcompress($v_result,$p_compress_level));		
 	//GravaTESTES('ENCRYPT: '.$p_CipherKey.' / '.$p_IV.' / '.$p_PlainData.' / '.$v_result.' / '.$p_cs_Cipher);		
-	return trim($v_result);		
+
+	$strResult = replaceInvalidHTTPChars($strResult);
+	return trim($strResult);		
 	}
 
 //________________________________________________________________________________________________
@@ -342,12 +388,13 @@ function LimpaTESTES()
 //___________________________________
 function GravaTESTES($p_Valor)
 	{
-	$v_Valor = str_replace('"','<AspaDupla>',$p_Valor);
-	$v_Valor = str_replace("'",'<AspaSimples>',$v_Valor);	
-	conecta_bd_cacic();
-	$date = @getdate(); 
-	$queryINS  = "INSERT into testes(te_linha) VALUES ('" . $_SERVER['REQUEST_URI'] . ": (".$date['mday'].'/'.$date['mon'].' - '.$date['hours'].':'.$date['minutes'].")Server " .$_SERVER['HTTP_HOST']." Station: ".$_SERVER['REMOTE_ADDR']." - ".$v_Valor . "')";
-	$resultINS = mysql_query($queryINS);
+	$v_Valor 		= str_replace('"','[AD]',$p_Valor);
+	$v_Valor 		= str_replace("'",'[AS]',$v_Valor);	
+	$date 			= @getdate(); 
+	$arrScriptName 	= explode('/',$_SERVER['SCRIPT_NAME']);
+	$queryINS  		= "INSERT into testes(te_linha) VALUES ('" . $arrScriptName[count($arrScriptName)-1] . ": (".$date['mday'].'/'.$date['mon'].' - '.$date['hours'].':'.$date['minutes'].")Svr " .$_SERVER['HTTP_HOST']." Sta: ".$_SERVER['REMOTE_ADDR']." - ".$v_Valor . "')";
+	$DBConnectionGT	= conecta_bd_cacic();	
+	mysql_query($queryINS,$DBConnectionGT);
 	}
 
 //________________________________________________________________________________________________
@@ -408,7 +455,7 @@ function FatorDecremento($Numero)
 // --------------------------------------------------------------------------------------
 // Função de conexão ao BD do CACIC
 // --------------------------------------------------------------------------------------
-function conecta_bd_cacic() 
+function  conecta_bd_cacic() 
 	{
 	/*
 	echo $GLOBALS["ip_servidor"].'<br>';
@@ -418,11 +465,12 @@ function conecta_bd_cacic()
 	echo $GLOBALS["nome_bd"].'<br>';
 	*/
 	
-	$ident_bd = mysql_connect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"], 
-							  $GLOBALS["usuario_bd"], 
-							  $GLOBALS["senha_usuario_bd"]);
+	$ident_bd = mysql_pconnect($GLOBALS["ip_servidor"] . ':' . $GLOBALS["porta"], 
+							   $GLOBALS["usuario_bd"], 
+							   $GLOBALS["senha_usuario_bd"]);
 	if (mysql_select_db($GLOBALS["nome_bd"], $ident_bd) == 0) 
 		die('<b>Problemas durante a conexão ao BD ou sua sessão expirou!</b>');
+		
 	return $ident_bd;		
 	}
 
@@ -432,37 +480,25 @@ function conecta_bd_cacic()
 // ------------------------------------------------------------------------------
 function getDadosRede($pIntIdRede = 0)
 	{	
-	global $key;
-	global $iv;
-	global $v_cs_cipher;
-	global $v_cs_compress;
-	global $strPaddingKey;
-	
 	$intIdRede = ($pIntIdRede ? $pIntIdRede : getIdRede());
-	
-	$queryDados = '	SELECT 	r.id_rede,
-							r.nm_rede,
-							r.te_serv_cacic,
-							r.te_serv_updates,
-							r.nu_limite_ftp,
-							r.nu_porta_serv_updates, 
-							r.te_path_serv_updates, 							
-							r.nm_usuario_login_serv_updates,
-							r.te_senha_login_serv_updates,
-							r.te_ip_rede,
-							r.id_local,
-							r.cs_permitir_desativar_srcacic,
-							l.sg_local,
-							l.nm_local,
-							r.dt_debug as dt_debug_subnet,
-							l.dt_debug as dt_debug_local							
-					FROM	redes r,
-							locais l
-					WHERE 	r.id_rede = ' . $intIdRede . ' AND
-							r.id_local   = l.id_local';
-	$resultDados = mysql_query($queryDados);
-	$rowDados    = @mysql_fetch_array($resultDados);
-	return $rowDados;	
+	return getValores(  'redes r, locais l', 
+						'r.id_rede,
+						 r.nm_rede,
+						 r.te_serv_cacic,
+						 r.te_serv_updates,
+						 r.nu_limite_ftp,
+						 r.nu_porta_serv_updates, 
+						 r.te_path_serv_updates, 							
+						 r.nm_usuario_login_serv_updates,
+						 r.te_senha_login_serv_updates,
+						 r.te_ip_rede,
+						 r.id_local,
+						 r.cs_permitir_desativar_srcacic,
+						 l.sg_local,
+						 l.nm_local,
+						 r.te_debugging as te_debugging_subnet,
+						 l.te_debugging as te_debugging_local',
+						'r.id_rede = ' . $intIdRede . ' AND r.id_local   = l.id_local');	
 	}
 
 function getIdRede()
@@ -474,24 +510,17 @@ function getIdRede()
 	global $strPaddingKey;
 	
 	// Duas tentativas de obtenção do IP da Estação
-	$strTeIPComputador = ($_POST['te_ip_computador']  ? trim(DeCrypt($key,$iv,$_POST['te_ip_computador'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) : $_SERVER['REMOTE_ADDR']);
-	$strTeIPComputador = ($strTeIPComputador 		  ? $strTeIPComputador 																	 		  : getenv("REMOTE_ADDR"));	
-	GravaTESTES('getIdRede: strTeIPComputador = "' . $strTeIPComputador . '"');	
-	conecta_bd_cacic();	
-
-	$queryRedes = "SELECT 	id_rede,
-							te_ip_rede,
-							te_mascara_rede
-				   FROM		redes";
-	GravaTESTES('getIdRede: queryRedes = "' .$queryRedes. '"');
-	$resultRedes= mysql_query($queryRedes);
+	$strTeIPComputador = ($_POST['te_ip_computador']  ? $_POST['te_ip_computador'] : $_SERVER['REMOTE_ADDR']);
+	$strTeIPComputador = ($strTeIPComputador 		  ? $strTeIPComputador 		   : getenv("REMOTE_ADDR"));	
+	$arrRedes = getValores('redes','id_rede,te_ip_rede,te_mascara_rede');
 	$intIdRede  = 0;	
 
 	// Percorro cada TE_IP + TE_MASCARA_REDE para checar se o IP da estação está na faixa de IPs
-	while ($rowRedes = mysql_fetch_array($resultRedes))
+	$intLoopRedes = 0;
+	while ($intLoopRedes < count($arrRedes))
 		{
        	$ip_octets   = split("\.", $strTeIPComputador);
-       	$mask_octets = split("\.", $rowRedes['te_mascara_rede']);
+       	$mask_octets = split("\.", $arrRedes[$intLoopRedes]['te_mascara_rede']);
        	unset($bin_sn);      	
 		
 		for ( $o = 0; $o < count($ip_octets); $o++ )
@@ -506,27 +535,20 @@ function getIdRede()
 
        	$subnet = join(".", $bin_sn);				
 
-		if (trim($subnet)== trim($rowRedes['te_ip_rede']))
+		if (trim($subnet)== trim($arrRedes[$intLoopRedes]['te_ip_rede']))
 			{
-			$intIdRede = $rowRedes['id_rede'];
+			$intIdRede = $arrRedes[$intLoopRedes]['id_rede'];
 			break;
 			}		
+		$intLoopRedes++;
 		}
 		
 	if ($intIdRede == 0)
 		{
 		// Neste caso, apela-se para uma rede que tenha configurações válidas...
-		$queryRedes = '	SELECT 	r.id_rede
-						FROM	redes r
-						WHERE 	trim(r.nu_porta_serv_updates) <> "" and
-								trim(r.nm_usuario_login_serv_updates) <> "" and
-								trim(r.te_senha_login_serv_updates) <> ""
-						LIMIT 1';
-		$resultRedes = mysql_query($queryRedes);
-		$rowRedes	 = mysql_fetch_array($resultRedes);
-		$intIdRede = $rowRedes['id_rede'];
+		$arrQualquerRede = getValores('redes','id_rede','trim(nu_porta_serv_updates) <> "" and trim(nm_usuario_login_serv_updates) <> "" and trim(te_senha_login_serv_updates) <> "" LIMIT 1');
+		$intIdRede = $arrQualquerRede[0]['id_rede'];
 		}	
-	GravaTESTES('getIdRede: Result->' . $intIdRede);
 	return $intIdRede;	
 	}
 // ------------------------------------------------------------------------------
@@ -535,107 +557,95 @@ function getIdRede()
 // ------------------------------------------------------------------------------
 function getDadosComputador($pStrTeNodeAddress, 
 							$pStrTeSO,
-							$pStrTeIPComputador,
-							$pStrTeNomeComputador,
-							$pStrTeDominioDNS,
-							$pStrTeDominioWindows,							
-							$pStrTeUserName,
-							$pStrTeWorkGroup)
-	{		
-	GravaTESTES('pStrTeNodeAddress: '.$pStrTeNodeAddress);
-	GravaTESTES('pStrTeSO: '.$pStrTeSO);
-	GravaTESTES('pStrTeIPComputador: '.$pStrTeIPComputador);
-	GravaTESTES('pStrTeNomeComputador: '.$pStrTeNomeComputador);
-	GravaTESTES('pStrTeDominioDNS: '.$pStrTeDominioDNS);
-	GravaTESTES('pStrTeDominioWindows: '.$pStrTeDominioWindows);				
-	GravaTESTES('pStrTeUserName: '.$pStrTeUserName);
-	GravaTESTES('pStrTeWorkGroup: '.$pStrTeWorkGroup);
+							$pStrTeUltimoLogin)							
+	{			
+	//GravaTESTES('pStrTeNodeAddress: '.$pStrTeNodeAddress);
+	//GravaTESTES('pStrTeSO: '.$pStrTeSO);
+	
 	// Obtenho o id_so da base, caso exista
 	// Insiro novo S.O. caso não exista
+	$DBConnectionGDC = conecta_bd_cacic();						
+	
+	$boolNewSO = false;
+	
 	$arrSO = getValores('so', 'id_so', 'te_so = "' . $pStrTeSO . '"');
-	if (!$arrSO['id_so'])
+	if (!$arrSO[0]['id_so'])
 		{	
 		conecta_bd_cacic();	
 		// Insiro a informação na tabela de Sistemas Operacionais incrementando o Identificador Externo
 		$queryINS_SO  = 'INSERT 
 						 INTO 		so(te_desc_so,sg_so,te_so) 
 						 VALUES    ("S.O. a Cadastrar","Sigla a Cadastrar","'.$pStrTeSO.'")';
-		GravaTESTES('Library - queryINS_SO: '.$queryINS_SO);							  						  
-		$resultINS_SO = mysql_query($queryINS_SO);		
+		//GravaTESTES('Library - queryINS_SO: '.$queryINS_SO);							  						  
+		mysql_query($queryINS_SO,$DBConnectionGDC);						
+		$boolNewSO = true;
+		}
+	
+	$arrDadosComputador = getValores('computadores,so', 'so.id_so,computadores.*', 'computadores.te_node_address = "' . $pStrTeNodeAddress . '" and computadores.id_so = ' . $arrSO[0]['id_so']);		
+	$arrDadosRede		= getDadosRede(getIdRede());
+
+	if ($arrDadosComputador[0]['dt_hr_inclusao'] == '')
+		{
+		$queryINS_Comp = 'INSERT INTO 	computadores 
+										(te_node_address, 
+										 id_so, 
+										 id_rede, 
+										 dt_hr_inclusao)
+						  VALUES 		("'.$pStrTeNodeAddress.'",
+						  				  '.$arrSO[0]['id_so'].',
+										  '.$arrDadosRede[0]['id_rede'].',
+										 "'. @date("Y-m-d- H:i:s").'")';
+		//GravaTESTES('Library - queryINS_Comp: '.$queryINS_Comp);							  						  										   
+		mysql_query($queryINS_Comp,$DBConnectionGDC);						
+				
+		$arrDadosComputador = getValores('computadores', '*', 'computadores.te_node_address = "' . $pStrTeNodeAddress . '" and id_so = ' . $arrSO[0]['id_so'] . ' and id_rede = ' . $arrDadosRede[0]['id_rede']);				
+
+		global $strNetworkAdapterConfiguration;
+		global $strComputerSystem;		
+		global $strOperatingSystem;		
+				
+		$queryINS = "INSERT INTO computadores_coletas(id_computador,nm_class_name,te_class_values) VALUES 
+					(" . $arrDadosComputador[0]['id_computador'] . ",'NetworkAdapterConfiguration','"   . $strNetworkAdapterConfiguration ."'),
+					(" . $arrDadosComputador[0]['id_computador'] . ",'ComputerSystem','" 				. $strComputerSystem ."'),				
+					(" . $arrDadosComputador[0]['id_computador'] . ",'OperatingSystem','" 				. $strOperatingSystem ."')";									
+		mysql_query($queryINS,$DBConnectionGDC);		
+		}
 		
-		$arrSO = getValores('so', 'id_so', 'te_so = "' . $pStrTeSO . '"');		
+	/* Atualizo a data/hora de último acesso e versões dos agentes principais */
+	$query = 'UPDATE 	computadores SET 
+						dt_hr_ult_acesso  = "'	. @date("Y-m-d- H:i:s")				. '",
+			  	  		te_versao_cacic   = "' 	. $_POST['te_versao_cacic']  		. '",
+			  	  		te_versao_gercols = "' 	. $_POST['te_versao_gercols']  		. '",						
+				  		te_ultimo_login	  = "' 	. $pStrTeUltimoLogin				. '"  
+			  WHERE 	id_computador = '		. $arrDadosComputador[0]['id_computador'];
+	mysql_query($query,$DBConnectionGDC);
+
+	$arrDadosComputador = getValores('computadores', 'computadores.*', 'computadores.id_computador = ' . $arrDadosComputador[0]['id_computador']);		
+
+	if ($boolNewSO)
+		{
 		// Verifico pelo local se há coletas configuradas e acrescento o S.O. à tabela de ações
-		$querySEL  = 'SELECT 	id_acao
-					  FROM   	acoes_so
-					  WHERE  	id_local = '.$arrDadosRede['id_local'].' 
-					  GROUP BY 	id_acao';							  						
-		GravaTESTES('Library - querySEL 1: '.$querySEL);							  						  
-		$resultSEL = mysql_query($querySEL);
+		$arrAcoesSO  = getValores('acoes_so','id_acao','id_local = '.$arrDadosRede[0]['id_local'].' GROUP BY id_acao');							  						
 			
 		// Caso existam ações configuradas para o local, incluo o S.O. para que também execute-as...
-		$strInsereID = '';
-		while ($rowSEL    = mysql_fetch_array($resultSEL))
+		$strInsereID 	   = '';
+		$intLoopArrAcoesSO = 0;
+		while ($intLoopArrAcoesSO < count($arrAcoesSO))
 			{
 			$strInsereID .= ($strInsereID <> ''?',':'');
-			$strInsereID .= '('.$arrDadosRede['id_local'].','.$rowSEL['id_acao'].','.$arrSO['id_so'].')';
+			$strInsereID .= '('.$arrDadosRede[0]['id_local'].','.$arrAcoesSO[$intLoopArrAcoesSO]['id_acao'].','.$arrSO[0]['id_so'].')';
+			$intLoopArrAcoesSO ++;
 			}
 										
 		if ($strInsereID <> '')
 			{
 			$queryINS = 'INSERT INTO acoes_so(id_local, id_acao, id_so) 
 						 VALUES '.$strInsereID;
-			GravaTESTES('Library - queryINS 1: '.$queryINS);							  						  							 
-			$resultINS = mysql_query($queryINS);
+			//GravaTESTES('Library - queryINS 1: '.$queryINS);							  						  							 
+			$resultINS = mysql_query($queryINS,$DBConnectionGDC);
 			}			
-		}
-	
-	$boolExists			= true;
-	$arrDadosComputador = getValores('computadores,so', 'so.id_so,computadores.*', 'computadores.te_node_address = "' . $pStrTeNodeAddress . '" and computadores.id_so = so.id_so');		
-	$arrDadosRede		= getDadosRede(getIdRede());
+		}			
 
-	if ($arrDadosComputador['dt_hr_inclusao'] == '')
-		{
-		$boolExists = false;
-
-		$queryINS_Comp = 'INSERT INTO 	computadores 
-										(te_node_address, 
-										 id_so, 
-										 id_rede, 
-										 te_ip_computador, 
-										 te_nome_computador, 
-										 te_dominio_dns,
-										 te_dominio_windows,
-										 te_workgroup, 
-										 dt_hr_inclusao, 
-										 dt_hr_ult_acesso)
-						  VALUES 		("'.$pStrTeNodeAddress.'",
-						  				  '.$arrSO['id_so'].',
-										  '.$arrDadosRede['id_rede'].',
-										 "'.$pStrTeIPComputador.'",
-										 "'.$pStrTeNomeComputador.'",
-										 "'.$pStrTeDominioDNS.'",
-										 "'.$pStrTeDominioWindows.'",
-										 "'.$pStrTeWorkGroup.'",
-										   NOW(),
-										   NOW())';
-		GravaTESTES('Library - queryINS_Comp: '.$queryINS_Comp);							  						  										   
-		$resultINS_Comp = mysql_query($queryINS_Comp);						
-		
-		$arrDadosComputador = getValores('computadores', '*', 'computadores.te_node_address = "' . $pStrTeNodeAddress . '" and id_rede = ' . $arrDadosRede['id_rede']);				
-		}
-		
-	
-	$queryUPD_Comp = 'UPDATE 	computadores 
-					  SET 		id_rede = '				. $arrDadosRede['id_rede']	.',
-						  		te_ip_computador = "'	. $pStrTeIPComputador		.'",
-						  		te_nome_computador="'	. $pStrTeNomeComputador		.'",
-						  		te_dominio_dns="'		. $pStrTeDominioDNS			.'",
-						  		te_dominio_windows="'	. $pStrTeDominioWindows		.'",						  						  
-						  		te_workgroup="'			. $pStrTeWorkGroup			.'"					  
-					  WHERE 	id_computador='			. $arrDadosComputador['id_computador'];
-	GravaTESTES('Library - queryUPD_Comp: '.$queryUPD_Comp);							  						  										   
-	$resultUPD_Comp = mysql_query($queryUPD_Comp);			
-	
 	return $arrDadosComputador;
 	}
 
@@ -661,7 +671,7 @@ function atualiza_configuracoes_uonx($p_uonx)
 	return $strResult;
 	}
 
-function autentica_agente($p_CipherKey, $p_IV, $p_cs_cipher, $p_cs_compress, $p_PaddingKey='') 
+function autentica_agente($p_PaddingKey='') 
 	{
 	/*
 	LimpaTESTES();
@@ -680,9 +690,9 @@ function autentica_agente($p_CipherKey, $p_IV, $p_cs_cipher, $p_cs_compress, $p_
 	GravaTESTES('p_PaddingKey: ' 	. $p_PaddingKey);		
 	GravaTESTES('###########################################');			
 	*/
-	if ((strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['HTTP_USER_AGENT'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)) != 'AGENTE_CACIC') ||
-	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_USER']  ,$p_cs_cipher, $p_cs_compress,$p_PaddingKey)) != 'USER_CACIC') ||
-	    (strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_PW']    ,$p_cs_cipher, $p_cs_compress,$p_PaddingKey)) != 'PW_CACIC'))   
+	if ((strtoupper(DeCrypt($_POST['HTTP_USER_AGENT'],$_POST['cs_cipher'], $_POST['cs_compress'],$pStrPaddingKey,true)) != 'AGENTE_CACIC') ||
+	    (strtoupper(DeCrypt($_POST['PHP_AUTH_USER'  ],$_POST['cs_cipher'], $_POST['cs_compress'],$pStrPaddingKey,true)) != 'USER_CACIC') ||
+	    (strtoupper(DeCrypt($_POST['PHP_AUTH_PW'    ],$_POST['cs_cipher'], $_POST['cs_compress'],$pStrPaddingKey,true)) != 'PW_CACIC'))   
 	   	{
         echo 'Acesso não autorizado.';
 		exit;
@@ -719,8 +729,8 @@ function computador_existe($te_node_address, $id_so)
 
 function AutenticaLDAP($pIdServidorAutenticacao, $pNmNomeAcessoAutenticacao, $pTeSenhaAcessoAutenticacao)
 	{
-	GravaTESTES(CACIC_PATH . 'include/class.ldap.php');
-	require_once CACIC_PATH . 'include/class.ldap.php';
+	//GravaTESTES(CACIC_PATH . 'include/class.ldap.php');
+	include_once(CACIC_PATH . 'include/class.ldap.php');
 	
 	$arrServidores = getValores('servidores_autenticacao',  
 								'nm_servidor_autenticacao,
@@ -740,15 +750,15 @@ function AutenticaLDAP($pIdServidorAutenticacao, $pNmNomeAcessoAutenticacao, $pT
 						'te_email' 			=> '');
 						
 	/* ldap settings */
-	$settings['openldap']['servers']   	= $arrServidores['nm_servidor_autenticacao_dns'];
-	$settings['openldap']['port']      	= $arrServidores['nu_porta_servidor_autenticacao'];
+	$settings['openldap']['servers']   	= $arrServidores[0]['nm_servidor_autenticacao_dns'];
+	$settings['openldap']['port']      	= $arrServidores[0]['nu_porta_servidor_autenticacao'];
 	$settings['openldap']['username']  	= $pNmNomeAcessoAutenticacao;
 	$settings['openldap']['password']  	= $pTeSenhaAcessoAutenticacao;
 	$settings['openldap']['tls']       	= '';
 	$settings['openldap']['tls-url']   	= '';
-	$settings['openldap']['bind-dn']   	= $arrServidores['te_atributo_identificador'] ;
+	$settings['openldap']['bind-dn']   	= $arrServidores[0]['te_atributo_identificador'] ;
 	$settings['openldap']['base-dn']   	= '';
-	$settings['openldap']['protocol']  	= $arrServidores['nu_versao_protocolo'];
+	$settings['openldap']['protocol']  	= $arrServidores[0]['nu_versao_protocolo'];
 	$settings['openldap']['referrals'] 	= 0;
 	$settings['openldap']['timelimit'] 	= 10;
 	$settings['openldap']['timeout']   	= 10;
@@ -758,10 +768,10 @@ function AutenticaLDAP($pIdServidorAutenticacao, $pNmNomeAcessoAutenticacao, $pT
 	$results  							= $openldap->results($search); 
 	$boolAuthenticate 					= $openldap->authenticate('', $results[0]["dn"], $settings['openldap']['password']);
 
-	if ($boolAuthenticate && ($results[0]["dn"]) && ((trim($arrServidores['te_atributo_status_conta'])=='') || (trim($results[0][$arrServidores['te_atributo_status_conta']][0])==trim($arrServidores['te_atributo_valor_status_conta_valida']))))
+	if ($boolAuthenticate && ($results[0]["dn"]) && ((trim($arrServidores[0]['te_atributo_status_conta'])=='') || (trim($results[0][$arrServidores[0]['te_atributo_status_conta']][0])==trim($arrServidores[0]['te_atributo_valor_status_conta_valida']))))
 		{
-		$arrRetorno['nm_nome_completo'] = $results[0][strtolower($arrServidores['te_atributo_retorna_nome' ])][0];					
-		$arrRetorno['te_email']			= $results[0][strtolower($arrServidores['te_atributo_retorna_email'])][0];								
+		$arrRetorno['nm_nome_completo'] = $results[0][strtolower($arrServidores[0]['te_atributo_retorna_nome' ])][0];					
+		$arrRetorno['te_email']			= $results[0][strtolower($arrServidores[0]['te_atributo_retorna_email'])][0];								
 		}
 
     unset($openldap);
@@ -769,38 +779,100 @@ function AutenticaLDAP($pIdServidorAutenticacao, $pNmNomeAcessoAutenticacao, $pT
 	return $arrRetorno;
 	}
 
-/* --------------------------------------------------------------------------------------
- Função usada para recuperar valores de campos únicos. Útil para a tabela de configurações.
- Passou a retornar array com colunas a partir de 22/10/2008
- -------------------------------------------------------------------------------------- */
-function getValores($pStrTablesNames, $pStrFieldsNames, $pStrWhere="1") 
+/* ---------------------------------------------------------------------------------------------------------------------------------------------------
+ Função usada para retornar um array bidimensional contendo indices numéricos e nomes dos campos recuperados na consulta - Anderson PETERLE - Jan/2013
+ ----------------------------------------------------------------------------------------------------------------------------------------------------- */
+function getValores($pStrTablesNames, $pStrFieldsNames, $pStrWhereAndOthers="1") 
 	{	
-	$arrRetorno = array();	
+	$querySEL = 'SELECT '.$pStrFieldsNames.' FROM '.$pStrTablesNames.' WHERE '.$pStrWhereAndOthers;
 	
-	conecta_bd_cacic();
-	
-	$querySEL = 'SELECT '.$pStrFieldsNames.' FROM '.$pStrTablesNames.' WHERE '.$pStrWhere . ' LIMIT 1';
-    	
+    /*	
 	GravaTESTES('**************************************************************');
 	GravaTESTES('Library: getValores: pStrTablesNames => '.$pStrTablesNames);
 	GravaTESTES('Library: getValores: pStrFieldsNames => '.$pStrFieldsNames);
 	GravaTESTES('Library: getValores: pStrWhere => '.$pStrWhere);		
+	*/
 	GravaTESTES('Library: getValores: querySEL => '.$querySEL);			
+	/*
 	GravaTESTES('**************************************************************');
+	*/
 	
-	$resultSEL = mysql_query($querySEL);
-	if (mysql_num_rows($resultSEL) > 0) 
+	$arrRetorno = array();	
+
+	$DBConnectionGV = conecta_bd_cacic();
+	$resultSEL = mysql_query($querySEL,$DBConnectionGV);
+	
+	if ($resultSEL) 
 		{
 		mysql_data_seek($resultSEL,0);
 		$rowSEL = mysql_fetch_array($resultSEL);		
 
-		for ($i=0;$i < mysql_num_fields($resultSEL);$i++)
+		$strColumnsNames = '';
+		for ($intLoopRows = 0;$intLoopRows < mysql_num_fields($resultSEL);$intLoopRows++)
 			{
-			$arrTMP = array(mysql_field_name($resultSEL,$i) => $rowSEL[$i]);
-			$arrRetorno = array_merge($arrRetorno,$arrTMP);
+			$strColumnsNames .= (!$strColumnsNames ? '' : ',');
+			$strColumnsNames .= mysql_field_name($resultSEL,$intLoopRows);
+			}
+
+		$arrColumnsNames = explode(',',$strColumnsNames);
+		$intRowSequence  = 0;
+		mysql_data_seek($resultSEL,0);
+
+		while ($rowSEL = mysql_fetch_array($resultSEL))
+			{		
+			for ($intLoopCols = 0;$intLoopCols < count($arrColumnsNames);$intLoopCols++)
+				$arrRetorno[$intRowSequence][$arrColumnsNames[$intLoopCols]] = $rowSEL[$arrColumnsNames[$intLoopCols]];
+
+			$intRowSequence ++;
 			}
 		} 
+	else
+		GravaTESTES($querySEL);	
+
 	return $arrRetorno;
+	}
+	
+/* 
+--------------------------------------------------------------------------------------------------
+Procedimento usado para preparar dois arrays com informações sobre Coletas, Classes e Propriedades
+--------------------------------------------------------------------------------------------------*/   
+function getClassesDefinitions($pStrCollectType)
+	{
+	global $arrClassesNames;
+	global $arrCollectsDefClasses;
+	
+	$arrDadosDefClasses = getValores('acoes, 
+									  classes,
+									  classes_properties,
+									  collects_def_classes',
+									 'acoes.te_descricao_breve,
+									  classes.nm_class_name,						
+									  classes.te_class_description,														
+									  classes_properties.nm_property_name,
+									  classes_properties.id_property',
+									 'acoes.id_acao = "' . $pStrCollectType . '" 					AND  
+									  collects_def_classes.id_acao 	= acoes.id_acao 				AND 
+									  classes.id_class			 	= collects_def_classes.id_class AND 
+									  classes_properties.id_class	= classes.id_class
+									  ORDER BY 	acoes.id_acao,
+												classes.nm_class_name,
+												classes_properties.nm_property_name');
+
+	for ($intLoopArrDadosDefClasses = 0; $intLoopArrDadosDefClasses < count($arrDadosDefClasses); $intLoopArrDadosDefClasses ++) 
+		{
+		$arrClassesNames[$arrDadosDefClasses[$intLoopArrDadosDefClasses]['nm_class_name']] = $arrDadosDefClasses[$intLoopArrDadosDefClasses]['te_class_description'];			
+		$arrCollectsDefClasses[$pStrCollectType]=($arrCollectsDefClasses[$pStrCollectType] == '' ? $arrDadosDefClasses[$intLoopArrDadosDefClasses]['te_descricao_breve'] : $arrCollectsDefClasses[$pStrCollectType]);	
+		$arrCollectsDefClasses[$pStrCollectType . '.' . $arrDadosDefClasses[$intLoopArrDadosDefClasses]['nm_class_name'] . '.' . $arrDadosDefClasses[$intLoopArrDadosDefClasses]['nm_property_name']] = $arrDadosDefClasses[$intLoopArrDadosDefClasses]['id_property'];
+		}				
+	}
+	
+/* --------------------------------------------------------------------------------------
+ Função usada para recuperar valores da tabela computadores_coletas
+ -------------------------------------------------------------------------------------- */
+function getComponentValue($pIntIdComputador, $pStrClassName, $pStrPropertyName) 
+	{	
+	$arrComponentValue = getValores('computadores_coletas','te_class_values','id_computador = ' . $pIntIdComputador . ' AND nm_class_name = "' . $pStrClassName . '"');
+	return str_replace('[[COMMA]]',',', getValueFromTags($pStrPropertyName, $arrComponentValue[0]['te_class_values'])); 
 	}
 
 // --------------------------------------------------------------------------------------
@@ -918,6 +990,22 @@ function atualizacao_especial( 	$p_nm_servidor,
 
 	return $resultado;
 	}
+
+
+// Função para recuperar valores delimitados por tags "<" e ">"
+function getValueFromTags($pStrTagLabel, $pStrSource, $pStrTags = '[]')
+	{
+	//Tratar as tags depois!
+	preg_match_all("(\[" . $pStrTagLabel . "\](.+)\[\/" . $pStrTagLabel . "\])i",$pStrSource, $arrResult);    
+	return $arrResult[1][0];
+	}
+
+// Função para recuperar array com nomes das tags delimitadas por "<" e ">"
+function getTagsFromValues($pStrSource, $pStrTags = '[]')
+	{
+	preg_match_all("/\[\/(.*?)\]/",$pStrSource,$arrResult);
+	return $arrResult[1];
+	}
 	
 // --------------------------------------------------------------------------------------
 // Função usada para calcular diferença entre datas...
@@ -960,7 +1048,7 @@ function seta_perfis_rede($pIntIdRede, $strPerfis)
 	$arrPerfis = explode('__',$strPerfis);
 	if (count($arrPerfis))
 		{
-		conecta_bd_cacic();
+		$DBConnectionSPR = conecta_bd_cacic();
 		
 		for ($intLoopPerfis = 0; $intLoopPerfis < count($arrPerfis); $intLoopPerfis++)			
 			{
@@ -969,7 +1057,7 @@ function seta_perfis_rede($pIntIdRede, $strPerfis)
 													   id_aplicativo)
 					   values		('.$pIntIdRede.',
 									 '.$arrPerfis[$intLoopPerfis].')';
-			$result = mysql_query($query);			
+			mysql_query($query,$DBConnectionSPR);			
 			}
 		}
 	}
@@ -1008,6 +1096,31 @@ function getOnlyFileName($pStrFullFileName)
 	$strResult = str_replace('\\','#SLASH#',$strResult);	
 	$arrResult = explode('#SLASH#',$strResult);
 	return $arrResult[count($arrResult)-1];	
+	}	
+	
+function getTypeOf($pArrParameters)
+	{
+	$strResult = '';	
+
+	$strTePropertyValue = ($pArrParameters->te_property_value ? $pArrParameters->te_property_value : '00');
+
+	if ($strTePropertyValue)
+		{
+		$arrPropertyData = getValores('classes_properties_types','te_type_description','id_property=' . $pArrParameters->id_property . ' AND cs_type = "' . $strTePropertyValue. '"');
+		$strResult = $arrPropertyData[0]['te_type_description'];
+		}
+
+	return $strResult;			
+	}	
+	
+function getNumberFormat($pArrParameters)
+	{
+	$strNumberToFormat	  = ($pArrParameters->te_property_value ? $pArrParameters->te_property_value	: '0');
+	$intNumDecimalPlaces  = ($pArrParameters->te_parameter_1    ? $pArrParameters->te_parameter_1  		:   2);
+	$strDecimalSeparator  = ($pArrParameters->te_parameter_2 	? $pArrParameters->te_parameter_2  		: ',');
+	$strThousandSeparator = ($pArrParameters->te_parameter_3 	? $pArrParameters->te_parameter_3 		: '.');
+
+    return @number_format($strNumberToFormat, $intNumDecimalPlaces, $strDecimalSeparator, $strThousandSeparator);
 	}	
 //==================================================
 ?>

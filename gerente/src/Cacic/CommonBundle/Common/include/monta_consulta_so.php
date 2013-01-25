@@ -5,7 +5,6 @@ $query = 'SELECT 	count(computadores.id_so) as qtd,
 		  			so,
 					redes
 		  WHERE 	computadores.id_so = so.id_so AND 
-		  			computadores.te_nome_computador IS NOT NULL AND 
 					computadores.dt_hr_ult_acesso IS NOT NULL AND
 					computadores.id_rede = redes.id_rede '.
 					$where . ' 

@@ -22,7 +22,7 @@ if(!isset($_SESSION['id_usuario']))
 else { // Inserir regras para outras verificações (ex: permissões do usuário)!
 }
 
-if ( array_key_exists( 'submit', $_POST ) && $_POST['submit'] ) 
+if ($_POST['submit']) 
 	{
   	header ("Location: incluir_usuario.php");
 	}

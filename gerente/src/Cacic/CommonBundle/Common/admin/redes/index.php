@@ -190,7 +190,7 @@ else
             <td nowrap>&nbsp;</td>				
             <td nowrap><a href="detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>"><?php echo $row['nm_servidor_autenticacao']; ?></a></td>
             <td nowrap>&nbsp;</td>
-            <td nowrap class="<?php if ($row['te_serv_cacic'] <> $arrTeServCacicPadrao['te_serv_cacic_padrao']) echo 'td_amarelo'; else echo 'opcao_tabela';?>"><a href="detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>"><?php echo $row['te_serv_cacic']; ?></a></td>
+            <td nowrap class="<?php if ($row['te_serv_cacic'] <> $arrTeServCacicPadrao[0]['te_serv_cacic_padrao']) echo 'td_amarelo'; else echo 'opcao_tabela';?>"><a href="detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>"><?php echo $row['te_serv_cacic']; ?></a></td>
             <td nowrap>&nbsp;</td>
             <td nowrap class="opcao_tabela"><a href="detalhes_rede.php?id_rede=<?php echo $row['id_rede'];?>"><?php echo $row['te_serv_updates']; ?></a></td>
            </tr>

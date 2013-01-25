@@ -1,5 +1,4 @@
 <?php
-//namespace Cacic\CommonBundle\Common;
   /*
    * Caso o CACIC ainda nao tenha sido configurado redireciona a pagina para
    * para realizar-se a instalacao/configuracao.

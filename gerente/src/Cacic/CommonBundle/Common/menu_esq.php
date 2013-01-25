@@ -100,7 +100,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		$_SESSION["nm_usuario"] 			= 			  $pNmUsuarioCompleto;
 		$_SESSION["menu_usuario"]      		=             getMenu($arrRowSel['te_menu_grupo']);
 		$_SESSION["id_usuario"] 			=             $arrRowSel['id_usuario'];						 
-		$_SESSION["id_usuario_crypted"] 	=             EnCrypt($key,$iv,$arrRowSel['id_usuario'],"1","0","0");
+		$_SESSION["id_usuario_crypted"] 	=             EnCrypt($arrRowSel['id_usuario'],"1","0","0");
 		$_SESSION["id_local"]				=             $arrRowSel['id_local'];			 			 			 
 		$_SESSION["sg_local"]				=             $arrRowSel['sg_local'];			 			 			 
 		$_SESSION["nm_local"]				=             $arrRowSel['nm_local'];			 			 			 			 
@@ -212,16 +212,16 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 if (!$_SESSION["id_usuario"])
 	{	
 	$arrDadosRede = getDadosRede(); // _SERVER["REMOTE_ADDR"]...
-	PegaConfiguracoesLocais($arrDadosRede['id_local']);		
-	if ($arrDadosRede['id_rede'] && $arrDadosRede['nm_local'])
+	PegaConfiguracoesLocais($arrDadosRede[0]['id_local']);		
+	if ($arrDadosRede['id_rede'] && $arrDadosRede[0]['nm_local'])
 		{
 	 	$_SESSION["id_grupo_usuarios"] 		=             3; // Convidado
 		$_SESSION["nm_usuario"] 			= 			  '';
 		$_SESSION["menu_usuario"]      		=             getMenu("menu_con.txt");
 		$_SESSION["id_usuario"] 			=             1;
-		$_SESSION["id_local"]				=             $arrDadosRede['id_local'];			 			 
-		$_SESSION["id_rede"]				=             $arrDadosRede['id_rede'];			 			 		
-		$_SESSION["nm_local"]				=             $arrDadosRede['nm_local'];			 			 			 
+		$_SESSION["id_local"]				=             $arrDadosRede[0]['id_local'];			 			 
+		$_SESSION["id_rede"]				=             $arrDadosRede[0]['id_rede'];			 			 		
+		$_SESSION["nm_local"]				=             $arrDadosRede[0]['nm_local'];			 			 			 
 		$_SESSION["sg_local"]				=             $arrDadosRede['sg_local'];			 			 			 		
 		$_SESSION["cs_nivel_administracao"]	=             0;
 

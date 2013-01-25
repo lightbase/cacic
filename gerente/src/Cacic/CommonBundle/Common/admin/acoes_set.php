@@ -49,19 +49,35 @@ if ($_POST['frmRedes_NaoSelecionadas'])
 
 if ($_POST['frmRedes_Selecionadas'])
 	$strWhereRedes .= ' id_rede IN ('. $_POST['frmRedes_Selecionadas'].') ';
+
+// Para garantir, removo as ações incondicionais para posterior inserção
+// ---------------------------------------------------------------------
+$query  = 'DELETE FROM acoes_redes WHERE id_acao = "col_env_not_optional" AND (' . 	$strWhereRedes . ')';
+$result = mysql_query($query) or die('1-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_redes'))."! ".	$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+
+$query  = 'DELETE FROM acoes_redes WHERE id_acao = "col_soft_not_optional" AND (' . 	$strWhereRedes . ')';
+$result = mysql_query($query) or die('1-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_redes'))."! ".	$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+
+$query  = 'DELETE FROM acoes_so WHERE id_acao = "col_env_not_optional" AND (' . 	$strWhereRedes . ')';
+$result = mysql_query($query) or die('3-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_so'))."! ".	$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+
+$query  = 'DELETE FROM acoes_so WHERE id_acao = "col_soft_not_optional" AND (' . 	$strWhereRedes . ')';
+$result = mysql_query($query) or die('4-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_so'))."! ".	$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+
+// ---------------------------------------------------------------------
 	
 $query  = 'DELETE FROM acoes_redes WHERE id_acao = "'.$_POST['id_acao'].'" AND (' . 	$strWhereRedes . ')';
-$result = mysql_query($query) or die('1-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_redes'))."! ".	$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+$result = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_redes'))."! ".	$oTranslator->_('kciq_msg session fail',false,true)."!"); 
 GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);				
 	
 // Removo todos os sistemas operacionais associadas à ação em questão.
 $query  = 'DELETE FROM acoes_so WHERE id_acao="'.$_POST['id_acao'].'" AND (' . 	$strWhereRedes . ')';
-$result = mysql_query($query) or die('3-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+$result = mysql_query($query) or die('6-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
 GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_so',$_SESSION["id_usuario"]);
 
 // Removo todos os mac address associados à ação em questão.
 $query = "DELETE FROM acoes_excecoes WHERE 	id_acao='".$_POST['id_acao']."' AND (" . 	$strWhereRedes . ")";
-$result = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
+$result = mysql_query($query) or die('7-'.$oTranslator->_('kciq_msg delete row on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!"); 
 GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_excecoes',$_SESSION["id_usuario"]);
 	
 if (trim($_POST['frmRedes_Selecionadas']))
@@ -80,7 +96,7 @@ if (trim($_POST['frmRedes_Selecionadas']))
 	if ($strValues)
 		{	
 		$query = "INSERT INTO acoes_so (id_so, id_acao, id_rede)  VALUES " . $strValues;
-		mysql_query($query) or die('4-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+		mysql_query($query) or die('8-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_so',$_SESSION["id_usuario"]);					
 		}
 	
@@ -94,7 +110,7 @@ if (trim($_POST['frmRedes_Selecionadas']))
 	if ($strValues)
 		{	
 		$query = "INSERT INTO acoes_excecoes (te_node_address, id_acao, id_rede)  VALUES " . $strValues;
-		mysql_query($query) or die('4-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+		mysql_query($query) or die('9-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_excecoes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_excecoes',$_SESSION["id_usuario"]);					
 		}
 	
@@ -107,9 +123,37 @@ if (trim($_POST['frmRedes_Selecionadas']))
 	if ($strValues)
 		{	
 		$query = "INSERT INTO acoes_redes (id_rede,id_acao) VALUES " . $strValues;
-		mysql_query($query) or die('6-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+		mysql_query($query) or die('10-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);
 		}
+		
+	// Insiro as ações não opcionais
+	// -----------------------------
+	$strValues = '';
+	for ($intRedes = 0; $intRedes < count($arrRedes_Selecionadas); $intRedes ++)
+		{
+		$strValues .= ($strValues ? ',' : '');
+		$strValues .= '(' . $arrRedes_Selecionadas[$intRedes] . ',"col_env_not_optional"),';
+		$strValues .= '(' . $arrRedes_Selecionadas[$intRedes] . ',"col_soft_not_optional")';		
+		}
+	$query = "INSERT INTO acoes_redes (id_rede,id_acao) VALUES " . $strValues;
+	mysql_query($query) or die('11-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_redes'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+	
+	$strValues = '';
+	for ($intRedes = 0; $intRedes < count($arrRedes_Selecionadas); $intRedes ++)
+		for ($intSO = 0; $intSO < count($arrSO_Selecionados); $intSO ++)
+			{
+			$strValues .= ($strValues ? ',' : '');
+			$strValues .= '(' . $arrSO_Selecionados[$intSO] . ',"col_env_not_optional",' . $arrRedes_Selecionadas[$intRedes] . '),';
+			$strValues .= '(' . $arrSO_Selecionados[$intSO] . ',"col_soft_not_optional",' . $arrRedes_Selecionadas[$intRedes] . ')';
+			}
+	if ($strValues)
+		{	
+		$query = "INSERT INTO acoes_so (id_so, id_acao, id_rede)  VALUES " . $strValues;
+		mysql_query($query) or die('12-'.$oTranslator->_('kciq_msg insert row on table fail', array('acoes_so'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
+		}	
+	// ---------------------------------------------------------------------
+		
 	}		
 
 header ("Location: ../include/operacao_ok.php?chamador=../admin/modulos.php&tempo=1");	

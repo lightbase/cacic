@@ -15,7 +15,7 @@
  */
 require_once('../include/common_top.php');
 
-$te_rcactions 		 = DeCrypt($key,$iv,$_POST['te_rcactions'],$v_cs_cipher, $v_cs_compress,$strPaddingKey); 
+$te_rcactions 		 = DeCrypt($_POST['te_rcactions'],$v_cs_cipher, $v_cs_compress,$strPaddingKey); 
 if ($te_rcactions <> '')
 	{	
 	$arrRCActionsRecords = explode('[REG]',$te_rcactions);		
@@ -47,7 +47,7 @@ if ($te_rcactions <> '')
 	$strXML_Values .= '<STATUS>OK</STATUS>';		
 	}
 else
-	$strXML_Values .= '<STATUS>' . EnCrypt($key,$iv,'Registro de Acoes VAZIO!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</STATUS>';		
+	$strXML_Values .= '<STATUS>' . EnCrypt('Registro de Acoes VAZIO!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '</STATUS>';		
 
 require_once('../include/common_bottom.php');
 ?>

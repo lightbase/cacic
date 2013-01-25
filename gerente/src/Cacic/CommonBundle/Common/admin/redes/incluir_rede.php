@@ -101,11 +101,9 @@ if($_POST['submit'])
 
 		$query_del = "DELETE 
 					  FROM		acoes_redes 
-					  WHERE		id_rede = ".$arrDadosRede['id_rede'];
+					  WHERE		id_rede = ".$arrDadosRede[0]['id_rede'];
 		mysql_query($query_del) or die('Ocorreu um erro durante a exclusão de registros na tabela acoes_redes ou sua sessão expirou!');			
 		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);
-
-		$v_cs_situacao = ($_POST['in_habilita_acoes'] == 'S'?'S':'N');
 
 		$query_so  = "SELECT   id_so 
 					  FROM     so
@@ -118,34 +116,49 @@ if($_POST['submit'])
 						FROM 	acoes";
 		$result_acoes = mysql_query($query_acoes) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
 					
+		$strFixedValues = ''
 		while ($row_acoes = mysql_fetch_array($result_acoes))
 			{
-			// Não assinalo a coleta de patrimônio automaticamente
-			// O padrão é efetuar essas coletas manualmente, através do MapaCACIC
-			if ($row_acoes['id_acao'] <> 'cs_coleta_patrimonio')
+			if ($v_tripa_acoes <> '')
+				$v_tripa_acoes .= '#';
+
+			$v_tripa_acoes .= $row_acoes['id_acao'];
+			$query_ins = "INSERT 
+						  INTO 		acoes_redes 
+									(id_rede, 
+									id_acao) 
+						  VALUES	(".$arrDadosRede[0]['id_rede'].", 
+									'".$row_acoes['id_acao']."')";
+			mysql_query($query_ins) or die('Ocorreu um erro durante a inclusão de registros na tabela acoes_redes ou sua sessão expirou!');
+
+			mysql_data_seek($result_so,0);
+			while ($row_so = mysql_fetch_array($result_so))
 				{
-				if ($v_tripa_acoes <> '')
-					$v_tripa_acoes .= '#';
-
-				$v_tripa_acoes .= $row_acoes['id_acao'];
-				$query_ins = "INSERT 
-							  INTO 		acoes_redes 
-										(id_rede, 
-										id_acao,
-										cs_situacao) 
-							  VALUES	(".$arrDadosRede['id_rede'].", 
-										'".$row_acoes['id_acao']."',
-										'".$v_cs_situacao."')";
-				mysql_query($query_ins) or die('Ocorreu um erro durante a inclusão de registros na tabela acoes_redes ou sua sessão expirou!');
-
-				mysql_data_seek($result_so,0);
-				while ($row_so = mysql_fetch_array($result_so))
-					{
-					$query_ins =   "INSERT INTO acoes_so(id_local,id_acao,id_so) VALUES (".$_POST['frm_id_local'].",'".$row_acoes['id_acao']."',".$row_so['id_so'].")";
-					$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');
-					}
+				$query_ins =   "INSERT INTO acoes_so(id_local,id_acao,id_so) VALUES (".$_POST['frm_id_local'].",'".$row_acoes['id_acao']."',".$row_so['id_so'].")";
+				$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');
 				}
 			}						
+
+		// Inserção das ações incondicionais de Coleta de Softwares Básicos e Variáveis de Ambiente
+		$query_ins = "INSERT 
+					  INTO 		acoes_redes 
+								(id_rede, 
+								id_acao) 
+					  VALUES	(".$arrDadosRede[0]['id_rede'].", 
+								'col_soft_not_optional'),
+								(".$arrDadosRede[0]['id_rede'].", 
+								'col_env_not_optional')";
+		mysql_query($query_ins) or die('Ocorreu um erro durante a inclusão de registros na tabela acoes_redes ou sua sessão expirou!');
+
+		mysql_data_seek($result_so,0);
+		while ($row_so = mysql_fetch_array($result_so))
+			{
+			$query_ins =   "INSERT INTO acoes_so(id_local,id_acao,id_so) VALUES (".$_POST['frm_id_local'].",'col_soft_not_optional',".$row_so['id_so'].")";
+			$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');
+			
+			$query_ins =   "INSERT INTO acoes_so(id_local,id_acao,id_so) VALUES (".$_POST['frm_id_local'].",'col_env_not_optional',".$row_so['id_so'].")";
+			$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');			
+			}
 			
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);							
 		$strPerfis = '';
@@ -159,8 +172,8 @@ if($_POST['submit'])
 				}
 			}
 
-		seta_perfis_rede($arrDadosRede['id_rede'], $strPerfis); 			
-		update_subredes($arrDadosRede['id_rede'],'', '*'); 		
+		seta_perfis_rede($arrDadosRede[0]['id_rede'], $strPerfis); 			
+		update_subredes($arrDadosRede[0]['id_rede'],'', '*'); 		
 
 		?>
 	 	<SCRIPT LANGUAGE="Javascript">

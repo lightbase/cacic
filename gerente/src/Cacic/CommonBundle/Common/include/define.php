@@ -24,7 +24,7 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 /**
  * define o nome do agente principal do CACIC
  */
- define( 'CACIC_MAIN_PROGRAM_NAME', 'CACIC280');
+ define( 'CACIC_MAIN_PROGRAM_NAME', 'cacic280');
 
 /**
  * define o nome da pasta local para o CACIC

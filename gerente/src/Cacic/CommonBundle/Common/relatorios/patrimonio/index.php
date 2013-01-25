@@ -15,7 +15,7 @@
  */
 
 // Essa variável é usada pelo arquivo de include selecao_redes_inc.php e inicio_relatorios_inc.php.
-$id_acao = 'cs_coleta_patrimonio';
+$id_acao = 'col_patr';
 require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
 <script>

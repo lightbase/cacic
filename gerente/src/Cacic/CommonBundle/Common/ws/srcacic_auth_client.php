@@ -25,8 +25,8 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 	{
 	if ($_POST['nm_usuario_cli'] && $_POST['te_senha_cli'])
 		{
-		$nm_usuario_cli 		= DeCrypt($key,$iv,$_POST['nm_usuario_cli'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 					
-		$te_senha_cli	  		= DeCrypt($key,$iv,$_POST['te_senha_cli'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 			
+		$nm_usuario_cli 		= DeCrypt($_POST['nm_usuario_cli'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 					
+		$te_senha_cli	  		= DeCrypt($_POST['te_senha_cli'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 			
 
 		// Autentico o usuário, verificando nome, senha e local
 		$arrUsuario = getValores('usuarios','id_usuario,
@@ -39,7 +39,7 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 											 PASSWORD("'.$te_senha_cli.'") as te_senha_cli,
 											 te_senha,
 											 te_emails_contato','"'.$nm_usuario_cli.'" IN (nm_usuario_acesso,id_usuario_ldap)');
-		if ($arrUsuario['id_usuario']<>'') // O usuário existe na Base CACIC
+		if ($arrUsuario[0]['id_usuario']<>'') // O usuário existe na Base CACIC
 			{	
 			// **************************************************************************************************************
 			// ** VERIFICAR EXISTÊNCIA DO USUÁRIO NA BASE DO CACIC COM O NOME FORNECIDO (tanto para acesso CACIC quanto LDAP)
@@ -65,27 +65,27 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 			//
 			$nm_usuario_completo = '';
 			
-			if ($arrUsuario['id_servidor_autenticacao'] <> 0)
+			if ($arrUsuario[0]['id_servidor_autenticacao'] <> 0)
 				{
-				$arrAutenticaLDAP = AutenticaLDAP($arrUsuario['id_servidor_autenticacao'], $arrUsuario['id_usuario_ldap'],$te_senha_cli);				
+				$arrAutenticaLDAP = AutenticaLDAP($arrUsuario[0]['id_servidor_autenticacao'], $arrUsuario[0]['id_usuario_ldap'],$te_senha_cli);				
 				$nm_usuario_completo = $arrAutenticaLDAP['nm_nome_completo'];
 				}
-			elseif (trim($arrUsuario['te_senha']) == trim($arrUsuario['te_senha_cli']))
-				$nm_usuario_completo = $arrUsuario['nm_usuario_completo'];				
+			elseif (trim($arrUsuario[0]['te_senha']) == trim($arrUsuario[0]['te_senha_cli']))
+				$nm_usuario_completo = $arrUsuario[0]['nm_usuario_completo'];				
 
 			if ($nm_usuario_completo <> '')				
 				{
-				$boolIdLocal = stripos2(trim($arrUsuario['te_locais_secundarios']),$arrDadosRede['id_local'],false);
+				$boolIdLocal = stripos2(trim($arrUsuario[0]['te_locais_secundarios']),$arrDadosRede['id_local'],false);
 	
 				// Caso o usuario tenha como local primario o local do computador ou
 				// Caso o usuario seja do nivel "Administracao" ou
 				// Caso o usuario tenha como local secundario o local do computador.
-				if ($arrUsuario['id_local'] == $arrDadosRede['id_local'] ||$arrUsuario['id_grupo_usuarios'] == '2' || $boolIdLocal)
+				if ($arrUsuario[0]['id_local'] == $arrDadosRede['id_local'] ||$arrUsuario[0]['id_grupo_usuarios'] == '2' || $boolIdLocal)
 					{								
-					$id_sessao	  			   = DeCrypt($key,$iv,$_POST['id_sessao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 							
-					$id_usuario_cli 	   	   = $arrUsuario['id_usuario'];
-					$te_motivo_conexao 		   = DeCrypt($key,$iv,$_POST['te_motivo_conexao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 																			
-					$te_documento_referencial  = DeCrypt($key,$iv,$_POST['te_documento_referencial'],$v_cs_cipher,$v_cs_compress,$strPaddingKey);
+					$id_sessao	  			   = DeCrypt($_POST['id_sessao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 							
+					$id_usuario_cli 	   	   = $arrUsuario[0]['id_usuario'];
+					$te_motivo_conexao 		   = DeCrypt($_POST['te_motivo_conexao'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 																			
+					$te_documento_referencial  = DeCrypt($_POST['te_documento_referencial'],$v_cs_cipher,$v_cs_compress,$strPaddingKey);
 	
 					$dt_hr_autenticacao	 	   = date('Y-m-d H:i:s');	
 					//GravaTESTES('AuthClient: dt_hr_autenticacao => '.$dt_hr_autenticacao); 																		
@@ -94,7 +94,7 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 					// Identifico o SO da máquina visitante
 					$arrIdSO = getValores('so','id_so','trim(te_so) = "'.trim($te_so_cli).'"');
 					
-					if ($arrIdSO['id_so'] == '')
+					if ($arrIdSO[0]['id_so'] == '')
 						{
 						conecta_bd_cacic();
 	
@@ -121,7 +121,7 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 											'" . $te_motivo_conexao . "',										
 											'" . $dt_hr_autenticacao		. "',
 											'" . $dt_hr_autenticacao		. "',
-											 " . $arrIdSO['id_so']			.")";								
+											 " . $arrIdSO[0]['id_so']			.")";								
 					$result_SESSAO = mysql_query($query_SESSAO);
 					
 					$query_CONEXAO = "SELECT 	id_conexao
@@ -132,13 +132,13 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 					$result_CONEXAO = mysql_query($query_CONEXAO);
 					$row_CONEXAO	= mysql_fetch_array($result_CONEXAO);
 						
-					$strXML_Values .= '<ID_USUARIO_CLI>'		. EnCrypt($key,$iv,trim($arrUsuario['id_usuario'])	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</ID_USUARIO_CLI>';		
-					$strXML_Values .= '<NM_USUARIO_COMPLETO>'	. EnCrypt($key,$iv,$nm_usuario_completo				,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</NM_USUARIO_COMPLETO>';								
-					$strXML_Values .= '<DT_HR_INICIO_SESSAO>'	. EnCrypt($key,$iv,$dt_hr_inicio_sessao			   	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</DT_HR_INICIO_SESSAO>';												
-					$strXML_Values .= '<ID_CONEXAO>'			. EnCrypt($key,$iv,$row_CONEXAO['id_conexao']	   	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</ID_CONEXAO>';																
-					$strXML_Values .= '<STATUS>' 				. EnCrypt($key,$iv,'S'								,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) 	. '</STATUS>';							
+					$strXML_Values .= '<ID_USUARIO_CLI>'		. EnCrypt(trim($arrUsuario[0]['id_usuario'])	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</ID_USUARIO_CLI>';		
+					$strXML_Values .= '<NM_USUARIO_COMPLETO>'	. EnCrypt($nm_usuario_completo				,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</NM_USUARIO_COMPLETO>';								
+					$strXML_Values .= '<DT_HR_INICIO_SESSAO>'	. EnCrypt($dt_hr_inicio_sessao			   	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</DT_HR_INICIO_SESSAO>';												
+					$strXML_Values .= '<ID_CONEXAO>'			. EnCrypt($row_CONEXAO['id_conexao']	   	,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey)	. '</ID_CONEXAO>';																
+					$strXML_Values .= '<STATUS>' 				. EnCrypt('S'								,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) 	. '</STATUS>';							
 			
-					if ($arrUsuario['te_emails_contato'] <> '')
+					if ($arrUsuario[0]['te_emails_contato'] <> '')
 						{
 						// Envio e-mail informando da abertura de sessão
 						$corpo_mail = "Prezado usuário(a) ".$nm_usuario_completo.",\n\n
@@ -149,20 +149,20 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 									Desenvolvido pela Dataprev - Unidade Regional Espírito Santo";
 	
 						// Manda mail para os administradores.
-						mail($arrUsuario['te_emails_contato'], "Sistema CACIC - Módulo srCACIC - Autenticação para Suporte Remoto Seguro", "$corpo_mail", "From: cacic@{$_SERVER['SERVER_NAME']}");
+						mail($arrUsuario[0]['te_emails_contato'], "Sistema CACIC - Módulo srCACIC - Autenticação para Suporte Remoto Seguro", "$corpo_mail", "From: cacic@{$_SERVER['SERVER_NAME']}");
 						}										
 					}
 				else
-					$strXML_Values .= '<STATUS>'.EnCrypt($key,$iv,'Usuário Sem Permissão de Suporte Remoto Nesta SubRede',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';	
+					$strXML_Values .= '<STATUS>'.EnCrypt('Usuário Sem Permissão de Suporte Remoto Nesta SubRede',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';	
 				}
 			else
-				$strXML_Values .= '<STATUS>'.EnCrypt($key,$iv,'Usuário Não Autenticado',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';			}
+				$strXML_Values .= '<STATUS>'.EnCrypt('Usuário Não Autenticado',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';			}
 		else
-			$strXML_Values .= '<STATUS>'.EnCrypt($key,$iv,'Usuário Não Autenticado',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
+			$strXML_Values .= '<STATUS>'.EnCrypt('Usuário Não Autenticado',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
 		}
 	}
 else
-	$strXML_Values .= '<STATUS>'.EnCrypt($key,$iv,'Palavra Chave Incorreta!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
+	$strXML_Values .= '<STATUS>'.EnCrypt('Palavra Chave Incorreta!',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</STATUS>';
 	
 require_once('../include/common_bottom.php');
 ?>

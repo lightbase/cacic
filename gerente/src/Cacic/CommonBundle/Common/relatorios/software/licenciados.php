@@ -14,7 +14,7 @@
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 		// Essa variável é usada pelo arquivo de include selecao_redes_inc.php e inicio_relatorios_inc.php.
-		$id_acao = 'cs_coleta_hardware';
+		$id_acao = 'col_hard';
   require_once('../../include/inicio_relatorios_inc.php'); 
 ?>
 <table width="85%" border="0" align="center">

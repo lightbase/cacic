@@ -30,7 +30,7 @@ AntiSpy('1,3'); // Permitido somente a estes cs_nivel_administracao...
 $acoes_computador = '';
 foreach($HTTP_POST_VARS as $i => $v) 
 	{
-	if ($v && substr($i,0,9)=='cs_coleta')
+	if ($v && substr($i,0,4)=='col_')
 		{
 		if ($acoes_computador <> '')
 			{

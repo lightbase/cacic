@@ -23,7 +23,7 @@ if (trim($_REQUEST['cs_operacao']) == 'TestaCrypt')
 	$strXML_Values .= '<IVServer>'.$iv.'</IVServer>';		
 	$strXML_Values .= '<CipherKeyServer>'.$key.'</CipherKeyServer>';			
 
-	$v_UnCipheredText = trim(@DeCrypt($key,$iv,$_REQUEST['te_CipheredText'],$v_cs_cipher,$v_cs_compress));
+	$v_UnCipheredText = trim(@DeCrypt($_REQUEST['te_CipheredText'],$v_cs_cipher,$v_cs_compress));
 	$strXML_Values .= '<UnCipheredText>'.$v_UnCipheredText.'</UnCipheredText>';		
 	}	
 
