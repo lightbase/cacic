@@ -3,7 +3,10 @@
 namespace Cacic\CommonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Cacic\CommonBundle\Common;
+use Symfony\Component\HttpFoundation\Request;
+use \Cacic\CommonBundle\Common;
+use \Cacic\CommonBundle\Entity\Usuarios AS Usuarios;
+use \Cacic\CommonBundle\Form\Type\UsuarioType;
 
 class UsuarioController extends Controller
 {
@@ -14,10 +17,9 @@ class UsuarioController extends Controller
 	 */
     public function indexAction( $page )
     {
-        return $this->render(
-            'CacicCommonBundle:Usuario:index.html.twig',
-            array( 'usuarios' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuarios' )->listar() )
-        );
+        $arrUsuarios = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuarios' )->listar();
+        return $this->render( 'CacicCommonBundle:Usuario:index.html.twig', array( 'usuarios' => $arrUsuarios ) );
+
     }
     
     /**
@@ -28,26 +30,66 @@ class UsuarioController extends Controller
      */
     public function trocarsenhaAction( $idUsuario )
     {
-    	$objUsuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $idUsuario );
-    	echo"<pre>";var_dump($objUsuario);die;
+    	//$objUsuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $idUsuario );
+        //return $this->render( 'CacicCommonBundle:Usuario:trocarsenha.html.twig', array( 'usuarios' => $objUsuario));
+    	//echo"<pre>";var_dump($objUsuario);die;
+        return $this->render( 'CacicCommonBundle:Usuario:trocarsenha.html.twig');
     }
 
     /**
      * Página de Cadastrar novo usuário.
      *
      */
-    public function cadastrarAction()
+    public function cadastrarAction(Request $request)
     {
-		return $this->render('CacicCommonBundle:Default:index.html.twig');
+        // Conexões com o banco
+       $doctrine = $this->getDoctrine();
+        $em = $doctrine->getManager();
+
+        // Agora gera o formulário
+        $usuarios = new Usuarios();
+        $form = $this->createForm(new \Cacic\CommonBundle\Form\Type\UsuarioType(), $usuarios);
+
+
+        // Essa parte trata dos dados do envio
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            $usuarios->getIdUsuario();
+
+            // Grava no banco de dados
+            $em->persist($usuarios);
+            $em->flush();
+        }
+
+        return $this->render('CacicCommonBundle:Usuario:cadastrar.html.twig', array(
+        'form' => $form->createView(),
+    ));
     }
 
-    /**
-     *  Página de editar dados do Usuário
-     *  @param int $idusuario
-     */
+
     public function editarAction($idUsuario)
     {
-		return $this->render('CacicCommonBundle:Default:index.html.twig');
+        /**
+         *  Página de editar dados do Usuário
+         *  @param int $idusuario
+         */
+
+        // Instancia o Doctrine para consultar o banco
+        $doctrine = $this->getDoctrine();
+        $em = $doctrine->getManager();
+
+        // Recupera o usuário em um objeto identificado por idUsuario
+        $usuario = $em->find('\Cacic\CommonBundle\Entity\Usuarios', $idUsuario);
+        \Doctrine\Common\Util\Debug::dump($usuario);die;
+
+        // Cria formulário com o dado do usuário recuperado
+        $form = $this->createForm(new \Cacic\CommonBundle\Form\Type\UsuarioType(), $usuario);
+
+
+
+        return $this->render('CacicCommonBundle:Usuario:editar.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**
