@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+<div class="page-header">
+    <h1>Inclusão de novo usuário</h1>
+       <h4><small>As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso.
+            A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção Acesso - Troca de Senha no Menu Principal.
+            Após o logon, serão exibidas a primeira e última parte do campo Nome completo. .</small></h4>
+</div>
+
+    <div class="well">
+
+    <form action="{{ path('cacic_usuario_cadastrar') }}" method="post" {{ form_enctype(form) }}>
+        <fieldset>
+
+            {{ form_widget(form) }}
+
+    </fieldset>
+       <br>
+        <div >
+            <a class="bt-adicionar" href="{{ path('cacic_usuario_cadastrar') }}">Gravar Dados</a></div>
+    </div>
+
+    </form>
+    </div>
+{% endblock %}
