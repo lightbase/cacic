@@ -36,10 +36,26 @@
 	<div id="modal-content"></div>
 
 	<div class="container">
-		<div id="mensagens">
 		{# exibição das mensagens do sistema (sucesso, erro, avisos, etc..) #}
-		{% block mensagens_sistema %}{% endblock %}
-		</div>
+		{% block mensagens_sistema %}
+			{% for flashMessage in app.session.flashbag.get('error') %}
+		    <div class="flash-error mensagemErro">
+		        {{ flashMessage }}
+		    </div>
+			{% endfor %}
+			
+			{% for flashMessage in app.session.flashbag.get('notice') %}
+		    <div class="flash-notice mensagemAviso">
+		        {{ flashMessage }}
+		    </div>
+			{% endfor %}
+			
+			{% for flashMessage in app.session.flashbag.get('success') %}
+		    <div class="flash-success mensagemSucesso">
+		        {{ flashMessage }}
+		    </div>
+			{% endfor %}
+		{% endblock %}
 	
 		<div>
 		{% block body %}{% endblock %}

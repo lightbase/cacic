@@ -30,9 +30,6 @@ security:
         instalador:
             pattern: ^/instalador$
             security: false
-        usuario:
-             pattern: ^/usuario*
-             security: false
 
         main:
             pattern: .*

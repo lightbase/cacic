@@ -1,0 +1,8 @@
+Cacic\CommonBundle\Entity\Locais:
+    properties:
+        nmLocal:
+            - Notblank: ~
+            - MaxLength: 100
+        sgLocal:
+            - Notblank: ~
+            - MaxLength: 20
