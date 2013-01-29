@@ -1,0 +1,62 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Usuários<small>Lista de usuários cadastrados</small></h1>
+    </div>
+
+
+    <div class="well">
+
+        <table class="paginacao" cellpadding="2" cellspacing="0" width="100%" align="center">
+            <tr>
+                <td align="left"></td>
+                <td align="right"></td>
+            </tr>
+        </table>
+
+        <table class="list">
+            <thead>
+            <tr>
+                <th width="15%">Login</th>
+                <th width="25%">Nome</th>
+                <th width="20%">Local</th>
+                <th width="15%" style="text-align: center">Locais<br />secundários</th>
+                <th width="15%">Nível de Acesso</th>
+                <th style="text-align: center">Ações</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for usuario in usuarios %}
+
+                <tr class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                    <td>{{ usuario[0]['nmUsuarioAcesso'] }}</td>
+                    <td>{{ usuario[0]['nmUsuarioCompleto'] }}</td>
+                    <td>{{ usuario['nmLocal'] }}</td>
+                    <td align="center"></td>
+                    <td>{{ usuario['teGrupoUsuarios'] }}</td>
+                    <td style="text-align: center">
+                        <a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario[0]['idUsuario']}) }}">
+                            <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Usuário" title="Editar Usuário"  /></a>
+
+                        <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Usuário" title="Excluir Usuário" class="bt-excluir" id="bt-excluir-{{ usuario[0]['idUsuario'] }}" />
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td align="center" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+</div>
+
+<div align="right">
+    <a class="bt-adicionar" href="{{ path('cacic_usuario_cadastrar') }}">Adicionar Usuário</a>
+</div>
+
+{% endblock %}
