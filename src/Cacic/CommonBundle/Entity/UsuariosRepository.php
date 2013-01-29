@@ -35,5 +35,9 @@ class UsuariosRepository extends EntityRepository
 
     }
 
+    public function trocarsenha()
+    {
+
+    }
 
 }
