@@ -12,25 +12,28 @@
 }
 
 .mensagemErro, .mensagemSucesso, .mensagemAviso {
-	padding: 10px;
+	padding: 20px;
+	padding-left: 45px;
+	margin: 5px 0;
+	font-weight: bold;
 }
 
 .mensagemErro {
-	background: url("/img/adm/ico_erro.png") no-repeat left center;
+	background: url("../images/v3/ico_erro.png") no-repeat left center;
 	background-color: #f8caca;
 	border-color: #c00;
 	color: #a00;
 }
 
 .mensagemSucesso {
-	background: url("/img/adm/ico_sucesso.png") no-repeat left center;
+	background: url("../images/v3/ico_sucesso.png") no-repeat left center;
 	background-color: #d2edbd;
 	border-color: #0c0;
 	color: #0a0;
 }
 
 .mensagemAviso {
-	background: url("/img/adm/ico_aviso_m.png") no-repeat left center;
+	background: url("../images/v3/ico_aviso_m.png") no-repeat left center;
 	background-color: #eacc72;
 	border-color: #baab42;
 	color: #00a;

@@ -2,7 +2,7 @@
 
 namespace Cacic\CommonBundle\Controller;
 
-use Cacic\CommonBundle\Common;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 
 /**
@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\SecurityContext;
  * @author LightBase
  *
  */
-class SecurityController extends BaseController
+class SecurityController extends Controller
 {
 	
 	/**
@@ -30,14 +30,14 @@ class SecurityController extends BaseController
         }
         else
         {
-            $error = $objSession->get( SecurityContext::AUTHENTICATION_ERROR ); // Recupera a mensagem de erro da sessão
-            $objSession->remove( SecurityContext::AUTHENTICATION_ERROR ); // Apaga a mensagem de erro da sessão
+            $error = $objSession->get( SecurityContext::AUTHENTICATION_ERROR ); // Recupera a mensagem de erro da sessÃ£o
+            $objSession->remove( SecurityContext::AUTHENTICATION_ERROR ); // Apaga a mensagem de erro da sessÃ£o
         }
 
         return $this->render(
             'CacicCommonBundle:Security:login.html.twig',
             array(
-                'last_username' => $objSession->get( SecurityContext::LAST_USERNAME ), // Último nome de usuário informado no formulário
+                'last_username' => $objSession->get( SecurityContext::LAST_USERNAME ), // Ãºltimo nome de usuÃ¡rio informado no formulÃ¡rio
                 'error'         => $error,
             )
         );

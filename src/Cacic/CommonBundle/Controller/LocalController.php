@@ -46,6 +46,9 @@ class LocalController extends Controller
 			{
 				$this->getDoctrine()->getManager()->persist( $local );
 				$this->getDoctrine()->getManager()->flush(); // Persiste os dados do Local
+				
+				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+				
 				return $this->redirect( $this->generateUrl( 'cacic_local_index' ) );
 			}
 		}
@@ -77,6 +80,9 @@ class LocalController extends Controller
 			{
 				$this->getDoctrine()->getManager()->persist( $local );
 				$this->getDoctrine()->getManager()->flush(); // Efetua a edição do Local
+				
+				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+				
 				return $this->redirect($this->generateUrl('cacic_local_editar', array( 'idLocal'=>$local->getIdLocal() ) ) );
 			}
 		}

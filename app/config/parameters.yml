@@ -3,12 +3,12 @@ parameters:
     database_host: 127.0.0.1
     database_port: null
     database_name: cacic
-    database_user: root
-    database_password: KVzJ9ph7PFy3dVX2
+    database_user: cacic_db_user
+    database_password: 123456
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
-    locale: en
+    locale: pt_BR
     secret: d7c123f25645010985ca27c1015bc76797
     database_path: null
