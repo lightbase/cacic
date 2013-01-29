@@ -33,7 +33,9 @@ TABLE.list tbody .bt-excluir {
 }
 
 .bt-adicionar {
-	background: url('../images/v3/bt_add_p.png') no-repeat left #ddd;
-	padding: 5px 5px 5px 20px;
-	border: 1px solid #a1a1a1;
+	
+}
+
+.form-opcoes {
+	margin-top: 20px;
 }

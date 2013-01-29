@@ -66,27 +66,21 @@ class UsuarioController extends Controller
     ));
     }
 
-
+	/**
+     *  Página de editar dados do Usuário
+     *  @param int $idusuario
+     */
     public function editarAction($idUsuario)
     {
-        /**
-         *  Página de editar dados do Usuário
-         *  @param int $idusuario
-         */
-
         // Instancia o Doctrine para consultar o banco
         $doctrine = $this->getDoctrine();
-        $em = $doctrine->getManager();
 
         // Recupera o usuário em um objeto identificado por idUsuario
-        $usuario = $em->find('\Cacic\CommonBundle\Entity\Usuarios', $idUsuario);
-        \Doctrine\Common\Util\Debug::dump($usuario);die;
+        $usuario = $doctrine->getRepository('CacicCommonBundle:Usuarios')->find( $idUsuario );
 
         // Cria formulário com o dado do usuário recuperado
-        $form = $this->createForm(new \Cacic\CommonBundle\Form\Type\UsuarioType(), $usuario);
-
-
-
+        $form = $this->createForm(new UsuarioType(), $usuario);
+        
         return $this->render('CacicCommonBundle:Usuario:editar.html.twig', array(
             'form' => $form->createView(),
         ));

@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  *
- * Repositório de métodos de consulta em DQL
+ * RepositÃ³rio de mÃ©todos de consulta em DQL
  * @author lightbase
  *
  */
@@ -20,7 +20,7 @@ class UsuariosRepository extends EntityRepository
 
     /**
      *
-     * Método de listagem dos Usuários cadastrados e respectivas informações de Login, Nome, Locais e Níveis de acesso
+     * MÃ©todo de listagem dos UsuÃ¡rios cadastrados e respectivas informaÃ§Ãµes de Login, Nome, Locais e NÃ­veis de acesso
      */
     public function listar()
     {
