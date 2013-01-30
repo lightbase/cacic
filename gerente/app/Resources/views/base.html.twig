@@ -1,4 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+
 <html lang="en">
 	<head>
 		<title>CACIC - Configurador Automático e Coletor de Informações Computacionais</title>
@@ -39,19 +40,19 @@
 		{# exibição das mensagens do sistema (sucesso, erro, avisos, etc..) #}
 		{% block mensagens_sistema %}
 			<div id="msgErro" class="flash-error mensagemErro">
-			{% for flashMessage in app.session.flashbag.get('error') %}
+			{% for flashMessage in app.session.flashbag.peek('error') %}
 		        {{ flashMessage }}
 			{% endfor %}
 			</div>
 			
 			<div id=msgAviso class="flash-notice mensagemAviso">
-			{% for flashMessage in app.session.flashbag.get('notice') %}
+			{% for flashMessage in app.session.flashbag.peek('notice') %}
 		        {{ flashMessage }}
 			{% endfor %}
 			</div>
 			
 			<div id="msgSucesso" class="flash-success mensagemSucesso">
-			{% for flashMessage in app.session.flashbag.get('success') %}
+			{% for flashMessage in app.session.flashbag.peek('success') %}
 		        {{ flashMessage }}
 			{% endfor %}
 			</div>
@@ -67,7 +68,7 @@
 		</footer>
 	</div><!--/.fluid-container-->
 	
-	{{ app.session.flashbag.get('success')|length }}
+	
 
 </body>
 </html>
@@ -75,9 +76,11 @@
 <script type="text/javascript">
 	$( document ).ajaxStart( function() { 
 		$( '#ajaxLoading' ).fadeIn();
+		$( 'body' ).css( 'overflow', 'hidden' );
 	}) 
 	.ajaxStop( function() {
 		$( '#ajaxLoading' ).fadeOut();
+		$( 'body' ).css( 'overflow', 'auto' );
 	});
 	
 	{% if app.session.flashbag.get('error')|length > 0 %} $('#msgErro').show(); {% endif %}
