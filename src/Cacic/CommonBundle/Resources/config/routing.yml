@@ -59,7 +59,5 @@ cacic_local_editar:
         idLocal: \d+
 
 cacic_local_excluir:
-    pattern:  /local/excluir/{idLocal}
+    pattern:  /local/excluir
     defaults: { _controller: CacicCommonBundle:Local:excluir}
-    requirements:
-        idLocal: \d+

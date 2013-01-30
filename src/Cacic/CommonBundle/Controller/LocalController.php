@@ -3,6 +3,7 @@
 namespace Cacic\CommonBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cacic\CommonBundle\Entity\Locais;
 use Cacic\CommonBundle\Form\Type\LocalType;
@@ -98,9 +99,23 @@ class LocalController extends Controller
 	 * [AJAX] Exclusão de Local já cadastrado
 	 * @param integer $idLocal
 	 */
-	public function excluirAction( $idLocal )
+	public function excluirAction( Request $request )
 	{
+		if ( ! $request->isXmlHttpRequest() )
+			throw $this->createNotFoundException( 'Página não encontrada' );
 		
+		$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Locais')->find( $request->get('idLocal') );
+		if ( ! $local )
+			throw $this->createNotFoundException( 'Local não encontrado' );
+		
+		$em = $this->getDoctrine()->getManager();
+		$em->remove( $local );
+		$em->flush();
+		
+		$response = new Response( json_encode( array('status' => 'ok') ) );
+		$response->headers->set('Content-Type', 'application/json');
+		
+		return $response;
 	}
 	
 }
