@@ -66,3 +66,23 @@ cacic_local_editar:
 cacic_local_excluir:
     pattern:  /local/excluir
     defaults: { _controller: CacicCommonBundle:Local:excluir}
+
+cacic_servidor_index:
+    pattern: /servidor/{page}
+    defaults: {_controller: CacicCommonBundle:Servidor:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_servidor_cadastrar:
+    pattern: /servidor/cadastrar
+    defaults: { _controller: CacicCommonBundle:Servidor:cadastrar}
+
+cacic_servidor_editar:
+    pattern:  /servidor/editar/{idServidorAutenticacao}
+    defaults: { _controller: CacicCommonBundle:Servidor:editar}
+    requirements:
+        idLocal: \d+
+
+cacic_servidor_excluir:
+    pattern:  /servidor/excluir
+    defaults: { _controller: CacicCommonBundle:Servidor:excluir}

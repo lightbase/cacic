@@ -1,0 +1,89 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Servidor<small>Lista de Servidor de Autenticação</small></h1>
+    </div>
+
+    <div class="well">
+
+        <table class="paginacao" cellpadding="2" cellspacing="0" width="100%" align="center">
+            <tr>
+                <td align="left"></td>
+                <td align="right"></td>
+            </tr>
+        </table>
+
+        <table class="list">
+            <thead>
+            <tr>
+                <th width="15%">Nome</th>
+                <th width="40%">Endereço IP</th>
+                <th width="10%" style="text-align: center">Porta</th>
+                <th width="10%" style="text-align: center">Protocolo<br />Versão</th>
+                <th width="10%" style="text-align: center">Ativo</th>
+                <th style="text-align: center">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+    {% for servidor in servidores %}
+        <tr id="item_{{ servidor[0]['idServidorAutenticacao'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+            <td>{{ servidor[0]['nmServidorAutenticacao'] }}</td>
+            <td>{{ servidor[0]['teIpServidorAutenticacao'] }}</td>
+            <td>{{ servidor[0]['nuPortaServidorAutenticacao'] }}</td>
+            <td>{{ servidor[0]['nuVersaoProtocolo'] }}</td>
+            <td>{{ servidor[0]['inAtivo'] }}</td>
+            <td style="text-align: center">
+                <a href="{{ path('cacic_servidor_editar', {'idServidorAutenticacao': servidor[0]['idServidorAutenticacao']}) }}">
+                    <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Item" title="Editar Item"  /></a>
+
+                <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" id="bt-excluir-{{ servidor[0]['idServidorAutenticacao'] }}" />
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td align="center" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+        </tr>
+    {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <div align="right">
+        <a class="btn btn-primary btn-small bt-adicionar" href="{{ path('cacic_servidor_cadastrar') }}">Adicionar Servidor</a>
+    </div>
+
+    <script type="text/javascript">
+
+        $( ".bt-excluir" ).click( function() {
+            var id = $(this).attr('id').replace(/.*?(\d+)$/, '$1');
+
+            if( confirm ( "Deseja excluir \"" + $( "#item_desc_" + id ).text() + "\" ?" ) )
+            {
+                var parameters = "idServidorAutenticacao="+id;
+
+                $.ajax(
+                        {
+                            type: "POST",
+                            url: "{{ path( 'cacic_servidor_excluir' ) }}",
+                            cache: false,
+                            async: false,
+                            success: function( data )
+                            {
+                                $('#msgSucesso').text( 'Item excluído com sucesso!' ).fadeIn();
+                                $( '#item_' + id ).fadeOut();
+                            },
+                            error: function( data )
+                            {
+                                alert( 'Erro! Não foi possível realizar a solicitação!' );
+                            },
+                            data: parameters
+                        }
+                );
+            }
+
+        });
+
+    </script>
+{% endblock %}
