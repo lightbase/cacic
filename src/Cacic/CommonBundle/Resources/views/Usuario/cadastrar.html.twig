@@ -7,59 +7,23 @@
       <small>Cadastro de novo usuário</small></h1>
 </div>
 
-<div class="well">
+    <div class="well">
 
-	<form action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+        <form action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
 
-	{{ form_widget(form) }}
-	{{ form_rest(form) }}
-	
-	<div class="form-opcoes">
-		<input type="reset" value="Limpar Valores" class="btn btn-small" />
-		<input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
-	</div>
-	
-	</form>
+            {{ form_widget(form) }}
+            {{ form_rest(form) }}
 
-</div>
+            <div class="form-opcoes">
+                <input type="reset" value="Limpar Valores" class="btn btn-small" />
+                <input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
+            </div>
 
-<div>
-	<a class="btn btn-danger btn-small"  href="{{ path('cacic_usuario_index') }}">Cancelar</a>
-</div>
+        </form>
 
-<script type="text/javascript">
+    </div>
 
-	var oLocais = []; // JSON com Locais
-
-	// Monta JSON com lista de Locais
-	$(document).ready(function(){
-		$( '#usuario_idLocal option' ).each(function(){
-			if ( $(this).val() != '' && $(this).val() != undefined )
-			{
-				oLocais.push({ idLocal: $(this).val(), nmLocal: $(this).text() });
-			}
-		})
-	});
-
-	// Remove o local principal selecionado da lista de locais secundários
-	$( '#usuario_idLocal' ).change(function(){
-		// Primeiro, remove todos os itens
-		$( '#usuario_TeLocaisSecundarios option' ).each(function(){
-			$(this).remove();
-		});
-		
-		// Preenche novamente o select, omitindo o elemento selecionado no combo de Local Principal
-		for ( var i in oLocais )
-		{
-			if ( oLocais[i].idLocal != $(this).val() )
-			{
-				var sOption = '<option value="'+ oLocais[i].idLocal +'">'+ oLocais[i].nmLocal +'</option>';
-				$( '#usuario_TeLocaisSecundarios' ).append( sOption );
-			}
-		}
-	});
-	
-
-</script>
-
+    <div >
+        <a class="btn btn-danger btn-small"  href="{{ path('cacic_usuario_index') }}">Cancelar</a>
+    </div>
 {% endblock %}
