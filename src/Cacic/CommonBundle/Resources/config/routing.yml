@@ -38,6 +38,11 @@ cacic_usuario_editar:
     requirements:
         idUsuario: \d+
 
+cacic_usuario_excluir:
+    pattern:  /usuario/excluir
+    defaults: { _controller: CacicCommonBundle:Usuario:excluir}
+
+
 cacic_usuario_recuperar_senha:
     pattern:  /usuario/recuperarsenha
     defaults: { _controller: CacicCommonBundle:Usuario:recuperarsenha}
