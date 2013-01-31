@@ -31,7 +31,7 @@
 
             {% for usuario in usuarios %}
 
-                <tr class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                <tr id="item_{{ usuario[0]['idUsuario'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
                     <td>{{ usuario[0]['nmUsuarioAcesso'] }}</td>
                     <td>{{ usuario[0]['nmUsuarioCompleto'] }}</td>
                     <td>{{ usuario['nmLocal'] }}</td>
@@ -39,9 +39,9 @@
                     <td>{{ usuario['teGrupoUsuarios'] }}</td>
                     <td style="text-align: center">
                         <a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario[0]['idUsuario']}) }}">
-                            <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Usuário" title="Editar Usuário"  /></a>
+                            <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Item" title="Editar Item"  /></a>
 
-                        <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Usuário" title="Excluir Usuário" class="bt-excluir" id="bt-excluir-{{ usuario[0]['idUsuario'] }}" />
+                        <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" id="bt-excluir-{{ usuario[0]['idUsuario'] }}" />
                     </td>
                 </tr>
             {% else %}
@@ -56,7 +56,40 @@
 </div>
 
 <div align="right">
-    <a class="bt-adicionar" href="{{ path('cacic_usuario_cadastrar') }}">Adicionar Usuário</a>
+    <a class="btn btn-primary btn-small bt-adicionar" href="{{ path('cacic_usuario_cadastrar') }}">Adicionar Usuário</a>
 </div>
 
+
+    <script type="text/javascript">
+
+        $( ".bt-excluir" ).click( function() {
+            var id = $(this).attr('id').replace(/.*?(\d+)$/, '$1');
+
+            if( confirm ( "Deseja excluir \"" + $( "#item_desc_" + id ).text() + "\" ?" ) )
+            {
+                var parameters = "idUsuario="+id;
+
+                $.ajax(
+                        {
+                            type: "POST",
+                            url: "{{ path( 'cacic_usuario_excluir' ) }}",
+                            cache: false,
+                            async: false,
+                            success: function( data )
+                            {
+                                $('#msgSucesso').text( 'Item excluído com sucesso!' ).fadeIn();
+                                $( '#item_' + id ).fadeOut();
+                            },
+                            error: function( data )
+                            {
+                                alert( 'Erro! Não foi possível realizar a solicitação!' );
+                            },
+                            data: parameters
+                        }
+                );
+            }
+
+        });
+
+    </script>
 {% endblock %}
