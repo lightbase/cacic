@@ -4,9 +4,8 @@ namespace Cacic\CommonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use \Cacic\CommonBundle\Common;
-use \Cacic\CommonBundle\Entity\Usuarios AS Usuarios;
-use \Cacic\CommonBundle\Form\Type\UsuarioType;
+use Cacic\CommonBundle\Entity\Usuarios;
+use Cacic\CommonBundle\Form\Type\UsuarioType;
 
 class UsuarioController extends Controller
 {
@@ -40,49 +39,68 @@ class UsuarioController extends Controller
      * Página de Cadastrar novo usuário.
      *
      */
-    public function cadastrarAction(Request $request)
+    public function cadastrarAction( Request $request)
     {
-        // Conexões com o banco
-       $doctrine = $this->getDoctrine();
-        $em = $doctrine->getManager();
-
         // Agora gera o formulário
-        $usuarios = new Usuarios();
-        $form = $this->createForm(new \Cacic\CommonBundle\Form\Type\UsuarioType(), $usuarios);
-
+        $usuario = new Usuarios();
+        $form = $this->createForm( new UsuarioType(), $usuario );
 
         // Essa parte trata dos dados do envio
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            $usuarios->getIdUsuario();
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
 
-            // Grava no banco de dados
-            $em->persist($usuarios);
-            $em->flush();
+            if ( $form->isValid() )
+            {
+                $this->getDoctrine()->getManager()->persist( $usuario );
+                $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Usuário
+
+                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+
+                return $this->redirect( $this->generateUrl( 'cacic_usuario_index') );
+            }
         }
 
         return $this->render('CacicCommonBundle:Usuario:cadastrar.html.twig', array(
-        'form' => $form->createView(),
+        'form' => $form->createView()
     ));
     }
 
-	/**
+    /**
      *  Página de editar dados do Usuário
      *  @param int $idusuario
      */
-    public function editarAction($idUsuario)
-    {
-        // Instancia o Doctrine para consultar o banco
-        $doctrine = $this->getDoctrine();
 
+    public function editarAction( $idUsuario, Request $request )
+    {
         // Recupera o usuário em um objeto identificado por idUsuario
-        $usuario = $doctrine->getRepository('CacicCommonBundle:Usuarios')->find( $idUsuario );
+
+        $usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $idUsuario );
+        if ( ! $usuario )
+            throw $this->createNotFoundException( 'Usuário não encontrado' );
 
         // Cria formulário com o dado do usuário recuperado
-        $form = $this->createForm(new UsuarioType(), $usuario);
-        
-        return $this->render('CacicCommonBundle:Usuario:editar.html.twig', array(
-            'form' => $form->createView(),
+        $form = $this->createForm( new UsuarioType(), $usuario );
+
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
+
+
+            if ( $form->isValid() )
+            {
+                $this->getDoctrine()->getManager()->persist( $usuario );
+                $this->getDoctrine()->getManager()->flush();// Efetuar a edição do Usuário
+
+
+                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+
+                return $this->redirect($this->generateUrl('cacic_usuario_editar', array( 'idUsuario'=>$usuario->getIdUsuario() ) ) );
+            }
+        }
+
+        return $this->render('CacicCommonBundle:Usuario:cadastrar.html.twig', array(
+            'form' => $form->createView()
         ));
     }
 
@@ -92,5 +110,29 @@ class UsuarioController extends Controller
     public function recuperarsenhaAction()
     {
 
+    }
+
+    /**
+     *
+     * [AJAX] Exclusão de Local já cadastrado
+     * @param integer $idLocal
+     */
+    public function excluirAction( Request $request )
+    {
+        if ( ! $request->isXmlHttpRequest() )
+            throw $this->createNotFoundException( 'Página não encontrada' );
+
+        $usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $request->get('idUsuario') );
+        if ( ! $usuario )
+            throw $this->createNotFoundException( 'Usuário não encontrado' );
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove( $usuario );
+        $em->flush();
+
+        $response = new Response( json_encode( array('status' => 'ok') ) );
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 }
