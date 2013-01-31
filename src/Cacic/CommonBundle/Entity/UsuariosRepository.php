@@ -40,4 +40,8 @@ class UsuariosRepository extends EntityRepository
 
     }
 
+    public function gerarsenha()
+    {
+
+    }
 }
