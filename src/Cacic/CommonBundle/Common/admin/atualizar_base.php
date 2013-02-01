@@ -373,7 +373,7 @@ while ($row = mysql_fetch_array($result_GERENTES))
 					{
 					?>
 					<font color="#FF0000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="file:///h|/cacic2sg/admin/gerentes/detalhes_gerente.php?id_ip_gerente=<?php echo $row['id_ip_gerente']; ?>" style="color: red"><strong>
-					<?php echo $oTranslator->_('Servidor OffLine');?>!</strong></a></font>
+					<?php echo $oTranslator->_('ServidorAutenticacao OffLine');?>!</strong></a></font>
 					<?php
 					}
 			}

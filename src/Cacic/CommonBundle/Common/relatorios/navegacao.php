@@ -724,7 +724,7 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 							echo "<a href=../admin/redes/detalhes_rede.php?id_rede=".$tree[$cnt][6]."&id_local=".$tree[$cnt][17]." target='_blank'><img src=\"".$img_details."\" border=no width=16 height=16 Title='Detalhes da SubRede'></a>";						
 							
 						if ($tree[$cnt][21])
-							echo "<img src=\"".$img_authentication_server."\" border=no width=16 height=16 Title='Sub-Rede Associada ao Servidor de Autenticação \"".$tree[$cnt][21]."\"'>";												
+							echo "<img src=\"".$img_authentication_server."\" border=no width=16 height=16 Title='Sub-Rede Associada ao ServidorAutenticacao de Autenticação \"".$tree[$cnt][21]."\"'>";
 						}
 						
 					}

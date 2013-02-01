@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  * @author lightbase
  *
  */
-class ServidoresRepository extends EntityRepository
+class ServidoresAutenticacaoRepository extends EntityRepository
 {
 
     public function paginar( $page )

@@ -11,19 +11,19 @@ use Symfony\Component\Form\FormBuilderInterface;
  * @author lightbase
  *
  */
-class  ServidorType extends AbstractType
+class  ServidorAutenticacaoType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-        $builder->add('nmServidorAutenticacao', null,
+        $builder->add('nmServidorAutenticacao', 'text',
                       array(
                             'label' => 'Nome:',
                             'max_length' => 60
                       )
         );
 
-        $builder->add('teIpServidorAutenticacao', null,
-            array(
+        $builder->add('teIpServidorAutenticacao', 'text',
+                      array(
                             'label' =>'Endereço IP:',
                             'max_length' => 30
                       )
@@ -37,7 +37,7 @@ class  ServidorType extends AbstractType
                        )
         );
 
-        $builder->add('nuPortaServidorAutenticacao', null,
+        $builder->add('nuPortaServidorAutenticacao', 'text',
             array(
                 'data'=> '389',
                 'read_only' => true,
@@ -46,8 +46,8 @@ class  ServidorType extends AbstractType
             )
         );
 
-        $builder->add('nuVersaoProtocolo', null,
-            array(
+        $builder->add('nuVersaoProtocolo', 'text',
+                       array(
                            'label' => 'Versão:',
                            'max_length' => 10
                        )
@@ -63,20 +63,20 @@ class  ServidorType extends AbstractType
 
 
 
-        $builder->add('teAtributoIdentificador', null,
-            array(
+        $builder->add('teAtributoIdentificador', 'text',
+                      array(
                            'label'=>'Identificador:'
                       )
         );
 
 
 
-        $builder->add('teAtributoIdentificador', null,
+        $builder->add('teAtributoIdentificador', 'text',
             array(
                 'label'=>'Identificador:'
             )
         );
-        $builder->add('teAtributoRetornaNome', null,
+        $builder->add('teAtributoRetornaNome', 'text',
             array(
                 'label'=>'Retorno de Nome Completo:'
             )

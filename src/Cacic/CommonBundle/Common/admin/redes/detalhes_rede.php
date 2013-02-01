@@ -237,37 +237,37 @@ function valida_form()
 		}
 	else if ( document.form.frm_te_serv_cacic.value == "" ) 
 		{	
-		alert("<?php echo $oTranslator->_('Digite o Identificador do Servidor de Banco de Dados');?>");
+		alert("<?php echo $oTranslator->_('Digite o Identificador do ServidorAutenticacao de Banco de Dados');?>");
 		document.form.frm_te_serv_cacic.focus();
 		return false;
 		}	
 	else if ( document.form.frm_te_serv_updates.value == "" ) 
 		{	
-		alert("<?php echo $oTranslator->_('Digite o Identificador do Servidor de Atualizacoes');?>");
+		alert("<?php echo $oTranslator->_('Digite o Identificador do ServidorAutenticacao de Atualizacoes');?>");
 		document.form.frm_te_serv_updates.focus();
 		return false;
 		}		
 	else if ( document.form.frm_nu_porta_serv_updates.value == "" ) 
 		{	
-		alert("<?php echo $oTranslator->_('Digite a Porta FTP do Servidor de Atualizacoes');?>");
+		alert("<?php echo $oTranslator->_('Digite a Porta FTP do ServidorAutenticacao de Atualizacoes');?>");
 		document.form.frm_nu_porta_serv_updates.focus();
 		return false;
 		}		
 	else if ( document.form.frm_nm_usuario_login_serv_updates.value == "" ) 
 		{	
-		alert("<?php echo $oTranslator->_('Digite o Nome do Usuario para Login no Servidor de Atualizacoes pelo Modulo Agente');?>");
+		alert("<?php echo $oTranslator->_('Digite o Nome do Usuario para Login no ServidorAutenticacao de Atualizacoes pelo Modulo Agente');?>");
 		document.form.frm_nm_usuario_login_serv_updates.focus();
 		return false;
 		}		
 	else if ( document.form.frm_nm_usuario_login_serv_updates_gerente.value == "" ) 
 		{	
-		alert("<?php echo $oTranslator->_('Digite o Nome do Usuario para Login no Servidor de Atualizacoes pelo Modulo Gerente');?>");
+		alert("<?php echo $oTranslator->_('Digite o Nome do Usuario para Login no ServidorAutenticacao de Atualizacoes pelo Modulo Gerente');?>");
 		document.form.frm_nm_usuario_login_serv_updates_gerente.focus();
 		return false;
 		}			
 	else if ( document.form.frm_te_path_serv_updates.value == "" ) 
 		{	
-		alert("<?php echo $oTranslator->_('Digite o caminho no Servidor de Atualizacoes');?>");
+		alert("<?php echo $oTranslator->_('Digite o caminho no ServidorAutenticacao de Atualizacoes');?>");
 		document.form.frm_te_path_serv_updates.focus();
 		return false;
 		}		
@@ -339,7 +339,7 @@ function formButtons() {
           <tr> 
             <td>&nbsp;</td>
             <td class="label"><br><?php echo $oTranslator->_('Local');?>:</td>
-            <td class="label" colspan="2"><br><?php echo $oTranslator->_('Servidor para Autentica&ccedil;&atilde;o');?>:</td>
+            <td class="label" colspan="2"><br><?php echo $oTranslator->_('ServidorAutenticacao para Autentica&ccedil;&atilde;o');?>:</td>
           </tr>
           <tr> 
             <td colspan="3" height="1" bgcolor="#333333"></td>
@@ -427,7 +427,7 @@ function formButtons() {
             <td>&nbsp;</td>
           </tr>
           <tr> 
-            <td nowrap class="label"><br><?php echo $oTranslator->_('Servidor de aplicacao (gerente)');?>&nbsp;</td>
+            <td nowrap class="label"><br><?php echo $oTranslator->_('ServidorAutenticacao de aplicacao (gerente)');?>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
@@ -461,7 +461,7 @@ function formButtons() {
           </tr>
 
           <tr> 
-            <td class="label"><br><?php echo $oTranslator->_('Servidor de Atualizacoes (FTP)');?><div id="divMsgTeServUpdates" name="divMsgTeServUpdates"></div></td>
+            <td class="label"><br><?php echo $oTranslator->_('ServidorAutenticacao de Atualizacoes (FTP)');?><div id="divMsgTeServUpdates" name="divMsgTeServUpdates"></div></td>
             <td nowrap class="label"><?php echo $oTranslator->_('Porta');?></td>
             <td nowrap class="label"><?php echo $oTranslator->_('Limite de conexoes FTP');?></td>
           </tr>
@@ -517,7 +517,7 @@ function formButtons() {
           </tr>
 
           <tr> 
-            <td nowrap class="label"><br><?php echo $oTranslator->_('Usuario do Servidor de Updates: (para AGENTES)');?><div id="divMsgNmUsuarioLoginServUpdates" name="divMsgNmUsuarioLoginServUpdates"></div></td>
+            <td nowrap class="label"><br><?php echo $oTranslator->_('Usuario do ServidorAutenticacao de Updates: (para AGENTES)');?><div id="divMsgNmUsuarioLoginServUpdates" name="divMsgNmUsuarioLoginServUpdates"></div></td>
             <td nowrap class="label"><?php echo $oTranslator->_('Senha');?><div id="divMsgTeSenhaLoginServUpdates" name="divMsgTeSenhaLoginServUpdates"></div></td>
             <td>&nbsp;</td>
           </tr>
@@ -536,7 +536,7 @@ function formButtons() {
             <td colspan="3" height="1" bgcolor="#333333"></td>
           </tr>
           <tr> 
-            <td nowrap class="label"><br><?php echo $oTranslator->_('Usuario do Servidor de Updates: (para GERENTE)');?><div id="divMsgNmUsuarioLoginServUpdatesGerente" name="divMsgNmUsuarioLoginServUpdatesGerente"></div></td>
+            <td nowrap class="label"><br><?php echo $oTranslator->_('Usuario do ServidorAutenticacao de Updates: (para GERENTE)');?><div id="divMsgNmUsuarioLoginServUpdatesGerente" name="divMsgNmUsuarioLoginServUpdatesGerente"></div></td>
             <td nowrap class="label"><?php echo $oTranslator->_('Senha');?><div id="divMsgTeSenhaLoginServUpdatesGerente" name="divMsgTeSenhaLoginServUpdatesGerente"></div></td>
             <td nowrap class="label">&nbsp;</td>
           </tr>

@@ -30,7 +30,7 @@ function testServUpdatesAJAX(pStrServ, pStrUser, pStrPass, pStrPath, pStrPort)
 			{
 			var arrResult 			 = testServUpdatesAJAX($(oTeServUpdates).val(),'','',$(oTePathServUpdates).val(),$(oNuPortaServUpdates).val()).split('_=_');
 			var oDivMsgTeServUpdates = returnObjById("divMsgTeServUpdates");		
-			$(oDivMsgTeServUpdates).html('Testando acesso ao Servidor...');				
+			$(oDivMsgTeServUpdates).html('Testando acesso ao ServidorAutenticacao...');
 			
 			if (arrResult[2] != -1)		
 				{
@@ -40,7 +40,7 @@ function testServUpdatesAJAX(pStrServ, pStrUser, pStrPass, pStrPath, pStrPort)
 			else
 				{
 				$(oDivMsgTeServUpdates).addClass('div_insucesso').removeClass('div_sucesso');											
-				$(oDivMsgTeServUpdates).html('Teste de acesso ao servidor => ERRO: Servidor Inexistente ou Servico de FTP Indisponivel!');			
+				$(oDivMsgTeServUpdates).html('Teste de acesso ao servidor => ERRO: ServidorAutenticacao Inexistente ou Servico de FTP Indisponivel!');
 				}		
 			oDivMsgTeServUpdates = null;
 			arrResult = null;

@@ -54,7 +54,7 @@ $linha = '<tr bgcolor="'.$strCorDaLinha.'">
     <td>&nbsp;</td>
     <td class="opcao_tabela"><?php echo $oTranslator->_('Dominio DNS');?></td>
     <td class="dado"><?php echo mysql_result($result, 0, "te_dominio_dns"); ?></td>
-    <td class="opcao_tabela"><?php echo $oTranslator->_('Servidor DNS primario');?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('ServidorAutenticacao DNS primario');?></td>
     <td class="dado"><?php echo mysql_result($result, 0, "te_dns_primario"); ?></td>
   </tr>
   <?php echo $linha; 
@@ -64,7 +64,7 @@ $linha = '<tr bgcolor="'.$strCorDaLinha.'">
     <td>&nbsp;</td>
     <td></td>
     <td></td>
-    <td class="opcao_tabela"><?php echo $oTranslator->_('Servidor DNS secundario');?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('ServidorAutenticacao DNS secundario');?></td>
     <td class="dado"><?php echo mysql_result($result, 0, "te_dns_secundario"); ?></td>
   </tr>
   <?php echo $linha;  
@@ -75,7 +75,7 @@ $linha = '<tr bgcolor="'.$strCorDaLinha.'">
     <td class="opcao_tabela"><?php echo $oTranslator->_('Dominio Windows');?></td>
     <?php $arrTeDominioWindows = explode('@',mysql_result($result, 0, "te_dominio_windows"))?>
     <td class="dado"><?php echo $arrTeDominioWindows[count($arrTeDominioWindows)-1]; ?></td>
-    <td class="opcao_tabela"><?php echo $oTranslator->_('Servidor WINS primario');?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('ServidorAutenticacao WINS primario');?></td>
     <td class="dado"><?php echo mysql_result($result, 0, "te_wins_primario"); ?></td>
   </tr>
   <?php echo $linha;
@@ -85,7 +85,7 @@ $linha = '<tr bgcolor="'.$strCorDaLinha.'">
     <td>&nbsp;</td>    
     <td>&nbsp;</td>    
     <td>&nbsp;</td>            
-    <td class="opcao_tabela"><?php echo $oTranslator->_('Servidor WINS secundario');?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('ServidorAutenticacao WINS secundario');?></td>
     <td class="dado"><?php echo mysql_result($result, 0, "te_wins_secundario"); ?></td>
   </tr>
   <?php  
@@ -107,7 +107,7 @@ $linha = '<tr bgcolor="'.$strCorDaLinha.'">
     <td>&nbsp;</td>
     <td class="opcao_tabela"><?php echo $oTranslator->_('Endereco de rede');?></td>
     <td class="dado"><?php echo mysql_result($result, 0, "te_ip_rede"); ?></td>
-    <td class="opcao_tabela"><?php echo $oTranslator->_('Servidor DHCP');?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('ServidorAutenticacao DHCP');?></td>
     <td class="dado"><?php echo mysql_result($result, 0, "te_serv_dhcp");?></td>
   </tr>
   <?php echo $linha;

@@ -147,7 +147,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 			<?
 			flush();
 
-			// Verifico se o Servidor de Updates já foi atualizado.
+			// Verifico se o ServidorAutenticacao de Updates já foi atualizado.
 			// Neste caso, preciso atualizar a tabela Redes_Versoes_Modulos para a rede atual.
 			$strTeServUpdatesToCheck = '#'.trim($row['id_local']).trim($row['te_serv_updates']).'#';
 			if (@substr_count($_SESSION['v_tripa_servidores_updates'],$strTeServUpdatesToCheck)>0)
@@ -183,7 +183,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 					}	
 
 				$result_INSERT = mysql_query($insert . $values);				
-				echo '<b>Verificação Efetuada!</b>&nbsp;&nbsp;<font color=black size=1>(Servidor de Updates Verificado Anteriormente!)</font>';
+				echo '<b>Verificação Efetuada!</b>&nbsp;&nbsp;<font color=black size=1>(ServidorAutenticacao de Updates Verificado Anteriormente!)</font>';
 				flush();				
 				}
 			else

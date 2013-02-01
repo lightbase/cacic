@@ -44,9 +44,9 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 			// **************************************************************************************************************
 			// ** VERIFICAR EXISTÊNCIA DO USUÁRIO NA BASE DO CACIC COM O NOME FORNECIDO (tanto para acesso CACIC quanto LDAP)
 			// ** 		Se Existe
-			// **			Verificar se o usuário está associado a um Servidor de Autenticação
+			// **			Verificar se o usuário está associado a um ServidorAutenticacao de Autenticação
 			// ** 				Se Estiver Associado
-			// **					Verificar se usuário e senha fazem BIND no Servidor de Autenticação
+			// **					Verificar se usuário e senha fazem BIND no ServidorAutenticacao de Autenticação
 			// **						Se Fazem BIND
 			// **							Sincronizar senhas LDAP x CACIC
 			// **							Retornar USUÁRIO AUTENTICADO

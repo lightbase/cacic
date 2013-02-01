@@ -102,7 +102,7 @@ else if ($_POST['historico_rede'])
 						te_dns_primario as 'DNS Primário', 
 			  			te_dns_secundario as 'DNS Secundario', 
 						te_dominio_dns as 'Domínio DNS', 
-			  			te_serv_dhcp as 'Servidor DHCP',
+			  			te_serv_dhcp as 'ServidorAutenticacao DHCP',
 			  			id_computador
 			  FROM 		historico_tcp_ip   
 			  WHERE 	id_computador = ".$_POST['id_computador'] ."    

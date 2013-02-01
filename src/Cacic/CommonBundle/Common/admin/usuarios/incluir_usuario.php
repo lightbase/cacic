@@ -162,7 +162,7 @@ else
         
         
 		<tr nowrap>
-          <td nowrap class="label"><?php echo $oTranslator->_('Servidor de Autenticacao');?>:</td>
+          <td nowrap class="label"><?php echo $oTranslator->_('ServidorAutenticacao de Autenticacao');?>:</td>
 		  <td nowrap><select name="frm_id_servidor_autenticacao" id="frm_id_servidor_autenticacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
 			<option value="0">Base CACIC</option>          
           </select></td>
