@@ -351,7 +351,7 @@ MM_reloadPage(true);
     <tr> 
 		<td>&nbsp;</td>
       <td class="label"><br><?php echo $oTranslator->_('Local');?>:</td>
-      <td class="label" colspan="2"><br><?php echo $oTranslator->_('Servidor para Autenticacao');?>:</td>
+      <td class="label" colspan="2"><br><?php echo $oTranslator->_('ServidorAutenticacao para Autenticacao');?>:</td>
     </tr>
     <tr> 
       <td colspan="4" height="1" bgcolor="#333333"></td>

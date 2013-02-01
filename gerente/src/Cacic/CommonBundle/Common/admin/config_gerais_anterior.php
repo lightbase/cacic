@@ -524,7 +524,7 @@ echo '*'.mysql_num_rows($resultUSBDevicesUtilizados).'*<br>';
       <td>&nbsp;</td>
     </tr>
     <tr> 
-      <td class="label"><?php echo $oTranslator->_('Servidor de Aplicacao padrao');?>:</td>
+      <td class="label"><?php echo $oTranslator->_('ServidorAutenticacao de Aplicacao padrao');?>:</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>
@@ -562,7 +562,7 @@ echo '*'.mysql_num_rows($resultUSBDevicesUtilizados).'*<br>';
       <td>&nbsp;</td>
     </tr>
     <tr> 
-      <td class="label"><?php echo $oTranslator->_('Servidor de Updates padrao');?>:</td>
+      <td class="label"><?php echo $oTranslator->_('ServidorAutenticacao de Updates padrao');?>:</td>
     </tr>
     <tr> 
       <td height="1" bgcolor="#333333"></td>

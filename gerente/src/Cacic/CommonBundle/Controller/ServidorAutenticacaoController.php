@@ -5,21 +5,21 @@ namespace Cacic\CommonBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Cacic\CommonBundle\Entity\ServidoresAutenticacao;
-use Cacic\CommonBundle\Form\Type\ServidorType;
+use Cacic\CommonBundle\Form\Type\ServidorAutenticacaoType;
 
-class ServidorController extends Controller
+class ServidorAutenticacaoController extends Controller
 {
      public function indexAction( $page )
      {
          $arrServidor = $this->getDoctrine()->getRepository( 'CacicCommonBundle:ServidoresAutenticacao' )->listar();
-         return $this->render( 'CacicCommonBundle:Servidor:index.html.twig', array( 'servidores' => $arrServidor ) );
+         return $this->render( 'CacicCommonBundle:ServidorAutenticacao:index.html.twig', array( 'servidores' => $arrServidor ) );
 
      }
 
     public function cadastrarAction(Request $request)
     {
         $servidor = new ServidoresAutenticacao();
-        $form = $this->createForm( new ServidorType(), $servidor );
+        $form = $this->createForm( new ServidorAutenticacaoType(), $servidor );
 
         if ( $request->isMethod('POST') )
         {
@@ -31,24 +31,24 @@ class ServidorController extends Controller
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
-                return $this->redirect( $this->generateUrl( 'cacic_servidor_index') );
+                return $this->redirect( $this->generateUrl( 'cacic_servidorautenticacao_index') );
             }
         }
 
-        return $this->render( 'CacicCommonBundle:Servidor:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $this->render( 'CacicCommonBundle:ServidorAutenticacao:cadastrar.html.twig', array( 'form' => $form->createView() ) );
     }
 
     /**
-     *  Página de editar dados do Servidor
+     *  Página de editar dados do ServidorAutenticacao
      *  @param int $idServidor
      */
     public function editarAction( $idServidorAutenticacao, Request $request )
     {
         $servidor = $this->getDoctrine()->getRepository('CacicCommonBundle:ServidoresAutenticacao')->find( $idServidorAutenticacao );
         if ( ! $servidor )
-            throw $this->createNotFoundException( 'Servidor não encontrado' );
+            throw $this->createNotFoundException( 'Servidor Autenticacao não encontrado' );
 
-        $form = $this->createForm( new ServidorType(), $servidor );
+        $form = $this->createForm( new ServidorAutenticacaoType(), $servidor );
 
         if ( $request->isMethod('POST') )
         {
@@ -57,21 +57,21 @@ class ServidorController extends Controller
             if ( $form->isValid() )
             {
                 $this->getDoctrine()->getManager()->persist( $servidor );
-                $this->getDoctrine()->getManager()->flush();// Efetuar a edição do Servidor
+                $this->getDoctrine()->getManager()->flush();// Efetuar a edição do ServidorAutenticacao
 
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
-                return $this->redirect($this->generateUrl('cacic_servidor_editar', array( 'idServidorAutenticacao'=>$servidor->getIdServidorAutenticacao() ) ) );
+                return $this->redirect($this->generateUrl('cacic_servidorautenticacao_editar', array( 'idServidorAutenticacao'=>$servidor->getIdServidorAutenticacao() ) ) );
             }
         }
 
-        return $this->render( 'CacicCommonBundle:Servidor:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $this->render( 'CacicCommonBundle:ServidorAutenticacao:cadastrar.html.twig', array( 'form' => $form->createView() ) );
     }
 
     /**
      *
-     * [AJAX] Exclusão de Servidor já cadastrado
+     * [AJAX] Exclusão de ServidorAutenticacao já cadastrado
      * @param integer $idServidor
      */
     public function excluirAction( Request $request )
@@ -81,7 +81,7 @@ class ServidorController extends Controller
 
         $servidor = $this->getDoctrine()->getRepository('CacicCommonBundle:ServidoresAutenticacao')->find( $request->get('idServidorAutenticacao') );
         if ( ! $servidor )
-            throw $this->createNotFoundException( 'Servidor não encontrado' );
+            throw $this->createNotFoundException( 'Servidor Autenticacao não encontrado' );
 
         $em = $this->getDoctrine()->getManager();
         $em->remove( $servidor );

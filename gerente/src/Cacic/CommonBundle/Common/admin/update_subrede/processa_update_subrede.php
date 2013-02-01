@@ -58,7 +58,7 @@ if(isset($_SESSION['sessArrVersionsIni']))
 								  $arrDadosRede[0]['nu_porta_serv_updates']);
 		}
 	else
-		$strResult = 'Ja Enviado ao Servidor!_=_Ok!_=_Resended';				
+		$strResult = 'Ja Enviado ao ServidorAutenticacao!_=_Ok!_=_Resended';
 		
 	$arrResult = explode('_=_',$strResult);	 	
 	if ($arrResult[1] == 'Ok!')

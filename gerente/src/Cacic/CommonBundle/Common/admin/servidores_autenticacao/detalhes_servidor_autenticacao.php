@@ -323,7 +323,7 @@ else
 	<br>
 	<table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
 	<tr> 
-	<td colspan="10" class="label">Usu&aacute;rios Associados ao Servidor de Autenticação:</td>
+	<td colspan="10" class="label">Usu&aacute;rios Associados ao ServidorAutenticacao de Autenticação:</td>
 	</tr>
 	<tr> 
 	<td height="1" bgcolor="#333333" colspan="10"></td>

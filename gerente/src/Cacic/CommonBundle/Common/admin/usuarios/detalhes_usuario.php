@@ -206,7 +206,7 @@ else
 				<td>&nbsp;</td>
 			  </tr>
 		<tr nowrap>
-          <td nowrap class="label"><?php echo $oTranslator->_('Servidor de Autenticacao');?>:</td>
+          <td nowrap class="label"><?php echo $oTranslator->_('ServidorAutenticacao de Autenticacao');?>:</td>
 		  <td nowrap><select name="frm_id_servidor_autenticacao" id="frm_id_servidor_autenticacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);"
           <?php
 				echo ($_SESSION['cs_nivel_administracao']>1 && !($_SESSION['cs_nivel_administracao']==3 && $_SESSION['te_locais_secundarios']<>'')?'disabled':'');	?>>

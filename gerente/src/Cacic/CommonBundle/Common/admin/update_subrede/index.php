@@ -23,7 +23,7 @@ AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
 
 if (isset($_POST['ExecutaUpdate']))
 	{				
-	// Enviarei também ao update_subrede.php uma relação de agentes e versões para inserção na tabela redes_versoes_modulos, no caso da ocorrência de Servidor de Updates verificado anteriormente.
+	// Enviarei também ao update_subrede.php uma relação de agentes e versões para inserção na tabela redes_versoes_modulos, no caso da ocorrência de ServidorAutenticacao de Updates verificado anteriormente.
 	// Exemplo de estrutura de agentes_versoes: col_soft.exe#22010103*col_undi.exe#22010103
 	// 						   agentes_hashs:   col_soft.exe#4228204d66e268ad42d9d738a09800e8*col_undi.exe#2428204d67e268ad42d9d738a09800ff	
 	$intTotalItens = 0;
@@ -389,7 +389,7 @@ else
 				  <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Endereco IP');?></td>
 				  
             <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Nome da Subrede');?></td>			
-				  <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Servidor de atualizacoes');?></td>							
+				  <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('ServidorAutenticacao de atualizacoes');?></td>
 				  <td bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Caminho (path) FTP');?></td>											
 				  <td colspan="2" bgcolor="#EBEBEB" class="cabecalho_tabela"><?php echo $oTranslator->_('Localizacao');?></td>											
 	        </tr>

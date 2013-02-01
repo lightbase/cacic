@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ServidoresAutenticacao
  *
  * @ORM\Table(name="servidores_autenticacao")
- *  @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\ServidoresRepository")
+ *  @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\ServidoresAutenticacaoRepository")
  */
 class ServidoresAutenticacao
 {

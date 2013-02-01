@@ -70,7 +70,7 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 	conecta_bd_cacic();	
 	if (!$id_sessao)
 		{			
-		// Identificador para Autenticação no Servidor de Autenticação
+		// Identificador para Autenticação no ServidorAutenticacao de Autenticação
 		$id_servidor_autenticacao	  	= DeCrypt($_POST['id_servidor_autenticacao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 		$nm_nome_acesso_autenticacao  	= DeCrypt($_POST['nm_nome_acesso_autenticacao']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 		$te_senha_acesso_autenticacao 	= DeCrypt($_POST['te_senha_acesso_autenticacao']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 

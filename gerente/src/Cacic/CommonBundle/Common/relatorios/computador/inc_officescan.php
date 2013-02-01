@@ -59,7 +59,7 @@ $strCor = ($strCor==''?$strPreenchimentoPadrao:'');
     <td>&nbsp;</td>
     <td class="opcao_tabela"><?php echo $oTranslator->_('Versao do engine');?></td>
     <td class="dado"><?php echo mysql_result($result_officescan, 0, "nu_versao_engine"); ?></td>
-    <td class="opcao_tabela"><?php echo $oTranslator->_('Servidor do OfficeScan');?></td>
+    <td class="opcao_tabela"><?php echo $oTranslator->_('ServidorAutenticacao do OfficeScan');?></td>
     <td class="dado"><div align="left"><?php echo mysql_result($result_officescan, 0, "te_servidor"); ?>&nbsp;</div></td>
   </tr>
   <?php echo $linha;

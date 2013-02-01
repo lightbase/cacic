@@ -125,7 +125,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	// ** 				Se Confere
 	// **					OK - Concluir acesso ao CACIC
 	// **				Se Não Confere
-	// **					Verificar se usuário e senha fazem BIND no Servidor de Autenticação 
+	// **					Verificar se usuário e senha fazem BIND no ServidorAutenticacao de Autenticação
 	// **						Se Fazem BIND
 	// **							Informar que as senhas estão diferentes e oferecer sincronização
 	// **								Se Sincronização Aceita
@@ -134,7 +134,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	// **									Informar USUÁRIO INEXISTENTE OU SENHA INVÁLIDA
 	// **									FIM
 	// **		Se Não Existe
-	// **			Verificar se usuário e senha fazem BIND no Servidor de Autenticação
+	// **			Verificar se usuário e senha fazem BIND no ServidorAutenticacao de Autenticação
 	// **				Se Fazem BIND
 	// **					Informar que o usuário não tem conta no CACIC e que deverá solicitar seu cadastramento 
 	// **					FIM
