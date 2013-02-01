@@ -27,6 +27,20 @@
 </div>
 
 <script type="text/javascript">
+	
+	var oLocais = []; // JSON com Locais
+
+	/**
+	 * Monta JSON com lista de Locais
+	 */
+	$(document).ready(function(){
+		$( '#usuario_idLocal option' ).each(function(){
+			if ( $(this).val() != '' && $(this).val() != undefined )
+			{
+				oLocais.push({ idLocal: $(this).val(), nmLocal: $(this).text() });
+			}
+		})
+	});
 
 	/**
 	 * Remove o local principal selecionado da lista de locais secundários
