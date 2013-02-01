@@ -27,17 +27,18 @@
             </thead>
             <tbody>
     {% for servidor in servidores %}
-        <tr id="item_{{ servidor[0]['idServidorAutenticacao'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-            <td>{{ servidor[0]['nmServidorAutenticacao'] }}</td>
-            <td>{{ servidor[0]['teIpServidorAutenticacao'] }}</td>
-            <td>{{ servidor[0]['nuPortaServidorAutenticacao'] }}</td>
-            <td>{{ servidor[0]['nuVersaoProtocolo'] }}</td>
-            <td>{{ servidor[0]['inAtivo'] }}</td>
+
+        <tr id="item_{{ servidor['idServidorAutenticacao'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+            <td id="item_desc{{ servidor['idServidorAutenticacao'] }}">{{ servidor['nmServidorAutenticacao'] }}</td>
+            <td style="text-align: left">{{ servidor['teIpServidorAutenticacao'] }}</td>
+            <td style="text-align: center">{{ servidor['nuPortaServidorAutenticacao'] }}</td>
+            <td style="text-align: center">{{ servidor['nuVersaoProtocolo'] }}</td>
+            <td style="text-align: center">{{ servidor ['inAtivo'] }}</td>
             <td style="text-align: center">
-                <a href="{{ path('cacic_servidor_editar', {'idServidorAutenticacao': servidor[0]['idServidorAutenticacao']}) }}">
+                <a href="{{ path('cacic_servidor_editar', {'idServidorAutenticacao': servidor['idServidorAutenticacao']}) }}">
                     <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Item" title="Editar Item"  /></a>
 
-                <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" id="bt-excluir-{{ servidor[0]['idServidorAutenticacao'] }}" />
+                <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" id="bt-excluir-{{ servidor['idServidorAutenticacao'] }}" />
             </td>
         </tr>
     {% else %}

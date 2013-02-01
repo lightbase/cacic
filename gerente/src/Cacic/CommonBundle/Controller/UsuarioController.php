@@ -98,8 +98,8 @@ class UsuarioController extends Controller
 
     /**
      *
-     * [AJAX] Exclusão de Local já cadastrado
-     * @param integer $idLocal
+     * [AJAX] Exclusão de Usuarios já cadastrado
+     * @param integer $idUsuarios
      */
 	public function excluirAction( Request $request )
 	{
