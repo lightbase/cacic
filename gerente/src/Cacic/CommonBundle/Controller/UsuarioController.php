@@ -2,6 +2,8 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Cacic\CommonBundle\Entity\Usuarios;
@@ -43,6 +45,9 @@ class UsuarioController extends Controller
 		if ( $request->isMethod('POST') )
 		{
 			$form->bind( $request );
+			
+			//Debug::dump( $form->getExtraData() );die;
+			
 			if ( $form->isValid() )
 			{
 				$this->getDoctrine()->getManager()->persist( $usuario );

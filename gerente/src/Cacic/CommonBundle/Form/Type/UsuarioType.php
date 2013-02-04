@@ -15,27 +15,42 @@ class  UsuarioType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-		$builder->add( 'idLocal', 'entity',
+		# Monta o COMBOBOX (Select) com os locais primários
+		$builder->add( 'localPrimario', 'entity',
 						array(
-							'empty_value' => 'Selecione Local',
+							'empty_value' => 'Selecione o Local',
 							'class' => 'CacicCommonBundle:Locais',
 							'property' => 'nmlocal',
-							'label'=> 'Local Principal',
+							'label'=> 'Local Principal'
 						)
 		);
+		# Configura o campo locais secundários como hidden para ser tratado no próprio formulário
+		$builder->add( 'idLocal', 'hidden' );
 
-		$builder->add( 'idServidorAutenticacao', 'hidden', array( 'data' => '1', 'required' => false ) );
+		$builder->add( 'servidorAutenticacao', 'entity',
+						array(
+							'empty_value' => 'Selecione o Servidor',
+							'class' => 'CacicCommonBundle:ServidoresAutenticacao',
+							'property' => 'nmServidorAutenticacao',
+							'label' => 'Servidor de Autenticação'
+						)
+		);
+		# Configura o campo Servidor Autenticacao como hidden para ser tratado no próprio formulário
+		$builder->add( 'idServidorAutenticacao', 'hidden' );
 		
-		$builder->add( 'TeLocaisSecundarios', 'entity',
+		# Monta o COMBOBOX (Select) com os locais secundários - não mapeado pois trata-se de um campo text
+		$builder->add( 'SelectLocaisSecundarios', 'entity',
 						array(
 							'class' => 'CacicCommonBundle:Locais',
 							'property' => 'nmLocal',
 							'multiple' => true,
 							'label'=> 'Locais Secundários',
-							'required' => false
+							'required' => false,
+							'mapped' => false
 						)
 		);
+		# Configura o campo locais secundários como hidden para ser tratado no próprio formulário
+		$builder->add( 'TeLocaisSecundarios', 'hidden', array( 'required' => 'false' ) );
 		
 		$builder->add( 'nmUsuarioAcesso', 'text', array( 'label' => 'Login', 'max_length' => 20 ) );
 		
@@ -43,11 +58,12 @@ class  UsuarioType extends AbstractType
 		
 		$builder->add( 'teEmailsContato', 'email', array( 'label' => 'Email', 'required' => false, 'max_length' => 100 ) );
 		
-		$builder->add( 'teTelefonesContato', 'number', array( 'label' => 'Telefone para Contato', 'required' => false, 'max_length' => 100 ) );
+		$builder->add( 'teTelefonesContato', 'text', array( 'label' => 'Telefones para Contato', 'required' => false, 'max_length' => 100 ) );
 		
 		$builder->add( 'teSenha', 'password', array( 'label' => 'Senha', 'required' => false, 'max_length' => 60 ) );
+		$builder->add( 'teSenhaConfirma', 'password', array( 'label' => ' Confirmação da Senha', 'required' => false, 'max_length' => 60, 'mapped' => false ) );
 		
-		$builder->add( 'Grupo', 'entity',
+		$builder->add( 'grupo', 'entity',
 						array(
 							'empty_value' => 'Selecione Acesso',
 							'class' => 'CacicCommonBundle:GrupoUsuarios',
@@ -55,6 +71,7 @@ class  UsuarioType extends AbstractType
 							'label'=> 'Selecione Tipo de Acesso'
 						)
 		);
+		$builder->add( 'idGrupoUsuarios', 'hidden' );
 		
 		$builder->add( 'te_descricao_grupo', 'textarea',
 						array(

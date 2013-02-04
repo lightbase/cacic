@@ -77,7 +77,7 @@ Cacic\CommonBundle\Entity\Usuarios:
             column: id_grupo_usuarios
     manyToOne:
         grupo:
-            targetEntity: GrupoUsuarios
+            targetEntity: Cacic\CommonBundle\Entity\GrupoUsuarios
             cascade: {  }
             mappedBy: null
             inversedBy: usuarios
@@ -86,12 +86,21 @@ Cacic\CommonBundle\Entity\Usuarios:
                     referencedColumnName: id_grupo_usuarios
             orphanRemoval: false
         localPrimario:
-            targetEntity: Locais
+            targetEntity: Cacic\CommonBundle\Entity\Locais
             cascade: {  }
             mappedBy: null
             inversedBy: usuariosPrimarios
             joinColumns:
                 id_local:
                     referencedColumnName: id_local
+            orphanRemoval: false
+        servidorAutenticacao:
+            targetEntity: Cacic\CommonBundle\Entity\ServidoresAutenticacao
+            cascade: {  }
+            mappedBy: null
+            inversedBy: usuarios
+            joinColumns:
+                id_servidor_autenticacao:
+                    referencedColumnName: id_servidor_autenticacao
             orphanRemoval: false
     lifecycleCallbacks: {  }
