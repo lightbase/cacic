@@ -49,3 +49,16 @@ TABLE.list tbody .bt-excluir {
                 50% 50% 
                 no-repeat;
 }
+
+div.well form div ul {
+	float: right;
+	color: #c00;
+}
+
+div.well form div {
+	width: 450px;
+}
+
+div.well form label {
+	font-weight: bold;
+}

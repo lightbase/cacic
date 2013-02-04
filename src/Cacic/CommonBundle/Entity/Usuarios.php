@@ -121,6 +121,14 @@ class Usuarios implements UserInterface, \Serializable
      * @ORM\JoinColumn(name="id_grupo_usuarios", referencedColumnName="id_grupo_usuarios")
      */
     private $grupo;
+    
+    /**
+     * @var \ServidoresAutenticacao
+     * 
+     * @ORM\ManyToOne(targetEntity="ServidoresAutenticacao", inversedBy="usuarios")
+     * @ORM\JoinColumn(name="id_servidor_autenticacao", referencedColumnName="id_servidor_autenticacao")
+     */
+    private $servidorAutenticacao;
 
     /**
      * Get idUsuario
@@ -140,7 +148,7 @@ class Usuarios implements UserInterface, \Serializable
      */
     public function setIdServidorAutenticacao($idServidorAutenticacao)
     {
-        $this->idServidorAutenticacao = $idServidorAutenticacao;
+		$this->idServidorAutenticacao = $idServidorAutenticacao;
     
         return $this;
     }
@@ -359,6 +367,7 @@ class Usuarios implements UserInterface, \Serializable
      */
     public function getTeLocaisSecundarios()
     {
+    	
         return $this->teLocaisSecundarios;
     }
 
@@ -513,5 +522,27 @@ class Usuarios implements UserInterface, \Serializable
     public function getGrupo()
     {
         return $this->grupo;
+    }
+    
+    /**
+     * Set servidorAutenticacao
+     * 
+     * @param \Cacic\CommonBundle\Entity\ServidoresAutenticacao $servidorAutenticacao
+     * @return Usuarios
+     */
+    public function setServidorAutenticacao( \Cacic\CommonBundle\Entity\ServidoresAutenticacao $servidorAutenticacao = null )
+    {
+    	$this->servidorAutenticacao = $servidorAutenticacao;
+    	
+    	return $this;
+    }
+    
+    /**
+     * 
+     * Get servidorAutenticacao
+     */
+    public function getServidorAutenticacao()
+    {
+    	return $this->servidorAutenticacao;
     }
 }

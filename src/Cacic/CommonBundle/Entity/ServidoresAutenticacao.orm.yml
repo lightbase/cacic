@@ -1,5 +1,6 @@
-ServidoresAutenticacao:
+Cacic\CommonBundle\Entity\ServidoresAutenticacao:
     type: entity
+    repositoryClass: Cacic\CommonBundle\Entity\ServidoresAutenticacaoRepository
     table: servidores_autenticacao
     fields:
         idServidorAutenticacao:
@@ -98,4 +99,8 @@ ServidoresAutenticacao:
             fixed: true
             nullable: false
             column: in_ativo
+    oneToMany:
+        usuarios:
+            targetEntity: Cacic\CommonBundle\Entity\Usuarios
+            mappedBy: servidorAutenticacao
     lifecycleCallbacks: {  }

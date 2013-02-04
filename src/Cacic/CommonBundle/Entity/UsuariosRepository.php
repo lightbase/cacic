@@ -30,9 +30,7 @@ class UsuariosRepository extends EntityRepository
 				JOIN u.grupo g
 				GROUP BY u.idUsuario";
 
-		$query = $this->getEntityManager()->createQuery( $_dql );
-		return $query->getArrayResult();
-
+		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}
 
 	public function trocarsenha()
@@ -43,5 +41,19 @@ class UsuariosRepository extends EntityRepository
 	public function gerarsenha()
 	{
 
+	}
+	
+	/**
+	 * 
+	 * Recupera os locais secundários associados ao usuário
+	 * @param Usuarios $usuario
+	 */
+	public function getLocaisSecundarios( Usuarios $usuario )
+	{
+		$_dql = 'SELECT l
+				FROM CacicCommonBundle:Locais l
+				WHERE l.idLocal IN ( '. $usuario->getTeLocaisSecundarios() .' )';
+		
+		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}
 }

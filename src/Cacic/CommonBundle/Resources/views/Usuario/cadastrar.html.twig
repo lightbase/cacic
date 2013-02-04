@@ -9,7 +9,7 @@
 
 <div class="well">
 
-	<form action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+	<form id="formCadastroUsuario" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
 
 		{{ form_widget(form) }}
 		{{ form_rest(form) }}
@@ -34,20 +34,26 @@
 	 * Monta JSON com lista de Locais
 	 */
 	$(document).ready(function(){
-		$( '#usuario_idLocal option' ).each(function(){
+		$( '#usuario_localPrimario option' ).each(function(){
 			if ( $(this).val() != '' && $(this).val() != undefined )
 			{
 				oLocais.push({ idLocal: $(this).val(), nmLocal: $(this).text() });
 			}
 		})
+		
+		// Verifica se já há algum local primário pré-selecionado para retirá-lo da lista de locais secundários
+		if ( $( '#usuario_localPrimario' ).val() != '' && $( '#usuario_localPrimario' ).val() != undefined )
+		{
+			$( '#usuario_SelectLocaisSecundarios option[value='+ $( '#usuario_localPrimario' ).val() +']' ).remove();
+		}
 	});
 
 	/**
 	 * Remove o local principal selecionado da lista de locais secundários
 	 */
-	$( '#usuario_idLocal' ).change(function(){
+	$( '#usuario_localPrimario' ).change(function(){
 		// Primeiro, remove todos os itens da combo de locais secundários
-		$( '#usuario_TeLocaisSecundarios option' ).each(function(){
+		$( '#usuario_SelectLocaisSecundarios option' ).each(function(){
 			$(this).remove();
 		});
 		
@@ -57,10 +63,21 @@
 			if ( oLocais[i].idLocal != $(this).val() )
 			{
 				var sOption = '<option value="'+ oLocais[i].idLocal +'">'+ oLocais[i].nmLocal +'</option>';
-				$( '#usuario_TeLocaisSecundarios' ).append( sOption );
+				$( '#usuario_SelectLocaisSecundarios' ).append( sOption );
 			}
 		}
 	});
+	
+	/**
+	 * Configura os campos hidden (local primário, servidor autenticação e locais secundários) baseado nos valores selecionados nas combos
+	 */
+	 $( '#formCadastroUsuario' ).submit(function(){
+		 $( '#usuario_teLocaisSecundarios' ).val( $( '#usuario_SelectLocaisSecundarios' ).val() );
+		 $( '#usuario_idLocal' ).val( $( '#usuario_localPrimario' ).val() );
+		 $( '#usuario_idServidorAutenticacao' ).val( $( '#usuario_servidorAutenticacao' ).val() );
+		 $( '#usuario_idGrupoUsuarios' ).val( $( '#usuario_grupo' ).val() );
+		 return true;
+	 });
 	
 </script>
 {% endblock %}
