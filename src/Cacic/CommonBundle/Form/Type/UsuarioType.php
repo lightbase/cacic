@@ -27,7 +27,7 @@ class  UsuarioType extends AbstractType
 		# Configura o campo locais secundários como hidden para ser tratado no próprio formulário
 		$builder->add( 'idLocal', 'hidden' );
 
-		$builder->add( 'servidorAutenticacao', 'entity',
+		$builder->add( 'idservidorAutenticacao', 'entity',
 						array(
 							'empty_value' => 'Selecione o Servidor',
 							'class' => 'CacicCommonBundle:ServidoresAutenticacao',

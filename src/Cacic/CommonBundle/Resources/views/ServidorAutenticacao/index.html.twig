@@ -29,10 +29,10 @@
     {% for ServidorAutenticacao in servidores %}
 
         <tr id="item_{{ ServidorAutenticacao['idServidorAutenticacao'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-            <td id="item_desc{{ ServidorAutenticacao['idServidorAutenticacao'] }}">{{ ServidorAutenticacao['nmServidorAutenticacao'] }}</td>
+            <td id="item_desc_{{ ServidorAutenticacao['idServidorAutenticacao'] }}">{{ ServidorAutenticacao['nmServidorAutenticacao'] }}</td>
             <td style="text-align: left">{{ ServidorAutenticacao['teIpServidorAutenticacao'] }}</td>
             <td style="text-align: center">{{ ServidorAutenticacao['nuPortaServidorAutenticacao'] }}</td>
-            <td style="text-align: center">{{ ServidorAutenticacao['nuVersaoProtocolo'] }}</td>
+            <td style="text-align: center">{{ ServidorAutenticacao['idTipoProtocolo'] }}/{{ ServidorAutenticacao['nuVersaoProtocolo'] }}</td>
             <td style="text-align: center">{{ ServidorAutenticacao ['inAtivo'] }}</td>
             <td style="text-align: center">
                 <a href="{{ path('cacic_servidorautenticacao_editar', {'idServidorAutenticacao': ServidorAutenticacao['idServidorAutenticacao']}) }}">
