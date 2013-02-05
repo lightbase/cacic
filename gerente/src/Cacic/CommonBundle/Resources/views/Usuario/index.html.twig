@@ -33,7 +33,7 @@
 
                 <tr id="item_{{ usuario[0]['idUsuario'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
                     <td>{{ usuario[0]['nmUsuarioAcesso'] }}</td>
-                    <td>{{ usuario[0]['nmUsuarioCompleto'] }}</td>
+                    <td id="item_desc_{{ usuario[0]['idUsuario'] }}">{{ usuario[0]['nmUsuarioCompleto'] }}</td>
                     <td>{{ usuario['nmLocal'] }}</td>
                     <td align="center"></td>
                     <td>{{ usuario['teGrupoUsuarios'] }}</td>

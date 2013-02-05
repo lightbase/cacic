@@ -2,37 +2,40 @@
 
 {% block body %}
 
-    <div class="page-header">
-        <h1>Servidor
-            <small>Cadastro de novo Servidor de Autenticação</small></h1>
-    </div>
+	<div class="page-header">
+		<h1>Servidor
+			<small>Dados do Servidor de Autenticação</small></h1>
+	</div>
 
-    <div class="well">
+	<div class="well">
 
-        <form action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+		<form id="formServidorAutenticacao" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
 
-            {{ form_row(form.nmServidorAutenticacao) }}
-            {{ form_row(form.teIpServidorAutenticacao) }}
-            {{ form_row(form.idTipoProtocolo) }}
-            {{ form_row(form.nuVersaoProtocolo) }}
-            {{ form_row(form.nuPortaServidorAutenticacao) }}
-            {{ form_row(form.teObservacao) }}
+			{{ form_row(form.nmServidorAutenticacao) }}
+            {{ form_row(form.nmServidorAutenticacaoDns) }}
+			{{ form_row(form.teIpServidorAutenticacao) }}
+			{{ form_row(form.idTipoProtocolo) }}
+			{{ form_row(form.nuVersaoProtocolo) }}
+			{{ form_row(form.nuPortaServidorAutenticacao) }}
+			{{ form_row(form.teObservacao) }}
 
-            <h2><div align="center">Atributos para Consulta de Dados de Pessoas no Serviço de Diretórios</div></h2>
+			<h2><div align="center">Atributos para Consulta de Dados de Pessoas no Serviço de Diretórios</div></h2>
 
-            {{ form_row(form.teAtributoIdentificador) }} {{ form_row(form.teAtributoRetornaNome) }}
-            {{ form_row(form.teAtributoRetornaEmail) }}
-            {{ form_rest(form) }}
-            <div class="form-opcoes">
-                <input type="reset" value="Limpar Valores" class="btn btn-small" />
-                <input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
-            </div>
+			{{ form_row(form.teAtributoIdentificador) }} {{ form_row(form.teAtributoRetornaNome) }}
+			{{ form_row(form.teAtributoRetornaEmail) }}
+			{{ form_rest(form) }}
+			<div class="form-opcoes">
+				<input type="reset" value="Limpar Valores" class="btn btn-small" />
+				<input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
+			</div>
 
-        </form>
+		</form>
 
-    </div>
+	</div>
 
-    <div >
-        <a class="btn btn-danger btn-small"  href="{{ path('cacic_servidorautenticacao_index') }}">Cancelar</a>
-    </div>
+	<div >
+		<a class="btn btn-danger btn-small"  href="{{ path('cacic_servidorautenticacao_index') }}">Cancelar</a>
+	</div>
+
+
 {% endblock %}

@@ -86,3 +86,23 @@ cacic_servidorautenticacao_editar:
 cacic_servidorautenticacao_excluir:
     pattern:  /servidorautenticacao/excluir
     defaults: { _controller: CacicCommonBundle:ServidorAutenticacao:excluir}
+
+cacic_subrede_index:
+    pattern: /subrede/{page}
+    defaults: {_controller: CacicCommonBundle:Rede:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_subrede_cadastrar:
+    pattern: /subrede/cadastrar
+    defaults: { _controller: CacicCommonBundle:Rede:cadastrar}
+
+cacic_subrede_editar:
+    pattern:  /subrede/editar/{idRede}
+    defaults: { _controller: CacicCommonBundle:Rede:editar}
+    requirements:
+        idRede: \d+
+
+cacic_subrede_excluir:
+    pattern:  /subrede/excluir
+    defaults: { _controller: CacicCommonBundle:Rede:excluir}

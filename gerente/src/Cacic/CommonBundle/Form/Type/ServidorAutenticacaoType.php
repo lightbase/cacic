@@ -21,22 +21,25 @@ class  ServidorAutenticacaoType extends AbstractType
                             'max_length' => 60
                       )
         );
-
+        $builder->add('nmServidorAutenticacaoDns', 'text',
+            array(
+                'label' => 'Identificador no DNS:',
+                'max_length' => 60
+            )
+        );
         $builder->add('teIpServidorAutenticacao', 'text',
                       array(
                             'label' =>'Endereço IP:',
                             'max_length' => 30
                       )
         );
-
-        $builder->add('idTipoProtocolo', 'entity',
+        $builder->add('idTipoProtocolo', 'choice',
                        array(
-                           'class' => 'CacicCommonBundle:ServidoresAutenticacao',
-                           'property' => 'idTipoProtocolo',
-                           'label' => 'Protocolo:'
+                           'empty_value' => 'Selecione o protocolo',
+                           'label' => 'Protocolo:',
+                           'choices' =>array( 'LDAP' =>'LDAP',),
                        )
         );
-
         $builder->add('nuPortaServidorAutenticacao', 'text',
             array(
                 'data'=> '389',
@@ -45,14 +48,12 @@ class  ServidorAutenticacaoType extends AbstractType
                 'max_length' => 10
             )
         );
-
         $builder->add('nuVersaoProtocolo', 'text',
                        array(
                            'label' => 'Versão:',
                            'max_length' => 10
                        )
         );
-
         $builder->add('teObservacao', 'textarea',
                        array(
                            'label'=>'Observação:',
@@ -60,17 +61,11 @@ class  ServidorAutenticacaoType extends AbstractType
 
                        )
         );
-
-
-
         $builder->add('teAtributoIdentificador', 'text',
                       array(
                            'label'=>'Identificador:'
                       )
         );
-
-
-
         $builder->add('teAtributoIdentificador', 'text',
             array(
                 'label'=>'Identificador:'
@@ -84,6 +79,28 @@ class  ServidorAutenticacaoType extends AbstractType
         $builder->add('teAtributoRetornaEmail', 'email',
             array(
                 'label'=>'Retorno de Email:'
+            )
+        );
+        $builder->add('teAtributoStatusConta', 'hidden',
+            array(
+                'data'=> 'accountstatus',
+            )
+        );
+        $builder->add('teAtributoValorStatusContaValida', 'hidden',
+            array(
+                'data'=> 'active',
+            )
+        );
+        $builder->add('inAtivo', 'hidden',
+            array(
+                'data'=> 'S'
+            )
+        );
+        $builder->add('inAtivo', 'choice',
+            array(
+                'label' => 'Servidor Ativo:',
+                'choices' =>array( 'S' =>'Sim',
+                                   'N' =>'Não'),
             )
         );
 
