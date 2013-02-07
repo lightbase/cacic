@@ -1,0 +1,99 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Subredes<small>Lista de Subredes cadastrados</small></h1>
+    </div>
+
+    <div class="well">
+
+        <table class="paginacao" cellpadding="2" cellspacing="0" width="100%" align="center">
+            <tr>
+                <td align="left"></td>
+                <td align="right"></td>
+            </tr>
+        </table>
+
+        <table class="list">
+            <thead>
+            <tr>
+                <th width="10%">Endereço<br />Máscara</th>
+                <th width="10%">Subrede</th>
+                <th width="10%" style="text-align: center">Local</th>
+                <th width="5%" style="text-align: center">Máquinas</th>
+                <th width="5%" style="text-align: center">Autenticação</th>
+                <th width="10%" style="text-align: center">Aplicação</th>
+                <th width="10%" style="text-align: center">Atualização</th>
+                <th style="text-align: center">Ações</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for rede in redes %}
+
+                <tr id="item_{{ rede[0]['idRede'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                    <td>{{ rede[0]['teIpRede'] }}/{{ rede[0]['teMascaraRede'] }}</td>
+                    <td id="item_desc_{{ rede[0]['idRede'] }}">{{ rede[0]['nmRede'] }}</td>
+                    <td style="text-align: center">{{ rede['nmLocal']}}</td>
+                    <td style="text-align: center">{{ rede[0]['idLocal'] }}</td>
+                    <td style="text-align: center">{{ rede[0]['idLocal'] }}</td>
+                    <td style="text-align: center">{{ rede[0]['teServCacic'] }}</td>
+                    <td style="text-align: center">{{ rede[0]['teServUpdates'] }}</td>
+                    <td style="text-align: center">
+                        <a href="{{ path('cacic_subrede_editar', {'idRede': rede[0]['idRede']}) }}">
+                            <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Item" title="Editar Item"  /></a>
+
+                        <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" id="bt-excluir-{{ rede[0]['idRede'] }}" />
+                    </td>
+                </tr>
+
+            {% else %}
+                <tr>
+                    <td align="center" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <div align="right">
+        <a class="btn btn-primary btn-small bt-adicionar" href="{{ path('cacic_subrede_cadastrar') }}">Adicionar Subrede</a>
+    </div>
+
+    <script type="text/javascript">
+
+        $( ".bt-excluir" ).click( function() {
+            var id = $(this).attr('id').replace(/.*?(\d+)$/, '$1');
+
+            if( confirm ( "Deseja excluir \"" + $( "#item_desc_" + id ).text() + "\" ?" ) )
+            {
+                var parameters = "idRede="+id;
+
+                $.ajax(
+                        {
+                            type: "POST",
+                            url: "{{ path( 'cacic_subrede_excluir' ) }}",
+                            cache: false,
+                            async: false,
+                            success: function( data )
+                            {
+                                $('#msgSucesso').text( 'Item excluído com sucesso!' ).fadeIn();
+                                $( '#item_' + id ).fadeOut();
+                            },
+                            error: function( data )
+                            {
+                                alert( 'Erro! Não foi possível realizar a solicitação!' );
+                            },
+                            data: parameters
+                        }
+                );
+            }
+
+        });
+
+    </script>
+
+{% endblock %}
