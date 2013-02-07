@@ -34,7 +34,7 @@ class RedesRepository extends EntityRepository
     
     /**
      * 
-     * Método de listagem de Locais associados 
+     * Método de listagem de Redes associadas a determinado Local 
      * @param integer $idLocal
      */
     public function listarPorLocal( $idLocal )

@@ -73,6 +73,12 @@ cacic_local_redesassociadas:
     requirements:
         idLocal: \d+
 
+cacic_local_usuariosassociados:
+    pattern:  /local/usuarios/{idLocal}
+    defaults: { _controller: CacicCommonBundle:Local:usuarios}
+    requirements:
+        idLocal: \d+
+
 cacic_servidorautenticacao_index:
     pattern: /servidorautenticacao/{page}
     defaults: {_controller: CacicCommonBundle:ServidorAutenticacao:index, page: 1 }

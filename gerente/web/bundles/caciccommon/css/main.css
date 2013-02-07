@@ -62,3 +62,8 @@ div.well form div {
 div.well form label {
 	font-weight: bold;
 }
+
+FORM h4 {
+	margin-top: 15px;
+	color: #00c;
+}

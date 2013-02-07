@@ -56,7 +56,7 @@ class  UsuarioType extends AbstractType
 		
 		$builder->add( 'nmUsuarioCompleto', 'text', array( 'label' => 'Nome Completo', 'max_length' => 60 ) );
 		
-		$builder->add( 'teEmailsContato', 'email', array( 'label' => 'Email', 'required' => false, 'max_length' => 100 ) );
+		$builder->add( 'teEmailsContato', 'email', array( 'label' => 'E-mail', 'required' => false, 'max_length' => 100 ) );
 		
 		$builder->add( 'teTelefonesContato', 'text', array( 'label' => 'Telefones para Contato', 'required' => false, 'max_length' => 100 ) );
 		
@@ -65,10 +65,10 @@ class  UsuarioType extends AbstractType
 		
 		$builder->add( 'grupo', 'entity',
 						array(
-							'empty_value' => 'Selecione Acesso',
+							'empty_value' => 'Selecione o Nível de Acesso',
 							'class' => 'CacicCommonBundle:GrupoUsuarios',
 							'property' => 'teGrupoUsuarios',
-							'label'=> 'Selecione Tipo de Acesso'
+							'label'=> 'Nível de Acesso'
 						)
 		);
 		$builder->add( 'idGrupoUsuarios', 'hidden' );

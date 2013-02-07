@@ -32,6 +32,25 @@ class UsuariosRepository extends EntityRepository
 
 		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}
+	
+	/**
+	 * 
+	 * Lista os Usuários cadastrados associados a determinado Local
+	 * @param integer $idLocal
+	 */
+	public function listarPorLocal( $idLocal )
+	{
+		$_dql = "SELECT u, g.teGrupoUsuarios
+				FROM CacicCommonBundle:Usuarios u
+				JOIN u.grupo g
+				WHERE u.idLocal = :idLocalPrimario OR u.teLocaisSecundarios LIKE :idLocalSecundario";
+
+        return $this->getEntityManager()
+        			->createQuery( $_dql )
+        			->setParameter( 'idLocalPrimario', $idLocal )
+        			->setParameter( 'idLocalSecundario' , "%{$idLocal}%")
+        			->getArrayResult();
+	}
 
 	public function trocarsenha()
 	{
