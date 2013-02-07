@@ -46,7 +46,7 @@ class UsuarioController extends Controller
 		{
 			$form->bind( $request );
 			
-			//Debug::dump( $form->getExtraData() );die;
+			Debug::dump( $request->get('teLocaisSecundarios') );die;
 			
 			if ( $form->isValid() )
 			{

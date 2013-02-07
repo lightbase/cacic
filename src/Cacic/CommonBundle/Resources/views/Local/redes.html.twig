@@ -1,0 +1,29 @@
+<h4>Redes Associadas</h4>
+	
+<table class="list">
+	<thead>
+    <tr>
+	    <th width="10%" style="text-align: center"></th>
+	    <th width="30%">Endereço IP</th>
+	    <th>Nome da Rede</th>
+    </tr>
+	</thead>
+	
+  	<tbody>
+	
+    {% for rede in redes %}
+    
+    <tr id="item_{{ rede['idRede'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+	    <td style="text-align: center">{{ loop.index }}</td>
+	    <td id="item_desc_{{ rede['idRede'] }}">{{ rede['teIpRede'] }}</td>
+	    <td>{{ rede['nmRede'] }}</td>
+    </tr>
+    
+    {% else %}
+    <tr>
+		<td align="center" colspan="3"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+	</tr>
+	{% endfor %}
+    
+  </tbody>
+</table>
