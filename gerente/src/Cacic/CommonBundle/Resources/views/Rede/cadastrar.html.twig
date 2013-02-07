@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h1>SubRede
+            <small>Dados das SubRedes</small></h1>
+    </div>
+
+    <div class="well">
+
+        <form id="formRede" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+
+            {{ form_row(form.idLocal) }}
+            {{ form_row(form.idServidorAutenticacao) }}
+            {{ form_row(form.teIpRede) }}
+            {{ form_row(form.nmRede) }}
+            {{ form_row(form.teMascaraRede) }}
+            {{ form_row(form.teServCacic) }}
+            {{ form_row(form.teServUpdates) }}
+            {{ form_row(form.idRede) }}
+            {{ form_row(form.nuPortaServUpdates) }}
+            {{ form_row(form.nuLimiteFtp) }}
+            {{ form_row(form.nmUsuarioLoginServUpdates) }}
+            {{ form_row(form.nuLimiteFtp) }}
+            {{ form_row(form.nuLimiteFtp) }}
+            {{ form_row(form.nuLimiteFtp) }}
+            {{ form_row(form.nuLimiteFtp) }}
+            {{ form_rest(form) }}
+            <div class="form-opcoes">
+                <input type="reset" value="Limpar Valores" class="btn btn-small" />
+                <input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
+            </div>
+
+        </form>
+
+    </div>
+
+    <div >
+        <a class="btn btn-danger btn-small"  href="{{ path('cacic_subrede_index') }}">Cancelar</a>
+    </div>
+
+
+{% endblock %}
