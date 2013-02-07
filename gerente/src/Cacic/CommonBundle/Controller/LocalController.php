@@ -89,7 +89,7 @@ class LocalController extends Controller
 		}
 		
 		return $this->render(
-			'CacicCommonBundle:Local:cadastrar.html.twig',
+			'CacicCommonBundle:Local:editar.html.twig',
 			array( 'form' => $form->createView() )
 		);
 	}
@@ -116,6 +116,18 @@ class LocalController extends Controller
 		$response->headers->set('Content-Type', 'application/json');
 		
 		return $response;
+	}
+	
+	/**
+	 * 
+	 * [GRID] Redes associadas ao Local
+	 */
+	public function redesAction( $idLocal )
+	{
+		return $this->render(
+        	'CacicCommonBundle:Local:redes.html.twig',
+        	array( 'redes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Redes' )->listarPorLocal( $idLocal ) )
+        );
 	}
 	
 }

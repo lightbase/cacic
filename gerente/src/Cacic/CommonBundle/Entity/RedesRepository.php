@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  *
- * Reposit�rio de m�todos de consulta em DQL
+ * Repositório de métodos de consulta em DQL
  * @author lightbase
  *
  */
@@ -20,7 +20,7 @@ class RedesRepository extends EntityRepository
 
     /**
      *
-     * Método de listagem dos Locais cadastrados e respectivas informações de Subredes
+     * Método de listagem das Redes cadastradas e respectivas informações dos locais associados
      */
     public function listar()
     {
@@ -29,9 +29,24 @@ class RedesRepository extends EntityRepository
 				LEFT JOIN r.local l
 				GROUP BY r.idRede";
 
-        $query = $this->getEntityManager()->createQuery( $_dql );
-        return $query->getArrayResult();
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+    }
+    
+    /**
+     * 
+     * Método de listagem de Locais associados 
+     * @param integer $idLocal
+     */
+    public function listarPorLocal( $idLocal )
+    {
+    	$_dql = "SELECT r
+				FROM CacicCommonBundle:Redes r
+				WHERE r.idLocal = :idLocal";
 
+        return $this->getEntityManager()
+        			->createQuery( $_dql )
+        			->setParameter( 'idLocal', $idLocal )
+        			->getArrayResult();
     }
 
 }

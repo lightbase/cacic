@@ -67,6 +67,12 @@ cacic_local_excluir:
     pattern:  /local/excluir
     defaults: { _controller: CacicCommonBundle:Local:excluir}
 
+cacic_local_redesassociadas:
+    pattern:  /local/redes/{idLocal}
+    defaults: { _controller: CacicCommonBundle:Local:redes}
+    requirements:
+        idLocal: \d+
+
 cacic_servidorautenticacao_index:
     pattern: /servidorautenticacao/{page}
     defaults: {_controller: CacicCommonBundle:ServidorAutenticacao:index, page: 1 }

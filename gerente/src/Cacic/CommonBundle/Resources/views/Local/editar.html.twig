@@ -1,0 +1,5 @@
+{% extends 'CacicCommonBundle:Local:cadastrar.html.twig' %}
+
+{% block redesAssociadas %}
+{% render url('cacic_local_redesassociadas', { 'idLocal': form.vars.value.idLocal }) %}
+{% endblock %}
