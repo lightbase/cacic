@@ -18,14 +18,27 @@
             {{ form_row(form.teMascaraRede) }}
             {{ form_row(form.teServCacic) }}
             {{ form_row(form.teServUpdates) }}
-            {{ form_row(form.idRede) }}
+            {{ form_row(form.teServUpdates1) }}
             {{ form_row(form.nuPortaServUpdates) }}
             {{ form_row(form.nuLimiteFtp) }}
             {{ form_row(form.nmUsuarioLoginServUpdates) }}
-            {{ form_row(form.nuLimiteFtp) }}
-            {{ form_row(form.nuLimiteFtp) }}
-            {{ form_row(form.nuLimiteFtp) }}
-            {{ form_row(form.nuLimiteFtp) }}
+            {{ form_row(form.teSenhaLoginServUpdates) }}
+            {{ form_row(form.nmUsuarioLoginServUpdatesGerente) }}
+            {{ form_row(form.teSenhaLoginServUpdatesGerente) }}
+            {{ form_row(form.tePathServUpdates) }}
+            {{ form_row(form.teObservacao) }}
+            {{ form_row(form.nmPessoaContato1) }}
+            {{ form_row(form.nuTelefone1) }}
+            {{ form_row(form.teEmailContato1) }}
+            {{ form_row(form.nmPessoaContato2) }}
+            {{ form_row(form.nuTelefone2) }}
+            {{ form_row(form.teEmailContato2) }}
+            <h3>Marcar todas as ações para essa rede:<small>Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede.</small></h3>
+            {{ form_row(form.habilitar) }}
+            <h3>Permitir finalização de sessões do módulo srCACIC:<small>Essa opção define se o usuário final poderá ou não finalizar execuções do módulo srCACIC (Suporte Remoto Seguro). </small></h3>
+            {{ form_row(form.csPermitirDesativarSrcacic) }}
+            <h3>Selecao para coleta de informacoes de sistemas monitorados: <small>Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede. </small></h3>
+            {{ form_row(form.idAplicativo) }}
             {{ form_rest(form) }}
             <div class="form-opcoes">
                 <input type="reset" value="Limpar Valores" class="btn btn-small" />
