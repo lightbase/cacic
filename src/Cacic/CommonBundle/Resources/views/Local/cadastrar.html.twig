@@ -11,9 +11,10 @@
 	
 	{{ form_widget(form) }}
 	
-	{{ form_rest(form) }}
-	
 	{% block redesAssociadas %}{% endblock %}
+	{% block usuariosAssociados %}{% endblock %}
+	
+	{{ form_rest(form) }}
 	
 	<div class="form-opcoes">
 		<input type="reset" value="Limpar Valores" class="btn btn-small" />

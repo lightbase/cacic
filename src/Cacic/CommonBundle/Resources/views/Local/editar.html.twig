@@ -3,3 +3,7 @@
 {% block redesAssociadas %}
 {% render url('cacic_local_redesassociadas', { 'idLocal': form.vars.value.idLocal }) %}
 {% endblock %}
+
+{% block usuariosAssociados %}
+{% render url('cacic_local_usuariosassociados', { 'idLocal': form.vars.value.idLocal }) %}
+{% endblock %}

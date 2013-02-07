@@ -1,0 +1,35 @@
+<h4>Usuários Associados</h4>
+	
+<table class="list">
+	<thead>
+    <tr>
+	    <th width="5%" style="text-align: center"></th>
+	    <th width="20%">Login</th>
+	    <th width="25%">Nome Completo</th>
+	    <th width="20%">Nível de acesso</th>
+	    <th width="15%">Tipo de acesso</th>
+	    <th>E-mail</th>
+    </tr>
+	</thead>
+	
+  	<tbody>
+	
+    {% for usuario in usuarios %}
+    
+    <tr id="item_{{ usuario[0]['idUsuario'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+	    <td style="text-align: center">{{ loop.index }}</td>
+	    <td id="item_desc_{{ usuario[0]['idUsuario'] }}">{{ usuario[0]['nmUsuarioAcesso'] }}</td>
+	    <td>{{ usuario[0]['nmUsuarioCompleto'] }}</td>
+	    <td>{{ usuario['teGrupoUsuarios'] }}</td>
+	    <td>{% if idLocal == usuario[0]['idLocal'] %} Primário {%else%} Secundário {% endif %}  </td>
+	    <td>{{ usuario[0]['teEmailsContato'] }}</td>
+    </tr>
+    
+    {% else %}
+    <tr>
+		<td colspan="6" style="text-align: center;"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+	</tr>
+	{% endfor %}
+    
+  </tbody>
+</table>
