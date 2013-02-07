@@ -70,10 +70,11 @@ class RedeType extends AbstractType
                 'max_length'=>20,
             )
         );
-        $builder->add('idRede', 'entity',
+        $builder->add('teServUpdates1', 'entity',
             array(
                 'empty_value' => '==>Selecione <==',
                 'label'=>' ',
+                'mapped'=>false,
                 'class' => 'CacicCommonBundle:Redes',
                 'property' => 'teServUpdates'
             )
@@ -98,11 +99,100 @@ class RedeType extends AbstractType
                 'max_length' => 20
             )
         );
-        $builder->add('nmUsuarioLoginServUpdates', null,
+        $builder->add('teSenhaLoginServUpdates', 'password',
             array(
-                'label' => 'Usuário do Servidor de Updates: (para AGENTE)',
+                'label' => 'Senha para Login:',
                 'max_length' => 20
             )
+        );
+        $builder->add('nmUsuarioLoginServUpdatesGerente', null,
+            array(
+                'label' => 'Usuário do Servidor de Updates: (para GERENTE)',
+                'max_length' => 20
+            )
+        );
+        $builder->add('teSenhaLoginServUpdatesGerente', 'password',
+            array(
+                'label' => 'Senha para Login:',
+                'max_length' => 20
+            )
+        );
+        $builder->add('tePathServUpdates', null,
+             array(
+                 'label' => 'Path no Servidor de Updates:',
+                 'max_length' => 20
+             )
+         );
+        $builder->add('teObservacao', 'textarea',
+            array(
+                'label' => 'Observações:',
+                'max_length' => 200
+            )
+        );
+        $builder->add('nmPessoaContato1', null,
+            array(
+                'label' => 'Contato 1:',
+                'max_length' => 20
+            )
+        );
+        $builder->add('nuTelefone1', 'number',
+            array(
+                'label' => 'Telefone:',
+                'max_length' => 10
+            )
+        );
+        $builder->add('teEmailContato1', 'email',
+            array(
+                'label' => 'E-mail:',
+                'max_length' => 10
+            )
+        );
+        $builder->add('nmPessoaContato2', null,
+            array(
+                'label' => 'Contato 2:',
+                'max_length' => 20
+            )
+        );
+        $builder->add('nuTelefone2', 'number',
+            array(
+                'label' => 'Telefone:',
+                'max_length' => 10
+            )
+        );
+        $builder->add('teEmailContato2', 'email',
+            array(
+                'label' => 'E-mail:',
+                'max_length' => 20
+            )
+        );
+        $builder->add('habilitar', 'choice',
+            array(
+                'choices'   => array('s' => 'Sim', 'n' => 'Não'),
+                'required'  => false,
+                'expanded'  => true,
+                'mapped'=>false,
+                'label' => ' '
+
+            )
+        );
+        $builder->add('csPermitirDesativarSrcacic', 'choice',
+            array(
+                'choices'   => array('s' => 'Sim', 'n' => 'Não'),
+                'required'  => false,
+                'expanded'  => true,
+                'label' => ' '
+
+            )
+        );
+        $builder->add('idAplicativo', 'entity',
+             array(
+                 'class' => 'CacicCommonBundle:PerfisAplicativosMonitorados',
+                 'property' => 'nmAplicativo',
+                 'required'  => false,
+                 'mapped'=>false,
+                 'expanded'  => true,
+                 'label' => ' '
+             )
         );
 	}
 
