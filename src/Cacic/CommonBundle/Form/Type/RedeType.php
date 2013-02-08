@@ -126,43 +126,50 @@ class RedeType extends AbstractType
         $builder->add('teObservacao', 'textarea',
             array(
                 'label' => 'Observações:',
+                'required'  => false,
                 'max_length' => 200
             )
         );
         $builder->add('nmPessoaContato1', null,
             array(
                 'label' => 'Contato 1:',
+                'required'  => false,
                 'max_length' => 20
             )
         );
         $builder->add('nuTelefone1', 'number',
             array(
                 'label' => 'Telefone:',
+                'required'  => false,
                 'max_length' => 10
             )
         );
         $builder->add('teEmailContato1', 'email',
             array(
                 'label' => 'E-mail:',
+                'required'  => false,
                 'max_length' => 10
             )
         );
         $builder->add('nmPessoaContato2', null,
             array(
                 'label' => 'Contato 2:',
+                'required'  => false,
                 'max_length' => 20
             )
         );
         $builder->add('nuTelefone2', 'number',
             array(
                 'label' => 'Telefone:',
+                'required'  => false,
                 'max_length' => 10
             )
         );
         $builder->add('teEmailContato2', 'email',
             array(
                 'label' => 'E-mail:',
-                'max_length' => 20
+                'max_length' => 20,
+                'required'  => false
             )
         );
         $builder->add('habilitar', 'choice',

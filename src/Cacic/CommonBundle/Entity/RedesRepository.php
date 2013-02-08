@@ -48,5 +48,21 @@ class RedesRepository extends EntityRepository
         			->setParameter( 'idLocal', $idLocal )
         			->getArrayResult();
     }
+    /**
+     *
+     * Método de listagem de Redes associadas a determinado Servidor Autenticacao
+     * @param integer $idServidorAutenticacao
+     */
+    public function listarPorServidorAutenticacao( $idServidorAutenticacao )
+    {
+        $_dql = "SELECT r
+				FROM CacicCommonBundle:Redes r
+				WHERE r.idServidorAutenticacao = :idServidorAutenticacao";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameter( 'idServidorAutenticacao', $idServidorAutenticacao )
+            ->getArrayResult();
+    }
 
 }

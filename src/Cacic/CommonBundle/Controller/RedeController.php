@@ -44,7 +44,38 @@ class RedeController extends Controller
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
-                return $this->redirect( $this->generateUrl( 'cacic_servidorautenticacao_index') );
+                return $this->redirect( $this->generateUrl( 'cacic_subrede_index') );
+            }
+        }
+
+        return $this->render( 'CacicCommonBundle:Rede:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+    }
+
+    /**
+     *  Página de editar dados do subrede
+     *  @param int $idRede
+     */
+    public function editarAction( $idRede, Request $request )
+    {
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Redes')->find( $idRede );
+        if ( ! $rede )
+            throw $this->createNotFoundException( 'Subrede não encontrado' );
+
+        $form = $this->createForm( new RedeType(), $rede );
+
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
+
+            if ( $form->isValid() )
+            {
+                $this->getDoctrine()->getManager()->persist( $rede );
+                $this->getDoctrine()->getManager()->flush();// Efetuar a edição do ServidorAutenticacao
+
+
+                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+
+                return $this->redirect($this->generateUrl('cacic_subrede_editar', array( 'idRede'=>$rede->getIdRede() ) ) );
             }
         }
 
