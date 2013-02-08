@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  *
- * Repositório de métodos de consulta em DQL
+ * Repositï¿½rio de mï¿½todos de consulta em DQL
  * @author lightbase
  *
  */
@@ -19,7 +19,7 @@ class ServidoresAutenticacaoRepository extends EntityRepository
     }
     /**
      *
-     * Método de listagem dos servidores cadastrados
+     * Mï¿½todo de listagem dos servidores cadastrados
      */
     public function listar()
     {
@@ -30,5 +30,6 @@ class ServidoresAutenticacaoRepository extends EntityRepository
         $query = $this->getEntityManager()->createQuery( $_dql );
         return $query->getArrayResult();
     }
+
 
 }

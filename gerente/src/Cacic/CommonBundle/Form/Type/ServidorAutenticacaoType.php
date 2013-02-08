@@ -101,6 +101,8 @@ class  ServidorAutenticacaoType extends AbstractType
                 'label' => 'Servidor Ativo:',
                 'choices' =>array( 'S' =>'Sim',
                                    'N' =>'Não'),
+                'required'  => false,
+                'expanded'  => true,
             )
         );
 

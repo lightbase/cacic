@@ -1,0 +1,6 @@
+{% extends 'CacicCommonBundle:ServidorAutenticacao:cadastrar.html.twig' %}
+
+{% block redesAssociadas %}
+{% render url('cacic_servidorautenticacao_redesassociadas', { 'idServidorAutenticacao': form.vars.value.idServidorAutenticacao }) %}
+{% endblock %}
+

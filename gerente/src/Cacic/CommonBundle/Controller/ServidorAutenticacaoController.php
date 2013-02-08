@@ -66,7 +66,7 @@ class ServidorAutenticacaoController extends Controller
             }
         }
 
-        return $this->render( 'CacicCommonBundle:ServidorAutenticacao:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $this->render( 'CacicCommonBundle:ServidorAutenticacao:editar.html.twig', array( 'form' => $form->createView() ) );
     }
 
     /**
@@ -92,4 +92,16 @@ class ServidorAutenticacaoController extends Controller
 
         return $response;
     }
+    /**
+     *
+     * [GRID] Redes associadas ao Servidores de Autenticação
+     */
+    public function redesAction( $idServidorAutenticacao )
+    {
+        return $this->render(
+            'CacicCommonBundle:ServidorAutenticacao:redes.html.twig',
+            array( 'redes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Redes' )->listarPorServidorAutenticacao( $idServidorAutenticacao ) )
+        );
+    }
+
 }

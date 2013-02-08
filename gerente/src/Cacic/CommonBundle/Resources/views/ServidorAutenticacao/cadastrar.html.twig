@@ -23,7 +23,10 @@
 
 			{{ form_row(form.teAtributoIdentificador) }} {{ form_row(form.teAtributoRetornaNome) }}
 			{{ form_row(form.teAtributoRetornaEmail) }}
+            {{ form_row(form.inAtivo) }}
+            {% block redesAssociadas %}{% endblock %}
 			{{ form_rest(form) }}
+
 			<div class="form-opcoes">
 				<input type="reset" value="Limpar Valores" class="btn btn-small" />
 				<input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
