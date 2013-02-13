@@ -1,0 +1,91 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Perfis de Aplicativos Monitorados<small>Lista de Aplicativos Monitorados cadastrados</small></h1>
+    </div>
+
+    <div class="well">
+
+        <table class="paginacao" cellpadding="2" cellspacing="0" width="100%" align="center">
+            <tr>
+                <td align="left"></td>
+                <td align="right"></td>
+            </tr>
+        </table>
+
+        <table class="list">
+            <thead>
+            <tr>
+                <th width="40%">Sistema Monitorado</th>
+                <th width="30%">Totais de Redes Alvo</th>
+                <th width="10%" style="text-align: center">Verificação Ativa</th>
+                <th style="text-align: center">Ações</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for perfil in perfisaplicativosmonitorados %}
+
+                <tr id="item_{{ perfil['idAplicativo'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                    <td id="item_desc_{{ perfil['idAplicativo'] }}">{{ perfil['nmAplicativo'] }}</td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center"></td>
+                    <td style="text-align: center">
+                        <a href="{{ path('cacic_perfilaplicativomonitorado_editar', {'idAplicativo': perfil['idAplicativo']}) }}">
+                            <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Item" title="Editar Item"  /></a>
+
+                        <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" id="bt-excluir-{{ perfil['idAplicativo'] }}" />
+                    </td>
+                </tr>
+
+            {% else %}
+                <tr>
+                    <td style="text-align: center;" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <div align="right">
+        <a class="btn btn-primary btn-small bt-adicionar" href="{{ path('cacic_perfilaplicativomonitorado_cadastrar') }}">Adicionar Perfil de Sistema</a>
+    </div>
+
+    <script type="text/javascript">
+
+        $( ".bt-excluir" ).click( function() {
+            var id = $(this).attr('id').replace(/.*?(\d+)$/, '$1');
+
+            if( confirm ( "Deseja excluir \"" + $( "#item_desc_" + id ).text() + "\" ?" ) )
+            {
+                var parameters = "idLocal="+id;
+
+                $.ajax(
+                        {
+                            type: "POST",
+                            url: "{{ path( 'cacic_perfilaplicativomonitorado_excluir' ) }}",
+                            cache: false,
+                            async: false,
+                            success: function( data )
+                            {
+                                $('#msgSucesso').text( 'Item excluído com sucesso!' ).fadeIn();
+                                $( '#item_' + id ).fadeOut();
+                            },
+                            error: function( data )
+                            {
+                                alert( 'Erro! Não foi possível realizar a solicitação!' );
+                            },
+                            data: parameters
+                        }
+                );
+            }
+
+        });
+
+    </script>
+
+{% endblock %}

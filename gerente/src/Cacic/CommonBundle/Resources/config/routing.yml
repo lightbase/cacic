@@ -124,3 +124,24 @@ cacic_subrede_editar:
 cacic_subrede_excluir:
     pattern:  /subrede/excluir
     defaults: { _controller: CacicCommonBundle:Rede:excluir}
+
+
+cacic_perfilaplicativomonitorado_index:
+    pattern: /perfilaplicativomonitorado/{page}
+    defaults: {_controller: CacicCommonBundle:PerfilAplicativoMonitorado:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_perfilaplicativomonitorado_cadastrar:
+    pattern: /perfilaplicativomonitorado/cadastrar
+    defaults: { _controller: CacicCommonBundle:PerfilAplicativoMonitorado:cadastrar}
+
+cacic_perfilaplicativomonitorado_editar:
+    pattern:  /perfilaplicativomonitorado/editar/{idAplicativo}
+    defaults: { _controller: CacicCommonBundle:PerfilAplicativoMonitorado:editar}
+    requirements:
+        idAplicativo: \d+
+
+cacic_perfilaplicativomonitorado_excluir:
+    pattern:  /perfilaplicativomonitorado/excluir
+    defaults: { _controller: CacicCommonBundle:PerfilAplicativoMonitorado:excluir}
