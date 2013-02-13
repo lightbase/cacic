@@ -137,7 +137,7 @@ class RedeType extends AbstractType
                 'max_length' => 20
             )
         );
-        $builder->add('nuTelefone1', 'number',
+        $builder->add('nuTelefone1', 'text',
             array(
                 'label' => 'Telefone:',
                 'required'  => false,
@@ -158,7 +158,7 @@ class RedeType extends AbstractType
                 'max_length' => 20
             )
         );
-        $builder->add('nuTelefone2', 'number',
+        $builder->add('nuTelefone2', 'text',
             array(
                 'label' => 'Telefone:',
                 'required'  => false,
