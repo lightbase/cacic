@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PerfisAplicativosMonitorados
  *
  * @ORM\Table(name="perfis_aplicativos_monitorados")
- * @ORM\Entity
+ *  @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\PerfisAplicativosMonitoradosRepository")
  */
 class PerfisAplicativosMonitorados
 {

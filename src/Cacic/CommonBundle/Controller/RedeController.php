@@ -81,4 +81,27 @@ class RedeController extends Controller
 
         return $this->render( 'CacicCommonBundle:Rede:cadastrar.html.twig', array( 'form' => $form->createView() ) );
     }
+    /**
+     *
+     * [AJAX] Exclusão de Rede já cadastrado
+     * @param integer $idRede
+     */
+    public function excluirAction( Request $request )
+    {
+        if ( ! $request->isXmlHttpRequest() )
+            throw $this->createNotFoundException( 'Página não encontrada' );
+
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Redes')->find( $request->get('idRede') );
+        if ( ! $rede )
+            throw $this->createNotFoundException( 'Subrede não encontrado' );
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove( $rede );
+        $em->flush();
+
+        $response = new Response( json_encode( array('status' => 'ok') ) );
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
 }
