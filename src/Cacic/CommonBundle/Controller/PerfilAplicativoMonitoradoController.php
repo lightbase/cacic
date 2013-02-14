@@ -52,12 +52,12 @@ class PerfilAplicativoMonitoradoController extends Controller
     }
 
     /**
-     *  Página de editar dados do subrede
-     *  @param int $idRede
+     *  Página de editar dados do Perfil Aplicativo Monitorado
+     *  @param int $idAplicativo
      */
     public function editarAction( $idAplicativo, Request $request )
     {
-        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:Redes')->find( $idAplicativo );
+        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:PerfisAplicativosMonitorados')->find( $idAplicativo );
         if ( ! $perfil )
             throw $this->createNotFoundException( 'Perfil Aplicativo Monitorado não encontrado' );
 
@@ -80,5 +80,28 @@ class PerfilAplicativoMonitoradoController extends Controller
         }
 
         return $this->render( 'CacicCommonBundle:PerfilAplicativoMonitorado:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+    }
+    /**
+     *
+     * [AJAX] Exclusão de Perfil Aplicativo Monitorado já cadastrado
+     * @param integer $idAplicativo
+     */
+    public function excluirAction( Request $request )
+    {
+        if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
+            throw $this->createNotFoundException( 'Página não encontrada' );
+
+        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:PerfisAplicativosMonitorados')->find( $request->get('idAplicativo') );
+        if ( ! $perfil )
+            throw $this->createNotFoundException( 'Perfis Aplicativos Monitorados não encontrado' );
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove( $perfil );
+        $em->flush();
+
+        $response = new Response( json_encode( array('status' => 'ok') ) );
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 }
