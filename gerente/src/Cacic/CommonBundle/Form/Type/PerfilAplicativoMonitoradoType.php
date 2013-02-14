@@ -35,7 +35,8 @@ class PerfilAplicativoMonitoradoType extends AbstractType
                 'choices' => array('s'=>'Sim',
                                    'n'=>'Não'),
                 'preferred_choices' => array('n'),
-                'label' => 'Disponibilizar Informações no Systray? (ícone na bandeja da estação):'
+                'label' => 'Disponibilizar Informações no Systray?
+                            (ícone na bandeja da estação):'
             )
         );
         $builder->add('inDisponibilizaInfoUsuarioComum', 'choice',
@@ -43,7 +44,8 @@ class PerfilAplicativoMonitoradoType extends AbstractType
                 'choices' => array('s'=>'Sim',
                                    'n'=>'Não'),
                 'preferred_choices' => array('n'),
-                'label' => 'Disponibilizar Informações ao Usuário Comum? (diferente de Administrador):'
+                'label' => 'Disponibilizar Informações ao Usuário Comum?
+                            (diferente de Administrador):'
             )
         );
         $builder->add('teDescritivo', 'textarea',
@@ -59,7 +61,7 @@ class PerfilAplicativoMonitoradoType extends AbstractType
                                    '2'=>'Nome/Seção/Chave de Arquivo INI'),
                 'empty_value' => ' ',
                 'required'  => false,
-                'label' => 'Disponibilizar Informações ao Usuário Comum? (diferente de Administrador):'
+                'label' => 'Identificador de licença:'
             )
         );
         $builder->add('csIdeLicenca1', 'text',
@@ -144,6 +146,38 @@ class PerfilAplicativoMonitoradoType extends AbstractType
                 'max_length' => 200
             )
         );
+        $builder->add( 'idRede', 'entity',
+            array(
+                'empty_value' => ' ',
+                'class' => 'CacicCommonBundle:Redes',
+                'property' => 'nmrede',
+                'multiple' => true,
+                'required'  => false,
+                'mapped'=>false,
+                'label'=> 'Disponíveis:'
+            )
+        );
+        $builder->add( 'idRede', 'entity',
+            array(
+                'empty_value' => ' ',
+                'class' => 'CacicCommonBundle:Redes',
+                'property' => 'nmrede',
+                'multiple' => true,
+                'required'  => false,
+                'mapped'=>false,
+                'label'=> 'Disponíveis:'
+            )
+        );
+        $builder->add( 'idRede1', 'choice',
+            array(
+                'empty_value' => ' ',
+                'multiple' => true,
+                'required'  => false,
+                'mapped'=>false,
+                'label'=> 'Selecionada:'
+            )
+        );
+
 }
     /**
      * (non-PHPdoc)
