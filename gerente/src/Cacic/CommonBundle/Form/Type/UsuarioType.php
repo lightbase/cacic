@@ -29,14 +29,15 @@ class  UsuarioType extends AbstractType
 
 		$builder->add( 'servidorAutenticacao', 'entity',
 						array(
-							'empty_value' => 'Selecione o Servidor',
+							'empty_value' => 'Base CACIC',
 							'class' => 'CacicCommonBundle:ServidoresAutenticacao',
 							'property' => 'nmServidorAutenticacao',
+							'required' => false,
 							'label' => 'Servidor de Autenticação'
 						)
 		);
 		# Configura o campo Servidor Autenticacao como hidden para ser tratado no próprio formulário
-		$builder->add( 'idServidorAutenticacao', 'hidden' );
+		$builder->add( 'idServidorAutenticacao', 'hidden', array( 'required' => false ) );
 		
 		# Monta o COMBOBOX (Select) com os locais secundários - não mapeado pois trata-se de um campo text
 		$builder->add( 'SelectLocaisSecundarios', 'entity',
@@ -50,7 +51,7 @@ class  UsuarioType extends AbstractType
 						)
 		);
 		# Configura o campo locais secundários como hidden para ser tratado no próprio formulário
-		$builder->add( 'TeLocaisSecundarios', 'hidden', array( 'required' => 'false' ) );
+		$builder->add( 'teLocaisSecundarios', 'hidden', array( 'required' => 'false' ) );
 		
 		$builder->add( 'nmUsuarioAcesso', 'text', array( 'label' => 'Login', 'max_length' => 20 ) );
 		
@@ -60,8 +61,8 @@ class  UsuarioType extends AbstractType
 		
 		$builder->add( 'teTelefonesContato', 'text', array( 'label' => 'Telefones para Contato', 'required' => false, 'max_length' => 100 ) );
 		
-		$builder->add( 'teSenha', 'password', array( 'label' => 'Senha', 'required' => false, 'max_length' => 60 ) );
-		$builder->add( 'teSenhaConfirma', 'password', array( 'label' => ' Confirmação da Senha', 'required' => false, 'max_length' => 60, 'mapped' => false ) );
+		/*$builder->add( 'teSenha', 'password', array( 'label' => 'Senha', 'required' => false, 'max_length' => 60 ) );
+		$builder->add( 'teSenhaConfirma', 'password', array( 'label' => ' Confirmação da Senha', 'required' => false, 'max_length' => 60, 'mapped' => false ) );*/
 		
 		$builder->add( 'grupo', 'entity',
 						array(

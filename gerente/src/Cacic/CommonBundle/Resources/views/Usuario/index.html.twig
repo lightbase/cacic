@@ -30,18 +30,22 @@
             <tbody>
 
             {% for usuario in usuarios %}
-
                 <tr id="item_{{ usuario[0]['idUsuario'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
                     <td>{{ usuario[0]['nmUsuarioAcesso'] }}</td>
                     <td id="item_desc_{{ usuario[0]['idUsuario'] }}">{{ usuario[0]['nmUsuarioCompleto'] }}</td>
                     <td>{{ usuario['nmLocal'] }}</td>
-                    <td align="center"></td>
+                    <td style="text-align: center">
+                    	{% set locaisSecundarios = usuario[0]['teLocaisSecundarios']|split(',') %}
+                    	{{ locaisSecundarios|length }}
+                    </td>
                     <td>{{ usuario['teGrupoUsuarios'] }}</td>
                     <td style="text-align: center">
                         <a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario[0]['idUsuario']}) }}">
-                            <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Item" title="Editar Item"  /></a>
+                            <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" border="0" alt="Editar Item" title="Editar Item" /></a>
 
-                        <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" id="bt-excluir-{{ usuario[0]['idUsuario'] }}" />
+						<img src="{{ asset('bundles/caciccommon/images/v3/bt_troca_senha.png') }}" alt="Editar Item" title="Editar Item" class="bt-trocar-senha" hspace="5"  />
+						
+                        <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" url="{{ path('cacic_usuario_excluir') }}" />
                     </td>
                 </tr>
             {% else %}
@@ -59,37 +63,110 @@
     <a class="btn btn-primary btn-small bt-adicionar" href="{{ path('cacic_usuario_cadastrar') }}">Adicionar Usuário</a>
 </div>
 
+<!-- DIALOG (Modal) de troca de senha -->
+<div id="trocarSenha" title="Trocar Senha">
+	<form id="frmTrocarSenha">
+	<fieldset>
+		<label for="troca_senha_te_senha">Nova Senha:</label>
+		<input type="password" name="troca_senha_te_senha" id="troca_senha_te_senha" value="" class="text ui-widget-content ui-corner-all" />
+		<label for="troca_senha_te_senha">Confirmação:</label>
+		<input type="password" name="troca_senha_te_senha_confirma" id="troca_senha_te_senha_confirma" value="" class="text ui-widget-content ui-corner-all" />
+	</fieldset>
+	</form>
+</div>
 
-    <script type="text/javascript">
 
-        $( ".bt-excluir" ).click( function() {
-            var id = $(this).attr('id').replace(/.*?(\d+)$/, '$1');
 
-            if( confirm ( "Deseja excluir \"" + $( "#item_desc_" + id ).text() + "\" ?" ) )
-            {
-                var parameters = "idUsuario="+id;
+<script type="text/javascript">
 
-                $.ajax(
-                        {
-                            type: "POST",
-                            url: "{{ path( 'cacic_usuario_excluir' ) }}",
-                            cache: false,
-                            async: false,
-                            success: function( data )
-                            {
-                                $('#msgSucesso').text( 'Item excluído com sucesso!' ).fadeIn();
-                                $( '#item_' + id ).fadeOut();
-                            },
-                            error: function( data )
-                            {
-                                alert( 'Erro! Não foi possível realizar a solicitação!' );
-                            },
-                            data: parameters
-                        }
-                );
-            }
+/**
+ * Verifica se a senha informa é valida
+ * - Se as 2 senhas conferem entre si
+ * - Se possui o mínimo de caracteres (6)
+ * - Se possui o máximo de caracteres (10)
+ * @return boolean
+ */
+function isSenhaValid()
+{
+	var min = 6; // Mínimo de caracteres para a senha
+	var max = 10; // Máximo de caracteres para a senha
+	
+	var senha = $( '#troca_senha_te_senha' ).val();
+	var senha2 = $( '#troca_senha_te_senha_confirma' ).val();
+	
+	if ( senha != senha2)		return 'Senhas não conferem';
+	if ( senha.length < min )	return 'Senha não pode conter menos que ' +min+ ' caracteres';
+	if ( senha.length > max )	return 'Senha não pode conter mais que ' +max+ ' caracteres';
+	
+	return true;
+}
 
-        });
+/**
+ * Abre a MODAL com o formulário para troca de Senha
+ */
+$( "#trocarSenha" ).dialog({
+	autoOpen: false,
+	height: 250,
+	width: 350,
+	modal: true,
+	buttons: {
+		"Salvar" : function(){
+			// Realiza a validação dos campos
+			var validation_result = isSenhaValid();
+			if( validation_result === true )
+			{
+				var params = {
+					'id' : $( this ).data( 'id' ), 
+					'senha' : $( '#troca_senha_te_senha' ).val()
+				};
+				
+				$( this ).dialog( "close" );
+				
+				$.ajax(
+					{
+						type: "POST",
+						url: "{{ path('cacic_usuario_trocar_senha') }}",
+						cache: false,
+						async: false,
+						success: function( data )
+						{
+							System.Flash.show( 'Sucesso', 'Senha alterada com sucesso!' );
+						    $( '#item_' + params.id ).fadeOut();
+						},
+						error: function( data )
+						{
+							System.Flash.show( 'Erro', 'Erro na solicitação' );
+						},
+						data: params
+					}
+				);
+			}
+			else
+			{
+				System.Flash.show( 'Erro', validation_result );
+			}
+			
+			$( this ).dialog( "close" );
+		},
+		"Cancelar" : function(){
+			$( this ).dialog( "close" );
+		}
+	},
+	show: { effect: "fade", duration: 500 },
+	hide: { effect: "fade", duration: 500 },
+	close: function( event, ui ){ 
+		// Limpa os campos do formulário
+		$( "#troca_senha_id_usuario" ).val( '' );
+		$( "#troca_senha_te_senha" ).val( '' );
+		$( "#troca_senha_te_senha_confirma" ).val( '' );
+	}
+});
 
-    </script>
+$( ".bt-trocar-senha" ).click(function(){
+	// Configura o idUsario que terá a senha alterada
+	var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
+	$( "#trocarSenha" ).data( 'id', id ).dialog( "open" ); // Abre a "Modal" com o formulário de troca de senha
+});
+
+</script>
 {% endblock %}

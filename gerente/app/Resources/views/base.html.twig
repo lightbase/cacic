@@ -10,10 +10,14 @@
 		<link href="{{ asset('bundles/caciccommon/css/bootstrap.css') }}" type="text/css" rel="stylesheet" />
 		<link href="{{ asset('bundles/caciccommon/css/message.css') }}" type="text/css" rel="stylesheet" />
 		<link href="{{ asset('bundles/caciccommon/css/main.css') }}" type="text/css" rel="stylesheet" />
+		<link href="{{ asset('bundles/caciccommon/jquery-ui-1.10.0.custom/css/dark-hive/jquery-ui-1.10.0.custom.min.css') }}" type="text/css" rel="stylesheet" />
 		{% endblock %}
 		
 		{% block javascripts %}
 		<script src="{{ asset('bundles/caciccommon/js/jquery-1.9.0.min.js') }}" type="text/javascript" language="javascript"></script>
+		<script src="{{ asset('bundles/caciccommon/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js') }}" type="text/javascript" language="javascript"></script>
+		<script src="{{ asset('bundles/caciccommon/js/System.js') }}" type="text/javascript" language="javascript"></script>
+		<script src="{{ asset('bundles/caciccommon/js/init.js') }}" type="text/javascript" language="javascript"></script>
 		{% endblock %}
 	</head>
 
@@ -68,23 +72,18 @@
 		</footer>
 	</div><!--/.fluid-container-->
 	
-	
+	{% include '::dialog.html.twig' %}
 
 </body>
 </html>
 
 <script type="text/javascript">
-	$( document ).ajaxStart( function() { 
-		$( '#ajaxLoading' ).fadeIn();
-		$( 'body' ).css( 'overflow', 'hidden' );
-	}) 
-	.ajaxStop( function() {
-		$( '#ajaxLoading' ).fadeOut();
-		$( 'body' ).css( 'overflow', 'auto' );
-	});
-	
-	{% if app.session.flashbag.get('error')|length > 0 %} $('#msgErro').show(); {% endif %}
-	{% if app.session.flashbag.get('notice')|length > 0 %} $('#msgAviso').show(); {% endif %}
-	{% if app.session.flashbag.get('success')|length > 0 %} $('#msgSucesso').show(); {% endif %}
-	
+
+/**
+ * Mensagens do sistema
+ */
+{% if app.session.flashbag.get('error')|length > 0 %} $('#msgErro').show(); {% endif %}
+{% if app.session.flashbag.get('notice')|length > 0 %} $('#msgAviso').show(); {% endif %}
+{% if app.session.flashbag.get('success')|length > 0 %} $('#msgSucesso').show(); {% endif %}
+
 </script>

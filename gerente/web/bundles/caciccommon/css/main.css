@@ -28,7 +28,7 @@ TABLE.list tbody tr.row1 {
 	background-color: #fff;
 }
 
-TABLE.list tbody .bt-excluir {
+TABLE.list tbody .bt-excluir, TABLE.list tbody .bt-trocar-senha {
 	cursor: pointer;
 }
 
@@ -66,4 +66,10 @@ div.well form label {
 FORM h4 {
 	margin-top: 15px;
 	color: #00c;
+}
+
+/* Sobreescreve alguns estilos relativos ao JQUERY-UI */
+.ui-dialog-content label {
+	color: #fff;
+	font-weight: bold;
 }

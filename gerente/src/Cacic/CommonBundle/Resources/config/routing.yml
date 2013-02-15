@@ -23,10 +23,8 @@ cacic_usuario_index:
         page: \d+
 
 cacic_usuario_trocar_senha:
-    pattern:  /usuario/trocarsenha/{idUsuario}
-    defaults: { _controller: CacicCommonBundle:Usuario:trocarsenha, idUsuario: null}
-    requirements:
-        idUsuario: \d+
+    pattern:  /usuario/trocarsenha
+    defaults: { _controller: CacicCommonBundle:Usuario:trocarsenha}
 
 cacic_usuario_cadastrar:
     pattern:  /usuario/cadastrar

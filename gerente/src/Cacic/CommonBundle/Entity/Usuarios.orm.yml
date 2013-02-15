@@ -14,7 +14,7 @@ Cacic\CommonBundle\Entity\Usuarios:
         idServidorAutenticacao:
             type: integer
             unsigned: false
-            nullable: false
+            nullable: true
             column: id_servidor_autenticacao
         idUsuarioLdap:
             type: string

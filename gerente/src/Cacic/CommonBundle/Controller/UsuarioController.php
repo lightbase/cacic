@@ -24,12 +24,26 @@ class UsuarioController extends Controller
     
     /**
      * 
-     * Página de alteraçõo de senha.
-     * Caso o idUsuario não seja informado, carrega os dados do usuário logado.
-     * @param int $idUsuario
+     * Página de alteraçõo de senha
      */
-	public function trocarsenhaAction( $idUsuario )
+	public function trocarsenhaAction( Request $request )
 	{
+		if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
+			throw $this->createNotFoundException( 'Página não encontrada' );
+		
+		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $request->get('id') );
+		if ( ! $usuario )
+			throw $this->createNotFoundException( 'Usuário não encontrado' );
+		
+		$usuario->setTeSenha( md5( $request->get('senha') ) );
+		
+		$em = $this->getDoctrine()->getManager();
+		$em->persist( $usuario );
+		$em->flush();
+		
+		$response = new Response( json_encode( array('status' => 'ok') ) );
+		$response->headers->set('Content-Type', 'application/json');
+		
 		return $this->render( 'CacicCommonBundle:Usuario:trocarsenha.html.twig');
 	}
 
@@ -45,8 +59,7 @@ class UsuarioController extends Controller
 		if ( $request->isMethod('POST') )
 		{
 			$form->bind( $request );
-			
-			Debug::dump( $request->get('teLocaisSecundarios') );die;
+			$form->getData()->gerarSenhaAleatoria( 8 ); // Gera uma senha aleatória para o novo Usuário
 			
 			if ( $form->isValid() )
 			{
@@ -81,8 +94,7 @@ class UsuarioController extends Controller
 			if ( $form->isValid() )
 			{
 				$this->getDoctrine()->getManager()->persist( $usuario );
-				$this->getDoctrine()->getManager()->flush();// Efetuar a edição do Usuário
-				
+				$this->getDoctrine()->getManager()->flush();// Efetua a edição do Usuário
 				
 				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 				
@@ -104,14 +116,14 @@ class UsuarioController extends Controller
     /**
      *
      * [AJAX] Exclusão de Usuarios já cadastrado
-     * @param integer $idUsuarios
+     * @param Request $request
      */
 	public function excluirAction( Request $request )
 	{
 		if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
 			throw $this->createNotFoundException( 'Página não encontrada' );
 		
-		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $request->get('idUsuario') );
+		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $request->get('id') );
 		if ( ! $usuario )
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
 		
