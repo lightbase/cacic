@@ -11,15 +11,10 @@ Cacic\CommonBundle\Entity\Usuarios:
     properties:
         idLocal:
             - NotNull: ~
-        idServidorAutenticacao:
-            - NotNull: ~
         nmUsuarioAcesso:
             - NotBlank: ~
             - MaxLength: 20
         nmUsuarioCompleto:
-            - NotBlank: ~
-            - MaxLength: 60
-        teSenha:
             - NotBlank: ~
             - MaxLength: 60
         idGrupoUsuarios:

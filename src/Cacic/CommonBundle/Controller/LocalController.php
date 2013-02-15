@@ -104,7 +104,7 @@ class LocalController extends Controller
 		if ( ! $request->isXmlHttpRequest() )
 			throw $this->createNotFoundException( 'Página não encontrada' );
 		
-		$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Locais')->find( $request->get('idLocal') );
+		$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Locais')->find( $request->get('id') );
 		if ( ! $local )
 			throw $this->createNotFoundException( 'Local não encontrado' );
 		

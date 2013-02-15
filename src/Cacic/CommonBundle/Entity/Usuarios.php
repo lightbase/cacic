@@ -25,7 +25,7 @@ class Usuarios implements UserInterface, \Serializable
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_servidor_autenticacao", type="integer", nullable=false)
+     * @ORM\Column(name="id_servidor_autenticacao", type="integer", nullable=true)
      */
     private $idServidorAutenticacao;
 
@@ -540,9 +540,58 @@ class Usuarios implements UserInterface, \Serializable
     /**
      * 
      * Get servidorAutenticacao
+     * @return \Cacic\CommonBundle\Entity\ServidoresAutenticacao
      */
     public function getServidorAutenticacao()
     {
     	return $this->servidorAutenticacao;
+    }
+    
+    /**
+     * 
+     * Configura uma senha aleatória para o Usuário
+     * @param integer $intLength
+     * @param string $strFormat
+     * @return string
+     */
+    public function gerarSenhaAleatoria( $intLength, $strFormat = NULL )
+    {
+		$strChars = "abcdefghijklmnopqrstuvxwyz0123456789";
+		$strLength = strlen( $strChars ) - 1;
+		$strHash = "";
+		$intCount = 0;
+		while( strlen( $strHash ) < $intLength ) 
+		{
+			if( ! is_null( $strFormat ) )
+			{
+				if( $strFormat[ $intCount ] == "s" )
+				{
+					$strHash .= $strChars[ mt_rand( 0, $strLength - 10 ) ];
+				}
+				elseif( $strFormat[ $intCount ] == "i" )
+				{
+					$strHash .= $strChars[ mt_rand( 26, $strLength ) ];
+				}
+				$intCount++;
+			}
+			else
+			{
+           		$strHash .= $strChars[ mt_rand( 0, $strLength ) ];
+			}
+        }
+        $this->setTeSenha( md5( $strHash ) ); // Configura a senha deste Usuário já aplicando o MD5
+        return( $strHash ); // Retorna a senha gerada aleatoriamente
+    }
+    
+    /**
+     * 
+     * Configura uma senha padrão para o Usuário
+     * @return string
+     */
+    public function gerarSenhaPadrao()
+    {
+    	$strSenhaPadrao = '123456';
+    	$this->setTeSenha( md5( $strSenhaPadrao ) ); // Configura a senha deste Usuário já aplicando o MD5
+    	return $strSenhaPadrao; // Retorna a senha padrão
     }
 }
