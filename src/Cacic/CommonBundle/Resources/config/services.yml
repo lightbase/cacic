@@ -1,5 +1,6 @@
 parameters:
 #    cacic_common.example.class: Cacic\CommonBundle\Example
+    cacic_senha_algorithm: sha1
 
 services:
 #    cacic_common.example:

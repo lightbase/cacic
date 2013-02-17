@@ -4,12 +4,14 @@ namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Usuarios
  *
  * @ORM\Table(name="usuarios")
  * @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\UsuariosRepository")
+ * @UniqueEntity("nmUsuarioAcesso")
  */
 class Usuarios implements UserInterface, \Serializable
 {
@@ -39,7 +41,7 @@ class Usuarios implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="nm_usuario_acesso", type="string", length=20, nullable=false)
+     * @ORM\Column(name="nm_usuario_acesso", type="string", length=20, nullable=false, unique=true)
      */
     private $nmUsuarioAcesso;
 
@@ -550,11 +552,12 @@ class Usuarios implements UserInterface, \Serializable
     /**
      * 
      * Configura uma senha aleatória para o Usuário
-     * @param integer $intLength
-     * @param string $strFormat
+     * @param string $stAlgorithm algoritmo a ser aplicado a senha gerada
+     * @param integer $intLength tamanho da senha a ser gerada
+     * @param string $strFormat formato da senha
      * @return string
      */
-    public function gerarSenhaAleatoria( $intLength, $strFormat = NULL )
+    public function gerarSenhaAleatoria( $strAlgorithm, $intLength, $strFormat = NULL )
     {
 		$strChars = "abcdefghijklmnopqrstuvxwyz0123456789";
 		$strLength = strlen( $strChars ) - 1;
@@ -579,19 +582,20 @@ class Usuarios implements UserInterface, \Serializable
            		$strHash .= $strChars[ mt_rand( 0, $strLength ) ];
 			}
         }
-        $this->setTeSenha( md5( $strHash ) ); // Configura a senha deste Usuário já aplicando o MD5
+        $this->setTeSenha( hash( $strAlgorithm, $strHash ) ); // Configura a senha deste Usuário já aplicando o MD5
         return( $strHash ); // Retorna a senha gerada aleatoriamente
     }
     
     /**
      * 
      * Configura uma senha padrão para o Usuário
+     * @param $strAlgorithm algoritmo a ser aplicado a senha gerada
      * @return string
      */
-    public function gerarSenhaPadrao()
+    public function gerarSenhaPadrao( $strAlgorithm )
     {
-    	$strSenhaPadrao = '123456';
-    	$this->setTeSenha( md5( $strSenhaPadrao ) ); // Configura a senha deste Usuário já aplicando o MD5
+    	$strSenhaPadrao = '12345678';
+    	$this->setTeSenha( hash( $strAlgorithm, $strSenhaPadrao ) ); // Configura a senha deste Usuário já aplicando o MD5
     	return $strSenhaPadrao; // Retorna a senha padrão
     }
 }

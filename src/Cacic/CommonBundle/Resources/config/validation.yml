@@ -8,6 +8,8 @@ Cacic\CommonBundle\Entity\Locais:
             - MaxLength: 20
 
 Cacic\CommonBundle\Entity\Usuarios:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: nmUsuarioAcesso
     properties:
         idLocal:
             - NotNull: ~
@@ -19,3 +21,41 @@ Cacic\CommonBundle\Entity\Usuarios:
             - MaxLength: 60
         idGrupoUsuarios:
             - NotNull: ~
+
+Cacic\CommonBundle\Entity\ServidoresAutenticacao:
+    properties:
+        nmServidorAutenticacao:
+            - NotBlank: ~
+            - MaxLength: 60
+        nmServidorAutenticacaoDns:
+            - NotBlank: ~
+            - MaxLength: 60
+        teIpServidorAutenticacao:
+            - NotBlank: ~
+            - Ip: ~
+        nuPortaServidorAutenticacao:
+            - NotBlank: ~
+            - MaxLength: 5
+        idTipoProtocolo:
+            - NotBlank: ~
+            - MaxLength: 20
+        nuVersaoProtocolo:
+            - NotBlank: ~
+            - MaxLength: 10
+        teAtributoIdentificador:
+            - NotBlank: ~
+            - MaxLength: 100
+        teAtributoRetornaNome:
+            - NotBlank: ~
+            - MaxLength: 100
+        teAtributoRetornaEmail:
+            - NotBlank: ~
+            - MaxLength: 100
+        teAtributoValorStatusContaValida:
+            - NotBlank: ~
+            - MaxLength: 100
+        teObservacao:
+            - NotBlank: ~
+        inAtivo:
+            - Choice:
+                choices:  [S, N]
