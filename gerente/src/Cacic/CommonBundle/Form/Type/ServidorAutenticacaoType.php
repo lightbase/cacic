@@ -4,6 +4,7 @@ namespace Cacic\CommonBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *
@@ -37,7 +38,7 @@ class  ServidorAutenticacaoType extends AbstractType
                        array(
                            'empty_value' => 'Selecione o protocolo',
                            'label' => 'Protocolo:',
-                           'choices' =>array( 'LDAP' =>'LDAP',),
+                           'choices' =>array( 'LDAP' =>'LDAP', 'Open LDAP' => 'Open LDAP'),
                        )
         );
         $builder->add('nuPortaServidorAutenticacao', 'text',

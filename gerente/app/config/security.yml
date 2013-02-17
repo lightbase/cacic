@@ -4,17 +4,17 @@ jms_security_extra:
 
 security:
     encoders:
-        Cacic\CommonBundle\Entity\Usuarios: plaintext
-            #algorithm:        md5
-            #encode_as_base64: false
-            #iterations:       1
+        Cacic\CommonBundle\Entity\Usuarios:
+            algorithm:        sha1
+            encode_as_base64: false
+            iterations:       1
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        bancodedados:
+        main:
             entity: { class: Cacic\CommonBundle\Entity\Usuarios, property: nmUsuarioAcesso }
 
     firewalls:

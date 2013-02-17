@@ -2,8 +2,6 @@
 
 namespace Cacic\CommonBundle\Controller;
 
-use Doctrine\Common\Util\Debug;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Cacic\CommonBundle\Entity\Usuarios;
@@ -35,7 +33,8 @@ class UsuarioController extends Controller
 		if ( ! $usuario )
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
 		
-		$usuario->setTeSenha( md5( $request->get('senha') ) );
+		# Configura a SENHA do usuário já aplicando o Algoritmo definido (ver services.yml)
+		$usuario->setTeSenha( hash( $this->container->getParameter('cacic_senha_algorithm'), $request->get('senha') ) );
 		
 		$em = $this->getDoctrine()->getManager();
 		$em->persist( $usuario );
@@ -59,7 +58,7 @@ class UsuarioController extends Controller
 		if ( $request->isMethod('POST') )
 		{
 			$form->bind( $request );
-			$form->getData()->gerarSenhaAleatoria( 8 ); // Gera uma senha aleatória para o novo Usuário
+			$form->getData()->gerarSenhaAleatoria( $this->container->getParameter('cacic_senha_algorithm'), 8 ); // Gera uma senha aleatória para o novo Usuário
 			
 			if ( $form->isValid() )
 			{

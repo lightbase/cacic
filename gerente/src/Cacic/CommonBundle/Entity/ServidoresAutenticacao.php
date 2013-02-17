@@ -3,12 +3,13 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ServidoresAutenticacao
  *
  * @ORM\Table(name="servidores_autenticacao")
- *  @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\ServidoresAutenticacaoRepository")
+ * @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\ServidoresAutenticacaoRepository")
  */
 class ServidoresAutenticacao
 {
@@ -39,6 +40,7 @@ class ServidoresAutenticacao
      * @var string
      *
      * @ORM\Column(name="te_ip_servidor_autenticacao", type="string", length=15, nullable=false)
+     * @Assert\Ip
      */
     private $teIpServidorAutenticacao;
 
@@ -123,6 +125,7 @@ class ServidoresAutenticacao
      * @var string
      *
      * @ORM\Column(name="in_ativo", type="string", length=1, nullable=false)
+     * @Assert\Choice(choices = {"S", "N"})
      */
     private $inAtivo;
 
