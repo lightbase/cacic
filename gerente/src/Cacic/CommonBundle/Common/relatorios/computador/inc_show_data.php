@@ -3,11 +3,10 @@
 
 if (count($arrCollectsDefClasses) > 0)
 	{	
-	$arrParameters = array();	
 	for ($intLoopArrClassesNames = 0; $intLoopArrClassesNames < count($arrClassesNames); $intLoopArrClassesNames++)
 		{
 		$keyArrClassesNames = key($arrClassesNames);			
-		$arrProperties = getValores('classes cl,classes_properties cp', 'cp.id_property,cp.nm_property_name,cp.te_property_description,cp.nm_function_pos_db', 'cl.nm_class_name = "' . $keyArrClassesNames . '" AND cp.id_class = cl.id_class Order by cp.nm_property_name');		
+		$arrProperties = getArrFromSelect('classes cl,classes_properties cp', 'cp.nm_property_name,cp.te_property_description,cp.nm_function_pos_db,cp.id_property', 'cl.nm_class_name = "' . $keyArrClassesNames . '" AND cp.id_class = cl.id_class Order by cp.te_property_description');		
 	
 		// 0 -> nm_property_name
 		// 1 -> te_property_description
@@ -22,12 +21,10 @@ if (count($arrCollectsDefClasses) > 0)
 			for ($intLoopInstances = 0; $intLoopInstances < count($arrInstances); $intLoopInstances++)						
 				{
 				// Monto variáveis contendo os nomes conforme as instances
-				$strPropertyValue  = 'str' . $keyArrClassesNames . '_' . $arrProperties[$intLoopArrProperties][$keyArrPropertiesInstances] . '_' . ($intLoopInstances + 1);						
-				echo 'strPropertyValue: '.$strPropertyValue.'<br>';
+				$strPropertyValue  = 'str' . $keyArrClassesNames . '_' . $arrProperties[$intLoopArrProperties][$keyArrPropertiesInstances] . '_' . ($intLoopInstances + 1);									
 				
 				// Atribuo os valores usando a variável do nome acima (variável variável)
 				$$strPropertyValue = $arrInstances[$intLoopInstances];
-				echo 'sstrPropertyValue: '.$$strPropertyValue.'<br>';				
 				}
 			next($arrProperties[$intLoopArrProperties]);
 			}				
@@ -43,7 +40,7 @@ if (count($arrCollectsDefClasses) > 0)
 			for ($intLoopArrProperties = 0; $intLoopArrProperties < count($arrProperties); $intLoopArrProperties++)
 				{
 				// Monto o nome da variável da 1a coluna e resgato o valor usando variável variável
-				$strPropertyValue  = 'str' . $keyArrClassesNames . '_' . $arrProperties[$intLoopArrProperties]['nm_property_name'] . '_' . ($intLoopInstances + 1);					
+				$strPropertyValue  = 'str' . $keyArrClassesNames . '_' . $arrProperties[$intLoopArrProperties]['nm_property_name'] . '_' . ($intLoopInstances + 1);	
 				if ($intLoopInstances==0 && $intLoopArrProperties == 0 && count($arrClassesNames) > 1)
 					{
 					$strCor = $strPreenchimentoPadrao;												
@@ -64,39 +61,11 @@ if (count($arrCollectsDefClasses) > 0)
                     <?php
 					}
 				$strValueToShow = $$strPropertyValue;
+
+				
 				if ($arrProperties[$intLoopArrProperties]['nm_function_pos_db'])
-					{
-					$strNmFunctionPosDB = $arrProperties[$intLoopArrProperties]['nm_function_pos_db'];
-					$strNmFunctionPosDB = substr($strNmFunctionPosDB,0,strpos($strNmFunctionPosDB,'('));
-					
-					$strTeParameter1 = '';
-					$strTeParameter2 = '';
-					$strTeParameter3 = '';										
-					$strTeParameter4 = '';										
-					$strTeParameter5 = '';																				
-					if (stripos2($arrProperties[$intLoopArrProperties]['nm_function_pos_db'],'(',false))
-						{
-						$strTeParametersTMP = substr($arrProperties[$intLoopArrProperties]['nm_function_pos_db'],strpos($arrProperties[$intLoopArrProperties]['nm_function_pos_db'],'('));
-						$strTeParametersTMP = str_replace(')','',str_replace('(','',$strTeParametersTMP));
-						$arrParametersTMP 	= explode(',',$strTeParametersTMP);
+					$strValueToShow = getValueFromFunction($arrProperties[$intLoopArrProperties]['id_property'],$strValueToShow,$arrProperties[$intLoopArrProperties]['nm_function_pos_db']);
 
-						for ($intLoopArrParametersTMP = 0; $intLoopArrParametersTMP < count($arrParametersTMP); $intLoopArrParametersTMP++)
-							{
-							$strVarName  = 'strTeParameter' . ($intLoopArrParametersTMP + 1);
-							$$strVarName = $arrParametersTMP[$intLoopArrParametersTMP];
-							}
-						}
-					$arrParameters = (object) array('id_property' 		=> $arrProperties[$intLoopArrProperties]['id_property'],
-													'te_property_value' => $strValueToShow,
-													'te_parameter_1' 	=> $strTeParameter1,
-													'te_parameter_2' 	=> $strTeParameter2,
-													'te_parameter_3' 	=> $strTeParameter3,
-													'te_parameter_4' 	=> $strTeParameter4,
-													'te_parameter_5' 	=> $strTeParameter5);																																																																	
-
-					
-					$strValueToShow = call_user_func_array($strNmFunctionPosDB,array($arrParameters));
-					}
 				?>                
 				<tr bgcolor="<?php echo $strCor;?>"> 
 				<td nowrap="nowrap" align="right"><div class="propertyDescription" id="TePropertyDescription" name="TePropertyDescription"><?php echo $oTranslator->_($arrProperties[$intLoopArrProperties]['te_property_description']);?>:</div></td>

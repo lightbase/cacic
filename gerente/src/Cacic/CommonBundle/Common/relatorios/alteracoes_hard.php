@@ -74,7 +74,7 @@ if ($periodo)
 							te_dns_primario as 'DNS Primário', 
 							te_dns_secundario as 'DNS Secundario', 
 							te_dominio_dns as 'Domínio DNS', 
-							te_serv_dhcp as 'ServidorAutenticacao DHCP'
+							te_serv_dhcp as 'Servidor DHCP' 
 				  FROM 		historico_tcp_ip";
 		$result = mysql_query($query) or die ('Erro no select ou sua sessão expirou!');
 		$tipo_historico = 'TCP/IP';

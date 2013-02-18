@@ -97,7 +97,7 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 		
 		$query_sel = "SELECT 	IF(TRIM(redes.nm_rede)=''                   OR redes.nm_rede is null,'Rede Desconhecida', redes.nm_rede) as nm_rede,
 								computadores.id_rede,
-								computadores_coletas.te_class_values,							
+								computadores_collects.te_class_values,							
 								computadores.dt_hr_ult_acesso,
 								computadores.te_node_address,
 								computadores.id_computador,								
@@ -110,7 +110,7 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 								nm_local,
 								servidores_autenticacao.nm_servidor_autenticacao
 					 FROM 		computadores 
-					 			LEFT JOIN computadores_coletas 	ON (computadores.id_computador = computadores_coletas.id_computador)
+					 			LEFT JOIN computadores_collects 	ON (computadores.id_computador = computadores_collects.id_computador)
 					 			LEFT JOIN redes             		ON (computadores.id_rede = redes.id_rede)								
 					 			LEFT JOIN compartilhamentos 		ON (computadores.id_computador=compartilhamentos.id_computador and compartilhamentos.cs_tipo_compart='I')
 					 			LEFT JOIN locais            		ON (redes.id_local = locais.id_local)								
@@ -724,7 +724,7 @@ if ($_GET['p']=='' && $_POST['consultar'] == '')
 							echo "<a href=../admin/redes/detalhes_rede.php?id_rede=".$tree[$cnt][6]."&id_local=".$tree[$cnt][17]." target='_blank'><img src=\"".$img_details."\" border=no width=16 height=16 Title='Detalhes da SubRede'></a>";						
 							
 						if ($tree[$cnt][21])
-							echo "<img src=\"".$img_authentication_server."\" border=no width=16 height=16 Title='Sub-Rede Associada ao ServidorAutenticacao de Autenticação \"".$tree[$cnt][21]."\"'>";
+							echo "<img src=\"".$img_authentication_server."\" border=no width=16 height=16 Title='Sub-Rede Associada ao Servidor de Autenticação \"".$tree[$cnt][21]."\"'>";												
 						}
 						
 					}

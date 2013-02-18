@@ -265,7 +265,6 @@ function DeCrypt($pStrCriptedData, $pStrCsCipher, $pIntCsUnCompress='0', $pStrPa
 	$strResult = replacePseudoTagsWithCorrectChars($strResult);		
 	// =============================================================================
 
-	
 	if ($pIntCsUnCompress == '1')
 		$strResult = gzinflate($strResult);		
 
@@ -481,7 +480,7 @@ function  conecta_bd_cacic()
 function getDadosRede($pIntIdRede = 0)
 	{	
 	$intIdRede = ($pIntIdRede ? $pIntIdRede : getIdRede());
-	return getValores(  'redes r, locais l', 
+	return getArrFromSelect(  'redes r, locais l', 
 						'r.id_rede,
 						 r.nm_rede,
 						 r.te_serv_cacic,
@@ -512,7 +511,7 @@ function getIdRede()
 	// Duas tentativas de obtenção do IP da Estação
 	$strTeIPComputador = ($_POST['te_ip_computador']  ? $_POST['te_ip_computador'] : $_SERVER['REMOTE_ADDR']);
 	$strTeIPComputador = ($strTeIPComputador 		  ? $strTeIPComputador 		   : getenv("REMOTE_ADDR"));	
-	$arrRedes = getValores('redes','id_rede,te_ip_rede,te_mascara_rede');
+	$arrRedes = getArrFromSelect('redes','id_rede,te_ip_rede,te_mascara_rede');
 	$intIdRede  = 0;	
 
 	// Percorro cada TE_IP + TE_MASCARA_REDE para checar se o IP da estação está na faixa de IPs
@@ -546,7 +545,7 @@ function getIdRede()
 	if ($intIdRede == 0)
 		{
 		// Neste caso, apela-se para uma rede que tenha configurações válidas...
-		$arrQualquerRede = getValores('redes','id_rede','trim(nu_porta_serv_updates) <> "" and trim(nm_usuario_login_serv_updates) <> "" and trim(te_senha_login_serv_updates) <> "" LIMIT 1');
+		$arrQualquerRede = getArrFromSelect('redes','id_rede','trim(nu_porta_serv_updates) <> "" and trim(nm_usuario_login_serv_updates) <> "" and trim(te_senha_login_serv_updates) <> "" LIMIT 1');
 		$intIdRede = $arrQualquerRede[0]['id_rede'];
 		}	
 	return $intIdRede;	
@@ -568,7 +567,7 @@ function getDadosComputador($pStrTeNodeAddress,
 	
 	$boolNewSO = false;
 	
-	$arrSO = getValores('so', 'id_so', 'te_so = "' . $pStrTeSO . '"');
+	$arrSO = getArrFromSelect('so', 'id_so', 'te_so = "' . $pStrTeSO . '"');
 	if (!$arrSO[0]['id_so'])
 		{	
 		conecta_bd_cacic();	
@@ -581,7 +580,7 @@ function getDadosComputador($pStrTeNodeAddress,
 		$boolNewSO = true;
 		}
 	
-	$arrDadosComputador = getValores('computadores,so', 'so.id_so,computadores.*', 'computadores.te_node_address = "' . $pStrTeNodeAddress . '" and computadores.id_so = ' . $arrSO[0]['id_so']);		
+	$arrDadosComputador = getArrFromSelect('computadores,so', 'so.id_so,computadores.*', 'computadores.te_node_address = "' . $pStrTeNodeAddress . '" and computadores.id_so = ' . $arrSO[0]['id_so']);		
 	$arrDadosRede		= getDadosRede(getIdRede());
 
 	if ($arrDadosComputador[0]['dt_hr_inclusao'] == '')
@@ -598,13 +597,13 @@ function getDadosComputador($pStrTeNodeAddress,
 		//GravaTESTES('Library - queryINS_Comp: '.$queryINS_Comp);							  						  										   
 		mysql_query($queryINS_Comp,$DBConnectionGDC);						
 				
-		$arrDadosComputador = getValores('computadores', '*', 'computadores.te_node_address = "' . $pStrTeNodeAddress . '" and id_so = ' . $arrSO[0]['id_so'] . ' and id_rede = ' . $arrDadosRede[0]['id_rede']);				
+		$arrDadosComputador = getArrFromSelect('computadores', '*', 'computadores.te_node_address = "' . $pStrTeNodeAddress . '" and id_so = ' . $arrSO[0]['id_so'] . ' and id_rede = ' . $arrDadosRede[0]['id_rede']);				
 
 		global $strNetworkAdapterConfiguration;
 		global $strComputerSystem;		
 		global $strOperatingSystem;		
 				
-		$queryINS = "INSERT INTO computadores_coletas(id_computador,nm_class_name,te_class_values) VALUES 
+		$queryINS = "INSERT INTO computadores_collects(id_computador,nm_class_name,te_class_values) VALUES 
 					(" . $arrDadosComputador[0]['id_computador'] . ",'NetworkAdapterConfiguration','"   . $strNetworkAdapterConfiguration ."'),
 					(" . $arrDadosComputador[0]['id_computador'] . ",'ComputerSystem','" 				. $strComputerSystem ."'),				
 					(" . $arrDadosComputador[0]['id_computador'] . ",'OperatingSystem','" 				. $strOperatingSystem ."')";									
@@ -620,12 +619,12 @@ function getDadosComputador($pStrTeNodeAddress,
 			  WHERE 	id_computador = '		. $arrDadosComputador[0]['id_computador'];
 	mysql_query($query,$DBConnectionGDC);
 
-	$arrDadosComputador = getValores('computadores', 'computadores.*', 'computadores.id_computador = ' . $arrDadosComputador[0]['id_computador']);		
+	$arrDadosComputador = getArrFromSelect('computadores', 'computadores.*', 'computadores.id_computador = ' . $arrDadosComputador[0]['id_computador']);		
 
 	if ($boolNewSO)
 		{
 		// Verifico pelo local se há coletas configuradas e acrescento o S.O. à tabela de ações
-		$arrAcoesSO  = getValores('acoes_so','id_acao','id_local = '.$arrDadosRede[0]['id_local'].' GROUP BY id_acao');							  						
+		$arrAcoesSO  = getArrFromSelect('acoes_so','id_acao','id_local = '.$arrDadosRede[0]['id_local'].' GROUP BY id_acao');							  						
 			
 		// Caso existam ações configuradas para o local, incluo o S.O. para que também execute-as...
 		$strInsereID 	   = '';
@@ -673,23 +672,6 @@ function atualiza_configuracoes_uonx($p_uonx)
 
 function autentica_agente($p_PaddingKey='') 
 	{
-	/*
-	LimpaTESTES();
-	GravaTESTES('###########################################');		
-	GravaTESTES('Script Chamador:  '.$_SERVER['REQUEST_URI']);		
-	GravaTESTES('_SERVER[HTTP_USER_AGENT]:  '.$_SERVER['HTTP_USER_AGENT']);	
-	GravaTESTES('strtoupper(DeCrypt(_SERVER[HTTP_USER_AGENT]): '.strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['HTTP_USER_AGENT'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)));
-	GravaTESTES('_SERVER[PHP_AUTH_USER]:  '.$_SERVER['PHP_AUTH_USER']);	
-	GravaTESTES('strtoupper(DeCrypt(_SERVER[PHP_AUTH_USER]): '.strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_USER'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)));
-	GravaTESTES('_SERVER[PHP_AUTH_PW]:  '.$_SERVER['PHP_AUTH_PW']);		
-	GravaTESTES('strtoupper(DeCrypt(_SERVER[PHP_AUTH_PW]): '.strtoupper(DeCrypt($p_CipherKey,$p_IV,$_SERVER['PHP_AUTH_PW'],$p_cs_cipher, $p_cs_compress,$p_PaddingKey)));
-	GravaTESTES('p_CipherKey: ' 	. $p_CipherKey);
-	GravaTESTES('p_IV: ' 			. $p_IV);	
-	GravaTESTES('p_cs_cipher: ' 	. $p_cs_cipher);
-	GravaTESTES('p_cs_compress: ' 	. $p_cs_compress);
-	GravaTESTES('p_PaddingKey: ' 	. $p_PaddingKey);		
-	GravaTESTES('###########################################');			
-	*/
 	if ((strtoupper(DeCrypt($_POST['HTTP_USER_AGENT'],$_POST['cs_cipher'], $_POST['cs_compress'],$pStrPaddingKey,true)) != 'AGENTE_CACIC') ||
 	    (strtoupper(DeCrypt($_POST['PHP_AUTH_USER'  ],$_POST['cs_cipher'], $_POST['cs_compress'],$pStrPaddingKey,true)) != 'USER_CACIC') ||
 	    (strtoupper(DeCrypt($_POST['PHP_AUTH_PW'    ],$_POST['cs_cipher'], $_POST['cs_compress'],$pStrPaddingKey,true)) != 'PW_CACIC'))   
@@ -729,10 +711,9 @@ function computador_existe($te_node_address, $id_so)
 
 function AutenticaLDAP($pIdServidorAutenticacao, $pNmNomeAcessoAutenticacao, $pTeSenhaAcessoAutenticacao)
 	{
-	//GravaTESTES(CACIC_PATH . 'include/class.ldap.php');
 	include_once(CACIC_PATH . 'include/class.ldap.php');
 	
-	$arrServidores = getValores('servidores_autenticacao',  
+	$arrServidores = getArrFromSelect('servidores_autenticacao',  
 								'nm_servidor_autenticacao,
 								 nm_servidor_autenticacao_dns,										
 								 te_ip_servidor_autenticacao,
@@ -782,25 +763,18 @@ function AutenticaLDAP($pIdServidorAutenticacao, $pNmNomeAcessoAutenticacao, $pT
 /* ---------------------------------------------------------------------------------------------------------------------------------------------------
  Função usada para retornar um array bidimensional contendo indices numéricos e nomes dos campos recuperados na consulta - Anderson PETERLE - Jan/2013
  ----------------------------------------------------------------------------------------------------------------------------------------------------- */
-function getValores($pStrTablesNames, $pStrFieldsNames, $pStrWhereAndOthers="1") 
+function getArrFromSelect($pStrTablesNames, $pStrFieldsNames, $pStrWhereAndOthers="1") 
 	{	
-	$querySEL = 'SELECT '.$pStrFieldsNames.' FROM '.$pStrTablesNames.' WHERE '.$pStrWhereAndOthers;
-	
-    /*	
-	GravaTESTES('**************************************************************');
-	GravaTESTES('Library: getValores: pStrTablesNames => '.$pStrTablesNames);
-	GravaTESTES('Library: getValores: pStrFieldsNames => '.$pStrFieldsNames);
-	GravaTESTES('Library: getValores: pStrWhere => '.$pStrWhere);		
-	*/
-	GravaTESTES('Library: getValores: querySEL => '.$querySEL);			
-	/*
-	GravaTESTES('**************************************************************');
-	*/
-	
-	$arrRetorno = array();	
+	$queryToSEL = 'SELECT '.$pStrFieldsNames.' FROM '.$pStrTablesNames.' WHERE '.$pStrWhereAndOthers;
 
-	$DBConnectionGV = conecta_bd_cacic();
-	$resultSEL = mysql_query($querySEL,$DBConnectionGV);
+if (stripos2($queryToSEL, 'uo2_id',false))
+	GravaTESTES($queryToSEL);
+					
+	$arrRetorno = array();	
+	
+	$DBConnectionGV = conecta_bd_cacic(); // Pego uma conexao do tipo persistente => mysql_pconnect
+	
+	$resultSEL = mysql_query($queryToSEL,$DBConnectionGV);
 	
 	if ($resultSEL) 
 		{
@@ -826,8 +800,6 @@ function getValores($pStrTablesNames, $pStrFieldsNames, $pStrWhereAndOthers="1")
 			$intRowSequence ++;
 			}
 		} 
-	else
-		GravaTESTES($querySEL);	
 
 	return $arrRetorno;
 	}
@@ -841,7 +813,7 @@ function getClassesDefinitions($pStrCollectType)
 	global $arrClassesNames;
 	global $arrCollectsDefClasses;
 	
-	$arrDadosDefClasses = getValores('acoes, 
+	$arrDadosDefClasses = getArrFromSelect('acoes, 
 									  classes,
 									  classes_properties,
 									  collects_def_classes',
@@ -849,29 +821,32 @@ function getClassesDefinitions($pStrCollectType)
 									  classes.nm_class_name,						
 									  classes.te_class_description,														
 									  classes_properties.nm_property_name,
-									  classes_properties.id_property',
+									  classes_properties.id_property,									  
+									  classes_properties.te_property_description,									  									  
+									  classes_properties.nm_function_pre_db',									  									  
 									 'acoes.id_acao = "' . $pStrCollectType . '" 					AND  
 									  collects_def_classes.id_acao 	= acoes.id_acao 				AND 
 									  classes.id_class			 	= collects_def_classes.id_class AND 
 									  classes_properties.id_class	= classes.id_class
-									  ORDER BY 	acoes.id_acao,
-												classes.nm_class_name,
-												classes_properties.nm_property_name');
+									  ORDER BY 	acoes.te_descricao_breve,
+									  			classes.te_class_description,
+												classes_properties.te_property_description');
 
 	for ($intLoopArrDadosDefClasses = 0; $intLoopArrDadosDefClasses < count($arrDadosDefClasses); $intLoopArrDadosDefClasses ++) 
 		{
 		$arrClassesNames[$arrDadosDefClasses[$intLoopArrDadosDefClasses]['nm_class_name']] = $arrDadosDefClasses[$intLoopArrDadosDefClasses]['te_class_description'];			
 		$arrCollectsDefClasses[$pStrCollectType]=($arrCollectsDefClasses[$pStrCollectType] == '' ? $arrDadosDefClasses[$intLoopArrDadosDefClasses]['te_descricao_breve'] : $arrCollectsDefClasses[$pStrCollectType]);	
 		$arrCollectsDefClasses[$pStrCollectType . '.' . $arrDadosDefClasses[$intLoopArrDadosDefClasses]['nm_class_name'] . '.' . $arrDadosDefClasses[$intLoopArrDadosDefClasses]['nm_property_name']] = $arrDadosDefClasses[$intLoopArrDadosDefClasses]['id_property'];
+		$arrCollectsDefClasses[$pStrCollectType . '.' . $arrDadosDefClasses[$intLoopArrDadosDefClasses]['nm_class_name'] . '.' . $arrDadosDefClasses[$intLoopArrDadosDefClasses]['nm_property_name'] . '.nm_function_pre_db'] = $arrDadosDefClasses[$intLoopArrDadosDefClasses]['nm_function_pre_db'];		
 		}				
 	}
 	
 /* --------------------------------------------------------------------------------------
- Função usada para recuperar valores da tabela computadores_coletas
+ Função usada para recuperar valores da tabela computadores_collects
  -------------------------------------------------------------------------------------- */
 function getComponentValue($pIntIdComputador, $pStrClassName, $pStrPropertyName) 
 	{	
-	$arrComponentValue = getValores('computadores_coletas','te_class_values','id_computador = ' . $pIntIdComputador . ' AND nm_class_name = "' . $pStrClassName . '"');
+	$arrComponentValue = getArrFromSelect('computadores_collects','te_class_values','id_computador = ' . $pIntIdComputador . ' AND nm_class_name = "' . $pStrClassName . '"');
 	return str_replace('[[COMMA]]',',', getValueFromTags($pStrPropertyName, $arrComponentValue[0]['te_class_values'])); 
 	}
 
@@ -992,7 +967,7 @@ function atualizacao_especial( 	$p_nm_servidor,
 	}
 
 
-// Função para recuperar valores delimitados por tags "<" e ">"
+// Função para recuperar valores delimitados por tags definidas em  $pStrTags
 function getValueFromTags($pStrTagLabel, $pStrSource, $pStrTags = '[]')
 	{
 	//Tratar as tags depois!
@@ -1005,6 +980,37 @@ function getTagsFromValues($pStrSource, $pStrTags = '[]')
 	{
 	preg_match_all("/\[\/(.*?)\]/",$pStrSource,$arrResult);
 	return $arrResult[1];
+	}
+
+// Função para excluir uma tag
+function delTags($pStrTagLabel, $pStrSource, $pStrTags = '[]')
+	{
+	$strBeginTag = substr($pStrTags,0,1) 		. $pStrTagLabel . substr($pStrTags,1,1);
+	$strEndTag   = substr($pStrTags,0,1) . '/' 	. $pStrTagLabel . substr($pStrTags,1,1);	
+	$strSource	 = $pStrSource;
+
+	$strSource = str_replace($strBeginTag . $strEndTag,'',$strSource);	
+	
+	while ($strActualValue = getValueFromTags($pStrTagLabel,$strSource))
+		$strSource = str_replace($strBeginTag . $strActualValue . $strEndTag,'',$strSource);
+		
+	return $strSource;
+	}
+
+// Função para atribuir valor a tags
+function setValueToTags($pStrTagLabel, $pStrValue, $pStrSource, $pStrTags = '[]')
+	{
+	$strBeginTag = substr($pStrTags,0,1) 		. $pStrTagLabel . substr($pStrTags,1,1);
+	$strEndTag   = substr($pStrTags,0,1) . '/' 	. $pStrTagLabel . substr($pStrTags,1,1);	
+	$strSource	 = $pStrSource;
+	
+	$strActualValue = getValueFromTags($pStrTagLabel,$pStrSource);	
+	if (stripos2($strSource,$strBeginTag,false))
+		$strSource = str_replace($strBeginTag . $strActualValue . $strEndTag,$strBeginTag . $pStrValue . $strEndTag,$pStrSource);
+	else
+		$strSource .= $strBeginTag . $pStrValue . $strEndTag;	
+
+	return $strSource;
 	}
 	
 // --------------------------------------------------------------------------------------
@@ -1097,30 +1103,97 @@ function getOnlyFileName($pStrFullFileName)
 	$arrResult = explode('#SLASH#',$strResult);
 	return $arrResult[count($arrResult)-1];	
 	}	
-	
+
+function getVarType($pVar) 
+	{ 
+    if(is_object($var)) 
+        return get_class($var); 
+    if(is_null($var)) 
+        return 'null'; 
+    if(is_string($var)) 
+        return 'string'; 
+    if(is_array($var)) 
+        return 'array'; 
+    if(is_int($var)) 
+        return 'integer'; 
+    if(is_bool($var)) 
+        return 'boolean'; 
+    if(is_float($var)) 
+        return 'float'; 
+    if(is_resource($var)) 
+        return 'resource'; 
+    //throw new NotImplementedException(); 
+    return 'unknown'; 
+	} 
+
+// ********************************************************************************************************************
+// As funções abaixo são definidas para uso por chamadas via call_user_func_array conforme abaixo:
+// Campo "classes_properties.nm_function_pre_db" => tratamento do dado antes de ser persistido
+// Campo "classes_properties.nm_function_pos_db" => tratamento do dado após ser persistido, normalmente ao ser mostrado
+// ********************************************************************************************************************	
+
+//---------------------------------------------------------------------------------------------------------------------
+// Busca no banco o valor correspondente ao identificador fornecido como elemento de pArrParameters
+// Elementos aguardados => id_property e te_property_value 
+//---------------------------------------------------------------------------------------------------------------------
 function getTypeOf($pArrParameters)
-	{
-	$strResult = '';	
-
-	$strTePropertyValue = ($pArrParameters->te_property_value ? $pArrParameters->te_property_value : '00');
-
-	if ($strTePropertyValue)
-		{
-		$arrPropertyData = getValores('classes_properties_types','te_type_description','id_property=' . $pArrParameters->id_property . ' AND cs_type = "' . $strTePropertyValue. '"');
-		$strResult = $arrPropertyData[0]['te_type_description'];
-		}
-
+	{	
+	$strResult 			= '';	
+	$strTePropertyValue = ($pArrParameters['te_property_value'] <> '' ? $pArrParameters['te_property_value'] : '00');
+	$arrPropertyData 	= getArrFromSelect('classes_properties_types','te_type_description','id_property=' . $pArrParameters['id_property'] . ' AND cs_type = "' . $strTePropertyValue. '"');
+	$strResult 			= $arrPropertyData[0]['te_type_description'];
 	return $strResult;			
 	}	
-	
+
+//------------------------------------------------------------
+// Formata um número conforme parâmetros de máscara fornecidos
+// Elementos aguardados:
+// te_property_value 	-> O valor a ser formatado
+// te_parameter_1 		-> O número de casas decimais
+// te_parameter_2 		-> O caractere separador de decimais
+// te_parameter_3 		-> O caractere separador de milhares
+//------------------------------------------------------------
 function getNumberFormat($pArrParameters)
 	{
-	$strNumberToFormat	  = ($pArrParameters->te_property_value ? $pArrParameters->te_property_value	: '0');
-	$intNumDecimalPlaces  = ($pArrParameters->te_parameter_1    ? $pArrParameters->te_parameter_1  		:   2);
-	$strDecimalSeparator  = ($pArrParameters->te_parameter_2 	? $pArrParameters->te_parameter_2  		: ',');
-	$strThousandSeparator = ($pArrParameters->te_parameter_3 	? $pArrParameters->te_parameter_3 		: '.');
+    return @number_format($pArrParameters['te_property_value'], $pArrParameters['te_parameter_1'], $pArrParameters['te_parameter_2'], $pArrParameters['te_parameter_3']);
+	}	
+	
+function getValueFromFunction($pIntIdProperty,$pStrOldValueToShow,$pStrNmFunction)
+	{
+	$strNmFunctionDB = $pStrNmFunction;
+	if (stripos2($pStrNmFunction,'(',false))
+		$strNmFunctionDB = substr($strNmFunctionDB,0,strpos($strNmFunctionDB,'('));
+					
+	// Inicializo 5 variáveis string para conterem os possíveis 5 parâmetros
+	// Caso o número de parâmetros trabalhado pela função seja maior, deve-se ajustar o bloco abaixo.
+	$strTeParameter1 = '';
+	$strTeParameter2 = '';
+	$strTeParameter3 = '';										
+	$strTeParameter4 = '';										
+	$strTeParameter5 = '';																				
+	if (stripos2($pStrNmFunction,'(',false))
+		{
+		$strTeParametersTMP = substr($pStrNmFunction,strpos($pStrNmFunction,'('));
+		$strTeParametersTMP = str_replace(')','',str_replace('(','',$strTeParametersTMP));
+		$arrParametersTMP 	= explode(',',$strTeParametersTMP);
 
-    return @number_format($strNumberToFormat, $intNumDecimalPlaces, $strDecimalSeparator, $strThousandSeparator);
+		for ($intLoopArrParametersTMP = 0; $intLoopArrParametersTMP < count($arrParametersTMP); $intLoopArrParametersTMP++)
+			{
+			$strVarName  = 'strTeParameter' . ($intLoopArrParametersTMP + 1);
+			$$strVarName = $arrParametersTMP[$intLoopArrParametersTMP];
+			}
+		}
+		
+	$arrParameters[] = array('id_property'			=>	$pIntIdProperty,
+						   	 'te_property_value'	=>  $pStrOldValueToShow,
+						   	 'te_parameter_1'		=>	$strTeParameter1,
+						   	 'te_parameter_2'		=>	$strTeParameter2,
+						   	 'te_parameter_3'		=>	$strTeParameter3,
+						   	 'te_parameter_4'		=> 	$strTeParameter4,
+						   	 'te_parameter_5'		=>	$strTeParameter5);
+	
+	$strResult = call_user_func_array($strNmFunctionDB,$arrParameters);
+	return $strResult;	
 	}	
 //==================================================
 ?>

@@ -77,7 +77,7 @@ $msg = '<div align="center">
 		<font color="#c0c0c0" size="1" face="Verdana, Arial, Helvetica, sans-serif">
 		'.$oTranslator->_('Clique nas Colunas para Ordenar').'</font><br><br></div>';				
 		
-$arrTeServCacicPadrao = getValores('configuracoes_padrao', 'te_serv_cacic_padrao');		
+$arrTeServCacicPadrao = getArrFromSelect('configuracoes_padrao', 'te_serv_cacic_padrao');		
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

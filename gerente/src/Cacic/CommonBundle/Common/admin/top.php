@@ -45,7 +45,7 @@ $v_versao = '2.3.0-RC28';
 
 2.2.3-RC22 (Anderson Peterle - Dataprev/ES - Fevereiro/2008)
 		      + Implementadas as opções Atualização Especial e Consulta Especial para o nível Administração, para operações de baixo nível no 
-		  	    ServidorAutenticacao de Aplicações.
+		  	    Servidor de Aplicações.
 			    ATENÇÃO: Estas opções dependem do conjunto de permissões existentes nas pastas e arquivos objetos das operações.
 		      + Foi reativado o script "instalacacic.php" que recebe uma indicação de instalação mal sucedida, enviada pelo ChkCacic,
 		        e armazena na tabela "insucessos_instalacao";

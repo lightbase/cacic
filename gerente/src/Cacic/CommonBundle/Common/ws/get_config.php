@@ -77,6 +77,130 @@ if (trim($_POST['in_instalacao'])=='OK')
 		$result_del = mysql_query($query_del);
 		}
 	}
+elseif (DeCrypt($_POST['ModuleProgramName'],$v_cs_cipher,$v_cs_compress,$strPaddingKey) == 'mapacacic.exe')
+	{
+	/*
+	Consulta que devolve as configurações da interface da janela de patrimonio a ser apresentada pelo agente.
+	=========================================================================================================
+	*/
+	$arrPatrimonioConfigInterface = getArrFromSelect('patrimonio_config_interface',
+											   		 'id_etiqueta, 
+													  te_etiqueta, 
+													  in_exibir_etiqueta, 
+													  te_help_etiqueta',
+													 'id_local = '.$arrDadosRede[0]['id_local'].' ORDER BY id_etiqueta');
+	$strConfigsPatrimonioInterface = '';
+	for ($intLoopArrPatrimonioConfigInterface = 0; $intLoopArrPatrimonioConfigInterface < count($arrPatrimonioConfigInterface); $intLoopArrPatrimonioConfigInterface++)		
+		{
+		$strIndice = $arrPatrimonioConfigInterface[$intLoopArrPatrimonioConfigInterface]['id_etiqueta'];
+		$strConfigsPatrimonioInterface .= '[te_'		. $strIndice . ']'	. $arrPatrimonioConfigInterface[$intLoopArrPatrimonioConfigInterface]['te_etiqueta']		. '[/te_' 			.	$strIndice . ']';
+		$strConfigsPatrimonioInterface .= '[in_exibir_' . $strIndice . ']'	. $arrPatrimonioConfigInterface[$intLoopArrPatrimonioConfigInterface]['in_exibir_etiqueta']	. '[/in_exibir_' 	. 	$strIndice . ']';
+		$strConfigsPatrimonioInterface .= '[te_help_'   . $strIndice . ']'	. $arrPatrimonioConfigInterface[$intLoopArrPatrimonioConfigInterface]['te_help_etiqueta'] 	. '[/te_help_'   	. 	$strIndice . ']';
+		}
+
+	if ($strConfigsPatrimonioInterface)	
+		$strXML_Values .= '[Configs_Patrimonio_Interface]' . EnCrypt($strConfigsPatrimonioInterface,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '[/Configs_Patrimonio_Interface]';				
+		
+	/*
+	Consulta que devolve os itens das tabelas de U.O. níveis 1, 1a e 2
+	==================================================================
+	*/
+	$arrDadosUsuario = getArrFromSelect('usuarios',
+								  		'te_locais_secundarios,
+								   		 id_local',
+								  		'id_usuario = '.DeCrypt($_POST['id_usuario'],$v_cs_cipher,$v_cs_compress,$strPaddingKey));
+	
+	if ($arrDadosUsuario[0]['te_locais_secundarios'] <> '')
+		$where .= ' AND (loc.id_local = '.$arrDadosUsuario[0]['id_local'] . ' OR loc.id_local in ('.$arrDadosUsuario[0]['te_locais_secundarios'].')) ';
+	else
+		$where = ' AND loc.id_local = '.$arrDadosUsuario[0]['id_local'];	
+	
+	$arrUnidades = getArrFromSelect('unid_organizacional_nivel1a uo1a, 
+							   		 unid_organizacional_nivel1  uo1,
+							   		 unid_organizacional_nivel2  uo2,						
+							   		 locais loc',	
+								    'uo1.id_unid_organizacional_nivel1  	as uo1_id, 
+								     uo1.nm_unid_organizacional_nivel1 		as uo1_nm,
+								     uo1a.id_unid_organizacional_nivel1a 	as uo1a_id, 
+								     uo1a.nm_unid_organizacional_nivel1a 	as uo1a_nm,
+								     uo2.id_unid_organizacional_nivel2   	as uo2_id, 
+								     uo2.nm_unid_organizacional_nivel2   	as uo2_nm,
+								     uo2.id_local							as uo2_id_local,
+								     loc.sg_local 							as loc_sg',
+								    'uo1.id_unid_organizacional_nivel1   = uo1a.id_unid_organizacional_nivel1 AND
+								     uo1a.id_unid_organizacional_nivel1a = uo2.id_unid_organizacional_nivel1a AND
+ 								     uo2.id_local = loc.id_local '. $where . ' ORDER BY uo1_nm,uo1a_nm,loc_sg,uo2_nm');
+
+	$strConfigsPatrimonioCombos	= '';
+	$intCountTagUO1				= 0;
+	$intCountTagUO1a			= 0;
+	$intCountTagUO2				= 0;		
+	
+	$arrUO1						= array();
+	$arrUO1a					= array();
+		
+	
+	for ($intLoopArrUnidades = 0; $intLoopArrUnidades < count($arrUnidades); $intLoopArrUnidades++)		
+		{
+		GravaTESTES('arrUnidades[' . $intLoopArrUnidades . '][uo1_id]: ' . $arrUnidades[$intLoopArrUnidades]['uo1_id']);
+		GravaTESTES('arrUnidades[' . $intLoopArrUnidades . '][uo1_nm]: ' . $arrUnidades[$intLoopArrUnidades]['uo1_nm']);
+		GravaTESTES('arrUnidades[' . $intLoopArrUnidades . '][uo1a_id]: ' . $arrUnidades[$intLoopArrUnidades]['uo1a_id']);
+		GravaTESTES('arrUnidades[' . $intLoopArrUnidades . '][uo1a_nm]: ' . $arrUnidades[$intLoopArrUnidades]['uo1a_nm']);		
+		GravaTESTES('arrUnidades[' . $intLoopArrUnidades . '][uo2_id]: ' . $arrUnidades[$intLoopArrUnidades]['uo2_id']);						
+		GravaTESTES('arrUnidades[' . $intLoopArrUnidades . '][uo2_nm]: ' . $arrUnidades[$intLoopArrUnidades]['uo2_nm']);								
+		GravaTESTES('arrUnidades[' . $intLoopArrUnidades . '][uo2_id_local]: ' . $arrUnidades[$intLoopArrUnidades]['uo2_id_local']);										
+		GravaTESTES('arrUnidades[' . $intLoopArrUnidades . '][loc_sg]: ' . $arrUnidades[$intLoopArrUnidades]['loc_sg']);												
+
+
+		GravaTESTES('Verificando arrUO['.$arrUnidades[$intLoopArrUnidades]['uo1_id'].']: '.$arrUO[$arrUnidades[$intLoopArrUnidades]['uo1_id']]);														
+		if (!$arrUO1[$arrUnidades[$intLoopArrUnidades]['uo1_id']])
+			{
+		GravaTESTES('NÃO EXISTE!');
+			$arrUO1[$arrUnidades[$intLoopArrUnidades]['uo1_id']] = 1;
+
+			$intCountTagUO1++;										
+			$strConfigsPatrimonioCombos .= '[UO1#'   	. $intCountTagUO1 								. ']';
+			$strConfigsPatrimonioCombos .= '[UO1_ID]'   . $arrUnidades[$intLoopArrUnidades]['uo1_id']  	. '[/UO1_ID]';				
+			$strConfigsPatrimonioCombos .= '[UO1_NM]'	. $arrUnidades[$intLoopArrUnidades]['uo1_nm']  	. '[/UO1_NM]';										
+			$strConfigsPatrimonioCombos .= '[/UO1#'  	. $intCountTagUO1  								. ']';			
+			}
+		else
+			GravaTESTES('EXISTE!');		
+
+		if (!$arrUO1a[$arrUnidades[$intLoopArrUnidades]['uo1a_id']])
+			{
+			$arrUO1a[$arrUnidades[$intLoopArrUnidades]['uo1a_id']] = 1;
+
+			$intCountTagUO1a++;										
+			$strConfigsPatrimonioCombos .= '[UO1a#'  		. $intCountTagUO1a								. ']';							
+			$strConfigsPatrimonioCombos .= '[UO1a_ID]'  	. $arrUnidades[$intLoopArrUnidades]['uo1a_id'] 	. '[/UO1a_ID]';
+			$strConfigsPatrimonioCombos .= '[UO1a_IdUO1]'  	. $arrUnidades[$intLoopArrUnidades]['uo1_id'] 	. '[/UO1a_IdUO1]';			
+			$strConfigsPatrimonioCombos .= '[UO1a_NM]'  	. $arrUnidades[$intLoopArrUnidades]['uo1a_nm'] 	. '[/UO1a_NM]';
+			$strConfigsPatrimonioCombos .= '[/UO1a#'  		. $intCountTagUO1a  							. ']';			
+			}
+
+		$intCountTagUO2++;
+		
+		$strConfigsPatrimonioCombos .= '[UO2#'   		. $intCountTagUO2  									. ']';
+		$strConfigsPatrimonioCombos .= '[UO2_IdUO1a]'   . $arrUnidades[$intLoopArrUnidades]['uo1a_id']  	. '[/UO2_IdUO1a]';		
+		$strConfigsPatrimonioCombos .= '[UO2_ID]'   	. $arrUnidades[$intLoopArrUnidades]['uo2_id']  		. '[/UO2_ID]';				
+		$strConfigsPatrimonioCombos .= '[UO2_NM]'   	. $arrUnidades[$intLoopArrUnidades]['uo2_nm']  		. '[/UO2_NM]';
+		$strConfigsPatrimonioCombos .= '[UO2_IdLocal]' 	. $arrUnidades[$intLoopArrUnidades]['uo2_id_local'] . '[/UO2_IdLocal]';												
+		$strConfigsPatrimonioCombos .= '[UO2_SgLocal]' 	. $arrUnidades[$intLoopArrUnidades]['loc_sg'] 		. '[/UO2_SgLocal]';														
+		$strConfigsPatrimonioCombos .= '[/UO2#'  		. $intCountTagUO2 									. ']';						
+		}
+		
+	
+	if ($strConfigsPatrimonioCombos)
+		$strXML_Values .= '[Configs_Patrimonio_Combos]' . EnCrypt($strConfigsPatrimonioCombos,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '[/Configs_Patrimonio_Combos]';		
+	
+	// Envio os valores já existentes no banco, referentes ao ID_SO+TE_NODE_ADDRESS da estação chamadora...
+	$arrDadosPatrimonio = getArrFromSelect('computadores_collects',
+										   'te_class_values',
+										   'id_class = "Patrimonio" AND id_computador= '.$arrDadosComputador[0]['id_computador']);
+	if ($arrDadosPatrimonio[0]['te_class_values'])
+		$strXML_Values .= '[Collects_Patrimonio_Last]' . EnCrypt($arrDadosPatrimonio[0]['te_class_values'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '[/Collects_Patrimonio_Last]';			
+	}	
 else
 	{	 
 	conecta_bd_cacic();
@@ -144,7 +268,7 @@ else
 							acoes_so.id_acao = acoes.id_acao AND 
 							acoes_so.id_so = '.$arrDadosComputador[0]['id_so'].' AND
 							acoes_so.id_rede = '.$arrDadosComputador[0]['id_rede'];	
-GravaTESTES('query para CollectsDefinitions: ' . $query);							
+	//GravaTESTES('query para CollectsDefinitions: ' . $query);							
 	$result = mysql_query($query);
 
 	while ($campos = mysql_fetch_array($result))

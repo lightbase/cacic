@@ -35,7 +35,7 @@ if(isset($_SESSION['sessArrVersionsIni']))
 	$strSendProcess   = 'Nao Enviado!';		
 	$strProcessStatus = '';
 	
-	$arrDadosRede = getValores('redes r',
+	$arrDadosRede = getArrFromSelect('redes r',
 							   'r.te_serv_updates,
 								r.te_path_serv_updates,
 								r.nu_porta_serv_updates,
@@ -58,7 +58,7 @@ if(isset($_SESSION['sessArrVersionsIni']))
 								  $arrDadosRede[0]['nu_porta_serv_updates']);
 		}
 	else
-		$strResult = 'Ja Enviado ao ServidorAutenticacao!_=_Ok!_=_Resended';
+		$strResult = 'Ja Enviado ao Servidor!_=_Ok!_=_Resended';				
 		
 	$arrResult = explode('_=_',$strResult);	 	
 	if ($arrResult[1] == 'Ok!')

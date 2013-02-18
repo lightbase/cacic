@@ -55,10 +55,10 @@ if ($te_usb_info <> '')
 	$result = mysql_query($query);
 	
 	//
-	$arrTeUsbFilter 			 = getValores('configuracoes_locais', 'te_usb_filter'  			   ,'id_local='.$arrDadosRede['id_local']);								
-	$arrTeNotificarUtilizacaoUSB = getValores('configuracoes_locais', 'te_notificar_utilizacao_usb','id_local='.$arrDadosRede['id_local']);
+	$arrTeUsbFilter 			 = getArrFromSelect('configuracoes_locais', 'te_usb_filter'  			   ,'id_local='.$arrDadosRede['id_local']);								
+	$arrTeNotificarUtilizacaoUSB = getArrFromSelect('configuracoes_locais', 'te_notificar_utilizacao_usb','id_local='.$arrDadosRede['id_local']);
 
-	$arrDeviceData = getValores('usb_devices', 'id_device,nm_device','trim(id_device)="'.$arrUsbInfo[3].'" AND trim(id_vendor)="'.$arrUsbInfo[2].'"');
+	$arrDeviceData = getArrFromSelect('usb_devices', 'id_device,nm_device','trim(id_device)="'.$arrUsbInfo[3].'" AND trim(id_vendor)="'.$arrUsbInfo[2].'"');
 	
 	if (trim($arrDeviceData[0]['nm_device'])=='')
 		{
@@ -70,7 +70,7 @@ if ($te_usb_info <> '')
 		$result = mysql_query($query);
 		}
 
-	$arrVendorData = getValores('usb_vendors', 'id_vendor,nm_vendor','trim(id_vendor)="'.$arrUsbInfo[2].'"');	
+	$arrVendorData = getArrFromSelect('usb_vendors', 'id_vendor,nm_vendor','trim(id_vendor)="'.$arrUsbInfo[2].'"');	
 	if (trim($arrVendorData[0]['nm_vendor'])=='')
 		{
 		$query = "INSERT 

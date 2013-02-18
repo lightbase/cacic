@@ -45,7 +45,7 @@ require_once('security/security.php');
 AntiSpy();
 $boolIsAdminOrSupervisor = ($_SESSION["cs_nivel_administracao"] == 1 || $_SESSION["cs_nivel_administracao"] == 2 || $_SESSION["cs_nivel_administracao"] == 3);
 
-$arrDadosComputador = getValores('computadores', '*', 'id_computador = ' . $_GET['id_computador']);		
+$arrDadosComputador = getArrFromSelect('computadores', '*', 'id_computador = ' . $_GET['id_computador']);		
 ?>
 <table width="100%" border="0" cellpadding="0" cellspacing="2">
 <?php    
@@ -58,7 +58,7 @@ if ($arrDadosComputador[0]['id_computador'])
 	$strCorDaLinha 			= '#E1E1E1';	
 		
 	$linha 		= '<tr><td colspan="5" height="1" bgcolor="'.$strCorDaLinha.'"></td></tr>';	
-	$arrActions = getValores('acoes_redes', 'id_acao', 'id_rede = ' . $arrDadosComputador[0]['id_rede']);
+	$arrActions = getArrFromSelect('acoes_redes, acoes', 'acoes_redes.id_acao,acoes.te_descricao_breve', 'id_rede = ' . $arrDadosComputador[0]['id_rede'] . ' AND acoes.id_acao = acoes_redes.id_acao ORDER BY acoes.te_descricao_breve');
 		
 	for ($intLoopActions = 0; $intLoopActions < count($arrActions); $intLoopActions++)
 		{
@@ -104,16 +104,22 @@ if ($arrDadosComputador[0]['id_computador'])
 			<?php
 			}
         }
-		/*
 		?>
-	<?php if ($boolIsAdminOrSupervisor){?>
-  	<tr><td><?php require_once('inc_patrimonio.php'); 				?></td></tr>
+	<table width="94%" border="0" align="center" cellpadding="0" cellspacing="0">        
+	<tr><td height="3" bgcolor="#333333" colspan="4"></td></tr>
+	<tr><td><?php require_once('inc_patrimonio.php'); 				?></td></tr>       		
   	<tr><td><?php require_once('inc_usb_devices_use.php'); 			?></td></tr>        
-  	<tr><td><?php require_once('inc_suporte_remoto.php'); 			?></td></tr>    
-  	<tr><td><?php require_once('inc_ferramentas.php'); 				?></td></tr>
-	<?php if ($boolIsAdminOrSupervisor){?>
-	<tr><td><?php require_once('inc_opcoes_administrativas.php'); 	?></td></tr><?php }
-	*/
+  	<tr><td><?php require_once('inc_suporte_remoto.php'); 			?></td></tr>        
+	<?php if ($boolIsAdminOrSupervisor)
+		{
+		?>
+  		<tr><td><?php require_once('inc_ferramentas.php'); 				?></td></tr>
+		<tr><td><?php require_once('inc_opcoes_administrativas.php'); 	?></td></tr>
+		<?php 
+		}
+	?>
+    </table>
+	<?php	
 	}
 else 
 	{ 

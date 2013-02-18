@@ -21,9 +21,10 @@ Bloco para DEBUG - COMENTAR AO FIM DO USO!!!
 GravaTESTES('=================== DEBUG ==================');
 GravaTESTES('Common_Top');
 GravaTESTES('============================================');
-foreach($HTTP_POST_VARS as $i => $v)
-        GravaTESTES('I: '.$i.' V: '.$v);
 
+foreach($HTTP_POST_VARS as $i => $v)
+        GravaTESTES('Index: '.$i.' Value: '.$v);
+/*
 foreach($HTTP_GET_VARS as $i => $v)
         GravaTESTES('I: '.$i.' V: '.$v);
 
@@ -86,8 +87,6 @@ $strTeDebugging	 = 	(getValueFromTags('DateToDebugging',$arrDadosComputador[0]['
 					(getValueFromTags('DateToDebugging',$arrDadosRede[0]['te_debugging_local'])  == date("Ymd") ? $arrDadosRede[0]['te_debugging_local']  	:
 					(getValueFromTags('DateToDebugging',$arrDadosRede[0]['te_debugging_subnet']) == date("Ymd") ? $arrDadosRede[0]['te_debugging_subnet'] 	: 	'')));
 					
-GravaTESTES('strTeDebugging: '.$strTeDebugging);
-
 $strXML_Values  .= 	($strTeDebugging ? '<TeDebugging>' 																										: 	'');
 $strXML_Values  .= 	($strTeDebugging ? getValueFromTags('DetailsToDebugging',$strTeDebugging)																:	'');
 $strXML_Values  .= 	($strTeDebugging ? '</TeDebugging>' 																									: 	'');

@@ -49,7 +49,7 @@ function UsuarioInvalido()
 	LiberaVariaveisSessao();
 	?>
 	<SCRIPT LANGUAGE="Javascript">
-		alert('Usuï¿½rio Nï¿½o Autenticado!');
+		alert('Usuário Não Autenticado!');
 	   top.location = 'index.php';
 	</script>
 	<?php
@@ -119,27 +119,27 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 		<?php			
 		}
 	// *********************************************************************************************
-	// ** VERIFICAR EXISTï¿½NCIA DO USUï¿½RIO NA BASE DO CACIC COM O NOME FORNECIDO
+	// ** VERIFICAR EXISTÊNCIA DO USUÁRIO NA BASE DO CACIC COM O NOME FORNECIDO
 	// ** 		Se Existe
 	// **			Verificar se senha confere
 	// ** 				Se Confere
 	// **					OK - Concluir acesso ao CACIC
-	// **				Se Nï¿½o Confere
-	// **					Verificar se usuï¿½rio e senha fazem BIND no ServidorAutenticacao de Autenticaï¿½ï¿½o
+	// **				Se Não Confere
+	// **					Verificar se usuário e senha fazem BIND no Servidor de Autenticação 
 	// **						Se Fazem BIND
-	// **							Informar que as senhas estï¿½o diferentes e oferecer sincronizaï¿½ï¿½o
-	// **								Se Sincronizaï¿½ï¿½o Aceita
+	// **							Informar que as senhas estão diferentes e oferecer sincronização
+	// **								Se Sincronização Aceita
 	// **									Sincronizar e Concluir acesso ao CACIC
-	// **								Se Sincronizaï¿½ï¿½o Nï¿½o Aceita
-	// **									Informar USUï¿½RIO INEXISTENTE OU SENHA INVï¿½LIDA
+	// **								Se Sincronização Não Aceita
+	// **									Informar USUÁRIO INEXISTENTE OU SENHA INVÁLIDA
 	// **									FIM
-	// **		Se Nï¿½o Existe
-	// **			Verificar se usuï¿½rio e senha fazem BIND no ServidorAutenticacao de Autenticaï¿½ï¿½o
+	// **		Se Não Existe
+	// **			Verificar se usuário e senha fazem BIND no Servidor de Autenticação
 	// **				Se Fazem BIND
-	// **					Informar que o usuï¿½rio nï¿½o tem conta no CACIC e que deverï¿½ solicitar seu cadastramento 
+	// **					Informar que o usuário não tem conta no CACIC e que deverá solicitar seu cadastramento 
 	// **					FIM
-	// **				Se Nï¿½o Fazem BIND
-	// **					Informar USUï¿½RIO INEXISTENTE OU SENHA INVï¿½LIDA
+	// **				Se Não Fazem BIND
+	// **					Informar USUÁRIO INEXISTENTE OU SENHA INVÁLIDA
 	// *********************************************************************************************
 	
 	$qry_sel = "SELECT 	u.id_grupo_usuarios,    
@@ -155,7 +155,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 						u.id_servidor_autenticacao,
 						l.nm_local,
 						l.sg_local,
-						sha1('". base64_decode($_POST['frm_te_senha']) ."') as frm_te_senha 
+						PASSWORD('". trim(base64_decode($_POST['frm_te_senha'])) ."') as frm_te_senha 
 				FROM 	usuarios u, 
 						grupo_usuarios g, 
 						locais l
@@ -165,9 +165,9 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 	$res_sel = mysql_query($qry_sel);							
 	$row_sel = mysql_fetch_array($res_sel);
 
-	if ($row_sel['id_usuario']) // Verifico se o usuï¿½rio existe na base CACIC com o identificador informado
+	if ($row_sel['id_usuario']) // Verifico se o usuário existe na base CACIC com o identificador informado
 		{
-		if ($row_sel['id_servidor_autenticacao'] != null) // Caso tenha sido informado um servidor de autenticaï¿½ï¿½o LDAP para o usuï¿½rio
+		if ($row_sel['id_servidor_autenticacao'] <> '0') // Caso tenha sido informado um servidor de autenticação LDAP para o usuário
 			{
 			$arrAutenticaLDAP = AutenticaLDAP($row_sel['id_servidor_autenticacao'], trim(base64_decode($_POST['frm_nm_usuario_acesso'])), trim(base64_decode($_POST['frm_te_senha'])));
 			if ($arrAutenticaLDAP['nm_nome_completo'] <> '')

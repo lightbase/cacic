@@ -24,7 +24,7 @@ $result = mysql_query($query);
 if (mysql_num_rows($result) > 0) 
 	{  // Atualização das informações de patrimônio (e não inclusão). 	
     // Agora, verifica se os administradores deverão ser notificados da alteração nas informações de patrimônio.
-	$arrConfiguracoesLocais = getValores('configuracoes_locais', 'te_notificar_mudanca_patrim','id_local = '.$arrDadosRede['id_local']);
+	$arrConfiguracoesLocais = getArrFromSelect('configuracoes_locais', 'te_notificar_mudanca_patrim','id_local = '.$arrDadosRede['id_local']);
 	if (trim($destinatarios = $arrConfiguracoesLocais['te_notificar_mudanca_patrim']) != '') 
 		{
 		$query 	= "	SELECT 	te_etiqueta,nm_campo_tab_patrimonio 

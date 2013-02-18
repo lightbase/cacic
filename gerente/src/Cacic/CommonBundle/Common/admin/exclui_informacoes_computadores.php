@@ -398,8 +398,8 @@ if ($_POST['submit_cond'])
 		{		  
 		if ($arrIdComputador[$intLoop])
 			{
-			$arrComputerSystem 				= getValores('computadores_coletas', 'te_class_values', 'nm_class_name = "ComputerSystem" AND id_computador = ' . $arrIdComputador[$intLoop]);
-			$arrNetworkAdapterConfiguration = getValores('computadores_coletas', 'te_class_values', 'nm_class_name = "NetworkAdapterConfiguration" AND id_computador = ' . $arrIdComputador[$intLoop]);		
+			$arrComputerSystem 				= getArrFromSelect('computadores_collects', 'te_class_values', 'nm_class_name = "ComputerSystem" AND id_computador = ' . $arrIdComputador[$intLoop]);
+			$arrNetworkAdapterConfiguration = getArrFromSelect('computadores_collects', 'te_class_values', 'nm_class_name = "NetworkAdapterConfiguration" AND id_computador = ' . $arrIdComputador[$intLoop]);		
 			?>
 			<tr <?php if ($Cor) echo 'bgcolor="#E1E1E1"'; ?>> 
             <td nowrap class="dado_peq_sem_fundo_normal"><div align="left"><?php echo $NumRegistro; ?></div></td>
