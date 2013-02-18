@@ -2,59 +2,86 @@
 
 {% block body %}
 
-    <div class="page-header">
-        <h1>Perfil Aplicativo Monitorado
-            <small>Dados do Aplicativo Monitorado</small></h1>
-    </div>
+<div class="page-header">
+    <h1>Perfil Aplicativo Monitorado
+        <small>Dados do Aplicativo Monitorado</small></h1>
+</div>
 
-    <div class="well">
+<div class="well">
 
-        <form id="formPerfilAplicativoMonitorado" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+    <form id="formPerfilAplicativoMonitorado" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
 
-            {{ form_row(form.nmAplicativo) }}
-            {{ form_row(form.idSo) }}
-            {{ form_row(form.inDisponibilizaInfo) }}
-            {{ form_row(form.inDisponibilizaInfoUsuarioComum) }}
-            {{ form_row(form.teDescritivo) }}
-            {{ form_row(form.csIdeLicenca) }}
-            {{ form_row(form.csIdeLicenca1) }}
-            <h4><div align="left">Características em ambientes Windows 9x/Me</div></h4>
-            <br />
-            {{ form_row(form.teCarInstW9x) }}
-            {{ form_row(form.teCarInstW9x1) }}
-            {{ form_row(form.csCarVerW9x) }}
-            {{ form_row(form.csCarVerW9x1) }}
-            <h4><div align="left">Características em ambientes Windows NT/2000/XP/2003</div></h4>
-            <br />
-            {{ form_row(form.teCarInstWnt) }}
-            {{ form_row(form.teCarInstWnt1) }}
-            {{ form_row(form.csCarVerWnt) }}
-            {{ form_row(form.csCarVerWnt1) }}
-            <h4><div align="left">Selecao de redes para aplicacao desta coleta de informacoes</div></h4>
-            <br />
-            <h3>Selecione as redes:<h3/>
-            {{ form_row(form.idRede) }}
+        {{ form_row(form.nmAplicativo) }}
+        {{ form_row(form.idSo) }}
+        {{ form_row(form.inDisponibilizaInfo) }}
+        {{ form_row(form.inDisponibilizaInfoUsuarioComum) }}
+        {{ form_row(form.teDescritivo) }}
+        {{ form_row(form.csIdeLicenca) }}
+        {{ form_row(form.csIdeLicenca1) }}
+        
+        <h4><div align="left">Características em ambientes Windows 9x/Me</div></h4>
+        <br />
+        {{ form_row(form.teCarInstW9x) }}
+        {{ form_row(form.teCarInstW9x1) }}
+        {{ form_row(form.csCarVerW9x) }}
+        {{ form_row(form.csCarVerW9x1) }}
+        
+        <h4><div align="left">Características em ambientes Windows NT/2000/XP/2003</div></h4>
+        <br />
+        {{ form_row(form.teCarInstWnt) }}
+        {{ form_row(form.teCarInstWnt1) }}
+        {{ form_row(form.csCarVerWnt) }}
+        {{ form_row(form.csCarVerWnt1) }}
+        <h4><div align="left">Selecao de redes para aplicacao desta coleta de informacoes</div></h4>
+        <br />
+        <h3>Selecione as redes:<h3/>
+        
+        <div class="form-transfer">
+        	<div class="form-transfer-from">
+        		{{ form_row(form.idRede) }}
+        	</div>
 
-                <input type="button" value="   &gt;   " onClick="move(this.form.elements['form.idRede'],this.form.elements['form.idRede1'])" >
-                <br>
-                <br>
-                <input type="button" value="   &lt;   " onClick="move(this.form.elements['form.idRede1'],this.form.elements['form.idRede'])" >
-
-            {{ form_row(form.idRede1) }}
-            {{ form_rest(form) }}
-
-            <div class="form-opcoes">
-                <input type="reset" value="Limpar Valores" class="btn btn-small" />
-                <input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
+			<div class="form-transfer-options">
+				<input id="rede-add" type="button" value="   &gt;   " class="transfer-button" />
+				<br>
+				<input id="rede-remove" type="button" value="   &lt;   " class="transfer-button" />
             </div>
+            
+			<div class="form-transfer-to">
+        		{{ form_row(form.idRede1) }}
+        	</div>
+        </div>
+        {{ form_rest(form) }}
 
-        </form>
+        <div class="form-opcoes">
+            <input type="reset" value="Limpar Valores" class="btn btn-small" />
+            <input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
+        </div>
 
-    </div>
+    </form>
 
-    <div >
-        <a class="btn btn-danger btn-small"  href="{{ path('cacic_perfilaplicativomonitorado_index') }}">Cancelar</a>
-    </div>
+</div>
 
+<div >
+    <a class="btn btn-danger btn-small"  href="{{ path('cacic_perfilaplicativomonitorado_index') }}">Cancelar</a>
+</div>
+    
+<script type="text/javascript">
+
+$().ready(function() {
+	
+	$('#rede-add').click(function() {
+		$( '#aplicativo_idRede' ).effect( 'transfer', { to: $( '#aplicativo_idRede1' ) }, 500 );
+		$('#aplicativo_idRede option:selected').remove().appendTo('#aplicativo_idRede1');
+	}); 
+	
+	$('#rede-remove').click(function() {
+		$( '#aplicativo_idRede1' ).effect( 'transfer', { to: $( '#aplicativo_idRede' ) }, 500 );
+		$('#aplicativo_idRede1 option:selected').remove().appendTo('#aplicativo_idRede');
+	});
+	
+});
+
+</script>
 
 {% endblock %}
