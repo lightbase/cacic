@@ -84,8 +84,31 @@ input[type=radio] {
 	margin-right: 5px;
 }
 
+div.form-transfer {
+	height: 100px;
+}
+
+div.form-transfer div {
+	float: left;
+}
+
+div.form-transfer .form-transfer-from {
+	
+}
+
+div.form-transfer .form-transfer-options {
+	margin: 0px 20px;
+	padding-top: 20px;
+}
+
+div.form-transfer .form-transfer-to {
+	
+}
+
 /* Sobreescreve alguns estilos relativos ao JQUERY-UI */
 .ui-dialog-content label {
 	color: #fff;
 	font-weight: bold;
 }
+
+.ui-effects-transfer { background-color: #333; opacity: 0.25; }
