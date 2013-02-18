@@ -64,7 +64,7 @@ if (!($_SESSION['id_usuario'] == 1 and $_SESSION['nm_usuario'] == ''))
 	session_unregister('te_exibe_graficos');
 	
 	// Resgato a configuração sobre exibição dos gráficos da página principal
-	$arrConfiguracoesLocais = getValores('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$_SESSION['id_local']);			
+	$arrConfiguracoesLocais = getArrFromSelect('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$_SESSION['id_local']);			
 	$_SESSION['te_exibe_graficos'] = $arrConfiguracoesLocais[0]['te_exibe_graficos'];
 	
 	// Caso o usuário atual não esteja logado, mostro apenas os números de acessos por local

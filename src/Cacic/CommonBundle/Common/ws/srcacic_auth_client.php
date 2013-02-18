@@ -29,7 +29,7 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 		$te_senha_cli	  		= DeCrypt($_POST['te_senha_cli'],$v_cs_cipher,$v_cs_compress,$strPaddingKey); 			
 
 		// Autentico o usuário, verificando nome, senha e local
-		$arrUsuario = getValores('usuarios','id_usuario,
+		$arrUsuario = getArrFromSelect('usuarios','id_usuario,
 								  			 nm_usuario_completo,
 											 id_local,
 											 id_grupo_usuarios,
@@ -44,9 +44,9 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 			// **************************************************************************************************************
 			// ** VERIFICAR EXISTÊNCIA DO USUÁRIO NA BASE DO CACIC COM O NOME FORNECIDO (tanto para acesso CACIC quanto LDAP)
 			// ** 		Se Existe
-			// **			Verificar se o usuário está associado a um ServidorAutenticacao de Autenticação
+			// **			Verificar se o usuário está associado a um Servidor de Autenticação
 			// ** 				Se Estiver Associado
-			// **					Verificar se usuário e senha fazem BIND no ServidorAutenticacao de Autenticação
+			// **					Verificar se usuário e senha fazem BIND no Servidor de Autenticação
 			// **						Se Fazem BIND
 			// **							Sincronizar senhas LDAP x CACIC
 			// **							Retornar USUÁRIO AUTENTICADO
@@ -92,7 +92,7 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 					$dt_hr_inicio_sessao	   = date('d-m-Y') . ' às ' . date('H:i') . 'h';
 					//GravaTESTES('AuthClient: dt_hr_inicio_sessao => '.$dt_hr_inicio_sessao); 																		
 					// Identifico o SO da máquina visitante
-					$arrIdSO = getValores('so','id_so','trim(te_so) = "'.trim($te_so_cli).'"');
+					$arrIdSO = getArrFromSelect('so','id_so','trim(te_so) = "'.trim($te_so_cli).'"');
 					
 					if ($arrIdSO[0]['id_so'] == '')
 						{
@@ -104,7 +104,7 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 									  VALUES    ("S.O. a Cadastrar","Sigla a Cadastrar","'.$pStrTeSOnew.'")';
 
 						$resultINS = mysql_query($queryINS);		
-						$arrIdSO = getValores('so','id_so','trim(te_so) = "'.trim($te_so_cli).'"');						
+						$arrIdSO = getArrFromSelect('so','id_so','trim(te_so) = "'.trim($te_so_cli).'"');						
 						}
 						
 					$query_SESSAO = "INSERT INTO srcacic_conexoes 

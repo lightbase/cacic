@@ -79,7 +79,7 @@ if (($_SESSION['sessStrIdRedes'][0] <> '') &&
 	
 	for ($intLoopRedes = 0; $intLoopRedes < count($arrRedes); $intLoopRedes++)
 		{
-		$arrDadosRede = getValores('redes, locais','te_ip_rede,nm_rede,sg_local','redes.id_rede = ' . $arrRedes[$intLoopRedes] . ' AND locais.id_local = redes.id_local');
+		$arrDadosRede = getArrFromSelect('redes, locais','te_ip_rede,nm_rede,sg_local','redes.id_rede = ' . $arrRedes[$intLoopRedes] . ' AND locais.id_local = redes.id_local');
 		
 		for ($intLoopItens = 0; $intLoopItens < count($arrItens); $intLoopItens++)		
 			{

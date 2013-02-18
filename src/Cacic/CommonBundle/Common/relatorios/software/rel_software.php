@@ -236,7 +236,7 @@ $query = ' SELECT 	distinct computadores.te_node_address,
 // *****************************************************
 
 // definicoes de variaveis
-$arrValores 					= getValores('configuracoes_padrao', 'nu_rel_maxlinhas', '1');			
+$arrValores 					= getArrFromSelect('configuracoes_padrao', 'nu_rel_maxlinhas', '1');			
 
 $max_links 		  				= 100; // máximo de links à serem exibidos
 $nu_rel_maxlinhas 				= ($arrValores[0]['nu_rel_maxlinhas']<>''?$arrValores[0]['nu_rel_maxlinhas']:100); // máximo de resultados a serem exibidos por tela ou pagina

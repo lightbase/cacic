@@ -70,7 +70,7 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 	conecta_bd_cacic();	
 	if (!$id_sessao)
 		{			
-		// Identificador para Autenticação no ServidorAutenticacao de Autenticação
+		// Identificador para Autenticação no Servidor de Autenticação
 		$id_servidor_autenticacao	  	= DeCrypt($_POST['id_servidor_autenticacao']		,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 		$nm_nome_acesso_autenticacao  	= DeCrypt($_POST['nm_nome_acesso_autenticacao']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
 		$te_senha_acesso_autenticacao 	= DeCrypt($_POST['te_senha_acesso_autenticacao']	,$v_cs_cipher,$v_cs_compress,$strPaddingKey); 
@@ -103,7 +103,7 @@ if ($strTePalavraChave == $arrDadosComputador['te_palavra_chave'])
 
 		if ($nm_nome_completo <> '')
 			{
-			$arrSessoes = getValores('srcacic_sessoes','id_sessao','dt_hr_inicio_sessao="'.$dt_hr_inicio_sessao.'" AND
+			$arrSessoes = getArrFromSelect('srcacic_sessoes','id_sessao','dt_hr_inicio_sessao="'.$dt_hr_inicio_sessao.'" AND
 																	id_computador='.$arrDadosComputador['id_computador']);
 
 			$strXML_Values .= '<NM_COMPLETO>'.EnCrypt($nm_nome_completo,$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey).'</NM_COMPLETO>';						

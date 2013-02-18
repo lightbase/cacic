@@ -27,24 +27,21 @@ $arrCollectsDefClasses 	= array();
 // Chamo o procedimento (function) que atribuirá os devidos valores aos arrays acima										
 getClassesDefinitions($strCollectType);
 										
-GravaTESTES('strCollectType: ' . $strCollectType);		
 if ($arrCollectsDefClasses[$strCollectType])
 	{	
 	// Obtenho configuração para notificação de alterações
-	$resConfigsLocais = getValores('configuracoes_locais', 'te_notificar_mudancas_emails,te_notificar_mudancas_properties', 'id_local = '.$arrDadosRede[0]['id_local'].' AND te_notificar_mudancas_emails IS NOT NULL AND te_notificar_mudancas_properties IS NOT NULL');			
+	$resConfigsLocais = getArrFromSelect('configuracoes_locais', 'te_notificar_mudancas_emails,te_notificar_mudancas_properties', 'id_local = '.$arrDadosRede[0]['id_local'].' AND te_notificar_mudancas_emails IS NOT NULL AND te_notificar_mudancas_properties IS NOT NULL');			
 
-GravaTESTES('resConfigsLocais[0][te_notificar_mudancas_properties]: ' . $resConfigsLocais[0]['te_notificar_mudancas_properties']);										
-	$arrClassesAndProperties = getValores('classes cl,
+	$arrClassesAndProperties = getArrFromSelect('classes cl,
 					 					   classes_properties cp',
 										  'cp.id_property,
 										   cp.nm_property_name,
-										   cp.te_property_description,
+										   cp.te_property_description,										   
 										   cl.nm_class_name',
 										  'cp.id_property in (' . $resConfigsLocais[0]['te_notificar_mudancas_properties']. ') AND cl.id_class = cp.id_class');				
 	for ($intLoopArrClassesAndProperties = 0; $intLoopArrClassesAndProperties < count($arrClassesAndProperties); $intLoopArrClassesAndProperties++)
 		$arrClassesPropertiesToNotificate[$arrClassesAndProperties[$intLoopArrClassesAndProperties]['nm_class_name'] . '.' . $arrClassesAndProperties[$intLoopArrClassesAndProperties]['nm_property_name']] = $arrClassesAndProperties[$intLoopArrClassesAndProperties]['te_property_description'];
 
-GravaTESTES('resConfigsLocais[0][te_notificar_mudancas_properties]: ' . $resConfigsLocais[0]['te_notificar_mudancas_properties']);										
 	$strInsertedItems_Text 	= '';
 	$strDeletedItems_Text 	= '';
 	$strUpdatedItems_Text 	= '';	
@@ -52,63 +49,77 @@ GravaTESTES('resConfigsLocais[0][te_notificar_mudancas_properties]: ' . $resConf
 	$DBConnectSC = conecta_bd_cacic();
 	foreach($HTTP_POST_VARS as $strClassName => $strClassValues)
 		{
-GravaTESTES('strClassName: ' . $strClassName);												
-GravaTESTES('strClassValues: ' . $strClassValues);												
-GravaTESTES('arrClassesNames['.$strClassName.']: ' . $arrClassesNames[$strClassName]);												
 		if ($arrClassesNames[$strClassName])
 			{
-			$arrOldClassValues = getValores('computadores_coletas', 'te_class_values', 'nm_class_name = "'.$strClassName.'" AND id_computador = ' . $arrDadosComputador[0]['id_computador']);		
+			$arrOldClassValues = getArrFromSelect('computadores_collects', 'te_class_values', 'nm_class_name = "'.$strClassName.'" AND id_computador = ' . $arrDadosComputador[0]['id_computador']);		
 			$strNewClassValues = DeCrypt($strClassValues, $v_cs_cipher,$v_cs_compress,$strPaddingKey);		
-GravaTESTES('Entrada 1 -> strNewClassValues: ' . $strNewClassValues);															
-GravaTESTES('Entrada 1 -> arrOldClassValues[0][te_class_values]: ' . $arrOldClassValues[0]['te_class_values']);															
 			if (($arrOldClassValues[0]['te_class_values'] == '') || ($arrOldClassValues[0]['te_class_values'] <> $strNewClassValues))
 				{
-GravaTESTES('Entrada 2');																			
 				$arrNewTagsNames = getTagsFromValues($strNewClassValues);
-GravaTESTES('Entrada 2 - count(arrNewTagsNames): ' . count($arrNewTagsNames));																							
 				$arrOldTagsNames = getTagsFromValues($arrOldClassValues[0]['te_class_values']);			
-GravaTESTES('Entrada 2 - count(arrOldTagsNames): ' . count($arrOldTagsNames));																								
 				$intReferencial = max(count($arrOldTagsNames),count($arrNewTagsNames));
-GravaTESTES('Entrada 2 - intReferencial: ' . $intReferencial);																												
 				$arrTagsNames   = (count($arrOldTagsNames) > count($arrNewTagsNames) ? $arrOldTagsNames : $arrNewTagsNames);
-GravaTESTES('Entrada 2 - count(arrTagsNames): ' . count($arrTagsNames));																								
-				for ($intLoop = 0; $intLoop < count($arrTagsNames); $intLoop ++)
+				for ($intLoopArrTagsNames = 0; $intLoopArrTagsNames < count($arrTagsNames); $intLoopArrTagsNames ++)
 					{
-GravaTESTES('Entrada 3 - intReferencial: ' . $intReferencial);																																	
-					$strOldPropertyValue = getValueFromTags($arrTagsNames[$intLoop],$arrOldClassValues[0]['te_class_values']);
-GravaTESTES('Entrada 3 - strOldPropertyValue: ' . $strOldPropertyValue);																																						
-					$strNewPropertyValue = getValueFromTags($arrTagsNames[$intLoop],$strNewClassValues);			
-GravaTESTES('Entrada 3 - strNewPropertyValue: ' . $strNewPropertyValue);																																						
-	
-					if ($arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoop]])
+					$strOldPropertyValue = getValueFromTags($arrTagsNames[$intLoopArrTagsNames],$arrOldClassValues[0]['te_class_values']);
+					$strNewPropertyValue = getValueFromTags($arrTagsNames[$intLoopArrTagsNames],$strNewClassValues);			
+
+					if ($arrCollectsDefClasses[$strCollectType . '.' . $strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames] . '.nm_function_pre_db'])
+						{
+						GravaTESTES('Achei pre_db');
+						GravaTESTES('1: arrTagsNames['.$intLoopArrTagsNames.'] => ' . $arrTagsNames[$intLoopArrTagsNames]);						
+						GravaTESTES('1: strNewClassValues: ' . $strNewClassValues);						
+						GravaTESTES('1: getValueFromTags('.$arrTagsNames[$intLoopArrTagsNames].','.$strNewClassValues.'): ' . getValueFromTags($arrTagsNames[$intLoopArrTagsNames],$strNewClassValues));						
+						
+						$strNewClassValues = setValueToTags($arrTagsNames[$intLoopArrTagsNames], getValueFromFunction($arrCollectsDefClasses[$strCollectType . '.' . $strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames]],getValueFromTags($arrTagsNames[$intLoopArrTagsNames],$strNewClassValues),$arrCollectsDefClasses[$strCollectType . '.' . $strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames] . '.nm_function_pre_db']), $strNewClassValues);					
+						GravaTESTES('2: strNewClassValues: ' . $strNewClassValues);												
+						}
+
+					if ($arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames]])
 						{							
 						if 	   ($strNewPropertyValue == '')			
-							$strDeletedItems_Text  .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoop]] . chr(13);			
+							$strDeletedItems_Text  .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames]] . chr(13);			
 						elseif ($strOldPropertyValue == '')
-							$strInsertedItems_Text .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoop]] . chr(13);			
+							$strInsertedItems_Text .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames]] . chr(13);			
 						else
-							$strUpdatedItems_Text  .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoop]] . chr(13);
+							$strUpdatedItems_Text  .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames]] . chr(13);
 						}		
-
-					if ($strOldPropertyValue)	
-						{
-						$queryINS = "INSERT INTO computadores_coletas_historico(id_computador,nm_class_name,te_class_values,dt_hr_inclusao) VALUES (" . $arrDadosComputador[0]['id_computador'] . ",'" . $strClassName . "','" . $arrOldClassValues[0]['te_class_values'] ."',NOW())";
-						mysql_query($queryINS,$DBConnectSC);					
-						}
-			
-					if ($strOldClassValues['te_class_values'])
-						{
-						// ATENÇÃO: Registro já foi criado durante a obtenção das configurações, no script get_config.php.
-						$queryUPD = "UPDATE computadores_coletas SET te_class_values = '" . $strNewClassValues . "' WHERE id_computador = " . $arrDadosComputador[0]['id_computador'] . " AND nm_class_name = '" . $strClassName . "'";	
-						mysql_query($queryUPD,$DBConnectSC);												
-						}
-					else
-						{
-						// ATENÇÃO: Registro já foi criado durante a obtenção das configurações, no script get_config.php.
-						$queryINS = "INSERT INTO computadores_coletas(id_computador,nm_class_name,te_class_values) VALUES (" . $arrDadosComputador[0]['id_computador'] . ",'" . $strClassName . "','" . $strNewClassValues ."')";
-						mysql_query($queryINS,$DBConnectSC);	
-						}																				
 					}
+				if ((trim($arrOldClassValues[0]['te_class_values']) <> '') && (trim($arrOldClassValues[0]['te_class_values']) <> trim($strNewClassValues)))	
+					{
+					GravaTESTES('***********************************************************');
+					GravaTESTES('Inserindo em computadores_collects_historico:');					
+					GravaTESTES('getVarType(arrOldClassValues[0][te_class_values]): ' . getVarType($arrOldClassValues[0]['te_class_values'])));
+					GravaTESTES('getVarType(strNewClassValues): ' . getVarType($strNewClassValues));					
+					GravaTESTES('***********************************************************');					
+					$queryINS = "INSERT INTO computadores_collects_historico(id_computador,nm_class_name,te_class_values,dt_hr_inclusao) VALUES (" . $arrDadosComputador[0]['id_computador'] . ",'" . $strClassName . "','" . $arrOldClassValues[0]['te_class_values'] ."',NOW())";
+					mysql_query($queryINS,$DBConnectSC);					
+					}
+		
+				if (trim($arrOldClassValues[0]['te_class_values']) <> '')
+					{
+					GravaTESTES('***********************************************************');
+					GravaTESTES('UPDATE em computadores_collects:');					
+					GravaTESTES('arrOldClassValues[0][te_class_values]: ' . $arrOldClassValues[0]['te_class_values']);
+					GravaTESTES('strNewClassValues: ' . $strNewClassValues);					
+					GravaTESTES('***********************************************************');					
+					
+					// ATENÇÃO: Registro já foi criado durante a obtenção das configurações, no script get_config.php.
+					$queryUPD = "UPDATE computadores_collects SET te_class_values = '" . $strNewClassValues . "' WHERE id_computador = " . $arrDadosComputador[0]['id_computador'] . " AND nm_class_name = '" . $strClassName . "'";	
+					mysql_query($queryUPD,$DBConnectSC);												
+					}
+				else
+					{
+					GravaTESTES('***********************************************************');
+					GravaTESTES('INSERT em computadores_collects:');					
+					GravaTESTES('arrOldClassValues[0][te_class_values]: ' . $arrOldClassValues[0]['te_class_values']);
+					GravaTESTES('strNewClassValues: ' . $strNewClassValues);					
+					GravaTESTES('***********************************************************');					
+					
+					// ATENÇÃO: Registro já foi criado durante a obtenção das configurações, no script get_config.php.
+					$queryINS = "INSERT INTO computadores_collects(id_computador,nm_class_name,te_class_values) VALUES (" . $arrDadosComputador[0]['id_computador'] . ",'" . $strClassName . "','" . $strNewClassValues ."')";
+					mysql_query($queryINS,$DBConnectSC);	
+					}																				
 				}			
 			}			
 		}	
