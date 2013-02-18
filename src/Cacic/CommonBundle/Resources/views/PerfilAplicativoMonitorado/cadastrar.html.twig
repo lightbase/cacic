@@ -22,6 +22,7 @@
         <h4><div align="left">Características em ambientes Windows 9x/Me</div></h4>
         <br />
         {{ form_row(form.teCarInstW9x) }}
+        <div id="carInstW9x-desc"></div>
         {{ form_row(form.teCarInstW9x1) }}
         {{ form_row(form.csCarVerW9x) }}
         {{ form_row(form.csCarVerW9x1) }}
@@ -70,6 +71,13 @@
 
 $().ready(function() {
 	
+	var carInstW9x_desc = {
+		1: 'teste',
+		2: 'teste2',
+		3: 'teste3'
+	};
+	
+	
 	$('#rede-add').click(function() {
 		$( '#aplicativo_idRede' ).effect( 'transfer', { to: $( '#aplicativo_idRede1' ) }, 500 );
 		$('#aplicativo_idRede option:selected').remove().appendTo('#aplicativo_idRede1');
@@ -78,6 +86,10 @@ $().ready(function() {
 	$('#rede-remove').click(function() {
 		$( '#aplicativo_idRede1' ).effect( 'transfer', { to: $( '#aplicativo_idRede' ) }, 500 );
 		$('#aplicativo_idRede1 option:selected').remove().appendTo('#aplicativo_idRede');
+	});
+	
+	$( '#aplicativo_teCarInstW9x' ).change(function(){
+		$( '#carInstW9x-desc' ).text( carInstW9x_desc[ $( this ).val() ] );
 	});
 	
 });
