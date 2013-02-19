@@ -91,7 +91,7 @@ class PerfilAplicativoMonitoradoController extends Controller
         if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:PerfisAplicativosMonitorados')->find( $request->get('idAplicativo') );
+        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:PerfisAplicativosMonitorados')->find( $request->get('id') );
         if ( ! $perfil )
             throw $this->createNotFoundException( 'Perfis Aplicativos Monitorados não encontrado' );
 

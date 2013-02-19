@@ -56,7 +56,7 @@ class RedeType extends AbstractType
 				 'max_length'=>20,
 			 )
 		);
-        $builder->add('teServCacic', 'entity',
+        $builder->add('selTeServCacic', 'entity',
              array(
                  'empty_value' => '==>Selecione <==',
                  'label'=>' ',
@@ -70,7 +70,7 @@ class RedeType extends AbstractType
                 'max_length'=>20,
             )
         );
-        $builder->add('teServUpdates1', 'entity',
+        $builder->add('selTeServUpdates', 'entity',
             array(
                 'empty_value' => '==>Selecione <==',
                 'label'=>' ',

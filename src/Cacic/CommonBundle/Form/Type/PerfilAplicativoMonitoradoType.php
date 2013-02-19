@@ -55,94 +55,98 @@ class PerfilAplicativoMonitoradoType extends AbstractType
                 'max_length' => 200
             )
         );
-        $builder->add('csIdeLicenca', 'choice',
+        $builder->add('selCsIdeLicenca', 'choice',
             array(
-                'choices' => array('1'=>'Caminho\Chave\Valor em Registry',
+                'choices' => array(
+                                   '1'=>'Caminho\Chave\Valor em Registry',
                                    '2'=>'Nome/Seção/Chave de Arquivo INI'),
-                'empty_value' => ' ',
+                'label' => 'Identificador de licença:',
                 'required'  => false,
-                'label' => 'Identificador de licença:'
+                'mapped'=>false
             )
         );
-        $builder->add('csIdeLicenca1', 'text',
+        $builder->add('csIdeLicenca', 'text',
             array(
                 'label'=>' ',
                 'required'  => false,
-                'mapped'=>false,
                 'max_length' => 200
             )
         );
-        $builder->add('teCarInstW9x', 'choice',
+        $builder->add('selTeCarInstW9x', 'choice',
             array(
-                'choices' => array('1'=>'Nome Executável',
-                    '2'=>'Nome de Arquivo de Confiração',
-                    '3'=>'Caminho\Chave\Valor em Registry'),
+                'choices' => array(
+                                '1'=>'Nome Executável',
+                                '2'=>'Nome de Arquivo de Configuração',
+                                '3'=>'Caminho\Chave\Valor em Registry'),
                 'empty_value' => ' ',
                 'required'  => false,
+                'mapped'=>false,
                 'label' => 'Identificador de Instalação:'
             )
         );
-        $builder->add('teCarInstW9x1', 'text',
+        $builder->add('teCarInstW9x', 'text',
             array(
                 'label'=>' ',
                 'required'  => false,
-                'mapped'=>false,
                 'max_length' => 200
             )
         );
-        $builder->add('csCarVerW9x', 'choice',
+        $builder->add('selCsCarVerW9x', 'choice',
             array(
-                'choices' => array('1'=>'Data de Arquivo',
-                    '2'=>'Caminho\Chave\Valor em Registry',
-                    '3'=>'Nome/Seção/Chave de Arquivo INI',
-                    '2'=>'Versão de Executável'),
+                'choices' => array(
+                                '1'=>'Data de Arquivo',
+                                '2'=>'Caminho\Chave\Valor em Registry',
+                                '3'=>'Nome/Seção/Chave de Arquivo INI',
+                                '4'=>'Versão de Executável'),
                 'empty_value' => ' ',
                 'required'  => false,
+                'mapped'=>false,
                 'label' => 'Identificador de Versão/Configuração:'
             )
         );
-        $builder->add('csCarVerW9x1', 'text',
+        $builder->add('csCarVerW9x', 'text',
             array(
                 'label'=>' ',
                 'required'  => false,
-                'mapped'=>false,
                 'max_length' => 200
             )
         );
-        $builder->add('teCarInstWnt', 'choice',
+        $builder->add('selTeCarInstWnt', 'choice',
             array(
-                'choices' => array('1'=>'Nome Executável',
-                    '2'=>'Nome de Arquivo de Confiração',
-                    '3'=>'Caminho\Chave\Valor em Registry'),
+                'choices' => array(
+                                '1'=>'Nome Executável',
+                                '2'=>'Nome de Arquivo de Configuração',
+                                '3'=>'Caminho\Chave\Valor em Registry'),
                 'empty_value' => ' ',
                 'required'  => false,
+                'mapped'=>false,
                 'label' => 'Identificador de Instalação:'
             )
         );
-        $builder->add('teCarInstWnt1', 'text',
+        $builder->add('teCarInstWnt', 'text',
             array(
                 'label'=>' ',
                 'required'  => false,
-                'mapped'=>false,
                 'max_length' => 200
             )
         );
-        $builder->add('csCarVerWnt', 'choice',
+        $builder->add('selCsCarVerWnt', 'choice',
             array(
-                'choices' => array('1'=>'Data de Arquivo',
-                    '2'=>'Caminho\Chave\Valor em Registry',
-                    '3'=>'Nome/Seção/Chave de Arquivo INI',
-                    '2'=>'Versão de Executável'),
+                'choices' => array(
+                                '1'=>'Data de Arquivo',
+                                '2'=>'Caminho\Chave\Valor em Registry',
+                                '3'=>'Nome/Seção/Chave de Arquivo INI',
+                                '4'=>'Versão de Executável'),
                 'empty_value' => ' ',
                 'required'  => false,
+                'mapped'=>false,
                 'label' => 'Identificador de Versão/Configuração:'
             )
         );
-        $builder->add('csCarVerWnt1', 'text',
+        $builder->add('csCarVerWnt', 'text',
             array(
                 'label'=>' ',
                 'required'  => false,
-                'mapped'=>false,
                 'max_length' => 200
             )
         );

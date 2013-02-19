@@ -62,38 +62,4 @@
     <div align="right">
         <a class="btn btn-primary btn-small bt-adicionar" href="{{ path('cacic_subrede_cadastrar') }}">Adicionar Subrede</a>
     </div>
-
-    <script type="text/javascript">
-
-        $( ".bt-excluir" ).click( function() {
-            var id = $(this).attr('id').replace(/.*?(\d+)$/, '$1');
-
-            if( confirm ( "Deseja excluir \"" + $( "#item_desc_" + id ).text() + "\" ?" ) )
-            {
-                var parameters = "idRede="+id;
-
-                $.ajax(
-                        {
-                            type: "POST",
-                            url: "{{ path( 'cacic_subrede_excluir' ) }}",
-                            cache: false,
-                            async: false,
-                            success: function( data )
-                            {
-                                $('#msgSucesso').text( 'Item excluído com sucesso!' ).fadeIn();
-                                $( '#item_' + id ).fadeOut();
-                            },
-                            error: function( data )
-                            {
-                                alert( 'Erro! Não foi possível realizar a solicitação!' );
-                            },
-                            data: parameters
-                        }
-                );
-            }
-
-        });
-
-    </script>
-
 {% endblock %}
