@@ -16,23 +16,28 @@
         {{ form_row(form.inDisponibilizaInfo) }}
         {{ form_row(form.inDisponibilizaInfoUsuarioComum) }}
         {{ form_row(form.teDescritivo) }}
+
+        {{ form_row(form.selCsIdeLicenca) }}
         {{ form_row(form.csIdeLicenca) }}
-        {{ form_row(form.csIdeLicenca1) }}
-        
+
         <h4><div align="left">Características em ambientes Windows 9x/Me</div></h4>
         <br />
+
+        {{ form_row(form.selTeCarInstW9x) }}
         {{ form_row(form.teCarInstW9x) }}
-        <div id="carInstW9x-desc"></div>
-        {{ form_row(form.teCarInstW9x1) }}
+
+        {{ form_row(form.selCsCarVerW9x) }}
         {{ form_row(form.csCarVerW9x) }}
-        {{ form_row(form.csCarVerW9x1) }}
-        
+
         <h4><div align="left">Características em ambientes Windows NT/2000/XP/2003</div></h4>
         <br />
+
+        {{ form_row(form.selTeCarInstWnt) }}
         {{ form_row(form.teCarInstWnt) }}
-        {{ form_row(form.teCarInstWnt1) }}
+
+        {{ form_row(form.selCsCarVerWnt) }}
         {{ form_row(form.csCarVerWnt) }}
-        {{ form_row(form.csCarVerWnt1) }}
+
         <h4><div align="left">Selecao de redes para aplicacao desta coleta de informacoes</div></h4>
         <br />
         <h3>Selecione as redes:<h3/>
@@ -70,12 +75,26 @@
 <script type="text/javascript">
 
 $().ready(function() {
-	
+    var csIdeLicenca_desc = {
+        1: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao',
+        2: 'Ex.:  Arquivos de Programas\\Cacic\\Cacic2.ini/Patrimonio/nu_CPU'
+    };
 	var carInstW9x_desc = {
-		1: 'teste',
-		2: 'teste2',
-		3: 'teste3'
+		1: 'Ex.:  Arquivos de Programas\\Cacic\\Programas\\cacic.exe',
+		2: 'Ex.:  Arquivos de Programas\\Cacic\\Dados\\config.ini',
+		3: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao'
 	};
+    var carVerW9x_desc = {
+        1: 'Ex.:  Arquivos de Programas\\Cacic2\\Programas\\ger_cols.exe',
+        2: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao',
+        3: 'Ex.:  Arquivos de Programas\\Cacic\\Cacic2.ini/Patrimonio/nu_CPU',
+        4: 'Ex.:  C:\\Cacic\\modulos\\col_moni.exe'
+    };
+    var carInstWnt_desc = {
+        1: 'Ex.:  Arquivos de Programas\\Cacic2\\Programas\\ger_cols.exe',
+        2: 'Ex.:  Arquivos de Programas\\Cacic\\Dados\\config.ini',
+        3: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao'
+    };
 	
 	
 	$('#rede-add').click(function() {
@@ -87,11 +106,41 @@ $().ready(function() {
 		$( '#aplicativo_idRede1' ).effect( 'transfer', { to: $( '#aplicativo_idRede' ) }, 500 );
 		$('#aplicativo_idRede1 option:selected').remove().appendTo('#aplicativo_idRede');
 	});
-	
-	$( '#aplicativo_teCarInstW9x' ).change(function(){
-		$( '#carInstW9x-desc' ).text( carInstW9x_desc[ $( this ).val() ] );
+
+    $( '#aplicativo_selCsIdeLicenca' ).change(function(){
+        if ( $( this).val() == undefined || $( this).val() == 0 )
+        $( '#aplicativo_csIdeLicenca' ).attr('placeholder', '');
+        else
+        $( '#aplicativo_csIdeLicenca' ).attr('placeholder', csIdeLicenca_desc[ $( this ).val() ] );
+    });
+
+	$( '#aplicativo_selTeCarInstW9x' ).change(function(){
+        if ( $( this).val() == undefined || $( this).val() == 0 )
+            $( '#aplicativo_teCarInstW9x' ).attr('placeholder', '');
+        else
+            $( '#aplicativo_teCarInstW9x' ).attr('placeholder', carInstW9x_desc[ $( this ).val() ] );
 	});
-	
+
+    $( '#aplicativo_selCsCarVerW9x' ).change(function(){
+        if ( $( this).val() == undefined || $( this).val() == 0 )
+            $( '#aplicativo_csCarVerW9x' ).attr('placeholder', '');
+        else
+            $( '#aplicativo_csCarVerW9x' ).attr('placeholder', carVerW9x_desc[ $( this ).val() ] );
+    });
+
+    $( '#aplicativo_selTeCarInstWnt' ).change(function(){
+        if ( $( this).val() == undefined || $( this).val() == 0 )
+            $( '#aplicativo_teCarInstWnt' ).attr('placeholder', '');
+        else
+            $( '#aplicativo_teCarInstWnt' ).attr('placeholder', carInstWnt_desc[ $( this ).val() ] );
+    });
+
+    $( '#aplicativo_selCsCarVerWnt' ).change(function(){
+        if ( $( this).val() == undefined || $( this).val() == 0 )
+            $( '#aplicativo_csCarVerWnt' ).attr('placeholder', '');
+        else
+            $( '#aplicativo_csCarVerWnt' ).attr('placeholder', carVerW9x_desc[ $( this ).val() ] );
+    });
 });
 
 </script>

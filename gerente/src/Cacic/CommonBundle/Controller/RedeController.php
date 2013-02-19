@@ -91,7 +91,7 @@ class RedeController extends Controller
         if ( ! $request->isXmlHttpRequest() )
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Redes')->find( $request->get('idRede') );
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Redes')->find( $request->get('id') );
         if ( ! $rede )
             throw $this->createNotFoundException( 'Subrede não encontrado' );
 

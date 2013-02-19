@@ -59,3 +59,43 @@ Cacic\CommonBundle\Entity\ServidoresAutenticacao:
         inAtivo:
             - Choice:
                 choices:  [S, N]
+
+Cacic\CommonBundle\Entity\Redes:
+    properties:
+        nmRede:
+            - NotBlank: ~
+            - MaxLength: 30
+        teMascaraRede:
+            - NotBlank: ~
+            - MaxLength: 20
+        teServCacic:
+            - NotBlank: ~
+            - MaxLength: 20
+        selTeServCacic:
+            - NotBlank: ~
+        teServUpdates:
+            - NotBlank: ~
+            - MaxLength: 20
+        selTeServUpdates:
+            - NotBlank: ~
+        nuPortaServUpdates:
+            - NotBlank: ~
+            - MaxLength: 5
+        nuLimiteFtp:
+            - NotBlank: ~
+            - MaxLength: 5
+        nmUsuarioLoginServUpdates:
+            - NotBlank: ~
+            - MaxLength: 20
+        teSenhaLoginServUpdates:
+            - NotBlank: ~
+            - MaxLength: 20
+        nmUsuarioLoginServUpdatesGerente:
+            - NotBlank: ~
+            - MaxLength: 20
+        teSenhaLoginServUpdatesGerente:
+            - NotBlank: ~
+            - MaxLength: 20
+        tePathServUpdates:
+            - NotBlank: ~
+            - MaxLength: 20
