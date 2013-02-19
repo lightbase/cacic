@@ -5,10 +5,12 @@ namespace Cacic\CommonBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Cacic\CommonBundle\Entity\Usuarios;
+use Cacic\CommonBundle\Entity\GrupoUsuarios;
 use Cacic\CommonBundle\Form\Type\UsuarioType;
 
 class UsuarioController extends Controller
 {
+	
 	/**
 	 * 
 	 * Listagem dos usuários
@@ -71,7 +73,13 @@ class UsuarioController extends Controller
 			}
 		}
 
-        return $this->render( 'CacicCommonBundle:Usuario:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $this->render(
+        	'CacicCommonBundle:Usuario:cadastrar.html.twig',
+        	array(
+        		'form' => $form->createView(),
+        		'grupoDesc' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:GrupoUsuarios' )->listar()
+        	)
+        );
 	}
 
     /**
@@ -101,7 +109,13 @@ class UsuarioController extends Controller
 			}
 		}
 		
-		return $this->render( 'CacicCommonBundle:Usuario:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+		return $this->render(
+        	'CacicCommonBundle:Usuario:cadastrar.html.twig',
+        	array(
+        		'form' => $form->createView(),
+        		'grupoDesc' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:GrupoUsuarios' )->listar()
+        	)
+        );
 	}
 
     /**
