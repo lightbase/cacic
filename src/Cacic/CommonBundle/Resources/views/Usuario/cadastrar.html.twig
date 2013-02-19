@@ -29,6 +29,11 @@
 <script type="text/javascript">
 	
 	var oLocais = []; // JSON com Locais
+	var oGrupoDesc = { // JSON com descricao dos grupos
+		{% for grupo in grupoDesc %}
+		{{ grupo['idGrupoUsuarios'] }}: "{{ grupo['teDescricaoGrupo'] }}"{% if loop.last != true %},{% endif %}
+		{% endfor %}
+	};
 
 	/**
 	 * Monta JSON com lista de Locais
@@ -78,6 +83,10 @@
 		 $( '#usuario_idGrupoUsuarios' ).val( $( '#usuario_grupo' ).val() );
 		 return true;
 	 });
+	
+	$( '#usuario_grupo' ).change( function(){
+		$( '#usuario_te_descricao_grupo' ).val( oGrupoDesc[ $( this ).val() ] );
+	});
 	
 </script>
 {% endblock %}
