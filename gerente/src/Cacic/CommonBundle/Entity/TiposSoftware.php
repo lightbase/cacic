@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TiposSoftware
  *
  * @ORM\Table(name="tipos_software")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\TiposSoftwareRepository")
  */
 class TiposSoftware
 {

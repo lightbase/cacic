@@ -22,7 +22,7 @@ class PerfilAplicativoMonitoradoType extends AbstractType
                 'label' => 'Nome do sistema:'
             )
         );
-        $builder->add('idSo', 'entity',
+        $builder->add('so', 'entity',
             array(
                 'class' => 'CacicCommonBundle:So',
                 'empty_value' => ' ',
@@ -30,6 +30,7 @@ class PerfilAplicativoMonitoradoType extends AbstractType
                 'label' => 'Qual é o sistema Operacional?'
             )
         );
+        $builder->add( 'idSo', 'hidden' );
         $builder->add('inDisponibilizaInfo', 'choice',
             array(
                 'choices' => array('s'=>'Sim',

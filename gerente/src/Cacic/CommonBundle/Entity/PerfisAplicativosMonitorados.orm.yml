@@ -1,5 +1,6 @@
-PerfisAplicativosMonitorados:
+Cacic\CommonBundle\Entity\PerfisAplicativosMonitorados:
     type: entity
+    repositoryClass: Cacic\CommonBundle\Entity\PerfisAplicativosMonitoradosRepository
     table: perfis_aplicativos_monitorados
     fields:
         idAplicativo:
@@ -141,4 +142,15 @@ PerfisAplicativosMonitorados:
             type: datetime
             nullable: true
             column: dt_registro
+    manyToOne:
+            so:
+                targetEntity: Cacic\CommonBundle\Entity\So
+                cascade: {  }
+                mappedBy: null
+                inversedBy: perfisAplicativos
+                joinColumns:
+                    id_so:
+                        referencedColumnName: id_so
+                orphanRemoval: false
+
     lifecycleCallbacks: {  }

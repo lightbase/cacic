@@ -63,7 +63,6 @@ Cacic\CommonBundle\Entity\ServidoresAutenticacao:
 Cacic\CommonBundle\Entity\Redes:
     properties:
         nmRede:
-            - NotBlank: ~
             - MaxLength: 30
         teMascaraRede:
             - NotBlank: ~
@@ -71,12 +70,12 @@ Cacic\CommonBundle\Entity\Redes:
         teServCacic:
             - NotBlank: ~
             - MaxLength: 20
-        selTeServCacic:
+        teServCacic:
             - NotBlank: ~
         teServUpdates:
             - NotBlank: ~
             - MaxLength: 20
-        selTeServUpdates:
+        teServUpdates:
             - NotBlank: ~
         nuPortaServUpdates:
             - NotBlank: ~

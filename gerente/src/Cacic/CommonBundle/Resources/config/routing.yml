@@ -143,3 +143,25 @@ cacic_perfilaplicativomonitorado_editar:
 cacic_perfilaplicativomonitorado_excluir:
     pattern:  /perfilaplicativomonitorado/excluir
     defaults: { _controller: CacicCommonBundle:PerfilAplicativoMonitorado:excluir}
+
+
+cacic_tiposoftware_index:
+    pattern: /tiposoftware/{page}
+    defaults: {_controller: CacicCommonBundle:TipoSoftware:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_tiposoftware_cadastrar:
+    pattern: /tiposoftware/cadastrar
+    defaults: { _controller: CacicCommonBundle:TipoSoftware:cadastrar}
+
+cacic_tiposoftware_editar:
+    pattern:  /tiposoftware/editar/{idTipoSoftware}
+    defaults: { _controller: CacicCommonBundle:TipoSoftware:editar}
+    requirements:
+        idTipoSoftware: \d+
+
+cacic_tiposoftware_excluir:
+    pattern:  /tiposoftware/excluir
+    defaults: { _controller: CacicCommonBundle:TipoSoftware:excluir}
+

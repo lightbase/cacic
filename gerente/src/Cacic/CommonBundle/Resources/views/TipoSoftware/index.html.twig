@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Tipos de Softwares<small>Lista de Tipos de Softwares cadastrados</small></h1>
+    </div>
+
+    <div class="well">
+
+        <table class="paginacao" cellpadding="2" cellspacing="0" width="100%" align="center">
+            <tr>
+                <td align="left"></td>
+                <td align="right"></td>
+            </tr>
+        </table>
+
+        <table class="list">
+            <thead>
+            <tr>
+                <th width="90%"style="text-align: center">Descrição do Tipo de Software</th>
+                <th style="text-align: center">Ações</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for tiposoftware in tiposSoftware %}
+
+                <tr id="item_{{ tiposoftware['idTipoSoftware'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                    <td style="text-align: center" id="item_desc_{{ tiposoftware['idTipoSoftware'] }}">{{ tiposoftware['teDescricaoTipoSoftware'] }}</td>
+                    <td style="text-align: center">
+                        <a href="{{ path('cacic_tiposoftware_editar', {'idTipoSoftware': tiposoftware['idTipoSoftware']}) }}">
+                            <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Item" title="Editar Item"  /></a>
+
+                        <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" url="{{ path('cacic_tiposoftware_excluir') }}" />
+                    </td>
+                </tr>
+
+            {% else %}
+                <tr>
+                    <td align="center" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <div align="right">
+        <a class="btn btn-primary btn-small bt-adicionar" href="{{ path('cacic_tiposoftware_cadastrar') }}">Adicionar Softwares</a>
+    </div>
+{% endblock %}

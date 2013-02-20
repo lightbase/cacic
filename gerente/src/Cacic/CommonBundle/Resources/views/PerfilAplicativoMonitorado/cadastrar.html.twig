@@ -12,7 +12,7 @@
     <form id="formPerfilAplicativoMonitorado" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
 
         {{ form_row(form.nmAplicativo) }}
-        {{ form_row(form.idSo) }}
+        {{ form_row(form.so) }}
         {{ form_row(form.inDisponibilizaInfo) }}
         {{ form_row(form.inDisponibilizaInfoUsuarioComum) }}
         {{ form_row(form.teDescritivo) }}
@@ -140,6 +140,10 @@ $().ready(function() {
             $( '#aplicativo_csCarVerWnt' ).attr('placeholder', '');
         else
             $( '#aplicativo_csCarVerWnt' ).attr('placeholder', carVerW9x_desc[ $( this ).val() ] );
+    });
+
+    $( '#formPerfilAplicativoMonitorado' ).submit(function(){
+        $( '#aplicativo_idSo' ).val( $( '#aplicativo_so' ).val() );
     });
 });
 
