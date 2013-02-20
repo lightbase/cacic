@@ -60,6 +60,7 @@ class RedeType extends AbstractType
              array(
                  'empty_value' => '==>Selecione <==',
                  'label'=>' ',
+                 'mapped'=>false,
                  'class' => 'CacicCommonBundle:Redes',
                  'property' => 'teServCacic'
              )

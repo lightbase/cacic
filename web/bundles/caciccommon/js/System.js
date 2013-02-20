@@ -3,8 +3,8 @@
  */
 
 var System = {
-	Grid : {
-		excluir : function(){
+	Grid : { // Comportamentos relacionados a itens de grids de listagens de itens
+		excluir : function(){ // Método executado ao acionar a funcionalidade de exclusão
 			$( ".bt-excluir" ).bind( 'click', function(e){
 				e.preventDefault();
 				var url = $( this ).attr( 'url' );
@@ -13,8 +13,8 @@ var System = {
 			});
 		}
 	},
-	Flash : {
-		show : function( type, msg ){
+	Flash : { // Comportamentos relacionados a mensagens
+		show : function( type, msg ){ // Método executado na exibição de mensagens do sistema
 			$( '#msgErro' ).empty().hide();
 			$( '#msgAviso' ).empty().hide();
 			$( '#msgSucesso' ).empty().hide();
@@ -23,5 +23,13 @@ var System = {
 			 */
 			$( '#msg' +type ).text( msg ).fadeIn();
 		}
-	}
+	},
+    Form : { // Comportamentos relacionados a formulários
+        reset : function(){ // Método executado ao se acionar a funcionalidade de "limpar valores" do formulário
+            $( 'input[type=reset]' ).click(function(){
+                $( 'input[type=text]').attr('placeholder', '');
+
+            });
+        }
+    }
 }

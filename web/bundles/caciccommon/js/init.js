@@ -55,4 +55,5 @@ $(document).ready(function(){
 	});
 	
 	System.Grid.excluir(); // Inicializa o LISTENER para os botões-padrão de exclusão de itens
+    System.Form.reset();
 });

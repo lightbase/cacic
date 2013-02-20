@@ -1,19 +1,20 @@
 <?php
  /* 
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informaï¿½ï¿½es da Previdï¿½ncia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ï¿½ parte do programa CACIC - Configurador Automï¿½tico e Coletor de Informaï¿½ï¿½es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ï¿½ um software livre; vocï¿½ pode redistribui-lo e/ou modifica-lo dentro dos termos da Licenï¿½a Pï¿½blica Geral GNU como 
+ publicada pela Fundaï¿½ï¿½o do Software Livre (FSF); na versï¿½o 2 da Licenï¿½a, ou (na sua opniï¿½o) qualquer versï¿½o.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ï¿½ distribuido na esperanï¿½a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAï¿½ï¿½O a qualquer
+ MERCADO ou APLICAï¿½ï¿½O EM PARTICULAR. Veja a Licenï¿½a Pï¿½blica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral GNU, sob o tï¿½tulo "LICENCA.txt", junto com este programa, se nï¿½o, escreva para a Fundaï¿½ï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-?>		
+?>
+
 <table width="85%" border="0" align="center">
   <tr><td class="cabecalho">&nbsp;</td></tr>  
   <tr><td><input name="frmRedes_Selecionadas" type="hidden" id="frmRedes_Selecionadas" value="">  
@@ -36,7 +37,7 @@
 	   	$whereREDES = ($_SESSION['cs_nivel_administracao']<>1&&$_SESSION['cs_nivel_administracao']<>2?' AND loc.id_local = '.$_SESSION['id_local']:'');
 		if ($_SESSION['te_locais_secundarios']<>'' && $whereREDES <> '')
 			{
-			// Faço uma inserção de "(" para ajuste da lógica para consulta	
+			// Faï¿½o uma inserï¿½ï¿½o de "(" para ajuste da lï¿½gica para consulta	
 			$whereREDES = str_replace(' loc.id_local = ',' (loc.id_local = ',$whereREDES);
 			$whereREDES .= ' OR loc.id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
 			}

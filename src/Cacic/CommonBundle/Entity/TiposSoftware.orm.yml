@@ -1,5 +1,6 @@
-TiposSoftware:
+Cacic\CommonBundle\Entity\TiposSoftware:
     type: entity
+    repositoryClass: Cacic\CommonBundle\Entity\TiposSoftwareRepository
     table: tipos_software
     fields:
         idTipoSoftware:
