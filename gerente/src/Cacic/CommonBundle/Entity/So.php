@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * So
  *
  * @ORM\Table(name="so")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\SoRepository")
  */
 class So
 {
