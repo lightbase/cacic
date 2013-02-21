@@ -19,22 +19,34 @@ class SoType extends AbstractType
         $builder->add(
             'teDescSo',
             null,
-            array( 'label'=>'Descrição:', 'max_length'=>100 )
+            array( 'label'=>'Descrição:', 'max_length'=>30 )
         );
         $builder->add(
             'sgSo',
             null,
-            array( 'label'=>'Sigla:', 'max_length'=>100 )
+            array( 'label'=>'Sigla:', 'max_length'=>30 )
         );
         $builder->add(
             'teSo',
             null,
-            array( 'label'=>'Id Interna:', 'max_length'=>100 )
+            array( 'label'=>'Id Interna:', 'max_length'=>30 )
         );
         $builder->add(
             'idSo',
             null,
-            array( 'label'=>'Id Externa:', 'max_length'=>100 )
+            array( 'label'=>'Id Externa:',
+                    'max_length'=>10,
+                    'read_only' =>true,
+            )
+        );
+        $builder->add('inMswindows', 'choice',
+                array(
+                    'choices'=>array(' S ' => ' Sistema Operacional MS-Windows'
+                    ),
+                    'label'=>' ',
+                    'expanded'  => true,
+                    'multiple'  => false,
+                    )
         );
     }
 
