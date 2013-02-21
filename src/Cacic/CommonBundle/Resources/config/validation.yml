@@ -98,3 +98,15 @@ Cacic\CommonBundle\Entity\Redes:
         tePathServUpdates:
             - NotBlank: ~
             - MaxLength: 20
+
+Cacic\CommonBundle\Entity\So:
+    properties:
+        teDescSo:
+            - NotBlank: ~
+            - MaxLength: 30
+        sgSo:
+            - NotBlank: ~
+            - MaxLength: 30
+        teSo:
+            - NotNull: ~
+            - Maxlength: 10
