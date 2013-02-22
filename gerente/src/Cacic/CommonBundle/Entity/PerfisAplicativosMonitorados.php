@@ -182,7 +182,13 @@ class PerfisAplicativosMonitorados
      */
     private $dtRegistro;
 
-
+    /**
+     * @var \So
+     *
+     * @ORM\ManyToOne(targetEntity="So", inversedBy="perfisAplicativos")
+     * @ORM\JoinColumn(name="id_so", referencedColumnName="id_so")
+     */
+    private $so;
 
     /**
      * Get idAplicativo
@@ -721,5 +727,27 @@ class PerfisAplicativosMonitorados
     public function getDtRegistro()
     {
         return $this->dtRegistro;
+    }
+    /**
+     * Set so
+     *
+     * @param \Cacic\CommonBundle\Entity\So $so
+     * @return PerfisAplicativosMonitorados
+     */
+    public function setSo( \Cacic\CommonBundle\Entity\So $so = null )
+    {
+        $this->so = $so;
+
+        return $this;
+    }
+
+    /**
+     *
+     * Get so
+     * @return \Cacic\CommonBundle\Entity\So
+     */
+    public function getSo()
+    {
+        return $this->so;
     }
 }

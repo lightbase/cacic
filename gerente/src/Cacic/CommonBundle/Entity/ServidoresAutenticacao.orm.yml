@@ -103,4 +103,7 @@ Cacic\CommonBundle\Entity\ServidoresAutenticacao:
         usuarios:
             targetEntity: Cacic\CommonBundle\Entity\Usuarios
             mappedBy: servidorAutenticacao
+        rede:
+            targetEntity: Cacic\CommonBundle\Entity\Redes
+            mappedBy: servidorAutenticacao
     lifecycleCallbacks: {  }

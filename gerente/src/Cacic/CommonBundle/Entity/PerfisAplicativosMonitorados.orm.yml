@@ -152,5 +152,4 @@ Cacic\CommonBundle\Entity\PerfisAplicativosMonitorados:
                     id_so:
                         referencedColumnName: id_so
                 orphanRemoval: false
-
     lifecycleCallbacks: {  }

@@ -182,6 +182,10 @@ class PerfilAplicativoMonitoradoType extends AbstractType
                 'label'=> 'Selecionada:'
             )
         );
+        $builder->add('dtAtualizacao', 'hidden',
+            array(
+            )
+        );
 
 }
     /**

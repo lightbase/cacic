@@ -41,11 +41,13 @@ class SoType extends AbstractType
         );
         $builder->add('inMswindows', 'choice',
                 array(
-                    'choices'=>array(' S ' => ' Sistema Operacional MS-Windows'
+                    'choices'=>array('S' => 'Sim',
+                                    'N' => 'Não'
                     ),
-                    'label'=>' ',
+                    'label'=>'Sistema Operacional MS-Windows',
                     'expanded'  => true,
                     'multiple'  => false,
+                    'required'  => false,
                     )
         );
     }
