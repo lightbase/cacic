@@ -198,11 +198,19 @@ class Redes
      * })
      */
     private $local;
-    
+
+    /**
+     * @var \ServidoresAutenticacao
+     *
+     * @ORM\ManyToOne(targetEntity="ServidoresAutenticacao", inversedBy="rede")
+     * @ORM\JoinColumn(name="id_servidor_autenticacao", referencedColumnName="id_servidor_autenticacao")
+     */
+    private $servidorAutenticacao;
+
     /**
      * Get idRede
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdRede()
     {
@@ -784,4 +792,28 @@ class Redes
     {
         return $this->local;
     }
+
+    /**
+     * Set servidorAutenticacao
+     *
+     * @param \Cacic\CommonBundle\Entity\ServidoresAutenticacao $servidorAutenticacao
+     * @return Redes
+     */
+    public function setServidorAutenticacao( \Cacic\CommonBundle\Entity\ServidoresAutenticacao $servidorAutenticacao = null )
+    {
+        $this->servidorAutenticacao = $servidorAutenticacao;
+
+        return $this;
+    }
+
+    /**
+     *
+     * Get servidorAutenticacao
+     * @return \Cacic\CommonBundle\Entity\ServidoresAutenticacao
+     */
+    public function getServidorAutenticacao()
+    {
+        return $this->servidorAutenticacao;
+    }
+
 }

@@ -16,7 +16,7 @@ class RedeType extends AbstractType
 
 	public function buildForm( FormBuilderInterface $builder, array $options )
 	{
-		$builder->add( 'idLocal', 'entity',
+		$builder->add( 'local', 'entity',
 			array(
 				'empty_value' => 'Selecione o Local',
 				'class' => 'CacicCommonBundle:Locais',
@@ -24,13 +24,17 @@ class RedeType extends AbstractType
 				'label' => 'Local'
 			)
 		);
-		$builder->add( 'idServidorAutenticacao', 'entity',
+        $builder->add( 'idLocal', 'hidden' );
+
+		$builder->add('servidorAutenticacao', 'entity',
 			array(
 				'empty_value' => 'Selecione o Servidor',
 				'class' => 'CacicCommonBundle:ServidoresAutenticacao',
 				'property' => 'nmServidorAutenticacao',
 				'label'=>'Servidor para Autenticação:')
 		);
+        $builder->add( 'idServidorAutenticacao', 'hidden' );
+
 		$builder->add(  'teIpRede',  null,
 			array(
 				 'label'=> 'Subrede:',
@@ -186,7 +190,7 @@ class RedeType extends AbstractType
         $builder->add('csPermitirDesativarSrcacic', 'choice',
             array(
                 'choices'   => array('s' => 'Sim', 'n' => 'Não'),
-                'required'  => false,
+                'required'  => true,
                 'expanded'  => true,
                 'label' => ' '
 
