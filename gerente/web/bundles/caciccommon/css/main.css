@@ -61,8 +61,12 @@ TABLE.list tbody .bt-excluir, TABLE.list tbody .bt-trocar-senha {
                 no-repeat;
 }
 
+button[type=submit].btn.btn-primary {
+	float: right;
+}
+
 div.well form div ul {
-	/*float: right;*/
+	float: right;
 	color: #c00;
 }
 
@@ -77,6 +81,10 @@ div.well form label {
 FORM h4 {
 	margin-top: 15px;
 	color: #00c;
+}
+
+input[type=text], select, textarea {
+	width: 500px;
 }
 
 input[type=radio] {

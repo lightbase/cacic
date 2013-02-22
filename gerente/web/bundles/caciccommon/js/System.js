@@ -26,7 +26,7 @@ var System = {
 	},
     Form : { // Comportamentos relacionados a formulários
         reset : function(){ // Método executado ao se acionar a funcionalidade de "limpar valores" do formulário
-            $( 'input[type=reset]' ).click(function(){
+            $( 'button[type=reset],input[type=reset]' ).click(function(){
                 $( 'input[type=text]').attr('placeholder', '');
 
             });

@@ -24,8 +24,14 @@
 	{{ form_rest(form) }}
 	
 	<div class="form-opcoes">
-		<input type="reset" value="Limpar Valores" class="btn btn-small" />
-		<input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
+		<button type="reset" class="btn">
+			<i class="icon-refresh"></i>
+			Resetar Valores
+		</button>
+		<button type="submit" class="btn btn-primary">
+			<i class="icon-ok-sign"></i>
+			Salvar Dados
+		</button>
 	</div>
 	
 	</form>
@@ -33,7 +39,10 @@
 </div>
 
 <div align="left">
-	<a class="btn btn-danger btn-small" href="{{ path('cacic_local_index') }}"> Cancelar </a>
+	<a class="btn btn-danger" href="{{ path('cacic_local_index') }}">
+		<i class="icon-remove-sign"></i>
+		  Cancelar 
+	</a>
 </div>
 	
 {% endblock %}

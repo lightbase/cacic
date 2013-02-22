@@ -185,3 +185,6 @@ cacic_sistemaoperacional_excluir:
     pattern:  /sistemaoperacional/excluir
     defaults: { _controller: CacicCommonBundle:So:excluir}
 
+cacic_configuracaopadrao_index:
+    pattern: /configuracaopadrao
+    defaults: { _controller: CacicCommonBundle:ConfiguracaoPadrao:index}
