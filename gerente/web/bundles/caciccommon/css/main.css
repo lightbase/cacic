@@ -3,120 +3,94 @@
 BODY {  
 	margin: 0;
 	padding: 0;
-}
-
-.page-header-desc {
-	float: right;
-	width: 300px;
-	font-style: italic;
-	color: #666;
-	font-size: 9pt;
-	border: 1px solid #ccc;
-	background-color: #e1e1e1;
-	padding: 5px;
-}
-	
-TABLE.list {
-	width: 100%;
-	border: 1px solid #aaa;
-}
-
-TABLE.list thead {
-	background-color: #333;
-	color: #fff;
-}
-
-TABLE.list thead tr th, TABLE.list tbody tr td {
-	padding: 5px;
-	text-align: left;
-}
-
-TABLE.list tbody tr.row0 {
-	background-color: #ccc;
-}
-
-TABLE.list tbody tr.row1 {
 	background-color: #fff;
+	font-family: Tahoma, Verdana;
+	font-size: 10pt;
 }
 
-TABLE.list tbody .bt-excluir, TABLE.list tbody .bt-trocar-senha {
-	cursor: pointer;
+.container {
+	width: 900px;
+	margin: 0 auto;
 }
 
-.form-opcoes {
-	margin-top: 20px;
+#header {
+	margin-bottom: 20px;
 }
 
-#ajaxLoading {
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .9 ) 
-                url('../images/v3/loading.gif') 
-                50% 50% 
-                no-repeat;
+#header, #footer {
+	background-color: #adcf0f;
+	box-shadow: rgb(0, 0, 125) 0px 0px 5px 0px;
 }
 
-button[type=submit].btn.btn-primary {
-	float: right;
-}
-
-div.well form div ul {
-	float: right;
-	color: #c00;
-}
-
-div.well form div {
-	/*width: 450px;*/
-}
-
-div.well form label {
-	font-weight: bold;
-}
-
-FORM h4 {
-	margin-top: 15px;
-	color: #00c;
-}
-
-input[type=text], select, textarea {
-	width: 500px;
-}
-
-input[type=radio] {
-	float: left;
-	margin-right: 5px;
-}
-
-div.form-transfer {
-	height: 100px;
-}
-
-div.form-transfer div {
-	float: left;
-}
-
-div.form-transfer .form-transfer-from {
-	
-}
-
-div.form-transfer .form-transfer-options {
-	margin: 0px 20px;
+#header-container {
+	height: 80px;
 	padding-top: 20px;
 }
 
-div.form-transfer .form-transfer-to {
-	
+ul#menu-superior {
+	float: right;
+	text-align: right;
+	color: #fff;
+	list-style: none;
+	margin-top: 20px;
 }
 
-/* Sobreescreve alguns estilos relativos ao JQUERY-UI */
-.ui-dialog-content label {
+ul#menu-superior li {
+	display: inline-table;
+	cursor: pointer;
+	margin: 0 10px;
+	font-family: Genova, Tahoma, sans-serif;
 	color: #fff;
+	text-transform: uppercase;
+	font-size: 12px;
 	font-weight: bold;
 }
 
-.ui-effects-transfer { background-color: #333; opacity: 0.25; }
+ul#menu-superior li:HOVER {
+	color: #3250b3;
+}
+
+#inner-content {
+	
+}
+
+.left-content {
+	float: left;
+	width: 595px;
+}
+
+.right-content {
+	float: right;
+	width: 300px;
+}
+
+.left-content, .right-content { height: 370px; }
+
+.main-content {
+	clear: both;
+}
+
+.content-block {
+	width: 280px;
+	border-top: #404144 3px solid;
+	float: left;
+	margin-bottom: 10px;
+}
+
+.content-block-center {
+	margin: 0 15px;
+}
+
+.content-section-title {
+	font-size: 16pt;
+	color: #404144;
+	font-family: Signika, sans-serif;
+}
+
+#footer {
+	clear: both;
+	font-size: 10pt;
+	margin-top: 10px;
+	padding: 25px 0;
+	color: #fff;
+}
