@@ -116,3 +116,23 @@ Cacic\CommonBundle\Entity\PerfisAplicativosMonitorados:
         dtAtualizacao:
             - NotBlank: ~
             - Type: \DateTime
+
+Cacic\CommonBundle\Entity\Softwares:
+    properties:
+        nmSoftware:
+            - NotBlank: ~
+            - MaxLength: 30
+        teDescricaoSoftware:
+            - NotBlank: ~
+            - MaxLength: 30
+        qtLicenca:
+            - Notblank: ~
+            - MaxLength: 10
+        nrMidia:
+            - NotBlank: ~
+            - MaxLength: 10
+        teLocalMidia:
+            - NotBlank: ~
+            - MaxLength: 30
+        teObs:
+            - MaxLength: 30
