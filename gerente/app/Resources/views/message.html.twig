@@ -1,0 +1,31 @@
+{# exibição das mensagens do sistema (sucesso, erro, avisos, etc..) #}
+{% block mensagens_sistema %}
+	<div id="msgErro" class="flash-error mensagemErro">
+	{% for flashMessage in app.session.flashbag.peek('error') %}
+        {{ flashMessage }}
+	{% endfor %}
+	</div>
+	
+	<div id=msgAviso class="flash-notice mensagemAviso">
+	{% for flashMessage in app.session.flashbag.peek('notice') %}
+        {{ flashMessage }}
+	{% endfor %}
+	</div>
+	
+	<div id="msgSucesso" class="flash-success mensagemSucesso">
+	{% for flashMessage in app.session.flashbag.peek('success') %}
+        {{ flashMessage }}
+	{% endfor %}
+	</div>
+{% endblock %}
+
+<script type="text/javascript">
+
+/**
+ * Mensagens do sistema
+ */
+{% if app.session.flashbag.get('error')|length > 0 %} $('#msgErro').show(); {% endif %}
+{% if app.session.flashbag.get('notice')|length > 0 %} $('#msgAviso').show(); {% endif %}
+{% if app.session.flashbag.get('success')|length > 0 %} $('#msgSucesso').show(); {% endif %}
+
+</script>

@@ -14,10 +14,20 @@ use Cacic\CommonBundle\Form\Type\ConfiguracaoPadraoType;
  * @author lightbase
  *
  */
-class ConfiguracaoPadraoController extends Controller
+class ConfiguracaoController extends Controller
 {
 	
-	public function indexAction()
+	public function padraoAction()
+	{
+		
+	}
+	
+	public function agenteAction()
+	{
+		
+	}
+	
+	public function gerenteAction()
 	{
 		
 	}

@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+
+<html lang="en">
+	<head>
+		<title>CACIC - Configurador Automático e Coletor de Informações Computacionais</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<link rel="shortcut icon" href="/favicon.ico" />
+		{% block stylesheets %}
+		<link href="{{ asset('bundles/caciccommon/css/bootstrap.css') }}" type="text/css" rel="stylesheet" />
+		<link href="{{ asset('bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.min.css') }}" type="text/css" rel="stylesheet">
+		<link href="{{ asset('bundles/caciccommon/css/message.css') }}" type="text/css" rel="stylesheet" />
+		<link href="{{ asset('bundles/caciccommon/css/main.css') }}" type="text/css" rel="stylesheet" />
+		<link href="{{ asset('bundles/caciccommon/jquery-ui-1.10.0.custom/css/dark-hive/jquery-ui-1.10.0.custom.min.css') }}" type="text/css" rel="stylesheet" />
+		<!--[if IE 7]>
+		<link href="{{ asset('bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome-ie7.min.css') }}" type="text/css" rel="stylesheet" />
+		<![endif]-->
+		{% endblock %}
+		
+		{% block javascripts %}
+		<script src="{{ asset('bundles/caciccommon/js/jquery-1.9.0.min.js') }}" type="text/javascript" language="javascript"></script>
+		<script src="{{ asset('bundles/caciccommon/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js') }}" type="text/javascript" language="javascript"></script>
+		<script src="{{ asset('bundles/caciccommon/js/System.js') }}" type="text/javascript" language="javascript"></script>
+		<script src="{{ asset('bundles/caciccommon/js/init.js') }}" type="text/javascript" language="javascript"></script>
+		{% endblock %}
+	</head>
+
+<body>
+
+	<div class="navbar navbar-fixed">
+		<div class="navbar-inner">
+			<div class="container">
+				<img src="{{ asset('bundles/caciccommon/images/cacic_logo.png') }}" width="50" height="50" align="left" hspace="10">
+				<a class="brand" href="{{ path('cacic_common_homepage') }}">
+					CACIC 
+					<br /><small ><i>v. {{ cacic_version }}</i></small>
+				</a>
+				
+			</div>
+		</div>
+	</div>
+
+	<!-- Message -->
+
+	<div id="ajaxLoading"></div>
+
+	<div class="container">
+		
+	
+		<div>
+		{% block body %}{% endblock %}
+		</div>
+		<hr>
+
+		<footer>
+			<p><b>CACIC</b> - <i>Configurador Automático e Coletor de Informações Computacionais</i></p>
+		</footer>
+	</div><!--/.fluid-container-->
+	
+	{% include '::dialog.html.twig' %}
+
+</body>
+</html>

@@ -12,9 +12,7 @@
 		</div> <!-- /widget-header -->
 	
 		<div class="widget-content">
-			
 			<div class="stats">
-				
 				<div class="stat stat-time">
 					<span class="stat-value">0</span>									
 					Totais de computadores monitorados
@@ -26,12 +24,7 @@
 				</div> <!-- /stat -->
 				
 			</div> <!-- /stats -->
-			
-			
-			
-			
 		</div> <!-- /widget-content -->
-	
 	</div> <!-- /widget -->
 	
 	<div class="widget">
@@ -42,19 +35,15 @@
 		</div> <!-- /widget-header -->
 						
 		<div class="widget-content">
-							
 			<p>Olá, {{ app.user.nmUsuarioCompleto }}, seja bem-vindo à área administrativa do CACIC v3. 
-			<br />Este é seu acesso de Nº 182. Sua última visita foi registrada em 21 de fevereiro de 2013 às 14:35.</p>					
-							
+			<br />Este é seu acesso de Nº 182. Sua última visita foi registrada em 21 de fevereiro de 2013 às 14:35.</p>
 		</div> <!-- /widget-content -->
 	
 	</div> <!-- /widget -->
   		
 </div> <!-- /span6 -->
-  	
-  	
-<div class="span6">	
 
+<div class="span6">
 	<div class="widget">
 	
 		<div class="widget-header">
@@ -63,30 +52,24 @@
 		</div> <!-- /widget-header -->
 
 		<div class="widget-content">
-			
 			<div class="shortcuts">
-				<a href="javascript:;" class="shortcut">
-					<i class="shortcut-icon icon-user"></i>
-					<span class="shortcut-label">Cadastro de<br /> Usuários</span>
+				<a href="{{ path('cacic_usuario_index') }}" class="shortcut">
+					<i class="shortcut-icon icon-group"></i>
+					<span class="shortcut-label">Usuários</span>
 				</a>
 				
-				<a href="javascript:;" class="shortcut">
+				<a href="{{ path('cacic_local_index') }}" class="shortcut">
 					<i class="shortcut-icon icon-globe"></i>
-					<span class="shortcut-label">Cadastro de<br /> Locais</span>								
+					<span class="shortcut-label">Locais</span>								
 				</a>
 				
-				<a href="javascript:;" class="shortcut">
+				<a href="{{ path('cacic_configuracao_padrao') }}" class="shortcut">
 					<i class="shortcut-icon icon-cogs"></i>
-					<span class="shortcut-label">Configuração<br /> Padrão</span>	
+					<span class="shortcut-label">Configuração Padrão</span>	
 				</a>
-			</div> <!-- /shortcuts -->	
-		
+			</div> <!-- /shortcuts -->
 		</div> <!-- /widget-content -->
-	
 	</div> <!-- /widget -->
-		
-		
-		
 		
 	<div class="widget widget-table action-table">
 			
@@ -96,7 +79,6 @@
 		</div> <!-- /widget-header -->
 	
 		<div class="widget-content">
-			
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
@@ -127,50 +109,8 @@
 					
 					</tbody>
 				</table>
-			
 		</div> <!-- /widget-content -->
-	
 	</div> <!-- /widget -->
-
-	<div class="widget">
-				
-			<div class="widget-header">
-				<i class="icon-signal"></i>
-				<h3>Acessos de Agentes</h3>
-			</div> <!-- /widget-header -->
-	
-			<div class="widget-content">					
-				<div style="padding: 0px; position: relative;" id="area-chart" class="chart-holder">
-					<canvas height="250" width="538" class="base"></canvas>
-					<canvas style="position: absolute; left: 0px; top: 0px;" height="250" width="538" class="overlay"></canvas>
-					<div class="tickLabels" style="font-size:smaller">
-						<div class="xAxis x1Axis" style="color:#545454">
-							<div class="tickLabel" style="position:absolute;text-align:center;left:-2px;top:228px;width:48px">0</div>
-							<div class="tickLabel" style="position:absolute;text-align:center;left:49px;top:228px;width:48px">10</div>
-							<div class="tickLabel" style="position:absolute;text-align:center;left:100px;top:228px;width:48px">20</div>
-							<div class="tickLabel" style="position:absolute;text-align:center;left:152px;top:228px;width:48px">30</div>
-							<div class="tickLabel" style="position:absolute;text-align:center;left:203px;top:228px;width:48px">40</div>
-							<div class="tickLabel" style="position:absolute;text-align:center;left:254px;top:228px;width:48px">50</div>
-							<div class="tickLabel" style="position:absolute;text-align:center;left:305px;top:228px;width:48px">60</div>
-							<div class="tickLabel" style="position:absolute;text-align:center;left:356px;top:228px;width:48px">70</div>
-							<div class="tickLabel" style="position:absolute;text-align:center;left:408px;top:228px;width:48px">80</div>
-							<div class="tickLabel" style="position:absolute;text-align:center;left:459px;top:228px;width:48px">90</div>
-							<div class="tickLabel" style="position:absolute;text-align:center;left:510px;top:228px;width:48px">100</div>
-						</div>
-						<div class="yAxis y1Axis" style="color:#545454">
-							<div class="tickLabel" style="position:absolute;text-align:right;top:210px;right:523px;width:15px">0</div>
-							<div class="tickLabel" style="position:absolute;text-align:right;top:167px;right:523px;width:15px">20</div>
-							<div class="tickLabel" style="position:absolute;text-align:right;top:123px;right:523px;width:15px">40</div>
-							<div class="tickLabel" style="position:absolute;text-align:right;top:80px;right:523px;width:15px">60</div>
-							<div class="tickLabel" style="position:absolute;text-align:right;top:36px;right:523px;width:15px">80</div>
-							<div class="tickLabel" style="position:absolute;text-align:right;top:-7px;right:523px;width:15px">100</div>
-						</div>
-					</div>
-				</div>					
-			</div> <!-- /widget-content -->
-
-	</div> <!-- /widget -->
-				
 </div> <!-- /span6 -->
 
 {% endblock %}

@@ -55,5 +55,6 @@ $(document).ready(function(){
 	});
 	
 	System.Grid.excluir(); // Inicializa o LISTENER para os botões-padrão de exclusão de itens
-    System.Form.reset();
+    System.Form.reset(); // Inicializa o LISTENER para os botões (ou input) type=reset
+    System.Menu.setActive( window.location.toString() ); // Configura o menu ativo
 });

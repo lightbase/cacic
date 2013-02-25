@@ -1,38 +1,67 @@
 {% extends '::base.html.twig' %}
 
+{% block headline %}
+
+{% endblock %}
+
 {% block body %}
 
-<div class="page-header">
-    <h1>Usuário
-      <small>Dados do usuário</small></h1>
-</div>
-
-<div class="well">
-
-	<form id="formCadastroUsuario" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
-
-		{{ form_widget(form) }}
-		{{ form_rest(form) }}
-
-		<div class="form-opcoes">
-			<button type="reset" class="btn">
-				<i class="icon-refresh icon-white"></i>
-				Resetar Valores
-			</button>
-			<button type="submit" class="btn btn-primary">
-				<i class="icon-ok-sign"></i>
-				Salvar Dados
-			</button>
-		</div>
-
-	</form>
-</div>
-
-<div>
-	<a class="btn btn-danger"  href="{{ path('cacic_usuario_index') }}">
-		<i class="icon-remove-sign"></i>
-		Cancelar
-	</a>
+<div class="span8">
+	<div class="widget">
+		<div class="widget-content">
+			<div class="page-header">
+				<h3>Cadastro de novo usuário</h3>
+				{{ form.get('idUsuario') }}
+			</div>
+			
+			<form id="formCadastroUsuario" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+		
+				{{ form_widget(form) }}
+				{{ form_rest(form) }}
+			
+				<div class="form-actions">
+					<button type="reset" class="btn">
+						<i class="icon-refresh"></i>
+						Resetar Valores
+					</button>
+					<button type="submit" class="btn btn-primary">
+						<i class="icon-ok-sign"></i>
+						Salvar Dados
+					</button>
+				</div>
+			
+			</form>
+			<hr />
+			<div>
+				<a class="btn btn-danger"  href="{{ path('cacic_usuario_index') }}">
+					<i class="icon-remove-sign"></i>
+					Cancelar
+				</a>
+			</div>
+		
+		</div> <!-- /widget-content -->
+	</div> <!-- /widget -->
+</div> <!-- /span8 -->
+	      	
+	      	
+<div class="span4">
+	<div class="widget widget-box">
+		<div class="widget-header">
+			<i class="icon-info-sign"></i>
+			<h3>Informações Adicionais</h3>
+		</div> <!-- /widget-header -->
+					
+		<div class="widget-content">
+			<p>
+				As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso. 
+				A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção
+				<br /><br /> 
+				<b>Meus Dados (Menu no canto superior direito) - Alterar Senha</b>.
+				<br /><br />
+				Após o logon, serão exibidas a primeira e última parte do campo Nome completo.
+			</p>
+		</div> <!-- /widget-content -->
+	</div> <!-- /widget-box -->
 </div>
 
 <script type="text/javascript">

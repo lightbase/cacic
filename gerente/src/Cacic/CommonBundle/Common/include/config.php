@@ -9,7 +9,7 @@
     /*
      * Nome do banco de dados
      */
-    $nome_bd = "cacic3_2802";
+    $nome_bd = "cacic";
     
     /*
      * Nome/IP do servidor de banco de dados
@@ -24,17 +24,17 @@
     /*
      * Usuario de conexao do servidor de banco de dados
      */
-    $usuario_bd = "cacic";
+    $usuario_bd = "cacic_db_user";
     
     /*
      * Senha do usuario de conexao do servidor de banco de dados
      */
-    $senha_usuario_bd = "cacic";
+    $senha_usuario_bd = "123456";
     
     /*
      * URL da aplicacao "CACIC"
      */
-    $url_aplicacao = "http://10.71.0.205/cacic3/";
+    $url_aplicacao = "http://localhost/~ecio/cacic/src/Cacic/CommonBundle/Common";
 
     /*
      * CACIC application language
@@ -49,7 +49,7 @@
     /*
      * Caminho fisico da aplicacao "CACIC"
      */
-    $path_aplicacao = "/var/www/cacic3/";
+    $path_aplicacao = "/Users/ecio/Sites/cacic/src/Cacic/CommonBundle/Common";
 
     /*
      * Atencao:
