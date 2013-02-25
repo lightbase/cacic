@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Softwares
  *
  * @ORM\Table(name="softwares")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\SoftwaresRepository")
  */
 class Softwares
 {

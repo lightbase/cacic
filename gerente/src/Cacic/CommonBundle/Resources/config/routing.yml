@@ -185,6 +185,29 @@ cacic_sistemaoperacional_excluir:
     pattern:  /sistemaoperacional/excluir
     defaults: { _controller: CacicCommonBundle:So:excluir}
 
+cacic_software_index:
+    pattern: /software/{page}
+    defaults: {_controller: CacicCommonBundle:Software:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_software_cadastrar:
+    pattern: /software/cadastrar
+    defaults: { _controller: CacicCommonBundle:Software:cadastrar}
+
+cacic_software_editar:
+    pattern:  /software/editar/{idSoftware}
+    defaults: { _controller: CacicCommonBundle:Software:editar}
+    requirements:
+        idSoftware: \d+
+
+cacic_software_excluir:
+    pattern:  /software/excluir
+    defaults: { _controller: CacicCommonBundle:Software:excluir}
+
+cacic_configuracaopadrao_index:
+    pattern: /configuracaopadrao
+    defaults: { _controller: CacicCommonBundle:ConfiguracaoPadrao:index}
 cacic_configuracao_padrao:
     pattern: /configuracao/padrao
     defaults: { _controller: CacicCommonBundle:Configuracao:padrao}

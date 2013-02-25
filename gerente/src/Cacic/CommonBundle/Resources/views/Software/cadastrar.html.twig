@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h1>Softwares
+            <small>Dados dos Softwares</small></h1>
+    </div>
+
+    <div class="well">
+
+        <form id="formTiposSoftwares" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+
+            {{ form_widget(form) }}
+            {{ form_rest(form) }}
+
+            <div class="form-opcoes">
+                <input type="reset" value="Limpar Valores" class="btn btn-small" />
+                <input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
+            </div>
+
+        </form>
+    </div>
+
+    <div>
+        <a class="btn btn-danger btn-small"  href="{{ path('cacic_software_index') }}">Cancelar</a>
+    </div>
+
+{% endblock %}
