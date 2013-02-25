@@ -1,16 +1,16 @@
 <?php
  /* 
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informaï¿½ï¿½es da Previdï¿½ncia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ï¿½ parte do programa CACIC - Configurador Automï¿½tico e Coletor de Informaï¿½ï¿½es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ï¿½ um software livre; vocï¿½ pode redistribui-lo e/ou modifica-lo dentro dos termos da Licenï¿½a Pï¿½blica Geral GNU como 
+ publicada pela Fundaï¿½ï¿½o do Software Livre (FSF); na versï¿½o 2 da Licenï¿½a, ou (na sua opniï¿½o) qualquer versï¿½o.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ï¿½ distribuido na esperanï¿½a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAï¿½ï¿½O a qualquer
+ MERCADO ou APLICAï¿½ï¿½O EM PARTICULAR. Veja a Licenï¿½a Pï¿½blica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral GNU, sob o tï¿½tulo "LICENCA.txt", junto com este programa, se nï¿½o, escreva para a Fundaï¿½ï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
@@ -54,7 +54,7 @@ function initJSTranslateConst()
 	} // end initJSTranslateConst
 
 // --------------------------------------------------------------------------
-// Função para retorno dos nomes das colunas de hardware passível de controle
+// Funï¿½ï¿½o para retorno dos nomes das colunas de hardware passï¿½vel de controle
 // --------------------------------------------------------------------------
 function getDescricoesColunasComputadores()
 	{
@@ -66,9 +66,9 @@ function getDescricoesColunasComputadores()
 													te_target,
 													te_description
 								 			FROM 	descricoes_colunas_computadores dcc";
-	$resultDescricoesColunasComputadores = mysql_query($queryDescricoesColunasComputadores) or die('Ocorreu um erro durante a consulta à tabela descricoes_colunas_computadores.');
+	$resultDescricoesColunasComputadores = mysql_query($queryDescricoesColunasComputadores) or die('Ocorreu um erro durante a consulta ï¿½ tabela descricoes_colunas_computadores.');
 
-	// Crio um array que conterá nm_campo => te_descricao_campo.	 
+	// Crio um array que conterï¿½ nm_campo => te_descricao_campo.	 
 	$arrDescricoesColunasComputadoresAux = array();
 	while($rowHardware = mysql_fetch_array($resultDescricoesColunasComputadores)) 	
 		$arrDescricoesColunasComputadoresAux[trim($rowHardware['te_source']) . '.' . trim($rowHardware['te_target'])] = $rowHardware['te_description'];
@@ -77,23 +77,23 @@ function getDescricoesColunasComputadores()
 	}
 
 // --------------------------------------------------------------
-// Função para retorno dos nomes de hardware passível de controle
+// Funï¿½ï¿½o para retorno dos nomes de hardware passï¿½vel de controle
 // --------------------------------------------------------------
 function getDescricaoHardware()
 	{
 	// Conecto ao banco
 	conecta_bd_cacic();	
 	
-	// Consulto lista de descrições de hardware e retorno em um array
+	// Consulto lista de descriï¿½ï¿½es de hardware e retorno em um array
 	$queryDescricaoHardware  = "SELECT 	nm_class_name,
 										nm_property_name,
 										te_property_description
 							 FROM 		classes_properties cp,
 							 			classes c
 							 WHERE		cp.id_class = c.id_class";
-	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('Ocorreu um erro durante a consulta à tabela classes_properties.');
+	$resultDescricaoHardware = mysql_query($queryDescricaoHardware) or die('Ocorreu um erro durante a consulta ï¿½ tabela classes_properties.');
 
-	// Crio um array que conterá nm_campo => te_descricao_campo.	 
+	// Crio um array que conterï¿½ nm_campo => te_descricao_campo.	 
 	$arrDescricaoHardwareAux = array();
 	while($rowHardware = mysql_fetch_array($resultDescricaoHardware)) 	
 		$arrDescricaoHardwareAux[trim($rowHardware['nm_class_name']) . '.' . trim($rowHardware['nm_property_name'])] = $rowHardware['te_property_description'];
@@ -101,7 +101,7 @@ function getDescricaoHardware()
 	}
 	
 // --------------------------------------------------------------------------------------
-// Função para bloqueio de acesso indevido
+// Funï¿½ï¿½o para bloqueio de acesso indevido
 // --------------------------------------------------------------------------------------
 function AntiSpy($strNiveisPermitidos = '')
 	{
@@ -129,12 +129,12 @@ function AntiSpy($strNiveisPermitidos = '')
 	}
 	
 // ------------------------------------------------------------------------------------------------
-// Função para exibição de data do script para fins de Debug. Os IP´s são definidos em menu_seg.php
-// Novas informações poderão ser acrescentadas futuramente...
+// Funï¿½ï¿½o para exibiï¿½ï¿½o de data do script para fins de Debug. Os IPï¿½s sï¿½o definidos em menu_seg.php
+// Novas informaï¿½ï¿½es poderï¿½o ser acrescentadas futuramente...
 // ------------------------------------------------------------------------------------------------
 function Debug($p_ScriptFileName)
 	{
-	// Verifico se o script chamador refere-se a um gerador de imagem e impeço o Debug neste caso.
+	// Verifico se o script chamador refere-se a um gerador de imagem e impeï¿½o o Debug neste caso.
 	$intIsPie = substr_count($p_ScriptFileName,'pie_'); 
 	if (!$intIsPie)
 		{
@@ -174,12 +174,12 @@ function getMenu($_menu_name)
 
 /*
 __________________________________________________________________
-Apenas uma alternativa mais completa à função "stripos" do PHP5...
+Apenas uma alternativa mais completa ï¿½ funï¿½ï¿½o "stripos" do PHP5...
 __________________________________________________________________
-Retornará 0 ou 1 se $pos for FALSE
-		0 -> Se a String haystack NÃO CONTIVER a subString needle
+Retornarï¿½ 0 ou 1 se $pos for FALSE
+		0 -> Se a String haystack Nï¿½O CONTIVER a subString needle
 		1 -> Se a String haystack CONTIVER     a subString needle
-Retornará a posição da subString needle na string haystack se $boolRetornaPosicao for TRUE ou NULO
+Retornarï¿½ a posiï¿½ï¿½o da subString needle na string haystack se $boolRetornaPosicao for TRUE ou NULO
 */
 function stripos2($strString, $strSubString, $boolRetornaPosicao = true)
 	{
@@ -191,9 +191,9 @@ function stripos2($strString, $strSubString, $boolRetornaPosicao = true)
 	return $intPos;
 	}
 //---------------------------------------------------------------------------------
-//  Substituir alguns valores inválidos ao tráfego HTTP
+//  Substituir alguns valores invï¿½lidos ao trï¿½fego HTTP
 //
-//  @return String contendo o string com valores inválidos substituidos por válidos
+//  @return String contendo o string com valores invï¿½lidos substituidos por vï¿½lidos
 //---------------------------------------------------------------------------------
 function replaceInvalidHTTPChars($pStrString)
 	{
@@ -207,30 +207,30 @@ function replaceInvalidHTTPChars($pStrString)
 	}	
 	
 //------------------------------------------------------------------------------
-//  Repor valores substituidos durante tráfego HTTP
+//  Repor valores substituidos durante trï¿½fego HTTP
 //
 //  @return String contendo o string com valores substituidos
 //------------------------------------------------------------------------------
 function replacePseudoTagsWithCorrectChars($pStrString)
 	{
-	// Convenções Adotadas para as Substituições
+	// Convenï¿½ï¿½es Adotadas para as Substituiï¿½ï¿½es
 	// -----------------------------------------
-	// [[MAIS]]    => Sinal de Mais   => "+" (comumente interpretado como espaço, prejudicando a decriptografia) (Deve ser substituído ANTES da decriptografia!!!!)
-	// [[BarrInv]] => Barra Invertida => "\" (comumente interpretado como ESCAPE na recepçâo)
+	// [[MAIS]]    => Sinal de Mais   => "+" (comumente interpretado como espaï¿½o, prejudicando a decriptografia) (Deve ser substituï¿½do ANTES da decriptografia!!!!)
+	// [[BarrInv]] => Barra Invertida => "\" (comumente interpretado como ESCAPE na recepï¿½ï¿½o)
 	// [[AS]]      => Aspa Simples    => "'"
 	// [[AD]]      => Aspa Dupla      => '"'
-	// [[ESPACE]]  => Espaço          => ' '
+	// [[ESPACE]]  => Espaï¿½o          => ' '
 	// =============================================================================================
 	
     $strNewString = str_replace('[[MAIS]]' 		, '+' 	, $pStrString);
     $strNewString = str_replace('[[ESPACE]]' 	, ' ' 	, $strNewString);	
     $strNewString = str_replace('[[AD]]'     	, '"' 	, $strNewString);
     $strNewString = str_replace('[[AS]]'     	, "'"	, $strNewString);
-    $strNewString = str_replace('[[BarrInv]]'	, '.'	, $strNewString); // Ao substituir [[BarrInv]] por "\\" tive problemas, preferí deixar "."
+    $strNewString = str_replace('[[BarrInv]]'	, '.'	, $strNewString); // Ao substituir [[BarrInv]] por "\\" tive problemas, preferï¿½ deixar "."
 	return $strNewString;
 	}	
 // ---------------------------------
-// Função usada para descriptografia 
+// Funï¿½ï¿½o usada para descriptografia 
 // To decrypt values 
 // p_cs_cipher => Y/N 
 // ---------------------------------
@@ -241,11 +241,11 @@ function DeCrypt($pStrCriptedData, $pStrCsCipher, $pIntCsUnCompress='0', $pStrPa
 	
 	$pStrCipherKey .= $pStrPaddingKey;
 	
-	// Bloco de Substituições para antes da Decriptação
+	// Bloco de Substituiï¿½ï¿½es para antes da Decriptaï¿½ï¿½o
 	// ------------------------------------------------
-	// Razão: Dependendo da configuração do servidor, os valores
-	//        enviados, pertinentes à criptografia, tendem a ser interpretados incorretamente.
-	// Obs.:  Vide Lista de Convenções Abaixo
+	// Razï¿½o: Dependendo da configuraï¿½ï¿½o do servidor, os valores
+	//        enviados, pertinentes ï¿½ criptografia, tendem a ser interpretados incorretamente.
+	// Obs.:  Vide Lista de Convenï¿½ï¿½es Abaixo
 	// =======================================================================================
 	$ppStrCriptedData = str_ireplace('[[MAIS]]','+',$pStrCriptedData,$countMAIS);
 	// =======================================================================================
@@ -258,9 +258,9 @@ function DeCrypt($pStrCriptedData, $pStrCsCipher, $pIntCsUnCompress='0', $pStrPa
 	else
 		$strResult = $pStrCriptedData;	
 
-	// Bloco de Substituições para depois da Decriptação
+	// Bloco de Substituiï¿½ï¿½es para depois da Decriptaï¿½ï¿½o
 	// -------------------------------------------------
-	// Razão: Ídem acima, porém, com dados pertinentes aos valores a serem recebidos
+	// Razï¿½o: ï¿½dem acima, porï¿½m, com dados pertinentes aos valores a serem recebidos
 	// =============================================================================		
 	$strResult = replacePseudoTagsWithCorrectChars($strResult);		
 	// =============================================================================
@@ -270,7 +270,7 @@ function DeCrypt($pStrCriptedData, $pStrCsCipher, $pIntCsUnCompress='0', $pStrPa
 
 	//GravaTESTES('Em DeCrypt: p_PaddingKey = "'.$p_PaddingKey.'"');					
 	
-	// Aqui retiro do resultado a ocorrência do preenchimento, caso exista. (o agente Python faz esse preenchimento)
+	// Aqui retiro do resultado a ocorrï¿½ncia do preenchimento, caso exista. (o agente Python faz esse preenchimento)
 	if ($pStrPaddingKey <> '') 
 		{               
 		$char 		= substr($pStrPaddingKey,0,1);
@@ -285,7 +285,7 @@ function DeCrypt($pStrCriptedData, $pStrCsCipher, $pIntCsUnCompress='0', $pStrPa
 	}
 
 // ---------------------------------
-// Se a função HASH nativa faltar...
+// Se a funï¿½ï¿½o HASH nativa faltar...
 // ---------------------------------
 if(!function_exists('hash')) 
 	{
@@ -299,7 +299,7 @@ if(!function_exists('hash'))
 	} 
 
 // ------------------------------
-// Função usada para criptografia
+// Funï¿½ï¿½o usada para criptografia
 // To crypt values
 // p_cs_cipher => Y/N 
 // ------------------------------
@@ -363,8 +363,8 @@ function Abrevia($pStrName)
 
 //_____________________
 // Grava Log para DEBUG
-// Em 15/06/2007 optou-se por mostrar data de criação do script corrente na tela de estações específicas,
-// identificadas por seus IP´s na variável de sessão cIpsDisplayDebugs, declarada e menu_esq.php
+// Em 15/06/2007 optou-se por mostrar data de criaï¿½ï¿½o do script corrente na tela de estaï¿½ï¿½es especï¿½ficas,
+// identificadas por seus IPï¿½s na variï¿½vel de sessï¿½o cIpsDisplayDebugs, declarada e menu_esq.php
 //_____________________
 function Log_Debug($p_msg)
 	{
@@ -373,7 +373,7 @@ function Log_Debug($p_msg)
 		GravaTESTES($p_msg);
 	}
 //________________________________________________________________________________________________
-// Limpa a tabela TESTES, utilizada para depuração de código
+// Limpa a tabela TESTES, utilizada para depuraï¿½ï¿½o de cï¿½digo
 //________________________________________________________________________________________________
 function LimpaTESTES()
 	{
@@ -383,7 +383,7 @@ function LimpaTESTES()
 	}
 
 //___________________________________
-// Grava informações na tabela TESTES
+// Grava informaï¿½ï¿½es na tabela TESTES
 //___________________________________
 function GravaTESTES($p_Valor)
 	{
@@ -397,7 +397,7 @@ function GravaTESTES($p_Valor)
 	}
 
 //________________________________________________________________________________________________
-// Grava na tabela SRCACIC_LOGS as informações de atividades na estação visitada
+// Grava na tabela SRCACIC_LOGS as informaï¿½ï¿½es de atividades na estaï¿½ï¿½o visitada
 //________________________________________________________________________________________________
 function GravaLogSrCacic($p_id_sessao, $p_te_acao)
 	{
@@ -415,7 +415,7 @@ function GravaLogSrCacic($p_id_sessao, $p_te_acao)
 
 
 //________________________________________________________________________________________________
-// Grava na tabela LOG informações de atividades
+// Grava na tabela LOG informaï¿½ï¿½es de atividades
 //________________________________________________________________________________________________
 function GravaLog($pStrCsAcao, $pStrNmScript, $pStrNmTabela, $intIdUsuario)
 	{
@@ -452,7 +452,7 @@ function FatorDecremento($Numero)
 // _______________________________________________________________	
 
 // --------------------------------------------------------------------------------------
-// Função de conexão ao BD do CACIC
+// Funï¿½ï¿½o de conexï¿½o ao BD do CACIC
 // --------------------------------------------------------------------------------------
 function  conecta_bd_cacic() 
 	{
@@ -468,13 +468,13 @@ function  conecta_bd_cacic()
 							   $GLOBALS["usuario_bd"], 
 							   $GLOBALS["senha_usuario_bd"]);
 	if (mysql_select_db($GLOBALS["nome_bd"], $ident_bd) == 0) 
-		die('<b>Problemas durante a conexão ao BD ou sua sessão expirou!</b>');
+		die('<b>Problemas durante a conexï¿½o ao BD ou sua sessï¿½o expirou!</b>');
 		
 	return $ident_bd;		
 	}
 
 // ------------------------------------------------------------------------------
-// Função para obtenção de dados da subrede de acesso, em função do IP e Máscara.
+// Funï¿½ï¿½o para obtenï¿½ï¿½o de dados da subrede de acesso, em funï¿½ï¿½o do IP e Mï¿½scara.
 // Function to retrieve access subnet data, based on IP/Mask address.
 // ------------------------------------------------------------------------------
 function getDadosRede($pIntIdRede = 0)
@@ -508,13 +508,13 @@ function getIdRede()
 	global $v_cs_compress;
 	global $strPaddingKey;
 	
-	// Duas tentativas de obtenção do IP da Estação
+	// Duas tentativas de obtenï¿½ï¿½o do IP da Estaï¿½ï¿½o
 	$strTeIPComputador = ($_POST['te_ip_computador']  ? $_POST['te_ip_computador'] : $_SERVER['REMOTE_ADDR']);
 	$strTeIPComputador = ($strTeIPComputador 		  ? $strTeIPComputador 		   : getenv("REMOTE_ADDR"));	
 	$arrRedes = getArrFromSelect('redes','id_rede,te_ip_rede,te_mascara_rede');
 	$intIdRede  = 0;	
 
-	// Percorro cada TE_IP + TE_MASCARA_REDE para checar se o IP da estação está na faixa de IPs
+	// Percorro cada TE_IP + TE_MASCARA_REDE para checar se o IP da estaï¿½ï¿½o estï¿½ na faixa de IPs
 	$intLoopRedes = 0;
 	while ($intLoopRedes < count($arrRedes))
 		{
@@ -544,14 +544,14 @@ function getIdRede()
 		
 	if ($intIdRede == 0)
 		{
-		// Neste caso, apela-se para uma rede que tenha configurações válidas...
+		// Neste caso, apela-se para uma rede que tenha configuraï¿½ï¿½es vï¿½lidas...
 		$arrQualquerRede = getArrFromSelect('redes','id_rede','trim(nu_porta_serv_updates) <> "" and trim(nm_usuario_login_serv_updates) <> "" and trim(te_senha_login_serv_updates) <> "" LIMIT 1');
 		$intIdRede = $arrQualquerRede[0]['id_rede'];
 		}	
 	return $intIdRede;	
 	}
 // ------------------------------------------------------------------------------
-// Função para obtenção de dados da estacao de trabalho
+// Funï¿½ï¿½o para obtenï¿½ï¿½o de dados da estacao de trabalho
 // Function to retrieve workstation data
 // ------------------------------------------------------------------------------
 function getDadosComputador($pStrTeNodeAddress, 
@@ -562,7 +562,7 @@ function getDadosComputador($pStrTeNodeAddress,
 	//GravaTESTES('pStrTeSO: '.$pStrTeSO);
 	
 	// Obtenho o id_so da base, caso exista
-	// Insiro novo S.O. caso não exista
+	// Insiro novo S.O. caso nï¿½o exista
 	$DBConnectionGDC = conecta_bd_cacic();						
 	
 	$boolNewSO = false;
@@ -571,7 +571,7 @@ function getDadosComputador($pStrTeNodeAddress,
 	if (!$arrSO[0]['id_so'])
 		{	
 		conecta_bd_cacic();	
-		// Insiro a informação na tabela de Sistemas Operacionais incrementando o Identificador Externo
+		// Insiro a informaï¿½ï¿½o na tabela de Sistemas Operacionais incrementando o Identificador Externo
 		$queryINS_SO  = 'INSERT 
 						 INTO 		so(te_desc_so,sg_so,te_so) 
 						 VALUES    ("S.O. a Cadastrar","Sigla a Cadastrar","'.$pStrTeSO.'")';
@@ -610,7 +610,7 @@ function getDadosComputador($pStrTeNodeAddress,
 		mysql_query($queryINS,$DBConnectionGDC);		
 		}
 		
-	/* Atualizo a data/hora de último acesso e versões dos agentes principais */
+	/* Atualizo a data/hora de ï¿½ltimo acesso e versï¿½es dos agentes principais */
 	$query = 'UPDATE 	computadores SET 
 						dt_hr_ult_acesso  = "'	. @date("Y-m-d- H:i:s")				. '",
 			  	  		te_versao_cacic   = "' 	. $_POST['te_versao_cacic']  		. '",
@@ -623,10 +623,10 @@ function getDadosComputador($pStrTeNodeAddress,
 
 	if ($boolNewSO)
 		{
-		// Verifico pelo local se há coletas configuradas e acrescento o S.O. à tabela de ações
+		// Verifico pelo local se hï¿½ coletas configuradas e acrescento o S.O. ï¿½ tabela de aï¿½ï¿½es
 		$arrAcoesSO  = getArrFromSelect('acoes_so','id_acao','id_local = '.$arrDadosRede[0]['id_local'].' GROUP BY id_acao');							  						
 			
-		// Caso existam ações configuradas para o local, incluo o S.O. para que também execute-as...
+		// Caso existam aï¿½ï¿½es configuradas para o local, incluo o S.O. para que tambï¿½m execute-as...
 		$strInsereID 	   = '';
 		$intLoopArrAcoesSO = 0;
 		while ($intLoopArrAcoesSO < count($arrAcoesSO))
@@ -649,7 +649,7 @@ function getDadosComputador($pStrTeNodeAddress,
 	}
 
 // --------------------------------------------------------------------------------------
-// Para Atualização das colunas dt_hr_alteracao_patrim_uonx da table configuracoes
+// Para Atualizaï¿½ï¿½o das colunas dt_hr_alteracao_patrim_uonx da table configuracoes
 // quando INCLUDE/UPDATE/DELETE em Unidades Organizacionais
 // --------------------------------------------------------------------------------------
 function atualiza_configuracoes_uonx($p_uonx) 
@@ -676,14 +676,14 @@ function autentica_agente($p_PaddingKey='')
 	    (strtoupper(DeCrypt($_POST['PHP_AUTH_USER'  ],$_POST['cs_cipher'], $_POST['cs_compress'],$pStrPaddingKey,true)) != 'USER_CACIC') ||
 	    (strtoupper(DeCrypt($_POST['PHP_AUTH_PW'    ],$_POST['cs_cipher'], $_POST['cs_compress'],$pStrPaddingKey,true)) != 'PW_CACIC'))   
 	   	{
-        echo 'Acesso não autorizado.';
+        echo 'Acesso nï¿½o autorizado.';
 		exit;
 		} 
 	}
 
 
 // --------------------------------------------------------------------------------------
-// Função que verifica se um dado computador já esta´cadastrado no BD  
+// Funï¿½ï¿½o que verifica se um dado computador jï¿½ estaï¿½cadastrado no BD  
 // --------------------------------------------------------------------------------------
 function computador_existe($te_node_address, $id_so) 
 	{
@@ -697,14 +697,14 @@ function computador_existe($te_node_address, $id_so)
 
 
     if (mysql_num_rows($result) == 0)
-		$strResult = '0'; // O computador não existe, deverá ser incluido
+		$strResult = '0'; // O computador nï¿½o existe, deverï¿½ ser incluido
 	elseif ($row['te_nome_computador'] 	== '' || 
 			$row['te_ip_computador'] 	== '' ||
 			$row['id_rede'] 			== '' || 
 			$row['te_workgroup'] 		== '') 									
-		 $strResult = '2';  // O computador existe porém sem uma dessas informações...  - Anderson 16/04/2004 - 21:31h!!!!!!!!!!!!
+		 $strResult = '2';  // O computador existe porï¿½m sem uma dessas informaï¿½ï¿½es...  - Anderson 16/04/2004 - 21:31h!!!!!!!!!!!!
 	else 
-		$strResult = '1';  // O computador existe, sem necessidade de atualizações
+		$strResult = '1';  // O computador existe, sem necessidade de atualizaï¿½ï¿½es
 
 	return $strResult;
 	}
@@ -761,7 +761,7 @@ function AutenticaLDAP($pIdServidorAutenticacao, $pNmNomeAcessoAutenticacao, $pT
 	}
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------------------
- Função usada para retornar um array bidimensional contendo indices numéricos e nomes dos campos recuperados na consulta - Anderson PETERLE - Jan/2013
+ Funï¿½ï¿½o usada para retornar um array bidimensional contendo indices numï¿½ricos e nomes dos campos recuperados na consulta - Anderson PETERLE - Jan/2013
  ----------------------------------------------------------------------------------------------------------------------------------------------------- */
 function getArrFromSelect($pStrTablesNames, $pStrFieldsNames, $pStrWhereAndOthers="1") 
 	{	
@@ -806,7 +806,7 @@ if (stripos2($queryToSEL, 'uo2_id',false))
 	
 /* 
 --------------------------------------------------------------------------------------------------
-Procedimento usado para preparar dois arrays com informações sobre Coletas, Classes e Propriedades
+Procedimento usado para preparar dois arrays com informaï¿½ï¿½es sobre Coletas, Classes e Propriedades
 --------------------------------------------------------------------------------------------------*/   
 function getClassesDefinitions($pStrCollectType)
 	{
@@ -842,7 +842,7 @@ function getClassesDefinitions($pStrCollectType)
 	}
 	
 /* --------------------------------------------------------------------------------------
- Função usada para recuperar valores da tabela computadores_collects
+ Funï¿½ï¿½o usada para recuperar valores da tabela computadores_collects
  -------------------------------------------------------------------------------------- */
 function getComponentValue($pIntIdComputador, $pStrClassName, $pStrPropertyName) 
 	{	
@@ -851,7 +851,7 @@ function getComponentValue($pIntIdComputador, $pStrClassName, $pStrPropertyName)
 	}
 
 // --------------------------------------------------------------------------------------
-// Função usada para uma mensagem
+// Funï¿½ï¿½o usada para uma mensagem
 // --------------------------------------------------------------------------------------
 function mensagem($msg) 
 	{
@@ -872,11 +872,11 @@ function mensagem($msg)
 	}
 
 // --------------------------------------------------------------------------------------
-// Função usada para cortar uma string
+// Funï¿½ï¿½o usada para cortar uma string
 // --------------------------------------------------------------------------------------
 function capa_string($string, $tamanho_desejado) 
 	{
-	 // A idéia dessa função é deixar os listbox do formulário com um tamanho fixo.
+	 // A idï¿½ia dessa funï¿½ï¿½o ï¿½ deixar os listbox do formulï¿½rio com um tamanho fixo.
 	 $tamanho_original = strlen($string);
 	 if ($tamanho_original > $tamanho_desejado) 
 	 	return substr($string,0, $tamanho_desejado - 1) . '...';
@@ -889,7 +889,7 @@ function capa_string($string, $tamanho_desejado)
 	}
 
 // --------------------------------------------------------------------------------------
-// Função usada para fazer uma quebra de linha em uma string
+// Funï¿½ï¿½o usada para fazer uma quebra de linha em uma string
 // --------------------------------------------------------------------------------------
 function quebra_linha($string, $tamanho_desejado) 
 	{
@@ -911,7 +911,7 @@ function quebra_linha($string, $tamanho_desejado)
 	}
 
 // --------------------------------------------------------------------------------------
-// Função usada para buscar arquivo remoto para atualização no servidor
+// Funï¿½ï¿½o usada para buscar arquivo remoto para atualizaï¿½ï¿½o no servidor
 // --------------------------------------------------------------------------------------
 function atualizacao_especial( 	$p_nm_servidor, 
 					   			$p_nm_usuario,
@@ -933,7 +933,7 @@ function atualizacao_especial( 	$p_nm_servidor,
 
 	if ($v_conexao_ftp)
 		{
-		// Para habilitar o modo de tratamento de exceções
+		// Para habilitar o modo de tratamento de exceï¿½ï¿½es
 		
 //		ftp_pasv($v_conexao_ftp,true);
 		@ftp_chdir($v_conexao_ftp,$p_nm_pasta_origem);									
@@ -956,18 +956,18 @@ function atualizacao_especial( 	$p_nm_servidor,
 		if (@ftp_get($v_conexao_ftp, CACIC_PATH .$strNmArquivoDestino,$strNmArquivoOrigem, $long_cs_tipo_ftp))
 			$resultado = 1;
 			
-		// Para desabilitar o modo de tratamento de exceções			
+		// Para desabilitar o modo de tratamento de exceï¿½ï¿½es			
 		// restore_error_handler();				
 		}
 			
-	// fecha a conexão
+	// fecha a conexï¿½o
 	ftp_close($v_conexao_ftp);
 
 	return $resultado;
 	}
 
 
-// Função para recuperar valores delimitados por tags definidas em  $pStrTags
+// Funï¿½ï¿½o para recuperar valores delimitados por tags definidas em  $pStrTags
 function getValueFromTags($pStrTagLabel, $pStrSource, $pStrTags = '[]')
 	{
 	//Tratar as tags depois!
@@ -975,14 +975,14 @@ function getValueFromTags($pStrTagLabel, $pStrSource, $pStrTags = '[]')
 	return $arrResult[1][0];
 	}
 
-// Função para recuperar array com nomes das tags delimitadas por "<" e ">"
+// Funï¿½ï¿½o para recuperar array com nomes das tags delimitadas por "<" e ">"
 function getTagsFromValues($pStrSource, $pStrTags = '[]')
 	{
 	preg_match_all("/\[\/(.*?)\]/",$pStrSource,$arrResult);
 	return $arrResult[1];
 	}
 
-// Função para excluir uma tag
+// Funï¿½ï¿½o para excluir uma tag
 function delTags($pStrTagLabel, $pStrSource, $pStrTags = '[]')
 	{
 	$strBeginTag = substr($pStrTags,0,1) 		. $pStrTagLabel . substr($pStrTags,1,1);
@@ -997,7 +997,7 @@ function delTags($pStrTagLabel, $pStrSource, $pStrTags = '[]')
 	return $strSource;
 	}
 
-// Função para atribuir valor a tags
+// Funï¿½ï¿½o para atribuir valor a tags
 function setValueToTags($pStrTagLabel, $pStrValue, $pStrSource, $pStrTags = '[]')
 	{
 	$strBeginTag = substr($pStrTags,0,1) 		. $pStrTagLabel . substr($pStrTags,1,1);
@@ -1014,8 +1014,8 @@ function setValueToTags($pStrTagLabel, $pStrValue, $pStrSource, $pStrTags = '[]'
 	}
 	
 // --------------------------------------------------------------------------------------
-// Função usada para calcular diferença entre datas...
-// É necessário usar o formato MM-DD-AAAA nessa função
+// Funï¿½ï¿½o usada para calcular diferenï¿½a entre datas...
+// ï¿½ necessï¿½rio usar o formato MM-DD-AAAA nessa funï¿½ï¿½o
 // --------------------------------------------------------------------------------------
 if(!function_exists('date_difference')) 
 	{
@@ -1029,7 +1029,7 @@ if(!function_exists('date_difference'))
          
 	  	$days = ($to_date - $from_date)/86400;
   
-		/* Adicionado o ceil($days) para garantir que o resultado seja sempre um número inteiro */
+		/* Adicionado o ceil($days) para garantir que o resultado seja sempre um nï¿½mero inteiro */
 
 	  	return ceil($days);
 		}  
@@ -1047,7 +1047,7 @@ function diferenca_em_horas($p_dt_hr_ult_acesso)
 
 
 // -----------------------------------------------------------------------
-// Função para gravação de relacionamento entre redes e perfis_aplicativos
+// Funï¿½ï¿½o para gravaï¿½ï¿½o de relacionamento entre redes e perfis_aplicativos
 // -----------------------------------------------------------------------
 function seta_perfis_rede($pIntIdRede, $strPerfis)
 	{
@@ -1127,9 +1127,9 @@ function getVarType($pVar)
 	} 
 
 // ********************************************************************************************************************
-// As funções abaixo são definidas para uso por chamadas via call_user_func_array conforme abaixo:
+// As funï¿½ï¿½es abaixo sï¿½o definidas para uso por chamadas via call_user_func_array conforme abaixo:
 // Campo "classes_properties.nm_function_pre_db" => tratamento do dado antes de ser persistido
-// Campo "classes_properties.nm_function_pos_db" => tratamento do dado após ser persistido, normalmente ao ser mostrado
+// Campo "classes_properties.nm_function_pos_db" => tratamento do dado apï¿½s ser persistido, normalmente ao ser mostrado
 // ********************************************************************************************************************	
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -1146,10 +1146,10 @@ function getTypeOf($pArrParameters)
 	}	
 
 //------------------------------------------------------------
-// Formata um número conforme parâmetros de máscara fornecidos
+// Formata um nï¿½mero conforme parï¿½metros de mï¿½scara fornecidos
 // Elementos aguardados:
 // te_property_value 	-> O valor a ser formatado
-// te_parameter_1 		-> O número de casas decimais
+// te_parameter_1 		-> O nï¿½mero de casas decimais
 // te_parameter_2 		-> O caractere separador de decimais
 // te_parameter_3 		-> O caractere separador de milhares
 //------------------------------------------------------------
@@ -1164,8 +1164,8 @@ function getValueFromFunction($pIntIdProperty,$pStrOldValueToShow,$pStrNmFunctio
 	if (stripos2($pStrNmFunction,'(',false))
 		$strNmFunctionDB = substr($strNmFunctionDB,0,strpos($strNmFunctionDB,'('));
 					
-	// Inicializo 5 variáveis string para conterem os possíveis 5 parâmetros
-	// Caso o número de parâmetros trabalhado pela função seja maior, deve-se ajustar o bloco abaixo.
+	// Inicializo 5 variï¿½veis string para conterem os possï¿½veis 5 parï¿½metros
+	// Caso o nï¿½mero de parï¿½metros trabalhado pela funï¿½ï¿½o seja maior, deve-se ajustar o bloco abaixo.
 	$strTeParameter1 = '';
 	$strTeParameter2 = '';
 	$strTeParameter3 = '';										

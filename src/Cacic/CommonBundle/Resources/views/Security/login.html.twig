@@ -1,36 +1,110 @@
-{% extends '::base.html.twig' %}
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Cacic - Configurador Automático e Coletor de Informações Computacionais</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">    
+    
+    <link href="{{ asset('bundles/caciccommon/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/caciccommon/css/bootstrap-responsive.css') }}" rel="stylesheet" type="text/css" />
+    
+    <link href="{{ asset('bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/caciccommon/css/css.css') }}" rel="stylesheet" type="text/css" />
 
-{% block mensagens_sistema %}
-{% if error %}
-    <div class="mensagemErro" style="display: block;">{{ error.message }}</div>
-{% endif %}
-{% endblock %}
+	<link href="{{ asset('bundles/caciccommon/css/base-admin.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/caciccommon/css/login.css') }}" rel="stylesheet" type="text/css" />
 
-{% block body %}
+  </head>
 
-<div class="page-header"></div>
+<body>
 
-<div class="well">
-	<div class="alert alert-info">
-		<h1>CACIC - Configurador Automático e Coletor de Informações Computacionais</h1>
+<div class="navbar navbar-fixed-top">
+	
+	<div class="navbar-inner">
 		
-	</div>
-    	<form action="{{ path('cacic_common_login_check') }}" method="post">
-			<div><label for="login_usuario">Usuário:</label></div>
-			<div><input type="text" name="_username" id="login_usuario" value="{{ last_username}}" /></div>
-			<br />
+		<div class="container">
 			
-			<div><label for="login_password">Senha:</label></div>
-			<div><input type="password" name="_password" id="login_password" /></div>
-			<br />
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
 			
-			<input type="checkbox" name="_remember_me" id="login_continuar_conectado" /> 
-			<label for="login_continuar_conectado">Continuar conectado</label>
-			<br /><br />
+			<a class="brand" href="http://wbpreview.com/previews/WB00U99JJ/">
+				CACIC v.{{ cacic_version }}
+			</a>		
 			
-			<a class="btn btn-danger btn-small" href=""><i class="icon-question-sign icon-white"></i> Esqueceu sua senha?</a>
-			<button class="btn btn-primary btn-small" type="submit" ><i class="icon-lock icon-white"></i> Autenticar</button>
-		</form>
-</div>
+			<div class="nav-collapse">
+				
+			</div><!--/.nav-collapse -->
+	
+		</div> <!-- /container -->
+		
+	</div> <!-- /navbar-inner -->
+	
+</div> <!-- /navbar -->
 
-{% endblock %}
+<div class="account-container">
+	<div class="content clearfix">
+		
+		{% if error %}
+		    <div id="credentials-error">{{ error.message }}</div>
+		{% endif %}
+	
+		<form action="{{ path('cacic_common_login_check') }}" method="post">
+			<h1>Acesso</h1>		
+			
+			<div class="login-fields">
+				
+				<p>Informe seus dados para efetuar o login:</p>
+				
+				<div class="field">
+					<label for="username">Usuário:</label>
+					<input type="text" id="username" name="_username" value="" placeholder="Usuário" class="login username-field">
+				</div> <!-- /field -->
+				
+				<div class="field input-prepend">
+					<label for="password">Senha:</label>
+					<input type="password" id="password" name="_password" value="" placeholder="Senha" class="login password-field">
+				</div> <!-- /password -->
+				
+			</div> <!-- /login-fields -->
+			
+			<div class="login-actions">
+				
+				<span class="login-checkbox">
+					<input id="Field" name="_remember_me" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4">
+					<label class="choice" for="Field">Mantenha-me conectado</label>
+				</span>
+									
+				<button class="button btn btn-warning btn-large">Entrar</button>
+				
+			</div> <!-- .actions -->
+			
+		</form>
+		
+	</div> <!-- /content -->
+	
+</div> <!-- /account-container -->
+
+<script src="{{ asset('bundles/caciccommon/js/jquery-1.7.2.min.js') }}"></script>
+<script src="{{ asset('bundles/caciccommon/js/bootstrap.js') }}"></script>
+<script type="text/javascript">
+$(function () {
+	
+	jQuery.support.placeholder = false;
+	test = document.createElement('input');
+	if('placeholder' in test) jQuery.support.placeholder = true;
+	
+	if (!$.support.placeholder) {
+		$('.field').find ('label').show ();	
+	}
+	
+	$('#username, #password').val('');
+});
+</script>
+
+</body>
+</html>

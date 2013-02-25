@@ -24,6 +24,9 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         cacic_version: 3.0.0
+    form:
+        resources:
+            - "BraincraftedBootstrapBundle:Form:form_div_layout.html.twig"
 
 # Assetic Configuration
 assetic:

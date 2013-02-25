@@ -7,16 +7,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">    
     
-    <link href="{{ asset('bundles/caciccommon/css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/caciccommon/css/bootstrap-responsive.css') }}" rel="stylesheet">
+    {% block stylesheets %}
+    <link href="{{ asset('bundles/caciccommon/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/caciccommon/css/bootstrap-responsive.min.css') }}" rel="stylesheet" type="text/css" />
     
-    <link href="{{ asset('bundles/caciccommon/css/css.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/caciccommon/css/css.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
     
-    <link href="{{ asset('bundles/caciccommon/css/base-admin.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/caciccommon/css/base-admin-responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/caciccommon/css/base-admin.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/caciccommon/css/base-admin-responsive.css') }}" rel="stylesheet" type="text/css" />
     
-    <link href="{{ asset('bundles/caciccommon/css/dashboard.css') }}" rel="stylesheet">   
+    <link href="{{ asset('bundles/caciccommon/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/caciccommon/jquery-ui-1.10.0.custom/css/dark-hive/jquery-ui-1.10.0.custom.min.css') }}" type="text/css" rel="stylesheet" />
+    
+    <link href="{{ asset('bundles/caciccommon/css/message.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/caciccommon/css/main.css') }}" rel="stylesheet" type="text/css" />
+    {% endblock %}
+    
+    {% block javascripts %}
+
+	<script src="{{ asset('bundles/caciccommon/js/jquery-1.9.0.min.js') }}"></script>
+	<script src="{{ asset('bundles/caciccommon/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js') }}" type="text/javascript" language="javascript"></script>
+	
+	<script src="{{ asset('bundles/caciccommon/js/System.js') }}"></script>
+	<script src="{{ asset('bundles/caciccommon/js/init.js') }}"></script>
+	
+	<script src="{{ asset('bundles/caciccommon/js/excanvas.js') }}"></script>
+	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.js') }}"></script>
+	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.pie.js') }}"></script>
+	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.orderBars.js') }}"></script>
+	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.resize.js') }}"></script>
+	
+	<script src="{{ asset('bundles/caciccommon/js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('bundles/caciccommon/js/base.js') }}"></script>
+	
+	<script src="{{ asset('bundles/caciccommon/js/area.js') }}"></script>
+	<script src="{{ asset('bundles/caciccommon/js/donut.js') }}"></script>
+	
+	{% endblock %}
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -39,40 +67,42 @@
 				<span class="icon-bar"></span>
 			</a>
 			
-			<a class="brand" href="http://wbpreview.com/previews/WB00U99JJ/">
-				CACIC 3.0				
+			<a class="brand" href="{{ path('cacic_common_homepage') }}">
+				CACIC v.{{ cacic_version }}
 			</a>		
 			
 			<div class="nav-collapse">
 				<ul class="nav pull-right">
 					<li class="dropdown">
 						
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-cog"></i>
 							Configurações
 							<b class="caret"></b>
 						</a>
 						
 						<ul class="dropdown-menu">
-							<li><a href="javascript:;">Configurações Padrão</a></li>
+							<li><a href="{{ path('cacic_configuracao_padrao') }}">Configurar Padrões</a></li>
+							<li><a href="{{ path('cacic_configuracao_gerente') }}">Configurar Gerente</a></li>
+							<li><a href="{{ path('cacic_configuracao_agente') }}">Configurar Agentes</a></li>
 						</ul>
 						
 					</li>
 			
 					<li class="dropdown">
 						
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-user"></i> 
 							Meus Dados
 							<b class="caret"></b>
 						</a>
 						
 						<ul class="dropdown-menu">
-							<li><a href="javascript:;">Meus Dados</a></li>
-							<li><a href="javascript:;">Alterar Senha</a></li>
-							<li><a href="javascript:;">Editar Favoritos (Atalhos)</a></li>
+							<li><a href="javascript:void(0);">Meus Dados</a></li>
+							<li><a href="javascript:void(0);">Alterar Senha</a></li>
+							<li><a href="javascript:void(0);">Editar Favoritos (Atalhos)</a></li>
 							<li class="divider"></li>
-							<li><a href="javascript:;">Sair</a></li>
+							<li><a href="{{ path('cacic_common_logout') }}">Sair</a></li>
 						</ul>
 						
 					</li>
@@ -82,7 +112,7 @@
 					<input class="search-query" placeholder="Pesquisa" type="text">
 				</form>
 				
-			</div><!--/.nav-collapse -->	
+			</div><!--/.nav-collapse -->
 	
 		</div> <!-- /container -->
 		
@@ -99,37 +129,72 @@
 			<ul class="mainnav">
 			
 				<li class="active">
-					<a href="http://wbpreview.com/previews/WB00U99JJ/">
+					<a href="{{ path('cacic_common_homepage') }}">
 						<i class="icon-home"></i>
 						<span>Home</span>
 					</a>	    				
 				</li>
 				
-				<li>
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+				<li class="dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-cogs"></i>
 						<span>Administração</span>
 						<b class="caret"></b>
-						<ul class="dropdown-menu">
-							<li><a href="">Configurar Padrões</a></li>
-							<li><a href="">Configurar Gerente</a></li>
-							<li><a href="">Configurar Agentes</a></li>
-							<li><a href="">Classificar Software</a></li>
-							<li><a href="">Softwares não usados</a></li>
-							<li><a href="">Módulos</a></li>
-							<li class="divider subnavbar-open-right"></li>
-							<li><a href="">Logs</a></li>
-							<li><a href="">Cadastros</a></li>
-							<li class="subnavbar-open-right">
-								<a href="">Patrimônio</a>
-							</li>
-							
-						</ul>
-					</a>	    				
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="javascript:void(0)">Classificar Software</a></li>
+						<li><a href="javascript:void(0)">Softwares não usados</a></li>
+						<li><a href="javascript:void(0)">Módulos</a></li>
+						<li class="divider"></li>
+						
+						<li class="dropdown-submenu">
+							<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+								Logs
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="javascript:void(0);">Acessos</a></li>
+								<li><a href="javascript:void(0);">Atividades</a></li>
+								<li><a href="javascript:void(0);">Insucessos Instalação</a></li>
+								<li><a href="javascript:void(0);">Suporte Remoto Seguro</a></li>
+							</ul>
+						</li>
+						<li class="dropdown-submenu">
+							<a href="javascript:void(0)">
+								<span>Cadastros</span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="{{ path('cacic_local_index') }}">Locais</a></li>
+								<li><a href="{{ path('cacic_servidorautenticacao_index') }}">Servidores Autenticação</a></li>
+								<li><a href="{{ path('cacic_subrede_index') }}">Subredes</a></li>
+								<li><a href="{{ path('cacic_perfilaplicativomonitorado_index') }}">Perfis Sistemas</a></li>
+								<li><a href="{{ path('cacic_usuario_index') }}">Usuários</a></li>
+								<li><a href="{{ path('cacic_tiposoftware_index') }}">Tipos Softwares</a></li>
+								<li><a href="{{ path('cacic_sistemaoperacional_index') }}">Sistemas Operacionais</a></li>
+								<li><a href="javascript:void(0);">Softwares</a></li>
+								<li><a href="javascript:void(0);">Dispositivos USB</a></li>
+							</ul>
+						</li>
+						<li class="dropdown-submenu">
+							<a href="javascript:void(0)">
+								Patrimônio
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="javascript:void(0);"></a></li>
+							</ul>
+						</li>
+						<li class="dropdown-submenu">
+							<a href="javascript:void(0)">
+								Gerência Aquisições
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="javascript:void(0);"></a></li>
+							</ul>
+						</li>
+					</ul>	    				
 				</li>
 				
 				<li class="subnavbar-open-right">					
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-wrench"></i>
 						<span>Manutenção</span>
 						<b class="caret"></b>
@@ -137,7 +202,7 @@
 				</li>
 				
 				<li>
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-desktop"></i>
 						<span>Computadores</span>
 						<b class="caret"></b>
@@ -145,7 +210,7 @@
 				</li>
 				
 				<li>					
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-book"></i>
 						<span>Relatórios</span>
 						<b class="caret"></b>
@@ -153,33 +218,33 @@
 				</li>
 				
 				<li class="dropdown subnavbar-open-right">					
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown-">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown-">
 						<i class="icon-bar-chart"></i>
 						<span>Estatísticas</span>
 						<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="">Sistemas Monitorados</a></li>
+						<li><a href="javascript:void(0)">Sistemas Monitorados</a></li>
 						
 					</ul>			
 				</li>
 				
 				<li>
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-download-alt"></i>
 						<span>Downloads</span>
 					</a>
 				</li>
 				
 				<li>
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-info-sign"></i>
 						<span>Projeto CACIC</span>
 					</a>
 				</li>
 				
 				<li>
-					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-group"></i>
 						<span>Comunidade CACIC</span>
 					</a>
@@ -192,134 +257,38 @@
 	</div> <!-- /subnavbar-inner -->
 
 </div> <!-- /subnavbar -->
-    
-    
+
 <div class="main">
-	
 	<div class="main-inner">
 
 	    <div class="container">
-	
-	      <div class="row">
-	      
-	      {% block body %}
-	      {% endblock %}
-	      	
-	      </div> <!-- /row -->
-	
-	    </div> <!-- /container -->
 	    
+	    	<div class="content">
+	    
+	    		{% include '::message.html.twig' %}
+	    
+	    		{% block headline %}{% endblock headline %}
+	    
+				<div class="row">
+					{% block body %}{% endblock %}
+				</div> <!-- /row -->
+	    	</div> <!-- /content -->
+	    </div> <!-- /container -->
 	</div> <!-- /main-inner -->
-    
 </div> <!-- /main -->
     
-
-{#
-<div class="extra">
-
-	<div class="extra-inner">
-
-		<div class="container">
-
-			<div class="row">
-				
-    			<div class="span3">
-    				
-    				<h4>About</h4>
-    				
-    				<ul>
-    					<li><a href="javascript:;">About Us</a></li>
-    					<li><a href="javascript:;">Twitter</a></li>
-    					<li><a href="javascript:;">Facebook</a></li>
-    					<li><a href="javascript:;">Google+</a></li>
-    				</ul>
-    				
-    			</div> <!-- /span3 -->
-    			
-    			<div class="span3">
-    				
-    				<h4>Support</h4>
-    				
-    				<ul>
-    					<li><a href="javascript:;">Frequently Asked Questions</a></li>
-    					<li><a href="javascript:;">Ask a Question</a></li>
-    					<li><a href="javascript:;">Video Tutorial</a></li>
-    					<li><a href="javascript:;">Feedback</a></li>
-    				</ul>
-    				
-    			</div> <!-- /span3 -->
-    			
-    			<div class="span3">
-    				
-    				<h4>Legal</h4>
-    				
-    				<ul>
-    					<li><a href="javascript:;">License</a></li>
-    					<li><a href="javascript:;">Terms of Use</a></li>
-    					<li><a href="javascript:;">Privacy Policy</a></li>
-    					<li><a href="javascript:;">Security</a></li>
-    				</ul>
-    				
-    			</div> <!-- /span3 -->
-    			
-    			<div class="span3">
-    				
-    				<h4>Settings</h4>
-    				
-    				<ul>
-    					<li><a href="javascript:;">Consectetur adipisicing</a></li>
-    					<li><a href="javascript:;">Eiusmod tempor </a></li>
-    					<li><a href="javascript:;">Fugiat nulla pariatur</a></li>
-    					<li><a href="javascript:;">Officia deserunt</a></li>
-    				</ul>
-    				
-    			</div> <!-- /span3 -->
-    			
-    		</div> <!-- /row -->
-
-		</div> <!-- /container -->
-
-	</div> <!-- /extra-inner -->
-
-</div> <!-- /extra -->
-#}
-    
-    
 <div class="footer">
-	
 	<div class="footer-inner">
-		
 		<div class="container">
-			
 			<div class="row">
-				
     			<div class="span12">
     				<a href="/">Cacic - Configurador Automático e Coletor de Informações Computacionais</a>.
     			</div> <!-- /span12 -->
-    			
     		</div> <!-- /row -->
-    		
 		</div> <!-- /container -->
-		
 	</div> <!-- /footer-inner -->
-	
 </div> <!-- /footer -->
-    
 
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="{{ asset('bundles/caciccommon/js/jquery-1.js') }}"></script>
-<script src="{{ asset('bundles/caciccommon/js/excanvas.js') }}"></script>
-<script src="{{ asset('bundles/caciccommon/js/jquery_004.js') }}"></script>
-<script src="{{ asset('bundles/caciccommon/js/jquery_002.js') }}"></script>
-<script src="{{ asset('bundles/caciccommon/js/jquery_003.js') }}"></script>
-<script src="{{ asset('bundles/caciccommon/js/jquery.js') }}"></script>
-
-<script src="{{ asset('bundles/caciccommon/js/bootstrap.js') }}"></script>
-<script src="{{ asset('bundles/caciccommon/js/base.js') }}"></script>
-
-<script src="{{ asset('bundles/caciccommon/js/area.js') }}"></script>
-<script src="{{ asset('bundles/caciccommon/js/donut.js') }}"></script>
+{% include '::dialog.html.twig' %}
 
 </body></html>
