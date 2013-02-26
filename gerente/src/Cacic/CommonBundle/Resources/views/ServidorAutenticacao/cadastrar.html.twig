@@ -25,21 +25,29 @@
 				<div class="tabbable">
 					<ul class="nav nav-tabs">
 						<li class="active">
-							<a href="#form-servidorautenticacao-dados" data-toggle="tab">Dados do servidor</a>
+							<a href="#form-servidorautenticacao-dados" data-toggle="tab"><br />Dados do servidor<br /><br /></a>
 						</li>
 						<li>
-							<a href="#form-servidorautenticacao-consulta" data-toggle="tab">Consulta de dados</a>
+							<a href="#form-servidorautenticacao-consulta" data-toggle="tab">
+								Atributos para <b>Consulta</b> 
+								<br />de Dados de Pessoas no 
+								<br />Serviço de Diretórios</a>
 						</li>
 						<li>
-							<a href="#form-servidorautenticacao-retorno" data-toggle="tab">Retorno de dados</a>
+							<a href="#form-servidorautenticacao-retorno" data-toggle="tab">
+								Atributos para <b>Retorno</b>
+								<br /> de Dados de Pessoas no 
+								<br />Serviço de Diretórios</a>
 						</li>
 						<li>
-							<a href="#form-servidorautenticacao-redes" data-toggle="tab">Redes associadas</a>
+							<a href="#form-servidorautenticacao-redes" data-toggle="tab"><br />Redes associadas<br /><br /></a>
 						</li>
 					</ul>
 					
 					<div class="tab-content">
 						<div class="tab-pane active" id="form-servidorautenticacao-dados">
+							<h5>Dados do Servidor de Autenticação</h5>
+							<br />
 							{{ form_row(form.nmServidorAutenticacao, {'form_type': 'horizontal'}) }}
 					        {{ form_row(form.nmServidorAutenticacaoDns, {'form_type': 'horizontal'}) }}
 							{{ form_row(form.teIpServidorAutenticacao, {'form_type': 'horizontal'}) }}
@@ -53,14 +61,14 @@
 						<div class="tab-pane" id="form-servidorautenticacao-consulta">
 							<h5>Atributos para Consulta de Dados de Pessoas no Serviço de Diretórios</h5>
 							<br />
-							{{ form_row(form.teAtributoIdentificador) }}
+							{{ form_row(form.teAtributoIdentificador, {'form_type': 'horizontal'}) }}
 						</div>
 						
 						<div class="tab-pane" id="form-servidorautenticacao-retorno">
 							<h5>Atributos para Retorno de Dados de Pessoas no Serviço de Diretórios</h5>
 							<br />
-							{{ form_row(form.teAtributoRetornaNome) }}
-							{{ form_row(form.teAtributoRetornaEmail) }}
+							{{ form_row(form.teAtributoRetornaNome, {'form_type': 'horizontal'}) }}
+							{{ form_row(form.teAtributoRetornaEmail, {'form_type': 'horizontal'}) }}
 						</div>
 						
 						<div class="tab-pane" id="form-servidorautenticacao-redes">
