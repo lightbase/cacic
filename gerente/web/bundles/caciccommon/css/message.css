@@ -39,3 +39,7 @@
 	border-color: #baab42;
 	color: #00a;
 }
+
+.alert {
+	display: none;
+}
