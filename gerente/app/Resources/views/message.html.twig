@@ -1,18 +1,21 @@
-{# exibição das mensagens do sistema (sucesso, erro, avisos, etc..) #}
+{# exibiÃ§Ã£o das mensagens do sistema (sucesso, erro, avisos, etc..) #}
 {% block mensagens_sistema %}
-	<div id="msgErro" class="flash-error mensagemErro">
+	<div id="msgErro" class="alert alert-error">
+		<button type="button" class="close" data-dismiss="alert">x</button>
 	{% for flashMessage in app.session.flashbag.peek('error') %}
         {{ flashMessage }}
 	{% endfor %}
 	</div>
 	
-	<div id=msgAviso class="flash-notice mensagemAviso">
+	<div id="msgAviso" class="alert">
+		<button type="button" class="close" data-dismiss="alert">x</button>
 	{% for flashMessage in app.session.flashbag.peek('notice') %}
         {{ flashMessage }}
 	{% endfor %}
 	</div>
 	
-	<div id="msgSucesso" class="flash-success mensagemSucesso">
+	<div id="msgSucesso" class="alert alert-success">
+		<button type="button" class="close" data-dismiss="alert">x</button>
 	{% for flashMessage in app.session.flashbag.peek('success') %}
         {{ flashMessage }}
 	{% endfor %}
@@ -24,6 +27,7 @@
 /**
  * Mensagens do sistema
  */
+$('.alert').hide();
 {% if app.session.flashbag.get('error')|length > 0 %} $('#msgErro').show(); {% endif %}
 {% if app.session.flashbag.get('notice')|length > 0 %} $('#msgAviso').show(); {% endif %}
 {% if app.session.flashbag.get('success')|length > 0 %} $('#msgSucesso').show(); {% endif %}

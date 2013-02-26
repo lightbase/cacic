@@ -1,72 +1,70 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-<div class="page-header">
-	<div class="page-header-desc">
-		Neste módulo deverão ser registrados todos os locais originais do sistema, para que seja possível o controle centralizado
+
+<div class="span12">
+
+	<div class="widget">
+
+		<div class="widget-header">
+			<i class="icon-globe"></i>
+			<h3>Locais</h3>
+		</div> <!-- /widget-header -->
+
+		<div class="widget-content">
+		
+			<h3>Lista de locais cadastrados</h3>
+			<h6>Neste módulo deverão ser registrados todos os locais originais do sistema, para que seja possível o controle centralizado</h6>
+			<br />
+
+	        <table class="table table-striped table-bordered">
+				<thead>
+							<tr>
+				    <th width="15%">Sigla</th>
+				    <th width="40%">Descrição</th>
+				    <th width="10%" style="text-align: center">Redes</th>
+				    <th width="10%" style="text-align: center">Usuários<br />Primários</th>
+				    <th width="10%" style="text-align: center">Usuários<br />Secundários</th>
+					<th style="text-align: center">Ações</th>
+			    </tr>
+				</thead>
+		
+			  	<tbody>
+			    {% for local in locais %}
+			    
+			    <tr id="item_{{ local[0]['idLocal'] }}">
+				    <td>{{ local[0]['sgLocal'] }}</td>
+				    <td id="item_desc_{{ local[0]['idLocal'] }}">{{ local[0]['nmLocal'] }}</td>
+				    <td style="text-align: center">{{ local['numRedes']}}</td>
+				    <td style="text-align: center">{{ local['numUsuariosPrimarios'] }}</td>
+				    <td style="text-align: center"></td>
+					<td style="text-align: center" class="td-actions">
+						<a href="{{ path('cacic_local_editar', {'idLocal': local[0]['idLocal']}) }}" class="btn btn-small" title="Editar Item">
+							<i class="btn-icon-only icon-edit"></i>
+						</a>
+						
+						<a href="{{ path('cacic_local_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="Excluir Item">
+							<i class="btn-icon-only icon-remove"></i>										
+						</a>
+					</td>
+			    </tr>
+			    
+			    {% else %}
+			    <tr>
+					<td style="text-align: center;" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+				</tr>
+				{% endfor %}
+			    
+			  </tbody>
+			</table>
+			<div align="right">
+			    <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_local_cadastrar') }}">
+			    	<i class="icon-plus-sign"></i>
+			    	 Adicionar Local 
+			    </a>
+			</div>
+		</div>
 	</div>
-	
-    <h1>
-    	Locais
-    	<small>Lista de locais cadastrados</small>
-    </h1>
-</div>
-
-<div class="well">
-
-	<table class="paginacao" cellpadding="2" cellspacing="0" width="100%" align="center">
-		<tr>
-			<td align="left"></td>
-			<td align="right"></td>
-		</tr>
-	</table>
-	
-	<table class="list">
-		<thead>
-	    <tr>
-		    <th width="15%">Sigla</th>
-		    <th width="40%">Descrição</th>
-		    <th width="10%" style="text-align: center">Redes</th>
-		    <th width="10%" style="text-align: center">Usuários<br />Primários</th>
-		    <th width="10%" style="text-align: center">Usuários<br />Secundários</th>
-			<th style="text-align: center">Ações</th>
-	    </tr>
-		</thead>
-		
-	  	<tbody>
-		
-	    {% for local in locais %}
-	    
-	    <tr id="item_{{ local[0]['idLocal'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-		    <td>{{ local[0]['sgLocal'] }}</td>
-		    <td id="item_desc_{{ local[0]['idLocal'] }}">{{ local[0]['nmLocal'] }}</td>
-		    <td style="text-align: center">{{ local['numRedes']}}</td>
-		    <td style="text-align: center">{{ local['numUsuariosPrimarios'] }}</td>
-		    <td style="text-align: center"></td>
-			<td style="text-align: center">
-				<a href="{{ path('cacic_local_editar', {'idLocal': local[0]['idLocal']}) }}">
-					<img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Item" title="Editar Item"  /></a>
-				
-				<img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" url="{{ path('cacic_local_excluir') }}" />
-			</td>
-	    </tr>
-	    
-	    {% else %}
-	    <tr>
-			<td style="text-align: center;" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
-		</tr>
-		{% endfor %}
-	    
-	  </tbody>
-	</table>
-	
-</div>
-
-<div align="right">
-	<a class="btn btn-primary bt-adicionar" href="{{ path('cacic_local_cadastrar') }}">
-    	<i class="icon-plus-sign"></i>
-    	 Adicionar Local 
-    </a>
 </div>
 	
 {% endblock %}
