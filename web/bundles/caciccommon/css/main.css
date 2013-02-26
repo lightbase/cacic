@@ -3,3 +3,7 @@
 .table td.td-actions {
 	text-align: center;
 }
+
+.navbar .nav > li > a, .navbar .brand {
+	text-shadow: none;
+}

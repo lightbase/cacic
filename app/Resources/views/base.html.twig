@@ -5,7 +5,7 @@
     <title>Cacic - Configurador Automático e Coletor de Informações Computacionais</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">    
+    <meta name="apple-mobile-web-app-capable" content="yes">
     
     {% block stylesheets %}
     <link href="{{ asset('bundles/caciccommon/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -22,6 +22,7 @@
     
     <link href="{{ asset('bundles/caciccommon/css/message.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('bundles/caciccommon/css/main.css') }}" rel="stylesheet" type="text/css" />
+    
     {% endblock %}
     
     {% block javascripts %}
@@ -29,20 +30,23 @@
 	<script src="{{ asset('bundles/caciccommon/js/jquery-1.9.0.min.js') }}"></script>
 	<script src="{{ asset('bundles/caciccommon/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js') }}" type="text/javascript" language="javascript"></script>
 	
+	<script src="{{ asset('bundles/caciccommon/js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('bundles/caciccommon/js/base.js') }}"></script>
+	
 	<script src="{{ asset('bundles/caciccommon/js/System.js') }}"></script>
 	<script src="{{ asset('bundles/caciccommon/js/init.js') }}"></script>
 	
-	<script src="{{ asset('bundles/caciccommon/js/excanvas.js') }}"></script>
+	{# Bibliotecas para GRÁFICOS
+    
+   	<script src="{{ asset('bundles/caciccommon/js/excanvas.js') }}"></script>
 	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.js') }}"></script>
 	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.pie.js') }}"></script>
 	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.orderBars.js') }}"></script>
 	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.resize.js') }}"></script>
-	
-	<script src="{{ asset('bundles/caciccommon/js/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/js/base.js') }}"></script>
-	
 	<script src="{{ asset('bundles/caciccommon/js/area.js') }}"></script>
 	<script src="{{ asset('bundles/caciccommon/js/donut.js') }}"></script>
+	    
+	#}
 	
 	{% endblock %}
 
@@ -162,7 +166,7 @@
 							<a href="javascript:void(0)">
 								<span>Cadastros</span>
 							</a>
-							<ul class="dropdown-menu">
+							<ul class="dropdown-menu pull-right">
 								<li><a href="{{ path('cacic_local_index') }}">Locais</a></li>
 								<li><a href="{{ path('cacic_servidorautenticacao_index') }}">Servidores Autenticação</a></li>
 								<li><a href="{{ path('cacic_subrede_index') }}">Subredes</a></li>

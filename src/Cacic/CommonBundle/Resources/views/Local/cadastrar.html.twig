@@ -1,48 +1,79 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-<div class="page-header">
-	<div class="page-header-desc">
-		As informações que deverão ser cadastradas abaixo referem-se a um local originário de chamada ao sistema CACIC. Como por exemplo uma região, um estado, um orgão etc.
-	</div>
-	
-    <h1>
-    	Locais
-    	<small>Cadastro de novo local</small>
-    </h1>
-</div>
 
-<div class="well">
-	
-	<form action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
-	
-	{{ form_widget(form) }}
-	
-	{% block redesAssociadas %}{% endblock %}
-	{% block usuariosAssociados %}{% endblock %}
-	
-	{{ form_rest(form) }}
-	
-	<div class="form-opcoes">
-		<button type="reset" class="btn">
-			<i class="icon-refresh"></i>
-			Resetar Valores
-		</button>
-		<button type="submit" class="btn btn-primary">
-			<i class="icon-ok-sign"></i>
-			Salvar Dados
-		</button>
-	</div>
-	
-	</form>
-	
-</div>
+<div class="span8">
+	<div class="widget">
+		<div class="widget-content">
+			<div class="page-header">
+				<h3>{% if form.vars.value.idLocal %}Edição dos dados do local{% else %}Cadastro de novo local{% endif %}</h3>
+			</div>
+			
+			<form id="formCadastroLocal" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+			
+				<div class="tabbable">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="#form-local-dadosbase" data-toggle="tab">Dados do local</a>
+						</li>
+						<li>
+							<a href="#form-local-dadosassociados" data-toggle="tab">Usuários e redes associados</a>
+						</li>
+					</ul>
+					
+					<div class="tab-content">
+						<div class="tab-pane active" id="form-local-dadosbase">
+							{{ form_widget( form, {'form_type': 'horizontal'} ) }}
+							{{ form_rest(form) }}
+						</div>
+						<div class="tab-pane" id="form-local-dadosassociados">
+							
+							{% if form.vars.value.idLocal != true %}<center><b>Nenhum dado associado.</b></center>{% endif %}
+							{% block redesAssociadas %}{% endblock %}
+							{% block usuariosAssociados %}{% endblock %}
+							
+						</div>
+					</div><!-- /tab-content -->
+				</div><!-- /tabbable -->
+				<br />
+				<div class="control-group">
+                  <div class="controls">
+                    <button type="reset" class="btn">
+						<i class="icon-refresh"></i>
+						Resetar Valores
+					</button>
+					<button type="submit" class="btn btn-primary">
+						<i class="icon-ok-sign"></i>
+						Salvar Dados
+					</button>
+                  </div>
+                </div>
+			
+			</form>
+			<hr />
+			<div>
+				<a class="btn btn-danger"  href="{{ path('cacic_local_index') }}">
+					<i class="icon-remove-sign"></i>
+					Cancelar
+				</a>
+			</div>
+		</div> <!-- /widget-content -->
+	</div> <!-- /widget -->
+</div> <!-- /span8 -->
 
-<div align="left">
-	<a class="btn btn-danger" href="{{ path('cacic_local_index') }}">
-		<i class="icon-remove-sign"></i>
-		  Cancelar 
-	</a>
+<div class="span4">
+	<div class="widget widget-box">
+		<div class="widget-header">
+			<i class="icon-info-sign"></i>
+			<h3>Informações Adicionais</h3>
+		</div> <!-- /widget-header -->
+					
+		<div class="widget-content">
+			<p>
+				As informações que deverão ser cadastradas abaixo referem-se a um local originário de chamada ao sistema CACIC. Como por exemplo uma região, um estado, um orgão etc.
+			</p>
+		</div> <!-- /widget-content -->
+	</div> <!-- /widget-box -->
 </div>
 	
 {% endblock %}

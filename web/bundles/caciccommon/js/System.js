@@ -15,13 +15,11 @@ var System = {
 	},
 	Flash : { // Comportamentos relacionados a mensagens
 		show : function( type, msg ){ // Método executado na exibição de mensagens do sistema
-			$( '#msgErro' ).empty().hide();
-			$( '#msgAviso' ).empty().hide();
-			$( '#msgSucesso' ).empty().hide();
+			$( '.alert' ).fadeOut();
 			/**
 			 * @todo alterar para permitir array de mensagens
 			 */
-			$( '#msg' +type ).text( msg ).fadeIn();
+			$( '#msg' +type ).append( msg + '<br />' ).fadeIn();
 		}
 	},
     Form : { // Comportamentos relacionados a formulários

@@ -1,9 +1,5 @@
 {% extends '::base.html.twig' %}
 
-{% block headline %}
-
-{% endblock %}
-
 {% block body %}
 
 <div class="span8">
@@ -11,16 +7,16 @@
 		<div class="widget-content">
 			<div class="page-header">
 				<h3>Cadastro de novo usuário</h3>
-				{{ form.get('idUsuario') }}
 			</div>
 			
-			<form id="formCadastroUsuario" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+			<form id="formCadastroUsuario" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
 		
-				{{ form_widget(form) }}
+				{{ form_widget( form, {'form_type': 'horizontal'} ) }}
 				{{ form_rest(form) }}
-			
-				<div class="form-actions">
-					<button type="reset" class="btn">
+				
+				<div class="control-group">
+                  <div class="controls">
+                    <button type="reset" class="btn">
 						<i class="icon-refresh"></i>
 						Resetar Valores
 					</button>
@@ -28,7 +24,8 @@
 						<i class="icon-ok-sign"></i>
 						Salvar Dados
 					</button>
-				</div>
+                  </div>
+                </div>
 			
 			</form>
 			<hr />
@@ -95,6 +92,7 @@
 	 * Remove o local principal selecionado da lista de locais secundários
 	 */
 	$( '#usuario_localPrimario' ).change(function(){
+		
 		// Primeiro, remove todos os itens da combo de locais secundários
 		$( '#usuario_SelectLocaisSecundarios option' ).each(function(){
 			$(this).remove();
