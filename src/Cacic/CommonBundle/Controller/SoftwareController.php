@@ -92,5 +92,4 @@ class SoftwareController extends Controller
 
         return $response;
     }
-
 }

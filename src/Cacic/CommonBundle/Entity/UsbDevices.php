@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * UsbDevices
  *
  * @ORM\Table(name="usb_devices")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Cacic\CommonBundle\Entity\UsbDevicesRepository")
  */
 class UsbDevices
 {
