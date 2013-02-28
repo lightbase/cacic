@@ -219,3 +219,24 @@ cacic_configuracao_agente:
 cacic_configuracao_gerente:
     pattern: /configuracao/gerente
     defaults: { _controller: CacicCommonBundle:Configuracao:gerente}
+
+cacic_usbdevice_index:
+    pattern: /usbdevice/{page}
+    defaults: {_controller: CacicCommonBundle:UsbDevice:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_usbdevice_cadastrar:
+    pattern: /usbdevice/cadastrar
+    defaults: { _controller: CacicCommonBundle:UsbDevice:cadastrar}
+
+cacic_usbdevice_editar:
+    pattern:  /usbdevice/editar/{idUsbDevice}
+    defaults: { _controller: CacicCommonBundle:UsbDevice:editar}
+    requirements:
+        idUsbDevice: \d+
+
+cacic_usbdevice_excluir:
+    pattern:  /usbdevice/excluir
+    defaults: { _controller: CacicCommonBundle:UsbDevice:excluir}
+
