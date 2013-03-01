@@ -59,7 +59,6 @@ class  ServidorAutenticacaoType extends AbstractType
                        array(
                            'label'=>'Observação:',
                            'required' => false
-
                        )
         );
         $builder->add('teAtributoIdentificador', 'text',
@@ -99,9 +98,8 @@ class  ServidorAutenticacaoType extends AbstractType
         );
         $builder->add('inAtivo', 'choice',
             array(
-                'label' => 'Servidor Ativo:',
-                'choices' =>array( 'S' =>'Sim',
-                                   'N' =>'Não'),
+                'choices' =>array( 'S' =>'Sim', 'N' =>'Não'),
+                'label'=>'Servidor Ativo:',
                 'required'  => false,
                 'expanded'  => true,
             )
