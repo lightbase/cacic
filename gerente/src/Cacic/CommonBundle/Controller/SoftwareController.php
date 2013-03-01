@@ -79,7 +79,7 @@ class SoftwareController extends Controller
         if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $tipoSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->find( $request->get('id') );
+        $tipoSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:Softwares')->find( $request->get('id') );
         if ( ! $tipoSoftware )
             throw $this->createNotFoundException( 'Software não encontrado' );
 

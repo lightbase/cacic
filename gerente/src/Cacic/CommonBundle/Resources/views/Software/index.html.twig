@@ -25,11 +25,11 @@
                 </thead>
 
                 <tbody>
-                {% for software in Software %}
 
-                    <tr id="item_{{ software['idSoftware'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                {% for software in Software %}
+                    <tr id="item_{{ software['idSoftware'] }}">
                         <td style="text-align: center" id="item_desc_{{ software['idSoftware'] }}">{{ software['nmSoftware'] }}</td>
-                        <td style="text-align: center" class="td-actions">
+                        <td class="td-actions">
                             <a href="{{ path('cacic_software_editar', {'idSoftware': software['idSoftware']}) }}" class="btn btn-small" title="Editar Item">
                                 <i class="btn-icon-only icon-edit"></i>
                             </a>
@@ -39,7 +39,6 @@
                             </a>
                         </td>
                     </tr>
-
                 {% else %}
                     <tr>
                         <td align="center" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
