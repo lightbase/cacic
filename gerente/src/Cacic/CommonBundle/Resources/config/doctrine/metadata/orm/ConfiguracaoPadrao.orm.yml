@@ -1,0 +1,28 @@
+ConfiguracaoPadrao:
+    type: entity
+    table: configuracao_padrao
+    fields:
+        idConfiguracaoPadrao:
+            id: true
+            type: smallint
+            nullable: false
+            column: id_configuracao_padrao
+            generator:
+                strategy: IDENTITY
+        sgVariavel:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+            column: sg_variavel
+        nmConfiguracaoPadrao:
+            type: string
+            length: 100
+            fixed: false
+            nullable: false
+            column: nm_configuracao_padrao
+        vlConfiguracaoPadrao:
+            type: text
+            nullable: true
+            column: vl_configuracao_padrao
+    lifecycleCallbacks: {  }

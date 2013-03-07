@@ -1,0 +1,29 @@
+AcaoRede:
+    type: entity
+    repositoryClass: AcaoRedeRepository
+    table: acao_rede
+    fields:
+        dtHrColetaForcada:
+            type: datetime
+            nullable: true
+            column: dt_hr_coleta_forcada
+    manyToOne:
+        idAcao:
+            targetEntity: Acao
+            cascade: {  }
+            mappedBy: null
+            inversedBy: redes
+            joinColumns:
+                id_acao:
+                    referencedColumnName: id_acao
+            orphanRemoval: false
+        idRede:
+            targetEntity: Rede
+            cascade: {  }
+            mappedBy: null
+            inversedBy: acoes
+            joinColumns:
+                id_rede:
+                    referencedColumnName: id_rede
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

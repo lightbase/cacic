@@ -1,0 +1,53 @@
+Cacic\CommonBundle\Entity\UsbLog:
+    type: entity
+    table: usb_log
+    fields:
+        idUsbLog:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_usb_log
+            generator:
+                strategy: IDENTITY
+        dtEvent:
+            type: string
+            length: 14
+            fixed: true
+            nullable: false
+            column: dt_event
+        csEvent:
+            type: string
+            length: 1
+            fixed: true
+            nullable: false
+            column: cs_event
+    manyToOne:
+        idUsbVendor:
+            targetEntity: UsbVendor
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_usb_vendor:
+                    referencedColumnName: id_usb_vendor
+            orphanRemoval: false
+        idUsbDevice:
+            targetEntity: UsbDevice
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_usb_device:
+                    referencedColumnName: id_usb_device
+            orphanRemoval: false
+        idComputador:
+            targetEntity: Computador
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

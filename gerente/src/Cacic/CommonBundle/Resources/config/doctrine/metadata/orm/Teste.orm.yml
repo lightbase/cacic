@@ -1,0 +1,17 @@
+Teste:
+    type: entity
+    table: teste
+    fields:
+        idTransacao:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_transacao
+            generator:
+                strategy: IDENTITY
+        teLinha:
+            type: text
+            nullable: true
+            column: te_linha
+    lifecycleCallbacks: {  }

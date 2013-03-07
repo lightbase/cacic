@@ -1,0 +1,47 @@
+Cacic\CommonBundle\Entity\ClassProperty:
+    type: entity
+    table: class_property
+    fields:
+        idClassProperty:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_class_property
+            generator:
+                strategy: IDENTITY
+        nmPropertyName:
+            type: string
+            length: 100
+            fixed: false
+            nullable: false
+            column: nm_property_name
+        tePropertyDescription:
+            type: string
+            length: 100
+            fixed: false
+            nullable: false
+            column: te_property_description
+        nmFunctionPreDb:
+            type: string
+            length: 30
+            fixed: false
+            nullable: true
+            column: nm_function_pre_db
+        nmFunctionPosDb:
+            type: string
+            length: 30
+            fixed: false
+            nullable: true
+            column: nm_function_pos_db
+    manyToOne:
+        idClass:
+            targetEntity: Classe
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_class:
+                    referencedColumnName: id_class
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

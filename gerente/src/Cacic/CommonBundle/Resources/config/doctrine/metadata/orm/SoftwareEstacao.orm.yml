@@ -1,0 +1,63 @@
+SoftwareEstacao:
+    type: entity
+    table: software_estacao
+    fields:
+        nrPatrimonio:
+            id: true
+            type: string
+            length: 20
+            fixed: true
+            nullable: false
+            column: nr_patrimonio
+        nmComputador:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: nm_computador
+        dtAutorizacao:
+            type: date
+            nullable: true
+            column: dt_autorizacao
+        nrProcesso:
+            type: string
+            length: 11
+            fixed: true
+            nullable: true
+            column: nr_processo
+        dtExpiracaoInstalacao:
+            type: date
+            nullable: true
+            column: dt_expiracao_instalacao
+        idAquisicaoParticular:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: id_aquisicao_particular
+        dtDesinstalacao:
+            type: date
+            nullable: true
+            column: dt_desinstalacao
+        teObservacao:
+            type: string
+            length: 90
+            fixed: false
+            nullable: true
+            column: te_observacao
+        nrPatrDestino:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: nr_patr_destino
+    oneToOne:
+        idSoftware:
+            targetEntity: Software
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_software:
+                    referencedColumnName: id_software
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
