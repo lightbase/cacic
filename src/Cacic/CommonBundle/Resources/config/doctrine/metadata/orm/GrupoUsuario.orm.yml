@@ -1,0 +1,38 @@
+GrupoUsuario:
+    type: entity
+    table: grupo_usuario
+    fields:
+        idGrupoUsuario:
+            id: true
+            type: smallint
+            nullable: false
+            column: id_grupo_usuario
+            generator:
+                strategy: IDENTITY
+        nmGrupoUsuarios:
+            type: string
+            length: 20
+            fixed: false
+            nullable: false
+            column: nm_grupo_usuarios
+        teGrupoUsuarios:
+            type: string
+            length: 20
+            fixed: false
+            nullable: true
+            column: te_grupo_usuarios
+        teMenuGrupo:
+            type: string
+            length: 20
+            fixed: false
+            nullable: true
+            column: te_menu_grupo
+        teDescricaoGrupo:
+            type: text
+            nullable: true
+            column: te_descricao_grupo
+        csNivelAdministracao:
+            type: boolean
+            nullable: true
+            column: cs_nivel_administracao
+    lifecycleCallbacks: {  }

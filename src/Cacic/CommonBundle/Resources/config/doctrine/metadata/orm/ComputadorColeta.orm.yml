@@ -1,0 +1,36 @@
+ComputadorColeta:
+    type: entity
+    table: computador_coleta
+    fields:
+        idComputadorColeta:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_computador_coleta
+            generator:
+                strategy: IDENTITY
+        teClassValues:
+            type: text
+            nullable: false
+            column: te_class_values
+    manyToOne:
+        idComputador:
+            targetEntity: Computador
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false
+        idClass:
+            targetEntity: Classe
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_class:
+                    referencedColumnName: id_class
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

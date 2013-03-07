@@ -1,0 +1,186 @@
+Rede:
+    type: entity
+    table: rede
+    fields:
+        idRede:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_rede
+            generator:
+                strategy: IDENTITY
+        teIpRede:
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: te_ip_rede
+        nmRede:
+            type: string
+            length: 100
+            fixed: false
+            nullable: true
+            column: nm_rede
+        teObservacao:
+            type: string
+            length: 100
+            fixed: false
+            nullable: true
+            column: te_observacao
+        nmPessoaContato1:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: nm_pessoa_contato1
+        nmPessoaContato2:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: nm_pessoa_contato2
+        nuTelefone1:
+            type: string
+            length: 11
+            fixed: true
+            nullable: true
+            column: nu_telefone1
+        teEmailContato2:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: te_email_contato2
+        nuTelefone2:
+            type: string
+            length: 11
+            fixed: true
+            nullable: true
+            column: nu_telefone2
+        teEmailContato1:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: te_email_contato1
+        teServCacic:
+            type: string
+            length: 60
+            fixed: false
+            nullable: false
+            column: te_serv_cacic
+        teServUpdates:
+            type: string
+            length: 60
+            fixed: false
+            nullable: false
+            column: te_serv_updates
+        tePathServUpdates:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
+            column: te_path_serv_updates
+        nmUsuarioLoginServUpdates:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: nm_usuario_login_serv_updates
+        teSenhaLoginServUpdates:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_senha_login_serv_updates
+        nuPortaServUpdates:
+            type: string
+            length: 4
+            fixed: true
+            nullable: true
+            column: nu_porta_serv_updates
+        teMascaraRede:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: te_mascara_rede
+        dtVerificaUpdates:
+            type: date
+            nullable: true
+            column: dt_verifica_updates
+        nmUsuarioLoginServUpdatesGerente:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: nm_usuario_login_serv_updates_gerente
+        teSenhaLoginServUpdatesGerente:
+            type: string
+            length: 20
+            fixed: true
+            nullable: true
+            column: te_senha_login_serv_updates_gerente
+        nuLimiteFtp:
+            type: integer
+            unsigned: false
+            nullable: false
+            column: nu_limite_ftp
+        csPermitirDesativarSrcacic:
+            type: string
+            length: 1
+            fixed: true
+            nullable: false
+            column: cs_permitir_desativar_srcacic
+        teDebugging:
+            type: text
+            nullable: true
+            column: te_debugging
+        dtDebug:
+            type: string
+            length: 8
+            fixed: true
+            nullable: true
+            column: dt_debug
+    manyToMany:
+        idAplicativo:
+            targetEntity: Aplicativo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: idRede
+            joinTable:
+                name: aplicativo_rede
+                joinColumns:
+                    -
+                        name: id_rede
+                        referencedColumnName: id_rede
+                inverseJoinColumns:
+                    -
+                        name: id_aplicativo
+                        referencedColumnName: id_aplicativo
+            orderBy: null
+    manyToOne:
+        idLocal:
+            targetEntity: Local
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
+        idServidorAutenticacao:
+            targetEntity: ServidorAutenticacao
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_servidor_autenticacao:
+                    referencedColumnName: id_servidor_autenticacao
+            orphanRemoval: false
+    oneToMany:
+        acoes:
+            targetEntity: AcaoRede
+            mappedBy: idRede
+    lifecycleCallbacks: {  }

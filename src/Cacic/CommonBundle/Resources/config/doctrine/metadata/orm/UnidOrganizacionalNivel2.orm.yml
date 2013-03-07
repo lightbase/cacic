@@ -1,0 +1,90 @@
+UnidOrganizacionalNivel2:
+    type: entity
+    table: unid_organizacional_nivel2
+    fields:
+        idUnidOrganizacionalNivel2:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_unid_organizacional_nivel2
+            generator:
+                strategy: IDENTITY
+        nmUnidOrganizacionalNivel2:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+            column: nm_unid_organizacional_nivel2
+        teEnderecoUon2:
+            type: string
+            length: 80
+            fixed: false
+            nullable: true
+            column: te_endereco_uon2
+        teBairroUon2:
+            type: string
+            length: 30
+            fixed: true
+            nullable: true
+            column: te_bairro_uon2
+        teCidadeUon2:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: te_cidade_uon2
+        teUfUon2:
+            type: string
+            length: 2
+            fixed: true
+            nullable: true
+            column: te_uf_uon2
+        nmResponsavelUon2:
+            type: string
+            length: 80
+            fixed: false
+            nullable: true
+            column: nm_responsavel_uon2
+        teEmailResponsavelUon2:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: te_email_responsavel_uon2
+        nuTel1ResponsavelUon2:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: nu_tel1_responsavel_uon2
+        nuTel2ResponsavelUon2:
+            type: string
+            length: 10
+            fixed: true
+            nullable: true
+            column: nu_tel2_responsavel_uon2
+        dtRegistro:
+            type: datetime
+            nullable: true
+            column: dt_registro
+    manyToOne:
+        idLocal:
+            targetEntity: Local
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
+        idUnidOrganizacionalNivel1a:
+            targetEntity: UnidOrganizacionalNivel1a
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_unid_organizacional_nivel1a:
+                    referencedColumnName: id_unid_organizacional_nivel1a
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
