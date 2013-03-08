@@ -1,0 +1,83 @@
+header{
+	width: 100%;
+ 	height: 60px;
+	background: #032A65;
+	color: #eeeeee;
+}
+
+header div#logo{
+	float: left;
+	height: 100%;
+}
+
+#logoff{
+	float: right; 
+	padding: 10px;
+}
+#pesquisa{
+	float: right; 
+	padding: 10px;
+}
+
+#usuario{
+	float: right; 
+	padding: 10px;
+}
+
+#menu-lateral{
+	float: left;
+	width: 25%;
+	background: #F0F0F0;
+}
+
+#menu-principal{
+	clear: both;
+	width: 100%;
+}
+
+#menu-favoritos{
+	clear: both;
+	width: 100%;
+}
+
+#favoriteItems{
+	width: 100%;
+	height: 100%;
+}
+
+.fav{
+	width: 80px;
+	height: 80px;
+	float: left;
+	margin: 5px;
+	background: #768B07;
+}
+
+#conteudo{
+	width: 75%;
+	float: left;
+}
+
+#lista-links{
+	clear: both;
+	padding: 10px;
+ 	float: right;
+ 	
+}
+
+#widgets{
+	clear: both;
+	margin: 0px auto 15px auto;
+}
+
+footer {
+	height:100px; 
+	background:#F0F0F0 ;
+	clear:both;
+	border-top:1px solid #D0D0D0;
+
+}
+
+#links-footer{
+	padding: 10px;
+}
