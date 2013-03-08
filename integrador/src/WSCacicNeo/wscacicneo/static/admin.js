@@ -26,6 +26,7 @@ admin = Ext.create('Ext.panel.Panel', {
 		title: 'Painel de Administração',
 	 	width: '75%',
 		frame: true,
+		layout: 'fit',
 		collapsible: true,
 		draggable: true,
 		border : true,

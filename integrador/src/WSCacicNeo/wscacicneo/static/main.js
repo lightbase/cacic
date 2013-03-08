@@ -28,11 +28,12 @@ Ext.onReady(function() {
 
 	var mainMenu = Ext.create('Ext.panel.Panel', {
 	  	renderTo: 'menu-principal',
-        collapsible: true,
+		layout: 'fit',
+        	collapsible: true,
 		border: true,
 		frame: true,
 		title: 'Menu Principal',
-        titleAlign: 'center',
+        	titleAlign: 'center',
 		items: menuItems
 	});
 
@@ -48,10 +49,11 @@ Ext.onReady(function() {
 	'</div>';
 
 	var favoriteMenu = Ext.create('Ext.panel.Panel', {
+		layout: 'fit',
 	  	renderTo: 'menu-favoritos',
-        collapsible: true,
-        title: 'Favoritos',
-        titleAlign: 'center',
+      	  	collapsible: true,
+        	title: 'Favoritos',
+        	titleAlign: 'center',
 		border: true,
 		frame: true,
 		html: fav_html

@@ -1,6 +1,7 @@
 Ext.onReady(function(){
 
 	Ext.create('Ext.Panel', {
+		layout: 'fit',
 		height: '150px',
 		style: {margin: '15px'},
 	 	frame: true,
@@ -10,6 +11,7 @@ Ext.onReady(function(){
 	});
 
 	Ext.create('Ext.Panel', {
+		layout: 'fit',
 		style: {margin: '15px'},
 		height: '150px',
 	 	frame: true,
@@ -19,6 +21,7 @@ Ext.onReady(function(){
 	});
 
 	Ext.create('Ext.Panel', {
+		layout: 'fit',
 		style: {margin: '15px'},
 		height: '150px',
 	 	frame: true,
@@ -28,6 +31,7 @@ Ext.onReady(function(){
 	});
 
 	Ext.create('Ext.Panel', {
+		layout: 'fit',
 		style: {margin: '15px'},
 		height: '150px',
 	 	frame: true,
@@ -37,6 +41,7 @@ Ext.onReady(function(){
 	});
 
 	Ext.create('Ext.Panel', {
+		layout: 'fit',
 		style: {margin: '15px'},
 		height: '150px',
 	 	frame: true,
@@ -46,45 +51,3 @@ Ext.onReady(function(){
 	});
 
 });
-
-/*Ext.create('Ext.Container', {
-    	renderTo: 'widgets',
-		layout: {
-			type: 'table',
-			columns: 2
-		},
-		defaults: {
-			bodyStyle: 'padding:20px',
-			margin: '10px',
-			height: 150,
-			draggable: true
-		},
-		items: [{
-			xtype: 'panel',
-			title: 'menu1',
-			frame: true,
-			html: 'Cell A content'
-		},{
-			xtype: 'panel',
-			title: 'menu2',
-			frame: true,
-			html: 'Cell B content'
-		},{
-			xtype: 'panel',
-			title: 'menu3',
-			frame: true,
-			html: 'Cell C content'
-		},{
-			xtype: 'panel',
-			title: 'menu4',
-			frame: true,
-			html: 'Cell D content'
-		},{
-			xtype: 'panel',
-			title: 'menu5',
-			frame: true,
-			html: 'Cell E content',
-			//width: 415,
-			colspan: 2
-		}]
-	});*/

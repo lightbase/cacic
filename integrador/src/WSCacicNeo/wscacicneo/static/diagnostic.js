@@ -24,6 +24,7 @@ var painelContent=
 			"Diagnóstico 5" ;
 
 relatorio = Ext.create('Ext.panel.Panel', {
+	layout: 'fit',
 	title: 'Relatórios',
 	width: '75%',
 	frame: true,

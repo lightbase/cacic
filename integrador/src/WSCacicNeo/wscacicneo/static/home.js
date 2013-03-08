@@ -9,6 +9,7 @@ var store = Ext.create('Ext.data.JsonStore', {
 });
 
 var chart = Ext.create('Ext.chart.Chart', {
+    layout: 'fit',
     width: 500,
     height: 350,
     animate: true,
@@ -50,6 +51,7 @@ var chart = Ext.create('Ext.chart.Chart', {
 });
 
 widget = Ext.create('Ext.panel.Panel', {
+        layout: 'fit',
 	title: 'Widgets',
 	width: '75%',
 	frame: true,
