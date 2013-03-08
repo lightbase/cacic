@@ -14,31 +14,42 @@
 	    <script type="text/javascript" src="/static/home.js"></script>
         
     </head>
-    <body>
-     <header id="header"></header>
+	<body>
 
-     <div id="menu-lateral">
-      	<div id="menu-principal"></div>
-		<div id="menu-favoritos"></div>
-     </div>
-
-     <div id="conteudo">
-	  	<div id="lista-links">
-	 		<button onclick="window.location='home'">Home</button>
-	 		<button onclick="window.location='dashboard'">Dashboard</button>
-	 		<button onclick="window.location='administracao'">Administração</button>
-	  	</div>
-      	<div id="widgets"></div>
-     </div>
-
-     <footer id="footer">
-     	<div id="links-footer">
-		 	<a href="home">Home<a/>
-		 	<a href="dashboard">Dashboard<a/>
-		 	<a href="administracao">Administração<a/>
-     	</div>
-     </footer>
-
+		<header>
+			<div id="logo">
+		 		<a href="home"><img src="static/caciclogo.jpg"></a>	
+			</div>
+			<div id="logoff">
+			   <button onclick="window.location='login'">Logoff</button>
+			</div>
+			<div id="usuario">
+			 	usuário: admin<br>
+				nível: administrador
+			</div>
+			<div id="pesquisa">
+			 	<input></input>
+			</div>
+		</header>
+		<div id="menu-lateral">
+		   <div id="menu-principal"></div>
+		   <div id="menu-favoritos"></div>
+		</div>
+		<div id="conteudo">
+		   <div id="lista-links">
+			   <a href="home">Home<a/>
+			   <a href="dashboard">Dashboard<a/>
+			   <a href="administracao">Administração<a/>
+		   </div>
+		   <div id="widgets"></div>
+		</div>
+		<footer>
+		   <div id="links-footer">
+			   <a href="home">Home<a/> |
+			   <a href="dashboard">Dashboard<a/> |
+			   <a href="administracao">Administração<a/>
+		   </div>
+		</footer>
     </body>
 
 </html>

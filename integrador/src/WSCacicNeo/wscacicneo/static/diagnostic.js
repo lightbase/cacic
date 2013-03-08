@@ -1,6 +1,4 @@
-Ext.onReady(function(){
-
-	var painelContent=
+var painelContent=
 			"Diagnóstico 1" + "<br>" +
 			"Diagnóstico 2" + "<br>" +
 			"Diagnóstico 3" + "<br>" +
@@ -25,27 +23,25 @@ Ext.onReady(function(){
 			"Diagnóstico 4" + "<br>" +
 			"Diagnóstico 5" ;
 
-
-  	Ext.create('Ext.Container', {
-		padding: '0 0 0 15',
-	 	html: '<h1>Diagnóstico de gerentes</h1>',
-		renderTo: 'macro-panel-header'
+relatorio = Ext.create('Ext.panel.Panel', {
+	title: 'Relatórios',
+	width: '75%',
+	frame: true,
+	collapsible: true,
+	draggable: true,
+	border : true,
+	style: {
+		margin: '0px auto 15px auto'
+			},
+	html: painelContent
 	});
 
-	Ext.create('Ext.panel.Panel', {
+Ext.onReady(function(){
+
+	Ext.create('Ext.Container', {
 		padding: '15px',
-		title: 'Relatórios',
-		frame: true,
-		collapsible: true,
-		draggable: true,
-		border : true,
-		width: '50%',
-        style: {
-			marginLeft: 'auto',
-		    marginRight: 'auto'
-        },
-    	renderTo: 'macro-panel-content',
-		html: painelContent
-	});
-
+		items: [relatorio],
+    	renderTo: 'widgets'
+	});		
+	
 });

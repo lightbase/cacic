@@ -1,11 +1,10 @@
 var store = Ext.create('Ext.data.JsonStore', {
     fields: ['name', 'data'],
     data: [
-        { 'name': 'metric one',   'data': 10 },
-        { 'name': 'metric two',   'data':  7 },
-        { 'name': 'metric three', 'data':  5 },
-        { 'name': 'metric four',  'data':  2 },
-        { 'name': 'metric five',  'data': 27 }
+        { 'name': 'dado1', 'data':  2 },
+        { 'name': 'dado2', 'data':  2 },
+        { 'name': 'dado3', 'data':  4 },
+        { 'name': 'dado4', 'data':  8 }
     ]
 });
 
@@ -15,6 +14,10 @@ var chart = Ext.create('Ext.chart.Chart', {
     animate: true,
     store: store,
     theme: 'Base:gradients',
+    shadow: true,
+    legend: {
+        position: 'right'
+    },
     series: [{
         type: 'pie',
         angleField: 'data',
@@ -46,22 +49,27 @@ var chart = Ext.create('Ext.chart.Chart', {
     }]
 });
 
+widget = Ext.create('Ext.panel.Panel', {
+	title: 'Widgets',
+	width: '75%',
+	frame: true,
+	draggable: true,
+	collapsible: true,
+	border : true,
+	style: {
+		"text-align": 'center',
+		margin: '0px auto 15px auto'
+	},
+	items: chart
+});
 
 Ext.onReady(function(){
 
-  	Ext.create('Ext.Container', {
-		padding: '15px',
-	 	html: '<h1>Home</h1>',
-		renderTo: 'macro-panel-header'
-	});
 
-	Ext.create('Ext.panel.Panel', {
-		height: '500px',
+	Ext.create('Ext.Container', {
 		padding: '15px',
-		title: 'Widgets',
-		draggable: true,
-    		renderTo: 'macro-panel-content',
-		items: chart
+		items: [widget],
+    	renderTo: 'widgets'
 	});
 
 });

@@ -1,24 +1,5 @@
 
 Ext.onReady(function() {
-	var mainHeader = Ext.create('Ext.toolbar.Toolbar', {
-	  	renderTo: 'header',
-        items: [
-            {xtype: 'text', text: 'SUPER GERENTE'},
-            '->',
-            {xtype: 'textfield'},
-            {xtype: 'text', text: 'usuário: aaaa'},
-            {xtype: 'text', text: 'nível:aaaaaaa'},
-            '-',
-            {
-				xtype: 'button',
-				text: 'logoff',
-				handler: function (){
-					window.location = 'login';
-				}
-			}
-
-        ]
-    });
 
 	var menuItems = Ext.create('Ext.menu.Menu', {
 		floating: false,  // usually you want this set to True (default)
@@ -48,63 +29,32 @@ Ext.onReady(function() {
 	var mainMenu = Ext.create('Ext.panel.Panel', {
 	  	renderTo: 'menu-principal',
         collapsible: true,
+		border: true,
+		frame: true,
 		title: 'Menu Principal',
         titleAlign: 'center',
 		items: menuItems
 	});
 
-
-	favoriteItems = Ext.create('Ext.panel.Panel', {
-		tbar: [{
-			xtype: 'buttongroup',
-			width: '100%',
-			defaults: {buttonAlign : 'center'},
-			columns: 3,
-			items: [{
-				text: 'Estatísticas',
-				scale: 'large',
-				flex: 1
-			},{
-				text: 'Busca',
-				scale: 'large',
-				flex: 1
-			},{
-				text: 'Downloads',
-				scale: 'large',
-				flex: 1
-			},{
-				text: 'Relatórios',
-				scale: 'large',
-				flex: 1,
-				handler: function() {
-					window.location = 'relatorios';
-				}
-			},{
-				text: 'Mensagens',
-				scale: 'large',
-				flex: 1
-			},{
-				text: 'Ajuda',
-				scale: 'large',
-				flex: 1
-			},{
-				text: 'Usuário',
-				scale: 'large',
-				flex: 1
-			},{
-				text: 'Ferramentas<br>de sistema',
-				scale: 'large',
-				flex: 1
-			}]
-		}]
-	});
+	fav_html = '<div id="favoriteItems">'+
+	 	'<div id="fav1" class="fav"><a>estatísticas</a></div>'+
+	 	'<div id="fav2" class="fav"><a href="diagnostico">diagnóstico</a></div>'+
+	 	'<div id="fav3" class="fav"><a>downloads</a></div>'+
+	 	'<div id="fav4" class="fav"><a href="relatorios">relatórios</a></div>'+
+	 	'<div id="fav5" class="fav"><a>mensagens</a></div>'+
+	 	'<div id="fav6" class="fav"><a>ajuda</a></div>'+
+	 	'<div id="fav7" class="fav"><a>usuário</a></div>'+
+	 	'<div id="fav8" class="fav"><a>ferramentas do sistema</a></div>'+
+	'</div>';
 
 	var favoriteMenu = Ext.create('Ext.panel.Panel', {
 	  	renderTo: 'menu-favoritos',
         collapsible: true,
         title: 'Favoritos',
         titleAlign: 'center',
-		items: favoriteItems
+		border: true,
+		frame: true,
+		html: fav_html
 	});
 
 });

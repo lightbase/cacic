@@ -1,20 +1,54 @@
-
 Ext.onReady(function(){
 
-  	Ext.create('Ext.Container', {
-		padding: '0 0 0 15',
-	 	html: '<h1>Dashboard</h1>',
-		renderTo: 'macro-panel-header'
+	Ext.create('Ext.Panel', {
+		height: '150px',
+		style: {margin: '15px'},
+	 	frame: true,
+	 	draggable: true,
+	 	title: 'menu1',
+    	renderTo: 'g1'
 	});
 
-  	Ext.create('Ext.Container', {
-		items: []
+	Ext.create('Ext.Panel', {
+		style: {margin: '15px'},
+		height: '150px',
+	 	frame: true,
+	 	draggable: true,
+	 	title: 'menu2',
+    	renderTo: 'g2'
 	});
 
+	Ext.create('Ext.Panel', {
+		style: {margin: '15px'},
+		height: '150px',
+	 	frame: true,
+	 	draggable: true,
+	 	title: 'menu3',
+    	renderTo: 'g1'
+	});
 
-	Ext.create('Ext.Container', {
-		width: '100%',
-    	renderTo: 'macro-panel-content',
+	Ext.create('Ext.Panel', {
+		style: {margin: '15px'},
+		height: '150px',
+	 	frame: true,
+	 	draggable: true,
+	 	title: 'menu4',
+    	renderTo: 'g2'
+	});
+
+	Ext.create('Ext.Panel', {
+		style: {margin: '15px'},
+		height: '150px',
+	 	frame: true,
+	 	draggable: true,
+	 	title: 'menu5',
+    	renderTo: 'g3'
+	});
+
+});
+
+/*Ext.create('Ext.Container', {
+    	renderTo: 'widgets',
 		layout: {
 			type: 'table',
 			columns: 2
@@ -23,11 +57,7 @@ Ext.onReady(function(){
 			bodyStyle: 'padding:20px',
 			margin: '10px',
 			height: 150,
-			width: 200,
 			draggable: true
-		},
-		style: {
-			//padding: '0px 0px 0px auto',
 		},
 		items: [{
 			xtype: 'panel',
@@ -43,8 +73,7 @@ Ext.onReady(function(){
 			xtype: 'panel',
 			title: 'menu3',
 			frame: true,
-			html: 'Cell C content',
-			cellCls: 'highlight'
+			html: 'Cell C content'
 		},{
 			xtype: 'panel',
 			title: 'menu4',
@@ -55,9 +84,7 @@ Ext.onReady(function(){
 			title: 'menu5',
 			frame: true,
 			html: 'Cell E content',
-			width: 415,
+			//width: 415,
 			colspan: 2
 		}]
-	});
-
-});
+	});*/

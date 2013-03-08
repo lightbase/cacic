@@ -1,6 +1,4 @@
-Ext.onReady(function(){
-
-	var painelContent=
+var painelContent=
 			"Opção 1" + "<br>" +
 			"Opção 2" + "<br>" +
 			"Opção 3" + "<br>" +
@@ -24,27 +22,25 @@ Ext.onReady(function(){
 			"Opção 3" + "<br>" +
 			"Opção 4" ;
 
-
-  	Ext.create('Ext.Container', {
-		padding: '0 0 0 15',
-	 	html: '<h1>Administração geral</h1>',
-		renderTo: 'macro-panel-header'
-	});
-
-	Ext.create('Ext.panel.Panel', {
-		padding: '15px',
+admin = Ext.create('Ext.panel.Panel', {
 		title: 'Painel de Administração',
+	 	width: '75%',
 		frame: true,
 		collapsible: true,
 		draggable: true,
 		border : true,
-		width: '50%',
-        style: {
-			marginLeft: 'auto',
-		    marginRight: 'auto'
-        },
-    	renderTo: 'macro-panel-content',
+		style: {
+			margin: '0px auto 15px auto'
+				},
 		html: painelContent
 	});
 
+Ext.onReady(function(){
+
+		Ext.create('Ext.Container', {
+			padding: '15px',
+			items: [admin],
+	    	renderTo: 'widgets'
+		});		
+		
 });
