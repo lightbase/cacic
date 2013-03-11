@@ -1,7 +1,15 @@
 Cacic\CommonBundle\Entity\AcaoSo:
     type: entity
     table: acao_so
-    oneToOne:
+    fields:
+        idAcaoSo:
+            id: true
+            type: integer
+            nullable: false
+            column: id_acao_so
+            generator:
+                strategy: IDENTITY
+    manyToOne:
         idAcao:
             targetEntity: Acao
             cascade: {  }

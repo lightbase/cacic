@@ -37,12 +37,8 @@ Cacic\CommonBundle\Entity\Acao:
             fixed: true
             nullable: false
             column: cs_opcional
-    manyToMany:
-        idRede:
-            targetEntity: Rede
-            cascade: {  }
+    oneToMany:
+        redes:
+            targetEntity: AcaoRede
             mappedBy: idAcao
-            inversedBy: null
-            joinTable: null
-            orderBy: null
     lifecycleCallbacks: {  }
