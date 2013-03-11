@@ -144,22 +144,6 @@ Cacic\CommonBundle\Entity\Rede:
             nullable: true
             column: dt_debug
     manyToMany:
-        idAcao:
-            targetEntity: Acao
-            cascade: {  }
-            mappedBy: null
-            inversedBy: idRede
-            joinTable:
-                name: acao_rede
-                joinColumns:
-                    -
-                        name: id_rede
-                        referencedColumnName: id_rede
-                inverseJoinColumns:
-                    -
-                        name: id_acao
-                        referencedColumnName: id_acao
-            orderBy: null
         idAplicativo:
             targetEntity: Aplicativo
             cascade: {  }
@@ -195,4 +179,8 @@ Cacic\CommonBundle\Entity\Rede:
                 id_servidor_autenticacao:
                     referencedColumnName: id_servidor_autenticacao
             orphanRemoval: false
+    oneToMany:
+        acoes:
+            targetEntity: AcaoRede
+            mappedBy: idRede
     lifecycleCallbacks: {  }

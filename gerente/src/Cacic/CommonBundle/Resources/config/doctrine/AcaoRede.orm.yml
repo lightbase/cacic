@@ -1,8 +1,14 @@
-AcaoRede:
+Cacic\CommonBundle\Entity\AcaoRede:
     type: entity
-    repositoryClass: AcaoRedeRepository
     table: acao_rede
     fields:
+        idAcaoRede:
+            id: true
+            type: integer
+            nullable: false
+            column: id_acao_rede
+            generator:
+                strategy: IDENTITY
         dtHrColetaForcada:
             type: datetime
             nullable: true
