@@ -1,6 +1,13 @@
 Cacic\CommonBundle\Entity\AquisicaoItem:
     type: entity
     table: aquisicao_item
+    id:
+        idTipoLicenca:
+            associationKey: true
+        idAquisicao:
+            associationKey: true
+        idSoftware:
+            associationKey: true
     fields:
         qtLicenca:
             type: integer
