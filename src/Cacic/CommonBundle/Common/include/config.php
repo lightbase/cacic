@@ -9,7 +9,7 @@
     /*
      * Nome do banco de dados
      */
-    $nome_bd = "cacic";
+    $nome_bd = "cacic_old";
     
     /*
      * Nome/IP do servidor de banco de dados
@@ -24,12 +24,12 @@
     /*
      * Usuario de conexao do servidor de banco de dados
      */
-    $usuario_bd = "cacic_db_user";
+    $usuario_bd = "root";
     
     /*
      * Senha do usuario de conexao do servidor de banco de dados
      */
-    $senha_usuario_bd = "123456";
+    $senha_usuario_bd = "KVzJ9ph7PFy3dVX2";
     
     /*
      * URL da aplicacao "CACIC"

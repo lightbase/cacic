@@ -16,7 +16,7 @@
 	
     {% for usuario in usuarios %}
     
-    <tr id="item_{{ usuario[0]['idUsuario'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+    <tr id="item_{{ usuario[0]['idUsuario'] }}">
 	    <td style="text-align: center">{{ loop.index }}</td>
 	    <td id="item_desc_{{ usuario[0]['idUsuario'] }}">{{ usuario[0]['nmUsuarioAcesso'] }}</td>
 	    <td>{{ usuario[0]['nmUsuarioCompleto'] }}</td>

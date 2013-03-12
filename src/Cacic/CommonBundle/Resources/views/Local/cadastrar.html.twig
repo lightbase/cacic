@@ -17,6 +17,9 @@
 							<a href="#form-local-dadosbase" data-toggle="tab">Dados do local</a>
 						</li>
 						<li>
+							<a href="#form-local-configuracoes" data-toggle="tab">Configurações</a>
+						</li>
+						<li>
 							<a href="#form-local-dadosassociados" data-toggle="tab">Usuários e redes associados</a>
 						</li>
 					</ul>
@@ -26,9 +29,17 @@
 							{{ form_widget( form, {'form_type': 'horizontal'} ) }}
 							{{ form_rest(form) }}
 						</div>
+						
+						<div class="tab-pane" id="form-local-configuracoes">
+							
+							{% if form.vars.value.idLocal != true %}<center><b>Este local ainda não foi salvo.</b></center>{% endif %}
+							{% block configuracoesLocais %}{% endblock %}
+							
+						</div>
+						
 						<div class="tab-pane" id="form-local-dadosassociados">
 							
-							{% if form.vars.value.idLocal != true %}<center><b>Nenhum dado associado.</b></center>{% endif %}
+							{% if form.vars.value.idLocal != true %}<center><b>Este local ainda não foi salvo.</b></center>{% endif %}
 							{% block redesAssociadas %}{% endblock %}
 							{% block usuariosAssociados %}{% endblock %}
 							
