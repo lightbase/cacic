@@ -46,4 +46,7 @@ Cacic\CommonBundle\Entity\Local:
         redes:
             targetEntity: Rede
             mappedBy: idLocal
+        configuracoes:
+            targetEntity: ConfiguracaoLocal
+            mappedBy: idLocal
     lifecycleCallbacks: {  }

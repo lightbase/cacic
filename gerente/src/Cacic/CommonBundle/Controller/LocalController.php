@@ -145,4 +145,19 @@ class LocalController extends Controller
         );
 	}
 	
+	/**
+	 * 
+	 * [FORM] Configurações associadas ao Local
+	 */
+	public function configuracoesAction( $idLocal )
+	{
+		return $this->render(
+        	'CacicCommonBundle:Local:configuracoes.html.twig',
+        	array(
+        		'configuracoes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoLocal' )->listarPorLocal( $idLocal ),
+        		'idLocal' => $idLocal
+        	)
+        );
+	}
+	
 }

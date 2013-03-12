@@ -16,14 +16,14 @@ Cacic\CommonBundle\Entity\ConfiguracaoPadrao:
             fixed: false
             nullable: false
             column: sg_variavel
-        nmConfiguracaoPadrao:
+        nmConfiguracao:
             type: string
             length: 100
             fixed: false
             nullable: false
-            column: nm_configuracao_padrao
-        vlConfiguracaoPadrao:
+            column: nm_configuracao
+        vlConfiguracao:
             type: text
             nullable: true
-            column: vl_configuracao_padrao
+            column: vl_configuracao
     lifecycleCallbacks: {  }

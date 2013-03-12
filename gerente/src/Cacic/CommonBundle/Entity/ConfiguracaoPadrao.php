@@ -22,12 +22,12 @@ class ConfiguracaoPadrao
     /**
      * @var string
      */
-    private $nmConfiguracaoPadrao;
+    private $nmConfiguracao;
 
     /**
      * @var string
      */
-    private $vlConfiguracaoPadrao;
+    private $vlConfiguracao;
 
 
     /**
@@ -64,48 +64,48 @@ class ConfiguracaoPadrao
     }
 
     /**
-     * Set nmConfiguracaoPadrao
+     * Set nmConfiguracao
      *
-     * @param string $nmConfiguracaoPadrao
+     * @param string $nmConfiguracao
      * @return ConfiguracaoPadrao
      */
-    public function setNmConfiguracaoPadrao($nmConfiguracaoPadrao)
+    public function setNmConfiguracao($nmConfiguracao)
     {
-        $this->nmConfiguracaoPadrao = $nmConfiguracaoPadrao;
+        $this->nmConfiguracao = $nmConfiguracao;
     
         return $this;
     }
 
     /**
-     * Get nmConfiguracaoPadrao
+     * Get nmConfiguracao
      *
      * @return string 
      */
-    public function getNmConfiguracaoPadrao()
+    public function getNmConfiguracao()
     {
-        return $this->nmConfiguracaoPadrao;
+        return $this->nmConfiguracao;
     }
 
     /**
-     * Set vlConfiguracaoPadrao
+     * Set vlConfiguracao
      *
-     * @param string $vlConfiguracaoPadrao
+     * @param string $vlConfiguracao
      * @return ConfiguracaoPadrao
      */
-    public function setVlConfiguracaoPadrao($vlConfiguracaoPadrao)
+    public function setVlConfiguracao($vlConfiguracao)
     {
-        $this->vlConfiguracaoPadrao = $vlConfiguracaoPadrao;
+        $this->vlConfiguracao = $vlConfiguracao;
     
         return $this;
     }
 
     /**
-     * Get vlConfiguracaoPadrao
+     * Get vlConfiguracao
      *
      * @return string 
      */
-    public function getVlConfiguracaoPadrao()
+    public function getVlConfiguracao()
     {
-        return $this->vlConfiguracaoPadrao;
+        return $this->vlConfiguracao;
     }
 }

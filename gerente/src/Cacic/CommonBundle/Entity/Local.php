@@ -38,17 +38,21 @@ class Local
      * @var string
      */
     private $dtDebug;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $usuarios;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $redes;
-    
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $configuracoes;
 
     /**
      * Constructor
@@ -57,8 +61,9 @@ class Local
     {
         $this->usuarios = new \Doctrine\Common\Collections\ArrayCollection();
         $this->redes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->configuracoes = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
+    
     /**
      * Get idLocal
      *
@@ -183,7 +188,7 @@ class Local
     {
         return $this->dtDebug;
     }
-    
+
     /**
      * Add usuarios
      *
@@ -248,5 +253,38 @@ class Local
     public function getRedes()
     {
         return $this->redes;
+    }
+
+    /**
+     * Add configuracoes
+     *
+     * @param \Cacic\CommonBundle\Entity\ConfiguracaoLocal $configuracoes
+     * @return Local
+     */
+    public function addConfiguracoe(\Cacic\CommonBundle\Entity\ConfiguracaoLocal $configuracoes)
+    {
+        $this->configuracoes[] = $configuracoes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove configuracoes
+     *
+     * @param \Cacic\CommonBundle\Entity\ConfiguracaoLocal $configuracoes
+     */
+    public function removeConfiguracoe(\Cacic\CommonBundle\Entity\ConfiguracaoLocal $configuracoes)
+    {
+        $this->configuracoes->removeElement($configuracoes);
+    }
+
+    /**
+     * Get configuracoes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConfiguracoes()
+    {
+        return $this->configuracoes;
     }
 }

@@ -18,7 +18,7 @@ class UsuarioController extends Controller
 	 */
 	public function indexAction( $page )
 	{
-		$arrUsuarios = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuarios' )->listar();
+		$arrUsuarios = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuario' )->listar();
 		return $this->render( 'CacicCommonBundle:Usuario:index.html.twig', array( 'usuarios' => $arrUsuarios ) );
 	}
     
