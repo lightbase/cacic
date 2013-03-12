@@ -38,7 +38,26 @@ class Local
      * @var string
      */
     private $dtDebug;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $usuarios;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $redes;
+    
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->usuarios = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->redes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get idLocal
@@ -163,5 +182,71 @@ class Local
     public function getDtDebug()
     {
         return $this->dtDebug;
+    }
+    
+    /**
+     * Add usuarios
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuario $usuarios
+     * @return Local
+     */
+    public function addUsuario(\Cacic\CommonBundle\Entity\Usuario $usuarios)
+    {
+        $this->usuarios[] = $usuarios;
+    
+        return $this;
+    }
+
+    /**
+     * Remove usuarios
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuario $usuarios
+     */
+    public function removeUsuario(\Cacic\CommonBundle\Entity\Usuario $usuarios)
+    {
+        $this->usuarios->removeElement($usuarios);
+    }
+
+    /**
+     * Get usuarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsuarios()
+    {
+        return $this->usuarios;
+    }
+
+    /**
+     * Add redes
+     *
+     * @param \Cacic\CommonBundle\Entity\Rede $redes
+     * @return Local
+     */
+    public function addRede(\Cacic\CommonBundle\Entity\Rede $redes)
+    {
+        $this->redes[] = $redes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove redes
+     *
+     * @param \Cacic\CommonBundle\Entity\Rede $redes
+     */
+    public function removeRede(\Cacic\CommonBundle\Entity\Rede $redes)
+    {
+        $this->redes->removeElement($redes);
+    }
+
+    /**
+     * Get redes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRedes()
+    {
+        return $this->redes;
     }
 }

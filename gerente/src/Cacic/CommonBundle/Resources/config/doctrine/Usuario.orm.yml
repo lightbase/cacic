@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\Usuario:
     type: entity
     table: usuario
+    repositoryClass: Cacic\CommonBundle\Entity\UsuarioRepository
     fields:
         idUsuario:
             id: true

@@ -3,11 +3,13 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Usuario
  */
-class Usuario
+class Usuario implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -359,5 +361,65 @@ class Usuario
     public function getIdGrupoUsuario()
     {
         return $this->idGrupoUsuario;
+    }
+    
+	/**
+     * 
+     * @see UserInterface::getUsername()
+     */
+    public function getUsername()
+    {
+    	return $this->nmUsuarioAcesso;
+    }
+    
+    /**
+     * @see UserInterface::getPassword()
+     */
+    public function getPassword()
+    {
+    	return $this->teSenha;
+    }
+    
+    /**
+     * 
+     * @see UserInterface::getSalt()
+     */
+    public function getSalt()
+    {
+    	return null;
+    }
+    
+    /**
+     * 
+     * @see UserInterface::getRoles()
+     */
+    public function getRoles()
+    {
+    	return array( 'ROLE_ADMIN' );
+    }
+    
+    /**
+     * 
+     * @see UserInterface::eraseCredentials()
+     */
+    public function eraseCredentials(){}
+    
+    /**
+     * 
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+    	return serialize( array( $this->idUsuario ) );
+    }
+    
+    /**
+     * 
+     * @see \Serializable::unserialize()
+     * @param string $serialized
+     */
+    public function unserialize( $serialized )
+    {
+    	list ( $this->idUsuario ) = unserialize( $serialized );
     }
 }
