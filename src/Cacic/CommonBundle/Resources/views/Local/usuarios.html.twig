@@ -21,7 +21,7 @@
 	    <td id="item_desc_{{ usuario[0]['idUsuario'] }}">{{ usuario[0]['nmUsuarioAcesso'] }}</td>
 	    <td>{{ usuario[0]['nmUsuarioCompleto'] }}</td>
 	    <td>{{ usuario['teGrupoUsuarios'] }}</td>
-	    <td>{% if idLocal == usuario[0]['idLocal'] %} Primário {%else%} Secundário {% endif %}  </td>
+	    <td>{% if idLocal == usuario['idLocal'] %} Primário {%else%} Secundário {% endif %}  </td>
 	    <td>{{ usuario[0]['teEmailsContato'] }}</td>
     </tr>
     

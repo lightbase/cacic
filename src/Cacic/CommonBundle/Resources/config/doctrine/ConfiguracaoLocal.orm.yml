@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\ConfiguracaoLocal:
     type: entity
     table: configuracao_local
+    repositoryClass: Cacic\CommonBundle\Entity\ConfiguracaoLocalRepository
     id:
         idLocal:
             associationKey: true

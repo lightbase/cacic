@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\Rede:
     type: entity
     table: rede
+    repositoryClass: Cacic\CommonBundle\Entity\RedeRepository
     fields:
         idRede:
             id: true

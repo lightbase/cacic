@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\ConfiguracaoPadrao:
     type: entity
     table: configuracao_padrao
+    repositoryClass: Cacic\CommonBundle\Entity\ConfiguracaoPadraoRepository
     fields:
         idConfiguracaoPadrao:
             id: true

@@ -4,8 +4,8 @@ namespace Cacic\CommonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Cacic\CommonBundle\Entity\Usuarios;
-use Cacic\CommonBundle\Entity\GrupoUsuarios;
+use Cacic\CommonBundle\Entity\Usuario;
+use Cacic\CommonBundle\Entity\GrupoUsuario;
 use Cacic\CommonBundle\Form\Type\UsuarioType;
 
 class UsuarioController extends Controller

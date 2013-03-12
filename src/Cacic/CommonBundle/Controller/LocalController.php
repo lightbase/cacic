@@ -5,7 +5,7 @@ namespace Cacic\CommonBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Cacic\CommonBundle\Entity\Locais;
+use Cacic\CommonBundle\Entity\Local;
 use Cacic\CommonBundle\Form\Type\LocalType;
 
 /**
@@ -26,7 +26,7 @@ class LocalController extends Controller
     {
         return $this->render(
         	'CacicCommonBundle:Local:index.html.twig',
-        	array( 'locais' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Locais' )->listar() )
+        	array( 'locais' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Local' )->listar() )
         );
     }
     
@@ -36,7 +36,7 @@ class LocalController extends Controller
 	 */
 	public function cadastrarAction( Request $request )
 	{
-		$local = new Locais();
+		$local = new Local();
 		$form = $this->createForm( new LocalType(), $local );
 		
 		if ( $request->isMethod('POST') )
@@ -67,7 +67,7 @@ class LocalController extends Controller
 	 */
 	public function editarAction( $idLocal, Request $request )
 	{
-		$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Locais')->find( $idLocal );
+		$local = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Local' )->find( $idLocal );
 		if ( ! $local )
 			throw $this->createNotFoundException( 'Local não encontrado' );
 		
@@ -126,7 +126,7 @@ class LocalController extends Controller
 	{
 		return $this->render(
         	'CacicCommonBundle:Local:redes.html.twig',
-        	array( 'redes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Redes' )->listarPorLocal( $idLocal ) )
+        	array( 'redes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorLocal( $idLocal ) )
         );
 	}
 	
@@ -139,7 +139,7 @@ class LocalController extends Controller
 		return $this->render(
         	'CacicCommonBundle:Local:usuarios.html.twig',
         	array(
-        		'usuarios' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuarios' )->listarPorLocal( $idLocal ),
+        		'usuarios' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuario' )->listarPorLocal( $idLocal ),
         		'idLocal' => $idLocal
         	)
         );
