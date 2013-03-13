@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\So:
     type: entity
     table: so
+    repositoryClass: Cacic\CommonBundle\Entity\SoRepository
     fields:
         idSo:
             id: true

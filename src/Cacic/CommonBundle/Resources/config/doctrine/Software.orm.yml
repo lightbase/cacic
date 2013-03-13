@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\Software:
     type: entity
     table: software
+    repositoryClass: Cacic\CommonBundle\Entity\SoftwareRepository
     fields:
         idSoftware:
             id: true

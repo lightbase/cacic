@@ -2,75 +2,116 @@
 
 {% block body %}
 
-<div class="page-header">
-    <h1>Perfil Aplicativo Monitorado
-        <small>Dados do Aplicativo Monitorado</small></h1>
-</div>
-
-<div class="well">
-
-    <form id="formAplicativo" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
-
-        {{ form_row(form.nmAplicativo) }}
-        {{ form_row(form.idSo) }}
-        {{ form_row(form.inDisponibilizaInfo) }}
-        {{ form_row(form.inDisponibilizaInfoUsuarioComum) }}
-        {{ form_row(form.teDescritivo) }}
-
-        {{ form_row(form.selCsIdeLicenca) }}
-        {{ form_row(form.csIdeLicenca) }}
-
-        <h4><div align="left">Características em ambientes Windows 9x/Me</div></h4>
-        <br />
-
-        {{ form_row(form.selTeCarInstW9x) }}
-        {{ form_row(form.teCarInstW9x) }}
-
-        {{ form_row(form.selCsCarVerW9x) }}
-        {{ form_row(form.csCarVerW9x) }}
-
-        <h4><div align="left">Características em ambientes Windows NT/2000/XP/2003</div></h4>
-        <br />
-
-        {{ form_row(form.selTeCarInstWnt) }}
-        {{ form_row(form.teCarInstWnt) }}
-
-        {{ form_row(form.selCsCarVerWnt) }}
-        {{ form_row(form.csCarVerWnt) }}
-
-        <h4><div align="left">Selecao de redes para aplicacao desta coleta de informacoes</div></h4>
-        <br />
-        <h3>Selecione as redes:<h3/>
-        
-        <div class="form-transfer">
-        	<div class="form-transfer-from">
-        		{{ form_row(form.idRede) }}
-        	</div>
-
-			<div class="form-transfer-options">
-				<input id="rede-add" type="button" value="   &gt;   " class="transfer-button" />
-				<br>
-				<input id="rede-remove" type="button" value="   &lt;   " class="transfer-button" />
+<div class="span8">
+    <div class="widget">
+        <div class="widget-content">
+            <div class="page-header">
+                <h3>Dados do Aplicativo Monitorado</h3>
             </div>
-            
-			<div class="form-transfer-to">
-        		{{ form_row(form.idRede1) }}
-        	</div>
-        </div>
-        {{ form_rest(form) }}
 
-        <div class="form-opcoes">
-            <input type="reset" value="Limpar Valores" class="btn btn-small" />
-            <input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
-        </div>
+            <form id="formAplicativo" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#form-formAplicativo-dados" data-toggle="tab"><br />Dados do Aplicativo<br /><br /></a>
+                        </li>
+                        <li>
+                            <a href="#form-formAplicativo-consulta1" data-toggle="tab">
+                                Características
+                                <br />em ambientes
+                                <br />Windows 9x/Me</a>
+                        </li>
+                        <li>
+                            <a href="#form-formAplicativo-consulta2" data-toggle="tab">
+                                Características <b>em</b>
+                                <br /> ambientes Windows
+                                <br />NT/2000/XP/2003</a>
+                        </li>
+                        <li>
+                            <a href="#form-formAplicativo-redes" data-toggle="tab"><br />Selecione as redes:<br /><br /></a>
+                        </li>
+                    </ul>
 
-    </form>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="form-formAplicativo-dados">
+                            <h5>Dados do Aplicativo </h5>
+                            <br />
+                            {{ form_row(form.nmAplicativo) }}
+                            {{ form_row(form.idSo) }}
+                            {{ form_row(form.inDisponibilizaInfo) }}
+                            {{ form_row(form.inDisponibilizaInfoUsuarioComum) }}
+                            {{ form_row(form.teDescritivo) }}
 
-</div>
+                            {{ form_row(form.selCsIdeLicenca) }}
+                            {{ form_row(form.csIdeLicenca) }}
+                        </div>
+                        <div class="tab-pane" id="form-formAplicativo-consulta1">
+                            <h5>Características em ambientes Windows 9x/Me</h5>
+                            <br />
+                            {{ form_row(form.selTeCarInstW9x) }}
+                            {{ form_row(form.teCarInstW9x) }}
 
-<div >
-    <a class="btn btn-danger btn-small"  href="{{ path('cacic_aplicativo_index') }}">Cancelar</a>
-</div>
+                            {{ form_row(form.selCsCarVerW9x) }}
+                            {{ form_row(form.csCarVerW9x) }}
+                        </div>
+                        <div class="tab-pane" id="form-formAplicativo-consulta2">
+                            <h5>Características em ambientes Windows NT/2000/XP/2003</h5>
+                            <br />
+                            {{ form_row(form.selTeCarInstWnt) }}
+                            {{ form_row(form.teCarInstWnt) }}
+
+                            {{ form_row(form.selCsCarVerWnt) }}
+                            {{ form_row(form.csCarVerWnt) }}
+                        </div>
+                        <div class="tab-pane" id="form-formAplicativo-redes">
+                            <h5>Selecao de redes para aplicacao desta coleta de informacoes</h5>
+                            <br />
+                            <div class="form-transfer">
+                                <div class="form-transfer-from">
+                                    {{ form_row(form.idRede) }}
+                                </div>
+
+                                <div class="form-transfer-options">
+                                    <input id="rede-add" type="button" value="   &gt;   " class="transfer-button" />
+                                    <br>
+                                    <input id="rede-remove" type="button" value="   &lt;   " class="transfer-button" />
+                                </div>
+
+                                <div class="form-transfer-to">
+                                    {{ form_row(form.idRede1) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /tab-content -->
+                </div><!-- /tabbable -->
+                <br />
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="reset" class="btn">
+                            <i class="icon-refresh"></i>
+                            Resetar Valores
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="icon-ok-sign"></i>
+                            Salvar Dados
+                        </button>
+                    </div><!-- /controls -->
+                </div><!-- /control-group -->
+
+                {{ form_rest(form) }}
+            </form>
+
+            <hr />
+            <div>
+                <a class="btn btn-danger"  href="{{ path('cacic_aplicativo_index') }}">
+                    <i class="icon-remove-sign"></i>
+                    Cancelar
+                </a>
+            </div>
+        </div> <!-- /widget-content -->
+    </div> <!-- /widget -->
+</div> <!-- /span8 -->
     
 <script type="text/javascript">
 

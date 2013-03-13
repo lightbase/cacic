@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\UsbDevice:
     type: entity
     table: usb_device
+    repositoryClass: Cacic\CommonBundle\Entity\UsbDeviceRepository
     fields:
         idUsbDevice:
             id: true

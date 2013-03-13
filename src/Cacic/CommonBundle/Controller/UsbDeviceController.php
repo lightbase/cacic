@@ -5,7 +5,7 @@ namespace Cacic\CommonBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Cacic\CommonBundle\Entity\UsbDevices;
+use Cacic\CommonBundle\Entity\UsbDevice;
 use Cacic\CommonBundle\Form\Type\UsbDeviceType;
 
 
@@ -13,14 +13,14 @@ class UsbDeviceController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrUsbDevice = $this->getDoctrine()->getRepository( 'CacicCommonBundle:UsbDevices' )->listar();
+        $arrUsbDevice = $this->getDoctrine()->getRepository( 'CacicCommonBundle:UsbDevice' )->listar();
         return $this->render( 'CacicCommonBundle:UsbDevice:index.html.twig', array( 'UsbDevice' => $arrUsbDevice ) );
 
     }
 
     public function cadastrarAction(Request $request)
     {
-        $UsbDevice = new UsbDevices();
+        $UsbDevice = new UsbDevice();
         $form = $this->createForm( new UsbDeviceType(), $UsbDevice );
 
         if ( $request->isMethod('POST') )

@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  * @author lightbase
  *
  */
-class SoftwaresRepository extends EntityRepository
+class SoftwareRepository extends EntityRepository
 {
 
     public function paginar( $page )
@@ -25,7 +25,7 @@ class SoftwaresRepository extends EntityRepository
     public function listar()
     {
         $_dql = "SELECT s
-				FROM CacicCommonBundle:Softwares s
+				FROM CacicCommonBundle:Software s
 				GROUP BY s.idSoftware";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();

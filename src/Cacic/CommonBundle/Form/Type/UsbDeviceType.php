@@ -16,30 +16,35 @@ class UsbDeviceType extends AbstractType
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
-        $builder->add('idVendor', null,
+        $builder->add('idUsbVendor', 'text',
             array(
-                'label'=>'Identificador do Fabricante:', 'max_length'=>100
+                'label'=>'Identificador do Fabricante:',
+                'max_length'=>100
             )
         );
-        $builder->add('nmVendor', null,
+        $builder->add('nmUsbVendor', 'text',
               array(
-                  'label'=>'Nome do Fabricante:', 'max_length'=>100,
-                  'mapped'=>false,
+                  'label'=>'Nome do Fabricante:',
+                  'max_length'=>100,
               )
         );
-        $builder->add('idDevice', null,
+        $builder->add('idUsbDevice', null,
             array(
-                'label'=>'Identificador do Dispositivo:', 'max_length'=>100
+                'label'=>'Identificador do Dispositivo:',
+                'max_length'=>100
             )
         );
-        $builder->add('nmDevice', null,
+        $builder->add('nmUsbDevice', null,
             array(
-                'label'=>'Nome do Dispositivo:', 'max_length'=>100
+                'label'=>'Nome do Dispositivo:',
+                'max_length'=>100
             )
         );
         $builder->add('teObservacao', 'textarea',
             array(
-                'label'=>'Observações:', 'max_length'=>500
+                'label'=>'Observações:',
+                'max_length'=>500,
+                'required'  => false
             )
         );
     }

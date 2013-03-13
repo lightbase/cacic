@@ -5,7 +5,7 @@ namespace Cacic\CommonBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Cacic\CommonBundle\Entity\Softwares;
+use Cacic\CommonBundle\Entity\Software;
 use Cacic\CommonBundle\Form\Type\SoftwareType;
 
 
@@ -13,13 +13,13 @@ class SoftwareController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrSoftware = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Softwares' )->listar();
+        $arrSoftware = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listar();
         return $this->render( 'CacicCommonBundle:Software:index.html.twig', array( 'Software' => $arrSoftware ) );
 
     }
     public function cadastrarAction(Request $request)
     {
-        $Software = new Softwares();
+        $Software = new Software();
         $form = $this->createForm( new SoftwareType(), $Software );
 
         if ( $request->isMethod('POST') )
@@ -44,7 +44,7 @@ class SoftwareController extends Controller
      */
     public function editarAction( $idSoftware, Request $request )
     {
-        $Software = $this->getDoctrine()->getRepository('CacicCommonBundle:Softwares')->find( $idSoftware );
+        $Software = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->find( $idSoftware );
         if ( ! $Software )
             throw $this->createNotFoundException( 'Software não encontrado' );
 
@@ -79,7 +79,7 @@ class SoftwareController extends Controller
         if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $tipoSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:Softwares')->find( $request->get('id') );
+        $tipoSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->find( $request->get('id') );
         if ( ! $tipoSoftware )
             throw $this->createNotFoundException( 'Software não encontrado' );
 

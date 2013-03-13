@@ -5,7 +5,7 @@ namespace Cacic\CommonBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Cacic\CommonBundle\Entity\TiposSoftware;
+use Cacic\CommonBundle\Entity\TipoSoftware;
 use Cacic\CommonBundle\Form\Type\TipoSoftwareType;
 
 
@@ -13,13 +13,13 @@ class TipoSoftwareController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrTipoSoftware = $this->getDoctrine()->getRepository( 'CacicCommonBundle:TiposSoftware' )->listar();
-        return $this->render( 'CacicCommonBundle:TipoSoftware:index.html.twig', array( 'tiposSoftware' => $arrTipoSoftware ) );
+        $arrTipoSoftware = $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoSoftware' )->listar();
+        return $this->render( 'CacicCommonBundle:TipoSoftware:index.html.twig', array( 'tipoSoftware' => $arrTipoSoftware ) );
 
     }
     public function cadastrarAction(Request $request)
     {
-        $tipoSoftware = new TiposSoftware();
+        $tipoSoftware = new TipoSoftware();
         $form = $this->createForm( new TipoSoftwareType(), $tipoSoftware );
 
         if ( $request->isMethod('POST') )
@@ -39,12 +39,12 @@ class TipoSoftwareController extends Controller
         return $this->render( 'CacicCommonBundle:TipoSoftware:cadastrar.html.twig', array( 'form' => $form->createView() ) );
     }
     /**
-     *  Página de editar dados do TiposSoftware
+     *  Página de editar dados do TipoSoftware
      *  @param int $idTipoSoftware
      */
     public function editarAction( $idTipoSoftware, Request $request )
     {
-        $tipoSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:TiposSoftware')->find( $idTipoSoftware );
+        $tipoSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:TipoSoftware')->find( $idTipoSoftware );
         if ( ! $tipoSoftware )
             throw $this->createNotFoundException( 'Tipo Software não encontrado' );
 
@@ -79,7 +79,7 @@ class TipoSoftwareController extends Controller
         if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $tipoSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:TiposSoftware')->find( $request->get('id') );
+        $tipoSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:TipoSoftware')->find( $request->get('id') );
         if ( ! $tipoSoftware )
             throw $this->createNotFoundException( 'Tipo Software não encontrado' );
 
