@@ -44,10 +44,11 @@ class SoType extends AbstractType
                     'choices'=>array('S' => 'Sim',
                                     'N' => 'Não'
                     ),
-                    'label'=>'Sistema Operacional MS-Windows',
                     'expanded'  => true,
+                    'mapped'=>false,
                     'multiple'  => false,
                     'required'  => false,
+                    'label'=>'Sistema Operacional MS-Windows'
                     )
         );
     }

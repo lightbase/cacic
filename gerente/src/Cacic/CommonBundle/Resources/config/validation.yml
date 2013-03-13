@@ -109,7 +109,7 @@ Cacic\CommonBundle\Entity\So:
             - NotNull: ~
             - Maxlength: 10
 
-Cacic\CommonBundle\Entity\PerfisAplicativosMonitorados:
+Cacic\CommonBundle\Entity\Aplicativo:
     properties:
         dtAtualizacao:
             - NotBlank: ~
@@ -134,3 +134,6 @@ Cacic\CommonBundle\Entity\Softwares:
             - MaxLength: 30
         teObs:
             - MaxLength: 30
+
+Cacic\CommonBundle\Entity\Softwares:
+    properties:

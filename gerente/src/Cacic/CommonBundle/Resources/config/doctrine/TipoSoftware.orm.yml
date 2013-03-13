@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\TipoSoftware:
     type: entity
     table: tipo_software
+    repositoryClass: Cacic\CommonBundle\Entity\TipoSoftwareRepository
     fields:
         idTipoSoftware:
             id: true

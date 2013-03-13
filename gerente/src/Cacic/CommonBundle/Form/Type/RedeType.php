@@ -19,7 +19,6 @@ class RedeType extends AbstractType
 		$builder->add( 'idLocal', 'entity',
 			array(
 				'empty_value' => 'Selecione o Local',
-                'mapped'=>false,
 				'class' => 'CacicCommonBundle:Local',
 				'property' => 'nmLocal',
 				'label' => 'Local'
@@ -185,7 +184,7 @@ class RedeType extends AbstractType
                 'required'  => false,
                 'expanded'  => true,
                 'mapped'=>false,
-                'label' => ' '
+                'label' => ''
 
             )
         );
@@ -195,7 +194,7 @@ class RedeType extends AbstractType
                 'required'  => false,
                 'data' => 'N',
                 'expanded'  => true,
-                'label' => ' '
+                'label' => ''
 
             )
         );
@@ -204,9 +203,8 @@ class RedeType extends AbstractType
                  'class' => 'CacicCommonBundle:Aplicativo',
                  'property' => 'nmAplicativo',
                  'required'  => false,
-                 'mapped'=>false,
                  'expanded'  => true,
-                 'label' => ' '
+                 'label' => ''
              )
         );
 	}

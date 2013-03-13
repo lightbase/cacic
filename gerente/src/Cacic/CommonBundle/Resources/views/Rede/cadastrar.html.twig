@@ -1,70 +1,117 @@
 {% extends '::base.html.twig' %}
-{% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('bundles/caciccommon/js/jquery.maskedinput-1.3.1.min.js') }}" type="text/javascript" language="javascript"></script>
-{% endblock %}
+
 {% block body %}
 
-    <div class="page-header">
-        <h1>SubRede
-            <small>Dados das SubRedes</small></h1>
-    </div>
-
-    <div class="well">
-
-        <form id="formRede" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
-
-            {{ form_row(form.idLocal) }}
-            {{ form_row(form.idServidorAutenticacao) }}
-            {{ form_row(form.teIpRede) }}
-            {{ form_row(form.nmRede) }}
-            {{ form_row(form.teMascaraRede) }}
-            {{ form_row(form.teServCacic) }}
-            {{ form_row(form.selTeServCacic) }}
-            {{ form_row(form.teServUpdates) }}
-            {{ form_row(form.selTeServUpdates) }}
-            {{ form_row(form.nuPortaServUpdates) }}
-            {{ form_row(form.nuLimiteFtp) }}
-            {{ form_row(form.nmUsuarioLoginServUpdates) }}
-            {{ form_row(form.teSenhaLoginServUpdates) }}
-            {{ form_row(form.nmUsuarioLoginServUpdatesGerente) }}
-            {{ form_row(form.teSenhaLoginServUpdatesGerente) }}
-            {{ form_row(form.tePathServUpdates) }}
-            {{ form_row(form.teObservacao) }}
-            {{ form_row(form.nmPessoaContato1) }}
-            {{ form_row(form.nuTelefone1) }}
-            {{ form_row(form.teEmailContato1) }}
-            {{ form_row(form.nmPessoaContato2) }}
-            {{ form_row(form.nuTelefone2) }}
-            {{ form_row(form.teEmailContato2) }}
-            <h3>Marcar todas as ações para essa rede:<small>Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede.</small></h3>
-            {{ form_row(form.habilitar) }}
-            <h3>Permitir finalização de sessões do módulo srCACIC:<small>Essa opção define se o usuário final poderá ou não finalizar execuções do módulo srCACIC (Suporte Remoto Seguro). </small></h3>
-            {{ form_row(form.csPermitirDesativarSrcacic) }}
-            <h3>Selecao para coleta de informacoes de sistemas monitorados: <small>Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede. </small></h3>
-            {{ form_row(form.idAplicativo) }}
-            {{ form_rest(form) }}
-
-            <div class="form-opcoes">
-                <input type="reset" value="Limpar Valores" class="btn btn-small" />
-                <input type="submit" value="Salvar Dados" class="btn btn-primary btn-small" />
+<<div class="span8">
+    <div class="widget">
+        <div class="widget-content">
+            <div class="page-header">
+                <h3>Dados das SubRedes</h3>
             </div>
 
-        </form>
+            <form id="formRede" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#form-formRede-rede" data-toggle="tab"><br />Dados da rede<br /><br /></a>
+                        </li>
+                        <li>
+                            <a href="#form-formRede-aplicacao" data-toggle="tab">
 
-    </div>
+                                <br />Servidores de
+                                <br />Aplicação</a>
+                        </li>
+                        <li>
+                            <a href="#form-formRede-update" data-toggle="tab">
 
-    <div >
-        <a class="btn btn-danger btn-small"  href="{{ path('cacic_subrede_index') }}">Cancelar</a>
-    </div>
+                                <br /> Servidores de
+                                <br />UPDATES</a>
+                        </li>
+                        <li>
+                            <a href="#form-formRede-contato" data-toggle="tab"><br />Dados para contatos:<br /><br /></a>
+                        </li>
+                        <li>
+                            <a href="#form-formRede-opcoes" data-toggle="tab"><br />Opções:<br /><br /></a>
+                        </li>
+                    </ul>
 
-    <script type="text/javascript">
-    $( '#formRede' ).submit(function(){
-    $( '#rede_idServidorAutenticacao' ).val( $( '#rede_servidorAutenticacao' ).val() );
-        $( '#rede_idLocal' ).val( $( '#rede_local' ).val() );
-    return true;
-    });
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="form-formRede-rede">
+                            <h5>Dados da rede </h5>
+                            <br />
+                            {{ form_row(form.idLocal) }}
+                            {{ form_row(form.idServidorAutenticacao) }}
+                            {{ form_row(form.teIpRede) }}
+                            {{ form_row(form.nmRede) }}
+                            {{ form_row(form.teMascaraRede) }}
+                        </div>
+                        <div class="tab-pane" id="form-formRede-aplicacao">
+                            <h5>Servidores de Aplicação </h5>
+                            <br />
+                            {{ form_row(form.teServCacic) }}
+                            {{ form_row(form.selTeServCacic) }}
+                        </div>
+                        <div class="tab-pane" id="form-formRede-update">
+                            <h5>Servidores de Update </h5>
+                            <br />
+                            {{ form_row(form.teServUpdates) }}
+                            {{ form_row(form.selTeServUpdates) }}
+                            {{ form_row(form.nuPortaServUpdates) }}
+                            {{ form_row(form.nuLimiteFtp) }}
+                            {{ form_row(form.nmUsuarioLoginServUpdates) }}
+                            {{ form_row(form.teSenhaLoginServUpdates) }}
+                            {{ form_row(form.nmUsuarioLoginServUpdatesGerente) }}
+                            {{ form_row(form.teSenhaLoginServUpdatesGerente) }}
+                            {{ form_row(form.tePathServUpdates) }}
+                            {{ form_row(form.teObservacao) }}
+                        </div>
+                        <div class="tab-pane" id="form-formRede-contato">
+                            <h5>Servidores deAplicação </h5>
+                            <br />
+                            {{ form_row(form.nmPessoaContato1) }}
+                            {{ form_row(form.nuTelefone1) }}
+                            {{ form_row(form.teEmailContato1) }}
+                            {{ form_row(form.nmPessoaContato2) }}
+                            {{ form_row(form.nuTelefone2) }}
+                            {{ form_row(form.teEmailContato2) }}
+                        </div>
+                        <div class="tab-pane" id="form-formRede-opcoes">
+                            <h5>Marcar todas as ações para essa rede</h5>
+                            <br />
+                            <h3><small>Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede.</small></h3>
+                            {{ form_row(form.habilitar) }}
+                            <h3>Permitir finalização de sessões do módulo srCACIC:<small>Essa opção define se o usuário final poderá ou não finalizar execuções do módulo srCACIC (Suporte Remoto Seguro). </small></h3>
+                            {{ form_row(form.csPermitirDesativarSrcacic) }}
+                            <h3>Selecao para coleta de informacoes de sistemas monitorados: <small>Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede. </small></h3>
+                            {{ form_row(form.idAplicativo) }}
+                        </div>
+                    </div><!-- /tab-content -->
+                </div><!-- /tabbable -->
+                <br />
 
-    </script>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="reset" class="btn">
+                            <i class="icon-refresh"></i>
+                            Resetar Valores
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="icon-ok-sign"></i>
+                            Salvar Dados
+                        </button>
+                    </div><!-- /controls -->
+                </div><!-- /control-group -->
+                {{ form_rest(form) }}
+            </form>
+            <hr />
+            <div>
+                <a class="btn btn-danger"  href="{{ path('cacic_subrede_index') }}">
+                    <i class="icon-remove-sign"></i>
+                    Cancelar
+                </a>
+            </div>
+        </div> <!-- /widget-content -->
+    </div> <!-- /widget -->
+</div> <!-- /span8 -->
 
 {% endblock %}

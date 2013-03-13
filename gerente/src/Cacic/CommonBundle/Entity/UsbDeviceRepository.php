@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  * @author lightbase
  *
  */
-class UsbDevicesRepository extends EntityRepository
+class UsbDeviceRepository extends EntityRepository
 {
 
     public function paginar( $page )
@@ -24,8 +24,9 @@ class UsbDevicesRepository extends EntityRepository
      */
     public function listar()
     {
-        $_dql = "SELECT u
-				FROM CacicCommonBundle:UsbDevices u
+        $_dql = "SELECT u.idUsbDevice, u.nmUsbDevice, v.nmUsbVendor, v.idUsbVendor
+				FROM CacicCommonBundle:UsbDevice u
+				JOIN u.idUsbVendor v
 				GROUP BY u.idUsbDevice";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
