@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  * @author lightbase
  *
  */
-class PerfilAplicativoMonitoradoType extends AbstractType
+class AplicativoType extends AbstractType
 {
 
 	public function buildForm( FormBuilderInterface $builder, array $options )
@@ -22,7 +22,7 @@ class PerfilAplicativoMonitoradoType extends AbstractType
                 'label' => 'Nome do sistema:'
             )
         );
-        $builder->add('so', 'entity',
+        $builder->add('idSo', 'entity',
             array(
                 'class' => 'CacicCommonBundle:So',
                 'empty_value' => ' ',
@@ -30,7 +30,6 @@ class PerfilAplicativoMonitoradoType extends AbstractType
                 'label' => 'Qual é o sistema Operacional?'
             )
         );
-        $builder->add( 'idSo', 'hidden' );
         $builder->add('inDisponibilizaInfo', 'choice',
             array(
                 'choices' => array('s'=>'Sim',
@@ -154,7 +153,7 @@ class PerfilAplicativoMonitoradoType extends AbstractType
         $builder->add( 'idRede', 'entity',
             array(
                 'empty_value' => ' ',
-                'class' => 'CacicCommonBundle:Redes',
+                'class' => 'CacicCommonBundle:Rede',
                 'property' => 'nmrede',
                 'multiple' => true,
                 'required'  => false,
@@ -165,7 +164,7 @@ class PerfilAplicativoMonitoradoType extends AbstractType
         $builder->add( 'idRede', 'entity',
             array(
                 'empty_value' => ' ',
-                'class' => 'CacicCommonBundle:Redes',
+                'class' => 'CacicCommonBundle:Rede',
                 'property' => 'nmrede',
                 'multiple' => true,
                 'required'  => false,

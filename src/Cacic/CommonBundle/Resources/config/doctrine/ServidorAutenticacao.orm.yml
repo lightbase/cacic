@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\ServidorAutenticacao:
     type: entity
     table: servidor_autenticacao
+    repositoryClass: Cacic\CommonBundle\Entity\ServidorAutenticacaoRepository
     fields:
         idServidorAutenticacao:
             id: true

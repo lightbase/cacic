@@ -16,24 +16,24 @@ class RedeType extends AbstractType
 
 	public function buildForm( FormBuilderInterface $builder, array $options )
 	{
-		$builder->add( 'local', 'entity',
+		$builder->add( 'idLocal', 'entity',
 			array(
 				'empty_value' => 'Selecione o Local',
-				'class' => 'CacicCommonBundle:Locais',
+                'mapped'=>false,
+				'class' => 'CacicCommonBundle:Local',
 				'property' => 'nmLocal',
 				'label' => 'Local'
 			)
 		);
-        $builder->add( 'idLocal', 'hidden' );
 
-		$builder->add('servidorAutenticacao', 'entity',
+		$builder->add('idServidorAutenticacao', 'entity',
 			array(
 				'empty_value' => 'Selecione o Servidor',
-				'class' => 'CacicCommonBundle:ServidoresAutenticacao',
+                'required'  => false,
+				'class' => 'CacicCommonBundle:ServidorAutenticacao',
 				'property' => 'nmServidorAutenticacao',
 				'label'=>'Servidor para Autenticação:')
 		);
-        $builder->add( 'idServidorAutenticacao', 'hidden' );
 
 		$builder->add(  'teIpRede',  null,
 			array(
@@ -64,8 +64,9 @@ class RedeType extends AbstractType
              array(
                  'empty_value' => '==>Selecione <==',
                  'label'=>' ',
+                 'required'  => false,
                  'mapped'=>false,
-                 'class' => 'CacicCommonBundle:Redes',
+                 'class' => 'CacicCommonBundle:Rede',
                  'property' => 'teServCacic'
              )
         );
@@ -79,8 +80,9 @@ class RedeType extends AbstractType
             array(
                 'empty_value' => '==>Selecione <==',
                 'label'=>' ',
+                'required'  => false,
                 'mapped'=>false,
-                'class' => 'CacicCommonBundle:Redes',
+                'class' => 'CacicCommonBundle:Rede',
                 'property' => 'teServUpdates'
             )
         );
@@ -179,7 +181,7 @@ class RedeType extends AbstractType
         );
         $builder->add('habilitar', 'choice',
             array(
-                'choices'   => array('s' => 'Sim', 'n' => 'Não'),
+                'choices'   => array('S' => 'Sim', 'N' => 'Não'),
                 'required'  => false,
                 'expanded'  => true,
                 'mapped'=>false,
@@ -189,8 +191,9 @@ class RedeType extends AbstractType
         );
         $builder->add('csPermitirDesativarSrcacic', 'choice',
             array(
-                'choices'   => array('s' => 'Sim', 'n' => 'Não'),
-                'required'  => true,
+                'choices'   => array('S' => 'Sim', 'N' => 'Não'),
+                'required'  => false,
+                'data' => 'N',
                 'expanded'  => true,
                 'label' => ' '
 
@@ -198,7 +201,7 @@ class RedeType extends AbstractType
         );
         $builder->add('idAplicativo', 'entity',
              array(
-                 'class' => 'CacicCommonBundle:PerfisAplicativosMonitorados',
+                 'class' => 'CacicCommonBundle:Aplicativo',
                  'property' => 'nmAplicativo',
                  'required'  => false,
                  'mapped'=>false,
