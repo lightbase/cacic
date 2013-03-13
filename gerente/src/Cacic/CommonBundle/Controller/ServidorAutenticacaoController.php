@@ -4,21 +4,21 @@ namespace Cacic\CommonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Cacic\CommonBundle\Entity\ServidoresAutenticacao;
+use Cacic\CommonBundle\Entity\ServidorAutenticacao;
 use Cacic\CommonBundle\Form\Type\ServidorAutenticacaoType;
 
 class ServidorAutenticacaoController extends Controller
 {
      public function indexAction( $page )
      {
-         $arrServidor = $this->getDoctrine()->getRepository( 'CacicCommonBundle:ServidoresAutenticacao' )->listar();
-         return $this->render( 'CacicCommonBundle:ServidorAutenticacao:index.html.twig', array( 'servidores' => $arrServidor ) );
+         $arrServidor = $this->getDoctrine()->getRepository( 'CacicCommonBundle:ServidorAutenticacao' )->listar();
+         return $this->render( 'CacicCommonBundle:ServidorAutenticacao:index.html.twig', array( 'servidor' => $arrServidor ) );
 
      }
 
     public function cadastrarAction(Request $request)
     {
-        $servidor = new ServidoresAutenticacao();
+        $servidor = new ServidorAutenticacao();
         $form = $this->createForm( new ServidorAutenticacaoType(), $servidor );
 
         if ( $request->isMethod('POST') )
@@ -44,7 +44,7 @@ class ServidorAutenticacaoController extends Controller
      */
     public function editarAction( $idServidorAutenticacao, Request $request )
     {
-        $servidor = $this->getDoctrine()->getRepository('CacicCommonBundle:ServidoresAutenticacao')->find( $idServidorAutenticacao );
+        $servidor = $this->getDoctrine()->getRepository('CacicCommonBundle:ServidorAutenticacao')->find( $idServidorAutenticacao );
         if ( ! $servidor )
             throw $this->createNotFoundException( 'Servidor Autenticacao não encontrado' );
 
@@ -100,7 +100,7 @@ class ServidorAutenticacaoController extends Controller
     {
         return $this->render(
             'CacicCommonBundle:ServidorAutenticacao:redes.html.twig',
-            array( 'redes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Redes' )->listarPorServidorAutenticacao( $idServidorAutenticacao ) )
+            array( 'rede' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorServidorAutenticacao( $idServidorAutenticacao ) )
         );
     }
 

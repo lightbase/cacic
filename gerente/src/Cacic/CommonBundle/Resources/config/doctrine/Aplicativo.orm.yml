@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\Aplicativo:
     type: entity
     table: aplicativo
+    repositoryClass: Cacic\CommonBundle\Entity\AplicativoRepository
     fields:
         idAplicativo:
             id: true

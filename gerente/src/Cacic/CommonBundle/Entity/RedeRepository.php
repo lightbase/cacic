@@ -25,8 +25,8 @@ class RedeRepository extends EntityRepository
     public function listar()
     {
         $_dql = "SELECT r, l.nmLocal
-				FROM CacicCommonBundle:Redes r
-				LEFT JOIN r.local l
+				FROM CacicCommonBundle:Rede r
+				LEFT JOIN r.idLocal l
 				GROUP BY r.idRede";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();

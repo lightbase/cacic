@@ -14,8 +14,8 @@
 
         <form id="formRede" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
 
-            {{ form_row(form.local) }}
-            {{ form_row(form.servidorAutenticacao) }}
+            {{ form_row(form.idLocal) }}
+            {{ form_row(form.idServidorAutenticacao) }}
             {{ form_row(form.teIpRede) }}
             {{ form_row(form.nmRede) }}
             {{ form_row(form.teMascaraRede) }}

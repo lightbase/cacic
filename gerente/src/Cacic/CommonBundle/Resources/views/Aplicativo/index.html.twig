@@ -26,14 +26,14 @@
 
             <tbody>
 
-            {% for perfil in perfisaplicativosmonitorados %}
+            {% for perfil in aplicativo %}
 
                 <tr id="item_{{ perfil['idAplicativo'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
                     <td id="item_desc_{{ perfil['idAplicativo'] }}">{{ perfil['nmAplicativo'] }}</td>
                     <td style="text-align: center"></td>
                     <td style="text-align: center"></td>
                     <td style="text-align: center">
-                        <a href="{{ path('cacic_perfilaplicativomonitorado_editar', {'idAplicativo': perfil['idAplicativo']}) }}">
+                        <a href="{{ path('cacic_aplicativo_editar', {'idAplicativo': perfil['idAplicativo']}) }}">
                             <img src="{{ asset('bundles/caciccommon/images/v3/bt_edit.png') }}" hspace="5" border="0" alt="Editar Item" title="Editar Item"  /></a>
 
                         <img src="{{ asset('bundles/caciccommon/images/v3/bt_del.png') }}" alt="Excluir Item" title="Excluir Item" class="bt-excluir" id="bt-excluir-{{ perfil['idAplicativo'] }}" />
@@ -52,6 +52,6 @@
     </div>
 
     <div align="right">
-        <a class="btn btn-primary btn-small bt-adicionar" href="{{ path('cacic_perfilaplicativomonitorado_cadastrar') }}">Adicionar Perfil de Sistema</a>
+        <a class="btn btn-primary btn-small bt-adicionar" href="{{ path('cacic_aplicativo_cadastrar') }}">Adicionar Perfil de Sistema</a>
     </div>
 {% endblock %}

@@ -5,16 +5,16 @@ namespace Cacic\CommonBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Cacic\CommonBundle\Entity\PerfisAplicativosMonitorados;
-use Cacic\CommonBundle\Form\Type\PerfilAplicativoMonitoradoType;
+use Cacic\CommonBundle\Entity\Aplicativo;
+use Cacic\CommonBundle\Form\Type\AplicativoType;
 
 /**
  *
- * CRUD da Entidade Perfil Aplicativos Monitorados
+ * CRUD da Entidade  Aplicativos
  * @author lightbase
  *
  */
-class PerfilAplicativoMonitoradoController extends Controller
+class AplicativoController extends Controller
 {
 
     /**
@@ -25,14 +25,14 @@ class PerfilAplicativoMonitoradoController extends Controller
     public function indexAction( $page )
     {
         return $this->render(
-            'CacicCommonBundle:PerfilAplicativoMonitorado:index.html.twig',
-            array( 'perfisaplicativosmonitorados' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:PerfisAplicativosMonitorados' )->listar() )
+            'CacicCommonBundle:Aplicativo:index.html.twig',
+            array( 'aplicativo' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Aplicativo' )->listar() )
         );
     }
     public function cadastrarAction(Request $request)
     {
-        $perfil = new perfisaplicativosmonitorados();
-        $form = $this->createForm( new PerfilAplicativoMonitoradoType(), $perfil );
+        $perfil = new aplicativo();
+        $form = $this->createForm( new AplicativoType(), $perfil );
 
         if ( $request->isMethod('POST') )
         {
@@ -44,24 +44,24 @@ class PerfilAplicativoMonitoradoController extends Controller
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
-                return $this->redirect( $this->generateUrl( 'cacic_perfilaplicativomonitorado_index') );
+                return $this->redirect( $this->generateUrl( 'cacic_aplicativo_index') );
             }
         }
 
-        return $this->render( 'CacicCommonBundle:PerfilAplicativoMonitorado:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $this->render( 'CacicCommonBundle:Aplicativo:cadastrar.html.twig', array( 'form' => $form->createView() ) );
     }
 
     /**
-     *  Página de editar dados do Perfil Aplicativo Monitorado
+     *  Página de editar dados do Aplicativo
      *  @param int $idAplicativo
      */
     public function editarAction( $idAplicativo, Request $request )
     {
-        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:PerfisAplicativosMonitorados')->find( $idAplicativo );
+        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:Aplicativo')->find( $idAplicativo );
         if ( ! $perfil )
-            throw $this->createNotFoundException( 'Perfil Aplicativo Monitorado não encontrado' );
+            throw $this->createNotFoundException( 'Aplicativo não encontrado' );
 
-        $form = $this->createForm( new PerfilAplicativoMonitoradoType(), $perfil );
+        $form = $this->createForm( new AplicativoType(), $perfil );
 
         if ( $request->isMethod('POST') )
         {
@@ -75,15 +75,15 @@ class PerfilAplicativoMonitoradoController extends Controller
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
-                return $this->redirect($this->generateUrl('cacic_perfilaplicativomonitorado_editar', array( 'idAplicativo'=>$perfil->getIdAplicativo() ) ) );
+                return $this->redirect($this->generateUrl('cacic_aplicativo_editar', array( 'idAplicativo'=>$perfil->getIdAplicativo() ) ) );
             }
         }
 
-        return $this->render( 'CacicCommonBundle:PerfilAplicativoMonitorado:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $this->render( 'CacicCommonBundle:Aplicativo:cadastrar.html.twig', array( 'form' => $form->createView() ) );
     }
     /**
      *
-     * [AJAX] Exclusão de Perfil Aplicativo Monitorado já cadastrado
+     * [AJAX] Exclusão de Aplicativo já cadastrado
      * @param integer $idAplicativo
      */
     public function excluirAction( Request $request )
@@ -91,9 +91,9 @@ class PerfilAplicativoMonitoradoController extends Controller
         if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:PerfisAplicativosMonitorados')->find( $request->get('id') );
+        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:Aplicativo')->find( $request->get('id') );
         if ( ! $perfil )
-            throw $this->createNotFoundException( 'Perfis Aplicativos Monitorados não encontrado' );
+            throw $this->createNotFoundException( 'Aplicativos não encontrado' );
 
         $em = $this->getDoctrine()->getManager();
         $em->remove( $perfil );

@@ -5,12 +5,12 @@ namespace Cacic\CommonBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Cacic\CommonBundle\Entity\Redes;
+use Cacic\CommonBundle\Entity\Rede;
 use Cacic\CommonBundle\Form\Type\RedeType;
 
 /**
  *
- * CRUD da Entidade Redes
+ * CRUD da Entidade Rede
  * @author lightbase
  *
  */
@@ -26,12 +26,12 @@ class RedeController extends Controller
     {
         return $this->render(
             'CacicCommonBundle:Rede:index.html.twig',
-            array( 'redes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Redes' )->listar() )
+            array( 'rede' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listar() )
         );
     }
     public function cadastrarAction(Request $request)
     {
-        $rede = new Redes();
+        $rede = new Rede();
         $form = $this->createForm( new RedeType(), $rede );
 
         if ( $request->isMethod('POST') )
@@ -57,7 +57,7 @@ class RedeController extends Controller
      */
     public function editarAction( $idRede, Request $request )
     {
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Redes')->find( $idRede );
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->find( $idRede );
         if ( ! $rede )
             throw $this->createNotFoundException( 'Subrede não encontrado' );
 
@@ -91,7 +91,7 @@ class RedeController extends Controller
         if ( ! $request->isXmlHttpRequest() )
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Redes')->find( $request->get('id') );
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->find( $request->get('id') );
         if ( ! $rede )
             throw $this->createNotFoundException( 'Subrede não encontrado' );
 

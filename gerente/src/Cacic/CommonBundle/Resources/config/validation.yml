@@ -1,4 +1,4 @@
-Cacic\CommonBundle\Entity\Locais:
+Cacic\CommonBundle\Entity\Local:
     properties:
         nmLocal:
             - NotBlank: ~
@@ -7,7 +7,7 @@ Cacic\CommonBundle\Entity\Locais:
             - NotBlank: ~
             - MaxLength: 20
 
-Cacic\CommonBundle\Entity\Usuarios:
+Cacic\CommonBundle\Entity\Usuario:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: nmUsuarioAcesso
     properties:
@@ -22,7 +22,7 @@ Cacic\CommonBundle\Entity\Usuarios:
         idGrupoUsuarios:
             - NotNull: ~
 
-Cacic\CommonBundle\Entity\ServidoresAutenticacao:
+Cacic\CommonBundle\Entity\ServidorAutenticacao:
     properties:
         nmServidorAutenticacao:
             - NotBlank: ~
@@ -54,13 +54,11 @@ Cacic\CommonBundle\Entity\ServidoresAutenticacao:
         teAtributoValorStatusContaValida:
             - NotBlank: ~
             - MaxLength: 100
-        teObservacao:
-            - NotBlank: ~
         inAtivo:
             - Choice:
                 choices:  [S, N]
 
-Cacic\CommonBundle\Entity\Redes:
+Cacic\CommonBundle\Entity\Rede:
     properties:
         nmRede:
             - MaxLength: 30
