@@ -38,14 +38,14 @@ Ext.onReady(function() {
 	});
 
 	fav_html = '<div id="favoriteItems">'+
-	 	'<div id="fav1" class="fav"><a>estatísticas</a></div>'+
-	 	'<div id="fav2" class="fav"><a href="diagnostico">diagnóstico</a></div>'+
-	 	'<div id="fav3" class="fav"><a>downloads</a></div>'+
-	 	'<div id="fav4" class="fav"><a href="relatorios">relatórios</a></div>'+
-	 	'<div id="fav5" class="fav"><a>mensagens</a></div>'+
-	 	'<div id="fav6" class="fav"><a>ajuda</a></div>'+
-	 	'<div id="fav7" class="fav"><a>usuário</a></div>'+
-	 	'<div id="fav8" class="fav"><a>ferramentas do sistema</a></div>'+
+	 	'<div class="fav"><a><img src="/static/icons/estatisticas.png"><p>Estatísticas</p></a></div>'+
+	 	'<div class="fav"><a><img src="/static/icons/busca.png"><p>Busca</p></a></div>'+
+	 	'<div class="fav"><a><img src="/static/icons/downloads.png"><p>Downloads</p></a></div>'+
+	 	'<div class="fav"><a href="relatorios"><img src="/static/icons/relatorios.png"><p>Relatórios</p></a></div>'+
+	 	'<div class="fav"><a><img src="/static/icons/mensagens.png"><p>Mensagens</p></a></div>'+
+	 	'<div class="fav"><a><img src="/static/icons/ajuda.png"><p>Ajuda</p></a></div>'+
+	 	'<div class="fav"><a><img src="/static/icons/usuario.png"><p>Usuário</p></a></div>'+
+	 	'<div class="fav"><a><img src="/static/icons/ferramentas.png"><p>Ferramentas de sistema</p></a></div>'+
 	'</div>';
 
 	var favoriteMenu = Ext.create('Ext.panel.Panel', {

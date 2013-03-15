@@ -18,7 +18,7 @@
 		 		<a href="home"><img src="static/caciclogo.jpg"></a>	
 			</div>
 			<div id="logoff">
-			   <button onclick="window.location='login'">Logoff</button>
+			   <a href="login"><img src="/static/logoff.png"></a>
 			</div>
 			<div id="usuario">
 			 	usuário: admin<br>
@@ -35,22 +35,22 @@
 		</div>
 		<div id="conteudo">
 		   <div id="lista-links">
-			   <a href="home">Home<a/>
-			   <a href="dashboard">Dashboard<a/>
-			   <a href="administracao">Administração<a/>
+			   <a href="home">Home</a>
+			   <a href="dashboard">Dashboard</a>
+			   <a href="administracao">Administração</a>
 		   </div>
 		   <metal:content define-slot="conteudo" />
 		</div>
 		<footer>
 		   <div id="links-footer">
-			   <a href="home">Home<a/> |
-			   <a href="dashboard">Dashboard<a/> |
-			   <a href="administracao">Administração<a/>
+			   <a href="home">Home</a> |
+			   <a href="dashboard">Dashboard</a> |
+			   <a href="administracao">Administração</a>
 		   </div>
 
-	    <LINK href="/static/ext-4.1.1a/resources/css/ext-all-gray.css" type="text/css" rel="stylesheet">
+	    <LINK href="/static/ext-4.2/resources/css/ext-all-neptune.css" type="text/css" rel="stylesheet">
 	    <LINK href="/static/main.css" type="text/css" rel="stylesheet">
-	    <script type="text/javascript" src="/static/ext-4.1.1a/ext-all.js"></script>
+	    <script type="text/javascript" src="/static/ext-4.2/ext-all.js"></script>
 	    <script type="text/javascript" src="/static/main.js"></script>
 
 	    <!-- Slot para o CSS -->

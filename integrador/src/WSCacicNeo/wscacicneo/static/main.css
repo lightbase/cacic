@@ -10,47 +10,51 @@ header div#logo{
 	height: 100%;
 }
 
-#logoff{
-	float: right; 
-	padding: 10px;
+header div#logoff{
+	float: right;
+	height: 100%;
 }
-#pesquisa{
+header div#pesquisa{
 	float: right; 
-	padding: 10px;
+	margin: 20px;
 }
 
-#usuario{
+header div#usuario{
 	float: right; 
-	padding: 10px;
+	margin: 15px;
 }
 
 #menu-lateral{
 	float: left;
 	width: 25%;
-	background: #F0F0F0;
 }
 
-#menu-principal{
+menu-lateral div#menu-principal{
 	clear: both;
 	width: 100%;
 }
 
-#menu-favoritos{
+menu-lateral div#menu-favoritos{
 	clear: both;
 	width: 100%;
 }
 
-#favoriteItems{
+menu-favoritos div#favoriteItems{
 	width: 100%;
 	height: 100%;
 }
 
 .fav{
-	width: 80px;
-	height: 80px;
 	float: left;
-	margin: 5px;
-	background: #768B07;
+	margin: 7px;
+	text-align: center;
+  	width: 65px;
+}
+
+#lista-links{
+	width: 100%;
+	padding: 10px;
+ 	text-align: right;
 }
 
 #conteudo{
@@ -58,26 +62,32 @@ header div#logo{
 	float: left;
 }
 
-#lista-links{
-	clear: both;
-	padding: 10px;
- 	float: right;
- 	
-}
-
-#widgets{
+conteudo div#widgets{
 	clear: both;
 	margin: 0px auto 15px auto;
 }
 
 footer {
 	height:100px; 
-	background:#F0F0F0 ;
+	background:#2F2D2E ;
 	clear:both;
-	border-top:1px solid #D0D0D0;
 
 }
 
-#links-footer{
+footer div#links-footer{
 	padding: 10px;
+	color: #ffffff;
+	float: left;
+}
+
+#links-footer a{
+	color: #ffffff;
+}
+
+a{
+	text-decoration: none;
+}
+
+a:hover{
+	text-decoration:underline;	
 }
