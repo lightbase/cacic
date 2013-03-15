@@ -107,15 +107,19 @@ Cacic\CommonBundle\Entity\So:
             - MaxLength: 30
         teSo:
             - NotNull: ~
-            - Maxlength: 10
+            - MaxLength: 10
 
 Cacic\CommonBundle\Entity\Aplicativo:
     properties:
         dtAtualizacao:
             - NotBlank: ~
             - Type: \DateTime
+        nmAplicativo:
+            - NotBlank: ~
+        idSo:
+            - NotBlank: ~
 
-Cacic\CommonBundle\Entity\Softwares:
+Cacic\CommonBundle\Entity\Software:
     properties:
         nmSoftware:
             - NotBlank: ~
@@ -135,5 +139,20 @@ Cacic\CommonBundle\Entity\Softwares:
         teObs:
             - MaxLength: 30
 
-Cacic\CommonBundle\Entity\Softwares:
+Cacic\CommonBundle\Entity\TipoSoftware:
     properties:
+        teDescricaoTipoSoftware:
+            - NotBlank: ~
+            - MaxLength: 30
+
+Cacic\CommonBundle\Entity\UsbDevice:
+    properties:
+        idUsbVendor:
+            - NotBlank: ~
+            - MaxLength: 30
+        idUsbDevice:
+            - NotBlank: ~
+            - MaxLength: 30
+        nmUsbDevice:
+            - NotBlank: ~
+            - MaxLength: 30
