@@ -16,17 +16,13 @@ class UsbDeviceType extends AbstractType
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
-        $builder->add('idUsbVendor', 'text',
+        $builder->add('idUsbVendor', 'entity',
             array(
-                'label'=>'Identificador do Fabricante:',
-                'max_length'=>100
-            )
-        );
-        $builder->add('nmUsbVendor', 'text',
-              array(
-                  'label'=>'Nome do Fabricante:',
-                  'max_length'=>100,
-              )
+                'empty_value' => 'Selecione o Fabricante:',
+                'required'  => false,
+                'class' => 'CacicCommonBundle:UsbVendor',
+                'property' => 'nmUsbVendor',
+                'label'=>'Identificador do Fabricante::')
         );
         $builder->add('idUsbDevice', null,
             array(
