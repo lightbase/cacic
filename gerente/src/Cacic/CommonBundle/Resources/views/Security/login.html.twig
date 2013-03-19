@@ -54,20 +54,20 @@
 		{% endif %}
 	
 		<form action="{{ path('cacic_common_login_check') }}" method="post">
-			<h1>Acesso</h1>		
+			<h1>{{"Acesso"|trans}}</h1>		
 			
 			<div class="login-fields">
 				
-				<p>Informe seus dados para efetuar o login:</p>
+				<p>{{"Informe seus dados para efetuar o login:"|trans}}</p>
 				
 				<div class="field">
-					<label for="username">Usuário:</label>
-					<input type="text" id="username" name="_username" value="" placeholder="Usuário" class="login username-field">
+					<label for="username">{{"Usuário"|trans}}</label>
+					<input type="text" id="username" name="_username" value="" placeholder="{{"Usuário"|trans}}" class="login username-field">
 				</div> <!-- /field -->
 				
 				<div class="field input-prepend">
-					<label for="password">Senha:</label>
-					<input type="password" id="password" name="_password" value="" placeholder="Senha" class="login password-field">
+					<label for="password">{{"Senha"|trans}}</label>
+					<input type="password" id="password" name="_password" value="" placeholder="{{"Senha"|trans}}" class="login password-field">
 				</div> <!-- /password -->
 				
 			</div> <!-- /login-fields -->
@@ -76,10 +76,10 @@
 				
 				<span class="login-checkbox">
 					<input id="Field" name="_remember_me" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4">
-					<label class="choice" for="Field">Mantenha-me conectado</label>
+					<label class="choice" for="Field">{{"Mantenha-me conectado"|trans}}</label>
 				</span>
 									
-				<button class="button btn btn-warning btn-large">Entrar</button>
+				<button class="button btn btn-warning btn-large">{{"Entrar"|trans}}</button>
 				
 			</div> <!-- .actions -->
 			
