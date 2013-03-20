@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<div class="span8">
+ <div class="span8">
     <div class="widget">
         <div class="widget-content">
             <div class="page-header">
@@ -85,19 +85,18 @@
                     </div><!-- /tab-content -->
                 </div><!-- /tabbable -->
                 <br />
-
                 <div class="control-group">
                     <div class="controls">
                         <button type="reset" class="btn">
                             <i class="icon-refresh"></i>
                             Resetar Valores
                         </button>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" formnovalidate class="btn btn-primary">
                             <i class="icon-ok-sign"></i>
                             Salvar Dados
                         </button>
-                    </div><!-- /controls -->
-                </div><!-- /control-group -->
+                    </div>
+                </div>
 
                 {{ form_rest(form) }}
             </form>
@@ -111,83 +110,83 @@
             </div>
         </div> <!-- /widget-content -->
     </div> <!-- /widget -->
-</div> <!-- /span8 -->
+ </div> <!-- /span8 -->
     
-<script type="text/javascript">
+    <script type="text/javascript">
 
-$().ready(function() {
-    var csIdeLicenca_desc = {
-        1: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao',
-        2: 'Ex.:  Arquivos de Programas\\Cacic\\Cacic2.ini/Patrimonio/nu_CPU'
-    };
-	var carInstW9x_desc = {
-		1: 'Ex.:  Arquivos de Programas\\Cacic\\Programas\\cacic.exe',
-		2: 'Ex.:  Arquivos de Programas\\Cacic\\Dados\\config.ini',
-		3: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao'
-	};
-    var carVerW9x_desc = {
-        1: 'Ex.:  Arquivos de Programas\\Cacic2\\Programas\\ger_cols.exe',
-        2: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao',
-        3: 'Ex.:  Arquivos de Programas\\Cacic\\Cacic2.ini/Patrimonio/nu_CPU',
-        4: 'Ex.:  C:\\Cacic\\modulos\\col_moni.exe'
-    };
-    var carInstWnt_desc = {
-        1: 'Ex.:  Arquivos de Programas\\Cacic2\\Programas\\ger_cols.exe',
-        2: 'Ex.:  Arquivos de Programas\\Cacic\\Dados\\config.ini',
-        3: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao'
-    };
-	
-	
-	$('#rede-add').click(function() {
-		$( '#aplicativo_idRede' ).effect( 'transfer', { to: $( '#aplicativo_idRede1' ) }, 500 );
-		$('#aplicativo_idRede option:selected').remove().appendTo('#aplicativo_idRede1');
-	}); 
-	
-	$('#rede-remove').click(function() {
-		$( '#aplicativo_idRede1' ).effect( 'transfer', { to: $( '#aplicativo_idRede' ) }, 500 );
-		$('#aplicativo_idRede1 option:selected').remove().appendTo('#aplicativo_idRede');
-	});
+    $().ready(function() {
+        var csIdeLicenca_desc = {
+            1: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao',
+            2: 'Ex.:  Arquivos de Programas\\Cacic\\Cacic2.ini/Patrimonio/nu_CPU'
+        };
+        var carInstW9x_desc = {
+            1: 'Ex.:  Arquivos de Programas\\Cacic\\Programas\\cacic.exe',
+            2: 'Ex.:  Arquivos de Programas\\Cacic\\Dados\\config.ini',
+            3: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao'
+        };
+        var carVerW9x_desc = {
+            1: 'Ex.:  Arquivos de Programas\\Cacic2\\Programas\\ger_cols.exe',
+            2: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao',
+            3: 'Ex.:  Arquivos de Programas\\Cacic\\Cacic2.ini/Patrimonio/nu_CPU',
+            4: 'Ex.:  C:\\Cacic\\modulos\\col_moni.exe'
+        };
+        var carInstWnt_desc = {
+            1: 'Ex.:  Arquivos de Programas\\Cacic2\\Programas\\ger_cols.exe',
+            2: 'Ex.:  Arquivos de Programas\\Cacic\\Dados\\config.ini',
+            3: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao'
+        };
 
-    $( '#aplicativo_selCsIdeLicenca' ).change(function(){
-        if ( $( this).val() == undefined || $( this).val() == 0 )
-        $( '#aplicativo_csIdeLicenca' ).attr('placeholder', '');
-        else
-        $( '#aplicativo_csIdeLicenca' ).attr('placeholder', csIdeLicenca_desc[ $( this ).val() ] );
+
+        $('#rede-add').click(function() {
+            $( '#aplicativo_idRede' ).effect( 'transfer', { to: $( '#aplicativo_idRede1' ) }, 500 );
+            $('#aplicativo_idRede option:selected').remove().appendTo('#aplicativo_idRede1');
+        });
+
+        $('#rede-remove').click(function() {
+            $( '#aplicativo_idRede1' ).effect( 'transfer', { to: $( '#aplicativo_idRede' ) }, 500 );
+            $('#aplicativo_idRede1 option:selected').remove().appendTo('#aplicativo_idRede');
+        });
+
+        $( '#aplicativo_selCsIdeLicenca' ).change(function(){
+            if ( $( this).val() == undefined || $( this).val() == 0 )
+            $( '#aplicativo_csIdeLicenca' ).attr('placeholder', '');
+            else
+            $( '#aplicativo_csIdeLicenca' ).attr('placeholder', csIdeLicenca_desc[ $( this ).val() ] );
+        });
+
+        $( '#aplicativo_selTeCarInstW9x' ).change(function(){
+            if ( $( this).val() == undefined || $( this).val() == 0 )
+                $( '#aplicativo_teCarInstW9x' ).attr('placeholder', '');
+            else
+                $( '#aplicativo_teCarInstW9x' ).attr('placeholder', carInstW9x_desc[ $( this ).val() ] );
+        });
+
+        $( '#aplicativo_selCsCarVerW9x' ).change(function(){
+            if ( $( this).val() == undefined || $( this).val() == 0 )
+                $( '#aplicativo_csCarVerW9x' ).attr('placeholder', '');
+            else
+                $( '#aplicativo_csCarVerW9x' ).attr('placeholder', carVerW9x_desc[ $( this ).val() ] );
+        });
+
+        $( '#aplicativo_selTeCarInstWnt' ).change(function(){
+            if ( $( this).val() == undefined || $( this).val() == 0 )
+                $( '#aplicativo_teCarInstWnt' ).attr('placeholder', '');
+            else
+                $( '#aplicativo_teCarInstWnt' ).attr('placeholder', carInstWnt_desc[ $( this ).val() ] );
+        });
+
+        $( '#aplicativo_selCsCarVerWnt' ).change(function(){
+            if ( $( this).val() == undefined || $( this).val() == 0 )
+                $( '#aplicativo_csCarVerWnt' ).attr('placeholder', '');
+            else
+                $( '#aplicativo_csCarVerWnt' ).attr('placeholder', carVerW9x_desc[ $( this ).val() ] );
+        });
+
+        $( '#formPerfilAplicativoMonitorado' ).submit(function(){
+            $( '#aplicativo_idSo' ).val( $( '#aplicativo_so' ).val() );
+        });
     });
 
-	$( '#aplicativo_selTeCarInstW9x' ).change(function(){
-        if ( $( this).val() == undefined || $( this).val() == 0 )
-            $( '#aplicativo_teCarInstW9x' ).attr('placeholder', '');
-        else
-            $( '#aplicativo_teCarInstW9x' ).attr('placeholder', carInstW9x_desc[ $( this ).val() ] );
-	});
-
-    $( '#aplicativo_selCsCarVerW9x' ).change(function(){
-        if ( $( this).val() == undefined || $( this).val() == 0 )
-            $( '#aplicativo_csCarVerW9x' ).attr('placeholder', '');
-        else
-            $( '#aplicativo_csCarVerW9x' ).attr('placeholder', carVerW9x_desc[ $( this ).val() ] );
-    });
-
-    $( '#aplicativo_selTeCarInstWnt' ).change(function(){
-        if ( $( this).val() == undefined || $( this).val() == 0 )
-            $( '#aplicativo_teCarInstWnt' ).attr('placeholder', '');
-        else
-            $( '#aplicativo_teCarInstWnt' ).attr('placeholder', carInstWnt_desc[ $( this ).val() ] );
-    });
-
-    $( '#aplicativo_selCsCarVerWnt' ).change(function(){
-        if ( $( this).val() == undefined || $( this).val() == 0 )
-            $( '#aplicativo_csCarVerWnt' ).attr('placeholder', '');
-        else
-            $( '#aplicativo_csCarVerWnt' ).attr('placeholder', carVerW9x_desc[ $( this ).val() ] );
-    });
-
-    $( '#formPerfilAplicativoMonitorado' ).submit(function(){
-        $( '#aplicativo_idSo' ).val( $( '#aplicativo_so' ).val() );
-    });
-});
-
-</script>
+    </script>
 
 {% endblock %}

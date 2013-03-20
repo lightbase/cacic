@@ -31,15 +31,15 @@ class AplicativoController extends Controller
     }
     public function cadastrarAction(Request $request)
     {
-        $perfil = new aplicativo();
-        $form = $this->createForm( new AplicativoType(), $perfil );
+        $aplicativo = new Aplicativo();
+        $form = $this->createForm( new AplicativoType(), $aplicativo );
 
         if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
             if ( $form->isValid() )
             {
-                $this->getDoctrine()->getManager()->persist( $perfil );
+                $this->getDoctrine()->getManager()->persist( $aplicativo );
                 $this->getDoctrine()->getManager()->flush(); //Persiste os dados do perfis aplicativos monitorados
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
@@ -57,11 +57,11 @@ class AplicativoController extends Controller
      */
     public function editarAction( $idAplicativo, Request $request )
     {
-        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:Aplicativo')->find( $idAplicativo );
-        if ( ! $perfil )
+        $aplicativo = $this->getDoctrine()->getRepository('CacicCommonBundle:Aplicativo')->find( $idAplicativo );
+        if ( ! $aplicativo )
             throw $this->createNotFoundException( 'Aplicativo não encontrado' );
 
-        $form = $this->createForm( new AplicativoType(), $perfil );
+        $form = $this->createForm( new AplicativoType(), $aplicativo );
 
         if ( $request->isMethod('POST') )
         {
@@ -69,13 +69,13 @@ class AplicativoController extends Controller
 
             if ( $form->isValid() )
             {
-                $this->getDoctrine()->getManager()->persist( $perfil );
+                $this->getDoctrine()->getManager()->persist( $aplicativo );
                 $this->getDoctrine()->getManager()->flush();// Efetuar a edição do Perfil Aplicativo Monitorado
 
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
-                return $this->redirect($this->generateUrl('cacic_aplicativo_editar', array( 'idAplicativo'=>$perfil->getIdAplicativo() ) ) );
+                return $this->redirect($this->generateUrl('cacic_aplicativo_editar', array( 'idAplicativo'=>$aplicativo->getIdAplicativo() ) ) );
             }
         }
 
@@ -91,12 +91,12 @@ class AplicativoController extends Controller
         if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $perfil = $this->getDoctrine()->getRepository('CacicCommonBundle:Aplicativo')->find( $request->get('id') );
-        if ( ! $perfil )
+        $aplicativo = $this->getDoctrine()->getRepository('CacicCommonBundle:Aplicativo')->find( $request->get('id') );
+        if ( ! $aplicativo )
             throw $this->createNotFoundException( 'Aplicativos não encontrado' );
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove( $perfil );
+        $em->remove( $aplicativo );
         $em->flush();
 
         $response = new Response( json_encode( array('status' => 'ok') ) );

@@ -84,13 +84,7 @@ Cacic\CommonBundle\Entity\Rede:
         nmUsuarioLoginServUpdates:
             - NotBlank: ~
             - MaxLength: 20
-        teSenhaLoginServUpdates:
-            - NotBlank: ~
-            - MaxLength: 20
         nmUsuarioLoginServUpdatesGerente:
-            - NotBlank: ~
-            - MaxLength: 20
-        teSenhaLoginServUpdatesGerente:
             - NotBlank: ~
             - MaxLength: 20
         tePathServUpdates:
@@ -111,11 +105,9 @@ Cacic\CommonBundle\Entity\So:
 
 Cacic\CommonBundle\Entity\Aplicativo:
     properties:
-        dtAtualizacao:
-            - NotBlank: ~
-            - Type: \DateTime
         nmAplicativo:
             - NotBlank: ~
+            - MaxLength: 30
         idSo:
             - NotBlank: ~
 
