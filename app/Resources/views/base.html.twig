@@ -221,7 +221,7 @@
         	<div class="row-fluid">
                 <div class="span12">
                 <ul class="breadcrumb">              
-                  	<li><a href="">CACIC</a> <span class="divider">/</span></li> 
+                  	<li><a href="{{ path('cacic_common_homepage') }}">CACIC</a> <span class="divider">/</span></li> 
                   	{% block breadcrumb %}     
                   	<li class="active">Home</li>
                   	{% endblock %}
@@ -275,6 +275,12 @@
     <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.hoverIntent.minified.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/intenso.js') }}"></script>
     
+    <!-- CACIC V3 -->
+    <script src="{{ asset('bundles/caciccommon/js/System.js') }}"></script>
+	<script src="{{ asset('bundles/caciccommon/js/init.js') }}"></script>
+    
     {% endblock %}
+    
+    {% include '::dialog.html.twig' %}
   </body>
 </html>                        

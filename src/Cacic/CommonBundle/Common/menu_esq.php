@@ -167,7 +167,7 @@ if($_POST['frm_nm_usuario_acesso'] && $_POST['frm_te_senha'])
 
 	if ($row_sel['id_usuario']) // Verifico se o usu�rio existe na base CACIC com o identificador informado
 		{
-		if ($row_sel['id_servidor_autenticacao'] <> null) // Caso tenha sido informado um servidor de autentica��o LDAP para o usu�rio
+		if ($row_sel['id_servidor_autenticacao'] <> 0) // Caso tenha sido informado um servidor de autentica��o LDAP para o usu�rio
 			{
 			$arrAutenticaLDAP = AutenticaLDAP($row_sel['id_servidor_autenticacao'], trim(base64_decode($_POST['frm_nm_usuario_acesso'])), trim(base64_decode($_POST['frm_te_senha'])));
 			if ($arrAutenticaLDAP['nm_nome_completo'] <> '')
