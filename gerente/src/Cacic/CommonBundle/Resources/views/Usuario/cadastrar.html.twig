@@ -66,7 +66,7 @@
 	var oLocais = []; // JSON com Locais
 	var oGrupoDesc = { // JSON com descricao dos grupos
 		{% for grupo in grupoDesc %}
-		{{ grupo['idGrupoUsuarios'] }}: "{{ grupo['teDescricaoGrupo'] }}"{% if loop.last != true %},{% endif %}
+		{{ grupo['idGrupoUsuario'] }}: "{{ grupo['teDescricaoGrupo'] }}"{% if loop.last != true %},{% endif %}
 		{% endfor %}
 	};
 
@@ -74,7 +74,7 @@
 	 * Monta JSON com lista de Locais
 	 */
 	$(document).ready(function(){
-		$( '#usuario_localPrimario option' ).each(function(){
+		$( '#usuario_idLocal option' ).each(function(){
 			if ( $(this).val() != '' && $(this).val() != undefined )
 			{
 				oLocais.push({ idLocal: $(this).val(), nmLocal: $(this).text() });
@@ -82,16 +82,16 @@
 		})
 		
 		// Verifica se já há algum local primário pré-selecionado para retirá-lo da lista de locais secundários
-		if ( $( '#usuario_localPrimario' ).val() != '' && $( '#usuario_localPrimario' ).val() != undefined )
+		if ( $( '#usuario_idLocal' ).val() != '' && $( '#usuario_idLocal' ).val() != undefined )
 		{
-			$( '#usuario_SelectLocaisSecundarios option[value='+ $( '#usuario_localPrimario' ).val() +']' ).remove();
+			$( '#usuario_SelectLocaisSecundarios option[value='+ $( '#usuario_idLocal' ).val() +']' ).remove();
 		}
 	});
 
 	/**
 	 * Remove o local principal selecionado da lista de locais secundários
 	 */
-	$( '#usuario_localPrimario' ).change(function(){
+	$( '#usuario_idLocal' ).change(function(){
 		
 		// Primeiro, remove todos os itens da combo de locais secundários
 		$( '#usuario_SelectLocaisSecundarios option' ).each(function(){
@@ -114,13 +114,19 @@
 	 */
 	 $( '#formCadastroUsuario' ).submit(function(){
 		 $( '#usuario_teLocaisSecundarios' ).val( $( '#usuario_SelectLocaisSecundarios' ).val() );
-		 $( '#usuario_idLocal' ).val( $( '#usuario_localPrimario' ).val() );
-		 $( '#usuario_idServidorAutenticacao' ).val( $( '#usuario_servidorAutenticacao' ).val() );
-		 $( '#usuario_idGrupoUsuarios' ).val( $( '#usuario_grupo' ).val() );
+		 
 		 return true;
 	 });
 	
-	$( '#usuario_grupo' ).change( function(){
+	/**
+	 * Exibe a descrição do grupo selecionado
+	 */
+	if ( $( '#usuario_idGrupoUsuario' ).val() != '' && $( '#usuario_idGrupoUsuario' ).val() != undefined )
+	{ // Se já há algum grupo pré-selecionado
+		$( '#usuario_te_descricao_grupo' ).val( oGrupoDesc[ $( '#usuario_idGrupoUsuario' ).val() ] );
+	}
+	 
+	$( '#usuario_idGrupoUsuario' ).change( function(){
 		$( '#usuario_te_descricao_grupo' ).val( oGrupoDesc[ $( this ).val() ] );
 	});
 	

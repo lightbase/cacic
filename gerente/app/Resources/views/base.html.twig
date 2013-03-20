@@ -1,161 +1,109 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="en">
+  <head>
     <meta charset="utf-8">
-    <title>Cacic - Configurador Automático e Coletor de Informações Computacionais</title>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    
-    {% block stylesheets %}
-    <link href="{{ asset('bundles/caciccommon/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('bundles/caciccommon/css/bootstrap-responsive.min.css') }}" rel="stylesheet" type="text/css" />
-    
-    <link href="{{ asset('bundles/caciccommon/css/css.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
-    
-    <link href="{{ asset('bundles/caciccommon/css/base-admin.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('bundles/caciccommon/css/base-admin-responsive.css') }}" rel="stylesheet" type="text/css" />
-    
-    <link href="{{ asset('bundles/caciccommon/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('bundles/caciccommon/jquery-ui-1.10.0.custom/css/dark-hive/jquery-ui-1.10.0.custom.min.css') }}" type="text/css" rel="stylesheet" />
-    
-    <link href="{{ asset('bundles/caciccommon/css/message.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('bundles/caciccommon/css/main.css') }}" rel="stylesheet" type="text/css" />
-    
-    {% endblock %}
-    
-    {% block javascripts %}
+    <title>CACIC - Coletor Automático e Configurador de Informações Computacionais</title>
+    <meta name="description" content="CACIC Coletor Automático e Configurador de Informações Computacionais">
+    <meta name="ahoekie" content="CACIC BackEnd">
 
-	<script src="{{ asset('bundles/caciccommon/js/jquery-1.9.0.min.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js') }}" type="text/javascript" language="javascript"></script>
-	
-	<script src="{{ asset('bundles/caciccommon/js/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/js/base.js') }}"></script>
-	
-	<script src="{{ asset('bundles/caciccommon/js/System.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/js/init.js') }}"></script>
-	
-	{# Bibliotecas para GRÁFICOS
-    
-   	<script src="{{ asset('bundles/caciccommon/js/excanvas.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.pie.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.orderBars.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/js/jquery.flot.resize.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/js/area.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/js/donut.js') }}"></script>
-	    
-	#}
-	
-	{% endblock %}
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js') }}"></script>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+	{% block stylesheets %}
+    <!-- Bootstrap -->
+    <link href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/css/bootstrap-responsive.css') }}" rel="stylesheet">
+
+	<!-- Bootstrap CSS fixes for IE6 -->
+    <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+
+	<!-- jQuery UI Bootstrap theme -->
+	<link type="text/css" href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" />
+
+	<!-- Bootstrap google prettify -->
+    <link href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/js/google-code-prettify/prettify.css') }}" rel="stylesheet">
+
+	<!-- UI to Top -->
+   	<link rel="stylesheet" type="text/css" media="screen,projection" href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery.ui.totop/css/ui.totop.css') }}" />     
+
+	<!-- Datatables -->
+	<link rel="stylesheet" href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/DataTables/media/css/demo_table_jui.intenso.css') }}" />
+
+	<!-- Admin Instenso main scripts -->
+	<link rel="stylesheet" href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/css/main.css') }}" />
+	<link rel="stylesheet" href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/css/side_nav.css') }}" />
+	
+	<link href="{{ asset('bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('bundles/caciccommon/css/main.css') }}" rel="stylesheet" type="text/css" />
+	{% endblock %}
   </head>
 
-<body>
-
-<div class="navbar navbar-fixed-top">
-	
-	<div class="navbar-inner">
-		
-		<div class="container">
-			
-			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-			
-			<a class="brand" href="{{ path('cacic_common_homepage') }}">
-				CACIC v.{{ cacic_version }}
-			</a>		
-			
-			<div class="nav-collapse">
-				<ul class="nav pull-right">
-					<li class="dropdown">
-						
-						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon-cog"></i>
-							Configurações
-							<b class="caret"></b>
-						</a>
-						
-						<ul class="dropdown-menu">
-							<li><a href="{{ path('cacic_configuracao_padrao') }}">Configurar Padrões</a></li>
-							<li><a href="{{ path('cacic_configuracao_gerente') }}">Configurar Gerente</a></li>
-							<li><a href="{{ path('cacic_configuracao_agente') }}">Configurar Agentes</a></li>
-						</ul>
-						
-					</li>
-			
-					<li class="dropdown">
-						
-						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="icon-user"></i> 
-							Meus Dados
-							<b class="caret"></b>
-						</a>
-						
-						<ul class="dropdown-menu">
-							<li><a href="javascript:void(0);">Meus Dados</a></li>
-							<li><a href="javascript:void(0);">Alterar Senha</a></li>
-							<li><a href="javascript:void(0);">Editar Favoritos (Atalhos)</a></li>
-							<li class="divider"></li>
-							<li><a href="{{ path('cacic_common_logout') }}">Sair</a></li>
-						</ul>
-						
-					</li>
-				</ul>
-			
-				<form class="navbar-search pull-right">
-					<input class="search-query" placeholder="Pesquisa" type="text">
-				</form>
-				
-			</div><!--/.nav-collapse -->
-	
-		</div> <!-- /container -->
-		
-	</div> <!-- /navbar-inner -->
-	
-</div> <!-- /navbar -->
+  <body id="cacic_backend"><!-- This id is used for the cookies -->
+  	
+    <!-- Top navigation bar -->
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="i-bar"></span>
+            <span class="i-bar"></span>
+            <span class="i-bar"></span>
+          </a>
+          
+          <p class="navbar-text pull-left">CACIC v.{{ cacic_version }}</p>
+          
+          <div class="nav-collapse">
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                    <a href="#"
+                          class="dropdown-toggle"
+                          data-toggle="dropdown">
+                          Alertas <span class="label label-info">100</span>
+                          <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">CACIC</a></li>
+                        <li><a href="#">COCA</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Alertas antigos...</a></li>
+                    </ul>
+              </li>
+            </ul>
+            <p class="navbar-text pull-right">Logado como <a href="#">{{ app.user.nmUsuarioAcesso }}</a></p>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>  
     
-<div class="subnavbar">
-
-	<div class="subnavbar-inner">
-	
-		<div class="container">
-
-			<ul class="mainnav">
-			
-				<li class="active">
-					<a href="{{ path('cacic_common_homepage') }}">
-						<i class="icon-home"></i>
-						<span>Home</span>
-					</a>	    				
-				</li>
-				
-				<li class="dropdown">
+    <!-- side nav -->
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div id="side_nav" class="span2 sidebar-nav side_nav">
+              <span id="logo" class="logo">&nbsp;</span>
+                  <ul class="clearfix">
+                      <li><a class="round_top" href="{{ path('cacic_common_homepage') }}">
+                          <i class="icon-home"></i>
+                          <span>Home</span></a>
+                      </li>
+                      <li class="dropdown">
 					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-cogs"></i>
 						<span>Administração</span>
-						<b class="caret"></b>
+						<span class="icon">&nbsp;</span>
 					</a>
-					<ul class="dropdown-menu">
-						<li><a href="javascript:void(0)">Classificar Software</a></li>
+					<ul>
+						<li><a class="round_top" href="javascript:void(0)">Classificar Software</a></li>
 						<li><a href="javascript:void(0)">Softwares não usados</a></li>
 						<li><a href="javascript:void(0)">Módulos</a></li>
-						<li class="divider"></li>
 						
 						<li class="dropdown-submenu">
 							<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
 								Logs
+								<span class="icon">&nbsp;</span>
 							</a>
-							<ul class="dropdown-menu">
+							<ul>
 								<li><a href="javascript:void(0);">Acessos</a></li>
 								<li><a href="javascript:void(0);">Atividades</a></li>
 								<li><a href="javascript:void(0);">Insucessos Instalação</a></li>
@@ -165,8 +113,9 @@
 						<li class="dropdown-submenu">
 							<a href="javascript:void(0)">
 								<span>Cadastros</span>
+								<span class="icon">&nbsp;</span>
 							</a>
-							<ul class="dropdown-menu pull-right">
+							<ul>
 								<li><a href="{{ path('cacic_local_index') }}">Locais</a></li>
 								<li><a href="{{ path('cacic_servidorautenticacao_index') }}">Servidores Autenticação</a></li>
 								<li><a href="{{ path('cacic_subrede_index') }}">Subredes</a></li>
@@ -181,17 +130,19 @@
 						<li class="dropdown-submenu">
 							<a href="javascript:void(0)">
 								Patrimônio
+								<span class="icon">&nbsp;</span>
 							</a>
-							<ul class="dropdown-menu">
-								<li><a href="javascript:void(0);"></a></li>
+							<ul>
+								<li><a href="javascript:void(0);">Teste</a></li>
 							</ul>
 						</li>
 						<li class="dropdown-submenu">
 							<a href="javascript:void(0)">
 								Gerência Aquisições
+								<span class="icon">&nbsp;</span>
 							</a>
-							<ul class="dropdown-menu">
-								<li><a href="javascript:void(0);"></a></li>
+							<ul>
+								<li><a href="javascript:void(0);">Teste</a></li>
 							</ul>
 						</li>
 					</ul>	    				
@@ -201,7 +152,7 @@
 					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-wrench"></i>
 						<span>Manutenção</span>
-						<b class="caret"></b>
+						<span class="icon">&nbsp;</span>
 					</a>	  				
 				</li>
 				
@@ -209,7 +160,7 @@
 					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-desktop"></i>
 						<span>Computadores</span>
-						<b class="caret"></b>
+						<span class="icon">&nbsp;</span>
 					</a>    				
 				</li>
 				
@@ -217,7 +168,7 @@
 					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-book"></i>
 						<span>Relatórios</span>
-						<b class="caret"></b>
+						<span class="icon">&nbsp;</span>
 					</a>  									
 				</li>
 				
@@ -225,11 +176,10 @@
 					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown-">
 						<i class="icon-bar-chart"></i>
 						<span>Estatísticas</span>
-						<b class="caret"></b>
+						<span class="icon">&nbsp;</span>
 					</a>
-					<ul class="dropdown-menu">
+					<ul>
 						<li><a href="javascript:void(0)">Sistemas Monitorados</a></li>
-						
 					</ul>			
 				</li>
 				
@@ -253,46 +203,78 @@
 						<span>Comunidade CACIC</span>
 					</a>
 				</li>
-			
-			</ul>
+                  </ul>
+                  <a href="#" class="minimize round_bottom"><span>minimize</span></a>
+        </div><!--/span-->  
+          
+        <!-- main container -->
+        <div id="main_container" class="span10">
+        
+        	<!-- Shortcut buttons -->
+            <div class="row-fluid">
+	            <div class="span12 shortcut">
+                	<a href="#" class="btn btn-shortcut"><img src="{{ asset('bundles/caciccommon/images/v3/cacic_logo_gray.png') }}" alt="Dashboard" />CACIC<span class="label label-success">0</span></a>
+                </div><!--/span-->
+            </div>
+            
+            <!-- Breadcrumb -->
+        	<div class="row-fluid">
+                <div class="span12">
+                <ul class="breadcrumb">              
+                  	<li><a href="">CACIC</a> <span class="divider">/</span></li> 
+                  	{% block breadcrumb %}     
+                  	<li class="active">Home</li>
+                  	{% endblock %}
+                </ul>
+                </div><!--/span-->
+            </div>
+            
+            <!-- Content start -->
+            {% block body %}{% endblock %}
+            <!-- Content end -->
+            
+        </div><!--/span-->
+      </div><!--/row-->
+	  
+      <!-- footer -->
 
-		</div> <!-- /container -->
-	
-	</div> <!-- /subnavbar-inner -->
-
-</div> <!-- /subnavbar -->
-
-<div class="main">
-	<div class="main-inner">
-
-	    <div class="container">
-	    
-	    	<div class="content">
-	    
-	    		{% include '::message.html.twig' %}
-	    
-	    		{% block headline %}{% endblock headline %}
-	    
-				<div class="row">
-					{% block body %}{% endblock %}
-				</div> <!-- /row -->
-	    	</div> <!-- /content -->
-	    </div> <!-- /container -->
-	</div> <!-- /main-inner -->
-</div> <!-- /main -->
+    </div><!--/.fluid-container-->
     
-<div class="footer">
-	<div class="footer-inner">
-		<div class="container">
-			<div class="row">
-    			<div class="span12">
-    				<a href="/">Cacic - Configurador Automático e Coletor de Informações Computacionais</a>.
-    			</div> <!-- /span12 -->
-    		</div> <!-- /row -->
-		</div> <!-- /container -->
-	</div> <!-- /footer-inner -->
-</div> <!-- /footer -->
+    {% block javascripts %}
+    
+    <!-- javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<!-- jQuery (UI) -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
+    
+	<!-- jQuery Cookie -->
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.cookie.js') }}"></script>
 
-{% include '::dialog.html.twig' %}
+    <!-- Sherpa side nav -->
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.hoverIntent.minified.js') }}"></script>
 
-</body></html>
+    <!-- UI to Top -->
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery.ui.totop/js/jquery.ui.totop.js') }}"></script>  
+
+    <!-- Bootstrap Scripts -->   
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-dropdown.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-tooltip.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-popover.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-alert.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-tab.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-typeahead.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-modal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/js/google-code-prettify/prettify.js') }}"></script>
+	  
+	<!-- Datatables -->
+	<script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/DataTables/media/js/jquery.dataTables.js') }}"></script>
+
+    <!-- Admin Intenso -->
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.hoverIntent.minified.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/intenso.js') }}"></script>
+    
+    {% endblock %}
+  </body>
+</html>                        

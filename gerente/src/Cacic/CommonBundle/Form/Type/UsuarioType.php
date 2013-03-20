@@ -16,33 +16,29 @@ class  UsuarioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 		# Monta o COMBOBOX (Select) com os locais primários
-		$builder->add( 'localPrimario', 'entity',
+		$builder->add( 'idLocal', 'entity',
 						array(
 							'empty_value' => 'Selecione o Local',
-							'class' => 'CacicCommonBundle:Locais',
+							'class' => 'CacicCommonBundle:Local',
 							'property' => 'nmlocal',
 							'label'=> 'Local Principal'
 						)
 		);
-		# Configura o campo locais secundários como hidden para ser tratado no próprio formulário
-		$builder->add( 'idLocal', 'hidden' );
-
-		$builder->add( 'servidorAutenticacao', 'entity',
+		
+		$builder->add( 'idServidorAutenticacao', 'entity',
 						array(
 							'empty_value' => 'Base CACIC',
-							'class' => 'CacicCommonBundle:ServidoresAutenticacao',
+							'class' => 'CacicCommonBundle:ServidorAutenticacao',
 							'property' => 'nmServidorAutenticacao',
 							'required' => false,
 							'label' => 'Servidor de Autenticação'
 						)
 		);
-		# Configura o campo Servidor Autenticacao como hidden para ser tratado no próprio formulário
-		$builder->add( 'idServidorAutenticacao', 'hidden', array( 'required' => false ) );
 		
 		# Monta o COMBOBOX (Select) com os locais secundários - não mapeado pois trata-se de um campo text
 		$builder->add( 'SelectLocaisSecundarios', 'entity',
 						array(
-							'class' => 'CacicCommonBundle:Locais',
+							'class' => 'CacicCommonBundle:Local',
 							'property' => 'nmLocal',
 							'multiple' => true,
 							'label'=> 'Locais Secundários',
@@ -64,15 +60,14 @@ class  UsuarioType extends AbstractType
 		/*$builder->add( 'teSenha', 'password', array( 'label' => 'Senha', 'required' => false, 'max_length' => 60 ) );
 		$builder->add( 'teSenhaConfirma', 'password', array( 'label' => ' Confirmação da Senha', 'required' => false, 'max_length' => 60, 'mapped' => false ) );*/
 		
-		$builder->add( 'grupo', 'entity',
+		$builder->add( 'idGrupoUsuario', 'entity',
 						array(
 							'empty_value' => 'Selecione o Nível de Acesso',
-							'class' => 'CacicCommonBundle:GrupoUsuarios',
+							'class' => 'CacicCommonBundle:GrupoUsuario',
 							'property' => 'teGrupoUsuarios',
 							'label'=> 'Nível de Acesso'
 						)
 		);
-		$builder->add( 'idGrupoUsuarios', 'hidden' );
 		
 		$builder->add( 'te_descricao_grupo', 'textarea',
 						array(
