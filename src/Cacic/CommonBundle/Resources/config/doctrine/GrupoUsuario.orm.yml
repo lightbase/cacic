@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\GrupoUsuario:
     type: entity
     table: grupo_usuario
+    repositoryClass: Cacic\CommonBundle\Entity\GrupoUsuarioRepository
     fields:
         idGrupoUsuario:
             id: true

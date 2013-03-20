@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Typhography - Admin Intenso</title>
+    <meta name="description" content="Admin Intenso Template">
+    <meta name="ahoekie" content="HTML5 Admin Template">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap -->
+    <link href="js/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="js/bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+	<!-- Bootstrap CSS fixes for IE6 -->
+    <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+
+	<!-- jQuery UI Bootstrap theme -->
+	<link type="text/css" href="js/jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+
+	<!-- Bootstrap google prettify -->
+    <link href="js/bootstrap/docs/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+	<!-- UI to Top -->
+   	<link rel="stylesheet" type="text/css" media="screen,projection" href="js/jquery.ui.totop/css/ui.totop.css" />     
+
+	<!-- Datatables -->
+	<link rel="stylesheet" href="js/DataTables/media/css/demo_table_jui.intenso.css" />
+
+	<!-- Admin Instenso main scripts -->
+	<link rel="stylesheet" href="css/main.css" />
+	<link rel="stylesheet" href="css/side_nav.css" />
+
+    <!-- Favorites and Appple touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
+
+  <body id="typhography"><!-- This id is used for the cookies -->
+  	
+    <!-- Top navigation bar -->
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="i-bar"></span>
+            <span class="i-bar"></span>
+            <span class="i-bar"></span>
+          </a>         
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="dropdown">
+                    <a href="#"
+                          class="dropdown-toggle"
+                          data-toggle="dropdown">
+                          Messages <span class="label label-info">100</span>
+                          <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Message 1</a></li>
+                        <li><a href="#">Another message</a></li>
+                        <li><a href="#">Something else message</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Older messages...</a></li>
+                    </ul>
+              </li>
+              <li class="dropdown">
+                    <a href="#"
+                          class="dropdown-toggle"
+                          data-toggle="dropdown">
+                          Settings
+                          <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Personal Info</a></li>
+                        <li><a href="#">Preferences</a></li>
+                        <li><a href="#">Alerts</a></li>
+                        <li><a id="cookie_delete" href="#">Delete Cookies</a></li>
+                    </ul>
+              </li>
+              <li class="dropdown">
+                    <a href="#"
+                          class="dropdown-toggle"
+                          data-toggle="dropdown">
+                          Theme
+                          <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                    	<li><a id="lightblue" href="#">Light Blue</a></li>
+	                    <li><a id="darkblue" href="#">Dark Blue</a></li>
+                        <li><a id="red" href="#">Red</a></li>                        
+                        <li><a id="green" href="#">Green</a></li>
+                        <li><a id="orange" href="#">Orange</a></li>
+                        <li><a id="grey" href="#">Grey</a></li>
+                        <li><a id="black" href="#">Black</a></li>
+                    </ul>
+              </li>
+              <li class="dropdown">
+                    <a href="#"
+                          class="dropdown-toggle"
+                          data-toggle="dropdown">
+                          Background
+                          <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                    	<li><a id="pattern01" href="#">Pattern 1</a></li>
+	                    <li><a id="pattern02" href="#">Pattern 2</a></li>
+                        <li><a id="pattern03" href="#">Pattern 3</a></li>
+                        <li><a id="pattern04" href="#">Pattern 4</a></li>
+                        <li><a id="pattern05" href="#">Pattern 5</a></li>
+                        <li><a id="pattern06" href="#">Pattern 6</a></li>
+	                    <li><a id="pattern07" href="#">Pattern 7</a></li>
+                        <li><a id="pattern08" href="#">Pattern 8</a></li>
+                        <li><a id="pattern09" href="#">Pattern 9</a></li>
+                        <li><a id="pattern10" href="#">Pattern 10</a></li>
+                        <li><a id="pattern11" href="#">Pattern 11</a></li>
+	                    <li><a id="pattern12" href="#">Pattern 12</a></li>
+                        <li><a id="pattern13" href="#">Pattern 13</a></li>
+                        <li><a id="pattern14" href="#">Pattern 14</a></li>
+                        <li><a id="pattern15" href="#">Pattern 15</a></li>
+                        <li><a id="pattern16" href="#">Pattern 16</a></li>
+	                    <li><a id="pattern17" href="#">Pattern 17</a></li>
+                        <li><a id="pattern18" href="#">Pattern 18</a></li>
+                    </ul>
+              </li>
+              <li><a href="#about">About</a></li>
+            </ul>
+            <p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>  
+    
+    <!-- side nav -->
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div id="side_nav" class="span2 sidebar-nav side_nav">
+              <span id="logo" class="logo">&nbsp;</span>
+                  <ul class="clearfix">
+                      <li><a class="round_top" href="index.html">
+                          <img src="images/icons/grey/Laptop.png">
+                          <span>Dashboard</span></a>
+                      </li>
+                      <li><a href="layout.html">
+                          <img src="images/icons/grey/Frames.png">
+                          <span>Layout</span>
+                          <span class="icon">&nbsp;</span></a>
+                          <div class="accordion">
+                              <a href="layout.html">Grid</a>
+                              <a href="portlets.html">Portlets</a>
+                              <a href="layout.html">Box Grid</a>
+                          </div>	
+                      </li>	                      
+                      <li><a href="typhography.html">
+                          <img src="images/icons/grey/list_w__images.png">
+                          <span>Typhography</span>
+                          <span class="icon">&nbsp;</span>
+                          </a>
+                          <ul>
+                          	  <li><a href="typhography.html">General</a></li>
+                              <li><a href="typhography.html">Lists</a></li>
+                              <li><a href="buttons.html">Icons</a></li>
+                              <li><a href="buttons.html">Buttons</a></li>
+                              <li><a href="typhography.html">Codeview</a></li>
+                              <li><a href="tables.html">Pagination</a></li>
+                              <li><a href="#">Others
+                                  <span class="icon">&nbsp;</span></a>	
+                                  
+                                  <ul>
+                                      <li><a href="typhography_other.html">
+                                          <img src="images/icons/grey/sign_post.png">Tooltips</a></li>
+                                      <li><a href="typhography_other.html">
+                                          <img src="images/icons/grey/strategy_2.png">Popovers</a></li>
+                                      <li><a href="typhography_other.html">
+                                          <img src="images/icons/grey/iChat.png">Alerts</a></li>
+                                      <li><a href="typhography_other.html">
+                                          <img src="images/icons/grey/loading_bar.png">Progress Bars</a></li>
+                                  </ul>
+                              </li>
+                             
+                          </ul>
+                      </li>				
+                      <li><a href="#">
+                          <img src="images/icons/grey/Table.png">
+                          <span>Tables</span>
+                          <span class="icon">&nbsp;</span></a>
+                          <div class="accordion">
+                              <a href="tables.html">Standard Tables</a>
+                              <a href="tables.html">Data Tables</a>
+                          </div>	
+                      </li>	
+                      <li><a href="#">
+                          <img src="images/icons/grey/Archive.png">
+                          <span>Forms</span>
+                          <span class="icon">&nbsp;</span></a>
+                          <div class="accordion">
+                              <a href="forms.html">MultiUpload</a>
+                              <a href="forms.html">Multiselect</a>
+                              <a href="forms.html">DatePickers</a>
+                              <a href="forms.html">Sliders</a>
+                          </div>	
+                      </li>	
+                      <li><a href="calendar.html">
+                          <img src="images/icons/grey/day_calendar.png">
+                          <span>Calendar</span></a>
+                      </li>	
+                      <li><a href="gallery.html">
+                          <img src="images/icons/grey/Images.png">
+                          <span>Image Gallery</span></a>
+                      </li>	
+                      <li><a href="login.html">
+                          <img src="images/icons/grey/bulls_eye.png">
+                          <span>Logout</span></a>
+                      </li>	
+                  </ul>
+                  <a href="#" class="minimize round_bottom"><span>minimize</span></a>
+        </div><!--/span-->  
+          
+        <!-- main container -->
+        <div id="main_container" class="span10">
+        
+        	<!-- Shortcut buttons -->
+            <div class="row-fluid">
+	            <div class="span12 shortcut">
+                	<a href="#" class="btn btn-shortcut"><img src="images/icons/grey/Home.png" alt="Dashboard" />Dashboard<span class="label label-success">9</span></a>
+                    <a href="#" class="popover_shortcut_on btn btn-shortcut"
+                    rel="popover" 
+                    data-content=
+                    '<a href="#" >Comment By Member</a><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum,...e</p><hr>
+                    <a href="#" >Comment By Member</a><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum,...e</p><hr>
+                    <a href="#" >Comment By Member</a><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum,...e</p><hr>
+                    <a href="#" >Comment By Member</a><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum,...e</p><hr>
+                    <a href="#" >Comment By Member</a><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum,...e</p>'
+                    data-original-title="New Comments"
+                    
+                    ><img src="images/icons/grey/speech_bubbles.png" alt="Comments" />Comments<span class="label label-warning">9</span></a>
+                    <a href="#" class="btn btn-shortcut"><img src="images/icons/grey/Graph.png" alt="Statistics" />Statistics<span class="label label-info">9</span></a>                    
+                </div><!--/span-->
+            </div>
+            
+            <!-- Breadcrumb -->        
+        	<div class="row-fluid">
+                <div class="span12">
+                <ul class="breadcrumb">              
+                  	<li><a href="index.html">Dashboard</a> <span class="divider">/</span></li>       
+                  	<li class="active">Typhography</li>
+                </ul>
+                </div><!--/span-->
+            </div>
+            
+            <!-- Content start -->         
+           <div class="row-fluid">
+              <div class="span12">   
+                <div class="box grad_colour_dark_blue">
+                    <h2 class="box_head round_top">Typhography inside a box</h2>
+                    <a href="#" class="settings box_button_3" title="config">&nbsp;</a>
+                    <a href="#" class="toggle box_button_2" title="toggle">&nbsp;</a>
+                    <a href="#" class="destroy box_button_1" title="close">&nbsp;</a>
+                    <div class="toggle_container">					
+                        <div class="block box_content round_bottom padding_20">
+                            <div class="page-header">
+                            	<h1>Typography <small>Headings, paragraphs, lists, and other inline type elements</small></h1>
+                            </div>     
+                            <div class="row-fluid ">            
+                                <div class="span4">
+                                  <h3>Sample text and paragraphs</h3>
+                                  <p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at. Nulla tellus elit, varius non commodo eget, mattis vel eros. In sed ornare nulla. Donec consectetur, velit a pharetra ultricies, diam lorem lacinia risus, ac commodo orci erat eu massa. Sed sit amet nulla ipsum. Donec felis mauris, vulputate sed tempor at, aliquam a ligula. Pellentesque non pulvinar nisi.
+</p>
+                                  <p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at. Nulla tellus elit, varius non commodo eget, mattis vel eros. In sed ornare nulla. Donec consectetur, velit a pharetra ultricies, diam lorem lacinia risus, ac commodo orci erat eu massa. Sed sit amet nulla ipsum. Donec felis mauris, vulputate sed tempor at, aliquam a ligula. Pellentesque non pulvinar nisi.
+</p>
+                                </div>
+                                <div class="span4">
+                                  <h3>Example body text</h3>
+                                  <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                                  <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec sed odio dui.</p>
+                                </div>
+                                <div class="span4 ">
+                                  <div class="well">
+                                    <h1>h1. Heading 1</h1>
+                                    <h2>h2. Heading 2</h2>
+                                    <h3>h3. Heading 3</h3>
+                                    <h4>h4. Heading 4</h4>
+                                    <h5>h5. Heading 5</h5>
+                                    <h6>h6. Heading 6</h6>
+                                  </div>
+                                </div>
+                        	</div><!--/row -->  
+                            
+                            <h2>Emphasis, address, and abbreviation</h2>
+                            <table class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Element</th>
+                                  <th>Usage</th>
+                                  <th>Optional</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <code>&lt;strong&gt;</code>
+                                  </td>
+                                  <td>
+                                    For emphasizing a snippet of text with <strong>important</strong>
+                                  </td>
+                                  <td>
+                                    <span class="muted">None</span>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <code>&lt;em&gt;</code>
+                                  </td>
+                                  <td>
+                                    For emphasizing a snippet of text with <em>stress</em>
+                                  </td>
+                                  <td>
+                                    <span class="muted">None</span>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <code>&lt;abbr&gt;</code>
+                                  </td>
+                                  <td>
+                                    Wraps abbreviations and acronyms to show the expanded version on hover
+                                  </td>
+                                  <td>
+                                    Include optional <code>title</code> for expanded text
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <code>&lt;address&gt;</code>
+                                  </td>
+                                  <td>
+                                    For contact information for its nearest ancestor or the entire body of work
+                                  </td>
+                                  <td>
+                                    Preserve formatting by ending all lines with <code>&lt;br&gt;</code>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          
+                            <div class="row-fluid">
+                              <div class="span4">
+                                <h3>Using emphasis</h3>
+                                <p><a href="#">Fusce dapibus</a>, <strong>tellus ac cursus commodo</strong>, <em>tortor mauris condimentum nibh</em>, ut fermentum massa justo sit amet risus. Maecenas faucibus mollis interdum. Nulla vitae elit libero, a pharetra augue.</p>
+                                <p><strong>Note:</strong> Feel free to use <code>&lt;b&gt;</code> and <code>&lt;i&gt;</code> in HTML5, but their usage has changed a bit. <code>&lt;b&gt;</code> is meant to highlight words or phrases without conveying additional importance while <code>&lt;i&gt;</code> is mostly for voice, technical terms, etc.</p>
+                              </div>
+                              <div class="span4">
+                                <h3>Example addresses</h3>
+                                <p>Here are two examples of how the <code>&lt;address&gt;</code> tag can be used:</p>
+                                <address>
+                                  <strong>Twitter, Inc.</strong><br>
+                                  795 Folsom Ave, Suite 600<br>
+                                  San Francisco, CA 94107<br>
+                                  <abbr title="Phone">P:</abbr> (123) 456-7890
+                                </address>
+                                <address>
+                                  <strong>Full Name</strong><br>
+                                  <a href="mailto:#">first.last@gmail.com</a>
+                                </address>
+                              </div>
+                              <div class="span4">
+                                <h3>Example abbreviations</h3>
+                                <p>Abbreviations are styled with uppercase text and a light dotted bottom border. They also have a help cursor on hover so users have extra indication something will be shown on hover.</p>
+                                <p><abbr title="HyperText Markup Language">HTML</abbr> is the best thing since sliced bread.</p>
+                                <p>An abbreviation of the word attribute is <abbr title="attribute">attr</abbr>.</p>
+                              </div>
+                            </div><!--/Row-->
+                            
+                            <h2>Blockquotes</h2>
+                            <table class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Element</th>
+                                  <th>Usage</th>
+                                  <th>Optional</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <code>&lt;blockquote&gt;</code>
+                                  </td>
+                                  <td>
+                                    Block-level element for quoting content from another source
+                                  </td>
+                                  <td>
+                                    <p>Add <code>cite</code> attribute for source URL</p>
+                                    Use <code>.pull-left</code> and <code>.pull-right</code> classes for floated options
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <code>&lt;small&gt;</code>
+                                  </td>
+                                  <td>
+                                    Optional element for adding a user-facing citation, typically an author with title of work
+                                  </td>
+                                  <td>
+                                    Place the <code>&lt;cite&gt;</code> around the title or name of source
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div class="row-fluid">
+                              <div class="span4">
+                                <p>To include a blockquote, wrap <code>&lt;blockquote&gt;</code> around any <abbr title="HyperText Markup Language">HTML</abbr> as the quote. For straight quotes we recommend a <code>&lt;p&gt;</code>.</p>
+                                <p>Include an optional <code>&lt;small&gt;</code> element to cite your source and you'll get an em dash <code>&amp;mdash;</code> before it for styling purposes.</p>
+                              </div>
+                              <div class="span8">
+<pre class="prettyprint linenums">
+&lt;blockquote&gt;
+  &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis.&lt;/p&gt;
+  &lt;small&gt;Someone famous&lt;/small&gt;
+&lt;/blockquote&gt;
+</pre>
+                              </div>
+                            </div><!--/row-->
+                          
+                            <h3>Example blockquotes</h3>
+                            <div class="row-fluid">
+                              <div class="span6">
+                                <p>Default blockquotes are styled as such:</p>
+                                <blockquote>
+                                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis.</p>
+                                  <small>Someone famous in <cite title="">Body of work</cite></small>
+                                </blockquote>
+                              </div>
+                              <div class="span6">
+                                <p>To float your blockquote to the right, add <code>class="pull-right"</code>:</p>
+                                <blockquote class="pull-right">
+                                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis.</p>
+                                  <small>Someone famous in <cite title="">Body of work</cite></small>
+                                </blockquote>
+                              </div>
+                            </div>
+                         </div>                            
+                    </div>
+                </div><!--/Box-->
+              </div>
+            </div><!--/row-->
+            
+			<div class="row-fluid">
+              <div class="span12">
+                <div class="box grad_colour_dark_blue">
+                    <h2 class="box_head round_top">Typhography: lists</h2>
+                    <a href="#" class="settings box_button_3" title="config">&nbsp;</a>
+                    <a href="#" class="toggle box_button_2" title="toggle">&nbsp;</a>
+                    <a href="#" class="destroy box_button_1" title="close">&nbsp;</a>
+                    <div class="toggle_container">					
+                        <div class="block box_content round_bottom padding_20">
+                            <h2>Lists</h2>
+                              <div class="row-fluid">
+                                <div class="span3">
+                                  <h4>Unordered</h4>
+                                  <p><code>&lt;ul&gt;</code></p>
+                                  <ul>
+                                    <li>Lorem ipsum dolor sit amet</li>
+                                    <li>Consectetur adipiscing elit</li>
+                                    <li>Integer molestie lorem at massa</li>
+                                    <li>Facilisis in pretium nisl aliquet</li>
+                                    <li>Nulla volutpat aliquam velit
+                                      <ul>
+                                        <li>Phasellus iaculis neque</li>
+                                        <li>Purus sodales ultricies</li>
+                                        <li>Vestibulum laoreet porttitor sem</li>
+                                        <li>Ac tristique libero volutpat at</li>
+                                      </ul>
+                                    </li>
+                                    <li>Faucibus porta lacus fringilla vel</li>
+                                    <li>Aenean sit amet erat nunc</li>
+                                    <li>Eget porttitor lorem</li>
+                                  </ul>
+                                </div>
+                                <div class="span3">
+                                  <h4>Unstyled</h4>
+                                  <p><code>&lt;ul class="unstyled"&gt;</code></p>
+                                  <ul class="unstyled">
+                                    <li>Lorem ipsum dolor sit amet</li>
+                                    <li>Consectetur adipiscing elit</li>
+                                    <li>Integer molestie lorem at massa</li>
+                                    <li>Facilisis in pretium nisl aliquet</li>
+                                    <li>Nulla volutpat aliquam velit
+                                      <ul>
+                                        <li>Phasellus iaculis neque</li>
+                                        <li>Purus sodales ultricies</li>
+                                        <li>Vestibulum laoreet porttitor sem</li>
+                                        <li>Ac tristique libero volutpat at</li>
+                                      </ul>
+                                    </li>
+                                    <li>Faucibus porta lacus fringilla vel</li>
+                                    <li>Aenean sit amet erat nunc</li>
+                                    <li>Eget porttitor lorem</li>
+                                  </ul>
+                                </div>
+                                <div class="span3">
+                                  <h4>Ordered</h4>
+                                  <p><code>&lt;ol&gt;</code></p>
+                                  <ol>
+                                    <li>Lorem ipsum dolor sit amet</li>
+                                    <li>Consectetur adipiscing elit</li>
+                                    <li>Integer molestie lorem at massa</li>
+                                    <li>Facilisis in pretium nisl aliquet</li>
+                                    <li>Nulla volutpat aliquam velit</li>
+                                    <li>Faucibus porta lacus fringilla vel</li>
+                                    <li>Aenean sit amet erat nunc</li>
+                                    <li>Eget porttitor lorem</li>
+                                  </ol>
+                                </div>
+                                <div class="span3">
+                                  <h4>Description</h4>
+                                  <p><code>&lt;dl&gt;</code></p>
+                                  <dl>
+                                    <dt>Description lists</dt>
+                                    <dd>A description list is perfect for defining terms.</dd>
+                                    <dt>Euismod</dt>
+                                    <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
+                                    <dd>Donec id elit non mi porta gravida at eget metus.</dd>
+                                    <dt>Malesuada porta</dt>
+                                    <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+                                  </dl>
+                                </div>
+                              </div><!-- /row -->
+                         </div>                            
+                    </div>
+                </div><!--/Box-->
+              </div>
+            </div><!--/row-->
+            
+            <div class="row-fluid">
+              <div class="span12">
+                <div class="box grad_colour_dark_blue">
+                    <h2 class="box_head round_top">Typhography: Code view</h2>
+                    <a href="#" class="settings box_button_3" title="config">&nbsp;</a>
+                    <a href="#" class="toggle box_button_2" title="toggle">&nbsp;</a>
+                    <a href="#" class="destroy box_button_1" title="close">&nbsp;</a>
+                    <div class="toggle_container">					
+                        <div class="block box_content round_bottom padding_20">
+                          <div class="page-header">
+                            <h1>Code <small>Inline and block code snippets</small></h1>
+                          </div>
+                          <div class="row-fluid">
+                            <div class="span4">
+                              <h2>Inline</h2>
+                              <p>Wrap inline snippets of code with <code>&lt;code&gt;</code>.</p>
+<pre class="prettyprint linenums">
+For example, &lt;code&gt;section&lt;/code&gt; should be wrapped as inline.
+</pre>
+                            </div><!--/span-->
+                            <div class="span4">
+                              <h2>Basic block</h2>
+                              <p>Use <code>&lt;pre&gt;</code> for multiple lines of code. Be sure to turn any carets into their unicode characters for proper rendering.</p>
+<pre>
+&lt;p&gt;Sample text here...&lt;/p&gt;
+</pre>
+<pre class="prettyprint linenums" style="margin-bottom: 9px;">
+&lt;pre&gt;
+  &amp;lt;p&amp;gt;Sample text here...&amp;lt;/p&amp;gt;
+&lt;/pre&gt;
+</pre>
+                              <p><strong>Note:</strong> Be sure to keep code within <code>&lt;pre&gt;</code> tags as close to the left as possible; it will render all tabs.</p>
+                            </div><!--/span-->
+                            <div class="span4">
+                              <h2>Google Prettify</h2>
+                              <p>Take the same <code>&lt;pre&gt;</code> element and add two optional classes for enhanced rendering.</p>
+<pre class="prettyprint linenums" style="margin-bottom: 9px;">
+&lt;p&gt;Sample text here...&lt;/p&gt;
+</pre>
+<pre class="prettyprint linenums" style="margin-bottom: 9px;">
+&lt;pre class="prettyprint
+     linenums"&gt;
+
+  &amp;lt;p&amp;gt;Sample text here...&amp;lt;/p&amp;gt;
+&lt;/pre&gt;
+</pre>
+                             
+                            </div><!--/span-->
+                          </div><!--/row-->
+                         </div>                            
+                    </div>
+                </div><!--/Box-->
+              </div>
+            </div><!--/row-->
+            
+            <div class="row-fluid">
+              <div class="span12">
+                <div class="box grad_colour_dark_blue">
+                    <h2 class="box_head round_top">Typhography: Other</h2>
+                    <a href="#" class="settings box_button_3" title="config">&nbsp;</a>
+                    <a href="#" class="toggle box_button_2" title="toggle">&nbsp;</a>
+                    <a href="#" class="destroy box_button_1" title="close">&nbsp;</a>
+                    <div class="toggle_container">					
+                        <div class="block box_content round_bottom padding_20">
+                          <h2>Example use of Tooltips</h2>
+                          <p>Hover over the links below to see tooltips:</p>
+                          <div class="tooltip-demo well">
+                            <p class="muted" style="margin-bottom: 0;">Tight pants next level keffiyeh <a href="#" rel='tooltip' title="first tooltip">you probably</a> haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel <a href="#" rel='tooltip' title='Another tooltip'>have a</a> terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. A <a href="#" rel='tooltip' title='Another one here too'>really ironic</a> artisan whatever keytar, scenester farm-to-table banksy Austin <a href="#" rel='tooltip' title='The last tip!'>twitter handle</a> freegan cred raw denim single-origin coffee viral.
+                            </p>
+                          </div>
+                          <h2>Popovers to display additional information</h2>
+                          <p>Hover over the button to trigger the popover.</p>
+                          <a href="#" class="btn btn-danger" rel="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">hover for popover</a>
+                        </div>                                                
+                    </div>
+                </div><!--/Box-->
+              </div>
+            </div><!--/row-->
+            
+            <div class="row-fluid">
+                <div class="span12 flat_box">
+            		<div class="content">
+                     	<h1>Typhography</h1>
+                        <p>Intenso Admin integrates fully with the Boodstrap CSS framework. That is why all features from bootstrap are also available in Intenso Admin.
+                        This means that you can use the same grid options in flat area's as wel as in the boxes. All giving a consistant look and can be arranged the way you like it.</p>
+                        <p>Keep in mind that this page shows a small selection of what is possible!</p>
+                        <h2>h2. Heading 2</h2>
+                        <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
+                        Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <h3>h3. Heading 3</h3>
+                        <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
+                        Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <h4>h4. Heading 4</h4>
+                        <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
+                        Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <h5>h5. Heading 5</h5>
+                        <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
+                        Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <h6>h6. Heading 6</h6>
+                        <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
+                        Nullam id dolor id nibh ultricies vehicula ut id elit.</p>                       
+                        <h1>Example heading <small>Has sub-heading&hellip;</small></h1>
+                        <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
+                        Nullam id dolor id nibh ultricies vehicula ut id elit.</p>  
+                    </div>
+                </div><!--/span-->
+            </div><!--/row-->   
+            <!-- Content end -->
+            
+        </div><!--/span-->
+      </div><!--/row-->
+	  
+      <!-- footer -->
+    </div><!--/.fluid-container-->
+    
+    <!-- javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<!-- jQuery (UI) -->
+    <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
+    
+	<!-- jQuery Cookie -->
+    <script type="text/javascript" language="javascript" src="js/intenso/jquery.cookie.js"></script>
+
+    <!-- Sherpa side nav -->
+    <script type="text/javascript" language="javascript" src="js/intenso/jquery.hoverIntent.minified.js"></script>
+
+    <!-- UI to Top -->
+    <script type="text/javascript" language="javascript" src="js/jquery.ui.totop/js/jquery.ui.totop.js"></script>  
+
+    <!-- Bootstrap Scripts -->   
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-popover.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-alert.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-tab.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-typeahead.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-modal.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/docs/assets/js/google-code-prettify/prettify.js"></script>
+	  
+	<!-- Datatables -->
+	<script type="text/javascript" language="javascript" src="js/DataTables/media/js/jquery.dataTables.js"></script>
+
+    <!-- Admin Intenso -->
+    <script type="text/javascript" language="javascript" src="js/intenso/jquery.hoverIntent.minified.js"></script>
+    <script type="text/javascript" language="javascript" src="js/intenso/intenso.js"></script>
+  </body>
+</html>                        

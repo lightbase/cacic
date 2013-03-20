@@ -1,0 +1,183 @@
+
+.side_nav.sticky{
+	position: fixed;
+	left:20px;
+	top:60px
+}
+
+
+.push_down{
+	margin-top: 17px;
+}
+
+.on_left{
+	float: left;
+	margin-right: 0 !important;
+	}
+	
+.on_right{
+	margin-left: 0 !important;
+	float: right;
+}
+.side_nav{
+	z-index: 15;
+}
+.side_nav a.minimize{
+	background-color: #000;
+	display: block;
+	height: 20px;
+	width:26px;
+	float: right;
+	margin-right: 7px;
+	background: black url('../images/open_close.png') no-repeat left;
+}
+.side_nav a.minimize:hover{
+	background-position: left top;
+}
+.side_nav a.minimize_closed:hover{
+	background-position: left bottom;
+}
+
+.side_nav a.minimize span, 
+.side_nav a.minimize_closed span{
+	display: none;
+}
+
+.side_nav.closed{
+	/*width: 40px;*/
+	width: 4.25%;
+}
+
+#main.min_side_nav{
+	width: 886px;
+}
+.side_nav.closed > ul > li > a > span{
+	display: none;
+}
+.side_nav a.minimize span{display: none;}
+
+.side_nav ul{
+	margin: 0;
+	list-style: none;	
+}
+.side_nav ul ul li,
+.side_nav ul ul ul {
+	width: 160px;
+	margin: 0;
+	list-style: none;
+}
+
+.side_nav ul li { 
+	float: left; 
+	position: relative;  
+	width: 100%; 
+}
+
+
+.side_nav > ul > li ul,
+.side_nav > ul > li ul ul,
+.side_nav > ul > li ul ul ul {
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 100%;
+	z-index: 9999;
+	margin-top: 1px;
+}
+.side_nav > ul > li > ul{ margin-top: 0px;}
+
+.side_nav > ul > li > ul > li:first-child > ul{
+	margin-top: -1px;
+}
+
+.side_nav ul li ul li ul {
+	margin-top: 0px;
+}
+
+.side_nav ul ul.slide_left,
+.side_nav ul ul ul.slide_left,
+.side_nav ul ul ul ul.slide_left{
+	top: 0px; 
+	left:auto;
+	right:100%;
+}
+
+/* Root Menu */
+.side_nav ul a {
+	padding: 0 10px;
+	display: block;
+	font: bold 12px sans-serif;
+	text-decoration: none;
+	white-space: nowrap;
+	line-height: 30px;
+}
+.side_nav ul a img{
+	margin: 5px 5px -12px -3px;
+	position: relative;
+	top:-2px;}
+
+
+.side_nav ul ul{
+	z-index: 3;}
+.side_nav ul ul ul{
+	z-index: 4;}
+.side_nav ul ul ul ul{
+	z-index: 5;}
+.side_nav ul ul ul ul ul{
+	z-index: 6;}
+.side_nav ul ul ul ul ul ul{
+	z-index: 7;}
+.side_nav ul ul ul ul ul ul ul{
+	z-index: 7;}
+
+/* Hover Function - Do Not Move */
+.side_nav ul li:hover ul ul,
+.side_nav ul li:hover ul ul ul,
+.side_nav ul li:hover ul ul ul ul,
+.side_nav ul li.iehover ul ul,
+.side_nav ul li.iehover ul ul ul,
+.side_nav ul li.iehover ul ul ul ul {
+	display: none;
+}
+
+.side_nav ul li:hover ul,
+.side_nav ul ul li:hover ul,
+.side_nav ul ul ul li:hover ul,
+.side_nav ul ul ul ul li:hover ul,
+.side_nav ul li.iehover ul,
+.side_nav ul ul li.iehover ul,
+.side_nav ul ul ul li.iehover ul,
+.side_nav ul ul ul ul li.iehover ul { 
+	display: block;
+}
+
+
+
+/* Round corners
+----------------------------------------------------------------------------------------------------*/
+
+
+
+
+
+.side_nav ul li:first-child > a{
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.side_nav ul li:last-child > a{
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+.side_nav div.accordion {
+margin-bottom: 0;
+}

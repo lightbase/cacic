@@ -31,7 +31,7 @@ class UsuarioController extends Controller
 		if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
 			throw $this->createNotFoundException( 'Página não encontrada' );
 		
-		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $request->get('id') );
+		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->find( $request->get('id') );
 		if ( ! $usuario )
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
 		
@@ -54,7 +54,7 @@ class UsuarioController extends Controller
      */
     public function cadastrarAction( Request $request)
     {
-		$usuario = new Usuarios();
+		$usuario = new Usuario();
 		$form = $this->createForm( new UsuarioType(), $usuario );
 
 		if ( $request->isMethod('POST') )
@@ -77,7 +77,7 @@ class UsuarioController extends Controller
         	'CacicCommonBundle:Usuario:cadastrar.html.twig',
         	array(
         		'form' => $form->createView(),
-        		'grupoDesc' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:GrupoUsuarios' )->listar()
+        		'grupoDesc' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:GrupoUsuario' )->listar()
         	)
         );
 	}
@@ -88,7 +88,7 @@ class UsuarioController extends Controller
      */
 	public function editarAction( $idUsuario, Request $request )
 	{
-		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $idUsuario );
+		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->find( $idUsuario );
 		if ( ! $usuario )
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
 		
@@ -113,7 +113,7 @@ class UsuarioController extends Controller
         	'CacicCommonBundle:Usuario:cadastrar.html.twig',
         	array(
         		'form' => $form->createView(),
-        		'grupoDesc' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:GrupoUsuarios' )->listar()
+        		'grupoDesc' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:GrupoUsuario' )->listar()
         	)
         );
 	}
@@ -136,7 +136,7 @@ class UsuarioController extends Controller
 		if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
 			throw $this->createNotFoundException( 'Página não encontrada' );
 		
-		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuarios')->find( $request->get('id') );
+		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->find( $request->get('id') );
 		if ( ! $usuario )
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
 		
