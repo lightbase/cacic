@@ -3,6 +3,11 @@
  */
 $(document).ready(function(){
 	/**
+	 * Remove o COOKIE com informação da imagem de BACKGROUND
+	 */
+	$.cookie("AdminIntensoBackground", null );
+	
+	/**
 	 * Animação AJAX
 	 */
 	$( document ).ajaxStart( function() { 
