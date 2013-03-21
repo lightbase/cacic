@@ -20,13 +20,13 @@
 	    define( 'CACIC', 1 );
 
 	/*
-	 * Obtem o caminho da aplicação gerente
+	 * Obtem o caminho da aplicaï¿½ï¿½o gerente
 	 */
 	$path_aplicacao = str_replace("instalador", '', dirname(__FILE__));
 
 	    
 	/*
-	 * atribuições para o ambiente
+	 * atribuiï¿½ï¿½es para o ambiente
 	 */
 	if( !include('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'library.php') )
 	{
@@ -34,11 +34,11 @@
 	}
 	
 	/*
-	 * classe para instanciar a instalação
+	 * classe para instanciar a instalaï¿½ï¿½o
 	 */
 	if( ! @include("classes".CACIC_DS."install.php") )
 	{
-	   die("Install mal construído (Install miss-built)!");
+	   die("Install mal construï¿½do (Install miss-built)!");
 	}
 
 	if(!@include_once( TRANSLATOR_PATH.CACIC_DS.'Translator.php'))
@@ -53,18 +53,18 @@
 	   $_SESSION['cacic_language'] = CACIC_LANGUAGE;
 	   
 	/*
-	 * Idioma para os quais o CACIC está traduzido 
+	 * Idioma para os quais o CACIC estï¿½ traduzido 
 	 */
 	$_SESSION['cacic_language_available'] = $oTranslator->getLanguagesSetup();
 	
 	/*
-	 * Inicia tradução para o idioma selecionado
+	 * Inicia traduï¿½ï¿½o para o idioma selecionado
 	 */
     $oTranslator->setLangTgt($_SESSION['cacic_language']);
     $oTranslator->initStdLanguages();
 
 	/**
-	 * Prove a instanciação da Instalação pela WEB
+	 * Prove a instanciaï¿½ï¿½o da Instalaï¿½ï¿½o pela WEB
 	 */
 	 $objInstall = new Install();
 	 

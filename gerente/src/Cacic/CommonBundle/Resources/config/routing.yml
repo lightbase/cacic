@@ -14,7 +14,7 @@ cacic_common_logout:
 
 cacic_common_instalador:
     pattern:  /instalador
-    defaults: { _controller: CacicCommonBundle:Default:instalador }
+    defaults: { _controller: CacicCommonBundle:Instalador:index }
 
 cacic_usuario_index:
     pattern:  /usuario/{page}
