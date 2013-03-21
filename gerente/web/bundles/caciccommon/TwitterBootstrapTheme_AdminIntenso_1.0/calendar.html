@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Calendar - Admin Intenso</title>
+    <meta name="description" content="Admin Intenso Template">
+    <meta name="ahoekie" content="HTML5 Admin Template">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap -->
+    <link href="js/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="js/bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+	<!-- Bootstrap CSS fixes for IE6 -->
+    <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+
+	<!-- jQuery UI Bootstrap theme -->
+	<link type="text/css" href="js/jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+
+	<!-- Bootstrap google prettify -->
+    <link href="js/bootstrap/docs/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+	<!-- UI to Top -->
+   	<link rel="stylesheet" type="text/css" media="screen,projection" href="js/jquery.ui.totop/css/ui.totop.css" />     
+
+	<!-- Datatables -->
+	<link rel="stylesheet" href="js/DataTables/media/css/demo_table_jui.intenso.css" />
+
+	<!-- Full Calender -->
+    <link rel="stylesheet" type="text/css" href="js/fullcalendar/fullcalendar/fullcalendar.css" />
+    
+	<!-- Admin Instenso main scripts -->
+	<link rel="stylesheet" href="css/main.css" />
+	<link rel="stylesheet" href="css/side_nav.css" />
+
+    <!-- Favorites and Appple touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
+
+  <body id="bigcalendar"><!-- This id is used for the cookies -->
+  	
+    <!-- Top navigation bar -->
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="i-bar"></span>
+            <span class="i-bar"></span>
+            <span class="i-bar"></span>
+          </a>         
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="dropdown">
+                    <a href="#"
+                          class="dropdown-toggle"
+                          data-toggle="dropdown">
+                          Messages <span class="label label-info">100</span>
+                          <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Message 1</a></li>
+                        <li><a href="#">Another message</a></li>
+                        <li><a href="#">Something else message</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Older messages...</a></li>
+                    </ul>
+              </li>
+              <li class="dropdown">
+                    <a href="#"
+                          class="dropdown-toggle"
+                          data-toggle="dropdown">
+                          Settings
+                          <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Personal Info</a></li>
+                        <li><a href="#">Preferences</a></li>
+                        <li><a href="#">Alerts</a></li>
+                        <li><a id="cookie_delete" href="#">Delete Cookies</a></li>
+                    </ul>
+              </li>
+              <li class="dropdown">
+                    <a href="#"
+                          class="dropdown-toggle"
+                          data-toggle="dropdown">
+                          Theme
+                          <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                    	<li><a id="lightblue" href="#">Light Blue</a></li>
+	                    <li><a id="darkblue" href="#">Dark Blue</a></li>
+                        <li><a id="red" href="#">Red</a></li>                        
+                        <li><a id="green" href="#">Green</a></li>
+                        <li><a id="orange" href="#">Orange</a></li>
+                        <li><a id="grey" href="#">Grey</a></li>
+                        <li><a id="black" href="#">Black</a></li>
+                    </ul>
+              </li>
+              <li class="dropdown">
+                    <a href="#"
+                          class="dropdown-toggle"
+                          data-toggle="dropdown">
+                          Background
+                          <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                    	<li><a id="pattern01" href="#">Pattern 1</a></li>
+	                    <li><a id="pattern02" href="#">Pattern 2</a></li>
+                        <li><a id="pattern03" href="#">Pattern 3</a></li>
+                        <li><a id="pattern04" href="#">Pattern 4</a></li>
+                        <li><a id="pattern05" href="#">Pattern 5</a></li>
+                        <li><a id="pattern06" href="#">Pattern 6</a></li>
+	                    <li><a id="pattern07" href="#">Pattern 7</a></li>
+                        <li><a id="pattern08" href="#">Pattern 8</a></li>
+                        <li><a id="pattern09" href="#">Pattern 9</a></li>
+                        <li><a id="pattern10" href="#">Pattern 10</a></li>
+                        <li><a id="pattern11" href="#">Pattern 11</a></li>
+	                    <li><a id="pattern12" href="#">Pattern 12</a></li>
+                        <li><a id="pattern13" href="#">Pattern 13</a></li>
+                        <li><a id="pattern14" href="#">Pattern 14</a></li>
+                        <li><a id="pattern15" href="#">Pattern 15</a></li>
+                        <li><a id="pattern16" href="#">Pattern 16</a></li>
+	                    <li><a id="pattern17" href="#">Pattern 17</a></li>
+                        <li><a id="pattern18" href="#">Pattern 18</a></li>
+                    </ul>
+              </li>
+              <li><a href="#about">About</a></li>              
+            </ul>
+            <p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>  
+    
+    <!-- side nav -->
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div id="side_nav" class="span2 sidebar-nav side_nav">
+              <span id="logo" class="logo">&nbsp;</span>
+                  <ul class="clearfix">
+                      <li><a class="round_top" href="index.html">
+                          <img src="images/icons/grey/Laptop.png">
+                          <span>Dashboard</span></a>
+                      </li>
+                      <li><a href="layout.html">
+                          <img src="images/icons/grey/Frames.png">
+                          <span>Layout</span>
+                          <span class="icon">&nbsp;</span></a>
+                          <div class="accordion">
+                              <a href="layout.html">Grid</a>
+                              <a href="portlets.html">Portlets</a>
+                              <a href="layout.html">Box Grid</a>
+                          </div>	
+                      </li>	                      
+                      <li><a href="typhography.html">
+                          <img src="images/icons/grey/list_w__images.png">
+                          <span>Typhography</span>
+                          <span class="icon">&nbsp;</span>
+                          </a>
+                          <ul>
+                          	  <li><a href="typhography.html">General</a></li>
+                              <li><a href="typhography.html">Lists</a></li>
+                              <li><a href="buttons.html">Icons</a></li>
+                              <li><a href="buttons.html">Buttons</a></li>
+                              <li><a href="typhography.html">Codeview</a></li>
+                              <li><a href="tables.html">Pagination</a></li>
+                              <li><a href="#">Others
+                                  <span class="icon">&nbsp;</span></a>	
+                                  
+                                  <ul>
+                                      <li><a href="typhography_other.html">
+                                          <img src="images/icons/grey/sign_post.png">Tooltips</a></li>
+                                      <li><a href="typhography_other.html">
+                                          <img src="images/icons/grey/strategy_2.png">Popovers</a></li>
+                                      <li><a href="typhography_other.html">
+                                          <img src="images/icons/grey/iChat.png">Alerts</a></li>
+                                      <li><a href="typhography_other.html">
+                                          <img src="images/icons/grey/loading_bar.png">Progress Bars</a></li>
+                                  </ul>
+                              </li>
+                             
+                          </ul>
+                      </li>				
+                      <li><a href="#">
+                          <img src="images/icons/grey/Table.png">
+                          <span>Tables</span>
+                          <span class="icon">&nbsp;</span></a>
+                          <div class="accordion">
+                              <a href="tables.html">Standard Tables</a>
+                              <a href="tables.html">Data Tables</a>
+                          </div>	
+                      </li>	
+                      <li><a href="#">
+                          <img src="images/icons/grey/Archive.png">
+                          <span>Forms</span>
+                          <span class="icon">&nbsp;</span></a>
+                          <div class="accordion">
+                              <a href="forms.html">MultiUpload</a>
+                              <a href="forms.html">Multiselect</a>
+                              <a href="forms.html">DatePickers</a>
+                              <a href="forms.html">Sliders</a>
+                          </div>	
+                      </li>	
+                      <li><a href="calendar.html">
+                          <img src="images/icons/grey/day_calendar.png">
+                          <span>Calendar</span></a>
+                      </li>	
+                      <li><a href="gallery.html">
+                          <img src="images/icons/grey/Images.png">
+                          <span>Image Gallery</span></a>
+                      </li>	
+                      <li><a href="login.html">
+                          <img src="images/icons/grey/bulls_eye.png">
+                          <span>Logout</span></a>
+                      </li>	
+                  </ul>
+                  <a href="#" class="minimize round_bottom"><span>minimize</span></a>
+        </div><!--/span-->  
+          
+        <!-- main container -->
+        <div id="main_container" class="span10">
+        
+        	<!-- Shortcut buttons -->
+            <div class="row-fluid">
+	            <div class="span12 shortcut">
+                	<a href="#" class="btn btn-shortcut"><img src="images/icons/grey/Home.png" alt="Dashboard" />Dashboard<span class="label label-success">9</span></a>
+                    <a href="#" class="popover_shortcut_on btn btn-shortcut"
+                    rel="popover" 
+                    data-content=
+                    '<a href="#" >Comment By Member</a><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum,...e</p><hr>
+                    <a href="#" >Comment By Member</a><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum,...e</p><hr>
+                    <a href="#" >Comment By Member</a><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum,...e</p><hr>
+                    <a href="#" >Comment By Member</a><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum,...e</p><hr>
+                    <a href="#" >Comment By Member</a><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean bibendum,...e</p>'
+                    data-original-title="New Comments"
+                    
+                    ><img src="images/icons/grey/speech_bubbles.png" alt="Comments" />Comments<span class="label label-warning">9</span></a>
+                    <a href="#" class="btn btn-shortcut"><img src="images/icons/grey/Graph.png" alt="Statistics" />Statistics<span class="label label-info">9</span></a>                    
+                </div><!--/span-->
+            </div>
+            
+            <!-- Breadcrumb -->        
+        	<div class="row-fluid">
+                <div class="span12">
+                <ul class="breadcrumb">              
+                  	<li><a href="index.html">Dashboard</a> <span class="divider">/</span></li>        
+                  	<li class="active">Calendar</li>
+                </ul>
+                </div><!--/span-->
+            </div>
+            
+            <!-- Content start -->         
+             <div class="row-fluid">
+             	<div class="span12">
+                    <div class="box grad_colour_dark_blue">
+                        <h2 class="box_head grad_colour round_top">Box</h2>
+                        <a href="#" class="settings box_button_3" title="config">&nbsp;</a>
+                        <a href="#" class="toggle box_button_2" title="toggle">&nbsp;</a>
+                        <a href="#" class="destroy box_button_1" title="close">&nbsp;</a>
+                        <div class="toggle_container">					
+                            <div class="block box_content round_bottom padding_20">
+                                <h1>Calendar with draggable events</h1>
+                                <hr/>
+                                <div class="row-fluid">                 
+                                    <div class="span10"><!-- calendar column -->
+                                        <div id='calendar2'></div><!-- calendar placeholder -->
+                                    </div>
+                                    <div class="span2"><!-- events column -->
+                                        <h2>Events</h2>
+                                        <hr />
+                                        <!-- events which can be used in the calender -->
+                                        <div id="external-events">
+                                            <div class="external-event label">Default</div>
+                                            <div class="external-event label label-success">New</div>                                    
+                                            <div class="external-event label label-warning">Warning</div>                                    
+                                            <div class="external-event label label-important">Important</div>                                    
+                                            <div class="external-event label label-info">Info</div>
+                                        </div>
+                                    </div>                                                   
+                                </div>
+                            </div>                                
+                        </div>
+                    </div>
+            	</div>
+            </div><!--/row-->              
+            <!-- Content end -->
+            
+        </div><!--/span-->
+      </div><!--/row-->
+	  
+      <!-- footer -->
+    </div><!--/.fluid-container-->
+    
+    <!-- javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<!-- jQuery (UI) -->
+    <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
+    
+	<!-- jQuery Cookie -->
+    <script type="text/javascript" language="javascript" src="js/intenso/jquery.cookie.js"></script>
+
+    <!-- Sherpa side nav -->
+    <script type="text/javascript" language="javascript" src="js/intenso/jquery.hoverIntent.minified.js"></script>
+
+    <!-- UI to Top -->
+    <script type="text/javascript" language="javascript" src="js/jquery.ui.totop/js/jquery.ui.totop.js"></script>  
+
+    <!-- Bootstrap Scripts -->   
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-popover.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-alert.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-tab.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-typeahead.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/js/bootstrap-modal.js"></script>
+    <script type="text/javascript" language="javascript" src="js/bootstrap/docs/assets/js/google-code-prettify/prettify.js"></script>
+	  
+	<!-- Datatables -->
+	<script type="text/javascript" language="javascript" src="js/DataTables/media/js/jquery.dataTables.js"></script>
+
+	<!-- Full Calender -->
+    <script type='text/javascript' src='js/fullcalendar/fullcalendar/fullcalendar.min.js'></script>
+	
+    <!-- Admin Intenso -->
+    <script type="text/javascript" language="javascript" src="js/intenso/jquery.hoverIntent.minified.js"></script>
+    <script type="text/javascript" language="javascript" src="js/intenso/intenso.js"></script>
+    <script type="text/javascript" language="javascript" src="js/intenso/intenso.calendar.js"></script>
+  </body>
+</html>                        
