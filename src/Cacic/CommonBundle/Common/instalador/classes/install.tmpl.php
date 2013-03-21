@@ -16,15 +16,15 @@ defined( 'CACIC' ) or die( 'Acesso restrito (Restricted access)!' );
 
 if( ! @include("pat".CACIC_DS."patErrorManager.php") )
 {
-	die('Erro na inclusão da biblioteca patTemplate! (patTemplate include error!).');
+	die('Erro na inclusï¿½o da biblioteca patTemplate! (patTemplate include error!).');
 }
 if( ! @include("pat".CACIC_DS."patError.php") )
 {
-	die('Erro na inclusão da biblioteca patTemplate! (patTemplate include error!).');
+	die('Erro na inclusï¿½o da biblioteca patTemplate! (patTemplate include error!).');
 }
 if( ! @include("pat".CACIC_DS."patTemplate.php") )
 {
-	die('Erro na inclusão da biblioteca patTemplate! (patTemplate include error!).');
+	die('Erro na inclusï¿½o da biblioteca patTemplate! (patTemplate include error!).');
 }
 
 Class Template extends patTemplate {
@@ -40,7 +40,7 @@ Class Template extends patTemplate {
 	 $this->oLang = &$_oTranslator;
      parent::patTemplate();
      $this->setNamespace('cacicInstall');
-     $this->setRoot('templates');
+     $this->setRoot('..'.CACIC_DS.'templates');
      $this->readTemplatesFromInput('install_header.tmpl');
      $this->readTemplatesFromInput('install_body.tmpl');
      $this->readTemplatesFromInput('install_footer.tmpl');
@@ -62,7 +62,7 @@ Class Template extends patTemplate {
    function navBar($type="preInstall") {
 	 
      /*
-      * Mosta idiomas diponíveis
+      * Mosta idiomas diponï¿½veis
       */
      $lang_available = $_SESSION['cacic_language_available'];
      $lang_active = $_SESSION['cacic_language'];
