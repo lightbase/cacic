@@ -9,7 +9,7 @@ body {
 	width: 204px;
 }
 
-.box_head i { margin-right: 5px; } /* Espaçamento entre o ícone e o título dos boxes (widgets) */
+h2.box_head i { margin-right: 5px; } /* Espaçamento entre o ícone e o título dos boxes (widgets) */
 
 .table td.td-actions {
 	text-align: center;
@@ -17,4 +17,49 @@ body {
 
 .navbar .nav > li > a, .navbar .brand {
 	text-shadow: none;
+}
+
+/*------------------------------------------------------------------
+[1. Shortcuts / .shortcuts]
+*/
+
+.shortcuts {
+	text-align: center;	
+}
+
+.shortcuts .shortcut { 
+	width: 22.50%;
+	display: inline-block;
+	padding: 12px 0;
+	margin: 0 .9% 1em;
+	vertical-align: top;	
+	
+	text-decoration: none;
+	
+	background: #F3F3F3;
+	
+	border-radius: 5px;
+}
+
+.shortcuts .shortcut .shortcut-icon {
+	margin-top: .25em;
+	margin-bottom: .25em;
+	
+	font-size: 32px;
+	color: #888;
+}
+
+.shortcuts .shortcut:hover {
+	background: #E8E8E8;
+}
+
+.shortcuts .shortcut:hover .shortcut-icon {
+	color: #666;
+}
+
+.shortcuts .shortcut-label {
+	display: block;
+	
+	font-weight: 400;
+	color: #666;
 }

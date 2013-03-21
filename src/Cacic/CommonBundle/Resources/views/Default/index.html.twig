@@ -9,8 +9,11 @@
 			<h2 class="box_head round_top"><i class="icon-exclamation-sign"></i> Estatísticas do sistema</h2>
 			<div class="toggle_container">
 				<div class="block box_content round_bottom padding_10">
-					Totais de computadores monitorados
-					Totais de acessos dos agentes
+					<ul class="statistics">
+						<li><a href="javascript:void(0);"><i class="icon-laptop icon-large"></i><span class="blue">0</span> Totais de computadores monitorados</a></li>
+						<li><a href="javascript:void(0);"><i class="icon-exchange icon-large"></i><span class="blue">0</span> Últimos acessos dos agentes</a></li>
+						<li><a href="javascript:void(0);"><i class="icon-warning-sign icon-large"></i><span class="red">0</span> Totais de tentativas de instalação mal sucedidas</a></li>
+					</ul>
 				</div>
 			</div>
 		</div> <!-- /box -->
@@ -36,7 +39,7 @@
 		<div class="box grad_colour_black" id="box2">
 			<h2 class="box_head round_top"><i class="icon-heart"></i> Atalhos</h2>
 			<div class="toggle_container">
-				<div class="block box_content round_bottom padding_10">
+				<div class="block box_content round_bottom padding_10 shortcuts">
 					<a href="{{ path('cacic_usuario_index') }}" class="shortcut">
 						<i class="shortcut-icon icon-group"></i>
 						<span class="shortcut-label">Usuários</span>
