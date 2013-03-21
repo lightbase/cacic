@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    #<IfModule mod_vhost_alias.c>
+    #    RewriteBase /
+    #</IfModule>
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ app.php [QSA,L]
+    
+	#RewriteCond %{REQUEST_FILENAME} -s [OR]
+	#RewriteCond %{REQUEST_FILENAME} -l [OR]
+	#RewriteCond %{REQUEST_FILENAME} -d
+	#RewriteRule ^.*$ - [NC,L]
+	#RewriteRule ^.*$ app.php [NC,L]
+	
+</IfModule>
