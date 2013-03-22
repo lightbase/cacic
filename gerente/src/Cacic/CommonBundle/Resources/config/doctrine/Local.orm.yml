@@ -49,5 +49,7 @@ Cacic\CommonBundle\Entity\Local:
         configuracoes:
             targetEntity: ConfiguracaoLocal
             mappedBy: idLocal
-    lifecycleCallbacks:
-        postPersist: [ configurarFromConfigPadrao ]
+    entityListeners:
+        UserListener:
+            postPersist: [postPersistHandler]
+    lifecycleCallbacks: {  }
