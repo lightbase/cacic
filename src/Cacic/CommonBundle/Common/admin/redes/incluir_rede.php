@@ -1,33 +1,33 @@
 <?php
  /* 
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informaï¿½ï¿½es da Previdï¿½ncia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ï¿½ parte do programa CACIC - Configurador Automï¿½tico e Coletor de Informaï¿½ï¿½es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ï¿½ um software livre; vocï¿½ pode redistribui-lo e/ou modifica-lo dentro dos termos da Licenï¿½a Pï¿½blica Geral GNU como 
+ publicada pela Fundaï¿½ï¿½o do Software Livre (FSF); na versï¿½o 2 da Licenï¿½a, ou (na sua opniï¿½o) qualquer versï¿½o.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ï¿½ distribuido na esperanï¿½a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAï¿½ï¿½O a qualquer
+ MERCADO ou APLICAï¿½ï¿½O EM PARTICULAR. Veja a Licenï¿½a Pï¿½blica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral GNU, sob o tï¿½tulo "LICENCA.txt", junto com este programa, se nï¿½o, escreva para a Fundaï¿½ï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
 /*
- * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ * verifica se houve login e tambï¿½m regras para outras verificaï¿½ï¿½es (ex: permissï¿½es do usuï¿½rio)!
  */
 if(!isset($_SESSION['id_usuario'])) 
   die('Acesso restrito (Restricted access)!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+else { // Inserir regras para outras verificaï¿½ï¿½es (ex: permissï¿½es do usuï¿½rio)!
 }
 
 include_once "../../include/library.php";
 
 AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
-// 1 - Administração
-// 2 - Gestão Central
-// 3 - Supervisão
+// 1 - Administraï¿½ï¿½o
+// 2 - Gestï¿½o Central
+// 3 - Supervisï¿½o
 
 if($_POST['submit']) 
 	{
@@ -37,7 +37,7 @@ if($_POST['submit'])
 			  FROM 		redes 
 			  WHERE 	id_rede = ".$_POST['frm_id_rede'];
 						
-	$result = mysql_query($query) or die ('Select falhou ou sua sessão expirou!');
+	$result = mysql_query($query) or die ('Select falhou ou sua sessï¿½o expirou!');
 	
 	if (mysql_num_rows($result) > 0) 
 		{
@@ -91,7 +91,7 @@ if($_POST['submit'])
 							  ".$_POST['frm_id_servidor_autenticacao'].",								  
 							 '".$_POST['frm_cs_permitir_desativar_srcacic']."',								  							  
 							  ".$_POST['frm_id_local'].")";									  							
-		$result = mysql_query($query) or die ('Insert falhou ou sua sessão expirou!');
+		$result = mysql_query($query) or die ('Insert falhou ou sua sessï¿½o expirou!');
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'redes',$_SESSION["id_usuario"]);
 
 		$arrDadosRede = getArrFromSelect('redes', 'id_rede', 'te_ip_rede = "'.$_POST['frm_te_ip_rede'].'" and id_local = '.$_POST['frm_id_local']);
@@ -102,21 +102,21 @@ if($_POST['submit'])
 		$query_del = "DELETE 
 					  FROM		acoes_redes 
 					  WHERE		id_rede = ".$arrDadosRede[0]['id_rede'];
-		mysql_query($query_del) or die('Ocorreu um erro durante a exclusão de registros na tabela acoes_redes ou sua sessão expirou!');			
+		mysql_query($query_del) or die('Ocorreu um erro durante a exclusï¿½o de registros na tabela acoes_redes ou sua sessï¿½o expirou!');			
 		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);
 
 		$query_so  = "SELECT   id_so 
 					  FROM     so
 					  ORDER BY id_so";
         $result_so = mysql_query($query_so) or die('Ocorreu um erro
-		durante a consulta à tabela de sistemas operacionais ou	sua sessão expirou!');
+		durante a consulta ï¿½ tabela de sistemas operacionais ou	sua sessï¿½o expirou!');
 
 
 		$query_acoes = "SELECT 	* 
 						FROM 	acoes";
-		$result_acoes = mysql_query($query_acoes) or die('Ocorreu um erro durante a consulta à tabela de ações ou sua sessão expirou!'); 
+		$result_acoes = mysql_query($query_acoes) or die('Ocorreu um erro durante a consulta ï¿½ tabela de aï¿½ï¿½es ou sua sessï¿½o expirou!'); 
 					
-		$strFixedValues = ''
+		$strFixedValues = '';
 		while ($row_acoes = mysql_fetch_array($result_acoes))
 			{
 			if ($v_tripa_acoes <> '')
@@ -129,17 +129,17 @@ if($_POST['submit'])
 									id_acao) 
 						  VALUES	(".$arrDadosRede[0]['id_rede'].", 
 									'".$row_acoes['id_acao']."')";
-			mysql_query($query_ins) or die('Ocorreu um erro durante a inclusão de registros na tabela acoes_redes ou sua sessão expirou!');
+			mysql_query($query_ins) or die('Ocorreu um erro durante a inclusï¿½o de registros na tabela acoes_redes ou sua sessï¿½o expirou!');
 
 			mysql_data_seek($result_so,0);
 			while ($row_so = mysql_fetch_array($result_so))
 				{
 				$query_ins =   "INSERT INTO acoes_so(id_local,id_acao,id_so) VALUES (".$_POST['frm_id_local'].",'".$row_acoes['id_acao']."',".$row_so['id_so'].")";
-				$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');
+				$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclusï¿½o de registros na tabela acoes_so ou sua sessï¿½o expirou!');
 				}
 			}						
 
-		// Inserção das ações incondicionais de Coleta de Softwares Básicos e Variáveis de Ambiente
+		// Inserï¿½ï¿½o das aï¿½ï¿½es incondicionais de Coleta de Softwares Bï¿½sicos e Variï¿½veis de Ambiente
 		$query_ins = "INSERT 
 					  INTO 		acoes_redes 
 								(id_rede, 
@@ -148,16 +148,16 @@ if($_POST['submit'])
 								'col_soft_not_optional'),
 								(".$arrDadosRede[0]['id_rede'].", 
 								'col_env_not_optional')";
-		mysql_query($query_ins) or die('Ocorreu um erro durante a inclusão de registros na tabela acoes_redes ou sua sessão expirou!');
+		mysql_query($query_ins) or die('Ocorreu um erro durante a inclusï¿½o de registros na tabela acoes_redes ou sua sessï¿½o expirou!');
 
 		mysql_data_seek($result_so,0);
 		while ($row_so = mysql_fetch_array($result_so))
 			{
 			$query_ins =   "INSERT INTO acoes_so(id_local,id_acao,id_so) VALUES (".$_POST['frm_id_local'].",'col_soft_not_optional',".$row_so['id_so'].")";
-			$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');
+			$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclusï¿½o de registros na tabela acoes_so ou sua sessï¿½o expirou!');
 			
 			$query_ins =   "INSERT INTO acoes_so(id_local,id_acao,id_so) VALUES (".$_POST['frm_id_local'].",'col_env_not_optional',".$row_so['id_so'].")";
-			$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclusão de registros na tabela acoes_so ou sua sessão expirou!');			
+			$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclusï¿½o de registros na tabela acoes_so ou sua sessï¿½o expirou!');			
 			}
 			
 		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);							
@@ -247,20 +247,20 @@ function valida_form(frmForm)
 		}					
 	
 	if (document.form.frm_id_local.selectedIndex==0) {	
-		alert("O local da rede é obrigatório");
+		alert("O local da rede ï¿½ obrigatï¿½rio");
 		document.form.frm_id_local.focus();
 		return false;
 	}
 
 	if ( document.form.frm_te_mascara_rede.value == "" ) 
 		{	
-		alert("A máscara de rede é obrigatória.\nPor favor, informe-a, usando o formato X.X.X.0\nExemplo: 255.255.255.0");
+		alert("A mï¿½scara de rede ï¿½ obrigatï¿½ria.\nPor favor, informe-a, usando o formato X.X.X.0\nExemplo: 255.255.255.0");
 		document.form.frm_te_mascara_rede.focus();
 		return false;
 		}		
 	else if ( document.form.frm_nm_rede.value == "" ) 
 		{	
-		alert("O nome da rede é obrigatório. Por favor, informe-o.");
+		alert("O nome da rede ï¿½ obrigatï¿½rio. Por favor, informe-o.");
 		document.form.frm_nm_rede.focus();
 		return false;
 		}
@@ -290,25 +290,25 @@ function valida_form(frmForm)
 		}			
 	else if ( document.form.frm_nm_usuario_login_serv_updates.value == "" ) 
 		{	
-		alert("Digite o Nome do Usuário para Login no Servidor de Updates pelo Módulo Agente");
+		alert("Digite o Nome do Usuï¿½rio para Login no Servidor de Updates pelo Mï¿½dulo Agente");
 		document.form.frm_nm_usuario_login_serv_updates.focus();
 		return false;
 		}			
 	else if ( document.form.frm_te_senha_login_serv_updates.value == "" ) 
 		{	
-		alert("Digite a Senha para Login no Servidor de Updates pelo Módulo Agente");
+		alert("Digite a Senha para Login no Servidor de Updates pelo Mï¿½dulo Agente");
 		document.form.frm_te_senha_login_serv_updates.focus();
 		return false;
 		}				
 	else if ( document.form.frm_nm_usuario_login_serv_updates_gerente.value == "" ) 
 		{	
-		alert("Digite o Nome do Usuário para Login no Servidor de Updates pelo Módulo Gerente");
+		alert("Digite o Nome do Usuï¿½rio para Login no Servidor de Updates pelo Mï¿½dulo Gerente");
 		document.form.frm_nm_usuario_login_serv_updates_gerente.focus();
 		return false;
 		}		
 	else if ( document.form.frm_te_senha_login_serv_updates_gerente.value == "" ) 
 		{	
-		alert("Digite a Senha para Login no Servidor de Updates pelo Módulo Gerente");
+		alert("Digite a Senha para Login no Servidor de Updates pelo Mï¿½dulo Gerente");
 		document.form.frm_te_senha_login_serv_updates_gerente.focus();
 		return false;
 		}					
@@ -363,7 +363,7 @@ MM_reloadPage(true);
 			$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE id_local = '.$_SESSION['id_local']:'');
 			if (trim($_SESSION['te_locais_secundarios'])<>'' && $where <> '')
 				{
-				// Faço uma inserção de "(" para ajuste da lógica para consulta
+				// Faï¿½o uma inserï¿½ï¿½o de "(" para ajuste da lï¿½gica para consulta
 				$where = str_replace(' id_local = ','(id_local = ',$where);
 				$where .= ' OR id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
 				}
@@ -375,7 +375,7 @@ MM_reloadPage(true);
 								 			$where." 
 								 ORDER BY	sg_local";
 
-	    $result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sessão expirou!');
+	    $result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sessï¿½o expirou!');
 		echo '<option value="0">Selecione Local</option>';		  				
 		while ($row=mysql_fetch_array($result_locais))
 			{ 
@@ -400,7 +400,7 @@ MM_reloadPage(true);
 						WHERE		in_ativo = 'S' 
 						ORDER BY	nm_servidor_autenticacao";
 
-		$result_servidor_autenticacao = mysql_query($qry_servidor_autenticacao) or die ('Falha na consulta &agrave; tabela Servidores de Autenticação ou sua sess&atilde;o expirou!');
+		$result_servidor_autenticacao = mysql_query($qry_servidor_autenticacao) or die ('Falha na consulta &agrave; tabela Servidores de Autenticaï¿½ï¿½o ou sua sess&atilde;o expirou!');
 			  
 				while($row = mysql_fetch_array($result_servidor_autenticacao))
 					echo '<option value="'.$row['id_servidor_autenticacao'].'">'.$row['nm_servidor_autenticacao'].'</option>';
@@ -730,7 +730,7 @@ MM_reloadPage(true);
 	?>
   </table>
   <p align="center"> 
-    <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  "  onClick="return valida_form(this);return Confirma('Confirma Inclusão de Rede?');">
+    <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  "  onClick="return valida_form(this);return Confirma('Confirma Inclusï¿½o de Rede?');">
   </p>
 </form>
 <p>
