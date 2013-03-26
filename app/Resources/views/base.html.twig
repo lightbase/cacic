@@ -5,39 +5,33 @@
     <title>CACIC - Coletor Automático e Configurador de Informações Computacionais</title>
     <meta name="description" content="CACIC Coletor Automático e Configurador de Informações Computacionais">
     <meta name="ahoekie" content="CACIC BackEnd">
-
+    
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-	{% block stylesheets %}
-    <!-- Bootstrap -->
-    <link href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/css/bootstrap-responsive.css') }}" rel="stylesheet">
-
-	<!-- Bootstrap CSS fixes for IE6 -->
+    
+    {% block stylesheets %}
+        {% stylesheets output='css/cacic.css' combine=false filter='cssrewrite,?yui_css'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/css/*'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.8.16.custom.css'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/js/google-code-prettify/prettify.css'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery.ui.totop/css/ui.totop.css'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/DataTables/media/css/demo_table_jui.intenso.css'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/css/*'
+            'bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.min.css'
+            'bundles/caciccommon/css/main.css'
+       %}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+        {% endstylesheets %}
+         
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+        
+    {% endblock %}
+    
+    <!-- Bootstrap CSS fixes for IE6 -->
     <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
-
-	<!-- jQuery UI Bootstrap theme -->
-	<link type="text/css" href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" />
-
-	<!-- Bootstrap google prettify -->
-    <link href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/js/google-code-prettify/prettify.css') }}" rel="stylesheet">
-
-	<!-- UI to Top -->
-   	<link rel="stylesheet" type="text/css" media="screen,projection" href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery.ui.totop/css/ui.totop.css') }}" />     
-
-	<!-- Datatables -->
-	<link rel="stylesheet" href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/DataTables/media/css/demo_table_jui.intenso.css') }}" />
-
-	<!-- Admin Instenso main scripts -->
-	<link rel="stylesheet" href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/css/main.css') }}" />
-	<link rel="stylesheet" href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/css/side_nav.css') }}" />
-	
-	<link href="{{ asset('bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
-	<link href="{{ asset('bundles/caciccommon/css/main.css') }}" rel="stylesheet" type="text/css" />
-	{% endblock %}
+    
   </head>
 
   <body id="cacic_backend"><!-- This id is used for the cookies -->
@@ -281,36 +275,18 @@
 	<!-- jQuery (UI) -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
-    
-	<!-- jQuery Cookie -->
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.cookie.js') }}"></script>
-
-    <!-- Sherpa side nav -->
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.hoverIntent.minified.js') }}"></script>
-
-    <!-- UI to Top -->
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery.ui.totop/js/jquery.ui.totop.js') }}"></script>  
-
-    <!-- Bootstrap Scripts -->   
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-dropdown.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-tooltip.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-popover.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-alert.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-tab.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-typeahead.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/js/bootstrap-modal.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/js/google-code-prettify/prettify.js') }}"></script>
-	  
-	<!-- Datatables -->
-	<script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/DataTables/media/js/jquery.dataTables.js') }}"></script>
-
-    <!-- Admin Intenso -->
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.hoverIntent.minified.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/intenso.js') }}"></script>
-    
-    <!-- CACIC V3 -->
-    <script src="{{ asset('bundles/caciccommon/js/System.js') }}"></script>
-	<script src="{{ asset('bundles/caciccommon/js/init.js') }}"></script>
+	
+	{% javascripts output='naoperco.js' combine=false
+        '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.cookie.js'
+        '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery.ui.totop/js/jquery.ui.totop.js'
+        '@bootstrap_js'
+        '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/DataTables/media/js/jquery.dataTables.js'
+        '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.hoverIntent.minified.js'
+        '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/intenso.js'
+        '@CacicCommonBundle/Resources/public/js/*'
+    %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
     
     {% endblock %}
     

@@ -5,16 +5,29 @@
     <title>Cacic - Configurador Automático e Coletor de Informações Computacionais</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">    
+    <meta name="apple-mobile-web-app-capable" content="yes">
     
-    <link href="{{ asset('bundles/caciccommon/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('bundles/caciccommon/css/bootstrap-responsive.css') }}" rel="stylesheet" type="text/css" />
-    
-    <link href="{{ asset('bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('bundles/caciccommon/css/css.css') }}" rel="stylesheet" type="text/css" />
-
-	<link href="{{ asset('bundles/caciccommon/css/base-admin.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('bundles/caciccommon/css/login.css') }}" rel="stylesheet" type="text/css" />
+    {% block javascripts %}
+	    {% javascripts output='js/cacic.js' combine=true 
+	        '@jquery_js'
+	        '@bootstrap_js'
+	    %}
+	        <script src="{{ asset_url }}"></script>
+	    {% endjavascripts %}
+	{% endblock %}
+	
+	{% block stylesheets %}
+	    {% stylesheets output='css/cacic.css' combine=true filter='cssrewrite'
+	        '@bootstrap_less'
+	        'bundles/caciccommon/css/*'
+	        'bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.min.css'
+	   %}
+	        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+	   {% endstylesheets %}
+	     
+	    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+	    
+	{% endblock %}
 
   </head>
 
@@ -88,23 +101,6 @@
 	</div> <!-- /content -->
 	
 </div> <!-- /account-container -->
-
-<script src="{{ asset('bundles/caciccommon/js/jquery-1.7.2.min.js') }}"></script>
-<script src="{{ asset('bundles/caciccommon/js/bootstrap.js') }}"></script>
-<script type="text/javascript">
-$(function () {
-	
-	jQuery.support.placeholder = false;
-	test = document.createElement('input');
-	if('placeholder' in test) jQuery.support.placeholder = true;
-	
-	if (!$.support.placeholder) {
-		$('.field').find ('label').show ();	
-	}
-	
-	$('#username, #password').val('');
-});
-</script>
 
 </body>
 </html>
