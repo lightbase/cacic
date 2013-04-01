@@ -16,7 +16,7 @@ class AplicativoType extends AbstractType
 
 	public function buildForm( FormBuilderInterface $builder, array $options )
 	{
-        $builder->add( 'nmAplicativo', null,
+        $builder->add( 'nmAplicativo', 'text',
             array(
                 'max_length' => 50,
                 'label' => 'Nome do sistema:'
@@ -168,7 +168,6 @@ class AplicativoType extends AbstractType
                 'property' => 'nmrede',
                 'multiple' => true,
                 'required'  => false,
-                'mapped'=>false,
                 'label'=> 'Disponíveis:'
             )
         );
@@ -181,10 +180,7 @@ class AplicativoType extends AbstractType
                 'label'=> 'Selecionada:'
             )
         );
-        $builder->add('dtAtualizacao', 'hidden',
-            array(
-            )
-        );
+        $builder->add('dtAtualizacao', 'hidden');
 
 }
     /**

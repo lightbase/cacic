@@ -108,6 +108,7 @@ class RedeType extends AbstractType
         $builder->add('teSenhaLoginServUpdates', 'password',
             array(
                 'label' => 'Senha para Login:',
+                'required'  => false,
                 'max_length' => 20
             )
         );
@@ -120,6 +121,7 @@ class RedeType extends AbstractType
         $builder->add('teSenhaLoginServUpdatesGerente', 'password',
             array(
                 'label' => 'Senha para Login:',
+                'required'  => false,
                 'max_length' => 20
             )
         );
@@ -184,7 +186,7 @@ class RedeType extends AbstractType
                 'required'  => false,
                 'expanded'  => true,
                 'mapped'=>false,
-                'label' => ''
+                'label' => ' '
 
             )
         );
@@ -194,7 +196,7 @@ class RedeType extends AbstractType
                 'required'  => false,
                 'data' => 'N',
                 'expanded'  => true,
-                'label' => ''
+                'label' => ' '
 
             )
         );
@@ -204,7 +206,8 @@ class RedeType extends AbstractType
                  'property' => 'nmAplicativo',
                  'required'  => false,
                  'expanded'  => true,
-                 'label' => ''
+                 'multiple'  => true,
+                 'label' => ' '
              )
         );
 	}
