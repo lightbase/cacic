@@ -1,30 +1,34 @@
 {% extends '::base.html.twig' %}
 
+{% block breadcrumb %}
+    <li class="active">{{ "Subredes"|trans }}</li>
+{% endblock %}
+
 {% block body %}
 
-<div class="span12">
+<div class="row-fluid">
+  <div class="span12">
+    <div class="box grad_colour_black">
 
-  <div class="widget">
+      <h2 class="box_head round_top"><i class="icon-sitemap"></i> {{ "Subredes"|trans }}</h2>
 
-        <div class="widget-header">
-            <i class="icon-desktop"></i>
-            <h3>Subredes</h3>
-        </div> <!-- /widget-header -->
+       <div class="block box_content round_bottom padding_10">
 
-        <div class="widget-content">
-            <h3>Lista de Subredes cadastrados</h3>
-            <br />
+        <h3>{{ "Lista de Subredes cadastrados"|trans }}</h3>
+        <p>{{ "Neste módulo deverão ser cadastrados as Subredes do sistema"|trans }}</p>
+        <br />
+
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
-                <th width="10%">Endereço<br />Máscara</th>
-                <th width="10%">Subrede</th>
-                <th width="10%" style="text-align: center">Local</th>
-                <th width="5%" style="text-align: center">Máquinas</th>
-                <th width="5%" style="text-align: center">Autenticação</th>
-                <th width="10%" style="text-align: center">Aplicação</th>
-                <th width="10%" style="text-align: center">Atualização</th>
-                <th style="text-align: center">Ações</th>
+                <th width="10%">{{ "Endereço"|trans }}<br />{{ "Máscara"|trans }}</th>
+                <th width="10%">{{ "Subrede"|trans }}</th>
+                <th width="10%" style="text-align: center">{{ "Local"|trans }}</th>
+                <th width="5%" style="text-align: center">{{ "Máquinas"|trans }}</th>
+                <th width="5%" style="text-align: center">{{ "Autenticação"|trans }}</th>
+                <th width="10%" style="text-align: center">{{ "Aplicação"|trans }}</th>
+                <th width="10%" style="text-align: center">{{ "Atualização"|trans }}</th>
+                <th style="text-align: center">{{ "Ações"|trans }}</th>
             </tr>
             </thead>
 
@@ -41,11 +45,11 @@
                     <td style="text-align: center">{{ rede[0]['teServCacic'] }}</td>
                     <td style="text-align: center">{{ rede[0]['teServUpdates'] }}</td>
                     <td class="td-actions">
-                        <a href="{{ path('cacic_subrede_editar', {'idRede': rede[0]['idRede']}) }}" class="btn btn-small" title="Editar Item">
+                        <a href="{{ path('cacic_subrede_editar', {'idRede': rede[0]['idRede']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                             <i class="btn-icon-only icon-edit"></i>
                         </a>
 
-                        <a href="{{ path('cacic_subrede_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="Excluir Item">
+                        <a href="{{ path('cacic_subrede_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
                             <i class="btn-icon-only icon-remove"></i>
                         </a>
                     </td>
@@ -53,18 +57,21 @@
 
             {% else %}
                 <tr>
-                    <td align="center" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+                    <td align="center" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
                 </tr>
             {% endfor %}
 
             </tbody>
-        </table>  <div align="right">
-            <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_subrede_cadastrar') }}">
-                <i class="icon-plus-sign"></i>
-                Adicionar Softwares
-            </a>
-        </div>
-        </div>
-  </div>
-</div>
+        </table>
+            <div align="right">
+                <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_subrede_cadastrar') }}">
+                    <i class="icon-plus-sign"></i>
+                    {{ "Adicionar Softwares"|trans }}
+                </a>
+            </div>
+       </div> <!-- /block -->
+    </div><!-- /box -->
+
+  </div><!-- /span -->
+</div><!-- /row -->
 {% endblock %}

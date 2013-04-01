@@ -1,8 +1,8 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-	<li><a href="{{ path('cacic_usuario_index') }}">Usuários</a></li> / 
-	<li class="active">Cadastro</li>
+	<li><a href="{{ path('cacic_usuario_index') }}">{{ "Usuários"|trans }}</a></li> /
+	<li class="active">{{ "Cadastro"|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -12,11 +12,11 @@
 	<div class="span8">
 		<div class="box grad_colour_black">
 
-			<h2 class="box_head round_top"><i class="icon-user"></i> {% if form.vars.value.idUsuario %}Edição dos dados do Usuário{% else %}Cadastro de novo Usuário{% endif %}</h2>
+			<h2 class="box_head round_top"><i class="icon-user"></i> {% if form.vars.value.idUsuario %}{{ "Edição dos dados do Usuário"|trans }}{% else %}{{ "Cadastro de novo Usuário"|trans }}{% endif %}</h2>
 			
 			<div class="block box_content round_bottom padding_10">
 			
-				<form id="formCadastroUsuario" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+				<form id="formCadastroUsuario" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
 			
 					{{ form_widget( form, {'form_type': 'horizontal'} ) }}
 					{{ form_rest(form) }}
@@ -25,11 +25,11 @@
 	                  <div class="controls">
 	                    <button type="reset" class="btn">
 							<i class="icon-refresh"></i>
-							Resetar Valores
+							{{ "Resetar Valores"|trans }}
 						</button>
 						<button type="submit" class="btn btn-primary">
 							<i class="icon-ok-sign"></i>
-							Salvar Dados
+							{{ "Salvar Dados"|trans }}
 						</button>
 	                  </div>
 	                </div>
@@ -39,7 +39,7 @@
 				<div>
 					<a class="btn btn-danger"  href="{{ path('cacic_usuario_index') }}">
 						<i class="icon-remove-sign"></i>
-						Cancelar
+						{{ "Cancelar"|trans }}
 					</a>
 				</div>
 		
@@ -51,16 +51,16 @@
 	<div class="span4">
 		<div class="box grad_colour_black">
 
-			<h2 class="box_head round_top"><i class="icon-info-sign"></i> Informações Adicionais</h2>
+			<h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
 				
 			<div class="block box_content round_bottom padding_10">
 				<p>
-					As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso. 
-					A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção
+					{{ "As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso."|trans }}
+					{{ "A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção"|trans }}
 					<br /><br /> 
-					<b>Meus Dados (Menu no canto superior direito) - Alterar Senha</b>.
+					<b>{{ "Meus Dados (Menu no canto superior direito) - Alterar Senha"|trans }}</b>.
 					<br /><br />
-					Após o logon, serão exibidas a primeira e última parte do campo Nome completo.
+					{{ "Após o logon, serão exibidas a primeira e última parte do campo Nome completo."|trans }}
 				</p>
 			</div> <!-- /block -->
 		</div> <!-- /box -->

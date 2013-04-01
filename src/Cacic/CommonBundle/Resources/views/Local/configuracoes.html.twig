@@ -3,8 +3,8 @@
 	<thead>
 		<tr>
 		    <th width="5%" style="text-align: center">#</th>
-		    <th width="40%">Configuração</th>
-		    <th width="55%">Valor</th>
+		    <th width="40%">Configuração{{ ""|trans }}</th>
+		    <th width="55%">Valor{{ ""|trans }}</th>
 		</tr>
 	</thead>
 	
@@ -20,7 +20,7 @@
     
     {% else %}
     <tr>
-		<td colspan="6" style="text-align: center;"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+		<td colspan="6" style="text-align: center;"><b>NENHUM REGISTRO ENCONTRADO!{{ ""|trans }}</b></td>
 	</tr>
 	{% endfor %}
     

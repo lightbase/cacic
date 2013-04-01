@@ -1,89 +1,98 @@
 {% extends '::base.html.twig' %}
 
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_subrede_index') }}">{{ "SubRedes"|trans }}</a></li> /
+    <li class="active">{{ "Cadastro"|trans }}</li>
+{% endblock %}
+
 {% block body %}
 
-<<div class="span8">
-    <div class="widget">
-        <div class="widget-content">
-            <div class="page-header">
-                <h3>Dados das SubRedes</h3>
-            </div>
 
-            <form id="formRede" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+<div class="row-fluid">
+
+ <div class="span8">
+   <div class="box grad_colour_black">
+
+     <h2 class="box_head round_top">{{ "Dados de SubRedes"|trans }}</h2>
+
+     <div class="block box_content round_bottom padding_10">
+
+       <form id="formRede" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a href="#form-formRede-rede" data-toggle="tab"><br />Dados da rede<br /><br /></a>
+                            <a href="#form-formRede-rede" data-toggle="tab"><br />{{ "Dados da rede"|trans }}<br /><br /></a>
                         </li>
                         <li>
                             <a href="#form-formRede-aplicacao" data-toggle="tab">
 
-                                <br />Servidores de
-                                <br />Aplicação</a>
+                                <br />{{ "Servidores de"|trans }}
+                                <br />{{ "Aplicação"|trans }}</a>
                         </li>
                         <li>
                             <a href="#form-formRede-update" data-toggle="tab">
 
-                                <br /> Servidores de
+                                <br /> {{ "Servidores de"|trans }}
                                 <br />UPDATES</a>
                         </li>
                         <li>
-                            <a href="#form-formRede-contato" data-toggle="tab"><br />Dados para contatos:<br /><br /></a>
+                            <a href="#form-formRede-contato" data-toggle="tab"><br />{{ "Dados para contatos:"|trans }}<br /><br /></a>
                         </li>
                         <li>
-                            <a href="#form-formRede-opcoes" data-toggle="tab"><br />Opções:<br /><br /></a>
+                            <a href="#form-formRede-opcoes" data-toggle="tab"><br />{{ "Opções:"|trans }}<br /><br /></a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="form-formRede-rede">
-                            <h5>Dados da rede </h5>
+                            <h5> {{ "Dados da rede"|trans }}</h5>
                             <br />
-                            {{ form_row(form.idLocal) }}
-                            {{ form_row(form.idServidorAutenticacao) }}
-                            {{ form_row(form.teIpRede) }}
-                            {{ form_row(form.nmRede) }}
-                            {{ form_row(form.teMascaraRede) }}
+                            {{ form_row(form.idLocal, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.idServidorAutenticacao, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.teIpRede, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.nmRede, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.teMascaraRede, {'form_type': 'horizontal'} ) }}
                         </div>
                         <div class="tab-pane" id="form-formRede-aplicacao">
-                            <h5>Servidores de Aplicação </h5>
+                            <h5> {{ "Servidores de Aplicação"|trans }}</h5>
                             <br />
-                            {{ form_row(form.teServCacic) }}
-                            {{ form_row(form.selTeServCacic) }}
+                            {{ form_row(form.teServCacic, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.selTeServCacic, {'form_type': 'horizontal'} ) }}
                         </div>
                         <div class="tab-pane" id="form-formRede-update">
-                            <h5>Servidores de Update </h5>
+                            <h5>{{ "Servidores de"|trans }} Update </h5>
                             <br />
-                            {{ form_row(form.teServUpdates) }}
-                            {{ form_row(form.selTeServUpdates) }}
-                            {{ form_row(form.nuPortaServUpdates) }}
-                            {{ form_row(form.nuLimiteFtp) }}
-                            {{ form_row(form.nmUsuarioLoginServUpdates) }}
-                            {{ form_row(form.teSenhaLoginServUpdates) }}
-                            {{ form_row(form.nmUsuarioLoginServUpdatesGerente) }}
-                            {{ form_row(form.teSenhaLoginServUpdatesGerente) }}
-                            {{ form_row(form.tePathServUpdates) }}
-                            {{ form_row(form.teObservacao) }}
+                            {{ form_row(form.teServUpdates, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.selTeServUpdates, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.nuPortaServUpdates, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.nuLimiteFtp, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.nmUsuarioLoginServUpdates, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.teSenhaLoginServUpdates, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.nmUsuarioLoginServUpdatesGerente, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.teSenhaLoginServUpdatesGerente, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.tePathServUpdates, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.teObservacao, {'form_type': 'horizontal'} ) }}
                         </div>
                         <div class="tab-pane" id="form-formRede-contato">
-                            <h5>Servidores deAplicação </h5>
+                            <h5> {{ "Servidores de Aplicação"|trans }}</h5>
                             <br />
-                            {{ form_row(form.nmPessoaContato1) }}
-                            {{ form_row(form.nuTelefone1) }}
-                            {{ form_row(form.teEmailContato1) }}
-                            {{ form_row(form.nmPessoaContato2) }}
-                            {{ form_row(form.nuTelefone2) }}
-                            {{ form_row(form.teEmailContato2) }}
+                            {{ form_row(form.nmPessoaContato1, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.nuTelefone1, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.teEmailContato1, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.nmPessoaContato2, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.nuTelefone2, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.teEmailContato2, {'form_type': 'horizontal'} ) }}
                         </div>
                         <div class="tab-pane" id="form-formRede-opcoes">
-                            <h5>Marcar todas as ações para essa rede</h5>
+                            <h5>{{ "Marcar todas as ações para essa rede"|trans }}</h5>
                             <br />
-                            <h3><small>Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede.</small></h3>
-                            {{ form_row(form.habilitar) }}
-                            <h3>Permitir finalização de sessões do módulo srCACIC:<small>Essa opção define se o usuário final poderá ou não finalizar execuções do módulo srCACIC (Suporte Remoto Seguro). </small></h3>
-                            {{ form_row(form.csPermitirDesativarSrcacic) }}
-                            <h3>Selecao para coleta de informacoes de sistemas monitorados: <small>Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede. </small></h3>
-                            {{ form_row(form.idAplicativo) }}
+                            <h3><small>{{ "Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede."|trans }}</small></h3>
+                            {{ form_row(form.habilitar, {'form_type': 'horizontal'} ) }}
+                            <h3>{{ "Permitir finalização de sessões do módulo srCACIC:"|trans }}<small>{{ "Essa opção define se o usuário final poderá ou não finalizar execuções do módulo srCACIC (Suporte Remoto Seguro)."|trans }} </small></h3>
+                            {{ form_row(form.csPermitirDesativarSrcacic, {'form_type': 'horizontal'} ) }}
+                            <h3> {{ "Selecao para coleta de informacoes de sistemas monitorados:"|trans }}<small>{{ "Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede."|trans }} </small></h3>
+                            {{ form_row(form.idAplicativo, {'form_type': 'horizontal'} ) }}
                         </div>
                     </div><!-- /tab-content -->
                 </div><!-- /tabbable -->
@@ -93,11 +102,11 @@
                     <div class="controls">
                         <button type="reset" class="btn">
                             <i class="icon-refresh"></i>
-                            Resetar Valores
+                            {{ "Resetar Valores"|trans }}
                         </button>
                         <button type="submit" class="btn btn-primary">
                             <i class="icon-ok-sign"></i>
-                            Salvar Dados
+                            {{ "Salvar Dados"|trans }}
                         </button>
                     </div><!-- /controls -->
                 </div><!-- /control-group -->
@@ -107,11 +116,13 @@
             <div>
                 <a class="btn btn-danger"  href="{{ path('cacic_subrede_index') }}">
                     <i class="icon-remove-sign"></i>
-                    Cancelar
+                    {{ "Cancelar"|trans }}
                 </a>
             </div>
-        </div> <!-- /widget-content -->
-    </div> <!-- /widget -->
-</div> <!-- /span8 -->
+
+     </div> <!-- /block -->
+   </div> <!-- /box -->
+ </div> <!-- /span8 -->
+</div> <!-- /row -->
 
 {% endblock %}

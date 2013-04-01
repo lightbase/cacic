@@ -98,9 +98,10 @@ class  ServidorAutenticacaoType extends AbstractType
         );
         $builder->add('inAtivo', 'choice',
             array(
-                'choices' =>array( 'S' =>'Sim', 'N' =>'Não'),
+                'choices' => array ( 'S' => 'Sim', 'N' =>'Não'),
                 'label'=>'Servidor Ativo:',
                 'required'  => false,
+                'multiple'=> false,
                 'expanded'  => true,
             )
         );

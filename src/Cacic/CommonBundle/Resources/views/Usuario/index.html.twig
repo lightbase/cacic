@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}     
-	<li class="active">Usuários</li>
+	<li class="active">{{ "Usuários"|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -11,23 +11,23 @@
 	<div class="span12">
 		<div class="box grad_colour_black">
 
-			<h2 class="box_head round_top"><i class="icon-group"></i> Usuários</h2>
+			<h2 class="box_head round_top"><i class="icon-group"></i> {{ "Usuários"|trans }}</h2>
 			
 			<div class="block box_content round_bottom padding_10">
 	
-				<h3>Lista de usuários cadastrados</h3>
-				<p>Neste módulo deverão ser cadastrados os usuários que acessarão o sistema</p>
+				<h3>{{ "Lista de usuários cadastrados"|trans }}</h3>
+				<p>{{ "Neste módulo deverão ser cadastrados os usuários que acessarão o sistema"|trans }}</p>
 				<br />
-	
+
 		        <table class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th width="15%">Login</th>
-			                <th width="25%">Nome</th>
+			                <th width="25%">{{ "Nome"|trans }}</th>
 			                <th width="20%">Local</th>
-			                <th width="10%" style="text-align: center">Locais<br />secundários</th>
-			                <th width="15%">Nível de Acesso</th>
-			                <th style="text-align: center">Ações</th>
+			                <th width="10%" style="text-align: center">{{ "Locais"|trans }}<br />{{ "secundários"|trans }}</th>
+			                <th width="15%">{{ "Nível de Acesso"|trans }}</th>
+			                <th style="text-align: center">{{ "Ações"|trans }}</th>
 		            	</tr>
 		            </thead>
 		
@@ -44,22 +44,22 @@
 		                    </td>
 		                    <td>{{ usuario['teGrupoUsuarios'] }}</td>
 		                    <td class="td-actions">
-								<a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario[0]['idUsuario']}) }}" class="btn btn-small" title="Editar Item">
+								<a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario[0]['idUsuario']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
 									<i class="btn-icon-only icon-edit"></i>
 								</a>
 								
-								<a href="javascript: void(0);" class="btn btn-small bt-trocar-senha" title="Trocar Senha do Usuário">
+								<a href="javascript: void(0);" class="btn btn-small bt-trocar-senha" title="{{ "Trocar Senha do Usuário"|trans }}">
 									<i class="btn-icon-only icon-key"></i>
 								</a>
 								
-								<a href="{{ path('cacic_usuario_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="Excluir Item">
+								<a href="{{ path('cacic_usuario_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
 									<i class="btn-icon-only icon-trash icon-large"></i>										
 								</a>
 							</td>
 		                </tr>
 		            {% else %}
 		                <tr>
-		                    <td style="text-align: center;" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+		                    <td style="text-align: center;" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
 		                </tr>
 		            {% endfor %}
 		
@@ -69,7 +69,7 @@
 		        <div align="right">
 				    <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_usuario_cadastrar') }}">
 				    	<i class="icon-plus-sign"></i>
-				    	 Adicionar Usuário 
+				    	  {{ "Adicionar Usuário"|trans }}
 				    </a>
 				</div>
 			</div> <!-- /block -->
@@ -79,12 +79,12 @@
 </div><!-- /row -->
 
 <!-- DIALOG (Modal) de troca de senha -->
-<div id="trocarSenha" title="Trocar Senha">
+<div id="trocarSenha" title="{{ "Trocar Senha"|trans }}">
 	<form id="frmTrocarSenha">
 	<fieldset>
-		<label for="troca_senha_te_senha">Nova Senha:</label>
+		<label for="troca_senha_te_senha">{{ "Nova Senha:"|trans }}</label>
 		<input type="password" name="troca_senha_te_senha" id="troca_senha_te_senha" value="" class="text ui-widget-content ui-corner-all" />
-		<label for="troca_senha_te_senha">Confirmação:</label>
+		<label for="troca_senha_te_senha">{{ "Confirmação:"|trans }}</label>
 		<input type="password" name="troca_senha_te_senha_confirma" id="troca_senha_te_senha_confirma" value="" class="text ui-widget-content ui-corner-all" />
 	</fieldset>
 	</form>

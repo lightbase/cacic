@@ -24,6 +24,7 @@ class LocalController extends Controller
      */
     public function indexAction( $page )
     {
+    	
         return $this->render(
         	'CacicCommonBundle:Local:index.html.twig',
         	array( 'locais' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Local' )->listar() )

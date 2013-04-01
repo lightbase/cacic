@@ -2,8 +2,8 @@
 
 {% block body %}
     <div class="page-header">
-       <h1>Troca de Senha de Acesso
-       <small>Informe a senha anterior, caso nao se lembre, solicite a um Administrador que a reinicialize. </small></h1>
+       <h1>{{ "Troca de Senha de Acesso"|trans }}
+       <small> {{ "Informe a senha anterior, caso nao se lembre, solicite a um Administrador que a reinicialize."|trans }}</small></h1>
     </div>
 
 
@@ -12,22 +12,22 @@
 
     <form action="{{ path('cacic_usuario_trocar_senha') }}" method="post">
 
-        <div ><label><b>Identificação:</b></label>
+        <div ><label><b>{{ "Identificação:"|trans }}</b></label>
             <output id="nm_usuario_acesso" /> </div>
         <br />
-        <div ><label><b>Nome completo:</b></label></div>
+        <div ><label><b>{{ "Nome completo:"|trans }}</b></label></div>
         <br />
-        <div ><label><b>Senha Atual:</b></label>
+        <div ><label><b>{{ "Senha Atual:"|trans }}</b></label>
             <input type="password" name="_password" value="" /></div>
         <br />
-        <div ><label><b>Nova senha:</b></label>
+        <div ><label><b>{{ "Nova senha:"|trans }}</b></label>
         <input type="password" name="_password"  /></div>
         <br />
-        <div ><label><b>Confirmação:</b></label>
+        <div ><label><b>{{ "Confirmação:"|trans }}</b></label>
             <input type="password" name="_password" /></div>
         <br />
         <div >
-        <a class="bt-adicionar" href="{{ path('cacic_usuario_trocar_senha') }}">Gravar alterações</a></div>
+        <a class="bt-adicionar" href="{{ path('cacic_usuario_trocar_senha') }}">{{ "Gravar alterações"|trans }}</a></div>
          </form>
 
     </div>
