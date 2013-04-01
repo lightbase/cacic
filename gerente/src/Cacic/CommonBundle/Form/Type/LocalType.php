@@ -17,7 +17,7 @@ class LocalType extends AbstractType
 	public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $builder->add( 
-        	'nmLocal', 
+        	'nmLocal',
         	null, 
         	array( 'label'=>'Nome do Local', 'max_length'=>100 )
         );

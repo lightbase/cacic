@@ -1,34 +1,37 @@
 {% extends '::base.html.twig' %}
 
+{% block breadcrumb %}
+    <li class="active">{{ "Sistemas Operacionais"|trans }}</li>
+{% endblock %}
+
 {% block body %}
 
-<div class="span12">
-    <div class="widget">
-        <div class="widget-header">
-            <i class="icon-globe"></i>
-            <h3>Sistemas Operacionais</h3>
-        </div> <!-- /widget-header -->
+<div class="row-fluid">
+   <div class="span12">
+      <div class="box grad_colour_black">
 
-        <div class="widget-content">
+         <h2 class="box_head round_top"><i class="icon-cog"></i> {{ "Sistemas Operacionais"|trans }}</h2>
 
-            <h3>Sistemas Operacionais</h3>
-            <p>Lista de SO cadastrados</p>
+         <div class="block box_content round_bottom padding_10">
+
+            <h3>{{ "Lista de Sistemas Operacionais cadastrados"|trans }}</h3>
+            <p>{{ "Neste módulo deverão ser cadastrados os Sistemas Operacionais"|trans }}</p>
             <br />
 
-            <table class="table table-striped table-bordered">
-                <thead>
+           <table class="table table-striped table-bordered">
+              <thead>
                 <tr>
-                    <th width="15%">Descrição</th>
+                    <th width="15%">{{ "Descrição"|trans }}</th>
                     <th width="15%">MS-Windows?</th>
-                    <th width="10%">ID Interna</th>
-                    <th width="15%" style="text-align: center">ID Externa</th>
-                    <th width="15%">Sigla</th>
-                    <th width="15%">Total de Máquinas</th>
-                    <th style="text-align: center">Ações</th>
+                    <th width="10%">{{ "ID Interna"|trans }}</th>
+                    <th width="15%" style="text-align: center">{{ "ID Externa"|trans }}</th>
+                    <th width="15%">{{ "Sigla"|trans }}</th>
+                    <th width="15%">{{ "Total de Máquinas"|trans }}</th>
+                    <th style="text-align: center">{{ "Ações"|trans }}</th>
                 </tr>
-                </thead>
+              </thead>
 
-                <tbody>
+              <tbody>
 
                 {% for so in So %}
                     <tr id="item_{{ so['idSo'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
@@ -39,30 +42,32 @@
                         <td style="text-align: left">{{ so['sgSo'] }}</td>
                         <td style="text-align: center"></td>
                         <td style="text-align: center" class="td-actions">
-                            <a href="{{ path('cacic_sistemaoperacional_editar', {'idSo': so['idSo']}) }}" class="btn btn-small" title="Editar Item">
+                            <a href="{{ path('cacic_sistemaoperacional_editar', {'idSo': so['idSo']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                 <i class="btn-icon-only icon-edit"></i>
                             </a>
 
-                            <a href="{{ path('cacic_sistemaoperacional_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="Excluir Item">
+                            <a href="{{ path('cacic_sistemaoperacional_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
                                 <i class="btn-icon-only icon-remove"></i>
                             </a>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td style="text-align: center;" colspan="6"><b>NENHUM REGISTRO ENCONTRADO!</b></td>
+                        <td style="text-align: center;" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
                     </tr>
                 {% endfor %}
 
-                </tbody>
-            </table>
-            <div align="right">
+              </tbody>
+           </table>
+           <div align="right">
                 <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_sistemaoperacional_cadastrar') }}">
                     <i class="icon-plus-sign"></i>
-                    Adicionar Sistema Operacional
+                    {{ "Adicionar Sistema Operacional"|trans }}
                 </a>
-            </div>
-        </div>
-    </div>
-</div>
+           </div>
+         </div> <!-- /block -->
+      </div><!-- /box -->
+
+   </div><!-- /span -->
+</div><!-- /row -->
 {% endblock %}

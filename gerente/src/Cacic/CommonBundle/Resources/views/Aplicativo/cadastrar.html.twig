@@ -1,84 +1,91 @@
 {% extends '::base.html.twig' %}
 
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_aplicativo_index') }}">{{ "Aplicativo"|trans }}</a></li> /
+    <li class="active">{{ "Cadastro"|trans }}</li>
+{% endblock %}
+
 {% block body %}
 
- <div class="span8">
-    <div class="widget">
-        <div class="widget-content">
-            <div class="page-header">
-                <h3>Dados do Aplicativo Monitorado</h3>
-            </div>
+<div class="row-fluid">
 
-            <form id="formAplicativo" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+  <div class="span8">
+     <div class="box grad_colour_black">
+
+        <h2 class="box_head round_top">{{ "Dados do Aplicativo Monitorado"|trans }}</h2>
+
+       <div class="block box_content round_bottom padding_10">
+
+          <form id="formAplicativo" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a href="#form-formAplicativo-dados" data-toggle="tab"><br />Dados do Aplicativo<br /><br /></a>
+                            <a href="#form-formAplicativo-dados" data-toggle="tab"><br />{{ "Dados do Aplicativo"|trans }}<br /><br /></a>
                         </li>
                         <li>
                             <a href="#form-formAplicativo-consulta1" data-toggle="tab">
-                                Características
-                                <br />em ambientes
+                                {{ "Características"|trans }}
+                                <br />{{ "em ambientes"|trans }}
                                 <br />Windows 9x/Me</a>
                         </li>
                         <li>
                             <a href="#form-formAplicativo-consulta2" data-toggle="tab">
-                                Características <b>em</b>
-                                <br /> ambientes Windows
+                                {{ "Características"|trans }} <b>{{ "em"|trans }}</b>
+                                <br /> {{ "ambientes"|trans }} Windows
                                 <br />NT/2000/XP/2003</a>
                         </li>
                         <li>
-                            <a href="#form-formAplicativo-redes" data-toggle="tab"><br />Selecione as redes:<br /><br /></a>
+                            <a href="#form-formAplicativo-redes" data-toggle="tab"><br />{{ "Selecione as redes:"|trans }}<br /><br /></a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="form-formAplicativo-dados">
-                            <h5>Dados do Aplicativo </h5>
+                            <h5>{{ "Dados do Aplicativo"|trans }} </h5>
                             <br />
-                            {{ form_row(form.nmAplicativo) }}
-                            {{ form_row(form.idSo) }}
-                            {{ form_row(form.inDisponibilizaInfo) }}
-                            {{ form_row(form.inDisponibilizaInfoUsuarioComum) }}
-                            {{ form_row(form.teDescritivo) }}
+                            {{ form_row(form.nmAplicativo, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.idSo, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.inDisponibilizaInfo, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.inDisponibilizaInfoUsuarioComum, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.teDescritivo, {'form_type': 'horizontal'} ) }}
 
-                            {{ form_row(form.selCsIdeLicenca) }}
-                            {{ form_row(form.csIdeLicenca) }}
+                            {{ form_row(form.selCsIdeLicenca, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.csIdeLicenca, {'form_type': 'horizontal'} ) }}
                         </div>
                         <div class="tab-pane" id="form-formAplicativo-consulta1">
-                            <h5>Características em ambientes Windows 9x/Me</h5>
+                            <h5>{{ "Características em ambientes"|trans }} Windows 9x/Me</h5>
                             <br />
-                            {{ form_row(form.selTeCarInstW9x) }}
-                            {{ form_row(form.teCarInstW9x) }}
+                            {{ form_row(form.selTeCarInstW9x, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.teCarInstW9x, {'form_type': 'horizontal'} ) }}
 
-                            {{ form_row(form.selCsCarVerW9x) }}
-                            {{ form_row(form.csCarVerW9x) }}
+                            {{ form_row(form.selCsCarVerW9x, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.csCarVerW9x, {'form_type': 'horizontal'} ) }}
                         </div>
                         <div class="tab-pane" id="form-formAplicativo-consulta2">
-                            <h5>Características em ambientes Windows NT/2000/XP/2003</h5>
+                            <h5>{{ "Características em ambientes"|trans }} Windows NT/2000/XP/2003</h5>
                             <br />
-                            {{ form_row(form.selTeCarInstWnt) }}
-                            {{ form_row(form.teCarInstWnt) }}
+                            {{ form_row(form.selTeCarInstWnt, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.teCarInstWnt, {'form_type': 'horizontal'} ) }}
 
-                            {{ form_row(form.selCsCarVerWnt) }}
-                            {{ form_row(form.csCarVerWnt) }}
+                            {{ form_row(form.selCsCarVerWnt, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.csCarVerWnt, {'form_type': 'horizontal'} ) }}
                         </div>
                         <div class="tab-pane" id="form-formAplicativo-redes">
-                            <h5>Selecao de redes para aplicacao desta coleta de informacoes</h5>
+                        <h5>{{ "Selecao de redes para aplicacao desta coleta de informacoes"|trans }}</h5>
                             <br />
                             <div class="form-transfer">
                                 <div class="form-transfer-from">
-                                    {{ form_row(form.idRede) }}
+                                    {{ form_row(form.idRede, {'form_type': 'horizontal'} ) }}
                                 </div>
 
-                                <div class="form-transfer-options">
+                                <div class="form-transfer-options" align='center'>
                                     <input id="rede-add" type="button" value="   &gt;   " class="transfer-button" />
                                     <br>
                                     <input id="rede-remove" type="button" value="   &lt;   " class="transfer-button" />
                                 </div>
 
                                 <div class="form-transfer-to">
-                                    {{ form_row(form.idRede1) }}
+                                    {{ form_row(form.idRede1, {'form_type': 'horizontal'} ) }}
                                 </div>
                             </div>
                         </div>
@@ -89,30 +96,35 @@
                     <div class="controls">
                         <button type="reset" class="btn">
                             <i class="icon-refresh"></i>
-                            Resetar Valores
+                            {{ "Resetar Valores"|trans }}
                         </button>
                         <button type="submit" formnovalidate class="btn btn-primary">
                             <i class="icon-ok-sign"></i>
-                            Salvar Dados
+                            {{ "Salvar Dados"|trans }}
                         </button>
                     </div>
                 </div>
 
                 {{ form_rest(form) }}
-            </form>
+          </form>
+          <hr />
+          <div>
+              <a class="btn btn-danger"  href="{{ path('cacic_aplicativo_index') }}">
+                 <i class="icon-remove-sign"></i>
+                 {{ "Cancelar"|trans }}
+              </a>
+          </div>
 
-            <hr />
-            <div>
-                <a class="btn btn-danger"  href="{{ path('cacic_aplicativo_index') }}">
-                    <i class="icon-remove-sign"></i>
-                    Cancelar
-                </a>
-            </div>
-        </div> <!-- /widget-content -->
-    </div> <!-- /widget -->
- </div> <!-- /span8 -->
-    
-    <script type="text/javascript">
+       </div> <!-- /block -->
+     </div> <!-- /box -->
+  </div> <!-- /span8 -->
+</div> <!-- /row -->
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+ <script type="text/javascript">
 
     $().ready(function() {
         var csIdeLicenca_desc = {
@@ -135,7 +147,6 @@
             2: 'Ex.:  Arquivos de Programas\\Cacic\\Dados\\config.ini',
             3: 'Ex.:  HKEY_LOCAL_MACHINE\\Software\\Dataprev\\Cacic2\\id_versao'
         };
-
 
         $('#rede-add').click(function() {
             $( '#aplicativo_idRede' ).effect( 'transfer', { to: $( '#aplicativo_idRede1' ) }, 500 );
@@ -187,6 +198,6 @@
         });
     });
 
-    </script>
+ </script>
 
 {% endblock %}

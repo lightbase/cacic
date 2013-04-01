@@ -1,17 +1,25 @@
 {% extends '::base.html.twig' %}
 
-{% block body %}
-<div class="span8">
-    <div class="widget">
-        <div class="widget-content">
-            <div class="page-header">
-                <h1>Softwares
-                    <small>Dados dos Softwares</small></h1>
-            </div>
+{% block breadcrumb %}
+     <li><a href="{{ path('cacic_software_index') }}">Softwares</a></li> /
+     <li class="active">Cadastro</li>
+{% endblock %}
 
-            <form id="formTiposSoftwares" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+{% block body %}
+
+<div class="row-fluid">
+
+  <div class="span8">
+
+     <div class="box grad_colour_black">
+
+        <h2 class="box_head round_top">Dados dos Softwares</h2>
+
+        <div class="block box_content round_bottom padding_10">
+
+          <form id="formTiposSoftwares" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
                 <div class="tabbable">
-                    {{ form_widget(form) }}
+                    {{ form_widget(form, {'form_type': 'horizontal'} ) }}
                     {{ form_rest(form) }}
                 </div>
                 <br />
@@ -28,15 +36,17 @@
                     </div>
                 </div>
 
-            </form>
-            <hr />
-            <div>
+          </form>
+          <hr />
+          <div>
                 <a class="btn btn-danger"  href="{{ path('cacic_software_index') }}">
                     <i class="icon-remove-sign"></i>
                     Cancelar
                 </a>
-            </div>
-        </div> <!-- /widget-content -->
-    </div> <!-- /widget -->
-</div> <!-- /span8 -->
+          </div>
+
+        </div> <!-- /block -->
+     </div> <!-- /box -->
+  </div> <!-- /span8 -->
+</div> <!-- /row -->
 {% endblock %}

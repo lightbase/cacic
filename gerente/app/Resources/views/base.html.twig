@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>CACIC - Coletor Automático e Configurador de Informações Computacionais</title>
+    <title>{{ "CACIC - Coletor Automático e Configurador de Informações Computacionais"|trans }}</title>
     <meta name="description" content="CACIC Coletor Automático e Configurador de Informações Computacionais">
     <meta name="ahoekie" content="CACIC BackEnd">
     
@@ -54,14 +54,14 @@
                     <a href="#"
                           class="dropdown-toggle"
                           data-toggle="dropdown">
-                          Alertas <span class="label label-info">100</span>
+                          {{ "Alertas"|trans }} <span class="label label-info">100</span>
                           <span class="icon">&nbsp;</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="#">CACIC</a></li>
-                        <li><a href="#">COCA</a></li>
+                        <li><a href="#">{{ "COCA"|trans }}</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Alertas antigos...</a></li>
+                        <li><a href="#">{{ "Alertas antigos..."|trans }}</a></li>
                     </ul>
               </li>
               <li class="dropdown">
@@ -98,7 +98,7 @@
 					
 				</li>
             </ul>
-            <p class="navbar-text pull-right">Logado como <a href="#">{{ app.user.nmUsuarioAcesso }}</a></p>
+            <p class="navbar-text pull-right"> {{ "Logado como"|trans }}<a href="#">{{ app.user.nmUsuarioAcesso }}</a></p>
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -117,13 +117,13 @@
                       <li class="dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-cogs"></i>
-							<span>Administração</span>
+							<span>{{ "Administração"|trans }}</span>
 							<span class="icon">&nbsp;</span>
 						</a>
 						<ul>
-							<li><a class="round_top" href="javascript:void(0)">Classificar Software</a></li>
-							<li><a href="javascript:void(0)">Softwares não usados</a></li>
-							<li><a href="javascript:void(0)">Módulos</a></li>
+							<li><a class="round_top" href="javascript:void(0)">{{ "Classificar Software"|trans }}</a></li>
+							<li><a href="javascript:void(0)">{{ "Softwares não usados"|trans }}</a></li>
+							<li><a href="javascript:void(0)">{{ "Módulos"|trans }}</a></li>
 							
 							<li class="dropdown-submenu">
 								<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
@@ -131,45 +131,45 @@
 									<span class="icon">&nbsp;</span>
 								</a>
 								<ul>
-									<li><a href="javascript:void(0);">Acessos</a></li>
-									<li><a href="javascript:void(0);">Atividades</a></li>
-									<li><a href="javascript:void(0);">Insucessos Instalação</a></li>
-									<li><a href="javascript:void(0);">Suporte Remoto Seguro</a></li>
+									<li><a href="javascript:void(0);">{{ "Acessos"|trans }}</a></li>
+									<li><a href="javascript:void(0);">{{ "Atividades"|trans }}</a></li>
+									<li><a href="javascript:void(0);">{{ "Insucessos Instalação"|trans }}</a></li>
+									<li><a href="javascript:void(0);">{{ "Suporte Remoto Seguro"|trans }}</a></li>
 								</ul>
 							</li>
 							<li class="dropdown-submenu">
 								<a href="javascript:void(0)">
-									<span>Cadastros</span>
+									<span>{{ "Cadastros"|trans }}</span>
 									<span class="icon">&nbsp;</span>
 								</a>
 								<ul>
-									<li><a href="{{ path('cacic_local_index') }}">Locais</a></li>
-									<li><a href="{{ path('cacic_servidorautenticacao_index') }}">Servidores Autenticação</a></li>
-									<li><a href="{{ path('cacic_subrede_index') }}">Subredes</a></li>
-									<li><a href="{{ path('cacic_aplicativo_index') }}">Aplicativo</a></li>
-									<li><a href="{{ path('cacic_usuario_index') }}">Usuários</a></li>
-									<li><a href="{{ path('cacic_tiposoftware_index') }}">Tipos Softwares</a></li>
-									<li><a href="{{ path('cacic_sistemaoperacional_index') }}">Sistemas Operacionais</a></li>
-									<li><a href="{{ path('cacic_software_index') }}">Softwares</a></li>
-									<li><a href="{{ path('cacic_usbdevice_index') }}">Dispositivos USB</a></li>
+									<li><a href="{{ path('cacic_local_index') }}">{{ "Locais"|trans }}</a></li>
+									<li><a href="{{ path('cacic_servidorautenticacao_index') }}">{{ "Servidores Autenticação"|trans }}</a></li>
+									<li><a href="{{ path('cacic_subrede_index') }}">{{ "Subredes"|trans }}</a></li>
+									<li><a href="{{ path('cacic_aplicativo_index') }}">{{ "Aplicativo"|trans }}</a></li>
+									<li><a href="{{ path('cacic_usuario_index') }}">{{ "Usuários"|trans }}</a></li>
+									<li><a href="{{ path('cacic_tiposoftware_index') }}">{{ "Tipos Softwares"|trans }}</a></li>
+									<li><a href="{{ path('cacic_sistemaoperacional_index') }}">{{ "Sistemas Operacionais"|trans }}</a></li>
+									<li><a href="{{ path('cacic_software_index') }}">{{ "Softwares"|trans }}</a></li>
+									<li><a href="{{ path('cacic_usbdevice_index') }}">{{ "Dispositivos USB"|trans }}</a></li>
 								</ul>
 							</li>
 							<li class="dropdown-submenu">
 								<a href="javascript:void(0)">
-									Patrimônio
+									{{ "Patrimônio"|trans }}
 									<span class="icon">&nbsp;</span>
 								</a>
 								<ul>
-									<li><a href="javascript:void(0);">Teste</a></li>
+									<li><a href="javascript:void(0);">{{ "Teste"|trans }}</a></li>
 								</ul>
 							</li>
 							<li class="dropdown-submenu">
 								<a href="javascript:void(0)">
-									Gerência Aquisições
+									{{ "Gerência Aquisições"|trans }}
 									<span class="icon">&nbsp;</span>
 								</a>
 								<ul>
-									<li><a href="javascript:void(0);">Teste</a></li>
+									<li><a href="javascript:void(0);">{{ "Teste"|trans }}</a></li>
 								</ul>
 							</li>
 						</ul>	    				
@@ -178,7 +178,7 @@
 					<li class="subnavbar-open-right">					
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-wrench"></i>
-							<span>Manutenção</span>
+							<span>{{ "Manutenção"|trans }}</span>
 							<span class="icon">&nbsp;</span>
 						</a>	  				
 					</li>
@@ -186,7 +186,7 @@
 					<li>
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-desktop"></i>
-							<span>Computadores</span>
+							<span>{{ "Computadores"|trans }}</span>
 							<span class="icon">&nbsp;</span>
 						</a>    				
 					</li>
@@ -194,7 +194,7 @@
 					<li>					
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-book"></i>
-							<span>Relatórios</span>
+							<span>{{ "Relatórios"|trans }}</span>
 							<span class="icon">&nbsp;</span>
 						</a>  									
 					</li>
@@ -202,11 +202,11 @@
 					<li class="dropdown subnavbar-open-right">					
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown-">
 							<i class="icon-bar-chart"></i>
-							<span>Estatísticas</span>
+							<span>{{ "Estatísticas"|trans }}</span>
 							<span class="icon">&nbsp;</span>
 						</a>
 						<ul>
-							<li><a href="javascript:void(0)">Sistemas Monitorados</a></li>
+							<li><a href="javascript:void(0)">{{ "Sistemas Monitorados"|trans }}</a></li>
 						</ul>			
 					</li>
 					
@@ -220,14 +220,14 @@
 					<li>
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-info-sign"></i>
-							<span>Projeto CACIC</span>
+							<span>{{ "Projeto CACIC"|trans }}</span>
 						</a>
 					</li>
 					
 					<li>
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-group"></i>
-							<span>Comunidade CACIC</span>
+							<span>{{ "Comunidade CACIC"|trans }}</span>
 						</a>
 					</li>
 	            </ul>
@@ -249,7 +249,7 @@
                 <div class="span12">
                 <ul class="breadcrumb">              
                   	<li><a href="{{ path('cacic_common_homepage') }}">CACIC</a> <span class="divider">/</span></li> 
-                  	{% block breadcrumb %}     
+                  	{% block breadcrumb %}
                   	<li class="active">Home</li>
                   	{% endblock %}
                 </ul>

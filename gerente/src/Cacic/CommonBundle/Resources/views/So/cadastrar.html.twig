@@ -1,43 +1,53 @@
 {% extends '::base.html.twig' %}
 
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_sistemaoperacional_index') }}">{{ "Sistemas Operacionais"|trans }}</a></li> /
+    <li class="active">{{ "Cadastro"|trans }}</li>
+{% endblock %}
+
 {% block body %}
 
-<div class="span8">
-    <div class="widget">
-        <div class="widget-content">
-            <div class="page-header">
-                <h3>Dados do Sistemas Operacionais</h3>
-            </div>
+<div class="row-fluid">
 
-            <form id="formTiposSoftwares" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+  <div class="span8">
+
+     <div class="box grad_colour_black">
+
+        <h2 class="box_head round_top">{{ "Dados do Sistemas Operacionais"|trans }}</h2>
+
+        <div class="block box_content round_bottom padding_10">
+
+          <form id="formTiposSoftwares" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form|trans) }}>
               <div class="tabbable">
-                {{ form_widget(form) }}
+                {{ form_widget(form, {'form_type': 'horizontal'} ) }}
                 {{ form_rest(form) }}
               </div>
                 <br />
-                <div class="control-group">
-                    <div class="controls">
-                        <button type="reset" class="btn">
-                            <i class="icon-refresh"></i>
-                            Resetar Valores
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="icon-ok-sign"></i>
-                            Salvar Dados
-                        </button>
-                    </div>
+              <div class="control-group">
+                 <div class="controls">
+                    <button type="reset" class="btn">
+                        <i class="icon-refresh"></i>
+                        {{ "Resetar Valores"|trans }}
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="icon-ok-sign"></i>
+                        {{ "Salvar Dados"|trans }}
+                    </button>
                 </div>
+              </div>
 
-            </form>
+          </form>
 
-            <hr />
-            <div>
+           <hr />
+           <div>
                 <a class="btn btn-danger"  href="{{ path('cacic_sistemaoperacional_index') }}">
                     <i class="icon-remove-sign"></i>
-                    Cancelar
+                    {{ "Cancelar"|trans }}
                 </a>
-            </div>
-        </div> <!-- /widget-content -->
-    </div> <!-- /widget -->
-</div> <!-- /span8 -->
+           </div>
+
+        </div> <!-- /block -->
+     </div> <!-- /box -->
+  </div> <!-- /span8 -->
+</div> <!-- /row -->
 {% endblock %}

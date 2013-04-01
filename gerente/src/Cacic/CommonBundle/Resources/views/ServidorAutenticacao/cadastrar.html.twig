@@ -5,47 +5,49 @@
 <script src="{{ asset('bundles/caciccommon/js/jquery.maskedinput-1.3.1.min.js') }}" type="text/javascript" language="javascript"></script>
 {% endblock %}
 
-{% block body %}
+    {% block breadcrumb %}
+        <li><a href="{{ path('cacic_servidorautenticacao_index') }}">{{ "Servidor de Autenticação"|trans }}</a></li> /
+        <li class="active">{{ "Cadastro"|trans }}</li>
+    {% endblock %}
 
-<div class="span8">
-	<div class="widget">
-		<div class="widget-content">
-			<div class="page-header">
-				<h3>
-					{% if form.vars.value.idServidorAutenticacao %}
-						Edição dos dados do servidor de autenticação
-					{% else %}
-						Cadastro de novo servidor de autenticação
-					{% endif %}
-				</h3>
-			</div>
+    {% block body %}
 
-			<form id="formServidorAutenticacao" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+
+        <div class="row-fluid">
+
+            <div class="span8">
+                <div class="box grad_colour_black">
+
+                    <h2 class="box_head round_top">{{ "Cadastro de novo servidor de autenticação"|trans }}</h2>
+
+                    <div class="block box_content round_bottom padding_10">
+
+			<form id="formServidorAutenticacao" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
 				<div class="tabbable">
 					<ul class="nav nav-tabs">
 						<li class="active">
-							<a href="#form-servidorautenticacao-dados" data-toggle="tab"><br />Dados do servidor<br /><br /></a>
+							<a href="#form-servidorautenticacao-dados" data-toggle="tab"><br />{{ "Dados do servidor"|trans }}<br /><br /></a>
 						</li>
 						<li>
 							<a href="#form-servidorautenticacao-consulta" data-toggle="tab">
-								Atributos para <b>Consulta</b> 
-								<br />de Dados de Pessoas no 
-								<br />Serviço de Diretórios</a>
+								 {{ "Atributos para"|trans }}<b>{{ "Consulta"|trans }}</b>
+								<br /> {{ "de Dados de Pessoas no"|trans }}
+								<br />{{ "Serviço de Diretórios"|trans }}</a>
 						</li>
 						<li>
 							<a href="#form-servidorautenticacao-retorno" data-toggle="tab">
-								Atributos para <b>Retorno</b>
-								<br /> de Dados de Pessoas no 
-								<br />Serviço de Diretórios</a>
+								 {{ "Atributos para"|trans }}<b>{{ "Retorno"|trans }}</b>
+								<br />  {{ "de Dados de Pessoas no"|trans }}
+								<br />{{ "Serviço de Diretórios"|trans }}</a>
 						</li>
 						<li>
-							<a href="#form-servidorautenticacao-redes" data-toggle="tab"><br />Redes associadas<br /><br /></a>
+							<a href="#form-servidorautenticacao-redes" data-toggle="tab"><br />{{ "Redes associadas"|trans }}<br /><br /></a>
 						</li>
 					</ul>
 					
 					<div class="tab-content">
 						<div class="tab-pane active" id="form-servidorautenticacao-dados">
-							<h5>Dados do Servidor de Autenticação</h5>
+							<h5>{{ "Dados do Servidor de Autenticação"|trans }}</h5>
 							<br />
 							{{ form_row(form.nmServidorAutenticacao, {'form_type': 'horizontal'}) }}
 					        {{ form_row(form.nmServidorAutenticacaoDns, {'form_type': 'horizontal'}) }}
@@ -58,20 +60,20 @@
 						</div>
 						
 						<div class="tab-pane" id="form-servidorautenticacao-consulta">
-							<h5>Atributos para Consulta de Dados de Pessoas no Serviço de Diretórios</h5>
+							<h5>{{ "Atributos para Consulta de Dados de Pessoas no Serviço de Diretórios"|trans }}</h5>
 							<br />
 							{{ form_row(form.teAtributoIdentificador, {'form_type': 'horizontal'}) }}
 						</div>
 						
 						<div class="tab-pane" id="form-servidorautenticacao-retorno">
-							<h5>Atributos para Retorno de Dados de Pessoas no Serviço de Diretórios</h5>
+							<h5>{{ "Atributos para Retorno de Dados de Pessoas no Serviço de Diretórios"|trans }}</h5>
 							<br />
 							{{ form_row(form.teAtributoRetornaNome, {'form_type': 'horizontal'}) }}
 							{{ form_row(form.teAtributoRetornaEmail, {'form_type': 'horizontal'}) }}
 						</div>
 						
 						<div class="tab-pane" id="form-servidorautenticacao-redes">
-							{% if form.vars.value.idServidorAutenticacao != true %}<center><b>Nenhuma rede associada.</b></center>{% endif %}
+							{% if form.vars.value.idServidorAutenticacao != true %}<center><b>{{ "Nenhuma rede associada."|trans }}</b></center>{% endif %}
 				        	{% block redesAssociadas %}{% endblock %}
 				        </div>
 
@@ -83,11 +85,11 @@
                   <div class="controls">
                     <button type="reset" class="btn">
 						<i class="icon-refresh"></i>
-						Resetar Valores
+						{{ "Resetar Valores"|trans }}
 					</button>
 					<button type="submit" class="btn btn-primary">
 						<i class="icon-ok-sign"></i>
-						Salvar Dados
+						{{ "Salvar Dados"|trans }}
 					</button>
                   </div><!-- /controls -->
                 </div><!-- /control-group -->
@@ -99,27 +101,30 @@
 			<div>
 				<a class="btn btn-danger"  href="{{ path('cacic_servidorautenticacao_index') }}">
 					<i class="icon-remove-sign"></i>
-					Cancelar
+					{{ "Cancelar"|trans }}
 				</a>
 			</div>
-		</div> <!-- /widget-content -->
-	</div> <!-- /widget -->
-</div> <!-- /span8 -->
 
-<div class="span4">
-	<div class="widget widget-box">
-		<div class="widget-header">
-			<i class="icon-info-sign"></i>
-			<h3>Informações Adicionais</h3>
-		</div> <!-- /widget-header -->
-					
-		<div class="widget-content">
-			<p>
-				As informações que deverão ser cadastradas abaixo referem-se a um servidor a ser utilizado na autenticação de usuários do suporte remoto seguro.
-			</p>
-		</div> <!-- /widget-content -->
-	</div> <!-- /widget-box -->
-</div><!-- /span4 -->
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span8 -->
+
+
+
+    <div class="span4">
+       <div class="box grad_colour_black">
+
+          <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+
+          <div class="block box_content round_bottom padding_10">
+
+                <p>
+                    {{ "As informações que deverão ser cadastradas abaixo referem-se a um servidor a ser utilizado na autenticação de usuários do suporte remoto seguro."|trans }}
+                </p>
+          </div> <!-- /block -->
+       </div> <!-- /box -->
+    </div><!-- span4 -->
+</div> <!-- /row -->
 
 <script type="text/javascript">
 
