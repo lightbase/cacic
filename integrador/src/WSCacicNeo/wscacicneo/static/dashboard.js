@@ -7,6 +7,7 @@ Ext.onReady(function(){
 	 	frame: true,
 	 	draggable: true,
 	 	title: 'menu1',
+		titleAlign: 'center',
     	renderTo: 'g1'
 	});
 
@@ -17,6 +18,7 @@ Ext.onReady(function(){
 	 	frame: true,
 	 	draggable: true,
 	 	title: 'menu2',
+		titleAlign: 'center',
     	renderTo: 'g2'
 	});
 
@@ -27,6 +29,7 @@ Ext.onReady(function(){
 	 	frame: true,
 	 	draggable: true,
 	 	title: 'menu3',
+		titleAlign: 'center',
     	renderTo: 'g1'
 	});
 
@@ -37,6 +40,7 @@ Ext.onReady(function(){
 	 	frame: true,
 	 	draggable: true,
 	 	title: 'menu4',
+		titleAlign: 'center',
     	renderTo: 'g2'
 	});
 
@@ -47,6 +51,7 @@ Ext.onReady(function(){
 	 	frame: true,
 	 	draggable: true,
 	 	title: 'menu5',
+		titleAlign: 'center',
     	renderTo: 'g3'
 	});
 
