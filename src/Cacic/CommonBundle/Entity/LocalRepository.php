@@ -32,7 +32,6 @@ class LocalRepository extends EntityRepository
 		
         $query = $this->getEntityManager()->createQuery( $_dql );
         return $query->getArrayResult();
-		
 	}
 	
 }

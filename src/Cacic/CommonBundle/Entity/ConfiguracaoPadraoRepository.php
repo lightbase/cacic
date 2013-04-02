@@ -12,4 +12,35 @@ use Doctrine\ORM\EntityRepository;
  */
 class ConfiguracaoPadraoRepository extends EntityRepository
 {
+
+	/**
+	 * 
+	 * Método de listagem das configurações padrão salvas no sistema
+	 */
+	public function listar()
+	{
+		$_dql = "SELECT cp
+				FROM CacicCommonBundle:ConfiguracaoPadrao cp";
+		
+        $query = $this->getEntityManager()->createQuery( $_dql );
+        return $query->getArrayResult();
+	}
+	
+	/**
+	 * 
+	 * Recupera um array na forma [sgVariavel] => [vlConfiguracao]
+	 */
+	public function getArrayChaveValor()
+	{
+		$configuracoes = $this->listar();
+		$return = array();
+		
+		foreach ( $configuracoes as $config )
+		{
+			$return[ $config['sgVariavel'] ] = $config[ 'vlConfiguracao' ];
+		}
+		
+		return $return;
+	}
+	
 }
