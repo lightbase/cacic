@@ -19,7 +19,10 @@ class ConfiguracaoController extends Controller
 	
 	public function padraoAction()
 	{
-		
+		return $this->render(
+        	'CacicCommonBundle:Configuracao:padrao.html.twig',
+        	array( 'configuracoes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoPadrao' )->getArrayChaveValor() )
+        );
 	}
 	
 	public function agenteAction()
