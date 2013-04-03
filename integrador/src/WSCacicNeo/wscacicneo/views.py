@@ -57,4 +57,32 @@ def my_view4(request):
 def my_view5(request):
     return {'project':'WSCacicNeo'}
 
+@view_config(route_name='master', renderer='templates/master.pt')
+def my_view6(request):
+    return {'project':'WSCacicNeo'}
+
+@view_config(route_name='pagina1', renderer='templates/pagina1.pt')
+def my_view7(request):
+    return {'project':'WSCacicNeo'}
+
+@view_config(route_name='pagina2', renderer='templates/pagina2.pt')
+def my_view8(request):
+    return {'project':'WSCacicNeo'}
+
+@view_config(route_name='pagina3', renderer='templates/pagina3.pt')
+def my_view9(request):
+    return {'project':'WSCacicNeo'}
+
+@view_config(route_name='pagina4', renderer='templates/pagina4.pt')
+def my_view10(request):
+    return {'project':'WSCacicNeo'}
+
+@view_config(route_name='pagina5', renderer='templates/pagina5.pt')
+def my_view11(request):
+    return {'project':'WSCacicNeo'}
+
+@view_config(route_name='pagina6', renderer='templates/pagina6.pt')
+def my_view12(request):
+    return {'project':'WSCacicNeo'}
+
 
