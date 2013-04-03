@@ -1,5 +1,5 @@
 from pyramid.paster import get_app
-application = get_app('/srv/super-cacic/integrador/src/WSCacicNeo/development.ini', 'main')
+application = get_app('/srv/test/integrador/src/WSCacicNeo/development.ini', 'main')
 
 #import wscacicneo
 #import wscacicneo.monitor
