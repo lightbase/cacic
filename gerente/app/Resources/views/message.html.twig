@@ -21,17 +21,3 @@
 	{% endfor %}
 	</div>
 {% endblock %}
-
-<script type="text/javascript">
-
-/**
- * Mensagens do sistema
- */
-$(document).ready(function(){
-	$('.alert').hide();
-	{% if app.session.flashbag.get('error')|length > 0 %} $('#msgErro').show(); {% endif %}
-	{% if app.session.flashbag.get('notice')|length > 0 %} $('#msgAviso').show(); {% endif %}
-	{% if app.session.flashbag.get('success')|length > 0 %} $('#msgSucesso').show(); {% endif %}
-});
-
-</script>

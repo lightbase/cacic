@@ -59,6 +59,9 @@ $(document).ready(function(){
 		hide: { effect: "fade", duration: 500 }
 	});
 	
+	/**
+	 * Listeners do sistema
+	 */
 	System.Grid.excluir(); // Inicializa o LISTENER para os botões-padrão de exclusão de itens
     System.Form.reset(); // Inicializa o LISTENER para os botões (ou input) type=reset
     System.Menu.setActive( window.location.toString() ); // Configura o menu ativo

@@ -211,12 +211,13 @@ cacic_software_excluir:
     pattern:  /software/excluir
     defaults: { _controller: CacicCommonBundle:Software:excluir}
 
-cacic_configuracaopadrao_index:
-    pattern: /configuracaopadrao
-    defaults: { _controller: CacicCommonBundle:ConfiguracaoPadrao:index}
 cacic_configuracao_padrao:
     pattern: /configuracao/padrao
     defaults: { _controller: CacicCommonBundle:Configuracao:padrao}
+
+cacic_configuracao_padrao_salvar:
+    pattern: /configuracao/padrao/salvar
+    defaults: { _controller: CacicCommonBundle:Configuracao:salvarconfiguracaopadrao}
 
 cacic_configuracao_agente:
     pattern: /configuracao/agente
