@@ -248,3 +248,21 @@ cacic_usbdevice_excluir:
     defaults: { _controller: CacicCommonBundle:UsbDevice:excluir}
 
 
+cacic_log_acesso:
+    pattern:  /log/acesso
+    defaults: { _controller: CacicCommonBundle:Log:acesso}
+
+
+cacic_log_atividade:
+    pattern:  /log/atividade
+    defaults: { _controller: CacicCommonBundle:Log:atividade}
+
+
+cacic_log_insucesso_instalacao:
+    pattern:  /log/insucessoinstalacao
+    defaults: { _controller: CacicCommonBundle:Log:insucessoinstalacao}
+
+
+cacic_log_suporte_remoto:
+    pattern:  /log/suporteremoto
+    defaults: { _controller: CacicCommonBundle:Log:suporteremoto}

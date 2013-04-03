@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\Log:
     type: entity
     table: log
+    repositoryClass: Cacic\CommonBundle\Entity\LogRepository
     fields:
         idLog:
             id: true

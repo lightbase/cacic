@@ -1,0 +1,84 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_software_index') }}">{{ 'Log de acesso'|trans }}</a></li> /
+    <li class="active">{{ 'Pesquisa'|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid">
+
+        <div class="span8">
+
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top">{{'Pesquisa de acessos' |trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+
+                    <form id="formLog" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+                        <div class="tabbable">
+                            <center><h5>{{ 'Selecione o período no qual deverá ser realizada a consulta:'|trans }}</h5></center>
+                            {{ form_row(form.dtAcao, {'form_type': 'horizontal'} ) }}
+                            {{ form_row(form.dtAcao1, {'form_type': 'horizontal'} ) }}
+                            <center><h6>{{ '(Formato da data DD/MM/AAAA)'|trans }}</h6></center>
+                            <div class="form-transfer">
+                                <div class="form-transfer-from">
+                                    {{ form_row(form.idRede, {'form_type': 'horizontal'} ) }}
+                                </div>
+
+                                <div class="form-transfer-options" align='center'>
+                                    <input id="log-add" type="button" value="   &gt;   " class="transfer-button" />
+                                    <br>
+                                    <input id="log-remove" type="button" value="   &lt;   " class="transfer-button" />
+                                </div>
+
+                                <div class="form-transfer-to">
+                                    {{ form_row(form.idRede1, {'form_type': 'horizontal'} ) }}
+                                </div>
+                            </div>
+                            {{ form_rest(form) }}
+                        </div>
+                        <br />
+                        <div class="control-group">
+                            <div class="controls">
+                                <a class="btn btn-danger"  href="{{ path('cacic_log_acesso') }}">
+                                    <i class="icon-remove-sign"></i>
+                                    {{ 'Limpar'|trans }}
+                                </a>
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="icon-search"></i>
+                                    {{ 'Filtrar'|trans }}
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- /span8 -->
+    </div> <!-- /row -->
+{% endblock %}
+
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script type="text/javascript">
+
+        $().ready(function() {
+            $('#log-add').click(function() {
+                $( '#log_idRede' ).effect( 'transfer', { to: $( '#log_idRede1' ) }, 500 );
+                $('#log_idRede option:selected').remove().appendTo('#log_idRede1');
+            });
+
+            $('#log-remove').click(function() {
+                $( '#log_idRede1' ).effect( 'transfer', { to: $( '#log_idRede' ) }, 500 );
+                $('#log_idRede1 option:selected').remove().appendTo('#log_idRede');
+            });
+        });
+    </script>
+
+{% endblock %}
