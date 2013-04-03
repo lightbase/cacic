@@ -149,22 +149,24 @@
                 
                 <tr id="item_15">
                     <td>id_default_body_bgcolor</td>
-                    <td id="item_desc_15"></td>
+                    <td id="item_desc_15">
+			            <input type="text" id="id_default_body_bgcolor" name="id_default_body_bgcolor" value="{{ configuracoes['id_default_body_bgcolor'] }}" />
+                    </td>
                 </tr>
                 
                 <tr id="item_16">
                     <td>Gráficos a serem exibidos</td>
                     <td id="item_desc_16">
-                        <input type="checkbox" id="te_exibe_graficos_so" name="te_exibe_graficos" value="so" />
+                        <input type="checkbox" id="te_exibe_graficos_so" name="te_exibe_graficos[]" value="so" />
                         <label for="te_exibe_graficos_so">Sistemas Operacionais</label>
                         
-                        <input type="checkbox" id="te_exibe_graficos_acessos" name="te_exibe_graficos" value="acessos" /> 
+                        <input type="checkbox" id="te_exibe_graficos_acessos" name="te_exibe_graficos[]" value="acessos" /> 
                         <label for="te_exibe_graficos_acessos">Acessos</label>
                         
-                        <input type="checkbox" id="te_exibe_graficos_acessos_locais" name="te_exibe_graficos" value="acessos_locais" /> 
+                        <input type="checkbox" id="te_exibe_graficos_acessos_locais" name="te_exibe_graficos[]" value="acessos_locais" /> 
                         <label for="te_exibe_graficos_acessos_locais">Acessos Locais</label>
                         
-                        <input type="checkbox" id="te_exibe_graficos_locais" name="te_exibe_graficos" value="locais" /> 
+                        <input type="checkbox" id="te_exibe_graficos_locais" name="te_exibe_graficos[]" value="locais" /> 
                         <label for="te_exibe_graficos_locais">Locais</label>
                     </td>
                 </tr>
@@ -203,18 +205,74 @@
 </div> <!-- /row -->
 {% endblock %}
 
+{% block stylesheets %}
+
+    {{ parent() }}
+    
+    {% stylesheets combine=false filter='cssrewrite'
+        'bundles/caciccommon/colorpicker/css/colorpicker.css'
+    %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}}
+    
+{% endblock %}
+
 {% block javascripts %}
 
     {{ parent() }}
+    
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/colorpicker/js/bootstrap-colorpicker.js') }}"></script>
 
     <script type="text/javascript">     
     
+        // Máscaras nos campos
 	    $('#nu_exec_apos, #nu_rel_maxlinhas').mask('9?999999999');
+	    $('#nu_timeout_srcacic, #nu_intervalo_exec, #nu_intervalo_renovacao_patrim').mask('9?9');
+	    $('#nu_porta_srcacic, #nu_resolucao_grafico_w, #nu_resolucao_grafico_h').mask('9?999');
 	    
-		$('#config_padrao_data input, #config_padrao_data select, #config_padrao_data textarea').change(function()
-	    {
-	    	alert(this.att['name'] + '=' + this.value);
+	    // Monitora o campo de seleção de cor
+	    var id_default_body_bgcolor = "{{ configuracoes['id_default_body_bgcolor'] }}";
+	    $('#id_default_body_bgcolor').colorpicker().on('hide', function( ev ){
+	    	if ( id_default_body_bgcolor != ev.color.toHex() ) // Verifica se a cor foi alterada
+	    	{
+	    		id_default_body_bgcolor = ev.color.toHex();
+	            salvaConfiguracao( 'id_default_body_bgcolor', id_default_body_bgcolor );
+	    	}
 	    });
+	    
+	    // Monitora os campos do tipo texto e textearea
+		$('#config_padrao_data input, #config_padrao_data textarea').bind('change', function(e)
+	    {
+			e.preventDefault();
+			salvaConfiguracao( $(this).attr('name'), $(this).val() );
+	    });
+		
+		/**
+		 * [AJAX] Salva a mudança na configuração
+		 */
+		function salvaConfiguracao( config, valor )
+		{
+			//alert( config +'='+ valor );
+			var url = "{{ path('cacic_configuracao_padrao_salvar') }}";
+			var params = { 'sgVariavel': config , 'vlConfiguracao': valor };
+            $.ajax(
+                {
+                    type: "POST",
+                    url: url,
+                    cache: false,
+                    async: false,
+                    success: function( data )
+                    {
+                        System.Flash.show( 'Sucesso', 'Configuração alterada com sucesso!' );
+                    },
+                    error: function( data )
+                    {
+                        System.Flash.show( 'Erro', 'Erro na alteração da configuração!' );
+                    },
+                    data: params
+                }
+            );
+		}
 	    
     </script>
 
