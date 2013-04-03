@@ -148,3 +148,8 @@ Cacic\CommonBundle\Entity\UsbDevice:
         nmUsbDevice:
             - NotBlank: ~
             - MaxLength: 30
+
+Cacic\CommonBundle\Entity\Log:
+    properties:
+        dtAcao:
+            - NotBlank: ~
