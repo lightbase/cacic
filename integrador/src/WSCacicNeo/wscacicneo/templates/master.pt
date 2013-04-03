@@ -36,8 +36,8 @@
 		</div>
 		<div id="conteudo">
 		   <div id="lista-links">
-			   <a class="link-lista">Conteudo</a>
-			   <a class="link-lista">Personalização</a>
+			   <a href="home" class="link-lista">Conteudo</a>
+			   <a href="dashboard" class="link-lista">Personalização</a>
 			   <a href="administracao" class="link-lista">Administração</a>
 		   </div>
 		   <metal:content define-slot="conteudo" />
