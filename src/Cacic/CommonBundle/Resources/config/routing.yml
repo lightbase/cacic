@@ -215,17 +215,17 @@ cacic_configuracao_padrao:
     pattern: /configuracao/padrao
     defaults: { _controller: CacicCommonBundle:Configuracao:padrao}
 
-cacic_configuracao_padrao_salvar:
-    pattern: /configuracao/padrao/salvar
-    defaults: { _controller: CacicCommonBundle:Configuracao:salvarconfiguracaopadrao}
+cacic_configuracao_gerente:
+    pattern: /configuracao/gerente
+    defaults: { _controller: CacicCommonBundle:Configuracao:gerente}
 
 cacic_configuracao_agente:
     pattern: /configuracao/agente
     defaults: { _controller: CacicCommonBundle:Configuracao:agente}
 
-cacic_configuracao_gerente:
-    pattern: /configuracao/gerente
-    defaults: { _controller: CacicCommonBundle:Configuracao:gerente}
+cacic_configuracao_salvar:
+    pattern: /configuracao/salvar
+    defaults: { _controller: CacicCommonBundle:Configuracao:salvarconfiguracao}
 
 cacic_usbdevice_index:
     pattern: /usbdevice/{page}
@@ -266,3 +266,15 @@ cacic_log_insucesso_instalacao:
 cacic_log_suporte_remoto:
     pattern:  /log/suporteremoto
     defaults: { _controller: CacicCommonBundle:Log:suporteremoto}
+
+cacic_patrimonio_interface:
+    pattern:  /patrimonio/interface
+    defaults: { _controller: CacicCommonBundle:Patrimonio:interface}
+
+cacic_patrimonio_opcoes:
+    pattern:  /patrimonio/opcoes
+    defaults: { _controller: CacicCommonBundle:Patrimonio:opcoes}
+
+cacic_patrimonio_uorg:
+    pattern:  /patrimonio/uorg
+    defaults: { _controller: CacicCommonBundle:Patrimonio:uorg}

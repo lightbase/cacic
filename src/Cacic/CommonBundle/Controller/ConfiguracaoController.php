@@ -29,17 +29,54 @@ class ConfiguracaoController extends Controller
         );
 	}
 	
+	
+	
+	/**
+	 * 
+	 * Tela de edição das configurações dos agentes, por local
+	 */
+	public function agenteAction()
+	{
+		/**
+		 * 
+		 * @todo no caso de ser um usuário administrativo, exibir lista com todos os locais cadastrados
+		 * @var int
+		 */
+		$local = $this->getUser()->getIdLocal(); // Recupera o Local da sessão do usuário logado
+		
+		return $this->render(
+        	'CacicCommonBundle:Configuracao:agente.html.twig',
+        	array(
+        		'configuracoes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoLocal' )->getArrayChaveValor( $local ),
+        		'local' => $local
+        	)
+        );
+	}
+	
 	/**
 	 * 
 	 * [AJAX] Salva a configuração padrão parametrizada via POST
 	 */
-	public function salvarconfiguracaopadraoAction( Request $request )
+	public function salvarconfiguracaoAction( Request $request )
 	{
 		if ( ! $request->isXmlHttpRequest() )
 			throw $this->createNotFoundException( 'Página não encontrada' );
 		
-		$configuracao = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->findOneBySgVariavel( $request->get('sgVariavel') );
-		//Debug::dump($configuracao);die;
+		if ( $request->get('idLocal') )
+		{ // No caso de ter sido parametrizado um Local, trata-se de edição do local informado
+			/**
+			 * @todo Checar se o usuário tem privilégios para alterar o local parametrizado
+			 */
+			$configuracao = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')
+												->find( array(
+															'idConfiguracao' => $request->get('idConfiguracao'),
+															'idLocal' => $request->get('idLocal')
+														)
+												);
+		}
+		else // ... do contrário, altera a configuração padrão
+			$configuracao = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->find( $request->get('idConfiguracao') );
+		
 		if ( ! $configuracao )
 			throw $this->createNotFoundException( 'Configuração não encontrada' );
 		
@@ -51,16 +88,6 @@ class ConfiguracaoController extends Controller
 		$response->headers->set('Content-Type', 'application/json');
 		
 		return $response;
-	}
-	
-	public function agenteAction()
-	{
-		
-	}
-	
-	public function gerenteAction()
-	{
-		
 	}
 	
 }

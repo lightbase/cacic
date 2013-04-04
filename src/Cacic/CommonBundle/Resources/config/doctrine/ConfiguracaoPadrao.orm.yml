@@ -3,19 +3,13 @@ Cacic\CommonBundle\Entity\ConfiguracaoPadrao:
     table: configuracao_padrao
     repositoryClass: Cacic\CommonBundle\Entity\ConfiguracaoPadraoRepository
     fields:
-        idConfiguracaoPadrao:
+        idConfiguracao:
             id: true
-            type: smallint
-            nullable: false
-            column: id_configuracao_padrao
-            generator:
-                strategy: IDENTITY
-        sgVariavel:
             type: string
             length: 50
             fixed: false
             nullable: false
-            column: sg_variavel
+            column: id_configuracao
         nmConfiguracao:
             type: string
             length: 100
