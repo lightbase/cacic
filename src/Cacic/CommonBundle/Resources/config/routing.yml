@@ -253,6 +253,11 @@ cacic_log_acesso:
     defaults: { _controller: CacicCommonBundle:Log:acesso}
 
 
+cacic_log_pesquisa:
+    pattern:  /log/pesquisa
+    defaults: { _controller: CacicCommonBundle:Log:pesquisa}
+
+
 cacic_log_atividade:
     pattern:  /log/atividade
     defaults: { _controller: CacicCommonBundle:Log:atividade}

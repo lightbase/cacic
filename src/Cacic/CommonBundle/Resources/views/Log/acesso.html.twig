@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li><a href="{{ path('cacic_software_index') }}">{{ 'Log de acesso'|trans }}</a></li> /
+    <li xmlns="http://www.w3.org/1999/html"><a href="{{ path('cacic_log_acesso') }}">{{ 'Log de acesso'|trans }}</a></li> /
     <li class="active">{{ 'Pesquisa'|trans }}</li>
 {% endblock %}
 
@@ -16,28 +16,33 @@
                 <h2 class="box_head round_top">{{'Pesquisa de acessos' |trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
-
-                    <form id="formLog" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
+                    <center>
+                    <form id="formLog" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
                         <div class="tabbable">
                             <center><h5>{{ 'Selecione o período no qual deverá ser realizada a consulta:'|trans }}</h5></center>
-                            {{ form_row(form.dt_acao_inicio) }} à <input type="text" id="dt_acao_fim" name="dt_acao_fim" />
-                            
+                              {{ form_row(form.dt_acao_inicio)}}
+                            à {{ form_row(form.dt_acao_fim) }}
+
+                            <br />
                             <div class="form-transfer">
                                 <div class="form-transfer-from">
-                                    
-                                </div>
+                                {{ form_row(form.idLocal) }}
 
+                                </div>
+                                <br />
                                 <div class="form-transfer-options" align='center'>
                                     <input id="log-add" type="button" value="   &gt;   " class="transfer-button" />
                                     <br>
                                     <input id="log-remove" type="button" value="   &lt;   " class="transfer-button" />
                                 </div>
 
+                                <br />
+
                                 <div class="form-transfer-to">
-                                    
+                                 {{ form_row(form.idLocal1) }}
                                 </div>
                             </div>
-                            
+
                         </div>
                         <br />
                         <div class="control-group">
@@ -53,8 +58,8 @@
                                 </button>
                             </div>
                         </div>
-
                     </form>
+                </center>
                 </div> <!-- /block -->
             </div> <!-- /box -->
         </div> <!-- /span8 -->
@@ -71,13 +76,13 @@
 
         $().ready(function() {
             $('#log-add').click(function() {
-                $( '#log_idRede' ).effect( 'transfer', { to: $( '#log_idRede1' ) }, 500 );
-                $('#log_idRede option:selected').remove().appendTo('#log_idRede1');
+                $( '#log_idLocal' ).effect( 'transfer', { to: $( '#log_idLocal1' ) }, 500 );
+                $('#log_idLocal option:selected').remove().appendTo('#log_idLocal1');
             });
 
             $('#log-remove').click(function() {
-                $( '#log_idRede1' ).effect( 'transfer', { to: $( '#log_idRede' ) }, 500 );
-                $('#log_idRede1 option:selected').remove().appendTo('#log_idRede');
+                $( '#log_idLocal1' ).effect( 'transfer', { to: $( '#log_idLocal' ) }, 500 );
+                $('#log_idLocal1 option:selected').remove().appendTo('#log_idLocal');
             });
         });
     </script>
