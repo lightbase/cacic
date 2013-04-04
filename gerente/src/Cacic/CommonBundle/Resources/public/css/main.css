@@ -35,6 +35,11 @@ body {
 
 .alert { display: none; }
 
+input[type="checkbox"], input[type="radio"] {
+	float: left;
+	margin-right: 5px;
+}
+
 /*------------------------------------------------------------------
 [ Shortcuts / .shortcuts]
 */

@@ -17,19 +17,26 @@ use Cacic\CommonBundle\Form\Type\LogType;
 class LogController extends Controller
 {
 
+	/**
+	 * 
+	 * Tela de pesquisa dos LOGS de ACESSO
+	 * @param Request $request
+	 */
     public function acessoAction(Request $request)
     {
-        $log = new Log();
-        $form = $this->createForm( new LogType(), $log );
+    	$form = $this->createFormBuilder(array('message' => 'Type your message here'))
+    				->add('dt_acao_inicio', 'text')
+    				->add('dt_acao_fim', 'text')
+    				->getForm();
+    	
         if ( $request->isMethod('POST') )
         {
-            $form->bind( $request );
-            if ( $form->isValid() )
-            {
-             $data = $form->getData();
-             $this->getDoctrine()->getRepository('CacicCommonBundle:Log')->pesquisar($data);
-               var_dump($data);die;
-            }
+        	$form->bind( $request );
+        	$data = $form->getData();
+        	
+			//var_dump($data['dt_acao_inicio']);
+			die;
+			$this->getDoctrine()->getRepository('CacicCommonBundle:Log')->pesquisar( $data );
         }
 
         return $this->render( 'CacicCommonBundle:Log:acesso.html.twig', array( 'form' => $form->createView() ) );

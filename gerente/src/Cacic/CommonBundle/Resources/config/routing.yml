@@ -275,6 +275,16 @@ cacic_patrimonio_opcoes:
     pattern:  /patrimonio/opcoes
     defaults: { _controller: CacicCommonBundle:Patrimonio:opcoes}
 
-cacic_patrimonio_uorg:
-    pattern:  /patrimonio/uorg
-    defaults: { _controller: CacicCommonBundle:Patrimonio:uorg}
+cacic_uorg_index:
+    pattern:  /uorg/index
+    defaults: { _controller: CacicCommonBundle:Uorg:index}
+
+cacic_uorg_cadastrar:
+    pattern:  /uorg/cadastrar
+    defaults: { _controller: CacicCommonBundle:Uorg:cadastrar}
+
+cacic_uorg_editar:
+    pattern:  /uorg/editar/{idUorg}
+    defaults: { _controller: CacicCommonBundle:Uorg:editar}
+    requirements:
+        idUorg: \d+

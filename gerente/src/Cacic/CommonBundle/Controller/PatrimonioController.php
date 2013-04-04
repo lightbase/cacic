@@ -22,7 +22,7 @@ class PatrimonioController extends Controller
 	 */
 	public function opcoesAction()
 	{
-		return $this->render('CacicCommonBundle:Patrimonio:interface.html.twig');
+		return $this->render('CacicCommonBundle:Patrimonio:opcoes.html.twig');
 	}
 	
 	/**
@@ -31,7 +31,7 @@ class PatrimonioController extends Controller
 	 */
 	public function uorgAction()
 	{
-		return $this->render('CacicCommonBundle:Patrimonio:interface.html.twig');
+		return $this->render('CacicCommonBundle:Patrimonio:uorg.html.twig');
 	}
 	
 }
