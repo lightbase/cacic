@@ -17,15 +17,14 @@
 
                 <div class="block box_content round_bottom padding_10">
 
-                    <form id="formLog" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+                    <form id="formLog" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
                         <div class="tabbable">
                             <center><h5>{{ 'Selecione o período no qual deverá ser realizada a consulta:'|trans }}</h5></center>
-                            {{ form_row(form.dtAcao, {'form_type': 'horizontal'} ) }}
-                            {{ form_row(form.dtAcao1, {'form_type': 'horizontal'} ) }}
-                            <center><h6>{{ '(Formato da data DD/MM/AAAA)'|trans }}</h6></center>
+                            {{ form_row(form.dt_acao_inicio) }} à <input type="text" id="dt_acao_fim" name="dt_acao_fim" />
+                            
                             <div class="form-transfer">
                                 <div class="form-transfer-from">
-                                    {{ form_row(form.idRede, {'form_type': 'horizontal'} ) }}
+                                    
                                 </div>
 
                                 <div class="form-transfer-options" align='center'>
@@ -35,10 +34,10 @@
                                 </div>
 
                                 <div class="form-transfer-to">
-                                    {{ form_row(form.idRede1, {'form_type': 'horizontal'} ) }}
+                                    
                                 </div>
                             </div>
-                            {{ form_rest(form) }}
+                            
                         </div>
                         <br />
                         <div class="control-group">
@@ -67,6 +66,8 @@
 
     {{ parent() }}
     <script type="text/javascript">
+    
+        $('#dt_acao_inicio, #dt_acao_fim').mask('99/99/9999');
 
         $().ready(function() {
             $('#log-add').click(function() {
