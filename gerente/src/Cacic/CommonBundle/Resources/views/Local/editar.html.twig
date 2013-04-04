@@ -8,3 +8,6 @@
 {% render url('cacic_local_usuariosassociados', { 'idLocal': form.vars.value.idLocal }) %}
 {% endblock %}
 
+{% block configuracoesLocais %}
+{% render url('cacic_local_configuracoes', { 'idLocal': form.vars.value.idLocal }) %}
+{% endblock %}

@@ -28,7 +28,7 @@ class ConfiguracaoPadraoRepository extends EntityRepository
 	
 	/**
 	 * 
-	 * Recupera um array na forma [sgVariavel] => [vlConfiguracao]
+	 * Recupera um array na forma [idConfiguracao] => [vlConfiguracao]
 	 */
 	public function getArrayChaveValor()
 	{
@@ -37,7 +37,7 @@ class ConfiguracaoPadraoRepository extends EntityRepository
 		
 		foreach ( $configuracoes as $config )
 		{
-			$return[ $config['sgVariavel'] ] = $config[ 'vlConfiguracao' ];
+			$return[ $config['idConfiguracao'] ] = $config[ 'vlConfiguracao' ];
 		}
 		
 		return $return;

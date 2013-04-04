@@ -5,7 +5,7 @@ Cacic\CommonBundle\Entity\ConfiguracaoLocal:
     id:
         idLocal:
             associationKey: true
-        idConfiguracaoPadrao:
+        idConfiguracao:
             associationKey: true
     fields:
         vlConfiguracao:
@@ -22,13 +22,13 @@ Cacic\CommonBundle\Entity\ConfiguracaoLocal:
                 id_local:
                     referencedColumnName: id_local
             orphanRemoval: false
-        idConfiguracaoPadrao:
+        idConfiguracao:
             targetEntity: ConfiguracaoPadrao
             cascade: {  }
             mappedBy: null
             inversedBy: null
             joinColumns:
-                id_configuracao_padrao:
-                    referencedColumnName: id_configuracao_padrao
+                id_configuracao:
+                    referencedColumnName: id_configuracao
             orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -20,10 +20,9 @@ class ConfiguracaoLocalRepository extends EntityRepository
 	 */
 	public function listarPorLocal( $idLocal )
 	{
-		$_dql = "SELECT cl, cp.sgVariavel, cp.nmConfiguracao
+		$_dql = "SELECT cl.vlConfiguracao, cp.idConfiguracao, cp.nmConfiguracao
 				FROM CacicCommonBundle:ConfiguracaoLocal cl
-				JOIN cl.idLocal l
-				JOIN cl.idConfiguracaoPadrao cp
+				JOIN cl.idConfiguracao cp
 				WHERE cl.idLocal = :idLocal";
 
         return $this->getEntityManager()
@@ -32,4 +31,20 @@ class ConfiguracaoLocalRepository extends EntityRepository
         			->getArrayResult();
 	}
 	
+	/**
+	 * 
+	 * Recupera um array na forma [idConfiguracao] => [vlConfiguracao]
+	 */
+	public function getArrayChaveValor( $idLocal )
+	{
+		$configuracoes = $this->listarPorLocal( $idLocal );
+		$return = array();
+		
+		foreach ( $configuracoes as $config )
+		{
+			$return[ $config['idConfiguracao'] ] = $config[ 'vlConfiguracao' ];
+		}
+		
+		return $return;
+	}
 }
