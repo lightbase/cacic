@@ -23,7 +23,7 @@ class LogRepository extends EntityRepository
     	$filtros = array();
     	if ( $data['dt_acao_inicio'] )	$filtros[] = 'log.dtAcao >= :dtInicio';
     	if ( $data['dt_acao_fim'] )	$filtros[] = 'log.dtAcao <= :dtFim';
-    	if ( $data['id_local'] ) $filtros[] = 'loc.idLocal = :idLocal';
+       	if ( $data['id_local'] ) $filtros[] = 'loc.idLocal == :idLocal';
     	
     	if ( count( $filtros ) ) $filtros = 'WHERE '. implode( ' AND ', $filtros );
     	else $filtros = '';
