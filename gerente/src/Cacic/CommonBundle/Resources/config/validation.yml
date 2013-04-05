@@ -54,6 +54,8 @@ Cacic\CommonBundle\Entity\ServidorAutenticacao:
         teAtributoValorStatusContaValida:
             - NotBlank: ~
             - MaxLength: 100
+        teObservacao:
+            - MaxLength: 200
         inAtivo:
             - Choice:
                 choices:  [S, N]
