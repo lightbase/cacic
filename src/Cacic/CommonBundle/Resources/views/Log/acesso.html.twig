@@ -21,12 +21,11 @@
                         <div class="tabbable">
                             <center><h5>{{ 'Selecione o período no qual deverá ser realizada a consulta:'|trans }}</h5></center>
                               {{ form_row(form.dt_acao_inicio)}}
-                            à {{ form_row(form.dt_acao_fim) }}
+                            {{ form_row(form.dt_acao_fim) }}
 
                             <br />
                             <div class="form-transfer">
                                 <div class="form-transfer-from">
-                                {{ form_row(form.idLocal) }}
 
                                 </div>
                                 <br />
@@ -39,11 +38,11 @@
                                 <br />
 
                                 <div class="form-transfer-to">
-                                 {{ form_row(form.idLocal1) }}
                                 </div>
                             </div>
 
                         </div>
+                        {{ form_rest(form) }}
                         <br />
                         <div class="control-group">
                             <div class="controls">
@@ -60,12 +59,16 @@
                         </div>
                     </form>
                 </center>
+                    {% if form.vars != false %}<center><b>{{ "Pesquisa ainda não realizada."|trans }}</b></center>
+                        {% else %}
+                    {% block pesquisa %}
+                        {% render url('cacic_log_pesquisa', { 'logs': form.vars.value }) %}
+                    {% endblock %}{% endif %}
                 </div> <!-- /block -->
             </div> <!-- /box -->
         </div> <!-- /span8 -->
     </div> <!-- /row -->
 {% endblock %}
-
 
 {% block javascripts %}
 

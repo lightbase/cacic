@@ -135,16 +135,16 @@ class LocalController extends Controller
 	 * 
 	 * [GRID] Usuários associados ao Local
 	 */
-	public function usuariosAction( $idLocal )
-	{
-		return $this->render(
-        	'CacicCommonBundle:Local:usuarios.html.twig',
-        	array(
-        		'usuarios' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuario' )->listarPorLocal( $idLocal ),
-        		'idLocal' => $idLocal
-        	)
+    public function usuariosAction( $idLocal )
+    {
+        return $this->render(
+            'CacicCommonBundle:Local:usuarios.html.twig',
+            array(
+                'usuarios' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuario' )->listarPorLocal( $idLocal ),
+                'idLocal' => $idLocal
+            )
         );
-	}
+    }
 	
 	/**
 	 * 

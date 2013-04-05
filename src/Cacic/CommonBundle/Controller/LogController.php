@@ -27,37 +27,36 @@ class LogController extends Controller
     	$form = $this->createFormBuilder(array('message' => 'Type your message here'))
     				->add('dt_acao_inicio', 'text',array('data'=>date('d/m/Y'),'label'=>' ',))
     				->add('dt_acao_fim',    'text',array('data'=>date('d/m/Y'),'label'=>' '))
-                    ->add('idLocal', 'entity',array('empty_value' => ' ',
-                                                    'class' => 'CacicCommonBundle:Local',
-                                                    'property' => 'nmlocal',
-                                                    'multiple' => true,
-                                                    'required'  => false,
 
-                                                    'label'=> 'Disponíveis:'))
-                    ->add('idLocal1', 'entity',array('empty_value' => ' ',
-                                                    'class' => 'CacicCommonBundle:Rede',
-                                                    'property' => 'nmrede',
-                                                    'multiple' => true,
-                                                    'required'  => false,
-                                                    'mapped'=>false,
-                                                    'label'=> 'Selecionada:'))
     				->getForm();
     	
         if ( $request->isMethod('POST') )
         {
         	$form->bind( $request );
         	$data = $form->getData();
+            $dataInicio = ( $data['dt_acao_inicio'] );
+            $dataInicio = implode("".'/'."",array_reverse(explode("".'/'."",$dataInicio)));
 
-			echo($data['dt_acao_inicio']);
-            echo($data['dt_acao_fim']);
-            echo($data['idLocal']);
+            $dataFim = ( $data['dt_acao_fim'] );
+            $dataFim = implode("".'/'."",array_reverse(explode("".'/'."",$dataFim)));
 
-			die;
-			$this->getDoctrine()->getRepository('CacicCommonBundle:Log')->pesquisar( $data );
+            return $this->render(
+            'CacicCommonBundle:Log:pesquisa.html.twig',
+            array( 'logs' =>$this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')->pesquisar( $dataInicio,$dataFim )
+            ));
+
         }
 
         return $this->render( 'CacicCommonBundle:Log:acesso.html.twig', array( 'form' => $form->createView() ) );
     }
+    public function pesquisaAction()
+    {
+       return $this->render(
+            'CacicCommonBundle:Log:pesquisa.html.twig',
+            array( 'logs' =>$this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')));
+    }
+
+
     public function atividadeAction()
     {
 

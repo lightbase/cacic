@@ -91,7 +91,7 @@ Cacic\CommonBundle\Entity\ServidorAutenticacao:
             column: te_atributo_valor_status_conta_valida
         teObservacao:
             type: text
-            nullable: false
+            nullable: true
             column: te_observacao
         inAtivo:
             type: string

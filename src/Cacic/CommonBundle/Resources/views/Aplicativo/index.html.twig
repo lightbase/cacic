@@ -32,11 +32,11 @@
 
                 {% for aplicativo in aplicativo %}
 
-                    <tr id="item_{{ aplicativo['idAplicativo'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                        <td id="item_desc_{{ aplicativo['idAplicativo'] }}">{{ aplicativo['nmAplicativo'] }}</td>
+                    <tr id="item_{{ aplicativo[0]['idAplicativo'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                        <td id="item_desc_{{ aplicativo[0]['idAplicativo'] }}">{{ aplicativo[0]['nmAplicativo'] }}</td>
                         <td style="text-align: center"></td>
                         <td style="text-align: center" class="td-actions">
-                            <a href="{{ path('cacic_aplicativo_editar', {'idAplicativo': aplicativo['idAplicativo']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                            <a href="{{ path('cacic_aplicativo_editar', {'idAplicativo': aplicativo[0]['idAplicativo']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                 <i class="btn-icon-only icon-edit"></i>
                             </a>
 
@@ -48,7 +48,7 @@
 
                 {% else %}
                     <tr>
-                        <td style="text-align: center;" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                        <td style="text-align: center;" colspan="2"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
                     </tr>
                 {% endfor %}
 
