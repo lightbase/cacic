@@ -20,6 +20,7 @@
                     <form id="formLog" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
                         <div class="tabbable">
                             <center><h5>{{ 'Selecione o período no qual deverá ser realizada a consulta:'|trans }}</h5></center>
+                            <br />
                             {{ form_widget(form.dt_acao_inicio)}}
                                         a
                             {{ form_widget(form.dt_acao_fim) }}
@@ -57,13 +58,15 @@
                                 </button>
                             </div>
                         </div>
+                        {% if form.idLocal1.vars.valid != false %}<center><b>{{ "Nenhum acesso realizado no periodo informado."|trans }}</b></center>
+
+                        {% else %}
+                            {% block pesquisa %}
+                                {% render url('cacic_log_pesquisa', { 'logs': form.idLocal1.vars }) %}
+                            {% endblock %}{% endif %}
                     </form>
                 </center>
-                    {% if form.vars.name != true %}<center><b>{{ "Nenhum acesso realizado no periodo informado."|trans }}</b></center>
-                        {% else %}
-                    {% block pesquisa %}
-                        {% render url('cacic_log_pesquisa') %}
-                    {% endblock %}{% endif %}
+
                 </div> <!-- /block -->
             </div> <!-- /box -->
         </div> <!-- /span8 -->

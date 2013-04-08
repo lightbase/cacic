@@ -54,9 +54,10 @@ class LogController extends Controller
             $dataFim = implode("".'/'."",array_reverse(explode("".'/'."",$dataFim)));
 
             $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')->pesquisar( $dataInicio,$dataFim );
+
         }
 
-        return $this->render( 'CacicCommonBundle:Log:acesso.html.twig', 
+        return $this->render( 'CacicCommonBundle:Log:acesso.html.twig',
         						array(
         							'form' => $form->createView(),
         							'logs' => ( isset( $logs ) ? $logs : array() ) )
@@ -64,14 +65,12 @@ class LogController extends Controller
     }
     public function pesquisaAction()
     {
-       return $this->render(
-            'CacicCommonBundle:Log:pesquisa.html.twig',
-            array( 'logs' =>$this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')));
-    }
 
-    public function indexAction()
-    {
-        return $this->redirect($this->generateUrl('index'));
+        return $this->render( 'CacicCommonBundle:Log:pesquisa.html.twig',
+            array(
+                'logs' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')));
+
+
     }
 
     public function atividadeAction()
