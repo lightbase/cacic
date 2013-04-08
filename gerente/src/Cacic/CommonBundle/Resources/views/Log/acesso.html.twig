@@ -62,7 +62,7 @@
 
                         {% else %}
                             {% block pesquisa %}
-                                {% render url('cacic_log_pesquisa', { 'logs': form.idLocal1.vars }) %}
+                                {% include 'CacicCommonBundle:Log:pesquisa.html.twig' with { acesso: form } %}
                             {% endblock %}{% endif %}
                     </form>
                 </center>
