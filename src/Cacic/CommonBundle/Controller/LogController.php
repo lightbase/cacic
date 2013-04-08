@@ -63,16 +63,6 @@ class LogController extends Controller
         							'logs' => ( isset( $logs ) ? $logs : array() ) )
         					);
     }
-    public function pesquisaAction()
-    {
-
-        return $this->render( 'CacicCommonBundle:Log:pesquisa.html.twig',
-            array(
-                'logs' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')));
-
-
-    }
-
     public function atividadeAction()
     {
 
