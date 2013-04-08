@@ -27,9 +27,22 @@ class LogController extends Controller
     	$form = $this->createFormBuilder(array('message' => 'Type your message here'))
     				->add('dt_acao_inicio', 'text',array('data'=>date('d/m/Y'),'label'=>' ',))
     				->add('dt_acao_fim',    'text',array('data'=>date('d/m/Y'),'label'=>' '))
-
+                    ->add( 'idLocal', 'entity',
+                                        array(
+                                            'empty_value' => ' ',
+                                            'class' => 'CacicCommonBundle:Local',
+                                            'property' => 'nmLocal',
+                                            'multiple' => true,
+                                            'required'  => false,
+                                            'label'=> 'Disponíveis:'))
+                    ->add( 'idLocal1', 'choice',
+                                        array(
+                                            'empty_value' => ' ',
+                                            'multiple' => true,
+                                            'required'  => false,
+                                            'label'=> 'Selecionada:' ) )
     				->getForm();
-    	
+
         if ( $request->isMethod('POST') )
         {
         	$form->bind( $request );
@@ -56,6 +69,10 @@ class LogController extends Controller
             array( 'logs' =>$this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')));
     }
 
+    public function indexAction()
+    {
+        return $this->redirect($this->generateUrl('index'));
+    }
 
     public function atividadeAction()
     {

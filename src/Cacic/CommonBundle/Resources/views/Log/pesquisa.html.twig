@@ -18,8 +18,8 @@
         <tr id="item_{{ log[0]['idLog'] }}">
             <td style="text-align: center">{{ loop.index }}</td>
             <td id="item_desc_{{ log[0]['idLog'] }}"></td>
-            <td>{{ log[0]['csAcao'] }}</td>
-            <td>{{ log['nmLocal'] }}</td>
+            <td>{{ log['nmUsuarioCompleto'] }}</td>
+            <td>{{ log[0]['teIpOrigem'] }}</td>
         </tr>
 
     {% else %}
