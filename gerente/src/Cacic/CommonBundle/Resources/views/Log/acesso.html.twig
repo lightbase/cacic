@@ -20,24 +20,24 @@
                     <form id="formLog" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
                         <div class="tabbable">
                             <center><h5>{{ 'Selecione o período no qual deverá ser realizada a consulta:'|trans }}</h5></center>
-                              {{ form_row(form.dt_acao_inicio)}}
-                            {{ form_row(form.dt_acao_fim) }}
+                            {{ form_widget(form.dt_acao_inicio)}}
+                                        a
+                            {{ form_widget(form.dt_acao_fim) }}
 
-                            <br />
+                            <br /><br />
                             <div class="form-transfer">
                                 <div class="form-transfer-from">
-
+                                    {{ form_widget(form.idLocal) }}
                                 </div>
-                                <br />
+
                                 <div class="form-transfer-options" align='center'>
-                                    <input id="log-add" type="button" value="   &gt;   " class="transfer-button" />
+                                    <input id="rede-add" type="button" value="   &gt;   " class="transfer-button" />
                                     <br>
-                                    <input id="log-remove" type="button" value="   &lt;   " class="transfer-button" />
+                                    <input id="rede-remove" type="button" value="   &lt;   " class="transfer-button" />
                                 </div>
-
-                                <br />
 
                                 <div class="form-transfer-to">
+                                    {{ form_widget(form.idLocal1) }}
                                 </div>
                             </div>
 
@@ -59,10 +59,10 @@
                         </div>
                     </form>
                 </center>
-                    {% if form.vars != false %}<center><b>{{ "Pesquisa ainda não realizada."|trans }}</b></center>
+                    {% if form.vars.name != true %}<center><b>{{ "Nenhum acesso realizado no periodo informado."|trans }}</b></center>
                         {% else %}
                     {% block pesquisa %}
-                        {% render url('cacic_log_pesquisa', { 'logs': form.vars.value }) %}
+                        {% render url('cacic_log_pesquisa') %}
                     {% endblock %}{% endif %}
                 </div> <!-- /block -->
             </div> <!-- /box -->
@@ -75,19 +75,20 @@
     {{ parent() }}
     <script type="text/javascript">
     
-        $('#dt_acao_inicio, #dt_acao_fim').mask('99/99/9999');
+        $('#form_dt_acao_inicio, #form_dt_acao_fim').mask('99/99/9999');
 
         $().ready(function() {
-            $('#log-add').click(function() {
-                $( '#log_idLocal' ).effect( 'transfer', { to: $( '#log_idLocal1' ) }, 500 );
-                $('#log_idLocal option:selected').remove().appendTo('#log_idLocal1');
+            $('#rede-add').click(function() {
+                $( '#form_idLocal' ).effect( 'transfer', { to: $( '#form_idLocal1' ) }, 500 );
+                $('#form_idLocal option:selected').remove().appendTo('#form_idLocal1');
             });
 
-            $('#log-remove').click(function() {
-                $( '#log_idLocal1' ).effect( 'transfer', { to: $( '#log_idLocal' ) }, 500 );
-                $('#log_idLocal1 option:selected').remove().appendTo('#log_idLocal');
+            $('#rede-remove').click(function() {
+                $( '#form_idLocal1' ).effect( 'transfer', { to: $( '#form_idLocal' ) }, 500 );
+                $('#form_idLocal1 option:selected').remove().appendTo('#form_idLocal');
             });
         });
+
     </script>
 
 {% endblock %}
