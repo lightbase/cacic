@@ -101,7 +101,7 @@ cacic_servidorautenticacao_editar:
 
 cacic_servidorautenticacao_excluir:
     pattern:  /servidorautenticacao/excluir
-    defaults: { _controller: CacicCommonBundle:servidorautenticacao:excluir}
+    defaults: { _controller: CacicCommonBundle:ServidorAutenticacao:excluir}
 
 cacic_servidorautenticacao_redesassociadas:
     pattern:  /servidorautenticacao/redes/{idServidorAutenticacao}

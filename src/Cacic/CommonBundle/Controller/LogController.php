@@ -29,34 +29,33 @@ class LogController extends Controller
     				->add('dt_acao_fim',    'text',array('data'=>date('d/m/Y'),'label'=>' '))
                     ->add( 'idLocal', 'entity',
                                         array(
-                                            'empty_value' => ' ',
                                             'class' => 'CacicCommonBundle:Local',
                                             'property' => 'nmLocal',
                                             'multiple' => true,
                                             'required'  => false,
+                                            'expanded'  => true,
                                             'label'=> 'Disponíveis:'))
-                    ->add( 'idLocal1', 'choice',
-                                        array(
-                                            'empty_value' => ' ',
-                                            'multiple' => true,
-                                            'required'  => false,
-                                            'label'=> 'Selecionada:' ) )
     				->getForm();
 
         if ( $request->isMethod('POST') )
         {
         	$form->bind( $request );
         	$data = $form->getData();
-            $dataInicio = ( $data['dt_acao_inicio'] );
-            $dataInicio = implode("".'/'."",array_reverse(explode("".'/'."",$dataInicio)));
 
-            $dataFim = ( $data['dt_acao_fim'] );
-            $dataFim = implode("".'/'."",array_reverse(explode("".'/'."",$dataFim)));
+            $dataInicio = implode("".'/'."",array_reverse(explode("".'/'."", $data['dt_acao_inicio'])));
 
-            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')->pesquisar( $dataInicio,$dataFim );
+            $dataFim = implode("".'/'."",array_reverse(explode("".'/'."",$data['dt_acao_fim'])));
+            $idLocal =($data['idLocal']);
+            foreach ($idLocal as &$locais){
+                $locais = $locais;
+                            }
+
+
+            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')->pesquisar( $dataInicio,$dataFim,$locais );
+
 
         }
-
+        unset( $locais );
         return $this->render( 'CacicCommonBundle:Log:acesso.html.twig',
         						array(
         							'form' => $form->createView(),

@@ -46,7 +46,6 @@ class SoType extends AbstractType
                     ),
                     'expanded'  => true,
                     'multiple'  => false,
-                    'required'  => false,
                     'label'=>'Sistema Operacional MS-Windows'
                     )
         );

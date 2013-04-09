@@ -152,32 +152,12 @@ class AplicativoType extends AbstractType
         );
         $builder->add( 'idRede', 'entity',
             array(
-                'empty_value' => ' ',
                 'class' => 'CacicCommonBundle:Rede',
-                'property' => 'nmrede',
-                'multiple' => true,
+                'property' => 'nmRede',
                 'required'  => false,
-                'mapped'=>false,
-                'label'=> 'Disponíveis:'
-            )
-        );
-        $builder->add( 'idRede', 'entity',
-            array(
-                'empty_value' => ' ',
-                'class' => 'CacicCommonBundle:Rede',
-                'property' => 'nmrede',
-                'multiple' => true,
-                'required'  => false,
-                'label'=> 'Disponíveis:'
-            )
-        );
-        $builder->add( 'idRede1', 'choice',
-            array(
-                'empty_value' => ' ',
-                'multiple' => true,
-                'required'  => false,
-                'mapped'=>false,
-                'label'=> 'Selecionada:'
+                'expanded'  => true,
+                'multiple'  => true,
+                'label'=> 'Selecione as Redes:'
             )
         );
         $builder->add('dtAtualizacao', 'hidden');

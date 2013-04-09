@@ -63,6 +63,7 @@ Cacic\CommonBundle\Entity\ServidorAutenticacao:
 Cacic\CommonBundle\Entity\Rede:
     properties:
         nmRede:
+            - NotNull: ~
             - MaxLength: 30
         teMascaraRede:
             - NotBlank: ~
@@ -104,6 +105,10 @@ Cacic\CommonBundle\Entity\So:
         teSo:
             - NotNull: ~
             - MaxLength: 10
+        inMswindows:
+            - NotBlank: ~
+            - Choice:
+                choices:  [S, N]
 
 Cacic\CommonBundle\Entity\Aplicativo:
     properties:
