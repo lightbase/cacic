@@ -18,12 +18,13 @@ class LogRepository extends EntityRepository
 	 * Realiza pesquisa por LOGs segundo parâmetros informados
 	 * @param array $data
 	 */
-    public function pesquisar( $dataInicio,$dataFim  )
+    public function pesquisar( $dataInicio, $dataFim, $locais )
     {
+
     	$filtros = array();
     	if ( $dataInicio )	$filtros[] = 'log.dtAcao >= :dtInicio';
     	if ( $dataFim)	$filtros[] = 'log.dtAcao <= :dtFim';
-       	//if ( $data['id_local'] ) $filtros[] = 'loc.idLocal = :idLocal';
+       	if ( count($locais) ) $filtros[] = 'loc.idLocal IN (:idLocal)';
     	
     	if ( count( $filtros ) ) $filtros = 'WHERE '. implode( ' AND ', $filtros );
     	else $filtros = '';
@@ -36,8 +37,8 @@ class LogRepository extends EntityRepository
 
         $query = $this->getEntityManager()->createQuery( $_dql )
         									->setParameter('dtInicio', $dataInicio)
-        									->setParameter('dtFim', $dataFim);
-        									//->setParameter('idLocal', $data['id_local']);
+        									->setParameter('dtFim', $dataFim)
+        									->setParameter('idLocal', $locais);
 
         return $query->getArrayResult();
 

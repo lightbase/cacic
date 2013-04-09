@@ -26,23 +26,10 @@
                             {{ form_widget(form.dt_acao_fim) }}
 
                             <br /><br />
-                            <div class="form-transfer">
-                                <div class="form-transfer-from">
-                                    {{ form_widget(form.idLocal) }}
-                                </div>
-
-                                <div class="form-transfer-options" align='center'>
-                                    <input id="rede-add" type="button" value="   &gt;   " class="transfer-button" />
-                                    <br>
-                                    <input id="rede-remove" type="button" value="   &lt;   " class="transfer-button" />
-                                </div>
-
-                                <div class="form-transfer-to">
-                                    {{ form_widget(form.idLocal1) }}
-                                </div>
-                            </div>
-
                         </div>
+                        <div class="tab-pane">
+                            {{ form_widget(form.idLocal) }}</div>
+
                         {{ form_rest(form) }}
                         <br />
                         <div class="control-group">
@@ -58,7 +45,7 @@
                                 </button>
                             </div>
                         </div>
-                        {% if form.idLocal1.vars.valid != false %}<center><b>{{ "Nenhum acesso realizado no periodo informado."|trans }}</b></center>
+                        {% if form.dt_acao_inicio.vars.valid != true %}<center><b>{{ "Nenhum acesso realizado no periodo informado."|trans }}</b></center>
 
                         {% else %}
                             {% block pesquisa %}
