@@ -58,7 +58,7 @@ class  ServidorAutenticacaoType extends AbstractType
         $builder->add('teObservacao', 'textarea',
                        array(
                            'label'=>'Observação:',
-                           'required' => false
+                           'required' => false,
                        )
         );
         $builder->add('teAtributoIdentificador', 'text',
@@ -91,11 +91,6 @@ class  ServidorAutenticacaoType extends AbstractType
                 'data'=> 'active',
             )
         );
-        $builder->add('inAtivo', 'hidden',
-            array(
-                'data'=> 'S'
-            )
-        );
         $builder->add('inAtivo', 'choice',
             array(
                 'choices' => array ( 'S' => 'Sim', 'N' =>'Não'),
@@ -103,6 +98,7 @@ class  ServidorAutenticacaoType extends AbstractType
                 'required'  => false,
                 'multiple'=> false,
                 'expanded'  => true,
+                'data'=> 'S'
             )
         );
 

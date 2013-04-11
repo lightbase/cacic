@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\SrcacicConexao:
     type: entity
     table: srcacic_conexao
+    repositoryClass: Cacic\CommonBundle\Entity\SrcacicConexaoRepository
     fields:
         idSrcacicConexao:
             id: true

@@ -34,13 +34,13 @@ class RedeType extends AbstractType
 				'label'=>'Servidor para Autenticação:')
 		);
 
-		$builder->add(  'teIpRede',  null,
+		$builder->add('teIpRede',  null,
 			array(
 				 'label'=> 'Subrede:',
 				 'max_length'=> 30
 			)
 		);
-		$builder->add(  'nmRede',  null,
+		$builder->add('nmRede',  null,
 			array(
 				'label'=> 'Descrição:',
 				'max_length'=> 60
