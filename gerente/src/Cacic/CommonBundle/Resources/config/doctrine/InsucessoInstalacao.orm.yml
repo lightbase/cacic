@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\InsucessoInstalacao:
     type: entity
     table: insucesso_instalacao
+    repositoryClass: Cacic\CommonBundle\Entity\InsucessoInstalacaoRepository
     fields:
         idInsucessoInstalacao:
             id: true

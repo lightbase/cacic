@@ -73,21 +73,8 @@
                         <div class="tab-pane" id="form-formAplicativo-redes">
                         <h5>{{ "Selecao de redes para aplicacao desta coleta de informacoes"|trans }}</h5>
                             <br />
-                            <div class="form-transfer">
-                                <div class="form-transfer-from">
                                     {{ form_row(form.idRede, {'form_type': 'horizontal'} ) }}
-                                </div>
 
-                                <div class="form-transfer-options" align='center'>
-                                    <input id="rede-add" type="button" value="   &gt;   " class="transfer-button" />
-                                    <br>
-                                    <input id="rede-remove" type="button" value="   &lt;   " class="transfer-button" />
-                                </div>
-
-                                <div class="form-transfer-to">
-                                    {{ form_row(form.idRede1, {'form_type': 'horizontal'} ) }}
-                                </div>
-                            </div>
                         </div>
                     </div><!-- /tab-content -->
                 </div><!-- /tabbable -->

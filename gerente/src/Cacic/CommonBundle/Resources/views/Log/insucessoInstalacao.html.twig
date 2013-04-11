@@ -1,8 +1,8 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li xmlns="http://www.w3.org/1999/html"><a href="{{ path('cacic_log_acesso') }}">{{ 'Log de acesso'|trans }}</a></li> /
-    <li class="active">{{ 'Pesquisa'|trans }}</li>
+    <li xmlns="http://www.w3.org/1999/html"><a href="{{ path('cacic_log_insucesso_instalacao') }}">{{ 'Log de insucesso instalacao'|trans }}</a></li> /
+    <li class="active">{{ 'Pesquisa de insucesso instalacao'|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -13,7 +13,7 @@
 
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top">{{'Pesquisa de acessos' |trans }}</h2>
+                <h2 class="box_head round_top">{{'Pesquisa de insucesso instalacao' |trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
                     <center>
@@ -27,14 +27,11 @@
 
                             <br /><br />
 
-                            <center><h5>{{ 'Selecione o Local:'|trans }}</h5></center>
-                            <br />
-                            {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
                             </div>
                         <br />
                         <div class="control-group">
                             <div class="controls">
-                                <a class="btn btn-danger"  href="{{ path('cacic_log_acesso') }}">
+                                <a class="btn btn-danger"  href="{{ path('cacic_log_insucesso_instalacao') }}">
                                     <i class="icon-remove-sign"></i>
                                     {{ 'Limpar'|trans }}
                                 </a>
@@ -45,10 +42,10 @@
                                 </button>
                             </div>
                         </div>
-                        {% if  form.idLocal.vars.value in false %}<center><b>{{ "Nenhum acesso realizado no periodo informado."|trans }}</b></center>
+                        {% if  form.vars.value in false %}<center><b>{{ "Nenhum acesso realizado no periodo informado."|trans }}</b></center>
                             {% else %}
                             {% block pesquisa %}
-                                {% include 'CacicCommonBundle:Log:acessoPesquisa.html.twig' with { acesso: form } %}
+                                {% include 'CacicCommonBundle:Log:insucessoPesquisa.html.twig' with { acesso: form } %}
                             {% endblock %}{% endif %}
                     </form>
                 </center>

@@ -1,8 +1,8 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li xmlns="http://www.w3.org/1999/html"><a href="{{ path('cacic_log_acesso') }}">{{ 'Log de acesso'|trans }}</a></li> /
-    <li class="active">{{ 'Pesquisa'|trans }}</li>
+    <li xmlns="http://www.w3.org/1999/html"><a href="{{ path('cacic_log_suporte_remoto') }}">{{ 'Log de suporte Remoto'|trans }}</a></li> /
+    <li class="active">{{ 'Pesquisa de suporte Remoto'|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -13,7 +13,7 @@
 
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top">{{'Pesquisa de acessos' |trans }}</h2>
+                <h2 class="box_head round_top">{{'Pesquisa de Suporte Remoto' |trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
                     <center>
@@ -34,7 +34,7 @@
                         <br />
                         <div class="control-group">
                             <div class="controls">
-                                <a class="btn btn-danger"  href="{{ path('cacic_log_acesso') }}">
+                                <a class="btn btn-danger"  href="{{ path('cacic_log_suporte_remoto') }}">
                                     <i class="icon-remove-sign"></i>
                                     {{ 'Limpar'|trans }}
                                 </a>
@@ -45,10 +45,10 @@
                                 </button>
                             </div>
                         </div>
-                        {% if  form.idLocal.vars.value in false %}<center><b>{{ "Nenhum acesso realizado no periodo informado."|trans }}</b></center>
+                        {% if  form.idLocal.vars.value in false %}<center><b>{{ "Nenhum atividade realizado no periodo informado."|trans }}</b></center>
                             {% else %}
                             {% block pesquisa %}
-                                {% include 'CacicCommonBundle:Log:acessoPesquisa.html.twig' with { acesso: form } %}
+                                {% include 'CacicCommonBundle:Log:suportePesquisa.html.twig' with { acesso: form } %}
                             {% endblock %}{% endif %}
                     </form>
                 </center>

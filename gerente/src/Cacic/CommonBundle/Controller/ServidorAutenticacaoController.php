@@ -79,7 +79,7 @@ class ServidorAutenticacaoController extends Controller
         if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $servidor = $this->getDoctrine()->getRepository('CacicCommonBundle:ServidoresAutenticacao')->find( $request->get('id') );
+        $servidor = $this->getDoctrine()->getRepository('CacicCommonBundle:ServidorAutenticacao')->find( $request->get('id') );
         if ( ! $servidor )
             throw $this->createNotFoundException( 'Servidor Autenticacao não encontrado' );
 

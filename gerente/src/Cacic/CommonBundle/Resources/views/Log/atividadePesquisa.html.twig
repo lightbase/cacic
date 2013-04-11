@@ -6,7 +6,10 @@
     <tr>
         <th width="5%" style="text-align: center"></th>
         <th width="20%">{{ "Data"|trans }}</th>
-        <th width="20%">{{ "Usuário"|trans }}</th>
+        <th width="10%">{{ "Operação"|trans }}</th>
+        <th width="10%">{{ "Tabela"|trans }}</th>
+        <th width="10%">{{ "Programa(.php)"|trans }}</th>
+        <th width="10%">{{ "Usuário"|trans }}</th>
         <th width="20%">{{ "Endereço IP"|trans }}</th>
     </tr>
     </thead>
@@ -17,14 +20,17 @@
 
         <tr id="item_{{ log[0]['idLog'] }}">
             <td style="text-align: center">{{ loop.index }}</td>
-            <td id="item_desc_{{ log[0]['idLog'] }}"></td>
+            <td id="item_desc_{{ log[0]['idLog'] }}">{{ log[0].dtAcao|date('d/m/Y H:i:s') }}</td>
+            <td>{{ log[0]['csAcao'] }}</td>
+            <td>{{ log[0]['nmTabela'] }}</td>
+            <td>{{ log[0]['nmScript'] }}</td>
             <td>{{ log['nmUsuarioCompleto'] }}</td>
             <td>{{ log[0]['teIpOrigem'] }}</td>
         </tr>
 
     {% else %}
         <tr>
-            <td style="text-align: center;" colspan="4"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+            <td style="text-align: center;" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
         </tr>
     {% endfor %}
 
