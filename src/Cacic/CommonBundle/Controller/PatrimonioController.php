@@ -25,13 +25,4 @@ class PatrimonioController extends Controller
 		return $this->render('CacicCommonBundle:Patrimonio:opcoes.html.twig');
 	}
 	
-	/**
-	 * 
-	 * Tela de manutenção das UNIDADES ORGANIZACIONAIS - Entidades, Linhas de negócio, Órgãos, etc
-	 */
-	public function uorgAction()
-	{
-		return $this->render('CacicCommonBundle:Patrimonio:uorg.html.twig');
-	}
-	
 }

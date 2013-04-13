@@ -422,4 +422,19 @@ class Usuario implements UserInterface, \Serializable
     {
     	list ( $this->idUsuario ) = unserialize( $serialized );
     }
+    
+    /**
+     * Gera uma senha aleatória para o Usuário
+     */
+    public function _gerarSenhaAleatoria( $algorithm, $length = 8 )
+    {
+    	$strChars = "abcdefghijklmnopqrstuvxwyz0123456789";
+		$strHash = "";
+		$intCount = 0;
+		
+		while( strlen( $strHash ) < $length )
+           	$strHash .= $strChars[ mt_rand( 0, ( strlen( $strChars ) - 1 ) ) ];
+           	
+        $this->setTeSenha( hash( $algorithm, $strHash ) );
+    }
 }

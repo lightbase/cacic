@@ -16,7 +16,7 @@ Cacic\CommonBundle\Entity\Uorg:
             length: 50
             fixed: false
             nullable: false
-            column: nm_
+            column: nm_uorg
         teEndereco:
             type: string
             length: 80

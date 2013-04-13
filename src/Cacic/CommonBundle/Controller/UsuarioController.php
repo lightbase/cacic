@@ -2,6 +2,8 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Cacic\CommonBundle\Entity\Usuario;
@@ -60,7 +62,9 @@ class UsuarioController extends Controller
 		if ( $request->isMethod('POST') )
 		{
 			$form->bind( $request );
-			$form->getData()->gerarSenhaAleatoria( $this->container->getParameter('cacic_senha_algorithm'), 8 ); // Gera uma senha aleatória para o novo Usuário
+			
+			# Gera uma senha aleatória para o novo Usuário
+			$form->getData()->_gerarSenhaAleatoria( $this->container->getParameter('cacic_senha_algorithm') );
 			
 			if ( $form->isValid() )
 			{

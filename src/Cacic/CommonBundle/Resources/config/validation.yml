@@ -19,7 +19,7 @@ Cacic\CommonBundle\Entity\Usuario:
         nmUsuarioCompleto:
             - NotBlank: ~
             - MaxLength: 60
-        idGrupoUsuarios:
+        idGrupoUsuario:
             - NotNull: ~
 
 Cacic\CommonBundle\Entity\ServidorAutenticacao:
