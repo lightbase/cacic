@@ -52,14 +52,14 @@ class LogController extends Controller
                 array_push($locais_enviar,$locais->getIdLocal());
             }
 
-            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')->pesquisar( $dataInicio,$dataFim,$locais_enviar);
-
+            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')->acessoPesquisar( $dataInicio,$dataFim,$locais_enviar);
 
         }
         return $this->render( 'CacicCommonBundle:Log:acesso.html.twig',
         						array(
         							'form' => $form->createView(),
-        							'logs' => ( isset( $logs ) ? $logs : array() ) )
+        							'logs' => ( isset( $logs ) ? $logs : null )
+                                )
         					);
     }
     public function atividadeAction(Request $request)
@@ -91,9 +91,9 @@ class LogController extends Controller
                 array_push($locais_enviar,$locais->getIdLocal());
             }
 
-            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')->pesquisar( $dataInicio,$dataFim,$locais_enviar);
-
-
+            $logs = $this->getDoctrine()->getRepository('CacicCommonBundle:Log')->atividadePesquisar( $dataInicio,$dataFim,$locais_enviar);
+              $teste = $this->getDoctrine()->getRepository('CacicCommonBundle:Log')->findAll();
+            \Doctrine\Common\Util\Debug::dump($teste);die;
         }
         return $this->render( 'CacicCommonBundle:Log:atividade.html.twig',
             array(

@@ -1,32 +1,32 @@
 <?php 
  /* 
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informaï¿½ï¿½es da Previdï¿½ncia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ï¿½ parte do programa CACIC - Configurador Automï¿½tico e Coletor de Informaï¿½ï¿½es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ï¿½ um software livre; vocï¿½ pode redistribui-lo e/ou modifica-lo dentro dos termos da Licenï¿½a Pï¿½blica Geral GNU como 
+ publicada pela Fundaï¿½ï¿½o do Software Livre (FSF); na versï¿½o 2 da Licenï¿½a, ou (na sua opniï¿½o) qualquer versï¿½o.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ï¿½ distribuido na esperanï¿½a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAï¿½ï¿½O a qualquer
+ MERCADO ou APLICAï¿½ï¿½O EM PARTICULAR. Veja a Licenï¿½a Pï¿½blica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral GNU, sob o tï¿½tulo "LICENCA.txt", junto com este programa, se nï¿½o, escreva para a Fundaï¿½ï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 session_start();
 /*
- * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ * verifica se houve login e tambï¿½m regras para outras verificaï¿½ï¿½es (ex: permissï¿½es do usuï¿½rio)!
  */
 if(!isset($_SESSION['id_usuario'])) 
   die('Acesso negado (Access denied)!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+else { // Inserir regras para outras verificaï¿½ï¿½es (ex: permissï¿½es do usuï¿½rio)!
 }
 
 include_once "../include/library.php";
 AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
-// 1 - Administração
-// 2 - Gestão Central
-// 3 - Supervisão
+// 1 - Administraï¿½ï¿½o
+// 2 - Gestï¿½o Central
+// 3 - Supervisï¿½o
 
 if (!$_REQUEST['date_input1'])
 	{
@@ -179,7 +179,7 @@ require_once('../include/js/selecao_listbox.js');
 			if (count($_POST['list12'])==0)
 				$msg = '<div align="center">
 				<font color="red" size="1" face="Verdana, Arial, Helvetica, sans-serif">
-				Nenhum acesso realizado no <u>período informado</u> ou nenhum <u>local selecionado</u>.</font><br><br></div>';				
+				Nenhum acesso realizado no <u>perï¿½odo informado</u> ou nenhum <u>local selecionado</u>.</font><br><br></div>';				
 			
 			}
 
