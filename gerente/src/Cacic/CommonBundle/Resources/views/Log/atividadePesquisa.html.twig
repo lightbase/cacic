@@ -20,11 +20,11 @@
 
         <tr id="item_{{ log[0]['idLog'] }}">
             <td style="text-align: center">{{ loop.index }}</td>
-            <td id="item_desc_{{ log[0]['idLog'] }}">{{ log[0].dtAcao|date('d/m/Y H:i:s') }}</td>
+            <td id="item_desc_{{ log[0]['idLog'] }}">{{ log[0].dtAcao|date('d/m/Y H:i') }}</td>
             <td>{{ log[0]['csAcao'] }}</td>
             <td>{{ log[0]['nmTabela'] }}</td>
             <td>{{ log[0]['nmScript'] }}</td>
-            <td>{{ log['nmUsuarioCompleto'] }}</td>
+            <td>{{ log['nmUsuarioCompleto'] }}/{{ log['nmLocal'] }}</td>
             <td>{{ log[0]['teIpOrigem'] }}</td>
         </tr>
 

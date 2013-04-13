@@ -45,11 +45,13 @@
                                 </button>
                             </div>
                         </div>
-                        {% if  form.idLocal.vars.value in false %}<center><b>{{ "Nenhum acesso realizado no periodo informado."|trans }}</b></center>
-                            {% else %}
+                        {% if logs != false %}
                             {% block pesquisa %}
                                 {% include 'CacicCommonBundle:Log:acessoPesquisa.html.twig' with { acesso: form } %}
-                            {% endblock %}{% endif %}
+                            {% endblock %}
+                         {% else %}
+                        <center><b>{{ "Nenhum atividade realizado no periodo informado."|trans }}</b></center>
+                        {% endif %}
                     </form>
                 </center>
 
