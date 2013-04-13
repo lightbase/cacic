@@ -293,3 +293,9 @@ cacic_uorg_editar:
     defaults: { _controller: CacicCommonBundle:Uorg:editar}
     requirements:
         idUorg: \d+
+
+cacic_uorg_loadnodes:
+    pattern:  /uorg/loadnodes/{idUorgPai}
+    defaults: { _controller: CacicCommonBundle:Uorg:loadnodes, idUorgPai: null}
+    requirements:
+        idUorgPai: \d+

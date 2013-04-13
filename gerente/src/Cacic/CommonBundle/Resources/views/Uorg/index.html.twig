@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}     
+    <li class="active">{{ "Unidades Organizacionais"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+<div class="span12">
+    <div class="box grad_colour_black">
+        <h2 class="box_head round_top"><i class="icon-sitemap"></i> {{ "Unidades Organizacionais"|trans }}</h2>
+    
+        <div class="block box_content round_bottom padding_10">
+
+            <h3>{{ "Lista de Unidades Organizacionais Cadastradas"|trans }}</h3>
+            <p>{{ "Neste módulo deverão ser cadastradas todas as unidades organizacionais do sistema - Entidades, Linhas de negócio e Órgãos."|trans }}</p>
+            <br />
+            <div id="tree_uorg0"></div> <!-- Árvore com as Unidades Organizacionais cadastradas -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset('bundles/caciccommon/jqTree-0.15/jqtree.css') }}" type="text/css" rel="stylesheet" media="screen" />
+    
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+<script type="text/javascript" src="{{ asset('bundles/caciccommon/jqTree-0.15/tree.jquery.js') }}"></script>
+
+<script type="text/javascript">
+
+    var _dados = [ // Unidades de primeiro nível
+        {% for uorg in uorgs %}
+        {
+        	label: '{{ uorg[0]["nmUorg"] }}',
+        	id: {{ uorg[0]['idUorg'] }},
+        	load_on_demand: {% if uorg['numFilhas'] %}true{% else %}false{% endif %}
+        	
+        }{% if loop.last != true %},{% endif %}
+        
+        {% endfor %}
+    ];
+
+    $(function() {
+        $('#tree_uorg0').tree({
+            data: _dados,
+            dataUrl: function( node ) {
+            	return '{{ path('cacic_uorg_loadnodes') }}/'+ node.id +'';
+            },
+            onCreateLi: function(node, $li) {
+                //$li.find('.jqtree-title').before('<i class="icon-plus"></i>');
+            }
+        });
+    });
+    
+</script>
+
+{% endblock %}

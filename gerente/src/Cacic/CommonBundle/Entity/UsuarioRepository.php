@@ -53,12 +53,7 @@ class UsuarioRepository extends EntityRepository
         			->getArrayResult();
 	}
 
-	public function trocarsenha()
-	{
-
-	}
-
-	public function gerarsenha()
+	public function trocarSenha()
 	{
 
 	}

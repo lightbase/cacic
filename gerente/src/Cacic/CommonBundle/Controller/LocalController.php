@@ -102,7 +102,7 @@ class LocalController extends Controller
 	 */
 	public function excluirAction( Request $request )
 	{
-		if ( ! $request->isXmlHttpRequest() )
+		if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
 			throw $this->createNotFoundException( 'Página não encontrada' );
 		
 		$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->find( $request->get('id') );

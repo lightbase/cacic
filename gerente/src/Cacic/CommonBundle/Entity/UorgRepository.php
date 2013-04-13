@@ -12,4 +12,60 @@ use Doctrine\ORM\EntityRepository;
  */
 class UorgRepository extends EntityRepository
 {
+	
+	/**
+	 * 
+	 * Recupera as Unidades Organizacionais do primeiro nível
+	 */
+	public function getPrimeiroNivel()
+	{
+		$_dql = "SELECT uorg, COUNT(filhas.idUorg) AS numFilhas
+				FROM CacicCommonBundle:Uorg uorg
+				LEFT JOIN uorg.uorgFilhas filhas
+				WHERE uorg.uorgPai IS NULL
+				GROUP BY uorg.idUorg";
+
+		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+	}
+	
+	/**
+	 * 
+	 * Recupera as folhas de determinado nó
+	 * - Recupera as Unidades Organizacionais relacionadas (filhas) da Unidade Organizacional parametrizada
+	 * @param int $idUorgPai
+	 */
+	public function getFolhasDoNo( $idUorgPai )
+	{
+		$_dql = "SELECT uorg, COUNT(filhas.idUorg) AS numFilhas
+				FROM CacicCommonBundle:Uorg uorg
+				INNER JOIN uorg.uorgPai pai
+				LEFT JOIN uorg.uorgFilhas filhas
+				WHERE pai.idUorg = :idUorgPai
+				GROUP BY uorg.idUorg";
+		
+		return $this->getEntityManager()->createQuery( $_dql )
+										->setParameter('idUorgPai', $idUorgPai)
+										->getArrayResult();
+	}
+	
+	
+	/**
+	 * 
+	 * Gera estrutura de árvores com as Unidades Organizacionais cadastradas à partir do primeiro nível
+	 */
+	public function getArvores()
+	{
+		
+	}
+	
+	/**
+	 * 
+	 * Gera estrutura de árvore a partir do nó (Unidade Organizacional) parametrizado
+	 * @param int $idUorgPai
+	 */
+	public function getArvoreDoNo( $idUorgPai )
+	{
+		
+	}
+	
 }
