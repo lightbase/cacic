@@ -160,3 +160,63 @@ Cacic\CommonBundle\Entity\Log:
     properties:
         dtAcao:
             - NotBlank: ~
+
+Cacic\CommonBundle\Entity\Aquisicao:
+    properties:
+        nrProcesso:
+            - NotBlank: ~
+            - MaxLength: 30
+        nmEmpresa:
+            - NotBlank: ~
+            - MaxLength: 30
+        nmProprietario:
+            - NotBlank: ~
+            - MaxLength: 30
+        nrNotafiscal:
+            - NotBlank: ~
+            - MaxLength: 30
+        dtAquisicao:
+            - NotBlank: ~
+
+Cacic\CommonBundle\Entity\TipoLicenca:
+    properties:
+        teTipoLicenca:
+            - NotBlank: ~
+            - MaxLength: 60
+
+Cacic\CommonBundle\Entity\AquisicaoItem:
+    properties:
+        qtLicenca:
+            - NotBlank: ~
+            - MaxLength: 30
+        idTipoLicenca:
+            - NotBlank: ~
+        idAquisicao:
+            - NotBlank: ~
+        idSoftware:
+            - NotBlank: ~
+
+Cacic\CommonBundle\Entity\SoftwareEstacao:
+    properties:
+        nrPatrimonio:
+            - NotBlank: ~
+            - MaxLength: 30
+        nmComputador:
+            - NotBlank: ~
+            - MaxLength: 30
+        nrProcesso:
+            - NotBlank: ~
+            - MaxLength: 30
+        dtAutorizacao:
+            - NotBlank: ~
+        dtExpiracaoInstalacao:
+            - NotBlank: ~
+        dtDesinstalacao:
+            - NotBlank: ~
+
+Cacic\CommonBundle\Entity\TipoLicenca:
+    properties:
+        teTipoLicenca:
+            - NotBlank: ~
+            - MaxLength: 30
+

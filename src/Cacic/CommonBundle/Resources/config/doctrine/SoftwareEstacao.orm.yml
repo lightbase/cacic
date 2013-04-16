@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\SoftwareEstacao:
     type: entity
     table: software_estacao
+    repositoryClass: Cacic\CommonBundle\Entity\SoftwareEstacaoRepository
     fields:
         nrPatrimonio:
             id: true

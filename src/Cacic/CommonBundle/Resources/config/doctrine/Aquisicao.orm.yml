@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\Aquisicao:
     type: entity
     table: aquisicao
+    repositoryClass: Cacic\CommonBundle\Entity\AquisicaoRepository
     fields:
         idAquisicao:
             id: true

@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\TipoLicenca:
     type: entity
     table: tipo_licenca
+    repositoryClass: Cacic\CommonBundle\Entity\TipoLicencaRepository
     fields:
         idTipoLicenca:
             id: true

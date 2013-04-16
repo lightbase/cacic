@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\AquisicaoItem:
     type: entity
     table: aquisicao_item
+    repositoryClass: Cacic\CommonBundle\Entity\AquisicaoItemRepository
     id:
         idTipoLicenca:
             associationKey: true
