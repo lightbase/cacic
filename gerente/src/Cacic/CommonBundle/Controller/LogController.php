@@ -97,17 +97,24 @@ class LogController extends Controller
             $n_logs = count($logs);
 
             $elementos = array();
-            foreach ($logs[0] as $entrada){
+            foreach ($logs[0] as $entrada)
+            {
                 $entrada = $entrada['csAcao'];
                 $elementos[$entrada] = $entrada;
-                if (array_key_exists($entrada, $elementos)){
-                    $elementos[$entrada]= 'ocorrencias' <=  $elementos[$entrada] + 1;
-                    $elementos[$entrada]= 'percentual' <= (($elementos[$entrada] + 1)/$n_logs)*100;
-                } else {
-                    $elementos[$entrada]= 'ocorrencias' <=  1;
-                    $elementos[$entrada]= 'percentual' <=  (1/$n_logs)*100;
+                if (array_key_exists($entrada, $elementos))
+                {
+                	$elementos[$entrada]['ocorrencias']++;
+                    $elementos[$entrada]['percentual'] = ($elementos[$entrada]['ocorrencias']/$n_logs)*100;
+                }
+                else
+                {
+                    $elementos[$entrada] = array(
+                    	'ocorrencias' =>  1;
+                    	'percentual' =>  (1/$n_logs)*100
+                    );
                 }
             }
+            echo "<pre>";var_dump($elementos);die;
 
         }
         return $this->render( 'CacicCommonBundle:Log:atividade.html.twig',
