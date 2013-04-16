@@ -299,3 +299,86 @@ cacic_uorg_loadnodes:
     defaults: { _controller: CacicCommonBundle:Uorg:loadnodes, idUorgPai: null}
     requirements:
         idUorgPai: \d+
+
+
+cacic_aquisicao_index:
+    pattern: /aquisicao/{page}
+    defaults: {_controller: CacicCommonBundle:Aquisicao:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_aquisicao_cadastrar:
+    pattern: /aquisicao/cadastrar
+    defaults: { _controller: CacicCommonBundle:Aquisicao:cadastrar}
+
+cacic_aquisicao_editar:
+    pattern:  /aquisicao/editar/{idAquisicao}
+    defaults: { _controller: CacicCommonBundle:Aquisicao:editar}
+    requirements:
+        idAquisicao: \d+
+
+cacic_aquisicao_excluir:
+    pattern:  /aquisicao/excluir
+    defaults: { _controller: CacicCommonBundle:Aquisicao:excluir}
+
+cacic_tipo_licenca_index:
+    pattern: /tipolicenca/{page}
+    defaults: {_controller: CacicCommonBundle:TipoLicenca:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_tipo_licenca_cadastrar:
+    pattern: /tipolicenca/cadastrar
+    defaults: { _controller: CacicCommonBundle:TipoLicenca:cadastrar}
+
+cacic_tipo_licenca_editar:
+    pattern:  /tipolicenca/editar/{idTipoLicenca}
+    defaults: { _controller: CacicCommonBundle:TipoLicenca:editar}
+    requirements:
+        idTipoLicenca: \d+
+
+cacic_tipo_licenca_excluir:
+    pattern:  /tipolicenca/excluir
+    defaults: { _controller: CacicCommonBundle:TipoLicenca:excluir}
+
+cacic_aquisicao_item_index:
+    pattern: /aquisicaoitem/{page}
+    defaults: {_controller: CacicCommonBundle:AquisicaoItem:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_aquisicao_item_cadastrar:
+    pattern: /aquisicaoitem/cadastrar
+    defaults: { _controller: CacicCommonBundle:AquisicaoItem:cadastrar}
+
+cacic_aquisicao_item_editar:
+    pattern:  /aquisicaoitem/editar/{id}
+    defaults: { _controller: CacicCommonBundle:AquisicaoItem:editar}
+    requirements:
+        id: \d+
+
+cacic_aquisicao_item_excluir:
+    pattern:  /aquisicaoitem/excluir
+    defaults: { _controller: CacicCommonBundle:AquisicaoItem:excluir}
+
+
+cacic_software_estacao_index:
+    pattern: /softwareestacao/{page}
+    defaults: {_controller: CacicCommonBundle:SoftwareEstacao:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_software_estacao_cadastrar:
+    pattern: /softwareestacao/cadastrar
+    defaults: { _controller: CacicCommonBundle:SoftwareEstacao:cadastrar}
+
+cacic_software_estacao_editar:
+    pattern:  /softwareestacao/editar/{nrPatrimonio}
+    defaults: { _controller: CacicCommonBundle:SoftwareEstacao:editar}
+    requirements:
+        nrPatrimonio: \d+
+
+cacic_software_estacao_excluir:
+    pattern:  /softwareestacao/excluir
+    defaults: { _controller: CacicCommonBundle:SoftwareEstacao:excluir}
+
