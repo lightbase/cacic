@@ -92,13 +92,30 @@ class LogController extends Controller
             }
 
             $logs = $this->getDoctrine()->getRepository('CacicCommonBundle:Log')->atividadePesquisar( $dataInicio,$dataFim,$locais_enviar);
-              $teste = $this->getDoctrine()->getRepository('CacicCommonBundle:Log')->findAll();
-            \Doctrine\Common\Util\Debug::dump($teste);die;
+
+            # Primeiro armazeno o total de registros
+            $n_logs = count($logs);
+
+            $elementos = array();
+            foreach ($logs[0] as $entrada){
+                $entrada = $entrada['csAcao'];
+                $elementos[$entrada] = $entrada;
+                if (array_key_exists($entrada, $elementos)){
+                    $elementos[$entrada]= 'ocorrencias' <=  $elementos[$entrada] + 1;
+                    $elementos[$entrada]= 'percentual' <= (($elementos[$entrada] + 1)/$n_logs)*100;
+                } else {
+                    $elementos[$entrada]= 'ocorrencias' <=  1;
+                    $elementos[$entrada]= 'percentual' <=  (1/$n_logs)*100;
+                }
+            }
+
         }
         return $this->render( 'CacicCommonBundle:Log:atividade.html.twig',
             array(
                 'form' => $form->createView(),
-                'logs' => ( isset( $logs ) ? $logs : array() ) )
+                'logs' => ( isset( $logs ) ? $logs : array() ),
+                'resumo'=>( isset( $elementos ) ? $elementos[$entrada] : array() )
+            )
         );
     }
 

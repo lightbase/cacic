@@ -25,7 +25,7 @@ class LogRepository extends EntityRepository
         if ( $dataFim)	$filtros[] = 'log.dtAcao <= :dtFim';
         if ( count($locais) ) $filtros[] = 'loc.idLocal IN (:idLocal)';
 
-        if ( count( $filtros ) ) $filtros = 'WHERE '."log.csAcao = 'ACE'  AND ". implode( ' AND ', $filtros );
+        if ( count( $filtros ) ) $filtros = 'WHERE '."log.csAcao = 'INS'  AND ". implode( ' AND ', $filtros );
         else $filtros = '';
 
         $_dql = "SELECT log, usr.nmUsuarioCompleto, loc.nmLocal
@@ -52,7 +52,7 @@ class LogRepository extends EntityRepository
         if ( $dataFim)	$filtros[] = 'log.dtAcao <= :dtFim';
         if ( count($locais) ) $filtros[] = 'loc.idLocal IN (:idLocal)';
 
-        if ( count( $filtros ) ) $filtros = 'WHERE '."log.csAcao <> 'ACE'  AND ". implode( ' AND ', $filtros );
+        if ( count( $filtros ) ) $filtros = 'WHERE '."log.csAcao <> 'INS'  AND ". implode( ' AND ', $filtros );
         else $filtros = '';
 
 
