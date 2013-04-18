@@ -1,8 +1,6 @@
 Ext.onReady(function() {
 
-	var links_html = '<a href="relatorios"></a>';	
-
-
+	
 	var mainMenu = Ext.create('Ext.menu.Menu', {
 	  	renderTo: 'menu-principal',
 	  	floating: false,
@@ -12,77 +10,27 @@ Ext.onReady(function() {
 		title: 'Home',
         titleAlign: 'center',
 		items: [
-			{ xtype: 'box',
-  			  autoEl: {
-    			  tag: 'a',
-    			  href: 'home',
-    			  cn: 'Home'
-  					}},
-			{xtype: 'box',
-  			autoEl: {
-    			tag: 'a',
-    			href: 'dashboard',
-    			cn: 'Dashboard'
-  					}},
-			{ xtype: 'box',
-  			autoEl: {
-    			tag: 'a',
-    			href: 'diagnostico',
-    			cn: 'Diagnosticos'
-  					}},
-			{ xtype: 'box',
-  			autoEl: {
-    			tag: 'a',
-    			href: 'administracao',
-    			cn: 'Administraçao'
-  					}},
-			{xtype: 'box',
-  			autoEl: {
-    			tag: 'a',
-    			href: 'pagina1',
-    			cn: 'Pagina1'
-  					}},
-			{ xtype: 'box',
-  			autoEl: {
-    			tag: 'a',
-    			href: 'pagina2',
-    			cn: 'Pagina2'
-  					}},
-			{ xtype: 'box',
-  			autoEl: {
-    			tag: 'a',
-    			href: 'pagina3',
-    			cn: 'Pagina3'
-  					}},
-			{ xtype: 'box',
-  			autoEl: {
-    			tag: 'a',
-    			href: 'pagina4',
-    			cn: 'Pagina4'
-  					}},
-			{ xtype: 'box',
-  			autoEl: {
-    			tag: 'a',
-    			href: 'pagina5',
-    			cn: 'Pagina5'
-  					}},
-			{ xtype: 'box',
-  			autoEl: {	
-    			tag: 'a',
-    			href: 'pagina6',
-    			cn: 'Pagina6'
-  					}}]
+
+			{text: 'Estatisticas' , href: 'estatisticas' },
+                        {text: 'Busca', href: 'busca' },
+                        {text: 'Downloads', href: 'downloads' },
+                        {text: 'Relatorios', href: 'relatorios'},
+                        {text: 'Mensagens', href: 'mensagens' },
+                        {text: 'Ajuda', href: 'ajuda' },
+                        {text: 'Usuario', href: 'usuario' },
+                        {text: 'Ferramentas', href: 'ferramentas' },
+								]	
 	});
 
    var	fav_html = '<div id="favoriteItems">'+
-	 	'<div class="fav"><a href="relatorios"><img src="static/icons/estatisticas.png">Estatísticas</a></div>'+
-	 	'<div class="fav"><a href="relatorios"><img src="static/icons/busca.png">Busca</a></div>'+
-	 	'<div class="fav"><a href="relatorios"><img src="static/icons/downloads.png">Downloads</a></div>'+
+	 	'<div class="fav"><a href="estatisticas"><img src="static/icons/estatisticas.png">Estatísticas</a></div>'+
+	 	'<div class="fav"><a href="busca"><img src="static/icons/busca.png">Busca</a></div>'+
+	 	'<div class="fav"><a href="downloads"><img src="static/icons/downloads.png">Downloads</a></div>'+
 	 	'<div class="fav"><a href="relatorios"><img src="static/icons/relatorios.png">Relatórios</a></div>'+
-	 	'<div class="fav"><a href="relatorios"><img src="static/icons/mensagens.png">Mensagens</a></div>'+
-	 	'<div class="fav"><a href="relatorios"><img src="static/icons/ajuda.png">Ajuda</a></div>'+
-	 	'<div class="fav"><a href="relatorios"><img src="static/icons/usuario.png">Usuário</a></div>'+
-	 	'<div class="fav"><a href="relatorios"><img src="static/icons/ferramentas.png">Ferramentas de sistema</a></div>'+
+	 	'<div class="fav"><a href="mensagens"><img src="static/icons/mensagens.png">Mensagens</a></div>'+
+	 	'<div class="fav"><a href="ajuda"><img src="static/icons/ajuda.png">Ajuda</a></div>'+
+	 	'<div class="fav"><a href="usuario"><img src="static/icons/usuario.png">Usuário</a></div>'+
+	 	'<div class="fav"><a href="ferramentas"><img src="static/icons/ferramentas.png">Ferramentas de sistema</a></div>'+
 	'</div>';
 
 	var favoriteMenu = Ext.create('Ext.panel.Panel', {

@@ -18,24 +18,25 @@ header div#logo{
 }
 
 #centro{
-	min-height: 100%;
-	margin-left: 100px;
-	margin-right: 100px;
-	padding: 10px;
-	background: #ffffff;
+        min-height: 100%;
+        margin-left: 100px;
+        margin-right: 100px;
+        padding: 10px;
+        background: #ffffff;
 }
 
 #centro div#login{
-	height: 100%;
-	width: 50%;
-	margin: 200px auto 0px auto;
+        height: 100%;
+        width: 50%;
+        margin: 200px auto 0px auto;
+        backgound: #333333; 
 }
 
 footer {
-	height:100px; 
-	background:#2F2D2E;
-	clear:both;
-	color: #ffffff;
+        height:100px; 
+        background:#2F2D2E;
+        clear:both;
+        color: #ffffff;
 
 }
 
