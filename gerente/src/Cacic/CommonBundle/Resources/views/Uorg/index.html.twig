@@ -30,6 +30,19 @@
 
     <link href="{{ asset('bundles/caciccommon/jqTree-0.15/jqtree.css') }}" type="text/css" rel="stylesheet" media="screen" />
     
+    <style type="text/css">
+       #tree_uorg0 {
+        color: #000;
+        font-size: 14pt;
+        font-weight: bold;
+        margin-left: 25px;
+       }
+       #tree_uorg0 li.jqtree_common {
+        line-height: 20pt;
+        margin-left: 25px;
+       }
+    </style>
+    
 {% endblock %}
 
 {% block javascripts %}
@@ -59,9 +72,26 @@
             	return '{{ path('cacic_uorg_loadnodes') }}/'+ node.id +'';
             },
             onCreateLi: function(node, $li) {
-                //$li.find('.jqtree-title').before('<i class="icon-plus"></i>');
-            }
+            	
+           		var _acoesNode = ' <a href="{{ path('cacic_uorg_visualizar') }}/'+ node.id +'"><i class="icon-search" title="Visualizar dados da Unidade"></i></a> ';
+           		_acoesNode += ' <a href="{{ path('cacic_uorg_cadastrar') }}/'+ node.id +'"><i class="icon-plus-sign" title="Cadastrar Unidade"></i></a> ';
+           		_acoesNode += ' <a href="{{ path('cacic_uorg_editar') }}/'+ node.id +'"><i class="icon-edit" title="Editar Unidade"></i></a> ';
+           		_acoesNode += ' <a href="{{ path('cacic_uorg_excluir') }}/'+ node.id +'"><i class="icon-trash" title="Excluir Unidade"></i></a> ';
+           		
+           		$li.find('span.jqtree-title').after( _acoesNode );
+           		 
+           		// Substitui a "seta" indicadora de existência de filhos
+           		//$li.find('a.jqtree-toggler').html('<i class="icon-folder-close-alt"></i>');
+            },
+            autoEscape: false
         });
+        
+        $('#tree_uorg0').bind(
+            'tree.init',
+            function() {
+            	
+            }
+        );
     });
     
 </script>

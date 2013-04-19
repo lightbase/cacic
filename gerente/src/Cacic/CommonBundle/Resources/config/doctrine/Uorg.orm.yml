@@ -73,7 +73,22 @@ Cacic\CommonBundle\Entity\Uorg:
         uorgPai:
             targetEntity: Cacic\CommonBundle\Entity\Uorg
             inversedBy: uorgFilhas
-            joinColumns:
-                id_uorg_pai:
-                    referencedColumnName: id_uorg
+            joinColumn:
+                name: id_uorg_pai
+                referencedColumnName: id_uorg
+                nullable: true
+        tipoUorg:
+            targetEntity: Cacic\CommonBundle\Entity\TipoUorg
+            inversedBy: uorgs
+            joinColumn:
+                name: id_tipo_uorg
+                referencedColumnName: id_tipo_uorg
+                nullable: false
+        local:
+            targetEntity: Cacic\CommonBundle\Entity\Local
+            inversedBy: uorgs
+            joinColumn:
+                name: id_local
+                referencedColumnName: id_local
+                nullable: true
     lifecycleCallbacks: {  }

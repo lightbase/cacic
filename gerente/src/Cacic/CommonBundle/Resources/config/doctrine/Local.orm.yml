@@ -49,6 +49,9 @@ Cacic\CommonBundle\Entity\Local:
         configuracoes:
             targetEntity: ConfiguracaoLocal
             mappedBy: idLocal
+        uorgs:
+            targetEntity: Uorg
+            mappedBy: local
     entityListeners:
         LocalListener:
             postPersist: [postPersistHandler]

@@ -109,7 +109,7 @@ class LogController extends Controller
                 else
                 {
                     $elementos[$entrada] = array(
-                    	'ocorrencias' =>  1;
+                    	'ocorrencias' =>  1,
                     	'percentual' =>  (1/$n_logs)*100
                     );
                 }
