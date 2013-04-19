@@ -54,6 +54,11 @@ class Local
      * @var \Doctrine\Common\Collections\Collection
      */
     private $configuracoes;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $uorgs;
 
     /**
      * Constructor
@@ -63,6 +68,7 @@ class Local
         $this->usuarios = new \Doctrine\Common\Collections\ArrayCollection();
         $this->redes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->configuracoes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->uorgs = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -297,5 +303,38 @@ class Local
     {
     	
     	Debug::dump( $this->get->findAll() );
+    }
+
+    /**
+     * Add uorgs
+     *
+     * @param \Cacic\CommonBundle\Entity\Uorg $uorgs
+     * @return Local
+     */
+    public function addUorg(\Cacic\CommonBundle\Entity\Uorg $uorgs)
+    {
+        $this->uorgs[] = $uorgs;
+    
+        return $this;
+    }
+
+    /**
+     * Remove uorgs
+     *
+     * @param \Cacic\CommonBundle\Entity\Uorg $uorgs
+     */
+    public function removeUorg(\Cacic\CommonBundle\Entity\Uorg $uorgs)
+    {
+        $this->uorgs->removeElement($uorgs);
+    }
+
+    /**
+     * Get uorgs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUorgs()
+    {
+        return $this->uorgs;
     }
 }

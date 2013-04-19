@@ -5,7 +5,8 @@ namespace Cacic\CommonBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Cacic\CommonBundle\Entity\Uorg;
+use Cacic\CommonBundle\Form\Type\UorgType;
 use Doctrine\Common\Util\Debug;
 
 /**
@@ -58,19 +59,77 @@ class UorgController extends Controller
 	/**
 	 * 
 	 * Tela de cadastro de Unidade Organizacional
+	 * 
+	 * @param int $idUorgPai
+	 * @param Request $request
 	 */
-	public function cadastrarAction()
+	public function cadastrarAction( $idUorgPai, Request $request )
 	{
+		$uorgPai = null; // Inicializa o UOrgPai
 		
+		if ( $idUorgPai !== null )
+		{ // Caso o idUorgPai seja informado
+			$uorgPai = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Uorg' )->find( $idUorgPai );
+			if ( ! $uorgPai ) // UOrgPai não é válida
+				throw $this->createNotFoundException( 'Unidade Organizacional não encontrada' );
+		}
+		
+		$uorg = new Uorg();
+		$uorg->setUorgPai( $uorgPai ); // Relaciona a nova UOrg à UOrgPai
+		$form = $this->createForm( new UorgType(), $uorg );
+		
+		if ( $request->isMethod('POST') )
+		{
+			$form->bind( $request );
+			
+			if ( $form->isValid() )
+			{
+				$this->getDoctrine()->getManager()->persist( $uorg );
+				$this->getDoctrine()->getManager()->flush(); // Efetua o cadastro da Unidade
+				
+				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+				
+				return $this->redirect($this->generateUrl('cacic_uorg_index') );
+			}
+		}
+		
+		return $this->render(
+			'CacicCommonBundle:Uorg:cadastrar.html.twig',
+			array( 'form' => $form->createView(), 'uorgPai' => $uorgPai )
+		);
 	}
 	
 	/**
 	 * 
 	 * Tela de edição de Unidade Organizacional
 	 */
-	public function editarAction( $idUorg )
+	public function editarAction( $idUorg, Request $request )
 	{
+		$uorg = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Uorg' )->find( $idUorg );
+		if ( ! $uorg ) // UOrg não é válida
+				throw $this->createNotFoundException( 'Unidade Organizacional não encontrada' );
+				
+		$form = $this->createForm( new UorgType(), $uorg );
 		
+		if ( $request->isMethod('POST') )
+		{
+			$form->bind( $request );
+			
+			if ( $form->isValid() )
+			{
+				$this->getDoctrine()->getManager()->persist( $uorg );
+				$this->getDoctrine()->getManager()->flush(); // Efetua o cadastro da Unidade
+				
+				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+				
+				return $this->redirect($this->generateUrl('cacic_uorg_editar', array( 'idUorg'=>$uorg->getIdUorg() ) ) );
+			}
+		}
+		
+		return $this->render(
+			'CacicCommonBundle:Uorg:cadastrar.html.twig',
+			array( 'form' => $form->createView(), 'uorgPai' => $uorg->getUorgPai() )
+		);
 	}
 	
 }

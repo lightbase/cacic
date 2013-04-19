@@ -1,0 +1,138 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_uorg_index') }}">{{ "Unidades Organizacionais"|trans }}</a></li> /
+    <li class="active">{{ "Cadastro"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+    <div class="span8">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top">
+                <i class="icon-sitemap"></i> 
+                {% if form.vars.value.idUorg %}
+                    {{ "Edição dos dados da Unidade Organizacional"|trans }}
+                {% else %}
+                    {{ "Cadastro de nova Unidade Organizacional"|trans }}
+                {% endif %}
+            </h2>
+            
+            <div class="block box_content round_bottom padding_10">
+            
+                <form id="formCadastroUorg" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+            
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#form-uorg-dadosbase" data-toggle="tab">{{ "Dados da Unidade"|trans }}</a>
+                            </li>
+                            <li>
+                                <a href="#form-uorg-responsavel" data-toggle="tab">{{ "Dados do Responsável"|trans }}</a>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="form-uorg-dadosbase">
+                                
+                                {% if uorgPai %}
+                                <b>Vinculada a {{ uorgPai.getTipoUorg().getNmTipoUorg() }} {{ uorgPai.getNmUorg() }}</b>
+                                {% else %}
+                                <b>Unidade Organizacional de primeiro nível</b>
+                                {% endif %}
+                                <br /><br />
+                            
+                                {{ form_row( form.nmUorg, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.tipoUorg, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.local, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.teEndereco, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.teBairro, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.teCidade, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.teUf, {'form_type': 'horizontal'} ) }}
+                            </div>
+                            
+                            <div class="tab-pane" id="form-uorg-responsavel">
+                                {{ form_row( form.nmResponsavel, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.teResponsavelEmail, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.numResponsavelTel1, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.numResponsavelTel2, {'form_type': 'horizontal'} ) }}
+                            </div>
+                        </div><!-- /tab-content -->
+                    </div><!-- /tabbable -->
+                    <br />
+                    
+                    <div class="control-group">
+                      <div class="controls">
+                        {{ form_rest(form) }}
+                        <button type="reset" class="btn">
+                            <i class="icon-refresh"></i>
+                            {{ "Resetar Valores"|trans }}
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="icon-ok-sign"></i>
+                            {{ "Salvar Dados"|trans }}
+                        </button>
+                      </div>
+                    </div>
+                </form>
+                <hr />
+                <div>
+                    <a class="btn btn-danger"  href="{{ path('cacic_uorg_index') }}">
+                        <i class="icon-remove-sign"></i>
+                        {{ "Cancelar"|trans }}
+                    </a>
+                </div>
+        
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span8 -->
+            
+            
+    <div class="span4">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+                
+            <div class="block box_content round_bottom padding_10">
+                <p>
+                    {{ "Importante: A inclusão de Unidades Organizacionais é restrita ao nível administrativo."|trans }}
+                </p>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div><!-- span4 -->
+    
+    {% if uorgPai %}
+    <div class="span4">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+                
+            <div class="block box_content round_bottom padding_10">
+                
+                Veja as <b>Unidades</b> já vinculadas a <b>{{ uorgPai.getNmUorg() }}</b>:
+                <br /><br />
+                {% for filha in uorgPai.getUorgFilhas() %}
+                    <i>{{ filha.getNmUorg() }}</i><br />
+                {% else %}
+                    Este(a) <b>{{ uorgPai.getTipoUorg().getNmTipoUorg() }}</b> ainda não possui nenhuma <b>Unidade</b> vinculada.
+                {% endfor %}
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div><!-- span4 -->
+    {% endif %}
+    
+</div> <!-- /row -->
+
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+<script type="text/javascript">
+    $('#uorg_numResponsavelTel1, #uorg_numResponsavelTel2').mask('(99)9999-9999');
+</script>
+{% endblock %}

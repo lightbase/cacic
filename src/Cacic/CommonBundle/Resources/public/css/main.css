@@ -40,6 +40,15 @@ input[type="checkbox"], input[type="radio"] {
 	margin-right: 5px;
 }
 
+input[required="required"], select[required="required"] {
+    background-color: #F2E1E8;
+}
+
+label.required {
+    font-weight: bold;
+    color: #c00;
+}
+
 /*------------------------------------------------------------------
 [ Shortcuts / .shortcuts]
 */

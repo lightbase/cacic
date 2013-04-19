@@ -68,6 +68,16 @@ class Uorg
      * @var \Cacic\CommonBundle\Entity\Uorg
      */
     private $uorgPai;
+    
+    /**
+     * @var \Cacic\CommonBundle\Entity\TipoUorg
+     */
+    private $tipoUorg;
+    
+    /**
+     * @var \Cacic\CommonBundle\Entity\Local
+     */
+    private $local;
 
     /**
      * Constructor
@@ -348,5 +358,51 @@ class Uorg
     public function getUorgPai()
     {
         return $this->uorgPai;
+    }
+
+    /**
+     * Set tipoUorg
+     *
+     * @param \Cacic\CommonBundle\Entity\TipoUorg $tipoUorg
+     * @return Uorg
+     */
+    public function setTipoUorg(\Cacic\CommonBundle\Entity\TipoUorg $tipoUorg = null)
+    {
+        $this->tipoUorg = $tipoUorg;
+    
+        return $this;
+    }
+
+    /**
+     * Get tipoUorg
+     *
+     * @return \Cacic\CommonBundle\Entity\TipoUorg 
+     */
+    public function getTipoUorg()
+    {
+        return $this->tipoUorg;
+    }
+    
+    /**
+     * Set local
+     *
+     * @param \Cacic\CommonBundle\Entity\Local $local
+     * @return Uorg
+     */
+    public function setLocal(\Cacic\CommonBundle\Entity\Local $local = null)
+    {
+        $this->local = $local;
+    
+        return $this;
+    }
+
+    /**
+     * Get local
+     *
+     * @return \Cacic\CommonBundle\Entity\Local 
+     */
+    public function getLocal()
+    {
+        return $this->local;
     }
 }

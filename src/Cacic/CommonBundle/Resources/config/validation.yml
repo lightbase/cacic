@@ -220,3 +220,26 @@ Cacic\CommonBundle\Entity\TipoLicenca:
             - NotBlank: ~
             - MaxLength: 30
 
+Cacic\CommonBundle\Entity\Uorg:
+    properties:
+        nmUorg:
+            - NotBlank: ~
+            - MaxLength: 50
+        teEndereco:
+            - MaxLength: 80
+        teBairro:
+            - MaxLength: 30
+        teCidade:
+            - MaxLength: 50
+        teUf:
+            - MaxLength: 2
+        nmResponsavel:
+            - MaxLength: 80
+        teResponsavelEmail:
+            - MaxLength: 50
+        numResponsavelTel1:
+            - MaxLength: 10
+        numResponsavelTel2:
+            - MaxLength: 10
+        tipoUorg:
+            - NotNull: ~
