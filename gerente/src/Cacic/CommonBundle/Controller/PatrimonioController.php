@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cacic\CommonBundle\Entity\PatrimonioConfigInterface;
 use Cacic\CommonBundle\Form\Type\PatrimonioType;
+use Cacic\CommonBundle\Form\Type\OpcoesType;
 
 
 class PatrimonioController extends Controller
@@ -42,9 +43,30 @@ class PatrimonioController extends Controller
 	 * 
 	 * Tela de edição de opções de Coleta de informações patrimoniais e localização física
 	 */
-	public function opcoesAction()
+	public function opcoesAction(Request $request)
 	{
-		return $this->render('CacicCommonBundle:Patrimonio:opcoes.html.twig');
+
+        $opcoes = new PatrimonioConfigInterface();
+        $form = $this->createForm( new OpcoesType(), $opcoes );
+
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
+            $data = $form->getData();
+            var_dump($data['inDestacarDuplicidade']);die;
+            if ( $form->isValid() )
+            {
+                $this->getDoctrine()->getManager()->persist( $opcoes );
+                $this->getDoctrine()->getManager()->flush();
+
+                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+
+                return $this->redirect( $this->generateUrl( 'cacic_patrimonio_opcoes') );
+            }
+        }
+
+        return $this->render( 'CacicCommonBundle:Patrimonio:opcoes.html.twig', array( 'form' => $form->createView() ) );
+
 	}
 	
 }
