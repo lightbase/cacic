@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\PatrimonioConfigInterface:
     type: entity
     table: patrimonio_config_interface
+    repositoryClass: Cacic\CommonBundle\Entity\PatrimonioConfigInterfaceRepository
     fields:
         idEtiqueta:
             id: true

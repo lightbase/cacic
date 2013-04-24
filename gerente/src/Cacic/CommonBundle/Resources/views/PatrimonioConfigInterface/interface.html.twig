@@ -19,52 +19,54 @@
                     <img src="{{ asset('/cacic/gerente/web/bundles/caciccommon/images/tela_patrimon.png') }} " usemap="#Map"  />
                     <map name="Map">
                         <area shape="rect" coords="655,212,784,231" href="#form-patrimonio-etiqueta9"  data-toggle="tab">
-                        <area shape="rect" coords="655,168,784,187" href="#form-patrimonio-etiqueta8"  data-toggle="tab">
-                        <area shape="rect" coords="504,168,631,187" href="#form-patrimonio-etiqueta7"  data-toggle="tab">
-                        <area shape="rect" coords="353,212,480,231" href="#form-patrimonio-etiqueta6"  data-toggle="tab">
-                        <area shape="rect" coords="504,212,631,231" href="#form-patrimonio-etiqueta5"  data-toggle="tab">
+                        <area shape="rect" coords="655,168,784,187" href="#form-patrimonio-etiqueta6"  data-toggle="tab">
+                        <area shape="rect" coords="504,168,631,187" href="#form-patrimonio-etiqueta5"  data-toggle="tab">
+                        <area shape="rect" coords="353,212,480,231" href="#form-patrimonio-etiqueta7"  data-toggle="tab">
+                        <area shape="rect" coords="504,212,631,231" href="#form-patrimonio-etiqueta8"  data-toggle="tab">
                         <area shape="rect" coords="353,168,481,185" href="#form-patrimonio-etiqueta4"  data-toggle="tab">
                         <area shape="rect" coords="353,120,784,140" href="#form-patrimonio-etiqueta3"  data-toggle="tab">
                         <area shape="rect" coords="15,214,338,230"  href="#form-patrimonio-etiqueta2"  data-toggle="tab">
                         <area shape="rect" coords="15,166,338,189"  href="#form-patrimonio-etiqueta1a" data-toggle="tab">
                         <area shape="rect" coords="15,120,338,140"  href="#form-patrimonio-etiqueta1"  data-toggle="tab">
                     </map>
-
                     <div class="tab-content">
 
                         <div class="tab-pane active">
                         </div>
+                        {% if (("form-patrimonio-etiqueta1")  != null) %}
                         <div class="tab-pane" id="form-patrimonio-etiqueta1">
-                            {% include 'CacicCommonBundle:Patrimonio:etiqueta1.html.twig' %}
+                            {% render url( 'cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta1' }) %}
                         </div>
                         <div class="tab-pane" id="form-patrimonio-etiqueta1a">
-                            {% include 'CacicCommonBundle:Patrimonio:etiqueta1a.html.twig' %}
+                            {% render url('cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta1a' }) %}
                         </div>
                         <div class="tab-pane" id="form-patrimonio-etiqueta2">
-                            {% include 'CacicCommonBundle:Patrimonio:etiqueta2.html.twig' %}
+                            {% render url('cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta2' }) %}
                         </div>
                         <div class="tab-pane" id="form-patrimonio-etiqueta3">
-                            {% include 'CacicCommonBundle:Patrimonio:etiqueta3.html.twig' %}
+                            {% render url('cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta3' }) %}
                         </div>
                         <div class="tab-pane" id="form-patrimonio-etiqueta4">
-                            {% include 'CacicCommonBundle:Patrimonio:etiqueta4.html.twig' %}
+                            {% render url('cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta4' }) %}
                         </div>
                         <div class="tab-pane" id="form-patrimonio-etiqueta5">
-                            {% include 'CacicCommonBundle:Patrimonio:etiqueta5.html.twig' %}
+                            {% render url('cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta5' }) %}
                         </div>
                         <div class="tab-pane" id="form-patrimonio-etiqueta6">
-                            {% include 'CacicCommonBundle:Patrimonio:etiqueta6.html.twig' %}
+                            {% render url('cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta6' }) %}
                         </div>
                         <div class="tab-pane" id="form-patrimonio-etiqueta7">
-                            {% include 'CacicCommonBundle:Patrimonio:etiqueta7.html.twig' %}
+                            {% render url('cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta7' }) %}
                         </div>
                         <div class="tab-pane" id="form-patrimonio-etiqueta8">
-                            {% include 'CacicCommonBundle:Patrimonio:etiqueta8.html.twig' %}
+                            {% render url('cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta8' }) %}
                         </div>
                         <div class="tab-pane" id="form-patrimonio-etiqueta9">
-                            {% include 'CacicCommonBundle:Patrimonio:etiqueta9.html.twig' %}
+                            {% render url('cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta9' }) %}
                         </div>
+                    {% endif %}
                     </div>
+
                 </div> <!-- /block -->
             </div> <!-- /box -->
         </div> <!-- /span -->

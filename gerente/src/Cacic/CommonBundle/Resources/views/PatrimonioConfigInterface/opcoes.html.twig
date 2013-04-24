@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="active">{{ "Opções"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid">
+        <div class="span8">
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-cog"></i> {{ "Opções"|trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10" >
+
+                    <p><h3>{{ "Opções da Coleta de Informações Patrimoniais e Localização Física "|trans }}</h3></p>
+                    <br />
+                    <form id="formOpcoes" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+
+                           <p><h4> {{ 'Local de Aplicação'|trans }}</h4>
+                            {{ form_widget(form.nmLocal, {'form_type': 'horizontal'}) }}
+                        <p><h4> {{ 'Destacar as seguintes duplicidades no relatório de patrimônio'|trans }}</h4>
+
+                        {{ form_widget( form.inDestacarDuplicidade) }}
+                        {{ form_rest(form) }}
+                        <div class="controls">
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="icon-ok-sign"></i>
+                                {{ "Salvar Dados"|trans }}
+                            </button>
+                        </div>
+                </div> <!-- /block -->
+            </div><!-- /box -->
+        </div><!-- /span -->
+    </div><!-- /row -->
+{% endblock %}
