@@ -32,7 +32,12 @@ class OpcoesType extends AbstractType
                 'required'  => false,
                 'expanded'  => true,
                 'multiple'  => true,
-                'label'=> ' '
+                'label'=> ' ',
+                'query_builder' => function ( \Doctrine\ORM\EntityRepository $repository )
+                                   {
+										return $repository->createQueryBuilder('o')
+                                       						->where('o.inDestacarDuplicidade IS NOT NULL');
+                                    }
             )
         );
     }
