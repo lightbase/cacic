@@ -15,7 +15,7 @@
 			<h2 class="box_head round_top"><i class="icon-user"></i> {% if form.vars.value.idUsuario %}{{ "Edição dos dados do Usuário"|trans }}{% else %}{{ "Cadastro de novo Usuário"|trans }}{% endif %}</h2>
 			
 			<div class="block box_content round_bottom padding_10">
-			
+
 				<form id="formCadastroUsuario" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
 			
 					{{ form_widget( form, {'form_type': 'horizontal'} ) }}

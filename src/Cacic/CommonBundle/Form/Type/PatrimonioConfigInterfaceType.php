@@ -11,14 +11,12 @@ use Symfony\Component\Form\FormBuilderInterface;
  * @author lightbase
  *
  */
-class PatrimonioType extends AbstractType
+class PatrimonioConfigInterfaceType extends AbstractType
 {
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
-        $builder->add(
-            'idEtiqueta', 'hidden'
-        );
+
         $builder->add(
             'teEtiqueta',
             null,
@@ -42,7 +40,9 @@ class PatrimonioType extends AbstractType
         $builder->add(
             'inDestacarDuplicidade',
             'choice',
-            array( 'choices'=>array('S'=>'Sim','N'=>'Não' ), 'label'=>' ' )
+            array( 'choices'=>array('S'=>'Sim','N'=>'Não' ),
+                'preferred_choices' => array('S'),
+                'label'=>' ' )
         );
     }
 
@@ -52,7 +52,7 @@ class PatrimonioType extends AbstractType
      */
     public function getName()
     {
-        return 'Patrimonio';
+        return 'idEtiqueta';
     }
 
 }

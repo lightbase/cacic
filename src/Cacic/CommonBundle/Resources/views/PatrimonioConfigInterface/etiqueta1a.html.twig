@@ -1,9 +1,10 @@
 <form id="form-patrimonio-etiqueta1a" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
-    <input name="{{'form.idEtiqueta' }}" type="hidden" value="etiqueta2">
+    <input name="{{'form.idEtiqueta' }}" type="hidden" value="etiqueta1a">
         <table class="table table-striped table-bordered">
             <tr>
                 <td style="text-align: center"><h4>{{ ' Texto da "Etiqueta 1a": '|trans }}</h4></td>
-                <td style="vertical-align: top">{{ form_widget(form.teEtiqueta)}}</td>
+                <td style="vertical-align: top">{{ form_widget(form.teEtiqueta) }}</td>
+
                 <td style="text-align: left"><h6>{{ 'Exemplo "Linha de negócio" '|trans }}</h6></td>
             </tr>
             <tr>
