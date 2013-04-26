@@ -1,6 +1,7 @@
 <metal:main use-macro="load: master.pt">
  <!-- Insere JavaScript -->
- <script metal:fill-slot="javascript" type="text/javascript" src="static/master.js"></script>
+<script metal:fill-slot="javascript" type="text/javascript" src="static/tabelasqlal.js"></script>
 
- <div metal:fill-slot="conteudo" id="widgets"></div>
+
+ <div metal:fill-slot="conteudo" style="display:none;" id="widgets">${data}</div>
 </metal:main>

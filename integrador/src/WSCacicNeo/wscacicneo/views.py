@@ -1,5 +1,20 @@
 from pyramid.response import Response
 from pyramid.view import view_config
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine, MetaData
+from .models import (
+    DBSession,
+    SistemaOperacional,
+    )
+
+engine = create_engine('postgresql://renan:legend123@localhost/Cacic')
+
+Session = sessionmaker(bind=engine)
+session = Session()
+for instance in session.query(SistemaOperacional): 
+    print (instance.id_so, instance.te_desc_so, instance.sg_so, instance.te_so)
+#so = SistemaOperacional()
+#session.add(so)
 def simple_app(environ, start_response):
     start_response('200 OK', [('Content-type', 'text/html')])
     return ['<html><body>Hello World</body></html>']
@@ -21,6 +36,7 @@ class GoogleRefMiddleware(object):
 
 #from .models import (
 #    DBSession,
+#    SistemaOperacional
 #    MyModel,
 #    )
 
@@ -73,7 +89,29 @@ def my_view8(request):
 
 @view_config(route_name='downloads', renderer='templates/downloads.pt')
 def my_view9(request):
-    return {'project':'WSCacicNeo'}
+    query = session.query(SistemaOperacional).all()
+    data = dict()
+    #data = {'items': []}
+    data["items"] = list()
+    for q in query:
+        #d = {'id_so': 'valor'}
+        d = dict(
+            id_so = str(q.id_so),
+            te_desc_so = str(q.te_desc_so),
+            sg_so = str(q.sg_so),
+            te_so = str(q.te_so),
+            in_mswindows = str(q.in_mswindows)
+            )
+        data["items"].append(d)
+    """
+    data = {"items":[
+        { "name": "1",  "email":"5",  "phone":"09", "dado":"13" },
+        { "name": "2",  "email":"6",  "phone":"10", "dado":"14" },
+        { "name": "3",  "email":"7",  "phone":"11", "dado":"15" },
+        { "name": "4",  "email":"8",  "phone":"12", "dado":"16" }
+    ]}
+	"""
+    return {'project':'WSCacicNeo', 'query': query, 'data': data}
 
 @view_config(route_name='relatorios', renderer='templates/relatorios.pt')
 def my_view10(request):
@@ -94,3 +132,4 @@ def my_view13(request):
 @view_config(route_name='ferramentas', renderer='templates/ferramentas.pt')
 def my_view14(request):
     return {'project':'WSCacicNeo'}
+

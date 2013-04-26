@@ -20,7 +20,7 @@ class SistemaOperacional():
     Classe que define os sistemas operacionais
      
     """
-    __tablename__ = 'so'
+    __tablename__ = ('so')
     
     id_so = Column(Integer, primary_key=True)
     te_desc_so = Column(UnicodeText, nullable=True)
@@ -49,7 +49,7 @@ class SistemaOperacionalContextFactory(SQLAlchemyORMContext):
         return Session()
 
 
-cacicso = Table('cacicso', Base.metadata,
+so = Table('so', Base.metadata,
                 Column('id_so', Integer, primary_key=True),
                 Column('te_desc_so', UnicodeText, nullable=True),
                 Column('sg_so', UnicodeText, nullable=True),
@@ -57,4 +57,4 @@ cacicso = Table('cacicso', Base.metadata,
                 Column('in_mswindows', UnicodeText, default='S')
                 )
 
-mapper(SistemaOperacional, cacicso)
+mapper(SistemaOperacional, so)

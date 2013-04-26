@@ -7,7 +7,7 @@
 	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	    <title>Cacic Super Admin</title>
 	    <!-- CSS e JavaScript vão aqui -->
-	    <metal:content define-slot="head">
+	    <metal:content define-slot="head" />
         
     </head>
 	<body>
@@ -38,7 +38,7 @@
 		   <div id="lista-links">
 			   <a href="home" class="link-lista">Conteudo</a>
 			   <a href="dashboard" class="link-lista">Personalização</a>
-			   <a href="administracao" class="link-lista">Administração</a>
+			   <a href="administracao" class="link-lista">Administração</a> 
 		   </div>
 		   <metal:content define-slot="conteudo" />
 		</div>
