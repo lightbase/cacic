@@ -25,6 +25,9 @@ class AquisicaoItemRepository extends EntityRepository
     {
         $_dql = "SELECT a
 				FROM CacicCommonBundle:AquisicaoItem a
+				LEFT JOIN a.idSoftware s
+				LEFT JOIN a.idAquisicao q
+				LEFT JOIN a.idTipoLicenca t
 				";
 
         $query = $this->getEntityManager()->createQuery( $_dql );
