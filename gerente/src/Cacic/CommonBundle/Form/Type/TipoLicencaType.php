@@ -19,7 +19,7 @@ class TipoLicencaType extends AbstractType
         $builder->add(
             'teTipoLicenca',
             null,
-            array( 'label'=>'Tipo de Licença:', 'max_length'=>100 )
+            array( 'label'=>'Tipo de Licença:', 'max_length'=>20 )
         );
     }
 

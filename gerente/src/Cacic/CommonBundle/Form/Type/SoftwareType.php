@@ -19,32 +19,32 @@ class SoftwareType extends AbstractType
         $builder->add(
             'nmSoftware',
             null,
-            array( 'label'=>'Nome:', 'max_length'=>100 )
+            array( 'label'=>'Nome', 'max_length'=>150 )
         );
         $builder->add(
             'teDescricaoSoftware',
             null,
-            array( 'label'=>'Descrição:', 'max_length'=>100 )
+            array( 'label'=>'Descrição', 'max_length'=>255 )
         );
         $builder->add(
             'qtLicenca',
             null,
-            array( 'label'=>'Quantidade de Licenças:', 'max_length'=>100 )
+            array( 'label'=>'Quantidade de Licenças' )
         );
         $builder->add(
             'nrMidia',
             null,
-            array( 'label'=>' Número da Mídia:', 'max_length'=>100 )
+            array( 'label'=>' Número da Mídia', 'max_length'=>10 )
         );
         $builder->add(
             'teLocalMidia',
             null,
-            array( 'label'=>' Localização da Mídia:', 'max_length'=>100 )
+            array( 'label'=>' Localização da Mídia', 'max_length'=>30 )
         );
         $builder->add(
             'teObs',
             null,
-            array( 'label'=>' Observação:', 'max_length'=>100 )
+            array( 'label'=>' Observação', 'max_length'=>200 )
         );
     }
 
@@ -54,7 +54,7 @@ class SoftwareType extends AbstractType
      */
     public function getName()
     {
-        return 'Softwares';
+        return 'software';
     }
 
 }

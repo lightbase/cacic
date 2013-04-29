@@ -60,6 +60,21 @@ $(document).ready(function(){
 	});
 	
 	/**
+	 * Ativa a ABA correta, caso esta seja passada via URL
+	 */
+	if ( window.location.hash != '' && window.location.hash != undefined )
+	{
+		var _activeTab = window.location.hash;
+		_activeTab && $('ul.nav a[href="' + _activeTab + '"]').tab('show');
+	}
+	
+	/**
+	 * Configura a propriedade css Z-INDEX do MODAL
+	 */
+	$.modal.defaults.zIndex = 1030;
+	$.modal.defaults.showSpinner = false;
+	
+	/**
 	 * Listeners do sistema
 	 */
 	System.Grid.excluir(); // Inicializa o LISTENER para os botões-padrão de exclusão de itens

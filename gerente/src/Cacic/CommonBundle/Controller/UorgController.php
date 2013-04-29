@@ -31,6 +31,7 @@ class UorgController extends Controller
 	/**
 	 * 
 	 * [AJAX][jqTree] Carrega as Unidades Organizacionais filhas da Unidade Organizacional informada
+	 * @param Symfony\Component\HttpFoundation\Request $request
 	 */
 	public function loadnodesAction( Request $request )
 	{
@@ -61,7 +62,7 @@ class UorgController extends Controller
 	 * Tela de cadastro de Unidade Organizacional
 	 * 
 	 * @param int $idUorgPai
-	 * @param Request $request
+	 * @param Symfony\Component\HttpFoundation\Request $request
 	 */
 	public function cadastrarAction( $idUorgPai, Request $request )
 	{
@@ -102,6 +103,8 @@ class UorgController extends Controller
 	/**
 	 * 
 	 * Tela de edição de Unidade Organizacional
+	 * @param int $idUorg
+	 * @param Symfony\Component\HttpFoundation\Request $request
 	 */
 	public function editarAction( $idUorg, Request $request )
 	{
@@ -129,6 +132,24 @@ class UorgController extends Controller
 		return $this->render(
 			'CacicCommonBundle:Uorg:cadastrar.html.twig',
 			array( 'form' => $form->createView(), 'uorgPai' => $uorg->getUorgPai() )
+		);
+	}
+	
+	/**
+	 * 
+	 * Tela de visualização dos dados da UNIDADE parametrizada
+	 * @param int $idUorg
+	 * @param Symfony\Component\HttpFoundation\Request $request
+	 */
+	public function visualizarAction( $idUorg, Request $request )
+	{
+		$uorg = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Uorg' )->find( $idUorg );
+		if ( ! $uorg ) // UOrg não é válida
+				throw $this->createNotFoundException( 'Unidade Organizacional não encontrada' );
+		
+		return $this->render(
+			'CacicCommonBundle:Uorg:visualizar.html.twig',
+			array( 'uorg' => $uorg )
 		);
 	}
 	

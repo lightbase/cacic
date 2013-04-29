@@ -240,8 +240,6 @@ cacic_usbdevice_cadastrar:
 cacic_usbdevice_editar:
     pattern:  /usbdevice/editar/{idUsbDevice}
     defaults: { _controller: CacicCommonBundle:UsbDevice:editar}
-    requirements:
-        idUsbDevice: \d+
 
 cacic_usbdevice_excluir:
     pattern:  /usbdevice/excluir

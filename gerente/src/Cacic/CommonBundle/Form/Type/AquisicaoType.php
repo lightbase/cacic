@@ -19,25 +19,25 @@ class AquisicaoType extends AbstractType
         $builder->add(
             'nrProcesso',
             null,
-            array( 'label'=>'Processo de aquisicao:', 'max_length'=>100 )
+            array( 'label'=>'Processo de aquisicao:', 'max_length'=>11 )
         );
 
         $builder->add(
             'nmEmpresa',
             null,
-            array( 'label'=>'Nome da empresa:', 'max_length'=>100 )
+            array( 'label'=>'Nome da empresa:', 'max_length'=>45 )
         );
 
         $builder->add(
             'nmProprietario',
             null,
-            array( 'label'=>'Nome do proprietario:', 'max_length'=>100 )
+            array( 'label'=>'Nome do proprietario:', 'max_length'=>45 )
         );
 
         $builder->add(
             'nrNotafiscal',
             null,
-            array( 'label'=>'Nota Fiscal:', 'max_length'=>100 )
+            array( 'label'=>'Nota Fiscal:', 'max_length'=>20 )
         );
         $builder->add('dtAquisicao',
             'date',

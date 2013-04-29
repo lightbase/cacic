@@ -33,6 +33,18 @@ class UsbDevice
      * @var \Cacic\CommonBundle\Entity\UsbVendor
      */
     private $idUsbVendor;
+    
+    /**
+     * Set idUsbDevice
+     *
+     * @param string $idUsbDevice
+     * @return UsbDevice
+     */
+    public function setIdUsbDevice( $idUsbDevice )
+    {
+    	$this->idUsbDevice = $idUsbDevice;
+    	return $this;
+    }
 
 
     /**

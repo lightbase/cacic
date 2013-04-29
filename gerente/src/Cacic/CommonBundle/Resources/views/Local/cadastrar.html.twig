@@ -1,5 +1,10 @@
 {% extends '::base.html.twig' %}
 
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_local_index') }}">{{ "Locais"|trans }}</a></li> /
+    <li class="active">{{ "Cadastro"|trans }}</li>
+{% endblock %}
+
 {% block body %}
 
 <div class="row-fluid">
