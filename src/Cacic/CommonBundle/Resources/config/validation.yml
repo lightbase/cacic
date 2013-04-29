@@ -122,13 +122,14 @@ Cacic\CommonBundle\Entity\Software:
     properties:
         nmSoftware:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 150
         teDescricaoSoftware:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 255
         qtLicenca:
             - Notblank: ~
-            - MaxLength: 10
+            - Type:
+                type: int
         nrMidia:
             - NotBlank: ~
             - MaxLength: 10
@@ -136,7 +137,7 @@ Cacic\CommonBundle\Entity\Software:
             - NotBlank: ~
             - MaxLength: 30
         teObs:
-            - MaxLength: 30
+            - MaxLength: 200
 
 Cacic\CommonBundle\Entity\TipoSoftware:
     properties:
@@ -147,14 +148,13 @@ Cacic\CommonBundle\Entity\TipoSoftware:
 Cacic\CommonBundle\Entity\UsbDevice:
     properties:
         idUsbVendor:
-            - NotBlank: ~
-            - MaxLength: 30
+            - NotNull: ~
         idUsbDevice:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 5
         nmUsbDevice:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 127
 
 Cacic\CommonBundle\Entity\Log:
     properties:
@@ -165,18 +165,19 @@ Cacic\CommonBundle\Entity\Aquisicao:
     properties:
         nrProcesso:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 11
         nmEmpresa:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 45
         nmProprietario:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 45
         nrNotafiscal:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 20
         dtAquisicao:
             - NotBlank: ~
+            - Date: ~
 
 Cacic\CommonBundle\Entity\TipoLicenca:
     properties:
@@ -218,7 +219,7 @@ Cacic\CommonBundle\Entity\TipoLicenca:
     properties:
         teTipoLicenca:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 20
 
 Cacic\CommonBundle\Entity\Uorg:
     properties:

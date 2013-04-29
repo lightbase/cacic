@@ -33,17 +33,17 @@
                         <td style="text-align: center" id="item_desc_{{ software['idSoftware'] }}">{{ software['nmSoftware'] }}</td>
                         <td class="td-actions">
                             <a href="{{ path('cacic_software_editar', {'idSoftware': software['idSoftware']}) }}" class="btn btn-small" title="{{ 'Editar Item'|trans }}">
-                                <i class="btn-icon-only icon-edit"></i>
+                                <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 
                             <a href="{{ path('cacic_software_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ 'Excluir Item'|trans }}">
-                                <i class="btn-icon-only icon-remove"></i>
+                                <i class="btn-icon-only icon-trash icon-large"></i>
                             </a>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td align="center" colspan="2"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
+                        <td style="text-align: center" colspan="2"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
                     </tr>
                 {% endfor %}
 

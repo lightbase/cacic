@@ -50,3 +50,10 @@
   </div> <!-- /span8 -->v
 </div> <!-- /row -->
 {% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+    $( '#software_qtLicenca' ).mask( '9?9999999999', { placeholder: '' } );
+</script>
+{% endblock %}

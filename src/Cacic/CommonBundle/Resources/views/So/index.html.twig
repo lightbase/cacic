@@ -22,8 +22,8 @@
               <thead>
                 <tr>
                     <th width="15%">{{ "Descrição"|trans }}</th>
-                    <th width="15%">MS-Windows?</th>
-                    <th width="10%">{{ "ID Interna"|trans }}</th>
+                    <th width="15%" style="text-align: center" >MS-Windows?</th>
+                    <th width="15%" style="text-align: center" >{{ "ID Interna"|trans }}</th>
                     <th width="15%" style="text-align: center">{{ "ID Externa"|trans }}</th>
                     <th width="15%">{{ "Sigla"|trans }}</th>
                     <th width="15%">{{ "Total de Máquinas"|trans }}</th>
@@ -39,15 +39,15 @@
                         <td style="text-align: center">{{ so['inMswindows'] }}</td>
                         <td style="text-align: center">{{ so['teSo'] }}</td>
                         <td style="text-align: center">{{ so['idSo'] }}</td>
-                        <td style="text-align: left">{{ so['sgSo'] }}</td>
-                        <td style="text-align: center"></td>
+                        <td>{{ so['sgSo'] }}</td>
+                        <td></td>
                         <td style="text-align: center" class="td-actions">
                             <a href="{{ path('cacic_sistemaoperacional_editar', {'idSo': so['idSo']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
-                                <i class="btn-icon-only icon-edit"></i>
+                                <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 
                             <a href="{{ path('cacic_sistemaoperacional_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
-                                <i class="btn-icon-only icon-remove"></i>
+                                <i class="btn-icon-only icon-trash icon-large"></i>
                             </a>
                         </td>
                     </tr>

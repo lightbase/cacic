@@ -24,8 +24,8 @@
                     <th width="20%">{{ "Processo de aquisicao"|trans }}</th>
                     <th width="20%">{{ "Nome da empresa"|trans }}</th>
                     <th width="20%">{{ "Nome do proprietario"|trans }}</th>
-                    <th width="10%">{{ "Nota Fiscal"|trans }}</th>
-                    <th width="20%">{{ "Data de aquisicao"|trans }}</th>
+                    <th style="text-align: center" width="15%">{{ "Nota Fiscal"|trans }}</th>
+                    <th style="text-align: center" width="15%">{{ "Data de aquisicao"|trans }}</th>
                     <th style="text-align: center">{{ "Ações"|trans }}</th>
                 </tr>
             </thead>
@@ -37,17 +37,17 @@
 
                     <tr id="item_{{ aquisicao['idAquisicao'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
                         <td id="item_desc_{{ aquisicao['idAquisicao'] }}">{{ aquisicao['nrProcesso'] }}</td>
-                        <td style="text-align: center">{{ aquisicao['nmEmpresa'] }}</td>
-                        <td style="text-align: center">{{ aquisicao['nmProprietario'] }}</td>
+                        <td>{{ aquisicao['nmEmpresa'] }}</td>
+                        <td>{{ aquisicao['nmProprietario'] }}</td>
                         <td style="text-align: center">{{ aquisicao['nrNotafiscal'] }}</td>
                         <td style="text-align: center">{{ aquisicao.dtAquisicao|date('d/m/Y') }}</td>
                         <td style="text-align: center" class="td-actions">
                             <a href="{{ path('cacic_aquisicao_editar', {'idAquisicao': aquisicao ['idAquisicao']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
-                                <i class="btn-icon-only icon-edit"></i>
+                                <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 
                             <a href="{{ path('cacic_aquisicao_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
-                                <i class="btn-icon-only icon-remove"></i>
+                                <i class="btn-icon-only icon-trash icon-large"></i>
                             </a>
                         </td>
                     </tr>

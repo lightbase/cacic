@@ -32,16 +32,16 @@
 
                 {% for aplicativo in aplicativo %}
 
-                    <tr id="item_{{ aplicativo[0]['idAplicativo'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                        <td id="item_desc_{{ aplicativo[0]['idAplicativo'] }}">{{ aplicativo[0]['nmAplicativo'] }}</td>
+                    <tr id="item_{{ aplicativo['idAplicativo'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                        <td id="item_desc_{{ aplicativo['idAplicativo'] }}">{{ aplicativo['nmAplicativo'] }}</td>
                         <td style="text-align: center"></td>
                         <td style="text-align: center" class="td-actions">
-                            <a href="{{ path('cacic_aplicativo_editar', {'idAplicativo': aplicativo[0]['idAplicativo']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
-                                <i class="btn-icon-only icon-edit"></i>
+                            <a href="{{ path('cacic_aplicativo_editar', {'idAplicativo': aplicativo['idAplicativo']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                                <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 
                             <a href="{{ path('cacic_aplicativo_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
-                                <i class="btn-icon-only icon-remove"></i>
+                                <i class="btn-icon-only icon-trash icon-large"></i>
                             </a>
                         </td>
                     </tr>

@@ -11,7 +11,7 @@ Cacic\CommonBundle\Entity\UsbDevice:
             nullable: false
             column: id_usb_device
             generator:
-                strategy: IDENTITY
+                strategy: NONE
         nmUsbDevice:
             type: string
             length: 127

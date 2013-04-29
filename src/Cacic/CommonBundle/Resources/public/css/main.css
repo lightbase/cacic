@@ -35,6 +35,8 @@ body {
 
 .alert { display: none; }
 
+.table thead th { background-color: #333; color: #fff }
+
 input[type="checkbox"], input[type="radio"] {
 	float: left;
 	margin-right: 5px;

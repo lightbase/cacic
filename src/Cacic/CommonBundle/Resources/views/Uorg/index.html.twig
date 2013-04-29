@@ -73,7 +73,7 @@
             },
             onCreateLi: function(node, $li) {
             	
-           		var _acoesNode = ' <a href="{{ path('cacic_uorg_visualizar') }}/'+ node.id +'"><i class="icon-search" title="Visualizar dados da Unidade"></i></a> ';
+           		var _acoesNode = ' <a href="{{ path('cacic_uorg_visualizar') }}/'+ node.id +'" rel="modal:open"><i class="icon-search" title="Visualizar dados da Unidade"></i></a> ';
            		_acoesNode += ' <a href="{{ path('cacic_uorg_cadastrar') }}/'+ node.id +'"><i class="icon-plus-sign" title="Cadastrar Unidade"></i></a> ';
            		_acoesNode += ' <a href="{{ path('cacic_uorg_editar') }}/'+ node.id +'"><i class="icon-edit" title="Editar Unidade"></i></a> ';
            		_acoesNode += ' <a href="{{ path('cacic_uorg_excluir') }}/'+ node.id +'"><i class="icon-trash" title="Excluir Unidade"></i></a> ';
