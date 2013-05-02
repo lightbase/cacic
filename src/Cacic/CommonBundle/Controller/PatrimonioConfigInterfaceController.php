@@ -67,19 +67,12 @@ class PatrimonioConfigInterfaceController extends Controller
 	 */
 	public function opcoesAction(Request $request)
 	{
-        $opcoes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:PatrimonioConfigInterface' )
-            ->listar();
-        if ( ! $opcoes )
-            throw $this->createNotFoundException( 'Patrimonio  não encontrado' );
-
-       // $opcoes = new PatrimonioConfigInterface();
+        $opcoes = new PatrimonioConfigInterface();
         $form = $this->createForm( new OpcoesType(), $opcoes );
-
 
         if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
-
 
             if ( $form->isValid() )
             {
@@ -91,9 +84,7 @@ class PatrimonioConfigInterfaceController extends Controller
                 return $this->redirect( $this->generateUrl( 'cacic_patrimonio_opcoes') );
             }
         }
-
         return $this->render( 'CacicCommonBundle:PatrimonioConfigInterface:opcoes.html.twig', array( 'form' => $form->createView() ) );
-
 	}
 	
 }

@@ -28,7 +28,7 @@ class SoftwareEstacaoType extends AbstractType
                 'class' => 'CacicCommonBundle:Software',
                 'property' => 'nmSoftware',
                 'empty_value' => 'Selecione',
-                'label'=>'Software:', 'max_length'=>100 )
+                'label'=>'Software:' )
         );
         $builder->add(
             'nrProcesso',
