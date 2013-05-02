@@ -23,16 +23,14 @@ class AquisicaoItemRepository extends EntityRepository
      */
     public function listar()
     {
-        $_dql = "SELECT a
-				FROM CacicCommonBundle:AquisicaoItem a
-				LEFT JOIN a.idSoftware s
-				LEFT JOIN a.idAquisicao q
-				LEFT JOIN a.idTipoLicenca t
+        $_dql = "SELECT a, s, q, t
+                    FROM CacicCommonBundle:AquisicaoItem AS a
+                    LEFT JOIN a.idSoftware AS s
+                    LEFT JOIN a.idAquisicao AS q
+                    LEFT JOIN a.idTipoLicenca AS t
 				";
 
         $query = $this->getEntityManager()->createQuery( $_dql );
         return $query->getArrayResult();
     }
-
-
 }

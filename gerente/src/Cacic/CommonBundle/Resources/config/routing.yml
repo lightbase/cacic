@@ -365,10 +365,12 @@ cacic_aquisicao_item_cadastrar:
     defaults: { _controller: CacicCommonBundle:AquisicaoItem:cadastrar}
 
 cacic_aquisicao_item_editar:
-    pattern:  /aquisicaoitem/editar/{id}
+    pattern:  /aquisicaoitem/editar/{idAquisicao}/{idSoftware}/{idTipoLicenca}
     defaults: { _controller: CacicCommonBundle:AquisicaoItem:editar}
     requirements:
-        id: \d+
+        idSoftware: \d+
+        idTipoLicenca: \d+
+        idAquisicao: \d+
 
 cacic_aquisicao_item_excluir:
     pattern:  /aquisicaoitem/excluir

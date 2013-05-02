@@ -160,6 +160,9 @@ Cacic\CommonBundle\Entity\Log:
     properties:
         dtAcao:
             - NotBlank: ~
+            - Date: ~
+        idLocal:
+            - NotNull: ~
 
 Cacic\CommonBundle\Entity\Aquisicao:
     properties:
@@ -189,13 +192,18 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
     properties:
         qtLicenca:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 6
         idTipoLicenca:
             - NotBlank: ~
         idAquisicao:
             - NotBlank: ~
         idSoftware:
             - NotBlank: ~
+        teObs:
+            - MaxLength: 200
+        dtVencimentoLicenca:
+            - NotBlank: ~
+            - Date: ~
 
 Cacic\CommonBundle\Entity\SoftwareEstacao:
     properties:
@@ -210,10 +218,13 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
             - MaxLength: 30
         dtAutorizacao:
             - NotBlank: ~
+            - Date: ~
         dtExpiracaoInstalacao:
             - NotBlank: ~
+            - Date: ~
         dtDesinstalacao:
             - NotBlank: ~
+            - Date: ~
 
 Cacic\CommonBundle\Entity\TipoLicenca:
     properties:

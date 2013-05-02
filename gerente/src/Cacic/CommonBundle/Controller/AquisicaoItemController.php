@@ -2,6 +2,7 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,25 +14,49 @@ class AquisicaoItemController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrAquisicao = $this->getDoctrine()->getRepository( 'CacicCommonBundle:AquisicaoItem' )->listar();
-        return $this->render( 'CacicCommonBundle:AquisicaoItem:index.html.twig', array( 'Aquisicao' => $arrAquisicao ) );
-
+        return $this->render(
+        	'CacicCommonBundle:AquisicaoItem:index.html.twig',
+        	array( 'Aquisicao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:AquisicaoItem' )->listar() ));
     }
     public function cadastrarAction(Request $request)
     {
         $Aquisicao = new AquisicaoItem();
         $form = $this->createForm( new AquisicaoItemType(), $Aquisicao );
-        // $Aquisicao = $dataInicio;
+
         if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
             if ( $form->isValid() )
             {
+
+                $data = $form->get('idSoftware')->getData();
+                $idSoftware = $data->getIdSoftware();
+
+                $data = $form->get('idAquisicao')->getData();
+                $idAquisicao = $data->getIdAquisicao();
+
+                $data = $form->get('idTipoLicenca')->getData();
+                $idTipoLicenca = $data->getIdTipoLicenca();
+
+                $AquisicaoItem = $this->getDoctrine()->getRepository('CacicCommonBundle:AquisicaoItem')
+                    ->find(
+                        array(
+                            'idSoftware' => $idSoftware,
+                            'idAquisicao' =>$idAquisicao,
+                            'idTipoLicenca' => $idTipoLicenca
+                        )   );
+                //Codição para update
+                if($AquisicaoItem != null){
+                $form = $this->createForm( new AquisicaoItemType(), $AquisicaoItem );
+                   $form->bind( $request );
+                    $this->getDoctrine()->getManager()->persist( $AquisicaoItem );
+                    $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Aquisicao
+                }
+                //Inserção de aquisição item
                 $this->getDoctrine()->getManager()->persist( $Aquisicao );
                 $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Aquisicao
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
-
                 return $this->redirect( $this->generateUrl( 'cacic_aquisicao_item_index') );
             }
         }
@@ -42,9 +67,15 @@ class AquisicaoItemController extends Controller
      *  Página de editar dados do Aquisicao
      *  @param int $idAquisicao
      */
-    public function editarAction( $id, Request $request )
+    public function editarAction( $idAquisicao,$idSoftware,  $idTipoLicenca, Request $request )
     {
-        $Aquisicao = $this->getDoctrine()->getRepository('CacicCommonBundle:AquisicaoItem')->find( $id );
+        $Aquisicao = $this->getDoctrine()->getRepository('CacicCommonBundle:AquisicaoItem')
+                                            ->find(
+                                                array(
+                                                    'idSoftware' => $idSoftware,
+                                                    'idAquisicao' =>$idAquisicao,
+                                                    'idTipoLicenca' => $idTipoLicenca
+                                            )   );
         if ( ! $Aquisicao )
             throw $this->createNotFoundException( 'Aquisicao não encontrado' );
 
@@ -61,8 +92,6 @@ class AquisicaoItemController extends Controller
 
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
-
-                return $this->redirect($this->generateUrl('cacic_aquisicao_item_editar', array( 'id'=>$Aquisicao->getId() ) ) );
             }
         }
 

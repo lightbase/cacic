@@ -37,7 +37,6 @@ class LogController extends Controller
                                             'expanded'  => true,
                                             'label'=> 'Selecione o Local:'))
     				->getForm();
-
         if ( $request->isMethod('POST') )
         {
         	$form->bind( $request );

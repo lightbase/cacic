@@ -60,6 +60,7 @@ class AquisicaoItemType extends AbstractType
              'textarea',
             array(
                 'label'=>'Observação',
+                'required'=>false,
                 'max_length'=>200
             )
         );
