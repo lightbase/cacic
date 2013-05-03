@@ -2,20 +2,15 @@ Cacic\CommonBundle\Entity\PatrimonioConfigInterface:
     type: entity
     table: patrimonio_config_interface
     repositoryClass: Cacic\CommonBundle\Entity\PatrimonioConfigInterfaceRepository
-    fields:
+    id:
         idEtiqueta:
-            id: true
             type: string
             length: 30
             fixed: true
-            nullable: false
             column: id_etiqueta
-        idLocal:
-            id: true
-            type: integer
-            unsigned: false
-            nullable: false
-            column: id_local
+        local:
+            associationKey: true
+    fields:
         nmEtiqueta:
             type: string
             length: 15
@@ -64,4 +59,14 @@ Cacic\CommonBundle\Entity\PatrimonioConfigInterface:
             fixed: true
             nullable: false
             column: in_obrigatorio
+    manyToOne:
+        local:
+            targetEntity: Local
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -14,23 +14,36 @@
 
                 <div class="block box_content round_bottom padding_10" >
 
-                    <p><h3>{{ "Opções da Coleta de Informações Patrimoniais e Localização Física "|trans }}</h3></p>
+                    <h3>{{ "Opções da Coleta de Informações Patrimoniais e Localização Física "|trans }}</h3>
                     <br />
-                    <form id="formOpcoes" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
-
-                           <p><h4> {{ 'Local de Aplicação'|trans }}</h4>
-                            {{ form_widget(form.nmLocal, {'form_type': 'horizontal'}) }}
-                        <p><h4> {{ 'Destacar as seguintes duplicidades no relatório de patrimônio'|trans }}</h4>
-
-                        {{ form_widget( form.inDestacarDuplicidade) }}
-                        {{ form_rest(form) }}
+                    <form id="formOpcoes" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
+                        <input type="hidden" name="config[idLocal]" value="{{ local.idLocal }}" />
+                        
+                        <h4> {{ 'Local de Aplicação'|trans }}:</h4>
+                        {{ local.nmLocal }}
+                        
+                        <br /><br />
+                        <h4> {{ 'Destacar as seguintes duplicidades no relatório de patrimônio'|trans }}:</h4>
+                        <br /><br />
+                        {% for conf in opcoes %}
+                        <div class="control-group">
+                            <label for="config_{{ conf.idEtiqueta }}" class="control-label">{{ conf.teEtiqueta }}</label>
+                            <div class="controls">
+                                <input type="checkbox" id="config_{{ conf.idEtiqueta }}" name="config[{{ conf.idEtiqueta }}]" maxlength="100" value="S"
+                                    {% if conf.inDestacarDuplicidade == 'S' %}checked="checked"{% endif %}
+                                >
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        <br />
                         <div class="controls">
-
                             <button type="submit" class="btn btn-primary">
                                 <i class="icon-ok-sign"></i>
                                 {{ "Salvar Dados"|trans }}
                             </button>
                         </div>
+                    </form>
                 </div> <!-- /block -->
             </div><!-- /box -->
         </div><!-- /span -->
