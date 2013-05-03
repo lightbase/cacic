@@ -15,9 +15,9 @@ class PatrimonioConfigInterface
     private $idEtiqueta;
 
     /**
-     * @var integer
+     * @var \Cacic\CommonBundle\Entity\Local
      */
-    private $idLocal;
+    private $local;
 
     /**
      * @var string
@@ -84,26 +84,26 @@ class PatrimonioConfigInterface
     }
 
     /**
-     * Set idLocal
+     * Set local
      *
-     * @param integer $idLocal
+     * @param \Cacic\CommonBundle\Entity\Local $local
      * @return PatrimonioConfigInterface
      */
-    public function setIdLocal($idLocal)
+    public function setLocal(\Cacic\CommonBundle\Entity\Local $local = null)
     {
-        $this->idLocal = $idLocal;
+        $this->local = $local;
     
         return $this;
     }
 
     /**
-     * Get idLocal
+     * Get local
      *
-     * @return integer 
+     * @return \Cacic\CommonBundle\Entity\Local 
      */
-    public function getIdLocal()
+    public function getLocal()
     {
-        return $this->idLocal;
+        return $this->local;
     }
 
     /**
