@@ -1,8 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li xmlns="http://www.w3.org/1999/html"><a href="{{ path('cacic_log_acesso') }}">{{ 'Log de acesso'|trans }}</a></li> /
-    <li class="active">{{ 'Pesquisa'|trans }}</li>
+    <li class="active">{{ 'Log de acesso'|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -13,51 +12,70 @@
 
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top">{{'Pesquisa de acessos' |trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Pesquisa de acessos' |trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
-                    <center>
+                
+                    <h4>{{ "Filtros para consulta"|trans }}</h4><br />
+                    
                     <form id="formLog" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
-                        <div class="tabbable">
-                            <center><h5>{{ 'Selecione o período no qual deverá ser realizada a consulta:'|trans }}</h5></center>
-                            <br />
-                            {{ form_widget(form.dt_acao_inicio)}}
-                                        a
-                            {{ form_widget(form.dt_acao_fim) }}
-
-                            <br /><br />
-
-                            <center><h5>{{ 'Selecione o Local:'|trans }}</h5></center>
-                            <br />
-                            {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
+                        
+                        <div class="control-group">
+                            <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
+                            <div class="controls">
+                               {{ form_widget(form.dt_acao_inicio)}} a {{ form_widget(form.dt_acao_fim) }}
                             </div>
-                        <br />
+                        </div>
+                        
+                        <div class="control-group">
+                            <label for="log_acesso_local" class="control-label">{{ 'Local:'|trans }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
+                            </div>
+                        </div>
+
                         <div class="control-group">
                             <div class="controls">
-                                <a class="btn btn-danger"  href="{{ path('cacic_log_acesso') }}">
-                                    <i class="icon-trash"></i>
-                                    {{ 'Limpar'|trans }}
-                                </a>
-                                </button>
+                                <button type="reset" class="btn">
+		                            <i class="icon-refresh"></i>
+		                            {{ "Resetar Valores"|trans }}
+		                        </button>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="icon-search"></i>
                                     {{ 'Filtrar'|trans }}
                                 </button>
                             </div>
                         </div>
-                        {% if logs != false %}
+                        {% if logs != null %}
                             {% block pesquisa %}
                                 {% include 'CacicCommonBundle:Log:acessoPesquisa.html.twig' with { acesso: form } %}
                             {% endblock %}
-                         {% else %}
-                        <center><b>{{ "Nenhum atividade realizado no periodo informado."|trans }}</b></center>
+                        {% else %}
+                            <center><b>{{ "Nenhuma atividade realizado no periodo informado."|trans }}</b></center>
                         {% endif %}
                     </form>
-                </center>
+                
 
                 </div> <!-- /block -->
             </div> <!-- /box -->
         </div> <!-- /span8 -->
+        
+    <div class="span4">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+                        
+            <div class="block box_content round_bottom padding_10">
+                <p>
+                    {{ "É necessário informar pelo menos um dos filtros disponibilizados para efetuar a pesquisa."|trans }}
+                </p>
+                <p>
+                    {{ "Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos."|trans }}
+                </p>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- span4 -->
+    
     </div> <!-- /row -->
 {% endblock %}
 

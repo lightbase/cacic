@@ -47,6 +47,12 @@ class LocalController extends Controller
 			if ( $form->isValid() )
 			{
 				$this->getDoctrine()->getManager()->persist( $local );
+				
+				/**
+				 * @todo Criar Configurações Locais a partir das Configurações Padrão
+				 * @todo Criar Configurações de Interface do Aplicativo de Coleta de Dados Patrimoniais
+				 */
+				
 				$this->getDoctrine()->getManager()->flush(); // Persiste os dados do Local
 				
 				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
