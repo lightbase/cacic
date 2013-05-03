@@ -20,11 +20,10 @@
                         <input type="hidden" name="config[idLocal]" value="{{ local.idLocal }}" />
                         
                         <h4> {{ 'Local de Aplicação'|trans }}:</h4>
-                        {{ local.nmLocal }}
+                        <h4 class="red">{{ local.nmLocal }}</h4>
                         
-                        <br /><br />
-                        <h4> {{ 'Destacar as seguintes duplicidades no relatório de patrimônio'|trans }}:</h4>
-                        <br /><br />
+                        <br /><h4> {{ 'Destacar as seguintes duplicidades no relatório de patrimônio'|trans }}:</h4><br />
+                        
                         {% for conf in opcoes %}
                         <div class="control-group">
                             <label for="config_{{ conf.idEtiqueta }}" class="control-label">{{ conf.teEtiqueta }}</label>

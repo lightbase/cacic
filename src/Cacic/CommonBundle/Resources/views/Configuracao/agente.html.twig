@@ -138,7 +138,7 @@
 	    });
 	    
 	    // Monitora os campos do tipo texto e textearea
-		$('#config_padrao_data input, #config_padrao_data textarea').bind('change', function(e)
+		$('#config_local_data input, #config_local_data textarea').bind('change', function(e)
 	    {
 			e.preventDefault();
 			salvaConfiguracao( $(this).attr('name'), $(this).val() );
