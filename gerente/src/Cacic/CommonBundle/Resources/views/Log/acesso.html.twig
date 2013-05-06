@@ -23,7 +23,8 @@
                         <div class="control-group">
                             <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
                             <div class="controls">
-                               {{ form_widget(form.dt_acao_inicio)}} a {{ form_widget(form.dt_acao_fim) }}
+                               {{ form_widget(form.dt_acao_inicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dt_acao_fim, { 'attr': {'class': 'datepicker_on'} }) }}
+                               <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                             </div>
                         </div>
                         
@@ -79,13 +80,20 @@
     </div> <!-- /row -->
 {% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<!-- jQuery UI Bootstrap Daterange -->
+<link href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery-ui-bootstrap/third-party/jQuery-UI-Date-Range-Picker/css/ui.daterangepicker.css') }}" media="screen" rel="Stylesheet" type="text/css" />
+{% endblock %}
+
 {% block javascripts %}
 
 {{ parent() }}
-    <script type="text/javascript">
-    
-     $('#form_dt_acao_inicio, #form_dt_acao_fim').mask('99/99/9999');
 
-    </script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	    $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
+	});
+</script>
 
 {% endblock %}
