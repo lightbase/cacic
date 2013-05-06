@@ -20,6 +20,7 @@ var System = {
 			 * @todo alterar para permitir array de mensagens
 			 */
 			$( '#msg' +type ).append( msg + '<br />' ).fadeIn();
+			$('html, body').animate({ scrollTop: $('body').offset().top }, 1000);
 		}
 	},
     Form : { // Comportamentos relacionados a formulários
