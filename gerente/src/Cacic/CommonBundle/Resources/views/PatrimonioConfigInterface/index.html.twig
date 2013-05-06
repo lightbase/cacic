@@ -2,21 +2,23 @@
 
 {% block body %}
 
-    <div class="row-luid" xmlns="http://www.w3.org/1999/html">
+    <div class="row-fluid" xmlns="http://www.w3.org/1999/html">
 
         <div class="span12">
             <div class="box grad_colour_black">
                 <h2 class="box_head round_top"><i class="icon-cog"></i>Patrimônio</h2>
 
-                <div class="block box_content round_bottom padding_10" style="text-align: center">
+                <div class="block box_content round_bottom padding_10">
 
                     <h3>Tela de Coleta de Informações de Patrimônio </h3>
 
-                    <br /><p>Para configurar a interface da tela de coleta de informações de patrimônio que será exibida aos usuários, clique sobre os itens da tela abaixo e informe os valores desejados.
+                    <br />
+                     <p>Para configurar a interface da tela de coleta de informações de patrimônio que será exibida aos usuários,
+                        clique sobre os itens da tela abaixo e informe os valores desejados.
                     </p>
                     <br />
-
-                    <img src="{{ asset('/cacic/gerente/web/bundles/caciccommon/images/tela_patrimon.png') }} " usemap="#Map"  />
+                    <center>
+                    <img src="{{ asset('bundles/caciccommon/images/tela_patrimon.png') }} " usemap="#Map"/>
                     <map name="Map">
                         <area shape="rect" coords="655,212,784,231" href="#form-patrimonio-etiqueta9"  data-toggle="tab">
                         <area shape="rect" coords="655,168,784,187" href="#form-patrimonio-etiqueta6"  data-toggle="tab">
@@ -31,8 +33,7 @@
                     </map>
                     <div class="tab-content">
 
-                        <div class="tab-pane active">
-                        </div>
+                        <div class="tab-pane active"></div>
                         {% if (("form-patrimonio-etiqueta1")  != null) %}
                         <div class="tab-pane" id="form-patrimonio-etiqueta1">
                             {% render url( 'cacic_patrimonio_interface', { 'idEtiqueta' : 'etiqueta1' }) %}
@@ -66,7 +67,7 @@
                         </div>
                     {% endif %}
                     </div>
-
+                    </center>
                 </div> <!-- /block -->
             </div> <!-- /box -->
         </div> <!-- /span -->

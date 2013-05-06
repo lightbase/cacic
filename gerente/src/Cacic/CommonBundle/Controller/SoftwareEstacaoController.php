@@ -2,6 +2,7 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,9 +14,9 @@ class SoftwareEstacaoController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrSoftwareEstacao = $this->getDoctrine()->getRepository( 'CacicCommonBundle:SoftwareEstacao' )->listar();
-        return $this->render( 'CacicCommonBundle:SoftwareEstacao:index.html.twig', array( 'SoftwareEstacao' => $arrSoftwareEstacao ) );
-
+        return $this->render(
+            'CacicCommonBundle:SoftwareEstacao:index.html.twig',
+            array( 'SoftwareEstacao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:SoftwareEstacao' )->listar() ));
     }
     public function cadastrarAction(Request $request)
     {
@@ -26,8 +27,28 @@ class SoftwareEstacaoController extends Controller
             $form->bind( $request );
             if ( $form->isValid() )
             {
-                $this->getDoctrine()->getManager()->persist( $SoftwareEstacao );
-                $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Software Estacao
+                $data = $form->get('idSoftware')->getData();
+                $idSoftware = $data->getIdSoftware();
+                $nrPatrimonio = $form->get('nrPatrimonio')->getData();
+
+                $software = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')
+                    ->find(
+                        array(
+                            'idSoftware' => $idSoftware,
+                            'nrPatrimonio' =>$nrPatrimonio
+                        )   );
+                Debug::dump($software);die;
+                if($software != null){
+                $form = $this->createForm( new SoftwareEstacaoType(), $software );
+                $form->bind( $request );
+                    $this->getDoctrine()->getManager()->persist( $software);
+                    $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Software Estacao
+                 }
+
+                    $this->getDoctrine()->getManager()->persist( $SoftwareEstacao );
+                    $this->getDoctrine()->getManager()->flush();
+
+
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
@@ -39,7 +60,7 @@ class SoftwareEstacaoController extends Controller
     }
     /**
      *  Página de editar dados do Software Estacao
-     *  @param int $idSoftwareEstacao
+     *  @param int $idSoftware Estacao
      */
     public function editarAction( $nrPatrimonio, Request $request )
     {
