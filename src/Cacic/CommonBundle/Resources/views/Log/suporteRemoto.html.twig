@@ -1,7 +1,6 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li xmlns="http://www.w3.org/1999/html"><a href="{{ path('cacic_log_suporte_remoto') }}">{{ 'Log de suporte Remoto'|trans }}</a></li> /
     <li class="active">{{ 'Pesquisa de suporte Remoto'|trans }}</li>
 {% endblock %}
 
@@ -13,31 +12,31 @@
 
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top">{{'Pesquisa de Suporte Remoto' |trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-search"></i>{{'Pesquisa de Suporte Remoto' |trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
-                    <center>
+                    <h4>{{ "Filtros para consulta"|trans }}</h4><br />
                     <form id="formLog" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
-                        <div class="tabbable">
-                            <center><h5>{{ 'Selecione o período no qual deverá ser realizada a consulta:'|trans }}</h5></center>
-                            <br />
-                            {{ form_widget(form.dt_acao_inicio)}}
-                                        a
-                            {{ form_widget(form.dt_acao_fim) }}
-
-                            <br /><br />
-
-                            <center><h5>{{ 'Selecione o Local:'|trans }}</h5></center>
-                            <br />
-                            {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
+                        <div class="control-group">
+                            <label for="log_remoto_periodo" class="control-label">{{ 'Período'|trans }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.dt_acao_inicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dt_acao_fim, { 'attr': {'class': 'datepicker_on'} }) }}
+                                <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                             </div>
-                        <br />
+                        </div>
+
+                        <div class="control-group">
+                            <label for="log_remoto_local" class="control-label">{{ 'Local:'|trans }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
+                            </div>
+                        </div>
+
                         <div class="control-group">
                             <div class="controls">
-                                <a class="btn btn-danger"  href="{{ path('cacic_log_suporte_remoto') }}">
-                                    <i class="icon-trash"></i>
-                                    {{ 'Limpar'|trans }}
-                                </a>
+                                <button type="reset" class="btn">
+                                    <i class="icon-refresh"></i>
+                                    {{ "Resetar Valores"|trans }}
                                 </button>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="icon-search"></i>
@@ -45,27 +44,51 @@
                                 </button>
                             </div>
                         </div>
-                        {% if  form.idLocal.vars.value in false %}<center><b>{{ "Nenhum atividade realizado no periodo informado."|trans }}</b></center>
-                            {% else %}
+                        {% if suportes != null %}
                             {% block pesquisa %}
                                 {% include 'CacicCommonBundle:Log:suportePesquisa.html.twig' with { acesso: form } %}
-                            {% endblock %}{% endif %}
+                            {% endblock %}
+                        {% else %}
+                            <center><b>{{ "Nenhuma acesso remoto realizado no periodo informado."|trans }}</b></center>
+                        {% endif %}
                     </form>
                 </center>
 
                 </div> <!-- /block -->
             </div> <!-- /box -->
         </div> <!-- /span8 -->
+        <div class="span4">
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+                    <p>
+                        {{ "É necessário informar pelo menos um dos filtros disponibilizados para efetuar a pesquisa."|trans }}
+                    </p>
+                    <p>
+                        {{ "Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos."|trans }}
+                    </p>
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- span4 -->
     </div> <!-- /row -->
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- jQuery UI Bootstrap Daterange -->
+    <link href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery-ui-bootstrap/third-party/jQuery-UI-Date-Range-Picker/css/ui.daterangepicker.css') }}" media="screen" rel="Stylesheet" type="text/css" />
 {% endblock %}
 
 {% block javascripts %}
 
-{{ parent() }}
-    <script type="text/javascript">
-    
-     $('#form_dt_acao_inicio, #form_dt_acao_fim').mask('99/99/9999');
+    {{ parent() }}
 
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
+        });
     </script>
 
 {% endblock %}

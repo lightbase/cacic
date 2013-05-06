@@ -18,7 +18,7 @@ class PatrimonioConfigInterfaceController extends Controller
 
     public function indexAction()
     {
-        return $this->render( 'CacicCommonBundle:PatrimonioConfigInterface:interface.html.twig' );
+        return $this->render( 'CacicCommonBundle:PatrimonioConfigInterface:index.html.twig' );
     }
 	
 	/**
@@ -38,7 +38,7 @@ class PatrimonioConfigInterfaceController extends Controller
                                             ->find(
                                                 array(
                                                         'idEtiqueta' => $idEtiqueta,
-                                                        'idLocal' => $local->getIdLocal()
+                                                        'local' => $local->getIdLocal()
                                                     )
         );
         if ( ! $patrimonio )

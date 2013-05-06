@@ -268,6 +268,7 @@ cacic_log_insucesso_instalacao:
 cacic_log_suporte_remoto:
     pattern:  /log/suporteremoto
     defaults: { _controller: CacicCommonBundle:Log:suporteremoto}
+
 cacic_patrimonio_index:
     pattern: /patrimonio/index
     defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:index}
