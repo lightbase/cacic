@@ -20,7 +20,8 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Cacic\CommonBundle\CacicCommonBundle(),
-            new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle()
+            new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
+            new Cacic\RelatorioBundle\CacicRelatorioBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
