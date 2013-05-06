@@ -203,7 +203,36 @@
 							<i class="icon-book"></i>
 							<span>{{ "Relatórios"|trans }}</span>
 							<span class="icon">&nbsp;</span>
-						</a>  									
+						</a>
+						<ul>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:void(0)">
+                                    <span>{{ "Softwares"|trans }}</span>
+                                    <span class="icon">&nbsp;</span>
+                                </a>
+                                <ul>
+                                    <li><a href="{{ path('cacic_relatorio_software_officescan') }}">{{ "Antivírus Offica Scan"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_infoSoftwareBasico') }}">{{ "Softwares Básicos"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_inventariados') }}">{{ "Softwares Inventariados"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_licensiados') }}">{{ "Softwares Licensiados"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_orgao') }}">{{ "Permitidos por Órgão"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_aquisicoes') }}">{{ "Aquisições de Softwares"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_adquiridos') }}">{{ "Softwares Adquiridos"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_compra') }}">{{ "Processos de Compra"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_tipo') }}">{{ "Tipos de Software"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_ultimos') }}">{{ "Últimos Identificados"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_suspeitos') }}">{{ "Suspeitos e Jogos"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_historicoEstacao') }}">{{ "Histórico por Máquina"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_naoVinculados') }}">{{ "Softwares não Vinculados"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_genericos') }}">{{ "Softwares Genéricos"|trans }}</a></li>
+                                </ul>
+                            </li>
+						    <li><a class="round_top" href="{{ path('cacic_relatorio_autorizacoes') }}">{{ "Autorizações"|trans }}</a></li>
+						    <li><a class="round_top" href="{{ path('cacic_relatorio_compartilhamentos') }}">{{ "Compartilhamentos"|trans }}</a></li>
+						    <li><a class="round_top" href="{{ path('cacic_relatorio_tcpIp') }}">{{ "TCP/IP"|trans }}</a></li>
+						    <li><a class="round_top" href="{{ path('cacic_relatorio_variaveisAmbiente') }}">{{ "Variáveis de Ambiente"|trans }}</a></li>
+						    <li><a class="round_top" href="{{ path('cacic_relatorio_patrimonio') }}">{{ "Patrimônio"|trans }}</a></li>
+						</ul>			
 					</li>
 					
 					<li class="dropdown subnavbar-open-right">					
