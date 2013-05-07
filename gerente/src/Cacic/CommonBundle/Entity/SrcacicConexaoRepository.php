@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  * @author lightbase
  *
  */
-class LogRepository extends EntityRepository
+class SrcacicConexaoRepository extends EntityRepository
 {
 
     /**

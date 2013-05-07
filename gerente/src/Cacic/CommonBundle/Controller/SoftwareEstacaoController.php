@@ -30,14 +30,14 @@ class SoftwareEstacaoController extends Controller
                 $data = $form->get('idSoftware')->getData();
                 $idSoftware = $data->getIdSoftware();
                 $nrPatrimonio = $form->get('nrPatrimonio')->getData();
-
+                //Debug::dump($nrPatrimonio);die;
                 $software = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')
                     ->find(
                         array(
                             'idSoftware' => $idSoftware,
                             'nrPatrimonio' =>$nrPatrimonio
                         )   );
-                Debug::dump($software);die;
+
                 if($software != null){
                 $form = $this->createForm( new SoftwareEstacaoType(), $software );
                 $form->bind( $request );
