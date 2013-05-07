@@ -20,17 +20,17 @@ class PatrimonioConfigInterfaceType extends AbstractType
         $builder->add(
             'teEtiqueta',
             null,
-            array( 'label'=>' ', 'max_length'=>100 )
+            array( 'label'=>' ', 'max_length'=>30 )
         );
         $builder->add(
             'tePluralEtiqueta',
             null,
-            array( 'label'=>' ', 'max_length'=>100 )
+            array( 'label'=>' ', 'max_length'=>30 )
         );
         $builder->add(
             'teHelpEtiqueta',
             null,
-            array( 'label'=>' ', 'max_length'=>100 )
+            array( 'label'=>' ', 'max_length'=>50 )
         );
         $builder->add(
             'inExibirEtiqueta',

@@ -255,3 +255,23 @@ Cacic\CommonBundle\Entity\Uorg:
             - MaxLength: 10
         tipoUorg:
             - NotNull: ~
+
+Cacic\CommonBundle\Entity\PatrimonioConfigInterface:
+    properties:
+        teEtiqueta:
+            - NotBlank: ~
+            - MaxLength: 30
+        tePluralEtiqueta:
+             - NotBlank: ~
+             - MaxLength: 30
+        teHelpEtiqueta:
+             - NotBlank: ~
+             - MaxLength: 50
+        inExibirEtiqueta:
+            - NotBlank: ~
+            - Choice:
+                choices:  [S, N]
+        inDestacarDuplicidade:
+            - NotBlank: ~
+            - Choice:
+                choices:  [S, N]
