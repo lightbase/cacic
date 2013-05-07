@@ -74,7 +74,7 @@
 {{ parent() }}
 
 <script type="text/javascript">
-	
+    $('#usuario_teTelefonesContato ').mask('(99)9999-9999');
 	var oLocais = []; // JSON com Locais
 	var oGrupoDesc = { // JSON com descricao dos grupos
 		{% for grupo in grupoDesc %}
@@ -141,6 +141,7 @@
 	$( '#usuario_idGrupoUsuario' ).change( function(){
 		$( '#usuario_te_descricao_grupo' ).val( oGrupoDesc[ $( this ).val() ] );
 	});
+
 	
 </script>
 {% endblock %}
