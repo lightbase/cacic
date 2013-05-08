@@ -2,7 +2,7 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
     type: entity
     table: software_estacao
     repositoryClass: Cacic\CommonBundle\Entity\SoftwareEstacaoRepository
-    fields:
+    id:
         nrPatrimonio:
             id: true
             type: string
@@ -10,6 +10,9 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
             fixed: true
             nullable: false
             column: nr_patrimonio
+        idSoftware:
+            associationKey: true
+    fields:
         nmComputador:
             type: string
             length: 50
@@ -51,7 +54,7 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
             fixed: true
             nullable: true
             column: nr_patr_destino
-    oneToOne:
+    manyToOne:
         idSoftware:
             targetEntity: Software
             cascade: {  }

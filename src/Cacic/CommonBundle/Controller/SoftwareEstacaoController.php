@@ -30,21 +30,19 @@ class SoftwareEstacaoController extends Controller
                 $data = $form->get('idSoftware')->getData();
                 $idSoftware = $data->getIdSoftware();
                 $nrPatrimonio = $form->get('nrPatrimonio')->getData();
-                //Debug::dump($nrPatrimonio);die;
                 $software = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')
                     ->find(
                         array(
                             'idSoftware' => $idSoftware,
                             'nrPatrimonio' =>$nrPatrimonio
                         )   );
-
                 if($software != null){
                 $form = $this->createForm( new SoftwareEstacaoType(), $software );
                 $form->bind( $request );
                     $this->getDoctrine()->getManager()->persist( $software);
                     $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Software Estacao
                  }
-
+                    else
                     $this->getDoctrine()->getManager()->persist( $SoftwareEstacao );
                     $this->getDoctrine()->getManager()->flush();
 
@@ -62,9 +60,13 @@ class SoftwareEstacaoController extends Controller
      *  Página de editar dados do Software Estacao
      *  @param int $idSoftware Estacao
      */
-    public function editarAction( $nrPatrimonio, Request $request )
+    public function editarAction( $nrPatrimonio, $idSoftware, Request $request )
     {
-        $SoftwareEstacao = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')->find( $nrPatrimonio );
+        $SoftwareEstacao = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')
+                    ->find(
+                        array('nrPatrimonio'=>$nrPatrimonio,
+                              'idSoftware'=>$idSoftware
+                        )     );
         if ( ! $SoftwareEstacao )
             throw $this->createNotFoundException( 'Software de Estacao não encontrado' );
 

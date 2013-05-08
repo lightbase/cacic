@@ -210,6 +210,8 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
         nrPatrimonio:
             - NotBlank: ~
             - MaxLength: 30
+        idSoftware:
+            - NotBlank: ~
         nmComputador:
             - NotBlank: ~
             - MaxLength: 30
