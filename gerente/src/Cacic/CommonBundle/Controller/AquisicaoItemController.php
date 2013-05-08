@@ -52,6 +52,7 @@ class AquisicaoItemController extends Controller
                     $this->getDoctrine()->getManager()->persist( $AquisicaoItem );
                     $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Aquisicao
                 }
+                else
                 //Inserção de aquisição item
                 $this->getDoctrine()->getManager()->persist( $Aquisicao );
                 $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Aquisicao

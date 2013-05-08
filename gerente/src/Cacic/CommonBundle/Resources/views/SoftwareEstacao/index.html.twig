@@ -43,7 +43,9 @@
                         <td style="text-align: center">{{ software[0]['nmComputador'] }}</td>
                         <td style="text-align: center" >{{ software[0].dtAutorizacao|date('d/m/Y') }}</td>
                         <td style="text-align: center" class="td-actions">
-                            <a href="{{ path('cacic_software_estacao_editar', {'nrPatrimonio': software[0]['nrPatrimonio']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                            <a href="{{ path('cacic_software_estacao_editar', {'nrPatrimonio': software[0]['nrPatrimonio'],
+                                                                                'idSoftware' : software[0]['id_software']
+                            }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                 <i class="btn-icon-only icon-edit"></i>
                             </a>
 
