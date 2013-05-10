@@ -251,9 +251,9 @@ Cacic\CommonBundle\Entity\Uorg:
             - MaxLength: 80
         teResponsavelEmail:
             - MaxLength: 50
-        numResponsavelTel1:
+        nuResponsavelTel1:
             - MaxLength: 10
-        numResponsavelTel2:
+        nuResponsavelTel2:
             - MaxLength: 10
         tipoUorg:
             - NotNull: ~

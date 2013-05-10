@@ -57,8 +57,8 @@
                             <div class="tab-pane" id="form-uorg-responsavel">
                                 {{ form_row( form.nmResponsavel, {'form_type': 'horizontal'} ) }}
                                 {{ form_row( form.teResponsavelEmail, {'form_type': 'horizontal'} ) }}
-                                {{ form_row( form.numResponsavelTel1, {'form_type': 'horizontal'} ) }}
-                                {{ form_row( form.numResponsavelTel2, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.nuResponsavelTel1, {'form_type': 'horizontal'} ) }}
+                                {{ form_row( form.nuResponsavelTel2, {'form_type': 'horizontal'} ) }}
                             </div>
                         </div><!-- /tab-content -->
                     </div><!-- /tabbable -->
@@ -133,6 +133,6 @@
 {{ parent() }}
 
 <script type="text/javascript">
-    $('#uorg_numResponsavelTel1, #uorg_numResponsavelTel2').mask('(99)9999-9999');
+    $('#uorg_nuResponsavelTel1, #uorg_nuResponsavelTel2').mask('(99)9999-9999');
 </script>
 {% endblock %}

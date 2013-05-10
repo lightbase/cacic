@@ -52,12 +52,12 @@ class Uorg
     /**
      * @var string
      */
-    private $numResponsavelTel1;
+    private $nuResponsavelTel1;
 
     /**
      * @var string
      */
-    private $numResponsavelTel2;
+    private $nuResponsavelTel2;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -259,49 +259,49 @@ class Uorg
     }
 
     /**
-     * Set numResponsavelTel1
+     * Set nuResponsavelTel1
      *
-     * @param string $numResponsavelTel1
+     * @param string $nuResponsavelTel1
      * @return Uorg
      */
-    public function setNumResponsavelTel1($numResponsavelTel1)
+    public function setnuResponsavelTel1($nuResponsavelTel1)
     {
-        $this->numResponsavelTel1 = $numResponsavelTel1;
+        $this->nuResponsavelTel1 = $nuResponsavelTel1;
     
         return $this;
     }
 
     /**
-     * Get numResponsavelTel1
+     * Get nuResponsavelTel1
      *
      * @return string 
      */
-    public function getNumResponsavelTel1()
+    public function getnuResponsavelTel1()
     {
-        return $this->numResponsavelTel1;
+        return $this->nuResponsavelTel1;
     }
 
     /**
-     * Set numResponsavelTel2
+     * Set nuResponsavelTel2
      *
-     * @param string $numResponsavelTel2
+     * @param string $nuResponsavelTel2
      * @return Uorg
      */
-    public function setNumResponsavelTel2($numResponsavelTel2)
+    public function setnuResponsavelTel2($nuResponsavelTel2)
     {
-        $this->numResponsavelTel2 = $numResponsavelTel2;
+        $this->nuResponsavelTel2 = $nuResponsavelTel2;
     
         return $this;
     }
 
     /**
-     * Get numResponsavelTel2
+     * Get nuResponsavelTel2
      *
      * @return string 
      */
-    public function getNumResponsavelTel2()
+    public function getnuResponsavelTel2()
     {
-        return $this->numResponsavelTel2;
+        return $this->nuResponsavelTel2;
     }
 
     /**

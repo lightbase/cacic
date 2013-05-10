@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li class="active">{{ 'Log de Atividade'|trans }}</li>
+    <li class="active">{{ 'Log de Atividades'|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -12,27 +12,29 @@
 
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top"><i class="icon-search"></i>{{'Pesquisa de Atividade' |trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Pesquisa de Atividades' |trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
+                
                     <h4>{{ "Filtros para consulta"|trans }}</h4><br />
+                    
                     <form id="formLog" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
-
+                        
                         <div class="control-group">
-                            <label for="log_atividade_periodo" class="control-label">{{ 'Período'|trans }}</label>
+                            <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
                             <div class="controls">
-                                {{ form_widget(form.dt_acao_inicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dt_acao_fim, { 'attr': {'class': 'datepicker_on'} }) }}
-                                <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
+                               {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                               <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                             </div>
                         </div>
-
+                        
                         <div class="control-group">
-                            <label for="log_atividade_local" class="control-label">{{ 'Local:'|trans }}</label>
+                            <label for="log_acesso_local" class="control-label">{{ 'Local:'|trans }}</label>
                             <div class="controls">
                                 {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
                             </div>
                         </div>
-                        <br />
+
                         <div class="control-group">
                             <div class="controls">
                                 <button type="reset" class="btn">
@@ -45,17 +47,11 @@
                                 </button>
                             </div>
                         </div>
-                        {% if logs != null %}
-                            {% block pesquisa %}
-                                {% include 'CacicCommonBundle:Log:atividadePesquisa.html.twig' with { acesso: form } %}
-                            {% endblock %}
-                        {% else %}
-                            <center><b>{{ "Nenhum atividade realizado no periodo informado."|trans }}</b></center>
-                        {% endif %}
                     </form>
                 </div> <!-- /block -->
             </div> <!-- /box -->
         </div> <!-- /span8 -->
+        
         <div class="span4">
             <div class="box grad_colour_black">
 
@@ -63,7 +59,13 @@
 
                 <div class="block box_content round_bottom padding_10">
                     <p>
-                        {{ "É necessário informar pelo menos um dos filtros disponibilizados para efetuar a pesquisa."|trans }}
+                        {{ "Este módulo permite a visualização das atividades realizados com o uso das operações de INSERT/UPDATE/DELETE ocorridas no Sistema CACIC"|trans }}.
+                    </p>
+                    <p>
+                        {{ "A ordenação das colunas poderá ser definida clicando-se em seus nomes"|trans }}.
+                    </p>
+                    <p>
+                        {{ "O período é obrigatório."|trans }}
                     </p>
                     <p>
                         {{ "Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos."|trans }}
@@ -72,23 +74,23 @@
             </div> <!-- /box -->
         </div> <!-- span4 -->
     </div> <!-- /row -->
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <!-- jQuery UI Bootstrap Daterange -->
-    <link href="{{ asset('bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery-ui-bootstrap/third-party/jQuery-UI-Date-Range-Picker/css/ui.daterangepicker.css') }}" media="screen" rel="Stylesheet" type="text/css" />
+    
+    {% if logs is not null %}
+        {% include 'CacicCommonBundle:Log:atividadePesquisa.html.twig' with { acesso: form } %}
+    {% endif %}
+    
 {% endblock %}
 
 {% block javascripts %}
 
 {{ parent() }}
-    <script type="text/javascript">
 
-        $(document).ready(function(){
-            $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
-        });
+<script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-pt-BR.js') }}"></script>
 
-    </script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
+    });
+</script>
 
 {% endblock %}

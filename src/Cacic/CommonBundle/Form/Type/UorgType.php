@@ -54,7 +54,7 @@ class  UorgType extends AbstractType
 		
 		$builder->add(
         	$builder->create(
-        		'numResponsavelTel1', 
+        		'nuResponsavelTel1', 
         		null, 
         		array( 'label'=>'Telefone 1', 'required'=>false, 'max_length' => 10 )
         	)
@@ -63,7 +63,7 @@ class  UorgType extends AbstractType
         
         $builder->add(
         	$builder->create(
-        		'numResponsavelTel2', 
+        		'nuResponsavelTel2', 
         		null, 
         		array( 'label'=>'Telefone 2', 'required'=>false, 'max_length' => 10 )
         	)

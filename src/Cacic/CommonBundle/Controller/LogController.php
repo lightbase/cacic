@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cacic\CommonBundle\Entity\InsucessoInstalacao;
 use Cacic\CommonBundle\Entity\Log;
-use Cacic\CommonBundle\Form\Type\LogType;
+use Cacic\CommonBundle\Form\Type\LogPesquisaType;
 
 /**
  *
@@ -21,110 +21,103 @@ class LogController extends Controller
 	/**
 	 * 
 	 * Tela de pesquisa dos LOGS de ACESSO
-	 * @param Request $request
+	 * @param Symfony\Component\HttpFoundation\Request $request
 	 */
     public function acessoAction(Request $request)
     {
-    	$form = $this->createFormBuilder(array('message' => 'Type your message here'))
-    				->add('dt_acao_inicio', 'text',array('data'=>date('d/m/Y'),'label'=>' ',))
-    				->add('dt_acao_fim',    'text',array('data'=>date('d/m/Y'),'label'=>' '))
-                    ->add( 'idLocal', 'entity',
-                                        array(
-                                            'class' => 'CacicCommonBundle:Local',
-                                            'property' => 'nmLocal',
-                                            'multiple' => true,
-                                            'required'  => true,
-                                            'expanded'  => true,
-                                            'label'=> 'Selecione o Local:'))
-    				->getForm();
+    	$form = $this->createForm( new LogPesquisaType() );
+    				
         if ( $request->isMethod('POST') )
         {
         	$form->bind( $request );
         	$data = $form->getData();
 
-            $dataInicio = implode("".'/'."",array_reverse(explode("".'/'."", $data['dt_acao_inicio'])));
-
-            $dataFim = implode("".'/'."",array_reverse(explode("".'/'."",$data['dt_acao_fim'])));
-
-            $locais_enviar = array(0);
-            foreach ($data['idLocal'] as $locais){
-                array_push($locais_enviar,$locais->getIdLocal());
-            }
-
-            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')->acessoPesquisar( $dataInicio,$dataFim,$locais_enviar);
+            $filtroLocais = array(); // Inicializa array com locais a pesquisar
+            foreach ( $data['idLocal'] as $locais )
+                array_push( $filtroLocais, $locais->getIdLocal() );
+			
+            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')
+            							->pesquisar( 'ACE', $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
 
         }
+        
         return $this->render( 'CacicCommonBundle:Log:acesso.html.twig',
-        						array(
-        							'form' => $form->createView(),
-        							'logs' => ( isset( $logs ) ? $logs : null )
-                                )
-        					);
+			array(
+				'form' => $form->createView(),
+				'logs' => ( isset( $logs ) ? $logs : null )
+			)
+		);
     }
+    
+    /**
+     * 
+     * Tela de pesquisa dos LOGs de Atividades
+     * @param Symfony\Component\HttpFoundation\Request $request
+     */
     public function atividadeAction(Request $request)
     {
-        $form = $this->createFormBuilder(array('message' => 'Type your message here'))
-            ->add('dt_acao_inicio', 'text',array('data'=>date('d/m/Y'),'label'=>' ',))
-            ->add('dt_acao_fim',    'text',array('data'=>date('d/m/Y'),'label'=>' '))
-            ->add( 'idLocal', 'entity',
-            array(
-                'class' => 'CacicCommonBundle:Local',
-                'property' => 'nmLocal',
-                'multiple' => true,
-                'required'  => true,
-                'expanded'  => true,
-                'label'=> 'Selecione o Local:'))
-            ->getForm();
+        $form = $this->createForm( new LogPesquisaType() );
 
         if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
-            $data = $form->getData();
+        	$data = $form->getData();
 
-            $dataInicio = implode("".'/'."",array_reverse(explode("".'/'."", $data['dt_acao_inicio'])));
+            $filtroLocais = array(); // Inicializa array com locais a pesquisar
+            foreach ( $data['idLocal'] as $locais )
+                array_push( $filtroLocais, $locais->getIdLocal() );
 
-            $dataFim = implode("".'/'."",array_reverse(explode("".'/'."",$data['dt_acao_fim'])));
-
-            $locais_enviar = array(0);
-            foreach ($data['idLocal'] as $locais){
-                array_push($locais_enviar,$locais->getIdLocal());
-            }
-
-            $logs = $this->getDoctrine()->getRepository('CacicCommonBundle:Log')->atividadePesquisar( $dataInicio,$dataFim,$locais_enviar);
-
-            # Primeiro armazeno o total de registros
-            $n_logs = count($logs);
-
-            $elementos = array();
-            foreach ($logs[0] as $entrada)
+            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')
+            							->pesquisar( array('INS', 'UPD', 'DEL'), $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais );
+            
+            if ( count( $logs ) )
             {
-                $entrada = $entrada['csAcao'];
-                $elementos[$entrada] = $entrada;
-                if (array_key_exists($entrada, $elementos))
-                {
-                	$elementos[$entrada]['ocorrencias']++;
-                    $elementos[$entrada]['percentual'] = ($elementos[$entrada]['ocorrencias']/$n_logs)*100;
-                }
-                else
-                {
-                    $elementos[$entrada] = array(
-                    	'ocorrencias' =>  1,
-                    	'percentual' =>  (1/$n_logs)*100
-                    );
-                }
+	            /**
+	             * Contabilização dos dados (Resumo das operações)
+	             * @todo implementar esta rotina no twig
+	             */
+	            $_operacoes = $_tabelas = $_programas = $_usuarios = array();
+	            foreach ( $logs as $log )
+	            {
+	            	// Operações
+	            	if( array_key_exists($log[0]->getCsAcao(), $_operacoes) )
+	            		$_operacoes[$log[0]->getCsAcao()]++;
+	            	else $_operacoes[$log[0]->getCsAcao()] = 1;
+	            	
+	            	// Tabelas
+	            	if( array_key_exists($log[0]->getNmTabela(), $_tabelas) )
+	            		$_tabelas[$log[0]->getNmTabela()]++;
+	            	else $_tabelas[$log[0]->getNmTabela()] = 1;
+	            	
+	            	// Programas
+	            	if( array_key_exists($log[0]->getNmScript(), $_programas) )
+	            		$_programas[$log[0]->getNmScript()]++;
+	            	else $_programas[$log[0]->getNmScript()] = 1;
+	            	
+	            	// Usuários
+	            	if( array_key_exists($log['nmUsuarioCompleto'], $_usuarios) )
+	            		$_usuarios[$log['nmUsuarioCompleto']]++;
+	            	else $_usuarios[$log['nmUsuarioCompleto']] = 1;
+	            }
+	            
+	            $resumo = array( 'operacoes' => $_operacoes, 'tabelas' => $_tabelas, 'programas' => $_programas, 'usuarios' => $_usuarios );
             }
-            echo "<pre>";var_dump($elementos);die;
-
         }
+        
         return $this->render( 'CacicCommonBundle:Log:atividade.html.twig',
             array(
                 'form' => $form->createView(),
-                'logs' => ( isset( $logs ) ? $logs : array() ),
-                'resumo'=>( isset( $elementos ) ? $elementos[$entrada] : array() )
+                'logs' => ( isset( $logs ) ? $logs : null ),
+            	'resumo' => ( isset( $resumo ) ? $resumo : null )
             )
         );
     }
 
+    /**
+     * 
+     * Tela de pesquisa de LOGs de Insucessos de Instalação
+     * @param Symfony\Component\HttpFoundation\Request $request
+     */
     public function insucessoinstalacaoAction(Request $request)
     {
         $form = $this->createFormBuilder(array('message' => 'Type your message here'))

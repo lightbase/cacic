@@ -35,11 +35,15 @@ $(document).ready(function(){
 				$.ajax(
 					{
 						type: "POST",
-						url: params.url,
+						url: params.url, // URL para qual a requisição será enviada
+						data: params, // Parâmetros enviados via POST
 						cache: false,
 						async: false,
 						success: function( data )
 						{
+							/**
+							 * Comportamento padrão: exibe mensagem de sucesso e remove item da GRID
+							 */
 						    System.Flash.show( 'Sucesso', 'Item excluído com sucesso!' );
 						    $( '#item_' + params.id ).fadeOut(); // Remove o item da Grid
 						},
@@ -47,7 +51,17 @@ $(document).ready(function(){
 						{
 							System.Flash.show( 'Erro', 'Erro na exclusão do item!' );
 						},
-						data: params
+						complete: function( data )
+						{
+							/**
+							 * Caso uma função de callback seja informada, ela será invocada neste ponto.
+							 * A função de callback receberá 2 parâmetros:
+							 * 	- o JSON com os parâmetros enviados via AJAX
+							 * 	- o JSON com os dados de retorno da requisição AJAX
+							 */
+							if( params.callback )
+						    	params.callback(params, data);
+						}
 					}
 				);
 			},
