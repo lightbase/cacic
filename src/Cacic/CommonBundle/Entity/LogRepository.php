@@ -15,7 +15,7 @@ class LogRepository extends EntityRepository
 
 	/**
 	 * 
-	 * Realiza pesquisa por LOGs de ACESSO segundo parâmetros informados
+	 * Realiza pesquisa por LOGs de ACESSO ou ATIVIDADES segundo parâmetros informados
 	 * @param string|array $tipoPesquisa
 	 * @param date $dataInicio
 	 * @param date $dataFim

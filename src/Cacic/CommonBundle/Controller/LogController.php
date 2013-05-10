@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cacic\CommonBundle\Entity\InsucessoInstalacao;
 use Cacic\CommonBundle\Entity\Log;
 use Cacic\CommonBundle\Form\Type\LogPesquisaType;
+use Cacic\CommonBundle\Form\Type\InsucessoInstalacaoPesquisaType;
 
 /**
  *
@@ -23,7 +24,7 @@ class LogController extends Controller
 	 * Tela de pesquisa dos LOGS de ACESSO
 	 * @param Symfony\Component\HttpFoundation\Request $request
 	 */
-    public function acessoAction(Request $request)
+    public function acessoAction( Request $request )
     {
     	$form = $this->createForm( new LogPesquisaType() );
     				
@@ -54,7 +55,7 @@ class LogController extends Controller
      * Tela de pesquisa dos LOGs de Atividades
      * @param Symfony\Component\HttpFoundation\Request $request
      */
-    public function atividadeAction(Request $request)
+    public function atividadeAction( Request $request )
     {
         $form = $this->createForm( new LogPesquisaType() );
 
@@ -118,31 +119,23 @@ class LogController extends Controller
      * Tela de pesquisa de LOGs de Insucessos de Instalação
      * @param Symfony\Component\HttpFoundation\Request $request
      */
-    public function insucessoinstalacaoAction(Request $request)
+    public function insucessoinstalacaoAction( Request $request )
     {
-        $form = $this->createFormBuilder(array('message' => 'Type your message here'))
-            ->add('dt_acao_inicio', 'text',array('data'=>date('d/m/Y'),'label'=>' ',))
-            ->add('dt_acao_fim',    'text',array('data'=>date('d/m/Y'),'label'=>' '))
-            ->getForm();
+        $form = $this->createForm( new InsucessoInstalacaoPesquisaType() );
 
         if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
             $data = $form->getData();
 
-            $dataInicio = implode("".'/'."",array_reverse(explode("".'/'."", $data['dt_acao_inicio'])));
-
-            $dataFim = implode("".'/'."",array_reverse(explode("".'/'."",$data['dt_acao_fim'])));
-
-
-            $insucesso = $this->getDoctrine()->getRepository( 'CacicCommonBundle:InsucessoInstalacao')->pesquisar( $dataInicio,$dataFim);
-
-
+            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:InsucessoInstalacao')
+            							->pesquisar( $data['dtAcaoInicio'], $data['dtAcaoFim'] );
         }
-        return $this->render( 'CacicCommonBundle:Log:insucessoInstalacao.html.twig',
+        
+        return $this->render( 'CacicCommonBundle:Log:insucesso.html.twig',
             array(
                 'form' => $form->createView(),
-                'insucessos' => ( isset( $insucesso ) ? $insucesso : array() ) )
+                'logs' => ( isset( $logs ) ? $logs : null ) )
         );
     }
 
