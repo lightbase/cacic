@@ -399,3 +399,14 @@ cacic_software_estacao_excluir:
     pattern:  /softwareestacao/excluir
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:excluir}
 
+cacic_softwares_nao_usados:
+    pattern:  /softwaresnaousados
+    defaults: { _controller: CacicCommonBundle:SoftwaresNaoUsados:index}
+
+cacic_softwares_nao_usados_excluir:
+    pattern:  /softwaresnaousados/excluir
+    defaults: { _controller: CacicCommonBundle:SoftwaresNaoUsados:excluir}
+
+cacic_classificar_softwares:
+    pattern:  /classificarsoftwares
+    defaults: { _controller: CacicCommonBundle:ClassificarSoftwares:index}
