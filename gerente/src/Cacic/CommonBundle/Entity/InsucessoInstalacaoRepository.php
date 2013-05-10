@@ -14,31 +14,26 @@ class InsucessoInstalacaoRepository extends EntityRepository
 {
 
     /**
-     *
-     * Realiza pesquisa por LOGs segundo parâmetros informados
-     * @param array $data
-     */
+	 * 
+	 * Realiza pesquisa por LOGs de INSUCESSOS DE INSTALAÇÃO segundo parâmetros informados
+	 * @param date $dataInicio
+	 * @param date $dataFim
+	 */
     public function pesquisar( $dataInicio, $dataFim )
     {
+    	// Monta a Consulta básica...
+    	$query = $this->createQueryBuilder('insucesso');
+        								
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if ( $dataInicio )
+        	$query->andWhere( 'insucesso.dtDatahora >= :dtInicio' )->setParameter('dtInicio', ( $dataInicio.' 00:00:00' ));
+        
+        if ( $dataFim )
+        	$query->andWhere( 'insucesso.dtDatahora <= :dtFim' )->setParameter('dtFim', ( $dataFim.' 23:59:59' ));
 
-        $filtros = array();
-        if ( $dataInicio )	$filtros[] = 'i.dtDatahora >= :dtInicio';
-        if ( $dataFim)	$filtros[] = 'i.dtDatahora <= :dtFim';
-
-        if ( count( $filtros ) ) $filtros = 'WHERE '. implode( ' AND ', $filtros );
-        else $filtros = '';
-
-        $_dql = "SELECT i
-				FROM CacicCommonBundle:InsucessoInstalacao i
-				{$filtros}";
-
-        $query = $this->getEntityManager()->createQuery( $_dql )
-            ->setParameter('dtInicio', $dataInicio)
-            ->setParameter('dtFim', $dataFim);
-
-        return $query->getArrayResult();
-
-
+        return $query->getQuery()->execute();
     }
 
 }

@@ -12,7 +12,7 @@ use Cacic\CommonBundle\Form\DataTransformer\CxDatePtBrTransformer;
  * @author lightbase
  *
  */
-class LogPesquisaType extends AbstractType
+class InsucessoInstalacaoPesquisaType extends AbstractType
 {
 
     public function buildForm( FormBuilderInterface $builder, array $options )
@@ -40,19 +40,6 @@ class LogPesquisaType extends AbstractType
         	)
             ->addModelTransformer( new CxDatePtBrTransformer() )
         );
-		
-		$builder->add(
-			'idLocal',
-			'entity',
-			array(
-				'class' => 'CacicCommonBundle:Local',
-				'property' => 'nmLocal',
-                'multiple' => true,
-                'required'  => true,
-                'expanded'  => true,
-                'label'=> 'Selecione o Local:'
-			)
-		);
     }
 
     /**
@@ -61,7 +48,7 @@ class LogPesquisaType extends AbstractType
      */
     public function getName()
     {
-        return 'log_pesquisa';
+        return 'insucesso_instalacao_pesquisa';
     }
 
 }
