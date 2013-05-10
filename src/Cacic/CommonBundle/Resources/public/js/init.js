@@ -32,36 +32,29 @@ $(document).ready(function(){
 			"Excluir" : function(){
 				$( this ).dialog( "close" );
 				var params = $( this ).data( 'params' );
-				$.ajax(
+                $.ajax(
 					{
 						type: "POST",
-						url: params.url, // URL para qual a requisição será enviada
-						data: params, // Parâmetros enviados via POST
+						url: params.url,
 						cache: false,
 						async: false,
 						success: function( data )
 						{
-							/**
-							 * Comportamento padrão: exibe mensagem de sucesso e remove item da GRID
-							 */
 						    System.Flash.show( 'Sucesso', 'Item excluído com sucesso!' );
-						    $( '#item_' + params.id ).fadeOut(); // Remove o item da Grid
+                            if( params.id != undefined ) // verifica se elemento id foi definido
+                            {
+                                $( '#item_' + params.id ).fadeOut(); // Remove o item da Grid
+                            }
+                            if( params.arrId != undefined ) // verifica se elemento arrId foi definido
+                            {
+                                $("input.tipo-check:checked").parent().parent().parent().fadeOut();  // Remove o item da Grid
+                            }
 						},
 						error: function( data )
 						{
-							System.Flash.show( 'Erro', 'Erro na exclusão do item!' );
+							System.Flash.show( 'Erro', 'Erro na exclusão do item! ' );
 						},
-						complete: function( data )
-						{
-							/**
-							 * Caso uma função de callback seja informada, ela será invocada neste ponto.
-							 * A função de callback receberá 2 parâmetros:
-							 * 	- o JSON com os parâmetros enviados via AJAX
-							 * 	- o JSON com os dados de retorno da requisição AJAX
-							 */
-							if( params.callback )
-						    	params.callback(params, data);
-						}
+						data: params
 					}
 				);
 			},
