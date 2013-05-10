@@ -15,63 +15,34 @@ class LogRepository extends EntityRepository
 
 	/**
 	 * 
-	 * Realiza pesquisa por LOGs segundo parâmetros informados
-	 * @param array $data
+	 * Realiza pesquisa por LOGs de ACESSO segundo parâmetros informados
+	 * @param string|array $tipoPesquisa
+	 * @param date $dataInicio
+	 * @param date $dataFim
+	 * @param array $locais
 	 */
-    public function acessoPesquisar( $dataInicio, $dataFim, $locais )
+    public function pesquisar( $tipoPesquisa, $dataInicio, $dataFim, $locais )
     {
-        $filtros = array();
-        if ( $dataInicio )	$filtros[] = 'log.dtAcao >= :dtInicio';
-        if ( $dataFim)	$filtros[] = 'log.dtAcao <= :dtFim';
-        if ( count($locais) ) $filtros[] = 'loc.idLocal IN (:idLocal)';
+    	// Monta a Consulta básica...
+    	$query = $this->createQueryBuilder('log')->select('log', 'usr.nmUsuarioCompleto', 'loc.nmLocal', 'loc.sgLocal')
+        								->innerJoin('log.idUsuario', 'usr')
+        								->innerJoin('usr.idLocal', 'loc')
+        								->where('log.csAcao IN (:tipoPesquisa)')
+        								->setParameter('tipoPesquisa', $tipoPesquisa);
+        								
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if ( $dataInicio )
+        	$query->andWhere( 'log.dtAcao >= :dtInicio' )->setParameter('dtInicio', ( $dataInicio.' 00:00:00' ));
+        
+        if ( $dataFim )
+        	$query->andWhere( 'log.dtAcao <= :dtFim' )->setParameter('dtFim', ( $dataFim.' 23:59:59' ));
+        	
+        if ( count($locais) )
+        	$query->andWhere( 'loc.idLocal IN (:locais)' )->setParameter('locais', $locais);
 
-        if ( count( $filtros ) ) $filtros = 'WHERE '."log.csAcao = 'INS'  AND ". implode( ' AND ', $filtros );
-        else $filtros = '';
-
-        $_dql = "SELECT log, usr.nmUsuarioCompleto, loc.nmLocal
-				FROM CacicCommonBundle:Log log
-				LEFT JOIN log.idUsuario usr
-				LEFT JOIN usr.idLocal loc
-				{$filtros}";
-
-        $query = $this->getEntityManager()->createQuery( $_dql )
-
-
-        									->setParameter('dtInicio', $dataInicio)
-        									->setParameter('dtFim', $dataFim)
-        									->setParameter('idLocal', $locais);
-
-        return $query->getArrayResult();
-
-
-    }
-    public function AtividadePesquisar( $dataInicio, $dataFim, $locais )
-    {
-        $filtros = array();
-        if ( $dataInicio )	$filtros[] = 'log.dtAcao >= :dtInicio';
-        if ( $dataFim)	$filtros[] = 'log.dtAcao <= :dtFim';
-        if ( count($locais) ) $filtros[] = 'loc.idLocal IN (:idLocal)';
-
-        if ( count( $filtros ) ) $filtros = 'WHERE '."log.csAcao <> 'INS'  AND ". implode( ' AND ', $filtros );
-        else $filtros = '';
-
-
-        $_dql = "SELECT log, usr.nmUsuarioCompleto, loc.nmLocal
-				FROM CacicCommonBundle:Log log
-				LEFT JOIN log.idUsuario usr
-				LEFT JOIN usr.idLocal loc
-				{$filtros}";
-
-        $query = $this->getEntityManager()->createQuery( $_dql )
-            ->setParameter('dtInicio', $dataInicio)
-            ->setParameter('dtFim', $dataFim)
-            ->setParameter('idLocal', $locais);
-
-
-        return $query->getArrayResult();
-
-
-
+        return $query->getQuery()->execute();
     }
 
 }

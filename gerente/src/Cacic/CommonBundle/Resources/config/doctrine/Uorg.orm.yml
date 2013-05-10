@@ -53,13 +53,13 @@ Cacic\CommonBundle\Entity\Uorg:
             fixed: false
             nullable: true
             column: te_responsavel_email
-        numResponsavelTel1:
+        nuResponsavelTel1:
             type: string
             length: 10
             fixed: true
             nullable: true
             column: nu_responsavel_tel1
-        numResponsavelTel2:
+        nuResponsavelTel2:
             type: string
             length: 10
             fixed: true
@@ -77,6 +77,7 @@ Cacic\CommonBundle\Entity\Uorg:
                 name: id_uorg_pai
                 referencedColumnName: id_uorg
                 nullable: true
+            orphanRemoval: true
         tipoUorg:
             targetEntity: Cacic\CommonBundle\Entity\TipoUorg
             inversedBy: uorgs

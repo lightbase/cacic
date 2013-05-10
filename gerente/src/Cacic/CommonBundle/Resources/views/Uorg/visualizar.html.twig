@@ -1,0 +1,14 @@
+<h4>{{ uorg.getNmUorg() }}</h4>
+<h5>{{ uorg.getTipoUorg().getNmTipoUorg() }}</h5>
+
+<dl class="dl-horizontal">
+  <dt>Endereço</dt>
+  <dd>
+    {{ uorg.getTeEndereco() }} {{ uorg.getTeBairro()}} {{ uorg.getTeCidade() }} {{ uorg.getTeUf() }}
+  </dd>
+  <dt>Responsável</dt>
+  <dd>
+    {{ uorg.getNmResponsavel() }} {{ uorg.getTeResponsavelEmail() }} {{ uorg.getNuResponsavelTel1() }} 
+    {{ uorg.getNuResponsavelTel2() }}
+  </dd>
+</dl>

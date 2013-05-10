@@ -18,6 +18,13 @@
             <p>{{ "Neste módulo deverão ser cadastradas todas as unidades organizacionais do sistema - Entidades, Linhas de negócio e Órgãos."|trans }}</p>
             <br />
             <div id="tree_uorg0"></div> <!-- Árvore com as Unidades Organizacionais cadastradas -->
+            <br />
+            <div align="right">
+                <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_uorg_cadastrar') }}">
+                    <i class="icon-plus-sign"></i>
+                     {{ "Adicionar Unidade de primeiro nível"|trans }}
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -64,6 +71,21 @@
         
         {% endfor %}
     ];
+    
+    /**
+     * Exclui a UNIDADE ORGANIZACIONAL e remove seu nó da Árvore
+     */
+    function excluirUorg( uorgId )
+    {
+    	var url = "{{ path('cacic_uorg_excluir') }}/" + uorgId;
+    	var callback = function( params, data ){ // Define a função de CALLBACK que será invocada no evento
+    		if( data && data.status == 200 ){ // Retorno da requisição AJAX (Sucesso: código 200)
+    			var $tree = $('#tree_uorg0');
+    			$tree.tree('removeNode', $tree.tree('getNodeById', params.id)); // Remove o nó da árvore
+    		}
+    	};
+    	$( "#System_Excluir" ).data( 'params', { 'url': url, 'id': uorgId, 'callback': callback } ).dialog( "open" );
+    }
 
     $(function() {
         $('#tree_uorg0').tree({
@@ -76,7 +98,7 @@
            		var _acoesNode = ' <a href="{{ path('cacic_uorg_visualizar') }}/'+ node.id +'" rel="modal:open"><i class="icon-search" title="Visualizar dados da Unidade"></i></a> ';
            		_acoesNode += ' <a href="{{ path('cacic_uorg_cadastrar') }}/'+ node.id +'"><i class="icon-plus-sign" title="Cadastrar Unidade"></i></a> ';
            		_acoesNode += ' <a href="{{ path('cacic_uorg_editar') }}/'+ node.id +'"><i class="icon-edit" title="Editar Unidade"></i></a> ';
-           		_acoesNode += ' <a href="{{ path('cacic_uorg_excluir') }}/'+ node.id +'"><i class="icon-trash" title="Excluir Unidade"></i></a> ';
+           		_acoesNode += ' <a onclick="excluirUorg('+ node.id +');"><i class="icon-trash" title="Excluir Unidade"></i></a> ';
            		
            		$li.find('span.jqtree-title').after( _acoesNode );
            		 
@@ -85,15 +107,12 @@
             },
             autoEscape: false
         });
-        
-        $('#tree_uorg0').bind(
-            'tree.init',
-            function() {
-            	
-            }
-        );
     });
     
 </script>
 
+{% endblock %}
+
+{% block alertaExclusao %}
+    A Unidade Organizacional e <b>todas as suas sub-unidades</b> serão removidas permanentemente e não poderão ser recuperadas. Tem certeza que deseja continuar?
 {% endblock %}

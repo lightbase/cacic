@@ -137,12 +137,15 @@ class UorgController extends Controller
 	
 	/**
 	 * 
-	 * Tela de visualização dos dados da UNIDADE parametrizada
+	 * [AJAX][MODAL] Tela de visualização dos dados da UNIDADE parametrizada
 	 * @param int $idUorg
 	 * @param Symfony\Component\HttpFoundation\Request $request
 	 */
 	public function visualizarAction( $idUorg, Request $request )
 	{
+		/*if ( ! $request->isXmlHttpRequest() ) // Verifica se é uma requisição AJAX
+			throw $this->createNotFoundException( 'Página não encontrada' );
+			*/
 		$uorg = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Uorg' )->find( $idUorg );
 		if ( ! $uorg ) // UOrg não é válida
 				throw $this->createNotFoundException( 'Unidade Organizacional não encontrada' );
@@ -151,6 +154,31 @@ class UorgController extends Controller
 			'CacicCommonBundle:Uorg:visualizar.html.twig',
 			array( 'uorg' => $uorg )
 		);
+	}
+	
+	/**
+	 * 
+	 * [AJAX] Remove a UNIDADE ORGANIZACIONAL INFORMADA E TODAS AS UNIDADES A ELA RELACIONADAS
+	 * @param int $idUorg
+	 * @param Symfony\Component\HttpFoundation\Request $request
+	 */
+	public function excluirAction( $idUorg, Request $request )
+	{
+		if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
+			throw $this->createNotFoundException( 'Página não encontrada' );
+		
+		$uorg = $this->getDoctrine()->getRepository('CacicCommonBundle:Uorg')->find( $request->get('id') );
+		if ( ! $uorg )
+			throw $this->createNotFoundException( 'Unidade Organizacional não encontrada' );
+		
+		$em = $this->getDoctrine()->getManager();
+		$em->remove( $uorg );
+		$em->flush();
+		
+		$response = new Response( json_encode( array('status' => 'ok') ) );
+		$response->headers->set('Content-Type', 'application/json');
+		
+		return $response;
 	}
 	
 }
