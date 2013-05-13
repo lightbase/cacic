@@ -15,11 +15,6 @@ class SrcacicConexao
     private $idSrcacicConexao;
 
     /**
-     * @var integer
-     */
-    private $idUsuarioCli;
-
-    /**
      * @var string
      */
     private $teNodeAddressCli;
@@ -28,11 +23,6 @@ class SrcacicConexao
      * @var string
      */
     private $teDocumentoReferencial;
-
-    /**
-     * @var integer
-     */
-    private $idSoCli;
 
     /**
      * @var string
@@ -63,29 +53,6 @@ class SrcacicConexao
     public function getIdSrcacicConexao()
     {
         return $this->idSrcacicConexao;
-    }
-
-    /**
-     * Set idUsuarioCli
-     *
-     * @param integer $idUsuarioCli
-     * @return SrcacicConexao
-     */
-    public function setIdUsuarioCli($idUsuarioCli)
-    {
-        $this->idUsuarioCli = $idUsuarioCli;
-    
-        return $this;
-    }
-
-    /**
-     * Get idUsuarioCli
-     *
-     * @return integer 
-     */
-    public function getIdUsuarioCli()
-    {
-        return $this->idUsuarioCli;
     }
 
     /**
@@ -132,29 +99,6 @@ class SrcacicConexao
     public function getTeDocumentoReferencial()
     {
         return $this->teDocumentoReferencial;
-    }
-
-    /**
-     * Set idSoCli
-     *
-     * @param integer $idSoCli
-     * @return SrcacicConexao
-     */
-    public function setIdSoCli($idSoCli)
-    {
-        $this->idSoCli = $idSoCli;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSoCli
-     *
-     * @return integer 
-     */
-    public function getIdSoCli()
-    {
-        return $this->idSoCli;
     }
 
     /**
@@ -247,5 +191,62 @@ class SrcacicConexao
     public function getIdSrcacicSessao()
     {
         return $this->idSrcacicSessao;
+    }
+    
+    /**
+     * @var \Cacic\CommonBundle\Entity\Usuario
+     */
+    private $usuario;
+
+    /**
+     * @var \Cacic\CommonBundle\Entity\So
+     */
+    private $so;
+
+
+    /**
+     * Set usuario
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuario $usuario
+     * @return SrcacicConexao
+     */
+    public function setUsuario(\Cacic\CommonBundle\Entity\Usuario $usuario = null)
+    {
+        $this->usuario = $usuario;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \Cacic\CommonBundle\Entity\Usuario 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+
+    /**
+     * Set so
+     *
+     * @param \Cacic\CommonBundle\Entity\So $so
+     * @return SrcacicConexao
+     */
+    public function setSo(\Cacic\CommonBundle\Entity\So $so = null)
+    {
+        $this->so = $so;
+    
+        return $this;
+    }
+
+    /**
+     * Get so
+     *
+     * @return \Cacic\CommonBundle\Entity\So 
+     */
+    public function getSo()
+    {
+        return $this->so;
     }
 }

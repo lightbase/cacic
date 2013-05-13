@@ -22,10 +22,10 @@
             <thead>
                 <tr>
                     <th width="20%">{{ "Processo de aquisicao"|trans }}</th>
-                    <th width="10%">{{ "Software"|trans }}</th>
-                    <th width="20%">{{ "Tipo de Licença"|trans }}</th>
-                    <th width="20%">{{ "Quantidade de Licenças"|trans }}</th>
-                    <th width="20%">{{ "Data de Vencimento"|trans }}</th>
+                    <th width="25%">{{ "Software"|trans }}</th>
+                    <th width="15%" style="text-align: center">{{ "Tipo de Licença"|trans }}</th>
+                    <th width="15%" style="text-align: center">{{ "Qtde. de Licenças"|trans }}</th>
+                    <th width="15%" style="text-align: center">{{ "Data de Vencimento"|trans }}</th>
                     <th style="text-align: center">{{ "Ações"|trans }}</th>
                 </tr>
             </thead>
@@ -35,11 +35,13 @@
 
                 {% for aquisicao in Aquisicao %}
 
-                    <tr id="item_{{aquisicao['idAquisicao']}}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                        <td id="item_desc_{{aquisicao['idAquisicao']}}">{{ aquisicao['idAquisicao']['nrProcesso'] }}
-                                                                        {{ aquisicao['idAquisicao'].dtAquisicao|date('d/m/Y') }}
-                                                                        {{ aquisicao['idAquisicao']['nmEmpresa'] }}</td>
-                        <td style="text-align: center">{{ aquisicao['idSoftware']['nmSoftware'] }}</td>
+                    <tr id="item_tp{{ aquisicao['id_tipo_licenca'] }}_aq{{ aquisicao['id_aquisicao'] }}_sw{{ aquisicao['id_software'] }}">
+                        <td>
+                            {{ aquisicao['idAquisicao']['nrProcesso'] }}
+                            {{ aquisicao['idAquisicao'].dtAquisicao|date('d/m/Y') }}
+                            {{ aquisicao['idAquisicao']['nmEmpresa'] }}
+                        </td>
+                        <td>{{ aquisicao['idSoftware']['nmSoftware'] }}</td>
                         <td style="text-align: center">{{ aquisicao['idTipoLicenca']['teTipoLicenca'] }}</td>
                         <td style="text-align: center">{{ aquisicao['qtLicenca'] }}</td>
                         <td style="text-align: center">{{ aquisicao.dtVencimentoLicenca|date('d/m/Y') }}</td>
@@ -49,10 +51,13 @@
                                                                             'idSoftware' : aquisicao['id_software']
                                                                 }) }}"
                                class="btn btn-small" title="{{ "Editar Item"|trans }}">
-                                <i class="btn-icon-only icon-edit"></i>
+                                <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
-                            <a href="{{ path('cacic_aquisicao_item_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
-                                <i class="btn-icon-only icon-remove"></i>
+                            <a href="{{ path('cacic_aquisicao_item_excluir') }}" 
+                                class="btn btn-small btn-danger bt-excluir-compositekey" 
+                                data-composite-keys='{"idAquisicao":{{ aquisicao['id_aquisicao'] }},"idTipoLicenca":{{ aquisicao['id_tipo_licenca'] }},"idSoftware":{{ aquisicao['id_software'] }}}'
+                                title="{{ 'Excluir Item'|trans }}">
+                                <i class="btn-icon-only icon-trash icon-large"></i>
                             </a>
                         </td>
                     </tr>

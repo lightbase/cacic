@@ -9,12 +9,23 @@ var System = {
 				e.preventDefault();
 				var url = $( this ).attr( 'href' );
 				var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
-				$( "#System_Excluir" ).data( 'params', { 'url' : url, 'id' : id } ).dialog( "open" );
+				var callback = $( this ).attr( 'data-callback' );
+				$( "#System_Excluir" ).data( 'params', { 'url': url, 'id': id, 'callback': callback } ).dialog( "open" );
 			});
-            $( "a.bt-excluir-check" ).bind( 'click', function(e){//Responsável pela exclusão de varios checkbox
+			
+			$( "a.bt-excluir-compositekey" ).bind( 'click', function(e){ // Exclusão de itens com CHAVE COMPOSTA
+				e.preventDefault();
+				var url = $( this ).attr( 'href' );
+				var id = $( this ).parent().parent().attr( 'id' ).replace( /^item_(.*?)$/, '$1' ); // Utilizado para REMOÇÃO do item da GRID
+				var callback = $( this ).attr( 'data-callback' );
+				var params = { 'url': url, 'id': id, 'compositeKeys': JSON.parse( $( this ).attr('data-composite-keys') ), 'callback': callback };
+				$( "#System_Excluir" ).data( 'params', params ).dialog( "open" );
+			});
+			
+            $( "a.bt-excluir-check" ).bind( 'click', function(e){ //Responsável pela exclusão de varios checkbox
                 e.preventDefault();
                 var url = $( this ).attr( 'href' );
-                var result = $("input.tipo-check:checked");  //verifica no input na classe tipo-check se esta checked (marcado)
+                var result = $("input.tipo-check:checked"); //verifica no input na classe tipo-check se esta checked (marcado)
                 var i;
                 var arrId=[];
 
@@ -41,6 +52,9 @@ var System = {
             $( 'button[type=reset],input[type=reset]' ).click(function(){
                 $( 'input[type=text]').attr('placeholder', '');
             });
+        },
+        toggleCheck: function() { // Invocado ao "checkar"/"descheckar" checkbox para marcar/desmarcar todos
+        	
         }
 
     },

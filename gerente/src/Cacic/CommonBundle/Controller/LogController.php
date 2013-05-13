@@ -9,6 +9,7 @@ use Cacic\CommonBundle\Entity\InsucessoInstalacao;
 use Cacic\CommonBundle\Entity\Log;
 use Cacic\CommonBundle\Form\Type\LogPesquisaType;
 use Cacic\CommonBundle\Form\Type\InsucessoInstalacaoPesquisaType;
+use Cacic\CommonBundle\Form\Type\SrcacicConexaoPesquisaType;
 
 /**
  *
@@ -135,48 +136,39 @@ class LogController extends Controller
         return $this->render( 'CacicCommonBundle:Log:insucesso.html.twig',
             array(
                 'form' => $form->createView(),
-                'logs' => ( isset( $logs ) ? $logs : null ) )
+                'logs' => ( isset( $logs ) ? $logs : null )
+            )
         );
     }
 
+    /**
+     * 
+     * Tela de pesquisa de LOGs de Suporte Remoto realizados
+     * @param Symfony\Component\HttpFoundation\Request $request
+     */
     public function suporteremotoAction(Request $request)
     {
-
-        $form = $this->createFormBuilder(array('message' => 'Type your message here'))
-            ->add('dt_acao_inicio', 'text',array('data'=>date('d/m/Y'),'label'=>' ',))
-            ->add('dt_acao_fim',    'text',array('data'=>date('d/m/Y'),'label'=>' '))
-            ->add( 'idLocal', 'entity',
-            array(
-                'class' => 'CacicCommonBundle:Local',
-                'property' => 'nmLocal',
-                'multiple' => true,
-                'required'  => true,
-                'expanded'  => true,
-                'label'=> 'Selecione o Local:'))
-            ->getForm();
-
+		$form = $this->createForm( new SrcacicConexaoPesquisaType() );
+    				
         if ( $request->isMethod('POST') )
         {
-            $form->bind( $request );
-            $data = $form->getData();
+        	$form->bind( $request );
+        	$data = $form->getData();
 
-            $dataInicio = implode("".'/'."",array_reverse(explode("".'/'."", $data['dt_acao_inicio'])));
-
-            $dataFim = implode("".'/'."",array_reverse(explode("".'/'."",$data['dt_acao_fim'])));
-
-            $locais_enviar = array(0);
-            foreach ($data['idLocal'] as $locais){
-                array_push($locais_enviar,$locais->getIdLocal());
-            }
-
-            $suporte = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')->pesquisar( $dataInicio,$dataFim,$locais_enviar);
-
+            $filtroLocais = array(); // Inicializa array com locais a pesquisar
+            foreach ( $data['idLocal'] as $locais )
+                array_push( $filtroLocais, $locais->getIdLocal() );
+			
+            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:SrcacicConexao')
+            							->pesquisar( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
 
         }
-        return $this->render( 'CacicCommonBundle:Log:suporteRemoto.html.twig',
-            array(
-                'form' => $form->createView(),
-                'suportes' => ( isset( $suporte ) ? $suporte : array() ) )
-        );
+        
+        return $this->render( 'CacicCommonBundle:Log:suporte.html.twig',
+			array(
+				'form' => $form->createView(),
+				'logs' => ( isset( $logs ) ? $logs : null )
+			)
+		);
     }
 }
