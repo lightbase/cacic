@@ -8,11 +8,11 @@ use Cacic\CommonBundle\Form\DataTransformer\CxDatePtBrTransformer;
 
 /**
  *
- * Formulário de PESQUISA por LOGs de acesso ou atividades
+ * Formulário de PESQUISA por LOGs de Conexão Remota
  * @author lightbase
  *
  */
-class LogPesquisaType extends AbstractType
+class SrcacicConexaoPesquisaType extends AbstractType
 {
 
     public function buildForm( FormBuilderInterface $builder, array $options )
@@ -61,7 +61,7 @@ class LogPesquisaType extends AbstractType
      */
     public function getName()
     {
-        return 'log_pesquisa';
+        return 'srcacicconexao_pesquisa';
     }
 
 }

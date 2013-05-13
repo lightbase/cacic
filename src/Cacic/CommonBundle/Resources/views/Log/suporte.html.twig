@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li class="active">{{ 'Log de Atividades'|trans }}</li>
+    <li class="active">{{ 'Log de Suporte Remoto'|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -11,13 +11,13 @@
     <div class="span8">
         <div class="box grad_colour_black">
 
-            <h2 class="box_head round_top"><i class="icon-search"></i> {{'Pesquisa por Logs de Atividades' |trans }}</h2>
+            <h2 class="box_head round_top"><i class="icon-search"></i> {{'Pesquisa por Logs de Suporte Remoto' |trans }}</h2>
 
             <div class="block box_content round_bottom padding_10">
-            
+                    
                 <h4>{{ "Filtros para consulta"|trans }}</h4><br />
                 
-                <form id="formLogPesquisaAtividade" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
+                <form id="formLogPesquisaSuporteRemoto" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
                     
                     <div class="control-group">
                         <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
@@ -37,15 +37,16 @@
                     <div class="control-group">
                         <div class="controls">
                             <button type="reset" class="btn">
-                                <i class="icon-refresh"></i>
-                                {{ "Resetar Valores"|trans }}
-                            </button>
+                          <i class="icon-refresh"></i>
+                          {{ "Resetar Valores"|trans }}
+                      </button>
                             <button type="submit" class="btn btn-primary">
                                 <i class="icon-search"></i>
                                 {{ 'Filtrar'|trans }}
                             </button>
                         </div>
                     </div>
+                    
                 </form>
             </div> <!-- /block -->
         </div> <!-- /box -->
@@ -58,16 +59,13 @@
 
             <div class="block box_content round_bottom padding_10">
                 <p>
-                    {{ "Este módulo permite a visualização das atividades realizados com o uso das operações de INSERT/UPDATE/DELETE ocorridas no Sistema CACIC"|trans }}.
+                    {{ "Este módulo permite a visualização de Suporte Remotos"|trans }}.
                 </p>
                 <p>
-                    {{ "A ordenação das colunas poderá ser definida clicando-se em seus nomes"|trans }}.
+                    {{ "O período é obrigatório"|trans }}.
                 </p>
                 <p>
-                    {{ "O período é obrigatório."|trans }}
-                </p>
-                <p>
-                    {{ "Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos."|trans }}
+                    {{ "Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos"|trans }}.
                 </p>
             </div> <!-- /block -->
         </div> <!-- /box -->
@@ -76,7 +74,7 @@
 </div> <!-- /row -->
     
     {% if logs is not null %}
-        {% include 'CacicCommonBundle:Log:atividadeResultado.html.twig' %}
+        {% include 'CacicCommonBundle:Log:suporteResultado.html.twig' %}
     {% endif %}
     
 {% endblock %}

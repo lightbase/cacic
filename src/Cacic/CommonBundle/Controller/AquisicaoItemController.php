@@ -18,6 +18,7 @@ class AquisicaoItemController extends Controller
         	'CacicCommonBundle:AquisicaoItem:index.html.twig',
         	array( 'Aquisicao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:AquisicaoItem' )->listar() ));
     }
+    
     public function cadastrarAction(Request $request)
     {
         $Aquisicao = new AquisicaoItem();
@@ -109,12 +110,12 @@ class AquisicaoItemController extends Controller
         if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $Aquisicao = $this->getDoctrine()->getRepository('CacicCommonBundle:AquisicaoItem')->find( $request->get('id') );
-        if ( ! $Aquisicao )
-            throw $this->createNotFoundException( 'Aquisicao não encontrado' );
+        $itemAquisicao = $this->getDoctrine()->getRepository('CacicCommonBundle:AquisicaoItem')->find( $request->get('compositeKeys') );
+        if ( ! $itemAquisicao )
+            throw $this->createNotFoundException( 'Item de Aquisição não encontrado' );
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove( $Aquisicao );
+        //$em->remove( $itemAquisicao );
         $em->flush();
 
         $response = new Response( json_encode( array('status' => 'ok') ) );
