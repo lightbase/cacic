@@ -54,14 +54,6 @@ $(document).ready(function(){
 					    	{ // Se for o último registro a ser excluído
 						    	_tbody.append('<tr><td style="text-align: center" colspan="' + _colspan + '"><b>NENHUM REGISTRO ENCONTRADO</b></td></tr>');
 					    	}
-						    
-						    /**
-						     * @todo colocar esta rotina no callback
-						     */
-                            if( params.arrId != undefined ) // verifica se elemento arrId foi definido
-                            {
-                                $("input.tipo-check:checked").parent().parent().parent().remove();  // Remove o item da Grid
-                            }
                             
                             System.Flash.show( 'Sucesso', 'Item excluído com sucesso!' );
 						},

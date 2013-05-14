@@ -59,7 +59,7 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
             targetEntity: Software
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: estacoes
             joinColumns:
                 id_software:
                     referencedColumnName: id_software

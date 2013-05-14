@@ -41,4 +41,19 @@ class SoftwareRepository extends EntityRepository
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
     
+    /**
+     * 
+     * Método de listagem dos Softwares cadastrados que não estão associados a nenhuma máquina
+     */
+    public function listarNaoUsados()
+    {
+    	$_dql = "SELECT s
+				FROM CacicCommonBundle:Software s
+				LEFT JOIN s.estacoes se
+				WHERE se IS NULL
+				ORDER BY s.nmSoftware ASC";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+    }
+    
 }

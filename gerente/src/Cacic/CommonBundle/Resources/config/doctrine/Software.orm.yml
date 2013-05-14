@@ -55,4 +55,8 @@ Cacic\CommonBundle\Entity\Software:
                 id_tipo_software:
                     referencedColumnName: id_tipo_software
             orphanRemoval: false
+    oneToMany:
+        estacoes:
+            targetEntity: SoftwareEstacao
+            mappedBy: idSoftware
     lifecycleCallbacks: {  }

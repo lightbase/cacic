@@ -152,11 +152,46 @@ class SoftwareController extends Controller
         );
     }
     
-    
-    
-    public function naoUtilizadosAction( Request $request )
+    /**
+     * 
+     * Tela de exclusão de Softwares não associados a nenhuma máquina
+     * @param Symfony\Component\HttpFoundation\Request $request
+     */
+    public function naoUsadosAction( Request $request )
     {
-    	
+    	if ( $request->isMethod('POST') )
+        {
+			if ( count( $request->get('software') ) )
+			{
+				foreach ( $request->get('software') as $idSoftware )
+				{
+					$software = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->find( (int) $idSoftware );
+					
+					if ( ! $software )
+					{ // Impede injection verificando a existência do Software 
+						$this->get('session')->getFlashBag()->add('error', 'Dados inválidos');
+						break;
+					}
+					
+					$this->getDoctrine()->getManager()->remove( $software );
+				}
+				
+				$this->getDoctrine()->getManager()->flush(); // Efetiva a exclusão dos dados na base
+				
+				$this->get('session')->getFlashBag()->add('success', 'Softwares excluídos com sucesso!');
+			}
+			else
+				$this->get('session')->getFlashBag()->add('error', 'Nenhum software informado!');
+			
+            return $this->redirect( $this->generateUrl( 'cacic_software_naousados') );
+        }
+        
+    	return $this->render(
+        	'CacicCommonBundle:Software:naousados.html.twig', 
+        	array(
+        		'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listarNaoUsados()
+        	) 
+        );
     }
     
 }

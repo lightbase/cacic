@@ -21,20 +21,6 @@ var System = {
 				var params = { 'url': url, 'id': id, 'compositeKeys': JSON.parse( $( this ).attr('data-composite-keys') ), 'callback': callback };
 				$( "#System_Excluir" ).data( 'params', params ).dialog( "open" );
 			});
-			
-            $( "a.bt-excluir-check" ).bind( 'click', function(e){ //Responsável pela exclusão de varios checkbox
-                e.preventDefault();
-                var url = $( this ).attr( 'href' );
-                var result = $("input.tipo-check:checked"); //verifica no input na classe tipo-check se esta checked (marcado)
-                var i;
-                var arrId=[];
-
-                for (i=0;i<result.length;i++) //percorre todos resultados marcados
-                {
-                    arrId[i] = result[i].value;
-                }
-                $( "#System_Excluir" ).data( 'params', { 'url' : url, 'arrId' : arrId } ).dialog( "open" );
-            });
 		}
 	},
 	Flash : { // Comportamentos relacionados a mensagens
@@ -54,9 +40,14 @@ var System = {
             });
         },
         toggleCheck: function() { // Invocado ao "checkar"/"descheckar" checkbox para marcar/desmarcar todos
-        	
+        	$( 'input[type=checkbox].toggleCheck' ).bind('click', function(){
+        		var _isChecked = ( $(this).attr('checked') == "checked" ); // Verifica se o o toggleCheck está sendo "checkado" ou "descheckado"
+        		var _name = $(this).val(); // O atributo value do checkbox toggleCheck indica qual grupo de checkboxes deve ser considerado
+        		$('input[type=checkbox][name^='+ _name + ']').each(function(){
+        			$(this).attr('checked', _isChecked);
+        		})
+        	});
         }
-
     },
 	Menu : {
 		setActive : function( url ){
@@ -64,18 +55,3 @@ var System = {
 		}
 	}
 }
-
-//Ao clicar no INPUT do tipo checkbox com id = checkAll, marca e desmarca todos checkbox
-$(document).ready(function() {
-	$('#checkAll').click(function() {
-		if(this.checked == true){
-			$("input[type=checkbox]").each(function() {
-				this.checked = true; 
-			});
-		} else {
-			$("input[type=checkbox]").each(function() {
-				this.checked = false;
-			});
-		}
-	});	
-});
