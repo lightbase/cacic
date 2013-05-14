@@ -2,10 +2,6 @@ cacic_relatorio_autorizacoes:
     pattern: /relatorio/autorizacoes
     defaults: { _controller: CacicRelatorioBundle:Default:autorizacoes }
 
-cacic_relatorio_compartilhamentos:
-    pattern: /relatorio/compartilhamentos
-    defaults: { _controller: CacicRelatorioBundle:Default:compartilhamentos }
-
 cacic_relatorio_tcpIp:
     pattern: /relatorio/tcpip
     defaults: { _controller: CacicRelatorioBundle:Default:tcpIp }
@@ -17,10 +13,6 @@ cacic_relatorio_variaveisAmbiente:
 cacic_relatorio_patrimonio:
     pattern: /relatorio/patrimonio
     defaults: { _controller: CacicRelatorioBundle:Default:patrimonio }
-
-cacic_relatorio_software_officescan:
-    pattern: /relatorio/software/officescan
-    defaults: { _controller: CacicRelatorioBundle:Software:officeScan }
 
 cacic_relatorio_software_infoSoftwareBasico:
     pattern: /relatorio/software/basico

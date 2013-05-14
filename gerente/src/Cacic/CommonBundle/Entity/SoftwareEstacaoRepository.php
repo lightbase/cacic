@@ -13,11 +13,6 @@ use Doctrine\ORM\EntityRepository;
 class SoftwareEstacaoRepository extends EntityRepository
 {
 
-    public function paginar( $page )
-    {
-
-    }
-
     /**
      *
      * Método de listagem dos Software Estacao cadastrados e respectivas informações
@@ -29,5 +24,19 @@ class SoftwareEstacaoRepository extends EntityRepository
 				LEFT JOIN s.idSoftware sof";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+    }
+    
+    /**
+     * 
+     * Relatorio de Autorizacoes Cadastradas
+     */
+    public function gerarRelatorioAutorizacoes()
+    {
+    	$_dql = "SELECT se.nrPatrimonio, se.nmComputador, se.teObservacao
+    			FROM CacicCommonBundle:SoftwareEstacao se
+    			WHERE se.dtDesinstalacao IS NULL
+    			ORDER BY se.nrPatrimonio";
+    	
+    	return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
 }

@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-     <li><a href="{{ path('cacic_software_index') }}">{{ 'Software'|trans }}</a></li> /
+     <li><a href="{{ path('cacic_software_index') }}">{{ 'Softwares'|trans }}</a></li> /
      <li class="active">{{ 'Cadastro'|trans }}</li>
 {% endblock %}
 
@@ -13,7 +13,7 @@
 
      <div class="box grad_colour_black">
 
-        <h2 class="box_head round_top">{{ 'Dados dos Softwares'|trans }}</h2>
+        <h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {{ 'Dados do Software'|trans }}</h2>
 
         <div class="block box_content round_bottom padding_10">
 
@@ -47,7 +47,24 @@
 
         </div> <!-- /block -->
      </div> <!-- /box -->
-  </div> <!-- /span8 -->v
+  </div> <!-- /span8 -->
+  
+  <div class="span4">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+                        
+            <div class="block box_content round_bottom padding_10">
+                <p>
+                    {{ "Os itens destacados em"|trans }} <b class="red">{{ "vermelho"|trans }}</b> {{ "são de preenchimento obrigatório"|trans }}.
+                </p>
+                <p>
+                    {{ "Neste módulo deverão ser cadastrados os softwares avulsos, manipulados pelo sistema"|trans }}.
+                </p>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- span4 -->
+  
 </div> <!-- /row -->
 {% endblock %}
 

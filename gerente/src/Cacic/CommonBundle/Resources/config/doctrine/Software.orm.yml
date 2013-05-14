@@ -15,7 +15,6 @@ Cacic\CommonBundle\Entity\Software:
             type: string
             length: 150
             fixed: false
-            nullable: true
             column: nm_software
         teDescricaoSoftware:
             type: string

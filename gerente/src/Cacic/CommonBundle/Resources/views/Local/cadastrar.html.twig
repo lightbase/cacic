@@ -12,7 +12,7 @@
 	<div class="span8">
 		<div class="box grad_colour_black">
 
-			<h2 class="box_head round_top"><i class="icon-globe"></i> {% if form.vars.value.idLocal %}{{ "Edição dos dados do local"|trans }}{% else %}{{ "Cadastro de novo local"|trans }}{% endif %}</h2>
+			<h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {% if form.vars.value.idLocal %}{{ "Edição dos dados do local"|trans }}{% else %}{{ "Cadastro de novo local"|trans }}{% endif %}</h2>
 			
 			<div class="block box_content round_bottom padding_10">
 			
@@ -86,6 +86,9 @@
 			<h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
 						
 			<div class="block box_content round_bottom padding_10">
+			    <p>
+                    {{ "Os itens destacados em"|trans }} <b class="red">{{ "vermelho"|trans }}</b> {{ "são de preenchimento obrigatório"|trans }}.
+                </p>
 				<p>
 					{{ "As informações que deverão ser cadastradas abaixo referem-se a um local originário de chamada ao sistema CACIC."|trans }}
 					{{ "Como por exemplo uma região, um estado, um órgão etc."|trans }}

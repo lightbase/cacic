@@ -19,32 +19,43 @@ class SoftwareType extends AbstractType
         $builder->add(
             'nmSoftware',
             null,
-            array( 'label'=>'Nome', 'max_length'=>150 )
+            array( 'label'=>'Nome' )
         );
+        
+        $builder->add(
+        	'idTipoSoftware',
+        	null,
+        	array( 'label'=>'Tipo de Software (Classificação)' )
+        );
+        
         $builder->add(
             'teDescricaoSoftware',
             null,
-            array( 'label'=>'Descrição', 'max_length'=>255 )
+            array( 'label'=>'Descrição' )
         );
+        
         $builder->add(
             'qtLicenca',
             null,
             array( 'label'=>'Quantidade de Licenças' )
         );
+        
         $builder->add(
             'nrMidia',
             null,
-            array( 'label'=>' Número da Mídia', 'max_length'=>10 )
+            array( 'label'=>' Número da Mídia' )
         );
+        
         $builder->add(
             'teLocalMidia',
             null,
-            array( 'label'=>' Localização da Mídia', 'max_length'=>30 )
+            array( 'label'=>' Localização da Mídia' )
         );
+        
         $builder->add(
             'teObs',
             null,
-            array( 'label'=>' Observação', 'max_length'=>200 )
+            array( 'label'=>' Observação' )
         );
     }
 

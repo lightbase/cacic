@@ -12,7 +12,7 @@
 	<div class="span8">
 		<div class="box grad_colour_black">
 
-			<h2 class="box_head round_top"><i class="icon-user"></i> {% if form.vars.value.idUsuario %}{{ "Edição dos dados do Usuário"|trans }}{% else %}{{ "Cadastro de novo Usuário"|trans }}{% endif %}</h2>
+			<h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {% if form.vars.value.idUsuario %}{{ "Edição dos dados do Usuário"|trans }}{% else %}{{ "Cadastro de novo Usuário"|trans }}{% endif %}</h2>
 			
 			<div class="block box_content round_bottom padding_10">
 
@@ -47,13 +47,15 @@
 		</div> <!-- /box -->
 	</div> <!-- /span8 -->
 	      	
-	      	
 	<div class="span4">
 		<div class="box grad_colour_black">
 
 			<h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
 				
 			<div class="block box_content round_bottom padding_10">
+			    <p>
+                    {{ "Os itens destacados em"|trans }} <b class="red">{{ "vermelho"|trans }}</b> {{ "são de preenchimento obrigatório"|trans }}.
+                </p>
 				<p>
 					{{ "As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso."|trans }}
 					{{ "A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção"|trans }}
