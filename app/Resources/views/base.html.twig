@@ -122,7 +122,7 @@
 							<span class="icon">&nbsp;</span>
 						</a>
 						<ul>
-							<li><a class="round_top" href="javascript:void(0)">{{ "Classificar Software"|trans }}</a></li>
+							<li><a class="round_top" href="{{ path('cacic_software_naoclassificados') }}">{{ "Classificar Software"|trans }}</a></li>
 							<li><a href="{{ path('cacic_softwares_nao_usados') }}">{{ "Softwares não usados"|trans }}</a></li>
 							<li><a href="javascript:void(0)">{{ "Módulos"|trans }}</a></li>
 							
@@ -176,7 +176,6 @@
                                     <li><a href="{{ path('cacic_aquisicao_item_index') }}">{{ "Itens adquiridos"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_software_estacao_index') }}">{{ "Software por estações"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_tipo_licenca_index') }}">{{ "Tipos de Licença"|trans }}</a></li>
-                                    <li><a href="javascript:void(0);">{{ "Classificar Software"|trans }}</a></li>
 								</ul>
 							</li>
 						</ul>	    				
@@ -211,7 +210,6 @@
                                     <span class="icon">&nbsp;</span>
                                 </a>
                                 <ul>
-                                    <li><a href="{{ path('cacic_relatorio_software_officescan') }}">{{ "Antivírus Offica Scan"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_relatorio_software_infoSoftwareBasico') }}">{{ "Softwares Básicos"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_relatorio_software_inventariados') }}">{{ "Softwares Inventariados"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_relatorio_software_licensiados') }}">{{ "Softwares Licensiados"|trans }}</a></li>
@@ -228,7 +226,6 @@
                                 </ul>
                             </li>
 						    <li><a class="round_top" href="{{ path('cacic_relatorio_autorizacoes') }}">{{ "Autorizações"|trans }}</a></li>
-						    <li><a class="round_top" href="{{ path('cacic_relatorio_compartilhamentos') }}">{{ "Compartilhamentos"|trans }}</a></li>
 						    <li><a class="round_top" href="{{ path('cacic_relatorio_tcpIp') }}">{{ "TCP/IP"|trans }}</a></li>
 						    <li><a class="round_top" href="{{ path('cacic_relatorio_variaveisAmbiente') }}">{{ "Variáveis de Ambiente"|trans }}</a></li>
 						    <li><a class="round_top" href="{{ path('cacic_relatorio_patrimonio') }}">{{ "Patrimônio"|trans }}</a></li>

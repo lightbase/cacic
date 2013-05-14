@@ -11,12 +11,25 @@ use Cacic\CommonBundle\Form\Type\SoftwareType;
 
 class SoftwareController extends Controller
 {
+	
+	/**
+	 * 
+	 * Tela de listagem de Softwares cadastrados
+	 * @param int $page
+	 */
     public function indexAction( $page )
     {
-        $arrSoftware = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listar();
-        return $this->render( 'CacicCommonBundle:Software:index.html.twig', array( 'Software' => $arrSoftware ) );
-
+        return $this->render(
+        	'CacicCommonBundle:Software:index.html.twig', 
+        	array( 'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listar() ) 
+        );
     }
+    
+    /**
+     * 
+     * Tela de Cadastro de novo Software
+     * @param Symfony\Component\HttpFoundation\Request $request
+     */
     public function cadastrarAction(Request $request)
     {
         $Software = new Software();
@@ -38,9 +51,11 @@ class SoftwareController extends Controller
 
         return $this->render( 'CacicCommonBundle:Software:cadastrar.html.twig', array( 'form' => $form->createView() ) );
     }
+    
     /**
-     *  Página de editar dados do Software
+     *  Tela de editar dados do Software
      *  @param int $idSoftware
+     *  @param Symfony\Component\HttpFoundation\Request $request
      */
     public function editarAction( $idSoftware, Request $request )
     {
@@ -59,7 +74,6 @@ class SoftwareController extends Controller
                 $this->getDoctrine()->getManager()->persist( $Software );
                 $this->getDoctrine()->getManager()->flush();// Efetuar a edição do Software
 
-
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
                 return $this->redirect($this->generateUrl('cacic_software_editar', array( 'idSoftware'=>$Software->getIdSoftware() ) ) );
@@ -72,7 +86,7 @@ class SoftwareController extends Controller
     /**
      *
      * [AJAX] Exclusão de Software já cadastrado
-     * @param integer $idSoftware
+     * @param Symfony\Component\HttpFoundation\Request $request
      */
     public function excluirAction( Request $request )
     {
@@ -92,4 +106,57 @@ class SoftwareController extends Controller
 
         return $response;
     }
+    
+    /**
+     * 
+     * Tela de classificação EM LOTE de Softwares
+     * @param Symfony\Component\HttpFoundation\Request $request
+     */
+    public function naoClassificadosAction( Request $request )
+    {
+    	if ( $request->isMethod('POST') )
+        {
+			if ( count( $request->get('software') ) )
+			{
+				foreach ( $request->get('software') as $idSoftware => $idTipo )
+				{
+					$software = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->find( (int) $idSoftware );
+					$tipoSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:TipoSoftware')->find( (int) $idTipo );
+					
+					if ( ! $software || ! $tipoSoftware )
+					{ // Impede injection verificando a existência tanto do Software quanto do Tipo de Software
+						$this->get('session')->getFlashBag()->add('error', 'Dados inválidos');
+						break;
+					}
+					
+					$software->setIdTipoSoftware( $tipoSoftware ); // Associa o Tipo de Software ao Software
+					$this->getDoctrine()->getManager()->persist( $software );
+				}
+				
+				$this->getDoctrine()->getManager()->flush(); // Efetiva a edição dos dados na base
+				
+				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+			}
+			else
+				$this->get('session')->getFlashBag()->add('error', 'Nenhum software informado!');
+			
+            return $this->redirect( $this->generateUrl( 'cacic_software_naoclassificados') );
+        }
+    	
+    	return $this->render(
+        	'CacicCommonBundle:Software:naoclassificados.html.twig', 
+        	array(
+        		'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listarNaoClassificados(),
+        		'tipos' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoSoftware' )->findAll()
+        	) 
+        );
+    }
+    
+    
+    
+    public function naoUtilizadosAction( Request $request )
+    {
+    	
+    }
+    
 }

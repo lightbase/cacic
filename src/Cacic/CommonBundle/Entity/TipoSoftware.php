@@ -52,4 +52,14 @@ class TipoSoftware
     {
         return $this->teDescricaoTipoSoftware;
     }
+    
+    /**
+     * 
+     * Método mágico invocado quando um Objeto desta Classe é referenciado em contexto de String
+     * @return string
+     */
+    public function __toString()
+    {
+    	return $this->getTeDescricaoTipoSoftware();
+    }
 }

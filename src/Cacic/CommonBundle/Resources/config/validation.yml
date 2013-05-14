@@ -124,17 +124,13 @@ Cacic\CommonBundle\Entity\Software:
             - NotBlank: ~
             - MaxLength: 150
         teDescricaoSoftware:
-            - NotBlank: ~
             - MaxLength: 255
         qtLicenca:
-            - Notblank: ~
             - Type:
                 type: int
         nrMidia:
-            - NotBlank: ~
             - MaxLength: 10
         teLocalMidia:
-            - NotBlank: ~
             - MaxLength: 30
         teObs:
             - MaxLength: 200
