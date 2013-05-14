@@ -48,7 +48,11 @@ class Software
      * @var \Cacic\CommonBundle\Entity\TipoSoftware
      */
     private $idTipoSoftware;
-
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $estacoes;
 
     /**
      * Get idSoftware
@@ -219,5 +223,38 @@ class Software
     public function getIdTipoSoftware()
     {
         return $this->idTipoSoftware;
+    }
+    
+	/**
+     * Add SoftwareEstacao
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacao
+     * @return Software
+     */
+    public function addEstacoes(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacao)
+    {
+        $this->estacoes[] = $estacao;
+    
+        return $this;
+    }
+
+    /**
+     * Remove SoftwareEstacao
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacao
+     */
+    public function removeEstacoes(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacao)
+    {
+        $this->estacoes->removeElement($estacao);
+    }
+
+    /**
+     * Get estacoes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEstacoes()
+    {
+        return $this->estacoes;
     }
 }

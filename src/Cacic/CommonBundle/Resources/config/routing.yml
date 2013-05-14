@@ -215,6 +215,10 @@ cacic_software_naoclassificados:
     pattern:  /software/naoclassificados
     defaults: { _controller: CacicCommonBundle:Software:naoClassificados}
 
+cacic_software_naousados:
+    pattern:  /software/naousados
+    defaults: { _controller: CacicCommonBundle:Software:naoUsados}
+
 cacic_configuracao_padrao:
     pattern: /configuracao/padrao
     defaults: { _controller: CacicCommonBundle:Configuracao:padrao}
@@ -249,21 +253,17 @@ cacic_usbdevice_excluir:
     pattern:  /usbdevice/excluir
     defaults: { _controller: CacicCommonBundle:UsbDevice:excluir}
 
-
 cacic_log_acesso:
     pattern:  /log/acesso
     defaults: { _controller: CacicCommonBundle:Log:acesso}
-
 
 cacic_log_pesquisa:
     pattern:  /log/pesquisa
     defaults: { _controller: CacicCommonBundle:Log:pesquisa}
 
-
 cacic_log_atividade:
     pattern:  /log/atividade
     defaults: { _controller: CacicCommonBundle:Log:atividade}
-
 
 cacic_log_insucesso_instalacao:
     pattern:  /log/insucessoinstalacao
@@ -381,7 +381,6 @@ cacic_aquisicao_item_excluir:
     pattern:  /aquisicaoitem/excluir
     defaults: { _controller: CacicCommonBundle:AquisicaoItem:excluir}
 
-
 cacic_software_estacao_index:
     pattern: /softwareestacao/{page}
     defaults: {_controller: CacicCommonBundle:SoftwareEstacao:index, page: 1 }
@@ -401,15 +400,3 @@ cacic_software_estacao_editar:
 cacic_software_estacao_excluir:
     pattern:  /softwareestacao/excluir
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:excluir}
-
-cacic_softwares_nao_usados:
-    pattern:  /softwaresnaousados
-    defaults: { _controller: CacicCommonBundle:SoftwaresNaoUsados:index}
-
-cacic_softwares_nao_usados_excluir:
-    pattern:  /softwaresnaousados/excluir
-    defaults: { _controller: CacicCommonBundle:SoftwaresNaoUsados:excluir}
-
-cacic_classificar_softwares:
-    pattern:  /classificarsoftwares
-    defaults: { _controller: CacicCommonBundle:ClassificarSoftwares:index}
