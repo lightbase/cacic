@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Cacic\CommonBundle\CacicCommonBundle(),
             new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Cacic\RelatorioBundle\CacicRelatorioBundle(),
+            new Cacic\WSBundle\CacicWSBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

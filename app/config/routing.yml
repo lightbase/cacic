@@ -1,3 +1,13 @@
+cacic_ws:
+    resource: "@CacicWSBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+cacic_bundle_ws:
+    resource: "@CacicBundleWSBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 cacic_relatorio:
     resource: "@CacicRelatorioBundle/Resources/config/routing.yml"
     prefix:   /
