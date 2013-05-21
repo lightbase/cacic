@@ -46,14 +46,18 @@ class LocalController extends Controller
 			
 			if ( $form->isValid() )
 			{
-				$this->getDoctrine()->getManager()->persist( $local );
+				$em = $this->getDoctrine()->getManager();
+				$em->persist( $local );
+				$em->flush(); // Persiste os dados do Local
 				
 				/**
-				 * @todo Criar Configurações Locais a partir das Configurações Padrão
+				 * @todo Otimizar rotina através de Post-Commit / Verificar UNIDADE TRANSACIONAL
+				 */
+				$this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoLocal' )->configurarLocalFromConfigPadrao( $local, $em );
+				
+				/**
 				 * @todo Criar Configurações de Interface do Aplicativo de Coleta de Dados Patrimoniais
 				 */
-				
-				$this->getDoctrine()->getManager()->flush(); // Persiste os dados do Local
 				
 				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 				

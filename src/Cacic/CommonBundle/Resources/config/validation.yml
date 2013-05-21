@@ -185,6 +185,8 @@ Cacic\CommonBundle\Entity\TipoLicenca:
             - MaxLength: 60
 
 Cacic\CommonBundle\Entity\AquisicaoItem:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [idTipoLicenca, idAquisicao, idSoftware]
     properties:
         qtLicenca:
             - NotBlank: ~

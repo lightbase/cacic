@@ -34,6 +34,8 @@ class ConfiguracaoLocalRepository extends EntityRepository
 	/**
 	 * 
 	 * Recupera um array na forma [idConfiguracao] => [vlConfiguracao]
+	 * @param int $idLocal
+	 * @return array
 	 */
 	public function getArrayChaveValor( $idLocal )
 	{
@@ -46,5 +48,27 @@ class ConfiguracaoLocalRepository extends EntityRepository
 		}
 		
 		return $return;
+	}
+	
+	/**
+	 * 
+	 * Cria as configurações locais à partir da configuração padrão do CACIC
+	 * @param Local $local
+	 * @param EntityManager $em
+	 */
+	public function configurarLocalFromConfigPadrao( $local, $em )
+	{
+		$padrao = $em->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->findAll(); // Recupera todas as Configurações-Padrão
+		
+		foreach( $padrao as $confPadrao )
+		{
+			$confLocal = new ConfiguracaoLocal();
+			$confLocal->setIdLocal( $local );
+			$confLocal->setIdConfiguracao( $confPadrao );
+			$confLocal->setVlConfiguracao( $confPadrao->getVlConfiguracao() );
+			$em->persist( $confLocal );
+		}
+		
+		$em->flush();
 	}
 }

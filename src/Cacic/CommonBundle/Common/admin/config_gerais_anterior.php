@@ -1,25 +1,25 @@
 <?php
 /*
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informaï¿½ï¿½es da Previdï¿½ncia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ï¿½ parte do programa CACIC - Configurador Automï¿½tico e Coletor de Informaï¿½ï¿½es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ï¿½ um software livre; vocï¿½ pode redistribui-lo e/ou modifica-lo dentro dos termos da Licenï¿½a Pï¿½blica Geral GNU como 
+ publicada pela Fundaï¿½ï¿½o do Software Livre (FSF); na versï¿½o 2 da Licenï¿½a, ou (na sua opniï¿½o) qualquer versï¿½o.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ï¿½ distribuido na esperanï¿½a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAï¿½ï¿½O a qualquer
+ MERCADO ou APLICAï¿½ï¿½O EM PARTICULAR. Veja a Licenï¿½a Pï¿½blica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral GNU, sob o tï¿½tulo "LICENCA.txt", junto com este programa, se nï¿½o, escreva para a Fundaï¿½ï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 session_start();
 /*
- * verifica se houve login e também regras para outras verificações (ex: permissões do usuário)!
+ * verifica se houve login e tambï¿½m regras para outras verificaï¿½ï¿½es (ex: permissï¿½es do usuï¿½rio)!
  */
 if(!isset($_SESSION['id_usuario'])) 
   die('Acesso negado (Access denied)!');
-else { // Inserir regras para outras verificações (ex: permissões do usuário)!
+else { // Inserir regras para outras verificaï¿½ï¿½es (ex: permissï¿½es do usuï¿½rio)!
 }
 require_once('../include/library.php');
 ?>
@@ -142,7 +142,7 @@ else if ($_SESSION['cs_nivel_administracao'] <> 1)
 $queryConfiguracoesLocais = "	SELECT 			loc.id_local,
 												loc.sg_local,
 												loc.nm_local,
-												c_loc.te_notificar_mudanca_hardware,
+												/* c_loc.te_notificar_mudanca_hardware, */
 												c_loc.te_notificar_utilizacao_usb,												
 												c_loc.te_usb_filter,
 												c_loc.te_exibe_graficos,
@@ -159,7 +159,7 @@ if ($_SESSION['id_usuario'] == 15)
 $resultConfiguracoesLocais = mysql_query($queryConfiguracoesLocais.$orderby) or die('1-'.$oTranslator->_('kciq_msg delete row on table fail', array('Locais/Configuracoes_Locais'))."! ".$oTranslator->_('kciq_msg session fail',false,true)."!");
 $row_configuracoes_locais = mysql_fetch_array($resultConfiguracoesLocais);
 if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
-	{	
+	{
 	?>
 	<div id="LayerLocais" style="position:absolute; width:200px; height:115px; z-index:1; left: 0px; top: 0px; visibility:hidden">
 	<?php
@@ -176,7 +176,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 																			 $rowConfiguracoesLocais['te_notificar_utilizacao_usb'].'#FD#'.
 																			 $rowConfiguracoesLocais['te_usb_filter'].'">'.$rowConfiguracoesLocais['nm_local'].'</option>';					
 		}
-	echo '</select>';		
+	echo '</select>';	/*	
 
 	$queryDescricaoHardware = "	SELECT 		nm_campo_tab_hardware,
 											te_desc_hardware,
@@ -191,7 +191,7 @@ if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administraca
 		{
 		echo '<option value="'.$rowDescricaoHardware['te_locais_notificacao_ativada'].'" id="'. $rowDescricaoHardware['nm_campo_tab_hardware'].'">'.$rowDescricaoHardware['te_desc_hardware'].'</option>';					
 		}
-	echo '</select>';		
+	echo '</select>';
 
 	// Consulto a base trazendo registros sobre dispositivos USB utilizados pelo(s) local(is)
 	$queryUSBDevicesUtilizados = "SELECT DISTINCT 
@@ -225,7 +225,7 @@ echo '*'.mysql_num_rows($resultUSBDevicesUtilizados).'*<br>';
 		{
 		echo '<option value="#'.$rowUSBDevicesUtilizados['id_local'].'#'.$rowUSBDevicesUtilizados['id_vendor'].'.'.$rowUSBDevicesUtilizados['id_device'].'">('.$rowUSBDevicesUtilizados['id_vendor'].')&nbsp;'.$rowUSBDevicesUtilizados['nm_vendor'].'&nbsp;&nbsp;&nbsp;('.$rowUSBDevicesUtilizados['id_device'].')&nbsp;'.$rowUSBDevicesUtilizados['nm_device'].'</option>';					
 		}
-	echo '</select>';			
+	echo '</select>';			*/
 	?>
 	</div>
 	<?php
@@ -246,7 +246,7 @@ echo '*'.mysql_num_rows($resultUSBDevicesUtilizados).'*<br>';
   <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
   	<?php 
 
-	// Será mostrado apenas para os níveis Administração, Gestão Central e Supervisão com acessos a locais secundários.
+	// Serï¿½ mostrado apenas para os nï¿½veis Administraï¿½ï¿½o, Gestï¿½o Central e Supervisï¿½o com acessos a locais secundï¿½rios.
 	if ($_SESSION['cs_nivel_administracao'] == 1 || $_SESSION['cs_nivel_administracao'] == 2 || ($_SESSION['cs_nivel_administracao'] == 3 && $_SESSION['te_locais_secundarios']<>''))
 		{
 		?>
@@ -266,7 +266,7 @@ echo '*'.mysql_num_rows($resultUSBDevicesUtilizados).'*<br>';
 									loc.nm_local,
 									loc.sg_local
 					  	FROM		locais loc 
-						WHERE 		1 ". // Somente para reaproveitar a definição de where feita anteriormente...
+						WHERE 		1 ". // Somente para reaproveitar a definiï¿½ï¿½o de where feita anteriormente...
 						$where . " 
 				  		ORDER BY  	loc.sg_local"; 
 		$result_locais = mysql_query($query_locais) or die('4-'.$oTranslator->_('Ocorreu um erro no acesso a tabela %1 ou sua sessao expirou',array('locais'))); 
@@ -301,8 +301,8 @@ echo '*'.mysql_num_rows($resultUSBDevicesUtilizados).'*<br>';
     </tr>
     <tr> 
       <td><p> 
-          <?php // Atenção: o campo abaixo deve estar em "disabled", pois, a alteração desse valor só será permitida ao nível 
-		   //          Administração, na opção Administração/Cadastros/Locais ?>
+          <?php // Atenï¿½ï¿½o: o campo abaixo deve estar em "disabled", pois, a alteraï¿½ï¿½o desse valor sï¿½ serï¿½ permitida ao nï¿½vel 
+		   //          Administraï¿½ï¿½o, na opï¿½ï¿½o Administraï¿½ï¿½o/Cadastros/Locais ?>
           <input name="nm_organizacao" id="nm_organizacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" type="text" value="<?php echo $row_configuracoes_locais['nm_local']; ?>" size="65" disabled>
           <input name="frm_id_local" id="frm_id_local" type="hidden" value="<?php echo $frm_id_local; ?>">		  
         </p></td>
@@ -332,69 +332,8 @@ echo '*'.mysql_num_rows($resultUSBDevicesUtilizados).'*<br>';
     </tr>
     <tr> 
       <td><table width="100%" border="0" cellpadding="0" cellspacing="1">
-          <tr> 
-            <td class="label">
-            	<?php echo $oTranslator->_('Realizar notificacao caso haja alteracoes nas seguintes configuracoes de hardware');?>:
-            </td>            
-          </tr>
-          <tr> 
-            <td height="1" bgcolor="#333333"></td>
-          </tr>
-          <tr> 
-            <td height="1" class="label"><table border="0" cellpadding="0" cellspacing="0">
-                <tr> 
-                  <td>&nbsp;&nbsp;</td>
-                  <td class="label"><div align="left"><?php echo $oTranslator->_('Disponiveis');?>:</div></td>
-                  <td>&nbsp;&nbsp;</td>
-                  <td width="40">&nbsp;</td>
-                  <td nowrap>&nbsp;&nbsp;</td>
-                  <td nowrap class="label"><p><?php echo $oTranslator->_('Selecionadas');?>:</p></td>
-                  <td nowrap>&nbsp;&nbsp;</td>
-                </tr>
-                <tr> 
-                  <td>&nbsp;</td>
-                  <td> <div align="left"> 
-                      <?php    
-				        /* Consulto todos os hardwares que foram previamente selecionados. */ 
-			  	$query = "SELECT nm_campo_tab_hardware, te_desc_hardware
-						  FROM   descricao_hardware 
-						  WHERE  ".$frm_id_local." IN (te_locais_notificacao_ativada)";
-						$result_hardwares_ja_selecionados = mysql_query($query) or die('5-'.$oTranslator->_('kciq_msg select on table fail', array('descricao_hardware'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
-						
-						/* Agora monto os itens do combo de hardwares selecionadas. */ 
-				while($campos_hardwares_selecionados = mysql_fetch_array($result_hardwares_ja_selecionados)) 
-					{
-					$itens_combo_hardwares_selecionados = $itens_combo_hardwares_selecionados . '<option value="' . $campos_hardwares_selecionados['nm_campo_tab_hardware']. '">' . $campos_hardwares_selecionados['te_desc_hardware'] . '</option>'; 
-					}
-						
-						/* Consulto as hardwares que não foram previamente selecionadas. */ 
-			  	$query = "SELECT nm_campo_tab_hardware, te_desc_hardware
-						  FROM   descricao_hardware 
-						  WHERE  ".$frm_id_local." NOT IN (te_locais_notificacao_ativada)";
-						$result_hardwares_nao_selecionados = mysql_query($query) or die('6-'.$oTranslator->_('kciq_msg select on table fail', array('descricao_hardware'))."! ".$oTranslator->_('kciq_msg session fail',false,true));
-						/* Agora monto os itens do combo de hardwares NÃO selecionadas. */ 
-       		while($campos_hardwares_nao_selecionados=mysql_fetch_array($result_hardwares_nao_selecionados)) 	
-				{
-				$itens_combo_hardwares_nao_selecionados = $itens_combo_hardwares_nao_selecionados . '<option value="' . $campos_hardwares_nao_selecionados['nm_campo_tab_hardware']. '">' . $campos_hardwares_nao_selecionados['te_desc_hardware']  . '</option>';
-				}  ?>
-                      <select multiple size="10" name="list1[]" id="listaHardwareDisponiveis"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
-                        <?php echo $itens_combo_hardwares_nao_selecionados; ?> 
-                      </select>
-                    </div></td>
-                  <td>&nbsp;</td>
-                  <td width="40"> <div align="center"> 
-                      <input type="button" value="   &gt;   " onClick="move(this.form.elements['list1[]'],this.form.elements['list2[]'])" name="B1">
-                      <br>
-                      <br>
-                      <input type="button" value="   &lt;   " onClick="move(this.form.elements['list2[]'],this.form.elements['list1[]'])" name="B2">
-                    </div></td>
-                  <td>&nbsp;</td>
-                  <td><select multiple size="10" name="list2[]" id="listaHardwareSelecionados"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
-                      <?php echo $itens_combo_hardwares_selecionados; ?> </select></td>
-                  <td>&nbsp;</td>
-                </tr>
-              </table></td>
-          </tr>
+          
+          
           <tr> 
             <td height="1" class="ajuda">&nbsp;&nbsp;&nbsp;
             	(<?php echo $oTranslator->_('Dica: use SHIFT ou CTRL para selecionar multiplos itens');?>)</td>
@@ -427,7 +366,7 @@ echo '*'.mysql_num_rows($resultUSBDevicesUtilizados).'*<br>';
       <td><?php /*<table width="100%" border="0" cellpadding="0" cellspacing="1">*/?>
           <tr> 
             <td class="label">
-            	<?php echo $oTranslator->_('Realizar notificacao caso haja utilização dos seguintes dispositivos USB nas estacoes de trabalho');?>:
+            	<?php echo $oTranslator->_('Realizar notificacao caso haja utilizaï¿½ï¿½o dos seguintes dispositivos USB nas estacoes de trabalho');?>:
             </td>            
           </tr>
           <tr> 
@@ -494,9 +433,9 @@ echo '*'.mysql_num_rows($resultUSBDevicesUtilizados).'*<br>';
             <td>&nbsp;</td>
             <td> <div align="left"> 
 			<?php
-			// Gráficos disponíveis para exibição na página principal
+			// Grï¿½ficos disponï¿½veis para exibiï¿½ï¿½o na pï¿½gina principal
 			// [so][acessos][locais][acessos_locais]
-			// A variável de sessão menu_seg->_SESSION['te_exibe_graficos'] contém os gráficos selecionados para exibição
+			// A variï¿½vel de sessï¿½o menu_seg->_SESSION['te_exibe_graficos'] contï¿½m os grï¿½ficos selecionados para exibiï¿½ï¿½o
 			$arrValores = getValores('configuracoes_locais', 'te_exibe_graficos', 'id_local='.$frm_id_local);
 			$te_exibe_graficos = $arrValores['te_exibe_graficos'];
 			?>
@@ -591,7 +530,7 @@ echo '*'.mysql_num_rows($resultUSBDevicesUtilizados).'*<br>';
     </tr>
 		<script language="javascript">
 		setLocal(document.getElementById('SELECTlocais'));
-		MontaListasDisponiveisSelecionados('[so][acessos][acessos_locais][locais]','Totais de Computadores por Sistemas Operacionais#Últimos Acessos dos Agentes do Local#Últimos Acessos dos Agentes por Local na Data#Totais de Computadores Monitorados por Local','<?php echo $te_exibe_graficos;?>');
+		MontaListasDisponiveisSelecionados('[so][acessos][acessos_locais][locais]','Totais de Computadores por Sistemas Operacionais#ï¿½ltimos Acessos dos Agentes do Local#ï¿½ltimos Acessos dos Agentes por Local na Data#Totais de Computadores Monitorados por Local','<?php echo $te_exibe_graficos;?>');
 		</script>					  	
 		
     <tr> 
