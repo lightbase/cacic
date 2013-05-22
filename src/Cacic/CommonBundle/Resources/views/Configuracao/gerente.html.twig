@@ -58,21 +58,35 @@
                         <input type="checkbox" id="te_exibe_graficos_so" name="te_exibe_graficos" value="so" 
                             {% if ( 'so' in _graficos  ) %}checked="checked"{% endif %}
                         />
-                        <label for="te_exibe_graficos_so">Sistemas Operacionais</label>
+                        <label for="te_exibe_graficos_so">{{ 'Totais de Computadores por Sistemas Operacionais'|trans }}</label>
                         
                         <input type="checkbox" id="te_exibe_graficos_acessos" name="te_exibe_graficos" value="acessos" 
                             {% if ( 'acessos' in _graficos  ) %}checked="checked"{% endif %}
                         /> 
-                        <label for="te_exibe_graficos_acessos">Acessos</label>
+                        <label for="te_exibe_graficos_acessos">{{ 'Últimos Acessos dos Agentes do Local'|trans }}</label>
                         
                         <input type="checkbox" id="te_exibe_graficos_acessos_locais" name="te_exibe_graficos" value="acessos_locais" 
                             {% if ( 'acessos_locais' in _graficos  ) %}checked="checked"{% endif %}
                         /> 
-                        <label for="te_exibe_graficos_acessos_locais">Acessos Locais</label>
+                        <label for="te_exibe_graficos_acessos_locais">{{ 'Últimos Acessos dos Agentes por Local na Data'|trans }}</label>
                         
                         <input type="checkbox" id="te_exibe_graficos_locais" name="te_exibe_graficos" value="locais" 
                         {% if ( 'locais' in _graficos  ) %}checked="checked"{% endif %}/> 
-                        <label for="te_exibe_graficos_locais">Locais</label>
+                        <label for="te_exibe_graficos_locais">{{ 'Totais de Computadores Monitorados por Local'|trans }}</label>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>{{ 'Servidor de Aplicação padrão'|trans }}</td>
+                    <td>
+                        <input id="te_serv_updates_padrao" type="text" name="te_serv_updates_padrao" value="{{ configuracoes['te_serv_updates_padrao'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>{{ 'Servidor de Atualizações Padrão'|trans }}</td>
+                    <td>
+                        <input id="te_serv_cacic_padrao" type="text" name="te_serv_cacic_padrao" value="{{ configuracoes['te_serv_cacic_padrao'] }}" />
                     </td>
                 </tr>
                 

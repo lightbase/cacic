@@ -213,17 +213,12 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
         nmComputador:
             - NotBlank: ~
             - MaxLength: 30
-        nrProcesso:
-            - NotBlank: ~
-            - MaxLength: 30
         dtAutorizacao:
             - NotBlank: ~
             - Date: ~
         dtExpiracaoInstalacao:
-            - NotBlank: ~
             - Date: ~
         dtDesinstalacao:
-            - NotBlank: ~
             - Date: ~
 
 Cacic\CommonBundle\Entity\TipoLicenca:

@@ -19,9 +19,10 @@ class SoftwareEstacaoRepository extends EntityRepository
      */
     public function listar()
     {
-        $_dql = "SELECT s, sof.nmSoftware
-				FROM CacicCommonBundle:SoftwareEstacao s
-				LEFT JOIN s.idSoftware sof";
+        $_dql = "SELECT se, sw.idSoftware, sw.nmSoftware, aq.nrProcesso
+				FROM CacicCommonBundle:SoftwareEstacao se
+				INNER JOIN se.idSoftware sw
+				LEFT JOIN se.idAquisicao aq";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }

@@ -101,9 +101,9 @@ class SoftwareEstacaoController extends Controller
         if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
             throw $this->createNotFoundException( 'Página não encontrada' );
 
-        $SoftwareEstacao = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')->find( $request->get('id') );
+        $SoftwareEstacao = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')->find( $request->get('compositeKeys') );
         if ( ! $SoftwareEstacao )
-            throw $this->createNotFoundException( 'Software Estacao não encontrado' );
+            throw $this->createNotFoundException( 'Software Estação não encontrado' );
 
         $em = $this->getDoctrine()->getManager();
         $em->remove( $SoftwareEstacao );

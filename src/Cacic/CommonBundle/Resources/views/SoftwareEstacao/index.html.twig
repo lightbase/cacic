@@ -35,22 +35,27 @@
 
                 {% for software in SoftwareEstacao %}
 
-                    <tr id="item_{{ software[0]['nrPatrimonio'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                    <tr id="item_nrp{{ software[0]['nrPatrimonio'] }}_sw{{ software['idSoftware'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
                         <td style="text-align: center" >{{ loop.index }}</td>
                         <td style="text-align: center"id="item_desc_{{ software[0]['nrPatrimonio'] }}">{{ software[0]['nrPatrimonio'] }}</td>
                         <td style="text-align: center">{{ software['nmSoftware'] }}</td>
-                        <td style="text-align: center">{{ software[0]['nrProcesso'] }}</td>
+                        <td style="text-align: center">{{ software['nrProcesso'] }}</td>
                         <td style="text-align: center">{{ software[0]['nmComputador'] }}</td>
-                        <td style="text-align: center" >{{ software[0].dtAutorizacao|date('d/m/Y') }}</td>
+                        <td style="text-align: center" >{{ software[0]['dtAutorizacao']|date('d/m/Y') }}</td>
                         <td style="text-align: center" class="td-actions">
-                            <a href="{{ path('cacic_software_estacao_editar', {'nrPatrimonio': software[0]['nrPatrimonio'],
-                                                                                'idSoftware' : software[0]['id_software']
-                            }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
-                                <i class="btn-icon-only icon-edit"></i>
+                            <a href="{{ path('cacic_software_estacao_editar',
+                            	{'nrPatrimonio': software[0]['nrPatrimonio'],'idSoftware' : software['idSoftware']}) }}" 
+                            	class="btn btn-small" title="{{ "Editar Item"|trans }}"
+                            >
+                                <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 
-                            <a href="{{ path('cacic_software_estacao_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
-                                <i class="btn-icon-only icon-remove"></i>
+                            <a href="{{ path('cacic_software_estacao_excluir') }}" 
+                            	class="btn btn-small btn-danger bt-excluir-compositekey" 
+                                data-composite-keys='{"nrPatrimonio":"{{ software[0]['nrPatrimonio'] }}","idSoftware":{{ software['idSoftware'] }}}' 
+                            	title="{{ "Excluir Item"|trans }}"
+                            >
+                                <i class="btn-icon-only icon-trash icon-large"></i>
                             </a>
                         </td>
                     </tr>

@@ -289,4 +289,32 @@ class SoftwareEstacao
     {
         return $this->idSoftware;
     }
+    /**
+     * @var \Cacic\CommonBundle\Entity\Aquisicao
+     */
+    private $idAquisicao;
+
+
+    /**
+     * Set idAquisicao
+     *
+     * @param \Cacic\CommonBundle\Entity\Aquisicao $idAquisicao
+     * @return SoftwareEstacao
+     */
+    public function setIdAquisicao(\Cacic\CommonBundle\Entity\Aquisicao $idAquisicao = null)
+    {
+        $this->idAquisicao = $idAquisicao;
+    
+        return $this;
+    }
+
+    /**
+     * Get idAquisicao
+     *
+     * @return \Cacic\CommonBundle\Entity\Aquisicao 
+     */
+    public function getIdAquisicao()
+    {
+        return $this->idAquisicao;
+    }
 }

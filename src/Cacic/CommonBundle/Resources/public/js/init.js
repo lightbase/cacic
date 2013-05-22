@@ -102,4 +102,11 @@ $(document).ready(function(){
 	 */
 	System.Grid.excluir(); // Inicializa o LISTENER para os botões-padrão de exclusão de itens
     System.Form.reset(); // Inicializa o LISTENER para os botões (ou input) type=reset
+    
+    /**
+     * Adiciona o calendário aos campos de data (contendo a classe datepicker_on)
+     * e já configura a máscara no formato xx/xx/xxxx
+     */
+    $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
+
 });

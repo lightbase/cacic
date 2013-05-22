@@ -31,9 +31,9 @@ class SoftwareEstacaoType extends AbstractType
                 'label'=>'Software:' )
         );
         $builder->add(
-            'nrProcesso',
+            'idAquisicao',
             null,
-            array( 'label'=>'Processo de aquisicao:', 'max_length'=>30 )
+            array( 'label'=>'Processo de aquisicao:' )
         );
 
         $builder->add(
@@ -47,28 +47,45 @@ class SoftwareEstacaoType extends AbstractType
             null,
             array( 'label'=>'Computador:', 'max_length'=>30 )
         );
-        $builder->add('dtAutorizacao',
-        'date',
-        array( 'widget' => 'single_text',
-            'format' => 'dd/MM/yyyy','label'=>'Data de autorizacao:',)
+        
+        $builder->add(
+        	'dtAutorizacao',
+	        'date',
+	        array(
+	        	'widget' => 'single_text',
+            	'format' => 'dd/MM/yyyy',
+            	'label'=>'Data de autorizacao:',
+	        	'attr' => array('class'=>'datepicker_on')
+	        )
         );
+        
         $builder->add('dtExpiracaoInstalacao',
             'date',
-            array( 'widget' => 'single_text',
+            array(
+            	'widget' => 'single_text',
                 'required'=>false,
-                'format' => 'dd/MM/yyyy','label'=>'Data de expiracao:',)
+                'format' => 'dd/MM/yyyy','label'=>'Data de expiracao:',
+            	'attr' => array('class'=>'datepicker_on')
+            )
         );
+        
         $builder->add('dtDesinstalacao',
             'date',
-            array( 'widget' => 'single_text',
+            array(
+            	'widget' => 'single_text',
                 'required'=>false,
-                'format' => 'dd/MM/yyyy','label'=>'Data de desinstalacao:',)
+                'format' => 'dd/MM/yyyy',
+                'label'=>'Data de desinstalacao:',
+            	'attr' => array('class'=>'datepicker_on')
+            )
         );
+        
         $builder->add(
             'nrPatrDestino',
             null,
             array( 'label'=>'Patrimonio de destino:', 'max_length'=>30 )
         );
+        
         $builder->add(
             'teObservacao',
             null,

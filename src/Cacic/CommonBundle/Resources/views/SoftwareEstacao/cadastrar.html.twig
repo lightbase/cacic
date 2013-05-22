@@ -60,6 +60,26 @@
             </div> <!-- /block -->
         </div> <!-- /box -->
     </div> <!-- span4 -->
+    
+    <div class="span4">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Atalhos"|trans }}</h2>
+                        
+            <div class="block box_content round_bottom padding_10 shortcuts">
+                <a href="{{ path('cacic_software_cadastrar') }}" class="shortcut" style="width: 140px">
+					<i class="shortcut-icon icon-hdd"></i>
+					<br /><span class="shortcut-label">{{ 'Cadastrar'|trans }} Software</span>
+				</a>
+				
+				<a href="{{ path('cacic_aquisicao_cadastrar') }}" class="shortcut" style="width: 140px">
+					<i class="shortcut-icon icon-globe"></i>
+					<span class="shortcut-label">{{ 'Cadastrar Processo de Aquisição'|trans }}</span>								
+				</a>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- span4 -->
+    
 </div> <!-- /row -->
 {% endblock %}
 

@@ -164,4 +164,13 @@ class Aquisicao
     {
         return $this->nrNotafiscal;
     }
+    
+    /**
+     * 
+     * Método mágico invocado sempre que um objto do tipo Aquisicao for referenciado em contexto de string
+     */
+    public function __toString()
+    {
+    	return $this->getNrProcesso();
+    }
 }
