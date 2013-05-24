@@ -68,17 +68,3 @@
     {% endif %}
     
 {% endblock %}
-
-{% block javascripts %}
-
-{{ parent() }}
-
-<script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-pt-BR.js') }}"></script>
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
-    });
-</script>
-
-{% endblock %}

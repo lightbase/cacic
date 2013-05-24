@@ -235,6 +235,14 @@ cacic_configuracao_salvar:
     pattern: /configuracao/salvar
     defaults: { _controller: CacicCommonBundle:Configuracao:salvarconfiguracao}
 
+cacic_modulo_index:
+    pattern: /modulo
+    defaults: { _controller: CacicCommonBundle:Modulo:index}
+
+cacic_modulo_editar:
+    pattern: /modulo/editar/{idAcao}
+    defaults: { _controller: CacicCommonBundle:Modulo:editar}
+
 cacic_usbdevice_index:
     pattern: /usbdevice/{page}
     defaults: {_controller: CacicCommonBundle:UsbDevice:index, page: 1 }

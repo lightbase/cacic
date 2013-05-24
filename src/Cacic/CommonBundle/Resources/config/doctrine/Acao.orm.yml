@@ -1,5 +1,6 @@
 Cacic\CommonBundle\Entity\Acao:
     type: entity
+    repositoryClass: Cacic\CommonBundle\Entity\AcaoRepository
     table: acao
     fields:
         idAcao:

@@ -1,0 +1,37 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_modulo_index') }}">{{ "Módulos"|trans }}</a> / </li>
+    <li class="active">{{ modulo.getTeDescricaoBreve() }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+    <div class="span8">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-cogs"></i> {{ "Módulos"|trans }}</h2>
+
+            <div class="block box_content round_bottom padding_10" >
+
+                <h3>{{ modulo.getTeDescricaoBreve() }}</h3>
+                <small>{{ modulo.getTeDescricao() }}</small>
+                
+            </div> <!-- /block -->
+        </div><!-- /box -->
+    </div><!-- /span -->
+    
+    <div class="span4">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+                        
+            <div class="block box_content round_bottom padding_10">
+            	
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- span4 -->
+    
+</div><!-- /row -->
+
+{% endblock %}

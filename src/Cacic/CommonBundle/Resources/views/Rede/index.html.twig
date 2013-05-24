@@ -46,18 +46,18 @@
                     <td style="text-align: center">{{ rede[0]['teServUpdates'] }}</td>
                     <td class="td-actions">
                         <a href="{{ path('cacic_subrede_editar', {'idRede': rede[0]['idRede']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
-                            <i class="btn-icon-only icon-edit"></i>
+                            <i class="btn-icon-only icon-edit icon-large"></i>
                         </a>
 
                         <a href="{{ path('cacic_subrede_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
-                            <i class="btn-icon-only icon-remove"></i>
+                            <i class="btn-icon-only icon-trash icon-large"></i>
                         </a>
                     </td>
                 </tr>
 
             {% else %}
                 <tr>
-                    <td align="center" colspan="8"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                    <td style="text-align: center" colspan="8"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
                 </tr>
             {% endfor %}
 

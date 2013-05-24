@@ -20,7 +20,7 @@
             'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/DataTables/media/css/demo_table_jui.intenso.css'
             'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/css/*'
             'bundles/caciccommon/jquery-modal-0.5.3/jquery.modal.css'
-            'bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.min.css'
+            'bundles/caciccommon/Font-Awesome-3.1.1/css/font-awesome.min.css'
             'bundles/caciccommon/css/main.css'
        %}
             <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
@@ -74,9 +74,11 @@
 					</a>
 					
 					<ul class="dropdown-menu">
-						<li><a href="{{ path('cacic_configuracao_padrao') }}">Configurar Padrões</a></li>
-						<li><a href="{{ path('cacic_configuracao_gerente') }}">Configurar Gerente</a></li>
-						<li><a href="{{ path('cacic_configuracao_agente') }}">Configurar Agentes</a></li>
+						<li><a href="{{ path('cacic_configuracao_padrao') }}">{{ 'Configurar Padrões'|trans }}</a></li>
+						<li><a href="{{ path('cacic_configuracao_gerente') }}">{{ 'Configurar Gerente'|trans }}</a></li>
+						<li><a href="{{ path('cacic_configuracao_agente') }}">{{ 'Configurar Agentes'|trans }}</a></li>
+                        <li class="divider"></li>
+						<li><a href="{{ path('cacic_modulo_index') }}">{{ "Configurar Módulos"|trans }}</a></li>
 					</ul>
 					
 				</li>
@@ -124,7 +126,6 @@
 						<ul>
 							<li><a class="round_top" href="{{ path('cacic_software_naoclassificados') }}">{{ "Classificar Software"|trans }}</a></li>
 							<li><a href="{{ path('cacic_software_naousados') }}">{{ "Softwares não usados"|trans }}</a></li>
-							<li><a href="javascript:void(0)">{{ "Módulos"|trans }}</a></li>
 							
 							<li class="dropdown-submenu">
 								<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">

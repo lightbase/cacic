@@ -12,11 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class RedeRepository extends EntityRepository
 {
+	/**
+	 * 
+	 * Recupera o total de Redes de dado Local
+	 * @param int $idLocal
+	 * @return int
+	 */
+	public function countByLocal( $idLocal )
+	{
+		$query = $this->createQueryBuilder('rede')->select('COUNT(rede.idRede)')
+        								->innerJoin('rede.idLocal', 'loc')
+        								->where('loc.idLocal = :idLocal')
+        								->setParameter('idLocal', $idLocal);
 
-    public function paginar( $page )
-    {
-
-    }
+        return $query->getQuery()->getSingleScalarResult();
+	}
 
     /**
      *
@@ -48,6 +58,7 @@ class RedeRepository extends EntityRepository
         			->setParameter( 'idLocal', $idLocal )
         			->getArrayResult();
     }
+    
     /**
      *
      * Método de listagem de Redes associadas a determinado Servidor Autenticacao

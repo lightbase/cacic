@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="active">{{ "Módulos"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+    <div class="span8">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-cogs"></i> {{ "Módulos"|trans }}</h2>
+
+            <div class="block box_content round_bottom padding_10" >
+
+                <h3>{{ "Módulos"|trans }}</h3>
+                <small>
+                	{{ 'Aqui você poderá configurar os vários módulos disponíveis do CACIC'|trans }}.
+                	{{ 'Clique sobre o módulo desejado e, em seguida, realize as configurações'|trans }}.
+                </small>
+                
+                <dl>
+                {% for modulo in modulos %}
+		                {% if modulo['totalRedesAtivadas'] == totalRedes %}
+		                <dt class="green"><i class="icon-star green"></i>
+		                {% elseif ( ( modulo['totalRedesAtivadas'] > 0 ) and ( modulo['totalRedesAtivadas'] < totalRedes  ) ) %}
+		                <dt class="yellow"><i class="icon-star-half-empty yellow"></i>
+		                {% else %}
+		                <dt class="red"><i class="icon-star-empty"></i>
+		                {% endif %}
+	                	<a href="{{ path('cacic_modulo_editar', {'idAcao': modulo[0].getIdAcao()}) }}">{{ modulo[0].getTeDescricaoBreve() }}</a>
+	                	({{ 'Total de redes'|trans }}: {{ modulo['totalRedesAtivadas'] }} )
+	                </dt>
+	                <dd>{{ modulo[0].getTeDescricao() }}</dd>
+                {% endfor %}
+                </dl>
+                
+            </div> <!-- /block -->
+        </div><!-- /box -->
+    </div><!-- /span -->
+    
+    <div class="span4">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+                        
+            <div class="block box_content round_bottom padding_10">
+            	<p>{{ 'Legenda'|trans }}:</p>
+                <ul style="list-style: none" class="icons-ul">
+                	<li class="red"><i class="icon-li icon-star-empty"></i> {{ 'Nao é executado em nenhuma rede'|trans }}</li>
+					<li class="yellow"><i class="icon-li icon-star-half-full"></i> {{ 'Executado apenas nas redes selecionadas'|trans }}</li>	
+					<li class="green"><i class="icon-li icon-star"></i> {{ 'Executado em todas as redes'|trans }}</li>
+                </ul>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- span4 -->
+    
+</div><!-- /row -->
+
+{% endblock %}
