@@ -75,5 +75,24 @@ class RedeRepository extends EntityRepository
             ->setParameter( 'idServidorAutenticacao', $idServidorAutenticacao )
             ->getArrayResult();
     }
+    
+    /**
+     * Recupera as redes associadas ao local informado
+     * Retorna um array associativo do tipo [idRede] => nmRede
+     * @param int|Cacic\CommonBundle\Entity\Local $local
+     * @return array
+     */
+    public function getArrayChaveValorPorLocal( $local )
+    {
+    	$redes = $this->listarPorLocal( $local );
+    	$return = array();
+    	
+    	foreach( $redes as $rede )
+    	{
+    		$return[$rede['idRede']] = $rede['nmRede'];
+    	}
+    	
+    	return $return;
+    }
 
 }

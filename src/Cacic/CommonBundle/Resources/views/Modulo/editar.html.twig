@@ -9,29 +9,175 @@
 
 <div class="row-fluid">
 
-    <div class="span8">
+    <div class="span12">
         <div class="box grad_colour_black">
             <h2 class="box_head round_top"><i class="icon-cogs"></i> {{ "Módulos"|trans }}</h2>
-
+            
             <div class="block box_content round_bottom padding_10" >
+            
+            	<p class="pull-right">
+                	<small>{{ 'Ultima Alteração em'|trans }}: {{ modulo.getDtHrAlteracao()|date("d/m/Y, H:i") }}</small>
+                </p>
 
                 <h3>{{ modulo.getTeDescricaoBreve() }}</h3>
                 <small>{{ modulo.getTeDescricao() }}</small>
+                
+                {# VERIFICAR PADRAO DE CODIFICAÇÃO DO SYMFONY2 PARA ESTE TIPO DE FORMULÁRIO #}
+                <hr />
+                
+                <form name="frmConfigModulo" id="frmConfigModulo" class="form-horizontal" method="POST">
+                
+                <div class="control-group">
+                	<label class="control-label">
+                		{{ 'Onde executar esta ação-configuração'|trans }}: 
+                	</label>
+                	<div class="controls">
+                		<input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="modulo\[rede\]" id="toggleRede">
+                		<label for="toggleRede"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
+	           			{% for rede in redes %}
+	           			<input type="checkbox" name="modulo[rede][]" value="{{ rede['idRede'] }}" id="modulo_rede_{{ rede['idRede'] }}"
+	           			{% if rede['idRede'] in redesSelecionadas %}checked="checked"{% endif %}
+	           			 />
+	           				<label for="modulo_rede_{{ rede['idRede' ] }}">{{ rede['nmRede'] }} ({{ rede['teIpRede'] }})</label>
+	           			{% endfor %}
+           			</div>
+                </div>
+                
+                <hr />
+                
+                <div class="control-group _cad_block_opcao">
+                	<label class="control-label">{{ 'Sistemas Operacionais onde esta ação-configuração deverá ser aplicada'|trans }}</label>
+                	<div class="controls">
+                		<input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="modulo\[so\]" id="toggleSo">
+                		<label for="toggleSo"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
+                		<div style="height: 200px; overflow: auto;">
+                		{% for _so in so %}
+                		<div class="modulo-opt-block">
+	                		<input type="checkbox" name="modulo[so][]" value="{{ _so['idSo'] }}" id="modulo_so_{{ _so['idSo'] }}"
+	                		{% if _so['idSo'] in soSelecionados %}checked="checked"{% endif %}
+	           			 	/>
+		           			<label for="modulo_so_{{ _so['idSo' ] }}">{{ _so['teDescSo'] }} ({{ _so['sgSo'] }} - {{ _so['teSo'] }})</label>
+		           		</div>
+                		{% endfor %}
+                		</div>
+                	</div>
+                </div>
+                
+                <hr />
+                
+                <div class="control-group _cad_block_opcao">
+                	<label class="control-label">
+                		{{ 'Computadores onde esta ação-configuração'|trans }} 
+                		<b class="red">{{ 'NÃO'|trans }}</b> 
+                		{{ 'deverá ser aplicada'|trans }}
+                	</label>
+                	<div class="controls">
+                		<div class="input-append">
+				        	<input id="modulo_mac_add" class="span2" type="text" placeholder="Mac Address">
+				        	<input type="hidden" name="modulo[mac]" id="modulo_mac" />
+				        	<span class="add-on"><i class="icon-plus" id="add-mac"></i></span>
+				        	<div class="pull-left" id="modulo-list-macs">
+				        	
+				        	</div>
+				        </div>
+                	</div>
+                </div>
+                
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="reset" class="btn">
+                            <i class="icon-refresh"></i>
+                            {{ "Resetar Valores"|trans }}
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="icon-ok-sign"></i>
+                            {{ "Salvar Dados"|trans }}
+                        </button>
+                    </div>
+                </div>
+
+	            </form>
+	            <hr />
+	            <div>
+	                <a class="btn btn-danger"  href="{{ path('cacic_aquisicao_item_index') }}">
+	                    <i class="icon-remove-sign"></i>
+	                    {{ "Cancelar"|trans }}
+	                </a>
+	            </div>
                 
             </div> <!-- /block -->
         </div><!-- /box -->
     </div><!-- /span -->
     
-    <div class="span4">
-        <div class="box grad_colour_black">
-            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
-                        
-            <div class="block box_content round_bottom padding_10">
-            	
-            </div> <!-- /block -->
-        </div> <!-- /box -->
-    </div> <!-- span4 -->
-    
 </div><!-- /row -->
+
+{% endblock %}
+
+{% block stylesheets %}
+
+{{ parent() }}
+
+<style type="text/css">
+	.control-group .controls ._option_col { width: 240px; }
+	#add-mac, .remove-mac { cursor: pointer; }
+	.modulo-opt-block, .modulo-mac-opt-block { width: 370px; margin-right: 20px; float: left; }
+	#modulo-list-macs {  }
+	.modulo-mac-opt-block { width: 150px; margin-left: 20px; }
+</style>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+	<script type="text/javascript">
+	   System.Form.toggleCheck(); // Ativa o monitoramento de Clique no checkbox para marcar/desmarcar todos
+
+	   $( '#modulo_mac_add' ).mask('**-**-**-**-**-**');
+
+	   var _macs = new Array();
+
+	   $( '#add-mac' ).bind('click', function(){
+		   var _new_mac = $("#modulo_mac_add").val();
+		   if ( _new_mac == undefined || _new_mac == "" ) return false;
+		   
+		   _macs.push( _new_mac );
+		   atualizaListaMacs();
+	   });
+
+	   function atualizaListaMacs(){
+		   $( '#modulo-list-macs' ).empty();
+		   for ( var i in _macs )
+		   {
+			   var _tmp_html = '<div class="modulo-mac-opt-block" id="mac_' + i + '">';
+				_tmp_html += '<i class="icon-trash remove-mac icon-large"></i> ' + _macs[i];
+				_tmp_html += '</div>';
+				$( '#modulo-list-macs' ).append( _tmp_html );
+		   }
+		   
+		   $( '.remove-mac').bind('click', function(){
+				var _i = $(this).parent().attr('id').replace(/.*?(\d+)/g, '$1');
+				_macs.splice( _i, 1 );
+				$( '#mac_' + _i ).remove();
+				atualizaListaMacs();
+			})
+	   }
+
+	   $('#frmConfigModulo').bind('submit', function(e){
+		   // Transforma o array _macs em variável para o POST
+		   $('#modulo_mac').val( _macs );
+	   });
+
+	   {% if excecoesCadastradas|length %}
+		$(document).ready(function(){
+			{% for nodeAddress in excecoesCadastradas %}
+			_macs.push( '{{ nodeAddress }}' );
+			{% endfor %}
+			atualizaListaMacs();
+		});
+	   {% endif %}
+	   
+	</script>
 
 {% endblock %}

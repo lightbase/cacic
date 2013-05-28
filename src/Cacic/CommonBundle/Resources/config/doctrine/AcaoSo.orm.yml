@@ -1,16 +1,16 @@
 Cacic\CommonBundle\Entity\AcaoSo:
     type: entity
     table: acao_so
-    fields:
-        idAcaoSo:
-            id: true
-            type: integer
-            nullable: false
-            column: id_acao_so
-            generator:
-                strategy: IDENTITY
+    repositoryClass: Cacic\CommonBundle\Entity\AcaoSoRepository
+    id:
+        acao:
+            associationKey: true
+        rede:
+            associationKey: true
+        so:
+            associationKey: true
     manyToOne:
-        idAcao:
+        acao:
             targetEntity: Acao
             cascade: {  }
             mappedBy: null
@@ -19,7 +19,7 @@ Cacic\CommonBundle\Entity\AcaoSo:
                 id_acao:
                     referencedColumnName: id_acao
             orphanRemoval: false
-        idRede:
+        rede:
             targetEntity: Rede
             cascade: {  }
             mappedBy: null
@@ -28,7 +28,7 @@ Cacic\CommonBundle\Entity\AcaoSo:
                 id_rede:
                     referencedColumnName: id_rede
             orphanRemoval: false
-        idSo:
+        so:
             targetEntity: So
             cascade: {  }
             mappedBy: null

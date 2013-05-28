@@ -41,5 +41,5 @@ Cacic\CommonBundle\Entity\Acao:
     oneToMany:
         redes:
             targetEntity: AcaoRede
-            mappedBy: idAcao
+            mappedBy: acao
     lifecycleCallbacks: {  }

@@ -13,11 +13,6 @@ use Doctrine\ORM\EntityRepository;
 class SoRepository extends EntityRepository
 {
 
-    public function paginar( $page )
-    {
-
-    }
-
     /**
      *
      * Método de listagem dos Tipo de Software cadastrados e respectivas informações
@@ -26,7 +21,7 @@ class SoRepository extends EntityRepository
     {
         $_dql = "SELECT s
 				FROM CacicCommonBundle:So s
-				GROUP BY s.idSo";
+				ORDER BY s.teDescSo";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
