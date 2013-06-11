@@ -12,7 +12,7 @@
     <![endif]-->
     
     {% block stylesheets %}
-        {% stylesheets output='css/cacic.css' combine=false filter='cssrewrite,?yui_css'
+        {% stylesheets output='assets/base.css' combine=false filter='cssrewrite,?yui_css'
             'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/css/*'
             'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.8.16.custom.css'
             'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/js/google-code-prettify/prettify.css'
@@ -315,7 +315,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
 	
-	{% javascripts output='cacic.js' combine=false
+	{% javascripts output='assets/base.js' combine=false
 	    '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.cookie.js'
         '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery.ui.totop/js/jquery.ui.totop.js'
         '@bootstrap_js'

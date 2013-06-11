@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     
     {% block javascripts %}
-	    {% javascripts output='js/cacic.js' combine=true 
+	    {% javascripts output='assets/login.js' combine=true 
 	        '@jquery_js'
 	        '@bootstrap_js'
 	    %}
@@ -17,7 +17,7 @@
 	{% endblock %}
 	
 	{% block stylesheets %}
-	    {% stylesheets output='css/cacic.css' combine=true filter='cssrewrite'
+	    {% stylesheets output='assets/login.css' combine=true filter='cssrewrite'
 	        '@bootstrap_less'
 	        'bundles/caciccommon/css/*'
 	        'bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.min.css'

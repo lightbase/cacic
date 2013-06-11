@@ -408,3 +408,7 @@ cacic_software_estacao_editar:
 cacic_software_estacao_excluir:
     pattern:  /softwareestacao/excluir
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:excluir}
+
+cacic_computador_filtrar:
+    pattern:  /computador/filtrar
+    defaults: { _controller: CacicCommonBundle:Computador:filtrar}
