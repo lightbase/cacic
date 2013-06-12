@@ -337,4 +337,17 @@ class Local
     {
         return $this->uorgs;
     }
+    
+    /**
+     * Set idLocal
+     * 
+     * @param int $idLocal
+     * @return Local
+     */
+    public function setIdLocal( $idLocal )
+    {
+    	$this->idLocal = $idLocal;
+    	
+    	return $this;
+    }
 }

@@ -171,4 +171,56 @@ class LocalController extends Controller
         );
 	}
 	
+	/**
+	 * 
+	 * Tela de importação de arquivo CSV com registros de Locais
+	 */
+	public function importarcsvAction( Request $request )
+	{
+		$form = $this->createFormBuilder()
+			        ->add('arquivocsv', 'file', array('label' => 'Arquivo', 'attr' => array( 'accept' => '.csv' )))
+			        ->getForm();
+		
+		if ( $request->isMethod('POST') )
+		{
+			$form->bindRequest( $request );
+			if ( $form['arquivocsv']->getData() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile )
+			{
+				// Executa a importação do arquivo - grava no diretório web/upload/migracao
+				$dirMigracao = realpath( dirname(__FILE__) .'/../../../../web/upload/migracao/' );
+				$fileName = 'Locais_U'.$this->getUser()->getIdUsuario().'T'.time().'.csv';
+				$form['arquivocsv']->getData()->move( $dirMigracao, $fileName );
+				
+				$em = $this->getDoctrine()->getManager();
+				// Abre o arquivo salvo e começa a rotina de importação dos dados do CSV
+				$csv = file( $dirMigracao.'/'.$fileName );
+				foreach( $csv as $k => $v )
+				{ 
+					// Valida a linha
+					$v = explode( ';', trim( str_replace( '"', '', $v ) ) );
+					if ( count( $v ) != 4 )
+						continue;
+					
+					$local = new Local();
+					$local->setIdLocal( (int) $v[0] );
+					$local->setNmLocal( $v[1] );
+					$local->setSgLocal( $v[2] );
+					$local->setTeObservacao( $v[3] );
+					$em->persist( $local );
+				}
+				$em->flush(); // Persiste os dados dos Locais
+				
+				$this->get('session')->getFlashBag()->add('success', 'Importação realizada com sucesso!');
+			}
+			else $this->get('session')->getFlashBag()->add('error', 'Arquivo CSV inválido!');
+			
+			return $this->redirect( $this->generateUrl( 'cacic_migracao_subrede') );
+	    }
+		
+		return $this->render(
+        	'CacicCommonBundle:Local:importarcsv.html.twig',
+        	array( 'form' => $form->createView() )
+        );
+	}
+	
 }

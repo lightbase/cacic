@@ -1,0 +1,88 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_subrede_index') }}">{{ "Subredes"|trans }}</a></li> /
+    <li class="active">{{ "Importar CSV"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+	<div class="span8">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-upload-alt icon-large"></i> {{ "Importar CSV"|trans }}</h2>
+			
+			<div class="block box_content round_bottom padding_10">
+			
+				<h3>Importar Arquivo CSV</h3>
+				<p>Informe o arquivo CSV com os dados das Redes/Subredes que devem ser importadas.</p>
+				<hr />
+			
+				<form id="formImportSubredes" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+				
+					{{ form_widget( form, {'form_type': 'horizontal'} ) }}
+					{{ form_rest(form) }}
+							
+					<br />
+					
+					<div class="control-group">
+	                  <div class="controls">
+	                    <button type="reset" class="btn">
+							<i class="icon-refresh"></i>
+							{{ "Resetar Valores"|trans }}
+						</button>
+						<button type="submit" class="btn btn-primary">
+							<i class="icon-ok-sign"></i>
+							{{ "Salvar Dados"|trans }}
+						</button>
+	                  </div><!-- /controls -->
+	                </div><!-- /control-group -->
+				
+				</form>
+				<hr />
+				<div>
+					<a class="btn btn-danger"  href="{{ path('cacic_local_index') }}">
+						<i class="icon-remove-sign"></i>
+						{{ "Cancelar"|trans }}
+					</a>
+				</div>
+			</div> <!-- block -->
+		</div> <!-- /box -->
+	</div> <!-- /span -->
+
+
+	<div class="span4">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+			
+			<div class="block box_content round_bottom padding_10">
+			    <p>
+                    {{ "O arquivo CSV deve obedecer à seguinte estrutura"|trans }}:
+				</p>
+				<ul>
+                	<li><strong>{{ "Quebra de linha"|trans }}</strong> (\n) {{ "para separar registros"|trans }}</li>
+                	<li><strong>{{ "Ponto-e-vírgula"|trans }}</strong> (;) {{ "como separador de campos"|trans }}</li>
+                </ul>
+				<p>
+					{{ "Os registros devem obedecer à seguinte órdem"|trans }}:
+				</p>
+				<ul>
+					<li>{{ "ID do Local"|trans }}</li>
+					<li>{{ "ID do Servidor de Autenticação"|trans }}</li>
+					<li>{{ "IP da Rede/Subrede"|trans }}</li>
+					<li>{{ "Nome da Rede"|trans }} ({{ "opcional"|trans }})</li>
+					<li>{{ "Nome ou IP do servidor de aplicação (gerente)"|trans }}</li>
+					<li>{{ "Nome ou IP do servidor de atualização (FTP)"|trans }}</li>
+					<li>{{ "Limite de conexões FTP"|trans }}</li>
+					<li>{{ "Permitir desativar CACIC"|trans }} {{ "S ou N"|trans }}</li>
+				</ul>
+			</div> <!-- /block -->
+		</div> <!-- /box -->
+	</div> <!-- span4 -->
+
+</div> <!-- /row -->
+	
+{% endblock %}

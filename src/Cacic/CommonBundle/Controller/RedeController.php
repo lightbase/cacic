@@ -104,4 +104,65 @@ class RedeController extends Controller
 
         return $response;
     }
+    
+	/**
+	 * 
+	 * Tela de importação de arquivo CSV com registros de Redes/Subredes
+	 */
+	public function importarcsvAction( Request $request )
+	{
+		$form = $this->createFormBuilder()
+			        ->add('arquivocsv', 'file', array('label' => 'Arquivo', 'attr' => array( 'accept' => '.csv' )))
+			        ->getForm();
+		
+		if ( $request->isMethod('POST') )
+		{
+			$form->bindRequest( $request );
+			if ( $form['arquivocsv']->getData() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile )
+			{
+				// Executa a importação do arquivo - grava no diretório web/upload/migracao
+				$dirMigracao = realpath( dirname(__FILE__) .'/../../../../web/upload/migracao/' );
+				$fileName = 'Subredes_U'.$this->getUser()->getIdUsuario().'T'.time().'.csv';
+				$form['arquivocsv']->getData()->move( $dirMigracao, $fileName );
+				
+				$em = $this->getDoctrine()->getManager();
+				
+				// Abre o arquivo salvo e começa a rotina de importação dos dados do CSV
+				$csv = file( $dirMigracao.'/'.$fileName );
+				foreach( $csv as $k => $v )
+				{ 
+					// Valida a linha
+					$v = explode( ';', trim( str_replace( '"', '', $v ) ) );
+					if ( count( $v ) != 8 )
+						continue;
+					
+					$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->find( (int) $v[0] );
+					$servAut = $this->getDoctrine()->getRepository('CacicCommonBundle:ServidorAutenticacao')->find( (int) $v[1] );
+					
+					$rede = new Rede();
+					if ( $local )	$rede->setIdLocal( $local );
+					if ( $servAut ) $rede->setIdServidorAutenticacao( $servAut );
+					$rede->setTeIpRede( $v[2] );
+					$rede->setNmRede( $v[3] );
+					$rede->setTeServCacic( $v[4] );
+					$rede->setTeServUpdates( $v[5] );
+					$rede->setNuLimiteFtp( (int) $v[6] );
+					$rede->setCsPermitirDesativarSrcacic( $v[7] );
+					
+					$em->persist( $rede );
+				}
+				$em->flush(); // Persiste os dados das Redes
+				
+				$this->get('session')->getFlashBag()->add('success', 'Importação realizada com sucesso!');
+			}
+			else $this->get('session')->getFlashBag()->add('error', 'Arquivo CSV inválido!');
+			
+			return $this->redirect( $this->generateUrl( 'cacic_migracao_subrede') );
+	    }
+		
+		return $this->render(
+        	'CacicCommonBundle:Rede:importarcsv.html.twig',
+        	array( 'form' => $form->createView() )
+        );
+	}
 }

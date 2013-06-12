@@ -91,5 +91,58 @@ class SoController extends Controller
 
         return $response;
     }
+    
+	/**
+	 * 
+	 * Tela de importação de arquivo CSV com registros de Sistemas Operacionais
+	 */
+	public function importarcsvAction( Request $request )
+	{
+		$form = $this->createFormBuilder()
+			        ->add('arquivocsv', 'file', array('label' => 'Arquivo', 'attr' => array( 'accept' => '.csv' )))
+			        ->getForm();
+		
+		if ( $request->isMethod('POST') )
+		{
+			$form->bindRequest( $request );
+			if ( $form['arquivocsv']->getData() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile )
+			{
+				// Executa a importação do arquivo - grava no diretório web/upload/migracao
+				$dirMigracao = realpath( dirname(__FILE__) .'/../../../../web/upload/migracao/' );
+				$fileName = 'SO_U'.$this->getUser()->getIdUsuario().'T'.time().'.csv';
+				$form['arquivocsv']->getData()->move( $dirMigracao, $fileName );
+				
+				$em = $this->getDoctrine()->getManager();
+				
+				// Abre o arquivo salvo e começa a rotina de importação dos dados do CSV
+				$csv = file( $dirMigracao.'/'.$fileName );
+				foreach( $csv as $k => $v )
+				{ 
+					// Valida a linha
+					$v = explode( ';', trim( str_replace( '"', '', $v ) ) );
+					if ( count( $v ) != 5 )
+						continue;
+					
+					$so = new So();
+					$so->setIdSo( $v[0] );
+					$so->setTeDescSo( $v[1] );
+					$so->setSgSo( $v[2] );
+					$so->setTeSo( $v[3] );
+					$so->getInMswindows( (int) $v[4] );
+					
+					$em->persist( $so );
+				}
+				$em->flush(); // Persiste os dados dos Sistemas Operacionais
+				
+				$this->get('session')->getFlashBag()->add('success', 'Importação realizada com sucesso!');
+			}
+			else $this->get('session')->getFlashBag()->add('error', 'Arquivo CSV inválido!');
+	    }
+		
+		return $this->render(
+        	'CacicCommonBundle:Rede:importarcsv.html.twig',
+        	array( 'form' => $form->createView() )
+        );
+	}
 
 }

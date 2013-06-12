@@ -412,3 +412,19 @@ cacic_software_estacao_excluir:
 cacic_computador_filtrar:
     pattern:  /computador/filtrar
     defaults: { _controller: CacicCommonBundle:Computador:filtrar}
+
+cacic_migracao_local:
+    pattern: /migracao/locais
+    defaults: { _controller: CacicCommonBundle:Local:importarcsv}
+
+cacic_migracao_subrede:
+    pattern: /migracao/subredes
+    defaults: { _controller: CacicCommonBundle:Rede:importarcsv}
+
+cacic_migracao_so:
+    pattern: /migracao/sistemasoperacionais
+    defaults: { _controller: CacicCommonBundle:So:importarcsv}
+
+cacic_migracao_computador:
+    pattern: /migracao/computadores
+    defaults: { _controller: CacicCommonBundle:Computador:importarcsv}

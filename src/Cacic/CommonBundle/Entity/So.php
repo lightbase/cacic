@@ -136,4 +136,17 @@ class So
     {
         return $this->inMswindows;
     }
+    
+	/**
+     * Set idSo
+     *
+     * @param int $idSo
+     * @return So
+     */
+    public function setIdSo($idSo)
+    {
+        $this->idSo = $idSo;
+    
+        return $this;
+    }
 }
