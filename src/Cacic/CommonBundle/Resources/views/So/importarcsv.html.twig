@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li><a href="{{ path('cacic_so_index') }}">{{ "Sistemas Operacionais"|trans }}</a></li> /
+    <li><a href="{{ path('cacic_sistemaoperacional_index') }}">{{ "Sistemas Operacionais"|trans }}</a></li> /
     <li class="active">{{ "Importar CSV"|trans }}</li>
 {% endblock %}
 
@@ -17,10 +17,10 @@
 			<div class="block box_content round_bottom padding_10">
 			
 				<h3>Importar Arquivo CSV</h3>
-				<p>Informe o arquivo CSV com os dados dos Locais que devem ser importados.</p>
+				<p>Informe o arquivo CSV com os dados dos Sistemas Operacionais que devem ser importados.</p>
 				<hr />
 			
-				<form id="FormImportLocais" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+				<form id="FormImportSO" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
 				
 					{{ form_widget( form, {'form_type': 'horizontal'} ) }}
 					{{ form_rest(form) }}
@@ -70,10 +70,11 @@
 					{{ "Os registros devem obedecer à seguinte órdem"|trans }}:
 				</p>
 				<ul>
-					<li>{{ "ID do Local"|trans }}</li>
-					<li>{{ "Nome do Local"|trans }}</li>
-					<li>{{ "Sigla do Local"|trans }}</li>
-					<li>{{ "Observação"|trans }} ({{ "opcional"|trans }})</li>
+					<li>{{ "ID do Sistema Operacional"|trans }}</li>
+					<li>{{ "Descrição Completa do Sistema Operacional"|trans }}</li>
+					<li>{{ "Sigla do Sistema Operacional"|trans }}</li>
+					<li>{{ "Descrição curta do Sistema Operacional"|trans }}</li>
+					<li>{{ "É Windows"|trans }}? ({{ "S ou N"|trans }})</li>
 				</ul>
 			</div> <!-- /block -->
 		</div> <!-- /box -->

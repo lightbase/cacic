@@ -124,23 +124,31 @@ class SoController extends Controller
 						continue;
 					
 					$so = new So();
-					$so->setIdSo( $v[0] );
+					
+					// desabilita a geracao automatica do id
+		            $metadata = $em->getClassMetaData(get_class($so));
+		            $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+            
+					$so->setIdSo( (int) $v[0] );
 					$so->setTeDescSo( $v[1] );
 					$so->setSgSo( $v[2] );
 					$so->setTeSo( $v[3] );
-					$so->getInMswindows( (int) $v[4] );
+					$so->setInMswindows( $v[4] );
 					
 					$em->persist( $so );
 				}
+				
 				$em->flush(); // Persiste os dados dos Sistemas Operacionais
 				
 				$this->get('session')->getFlashBag()->add('success', 'Importação realizada com sucesso!');
 			}
 			else $this->get('session')->getFlashBag()->add('error', 'Arquivo CSV inválido!');
+			
+			return $this->redirect( $this->generateUrl( 'cacic_migracao_so') );
 	    }
 		
 		return $this->render(
-        	'CacicCommonBundle:Rede:importarcsv.html.twig',
+        	'CacicCommonBundle:So:importarcsv.html.twig',
         	array( 'form' => $form->createView() )
         );
 	}

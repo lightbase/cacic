@@ -36,7 +36,7 @@
                 {% for so in So %}
                     <tr id="item_{{ so['idSo'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
                         <td id="item_desc_{{ so['idSo'] }}">{{ so['teDescSo'] }}</td>
-                        <td style="text-align: center">{{ so['inMswindows'] }}</td>
+                        <td style="text-align: center">{{ so['inMswindows']|traduzFlagSimNao }}</td>
                         <td style="text-align: center">{{ so['teSo'] }}</td>
                         <td style="text-align: center">{{ so['idSo'] }}</td>
                         <td>{{ so['sgSo'] }}</td>

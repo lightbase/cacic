@@ -202,6 +202,11 @@ class LocalController extends Controller
 						continue;
 					
 					$local = new Local();
+					
+					// desabilita a geracao automatica do id
+		            $metadata = $em->getClassMetaData(get_class($local));
+		            $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+					
 					$local->setIdLocal( (int) $v[0] );
 					$local->setNmLocal( $v[1] );
 					$local->setSgLocal( $v[2] );
@@ -214,7 +219,7 @@ class LocalController extends Controller
 			}
 			else $this->get('session')->getFlashBag()->add('error', 'Arquivo CSV inválido!');
 			
-			return $this->redirect( $this->generateUrl( 'cacic_migracao_subrede') );
+			return $this->redirect( $this->generateUrl( 'cacic_migracao_local') );
 	    }
 		
 		return $this->render(

@@ -413,6 +413,22 @@ cacic_computador_filtrar:
     pattern:  /computador/filtrar
     defaults: { _controller: CacicCommonBundle:Computador:filtrar}
 
+cacic_computador_navegar:
+    pattern:  /computador/navegar
+    defaults: { _controller: CacicCommonBundle:Computador:navegar}
+
+cacic_computador_excluir:
+    pattern:  /computador/excluir/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:excluir}
+    requirements:
+        idComputador: \d+
+
+cacic_computador_detalhar:
+    pattern:  /computador/detalhar/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:detalhar}
+    requirements:
+        idComputador: \d+
+
 cacic_migracao_local:
     pattern: /migracao/locais
     defaults: { _controller: CacicCommonBundle:Local:importarcsv}

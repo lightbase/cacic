@@ -50,6 +50,7 @@
           <p class="navbar-text pull-left">CACIC v.{{ cacic_version }}</p>
           
           <div class="nav-collapse">
+          	<p class="navbar-text pull-right"> {{ "Logado como"|trans }} <a href="#">{{ app.user.nmUsuarioAcesso }}</a></p>
             <ul class="nav pull-right">
               <li class="dropdown">
                     <a href="#"
@@ -66,36 +67,40 @@
                     </ul>
               </li>
               <li class="dropdown">
-					
 					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-cog"></i>
 						Configurações
 						<b class="caret"></b>
 					</a>
-					
 					<ul class="dropdown-menu">
 						<li><a href="{{ path('cacic_configuracao_padrao') }}">{{ 'Configurar Padrões'|trans }}</a></li>
 						<li><a href="{{ path('cacic_configuracao_gerente') }}">{{ 'Configurar Gerente'|trans }}</a></li>
 						<li><a href="{{ path('cacic_configuracao_agente') }}">{{ 'Configurar Agentes'|trans }}</a></li>
                         <li class="divider"></li>
 						<li><a href="{{ path('cacic_modulo_index') }}">{{ "Configurar Módulos"|trans }}</a></li>
-						<li class="divider"></li>
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-refresh icon-spin"></i>
+						Migração
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
 						<li><a href="{{ path('cacic_migracao_local') }}">{{ "Importar Locais"|trans }}</a></li>
-						<li><a href="{{ path('cacic_migracao_computador') }}">{{ "Importar Computadores"|trans }}</a></li>
 						<li><a href="{{ path('cacic_migracao_subrede') }}">{{ "Importar Redes/Subredes"|trans }}</a></li>
 						<li><a href="{{ path('cacic_migracao_so') }}">{{ "Importar Sistemas Operacionais"|trans }}</a></li>
+						<li><a href="{{ path('cacic_migracao_computador') }}">{{ "Importar Computadores"|trans }}</a></li>
 					</ul>
-					
 				</li>
 		
 				<li class="dropdown">
-					
 					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-user"></i> 
 						Meus Dados
 						<b class="caret"></b>
 					</a>
-					
 					<ul class="dropdown-menu">
 						<li><a href="javascript:void(0);">Meus Dados</a></li>
 						<li><a href="javascript:void(0);">Alterar Senha</a></li>
@@ -103,10 +108,8 @@
 						<li class="divider"></li>
 						<li><a href="{{ path('cacic_common_logout') }}">Sair</a></li>
 					</ul>
-					
 				</li>
             </ul>
-            <p class="navbar-text pull-right"> {{ "Logado como"|trans }} <a href="#">{{ app.user.nmUsuarioAcesso }}</a></p>
           </div><!--/.nav-collapse -->
         </div>
       </div>
