@@ -17,7 +17,7 @@ cacic_common_instalador:
     defaults: { _controller: CacicCommonBundle:Instalador:index }
 
 cacic_usuario_index:
-    pattern:  /usuario/{page}
+    pattern:  /usuarios/{page}
     defaults: { _controller: CacicCommonBundle:Usuario:index, page: 1 }
     requirements:
         page: \d+
@@ -410,12 +410,16 @@ cacic_software_estacao_excluir:
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:excluir}
 
 cacic_computador_filtrar:
-    pattern:  /computador/filtrar
+    pattern:  /computadores/filtrar
     defaults: { _controller: CacicCommonBundle:Computador:filtrar}
 
 cacic_computador_navegar:
-    pattern:  /computador/navegar
+    pattern:  /computadores/navegar
     defaults: { _controller: CacicCommonBundle:Computador:navegar}
+
+cacic_computador_consultar:
+    pattern:  /computadores/consultar
+    defaults: { _controller: CacicCommonBundle:Computador:consultar}
 
 cacic_computador_excluir:
     pattern:  /computador/excluir/{idComputador}
@@ -428,6 +432,18 @@ cacic_computador_detalhar:
     defaults: { _controller: CacicCommonBundle:Computador:detalhar}
     requirements:
         idComputador: \d+
+
+cacic_computador_loadredenodes:
+    pattern:  /computador/loadredenodes/{idLocal}
+    defaults: { _controller: CacicCommonBundle:Computador:loadredenodes}
+    requirements:
+        idLocal: \d+
+
+cacic_computador_loadcompnodes:
+    pattern:  /computador/loadcompnodes/{idSubrede}
+    defaults: { _controller: CacicCommonBundle:Computador:loadcompnodes}
+    requirements:
+        idSubrede: \d+
 
 cacic_migracao_local:
     pattern: /migracao/locais

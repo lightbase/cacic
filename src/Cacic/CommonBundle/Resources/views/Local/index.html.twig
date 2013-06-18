@@ -33,14 +33,14 @@
 			  	<tbody>
 			    {% for local in locais %}
 			    
-			    <tr id="item_{{ local[0]['idLocal'] }}">
-				    <td>{{ local[0]['sgLocal'] }}</td>
-				    <td id="item_desc_{{ local[0]['idLocal'] }}">{{ local[0]['nmLocal'] }}</td>
-				    <td style="text-align: center">{{ local['numRedes']}}</td>
-				    <td style="text-align: center">{{ local['numUsuariosPrimarios'] }}</td>
+			    <tr id="item_{{ local[0].idLocal }}">
+				    <td>{{ local[0].sgLocal }}</td>
+				    <td id="item_desc_{{ local[0].idLocal }}">{{ local[0].nmLocal }}</td>
+				    <td style="text-align: center">{{ local.numRedes}}</td>
+				    <td style="text-align: center">{{ local.numUsuariosPrimarios }}</td>
 				    <td style="text-align: center"></td>
 					<td style="text-align: center" class="td-actions">
-						<a href="{{ path('cacic_local_editar', {'idLocal': local[0]['idLocal']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+						<a href="{{ path('cacic_local_editar', {'idLocal': local[0].idLocal}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
 							<i class="btn-icon-only icon-edit icon-large"></i>
 						</a>
 						
@@ -58,6 +58,12 @@
 			    
 			  </tbody>
 			</table>
+			
+			{# display navigation #}
+			<div class="navigation">
+			    {{ knp_pagination_render(locais) }}
+			</div>
+			
 			<div align="right">
 			    <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_local_cadastrar') }}">
 			    	<i class="icon-plus-sign"></i>

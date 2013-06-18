@@ -13,7 +13,18 @@ class DefaultController extends Controller
 	 */
 	public function indexAction()
 	{
-		return $this->render('CacicCommonBundle:Default:index.html.twig');
+		$estatisticas = array(
+			'totalCompMonitorados' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countAll(),
+			'totalInsucessosInstalacao' => $this->getDoctrine()->getRepository('CacicCommonBundle:InsucessoInstalacao')->countAll(),
+			'totalCompPorSO' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorSO()
+		);
+		
+		return $this->render(
+			'CacicCommonBundle:Default:index.html.twig',
+			array(
+				'estatisticas' => $estatisticas 
+			)
+		);
 	}
 	
 }

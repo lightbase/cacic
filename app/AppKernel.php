@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Cacic\RelatorioBundle\CacicRelatorioBundle(),
             new Cacic\WSBundle\CacicWSBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

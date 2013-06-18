@@ -58,6 +58,7 @@ class ConfiguracaoLocalRepository extends EntityRepository
 	 */
 	public function configurarLocalFromConfigPadrao( $local, $em )
 	{
+		$em = $this->getEntityManager();
 		$padrao = $em->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->findAll(); // Recupera todas as Configurações-Padrão
 		
 		foreach( $padrao as $confPadrao )

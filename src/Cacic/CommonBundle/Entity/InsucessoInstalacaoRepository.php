@@ -35,5 +35,14 @@ class InsucessoInstalacaoRepository extends EntityRepository
 
         return $query->getQuery()->execute();
     }
+    
+    /**
+     * 
+     * Conta as tentativas de instalação malsucedidas
+     */
+    public function countAll()
+    {
+    	return $this->createQueryBuilder('insucesso')->select('COUNT(insucesso.idInsucessoInstalacao)')->getQuery()->getSingleScalarResult();
+    }
 
 }

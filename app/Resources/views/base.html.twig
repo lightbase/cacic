@@ -196,7 +196,10 @@
 							<i class="icon-wrench"></i>
 							<span>{{ "Manutenção"|trans }}</span>
 							<span class="icon">&nbsp;</span>
-						</a>	  				
+						</a>
+						<ul>
+                            <li><a href="javascript:void(0)">{{ "Atualização de Subrede"|trans }}</a></li>
+                        </ul>
 					</li>
 					
 					<li>
@@ -204,10 +207,15 @@
 							<i class="icon-desktop"></i>
 							<span>{{ "Computadores"|trans }}</span>
 							<span class="icon">&nbsp;</span>
-						</a>    				
+						</a>
+						<ul>
+                            <li><a href="{{ path('cacic_computador_navegar') }}">{{ "Navegar"|trans }}</a></li>
+                            <li><a href="{{ path('cacic_computador_consultar') }}">{{ "Consultar"|trans }}</a></li>
+                            <li><a href="{{ path('cacic_computador_filtrar') }}">{{ "Busca avançada"|trans }}</a></li>
+                        </ul>
 					</li>
 					
-					<li>					
+					<li>
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-book"></i>
 							<span>{{ "Relatórios"|trans }}</span>

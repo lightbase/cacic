@@ -98,13 +98,13 @@ Cacic\CommonBundle\Entity\So:
     properties:
         teDescSo:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 255
         sgSo:
             - NotBlank: ~
-            - MaxLength: 30
+            - MaxLength: 20
         teSo:
             - NotNull: ~
-            - MaxLength: 10
+            - MaxLength: 50
         inMswindows:
             - NotBlank: ~
             - Choice:

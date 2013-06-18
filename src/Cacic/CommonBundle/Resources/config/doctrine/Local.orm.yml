@@ -52,7 +52,5 @@ Cacic\CommonBundle\Entity\Local:
         uorgs:
             targetEntity: Uorg
             mappedBy: local
-    entityListeners:
-        LocalListener:
-            postPersist: [postPersistHandler]
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        postPersist: [ configurarFromConfigPadrao ]

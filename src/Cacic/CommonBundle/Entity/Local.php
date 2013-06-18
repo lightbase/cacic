@@ -2,7 +2,6 @@
 
 namespace Cacic\CommonBundle\Entity;
 
-use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -294,16 +293,6 @@ class Local
     {
         return $this->configuracoes;
     }
-    
-    /**
-     * 
-     * [LifeCycle: POS INSERT] Cria as configurações do LOCAL à partir da configuração PADRÃO
-     */
-    public function configurarFromConfigPadrao()
-    {
-    	
-    	Debug::dump( $this->get->findAll() );
-    }
 
     /**
      * Add uorgs
@@ -349,5 +338,15 @@ class Local
     	$this->idLocal = $idLocal;
     	
     	return $this;
+    }
+    
+	/**
+     * 
+     * [LifeCycle: POST INSERT] Cria as configurações do LOCAL à partir da configuração PADRÃO
+     * @ORM\PostPersist
+     */
+    public function configurarFromConfigPadrao()
+    {
+    	
     }
 }

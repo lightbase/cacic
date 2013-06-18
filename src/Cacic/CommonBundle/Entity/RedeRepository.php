@@ -37,7 +37,7 @@ class RedeRepository extends EntityRepository
         $_dql = "SELECT r, l.nmLocal,  count(l.nmLocal) AS local
 				FROM CacicCommonBundle:Rede r
 				LEFT JOIN r.idLocal l
-				GROUP BY r.idRede";
+				GROUP BY r";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
