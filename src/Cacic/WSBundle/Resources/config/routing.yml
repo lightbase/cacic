@@ -1,0 +1,66 @@
+cacic_ws_index:
+    pattern: /ws/
+    defaults: { _controller: CacicWSBundle:Coletas:index }
+
+cacic_ws_instala-cacic:
+    pattern: /ws/instala-cacic
+    defaults: { _controller: CacicWSBundle:Coletas:instalaCacic }
+
+cacic_ws_gercols-setcollet:
+    pattern: /ws/gercols-setcollet
+    defaults: { _controller: CacicWSBundle:Coletas:gerColsSetCollet }
+
+cacic_ws_instala-cacic:
+    pattern: /ws/instala-cacic
+    defaults: { _controller: CacicWSBundle:Coletas:instalaCacic }
+
+cacic_ws_config:
+    pattern: /ws/get/config
+    defaults: { _controller: CacicWSBundle:Coletas:getConfig }
+
+cacic_ws_get_patrimonio:
+    pattern: /ws/get/patrimonio
+    defaults: { _controller: CacicWSBundle:Coletas:getPatrimonio }
+
+cacic_ws_set_patrimonio:
+    pattern: /ws/set/patrimonio
+    defaults: { _controller: CacicWSBundle:Coletas:setPatrimonio }
+
+cacic_ws_set_tcpip:
+    pattern: /ws/set/tcpip
+    defaults: { _controller: CacicWSBundle:Coletas:setTcpIp }
+
+cacic_ws_set_usbinfo:
+    pattern: /ws/set/usbinfo
+    defaults: { _controller: CacicWSBundle:Coletas:setUsbInfo }
+
+cacic_ws_set_officescan:
+    pattern: /ws/set/officescan
+    defaults: { _controller: CacicWSBundle:Coletas:setOfficeScan }
+
+cacic_ws_set_compart:
+    pattern: /ws/set/compart
+    defaults: { _controller: CacicWSBundle:Coletas:setCompart }
+
+cacic_ws_set_hardware:
+    pattern: /ws/set/hardware
+    defaults: { _controller: CacicWSBundle:Coletas:setHardware }
+
+cacic_ws_set_software:
+    pattern: /ws/set/software
+    defaults: { _controller: CacicWSBundle:Coletas:setSoftware }
+
+cacic_ws_set_unid_dicos:
+    pattern: /ws/set/unid_discos
+    defaults: { _controller: CacicWSBundle:Coletas:setUnidDiscos }
+
+
+
+
+
+
+
+
+
+
+
