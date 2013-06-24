@@ -10,10 +10,6 @@ cacic_ws_gercols-setcollet:
     pattern: /ws/gercols-setcollet
     defaults: { _controller: CacicWSBundle:Coletas:gerColsSetCollet }
 
-cacic_ws_instala-cacic:
-    pattern: /ws/instala-cacic
-    defaults: { _controller: CacicWSBundle:Coletas:instalaCacic }
-
 cacic_ws_config:
     pattern: /ws/get/config
     defaults: { _controller: CacicWSBundle:Coletas:getConfig }
