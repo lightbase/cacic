@@ -8,7 +8,7 @@ class Criptografia {
     public $key;
     public $iv;
 
-    //Contrutor padrão privado para evitar instanciação da classe.
+    //Contrutor privado para evitar instanciação da classe.
     private function  __construct(){}
 
     //---------------------------------------------------------------------------------

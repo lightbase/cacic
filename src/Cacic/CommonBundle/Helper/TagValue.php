@@ -10,21 +10,21 @@ namespace Cacic\CommonBundle\Helper;
 
 class TagValue
 {
-    //Contrutor padrão privado para evitar instanciação da classe.
+    //Contrutor privado para evitar instanciação da classe.
     private function  __construct(){}
 
     // Metódo para recuperar valores das Classes
     public static function getClassValue($pStrTagLabel, $pStrSource, $pStrTags = '[]')
     {
         //Tratar as tags depois!
-        preg_match_all("Win32_" . $pStrTagLabel . "=" . $pStrTagLabel . "",$pStrSource, $arrResult);
+        preg_match_all("/Win32_" . $pStrTagLabel . "=(.*)/i",$pStrSource, $arrResult);
         return $arrResult[1][0];
     }
 
     // Metódo para recuperar array com nomes das Classes
     public static function getClassNames($pStrSource, $pStrTags = '[]')
     {
-        preg_match_all("^Win32_(.*?)=",$pStrSource,$arrResult);
+        preg_match_all("/Win32_(.*?)=/",$pStrSource,$arrResult);
         return $arrResult[1];
     }
 
