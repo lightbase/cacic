@@ -2,12 +2,16 @@ cacic_ws_index:
     pattern: /ws/
     defaults: { _controller: CacicWSBundle:Coletas:index }
 
-cacic_ws_instala-cacic:
-    pattern: /ws/instala-cacic
+cacic_ws_get_test:
+    pattern: /ws/get/test
+    defaults: { _controller: CacicWSBundle:Coletas:getTest }
+
+cacic_ws_instala_cacic:
+    pattern: /ws/instala/cacic
     defaults: { _controller: CacicWSBundle:Coletas:instalaCacic }
 
-cacic_ws_gercols-setcollet:
-    pattern: /ws/gercols-setcollet
+cacic_ws_gercols_setcollet:
+    pattern: /ws/gercols/setcollet
     defaults: { _controller: CacicWSBundle:Coletas:gerColsSetCollet }
 
 cacic_ws_config:
@@ -47,7 +51,7 @@ cacic_ws_set_software:
     defaults: { _controller: CacicWSBundle:Coletas:setSoftware }
 
 cacic_ws_set_unid_dicos:
-    pattern: /ws/set/unid_discos
+    pattern: /ws/set/unid/discos
     defaults: { _controller: CacicWSBundle:Coletas:setUnidDiscos }
 
 
