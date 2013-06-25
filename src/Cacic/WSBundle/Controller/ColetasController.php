@@ -5,9 +5,11 @@ namespace Cacic\WSBundle\Controller;
 use Cacic\CommonBundle\Entity\Classe;
 use Cacic\CommonBundle\Entity\ClassProperty;
 use Cacic\CommonBundle\Entity\ClassPropertyType;
+use Cacic\CommonBundle\Entity\ComputadorColeta;
 use Cacic\CommonBundle\Helper\TagValue;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Cacic\CommonBundle\Entity\InsucessoInstalacao;
 use Symfony\Component\Validator\Constraints\Date;
 use Cacic\CommonBundle\Helper\Criptografia;
@@ -47,17 +49,17 @@ class ColetasController extends Controller
      *  Método responsável por Verificar se houve comunicação com o Agente CACIC
      *
      */
-    public function getTest(Request $request){
+    public function getTestAction( Request $request ){
         $retorno_xml_header  = '<?xml version="1.0" encoding="iso-8859-1" ?>';
         $retorno_xml_values	 = '';
 
         // Esta condição responde TRUE para o teste de comunicação efetuado pelo chkCACIC
-        if (trim( $request->request('in_chkcacic') )=='chkcacic_GetTest')
+        if ( trim( $request->request('in_chkcacic') )=='chkcacic_GetTest' )
             $retorno_xml_values .= '<STATUS>OK</STATUS>';
 
         $retorno_xml = $retorno_xml_header . $retorno_xml_values;
 
-        echo $retorno_xml;
+        return new Response( $retorno_xml);
     }
 
     /**
@@ -68,10 +70,15 @@ class ColetasController extends Controller
     {
 
         $coleta = $request->request->get('strFieldsAndValuesToRequest'); //atribuido String coletada a varivel $coleta que será enviado via POST pelo Agente_Cacic
-
+        $te_node_address = TagValue::getValueFromTags( 'MACAddress',TagValue::getClassValue( 'NetworkAdapterConfiguration', $coleta ) ); //extraio MacAdess de coleta para futura compara
         $classes_property_type = new ClassPropertyType();
         $classes_property = new ClassProperty();
         $classe = new Classe();
+        $computador_coleta = new ComputadorColeta();
+
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findByTeNodeAddress( $te_node_address ); //pesquiso pelo MacAddress e atribuo o resultado a computador
+        $computador = empty( $computador ) ? new Computador() : $this->computador; // se computador estiver vazio instancio um novo Computador() senão permanecerá o mesmo
+
 
         $classes_property_coletado = TagValue::getTagsFromValues($coleta); //estraido todas propriedades que foram coletadas pelo Agente_Cacic
         foreach ($classes_property_coletado as $classe_property)
@@ -82,16 +89,11 @@ class ColetasController extends Controller
 
 
         }
-
-
-
-
-
     }
 
 
     /**
-     *  Método responsável por receber coletas do Agente CACIC
+     *  Método responsável por retornar configurações necessarias ao Agente CACIC
      *
      */
     public function getConfigAction(Request $request)
