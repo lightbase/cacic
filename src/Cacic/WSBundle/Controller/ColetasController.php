@@ -72,7 +72,7 @@ class ColetasController extends Controller
         $te_node_address = TagValue::getValueFromTags( 'MACAddress',TagValue::getClassValue( 'NetworkAdapterConfiguration', $coleta ) ); //extraio MacAdess de coleta para futura compara
 
         $classes = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findAll(); //lista de todas classes
-        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findByTeNodeAddress( $te_node_address ); //pesquiso pelo MacAddress e atribuo o resultado a computador
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findBy( array ( 'te_node_address' => $te_node_address ) ); //pesquiso pelo MacAddress e atribuo o resultado a computador
         $computador = empty( $computador ) ? new Computador() : $computador;
 
 
@@ -80,20 +80,19 @@ class ColetasController extends Controller
         foreach ( $classes as $classe )
         {
             $computador_coleta_historico = new ComputadorColetaHistorico();
-
-            $computador_coleta = this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->findByIdComputador( $computador->getIdComputador() ) ; //procura pelo IdComputador
+            $computador_coleta = this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->findBy( array( 'id' => $computador->getIdComputador(), 'id_class'=> $classe->getIdClasse() ) ); //procura pelo IdComputador
             $computador_coleta = empty( $computador_coleta ) ? new ComputadorColeta() : $computador_coleta; // se o computador não existir sera instanciado um novo Computador()
 
             //persistindo coleta de computador
             $computador_coleta->setIdClass( $classe->getIdClass() );
-            $computador_coleta->setTeClassValues( TagValue::getClassValue( $classe->getNmClassName() ) );
+            $computador_coleta->setTeClassValues( TagValue::getClassValue( $classe->getNmClassName(), $coleta ) );
             $computador_coleta->setIdComputador( $computador->getIdComputador() );
             $this->getDoctrine()->getManager()->persist( $computador_coleta );
             $this->getDoctrine()->getManager()->flush();
 
             //persistendo Historico de Coletas
             $computador_coleta_historico->setIdComputador( $computador->getIdComputador() );
-            $computador_coleta_historico->setTeClassValues( TagValue::getClassValue( $classe->getNmClassName() ) );
+            $computador_coleta_historico->setTeClassValues( TagValue::getClassValue( $classe->getNmClassName(), $coleta ) );
             $computador_coleta_historico->setIdComputador( $computador->getIdComputador() );
             $computador_coleta_historico->setDtHrInclusao( \DateTime('NOW') );
             $this->getDoctrine()->getManager()->persist( $computador_coleta_historico );
