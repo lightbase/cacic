@@ -4,6 +4,8 @@ namespace Cacic\WSBundle\Controller;
 
 use Cacic\CommonBundle\Entity\Classe;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
+use Cacic\CommonBundle\Entity\So;
+use Cacic\CommonBundle\Helper\CommonWs;
 use Cacic\CommonBundle\Helper\TagValue;
 use Proxies\__CG__\Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -49,16 +51,25 @@ class ColetasController extends Controller
      *
      */
     public function getTestAction( Request $request ){
-        $retorno_xml_header  = '<?xml version="1.0" encoding="iso-8859-1" ?>';
-        $retorno_xml_values	 = '';
 
-        // Esta condição responde TRUE para o teste de comunicação efetuado pelo chkCACIC
-        if ( trim( $request->request('strFieldsAndValuesToRequest') ) == 'in_instalacao=OK' )
-            $retorno_xml_values .= '<STATUS>OK</STATUS>';
+        $strXML_Values = CommonWs::commonTop( $request );
 
-        $retorno_xml = $retorno_xml_header . $retorno_xml_values;
+        $strPaddingKey   = ( $request->request->get('padding_key') ?  $request->request->get('padding_key') : '');
 
-        return new Response( $retorno_xml);
+        if (file_exists(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini')) //adptar ao symfony!!!
+        {
+            $arrVersionsAndHashes = \parse_ini_file(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
+            $strXML_Values .= '<INSTALLCACIC.EXE_HASH>'	. 	Criptografia::enCrypt( $arrVersionsAndHashes['installcacic.exe_HASH'],
+                    $request->request->get('cs_cipher'),
+                    $request->request->get('cs_compress') ,
+                    $strPaddingKey ,
+                    true ) 	. '<' 	. 	'/INSTALLCACIC.EXE_HASH>';
+            $strXML_Values .= '<MainProgramName>'  		. 	CACIC_MAIN_PROGRAM_NAME.'.exe'	. '<' 	. 	'/MainProgramName>';
+            $strXML_Values .= '<LocalFolderName>' 		. 	CACIC_LOCAL_FOLDER_NAME			. '<' 	. 	'/LocalFolderName>';
+        }
+
+        $strXML_Values .= CommonWs::commonBottom( $request );
+        return new Response( $strXML_Values);
     }
 
     /**
@@ -75,12 +86,10 @@ class ColetasController extends Controller
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findBy( array ( 'te_node_address' => $te_node_address ) ); //pesquiso pelo MacAddress e atribuo o resultado a computador
         $computador = empty( $computador ) ? new Computador() : $computador;
 
-
-        $classes_coletadas = TagValue::getClassNames( $coleta ); //estraido todas classes que foram coletadas pelo Agente_Cacic
         foreach ( $classes as $classe )
         {
             $computador_coleta_historico = new ComputadorColetaHistorico();
-            $computador_coleta = this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->findBy( array( 'id' => $computador->getIdComputador(), 'id_class'=> $classe->getIdClasse() ) ); //procura pelo IdComputador
+            $computador_coleta = $this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->findBy( array( 'id' => $computador->getIdComputador() , 'id_class' => $classe->getIdClass() ) ); //procura pelo IdComputador e idClasse
             $computador_coleta = empty( $computador_coleta ) ? new ComputadorColeta() : $computador_coleta; // se o computador não existir sera instanciado um novo Computador()
 
             //persistindo coleta de computador
@@ -88,7 +97,6 @@ class ColetasController extends Controller
             $computador_coleta->setTeClassValues( TagValue::getClassValue( $classe->getNmClassName(), $coleta ) );
             $computador_coleta->setIdComputador( $computador->getIdComputador() );
             $this->getDoctrine()->getManager()->persist( $computador_coleta );
-            $this->getDoctrine()->getManager()->flush();
 
             //persistendo Historico de Coletas
             $computador_coleta_historico->setIdComputador( $computador->getIdComputador() );
@@ -96,9 +104,18 @@ class ColetasController extends Controller
             $computador_coleta_historico->setIdComputador( $computador->getIdComputador() );
             $computador_coleta_historico->setDtHrInclusao( \DateTime('NOW') );
             $this->getDoctrine()->getManager()->persist( $computador_coleta_historico );
-            $this->getDoctrine()->getManager()->flush();
+
+            $this->getDoctrine()->getManager()->flush(); //efetua alterações no Banco de Dados
 
         }
+
+
+        //persistindo em Computador
+        $te_so = TagValue::getTagsFromValues( 'Version' ,TagValue::getClassValue('OperatingSystem', $coleta) ); //extraido da coleta versão do Sitema Operacional
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findBy( array( 'te_so' => $te_so ) );
+        $so = empty( $so ) ? new So() : $so;
+//        $computador->set
+
     }
 
 
