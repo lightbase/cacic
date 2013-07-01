@@ -18,11 +18,11 @@ class Criptografia {
     //---------------------------------------------------------------------------------
     public function replaceInvalidHTTPChars($pStrString)
     {
-        $strNewString = str_replace('+'  , '[[MAIS]]'		, $pStrString);
-        $strNewString = str_replace(' '  , '[[ESPACE]]'  	, $strNewString);
-        $strNewString = str_replace('"'  , '[[AD]]'      	, $strNewString);
-        $strNewString = str_replace("'"  , '[[AS]]'      	, $strNewString);
-        $strNewString = str_replace('\\' , '[[BarrInv]]' 	, $strNewString);
+        $strNewString = \str_replace('+'  , '[[MAIS]]'		, $pStrString);
+        $strNewString = \str_replace(' '  , '[[ESPACE]]'  	, $strNewString);
+        $strNewString = \str_replace('"'  , '[[AD]]'      	, $strNewString);
+        $strNewString = \str_replace("'"  , '[[AS]]'      	, $strNewString);
+        $strNewString = \str_replace('\\' , '[[BarrInv]]' 	, $strNewString);
 
         return $strNewString;
     }
@@ -43,11 +43,11 @@ class Criptografia {
         // [[ESPACE]]  => Espa�o          => ' '
         // =============================================================================================
 
-        $strNewString = str_replace('[[MAIS]]' 		, '+' 	, $pStrString);
-        $strNewString = str_replace('[[ESPACE]]' 	, ' ' 	, $strNewString);
-        $strNewString = str_replace('[[AD]]'     	, '"' 	, $strNewString);
-        $strNewString = str_replace('[[AS]]'     	, "'"	, $strNewString);
-        $strNewString = str_replace('[[BarrInv]]'	, '.'	, $strNewString); // Ao substituir [[BarrInv]] por "\\" tive problemas, prefer� deixar "."
+        $strNewString = \str_replace('[[MAIS]]' 		, '+' 	, $pStrString);
+        $strNewString = \str_replace('[[ESPACE]]' 	, ' ' 	, $strNewString);
+        $strNewString = \str_replace('[[AD]]'     	, '"' 	, $strNewString);
+        $strNewString = \str_replace('[[AS]]'     	, "'"	, $strNewString);
+        $strNewString = \str_replace('[[BarrInv]]'	, '.'	, $strNewString); // Ao substituir [[BarrInv]] por "\\" tive problemas, prefer� deixar "."
         return $strNewString;
     }
 
@@ -60,17 +60,17 @@ class Criptografia {
 
         if ((($pStrCsCipher=='1') && !$request->request('cs_debug') || $pBoolForceEncrypt) )
         {
-            $strResult = base64_encode(@mcrypt_cbc(MCRYPT_RIJNDAEL_128,$key,$pStrPlainData,MCRYPT_ENCRYPT,$iv));
+            $strResult = \base64_encode(@\mcrypt_cbc(MCRYPT_RIJNDAEL_128,$key,$pStrPlainData,MCRYPT_ENCRYPT,$iv));
             $strResult .= '__CRYPTED__';
         }
         else
             $strResult = $pStrPlainData;
 
         if (($pStrCsCompress == '1' || $pStrCsCompress == '2') && $pIntCompressLevel > 0)
-            $strResult = gzdeflate($strResult,$pIntCompressLevel);
+            $strResult = \gzdeflate($strResult,$pIntCompressLevel);
 
         $strResult = self::replaceInvalidHTTPChars($strResult);
-        return trim($strResult);
+        return \trim($strResult);
     }
 
     // ---------------------------------
@@ -90,13 +90,13 @@ class Criptografia {
         //        enviados, pertinentes é criptografia, tendem a ser interpretados incorretamente.
         // Obs.:  Vide Lista de Convenções Abaixo
         // =======================================================================================
-        $ppStrCriptedData = str_ireplace('[[MAIS]]','+',$pStrCriptedData,$countMAIS);
+        $ppStrCriptedData = \str_ireplace('[[MAIS]]','+',$pStrCriptedData,$countMAIS);
         // =======================================================================================
 
-        if ( (substr($ppStrCriptedData,-11) == '__CRYPTED__') && ((($pStrCsCipher=='1') && !$request->request('cs_debug')) || $pBoolForceDecrypt))
+        if ( (\substr($ppStrCriptedData,-11) == '__CRYPTED__') && ((($pStrCsCipher=='1') && !$request->request('cs_debug')) || $pBoolForceDecrypt))
         {
-            $ppStrCriptedData = str_replace('__CRYPTED__' , '' 	, $ppStrCriptedData);
-            $strResult = (trim($ppStrCriptedData)<>''?@mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$key,base64_decode($ppStrCriptedData),MCRYPT_MODE_CBC,$iv):'');
+            $ppStrCriptedData = \str_replace('__CRYPTED__' , '' 	, $ppStrCriptedData);
+            $strResult = (\trim($ppStrCriptedData)<>''?@\mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$key,\base64_decode($ppStrCriptedData),MCRYPT_MODE_CBC,$iv):'');
         }
         else
             $strResult = $pStrCriptedData;
@@ -109,17 +109,17 @@ class Criptografia {
         // =============================================================================
 
         if ($pIntCsUnCompress == '1')
-            $strResult = gzinflate($strResult);
+            $strResult = \gzinflate($strResult);
 
         // Aqui retiro do resultado a ocorrência do preenchimento, caso exista. (o agente Python faz esse preenchimento)
         if ($pStrPaddingKey <> '')
         {
-            $char 		= substr($pStrPaddingKey,0,1);
+            $char 		= \substr($pStrPaddingKey,0,1);
             $re 		= "/".$char."*$/";
-            $strResult 	= preg_replace($re, "", $strResult);
+            $strResult 	= \preg_replace($re, "", $strResult);
         }
 
-        return trim($strResult);
+        return \trim($strResult);
     }
 
 
