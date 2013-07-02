@@ -18,7 +18,7 @@ class Criptografia {
     //
     //  @return String contendo o string com valores inv�lidos substituidos por v�lidos
     //---------------------------------------------------------------------------------
-    public function replaceInvalidHTTPChars($pStrString)
+    public static function replaceInvalidHTTPChars($pStrString)
     {
         $strNewString = str_replace('+'  , '[[MAIS]]'		, $pStrString);
         $strNewString = str_replace(' '  , '[[ESPACE]]'  	, $strNewString);
@@ -34,7 +34,7 @@ class Criptografia {
     //
     //  @return String contendo o string com valores substituidos
     //------------------------------------------------------------------------------
-    public function replacePseudoTagsWithCorrectChars($pStrString)
+    public static function replacePseudoTagsWithCorrectChars($pStrString)
     {
         // Conven��es Adotadas para as Substitui��es
         // -----------------------------------------
