@@ -26,7 +26,7 @@ class TipoSoftwareRepository extends EntityRepository
     {
         $_dql = "SELECT t
 				FROM CacicCommonBundle:TipoSoftware t
-				GROUP BY t.idTipoSoftware";
+				ORDER BY t.teDescricaoTipoSoftware";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }

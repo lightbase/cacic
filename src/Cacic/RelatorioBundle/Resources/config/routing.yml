@@ -45,6 +45,14 @@ cacic_relatorio_software_licenciados_rel:
 cacic_relatorio_software_orgao:
     pattern: /software/orgao
     defaults: { _controller: CacicRelatorioBundle:Software:orgao }
+    requirements:
+        _method: GET
+
+cacic_relatorio_software_orgao_rel:
+    pattern: /software/orgao
+    defaults: { _controller: CacicRelatorioBundle:Software:orgaoRelatorio }
+    requirements:
+        _method: POST
 
 cacic_relatorio_software_aquisicoes:
     pattern: /software/aquisicoes

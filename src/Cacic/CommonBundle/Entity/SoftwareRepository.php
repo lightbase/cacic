@@ -112,4 +112,30 @@ class SoftwareRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
     
+	/**
+     * 
+     * Método de consulta à base de dados de softwares por órgão
+     * @param array $filtros
+     */
+    public function gerarRelatorioSoftwaresPorOrgao( $filtros )
+    {
+    	// Monta a Consulta básica...
+    	$qb = $this->createQueryBuilder('sw')
+    				->select('sw', 'se', 'comp')
+        			->innerJoin('sw.estacoes', 'se')
+        			->innerJoin('se.idComputador', 'comp')
+        			->orderBy('sw.nmSoftware')->addOrderBy('comp.nmComputador')->addOrderBy('comp.teIpComputador');
+        			
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if ( array_key_exists('TipoSoftware', $filtros) && !empty($filtros['TipoSoftware']) )
+        	$qb->innerJoin('sw.idTipoSoftware', 'tpsw')->andWhere('tpsw.idTipoSoftware IN (:tpsw)')->setParameter('tpsw', explode( ',', $filtros['TipoSoftware'] ));
+        
+        if ( array_key_exists('nmComputador', $filtros) && !empty($filtros['nmComputador']) )
+        	$qb->andWhere('comp.nmComputador LIKE :nmComputador')->setParameter('nmComputador', "%{$filtros['nmComputador']}%" );
+
+        return $qb->getQuery()->execute();
+    }
+    
 }

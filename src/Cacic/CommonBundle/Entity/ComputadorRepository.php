@@ -86,7 +86,7 @@ class ComputadorRepository extends EntityRepository
 					->leftJoin('comp.idSo', 'so')
 					->where('comp.idRede = :idRede')
 					->setParameter('idRede', $idSubrede)
-					->orderBy('comp.teIpComputador');
+					->orderBy('comp.nmComputador')->addOrderBy('comp.teIpComputador');
 		
 		return $qb->getQuery()->getResult();
 	}

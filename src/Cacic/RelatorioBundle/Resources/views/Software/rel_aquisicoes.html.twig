@@ -37,7 +37,7 @@
         					<th width="25%">{{ 'Tipo Licença'|trans }}</th>
         					<th style="text-align: center">{{ 'Vencimento'|trans }}</th>
         				</tr>
-        				{% for item in dados[0].itens %}
+        				{% for item in reg.itens %}
         				<tr>
         					<td>{{ item.idSoftware.nmSoftware }}</td>
         					<td style="text-align: center">{{ item.qtLicenca }}</td>

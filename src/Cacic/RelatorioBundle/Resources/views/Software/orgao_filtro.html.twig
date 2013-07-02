@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+   <li class="active">{{ "Relatório de Softwares por Órgão/Máquina"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Relatório de Softwares por Órgão/Máquina' |trans }}</h2>
+            <div class="block box_content round_bottom padding_10">
+            
+            <h3>{{'Relatório de Softwares por Órgão/Máquina' |trans }}</h3>
+            <p class="muted">
+            	Este relatório exibe as máquinas em que os Softwares estão sendo utilizados. 
+            	É possível determinar quais Tipos de Softwares serão exibidos no relatório.
+            </p>
+            <hr />
+            
+            <form method="post" id="frmFiltroRelatorioSWInventariado" class="form-horizontal" target="_blank">
+            
+	            {{ form_widget( form, {'form_type': 'horizontal'} ) }}
+	            
+	            <hr />
+            	
+				<div align="center">
+					<button type="submit" class="btn btn-primary">
+						<i class="icon-bar-chart"></i>
+						{{ "Gerar Relatório"|trans }}
+					</button>
+				</div>
+            
+            </form>
+            
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span -->
+</div> <!-- /row -->
+            
+
+{% endblock %}

@@ -30,7 +30,14 @@ class SoftwareEstacaoType extends AbstractType
             null,
             array(
                 'empty_value' => 'Selecione',
-                'label'=>'Computador' )
+                'label'=>'Computador',
+            	'query_builder' => function ( \Doctrine\ORM\EntityRepository $repository )
+                                   {
+										return $repository->createQueryBuilder('c')
+															->orderBy('c.nmComputador')
+                                       						->addOrderBy('c.teIpComputador');
+                                    }
+        	)
         );
         
         $builder->add(

@@ -93,7 +93,7 @@ class ComputadorController extends Controller
 		$_tree = array();
 		foreach ( $comps as $comp )
 		{
-			$_label = $comp->getTeIpComputador();
+			$_label = ($comp->getNmComputador()?:'###') .' - '. $comp->getTeIpComputador();
 			if ( $comp->getIdSo() )	$_label .= ' - ' .$comp->getIdSo()->getSgSo();
 			
 			$_tree[] = array(
@@ -138,7 +138,7 @@ class ComputadorController extends Controller
 				{ 
 					// Valida a linha
 					$v = explode( ';', trim( str_replace( array('"','\N'), '', $v ) ) );
-					if ( count( $v ) != 12 )
+					if ( count( $v ) != 13 )
 						continue;
 					
 					$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->find( (int) $v[1] );
@@ -159,6 +159,7 @@ class ComputadorController extends Controller
 					$comp->setDtHrColetaForcadaEstacao( $v[9] ? new \Datetime( $v[9] ) : null );
 					$comp->setTeNomesCurtosModulos( $v[10] );
 					$comp->setIdConta( $v[11] );
+					$comp->setNmComputador( $v[12] );
 					
 					$em->persist( $comp );
 				}
