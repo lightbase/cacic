@@ -6,6 +6,7 @@ use Cacic\CommonBundle\Entity\Classe;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
 use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Helper\CommonWs;
+use Cacic\CommonBundle\Helper\Constantes;
 use Cacic\CommonBundle\Helper\TagValue;
 use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Cacic\CommonBundle\Entity\InsucessoInstalacao;
 use Symfony\Component\Validator\Constraints\Date;
 use Cacic\CommonBundle\Helper\Criptografia;
-use Symfony\Component\DependencyInjection\Container;
 /**
  *
  * Classe responsável por Rerceber as coletas Agente
@@ -52,7 +52,7 @@ class ColetasController extends Controller
      *  Método responsável por Verificar se houve comunicação com o Agente CACIC
      *
      */
-    public function getTestAction( ){
+    public function getTestAction(){
 
         $request = new Request();
 
@@ -60,16 +60,16 @@ class ColetasController extends Controller
 
         $strPaddingKey   = ( $request->request->get('padding_key') ?  $request->request->get('padding_key') : '');
 
-        if ( file_exists(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini') ) //adptar ao symfony!!!
+        if ( file_exists( Constantes::CACIC_PATH . Constantes::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini') ) //adptar ao symfony!!!
         {
-            $arrVersionsAndHashes = parse_ini_file(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
-            $strXML_Values .= '<INSTALLCACIC.EXE_HASH>'	. 	Criptografia::enCrypt( $arrVersionsAndHashes['installcacic.exe_HASH'],
+            $arrVersionsAndHashes = parse_ini_file( Constantes::CACIC_PATH . Constantes::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
+            $strXML_Values .= '<INSTALLCACIC.EXE_HASH>'	. 	Criptografia::enCrypt( $request, $arrVersionsAndHashes['installcacic.exe_HASH'],
                     $request->request->get('cs_cipher'),
                     $request->request->get('cs_compress') ,
                     $strPaddingKey ,
                     true ) 	. '<' 	. 	'/INSTALLCACIC.EXE_HASH>';
-            $strXML_Values .= '<MainProgramName>'  		. 	CACIC_MAIN_PROGRAM_NAME.'.exe'	. '<' 	. 	'/MainProgramName>';
-            $strXML_Values .= '<LocalFolderName>' 		. 	CACIC_LOCAL_FOLDER_NAME			. '<' 	. 	'/LocalFolderName>';
+            $strXML_Values .= '<MainProgramName>'  		. 	Constantes::CACIC_MAIN_PROGRAM_NAME.'.exe'	. '<' 	. 	'/MainProgramName>';
+            $strXML_Values .= '<LocalFolderName>' 		. 	Constantes::CACIC_LOCAL_FOLDER_NAME			. '<' 	. 	'/LocalFolderName>';
         }
 
         $strXML_Values .= CommonWs::commonBottom( $request );
@@ -80,7 +80,7 @@ class ColetasController extends Controller
      *  Método responsável por inserir coletas  do Agente CACIC
      *
      */
-    public function gerColsSetColletAction( )
+    public function gerColsSetColletAction()
     {
         $request = new Request();
 
@@ -128,7 +128,7 @@ class ColetasController extends Controller
      *  Método responsável por retornar configurações necessarias ao Agente CACIC
      *
      */
-    public function getConfigAction( )
+    public function getConfigAction()
     {
         $request = new Request();
 
@@ -139,7 +139,7 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function gerColsSetSrcacicAction( )
+    public function gerColsSetSrcacicAction()
     {
 
     }
@@ -148,7 +148,7 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function gerColsSetUsbDetectAction( )
+    public function gerColsSetUsbDetectAction()
     {
 
     }
@@ -157,17 +157,7 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function mapaCacicAcessoAction( )
-    {
-        $container = new Container();
-        var_dump($container->getParameter('mailer.test')); die;
-    }
-
-    /**
-     *  Método responsável por ************ do Agente CACIC
-     *
-     */
-    public function srCacicSetSessionAction( )
+    public function mapaCacicAcessoAction()
     {
 
     }
@@ -176,7 +166,16 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function srCacicAuthClientAction( )
+    public function srCacicSetSessionAction()
+    {
+
+    }
+
+    /**
+     *  Método responsável por ************ do Agente CACIC
+     *
+     */
+    public function srCacicAuthClientAction()
     {
 
     }
