@@ -98,7 +98,7 @@ class SoftwareController extends Controller
     
 	/**
 	 * 
-	 * [TELA] Filtros para relatório de Softwares Licenciados 
+	 * [TELA] Filtros para relatório de Softwares Associados a Estações 
 	 */
     public function orgaoAction()
     {
@@ -141,4 +141,50 @@ class SoftwareController extends Controller
         	)
         );
     }
+    
+	/**
+	 * 
+	 * [TELA] Filtros para relatório de Softwares Por Tipo associados a Estações
+	 */
+    public function tipoAction()
+    {
+    	$form = $this->createFormBuilder()
+    					->add(
+    						'TipoSoftware',
+    						'entity',
+    						array(
+    							'label'=>'Tipo de Software', 
+    							'class'=>'CacicCommonBundle:TipoSoftware', 
+    							'empty_value'=>'--Todos--', 
+    							'required'=>false
+    						)
+    					)
+    					->getForm();
+    	
+    	return $this->render(
+        	'CacicRelatorioBundle:Software:tipo_filtro.html.twig', 
+        	array(
+        		'form'	=> $form->createView()
+        	)
+        );
+    }
+    
+	/**
+     * [RELATÓRIO] Relatório de Softwares por tipo Associados a Estações
+     * - Filtros: Tipos de Software
+     */
+    public function tipoRelatorioAction( Request $request )
+    {
+    	$dados = $this->getDoctrine()
+    					->getRepository('CacicCommonBundle:Software')
+    					->gerarRelatorioSoftwaresPorTipo( $request->get('form') );
+    	
+    	return $this->render(
+        	'CacicRelatorioBundle:Software:rel_tipo.html.twig', 
+        	array(
+        		'dados' => $dados
+        	)
+        );
+    }
+    
 }

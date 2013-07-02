@@ -138,4 +138,28 @@ class SoftwareRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
     
+	/**
+     * 
+     * Método de consulta à base de dados de softwares por tipo
+     * @param array $filtros
+     */
+    public function gerarRelatorioSoftwaresPorTipo( $filtros )
+    {
+    	// Monta a Consulta básica...
+    	$qb = $this->createQueryBuilder('sw')
+    				->select('sw', 'tpsw', 'se', 'comp')
+        			->innerJoin('sw.estacoes', 'se')
+        			->innerJoin('sw.idTipoSoftware', 'tpsw')
+        			->innerJoin('se.idComputador', 'comp')
+        			->orderBy('sw.nmSoftware')->addOrderBy('comp.nmComputador')->addOrderBy('comp.teIpComputador');
+        			
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if ( array_key_exists('TipoSoftware', $filtros) && !empty($filtros['TipoSoftware']) )
+        	$qb->innerJoin('sw.idTipoSoftware', 'tpsw')->andWhere('tpsw.idTipoSoftware IN (:tpsw)')->setParameter('tpsw', explode( ',', $filtros['TipoSoftware'] ));
+
+        return $qb->getQuery()->execute();
+    }
+    
 }

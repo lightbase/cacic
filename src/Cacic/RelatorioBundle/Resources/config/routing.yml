@@ -58,17 +58,17 @@ cacic_relatorio_software_aquisicoes:
     pattern: /software/aquisicoes
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesRelatorio }
 
-cacic_relatorio_software_adquiridos:
-    pattern: /software/adquiridos
-    defaults: { _controller: CacicRelatorioBundle:Software:adquiridos }
-
-cacic_relatorio_software_compra:
-    pattern: /software/compra
-    defaults: { _controller: CacicRelatorioBundle:Software:compra }
-
 cacic_relatorio_software_tipo:
     pattern: /software/tipo
     defaults: { _controller: CacicRelatorioBundle:Software:tipo }
+    requirements:
+        _method: GET
+
+cacic_relatorio_software_tipo_rel:
+    pattern: /software/tipo
+    defaults: { _controller: CacicRelatorioBundle:Software:tipoRelatorio }
+    requirements:
+        _method: POST
 
 cacic_relatorio_software_ultimos:
     pattern: /software/ultimos
