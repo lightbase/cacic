@@ -15,11 +15,6 @@ class SoftwareEstacao
     private $nrPatrimonio;
 
     /**
-     * @var string
-     */
-    private $nmComputador;
-
-    /**
      * @var \DateTime
      */
     private $dtAutorizacao;
@@ -59,6 +54,16 @@ class SoftwareEstacao
      */
     private $idSoftware;
 
+    /**
+     * @var \Cacic\CommonBundle\Entity\Computador
+     */
+    private $idComputador;
+
+    /**
+     * @var \Cacic\CommonBundle\Entity\Aquisicao
+     */
+    private $idAquisicao;
+
 
     /**
      * Set nrPatrimonio
@@ -81,29 +86,6 @@ class SoftwareEstacao
     public function getNrPatrimonio()
     {
         return $this->nrPatrimonio;
-    }
-
-    /**
-     * Set nmComputador
-     *
-     * @param string $nmComputador
-     * @return SoftwareEstacao
-     */
-    public function setNmComputador($nmComputador)
-    {
-        $this->nmComputador = $nmComputador;
-    
-        return $this;
-    }
-
-    /**
-     * Get nmComputador
-     *
-     * @return string 
-     */
-    public function getNmComputador()
-    {
-        return $this->nmComputador;
     }
 
     /**
@@ -289,11 +271,6 @@ class SoftwareEstacao
     {
         return $this->idSoftware;
     }
-    /**
-     * @var \Cacic\CommonBundle\Entity\Aquisicao
-     */
-    private $idAquisicao;
-
 
     /**
      * Set idAquisicao
@@ -316,5 +293,28 @@ class SoftwareEstacao
     public function getIdAquisicao()
     {
         return $this->idAquisicao;
+    }
+
+    /**
+     * Set idComputador
+     *
+     * @param \Cacic\CommonBundle\Entity\Computador $idComputador
+     * @return SoftwareEstacao
+     */
+    public function setIdComputador(\Cacic\CommonBundle\Entity\Computador $idComputador)
+    {
+        $this->idComputador = $idComputador;
+    
+        return $this;
+    }
+
+    /**
+     * Get idComputador
+     *
+     * @return \Cacic\CommonBundle\Entity\Computador 
+     */
+    public function getIdComputador()
+    {
+        return $this->idComputador;
     }
 }

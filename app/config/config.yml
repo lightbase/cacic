@@ -32,7 +32,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ CacicCommonBundle ]
+    bundles:        [ CacicCommonBundle, CacicRelatorioBundle ]
     java: /usr/bin/java
     filters:
         cssrewrite: ~

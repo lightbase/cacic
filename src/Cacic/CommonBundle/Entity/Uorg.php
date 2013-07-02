@@ -259,52 +259,6 @@ class Uorg
     }
 
     /**
-     * Set nuResponsavelTel1
-     *
-     * @param string $nuResponsavelTel1
-     * @return Uorg
-     */
-    public function setnuResponsavelTel1($nuResponsavelTel1)
-    {
-        $this->nuResponsavelTel1 = $nuResponsavelTel1;
-    
-        return $this;
-    }
-
-    /**
-     * Get nuResponsavelTel1
-     *
-     * @return string 
-     */
-    public function getnuResponsavelTel1()
-    {
-        return $this->nuResponsavelTel1;
-    }
-
-    /**
-     * Set nuResponsavelTel2
-     *
-     * @param string $nuResponsavelTel2
-     * @return Uorg
-     */
-    public function setnuResponsavelTel2($nuResponsavelTel2)
-    {
-        $this->nuResponsavelTel2 = $nuResponsavelTel2;
-    
-        return $this;
-    }
-
-    /**
-     * Get nuResponsavelTel2
-     *
-     * @return string 
-     */
-    public function getnuResponsavelTel2()
-    {
-        return $this->nuResponsavelTel2;
-    }
-
-    /**
      * Add uorgFilhas
      *
      * @param \Cacic\CommonBundle\Entity\Uorg $uorgFilhas
@@ -404,5 +358,51 @@ class Uorg
     public function getLocal()
     {
         return $this->local;
+    }
+
+    /**
+     * Set nuResponsavelTel1
+     *
+     * @param string $nuResponsavelTel1
+     * @return Uorg
+     */
+    public function setNuResponsavelTel1($nuResponsavelTel1)
+    {
+        $this->nuResponsavelTel1 = $nuResponsavelTel1;
+    
+        return $this;
+    }
+
+    /**
+     * Get nuResponsavelTel1
+     *
+     * @return string 
+     */
+    public function getNuResponsavelTel1()
+    {
+        return $this->nuResponsavelTel1;
+    }
+
+    /**
+     * Set nuResponsavelTel2
+     *
+     * @param string $nuResponsavelTel2
+     * @return Uorg
+     */
+    public function setNuResponsavelTel2($nuResponsavelTel2)
+    {
+        $this->nuResponsavelTel2 = $nuResponsavelTel2;
+    
+        return $this;
+    }
+
+    /**
+     * Get nuResponsavelTel2
+     *
+     * @return string 
+     */
+    public function getNuResponsavelTel2()
+    {
+        return $this->nuResponsavelTel2;
     }
 }

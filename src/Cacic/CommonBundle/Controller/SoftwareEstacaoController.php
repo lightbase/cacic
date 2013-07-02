@@ -12,61 +12,62 @@ use Cacic\CommonBundle\Form\Type\SoftwareEstacaoType;
 
 class SoftwareEstacaoController extends Controller
 {
+	/**
+	 * 
+	 * Tela de listagem dos softwares por estação
+	 * @param int $page
+	 */
     public function indexAction( $page )
     {
         return $this->render(
             'CacicCommonBundle:SoftwareEstacao:index.html.twig',
             array( 'SoftwareEstacao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:SoftwareEstacao' )->listar() ));
     }
+    
+    /**
+     * 
+     * Tela de cadastro de software por estação
+     * @param Request $request
+     */
     public function cadastrarAction(Request $request)
     {
         $SoftwareEstacao = new SoftwareEstacao();
         $form = $this->createForm( new SoftwareEstacaoType(), $SoftwareEstacao );
-        if ( $request->isMethod('POST') )
+        
+   		if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
             if ( $form->isValid() )
             {
-                $data = $form->get('idSoftware')->getData();
-                $idSoftware = $data->getIdSoftware();
-                $nrPatrimonio = $form->get('nrPatrimonio')->getData();
-                $software = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')
-                    ->find(
-                        array(
-                            'idSoftware' => $idSoftware,
-                            'nrPatrimonio' =>$nrPatrimonio
-                        )   );
-                if($software != null){
-                $form = $this->createForm( new SoftwareEstacaoType(), $software );
-                $form->bind( $request );
-                    $this->getDoctrine()->getManager()->persist( $software);
-                    $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Software Estacao
-                 }
-                    else
-                    $this->getDoctrine()->getManager()->persist( $SoftwareEstacao );
-                    $this->getDoctrine()->getManager()->flush();
+                $this->getDoctrine()->getManager()->persist( $SoftwareEstacao );
+                $this->getDoctrine()->getManager()->flush();// Efetuar a edição do Software Estacao
 
+				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
-
-                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
-
-                return $this->redirect( $this->generateUrl( 'cacic_software_estacao_index') );
+                return $this->redirect(
+                	$this->generateUrl( 'cacic_software_estacao_editar',
+                		array(
+                			'idComputador' => $SoftwareEstacao->getIdComputador()->getIdComputador(),
+                			'idSoftware' => $SoftwareEstacao->getIdSoftware()->getIdSoftware()
+                		)
+                	)
+                );
             }
         }
 
         return $this->render( 'CacicCommonBundle:SoftwareEstacao:cadastrar.html.twig', array( 'form' => $form->createView() ) );
     }
+    
     /**
      *  Página de editar dados do Software Estacao
-     *  @param int $idSoftware Estacao
+     *  @param int $idComputador
+     *  @param int $idSoftware
      */
-    public function editarAction( $nrPatrimonio, $idSoftware, Request $request )
+    public function editarAction( $idComputador, $idSoftware, Request $request )
     {
         $SoftwareEstacao = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')
-                    ->find(
-                        array('nrPatrimonio'=>$nrPatrimonio,
-                              'idSoftware'=>$idSoftware
-                        )     );
+                    ->find( array( 'idComputador'=>$idComputador, 'idSoftware'=>$idSoftware ) );
+		
         if ( ! $SoftwareEstacao )
             throw $this->createNotFoundException( 'Software de Estacao não encontrado' );
 
@@ -75,7 +76,6 @@ class SoftwareEstacaoController extends Controller
         if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
-
             if ( $form->isValid() )
             {
                 $this->getDoctrine()->getManager()->persist( $SoftwareEstacao );
@@ -84,7 +84,14 @@ class SoftwareEstacaoController extends Controller
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
-                return $this->redirect($this->generateUrl('cacic_software_estacao_editar', array( 'nrPatrimonio'=>$SoftwareEstacao->getNrPatrimonio() ) ) );
+                return $this->redirect(
+                	$this->generateUrl( 'cacic_software_estacao_editar',
+                		array(
+                			'idComputador' => $SoftwareEstacao->getIdComputador()->getIdComputador(),
+                			'idSoftware' => $SoftwareEstacao->getIdSoftware()->getIdSoftware()
+                		)
+                	)
+                );
             }
         }
 

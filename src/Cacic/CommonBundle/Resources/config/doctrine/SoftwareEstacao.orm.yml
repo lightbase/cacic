@@ -3,21 +3,17 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
     table: software_estacao
     repositoryClass: Cacic\CommonBundle\Entity\SoftwareEstacaoRepository
     id:
+        idComputador:
+            associationKey: true
+        idSoftware:
+            associationKey: true
+    fields:
         nrPatrimonio:
             type: string
             length: 20
             fixed: true
-            nullable: false
-            column: nr_patrimonio
-        idSoftware:
-            associationKey: true
-    fields:
-        nmComputador:
-            type: string
-            length: 50
-            fixed: false
             nullable: true
-            column: nm_computador
+            column: nr_patrimonio
         dtAutorizacao:
             type: date
             nullable: true
@@ -48,6 +44,15 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
             nullable: true
             column: nr_patr_destino
     manyToOne:
+        idComputador:
+            targetEntity: Computador
+            cascade: {  }
+            mappedBy: null
+            inversedBy: softwares
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false
         idSoftware:
             targetEntity: Software
             cascade: {  }

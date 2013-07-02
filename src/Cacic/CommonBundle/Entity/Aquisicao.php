@@ -173,4 +173,49 @@ class Aquisicao
     {
     	return $this->getNrProcesso();
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $itens;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->itens = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add itens
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $itens
+     * @return Aquisicao
+     */
+    public function addIten(\Cacic\CommonBundle\Entity\AquisicaoItem $itens)
+    {
+        $this->itens[] = $itens;
+    
+        return $this;
+    }
+
+    /**
+     * Remove itens
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $itens
+     */
+    public function removeIten(\Cacic\CommonBundle\Entity\AquisicaoItem $itens)
+    {
+        $this->itens->removeElement($itens);
+    }
+
+    /**
+     * Get itens
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getItens()
+    {
+        return $this->itens;
+    }
 }

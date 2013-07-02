@@ -17,6 +17,7 @@ class AquisicaoRepository extends EntityRepository
     {
 
     }
+    
     /**
      *
      * Método de listagem das Aquisicões cadastradas
@@ -31,5 +32,21 @@ class AquisicaoRepository extends EntityRepository
         return $query->getArrayResult();
     }
 
+	/**
+     * 
+     * Método de consulta à base de dados por processos de Aquisição de Software
+     */
+    public function gerarRelatorioAquisicoes()
+    {
+    	// Monta a Consulta básica...
+    	$qb = $this->createQueryBuilder('aq')
+    				->select('aq', 'aqit', 'sw', 'tpl')
+        			->innerJoin('aq.itens', 'aqit')
+        			->innerJoin('aqit.idSoftware', 'sw')
+        			->innerJoin('aqit.idTipoLicenca', 'tpl')
+        			->orderBy('aq.dtAquisicao DESC, aqit.dtVencimentoLicenca');
+
+        return $qb->getQuery()->execute();
+    }
 
 }

@@ -38,9 +38,10 @@ class LocalRepository extends EntityRepository
 				FROM CacicCommonBundle:Local l
 				LEFT JOIN l.usuarios u
 				LEFT JOIN l.redes r
-				GROUP BY l";
+				GROUP BY l
+				ORDER BY l.nmLocal";
 		
-		return $this->paginar()->getArrayResult();
+		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}
 	
 }

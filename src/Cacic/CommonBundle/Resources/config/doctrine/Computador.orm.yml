@@ -11,6 +11,12 @@ Cacic\CommonBundle\Entity\Computador:
             column: id_computador
             generator:
                 strategy: IDENTITY
+        nmComputador:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: nm_computador
         teNodeAddress:
             type: string
             length: 17
@@ -84,6 +90,10 @@ Cacic\CommonBundle\Entity\Computador:
             fixed: true
             nullable: true
             column: dt_debug
+    oneToMany:
+        softwares:
+            targetEntity: SoftwareEstacao
+            mappedBy: idComputador
     manyToOne:
         idUsuarioExclusao:
             targetEntity: Usuario

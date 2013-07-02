@@ -204,22 +204,25 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
             - Date: ~
 
 Cacic\CommonBundle\Entity\SoftwareEstacao:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [idSoftware, idComputador]
     properties:
-        nrPatrimonio:
-            - NotBlank: ~
-            - MaxLength: 30
         idSoftware:
-            - NotBlank: ~
-        nmComputador:
-            - NotBlank: ~
-            - MaxLength: 30
+            - NotNull: ~
+        idComputador:
+            - NotNull: ~
+        nrPatrimonio:
+            - MaxLength: 20
         dtAutorizacao:
-            - NotBlank: ~
             - Date: ~
         dtExpiracaoInstalacao:
             - Date: ~
         dtDesinstalacao:
             - Date: ~
+        teObservacao:
+            - MaxLength: 90
+        nrPatrDestino:
+            - MaxLength: 20
 
 Cacic\CommonBundle\Entity\TipoLicenca:
     properties:

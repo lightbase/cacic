@@ -1,0 +1,61 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+<h2 class="">Relatório de Aquisições de Softwares</h2>
+<h5>Relatório gerado em {{ "now"|date("m/d/Y H\\hi") }}</h5>
+
+<hr />
+
+<table class="table table-bordered">
+	<thead>
+	    <tr>
+	    	<th width="25%">{{ "Processo"|trans }}</th>
+	    	<th width="20%">{{ "Data"|trans }}</th>
+	    	<th width="20%">{{ "Empresa"|trans }}</th>
+	    	<th width="20%">{{ "Proprietário"|trans }}</th>
+	    	<th>{{ "Nº da NF"|trans }}</th>
+	    </tr>
+	</thead>
+	
+	<tbody>
+	    {% for reg in dados %}
+        <tr>
+            <td>{{ reg.nrProcesso }}</td>
+            <td>{{ reg.dtAquisicao|date('d/m/Y')}}</td>
+            <td>{{ reg.nmEmpresa }}</td>
+            <td>{{ reg.nmProprietario }}</td>
+            <td>{{ reg.nrNotafiscal }}</td>
+        </tr>
+        <tr>
+        	<td colspan="5">
+        		<table class="table ">
+        			<tbody>
+        				<tr>
+        					<th width="40%">{{ 'Software'|trans }}</th>
+        					<th width="25%" style="text-align: center">{{ 'Licenças'|trans }}</th>
+        					<th width="25%">{{ 'Tipo Licença'|trans }}</th>
+        					<th style="text-align: center">{{ 'Vencimento'|trans }}</th>
+        				</tr>
+        				{% for item in dados[0].itens %}
+        				<tr>
+        					<td>{{ item.idSoftware.nmSoftware }}</td>
+        					<td style="text-align: center">{{ item.qtLicenca }}</td>
+        					<td>{{ item.idTipoLicenca.teTipoLicenca }}</td>
+        					<td style="text-align: center">{{ item.dtVencimentoLicenca|date('d/m/Y') }}</td>
+        				</tr>
+        				{% endfor %}
+        			</tbody>
+        		</table>
+        	
+        	</td>
+        </tr>
+    	{% else %}
+        <tr>
+            <td style="text-align: center" colspan="5"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+        </tr>
+		{% endfor %}
+   </tbody>
+</table>
+
+{% endblock %}

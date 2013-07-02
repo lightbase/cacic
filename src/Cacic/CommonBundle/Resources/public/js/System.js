@@ -47,6 +47,22 @@ var System = {
         			$(this).attr('checked', _isChecked);
         		})
         	});
+        },
+        bootStrapTransfer : {
+        	handle : function( aData ){ // Antes de submeter o formulário, recupera os valores selecionados nos transfers informados e os encapsula para envio
+        		var $form = aData.form;
+        		$form.submit(function(){
+        			for( i in aData.elms ) {
+        				$('<input>').attr({
+        				    type: 'hidden',
+        				    id: aData.fieldsPrefix + '_' + aData.elms[i].inputHiddenName,
+        				    name: aData.fieldsPrefix + '[' + aData.elms[i].inputHiddenName + ']'
+        				})
+        				.val( aData.elms[i].transferElement.get_values() )
+        				.appendTo('form');
+        			}
+        		});
+        	}
         }
     },
 	Menu : {

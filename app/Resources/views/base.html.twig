@@ -50,7 +50,7 @@
           <p class="navbar-text pull-left">CACIC v.{{ cacic_version }}</p>
           
           <div class="nav-collapse">
-          	<p class="navbar-text pull-right"> {{ "Logado como"|trans }} <a href="#">{{ app.user.nmUsuarioAcesso }}</a></p>
+          	<p class="navbar-text pull-right"> {{ "Logado como"|trans }} <a href="javascript:void(0)">{{ app.user.nmUsuarioAcesso }}</a></p>
             <ul class="nav pull-right">
               <li class="dropdown">
                     <a href="#"
@@ -83,7 +83,7 @@
 				
 				<li class="dropdown">
 					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-refresh icon-spin"></i>
+						<i class="icon-download-alt"></i>
 						Migração
 						<b class="caret"></b>
 					</a>
@@ -115,9 +115,9 @@
       </div>
     </div>  
     
-    <!-- side nav -->
     <div class="container-fluid">
       <div class="row-fluid">
+      <!-- side nav -->
           <div id="side_nav" class="span2 sidebar-nav side_nav">
               <span id="logo" class="logo">&nbsp;</span>
                   <ul class="clearfix">
@@ -228,19 +228,16 @@
                                     <span class="icon">&nbsp;</span>
                                 </a>
                                 <ul>
-                                    <li><a href="{{ path('cacic_relatorio_software_infoSoftwareBasico') }}">{{ "Softwares Básicos"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_relatorio_software_inventariados') }}">{{ "Softwares Inventariados"|trans }}</a></li>
-                                    <li><a href="{{ path('cacic_relatorio_software_licensiados') }}">{{ "Softwares Licensiados"|trans }}</a></li>
-                                    <li><a href="{{ path('cacic_relatorio_software_orgao') }}">{{ "Permitidos por Órgão"|trans }}</a></li>
-                                    <li><a href="{{ path('cacic_relatorio_software_aquisicoes') }}">{{ "Aquisições de Softwares"|trans }}</a></li>
-                                    <li><a href="{{ path('cacic_relatorio_software_adquiridos') }}">{{ "Softwares Adquiridos"|trans }}</a></li>
-                                    <li><a href="{{ path('cacic_relatorio_software_compra') }}">{{ "Processos de Compra"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_licenciados') }}">{{ "Softwares Licenciados"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_aquisicoes') }}" target="_blank">{{ "Aquisições de Softwares"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_relatorio_software_tipo') }}">{{ "Tipos de Software"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_relatorio_software_ultimos') }}">{{ "Últimos Identificados"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_relatorio_software_suspeitos') }}">{{ "Suspeitos e Jogos"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_relatorio_software_historicoEstacao') }}">{{ "Histórico por Máquina"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_relatorio_software_naoVinculados') }}">{{ "Softwares não Vinculados"|trans }}</a></li>
                                     <li><a href="{{ path('cacic_relatorio_software_genericos') }}">{{ "Softwares Genéricos"|trans }}</a></li>
+                                    <li><a href="{{ path('cacic_relatorio_software_orgao') }}">{{ "Permitidos por Órgão"|trans }}</a></li>
                                 </ul>
                             </li>
 						    <li><a class="round_top" href="{{ path('cacic_relatorio_autorizacoes') }}">{{ "Autorizações"|trans }}</a></li>

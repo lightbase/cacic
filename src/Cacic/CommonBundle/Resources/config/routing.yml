@@ -400,10 +400,11 @@ cacic_software_estacao_cadastrar:
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:cadastrar}
 
 cacic_software_estacao_editar:
-    pattern:  /softwareestacao/editar/{nrPatrimonio}/{idSoftware}
+    pattern:  /softwareestacao/editar/{idComputador}/{idSoftware}
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:editar}
     requirements:
         idSoftware: \d+
+        idComputador: \d+
 
 cacic_software_estacao_excluir:
     pattern:  /softwareestacao/excluir

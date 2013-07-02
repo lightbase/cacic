@@ -257,4 +257,72 @@ class Software
     {
         return $this->estacoes;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->estacoes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add estacoes
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes
+     * @return Software
+     */
+    public function addEstacoe(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes)
+    {
+        $this->estacoes[] = $estacoes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove estacoes
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes
+     */
+    public function removeEstacoe(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes)
+    {
+        $this->estacoes->removeElement($estacoes);
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $licencas;
+
+
+    /**
+     * Add licencas
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $licencas
+     * @return Software
+     */
+    public function addLicenca(\Cacic\CommonBundle\Entity\AquisicaoItem $licencas)
+    {
+        $this->licencas[] = $licencas;
+    
+        return $this;
+    }
+
+    /**
+     * Remove licencas
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $licencas
+     */
+    public function removeLicenca(\Cacic\CommonBundle\Entity\AquisicaoItem $licencas)
+    {
+        $this->licencas->removeElement($licencas);
+    }
+
+    /**
+     * Get licencas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLicencas()
+    {
+        return $this->licencas;
+    }
 }

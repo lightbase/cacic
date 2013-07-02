@@ -1,0 +1,38 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+<h2 class="">Relatório de Softwares Inventariados</h2>
+<h5>Relatório gerado em {{ "now"|date("m/d/Y H\\hi") }}</h5>
+
+<hr />
+
+<table class="table table-striped table-bordered">
+	<thead>
+	    <tr>
+	    	<th width="40%">{{ "Software"|trans }}</th>
+	    	<th width="40%">{{ "Local"|trans }}</th>
+	        <th width="20%" style="text-align: center">{{ "Máquinas"|trans }}</th>
+	    </tr>
+	</thead>
+	
+	<tbody>
+	
+	    {% for reg in dados %}
+	
+        <tr>
+            <td>{{ reg['nmSoftware'] }}</td>
+            <td>{{ reg['nmLocal'] }}</td>
+            <td style="text-align: center">{{ reg['numComp'] }}</td>
+        </tr>
+
+    	{% else %}
+        <tr>
+            <td style="text-align: center" colspan="3"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+        </tr>
+		{% endfor %}
+
+   </tbody>
+</table>
+
+{% endblock %}

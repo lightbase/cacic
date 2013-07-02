@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ "CACIC - Configurador Automático e Coletor de Informações Computacionais"|trans }}</title>
+    <meta name="description" content="CACIC Coletor Automático e Configurador de Informações Computacionais">
+    <meta name="ahoekie" content="CACIC BackEnd">
+    
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    {% block stylesheets %}
+        {% stylesheets output='assets/relatorio.css' combine=true filter='cssrewrite,?yui_css'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/css/*'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.8.16.custom.css'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/bootstrap/docs/assets/js/google-code-prettify/prettify.css'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery.ui.totop/css/ui.totop.css'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/DataTables/media/css/demo_table_jui.intenso.css'
+            'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/css/*'
+            'bundles/caciccommon/jquery-modal-0.5.3/jquery.modal.css'
+            'bundles/caciccommon/Font-Awesome-3.1.1/css/font-awesome.min.css'
+            'bundles/caciccommon/css/main.css'
+       %}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+        {% endstylesheets %}
+    
+    <link href="{{ asset('bundles/cacicrelatorio/css/print.css') }}" type="text/css" rel="stylesheet" media="print" />
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+        
+    {% endblock %}
+    
+    <!-- Bootstrap CSS fixes for IE6 -->
+    <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+    
+  </head>
+
+  <body><!-- This id is used for the cookies -->
+  	
+    <!-- Top navigation bar -->
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <p class="navbar-text pull-left">CACIC v.{{ cacic_version }}</p>
+          
+          <div class="nav-collapse">
+          	<p class="navbar-text pull-right"> | {{ "Logado como"|trans }} <a href="javascript:void(0)">{{ app.user.nmUsuarioAcesso }}</a></p>
+            <ul class="nav pull-right">
+              	
+		
+				<li class="dropdown">
+					<a href="javascript:window.print()">
+						<i class="icon-print"></i> 
+						Imprimir
+					</a>
+				</li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>  
+    
+    <!-- main container -->
+    <div id="main_container">
+    	<div class="container-fluid">
+			<div class="row-fluid">
+            	<div class="span12">
+            		<!-- Loading AJAX -->
+            		<div id="ajaxLoading"></div>
+            
+	            	<!-- Content start -->
+			     	<div class="box">
+				     	<div class="block box_content round_bottom padding_10">
+				     		{% block body %}{% endblock %}
+				     	</div>
+			     	</div>
+			  	</div>
+			
+        </div><!--/span-->
+      </div><!--/row-->
+    </div><!--/.container-fluid-->
+    
+    {% block javascripts %}
+    
+    <!-- javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<!-- jQuery (UI) -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
+	
+	{% javascripts output='assets/relatorio.js' combine=true
+	    '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.cookie.js'
+        '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/jquery.ui.totop/js/jquery.ui.totop.js'
+        '@bootstrap_js'
+        '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/DataTables/media/js/jquery.dataTables.js'
+        '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.hoverIntent.minified.js'
+        '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/intenso.js'
+        '@CacicCommonBundle/Resources/public/jquery-modal-0.5.3/jquery.modal.min.js'
+        '@CacicCommonBundle/Resources/public/js/*'
+    %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+    {% endblock %}
+	
+  </body>
+</html>                        

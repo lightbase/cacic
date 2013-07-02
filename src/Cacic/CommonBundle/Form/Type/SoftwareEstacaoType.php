@@ -17,44 +17,42 @@ class SoftwareEstacaoType extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $builder->add(
-            'nrPatrimonio',
-            null,
-            array( 'label'=>'Patrimônio:', 'max_length'=>30 )
-        );
-        $builder->add(
             'idSoftware',
-            'entity',
+            null,
             array(
-                'class' => 'CacicCommonBundle:Software',
                 'property' => 'nmSoftware',
                 'empty_value' => 'Selecione',
-                'label'=>'Software:' )
+                'label'=>'Software' )
         );
+        
+        $builder->add(
+            'idComputador',
+            null,
+            array(
+                'empty_value' => 'Selecione',
+                'label'=>'Computador' )
+        );
+        
+        $builder->add(
+            'nrPatrimonio',
+            null,
+            array( 'label'=>'Patrimônio' )
+        );
+		
         $builder->add(
             'idAquisicao',
             null,
-            array( 'label'=>'Processo de aquisicao:' )
+            array( 'label'=>'Processo de aquisicao' )
         );
-
-        $builder->add(
-            'nmComputador',
-            null,
-            array( 'label'=>'Computador:', 'max_length'=>30 )
-        );
-
-        $builder->add(
-            'nmComputador',
-            null,
-            array( 'label'=>'Computador:', 'max_length'=>30 )
-        );
-        
+		
         $builder->add(
         	'dtAutorizacao',
 	        'date',
 	        array(
 	        	'widget' => 'single_text',
             	'format' => 'dd/MM/yyyy',
-            	'label'=>'Data de autorizacao:',
+            	'label'=>'Data de autorizacao',
+	        	'required' => false,
 	        	'attr' => array('class'=>'datepicker_on')
 	        )
         );
@@ -63,8 +61,9 @@ class SoftwareEstacaoType extends AbstractType
             'date',
             array(
             	'widget' => 'single_text',
-                'required'=>false,
-                'format' => 'dd/MM/yyyy','label'=>'Data de expiracao:',
+                'format' => 'dd/MM/yyyy',
+                'label'=>'Data de expiracao',
+            	'required' => false,
             	'attr' => array('class'=>'datepicker_on')
             )
         );
@@ -73,9 +72,9 @@ class SoftwareEstacaoType extends AbstractType
             'date',
             array(
             	'widget' => 'single_text',
-                'required'=>false,
                 'format' => 'dd/MM/yyyy',
-                'label'=>'Data de desinstalacao:',
+                'label'=>'Data de desinstalacao',
+            	'required' => false,
             	'attr' => array('class'=>'datepicker_on')
             )
         );
@@ -83,13 +82,13 @@ class SoftwareEstacaoType extends AbstractType
         $builder->add(
             'nrPatrDestino',
             null,
-            array( 'label'=>'Patrimonio de destino:', 'max_length'=>30 )
+            array( 'label'=>'Patrimonio de destino' )
         );
         
         $builder->add(
             'teObservacao',
             null,
-            array( 'label'=>'Observação:', 'max_length'=>200 )
+            array( 'label'=>'Observação' )
         );
     }
 
