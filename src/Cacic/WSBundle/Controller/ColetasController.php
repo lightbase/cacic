@@ -7,7 +7,7 @@ use Cacic\CommonBundle\Entity\ComputadorColeta;
 use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Helper\CommonWs;
 use Cacic\CommonBundle\Helper\TagValue;
-use Proxies\__CG__\Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
+use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,8 +26,9 @@ class ColetasController extends Controller
      *  Método responsável por inserir falhas na instalação do Agente CACIC
      *
      */
-    public function instalaCacicAction( Request $request )
+    public function instalaCacicAction( )
     {
+        $request = new Request();
         if( $request->isMethod('POST')  )
         {
             $data = new \DateTime('NOW');
@@ -50,15 +51,17 @@ class ColetasController extends Controller
      *  Método responsável por Verificar se houve comunicação com o Agente CACIC
      *
      */
-    public function getTestAction( Request $request ){
+    public function getTestAction( ){
+
+        $request = new Request();
 
         $strXML_Values = CommonWs::commonTop( $request );
 
         $strPaddingKey   = ( $request->request->get('padding_key') ?  $request->request->get('padding_key') : '');
 
-        if (file_exists(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini')) //adptar ao symfony!!!
+        if ( file_exists(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini') ) //adptar ao symfony!!!
         {
-            $arrVersionsAndHashes = \parse_ini_file(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
+            $arrVersionsAndHashes = parse_ini_file(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
             $strXML_Values .= '<INSTALLCACIC.EXE_HASH>'	. 	Criptografia::enCrypt( $arrVersionsAndHashes['installcacic.exe_HASH'],
                     $request->request->get('cs_cipher'),
                     $request->request->get('cs_compress') ,
@@ -76,8 +79,9 @@ class ColetasController extends Controller
      *  Método responsável por inserir coletas  do Agente CACIC
      *
      */
-    public function gerColsSetColletAction( Request $request )
+    public function gerColsSetColletAction( )
     {
+        $request = new Request();
 
         $coleta = $request->request->get('strFieldsAndValuesToRequest'); //atribuido String coletada a varivel $coleta que será enviado via POST pelo Agente_Cacic
         $te_node_address = TagValue::getValueFromTags( 'MACAddress',TagValue::getClassValue( 'NetworkAdapterConfiguration', $coleta ) ); //extraio MacAdess de coleta para futura compara
@@ -123,7 +127,18 @@ class ColetasController extends Controller
      *  Método responsável por retornar configurações necessarias ao Agente CACIC
      *
      */
-    public function getConfigAction(Request $request)
+    public function getConfigAction( )
+    {
+        $request = new Request();
+
+
+    }
+
+    /**
+     *  Método responsável por ************ do Agente CACIC
+     *
+     */
+    public function gerColsSetSrcacicAction( )
     {
 
     }
@@ -132,7 +147,7 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function setPatrimonioAction()
+    public function gerColsSetUsbDetect( )
     {
 
     }
@@ -141,7 +156,7 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function getPatrimonioAction()
+    public function mapaCacicAcesso( )
     {
 
     }
@@ -150,7 +165,7 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function setTcpIpAction()
+    public function srCacicSetSession( )
     {
 
     }
@@ -159,62 +174,9 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function setUsbInfoAction()
+    public function srCacicAuthClient( )
     {
 
     }
 
-    /**
-     *  Método responsável por ************ do Agente CACIC
-     *
-     */
-    public function setOfficeScanAction()
-    {
-
-    }
-
-    /**
-     *  Método responsável por ************ do Agente CACIC
-     *
-     */
-    public function setCompartAction()
-    {
-
-    }
-
-    /**
-     *  Método responsável por ************ do Agente CACIC
-     *
-     */
-    public function setHardwareAction()
-    {
-
-    }
-
-    /**
-     *  Método responsável por ************ do Agente CACIC
-     *
-     */
-    public function setMonitoradoAction()
-    {
-
-    }
-
-    /**
-     *  Método responsável por ************ do Agente CACIC
-     *
-     */
-    public function setSoftwareAction()
-    {
-
-    }
-
-    /**
-     *  Método responsável por ************ do Agente CACIC
-     *
-     */
-    public function setUnidDiscosAction()
-    {
-
-    }
 }
