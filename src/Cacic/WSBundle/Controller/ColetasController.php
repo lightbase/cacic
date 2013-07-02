@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Cacic\CommonBundle\Entity\InsucessoInstalacao;
 use Symfony\Component\Validator\Constraints\Date;
 use Cacic\CommonBundle\Helper\Criptografia;
+use Symfony\Component\DependencyInjection\Container;
 /**
  *
  * Classe responsável por Rerceber as coletas Agente
@@ -147,7 +148,7 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function gerColsSetUsbDetect( )
+    public function gerColsSetUsbDetectAction( )
     {
 
     }
@@ -156,7 +157,17 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function mapaCacicAcesso( )
+    public function mapaCacicAcessoAction( )
+    {
+        $container = new Container();
+        var_dump($container->getParameter('mailer.test')); die;
+    }
+
+    /**
+     *  Método responsável por ************ do Agente CACIC
+     *
+     */
+    public function srCacicSetSessionAction( )
     {
 
     }
@@ -165,16 +176,7 @@ class ColetasController extends Controller
      *  Método responsável por ************ do Agente CACIC
      *
      */
-    public function srCacicSetSession( )
-    {
-
-    }
-
-    /**
-     *  Método responsável por ************ do Agente CACIC
-     *
-     */
-    public function srCacicAuthClient( )
+    public function srCacicAuthClientAction( )
     {
 
     }
