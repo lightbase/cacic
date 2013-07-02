@@ -157,7 +157,7 @@ class SoftwareRepository extends EntityRepository
          * Verifica os filtros que foram parametrizados
          */
         if ( array_key_exists('TipoSoftware', $filtros) && !empty($filtros['TipoSoftware']) )
-        	$qb->innerJoin('sw.idTipoSoftware', 'tpsw')->andWhere('tpsw.idTipoSoftware IN (:tpsw)')->setParameter('tpsw', explode( ',', $filtros['TipoSoftware'] ));
+        	$qb->andWhere('tpsw.idTipoSoftware IN (:tpsw)')->setParameter('tpsw', explode( ',', $filtros['TipoSoftware'] ));
 
         return $qb->getQuery()->execute();
     }
