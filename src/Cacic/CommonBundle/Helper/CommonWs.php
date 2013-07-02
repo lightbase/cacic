@@ -13,9 +13,9 @@ class CommonWs {
 
     protected function autenticaAgente($p_PaddingKey='', Request $request)
     {
-        if( ( \strtoupper( Criptografia::deCrypt( $request->request->get('HTTP_USER_AGENT') , $request->request->get('cs_cipher'),  $request->request->get('cs_compress') ,$p_PaddingKey , true ) ) != 'AGENTE_CACIC') ||
-            ( \strtoupper( Criptografia::deCrypt( $request->request->get('PHP_AUTH_USER'  ) , $request->request->get('cs_cipher'),  $request->request->get('cs_compress') ,$p_PaddingKey , true ) ) != 'USER_CACIC') ||
-            ( \strtoupper( Criptografia::deCrypt( $request->request->get('PHP_AUTH_PW'    ) , $request->request->get('cs_cipher'),  $request->request->get('cs_compress') ,$p_PaddingKey , true ) ) != 'PW_CACIC'))
+        if( ( strtoupper( Criptografia::deCrypt( $request->request->get('HTTP_USER_AGENT') , $request->request->get('cs_cipher'),  $request->request->get('cs_compress') ,$p_PaddingKey , true ) ) != 'AGENTE_CACIC') ||
+            ( strtoupper( Criptografia::deCrypt( $request->request->get('PHP_AUTH_USER'  ) , $request->request->get('cs_cipher'),  $request->request->get('cs_compress') ,$p_PaddingKey , true ) ) != 'USER_CACIC') ||
+            ( strtoupper( Criptografia::deCrypt( $request->request->get('PHP_AUTH_PW'    ) , $request->request->get('cs_cipher'),  $request->request->get('cs_compress') ,$p_PaddingKey , true ) ) != 'PW_CACIC'))
         {
             echo 'Acesso não autorizado.'; // deve ser mostrado no browser //verificar Mensagem padrão de erro no Symfony
         }
@@ -26,14 +26,14 @@ class CommonWs {
      */
     public static function commonTop( Request $request, $v_compress_level = 0 )
     {
-        $v_cs_cipher	= ( \trim( $request->request->get('cs_cipher') )   <> '' ? \trim( $request->request->get('cs_cipher') )   : '4');
-        $v_cs_compress	= ( \trim( $request->request->get('cs_compress') ) <> '' ? \trim( $request->request->get('cs_compress') ) : '4');
+        $v_cs_cipher	= ( trim( $request->request->get('cs_cipher') )   <> '' ? trim( $request->request->get('cs_cipher') )   : '4');
+        $v_cs_compress	= ( trim( $request->request->get('cs_compress') ) <> '' ? trim( $request->request->get('cs_compress') ) : '4');
 
         // O agente PyCACIC envia o valor "padding_key" para preenchimento da palavra chave para decriptação/encriptação
         // Valores específicos para trabalho com o PyCACIC - 04 de abril de 2008 - Rogério Lino - Dataprev/ES
         // A versão inicial do agente em Python exige esse complemento na chave...
         $strPaddingKey   = ( $request->request->get('padding_key') ?  $request->request->get('padding_key') : '');
-        $boolAgenteLinux = ( \trim( $request->request->get('AgenteLinux') ) <> '' ? true : false );
+        $boolAgenteLinux = ( trim( $request->request->get('AgenteLinux') ) <> '' ? true : false );
 
         // Autenticação da chamada:
         autenticaAgente( $strPaddingKey );
@@ -60,7 +60,7 @@ class CommonWs {
         // ----------------------------------------------------------------------------------------------------- //
 
         // --------------- Retorno de Classificador de COMPRESS�O ---------------------------------------------- //
-        $pos = \strpos($_SERVER['HTTP_ACCEPT_ENCODING'], "deflate");
+        $pos = strpos($_SERVER['HTTP_ACCEPT_ENCODING'], "deflate");
         if ( $pos <> -1 && $v_cs_compress <>'1' ) $v_cs_compress -= 1;
 
         // Caso o n�vel de compress�o sera setado para 0(zero) o indicador deve retornar 0(zero)
@@ -73,10 +73,10 @@ class CommonWs {
         $strXML_Begin  	 = 	'<? xml version="1.0" encoding="iso-8859-1" ?><CONFIGS>';
         $strXML_Values 	 = 	'';
 
-        $strTeDebugging	 = 	( TagValue::getValueFromTags('DateToDebugging',$arrDadosComputador[0]['te_debugging'] )  == \date("Ymd") ? $arrDadosComputador[0]['te_debugging']  	:
-            ( TagValue::getValueFromTags('DateToDebugging',$arrDadosRede[0]['te_debugging_local'] )  == \date("Ymd") ?
+        $strTeDebugging	 = 	( TagValue::getValueFromTags('DateToDebugging',$arrDadosComputador[0]['te_debugging'] )  == date("Ymd") ? $arrDadosComputador[0]['te_debugging']  	:
+            ( TagValue::getValueFromTags('DateToDebugging',$arrDadosRede[0]['te_debugging_local'] )  == date("Ymd") ?
             $arrDadosRede[0]['te_debugging_local']  	:
-            ( TagValue::getValueFromTags('DateToDebugging',$arrDadosRede[0]['te_debugging_subnet'] ) == \date("Ymd") ? $arrDadosRede[0]['te_debugging_subnet'] 	: 	'') ) );
+            ( TagValue::getValueFromTags('DateToDebugging',$arrDadosRede[0]['te_debugging_subnet'] ) == date("Ymd") ? $arrDadosRede[0]['te_debugging_subnet'] 	: 	'') ) );
 
         $strXML_Values  .= 	( $strTeDebugging ? '<TeDebugging>' 																										: 	'');
         $strXML_Values  .= 	( $strTeDebugging ? TagValue::getValueFromTags('DetailsToDebugging',$strTeDebugging)																:	'');
@@ -95,13 +95,13 @@ class CommonWs {
      */
     public static function commonBottom( Request $request )
     {
-        $v_cs_cipher	= ( \trim( $request->request->get('cs_cipher') )   <> '' ? \trim( $request->request->get('cs_cipher') )   : '4');
-        $v_cs_compress	= ( \trim( $request->request->get('cs_compress') ) <> '' ? \trim( $request->request->get('cs_compress') ) : '4');
+        $v_cs_cipher	= ( trim( $request->request->get('cs_cipher') )   <> '' ? trim( $request->request->get('cs_cipher') )   : '4');
+        $v_cs_compress	= ( trim( $request->request->get('cs_compress') ) <> '' ? trim( $request->request->get('cs_compress') ) : '4');
 
         $strXML_Values = self::commonTop( $request ).'<Comm_Status>' . 'OK' . '<'	.	'/Comm_Status>';
 
-        $strXML_Values = \str_replace('+','[[MAIS]]'  , $strXML_Values);
-        $strXML_Values = \str_replace(' ','[[ESPACE]]', $strXML_Values);
+        $strXML_Values = str_replace('+','[[MAIS]]'  , $strXML_Values);
+        $strXML_Values = str_replace(' ','[[ESPACE]]', $strXML_Values);
 
         $strXML_End 	 = 	'<cs_compress>'			 . 	$v_cs_compress . '<' 	.	'/cs_compress>';
         $strXML_End 	.= 	'<cs_cipher>'			 . 	$v_cs_cipher   . '<'	.	'/cs_cipher>';

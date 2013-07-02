@@ -15,7 +15,10 @@ class Constantes {
 
     //define  chave para agentes CACIC
     const CACIC_KEY = 'CacicBrasil';
-    
+
+    //define  chave para agentes CACIC
+    const CACIC_PATH = '/var/www/cacic3/';
+
     //define  IV para agentes CACIC
     const CACIC_IV = 'abcdefghijklmnop';
     
