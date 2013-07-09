@@ -9,8 +9,6 @@ Cacic\CommonBundle\Entity\UsbVendor:
             fixed: true
             nullable: false
             column: id_usb_vendor
-            generator:
-                strategy: IDENTITY
         nmUsbVendor:
             type: string
             length: 100
