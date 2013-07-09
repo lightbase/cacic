@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\ComputadorColeta:
     type: entity
     table: computador_coleta
+    repositoryClass: Cacic\CommonBundle\Entity\ComputadorColetaRepository
     fields:
         idComputadorColeta:
             id: true

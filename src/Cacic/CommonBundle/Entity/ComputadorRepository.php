@@ -91,4 +91,35 @@ class ComputadorRepository extends EntityRepository
 		return $qb->getQuery()->getResult();
 	}
 	
+	/**
+	 * 
+	 * Gera relatório de configurações de hardware coletadas dos computadores 
+	 * @param array $filtros
+	 */
+	public function gerarRelatorioConfiguracoes( $filtros )
+	{
+		$qb = $this->createQueryBuilder('computador')
+					->select('computador, coleta, classe, rede, local, so')
+					->leftJoin('computador.hardwares', 'coleta')
+					->leftJoin('coleta.idClass', 'classe')
+					->leftJoin('computador.idRede', 'rede')
+					->leftJoin('rede.idLocal', 'local')
+					->leftJoin('computador.idSo', 'so');
+
+		/**
+		 * Verifica os filtros
+		 */
+		if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
+        	$qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+        
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
+        	$qb->andWhere('computador.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+        
+        /*if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) )
+        	$qb->andWhere('coleta.idClass IN (:conf)')->setParameter('conf', explode( ',', $filtros['conf'] ));*/
+        	
+		
+		return $qb->getQuery()->execute();
+	}
+	
 }

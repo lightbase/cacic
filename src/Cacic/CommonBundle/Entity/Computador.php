@@ -583,4 +583,42 @@ class Computador
     {
         return $this->softwares;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $hardwares;
+
+
+    /**
+     * Add hardwares
+     *
+     * @param \Cacic\CommonBundle\Entity\ComputadorColeta $hardwares
+     * @return Computador
+     */
+    public function addHardware(\Cacic\CommonBundle\Entity\ComputadorColeta $hardwares)
+    {
+        $this->hardwares[] = $hardwares;
+    
+        return $this;
+    }
+
+    /**
+     * Remove hardwares
+     *
+     * @param \Cacic\CommonBundle\Entity\ComputadorColeta $hardwares
+     */
+    public function removeHardware(\Cacic\CommonBundle\Entity\ComputadorColeta $hardwares)
+    {
+        $this->hardwares->removeElement($hardwares);
+    }
+
+    /**
+     * Get hardwares
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHardwares()
+    {
+        return $this->hardwares;
+    }
 }

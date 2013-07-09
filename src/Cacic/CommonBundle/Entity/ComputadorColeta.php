@@ -28,7 +28,24 @@ class ComputadorColeta
      * @var \Cacic\CommonBundle\Entity\Classe
      */
     private $idClass;
+    
+    /**
+     * @var array Valores organizados por Tags
+     */
+    private $tagValues = array();
 
+
+    /**
+     * 
+     * Construtor da classe
+     */
+    public function __construct()
+    {
+    	if ( null !== $this->teClassValues )
+    	{
+    		preg_match_all( '#\[([^\/+?)\](.*?)\[\/.*?\]#', $this->teClassValues, $out );
+    	}
+    }
 
     /**
      * Get idComputadorColeta

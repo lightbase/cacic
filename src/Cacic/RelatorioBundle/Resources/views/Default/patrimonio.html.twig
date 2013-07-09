@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}
-   <li class="active">{{ "Relatório de Softwares Inventariados"|trans }}</li>
+   <li class="active">{{ "Relatório de Informações Patrimoniais"|trans }}</li>
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,17 +14,9 @@
 	<script src="{{ asset('bundles/cacicrelatorio/libs/bootstrap-transfer-master/js/bootstrap-transfer.js') }}" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			var tSW = $('#transferSW').bootstrapTransfer({'target_id':'tSw'});
 		    var tLoc = $('#transferLocais').bootstrapTransfer({'target_id':'tLoc'});
 		    var tSO = $('#transferSO').bootstrapTransfer({'target_id':'tSo'});
 
-		    tSW.populate([ // Popula o TRANSFER com Softwares
-  		        {% for sw in softwares %}
-  		        {value: "{{ sw[0]['idSoftware'] }}", content:"{{ sw[0]['nmSoftware'] }}"}{% if loop.last != true %},{% endif %}
-  		        
-  		        {% endfor %}
-  		    ]);
-		    
 		    tLoc.populate([ // Popula o TRANSFER com Locais
 		        {% for l in locais %}
 		        {value: "{{ l[0]['idLocal'] }}", content:"{{ l[0]['nmLocal'] ~ '/' ~ l[0]['sgLocal'] }}"}{% if loop.last != true %},{% endif %}
@@ -40,11 +32,10 @@
 		    ]);
 
 			var transferToHidden = {
-					'form' : $('#frmFiltroRelatorioSWInventariado'),
-					'fieldsPrefix' : 'rel_filtro_software',
+					'form' : $('#frmFiltroRelatorioHWConfiguracoes'),
+					'fieldsPrefix' : 'rel_filtro_hardware',
 					'elms' : [
-						{ 'transferElement' : tSW  , 'inputHiddenName' : 'softwares' },
-					    { 'transferElement' : tLoc , 'inputHiddenName' : 'locais' },
+						{ 'transferElement' : tLoc , 'inputHiddenName' : 'locais' },
 		      			{ 'transferElement' : tSO  , 'inputHiddenName' : 'so' }
       				]
       		};
@@ -52,7 +43,7 @@
 			$('.selector-chooser a, a.selector-clearall, a.selector-chooseall').removeAttr('href').css('cursor', 'pointer');
 
       		// Ativa o tratamento dos dados dos transfers a partir da submissão do formulário
-      		System.Form.bootStrapTransfer.handle( transferToHidden);
+      		System.Form.bootStrapTransfer.handle( transferToHidden );
       		
 		});
 	</script>
@@ -63,20 +54,20 @@
 <div class="row-fluid">
     <div class="span12">
         <div class="box grad_colour_black">
-            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Relatório de Softwares Inventariados' |trans }}</h2>
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Relatório de Informações Patrimoniais' |trans }}</h2>
             <div class="block box_content round_bottom padding_10">
             
-            <h3>{{'Relatório de Softwares Inventariados' |trans }}</h3>
+            <h3>{{'Relatório de Informações Patrimoniais' |trans }}</h3>
             <p class="muted">
-            	Este relatório exibe os softwares inventariados nos computadores das redes selecionadas. 
-            	É possível determinar quais softwares serão exibidos no relatório, os sistemas operacionais e a abrangência das redes.
+            	{{ 'Este relatório exibe informações de Patrimônio e Localização Física dos computadores das redes selecionadas.'|trans }}
+            	{{ 'É possível selecionar os sistemas operacionais desejados e também determinar quais informações de Patrimônio e Localização Física serão exibidas no relatório.'|trans }}
             </p>
             <hr />
             
-            <form method="post" id="frmFiltroRelatorioSWInventariado" class="form-horizontal" target="_blank">
+            <form method="post" id="frmFiltroRelatorioHWConfiguracoes" class="form-horizontal" target="_blank">
             
-	            <h4>{{ 'Selecione os Softwares que deseja exibir'|trans }}</h4>
-	            <div id="transferSW"></div>
+	            <h4>{{ 'Selecione as informações que deseja exibir'|trans }}</h4>
+	            <div id="transferConf"></div>
 	            
 	            <h4>{{ 'Selecione os Locais'|trans }}</h4>
 	            <div id="transferLocais"></div>

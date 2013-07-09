@@ -6,17 +6,9 @@ cacic_relatorio_tcpIp:
     pattern: /tcpip
     defaults: { _controller: CacicRelatorioBundle:Default:tcpIp }
 
-cacic_relatorio_variaveisAmbiente:
-    pattern: /variaveisambiente
-    defaults: { _controller: CacicRelatorioBundle:Default:variaveisAmbiente }
-
 cacic_relatorio_patrimonio:
     pattern: /patrimonio
     defaults: { _controller: CacicRelatorioBundle:Default:patrimonio }
-
-cacic_relatorio_software_infoSoftwareBasico:
-    pattern: /software/basico
-    defaults: { _controller: CacicRelatorioBundle:Software:infoSoftwareBasico }
 
 cacic_relatorio_software_inventariados:
     pattern: /software/inventariados
@@ -70,22 +62,18 @@ cacic_relatorio_software_tipo_rel:
     requirements:
         _method: POST
 
-cacic_relatorio_software_ultimos:
-    pattern: /software/ultimos
-    defaults: { _controller: CacicRelatorioBundle:Software:ultimos }
-
-cacic_relatorio_software_suspeitos:
-    pattern: /software/suspeitos
-    defaults: { _controller: CacicRelatorioBundle:Software:suspeitos }
-
-cacic_relatorio_software_historicoEstacao:
-    pattern: /software/historicoestacao
-    defaults: { _controller: CacicRelatorioBundle:Software:historicoEstacao }
-
 cacic_relatorio_software_naoVinculados:
     pattern: /software/naovinculados
-    defaults: { _controller: CacicRelatorioBundle:Software:naoVinculados }
+    defaults: { _controller: CacicRelatorioBundle:Software:naoVinculadosRelatorio }
 
-cacic_relatorio_software_genericos:
-    pattern: /software/genericos
-    defaults: { _controller: CacicRelatorioBundle:Software:genericos }
+cacic_relatorio_hardware_configuracoes:
+    pattern: /hardware/configuracoes
+    defaults: { _controller: CacicRelatorioBundle:Hardware:configuracoes }
+    requirements:
+        _method: GET
+
+cacic_relatorio_hardware_configuracoes_rel:
+    pattern: /hardware/configuracoes
+    defaults: { _controller: CacicRelatorioBundle:Hardware:configuracoesRelatorio }
+    requirements:
+        _method: POST

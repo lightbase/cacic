@@ -31,10 +31,10 @@
       				]
       		};
 
-			$('.selector-chooser a').removeAttr('href').css('cursor', 'pointer');
+			$('.selector-chooser a, a.selector-clearall, a.selector-chooseall').removeAttr('href').css('cursor', 'pointer');
 
       		// Ativa o tratamento dos dados dos transfers a partir da submissão do formulário
-      		System.Form.bootStrapTransfer.handle( transferToHidden);
+      		System.Form.bootStrapTransfer.handle( transferToHidden );
       		
 		});
 	</script>

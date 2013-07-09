@@ -187,4 +187,21 @@ class SoftwareController extends Controller
         );
     }
     
+	/**
+     * [RELATÓRIO] Relatório de Softwares cadastrados mas não vinculados a nenhuma máquina
+     */
+    public function naoVinculadosRelatorioAction( Request $request )
+    {
+    	$dados = $this->getDoctrine()
+    					->getRepository('CacicCommonBundle:Software')
+    					->gerarRelatorioSoftwaresNaoVinculados();
+    	
+    	return $this->render(
+        	'CacicRelatorioBundle:Software:rel_naovinculados.html.twig', 
+        	array(
+        		'dados' => $dados
+        	)
+        );
+    }
+    
 }

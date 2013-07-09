@@ -94,6 +94,9 @@ Cacic\CommonBundle\Entity\Computador:
         softwares:
             targetEntity: SoftwareEstacao
             mappedBy: idComputador
+        hardwares:
+            targetEntity: ComputadorColeta
+            mappedBy: idComputador
     manyToOne:
         idUsuarioExclusao:
             targetEntity: Usuario

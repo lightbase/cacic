@@ -21,13 +21,20 @@ class DefaultController extends Controller
 	
 	/**
 	 * 
-	 * Relatório de Pastas Compartilhadas
+	 * Relatório de Informações Patrimoniais
 	 */
-	public function compartilhamentosAction()
+	public function patrimonioAction()
 	{
-		$form = $this->createForm( new CompartilhamentosType() );
+    	$locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->listar();
+    	$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
 		
-		return $this->render( 'CacicRelatorioBundle:Default:compartilhamentos.html.twig', array( 'form' => $form->createView() ) );
+		return $this->render(
+			'CacicRelatorioBundle:Default:patrimonio.html.twig',
+        	array(
+        		'locais' 	=> $locais,
+        		'so'		=> $so
+        	)
+        );
 	}
 	
 }

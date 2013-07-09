@@ -162,4 +162,23 @@ class SoftwareRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
     
+	/**
+     * 
+     * Método de consulta à base de dados de softwares não vinculados a nenhuma estação
+     * @param array $filtros
+     */
+    public function gerarRelatorioSoftwaresNaoVinculados()
+    {
+    	// Monta a Consulta básica...
+    	$qb = $this->createQueryBuilder('sw');
+    	$qb->select('sw', 'tpsw', 'se')
+    				->leftJoin('sw.idTipoSoftware', 'tpsw')
+        			->leftJoin('sw.estacoes', 'se')
+        			->groupBy('sw')
+        			->having($qb->expr()->eq($qb->expr()->count('se'), 0))
+        			->orderBy('sw.nmSoftware');
+        			
+        return $qb->getQuery()->execute();
+    }
+    
 }
