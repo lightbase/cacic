@@ -60,6 +60,12 @@ class Local
     private $uorgs;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $usuariosSecundarios;
+
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -68,6 +74,7 @@ class Local
         $this->redes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->configuracoes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->uorgs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->usuariosSecundarios = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -348,5 +355,38 @@ class Local
     public function configurarFromConfigPadrao()
     {
     	
+    }
+
+    /**
+     * Add usuariosSecundarios
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuario $usuariosSecundarios
+     * @return Local
+     */
+    public function addUsuariosSecundario(\Cacic\CommonBundle\Entity\Usuario $usuariosSecundarios)
+    {
+        $this->usuariosSecundarios[] = $usuariosSecundarios;
+    
+        return $this;
+    }
+
+    /**
+     * Remove usuariosSecundarios
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuario $usuariosSecundarios
+     */
+    public function removeUsuariosSecundario(\Cacic\CommonBundle\Entity\Usuario $usuariosSecundarios)
+    {
+        $this->usuariosSecundarios->removeElement($usuariosSecundarios);
+    }
+
+    /**
+     * Get usuariosSecundarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsuariosSecundarios()
+    {
+        return $this->usuariosSecundarios;
     }
 }
