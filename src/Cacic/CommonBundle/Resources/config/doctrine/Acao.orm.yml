@@ -10,8 +10,6 @@ Cacic\CommonBundle\Entity\Acao:
             fixed: false
             nullable: false
             column: id_acao
-            generator:
-                strategy: IDENTITY
         teDescricaoBreve:
             type: string
             length: 100
