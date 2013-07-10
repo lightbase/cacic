@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>{{ "CACIC - Configurador Automático e Coletor de Informações Computacionais"|trans }}</title>
-    <meta name="description" content="CACIC Coletor Automático e Configurador de Informações Computacionais">
+    <meta name="description" content="{{ 'CACIC Coletor Automático e Configurador de Informações Computacionais'|trans }}">
     <meta name="ahoekie" content="CACIC BackEnd">
     
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="{{ asset('bundles/caciccommon/libs/googlecode.html5shim.js') }}"></script>
     <![endif]-->
     
     {% block stylesheets %}
@@ -26,12 +26,12 @@
             <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
         {% endstylesheets %}
          
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+    <link href="{{ asset('bundles/caciccommon/libs/googleapis.fonts.css') }}" rel="stylesheet">
         
     {% endblock %}
     
     <!-- Bootstrap CSS fixes for IE6 -->
-    <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+    <!--[if lt IE 7]><link rel="stylesheet" href="{{ asset('bundles/caciccommon/libs/bootstrap-ie6.min.css') }}"><![endif]-->
     
   </head>
 

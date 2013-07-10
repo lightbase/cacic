@@ -1,35 +1,37 @@
 cacic_ws_get_test:
-    pattern: /ws/get/test
+    pattern: /get/test
     defaults: { _controller: CacicWSBundle:Coletas:getTest }
 
 cacic_ws_instala_cacic:
-    pattern: /ws/instala/cacic
+    pattern: /instala/cacic
     defaults: { _controller: CacicWSBundle:Coletas:instalaCacic }
 
 cacic_ws_gercols_setcollets:
-    pattern: /ws/gercols/setcollets
+    pattern: /gercols/setcollets
     defaults: { _controller: CacicWSBundle:Coletas:gerColsSetCollet }
 
 cacic_ws_config:
-    pattern: /ws/get/config
+    pattern: /get/config
     defaults: { _controller: CacicWSBundle:Coletas:getConfig }
+    requirements:
+        _method: POST
 
 cacic_ws_gercols_set_srcacic_action:
-    pattern: /ws/gercols/set/srcacic/action
+    pattern: /gercols/set/srcacic/action
     defaults: { _controller: CacicWSBundle:Coletas:gerColsSetSrcacicAction }
 
 cacic_ws_gercols_set_usbdetect:
-    pattern: /ws/gercols/set/usbdetect
+    pattern: /gercols/set/usbdetect
     defaults: { _controller: CacicWSBundle:Coletas:gerColsSetUsbDetect }
 
 cacic_ws_mapa_cacic_acesso:
-    pattern: /ws/mapacacic/acesso
+    pattern: /mapacacic/acesso
     defaults: { _controller: CacicWSBundle:Coletas:mapaCacicAcesso }
 
 cacic_ws_srcacic_set_session:
-    pattern: /ws/srcacic/set/session
+    pattern: /srcacic/set/session
     defaults: { _controller: CacicWSBundle:Coletas:srCacicSetSession }
 
 cacic_ws_srcacic_ayth_client:
-    pattern: /ws/srcacic/auth/client
+    pattern: /srcacic/auth/client
     defaults: { _controller: CacicWSBundle:Coletas:srCacicAuthClient }

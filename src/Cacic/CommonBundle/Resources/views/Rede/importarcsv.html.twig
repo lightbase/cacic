@@ -16,8 +16,8 @@
 			
 			<div class="block box_content round_bottom padding_10">
 			
-				<h3>Importar Arquivo CSV</h3>
-				<p>Informe o arquivo CSV com os dados das Redes/Subredes que devem ser importadas.</p>
+				<h3>{{ "Importar Arquivo CSV"|trans }}</h3>
+				<p>{{ "Informe o arquivo CSV com os dados das Redes/Subredes que devem ser importadas"|trans }}.</p>
 				<hr />
 			
 				<form id="formImportSubredes" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>

@@ -1,6 +1,6 @@
 cacic_ws:
     resource: "@CacicWSBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /ws/
 
 cacic_relatorio:
     resource: "@CacicRelatorioBundle/Resources/config/routing.yml"

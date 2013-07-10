@@ -130,16 +130,19 @@ class ColetasController extends Controller
 
     }
 
-
     /**
      *  Método responsável por retornar configurações necessarias ao Agente CACIC
      *
      */
-    public function getConfigAction()
+    public function getConfigAction( Request $request )
     {
-        $request = new Request();
-
-
+        $fp = fopen('/Users/ecio/Sites/cacic/web/ws/get_config_'.date('Ymd_His').'.txt', 'w+');
+        foreach( $request->getData() as $postKey => $postVal )
+        {
+        	fwrite( $fp, "[{$postKey}]: {$postVal}\n");
+        }
+        fclose($fp);
+        die('OK');
     }
 
     /**
