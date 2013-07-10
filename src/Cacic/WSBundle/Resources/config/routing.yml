@@ -1,20 +1,20 @@
 cacic_ws_get_test:
     pattern: /get/test
-    defaults: { _controller: CacicWSBundle:Coletas:getTest }
+    defaults: { _controller: CacicWSBundle:Default:test }
+
+cacic_ws_config:
+    pattern: /get/config
+    defaults: { _controller: CacicWSBundle:Default:config }
+    requirements:
+        _method: POST
 
 cacic_ws_instala_cacic:
     pattern: /instala/cacic
-    defaults: { _controller: CacicWSBundle:Coletas:instalaCacic }
+    defaults: { _controller: CacicWSBundle:Default:install }
 
 cacic_ws_gercols_setcollets:
     pattern: /gercols/setcollets
     defaults: { _controller: CacicWSBundle:Coletas:gerColsSetCollet }
-
-cacic_ws_config:
-    pattern: /get/config
-    defaults: { _controller: CacicWSBundle:Coletas:getConfig }
-    requirements:
-        _method: POST
 
 cacic_ws_gercols_set_srcacic_action:
     pattern: /gercols/set/srcacic/action

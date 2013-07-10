@@ -26,63 +26,6 @@ use Cacic\CommonBundle\Entity\AcaoSo;
 class ColetasController extends Controller
 {
     /**
-     *  Método responsável por inserir falhas na instalação do Agente CACIC
-     *
-     */
-    public function instalaCacicAction( )
-    {
-        $request = new Request();
-       if( $request->isMethod('POST')  )
-        {
-            $data = new \DateTime('NOW');
-
-            $insucesso =  new InsucessoInstalacao();
-
-            $insucesso->setTeIpComputador( $_SERVER["REMOTE_ADDR"] );
-            $insucesso->setTeSo( $request->request->get('te_so') );
-            $insucesso->setIdUsuario( $request->request->get('id_usuario') );
-            $insucesso->setCsIndicador( $request->request->get('cs_indicador') );
-            $insucesso->setDtDatahora( $data  );
-
-            $this->getDoctrine()->getManager()->persist( $insucesso );
-            $this->getDoctrine()->getManager()->flush();
-        }
-
-    }
-
-    /**
-     *  Método responsável por Verificar se houve comunicação com o Agente CACIC
-     *
-     */
-    public function getTestAction(){
-
-
-        $request = new Request();/*
-        $common_ws = new CommonWs( );
-        $strXML_Values = $common_ws->commonTop( $request );
-        $strPaddingKey = $request->request->get('padding_key');
-
-        $strPaddingKey   = empty( $strPaddingKey ) ?  $strPaddingKey : '';*/    $strXML_Values = '<? xml version="1.0" encoding="iso-8859-1" ?>';
-        $strXML_Values .= '<Comm_Status>' . 'OK' . '<'	.	'/Comm_Status>';
-
-        if ( file_exists( Constantes::CACIC_PATH . Constantes::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini') ) //adptar ao symfony!!!
-        {
-            $arrVersionsAndHashes = parse_ini_file( Constantes::CACIC_PATH . Constantes::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
-            $strXML_Values .= '<INSTALLCACIC.EXE_HASH>'	. 	Criptografia::enCrypt( $request, $arrVersionsAndHashes['installcacic.exe_HASH'],
-                    $request->request->get('cs_cipher'),
-                    $request->request->get('cs_compress') ,
-                    $strPaddingKey ,
-                    true ) 	. '<' 	. 	'/INSTALLCACIC.EXE_HASH>';
-            $strXML_Values .= '<MainProgramName>'  		. 	Constantes::CACIC_MAIN_PROGRAM_NAME.'.exe'	. '<' 	. 	'/MainProgramName>';
-            $strXML_Values .= '<LocalFolderName>' 		. 	Constantes::CACIC_LOCAL_FOLDER_NAME			. '<' 	. 	'/LocalFolderName>';
-        }
-
-        //$strXML_Values .= CommonWs::commonBottom( $request );
-
-        return new Response( $strXML_Values );
-    }
-
-    /**
      *  Método responsável por inserir coletas  do Agente CACIC
      *
      */
@@ -128,21 +71,6 @@ class ColetasController extends Controller
         $so = empty( $so ) ? new So() : $so;
 //        $computador->set
 
-    }
-
-    /**
-     *  Método responsável por retornar configurações necessarias ao Agente CACIC
-     *
-     */
-    public function getConfigAction( Request $request )
-    {
-        $fp = fopen('/Users/ecio/Sites/cacic/web/ws/get_config_'.date('Ymd_His').'.txt', 'w+');
-        foreach( $request->getData() as $postKey => $postVal )
-        {
-        	fwrite( $fp, "[{$postKey}]: {$postVal}\n");
-        }
-        fclose($fp);
-        die('OK');
     }
 
     /**
