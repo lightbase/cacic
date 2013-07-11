@@ -29,6 +29,7 @@ class RedeController extends Controller
             array( 'rede' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listar() )
         );
     }
+
     public function cadastrarAction(Request $request)
     {
         $rede = new Rede();
@@ -41,6 +42,14 @@ class RedeController extends Controller
             {
                 $this->getDoctrine()->getManager()->persist( $rede );
                 $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Usuário
+
+                $redeversaomodulo = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(
+                    array(
+                        'idRede' => $rede->getIdRede()
+                    )
+                );
+
+                $redeversaomodulo->updateSubredes();
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
