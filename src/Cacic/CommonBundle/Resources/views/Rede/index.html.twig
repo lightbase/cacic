@@ -39,7 +39,7 @@
                 <tr id="item_{{ rede[0]['idRede'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
                     <td>{{ rede[0]['teIpRede'] }}/{{ rede[0]['teMascaraRede'] }}</td>
                     <td id="item_desc_{{ rede[0]['idRede'] }}">{{ rede[0]['nmRede'] }}</td>
-                    <td style="text-align: center">{{ rede['nmLocal']}}</td>
+                    <td style="text-align: center">{{ rede['local']}}</td>
                     <td style="text-align: center"></td>
                     <td style="text-align: center"></td>
                     <td style="text-align: center">{{ rede[0]['teServCacic'] }}</td>
@@ -66,7 +66,7 @@
             <div align="right">
                 <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_subrede_cadastrar') }}">
                     <i class="icon-plus-sign"></i>
-                    {{ "Adicionar Softwares"|trans }}
+                    {{ "Adicionar Subrede"|trans }}
                 </a>
             </div>
        </div> <!-- /block -->
