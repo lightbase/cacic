@@ -19,7 +19,7 @@ abstract class OldCacicHelper
     const CACIC_KEY = 'CacicBrasil';
 
     // define  chave para agentes CACIC
-    const CACIC_PATH = '/Users/ecio/Sites/cacic/';
+    const CACIC_PATH = realpath(dirname(__FILE__).'/../../../../');
 
     // define  IV para agentes CACIC
     const CACIC_IV = 'abcdefghijklmnop';
