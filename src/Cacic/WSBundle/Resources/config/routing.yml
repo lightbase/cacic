@@ -5,8 +5,8 @@ cacic_ws_get_test:
 cacic_ws_config:
     pattern: /get/config
     defaults: { _controller: CacicWSBundle:Default:config }
-    requirements:
-        _method: POST
+#    requirements:
+#        _method: POST
 
 cacic_ws_instala_cacic:
     pattern: /instala/cacic

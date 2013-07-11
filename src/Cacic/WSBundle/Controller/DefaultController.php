@@ -79,17 +79,18 @@ class DefaultController extends Controller
      */
     public function configAction( Request $request )
     {
-        $fp = fopen('/Users/ecio/Sites/cacic/web/ws/get_config_'.date('Ymd_His').'.txt', 'w+');
-        
+    	/*
         $this->autenticaAgente();
         
+        $fp = fopen('/Users/ecio/Sites/cacic/web/ws/get_config_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
         {
         	$postVal = Criptografia();
         	fwrite( $fp, "[{$postKey}]: {$postVal}\n");
         }
         fclose($fp);
-        
+        */
+
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
         
         return $this->render('CacicWSBundle:Default:config.xml.twig', array('configs'=>$configs));
@@ -102,7 +103,7 @@ class DefaultController extends Controller
     {
         //obtem IP da maquina coletada
         $ip_computador = $request->request->get('te_ip_computador');
-        $ip_computador = empty( $ip_computador ) ? $_SERVER['REMOTE_ADDR'] : $$ip_computador;
+        $ip_computador = empty( $ip_computador ) ? $_SERVER['REMOTE_ADDR'] : $ip_computador;
 
         //obtem IP da Rede que a maquina coletada pertence
         $ip = explode( '.', $ip_computador );

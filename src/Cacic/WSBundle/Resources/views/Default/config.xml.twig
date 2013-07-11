@@ -1,5 +1,7 @@
-{% extends 'WSBundle::common.xml.twig' %}
+{% extends 'CacicWSBundle::common.xml.twig' %}
 
 {% block bodyXML %}
-
+{% for config in configs %}
+<{{config.idConfiguracao|upper}}>{{config.vlConfiguracao}}</{{config.idConfiguracao|upper}}>
+{% endfor %}
 {% endblock %}

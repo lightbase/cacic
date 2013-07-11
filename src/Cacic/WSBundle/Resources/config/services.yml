@@ -1,7 +1,5 @@
-parameters:
-#    cacic_relatorio.example.class: Cacic\RelatorioBundle\Example
-
 services:
-#    cacic_relatorio.example:
-#        class: %cacic_relatorio.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    cacic.twig.old_cacic_extension:
+        class: Cacic\WSBundle\Twig\OldCacicExtension
+        tags:
+            - { name: twig.extension }
