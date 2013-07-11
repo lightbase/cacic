@@ -19,7 +19,7 @@ abstract class OldCacicHelper
     const CACIC_KEY = 'CacicBrasil';
 
     // define  chave para agentes CACIC
-    const CACIC_PATH = realpath(dirname(__FILE__).'/../../../../');
+    const CACIC_PATH = '/Users/ecio/Sites/cacic/';
 
     // define  IV para agentes CACIC
     const CACIC_IV = 'abcdefghijklmnop';
@@ -104,7 +104,7 @@ abstract class OldCacicHelper
     // To decrypt values
     // p_cs_cipher => Y/N
     // ---------------------------------
-    public static function deCrypt(Request $request, $pStrCriptedData, $pBoolForceDecrypt = false)
+    public static function deCrypt(Request $request, $pStrCriptedData, $pStrPaddingKey = '', $pBoolForceDecrypt = false)
     {
 
         // Bloco de Substituições para antes da Decriptação

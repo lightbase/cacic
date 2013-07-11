@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Cacic\CommonBundle\Entity\InsucessoInstalacao;
-use Cacic\WSBundle\Helper\Criptografia;
+use Cacic\WSBundle\Helper\OldCacicHelper;
 
 /**
  *
@@ -45,33 +45,20 @@ class DefaultController extends Controller
      *  Método responsável por Verificar se houve comunicação com o Agente CACIC
      *
      */
-    public function getTestAction(){
-
-
-        $request = new Request();/*
-        $common_ws = new CommonWs( );
-        $strXML_Values = $common_ws->commonTop( $request );
-        $strPaddingKey = $request->request->get('padding_key');
-
-        $strPaddingKey   = empty( $strPaddingKey ) ?  $strPaddingKey : '';*/    $strXML_Values = '<? xml version="1.0" encoding="iso-8859-1" ?>';
-        $strXML_Values .= '<Comm_Status>' . 'OK' . '<'	.	'/Comm_Status>';
-
-        if ( file_exists( Constantes::CACIC_PATH . Constantes::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini') ) //adptar ao symfony!!!
+    public function testAction( Request $request )
+    {
+    	$fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/get_test_'.date('Ymd_His').'.txt', 'w+');
+        foreach( $request->request->all() as $postKey => $postVal )
         {
-            $arrVersionsAndHashes = parse_ini_file( Constantes::CACIC_PATH . Constantes::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
-            $strXML_Values .= '<INSTALLCACIC.EXE_HASH>'	. 	Criptografia::enCrypt( $request, $arrVersionsAndHashes['installcacic.exe_HASH'],
-                    $request->request->get('cs_cipher'),
-                    $request->request->get('cs_compress') ,
-                    $strPaddingKey ,
-                    true ) 	. '<' 	. 	'/INSTALLCACIC.EXE_HASH>';
-            $strXML_Values .= '<MainProgramName>'  		. 	Constantes::CACIC_MAIN_PROGRAM_NAME.'.exe'	. '<' 	. 	'/MainProgramName>';
-            $strXML_Values .= '<LocalFolderName>' 		. 	Constantes::CACIC_LOCAL_FOLDER_NAME			. '<' 	. 	'/LocalFolderName>';
+        	$postVal = OldCacicHelper::deCrypt( $request, $postVal );
+        	fwrite( $fp, "[{$postKey}]: {$postVal}\n");
         }
-
-        //$strXML_Values .= CommonWs::commonBottom( $request );
-
-        return new Response( $strXML_Values );
-    }
+        fclose($fp);
+        
+        $response = new Response();
+		$response->headers->set('Content-Type', 'xml');
+		return  $this->render('CacicWSBundle:Default:test.xml.twig', array(), $response);
+	}
 
     /**
      *  Método responsável por retornar configurações necessarias ao Agente CACIC
@@ -79,21 +66,21 @@ class DefaultController extends Controller
      */
     public function configAction( Request $request )
     {
-    	/*
-        $this->autenticaAgente();
+		//$this->autenticaAgente();
         
-        $fp = fopen('/Users/ecio/Sites/cacic/web/ws/get_config_'.date('Ymd_His').'.txt', 'w+');
+        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/get_config_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
         {
-        	$postVal = Criptografia();
+        	$postVal = OldCacicHelper::deCrypt( $request, $postVal );
         	fwrite( $fp, "[{$postKey}]: {$postVal}\n");
         }
         fclose($fp);
-        */
-
+        
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
         
-        return $this->render('CacicWSBundle:Default:config.xml.twig', array('configs'=>$configs));
+        $response = new Response();
+		$response->headers->set('Content-Type', 'xml');
+		return  $this->render('CacicWSBundle:Default:config.xml.twig', array('configs'=>$configs), $response);
     }
 
     /*
