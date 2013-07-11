@@ -3,6 +3,7 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Cacic\CommonBundle\CacicCommonBundle;
+use Cacic\WSBundle\Helper;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,6 +45,8 @@ class RedeVersaoModulo
      * @var \Cacic\CommonBundle\Entity\Rede
      */
     private $idRede;
+
+    public $iniFile;
 
 
     /**
@@ -193,6 +196,23 @@ class RedeVersaoModulo
     {
         return $this->idRede;
     }
+
+    /**
+     *  Carrega valor do arquivo de configuração
+     */
+
+    public  function setIniFile()
+    {
+        $this->iniFile = 'Common/downloads/versions_and_hashes.ini';
+
+        return $this;
+    }
+
+    public function getIniFile()
+    {
+        return $this->iniFile;
+    }
+
   /**
    * --------------------------------------------------------------------------------------
    * Função usada para fazer updates de subredes...
@@ -202,7 +222,7 @@ class RedeVersaoModulo
     public function updateSubredes()
     {
         $pIntIdRede = $this->getIdRede();
-        $iniFile = 'Common/downloads/versions_and_hashes.ini';
+        $iniFile = $this->getIniFile();
 
         $itemArray = parse_ini_file($iniFile, TRUE);
 
@@ -213,12 +233,12 @@ class RedeVersaoModulo
         {
             $intLoopVersionsIni ++;
             $arrItemDefinitions = explode(',',$itemArray['Item_' . $intLoopVersionsIni]);
-            if (($arrItemDefinitions[0] <> '') && ($arrItemDefinitions[1] <> 'S' && ($arrItemDefinitions[2] <> 'S'))
+            if (($arrItemDefinitions[0] <> '') && ($arrItemDefinitions[1] <> 'S') && ($arrItemDefinitions[2] <> 'S'))
             {
                 $pStrNmItem = getOnlyFileName(trim($arrItemDefinitions[0]));
 
-                $boolEqualVersions = ($arrVersoesEnviadas[$strItemName]  == $itemArray[$strItemName . '_VER'] );
-                $boolEqualHashs	   = ($arrHashsEnviados[$strItemName]    == $itemArray[$strItemName . '_HASH']);
+                //$boolEqualVersions = ($arrVersoesEnviadas[$strItemName]  == $itemArray[$strItemName . '_VER'] );
+                //$boolEqualHashs	   = ($arrHashsEnviados[$strItemName]    == $itemArray[$strItemName . '_HASH']);
 
                 $strSendProcess   = 'Nao Enviado!';
                 $strProcessStatus = '';
@@ -235,7 +255,7 @@ class RedeVersaoModulo
                     require_once('../../include/ftp_check_and_send.php');
 
                     $strResult = checkAndSend($pStrNmItem,
-                        CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . ($_SESSION['sessArrVersionsIni'][$_GET['pStrNmItem'] . '_PATH']),
+                        Helper\OldCacicHelper::CACIC_PATH . Helper\OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . ($arrDadosRede[$pStrNmItem . '_PATH']),
                         $arrDadosRede[0]['te_serv_updates'],
                         $arrDadosRede[0]['te_path_serv_updates'],
                         $arrDadosRede[0]['nm_usuario_login_serv_updates_gerente'],
@@ -263,58 +283,47 @@ class RedeVersaoModulo
                     $em->remove($redeVersaoModulo);
                     $em->flush();
 
-                    //$cadastroRedeVersaoModulo = array( $em->getRepository( 'CacicCommonBundle:RedeVersaoModulo' ));
-
-                    $redeVersaoModulo = new RedeVersaoModulo();
-                    $redeVersaoModulo->setIdRede($pIntIdRede);
-                    $redeVersaoModulo->setCsTipoSo();
 
                     // Adicione o restante dos atributos
+                    $redeVersaoModulo = new RedeVersaoModulo();
+                    $redeVersaoModulo->setIdRede($pIntIdRede);
+                    $redeVersaoModulo->setNmModulo($pStrNmItem);
+                    $redeVersaoModulo->setTeVersaoModulo($pStrNmItem . '_VER');
+                    $redeVersaoModulo->setDtAtualizacao(now());
+                    $redeVersaoModulo->setCsTipoSo( $pStrNmItem,'.exe',false ? 'MS-Windows' : 'GNU/LINUX');
+                    $redeVersaoModulo->setTeHash($pStrNmItem . '_HASH');
 
 
-                    $em->persist($cadastroRedeVersaoModulo);
+                    $em->persist($redeVersaoModulo);
                     $em->flush();
 
 
-
-
-
-                    $queryINS  = 'INSERT INTO redes_versoes_modulos (id_rede,
-														 nm_modulo,
-														 te_versao_modulo,
-														 dt_atualizacao,
-														 cs_tipo_so,
-														 te_hash) VALUES ('  .
-                        $_GET['pIntIdRede'] .  ',
-													"' . $_GET['pStrNmItem'] . '",
-													"' . $_SESSION['sessArrVersionsIni'][$_GET['pStrNmItem'] . '_VER'] . '",
-														 now(),
-													"' . (stripos2($_GET['pStrNmItem'],'.exe',false) ? 'MS-Windows' : 'GNU/LINUX') . '",
-													"' . $_SESSION['sessArrVersionsIni'][$_GET['pStrNmItem'] . '_HASH'] . '")';
-                    $resultINS = mysql_query($queryINS) or die($oTranslator->_('Falha inserindo item em (%1) ou sua sessao expirou!',array('redes_versoes_modulos')));
                 }
 
                 //echo $_GET['pIntIdRede'] . '_=_' . $_GET['pStrNmItem'] . '_=_' . $strResult;
-            }
 
-                $intLoopSEL++;
-            }
-            else
-                $intLoopVersionsIni = -1;
+                }  else {
+                    $intLoopVersionsIni = -1;
+                }
+
+            $intLoopSEL++;
         }
-
-
-
-
-
-
-
-
-
-
 
     }
 
+
+     public function getConfig($v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey){
+         if ($this->getIniFile())
+         {
+             $arrVersionsAndHashes = parse_ini_file(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
+             return array(
+                'INSTALLCACIC.EXE_HASH' => Helper\OldCacicHelper::EnCrypt($arrVersionsAndHashes['installcacic.exe_HASH'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey,true),
+                'MainProgramName' => Helper\OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe',
+                'LocalFolderName' => Helper\OldCacicHelper::CACIC_LOCAL_FOLDER_NAME
+             );
+
+         }
+     }
 
 
 }
