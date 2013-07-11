@@ -34,7 +34,7 @@ class RedeRepository extends EntityRepository
      */
     public function listar()
     {
-        $_dql = "SELECT r, l.nmLocal,  count(l.nmLocal) AS local
+        $_dql = "SELECT r, count(l.nmLocal) AS local
 				FROM CacicCommonBundle:Rede r
 				LEFT JOIN r.idLocal l
 				GROUP BY r";
