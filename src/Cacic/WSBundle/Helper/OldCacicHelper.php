@@ -3,6 +3,7 @@
 namespace Cacic\WSBundle\Helper;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Templating\Helper\Helper;
 
 abstract class OldCacicHelper
 {
@@ -26,6 +27,9 @@ abstract class OldCacicHelper
     
     // define  path para componentes de instalação, coleta de dados de patrimônio e cliente de Suporte Remoto do CACIC
     const CACIC_PATH_RELATIVO_DOWNLOADS = 'downloads/';
+
+    // Arquivo com hashes dos agentes
+    const iniFile = 'Common/downloads/versions_and_hashes.ini';
     
     /**
      * 
@@ -143,6 +147,24 @@ abstract class OldCacicHelper
         }
 
         return trim($strResult);
+    }
+
+    public function getIniFile()
+    {
+        return $this::iniFile;
+    }
+
+    public static function getTest($v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey){
+        if (Helper\OldCacicHelper::iniFile)
+        {
+            $arrVersionsAndHashes = parse_ini_file(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
+            return array(
+                'INSTALLCACIC.EXE_HASH' => Helper\OldCacicHelper::EnCrypt($arrVersionsAndHashes['installcacic.exe_HASH'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey,true),
+                'MainProgramName' => Helper\OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe',
+                'LocalFolderName' => Helper\OldCacicHelper::CACIC_LOCAL_FOLDER_NAME
+            );
+
+        }
     }
 	
 }
