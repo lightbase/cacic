@@ -80,19 +80,19 @@ abstract class OldCacicHelper
     }
 
 
-    public static function enCrypt( Request $request   ,$pStrPlainData, $pStrCsCipher, $pStrCsCompress, $pIntCompressLevel=0, $pStrPaddingKey = '', $pBoolForceEncrypt = false)
+    public static function enCrypt( Request $request   ,$pStrPlainData, $pIntCompressLevel=0, $pStrPaddingKey = '', $pBoolForceEncrypt = false)
     {
         $pStrCipherKey = $pStrPaddingKey;
 
-        if ((($pStrCsCipher=='1') && !$request->request->get('cs_debug') || $pBoolForceEncrypt) )
+        if ((($request->get('cs_cipher')=='1') && !$request->request->get('cs_debug') || $pBoolForceEncrypt) )
         {
-            $strResult = base64_encode(@mcrypt_cbc(MCRYPT_RIJNDAEL_128,$key,$pStrPlainData,MCRYPT_ENCRYPT,$iv));
+            $strResult = base64_encode(@mcrypt_cbc(MCRYPT_RIJNDAEL_128,OldCacicHelper::CACIC_KEY,$pStrPlainData,MCRYPT_ENCRYPT,OldCacicHelper::CACIC_IV));
             $strResult .= '__CRYPTED__';
         }
         else
             $strResult = $pStrPlainData;
 
-        if (($pStrCsCompress == '1' || $pStrCsCompress == '2') && $pIntCompressLevel > 0)
+        if (($request->get('cs_compress') == '1' || $request->get('cs_compress') == '2') && $pIntCompressLevel > 0)
             $strResult = gzdeflate($strResult,$pIntCompressLevel);
 
         $strResult = self::replaceInvalidHTTPChars($strResult);
@@ -119,7 +119,7 @@ abstract class OldCacicHelper
         if ( (substr($ppStrCriptedData,-11) == '__CRYPTED__') && ((($request->get('cs_cipher')=='1') && !$request->get('cs_debug')) || $pBoolForceDecrypt))
         {
             $ppStrCriptedData = str_replace('__CRYPTED__' , '' 	, $ppStrCriptedData);
-            $strResult = (trim($ppStrCriptedData)<>''?@mcrypt_decrypt(MCRYPT_RIJNDAEL_128,$key,base64_decode($ppStrCriptedData),MCRYPT_MODE_CBC,null):'');
+            $strResult = (trim($ppStrCriptedData)<>''?@mcrypt_decrypt(MCRYPT_RIJNDAEL_128,OldCacicHelper::CACIC_KEY,base64_decode($ppStrCriptedData),MCRYPT_MODE_CBC,OldCacicHelper::CACIC_IV):'');
         }
         else
             $strResult = $pStrCriptedData;
