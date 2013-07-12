@@ -1,1 +1,6 @@
 {% extends 'CacicWSBundle::common.xml.twig' %}
+{%  block bodyXML %}
+<INSTALLCACIC.EXE_HASH>{{ configs['INSTALLCACIC.EXE_HASH'] }}</INSTALLCACIC.EXE_HASH>
+<MainProgramName>{{ configs.MainProgramName }}</MainProgramName>
+<LocalFolderName>{{ configs.LocalFolderName }}</LocalFolderName>
+{% endblock %}

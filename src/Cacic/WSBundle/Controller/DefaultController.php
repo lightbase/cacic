@@ -54,10 +54,10 @@ class DefaultController extends Controller
         	fwrite( $fp, "[{$postKey}]: {$postVal}\n");
         }
         fclose($fp);
-        
+
         $response = new Response();
 		$response->headers->set('Content-Type', 'xml');
-		return  $this->render('CacicWSBundle:Default:test.xml.twig', array(), $response);
+		return  $this->render('CacicWSBundle:Default:test.xml.twig', array( 'configs'=> OldCacicHelper::getTest($request)  ), $response);
 	}
 
     /**

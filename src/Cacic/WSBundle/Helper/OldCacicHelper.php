@@ -20,7 +20,7 @@ abstract class OldCacicHelper
     const CACIC_KEY = 'CacicBrasil';
 
     // define  chave para agentes CACIC
-    const CACIC_PATH = '/Users/ecio/Sites/cacic/';
+    const CACIC_PATH = '/var/www/CacicDev/';
 
     // define  IV para agentes CACIC
     const CACIC_IV = 'abcdefghijklmnop';
@@ -154,14 +154,14 @@ abstract class OldCacicHelper
         return $this::iniFile;
     }
 
-    public static function getTest($v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey){
-        if (Helper\OldCacicHelper::iniFile)
+    public static function getTest( Request $request){
+        if ( OldCacicHelper::iniFile )
         {
-            $arrVersionsAndHashes = parse_ini_file(CACIC_PATH . CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
+            $arrVersionsAndHashes = parse_ini_file( OldCacicHelper::CACIC_PATH . OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
             return array(
-                'INSTALLCACIC.EXE_HASH' => Helper\OldCacicHelper::EnCrypt($arrVersionsAndHashes['installcacic.exe_HASH'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey,true),
-                'MainProgramName' => Helper\OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe',
-                'LocalFolderName' => Helper\OldCacicHelper::CACIC_LOCAL_FOLDER_NAME
+                'INSTALLCACIC.EXE_HASH' => OldCacicHelper::EnCrypt($request, $arrVersionsAndHashes['installcacic.exe_HASH'],true),
+                'MainProgramName' => OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe',
+                'LocalFolderName' => OldCacicHelper::CACIC_LOCAL_FOLDER_NAME
             );
 
         }
