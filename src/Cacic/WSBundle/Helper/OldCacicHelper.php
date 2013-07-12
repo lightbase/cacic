@@ -2,7 +2,9 @@
 
 namespace Cacic\WSBundle\Helper;
 
+use JMS\DiExtraBundle\Tests\Functional\AppKernel;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Templating\Helper\Helper;
 
 abstract class OldCacicHelper
@@ -29,7 +31,7 @@ abstract class OldCacicHelper
     const CACIC_PATH_RELATIVO_DOWNLOADS = 'downloads/';
 
     // Arquivo com hashes dos agentes
-    const iniFile = 'Common/downloads/versions_and_hashes.ini';
+    const iniFile = '/srv/gerente/src/Cacic/CommonBundle/Common/downloads/versions_and_hashes.ini';
     
     /**
      * 
@@ -166,5 +168,14 @@ abstract class OldCacicHelper
 
         }
     }
-	
+
+    public static function getOnlyFileName($pStrFullFileName)
+    {
+        $strResult = str_replace('/' ,'#SLASH#',$pStrFullFileName);
+        $strResult = str_replace('\\','#SLASH#',$strResult);
+        $arrResult = explode('#SLASH#',$strResult);
+        return $arrResult[count($arrResult)-1];
+    }
+
+
 }

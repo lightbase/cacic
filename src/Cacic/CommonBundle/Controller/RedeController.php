@@ -2,11 +2,15 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Cacic\CommonBundle\Entity\RedeVersaoModulo;
+use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cacic\CommonBundle\Entity\Rede;
 use Cacic\CommonBundle\Form\Type\RedeType;
+use Cacic\WSBundle\Helper;
+use Cacic\CommonBundle\Helper as CacicHelper;
 
 /**
  *
@@ -43,13 +47,11 @@ class RedeController extends Controller
                 $this->getDoctrine()->getManager()->persist( $rede );
                 $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Usuário
 
-                $redeversaomodulo = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(
-                    array(
-                        'idRede' => $rede->getIdRede()
-                    )
-                );
+                // Grava os dados da tabela rede versão módulo
+                $redeversaomodulo = new RedeVersaoModulo(null, null, null, null, null, $rede);
+                $this->getDoctrine()->getManager()->persist( $redeversaomodulo );
+                $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Rede Versão Módulo
 
-                $redeversaomodulo->updateSubredes();
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
@@ -174,4 +176,94 @@ class RedeController extends Controller
         	array( 'form' => $form->createView() )
         );
 	}
+
+    /**
+     * --------------------------------------------------------------------------------------
+     * Função usada para fazer updates de subredes...
+     *A variável p_origem poderá conter "Agente" ou "Pagina" para o tratamento de variáveis $_SESSION
+     *--------------------------------------------------------------------------------------
+     */
+    public function updateSubredes()
+    {
+        $pIntIdRede = $this->getIdRede();
+        $iniFile = Helper\OldCacicHelper::iniFile;
+
+        $itemArray = parse_ini_file($iniFile);
+
+        $intLoopSEL 		= 1;
+        $intLoopVersionsIni = 0;
+        $sessStrTripaItensEnviados = '';
+        while ($intLoopVersionsIni >= 0)
+        {
+            $intLoopVersionsIni ++;
+            $arrItemDefinitions = explode(',',$itemArray['Item_' . $intLoopVersionsIni]);
+            if (($arrItemDefinitions[0] <> '') && ($arrItemDefinitions[1] <> 'S') && ($arrItemDefinitions[2] <> 'S'))
+            {
+                $pStrNmItem = Helper\OldCacicHelper::getOnlyFileName(trim($arrItemDefinitions[0]));
+
+                //$boolEqualVersions = ($arrVersoesEnviadas[$strItemName]  == $itemArray[$strItemName . '_VER'] );
+                //$boolEqualHashs	   = ($arrHashsEnviados[$strItemName]    == $itemArray[$strItemName . '_HASH']);
+
+                $strSendProcess   = 'Nao Enviado!';
+                $strProcessStatus = '';
+
+                $em = $this->getDoctrine()->getManager();
+
+                $em = $this->getDoctrine()->getManager();
+
+                // Trocar esse array por um SELECT no Doctrine que retorna os dados das redes num array
+                $arrDadosRede = array( 'rede' => $em->getRepository( 'CacicCommonBundle:Rede' )->listar() );
+
+                // Caso o servidor de updates ainda não tenha sido trabalhado...
+                if(!(stripos2($sessStrTripaItensEnviados,$arrDadosRede[0]['te_serv_updates'].'_'.$arrDadosRede[0]['te_path_serv_updates'].'_'.$_GET['pStrNmItem'].'_',false)))
+                {
+                    $sessStrTripaItensEnviados .= $arrDadosRede[0]['te_serv_updates'].'_'.$arrDadosRede[0]['te_path_serv_updates'].'_'.$_GET['pStrNmItem'] . '_';
+                    //require_once('../../include/ftp_check_and_send.php');
+
+                    $strResult = CacicHelper\FTP->checkAndSend($pStrNmItem,
+                        Helper\OldCacicHelper::CACIC_PATH . Helper\OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . ($arrDadosRede[$pStrNmItem . '_PATH']),
+                        $arrDadosRede[0]['te_serv_updates'],
+                        $arrDadosRede[0]['te_path_serv_updates'],
+                        $arrDadosRede[0]['nm_usuario_login_serv_updates_gerente'],
+                        $arrDadosRede[0]['te_senha_login_serv_updates_gerente'],
+                        $arrDadosRede[0]['nu_porta_serv_updates']);
+                }
+                else
+                    $strResult = 'Ja Enviado ao Servidor!_=_Ok!_=_Resended';
+
+                $arrResult = explode('_=_',$strResult);
+                if ($arrResult[1] == 'Ok!')
+                {
+                    // Consertar CRUD no Symfony
+                    $redeVersaoModulo = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(
+                        array(
+                            'idRede' => $pIntIdRede,
+                            'nmModulo' => $pStrNmItem
+                        )
+                    );
+
+                    $em->remove($redeVersaoModulo);
+                    $em->flush();
+
+
+                    // Adicione o restante dos atributos
+                    $this->setIdRede($pIntIdRede);
+                    $redeVersaoModulo->setNmModulo($pStrNmItem);
+                    $redeVersaoModulo->setTeVersaoModulo($pStrNmItem . '_VER');
+                    $redeVersaoModulo->setDtAtualizacao(now());
+                    $redeVersaoModulo->setCsTipoSo( $pStrNmItem,'.exe',false ? 'MS-Windows' : 'GNU/LINUX');
+                    $redeVersaoModulo->setTeHash($pStrNmItem . '_HASH');
+
+                }
+
+                //echo $_GET['pIntIdRede'] . '_=_' . $_GET['pStrNmItem'] . '_=_' . $strResult;
+
+            }  else {
+                $intLoopVersionsIni = -1;
+            }
+
+           $intLoopSEL++;
+        }
+    }
+
 }
