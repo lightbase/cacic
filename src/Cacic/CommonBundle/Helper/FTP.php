@@ -698,7 +698,7 @@ class FTP
     }
 
 
-    public function checkAndSend($pStrNmItem,
+    function checkAndSend($pStrNmItem,
                           $pStrFullItemName,
                           $pStrTeServer,
                           $pStrTePathServer,
@@ -712,27 +712,26 @@ class FTP
         $strProcessCode	  = '';
         try
         {
-            $FTP =& new FTP();
 
-            if ($FTP->connect($pStrTeServer))
+            if ($this->connect($pStrTeServer))
             {
                 // Retorno esperado....: 230 => FTP_USER_LOGGED_IN
                 // Retorno NÃO esperado: 530 => FTP_USER_NOT_LOGGED_IN
-                if ($FTP->login($pStrNmUsuarioLogin,$pStrTeSenhaLogin))
+                if ($this->login($pStrNmUsuarioLogin,$pStrTeSenhaLogin))
                 {
                     // Retorno esperado: 250 => FTP_FILE_ACTION_OK
                     // Retorno NÃO esperado: 550 => FTP_PERMISSION_DENIED (ou a pasta não existe!)
-                    $FTP->chdir($pStrTePathServer);
+                    $this->chdir($pStrTePathServer);
 
-                    $intFtpPutResult = $FTP->getLastResult();
+                    $intFtpPutResult = $this->getLastResult();
                     $strProcessCode  = $intFtpPutResult;
                     if ($intFtpPutResult == 250)
                     {
                         // Retorno esperado....: 226 => FTP_FILE_TRANSFER_OK
                         // Retorno NÃO esperado: 550 => FTP_PERMISSION_DENIED
 
-                        $FTP->put($pStrNmItem,$pStrFullItemName);
-                        $intFtpPutResult = $FTP->getLastResult();
+                        $this->put($pStrNmItem,$pStrFullItemName);
+                        $intFtpPutResult = $this->getLastResult();
                         $strProcessCode  = $intFtpPutResult;
                         if ($intFtpPutResult == 226)
                         {
@@ -748,28 +747,24 @@ class FTP
                 else
                 {
                     $strProcessStatus = 'Falha no Login com usuario "' . $pStrNmUsuarioLogin . '"!';
-                    $strProcessCode   = $FTP->getLastResult();
+                    $strProcessCode   = $this->getLastResult();
                 }
 
-                $FTP->disconnect();
+                $this->disconnect();
             }
             else
             {
                 $strProcessStatus = 'ERRO: Impossivel conectar o servidor "' . $pStrTeServer . '"!';
-                $strProcessCode   = $FTP->getLastResult();
+                $strProcessCode   = $this->getLastResult();
             }
         }
         catch (FTPException $e)
         {
             $strProcessStatus = 'ERRO: Problema durante a conexao! (' . $e->getMessage() . ')';
-            $strProcessCode   = $FTP->getLastResult();
+            $strProcessCode   = $this->getLastResult();
         }
 
         return $strSendProcess . '_=_' . $strProcessStatus . '_=_' . $strProcessCode;
     }
 
-}
-
-class FTPException extends Exception
-{
 }

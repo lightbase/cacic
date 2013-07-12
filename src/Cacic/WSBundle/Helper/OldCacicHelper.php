@@ -22,7 +22,7 @@ abstract class OldCacicHelper
     const CACIC_KEY = 'CacicBrasil';
 
     // define  chave para agentes CACIC
-    const CACIC_PATH = '/var/www/CacicDev/';
+    const CACIC_PATH = '/srv/gerente/';
 
     // define  IV para agentes CACIC
     const CACIC_IV = 'abcdefghijklmnop';
@@ -177,5 +177,14 @@ abstract class OldCacicHelper
         return $arrResult[count($arrResult)-1];
     }
 
+	public static function stripos2($strString, $strSubString, $boolRetornaPosicao = true)
+	{
+		$intPos = strpos($strString, stristr( $strString, $strSubString ));
+
+		if (!$boolRetornaPosicao)
+			$intPos = (($intPos < 0 || trim($intPos) == '') ? 0 : 1);
+
+		return $intPos;
+	}
 
 }

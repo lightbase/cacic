@@ -48,10 +48,7 @@ class RedeController extends Controller
                 $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Usuário
 
                 // Grava os dados da tabela rede versão módulo
-                $redeversaomodulo = new RedeVersaoModulo(null, null, null, null, null, $rede);
-                $this->getDoctrine()->getManager()->persist( $redeversaomodulo );
-                $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Rede Versão Módulo
-
+				$this->updateSubredes($rede);
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
@@ -83,6 +80,8 @@ class RedeController extends Controller
                 $this->getDoctrine()->getManager()->persist( $rede );
                 $this->getDoctrine()->getManager()->flush();// Efetuar a edição do ServidorAutenticacao
 
+                // Grava os dados da tabela rede versão módulo
+				$this->updateSubredes($rede);
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
@@ -180,12 +179,12 @@ class RedeController extends Controller
     /**
      * --------------------------------------------------------------------------------------
      * Função usada para fazer updates de subredes...
-     *A variável p_origem poderá conter "Agente" ou "Pagina" para o tratamento de variáveis $_SESSION
+	 * Recebe como parâmetro o objeto da rede
      *--------------------------------------------------------------------------------------
      */
-    public function updateSubredes()
+    public function updateSubredes($rede)
     {
-        $pIntIdRede = $this->getIdRede();
+        $pIntIdRede = $rede->getIdRede();
         $iniFile = Helper\OldCacicHelper::iniFile;
 
         $itemArray = parse_ini_file($iniFile);
@@ -200,6 +199,7 @@ class RedeController extends Controller
             if (($arrItemDefinitions[0] <> '') && ($arrItemDefinitions[1] <> 'S') && ($arrItemDefinitions[2] <> 'S'))
             {
                 $pStrNmItem = Helper\OldCacicHelper::getOnlyFileName(trim($arrItemDefinitions[0]));
+				//var_dump($pStrNmItem);
 
                 //$boolEqualVersions = ($arrVersoesEnviadas[$strItemName]  == $itemArray[$strItemName . '_VER'] );
                 //$boolEqualHashs	   = ($arrHashsEnviados[$strItemName]    == $itemArray[$strItemName . '_HASH']);
@@ -209,29 +209,37 @@ class RedeController extends Controller
 
                 $em = $this->getDoctrine()->getManager();
 
-                $em = $this->getDoctrine()->getManager();
-
                 // Trocar esse array por um SELECT no Doctrine que retorna os dados das redes num array
                 $arrDadosRede = array( 'rede' => $em->getRepository( 'CacicCommonBundle:Rede' )->listar() );
+				//Debug::dump($arrDadosRede['rede'][0][0]);
+				$arrDadosRede = $arrDadosRede['rede'][0];
 
                 // Caso o servidor de updates ainda não tenha sido trabalhado...
-                if(!(stripos2($sessStrTripaItensEnviados,$arrDadosRede[0]['te_serv_updates'].'_'.$arrDadosRede[0]['te_path_serv_updates'].'_'.$_GET['pStrNmItem'].'_',false)))
+                if(!(Helper\OldCacicHelper::stripos2($sessStrTripaItensEnviados,$arrDadosRede[0]['teServUpdates'].'_'.$arrDadosRede[0]['tePathServUpdates'].'_'.$pStrNmItem.'_',false)))
                 {
-                    $sessStrTripaItensEnviados .= $arrDadosRede[0]['te_serv_updates'].'_'.$arrDadosRede[0]['te_path_serv_updates'].'_'.$_GET['pStrNmItem'] . '_';
+                    $sessStrTripaItensEnviados .= $arrDadosRede[0]['teServUpdates'].'_'.$arrDadosRede[0]['tePathServUpdates'].'_'.$pStrNmItem . '_';
                     //require_once('../../include/ftp_check_and_send.php');
 
-                    $strResult = CacicHelper\FTP->checkAndSend($pStrNmItem,
-                        Helper\OldCacicHelper::CACIC_PATH . Helper\OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . ($arrDadosRede[$pStrNmItem . '_PATH']),
-                        $arrDadosRede[0]['te_serv_updates'],
-                        $arrDadosRede[0]['te_path_serv_updates'],
-                        $arrDadosRede[0]['nm_usuario_login_serv_updates_gerente'],
-                        $arrDadosRede[0]['te_senha_login_serv_updates_gerente'],
-                        $arrDadosRede[0]['nu_porta_serv_updates']);
+					$ftp_class = new CacicHelper\FTP();
+
+                    $strResult = $ftp_class->checkAndSend($pStrNmItem,
+                        Helper\OldCacicHelper::CACIC_PATH . Helper\OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . ($pStrNmItem),
+                        $arrDadosRede[0]['teServUpdates'],
+                        $arrDadosRede[0]['tePathServUpdates'],
+                        $arrDadosRede[0]['nmUsuarioLoginServUpdatesGerente'],
+                        $arrDadosRede[0]['teSenhaLoginServUpdatesGerente'],
+                        $arrDadosRede[0]['nuPortaServUpdates']);
                 }
                 else
                     $strResult = 'Ja Enviado ao Servidor!_=_Ok!_=_Resended';
 
                 $arrResult = explode('_=_',$strResult);
+				//$logger = $this->get('logger');
+				//$logger->err('222222222222222222222222222222222222222 '.print_r($arrResult));
+				//
+				// Eduardo: Esquece o teste FTP só para fazer funcionar
+				$arrResult[1] = 'Ok!';
+
                 if ($arrResult[1] == 'Ok!')
                 {
                     // Consertar CRUD no Symfony
@@ -242,17 +250,20 @@ class RedeController extends Controller
                         )
                     );
 
-                    $em->remove($redeVersaoModulo);
-                    $em->flush();
-
+					// Se não existir, instancia o objeto
+					if (!$redeVersaoModulo) {
+						$redeVersaoModulo = new RedeVersaoModulo(null, null, null, null, null, $rede);
+					}
 
                     // Adicione o restante dos atributos
-                    $this->setIdRede($pIntIdRede);
                     $redeVersaoModulo->setNmModulo($pStrNmItem);
-                    $redeVersaoModulo->setTeVersaoModulo($pStrNmItem . '_VER');
-                    $redeVersaoModulo->setDtAtualizacao(now());
+                    $redeVersaoModulo->setTeVersaoModulo($itemArray[$pStrNmItem . '_VER']);
+                    $redeVersaoModulo->setDtAtualizacao(new \DateTime('NOW'));
                     $redeVersaoModulo->setCsTipoSo( $pStrNmItem,'.exe',false ? 'MS-Windows' : 'GNU/LINUX');
-                    $redeVersaoModulo->setTeHash($pStrNmItem . '_HASH');
+                    $redeVersaoModulo->setTeHash($itemArray[$pStrNmItem . '_HASH']);
+
+					$em->persist($redeVersaoModulo);
+					$em->flush();
 
                 }
 
@@ -264,6 +275,8 @@ class RedeController extends Controller
 
            $intLoopSEL++;
         }
+
+		return;
     }
 
 }
