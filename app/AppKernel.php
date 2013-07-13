@@ -20,10 +20,10 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Cacic\CommonBundle\CacicCommonBundle(),
-            new Braincrafted\BootstrapBundle\BraincraftedBootstrapBundle(),
+            new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
             new Cacic\RelatorioBundle\CacicRelatorioBundle(),
             new Cacic\WSBundle\CacicWSBundle(),
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
+	        new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
