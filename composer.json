@@ -4,6 +4,19 @@
     "autoload": {
         "psr-0": { "": "src/" }
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery",
+                "version": "1.9.1",
+                "dist": {
+                    "url": "http://code.jquery.com/jquery-1.9.1.js",
+                    "type": "file"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.3.*",
@@ -23,10 +36,11 @@
         "kriswallsmith/assetic": "1.1.*@dev",
         "braincrafted/bootstrap-bundle": "dev-master",
         "leafo/lessphp": "*",
-        "twitter/bootstrap": "*",
+        "twitter/bootstrap": "2.3.*",
         "knplabs/knp-paginator-bundle": "dev-master",
         "doctrine/data-fixtures": "dev-master",
-        "doctrine/doctrine-fixtures-bundle": "dev-master"
+        "doctrine/doctrine-fixtures-bundle": "dev-master",
+        "jquery/jquery": "1.9.*"
     },
     "scripts": {
         "post-install-cmd": [
