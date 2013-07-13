@@ -95,4 +95,37 @@ class RedeRepository extends EntityRepository
     	return $return;
     }
 
+    public function getPrimeiraRedeValida()
+    {
+        $_dql = "SELECT r
+				FROM CacicCommonBundle:Rede r
+				WHERE r.nmRede <> ''
+				AND r.nuPortaServUpdates <> ''
+				AND r.nmUsuarioLoginServUpdatesGerente <> ''
+				AND r.teSenhaLoginServUpdatesGerente <> ''";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setMaxResults(1)
+            ->getSingleResult();
+    }
+
+    /*
+    * Método responsável por coletar verificar dados de rede
+    */
+    protected function getDadosRedePreColeta( Request $request )
+    {
+        //obtem IP da maquina coletada
+        $ip_computador = $request->request->get('te_ip_computador');
+        $ip_computador = !empty( $ip_computador ) ?: $_SERVER['REMOTE_ADDR'];
+
+        //obtem IP da Rede que a maquina coletada pertence
+        $ip = explode( '.', $ip_computador );
+        $te_ip_rede = $ip[0].".".$ip[1].".".$ip[2].".0"; //Pega ip da REDE sendo esse X.X.X.0
+
+        $rede =  $this->getDoctrine()->getRepository('CacicCommonBundle: Rede')->findBy( array( 'te_ip_rede'=> $te_ip_rede ) ); //procura rede
+        $rede = empty( $rede ) ? $this->getDoctrine()->getRepository('CacicCommonBundle: Rede')->getPrimeiraRedeValida() : $rede;  // se rede não existir instancio uma nova rede
+
+        return $rede;
+    }
 }

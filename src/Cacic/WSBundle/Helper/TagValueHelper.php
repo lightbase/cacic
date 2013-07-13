@@ -5,10 +5,10 @@
  * referencia WMI: http://msdn.microsoft.com/en-us/library/windows/desktop/aa394573(v=vs.85).aspx
  */
 
-namespace Cacic\CommonBundle\Helper;
+namespace Cacic\WSBundle\Helper;
 
 
-class TagValue
+class TagValueHelper
 {
     //Contrutor privado para evitar instanciação da classe.
     private function  __construct(){}

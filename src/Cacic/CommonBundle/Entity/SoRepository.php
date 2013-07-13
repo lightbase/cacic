@@ -25,4 +25,24 @@ class SoRepository extends EntityRepository
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
+
+    public function createIfNotExist( $te_so )
+    {
+        $so = $this->findBy( array ( 'teSo' => $te_so ) );
+        if( empty( $so ) )
+        {
+            $so = new So();
+            $so->setTeSo($te_so);
+            $so->setSgSo("Sigla a Cadastrar");
+            $so->setTeDescSo("S.O. a Cadastrar");
+            $so->setInMswindows("S");
+            $this->getEntityManager()->persist( $so );
+
+            $this->getEntityManager()->flush();
+
+        }
+
+        return $so;
+
+    }
 }
