@@ -209,4 +209,17 @@ class Acao
     {
         return $this->redes;
     }
+
+    /**
+     * Set idAcao
+     *
+     * @param string $idAcao
+     * @return Acao
+     */
+    public function setIdAcao($idAcao)
+    {
+        $this->idAcao = $idAcao;
+    
+        return $this;
+    }
 }

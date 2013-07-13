@@ -5,7 +5,7 @@ Cacic\CommonBundle\Entity\GrupoUsuario:
     fields:
         idGrupoUsuario:
             id: true
-            type: smallint
+            type: integer
             nullable: false
             column: id_grupo_usuario
             generator:
