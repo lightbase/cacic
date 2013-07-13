@@ -3,4 +3,380 @@ Acesso: Acesso
 Usuário: Usuário
 Senha: Senha
 Entrar: Entrar
-'Mantenha-me conectado': Mantenha-me conectado
+'Mantenha-me conectado': 'Mantenha-me conectado'
+'Texto da "Etiqueta 2":': 'Texto da "Etiqueta 2":'
+'Exemplo "Divisão"': 'Exemplo "Divisão"'
+'Plural de texto da "Etiqueta 2":': 'Plural de texto da "Etiqueta 2":'
+'Exemplo "Divisões"': 'Exemplo "Divisões"'
+'Texto de ajuda da "Etiqueta 2":': 'Texto de ajuda da "Etiqueta 2":'
+'Exemplo "Selecione a divisão onde encontra-se este equipamento"': 'Exemplo "Selecione a divisão onde encontra-se este equipamento"'
+'Resetar Alterações': 'Resetar Alterações'
+'Salvar Alterações': 'Salvar Alterações'
+'Texto da "Etiqueta 1":': 'Texto da "Etiqueta 1":'
+'Exemplo "Gerência"': 'Exemplo "Gerência"'
+'Plural de texto da "Etiqueta 1":': 'Plural de texto da "Etiqueta 1":'
+'Exemplo "Gerências"': 'Exemplo "Gerências"'
+'Texto de ajuda da "Etiqueta 1":': 'Texto de ajuda da "Etiqueta 1":'
+'Exemplo "Selecione a Gerência de localização este equipamento"': 'Exemplo "Selecione a Gerência de localização este equipamento"'
+'Exibir "Etiqueta 6":': 'Exibir "Etiqueta 6":'
+'Texto da "Etiqueta 6":': 'Texto da "Etiqueta 6":'
+'Texto de ajuda da "Etiqueta 6:': 'Texto de ajuda da "Etiqueta 6:'
+'Destacar duplicidades neste campo': 'Destacar duplicidades neste campo'
+'Exibir "Etiqueta 7":': 'Exibir "Etiqueta 7":'
+'Texto da "Etiqueta 7":': 'Texto da "Etiqueta 7":'
+'Texto de ajuda da "Etiqueta 7:': 'Texto de ajuda da "Etiqueta 7:'
+'Texto da "Etiqueta 1a":': 'Texto da "Etiqueta 1a":'
+'Exemplo "Linha de negócio"': 'Exemplo "Linha de negócio"'
+'Plural de texto da "Etiqueta 1a":': 'Plural de texto da "Etiqueta 1a":'
+'Exemplo "Linha de negócios"': 'Exemplo "Linha de negócios"'
+'Texto de ajuda da "Etiqueta 1a":': 'Texto de ajuda da "Etiqueta 1a":'
+'Exemplo "Selecione a Linha de negócio de localização deste equipamento"': 'Exemplo "Selecione a Linha de negócio de localização deste equipamento"'
+'Texto da "Etiqueta 3":': 'Texto da "Etiqueta 3":'
+'Exemplo "Setor"': 'Exemplo "Setor"'
+'Texto de ajuda da "Etiqueta 3":': 'Texto de ajuda da "Etiqueta 3":'
+'Exemplo "Informe o setor onde esta localizado o equipamento."': 'Exemplo "Informe o setor onde esta localizado o equipamento."'
+'Exibir "Etiqueta 9":': 'Exibir "Etiqueta 9":'
+'Texto da "Etiqueta 9":': 'Texto da "Etiqueta 9":'
+'Texto de ajuda da "Etiqueta 9:': 'Texto de ajuda da "Etiqueta 9:'
+'Exibir "Etiqueta 4":': 'Exibir "Etiqueta 4":'
+'Texto da "Etiqueta 4":': 'Texto da "Etiqueta 4":'
+'Texto de ajuda da "Etiqueta 4:': 'Texto de ajuda da "Etiqueta 4:'
+'Exibir "Etiqueta 8":': 'Exibir "Etiqueta 8":'
+'Texto da "Etiqueta 8":': 'Texto da "Etiqueta 8":'
+'Texto de ajuda da "Etiqueta 8:': 'Texto de ajuda da "Etiqueta 8:'
+'Exibir "Etiqueta 5":': 'Exibir "Etiqueta 5":'
+'Texto da "Etiqueta 5":': 'Texto da "Etiqueta 5":'
+'Texto de ajuda da "Etiqueta 5:': 'Texto de ajuda da "Etiqueta 5:'
+Opções: Opções
+'Opções da Coleta de Informações Patrimoniais e Localização Física': 'Opções da Coleta de Informações Patrimoniais e Localização Física'
+'Local de Aplicação': 'Local de Aplicação'
+'Destacar as seguintes duplicidades no relatório de patrimônio': 'Destacar as seguintes duplicidades no relatório de patrimônio'
+'Salvar Dados': 'Salvar Dados'
+'Usuários Associados': 'Usuários Associados'
+Login: Login
+'Nome Completo': 'Nome Completo'
+'Nível de acesso': 'Nível de acesso'
+'Tipo de acesso': 'Tipo de acesso'
+E-mail: E-mail
+'NENHUM REGISTRO ENCONTRADO!': 'NENHUM REGISTRO ENCONTRADO!'
+Configuração: Configuração
+Valor: Valor
+'': 
+Locais: Locais
+'Importar CSV': 'Importar CSV'
+'Importar Arquivo CSV': 'Importar Arquivo CSV'
+'Informe o arquivo CSV com os dados dos Locais que devem ser importados': 'Informe o arquivo CSV com os dados dos Locais que devem ser importados'
+'Resetar Valores': 'Resetar Valores'
+Cancelar: Cancelar
+'Informações Adicionais': 'Informações Adicionais'
+'O arquivo CSV deve obedecer à seguinte estrutura': 'O arquivo CSV deve obedecer à seguinte estrutura'
+'Quebra de linha': 'Quebra de linha'
+'para separar registros': 'para separar registros'
+Ponto-e-vírgula: Ponto-e-vírgula
+'como separador de campos': 'como separador de campos'
+'Os registros devem obedecer à seguinte órdem': 'Os registros devem obedecer à seguinte órdem'
+'ID do Local': 'ID do Local'
+'Nome do Local': 'Nome do Local'
+'Sigla do Local': 'Sigla do Local'
+Observação: Observação
+opcional: opcional
+'Lista de locais cadastrados': 'Lista de locais cadastrados'
+'Neste módulo deverão ser registrados todos os locais originais do sistema, para que seja possível o controle centralizado': 'Neste módulo deverão ser registrados todos os locais originais do sistema, para que seja possível o controle centralizado'
+Sigla: Sigla
+Descrição: Descrição
+Redes: Redes
+Usuários: Usuários
+Primários: Primários
+Secundários: Secundários
+Ações: Ações
+'Editar Item': 'Editar Item'
+'Excluir Item': 'Excluir Item'
+'Adicionar Local': 'Adicionar Local'
+'Redes Associadas': 'Redes Associadas'
+'Endereço IP': 'Endereço IP'
+'Nome da Rede': 'Nome da Rede'
+Cadastro: Cadastro
+'Edição dos dados do local': 'Edição dos dados do local'
+'Cadastro de novo local': 'Cadastro de novo local'
+'Dados do local': 'Dados do local'
+Configurações: Configurações
+'Usuários e redes associados': 'Usuários e redes associados'
+'Este local ainda não foi salvo.': 'Este local ainda não foi salvo.'
+'Os itens destacados em': 'Os itens destacados em'
+vermelho: vermelho
+'são de preenchimento obrigatório': 'são de preenchimento obrigatório'
+'As informações que deverão ser cadastradas abaixo referem-se a um local originário de chamada ao sistema CACIC.': 'As informações que deverão ser cadastradas abaixo referem-se a um local originário de chamada ao sistema CACIC.'
+'Como por exemplo uma região, um estado, um órgão etc.': 'Como por exemplo uma região, um estado, um órgão etc.'
+'Tipos de Softwares': 'Tipos de Softwares'
+'Lista de Tipos de Softwares cadastrados': 'Lista de Tipos de Softwares cadastrados'
+'Neste módulo deverão ser cadastrados os Tipos de software do sistema': 'Neste módulo deverão ser cadastrados os Tipos de software do sistema'
+'Descrição do Tipo de Software': 'Descrição do Tipo de Software'
+'Adicionar Software': 'Adicionar Software'
+'Dados do Tipos de Softwares': 'Dados do Tipos de Softwares'
+'Unidades Organizacionais': 'Unidades Organizacionais'
+'Lista de Unidades Organizacionais Cadastradas': 'Lista de Unidades Organizacionais Cadastradas'
+'Neste módulo deverão ser cadastradas todas as unidades organizacionais do sistema - Entidades, Linhas de negócio e Órgãos.': 'Neste módulo deverão ser cadastradas todas as unidades organizacionais do sistema - Entidades, Linhas de negócio e Órgãos.'
+'Adicionar Unidade de primeiro nível': 'Adicionar Unidade de primeiro nível'
+'Edição dos dados da Unidade Organizacional': 'Edição dos dados da Unidade Organizacional'
+'Cadastro de nova Unidade Organizacional': 'Cadastro de nova Unidade Organizacional'
+'Dados da Unidade': 'Dados da Unidade'
+'Dados do Responsável': 'Dados do Responsável'
+'Importante: A inclusão de Unidades Organizacionais é restrita ao nível administrativo.': 'Importante: A inclusão de Unidades Organizacionais é restrita ao nível administrativo.'
+'Tipos de Licenças': 'Tipos de Licenças'
+'Lista de Tipos de Licenças cadastrados': 'Lista de Tipos de Licenças cadastrados'
+'Neste módulo deverão ser cadastrados os Tipos de Licenças do sistema': 'Neste módulo deverão ser cadastrados os Tipos de Licenças do sistema'
+'Tipo de Licença': 'Tipo de Licença'
+'Adicionar Licença': 'Adicionar Licença'
+'Dados do Tipos de Licenças': 'Dados do Tipos de Licenças'
+'Logs de Insucessos de Instalação': 'Logs de Insucessos de Instalação'
+'Pesquisa por Logs de Insucessos de Instalação': 'Pesquisa por Logs de Insucessos de Instalação'
+'Filtros para consulta': 'Filtros para consulta'
+Período: Período
+'Informe o período no qual deseja realizar a pesquisa.': 'Informe o período no qual deseja realizar a pesquisa.'
+Filtrar: Filtrar
+'Este módulo permite a visualização das tentativas de instalação dos agentes cujos resultados sejam INSUCESSO.': 'Este módulo permite a visualização das tentativas de instalação dos agentes cujos resultados sejam INSUCESSO.'
+'O período é obrigatório': 'O período é obrigatório'
+'Log de Suporte Remoto': 'Log de Suporte Remoto'
+'Pesquisa por Logs de Suporte Remoto': 'Pesquisa por Logs de Suporte Remoto'
+'Local:': 'Local:'
+'Este módulo permite a visualização de Suporte Remotos': 'Este módulo permite a visualização de Suporte Remotos'
+'Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos': 'Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos'
+'Resultado da pesquisa': 'Resultado da pesquisa'
+'Inicio Sessão': 'Inicio Sessão'
+'Estação Local': 'Estação Local'
+'Usuário Local': 'Usuário Local'
+'Usuário Remoto': 'Usuário Remoto'
+'Sigla S.O Remoto': 'Sigla S.O Remoto'
+'Último Contato': 'Último Contato'
+Data: Data
+Tabela: Tabela
+Operação: Operação
+Programa: Programa
+Local: Local
+'Resumo das operações': 'Resumo das operações'
+Estatísticas: Estatísticas
+Operações: Operações
+Tabelas: Tabelas
+Programas: Programas
+Quantidade: Quantidade
+Percentual: Percentual
+Local/Rede: Local/Rede
+Estacao: Estacao
+'Sistema Operacional': 'Sistema Operacional'
+Motivo: Motivo
+Datas: Datas
+Estações: Estações
+'Sistemas Operacionais': 'Sistemas Operacionais'
+Motivos: Motivos
+Estação: Estação
+'Log de Acesso': 'Log de Acesso'
+'Pesquisa por Logs de Acesso': 'Pesquisa por Logs de Acesso'
+'Este módulo permite a visualização dos acessos efetuados no sistema': 'Este módulo permite a visualização dos acessos efetuados no sistema'
+'É possível visualizar as atividades executadas pelo usuário na data, bastando clicar sobre uma de suas informações': 'É possível visualizar as atividades executadas pelo usuário na data, bastando clicar sobre uma de suas informações'
+'Log de Atividades': 'Log de Atividades'
+'Pesquisa por Logs de Atividades': 'Pesquisa por Logs de Atividades'
+'Este módulo permite a visualização das atividades realizados com o uso das operações de INSERT/UPDATE/DELETE ocorridas no Sistema CACIC': 'Este módulo permite a visualização das atividades realizados com o uso das operações de INSERT/UPDATE/DELETE ocorridas no Sistema CACIC'
+'A ordenação das colunas poderá ser definida clicando-se em seus nomes': 'A ordenação das colunas poderá ser definida clicando-se em seus nomes'
+'O período é obrigatório.': 'O período é obrigatório.'
+'Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos.': 'Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos.'
+'Troca de Senha de Acesso': 'Troca de Senha de Acesso'
+'Informe a senha anterior, caso nao se lembre, solicite a um Administrador que a reinicialize.': 'Informe a senha anterior, caso nao se lembre, solicite a um Administrador que a reinicialize.'
+'Identificação:': 'Identificação:'
+'Nome completo:': 'Nome completo:'
+'Senha Atual:': 'Senha Atual:'
+'Nova senha:': 'Nova senha:'
+'Confirmação:': 'Confirmação:'
+'Gravar alterações': 'Gravar alterações'
+'Lista de usuários cadastrados': 'Lista de usuários cadastrados'
+'Neste módulo deverão ser cadastrados os usuários que acessarão o sistema': 'Neste módulo deverão ser cadastrados os usuários que acessarão o sistema'
+Nome: Nome
+secundários: secundários
+'Nível de Acesso': 'Nível de Acesso'
+'Trocar Senha do Usuário': 'Trocar Senha do Usuário'
+'Adicionar Usuário': 'Adicionar Usuário'
+'Trocar Senha': 'Trocar Senha'
+'Nova Senha:': 'Nova Senha:'
+'Edição dos dados do Usuário': 'Edição dos dados do Usuário'
+'Cadastro de novo Usuário': 'Cadastro de novo Usuário'
+'As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso.': 'As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso.'
+'A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção': 'A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção'
+'Meus Dados (Menu no canto superior direito) - Alterar Senha': 'Meus Dados (Menu no canto superior direito) - Alterar Senha'
+'Após o logon, serão exibidas a primeira e última parte do campo Nome completo.': 'Após o logon, serão exibidas a primeira e última parte do campo Nome completo.'
+'Lista de Usb Device cadastrados': 'Lista de Usb Device cadastrados'
+'Neste módulo deverão ser cadastrados os USB device do sistema': 'Neste módulo deverão ser cadastrados os USB device do sistema'
+Fabricante: Fabricante
+Dispositivo: Dispositivo
+'Adicionar Aplicativo': 'Adicionar Aplicativo'
+'Dispositivo de USB': 'Dispositivo de USB'
+'Dados do Dispositivo de USB': 'Dados do Dispositivo de USB'
+'Informe o arquivo CSV com os dados dos Sistemas Operacionais que devem ser importados': 'Informe o arquivo CSV com os dados dos Sistemas Operacionais que devem ser importados'
+'ID do Sistema Operacional': 'ID do Sistema Operacional'
+'Descrição Completa do Sistema Operacional': 'Descrição Completa do Sistema Operacional'
+'Sigla do Sistema Operacional': 'Sigla do Sistema Operacional'
+'Descrição curta do Sistema Operacional': 'Descrição curta do Sistema Operacional'
+'É Windows': 'É Windows'
+'S ou N': 'S ou N'
+'Lista de Sistemas Operacionais cadastrados': 'Lista de Sistemas Operacionais cadastrados'
+'Neste módulo deverão ser cadastrados os Sistemas Operacionais': 'Neste módulo deverão ser cadastrados os Sistemas Operacionais'
+'ID Interna': 'ID Interna'
+'ID Externa': 'ID Externa'
+'Total de Máquinas': 'Total de Máquinas'
+'Adicionar Sistema Operacional': 'Adicionar Sistema Operacional'
+'Dados do Sistemas Operacionais': 'Dados do Sistemas Operacionais'
+Módulos: Módulos
+'Aqui você poderá configurar os vários módulos disponíveis do CACIC': 'Aqui você poderá configurar os vários módulos disponíveis do CACIC'
+'Clique sobre o módulo desejado e, em seguida, realize as configurações': 'Clique sobre o módulo desejado e, em seguida, realize as configurações'
+'Total de redes': 'Total de redes'
+Legenda: Legenda
+'Nao é executado em nenhuma rede': 'Nao é executado em nenhuma rede'
+'Executado apenas nas redes selecionadas': 'Executado apenas nas redes selecionadas'
+'Executado em todas as redes': 'Executado em todas as redes'
+'Ultima Alteração em': 'Ultima Alteração em'
+'Onde executar esta ação-configuração': 'Onde executar esta ação-configuração'
+'Marcar/desmarcar tudo': 'Marcar/desmarcar tudo'
+'Sistemas Operacionais onde esta ação-configuração deverá ser aplicada': 'Sistemas Operacionais onde esta ação-configuração deverá ser aplicada'
+'Computadores onde esta ação-configuração': 'Computadores onde esta ação-configuração'
+NÃO: NÃO
+'deverá ser aplicada': 'deverá ser aplicada'
+'Itens adquiridos': 'Itens adquiridos'
+'Itens Adquiridos': 'Itens Adquiridos'
+'Lista de Aquisições de Itens cadastrados': 'Lista de Aquisições de Itens cadastrados'
+'Neste módulo deverão ser cadastrados Itens Adquiridos': 'Neste módulo deverão ser cadastrados Itens Adquiridos'
+'Processo de aquisicao': 'Processo de aquisicao'
+Software: Software
+'Qtde. de Licenças': 'Qtde. de Licenças'
+'Data de Vencimento': 'Data de Vencimento'
+'Adicionar Item Adquirido': 'Adicionar Item Adquirido'
+'Aquisição de Item': 'Aquisição de Item'
+'Dados de Itens Adquiridos': 'Dados de Itens Adquiridos'
+'Softwares Não Classificados': 'Softwares Não Classificados'
+'Lista de Softwares não classificados': 'Lista de Softwares não classificados'
+'Classificação de softwares inventariados conforme tipos possíveis': 'Classificação de softwares inventariados conforme tipos possíveis'
+'Lista de Software cadastrados': 'Lista de Software cadastrados'
+'Neste módulo deverão ser cadastrados os Software do sistema': 'Neste módulo deverão ser cadastrados os Software do sistema'
+Tipo: Tipo
+'Qtde. Licenças': 'Qtde. Licenças'
+'Adicionar Softwares': 'Adicionar Softwares'
+Softwares: Softwares
+'Dados do Software': 'Dados do Software'
+'Neste módulo deverão ser cadastrados os softwares avulsos, manipulados pelo sistema': 'Neste módulo deverão ser cadastrados os softwares avulsos, manipulados pelo sistema'
+'Softwares Não Usados': 'Softwares Não Usados'
+'Lista de Softwares não usados': 'Lista de Softwares não usados'
+'Exibe os Softwares que não estão associados a nenhuma máquina': 'Exibe os Softwares que não estão associados a nenhuma máquina'
+'Nome do Software': 'Nome do Software'
+'Excluir selecionados': 'Excluir selecionados'
+Aquisicao: Aquisicao
+'Lista de Aquisições cadastrados': 'Lista de Aquisições cadastrados'
+'Neste módulo deverão ser cadastrados as Aquisições': 'Neste módulo deverão ser cadastrados as Aquisições'
+'Nome da empresa': 'Nome da empresa'
+'Nome do proprietario': 'Nome do proprietario'
+'Nota Fiscal': 'Nota Fiscal'
+'Data de aquisicao': 'Data de aquisicao'
+'Adicionar Aquisicao': 'Adicionar Aquisicao'
+Aquisição: Aquisição
+'Dados das Aquisições': 'Dados das Aquisições'
+Computadores: Computadores
+'Informe o arquivo CSV com os dados dos Computadores que devem ser importados': 'Informe o arquivo CSV com os dados dos Computadores que devem ser importados'
+'Endereço MAC': 'Endereço MAC'
+'IP da Rede': 'IP da Rede'
+Palavras-chave: Palavras-chave
+'Navegação pelos Computadores das Subredes': 'Navegação pelos Computadores das Subredes'
+'Neste módulo, é possível visualizar cada estação de trabalho monitorada.': 'Neste módulo, é possível visualizar cada estação de trabalho monitorada.'
+'Totais de computadores monitorados': 'Totais de computadores monitorados'
+'Últimos acessos dos agentes': 'Últimos acessos dos agentes'
+'Totais de tentativas de instalação malsucedidas': 'Totais de tentativas de instalação malsucedidas'
+'Computadores Monitorados por Sistema Operacional': 'Computadores Monitorados por Sistema Operacional'
+'Servidores de Autenticação': 'Servidores de Autenticação'
+'Lista de servidores de autenticação cadastrados': 'Lista de servidores de autenticação cadastrados'
+'Neste módulo deverão ser cadastrados todos os servidores de autenticação para uso nas aberturas de sessões de suporte remoto seguro.': 'Neste módulo deverão ser cadastrados todos os servidores de autenticação para uso nas aberturas de sessões de suporte remoto seguro.'
+Porta: Porta
+Protocolo: Protocolo
+Versão: Versão
+Ativo: Ativo
+'Adicionar Servidor': 'Adicionar Servidor'
+Subredes: Subredes
+'Informe o arquivo CSV com os dados das Redes/Subredes que devem ser importadas': 'Informe o arquivo CSV com os dados das Redes/Subredes que devem ser importadas'
+'ID do Servidor de Autenticação': 'ID do Servidor de Autenticação'
+'IP da Rede/Subrede': 'IP da Rede/Subrede'
+'Nome ou IP do servidor de aplicação (gerente)': 'Nome ou IP do servidor de aplicação (gerente)'
+'Nome ou IP do servidor de atualização (FTP)': 'Nome ou IP do servidor de atualização (FTP)'
+'Limite de conexões FTP': 'Limite de conexões FTP'
+'Permite desativar o CACIC': 'Permite desativar o CACIC'
+'Lista de Subredes cadastrados': 'Lista de Subredes cadastrados'
+'Neste módulo deverão ser cadastrados as Subredes do sistema': 'Neste módulo deverão ser cadastrados as Subredes do sistema'
+Endereço: Endereço
+Máscara: Máscara
+Subrede: Subrede
+Máquinas: Máquinas
+Autenticação: Autenticação
+Aplicação: Aplicação
+Atualização: Atualização
+'Adicionar Subrede': 'Adicionar Subrede'
+SubRedes: SubRedes
+'Dados de SubRedes': 'Dados de SubRedes'
+'Dados da rede': 'Dados da rede'
+'Servidores de': 'Servidores de'
+'Dados para contatos:': 'Dados para contatos:'
+'Opções:': 'Opções:'
+'Servidores de Aplicação': 'Servidores de Aplicação'
+'Marcar todas as ações para essa rede': 'Marcar todas as ações para essa rede'
+'Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede.': 'Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede.'
+'Permitir finalização de sessões do módulo srCACIC:': 'Permitir finalização de sessões do módulo srCACIC:'
+'Essa opção define se o usuário final poderá ou não finalizar execuções do módulo srCACIC (Suporte Remoto Seguro).': 'Essa opção define se o usuário final poderá ou não finalizar execuções do módulo srCACIC (Suporte Remoto Seguro).'
+'Selecao para coleta de informacoes de sistemas monitorados:': 'Selecao para coleta de informacoes de sistemas monitorados:'
+'Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede.': 'Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede.'
+Aplicativos: Aplicativos
+'Lista de Aplicativos Monitorados cadastrados': 'Lista de Aplicativos Monitorados cadastrados'
+'Neste módulo deverão ser cadastrados os Aplicativos Monitorados': 'Neste módulo deverão ser cadastrados os Aplicativos Monitorados'
+'Sistema Monitorado': 'Sistema Monitorado'
+'Totais de Redes Alvo': 'Totais de Redes Alvo'
+Aplicativo: Aplicativo
+'Dados do Aplicativo Monitorado': 'Dados do Aplicativo Monitorado'
+'Dados do Aplicativo': 'Dados do Aplicativo'
+Características: Características
+'em ambientes': 'em ambientes'
+em: em
+ambientes: ambientes
+'Selecione as redes:': 'Selecione as redes:'
+'Características em ambientes': 'Características em ambientes'
+'Selecao de redes para aplicacao desta coleta de informacoes': 'Selecao de redes para aplicacao desta coleta de informacoes'
+'Software por Estação': 'Software por Estação'
+'Software Estação': 'Software Estação'
+'Lista de Softwares por Estação': 'Lista de Softwares por Estação'
+'Neste módulo deverão ser Vinculados os Softwares Inventariados às Estações de trabalho.': 'Neste módulo deverão ser Vinculados os Softwares Inventariados às Estações de trabalho.'
+Computador: Computador
+Patrimônio: Patrimônio
+'Data de autorizacao': 'Data de autorizacao'
+'Vincular Software à Estação': 'Vincular Software à Estação'
+'Software por estação': 'Software por estação'
+'Dados dos software de estação': 'Dados dos software de estação'
+Atalhos: Atalhos
+Cadastrar: Cadastrar
+'Cadastrar Processo de Aquisição': 'Cadastrar Processo de Aquisição'
+'Totais de Computadores por Sistemas Operacionais': 'Totais de Computadores por Sistemas Operacionais'
+'Últimos Acessos dos Agentes do Local': 'Últimos Acessos dos Agentes do Local'
+'Últimos Acessos dos Agentes por Local na Data': 'Últimos Acessos dos Agentes por Local na Data'
+'Totais de Computadores Monitorados por Local': 'Totais de Computadores Monitorados por Local'
+'Configuração Gerente': 'Configuração Gerente'
+'Configurações do módulo Gerente': 'Configurações do módulo Gerente'
+'As opções abaixo determinam como o módulo gerente deverá se comportar': 'As opções abaixo determinam como o módulo gerente deverá se comportar'
+Diretiva: Diretiva
+'E-mails para notificar alterações de hardware': 'E-mails para notificar alterações de hardware'
+Atenção: Atenção
+'informe os emails separados por vírgulas': 'informe os emails separados por vírgulas'
+Exemplo: Exemplo
+'E-mails para notificar utilização de dispositivos USB': 'E-mails para notificar utilização de dispositivos USB'
+'Gráficos a serem exibidos': 'Gráficos a serem exibidos'
+'Servidor de Aplicação padrão': 'Servidor de Aplicação padrão'
+'Servidor de Atualizações Padrão': 'Servidor de Atualizações Padrão'
+'Configurações dos módulos Agentes': 'Configurações dos módulos Agentes'
+'As opções abaixo determinam qual será o comportamento dos agentes do': 'As opções abaixo determinam qual será o comportamento dos agentes do'
+'Exibir o icone do CACIC na bandeja (systray)': 'Exibir o icone do CACIC na bandeja (systray)'
+Sim: Sim
+Não: Não
+'Exibir erros criticos aos usuarios': 'Exibir erros criticos aos usuarios'
+'Senha padrão para administrar o agente': 'Senha padrão para administrar o agente'
+'Início de execução das ações (em minutos)': 'Início de execução das ações (em minutos)'
+'Intervalo de execução das ações (em horas)': 'Intervalo de execução das ações (em horas)'
+'Endereços MAC a desconsiderar': 'Endereços MAC a desconsiderar'
+'Aplicativos (janelas) a evitar': 'Aplicativos (janelas) a evitar'
