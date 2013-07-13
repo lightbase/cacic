@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Cacic\CommonBundle\Entity\InsucessoInstalacao;
+use Cacic\CommonBundle\Entity\RedeVersaoModulo;
 use Cacic\WSBundle\Helper\OldCacicHelper;
 use Cacic\WSBundle\Helper\TagValueHelper;
 /**
@@ -78,6 +79,8 @@ class DefaultController extends Controller
 
         $rede = $this->getDadosRedePreColeta( $request , $te_node_adress, $so->getIdSo() );
 
+        $configs = RedeVersaoModulo::getConfig();
+        
         $response = new Response();
 		$response->headers->set('Content-Type', 'xml');
 		return  $this->render('CacicWSBundle:Default:test.xml.twig', array( 'configs'=> OldCacicHelper::getTest($request), 'computador' => $computador, 'rede' => $rede  ), $response);
