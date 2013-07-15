@@ -22,7 +22,7 @@ abstract class OldCacicHelper
     const CACIC_KEY = 'CacicBrasil';
 
     // define  chave para agentes CACIC
-    const CACIC_PATH = '/srv/gerente/';
+    const CACIC_PATH = '/var/www/CacicDev/';
 
     // define  IV para agentes CACIC
     const CACIC_IV = 'abcdefghijklmnop';
@@ -170,6 +170,17 @@ abstract class OldCacicHelper
     }
 
 
-
+    /*
+     * Responsável por autenticação do agente CACIC
+     */
+    public static function autenticaAgente($p_PaddingKey='', Request $request)
+    {
+        if( ( strtoupper( OldCacicHelper::deCrypt( $request, $request->request->get('HTTP_USER_AGENT') , true ) ) != 'AGENTE_CACIC') ||
+            ( strtoupper( OldCacicHelper::deCrypt( $request, $request->request->get('PHP_AUTH_USER'  ) , true ) ) != 'USER_CACIC') ||
+            ( strtoupper( OldCacicHelper::deCrypt( $request, $request->request->get('PHP_AUTH_PW'    ) , true ) ) != 'PW_CACIC'))
+        {
+            echo ' Acesso Não Autorizado.'; // deve ser mostrado no browser //verificar Mensagem padrão de erro no Symfony
+        }
+    }
 	
 }

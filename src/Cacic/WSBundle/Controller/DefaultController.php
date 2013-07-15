@@ -34,9 +34,9 @@ class DefaultController extends Controller
             $insucesso =  new InsucessoInstalacao();
 
             $insucesso->setTeIpComputador( $_SERVER["REMOTE_ADDR"] );
-            $insucesso->setTeSo( $request->request->get('te_so') );
-            $insucesso->setIdUsuario( $request->request->get('id_usuario') );
-            $insucesso->setCsIndicador( $request->request->get('cs_indicador') );
+            $insucesso->setTeSo( $request->get('te_so') );
+            $insucesso->setIdUsuario( $request->get('id_usuario') );
+            $insucesso->setCsIndicador( $request->get('cs_indicador') );
             $insucesso->setDtDatahora( $data  );
 
             $this->getDoctrine()->getManager()->persist( $insucesso );
@@ -51,8 +51,9 @@ class DefaultController extends Controller
      */
     public function testAction( Request $request )
     {
-    	$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( '123456' );
-            \Doctrine\Common\Util\Debug::dump($so); die;
+
+            // Função para DEBUG
+            //\Doctrine\Common\Util\Debug::dump($so); die;
     	// arquivo de debug
         $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/get_test_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
@@ -63,27 +64,37 @@ class DefaultController extends Controller
         fclose($fp);
         //
 
-        $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->request->get('NetworkAdapterConfiguration') );
-        $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->request->get('ComputerSystem') );
+        //OldCacicHelper::autenticaAgente( $request ) ; //Autentica Agente;
+
+        $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
+        $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
         // não enviado via post //$strOperatingSystem  			 = Criptografia::deCrypt( $request, $request->request->get('OperatingSystem') );
 
-        $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
-        $te_so = $request->request->get( 'te_so' );
-        $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
+        $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration ); // '08:00:27:A1:4E:59';//
+        $te_so = $request->get( 'te_so' ); //'2.5.1.1.256.32'; //
+        $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem); //'CAICIC-2CEAC447\cacic';//
 
 
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
 
-        $computador = $this->getComputadorPreCole( $request, $te_node_adress, $te_so, $ultimo_login );
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $te_so, $te_node_adress );
 
-        $rede = $this->getDadosRedePreColeta( $request , $te_node_adress, $so->getIdSo() );
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request  );
 
-        $configs = RedeVersaoModulo::getConfig();
-        
+        //\Doctrine\Common\Util\Debug::dump($rede); die;
+
+        //$configs = RedeVersaoModulo::getConfig();
+
         $response = new Response();
 		$response->headers->set('Content-Type', 'xml');
-		return  $this->render('CacicWSBundle:Default:test.xml.twig', array( 'configs'=> OldCacicHelper::getTest($request), 'computador' => $computador, 'rede' => $rede  ), $response);
+		return  $this->render('CacicWSBundle:Default:test.xml.twig', array( 'configs'=> OldCacicHelper::getTest($request),
+            'computador' => $computador,
+            'rede' => $rede,
+            'ws_folder' => OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
+            'cs_cipher' => $request->get('cs_cipher'),
+            'cs_compress' => $request->get('cs_compress')
+        ), $response);
 	}
 
     /**
@@ -107,93 +118,6 @@ class DefaultController extends Controller
         $response = new Response();
 		$response->headers->set('Content-Type', 'xml');
 		return  $this->render('CacicWSBundle:Default:config.xml.twig', array('configs'=>$configs), $response);
-    }
-
-    /*
-     * Metodo responsável por inserir coletas iniciais, assim que o cacic é instalado
-     */
-    protected function getDadosPreColeta( Request $request , $te_so , $te_node_adress )
-    {
-        //recebe dados via POST, deCripata dados, e attribui a variaveis
-        $computer_system   = OldCacicHelper::deCrypt( $request, $request->request->get('ComputerSystem'), true  );
-        $te_versao_cacic   = OldCacicHelper::deCrypt( $request, $request->request->get('te_versao_cacic'), true  );
-        $te_versao_gercols = OldCacicHelper::deCrypt( $request, $request->request->get('te_versao_gercols'), true  );
-        $network_adapter   = OldCacicHelper::deCrypt( $request, $request->request->get('NetworkAdapterConfiguration'), true  );
-        $operating_system  = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem'), true  );
-        $data = new \DateTime('NOW'); //armazena data Atual
-
-        //vefifica se existe SO coletado se não, insere novo SO
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
-        $id_so= $so->getIdSo();
-
-        $rede = $this->getDadosRedePreColeta( $request , $te_node_adress, $id_so );
-
-        //inserção de dado se for um novo computador
-        if( empty($computador['dt_hr_inclusao']) )
-        {
-            $computador->setTeNodeAddress( $te_node_adress );
-            $computador->setIdSo( $id_so );
-            $computador->setIdRede( $rede['id_rede'] );
-            $computador->setDtHrInclusao( $data);
-        }
-
-        //inserção de dados na tabela computador_coleta
-        $computadorColeta = new ComputadorColeta();
-        $computadorColeta->setIdComputador( $computador->getIdComputador() );
-        $computadorColeta->setTeClassValues( $network_adapter );
-        $computadorColeta->setIdClass(
-            $this->getDoctrine()->getRepository('CacicCommonBundle: Classe')->findBy( array( 'nm_class_name'=> 'NetworkAdapterConfiguration') )
-        );
-        $this->getDoctrine()->getManager()->persist( $computadorColeta );
-
-        $computadorColeta = new ComputadorColeta();
-        $computadorColeta->setIdComputador( $computador->getIdComputador() );
-        $computadorColeta->setTeClassValues( $operating_system );
-        $computadorColeta->setIdClass(
-            $this->getDoctrine()->getRepository('CacicCommonBundle: Classe')->findBy( array( 'nm_class_name'=> 'OperatingSystem') )
-        );
-        $this->getDoctrine()->getManager()->persist( $computadorColeta );
-
-        $computadorColeta = new ComputadorColeta();
-        $computadorColeta->setIdComputador( $computador->getIdComputador() );
-        $computadorColeta->setTeClassValues( $computer_system );
-        $computadorColeta->setIdClass(
-            $this->getDoctrine()->getRepository('CacicCommonBundle: Classe')->findBy( array( 'nm_class_name'=> 'ComputerSystem') )
-        );
-        $this->getDoctrine()->getManager()->persist( $computadorColeta );
-
-
-        $computador->setDtHrUltAcesso( $data );
-        $computador->setTeVersaoCacic( $te_versao_cacic );
-        $computador->setTeVersaoGercols( $te_versao_gercols );
-        $computador->setTeUltimoLogin( TagValueHelper::getValueFromTags( 'UserName' ,$computer_system ) );
-        $this->getDoctrine()->getManager()->persist( $computador );
-
-        $acoes = $this->getDoctrine()->getRepository('CacicCommonBundle: Acao')->findAll();
-
-        //inserção ações de coleta a nova maquina
-        $acao_so = new AcaoSo();
-        $acao_so->setRede( $rede->getIdRede() );
-        $acao_so->setSo( $so->getIdSo() );
-        $acao_so->setAcao( $acoes );
-
-        //persistir dados
-        $this->getDoctrine()->getManager()->flush();
-
-        return $computador;
-    }
-
-    /*
-     * Responsável por autenticação do agente CACIC
-     */
-    protected function autenticaAgente($p_PaddingKey='', Request $request)
-    {
-        if( ( strtoupper( OldCacicHelper::deCrypt( $request, $request->request->get('HTTP_USER_AGENT') , true ) ) != 'AGENTE_CACIC') ||
-            ( strtoupper( OldCacicHelper::deCrypt( $request, $request->request->get('PHP_AUTH_USER'  ) , true ) ) != 'USER_CACIC') ||
-            ( strtoupper( OldCacicHelper::deCrypt( $request, $request->request->get('PHP_AUTH_PW'    ) , true ) ) != 'PW_CACIC'))
-        {
-            echo ' Acesso Não Autorizado.'; // deve ser mostrado no browser //verificar Mensagem padrão de erro no Symfony
-        }
     }
 
 }

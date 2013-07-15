@@ -3,6 +3,7 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  *
@@ -113,18 +114,18 @@ class RedeRepository extends EntityRepository
     /*
     * Método responsável por coletar verificar dados de rede
     */
-    protected function getDadosRedePreColeta( Request $request )
+    public function getDadosRedePreColeta( Request $request )
     {
         //obtem IP da maquina coletada
-        $ip_computador = $request->request->get('te_ip_computador');
+        $ip_computador = $request->get('te_ip_computador');
         $ip_computador = !empty( $ip_computador ) ?: $_SERVER['REMOTE_ADDR'];
 
         //obtem IP da Rede que a maquina coletada pertence
         $ip = explode( '.', $ip_computador );
         $te_ip_rede = $ip[0].".".$ip[1].".".$ip[2].".0"; //Pega ip da REDE sendo esse X.X.X.0
 
-        $rede =  $this->getDoctrine()->getRepository('CacicCommonBundle: Rede')->findBy( array( 'te_ip_rede'=> $te_ip_rede ) ); //procura rede
-        $rede = empty( $rede ) ? $this->getDoctrine()->getRepository('CacicCommonBundle: Rede')->getPrimeiraRedeValida() : $rede;  // se rede não existir instancio uma nova rede
+        $rede =  $this->findOneBy(  array( 'teIpRede'=> $te_ip_rede ) ); //procura rede
+        $rede = empty( $rede ) ? $this->getPrimeiraRedeValida() : $rede  ;  // se rede não existir instancio uma nova rede
 
         return $rede;
     }
