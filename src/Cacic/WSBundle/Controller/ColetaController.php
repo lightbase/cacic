@@ -31,10 +31,9 @@ class ColetasController extends Controller
      *  Método responsável por inserir coletas  do Agente CACIC
      *
      */
-    public function gerColsSetColletAction()
+    public function gerColsSetColletAction( Request $request )
     {
         $data = new \DateTime('NOW');
-        $request = new Request();
 
         $coleta = $request->request->get('strFieldsAndValuesToRequest'); //atribuido String coletada a varivel $coleta que será enviado via POST pelo Agente_Cacic
         $te_node_address = TagValue::getValueFromTags( 'MACAddress',TagValue::getClassValue( 'NetworkAdapterConfiguration', $coleta ) ); //extraio MacAdess de coleta para futura compara

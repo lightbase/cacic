@@ -5,6 +5,7 @@ namespace Cacic\WSBundle\Controller;
 use Cacic\CommonBundle\Entity\AcaoSo;
 use Cacic\CommonBundle\Entity\Computador;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
+use Cacic\CommonBundle\Entity\Rede;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,33 +65,34 @@ class DefaultController extends Controller
         fclose($fp);
         //
 
-        //OldCacicHelper::autenticaAgente( $request ) ; //Autentica Agente;
+        OldCacicHelper::autenticaAgente( $request ) ; //Autentica Agente;
 
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
         $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
-        // não enviado via post //$strOperatingSystem  			 = Criptografia::deCrypt( $request, $request->request->get('OperatingSystem') );
+        $strOperatingSystem  			 = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem') );
 
-        $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration ); // '08:00:27:A1:4E:59';//
-        $te_so = $request->get( 'te_so' ); //'2.5.1.1.256.32'; //
-        $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem); //'CAICIC-2CEAC447\cacic';//
-
+        $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
+        $te_so = $request->get( 'te_so' );
+        $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
 
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
-
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $te_so, $te_node_adress );
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
 
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request  );
-
-        //\Doctrine\Common\Util\Debug::dump($rede); die;
-
-        //$configs = RedeVersaoModulo::getConfig();
+        /* /Debugging do Agente
+        $debugging = ( TagValueHelper::getValueFromTags('DateToDebugging',$computador->getTeDebugging() )  == date("Ymd") ? $computador->getTeDebugging()  	:
+            ( TagValueHelper::getValueFromTags('DateToDebugging',$rede->getTeDebugging() )  == date("Ymd") ? $rede->getTeDebugging() :	'')  );
+        $debugging = ( $debugging ? TagValueHelper::getValueFromTags('DetailsToDebugging', $debugging ) : '' );
+        */
+        $debugging = '';
 
         $response = new Response();
 		$response->headers->set('Content-Type', 'xml');
-		return  $this->render('CacicWSBundle:Default:test.xml.twig', array( 'configs'=> OldCacicHelper::getTest($request),
+		return  $this->render('CacicWSBundle:Default:test.xml.twig', array( 'configs'=> OldCacicHelper::getTest( $request ),
             'computador' => $computador,
             'rede' => $rede,
+            'debugging' => $debugging,
             'ws_folder' => OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
             'cs_cipher' => $request->get('cs_cipher'),
             'cs_compress' => $request->get('cs_compress')
