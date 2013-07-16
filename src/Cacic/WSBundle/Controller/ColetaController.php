@@ -175,8 +175,7 @@ class ColetasController extends Controller
         $strXML_Values 	 = 	'';
 
         $strTeDebugging	 = 	( TagValue::getValueFromTags('DateToDebugging',$arrDadosComputador['te_debugging'] )  == date("Ymd") ? $arrDadosComputador['te_debugging']  	:
-            ( TagValue::getValueFromTags('DateToDebugging',$arrDadosRede['te_debugging_local'] )  == date("Ymd") ?
-                $arrDadosRede['te_debugging_local']  	:
+            ( TagValue::getValueFromTags('DateToDebugging',$arrDadosRede['te_debugging_local'] )  == date("Ymd") ?    $arrDadosRede['te_debugging_local']  	:
                 ( TagValue::getValueFromTags('DateToDebugging',$arrDadosRede['te_debugging_subnet'] ) == date("Ymd") ? $arrDadosRede['te_debugging_subnet'] 	: 	'') ) );
 
         $strXML_Values  .= 	( $strTeDebugging ? '<TeDebugging>' 																										: 	'');

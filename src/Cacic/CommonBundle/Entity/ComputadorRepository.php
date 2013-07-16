@@ -179,7 +179,7 @@ class ComputadorRepository extends EntityRepository
         $computadorColetaHistorico->setIdComputadorColeta( $computadorColeta );
         $computadorColetaHistorico->setIdComputador( $computador );
         $computadorColetaHistorico->setTeClassValues( $network_adapter );
-        $computadorColetaHistorico->setDtHrInclusao( $computador->getDtHrInclusao() );
+        $computadorColetaHistorico->setDtHrInclusao( $data);
         $this->getEntityManager()->persist( $computadorColetaHistorico );
 
         $class_operating_system = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findOneBy( array( 'nmClassName'=> 'OperatingSystem') );
@@ -195,7 +195,7 @@ class ComputadorRepository extends EntityRepository
         $computadorColetaHistorico->setIdComputadorColeta( $computadorColeta );
         $computadorColetaHistorico->setIdComputador( $computador );
         $computadorColetaHistorico->setTeClassValues( $operating_system);
-        $computadorColetaHistorico->setDtHrInclusao( $computador->getDtHrInclusao() );
+        $computadorColetaHistorico->setDtHrInclusao( $data );
         $this->getEntityManager()->persist( $computadorColetaHistorico );
 
         $class_computer_system = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findOneBy( array( 'nmClassName'=> 'ComputerSystem') );
@@ -211,7 +211,7 @@ class ComputadorRepository extends EntityRepository
         $computadorColetaHistorico->setIdComputadorColeta( $computadorColeta );
         $computadorColetaHistorico->setIdComputador( $computador );
         $computadorColetaHistorico->setTeClassValues($computer_system);
-        $computadorColetaHistorico->setDtHrInclusao( $computador->getDtHrInclusao() );
+        $computadorColetaHistorico->setDtHrInclusao( $data );
         $this->getEntityManager()->persist( $computadorColetaHistorico );
 
 

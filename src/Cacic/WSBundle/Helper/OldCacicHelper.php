@@ -179,7 +179,7 @@ abstract class OldCacicHelper
             ( strtoupper( OldCacicHelper::deCrypt( $request, $request->get('PHP_AUTH_USER'  ), true ) ) != 'USER_CACIC') ||
             ( strtoupper( OldCacicHelper::deCrypt( $request, $request->get('PHP_AUTH_PW'    ), true ) ) != 'PW_CACIC'))
         {
-            echo ' Acesso Não Autorizado.'; // deve ser mostrado no browser //verificar Mensagem padrão de erro no Symfony
+            echo ' Acesso Não Autorizado.';
         }
     }
 	

@@ -33,14 +33,14 @@ class TagValueHelper
     {
         //Tratar as tags depois!
         preg_match_all("(\[" . $pStrTagLabel . "\](.+)\[\/" . $pStrTagLabel . "\])i",$pStrSource, $arrResult);
-        return $arrResult[1][0];
+        return empty($arrResult[1][0]) ? null : $arrResult[1][0] ;
     }
 
     // Metódo para recuperar array com nomes das tags delimitadas por "<" e ">"
     public static function getTagsFromValues($pStrSource, $pStrTags = '[]')
     {
         preg_match_all("/\[\/(.*?)\]/",$pStrSource,$arrResult);
-        return $arrResult[1];
+        return empty($arrResult[1]) ? null : $arrResult[1] ;
     }
 
     // Metódo para excluir uma tag

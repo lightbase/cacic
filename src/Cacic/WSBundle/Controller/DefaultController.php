@@ -78,18 +78,19 @@ class DefaultController extends Controller
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $te_so, $te_node_adress );
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getPrimeiraRedeValida();//getDadosRedePreColeta( $request );
+        $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
 
-        /* /Debugging do Agente
-        $debugging = ( TagValueHelper::getValueFromTags('DateToDebugging',$computador->getTeDebugging() )  == date("Ymd") ? $computador->getTeDebugging()  	:
-            ( TagValueHelper::getValueFromTags('DateToDebugging',$rede->getTeDebugging() )  == date("Ymd") ? $rede->getTeDebugging() :	'')  );
+        //Debugging do Agente
+        $debugging = (  TagValueHelper::getValueFromTags('DateToDebugging',$computador->getTeDebugging() )  == date("Ymd") ? $computador->getTeDebugging()  	:
+            (TagValueHelper::getValueFromTags('DateToDebugging',$local->getTeDebugging() )  == date("Ymd") ? $local->getTeDebugging()  :
+            ( TagValueHelper::getValueFromTags('DateToDebugging',$rede->getTeDebugging() )  == date("Ymd") ? $rede->getTeDebugging() :	'') ) );
         $debugging = ( $debugging ? TagValueHelper::getValueFromTags('DetailsToDebugging', $debugging ) : '' );
-        */
-        $debugging = '';
 
         $response = new Response();
 		$response->headers->set('Content-Type', 'xml');
-		return  $this->render('CacicWSBundle:Default:test.xml.twig', array( 'configs'=> OldCacicHelper::getTest( $request ),
+		return  $this->render('CacicWSBundle:Default:test.xml.twig', array(
+            'configs'=> OldCacicHelper::getTest( $request ),
             'computador' => $computador,
             'rede' => $rede,
             'debugging' => $debugging,
