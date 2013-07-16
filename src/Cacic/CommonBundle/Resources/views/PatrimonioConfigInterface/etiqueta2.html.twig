@@ -1,4 +1,4 @@
-<form id="formEtiqueta2" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+<form id="formEtiqueta2" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
     <input name="{{'form.idEtiqueta' }}" type="hidden" value="etiqueta2">
         <table class="table table-striped table-bordered">
             <tr>
