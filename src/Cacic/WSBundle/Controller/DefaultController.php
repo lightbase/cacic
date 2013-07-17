@@ -6,6 +6,7 @@ use Cacic\CommonBundle\Entity\AcaoSo;
 use Cacic\CommonBundle\Entity\Computador;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
 use Cacic\CommonBundle\Entity\Rede;
+use Cacic\CommonBundle\Entity\RedeGrupoFtp;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,9 +26,8 @@ class DefaultController extends Controller
      *  Método responsável por inserir falhas na instalação do Agente CACIC
      *
      */
-    public function instalaCacicAction( )
+    public function installAction( Request $request )
     {
-        $request = new Request();
        if( $request->isMethod('POST')  )
         {
             $data = new \DateTime('NOW');
@@ -42,6 +42,11 @@ class DefaultController extends Controller
 
             $this->getDoctrine()->getManager()->persist( $insucesso );
             $this->getDoctrine()->getManager()->flush();
+
+            $response = new Response();
+            $response->headers->set('Content-Type', 'xml');
+            return  $this->render('CacicWSBundle::common.xml.twig',array(), $response);
+
         }
 
     }
@@ -52,19 +57,6 @@ class DefaultController extends Controller
      */
     public function testAction( Request $request )
     {
-
-            // Função para DEBUG
-            //\Doctrine\Common\Util\Debug::dump($so); die;
-    	// arquivo de debug
-        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/get_test_'.date('Ymd_His').'.txt', 'w+');
-        foreach( $request->request->all() as $postKey => $postVal )
-        {
-        	$postVal = OldCacicHelper::deCrypt( $request, $postVal );
-        	fwrite( $fp, "[{$postKey}]: {$postVal}\n");
-        }
-        fclose($fp);
-        //
-
         OldCacicHelper::autenticaAgente( $request ) ; //Autentica Agente;
 
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
@@ -78,7 +70,7 @@ class DefaultController extends Controller
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $te_so, $te_node_adress );
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getPrimeiraRedeValida();//getDadosRedePreColeta( $request );
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
         $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
 
         //Debugging do Agente
@@ -106,7 +98,7 @@ class DefaultController extends Controller
      */
     public function configAction( Request $request )
     {
-		//$this->autenticaAgente();
+		//OldCacicHelper::autenticaAgente($request);
         
         $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/get_config_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
@@ -115,12 +107,83 @@ class DefaultController extends Controller
         	fwrite( $fp, "[{$postKey}]: {$postVal}\n");
         }
         fclose($fp);
-        
+
+        $data = new \DateTime('NOW');/*
+        $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
+        $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
+        $strOperatingSystem  			 = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem') );
+
+        $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
+        $te_so = $request->get( 'te_so' );
+        $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
+
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta($request);
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $te_so, $te_node_adress );
+        $rede_grupos_ftp = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->findOneBy(array('idRede'=> $rede, 'idComputador'=> $computador));
+
+        $v_te_fila_ftp = '0'; //Fila do FTP
+
+        //Se instalação realizada com sucesso.
+        if (trim($request->get('in_instalacao')) == 'OK' )
+        {
+            $v_id_ftp      = ( $request->get('id_ftp') ? trim( $request->get('id_ftp') ) : '');
+
+            if (trim($request->get('te_fila_ftp'))=='1' && !$v_id_ftp)
+            {
+                // TimeOut definido para 5 minutos
+                $v_timeout = time() - (5 * 60000);
+
+                // Exclusão por timeout
+                //remoção de RedeGrupoFtp
+                $this->getDoctrine()->getManager()->remove($rede_grupos_ftp);
+
+                // Contagem por subrede
+                $soma_redes_grupo_ftp = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->countRedeGrupoFtp( $rede->getIdRede() );
+
+                // Caso o grupo de estações esteja cheio, retorno o tempo de 5 minutos para espera e nova tentativa...
+                // Posteriormente, poderemos calcular uma média para o intervalo, em função do link da subrede
+                if($soma_redes_grupo_ftp >= $rede->getNuLimiteFtp()) // Se for maior que o Limite FTP, configurado em Administração/Cadastros/SubRedes
+                    $v_te_fila_ftp = '5'; // Tempo em minutos
+                else
+                {
+                    $rede_grupos_ftp->setIdComputador($computador);
+                    $rede_grupos_ftp->setIdRede($rede);
+                    $rede_grupos_ftp->setNuHoraInicio($date);
+                    $this->getDoctrine()->getManager()->persist($rede_grupos_ftp);
+                }
+            }
+            elseif( trim($request->get('te_fila_ftp')) == '2') // Operação concluída com sucesso!
+            {
+                $rede_grupos_ftp->setIdComputador($computador);
+                $rede_grupos_ftp->setIdRede($rede);
+                $rede_grupos_ftp->setNuHoraInicio($date);
+                $this->getDoctrine()->getManager()->remove($rede_grupos_ftp);
+
+            }
+        }
+
+        //Implementação MapaCacic
+        elseif( OldCacicHelper::deCrypt( $request, $request->get('ModuleProgramName') ) == 'mapacacic.exe')
+        {
+
+        }
+
+        else
+        {
+
+        }
+*/
+
+        $rde = 10;
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
         
         $response = new Response();
 		$response->headers->set('Content-Type', 'xml');
-		return  $this->render('CacicWSBundle:Default:config.xml.twig', array('configs'=>$configs), $response);
+		return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
+            'configs'=>$configs,
+            'v_te_fila_ftp'=>$rde,//$v_te_fila_ftp,
+            'rede_grupos_ftp'=>$rde,//$rede_grupos_ftp->getIdFtp(),
+        ), $response);
     }
 
 }
