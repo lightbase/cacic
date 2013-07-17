@@ -31,5 +31,19 @@ class AplicativoRepository extends EntityRepository
         return $query->getArrayResult();
     }
 
+    public function listarAplicativosMonitorados( $idRede )
+    {
+        $_dql = "SELECT
+                 FROM CacicCommonBundle:Aplicativo a
+                 JOIN ap.idRede r
+                 WHERE a.nmAplicativo NOT LIKE '%#DESATIVADO#%'
+                 AND r.idRede = :idRede";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameter( 'idRede', $idRede )
+            ->getArrayResult();
+    }
+
 
 }

@@ -99,20 +99,21 @@ class DefaultController extends Controller
     public function configAction( Request $request )
     {
 		//OldCacicHelper::autenticaAgente($request);
-        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),
-            TagValueHelper::getValueFromTags( 'MACAddress',
-                OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') )
-            )
-        );
+        $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_adress );
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
         $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
+        $rede_grupos_ftp = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->findOneBy(array('idRede'=> $rede, 'idComputador'=> $computador));
+        $data = new \DateTime('NOW');
 
         //Debugging do Agente
         $debugging = (  TagValueHelper::getValueFromTags('DateToDebugging',$computador->getTeDebugging() )  == date("Ymd") ? $computador->getTeDebugging()  	:
             (TagValueHelper::getValueFromTags('DateToDebugging',$local->getTeDebugging() )  == date("Ymd") ? $local->getTeDebugging()  :
                 ( TagValueHelper::getValueFromTags('DateToDebugging',$rede->getTeDebugging() )  == date("Ymd") ? $rede->getTeDebugging() :	'') ) );
         $debugging = ( $debugging ? TagValueHelper::getValueFromTags('DetailsToDebugging', $debugging ) : '' );
-        
+
+
+        //Escrita do post
         $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/get_config_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
         {
@@ -121,20 +122,6 @@ class DefaultController extends Controller
         }
         fclose($fp);
 
-
-
-        $data = new \DateTime('NOW');/*
-        $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
-        $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
-        $strOperatingSystem  			 = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem') );
-
-        $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
-        $te_so = $request->get( 'te_so' );
-        $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
-
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta($request);
-        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $te_so, $te_node_adress );
-        $rede_grupos_ftp = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->findOneBy(array('idRede'=> $rede, 'idComputador'=> $computador));
 
         $v_te_fila_ftp = '0'; //Fila do FTP
 
@@ -171,7 +158,7 @@ class DefaultController extends Controller
             {
                 $rede_grupos_ftp->setIdComputador($computador);
                 $rede_grupos_ftp->setIdRede($rede);
-                $rede_grupos_ftp->setNuHoraInicio($date);
+                $rede_grupos_ftp->setNuHoraInicio($data);
                 $this->getDoctrine()->getManager()->remove($rede_grupos_ftp);
 
             }
@@ -185,9 +172,24 @@ class DefaultController extends Controller
 
         else
         {
+            if ($request->get('te_palavra_chave') <> '')
+            {
+                $computador->setTePalavraChave( OldCacicHelper::deCrypt( $request, $request->get('te_palavra_chave') ));
+                $this->getDoctrine()->getManager()->persist($computador);
+            }
+
+            //verifica se computador coletado é exceção
+            $excecao = $this->getDoctrine()->getRepository('CacicCommonBundle:AcaoExcecao')->findOneBy( array('teNodeAdress' => $te_node_adress) );
+
+            //Aplicativos Monitorados
+            $monitorados = $this->getDoctrine()->getRepository('CacicCommonBundle:Aplicativo')->listarAplicativosMonitorados( $rede->getIdRede() );
+            $arrPerfis	= explode('#',OldCacicHelper::deCrypt($request, $request->get('te_tripa_perfis')));
+
+            //Coleta Forçada
+            $v_tripa_coleta = explode('#', $computador->getTeNomesCurtosModulos() );
 
         }
-*/
+
         $rde = 10;
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
         
