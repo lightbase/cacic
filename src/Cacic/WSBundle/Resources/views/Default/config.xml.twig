@@ -4,6 +4,13 @@
 {% for config in configs %}
 <{{config.idConfiguracao|upper}}>{{config.vlConfiguracao}}</{{config.idConfiguracao|upper}}>
 {% endfor %}
-<TE_FILA_FTP>{{ v_te_fila_ftp }}</TE_FILA_FTP>
-<ID_FTP>{{  rede_grupos_ftp  }}</ID_FTP>
+    <TeDebugging>{{ debugging }}</TeDebugging>
+    <IdComputador>{{  computador.getIdComputador() }}</IdComputador>
+    <WebManagerAddress>{{ rede.getTeServCacic() }}</WebManagerAddress>
+    <WebServicesFolderName>{{ ws_folder }}<WebServicesFolderName>
+    <cs_compress>{{ cs_compress }}</cs_compress>
+    <cs_cipher>{{ cs_cipher }}</cs_cipher>
+
+    <TE_FILA_FTP>{{ v_te_fila_ftp }}</TE_FILA_FTP>
+    <ID_FTP>{{  rede_grupos_ftp  }}</ID_FTP>
 {% endblock %}

@@ -99,6 +99,19 @@ class DefaultController extends Controller
     public function configAction( Request $request )
     {
 		//OldCacicHelper::autenticaAgente($request);
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),
+            TagValueHelper::getValueFromTags( 'MACAddress',
+                OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') )
+            )
+        );
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
+        $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
+
+        //Debugging do Agente
+        $debugging = (  TagValueHelper::getValueFromTags('DateToDebugging',$computador->getTeDebugging() )  == date("Ymd") ? $computador->getTeDebugging()  	:
+            (TagValueHelper::getValueFromTags('DateToDebugging',$local->getTeDebugging() )  == date("Ymd") ? $local->getTeDebugging()  :
+                ( TagValueHelper::getValueFromTags('DateToDebugging',$rede->getTeDebugging() )  == date("Ymd") ? $rede->getTeDebugging() :	'') ) );
+        $debugging = ( $debugging ? TagValueHelper::getValueFromTags('DetailsToDebugging', $debugging ) : '' );
         
         $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/get_config_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
@@ -107,6 +120,8 @@ class DefaultController extends Controller
         	fwrite( $fp, "[{$postKey}]: {$postVal}\n");
         }
         fclose($fp);
+
+
 
         $data = new \DateTime('NOW');/*
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
@@ -173,7 +188,6 @@ class DefaultController extends Controller
 
         }
 */
-
         $rde = 10;
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
         
@@ -181,6 +195,12 @@ class DefaultController extends Controller
 		$response->headers->set('Content-Type', 'xml');
 		return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
             'configs'=>$configs,
+            'rede'=> $rede,
+            'computador'=>$computador,
+            'cs_compress'=>$request->get('cs_compress'),
+            'cs_cipher'=>$request->get('cs_cipher'),
+            'ws_folder'=>OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
+            'debugging'=>$debugging,
             'v_te_fila_ftp'=>$rde,//$v_te_fila_ftp,
             'rede_grupos_ftp'=>$rde,//$rede_grupos_ftp->getIdFtp(),
         ), $response);
