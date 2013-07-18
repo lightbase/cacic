@@ -227,9 +227,9 @@ class ComputadorRepository extends EntityRepository
         $acoes = $this->getEntityManager()->getRepository('CacicCommonBundle:Acao')->findAll();
 
         //inserção ações de coleta a nova maquina
-        $acao_so = new AcaoSo();
         foreach ($acoes as $acao)
         {
+            $acao_so = new AcaoSo();
             $acao_so->setRede( $rede );
             $acao_so->setSo( $so );
             $acao_so->setAcao( $acao );
