@@ -180,5 +180,34 @@ class SoftwareRepository extends EntityRepository
         			
         return $qb->getQuery()->execute();
     }
-    
+    public function gerarRelatorioPatrimonio( $filtros )
+    {
+        // Monta a Consulta básica...
+        $qb = $this->createQueryBuilder('sw')
+            ->select( 'comp.nmComputador', 'sw.nmSoftware', 'so.teSo', 'r.teIpRede', 'l.nmLocal')
+            ->innerJoin('sw.estacoes', 'se')
+            ->innerJoin('se.idComputador', 'comp')
+            ->leftJoin('comp.idSo', 'so')
+            ->leftJoin('comp.idRede', 'r')
+            ->leftJoin('r.idLocal', 'l')
+            ->groupBy('l, sw')
+            ->orderBy('sw.nmSoftware, l.nmLocal');
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if ( array_key_exists('softwares', $filtros) && !empty($filtros['softwares']) )
+            $qb->andWhere('sw.idSoftware IN (:softwares)')->setParameter('softwares', explode( ',', $filtros['softwares'] ));
+
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
+            $qb->andWhere('l.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
+            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+
+        return $qb->getQuery()->execute();
+    }
+
+
+
 }

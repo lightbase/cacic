@@ -2,8 +2,10 @@
 
 namespace Cacic\RelatorioBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cacic\RelatorioBundle\Form\Type\CompartilhamentosType;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -27,14 +29,31 @@ class DefaultController extends Controller
 	{
     	$locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->listar();
     	$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
-		
+        $sw = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->listar();
 		return $this->render(
 			'CacicRelatorioBundle:Default:patrimonio.html.twig',
         	array(
+                'sw'        => $sw,
         		'locais' 	=> $locais,
         		'so'		=> $so
         	)
         );
 	}
+
+    /**
+     * [RELATÓRIO] Relatório de Patrimônio gerado à partir dos filtros informados
+     */
+    public function patrimonioRelatorioAction( Request $request )
+    {
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:Software')
+            ->gerarRelatorioPatrimonio( $request->get('rel_filtro_hardware') );
+        return $this->render(
+            'CacicRelatorioBundle:Default:rel_patrimonio.html.twig',
+            array(
+                'dados' => $dados
+            )
+        );
+    }
 	
 }

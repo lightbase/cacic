@@ -9,6 +9,14 @@ cacic_relatorio_tcpIp:
 cacic_relatorio_patrimonio:
     pattern: /patrimonio
     defaults: { _controller: CacicRelatorioBundle:Default:patrimonio }
+    requirements:
+        _method: GET
+
+cacic_relatorio_patrimonio_relatorios:
+    pattern: /patrimonio
+    defaults: { _controller: CacicRelatorioBundle:Default:patrimonioRelatorio }
+    requirements:
+        _method: POST
 
 cacic_relatorio_software_inventariados:
     pattern: /software/inventariados
