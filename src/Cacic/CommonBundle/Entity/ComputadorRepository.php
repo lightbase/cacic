@@ -167,7 +167,7 @@ class ComputadorRepository extends EntityRepository
 
         //inserção de dados na tabela computador_coleta
         $class_network_configuration = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findOneBy( array( 'nmClassName'=> 'NetworkAdapterConfiguration') );
-        $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idClass'=> $class_network_configuration->getIdClass() ) );
+        $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idComputador'=>$computador, 'idClass'=>$class_network_configuration->getIdClass() ) );
         $computadorColeta = empty( $computadorColeta ) ? new ComputadorColeta() : $computadorColeta ;
         $computadorColeta->setIdComputador( $computador );
         $computadorColeta->setTeClassValues( $network_adapter );
@@ -183,7 +183,7 @@ class ComputadorRepository extends EntityRepository
         $this->getEntityManager()->persist( $computadorColetaHistorico );
 
         $class_operating_system = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findOneBy( array( 'nmClassName'=> 'OperatingSystem') );
-        $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idClass'=> $class_operating_system->getIdClass() ) );
+        $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idComputador'=>$computador, 'idClass'=>$class_operating_system->getIdClass() ) );
         $computadorColeta = empty( $computadorColeta ) ? new ComputadorColeta() : $computadorColeta;
         $computadorColeta->setIdComputador( $computador );
         $computadorColeta->setTeClassValues( $operating_system );
@@ -199,7 +199,7 @@ class ComputadorRepository extends EntityRepository
         $this->getEntityManager()->persist( $computadorColetaHistorico );
 
         $class_computer_system = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findOneBy( array( 'nmClassName'=> 'ComputerSystem') );
-        $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idClass'=> $class_computer_system->getIdClass() ) );
+        $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idComputador'=>$computador, 'idClass'=>$class_computer_system->getIdClass() ) );
         $computadorColeta = empty( $computadorColeta ) ? new ComputadorColeta() : $computadorColeta;
         $computadorColeta->setIdComputador( $computador );
         $computadorColeta->setTeClassValues( $computer_system );
