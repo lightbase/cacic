@@ -1,0 +1,63 @@
++--------------------------------+
+| Tables_in_cacic                |
++--------------------------------+
+|acoes                           |
+|acoes_excecoes                  |
+|acoes_redes                     |
+|acoes_so                        |
+|aplicativos_monitorados         |
+|aplicativos_redes               |
+|aquisicoes                      |
+|aquisicoes_item                 |
+|compartilhamentos               |
+|componentes_estacoes            |
+|componentes_estacoes_historico  |
+|computadores                    |
+|configuracoes_locais            |
+|configuracoes_padrao            |
+|contas                          |
+|descricao_hardware              |
+|descricoes_colunas_computadores |
+|grupo_usuarios                  |
+|historico_hardware              |
+|historico_tcp_ip                |
+|historicos_hardware             |
+|historicos_outros_softwares     |
+|historicos_software             |
+|historicos_software_completo    |
+|insucessos_instalacao           |
+|locais                          |
+|log                             |
+|officescan                      |
+|patrimonio                      |
+|patrimonio_config_interface     |
+|perfis_aplicativos_monitorados  |
+|redes                           |
+|redes_grupos_ftp                |
+|redes_versoes_modulos           |
+|servidores_autenticacao         |
+|so                              |
+|softwares                       |
+|softwares_estacao               |
+|softwares_inventariados         |
+|softwares_inventariados_estacoes|
+|srcacic_chats                   |
+|srcacic_conexoes                |
+|srcacic_sessoes                 |
+|srcacic_transfs                 |
+|testes                          |
+|tipos_licenca                   |
+|tipos_software                  |
+|tipos_unidades_disco            |
+|unid_organizacional_nivel1      |
+|unid_organizacional_nivel1a     |
+|unid_organizacional_nivel2      |
+|unidades_disco                  |
+|usb_devices                     |
+|usb_logs                        |
+|usb_vendors                     |
+|usuarios                        |
+|variaveis_ambiente              |
+|variaveis_ambiente_estacoes     |
+|versoes_softwares               |
++--------------------------------+
