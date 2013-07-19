@@ -179,7 +179,7 @@ insucesso_instalacao.id_usuario
 insucesso_instalacao.dt_datahora
 insucesso_instalacao.cs_indicador
 
------------------------------------------------------------
+------------------------------------------------------------------------------
 
 --local
 
@@ -192,8 +192,8 @@ insucesso_instalacao.cs_indicador
 
 --local_secundario
 
-local_secundario.id_usuario
-local_secundario.id_local
+'' => local_secundario.id_usuario
+'' => local_secundario.id_local
 
 --log
 
@@ -205,39 +205,39 @@ local_secundario.id_local
 'log.nm_tabela' => log.nm_tabela
 'log.te_ip_origem' => log.te_ip_origem
 
---
+--patrimonio
 
-patrimonio.id_patrimonio
-patrimonio.id_usuario
-patrimonio.id_unid_organizacional_nivel1a
-patrimonio.id_computador
-patrimonio.id_unid_organizacional_nivel2
-patrimonio.dt_hr_alteracao
-patrimonio.te_localizacao_complementar
-patrimonio.te_info_patrimonio1
-patrimonio.te_info_patrimonio2
-patrimonio.te_info_patrimonio3
-patrimonio.te_info_patrimonio4
-patrimonio.te_info_patrimonio5
-patrimonio.te_info_patrimonio6
-patrimonio.id_unid_organizacional_nivel1
+'' => patrimonio.id_patrimonio
+'' => patrimonio.id_usuario
+'patrimonio.id_unid_organizacional_nivel1a' => patrimonio.id_unid_organizacional_nivel1a
+'' => patrimonio.id_computador
+'patrimonio.id_unid_organizacional_nivel2' => patrimonio.id_unid_organizacional_nivel2
+'patrimonio.dt_hr_alteracao' => patrimonio.dt_hr_alteracao
+'patrimonio.te_localizacao_complementar' => patrimonio.te_localizacao_complementar
+'patrimonio.te_info_patrimonio1' => patrimonio.te_info_patrimonio1
+'patrimonio.te_info_patrimonio2' => patrimonio.te_info_patrimonio2
+'patrimonio.te_info_patrimonio3' => patrimonio.te_info_patrimonio3
+'patrimonio.te_info_patrimonio4' => patrimonio.te_info_patrimonio4
+'patrimonio.te_info_patrimonio5' => patrimonio.te_info_patrimonio5
+'patrimonio.te_info_patrimonio6' => patrimonio.te_info_patrimonio6
+'' => patrimonio.id_unid_organizacional_nivel1
 
 --patrimonio_config_interface
 
-patrimonio_config_interface.id_etiqueta
-patrimonio_config_interface.id_local
-patrimonio_config_interface.nm_etiqueta
-patrimonio_config_interface.te_etiqueta
-patrimonio_config_interface.in_exibir_etiqueta
-patrimonio_config_interface.te_help_etiqueta
-patrimonio_config_interface.te_plural_etiqueta
-patrimonio_config_interface.nm_campo_tab_patrimonio
-patrimonio_config_interface.in_destacar_duplicidade
-patrimonio_config_interface.in_obrigatorio
+'patrimonio_config_interface.id_etiqueta' => patrimonio_config_interface.id_etiqueta
+'patrimonio_config_interface.id_local' => patrimonio_config_interface.id_local
+'patrimonio_config_interface.nm_etiqueta' => patrimonio_config_interface.nm_etiqueta
+'patrimonio_config_interface.te_etiqueta' => patrimonio_config_interface.te_etiqueta
+'patrimonio_config_interface.in_exibir_etiqueta' => patrimonio_config_interface.in_exibir_etiqueta
+'patrimonio_config_interface.te_help_etiqueta' => patrimonio_config_interface.te_help_etiqueta
+'patrimonio_config_interface.te_plural_etiqueta' => patrimonio_config_interface.te_plural_etiqueta
+'patrimonio_config_interface.nm_campo_tab_patrimonio' => patrimonio_config_interface.nm_campo_tab_patrimonio
+'patrimonio_config_interface.in_destacar_duplicidade' => patrimonio_config_interface.in_destacar_duplicidade
+'' => patrimonio_config_interface.in_obrigatorio
 
 --rede
 
-'redes.id_rede' => rede.id_rede
+'redes.id_ip_rede' => rede.id_rede
 'redes.id_local' => rede.id_local
 'redes.id_servidor_autenticacao' => rede.id_servidor_autenticacao
 'redes.te_ip_rede' => rede.te_ip_rede
@@ -274,13 +274,13 @@ patrimonio_config_interface.in_obrigatorio
 
 --rede_versao_modulo
 
-'redes_versoes_modulos.'rede_versao_modulo.id_rede_versao_modulo
-''rede_versao_modulo.id_rede
-'redes_versoes_modulos.nm_modulo'rede_versao_modulo.nm_modulo
-'redes_versoes_modulos.te_versao_modulo'rede_versao_modulo.te_versao_modulo
-'redes_versoes_modulos.dt_atualizacao'rede_versao_modulo.dt_atualizacao
-'redes_versoes_modulos.cs_tipo_so'rede_versao_modulo.cs_tipo_so
-'redes_versoes_modulos.te_hash'rede_versao_modulo.te_hash
+'redes_versoes_modulos.' => rede_versao_modulo.id_rede_versao_modulo
+'' => rede_versao_modulo.id_rede
+'redes_versoes_modulos.nm_modulo' => rede_versao_modulo.nm_modulo
+'redes_versoes_modulos.te_versao_modulo' => rede_versao_modulo.te_versao_modulo
+'redes_versoes_modulos.dt_atualizacao' => rede_versao_modulo.dt_atualizacao
+'redes_versoes_modulos.cs_tipo_so' => rede_versao_modulo.cs_tipo_so
+'redes_versoes_modulos.te_hash' => rede_versao_modulo.te_hash
 
 --servidor_autenticacao
 
@@ -303,11 +303,11 @@ patrimonio_config_interface.in_obrigatorio
 
 --so (nenhuma mudanca)
 
-so.id_so
-so.te_desc_so
-so.sg_so
-so.te_so
-so.in_mswindows
+'so.id_so' => so.id_so
+'so.te_desc_so' => so.te_desc_so
+'so.sg_so' => so.sg_so
+'so.te_so' => so.te_so
+'so.in_mswindows' => so.in_mswindows
 
 --software
 
@@ -409,38 +409,38 @@ so.in_mswindows
 
 --unid_organizacional_nivel1 (nenhuma mudança)
 
-unid_organizacional_nivel1.id_unid_organizacional_nivel1
-unid_organizacional_nivel1.nm_unid_organizacional_nivel1
-unid_organizacional_nivel1.te_endereco_uon1
-unid_organizacional_nivel1.te_bairro_uon1
-unid_organizacional_nivel1.te_cidade_uon1
-unid_organizacional_nivel1.te_uf_uon1
-unid_organizacional_nivel1.nm_responsavel_uon1
-unid_organizacional_nivel1.te_email_responsavel_uon1
-unid_organizacional_nivel1.nu_tel1_responsavel_uon1
-unid_organizacional_nivel1.nu_tel2_responsavel_uon1
+'unid_organizacional_nivel1.id_unid_organizacional_nivel1' => unid_organizacional_nivel1.id_unid_organizacional_nivel1
+'unid_organizacional_nivel1.nm_unid_organizacional_nivel1' => unid_organizacional_nivel1.nm_unid_organizacional_nivel1
+'unid_organizacional_nivel1.te_endereco_uon1' => unid_organizacional_nivel1.te_endereco_uon1
+'unid_organizacional_nivel1.te_bairro_uon1' => unid_organizacional_nivel1.te_bairro_uon1
+'unid_organizacional_nivel1.te_cidade_uon1' => unid_organizacional_nivel1.te_cidade_uon1
+'unid_organizacional_nivel1.te_uf_uon1' => unid_organizacional_nivel1.te_uf_uon1
+'unid_organizacional_nivel1.nm_responsavel_uon1' => unid_organizacional_nivel1.nm_responsavel_uon1
+'unid_organizacional_nivel1.te_email_responsavel_uon1' => unid_organizacional_nivel1.te_email_responsavel_uon1
+'unid_organizacional_nivel1.nu_tel1_responsavel_uon1' => unid_organizacional_nivel1.nu_tel1_responsavel_uon1
+'unid_organizacional_nivel1.nu_tel2_responsavel_uon1' => unid_organizacional_nivel1.nu_tel2_responsavel_uon1
 
 --unid_organizacional_nivel1a (nenhuma mudança)
 
-unid_organizacional_nivel1a.id_unid_organizacional_nivel1a
-unid_organizacional_nivel1a.id_unid_organizacional_nivel1
-unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a
+'unid_organizacional_nivel1a.id_unid_organizacional_nivel1a' => unid_organizacional_nivel1a.id_unid_organizacional_nivel1a
+'unid_organizacional_nivel1a.id_unid_organizacional_nivel1' => unid_organizacional_nivel1a.id_unid_organizacional_nivel1
+'unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a' => unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a
 
 --unid_organizacional_nivel2 (nenhuma mudança)
 
-unid_organizacional_nivel2.id_unid_organizacional_nivel2
-unid_organizacional_nivel2.id_local
-unid_organizacional_nivel2.id_unid_organizacional_nivel1a
-unid_organizacional_nivel2.nm_unid_organizacional_nivel2
-unid_organizacional_nivel2.te_endereco_uon2
-unid_organizacional_nivel2.te_bairro_uon2
-unid_organizacional_nivel2.te_cidade_uon2
-unid_organizacional_nivel2.te_uf_uon2
-unid_organizacional_nivel2.nm_responsavel_uon2
-unid_organizacional_nivel2.te_email_responsavel_uon2
-unid_organizacional_nivel2.nu_tel1_responsavel_uon2
-unid_organizacional_nivel2.nu_tel2_responsavel_uon2
-unid_organizacional_nivel2.dt_registro
+'unid_organizacional_nivel2.id_unid_organizacional_nivel2' => unid_organizacional_nivel2.id_unid_organizacional_nivel2
+'unid_organizacional_nivel2.id_local' => unid_organizacional_nivel2.id_local
+'unid_organizacional_nivel2.id_unid_organizacional_nivel1a' => unid_organizacional_nivel2.id_unid_organizacional_nivel1a
+'unid_organizacional_nivel2.nm_unid_organizacional_nivel2' => unid_organizacional_nivel2.nm_unid_organizacional_nivel2
+'unid_organizacional_nivel2.te_endereco_uon2' => unid_organizacional_nivel2.te_endereco_uon2
+'unid_organizacional_nivel2.te_bairro_uon2' => unid_organizacional_nivel2.te_bairro_uon2
+'unid_organizacional_nivel2.te_cidade_uon2' => unid_organizacional_nivel2.te_cidade_uon2
+'unid_organizacional_nivel2.te_uf_uon2' => unid_organizacional_nivel2.te_uf_uon2
+'unid_organizacional_nivel2.nm_responsavel_uon2' => unid_organizacional_nivel2.nm_responsavel_uon2
+'unid_organizacional_nivel2.te_email_responsavel_uon2' => unid_organizacional_nivel2.te_email_responsavel_uon2
+'unid_organizacional_nivel2.nu_tel1_responsavel_uon2' => unid_organizacional_nivel2.nu_tel1_responsavel_uon2
+'unid_organizacional_nivel2.nu_tel2_responsavel_uon2' => unid_organizacional_nivel2.nu_tel2_responsavel_uon2
+'unid_organizacional_nivel2.dt_registro' => unid_organizacional_nivel2.dt_registro
 
 --uorg
 
@@ -495,4 +495,44 @@ unid_organizacional_nivel2.dt_registro
 'usuarios.te_senha' => usuario.te_senha
 'usuarios.dt_log_in' => usuario.dt_log_in
 'usuarios.te_emails_contato' => usuario.te_emails_contato
-'usuarios.te_telefones_contato' => usuario.te_telefones_contatonfe-gerenciador
+'usuarios.te_telefones_contato' => usuario.te_telefones_contato
+
+------------------------------------------------------------------------------
+--------------Dados da versão anterior não encontrados na atual---------------
+------------------------------------------------------------------------------
+
+tabela officescan
+patrimonio.id_so
+patrimonio.te_node_address
+tabela perfis_aplicativos_monitorados
+
+
+redes_grupos_ftp
+redes_versoes_modulos
+servidores_autenticacao
+so
+softwares
+softwares_estacao
+softwares_inventariados
+softwares_inventariados_estacoes
+srcacic_chats
+srcacic_conexoes
+srcacic_sessoes
+srcacic_transfs
+testes
+tipos_licenca
+tipos_software
+tipos_unidades_disco
+unid_organizacional_nivel1
+unid_organizacional_nivel1a
+unid_organizacional_nivel2
+unidades_disco
+usb_devices
+usb_logs
+usb_vendors
+
+
+usuarios.te_locais_secundarios
+tabela variaveis_ambiente
+tabela variaveis_ambiente_estacoes
+tabela versoes_softwares
