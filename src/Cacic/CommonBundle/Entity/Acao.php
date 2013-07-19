@@ -43,6 +43,11 @@ class Acao
      * @var \Doctrine\Common\Collections\Collection
      */
     private $redes;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $so;
 
     /**
      * Constructor
@@ -50,6 +55,7 @@ class Acao
     public function __construct()
     {
         $this->redes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->so = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -221,5 +227,38 @@ class Acao
         $this->idAcao = $idAcao;
     
         return $this;
+    }
+
+    /**
+     * Add so
+     *
+     * @param \Cacic\CommonBundle\Entity\AcaoSo $so
+     * @return Acao
+     */
+    public function addSo(\Cacic\CommonBundle\Entity\AcaoSo $so)
+    {
+        $this->so[] = $so;
+    
+        return $this;
+    }
+
+    /**
+     * Remove so
+     *
+     * @param \Cacic\CommonBundle\Entity\AcaoSo $so
+     */
+    public function removeSo(\Cacic\CommonBundle\Entity\AcaoSo $so)
+    {
+        $this->so->removeElement($so);
+    }
+
+    /**
+     * Get so
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSo()
+    {
+        return $this->so;
     }
 }

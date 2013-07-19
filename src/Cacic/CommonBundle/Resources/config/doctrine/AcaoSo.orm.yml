@@ -14,7 +14,7 @@ Cacic\CommonBundle\Entity\AcaoSo:
             targetEntity: Acao
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: so
             joinColumns:
                 id_acao:
                     referencedColumnName: id_acao

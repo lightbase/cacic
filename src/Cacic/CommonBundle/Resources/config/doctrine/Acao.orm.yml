@@ -40,4 +40,7 @@ Cacic\CommonBundle\Entity\Acao:
         redes:
             targetEntity: AcaoRede
             mappedBy: acao
+        so:
+            targetEntity: AcaoSo
+            mappedBy: acao
     lifecycleCallbacks: {  }

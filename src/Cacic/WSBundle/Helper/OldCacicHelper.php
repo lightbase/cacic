@@ -112,7 +112,6 @@ abstract class OldCacicHelper
     // ---------------------------------
     public static function deCrypt(Request $request, $pStrCriptedData, $pStrPaddingKey = '', $pBoolForceDecrypt = false)
     {
-
         // Bloco de Substituições para antes da Decriptação
         // ------------------------------------------------
         // Razão: Dependendo da configuração do servidor, os valores
