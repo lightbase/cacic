@@ -41,10 +41,10 @@ class AcaoRepository extends EntityRepository
     {
         // Monta a Consulta básica...
         $_dql = "SELECT DISTINCT
-                a.id_acao,
-                a.te_nome_curto_modulo,
-                a.te_descricao_breve,
-                ar.dt_hr_coleta_forcada,
+                a.idAcao,
+                a.teNomeCurtoModulo,
+                a.teDescricaoBreve,
+                ar.dtHrColetaForcada
                 FROM CacicCommonBundle:Acao a
                 INNER JOIN a.so aso
                 INNER JOIN aso.so so
