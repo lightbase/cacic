@@ -7,6 +7,7 @@ use Cacic\CommonBundle\Entity\Computador;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
 use Cacic\CommonBundle\Entity\Rede;
 use Cacic\CommonBundle\Entity\RedeGrupoFtp;
+use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,15 @@ class DefaultController extends Controller
      */
     public function installAction( Request $request )
     {
+
+        //Escrita do post
+        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/insucesso_'.date('Ymd_His').'.txt', 'w+');
+        foreach( $request->request->all() as $postKey => $postVal )
+        {
+            $postVal = OldCacicHelper::deCrypt( $request, $postVal );
+            fwrite( $fp, "[{$postKey}]: {$postVal}\n");
+        }
+        fclose($fp);
        if( $request->isMethod('POST')  )
         {
             $data = new \DateTime('NOW');
@@ -98,6 +108,8 @@ class DefaultController extends Controller
      */
     public function configAction( Request $request )
     {
+        $teste = $this->getDoctrine()->getRepository('CacicCommonBundle:AcaoSo')->listaAcaoRedeComputador( '1', '80');
+        Debug::dump($teste);die;
 		//OldCacicHelper::autenticaAgente($request);
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_adress );
@@ -150,7 +162,7 @@ class DefaultController extends Controller
                 {
                     $rede_grupos_ftp->setIdComputador($computador);
                     $rede_grupos_ftp->setIdRede($rede);
-                    $rede_grupos_ftp->setNuHoraInicio($date);
+                    $rede_grupos_ftp->setNuHoraInicio($data);
                     $this->getDoctrine()->getManager()->persist($rede_grupos_ftp);
                 }
             }
@@ -188,9 +200,10 @@ class DefaultController extends Controller
             //Coleta Forçada
             $v_tripa_coleta = explode('#', $computador->getTeNomesCurtosModulos() );
 
+            //Ações de Coletas
+
         }
 
-        $rde = 10;
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
         
         $response = new Response();
@@ -203,8 +216,8 @@ class DefaultController extends Controller
             'cs_cipher'=>$request->get('cs_cipher'),
             'ws_folder'=>OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
             'debugging'=>$debugging,
-            'v_te_fila_ftp'=>$rde,//$v_te_fila_ftp,
-            'rede_grupos_ftp'=>$rde,//$rede_grupos_ftp->getIdFtp(),
+            'v_te_fila_ftp'=>$v_te_fila_ftp,
+            'rede_grupos_ftp'=>$rede_grupos_ftp
         ), $response);
     }
 

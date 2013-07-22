@@ -36,5 +36,5 @@ class AcaoRepository extends EntityRepository
 		
         return $query->getQuery()->execute();
 	}
-	
+
 };
