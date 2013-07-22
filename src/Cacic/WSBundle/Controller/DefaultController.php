@@ -108,10 +108,14 @@ class DefaultController extends Controller
      */
     public function configAction( Request $request )
     {
+        /* TESTEEES *
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->findOneBy(array('idRede'=>'1'));
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>'123456'));
-        $teste = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listaAcaoRedeComputador( $rede, $so);
-        Debug::dump($teste);die;
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>'2.5.1.1.256.32'));
+        $acao = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->findOneBy( array('idAcao'=>'col_hard'));
+        $teste = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaDetalhesClasse( $acao );
+        Debug::dump($teste);die;*/
+
+
 		//OldCacicHelper::autenticaAgente($request);
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_adress );
@@ -199,12 +203,14 @@ class DefaultController extends Controller
             //Aplicativos Monitorados
             $monitorados = $this->getDoctrine()->getRepository('CacicCommonBundle:Aplicativo')->listarAplicativosMonitorados( $rede->getIdRede() );
             $arrPerfis	= explode('#',OldCacicHelper::deCrypt($request, $request->get('te_tripa_perfis')));
+            $v_retorno_MONITORADOS 	= '';
+            $strAcoesSelecionadas = '';
 
             //Coleta Forçada
             $v_tripa_coleta = explode('#', $computador->getTeNomesCurtosModulos() );
 
             //Ações de Coletas
-            $acoes = $this->getDoctrine()->getRepository('acicCommonBundle:Acao')-> listaAcaoRedeComputador($rede, $so);
+            $acoes = $this->getDoctrine()->getRepository('acicCommonBundle:Acao')->listaAcaoRedeComputador($rede, $so);
 
             foreach($acoes as $acao)
             {
@@ -219,13 +225,167 @@ class DefaultController extends Controller
                         // Obtendo Definições de Classes para Coletas
                         $strCollectsDefinitions .= '[ClassesAndProperties]';
 
+                        $arrClassesNames = array();
+                        $arrClassesWhereClauses = array();
+                        $strActualClassName		= '';
+                        $strPropertiesNames		= '';
+                        $detalheClasses = $this->getDoctrine()->getRepository('acicCommonBundle:Classe')->listaDetalhesClasse( $acao );
+                        foreach ( $detalheClasses as $detalheClasse )
+                        {
+                            if (!$arrClassesNames[$detalheClasse->getNmClassName())
+                                $arrClassesNames[$detalheClasse->getNmClassName()] = $$detalheClasse->getNmClassName();
 
+                            if (($detalheClasse->getTeWhereClause()) && ($detalheClasse->getTeWhereClause() <> 'NULL') && !$arrClassesWhereClauses[$detalheClasse->getNmClassName() . '.WhereClause'])
+                            {
+                                $arrClassesWhereClauses[$detalheClasse->getNmClassName() . '.WhereClause'] = '.';
+                                $strCollectsDefinitions .= '[' . $detalheClasse->getNmClassName() . '.WhereClause]' . $detalheClasse->getTeWhereClause() .'[/' . $detalheClasse->getNmClassName() . '.WhereClause]';
+                            }
+                            if ($strActualClassName <> $detalheClasse->getNmClassName())
+                            {
+                                $strPropertiesNames .= ($strActualClassName ? '[/' . $strActualClassName . '.Properties]' : '');
+                                $strPropertiesNames .= '[' . $$detalheClasse->getNmClassName() . '.Properties]';
+                                $strActualClassName  = $detalheClasse->getNmClassName();
+                            }
+                            else
+                                $strPropertiesNames .= ',';
+
+                            $strPropertiesNames .= $detalheClasse->getNmPropertyName();
+                        }
+                        $strPropertiesNames 	.= ($strActualClassName ? '[/' . $strActualClassName . '.Properties]' : '');
+
+                        $strCollectsDefinitions .= '[Classes]' 	  	. implode(',',$arrClassesNames) . '[/Classes]';
+                        $strCollectsDefinitions .= '[Properties]' 	. $strPropertiesNames  			. '[/Properties]';
+                        $strCollectsDefinitions .= '[/ClassesAndProperties]';
+
+                        if ($acao->getDtHrColetaForcada() || $computador->getDtHrColetaForcadaEstacao())
+                        {
+                            $v_dt_hr_coleta_forcada = $acao->getDtHrColetaForcada();
+                            if (count($v_tripa_coleta) > 0 and
+                                $v_dt_hr_coleta_forcada < $computador->getDtHrColetaForcadaEstacao() and
+                                in_array($acao->getTeNomeCurtoModulo(),$v_tripa_coleta))
+                            {
+                               $v_dt_hr_coleta_forcada = $$computador->getDtHrColetaForcadaEstacao();
+                            }
+                                $strCollectsDefinitions .= '[DT_HR_COLETA_FORCADA]' . $v_dt_hr_coleta_forcada . '[/DT_HR_COLETA_FORCADA]';
+                        }
+
+                        if ( !$request->get('AgenteLinux') && trim($acao->getIdAcao() == "col_moni" && !empty($monitorados))
+                        {
+                            // ***************************************************
+                            // TODO: Melhorar identificação do S.O. neste ponto!!!
+                            // ***************************************************
+                            // Apenas catalogo as versões anteriores aos NT Like
+                            // Colocar abaixo, como elementos do array as identificações internas dos MS-Windows menores que WinNT
+                            $arrSgSOtoOlds = array(	'W95',
+                                'W95OSR',
+                                'W98',
+                                'W98SE',
+                                'WME');
+
+                            foreach ($monitorados as $monitorado )
+                            {
+                                $v_achei = 0;
+                                for($i = 0; $i < count($arrPerfis); $i++ )
+                                {
+                                    $arrPerfis2 = explode(',',$arrPerfis[$i]);
+                                    if ($monitorado->getIdAplicativo()==$arrPerfis2[0] &&
+                                        $monitorado->getDtAtualizacao()==$arrPerfis2[1])
+                                        $v_achei = 1;
+                                }
+
+                                if ($v_achei==0 && ($monitorado->getIdSo() == 0 || $monitorado->getIdSo() == $computador->getIdSo()))
+                                {
+                                    if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
+
+                                    $v_te_ide_licenca = trim($monitorado->getTeIdeLicenca());
+                                    if ($monitorado->getTeIdeLicenca()=='0')
+                                        $v_te_ide_licenca = '';
+
+                                    $v_retorno_MONITORADOS .= $monitorado->getIdAplicativo()	.	','.
+                                        $monitorado->getDtAtualizacao()			.	','.
+                                        $monitorado->getCsIdeLicenca() 			. 	','.
+                                        $v_te_ide_licenca								.	',';
+
+                                    if (in_array($so->getSgSo(),$arrSgSOtoOlds))
+                                    {
+                                        $v_te_arq_ver_eng_w9x 	= trim($monitorado->getTeArqVerEngW9x());
+                                        if ($v_te_arq_ver_eng_w9x=='') 	$v_te_arq_ver_eng_w9x 	= '.';
+
+                                        $v_te_arq_ver_pat_w9x 	= trim($monitorado->getTeArqVerPatW9x());
+                                        if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
+
+                                        $v_te_car_inst_w9x 	    = trim($monitorado->getTeCarInstW9x());
+                                        if ($monitorado->getTeCarInstW9x()=='0') 	$v_te_car_inst_w9x 	= '';
+
+                                        $v_te_car_ver_w9x 	    = trim($monitorado->getTeCarInstW9x());
+                                        if ($monitorado->getCsCarVerWnt()=='0') 	$v_te_car_ver_w9x 	= '';
+
+                                        $v_retorno_MONITORADOS .= '.'                                     	.','.
+                                            $monitorado->getTeCarInstW9x()	.','.
+                                            $v_te_car_inst_w9x						.','.
+                                            $$monitorado->getCsCarVerWnt()		.','.
+                                            $v_te_car_ver_w9x						.','.
+                                            $v_te_arq_ver_eng_w9x					.','.
+                                            $v_te_arq_ver_pat_w9x						;
+                                    }
+                                    else
+                                    {
+
+                                        $v_te_arq_ver_eng_wnt 	= trim($monitorado->getTeArqVerEngWnt());
+                                        if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';
+
+                                        $v_te_arq_ver_pat_wnt 	= trim($monitorado->getTeArqVerPatWnt());
+                                        if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
+
+                                        $v_te_car_inst_wnt 	    = trim($monitorado->getTeCarInstWnt());
+                                        if ($monitorado->getCsCarInstWnt()=='0') 	$v_te_car_inst_wnt 	= '';
+
+                                        $v_te_car_ver_wnt 	    = trim($monitorado->getTeCarVerWnt());
+                                        if ($monitorado->getTeCarInstWnt()=='0') 	$v_te_car_ver_wnt 	= '';
+
+                                        $v_retorno_MONITORADOS .=   '.'                    					.','.
+                                            $monitorado->getTeCarInstWnt()	.','.
+                                            $v_te_car_inst_wnt                 		.','.
+                                            $$monitorado->getTeCarVerWnt()		.','.
+                                            $v_te_car_ver_wnt               		.','.
+                                            $v_te_arq_ver_eng_wnt					.','.
+                                            $v_te_arq_ver_pat_wnt;
+
+                                    }
+
+                                    $v_retorno_MONITORADOS .=   ',' . $monitorado->getInDisponibilizaInfo();
+
+                                    if ($monitorado->getInDisponibilizaInfo()=='S')
+                                    {
+                                        $v_retorno_MONITORADOS .= ',' . $monitorado->getNmAplicativo();
+                                    }
+                                    else
+                                    {
+                                        $v_retorno_MONITORADOS .= ',.';
+                                    }
+
+                                }
+                            }
+                            if ($v_retorno_MONITORADOS <> '')
+                                $v_retorno_MONITORADOS = OldCacicHelper::replaceInvalidHTTPChars($v_retorno_MONITORADOS);
+
+                            $strCollectsDefinitions .= $v_retorno_MONITORADOS;
+                        }
                     }
+                    else
+                        $strCollectsDefinitions .= 'OK';
                 }
 
+                $strCollectsDefinitions .= '[/' . $acao->getIdAcao() . ']';
             }
 
+            $strCollectsDefinitions .= '[Actions]' . $strAcoesSelecionadas . '[/Actions]';
         }
+
+
+        if ($strCollectsDefinitions)
+            $strCollectsDefinitions = OldCacicHelper::enCrypt($request, $strCollectsDefinitions);
+
 
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
         
@@ -234,6 +394,8 @@ class DefaultController extends Controller
 		return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
             'configs'=>$configs,
             'rede'=> $rede,
+            'v_retorno_MONITORADOS'=>$v_retorno_MONITORADOS,
+            'strCollectsDefinitions'=>$strCollectsDefinitions,
             'computador'=>$computador,
             'cs_compress'=>$request->get('cs_compress'),
             'cs_cipher'=>$request->get('cs_cipher'),

@@ -25,5 +25,21 @@ class ClasseRepository extends EntityRepository
         			
         return $qb->getQuery()->execute();
 	}
-	
+
+    public function listaDetalhesClasse( $idAcao )
+    {
+        $_dql = "SELECT c.nmClassName,cp.nmPropertyName,cd.teWhereClause
+				 FROM CacicCommonBundle:Classe c,
+				 CacicCommonBundle:ClassProperty cp,
+				 CacicCommonBundle:CollectDefClass cd
+				 WHERE 	cd.idAcao = :idAcao AND
+				 c.idClass = cd.idClass AND
+				 cp.idClass = cd.idClass
+				 ORDER BY c.nmClassName,cp.nmPropertyName";
+
+        return $this->getEntityManager()
+        ->createQuery( $_dql )
+        ->setParameter( 'idAcao', $idAcao )
+        ->getArrayResult();
+    }
 }

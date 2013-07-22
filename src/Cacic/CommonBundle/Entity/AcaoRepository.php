@@ -12,9 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class AcaoRepository extends EntityRepository
 {
-	
+
 	/**
-	 * 
+	 *
 	 * Lista as Ações opcionais (cs_opcional=S)
 	 * @param int $idLocal
 	 */
@@ -25,7 +25,7 @@ class AcaoRepository extends EntityRepository
         								->leftJoin('acao.redes', 'acao_rede')
         								->where("acao.csOpcional = 'S'")
         								->groupBy('acao.idAcao');
-		
+
 		if ( $idLocal !== null )
 		{
 			$query->leftJoin('acao_rede.rede', 'rede')
@@ -33,7 +33,7 @@ class AcaoRepository extends EntityRepository
 					->andWhere( 'local.idLocal = :idLocal OR local.idLocal IS NULL' )
 					->setParameter( 'idLocal', $idLocal );
 		}
-		
+
         return $query->getQuery()->execute();
 	}
 
