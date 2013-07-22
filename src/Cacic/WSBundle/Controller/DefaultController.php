@@ -108,12 +108,15 @@ class DefaultController extends Controller
      */
     public function configAction( Request $request )
     {
-        $teste = $this->getDoctrine()->getRepository('CacicCommonBundle:AcaoSo')->listaAcaoRedeComputador( '1', '80');
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->findOneBy(array('idRede'=>'1'));
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>'123456'));
+        $teste = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listaAcaoRedeComputador( $rede, $so);
         Debug::dump($teste);die;
 		//OldCacicHelper::autenticaAgente($request);
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_adress );
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
         $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
         $rede_grupos_ftp = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->findOneBy(array('idRede'=> $rede, 'idComputador'=> $computador));
         $data = new \DateTime('NOW');
@@ -201,6 +204,26 @@ class DefaultController extends Controller
             $v_tripa_coleta = explode('#', $computador->getTeNomesCurtosModulos() );
 
             //Ações de Coletas
+            $acoes = $this->getDoctrine()->getRepository('acicCommonBundle:Acao')-> listaAcaoRedeComputador($rede, $so);
+
+            foreach($acoes as $acao)
+            {
+                $strCollectsDefinitions = '['.$acao->getidAcao().']';
+                if(!$excecao)
+                {
+                    if(substr($acao->getIdAcao(),0,4) == 'col_')
+                    {
+                        $strCollectsDefinitions .= '[te_descricao_breve]' . $acao->getTeDescricaoBreve() . '[/te_descricao_breve]';
+                        $strAcoesSelecionadas .= ($strAcoesSelecionadas ? ',' : '') . $acao->getIdAcao();
+
+                        // Obtendo Definições de Classes para Coletas
+                        $strCollectsDefinitions .= '[ClassesAndProperties]';
+
+
+                    }
+                }
+
+            }
 
         }
 

@@ -85,5 +85,27 @@ class AcaoSoRepository extends EntityRepository
 		
 		$em->flush();
 	}
+
+    public function listaAcaoRedeComputador( $idRede, $idSo )
+    {
+        // Monta a Consulta básica...
+        $_dql = "SELECT DISTINCT
+                a.id_acao,
+                a.te_nome_curto_modulo,
+                a.te_descricao_breve,
+                ar.dt_hr_coleta_forcada,
+                FROM CacicCommonBundle:Acao a
+                INNER JOIN a.so aso
+                INNER JOIN aso.so so
+                INNER JOIN a.redes ar
+                INNER JOIN ar.rede r
+                WHERE r.idRede = :idRede
+                AND so.idSo = :idSo";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameters( array('idRede'=>$idRede, 'idSo'=>$idSo) )
+            ->getArrayResult();
+    }
 	
 }
