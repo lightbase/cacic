@@ -108,12 +108,12 @@ class DefaultController extends Controller
      */
     public function configAction( Request $request )
     {
-        /* TESTEEES *
+        /* TESTEEES */
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->findOneBy(array('idRede'=>'1'));
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>'2.5.1.1.256.32'));
         $acao = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->findOneBy( array('idAcao'=>'col_hard'));
-        $teste = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaDetalhesClasse( $acao );
-        Debug::dump($teste);die;*/
+        $teste = OldCacicHelper::getTest( '1223' )['te_pacote_PyCACIC'];
+        Debug::dump($teste);die;
 
 
 		//OldCacicHelper::autenticaAgente($request);
@@ -379,14 +379,55 @@ class DefaultController extends Controller
         if ($strCollectsDefinitions)
             $strCollectsDefinitions = OldCacicHelper::enCrypt($request, $strCollectsDefinitions);
 
-
+        /*
+         * VERIFICAR pois a tabela mudou...
+         */
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
-        
+
+        //atribuir vazio para evitar erro no twig caso variaveis não sejam criadas.
+        $versao_modulo = '';
+        $pacote_py = '';
+        $pacote_py_hash = '';
+
+        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->find( $rede->getIdRede() );
+        foreach($redes_versoes_modulos as $rede_versao_modulo)
+        {
+            if (!$request->get('AgenteLinux'))
+            {
+                $versao_modulo = '<'.strtoupper($rede_versao_modulo->getNmModulo() ).'_VER>'.$rede_versao_modulo->getTeVersaoModulo(). '</' . strtoupper($rede_versao_modulo->getNmModulo()) . '_VER>';
+                $versao_modulo .= '<'.strtoupper($rede_versao_modulo->getNmModulo() ).'_HASH>'. OldCacicHelper::enCrypt( $request, $rede_versao_modulo->getTeHash(),true).'</'.strtoupper($rede_versao_modulo->getNmModulo()) .'_HASH>';
+            }
+            else
+            {
+                $versao_modulo = '<' . 'TE_PACOTE_PYCACIC_DISPONIVEL>' . $rede_versao_modulo->getNmModulo().'<'.'/TE_PACOTE_PYCACIC_DISPONIVEL>';
+                $versao_modulo .= '<' . 'TE_HASH_PYCACIC>'. $rede_versao_modulo->getTeHash().'<'.'/TE_HASH_PYCACIC>';
+            }
+        }
+
+        if ($request->get('AgenteLinux'))
+        {
+            // Arghh! O PyCACIC espera pelo nome completo do pacote TGZ
+            $pacote_py = OldCacicHelper::getTest( $request )['te_pacote_PyCACIC'];
+            $pacote_py_hash =  OldCacicHelper::getTest( $request )['te_pacote_PyCACIC_HASH'];
+        }
+        else
+        {
+            $main_program = OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe';
+            $folder_name  = OldCacicHelper::CACIC_LOCAL_FOLDER_NAME;
+        }
+        $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
+
         $response = new Response();
 		$response->headers->set('Content-Type', 'xml');
 		return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
             'configs'=>$configs,
             'rede'=> $rede,
+            'versao_modulo'=>$versao_modulo,
+            'pacote_py'=>$pacote_py,
+            'pacote_py_hash'=>$pacote_py_hash,
+            'main_program'=>$main_program,
+            'folder_name'=>$folder_name,
+            'nm_user_login_updates'=>$nm_user_login_updates,
             'v_retorno_MONITORADOS'=>$v_retorno_MONITORADOS,
             'strCollectsDefinitions'=>$strCollectsDefinitions,
             'computador'=>$computador,
