@@ -112,7 +112,7 @@ class DefaultController extends Controller
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->findOneBy(array('idRede'=>'1'));
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>'2.5.1.1.256.32'));
         $acao = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->findOneBy( array('idAcao'=>'col_hard'));
-        $teste = OldCacicHelper::getTest( '1223' )['te_pacote_PyCACIC'];
+        $teste = OldCacicHelper::getTest( '1223' );
         Debug::dump($teste);die;
 
 
