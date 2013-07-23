@@ -217,156 +217,97 @@ class DefaultController extends Controller
                 $strCollectsDefinitions = '['.$acao->getidAcao().']';
                 if(!$excecao)
                 {
-                    if(substr($acao->getIdAcao(),0,4) == 'col_')
+                    if ( !$request->get('AgenteLinux'))
                     {
-                        $strCollectsDefinitions .= '[te_descricao_breve]' . $acao->getTeDescricaoBreve() . '[/te_descricao_breve]';
-                        $strAcoesSelecionadas .= ($strAcoesSelecionadas ? ',' : '') . $acao->getIdAcao();
 
-                        // Obtendo Definições de Classes para Coletas
-                        $strCollectsDefinitions .= '[ClassesAndProperties]';
-
-                        $arrClassesNames = array();
-                        $arrClassesWhereClauses = array();
-                        $strActualClassName		= '';
-                        $strPropertiesNames		= '';
-                        $detalheClasses = $this->getDoctrine()->getRepository('acicCommonBundle:Classe')->listaDetalhesClasse( $acao );
-                        foreach ( $detalheClasses as $detalheClasse )
+                        foreach ($monitorados as $monitorado )
                         {
-                            if (!$arrClassesNames[$detalheClasse->getNmClassName()])
-                                $arrClassesNames[$detalheClasse->getNmClassName()] = $$detalheClasse->getNmClassName();
-
-                            if (($detalheClasse->getTeWhereClause()) && ($detalheClasse->getTeWhereClause() <> 'NULL') && !$arrClassesWhereClauses[$detalheClasse->getNmClassName() . '.WhereClause'])
+                            $v_achei = 0;
+                            for($i = 0; $i < count($arrPerfis); $i++ )
                             {
-                                $arrClassesWhereClauses[$detalheClasse->getNmClassName() . '.WhereClause'] = '.';
-                                $strCollectsDefinitions .= '[' . $detalheClasse->getNmClassName() . '.WhereClause]' . $detalheClasse->getTeWhereClause() .'[/' . $detalheClasse->getNmClassName() . '.WhereClause]';
+                                $arrPerfis2 = explode(',',$arrPerfis[$i]);
+                                if ($monitorado->getIdAplicativo()==$arrPerfis2[0] &&
+                                    $monitorado->getDtAtualizacao()==$arrPerfis2[1])
+                                    $v_achei = 1;
                             }
-                            if ($strActualClassName <> $detalheClasse->getNmClassName())
+
+                            if ($v_achei==0 && ($monitorado->getIdSo() == 0 || $monitorado->getIdSo() == $computador->getIdSo()))
                             {
-                                $strPropertiesNames .= ($strActualClassName ? '[/' . $strActualClassName . '.Properties]' : '');
-                                $strPropertiesNames .= '[' . $$detalheClasse->getNmClassName() . '.Properties]';
-                                $strActualClassName  = $detalheClasse->getNmClassName();
-                            }
-                            else
-                                $strPropertiesNames .= ',';
+                                if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
 
-                            $strPropertiesNames .= $detalheClasse->getNmPropertyName();
-                        }
-                        $strPropertiesNames 	.= ($strActualClassName ? '[/' . $strActualClassName . '.Properties]' : '');
+                                $v_te_ide_licenca = trim($monitorado->getTeIdeLicenca());
+                                if ($monitorado->getTeIdeLicenca()=='0')
+                                    $v_te_ide_licenca = '';
 
-                        $strCollectsDefinitions .= '[Classes]' 	  	. implode(',',$arrClassesNames) . '[/Classes]';
-                        $strCollectsDefinitions .= '[Properties]' 	. $strPropertiesNames  			. '[/Properties]';
-                        $strCollectsDefinitions .= '[/ClassesAndProperties]';
+                                $v_retorno_MONITORADOS .= $monitorado->getIdAplicativo()	.	','.
+                                    $monitorado->getDtAtualizacao()			.	','.
+                                    $monitorado->getCsIdeLicenca() 			. 	','.
+                                    $v_te_ide_licenca								.	',';
 
-                        if ($acao->getDtHrColetaForcada() || $computador->getDtHrColetaForcadaEstacao())
-                        {
-                            $v_dt_hr_coleta_forcada = $acao->getDtHrColetaForcada();
-                            if (count($v_tripa_coleta) > 0 and
-                                $v_dt_hr_coleta_forcada < $computador->getDtHrColetaForcadaEstacao() and
-                                in_array($acao->getTeNomeCurtoModulo(),$v_tripa_coleta))
-                            {
-                               $v_dt_hr_coleta_forcada = $$computador->getDtHrColetaForcadaEstacao();
-                            }
-                            $strCollectsDefinitions .= '[DT_HR_COLETA_FORCADA]' . $v_dt_hr_coleta_forcada . '[/DT_HR_COLETA_FORCADA]';
-                        }
-
-                        if ( !$request->get('AgenteLinux') && trim($acao->getIdAcao() == "col_moni" && !empty($monitorados))
-                        {
-                            // ***************************************************
-                            // TODO: Melhorar identificação do S.O. neste ponto!!!
-                            // ***************************************************
-                            // Apenas catalogo as versões anteriores aos NT Like
-                            // Colocar abaixo, como elementos do array as identificações internas dos MS-Windows menores que WinNT
-                            $arrSgSOtoOlds = array(	'W95','W95OSR','W98','W98SE','WME');
-
-                            foreach ($monitorados as $monitorado )
-                            {
-                                $v_achei = 0;
-                                for($i = 0; $i < count($arrPerfis); $i++ )
+                                if (in_array($so->getSgSo(),$arrSgSOtoOlds))
                                 {
-                                    $arrPerfis2 = explode(',',$arrPerfis[$i]);
-                                    if ($monitorado->getIdAplicativo()==$arrPerfis2[0] &&
-                                        $monitorado->getDtAtualizacao()==$arrPerfis2[1])
-                                        $v_achei = 1;
+                                    $v_te_arq_ver_eng_w9x 	= trim($monitorado->getTeArqVerEngW9x());
+                                    if ($v_te_arq_ver_eng_w9x=='') 	$v_te_arq_ver_eng_w9x 	= '.';
+
+                                    $v_te_arq_ver_pat_w9x 	= trim($monitorado->getTeArqVerPatW9x());
+                                    if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
+
+                                    $v_te_car_inst_w9x 	    = trim($monitorado->getTeCarInstW9x());
+                                    if ($monitorado->getTeCarInstW9x()=='0') 	$v_te_car_inst_w9x 	= '';
+
+                                    $v_te_car_ver_w9x 	    = trim($monitorado->getTeCarInstW9x());
+                                    if ($monitorado->getCsCarVerWnt()=='0') 	$v_te_car_ver_w9x 	= '';
+
+                                    $v_retorno_MONITORADOS .= '.'                                     	.','.
+                                        $monitorado->getTeCarInstW9x()	.','.
+                                        $v_te_car_inst_w9x						.','.
+                                        $$monitorado->getCsCarVerWnt()		.','.
+                                        $v_te_car_ver_w9x						.','.
+                                        $v_te_arq_ver_eng_w9x					.','.
+                                        $v_te_arq_ver_pat_w9x						;
+                                }
+                                else
+                                {
+
+                                    $v_te_arq_ver_eng_wnt 	= trim($monitorado->getTeArqVerEngWnt());
+                                    if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';
+
+                                    $v_te_arq_ver_pat_wnt 	= trim($monitorado->getTeArqVerPatWnt());
+                                    if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
+
+                                    $v_te_car_inst_wnt 	    = trim($monitorado->getTeCarInstWnt());
+                                    if ($monitorado->getCsCarInstWnt()=='0') 	$v_te_car_inst_wnt 	= '';
+
+                                    $v_te_car_ver_wnt 	    = trim($monitorado->getTeCarVerWnt());
+                                    if ($monitorado->getTeCarInstWnt()=='0') 	$v_te_car_ver_wnt 	= '';
+
+                                    $v_retorno_MONITORADOS .=   '.'                    					.','.
+                                        $monitorado->getTeCarInstWnt()	.','.
+                                        $v_te_car_inst_wnt                 		.','.
+                                        $$monitorado->getTeCarVerWnt()		.','.
+                                        $v_te_car_ver_wnt               		.','.
+                                        $v_te_arq_ver_eng_wnt					.','.
+                                        $v_te_arq_ver_pat_wnt;
+
                                 }
 
-                                if ($v_achei==0 && ($monitorado->getIdSo() == 0 || $monitorado->getIdSo() == $computador->getIdSo()))
+                                $v_retorno_MONITORADOS .=   ',' . $monitorado->getInDisponibilizaInfo();
+
+                                if ($monitorado->getInDisponibilizaInfo()=='S')
                                 {
-                                    if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
-
-                                    $v_te_ide_licenca = trim($monitorado->getTeIdeLicenca());
-                                    if ($monitorado->getTeIdeLicenca()=='0')
-                                        $v_te_ide_licenca = '';
-
-                                    $v_retorno_MONITORADOS .= $monitorado->getIdAplicativo()	.	','.
-                                        $monitorado->getDtAtualizacao()			.	','.
-                                        $monitorado->getCsIdeLicenca() 			. 	','.
-                                        $v_te_ide_licenca								.	',';
-
-                                    if (in_array($so->getSgSo(),$arrSgSOtoOlds))
-                                    {
-                                        $v_te_arq_ver_eng_w9x 	= trim($monitorado->getTeArqVerEngW9x());
-                                        if ($v_te_arq_ver_eng_w9x=='') 	$v_te_arq_ver_eng_w9x 	= '.';
-
-                                        $v_te_arq_ver_pat_w9x 	= trim($monitorado->getTeArqVerPatW9x());
-                                        if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
-
-                                        $v_te_car_inst_w9x 	    = trim($monitorado->getTeCarInstW9x());
-                                        if ($monitorado->getTeCarInstW9x()=='0') 	$v_te_car_inst_w9x 	= '';
-
-                                        $v_te_car_ver_w9x 	    = trim($monitorado->getTeCarInstW9x());
-                                        if ($monitorado->getCsCarVerWnt()=='0') 	$v_te_car_ver_w9x 	= '';
-
-                                        $v_retorno_MONITORADOS .= '.'                                     	.','.
-                                            $monitorado->getTeCarInstW9x()	.','.
-                                            $v_te_car_inst_w9x						.','.
-                                            $$monitorado->getCsCarVerWnt()		.','.
-                                            $v_te_car_ver_w9x						.','.
-                                            $v_te_arq_ver_eng_w9x					.','.
-                                            $v_te_arq_ver_pat_w9x						;
-                                    }
-                                    else
-                                    {
-
-                                        $v_te_arq_ver_eng_wnt 	= trim($monitorado->getTeArqVerEngWnt());
-                                        if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';
-
-                                        $v_te_arq_ver_pat_wnt 	= trim($monitorado->getTeArqVerPatWnt());
-                                        if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
-
-                                        $v_te_car_inst_wnt 	    = trim($monitorado->getTeCarInstWnt());
-                                        if ($monitorado->getCsCarInstWnt()=='0') 	$v_te_car_inst_wnt 	= '';
-
-                                        $v_te_car_ver_wnt 	    = trim($monitorado->getTeCarVerWnt());
-                                        if ($monitorado->getTeCarInstWnt()=='0') 	$v_te_car_ver_wnt 	= '';
-
-                                        $v_retorno_MONITORADOS .=   '.'                    					.','.
-                                            $monitorado->getTeCarInstWnt()	.','.
-                                            $v_te_car_inst_wnt                 		.','.
-                                            $$monitorado->getTeCarVerWnt()		.','.
-                                            $v_te_car_ver_wnt               		.','.
-                                            $v_te_arq_ver_eng_wnt					.','.
-                                            $v_te_arq_ver_pat_wnt;
-
-                                    }
-
-                                    $v_retorno_MONITORADOS .=   ',' . $monitorado->getInDisponibilizaInfo();
-
-                                    if ($monitorado->getInDisponibilizaInfo()=='S')
-                                    {
-                                        $v_retorno_MONITORADOS .= ',' . $monitorado->getNmAplicativo();
-                                    }
-                                    else
-                                    {
-                                        $v_retorno_MONITORADOS .= ',.';
-                                    }
-
+                                    $v_retorno_MONITORADOS .= ',' . $monitorado->getNmAplicativo();
                                 }
-                            }
-                            if ($v_retorno_MONITORADOS <> '')
-                                $v_retorno_MONITORADOS = OldCacicHelper::replaceInvalidHTTPChars($v_retorno_MONITORADOS);
+                                else
+                                {
+                                    $v_retorno_MONITORADOS .= ',.';
+                                }
 
-                            $strCollectsDefinitions .= $v_retorno_MONITORADOS;
+                            }
                         }
+                        if ($v_retorno_MONITORADOS <> '')
+                            $v_retorno_MONITORADOS = OldCacicHelper::replaceInvalidHTTPChars($v_retorno_MONITORADOS);
+
+                        $strCollectsDefinitions .= $v_retorno_MONITORADOS;
                     }
                     else
                         $strCollectsDefinitions .= 'OK';
