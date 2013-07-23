@@ -174,11 +174,13 @@ abstract class OldCacicHelper
      */
     public static function autenticaAgente(Request $request)
     {
-        if( ( strtoupper( OldCacicHelper::deCrypt( $request, $request->get('HTTP_USER_AGENT'), true ) ) != 'AGENTE_CACIC') ||
-            ( strtoupper( OldCacicHelper::deCrypt( $request, $request->get('PHP_AUTH_USER'  ), true ) ) != 'USER_CACIC') ||
-            ( strtoupper( OldCacicHelper::deCrypt( $request, $request->get('PHP_AUTH_PW'    ), true ) ) != 'PW_CACIC'))
+        if( ( $request->get('HTTP_USER_AGENT') != "YwpgjzZ86/eCsjvOki1KkQ==__CRYPTED__") ||
+            ( $request->get('PHP_AUTH_USER')   != "Dcr8b5IfZOJjt6qyH5dGyw==__CRYPTED__") ||
+            ( $request->get('PHP_AUTH_PW')     != "Yot8BeM9lOh431SB7dYQXw==__CRYPTED__")
+          )
         {
-            echo ' Acesso Não Autorizado.';
+            echo 'CACIC URL Access Denied.';
+            die;
         }
     }
 	

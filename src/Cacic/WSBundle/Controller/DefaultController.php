@@ -31,7 +31,7 @@ class DefaultController extends Controller
     {
 
         //Escrita do post
-        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/insucesso_'.date('Ymd_His').'.txt', 'w+');
+        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/Insucesso_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
         {
             $postVal = OldCacicHelper::deCrypt( $request, $postVal );
@@ -67,8 +67,7 @@ class DefaultController extends Controller
      */
     public function testAction( Request $request )
     {
-        OldCacicHelper::autenticaAgente( $request ) ; //Autentica Agente;
-
+        OldCacicHelper::autenticaAgente( $request ) ;
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
         $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
         $strOperatingSystem  			 = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem') );
@@ -108,15 +107,22 @@ class DefaultController extends Controller
      */
     public function configAction( Request $request )
     {
-        /* TESTEEES */
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->findOneBy(array('idRede'=>'1'));
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>'2.5.1.1.256.32'));
-        $acao = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->findOneBy( array('idAcao'=>'col_hard'));
-        $teste = OldCacicHelper::getTest( '1223' );
-        Debug::dump($teste);die;
 
+        /*$rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->find(1);
+        $teste = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
+        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->find( $rede->getIdRede() );
+        Debug::dump($teste); die;*/
+       //Escrita do post
+        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/Config_'.date('Ymd_His').'.txt', 'w+');
+        foreach( $request->request->all() as $postKey => $postVal )
+        {
+            $postVal = OldCacicHelper::deCrypt( $request, $postVal );
+            fwrite( $fp, "[{$postKey}]: {$postVal}\n");
+        }
+        fclose($fp);
 
-		//OldCacicHelper::autenticaAgente($request);
+        //OldCacicHelper::autenticaAgente($request);
+
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_adress );
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
@@ -130,17 +136,6 @@ class DefaultController extends Controller
             (TagValueHelper::getValueFromTags('DateToDebugging',$local->getTeDebugging() )  == date("Ymd") ? $local->getTeDebugging()  :
                 ( TagValueHelper::getValueFromTags('DateToDebugging',$rede->getTeDebugging() )  == date("Ymd") ? $rede->getTeDebugging() :	'') ) );
         $debugging = ( $debugging ? TagValueHelper::getValueFromTags('DetailsToDebugging', $debugging ) : '' );
-
-
-        //Escrita do post
-        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/get_config_'.date('Ymd_His').'.txt', 'w+');
-        foreach( $request->request->all() as $postKey => $postVal )
-        {
-        	$postVal = OldCacicHelper::deCrypt( $request, $postVal );
-        	fwrite( $fp, "[{$postKey}]: {$postVal}\n");
-        }
-        fclose($fp);
-
 
         $v_te_fila_ftp = '0'; //Fila do FTP
 
@@ -203,65 +198,122 @@ class DefaultController extends Controller
             //Aplicativos Monitorados
             $monitorados = $this->getDoctrine()->getRepository('CacicCommonBundle:Aplicativo')->listarAplicativosMonitorados( $rede->getIdRede() );
             $arrPerfis	= explode('#',OldCacicHelper::deCrypt($request, $request->get('te_tripa_perfis')));
-            $v_retorno_MONITORADOS 	= '';
-            $strAcoesSelecionadas = '';
+            $v_retorno_MONITORADOS 	= null;
+            $strAcoesSelecionadas = null;
 
             //Coleta Forçada
             $v_tripa_coleta = explode('#', $computador->getTeNomesCurtosModulos() );
 
             //Ações de Coletas
-            $acoes = $this->getDoctrine()->getRepository('acicCommonBundle:Acao')->listaAcaoRedeComputador($rede, $so);
+            $acoes = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listaAcaoRedeComputador($rede, $so);
 
             foreach($acoes as $acao)
             {
-                $strCollectsDefinitions = '['.$acao->getidAcao().']';
-                if(!$excecao)
+                $strCollectsDefinitions = '['.$acao['idAcao'].']';
+                if(empty($excecao))
                 {
-                    if ( !$request->get('AgenteLinux'))
+                    if (substr($acao['idAcao'],0,4) == 'col_')
                     {
+                        $strCollectsDefinitions .= '[te_descricao_breve]' . $acao['teDescricaoBreve'] . '[/te_descricao_breve]';
+                        $strAcoesSelecionadas .= ($strAcoesSelecionadas ? ',' : '') . $acao['idAcao'];
 
+                        // Obtendo Defini��es de Classes para Coletas
+                        $strCollectsDefinitions .= '[ClassesAndProperties]';
+
+                        $detalhesClasses = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaDetalhesClasse( $acao['idAcao'] );
+                        $arrClassesNames 		= array();
+                        $arrClassesWhereClauses = array();
+                        $strActualClassName		= '';
+                        $strPropertiesNames		= '';
+                        foreach ($detalhesClasses as $detalheClasse)
+                        {
+                            if (empty($arrClassesNames[$detalheClasse['nmClassName']]))
+                                $arrClassesNames[$detalheClasse['nmClassName']] = $detalheClasse['nmClassName'];
+
+                            if (($detalheClasse['teWhereClause']) && ($detalheClasse['teWhereClause'] <> 'NULL') && !$arrClassesWhereClauses[$detalheClasse['nmClassName'] . '.WhereClause'])
+                            {
+                                $arrClassesWhereClauses[$detalheClasse['nmClassName'] . '.WhereClause'] = '.';
+                                $strCollectsDefinitions .= '[' . $detalheClasse['nmClassName'] . '.WhereClause]' . $detalheClasse['teWhereClause'] .'[/' . $detalheClasse['nmClassName'] . '.WhereClause]';
+                            }
+
+                            if ($strActualClassName <> $detalheClasse['nmClassName'])
+                            {
+                                $strPropertiesNames .= ($strActualClassName ? '[/' . $strActualClassName . '.Properties]' : '');
+                                $strPropertiesNames .= '[' . $detalheClasse['nmClassName'] . '.Properties]';
+                                $strActualClassName  = $detalheClasse['nmClassName'];
+                            }
+                            else
+                                $strPropertiesNames .= ',';
+
+                            $strPropertiesNames .= $detalheClasse['nmPropertyName'];
+                        }
+
+                        $strPropertiesNames 	.= ($strActualClassName ? '[/' . $strActualClassName . '.Properties]' : '');
+
+                        $strCollectsDefinitions .= '[Classes]' 	  	. implode(',',$arrClassesNames) . '[/Classes]';
+                        $strCollectsDefinitions .= '[Properties]' 	. $strPropertiesNames  			. '[/Properties]';
+                        $strCollectsDefinitions .= '[/ClassesAndProperties]';
+
+                        if (!empty($acao['dtHrColetaForcada']) || $computador->getDtHrColetaForcadaEstacao())
+                        {
+                            $v_dt_hr_coleta_forcada = $acao["dt_hr_coleta_forcada"];
+                            if (count($v_tripa_coleta) > 0 and
+                                $v_dt_hr_coleta_forcada < $computador->getDtHrColetaForcadaEstacao() and
+                                in_array($acao["te_nome_curto_modulo"],$v_tripa_coleta))
+                            {
+                                $v_dt_hr_coleta_forcada = $computador->getDtHrColetaForcadaEstacao();
+                            }
+                            $strCollectsDefinitions .= '[DT_HR_COLETA_FORCADA]' . $v_dt_hr_coleta_forcada . '[/DT_HR_COLETA_FORCADA]';
+                        }
+                    if ( !$request->get('AgenteLinux') && trim($acao['idAcao']) == "col_moni" && !empty($monitorados))
+                    {
+                        $arrSgSOtoOlds = array(	'W95',
+                            'W95OSR',
+                            'W98',
+                            'W98SE',
+                            'WME');
                         foreach ($monitorados as $monitorado )
                         {
                             $v_achei = 0;
                             for($i = 0; $i < count($arrPerfis); $i++ )
                             {
                                 $arrPerfis2 = explode(',',$arrPerfis[$i]);
-                                if ($monitorado->getIdAplicativo()==$arrPerfis2[0] &&
-                                    $monitorado->getDtAtualizacao()==$arrPerfis2[1])
+                                if ($monitorado["IdAplicativo"]==$arrPerfis2[0] &&
+                                    $monitorado["DtAtualizacao"]==$arrPerfis2[1])
                                     $v_achei = 1;
                             }
 
-                            if ($v_achei==0 && ($monitorado->getIdSo() == 0 || $monitorado->getIdSo() == $computador->getIdSo()))
+                            if ($v_achei==0 && ($monitorado["IdSo"] == 0 || $monitorado["IdSo"] == $computador->getIdSo()))
                             {
                                 if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
 
-                                $v_te_ide_licenca = trim($monitorado->getTeIdeLicenca());
-                                if ($monitorado->getTeIdeLicenca()=='0')
+                                $v_te_ide_licenca = trim($monitorado["TeIdeLicenca"]);
+                                if ($monitorado["TeIdeLicenca"]=='0')
                                     $v_te_ide_licenca = '';
 
-                                $v_retorno_MONITORADOS .= $monitorado->getIdAplicativo()	.	','.
-                                    $monitorado->getDtAtualizacao()			.	','.
-                                    $monitorado->getCsIdeLicenca() 			. 	','.
+                                $v_retorno_MONITORADOS .= $monitorado["IdAplicativo"]	.	','.
+                                    $monitorado["DtAtualizacao"]			.	','.
+                                    $monitorado["CsIdeLicenca"] 			. 	','.
                                     $v_te_ide_licenca								.	',';
 
                                 if (in_array($so->getSgSo(),$arrSgSOtoOlds))
                                 {
-                                    $v_te_arq_ver_eng_w9x 	= trim($monitorado->getTeArqVerEngW9x());
+                                    $v_te_arq_ver_eng_w9x 	= trim($monitorado["TeArqVerEngW9x"]);
                                     if ($v_te_arq_ver_eng_w9x=='') 	$v_te_arq_ver_eng_w9x 	= '.';
 
-                                    $v_te_arq_ver_pat_w9x 	= trim($monitorado->getTeArqVerPatW9x());
+                                    $v_te_arq_ver_pat_w9x 	= trim($monitorado["TeArqVerPatW9x"]);
                                     if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
 
-                                    $v_te_car_inst_w9x 	    = trim($monitorado->getTeCarInstW9x());
-                                    if ($monitorado->getTeCarInstW9x()=='0') 	$v_te_car_inst_w9x 	= '';
+                                    $v_te_car_inst_w9x 	    = trim($monitorado["TeCarInstW9x"]);
+                                    if ($monitorado["TeCarInstW9x"]=='0') 	$v_te_car_inst_w9x 	= '';
 
-                                    $v_te_car_ver_w9x 	    = trim($monitorado->getTeCarInstW9x());
-                                    if ($monitorado->getCsCarVerWnt()=='0') 	$v_te_car_ver_w9x 	= '';
+                                    $v_te_car_ver_w9x 	    = trim($monitorado["TeCarInstW9x"]);
+                                    if ($monitorado["CsCarVerWnt"]=='0') 	$v_te_car_ver_w9x 	= '';
 
                                     $v_retorno_MONITORADOS .= '.'                                     	.','.
-                                        $monitorado->getTeCarInstW9x()	.','.
+                                        $monitorado["TeCarInstW9x"]	.','.
                                         $v_te_car_inst_w9x						.','.
-                                        $$monitorado->getCsCarVerWnt()		.','.
+                                        $$monitorado["CsCarVerWnt"]		.','.
                                         $v_te_car_ver_w9x						.','.
                                         $v_te_arq_ver_eng_w9x					.','.
                                         $v_te_arq_ver_pat_w9x						;
@@ -269,33 +321,33 @@ class DefaultController extends Controller
                                 else
                                 {
 
-                                    $v_te_arq_ver_eng_wnt 	= trim($monitorado->getTeArqVerEngWnt());
+                                    $v_te_arq_ver_eng_wnt 	= trim($monitorado["TeArqVerEngWnt"]);
                                     if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';
 
-                                    $v_te_arq_ver_pat_wnt 	= trim($monitorado->getTeArqVerPatWnt());
+                                    $v_te_arq_ver_pat_wnt 	= trim($monitorado["TeArqVerPatWnt"]);
                                     if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
 
-                                    $v_te_car_inst_wnt 	    = trim($monitorado->getTeCarInstWnt());
-                                    if ($monitorado->getCsCarInstWnt()=='0') 	$v_te_car_inst_wnt 	= '';
+                                    $v_te_car_inst_wnt 	    = trim($monitorado["TeCarInstWnt"]);
+                                    if ($monitorado["CsCarInstWnt"]=='0') 	$v_te_car_inst_wnt 	= '';
 
-                                    $v_te_car_ver_wnt 	    = trim($monitorado->getTeCarVerWnt());
-                                    if ($monitorado->getTeCarInstWnt()=='0') 	$v_te_car_ver_wnt 	= '';
+                                    $v_te_car_ver_wnt 	    = trim($monitorado["TeCarVerWnt"]);
+                                    if ($monitorado["TeCarInstWnt"]=='0') 	$v_te_car_ver_wnt 	= '';
 
                                     $v_retorno_MONITORADOS .=   '.'                    					.','.
-                                        $monitorado->getTeCarInstWnt()	.','.
+                                        $monitorado["TeCarInstWnt"]	.','.
                                         $v_te_car_inst_wnt                 		.','.
-                                        $$monitorado->getTeCarVerWnt()		.','.
+                                        $$monitorado["TeCarVerWnt"]		.','.
                                         $v_te_car_ver_wnt               		.','.
                                         $v_te_arq_ver_eng_wnt					.','.
                                         $v_te_arq_ver_pat_wnt;
 
                                 }
 
-                                $v_retorno_MONITORADOS .=   ',' . $monitorado->getInDisponibilizaInfo();
+                                $v_retorno_MONITORADOS .=   ',' . $monitorado["InDisponibilizaInfo"];
 
-                                if ($monitorado->getInDisponibilizaInfo()=='S')
+                                if ($monitorado["InDisponibilizaInfo"]=='S')
                                 {
-                                    $v_retorno_MONITORADOS .= ',' . $monitorado->getNmAplicativo();
+                                    $v_retorno_MONITORADOS .= ',' . $monitorado["NmAplicativo"];
                                 }
                                 else
                                 {
@@ -307,17 +359,18 @@ class DefaultController extends Controller
                         if ($v_retorno_MONITORADOS <> '')
                             $v_retorno_MONITORADOS = OldCacicHelper::replaceInvalidHTTPChars($v_retorno_MONITORADOS);
 
-                        $strCollectsDefinitions .= $v_retorno_MONITORADOS;
+                            $strCollectsDefinitions .= $v_retorno_MONITORADOS;
+                        }
                     }
                     else
                         $strCollectsDefinitions .= 'OK';
                 }
 
-                $strCollectsDefinitions .= '[/' . $acao->getIdAcao() . ']';
+                $strCollectsDefinitions .= '[/' . $acao['idAcao'] . ']';
             }
             $strCollectsDefinitions .= '[Actions]' . $strAcoesSelecionadas . '[/Actions]';
         }
-        if ($strCollectsDefinitions)
+        if (!empty($strCollectsDefinitions))
             $strCollectsDefinitions = OldCacicHelper::enCrypt($request, $strCollectsDefinitions);
 
         /*
@@ -329,14 +382,15 @@ class DefaultController extends Controller
         $versao_modulo = '';
         $pacote_py = '';
         $pacote_py_hash = '';
+        $strCollectsDefinitions = '';
 
         $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->find( $rede->getIdRede() );
         foreach($redes_versoes_modulos as $rede_versao_modulo)
         {
             if (!$request->get('AgenteLinux'))
             {
-                $versao_modulo = '<'.strtoupper($rede_versao_modulo->getNmModulo() ).'_VER>'.$rede_versao_modulo->getTeVersaoModulo(). '</' . strtoupper($rede_versao_modulo->getNmModulo()) . '_VER>';
-                $versao_modulo .= '<'.strtoupper($rede_versao_modulo->getNmModulo() ).'_HASH>'. OldCacicHelper::enCrypt( $request, $rede_versao_modulo->getTeHash(),true).'</'.strtoupper($rede_versao_modulo->getNmModulo()) .'_HASH>';
+                $versao_modulo = '<'.strtoupper($rede_versao_modulo["NmModulo"] ).'_VER>'.$rede_versao_modulo["TeVersaoModulo"]. '</' . strtoupper($rede_versao_modulo["NmModulo"]) . '_VER>';
+                $versao_modulo .= '<'.strtoupper($rede_versao_modulo["NmModulo"] ).'_HASH>'. OldCacicHelper::enCrypt( $request, $rede_versao_modulo["TeHash"],true).'</'.strtoupper($rede_versao_modulo["NmModulo"]) .'_HASH>';
             }
             else
             {
@@ -348,17 +402,23 @@ class DefaultController extends Controller
         if ($request->get('AgenteLinux'))
         {
             // Arghh! O PyCACIC espera pelo nome completo do pacote TGZ
-            $pacote_py = OldCacicHelper::getTest( $request );
-            $pacote_py = $pacote_py['te_pacote_PyCACIC'];
-            $pacote_py_hash = OldCacicHelper::getTest( $request );
-            $pacote_py_hash = $pacote_py_hash['te_pacote_PyCACIC_HASH'];
-        }
-        else
-        {
-            $main_program = OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe';
-            $folder_name  = OldCacicHelper::CACIC_LOCAL_FOLDER_NAME;
+            $pacote_py = OldCacicHelper::getTest( $request )['te_pacote_PyCACIC'];
+            $pacote_py_hash =  OldCacicHelper::getTest( $request )['te_pacote_PyCACIC_HASH'];
         }
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
+
+        //Escrita do post
+        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/Config_xmls_'.date('Ymd_His').'.txt', 'w+');
+        fwrite( $fp, "CONFIG:".implode(',',$configs)."\n" );
+        fwrite( $fp, "rede:{$rede->getIdRede()}\n");
+        fwrite( $fp, "Versao_modulo{$versao_modulo}\n");
+        fwrite( $fp, "nm_user_login_updates:{$nm_user_login_updates}\n");
+        fwrite( $fp, "v_retorno_MONITORADOS:{$v_retorno_MONITORADOS}\n");
+        fwrite( $fp, "strCollectsDefinitions:{$strCollectsDefinitions}\n");
+        fwrite( $fp, "computador:{$computador->getIdComputador()}\n");
+        fwrite( $fp, "PY 12:{$pacote_py}:{$pacote_py_hash}\n");
+        fwrite( $fp, "v_te_fila_ftp e rede_grupos_ftp:{$v_te_fila_ftp}:{$rede_grupos_ftp->getIdFtp()}\n");
+        fclose($fp);
 
         $response = new Response();
 		$response->headers->set('Content-Type', 'xml');
@@ -368,8 +428,8 @@ class DefaultController extends Controller
             'versao_modulo'=>$versao_modulo,
             'pacote_py'=>$pacote_py,
             'pacote_py_hash'=>$pacote_py_hash,
-            'main_program'=>$main_program,
-            'folder_name'=>$folder_name,
+            'main_program'=>OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe',
+            'folder_name'=>OldCacicHelper::CACIC_LOCAL_FOLDER_NAME,
             'nm_user_login_updates'=>$nm_user_login_updates,
             'v_retorno_MONITORADOS'=>$v_retorno_MONITORADOS,
             'strCollectsDefinitions'=>$strCollectsDefinitions,
