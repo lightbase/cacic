@@ -232,7 +232,7 @@ class DefaultController extends Controller
                         $detalheClasses = $this->getDoctrine()->getRepository('acicCommonBundle:Classe')->listaDetalhesClasse( $acao );
                         foreach ( $detalheClasses as $detalheClasse )
                         {
-                            if (!$arrClassesNames[$detalheClasse->getNmClassName())
+                            if (!$arrClassesNames[$detalheClasse->getNmClassName()])
                                 $arrClassesNames[$detalheClasse->getNmClassName()] = $$detalheClasse->getNmClassName();
 
                             if (($detalheClasse->getTeWhereClause()) && ($detalheClasse->getTeWhereClause() <> 'NULL') && !$arrClassesWhereClauses[$detalheClasse->getNmClassName() . '.WhereClause'])
@@ -266,7 +266,7 @@ class DefaultController extends Controller
                             {
                                $v_dt_hr_coleta_forcada = $$computador->getDtHrColetaForcadaEstacao();
                             }
-                                $strCollectsDefinitions .= '[DT_HR_COLETA_FORCADA]' . $v_dt_hr_coleta_forcada . '[/DT_HR_COLETA_FORCADA]';
+                            $strCollectsDefinitions .= '[DT_HR_COLETA_FORCADA]' . $v_dt_hr_coleta_forcada . '[/DT_HR_COLETA_FORCADA]';
                         }
 
                         if ( !$request->get('AgenteLinux') && trim($acao->getIdAcao() == "col_moni" && !empty($monitorados))
@@ -276,11 +276,7 @@ class DefaultController extends Controller
                             // ***************************************************
                             // Apenas catalogo as versões anteriores aos NT Like
                             // Colocar abaixo, como elementos do array as identificações internas dos MS-Windows menores que WinNT
-                            $arrSgSOtoOlds = array(	'W95',
-                                'W95OSR',
-                                'W98',
-                                'W98SE',
-                                'WME');
+                            $arrSgSOtoOlds = array(	'W95','W95OSR','W98','W98SE','WME');
 
                             foreach ($monitorados as $monitorado )
                             {
@@ -378,11 +374,8 @@ class DefaultController extends Controller
 
                 $strCollectsDefinitions .= '[/' . $acao->getIdAcao() . ']';
             }
-
             $strCollectsDefinitions .= '[Actions]' . $strAcoesSelecionadas . '[/Actions]';
         }
-
-
         if ($strCollectsDefinitions)
             $strCollectsDefinitions = OldCacicHelper::enCrypt($request, $strCollectsDefinitions);
 
@@ -405,5 +398,4 @@ class DefaultController extends Controller
             'rede_grupos_ftp'=>$rede_grupos_ftp
         ), $response);
     }
-
 }
