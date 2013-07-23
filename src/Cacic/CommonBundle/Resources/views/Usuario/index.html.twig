@@ -39,8 +39,7 @@
 		                    <td id="item_desc_{{ usuario[0]['idUsuario'] }}">{{ usuario[0]['nmUsuarioCompleto'] }}</td>
 		                    <td>{{ usuario['nmLocal'] }}</td>
 		                    <td style="text-align: center">
-		                    	{% set locaisSecundarios = usuario[0]['teLocaisSecundarios']|split(',') %}
-		                    	{{ locaisSecundarios|length }}
+		                    	{{ usuario['numLocSec'] }}
 		                    </td>
 		                    <td>{{ usuario['teGrupoUsuarios'] }}</td>
 		                    <td class="td-actions">

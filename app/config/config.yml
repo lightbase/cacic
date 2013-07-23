@@ -23,18 +23,18 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         cacic_version: 3.0.0
-#    form:
-#        resources:
-#            - "BraincraftedBootstrapBundle:Form:form_div_layout.html.twig"
+    form:
+        resources:
+            - "BcBootstrapBundle:Form:form_div_layout.html.twig"
 
 bc_bootstrap:
-    assets_dir:  %kernel.root_dir%/../vendor/twitter/bootstrap
-    jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
+    assets_dir:  "%kernel.root_dir%/../vendor/twitter/bootstrap"
+    jquery_path: "%kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js"
     less_filter: lessphp
 
 # Assetic Configuration
 assetic:
-    debug:          %kernel.debug%
+    debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [ CacicCommonBundle, CacicRelatorioBundle ]
     java: /usr/bin/java
@@ -44,43 +44,43 @@ assetic:
         #yui_css:
         #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
         cssembed:
-            jar: %kernel.root_dir%/Resources/java/cssembed-0.4.5.jar
+            jar: "%kernel.root_dir%/Resources/java/cssembed-0.4.5.jar"
         yui_js:
-            jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.2.jar
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.2.jar"
         yui_css:
-            jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.2.jar
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.2.jar"
         lessphp:
-            file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
+            file: "%kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php"
             apply_to: "\.less$"
         cssrewrite: ~
     assets:
         bootstrap_css:
             inputs:
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less"
             filters:
                 - lessphp
                 - cssrewrite
             output: css/bootstrap.css
         bootstrap_js:
             inputs:
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-transition.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-alert.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-button.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-carousel.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-collapse.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-dropdown.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-modal.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tooltip.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-popover.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-scrollspy.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js
-                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-transition.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-alert.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-button.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-carousel.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-collapse.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-dropdown.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-modal.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tooltip.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-popover.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-scrollspy.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js"
+                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js"
             output: js/bootstrap.js
         jquery_js:
             inputs:
-                - %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
+                - "%kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js"
             output: js/jquery.js
             filters: [?yui_js]
         bootstrap_less:

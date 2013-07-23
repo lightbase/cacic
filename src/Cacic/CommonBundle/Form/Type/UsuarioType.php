@@ -35,19 +35,14 @@ class  UsuarioType extends AbstractType
 						)
 		);
 		
-		# Monta o COMBOBOX (Select) com os locais secundários - não mapeado pois trata-se de um campo text
-		$builder->add( 'SelectLocaisSecundarios', 'entity',
+		# Monta o COMBOBOX (Select) com os locais secundários
+		$builder->add( 'locaisSecundarios', null,
 						array(
-							'class' => 'CacicCommonBundle:Local',
-							'property' => 'nmLocal',
 							'multiple' => true,
 							'label'=> 'Locais Secundários',
-							'required' => false,
-							'mapped' => false
+							'required' => false
 						)
 		);
-		# Configura o campo locais secundários como hidden para ser tratado no próprio formulário
-		$builder->add( 'teLocaisSecundarios', 'hidden', array( 'required' => 'false' ) );
 		
 		$builder->add( 'nmUsuarioAcesso', 'text', array( 'label' => 'Login', 'max_length' => 20 ) );
 		

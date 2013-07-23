@@ -98,7 +98,7 @@
 		// Verifica se já há algum local primário pré-selecionado para retirá-lo da lista de locais secundários
 		if ( $( '#usuario_idLocal' ).val() != '' && $( '#usuario_idLocal' ).val() != undefined )
 		{
-			$( '#usuario_SelectLocaisSecundarios option[value='+ $( '#usuario_idLocal' ).val() +']' ).remove();
+			$( '#usuario_locaisSecundarios option[value='+ $( '#usuario_idLocal' ).val() +']' ).remove();
 		}
 	});
 
@@ -108,7 +108,7 @@
 	$( '#usuario_idLocal' ).change(function(){
 		
 		// Primeiro, remove todos os itens da combo de locais secundários
-		$( '#usuario_SelectLocaisSecundarios option' ).each(function(){
+		$( '#usuario_locaisSecundarios option' ).each(function(){
 			$(this).remove();
 		});
 		
@@ -118,7 +118,7 @@
 			if ( oLocais[i].idLocal != $(this).val() )
 			{
 				var sOption = '<option value="'+ oLocais[i].idLocal +'">'+ oLocais[i].nmLocal +'</option>';
-				$( '#usuario_SelectLocaisSecundarios' ).append( sOption );
+				$( '#usuario_locaisSecundarios' ).append( sOption );
 			}
 		}
 	});
@@ -127,7 +127,7 @@
 	 * Configura os campos hidden (local primário, servidor autenticação e locais secundários) baseado nos valores selecionados nas combos
 	 */
 	 $( '#formCadastroUsuario' ).submit(function(){
-		 $( '#usuario_teLocaisSecundarios' ).val( $( '#usuario_SelectLocaisSecundarios' ).val() );
+		 //$( '#usuario_locaisSecundarios' ).val( $( '#usuario_SelectLocaisSecundarios' ).val() );
 		 
 		 return true;
 	 });

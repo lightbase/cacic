@@ -78,6 +78,14 @@ class Local
     }
     
     /**
+     * Método mágico invocado sempre que um objeto desta classe é referenciado em contexto de string
+     */
+    public function __toString()
+    {
+    	return $this->nmLocal;
+    }
+    
+    /**
      * Get idLocal
      *
      * @return integer 
