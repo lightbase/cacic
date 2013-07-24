@@ -33,9 +33,10 @@ class AplicativoRepository extends EntityRepository
 
     public function listarAplicativosMonitorados( $idRede )
     {
-        $_dql = "SELECT a, r
+        $_dql = "SELECT a, r, so
                  FROM CacicCommonBundle:Aplicativo a
                  JOIN a.idRede r
+                 JOIN a.idSo so
                  WHERE a.nmAplicativo NOT LIKE '%#DESATIVADO#%'
                  AND r.idRede = :idRede";
 
