@@ -1,185 +1,151 @@
---acao
+'acoes.id_acao' => acao.id_acao  
+'acoes.te_descricao_breve' => acao.te_descricao_breve  
+'acoes.te_descricao' => acao.te_descricao  
+'acoes.te_nome_curto_modulo' => acao.te_nome_curto_modulo 
+'acoes.dt_hr_alteracao' => acao.dt_hr_alteracao  
+''=>acao.cs_opcional  
 
-acao.id_acao
-acao.te_descricao_breve
-acao.te_descricao
-acao.te_nome_curto_modulo
-acao.dt_hr_alteracao
-acao.cs_opcional
 
---acao_excecao
+'acoes_excessoes te_node_address' => acao_excecao.te_node_address 
+'acoes_excessoes.id_acao' => acao_excecao.id_acao  
+'' => acao_excecao.id_rede  
 
-acao_excecao.te_node_address
-acao_excecao.id_acao
-acao_excecao.id_rede
+'acoes_redes.id_acao' => acao_rede.id_acao  
+'' => acao_rede.id_rede 
+'acoes_redes.dt_hr_coleta_forcada' => acao_rede.dt_hr_coleta_forcada
+    
 
---acao_rede
+'acoes_so.id_acao' => acao_so.id_acao  
+'' => acao_so.id_rede  
+'acoes_so.id_so' => acao_so.id_so 
 
-acao_rede.id_acao
-acao_rede.id_rede
-acao_rede.dt_hr_coleta_forcada
 
---acao_so
+`perfis_aplicativos_monitorados.id_aplicativo`=> aplicativo.id_aplicativo
+`perfis_aplicativos_monitorados.id_so` => aplicativo.id_so
+'perfis_aplicativos_monitorados.nm_aplicativo' => aplicativo.nm_aplicativo
+'perfis_aplicativos_monitorados.cs_car_inst_w9x' => aplicativo.cs_car_inst_w9x
+'perfis_aplicativos_monitorados.te_car_inst_w9k' => aplicativo.te_car_inst_w9x
+'perfis_aplicativos_monitorados.cs_car_ver_w9x' => aplicativo.cs_car_ver_w9x
+'perfis_aplicativos_monitorados.te_car_ver_w9x' => aplicativo.te_car_ver_w9x
+'perfis_aplicativos_monitorados.cs_car_inst_wnt' => aplicativo.cs_car_inst_wnt
+'perfis_aplicativos_monitorados.te_car_inst_wnt' => aplicativo.te_car_inst_wnt
+'perfis_aplicativos_monitorados.cs_car_ver_wnt' => aplicativo.cs_car_ver_wnt
+'perfis_aplicativos_monitorados.te_car_ver_wnt' => aplicativo.te_car_ver_wnt
+'perfis_aplicativos_monitorados.cs_ide_licenca' => aplicativo.cs_ide_licenca
+`perfis_aplicativos_monitorados.te_ide_licenca` => aplicativo.te_ide_licenca
+'perfis_aplicativos_monitorados.dt_atualizacao' => aplicativo.dt_atualizacao
+'perfis_aplicativos_monitorados.te_arq_ver_eng_w9x' => aplicativo.te_arq_ver_eng_w9x
+'perfis_aplicativos_monitorados.te_arq_ver_pat_w9x' => aplicativo.te_arq_ver_pat_w9x
+'perfis_aplicativos_monitorados.te_arq_ver_eng_wnt' => aplicativo.te_arq_ver_eng_wnt
+'perfis_aplicativos_monitorados.te_arq_ver_pat_wnt' => aplicativo.te_arq_ver_pat_wnt
+'perfis_aplicativos_monitorados.te_dir_padrao_w9x' => aplicativo.te_dir_padrao_w9x
+'perfis_aplicativos_monitorados.te_dir_padrao_wnt' => aplicativo.te_dir_padrao_wnt
+'perfis_aplicativos_monitorados.te_descritivo' => aplicativo.te_descritivo
+'perfis_aplicativos_monitorados.in_disponibiliza_info' => aplicativo.in_disponibiliza_info
+'perfis_aplicativos_monitorados.in_disponibiliza_info_usuario_comum' => aplicativo.in_disponibiliza_info_usuario_comum
+'perfis_aplicativos_monitorados.dt_registro' => aplicativo.dt_registro
 
-acao_so.id_acao
-acao_so.id_rede
-acao_so.id_so
 
---aplicativo
+'aplicativos_redes.id_ip_rede' => aplicativo_rede.id_rede  
+'aplicativos_redes.id_aplicativo' => aplicativo_rede.id_aplicativo  
 
-aplicativo.id_aplicativo
-aplicativo.id_so
-aplicativo.nm_aplicativo
-aplicativo.cs_car_inst_w9x
-aplicativo.te_car_inst_w9x
-aplicativo.cs_car_ver_w9x
-aplicativo.te_car_ver_w9x
-aplicativo.cs_car_inst_wnt
-aplicativo.te_car_inst_wnt
-aplicativo.cs_car_ver_wnt
-aplicativo.te_car_ver_wnt
-aplicativo.cs_ide_licenca
-aplicativo.te_ide_licenca
-aplicativo.dt_atualizacao
-aplicativo.te_arq_ver_eng_w9x
-aplicativo.te_arq_ver_pat_w9x
-aplicativo.te_arq_ver_eng_wnt
-aplicativo.te_arq_ver_pat_wnt
-aplicativo.te_dir_padrao_w9x
-aplicativo.te_dir_padrao_wnt
-aplicativo.te_descritivo
-aplicativo.in_disponibiliza_info
-aplicativo.in_disponibiliza_info_usuario_comum
-aplicativo.dt_registro
+'aquisicoes.id_aquisicao' => aquisicao.id_aquisicao 
+'aquisicoes.dt_aquisicao'=> aquisicao.dt_aquisicao  
+'aquisicoes.nr_processo' => aquisicao.nr_processo  
+'aquisicoes.nm_empresa' => aquisicao.nm_empresa  
+'aquisicoes.nm_proprietario' => aquisicao.nm_proprietario  
+'aquisicoes.nr_notalfiscal'=>aquisicao.nr_notafiscal  
 
---aplicativo_rede
+'aquisicoes_item.id_tipo_licenca' => aquisicao_item.id_tipo_licenca 
+'aquisicoes_item.id_aquisicao' => aquisicao_item.id_aquisicao  
+'aquisicoes_item.id_software'=> aquisicao_item.id_software  
+'aquisicoes_item.qt_licenca' => aquisicao_item.qt_licenca  
+'aquisicoes_item.dt_vencimento_licenca' => aquisicao_item.dt_vencimento_licenca 
+'aquisicoes_item.te_obs' => aquisicao_item.te_obs 
 
-aplicativo_rede.id_rede
-aplicativo_rede.id_aplicativo
+'' => class_property.id_class_property
+'' => class_property.id_class
+'' => class_property.nm_property_name
+'' => class_property.te_property_description
+'' => class_property.nm_function_pre_db
+'' => class_property.nm_function_pos_db
 
---aquisicao
+'' => class_property_type.id_class_property_type
+'' => class_property_type.id_class_property
+'' => class_property_type.cs_type
+'' => class_property_type.te_type_description
 
-aquisicao.id_aquisicao
-aquisicao.dt_aquisicao
-aquisicao.nr_processo
-aquisicao.nm_empresa
-aquisicao.nm_proprietario
-aquisicao.nr_notafiscal
+'' => classe.id_class
+'' => classe.nm_class_name
+'' => classe.te_class_description
 
---aquisicao_item
+'' => collect_def_class.id_collect_def_class
+'' => collect_def_class.id_acao
+'' => collect_def_class.id_class
+'' => collect_def_class.te_where_clause
 
-aquisicao_item.id_tipo_licenca
-aquisicao_item.id_aquisicao
-aquisicao_item.id_software
-aquisicao_item.qt_licenca
-aquisicao_item.dt_vencimento_licenca
-aquisicao_item.te_obs
+'computadores.id_computadores' => computador.id_computador
+'' => computador.id_usuario_exclusao
+'computadores.id_so' => computador.id_so
+'' => computador.id_rede
+''=> computador.nm_computador
+'computadores.te_node_address' => computador.te_node_address
+'computadores.te_ip' => computador.te_ip_computador
+'computadores.dt_hr_inclusao' => computador.dt_hr_inclusao
+'computadores.dt_hr_exclusao' => computador.dt_hr_exclusao
+'computadores.dt_hr_ult_acesso' => computador.dt_hr_ult_acesso
+'computadores.te_versao_cacic' => computador.te_versao_cacic
+'computadores.te_versao_gercols' => computador.te_versao_gercols
+'computadores.te_palavra_chave' => computador.te_palavra_chave
+'computadores.dt_hr_coleta_forcada_estacao' => computador.dt_hr_coleta_forcada_estacao
+'computadores.te_nomes_curtos_modulos' => computador.te_nomes_curtos_modulos
+'computadores.id_conta' => computador.id_conta
+'' => computador.te_debugging
+'' => computador.te_ultimo_login
+'' => computador.dt_debug
 
---class_property
+'' => computador_coleta.id_computador_coleta
+'' => computador_coleta.id_computador
+'' => computador_coleta.id_class
+'' => computador_coleta.te_class_values
 
-class_property.id_class_property
-class_property.id_class
-class_property.nm_property_name
-class_property.te_property_description
-class_property.nm_function_pre_db
-class_property.nm_function_pos_db
+'' => computador_coleta_historico.id_computador_coleta_historico
+'' => computador_coleta_historico.id_computador_coleta
+'' => computador_coleta_historico.id_computador
+'' => computador_coleta_historico.id_class
+'' => computador_coleta_historico.te_class_values
+'' => computador_coleta_historico.dt_hr_inclusao
 
---class_property_type
+'' => configuracao_local.id_local
+'' => configuracao_local.id_configuracao
+'' => configuracao_local.vl_configuracao
 
-class_property_type.id_class_property_type
-class_property_type.id_class_property
-class_property_type.cs_type
-class_property_type.te_type_description
+'' => configuracao_padrao.id_configuracao
+'' => configuracao_padrao.nm_configuracao
+'' => configuracao_padrao.vl_configuracao
 
---classe
+'' => descricao_coluna_computador.te_source
+'' => descricao_coluna_computador.te_target
+'descricoes_colunas_computadores.te_descricao_campo' => descricao_coluna_computador.te_description
+'descricoes_colunas_computadores.cs_condicao.pesquisa' => descricao_coluna_computador.cs_condicao_pesquisa
 
-classe.id_class
-classe.nm_class_name
-classe.te_class_description
+'grupo_usuarios.id_grupo_usuarios' => grupo_usuario.id_grupo_usuario
+'grupo_usuarios.nm_grupo_usuarios' => grupo_usuario.nm_grupo_usuarios
+'grupo_usuarios.te_grupo_usuarios' => grupo_usuario.te_grupo_usuarios
+'grupo_usuarios.te_menu_grupo' => grupo_usuario.te_menu_grupo
+'grupo_usuarios.te_descricao_grupo' => grupo_usuario.te_descricao_grupo
+'grupo_usuarios.cs_nivel_administracao' => grupo_usuario.cs_nivel_administracao
 
---collect_def_class
+'' => insucesso_instalacao.id_insucesso_instalacao
+'insucessos_instalacao.te_ip' => insucesso_instalacao.te_ip_computador
+'insucessos_instalacao.te_so' => insucesso_instalacao.te_so
+'insucessos_instalacao.id_usuario' => insucesso_instalacao.id_usuario
+'insucessos_instalacao.dt_datahora' => insucesso_instalacao.dt_datahora
+'insucessos_instalacao.cs_indicador' => insucesso_instalacao.cs_indicador
 
-collect_def_class.id_collect_def_class
-collect_def_class.id_acao
-collect_def_class.id_class
-collect_def_class.te_where_clause
-
---computador
-
-computador.id_computador
-computador.id_usuario_exclusao
-computador.id_so
-computador.id_rede
-computador.nm_computador
-computador.te_node_address
-computador.te_ip_computador
-computador.dt_hr_inclusao
-computador.dt_hr_exclusao
-computador.dt_hr_ult_acesso
-computador.te_versao_cacic
-computador.te_versao_gercols
-computador.te_palavra_chave
-computador.dt_hr_coleta_forcada_estacao
-computador.te_nomes_curtos_modulos
-computador.id_conta
-computador.te_debugging
-computador.te_ultimo_login
-computador.dt_debug
-
---computador_coleta
-
-computador_coleta.id_computador_coleta
-computador_coleta.id_computador
-computador_coleta.id_class
-computador_coleta.te_class_values
-
---computador_coleta_historico
-
-computador_coleta_historico.id_computador_coleta_historico
-computador_coleta_historico.id_computador_coleta
-computador_coleta_historico.id_computador
-computador_coleta_historico.id_class
-computador_coleta_historico.te_class_values
-computador_coleta_historico.dt_hr_inclusao
-
---configuracao_local
-
-configuracao_local.id_local
-configuracao_local.id_configuracao
-configuracao_local.vl_configuracao
-
---configuracao_padrao
-
-configuracao_padrao.id_configuracao
-configuracao_padrao.nm_configuracao
-configuracao_padrao.vl_configuracao
-
---descricao_coluna_computador
-
-descricao_coluna_computador.te_source
-descricao_coluna_computador.te_target
-descricao_coluna_computador.te_description
-descricao_coluna_computador.cs_condicao_pesquisa
-
---grupo_usuario
-
-grupo_usuario.id_grupo_usuario
-grupo_usuario.nm_grupo_usuarios
-grupo_usuario.te_grupo_usuarios
-grupo_usuario.te_menu_grupo
-grupo_usuario.te_descricao_grupo
-grupo_usuario.cs_nivel_administracao
-
---insucesso_instalacao
-
-insucesso_instalacao.id_insucesso_instalacao
-insucesso_instalacao.te_ip_computador
-insucesso_instalacao.te_so
-insucesso_instalacao.id_usuario
-insucesso_instalacao.dt_datahora
-insucesso_instalacao.cs_indicador
 
 ------------------------------------------------------------------------------
+
 
 --local
 
@@ -266,15 +232,15 @@ insucesso_instalacao.cs_indicador
 
 --rede_grupo_ftp
 
-'rede_grupo_ftp.id_ftp' => rede_grupo_ftp.id_ftp
-'rede_grupo_ftp.id_ip_rede' => rede_grupo_ftp.id_rede
-'rede_grupo_ftp.' => rede_grupo_ftp.id_computador
-'rede_grupo_ftp.nu_hora_inicio' => rede_grupo_ftp.nu_hora_inicio
-'rede_grupo_ftp.nu_hora_fim' => rede_grupo_ftp.nu_hora_fim
+'redes_grupo_ftp.id_ftp' => rede_grupo_ftp.id_ftp
+'' => rede_grupo_ftp.id_rede
+'' => rede_grupo_ftp.id_computador
+'redes_grupo_ftp.nu_hora_inicio' => rede_grupo_ftp.nu_hora_inicio
+'redes_grupo_ftp.nu_hora_fim' => rede_grupo_ftp.nu_hora_fim
 
 --rede_versao_modulo
 
-'redes_versoes_modulos.' => rede_versao_modulo.id_rede_versao_modulo
+'' => rede_versao_modulo.id_rede_versao_modulo
 '' => rede_versao_modulo.id_rede
 'redes_versoes_modulos.nm_modulo' => rede_versao_modulo.nm_modulo
 'redes_versoes_modulos.te_versao_modulo' => rede_versao_modulo.te_versao_modulo
@@ -311,20 +277,20 @@ insucesso_instalacao.cs_indicador
 
 --software
 
-'software.id_software' => software.id_software
+'softwares.id_software' => software.id_software
 '' => software.id_tipo_software
-'software.nm_software' => software.nm_software
-'software.te_descricao_software' => software.te_descricao_software
-'software.qt_licenca' => software.qt_licenca
-'software.nr_midia' => software.nr_midia
-'software.te_local_midia' => software.te_local_midia
-'software.te_obs' => software.te_obs
+'softwares.nm_software' => software.nm_software
+'softwares.te_descricao_software' => software.te_descricao_software
+'softwares.qt_licenca' => software.qt_licenca
+'softwares.nr_midia' => software.nr_midia
+'softwares.te_local_midia' => software.te_local_midia
+'softwares.te_obs' => software.te_obs
 
 --software_estacao
 
 '' => software_estacao.id_computador
 'softwares_estacao.id_software' => software_estacao.id_software
-'' => software_estacao.id_aquisicao
+'softwares_estacao.id_aquisicao_particular' => software_estacao.id_aquisicao
 'softwares_estacao.nr_patrimonio' => software_estacao.nr_patrimonio
 'softwares_estacao.dt_autorizacao' => software_estacao.dt_autorizacao
 'softwares_estacao.dt_expiracao_instalacao' => software_estacao.dt_expiracao_instalacao
@@ -367,11 +333,11 @@ insucesso_instalacao.cs_indicador
 
 'srcacic_sessoes.id_sessao' => srcacic_sessao.id_srcacic_sessao
 '' => srcacic_sessao.id_computador
-'srcacic_sessoes.' => srcacic_sessao.dt_hr_inicio_sessao
-'srcacic_sessoes.' => srcacic_sessao.nm_acesso_usuario_srv
-'srcacic_sessoes.' => srcacic_sessao.nm_completo_usuario_srv
-'srcacic_sessoes.' => srcacic_sessao.te_email_usuario_srv
-'srcacic_sessoes.' => srcacic_sessao.dt_hr_ultimo_contato
+'srcacic_sessoes.dt_hr_inicio_sessao' => srcacic_sessao.dt_hr_inicio_sessao
+'srcacic_sessoes.nm_acesso_usuario_srv' => srcacic_sessao.nm_acesso_usuario_srv
+'srcacic_sessoes.nm_completo_usuario_srv' => srcacic_sessao.nm_completo_usuario_srv
+'srcacic_sessoes.te_email_usuario_srv' => srcacic_sessao.te_email_usuario_srv
+'srcacic_sessoes.dt_hr_ultimo_contato' => srcacic_sessao.dt_hr_ultimo_contato
 
 --srcacic_transf
 
@@ -403,60 +369,39 @@ insucesso_instalacao.cs_indicador
 
 --tipo_uorg
 
-'' => tipo_uorg.id_tipo_uorg
-'' => tipo_uorg.nm_tipo_uorg
-'' => tipo_uorg.tedescricao
-
---unid_organizacional_nivel1 (nenhuma mudança)
-
-'unid_organizacional_nivel1.id_unid_organizacional_nivel1' => unid_organizacional_nivel1.id_unid_organizacional_nivel1
-'unid_organizacional_nivel1.nm_unid_organizacional_nivel1' => unid_organizacional_nivel1.nm_unid_organizacional_nivel1
-'unid_organizacional_nivel1.te_endereco_uon1' => unid_organizacional_nivel1.te_endereco_uon1
-'unid_organizacional_nivel1.te_bairro_uon1' => unid_organizacional_nivel1.te_bairro_uon1
-'unid_organizacional_nivel1.te_cidade_uon1' => unid_organizacional_nivel1.te_cidade_uon1
-'unid_organizacional_nivel1.te_uf_uon1' => unid_organizacional_nivel1.te_uf_uon1
-'unid_organizacional_nivel1.nm_responsavel_uon1' => unid_organizacional_nivel1.nm_responsavel_uon1
-'unid_organizacional_nivel1.te_email_responsavel_uon1' => unid_organizacional_nivel1.te_email_responsavel_uon1
-'unid_organizacional_nivel1.nu_tel1_responsavel_uon1' => unid_organizacional_nivel1.nu_tel1_responsavel_uon1
-'unid_organizacional_nivel1.nu_tel2_responsavel_uon1' => unid_organizacional_nivel1.nu_tel2_responsavel_uon1
-
---unid_organizacional_nivel1a (nenhuma mudança)
-
-'unid_organizacional_nivel1a.id_unid_organizacional_nivel1a' => unid_organizacional_nivel1a.id_unid_organizacional_nivel1a
-'unid_organizacional_nivel1a.id_unid_organizacional_nivel1' => unid_organizacional_nivel1a.id_unid_organizacional_nivel1
-'unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a' => unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a
-
---unid_organizacional_nivel2 (nenhuma mudança)
-
-'unid_organizacional_nivel2.id_unid_organizacional_nivel2' => unid_organizacional_nivel2.id_unid_organizacional_nivel2
-'unid_organizacional_nivel2.id_local' => unid_organizacional_nivel2.id_local
-'unid_organizacional_nivel2.id_unid_organizacional_nivel1a' => unid_organizacional_nivel2.id_unid_organizacional_nivel1a
-'unid_organizacional_nivel2.nm_unid_organizacional_nivel2' => unid_organizacional_nivel2.nm_unid_organizacional_nivel2
-'unid_organizacional_nivel2.te_endereco_uon2' => unid_organizacional_nivel2.te_endereco_uon2
-'unid_organizacional_nivel2.te_bairro_uon2' => unid_organizacional_nivel2.te_bairro_uon2
-'unid_organizacional_nivel2.te_cidade_uon2' => unid_organizacional_nivel2.te_cidade_uon2
-'unid_organizacional_nivel2.te_uf_uon2' => unid_organizacional_nivel2.te_uf_uon2
-'unid_organizacional_nivel2.nm_responsavel_uon2' => unid_organizacional_nivel2.nm_responsavel_uon2
-'unid_organizacional_nivel2.te_email_responsavel_uon2' => unid_organizacional_nivel2.te_email_responsavel_uon2
-'unid_organizacional_nivel2.nu_tel1_responsavel_uon2' => unid_organizacional_nivel2.nu_tel1_responsavel_uon2
-'unid_organizacional_nivel2.nu_tel2_responsavel_uon2' => unid_organizacional_nivel2.nu_tel2_responsavel_uon2
-'unid_organizacional_nivel2.dt_registro' => unid_organizacional_nivel2.dt_registro
+'"0"' => tipo_uorg.id_tipo_uorg
+'"Cacic2"' => tipo_uorg.nm_tipo_uorg
+'"---"' => tipo_uorg.tedescricao
 
 --uorg
 
-'' => uorg.id_uorg
-'' => uorg.id_uorg_pai
-'' => uorg.id_tipo_uorg
-'' => uorg.id_local
-'' => uorg.nm_uorg
-'' => uorg.te_endereco
-'' => uorg.te_bairro
-'' => uorg.te_cidade
-'' => uorg.te_uf
-'' => uorg.nm_responsavel
-'' => uorg.te_responsavel_email
-'' => uorg.nu_responsavel_tel1
-'' => uorg.nu_responsavel_tel2
+'unid_organizacional_nivel1.id_unid_organizacional_nivel1 e
+ unid_organizacional_nivel1a.id_unid_organizacional_nivel1a e
+ unid_organizacional_nivel2.id_unid_organizacional_nivel2' => uorg.id_uorg
+'unid_organizacional_nivel1.'{null}' e
+ unid_organizacional_nivel1a.id_unid_organizacional_nivel1 e
+ unid_organizacional_nivel2.id_unid_organizacional_nivel1a' => uorg.id_uorg_pai
+'0' => uorg.id_tipo_uorg
+'unid_organizacional_nivel2.id_local' => uorg.id_local
+'unid_organizacional_nivel1.nm_unid_organizacional_nivel1 e
+ unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a e
+ unid_organizacional_nivel2.nm_unid_organizacional_nivel2' => uorg.nm_uorg
+'unid_organizacional_nivel1.te_endereco_uon1 e
+ unid_organizacional_nivel2.te_endereco_uon2' => uorg.te_endereco
+'unid_organizacional_nivel.te_bairro1 e
+ unid_organizacional_nivel.te_bairro2' => uorg.te_bairro
+'unid_organizacional_nivel.te_cidade_uon1 e
+ unid_organizacional_nivelte_cidade_uon2' => uorg.te_cidade
+'unid_organizacional_nivel.te_uf_uon1 e
+ unid_organizacional_nivel.te_uf_uon2' => uorg.te_uf
+'unid_organizacional_nivel.nm_responsavel_uon1 e
+ unid_organizacional_nivel.nm_responsavel_uon2' => uorg.nm_responsavel
+'unid_organizacional_nivel.te_email_responsavel_uon1 e
+ unid_organizacional_nivel.te_email_responsavel_uon2' => uorg.te_responsavel_email
+'unid_organizacional_nivel.nu_tel1_responsavel_uon1 e
+ unid_organizacional_nivel.nu_tel1_responsavel_uon2' => uorg.nu_responsavel_tel1
+'unid_organizacional_nivel.nu_tel2_responsavel_uon1 e
+ unid_organizacional_nivel.nu_tel2_responsavel_uon2' => uorg.nu_responsavel_tel2
 
 --usb_device
 
@@ -496,43 +441,3 @@ insucesso_instalacao.cs_indicador
 'usuarios.dt_log_in' => usuario.dt_log_in
 'usuarios.te_emails_contato' => usuario.te_emails_contato
 'usuarios.te_telefones_contato' => usuario.te_telefones_contato
-
-------------------------------------------------------------------------------
---------------Dados da versão anterior não encontrados na atual---------------
-------------------------------------------------------------------------------
-
-tabela officescan
-patrimonio.id_so
-patrimonio.te_node_address
-tabela perfis_aplicativos_monitorados
-
-
-redes_grupos_ftp
-redes_versoes_modulos
-servidores_autenticacao
-so
-softwares
-softwares_estacao
-softwares_inventariados
-softwares_inventariados_estacoes
-srcacic_chats
-srcacic_conexoes
-srcacic_sessoes
-srcacic_transfs
-testes
-tipos_licenca
-tipos_software
-tipos_unidades_disco
-unid_organizacional_nivel1
-unid_organizacional_nivel1a
-unid_organizacional_nivel2
-unidades_disco
-usb_devices
-usb_logs
-usb_vendors
-
-
-usuarios.te_locais_secundarios
-tabela variaveis_ambiente
-tabela variaveis_ambiente_estacoes
-tabela versoes_softwares
