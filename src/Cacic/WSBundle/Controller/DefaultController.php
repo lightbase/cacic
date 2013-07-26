@@ -378,8 +378,10 @@ class DefaultController extends Controller
 
         if ($request->get('AgenteLinux'))
         {
-            $pacote_py = OldCacicHelper::getTest( $request )['te_pacote_PyCACIC'];
-            $pacote_py_hash =  OldCacicHelper::getTest( $request )['te_pacote_PyCACIC_HASH'];
+            $pacote_py = OldCacicHelper::getTest( $request );
+            $pacote_py = $pacote_py['te_pacote_PyCACIC'];
+            $pacote_py_hash = OldCacicHelper::getTest( $request );
+            $pacote_py_hash = $pacote_py_hash['te_pacote_PyCACIC_HASH'];
         }
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
