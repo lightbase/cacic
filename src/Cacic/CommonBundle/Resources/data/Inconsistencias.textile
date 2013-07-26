@@ -1,5 +1,3 @@
-<rever 'softwares_inventariados' e 'computador_coleta_historico'>
-<rever 'classes'>
 tabela tipos_unidades_disco sumiu
 tabela unidades_disco sumiu
 tabela variaveis_ambiente sumiu
