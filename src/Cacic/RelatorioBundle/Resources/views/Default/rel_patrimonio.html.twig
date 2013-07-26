@@ -14,7 +14,9 @@
             <th width="20%">{{ "S.O"|trans }}</th>
             <th width="20%">{{ "I.P"|trans }}</th>
             <th width="20%">{{ "Local"|trans }}</th>
+            {%  if ( exibirColunaSoftware ) %}
             <th width="20%">{{ "Software"|trans }}</th>
+            {%  endif %}
         </tr>
         </thead>
 
@@ -27,12 +29,14 @@
                 <td>{{ reg['teSo'] }}</td>
                 <td>{{ reg["teIpRede"] }}</td>
                 <td>{{ reg['nmLocal'] }}</td>
+                {%  if ( exibirColunaSoftware ) %}
                 <td>{{ reg['nmSoftware'] }}</td>
+                {%  endif %}
             </tr>
 
         {% else %}
             <tr>
-                <td style="text-align: center" colspan="5"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                <td style="text-align: center" colspan="{%  if ( exibirColunaSoftware ) %}5{% else %}4{% endif %}"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
             </tr>
         {% endfor %}
 

@@ -30,6 +30,7 @@ class DefaultController extends Controller
     	$locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->listar();
     	$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
         $sw = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->listar();
+        
 		return $this->render(
 			'CacicRelatorioBundle:Default:patrimonio.html.twig',
         	array(
@@ -45,13 +46,18 @@ class DefaultController extends Controller
      */
     public function patrimonioRelatorioAction( Request $request )
     {
-        $dados = $this->getDoctrine()
+    	$filtros = $request->get('rel_filtro_hardware');
+    	
+    	$dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:Software')
-            ->gerarRelatorioPatrimonio( $request->get('rel_filtro_hardware') );
+            ->gerarRelatorioPatrimonio( $filtros );
+    	
         return $this->render(
             'CacicRelatorioBundle:Default:rel_patrimonio.html.twig',
             array(
-                'dados' => $dados
+                'dados' => $dados,
+            	'exibirColunaSoftware' => (bool) strlen( $filtros['softwares']
+		        )
             )
         );
     }
