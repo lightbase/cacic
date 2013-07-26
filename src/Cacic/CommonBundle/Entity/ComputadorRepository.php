@@ -19,115 +19,115 @@ use Cacic\CommonBundle\Entity\ComputadorColeta;
  */
 class ComputadorRepository extends EntityRepository
 {
-	
-	/**
-	 * 
-	 * Conta os computadores associados a cada Local
-	 * @return array
-	 */
-	public function countPorLocal()
-	{
-		$qb = $this->createQueryBuilder('comp')
-					->select('loc.idLocal, loc.nmLocal, COUNT(comp.idComputador) as numComp')
-					->innerJoin('comp.idRede', 'rede')
-					->innerJoin('rede.idLocal', 'loc')
-					->groupBy('loc');
-		
-		return $qb->getQuery()->getResult();
-	}
-	
-	/**
-	 * 
-	 * Conta os computadores associados a cada Rede
-	 * Se o idLocal for informado, verifica apenas as redes associadas a este
-	 * @param int|\Cacic\CommonBundle\Entity\Local $idLocal
-	 * @return array
-	 */
-	public function countPorSubrede( $idLocal = null )
-	{
-		$qb = $this->createQueryBuilder('comp')
-					->select('rede.idRede, rede.teIpRede, rede.nmRede, COUNT(comp.idComputador) as numComp')
-					->innerJoin('comp.idRede', 'rede')
-					->groupBy('rede');
-		
-		if ( $idLocal !== null )
-			$qb->where('rede.idLocal = :idLocal')->setParameter( 'idLocal', $idLocal);
-		
-		return $qb->getQuery()->getResult();
-	}
-	
-	/**
-	 * 
-	 * Conta os computadores associados a cada Sistema Operacional
-	 */
-	public function countPorSO()
-	{
-		$qb = $this->createQueryBuilder('comp')
-					->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(comp.idComputador) as numComp')
-					->innerJoin('comp.idSo', 'so')
-					->groupBy('so');
-		
-		return $qb->getQuery()->getResult();
-	}
-	
-	/**
-	 * 
-	 * Conta todos os computadores monitorados
-	 * @return int
-	 */
-	public function countAll()
-	{
-		$qb = $this->createQueryBuilder('comp')->select('COUNT(comp.idComputador)');
-		return $qb->getQuery()->getSingleScalarResult();
-	}
-	
-	/**
-	 * 
-	 * Lista os computadores monitorados alocados na subrede informada
-	 * @param int|\Cacic\CommonBundle\Entity\Rede $idSubrede
-	 */
-	public function listarPorSubrede( $idSubrede )
-	{
-		$qb = $this->createQueryBuilder('comp')
-					->select('comp', 'so')
-					->leftJoin('comp.idSo', 'so')
-					->where('comp.idRede = :idRede')
-					->setParameter('idRede', $idSubrede)
-					->orderBy('comp.nmComputador')->addOrderBy('comp.teIpComputador');
-		
-		return $qb->getQuery()->getResult();
-	}
-	
-	/**
-	 * 
-	 * Gera relatório de configurações de hardware coletadas dos computadores 
-	 * @param array $filtros
-	 */
-	public function gerarRelatorioConfiguracoes( $filtros )
-	{
-		$qb = $this->createQueryBuilder('computador')
-					->select('computador, coleta, classe, rede, local, so')
-					->leftJoin('computador.hardwares', 'coleta')
-					->leftJoin('coleta.idClass', 'classe')
-					->leftJoin('computador.idRede', 'rede')
-					->leftJoin('rede.idLocal', 'local')
-					->leftJoin('computador.idSo', 'so');
 
-		/**
-		 * Verifica os filtros
-		 */
-		if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
-        	$qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
-        
+    /**
+     *
+     * Conta os computadores associados a cada Local
+     * @return array
+     */
+    public function countPorLocal()
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('loc.idLocal, loc.nmLocal, COUNT(comp.idComputador) as numComp')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'loc')
+            ->groupBy('loc');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     *
+     * Conta os computadores associados a cada Rede
+     * Se o idLocal for informado, verifica apenas as redes associadas a este
+     * @param int|\Cacic\CommonBundle\Entity\Local $idLocal
+     * @return array
+     */
+    public function countPorSubrede( $idLocal = null )
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('rede.idRede, rede.teIpRede, rede.nmRede, COUNT(comp.idComputador) as numComp')
+            ->innerJoin('comp.idRede', 'rede')
+            ->groupBy('rede');
+
+        if ( $idLocal !== null )
+            $qb->where('rede.idLocal = :idLocal')->setParameter( 'idLocal', $idLocal);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     *
+     * Conta os computadores associados a cada Sistema Operacional
+     */
+    public function countPorSO()
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(comp.idComputador) as numComp')
+            ->innerJoin('comp.idSo', 'so')
+            ->groupBy('so');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     *
+     * Conta todos os computadores monitorados
+     * @return int
+     */
+    public function countAll()
+    {
+        $qb = $this->createQueryBuilder('comp')->select('COUNT(comp.idComputador)');
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     *
+     * Lista os computadores monitorados alocados na subrede informada
+     * @param int|\Cacic\CommonBundle\Entity\Rede $idSubrede
+     */
+    public function listarPorSubrede( $idSubrede )
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp', 'so')
+            ->leftJoin('comp.idSo', 'so')
+            ->where('comp.idRede = :idRede')
+            ->setParameter('idRede', $idSubrede)
+            ->orderBy('comp.nmComputador')->addOrderBy('comp.teIpComputador');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     *
+     * Gera relatório de configurações de hardware coletadas dos computadores
+     * @param array $filtros
+     */
+    public function gerarRelatorioConfiguracoes( $filtros )
+    {
+        $qb = $this->createQueryBuilder('computador')
+            ->select('computador, coleta, classe, rede, local, so')
+            ->leftJoin('computador.hardwares', 'coleta')
+            ->leftJoin('coleta.idClass', 'classe')
+            ->leftJoin('computador.idRede', 'rede')
+            ->leftJoin('rede.idLocal', 'local')
+            ->leftJoin('computador.idSo', 'so');
+
+        /**
+         * Verifica os filtros
+         */
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
+            $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+
         if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
-        	$qb->andWhere('computador.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
-        
+            $qb->andWhere('computador.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+
         /*if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) )
         	$qb->andWhere('coleta.idClass IN (:conf)')->setParameter('conf', explode( ',', $filtros['conf'] ));*/
-        	
-		
-		return $qb->getQuery()->execute();
-	}
+
+
+        return $qb->getQuery()->execute();
+    }
 
     /*
     * Metodo responsável por inserir coletas iniciais, assim que o cacic é instalado
@@ -144,15 +144,13 @@ class ComputadorRepository extends EntityRepository
 
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getEntityManager()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
-        $id_so= $so->getIdSo();
-
         $rede = $this->getEntityManager()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
-
-        $computador = $this->findOneBy( array( 'teNodeAddress'=> $te_node_adress, 'idSo'=> $id_so) );
+        $computador = $this->findOneBy( array( 'teNodeAddress'=> $te_node_adress, 'idSo'=> $so->getIdSo()) );
+        $classes = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findAll();
 
         //inserção de dado se for um novo computador
-       if( empty ( $computador ) )
-       {
+        if( empty ( $computador ) )
+        {
             $computador = new Computador();
 
             $computador->setTeNodeAddress( $te_node_adress );
@@ -163,57 +161,34 @@ class ComputadorRepository extends EntityRepository
 
             $this->getEntityManager()->persist( $computador );
 
-       }
+        }
 
-        //inserção de dados na tabela computador_coleta
-        $class_network_configuration = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findOneBy( array( 'nmClassName'=> 'NetworkAdapterConfiguration') );
-        $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idComputador'=>$computador, 'idClass'=>$class_network_configuration->getIdClass() ) );
-        $computadorColeta = empty( $computadorColeta ) ? new ComputadorColeta() : $computadorColeta ;
-        $computadorColeta->setIdComputador( $computador );
-        $computadorColeta->setTeClassValues( $network_adapter );
-        $computadorColeta->setIdClass( $class_network_configuration );
-        $this->getEntityManager()->persist( $computadorColeta );
-        // Persistencia de Historico
-        $computadorColetaHistorico = new ComputadorColetaHistorico();
-        $computadorColetaHistorico->setIdClass( $class_network_configuration );
-        $computadorColetaHistorico->setIdComputadorColeta( $computadorColeta );
-        $computadorColetaHistorico->setIdComputador( $computador );
-        $computadorColetaHistorico->setTeClassValues( $network_adapter );
-        $computadorColetaHistorico->setDtHrInclusao( $data);
-        $this->getEntityManager()->persist( $computadorColetaHistorico );
+        //Inserção de Coletas por classe
+        foreach($request->request->all() as $key=>$posts)
+        {
+            foreach($classes as $classe)
+            {
 
-        $class_operating_system = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findOneBy( array( 'nmClassName'=> 'OperatingSystem') );
-        $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idComputador'=>$computador, 'idClass'=>$class_operating_system->getIdClass() ) );
-        $computadorColeta = empty( $computadorColeta ) ? new ComputadorColeta() : $computadorColeta;
-        $computadorColeta->setIdComputador( $computador );
-        $computadorColeta->setTeClassValues( $operating_system );
-        $computadorColeta->setIdClass( $class_operating_system );
-        $this->getEntityManager()->persist( $computadorColeta );
-        // Persistencia de Historico
-        $computadorColetaHistorico = new ComputadorColetaHistorico();
-        $computadorColetaHistorico->setIdClass($class_operating_system);
-        $computadorColetaHistorico->setIdComputadorColeta( $computadorColeta );
-        $computadorColetaHistorico->setIdComputador( $computador );
-        $computadorColetaHistorico->setTeClassValues( $operating_system);
-        $computadorColetaHistorico->setDtHrInclusao( $data );
-        $this->getEntityManager()->persist( $computadorColetaHistorico );
-
-        $class_computer_system = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findOneBy( array( 'nmClassName'=> 'ComputerSystem') );
-        $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idComputador'=>$computador, 'idClass'=>$class_computer_system->getIdClass() ) );
-        $computadorColeta = empty( $computadorColeta ) ? new ComputadorColeta() : $computadorColeta;
-        $computadorColeta->setIdComputador( $computador );
-        $computadorColeta->setTeClassValues( $computer_system );
-        $computadorColeta->setIdClass( $class_computer_system );
-        $this->getEntityManager()->persist( $computadorColeta );
-        // Persistencia de Historico
-        $computadorColetaHistorico = new ComputadorColetaHistorico();
-        $computadorColetaHistorico->setIdClass($class_computer_system);
-        $computadorColetaHistorico->setIdComputadorColeta( $computadorColeta );
-        $computadorColetaHistorico->setIdComputador( $computador );
-        $computadorColetaHistorico->setTeClassValues($computer_system);
-        $computadorColetaHistorico->setDtHrInclusao( $data );
-        $this->getEntityManager()->persist( $computadorColetaHistorico );
-
+                if($key == $classe->getnmClassName() )
+                {
+                    //inserção de dados na tabela computador_coleta
+                    $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idComputador'=>$computador, 'idClass'=>$classe->getidClass() ) );
+                    $computadorColeta = empty( $computadorColeta ) ? new ComputadorColeta() : $computadorColeta ;
+                    $computadorColeta->setIdComputador( $computador );
+                    $computadorColeta->setTeClassValues( OldCacicHelper::deCrypt( $request, $request->request->get($classe->getnmClassName()), true  ) );
+                    $computadorColeta->setIdClass( $classe );
+                    $this->getEntityManager()->persist( $computadorColeta );
+                    // Persistencia de Historico
+                    $computadorColetaHistorico = new ComputadorColetaHistorico();
+                    $computadorColetaHistorico->setIdClass( $classe );
+                    $computadorColetaHistorico->setIdComputadorColeta( $computadorColeta );
+                    $computadorColetaHistorico->setIdComputador( $computador );
+                    $computadorColetaHistorico->setTeClassValues( OldCacicHelper::deCrypt( $request, $request->request->get($classe->getnmClassName()), true  ) );
+                    $computadorColetaHistorico->setDtHrInclusao( $data);
+                    $this->getEntityManager()->persist( $computadorColetaHistorico );
+                }
+            }
+        }
 
         $computador->setDtHrUltAcesso( $data );
         $computador->setTeVersaoCacic( $te_versao_cacic );
@@ -229,15 +204,20 @@ class ComputadorRepository extends EntityRepository
         //inserção ações de coleta a nova maquina
         foreach ($acoes as $acao)
         {
-            $acao_so = new AcaoSo();
-            $acao_so->setRede( $rede );
-            $acao_so->setSo( $so );
-            $acao_so->setAcao( $acao );
-            $this->getEntityManager()->persist( $acao_so );
+            $acao_so = $this->getEntityManager()->getRepository('CacicCommonBundle:AcaoSo')->findBy(array('rede'=>$rede,'so'=>$so,'acao'=>$acao));
+            if(empty($acao_so))
+            {
+                $acao_so = new AcaoSo();
+                $acao_so->setRede( $rede );
+                $acao_so->setSo( $so );
+                $acao_so->setAcao( $acao );
+                $this->getEntityManager()->persist( $acao_so );
+            }
         }
 
         //persistir dados
         $this->getEntityManager()->flush();
+
 
         return $computador;
     }

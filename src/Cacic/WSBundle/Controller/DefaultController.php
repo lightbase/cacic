@@ -29,16 +29,15 @@ class DefaultController extends Controller
      */
     public function installAction( Request $request )
     {
-       if( $request->isMethod('POST')  )
+        if( $request->isMethod('POST') )
         {
-
             $data = new \DateTime('NOW');
 
             $insucesso =  new InsucessoInstalacao();
 
             $insucesso->setTeIpComputador( $_SERVER["REMOTE_ADDR"] );
             $insucesso->setTeSo( $request->get('te_so') );
-            $insucesso->setIdUsuario( $request->get('id_usuario') );
+            $insucesso->setIdUsuario( ($request->get('id_usuario') ? $request->get('id_usuario')  : null) );
             $insucesso->setCsIndicador( $request->get('cs_indicador') );
             $insucesso->setDtDatahora( $data  );
 
@@ -77,13 +76,13 @@ class DefaultController extends Controller
         //Debugging do Agente
         $debugging = (  TagValueHelper::getValueFromTags('DateToDebugging',$computador->getTeDebugging() )  == date("Ymd") ? $computador->getTeDebugging()  	:
             (TagValueHelper::getValueFromTags('DateToDebugging',$local->getTeDebugging() )  == date("Ymd") ? $local->getTeDebugging()  :
-            ( TagValueHelper::getValueFromTags('DateToDebugging',$rede->getTeDebugging() )  == date("Ymd") ? $rede->getTeDebugging() :	'') ) );
+                ( TagValueHelper::getValueFromTags('DateToDebugging',$rede->getTeDebugging() )  == date("Ymd") ? $rede->getTeDebugging() :	'') ) );
         $debugging = ( $debugging ? TagValueHelper::getValueFromTags('DetailsToDebugging', $debugging ) : '' );
 
         $response = new Response();
-		$response->headers->set('Content-Type', 'xml');
-		return  $this->render('CacicWSBundle:Default:test.xml.twig', array(
-            'configs'=> OldCacicHelper::getTest( $request ),
+        $response->headers->set('Content-Type', 'xml');
+        return  $this->render('CacicWSBundle:Default:test.xml.twig', array(
+           'configs'=> OldCacicHelper::getTest( $request ),
             'computador' => $computador,
             'rede' => $rede,
             'debugging' => $debugging,
@@ -91,7 +90,7 @@ class DefaultController extends Controller
             'cs_cipher' => $request->get('cs_cipher'),
             'cs_compress' => $request->get('cs_compress')
         ), $response);
-	}
+    }
 
     /**
      *  Método responsável por retornar configurações necessarias ao Agente CACIC
@@ -99,6 +98,16 @@ class DefaultController extends Controller
      */
     public function configAction( Request $request )
     {
+
+    //Escrita do post
+           $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/config_'.date('Ymd_His').'.txt', 'w+');
+ 	       foreach( $request->request->all() as $postKey => $postVal )
+    	        {
+    	            $postVal = OldCacicHelper::deCrypt( $request, $postVal );
+ 		            fwrite( $fp, "[{$postKey}]: {$postVal}\n");
+ 		        }
+ 	        fclose($fp);
+
         OldCacicHelper::autenticaAgente($request);
 
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
@@ -143,7 +152,7 @@ class DefaultController extends Controller
                 // Caso o grupo de estações esteja cheio, retorno o tempo de 5 minutos para espera e nova tentativa...
                 // Posteriormente, poderemos calcular uma média para o intervalo, em função do link da subrede
                 if($soma_redes_grupo_ftp >= $rede->getNuLimiteFtp()) // Se for maior que o Limite FTP, configurado em Administração/Cadastros/SubRedes
-                    $v_te_fila_ftp = '5'; // Tempo em minutos
+                $v_te_fila_ftp = '5'; // Tempo em minutos
                 else
                 {
                     $rede_grupos_ftp->setIdComputador($computador);
@@ -250,99 +259,99 @@ class DefaultController extends Controller
                             }
                             $strCollectsDefinitions .= '[DT_HR_COLETA_FORCADA]' . $v_dt_hr_coleta_forcada . '[/DT_HR_COLETA_FORCADA]';
                         }
-                    if ( !$request->get('AgenteLinux') && trim($acao['idAcao']) == "col_moni" && !empty($monitorados))
-                    {
-                        $arrSgSOtoOlds = array(	'W95',
-                            'W95OSR',
-                            'W98',
-                            'W98SE',
-                            'WME');
-                        foreach ($monitorados as $monitorado )
+                        if ( !$request->get('AgenteLinux') && trim($acao['idAcao']) == "col_moni" && !empty($monitorados))
                         {
-                            $v_achei = 0;
-                            for($i = 0; $i < count($arrPerfis); $i++ )
+                            $arrSgSOtoOlds = array(	'W95',
+                                'W95OSR',
+                                'W98',
+                                'W98SE',
+                                'WME');
+                            foreach ($monitorados as $monitorado )
                             {
-                                $arrPerfis2 = explode(',',$arrPerfis[$i]);
-                                if ($monitorado["IdAplicativo"]==$arrPerfis2[0] &&
-                                    $monitorado["DtAtualizacao"]==$arrPerfis2[1])
-                                    $v_achei = 1;
+                                $v_achei = 0;
+                                for($i = 0; $i < count($arrPerfis); $i++ )
+                                {
+                                    $arrPerfis2 = explode(',',$arrPerfis[$i]);
+                                    if ($monitorado["IdAplicativo"]==$arrPerfis2[0] &&
+                                        $monitorado["DtAtualizacao"]==$arrPerfis2[1])
+                                        $v_achei = 1;
+                                }
+
+                                if ($v_achei==0 && ($monitorado["IdSo"] == 0 || $monitorado["IdSo"] == $computador->getIdSo()))
+                                {
+                                    if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
+
+                                    $v_te_ide_licenca = trim($monitorado["TeIdeLicenca"]);
+                                    if ($monitorado["TeIdeLicenca"]=='0')
+                                        $v_te_ide_licenca = '';
+
+                                    $v_retorno_MONITORADOS .= $monitorado["IdAplicativo"]	.	','.
+                                        $monitorado["DtAtualizacao"]			.	','.
+                                        $monitorado["CsIdeLicenca"] 			. 	','.
+                                        $v_te_ide_licenca								.	',';
+
+                                    if (in_array($so->getSgSo(),$arrSgSOtoOlds))
+                                    {
+                                        $v_te_arq_ver_eng_w9x 	= trim($monitorado["TeArqVerEngW9x"]);
+                                        if ($v_te_arq_ver_eng_w9x=='') 	$v_te_arq_ver_eng_w9x 	= '.';
+
+                                        $v_te_arq_ver_pat_w9x 	= trim($monitorado["TeArqVerPatW9x"]);
+                                        if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
+
+                                        $v_te_car_inst_w9x 	    = trim($monitorado["TeCarInstW9x"]);
+                                        if ($monitorado["TeCarInstW9x"]=='0') 	$v_te_car_inst_w9x 	= '';
+
+                                        $v_te_car_ver_w9x 	    = trim($monitorado["TeCarInstW9x"]);
+                                        if ($monitorado["CsCarVerWnt"]=='0') 	$v_te_car_ver_w9x 	= '';
+
+                                        $v_retorno_MONITORADOS .= '.'                                     	.','.
+                                            $monitorado["TeCarInstW9x"]	.','.
+                                            $v_te_car_inst_w9x						.','.
+                                            $$monitorado["CsCarVerWnt"]		.','.
+                                            $v_te_car_ver_w9x						.','.
+                                            $v_te_arq_ver_eng_w9x					.','.
+                                            $v_te_arq_ver_pat_w9x						;
+                                    }
+                                    else
+                                    {
+
+                                        $v_te_arq_ver_eng_wnt 	= trim($monitorado["TeArqVerEngWnt"]);
+                                        if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';
+
+                                        $v_te_arq_ver_pat_wnt 	= trim($monitorado["TeArqVerPatWnt"]);
+                                        if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
+
+                                        $v_te_car_inst_wnt 	    = trim($monitorado["TeCarInstWnt"]);
+                                        if ($monitorado["CsCarInstWnt"]=='0') 	$v_te_car_inst_wnt 	= '';
+
+                                        $v_te_car_ver_wnt 	    = trim($monitorado["TeCarVerWnt"]);
+                                        if ($monitorado["TeCarInstWnt"]=='0') 	$v_te_car_ver_wnt 	= '';
+
+                                        $v_retorno_MONITORADOS .=   '.'                    					.','.
+                                            $monitorado["TeCarInstWnt"]	.','.
+                                            $v_te_car_inst_wnt                 		.','.
+                                            $$monitorado["TeCarVerWnt"]		.','.
+                                            $v_te_car_ver_wnt               		.','.
+                                            $v_te_arq_ver_eng_wnt					.','.
+                                            $v_te_arq_ver_pat_wnt;
+
+                                    }
+
+                                    $v_retorno_MONITORADOS .=   ',' . $monitorado["InDisponibilizaInfo"];
+
+                                    if ($monitorado["InDisponibilizaInfo"]=='S')
+                                    {
+                                        $v_retorno_MONITORADOS .= ',' . $monitorado["NmAplicativo"];
+                                    }
+                                    else
+                                    {
+                                        $v_retorno_MONITORADOS .= ',.';
+                                    }
+
+                                }
                             }
-
-                            if ($v_achei==0 && ($monitorado["IdSo"] == 0 || $monitorado["IdSo"] == $computador->getIdSo()))
-                            {
-                                if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
-
-                                $v_te_ide_licenca = trim($monitorado["TeIdeLicenca"]);
-                                if ($monitorado["TeIdeLicenca"]=='0')
-                                    $v_te_ide_licenca = '';
-
-                                $v_retorno_MONITORADOS .= $monitorado["IdAplicativo"]	.	','.
-                                    $monitorado["DtAtualizacao"]			.	','.
-                                    $monitorado["CsIdeLicenca"] 			. 	','.
-                                    $v_te_ide_licenca								.	',';
-
-                                if (in_array($so->getSgSo(),$arrSgSOtoOlds))
-                                {
-                                    $v_te_arq_ver_eng_w9x 	= trim($monitorado["TeArqVerEngW9x"]);
-                                    if ($v_te_arq_ver_eng_w9x=='') 	$v_te_arq_ver_eng_w9x 	= '.';
-
-                                    $v_te_arq_ver_pat_w9x 	= trim($monitorado["TeArqVerPatW9x"]);
-                                    if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
-
-                                    $v_te_car_inst_w9x 	    = trim($monitorado["TeCarInstW9x"]);
-                                    if ($monitorado["TeCarInstW9x"]=='0') 	$v_te_car_inst_w9x 	= '';
-
-                                    $v_te_car_ver_w9x 	    = trim($monitorado["TeCarInstW9x"]);
-                                    if ($monitorado["CsCarVerWnt"]=='0') 	$v_te_car_ver_w9x 	= '';
-
-                                    $v_retorno_MONITORADOS .= '.'                                     	.','.
-                                        $monitorado["TeCarInstW9x"]	.','.
-                                        $v_te_car_inst_w9x						.','.
-                                        $$monitorado["CsCarVerWnt"]		.','.
-                                        $v_te_car_ver_w9x						.','.
-                                        $v_te_arq_ver_eng_w9x					.','.
-                                        $v_te_arq_ver_pat_w9x						;
-                                }
-                                else
-                                {
-
-                                    $v_te_arq_ver_eng_wnt 	= trim($monitorado["TeArqVerEngWnt"]);
-                                    if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';
-
-                                    $v_te_arq_ver_pat_wnt 	= trim($monitorado["TeArqVerPatWnt"]);
-                                    if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
-
-                                    $v_te_car_inst_wnt 	    = trim($monitorado["TeCarInstWnt"]);
-                                    if ($monitorado["CsCarInstWnt"]=='0') 	$v_te_car_inst_wnt 	= '';
-
-                                    $v_te_car_ver_wnt 	    = trim($monitorado["TeCarVerWnt"]);
-                                    if ($monitorado["TeCarInstWnt"]=='0') 	$v_te_car_ver_wnt 	= '';
-
-                                    $v_retorno_MONITORADOS .=   '.'                    					.','.
-                                        $monitorado["TeCarInstWnt"]	.','.
-                                        $v_te_car_inst_wnt                 		.','.
-                                        $$monitorado["TeCarVerWnt"]		.','.
-                                        $v_te_car_ver_wnt               		.','.
-                                        $v_te_arq_ver_eng_wnt					.','.
-                                        $v_te_arq_ver_pat_wnt;
-
-                                }
-
-                                $v_retorno_MONITORADOS .=   ',' . $monitorado["InDisponibilizaInfo"];
-
-                                if ($monitorado["InDisponibilizaInfo"]=='S')
-                                {
-                                    $v_retorno_MONITORADOS .= ',' . $monitorado["NmAplicativo"];
-                                }
-                                else
-                                {
-                                    $v_retorno_MONITORADOS .= ',.';
-                                }
-
-                            }
-                        }
-                        if ($v_retorno_MONITORADOS <> '')
-                            $v_retorno_MONITORADOS = OldCacicHelper::replaceInvalidHTTPChars($v_retorno_MONITORADOS);
+                            if ($v_retorno_MONITORADOS <> '')
+                                $v_retorno_MONITORADOS = OldCacicHelper::replaceInvalidHTTPChars($v_retorno_MONITORADOS);
 
                             $strCollectsDefinitions .= $v_retorno_MONITORADOS;
                         }
@@ -380,15 +389,15 @@ class DefaultController extends Controller
         {
             $pacote_py = OldCacicHelper::getTest( $request );
             $pacote_py = $pacote_py['te_pacote_PyCACIC'];
-            $pacote_py_hash = OldCacicHelper::getTest( $request );
+            $pacote_py_hash =  OldCacicHelper::getTest( $request );
             $pacote_py_hash = $pacote_py_hash['te_pacote_PyCACIC_HASH'];
         }
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
 
         $response = new Response();
-		$response->headers->set('Content-Type', 'xml');
-		return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
+        $response->headers->set('Content-Type', 'xml');
+        return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
             'configs'=>$configs,
             'rede'=> $rede,
             'versao_modulo'=>$versao_modulo,
