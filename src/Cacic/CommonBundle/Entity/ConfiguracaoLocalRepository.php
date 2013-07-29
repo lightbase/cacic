@@ -72,4 +72,20 @@ class ConfiguracaoLocalRepository extends EntityRepository
 		
 		$em->flush();
 	}
+
+    public function listarNotificacaoPorLocal( $idLocal )
+    {
+        $_dql = "SELECT cl, cp
+				FROM CacicCommonBundle:ConfiguracaoLocal cl
+				JOIN cl.idConfiguracao cp
+				WHERE cl.idLocal = :idLocal AND
+				cl.nmConfiguracao = 'te_notificar_mudancas_emails' OR
+				cl.nmConfiguracao = 'te_notificar_mudancas_properties' AND
+				AND cl.vlConfiguracao IS NOT NULL";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameter( 'idLocal', $idLocal )
+            ->getArrayResult();
+    }
 }

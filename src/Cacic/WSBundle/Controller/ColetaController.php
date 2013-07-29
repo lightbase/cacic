@@ -12,6 +12,7 @@ use Cacic\CommonBundle\Helper\TagValue;
 use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
 use Cacic\WSBundle\Helper\OldCacicHelper;
 use Cacic\WSBundle\Helper\TagValueHelper;
+use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,45 +34,162 @@ class ColetasController extends Controller
      */
     public function gerColsSetColletAction( Request $request )
     {
-        $data = new \DateTime('NOW');
+        $resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPorLocal( '1');
+        Debug::dump($resConfigsLocais);die;
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
+        $strCollectType  = OldCacicHelper::deCrypt($request, $request->get('CollectType'));
 
-        $coleta = $request->request->get('strFieldsAndValuesToRequest'); //atribuido String coletada a varivel $coleta que será enviado via POST pelo Agente_Cacic
-        $te_node_address = TagValue::getValueFromTags( 'MACAddress',TagValue::getClassValue( 'NetworkAdapterConfiguration', $coleta ) ); //extraio MacAdess de coleta para futura compara
+        // Defino os dois arrays que conterão as configurações para Coletas, Classes e Propriedades
+        $arrClassesNames 		= array();
+        $arrCollectsDefClasses 	= array();
 
-        $classes = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findAll(); //lista de todas classes
-        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findBy( array ( 'te_node_address' => $te_node_address ) ); //pesquiso pelo MacAddress e atribuo o resultado a computador
-        $computador = empty( $computador ) ? new Computador() : $computador;
+        $detalhesClasses = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaDetalhesClasseAcoes($strCollectType);
 
-        foreach ( $classes as $classe )
+        foreach ($detalhesClasses as $detalhesClasse)
         {
-            $computador_coleta_historico = new ComputadorColetaHistorico();
-            $computador_coleta = $this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->findBy( array( 'id' => $computador->getIdComputador() , 'id_class' => $classe->getIdClass() ) ); //procura pelo IdComputador e idClasse
-            $computador_coleta = empty( $computador_coleta ) ? new ComputadorColeta() : $computador_coleta; // se o computador não existir sera instanciado um novo Computador()
-
-            //persistindo coleta de computador
-            $computador_coleta->setIdClass( $classe->getIdClass() );
-            $computador_coleta->setTeClassValues( TagValue::getClassValue( $classe->getNmClassName(), $coleta ) );
-            $computador_coleta->setIdComputador( $computador->getIdComputador() );
-            $this->getDoctrine()->getManager()->persist( $computador_coleta );
-
-            //persistendo Historico de Coletas
-            $computador_coleta_historico->setIdComputador( $computador->getIdComputador() );
-            $computador_coleta_historico->setTeClassValues( TagValue::getClassValue( $classe->getNmClassName(), $coleta ) );
-            $computador_coleta_historico->setIdComputador( $computador->getIdComputador() );
-            $computador_coleta_historico->setDtHrInclusao( $data );
-            $this->getDoctrine()->getManager()->persist( $computador_coleta_historico );
-
-            $this->getDoctrine()->getManager()->flush(); //efetua alterações no Banco de Dados
-
+            $arrClassesNames[$detalhesClasse['nmClassName']] = $detalhesClasse['teClassDescription'];
+            $arrCollectsDefClasses[$strCollectType]= ($detalhesClasse[$strCollectType] == '' ? $detalhesClasse['te_descricao_breve'] : $arrCollectsDefClasses[$strCollectType]);
+            $arrCollectsDefClasses[$strCollectType . '.' . $detalhesClasse['nmClassName'] . '.' . $detalhesClasse['nmPropertyName']] = $detalhesClasse['idProperty'];
+            $arrCollectsDefClasses[$strCollectType . '.' . $detalhesClasse['nmClassName'] . '.' . $detalhesClasse['nmPropertyName'] . '.nm_function_pre_db'] = $detalhesClasse['nmFunctionPreDb'];
         }
 
+        if ($arrCollectsDefClasses[$strCollectType])
+        {
+            // Obtenho configuração para notificação de alterações
+            $resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPorLocal($rede->getIdLocal());
 
-        //persistindo em Computador
-        $te_so = TagValue::getTagsFromValues( 'Version' ,TagValue::getClassValue('OperatingSystem', $coleta) ); //extraido da coleta versão do Sitema Operacional
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findBy( array( 'te_so' => $te_so ) );
-        $so = empty( $so ) ? new So() : $so;
-//        $computador->set
+                //PAREI AQUI
+            //$arrClassesAndProperties = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')-> ;
+            $arrClassesAndProperties = getArrFromSelect('classes cl,
+					 					   classes_properties cp',
+                'cp.id_property,
+                 cp.nm_property_name,
+                 cp.te_property_description,
+                 cl.nm_class_name',
+                'cp.id_property in (' . $resConfigsLocais[0]['te_notificar_mudancas_properties']. ') AND cl.id_class = cp.id_class');
 
+            for ($intLoopArrClassesAndProperties = 0; $intLoopArrClassesAndProperties < count($arrClassesAndProperties); $intLoopArrClassesAndProperties++)
+                $arrClassesPropertiesToNotificate[$arrClassesAndProperties[$intLoopArrClassesAndProperties]['nm_class_name'] . '.' . $arrClassesAndProperties[$intLoopArrClassesAndProperties]['nm_property_name']] = $arrClassesAndProperties[$intLoopArrClassesAndProperties]['te_property_description'];
+
+            $strInsertedItems_Text 	= '';
+            $strDeletedItems_Text 	= '';
+            $strUpdatedItems_Text 	= '';
+
+            foreach($request as $strClassName => $strClassValues)
+            {
+                if ($arrClassesNames[$strClassName])
+                {
+                    $arrOldClassValues = getArrFromSelect('computadores_collects', 'te_class_values', 'nm_class_name = "'.$strClassName.'" AND id_computador = ' . $arrDadosComputador[0]['id_computador']);
+                    $strNewClassValues = OldCacicHelper::deCrypt($request, $strClassValues);
+                    if (($arrOldClassValues[0]['te_class_values'] == '') || ($arrOldClassValues[0]['te_class_values'] <> $strNewClassValues))
+                    {
+                        $arrNewTagsNames = getTagsFromValues($strNewClassValues);
+                        $arrOldTagsNames = getTagsFromValues($arrOldClassValues[0]['te_class_values']);
+                        $intReferencial = max(count($arrOldTagsNames),count($arrNewTagsNames));
+                        $arrTagsNames   = (count($arrOldTagsNames) > count($arrNewTagsNames) ? $arrOldTagsNames : $arrNewTagsNames);
+                        for ($intLoopArrTagsNames = 0; $intLoopArrTagsNames < count($arrTagsNames); $intLoopArrTagsNames ++)
+                        {
+                            $strOldPropertyValue = getValueFromTags($arrTagsNames[$intLoopArrTagsNames],$arrOldClassValues[0]['te_class_values']);
+                            $strNewPropertyValue = getValueFromTags($arrTagsNames[$intLoopArrTagsNames],$strNewClassValues);
+
+                            if ($arrCollectsDefClasses[$strCollectType . '.' . $strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames] . '.nm_function_pre_db'])
+                            {
+                                OldCacicHelper::gravaTESTES('Achei pre_db');
+                                OldCacicHelper::gravaTESTES('1: arrTagsNames['.$intLoopArrTagsNames.'] => ' . $arrTagsNames[$intLoopArrTagsNames]);
+                                OldCacicHelper::gravaTESTES('1: strNewClassValues: ' . $strNewClassValues);
+                                OldCacicHelper::gravaTESTES('1: getValueFromTags('.$arrTagsNames[$intLoopArrTagsNames].','.$strNewClassValues.'): ' . getValueFromTags($arrTagsNames[$intLoopArrTagsNames],$strNewClassValues));
+
+                                $strNewClassValues = setValueToTags($arrTagsNames[$intLoopArrTagsNames], getValueFromFunction($arrCollectsDefClasses[$strCollectType . '.' . $strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames]],getValueFromTags($arrTagsNames[$intLoopArrTagsNames],$strNewClassValues),$arrCollectsDefClasses[$strCollectType . '.' . $strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames] . '.nm_function_pre_db']), $strNewClassValues);
+                                OldCacicHelper::gravaTESTES('2: strNewClassValues: ' . $strNewClassValues);
+                            }
+
+                            if ($arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames]])
+                            {
+                                if 	   ($strNewPropertyValue == '')
+                                    $strDeletedItems_Text  .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames]] . chr(13);
+                                elseif ($strOldPropertyValue == '')
+                                    $strInsertedItems_Text .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames]] . chr(13);
+                                else
+                                    $strUpdatedItems_Text  .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsNames[$intLoopArrTagsNames]] . chr(13);
+                            }
+                        }
+                        if ((trim($arrOldClassValues[0]['te_class_values']) <> '') && (trim($arrOldClassValues[0]['te_class_values']) <> trim($strNewClassValues)))
+                        {
+                            OldCacicHelper::gravaTESTES('***********************************************************');
+                            OldCacicHelper::gravaTESTES('Inserindo em computadores_collects_historico:');
+                            OldCacicHelper::gravaTESTES('getVarType(arrOldClassValues[0][te_class_values]): ' . getVarType($arrOldClassValues[0]['te_class_values']));
+                            OldCacicHelper::gravaTESTES('getVarType(strNewClassValues): ' . getVarType($strNewClassValues));
+                            OldCacicHelper::gravaTESTES('***********************************************************');
+                            $queryINS = "INSERT INTO computadores_collects_historico(id_computador,nm_class_name,te_class_values,dt_hr_inclusao) VALUES (" . $arrDadosComputador[0]['id_computador'] . ",'" . $strClassName . "','" . $arrOldClassValues[0]['te_class_values'] ."',NOW())";
+                            mysql_query($queryINS,$DBConnectSC);
+                        }
+
+                        if (trim($arrOldClassValues[0]['te_class_values']) <> '')
+                        {
+                            OldCacicHelper::gravaTESTES('***********************************************************');
+                            OldCacicHelper::gravaTESTES('UPDATE em computadores_collects:');
+                            OldCacicHelper::gravaTESTES('arrOldClassValues[0][te_class_values]: ' . $arrOldClassValues[0]['te_class_values']);
+                            OldCacicHelper::gravaTESTES('strNewClassValues: ' . $strNewClassValues);
+                            OldCacicHelper::gravaTESTES('***********************************************************');
+
+                            // ATEN��O: Registro j� foi criado durante a obten��o das configura��es, no script get_config.php.
+                            $queryUPD = "UPDATE computadores_collects SET te_class_values = '" . $strNewClassValues . "' WHERE id_computador = " . $arrDadosComputador[0]['id_computador'] . " AND nm_class_name = '" . $strClassName . "'";
+                            mysql_query($queryUPD,$DBConnectSC);
+                        }
+                        else
+                        {
+                            OldCacicHelper::gravaTESTES('***********************************************************');
+                            OldCacicHelper::gravaTESTES('INSERT em computadores_collects:');
+                            OldCacicHelper::gravaTESTES('arrOldClassValues[0][te_class_values]: ' . $arrOldClassValues[0]['te_class_values']);
+                            OldCacicHelper::gravaTESTES('strNewClassValues: ' . $strNewClassValues);
+                            OldCacicHelper::gravaTESTES('***********************************************************');
+
+                            // ATEN��O: Registro j� foi criado durante a obten��o das configura��es, no script get_config.php.
+                            $queryINS = "INSERT INTO computadores_collects(id_computador,nm_class_name,te_class_values) VALUES (" . $arrDadosComputador[0]['id_computador'] . ",'" . $strClassName . "','" . $strNewClassValues ."')";
+                            mysql_query($queryINS,$DBConnectSC);
+                        }
+                    }
+                }
+            }
+
+            // Caso a string acima n�o esteja vazia, monto o email para notifica��o
+            if ($strDeletedItems_Text || $strInsertedItems_Text || $strUpdatedItems_Text )
+            {
+                if ($strDeletedItems_Text)
+                    $strDeletedItems_Text 	= chr(13) . 'Itens Removidos:' . chr(13) . $strDeletedItems_Text 	. chr(13);
+
+                if ($strInsertedItems_Text)
+                    $strInsertedItems_Text 	= chr(13) . 'Itens Inseridos:' . chr(13) . $strInsertedItems_Text 	. chr(13);
+
+                if ($strUpdatedItems_Text)
+                    $strUpdatedItems_Text 	= chr(13) . 'Itens Alterados:' . chr(13) . $strUpdatedItems_Text 	. chr(13);
+
+
+                $strCorpoMail = '';
+                $strCorpoMail .= " Prezado administrador,\n\n";
+                $strCorpoMail .= " uma altera��o foi identificada no computador cujos detalhes encontram-se abaixo discriminados:\n\n";
+                $strCorpoMail .= " Nome do Host: ". getComponentValue($arrDadosComputador[0]['id_computador'], 'ComputerSystem', 'Caption')  ."\n";
+                $strCorpoMail .= " Endere�o IP....: ". getComponentValue($arrDadosComputador[0]['id_computador'], 'NetworkAdapterConfiguration', 'IPAddress') . "\n";
+                $strCorpoMail .= " Local...............: ". $arrDadosRede[0]['nm_local']."\n";
+                $strCorpoMail .= " Rede................: ". $arrDadosRede[0]['nm_rede'] . ' (' . $arrDadosRede[0]['te_ip_rede'] .")\n\n";
+                $strCorpoMail .= $strDeletedItems_Text . $strInsertedItems_Text . $strUpdatedItems_Text;
+                $strCorpoMail .= "\n\nPara visualizar mais informa��es sobre esse computador, acesse o endere�o\nhttp://";
+                $strCorpoMail .= CACIC_PATH . '/relatorios/computador/computador.php?id_computador=' . $arrDadosComputador[0]['id_computador'];
+                $strCorpoMail .= "\n\n\n________________________________________________\n";
+                $strCorpoMail .= "CACIC - " . date('d/m/Y H:i') . "h \n";
+                $strCorpoMail .= "Desenvolvido pela Dataprev - Unidade Regional Esp�rito Santo";
+
+                // Manda mail para os administradores.
+                mail($resConfigsLocais['te_notificar_mudancas_emails'], "[Sistema CACIC] Altera��o Detectada - " . $arrCollectsDefClasses[$strCollectType], "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
+            }
+        }
+        OldCacicHelper::gravaTESTES('Final');
+
+        $response = new Response();
+        $response->headers->set('Content-Type', 'xml');
+        return  $this->render('CacicWSBundle:Coleta:setcollects.xml.twig', array(
+            'status'=> 'OK'
+        ), $response);
     }
 
     /**
@@ -120,93 +238,4 @@ class ColetasController extends Controller
     }
 
 
-
-    /*
-     * Método responsável por retornar TOPO do XML das coletas.
-     */
-    protected function commonTop( Request $request, $v_compress_level = 0 )
-    {
-        $v_cs_cipher	= ( trim( $request->request->get('cs_cipher') )   <> '' ? trim( $request->request->get('cs_cipher') )   : '4');
-        $v_cs_compress	= ( trim( $request->request->get('cs_compress') ) <> '' ? trim( $request->request->get('cs_compress') ) : '4');
-
-        // O agente PyCACIC envia o valor "padding_key" para preenchimento da palavra chave para decriptação/encriptação
-        // Valores específicos para trabalho com o PyCACIC - 04 de abril de 2008 - Rogério Lino - Dataprev/ES
-        // A versão inicial do agente em Python exige esse complemento na chave...
-        $strPaddingKey   = ( $request->request->get('padding_key') ?  $request->request->get('padding_key') : '');
-        $boolAgenteLinux = ( trim( $request->request->get('AgenteLinux') ) <> '' ? true : false );
-
-        // Autenticação da chamada:
-        $this->autenticaAgente( $strPaddingKey, $request );
-
-        $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->request->get('NetworkAdapterConfiguration')   , $v_cs_cipher, $v_cs_compress,$strPaddingKey );
-        $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->request->get('ComputerSystem')				, $v_cs_cipher, $v_cs_compress,$strPaddingKey );
-        $strOperatingSystem  			 = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem')			    , $v_cs_cipher, $v_cs_compress,$strPaddingKey );
-
-        $arrDadosComputador 			 = $this->getDadosPreColeta(
-            $request,
-            TagValue::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration ),
-            $request->request->get( 'te_so' ),
-            TagValue::getValueFromTags( 'UserName'  , $strComputerSystem)
-        );
-
-        $arrDadosRede  = $this->getDadosRedePreColeta( $request , $arrDadosComputador['te_node_adress'] , $arrDadosComputador['id_so'] ); // reescrever getDadosRede no Library
-
-        if ( $request->request->get('te_palavra_chave') )
-            $strTePalavraChave = OldCacicHelper::deCrypt( $request, $request->request->get('te_palavra_chave') , $v_cs_cipher,$v_cs_compress,$strPaddingKey );
-
-        // --------------- Retorno de Classificador de CRIPTOGRAFIA --------------------------------------------- //
-        if ($v_cs_cipher <> '1') $v_cs_cipher --;
-        // Comente/Descomente a linha abaixo para habilitar/desabilitar a criptografia de informa��es trafegadas
-        //$v_cs_cipher = '0';
-        // ----------------------------------------------------------------------------------------------------- //
-
-        // --------------- Retorno de Classificador de COMPRESS�O ---------------------------------------------- //
-        $pos = strpos($_SERVER['HTTP_ACCEPT_ENCODING'], "deflate");
-        if ( $pos <> -1 && $v_cs_compress <>'1' ) $v_cs_compress -= 1;
-
-        // Caso o n�vel de compress�o sera setado para 0(zero) o indicador deve retornar 0(zero)
-        if ( $v_compress_level == '0' ) $v_cs_compress = '0';
-
-        // Comente/Descomente a linha abaixo para habilitar/desabilitar a compacta��o de informa��es trafegadas
-        //$v_cs_compress = '0';
-        // ----------------------------------------------------------------------------------------------------- //
-
-        $strXML_Begin  	 = 	'<? xml version="1.0" encoding="iso-8859-1" ?><CONFIGS>';
-        $strXML_Values 	 = 	'';
-
-        $strTeDebugging	 = 	( TagValue::getValueFromTags('DateToDebugging',$arrDadosComputador['te_debugging'] )  == date("Ymd") ? $arrDadosComputador['te_debugging']  	:
-            ( TagValue::getValueFromTags('DateToDebugging',$arrDadosRede['te_debugging_local'] )  == date("Ymd") ?    $arrDadosRede['te_debugging_local']  	:
-                ( TagValue::getValueFromTags('DateToDebugging',$arrDadosRede['te_debugging_subnet'] ) == date("Ymd") ? $arrDadosRede['te_debugging_subnet'] 	: 	'') ) );
-
-        $strXML_Values  .= 	( $strTeDebugging ? '<TeDebugging>' 																										: 	'');
-        $strXML_Values  .= 	( $strTeDebugging ? TagValue::getValueFromTags('DetailsToDebugging',$strTeDebugging)																:	'');
-        $strXML_Values  .= 	( $strTeDebugging ? '</TeDebugging>' 																									: 	'');
-
-        $strXML_Values  .= 	'<IdComputador>' 		 . 	$arrDadosComputador['id_computador']	. '<'	.	'/IdComputador>';
-        $strXML_Values  .= 	'<WebManagerAddress>'     .	$arrDadosRede['te_serv_cacic']		. '<' 	. 	'/WebManagerAddress>';
-        $strXML_Values  .= 	'<WebServicesFolderName>' . CACIC_WEB_SERVICES_FOLDER_NAME		    . '<' 	. 	'/WebServicesFolderName>';
-
-        return $strXML_Begin.$strXML_Values;
-
-    }
-
-    /*
-     * Método responsável por retornar FIM do XML das coletas.
-     */
-    protected function commonBottom( Request $request )
-    {
-        $v_cs_cipher	= ( trim( $request->request->get('cs_cipher') )   <> '' ? trim( $request->request->get('cs_cipher') )   : '4');
-        $v_cs_compress	= ( trim( $request->request->get('cs_compress') ) <> '' ? trim( $request->request->get('cs_compress') ) : '4');
-
-        $strXML_Values = $this->commonTop( $request ).'<Comm_Status>' . 'OK' . '<'	.	'/Comm_Status>';
-
-        $strXML_Values = str_replace('+','[[MAIS]]'  , $strXML_Values);
-        $strXML_Values = str_replace(' ','[[ESPACE]]', $strXML_Values);
-
-        $strXML_End 	 = 	'<cs_compress>'			 . 	$v_cs_compress . '<' 	.	'/cs_compress>';
-        $strXML_End 	.= 	'<cs_cipher>'			 . 	$v_cs_cipher   . '<'	.	'/cs_cipher>';
-        $strXML_End		.= 	'</CONFIGS>';
-
-        return $strXML_Values . $strXML_End;
-    }
 }

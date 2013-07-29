@@ -42,4 +42,21 @@ class ClasseRepository extends EntityRepository
         ->setParameter( 'idAcao', $idAcao )
         ->getArrayResult();
     }
+
+    public function listaDetalhesClasseAcoes( $idClass )
+    {
+        $_dql = "SELECT c, a, cp, dc
+                 FROM CacicCommonBundle:CollectDefClass dc,
+                 CacicCommonBundle:ClassProperty cp,
+                 JOIN dc.idClass c
+                 JOIN dc.idAcao a
+                 JOIN dc.idClassProperty a
+                 WHERE cp.idClass = c.idClass
+                 AND c.idClass = :idClass";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameter( 'idClass', $idClass )
+            ->getArrayResult();
+    }
 }
