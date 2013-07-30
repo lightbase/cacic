@@ -13,9 +13,9 @@
 
 
     {% for modulo in redes_versoes_modulos %}
-        {% if modulo.getNmModulo()|upper == 'TE_PACOTE_PYCACIC_DISPONIVEL' || modulo.getNmModulo()|upper == 'TE_PACOTE_PYCACIC_HASH' %}
-            <{{ modulo.getNmModulo() |upper }}>{{ modulo.getTeVersaoModulo() }}</{{ modulo.getNmModulo() |upper }}>
-            <{{ modulo.getNmModulo() |upper }}>{{ modulo.getTeHash() }}</{{ modulo.getNmModulo() |upper }}>
+        {% if agente_py == true %}
+            <TE_PACOTE_PYCACIC_DISPONIVEL>{{ modulo.getTeVersaoModulo() }}</TE_PACOTE_PYCACIC_DISPONIVEL}}>
+            <TE_PACOTE_PYCACIC_HASH>{{ modulo.getTeHash() }}</TE_PACOTE_PYCACIC_HASH>
         {% else %}
             <{{ modulo.getNmModulo() |upper }}_VER>{{ modulo.getTeVersaoModulo() }}</{{ modulo.getNmModulo() |upper }}_VER>
             <{{ modulo.getNmModulo() |upper }}_HASH>{{ modulo.getTeHash() }}</{{ modulo.getNmModulo() |upper }}_HASH>

@@ -31,15 +31,6 @@ class DefaultController extends Controller
     {
         if( $request->isMethod('POST') )
         {
-            //Escrita do post
-            $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/INSUCESSO_'.date('Ymd_His').'.txt', 'w+');
-            foreach( $request->request->all() as $postKey => $postVal )
-            {
-                $postVal = OldCacicHelper::deCrypt( $request, $postVal );
-                fwrite( $fp, "[{$postKey}]: {$postVal}\n");
-            }
-            fclose($fp);
-
             $data = new \DateTime('NOW');
 
             $insucesso =  new InsucessoInstalacao();
@@ -67,15 +58,6 @@ class DefaultController extends Controller
      */
     public function testAction( Request $request )
     {
-        //Escrita do post
-        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/TEST_'.date('Ymd_His').'.txt', 'w+');
-        foreach( $request->request->all() as $postKey => $postVal )
-        {
-            $postVal = OldCacicHelper::deCrypt( $request, $postVal );
-            fwrite( $fp, "[{$postKey}]: {$postVal}\n");
-        }
-        fclose($fp);
-
         OldCacicHelper::autenticaAgente( $request ) ;
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
         $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
@@ -118,15 +100,6 @@ class DefaultController extends Controller
     {
         OldCacicHelper::autenticaAgente($request);
 
-        //Escrita do post
-         $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/CONFIG_'.date('Ymd_His').'.txt', 'w+');
-        foreach( $request->request->all() as $postKey => $postVal )
-        {
-            $postVal = OldCacicHelper::deCrypt( $request, $postVal );
-            fwrite( $fp, "[{$postKey}]: {$postVal}\n");
-        }
-       fclose($fp);
-
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_adress );
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
@@ -143,11 +116,9 @@ class DefaultController extends Controller
 
         //definição de variaveis locais.
         $v_te_fila_ftp = '0'; //Fila do FTP
-        $versao_modulo = '';
-        $pacote_py = '';
-        $pacote_py_hash = '';
         $v_retorno_MONITORADOS = '';
         $strCollectsDefinitions = '';
+        $agente_py = false;
 
         //Se instalação realizada com sucesso.
         if (trim($request->get('in_instalacao')) == 'OK' )
@@ -186,6 +157,7 @@ class DefaultController extends Controller
                 $this->getDoctrine()->getManager()->remove($rede_grupos_ftp);
 
             }
+            $this->getDoctrine()->getManager()->flush();
         }
 
         //Implementação MapaCacic
@@ -300,10 +272,10 @@ class DefaultController extends Controller
 
             //Aplicativos Monitorados
             $monitorados = $this->getDoctrine()->getRepository('CacicCommonBundle:Aplicativo')->listarAplicativosMonitorados( $rede->getIdRede() );
-            $arrPerfis	= explode('#',OldCacicHelper::deCrypt($request, $request->get('te_tripa_perfis')));
+            $arrPerfis	= ( $request->get('te_tripa_perfis') ? explode('#',OldCacicHelper::deCrypt($request, $request->get('te_tripa_perfis'))) : '');
             $v_retorno_MONITORADOS 	= null;
             $strAcoesSelecionadas = null;
-
+            $strCollectsDefinitions = '';
             //Coleta Forçada
             $v_tripa_coleta = explode('#', $computador->getTeNomesCurtosModulos() );
 
@@ -312,7 +284,7 @@ class DefaultController extends Controller
 
             foreach($acoes as $acao)
             {
-                $strCollectsDefinitions = '['.$acao['idAcao'].']';
+                $strCollectsDefinitions .= '['.$acao['idAcao'].']';
                 if(empty($excecao))
                 {
                     if (substr($acao['idAcao'],0,4) == 'col_')
@@ -328,13 +300,13 @@ class DefaultController extends Controller
                         $arrClassesWhereClauses = array();
                         $strActualClassName		= '';
                         $strPropertiesNames		= '';
-                        $v_dt_hr_coleta_forcada = '';
+
                         foreach ($detalhesClasses as $detalheClasse)
                         {
                             if (empty($arrClassesNames[$detalheClasse['nmClassName']]))
                                 $arrClassesNames[$detalheClasse['nmClassName']] = $detalheClasse['nmClassName'];
 
-                            if (($detalheClasse['teWhereClause']) && ($detalheClasse['teWhereClause'] <> 'NULL') && !$arrClassesWhereClauses[$detalheClasse['nmClassName'].'.WhereClause'])
+                            if ( !empty($detalheClasse['teWhereClause']) && !isset($detalheClasse['teWhereClause']) && !isset($arrClassesWhereClauses[$detalheClasse['nmClassName'].'.WhereClause']))
                             {
                                 $arrClassesWhereClauses[$detalheClasse['nmClassName'] . '.WhereClause'] = '.';
                                 $strCollectsDefinitions .= '[' . $detalheClasse['nmClassName'] . '.WhereClause]' . $detalheClasse['teWhereClause'] .'[/' . $detalheClasse['nmClassName'] . '.WhereClause]';
@@ -358,7 +330,8 @@ class DefaultController extends Controller
                         $strCollectsDefinitions .= '[Properties]' 	. $strPropertiesNames  			. '[/Properties]';
                         $strCollectsDefinitions .= '[/ClassesAndProperties]';
 
-                        if (!empty($acao['dtHrColetaForcada']) || $computador->getDtHrColetaForcadaEstacao())
+                        $coleta_forcada_computador = $computador->getDtHrColetaForcadaEstacao();
+                        if ( !empty($acao['dtHrColetaForcada']) ||  !empty($coleta_forcada_computador))
                         {
                             $v_dt_hr_coleta_forcada = $acao["dt_hr_coleta_forcada"];
                             if (count($v_tripa_coleta) > 0 and
@@ -379,45 +352,48 @@ class DefaultController extends Controller
                             foreach ($monitorados as $monitorado )
                             {
                                 $v_achei = 0;
-                                for($i = 0; $i < count($arrPerfis); $i++ )
+                                if($arrPerfis <> null)
                                 {
-                                    $arrPerfis2 = explode(',',$arrPerfis[$i]);
-                                    if ($monitorado["IdAplicativo"]==$arrPerfis2[0] &&
-                                        $monitorado["DtAtualizacao"]==$arrPerfis2[1])
-                                        $v_achei = 1;
+                                    for($i = 0; $i < count($arrPerfis); $i++ )
+                                    {
+                                        $arrPerfis2 = explode(',',$arrPerfis[$i]);
+                                        if ($monitorado["idAplicativo"]==$arrPerfis2[0] &&
+                                            $monitorado["dtAtualizacao"]==$arrPerfis2[1])
+                                            $v_achei = 1;
+                                    }
                                 }
 
-                                if ($v_achei==0 && ($monitorado["IdSo"] == 0 || $monitorado["IdSo"] == $computador->getIdSo()))
+                                if ( $v_achei==0 && ( $monitorado["idSo"] == 0 || $monitorado["idSo"] == $computador->getIdSo()) )
                                 {
                                     if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
 
-                                    $v_te_ide_licenca = trim($monitorado["TeIdeLicenca"]);
-                                    if ($monitorado["TeIdeLicenca"]=='0')
+                                    $v_te_ide_licenca = trim($monitorado["teIdeLicenca"]);
+                                    if ($monitorado["teIdeLicenca"]=='0')
                                         $v_te_ide_licenca = '';
 
-                                    $v_retorno_MONITORADOS .= $monitorado["IdAplicativo"]	.	','.
-                                        $monitorado["DtAtualizacao"]			.	','.
-                                        $monitorado["CsIdeLicenca"] 			. 	','.
+                                    $v_retorno_MONITORADOS .= $monitorado["idAplicativo"]	.	','.
+                                        $monitorado["dtAtualizacao"]			.	','.
+                                        $monitorado["csIdeLicenca"] 			. 	','.
                                         $v_te_ide_licenca								.	',';
 
                                     if (in_array($so->getSgSo(),$arrSgSOtoOlds))
                                     {
-                                        $v_te_arq_ver_eng_w9x 	= trim($monitorado["TeArqVerEngW9x"]);
+                                        $v_te_arq_ver_eng_w9x 	= trim($monitorado["teArqVerEngW9x"]);
                                         if ($v_te_arq_ver_eng_w9x=='') 	$v_te_arq_ver_eng_w9x 	= '.';
 
-                                        $v_te_arq_ver_pat_w9x 	= trim($monitorado["TeArqVerPatW9x"]);
+                                        $v_te_arq_ver_pat_w9x 	= trim($monitorado["teArqVerPatW9x"]);
                                         if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
 
                                         $v_te_car_inst_w9x 	    = trim($monitorado["TeCarInstW9x"]);
-                                        if ($monitorado["TeCarInstW9x"]=='0') 	$v_te_car_inst_w9x 	= '';
+                                        if ($monitorado["teCarInstW9x"]=='0') 	$v_te_car_inst_w9x 	= '';
 
-                                        $v_te_car_ver_w9x 	    = trim($monitorado["TeCarInstW9x"]);
-                                        if ($monitorado["CsCarVerWnt"]=='0') 	$v_te_car_ver_w9x 	= '';
+                                        $v_te_car_ver_w9x 	    = trim($monitorado["teCarInstW9x"]);
+                                        if ($monitorado["csCarVerWnt"]=='0') 	$v_te_car_ver_w9x 	= '';
 
                                         $v_retorno_MONITORADOS .= '.'                                     	.','.
-                                            $monitorado["TeCarInstW9x"]	.','.
+                                            $monitorado["teCarInstW9x"]	.','.
                                             $v_te_car_inst_w9x						.','.
-                                            $$monitorado["CsCarVerWnt"]		.','.
+                                            $$monitorado["csCarVerWnt"]		.','.
                                             $v_te_car_ver_w9x						.','.
                                             $v_te_arq_ver_eng_w9x					.','.
                                             $v_te_arq_ver_pat_w9x						;
@@ -425,33 +401,33 @@ class DefaultController extends Controller
                                     else
                                     {
 
-                                        $v_te_arq_ver_eng_wnt 	= trim($monitorado["TeArqVerEngWnt"]);
+                                        $v_te_arq_ver_eng_wnt 	= trim($monitorado["teArqVerEngWnt"]);
                                         if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';
 
-                                        $v_te_arq_ver_pat_wnt 	= trim($monitorado["TeArqVerPatWnt"]);
+                                        $v_te_arq_ver_pat_wnt 	= trim($monitorado["teArqVerPatWnt"]);
                                         if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
 
-                                        $v_te_car_inst_wnt 	    = trim($monitorado["TeCarInstWnt"]);
-                                        if ($monitorado["CsCarInstWnt"]=='0') 	$v_te_car_inst_wnt 	= '';
+                                        $v_te_car_inst_wnt 	    = trim($monitorado["teCarInstWnt"]);
+                                        if ($monitorado["csCarInstWnt"]=='0') 	$v_te_car_inst_wnt 	= '';
 
-                                        $v_te_car_ver_wnt 	    = trim($monitorado["TeCarVerWnt"]);
-                                        if ($monitorado["TeCarInstWnt"]=='0') 	$v_te_car_ver_wnt 	= '';
+                                        $v_te_car_ver_wnt 	    = trim($monitorado["teCarVerWnt"]);
+                                        if ($monitorado["teCarInstWnt"]=='0') 	$v_te_car_ver_wnt 	= '';
 
                                         $v_retorno_MONITORADOS .=   '.'                    					.','.
-                                            $monitorado["TeCarInstWnt"]	.','.
+                                            $monitorado["teCarInstWnt"]	.','.
                                             $v_te_car_inst_wnt                 		.','.
-                                            $$monitorado["TeCarVerWnt"]		.','.
+                                            $$monitorado["teCarVerWnt"]		.','.
                                             $v_te_car_ver_wnt               		.','.
                                             $v_te_arq_ver_eng_wnt					.','.
                                             $v_te_arq_ver_pat_wnt;
 
                                     }
 
-                                    $v_retorno_MONITORADOS .=   ',' . $monitorado["InDisponibilizaInfo"];
+                                    $v_retorno_MONITORADOS .=   ',' . $monitorado["inDisponibilizaInfo"];
 
-                                    if ($monitorado["InDisponibilizaInfo"]=='S')
+                                    if ($monitorado["inDisponibilizaInfo"]=='S')
                                     {
-                                        $v_retorno_MONITORADOS .= ',' . $monitorado["NmAplicativo"];
+                                        $v_retorno_MONITORADOS .= ',' . $monitorado["nmAplicativo"];
                                     }
                                     else
                                     {
@@ -477,6 +453,9 @@ class DefaultController extends Controller
         if (!empty($strCollectsDefinitions))
             $strCollectsDefinitions = OldCacicHelper::enCrypt($request, $strCollectsDefinitions);
 
+        if($request->get('AgenteLinux'))
+            $agente_py = true;
+
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
 
         $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy( array( 'idRede'=>$rede->getIdRede() ) );
@@ -484,11 +463,22 @@ class DefaultController extends Controller
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
 
+        //Escrita do post
+        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/CONFIG_'.date('Ymd_His').'.txt', 'w+');
+        foreach( $request->request->all() as $postKey => $postVal )
+        {
+            $postVal = OldCacicHelper::deCrypt( $request, $postVal );
+            fwrite( $fp, "[{$postKey}]: {$postVal}\n");
+        }
+        fwrite( $fp, "Definitions: {$strCollectsDefinitions} \n Monitorados: {$v_retorno_MONITORADOS} \n");
+        fclose($fp);
+
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
         return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
             'configs'=>$configs,
             'rede'=> $rede,
+            'agente_py'=>$agente_py,
             'redes_versoes_modulos'=>$redes_versoes_modulos,
             'main_program'=>OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe',
             'folder_name'=>OldCacicHelper::CACIC_LOCAL_FOLDER_NAME,
