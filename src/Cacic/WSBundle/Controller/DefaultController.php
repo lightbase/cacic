@@ -463,16 +463,6 @@ class DefaultController extends Controller
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
 
-        //Escrita do post
-        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/CONFIG_'.date('Ymd_His').'.txt', 'w+');
-        foreach( $request->request->all() as $postKey => $postVal )
-        {
-            $postVal = OldCacicHelper::deCrypt( $request, $postVal );
-            fwrite( $fp, "[{$postKey}]: {$postVal}\n");
-        }
-        fwrite( $fp, "Definitions: {$strCollectsDefinitions} \n Monitorados: {$v_retorno_MONITORADOS} \n");
-        fclose($fp);
-
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
         return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
