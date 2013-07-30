@@ -14,24 +14,24 @@ cacic_ws_instala_cacic:
 
 cacic_ws_gercols_setcollets:
     pattern: /gercols/setcollets
-    defaults: { _controller: CacicWSBundle:Coletas:gerColsSetCollet }
+    defaults: { _controller: CacicWSBundle:Coleta:gerColsSetCollet }
 
 cacic_ws_gercols_set_srcacic_action:
     pattern: /gercols/set/srcacic/action
-    defaults: { _controller: CacicWSBundle:Coletas:gerColsSetSrcacicAction }
+    defaults: { _controller: CacicWSBundle:Coleta:gerColsSetSrcacicAction }
 
 cacic_ws_gercols_set_usbdetect:
     pattern: /gercols/set/usbdetect
-    defaults: { _controller: CacicWSBundle:Coletas:gerColsSetUsbDetect }
+    defaults: { _controller: CacicWSBundle:Coleta:gerColsSetUsbDetect }
 
 cacic_ws_mapa_cacic_acesso:
     pattern: /mapacacic/acesso
-    defaults: { _controller: CacicWSBundle:Coletas:mapaCacicAcesso }
+    defaults: { _controller: CacicWSBundle:Coleta:mapaCacicAcesso }
 
 cacic_ws_srcacic_set_session:
     pattern: /srcacic/set/session
-    defaults: { _controller: CacicWSBundle:Coletas:srCacicSetSession }
+    defaults: { _controller: CacicWSBundle:Coleta:srCacicSetSession }
 
 cacic_ws_srcacic_ayth_client:
     pattern: /srcacic/auth/client
-    defaults: { _controller: CacicWSBundle:Coletas:srCacicAuthClient }
+    defaults: { _controller: CacicWSBundle:Coleta:srCacicAuthClient }

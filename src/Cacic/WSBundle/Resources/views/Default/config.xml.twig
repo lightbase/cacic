@@ -12,23 +12,33 @@
     <cs_cipher>{{ cs_cipher }}</cs_cipher>
 
 
-    {{ versao_modulo }}
-    <TE_PACOTE_PYCACIC_DISPONIVEL>{{ pacote_py }}</TE_PACOTE_PYCACIC_DISPONIVEL>
-    <TE_PACOTE_PYCACIC_HASH>{{ pacote_py_hash }}</TE_PACOTE_PYCACIC_HASH>
+    {% for modulo in redes_versoes_modulos %}
+        {% if modulo.getNmModulo()|upper == 'TE_PACOTE_PYCACIC_DISPONIVEL' || modulo.getNmModulo()|upper == 'TE_PACOTE_PYCACIC_HASH' %}
+            <{{ modulo.getNmModulo() |upper }}>{{ modulo.getTeVersaoModulo() }}</{{ modulo.getNmModulo() |upper }}>
+            <{{ modulo.getNmModulo() |upper }}>{{ modulo.getTeHash() }}</{{ modulo.getNmModulo() |upper }}>
+        {% else %}
+            <{{ modulo.getNmModulo() |upper }}_VER>{{ modulo.getTeVersaoModulo() }}</{{ modulo.getNmModulo() |upper }}_VER>
+            <{{ modulo.getNmModulo() |upper }}_HASH>{{ modulo.getTeHash() }}</{{ modulo.getNmModulo() |upper }}_HASH>
+        {% endif %}
+    {% endfor %}
+
     <MainProgramName>{{ main_program }}</MainProgramName>
     <LocalFolderName>{{ folder_name }}</LocalFolderName>
     {% if strCollectsDefinitions  %}
         <CollectsDefinitions>{{ strCollectsDefinitions }}</CollectsDefinitions>
         <SISTEMAS_MONITORADOS_PERFIS>{{ v_retorno_MONITORADOS }}</SISTEMAS_MONITORADOS_PERFIS>
     {% endif %}
+    {% if rede_grupos_ftp %}
+        <ID_FTP>{{  rede_grupos_ftp.getIdFtp()  }}</ID_FTP>
+    {% endif %}
     <TE_FILA_FTP>{{ v_te_fila_ftp }}</TE_FILA_FTP>
-    <ID_FTP>{{  rede_grupos_ftp.getIdFtp()  }}</ID_FTP>
     <TE_SERV_UPDATES>{{ rede.getTeServUpdates() }}</TE_SERV_UPDATES>
     <NU_PORTA_SERV_UPDATES>{{ rede.getNuPortaServUpdates() }}</NU_PORTA_SERV_UPDATES>
     <TE_PATH_SERV_UPDATES>{{ rede.getTePathServUpdates() }}</TE_PATH_SERV_UPDATES>
+    <CS_PERMITIR_DESATIVAR_SRCACIC>{{ rede.getCsPermitirDesativarSrcacic() }}</CS_PERMITIR_DESATIVAR_SRCACIC>
+    <ID_LOCAL>{{ rede.getIdLocal() }}</ID_LOCAL>
     <NM_USUARIO_LOGIN_SERV_UPDATES>{{ nm_user_login_updates }}</NM_USUARIO_LOGIN_SERV_UPDATES>
     <TE_SENHA_LOGIN_SERV_UPDATES>{{ senha_serv_updates }}</TE_SENHA_LOGIN_SERV_UPDATES>
-    <CS_PERMITIR_DESATIVAR_SRCACIC>{{ rede.getCsPermitirDesativarSrcacic() }}</CS_PERMITIR_DESATIVAR_SRCACIC>
-    <ID_LOCAL>{{ rede.getIdLocal() }}<ID_LOCAL>
+
 
 {% endblock %}

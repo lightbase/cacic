@@ -79,9 +79,9 @@ class ConfiguracaoLocalRepository extends EntityRepository
 				FROM CacicCommonBundle:ConfiguracaoLocal cl
 				JOIN cl.idConfiguracao cp
 				WHERE cl.idLocal = :idLocal AND
-				cl.nmConfiguracao = 'te_notificar_mudancas_emails' OR
-				cl.nmConfiguracao = 'te_notificar_mudancas_properties' AND
-				AND cl.vlConfiguracao IS NOT NULL";
+				cp.nmConfiguracao = 'te_notificar_mudancas_emails' OR
+				cp.nmConfiguracao = 'te_notificar_mudancas_properties' AND
+				cl.vlConfiguracao IS NOT NULL";
 
         return $this->getEntityManager()
             ->createQuery( $_dql )

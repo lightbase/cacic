@@ -31,6 +31,15 @@ class DefaultController extends Controller
     {
         if( $request->isMethod('POST') )
         {
+            //Escrita do post
+            $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/INSUCESSO_'.date('Ymd_His').'.txt', 'w+');
+            foreach( $request->request->all() as $postKey => $postVal )
+            {
+                $postVal = OldCacicHelper::deCrypt( $request, $postVal );
+                fwrite( $fp, "[{$postKey}]: {$postVal}\n");
+            }
+            fclose($fp);
+
             $data = new \DateTime('NOW');
 
             $insucesso =  new InsucessoInstalacao();
@@ -58,6 +67,15 @@ class DefaultController extends Controller
      */
     public function testAction( Request $request )
     {
+        //Escrita do post
+        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/TEST_'.date('Ymd_His').'.txt', 'w+');
+        foreach( $request->request->all() as $postKey => $postVal )
+        {
+            $postVal = OldCacicHelper::deCrypt( $request, $postVal );
+            fwrite( $fp, "[{$postKey}]: {$postVal}\n");
+        }
+        fclose($fp);
+
         OldCacicHelper::autenticaAgente( $request ) ;
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
         $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
@@ -99,6 +117,15 @@ class DefaultController extends Controller
     public function configAction( Request $request )
     {
         OldCacicHelper::autenticaAgente($request);
+
+        //Escrita do post
+         $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/CONFIG_'.date('Ymd_His').'.txt', 'w+');
+        foreach( $request->request->all() as $postKey => $postVal )
+        {
+            $postVal = OldCacicHelper::deCrypt( $request, $postVal );
+            fwrite( $fp, "[{$postKey}]: {$postVal}\n");
+        }
+       fclose($fp);
 
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_adress );
@@ -265,6 +292,7 @@ class DefaultController extends Controller
             {
                 $computador->setTePalavraChave( OldCacicHelper::deCrypt( $request, $request->get('te_palavra_chave') ));
                 $this->getDoctrine()->getManager()->persist($computador);
+                $this->getDoctrine()->getManager()->flush();
             }
 
             //verifica se computador coletado é exceção
@@ -444,7 +472,6 @@ class DefaultController extends Controller
 
                 $strCollectsDefinitions .= '[/' . $acao['idAcao'] . ']';
             }
-            $strCollectsDefinitions  = '';
             $strCollectsDefinitions .= '[Actions]' . $strAcoesSelecionadas . '[/Actions]';
         }
         if (!empty($strCollectsDefinitions))
@@ -453,27 +480,7 @@ class DefaultController extends Controller
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
 
         $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy( array( 'idRede'=>$rede->getIdRede() ) );
-        foreach($redes_versoes_modulos as $rede_versao_modulo)
-        {
-            if (!$request->get('AgenteLinux'))
-            {
-                $versao_modulo = '<'.strtoupper($rede_versao_modulo->getNmModulo() ).'_VER>'.$rede_versao_modulo->getTeVersaoModulo(). '</' . strtoupper($rede_versao_modulo->getNmModulo()) ."_VER>\n";
-                $versao_modulo .= '<'.strtoupper($rede_versao_modulo->getNmModulo() ).'_HASH>'. OldCacicHelper::enCrypt( $request, $rede_versao_modulo->getTeVersaoModulo(),true).'</'.strtoupper($rede_versao_modulo->getNmModulo()) .'_HASH>';
-            }
-            else
-            {
-                $versao_modulo = '<' . 'TE_PACOTE_PYCACIC_DISPONIVEL>' . $rede_versao_modulo->getNmModulo().'<'."/TE_PACOTE_PYCACIC_DISPONIVEL>\n";
-                $versao_modulo .= '<' . 'TE_HASH_PYCACIC>'. $rede_versao_modulo->getTeVersaoModulo().'<'.'/TE_HASH_PYCACIC>';
-            }
-        }
 
-        if ($request->get('AgenteLinux'))
-        {
-            $pacote_py = OldCacicHelper::getTest( $request );
-            $pacote_py = $pacote_py['te_pacote_PyCACIC'];
-            $pacote_py_hash =  OldCacicHelper::getTest( $request );
-            $pacote_py_hash = $pacote_py_hash['te_pacote_PyCACIC_HASH'];
-        }
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
 
@@ -482,9 +489,7 @@ class DefaultController extends Controller
         return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
             'configs'=>$configs,
             'rede'=> $rede,
-            'versao_modulo'=>$versao_modulo,
-            'pacote_py'=>$pacote_py,
-            'pacote_py_hash'=>$pacote_py_hash,
+            'redes_versoes_modulos'=>$redes_versoes_modulos,
             'main_program'=>OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe',
             'folder_name'=>OldCacicHelper::CACIC_LOCAL_FOLDER_NAME,
             'nm_user_login_updates'=>$nm_user_login_updates,
