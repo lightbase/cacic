@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /*
- * Carrega grupos de usuário
+ * Carrega Configurações-Padrão
  */
 
 class LoadConfiguracaoPadraoData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
