@@ -13,11 +13,18 @@ use Doctrine\ORM\EntityRepository;
 class TipoSoftwareRepository extends EntityRepository
 {
 
-    public function paginar( $page )
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
+        $_dql = "SELECT t
+				FROM CacicCommonBundle:TipoSoftware t
+				ORDER BY t.teDescricaoTipoSoftware";
 
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql ),
+            $page,
+            10
+        );
     }
-
     /**
      *
      * Método de listagem dos Tipo de Software cadastrados e respectivas informações

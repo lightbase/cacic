@@ -21,7 +21,7 @@ class SoftwareController extends Controller
     {
         return $this->render(
         	'CacicCommonBundle:Software:index.html.twig', 
-        	array( 'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listar() ) 
+        	array( 'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->paginar( $this->get( 'knp_paginator' ), $page ) )
         );
     }
     

@@ -13,8 +13,11 @@ class AquisicaoController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrAquisicao = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Aquisicao' )->listar();
-        return $this->render( 'CacicCommonBundle:Aquisicao:index.html.twig', array( 'Aquisicao' => $arrAquisicao ) );
+        return $this->render(
+            'CacicCommonBundle:Aquisicao:index.html.twig',
+            array( 'Aquisicao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Aquisicao' )->paginar( $this->get( 'knp_paginator' ), $page )
+            )
+        );
 
     }
     public function cadastrarAction(Request $request)

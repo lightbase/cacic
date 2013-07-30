@@ -13,7 +13,7 @@ class SoController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrso = $this->getDoctrine()->getRepository( 'CacicCommonBundle:So' )->listar();
+        $arrso = $this->getDoctrine()->getRepository( 'CacicCommonBundle:So' )->paginar( $this->get( 'knp_paginator' ), $page );
         return $this->render( 'CacicCommonBundle:So:index.html.twig', array( 'So' => $arrso ) );
 
     }

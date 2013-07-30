@@ -12,6 +12,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class SoRepository extends EntityRepository
 {
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
+    {
+        $_dql = "SELECT s
+				FROM CacicCommonBundle:So s
+				ORDER BY s.teDescSo";
+
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql ),
+            $page,
+            10
+        );
+    }
 
     /**
      *

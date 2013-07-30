@@ -30,8 +30,9 @@ class RedeController extends Controller
     {
         return $this->render(
             'CacicCommonBundle:Rede:index.html.twig',
-            array( 'rede' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listar() )
-        );
+            array( 'rede' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->paginar( $this->get( 'knp_paginator' ), $page )
+            ));
+
     }
 
     public function cadastrarAction(Request $request)

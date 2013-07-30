@@ -36,16 +36,16 @@
 
             {% for rede in rede %}
 
-                <tr id="item_{{ rede[0]['idRede'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                    <td>{{ rede[0]['teIpRede'] }}/{{ rede[0]['teMascaraRede'] }}</td>
-                    <td id="item_desc_{{ rede[0]['idRede'] }}">{{ rede[0]['nmRede'] }}</td>
+                <tr id="item_{{ rede[0].idRede }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                    <td>{{ rede[0].teIpRede }}/{{ rede[0].teMascaraRede }}</td>
+                    <td id="item_desc_{{ rede[0].idRede }}">{{ rede[0].nmRede }}</td>
                     <td style="text-align: center">{{ rede['local']}}</td>
                     <td style="text-align: center"></td>
                     <td style="text-align: center"></td>
-                    <td style="text-align: center">{{ rede[0]['teServCacic'] }}</td>
-                    <td style="text-align: center">{{ rede[0]['teServUpdates'] }}</td>
+                    <td style="text-align: center">{{ rede[0].teServCacic }}</td>
+                    <td style="text-align: center">{{ rede[0].teServUpdates }}</td>
                     <td class="td-actions">
-                        <a href="{{ path('cacic_subrede_editar', {'idRede': rede[0]['idRede']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                        <a href="{{ path('cacic_subrede_editar', {'idRede': rede[0].idRede}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                             <i class="btn-icon-only icon-edit icon-large"></i>
                         </a>
 
@@ -63,6 +63,14 @@
 
             </tbody>
         </table>
+
+
+           {# display navigation #}
+           <div class="navigation">
+               {{ knp_pagination_render(rede) }}
+           </div>
+
+
             <div align="right">
                 <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_subrede_cadastrar') }}">
                     <i class="icon-plus-sign"></i>

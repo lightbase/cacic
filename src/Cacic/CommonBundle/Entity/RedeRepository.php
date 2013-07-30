@@ -33,6 +33,21 @@ class RedeRepository extends EntityRepository
      *
      * Método de listagem das Redes cadastradas e respectivas informações dos locais associados
      */
+
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
+    {
+        $_dql = "SELECT r, count(l.nmLocal) AS local
+				FROM CacicCommonBundle:Rede r
+				LEFT JOIN r.idLocal l
+				GROUP BY r";
+
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql ),
+            $page,
+            10
+        );
+    }
+
     public function listar()
     {
         $_dql = "SELECT r, count(l.nmLocal) AS local

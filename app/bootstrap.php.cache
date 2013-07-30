@@ -1811,6 +1811,7 @@ public function __construct(ParameterBagInterface $parameterBag = null)
 {
 $this->parameterBag = null === $parameterBag ? new ParameterBag() : $parameterBag;
 $this->services = array();
+$this->aliases = array();
 $this->scopes = array();
 $this->scopeChildren = array();
 $this->scopedServices = array();
@@ -1862,7 +1863,10 @@ $this->$method();
 public function has($id)
 {
 $id = strtolower($id);
-return array_key_exists($id, $this->services) || method_exists($this,'get'.strtr($id, array('_'=>'','.'=>'_')).'Service');
+return array_key_exists($id, $this->services)
+|| array_key_exists($id, $this->aliases)
+|| method_exists($this,'get'.strtr($id, array('_'=>'','.'=>'_')).'Service')
+;
 }
 public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE)
 {
@@ -2099,11 +2103,11 @@ protected $name;
 protected $startTime;
 protected $classes;
 protected $loadClassCache;
-const VERSION ='2.3.1';
-const VERSION_ID ='20301';
+const VERSION ='2.3.2';
+const VERSION_ID ='20302';
 const MAJOR_VERSION ='2';
 const MINOR_VERSION ='3';
-const RELEASE_VERSION ='1';
+const RELEASE_VERSION ='2';
 const EXTRA_VERSION ='';
 public function __construct($environment, $debug)
 {

@@ -32,14 +32,14 @@
             	<tbody>
     			{% for ServidorAutenticacao in servidor %}
 
-		        <tr id="item_{{ ServidorAutenticacao['idServidorAutenticacao'] }}">
-		            <td id="item_desc_{{ ServidorAutenticacao['idServidorAutenticacao'] }}">{{ ServidorAutenticacao['nmServidorAutenticacao'] }}</td>
-		            <td style="text-align: left">{{ ServidorAutenticacao['teIpServidorAutenticacao'] }}</td>
-		            <td style="text-align: center">{{ ServidorAutenticacao['nuPortaServidorAutenticacao'] }}</td>
-		            <td style="text-align: center">{{ ServidorAutenticacao['idTipoProtocolo'] }}/{{ ServidorAutenticacao['nuVersaoProtocolo'] }}</td>
-		            <td style="text-align: center">{{ ServidorAutenticacao ['inAtivo'] }}</td>
+		        <tr id="item_{{ ServidorAutenticacao.idServidorAutenticacao }}">
+		            <td id="item_desc_{{ ServidorAutenticacao.idServidorAutenticacao }}">{{ ServidorAutenticacao.nmServidorAutenticacao }}</td>
+		            <td style="text-align: left">{{ ServidorAutenticacao.teIpServidorAutenticacao }}</td>
+		            <td style="text-align: center">{{ ServidorAutenticacao.nuPortaServidorAutenticacao }}</td>
+		            <td style="text-align: center">{{ ServidorAutenticacao.idTipoProtocolo }}/{{ ServidorAutenticacao.nuVersaoProtocolo }}</td>
+		            <td style="text-align: center">{{ ServidorAutenticacao.inAtivo }}</td>
 		            <td class="td-actions">
-						<a href="{{ path('cacic_servidorautenticacao_editar', {'idServidorAutenticacao': ServidorAutenticacao['idServidorAutenticacao']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+						<a href="{{ path('cacic_servidorautenticacao_editar', {'idServidorAutenticacao': ServidorAutenticacao.idServidorAutenticacao }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
 							<i class="btn-icon-only icon-edit icon-large"></i>
 						</a>
 						
@@ -56,6 +56,12 @@
 			    {% endfor %}
             	</tbody>
 			</table>
+
+
+            {# display navigation #}
+            <div class="navigation">
+                {{ knp_pagination_render(servidor) }}
+            </div>
         
 	        <div align="right">
 			    <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_servidorautenticacao_cadastrar') }}">

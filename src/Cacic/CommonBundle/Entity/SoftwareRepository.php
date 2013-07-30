@@ -12,7 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class SoftwareRepository extends EntityRepository
 {
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
+    {
+        $_dql = "SELECT s, tipoSW.teDescricaoTipoSoftware AS tipoSoftware
+				FROM CacicCommonBundle:Software s
+				LEFT JOIN s.idTipoSoftware tipoSW
+				ORDER BY s.nmSoftware ASC";
 
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql ),
+            $page,
+            10
+        );
+    }
     /**
      *
      * Método de listagem dos Software cadastrados e respectivas informações
@@ -193,9 +205,10 @@ class SoftwareRepository extends EntityRepository
             ->groupBy('l, sw')
             ->orderBy('sw.nmSoftware, l.nmLocal');
 
-        /**
+        /*
          * Verifica os filtros que foram parametrizados
          */
+
         if ( array_key_exists('softwares', $filtros) && !empty($filtros['softwares']) )
             $qb->andWhere('sw.idSoftware IN (:softwares)')->setParameter('softwares', explode( ',', $filtros['softwares'] ));
 

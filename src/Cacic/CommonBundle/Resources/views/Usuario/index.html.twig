@@ -34,16 +34,16 @@
 		            <tbody>
 		
 		            {% for usuario in usuarios %}
-		                <tr id="item_{{ usuario[0]['idUsuario'] }}">
-		                    <td>{{ usuario[0]['nmUsuarioAcesso'] }}</td>
-		                    <td id="item_desc_{{ usuario[0]['idUsuario'] }}">{{ usuario[0]['nmUsuarioCompleto'] }}</td>
+		                <tr id="item_{{ usuario[0].idUsuario }}">
+		                    <td>{{ usuario[0].nmUsuarioAcesso }}</td>
+		                    <td id="item_desc_{{ usuario[0].idUsuario }}">{{ usuario[0].nmUsuarioCompleto }}</td>
 		                    <td>{{ usuario['nmLocal'] }}</td>
 		                    <td style="text-align: center">
 		                    	{{ usuario['numLocSec'] }}
 		                    </td>
 		                    <td>{{ usuario['teGrupoUsuarios'] }}</td>
 		                    <td class="td-actions">
-								<a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario[0]['idUsuario']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+								<a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario[0].idUsuario }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
 									<i class="btn-icon-only icon-edit"></i>
 								</a>
 								
@@ -64,6 +64,11 @@
 		
 		            </tbody>
 		        </table>
+
+                {# display navigation #}
+                <div class="navigation">
+                    {{ knp_pagination_render(usuarios) }}
+                </div>
 		        
 		        <div align="right">
 				    <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_usuario_cadastrar') }}">

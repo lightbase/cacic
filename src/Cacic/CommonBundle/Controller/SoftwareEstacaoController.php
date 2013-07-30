@@ -21,7 +21,7 @@ class SoftwareEstacaoController extends Controller
     {
         return $this->render(
             'CacicCommonBundle:SoftwareEstacao:index.html.twig',
-            array( 'SoftwareEstacao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:SoftwareEstacao' )->listar() ));
+            array( 'SoftwareEstacao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:SoftwareEstacao' )->paginar( $this->get( 'knp_paginator' ), $page ) ));
     }
     
     /**

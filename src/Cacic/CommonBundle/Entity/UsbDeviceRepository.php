@@ -13,9 +13,18 @@ use Doctrine\ORM\EntityRepository;
 class UsbDeviceRepository extends EntityRepository
 {
 
-    public function paginar( $page )
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
+        $_dql = "SELECT u, v.nmUsbVendor, v.idUsbVendor
+				FROM CacicCommonBundle:UsbDevice u
+				JOIN u.idUsbVendor v
+				GROUP BY u.idUsbDevice";
 
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql ),
+            $page,
+            10
+        );
     }
 
     /**

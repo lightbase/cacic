@@ -66,6 +66,11 @@
 
             </tbody>
          </table>
+           {# display navigation #}
+           <div class="navigation">
+               {{ knp_pagination_render(SoftwareEstacao) }}
+           </div>
+
          <div align="right">
                 <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_software_estacao_cadastrar') }}">
                     <i class="icon-plus-sign"></i>

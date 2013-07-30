@@ -13,9 +13,17 @@ use Doctrine\ORM\EntityRepository;
 class AplicativoRepository extends EntityRepository
 {
 
-    public function paginar( $page )
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
+        $_dql = "SELECT a
+				FROM CacicCommonBundle:Aplicativo a
+				GROUP BY a.idAplicativo";
 
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql ),
+            $page,
+            10
+        );
     }
     /**
      *

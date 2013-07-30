@@ -13,11 +13,21 @@ use Doctrine\ORM\EntityRepository;
 class UsuarioRepository extends EntityRepository
 {
 
-	public function paginar( $page )
-	{
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
+    {
+        $_dql = "SELECT u, l.nmLocal, g.teGrupoUsuarios, COUNT(ls.idLocal) as numLocSec
+				FROM CacicCommonBundle:Usuario u
+				JOIN u.idLocal l
+				JOIN u.idGrupoUsuario g
+				LEFT JOIN u.locaisSecundarios ls
+				GROUP BY u.idUsuario";
 
-	}
-
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql ),
+            $page,
+            10
+        );
+    }
 	/**
 	 *
 	 * Método de listagem dos Usuários cadastrados e respectivas informações de Login, Nome, Locais e Níveis de acesso

@@ -20,7 +20,7 @@ class UsuarioController extends Controller
 	 */
 	public function indexAction( $page )
 	{
-		$arrUsuarios = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuario' )->listar();
+		$arrUsuarios = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuario' )->paginar( $this->get( 'knp_paginator' ), $page );
 		return $this->render( 'CacicCommonBundle:Usuario:index.html.twig', array( 'usuarios' => $arrUsuarios ) );
 	}
     
