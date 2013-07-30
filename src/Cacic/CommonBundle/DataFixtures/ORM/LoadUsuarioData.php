@@ -1,6 +1,6 @@
 <?php
 
-namespace Hotels\CoreBundle\DataFixtures\ORM;
+namespace Cacic\CommonBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -31,7 +31,6 @@ class LoadUsuarioData extends AbstractFixture implements FixtureInterface, Conta
 
         // Adiciona referência ao grupo
         $userAdmin->setIdGrupoUsuario($this->getReference('grupo-admin'));
-
 
         // Criptografa a senha
         //$userAdmin->setSalt(md5(uniqid()));

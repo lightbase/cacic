@@ -6,6 +6,7 @@ Cacic\CommonBundle\Entity\GrupoUsuario:
         idGrupoUsuario:
             id: true
             type: integer
+            unsigned: false
             nullable: false
             column: id_grupo_usuario
             generator:

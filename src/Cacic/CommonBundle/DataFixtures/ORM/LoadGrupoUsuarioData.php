@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Hotels\CoreBundle\DataFixtures\ORM;
+namespace Cacic\CommonBundle\DataFixtures\ORM;
 
 use Cacic\CommonBundle\Entity\GrupoUsuario;
 use Doctrine\Common\DataFixtures\AbstractFixture;
