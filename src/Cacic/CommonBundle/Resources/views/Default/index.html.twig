@@ -6,7 +6,7 @@
 
 	<div class="span6 column ui-sortable" id="col0">
 		<div class="box grad_colour_black" id="box0">
-			<h2 class="box_head round_top"><i class="icon-bar-chart"></i> Estatísticas do sistema</h2>
+			<h2 class="box_head round_top"><i class="icon-bar-chart"></i> {{ 'Estatísticas do sistema'|trans }}</h2>
 			<div class="toggle_container">
 				<div class="block box_content round_bottom padding_10">
 					<ul class="statistics">
@@ -21,10 +21,10 @@
 	
 	<div class="span6 column ui-sortable" id="col1">
 		<div class="box grad_colour_black" id="box1">
-			<h2 class="box_head round_top"> <i class="icon-file"></i> Boas vindas</h2>
+			<h2 class="box_head round_top"> <i class="icon-file"></i> {{ 'Boas vindas'|trans }}</h2>
 			<div class="toggle_container">
 				<div class="block box_content round_bottom padding_10">
-				<p>Olá, {{ app.user.nmUsuarioCompleto }}, seja bem-vindo à área administrativa do CACIC v3.</p>
+				<p>{{ 'Olá'|trans }}, {{ app.user.nmUsuarioCompleto }}, {{ 'seja bem-vindo à área administrativa do CACIC v3.'|trans }}</p>
 				</div>
 			</div>
 		</div> <!-- /box -->
@@ -36,22 +36,22 @@
 
 	<div class="span6 column ui-sortable" id="col2">
 		<div class="box grad_colour_black" id="box2">
-			<h2 class="box_head round_top"><i class="icon-heart"></i> Atalhos</h2>
+			<h2 class="box_head round_top"><i class="icon-heart"></i> {{ 'Atalhos'|trans }}</h2>
 			<div class="toggle_container">
 				<div class="block box_content round_bottom padding_10 shortcuts">
 					<a href="{{ path('cacic_usuario_index') }}" class="shortcut">
 						<i class="shortcut-icon icon-group"></i>
-						<span class="shortcut-label">Usuários</span>
+						<span class="shortcut-label">{{ 'Usuários'|trans }}</span>
 					</a>
 					
 					<a href="{{ path('cacic_local_index') }}" class="shortcut">
 						<i class="shortcut-icon icon-globe"></i>
-						<span class="shortcut-label">Locais</span>								
+						<span class="shortcut-label">{{ 'Locais'|trans }}</span>
 					</a>
 					
 					<a href="{{ path('cacic_modulo_index') }}" class="shortcut">
 						<i class="shortcut-icon icon-cogs"></i>
-						<span class="shortcut-label">Módulos</span>	
+						<span class="shortcut-label">{{ 'Módulos'|trans }}</span>
 					</a>
 				</div>
 			</div>

@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}     
-	<li class="active">Configuração Local (<i>{{ local.getSgLocal() }}</i>) </li>
+	<li class="active">{{ 'Configuração Local'|trans }} (<i>{{ local.getSgLocal() }}</i>) </li>
 {% endblock %}
 
 {% block body %}
