@@ -63,6 +63,14 @@ var System = {
         			}
         		});
         	}
+        },
+        focusFirstTabOnError : function( formId ){
+        	var $errors = $( 'div.control-group.error', $(formId) );
+        	if ( $errors.length > 0 ) // Verifica se há erros no formulário
+    		{
+        		var firstErrorTab = $errors.first().parent().attr('id');
+        		$('ul.nav a[href="#' + firstErrorTab + '"]').tab('show');
+    		}
         }
     },
 	Menu : {

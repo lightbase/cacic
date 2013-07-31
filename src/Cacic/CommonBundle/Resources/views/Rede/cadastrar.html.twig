@@ -17,7 +17,7 @@
 
      <div class="block box_content round_bottom padding_10">
 
-       <form id="formRede" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+       <form novalidate="novalidate" id="formRede" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
 
                 <div class="tabbable">
                     <ul class="nav nav-tabs">
@@ -138,5 +138,15 @@
     </div> <!-- span4 -->
  
 </div> <!-- /row -->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+        System.Form.focusFirstTabOnError('#formRede');
+
+    </script>
 
 {% endblock %}

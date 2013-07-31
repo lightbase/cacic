@@ -16,7 +16,7 @@ class RedeType extends AbstractType
 
 	public function buildForm( FormBuilderInterface $builder, array $options )
 	{
-		$builder->add( 'idLocal', 'entity',
+		$builder->add( 'idLocal', null,
 			array(
 				'empty_value' => 'Selecione o Local',
 				'class' => 'CacicCommonBundle:Local',

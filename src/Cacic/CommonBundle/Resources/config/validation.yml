@@ -55,6 +55,9 @@ Cacic\CommonBundle\Entity\ServidorAutenticacao:
             - NotBlank: ~
             - Length:
                 max: 100
+        teAtributoIdentificadorAlternativo:
+            - Length:
+                max: 100
         teAtributoRetornaNome:
             - NotBlank: ~
             - Length:
@@ -67,10 +70,8 @@ Cacic\CommonBundle\Entity\ServidorAutenticacao:
             - NotBlank: ~
             - Length:
                 max: 100
-        teObservacao:
-            - Length:
-                max: 200
         inAtivo:
+            - NotBlank: ~
             - Choice:
                 choices:  [S, N]
 
