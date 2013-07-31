@@ -34,7 +34,7 @@
 
                 {% for software in SoftwareEstacao %}
 
-                    <tr id="item_comp{{ software['idComputador'] }}_sw{{ software['idSoftware'] }}">
+                    <tr id="item_comp{{ software['idComputador'] }}_sw{{ software['idSoftware'] }}" >
                         <td>{{ software['nmSoftware'] }}</td>
                         <td>{{ software['descComputador'] }}</td>
                         <td style="text-align: center">{{ software[0]['nrPatrimonio'] }}</td>

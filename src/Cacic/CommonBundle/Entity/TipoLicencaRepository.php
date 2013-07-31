@@ -13,9 +13,17 @@ use Doctrine\ORM\EntityRepository;
 class TipoLicencaRepository extends EntityRepository
 {
 
-    public function paginar( $page )
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
+        $_dql = "SELECT t
+				FROM CacicCommonBundle:TipoLicenca t
+				GROUP BY t.idTipoLicenca";
 
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql ),
+            $page,
+            10
+        );
     }
 
     /**

@@ -20,7 +20,7 @@
 				<p>{{ "Informe o arquivo CSV com os dados das Redes/Subredes que devem ser importadas"|trans }}.</p>
 				<hr />
 			
-				<form id="formImportSubredes" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+				<form id="formImportSubredes" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ 'form_enctype(form)'|trans }}>
 				
 					{{ form_widget( form, {'form_type': 'horizontal'} ) }}
 					{{ form_rest(form) }}
