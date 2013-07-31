@@ -5,6 +5,8 @@ namespace Cacic\WSBundle\Controller;
 use Cacic\CommonBundle\Entity\AcaoSo;
 use Cacic\CommonBundle\Entity\Computador;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
+use Cacic\CommonBundle\Entity\ConfiguracaoLocal;
+use Cacic\CommonBundle\Entity\ConfiguracaoPadrao;
 use Cacic\CommonBundle\Entity\Rede;
 use Cacic\CommonBundle\Entity\RedeGrupoFtp;
 use Doctrine\Common\Util\Debug;
@@ -260,6 +262,7 @@ class DefaultController extends Controller
 
         else
         {
+            //caso não seja agente Linux
             if ($request->get('te_palavra_chave') <> '')
             {
                 $computador->setTePalavraChave( OldCacicHelper::deCrypt( $request, $request->get('te_palavra_chave') ));
@@ -276,10 +279,11 @@ class DefaultController extends Controller
             $v_retorno_MONITORADOS 	= null;
             $strAcoesSelecionadas = null;
             $strCollectsDefinitions = '';
-            //Coleta Forçada
+
+            //Coleta Forçada para computador
             $v_tripa_coleta = explode('#', $computador->getTeNomesCurtosModulos() );
 
-            //Ações de Coletas
+            //Ações de Coletas por rede
             $acoes = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listaAcaoRedeComputador($rede, $so);
 
             foreach($acoes as $acao)
@@ -301,6 +305,7 @@ class DefaultController extends Controller
                         $strActualClassName		= '';
                         $strPropertiesNames		= '';
 
+                        //percorre detalhes das classes, ex. DiskDriver, CD-ROM, FisicalMemory
                         foreach ($detalhesClasses as $detalheClasse)
                         {
                             if (empty($arrClassesNames[$detalheClasse['nmClassName']]))
@@ -330,6 +335,7 @@ class DefaultController extends Controller
                         $strCollectsDefinitions .= '[Properties]' 	. $strPropertiesNames  			. '[/Properties]';
                         $strCollectsDefinitions .= '[/ClassesAndProperties]';
 
+                        //caso coleta forçada tenha sido marcada em algum momento
                         $coleta_forcada_computador = $computador->getDtHrColetaForcadaEstacao();
                         if ( !empty($acao['dtHrColetaForcada']) ||  !empty($coleta_forcada_computador))
                         {
@@ -456,8 +462,9 @@ class DefaultController extends Controller
         if($request->get('AgenteLinux'))
             $agente_py = true;
 
-        $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->listar();
+        $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarPorLocal($local->getIdLocal());
 
+        //informações dos modulos do agente, nome, versao, hash
         $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy( array( 'idRede'=>$rede->getIdRede() ) );
 
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());

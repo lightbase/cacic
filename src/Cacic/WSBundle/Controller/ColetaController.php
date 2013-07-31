@@ -34,6 +34,15 @@ class ColetaController extends Controller
      */
     public function gerColsSetColletAction( Request $request )
     {
+
+        $resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal('3');
+        $resConfigsLocaisEmail = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoEmailLocal('3');
+
+        $arr = explode(',',$resConfigsLocais[0]['vlConfiguracao']);
+        $arrClassesAndProperties = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaPorPropertyNotificacao( $arr )  ;
+
+        Debug::dump($arrClassesAndProperties);die;
+
         //Escrita do post
         $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/GERCOLS_SETCOL_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
@@ -78,17 +87,17 @@ class ColetaController extends Controller
         if ($arrCollectsDefClasses[$strCollectType])
         {
             // Obtenho configuração para notificação de alterações
-            $resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPorLocal($rede->getIdLocal());
+            $resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal($rede->getIdLocal());
+            $resConfigsLocaisEmail = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoEmailLocal($rede->getIdLocal());
 
-                //PAREI AQUI
-            //$arrClassesAndProperties = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')-> ;
-            $arrClassesAndProperties = getArrFromSelect('classes cl,
-					 					   classes_properties cp',
-                'cp.id_property,
-                 cp.nm_property_name,
-                 cp.te_property_description,
-                 cl.nm_class_name',
-                'cp.id_property in (' . $resConfigsLocais[0]['te_notificar_mudancas_properties']. ') AND cl.id_class = cp.id_class');
+            $arrClassesAndProperties = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaPorPropertyNotificacao( $resConfigsLocais['vlConfiguracao'] )  ;
+//            $arrClassesAndProperties = getArrFromSelect('classes cl,
+//					 					   classes_properties cp',
+//                'cp.id_property,
+//                 cp.nm_property_name,
+//                 cp.te_property_description,
+//                 cl.nm_class_name',
+//                'cp.id_property in (' . $resConfigsLocais[0]['te_notificar_mudancas_properties']. ') AND cl.id_class = cp.id_class');
 
             for ($intLoopArrClassesAndProperties = 0; $intLoopArrClassesAndProperties < count($arrClassesAndProperties); $intLoopArrClassesAndProperties++)
                 $arrClassesPropertiesToNotificate[$arrClassesAndProperties[$intLoopArrClassesAndProperties]['nm_class_name'] . '.' . $arrClassesAndProperties[$intLoopArrClassesAndProperties]['nm_property_name']] = $arrClassesAndProperties[$intLoopArrClassesAndProperties]['te_property_description'];

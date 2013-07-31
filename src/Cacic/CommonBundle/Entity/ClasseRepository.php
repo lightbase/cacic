@@ -59,4 +59,18 @@ class ClasseRepository extends EntityRepository
             ->setParameter( 'idClass', $idClass )
             ->getArrayResult();
     }
+
+    public function listaPorPropertyNotificacao( $properties )
+    {
+        $_dql = "SELECT c, cp
+				 FROM CacicCommonBundle:Classe c,
+				 CacicCommonBundle:ClassProperty cp
+				 WHERE c.idClass = cp.idClass AND
+                 cp.idClassProperty IN ( :properties )";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameters( 'properties', $properties )
+            ->getArrayResult();
+    }
 }
