@@ -1,8 +1,0 @@
-hardware
-so
-software
-e software_base
-
-(anonimizar)
-
-funcao q traz id_local e id_ip_redes e faz nextval(id_rede_seq)
