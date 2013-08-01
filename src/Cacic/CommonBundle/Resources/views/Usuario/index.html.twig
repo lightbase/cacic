@@ -24,7 +24,7 @@
 						<tr>
 							<th width="15%">Login</th>
 			                <th width="25%">{{ "Nome"|trans }}</th>
-			                <th width="20%">Local</th>
+			                <th width="20%">{{ 'Local'|trans }}</th>
 			                <th width="10%" style="text-align: center">{{ "Locais"|trans }}<br />{{ "secundários"|trans }}</th>
 			                <th width="15%">{{ "Nível de Acesso"|trans }}</th>
 			                <th style="text-align: center">{{ "Ações"|trans }}</th>
@@ -44,15 +44,15 @@
 		                    <td>{{ usuario['teGrupoUsuarios'] }}</td>
 		                    <td class="td-actions">
 								<a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario[0].idUsuario }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
-									<i class="btn-icon-only icon-edit"></i>
+									<i class="icon-edit icon-large"></i>
 								</a>
 								
 								<a href="javascript: void(0);" class="btn btn-small bt-trocar-senha" title="{{ "Trocar Senha do Usuário"|trans }}">
-									<i class="btn-icon-only icon-key"></i>
+									<i class="icon-key icon-large"></i>
 								</a>
 								
 								<a href="{{ path('cacic_usuario_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
-									<i class="btn-icon-only icon-trash icon-large"></i>										
+									<i class="icon-trash icon-large"></i>										
 								</a>
 							</td>
 		                </tr>

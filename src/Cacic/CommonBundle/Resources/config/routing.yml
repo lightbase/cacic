@@ -26,6 +26,10 @@ cacic_usuario_trocar_senha:
     pattern:  /usuario/trocarsenha
     defaults: { _controller: CacicCommonBundle:Usuario:trocarsenha}
 
+cacic_usuario_trocar_propria_senha:
+    pattern:  /usuario/trocarpropriasenha
+    defaults: { _controller: CacicCommonBundle:Usuario:trocarpropriasenha}
+
 cacic_usuario_cadastrar:
     pattern:  /usuario/cadastrar
     defaults: { _controller: CacicCommonBundle:Usuario:cadastrar}

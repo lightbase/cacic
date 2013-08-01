@@ -20,7 +20,7 @@ class UsuarioRepository extends EntityRepository
 				JOIN u.idLocal l
 				JOIN u.idGrupoUsuario g
 				LEFT JOIN u.locaisSecundarios ls
-				GROUP BY u.idUsuario";
+				GROUP BY u, l.nmLocal, g.teGrupoUsuarios";
 
         return $paginator->paginate(
             $this->getEntityManager()->createQuery( $_dql ),
@@ -39,7 +39,7 @@ class UsuarioRepository extends EntityRepository
 				JOIN u.idLocal l
 				JOIN u.idGrupoUsuario g
 				LEFT JOIN u.locaisSecundarios ls
-				GROUP BY u.idUsuario";
+				GROUP BY u, l.nmLocal, g.teGrupoUsuarios";
 
 		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}

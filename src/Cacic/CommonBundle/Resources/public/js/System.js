@@ -76,6 +76,13 @@ var System = {
 	Menu : {
 		setActive : function( url ){
 			//alert( url );
+		},
+		changeOwnPass : function( url ){
+			$( "a.bt-trocar-propria-senha" ).bind( 'click', function(e){
+				e.preventDefault();
+				var params = { 'url': $( this ).attr( 'href' ) };
+				$( "#trocarPropriaSenha" ).data( 'params', params ).dialog( "open" ); // Abre a "Modal" com o formulário de troca de senha
+			});
 		}
 	}
 }

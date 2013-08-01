@@ -102,11 +102,11 @@
 						<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="javascript:void(0);">{{ 'Meus Dados'|trans }}</a></li>
-						<li><a href="javascript:void(0);">{{ 'Alterar Senha'|trans }}</a></li>
-						<li><a href="javascript:void(0);">{{ 'Editar Favoritos (Atalhos)'|trans }}</a></li>
+						<li><a href="javascript:void(0);"><i class="icon-file"></i> {{ 'Meus Dados'|trans }}</a></li>
+						<li><a href="{{ path('cacic_usuario_trocar_propria_senha') }}" class="bt-trocar-propria-senha"><i class="icon-key"></i> {{ 'Alterar Senha'|trans }}</a></li>
+						<li><a href="javascript:void(0);"><i class="icon-heart"></i> {{ 'Editar Favoritos (Atalhos)'|trans }}</a></li>
 						<li class="divider"></li>
-						<li><a href="{{ path('cacic_common_logout') }}">{{ 'Sair'|trans }}</a></li>
+						<li><a href="{{ path('cacic_common_logout') }}"><i class="icon-off"></i> {{ 'Sair'|trans }}</a></li>
 					</ul>
 				</li>
             </ul>
@@ -362,6 +362,7 @@
     
     {% endblock %}
     
+    <!-- DIALOG (Modal) de confirmação de exclusão de item -->
     <div id="System_Excluir" title="Excluir">
 	    <p>
 	        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 50px 0;"></span>
@@ -369,6 +370,20 @@
 	        O <span id="excluir_item_desc">item</span> {{ 'será removido permanentemente e não poderá ser recuperado. Tem certeza que deseja continuar?'|trans }}
 	        {% endblock %}
 	    </p>
+	</div>
+	
+	<!-- DIALOG (Modal) de troca de senha -->
+	<div id="trocarPropriaSenha" title="{{ "Trocar Senha"|trans }}">
+		<form id="frmTrocarPropriaSenha">
+		<fieldset>
+			<label for="troca_propria_senha_te_senha_atual">{{ "Senha Atual:"|trans }}</label>
+			<input type="password" name="troca_propria_senha_te_senha_atual" id="troca_propria_senha_te_senha_atual" value="" class="text ui-widget-content ui-corner-all" />
+			<label for="troca_propria_senha_te_senha_nova">{{ "Nova Senha:"|trans }}</label>
+			<input type="password" name="troca_propria_senha_te_senha_nova" id="troca_propria_senha_te_senha_nova" value="" class="text ui-widget-content ui-corner-all" />
+			<label for="troca_propria_senha_te_senha_nova_confirma">{{ "Confirmação:"|trans }}</label>
+			<input type="password" name="troca_propria_senha_te_senha_nova_confirma" id="troca_propria_senha_te_senha_nova_confirma" value="" class="text ui-widget-content ui-corner-all" />
+		</fieldset>
+		</form>
 	</div>
 	
   </body>
