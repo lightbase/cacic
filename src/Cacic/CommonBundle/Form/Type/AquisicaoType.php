@@ -41,8 +41,14 @@ class AquisicaoType extends AbstractType
         );
         $builder->add('dtAquisicao',
             'date',
-            array( 'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy','label'=>'Data de aquisicao',)
+            array(
+            	'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+            	'label'=>'Data de aquisicao',
+            	'attr' => array(
+        			'class' => 'datepicker_on'
+        		)
+        	)
         );
     }
 

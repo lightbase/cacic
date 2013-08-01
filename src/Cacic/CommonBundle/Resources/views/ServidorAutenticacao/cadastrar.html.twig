@@ -123,10 +123,18 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/js/jquery.mask-0.10.1.min.js') }}"></script>
     <script type="text/javascript">
 
         $( document ).ready(function(){
-            $( "#ServidorAutenticacao_teIpServidorAutenticacao" ).mask( '0{1,3}.0{1,3}.0{1,3}.0{1,3}' );
+            $( "#ServidorAutenticacao_teIpServidorAutenticacao" )
+            	.mask( '0{1,3}.0{1,3}.0{1,3}.0{1,3}' )
+            	.on('blur', function(e){
+                	// Valida o campo de IP
+                	var ip = $(this).val();
+                	if ( ! ip.match('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$' ) )
+                		$(this).val(''); // Limpa o campo de IP
+                });
         });
 
         System.Form.focusFirstTabOnError('#formServidorAutenticacao');
