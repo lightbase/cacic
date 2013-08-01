@@ -1,0 +1,7 @@
+{% extends 'CacicWSBundle::common.xml.twig' %}
+{%  block bodyXML %}
+{% if nm_device %}
+    <NM_DEVICE>nm_device</NM_DEVICE>
+{% endif %}
+    <STATUS>{{ status }}</STATUS>
+{% endblock %}

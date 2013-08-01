@@ -55,7 +55,7 @@ class DefaultController extends Controller
     }
 
     /**
-     *  Método responsável por Verificar se houve comunicação com o Agente CACIC
+     *  Método responsável por Verificar comunicação entre Agente CACIC
      *
      */
     public function testAction( Request $request )

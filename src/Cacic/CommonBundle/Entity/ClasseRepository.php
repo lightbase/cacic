@@ -70,7 +70,7 @@ class ClasseRepository extends EntityRepository
 
         return $this->getEntityManager()
             ->createQuery( $_dql )
-            ->setParameters( 'properties', $properties )
+            ->setParameter('properties', explode(',', $properties))
             ->getArrayResult();
     }
 }

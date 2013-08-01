@@ -75,6 +75,8 @@ class ConfiguracaoLocalRepository extends EntityRepository
     /**
      *
      * Lista Email's cadastrados para serem notificados, caso haja alteração de hardware
+     * @param string $idLocal
+     * @return Cacic\CommonBundle\Entity\ConfiguracaoLocal
      */
     public function listarNotificacaoEmailLocal( $idLocal )
     {
@@ -87,12 +89,15 @@ class ConfiguracaoLocalRepository extends EntityRepository
 
         return $this->getEntityManager()
             ->createQuery( $_dql )
+            ->setMaxResults(1)
             ->setParameter( 'idLocal', $idLocal )
-            ->getArrayResult();
+            ->getSingleResult();
     }
     /**
      *
      * Lista Propiedades a serem verificadas caso haja alteração
+     * @param string $idLocal
+     * @return Cacic\CommonBundle\Entity\ConfiguracaoLocal
      */
     public function listarNotificacaoPropertyLocal( $idLocal )
     {
@@ -105,8 +110,9 @@ class ConfiguracaoLocalRepository extends EntityRepository
 
         return $this->getEntityManager()
             ->createQuery( $_dql )
+            ->setMaxResults(1)
             ->setParameter( 'idLocal', $idLocal )
-            ->getArrayResult();
+            ->getSingleResult();
     }
 
 }
