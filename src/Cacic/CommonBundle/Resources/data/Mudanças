@@ -172,21 +172,21 @@ OK --grupo_usuario
 
 --insucesso_instalacao
 
-'' AS insucesso_instalacao.id_insucesso_instalacao
+'@s+1' AS insucesso_instalacao.id_insucesso_instalacao
 'insucessos_instalacao.te_ip' AS insucesso_instalacao.te_ip_computador
 'insucessos_instalacao.te_so' AS insucesso_instalacao.te_so
 'insucessos_instalacao.id_usuario' AS insucesso_instalacao.id_usuario
 'insucessos_instalacao.dt_datahora' AS insucesso_instalacao.dt_datahora
 'insucessos_instalacao.cs_indicador' AS insucesso_instalacao.cs_indicador
 
---local
+OK --local
 
 'locais.id_local' AS local.id_local
 'locais.nm_local' AS local.nm_local
 'locais.sg_local' AS local.sg_local
 'locais.te_observacao' AS local.te_observacao
-'' AS local.te_debugging
-'' AS local.dt_debug
+'NULL' AS local.te_debugging
+'NULL' AS local.dt_debug
 
 --local_secundario
 
@@ -264,11 +264,11 @@ OK --rede
 
 --rede_grupo_ftp
 
-'redes_grupo_ftp.id_ftp' AS rede_grupo_ftp.id_ftp
+'redes_grupos_ftp.id_ftp' AS rede_grupo_ftp.id_ftp
 'import.id_rede' AS rede_grupo_ftp.id_rede
-'' AS rede_grupo_ftp.id_computador
-'redes_grupo_ftp.nu_hora_inicio' AS rede_grupo_ftp.nu_hora_inicio
-'redes_grupo_ftp.nu_hora_fim' AS rede_grupo_ftp.nu_hora_fim
+'computador.id_computador' AS rede_grupo_ftp.id_computador
+'redes_grupos_ftp.nu_hora_inicio' AS rede_grupo_ftp.nu_hora_inicio
+'redes_grupos_ftp.nu_hora_fim' AS rede_grupo_ftp.nu_hora_fim
 
 --rede_versao_modulo
 

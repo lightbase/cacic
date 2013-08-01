@@ -64,15 +64,15 @@ $tabelas = array(
     // "class_property_type",
     // "classe",
     // "collect_def_class",
-    "computador" => "SELECT @s:=@s+1 id_computador, @s1:=NULL id_usuario_exclusao, computador.id_so, import.id_rede, computador.te_nome_computador as nm_computador, computador.te_node_address, computador.te_ip as te_ip_computador, computador.dt_hr_inclusao, @s2:=NULL dt_hr_exclusao, computador.dt_hr_ult_acesso, computador.te_versao_cacic, computador.te_versao_gercols, computador.te_palavra_chave, computador.dt_hr_coleta_forcada_estacao, computador.te_nomes_curtos_modulos, computador.id_conta, @s3:=NULL te_debugging, @s4:=NULL te_ultimo_login, @s5:=NULL dt_debug FROM computadores AS computador INNER JOIN import ON computador.id_ip_rede=import.id_ip_rede, (SELECT @s:= 0) AS s",
+    "computador" => "SELECT @s:=@s+1 id_computador, @s1:=NULL id_usuario_exclusao, computador.id_so, import.id_rede, computador.te_nome_computador AS nm_computador, computador.te_node_address, computador.te_ip AS te_ip_computador, computador.dt_hr_inclusao, @s2:=NULL dt_hr_exclusao, computador.dt_hr_ult_acesso, computador.te_versao_cacic, computador.te_versao_gercols, computador.te_palavra_chave, computador.dt_hr_coleta_forcada_estacao, computador.te_nomes_curtos_modulos, computador.id_conta, @s3:=NULL te_debugging, @s4:=NULL te_ultimo_login, @s5:=NULL dt_debug FROM computadores AS computador INNER JOIN import ON computador.id_ip_rede=import.id_ip_rede, (SELECT @s:= 0) AS s",
     // "computador_coleta",
     // "computador_coleta_historico",
     // "configuracao_local",
     // "configuracao_padrao",
     "descricao_coluna_computador" => "SELECT @s1:='DB' te_source, @s2:=CONCAT('NomeDaTabela','_',nm_campo) te_target, te_descricao_campo AS te_description, cs_condicao_pesquisa FROM descricoes_colunas_computadores",
     "grupo_usuario" => "SELECT id_grupo_usuarios AS id_grupo_usuario, nm_grupo_usuarios, te_grupo_usuarios, te_menu_grupo, te_descricao_grupo, cs_nivel_administracao FROM grupo_usuarios;",
-    // "insucesso_instalacao" => "",
-    // "local" => "",
+    "insucesso_instalacao" => "SELECT @s:=@s+1 id_insucesso_instalacao, te_ip AS te_ip_computador, te_so, id_usuario, dt_datahora, cs_indicador FROM insucessos_instalacao, (SELECT @s:= 0) AS s",
+    "local" => "SELECT id_local, nm_local, sg_local, te_observacao, @s1:=NULL te_debugging, @s2:=NULL dt_debug FROM locais",
     // "local_secundario" => "",
     "log" => "SELECT @s:=@s+1 id_log, id_usuario, dt_acao, cs_acao, nm_script, nm_tabela, te_ip_origem FROM log, (SELECT @s:= 0) AS s",
     // "patrimonio" => "",
@@ -122,7 +122,6 @@ $tabelas = array(
     "usuario" => "SELECT id_usuario, id_local, servidor_autenticacao, id_grupo_usuario, nm_usuario_acesso, nm_usuario_completo, te_senha, dt_login_in, te_emails_contato, te_telefones_contato"
     */
 );
-
 
 while ($tabela = current($tabelas)) {
     extrair(key($tabelas),$tabela);
