@@ -173,6 +173,12 @@ class ColetaController extends Controller
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
         return  $this->render('CacicWSBundle:Coleta:setcollects.xml.twig', array(
+            'configs'=> OldCacicHelper::getTest( $request ),
+            'computador' => $computador,
+            'rede' => $rede,
+            'ws_folder' => OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
+            'cs_cipher' => $request->get('cs_cipher'),
+            'cs_compress' => $request->get('cs_compress'),
             'status'=> 'OK'
         ), $response);
     }
@@ -276,6 +282,12 @@ class ColetaController extends Controller
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
         return  $this->render('CacicWSBundle:Coleta:setusb.xml.twig', array(
+            'configs'=> OldCacicHelper::getTest( $request ),
+            'computador' => $computador,
+            'rede' => $rede,
+            'ws_folder' => OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
+            'cs_cipher' => $request->get('cs_cipher'),
+            'cs_compress' => $request->get('cs_compress'),
             'status'=> 'OK',
             'nm_device'=>$nm_device
         ), $response);
