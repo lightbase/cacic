@@ -126,21 +126,21 @@ OK --computador
 'NULL' AS computador.te_ultimo_login
 'NULL' AS computador.dt_debug
 
---computador_coleta
+OK --computador_coleta
 
-'' AS computador_coleta.id_computador_coleta
-'' AS computador_coleta.id_computador
-'' AS computador_coleta.id_class
-'' AS computador_coleta.te_class_values
+computador_coleta.id_computador_coleta
+computador_coleta.id_computador
+computador_coleta.id_class
+computador_coleta.te_class_values
 
---computador_coleta_historico
+OK --computador_coleta_historico
 
-'' AS computador_coleta_historico.id_computador_coleta_historico
-'' AS computador_coleta_historico.id_computador_coleta
-'' AS computador_coleta_historico.id_computador
-'' AS computador_coleta_historico.id_class
-'' AS computador_coleta_historico.te_class_values
-'' AS computador_coleta_historico.dt_hr_inclusao
+computador_coleta_historico.id_computador_coleta_historico
+computador_coleta_historico.id_computador_coleta
+computador_coleta_historico.id_computador
+computador_coleta_historico.id_class
+computador_coleta_historico.te_class_values
+computador_coleta_historico.dt_hr_inclusao
 
 OK --configuracao_local
 
@@ -154,7 +154,7 @@ configuracao_padrao.id_configuracao
 configuracao_padrao.nm_configuracao
 configuracao_padrao.vl_configuracao
 
-QUASE OK (Verificar NomeDaTabela)--descricao_coluna_computador
+* (NomeDaTabela) --descricao_coluna_computador
 
 'DB' AS descricao_coluna_computador.te_source
 'CONCAT('NomeDaTabela','_',nm_campo)' AS descricao_coluna_computador.te_target
@@ -170,7 +170,7 @@ OK --grupo_usuario
 'grupo_usuarios.te_descricao_grupo' AS grupo_usuario.te_descricao_grupo
 'grupo_usuarios.cs_nivel_administracao' AS grupo_usuario.cs_nivel_administracao
 
---insucesso_instalacao
+OK --insucesso_instalacao
 
 '@s+1' AS insucesso_instalacao.id_insucesso_instalacao
 'insucessos_instalacao.te_ip' AS insucesso_instalacao.te_ip_computador
@@ -188,10 +188,10 @@ OK --local
 'NULL' AS local.te_debugging
 'NULL' AS local.dt_debug
 
---local_secundario
+* (id_usuario e id_local) --local_secundario
 
-'' AS local_secundario.id_usuario
-'' AS local_secundario.id_local
+? AS local_secundario.id_usuario
+? AS local_secundario.id_local
 
 OK --log
 
@@ -203,12 +203,12 @@ OK --log
 'log.nm_tabela' AS log.nm_tabela
 'log.te_ip_origem' AS log.te_ip_origem
 
-*--patrimonio
+* (id_unid_organizacional_nivel1) --patrimonio
 
 '@s+1' AS patrimonio.id_patrimonio
-*'usuarios.id_usuario' AS patrimonio.id_usuario
+'NULL' AS patrimonio.id_usuario
 'patrimonio.id_unid_organizacional_nivel1a' AS patrimonio.id_unid_organizacional_nivel1a
-*'computador.id_computador' AS patrimonio.id_computador
+'NULL' AS patrimonio.id_computador
 'patrimonio.id_unid_organizacional_nivel2' AS patrimonio.id_unid_organizacional_nivel2
 'patrimonio.dt_hr_alteracao' AS patrimonio.dt_hr_alteracao
 'patrimonio.te_localizacao_complementar' AS patrimonio.te_localizacao_complementar
@@ -218,7 +218,7 @@ OK --log
 'patrimonio.te_info_patrimonio4' AS patrimonio.te_info_patrimonio4
 'patrimonio.te_info_patrimonio5' AS patrimonio.te_info_patrimonio5
 'patrimonio.te_info_patrimonio6' AS patrimonio.te_info_patrimonio6
-*'unid_organizacional_nivel1.id_unid_organizacional_nivel1' AS patrimonio.id_unid_organizacional_nivel1
+? AS patrimonio.id_unid_organizacional_nivel1
 
 OK --patrimonio_config_interface
 
@@ -262,17 +262,17 @@ OK --rede
 'NULL' AS rede.te_debugging
 'NULL' AS rede.dt_debug
 
-*--rede_grupo_ftp
+* (id_computador) --rede_grupo_ftp
 
 'redes_grupos_ftp.id_ftp' AS rede_grupo_ftp.id_ftp
 'import.id_rede' AS rede_grupo_ftp.id_rede
-*'computador.id_computador' AS rede_grupo_ftp.id_computador
+? AS rede_grupo_ftp.id_computador
 'redes_grupos_ftp.nu_hora_inicio' AS rede_grupo_ftp.nu_hora_inicio
 'redes_grupos_ftp.nu_hora_fim' AS rede_grupo_ftp.nu_hora_fim
 
---rede_versao_modulo
+OK --rede_versao_modulo
 
-'' AS rede_versao_modulo.id_rede_versao_modulo
+'@s+1' AS rede_versao_modulo.id_rede_versao_modulo
 'import.id_rede' AS rede_versao_modulo.id_rede
 'redes_versoes_modulos.nm_modulo' AS rede_versao_modulo.nm_modulo
 'redes_versoes_modulos.te_versao_modulo' AS rede_versao_modulo.te_versao_modulo
@@ -280,7 +280,7 @@ OK --rede
 'redes_versoes_modulos.cs_tipo_so' AS rede_versao_modulo.cs_tipo_so
 'redes_versoes_modulos.te_hash' AS rede_versao_modulo.te_hash
 
---servidor_autenticacao
+OK --servidor_autenticacao
 
 'servidores_autenticacao.id_servidor_autenticacao' AS servidor_autenticacao.id_servidor_autenticacao
 'servidores_autenticacao.nm_servidor_autenticacao' AS servidor_autenticacao.nm_servidor_autenticacao
@@ -290,21 +290,21 @@ OK --rede
 'servidores_autenticacao.id_tipo_protocolo' AS servidor_autenticacao.id_tipo_protocolo
 'servidores_autenticacao.nu_versao_protocolo' AS servidor_autenticacao.nu_versao_protocolo
 'servidores_autenticacao.te_atributo_identificador' AS servidor_autenticacao.te_atributo_identificador
-'' AS servidor_autenticacao.te_atributo_identificador_alternativo
+'NULL' AS servidor_autenticacao.te_atributo_identificador_alternativo
 'servidores_autenticacao.te_atributo_retorna_nome' AS servidor_autenticacao.te_atributo_retorna_nome
 'servidores_autenticacao.te_atributo_retorna_email' AS servidor_autenticacao.te_atributo_retorna_email
-'' AS servidor_autenticacao.te_atributo_retorna_telefone
-'' AS servidor_autenticacao.te_atributo_status_conta
+'NULL' AS servidor_autenticacao.te_atributo_retorna_telefone
+'NULL' AS servidor_autenticacao.te_atributo_status_conta
 '' AS servidor_autenticacao.te_atributo_valor_status_conta_valida
 'servidores_autenticacao.te_observacao' AS servidor_autenticacao.te_observacao
 'servidores_autenticacao.in_ativo' AS servidor_autenticacao.in_ativo
 
 OK --so (nenhuma mudanca)
 
---software
+* (id_tipo_software) --software
 
 'softwares.id_software' AS software.id_software
-'' AS software.id_tipo_software
+? AS software.id_tipo_software
 'softwares.nm_software' AS software.nm_software
 'softwares.te_descricao_software' AS software.te_descricao_software
 'softwares.qt_licenca' AS software.qt_licenca
@@ -314,7 +314,7 @@ OK --so (nenhuma mudanca)
 
 --software_estacao
 
-'' AS software_estacao.id_computador
+? AS software_estacao.id_computador
 'softwares_estacao.id_software' AS software_estacao.id_software
 'softwares_estacao.id_aquisicao_particular' AS software_estacao.id_aquisicao
 'softwares_estacao.nr_patrimonio' AS software_estacao.nr_patrimonio
@@ -325,15 +325,15 @@ OK --so (nenhuma mudanca)
 'softwares_estacao.te_observacao' AS software_estacao.te_observacao
 'softwares_estacao.nr_patr_destino' AS software_estacao.nr_patr_destino
 
---srcacic_action
+* --srcacic_action
 
-'' AS srcacic_action.id_srcacic_action
-'' AS srcacic_action.id_srcacic_conexao
-'' AS srcacic_action.dt_hr_action
-'' AS srcacic_action.te_action
-'' AS srcacic_action.te_param1
-'' AS srcacic_action.te_param2
-'' AS srcacic_action.te_flag
+? AS srcacic_action.id_srcacic_action
+? AS srcacic_action.id_srcacic_conexao
+? AS srcacic_action.dt_hr_action
+? AS srcacic_action.te_action
+? AS srcacic_action.te_param1
+? AS srcacic_action.te_param2
+? AS srcacic_action.te_flag
 
 --srcacic_chat
 
