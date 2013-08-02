@@ -16,3 +16,15 @@ Como identificar id_tipo_software?
 
 -- software_estacao --
 id_computador é recem-criada
+
+-- srcacic_action --
+Pra fazer
+
+-- srcacic_sessao --
+id_computador é recem-criada
+
+-- uorg --
+Pra fazer
+
+-- usb_log --
+id_computador é recem-criada

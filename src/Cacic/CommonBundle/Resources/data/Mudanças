@@ -312,7 +312,7 @@ OK --so (nenhuma mudanca)
 'softwares.te_local_midia' AS software.te_local_midia
 'softwares.te_obs' AS software.te_obs
 
---software_estacao
+* (id_computador) --software_estacao
 
 ? AS software_estacao.id_computador
 'softwares_estacao.id_software' AS software_estacao.id_software
@@ -335,15 +335,15 @@ OK --so (nenhuma mudanca)
 ? AS srcacic_action.te_param2
 ? AS srcacic_action.te_flag
 
---srcacic_chat
+OK --srcacic_chat
 
-'' AS srcacic_chat.id_srcacic_chat
+'@s+1' AS srcacic_chat.id_srcacic_chat
 'srcacic_chat.id_conexao' AS srcacic_chat.id_srcacic_conexao
 'srcacic_chat.dt_hr_mensagem' AS srcacic_chat.dt_hr_mensagem
 'srcacic_chat.te_mensagem' AS srcacic_chat.te_mensagem
 'srcacic_chat.cs_origem' AS srcacic_chat.cs_origem
 
---srcacic_conexao
+OK --srcacic_conexao
 
 'srcacic_conexoes.id_conexao' AS srcacic_conexao.id_srcacic_conexao
 'srcacic_conexoes.id_sessao' AS srcacic_conexao.id_srcacic_sessao
@@ -355,19 +355,19 @@ OK --so (nenhuma mudanca)
 'srcacic_conexoes.dt_hr_inicio_conexao' AS srcacic_conexao.dt_hr_inicio_conexao
 'srcacic_conexoes.dt_hr_ultimo_contato' AS srcacic_conexao.dt_hr_ultimo_contato
 
---srcacic_sessao
+* (id_computador) --srcacic_sessao
 
 'srcacic_sessoes.id_sessao' AS srcacic_sessao.id_srcacic_sessao
-'' AS srcacic_sessao.id_computador
+? AS srcacic_sessao.id_computador
 'srcacic_sessoes.dt_hr_inicio_sessao' AS srcacic_sessao.dt_hr_inicio_sessao
 'srcacic_sessoes.nm_acesso_usuario_srv' AS srcacic_sessao.nm_acesso_usuario_srv
 'srcacic_sessoes.nm_completo_usuario_srv' AS srcacic_sessao.nm_completo_usuario_srv
 'srcacic_sessoes.te_email_usuario_srv' AS srcacic_sessao.te_email_usuario_srv
 'srcacic_sessoes.dt_hr_ultimo_contato' AS srcacic_sessao.dt_hr_ultimo_contato
 
---srcacic_transf
+OK --srcacic_transf
 
-'' AS srcacic_transf.id_srcacic_transf
+'@s+1' AS srcacic_transf.id_srcacic_transf
 'srcacic_transfs.id_conexao' AS srcacic_transf.id_srcacic_conexao
 'srcacic_transfs.dt_systemtime' AS srcacic_transf.dt_systemtime
 'srcacic_transfs.nu_duracao' AS srcacic_transf.nu_duracao
@@ -378,17 +378,17 @@ OK --so (nenhuma mudanca)
 'srcacic_transfs.cs_status' AS srcacic_transf.cs_status
 'srcacic_transfs.cs_operacao' AS srcacic_transf.cs_operacao
 
---teste
+OK --teste
 
 'testes.id_transacao' AS teste.id_transacao
 'testes.te_linha' AS teste.te_linha
 
---tipo_licensa
+OK --tipo_licensa
 
 'tipos_licenca.id_tipo_licenca' AS tipo_licenca.id_tipo_licenca
 'tipos_licenca.te_tipo_licenca' AS tipo_licenca.te_tipo_licenca
 
---tipo_software
+OK --tipo_software
 
 'tipos_software.id_tipo_software' AS tipo_software.id_tipo_software
 'tipos_software.te_descricao_tipo_software' AS tipo_software.te_descricao_tipo_software
@@ -453,20 +453,20 @@ OK --unid_organizacional_nivel2
 'unid_organizacional_nivel.nu_tel2_responsavel_uon1 e
  unid_organizacional_nivel.nu_tel2_responsavel_uon2' AS uorg.nu_responsavel_tel2
 
---usb_device
+OK --usb_device
 
 'usb_devices.id_device' AS usb_device.id_usb_device
 'usb_devices.id_vendor' AS usb_device.id_usb_vendor
 'usb_devices.nm_device' AS usb_device.nm_usb_device
 'usb_devices.te_observacao' AS usb_device.te_observacao
-'' AS usb_device.dt_registro
+'NULL' AS usb_device.dt_registro
 
---usb_log
+* (id_computador) --usb_log
 
-'' AS usb_log.id_usb_log
+'@s+1' AS usb_log.id_usb_log
 'usb_logs.id_vendor' AS usb_log.id_usb_vendor
 'usb_logs.id_device' AS usb_log.id_usb_device
-'' AS usb_log.id_computador
+? AS usb_log.id_computador
 'usb_logs.dt_event' AS usb_log.dt_event
 'usb_logs.cs_event' AS usb_log.cs_event
 
