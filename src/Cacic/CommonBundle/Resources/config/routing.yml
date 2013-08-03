@@ -22,6 +22,10 @@ cacic_usuario_index:
     requirements:
         page: \d+
 
+cacic_usuario_meus_dados:
+    pattern:  /usuario/meusdados
+    defaults: { _controller: CacicCommonBundle:Usuario:meusdados}
+
 cacic_usuario_trocar_senha:
     pattern:  /usuario/trocarsenha
     defaults: { _controller: CacicCommonBundle:Usuario:trocarsenha}

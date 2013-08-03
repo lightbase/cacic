@@ -20,7 +20,7 @@
             'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/js/DataTables/media/css/demo_table_jui.intenso.css'
             'bundles/caciccommon/TwitterBootstrapTheme_AdminIntenso_1.0/css/*'
             'bundles/caciccommon/jquery-modal-0.5.3/jquery.modal.css'
-            'bundles/caciccommon/Font-Awesome-3.1.1/css/font-awesome.min.css'
+            'bundles/caciccommon/libs/Font-Awesome-3.2.1/css/font-awesome.min.css'
             'bundles/caciccommon/css/main.css'
        %}
             <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
@@ -32,6 +32,8 @@
     
     <!-- Bootstrap CSS fixes for IE6 -->
     <!--[if lt IE 7]><link rel="stylesheet" href="{{ asset('bundles/caciccommon/libs/bootstrap-ie6.min.css') }}"><![endif]-->
+    <!-- Font-awesome support for IE7 -->
+    <!--[if IE 7]><link rel="stylesheet" href="{{ asset('bundles/caciccommon/libs/Font-Awesome-3.2.1/css/font-awesome-ie7.min.css') }}"><![endif]-->
     
   </head>
 
@@ -57,7 +59,7 @@
                           class="dropdown-toggle"
                           data-toggle="dropdown">
                           {{ "Alertas"|trans }} <span class="label label-info">100</span>
-                          <span class="icon">&nbsp;</span>
+                          <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="#">CACIC</a></li>
@@ -88,10 +90,10 @@
 						<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="{{ path('cacic_migracao_local') }}">{{ "Importar Locais"|trans }}</a></li>
-						<li><a href="{{ path('cacic_migracao_subrede') }}">{{ "Importar Redes/Subredes"|trans }}</a></li>
-						<li><a href="{{ path('cacic_migracao_so') }}">{{ "Importar Sistemas Operacionais"|trans }}</a></li>
-						<li><a href="{{ path('cacic_migracao_computador') }}">{{ "Importar Computadores"|trans }}</a></li>
+						<li><a href="{{ path('cacic_migracao_local') }}"><i class="icon-globe"></i> {{ "Importar Locais"|trans }}</a></li>
+						<li><a href="{{ path('cacic_migracao_subrede') }}"><i class="icon-sitemap"></i> {{ "Importar Redes/Subredes"|trans }}</a></li>
+						<li><a href="{{ path('cacic_migracao_so') }}"><i class="icon-windows"></i> {{ "Importar Sistemas Operacionais"|trans }}</a></li>
+						<li><a href="{{ path('cacic_migracao_computador') }}"><i class="icon-desktop"></i> {{ "Importar Computadores"|trans }}</a></li>
 					</ul>
 				</li>
 		
@@ -102,7 +104,7 @@
 						<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="javascript:void(0);"><i class="icon-file"></i> {{ 'Meus Dados'|trans }}</a></li>
+						<li><a href="{{ path('cacic_usuario_meus_dados') }}"><i class="icon-file"></i> {{ 'Meus Dados'|trans }}</a></li>
 						<li><a href="{{ path('cacic_usuario_trocar_propria_senha') }}" class="bt-trocar-propria-senha"><i class="icon-key"></i> {{ 'Alterar Senha'|trans }}</a></li>
 						<li><a href="javascript:void(0);"><i class="icon-heart"></i> {{ 'Editar Favoritos (Atalhos)'|trans }}</a></li>
 						<li class="divider"></li>
