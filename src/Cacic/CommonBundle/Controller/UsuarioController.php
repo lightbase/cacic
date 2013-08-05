@@ -187,4 +187,17 @@ class UsuarioController extends Controller
 
 		return $response;
     }
+    
+    /**
+     * [TELA] de exibição dos dados do USUÁRIO logado
+     */
+    public function meusdadosAction()
+    {
+    	return $this->render(
+    			'CacicCommonBundle:Usuario:meusdados.html.twig',
+    			array(
+    				'usuario' => $this->getUser()
+    			)
+    	);
+    }
 }

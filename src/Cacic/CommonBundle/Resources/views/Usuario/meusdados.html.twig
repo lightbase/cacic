@@ -1,0 +1,71 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+	<li><a href="{{ path('cacic_usuario_index') }}">{{ "Usuários"|trans }}</a></li> /
+	<li class="active">{{ "Meus Dados"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+	<div class="span12">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-file icon-large"></i> {{ "Meus Dados"|trans }}</h2>
+			
+			<div class="block box_content round_bottom padding_10">
+			
+				<h3>{{ 'Meus Dados'|trans }}</h3>
+				<p class="muted">
+					Dados de cadastro e informações de contato.
+				</p>
+				<hr />
+				
+				<div class="row">
+					<div class="span4">
+						<dl class="dl-horizontal">
+							<dt>{{ 'Nome completo'|trans }}</dt>
+							<dd>{{ usuario.nmUsuarioCompleto }}</dd>
+							
+							<dt>{{ 'Nome de acesso'|trans }} ({{ 'login'|trans }})</dt>
+							<dd>{{ usuario.nmUsuarioAcesso }}</dd>
+							
+							<dt>{{ 'Perfil de acesso'|trans }}</dt>
+							<dd>{{ usuario.idGrupoUsuario.nmGrupoUsuarios }}</dd>
+							
+							<dt>{{ 'E-mails de contato'|trans }}</dt>
+							<dd>{{ usuario.teEmailsContato }}</dd>
+							
+							<dt>{{ 'Telefones de contato'|trans }}</dt>
+							<dd>{{ usuario.teTelefonesContato }}</dd>
+						</dl>
+					</div>
+					
+					<div class="span4">
+						<dl class="dl-horizontal">
+							<dt>{{ 'Local primário'|trans }}</dt>
+							<dd>{{ usuario.idLocal.nmLocal }}</dd>
+							
+							{% if ( usuario.locaisSecundarios|length > 0 ) %}
+							<dt>{{ 'Locais secundários'|trans }}</dt>
+							<dd>
+								{{ usuario.locaisSecundarios|join("\n") }}
+							</dd>
+							{% endif %}
+							
+							{% if ( usuario.idServidorAutenticacao is not null ) %}
+							<dt>{{ 'Servidor de autenticação'|trans }} (LDAP)</dt>
+							<dd>{{ usuario.idServidorAutenticacao.nmServidorAutenticacao }}</dd>
+							{%  endif %}
+						</dl>
+					</div>
+				</div>
+				
+			</div> <!-- block -->
+		</div> <!-- /box -->
+	</div> <!-- /span -->
+
+</div> <!-- /row -->
+
+{%  endblock %}

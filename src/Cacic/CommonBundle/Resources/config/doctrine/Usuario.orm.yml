@@ -97,5 +97,6 @@ Cacic\CommonBundle\Entity\Usuario:
             joinColumns:
                 id_grupo_usuario:
                     referencedColumnName: id_grupo_usuario
+                    nullable: false
             orphanRemoval: false
     lifecycleCallbacks: {  }
