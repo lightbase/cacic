@@ -71,7 +71,7 @@ class ColetaController extends Controller
         if ($arrCollectsDefClasses[$strCollectType])
         {
             // Obtenho configuração para notificação de alterações
-            $resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal($rede->getIdLocal());
+            $resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal($rede->getIdLocal(), 'te_notificar_mudancas_properties');
             $resConfigsLocaisEmail = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoEmailLocal($rede->getIdLocal());
 
             $arrClassesAndProperties = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaPorPropertyNotificacao( $resConfigsLocais->getVlConfiguracao() )  ;
@@ -229,13 +229,12 @@ class ColetaController extends Controller
             $usb_log->setIdUsbVendor($arrUsbInfo[2]);
             $usb_log->setIdUsbDevice($arrUsbInfo[3]);
 
-            //TODO Parei aqui
             $arrTeUsbFilter  = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->findOneBy( array ('te_usb_filter'=> 1, 'idLocal'=>$local->getIdLocal()));
-            $arrTeNotificarUtilizacaoUSB = '1';//getArrFromSelect('configuracoes_locais', 'te_notificar_utilizacao_usb','id_local='.$arrDadosRede['id_local']);
+            $arrTeNotificarUtilizacaoUSB = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal($rede->getIdLocal(), 'te_notificar_utilizacao_usb');
 
-            $arrDeviceData = getArrFromSelect('usb_devices', 'id_device,nm_device','trim(id_device)="'.$arrUsbInfo[3].'" AND trim(id_vendor)="'.$arrUsbInfo[2].'"');
+            $arrDeviceData = $this->getDoctrine()->getRepository('CacicCommonBundle:UsbDevice')->findBy( array('idDevice'=>$arrUsbInfo[3], 'idVendor'=>$arrUsbInfo[2] ));
 
-            if (trim($arrDeviceData[0]['nm_device'])=='')
+            if (trim($arrDeviceData[0]['nmDevice'])=='')
             {
                 $usb_device = new UsbDevice();
                 $usb_device->setIdUsbVendor($arrUsbInfo[2]);
@@ -243,15 +242,15 @@ class ColetaController extends Controller
                 $usb_device->getNmUsbDevice('Dispositivo USB Desconhecido');
             }
 
-            $arrVendorData = getArrFromSelect('usb_vendors', 'id_vendor,nm_vendor','trim(id_vendor)="'.$arrUsbInfo[2].'"');
-            if (trim($arrVendorData[0]['nm_vendor'])=='')
+            $arrVendorData =  $this->getDoctrine()->getRepository('CacicCommonBundle:UsbVendor  ')->findBy( array('idVendor'=>$arrUsbInfo[2]));
+            if (trim($arrVendorData[0]['nmVendor'])=='')
             {
                 $usb_vendor = new UsbVendor();
                 $usb_vendor->setIdUsbVendor($arrUsbInfo[2]);
                 $usb_vendor->setNmUsbVendor('Fabricante de Dispositivos USB Desconhecido');
             }
-
-            if ((trim($arrTeUsbFilter[0]['te_usb_filter'])<>'') && (trim($arrTeNotificarUtilizacaoUSB[0]['te_notificar_utilizacao_usb']) <> ''))
+//TODO Parei aqui
+            if ((trim($arrTeUsbFilter[0]['teUsbFilter'])<>'') && (trim($arrTeNotificarUtilizacaoUSB[0]['teNotificarUtilizacaoUsb']) <> ''))
             {
                 $arrUSBfilter = explode('#',$arrTeUsbFilter[0]['te_usb_filter']);
                 $strUSBkey    = $arrUsbInfo[2] . "." . $arrUsbInfo[3];
@@ -262,14 +261,13 @@ class ColetaController extends Controller
                     $strCorpoMail .= " Prezado administrador,\n\n";
                     $strCorpoMail .= " foi " . ($arrUsbInfo[0] == 'I'?'inserido':'removido'). " o dispositivo '(".$arrVendorData[0]['id_vendor'].")".$arrVendorData[0]['nm_vendor']." / (".$arrDeviceData[0]['id_device'].")".$arrDeviceData[0]['nm_device'].($arrUsbInfo[0] == 'I'?'n':'d')."a esta��o de trabalho abaixo:\n\n";
                     $strCorpoMail .= " Nome...........: ".$computador->getNmComputador() ."\n";
-                    $strCorpoMail .= " Endere�o IP: ". $computador->getTeIpComputador() . "\n";
+                    $strCorpoMail .= " Endereço IP: ". $computador->getTeIpComputador() . "\n";
                     $strCorpoMail .= " Rede............: ". $rede['nmRede'] ." ('" .$rede['teIpRede']. "')\n";
 
-                    $strCorpoMail .= "\n\nPara visualizar mais informa��es sobre esse computador, acesse o endere�o\nhttp://";
+                    $strCorpoMail .= "\n\nPara visualizar mais informações sobre esse computador, acesse o endereço\nhttp://";
                     $strCorpoMail .= CACIC_PATH . '/relatorios/computador/computador.php?id_computador=' . $computador->getIdComputador();
                     $strCorpoMail .= "\n\n\n________________________________________________\n";
                     $strCorpoMail .= "CACIC - " . date('d/m/Y H:i') . "h \n";
-                    $strCorpoMail .= "Desenvolvido pela Dataprev - Unidade Regional Esp�rito Santo";
 
                     // Manda mail para os administradores.
                     mail($arrTeNotificarUtilizacaoUSB[0]['te_notificar_utilizacao_usb'], "[Sistema CACIC] ".($arrUsbInfo[0] == 'I'?'Inser��o':'Remo��o')." de Dispositivo USB Detectada", "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");

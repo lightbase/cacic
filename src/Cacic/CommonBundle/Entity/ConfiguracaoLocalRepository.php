@@ -99,19 +99,19 @@ class ConfiguracaoLocalRepository extends EntityRepository
      * @param string $idLocal
      * @return Cacic\CommonBundle\Entity\ConfiguracaoLocal
      */
-    public function listarNotificacaoPropertyLocal( $idLocal )
+    public function listarNotificacaoPropertyLocal( $idLocal, $nmConfiguracao )
     {
         $_dql = "SELECT cl, cp
 				FROM CacicCommonBundle:ConfiguracaoLocal cl
 				JOIN cl.idConfiguracao cp
 				WHERE cl.idLocal = :idLocal AND
-				cp.nmConfiguracao = 'te_notificar_mudancas_properties' AND
+				cp.nmConfiguracao = :nmConfiguracao AND
 				cl.vlConfiguracao IS NOT NULL";
 
         return $this->getEntityManager()
             ->createQuery( $_dql )
             ->setMaxResults(1)
-            ->setParameter( 'idLocal', $idLocal )
+            ->setParameters( array( 'idLocal'=> $idLocal, 'nmConfiguracao' => $nmConfiguracao ) )
             ->getSingleResult();
     }
 
