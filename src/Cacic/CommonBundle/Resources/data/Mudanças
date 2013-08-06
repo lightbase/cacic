@@ -27,8 +27,8 @@ OK --acao_so
 
 OK --aplicativo
 
-`perfis_aplicativos_monitorados.id_aplicativo`AS aplicativo.id_aplicativo
-`perfis_aplicativos_monitorados.id_so` AS aplicativo.id_so
+'perfis_aplicativos_monitorados.id_aplicativo'AS aplicativo.id_aplicativo
+'perfis_aplicativos_monitorados.id_so' AS aplicativo.id_so
 'perfis_aplicativos_monitorados.nm_aplicativo' AS aplicativo.nm_aplicativo
 'perfis_aplicativos_monitorados.cs_car_inst_w9x' AS aplicativo.cs_car_inst_w9x
 'perfis_aplicativos_monitorados.te_car_inst_w9x' AS aplicativo.te_car_inst_w9x
@@ -39,7 +39,7 @@ OK --aplicativo
 'perfis_aplicativos_monitorados.cs_car_ver_wnt' AS aplicativo.cs_car_ver_wnt
 'perfis_aplicativos_monitorados.te_car_ver_wnt' AS aplicativo.te_car_ver_wnt
 'perfis_aplicativos_monitorados.cs_ide_licenca' AS aplicativo.cs_ide_licenca
-`perfis_aplicativos_monitorados.te_ide_licenca` AS aplicativo.te_ide_licenca
+'perfis_aplicativos_monitorados.te_ide_licenca' AS aplicativo.te_ide_licenca
 'perfis_aplicativos_monitorados.dt_atualizacao' AS aplicativo.dt_atualizacao
 'perfis_aplicativos_monitorados.te_arq_ver_eng_w9x' AS aplicativo.te_arq_ver_eng_w9x
 'perfis_aplicativos_monitorados.te_arq_ver_pat_w9x' AS aplicativo.te_arq_ver_pat_w9x
@@ -203,7 +203,7 @@ OK --log
 'log.nm_tabela' AS log.nm_tabela
 'log.te_ip_origem' AS log.te_ip_origem
 
-* (id_unid_organizacional_nivel1) --patrimonio
+OK --patrimonio
 
 '@s+1' AS patrimonio.id_patrimonio
 'NULL' AS patrimonio.id_usuario
@@ -218,7 +218,7 @@ OK --log
 'patrimonio.te_info_patrimonio4' AS patrimonio.te_info_patrimonio4
 'patrimonio.te_info_patrimonio5' AS patrimonio.te_info_patrimonio5
 'patrimonio.te_info_patrimonio6' AS patrimonio.te_info_patrimonio6
-? AS patrimonio.id_unid_organizacional_nivel1
+'NULL' AS patrimonio.id_unid_organizacional_nivel1
 
 OK --patrimonio_config_interface
 
@@ -301,10 +301,10 @@ OK --servidor_autenticacao
 
 OK --so (nenhuma mudanca)
 
-* (id_tipo_software) --software
+OK --software
 
 'softwares.id_software' AS software.id_software
-? AS software.id_tipo_software
+'NULL' AS software.id_tipo_software
 'softwares.nm_software' AS software.nm_software
 'softwares.te_descricao_software' AS software.te_descricao_software
 'softwares.qt_licenca' AS software.qt_licenca
@@ -423,7 +423,7 @@ OK --unid_organizacional_nivel2
 'unid_organizacional_nivel2.nu_tel2_responsavel_uon2' AS unid_organizacional_nivel2.nu_tel2_responsavel_uon2
 'unid_organizacional_nivel2.dt_registro' AS unid_organizacional_nivel2.dt_registro
 
---uorg
+* --uorg
 
 'unid_organizacional_nivel1.id_unid_organizacional_nivel1 e
  unid_organizacional_nivel1a.id_unid_organizacional_nivel1a e
@@ -470,14 +470,14 @@ OK --usb_device
 'usb_logs.dt_event' AS usb_log.dt_event
 'usb_logs.cs_event' AS usb_log.cs_event
 
---usb_vendor
+OK --usb_vendor
 
 'usb_vendors.id_vendor' AS usb_vendor.id_usb_vendor
 'usb_vendors.nm_vendor' AS usb_vendor.nm_usb_vendor
 'usb_vendors.te_observacao' AS usb_vendor.te_observacao
-'' AS usb_vendor.dt_registro
+'NULL' AS usb_vendor.dt_registro
 
---usuario
+OK --usuario
 
 'usuarios.id_usuario' AS usuario.id_usuario
 'usuarios.id_local' AS usuario.id_local

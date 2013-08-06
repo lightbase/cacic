@@ -2,29 +2,27 @@
 De onde puxar os dados de NomeDaTabela?
 
 -- local_secundario --
-Tabela nova
-De onde vem os dados?
-
--- patrimonio --
-Como identificar id_unid_organizacional_nivel1?
+Esta tabela normaliza a relação de usuários com locais secundários, que, anteriormente, era feita através do campo te_locais_secundarios na tabela usuarios. Este campo armazenava os locais secundários associados ao usuário separados por vírgula.
 
 -- rede_grupo_ftp --
 id_computador é recem-criada
 
--- software --
-Como identificar id_tipo_software?
-
 -- software_estacao --
+id_computador é recem-criada
+
+-- srcacic_sessao --
+id_computador é recem-criada
+
+-- usb_log --
 id_computador é recem-criada
 
 -- srcacic_action --
 Pra fazer
 
--- srcacic_sessao --
-id_computador é recem-criada
-
 -- uorg --
 Pra fazer
 
--- usb_log --
-id_computador é recem-criada
+
+<!--
+A chave da entidade computador era composta pelos seguintes atributos: id_so e te_mac_address
+-->

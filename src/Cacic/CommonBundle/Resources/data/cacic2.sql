@@ -809,3 +809,13 @@ CREATE TABLE `versoes_softwares` (
   `te_versao_jre` char(6) DEFAULT NULL,
   PRIMARY KEY (`te_node_address`,`id_so`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `newredes` (
+  `id_rede` int(11) NOT NULL AUTO_INCREMENT,
+  `id_ip_rede` char(15) DEFAULT NULL,
+  `id_local` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_rede`),
+  KEY `id_local` (`id_local`),
+  KEY `id_ip_rede` (`id_ip_rede`)
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
