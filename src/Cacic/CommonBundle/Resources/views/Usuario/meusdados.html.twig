@@ -9,7 +9,7 @@
 
 <div class="row-fluid">
 
-	<div class="span12">
+	<div class="span8">
 		<div class="box grad_colour_black">
 
 			<h2 class="box_head round_top"><i class="icon-file icon-large"></i> {{ "Meus Dados"|trans }}</h2>
@@ -65,6 +65,20 @@
 			</div> <!-- block -->
 		</div> <!-- /box -->
 	</div> <!-- /span -->
+	
+	<div class="span4">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-cogs icon-large"></i> {{ "Opções"|trans }}</h2>
+			
+			<div class="block box_content round_bottom padding_10">
+				<p>{{ 'Para editar os dados de cadastro ou alterar a senha de acesso ao sistema, acione o botão correspondente'|trans }}.</p>
+				<hr />
+				<a href="{{ path('cacic_usuario_trocar_propria_senha') }}" class="btn btn-danger bt-trocar-propria-senha"><i class="icon-key icon-large"></i> {{ 'Alterar Senha'|trans }}</a>
+				<a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario.idUsuario}) }}" class="btn btn-primary pull-right"><i class="icon-edit icon-large"></i> {{ 'Editar dados'|trans }}</a>
+			</div>
+		</div>
+	</div>
 
 </div> <!-- /row -->
 
