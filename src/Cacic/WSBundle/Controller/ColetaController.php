@@ -33,6 +33,7 @@ class ColetaController extends Controller
 {
     /**
      *  Método responsável por persistir coletas  do Agente CACIC
+     *  @param Symfony\Component\HttpFoundation\Request $request
      */
     public function gerColsSetColletAction( Request $request )
     {
@@ -185,7 +186,7 @@ class ColetaController extends Controller
 
     /**
      *  Método responsável por ************ do Agente CACIC
-     *
+     *  @param Symfony\Component\HttpFoundation\Request $request
      */
     public function gerColsSetSrcacicAction(Request $request)
     {
@@ -202,7 +203,7 @@ class ColetaController extends Controller
 
     /**
      *  Método responsável por informar e coletar informações sobre dispositivos USB plugados na estação
-     *
+     *  @param Symfony\Component\HttpFoundation\Request $request
      */
     public function gerColsSetUsbDetectAction(Request $request)
     {
@@ -293,7 +294,7 @@ class ColetaController extends Controller
 
     /**
      *  Método responsável por ************ do Agente CACIC
-     *
+     *  @param Symfony\Component\HttpFoundation\Request $request
      */
     public function mapaCacicAcessoAction(Request $request)
     {
@@ -310,7 +311,7 @@ class ColetaController extends Controller
 
     /**
      *  Método responsável por ************ do Agente CACIC
-     *
+     *  @param Symfony\Component\HttpFoundation\Request $request
      */
     public function srCacicSetSessionAction()
     {
@@ -319,7 +320,7 @@ class ColetaController extends Controller
 
     /**
      *  Método responsável por ************ do Agente CACIC
-     *
+     *  @param Symfony\Component\HttpFoundation\Request $request
      */
     public function srCacicAuthClientAction()
     {

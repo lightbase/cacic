@@ -27,7 +27,7 @@ class DefaultController extends Controller
 {
     /**
      *  Método responsável por inserir falhas na instalação do Agente CACIC
-     *
+     *  @param Symfony\Component\HttpFoundation\Request $request
      */
     public function installAction( Request $request )
     {
@@ -56,7 +56,7 @@ class DefaultController extends Controller
 
     /**
      *  Método responsável por Verificar comunicação entre Agente CACIC
-     *
+     *  @param Symfony\Component\HttpFoundation\Request $request
      */
     public function testAction( Request $request )
     {
@@ -96,7 +96,7 @@ class DefaultController extends Controller
 
     /**
      *  Método responsável por retornar configurações necessarias ao Agente CACIC
-     *
+     *  @param Symfony\Component\HttpFoundation\Request $request
      */
     public function configAction( Request $request )
     {
