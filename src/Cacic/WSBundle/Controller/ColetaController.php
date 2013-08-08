@@ -230,8 +230,8 @@ class ColetaController extends Controller
             $usb_log->setIdUsbVendor($arrUsbInfo[2]);
             $usb_log->setIdUsbDevice($arrUsbInfo[3]);
 
-            $arrTeUsbFilter  = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->findOneBy( array ('te_usb_filter'=> 1, 'idLocal'=>$local->getIdLocal()));
-            $arrTeNotificarUtilizacaoUSB = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal($rede->getIdLocal(), 'te_notificar_utilizacao_usb');
+            $arrTeUsbFilter  = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal( $local->getIdLocal() , 'te_usb_filter' );
+            $arrTeNotificarUtilizacaoUSB = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal( $rede->getIdLocal(), 'te_notificar_utilizacao_usb' );
 
             $arrDeviceData = $this->getDoctrine()->getRepository('CacicCommonBundle:UsbDevice')->findBy( array('idDevice'=>$arrUsbInfo[3], 'idVendor'=>$arrUsbInfo[2] ));
 
@@ -250,7 +250,7 @@ class ColetaController extends Controller
                 $usb_vendor->setIdUsbVendor($arrUsbInfo[2]);
                 $usb_vendor->setNmUsbVendor('Fabricante de Dispositivos USB Desconhecido');
             }
-//TODO Parei aqui
+
             if ((trim($arrTeUsbFilter[0]['teUsbFilter'])<>'') && (trim($arrTeNotificarUtilizacaoUSB[0]['teNotificarUtilizacaoUsb']) <> ''))
             {
                 $arrUSBfilter = explode('#',$arrTeUsbFilter[0]['te_usb_filter']);
@@ -271,7 +271,7 @@ class ColetaController extends Controller
                     $strCorpoMail .= "CACIC - " . date('d/m/Y H:i') . "h \n";
 
                     // Manda mail para os administradores.
-                    mail($arrTeNotificarUtilizacaoUSB[0]['te_notificar_utilizacao_usb'], "[Sistema CACIC] ".($arrUsbInfo[0] == 'I'?'Inser��o':'Remo��o')." de Dispositivo USB Detectada", "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
+                   //TODO verificar Boas Praticas mail($arrTeNotificarUtilizacaoUSB[0]['te_notificar_utilizacao_usb'], "[Sistema CACIC] ".($arrUsbInfo[0] == 'I'?'Inser��o':'Remo��o')." de Dispositivo USB Detectada", "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
                 }
             }
             $nm_device = OldCacicHelper::enCrypt($request, '('.$arrVendorData[0]['id_vendor'].')'.$arrVendorData[0]['nm_vendor'].' - (' .$arrDeviceData[0]['id_device'].')'.$arrDeviceData[0]['nm_device']);
