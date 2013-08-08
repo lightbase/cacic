@@ -1,28 +1,5 @@
--- descricao_coluna_computador --
-De onde puxar os dados de NomeDaTabela?
-
 -- local_secundario --
 Esta tabela normaliza a relação de usuários com locais secundários, que, anteriormente, era feita através do campo te_locais_secundarios na tabela usuarios. Este campo armazenava os locais secundários associados ao usuário separados por vírgula.
 
--- rede_grupo_ftp --
-id_computador é recem-criada
-
--- software_estacao --
-id_computador é recem-criada
-
--- srcacic_sessao --
-id_computador é recem-criada
-
--- usb_log --
-id_computador é recem-criada
-
--- srcacic_action --
-Pra fazer
-
 -- uorg --
-Pra fazer
-
-
-<!--
-A chave da entidade computador era composta pelos seguintes atributos: id_so e te_mac_address
--->
+To do
