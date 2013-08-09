@@ -28,6 +28,14 @@ cacic_ws_mapa_cacic_acesso:
     pattern: /mapacacic/acesso
     defaults: { _controller: CacicWSBundle:Coleta:mapaCacicAcesso }
 
+cacic_ws_mapacacic_set:
+    pattern: /mapacacic/set
+    defaults: { _controller: CacicWSBundle:Coleta:mapaCacicSet }
+
+cacic_ws_mapacacic_get:
+    pattern: /mapacacic/get
+    defaults: { _controller: CacicWSBundle:Coleta:mapaCacicGet }
+
 cacic_ws_srcacic_set_session:
     pattern: /srcacic/set/session
     defaults: { _controller: CacicWSBundle:Coleta:srCacicSetSession }

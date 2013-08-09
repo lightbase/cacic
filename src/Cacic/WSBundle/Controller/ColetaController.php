@@ -373,6 +373,24 @@ class ColetaController extends Controller
     }
 
     /**
+     *  Método responsável por persistir dados do patrimônio
+     *  @param Symfony\Component\HttpFoundation\Request $request
+     */
+    public function mapaCacicSetAction()
+    {
+
+    }
+
+    /**
+     *  Método responsável por retornar informações do patrimônio
+     *  @param Symfony\Component\HttpFoundation\Request $request
+     */
+    public function mapaCacicGetAction()
+    {
+
+    }
+
+    /**
      *  Método responsável por ************ do Agente CACIC
      *  @param Symfony\Component\HttpFoundation\Request $request
      */
