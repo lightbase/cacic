@@ -811,7 +811,7 @@ CREATE TABLE `versoes_softwares` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-CREATE TABLE `newredes` (
+CREATE TABLE `new_redes` (
   `id_rede` int(11) NOT NULL AUTO_INCREMENT,
   `id_ip_rede` char(15) DEFAULT NULL,
   `id_local` int(11) DEFAULT NULL,
@@ -819,3 +819,12 @@ CREATE TABLE `newredes` (
   KEY `id_local` (`id_local`),
   KEY `id_ip_rede` (`id_ip_rede`)
 ) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `new_computador` (
+  `id_computador` int(11) NOT NULL,
+  `id_so` int(11) NOT NULL,
+  `te_node_address` char(17) NOT NULL,
+  `te_ip` char(15) DEFAULT NULL,
+  PRIMARY KEY (`id_computador`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

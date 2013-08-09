@@ -107,7 +107,7 @@ collect_def_class.te_where_clause
 OK --computador
 
 '@s+1' AS computador.id_computador
-'NULL' AS computador.id_usuario_exclusao
+ NULL AS computador.id_usuario_exclusao
 'computadores.id_so' AS computador.id_so
 'import.id_rede' AS computador.id_rede
 'computadores.te_nome_computador'AS computador.nm_computador
@@ -122,9 +122,9 @@ OK --computador
 'computadores.dt_hr_coleta_forcada_estacao' AS computador.dt_hr_coleta_forcada_estacao
 'computadores.te_nomes_curtos_modulos' AS computador.te_nomes_curtos_modulos
 'computadores.id_conta' AS computador.id_conta
-'NULL' AS computador.te_debugging
-'NULL' AS computador.te_ultimo_login
-'NULL' AS computador.dt_debug
+ NULL AS computador.te_debugging
+ NULL AS computador.te_ultimo_login
+ NULL AS computador.dt_debug
 
 OK --computador_coleta
 
@@ -154,10 +154,10 @@ configuracao_padrao.id_configuracao
 configuracao_padrao.nm_configuracao
 configuracao_padrao.vl_configuracao
 
-* (NomeDaTabela) --descricao_coluna_computador
+OK --descricao_coluna_computador
 
 'DB' AS descricao_coluna_computador.te_source
-'CONCAT('NomeDaTabela','_',nm_campo)' AS descricao_coluna_computador.te_target
+'CONCAT('Cacic2','_',nm_campo)' AS descricao_coluna_computador.te_target
 'descricoes_colunas_computadores.te_descricao_campo' AS descricao_coluna_computador.te_description
 'descricoes_colunas_computadores.cs_condicao.pesquisa' AS descricao_coluna_computador.cs_condicao_pesquisa
 
@@ -185,13 +185,13 @@ OK --local
 'locais.nm_local' AS local.nm_local
 'locais.sg_local' AS local.sg_local
 'locais.te_observacao' AS local.te_observacao
-'NULL' AS local.te_debugging
-'NULL' AS local.dt_debug
+ NULL AS local.te_debugging
+ NULL AS local.dt_debug
 
-* (id_usuario e id_local) --local_secundario
+OK --local_secundario
 
-? AS local_secundario.id_usuario
-? AS local_secundario.id_local
+'usuarios.id_usuario' AS local_secundario.id_usuario
+fix_local_secundario('usuarios.te_locais_secundarios') AS local_secundario.id_local
 
 OK --log
 
@@ -206,9 +206,9 @@ OK --log
 OK --patrimonio
 
 '@s+1' AS patrimonio.id_patrimonio
-'NULL' AS patrimonio.id_usuario
+ NULL AS patrimonio.id_usuario
 'patrimonio.id_unid_organizacional_nivel1a' AS patrimonio.id_unid_organizacional_nivel1a
-'NULL' AS patrimonio.id_computador
+ NULL AS patrimonio.id_computador
 'patrimonio.id_unid_organizacional_nivel2' AS patrimonio.id_unid_organizacional_nivel2
 'patrimonio.dt_hr_alteracao' AS patrimonio.dt_hr_alteracao
 'patrimonio.te_localizacao_complementar' AS patrimonio.te_localizacao_complementar
@@ -218,7 +218,7 @@ OK --patrimonio
 'patrimonio.te_info_patrimonio4' AS patrimonio.te_info_patrimonio4
 'patrimonio.te_info_patrimonio5' AS patrimonio.te_info_patrimonio5
 'patrimonio.te_info_patrimonio6' AS patrimonio.te_info_patrimonio6
-'NULL' AS patrimonio.id_unid_organizacional_nivel1
+ NULL AS patrimonio.id_unid_organizacional_nivel1
 
 OK --patrimonio_config_interface
 
@@ -259,14 +259,14 @@ OK --rede
 'redes.te_senha_login_serv_updates_gerente' AS rede.te_senha_login_serv_updates_gerente
 'redes.nu_limite_ftp' AS rede.nu_limite_ftp
 'redes.cs_permitir_desativar_srcacic' AS rede.cs_permitir_desativar_srcacic
-'NULL' AS rede.te_debugging
-'NULL' AS rede.dt_debug
+ NULL AS rede.te_debugging
+ NULL AS rede.dt_debug
 
-* (id_computador) --rede_grupo_ftp
+OK --rede_grupo_ftp
 
 'redes_grupos_ftp.id_ftp' AS rede_grupo_ftp.id_ftp
 'import.id_rede' AS rede_grupo_ftp.id_rede
-? AS rede_grupo_ftp.id_computador
+'newcomputador.idcomputador' AS rede_grupo_ftp.id_computador
 'redes_grupos_ftp.nu_hora_inicio' AS rede_grupo_ftp.nu_hora_inicio
 'redes_grupos_ftp.nu_hora_fim' AS rede_grupo_ftp.nu_hora_fim
 
@@ -290,11 +290,11 @@ OK --servidor_autenticacao
 'servidores_autenticacao.id_tipo_protocolo' AS servidor_autenticacao.id_tipo_protocolo
 'servidores_autenticacao.nu_versao_protocolo' AS servidor_autenticacao.nu_versao_protocolo
 'servidores_autenticacao.te_atributo_identificador' AS servidor_autenticacao.te_atributo_identificador
-'NULL' AS servidor_autenticacao.te_atributo_identificador_alternativo
+ NULL AS servidor_autenticacao.te_atributo_identificador_alternativo
 'servidores_autenticacao.te_atributo_retorna_nome' AS servidor_autenticacao.te_atributo_retorna_nome
 'servidores_autenticacao.te_atributo_retorna_email' AS servidor_autenticacao.te_atributo_retorna_email
-'NULL' AS servidor_autenticacao.te_atributo_retorna_telefone
-'NULL' AS servidor_autenticacao.te_atributo_status_conta
+ NULL AS servidor_autenticacao.te_atributo_retorna_telefone
+ NULL AS servidor_autenticacao.te_atributo_status_conta
 '' AS servidor_autenticacao.te_atributo_valor_status_conta_valida
 'servidores_autenticacao.te_observacao' AS servidor_autenticacao.te_observacao
 'servidores_autenticacao.in_ativo' AS servidor_autenticacao.in_ativo
@@ -304,7 +304,7 @@ OK --so (nenhuma mudanca)
 OK --software
 
 'softwares.id_software' AS software.id_software
-'NULL' AS software.id_tipo_software
+ NULL AS software.id_tipo_software
 'softwares.nm_software' AS software.nm_software
 'softwares.te_descricao_software' AS software.te_descricao_software
 'softwares.qt_licenca' AS software.qt_licenca
@@ -312,9 +312,9 @@ OK --software
 'softwares.te_local_midia' AS software.te_local_midia
 'softwares.te_obs' AS software.te_obs
 
-* (id_computador) --software_estacao
+OK --software_estacao
 
-? AS software_estacao.id_computador
+'newcomputador.idcomputador' AS software_estacao.id_computador
 'softwares_estacao.id_software' AS software_estacao.id_software
 'softwares_estacao.id_aquisicao_particular' AS software_estacao.id_aquisicao
 'softwares_estacao.nr_patrimonio' AS software_estacao.nr_patrimonio
@@ -325,15 +325,15 @@ OK --software
 'softwares_estacao.te_observacao' AS software_estacao.te_observacao
 'softwares_estacao.nr_patr_destino' AS software_estacao.nr_patr_destino
 
-* --srcacic_action
+OK (Tabela nova) --srcacic_action
 
-? AS srcacic_action.id_srcacic_action
-? AS srcacic_action.id_srcacic_conexao
-? AS srcacic_action.dt_hr_action
-? AS srcacic_action.te_action
-? AS srcacic_action.te_param1
-? AS srcacic_action.te_param2
-? AS srcacic_action.te_flag
+ NULL AS srcacic_action.id_srcacic_action
+ NULL AS srcacic_action.id_srcacic_conexao
+ NULL AS srcacic_action.dt_hr_action
+ NULL AS srcacic_action.te_action
+ NULL AS srcacic_action.te_param1
+ NULL AS srcacic_action.te_param2
+ NULL AS srcacic_action.te_flag
 
 OK --srcacic_chat
 
@@ -355,10 +355,10 @@ OK --srcacic_conexao
 'srcacic_conexoes.dt_hr_inicio_conexao' AS srcacic_conexao.dt_hr_inicio_conexao
 'srcacic_conexoes.dt_hr_ultimo_contato' AS srcacic_conexao.dt_hr_ultimo_contato
 
-* (id_computador) --srcacic_sessao
+OK --srcacic_sessao
 
 'srcacic_sessoes.id_sessao' AS srcacic_sessao.id_srcacic_sessao
-? AS srcacic_sessao.id_computador
+'newcomputador.idcomputador' AS srcacic_sessao.id_computador
 'srcacic_sessoes.dt_hr_inicio_sessao' AS srcacic_sessao.dt_hr_inicio_sessao
 'srcacic_sessoes.nm_acesso_usuario_srv' AS srcacic_sessao.nm_acesso_usuario_srv
 'srcacic_sessoes.nm_completo_usuario_srv' AS srcacic_sessao.nm_completo_usuario_srv
@@ -397,7 +397,7 @@ OK --tipo_uorg
 
 '0' AS tipo_uorg.id_tipo_uorg
 '"Cacic2"' AS tipo_uorg.nm_tipo_uorg
-'NULL' AS tipo_uorg.tedescricao
+ NULL AS tipo_uorg.tedescricao
 
 OK --unid_organizacional_nivel1 (nenhuma mudança)
 
@@ -459,14 +459,14 @@ OK --usb_device
 'usb_devices.id_vendor' AS usb_device.id_usb_vendor
 'usb_devices.nm_device' AS usb_device.nm_usb_device
 'usb_devices.te_observacao' AS usb_device.te_observacao
-'NULL' AS usb_device.dt_registro
+ NULL AS usb_device.dt_registro
 
-* (id_computador) --usb_log
+OK --usb_log
 
 '@s+1' AS usb_log.id_usb_log
 'usb_logs.id_vendor' AS usb_log.id_usb_vendor
 'usb_logs.id_device' AS usb_log.id_usb_device
-? AS usb_log.id_computador
+'newcomputador.idcomputador' AS usb_log.id_computador
 'usb_logs.dt_event' AS usb_log.dt_event
 'usb_logs.cs_event' AS usb_log.cs_event
 
@@ -475,7 +475,7 @@ OK --usb_vendor
 'usb_vendors.id_vendor' AS usb_vendor.id_usb_vendor
 'usb_vendors.nm_vendor' AS usb_vendor.nm_usb_vendor
 'usb_vendors.te_observacao' AS usb_vendor.te_observacao
-'NULL' AS usb_vendor.dt_registro
+ NULL AS usb_vendor.dt_registro
 
 OK --usuario
 

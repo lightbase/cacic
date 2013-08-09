@@ -1,5 +1,2 @@
--- local_secundario --
-Esta tabela normaliza a relação de usuários com locais secundários, que, anteriormente, era feita através do campo te_locais_secundarios na tabela usuarios. Este campo armazenava os locais secundários associados ao usuário separados por vírgula.
-
 -- uorg --
 To do
