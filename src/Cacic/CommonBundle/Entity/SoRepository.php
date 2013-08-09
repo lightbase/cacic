@@ -54,7 +54,7 @@ class SoRepository extends EntityRepository
 
         }
 
-        return $so[0];
+        return $so;
 
     }
 }

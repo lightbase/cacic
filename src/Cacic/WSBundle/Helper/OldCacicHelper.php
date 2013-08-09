@@ -23,7 +23,7 @@ abstract class OldCacicHelper
     const CACIC_KEY = 'CacicBrasil';
 
     // define  chave para agentes CACIC
-    const CACIC_PATH = '/var/www/CacicDev/';
+    const CACIC_PATH = '/srv/cacic3/';
 
     // define  IV para agentes CACIC
     const CACIC_IV = 'abcdefghijklmnop';
@@ -32,7 +32,7 @@ abstract class OldCacicHelper
     const CACIC_PATH_RELATIVO_DOWNLOADS = 'downloads/';
 
     // Arquivo com hashes dos agentes
-    const iniFile = '/srv/cacic3/src/Cacic/CommonBundle/Common/downloads/versions_and_hashes.ini';
+    const iniFile =  '/srv/cacic3/src/Cacic/CommonBundle/Common/downloads/versions_and_hashes.ini';
     
     /**
      * 

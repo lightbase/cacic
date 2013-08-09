@@ -190,17 +190,18 @@ class RedeController extends Controller
 
         $itemArray = parse_ini_file($iniFile);
 
+        $teste = parse_ini_file($iniFile, true);
+
         $intLoopSEL 		= 1;
         $intLoopVersionsIni = 0;
         $sessStrTripaItensEnviados = '';
-        while ($intLoopVersionsIni >= 0)
+        foreach ($teste["ItemsDefinitions"] as &$arrItemDefinitions)
         {
             $intLoopVersionsIni ++;
             $arrItemDefinitions = explode(',',$itemArray['Item_' . $intLoopVersionsIni]);
             if (($arrItemDefinitions[0] <> '') && ($arrItemDefinitions[1] <> 'S') && ($arrItemDefinitions[2] <> 'S'))
             {
                 $pStrNmItem = Helper\OldCacicHelper::getOnlyFileName(trim($arrItemDefinitions[0]));
-				//var_dump($pStrNmItem);
 
                 //$boolEqualVersions = ($arrVersoesEnviadas[$strItemName]  == $itemArray[$strItemName . '_VER'] );
                 //$boolEqualHashs	   = ($arrHashsEnviados[$strItemName]    == $itemArray[$strItemName . '_HASH']);
@@ -220,6 +221,8 @@ class RedeController extends Controller
                 {
                     $sessStrTripaItensEnviados .= $arrDadosRede[0]['teServUpdates'].'_'.$arrDadosRede[0]['tePathServUpdates'].'_'.$pStrNmItem . '_';
                     //require_once('../../include/ftp_check_and_send.php');
+
+                    # FIXME: Corrigir a cópia dos arquivos por FTP
 
 					$ftp_class = new CacicHelper\FTP();
 
@@ -254,7 +257,10 @@ class RedeController extends Controller
 					// Se não existir, instancia o objeto
 					if (!$redeVersaoModulo) {
 						$redeVersaoModulo = new RedeVersaoModulo(null, null, null, null, null, $rede);
-					}
+					} else {
+                        // Carrego o objeto encontrado
+                        $redeVersaoModulo = $redeVersaoModulo[0];
+                    }
 
                     // Adicione o restante dos atributos
                     $redeVersaoModulo->setNmModulo($pStrNmItem);
@@ -271,7 +277,44 @@ class RedeController extends Controller
                 //echo $_GET['pIntIdRede'] . '_=_' . $_GET['pStrNmItem'] . '_=_' . $strResult;
 
             }  else {
-                $intLoopVersionsIni = -1;
+                // Carrega o restante dos módulos na tabela rede_versao_modulo, mas não copia por FTP
+                $pStrNmItem = Helper\OldCacicHelper::getOnlyFileName(trim($arrItemDefinitions[0]));
+                error_log("Carregando item: $pStrNmItem");
+
+                $em = $this->getDoctrine()->getManager();
+
+                // Trocar esse array por um SELECT no Doctrine que retorna os dados das redes num array
+                $arrDadosRede = array( 'rede' => $em->getRepository( 'CacicCommonBundle:Rede' )->listar() );
+                $arrDadosRede = $arrDadosRede['rede'][0];
+
+                // Consertar CRUD no Symfony
+                $redeVersaoModulo = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(
+                    array(
+                        'idRede' => $pIntIdRede,
+                        'nmModulo' => $pStrNmItem
+                    )
+                );
+
+                    // Se não existir, instancia o objeto
+                    if (!$redeVersaoModulo) {
+                        $redeVersaoModulo = new RedeVersaoModulo(null, null, null, null, null, $rede);
+                    } else {
+                        // Carrego o objeto encontrado
+                        $redeVersaoModulo = $redeVersaoModulo[0];
+                    }
+
+
+                    // Adicione o restante dos atributos
+                    $redeVersaoModulo->setNmModulo($pStrNmItem);
+                    $redeVersaoModulo->setTeVersaoModulo($itemArray[$pStrNmItem . '_VER']);
+                    $redeVersaoModulo->setDtAtualizacao(new \DateTime('NOW'));
+                    $redeVersaoModulo->setCsTipoSo( $pStrNmItem,'.exe',false ? 'MS-Windows' : 'GNU/LINUX');
+                    $redeVersaoModulo->setTeHash($itemArray[$pStrNmItem . '_HASH']);
+
+                    $em->persist($redeVersaoModulo);
+                    $em->flush();
+
+                #FIXME: Inserir hash do módulo pyCacyc. Atualmente dá erro mas não trava
             }
 
            $intLoopSEL++;
