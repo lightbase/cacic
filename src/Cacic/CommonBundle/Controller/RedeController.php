@@ -49,7 +49,7 @@ class RedeController extends Controller
                 $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Usuário
 
                 // Grava os dados da tabela rede versão módulo
-				//$this->updateSubredes($rede);
+				$this->updateSubredes($rede);
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
@@ -82,7 +82,7 @@ class RedeController extends Controller
                 $this->getDoctrine()->getManager()->flush();// Efetuar a edição do ServidorAutenticacao
 
                 // Grava os dados da tabela rede versão módulo
-				//$this->updateSubredes($rede);
+				$this->updateSubredes($rede);
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 

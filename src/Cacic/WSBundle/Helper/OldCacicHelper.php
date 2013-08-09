@@ -32,7 +32,7 @@ abstract class OldCacicHelper
     const CACIC_PATH_RELATIVO_DOWNLOADS = 'downloads/';
 
     // Arquivo com hashes dos agentes
-    const iniFile = '/srv/gerente/src/Cacic/CommonBundle/Common/downloads/versions_and_hashes.ini';
+    const iniFile = '/srv/cacic3/src/Cacic/CommonBundle/Common/downloads/versions_and_hashes.ini';
     
     /**
      * 
@@ -210,5 +210,22 @@ abstract class OldCacicHelper
         Doctrine\ORM\EntityManagergetEntityManager()->flush();
     }
 
+    public static function getOnlyFileName($pStrFullFileName)
+    {
+        $strResult = str_replace('/' ,'#SLASH#',$pStrFullFileName);
+        $strResult = str_replace('\\','#SLASH#',$strResult);
+        $arrResult = explode('#SLASH#',$strResult);
+        return $arrResult[count($arrResult)-1];
+    }
+
+    public static function stripos2($strString, $strSubString, $boolRetornaPosicao = true)
+    {
+        $intPos = strpos($strString, stristr( $strString, $strSubString ));
+
+        if (!$boolRetornaPosicao)
+            $intPos = (($intPos < 0 || trim($intPos) == '') ? 0 : 1);
+
+        return $intPos;
+    }
 
 }
