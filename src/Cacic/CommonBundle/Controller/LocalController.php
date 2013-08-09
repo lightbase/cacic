@@ -182,10 +182,11 @@ class LocalController extends Controller
 			        ->add('arquivocsv', 'file', array('label' => 'Arquivo', 'attr' => array( 'accept' => '.csv' )))
 			        ->getForm();
 		
-		if ( $request->isMethod('POST') )
+		$form->handleRequest( $request );
+		
+		if ( $form->isValid() )
 		{
-			$form->bindRequest( $request );
-			if ( $form['arquivocsv']->getData() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile )
+			//if ( $form['arquivocsv']->getData() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile )
 			{
 				// Executa a importação do arquivo - grava no diretório web/upload/migracao
 				$dirMigracao = realpath( dirname(__FILE__) .'/../../../../web/upload/migracao/' );
@@ -218,7 +219,7 @@ class LocalController extends Controller
 				
 				$this->get('session')->getFlashBag()->add('success', 'Importação realizada com sucesso!');
 			}
-			else $this->get('session')->getFlashBag()->add('error', 'Arquivo CSV inválido!');
+			//else $this->get('session')->getFlashBag()->add('error', 'Arquivo CSV inválido!');
 			
 			return $this->redirect( $this->generateUrl( 'cacic_migracao_local') );
 	    }

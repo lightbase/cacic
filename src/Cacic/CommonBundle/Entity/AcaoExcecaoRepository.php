@@ -27,7 +27,7 @@ class AcaoExcecaoRepository extends EntityRepository
         								->innerJoin('ae.acao', 'a')
         								->where("a.idAcao = :idAcao")
         								->setParameter('idAcao', $acao)
-        								->groupBy('ae.teNodeAddress');
+        								->groupBy('ae');
         								
 		if ( $rede !== null )
 		{ // Se o filtro por rede for informado

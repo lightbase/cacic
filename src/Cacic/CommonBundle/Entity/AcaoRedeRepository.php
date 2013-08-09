@@ -28,7 +28,7 @@ class AcaoRedeRepository extends EntityRepository
         								->where("a.idAcao = :idAcao")
         								->setParameter('idAcao', $acao)
         								->orderBy('r.nmRede')
-        								->groupBy('r.idRede');
+        								->groupBy('r');
 
         $tmp = $query->getQuery()->execute();
         

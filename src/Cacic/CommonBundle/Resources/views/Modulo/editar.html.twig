@@ -20,7 +20,7 @@
                 </p>
 
                 <h3>{{ modulo.getTeDescricaoBreve() }}</h3>
-                <small>{{ modulo.getTeDescricao() }}</small>
+                <p class="muted">{{ modulo.getTeDescricao() }}</p>
                 
                 {# VERIFICAR PADRAO DE CODIFICAÇÃO DO SYMFONY2 PARA ESTE TIPO DE FORMULÁRIO #}
                 <hr />
@@ -32,6 +32,7 @@
                 		{{ 'Onde executar esta ação-configuração'|trans }}: 
                 	</label>
                 	<div class="controls">
+                		{% if redes|length > 0 %}
                 		<input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="modulo\[rede\]" id="toggleRede">
                 		<label for="toggleRede"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
 	           			{% for rede in redes %}
@@ -40,6 +41,9 @@
 	           			 />
 	           				<label for="modulo_rede_{{ rede['idRede' ] }}">{{ rede['nmRede'] }} ({{ rede['teIpRede'] }})</label>
 	           			{% endfor %}
+	           			{% else %}
+	           			{{ 'Nenhuma Rede cadastrada no sistema.'|trans }}
+	           			{% endif %}
            			</div>
                 </div>
                 
@@ -48,6 +52,7 @@
                 <div class="control-group _cad_block_opcao">
                 	<label class="control-label">{{ 'Sistemas Operacionais onde esta ação-configuração deverá ser aplicada'|trans }}</label>
                 	<div class="controls">
+                		{% if so|length > 0 %}
                 		<input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="modulo\[so\]" id="toggleSo">
                 		<label for="toggleSo"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
                 		<div style="height: 200px; overflow: auto;">
@@ -60,6 +65,9 @@
 		           		</div>
                 		{% endfor %}
                 		</div>
+                		{% else %}
+	           			{{ 'Nenhum Sistema Operacional cadastrado no sistema.'|trans }}
+	           			{% endif %}
                 	</div>
                 </div>
                 
