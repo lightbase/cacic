@@ -1,5 +1,5 @@
 <?php
-//conexão com o banco
+// Conexão com o banco
 $server = "localhost";
 $username = "root";
 $pass = "w1f1t1d1";
@@ -47,35 +47,48 @@ function extrair($table, $query){
 }
 
 
+function add_wrap($fix_id_local){
+    // Coloca os registros de id_local entre "" se não estiver
+    if($fix_id_local[0] != '"'){
+        $fix_id_local = '"'.$fix_id_local;
+    }
+    if($fix_id_local[strlen($fix_id_local)-1] != '"'){
+        $fix_id_local = $fix_id_local . '"';
+    }
+}
+
+
 function fix_local_secundario($filename){
-    $local_sec = file_get_contents($filename);
+    $local_sec = file_get_contents($filename); // Separa as linhas em arrays
     $locais = explode("\n", $local_sec);
     $local_secundario = "";
+
     while ($line = current($locais)) {
-        // do first split on ; character
-        $linearray = explode(";", $line);
-        // if the part after ; is not empty for this line
+        $linearray = explode(";", $line); // Separa id_usuario e id_local nas linhas
         if ($linearray[1]!='""'){
-            // split it further on , character
-            $id_local = explode(",", $linearray[1]);
+            $id_local = explode(",", $linearray[1]); // Separa id_local diferentes
+
             foreach ($id_local as $key => $fix_id_local){
+                // Coloca os registros de id_local entre "" se não estiver
                 if($fix_id_local[0] != '"'){
                     $fix_id_local = '"'.$fix_id_local;
                 }
                 if($fix_id_local[strlen($fix_id_local)-1] != '"'){
                     $fix_id_local = $fix_id_local . '"';
                 }
+
                 $local_secundario .= $linearray[0] . ";" . $fix_id_local . "\n";
             }
         }
         next($locais);
     }
+    // Sobrepoe o arquivo de locais_secundarios com a versão corrigida
     echo $local_secundario;
 }
 
 
 function create_temptables(){
-    //Cria e popula as tabelas temporarias "new_redes" e "new_computador"
+    // Cria e popula as tabelas temporarias "new_redes" e "new_computador"
 
 
     mysql_query("DROP TABLE IF EXISTS new_redes");
@@ -136,13 +149,13 @@ $tabelas = array(
     "usuario" => "SELECT id_usuario, id_local, id_servidor_autenticacao, id_grupo_usuarios AS id_grupo_usuario, @s1:=NULL id_usuario_ldap, nm_usuario_acesso, nm_usuario_completo, @s2:=NULL nm_usuario_completo_ldap, te_senha, dt_log_in, te_emails_contato, te_telefones_contato FROM usuarios",
 );
 
-create_temptables();
-while ($tabela = current($tabelas)) {
-    @extrair(key($tabelas),$tabela);
-    next($tabelas);
-}
+// create_temptables();
+// while ($tabela = current($tabelas)) {
+//     @extrair(key($tabelas),$tabela);
+//     next($tabelas);
+// }
 fix_local_secundario("local_secundario.csv");
-mysql_query("DROP TABLE new_redes");
-mysql_query("DROP TABLE new_computador");
+// mysql_query("DROP TABLE new_redes");
+// mysql_query("DROP TABLE new_computador");
 
 ?>
