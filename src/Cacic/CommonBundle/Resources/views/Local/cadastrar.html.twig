@@ -15,8 +15,8 @@
 			<h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {% if form.vars.value.idLocal %}{{ "Edição dos dados do local"|trans }}{% else %}{{ "Cadastro de novo local"|trans }}{% endif %}</h2>
 			
 			<div class="block box_content round_bottom padding_10">
-			
-				<form id="formCadastroLocal" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ 'form_enctype(form)'|trans}}>
+
+				<form id="formCadastroLocal" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)}}|trans>
 				
 					<div class="tabbable">
 						<ul class="nav nav-tabs">
