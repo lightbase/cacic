@@ -13,26 +13,21 @@ class ComputadorColeta
      * @var integer
      */
     private $idComputadorColeta;
-
+    
     /**
      * @var string
      */
-    private $teClassValues;
-
+    private $teClassPropertyValue;
+    
     /**
      * @var \Cacic\CommonBundle\Entity\Computador
      */
-    private $idComputador;
-
-    /**
-     * @var \Cacic\CommonBundle\Entity\Classe
-     */
-    private $idClass;
+    private $computador;
     
     /**
-     * @var array Valores organizados por Tags
+     * @var \Cacic\CommonBundle\Entity\ClassProperty
      */
-    private $tagValues = array();
+    private $classProperty;
 
 
     /**
@@ -41,10 +36,7 @@ class ComputadorColeta
      */
     public function __construct()
     {
-    	if ( null !== $this->teClassValues )
-    	{
-    		preg_match_all( '#\[([^\/+?)\](.*?)\[\/.*?\]#', $this->teClassValues, $out );
-    	}
+    	
     }
 
     /**
@@ -58,71 +50,71 @@ class ComputadorColeta
     }
 
     /**
-     * Set teClassValues
+     * Set teClassPropertyValue
      *
-     * @param string $teClassValues
+     * @param string $teClassPropertyValue
      * @return ComputadorColeta
      */
-    public function setTeClassValues($teClassValues)
+    public function setTeClassPropertyValue($teClassPropertyValue)
     {
-        $this->teClassValues = $teClassValues;
+        $this->teClassPropertyValue = $teClassPropertyValue;
     
         return $this;
     }
 
     /**
-     * Get teClassValues
+     * Get teClassPropertyValue
      *
      * @return string 
      */
-    public function getTeClassValues()
+    public function getTeClassPropertyValue()
     {
-        return $this->teClassValues;
+        return $this->teClassPropertyValue;
     }
 
     /**
-     * Set idComputador
+     * Set computador
      *
-     * @param \Cacic\CommonBundle\Entity\Computador $idComputador
+     * @param \Cacic\CommonBundle\Entity\Computador $computador
      * @return ComputadorColeta
      */
-    public function setIdComputador(\Cacic\CommonBundle\Entity\Computador $idComputador = null)
+    public function setComputador(\Cacic\CommonBundle\Entity\Computador $computador = null)
     {
-        $this->idComputador = $idComputador;
+        $this->computador = $computador;
     
         return $this;
     }
 
     /**
-     * Get idComputador
+     * Get computador
      *
      * @return \Cacic\CommonBundle\Entity\Computador 
      */
-    public function getIdComputador()
+    public function getComputador()
     {
-        return $this->idComputador;
+        return $this->computador;
     }
 
     /**
-     * Set idClass
+     * Set classProperty
      *
-     * @param \Cacic\CommonBundle\Entity\Classe $idClass
+     * @param \Cacic\CommonBundle\Entity\ClassProperty $classProperty
      * @return ComputadorColeta
      */
-    public function setIdClass(\Cacic\CommonBundle\Entity\Classe $idClass = null)
+    public function setClassProperty(\Cacic\CommonBundle\Entity\ClassProperty $classProperty = null)
     {
-        $this->idClass = $idClass;
+        $this->classProperty = $classProperty;
     
         return $this;
     }
 
     /**
-     * Get idClass
+     * Get classProperty
      *
-     * @return \Cacic\CommonBundle\Entity\Classe 
+     * @return \Cacic\CommonBundle\Entity\ClassProperty 
      */
-    public function getIdClass()
+    public function getClassProperty()
     {
-        return $this->idClass;
+        return $this->classProperty;
     }
 }

@@ -10,16 +10,16 @@ Cacic\CommonBundle\Entity\ComputadorColetaHistorico:
             column: id_computador_coleta_historico
             generator:
                 strategy: IDENTITY
-        teClassValues:
+        teClassPropertyValue:
             type: text
             nullable: false
-            column: te_class_values
+            column: te_class_property_value
         dtHrInclusao:
             type: datetime
             nullable: false
             column: dt_hr_inclusao
     manyToOne:
-        idComputadorColeta:
+        computadorColeta:
             targetEntity: ComputadorColeta
             cascade: {  }
             mappedBy: null
@@ -28,7 +28,7 @@ Cacic\CommonBundle\Entity\ComputadorColetaHistorico:
                 id_computador_coleta:
                     referencedColumnName: id_computador_coleta
             orphanRemoval: false
-        idComputador:
+        computador:
             targetEntity: Computador
             cascade: {  }
             mappedBy: null
@@ -37,13 +37,13 @@ Cacic\CommonBundle\Entity\ComputadorColetaHistorico:
                 id_computador:
                     referencedColumnName: id_computador
             orphanRemoval: false
-        idClass:
-            targetEntity: Classe
+        classProperty:
+            targetEntity: ClassProperty
             cascade: {  }
             mappedBy: null
             inversedBy: null
             joinColumns:
-                id_class:
-                    referencedColumnName: id_class
+                id_class_property:
+                    referencedColumnName: id_class_property
             orphanRemoval: false
     lifecycleCallbacks: {  }

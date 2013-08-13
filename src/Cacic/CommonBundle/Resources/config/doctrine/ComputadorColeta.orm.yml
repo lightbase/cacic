@@ -11,12 +11,12 @@ Cacic\CommonBundle\Entity\ComputadorColeta:
             column: id_computador_coleta
             generator:
                 strategy: IDENTITY
-        teClassValues:
+        teClassPropertyValue:
             type: text
             nullable: false
-            column: te_class_values
+            column: te_class_property_value
     manyToOne:
-        idComputador:
+        computador:
             targetEntity: Computador
             cascade: {  }
             mappedBy: null
@@ -25,13 +25,13 @@ Cacic\CommonBundle\Entity\ComputadorColeta:
                 id_computador:
                     referencedColumnName: id_computador
             orphanRemoval: false
-        idClass:
-            targetEntity: Classe
+        classProperty:
+            targetEntity: ClassProperty
             cascade: {  }
             mappedBy: null
             inversedBy: null
             joinColumns:
-                id_class:
-                    referencedColumnName: id_class
+                id_class_property:
+                    referencedColumnName: id_class_property
             orphanRemoval: false
     lifecycleCallbacks: {  }
