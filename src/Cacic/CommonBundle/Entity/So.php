@@ -149,4 +149,13 @@ class So
     
         return $this;
     }
+    
+    /**
+     * Método mágico invocado sempre que um objeto desta classe é referenciado em contexto de string
+     * @return string
+     */
+    public function __toString()
+    {
+    	return $this->teDescSo . ' ('. $this->sgSo .')';
+    }
 }

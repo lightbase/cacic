@@ -8,10 +8,64 @@
 {% block body %}
 
 <div class="row-fluid">
+	<div class="span12">
+		<div class="box grad_colour_black">
+		
+	        <h2 class="box_head round_top">
+	        	<i class="icon-desktop"></i> 
+	        	{{ "Detalhes do Computador"|trans }}: {{ computador.nmComputador }}
+	        </h2>
+	    
+	        <div class="block box_content round_bottom padding_10">
+	            <h3>{{ computador.nmComputador }}</h3>
+	            <p class="muted">{{ "Dados coletados pelo agente-CACIC à partir da estação de trabalho."|trans }}</p>
+	            <br />
+	            <table class="table">
+	            	<thead>
+	            		<tr>
+	            			<th colspan="4">{{ 'Informações Básicas'|trans }}</th>
+	            		</tr>
+	            	</thead>
+	            	<tbody>
+	            		<tr>
+	            			<th width="20%">{{ 'Nome do Computador'|trans }}</th>
+	            			<td colspan="3">{{ computador.nmComputador }}</td>
+	            		</tr>
+	            		<tr>
+	            			<th width="20%">{{ 'Sistema Operacional'|trans }}</th>
+	            			<td colspan="3">{{ computador.idSo }}</td>
+	            		</tr>
+	            		<tr>
+	            			<th width="20%">{{ 'Endereço TCP/IP'|trans }}</th>
+	            			<td colspan="3">{{ computador.teIpComputador }}</td>
+	            		</tr>
+	            		<tr>
+	            			<th width="20%">{{ 'Versão do Agente Principal'|trans }}</th>
+	            			<td width="30%">{{ computador.teVersaoCacic }}</td>
+	            			<th width="20%">{{ 'Versão do Agente de Coletas'|trans }}</th>
+	            			<td width="30%">{{ computador.teVersaoGercols }}</td>
+	            		</tr>
+	            		<tr>
+	            			<th>{{ 'Data/Hora de inclusão'|trans }}</th>
+	            			<td>{{ computador.dtHrInclusao|date('d/m/Y H:i') }}</td>
+	            			<th>{{ 'Data/Hora do último acesso'|trans }}</th>
+	            			<td>{{ computador.dtHrUltAcesso|date('d/m/Y H:i') }}</td>
+	            		</tr>
+	            	</tbody>
+	            </table>
+	        </div>
+	        
+	    </div> <!-- box -->
+	</div> <!-- span -->
+</div> <!-- row -->
 
-<div class="span12">
-</div> <!-- /span -->
+{% endblock %}
 
-</div> <!-- /row -->
-
+{% block stylesheets %}
+{{ parent() }}
+<style type="text/css">
+<!--
+.table tbody th { text-align: right; }
+-->
+</style>
 {% endblock %}
