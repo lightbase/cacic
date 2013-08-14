@@ -87,7 +87,7 @@ Cacic\CommonBundle\Entity\Computador:
             mappedBy: idComputador
         hardwares:
             targetEntity: ComputadorColeta
-            mappedBy: idComputador
+            mappedBy: computador
     manyToOne:
         idUsuarioExclusao:
             targetEntity: Usuario

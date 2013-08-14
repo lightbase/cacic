@@ -29,16 +29,6 @@ class ComputadorColeta
      */
     private $classProperty;
 
-
-    /**
-     * 
-     * Construtor da classe
-     */
-    public function __construct()
-    {
-    	
-    }
-
     /**
      * Get idComputadorColeta
      *

@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}     
+    <li><a href="{{ path('cacic_computador_navegar') }}">{{ "Computadores"|trans }}</a></li> / 
+    <li class="active">{{ computador.nmComputador }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+<div class="span12">
+</div> <!-- /span -->
+
+</div> <!-- /row -->
+
+{% endblock %}

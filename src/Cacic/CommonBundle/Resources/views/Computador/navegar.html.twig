@@ -22,6 +22,19 @@
     </div>
 </div>
 
+<div class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>{{ 'Dados do Computador'|trans }}</h3>
+  </div>
+  <div class="modal-body">
+    
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">{{ 'Fechar'|trans }}</a>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block stylesheets %}
@@ -87,6 +100,12 @@
                 	default:
                 	case 'computador':
                     	icon_class = 'icon-desktop';
+
+                    	$li.attr({
+        					'data-toggle': 'modal',
+        					'data-target': '{{ path("cacic_computador_detalhar") }}/' + node.id
+        				});
+        				
                     	break;
                 }
 

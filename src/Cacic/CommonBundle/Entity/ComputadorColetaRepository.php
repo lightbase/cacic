@@ -12,4 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class ComputadorColetaRepository extends EntityRepository
 {
+	
+	/**
+	 * Recupera os dados de coleta referentes ao Computador parametrizado
+	 * @param \Cacic\CommonBundle\Entity\Computador $computador
+	 */
+	public function getDadosColetaComputador( \Cacic\CommonBundle\Entity\Computador $computador )
+	{
+		$qb = $this->createQueryBuilder('coleta')->select('coleta', 'propriedade', 'classe')
+			->innerJoin('coleta.classProperty', 'propriedade')
+			->innerJoin('propriedade.idClass', 'classe')
+			->where('coleta.computador = (:computador)')
+			->setParameter('computador', $computador);
+	
+		return $qb->getQuery()->execute();
+	}
+	
 }

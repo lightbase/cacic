@@ -438,7 +438,7 @@ cacic_computador_excluir:
 
 cacic_computador_detalhar:
     pattern:  /computador/detalhar/{idComputador}
-    defaults: { _controller: CacicCommonBundle:Computador:detalhar}
+    defaults: { _controller: CacicCommonBundle:Computador:detalhar, idComputador: null }
     requirements:
         idComputador: \d+
 

@@ -168,7 +168,6 @@ class ComputadorRepository extends EntityRepository
         {
             foreach($classes as $classe)
             {
-
                 if($key == $classe->getnmClassName() )
                 {
                     //inserção de dados na tabela computador_coleta
@@ -198,7 +197,6 @@ class ComputadorRepository extends EntityRepository
         $computador->setNmComputador( TagValueHelper::getValueFromTags( 'Caption' ,$computer_system ));
         $this->getEntityManager()->persist( $computador );
 
-
         $acoes = $this->getEntityManager()->getRepository('CacicCommonBundle:Acao')->findAll();
 
         //inserção ações de coleta a nova maquina
@@ -217,7 +215,6 @@ class ComputadorRepository extends EntityRepository
 
         //persistir dados
         $this->getEntityManager()->flush();
-
 
         return $computador;
     }

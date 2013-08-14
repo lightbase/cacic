@@ -35,17 +35,32 @@ class ComputadorController extends Controller
 	
 	public function consultarAction()
 	{
-		
 	}
 	
 	public function excluirAction()
 	{
-		
 	}
 	
-	public function detalharAction()
+	/**
+	 * [MODAL] Exibe dados do computador e informações sobre coleta
+	 */
+	public function detalharAction( $idComputador )
 	{
+		//if ( ! $request->isXmlHttpRequest() ) // Verifica se é uma requisição AJAX
+		//	throw $this->createNotFoundException( 'Página não encontrada!' );
+		$d = $this->getDoctrine();
 		
+		$computador = $d->getRepository('CacicCommonBundle:Computador')->find( (int) $idComputador );
+		if ( ! $computador )
+			throw $this->createNotFoundException( 'Página não encontrada!' );
+		
+		return $this->render(
+			'CacicCommonBundle:Computador:detalhar.html.twig',
+			array(
+				'computador' => $computador,
+				'dadosColeta' => $d->getRepository('CacicCommonBundle:ComputadorColeta')->getDadosColetaComputador( $computador )
+			)
+		);
 	}
 	
 	/**

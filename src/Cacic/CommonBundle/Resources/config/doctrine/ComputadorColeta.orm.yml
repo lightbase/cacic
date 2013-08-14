@@ -20,7 +20,7 @@ Cacic\CommonBundle\Entity\ComputadorColeta:
             targetEntity: Computador
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: hardwares
             joinColumns:
                 id_computador:
                     referencedColumnName: id_computador
