@@ -423,35 +423,32 @@ OK --unid_organizacional_nivel2
 'unid_organizacional_nivel2.nu_tel2_responsavel_uon2' AS unid_organizacional_nivel2.nu_tel2_responsavel_uon2
 'unid_organizacional_nivel2.dt_registro' AS unid_organizacional_nivel2.dt_registro
 
-* --uorg
+OK --uorg
 
-'unid_organizacional_nivel1.id_unid_organizacional_nivel1 AND
- unid_organizacional_nivel1a.id_unid_organizacional_nivel1a AND
- unid_organizacional_nivel2.id_unid_organizacional_nivel2' AS uorg.id_uorg
-'unid_organizacional_nivel1.'{null}' AND
- unid_organizacional_nivel1a.id_unid_organizacional_nivel1 AND
- unid_organizacional_nivel2.id_unid_organizacional_nivel1a' AS uorg.id_uorg_pai
+'temp_uorg.id_uorg' AS uorg.id_uorg
+NULL e
+    'temp_uorg.id_uorg' AS uorg.id_uorg_pai
 '0' AS uorg.id_tipo_uorg
 'unid_organizacional_nivel2.id_local' AS uorg.id_local
-'unid_organizacional_nivel1.nm_unid_organizacional_nivel1 AND
- unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a AND
- unid_organizacional_nivel2.nm_unid_organizacional_nivel2' AS uorg.nm_uorg
-'unid_organizacional_nivel1.te_endereco_uon1 AND
- unid_organizacional_nivel2.te_endereco_uon2' AS uorg.te_endereco
-'unid_organizacional_nivel.te_bairro1 AND
- unid_organizacional_nivel.te_bairro2' AS uorg.te_bairro
-'unid_organizacional_nivel.te_cidade_uon1 AND
- unid_organizacional_nivelte_cidade_uon2' AS uorg.te_cidade
-'unid_organizacional_nivel.te_uf_uon1 AND
- unid_organizacional_nivel.te_uf_uon2' AS uorg.te_uf
-'unid_organizacional_nivel.nm_responsavel_uon1 AND
- unid_organizacional_nivel.nm_responsavel_uon2' AS uorg.nm_responsavel
-'unid_organizacional_nivel.te_email_responsavel_uon1 AND
- unid_organizacional_nivel.te_email_responsavel_uon2' AS uorg.te_responsavel_email
-'unid_organizacional_nivel.nu_tel1_responsavel_uon1 AND
- unid_organizacional_nivel.nu_tel1_responsavel_uon2' AS uorg.nu_responsavel_tel1
-'unid_organizacional_nivel.nu_tel2_responsavel_uon1 AND
- unid_organizacional_nivel.nu_tel2_responsavel_uon2' AS uorg.nu_responsavel_tel2
+'unid_organizacional_nivel1.nm_unid_organizacional_nivel1 e
+    unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a e
+    unid_organizacional_nivel2.nm_unid_organizacional_nivel2' AS uorg.nm_uorg
+'unid_organizacional_nivel1.te_endereco_uon1 e
+    unid_organizacional_nivel2.te_endereco_uon2' AS uorg.te_endereco
+'unid_organizacional_nivel1.te_bairro1 e
+    unid_organizacional_nivel2.te_bairro2' AS uorg.te_bairro
+'unid_organizacional_nivel1.te_cidade_uon1 e
+    unid_organizacional_nivel2.te_cidade_uon2' AS uorg.te_cidade
+'unid_organizacional_nivel1.te_uf_uon1 e
+    unid_organizacional_nivel2.te_uf_uon2' AS uorg.te_uf
+'unid_organizacional_nivel1.nm_responsavel_uon1 e
+    unid_organizacional_nivel2.nm_responsavel_uon2' AS uorg.nm_responsavel
+'unid_organizacional_nivel1.te_email_responsavel_uon1 e
+    unid_organizacional_nivel2.te_email_responsavel_uon2' AS uorg.te_responsavel_email
+'unid_organizacional_nivel1.nu_tel1_responsavel_uon1 e
+    unid_organizacional_nivel2.nu_tel1_responsavel_uon2' AS uorg.nu_responsavel_tel1
+'unid_organizacional_nivel1.nu_tel2_responsavel_uon1 e
+    unid_organizacional_nivel2.nu_tel2_responsavel_uon2' AS uorg.nu_responsavel_tel2
 
 OK --usb_device
 
