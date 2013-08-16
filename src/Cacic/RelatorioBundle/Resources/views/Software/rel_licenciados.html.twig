@@ -3,7 +3,7 @@
 {% block body %}
 
 <h2 class="">{{ 'Relatório de Softwares Licenciados'|trans }}</h2>
-<h5>{{ 'Relatório gerado em'|trans }} {{ "now"|date("m/d/Y H\\hi") }}</h5>
+<h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
 
 <hr />
 

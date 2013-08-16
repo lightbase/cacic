@@ -51,10 +51,12 @@ class DefaultController extends Controller
     	$dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:Software')
             ->gerarRelatorioPatrimonio( $filtros );
-    	
+        $locale = $request->getLocale();
+
         return $this->render(
             'CacicRelatorioBundle:Default:rel_patrimonio.html.twig',
             array(
+                'idioma'=>$locale,
                 'dados' => $dados,
             	'exibirColunaSoftware' => (bool) strlen( $filtros['softwares']
 		        )

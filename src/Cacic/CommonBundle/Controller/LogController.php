@@ -2,6 +2,7 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,6 +34,7 @@ class LogController extends Controller
         {
         	$form->bind( $request );
         	$data = $form->getData();
+            $locale = $request->getLocale();
 
             $filtroLocais = array(); // Inicializa array com locais a pesquisar
             foreach ( $data['idLocal'] as $locais )
@@ -45,6 +47,7 @@ class LogController extends Controller
         
         return $this->render( 'CacicCommonBundle:Log:acesso.html.twig',
 			array(
+                'local'=>$locale ,
 				'form' => $form->createView(),
 				'logs' => ( isset( $logs ) ? $logs : null )
 			)

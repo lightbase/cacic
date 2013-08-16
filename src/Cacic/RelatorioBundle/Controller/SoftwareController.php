@@ -34,6 +34,7 @@ class SoftwareController extends Controller
      */
     public function inventariadosRelatorioAction( Request $request )
     {
+        $locale = $request->getLocale();
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Software')
     					->gerarRelatorioSoftwaresInventariados( $request->get('rel_filtro_software') );
@@ -41,6 +42,7 @@ class SoftwareController extends Controller
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_inventariados.html.twig', 
         	array(
+                'idioma'=>$locale,
         		'dados' => $dados
         	)
         );
@@ -67,6 +69,7 @@ class SoftwareController extends Controller
      */
     public function licenciadosRelatorioAction( Request $request )
     {
+        $locale = $request->getLocale();
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Software')
     					->gerarRelatorioSoftwaresLicenciados( $request->get('rel_filtro_software') );
@@ -74,6 +77,7 @@ class SoftwareController extends Controller
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_licenciados.html.twig', 
         	array(
+                'idioma'=>$locale,
         		'dados' => $dados
         	)
         );
@@ -84,6 +88,7 @@ class SoftwareController extends Controller
      */
     public function aquisicoesRelatorioAction( Request $request )
     {
+        $locale = $request->getLocale();
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Aquisicao')
     					->gerarRelatorioAquisicoes();
@@ -91,6 +96,7 @@ class SoftwareController extends Controller
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_aquisicoes.html.twig', 
         	array(
+                'idioma'=>$locale,
         		'dados' => $dados
         	)
         );
@@ -130,6 +136,7 @@ class SoftwareController extends Controller
      */
     public function orgaoRelatorioAction( Request $request )
     {
+        $locale = $request->getLocale();
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Software')
     					->gerarRelatorioSoftwaresPorOrgao( $request->get('form') );
@@ -137,6 +144,7 @@ class SoftwareController extends Controller
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_orgao.html.twig', 
         	array(
+                'idioma'=>$locale,
         		'dados' => $dados
         	)
         );
@@ -175,6 +183,7 @@ class SoftwareController extends Controller
      */
     public function tipoRelatorioAction( Request $request )
     {
+        $locale = $request->getLocale();
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Software')
     					->gerarRelatorioSoftwaresPorTipo( $request->get('form') );
@@ -182,6 +191,7 @@ class SoftwareController extends Controller
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_tipo.html.twig', 
         	array(
+                'idioma'=>$locale,
         		'dados' => $dados
         	)
         );
@@ -192,6 +202,7 @@ class SoftwareController extends Controller
      */
     public function naoVinculadosRelatorioAction( Request $request )
     {
+        $locale = $request->getLocale();
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Software')
     					->gerarRelatorioSoftwaresNaoVinculados();
@@ -199,6 +210,7 @@ class SoftwareController extends Controller
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_naovinculados.html.twig', 
         	array(
+                'idioma'=>$locale,
         		'dados' => $dados
         	)
         );
