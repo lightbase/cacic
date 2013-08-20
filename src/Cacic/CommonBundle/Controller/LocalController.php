@@ -53,12 +53,9 @@ class LocalController extends Controller
 				
 				/**
 				 * @todo Otimizar rotina através de Post-Commit / Verificar UNIDADE TRANSACIONAL
-				 */
-				$this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoLocal' )->configurarLocalFromConfigPadrao( $local, $em );
-				
-				/**
 				 * @todo Criar Configurações de Interface do Aplicativo de Coleta de Dados Patrimoniais
 				 */
+				$this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoLocal' )->configurarLocalFromConfigPadrao( $local );
 				
 				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 				

@@ -50,7 +50,7 @@
 							{% if ( usuario.locaisSecundarios|length > 0 ) %}
 							<dt>{{ 'Locais secundários'|trans }}</dt>
 							<dd>
-								{{ usuario.locaisSecundarios|join("\n") }}
+								{{ usuario.locaisSecundarios|join(", ") }}
 							</dd>
 							{% endif %}
 							

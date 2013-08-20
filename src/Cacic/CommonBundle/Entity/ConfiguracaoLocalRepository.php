@@ -51,14 +51,30 @@ class ConfiguracaoLocalRepository extends EntityRepository
 	}
 	
 	/**
+	 * Verifica se o Local parametrizado possui configurações
+	 * @param Cacic\CommonBundle\Entity\Local $local
+	 * @return boolean
+	 */
+	public function hasConfiguracoes( $local )
+	{
+		$qb = $this->createQueryBuilder('cl')
+					->select('COUNT(cl.idConfiguracao) AS numConfig')
+					->where('cl.idLocal = :local')
+					->setParameter('local', $local)
+					->groupBy('cl.idLocal');
+		
+		return (bool) $qb->getQuery()->getOneOrNullResult();
+	}
+	
+	/**
 	 * 
 	 * Cria as configurações locais à partir da configuração padrão do CACIC
-	 * @param Local $local
-	 * @param EntityManager $em
+	 * @param Cacic\CommonBundle\Entity\Local $local
 	 */
-	public function configurarLocalFromConfigPadrao( $local, $em )
+	public function configurarLocalFromConfigPadrao( $local )
 	{
 		$em = $this->getEntityManager();
+		
 		$padrao = $em->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->findAll(); // Recupera todas as Configurações-Padrão
 		
 		foreach( $padrao as $confPadrao )
