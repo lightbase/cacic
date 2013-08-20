@@ -39,21 +39,26 @@
 
 {% block stylesheets %}
 
-    {{ parent() }}
+{{ parent() }}
 
-    <link href="{{ asset('bundles/caciccommon/jqTree-0.15/jqtree.css') }}" type="text/css" rel="stylesheet" media="screen" />
-    
-    <style type="text/css">
-       #tree_comp0 {
-        color: #000;
-        font-size: 14pt;
-        font-weight: bold;
-        margin-left: 25px;
-       }
-       #tree_comp0 li.jqtree_common {
-        line-height: 20pt;
-        margin-left: 25px;
-       }
+<link href="{{ asset('bundles/caciccommon/jqTree-0.15/jqtree.css') }}" type="text/css" rel="stylesheet" media="screen" />
+
+<style type="text/css">
+
+	#tree_comp0 {
+		color: #000;
+		font-size: 14pt;
+		font-weight: bold;
+		margin-left: 25px;
+	}
+	
+	#tree_comp0 li.jqtree_common {
+		line-height: 20pt;
+		margin-left: 25px;
+	}
+	
+	#tree_comp0 .jqtree-title { cursor: default; }
+	
     </style>
     
 {% endblock %}
@@ -101,10 +106,17 @@
                 	case 'computador':
                     	icon_class = 'icon-desktop';
 
+                    	/*
                     	$li.attr({
         					'data-toggle': 'modal',
         					'data-target': '{{ path("cacic_computador_detalhar") }}/' + node.id
         				});
+        				*/
+
+        				$li.find('span.jqtree-title').after( 
+        					$('<a></a>').attr({'href':'{{ path("cacic_computador_detalhar") }}/' + node.id, 'class': 'btn' })
+        								.append('<i class="icon-search"></i>')
+        				);
         				
                     	break;
                 }
