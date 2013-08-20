@@ -65,9 +65,9 @@ $targzfile = $tmpdir."/bases_cacic2_19-08-2013_17:01:26.tar.gz"; // Será especi
 // $targzfile = $_POST['fname'];
 
 echo "Iniciando importação\n";
-system("tar - xmzf ".escapeshellarg($targzfile)." -C ".$tmpdir);
+system("rm -r ".escapeshellarg("{$tmpdir}/bases_cacic2")); // Deleta diretorio se já existir
+system("tar -xzf ".escapeshellarg($targzfile)." -C ".$tmpdir);
 importar($dbcon, $tmpdir);
-// system("rm -r ".escapeshellarg("{$tmpdir}/bases_cacic2"));
 echo "Os dados foram importados com sucesso!\n";
 
 $dbcon = null;
