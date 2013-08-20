@@ -54,11 +54,24 @@ class ComputadorController extends Controller
 		if ( ! $computador )
 			throw $this->createNotFoundException( 'Página não encontrada!' );
 		
+		$coleta = $d->getRepository('CacicCommonBundle:ComputadorColeta')->getDadosColetaComputador( $computador );
+		
+		$dadosColeta = array(); // Inicializa o array que agrupa os dados de coleta por Classe
+		foreach ( $coleta as $v )
+		{
+			$idClass = $v->getClassProperty()->getIdClass()->getIdClass();
+			
+			if ( array_key_exists( $idClass, $dadosColeta ) )
+				$dadosColeta[ $idClass ] = array();
+			
+			$dadosColeta[ $idClass ][] = $v;
+		}
+		
 		return $this->render(
 			'CacicCommonBundle:Computador:detalhar.html.twig',
 			array(
 				'computador' => $computador,
-				'dadosColeta' => $d->getRepository('CacicCommonBundle:ComputadorColeta')->getDadosColetaComputador( $computador )
+				'dadosColeta' => $dadosColeta
 			)
 		);
 	}

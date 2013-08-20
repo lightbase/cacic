@@ -78,6 +78,8 @@
 								<td style="text-align: center">{{ so['numComp'] }}</td>
 								<td style="text-align: center"></td>
 							</tr>
+							{% else %}
+							<tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
 							{% endfor %}
 						</tbody>
 					</table>
