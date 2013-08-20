@@ -8,7 +8,7 @@ $dbcon = new PDO("mysql:host={$server};dbname={$db}", $user, $pass);
 
 // Nome do diretório temporário
 $tmproot = sys_get_temp_dir();
-$tmpdir = $tmproot.'/'.'bases';
+$tmpdir = $tmproot.'/bases_cacic2';
 
 // Remove diretório se ele já existir
 system('rm -rf '.escapeshellarg($tmpdir));
@@ -58,7 +58,7 @@ function extrair($dbcon){
         "unid_organizacional_nivel1" => "SELECT id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1, te_endereco_uon1, te_bairro_uon1, te_cidade_uon1, te_uf_uon1, nm_responsavel_uon1, te_email_responsavel_uon1, nu_tel1_responsavel_uon1, nu_tel2_responsavel_uon1 INTO OUTFILE '$tmpdir/unid_organizacional_nivel1.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1",
         "unid_organizacional_nivel1a" => "SELECT id_unid_organizacional_nivel1a, id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1a INTO OUTFILE '$tmpdir/unid_organizacional_nivel1a.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1a",
         "unid_organizacional_nivel2" => "SELECT id_local, id_unid_organizacional_nivel2, id_unid_organizacional_nivel1a, nm_unid_organizacional_nivel2, te_endereco_uon2, te_bairro_uon2, te_cidade_uon2, te_uf_uon2, nm_responsavel_uon2, te_email_responsavel_uon2, nu_tel1_responsavel_uon2, nu_tel2_responsavel_uon2, dt_registro INTO OUTFILE '$tmpdir/unid_organizacional_nivel2.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel2",
-        // "uorg" => "", //ToDo
+        "uorg" => "SELECT @s1:=0 id_uorg, @s2:=NULL id_uorg_pai, @s3:=0 id_tipo_uorg, @s4:=NULL id_local, @s5:='' nm_uorg, @s6:=NULL te_endereco, @s7:=NULL te_bairro, @s8:=NULL te_cidade, @s9:=NULL te_uf, @s10:=NULL nm_responsavel, @s11:=NULL te_responsavel_email, @s12:=NULL nu_responsavel_tel1, @s13:=NULL nu_responsavel_tel2 INTO OUTFILE '$tmpdir/uorg.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'", //TODO
         "usb_device" => "SELECT id_device AS id_usb_device, id_vendor AS id_usb_vendor, nm_device AS nm_usb_device, te_observacao, @s1:=0 dt_registro INTO OUTFILE '$tmpdir/usb_device.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices",
         "usb_log" => "SELECT @s:=@s+1 id_usb_log, id_vendor AS id_usb_vendor, id_device AS id_usb_device, tmp_computador.id_computador, dt_event, cs_event INTO OUTFILE '$tmpdir/usb_log.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_logs INNER JOIN tmp_computador ON (tmp_computador.id_so=usb_logs.id_so AND tmp_computador.te_node_address=usb_logs.te_node_address), (SELECT @s:=0) AS s",
         "usb_vendor" => "SELECT id_vendor AS id_usb_vendor, nm_vendor AS nm_usb_vendor, te_observacao, @s1:=NULL dt_registro INTO OUTFILE '$tmpdir/usb_vendor.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_vendors",
@@ -66,10 +66,9 @@ function extrair($dbcon){
     );
 
     while($tabela = current($lista_tabelas)) {
-        // extrair(key($lista_tabelas),$tabela, $dbcon);
 
         $filename = $tmpdir."/".key($lista_tabelas).".csv";
-        echo "Extraido ".key($lista_tabelas)."... ";
+        echo "Carregando dados de ".key($lista_tabelas)."... ";
         $pesquisa = $dbcon->prepare($tabela);
         $pesquisa->execute();
         echo "feito.\n";
@@ -137,7 +136,7 @@ function create_temptables($dbcon){
 
 
 // Execuções
-echo "Iniciando criação do arquivo de exportação:\n\n";
+echo "Iniciando criação do arquivo de exportação\n\n";
 
 // Cria tabelas temporárias
 create_temptables($dbcon);
@@ -152,10 +151,11 @@ $dbcon->exec("DROP TABLE tmp_computador");
 $dbcon->exec("DROP TABLE tmp_uorg");
 
 // Gera um arquivo .tar.gz com os bancos
-$basesfile = $tmproot."/bases_cacic2_".date("d-m-Y_H:i:s").".tar.gz";
-system("tar --remove-files -czf ".escapeshellarg($basesfile)." ".escapeshellarg($tmpdir)." > ".escapeshellarg("file"));
+$targzfile = $tmproot."/bases_cacic2_".date("d-m-Y_H:i:s").".tar.gz";
+system("tar --remove-files -czf ".escapeshellarg($targzfile)." -C ".escapeshellarg($tmproot)." bases_cacic2");
+chmod($targzfile, 0777);
 
-echo "O arquivo {$basesfile} foi criado com sucesso!\n";
+echo "O arquivo {$targzfile} foi criado com sucesso!\n";
 
 $dbcon = null;
 ?>

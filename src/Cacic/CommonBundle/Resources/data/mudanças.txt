@@ -5,7 +5,7 @@ OK --acao
 'acoes.te_descricao' AS acao.te_descricao
 'acoes.te_nome_curto_modulo' AS acao.te_nome_curto_modulo
 'acoes.dt_hr_alteracao' AS acao.dt_hr_alteracao
-'acoes.cs_situacao' ASacao.cs_opcional
+'acoes.cs_situacao' AS acao.cs_opcional
 
 OK --acao_excecao
 
