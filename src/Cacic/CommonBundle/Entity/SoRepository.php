@@ -52,7 +52,10 @@ class SoRepository extends EntityRepository
 
             $this->getEntityManager()->flush();
 
-        }
+	} else {
+	    // Return first element, which should be SO object
+	    $so = $so[0];
+	}
 
         return $so;
 
