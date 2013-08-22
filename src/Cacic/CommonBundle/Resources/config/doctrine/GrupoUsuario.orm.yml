@@ -34,7 +34,7 @@ Cacic\CommonBundle\Entity\GrupoUsuario:
             nullable: true
             column: te_descricao_grupo
         csNivelAdministracao:
-            type: boolean
+            type: integer
             nullable: true
             column: cs_nivel_administracao
     lifecycleCallbacks: {  }
