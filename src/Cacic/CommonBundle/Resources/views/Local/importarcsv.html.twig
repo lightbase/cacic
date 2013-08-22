@@ -20,7 +20,7 @@
 				<p>{{ "Informe o arquivo CSV com os dados dos Locais que devem ser importados"|trans }}.</p>
 				<hr />
 			
-				<form id="FormImportLocais" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+				<form id={{ 'FormImportLocais'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
 				
 					{{ form_widget( form, {'form_type': 'horizontal'} ) }}
 					{{ form_rest(form) }}

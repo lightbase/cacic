@@ -19,7 +19,7 @@
             <p>{{ 'Classificação de softwares inventariados conforme tipos possíveis'|trans }}</p>
             <br />
             
-            <form id="formSoftwaresNaoClassificados" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
+            <form id={{ 'formSoftwaresNaoClassificados'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
 
 	          <table class="table table-striped table-bordered">
 	             <thead>

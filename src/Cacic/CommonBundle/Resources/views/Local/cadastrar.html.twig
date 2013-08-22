@@ -16,7 +16,7 @@
 			
 			<div class="block box_content round_bottom padding_10">
 
-				<form id="formCadastroLocal" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)}}|trans>
+				<form id={{ 'formCadastroLocal'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)}}>
 				
 					<div class="tabbable">
 						<ul class="nav nav-tabs">
@@ -28,6 +28,7 @@
 							</li>
 							<li>
 								<a href="#form-local-dadosassociados" data-toggle="tab">{{ "Usuários e redes associados"|trans }}</a>
+							</li>
 							</li>
 						</ul>
 						

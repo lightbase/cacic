@@ -36,10 +36,11 @@ class HardwareController extends Controller
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Computador')
     					->gerarRelatorioConfiguracoes( $request->get('rel_filtro_hardware') );
-    	
+        $locale = $request->getLocale();
     	return $this->render(
         	'CacicRelatorioBundle:Hardware:rel_configuracoes.html.twig', 
         	array(
+                'idioma'=>$locale,
         		'dados' => $dados
         	)
         );
