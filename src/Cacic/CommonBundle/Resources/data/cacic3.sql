@@ -121,29 +121,29 @@ CREATE TABLE computador (
     id_usuario_exclusao integer,
     id_so integer,
     id_rede integer,
-    nm_computador character varying(50) DEFAULT NULL::character varying,
-    te_node_address character varying(17) NOT NULL,
-    te_ip_computador character varying(15) DEFAULT NULL::character varying,
+    nm_computador character varying(255) DEFAULT NULL::character varying,
+    te_node_address character varying(255) NOT NULL,
+    te_ip_computador character varying(255) DEFAULT NULL::character varying,
     dt_hr_inclusao timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
     dt_hr_exclusao timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
     dt_hr_ult_acesso timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
-    te_versao_cacic character varying(15) DEFAULT NULL::character varying,
-    te_versao_gercols character varying(15) DEFAULT NULL::character varying,
-    te_palavra_chave character varying(30) NOT NULL,
+    te_versao_cacic character varying(255) DEFAULT NULL::character varying,
+    te_versao_gercols character varying(255) DEFAULT NULL::character varying,
+    te_palavra_chave character varying(255) NOT NULL,
     dt_hr_coleta_forcada_estacao timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
     te_nomes_curtos_modulos character varying(255) DEFAULT NULL::character varying,
     id_conta integer,
     te_debugging text,
-    te_ultimo_login character varying(100) DEFAULT NULL::character varying,
-    dt_debug character varying(8) DEFAULT NULL::character varying
+    te_ultimo_login character varying(255) DEFAULT NULL::character varying,
+    dt_debug character varying(255) DEFAULT NULL::character varying
 );
 
 
 CREATE TABLE computador_coleta (
     id_computador_coleta integer NOT NULL,
     id_computador integer,
-    id_class integer,
-    te_class_values text NOT NULL
+    id_class_property integer,
+    te_class_property_value text NOT NULL
 );
 
 
@@ -151,8 +151,8 @@ CREATE TABLE computador_coleta_historico (
     id_computador_coleta_historico integer NOT NULL,
     id_computador_coleta integer,
     id_computador integer,
-    id_class integer,
-    te_class_values text NOT NULL,
+    id_class_property integer,
+    te_class_property_value text NOT NULL,
     dt_hr_inclusao timestamp(0) without time zone NOT NULL
 );
 
@@ -174,7 +174,7 @@ CREATE TABLE configuracao_padrao (
 CREATE TABLE descricao_coluna_computador (
     te_source character varying(100) NOT NULL,
     te_target character varying(100) NOT NULL,
-    te_description character varying(100) NOT NULL,
+    te_description character varying(100),
     cs_condicao_pesquisa character varying(1) NOT NULL
 );
 
@@ -460,7 +460,6 @@ CREATE TABLE unid_organizacional_nivel1 (
 );
 
 
-
 CREATE TABLE unid_organizacional_nivel1a (
     id_unid_organizacional_nivel1a integer NOT NULL,
     id_unid_organizacional_nivel1 integer,
@@ -503,7 +502,8 @@ CREATE TABLE uorg (
 
 
 CREATE TABLE usb_device (
-    id_usb_device character varying(5) NOT NULL,
+    id_usb_device character varying(5) NOT NULL, (auto-increment)
+    id_device (puxando id_device anterior)
     id_usb_vendor character varying(5) DEFAULT NULL::character varying,
     nm_usb_device character varying(127) NOT NULL,
     te_observacao text NOT NULL,
@@ -513,7 +513,7 @@ CREATE TABLE usb_device (
 
 CREATE TABLE usb_log (
     id_usb_log integer NOT NULL,
-    id_usb_vendor character varying(5) DEFAULT NULL::character varying,
+(-) id_usb_vendor character varying(5) DEFAULT NULL::character varying,
     id_usb_device character varying(5) DEFAULT NULL::character varying,
     id_computador integer,
     dt_event character varying(14) NOT NULL,
@@ -533,7 +533,7 @@ CREATE TABLE usuario (
     id_usuario integer NOT NULL,
     id_local integer NOT NULL,
     id_servidor_autenticacao integer,
-    id_grupo_usuario integer,
+    id_grupo_usuario integer NOT NULL,
     id_usuario_ldap character varying(100) DEFAULT NULL::character varying,
     nm_usuario_acesso character varying(20) NOT NULL,
     nm_usuario_completo character varying(60) NOT NULL,

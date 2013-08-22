@@ -11,18 +11,18 @@ OK --acao_excecao
 
 'acoes_excessoes te_node_address' AS acao_excecao.te_node_address
 'acoes_excessoes.id_acao' AS acao_excecao.id_acao
-'import.id_rede' AS acao_excecao.id_rede
+'tmp_redes.id_rede' AS acao_excecao.id_rede
 
 OK --acao_rede
 
 'acoes_redes.id_acao' AS acao_rede.id_acao
-'import.id_rede' AS acao_rede.id_rede
+'tmp_redes.id_rede' AS acao_rede.id_rede
 'acoes_redes.dt_hr_coleta_forcada' AS acao_rede.dt_hr_coleta_forcada
 
 OK --acao_so
 
 'acoes_so.id_acao' AS acao_so.id_acao
-'import.id_rede' AS acao_so.id_rede
+'tmp_redes.id_rede' AS acao_so.id_rede
 'acoes_so.id_so' AS acao_so.id_so
 
 OK --aplicativo
@@ -54,7 +54,7 @@ OK --aplicativo
 
 OK --aplicativo_rede
 
-'import.id_rede' AS aplicativo_rede.id_rede
+'tmp_redes.id_rede' AS aplicativo_rede.id_rede
 'aplicativos_redes.id_aplicativo' AS aplicativo_rede.id_aplicativo
 
 OK --aquisicao
@@ -109,7 +109,7 @@ OK --computador
 '@s+1' AS computador.id_computador
  NULL AS computador.id_usuario_exclusao
 'computadores.id_so' AS computador.id_so
-'import.id_rede' AS computador.id_rede
+'tmp_redes.id_rede' AS computador.id_rede
 'computadores.te_nome_computador'AS computador.nm_computador
 'computadores.te_node_address' AS computador.te_node_address
 'computadores.te_ip' AS computador.te_ip_computador
@@ -235,7 +235,7 @@ OK --patrimonio_config_interface
 
 OK --rede
 
-'import.id_rede' AS rede.id_rede
+'tmp_redes.id_rede' AS rede.id_rede
 'redes.id_local' AS rede.id_local
 'redes.id_servidor_autenticacao' AS rede.id_servidor_autenticacao
 'redes.id_ip_rede' AS rede.te_ip_rede
@@ -265,15 +265,15 @@ OK --rede
 OK --rede_grupo_ftp
 
 'redes_grupos_ftp.id_ftp' AS rede_grupo_ftp.id_ftp
-'import.id_rede' AS rede_grupo_ftp.id_rede
-'newcomputador.idcomputador' AS rede_grupo_ftp.id_computador
+'tmp_redes.id_rede' AS rede_grupo_ftp.id_rede
+'tmp_computador.idcomputador' AS rede_grupo_ftp.id_computador
 'redes_grupos_ftp.nu_hora_inicio' AS rede_grupo_ftp.nu_hora_inicio
 'redes_grupos_ftp.nu_hora_fim' AS rede_grupo_ftp.nu_hora_fim
 
 OK --rede_versao_modulo
 
 '@s+1' AS rede_versao_modulo.id_rede_versao_modulo
-'import.id_rede' AS rede_versao_modulo.id_rede
+'tmp_redes.id_rede' AS rede_versao_modulo.id_rede
 'redes_versoes_modulos.nm_modulo' AS rede_versao_modulo.nm_modulo
 'redes_versoes_modulos.te_versao_modulo' AS rede_versao_modulo.te_versao_modulo
 'redes_versoes_modulos.dt_atualizacao' AS rede_versao_modulo.dt_atualizacao
@@ -314,7 +314,7 @@ OK --software
 
 OK --software_estacao
 
-'newcomputador.idcomputador' AS software_estacao.id_computador
+'tmp_computador.idcomputador' AS software_estacao.id_computador
 'softwares_estacao.id_software' AS software_estacao.id_software
 'softwares_estacao.id_aquisicao_particular' AS software_estacao.id_aquisicao
 'softwares_estacao.nr_patrimonio' AS software_estacao.nr_patrimonio
@@ -358,7 +358,7 @@ OK --srcacic_conexao
 OK --srcacic_sessao
 
 'srcacic_sessoes.id_sessao' AS srcacic_sessao.id_srcacic_sessao
-'newcomputador.idcomputador' AS srcacic_sessao.id_computador
+'tmp_computador.idcomputador' AS srcacic_sessao.id_computador
 'srcacic_sessoes.dt_hr_inicio_sessao' AS srcacic_sessao.dt_hr_inicio_sessao
 'srcacic_sessoes.nm_acesso_usuario_srv' AS srcacic_sessao.nm_acesso_usuario_srv
 'srcacic_sessoes.nm_completo_usuario_srv' AS srcacic_sessao.nm_completo_usuario_srv
@@ -425,9 +425,9 @@ OK --unid_organizacional_nivel2
 
 OK --uorg
 
-'temp_uorg.id_uorg' AS uorg.id_uorg
+'tmp_uorg.id_uorg' AS uorg.id_uorg
 NULL e
-    'temp_uorg.id_uorg' AS uorg.id_uorg_pai
+    'tmp_uorg.id_uorg' AS uorg.id_uorg_pai
 '0' AS uorg.id_tipo_uorg
 'unid_organizacional_nivel2.id_local' AS uorg.id_local
 'unid_organizacional_nivel1.nm_unid_organizacional_nivel1 e
@@ -452,7 +452,8 @@ NULL e
 
 OK --usb_device
 
-'usb_devices.id_device' AS usb_device.id_usb_device
+'tmp_usb' AS usb_device.id_usb_device
+'usb_devices.id_device' AS usb_device.id_device
 'usb_devices.id_vendor' AS usb_device.id_usb_vendor
 'usb_devices.nm_device' AS usb_device.nm_usb_device
 'usb_devices.te_observacao' AS usb_device.te_observacao
@@ -461,9 +462,8 @@ OK --usb_device
 OK --usb_log
 
 '@s+1' AS usb_log.id_usb_log
-'usb_logs.id_vendor' AS usb_log.id_usb_vendor
 'usb_logs.id_device' AS usb_log.id_usb_device
-'newcomputador.idcomputador' AS usb_log.id_computador
+'tmp_computador.idcomputador' AS usb_log.id_computador
 'usb_logs.dt_event' AS usb_log.dt_event
 'usb_logs.cs_event' AS usb_log.cs_event
 

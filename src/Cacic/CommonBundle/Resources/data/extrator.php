@@ -18,7 +18,7 @@ mkdir($tmpdir);
 chmod($tmpdir, 0777);
 
 
-function extrair($dbcon){
+function extrair($dbcon) {
     global $tmpdir;
 
     $lista_tabelas = array(
@@ -59,8 +59,8 @@ function extrair($dbcon){
         "unid_organizacional_nivel1a" => "SELECT id_unid_organizacional_nivel1a, id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1a INTO OUTFILE '$tmpdir/unid_organizacional_nivel1a.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1a",
         "unid_organizacional_nivel2" => "SELECT id_local, id_unid_organizacional_nivel2, id_unid_organizacional_nivel1a, nm_unid_organizacional_nivel2, te_endereco_uon2, te_bairro_uon2, te_cidade_uon2, te_uf_uon2, nm_responsavel_uon2, te_email_responsavel_uon2, nu_tel1_responsavel_uon2, nu_tel2_responsavel_uon2, dt_registro INTO OUTFILE '$tmpdir/unid_organizacional_nivel2.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel2",
         "uorg" => "SELECT @s1:=0 id_uorg, @s2:=NULL id_uorg_pai, @s3:=0 id_tipo_uorg, @s4:=NULL id_local, @s5:='' nm_uorg, @s6:=NULL te_endereco, @s7:=NULL te_bairro, @s8:=NULL te_cidade, @s9:=NULL te_uf, @s10:=NULL nm_responsavel, @s11:=NULL te_responsavel_email, @s12:=NULL nu_responsavel_tel1, @s13:=NULL nu_responsavel_tel2 INTO OUTFILE '$tmpdir/uorg.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'", //TODO
-        "usb_device" => "SELECT id_device AS id_usb_device, id_vendor AS id_usb_vendor, nm_device AS nm_usb_device, te_observacao, @s1:=0 dt_registro INTO OUTFILE '$tmpdir/usb_device.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices",
-        "usb_log" => "SELECT @s:=@s+1 id_usb_log, id_vendor AS id_usb_vendor, id_device AS id_usb_device, tmp_computador.id_computador, dt_event, cs_event INTO OUTFILE '$tmpdir/usb_log.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_logs INNER JOIN tmp_computador ON (tmp_computador.id_so=usb_logs.id_so AND tmp_computador.te_node_address=usb_logs.te_node_address), (SELECT @s:=0) AS s",
+        "usb_device" => "SELECT id_usb_device, id_device AS id_device, id_vendor AS id_usb_vendor, nm_device AS nm_usb_device, te_observacao, @s1:=0 dt_registro INTO OUTFILE '$tmpdir/usb_device.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices",
+        "usb_log" => "SELECT @s:=@s+1 id_usb_log, id_device AS id_usb_device, tmp_computador.id_computador, dt_event, cs_event INTO OUTFILE '$tmpdir/usb_log.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_logs INNER JOIN tmp_computador ON (tmp_computador.id_so=usb_logs.id_so AND tmp_computador.te_node_address=usb_logs.te_node_address), (SELECT @s:=0) AS s",
         "usb_vendor" => "SELECT id_vendor AS id_usb_vendor, nm_vendor AS nm_usb_vendor, te_observacao, @s1:=NULL dt_registro INTO OUTFILE '$tmpdir/usb_vendor.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_vendors",
         "usuario" => "SELECT id_usuario, id_local, id_servidor_autenticacao, id_grupo_usuarios AS id_grupo_usuario, @s1:=NULL id_usuario_ldap, nm_usuario_acesso, nm_usuario_completo, @s2:=NULL nm_usuario_completo_ldap, te_senha, dt_log_in, te_emails_contato, te_telefones_contato INTO OUTFILE '$tmpdir/usuario.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usuarios"
     );
@@ -77,7 +77,7 @@ function extrair($dbcon){
 }
 
 
-function fix_local_secundario($filename){
+function fix_local_secundario($filename) {
     // Altera modelo dos locais secundarios de usuário de acordo com o novo padrão
     $local_sec = file_get_contents($filename);
     $locais = explode("\n", $local_sec); // Separa as linhas em arrays
@@ -85,15 +85,15 @@ function fix_local_secundario($filename){
 
     while ($line = current($locais)) {
         $linearray = explode(";", $line); // Separa id_usuario e id_local nas linhas
-        if ($linearray[1]!='""'){
+        if ($linearray[1]!='""') {
             $id_local = explode(",", $linearray[1]); // Separa id_local diferentes
 
-            foreach ($id_local as $fix_id_local){
+            foreach ($id_local as $fix_id_local) {
                 // Coloca os registros de id_local entre "" se não estiver
-                if($fix_id_local[0] != '"'){
+                if($fix_id_local[0] != '"') {
                     $fix_id_local = '"'.$fix_id_local;
                 }
-                if($fix_id_local[strlen($fix_id_local)-1] != '"'){
+                if($fix_id_local[strlen($fix_id_local)-1] != '"') {
                     $fix_id_local = $fix_id_local . '"';
                 }
 
@@ -107,36 +107,43 @@ function fix_local_secundario($filename){
 }
 
 
-function create_temptables($dbcon){
+function create_temptables($dbcon) {
     // Cria e popula as tabelas temporarias "tmp_redes" , "tmp_computador" e "tmp_uorg"
     global $tmpdir;
 
     $tmp_redes_file = $tmpdir."/tmp_redes.csv";
     $tmp_computador_file = $tmpdir."/tmp_computador.csv";
     $tmp_uorg_file = $tmpdir."/tmp_uorg.csv";
+    $tmp_usb_file = $tmpdir."/tmp_usb.csv";
 
     $dbcon->exec("DROP TABLE IF EXISTS tmp_redes");
-    $dbcon->exec("SELECT DISTINCT @s:=@s+1 id_rede, id_ip_rede, id_local INTO OUTFILE '$tmp_redes_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM redes, (SELECT @s:=0) AS s");
+    $dbcon->exec("SELECT @s:=@s+1 id_rede, id_ip_rede, id_local INTO OUTFILE '$tmp_redes_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM redes, (SELECT @s:=0) AS s");
     $dbcon->exec("CREATE TABLE tmp_redes (id_rede int(11) NOT NULL, id_ip_rede char(15) NOT NULL, id_local int(11), PRIMARY KEY (id_rede))");
     $dbcon->exec("LOAD DATA LOCAL INFILE '$tmp_redes_file' INTO TABLE tmp_redes FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'");
     unlink($tmp_redes_file);
 
     $dbcon->exec("DROP TABLE IF EXISTS tmp_computador");
-    $dbcon->exec("SELECT DISTINCT @s:=@s+1 id_computador, id_so, te_node_address, te_ip INTO OUTFILE '$tmp_computador_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM computadores, (SELECT @s:=0) AS s");
+    $dbcon->exec("SELECT @s:=@s+1 id_computador, id_so, te_node_address, te_ip INTO OUTFILE '$tmp_computador_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM computadores, (SELECT @s:=0) AS s");
     $dbcon->exec("CREATE TABLE tmp_computador (id_computador int(11) NOT NULL, id_so int(11) NOT NULL, te_node_address char(17) NOT NULL, te_ip char(15) DEFAULT NULL, PRIMARY KEY (id_computador))");
     $dbcon->exec("LOAD DATA LOCAL INFILE '$tmp_computador_file' INTO TABLE tmp_computador FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'");
     unlink($tmp_computador_file);
 
     $dbcon->exec("DROP TABLE IF EXISTS tmp_uorg");
-    $dbcon->exec("SELECT DISTINCT @s:=@s+1 id_uorg, u1.id_unid_organizacional_nivel1 AS id_uorg1, u1a.id_unid_organizacional_nivel1a AS id_uorg1a, u2.id_unid_organizacional_nivel2 AS id_uorg2 INTO OUTFILE '$tmp_uorg_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel2 u2 LEFT JOIN unid_organizacional_nivel1a u1a ON (u2.id_unid_organizacional_nivel1a = u1a.id_unid_organizacional_nivel1a) LEFT JOIN unid_organizacional_nivel1 u1 ON (u1.id_unid_organizacional_nivel1 = u1a.id_unid_organizacional_nivel1), (SELECT @s:=0) AS s");
+    $dbcon->exec("SELECT @s:=@s+1 id_uorg, u1.id_unid_organizacional_nivel1 AS id_uorg1, u1a.id_unid_organizacional_nivel1a AS id_uorg1a, u2.id_unid_organizacional_nivel2 AS id_uorg2 INTO OUTFILE '$tmp_uorg_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel2 u2 LEFT JOIN unid_organizacional_nivel1a u1a ON (u2.id_unid_organizacional_nivel1a = u1a.id_unid_organizacional_nivel1a) LEFT JOIN unid_organizacional_nivel1 u1 ON (u1.id_unid_organizacional_nivel1 = u1a.id_unid_organizacional_nivel1), (SELECT @s:=0) AS s");
     $dbcon->exec("CREATE TABLE tmp_uorg (id_uorg int(11) NOT NULL, id_uorg1 int(11) DEFAULT NULL, id_uorg1a int(11) DEFAULT NULL, id_uorg2 int(11) DEFAULT NULL, PRIMARY KEY (id_uorg))");
     $dbcon->exec("LOAD DATA LOCAL INFILE '$tmp_uorg_file' INTO TABLE tmp_uorg FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'");
     unlink($tmp_uorg_file);
+
+    $dbcon->exec("DROP TABLE IF EXISTS tmp_usb");
+    $dbcon->exec("SELECT COUNT(id_device) AS repeticao, @s:=@s+1 id_usb_device, id_device, nm_device, id_vendor INTO OUTFILE '$tmp_usb_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices, (SELECT @s:=0) AS s GROUP BY id_device, id_vendor ORDER BY repeticao DESC, id_vendor, id_usb_device");
+    $dbcon->exec("CREATE TABLE tmp_usb (repeticao int(11) NOT NULL, id_usb_device int(11) NOT NULL, id_device char(5) NOT NULL, id_vendor char(5) NOT NULL, nm_device char(127) NOT NULL, PRIMARY KEY (id_usb_device))");
+    $dbcon->exec("LOAD DATA LOCAL INFILE '$tmp_usb_file' INTO TABLE tmp_usb FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'");
+    unlink($tmp_usb_file);
 }
 
 
 // Execuções
-echo "Iniciando criação do arquivo de exportação\n\n";
+echo "Iniciando criação do arquivo de exportação\n";
 
 // Cria tabelas temporárias
 create_temptables($dbcon);
@@ -149,6 +156,7 @@ fix_local_secundario($tmpdir."/local_secundario.csv");
 $dbcon->exec("DROP TABLE tmp_redes");
 $dbcon->exec("DROP TABLE tmp_computador");
 $dbcon->exec("DROP TABLE tmp_uorg");
+$dbcon->exec("DROP TABLE tmp_usb");
 
 // Gera um arquivo .tar.gz com os bancos
 $targzfile = $tmproot."/bases_cacic2_".date("d-m-Y_H:i:s").".tar.gz";
@@ -159,3 +167,4 @@ echo "O arquivo {$targzfile} foi criado com sucesso!\n";
 
 $dbcon = null;
 ?>
+<!-- date("c",$dataunix); -->
