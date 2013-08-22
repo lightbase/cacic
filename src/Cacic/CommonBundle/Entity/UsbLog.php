@@ -97,29 +97,6 @@ class UsbLog
     }
 
     /**
-     * Set idUsbVendor
-     *
-     * @param \Cacic\CommonBundle\Entity\UsbVendor $idUsbVendor
-     * @return UsbLog
-     */
-    public function setIdUsbVendor(\Cacic\CommonBundle\Entity\UsbVendor $idUsbVendor = null)
-    {
-        $this->idUsbVendor = $idUsbVendor;
-    
-        return $this;
-    }
-
-    /**
-     * Get idUsbVendor
-     *
-     * @return \Cacic\CommonBundle\Entity\UsbVendor 
-     */
-    public function getIdUsbVendor()
-    {
-        return $this->idUsbVendor;
-    }
-
-    /**
      * Set idUsbDevice
      *
      * @param \Cacic\CommonBundle\Entity\UsbDevice $idUsbDevice

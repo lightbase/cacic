@@ -28,6 +28,12 @@ Cacic\CommonBundle\Entity\UsbDevice:
             fixed: true
             nullable: true
             column: dt_registro
+        idDevice:
+            type: string
+            length: 5
+            fixed: true
+            nullable: true
+            column: id_device
     manyToOne:
         idUsbVendor:
             targetEntity: UsbVendor
