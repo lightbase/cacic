@@ -70,7 +70,7 @@ OK --aquisicao_item
 
 'aquisicoes_item.id_tipo_licenca' AS aquisicao_item.id_tipo_licenca
 'aquisicoes_item.id_aquisicao' AS aquisicao_item.id_aquisicao
-'aquisicoes_item.id_software'AS aquisicao_item.id_software
+'softwares.id_software'AS aquisicao_item.id_software
 'aquisicoes_item.qt_licenca' AS aquisicao_item.qt_licenca
 'aquisicoes_item.dt_vencimento_licenca' AS aquisicao_item.dt_vencimento_licenca
 'aquisicoes_item.te_obs' AS aquisicao_item.te_obs
@@ -452,7 +452,7 @@ NULL e
 
 OK --usb_device
 
-'tmp_usb' AS usb_device.id_usb_device
+'tmp_usb.id_usb_device' AS usb_device.id_usb_device
 'usb_devices.id_device' AS usb_device.id_device
 'usb_devices.id_vendor' AS usb_device.id_usb_vendor
 'usb_devices.nm_device' AS usb_device.nm_usb_device
@@ -488,3 +488,9 @@ OK --usuario
 'usuarios.dt_log_in' AS usuario.dt_log_in
 'usuarios.te_emails_contato' AS usuario.te_emails_contato
 'usuarios.te_telefones_contato' AS usuario.te_telefones_contato
+
+
+
+-- Se algum registro de usb_device tiver , nome, id_vendor e id_device repetidos, será ignorado
+-- Ignorando unidades organizacionais nivel 1a com id do pai = 0
+-- Ignorando registros da tabela de aquisicao_item com um id_software não existente na tabela de id_software

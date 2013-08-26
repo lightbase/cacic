@@ -30,15 +30,15 @@ function extrair($dbcon) {
         "aplicativo" => "SELECT id_aplicativo, id_so, nm_aplicativo, cs_car_inst_w9x, te_car_inst_w9x, cs_car_ver_w9x, te_car_ver_w9x, cs_car_inst_wnt, te_car_inst_wnt, cs_car_ver_wnt, te_car_ver_wnt, cs_ide_licenca, te_ide_licenca, dt_atualizacao, te_arq_ver_eng_w9x, te_arq_ver_pat_w9x, te_arq_ver_eng_wnt, te_arq_ver_pat_wnt, te_dir_padrao_w9x, te_dir_padrao_wnt, te_descritivo, in_disponibiliza_info, in_disponibiliza_info_usuario_comum, dt_registro INTO OUTFILE '$tmpdir/aplicativo.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM perfis_aplicativos_monitorados",
         "aplicativo_rede" => "SELECT tmp_redes.id_rede, aplicativo_rede.id_aplicativo INTO OUTFILE '$tmpdir/aplicativo_rede.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM aplicativos_redes AS aplicativo_rede INNER JOIN tmp_redes ON (aplicativo_rede.id_ip_rede=tmp_redes.id_ip_rede)",
         "aquisicao" => "SELECT id_aquisicao, dt_aquisicao, nr_processo, nm_empresa, nm_proprietario, nr_notafiscal INTO OUTFILE '$tmpdir/aquisicao.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM aquisicoes",
-        "aquisicao_item" => "SELECT id_tipo_licenca, id_aquisicao, id_software, qt_licenca, dt_vencimento_licenca, te_obs INTO OUTFILE '$tmpdir/aquisicao_item.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM aquisicoes_item",
+        "aquisicao_item" => "SELECT aquisicoes_item.id_tipo_licenca, aquisicoes_item.id_aquisicao, softwares.id_software, aquisicoes_item.qt_licenca, aquisicoes_item.dt_vencimento_licenca, aquisicoes_item.te_obs INTO OUTFILE '$tmpdir/aquisicao_item.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM aquisicoes_item INNER JOIN softwares ON (aquisicoes_item.id_software=softwares.id_software)",
         "computador" => "SELECT tmp_computador.id_computador, @s1:=NULL id_usuario_exclusao, computador.id_so, tmp_redes.id_rede, computador.te_nome_computador AS nm_computador, computador.te_node_address, computador.te_ip AS te_ip_computador, computador.dt_hr_inclusao, @s2:=NULL dt_hr_exclusao, computador.dt_hr_ult_acesso, computador.te_versao_cacic, computador.te_versao_gercols, computador.te_palavra_chave, computador.dt_hr_coleta_forcada_estacao, computador.te_nomes_curtos_modulos, computador.id_conta, @s3:=NULL te_debugging, @s4:=NULL te_ultimo_login, @s5:=NULL dt_debug INTO OUTFILE '$tmpdir/computador.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM computadores AS computador INNER JOIN tmp_redes ON (computador.id_ip_rede=tmp_redes.id_ip_rede) INNER JOIN tmp_computador ON (computador.id_so=tmp_computador.id_so AND computador.te_node_address=tmp_computador.te_node_address), (SELECT @s:=0) AS s",
         "descricao_coluna_computador" => "SELECT @s1:='DB' te_source, @s2:=CONCAT('Cacic2','_',nm_campo) te_target, te_descricao_campo AS te_description, cs_condicao_pesquisa INTO OUTFILE '$tmpdir/descricao_coluna_computador.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM descricoes_colunas_computadores",
-        "grupo_usuario" => "SELECT id_grupo_usuarios AS id_grupo_usuario, nm_grupo_usuarios, te_grupo_usuarios, te_menu_grupo, te_descricao_grupo, cs_nivel_administracao INTO OUTFILE '$tmpdir/grupo_usuario.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM grupo_usuarios;",
+        "grupo_usuario" => "SELECT id_grupo_usuarios AS id_grupo_usuario, nm_grupo_usuarios, te_grupo_usuarios, te_menu_grupo, te_descricao_grupo, cs_nivel_administracao INTO OUTFILE '$tmpdir/grupo_usuario.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM grupo_usuarios",
         "insucesso_instalacao" => "SELECT @s:=@s+1 id_insucesso_instalacao, te_ip AS te_ip_computador, te_so, id_usuario, dt_datahora, cs_indicador INTO OUTFILE '$tmpdir/insucesso_instalacao.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM insucessos_instalacao, (SELECT @s:=0) AS s",
         "local" => "SELECT id_local, nm_local, sg_local, te_observacao, @s1:=NULL te_debugging, @s2:=NULL dt_debug INTO OUTFILE '$tmpdir/local.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM locais",
         "local_secundario" => "SELECT id_usuario, te_locais_secundarios AS id_local INTO OUTFILE '$tmpdir/local_secundario.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usuarios",
         "log" => "SELECT @s:=@s+1 id_log, id_usuario, dt_acao, cs_acao, nm_script, nm_tabela, te_ip_origem INTO OUTFILE '$tmpdir/log.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM log, (SELECT @s:=0) AS s",
-        "patrimonio" => "SELECT @s:=@s+1 id_patrimonio, @s1:=NULL id_usuario, patrimonio.id_unid_organizacional_nivel1a, @s2:=NULL id_computador, patrimonio.id_unid_organizacional_nivel2, patrimonio.dt_hr_alteracao, patrimonio.te_localizacao_complementar, patrimonio.te_info_patrimonio1, patrimonio.te_info_patrimonio2, patrimonio.te_info_patrimonio3, patrimonio.te_info_patrimonio4, patrimonio.te_info_patrimonio5, patrimonio.te_info_patrimonio6, @s3:=NULL id_unid_organizacional_nivel1 INTO OUTFILE '$tmpdir/patrimonio.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM patrimonio, (SELECT @s:=0) AS s",
+        "patrimonio" => "SELECT @s:=@s+1 id_patrimonio, @s1:=NULL id_usuario, patrimonio.id_unid_organizacional_nivel1a, @s2:=NULL id_computador, patrimonio.id_unid_organizacional_nivel2, patrimonio.dt_hr_alteracao, patrimonio.te_localizacao_complementar, patrimonio.te_info_patrimonio1, patrimonio.te_info_patrimonio2, patrimonio.te_info_patrimonio3, patrimonio.te_info_patrimonio4, patrimonio.te_info_patrimonio5, patrimonio.te_info_patrimonio6, unid_organizacional_nivel1a.id_unid_organizacional_nivel1 INTO OUTFILE '$tmpdir/patrimonio.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM patrimonio INNER JOIN unid_organizacional_nivel1a ON (patrimonio.id_unid_organizacional_nivel1a=unid_organizacional_nivel1a.id_unid_organizacional_nivel1), (SELECT @s:=0) AS s ",
         "patrimonio_config_interface" => "SELECT id_etiqueta, id_local, nm_etiqueta, te_etiqueta, in_exibir_etiqueta, te_help_etiqueta, te_plural_etiqueta, nm_campo_tab_patrimonio, in_destacar_duplicidade, @s1:='' in_obrigatorio INTO OUTFILE '$tmpdir/patrimonio_config_interface.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM patrimonio_config_interface",
         "rede" => "SELECT tmp_redes.id_rede, rede.id_local, rede.id_servidor_autenticacao, rede.id_ip_rede AS te_ip_rede, rede.nm_rede, rede.te_observacao, rede.nm_pessoa_contato1, rede.nm_pessoa_contato2, rede.nu_telefone1, rede.te_email_contato2, rede.nu_telefone2, rede.te_email_contato1, rede.te_serv_cacic, rede.te_serv_updates, rede.te_path_serv_updates, rede.nm_usuario_login_serv_updates, rede.te_senha_login_serv_updates, rede.nu_porta_serv_updates, rede.te_mascara_rede, rede.dt_verifica_updates, rede.nm_usuario_login_serv_updates_gerente, rede.te_senha_login_serv_updates_gerente, rede.nu_limite_ftp, rede.cs_permitir_desativar_srcacic, @s1:=NULL te_debugging, @s2:=NULL dt_debug INTO OUTFILE '$tmpdir/rede.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM redes AS rede INNER JOIN tmp_redes ON (rede.id_local=tmp_redes.id_local AND rede.id_ip_rede=tmp_redes.id_ip_rede)",
         "rede_grupo_ftp" => "SELECT rede_grupo_ftp.id_ftp, tmp_redes.id_rede, tmp_computador.id_computador, rede_grupo_ftp.nu_hora_inicio, rede_grupo_ftp.nu_hora_fim INTO OUTFILE '$tmpdir/rede_grupo_ftp.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM redes_grupos_ftp AS rede_grupo_ftp INNER JOIN tmp_redes ON (rede_grupo_ftp.id_local=tmp_redes.id_local) AND rede_grupo_ftp.id_ip_rede=tmp_redes.id_ip_rede INNER JOIN tmp_computador ON (rede_grupo_ftp.id_ip_estacao=tmp_computador.te_ip)",
@@ -56,10 +56,10 @@ function extrair($dbcon) {
         "tipo_software" => "SELECT id_tipo_software, te_descricao_tipo_software INTO OUTFILE '$tmpdir/tipo_software.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM tipos_software",
         "tipo_uorg" => "SELECT @s1:=0 id_tipo_uorg, @s2:='Cacic2' nm_tipo_uorg, @s3:=NULL tedescricao INTO OUTFILE '$tmpdir/tipo_uorg.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'",
         "unid_organizacional_nivel1" => "SELECT id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1, te_endereco_uon1, te_bairro_uon1, te_cidade_uon1, te_uf_uon1, nm_responsavel_uon1, te_email_responsavel_uon1, nu_tel1_responsavel_uon1, nu_tel2_responsavel_uon1 INTO OUTFILE '$tmpdir/unid_organizacional_nivel1.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1",
-        "unid_organizacional_nivel1a" => "SELECT id_unid_organizacional_nivel1a, id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1a INTO OUTFILE '$tmpdir/unid_organizacional_nivel1a.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1a",
+        "unid_organizacional_nivel1a" => "SELECT id_unid_organizacional_nivel1a, id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1a INTO OUTFILE '$tmpdir/unid_organizacional_nivel1a.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1a WHERE id_unid_organizacional_nivel1 != 0",
         "unid_organizacional_nivel2" => "SELECT id_local, id_unid_organizacional_nivel2, id_unid_organizacional_nivel1a, nm_unid_organizacional_nivel2, te_endereco_uon2, te_bairro_uon2, te_cidade_uon2, te_uf_uon2, nm_responsavel_uon2, te_email_responsavel_uon2, nu_tel1_responsavel_uon2, nu_tel2_responsavel_uon2, dt_registro INTO OUTFILE '$tmpdir/unid_organizacional_nivel2.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel2",
         "uorg" => "SELECT @s1:=0 id_uorg, @s2:=NULL id_uorg_pai, @s3:=0 id_tipo_uorg, @s4:=NULL id_local, @s5:='' nm_uorg, @s6:=NULL te_endereco, @s7:=NULL te_bairro, @s8:=NULL te_cidade, @s9:=NULL te_uf, @s10:=NULL nm_responsavel, @s11:=NULL te_responsavel_email, @s12:=NULL nu_responsavel_tel1, @s13:=NULL nu_responsavel_tel2 INTO OUTFILE '$tmpdir/uorg.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'", //TODO
-        "usb_device" => "SELECT id_usb_device, id_device AS id_device, id_vendor AS id_usb_vendor, nm_device AS nm_usb_device, te_observacao, @s1:=0 dt_registro INTO OUTFILE '$tmpdir/usb_device.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices",
+        "usb_device" => "SELECT tmp_usb.id_usb_device, usb_devices.id_device, usb_devices.id_vendor AS id_usb_vendor, usb_devices.nm_device AS nm_usb_device, usb_devices.te_observacao, @s1:=NULL dt_registro INTO OUTFILE '$tmpdir/usb_device.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices INNER JOIN tmp_usb ON (tmp_usb.id_device=usb_devices.id_device AND tmp_usb.id_vendor=usb_devices.id_vendor AND tmp_usb.nm_device=usb_devices.nm_device) WHERE tmp_usb.repeticao = 1",
         "usb_log" => "SELECT @s:=@s+1 id_usb_log, id_device AS id_usb_device, tmp_computador.id_computador, dt_event, cs_event INTO OUTFILE '$tmpdir/usb_log.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_logs INNER JOIN tmp_computador ON (tmp_computador.id_so=usb_logs.id_so AND tmp_computador.te_node_address=usb_logs.te_node_address), (SELECT @s:=0) AS s",
         "usb_vendor" => "SELECT id_vendor AS id_usb_vendor, nm_vendor AS nm_usb_vendor, te_observacao, @s1:=NULL dt_registro INTO OUTFILE '$tmpdir/usb_vendor.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_vendors",
         "usuario" => "SELECT id_usuario, id_local, id_servidor_autenticacao, id_grupo_usuarios AS id_grupo_usuario, @s1:=NULL id_usuario_ldap, nm_usuario_acesso, nm_usuario_completo, @s2:=NULL nm_usuario_completo_ldap, te_senha, dt_log_in, te_emails_contato, te_telefones_contato INTO OUTFILE '$tmpdir/usuario.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usuarios"
@@ -107,6 +107,40 @@ function fix_local_secundario($filename) {
 }
 
 
+function fix_null_time($filename) {
+    // Altera valor de datas com "0000-00-00 00:00:00" para \N para funcionar no postgres
+    $dados = file_get_contents($filename);
+    $dados_corrigidos = str_replace('"0000-00-00 00:00:00"', '\N', $dados);
+    file_put_contents($filename, $dados_corrigidos);
+}
+
+
+function fix_rede_grupo_ftp($filename) {
+    //Corrige a coluna nu_hora_inicio para o padrao correto de tempo
+    $grupos = file_get_contents($filename);
+    $dados_corrigidos = "";
+
+    $array_linhas = explode("\n", $grupos);
+    foreach ($array_linhas as $linha) {
+        $coluna = explode(";", $linha);
+        if(count($coluna) == 1) {
+            continue;
+        }
+        // Converte o formato de horario da coluna nu_hora_inicio
+        $nu_hora_inicio = substr($coluna[3], 1, -1);
+        $nu_hora_inicio = '"'.date("H:i:s",$nu_hora_inicio).'"';
+
+        // Converte o formato de horario da coluna nu_hora_fim
+        $nu_hora_fim = substr($coluna[4], 1, -1);
+        $nu_hora_fim = '"'.date("H:i:s",$nu_hora_fim).'"';
+
+        $dados_corrigidos .= $coluna[0].";".$coluna[1].";".$coluna[2].";".$nu_hora_inicio.";".$nu_hora_fim."\n";
+    }
+     // Sobrepoe o arquivo de rede_grupo_ftp com a versão corrigida
+    file_put_contents($filename, $dados_corrigidos);
+}
+
+
 function create_temptables($dbcon) {
     // Cria e popula as tabelas temporarias "tmp_redes" , "tmp_computador" e "tmp_uorg"
     global $tmpdir;
@@ -135,8 +169,8 @@ function create_temptables($dbcon) {
     unlink($tmp_uorg_file);
 
     $dbcon->exec("DROP TABLE IF EXISTS tmp_usb");
-    $dbcon->exec("SELECT COUNT(id_device) AS repeticao, @s:=@s+1 id_usb_device, id_device, nm_device, id_vendor INTO OUTFILE '$tmp_usb_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices, (SELECT @s:=0) AS s GROUP BY id_device, id_vendor ORDER BY repeticao DESC, id_vendor, id_usb_device");
-    $dbcon->exec("CREATE TABLE tmp_usb (repeticao int(11) NOT NULL, id_usb_device int(11) NOT NULL, id_device char(5) NOT NULL, id_vendor char(5) NOT NULL, nm_device char(127) NOT NULL, PRIMARY KEY (id_usb_device))");
+    $dbcon->exec("SELECT COUNT(id_device) AS repeticao, @s:=@s+1 id_usb_device, id_device, id_vendor, nm_device INTO OUTFILE '$tmp_usb_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices, (SELECT @s:=0) AS s GROUP BY id_device, id_vendor ORDER BY repeticao DESC, id_vendor, id_usb_device");
+    $dbcon->exec("CREATE TABLE tmp_usb (repeticao int(2) NOT NULL, id_usb_device int(11) NOT NULL, id_device char(5) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL, id_vendor char(5) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL, nm_device char(127) NOT NULL, PRIMARY KEY (id_usb_device))");
     $dbcon->exec("LOAD DATA LOCAL INFILE '$tmp_usb_file' INTO TABLE tmp_usb FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'");
     unlink($tmp_usb_file);
 }
@@ -150,7 +184,13 @@ create_temptables($dbcon);
 
 // Realiza a extração
 extrair($dbcon);
+
+// Correções de compatibilidade
 fix_local_secundario($tmpdir."/local_secundario.csv");
+fix_null_time($tmpdir."/acao.csv");
+fix_null_time($tmpdir."/aplicativo.csv");
+fix_null_time($tmpdir."/unid_organizacional_nivel2.csv");
+fix_rede_grupo_ftp($tmpdir."/rede_grupo_ftp.csv");
 
 // Deleta tabelas temporárias
 $dbcon->exec("DROP TABLE tmp_redes");
@@ -158,13 +198,13 @@ $dbcon->exec("DROP TABLE tmp_computador");
 $dbcon->exec("DROP TABLE tmp_uorg");
 $dbcon->exec("DROP TABLE tmp_usb");
 
-// Gera um arquivo .tar.gz com os bancos
-$targzfile = $tmproot."/bases_cacic2_".date("d-m-Y_H:i:s").".tar.gz";
+// Gera um arquivo .tar.gz com os dados
+$targzfile = $tmproot."/bases_cacic2_".date("Y-m-d H:i:s").".tar.gz";
 system("tar --remove-files -czf ".escapeshellarg($targzfile)." -C ".escapeshellarg($tmproot)." bases_cacic2");
 chmod($targzfile, 0777);
 
 echo "O arquivo {$targzfile} foi criado com sucesso!\n";
 
+// Fecha conexão com o banco
 $dbcon = null;
 ?>
-<!-- date("c",$dataunix); -->

@@ -1,10 +1,18 @@
 <?php
 // Conexão com o banco
 $server = "127.0.0.1";
-$db = "cacic";
+$db = "cacictest";
 $user = "postgres";
 $pass = "w1f1t1d1";
 $dbcon = new PDO("pgsql:host={$server};dbname={$db}", $user, $pass);
+
+$targzfile = "/tmp/bases_cacic2_teste.tar.gz";
+// $targzfile = $_POST['fname'];
+
+$tmpdir = sys_get_temp_dir();
+
+// Deleta diretorio temporario se já existir
+system("rm -rf ".escapeshellarg("{$tmpdir}/bases_cacic2"));
 
 
 function importar($dbcon, $tmpdir) {
@@ -14,6 +22,7 @@ function importar($dbcon, $tmpdir) {
         "acao_excecao",
         "acao_rede",
         "acao_so",
+        "so",
         "aplicativo",
         "servidor_autenticacao",
         "local",
@@ -23,7 +32,6 @@ function importar($dbcon, $tmpdir) {
         "tipo_licenca",
         "software",
         "aquisicao_item",
-        "so",
         "computador",
         "descricao_coluna_computador",
         "grupo_usuario",
@@ -60,22 +68,29 @@ function importar($dbcon, $tmpdir) {
     foreach ($lista_tabelas as $tabela) {
         echo "Importando ".$tabela."...";
         $dbcon->exec("COPY {$tabela} FROM '{$tmpdir}/bases_cacic2/{$tabela}.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '\"' ENCODING 'ISO-8859-1' CSV");
-        // SELECT setval('{$tabela}', 42);
         echo " feito.\n";
     }
 }
 
 
-$targzfile = "/tmp/bases_cacic2_teste.tar.gz"; // Será especificado pelo usuário no futuro
-// $targzfile = $_POST['fname'];
-$tmpdir = sys_get_temp_dir();
+// SELECT setval('{$tabela}', {$id}); (alterar a sequencia)
 
+
+// Execuções
 echo "Iniciando importação\n";
-sleep(2);
-system("rm -rf ".escapeshellarg("{$tmpdir}/bases_cacic2")); // Deleta diretorio se já existir
+
+// Extrai os arquivos necessarios para a importação
 system("tar -xzf ".escapeshellarg($targzfile)." -C ".$tmpdir);
+
+// Importa os dados para o postgres
+// $dbcon->exec("begin");
 importar($dbcon, $tmpdir);
+// $dbcon->exec("end");
+
 echo "Os dados foram importados com sucesso!\n";
 
+system("rm -rf ".escapeshellarg("{$tmpdir}/bases_cacic2"));
+
+// Fecha conexão com o banco
 $dbcon = null;
 ?>

@@ -1,109 +1,44 @@
-*-- "0000-00-00 00:00:00" deve ser NULL?
-ERRO:  valor do campo date/time está fora do intervalo: "0000-00-00 00:00:00"
-CONTEXTO:  COPY acao, linha 1, coluna dt_hr_alteracao: "0000-00-00 00:00:00"
+-- Ecio
+ERRO:  valor nulo na coluna "cs_opcional" viola a restrição não-nula
+CONTEXTO:  COPY acao, linha 1: "cs_auto_update";"Auto Atualização dos Agentes";"Essa ação permite que seja realizada a auto atu..."
 COMANDO:  COPY acao FROM '/tmp/bases_cacic2/acao.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-/*
-*-- Depende de 'acao'
-ERRO:  inserção ou atualização em tabela "acao_excecao" viola restrição de chave estrangeira "fk_37026374c284002e"
-DETALHE:  Chave (id_acao)=(cs_coleta_officescan) não está presente na tabela "acao".
-COMANDO:  COPY acao_excecao FROM '/tmp/bases_cacic2/acao_excecao.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
 
-*-- Depende de 'acao'
-ERRO:  inserção ou atualização em tabela "acao_rede" viola restrição de chave estrangeira "fk_2e36de7dc284002e"
-DETALHE:  Chave (id_acao)=(cs_auto_update) não está presente na tabela "acao".
-COMANDO:  COPY acao_rede FROM '/tmp/bases_cacic2/acao_rede.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
 
-*-- Depende de 'acao'
-ERRO:  inserção ou atualização em tabela "acao_so" viola restrição de chave estrangeira "fk_47256302c284002e"
-DETALHE:  Chave (id_acao)=(cs_auto_update) não está presente na tabela "acao".
-COMANDO:  COPY acao_so FROM '/tmp/bases_cacic2/acao_so.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-*/
-*-- "0000-00-00 00:00:00" deve ser NULL?
-ERRO:  valor do campo date/time está fora do intervalo: "0000-00-00 00:00:00"
-CONTEXTO:  COPY aplicativo, linha 1, coluna dt_atualizacao: "0000-00-00 00:00:00"
-COMANDO:  COPY aplicativo FROM '/tmp/bases_cacic2/aplicativo.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-/*
-*-- Depende de 'aplicativo'
-ERRO:  inserção ou atualização em tabela "aplicativo_rede" viola restrição de chave estrangeira "fk_d09f7873cedbe2c"
-DETALHE:  Chave (id_aplicativo)=(1) não está presente na tabela "aplicativo".
-COMANDO:  COPY aplicativo_rede FROM '/tmp/bases_cacic2/aplicativo_rede.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-*/
-*-- Verificar com Eduardo
-(criar join pra puxar só as que existem em ambas)
-ERRO:  inserção ou atualização em tabela "aquisicao_item" viola restrição de chave estrangeira "fk_d3de1a3a270b845a"
-DETALHE:  Chave (id_software)=(31) não está presente na tabela "software".
-COMANDO:  COPY aquisicao_item FROM '/tmp/bases_cacic2/aquisicao_item.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-
-*-- Verificar com Ecio
-ERRO:  sintaxe de entrada é inválida para tipo boolean: "2"
-CONTEXTO:  COPY grupo_usuario, linha 3, coluna cs_nivel_administracao: "2"
-COMANDO:  COPY grupo_usuario FROM '/tmp/bases_cacic2/grupo_usuario.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-/*
-*-- Depende de 'grupo_usuario'
-ERRO:  inserção ou atualização em tabela "usuario" viola restrição de chave estrangeira "fk_2265b05dc344ef9f"
-DETALHE:  Chave (id_grupo_usuario)=(2) não está presente na tabela "grupo_usuario".
-COMANDO:  COPY usuario FROM '/tmp/bases_cacic2/usuario.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-
-*-- Depende de 'usuario'
-ERRO:  inserção ou atualização em tabela "local_secundario" viola restrição de chave estrangeira "fk_8986af5afcf8192d"
-DETALHE:  Chave (id_usuario)=(2) não está presente na tabela "usuario".
-COMANDO:  COPY local_secundario FROM '/tmp/bases_cacic2/local_secundario.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-
-*-- Depende de 'usuario'
 ERRO:  inserção ou atualização em tabela "log" viola restrição de chave estrangeira "fk_8f3f68c5fcf8192d"
 DETALHE:  Chave (id_usuario)=(0) não está presente na tabela "usuario".
 COMANDO:  COPY log FROM '/tmp/bases_cacic2/log.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-*/
-*-- Verificar com Eduardo
-(join entre uorgs)
-ERRO:  valor nulo na coluna "id_unid_organizacional_nivel1" viola a restrição não-nula
-CONTEXTO:  COPY patrimonio, linha 1: ""1";\N;"1";\N;"2";"2013-01-03 16:40:41";"CGSTI / T-18 / 1438";"112.063";"112.747";"0";"";"";"";\N"
+
+
+ERRO:  inserção ou atualização em tabela "patrimonio" viola restrição de chave estrangeira "fk_b5166575cb05ee7"
+DETALHE:  Chave (id_unid_organizacional_nivel1a)=(1) não está presente na tabela "unid_organizacional_nivel1a".
 COMANDO:  COPY patrimonio FROM '/tmp/bases_cacic2/patrimonio.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
 
-*-- Verificar com Eduardo
-ERRO:  sintaxe de entrada é inválida para tipo time: "1371557580"
-CONTEXTO:  COPY rede_grupo_ftp, linha 1, coluna nu_hora_inicio: "1371557580"
+
+ERRO:  duplicar valor da chave viola a restrição de unicidade "rede_grupo_ftp_pkey"
+DETALHE:  Chave (id_ftp)=(243257) já existe.
+CONTEXTO:  COPY rede_grupo_ftp, linha 244: ""243257";"14";"888";"08:32:41";"21:00:00""
 COMANDO:  COPY rede_grupo_ftp FROM '/tmp/bases_cacic2/rede_grupo_ftp.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
 
-*-- Verificar com Eduardo
-(jogar fora uorgs com id=0)
-ERRO:  inserção ou atualização em tabela "unid_organizacional_nivel1a" viola restrição de chave estrangeira "fk_33788cc3c5e93fc"
-DETALHE:  Chave (id_unid_organizacional_nivel1)=(0) não está presente na tabela "unid_organizacional_nivel1".
-COMANDO:  COPY unid_organizacional_nivel1a FROM '/tmp/bases_cacic2/unid_organizacional_nivel1a.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
 
-*-- "0000-00-00 00:00:00" deve ser NULL?
-ERRO:  valor do campo date/time está fora do intervalo: "0000-00-00 00:00:00"
-CONTEXTO:  COPY unid_organizacional_nivel2, linha 1, coluna dt_registro: "0000-00-00 00:00:00"
+ERRO:  duplicar valor da chave viola a restrição de unicidade "unid_organizacional_nivel2_pkey"
+DETALHE:  Chave (id_unid_organizacional_nivel2)=(1) já existe.
+CONTEXTO:  COPY unid_organizacional_nivel2, linha 3: "1";"3";"2";"Diretoria de Sistemas de Informação";"Esplanada dos Ministérios, Bloco C - Sobreloja..."
 COMANDO:  COPY unid_organizacional_nivel2 FROM '/tmp/bases_cacic2/unid_organizacional_nivel2.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
 
-*-- Verificar com Eduardo
-(criar um novo id unico)
-ERRO:  duplicar valor da chave viola a restrição de unicidade "usb_device_pkey"
-DETALHE:  Chave (id_usb_device)=(0004) já existe.
-CONTEXTO:  COPY usb_device, linha 84: ""0004";"03f0";"DeskJet 895c";"";"0""
+-- Eduardo
+ERRO:  campo entre aspas do CSV não foi terminado
+CONTEXTO:  COPY usb_device, linha 11253: "11070";"7288";"4855";"Ultra Traveldrive 160G 2.5 HDD";"";\N;"11071";"cb01";"4971";"SP-U25/120G";"..."
 COMANDO:  COPY usb_device FROM '/tmp/bases_cacic2/usb_device.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-/*
-*-- Depende de 'usb_device'
+
+
 ERRO:  inserção ou atualização em tabela "usb_log" viola restrição de chave estrangeira "fk_ae68d59360f070d8"
 DETALHE:  Chave (id_usb_device)=(0111) não está presente na tabela "usb_device".
 COMANDO:  COPY usb_log FROM '/tmp/bases_cacic2/usb_log.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-*/
 
-'acao'
-'acao_excecao'
-'acao_rede'
-'acao_so'
-'aplicativo'
-'aplicativo_rede'
-'aquisicao_item'
-'grupo_usuario'
-'local_secundario'
-'log'
-'patrimonio'
-'rede_grupo_ftp'
-'unid_organizacional_nivel1a'
-'unid_organizacional_nivel2'
-'usuario'
-'usb_device'
-'usb_log'
 -------------------------------------------------------------------------------
+-- Ecio
+ERRO: dado inutil nas colunas "nu_hora_inicio" e "nu_hora_fim"
+DETALHE: time deveria ser timestamp e "nu_hora_fim" pode ser NULL
+
+
+--

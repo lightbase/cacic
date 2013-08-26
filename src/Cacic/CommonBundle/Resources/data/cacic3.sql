@@ -292,8 +292,8 @@ CREATE TABLE rede_grupo_ftp (
     id_ftp integer NOT NULL,
     id_rede integer,
     id_computador integer,
-    nu_hora_inicio time(0) without time zone NOT NULL,
-    nu_hora_fim time(0) without time zone NOT NULL
+    nu_hora_inicio timestamp(0) without time zone NOT NULL, (muda pra timestamp)
+    nu_hora_fim timestamp(0) without time zone   (muda pra timestamp e tira o not null)
 );
 
 
@@ -503,7 +503,7 @@ CREATE TABLE uorg (
 
 CREATE TABLE usb_device (
     id_usb_device character varying(5) NOT NULL, (auto-increment)
-    id_device (puxando id_device anterior)
+(+) id_device (puxando id_device anterior)
     id_usb_vendor character varying(5) DEFAULT NULL::character varying,
     nm_usb_device character varying(127) NOT NULL,
     te_observacao text NOT NULL,
