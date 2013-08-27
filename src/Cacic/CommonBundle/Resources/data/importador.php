@@ -18,10 +18,10 @@ system("rm -rf ".escapeshellarg("{$tmpdir}/bases_cacic2"));
 function importar($dbcon, $tmpdir) {
     // Cria a query padrão de inclusão de dados
     $lista_tabelas = array(
-        "acao",
-        "acao_excecao",
-        "acao_rede",
-        "acao_so",
+        // "acao",
+        // "acao_excecao",
+        // "acao_rede",
+        // "acao_so",
         "so",
         "aplicativo",
         "servidor_autenticacao",
@@ -39,9 +39,12 @@ function importar($dbcon, $tmpdir) {
         "usuario",
         "local_secundario",
         "log",
+        "unid_organizacional_nivel1",
+        "unid_organizacional_nivel1a",
+        "unid_organizacional_nivel2",
         "patrimonio",
         "patrimonio_config_interface",
-        "rede_grupo_ftp",
+        // "rede_grupo_ftp",
         "rede_versao_modulo",
         "software_estacao",
         "srcacic_chat",
@@ -51,13 +54,10 @@ function importar($dbcon, $tmpdir) {
         "teste",
         "tipo_software",
         "tipo_uorg",
-        "unid_organizacional_nivel1",
-        "unid_organizacional_nivel1a",
-        "unid_organizacional_nivel2",
         "uorg",
-        "usb_device",
         "usb_vendor",
-        "usb_log",
+        // "usb_device",
+        // "usb_log",
     );
 
     foreach ($lista_tabelas as $tabela) {
@@ -83,9 +83,9 @@ echo "Iniciando importação\n";
 system("tar -xzf ".escapeshellarg($targzfile)." -C ".$tmpdir);
 
 // Importa os dados para o postgres
-// $dbcon->exec("begin");
+$dbcon->exec("begin");
 importar($dbcon, $tmpdir);
-// $dbcon->exec("end");
+$dbcon->exec("end");
 
 echo "Os dados foram importados com sucesso!\n";
 

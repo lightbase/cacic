@@ -491,6 +491,10 @@ OK --usuario
 
 
 
--- Se algum registro de usb_device tiver , nome, id_vendor e id_device repetidos, será ignorado
--- Ignorando unidades organizacionais nivel 1a com id do pai = 0
--- Ignorando registros da tabela de aquisicao_item com um id_software não existente na tabela de id_software
+-- Ignorando registros de aquisicao_item com um id_software não existente na tabela software
+-- Ignorando registros de computador com id_ip_rede = 0.0.0.0
+-- Ignorando registros de rede_grupo_ftp com id_ftp repetidos
+-- Ignorando registros de unid_organizacional_nivel1a com id do id_unid_organizacional_nivel1 = 0
+-- Ignorando registros de unid_organizacional_nivel2 com id_local = 0
+-- Ignorando registros de usb_device com nm_device e id_vendor e id_device repetidos.
+-- Removendo todas as aspas duplas dos registros
