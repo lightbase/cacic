@@ -222,6 +222,8 @@ class RedeController extends Controller
                 {
                     $sessStrTripaItensEnviados .= $arrDadosRede[0]['teServUpdates'].'_'.$arrDadosRede[0]['tePathServUpdates'].'_'.$pStrNmItem . '_';
                     //require_once('../../include/ftp_check_and_send.php');
+				//$logger = $this->get('logger');
+				//$logger->err('222222222222222222222222222222222222222 '. $arrDadosRede[0]['teSenhaLoginServUpdatesGerente']);
 
                     $strResult = $this->checkAndSend($pStrNmItem,
                         Helper\OldCacicHelper::CACIC_PATH . Helper\OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . ($pStrNmItem),
@@ -235,8 +237,8 @@ class RedeController extends Controller
                     $strResult = 'Ja Enviado ao Servidor!_=_Ok!_=_Resended';
 
                 $arrResult = explode('_=_',$strResult);
-				$logger = $this->get('logger');
-				$logger->err('222222222222222222222222222222222222222 '.print_r($arrResult));
+				//$logger = $this->get('logger');
+				//$logger->err('222222222222222222222222222222222222222 '.$arrResult[1]);
 
 				// Eduardo: Esquece o teste FTP só para fazer funcionar
 				//$arrResult[1] = 'Ok!';
@@ -354,18 +356,23 @@ class RedeController extends Controller
         try
         {
 
-            $ftp->connect($pStrTeServer))
+            $conn = $ftp->connect($pStrTeServer);
             // Retorno esperado....: 230 => FTP_USER_LOGGED_IN
             // Retorno NÃO esperado: 530 => FTP_USER_NOT_LOGGED_IN
+	    
+	    # TODO: Acrescentar verificação de sucesso em cada operação
+	    $logger = $this->get('logger');
+
+	    //$logger->err("1111111111111111111111111111111111111111111111 ". $pStrNmUsuarioLogin . " | " . $pStrTeSenhaLogin);
 
 
-            $ftp->login($pStrNmUsuarioLogin,$pStrTeSenhaLogin);
+            $result = $ftp->login($pStrNmUsuarioLogin,$pStrTeSenhaLogin);
 
             // Retorno esperado: 250 => FTP_FILE_ACTION_OK
             // Retorno NÃO esperado: 550 => FTP_PERMISSION_DENIED (ou a pasta não existe!)
-            $ftp->chdir($pStrTePathServer);
+            $result = $ftp->chdir($pStrTePathServer);
 
-            $ftp->put($pStrNmItem,$pStrFullItemName);
+            $result = $ftp->put($pStrNmItem, $pStrFullItemName, FTP_BINARY);
 
             $strSendProcess   = 'Enviado com Sucesso!';
             $strProcessStatus = 'Ok!';
