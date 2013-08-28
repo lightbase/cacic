@@ -40,7 +40,8 @@
         "knplabs/knp-paginator-bundle": "dev-master",
         "doctrine/data-fixtures": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
-        "jquery/jquery": "1.9.*"
+        "jquery/jquery": "1.9.*",
+        "ijanki/ftp-bundle": "*"
     },
     "scripts": {
         "post-install-cmd": [

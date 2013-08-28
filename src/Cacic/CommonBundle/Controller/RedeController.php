@@ -11,6 +11,7 @@ use Cacic\CommonBundle\Entity\Rede;
 use Cacic\CommonBundle\Form\Type\RedeType;
 use Cacic\WSBundle\Helper;
 use Cacic\CommonBundle\Helper as CacicHelper;
+use Ijanki\Bundle\FtpBundle\Exception\FtpException;
 
 /**
  *
@@ -222,11 +223,7 @@ class RedeController extends Controller
                     $sessStrTripaItensEnviados .= $arrDadosRede[0]['teServUpdates'].'_'.$arrDadosRede[0]['tePathServUpdates'].'_'.$pStrNmItem . '_';
                     //require_once('../../include/ftp_check_and_send.php');
 
-                    # FIXME: Corrigir a cópia dos arquivos por FTP
-
-					$ftp_class = new CacicHelper\FTP();
-
-                    $strResult = $ftp_class->checkAndSend($pStrNmItem,
+                    $strResult = $this->checkAndSend($pStrNmItem,
                         Helper\OldCacicHelper::CACIC_PATH . Helper\OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . ($pStrNmItem),
                         $arrDadosRede[0]['teServUpdates'],
                         $arrDadosRede[0]['tePathServUpdates'],
@@ -238,11 +235,11 @@ class RedeController extends Controller
                     $strResult = 'Ja Enviado ao Servidor!_=_Ok!_=_Resended';
 
                 $arrResult = explode('_=_',$strResult);
-				//$logger = $this->get('logger');
-				//$logger->err('222222222222222222222222222222222222222 '.print_r($arrResult));
-				//
+				$logger = $this->get('logger');
+				$logger->err('222222222222222222222222222222222222222 '.print_r($arrResult));
+
 				// Eduardo: Esquece o teste FTP só para fazer funcionar
-				$arrResult[1] = 'Ok!';
+				//$arrResult[1] = 'Ok!';
 
                 if ($arrResult[1] == 'Ok!')
                 {
@@ -320,7 +317,66 @@ class RedeController extends Controller
            $intLoopSEL++;
         }
 
+
+
 		return;
+    }
+
+    /*
+     * Função que permite a execução do FTP e faz o download dos executáveis
+     * para a estação do Agente
+     *
+     * @param $pStrNmItem
+     * @param $pStrFullItemName
+     * @param $pStrTeServer
+     * @param $pStrTePathServer
+     * @param $pStrNmUsuarioLogin
+     * @param $pStrTeSenhaLogin
+     * @param $pStrNuPortaServer
+     *
+     */
+
+    public function checkAndSend($pStrNmItem,
+                          $pStrFullItemName,
+                          $pStrTeServer,
+                          $pStrTePathServer,
+                          $pStrNmUsuarioLogin,
+                          $pStrTeSenhaLogin,
+                          $pStrNuPortaServer)
+    {
+
+        // Pega objetos do FTP
+        $ftp = $this->container->get('ijanki_ftp');
+
+        $strSendProcess   = 'Nao Enviado!';
+        $strProcessStatus = '';
+        $strProcessCode	  = '';
+        try
+        {
+
+            $ftp->connect($pStrTeServer))
+            // Retorno esperado....: 230 => FTP_USER_LOGGED_IN
+            // Retorno NÃO esperado: 530 => FTP_USER_NOT_LOGGED_IN
+
+
+            $ftp->login($pStrNmUsuarioLogin,$pStrTeSenhaLogin);
+
+            // Retorno esperado: 250 => FTP_FILE_ACTION_OK
+            // Retorno NÃO esperado: 550 => FTP_PERMISSION_DENIED (ou a pasta não existe!)
+            $ftp->chdir($pStrTePathServer);
+
+            $ftp->put($pStrNmItem,$pStrFullItemName);
+
+            $strSendProcess   = 'Enviado com Sucesso!';
+            $strProcessStatus = 'Ok!';
+        }
+        catch (FTPException $e)
+        {
+            $strSendProcess   = 'Falha no envio!';
+            $strProcessStatus = 'ERRO: Problema durante a conexao! (' . $e->getMessage() . ')';
+        }
+
+        return $strSendProcess . '_=_' . $strProcessStatus . '_=_' . $strProcessCode;
     }
 
 }
