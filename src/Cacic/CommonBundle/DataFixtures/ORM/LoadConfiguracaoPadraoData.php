@@ -19,6 +19,7 @@ class LoadConfiguracaoPadraoData extends AbstractFixture implements FixtureInter
 		array('cs_abre_janela_patr', 'Exibe janela de patrimônio', 'S'),
 		array('id_default_body_bgcolor', 'Código HEXADECIMAL da cor-de-fundo da página', null),
 		array('id_default_topnavbar_bgcolor', 'Código HEXADECIMAL da cor-de-fundo da barra fixa superior', null),
+		array('te_logo_path', 'Logotipo da Organização', null),
 		array('in_exibe_bandeja', 'Exibir o icone do CACIC na bandeja (systray)', 'N'),
 		array('in_exibe_erros_criticos', 'Exibir erros criticos aos usuarios', 'N'),
 		array('nm_organizacao', 'Nome da organização', 'Organização CACIC'),
