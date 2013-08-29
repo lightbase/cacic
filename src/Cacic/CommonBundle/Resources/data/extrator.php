@@ -3,8 +3,8 @@
 $server = "127.0.0.1";
 $db = "cacic";
 $user = "root";
-$pass = "w1f1t1d1";
-$dbcon = new PDO("mysql:host={$server};dbname={$db}", $user, $pass);
+// $pass = "";
+$dbcon = new PDO("mysql:host={$server};dbname={$db}", $user/*, $pass*/);
 
 // Nome do diretório temporário
 $tmproot = sys_get_temp_dir();
@@ -58,8 +58,8 @@ function extrair($dbcon) {
         "unid_organizacional_nivel1a" => "SELECT id_unid_organizacional_nivel1a, id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1a INTO OUTFILE '$tmpdir/unid_organizacional_nivel1a.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1a WHERE id_unid_organizacional_nivel1 != 0",
         "unid_organizacional_nivel2" => "SELECT id_unid_organizacional_nivel2, id_local, id_unid_organizacional_nivel1a, nm_unid_organizacional_nivel2, te_endereco_uon2, te_bairro_uon2, te_cidade_uon2, te_uf_uon2, nm_responsavel_uon2, te_email_responsavel_uon2, nu_tel1_responsavel_uon2, nu_tel2_responsavel_uon2, dt_registro INTO OUTFILE '$tmpdir/unid_organizacional_nivel2.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel2 WHERE id_local != 0",
         "uorg" => "SELECT @s1:=0 id_uorg, @s2:=NULL id_uorg_pai, @s3:=0 id_tipo_uorg, @s4:=NULL id_local, @s5:='' nm_uorg, @s6:=NULL te_endereco, @s7:=NULL te_bairro, @s8:=NULL te_cidade, @s9:=NULL te_uf, @s10:=NULL nm_responsavel, @s11:=NULL te_responsavel_email, @s12:=NULL nu_responsavel_tel1, @s13:=NULL nu_responsavel_tel2 INTO OUTFILE '$tmpdir/uorg.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'", //TODO
-        "usb_device" => "SELECT tmp_usb.id_usb_device, usb_devices.id_device, usb_devices.id_vendor AS id_usb_vendor, usb_devices.nm_device AS nm_usb_device, usb_devices.te_observacao, @s1:=NULL dt_registro INTO OUTFILE '$tmpdir/usb_device.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices INNER JOIN tmp_usb ON (tmp_usb.id_device=usb_devices.id_device AND tmp_usb.id_vendor=usb_devices.id_vendor AND tmp_usb.nm_device=usb_devices.nm_device) WHERE tmp_usb.repeticao = 1",
-        "usb_log" => "SELECT @s:=@s+1 id_usb_log, id_device AS id_usb_device, tmp_computador.id_computador, dt_event, cs_event INTO OUTFILE '$tmpdir/usb_log.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_logs INNER JOIN tmp_computador ON (tmp_computador.id_so=usb_logs.id_so AND tmp_computador.te_node_address=usb_logs.te_node_address), (SELECT @s:=0) AS s",
+        "usb_device" => "SELECT tmp_usb.id_usb_device, usb_vendors.id_vendor AS id_usb_vendor, usb_devices.nm_device AS nm_usb_device, usb_devices.te_observacao, @s1:=NULL dt_registro, usb_devices.id_device INTO OUTFILE '$tmpdir/usb_device.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices INNER JOIN tmp_usb ON (tmp_usb.id_device=usb_devices.id_device AND tmp_usb.id_vendor=usb_devices.id_vendor AND tmp_usb.nm_device=usb_devices.nm_device) INNER JOIN usb_vendors ON (usb_devices.id_vendor=usb_vendors.id_vendor) WHERE tmp_usb.repeticao = 1",
+        "usb_log" => "SELECT @s:=@s+1 id_usb_log, tmp_usb.id_usb_device, tmp_computador.id_computador, dt_event, cs_event, usb_logs.id_device INTO OUTFILE '$tmpdir/usb_log.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_logs INNER JOIN tmp_computador ON (tmp_computador.id_so=usb_logs.id_so AND tmp_computador.te_node_address=usb_logs.te_node_address) INNER JOIN tmp_usb ON (tmp_usb.id_device=usb_logs.id_device AND tmp_usb.id_vendor=usb_logs.id_vendor), (SELECT @s:=0) AS s",
         "usb_vendor" => "SELECT id_vendor AS id_usb_vendor, nm_vendor AS nm_usb_vendor, te_observacao, @s1:=NULL dt_registro INTO OUTFILE '$tmpdir/usb_vendor.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_vendors",
         "usuario" => "SELECT id_usuario, id_local, id_servidor_autenticacao, id_grupo_usuarios AS id_grupo_usuario, @s1:=NULL id_usuario_ldap, nm_usuario_acesso, nm_usuario_completo, @s2:=NULL nm_usuario_completo_ldap, te_senha, dt_log_in, te_emails_contato, te_telefones_contato INTO OUTFILE '$tmpdir/usuario.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usuarios"
     );
@@ -116,7 +116,6 @@ function fix_null_time($filename) {
 
 function fix_rede_grupo_ftp($filename) {
     //Corrige a coluna nu_hora_inicio para o padrao correto de tempo
-    //TODO Alterar o padrao de nu_hora_inicio para "Y-m-d H:i:s" e nu_hora_fim para \N quando o Ecio confirmar
     $grupos = file_get_contents($filename);
     $dados_corrigidos = "";
 
@@ -128,13 +127,9 @@ function fix_rede_grupo_ftp($filename) {
         }
         // Converte o formato de horario da coluna nu_hora_inicio
         $nu_hora_inicio = substr($coluna[3], 1, -1);
-        $nu_hora_inicio = '"'.date("H:i:s",$nu_hora_inicio).'"';
+        $nu_hora_inicio = '"'.date("Y-m-d H:i:s",$nu_hora_inicio).'"';
 
-        // Converte o formato de horario da coluna nu_hora_fim
-        $nu_hora_fim = substr($coluna[4], 1, -1);
-        $nu_hora_fim = '"'.date("H:i:s",$nu_hora_fim).'"';
-
-        $dados_corrigidos .= $coluna[0].";".$coluna[1].";".$coluna[2].";".$nu_hora_inicio.";".$nu_hora_fim."\n";
+        $dados_corrigidos .= $coluna[0].";".$coluna[1].";".$coluna[2].";".$nu_hora_inicio.";\N\n";
     }
      // Sobrepoe o arquivo de rede_grupo_ftp com a versão corrigida
     file_put_contents($filename, $dados_corrigidos);
@@ -150,7 +145,7 @@ function fix_quoted_data($filename) {
 
 
 function create_temptables($dbcon) {
-    // Cria e popula as tabelas temporarias "tmp_redes" , "tmp_computador" e "tmp_uorg"
+    // Cria e popula as tabelas temporarias "tmp_redes" , "tmp_computador" , "tmp_uorg" e "tmp_usb"
     global $tmpdir;
 
     $tmp_redes_file = $tmpdir."/tmp_redes.csv";
@@ -188,7 +183,7 @@ function create_temptables($dbcon) {
 echo "Iniciando criação do arquivo de exportação\n";
 
 // Cria tabelas temporárias
-create_temptables($dbcon);
+/*create_temptables($dbcon);*/
 
 // Realiza a extração
 extrair($dbcon);
@@ -202,13 +197,13 @@ fix_rede_grupo_ftp($tmpdir."/rede_grupo_ftp.csv");
 fix_quoted_data($tmpdir."/usb_device.csv");
 
 // Deleta tabelas temporárias
-$dbcon->exec("DROP TABLE tmp_redes");
+/*$dbcon->exec("DROP TABLE tmp_redes");
 $dbcon->exec("DROP TABLE tmp_computador");
 $dbcon->exec("DROP TABLE tmp_uorg");
-$dbcon->exec("DROP TABLE tmp_usb");
+$dbcon->exec("DROP TABLE tmp_usb");*/
 
 // Gera um arquivo .tar.gz com os dados
-$targzfile = $tmproot."/bases_cacic2_".date("Y-m-d H:i:s").".tar.gz";
+$targzfile = $tmproot."/bases_cacic2_".date("Y-m-d_H:i:s").".tar.gz";
 system("tar --remove-files -czf ".escapeshellarg($targzfile)." -C ".escapeshellarg($tmproot)." bases_cacic2");
 chmod($targzfile, 0777);
 

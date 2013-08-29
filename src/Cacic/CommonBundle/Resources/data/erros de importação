@@ -1,41 +1,9 @@
--- acao
-ERRO:  valor nulo na coluna "cs_opcional" viola a restrição não-nula
-CONTEXTO:  COPY acao, linha 1: "cs_auto_update";"Auto Atualização dos Agentes";"Essa ação permite que seja realizada a auto atu..."
-COMANDO:  COPY acao FROM '/tmp/bases_cacic2/acao.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-
-
-/*-- acao_excecao
-ERRO:  inserção ou atualização em tabela "acao_excecao" viola restrição de chave estrangeira "fk_37026374c284002e"
-DETALHE:  Chave (id_acao)=(cs_coleta_officescan) não está presente na tabela "acao".
-COMANDO:  COPY acao_excecao FROM '/tmp/bases_cacic2/acao_excecao.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-*/
-
-/*-- acao_rede
-ERRO:  inserção ou atualização em tabela "acao_rede" viola restrição de chave estrangeira "fk_2e36de7dc284002e"
-DETALHE:  Chave (id_acao)=(cs_auto_update) não está presente na tabela "acao".
-COMANDO:  COPY acao_rede FROM '/tmp/bases_cacic2/acao_rede.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-*/
-
-/*-- acao_so
-ERRO:  inserção ou atualização em tabela "acao_so" viola restrição de chave estrangeira "fk_47256302c284002e"
-DETALHE:  Chave (id_acao)=(cs_auto_update) não está presente na tabela "acao".
-COMANDO:  COPY acao_so FROM '/tmp/bases_cacic2/acao_so.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-*/
-
 *-- rede_grupo_ftp
-ERRO:  inserção ou atualização em tabela "rede_grupo_ftp" viola restrição de chave estrangeira "fk_37abda539f1b3279"
-DETALHE:  Chave (id_computador)=(887) não está presente na tabela "computador".
-COMANDO:  COPY rede_grupo_ftp FROM '/tmp/bases_cacic2/rede_grupo_ftp.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
+ERROR:  insert or update on table "rede_grupo_ftp" violates foreign key constraint "fk_37abda539f1b3279"
+DETAIL:  Key (id_computador)=(887) is not present in table "computador".
+STATEMENT:  COPY rede_grupo_ftp FROM '/tmp/bases_cacic2/rede_grupo_ftp.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
 
 
-*-- usb_device
-ERRO:  inserção ou atualização em tabela "usb_device" viola restrição de chave estrangeira "fk_c57af00f9cfdf5a0"
-DETALHE:  Chave (id_usb_vendor)=(5301) não está presente na tabela "usb_vendor".
-COMANDO:  COPY usb_device FROM '/tmp/bases_cacic2/usb_device.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-
-
-/*-- usb_log
-ERRO:  inserção ou atualização em tabela "usb_log" viola restrição de chave estrangeira "fk_ae68d59360f070d8"
-DETALHE:  Chave (id_usb_device)=(0111) não está presente na tabela "usb_device".
-COMANDO:  COPY usb_log FROM '/tmp/bases_cacic2/usb_log.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-*/
+*Ecio mudar  usb_log.id_usb_device e usb_device.id_usb_device de character varying(5) para integer*
+*Ecio criar coluna usb_log.id_device como character varying(5)
+*O erro de usb_log vai sumir qnd a tabela acima for criada.
