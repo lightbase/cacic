@@ -40,7 +40,7 @@ function importar($dbcon, $tmpdir) {
         "unid_organizacional_nivel2",
         "patrimonio",
         "patrimonio_config_interface",
-        // "rede_grupo_ftp",
+        "rede_grupo_ftp",
         "rede_versao_modulo",
         "software_estacao",
         "srcacic_chat",
@@ -53,7 +53,7 @@ function importar($dbcon, $tmpdir) {
         "uorg",
         "usb_vendor",
         "usb_device",
-        // "usb_log"
+        "usb_log"
     );
 
     foreach ($lista_tabelas as $tabela) {
@@ -63,6 +63,7 @@ function importar($dbcon, $tmpdir) {
 
     foreach ($lista_tabelas as $tabela) {
         echo "Importando ".$tabela."...";
+        // Copia do arquivo para a base
         $dbcon->exec("COPY {$tabela} FROM '{$tmpdir}/bases_cacic2/{$tabela}.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '\"' ENCODING 'ISO-8859-1' CSV");
         echo " feito.\n";
     }
@@ -108,6 +109,7 @@ function atualizar_seq($dbcon){
     );
 
     foreach ($lista_sequencias as $tabela) {
+        // Atualiza as sequencias de auto-increment
         $dbcon->exec("SELECT nextval('{$tabela}')");
     }
 }
@@ -124,10 +126,8 @@ system("tar -xzf ".escapeshellarg($targzfile)." -C ".$tmpdir);
 // Importa os dados para o postgres
 $dbcon->exec("begin");
 importar($dbcon, $tmpdir);
-atualizar_seq($dbcon);
 $dbcon->exec("end");
-
-echo "Os dados foram importados com sucesso!\n";
+atualizar_seq($dbcon);
 
 system("rm -rf ".escapeshellarg("{$tmpdir}/bases_cacic2"));
 

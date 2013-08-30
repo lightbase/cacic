@@ -1,9 +1,3 @@
-*-- rede_grupo_ftp
-ERROR:  insert or update on table "rede_grupo_ftp" violates foreign key constraint "fk_37abda539f1b3279"
-DETAIL:  Key (id_computador)=(887) is not present in table "computador".
-STATEMENT:  COPY rede_grupo_ftp FROM '/tmp/bases_cacic2/rede_grupo_ftp.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
-
-
 *Ecio mudar  usb_log.id_usb_device e usb_device.id_usb_device de character varying(5) para integer*
 *Ecio criar coluna usb_log.id_device como character varying(5)
 *O erro de usb_log vai sumir qnd a tabela acima for criada.
