@@ -39,7 +39,7 @@ class DefaultController extends Controller
 
             $insucesso->setTeIpComputador( $_SERVER["REMOTE_ADDR"] );
             $insucesso->setTeSo( $request->get('te_so') );
-            $insucesso->setIdUsuario( ($request->get('id_usuario') ? $request->get('id_usuario')  : null) );
+            $insucesso->setIdUsuario( $request->get('id_usuario') );
             $insucesso->setCsIndicador( $request->get('cs_indicador') );
             $insucesso->setDtDatahora( $data  );
 
