@@ -54,6 +54,7 @@ function extrair($dbcon) {
         "tipo_licenca" => "SELECT id_tipo_licenca, te_tipo_licenca INTO OUTFILE '$tmpdir/tipo_licenca.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM tipos_licenca",
         "tipo_software" => "SELECT id_tipo_software, te_descricao_tipo_software INTO OUTFILE '$tmpdir/tipo_software.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM tipos_software",
         "tipo_uorg" => "SELECT @s1:=0 id_tipo_uorg, @s2:='Cacic2' nm_tipo_uorg, @s3:=NULL tedescricao INTO OUTFILE '$tmpdir/tipo_uorg.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'",
+        "uorg" => "",
         "unid_organizacional_nivel1" => "SELECT id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1, te_endereco_uon1, te_bairro_uon1, te_cidade_uon1, te_uf_uon1, nm_responsavel_uon1, te_email_responsavel_uon1, nu_tel1_responsavel_uon1, nu_tel2_responsavel_uon1 INTO OUTFILE '$tmpdir/unid_organizacional_nivel1.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1",
         "unid_organizacional_nivel1a" => "SELECT id_unid_organizacional_nivel1a, id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1a INTO OUTFILE '$tmpdir/unid_organizacional_nivel1a.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1a WHERE id_unid_organizacional_nivel1 != 0",
         "unid_organizacional_nivel2" => "SELECT id_unid_organizacional_nivel2, id_local, id_unid_organizacional_nivel1a, nm_unid_organizacional_nivel2, te_endereco_uon2, te_bairro_uon2, te_cidade_uon2, te_uf_uon2, nm_responsavel_uon2, te_email_responsavel_uon2, nu_tel1_responsavel_uon2, nu_tel2_responsavel_uon2, dt_registro INTO OUTFILE '$tmpdir/unid_organizacional_nivel2.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel2 WHERE id_local != 0",
@@ -69,7 +70,7 @@ function extrair($dbcon) {
         echo "Carregando dados de ".key($lista_tabelas)."... ";
         $pesquisa = $dbcon->prepare($tabela);
         $pesquisa->execute();
-        echo "feito.\n";
+        echo "feito.<br>\n";
         next($lista_tabelas);
     }
 }
@@ -179,7 +180,7 @@ function create_temptables($dbcon) {
 
 
 // Execuções
-echo "Iniciando criação do arquivo de exportação\n";
+echo "Iniciando criação do arquivo de exportação<br>\n";
 
 // Cria tabelas temporárias
 create_temptables($dbcon);
@@ -195,18 +196,18 @@ fix_null_time($tmpdir."/unid_organizacional_nivel2.csv");
 fix_rede_grupo_ftp($tmpdir."/rede_grupo_ftp.csv");
 fix_quoted_data($tmpdir."/usb_device.csv");
 
-// Deleta tabelas temporárias
+/*// Deleta tabelas temporárias
 $dbcon->exec("DROP TABLE tmp_redes");
 $dbcon->exec("DROP TABLE tmp_computador");
 $dbcon->exec("DROP TABLE tmp_uorg");
-$dbcon->exec("DROP TABLE tmp_usb");
+$dbcon->exec("DROP TABLE tmp_usb");*/
 
 // Gera um arquivo .tar.gz com os dados
 $targzfile = $tmproot."/bases_cacic2_".date("Y-m-d_H:i:s").".tar.gz";
 system("tar --remove-files -czf ".escapeshellarg($targzfile)." -C ".escapeshellarg($tmproot)." bases_cacic2");
 chmod($targzfile, 0777);
 
-echo "O arquivo {$targzfile} foi criado.\n";
+echo "O arquivo {$targzfile} foi criado.<br>\n";
 
 // Fecha conexão com o banco
 $dbcon = null;

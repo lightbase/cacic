@@ -65,7 +65,7 @@ function importar($dbcon, $tmpdir) {
         echo "Importando ".$tabela."...";
         // Copia do arquivo para a base
         $dbcon->exec("COPY {$tabela} FROM '{$tmpdir}/bases_cacic2/{$tabela}.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '\"' ENCODING 'ISO-8859-1' CSV");
-        echo " feito.\n";
+        echo " feito.<br>\n";
     }
 }
 
@@ -116,9 +116,8 @@ function atualizar_seq($dbcon){
 
 
 
-
 // Execuções
-echo "Iniciando importação\n";
+echo "Iniciando importação<br>\n";
 
 // Extrai os arquivos necessarios para a importação
 system("tar -xzf ".escapeshellarg($targzfile)." -C ".$tmpdir);

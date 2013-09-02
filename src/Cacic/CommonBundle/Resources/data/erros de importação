@@ -1,3 +1,52 @@
-*Ecio mudar  usb_log.id_usb_device e usb_device.id_usb_device de character varying(5) para integer*
-*Ecio criar coluna usb_log.id_device como character varying(5)
-*O erro de usb_log vai sumir qnd a tabela acima for criada.
+SELECT tmp_uorg.id_uorg,
+@s1:=NULL id_uorg_pai,
+@s2:='0' id_tipo_uorg,
+unid_organizacional_nivel2.id_local AS id_local,
+unid_organizacional_nivel1.nm_unid_organizacional_nivel1 AS nm_uorg,
+unid_organizacional_nivel1.te_endereco_uon1 AS te_endereco,
+unid_organizacional_nivel1.te_bairro1 AS uorg.te_bairro,
+unid_organizacional_nivel1.te_cidade_uon1 AS te_cidade,
+unid_organizacional_nivel1.te_uf_uon1 AS te_uf,
+unid_organizacional_nivel1.nm_responsavel_uon1 AS nm_responsavel,
+unid_organizacional_nivel1.te_email_responsavel_uon1 AS te_responsavel_email,
+unid_organizacional_nivel1.nu_tel1_responsavel_uon1 AS nu_responsavel_tel1,
+unid_organizacional_nivel1.nu_tel2_responsavel_uon1 AS nu_responsavel_tel2
+FROM unid_organizacional_nivel1
+INNER JOIN unid_organizacional_nivel
+ON ()
+
+
+SELECT tmp_uorg.id_uorg,
+tmp_uorg.id_uorg AS id_uorg_pai,
+@s1:='0' id_tipo_uorg,
+unid_organizacional_nivel2.id_local AS id_local,
+unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a AS nm_uorg,
+unid_organizacional_nivel2.te_endereco_uon2 AS te_endereco,
+unid_organizacional_nivel2.te_bairro2 AS te_bairro,
+unid_organizacional_nivel2.te_cidade_uon2 AS te_cidade,
+unid_organizacional_nivel2.te_uf_uon2 AS te_uf,
+unid_organizacional_nivel2.nm_responsavel_uon2 AS nm_responsavel,
+unid_organizacional_nivel2.te_email_responsavel_uon2 AS te_responsavel_email,
+unid_organizacional_nivel2.nu_tel1_responsavel_uon2 AS nu_responsavel_tel1,
+unid_organizacional_nivel2.nu_tel2_responsavel_uon2 AS nu_responsavel_tel2
+FROM unid_organizacional_nivel1a
+INNER JOIN unid_organizacional_nivel
+ON ()
+
+
+SELECT tmp_uorg.id_uorg,
+tmp_uorg.id_uorg AS id_uorg_pai,
+@s1:='0' id_tipo_uorg,
+unid_organizacional_nivel2.id_local AS id_local,
+unid_organizacional_nivel2.nm_unid_organizacional_nivel2 AS nm_uorg,
+unid_organizacional_nivel2.te_endereco_uon2 AS te_endereco,
+unid_organizacional_nivel2.te_bairro2 AS te_bairro,
+unid_organizacional_nivel2.te_cidade_uon2 AS te_cidade,
+unid_organizacional_nivel2.te_uf_uon2 AS te_uf,
+unid_organizacional_nivel2.nm_responsavel_uon2 AS nm_responsavel,
+unid_organizacional_nivel2.te_email_responsavel_uon2 AS te_responsavel_email,
+unid_organizacional_nivel2.nu_tel1_responsavel_uon2 AS nu_responsavel_tel1,
+unid_organizacional_nivel2.nu_tel2_responsavel_uon2 AS nu_responsavel_tel2
+FROM unid_organizacional_nivel2
+INNER JOIN unid_organizacional_nivel
+ON ()
