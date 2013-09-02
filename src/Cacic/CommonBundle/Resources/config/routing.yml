@@ -469,3 +469,7 @@ cacic_migracao_so:
 cacic_migracao_computador:
     pattern: /migracao/computadores
     defaults: { _controller: CacicCommonBundle:Computador:importarcsv}
+
+cacic_migracao_cacic26:
+    pattern: /migracao/cacic26
+    defaults: { _controller: CacicCommonBundle:Cacic26:importardados}

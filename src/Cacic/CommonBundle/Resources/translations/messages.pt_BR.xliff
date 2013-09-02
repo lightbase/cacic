@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2013-08-28T15:13:26Z" source-language="en" target-language="pt_BR" datatype="plaintext" original="not.available">
+  <file date="2013-08-28T17:23:53Z" source-language="en" target-language="pt_BR" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -8,12 +8,12 @@
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
-        <target state="new"></target>
+        <target></target>
         <jms:reference-file line="23">views/Local/configuracoes.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4d48378baf1c8cab60d6013e7f9bacd4624d8603" resname="  Destacar duplicidades neste campo">
         <source>  Destacar duplicidades neste campo</source>
-        <target state="new">  Destacar duplicidades neste campo</target>
+        <target>  Destacar duplicidades neste campo</target>
         <jms:reference-file line="17">views/PatrimonioConfigInterface/etiqueta7.html.twig</jms:reference-file>
         <jms:reference-file line="17">views/PatrimonioConfigInterface/etiqueta8.html.twig</jms:reference-file>
         <jms:reference-file line="17">views/PatrimonioConfigInterface/etiqueta5.html.twig</jms:reference-file>

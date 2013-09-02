@@ -6,7 +6,7 @@ $user = "postgres";
 // $pass = "";
 $dbcon = new PDO("pgsql:host={$server};dbname={$db}", $user/*, $pass*/);
 
-$targzfile = "/tmp/bases_cacic2_teste.tar.gz";
+$targzfile = "/../../../../src/Cacic/CommonBundle/Resources/data/importacao.zip";
 // $targzfile = $_POST['fname'];
 
 $tmpdir = sys_get_temp_dir();
