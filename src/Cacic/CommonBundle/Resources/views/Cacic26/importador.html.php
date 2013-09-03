@@ -6,6 +6,10 @@ $user = "postgres";
 // $pass = "";
 $dbcon = new PDO("pgsql:host={$server};dbname={$db}", $user/*, $pass*/);
 
+$targzfile = "/../../../../src/Cacic/CommonBundle/Resources/data/importacao.zip";
+// $targzfile = $_POST['fname'];
+
+$tmpdir = sys_get_temp_dir();
 
 function importar($dbcon, $tmpdir) {
     // Cria a query padrão de inclusão de dados
@@ -60,8 +64,8 @@ function importar($dbcon, $tmpdir) {
     foreach ($lista_tabelas as $tabela) {
         echo "Importando ".$tabela."...";
         // Copia do arquivo para a base
-        $dbcon->exec("COPY {$tabela} FROM '{$tmpdir}/importacao/{$tabela}.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '\"' ENCODING 'ISO-8859-1' CSV");
-        echo " feito.<br>";
+        $dbcon->exec("COPY {$tabela} FROM '{$tmpdir}/bases_cacic2/{$tabela}.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '\"' ENCODING 'ISO-8859-1' CSV");
+        echo " feito.<br>\n";
     }
 }
 
@@ -113,24 +117,10 @@ function atualizar_seq($dbcon){
 
 
 // Execuções
-echo "Iniciando importação...<br>";
-
-$zipfile = "../../../../../src/Cacic/CommonBundle/Resources/data/importacao.zip";
-
-$tmpdir = sys_get_temp_dir();
+echo "Iniciando importação<br>\n";
 
 // Extrai os arquivos necessarios para a importação
-$zip = new ZipArchive();
-$x = $zip->open($zipfile);
-echo "extraindo arquivo...";
-if ($x === TRUE) {
-    $zip->extractTo($tmpdir.'/importacao');
-    $zip->close();
-    echo " feito.<br>";
-} else {
-    echo "<br>Erro de extração de arquivo: {$x}";
-    die;
-}
+system("tar -xzf ".escapeshellarg($targzfile)." -C ".$tmpdir);
 
 // Importa os dados para o postgres
 $dbcon->exec("begin");
@@ -138,11 +128,7 @@ importar($dbcon, $tmpdir);
 $dbcon->exec("end");
 atualizar_seq($dbcon);
 
-// Deleta os arquivos
-foreach (glob($tmpdir.'/importacao/*') as $filename) {
-    unlink($filename);
-}
-rmdir($tmpdir."/importacao");
+system("rm -rf ".escapeshellarg("{$tmpdir}/bases_cacic2"));
 
 // Fecha conexão com o banco
 $dbcon = null;

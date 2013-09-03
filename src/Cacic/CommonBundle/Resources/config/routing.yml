@@ -473,3 +473,7 @@ cacic_migracao_computador:
 cacic_migracao_cacic26:
     pattern: /migracao/cacic26
     defaults: { _controller: CacicCommonBundle:Cacic26:importardados}
+
+cacic_migracao_importador:
+    pattern: /migracao/importador
+    defaults: { _controller: CacicCommonBundle:Cacic26:importarscript}
