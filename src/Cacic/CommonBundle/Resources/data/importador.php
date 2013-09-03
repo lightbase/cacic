@@ -115,18 +115,21 @@ function atualizar_seq($dbcon){
 // Execuções
 echo "Iniciando importação...<br>";
 
-$zipfile = "/../../../../src/Cacic/CommonBundle/Resources/data/importacao.zip";
+$zipfile = "../../../../../src/Cacic/CommonBundle/Resources/data/importacao.zip";
 
 $tmpdir = sys_get_temp_dir();
 
 // Extrai os arquivos necessarios para a importação
-$zip = new ZipArchive;
+$zip = new ZipArchive();
 $x = $zip->open($zipfile);
-if ($x == true) {
+echo "extraindo arquivo...";
+if ($x === TRUE) {
     $zip->extractTo($tmpdir.'/importacao');
     $zip->close();
+    echo " feito.<br>"
 } else {
-    echo "Deu pau ae";
+    echo "<br>Erro de extração de arquivo: {$x}";
+    die;
 }
 
 // Importa os dados para o postgres
@@ -136,10 +139,10 @@ $dbcon->exec("end");
 atualizar_seq($dbcon);
 
 // Deleta os arquivos
-foreach (glob($tmpdir.'/*') as $filename) {
+foreach (glob($tmpdir.'/importacao/*') as $filename) {
     unlink($filename);
 }
-rmdir($tmpdir);
+rmdir($tmpdir."/importacao");
 
 // Fecha conexão com o banco
 $dbcon = null;
