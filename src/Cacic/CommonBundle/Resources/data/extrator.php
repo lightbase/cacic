@@ -10,12 +10,39 @@ $dbcon = new PDO("mysql:host={$server};dbname={$db}", $user/*, $pass*/);
 $tmproot = sys_get_temp_dir();
 $tmpdir = $tmproot.'/bases_cacic2';
 
-// Remove diretório se ele já existir
-system('rm -rf '.escapeshellarg($tmpdir));
 
-// Cria diretório temporário para o import
-mkdir($tmpdir);
-chmod($tmpdir, 0777);
+function Zip($source, $destination){
+    // Função que cira o arquivo zip a partir do diretorio informado
+    $zip = new ZipArchive();
+    if (!$zip->open($destination, ZIPARCHIVE::CREATE)){
+        return false;
+    }
+    $source = str_replace('\\', '/', realpath($source));
+    if (is_dir($source) === true){
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach ($files as $file){
+            $file = str_replace('\\', '/', $file);
+
+            // Ignore "." and ".." folders
+            if( in_array(substr($file, strrpos($file, '/')+1), array('.', '..')) )
+               continue;
+
+            $file = realpath($file);
+
+            if (is_dir($file) === true){
+                $zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+            }
+            else if (is_file($file) === true){
+                $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+            }
+        }
+    }
+    else if (is_file($source) === true){
+        $zip->addFromString(basename($source), file_get_contents($source));
+    }
+    return $zip->close();
+}
 
 
 function extrair($dbcon) {
@@ -54,7 +81,7 @@ function extrair($dbcon) {
         "tipo_licenca" => "SELECT id_tipo_licenca, te_tipo_licenca INTO OUTFILE '$tmpdir/tipo_licenca.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM tipos_licenca",
         "tipo_software" => "SELECT id_tipo_software, te_descricao_tipo_software INTO OUTFILE '$tmpdir/tipo_software.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM tipos_software",
         "tipo_uorg" => "SELECT @s1:=0 id_tipo_uorg, @s2:='Cacic2' nm_tipo_uorg, @s3:=NULL tedescricao INTO OUTFILE '$tmpdir/tipo_uorg.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'",
-        "uorg" => "",
+        // "uorg" => "",
         "unid_organizacional_nivel1" => "SELECT id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1, te_endereco_uon1, te_bairro_uon1, te_cidade_uon1, te_uf_uon1, nm_responsavel_uon1, te_email_responsavel_uon1, nu_tel1_responsavel_uon1, nu_tel2_responsavel_uon1 INTO OUTFILE '$tmpdir/unid_organizacional_nivel1.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1",
         "unid_organizacional_nivel1a" => "SELECT id_unid_organizacional_nivel1a, id_unid_organizacional_nivel1, nm_unid_organizacional_nivel1a INTO OUTFILE '$tmpdir/unid_organizacional_nivel1a.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel1a WHERE id_unid_organizacional_nivel1 != 0",
         "unid_organizacional_nivel2" => "SELECT id_unid_organizacional_nivel2, id_local, id_unid_organizacional_nivel1a, nm_unid_organizacional_nivel2, te_endereco_uon2, te_bairro_uon2, te_cidade_uon2, te_uf_uon2, nm_responsavel_uon2, te_email_responsavel_uon2, nu_tel1_responsavel_uon2, nu_tel2_responsavel_uon2, dt_registro INTO OUTFILE '$tmpdir/unid_organizacional_nivel2.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM unid_organizacional_nivel2 WHERE id_local != 0",
@@ -182,6 +209,18 @@ function create_temptables($dbcon) {
 // Execuções
 echo "Iniciando criação do arquivo de exportação<br>\n";
 
+// Remove diretório se ele já existir
+if (file_exists($tmpdir)){
+    foreach (glob($tmpdir.'/*') as $filename) {
+        unlink($filename);
+    }
+    rmdir($tmpdir);
+}
+
+// Cria diretório temporário para o import
+mkdir($tmpdir);
+chmod($tmpdir, 0777);
+
 // Cria tabelas temporárias
 create_temptables($dbcon);
 
@@ -196,18 +235,24 @@ fix_null_time($tmpdir."/unid_organizacional_nivel2.csv");
 fix_rede_grupo_ftp($tmpdir."/rede_grupo_ftp.csv");
 fix_quoted_data($tmpdir."/usb_device.csv");
 
-/*// Deleta tabelas temporárias
+// Deleta tabelas temporárias
 $dbcon->exec("DROP TABLE tmp_redes");
 $dbcon->exec("DROP TABLE tmp_computador");
 $dbcon->exec("DROP TABLE tmp_uorg");
-$dbcon->exec("DROP TABLE tmp_usb");*/
+$dbcon->exec("DROP TABLE tmp_usb");
 
-// Gera um arquivo .tar.gz com os dados
-$targzfile = $tmproot."/bases_cacic2_".date("Y-m-d_H:i:s").".tar.gz";
-system("tar --remove-files -czf ".escapeshellarg($targzfile)." -C ".escapeshellarg($tmproot)." bases_cacic2");
-chmod($targzfile, 0777);
+// Gera um arquivo .zip com os dados
+$zipfile = $tmproot."/bases_cacic2_".date("Y-m-d_H:i:s").".zip";
+Zip($tmpdir, $zipfile);
+chmod($zipfile, 0777);
 
-echo "O arquivo {$targzfile} foi criado.<br>\n";
+// Deleta o diretorio temporario
+foreach (glob($tmpdir.'/*') as $filename) {
+    unlink($filename);
+}
+rmdir($tmpdir);
+
+echo "O arquivo {$zipfile} foi criado.<br>\n";
 
 // Fecha conexão com o banco
 $dbcon = null;

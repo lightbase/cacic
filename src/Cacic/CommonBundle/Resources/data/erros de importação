@@ -1,52 +1,55 @@
 SELECT tmp_uorg.id_uorg,
 @s1:=NULL id_uorg_pai,
 @s2:='0' id_tipo_uorg,
-unid_organizacional_nivel2.id_local AS id_local,
-unid_organizacional_nivel1.nm_unid_organizacional_nivel1 AS nm_uorg,
-unid_organizacional_nivel1.te_endereco_uon1 AS te_endereco,
-unid_organizacional_nivel1.te_bairro1 AS uorg.te_bairro,
-unid_organizacional_nivel1.te_cidade_uon1 AS te_cidade,
-unid_organizacional_nivel1.te_uf_uon1 AS te_uf,
-unid_organizacional_nivel1.nm_responsavel_uon1 AS nm_responsavel,
-unid_organizacional_nivel1.te_email_responsavel_uon1 AS te_responsavel_email,
-unid_organizacional_nivel1.nu_tel1_responsavel_uon1 AS nu_responsavel_tel1,
-unid_organizacional_nivel1.nu_tel2_responsavel_uon1 AS nu_responsavel_tel2
-FROM unid_organizacional_nivel1
-INNER JOIN unid_organizacional_nivel
-ON ()
+@s3:=NULL id_local,
+uorg1.nm_unid_organizacional_nivel1 AS nm_uorg,
+uorg1.te_endereco_uon1 AS te_endereco,
+uorg1.te_bairro_uon1 AS te_bairro,
+uorg1.te_cidade_uon1 AS te_cidade,
+uorg1.te_uf_uon1 AS te_uf,
+uorg1.nm_responsavel_uon1 AS nm_responsavel,
+uorg1.te_email_responsavel_uon1 AS te_responsavel_email,
+uorg1.nu_tel1_responsavel_uon1 AS nu_responsavel_tel1,
+uorg1.nu_tel2_responsavel_uon1 AS nu_responsavel_tel2
+FROM unid_organizacional_nivel1 uorg1
+INNER JOIN tmp_uorg
+ON (uorg1.id_unid_organizacional_nivel1=tmp_uorg.id_uorg1)
+GROUP BY uorg1.id_unid_organizacional_nivel1
 
-
+(quase)
 SELECT tmp_uorg.id_uorg,
 tmp_uorg.id_uorg AS id_uorg_pai,
 @s1:='0' id_tipo_uorg,
-unid_organizacional_nivel2.id_local AS id_local,
-unid_organizacional_nivel1a.nm_unid_organizacional_nivel1a AS nm_uorg,
-unid_organizacional_nivel2.te_endereco_uon2 AS te_endereco,
-unid_organizacional_nivel2.te_bairro2 AS te_bairro,
-unid_organizacional_nivel2.te_cidade_uon2 AS te_cidade,
-unid_organizacional_nivel2.te_uf_uon2 AS te_uf,
-unid_organizacional_nivel2.nm_responsavel_uon2 AS nm_responsavel,
-unid_organizacional_nivel2.te_email_responsavel_uon2 AS te_responsavel_email,
-unid_organizacional_nivel2.nu_tel1_responsavel_uon2 AS nu_responsavel_tel1,
-unid_organizacional_nivel2.nu_tel2_responsavel_uon2 AS nu_responsavel_tel2
-FROM unid_organizacional_nivel1a
-INNER JOIN unid_organizacional_nivel
-ON ()
+@s2:=NULL id_local,
+uorg1a.nm_unid_organizacional_nivel1a AS nm_uorg,
+@s3:=NULL te_endereco,
+@s4:=NULL te_bairro,
+@s5:=NULL te_cidade,
+@s6:=NULL te_uf,
+@s7:=NULL nm_responsavel,
+@s8:=NULL te_responsavel_email,
+@s9:=NULL nu_responsavel_tel1,
+@s10:=NULL nu_responsavel_tel2
+FROM unid_organizacional_nivel1a uorg1a
+INNER JOIN tmp_uorg
+ON (uorg1a.id_unid_organizacional_nivel1a=tmp_uorg.id_uorg1a)
+GROUP BY uorg1a.id_unid_organizacional_nivel1a
 
 
+(quase)
 SELECT tmp_uorg.id_uorg,
 tmp_uorg.id_uorg AS id_uorg_pai,
 @s1:='0' id_tipo_uorg,
-unid_organizacional_nivel2.id_local AS id_local,
-unid_organizacional_nivel2.nm_unid_organizacional_nivel2 AS nm_uorg,
-unid_organizacional_nivel2.te_endereco_uon2 AS te_endereco,
-unid_organizacional_nivel2.te_bairro2 AS te_bairro,
-unid_organizacional_nivel2.te_cidade_uon2 AS te_cidade,
-unid_organizacional_nivel2.te_uf_uon2 AS te_uf,
-unid_organizacional_nivel2.nm_responsavel_uon2 AS nm_responsavel,
-unid_organizacional_nivel2.te_email_responsavel_uon2 AS te_responsavel_email,
-unid_organizacional_nivel2.nu_tel1_responsavel_uon2 AS nu_responsavel_tel1,
-unid_organizacional_nivel2.nu_tel2_responsavel_uon2 AS nu_responsavel_tel2
-FROM unid_organizacional_nivel2
-INNER JOIN unid_organizacional_nivel
-ON ()
+uorg2.id_local AS id_local,
+uorg2.nm_unid_organizacional_nivel2 AS nm_uorg,
+uorg2.te_endereco_uon2 AS te_endereco,
+uorg2.te_bairro_uon2 AS te_bairro,
+uorg2.te_cidade_uon2 AS te_cidade,
+uorg2.te_uf_uon2 AS te_uf,
+uorg2.nm_responsavel_uon2 AS nm_responsavel,
+uorg2.te_email_responsavel_uon2 AS te_responsavel_email,
+uorg2.nu_tel1_responsavel_uon2 AS nu_responsavel_tel1,
+uorg2.nu_tel2_responsavel_uon2 AS nu_responsavel_tel2
+FROM unid_organizacional_nivel2 uorg2
+INNER JOIN tmp_uorg
+ON (uorg2.id_unid_organizacional_nivel2=tmp_uorg.id_uorg2)
