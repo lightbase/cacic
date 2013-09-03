@@ -29,7 +29,7 @@ class AcaoSoRepository extends EntityRepository
         								->where("a.idAcao = :idAcao")
         								->setParameter('idAcao', $acao)
         								->orderBy('so.teDescSo')
-        								->groupBy('so.idSo');
+        								->groupBy('so');
 
 		if ( $rede !== null )
 		{ // Se o filtro por rede for informado
