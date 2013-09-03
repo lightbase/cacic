@@ -113,7 +113,7 @@ function atualizar_seq($dbcon){
 
 
 // Execuções
-echo "Iniciando importação<br>";
+echo "Iniciando importação...<br>";
 
 $zipfile = "/../../../../src/Cacic/CommonBundle/Resources/data/importacao.zip";
 
@@ -121,9 +121,13 @@ $tmpdir = sys_get_temp_dir();
 
 // Extrai os arquivos necessarios para a importação
 $zip = new ZipArchive;
-$res = $zip->open($zipfile);
-$zip->extractTo($tmpdir);
-$zip->close();
+$x = $zip->open($zipfile);
+if ($x == true) {
+    $zip->extractTo($tmpdir.'/importacao');
+    $zip->close();
+} else {
+    echo "Deu pau ae";
+}
 
 // Importa os dados para o postgres
 $dbcon->exec("begin");

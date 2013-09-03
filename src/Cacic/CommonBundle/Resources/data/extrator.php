@@ -236,10 +236,10 @@ fix_rede_grupo_ftp($tmpdir."/rede_grupo_ftp.csv");
 fix_quoted_data($tmpdir."/usb_device.csv");
 
 // Deleta tabelas temporárias
-$dbcon->exec("DROP TABLE tmp_redes");
+/*$dbcon->exec("DROP TABLE tmp_redes");
 $dbcon->exec("DROP TABLE tmp_computador");
 $dbcon->exec("DROP TABLE tmp_uorg");
-$dbcon->exec("DROP TABLE tmp_usb");
+$dbcon->exec("DROP TABLE tmp_usb");*/
 
 // Gera um arquivo .zip com os dados
 $zipfile = $tmproot."/bases_cacic2_".date("Y-m-d_H:i:s").".zip";
