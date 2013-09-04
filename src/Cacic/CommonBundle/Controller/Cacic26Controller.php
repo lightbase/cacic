@@ -106,12 +106,12 @@ class Cacic26Controller extends Controller
                // "usb_log" So vai funcionar quando o Ecio corrigir lá na DAO
             );
 
-            echo "Limpando dados anteriores... "
+            echo "Limpando dados anteriores... ";
             foreach ($lista_tabelas as $tabela) {
                 // Limpa as tabelas antes
                 $dbcon -> exec("truncate {$tabela} cascade");
             }
-            echo "feito.<br>"
+            echo "feito.<br>";
 
             foreach ($lista_tabelas as $tabela) {
                 echo "Importando ".$tabela."...";
