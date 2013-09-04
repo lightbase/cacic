@@ -1,10 +1,10 @@
 <?php
 // Conexão com o banco
-$server = "127.0.0.1";
+$server = "localhost";
 $db = "cacic";
 $user = "root";
-// $pass = "";
-$dbcon = new PDO("mysql:host={$server};dbname={$db}", $user/*, $pass*/);
+$pass = "w1f1t1d1";
+$dbcon = new PDO("mysql:host={$server};dbname={$db}", $user, $pass);
 
 // Nome do diretório temporário
 $tmproot = sys_get_temp_dir();
@@ -256,4 +256,25 @@ echo "O arquivo {$zipfile} foi criado.<br>\n";
 
 // Fecha conexão com o banco
 $dbcon = null;
+
+
+// Permite o download do arquivo
+if (file_exists($zipfile)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/zip');
+    header('Content-Disposition: attachment; filename='.basename($zipfile));
+    header('Content-Transfer-Encoding: binary');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($zipfile));
+    ob_clean();
+    flush();
+    readfile($zipfile);
+    exit;
+}
+
+
+// Redireciona para a pagina anterior
+header("Location: extrator.php");
 ?>

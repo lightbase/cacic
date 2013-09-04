@@ -77,7 +77,7 @@ class Cacic26Controller extends Controller
                 "aquisicao",
                 "tipo_licenca",
                 "software",
-                "aquisicao_item",
+                "aquisicao_ite\m",
                 "computador",
                 "descricao_coluna_computador",
                 "grupo_usuario",
@@ -100,16 +100,18 @@ class Cacic26Controller extends Controller
                 "teste",
                 "tipo_software",
                 "tipo_uorg",
-                "uorg",
+               // "uorg",
                 "usb_vendor",
                 "usb_device",
-                "usb_log"
+               // "usb_log" So vai funcionar quando o Ecio corrigir lá na DAO
             );
 
+            echo "Limpando dados anteriores... "
             foreach ($lista_tabelas as $tabela) {
                 // Limpa as tabelas antes
                 $dbcon -> exec("truncate {$tabela} cascade");
             }
+            echo "feito.<br>"
 
             foreach ($lista_tabelas as $tabela) {
                 echo "Importando ".$tabela."...";
@@ -166,15 +168,12 @@ class Cacic26Controller extends Controller
 
 // Execuções
 
-        echo getcwd();
+        echo "Iniciando importação...<br>";
+
         $zipfile = "../src/Cacic/CommonBundle/Resources/data/importacao.zip";
-        //Debug::dump($zipfile);die;
-        Debug::dump(is_file($zipfile));
         $tmpdir = sys_get_temp_dir();
 
-
 // Extrai os arquivos necessarios para a importação
-
         $zip = new ZipArchive();
         $x = $zip->open($zipfile);
         echo "extraindo arquivo...";
@@ -183,10 +182,8 @@ class Cacic26Controller extends Controller
             $zip->close();
             echo " feito.<br>";
         } else {
-            echo "<br>Erro de extração de arquivo: {$x}";
-            die;
+            die("<br>Erro de extração de arquivo: {$x}");
         }
-
 
 // Importa os dados para o postgres
         $dbcon->exec("begin");
@@ -199,6 +196,7 @@ class Cacic26Controller extends Controller
             unlink($filename);
         }
         rmdir($tmpdir."/importacao");
+
 // Fecha conexão com o banco
         $dbcon = null;
         return $this->redirect( $this->generateUrl( 'cacic_migracao_cacic26') );

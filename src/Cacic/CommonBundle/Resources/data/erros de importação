@@ -1,3 +1,18 @@
+>tmp_uorg (quase) [<Arrumar para o id da uorg pai fique com NULL nas filhas>]
+SELECT @s:=@s+1 id_uorg,
+u1.id_unid_organizacional_nivel1 AS id_uorg1,
+u1a.id_unid_organizacional_nivel1a AS id_uorg1a,
+u2.id_unid_organizacional_nivel2 AS id_uorg2
+-- INTO OUTFILE '$tmp_uorg_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'
+FROM unid_organizacional_nivel2 u2
+LEFT JOIN unid_organizacional_nivel1a u1a
+ON (u2.id_unid_organizacional_nivel1a=u1a.id_unid_organizacional_nivel1a)
+LEFT JOIN unid_organizacional_nivel1 u1
+ON (u1.id_unid_organizacional_nivel1=u1a.id_unid_organizacional_nivel1),
+(SELECT @s:=0) AS s
+
+
+>uorg1 (quase)
 SELECT tmp_uorg.id_uorg,
 @s1:=NULL id_uorg_pai,
 @s2:='0' id_tipo_uorg,
@@ -16,9 +31,10 @@ INNER JOIN tmp_uorg
 ON (uorg1.id_unid_organizacional_nivel1=tmp_uorg.id_uorg1)
 GROUP BY uorg1.id_unid_organizacional_nivel1
 
-(quase)
+
+>uorg1a (quase)
 SELECT tmp_uorg.id_uorg,
-tmp_uorg.id_uorg AS id_uorg_pai,
+t1.id_uorg AS id_uorg_pai,
 @s1:='0' id_tipo_uorg,
 @s2:=NULL id_local,
 uorg1a.nm_unid_organizacional_nivel1a AS nm_uorg,
@@ -33,10 +49,12 @@ uorg1a.nm_unid_organizacional_nivel1a AS nm_uorg,
 FROM unid_organizacional_nivel1a uorg1a
 INNER JOIN tmp_uorg
 ON (uorg1a.id_unid_organizacional_nivel1a=tmp_uorg.id_uorg1a)
+INNER JOIN (SELECT id_uorg, id_uorg1 FROM tmp_uorg) t1
+ON (uorg1a.id_unid_organizacional_nivel1=t1.id_uorg1)
 GROUP BY uorg1a.id_unid_organizacional_nivel1a
 
 
-(quase)
+>uorg2 (quase)
 SELECT tmp_uorg.id_uorg,
 tmp_uorg.id_uorg AS id_uorg_pai,
 @s1:='0' id_tipo_uorg,
