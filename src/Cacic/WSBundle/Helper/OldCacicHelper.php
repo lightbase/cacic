@@ -2,11 +2,9 @@
 
 namespace Cacic\WSBundle\Helper;
 
-use Cacic\CommonBundle\Entity\Teste;
-use JMS\DiExtraBundle\Tests\Functional\AppKernel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Templating\Helper\Helper;
+
 
 abstract class OldCacicHelper
 {
@@ -32,7 +30,7 @@ abstract class OldCacicHelper
     const CACIC_PATH_RELATIVO_DOWNLOADS = 'downloads/';
 
     // Arquivo com hashes dos agentes
-    const iniFile =  '/srv/cacic3/src/Cacic/CommonBundle/Common/downloads/versions_and_hashes.ini';
+    const iniFile =  '/srv/cacic3/downloads/versions_and_hashes.ini';
     
     /**
      * 
@@ -185,30 +183,7 @@ abstract class OldCacicHelper
         }
     }
 
-    //________________________________________________________________________________________________
-    // Limpa a tabela TESTES, utilizada para depura��o de c�digo
-    //________________________________________________________________________________________________
-     public function limpaTESTES()
-    {
-       /* conecta_bd_cacic();
-        $queryDEL  = 'DELETE from testes';
-        $resultDEL = mysql_query($queryDEL);*/
-    }
 
-    //___________________________________
-    // Grava informa��es na tabela TESTES
-    //___________________________________
-    public static function gravaTESTES($p_Valor)
-    {
-        $v_Valor 		= str_replace('"','[AD]',$p_Valor);
-        $v_Valor 		= str_replace("'",'[AS]',$v_Valor);
-        $date 			= @getdate();
-        $arrScriptName 	= explode('/',$_SERVER['SCRIPT_NAME']);
-        $teste = new Teste();
-        $teste->setTeLinha($arrScriptName[count($arrScriptName)-1] . ": (".$date['mday'].'/'.$date['mon'].' - '.$date['hours'].':'.$date['minutes'].")Svr " .$_SERVER['HTTP_HOST']." Sta: ".$_SERVER['REMOTE_ADDR']." - ".$v_Valor );
-        Doctrine\ORM\EntityManagergetEntityManager()->persist( $teste );
-        Doctrine\ORM\EntityManagergetEntityManager()->flush();
-    }
 
     public static function getOnlyFileName($pStrFullFileName)
     {

@@ -23,6 +23,8 @@ use Cacic\CommonBundle\Entity\InsucessoInstalacao;
 use Symfony\Component\Validator\Constraints\Date;
 use Cacic\CommonBundle\Helper\Criptografia;
 use Cacic\CommonBundle\Entity\AcaoSo;
+use Cacic\CommonBundle\Entity\Teste;
+
 /**
  *
  * Classe responsável por Rerceber as coletas Agente
@@ -50,7 +52,8 @@ class ColetaController extends Controller
         $grava_teste = '';
 
         //vefifica se existe SO coletado se não, insere novo SO
-        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('teSo'=>$te_so, 'teNodeAddress'=>$te_node_adress) );
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$te_so) );
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('idSo'=>$so, 'teNodeAddress'=>$te_node_adress) );
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
         $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
         $strCollectType  = OldCacicHelper::deCrypt($request, $request->get('CollectType'));
@@ -168,8 +171,11 @@ class ColetaController extends Controller
   //TODO              mail($resConfigsLocais['te_notificar_mudancas_emails'], "[Sistema CACIC] Alteração Detectada - " . $arrCollectsDefClasses[$strCollectType], "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
             }
         }
-        OldCacicHelper::gravaTESTES($grava_teste."\nFinal");
-        $this->getDoctrine()->getManager()->flush(); //persistencia dos dados no BD
+        $teste_object = $this->gravaTESTES($grava_teste."\nFinal");
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($teste_object);
+        $em->flush();
+        //$this->getDoctrine()->getManager()->flush(); //persistencia dos dados no BD
 
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
@@ -215,7 +221,8 @@ class ColetaController extends Controller
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
         $te_so = $request->get( 'te_so' );
 
-        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('teSo'=>$te_so, 'teNodeAddress'=>$te_node_adress) );
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$te_so) );
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('idSo'=>$so, 'teNodeAddress'=>$te_node_adress) );
         $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
 
         $te_usb_info = OldCacicHelper::deCrypt($request, $request->get('te_usb_info'));
@@ -370,6 +377,34 @@ class ColetaController extends Controller
             }
         }
 
+    }
+
+    //________________________________________________________________________________________________
+    // Limpa a tabela TESTES, utilizada para depura��o de c�digo
+    //________________________________________________________________________________________________
+
+    public function limpaTESTES()
+    {
+        /* conecta_bd_cacic();
+         $queryDEL  = 'DELETE from testes';
+         $resultDEL = mysql_query($queryDEL);*/
+    }
+
+    //___________________________________
+    // Grava informa��es na tabela TESTES
+    //___________________________________
+    public static function gravaTESTES($p_Valor)
+    {
+        $v_Valor 		= str_replace('"','[AD]',$p_Valor);
+        $v_Valor 		= str_replace("'",'[AS]',$v_Valor);
+        $date 			= @getdate();
+        $arrScriptName 	= explode('/',$_SERVER['SCRIPT_NAME']);
+        $teste = new Teste();
+        $teste->setTeLinha($arrScriptName[count($arrScriptName)-1] . ": (".$date['mday'].'/'.$date['mon'].' - '.$date['hours'].':'.$date['minutes'].")Svr " .$_SERVER['HTTP_HOST']." Sta: ".$_SERVER['REMOTE_ADDR']." - ".$v_Valor );
+
+        return $teste;
+        //Doctrine\ORM\EntityManager::
+        //Doctrine\ORM\EntityManagergetEntityManager()->flush();
     }
 
     /**

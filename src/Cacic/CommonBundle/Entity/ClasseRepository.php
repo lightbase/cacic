@@ -32,9 +32,9 @@ class ClasseRepository extends EntityRepository
 				 FROM CacicCommonBundle:Classe c,
 				 CacicCommonBundle:ClassProperty cp,
 				 CacicCommonBundle:CollectDefClass cd
-				 WHERE 	cd.idAcao = :idAcao AND
-				 c.idClass = cd.idClass AND
-				 cp.idClass = cd.idClass
+				 WHERE 	cd.idAcao = :idAcao
+				 AND c.idClass = cd.idClass
+				 AND cp.idClass = cd.idClass
 				 ORDER BY c.nmClassName,cp.nmPropertyName";
 
         return $this->getEntityManager()
@@ -45,14 +45,23 @@ class ClasseRepository extends EntityRepository
 
     public function listaDetalhesClasseAcoes( $idClass )
     {
-        $_dql = "SELECT c, a, cp, dc
+        $_dql = "SELECT a, cl, cp, dc
                  FROM CacicCommonBundle:CollectDefClass dc,
-                 CacicCommonBundle:ClassProperty cp,
+                 CacicCommonBundle:Classe cl,
+                 CacicCommonBundle:Acao a,
+                 CacicCommonBundle:ClassProperty cp
+                 WHERE cl.idClass = dc.idClass
+                 AND dc.idAcao = a.idAcao
+                 AND cl.idClass = cp.idClass
+                 AND a.idAcao = :idClass";
+
+        /*$_dql = "SELECT c, a, cp, dc
+                 FROM CacicCommonBundle:CollectDefClass dc,
+                 CacicCommonBundle:ClassProperty cp
                  JOIN dc.idClass c
                  JOIN dc.idAcao a
-                 JOIN dc.idClassProperty a
                  WHERE cp.idClass = c.idClass
-                 AND c.idClass = :idClass";
+                 AND c.idClass = :idClass";*/
 
         return $this->getEntityManager()
             ->createQuery( $_dql )

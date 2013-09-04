@@ -13,7 +13,7 @@ cacic_ws_instala_cacic:
     defaults: { _controller: CacicWSBundle:Default:install }
 
 cacic_ws_gercols_setcollets:
-    pattern: /gercols/setcollets
+    pattern: /gercols/set/collects
     defaults: { _controller: CacicWSBundle:Coleta:gerColsSetCollet }
 
 cacic_ws_gercols_set_srcacic_action:

@@ -48,7 +48,7 @@ class DefaultController extends Controller
 
             $response = new Response();
             $response->headers->set('Content-Type', 'xml');
-            return  $this->render('CacicWSBundle::common.xml.twig',array(), $response);
+            return  $this->render('CacicWSBundle:Default:instala.xml.twig',array(), $response);
 
         }
 
