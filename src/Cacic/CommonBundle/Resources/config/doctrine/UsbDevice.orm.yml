@@ -5,9 +5,7 @@ Cacic\CommonBundle\Entity\UsbDevice:
     fields:
         idUsbDevice:
             id: true
-            type: string
-            length: 5
-            fixed: true
+            type: integer
             nullable: false
             column: id_usb_device
             generator:

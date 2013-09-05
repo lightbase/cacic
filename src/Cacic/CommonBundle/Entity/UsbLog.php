@@ -141,4 +141,32 @@ class UsbLog
     {
         return $this->idComputador;
     }
+    /**
+     * @var string
+     */
+    private $idDevice;
+
+
+    /**
+     * Set idDevice
+     *
+     * @param string $idDevice
+     * @return UsbLog
+     */
+    public function setIdDevice($idDevice)
+    {
+        $this->idDevice = $idDevice;
+    
+        return $this;
+    }
+
+    /**
+     * Get idDevice
+     *
+     * @return string 
+     */
+    public function getIdDevice()
+    {
+        return $this->idDevice;
+    }
 }

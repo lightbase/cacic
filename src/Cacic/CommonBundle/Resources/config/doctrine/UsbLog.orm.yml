@@ -22,6 +22,12 @@ Cacic\CommonBundle\Entity\UsbLog:
             fixed: true
             nullable: false
             column: cs_event
+        idDevice:
+            type: string
+            length: 5
+            fixed: true
+            nullable: true
+            column: id_device
     manyToOne:
         idUsbDevice:
             targetEntity: UsbDevice
