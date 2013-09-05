@@ -117,6 +117,12 @@ Cacic\CommonBundle\Entity\Rede:
             - NotBlank: ~
             - Length:
                 max: 20
+        nuTelefone1:
+            - Length:
+                max: 11
+        nuTelefone2:
+            - Length:
+                max: 11
 
 Cacic\CommonBundle\Entity\So:
     properties:
