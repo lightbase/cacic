@@ -25,11 +25,6 @@ class UsbLog
     private $csEvent;
 
     /**
-     * @var \Cacic\CommonBundle\Entity\UsbVendor
-     */
-    private $idUsbVendor;
-
-    /**
      * @var \Cacic\CommonBundle\Entity\UsbDevice
      */
     private $idUsbDevice;

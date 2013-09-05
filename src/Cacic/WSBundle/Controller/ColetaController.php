@@ -55,7 +55,7 @@ class ColetaController extends Controller
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$te_so) );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('idSo'=>$so, 'teNodeAddress'=>$te_node_adress) );
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
-        $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
+        //$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
         $strCollectType  = OldCacicHelper::deCrypt($request, $request->get('CollectType'));
 
         // Defino os dois arrays que conterão as configurações para Coletas, Classes e Propriedades
@@ -72,16 +72,16 @@ class ColetaController extends Controller
             $arrCollectsDefClasses[$strCollectType . '.' . $detalhesClasse['nmClassName'] . '.' . $detalhesClasse['nmPropertyName'] . '.nm_function_pre_db'] = $detalhesClasse['nmFunctionPreDb'];
         }
 
-        if ($arrCollectsDefClasses[$strCollectType])
-        {
+        //if ($arrCollectsDefClasses[$strCollectType])
+        //{
             // Obtenho configuração para notificação de alterações
-            $resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal($rede->getIdLocal(), 'te_notificar_mudancas_properties');
-            $resConfigsLocaisEmail = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoEmailLocal($rede->getIdLocal());
+            //$resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal($rede->getIdLocal(), 'te_notificar_mudancas_properties');
+            //$resConfigsLocaisEmail = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoEmailLocal($rede->getIdLocal());
 
-            $arrClassesAndProperties = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaPorPropertyNotificacao( $resConfigsLocais->getVlConfiguracao() )  ;
+            //$arrClassesAndProperties = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaPorPropertyNotificacao( $resConfigsLocais->getVlConfiguracao() )  ;
 
-            foreach ($arrClassesAndProperties as $arrClassesAndProperty)
-                $arrClassesPropertiesToNotificate[$arrClassesAndProperty['nmClassName'] . '.' . $arrClassesAndProperty['nmPropertyName']] = $arrClassesAndProperty['tePropertyDescription'];
+            //foreach ($arrClassesAndProperties as $arrClassesAndProperty)
+            //    $arrClassesPropertiesToNotificate[$arrClassesAndProperty['nmClassName'] . '.' . $arrClassesAndProperty['nmPropertyName']] = $arrClassesAndProperty['tePropertyDescription'];
 
             $strInsertedItems_Text 	= '';
             $strDeletedItems_Text 	= '';
@@ -89,6 +89,8 @@ class ColetaController extends Controller
 
             foreach( $request->request->all() as $strClassName => $strClassValues)
             {
+                $teste = OldCacicHelper::deCrypt($request, $strClassValues);
+                error_log("33333333333333333333333333333333333333333333333: $strClassName | \n $teste");
                 if ($arrClassesNames[$strClassName])
                 {
                     $arrOldClassValues = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findBy( array ('nmClassName'=> $strClassName, 'idComputador' => $computador) );
@@ -170,7 +172,7 @@ class ColetaController extends Controller
 // Manda mail para os administradores.
   //TODO              mail($resConfigsLocais['te_notificar_mudancas_emails'], "[Sistema CACIC] Alteração Detectada - " . $arrCollectsDefClasses[$strCollectType], "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
             }
-        }
+        //}
         $teste_object = $this->gravaTESTES($grava_teste."\nFinal");
         $em = $this->getDoctrine()->getManager();
         $em->persist($teste_object);
@@ -234,7 +236,7 @@ class ColetaController extends Controller
             $usb_log->setIdComputador($computador);
             $usb_log->getCsEvent($arrUsbInfo[0]);
             $usb_log->setDtEvent($arrUsbInfo[1]);
-            $usb_log->setIdUsbVendor($arrUsbInfo[2]);
+            //$usb_log->setIdUsbVendor($arrUsbInfo[2]);
             $usb_log->setIdUsbDevice($arrUsbInfo[3]);
 
             $arrTeUsbFilter  = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal( $local->getIdLocal() , 'te_usb_filter' );
