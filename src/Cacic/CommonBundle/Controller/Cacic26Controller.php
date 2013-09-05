@@ -77,7 +77,7 @@ class Cacic26Controller extends Controller
                 "aquisicao",
                 "tipo_licenca",
                 "software",
-                "aquisicao_ite\m",
+                "aquisicao_item",
                 "computador",
                 "descricao_coluna_computador",
                 "grupo_usuario",
@@ -100,10 +100,10 @@ class Cacic26Controller extends Controller
                 "teste",
                 "tipo_software",
                 "tipo_uorg",
-               // "uorg",
+                // "uorg",
                 "usb_vendor",
                 "usb_device",
-               // "usb_log" So vai funcionar quando o Ecio corrigir lá na DAO
+                // "usb_log"
             );
 
             echo "Limpando dados anteriores... ";
