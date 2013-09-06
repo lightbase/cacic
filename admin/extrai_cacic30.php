@@ -3,7 +3,7 @@
 $server = "localhost";
 $db = "cacic";
 $user = "root";
-$pass = "w1f1t1d1";
+$pass = "";
 $dbcon = new PDO("mysql:host={$server};dbname={$db}", $user, $pass);
 
 // Nome do diretório temporário
