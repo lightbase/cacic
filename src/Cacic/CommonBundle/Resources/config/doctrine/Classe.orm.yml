@@ -13,13 +13,11 @@ Cacic\CommonBundle\Entity\Classe:
                 strategy: IDENTITY
         nmClassName:
             type: string
-            length: 50
             fixed: false
             nullable: false
             column: nm_class_name
         teClassDescription:
-            type: string
-            length: 255
+            type: text
             fixed: false
             nullable: false
             column: te_class_description

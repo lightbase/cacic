@@ -40,7 +40,7 @@ The following syntax is simplified from Managed Object Format (MOF) code and inc
 
         // Classe operating System
         $classe = new Classe();
-        $classe->setNmClassName('Win32_OperatingSystem');
+        $classe->setNmClassName('OperatingSystem');
         $classe->setTeClassDescription('The Win32_OperatingSystem WMI class represents a Windows-based operating system installed on a computer. Any operating system that can be installed on a computer that can run a Windows-based operating system is a descendent or member of this class. Win32_OperatingSystem is a singleton class. To get the single instance, use "@" for the key.
 Windows Server 2003 and Windows XP:  If a computer has multiple operating systems installed, this class only returns an instance for the currently active operating system.
 The following syntax is simplified from Managed Object Format (MOF) code and includes all of the inherited properties. Properties and methods are in alphabetic order, not MOF order.');
@@ -53,7 +53,7 @@ The following syntax is simplified from Managed Object Format (MOF) code and inc
 
         // Classe de rede
         $classe = new Classe();
-        $classe->setNmClassName('Win32_NetworkAdapterConfiguration');
+        $classe->setNmClassName('NetworkAdapterConfiguration');
         $classe->setTeClassDescription('The Win32_NetworkAdapterConfiguration WMI class represents the attributes and behaviors of a network adapter. This class includes extra properties and methods that support the management of the TCP/IP and Internetwork Packet Exchange (IPX) protocols that are independent from the network adapter.
 The following syntax is simplified from Managed Object Format (MOF) code and includes all of the inherited properties. Properties are listed in alphabetic order, not MOF order.');
 
@@ -65,12 +65,11 @@ The following syntax is simplified from Managed Object Format (MOF) code and inc
 
         // Classe de rede
         $classe = new Classe();
-        $classe->setNmClassName('Win32_NetworkAdapterConfiguration');
-        $classe->setTeClassDescription('The Win32_NetworkAdapterConfiguration WMI class represents the attributes and behaviors of a network adapter. This class includes extra properties and methods that support the management of the TCP/IP and Internetwork Packet Exchange (IPX) protocols that are independent from the network adapter.
-The following syntax is simplified from Managed Object Format (MOF) code and includes all of the inherited properties. Properties are listed in alphabetic order, not MOF order.');
+        $classe->setNmClassName('SoftwareFeature');
+        $classe->setTeClassDescription('The Win32_SoftwareFeature WMI class represents a distinct subset of a product that consists of one or more software elements. Each software element is defined in a Win32_SoftwareElement instance, and the association between a feature and its Win32_SoftwareFeature instance is defined in the Win32_SoftwareFeatureSoftwareElements association class.');
 
         // Adiciona referência à classe OperatingSystem que será usada depois
-        $this->addReference('Network', $classe);
+        $this->addReference('Software', $classe);
 
         $manager->persist($classe);
         $manager->flush();

@@ -211,11 +211,257 @@ Example IPv6 address: "2010:836B:4179::836B:4179"');
          * Classe Win32_OperatingSystem
          *************************/
 
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Short description of the object—a one-line string. The string includes the operating system version. For example, "Microsoft Windows XP Professional Version = 5.1.2500". This property can be localized.');
 
+        // Referência à classe
+        $property->setIdClass($this->getReference('OperatingSystem'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('CSDVersion');
+        $property->setTePropertyDescription('NULL-terminated string that indicates the latest service pack installed on a computer. If no service pack is installed, the string is NULL.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('OperatingSystem'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('InstallDate');
+        $property->setTePropertyDescription('Date object was installed. This property does not require a value to indicate that the object is installed.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('OperatingSystem'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('LastBootUpTime');
+        $property->setTePropertyDescription('Date and time the operating system was last restarted.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('OperatingSystem'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('NumberOfLicensedUsers');
+        $property->setTePropertyDescription('Number of user licenses for the operating system. If unlimited, enter 0 (zero). If unknown, enter -1.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('OperatingSystem'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('OSArchitecture');
+        $property->setTePropertyDescription('Architecture of the operating system, as opposed to the processor. This property can be localized.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('OperatingSystem'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('OSLanguage');
+        $property->setTePropertyDescription('Language version of the operating system installed.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('OperatingSystem'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('ProductType');
+        $property->setTePropertyDescription('Additional system information.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('OperatingSystem'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('SerialNumber');
+        $property->setTePropertyDescription('Operating system product serial identification number.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('OperatingSystem'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Version');
+        $property->setTePropertyDescription('Version number of the operating system.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('OperatingSystem'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Commit
+        $manager->flush();
 
         /*************************
          * Win32_SoftwareFeature
          *************************/
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Accesses');
+        $property->setTePropertyDescription('Number of times the software feature has been used.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Attributes');
+        $property->setTePropertyDescription('Remote execution option.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Short textual description of the object - a one-line string.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Description');
+        $property->setTePropertyDescription('Textual description of the object.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('IdentifyingNumber');
+        $property->setTePropertyDescription('Product identification, such as a serial number on software or a die number on a hardware chip.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('InstallDate');
+        $property->setTePropertyDescription('Object was installed. This property does not need a value to indicate that the object is installed.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('InstallState');
+        $property->setTePropertyDescription('Installed state of the software feature.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('LastUse');
+        $property->setTePropertyDescription('Software feature was last used.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Name');
+        $property->setTePropertyDescription('Label by which the object is known to the world outside the data processing system. This label is a human-readable name that uniquely identifies the element in the context of the element namespace.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('ProductName');
+        $property->setTePropertyDescription('Commonly used product name.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Vendor');
+        $property->setTePropertyDescription('Name of the product supplier. Corresponds to the Vendor property in the product object in the Distributed Management Task Force (DMTF) Solution Exchange Standard.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Version');
+        $property->setTePropertyDescription('Product version information. Corresponds to the Version property in the product object in the DMTF Solution Exchange Standard.');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Software'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Commit
+        $manager->flush();
 
         
     }

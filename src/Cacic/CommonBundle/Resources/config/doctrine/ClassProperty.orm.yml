@@ -11,14 +11,12 @@ Cacic\CommonBundle\Entity\ClassProperty:
             generator:
                 strategy: IDENTITY
         nmPropertyName:
-            type: string
-            length: 100
+            type: text
             fixed: false
             nullable: false
             column: nm_property_name
         tePropertyDescription:
-            type: string
-            length: 100
+            type: text
             fixed: false
             nullable: false
             column: te_property_description
