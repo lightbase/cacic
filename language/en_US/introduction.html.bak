@@ -1,0 +1,33 @@
+	 <p>
+	   CACIC is a computer inventory system. It is a group of software able to allow both hardware and software inventory. Initialy developed by Dataprev-ES, but nowdays it has lot of community contributions.
+	 </p>
+	 <p>
+	   This web installer main goal is provide you an easy way for both install and setup CACIC base. See details bellow.
+	 </p>
+     <h3><span class="OkImg">CACIC-2.4.0-Curumin (key news):</span></h3>
+     <ul>
+        <li>Language support for CACIC-server.</li>
+        <li>Better support for multi-department.</li>
+        <li>A python client introduced for Linux environment.</li>
+        <li>Windows Vista&reg; support introduced.</li>
+     </ul>
+	 <h3><span class="OkImg">Installation steps:</span></h3>
+	 <ol>
+	    <li>Introduction - This page!</li>
+	    <li>License - CACIC License, read and accept is needed.</li>
+	    <li>Prerequisite - Verify some CACIC-Manager (server) requisites.</li>
+	    <li>Setup - Database sever and basic data configuration.</li>
+	    <li>FTP Service - Verify FTP service connection.</li>
+	    <li>CACIC-Manager administrator - Add both administrator user and main office (headquarter).</li>
+	    <li>Finish installation - Check the installation process and build setup file.</li>
+	 </ol>
+	 <h3><span class="OkImg">Installer features:</span></h3>
+
+	 <ul>
+	    <li>Verify minimal both softwares and libraries to use CACIC-Manager.</li>
+	    <li>Buil CACIC-Manager database.</li>
+	    <li>Build database tables.</li>
+	    <li>Setup check and build base data for CACIC.</li>
+	    <li>Add database data for CACIC demo (optional).</li>
+	 </ul>
+

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=pyCACIC
+Comment=Configurador Automático e Coletor de Informações Computacionais
+Exec=python /usr/share/pycacic/gui_pycacic.py
+Icon=/usr/share/pycacic/img/logo.png
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Utility;System; 

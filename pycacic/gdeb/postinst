@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+#echo "Chamou postinst -> $1" 
+if [ "$1" = "configure" ]; then
+	(nohup python /usr/share/pycacic/cacic.py > /dev/null 2>&1)&
+	(nohup python /usr/share/pycacic/gui_pycacic.py > /dev/null 2>&1)&
+fi
+

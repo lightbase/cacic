@@ -1,0 +1,8 @@
+#!/bin/sh
+# Cacic Process Monitor
+
+Cacic=''
+Cacic=`ps x | grep cacic.py | grep -v grep 2> /dev/null`
+if [ "$Cacic" = "" ]; then
+	(python /usr/share/pycacic/cacic.py 1> /dev/null 2>&1)&
+fi

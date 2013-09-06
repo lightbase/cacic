@@ -1,0 +1,15 @@
+a {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	color: #333333;
+}
+a:link {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	color: #333333;
+}
+a:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	color: #FF9900;
+}

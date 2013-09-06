@@ -1,0 +1,108 @@
+###############################################################################
+#           ______  ___    ___   ___  _____      ____   __   ____             #
+#           |  _  \ \  \  /  / /  __| |    \    / ___| |  | /  __|            #
+#           | |_/  | \  \/  / / /     | |\ \   | /     |  | |  /              #
+#           |  ___/   \   /  | |  _  |   _  \  | |   _ |  | | |  _            #
+#           |  |      /  /   | \_/ | |  | \  \ |  \_/ ||  | | \_/ |           #
+#           |__|     /__/    \____/ |__|   \__\ \____/ |__|  \____/           #
+#                                                                             #
+#                                                    versao 2.6.0.2           #
+#                                                                             #
+###############################################################################
+
+
+1. SOBRE
+ 
+CACIC: Primeiro Software Publico do Governo Federal, resultado do Consorcio de Cooperacao entre a SLTI - Secretaria de Logistica, Tecnologia da Informacao, Ministerio do Planejamento, Orcamento e Gestao - MPOG e a DATAPREV - Empresa de Tecnologia e Informacoes da Previdencia Social, desenvolvido pelo Escritorio Regional da DATAPREV no Espirito Santo.
+
+O CACIC eh capaz de fornecer um diagnostico preciso do parque computacional e disponibilizar informacoes como o numero de equipamentos e sua distribuicao nos mais 
+diversos orgaos, os tipos de softwares utilizados e licenciados, configuracoes de hardware, entre outras. Tambem pode fornecer informacoes patrimoniais e a localizacao 
+fisica dos equipamentos, ampliando o controle do parque computacional e a seguranca na rede.
+ 
+fonte: http://www.softwarepublico.gov.br/ver-comunidade?community_id=3585
+ 
+ 
+ 
+2. GERANDO OS PACOTES
+ 
+Estando no mesmo nivel da pasta "pycacic", extraida a partir do arquivo pyCACIC_Packages_Generator_[Versao].tgz, execute o comando "sh pycacic/mkpackage.sh" (como super usuario), e depois preencha os dados solicitados (eh necessario ter instalado na maquina o Python 2.3 ou superior - http://www.python.org/download/).
+    
+	* Endereco do  Servidor : endereco do host onde esta o gerente web, precedido pelo protocolo (http:// ou https://) e contendo a pasta da aplicacao.
+                              *ex*: http://meu_servidor/pastaCACIC
+                                    http://192.168.0.254/pastaCACIC
+    ATENCAO!: O endereco IP NAO pode ser da interface loopback(127.0.0.1 ou localhost), nesse caso utilize o IP de LAN da maquina servidora.
+    
+        
+    Apos confirmar os dados acima, a confirmacao requisitada eh sobre a invocacao automatica, ou nao, do coletor de patrimonio (MapaCACIC).
+    Habilitando entao o menu para a escolha dos pacotes no qual deseja gera-los.
+    
+       1 - Pacote DEBIAN (.deb)
+             Usado para distribuicoes Debian e/ou outras baseadas nela.
+             ATENCAO = = = = = > > > > > E necessario possuir instalado o "dpkg".
+             
+       2 - Pacote RPM (.rpm)
+             Usado para distribuicoes com tal suporte, como por exemplo:
+             Red Hat, CentOS, Fedora, etc.
+             ATENCAO = = = = = > > > > > E necessario possuir instalado o "rpmbuild" (geralmente pacote rpm).
+             
+       3 - Pacote Generico para Outras Distribuicoes (.tar.gz)
+             Usado para distribuicao que nao possuem suporte aos tipos de pacotes acima (deb, rpm). Instalacao generica funcional
+             em todas as distribuicoes.
+             
+       4 - Pacote de Atualizacao (update.tgz)
+             Eh o pacote que deve ser disponibilizado para update pelo gerente web para os agentes (pycacic).
+       	   
+       5 - Fechar o programa gerador de pacotes
+	   
+	
+    Apos a geracao dos pacotes:
+       
+       => Copiar os pacotes de instalacao (extensoes .rpm, .deb e .tar.gz) para a pasta .../repositorio/install;      
+
+	   => Copiar o pacote de atualizacao (extensao update.tgz) para a pasta .../repositorio/agentes_linux;
+	   
+	   => Executar via MS-Windows(compartilhamento SAMBA) o utilitario .../repositorio/vaca_repositorio.exe para atualizacao do arquivo .../repositorio/versoes_agentes.ini;
+	   
+       => Atraves das opcoes "Manutencao / Atualizacao de SubRedes" do Gerente WEB, na seção Agentes para GNU/Linux, assinalar o arquivo pyCACIC (recomendado marcar tambem a caixa "Forcar") e assinalar a(s) subrede(s) para a atualizacao; 
+       
+	   => Verificar na opção "Repositorio" da pagina principal do Gerente WEB se os pacotes pyCACIC estao sendo listados.
+
+       
+    
+    
+3. INSTALACAO
+   
+       1 - Pacote DEB (.deb)
+             Pode ser instalado tanto pela interface grafica quanto por linha de comando (terminal):
+                 + Interface Grafica
+                        Basta dar dois cliques no icone do pacote e seguir as orientacoes do seu gerenciador de pacotes.
+                 
+                 + Linha de Comando
+                        Estando no mesmo diretorio do pacote executar o seguinte comando (como root ou sudo): "dpkg -i <nome_do_pacote.deb>"
+             
+       2 - Pacote RPM (.rpm)
+             Pode ser instalado tanto pela interface grafica quanto por linha de comando (terminal).:
+                 + Interface Grafica
+                        Basta dar dois cliques no icone do pacote e seguir as orientacoes do seu gerenciador de pacotes.
+                 
+                 + Linha de Comando
+                        Estando no mesmo diretorio do pacote executar o seguinte comando (como root ou sudo): "rpm -ivh <nome_do_pacote.rpm>".
+                          
+       3 - Pacote Generico (.tar.gz)
+             Com o pacote gerado, basta extrai-lo em qualquer diretorio e executar (como root ou sudo) o arquivo pycacic.install (./pycacic.install). 
+    
+4. EQUIPE
+  
+A equipe de desenvolvimento do pyCACIC eh composta por empregados e estagiarios da DATAPREV (Empresa de Tecnologia e Informacoes da Previdencia Social - Unidade Regional do Espirito Santo). Sendo os integrantes:
+ 
+ 	ANDERSON PETERLE
+ 	ANDERSON PEREIRA
+	JORGE MELLO
+	LEONARDO POPIK
+	ROGERIO LINO
+	SYLVIO ROBERTO
+	ULYSSES RIBEIRO 
+ 
+Contando tambem com a participacao e contribuicao da Comunidade do CACIC no Portal do Software Publico Brasileiro:
+ 
+http://www.softwarepublico.gov.br/ver-comunidade?community_id=3585
