@@ -42,6 +42,10 @@ class LoadAcaoData extends AbstractFixture implements FixtureInterface, OrderedF
         	$acao->setTeNomeCurtoModulo($a['te_nome_curto_modulo']);
         	//$acao->setDtHrAlteracao( new \DateTime( $a['dt_hr_alteracao'] ) );
         	$acao->setCsOpcional($a['cs_opcional']);
+
+		// Eduardo: 06/09/2013
+		// Adiciona referência ao tipo de ação para ser utilizada no mapeamento de ações e classes WMI
+		$this->addReference($a['id_acao'], $acao);
         	
         	$manager->persist($acao);
         }

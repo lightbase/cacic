@@ -42,8 +42,8 @@ class ColetaController extends Controller
         OldCacicHelper::autenticaAgente( $request ) ;
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
-        $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
-        $strOperatingSystem  			 = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem') );
+        $strComputerSystem  = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
+        $strOperatingSystem  = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem') );
         $data = new \DateTime('NOW');
 
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
@@ -59,7 +59,7 @@ class ColetaController extends Controller
         $strCollectType  = OldCacicHelper::deCrypt($request, $request->get('CollectType'));
 
         // Defino os dois arrays que conterão as configurações para Coletas, Classes e Propriedades
-        $arrClassesNames 		= array();
+        $arrClassesNames = array();
         $arrCollectsDefClasses 	= array();
 
         $detalhesClasses = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaDetalhesClasseAcoes($strCollectType);
@@ -72,8 +72,8 @@ class ColetaController extends Controller
             $arrCollectsDefClasses[$strCollectType . '.' . $detalhesClasse['nmClassName'] . '.' . $detalhesClasse['nmPropertyName'] . '.nm_function_pre_db'] = $detalhesClasse['nmFunctionPreDb'];
         }
 
-        //if ($arrCollectsDefClasses[$strCollectType])
-        //{
+        if ($arrCollectsDefClasses[$strCollectType])
+        {
             // Obtenho configuração para notificação de alterações
             //$resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal($rede->getIdLocal(), 'te_notificar_mudancas_properties');
             //$resConfigsLocaisEmail = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoEmailLocal($rede->getIdLocal());
@@ -172,7 +172,7 @@ class ColetaController extends Controller
 // Manda mail para os administradores.
   //TODO              mail($resConfigsLocais['te_notificar_mudancas_emails'], "[Sistema CACIC] Alteração Detectada - " . $arrCollectsDefClasses[$strCollectType], "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
             }
-        //}
+        }
         $teste_object = $this->gravaTESTES($grava_teste."\nFinal");
         $em = $this->getDoctrine()->getManager();
         $em->persist($teste_object);
