@@ -49,10 +49,10 @@
             <span class="i-bar"></span>
           </a>
           
-          <p class="navbar-text pull-left">CACIC v.{{ cacic_version }}</p>
+          <p class="navbar-text pull-left"><a href="{{ path('cacic_common_homepage') }}">CACIC v.{{ cacic_version }}</a></p>
           
           <div class="nav-collapse">
-          	<p class="navbar-text pull-right"> {{ "Logado como"|trans }} <a href="javascript:void(0)">{{ app.user.nmUsuarioAcesso }}</a></p>
+          	<p class="navbar-text pull-right"> {{ "Logado como"|trans }} <a href="{{ path('cacic_usuario_meus_dados') }}">{{ app.user.nmUsuarioAcesso }}</a></p>
             <ul class="nav pull-right">
               <li class="dropdown">
                     <a href="#"
@@ -63,7 +63,6 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="#">CACIC</a></li>
-                        <li><a href="#">{{ "COCA"|trans }}</a></li>
                         <li class="divider"></li>
                         <li><a href="#">{{ "Alertas antigos..."|trans }}</a></li>
                     </ul>
@@ -82,25 +81,10 @@
 						<li><a href="{{ path('cacic_modulo_index') }}">{{ "Configurar Módulos"|trans }}</a></li>
 					</ul>
 				</li>
-				
-				<li class="dropdown">
-					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-download-alt"></i>
-						{{ 'Migração'|trans }}
-						<b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu">
-                        <li><a href="{{ path('cacic_migracao_cacic26') }}"><i class="icon-eject"></i> {{ "Importar 2.6"|trans }}</a></li>
-						<li><a href="{{ path('cacic_migracao_local') }}"><i class="icon-globe"></i> {{ "Importar Locais"|trans }}</a></li>
-						<li><a href="{{ path('cacic_migracao_subrede') }}"><i class="icon-sitemap"></i> {{ "Importar Redes/Subredes"|trans }}</a></li>
-						<li><a href="{{ path('cacic_migracao_so') }}"><i class="icon-windows"></i> {{ "Importar Sistemas Operacionais"|trans }}</a></li>
-						<li><a href="{{ path('cacic_migracao_computador') }}"><i class="icon-desktop"></i> {{ "Importar Computadores"|trans }}</a></li>
-					</ul>
-				</li>
 		
 				<li class="dropdown">
 					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-user"></i> 
+							<i class="icon-user"></i> 
 						{{ 'Meus Dados'|trans }}
 						<b class="caret"></b>
 					</a>
@@ -122,7 +106,9 @@
       <div class="row-fluid">
       <!-- side nav -->
           <div id="side_nav" class="span2 sidebar-nav side_nav">
-              <span id="logo" class="logo">&nbsp;</span>
+              <a href="{{ path('cacic_common_homepage') }}">
+              	<span id="logo" class="logo">&nbsp;</span>
+              </a>
                   <ul class="clearfix">
                       <li><a class="round_top" href="{{ path('cacic_common_homepage') }}">
                           <i class="icon-home"></i>
@@ -202,6 +188,7 @@
 						</a>
 						<ul>
                             <li><a href="javascript:void(0)">{{ "Atualização de Subrede"|trans }}</a></li>
+                        	<li><a href="{{ path('cacic_migracao_cacic26') }}">{{ "Importar de 2.6"|trans }}</a></li>
                         </ul>
 					</li>
 					
