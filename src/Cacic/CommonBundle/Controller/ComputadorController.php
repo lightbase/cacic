@@ -14,28 +14,34 @@ use Cacic\CommonBundle\Entity\Computador;
  */
 class ComputadorController extends Controller
 {
-	
 
-	public function filtrarAction()
-	{
-		
-	}
-	
-	/**
-	 * 
-	 * Tela que exibe os computadores dentro da estrutura hierárquica da organização
-	 */
-	public function navegarAction()
-	{
-		return $this->render(
-        	'CacicCommonBundle:Computador:navegar.html.twig',
-        	array( 'locais' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorLocal() )
+    public function filtrarAction()
+    {
+        return $this->render(
+            'CacicCommonBundle:Computador:filtrar.html.twig',
+            array( 'locais' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorLocal() )
         );
-	}
-	
-	public function consultarAction()
-	{
-	}
+    }
+
+    /**
+     *
+     * Tela que exibe os computadores dentro da estrutura hierárquica da organização
+     */
+    public function navegarAction()
+    {
+        return $this->render(
+            'CacicCommonBundle:Computador:navegar.html.twig',
+            array( 'locais' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorLocal() )
+        );
+    }
+
+    public function consultarAction()
+    {
+        return $this->render(
+            'CacicCommonBundle:Computador:consultar.html.twig',
+            array( 'locais' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorLocal() )
+        );
+    }
 	
 	public function excluirAction()
 	{
