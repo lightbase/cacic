@@ -15,12 +15,12 @@ class AquisicaoRepository extends EntityRepository
 
     public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
-        $_dql = "SELECT a
+        $_dql = "SELECT a.idAquisicao
 				FROM CacicCommonBundle:Aquisicao a
 				GROUP BY a.idAquisicao";
 
         return $paginator->paginate(
-            $this->getEntityManager()->createQuery( $_dql ),
+            $this->getEntityManager()->createQuery( $_dql )->getArrayResult(),
             $page,
             10
         );

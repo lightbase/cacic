@@ -42,7 +42,8 @@
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "ijanki/ftp-bundle": "*",
         "jms/translation-bundle": "1.1.*@dev",
-        "jquery/jquery": "1.9.*"
+        "jquery/jquery": "1.9.*",
+        "mjohnson/decoda": "6.*"
     },
     "scripts": {
         "post-install-cmd": [

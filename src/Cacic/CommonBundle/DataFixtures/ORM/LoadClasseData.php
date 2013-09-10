@@ -65,8 +65,8 @@ The following syntax is simplified from Managed Object Format (MOF) code and inc
 
         // Classe de rede
         $classe = new Classe();
-        $classe->setNmClassName('SoftwareFeature');
-        $classe->setTeClassDescription('The Win32_SoftwareFeature WMI class represents a distinct subset of a product that consists of one or more software elements. Each software element is defined in a Win32_SoftwareElement instance, and the association between a feature and its Win32_SoftwareFeature instance is defined in the Win32_SoftwareFeatureSoftwareElements association class.');
+        $classe->setNmClassName('SoftwareList');
+        $classe->setTeClassDescription('Lista de softwares oriunda do registro do Windows');
 
         // Adiciona referência à classe OperatingSystem que será usada depois
         $this->addReference('Software', $classe);

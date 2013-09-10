@@ -2,6 +2,7 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -110,17 +111,20 @@ class LocalController extends Controller
 	 */
 	public function excluirAction( Request $request )
 	{
-		if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
-			throw $this->createNotFoundException( 'Página não encontrada' );
-		
-		$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->find( $request->get('id') );
+        Debug::dump($request);die;
+        $configuracao = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->find( 1 );
+        $em = $this->getDoctrine()->getManager();
+        $em->remove( $configuracao );
+        $em->flush();
+        $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->find( $request->get('id') );
+
 		if ( ! $local )
 			throw $this->createNotFoundException( 'Local não encontrado' );
-		
+
 		$em = $this->getDoctrine()->getManager();
 		$em->remove( $local );
 		$em->flush();
-		
+
 		$response = new Response( json_encode( array('status' => 'ok') ) );
 		$response->headers->set('Content-Type', 'application/json');
 		

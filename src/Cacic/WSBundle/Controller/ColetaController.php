@@ -13,6 +13,8 @@ use Cacic\CommonBundle\Entity\UsbVendor;
 use Cacic\CommonBundle\Helper\Constantes;
 use Cacic\CommonBundle\Helper\TagValue;
 use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
+use Cacic\CommonBundle\Entity\ClassProperty;
+use Cacic\CommonBundle\Entity\PropriedadeSoftware;
 use Cacic\WSBundle\Helper\OldCacicHelper;
 use Cacic\WSBundle\Helper\TagValueHelper;
 use Doctrine\Common\Util\Debug;
@@ -24,6 +26,7 @@ use Symfony\Component\Validator\Constraints\Date;
 use Cacic\CommonBundle\Helper\Criptografia;
 use Cacic\CommonBundle\Entity\AcaoSo;
 use Cacic\CommonBundle\Entity\Teste;
+use Decoda;
 
 /**
  *
@@ -64,13 +67,51 @@ class ColetaController extends Controller
 
         $detalhesClasses = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaDetalhesClasseAcoes($strCollectType);
 
-        foreach ($detalhesClasses as $detalhesClasse)
+        // Variável para corrigir o erro do Doctrine
+        $className = '';
+
+        foreach ($detalhesClasses as $detalhe)
         {
-            $arrClassesNames[$detalhesClasse['nmClassName']] = $detalhesClasse['teClassDescription'];
-            $arrCollectsDefClasses[$strCollectType]= ($detalhesClasse[$strCollectType] == '' ? $detalhesClasse['te_descricao_breve'] : $arrCollectsDefClasses[$strCollectType]);
-            $arrCollectsDefClasses[$strCollectType . '.' . $detalhesClasse['nmClassName'] . '.' . $detalhesClasse['nmPropertyName']] = $detalhesClasse['idProperty'];
-            $arrCollectsDefClasses[$strCollectType . '.' . $detalhesClasse['nmClassName'] . '.' . $detalhesClasse['nmPropertyName'] . '.nm_function_pre_db'] = $detalhesClasse['nmFunctionPreDb'];
+            // Adiciona classe no Array de classes que estão no banco
+            if ($detalhe['nmClassName']) {
+                array_push($arrClassesNames, $detalhe['nmClassName']);
+            }
+
+            //$arrCollectsDefClasses[$strCollectType] = $detalhesClasse[$strCollectType] == '' ? $detalhesClasse['nmClassName'] : $arrCollectsDefClasses[$strCollectType];
+            $teste1 = $detalhe['nmPropertyName'];
+            $teste2 = $detalhe['idClassProperty'];
+            $teste3 = $detalhe['nmClassName'];
+
+            // Tem que corrigir o erro do Doctrine que não traz o nome da classe para todos os resultados
+            if (!empty($detalhe['nmClassName'])) {
+                // Vou inserir na variável o valor da classe quando ela não for vazia
+                $className = $detalhe['nmClassName'];
+            }
+
+            //error_log("444444444444444444444444444444444444444444444444444444 $teste3 | $teste1 | $teste2 | $className");
+
+            // Primeiro cria array com as informações das propriedades
+            $property = array(
+                'idClassProperty' => $detalhe['idClassProperty'],
+                'nmFunctionPreDb' => $detalhe['nmFunctionPreDb']
+            );
+
+            // Adiciona as classes no Array geral
+            if ($arrCollectsDefClasses[$strCollectType][$className]) {
+                // Aqui o array já existe. Só substituo pelo novo valor
+                $arrCollectsDefClasses[$strCollectType][$className][$detalhe['nmPropertyName']] = $property;
+            } else if ($className) {
+                // Aqui adiciona a classe no array
+                $arrCollectsDefClasses[$strCollectType][$className] = array();
+
+                // Adiciona as propriedades no array de classes
+                $arrCollectsDefClasses[$strCollectType][$className][$detalhe['nmPropertyName']] = $property;
+            }
+
         }
+
+        //$teste = print_r($arrCollectsDefClasses, true);
+        //error_log("4444444444444444444444444444444444444444444 $teste");
 
         if ($arrCollectsDefClasses[$strCollectType])
         {
@@ -87,59 +128,119 @@ class ColetaController extends Controller
             $strDeletedItems_Text 	= '';
             $strUpdatedItems_Text 	= '';
 
+            //error_log("00000000000000000000000000000000000000000000000000000000: $strCollectType");
+
             foreach( $request->request->all() as $strClassName => $strClassValues)
             {
-                $teste = OldCacicHelper::deCrypt($request, $strClassValues);
-                error_log("33333333333333333333333333333333333333333333333: $strClassName | \n $teste");
-                if ($arrClassesNames[$strClassName])
-                {
-                    $arrOldClassValues = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findBy( array ('nmClassName'=> $strClassName, 'idComputador' => $computador) );
+                //$teste = OldCacicHelper::deCrypt($request, $strClassValues);
+                //error_log("444444444444444444444444444444444444444444444444444444444: $strClassName | \n $teste");
+                //error_log("444444444444444444444444444444444444444444444444444444: $strClassName");
+                // Aqui executo uma linha para cada atributo definido na coleta
+
+
+                // Verifico se o atributo sendo verificado é uma classe de coleta.
+                // Se for, insiro os dados da coleta no objeto
+                if (array_search($strClassName, $arrClassesNames)) {
+                    // Descriptografando os valores da requisição
                     $strNewClassValues = OldCacicHelper::deCrypt($request, $strClassValues);
-                    if (($arrOldClassValues['teClassValue'] == '') || ($arrOldClassValues['teClassValue'] <> $strNewClassValues))
-                    {
-                        $arrNewTagsNames = TagValueHelper::getTagsFromValues($strNewClassValues);
-                        $arrOldTagsNames = TagValueHelper::getTagsFromValues($arrOldClassValues['teClassValues']);
-                        $arrTagsNames   = (count($arrOldTagsNames) > count($arrNewTagsNames) ? $arrOldTagsNames : $arrNewTagsNames);
-                        foreach ($arrTagsNames as $arrTagsName)
-                        {
-                            $strOldPropertyValue = TagValueHelper::getValueFromTags($arrTagsName,$arrOldClassValues['teClassValues']);
-                            $strNewPropertyValue = TagValueHelper::getValueFromTags($arrTagsName,$strNewClassValues);
 
-                            if ($arrCollectsDefClasses[$strCollectType . '.' . $strClassName . '.' . $arrTagsName. '.nm_function_pre_db'])
-                            {
-                                $grava_teste .= 'Achei pre_db'."\n";
-                                $grava_teste .= '1: arrTagsName => ' . $arrTagsName."\n";
-                                $grava_teste .= '1: strNewClassValues: ' . $strNewClassValues."\n";
-                                $grava_teste .= '1: getValueFromTags('.$arrTagsName.','.$strNewClassValues.'): ' .TagValueHelper::getValueFromTags($arrTagsName,$strNewClassValues)."\n";
+                    //error_log("55555555555555555555555555555555555555555555: Entrei | $strClassName");
+
+                    // A propriedade da coleta de software é multi valorada. Preciso tratar diferente
+                    if ($strClassName == "SoftwareList") {
+                        //error_log("77777777777777777777777777777777777777777777777: Entrei | $strNewClassValues");
+                        //error_log("77777777777777777777777777777777777777777777777: Entrei");
+
+                        // Primeiro preciso pegar todas as tags qure forem software
+                        $arrSoftware = TagValueHelper::getSoftwareTags($strNewClassValues);
+
+                        // Agora insere cada registro de software individualmente
+                        foreach ($arrSoftware as $software) {
+                            // Armazeno todas as propriedades dessa classe enviadas pela requisição
+                            $arrTags = TagValueHelper::getTagsFromValues($software);
+
+                            //error_log("6666666666666666666666666666666666666666666666: Encontrei a classe no array $software");
+
+                            // Crio um array multidimensional com as tags e os valores
+                            foreach ($arrTags as $tagNames) {
+                                //error_log("55555555555555555555555555555555555555555555555: $tagNames");
+                                // Essa função garante que só serão retornados caracteres com UTF8 Válido
+                                $texto = TagValueHelper::UTF8Sanitize(TagValueHelper::getValueFromTags($tagNames, $software));
+                                $arrTagsNames[$tagNames] = $texto;
                             }
 
-                            if ($arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsName])
-                            {
-                                if 	   ($strNewPropertyValue == '')
-                                    $strDeletedItems_Text  .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsName] . chr(13);
-                                elseif ($strOldPropertyValue == '')
-                                    $strInsertedItems_Text .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsName] . chr(13);
-                                else
-                                    $strUpdatedItems_Text  .= $arrClassesPropertiesToNotificate[$strClassName . '.' . $arrTagsName] . chr(13);
+                            // Para software, cada identificador será uma propriedade
+                            $softwareName = $arrTagsNames['IDSoftware'];
+
+                            // Remove o IDSoftware do array
+                            unset($arrTagsNames['IDSoftware']);
+
+                            // Armazeno o IDSoftware como Propriedade
+                            $idClassProperty = $arrCollectsDefClasses[$strCollectType][$strClassName][$softwareName]['idClassProperty'];
+
+                            // Se o IDSoftware não existir, cria
+                            if (empty($idClassProperty)) {
+                                // Pega o Id da classe
+                                $idClass = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findOneBy( array('nmClassName'=>$strClassName) );
+
+                                $property = new ClassProperty();
+                                $property->setNmPropertyName($softwareName);
+                                $property->setTePropertyDescription($arrTagsNames['DisplayName']);
+
+                                // Referência à classe
+                                $property->setIdClass($idClass);
+
+                                // Grava a propriedade nova
+                                $this->getDoctrine()->getManager()->persist($property);
+                                $this->getDoctrine()->getManager()->flush();
+
+                                // Retorna o novo ID
+                                $idClassProperty = $property->getIdClassProperty();
                             }
+                            //error_log("888888888888888888888888888888888888888888888: $strClassName | $idClassProperty");
+
+                            // Chama função que grava a propriedade
+                            $this->gerColsSetProperty('IDSoftware', $software, $idClassProperty, $computador);
+
+                            // Agora gravo todas as propriedades para o software na tabela propriedade_software
+                            $classPropertyObject = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array( 'idClassProperty'=> $idClassProperty ) );
+                            $propriedadeSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:PropriedadeSoftware')->findOneBy( array('classProperty'=> $idClassProperty, 'computador' => $computador) );
+
+                            if (empty($propriedadeSoftware)) {
+                                $propriedadeSoftware = new PropriedadeSoftware();
+
+                                $propriedadeSoftware->setClassProperty($classPropertyObject);
+                                $propriedadeSoftware->setComputador($computador);
+                            }
+
+                            // Ajusta valores coletados
+                            $propriedadeSoftware->setDisplayName($arrTagsNames['DisplayName']);
+                            $propriedadeSoftware->setDisplayVersion($arrTagsNames['DisplayVersion']);
+                            $propriedadeSoftware->setURLInfoAbout($arrTagsNames['URLInfoAbout']);
+
+                            // Salva valor da coleta
+                            $this->getDoctrine()->getManager()->persist($propriedadeSoftware);
+                            $this->getDoctrine()->getManager()->flush();
+
                         }
-                        //inserção de dados na tabela computador_coleta
-                        $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idComputador'=>$computador, 'idClass'=>$arrOldClassValues['idClass'] ) );
-                        $computadorColeta = empty( $computadorColeta ) ? new ComputadorColeta() : $computadorColeta ;
-                        $computadorColeta->setIdComputador( $computador );
-                        $computadorColeta->setTeClassValues( OldCacicHelper::deCrypt( $request, $request->request->get($arrOldClassValues['nmClassName']), true  ) );
-                        $computadorColeta->setIdClass( $arrOldClassValues['idClass'] );
-                        $this->getEntityManager()->persist( $computadorColeta );
-                        $grava_teste .= "3: Persistindo na tabela computador_coleta, id_computador:".$computador->getIdComutador().", class_value: ". $arrOldClassValues['idClass']."\n";
-                        // Persistencia de Historico
-                        $computadorColetaHistorico = new ComputadorColetaHistorico();
-                        $computadorColetaHistorico->setIdClass( $arrOldClassValues['idClass'] );
-                        $computadorColetaHistorico->setIdComputadorColeta( $computadorColeta );
-                        $computadorColetaHistorico->setIdComputador( $computador );
-                        $computadorColetaHistorico->setTeClassValues( OldCacicHelper::deCrypt( $request, $request->request->get($arrOldClassValues['nmClassName']), true  ) );
-                        $computadorColetaHistorico->setDtHrInclusao( $data);
-                        $this->getEntityManager()->persist( $computadorColetaHistorico );
-                        $grava_teste .= "4: Persistindo na tabela computador_coleta_historico, id_computador:".$computador->getIdComutador().", class_value: ". $arrOldClassValues['idClass'].', id_coleta_computador: '.$computadorColeta->getIdComputadorColeta() .', dt_hr_inlcusao: '.$data."\n";
+
+                    } else {
+                        // Armazeno todas as propriedades dessa classe enviadas pela requisição
+                        $arrTagsNames = TagValueHelper::getTagsFromValues($strNewClassValues);
+
+                        //error_log("6666666666666666666666666666666666666666666666: Encontrei a classe no array $strNewClassValues");
+
+                        // Agora gravo todas as propriedades dessa classe na tabela de computadores
+                        foreach ($arrTagsNames as $classPropertyName) {
+                            //error_log("9999999999999999999999999999999999999999999999999999: $classPropertyName");
+
+                            // Pego o Id da classe cadastrada no Banco de Dados para gravar
+                            $idClassProperty = $arrCollectsDefClasses[$strCollectType][$strClassName][$classPropertyName]['idClassProperty'];
+                            //error_log("888888888888888888888888888888888888888888888: $strClassName | $idClassProperty | $classPropertyName");
+
+                            // Chama função que grava a propriedade se não for nulo
+                            $this->gerColsSetProperty($classPropertyName, $strNewClassValues, $idClassProperty, $computador);
+                        }
                     }
                 }
             }
@@ -176,6 +277,8 @@ class ColetaController extends Controller
         $teste_object = $this->gravaTESTES($grava_teste."\nFinal");
         $em = $this->getDoctrine()->getManager();
         $em->persist($teste_object);
+
+        // Aqui grava tudo
         $em->flush();
         //$this->getDoctrine()->getManager()->flush(); //persistencia dos dados no BD
 
@@ -207,6 +310,91 @@ class ColetaController extends Controller
         }
         fclose($fp);
 
+    }
+
+    /*
+     * Classe que grava a propriedade ou armazena o histórico
+     */
+
+    public function gerColsSetProperty($classPropertyName, $strNewClassValues, $idClassProperty, $computador)
+    {
+        // pego o valor da classe presente na requisição
+        $classProperty = TagValueHelper::getValueFromTags($classPropertyName, $strNewClassValues);
+
+        // Se não encontrar o valor, loga o erro e sai
+        if (empty($classProperty)) {
+            error_log("ERRO NA COLETA! Propriedade $classPropertyName não encontrada na requisição");
+            return;
+        }
+
+        //error_log("888888888888888888888888888888888888888888888: $strNewClassValues | $idClassProperty | $classPropertyName | $classProperty");
+
+        // Preparo o objeto da coleta para gravação
+        $computadorColeta = $this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'computador'=> $computador, 'classProperty'=>$$idClassProperty ) );
+        if (empty($computadorColeta)) {
+            // Se não existir nenhuma ocorrência para esse atributo, apenas adiciono
+            //error_log("3333333333333333333333333333333333333333333: Criando objeto");
+            $computadorColeta = new ComputadorColeta();
+
+            $computadorColeta->setComputador( $computador );
+
+            // Pega o objeto para gravar
+            $classPropertyObject = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array( 'idClassProperty'=> $idClassProperty ) );
+
+            if (!$classPropertyObject) {
+                error_log("FALHA! Propriedade não encontrada: $idClassProperty");
+            }
+
+            // Armazena no banco o objeto
+            $computadorColeta->setClassProperty($classPropertyObject);
+            $computadorColeta->setTeClassPropertyValue($classProperty);
+
+            // Mando salvar os dados do computador
+            $this->getDoctrine()->getManager()->persist( $computadorColeta );
+            $grava_teste .= "3: Persistindo na tabela computador_coleta, id_computador:".$computador->getIdComputador().", class_value: ". $strNewClassValues."\n";
+
+            // Persistencia de Historico
+            $computadorColetaHistorico = new ComputadorColetaHistorico();
+            $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
+            $computadorColetaHistorico->setComputador( $computador );
+            $computadorColetaHistorico->setClassProperty( $classPropertyObject );
+            $computadorColetaHistorico->setTeClassPropertyValue($classProperty);
+            $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
+            $this->getDoctrine()->getManager()->persist( $computadorColetaHistorico );
+            $grava_teste .= "4: Persistindo na tabela computador_coleta_historico, id_computador:".$computador->getIdComputador().", class_value: ". $strNewClassValues.', id_coleta_computador: '.$computadorColeta->getIdComputadorColeta() ."\n";
+
+            // Commit
+            $this->getDoctrine()->getManager()->flush();
+
+        } else {
+            //error_log("444444444444444444444444444444444444444444444444: Criando histórico");
+            // Caso exista, registro um histórico e atualiza o valor atual
+            $computadorColeta->setComputador( $computador );
+            // Pega o objeto para gravar
+            $classPropertyObject = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array( 'idClassProperty'=> $idClassProperty ) );
+
+            // Armazena no banco o objeto
+            $computadorColeta->setClassProperty($classPropertyObject);
+            $computadorColeta->setTeClassPropertyValue($classProperty);
+
+            // Mando salvar os dados do computador
+            $this->getDoctrine()->getManager()->persist( $computadorColeta );
+            $grava_teste .= "3: Persistindo na tabela computador_coleta, id_computador:".$computador->getIdComputador().", class_value: ". $strNewClassValues."\n";
+
+            // Persistencia de Historico
+            $computadorColetaHistorico = new ComputadorColetaHistorico();
+            $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
+            $computadorColetaHistorico->setComputador( $computador );
+            $computadorColetaHistorico->setClassProperty( $classPropertyObject );
+            $computadorColetaHistorico->setTeClassPropertyValue($classProperty);
+            $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
+
+            $this->getDoctrine()->getManager()->persist( $computadorColetaHistorico );
+            $grava_teste .= "4: Persistindo na tabela computador_coleta_historico, id_computador:".$computador->getIdComputador().", class_value: ". $strNewClassValues.', id_coleta_computador: '.$computadorColeta->getIdComputadorColeta();
+
+            // Commit
+            $this->getDoctrine()->getManager()->flush();
+        }
     }
 
     /**

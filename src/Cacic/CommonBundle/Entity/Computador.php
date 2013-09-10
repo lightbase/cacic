@@ -621,4 +621,42 @@ class Computador
     {
         return $this->hardwares;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $software_coletado;
+
+
+    /**
+     * Add software_coletado
+     *
+     * @param \Cacic\CommonBundle\Entity\PropriedadeSoftware $softwareColetado
+     * @return Computador
+     */
+    public function addSoftwareColetado(\Cacic\CommonBundle\Entity\PropriedadeSoftware $softwareColetado)
+    {
+        $this->software_coletado[] = $softwareColetado;
+    
+        return $this;
+    }
+
+    /**
+     * Remove software_coletado
+     *
+     * @param \Cacic\CommonBundle\Entity\PropriedadeSoftware $softwareColetado
+     */
+    public function removeSoftwareColetado(\Cacic\CommonBundle\Entity\PropriedadeSoftware $softwareColetado)
+    {
+        $this->software_coletado->removeElement($softwareColetado);
+    }
+
+    /**
+     * Get software_coletado
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSoftwareColetado()
+    {
+        return $this->software_coletado;
+    }
 }

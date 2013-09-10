@@ -15,13 +15,13 @@ class UsbDeviceRepository extends EntityRepository
 
     public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
-        $_dql = "SELECT u, v.nmUsbVendor, v.idUsbVendor
+        $_dql = "SELECT  u.idUsbDevice, u.nmUsbDevice, u.teObservacao, u.dtRegistro, v.nmUsbVendor, v.idUsbVendor
 				FROM CacicCommonBundle:UsbDevice u
 				JOIN u.idUsbVendor v
-				GROUP BY u.idUsbDevice";
+				GROUP BY u, v";
 
         return $paginator->paginate(
-            $this->getEntityManager()->createQuery( $_dql ),
+            $this->getEntityManager()->createQuery( $_dql )->getArrayResult(),
             $page,
             10
         );

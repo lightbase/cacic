@@ -28,7 +28,7 @@ class ClasseRepository extends EntityRepository
 
     public function listaDetalhesClasse( $idAcao )
     {
-        $_dql = "SELECT c.nmClassName,cp.nmPropertyName,cd.teWhereClause
+        $_dql = "SELECT c.nmClassName,cp.nmPropertyName,cd.teWhereClause, cp.idClassProperty
 				 FROM CacicCommonBundle:Classe c,
 				 CacicCommonBundle:ClassProperty cp,
 				 CacicCommonBundle:CollectDefClass cd

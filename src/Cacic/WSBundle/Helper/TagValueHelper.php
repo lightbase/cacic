@@ -33,6 +33,7 @@ class TagValueHelper
     {
         //Tratar as tags depois!
         preg_match_all("(\[" . $pStrTagLabel . "\](.+)\[\/" . $pStrTagLabel . "\])i",$pStrSource, $arrResult);
+
         return empty($arrResult[1][0]) ? null : $arrResult[1][0] ;
     }
 
@@ -40,6 +41,9 @@ class TagValueHelper
     public static function getTagsFromValues($pStrSource, $pStrTags = '[]')
     {
         preg_match_all("/\[\/(.*?)\]/",$pStrSource,$arrResult);
+        $teste = print_r($arrResult[1], true);
+        //error_log("01010101011010101010101010101010101011010101: $teste");
+        //error_log("20202020202020220202020202020220202020202020: $pStrSource");
         return empty($arrResult[1]) ? null : $arrResult[1] ;
     }
 
@@ -72,6 +76,29 @@ class TagValueHelper
 
         return $strSource;
     }
+
+    /*
+     * Faz o parse da tag software, retornando uma sequência de registros que possui a tag software
+     */
+
+    public static function getSoftwareTags($pStrSource, $pStrTags = '[]')
+    {
+        preg_match_all("/\[Software\](.*?)\[\/Software\]/",$pStrSource,$arrResult);
+        $teste = print_r($arrResult[1], true);
+        //error_log("2222222222222222222222222222222222222222222222222222222222: $teste");
+        //error_log("20202020202020220202020202020220202020202020: $pStrSource");
+        return empty($arrResult[1]) ? null : $arrResult[1] ;
+    }
+
+    /*
+     * Limpa caracteres que não são UTF-8
+     * Extraído de http://stackoverflow.com/questions/1401317/remove-non-utf8-characters-from-string
+     */
+
+    public static function UTF8Sanitize($text) {
+        return iconv('UTF-8', 'UTF-8//IGNORE', $text);
+    }
+
 
 
 }

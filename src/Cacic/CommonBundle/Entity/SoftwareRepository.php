@@ -186,7 +186,7 @@ class SoftwareRepository extends EntityRepository
     	$qb->select('sw', 'tpsw', 'se')
     				->leftJoin('sw.idTipoSoftware', 'tpsw')
         			->leftJoin('sw.estacoes', 'se')
-        			->groupBy('sw')
+        			->groupBy('sw', 'tpsw.idTipoSoftware', 'tpsw.teDescricaoTipoSoftware', 'se')
         			->having($qb->expr()->eq($qb->expr()->count('se'), 0))
         			->orderBy('sw.nmSoftware');
         			

@@ -19,11 +19,11 @@ class UorgRepository extends EntityRepository
 	 */
 	public function getPrimeiroNivel()
 	{
-		$_dql = "SELECT uorg, COUNT(filhas.idUorg) AS numFilhas
+		$_dql = "SELECT uorg.idUorg, uorg.nmUorg, COUNT(filhas.idUorg) AS numFilhas
 				FROM CacicCommonBundle:Uorg uorg
 				LEFT JOIN uorg.uorgFilhas filhas
 				WHERE uorg.uorgPai IS NULL
-				GROUP BY uorg.idUorg";
+				GROUP BY uorg.idUorg, uorg.nmUorg";
 
 		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}

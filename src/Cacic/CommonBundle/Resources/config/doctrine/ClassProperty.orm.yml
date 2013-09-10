@@ -18,7 +18,7 @@ Cacic\CommonBundle\Entity\ClassProperty:
         tePropertyDescription:
             type: text
             fixed: false
-            nullable: false
+            nullable: true
             column: te_property_description
         nmFunctionPreDb:
             type: string

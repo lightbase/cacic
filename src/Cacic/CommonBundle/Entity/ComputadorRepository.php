@@ -163,32 +163,6 @@ class ComputadorRepository extends EntityRepository
 
         }
 
-        //Inserção de Coletas por classe
-        foreach($request->request->all() as $key=>$posts)
-        {
-            foreach($classes as $classe)
-            {
-                if($key == $classe->getnmClassName() )
-                {
-                    //inserção de dados na tabela computador_coleta
-                    $computadorColeta = $this->getEntityManager()->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy( array( 'idComputador'=>$computador, 'idClass'=>$classe->getidClass() ) );
-                    $computadorColeta = empty( $computadorColeta ) ? new ComputadorColeta() : $computadorColeta ;
-                    $computadorColeta->setIdComputador( $computador );
-                    $computadorColeta->setTeClassValues( OldCacicHelper::deCrypt( $request, $request->request->get($classe->getnmClassName()), true  ) );
-                    $computadorColeta->setIdClass( $classe );
-                    $this->getEntityManager()->persist( $computadorColeta );
-                    // Persistencia de Historico
-                    $computadorColetaHistorico = new ComputadorColetaHistorico();
-                    $computadorColetaHistorico->setIdClass( $classe );
-                    $computadorColetaHistorico->setIdComputadorColeta( $computadorColeta );
-                    $computadorColetaHistorico->setIdComputador( $computador );
-                    $computadorColetaHistorico->setTeClassValues( OldCacicHelper::deCrypt( $request, $request->request->get($classe->getnmClassName()), true  ) );
-                    $computadorColetaHistorico->setDtHrInclusao( $data);
-                    $this->getEntityManager()->persist( $computadorColetaHistorico );
-                }
-            }
-        }
-
         $computador->setDtHrUltAcesso( $data );
         $computador->setTeVersaoCacic( $te_versao_cacic );
         $computador->setTeVersaoGercols( $te_versao_gercols );

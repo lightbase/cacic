@@ -325,13 +325,13 @@ Example IPv6 address: "2010:836B:4179::836B:4179"');
         $manager->flush();
 
         /*************************
-         * Win32_SoftwareFeature
+         * Software List
          *************************/
 
         // Atributo
         $property = new ClassProperty();
-        $property->setNmPropertyName('Accesses');
-        $property->setTePropertyDescription('Number of times the software feature has been used.');
+        $property->setNmPropertyName('IDSoftware');
+        $property->setTePropertyDescription('Identificador do software no registro.');
 
         // Referência à classe
         $property->setIdClass($this->getReference('Software'));
@@ -341,8 +341,8 @@ Example IPv6 address: "2010:836B:4179::836B:4179"');
 
         // Atributo
         $property = new ClassProperty();
-        $property->setNmPropertyName('Attributes');
-        $property->setTePropertyDescription('Remote execution option.');
+        $property->setNmPropertyName('DisplayName');
+        $property->setTePropertyDescription('Nome do software.');
 
         // Referência à classe
         $property->setIdClass($this->getReference('Software'));
@@ -352,8 +352,8 @@ Example IPv6 address: "2010:836B:4179::836B:4179"');
 
         // Atributo
         $property = new ClassProperty();
-        $property->setNmPropertyName('Caption');
-        $property->setTePropertyDescription('Short textual description of the object - a one-line string.');
+        $property->setNmPropertyName('DisplayVersion');
+        $property->setTePropertyDescription('Versão identificada.');
 
         // Referência à classe
         $property->setIdClass($this->getReference('Software'));
@@ -363,8 +363,8 @@ Example IPv6 address: "2010:836B:4179::836B:4179"');
 
         // Atributo
         $property = new ClassProperty();
-        $property->setNmPropertyName('Description');
-        $property->setTePropertyDescription('Textual description of the object.');
+        $property->setNmPropertyName('URLInfoAbout');
+        $property->setTePropertyDescription('URL do software.');
 
         // Referência à classe
         $property->setIdClass($this->getReference('Software'));
@@ -374,8 +374,8 @@ Example IPv6 address: "2010:836B:4179::836B:4179"');
 
         // Atributo
         $property = new ClassProperty();
-        $property->setNmPropertyName('IdentifyingNumber');
-        $property->setTePropertyDescription('Product identification, such as a serial number on software or a die number on a hardware chip.');
+        $property->setNmPropertyName('Publisher');
+        $property->setTePropertyDescription('Nome do fabricante.');
 
         // Referência à classe
         $property->setIdClass($this->getReference('Software'));
@@ -383,82 +383,7 @@ Example IPv6 address: "2010:836B:4179::836B:4179"');
         // Grava o objeto
         $manager->persist($property);
 
-        // Atributo
-        $property = new ClassProperty();
-        $property->setNmPropertyName('InstallDate');
-        $property->setTePropertyDescription('Object was installed. This property does not need a value to indicate that the object is installed.');
 
-        // Referência à classe
-        $property->setIdClass($this->getReference('Software'));
-
-        // Grava o objeto
-        $manager->persist($property);
-
-        // Atributo
-        $property = new ClassProperty();
-        $property->setNmPropertyName('InstallState');
-        $property->setTePropertyDescription('Installed state of the software feature.');
-
-        // Referência à classe
-        $property->setIdClass($this->getReference('Software'));
-
-        // Grava o objeto
-        $manager->persist($property);
-
-        // Atributo
-        $property = new ClassProperty();
-        $property->setNmPropertyName('LastUse');
-        $property->setTePropertyDescription('Software feature was last used.');
-
-        // Referência à classe
-        $property->setIdClass($this->getReference('Software'));
-
-        // Grava o objeto
-        $manager->persist($property);
-
-        // Atributo
-        $property = new ClassProperty();
-        $property->setNmPropertyName('Name');
-        $property->setTePropertyDescription('Label by which the object is known to the world outside the data processing system. This label is a human-readable name that uniquely identifies the element in the context of the element namespace.');
-
-        // Referência à classe
-        $property->setIdClass($this->getReference('Software'));
-
-        // Grava o objeto
-        $manager->persist($property);
-
-        // Atributo
-        $property = new ClassProperty();
-        $property->setNmPropertyName('ProductName');
-        $property->setTePropertyDescription('Commonly used product name.');
-
-        // Referência à classe
-        $property->setIdClass($this->getReference('Software'));
-
-        // Grava o objeto
-        $manager->persist($property);
-
-        // Atributo
-        $property = new ClassProperty();
-        $property->setNmPropertyName('Vendor');
-        $property->setTePropertyDescription('Name of the product supplier. Corresponds to the Vendor property in the product object in the Distributed Management Task Force (DMTF) Solution Exchange Standard.');
-
-        // Referência à classe
-        $property->setIdClass($this->getReference('Software'));
-
-        // Grava o objeto
-        $manager->persist($property);
-
-        // Atributo
-        $property = new ClassProperty();
-        $property->setNmPropertyName('Version');
-        $property->setTePropertyDescription('Product version information. Corresponds to the Version property in the product object in the DMTF Solution Exchange Standard.');
-
-        // Referência à classe
-        $property->setIdClass($this->getReference('Software'));
-
-        // Grava o objeto
-        $manager->persist($property);
 
         // Commit
         $manager->flush();

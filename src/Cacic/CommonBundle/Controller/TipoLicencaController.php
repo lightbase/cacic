@@ -15,7 +15,8 @@ class TipoLicencaController extends Controller
     {
         return $this->render(
             'CacicCommonBundle:TipoLicenca:index.html.twig',
-            array( 'TipoLicenca' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoLicenca' )->paginar( $this->get( 'knp_paginator' ), $page )
+            array( 'TipoLicenca' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoLicenca' )
+                ->paginar( $this->get( 'knp_paginator' ), $page )
             )
         );
 

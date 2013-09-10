@@ -15,12 +15,12 @@ class AplicativoRepository extends EntityRepository
 
     public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
-        $_dql = "SELECT a
+        $_dql = "SELECT a.idAplicativo, a.nmAplicativo
 				FROM CacicCommonBundle:Aplicativo a
-				GROUP BY a.idAplicativo";
+				GROUP BY a.idAplicativo, a.nmAplicativo";
 
         return $paginator->paginate(
-            $this->getEntityManager()->createQuery( $_dql ),
+            $this->getEntityManager()->createQuery( $_dql )->getArrayResult(),
             $page,
             10
         );
