@@ -111,14 +111,10 @@ class LocalController extends Controller
 	 */
 	public function excluirAction( Request $request )
 	{
-        Debug::dump($request);die;
-        $configuracao = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->find( 1 );
-        $em = $this->getDoctrine()->getManager();
-        $em->remove( $configuracao );
-        $em->flush();
+
         $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->find( $request->get('id') );
 
-		if ( ! $local )
+        if ( ! $local )
 			throw $this->createNotFoundException( 'Local não encontrado' );
 
 		$em = $this->getDoctrine()->getManager();
