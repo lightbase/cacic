@@ -31,6 +31,7 @@ if($_POST['submit']) {
 	$_SESSION["cs_situacao"] = $_POST["cs_situacao"];
 	$_SESSION['orderby'] = '';
 }
+/*
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -70,6 +71,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <br>
 <br>
 <? 
+*/
 require_once('../../include/library.php');
 require_once('../../include/RelatorioHTML.php');
 require_once('../../include/RelatorioPDF.php');
