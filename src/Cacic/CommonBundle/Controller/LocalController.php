@@ -117,11 +117,22 @@ class LocalController extends Controller
         if ( ! $local )
 			throw $this->createNotFoundException( 'Local não encontrado' );
 
-		$em = $this->getDoctrine()->getManager();
-		$em->remove( $local );
-		$em->flush();
-
-		$response = new Response( json_encode( array('status' => 'ok') ) );
+        try
+        {
+        	$em = $this->getDoctrine()->getManager();
+        	$em->remove( $local ); // Tenta excluir o registro da base de dados
+        	$em->flush();
+        	
+        	$out = array('status' => 'ok');
+        }
+        catch ( \Doctrine\DBAL\DBALException $e )
+        {
+        	$out = array('status' => 'error', 'code' => false);
+        	if ( preg_match('#SQLSTATE\[(\d+)\]#', $e->getMessage(), $tmp) )
+        		$out['code'] = $tmp[1];
+        }
+		
+        $response = new Response( json_encode( $out ) );
 		$response->headers->set('Content-Type', 'application/json');
 		
 		return $response;
