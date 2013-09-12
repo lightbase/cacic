@@ -49,16 +49,27 @@ class LocalController extends Controller
 			if ( $form->isValid() )
 			{
 				$em = $this->getDoctrine()->getManager();
-				$em->persist( $local );
-				$em->flush(); // Persiste os dados do Local
+				$em->getConnection()->beginTransaction(); // Inicia a transação
 				
-				/**
-				 * @todo Otimizar rotina através de Post-Commit / Verificar UNIDADE TRANSACIONAL
-				 * @todo Criar Configurações de Interface do Aplicativo de Coleta de Dados Patrimoniais
-				 */
-				$this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoLocal' )->configurarLocalFromConfigPadrao( $local );
-				
-				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+				try
+				{
+					$em->persist( $local );
+					$em->flush(); // Persiste os dados do Local
+					
+					$this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoLocal' )->configurarLocalFromConfigPadrao( $local );
+					$em->getConnection()->commit(); // Encerra a transação e confirma as alterações na base de dados
+					
+					$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+				}
+				catch ( \Exception $e )
+				{
+					$em->getConnection()->rollback(); // Desfaz as alterações feitas na base de dados até o momento em que a exceção foi lançada
+					$em->close();
+					/**
+					 * @todo verificar maneiras para tratar a mensagem antes de envia-la ao usuário
+					 */
+					throw $e; // Envia a mensagem de erro para a tela
+				}
 				
 				return $this->redirect( $this->generateUrl( 'cacic_local_index' ) );
 			}
@@ -117,11 +128,20 @@ class LocalController extends Controller
         if ( ! $local )
 			throw $this->createNotFoundException( 'Local não encontrado' );
 
+        $em = $this->getDoctrine()->getManager();
+        $em->getConnection()->beginTransaction(); // Inicia a transação
+        
         try
         {
-        	$em = $this->getDoctrine()->getManager();
+        	/**
+        	 * Primeiramente, remove as configurações aplicadas ao Local
+        	 */
+        	$this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->removerConfiguracoesDoLocal( $local );
+        	
         	$em->remove( $local ); // Tenta excluir o registro da base de dados
         	$em->flush();
+        	
+        	$em->getConnection()->commit(); // Aplica as alterações na base de dados
         	
         	$out = array('status' => 'ok');
         }
@@ -130,6 +150,9 @@ class LocalController extends Controller
         	$out = array('status' => 'error', 'code' => false);
         	if ( preg_match('#SQLSTATE\[(\d+)\]#', $e->getMessage(), $tmp) )
         		$out['code'] = $tmp[1];
+        	
+        	$em->getConnection()->rollback(); // Desfaz as alterações feitas na base de dados até o momento em que a exceção foi lançada
+			$em->close();
         }
 		
         $response = new Response( json_encode( $out ) );

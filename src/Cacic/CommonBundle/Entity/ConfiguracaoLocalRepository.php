@@ -88,6 +88,23 @@ class ConfiguracaoLocalRepository extends EntityRepository
 		
 		$em->flush();
 	}
+	
+	/**
+	 *
+	 * Remove as configurações aplicadas ao Local parametrizado
+	 * @param Cacic\CommonBundle\Entity\Local $local
+	 */
+	public function removerConfiguracoesDoLocal( $local )
+	{
+		$em = $this->getEntityManager();
+		
+		$confs = $this->findBy( array('idLocal'=>$local) ); // Recupera todas as configurações relacionadas ao Local
+		foreach ( $confs as $conf )
+			$em->remove($conf); // Remove todas as configurações
+		
+		$em->flush();
+	}
+	
     /**
      *
      * Lista Email's cadastrados para serem notificados, caso haja alteração de hardware
