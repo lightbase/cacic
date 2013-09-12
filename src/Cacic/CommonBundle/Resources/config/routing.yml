@@ -137,6 +137,10 @@ cacic_subrede_excluir:
     pattern:  /subrede/excluir
     defaults: { _controller: CacicCommonBundle:Rede:excluir}
 
+cacic_subrede_manutencao:
+    pattern: /subrede/manutencao
+    defaults: { _controller: CacicCommonBundle:Rede:manutencao}
+
 
 cacic_aplicativo_index:
     pattern: /aplicativo/{page}

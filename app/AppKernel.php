@@ -25,7 +25,6 @@ class AppKernel extends Kernel
             new Cacic\RelatorioBundle\CacicRelatorioBundle(),
             new Cacic\WSBundle\CacicWSBundle(),
 	        new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new Ijanki\Bundle\FtpBundle\IjankiFtpBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
         );
 

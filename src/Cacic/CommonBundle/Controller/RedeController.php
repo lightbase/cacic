@@ -177,6 +177,13 @@ class RedeController extends Controller
         	array( 'form' => $form->createView() )
         );
 	}
+    public function manutencaoAction(Request $request)
+    {
+        return $this->render( 'CacicCommonBundle:Rede:manutencao.html.twig',
+            array( 'rede' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:RedeVersaoModulo' )
+                ->listar()
+            ));
+    }
 
     /**
      * --------------------------------------------------------------------------------------

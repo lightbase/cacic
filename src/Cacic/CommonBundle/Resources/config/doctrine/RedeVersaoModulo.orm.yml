@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\RedeVersaoModulo:
     type: entity
     table: rede_versao_modulo
+    repositoryClass: Cacic\CommonBundle\Entity\RedeVersaoModuloRepository
     fields:
         idRedeVersaoModulo:
             id: true
