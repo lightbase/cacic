@@ -19,6 +19,21 @@ use Cacic\CommonBundle\Entity\ComputadorColeta;
  */
 class ComputadorRepository extends EntityRepository
 {
+	
+	/**
+	 * Realiza pesquisa por Computadores conforme filtros parametrizados
+	 * @param array $filtros
+	 * @return Ambigous <multitype:, \Doctrine\ORM\mixed, \Doctrine\ORM\Internal\Hydration\mixed, \Doctrine\DBAL\Driver\Statement, \Doctrine\Common\Cache\mixed>
+	 */
+	public function pesquisarComputadores( $filtros )
+	{
+		$qb = $this->createQueryBuilder('comp');
+		
+		foreach ( $filtros as $campo => $valor )
+			$qb->andWhere("comp.{$campo} LIKE '%$valor%'");
+		
+		return $qb->getQuery()->getResult();
+	}
 
     /**
      *

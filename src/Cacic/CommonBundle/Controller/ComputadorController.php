@@ -35,11 +35,31 @@ class ComputadorController extends Controller
         );
     }
 
-    public function consultarAction()
+    /**
+     * Tela de consulta por computador
+     * FILTRO SIMPLES - BUSCA BÁSICA, POR NOME DO COMPUTADOR, IP, OU MAC ADDRESS
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function consultarAction( Request $request )
     {
+    	if ( $request->isMethod('POST') )
+    	{
+    		$filtro = $request->get('computadorConsulta');
+    		
+    		if ( strlen( $filtro['termo'] ) < 3 )
+    		{
+    			$this->get('session')->getFlashBag()->add('error', 'Informe ao menos 3 caracteres para a pesquisa');
+    			return $this->redirect($this->generateUrl('cacic_computador_consultar') );
+    		}
+    		
+    		$computadores = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')
+    											->pesquisarComputadores(array($filtro['filtro']=>$filtro['termo']));
+    	}
+    	
         return $this->render(
             'CacicCommonBundle:Computador:consultar.html.twig',
-            array( 'locais' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorLocal() )
+            array( 'computadores' => isset( $computadores ) ? $computadores : null )
         );
     }
 	

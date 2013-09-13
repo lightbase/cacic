@@ -1,7 +1,8 @@
 {% extends '::base.html.twig' %}
 
 {% block breadcrumb %}     
-    <li class="active">{{ "Unidades Organizacionais"|trans }}</li>
+    <li>{{ "Computadores"|trans }} <span class="divider">/</span></li>
+    <li class="active">{{ "Navegar"|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -20,7 +21,9 @@
             <div id="tree_comp0"></div> <!-- Árvore com os Computadores Monitorados-->
         </div>
     </div>
-</div>
+</div> <!-- /span -->
+
+</div> <!-- /row -->
 
 <div class="modal hide fade">
   <div class="modal-header">
@@ -114,7 +117,7 @@
         				*/
 
         				$li.find('span.jqtree-title').after( 
-        					$('<a></a>').attr({'href':'{{ path("cacic_computador_detalhar") }}/' + node.id, 'class': 'btn' })
+        					$('<a></a>').attr({'href':'{{ path("cacic_computador_detalhar") }}/' + node.id, 'class': 'btn', 'target': '_blank' })
         								.append('<i class="icon-search"></i>')
         				);
         				
