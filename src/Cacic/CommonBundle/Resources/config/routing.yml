@@ -422,9 +422,9 @@ cacic_software_estacao_excluir:
     pattern:  /softwareestacao/excluir
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:excluir}
 
-cacic_computador_filtrar:
-    pattern:  /computadores/filtrar
-    defaults: { _controller: CacicCommonBundle:Computador:filtrar}
+cacic_computador_buscar:
+    pattern:  /computadores/buscar
+    defaults: { _controller: CacicCommonBundle:Computador:buscar}
 
 cacic_computador_navegar:
     pattern:  /computadores/navegar

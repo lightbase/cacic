@@ -2,26 +2,20 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Cacic\CommonBundle\Form\Type\ComputadorConsultaType;
+use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cacic\CommonBundle\Entity\Computador;
 
 /**
- * 
+ *
  * @author lightbase
  *
  */
 class ComputadorController extends Controller
 {
-
-    public function filtrarAction()
-    {
-        return $this->render(
-            'CacicCommonBundle:Computador:filtrar.html.twig',
-            array( 'locais' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorLocal() )
-        );
-    }
 
     /**
      *
@@ -35,201 +29,217 @@ class ComputadorController extends Controller
         );
     }
 
-    /**
-     * Tela de consulta por computador
-     * FILTRO SIMPLES - BUSCA BÁSICA, POR NOME DO COMPUTADOR, IP, OU MAC ADDRESS
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function consultarAction( Request $request )
+
+
+    public function excluirAction()
     {
-    	if ( $request->isMethod('POST') )
-    	{
-    		$filtro = $request->get('computadorConsulta');
-    		
-    		if ( strlen( $filtro['termo'] ) < 3 )
-    		{
-    			$this->get('session')->getFlashBag()->add('error', 'Informe ao menos 3 caracteres para a pesquisa');
-    			return $this->redirect($this->generateUrl('cacic_computador_consultar') );
-    		}
-    		
-    		$computadores = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')
-    											->pesquisarComputadores(array($filtro['filtro']=>$filtro['termo']));
-    	}
-    	
+    }
+
+    /**
+     * [MODAL] Exibe dados do computador e informações sobre coleta
+     */
+    public function detalharAction( $idComputador )
+    {
+        //if ( ! $request->isXmlHttpRequest() ) // Verifica se é uma requisição AJAX
+        //	throw $this->createNotFoundException( 'Página não encontrada!' );
+        $d = $this->getDoctrine();
+
+        $computador = $d->getRepository('CacicCommonBundle:Computador')->find( (int) $idComputador );
+        if ( ! $computador )
+            throw $this->createNotFoundException( 'Página não encontrada!' );
+
+        $coleta = $d->getRepository('CacicCommonBundle:ComputadorColeta')->getDadosColetaComputador( $computador );
+
+        $dadosColeta = array(); // Inicializa o array que agrupa os dados de coleta por Classe
+        foreach ( $coleta as $v )
+        {
+            $idClass = $v->getClassProperty()->getIdClass()->getIdClass();
+
+            if ( array_key_exists( $idClass, $dadosColeta ) )
+                $dadosColeta[ $idClass ] = array();
+
+            $dadosColeta[ $idClass ][] = $v;
+        }
+
         return $this->render(
-            'CacicCommonBundle:Computador:consultar.html.twig',
-            array( 'computadores' => isset( $computadores ) ? $computadores : null )
+            'CacicCommonBundle:Computador:detalhar.html.twig',
+            array(
+                'computador' => $computador,
+                'dadosColeta' => $dadosColeta
+            )
         );
     }
-	
-	public function excluirAction()
-	{
-	}
-	
-	/**
-	 * [MODAL] Exibe dados do computador e informações sobre coleta
-	 */
-	public function detalharAction( $idComputador )
-	{
-		//if ( ! $request->isXmlHttpRequest() ) // Verifica se é uma requisição AJAX
-		//	throw $this->createNotFoundException( 'Página não encontrada!' );
-		$d = $this->getDoctrine();
-		
-		$computador = $d->getRepository('CacicCommonBundle:Computador')->find( (int) $idComputador );
-		if ( ! $computador )
-			throw $this->createNotFoundException( 'Página não encontrada!' );
-		
-		$coleta = $d->getRepository('CacicCommonBundle:ComputadorColeta')->getDadosColetaComputador( $computador );
-		
-		$dadosColeta = array(); // Inicializa o array que agrupa os dados de coleta por Classe
-		foreach ( $coleta as $v )
-		{
-			$idClass = $v->getClassProperty()->getIdClass()->getIdClass();
-			
-			if ( array_key_exists( $idClass, $dadosColeta ) )
-				$dadosColeta[ $idClass ] = array();
-			
-			$dadosColeta[ $idClass ][] = $v;
-		}
-		
-		return $this->render(
-			'CacicCommonBundle:Computador:detalhar.html.twig',
-			array(
-				'computador' => $computador,
-				'dadosColeta' => $dadosColeta
-			)
-		);
-	}
-	
-	/**
-	 * 
-	 * [AJAX][jqTree] Carrega as subredes, do local informado, com computadores monitorados
-	 */
-	public function loadredenodesAction( Request $request )
-	{
-		if ( ! $request->isXmlHttpRequest() )
-			throw $this->createNotFoundException( 'Página não encontrada!' );
-		
-		$redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->countPorSubrede( $request->get('idLocal') );
-		
-		# Monta um array no formato suportado pelo plugin-in jqTree (JQuery)
-		$_tree = array();
-		foreach ( $redes as $rede )
-		{
-			$_tree[] = array(
-				'id'				=> $rede['idRede'],
-				'label' 			=> "{$rede['teIpRede']} ({$rede['nmRede']}) [{$rede['numComp']}]",
-				'url'				=> $this->generateUrl( 'cacic_computador_loadcompnodes', array('idSubrede'=>$rede['idRede']) ),
-				'type'				=> 'rede',
-				'load_on_demand' 	=> (bool) $rede['numComp']
-			);
-		}
-		
-		$response = new Response( json_encode( $_tree ) );
-		$response->headers->set('Content-Type', 'application/json');
+    public function consultarAction( Request $request )
+    {
+        $form = $this->createForm( new ComputadorConsultaType() );
 
-		return $response;
-	}
-	
-	/**
-	 * 
-	 * [AJAX][jqTree] Carrega os computadores da subrede informada
-	 */
-	public function loadcompnodesAction( Request $request )
-	{
-		if ( ! $request->isXmlHttpRequest() )
-			throw $this->createNotFoundException( 'Página não encontrada!' );
-		
-		$comps = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->listarPorSubrede( $request->get('idSubrede') );
-		
-		# Monta um array no formato suportado pelo plugin-in jqTree (JQuery)
-		$_tree = array();
-		foreach ( $comps as $comp )
-		{
-			$_label = ($comp->getNmComputador()?:'###') .' - '. $comp->getTeIpComputador();
-			if ( $comp->getIdSo() )	$_label .= ' - ' .$comp->getIdSo()->getSgSo();
-			
-			$_tree[] = array(
-				'id'				=> $comp->getIdComputador(),
-				'label' 			=> $_label,
-				'type'				=> 'computador',
-				'load_on_demand' 	=> false
-			);
-		}
-		
-		$response = new Response( json_encode( $_tree ) );
-		$response->headers->set('Content-Type', 'application/json');
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
+            $data = $form->getData();
 
-		return $response;
-	}
-	
-	/**
-	 * 
-	 * Tela de importação de arquivo CSV com registros de Computadores
-	 */
-	public function importarcsvAction( Request $request )
-	{
-		$form = $this->createFormBuilder()
-			        ->add('arquivocsv', 'file', array('label' => 'Arquivo', 'attr' => array( 'accept' => '.csv' )))
-			        ->getForm();
-		
-		if ( $request->isMethod('POST') )
-		{
-			$form->bindRequest( $request );
-			if ( $form['arquivocsv']->getData() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile )
-			{
-				// Executa a importação do arquivo - grava no diretório web/upload/migracao
-				$dirMigracao = realpath( dirname(__FILE__) .'/../../../../web/upload/migracao/' );
-				$fileName = 'Comp_U'.$this->getUser()->getIdUsuario().'T'.time().'.csv';
-				$form['arquivocsv']->getData()->move( $dirMigracao, $fileName );
-				
-				$em = $this->getDoctrine()->getManager();
-				
-				// Abre o arquivo salvo e começa a rotina de importação dos dados do CSV
-				$csv = file( $dirMigracao.'/'.$fileName );
-				foreach( $csv as $k => $v )
-				{ 
-					// Valida a linha
-					$v = explode( ';', trim( str_replace( array('"','\N'), '', $v ) ) );
-					if ( count( $v ) != 13 )
-						continue;
-					
-					$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->find( (int) $v[1] );
-					$rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->findOneByTeIpRede( $v[2] );
-					
-					$comp = new Computador();
-					
-					if ( $so ) $comp->setIdSo( $so );
-					if ( $rede ) $comp->setIdRede( $rede );
-					
-					$comp->setTeNodeAddress( $v[0] );
-					$comp->setTePalavraChave( $v[3] );
-					$comp->setTeIpComputador( $v[4] );
-					$comp->setDtHrInclusao( $v[5] ? new \Datetime( $v[5] ) : null );
-					$comp->setDtHrUltAcesso( $v[6] ? new \Datetime( $v[6] ) : null );
-					$comp->setTeVersaoCacic( $v[7] );
-					$comp->setTeVersaoGercols( $v[8] );
-					$comp->setDtHrColetaForcadaEstacao( $v[9] ? new \Datetime( $v[9] ) : null );
-					$comp->setTeNomesCurtosModulos( $v[10] );
-					$comp->setIdConta( $v[11] );
-					$comp->setNmComputador( $v[12] );
-					
-					$em->persist( $comp );
-				}
-				$em->flush(); // Persiste os dados dos Computadores
-				
-				$this->get('session')->getFlashBag()->add('success', 'Importação realizada com sucesso!');
-			}
-			else $this->get('session')->getFlashBag()->add('error', 'Arquivo CSV inválido!');
-			
-			return $this->redirect( $this->generateUrl( 'cacic_migracao_computador') );
-	    }
-		
-		return $this->render(
-        	'CacicCommonBundle:Computador:importarcsv.html.twig',
-        	array( 'form' => $form->createView() )
+            $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
+                ->selectIp($data['teIpComputador'],$data['nmComputador'] ,$data['teNodeAddress'] );
+        }
+        return $this->render( 'CacicCommonBundle:Computador:consultar.html.twig',
+            array(
+                'form' => $form->createView(),
+                'computadores' => ( $computadores )
+            )
         );
-	}
-	
+    }
+
+    public function buscarAction( Request $request )
+    {
+        $form = $this->createForm( new ComputadorConsultaType() );
+
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
+            $data = $form->getData();
+
+
+            $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
+                ->selectIpAvancada($data['teIpComputador'],$data['nmComputador'] ,$data['teNodeAddress'],$data['dtHrInclusao'],$data['dtHrInclusaoFim'] );
+        }
+
+
+        return $this->render( 'CacicCommonBundle:Computador:buscar.html.twig',
+            array(
+                'form' => $form->createView(),
+                'computadores' => ( $computadores )
+            )
+        );
+    }
+
+    /**
+     *
+     * [AJAX][jqTree] Carrega as subredes, do local informado, com computadores monitorados
+     */
+    public function loadredenodesAction( Request $request )
+    {
+        if ( ! $request->isXmlHttpRequest() )
+            throw $this->createNotFoundException( 'Página não encontrada!' );
+
+        $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->countPorSubrede( $request->get('idLocal') );
+
+        # Monta um array no formato suportado pelo plugin-in jqTree (JQuery)
+        $_tree = array();
+        foreach ( $redes as $rede )
+        {
+            $_tree[] = array(
+                'id'				=> $rede['idRede'],
+                'label' 			=> "{$rede['teIpRede']} ({$rede['nmRede']}) [{$rede['numComp']}]",
+                'url'				=> $this->generateUrl( 'cacic_computador_loadcompnodes', array('idSubrede'=>$rede['idRede']) ),
+                'type'				=> 'rede',
+                'load_on_demand' 	=> (bool) $rede['numComp']
+            );
+        }
+
+        $response = new Response( json_encode( $_tree ) );
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     *
+     * [AJAX][jqTree] Carrega os computadores da subrede informada
+     */
+    public function loadcompnodesAction( Request $request )
+    {
+        if ( ! $request->isXmlHttpRequest() )
+            throw $this->createNotFoundException( 'Página não encontrada!' );
+
+        $comps = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->listarPorSubrede( $request->get('idSubrede') );
+
+        # Monta um array no formato suportado pelo plugin-in jqTree (JQuery)
+        $_tree = array();
+        foreach ( $comps as $comp )
+        {
+            $_label = ($comp->getNmComputador()?:'###') .' - '. $comp->getTeIpComputador();
+            if ( $comp->getIdSo() )	$_label .= ' - ' .$comp->getIdSo()->getSgSo();
+
+            $_tree[] = array(
+                'id'				=> $comp->getIdComputador(),
+                'label' 			=> $_label,
+                'type'				=> 'computador',
+                'load_on_demand' 	=> false
+            );
+        }
+
+        $response = new Response( json_encode( $_tree ) );
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     *
+     * Tela de importação de arquivo CSV com registros de Computadores
+     */
+    public function importarcsvAction( Request $request )
+    {
+        $form = $this->createFormBuilder()
+            ->add('arquivocsv', 'file', array('label' => 'Arquivo', 'attr' => array( 'accept' => '.csv' )))
+            ->getForm();
+
+        if ( $request->isMethod('POST') )
+        {
+            $form->bindRequest( $request );
+            if ( $form['arquivocsv']->getData() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile )
+            {
+                // Executa a importação do arquivo - grava no diretório web/upload/migracao
+                $dirMigracao = realpath( dirname(__FILE__) .'/../../../../web/upload/migracao/' );
+                $fileName = 'Comp_U'.$this->getUser()->getIdUsuario().'T'.time().'.csv';
+                $form['arquivocsv']->getData()->move( $dirMigracao, $fileName );
+
+                $em = $this->getDoctrine()->getManager();
+
+                // Abre o arquivo salvo e começa a rotina de importação dos dados do CSV
+                $csv = file( $dirMigracao.'/'.$fileName );
+                foreach( $csv as $k => $v )
+                {
+                    // Valida a linha
+                    $v = explode( ';', trim( str_replace( array('"','\N'), '', $v ) ) );
+                    if ( count( $v ) != 13 )
+                        continue;
+
+                    $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->find( (int) $v[1] );
+                    $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->findOneByTeIpRede( $v[2] );
+
+                    $comp = new Computador();
+
+                    if ( $so ) $comp->setIdSo( $so );
+                    if ( $rede ) $comp->setIdRede( $rede );
+
+                    $comp->setTeNodeAddress( $v[0] );
+                    $comp->setTePalavraChave( $v[3] );
+                    $comp->setTeIpComputador( $v[4] );
+                    $comp->setDtHrInclusao( $v[5] ? new \Datetime( $v[5] ) : null );
+                    $comp->setDtHrUltAcesso( $v[6] ? new \Datetime( $v[6] ) : null );
+                    $comp->setTeVersaoCacic( $v[7] );
+                    $comp->setTeVersaoGercols( $v[8] );
+                    $comp->setDtHrColetaForcadaEstacao( $v[9] ? new \Datetime( $v[9] ) : null );
+                    $comp->setTeNomesCurtosModulos( $v[10] );
+                    $comp->setIdConta( $v[11] );
+                    $comp->setNmComputador( $v[12] );
+
+                    $em->persist( $comp );
+                }
+                $em->flush(); // Persiste os dados dos Computadores
+
+                $this->get('session')->getFlashBag()->add('success', 'Importação realizada com sucesso!');
+            }
+            else $this->get('session')->getFlashBag()->add('error', 'Arquivo CSV inválido!');
+
+            return $this->redirect( $this->generateUrl( 'cacic_migracao_computador') );
+        }
+
+        return $this->render(
+            'CacicCommonBundle:Computador:importarcsv.html.twig',
+            array( 'form' => $form->createView() )
+        );
+    }
+
 }

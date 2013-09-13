@@ -1,15 +1,19 @@
 <?php
 
+
+
 namespace Cacic\CommonBundle\Entity;
 
-use Cacic\WSBundle\Helper\OldCacicHelper;
-use Cacic\WSBundle\Helper\TagValueHelper;
+
 use Doctrine\ORM\EntityRepository;
+/*use Cacic\WSBundle\Helper\OldCacicHelper;
+use Cacic\WSBundle\Helper\TagValueHelper;
+
 use Symfony\Component\HttpFoundation\Request;
 use Cacic\CommonBundle\Entity\AcaoSo;
 use Cacic\CommonBundle\Entity\Acao;
 use Cacic\CommonBundle\Entity\So;
-use Cacic\CommonBundle\Entity\ComputadorColeta;
+use Cacic\CommonBundle\Entity\ComputadorColeta;*/
 
 /**
  *
@@ -50,6 +54,68 @@ class ComputadorRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+    public function selectIp( $teIpComputador , $nmComputador ,$teNodeAddress )
+    {
+
+        $query = $this->createQueryBuilder('comp')
+            ->select('comp.nmComputador',
+                        'comp.teIpComputador',
+                        'comp.teVersaoCacic',
+                        'comp.teNodeAddress'
+            );
+
+               if ( $teIpComputador != null){
+                   $query->Where( 'comp.teIpComputador = (:teIpComputador)' )->setParameter('teIpComputador', $teIpComputador);
+                   //$query->where($query->expr()->like('comp.teIpComputador', $query->expr()->literal('% (:teIpComputador) %')))->setParameter('teIpComputador', $teIpComputador);
+               }
+               if ( $nmComputador != null){
+                   $query->andWhere( 'comp.nmComputador =(:nmComputador)' )->setParameter('nmComputador', $nmComputador);
+               }
+               if ( $teNodeAddress != null){
+                   $query->andWhere( 'comp.teNodeAddress =(:teNodeAddress)' )->setParameter('teNodeAddress', $teNodeAddress);
+               }
+
+
+
+
+        return $query->getQuery()->execute();
+    }
+    public function selectIpAvancada( $teIpComputador , $nmComputador ,$teNodeAddress, $dtHrInclusao ,$dtHrInclusaoFim )
+    {
+
+        $query = $this->createQueryBuilder('comp')
+            ->select('comp.nmComputador',
+                'comp.teIpComputador',
+                'comp.teVersaoCacic',
+                'comp.teNodeAddress',
+                'comp.dtHrInclusao',
+                'comp.dtHrUltAcesso',
+                'comp.teVersaoGercols',
+                'comp.tePalavraChave',
+                'comp.teNomesCurtosModulos',
+                'comp.teUltimoLogin'
+            );
+
+        if ( $teIpComputador != null){
+            $query->andWhere( 'comp.teIpComputador = (:teIpComputador)' )->setParameter('teIpComputador', $teIpComputador);
+        }
+        if ( $nmComputador != null){
+            $query->andWhere( 'comp.nmComputador = (:nmComputador)' )->setParameter('nmComputador', $nmComputador);
+        }
+        if ( $teNodeAddress != null){
+            $query->andWhere( 'comp.teNodeAddress = (:teNodeAddress)' )->setParameter('teNodeAddress', $teNodeAddress);
+        }
+        if ( $dtHrInclusao != null){
+            $query->andWhere( 'comp.dtHrInclusao >= (:dtHrInclusao)' )->setParameter('dtHrInclusao', ( $dtHrInclusao.' 00:00:00' ));
+        }
+        if ( $dtHrInclusaoFim != null){
+            $query->andWhere( 'comp.dtHrInclusao<= (:dtHrInclusaoFim)' )->setParameter('dtHrInclusaoFim', ( $dtHrInclusaoFim.' 23:59:59' ));
+        }
+
+
+        return $query->getQuery()->execute();
+    }
+
 
     /**
      *

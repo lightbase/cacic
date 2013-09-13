@@ -24,27 +24,25 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th width="20%"style="text-align: center">{{ 'Arquivo'|trans }}</th>
-                        <th width="20%"style="text-align: center">{{ 'Tamanho'|trans }}</th>
+                        <th width="40%"style="text-align: center">{{ 'Arquivo'|trans }}</th>
                         <th width="20%"style="text-align: center">{{ 'Versão'|trans }}</th>
-                        <th width="20%"style="text-align: center">{{ 'Hash'|trans }}</th>
+                        <th width="40%"style="text-align: center">{{ 'Hash'|trans }}</th>
                         <th style="text-align: center">
                             <label style="margin: auto; width:12px; height:10px;">
-                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="software">
+                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="Windows">
                             </label>
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for software in rede %}
-                    <tr id="item_{{ software['nmModulo'] }}">
-                        <td style="text-align: center" id="item_desc_{{ software['nmModulo'] }}">{{ software['nmModulo'] }}</td>
-                        <td></td>
-                        <td>{{ software['teVersaoModulo'] }}</td>
-                        <td>{{ software['teHash'] }}</td>
+                    {% for Windows in windows %}
+                    <tr id="item_{{ Windows['nmModulo'] }}">
+                        <td style="text-align: center" id="item_desc_{{ Windows['nmModulo'] }}">{{ Windows['nmModulo'] }}</td>
+                        <td style="text-align: center" >{{ Windows['teVersaoModulo'] }}</td>
+                        <td style="text-align: center" >{{ Windows['teHash'] }}</td>
                         <td>
                             <label style="margin: auto; width:12px; height:10px;">
-                                <input type="checkbox" id="item_id_{{ software['nmModulo'] }}" name="software[]" value="{{ software['nmModulo'] }}">
+                                <input type="checkbox" id="item_id_{{ Windows['nmModulo'] }}" name="Windows[]" value="{{ Windows['nmModulo'] }}">
                             </label>
                         </td>
                     </tr>
@@ -52,6 +50,39 @@
                     <tr>
                         <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
                     </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <br />
+                <table class="table table-striped table-bordered">
+                    <h4><center>{{ "Agentes para GNU/LINUX"|trans }}</h4>
+                    <thead>
+                    <tr>
+                        <th width="40%"style="text-align: center">{{ 'Arquivo'|trans }}</th>
+                        <th width="20%"style="text-align: center">{{ 'Versão'|trans }}</th>
+                        <th width="40%"style="text-align: center">{{ 'Hash'|trans }}</th>
+                        <th style="text-align: center">
+                            <label style="margin: auto; width:12px; height:10px;">
+                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="Linux">
+                            </label>
+                        </th>
+                    </tr>
+                    </thead>
+                    {% for Linux in linux %}
+                        <tr id="item_{{ Linux['nmModulo'] }}">
+                            <td style="text-align: center" id="item_desc_{{ Linux['nmModulo'] }}">{{ Linux['nmModulo'] }}</td>
+                            <td style="text-align: center" >{{ Linux['teVersaoModulo'] }}</td>
+                            <td style="text-align: center" >{{ Linux['teHash'] }}</td>
+                            <td>
+                                <label style="margin: auto; width:12px; height:10px;">
+                                    <input type="checkbox" id="item_id_{{ Linux['nmModulo'] }}" name="Linux[]" value="{{ Linux['nmModulo'] }}">
+                                </label>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
+                        </tr>
                     {% endfor %}
 
                     </tbody>

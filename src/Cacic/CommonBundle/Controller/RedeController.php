@@ -180,9 +180,12 @@ class RedeController extends Controller
     public function manutencaoAction(Request $request)
     {
         return $this->render( 'CacicCommonBundle:Rede:manutencao.html.twig',
-            array( 'rede' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:RedeVersaoModulo' )
-                ->listar()
-            ));
+            array( 'windows' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:RedeVersaoModulo' )
+                ->listarWindows(),
+                'linux' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:RedeVersaoModulo' )
+                    ->listarLinux()
+            )
+        );
     }
 
     /**

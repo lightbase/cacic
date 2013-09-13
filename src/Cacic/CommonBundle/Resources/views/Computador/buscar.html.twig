@@ -11,38 +11,47 @@
         <div class="span8">
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Consulta de Informações de Computadores' |trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Busca Avançada de Informações de Computadores' |trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
 
-                    <h4>{{ "Filtros para consulta"|trans }}</h4><br />
+                    <h4>{{ "Filtros para consulta avançada"|trans }}</h4><br />
 
                     <form id={{ 'formComputadorConsulta'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
 
                     <div class="control-group" >
                         <label for="log_acesso_periodo"style="width:300px; margin-right: 15px" class="control-label">{{ 'Selecione os filtros da consulta'|trans }}</label>
                         <div class="controls">
-                           {{ form_widget(form.selConsulta, {'form_type': 'horizontal'}) }}
+                           {{ form_widget(form.selbuscaAvancada) }}
                         </div>
                     </div>
+
                     <div  id="teIpComputador" class="mostrarDiv"  style=" display: none; margin-left: 155px" >
                         <div class="control-group" >
                             <div class="controls">
-                                {{ form_widget(form.teIpComputador, {'form_type': 'horizontal'}) }}
+                                {{ form_widget(form.teIpComputador) }}
                             </div>
                         </div>
                     </div>
                     <div  id="nmComputador" class="mostrarDiv"  style="display:none; margin-left: 155px" >
                         <div class="control-group" >
                             <div class="controls">
-                                {{ form_widget(form.nmComputador, {'form_type': 'horizontal'}) }}
+                                {{ form_widget(form.nmComputador) }}
                             </div>
                         </div>
                     </div>
                     <div  id="teNodeAddress" class="mostrarDiv"  style="display: none; margin-left: 155px" >
                         <div class="control-group" >
                             <div class="controls">
-                                {{ form_widget(form.teNodeAddress, {'form_type': 'horizontal'}) }}
+                                {{ form_widget(form.teNodeAddress) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div  id="dtHrInclusao"  class="mostrarDiv"  style="display: none;" >
+                        <div class="control-group" >
+                            <div class="controls">
+                                {{ form_widget(form.dtHrInclusao, { 'attr': {'class': 'datepicker_on'} }) }}   a    {{ form_widget(form.dtHrInclusaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                                <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                             </div>
                         </div>
                     </div>
@@ -58,6 +67,7 @@
                 </div> <!-- /block -->
             </div> <!-- /box -->
         </div> <!-- /span8 -->
+
         <div class="span4">
             <div class="box grad_colour_black">
 
@@ -68,7 +78,7 @@
                         {{ "Este módulo permite a visualização dos computadores monitorados pelos agentes do cacic"|trans }}.
                     </p>
                     <p>
-                        {{ "É possível pesquisar por IP's, nome ou Mac da máquina, bastando selecionar uma de suas opções"|trans }}.
+                        {{ "É possível pesquisar por IP's, nome ou Mac da máquina e por data de instalação da máquina, bastando selecionar uma de suas opções"|trans }}.
                     </p>
                     <p>
                         {{ "Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos"|trans }}.
@@ -77,23 +87,24 @@
             </div> <!-- /box -->
         </div> <!-- span4 -->
 
-
     </div> <!-- /row -->
 
     {% if computadores is not null %}
-        {% include 'CacicCommonBundle:Computador:resultadoConsulta.html.twig' %}
+        {% include 'CacicCommonBundle:Computador:resultadoBuscar.html.twig' %}
     {% endif %}
 
 {% endblock %}
 
  {% block javascripts %}
-     {{ parent() }}
+
      <!-- javascript
      ================================================== -->
      <!-- Placed at the end of the document so the pages load faster -->
      <!-- jQuery (UI) -->
      <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery.1.7.1.min.js') }}"></script>
      <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery-ui-1.8.17.min.js') }}"></script>
+
+
 
      <script type="text/javascript">
          /**
@@ -102,7 +113,7 @@
          $(document).ready(function () {
 
              $('#teIpComputador').show();
-             $('#ComputadorConsulta_selConsulta').change(function () {
+             $('#ComputadorConsulta_selbuscaAvancada').change(function () {
                  $('.mostrarDiv').hide();
                  $('#ComputadorConsulta_teIpComputador').val( '' );
                  $('#ComputadorConsulta_nmComputador').val( '' );
@@ -111,7 +122,6 @@
              });
          });
      </script>
-
  {% endblock %}
 
 
