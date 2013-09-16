@@ -41,7 +41,7 @@ class ComputadorConsultaType extends AbstractType
                     'teIpComputador'=>'Consulta por IP',
                     'teNodeAddress'=>'MAC Address do Computador',
                     'nmComputador'=>'Nome do Computador',
-                    'dtHrInclusao'=>'Data de Inclução',
+                    'dtHrInclusao'=>'Data de Inclusão',
                 )
             )
         );

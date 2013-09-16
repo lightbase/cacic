@@ -23,21 +23,21 @@ use Cacic\CommonBundle\Entity\ComputadorColeta;*/
  */
 class ComputadorRepository extends EntityRepository
 {
-	
-	/**
-	 * Realiza pesquisa por Computadores conforme filtros parametrizados
-	 * @param array $filtros
-	 * @return Ambigous <multitype:, \Doctrine\ORM\mixed, \Doctrine\ORM\Internal\Hydration\mixed, \Doctrine\DBAL\Driver\Statement, \Doctrine\Common\Cache\mixed>
-	 */
-	public function pesquisarComputadores( $filtros )
-	{
-		$qb = $this->createQueryBuilder('comp');
-		
-		foreach ( $filtros as $campo => $valor )
-			$qb->andWhere("comp.{$campo} LIKE '%$valor%'");
-		
-		return $qb->getQuery()->getResult();
-	}
+
+    /**
+     * Realiza pesquisa por Computadores conforme filtros parametrizados
+     * @param array $filtros
+     * @return Ambigous <multitype:, \Doctrine\ORM\mixed, \Doctrine\ORM\Internal\Hydration\mixed, \Doctrine\DBAL\Driver\Statement, \Doctrine\Common\Cache\mixed>
+     */
+    public function pesquisarComputadores( $filtros )
+    {
+        $qb = $this->createQueryBuilder('comp');
+
+        foreach ( $filtros as $campo => $valor )
+            $qb->andWhere("comp.{$campo} LIKE '%$valor%'");
+
+        return $qb->getQuery()->getResult();
+    }
 
     /**
      *
@@ -58,22 +58,23 @@ class ComputadorRepository extends EntityRepository
     {
 
         $query = $this->createQueryBuilder('comp')
-            ->select('comp.nmComputador',
-                        'comp.teIpComputador',
-                        'comp.teVersaoCacic',
-                        'comp.teNodeAddress'
+            ->select('comp.idComputador',
+                'comp.nmComputador',
+                'comp.teIpComputador',
+                'comp.teVersaoCacic',
+                'comp.teNodeAddress'
             );
 
-               if ( $teIpComputador != null){
-                   $query->Where( 'comp.teIpComputador = (:teIpComputador)' )->setParameter('teIpComputador', $teIpComputador);
-                   //$query->where($query->expr()->like('comp.teIpComputador', $query->expr()->literal('% (:teIpComputador) %')))->setParameter('teIpComputador', $teIpComputador);
-               }
-               if ( $nmComputador != null){
-                   $query->andWhere( 'comp.nmComputador =(:nmComputador)' )->setParameter('nmComputador', $nmComputador);
-               }
-               if ( $teNodeAddress != null){
-                   $query->andWhere( 'comp.teNodeAddress =(:teNodeAddress)' )->setParameter('teNodeAddress', $teNodeAddress);
-               }
+        if ( $teIpComputador != null){
+            $query->Where( 'comp.teIpComputador = (:teIpComputador)' )->setParameter('teIpComputador', $teIpComputador);
+            //$query->where($query->expr()->like('comp.teIpComputador', $query->expr()->literal('% (:teIpComputador) %')))->setParameter('teIpComputador', $teIpComputador);
+        }
+        if ( $nmComputador != null){
+            $query->andWhere( 'comp.nmComputador =(:nmComputador)' )->setParameter('nmComputador', $nmComputador);
+        }
+        if ( $teNodeAddress != null){
+            $query->andWhere( 'comp.teNodeAddress =(:teNodeAddress)' )->setParameter('teNodeAddress', $teNodeAddress);
+        }
 
 
 
@@ -84,26 +85,28 @@ class ComputadorRepository extends EntityRepository
     {
 
         $query = $this->createQueryBuilder('comp')
-            ->select('comp.nmComputador',
+            ->select('comp.idComputador',
+                'comp.nmComputador',
                 'comp.teIpComputador',
                 'comp.teVersaoCacic',
                 'comp.teNodeAddress',
-                'comp.dtHrInclusao',
-                'comp.dtHrUltAcesso',
-                'comp.teVersaoGercols',
-                'comp.tePalavraChave',
-                'comp.teNomesCurtosModulos',
-                'comp.teUltimoLogin'
+                'comp.dtHrInclusao'
+            /* 'comp.dtHrUltAcesso'
+             'comp.teVersaoGercols',
+             'comp.tePalavraChave',
+             'comp.teNomesCurtosModulos',
+             'comp.teUltimoLogin'*/
             );
 
         if ( $teIpComputador != null){
             $query->andWhere( 'comp.teIpComputador = (:teIpComputador)' )->setParameter('teIpComputador', $teIpComputador);
+            //$query->where($query->expr()->like('comp.teIpComputador', $query->expr()->literal('% (:teIpComputador) %')))->setParameter('teIpComputador', $teIpComputador);
         }
         if ( $nmComputador != null){
-            $query->andWhere( 'comp.nmComputador = (:nmComputador)' )->setParameter('nmComputador', $nmComputador);
+            $query->andWhere( 'comp.nmComputador =(:nmComputador)' )->setParameter('nmComputador', $nmComputador);
         }
         if ( $teNodeAddress != null){
-            $query->andWhere( 'comp.teNodeAddress = (:teNodeAddress)' )->setParameter('teNodeAddress', $teNodeAddress);
+            $query->andWhere( 'comp.teNodeAddress =(:teNodeAddress)' )->setParameter('teNodeAddress', $teNodeAddress);
         }
         if ( $dtHrInclusao != null){
             $query->andWhere( 'comp.dtHrInclusao >= (:dtHrInclusao)' )->setParameter('dtHrInclusao', ( $dtHrInclusao.' 00:00:00' ));
