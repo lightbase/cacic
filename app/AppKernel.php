@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Cacic\WSBundle\CacicWSBundle(),
 	        new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
+            new Ijanki\Bundle\FtpBundle\IjankiFtpBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
