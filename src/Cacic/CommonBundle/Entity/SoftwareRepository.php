@@ -202,7 +202,7 @@ class SoftwareRepository extends EntityRepository
             ->leftJoin('comp.idSo', 'so')
             ->leftJoin('comp.idRede', 'r')
             ->leftJoin('r.idLocal', 'l')
-            ->groupBy('l, sw')
+            ->groupBy('so.teSo','comp.nmComputador','l, sw', 'r.teIpRede', 'l.nmLocal')
             ->orderBy('sw.nmSoftware, l.nmLocal');
 
         /*
