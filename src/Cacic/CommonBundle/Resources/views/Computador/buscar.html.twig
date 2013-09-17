@@ -106,11 +106,13 @@
      <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery-ui-1.8.17.min.js') }}"></script>
 
      {{ parent() }}
+
      {% if local == 'pt_BR' %}
          <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-pt-BR.js') }}"></script>
 
          <script type="text/javascript">
              $(document).ready(function(){
+
                  $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
              });
          </script>
@@ -119,6 +121,7 @@
 
          <script type="text/javascript">
              $(document).ready(function(){
+
                  $(".datepicker_on").datepicker({ altFormat: "mm/dd/yy" }).mask('99/99/9999');
              });
          </script>
@@ -128,9 +131,12 @@
          /**
           * Mensagens do sistema
           */
+
+
          $(document).ready(function () {
 
-             $('#teIpComputador').show();
+
+
              $('#ComputadorConsulta_selbuscaAvancada').change(function () {
                  $('.mostrarDiv').hide();
                  $('#ComputadorConsulta_teIpComputador').val( '' );
