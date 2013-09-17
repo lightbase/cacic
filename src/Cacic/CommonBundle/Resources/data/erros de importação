@@ -1,73 +1,9 @@
->tmp_uorg (quase) [<Arrumar para o id da uorg pai fique com NULL nas filhas>]
-SELECT @s:=@s+1 id_uorg,
-u1.id_unid_organizacional_nivel1 AS id_uorg1,
-u1a.id_unid_organizacional_nivel1a AS id_uorg1a,
-u2.id_unid_organizacional_nivel2 AS id_uorg2
--- INTO OUTFILE '$tmp_uorg_file' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n'
-FROM unid_organizacional_nivel2 u2
-LEFT JOIN unid_organizacional_nivel1a u1a
-ON (u2.id_unid_organizacional_nivel1a=u1a.id_unid_organizacional_nivel1a)
-LEFT JOIN unid_organizacional_nivel1 u1
-ON (u1.id_unid_organizacional_nivel1=u1a.id_unid_organizacional_nivel1),
-(SELECT @s:=0) AS s
+TODO: inner join pra bater as colunas
+ERROR:  insert or update on table "usb_log" violates foreign key constraint "fk_ae68d5939f1b3279"
+DETAIL:  Key (id_computador)=(22) is not present in table "computador".
+STATEMENT:  COPY usb_log FROM '/tmp/importacao/usb_log.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
 
-
->uorg1 (quase)
-SELECT tmp_uorg.id_uorg,
-@s1:=NULL id_uorg_pai,
-@s2:='0' id_tipo_uorg,
-@s3:=NULL id_local,
-uorg1.nm_unid_organizacional_nivel1 AS nm_uorg,
-uorg1.te_endereco_uon1 AS te_endereco,
-uorg1.te_bairro_uon1 AS te_bairro,
-uorg1.te_cidade_uon1 AS te_cidade,
-uorg1.te_uf_uon1 AS te_uf,
-uorg1.nm_responsavel_uon1 AS nm_responsavel,
-uorg1.te_email_responsavel_uon1 AS te_responsavel_email,
-uorg1.nu_tel1_responsavel_uon1 AS nu_responsavel_tel1,
-uorg1.nu_tel2_responsavel_uon1 AS nu_responsavel_tel2
-FROM unid_organizacional_nivel1 uorg1
-INNER JOIN tmp_uorg
-ON (uorg1.id_unid_organizacional_nivel1=tmp_uorg.id_uorg1)
-GROUP BY uorg1.id_unid_organizacional_nivel1
-
-
->uorg1a (quase)
-SELECT tmp_uorg.id_uorg,
-t1.id_uorg AS id_uorg_pai,
-@s1:='0' id_tipo_uorg,
-@s2:=NULL id_local,
-uorg1a.nm_unid_organizacional_nivel1a AS nm_uorg,
-@s3:=NULL te_endereco,
-@s4:=NULL te_bairro,
-@s5:=NULL te_cidade,
-@s6:=NULL te_uf,
-@s7:=NULL nm_responsavel,
-@s8:=NULL te_responsavel_email,
-@s9:=NULL nu_responsavel_tel1,
-@s10:=NULL nu_responsavel_tel2
-FROM unid_organizacional_nivel1a uorg1a
-INNER JOIN tmp_uorg
-ON (uorg1a.id_unid_organizacional_nivel1a=tmp_uorg.id_uorg1a)
-INNER JOIN (SELECT id_uorg, id_uorg1 FROM tmp_uorg) t1
-ON (uorg1a.id_unid_organizacional_nivel1=t1.id_uorg1)
-GROUP BY uorg1a.id_unid_organizacional_nivel1a
-
-
->uorg2 (quase)
-SELECT tmp_uorg.id_uorg,
-tmp_uorg.id_uorg AS id_uorg_pai,
-@s1:='0' id_tipo_uorg,
-uorg2.id_local AS id_local,
-uorg2.nm_unid_organizacional_nivel2 AS nm_uorg,
-uorg2.te_endereco_uon2 AS te_endereco,
-uorg2.te_bairro_uon2 AS te_bairro,
-uorg2.te_cidade_uon2 AS te_cidade,
-uorg2.te_uf_uon2 AS te_uf,
-uorg2.nm_responsavel_uon2 AS nm_responsavel,
-uorg2.te_email_responsavel_uon2 AS te_responsavel_email,
-uorg2.nu_tel1_responsavel_uon2 AS nu_responsavel_tel1,
-uorg2.nu_tel2_responsavel_uon2 AS nu_responsavel_tel2
-FROM unid_organizacional_nivel2 uorg2
-INNER JOIN tmp_uorg
-ON (uorg2.id_unid_organizacional_nivel2=tmp_uorg.id_uorg2)
+TODO: inner join pra bater as colunas
+ERROR:  insert or update on table "uorg" violates foreign key constraint "fk_f0f1ec206553c9d8"
+DETAIL:  Key (id_local)=(0) is not present in table "local".
+STATEMENT:  COPY uorg FROM '/tmp/importacao/uorg.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV

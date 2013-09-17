@@ -52,16 +52,18 @@ function importar($dbcon, $tmpdir) {
         "usb_log"
     );
 
+    echo "Limpando vestigios de dados anteriores...";
     foreach ($lista_tabelas as $tabela) {
         // Limpa as tabelas antes
         $dbcon->exec("truncate {$tabela} cascade");
     }
+    echo " feito<br>\n";
 
     foreach ($lista_tabelas as $tabela) {
         echo "Importando ".$tabela."...";
         // Copia do arquivo para a base
         $dbcon->exec("COPY {$tabela} FROM '{$tmpdir}/importacao/{$tabela}.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '\"' ENCODING 'ISO-8859-1' CSV");
-        echo " feito.<br>";
+        echo " feito.<br>\n";
     }
 }
 
@@ -113,11 +115,11 @@ function atualizar_seq($dbcon){
 
 
 // Execuções
-echo "Iniciando importação...<br>";
-
-$zipfile = "../../../../../src/Cacic/CommonBundle/Resources/data/importacao.zip";
+echo "Iniciando importação...<br>\n";
 
 $tmpdir = sys_get_temp_dir();
+
+$zipfile = $tmpdir."/bases_cacic2_teste.zip";
 
 // Extrai os arquivos necessarios para a importação
 $zip = new ZipArchive();
@@ -126,9 +128,9 @@ echo "extraindo arquivo...";
 if ($x === TRUE) {
     $zip->extractTo($tmpdir.'/importacao');
     $zip->close();
-    echo " feito.<br>";
+    echo " feito.<br>\n";
 } else {
-    echo "<br>Erro de extração de arquivo: {$x}";
+    echo "<br>\nErro de extração de arquivo: {$x}";
     die;
 }
 
