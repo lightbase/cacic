@@ -19,15 +19,27 @@ class LoadCollectDefClassData extends AbstractFixture implements FixtureInterfac
   *
   */
 	private $acoes = array(
-		array('id_acao'=>'col_anvi','classes'=> array('Software')),
-		array('id_acao'=>'col_comp','classes'=> array('Software','OperatingSystem','ComputerSystem','Network')),
-		array('id_acao'=>'col_env_not_optional','classes'=> array('OperatingSystem','ComputerSystem','Network')),
-		array('id_acao'=>'col_hard','classes'=> array('ComputerSystem', 'OperatingSystem')),
-		array('id_acao'=>'col_moni','classes'=> array('ComputerSystem','Software', 'OperatingSystem')),
-		array('id_acao'=>'col_patr','classes'=> array('ComputerSystem')),
-		array('id_acao'=>'col_soft','classes'=> array('OperatingSystem','Software')),
+		//array('id_acao'=>'col_anvi','classes'=> array('Software')),
+		//array('id_acao'=>'col_comp','classes'=> array('Software','OperatingSystem','ComputerSystem','Network')),
+        array('id_acao'=>'col_comp','classes'=> array('OperatingSystem','ComputerSystem','Network')),
+		//array('id_acao'=>'col_env_not_optional','classes'=> array('OperatingSystem','ComputerSystem','Network')),
+		array('id_acao'=>'col_hard','classes'=> array(
+            'Keyboard',
+            'PointingDevice',
+            'PhysicalMedia',
+            'BaseBoard',
+            'BIOS',
+            'MemoryDevice',
+            'PhysicalMemory',
+            'Processor',
+            'Printer',
+            'DesktopMonitor'
+        )),
+		//array('id_acao'=>'col_moni','classes'=> array('ComputerSystem','Software', 'OperatingSystem')),
+		//array('id_acao'=>'col_patr','classes'=> array('ComputerSystem')),
+		array('id_acao'=>'col_soft','classes'=> array('Software')),
 		array('id_acao'=>'col_soft_not_optional','classes'=> array('Software')),
-		array('id_acao'=>'srcacic','classes'=> array('ComputerSystem'))
+		//array('id_acao'=>'srcacic','classes'=> array('ComputerSystem'))
 	);
 
     private $container;

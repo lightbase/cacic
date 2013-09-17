@@ -107,7 +107,6 @@ class DefaultController extends Controller
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
         $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
-        $rede_grupos_ftp = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->findOneBy(array('idRede'=> $rede, 'idComputador'=> $computador));
         $data = new \DateTime('NOW');
 
         //Debugging do Agente
@@ -121,6 +120,16 @@ class DefaultController extends Controller
         $v_retorno_MONITORADOS = '';
         $strCollectsDefinitions = '';
         $agente_py = false;
+
+        // Se o computador ainda não está em um grupo FTP, insere
+        $rede_grupos_ftp = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->findOneBy(array('idRede'=> $rede, 'idComputador'=> $computador));
+        if(empty($rede_grupos_ftp)) {
+            $rede_grupos_ftp = new RedeGrupoFtp();
+            $rede_grupos_ftp->setIdComputador($computador);
+            $rede_grupos_ftp->setIdRede($rede);
+            $rede_grupos_ftp->setNuHoraFim($data);
+        }
+
 
         //Se instalação realizada com sucesso.
         if (trim($request->get('in_instalacao')) == 'OK' )
@@ -456,6 +465,9 @@ class DefaultController extends Controller
             }
             $strCollectsDefinitions .= '[Actions]' . $strAcoesSelecionadas . '[/Actions]';
         }
+
+        //error_log("333333333333333333333333333333333333333333: $strCollectsDefinitions");
+
         if (!empty($strCollectsDefinitions))
             $strCollectsDefinitions = OldCacicHelper::enCrypt($request, $strCollectsDefinitions);
 

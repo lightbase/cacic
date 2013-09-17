@@ -34,7 +34,10 @@ class TagValueHelper
         //Tratar as tags depois!
         preg_match_all("(\[" . $pStrTagLabel . "\](.+)\[\/" . $pStrTagLabel . "\])i",$pStrSource, $arrResult);
 
-        return empty($arrResult[1][0]) ? null : $arrResult[1][0] ;
+        // Garantir que o resultado contenha somente UTF-8 valido
+        $resultado = TagValueHelper::UTF8Sanitize($arrResult[1][0]);
+
+        return empty($resultado) ? null : $resultado;
     }
 
     // Metódo para recuperar array com nomes das tags delimitadas por "<" e ">"

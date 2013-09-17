@@ -78,9 +78,9 @@ class ColetaController extends Controller
             }
 
             //$arrCollectsDefClasses[$strCollectType] = $detalhesClasse[$strCollectType] == '' ? $detalhesClasse['nmClassName'] : $arrCollectsDefClasses[$strCollectType];
-            $teste1 = $detalhe['nmPropertyName'];
-            $teste2 = $detalhe['idClassProperty'];
-            $teste3 = $detalhe['nmClassName'];
+            //$teste1 = $detalhe['nmPropertyName'];
+            //$teste2 = $detalhe['idClassProperty'];
+            //$teste3 = $detalhe['nmClassName'];
 
             // Tem que corrigir o erro do Doctrine que não traz o nome da classe para todos os resultados
             if (!empty($detalhe['nmClassName'])) {
@@ -111,7 +111,8 @@ class ColetaController extends Controller
         }
 
         //$teste = print_r($arrCollectsDefClasses, true);
-        //error_log("4444444444444444444444444444444444444444444 $teste");
+        //$teste = print_r($arrClassesNames, true);
+        //error_log("22222222222222222222222222222222222222222222222222222222222222 $teste");
 
         if ($arrCollectsDefClasses[$strCollectType])
         {
@@ -140,11 +141,12 @@ class ColetaController extends Controller
 
                 // Verifico se o atributo sendo verificado é uma classe de coleta.
                 // Se for, insiro os dados da coleta no objeto
-                if (array_search($strClassName, $arrClassesNames)) {
+                if (in_array($strClassName, $arrClassesNames)) {
                     // Descriptografando os valores da requisição
                     $strNewClassValues = OldCacicHelper::deCrypt($request, $strClassValues);
 
                     //error_log("55555555555555555555555555555555555555555555: Entrei | $strClassName");
+                    //error_log("77777777777777777777777777777777777777777777777: Entrei | $strNewClassValues");
 
                     // A propriedade da coleta de software é multi valorada. Preciso tratar diferente
                     if ($strClassName == "SoftwareList") {
@@ -236,9 +238,28 @@ class ColetaController extends Controller
 
                             // Pego o Id da classe cadastrada no Banco de Dados para gravar
                             $idClassProperty = $arrCollectsDefClasses[$strCollectType][$strClassName][$classPropertyName]['idClassProperty'];
+
+                            // Caso a propriedade ainda não esteja cadastrada no banco, crio na hora
+                            if (empty($idClassProperty)) {
+                                error_log("Criando propriedade $classPropertyName para a classe $strClassName");
+                                // Pega classe
+                                $idClass = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findOneBy( array('nmClassName'=>$strClassName) );
+
+                                $classPropertyObject = new ClassProperty();
+                                $classPropertyObject->setIdClass($idClass);
+                                $classPropertyObject->setNmPropertyName($classPropertyName);
+                                $classPropertyObject->setTePropertyDescription('On the fly created Property');
+
+                                $this->getDoctrine()->getManager()->persist($classPropertyObject);
+                                $this->getDoctrine()->getManager()->flush();
+
+                                // Finalmente adiciono no array de classes e propriedades
+                                $idClassProperty = $classPropertyObject->getIdClassProperty();
+                                $arrCollectsDefClasses[$strCollectType][$className][$classPropertyName] = $idClassProperty;
+                            }
                             //error_log("888888888888888888888888888888888888888888888: $strClassName | $idClassProperty | $classPropertyName");
 
-                            // Chama função que grava a propriedade se não for nulo
+                            // Chama função que grava a propriedade
                             $this->gerColsSetProperty($classPropertyName, $strNewClassValues, $idClassProperty, $computador);
                         }
                     }
@@ -246,6 +267,7 @@ class ColetaController extends Controller
             }
 
             // Caso a string acima não esteja vazia, monto o email para notificação
+            // FIXME: Detectar alteração de dispositivos de hardware e notificar o Administrador
             if ($strDeletedItems_Text || $strInsertedItems_Text || $strUpdatedItems_Text )
             {
                 if ($strDeletedItems_Text)

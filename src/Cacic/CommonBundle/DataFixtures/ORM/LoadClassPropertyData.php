@@ -383,12 +383,128 @@ Example IPv6 address: "2010:836B:4179::836B:4179"');
         // Grava o objeto
         $manager->persist($property);
 
+        /*************************
+         * Hardware Classes
+         *
+         * A classe precisa ter pelo menos uma propriedade pré cadastrada
+         *
+         *************************/
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Nome do teclado');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Keyboard'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Nome');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('PointingDevice'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Nome');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('PhysicalMedia'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Nome');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('BaseBoard'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Nome');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('BIOS'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Nome');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('MemoryDevice'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Nome');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('PhysicalMemory'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Nome');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Processor'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Nome');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Printer'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('Caption');
+        $property->setTePropertyDescription('Nome');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('DesktopMonitor'));
+
+        // Grava o objeto
+        $manager->persist($property);
 
 
         // Commit
         $manager->flush();
 
-        
+
     }
 
     public function getOrder()

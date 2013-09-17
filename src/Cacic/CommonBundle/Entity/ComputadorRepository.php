@@ -6,14 +6,14 @@ namespace Cacic\CommonBundle\Entity;
 
 
 use Doctrine\ORM\EntityRepository;
-/*use Cacic\WSBundle\Helper\OldCacicHelper;
+use Cacic\WSBundle\Helper\OldCacicHelper;
 use Cacic\WSBundle\Helper\TagValueHelper;
 
 use Symfony\Component\HttpFoundation\Request;
 use Cacic\CommonBundle\Entity\AcaoSo;
 use Cacic\CommonBundle\Entity\Acao;
 use Cacic\CommonBundle\Entity\So;
-use Cacic\CommonBundle\Entity\ComputadorColeta;*/
+use Cacic\CommonBundle\Entity\ComputadorColeta;
 
 /**
  *
