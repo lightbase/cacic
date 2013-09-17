@@ -66,11 +66,15 @@ if ($check == "ok") {
     $importar = file_get_contents("log_instalacao.txt");
     copy("default_htaccess", "../.htaccess");
     chdir("../..");
-    system("php composer.phar install > web/instalador/log_instalacao.txt &&
-            php app/console assets:install --symlink >> web/instalador/log_instalacao.txt &&
-            php app/console assetic:dump --force >> web/instalador/log_instalacao.txt &&
-            php app/console doctrine:schema:update --force >> web/instalador/log_instalacao.txt &&
-            php app/console doctrine:fixtures:load >> web/instalador/log_instalacao.txt");
+    system("php composer.phar install > web/instalador/log_instalacao.txt");
+    file_put_contents("web/instalador/log_instalacao.txt", "<br><br>", FILE_APPEND);
+    system("php app/console assets:install --symlink >> web/instalador/log_instalacao.txt");
+    file_put_contents("web/instalador/log_instalacao.txt", "<br><br>", FILE_APPEND);
+    system("php app/console assetic:dump --force >> web/instalador/log_instalacao.txt");
+    file_put_contents("web/instalador/log_instalacao.txt", "<br><br>", FILE_APPEND);
+    system("php app/console doctrine:schema:update --force >> web/instalador/log_instalacao.txt");
+    file_put_contents("web/instalador/log_instalacao.txt", "<br><br>", FILE_APPEND);
+    system("php app/console doctrine:fixtures:load >> web/instalador/log_instalacao.txt");
     echo file_get_contents("web/instalador/log_instalacao.txt");
 
     if ($importar == "s") {
