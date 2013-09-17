@@ -64,7 +64,7 @@ foreach ($dependencias as $biblioteca) {
 
 if ($check == "ok") {
     $importar = file_get_contents("log_instalacao.txt");
-    rename("default_htaccess", "../.htaccess");
+    copy("default_htaccess", "../.htaccess");
     chdir("../..");
     system("php composer.phar install > web/instalador/log_instalacao.txt &&
             php app/console assets:install --symlink >> web/instalador/log_instalacao.txt &&
