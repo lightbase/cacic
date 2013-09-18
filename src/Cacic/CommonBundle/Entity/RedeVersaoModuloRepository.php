@@ -35,4 +35,15 @@ class RedeVersaoModuloRepository extends EntityRepository
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
+    public function subrede()
+    {
+        $_dql = "SELECT r.nmModulo, r.teVersaoModulo, r.teHash, l.sgLocal, red.teIpRede, red.nmRede, red.teServUpdates
+				FROM CacicCommonBundle:RedeVersaoModulo r
+				Left join r.idRede red
+			    Left join red.idLocal l
+			    GROUP BY r, l, red
+				ORDER BY red.nmRede ASC";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+    }
 }

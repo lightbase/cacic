@@ -177,16 +177,46 @@ class RedeController extends Controller
         	array( 'form' => $form->createView() )
         );
 	}
+
     public function manutencaoAction(Request $request)
     {
+
+        if ( $request->isMethod('POST') )
+        {
+            if ( count( $request->get('subrede') ) )
+        {
+            foreach ( $request->get('subrede') as $resultado )
+            {
+                $manutencao = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->find(  $resultado );
+
+                if ( ! $manutencao )
+                {
+                    $this->get('session')->getFlashBag()->add('error', 'Dados inválidos');
+                    break;
+                }
+                $this->getDoctrine()->getManager()->persist( $manutencao );
+                $this->getDoctrine()->getManager()->flush();
+            }
+            $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+        }
+        else
+            $this->get('session')->getFlashBag()->add('error', 'Nenhum software informado!');
+
+
+                return $this->redirect(
+                    $this->generateUrl( 'cacic_subrede_manutencao'
+                    )
+                );
+            }
         return $this->render( 'CacicCommonBundle:Rede:manutencao.html.twig',
-            array( 'windows' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:RedeVersaoModulo' )
-                ->listarWindows(),
-                'linux' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:RedeVersaoModulo' )
-                    ->listarLinux()
+            array(  'windows'=> Helper\OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS ,
+                    'linux' =>  $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->listarLinux(),
+                    'subredes' => $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->subrede()
             )
         );
+
     }
+
 
     /**
      * --------------------------------------------------------------------------------------
@@ -222,7 +252,6 @@ class RedeController extends Controller
 
                 $em = $this->getDoctrine()->getManager();
 
-                // Trocar esse array por um SELECT no Doctrine que retorna os dados das redes num array
                 $arrDadosRede = array( 'rede' => $em->getRepository( 'CacicCommonBundle:Rede' )->listar() );
 				//Debug::dump($arrDadosRede['rede'][0][0]);
 				$arrDadosRede = $arrDadosRede['rede'][0];

@@ -35,9 +35,11 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     {% for Windows in windows %}
+
                     <tr id="item_{{ Windows['nmModulo'] }}">
-                        <td style="text-align: center" id="item_desc_{{ Windows['nmModulo'] }}">{{ Windows['nmModulo'] }}</td>
+                        <td style="text-align: center" id="item_desc_{{ Windows['nmModulo'] }}">{{ windows }}</td>
                         <td style="text-align: center" >{{ Windows['teVersaoModulo'] }}</td>
                         <td style="text-align: center" >{{ Windows['teHash'] }}</td>
                         <td>
@@ -87,7 +89,42 @@
 
                     </tbody>
                 </table>
+                <br />
+                <table class="table table-striped table-bordered">
+                    <h4><center>{{ "SubRedes Cadastradas"|trans }}</h4>
+                    <thead>
+                    <tr>
+                        <th width="30%"style="text-align: center">{{ 'Endereço IP'|trans }}</th>
+                        <th width="30%"style="text-align: center">{{ 'Nome da Subrede'|trans }}</th>
+                        <th width="20%"style="text-align: center">{{ 'Servidor de atualizacoes'|trans }}</th>
+                        <th width="20%"style="text-align: center">{{ 'Localizacao'|trans }}</th>
+                        <th style="text-align: center">
+                            <label style="margin: auto; width:12px; height:10px;">
+                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="subrede">
+                            </label>
+                        </th>
+                    </tr>
+                    </thead>
+                    {% for rede in subredes %}
+                        <tr id="item_{{ rede['teIpRede'] }}">
+                            <td style="text-align: center" id="item_desc_{{ rede['teIpRede'] }}">{{ rede['teIpRede'] }}</td>
+                            <td style="text-align: center" >{{ rede['nmRede'] }}</td>
+                            <td style="text-align: center" >{{ rede['teServUpdates'] }}</td>
+                            <td style="text-align: center" >{{ rede['sgLocal'] }}</td>
+                            <td>
+                                <label style="margin: auto; width:12px; height:10px;">
+                                    <input type="checkbox" id="item_id_{{ rede['teIpRede'] }}" name="subrede[]" value="{{ rede['teIpRede'] }}">
+                                </label>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
+                        </tr>
+                    {% endfor %}
 
+                    </tbody>
+                </table>
                 <div class="control-group" align="right">
                     <div class="controls">
                         <button type="reset" class="btn">
