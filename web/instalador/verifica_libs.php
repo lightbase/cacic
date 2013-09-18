@@ -17,8 +17,8 @@ function getconfig() {
     $parameters = file_get_contents($file);
     $linhas = explode("\n", $parameters);
     foreach ($linhas as $linha) {
-        $dado = explode(": ", $linha)[1];
-        $config[] = $dado;
+        $dado = explode(": ", $linha);
+        $config[] = $dado[1];
     }
     return $config;
 }
