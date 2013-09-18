@@ -23,7 +23,7 @@ function getconfig() {
     return $config;
 }
 
-$config = getconfig()
+$config = @getconfig();
 
 $dependencias = array(
     'pgsql',
@@ -40,7 +40,7 @@ function checkgit() {
 }
 
 function psqlversion($config) {
-    $dbconn = pg_connect("user=$config[5] host=$config[2] dbname=$config[4] port=$config[3] password=$config[6]");
+    $dbconn = pg_connect("user=$config[5] host=$config[2] dbname=$config[4] port=$config[3] password=$config[6]")
         or die("Erro: Não foi possivel conectar-se com o banco de dados<br><br><a href='form_dados.php?lido=y'>Voltar</a>");
     $version = pg_version($dbconn);
     return $version['client'];
@@ -57,8 +57,8 @@ if (!class_exists('System')) {
     $check = "bad";
 }
 
-if (version_compare(psqlversion(), '9.1', '<')) {
-    echo "A versão minima do <b>Postgresql</b> é a <b>9.1</b>, atualmente você está com a versão <b>".psqlversion()."</b>. Atualize e tente novamente.<br>";
+if (version_compare(psqlversion($config), '9.1', '<')) {
+    echo "A versão minima do <b>Postgresql</b> é a <b>9.1</b>, atualmente você está com a versão <b>".psqlversion($config)."</b>. Atualize e tente novamente.<br>";
     $check = "bad";
 }
 
@@ -79,20 +79,19 @@ if ($check == "ok") {
     copy("default_htaccess", "../.htaccess");
     chdir("../..");
     system("php composer.phar install > web/instalador/log_instalacao.txt");
-    file_put_contents("web/instalador/log_instalacao.txt", "<br><br>", FILE_APPEND);
+    file_put_contents("web/instalador/log_instalacao.txt", "\n\n", FILE_APPEND);
     system("php app/console assets:install --symlink >> web/instalador/log_instalacao.txt");
-    file_put_contents("web/instalador/log_instalacao.txt", "<br><br>", FILE_APPEND);
+    file_put_contents("web/instalador/log_instalacao.txt", "\n\n", FILE_APPEND);
     system("php app/console assetic:dump --force >> web/instalador/log_instalacao.txt");
-    file_put_contents("web/instalador/log_instalacao.txt", "<br><br>", FILE_APPEND);
+    file_put_contents("web/instalador/log_instalacao.txt", "\n\n", FILE_APPEND);
     system("php app/console doctrine:schema:update --force >> web/instalador/log_instalacao.txt");
-    file_put_contents("web/instalador/log_instalacao.txt", "<br><br>", FILE_APPEND);
+    file_put_contents("web/instalador/log_instalacao.txt", "\n\n", FILE_APPEND);
     system("php app/console doctrine:fixtures:load >> web/instalador/log_instalacao.txt");
-    echo file_get_contents("web/instalador/log_instalacao.txt");
 
     if ($importar == "s") {
-        echo "<a href='http://$config[2]/cacic'>Continuar</a>";
+        header("Location: http://$config[2]/cacic/migracao/cacic26");
     } else {
-        echo "<a href='http://$config[2]/cacic/migracao/cacic26'>Continuar</a>";
+        header("Location: http://$config[2]/cacic");
     }
 }
 ?>

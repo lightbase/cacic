@@ -55,10 +55,11 @@ class Cacic26Controller extends Controller
         // Conexão com o banco
         $server = "127.0.0.1";
         $db = "cacic";
-        $user = "postgres";
+        $user = "cacic";
+        $pass = "null";
 
 
-        $dbcon = new PDOConnection("pgsql:host={$server};dbname={$db}", $user/*, $pass*/);
+        $dbcon = new PDOConnection("pgsql:host={$server};dbname={$db}", $user, $pass); //TODO importar dados do arquivo .yml
 
         function importar($dbcon, $tmpdir) {
 
@@ -100,10 +101,10 @@ class Cacic26Controller extends Controller
                 "teste",
                 "tipo_software",
                 "tipo_uorg",
-                // "uorg",
+                "uorg",
                 "usb_vendor",
                 "usb_device",
-                // "usb_log"
+                "usb_log"
             );
 
             echo "Limpando dados anteriores... ";
@@ -182,7 +183,7 @@ class Cacic26Controller extends Controller
             $zip->close();
             echo " feito.<br>";
         } else {
-            die("<br>Erro de extração de arquivo: {$x}");
+            die("<br>Erro na extração do arquivo: {$x}");
         }
 
 // Importa os dados para o postgres

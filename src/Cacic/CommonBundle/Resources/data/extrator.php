@@ -4,7 +4,7 @@ $server = "localhost";
 $db = "cacic";
 $user = "root";
 $pass = "";
-$dbcon = new PDO("mysql:host={$server};dbname={$db}", $user, $pass);
+$dbcon = new PDO("mysql:host={$server};dbname={$db}", $user, $pass); //TODO receber dados do banco direto do cacic
 
 // Nome do diretório temporário
 $tmproot = sys_get_temp_dir();
@@ -54,7 +54,7 @@ function extrair($dbcon) {
         "usb_device" => "SELECT tmp_usb.id_usb_device, usb_vendors.id_vendor AS id_usb_vendor, usb_devices.nm_device AS nm_usb_device, usb_devices.te_observacao, @s1:=NULL dt_registro, usb_devices.id_device INTO OUTFILE '$tmpdir/usb_device.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_devices INNER JOIN tmp_usb ON (tmp_usb.id_device=usb_devices.id_device AND tmp_usb.id_vendor=usb_devices.id_vendor AND tmp_usb.nm_device=usb_devices.nm_device) INNER JOIN usb_vendors ON (usb_devices.id_vendor=usb_vendors.id_vendor) WHERE tmp_usb.repeticao = 1",
         "usb_log" => "SELECT @s:=@s+1 id_usb_log, tmp_usb.id_usb_device, tmp_computador.id_computador, dt_event, cs_event, usb_logs.id_device INTO OUTFILE '$tmpdir/usb_log.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_logs INNER JOIN tmp_computador ON (tmp_computador.id_so=usb_logs.id_so AND tmp_computador.te_node_address=usb_logs.te_node_address) INNER JOIN tmp_usb ON (tmp_usb.id_device=usb_logs.id_device AND tmp_usb.id_vendor=usb_logs.id_vendor), (SELECT @s:=0) AS s",
         "usb_vendor" => "SELECT id_vendor AS id_usb_vendor, nm_vendor AS nm_usb_vendor, te_observacao, @s1:=NULL dt_registro INTO OUTFILE '$tmpdir/usb_vendor.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usb_vendors",
-        "usuario" => "SELECT id_usuario, id_local, id_servidor_autenticacao, id_grupo_usuarios AS id_grupo_usuario, @s1:=NULL id_usuario_ldap, nm_usuario_acesso, nm_usuario_completo, @s2:=NULL nm_usuario_completo_ldap, @s3:=CONCAT('Cacic2','_',nm_usuario_acesso) te_senha, dt_log_in, te_emails_contato, te_telefones_contato INTO OUTFILE '$tmpdir/usuario.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usuarios"
+        "usuario" => "SELECT id_usuario, id_local, id_servidor_autenticacao, id_grupo_usuarios AS id_grupo_usuario, @s1:=NULL id_usuario_ldap, nm_usuario_acesso, nm_usuario_completo, @s2:=NULL nm_usuario_completo_ldap, @s3:=CONCAT('Cacic2','_',nm_usuario_completo) te_senha, dt_log_in, te_emails_contato, te_telefones_contato INTO OUTFILE '$tmpdir/usuario.csv' FIELDS TERMINATED BY ';' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM usuarios"
     );
 
     while($tabela = current($lista_tabelas)) {
@@ -82,6 +82,7 @@ function Zip($source, $destination){
         foreach ($files as $file){
             $file = str_replace('\\', '/', $file);
 
+            // Ignore "." and ".." folders
             if( in_array(substr($file, strrpos($file, '/')+1), array('.', '..')) )
                continue;
 
@@ -234,8 +235,8 @@ fix_null_time($tmpdir."/unid_organizacional_nivel2.csv");
 fix_rede_grupo_ftp($tmpdir."/rede_grupo_ftp.csv");
 fix_quoted_data($tmpdir."/usb_device.csv");
 
-// Deleta tabelas temporárias
-/*$dbcon->exec("DROP TABLE tmp_redes");
+/*// Deleta tabelas temporárias
+$dbcon->exec("DROP TABLE tmp_redes");
 $dbcon->exec("DROP TABLE tmp_computador");
 $dbcon->exec("DROP TABLE tmp_uorg");
 $dbcon->exec("DROP TABLE tmp_usb");*/
@@ -255,25 +256,4 @@ echo "O arquivo {$zipfile} foi criado.<br>\n";
 
 // Fecha conexão com o banco
 $dbcon = null;
-/*
-
-// Permite o download do arquivo
-if (file_exists($zipfile)) {
-    header('Content-Description: File Transfer');
-    header('Content-Type: application/zip');
-    header('Content-Disposition: attachment; filename='.basename($zipfile));
-    header('Content-Transfer-Encoding: binary');
-    header('Expires: 0');
-    header('Cache-Control: must-revalidate');
-    header('Pragma: public');
-    header('Content-Length: ' . filesize($zipfile));
-    ob_clean();
-    flush();
-    readfile($zipfile);
-    exit;
-}
-
-
-// Redireciona para a pagina anterior
-header("Location: extrator.php");*/
 ?>

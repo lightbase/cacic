@@ -2,9 +2,10 @@
 // Conexão com o banco
 $server = "127.0.0.1";
 $db = "cacic";
-$user = "postgres";
-// $pass = "";
-$dbcon = new PDO("pgsql:host={$server};dbname={$db}", $user/*, $pass*/);
+$user = "cacic";
+$pass = "null";
+
+$dbcon = new PDOConnection("pgsql:host={$server};dbname={$db}", $user, $pass); //TODO importar dados do arquivo .yml
 
 
 function importar($dbcon, $tmpdir) {

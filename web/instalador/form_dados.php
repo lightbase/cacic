@@ -6,11 +6,11 @@ $formulario =
         <option value='pdo_pgsql'>PostgreSQL</option>
     </select> Tipo</p>
 <p title='IP ou nome do servidor do banco de dados.'>
-    <input type='text' name='banco_host'> Servidor</p>
+    <input type='text' name='banco_host'> Servidor do banco</p>
 <p title='Porta de conexão ao banco de dados.'>
     <input type='text' name='banco_porta'> Porta</p>
 <p title='Nome do banco de dados pré-existente.'>
-    <input type='text' name='banco_nome'> Nome do banco de dados</p>
+    <input type='text' name='banco_nome'> Nome do banco</p>
 <p title='Nome do usuário para ser usado pelo CACIC para conectar ao banco de dados'>
     <input type='text' name='banco_usuario'> Usuário do banco</p>
 <p title='Senha para o usuário do banco de dados'>
