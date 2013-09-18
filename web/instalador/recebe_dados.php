@@ -9,7 +9,7 @@ if ($_POST["banco_host"] == "") {
     $parameters["database_host"] = $_POST["banco_host"];
 }
 if ($_POST["banco_porta"] == "") {
-    $parameters["database_port"] = "null";
+    $parameters["database_port"] = "5432";
 } else {
     $parameters["database_port"] = $_POST["banco_porta"];
 }
@@ -60,11 +60,6 @@ if ($_POST["banco_path"] == "") {
     $parameters["database_path"] = "null";
 } else {
     $parameters["database_path"] = $_POST["banco_path"];
-}
-if ($_POST["banco_senha_root"] == "") {
-    $parameters["banco_senha_root"] = "null";
-} else {
-    $parameters["banco_senha_root"] = $_POST["banco_senha_root"];
 }
 
 $importar = $_POST["importar"];

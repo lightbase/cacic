@@ -30,8 +30,6 @@ $formulario =
     </select> Idioma</p>
 <p title='Caminho do banco de dados'>
     <input type='text' name='banco_path'> Caminho do banco de dados</p>
-<p title='Senha do usuario postgres(super usuário do banco de dados)'>
-    <input type='password' name='banco_senha_root'> Senha do usuário postgres</p>
 <p title='Se marcado, redireciona o usuário para a tela de importação de dados da versão anterior do gerente'>
     <label><input type='radio' name='importar' value='s'>Sim</label>
     <label><input type='radio' name='importar' value='n' checked='true'>Não</label> |  Importar dados do cacic 2.6?</p>
@@ -49,7 +47,7 @@ $formulario =
 <body>
     <div id='tudo'>
         <?php
-        if (!isset($_POST["lido"])) {
+        if (!isset($_REQUEST["lido"])) {
             header("Location: index.php");  
         } else {
             echo $formulario;

@@ -54,11 +54,9 @@ $ sudo su
 # su - postgres
 $ createuser cacic
 
-Responda tudo "n", conforme abaixo:
+Responda "y", conforme abaixo:
 
-Shall the new role be a superuser? (y/n) n
-Shall the new role be allowed to create databases? (y/n) n
-Shall the new role be allowed to create more new roles? (y/n) n
+Shall the new role be a superuser? (y/n) y
 $ createdb -O cacic cacic
 
 5.0

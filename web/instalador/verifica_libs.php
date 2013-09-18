@@ -12,6 +12,18 @@
 require_once 'System.php';
 $check = "ok";
 
+function getconfig() {
+    $file = "../../app/config/parameters.yml";
+    $parameters = file_get_contents($file);
+    $linhas = explode("\n", $parameters);
+    foreach ($linhas as $linha) {
+        $dado = explode(": ", $linha)[1];
+        $config[] = $dado;
+    }
+    return $config;
+}
+
+$config = getconfig()
 
 $dependencias = array(
     'pgsql',
@@ -27,9 +39,9 @@ function checkgit() {
     return $git[0];
 }
 
-function psqlversion() {
-    $dbconn = pg_connect("user=postgres host=localhost dbname=postgres port=5432")
-        or die("Erro: Não foi possivel conectar-se com o banco de dados<br><br><a href=''>Voltar</a>");
+function psqlversion($config) {
+    $dbconn = pg_connect("user=$config[5] host=$config[2] dbname=$config[4] port=$config[3] password=$config[6]");
+        or die("Erro: Não foi possivel conectar-se com o banco de dados<br><br><a href='form_dados.php?lido=y'>Voltar</a>");
     $version = pg_version($dbconn);
     return $version['client'];
 }
@@ -50,8 +62,8 @@ if (version_compare(psqlversion(), '9.1', '<')) {
     $check = "bad";
 }
 
-if (version_compare(phpversion(), '5.3.17', '<')) {
-    echo "A versão minima do <b>PHP</b> é a <b>5.3.17</b>, atualmente você está com a versão <b>".phpversion()."</b>. Atualize e tente novamente.<br>";
+if (version_compare(phpversion(), '5.3.10', '<')) {
+    echo "A versão minima do <b>PHP</b> é a <b>5.3.10</b>, atualmente você está com a versão <b>".phpversion()."</b>. Atualize e tente novamente.<br>";
     $check = "bad";
 }
 
@@ -78,9 +90,9 @@ if ($check == "ok") {
     echo file_get_contents("web/instalador/log_instalacao.txt");
 
     if ($importar == "s") {
-        echo "<a href='http://teste.cacic.cc/'>Continuar</a>";
+        echo "<a href='http://$config[2]/cacic'>Continuar</a>";
     } else {
-        echo "<a href='http://teste.cacic.cc/migracao/cacic26'>Continuar</a>";
+        echo "<a href='http://$config[2]/cacic/migracao/cacic26'>Continuar</a>";
     }
 }
 ?>
