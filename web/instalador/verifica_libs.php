@@ -78,15 +78,11 @@ if ($check == "ok") {
     $importar = file_get_contents("log_instalacao.txt");
     copy("default_htaccess", "../.htaccess");
     chdir("../..");
-    system("php composer.phar install > web/instalador/log_instalacao.txt");
-    file_put_contents("web/instalador/log_instalacao.txt", "\n\n", FILE_APPEND);
-    system("php app/console assets:install --symlink >> web/instalador/log_instalacao.txt");
-    file_put_contents("web/instalador/log_instalacao.txt", "\n\n", FILE_APPEND);
-    system("php app/console assetic:dump --force >> web/instalador/log_instalacao.txt");
-    file_put_contents("web/instalador/log_instalacao.txt", "\n\n", FILE_APPEND);
-    system("php app/console doctrine:schema:update --force >> web/instalador/log_instalacao.txt");
-    file_put_contents("web/instalador/log_instalacao.txt", "\n\n", FILE_APPEND);
-    system("php app/console doctrine:fixtures:load >> web/instalador/log_instalacao.txt");
+    exec("php composer.phar install > web/instalador/log_instalacao.txt"); //TODO Comando não está sendo executado
+    exec("php app/console assets:install --symlink >> web/instalador/log_instalacao.txt");
+    exec("php app/console assetic:dump --force >> web/instalador/log_instalacao.txt");
+    exec("php app/console doctrine:schema:update --force >> web/instalador/log_instalacao.txt");
+    exec("php app/console doctrine:fixtures:load >> web/instalador/log_instalacao.txt");
 
     if ($importar == "s") {
         header("Location: http://$config[2]/cacic/migracao/cacic26");
