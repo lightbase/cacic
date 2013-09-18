@@ -143,10 +143,16 @@ class DefaultController extends Controller
 
                 // Exclusão por timeout
                 //remoção de RedeGrupoFtp
-                $this->getDoctrine()->getManager()->remove($rede_grupos_ftp);
+                if (!empty($rede_grupos_ftp)) {
+                    $this->getDoctrine()->getManager()->remove($rede_grupos_ftp);
+                } else {
+                    $rede_grupos_ftp = new RedeGrupoFtp();
+                }
+
 
                 // Contagem por subrede
-                $soma_redes_grupo_ftp = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->countRedeGrupoFtp( $rede->getIdRede() );
+                $rede_grupos_ftp_repository = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->findBy(array('idRede' => $rede->getIdRede()));
+                $soma_redes_grupo_ftp = count($rede_grupos_ftp_repository);
 
                 // Caso o grupo de estações esteja cheio, retorno o tempo de 5 minutos para espera e nova tentativa...
                 // Posteriormente, poderemos calcular uma média para o intervalo, em função do link da subrede

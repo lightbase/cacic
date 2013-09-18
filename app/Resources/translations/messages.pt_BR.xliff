@@ -225,7 +225,7 @@
       </trans-unit>
       <trans-unit id="6b8f7503c78ad7eb8e24f7dd589e6831e2bc36b7" resname="Navegar">
         <source>Navegar</source>
-        <target>navigate</target>
+        <target>Navegar</target>
         <jms:reference-file line="214">Resources/views/base.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="198da551de19b4a5dd5306b17d225d68fb4bcbd3" resname="Nova Senha:">

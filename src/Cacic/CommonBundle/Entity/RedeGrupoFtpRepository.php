@@ -9,12 +9,10 @@ class RedeGrupoFtpRepository extends EntityRepository
 {
     public function countRedeGrupoFtp( $idRede )
     {
-        $_dql = "SELECT r
+        $_dql = "SELECT count(r)
 				FROM CacicCommonBundle:RedeGrupoFtp r
 				WHERE r.idRede = :idRede";
 
-        return $this->getEntityManager()
-            ->createQuery( $_dql )
-            ->getSingleScalarResult();
+        return $this->getEntityManager()->createQuery( $_dql )->getSingleScalarResult();
     }
 }
