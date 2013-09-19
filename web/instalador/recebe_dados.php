@@ -64,7 +64,7 @@ if ($_POST["banco_path"] == "") {
 
 $importar = $_POST["importar"];
 
-file_put_contents("log_instalacao.txt", $importar);
+file_put_contents("instalacao.log", $importar);
 $file = "../../app/config/parameters.yml";
 file_put_contents($file, "parameters:\n");
 foreach ($parameters as $key => $dado) {
@@ -75,9 +75,6 @@ foreach ($parameters as $key => $dado) {
 if (file_exists($file)) {
     header("Location: verifica_libs.php");
 } else {
-    echo "<script>
-    alert('Erro!');
-    window.history.back()
-    </script>";
+    header("Location: form_dados.php?lido=s&erro=s");
 }
 ?>
