@@ -40,7 +40,7 @@ function checkgit() {
 }
 
 function psqlversion($config) {
-    $dbconn = pg_connect("user=$config[5] host=$config[2] dbname=$config[4] port=$config[3] password=$config[6]")
+    $dbconn = pg_connect("user={$config[5]} host={$config[2]} dbname={$config[4]} port={$config[3]} password={$config[6]}")
         or die("Erro: Não foi possivel conectar-se com o banco de dados<br><br><a href='form_dados.php?lido=y'>Voltar</a>");
     $version = pg_version($dbconn);
     return $version['client'];
@@ -78,20 +78,23 @@ if ($check == "ok") {
     $importar = file_get_contents("log_instalacao.txt");
     copy("default_htaccess", "../.htaccess");
     chdir("../..");
-    exec("php composer.phar install > web/instalador/log_instalacao.txt"); //TODO Comando não está sendo executado
-    exec("php app/console assets:install --symlink >> web/instalador/log_instalacao.txt");
-    exec("php app/console assetic:dump --force >> web/instalador/log_instalacao.txt");
-    exec("php app/console doctrine:schema:update --force >> web/instalador/log_instalacao.txt");
-    exec("php app/console doctrine:fixtures:load >> web/instalador/log_instalacao.txt");
-
-    if ($importar == "s") {
-        header("Location: http://$config[2]/cacic/migracao/cacic26");
-    } else {
-        header("Location: http://$config[2]/cacic");
+    exec("echo \"<?php \$finish='n' ?>\" > web/instalador/finalizado.php
+          COMPOSER_HOME='/path/you/want/to/be/home' php composer.phar install > web/instalador/log_instalacao.txt 2>&1 &&
+          php app/console assets:install --symlink >> web/instalador/log_instalacao.txt 2>&1 &&
+          php app/console assetic:dump --force >> web/instalador/log_instalacao.txt 2>&1 &&
+          php app/console doctrine:schema:update --force >> web/instalador/log_instalacao.txt 2>&1 &&
+          php app/console doctrine:fixtures:load >> web/instalador/log_instalacao.txt 2>&1 &&
+          echo \"<?php \$finish='s' ?>\" > web/instalador/finalizado.php");
+    include_once "web/instalador/finalizado.php";
+    if ($finish == "s") {
+        if ($importar == "s") {
+            header("Location: http://$config[2]/cacic/migracao/cacic26");
+        } else {
+            header("Location: http://$config[2]/cacic");
+        }
     }
 }
 ?>
-
     </div>
 </body>
 </html>
