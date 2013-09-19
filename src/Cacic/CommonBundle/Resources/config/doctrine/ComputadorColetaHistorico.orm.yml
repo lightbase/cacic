@@ -18,7 +18,6 @@ Cacic\CommonBundle\Entity\ComputadorColetaHistorico:
             type: datetime
             nullable: false
             column: dt_hr_inclusao
-            columnDefinition: DEFAULT CURRENT_TIMESTAMP
     manyToOne:
         computadorColeta:
             targetEntity: ComputadorColeta

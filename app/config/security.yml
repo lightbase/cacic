@@ -19,7 +19,7 @@ security:
 
     firewalls:
         dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            pattern:  ^/(_(profiler|wdt)|css|images|js|assets|assetic)/
             security: false
         login:
             pattern:  ^/login$
