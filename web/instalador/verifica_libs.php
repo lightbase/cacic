@@ -50,22 +50,22 @@ function psqlversion($config) {
 }
 
 
-if (is_file(@checkgit())) {
+if (!is_file(@checkgit())) {
     echo "<span class='label label-danger'>O programa de versionamento <u>git</u> não foi encontrado. Instale-o e tente novamente.</span><br>";
     $check = "bad";
 }
 
-if (!version_compare(psqlversion($config), '9.1', '<')) {
+if (version_compare(psqlversion($config), '9.1', '<')) {
     echo "<span class='label label-danger'>A versão minima do <u>Postgresql</u> é a <u>9.1</u>, atualmente você está com a versão <u>".psqlversion($config)."</u>. Atualize-o e tente novamente.</span><br>";
     $check = "bad";
 }
 
-if (!version_compare(phpversion(), '5.3.10', '<')) {
+if (version_compare(phpversion(), '5.3.10', '<')) {
     echo "<span class='label label-danger'>A versão minima do <u>PHP</u> é a <u>5.3.10</u>, atualmente você está com a versão <u>".phpversion()."</u>. Atualize-o e tente novamente.</span><br>";
     $check = "bad";
 }
 
-if (class_exists('System')) {
+if (!class_exists('System')) {
     echo "<span class='label label-danger'>A biblioteca <u>pear</u> não foi encontrada. instale-a e tente novamente.</span><br>";
     $check = "bad";
 }
@@ -80,7 +80,6 @@ foreach ($dependencias as $biblioteca) {
 if ($check == "ok") {
     $importar = file_get_contents("instalacao.log");
     $composerhome = getcwd()."/../";
-    copy("default_htaccess", "../.htaccess");
     chdir("../..");
     exec("echo 'n' > web/instalador/finalizado.txt
           COMPOSER_HOME='$composerhome' php composer.phar install > web/instalador/instalacao.log 2>&1 &&
@@ -91,6 +90,7 @@ if ($check == "ok") {
           echo 's' > web/instalador/finalizado.txt");
     $finish = file_get_contents("web/instalador/finalizado.txt");
     if ($finish == "s") {
+        copy("web/instalador/default_htaccess", "web/.htaccess");
         if ($importar == "s") {
             header("Location: http://$config[2]/cacic/migracao/cacic26");
         } else {
@@ -98,8 +98,11 @@ if ($check == "ok") {
         }
     } else {
         exec("echo '\nErro: Ocorreu um erro inesperado!\n' >> web/instalador/instalacao.log");
-        echo "<span class='label label-danger'><u>Erro</u>: Ocorreu um erro inesperado!</span>";
+        echo "<span class='label label-danger'><u>Erro</u>: Ocorreu um erro inesperado!</span>
+              <br><br><a href='form_dados.php?lido=y'>Voltar</a>";
     }
+} else {
+    echo "<br><br><a href='form_dados.php?lido=y'>Voltar</a>";
 }
 ?>
         </div>

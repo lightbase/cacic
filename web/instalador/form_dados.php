@@ -62,6 +62,7 @@ $formulario =
                     <label><input type='radio' name='importar' value='n' checked='true'>Não</label><br>
                     <input type='submit' class='btn btn-default' value='Continuar'><br><br>
                     <span class='label label-warning'><u>Aviso</u>: Esse Procedimento pode demorar alguns minutos!</span>
+                    <span class='label label-warning'>É possivel acompanhar o processo da instalação no arquivo gerente/web/instalador/instalacao.log</span>
                 </div>
             </form>
         </div>
