@@ -97,6 +97,7 @@ if ($check == "ok") {
             header("Location: http://$config[2]/cacic");
         }
     } else {
+        unlink("web/.htaccess");
         exec("echo '\nErro: Ocorreu um erro inesperado!\n' >> web/instalador/instalacao.log");
         echo "<span class='label label-danger'><u>Erro</u>: Ocorreu um erro inesperado!</span>
               <br><br><a href='form_dados.php?lido=y'>Voltar</a>";
