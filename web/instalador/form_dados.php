@@ -61,7 +61,7 @@ $formulario =
                     <label><input type='radio' name='importar' value='s'>Sim</label>
                     <label><input type='radio' name='importar' value='n' checked='true'>Não</label><br>
                     <div id='go'>
-                        <button type='submit' class='btn btn-default' data-loading-text='Instalando...'>Continuar</button>
+                        <input type='submit' class='btn btn-default' onclick='this.disabled=true;this.value=\"Instalando...\";this.form.submit();' value='Continuar'>
                     </div>
                     <br><br>
                     <span class='label label-warning'><u>Aviso</u>: Esse Procedimento pode demorar alguns minutos!</span>

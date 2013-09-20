@@ -1,9 +1,9 @@
-TODO: inner join pra bater as colunas
 ERROR:  insert or update on table "usb_log" violates foreign key constraint "fk_ae68d5939f1b3279"
 DETAIL:  Key (id_computador)=(22) is not present in table "computador".
 STATEMENT:  COPY usb_log FROM '/tmp/importacao/usb_log.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
+FIX: ????
 
-TODO: inner join pra bater as colunas
 ERROR:  insert or update on table "uorg" violates foreign key constraint "fk_f0f1ec206553c9d8"
 DETAIL:  Key (id_local)=(0) is not present in table "local".
 STATEMENT:  COPY uorg FROM '/tmp/importacao/uorg.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '"' ENCODING 'ISO-8859-1' CSV
+FIX: Setar o local da uorg nivel 2 para seu pái e seu avô
