@@ -71,7 +71,7 @@ if (!class_exists('System')) {
 }
 
 foreach ($dependencias as $biblioteca) {
-    if (extension_loaded($biblioteca)) {
+    if (!extension_loaded($biblioteca)) {
         echo "<span class='label label-danger'>A biblioteca <u>{$biblioteca}</u> não foi encontrada. instale-a e tente novamente.</span><br>";
         $check = "bad";
     }
