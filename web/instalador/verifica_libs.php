@@ -87,26 +87,16 @@ if ($check == "ok") {
     $importar = file_get_contents("instalacao.log");
     $composerhome = getcwd()."/../";
     chdir("../..");
-    exec("echo 'n' > web/instalador/finalizado.txt
-          COMPOSER_HOME='$composerhome' php composer.phar install > web/instalador/instalacao.log 2>&1 &&
+    exec("COMPOSER_HOME='$composerhome' php composer.phar install > web/instalador/instalacao.log 2>&1 &&
           php app/console assets:install --symlink >> web/instalador/instalacao.log 2>&1 &&
           php app/console assetic:dump --force >> web/instalador/instalacao.log 2>&1 &&
           php app/console doctrine:schema:update --force >> web/instalador/instalacao.log 2>&1 &&
-          php app/console doctrine:fixtures:load >> web/instalador/instalacao.log 2>&1 &&
-          echo 's' > web/instalador/finalizado.txt");
-    $finish = file_get_contents("web/instalador/finalizado.txt");
-    if ($finish == "s") {
-        copy("web/instalador/default_htaccess", "web/.htaccess");
-        if ($importar == "s") {
-            header("Location: http://$config[2]/cacic/migracao/cacic26");
-        } else {
-            header("Location: http://$config[2]/cacic");
-        }
+          php app/console doctrine:fixtures:load >> web/instalador/instalacao.log 2>&1");
+    copy("web/instalador/default_htaccess", "web/.htaccess");
+    if ($importar == "s") {
+        header("Location: http://$config[2]/cacic/migracao/cacic26");
     } else {
-        unlink("web/.htaccess");
-        exec("echo '\nErro: Ocorreu um erro inesperado!\n' >> web/instalador/instalacao.log");
-        echo "<span class='label label-danger'><u>Erro</u>: Ocorreu um erro inesperado!</span>
-              <br><br><a href='form_dados.php?lido=y' class='btn btn-default' >Voltar</a>";
+        header("Location: http://$config[2]/cacic");
     }
 } else {
     echo "<br><br><a href='form_dados.php?lido=y' class='btn btn-default'>Voltar</a>";

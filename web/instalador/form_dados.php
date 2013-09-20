@@ -60,7 +60,10 @@ $formulario =
                     <label>Importar dados do cacic 2.6?</label><br>
                     <label><input type='radio' name='importar' value='s'>Sim</label>
                     <label><input type='radio' name='importar' value='n' checked='true'>Não</label><br>
-                    <input type='submit' data-loading-text='Instalando...' class='btn btn-default' value='Continuar'><br><br>
+                    <div id='go'>
+                        <input class='btn btn-default' type='submit' value='Continuar'>
+                    </div>
+                    <br><br>
                     <span class='label label-warning'><u>Aviso</u>: Esse Procedimento pode demorar alguns minutos!</span>
                     <span class='label label-warning'>É possivel acompanhar o processo da instalação no arquivo gerente/web/instalador/instalacao.log</span>
                 </div>
@@ -88,6 +91,7 @@ $erro = "<span class='label label-danger'>Erro: Ocorreu um erro inesperado!</spa
     <link rel='stylesheet' href='css/style.css' type='text/css'>
     <link href="dist/css/bootstrap.css" rel="stylesheet">
     <link href="dist/css/bootstrap-theme.css" rel="stylesheet">
+    <script src="js/check.js"></script>
 </head>
 <body>
     <div id='tudo'>

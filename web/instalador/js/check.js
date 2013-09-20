@@ -4,4 +4,8 @@ function validate() {
 	} else {
 	    document.getElementById('go').innerHTML='<input class="btn btn-default" type="submit" value="Continuar" disabled="true">';
 	}
+};
+
+function install() {
+	document.getElementById('go').innerHTML="<input class='btn btn-default' type='submit' value='Instalando...' disabled='true'>";
 }
