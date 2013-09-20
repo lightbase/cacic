@@ -42,6 +42,7 @@ function checkgit() {
     return $git[0];
 }
 
+
 function psqlversion($config) {
     $dbconn = pg_connect("user={$config[5]} host={$config[2]} dbname={$config[4]} port={$config[3]} password={$config[6]}")
         or die("<span class='label label-danger'>Erro: Não foi possivel conectar-se com o banco de dados</span><br><br><a href='form_dados.php?lido=y'>Voltar</a>");
@@ -52,6 +53,11 @@ function psqlversion($config) {
 
 if (!is_file(@checkgit())) {
     echo "<span class='label label-danger'>O programa de versionamento <u>git</u> não foi encontrado. Instale-o e tente novamente.</span><br>";
+    $check = "bad";
+}
+
+if (!is_file("/usr/bin/java")) {
+    echo "<span class='label label-danger'>Não foi encontrada nenhuma <u>JVM</u> (Java Virtual Machine) em seu computador. Instale-a e tente novamente.</span><br>";
     $check = "bad";
 }
 
