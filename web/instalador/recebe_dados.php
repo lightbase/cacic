@@ -64,7 +64,7 @@ if ($_POST["banco_path"] == "") {
 
 $importar = $_POST["importar"];
 
-file_put_contents("instalacao.log", $importar);
+file_put_contents("importar", $importar);
 $file = "../../app/config/parameters.yml";
 file_put_contents($file, "parameters:\n");
 foreach ($parameters as $key => $dado) {

@@ -61,11 +61,11 @@ $formulario =
                     <label><input type='radio' name='importar' value='s'>Sim</label>
                     <label><input type='radio' name='importar' value='n' checked='true'>Não</label><br>
                     <div id='go'>
-                        <input class='btn btn-default' type='submit' value='Continuar'>
+                        <button type='submit' class='btn btn-default' data-loading-text='Instalando...'>Continuar</button>
                     </div>
                     <br><br>
                     <span class='label label-warning'><u>Aviso</u>: Esse Procedimento pode demorar alguns minutos!</span>
-                    <span class='label label-warning'>É possivel acompanhar o processo da instalação no arquivo gerente/web/instalador/instalacao.log</span>
+                    <span class='label label-warning'>É possivel acompanhar o processo de instalação no arquivo \"/srv/gerente/web/instalador/instalacao.log\"</span>
                 </div>
             </form>
         </div>
@@ -88,10 +88,10 @@ $erro = "<span class='label label-danger'>Erro: Ocorreu um erro inesperado!</spa
 <head>
     <meta charset='UTF-8'>
     <title>Instalação do Cacic 3.0</title>
-    <link rel='stylesheet' href='css/style.css' type='text/css'>
-    <link href="dist/css/bootstrap.css" rel="stylesheet">
-    <link href="dist/css/bootstrap-theme.css" rel="stylesheet">
-    <script src="js/check.js"></script>
+    <link rel='shortcut icon' href='img/logo-bits.png'>
+    <link rel='stylesheet' href='css/style.css'>
+    <link rel='stylesheet' href='dist/css/bootstrap.css'>
+    <link rel='stylesheet' href='dist/css/bootstrap-theme.css'>
 </head>
 <body>
     <div id='tudo'>

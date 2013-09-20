@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang='pt'>
 <head>
-    <meta charset="UTF-8">
-    <title>Termos de licença</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css">
-    <link href="dist/css/bootstrap.css" rel="stylesheet">
-    <link href="dist/css/bootstrap-theme.css" rel="stylesheet">
-    <script src="js/check.js"></script>
+    <meta charset='UTF-8'>
+    <title>Instalação do Cacic 3.0</title>
+    <link rel='shortcut icon' href='img/logo-bits.png'>
+    <link rel='stylesheet' href='css/style.css'>
+    <link rel='stylesheet' href='dist/css/bootstrap.css'>
+    <link rel='stylesheet' href='dist/css/bootstrap-theme.css'>
+    <script src='js/check.js'></script>
 </head>
 <body>
-    <div id="tudo">
-        <span class="label label-danger">Por favor, leia os termos da licença a seguir.
+    <div id='tudo'>
+        <span class='label label-danger'>Por favor, leia os termos da licença a seguir.
         Você deve concordar com os termos para utilizar o CACIC!</span><br><br>
-        <div class="well well-lg">
-            <div id="license">
-                <p align="center">LICENÇA PÚBLICA GERAL GNU</p>
-                <p align="center">Versão 2, junho de 1991</p>
+        <div class='well well-lg'>
+            <div id='license'>
+                <p align='center'>LICENÇA PÚBLICA GERAL GNU</p>
+                <p align='center'>Versão 2, junho de 1991</p>
                 <br>
-                <p align="center">Introdução</p>
+                <p align='center'>Introdução</p>
 
                 <p>As licenças de muitos softwares são desenvolvidas para restringir sua
                 liberdade de compartilhá-lo e mudá-lo. Contrária a isso, a Licença
@@ -70,20 +71,20 @@
                 <p>Os termos e condições precisas para cópia, distribuição e
                 modificação se encontram abaixo:</p>
 
-                <p align="center">LICENÇA PÚBLICA GERAL GNU</p>
-                <p align="center">TERMOS E CONDIÇÕES PARA CÓPIA, DISTRIBUIÇÃO E MODIFICAÇÃO</p>
+                <p align='center'>LICENÇA PÚBLICA GERAL GNU</p>
+                <p align='center'>TERMOS E CONDIÇÕES PARA CÓPIA, DISTRIBUIÇÃO E MODIFICAÇÃO</p>
 
                 <p>0. Esta licença se aplica a qualquer programa ou outro trabalho que
                 contenha um aviso colocado pelo detentor dos direitos autorais
                 informando que aquele pode ser distribuído sob as condições desta
-                Licença Pública Geral. O "Programa" abaixo refere-se a qualquer
-                programa ou trabalho, e "trabalho baseado no Programa" significa tanto
+                Licença Pública Geral. O 'Programa' abaixo refere-se a qualquer
+                programa ou trabalho, e 'trabalho baseado no Programa' significa tanto
                 o Programa em si como quaisquer trabalhos derivados, de acordo com a
                 lei de direitos autorais: isto quer dizer um trabalho que contenha o
                 Programa ou parte dele, tanto originalmente ou com modificações, e/ou
                 tradução para outros idiomas. (Doravante o processo de tradução está
-                incluído sem limites no termo "modificação".) Cada licenciado é
-                mencionado como "você".</p>
+                incluído sem limites no termo 'modificação'.) Cada licenciado é
+                mencionado como 'você'.</p>
 
                 <p>Atividades outras que a cópia, a distribuição e modificação não estão
                 cobertas por esta Licença; elas estão fora de seu escopo.  O ato de
@@ -178,11 +179,11 @@
                 preferida para se fazer modificações. Para um trabalho em forma
                 executável, o código-fonte completo significa todo o código-fonte de
                 todos os módulos que ele contém, mais quaisquer arquivos de definição
-                de "interface", mais os "scripts" utilizados para se controlar a
+                de 'interface', mais os 'scripts' utilizados para se controlar a
                 compilação e a instalação do executável. Contudo, como exceção
                 especial, o código-fonte distribuído não precisa incluir qualquer
                 componente normalmente distribuído (tanto em forma original quanto
-                binária) com os maiores componentes (o compilador, o "kernel" etc.) do
+                binária) com os maiores componentes (o compilador, o 'kernel' etc.) do
                 sistema operacional sob o qual o executável funciona, a menos que o
                 componente em si acompanhe o executável.</p>
 
@@ -228,7 +229,7 @@
                 simultaneamente suas obrigações para com esta Licença e para com as
                 outras obrigações pertinentes, então como conseqüência você não poderá
                 distribuir o Programa. Por exemplo, se uma licença de patente não
-                permitirá a redistribuição, livre de "royalties", do Programa, por
+                permitirá a redistribuição, livre de 'royalties', do Programa, por
                 todos aqueles que receberem cópias direta ou indiretamente de você,
                 então a única forma de você satisfazer a ela e a esta Licença seria a
                 de desistir completamente de distribuir o Programa.</p>
@@ -267,7 +268,7 @@
 
                 <p>A cada versão é dada um número distinto. Se o Programa especifica um
                 número de versão específico desta Licença que se aplica a ele e a
-                "qualquer nova versão", você tem a opção de aceitar os termos e
+                'qualquer nova versão', você tem a opção de aceitar os termos e
                 condições daquela versão ou de qualquer outra versão publicada pela
                 Free Software Foundation. Se o programa não especifica um número de
                 versão desta Licença, você pode escolher qualquer versão já publicada
@@ -283,13 +284,13 @@
                 promover o compartilhamento e reutilização de software em aspectos
                 gerais.</p>
 
-                <p align="center">AUSÊNCIA DE GARANTIAS</p>
+                <p align='center'>AUSÊNCIA DE GARANTIAS</p>
 
                 <p>11. UMA VEZ QUE O PROGRAMA É LICENCIADO SEM ÔNUS, NÃO HÁ QUALQUER
                 GARANTIA PARA O PROGRAMA, NA EXTENSÃO PERMITIDA PELAS LEIS
                 APLICÁVEIS. EXCETO QUANDO EXPRESSADO DE FORMA ESCRITA, OS DETENTORES
-                DOS DIREITOS AUTORAIS E/OU TERCEIROS DISPONIBILIZAM O PROGRAMA "NO
-                ESTADO", SEM QUALQUER TIPO DE GARANTIAS, EXPRESSAS OU IMPLÍCITAS,
+                DOS DIREITOS AUTORAIS E/OU TERCEIROS DISPONIBILIZAM O PROGRAMA 'NO
+                ESTADO', SEM QUALQUER TIPO DE GARANTIAS, EXPRESSAS OU IMPLÍCITAS,
                 INCLUINDO, MAS NÃO LIMITADO A, AS GARANTIAS IMPLÍCITAS DE
                 COMERCIALIZAÇÃO E AS DE ADEQUAÇÃO A QUALQUER PROPÓSITO. O RISCO TOTAL
                 COM A QUALIDADE E DESEMPENHO DO PROGRAMA É SEU. SE O PROGRAMA SE
@@ -307,9 +308,9 @@
                 AO OPERAR COM QUALQUER OUTRO PROGRAMA), MESMO QUE TAL DETENTOR OU
                 PARTE TENHAM SIDO AVISADOS DA POSSIBILIDADE DE TAIS DANOS.</p>
 
-                <p align="center">FIM DOS TERMOS E CONDIÇÕES</p>
+                <p align='center'>FIM DOS TERMOS E CONDIÇÕES</p>
 
-                <p align="center">Como Aplicar Estes Termos aos Seus Novos Programas</p>
+                <p align='center'>Como Aplicar Estes Termos aos Seus Novos Programas</p>
 
                 <p>Se você desenvolver um novo programa, e quer que ele seja utilizado
                 amplamente pelo público, a melhor forma de alcançar este objetivo é
@@ -319,7 +320,7 @@
                 <p>Para isso, anexe os seguintes avisos ao programa. É mais seguro
                 anexá-los logo no início de cada arquivo-fonte para reforçarem mais
                 efetivamente a inexistência de garantias; e cada arquivo deve possuir
-                pelo menos a linha de "copyright" e uma indicação de onde o texto
+                pelo menos a linha de 'copyright' e uma indicação de onde o texto
                 completo se encontra.</p>
                 <dl>
                     <dd><p>[uma linha que forneça o nome do programa e uma idéia do que ele faz.]
@@ -349,23 +350,23 @@
                 <dl>
                     <dd><p>Gnomovision versão 69, Copyright (C) ano nome do autor
                     O Gnomovision não possui QUALQUER GARANTIA; para obter mais
-                    detalhes digite `show w'. Ele é software livre e você está
-                    convidado a redistribui-lo sob certas condições; digite `show c'
+                    detalhes digite 'show w'. Ele é software livre e você está
+                    convidado a redistribui-lo sob certas condições; digite 'show c'
                     para obter detalhes.</p></dd>
                 </dl>
-                <p>Os comandos hipotéticos `show w' e `show c' devem mostrar as partes
+                <p>Os comandos hipotéticos 'show w' e 'show c' devem mostrar as partes
                 apropriadas da Licença Pública Geral. Claro, os comandos que você usar
-                podem ser ativados de outra forma que `show w' e `show c'; eles podem
+                podem ser ativados de outra forma que 'show w' e 'show c'; eles podem
                 até ser cliques do mouse ou itens de um menu -- o que melhor se
                 adequar ao programa.</p>
 
                 <p>Você também deve obter do seu empregador (se você trabalha como
-                programador) ou escola, se houver, uma "declaração de ausência de
-                direitos autorais" sobre o programa, se necessário. Aqui está um
+                programador) ou escola, se houver, uma 'declaração de ausência de
+                direitos autorais' sobre o programa, se necessário. Aqui está um
                 exemplo; altere os nomes:</p>
                 <dl>
                    <dd><p>Yoyodyne, Inc., aqui declara a ausência de quaisquer direitos
-                   autorais sobre o programa `Gnomovision' (que executa interpretações
+                   autorais sobre o programa 'Gnomovision' (que executa interpretações
                    em compiladores) escrito por James Hacker.</p></dd>
 
                    <dd><p>[assinatura de Ty Coon], 1o. de abril de 1989
@@ -377,15 +378,15 @@
                 proprietárias com a biblioteca. Se isto é o que você deseja, use a
                 Licença Pública Geral de Bibliotecas GNU, ao invés desta Licença.</p>
             </div>
-            <div class="form">
-                <form name="terms" action="form_dados.php" method="POST" role="form">
-                    <div class="checkbox">
+            <div class='form'>
+                <form name='terms' action='form_dados.php' method='POST' role='form'>
+                    <div class='checkbox'>
                         <label>
-                            <input type="checkbox" name="lido" onclick="validate()">Li e concordo com os termos acima.
+                            <input type='checkbox' name='lido' onclick='validate()'>Li e concordo com os termos acima.
                         </label>
                     </div>
-                    <div id="go">
-                        <input class="btn btn-default" type="submit" value="Continuar" disabled="true">
+                    <div id='go'>
+                        <input class='btn btn-default' type='submit' value='Continuar' disabled='true'>
                     </div>
                 </form>
             </div> 
