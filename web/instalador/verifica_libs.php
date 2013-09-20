@@ -45,11 +45,21 @@ function checkgit() {
 
 function psqlversion($config) {
     $dbconn = pg_connect("user={$config[5]} host={$config[2]} dbname={$config[4]} port={$config[3]} password={$config[6]}")
-        or die("<span class='label label-danger'>Erro: Não foi possivel conectar-se com o banco de dados</span><br><br><a href='form_dados.php?lido=y'>Voltar</a>");
+        or die("<span class='label label-danger'>Erro: Não foi possivel conectar-se com o banco de dados</span><br><br><a class='btn btn-default' href='form_dados.php?lido=y'>Voltar</a>");
     $version = pg_version($dbconn);
     return $version['client'];
 }
 
+
+if (!version_compare(phpversion(), '5.3.10', '>')) {
+    echo "<span class='label label-danger'>A versão minima do <u>PHP</u> é a <u>5.3.10</u>, atualmente você está com a versão <u>".phpversion()."</u>. Atualize-o e tente novamente.</span><br>";
+    $check = "bad";
+}
+
+if (!version_compare(psqlversion($config), '9.1', '>')) {
+    echo "<span class='label label-danger'>A versão minima do <u>Postgresql</u> é a <u>9.1</u>, atualmente você está com a versão <u>".psqlversion($config)."</u>. Atualize-o e tente novamente.</span><br>";
+    $check = "bad";
+}
 
 if (!is_file(@checkgit())) {
     echo "<span class='label label-danger'>O programa de versionamento <u>git</u> não foi encontrado. Instale-o e tente novamente.</span><br>";
@@ -58,16 +68,6 @@ if (!is_file(@checkgit())) {
 
 if (!is_file("/usr/bin/java")) {
     echo "<span class='label label-danger'>Não foi encontrada nenhuma <u>JVM</u> (Java Virtual Machine) em seu computador. Instale-a e tente novamente.</span><br>";
-    $check = "bad";
-}
-
-if (version_compare(psqlversion($config), '9.1', '<')) {
-    echo "<span class='label label-danger'>A versão minima do <u>Postgresql</u> é a <u>9.1</u>, atualmente você está com a versão <u>".psqlversion($config)."</u>. Atualize-o e tente novamente.</span><br>";
-    $check = "bad";
-}
-
-if (version_compare(phpversion(), '5.3.10', '<')) {
-    echo "<span class='label label-danger'>A versão minima do <u>PHP</u> é a <u>5.3.10</u>, atualmente você está com a versão <u>".phpversion()."</u>. Atualize-o e tente novamente.</span><br>";
     $check = "bad";
 }
 
@@ -106,10 +106,10 @@ if ($check == "ok") {
         unlink("web/.htaccess");
         exec("echo '\nErro: Ocorreu um erro inesperado!\n' >> web/instalador/instalacao.log");
         echo "<span class='label label-danger'><u>Erro</u>: Ocorreu um erro inesperado!</span>
-              <br><br><a href='form_dados.php?lido=y'>Voltar</a>";
+              <br><br><a href='form_dados.php?lido=y' class='btn btn-default' >Voltar</a>";
     }
 } else {
-    echo "<br><br><a href='form_dados.php?lido=y'>Voltar</a>";
+    echo "<br><br><a href='form_dados.php?lido=y' class='btn btn-default'>Voltar</a>";
 }
 ?>
         </div>
