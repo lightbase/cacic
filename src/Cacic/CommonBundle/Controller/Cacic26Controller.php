@@ -51,15 +51,27 @@ class Cacic26Controller extends Controller
         );
     }
     public function importarscriptAction(){
+        function getconfig() {
+            // fixme: do it the synfony way
+            $yfile = "../app/config/parameters.yml";
+            $parameters = file_get_contents($yfile);
+            $linhas = explode("\n", $parameters);
+            foreach ($linhas as $linha) {
+                $dado = explode(": ", $linha);
+                $config[] = $dado[1];
+            }
+            return $config;
+        }
+
 
         // Conexão com o banco
-        $server = "127.0.0.1";
-        $db = "cacic";
-        $user = "cacic";
-        $pass = "null";
+        $config = @getconfig();
+        $server = $config[2];
+        $db = $config[4];
+        $user = $config[5];
+        $pass = $config[6];
 
-
-        $dbcon = new PDOConnection("pgsql:host={$server};dbname={$db}", $user, $pass); //TODO importar dados do arquivo .yml
+        $dbcon = new PDOConnection("pgsql:host={$server};dbname={$db}", $user, $pass);
 
         function importar($dbcon, $tmpdir) {
 
