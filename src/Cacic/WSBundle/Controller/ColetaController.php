@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Cacic\CommonBundle\Entity\InsucessoInstalacao;
 use Symfony\Component\Validator\Constraints\Date;
 use Cacic\CommonBundle\Helper\Criptografia;
-use Cacic\CommonBundle\Entity\AcaoSo;
+use Cacic\CommonBundle\Entity\Software;
 use Cacic\CommonBundle\Entity\Teste;
 use Decoda;
 
@@ -213,16 +213,30 @@ class ColetaController extends Controller
 
                                 $propriedadeSoftware->setClassProperty($classPropertyObject);
                                 $propriedadeSoftware->setComputador($computador);
+
+                                // Adiciona referência à tabela de softwares
+                                $softwareObject = new Software();
+                                // Se for fazio coloco o ID Software no nome
+                                if (empty($arrTagsNames['DisplayName'])) {
+                                    $softwareObject->setNmSoftware($softwareName);
+                                } else {
+                                    $softwareObject->setNmSoftware($arrTagsNames['DisplayName']);
+                                }
+
+                                // Grava no banco de dados
+                                $this->getDoctrine()->getManager()->persist($propriedadeSoftware);
+                                $this->getDoctrine()->getManager()->persist($softwareObject);
+                                $this->getDoctrine()->getManager()->flush();
+                            } else {
+                                // Ajusta valores coletados
+                                $propriedadeSoftware->setDisplayName($arrTagsNames['DisplayName']);
+                                $propriedadeSoftware->setDisplayVersion($arrTagsNames['DisplayVersion']);
+                                $propriedadeSoftware->setURLInfoAbout($arrTagsNames['URLInfoAbout']);
+
+                                // Salva valor da coleta
+                                $this->getDoctrine()->getManager()->persist($propriedadeSoftware);
+                                $this->getDoctrine()->getManager()->flush();
                             }
-
-                            // Ajusta valores coletados
-                            $propriedadeSoftware->setDisplayName($arrTagsNames['DisplayName']);
-                            $propriedadeSoftware->setDisplayVersion($arrTagsNames['DisplayVersion']);
-                            $propriedadeSoftware->setURLInfoAbout($arrTagsNames['URLInfoAbout']);
-
-                            // Salva valor da coleta
-                            $this->getDoctrine()->getManager()->persist($propriedadeSoftware);
-                            $this->getDoctrine()->getManager()->flush();
 
                         }
 
