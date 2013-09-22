@@ -24,7 +24,7 @@
     /*
      * Usuario de conexao do servidor de banco de dados
      */
-    $usuario_bd = "cacic_db_user";
+    $usuario_bd = "root";
     
     /*
      * Senha do usuario de conexao do servidor de banco de dados
