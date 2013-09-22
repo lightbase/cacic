@@ -102,6 +102,33 @@ class TagValueHelper
         return iconv('UTF-8', 'UTF-8//IGNORE', $text);
     }
 
+    /*
+     * Trata o caso de retornar os registros multivalorados para mostrar em uma tabela
+     */
+
+    public static function getTableValues($source) {
+        preg_match_all("/\[\[REG\]\](.*?)\[\[REG\]\]/",$source,$arrResult);
+
+        // Se não houver match, retorna a fonte
+        if (empty($arrResult[1])) {
+            return $source;
+        }
+
+        //Caso contrário retorna os elementos prontos para serem inseridos em uma tabela
+        $saida = '';
+        $i = 1;
+        foreach ($arrResult[1] as $linha) {
+            $saida = $saida . '<tr>';
+            $saida = $saida . "<th>#$i</th>";
+            $saida = $saida . "<td>$linha</td>";
+            $saida = $saida . '</tr>';
+            $i = $i + 1;
+        }
+
+        return $saida;
+
+    }
+
 
 
 }

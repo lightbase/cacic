@@ -19,13 +19,21 @@ class ComputadorColetaRepository extends EntityRepository
 	 */
 	public function getDadosColetaComputador( \Cacic\CommonBundle\Entity\Computador $computador )
 	{
-		$qb = $this->createQueryBuilder('coleta')->select('coleta', 'propriedade', 'classe')
-					->innerJoin('coleta.classProperty', 'propriedade')
-					->innerJoin('propriedade.idClass', 'classe')
-					->where('coleta.computador = (:computador)')
-					->setParameter('computador', $computador)
-					->orderBy('classe.nmClassName')
-					->addOrderBy('propriedade.nmPropertyName');
+		$qb = $this->createQueryBuilder('coleta')->select('coleta',
+            'propriedade',
+            'classe',
+            'software.displayName',
+            'software.displayVersion',
+            'software.URLInfoAbout',
+            'software.publisher'
+        )
+            ->innerJoin('coleta.classProperty', 'propriedade')
+            ->innerJoin('propriedade.idClass', 'classe')
+            ->leftJoin('CacicCommonBundle:PropriedadeSoftware', 'software', 'WITH', 'propriedade.idClassProperty = software.classProperty')
+            ->where('coleta.computador = (:computador)')
+            ->setParameter('computador', $computador)
+            ->orderBy('classe.nmClassName')
+            ->addOrderBy('propriedade.nmPropertyName');
 	
 		return $qb->getQuery()->execute();
 	}

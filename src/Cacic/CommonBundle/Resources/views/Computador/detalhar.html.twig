@@ -53,27 +53,72 @@
 	            		</tr>
 	            	</tbody>
 	            </table>
-	            
-	            <table class="table">
-	            	<thead>
-	            		<tr>
-	            			<th colspan="3">{{ 'Dados de Coleta'|trans }}</th>
-	            		</tr>
-	            	</thead>
-	            	<tbody>
-	            		{% for idClass,dadosClasse in dadosColeta %}
-	            		<tr>
-	            			<th rowspan="{{ dadosClasse|length }}" valign="middle">{{ dadosClasse[0].classProperty.idClass }}</th>
-	            			{% for dados in dadosClasse %}
-	            			<th width="20%">{{ dados.classProperty }}</th>
-	            			<td colspan="3">{{ dados.teClassPropertyValue }}</td>
-	            			{% endfor %}
-	            		</tr>
-	            		{% else %}
-	            		<tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
-	            		{% endfor %}
-	            	</tbody>
-	            </table>
+
+                {% for classe in dadosColeta|keys %}
+	                <table class="table">
+	            	    <thead>
+	            		    <tr>
+	            			    <th colspan="3">{{ 'Classe de coleta: '|trans}}{{ classe }}</th>
+	            		    </tr>
+	            	    </thead>
+	            	    <tbody>
+	            		    <tr>
+	            			    {% for dados in attribute(dadosColeta, classe)|keys %}
+                                    <tr>
+	            			        <th width="20%">
+                                        {{ attribute(attribute(dadosColeta, classe), dados).nmPropertyName }}
+                                        <i class="icon-info-sign" onclick="javascript:alert({{ attribute(attribute(dadosColeta, classe), dados).tePropertyDescription }})"></i>
+                                    </th>
+	            			        <td>{{ attribute(attribute(dadosColeta, classe), dados).teClassPropertyValue|raw }}</td>
+                                    </tr>
+	            			    {% endfor %}
+	            		    </tr>
+	            	    </tbody>
+	                </table>
+                {% else %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th colspan="3">{{ 'Dados de Coleta'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
+                        </tbody>
+                    </table>
+
+                {% endfor %}
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="3">{{ 'Coleta de Software'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dados in software|keys %}
+                            <tr>
+                                <th rowspan="5" valign="middle" width="20%">{{ attribute(software, dados).displayName }}</th>
+                            </tr>
+                                <tr>
+                                    <th width="20%">{{ 'Versão'|trans }}</th>
+                                    <td>{{ attribute(software, dados).displayVersion }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="20%">{{ 'URL'|trans }}</th>
+                                    <td>{{ attribute(software, dados).URLInfoAbout }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="20%">{{ 'Fabricante'|trans }}</th>
+                                    <td>{{ attribute(software, dados).publisher }}</td>
+                                </tr>
+                        <tr>&nbsp;</tr>
+                        {% else %}
+                            <tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
 	        </div>
 	        
 	    </div> <!-- box -->

@@ -3,6 +3,7 @@
 namespace Cacic\CommonBundle\Controller;
 
 use Cacic\CommonBundle\Form\Type\ComputadorConsultaType;
+use Cacic\WSBundle\Helper\TagValueHelper;
 use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,21 +52,51 @@ class ComputadorController extends Controller
         $coleta = $d->getRepository('CacicCommonBundle:ComputadorColeta')->getDadosColetaComputador( $computador );
 
         $dadosColeta = array(); // Inicializa o array que agrupa os dados de coleta por Classe
+        $software = array(); // Coloca a coleta de software num array separado
+        $listaClasses = array();
+        $listaSoftwares = array();
         foreach ( $coleta as $v )
         {
-            $idClass = $v->getClassProperty()->getIdClass()->getIdClass();
+            //$idClass = $v->getClassProperty()->getIdClass()->getIdClass();
+            // Vamos tratar primeiro a exceção, para o caso da classe ser software
+            $propriedade = $v[0]->getClassProperty();
+            $classe = $propriedade->getIdClass()->getNmClassName();
+            $nome_propriedade = $propriedade->getNmPropertyName();
+            if ($classe == 'SoftwareList') {
+                // O identificador do software está armazenado na propriedade
+                // Coleta de Software
+                $software[$nome_propriedade]['displayName'] = $v['displayName'];
+                if (empty($v['displayName'])) {
+                    // Alguns softwares não têm nome. É absurdo mas acontece
+                    $software[$nome_propriedade]['displayName'] = $nome_propriedade;
+                }
+                $software[$nome_propriedade]['displayVersion'] = $v['displayVersion'];
+                $software[$nome_propriedade]['URLInfoAbout'] = $v['URLInfoAbout'];
+                $software[$nome_propriedade]['publisher'] = $v['publisher'];
+            } else {
+                // Outras coletas
+                $dadosColeta[$classe][$nome_propriedade]['nmPropertyName'] = $propriedade->getNmPropertyName();
+                $dadosColeta[$classe][$nome_propriedade]['tePropertyDescription'] = $propriedade->getTePropertyDescription();
 
-            if ( array_key_exists( $idClass, $dadosColeta ) )
-                $dadosColeta[ $idClass ] = array();
+                // Trata o valor antes de enviar
+                $valor = TagValueHelper::getTableValues($v[0]->getTeClassPropertyValue());
+                $dadosColeta[$classe][$nome_propriedade]['teClassPropertyValue'] = $valor;
 
-            $dadosColeta[ $idClass ][] = $v;
+            }
+
+
+            //if ( array_key_exists( $idClass, $dadosColeta ) )
+            //    $dadosColeta[ $idClass ] = array();
+
+            //$dadosColeta[ $idClass ][] = $v;
         }
 
         return $this->render(
             'CacicCommonBundle:Computador:detalhar.html.twig',
             array(
                 'computador' => $computador,
-                'dadosColeta' => $dadosColeta
+                'dadosColeta' => $dadosColeta,
+                'software' => $software
             )
         );
     }
