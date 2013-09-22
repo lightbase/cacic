@@ -192,4 +192,32 @@ class PropriedadeSoftware
     {
         return $this->classProperty;
     }
+    /**
+     * @var \Cacic\CommonBundle\Entity\Software
+     */
+    private $software;
+
+
+    /**
+     * Set software
+     *
+     * @param \Cacic\CommonBundle\Entity\Software $software
+     * @return PropriedadeSoftware
+     */
+    public function setSoftware(\Cacic\CommonBundle\Entity\Software $software = null)
+    {
+        $this->software = $software;
+    
+        return $this;
+    }
+
+    /**
+     * Get software
+     *
+     * @return \Cacic\CommonBundle\Entity\Software 
+     */
+    public function getSoftware()
+    {
+        return $this->software;
+    }
 }

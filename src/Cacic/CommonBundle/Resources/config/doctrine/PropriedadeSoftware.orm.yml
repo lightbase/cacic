@@ -45,6 +45,13 @@ Cacic\CommonBundle\Entity\PropriedadeSoftware:
                 id_class_property:
                     referencedColumnName: id_class_property
             orphanRemoval: false
+    oneToOne:
+        software:
+            targetEntity: Software
+            joinColumn:
+                name: id_software
+                referencedColumnName: id_software
+            orphanRemoval: false
     uniqueConstraints:
         property_computador_idx:
           columns: [ id_class_property, id_computador ]
