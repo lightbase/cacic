@@ -63,7 +63,7 @@
 	            	<tbody>
 	            		{% for idClass,dadosClasse in dadosColeta %}
 	            		<tr>
-	            			<th rowspan="{{ dadosClasse|length }}" valign="middle">{{ dadosClasse.classProperty.idClass }}</th>
+	            			<th rowspan="{{ dadosClasse|length }}" valign="middle">{{ dadosClasse[0].classProperty.idClass }}</th>
 	            			{% for dados in dadosClasse %}
 	            			<th width="20%">{{ dados.classProperty }}</th>
 	            			<td colspan="3">{{ dados.teClassPropertyValue }}</td>
