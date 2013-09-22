@@ -3,3 +3,7 @@ services:
         class: Cacic\WSBundle\Twig\OldCacicExtension
         tags:
             - { name: twig.extension }
+
+    cacic.commonbundle.helper.old_cacic_helper:
+        class: Cacic\CommonBundle\Helper\OldCacicHelper
+        arguments: [@kernel]

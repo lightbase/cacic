@@ -26,5 +26,13 @@ class DefaultController extends Controller
 			)
 		);
 	}
+
+    /*
+     * Página de download dos agentes
+     */
+
+    public function downloadsAction() {
+        return $this->render('CacicCommonBundle:Default:downloads.html.twig');
+    }
 	
 }

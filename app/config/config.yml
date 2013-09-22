@@ -36,7 +36,7 @@ bc_bootstrap:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ CacicCommonBundle, CacicRelatorioBundle ]
+    bundles:        [ CacicCommonBundle, CacicRelatorioBundle, FMElfinderBundle ]
     java: /usr/bin/java
     filters:
         #closure:
@@ -124,8 +124,20 @@ knp_paginator:
         pagination: KnpPaginatorBundle:Pagination:sliding.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
+# Configuration for FMElFinderBundle
+fm_elfinder:
+    locale: %locale%
+    editor: simple
+    connector:
+        roots:
+            downloads:
+                driver: elfinder.driver.filesystem
+                path: downloads
+
 services:
     twig.text_extension:
         class: Twig_Extensions_Extension_Text
         tags:
             - name: twig.extension
+    elfinder.driver.filesystem:
+        class: FM\ElFinderPHP\Driver\ElFinderVolumeLocalFileSystem

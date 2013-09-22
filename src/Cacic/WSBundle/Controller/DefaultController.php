@@ -83,8 +83,9 @@ class DefaultController extends Controller
 
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
+        $cacic_helper = new OldCacicHelper($this->get('kernel'));
         return  $this->render('CacicWSBundle:Default:test.xml.twig', array(
-           'configs'=> OldCacicHelper::getTest( $request ),
+           'configs'=> $cacic_helper->getTest( $request ),
             'computador' => $computador,
             'rede' => $rede,
             'debugging' => $debugging,

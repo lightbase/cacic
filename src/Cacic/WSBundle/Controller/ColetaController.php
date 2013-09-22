@@ -306,8 +306,9 @@ class ColetaController extends Controller
 
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
+        $cacic_helper = new OldCacicHelper( $this->get('kernel') );
         return  $this->render('CacicWSBundle:Coleta:setcollects.xml.twig', array(
-            'configs'=> OldCacicHelper::getTest( $request ),
+            'configs'=> $cacic_helper->getTest( $request ),
             'computador' => $computador,
             'rede' => $rede,
             'ws_folder' => OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
@@ -324,7 +325,7 @@ class ColetaController extends Controller
     public function gerColsSetSrcacicAction(Request $request)
     {
         //Escrita do post
-        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/SRCACIC_'.date('Ymd_His').'.txt', 'w+');
+        $fp = fopen( $this->get('kernel')->getRootDir() .'web/ws/SRCACIC_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
         {
             $postVal = OldCacicHelper::deCrypt( $request, $postVal );
@@ -499,8 +500,9 @@ class ColetaController extends Controller
 
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
+        $cacic_helper = new OldCacicHelper($this->get('kernel'));
         return  $this->render('CacicWSBundle:Coleta:setusb.xml.twig', array(
-            'configs'=> OldCacicHelper::getTest( $request ),
+            'configs'=> $cacic_helper->getTest( $request ),
             'computador' => $computador,
             'rede' => $rede,
             'ws_folder' => OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
@@ -518,7 +520,7 @@ class ColetaController extends Controller
     public function mapaCacicAcessoAction(Request $request)
     {
         //Escrita do post
-        $fp = fopen( OldCacicHelper::CACIC_PATH.'web/ws/MAPA_'.date('Ymd_His').'.txt', 'w+');
+        $fp = fopen( $this->get('kernel')->getRootDir().'web/ws/MAPA_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
         {
             $postVal = OldCacicHelper::deCrypt( $request, $postVal );
@@ -530,9 +532,11 @@ class ColetaController extends Controller
         {
             if ($request->get('te_operacao') == 'CheckVersion')
             {
-                if (file_exists(OldCacicHelper::CACIC_PATH . OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini'))
+                $cacic_helper = new OldCacicHelper($this->get('kernel'));
+                $iniFile = $cacic_helper->iniFile();
+                if (file_exists($iniFile))
                 {
-                    $arrVersionsAndHashes = parse_ini_file(OldCacicHelper::CACIC_PATH . OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
+                    $arrVersionsAndHashes = parse_ini_file($iniFile);
 
                     if ($arrVersionsAndHashes['mapacacic.exe_HASH'] <> $request->get('MAPACACIC_EXE_HASH'))
                         $strXML_Values	 	.= '[MAPACACIC.EXE_HASH]'.$arrVersionsAndHashes['mapacacic.exe_HASH'].'[/MAPACACIC.EXE_HASH]';

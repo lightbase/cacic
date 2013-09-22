@@ -465,3 +465,7 @@ cacic_migracao_cacic26:
 cacic_migracao_importador:
     pattern: /migracao/importador
     defaults: { _controller: CacicCommonBundle:Cacic26:importarscript}
+
+cacic_downloads:
+    pattern: /downloads/
+    defaults: { _controller: CacicCommonBundle:Default:downloads }

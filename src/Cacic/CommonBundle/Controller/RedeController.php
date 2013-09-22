@@ -227,7 +227,8 @@ class RedeController extends Controller
     public function updateSubredes($rede)
     {
         $pIntIdRede = $rede->getIdRede();
-        $iniFile = Helper\OldCacicHelper::iniFile;
+        $cacic_helper = new Helper\OldCacicHelper($this->container->get('kernel'));
+        $iniFile = $cacic_helper->iniFile();
 
         $itemArray = parse_ini_file($iniFile);
 
@@ -265,7 +266,7 @@ class RedeController extends Controller
 				//$logger->err('222222222222222222222222222222222222222 '. $arrDadosRede[0]['teSenhaLoginServUpdatesGerente']);
 
                     $strResult = $this->checkAndSend($pStrNmItem,
-                        Helper\OldCacicHelper::CACIC_PATH . Helper\OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . ($pStrNmItem),
+                        $this->get('kernel')->getRootDir() . Helper\OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . ($pStrNmItem),
                         $arrDadosRede[0]['teServUpdates'],
                         $arrDadosRede[0]['tePathServUpdates'],
                         $arrDadosRede[0]['nmUsuarioLoginServUpdatesGerente'],

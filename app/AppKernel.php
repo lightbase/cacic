@@ -27,6 +27,7 @@ class AppKernel extends Kernel
 	        new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new Ijanki\Bundle\FtpBundle\IjankiFtpBundle(),
+            new FM\ElfinderBundle\FMElfinderBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

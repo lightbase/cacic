@@ -43,7 +43,8 @@
         "ijanki/ftp-bundle": "*",
         "jms/translation-bundle": "1.1.*@dev",
         "jquery/jquery": "1.9.*",
-        "mjohnson/decoda": "6.*"
+        "mjohnson/decoda": "6.*",
+	"helios-ag/fm-elfinder-bundle": "1.x"
     },
     "scripts": {
         "post-install-cmd": [

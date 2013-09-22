@@ -3,11 +3,37 @@
 namespace Cacic\WSBundle\Helper;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Kernel;
+//use Symfony\Component\HttpKernel\Kernel;
 
-
-abstract class OldCacicHelper
+class OldCacicHelper
 {
+    /*
+     * Diretório do Symfony
+     * @var string
+     */
+    public $rootDir;
+
+    /*
+     * No construtor recebo os parâmetros do Kernel do Symfony
+     */
+
+    public function __construct($kernel) {
+        // Não sei porquê ele retorna no diretório app
+        $this->rootDir = $kernel->getRootDir() . "/..";
+    }
+
+    public function getRootDir() {
+        return $this->rootDir;
+    }
+
+    /*
+     * Configuração do arquivo de hashes e executáveis que será lido pelo Agente
+     */
+
+    public function iniFile() {
+        return $this->getRootDir() . OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini';
+    }
+
 	// define o nome do agente principal do CACIC
 	const CACIC_MAIN_PROGRAM_NAME = 'cacic280';
   
@@ -21,16 +47,16 @@ abstract class OldCacicHelper
     const CACIC_KEY = 'CacicBrasil';
 
     // define  chave para agentes CACIC
-    const CACIC_PATH = '/srv/cacic3/';
+    //const CACIC_PATH = '/srv/cacic3';
 
     // define  IV para agentes CACIC
     const CACIC_IV = 'abcdefghijklmnop';
     
     // define  path para componentes de instalação, coleta de dados de patrimônio e cliente de Suporte Remoto do CACIC
-    const CACIC_PATH_RELATIVO_DOWNLOADS = 'downloads/';
+    const CACIC_PATH_RELATIVO_DOWNLOADS = '/web/downloads/';
 
     // Arquivo com hashes dos agentes
-    const iniFile =  '/srv/cacic3/downloads/versions_and_hashes.ini';
+    //const iniFile =  '/srv/cacic3/downloads/versions_and_hashes.ini';
     
     /**
      * 
@@ -149,21 +175,19 @@ abstract class OldCacicHelper
         return trim($strResult);
     }
 
-    public function getIniFile()
-    {
-        return $this::iniFile;
-    }
-
-    public static function getTest( Request $request){
-        if ( OldCacicHelper::iniFile )
+    public function getTest( Request $request){
+        $iniFile = $this->iniFile();
+        if ( $iniFile )
         {
-            $arrVersionsAndHashes = parse_ini_file( OldCacicHelper::CACIC_PATH . OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini');
+            $arrVersionsAndHashes = parse_ini_file( $iniFile );
             return array(
                 'INSTALLCACIC.EXE_HASH' => OldCacicHelper::EnCrypt($request, $arrVersionsAndHashes['installcacic.exe_HASH'],true),
                 'MainProgramName' => OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe',
                 'LocalFolderName' => OldCacicHelper::CACIC_LOCAL_FOLDER_NAME
             );
 
+        } else {
+            error_log("ERRO: Arquivo .ini de configuração dos binários não encontrado");
         }
     }
 
