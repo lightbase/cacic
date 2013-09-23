@@ -218,11 +218,11 @@ class DefaultController extends Controller
             {
                 GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][uo1_id]: ' .     $unidade['idUnidade'] );
                 GravaTESTES('arrUnidades[' . $unidade['idUnidade']. '][uo1_nm]: ' .      $unidade['uo1_nm']);
-                GravaTESTES('arrUnidades[' . $unidade-['idUnidade'] . '][uo1a_id]: ' .   $unidade['uo1a_id']);
+                GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][uo1a_id]: ' .   $unidade['uo1a_id']);
                 GravaTESTES('arrUnidades[' . $unidade['idUnidade']. '][uo1a_nm]: ' .     $unidade['uo1a_nm']);
                 GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][uo2_id]: ' .     $unidade['uo2_id']);
-                GravaTESTES('arrUnidades[' . $unidade-['idUnidade'] . '][uo2_nm]: ' .    $unidade['uo2_nm']);
-                GravaTESTES('arrUnidades[' . $unidade-['idUnidade'] . '][uo2_id_local]:'.$unidade['uo2_id_local']);
+                GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][uo2_nm]: ' .    $unidade['uo2_nm']);
+                GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][uo2_id_local]:'.$unidade['uo2_id_local']);
                 GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][loc_sg]: ' .     $unidade['loc_sg']);
 
 
