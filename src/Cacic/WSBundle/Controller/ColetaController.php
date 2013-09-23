@@ -534,7 +534,8 @@ class ColetaController extends Controller
     public function mapaCacicAcessoAction(Request $request)
     {
         //Escrita do post
-        $fp = fopen( $this->get('kernel')->getRootDir().'web/ws/MAPA_'.date('Ymd_His').'.txt', 'w+');
+        $cacic_helper = new OldCacicHelper($this->get('kernel'));
+        $fp = fopen( $cacic_helper->getRootDir(). $cacic_helper::CACIC_WEB_SERVICES_FOLDER_NAME .'MAPA_'.date('Ymd_His').'.txt', 'w+');
         foreach( $request->request->all() as $postKey => $postVal )
         {
             $postVal = OldCacicHelper::deCrypt( $request, $postVal );
@@ -546,7 +547,7 @@ class ColetaController extends Controller
         {
             if ($request->get('te_operacao') == 'CheckVersion')
             {
-                $cacic_helper = new OldCacicHelper($this->get('kernel'));
+
                 $iniFile = $cacic_helper->iniFile();
                 if (file_exists($iniFile))
                 {

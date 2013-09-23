@@ -121,6 +121,7 @@ class DefaultController extends Controller
         $v_retorno_MONITORADOS = '';
         $strCollectsDefinitions = '';
         $agente_py = false;
+        $strPatrimonio = '';
 
         // Se o computador ainda não está em um grupo FTP, insere
         $rede_grupos_ftp = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->findOneBy(array('idRede'=> $rede, 'idComputador'=> $computador));
@@ -197,7 +198,7 @@ class DefaultController extends Controller
             Consulta que devolve os itens das tabelas de U.O. níveis 1, 1a e 2
             ==================================================================
             */
-           /* $dadosUsuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->findOneBy('idUsuario', OldCacicHelper::deCrypt($request, $request->get('id_usuario')));
+            $dadosUsuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->findOneBy('idUsuario', OldCacicHelper::deCrypt($request, $request->get('id_usuario')));
 
             if ($dadosUsuario->getTeLocaisSecundarios() <> '')
                 $unidades = $this->getDoctrine()->getRepository('CacicCommonBundle:Uorg')->findAll();//' AND (loc.id_local = '.$dadosUsuario[0]['id_local'] . ' OR loc.id_local in ('.$dadosUsuario[0]['te_locais_secundarios'].')) ';
@@ -240,26 +241,26 @@ class DefaultController extends Controller
                 else
                     GravaTESTES('EXISTE!');
 
-                if (!$arrUO1a[$arrUnidades[$unidade['uo1a_id']])
+                if (!$arrUO1a[$arrUnidades[$unidade['uo1a_id']]])
                 {
-                    $arrUO1a[$arrUnidades[$unidade['uo1a_id']] = 1;
+                    $arrUO1a[$arrUnidades[$unidade['uo1a_id']]] = 1;
 
                     $intCountTagUO1a++;
                     $strConfigsPatrimonioCombos .= '[UO1a#'  		. $intCountTagUO1a								. ']';
-                    $strConfigsPatrimonioCombos .= '[UO1a_ID]'  	. $arrUnidades[$unidade['uo1a_id'] 	. '[/UO1a_ID]';
-                    $strConfigsPatrimonioCombos .= '[UO1a_IdUO1]'  	. $arrUnidades[$unidade['uo1_id'] 	. '[/UO1a_IdUO1]';
-                    $strConfigsPatrimonioCombos .= '[UO1a_NM]'  	. $arrUnidades[$unidade['uo1a_nm'] 	. '[/UO1a_NM]';
+                    $strConfigsPatrimonioCombos .= '[UO1a_ID]'  	. $arrUnidades[$unidade['uo1a_id']] 	. '[/UO1a_ID]';
+                    $strConfigsPatrimonioCombos .= '[UO1a_IdUO1]'  	. $arrUnidades[$unidade['uo1_id']] 	. '[/UO1a_IdUO1]';
+                    $strConfigsPatrimonioCombos .= '[UO1a_NM]'  	. $arrUnidades[$unidade['uo1a_nm']] 	. '[/UO1a_NM]';
                     $strConfigsPatrimonioCombos .= '[/UO1a#'  		. $intCountTagUO1a  							. ']';
                 }
 
                 $intCountTagUO2++;
 
                 $strConfigsPatrimonioCombos .= '[UO2#'   		. $intCountTagUO2  									. ']';
-                $strConfigsPatrimonioCombos .= '[UO2_IdUO1a]'   . $arrUnidades[$unidade['uo1a_id']  	. '[/UO2_IdUO1a]';
-                $strConfigsPatrimonioCombos .= '[UO2_ID]'   	. $arrUnidades[$unidade['uo2_id']  		. '[/UO2_ID]';
-                $strConfigsPatrimonioCombos .= '[UO2_NM]'   	. $arrUnidades[$unidade['uo2_nm']  		. '[/UO2_NM]';
-                $strConfigsPatrimonioCombos .= '[UO2_IdLocal]' 	. $arrUnidades[$unidade['uo2_id_local'] . '[/UO2_IdLocal]';
-                $strConfigsPatrimonioCombos .= '[UO2_SgLocal]' 	. $arrUnidades[$unidade['loc_sg'] 		. '[/UO2_SgLocal]';
+                $strConfigsPatrimonioCombos .= '[UO2_IdUO1a]'   . $arrUnidades[$unidade['uo1a_id']]  	. '[/UO2_IdUO1a]';
+                $strConfigsPatrimonioCombos .= '[UO2_ID]'   	. $arrUnidades[$unidade['uo2_id']]  		. '[/UO2_ID]';
+                $strConfigsPatrimonioCombos .= '[UO2_NM]'   	. $arrUnidades[$unidade['uo2_nm']]  		. '[/UO2_NM]';
+                $strConfigsPatrimonioCombos .= '[UO2_IdLocal]' 	. $arrUnidades[$unidade['uo2_id_local']] . '[/UO2_IdLocal]';
+                $strConfigsPatrimonioCombos .= '[UO2_SgLocal]' 	. $arrUnidades[$unidade['loc_sg']] 		. '[/UO2_SgLocal]';
                 $strConfigsPatrimonioCombos .= '[/UO2#'  		. $intCountTagUO2 									. ']';
             }
 
@@ -273,7 +274,9 @@ class DefaultController extends Controller
             if ($dadosPatrimonio->getTeClassValue())
                  $strConfigsPatrimonioCombos .= '[Collects_Patrimonio_Last]' . OldCacicHelper::enCrypt($request, $dadosPatrimonio->getTeClassValues()) . '[/Collects_Patrimonio_Last]';
 
-           */
+            // Coloca tudo numa string só para devolver
+            $strPatrimonio = $strConfigsPatrimonioInterface . $strConfigsPatrimonioCombos;
+
         }
 
         else
@@ -508,7 +511,8 @@ class DefaultController extends Controller
             'ws_folder'=>OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
             'debugging'=>$debugging,
             'v_te_fila_ftp'=>$v_te_fila_ftp,
-            'rede_grupos_ftp'=>$rede_grupos_ftp
+            'rede_grupos_ftp'=>$rede_grupos_ftp,
+            'strPatrimonio'=>$strPatrimonio,
         ), $response);
     }
 }

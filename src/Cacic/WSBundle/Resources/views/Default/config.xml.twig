@@ -28,6 +28,9 @@
         <CollectsDefinitions>{{ strCollectsDefinitions }}</CollectsDefinitions>
         <SISTEMAS_MONITORADOS_PERFIS>{{ v_retorno_MONITORADOS }}</SISTEMAS_MONITORADOS_PERFIS>
     {% endif %}
+    {% if strPatrimonio %}
+        {{ strPatrimonio }}
+    {% endif %}
     {% if rede_grupos_ftp %}
         <ID_FTP>{{  rede_grupos_ftp.getIdFtp()  }}</ID_FTP>
     {% endif %}
