@@ -54,7 +54,7 @@
           <div class="nav-collapse">
           	<p class="navbar-text pull-right"> {{ "Logado como"|trans }} <a href="{{ path('cacic_usuario_meus_dados') }}">{{ app.user.nmUsuarioAcesso }}</a></p>
             <ul class="nav pull-right">
-              <li class="dropdown">
+              <!-- <li class="dropdown">
                     <a href="#"
                           class="dropdown-toggle"
                           data-toggle="dropdown">
@@ -66,7 +66,7 @@
                         <li class="divider"></li>
                         <li><a href="#">{{ "Alertas antigos..."|trans }}</a></li>
                     </ul>
-              </li>
+              </li> -->
               <li class="dropdown">
 					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-cog"></i>
@@ -91,7 +91,7 @@
 					<ul class="dropdown-menu">
 						<li><a href="{{ path('cacic_usuario_meus_dados') }}"><i class="icon-file"></i> {{ 'Meus Dados'|trans }}</a></li>
 						<li><a href="{{ path('cacic_usuario_trocar_propria_senha') }}" class="bt-trocar-propria-senha"><i class="icon-key"></i> {{ 'Alterar Senha'|trans }}</a></li>
-						<li><a href="javascript:void(0);"><i class="icon-heart"></i> {{ 'Editar Favoritos (Atalhos)'|trans }}</a></li>
+					<!-- 	<li><a href="javascript:void(0);"><i class="icon-heart"></i> {{ 'Editar Favoritos (Atalhos)'|trans }}</a></li> -->
 						<li class="divider"></li>
 						<li><a href="{{ path('cacic_common_logout') }}"><i class="icon-off"></i> {{ 'Sair'|trans }}</a></li>
 					</ul>
@@ -242,7 +242,7 @@
 						</ul>			
 					</li>
 					
-					<li class="dropdown subnavbar-open-right">					
+					<!-- <li class="dropdown subnavbar-open-right">
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown-">
 							<i class="icon-bar-chart"></i>
 							<span>{{ "Estatísticas"|trans }}</span>
@@ -251,7 +251,7 @@
 						<ul>
 							<li><a href="javascript:void(0)">{{ "Sistemas Monitorados"|trans }}</a></li>
 						</ul>			
-					</li>
+					</li> -->
 					
 					<li>
 						<a href="{{ path('cacic_downloads') }}" title="{{ "Baixar Agentes"|trans }}">
@@ -260,15 +260,15 @@
 						</a>
 					</li>
 					
-					<li>
+					<!-- <li>
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-info-sign"></i>
 							<span>{{ "Projeto CACIC"|trans }}</span>
 						</a>
-					</li>
+					</li> -->
 					
 					<li>
-						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+						<a href="http://www.softwarepublico.gov.br/ver-comunidade?community_id=3585" target="_blank">
 							<i class="icon-group"></i>
 							<span>{{ "Comunidade CACIC"|trans }}</span>
 						</a>

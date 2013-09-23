@@ -10,9 +10,9 @@
 			<div class="toggle_container">
 				<div class="block box_content round_bottom padding_10">
 					<ul class="statistics">
-						<li><a href="javascript:void(0);"><i class="icon-laptop icon-large"></i><span class="blue">{{ estatisticas['totalCompMonitorados'] }}</span>{{ 'Totais de computadores monitorados'|trans }}</a></li>
-						<li><a href="javascript:void(0);"><i class="icon-exchange icon-large"></i><span class="blue">0</span> {{ 'Últimos acessos dos agentes'|trans }}</a></li>
-						<li><a href="javascript:void(0);"><i class="icon-warning-sign icon-large"></i><span class="red">{{ estatisticas['totalInsucessosInstalacao'] }}</span> {{ 'Totais de tentativas de instalação malsucedidas'|trans }}</a></li>
+						<li><a href="{{ path('cacic_computador_navegar') }}"><i class="icon-laptop icon-large"></i><span class="blue">{{ estatisticas['totalCompMonitorados'] }}</span>{{ 'Totais de computadores monitorados'|trans }}</a></li>
+						<li><a href="{{ path('cacic_log_acesso') }}"><i class="icon-exchange icon-large"></i><span class="blue">0</span> {{ 'Últimos acessos dos agentes'|trans }}</a></li>
+						<li><a href="{{ path('cacic_log_insucesso_instalacao') }}"><i class="icon-warning-sign icon-large"></i><span class="red">{{ estatisticas['totalInsucessosInstalacao'] }}</span> {{ 'Totais de tentativas de instalação malsucedidas'|trans }}</a></li>
 					</ul>
 				</div>
 			</div>
