@@ -469,3 +469,17 @@ cacic_migracao_importador:
 cacic_downloads:
     pattern: /downloads/
     defaults: { _controller: CacicCommonBundle:Default:downloads }
+
+cacic_uorg_type_index:
+    pattern:  /uorg/type/
+    defaults: { _controller: CacicCommonBundle:UorgType:index }
+
+cacic_uorg_type_cadastrar:
+    pattern:  /uorg/type/cadastrar/{idUorgType}
+    defaults: { _controller: CacicCommonBundle:UorgType:cadastrar, idUorgType: null}
+
+cacic_uorg_type_excluir:
+    pattern:  /uorg/type/excluir/{idUorgType}
+    defaults: { _controller: CacicCommonBundle:UorgType:excluir, idUorgType: null}
+    requirements:
+        idUorgType: \d+

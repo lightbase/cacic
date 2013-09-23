@@ -63,9 +63,9 @@
     var _dados = [ // Unidades de primeiro nível
         {% for uorg in uorgs %}
         {
-        	label: '{{ uorg[0]["nmUorg"] }}',
-        	id: {{ uorg[0]['idUorg'] }},
-        	load_on_demand: {% if uorg['numFilhas'] %}true{% else %}false{% endif %}
+        	label: '{{ uorg.nmUorg }}',
+        	id: {{ uorg.idUorg }},
+        	load_on_demand: {% if uorg.numFilhas %}true{% else %}false{% endif %}
         	
         }{% if loop.last != true %},{% endif %}
         

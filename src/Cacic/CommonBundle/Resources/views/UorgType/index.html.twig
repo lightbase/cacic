@@ -1,0 +1,90 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}     
+    <li class="active">{{ "Unidades Organizacionais"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+<div class="span12">
+    <div class="box grad_colour_black">
+        <h2 class="box_head round_top"><i class="icon-sitemap"></i> {{ "Unidades Organizacionais"|trans }}</h2>
+    
+        <div class="block box_content round_bottom padding_10">
+
+            <h3>{{ "Lista de Tipos de Unidades Organizacionais Cadastradas"|trans }}</h3>
+            <p>{{ "Neste módulo deverão ser cadastrados os tipos de Unidades Organizacionais"|trans }}</p>
+            <br />
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th width="15%">Nome</th>
+                        <th width="30%">Descrição</th>
+                        <th width="15%">{{ "Ações"|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for uorg in uorgTypes %}
+                        <tr>
+                            <td>{{ uorg.nmTipoUorg }}</td>
+                            <td>{{ uorg.tedescricao }}</td>
+                            <td>
+                                <a href="{{ path('cacic_uorg_type_cadastrar', {'idUorgType': uorg.idTipoUorg }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                                    <i class="btn-icon-only icon-edit icon-large"></i>
+                                </a>
+                                <a href="{{ path('cacic_uorg_type_excluir', {'idUorgType': uorg.idTipoUorg}) }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
+                                    <i class="btn-icon-only icon-trash icon-large"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="2" style="text-align: center;">{{ "Nenhum registro encontrado"|trans }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <br />
+            <div align="right">
+                <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_uorg_cadastrar') }}">
+                    <i class="icon-plus-sign"></i>
+                     {{ "Cadastrar Tipo de UORG"|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+    {{ parent() }}
+
+<script type="text/javascript">
+
+    /**
+     * Exclui a UNIDADE ORGANIZACIONAL e remove seu nó da Árvore
+     */
+    function excluirUorg( uorgId )
+    {
+    	var url = "{{ path('cacic_uorg_excluir') }}/" + uorgId;
+    	var callback = function( params, data ){ // Define a função de CALLBACK que será invocada no evento
+    		if( data && data.status == 200 ){ // Retorno da requisição AJAX (Sucesso: código 200)
+    			var $tree = $('#tree_uorg0');
+    			$tree.tree('removeNode', $tree.tree('getNodeById', params.id)); // Remove o nó da árvore
+    		}
+    	};
+    	$( "#System_Excluir" ).data( 'params', { 'url': url, 'id': uorgId, 'callback': callback } ).dialog( "open" );
+    }
+    
+</script>
+
+{% endblock %}
+
+{% block alertaExclusao %}
+    A Unidade Organizacional e <b>todas as suas sub-unidades</b> serão removidas permanentemente e não poderão ser recuperadas. Tem certeza que deseja continuar?
+{% endblock %}
