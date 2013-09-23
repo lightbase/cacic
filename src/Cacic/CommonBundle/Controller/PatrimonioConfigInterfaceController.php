@@ -42,17 +42,32 @@ class PatrimonioConfigInterfaceController extends Controller
                                                     )
         );
 
+        if (empty($patrimonio)) {
+            $patrimonio = new PatrimonioConfigInterface();
+            $patrimonio->setIdEtiqueta($idEtiqueta);
+            $patrimonio->setLocal($local);
+        }
+
+
         $form = $this->createForm( new PatrimonioConfigInterfaceType(), $patrimonio );
         if ( $request->isMethod('POST') )
         {
+
             $form->bind( $request );
 
-            $this->getDoctrine()->getManager()->persist( $patrimonio );
-            $this->getDoctrine()->getManager()->flush(); //Persiste os dados
+            //if ($form->isValid()) {
 
-            $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+                // Salva
+                $this->getDoctrine()->getManager()->persist( $patrimonio );
+                $this->getDoctrine()->getManager()->flush(); //Persiste os dados
 
-			return $this->redirect( $this->generateUrl( 'cacic_patrimonio_index' ));
+                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+
+                return $this->redirect( $this->generateUrl( 'cacic_patrimonio_index' ));
+            //}
+
+            return $this->redirect( $this->generateUrl( 'cacic_patrimonio_index' ));
+
         }
 
         return $this->render('CacicCommonBundle:PatrimonioConfigInterface:'.$idEtiqueta.'.html.twig', array( 'form' => $form->createView() ) );
