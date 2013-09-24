@@ -132,14 +132,12 @@ class ComputadorController extends Controller
             $form->bind( $request );
             $data = $form->getData();
             $locale = $request->getLocale();
-
             $filtroLocais = array(); // Inicializa array com locais a pesquisar
             foreach ( $data['idLocal'] as $locais )
                 array_push( $filtroLocais, $locais->getIdLocal() );
             $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
                 ->selectIpAvancada($data['teIpComputador'],$data['nmComputador'] ,$data['teNodeAddress'],$data['dtHrInclusao'],$data['dtHrInclusaoFim'] );
         }
-
 
         return $this->render( 'CacicCommonBundle:Computador:buscar.html.twig',
             array(
