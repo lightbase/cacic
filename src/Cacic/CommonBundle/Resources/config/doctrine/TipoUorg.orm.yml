@@ -1,0 +1,27 @@
+Cacic\CommonBundle\Entity\TipoUorg:
+    type: entity
+    table: tipo_uorg
+    repositoryClass: Cacic\CommonBundle\Entity\TipoUorgRepository
+    fields:
+        idTipoUorg:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_tipo_uorg
+            generator:
+                strategy: IDENTITY
+        nmTipoUorg:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+            column: nm_tipo_uorg
+        teDescricao:
+            type: text
+            nullable: true
+    oneToMany:
+        uorgs:
+            targetEntity: Cacic\CommonBundle\Entity\Uorg
+            mappedBy: tipoUorg
+    lifecycleCallbacks: {  }

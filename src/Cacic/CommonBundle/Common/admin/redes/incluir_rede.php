@@ -1,0 +1,742 @@
+<?php
+ /* 
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informa��es da Previd�ncia Social, Brasil
+
+ Este arquivo � parte do programa CACIC - Configurador Autom�tico e Coletor de Informa��es Computacionais
+
+ O CACIC � um software livre; voc� pode redistribui-lo e/ou modifica-lo dentro dos termos da Licen�a P�blica Geral GNU como 
+ publicada pela Funda��o do Software Livre (FSF); na vers�o 2 da Licen�a, ou (na sua opni�o) qualquer vers�o.
+
+ Este programa � distribuido na esperan�a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUA��O a qualquer
+ MERCADO ou APLICA��O EM PARTICULAR. Veja a Licen�a P�blica Geral GNU para maiores detalhes.
+
+ Voc� deve ter recebido uma c�pia da Licen�a P�blica Geral GNU, sob o t�tulo "LICENCA.txt", junto com este programa, se n�o, escreva para a Funda��o do Software
+ Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+session_start();
+/*
+ * verifica se houve login e tamb�m regras para outras verifica��es (ex: permiss�es do usu�rio)!
+ */
+if(!isset($_SESSION['id_usuario'])) 
+  die('Acesso restrito (Restricted access)!');
+else { // Inserir regras para outras verifica��es (ex: permiss�es do usu�rio)!
+}
+
+include_once "../../include/library.php";
+
+AntiSpy('1,2,3'); // Permitido somente a estes cs_nivel_administracao...
+// 1 - Administra��o
+// 2 - Gest�o Central
+// 3 - Supervis�o
+
+if($_POST['submit']) 
+	{
+	Conecta_bd_cacic();
+	
+	$query = "SELECT 	* 
+			  FROM 		redes 
+			  WHERE 	id_rede = ".$_POST['frm_id_rede'];
+						
+	$result = mysql_query($query) or die ('Select falhou ou sua sess�o expirou!');
+	
+	if (mysql_num_rows($result) > 0) 
+		{
+		header ("Location: ../../include/registro_ja_existente.php?chamador=../admin/redes/index.php&tempo=1");									 							
+		}
+	else 
+		{
+		$query = "INSERT 
+				  INTO 		redes 
+				  			(te_ip_rede, 
+							te_mascara_rede, 
+							nm_rede, 
+							te_observacao, 
+							nm_pessoa_contato1, 
+							nm_pessoa_contato2, 
+				   			nu_telefone1, 
+							nu_telefone2, 
+							te_email_contato1, 
+							te_email_contato2, 
+							te_serv_cacic, 
+							te_serv_updates, 
+							nu_limite_ftp,
+							te_path_serv_updates, 
+							nm_usuario_login_serv_updates, 
+							te_senha_login_serv_updates, 
+							nm_usuario_login_serv_updates_gerente, 
+							te_senha_login_serv_updates_gerente, 
+							nu_porta_serv_updates,
+							id_servidor_autenticacao, 
+							cs_permitir_desativar_srcacic,
+							id_local) 							
+				 VALUES 	('".$_POST['frm_te_ip_rede']."',
+				  		  	 '".$_POST['frm_te_mascara_rede']."',
+						  	 '".$_POST['frm_nm_rede']."',
+				  		  	 '".$_POST['frm_te_observacao']."', 						  
+				  		  	 '".$_POST['frm_nm_pessoa_contato1']."', 
+							 '".$_POST['frm_nm_pessoa_contato2']."', 
+						  	 '".$_POST['frm_nu_telefone1']."',  
+							 '".$_POST['frm_nu_telefone2']."', 
+							 '".$_POST['frm_te_email_contato1']."', 
+						  	 '".$_POST['frm_te_email_contato2']."',
+						  	 '".$_POST['frm_te_serv_cacic']."',
+						  	 '".$_POST['frm_te_serv_updates']."',
+							  ".$_POST['frm_nu_limite_ftp'].",
+						  	 '".$_POST['frm_te_path_serv_updates']."',						  
+						  	 '".$_POST['frm_nm_usuario_login_serv_updates']."',
+						  	 '".$_POST['frm_te_senha_login_serv_updates']."',
+						  	 '".$_POST['frm_nm_usuario_login_serv_updates_gerente']."',
+						  	 '".$_POST['frm_te_senha_login_serv_updates_gerente']."',			  
+						  	 '".$_POST['frm_nu_porta_serv_updates']."',
+							  ".$_POST['frm_id_servidor_autenticacao'].",								  
+							 '".$_POST['frm_cs_permitir_desativar_srcacic']."',								  							  
+							  ".$_POST['frm_id_local'].")";									  							
+		$result = mysql_query($query) or die ('Insert falhou ou sua sess�o expirou!');
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'redes',$_SESSION["id_usuario"]);
+
+		$arrDadosRede = getArrFromSelect('redes', 'id_rede', 'te_ip_rede = "'.$_POST['frm_te_ip_rede'].'" and id_local = '.$_POST['frm_id_local']);
+
+		$v_tripa_acoes = '';
+		conecta_bd_cacic();
+
+		$query_del = "DELETE 
+					  FROM		acoes_redes 
+					  WHERE		id_rede = ".$arrDadosRede[0]['id_rede'];
+		mysql_query($query_del) or die('Ocorreu um erro durante a exclus�o de registros na tabela acoes_redes ou sua sess�o expirou!');			
+		GravaLog('DEL',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);
+
+		$query_so  = "SELECT   id_so 
+					  FROM     so
+					  ORDER BY id_so";
+        $result_so = mysql_query($query_so) or die('Ocorreu um erro
+		durante a consulta � tabela de sistemas operacionais ou	sua sess�o expirou!');
+
+
+		$query_acoes = "SELECT 	* 
+						FROM 	acoes";
+		$result_acoes = mysql_query($query_acoes) or die('Ocorreu um erro durante a consulta � tabela de a��es ou sua sess�o expirou!'); 
+					
+		$strFixedValues = '';
+		while ($row_acoes = mysql_fetch_array($result_acoes))
+			{
+			if ($v_tripa_acoes <> '')
+				$v_tripa_acoes .= '#';
+
+			$v_tripa_acoes .= $row_acoes['id_acao'];
+			$query_ins = "INSERT 
+						  INTO 		acoes_redes 
+									(id_rede, 
+									id_acao) 
+						  VALUES	(".$arrDadosRede[0]['id_rede'].", 
+									'".$row_acoes['id_acao']."')";
+			mysql_query($query_ins) or die('Ocorreu um erro durante a inclus�o de registros na tabela acoes_redes ou sua sess�o expirou!');
+
+			mysql_data_seek($result_so,0);
+			while ($row_so = mysql_fetch_array($result_so))
+				{
+				$query_ins =   "INSERT INTO acoes_so(id_local,id_acao,id_so) VALUES (".$_POST['frm_id_local'].",'".$row_acoes['id_acao']."',".$row_so['id_so'].")";
+				$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclus�o de registros na tabela acoes_so ou sua sess�o expirou!');
+				}
+			}						
+
+		// Inser��o das a��es incondicionais de Coleta de Softwares B�sicos e Vari�veis de Ambiente
+		$query_ins = "INSERT 
+					  INTO 		acoes_redes 
+								(id_rede, 
+								id_acao) 
+					  VALUES	(".$arrDadosRede[0]['id_rede'].", 
+								'col_soft_not_optional'),
+								(".$arrDadosRede[0]['id_rede'].", 
+								'col_env_not_optional')";
+		mysql_query($query_ins) or die('Ocorreu um erro durante a inclus�o de registros na tabela acoes_redes ou sua sess�o expirou!');
+
+		mysql_data_seek($result_so,0);
+		while ($row_so = mysql_fetch_array($result_so))
+			{
+			$query_ins =   "INSERT INTO acoes_so(id_local,id_acao,id_so) VALUES (".$_POST['frm_id_local'].",'col_soft_not_optional',".$row_so['id_so'].")";
+			$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclus�o de registros na tabela acoes_so ou sua sess�o expirou!');
+			
+			$query_ins =   "INSERT INTO acoes_so(id_local,id_acao,id_so) VALUES (".$_POST['frm_id_local'].",'col_env_not_optional',".$row_so['id_so'].")";
+			$result = @mysql_query($query_ins);// or die('Ocorreu um erro	durante a inclus�o de registros na tabela acoes_so ou sua sess�o expirou!');			
+			}
+			
+		GravaLog('INS',$_SERVER['SCRIPT_NAME'],'acoes_redes',$_SESSION["id_usuario"]);							
+		$strPerfis = '';
+		foreach($HTTP_POST_VARS as $i => $v) 
+			{
+			if ($v && substr($i,0,14)=='id_aplicativo_')
+				{
+				if ($strPerfis <> '') 
+					$strPerfis .= '__';
+				$strPerfis .= $v;		
+				}
+			}
+
+		seta_perfis_rede($arrDadosRede[0]['id_rede'], $strPerfis); 			
+		update_subredes($arrDadosRede[0]['id_rede'],'', '*'); 		
+
+		?>
+	 	<SCRIPT LANGUAGE="Javascript">
+	    	location = '../../include/operacao_ok.php?chamador=../admin/redes/index.php&tempo=2';
+	 	</script>
+		<?php
+		
+	}
+
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<?php
+}
+else 
+{
+?>
+<head>
+<link rel="stylesheet"   type="text/css" href="../../include/css/cacic.css">
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="JavaScript" type="text/javascript" src="../../include/js/cacic.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/jquery.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../include/js/ajax/common.js"></script>	            
+<script language="JavaScript" type="text/javascript" src="../../include/js/ajax/test_serv_updates.js"></script>	            
+<script language=JavaScript>
+<!--
+
+function desabilitar()
+	{
+    return false
+	}
+document.oncontextmenu=desabilitar
+
+// -->
+
+function SetaServidorBancoDados()	
+	{
+	document.form.frm_te_serv_cacic.value = document.form.sel_te_serv_cacic.value;	
+	document.form.sel_te_serv_cacic.options.selectedIndex=0;		
+	}
+function SetaServidorUpdates()	
+	{
+	var v_string = document.form.sel_te_serv_updates.value;
+	var v_array_string = v_string.split("#");
+	document.form.frm_te_serv_updates.value = v_array_string[0];
+	document.form.frm_nu_porta_serv_updates.value = v_array_string[1];	
+	document.form.frm_nm_usuario_login_serv_updates.value = v_array_string[2];		
+	document.form.frm_nm_usuario_login_serv_updates_gerente.value = v_array_string[2];			
+	document.form.frm_te_path_serv_updates.value = v_array_string[3];				
+	document.form.frm_nu_limite_ftp.value = (v_array_string[4]==""?"30":v_array_string[4])
+	document.form.sel_te_serv_updates.options.selectedIndex=0;
+	document.form.frm_te_senha_login_serv_updates.value = "";
+	document.form.frm_te_senha_login_serv_updates_gerente.value = "";	
+	var v_campo_senha = document.form.document.frm_te_senha_login_serv_updates;
+	v_campo_senha.document.write('<div style="background-color:#000099;"</div>');
+	v_campo_senha.document.close();
+	var v_campo_senha_gerente = document.form.document.frm_te_senha_login_serv_updates_gerente;
+	v_campo_senha_gerente.document.write('<div style="background-color:#000099;"</div>');
+	v_campo_senha_gerente.document.close();
+	
+	document.form.frm_te_senha_login_serv_updates.select();
+	}
+
+function valida_form(frmForm) 
+	{
+	VerRedeMascara(frmForm.name,true,false);
+	if ( document.form.frm_nu_limite_ftp.value == "" ) 
+		{	
+		document.form.frm_nu_limite_ftp.value = "30";
+		}					
+	
+	if (document.form.frm_id_local.selectedIndex==0) {	
+		alert("O local da rede � obrigat�rio");
+		document.form.frm_id_local.focus();
+		return false;
+	}
+
+	if ( document.form.frm_te_mascara_rede.value == "" ) 
+		{	
+		alert("A m�scara de rede � obrigat�ria.\nPor favor, informe-a, usando o formato X.X.X.0\nExemplo: 255.255.255.0");
+		document.form.frm_te_mascara_rede.focus();
+		return false;
+		}		
+	else if ( document.form.frm_nm_rede.value == "" ) 
+		{	
+		alert("O nome da rede � obrigat�rio. Por favor, informe-o.");
+		document.form.frm_nm_rede.focus();
+		return false;
+		}
+	else if ( document.form.frm_te_serv_cacic.value == "" ) 
+		{	
+		alert("Digite o Identificador do Servidor de Banco de Dados");
+		document.form.frm_te_serv_cacic.focus();
+		return false;
+		}	
+	else if ( document.form.frm_te_serv_updates.value == "" ) 
+		{	
+		alert("Digite o Identificador do Servidor de Updates");
+		document.form.frm_te_serv_updates.focus();
+		return false;
+		}		
+	else if ( document.form.frm_nu_porta_serv_updates.value == "" ) 
+		{	
+		alert("Digite a Porta FTP do Servidor de Updates");
+		document.form.frm_nu_porta_serv_updates.focus();
+		return false;
+		}		
+	else if ( document.form.frm_te_path_serv_updates.value == "" ) 
+		{	
+		alert("Digite o Path no Servidor de Updates");
+		document.form.frm_te_path_serv_updates.focus();
+		return false;
+		}			
+	else if ( document.form.frm_nm_usuario_login_serv_updates.value == "" ) 
+		{	
+		alert("Digite o Nome do Usu�rio para Login no Servidor de Updates pelo M�dulo Agente");
+		document.form.frm_nm_usuario_login_serv_updates.focus();
+		return false;
+		}			
+	else if ( document.form.frm_te_senha_login_serv_updates.value == "" ) 
+		{	
+		alert("Digite a Senha para Login no Servidor de Updates pelo M�dulo Agente");
+		document.form.frm_te_senha_login_serv_updates.focus();
+		return false;
+		}				
+	else if ( document.form.frm_nm_usuario_login_serv_updates_gerente.value == "" ) 
+		{	
+		alert("Digite o Nome do Usu�rio para Login no Servidor de Updates pelo M�dulo Gerente");
+		document.form.frm_nm_usuario_login_serv_updates_gerente.focus();
+		return false;
+		}		
+	else if ( document.form.frm_te_senha_login_serv_updates_gerente.value == "" ) 
+		{	
+		alert("Digite a Senha para Login no Servidor de Updates pelo M�dulo Gerente");
+		document.form.frm_te_senha_login_serv_updates_gerente.focus();
+		return false;
+		}					
+	return true;
+	}
+
+<!--
+function MM_reloadPage(init) 
+	{  //reloads the window if Nav4 resized
+  	if (init==true) with (navigator) 
+		{
+		if ((appName=="Netscape")&&(parseInt(appVersion)==4)) 
+			{
+    		document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; 
+			}
+		}
+  	else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) 
+		location.reload();
+	}
+MM_reloadPage(true);
+//-->
+
+</script>
+</head>
+
+<body background="../../imgs/linha_v.gif" onLoad="SetaCampo('frm_id_local')">
+<table width="85%" border="0" align="center">
+  <tr> 
+    <td class="cabecalho">Inclus&atilde;o de Nova Subrede</td>
+  </tr>
+  <tr> 
+    <td class="descricao">As informa&ccedil;&otilde;es que dever&atilde;o ser 
+      cadastradas abaixo referem-se a uma subrede onde ser&atilde;o instalados 
+      os agentes oper&aacute;rios do CACIC. Os campos &quot;Subrede&quot; e &quot;Descri&ccedil;&atilde;o&quot; 
+      s&atilde;o obrigat&oacute;rios.</td>
+  </tr>
+</table>
+<form action="incluir_rede.php"  method="post" ENCTYPE="multipart/form-data" name="form" id="form">
+  <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1">
+    <tr> 
+		<td>&nbsp;</td>
+      <td class="label"><br><?php echo $oTranslator->_('Local');?>:</td>
+      <td class="label" colspan="2"><br><?php echo $oTranslator->_('Servidor para Autenticacao');?>:</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td> <select name="frm_id_local" id="frm_id_local"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);">
+          <?php
+			$where = ($_SESSION['cs_nivel_administracao']<>1?' WHERE id_local = '.$_SESSION['id_local']:'');
+			if (trim($_SESSION['te_locais_secundarios'])<>'' && $where <> '')
+				{
+				// Fa�o uma inser��o de "(" para ajuste da l�gica para consulta
+				$where = str_replace(' id_local = ','(id_local = ',$where);
+				$where .= ' OR id_local in ('.$_SESSION['te_locais_secundarios'].')) ';
+				}
+			
+			Conecta_bd_cacic();				
+			$qry_locais = "SELECT 	id_local,
+											sg_local 
+								 FROM 		locais ".
+								 			$where." 
+								 ORDER BY	sg_local";
+
+	    $result_locais = mysql_query($qry_locais) or die ('Select falhou ou sua sess�o expirou!');
+		echo '<option value="0">Selecione Local</option>';		  				
+		while ($row=mysql_fetch_array($result_locais))
+			{ 
+			echo "<option value=\"" . $row["id_local"] . "\"";			
+			if ($row['id_local']==$_SESSION['id_local'])
+				echo ($_SESSION['cs_nivel_administracao']<>1?" selected":"");
+			echo ">" . $row["sg_local"] . "</option>";
+		   	} 
+			?>
+        </select>
+		<?php
+		//if ($_SESSION['cs_nivel_administracao']<>1)
+		//	echo '<input name="frm_id_local" id="frm_id_local" type="hidden" value="'.$_SESSION['id_local'].'">';
+		?> </td>
+      <td nowrap><select name="frm_id_servidor_autenticacao" id="frm_id_servidor_autenticacao" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <option value="0" selected></option>
+          <?php
+			  
+		$qry_servidor_autenticacao = "SELECT 		id_servidor_autenticacao, 
+									nm_servidor_autenticacao
+						FROM 		servidores_autenticacao
+						WHERE		in_ativo = 'S' 
+						ORDER BY	nm_servidor_autenticacao";
+
+		$result_servidor_autenticacao = mysql_query($qry_servidor_autenticacao) or die ('Falha na consulta &agrave; tabela Servidores de Autentica��o ou sua sess&atilde;o expirou!');
+			  
+				while($row = mysql_fetch_array($result_servidor_autenticacao))
+					echo '<option value="'.$row['id_servidor_autenticacao'].'">'.$row['nm_servidor_autenticacao'].'</option>';
+					
+					?>
+        </select></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td class="label"><br>Subrede:</td>
+      <td nowrap class="label"><br>M&aacute;scara:</td>
+      <td nowrap class="label">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td><input name="frm_te_ip_rede" id="frm_te_ip_rede" type="text"  class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" size="16" maxlength="16" > 
+        <font color="#000099" size="1">Ex.: 10.71.0.0</font></font></td>
+      <td><input name="frm_te_mascara_rede" id="frm_te_mascara_rede" type="text" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="return VerRedeMascara(this.form.name,false,true);SetaClassNormal(this);" value="255.255.255.0" size="15" maxlength="15" > 
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td class="label"><div align="left">Descri&ccedil;&atilde;o:</div></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+		<td>&nbsp;</td>
+      <td nowrap><input name="frm_nm_rede" type="text" id="frm_nm_rede" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td nowrap class="label"><br>
+        Servidor de Aplica&ccedil;&atilde;o: </font></td>
+      <td>&nbsp;&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+	<?php
+    	$sql = "select * from configuracoes_padrao";
+    	$db_result = mysql_query($sql);
+    	$cfgStdData = (!mysql_errno())?mysql_fetch_assoc($db_result):'';
+	?>
+      <td nowrap> <input name="frm_te_serv_cacic" type="text" id="frm_te_serv_cacic" size="60" maxlength="60" class="normal insucesso" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="<?php echo $cfgStdData['te_serv_cacic_padrao']?>"><font color="#000099" size="1"></font>&nbsp;&nbsp; 
+        <select name="sel_te_serv_cacic" id="sel_te_serv_cacic" onChange="SetaServidorBancoDados();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <option value="">===> Selecione <===</option>
+          <?php
+			Conecta_bd_cacic();
+			$query = "SELECT DISTINCT 	configuracoes_locais.te_serv_cacic_padrao, 
+										redes.te_serv_cacic
+			          FROM   			redes LEFT JOIN configuracoes_locais on (configuracoes_locais.te_serv_cacic_padrao = redes.te_serv_cacic)
+					  WHERE  			redes.id_local = ".$_SESSION['id_local'] . "  
+					  ORDER  BY 		configuracoes_locais.te_serv_cacic_padrao";
+			mysql_query($query);
+		    $sql_result=mysql_query($query);			
+		while ($row=mysql_fetch_array($sql_result))
+			{ 
+			echo "<option value=\"" . $row["te_serv_cacic"] . "\"";
+			echo ">" . $row["te_serv_cacic"] . "</option>";
+		   	} 			
+			?>
+        </select></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td nowrap class="label"><div align="left"><br>
+          Servidor de Updates (FTP):<div id="divMsgTeServUpdates" name="divMsgTeServUpdates"></div></div></td>
+      <td class="label"><div align="left"><br>
+          Porta:</div></td>
+      <td valign="bottom" class="label"><br>
+	  Limite FTP:</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td nowrap><input name="frm_te_serv_updates" type="text" id="frm_te_serv_updates"  size="16" maxlength="16" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="return testServUpdates(); SetaClassNormal(this);  " value="<?php echo $cfgStdData['te_serv_updates_padrao']?>"> 
+        <select name="sel_te_serv_updates" id="sel_te_serv_updates" onChange="SetaServidorUpdates();" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+          <option value="">===> Selecione <===</option>
+          <?php
+			Conecta_bd_cacic();
+			$query = "SELECT DISTINCT 	redes.te_serv_updates, 
+										redes.te_path_serv_updates,
+										redes.nm_usuario_login_serv_updates,
+										redes.nu_porta_serv_updates
+			          FROM   redes
+					  WHERE  redes.id_local = ".$_SESSION['id_local'] ."  
+					  ORDER  BY redes.te_serv_updates";
+			mysql_query($query);
+		    $sql_result=mysql_query($query);			
+		while ($row=mysql_fetch_array($sql_result))
+			{ 
+			echo "<option value=\"" . 
+			$row["te_serv_updates"] . '#' . 
+			$row["nu_porta_serv_updates"] . '#' . 
+			$row["nm_usuario_login_serv_updates"] . '#' . 			
+			$row["te_path_serv_updates"] . '#' .									
+			$row["nu_limite_ftp"] . "\"";												
+			echo ">" . $row["te_serv_updates"] . "</option>";
+		   	} 			
+			?>
+        </select></td>
+      <td><input name="frm_nu_porta_serv_updates" type="text" class="normal" id="frm_nu_porta_serv_updates" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="21" size="15" maxlength="4" > 
+      </td>
+      <td><input name="frm_nu_limite_ftp" type="text" id="frm_nu_limite_ftp" size="5" maxlength="5" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" value="100"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td nowrap class="label"><br>
+        Usu&aacute;rio do Servidor de Updates: (para AGENTES)<div id="divMsgNmUsuarioLoginServUpdates" name="divMsgNmUsuarioLoginServUpdates"></div></td>
+      <td nowrap class="label"><div align="left"><br>
+          Senha para Login:</div></td>
+      <td nowrap class="label">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td nowrap> <input name="frm_nm_usuario_login_serv_updates" type="text" id="frm_nm_usuario_login_serv_updates" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this); return testServUpdates();" >		
+      </td>
+      <td> <input name="frm_te_senha_login_serv_updates" type="password" id="frm_te_senha_login_serv_updates" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this); return testServUpdates();" >
+      
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td nowrap class="label"><br>
+        Usu&aacute;rio do Servidor de Updates: (para GERENTE)<div id="divMsgNmUsuarioLoginServUpdatesGerente" name="divMsgNmUsuarioLoginServUpdatesGerente"></div></td>
+      <td nowrap class="label"><div align="left"><br>
+          Senha para Login:</div></td>
+      <td nowrap class="label">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td nowrap> <input name="frm_nm_usuario_login_serv_updates_gerente" type="text" id="frm_nm_usuario_login_serv_updates_gerente" size="20" maxlength="20" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this); return testServUpdates();" >
+      
+      </td>
+      <td> <input name="frm_te_senha_login_serv_updates_gerente" type="password" id="frm_te_senha_login_serv_updates_gerente" size="15" maxlength="15" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this); return testServUpdates();" > 
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td nowrap class="label"><br>
+        Path no Servidor de Updates:<div id="divMsgTePathServUpdates" name="divMsgTePathServUpdates"></div></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td><input name="frm_te_path_serv_updates" type="text" id="frm_te_path_serv_updates" size="50" maxlength="100" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this); return testServUpdates();" >
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td class="label"><br>
+        Observa&ccedil;&otilde;es:</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td><textarea name="frm_te_observacao" cols="38" id="textarea" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" ></textarea></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td class="label"><br>
+        Contato 1:</td>
+      <td width="144" class="label"><br>
+        Telefone: </td>
+      <td width="144" class="label">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td> <input name="frm_nm_pessoa_contato1" type="text" id="frm_nm_pessoa_contato12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      </td>
+      <td> <input name="frm_nu_telefone1" type="text" id="frm_nu_telefone12" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td class="label"><br>
+        E-mail:</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td><input name="frm_te_email_contato1" type="text" id="frm_te_email_contato1" size="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td class="label"><br>
+        Contato 2:</td>
+      <td class="label"><br>
+        Telefone:</td>
+      <td class="label">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td> <input name="frm_nm_pessoa_contato2" type="text" id="frm_nm_pessoa_contato2" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      </td>
+      <td> <input name="frm_nu_telefone2" type="text" id="frm_nu_telefone2" size="12" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td class="label"><br>
+        E-mail:</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td> <input name="frm_te_email_contato2" type="text" id="frm_te_email_contato22" size="50" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" > 
+      </td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4">&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td colspan="3" class="label">Marcar todas as a&ccedil;&otilde;es para essa 
+        rede:</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+		<td>&nbsp;</td>
+      <td colspan="3" class="descricao"><div align="justify"> Essa op&ccedil;&atilde;o 
+          habilitar&aacute; as a&ccedil;&otilde;es de auto-update e coletas nas 
+          esta&ccedil;&otilde;es situadas nesta rede. Caso seja necess&aacute;rio 
+          algum ajuste, este poder&aacute; ser feito em Administra&ccedil;&atilde;o/M&oacute;dulos.</div></td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#CCCCCC"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td> <input name="in_habilita_acoes" type="radio" value="S" checked class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+        Sim<br> <input type="radio" name="in_habilita_acoes" value="N" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+        N&atilde;o</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr> 
+      <td colspan="4">&nbsp;</td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td colspan="3" class="label">Permitir finaliza&ccedil;&atilde;o de sess&otilde;es do m&oacute;dulo srCACIC:</td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#333333"></td>
+    </tr>
+    <tr> 
+		<td>&nbsp;</td>
+      <td colspan="3" class="descricao"><div align="justify"> Essa op&ccedil;&atilde;o 
+          define se o usu&aacute;rio final poder&aacute; ou n&atilde;o finalizar execu&ccedil;&otilde;es do m&oacute;dulo srCACIC (Suporte Remoto Seguro). Caso seja marcado &quot;N&atilde;o&quot;, a finaliza&ccedil;&atilde;o n&atilde;o ser&aacute; poss&iacute;vel de modo interativo, atrav&eacute;s do menu de contexto do Agente Principal (&iacute;ndio da bandeja).</div></td>
+    </tr>
+    <tr> 
+      <td colspan="4" height="1" bgcolor="#CCCCCC"></td>
+    </tr>
+    <tr> 
+	<td>&nbsp;</td>
+      <td> <input name="frm_cs_permitir_desativar_srcacic" type="radio" value="S" checked class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+        Sim<br> <input type="radio" name="frm_cs_permitir_desativar_srcacic" value="N" class="normal" onFocus="SetaClassDigitacao(this);" onBlur="SetaClassNormal(this);" >
+        N&atilde;o</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    
+	<?php
+	include "../../include/opcoes_sistemas_monitorados.php";
+	?>
+  </table>
+  <p align="center"> 
+    <input name="submit" type="submit" value="  Gravar Informa&ccedil;&otilde;es  "  onClick="return valida_form(this);return Confirma('Confirma Inclus�o de Rede?');">
+  </p>
+</form>
+<p>
+  <?php
+}
+?>
+</p>
+</body>
+</html>

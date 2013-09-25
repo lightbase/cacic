@@ -1,0 +1,9 @@
+parameters:
+#    cacic_common.example.class: Cacic\CommonBundle\Example
+    cacic_senha_algorithm: sha1
+
+services:
+    cacic.twig.siglas_extension:
+        class: Cacic\CommonBundle\Twig\SiglasExtension
+        tags:
+            - { name: twig.extension }

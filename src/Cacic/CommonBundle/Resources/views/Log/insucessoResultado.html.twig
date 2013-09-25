@@ -1,0 +1,192 @@
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Resultado da pesquisa' |trans }}</h2>
+            <div class="block box_content round_bottom padding_10">
+
+				<table class="table table-striped table-bordered">
+				    <thead>
+				    <tr>
+				        <th width="5%" style="text-align: center"></th>
+				        <th width="20%">{{ "Data"|trans }}</th>
+				        <th width="10%">{{ "Local/Rede"|trans }}</th>
+				        <th width="10%">{{ "Estacao"|trans }}</th>
+				        <th width="20%">{{ "Sistema Operacional"|trans }}</th>
+				        <th width="10%">{{ "Usuário"|trans }}</th>
+				        <th width="10%">{{ "Motivo"|trans }}</th>
+				    </tr>
+				    </thead>
+				
+				    <tbody>
+				
+				    {% for log in logs %}
+				
+				        <tr>
+				            <td style="text-align: center">{{ loop.index }}</td>
+				            <td>{{ log.getDtDatahora()|date('d/m/Y H:i:s') }}</td>
+				            <td>{{ log.getTeIpComputador() }}</td>
+				            <td>{{ log.getTeIpComputador() }} </td>
+				            <td>{{ log.getTeSo() }}</td>
+				            <td>{{ log.getIdUsuario() }}</td>
+				            <td>{{ log.getCsIndicador()|traduzMotivoInsucessoInstalacao }}</td>
+				        </tr>
+				
+				    {% else %}
+				        <tr>
+				            <td style="text-align: center;" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+				        </tr>
+				    {% endfor %}
+				
+				    </tbody>
+				</table>
+                
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span -->
+</div> <!-- /row -->
+
+{% if resumo is not null %}
+{% set _total = logs|length %}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-bar-chart"></i> {{'Resumo das operações' |trans }} ({{ "Estatísticas"|trans}})</h2>
+            <div class="block box_content round_bottom padding_10">
+            
+            <div class="tabbable">
+	            <ul class="nav nav-tabs">
+	                <li class="active">
+	                    <a href="#resumo-datas" data-toggle="tab">{{ "Datas"|trans }}</a>
+	                </li>
+	                <li>
+	                    <a href="#resumo-estacoes" data-toggle="tab">{{ "Estações"|trans }}</a>
+	                </li>
+	                <li>
+	                    <a href="#resumo-so" data-toggle="tab">{{ "Sistemas Operacionais"|trans }}</a>
+	                </li>
+	                <li>
+                        <a href="#resumo-usuarios" data-toggle="tab">{{ "Usuários"|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="#resumo-motivos" data-toggle="tab">{{ "Motivos"|trans }}</a>
+                    </li>
+	            </ul>
+	            <div class="tab-content">
+                    <div class="tab-pane active" id="resumo-datas">
+                        <table class="table table-striped table-bordered">
+		                    <thead>
+		                    <tr>
+		                        <th width="50%">{{ "Data"|trans }}</th>
+		                        <th width="25%">{{ "Quantidade"|trans }}</th>
+		                        <th width="25%">{{ "Percentual"|trans }}(%)</th>
+		                    </tr>
+		                    </thead>
+		                
+		                    <tbody>
+		                        {% for _data,qtde in resumo['datas'] %}
+		                        <tr>
+		                            <td>{{ _data }}</td>
+		                            <td>{{ qtde }}</td>
+		                            <td>{{ '%.2f'|format(qtde * 100 / _total) }}</td>
+		                        </tr>
+		                        {% endfor %}
+		                    </tbody>
+		                </table>
+                    </div>
+                    
+                    <div class="tab-pane" id="resumo-estacoes">
+                        <table class="table table-striped table-bordered">
+		                    <thead>
+		                    <tr>
+		                        <th width="50%">{{ "Estação"|trans }}</th>
+		                        <th width="25%">{{ "Quantidade"|trans }}</th>
+		                        <th width="25%">{{ "Percentual"|trans }}(%)</th>
+		                    </tr>
+		                    </thead>
+		                
+		                    <tbody>
+		                        {% for estacao,qtde in resumo['estacoes'] %}
+		                        <tr>
+		                            <td>{{ estacao }}</td>
+		                            <td>{{ qtde }}</td>
+		                            <td>{{ '%.2f'|format(qtde * 100 / _total) }}</td>
+		                        </tr>
+		                        {% endfor %}
+		                    </tbody>
+		                </table>
+                    </div>
+                    
+                    <div class="tab-pane" id="resumo-so">
+                        <table class="table table-striped table-bordered">
+		                    <thead>
+		                    <tr>
+		                        <th width="50%">{{ "Sistema Operacional"|trans }}</th>
+		                        <th width="25%">{{ "Quantidade"|trans }}</th>
+		                        <th width="25%">{{ "Percentual"|trans }}(%)</th>
+		                    </tr>
+		                    </thead>
+		                
+		                    <tbody>
+		                        {% for so,qtde in resumo['so'] %}
+		                        <tr>
+		                            <td>{{ so }}</td>
+		                            <td>{{ qtde }}</td>
+		                            <td>{{ '%.2f'|format(qtde * 100 / _total) }}</td>
+		                        </tr>
+		                        {% endfor %}
+		                    </tbody>
+		                </table>
+                    </div>
+                    
+                    <div class="tab-pane" id="resumo-usuarios">
+                        <table class="table table-striped table-bordered">
+		                    <thead>
+		                    <tr>
+		                        <th width="50%">{{ "Usuário"|trans }}</th>
+		                        <th width="25%">{{ "Quantidade"|trans }}</th>
+		                        <th width="25%">{{ "Percentual"|trans }}(%)</th>
+		                    </tr>
+		                    </thead>
+		                
+		                    <tbody>
+		                        {% for usuario,qtde in resumo['usuarios'] %}
+		                        <tr>
+		                            <td>{{ usuario }}</td>
+		                            <td>{{ qtde }}</td>
+		                            <td>{{ '%.2f'|format(qtde * 100 / _total) }}</td>
+		                        </tr>
+		                        {% endfor %}
+		                    </tbody>
+		                </table>
+                    </div>
+                    
+                    <div class="tab-pane" id="resumo-motivos">
+                        <table class="table table-striped table-bordered">
+		                    <thead>
+		                    <tr>
+		                        <th width="50%">{{ "Motivo"|trans }}</th>
+		                        <th width="25%">{{ "Quantidade"|trans }}</th>
+		                        <th width="25%">{{ "Percentual"|trans }}(%)</th>
+		                    </tr>
+		                    </thead>
+		                
+		                    <tbody>
+		                        {% for motivo,qtde in resumo['motivos'] %}
+		                        <tr>
+		                            <td>{{ motivo|traduzMotivoInsucessoInstalacao }}</td>
+		                            <td>{{ qtde }}</td>
+		                            <td>{{ '%.2f'|format(qtde * 100 / _total) }}</td>
+		                        </tr>
+		                        {% endfor %}
+		                    </tbody>
+		                </table>
+                    </div>
+                    
+                </div><!-- /tab-content -->
+            </div><!-- /tabbable -->
+
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span -->
+</div> <!-- /row -->
+{% endif %}

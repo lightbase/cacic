@@ -1,0 +1,5 @@
+@CHARSET "UTF-8";
+
+.navbar { display: none; }
+.table { width: 100%; display: block; }
+.table th, .table td { border: 1px solid #333; padding: 5px; }

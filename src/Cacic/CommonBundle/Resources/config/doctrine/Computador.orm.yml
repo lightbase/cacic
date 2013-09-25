@@ -1,0 +1,122 @@
+Cacic\CommonBundle\Entity\Computador:
+    type: entity
+    table: computador
+    repositoryClass: Cacic\CommonBundle\Entity\ComputadorRepository
+    fields:
+        idComputador:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_computador
+            generator:
+                strategy: IDENTITY
+        nmComputador:
+            type: string
+            fixed: false
+            nullable: true
+            column: nm_computador
+        teNodeAddress:
+            type: string
+            fixed: true
+            nullable: false
+            column: te_node_address
+        teIpComputador:
+            type: string
+            fixed: true
+            nullable: true
+            column: te_ip_computador
+        dtHrInclusao:
+            type: datetime
+            nullable: true
+            column: dt_hr_inclusao
+        dtHrExclusao:
+            type: datetime
+            nullable: true
+            column: dt_hr_exclusao
+        dtHrUltAcesso:
+            type: datetime
+            nullable: true
+            column: dt_hr_ult_acesso
+        teVersaoCacic:
+            type: string
+            fixed: true
+            nullable: true
+            column: te_versao_cacic
+        teVersaoGercols:
+            type: string
+            fixed: true
+            nullable: true
+            column: te_versao_gercols
+        tePalavraChave:
+            type: string
+            fixed: true
+            nullable: false
+            column: te_palavra_chave
+        dtHrColetaForcadaEstacao:
+            type: datetime
+            nullable: true
+            column: dt_hr_coleta_forcada_estacao
+        teNomesCurtosModulos:
+            type: string
+            fixed: false
+            nullable: true
+            column: te_nomes_curtos_modulos
+        idConta:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: id_conta
+        teDebugging:
+            type: text
+            nullable: true
+            column: te_debugging
+        teUltimoLogin:
+            type: string
+            fixed: false
+            nullable: true
+            column: te_ultimo_login
+        dtDebug:
+            type: string
+            fixed: true
+            nullable: true
+            column: dt_debug
+    oneToMany:
+        softwares:
+            targetEntity: SoftwareEstacao
+            mappedBy: idComputador
+        hardwares:
+            targetEntity: ComputadorColeta
+            mappedBy: computador
+        software_coletado:
+            targetEntity: PropriedadeSoftware
+            mappedBy: idComputador
+    manyToOne:
+        idUsuarioExclusao:
+            targetEntity: Usuario
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_usuario_exclusao:
+                    referencedColumnName: id_usuario
+            orphanRemoval: false
+        idSo:
+            targetEntity: So
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_so:
+                    referencedColumnName: id_so
+            orphanRemoval: false
+        idRede:
+            targetEntity: Rede
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_rede:
+                    referencedColumnName: id_rede
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

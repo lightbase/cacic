@@ -1,0 +1,83 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+
+   <li class="active">{{ "Aquisicao"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+  <div class="span12">
+    <div class="box grad_colour_black">
+
+      <h2 class="box_head round_top"><i class="icon-barcode"></i> {{ "Aquisicao"|trans }}</h2>
+
+      <div class="block box_content round_bottom padding_10">
+
+            <h3>{{ "Lista de Aquisições cadastrados"|trans }}</h3>
+            <p>{{ "Neste módulo deverão ser cadastrados as Aquisições"|trans }}</p>
+            <br />
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th width="20%">{{ "Processo de aquisicao"|trans }}</th>
+                    <th width="20%">{{ "Nome da empresa"|trans }}</th>
+                    <th width="20%">{{ "Nome do proprietario"|trans }}</th>
+                    <th style="text-align: center" width="15%">{{ "Nota Fiscal"|trans }}</th>
+                    <th style="text-align: center" width="15%">{{ "Data de aquisicao"|trans }}</th>
+                    <th style="text-align: center">{{ "Ações"|trans }}</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+                {% for aquisicao in Aquisicao %}
+
+                    <tr id="item_{{ aquisicao.idAquisicao }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                        <td id="item_desc_{{ aquisicao.idAquisicao }}">{{ aquisicao.nrProcesso }}</td>
+                        <td>{{ aquisicao.nmEmpresa }}</td>
+                        <td>{{ aquisicao.nmProprietario }}</td>
+                        <td style="text-align: center">{{ aquisicao.nrNotafiscal }}</td>
+                        {% if idioma == 'pt_BR' %}
+                            <td style="text-align: center">{{ aquisicao.dtAquisicao|date('d/m/Y') }}</td>
+                          {% else %}
+                                <td style="text-align: center">{{ aquisicao.dtAquisicao|date('m/d/Y') }}</td>
+                        {% endif %}
+                        <td style="text-align: center" class="td-actions">
+                            <a href="{{ path('cacic_aquisicao_editar', {'idAquisicao': aquisicao.idAquisicao }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                                <i class="btn-icon-only icon-edit icon-large"></i>
+                            </a>
+
+                            <a href="{{ path('cacic_aquisicao_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
+                                <i class="btn-icon-only icon-trash icon-large"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                {% else %}
+                    <tr>
+                        <td style="text-align: center;" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+          {# display navigation #}
+          <div class="navigation">
+              {{ knp_pagination_render(Aquisicao) }}
+          </div>
+
+        <div align="right">
+            <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_aquisicao_cadastrar') }}">
+                <i class="icon-plus-sign"></i>
+                {{ "Adicionar Aquisicao"|trans }}
+            </a>
+        </div>
+      </div> <!-- /block -->
+    </div><!-- /box -->
+
+  </div><!-- /span -->
+</div><!-- /row -->
+{% endblock %}

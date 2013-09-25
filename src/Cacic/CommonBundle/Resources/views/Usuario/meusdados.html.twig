@@ -1,0 +1,85 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+	<li><a href="{{ path('cacic_usuario_index') }}">{{ "Usuários"|trans }}</a></li> /
+	<li class="active">{{ "Meus Dados"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+	<div class="span8">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-file icon-large"></i> {{ "Meus Dados"|trans }}</h2>
+			
+			<div class="block box_content round_bottom padding_10">
+			
+				<h3>{{ 'Meus Dados'|trans }}</h3>
+				<p class="muted">
+					{{ 'Dados de cadastro e informações de contato.'|trans }}
+				</p>
+				<hr />
+				
+				<div class="row">
+					<div class="span4">
+						<dl class="dl-horizontal">
+							<dt>{{ 'Nome completo'|trans }}</dt>
+							<dd>{{ usuario.nmUsuarioCompleto }}</dd>
+							
+							<dt>{{ 'Nome de acesso'|trans }} ({{ 'login'|trans }})</dt>
+							<dd>{{ usuario.nmUsuarioAcesso }}</dd>
+							
+							<dt>{{ 'Perfil de acesso'|trans }}</dt>
+							<dd>{{ usuario.idGrupoUsuario.nmGrupoUsuarios }}</dd>
+							
+							<dt>{{ 'E-mails de contato'|trans }}</dt>
+							<dd>{{ usuario.teEmailsContato }}</dd>
+							
+							<dt>{{ 'Telefones de contato'|trans }}</dt>
+							<dd>{{ usuario.teTelefonesContato }}</dd>
+						</dl>
+					</div>
+					
+					<div class="span4">
+						<dl class="dl-horizontal">
+							<dt>{{ 'Local primário'|trans }}</dt>
+							<dd>{{ usuario.idLocal.nmLocal }}</dd>
+							
+							{% if ( usuario.locaisSecundarios|length > 0 ) %}
+							<dt>{{ 'Locais secundários'|trans }}</dt>
+							<dd>
+								{{ usuario.locaisSecundarios|join(", ") }}
+							</dd>
+							{% endif %}
+							
+							{% if ( usuario.idServidorAutenticacao is not null ) %}
+							<dt>{{ 'Servidor de autenticação'|trans }} (LDAP)</dt>
+							<dd>{{ usuario.idServidorAutenticacao.nmServidorAutenticacao }}</dd>
+							{%  endif %}
+						</dl>
+					</div>
+				</div>
+				
+			</div> <!-- block -->
+		</div> <!-- /box -->
+	</div> <!-- /span -->
+	
+	<div class="span4">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-cogs icon-large"></i> {{ "Opções"|trans }}</h2>
+			
+			<div class="block box_content round_bottom padding_10">
+				<p>{{ 'Para editar os dados de cadastro ou alterar a senha de acesso ao sistema, acione o botão correspondente'|trans }}.</p>
+				<hr />
+				<a href="{{ path('cacic_usuario_trocar_propria_senha') }}" class="btn btn-danger bt-trocar-propria-senha"><i class="icon-key icon-large"></i> {{ 'Alterar Senha'|trans }}</a>
+				<a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario.idUsuario}) }}" class="btn btn-primary pull-right"><i class="icon-edit icon-large"></i> {{ 'Editar dados'|trans }}</a>
+			</div>
+		</div>
+	</div>
+
+</div> <!-- /row -->
+
+{%  endblock %}

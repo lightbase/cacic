@@ -1,0 +1,45 @@
+'Relatório de Configurações de Hardware': 'Relatório de Configurações de Hardware'
+'Este relatório exibe os dados de configuração de Hardware coletados nos computadores.': 'Este relatório exibe os dados de configuração de Hardware coletados nos computadores.'
+'É possível determinar quais configurações serão exibidas no relatório, e restringir a pesquisa por sistemas operacionais e abrangência das redes.': 'É possível determinar quais configurações serão exibidas no relatório, e restringir a pesquisa por sistemas operacionais e abrangência das redes.'
+'Selecione as configurações de Hardware que deseja exibir': 'Selecione as configurações de Hardware que deseja exibir'
+'Selecione os Locais': 'Selecione os Locais'
+'Selecione os Sistemas Operacionais': 'Selecione os Sistemas Operacionais'
+'Gerar Relatório': 'Gerar Relatório'
+'Relatório gerado em': 'Relatório gerado em'
+Computador: Computador
+'Sistema Operacional': 'Sistema Operacional'
+Local: Local
+Hardware: Hardware
+'NENHUM REGISTRO ENCONTRADO!': 'NENHUM REGISTRO ENCONTRADO!'
+'CACIC - Configurador Automático e Coletor de Informações Computacionais': 'CACIC - Configurador Automático e Coletor de Informações Computacionais'
+'Logado como': 'Logado como'
+'Relatório de Softwares por Tipo': 'Relatório de Softwares por Tipo'
+'Relatório de Softwares Licenciados': 'Relatório de Softwares Licenciados'
+'Selecione os Softwares que deseja exibir': 'Selecione os Softwares que deseja exibir'
+Software: Software
+Tipo: Tipo
+Máquinas: Máquinas
+'Nome da máquina': 'Nome da máquina'
+IP: IP
+'Última Coleta': 'Última Coleta'
+'Relatório de Softwares Não Vinculados': 'Relatório de Softwares Não Vinculados'
+Descrição: Descrição
+Licenças: Licenças
+Observação: Observação
+Processo: Processo
+Data: Data
+Empresa: Empresa
+Proprietário: Proprietário
+'Nº da NF': 'Nº da NF'
+'Tipo Licença': 'Tipo Licença'
+Vencimento: Vencimento
+'Relatório de Softwares por Órgão/Máquina': 'Relatório de Softwares por Órgão/Máquina'
+'Relatório de Softwares Inventariados': 'Relatório de Softwares Inventariados'
+'Tipo de licença': 'Tipo de licença'
+'Relatório de Autorizações Cadastradas': 'Relatório de Autorizações Cadastradas'
+Patrimônio: Patrimônio
+'Nome da Rede': 'Nome da Rede'
+'Relatório de Informações Patrimoniais': 'Relatório de Informações Patrimoniais'
+'Este relatório exibe informações de Patrimônio e Localização Física dos computadores das redes selecionadas.': 'Este relatório exibe informações de Patrimônio e Localização Física dos computadores das redes selecionadas.'
+'É possível selecionar os sistemas operacionais desejados e também determinar quais informações de Patrimônio e Localização Física serão exibidas no relatório.': 'É possível selecionar os sistemas operacionais desejados e também determinar quais informações de Patrimônio e Localização Física serão exibidas no relatório.'
+'Selecione as informações que deseja exibir': 'Selecione as informações que deseja exibir'

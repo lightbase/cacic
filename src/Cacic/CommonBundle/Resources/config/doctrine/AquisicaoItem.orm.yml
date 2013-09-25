@@ -1,0 +1,56 @@
+Cacic\CommonBundle\Entity\AquisicaoItem:
+    type: entity
+    table: aquisicao_item
+    repositoryClass: Cacic\CommonBundle\Entity\AquisicaoItemRepository
+    id:
+        idTipoLicenca:
+            associationKey: true
+        idAquisicao:
+            associationKey: true
+        idSoftware:
+            associationKey: true
+    fields:
+        qtLicenca:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: qt_licenca
+        dtVencimentoLicenca:
+            type: date
+            nullable: true
+            column: dt_vencimento_licenca
+        teObs:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: te_obs
+    oneToOne:
+        idTipoLicenca:
+            targetEntity: TipoLicenca
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_tipo_licenca:
+                    referencedColumnName: id_tipo_licenca
+            orphanRemoval: false
+        idAquisicao:
+            targetEntity: Aquisicao
+            cascade: {  }
+            mappedBy: null
+            inversedBy: itens
+            joinColumns:
+                id_aquisicao:
+                    referencedColumnName: id_aquisicao
+            orphanRemoval: false
+        idSoftware:
+            targetEntity: Software
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_software:
+                    referencedColumnName: id_software
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
