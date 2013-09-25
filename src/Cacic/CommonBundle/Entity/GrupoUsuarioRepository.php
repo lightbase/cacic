@@ -12,11 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class GrupoUsuarioRepository extends EntityRepository
 {
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
+    {
+        $_dql = "SELECT g
+				FROM CacicCommonBundle:GrupoUsuario g";
 
-	public function paginar( $page )
-	{
-
-	}
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql )->getArrayResult(),
+            $page,
+            10
+        );
+    }
 
 	/**
 	 *

@@ -1,0 +1,73 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+   <li class="active">{{ "Grupos de Usuários"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+  <div class="span12">
+     <div class="box grad_colour_black">
+
+         <h2 class="box_head round_top"><i class="icon-reorder"></i> {{ "Grupos de Usuários"|trans }}</h2>
+
+       <div class="block box_content round_bottom padding_10">
+
+                <h3>{{ "Lista os grupos de usuários cadastrados"|trans }}</h3>
+                <p>{{ "Neste módulo deverão ser cadastrados os grupos de usuários para acesso ao sistema"|trans }}</p>
+                <br />
+
+         <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th width="30%">{{ "Nome do Grupo"|trans }}</th>
+                    <th width="50%" style="text-align: center">Descrição do grupo</th>
+                    <th style="text-align: center">{{ "Ações"|trans }}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for grupousuario in GrupoUsuario %}
+
+                    <tr id="item_{{ grupousuario.idGrupoUsuario }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                        <td id="item_desc_{{ grupousuario.idGrupoUsuario }}">{{ grupousuario.teGrupoUsuarios }}</td>
+                        <td style="text-align: center">{{ grupousuario.teDescricaoGrupo }}</td>
+                        <td style="text-align: center" class="td-actions">
+                            <a href="{{ path('cacic_grupo_usuario_editar', {'idGrupoUsuario': grupousuario.idGrupoUsuario }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                                <i class="btn-icon-only icon-edit icon-large"></i>
+                            </a>
+
+                            <a href="{{ path('cacic_grupo_usuario_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
+                                <i class="btn-icon-only icon-trash icon-large"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                {% else %}
+                    <tr>
+                        <td style="text-align: center" colspan="3"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+         </table>
+
+           {# display navigation #}
+           <div class="navigation">
+               {{ knp_pagination_render(GrupoUsuario) }}
+           </div>
+
+         <div align="right">
+                <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_grupo_usuario_cadastrar') }}">
+                    <i class="icon-plus-sign"></i>
+                    {{ "Adicionar Grupo de Usuário"|trans }}
+                </a>
+         </div>
+       </div> <!-- /block -->
+     </div><!-- /box -->
+
+  </div><!-- /span -->
+</div><!-- /row -->
+{% endblock %}

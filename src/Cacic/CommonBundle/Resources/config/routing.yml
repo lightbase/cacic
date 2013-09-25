@@ -483,3 +483,23 @@ cacic_uorg_type_excluir:
     defaults: { _controller: CacicCommonBundle:UorgType:excluir, idUorgType: null}
     requirements:
         idUorgType: \d+
+
+cacic_grupo_usuario_index:
+    pattern:  /grupousuario/{page}
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_grupo_usuario_cadastrar:
+    pattern:  /grupousuario/cadastrar
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:cadastrar}
+
+cacic_grupo_usuario_editar:
+    pattern:  /grupousuario/editar/{idGrupoUsuario}
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:editar}
+    requirements:
+        idGrupoUsuario: \d+
+
+cacic_grupo_usuario_excluir:
+    pattern:  /grupousuario/excluir
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:excluir}
