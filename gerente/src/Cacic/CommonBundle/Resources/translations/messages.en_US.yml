@@ -1,0 +1,135 @@
+Acesso: Access
+Informe seus dados para efetuar o login:: Fill out the form bellow to login:
+Usuário: User
+Senha: Password
+Entrar: Sign in
+Mantenha-me conectado: Stay signed in
+Locais: Local
+Lista de locais cadastrados : List of local registrad
+'Neste módulo deverão ser registrados todos os locais originais do sistema, para que seja possível o controle centralizado': This module must be registered all original local system, it is Possible for Centralized Control
+Sigla: Acronym
+Descrição: Description
+Redes: Networks
+Usuários: Users
+Primários: Primary
+Secundários: Secondary
+Ações: Share
+Editar Item: Edit item
+Excluir Item: Delete item
+NENHUM REGISTRO ENCONTRADO!: NO RECORD FOUND
+Adicionar Local: Add Local
+Cadastro: Cadastre
+Cadastro de Locais: Cadastre of Local
+Dados do local: Data of Local
+Configurações: Settings
+'Usuários e redes associados': Users and networks associated
+Usuários Associados: Users associanted
+'Este local ainda não foi salvo.': This local yet has not been saved.
+Resetar Valores: Reset Values
+Salvar Dados: Save Data
+Cancelar: Cancel
+Cadastro de novo local: Cadastre of new local
+Edição dos dados do local: Edit of new local
+Nome do Local: Name of Local
+Sigla do Local: Acronym of Local
+Observação: Observation
+As informações que deverão ser cadastradas abaixo referem-se a um local originário de chamada ao sistema CACIC.: The information to be registered below refer to a local system call originating from CACIC.
+Como por exemplo uma região, um estado, um órgão etc.: Such as a region, a state, an organ etc.
+Informações Adicionais: additional information
+Redes Associadas: Affiliated Networks
+Endereço IP: address IP
+Nome da Rede: Network Name
+Tipo de acesso: Type of Access
+Nível de acesso: Access Level
+Nome Completo: Full Name
+CACIC - Coletor Automático e Configurador de Informações Computacionais:
+Alertas:
+Alertas antigos...:
+Logado como:
+Administração:
+Classificar Software:
+Softwares não usados:
+Módulos:
+Atividades:
+Insucessos Instalação:
+Suporte Remoto Seguro:
+Gerência Aquisições:
+Computadores:
+Relatórios:
+Estatísticas:
+Sistemas Monitorados:
+Lista de Aplicativos Monitorados cadastrados:
+Neste módulo deverão ser cadastrados os Aplicativos Monitorados:
+Aplicativos:
+Totais de Redes Alvo:
+Sistema Monitorado:
+Adicionar Aplicativo:
+Dados do Aplicativo Monitorado:
+Dados do Aplicativo:
+Características: Features
+em ambientes: on the environment
+em: on the
+ambientes: environment
+Selecione as redes::
+Selecao de redes para aplicacao desta coleta de informacoes:
+Selecao para coleta de informacoes de sistemas monitorados::
+Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede.:
+Permitir finalização de sessões do módulo srCACIC::
+Essa opção define se o usuário final poderá ou não finalizar execuções do módulo srCACIC (Suporte Remoto Seguro).:
+Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede.:
+Marcar todas as ações para essa rede:
+Servidores deAplicação:
+Servidores de:
+Opções::
+Dados para contatos::
+Dados de SubRedes:
+Neste módulo deverão ser cadastrados as Subredes do sistema:
+Lista de Subredes cadastrados:
+Adicionar Servidor:
+Servidores de Autenticação:
+Lista de servidores de autenticação cadastrados:
+Neste módulo deverão ser cadastrados todos os servidores de autenticação para uso nas aberturas de sessões de suporte remoto seguro.:
+As informações que deverão ser cadastradas abaixo referem-se a um servidor a ser utilizado na autenticação de usuários do suporte remoto seguro.:
+Atributos para Retorno de Dados de Pessoas no Serviço de Diretórios:
+Atributos para Consulta de Dados de Pessoas no Serviço de Diretórios:
+Dados do Servidor de Autenticação:
+Serviço de Diretórios:
+de Dados de Pessoas no:
+Retorno:
+Atributos para:
+Serviço de Diretórios:
+Consulta:Cadastro de novo servidor de autenticação:
+Sistemas Operacionais:
+Adicionar Sistema Operacional:
+Total de Máquinas:
+ID Externa:
+ID Interna:
+Neste módulo deverão ser cadastrados os Sistemas Operacionais:
+Lista de Sistemas Operacionais cadastrados:
+Dados do Sistemas Operacionais:
+Adicionar Software:
+Descrição do Tipo de Software:
+Neste módulo deverão ser cadastrados os Tipos de software do sistema:
+Lista de Tipos de Softwares cadastrados:
+Tipos de Softwares:
+Dados do Tipos de Softwares:
+Fabricante:
+Dispositivo:
+Neste módulo deverão ser cadastrados os USB device do sistema:
+Lista de Usb Device cadastrados:
+Identificação::
+Senha Atual::
+Nova senha::
+Confirmação::
+Gravar alterações:
+Informe a senha anterior, caso nao se lembre, solicite a um Administrador que a reinicialize.:
+Lista de usuários cadastrados:
+Neste módulo deverão ser cadastrados os usuários que acessarão o sistema:
+Trocar Senha do Usuário:
+Após o logon, serão exibidas a primeira e última parte do campo Nome completo.:
+Meus Dados (Menu no canto superior direito) - Alterar Senha:
+A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção:
+As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso.:
+Edição dos dados do Usuário:
+Cadastro de novo Usuário:
+

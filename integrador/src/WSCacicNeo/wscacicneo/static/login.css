@@ -1,0 +1,47 @@
+.x-body, html{
+	background: #958F8F;
+	height: 100%;
+}
+
+header{
+	width: 100%;
+ 	height: 60px;
+	background: #032A65;
+	position: relative;
+	color: #eeeeee;
+	text-align: center;
+	box-shadow: 0px 5px 10px #000000;
+}
+
+header div#logo{
+	height: 100%;
+}
+
+#centro{
+        min-height: 100%;
+        margin-left: 100px;
+        margin-right: 100px;
+        padding: 10px;
+        background: #ffffff;
+}
+
+#centro div#login{
+        height: 100%;
+        width: 50%;
+        margin: 200px auto 0px auto;
+        backgound: #333333; 
+}
+
+footer {
+        height:100px; 
+        background:#2F2D2E;
+        clear:both;
+        color: #ffffff;
+
+}
+
+footer div#desenvolvido{
+	margin-right: 100px;
+	float: right;
+	font-size: 130%
+}

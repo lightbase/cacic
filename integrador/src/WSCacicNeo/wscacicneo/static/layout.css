@@ -1,0 +1,33 @@
+.x-body{
+	height: 100%;
+	background: #958F8F;
+}
+
+.x-panel-header-text-container-default-framed {
+    color: #FFFFFF;
+}
+
+.x-panel-header-default-framed-top {
+    background: #032A65;
+}
+
+.x-panel-header-default-framed-collapsed-top {
+    background: #032A65;
+}
+
+.x-panel-default-framed {
+    border-color: #032A65;
+}
+
+.x-panel-header-default-framed {
+    border: 0px;
+}
+
+.x-menu-icon-separator {
+    height: 0%;
+}
+
+.x-menu-item-link {
+    outline: 0 none;
+    text-decoration: none;
+}

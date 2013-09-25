@@ -1,0 +1,35 @@
+Metadata-Version: 1.1
+Name: WSCacicNeo
+Version: 0.0
+Summary: WSCacicNeo
+Home-page: UNKNOWN
+Author: UNKNOWN
+Author-email: UNKNOWN
+License: UNKNOWN
+Description: WSCacicNeo README
+        ==================
+        
+        Getting Started
+        ---------------
+        
+        - cd <directory containing this file>
+        
+        - $venv/bin/python setup.py develop
+        
+        - $venv/bin/initialize_WSCacicNeo_db development.ini
+        
+        - $venv/bin/pserve development.ini
+        
+        
+        
+        0.0
+        ---
+        
+        -  Initial version
+        
+Keywords: web wsgi bfg pylons pyramid
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Framework :: Pyramid
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Application

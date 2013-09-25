@@ -1,0 +1,102 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_local_index') }}">{{ "Locais"|trans }}</a></li> /
+    <li class="active">{{ "Cadastro"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+	<div class="span8">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {% if form.vars.value.idLocal %}{{ "Edição dos dados do local"|trans }}{% else %}{{ "Cadastro de novo local"|trans }}{% endif %}</h2>
+			
+			<div class="block box_content round_bottom padding_10">
+			
+				<form id="formCadastroLocal" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+				
+					<div class="tabbable">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#form-local-dadosbase" data-toggle="tab">{{ "Dados do local"|trans }}</a>
+							</li>
+							<li>
+								<a href="#form-local-configuracoes" data-toggle="tab">{{ "Configurações"|trans }}</a>
+							</li>
+							<li>
+								<a href="#form-local-dadosassociados" data-toggle="tab">{{ "Usuários e redes associados"|trans }}</a>
+							</li>
+						</ul>
+						
+						<div class="tab-content">
+							<div class="tab-pane active" id="form-local-dadosbase">
+								{{ form_widget( form, {'form_type': 'horizontal'} ) }}
+								{{ form_rest(form) }}
+							</div>
+							
+							<div class="tab-pane" id="form-local-configuracoes">
+								
+								{% if form.vars.value.idLocal != true %}<center><b>{{ "Este local ainda não foi salvo."|trans }}</b></center>{% endif %}
+								{% block configuracoesLocais %}{% endblock %}
+								
+							</div>
+							
+							<div class="tab-pane" id="form-local-dadosassociados">
+								
+								{% if form.vars.value.idLocal != true %}<center><b>{{ "Este local ainda não foi salvo."|trans }}</b></center>{% endif %}
+								{% block redesAssociadas %}{% endblock %}
+								{% block usuariosAssociados %}{% endblock %}
+								
+							</div>
+						</div><!-- /tab-content -->
+					</div><!-- /tabbable -->
+					<br />
+					<div class="control-group">
+	                  <div class="controls">
+	                    <button type="reset" class="btn">
+							<i class="icon-refresh"></i>
+							{{ "Resetar Valores"|trans }}
+						</button>
+						<button type="submit" class="btn btn-primary">
+							<i class="icon-ok-sign"></i>
+							{{ "Salvar Dados"|trans }}
+						</button>
+	                  </div><!-- /controls -->
+	                </div><!-- /control-group -->
+				
+				</form>
+				<hr />
+				<div>
+					<a class="btn btn-danger"  href="{{ path('cacic_local_index') }}">
+						<i class="icon-remove-sign"></i>
+						{{ "Cancelar"|trans }}
+					</a>
+				</div>
+			</div> <!-- block -->
+		</div> <!-- /box -->
+	</div> <!-- /span -->
+
+
+	<div class="span4">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+						
+			<div class="block box_content round_bottom padding_10">
+			    <p>
+                    {{ "Os itens destacados em"|trans }} <b class="red">{{ "vermelho"|trans }}</b> {{ "são de preenchimento obrigatório"|trans }}.
+                </p>
+				<p>
+					{{ "As informações que deverão ser cadastradas abaixo referem-se a um local originário de chamada ao sistema CACIC."|trans }}
+					{{ "Como por exemplo uma região, um estado, um órgão etc."|trans }}
+				</p>
+			</div> <!-- /block -->
+		</div> <!-- /box -->
+	</div> <!-- span4 -->
+
+</div> <!-- /row -->
+	
+{% endblock %}

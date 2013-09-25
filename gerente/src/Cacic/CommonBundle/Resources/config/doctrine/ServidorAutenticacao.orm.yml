@@ -1,0 +1,102 @@
+Cacic\CommonBundle\Entity\ServidorAutenticacao:
+    type: entity
+    table: servidor_autenticacao
+    repositoryClass: Cacic\CommonBundle\Entity\ServidorAutenticacaoRepository
+    fields:
+        idServidorAutenticacao:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_servidor_autenticacao
+            generator:
+                strategy: IDENTITY
+        nmServidorAutenticacao:
+            type: string
+            length: 60
+            fixed: false
+            nullable: false
+            column: nm_servidor_autenticacao
+        nmServidorAutenticacaoDns:
+            type: string
+            length: 60
+            fixed: false
+            nullable: false
+            column: nm_servidor_autenticacao_dns
+        teIpServidorAutenticacao:
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: te_ip_servidor_autenticacao
+        nuPortaServidorAutenticacao:
+            type: string
+            length: 5
+            fixed: true
+            nullable: false
+            column: nu_porta_servidor_autenticacao
+        idTipoProtocolo:
+            type: string
+            length: 20
+            fixed: true
+            nullable: false
+            column: id_tipo_protocolo
+        nuVersaoProtocolo:
+            type: string
+            length: 10
+            fixed: true
+            nullable: false
+            column: nu_versao_protocolo
+        teAtributoIdentificador:
+            type: string
+            length: 100
+            fixed: false
+            nullable: false
+            column: te_atributo_identificador
+        teAtributoIdentificadorAlternativo:
+            type: string
+            length: 100
+            fixed: false
+            nullable: true
+            column: te_atributo_identificador_alternativo
+        teAtributoRetornaNome:
+            type: string
+            length: 100
+            fixed: false
+            nullable: false
+            column: te_atributo_retorna_nome
+        teAtributoRetornaEmail:
+            type: string
+            length: 100
+            fixed: false
+            nullable: false
+            column: te_atributo_retorna_email
+        teAtributoRetornaTelefone:
+            type: string
+            length: 100
+            fixed: false
+            nullable: true
+            column: te_atributo_retorna_telefone
+        teAtributoStatusConta:
+            type: string
+            length: 100
+            fixed: false
+            nullable: true
+            column: te_atributo_status_conta
+        teAtributoValorStatusContaValida:
+            type: string
+            length: 100
+            fixed: false
+            nullable: false
+            column: te_atributo_valor_status_conta_valida
+        teObservacao:
+            type: text
+            nullable: true
+            column: te_observacao
+        inAtivo:
+            type: string
+            length: 1
+            fixed: true
+            nullable: false
+            column: in_ativo
+    lifecycleCallbacks: {  }

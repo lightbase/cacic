@@ -1,0 +1,75 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+   <li><a href="{{ path('cacic_software_estacao_index') }}">{{ "Software por estação"|trans }}</a></li> /
+   <li class="active">{{ "Cadastro"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+  <div class="span8">
+     <div class="box grad_colour_black">
+
+       <h2 class="box_head round_top"><i class="icon-edit icon-large"></i>{{ "Dados dos software de estação"|trans }}</h2>
+
+       <div class="block box_content round_bottom padding_10">
+
+         <form id="formSoftwareEstacao" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+            <div class="tabbable">
+            {{ form_widget(form, {'form_type': 'horizontal'} ) }}
+            {{ form_rest(form) }}
+            </div>
+            <br />
+            <div class="control-group">
+                <div class="controls">
+                    <button type="reset" class="btn">
+                        <i class="icon-refresh"></i>
+                        {{ "Resetar Valores"|trans }}
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="icon-ok-sign"></i>
+                        {{ "Salvar Dados"|trans }}
+                    </button>
+                </div>
+            </div>
+
+         </form>
+         <hr />
+         <div>
+            <a class="btn btn-danger"  href="{{ path('cacic_software_estacao_index') }}">
+                <i class="icon-remove-sign"></i>
+                {{ "Cancelar"|trans }}
+            </a>
+         </div>
+
+       </div> <!-- /block -->
+     </div> <!-- /box -->
+  </div> <!-- /span8 -->
+  
+  <div class="span4">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+                        
+            <div class="block box_content round_bottom padding_10">
+                <p>
+                    {{ "Os itens destacados em"|trans }} <b class="red">{{ "vermelho"|trans }}</b> {{ "são de preenchimento obrigatório"|trans }}.
+                </p>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- span4 -->
+</div> <!-- /row -->
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script type="text/javascript">
+
+        $('#SoftwareEstacao_dtAutorizacao,#SoftwareEstacao_dtDesinstalacao,#SoftwareEstacao_dtExpiracaoInstalacao ').mask('99/99/9999');
+
+    </script>
+
+{% endblock %}

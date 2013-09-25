@@ -1,0 +1,52 @@
+Cacic\CommonBundle\Entity\Log:
+    type: entity
+    table: log
+    repositoryClass: Cacic\CommonBundle\Entity\LogRepository
+    fields:
+        idLog:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_log
+            generator:
+                strategy: IDENTITY
+        dtAcao:
+            type: datetime
+            nullable: false
+            column: dt_acao
+        csAcao:
+            type: string
+            length: 20
+            fixed: true
+            nullable: false
+            column: cs_acao
+        nmScript:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+            column: nm_script
+        nmTabela:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+            column: nm_tabela
+        teIpOrigem:
+            type: string
+            length: 15
+            fixed: true
+            nullable: false
+            column: te_ip_origem
+    manyToOne:
+        idUsuario:
+            targetEntity: Usuario
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_usuario:
+                    referencedColumnName: id_usuario
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

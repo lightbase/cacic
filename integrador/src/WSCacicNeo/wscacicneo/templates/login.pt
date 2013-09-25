@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+    <head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <title>Cacic Super Admin</title>
+        
+    </head>
+	<body>
+	 <header>
+	  <!-- Menu Superior da página -->
+
+			<div id="logo">
+		 		<img src="static/caciclogo.jpg">	
+			</div>
+		</header>
+		<div id="centro">
+		<div id="login">
+		<h1>Log In</h1>
+		</div>
+		</div>
+		<footer>
+		   <div id="desenvolvido">
+			   Desenvolvido por:
+		   </div>
+
+	    <LINK href="static/ext-4.2/resources/css/ext-all-gray.css" type="text/css" rel="stylesheet">
+	    <LINK href="static/login.css" type="text/css" rel="stylesheet">
+  	    <LINK href="static/layout.css" type="text/css" rel="stylesheet">
+	    <script type="text/javascript" src="static/ext-4.2/ext-all.js"></script>
+	    <script type="text/javascript" src="static/login.js"></script>
+
+		</footer>
+    </body>
+
+</html>

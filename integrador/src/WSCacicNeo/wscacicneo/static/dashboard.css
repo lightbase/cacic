@@ -1,0 +1,24 @@
+#panels
+{
+ 	margin: auto;
+ 	width: 100%
+}
+
+#g1
+{
+	float: left;
+	width: 50%;
+}
+
+#g2
+{
+	float: right;
+	width: 50%;
+}
+
+#g3
+{
+	clear: both;
+	float: bottom;
+	width: 100%;
+}

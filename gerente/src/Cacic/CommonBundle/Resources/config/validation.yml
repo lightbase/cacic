@@ -1,0 +1,275 @@
+Cacic\CommonBundle\Entity\Local:
+    properties:
+        nmLocal:
+            - NotBlank: ~
+            - MaxLength: 100
+        sgLocal:
+            - NotBlank: ~
+            - MaxLength: 20
+
+Cacic\CommonBundle\Entity\Usuario:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: nmUsuarioAcesso
+    properties:
+        idLocal:
+            - NotNull: ~
+        nmUsuarioAcesso:
+            - NotBlank: ~
+            - MaxLength: 20
+        nmUsuarioCompleto:
+            - NotBlank: ~
+            - MaxLength: 60
+        idGrupoUsuario:
+            - NotNull: ~
+
+Cacic\CommonBundle\Entity\ServidorAutenticacao:
+    properties:
+        nmServidorAutenticacao:
+            - NotBlank: ~
+            - MaxLength: 60
+        nmServidorAutenticacaoDns:
+            - NotBlank: ~
+            - MaxLength: 60
+        teIpServidorAutenticacao:
+            - NotBlank: ~
+            - Ip: ~
+        nuPortaServidorAutenticacao:
+            - NotBlank: ~
+            - MaxLength: 5
+        idTipoProtocolo:
+            - NotBlank: ~
+            - MaxLength: 20
+        nuVersaoProtocolo:
+            - NotBlank: ~
+            - MaxLength: 10
+        teAtributoIdentificador:
+            - NotBlank: ~
+            - MaxLength: 100
+        teAtributoRetornaNome:
+            - NotBlank: ~
+            - MaxLength: 100
+        teAtributoRetornaEmail:
+            - NotBlank: ~
+            - MaxLength: 100
+        teAtributoValorStatusContaValida:
+            - NotBlank: ~
+            - MaxLength: 100
+        teObservacao:
+            - MaxLength: 200
+        inAtivo:
+            - Choice:
+                choices:  [S, N]
+
+Cacic\CommonBundle\Entity\Rede:
+    properties:
+        nmRede:
+            - NotNull: ~
+            - MaxLength: 30
+        teMascaraRede:
+            - NotBlank: ~
+            - MaxLength: 20
+        teServCacic:
+            - NotBlank: ~
+            - MaxLength: 20
+        teServCacic:
+            - NotBlank: ~
+        teServUpdates:
+            - NotBlank: ~
+            - MaxLength: 20
+        teServUpdates:
+            - NotBlank: ~
+        nuPortaServUpdates:
+            - NotBlank: ~
+            - MaxLength: 5
+        nuLimiteFtp:
+            - NotBlank: ~
+            - MaxLength: 5
+        nmUsuarioLoginServUpdates:
+            - NotBlank: ~
+            - MaxLength: 20
+        nmUsuarioLoginServUpdatesGerente:
+            - NotBlank: ~
+            - MaxLength: 20
+        tePathServUpdates:
+            - NotBlank: ~
+            - MaxLength: 20
+
+Cacic\CommonBundle\Entity\So:
+    properties:
+        teDescSo:
+            - NotBlank: ~
+            - MaxLength: 30
+        sgSo:
+            - NotBlank: ~
+            - MaxLength: 30
+        teSo:
+            - NotNull: ~
+            - MaxLength: 10
+        inMswindows:
+            - NotBlank: ~
+            - Choice:
+                choices:  [S, N]
+
+Cacic\CommonBundle\Entity\Aplicativo:
+    properties:
+        nmAplicativo:
+            - NotBlank: ~
+            - MaxLength: 30
+        idSo:
+            - NotBlank: ~
+
+Cacic\CommonBundle\Entity\Software:
+    properties:
+        nmSoftware:
+            - NotBlank: ~
+            - MaxLength: 150
+        teDescricaoSoftware:
+            - MaxLength: 255
+        qtLicenca:
+            - Type:
+                type: int
+        nrMidia:
+            - MaxLength: 10
+        teLocalMidia:
+            - MaxLength: 30
+        teObs:
+            - MaxLength: 200
+
+Cacic\CommonBundle\Entity\TipoSoftware:
+    properties:
+        teDescricaoTipoSoftware:
+            - NotBlank: ~
+            - MaxLength: 30
+
+Cacic\CommonBundle\Entity\UsbDevice:
+    properties:
+        idUsbVendor:
+            - NotNull: ~
+        idUsbDevice:
+            - NotBlank: ~
+            - MaxLength: 5
+        nmUsbDevice:
+            - NotBlank: ~
+            - MaxLength: 127
+
+Cacic\CommonBundle\Entity\Log:
+    properties:
+        dtAcao:
+            - NotBlank: ~
+            - Date: ~
+        idLocal:
+            - NotNull: ~
+
+Cacic\CommonBundle\Entity\Aquisicao:
+    properties:
+        nrProcesso:
+            - NotBlank: ~
+            - MaxLength: 11
+        nmEmpresa:
+            - NotBlank: ~
+            - MaxLength: 45
+        nmProprietario:
+            - NotBlank: ~
+            - MaxLength: 45
+        nrNotafiscal:
+            - NotBlank: ~
+            - MaxLength: 20
+        dtAquisicao:
+            - NotBlank: ~
+            - Date: ~
+
+Cacic\CommonBundle\Entity\TipoLicenca:
+    properties:
+        teTipoLicenca:
+            - NotBlank: ~
+            - MaxLength: 60
+
+Cacic\CommonBundle\Entity\AquisicaoItem:
+    properties:
+        qtLicenca:
+            - NotBlank: ~
+            - MaxLength: 6
+        idTipoLicenca:
+            - NotBlank: ~
+        idAquisicao:
+            - NotBlank: ~
+        idSoftware:
+            - NotBlank: ~
+        teObs:
+            - MaxLength: 200
+        dtVencimentoLicenca:
+            - NotBlank: ~
+            - Date: ~
+
+Cacic\CommonBundle\Entity\SoftwareEstacao:
+    properties:
+        nrPatrimonio:
+            - NotBlank: ~
+            - MaxLength: 30
+        idSoftware:
+            - NotBlank: ~
+        nmComputador:
+            - NotBlank: ~
+            - MaxLength: 30
+        nrProcesso:
+            - NotBlank: ~
+            - MaxLength: 30
+        dtAutorizacao:
+            - NotBlank: ~
+            - Date: ~
+        dtExpiracaoInstalacao:
+            - NotBlank: ~
+            - Date: ~
+        dtDesinstalacao:
+            - NotBlank: ~
+            - Date: ~
+
+Cacic\CommonBundle\Entity\TipoLicenca:
+    properties:
+        teTipoLicenca:
+            - NotBlank: ~
+            - MaxLength: 20
+
+Cacic\CommonBundle\Entity\Uorg:
+    properties:
+        nmUorg:
+            - NotBlank: ~
+            - MaxLength: 50
+        teEndereco:
+            - MaxLength: 80
+        teBairro:
+            - MaxLength: 30
+        teCidade:
+            - MaxLength: 50
+        teUf:
+            - MaxLength: 2
+        nmResponsavel:
+            - MaxLength: 80
+        teResponsavelEmail:
+            - MaxLength: 50
+        nuResponsavelTel1:
+            - MaxLength: 10
+        nuResponsavelTel2:
+            - MaxLength: 10
+        tipoUorg:
+            - NotNull: ~
+
+Cacic\CommonBundle\Entity\PatrimonioConfigInterface:
+    properties:
+        teEtiqueta:
+            - NotBlank: ~
+            - MaxLength: 30
+        tePluralEtiqueta:
+             - NotBlank: ~
+             - MaxLength: 30
+        teHelpEtiqueta:
+             - NotBlank: ~
+             - MaxLength: 50
+        inExibirEtiqueta:
+            - NotBlank: ~
+            - Choice:
+                choices:  [S, N]
+        inDestacarDuplicidade:
+            - NotBlank: ~
+            - Choice:
+                choices:  [S, N]

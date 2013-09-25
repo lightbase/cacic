@@ -1,0 +1,301 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}     
+	<li class="active">Configuração Padrão</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+<div class="span12">
+	<div class="box grad_colour_black">
+		<h2 class="box_head round_top"><i class="icon-cog"></i>Configurações</h2>
+	
+		<div class="block box_content round_bottom padding_10">
+
+			<h3>Lista de configurações-padrão</h3>
+			<p>As opções abaixo determinam qual será o comportamento padrão dos agentes do <b>CACIC</b> para cada novo local criado.</p>
+			<br />
+
+	        <table class="table table-striped table-bordered">
+				<thead>
+				<tr>
+				    <th width="30%">Diretiva</th>
+				    <th width="70%">Valor</th>
+			    </tr>
+				</thead>
+		
+			  	<tbody id="config_padrao_data">
+                                
+                <tr>
+                    <td>Exibir erros criticos aos usuarios</td>
+                    <td>
+                        <input id="in_exibe_erros_criticos_s" type="radio" name="in_exibe_erros_criticos" value="S" 
+                            {% if ( configuracoes['in_exibe_erros_criticos'] == 'S' ) %}checked="checked"{% endif %}
+                        /> 
+                        <label for="in_exibe_erros_criticos_s">Sim</label> 
+                        <input id="in_exibe_erros_criticos_n" type="radio" name="in_exibe_erros_criticos" value="N" 
+                            {% if ( configuracoes['in_exibe_erros_criticos'] == 'N' ) %}checked="checked"{% endif %}
+                        /> 
+                        <label for="in_exibe_erros_criticos_n">Não</label>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Exibir o icone do CACIC na bandeja (systray)</td>
+                    <td>
+	                    <input id="in_exibe_bandeja_s" type="radio" name="in_exibe_bandeja" value="S" 
+	                        {% if ( configuracoes['in_exibe_bandeja'] == 'S' ) %}checked="checked"{% endif %}
+	                    /> 
+	                    <label for="in_exibe_bandeja_s">Sim</label> 
+	                    <input id="in_exibe_bandeja_n" type="radio" name="in_exibe_bandeja" value="N"
+	                        {% if ( configuracoes['in_exibe_bandeja'] == 'N' ) %}checked="checked"{% endif %}
+	                    /> 
+	                    <label for="in_exibe_bandeja_n">Não</label>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Início de execução das ações (em minutos)</td>
+                    <td>
+                        <input id="nu_exec_apos" type="text" name="nu_exec_apos" value="{{ configuracoes['nu_exec_apos'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Intervalo de execução das ações (em horas)</td>
+                    <td>
+                        <input id="nu_intervalo_exec" type="text" name="nu_intervalo_exec" value="{{ configuracoes['nu_intervalo_exec'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Quantidade máxima de linhas em relatorios</td>
+                    <td>
+                        <input id="nu_rel_maxlinhas" type="text" name="nu_rel_maxlinhas" value="{{ configuracoes['nu_rel_maxlinhas'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Nome da organização</td>
+                    <td>
+                        <input id="nm_organizacao" type="text" name="nm_organizacao" value="{{ configuracoes['nm_organizacao'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>nu_timeout_srcacic</td>
+                    <td>
+                        <input id="nu_timeout_srcacic" type="text" name="nu_timeout_srcacic" value="{{ configuracoes['nu_timeout_srcacic'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>nu_intervalo_renovacao_patrim</td>
+                    <td>
+                        <input id="nu_intervalo_renovacao_patrim" type="text" name="nu_intervalo_renovacao_patrim" value="{{ configuracoes['nu_intervalo_renovacao_patrim'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Senha padrão para administrar o agente</td>
+                    <td>
+                        <input id="te_senha_adm_agente" type="text" name="te_senha_adm_agente" value="{{ configuracoes['te_senha_adm_agente'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Nome ou IP do servidor de atualização (FTP)</td>
+                    <td>
+                        <input id="te_serv_updates_padrao" type="text" name="te_serv_updates_padrao" value="{{ configuracoes['te_serv_updates_padrao'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Nome ou IP do servidor de aplicação (gerente)</td>
+                    <td>
+                        <input id="te_serv_cacic_padrao" type="text" name="te_serv_cacic_padrao" value="{{ configuracoes['te_serv_cacic_padrao'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Endereços MAC a desconsiderar</td>
+                    <td>
+                        <textarea id="te_enderecos_mac_invalidos" type="text" name="te_enderecos_mac_invalidos" rows="10">{{ configuracoes['te_enderecos_mac_invalidos'] }}</textarea>
+                    </td>
+                </tr>
+                           
+                <tr>
+                    <td>Aplicativos (janelas) a evitar</td>
+                    <td>
+                        <textarea id="te_janelas_excecao" type="text" name="te_janelas_excecao" rows="10">{{ configuracoes['te_janelas_excecao'] }}</textarea>
+                    </td>
+                </tr>
+                                
+                <tr>
+                    <td>Exibe janela de patrimônio</td>
+                    <td>
+                        <input id="cs_abre_janela_patr_s" type="radio" name="cs_abre_janela_patr" value="S" 
+                            {% if ( configuracoes['cs_abre_janela_patr'] == 'S' ) %}checked="checked"{% endif %}
+                        /> 
+                        <label for="cs_abre_janela_patr">Sim</label> 
+                        <input id="cs_abre_janela_patr_n" type="radio" name="cs_abre_janela_patr" value="N"
+                            {% if ( configuracoes['cs_abre_janela_patr'] == 'N' ) %}checked="checked"{% endif %}
+                        /> 
+                        <label for="cs_abre_janela_patr_n">Não</label>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>id_default_body_bgcolor</td>
+                    <td>
+			            <input type="text" id="id_default_body_bgcolor" name="id_default_body_bgcolor" value="{{ configuracoes['id_default_body_bgcolor'] }}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Gráficos a serem exibidos</td>
+                    <td>
+                        {% set _graficos = configuracoes['te_exibe_graficos']|split(',') %}
+                        <input type="checkbox" id="te_exibe_graficos_so" name="te_exibe_graficos" value="so" 
+                            {% if ( 'so' in _graficos  ) %}checked="checked"{% endif %}
+                        />
+                        <label for="te_exibe_graficos_so">Sistemas Operacionais</label>
+                        
+                        <input type="checkbox" id="te_exibe_graficos_acessos" name="te_exibe_graficos" value="acessos" 
+                            {% if ( 'acessos' in _graficos  ) %}checked="checked"{% endif %}
+                        /> 
+                        <label for="te_exibe_graficos_acessos">Acessos</label>
+                        
+                        <input type="checkbox" id="te_exibe_graficos_acessos_locais" name="te_exibe_graficos" value="acessos_locais" 
+                            {% if ( 'acessos_locais' in _graficos  ) %}checked="checked"{% endif %}
+                        /> 
+                        <label for="te_exibe_graficos_acessos_locais">Acessos Locais</label>
+                        
+                        <input type="checkbox" id="te_exibe_graficos_locais" name="te_exibe_graficos" value="locais" 
+                        {% if ( 'locais' in _graficos  ) %}checked="checked"{% endif %}/> 
+                        <label for="te_exibe_graficos_locais">Locais</label>
+                    </td>
+                </tr>
+                
+                                
+                <tr>
+                    <td>nu_porta_srcacic</td>
+                    <td>
+                        <input id="nu_porta_srcacic" type="text" name="nu_porta_srcacic" value="{{ configuracoes['nu_porta_srcacic'] }}" />
+                    </td>
+                </tr>
+                
+                                
+                <tr>
+                    <td>Resolucao dos graficos a serem exibidos (Altura)</td>
+                    <td>
+                        <input id="nu_resolucao_grafico_h" type="text" name="v" value="{{ configuracoes['nu_resolucao_grafico_h'] }}" />
+                    </td>
+                </tr>
+                
+                                
+                <tr>
+                    <td>Resolucao dos graficos a serem exibidos (Largura)</td>
+                    <td>
+                        <input id="nu_resolucao_grafico_w" type="text" name="nu_resolucao_grafico_w" value="{{ configuracoes['nu_resolucao_grafico_w'] }}" />
+                    </td>
+                </tr>
+                
+                                
+              </tbody>
+			</table>
+		</div> <!-- /block -->
+	</div> <!-- /box -->
+</div> <!-- /span -->
+
+</div> <!-- /row -->
+{% endblock %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    
+    {% stylesheets combine=false filter='cssrewrite'
+        'bundles/caciccommon/colorpicker/css/colorpicker.css'
+    %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}}
+    
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/colorpicker/js/bootstrap-colorpicker.js') }}"></script>
+
+    <script type="text/javascript">
+    
+        // Máscaras nos campos
+	    $('#nu_exec_apos, #nu_rel_maxlinhas').mask('9?999999999');
+	    $('#nu_timeout_srcacic, #nu_intervalo_exec, #nu_intervalo_renovacao_patrim').mask('9?9');
+	    $('#nu_porta_srcacic, #nu_resolucao_grafico_w, #nu_resolucao_grafico_h').mask('9?999');
+	    
+	    // Monitora o campo de seleção de cor
+	    var id_default_body_bgcolor = "{{ configuracoes['id_default_body_bgcolor'] }}";
+	    $('#id_default_body_bgcolor').colorpicker().on('hide', function( ev ){
+	    	if ( id_default_body_bgcolor != ev.color.toHex() ) // Verifica se a cor foi alterada
+	    	{
+	    		id_default_body_bgcolor = ev.color.toHex();
+	            salvaConfiguracao( 'id_default_body_bgcolor', id_default_body_bgcolor );
+	    	}
+	    });
+	    
+	    // Monitora os campos do tipo texto e textearea
+		$('#config_padrao_data input, #config_padrao_data textarea').bind('change', function(e)
+	    {
+			e.preventDefault();
+			var _value = $(this).val();
+			
+			if ( $(this).attr('name') == 'te_exibe_graficos' )
+			{ // CHECKBOXES relativos a exibição de gráficos na página inicial
+			    _value = '';
+			    $('input[name=te_exibe_graficos]:checked').each(function( index ){
+			    	if ( index != 0 ) _value += ',';
+			    	_value += $(this).val();
+			    });
+			}
+			
+			salvaConfiguracao( $(this).attr('name'), _value );
+	    });
+		
+		/**
+		 * [AJAX] Salva a mudança na configuração
+		 */
+		function salvaConfiguracao( config, valor )
+		{
+			var url = "{{ path('cacic_configuracao_salvar') }}";
+			var params = { 'idConfiguracao': config , 'vlConfiguracao': valor };
+            $.ajax(
+                {
+                    type: "POST",
+                    url: url,
+                    cache: false,
+                    async: false,
+                    success: function( data )
+                    {
+                        System.Flash.show( 'Sucesso', 'Configuração alterada com sucesso!' );
+                    },
+                    error: function( data )
+                    {
+                        System.Flash.show( 'Erro', 'Erro na alteração da configuração!' );
+                    },
+                    complete: function( data )
+                    {
+                    	$('html, body').animate({scrollTop:0}, 1200, 'linear');
+                    },
+                    data: params
+                }
+            );
+		}
+	    
+    </script>
+
+{% endblock %}

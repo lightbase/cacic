@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+    <head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <title>Cacic Super Admin</title>
+	    <!-- CSS e JavaScript vão aqui -->
+	    <metal:content define-slot="head" />
+        
+    </head>
+	<body>
+	 <header>
+	  <!-- Menu Superior da página -->
+
+			<div id="logo">
+		 		<a href="home"><img src="static/caciclogo.jpg"></a>	
+			</div>
+			<div id="logoff">
+			   <a href="login"><img src="static/logoff.png"></a>
+			</div>
+			<div id="usuario">
+			 	usuário: admin<br>
+				nível: administrador
+			</div>
+			<div id="pesquisa">
+			 	<input></input>
+			</div>
+		</header>
+		<div id="centro">
+		<div id="menu-lateral">
+		 <div id="menu-principal">
+		 </div>
+		   <div id="menu-favoritos"></div>
+		</div>
+		<div id="conteudo">
+		   <div id="lista-links">
+			   <a href="home" class="link-lista">Conteudo</a>
+			   <a href="dashboard" class="link-lista">Personalização</a>
+			   <a href="administracao" class="link-lista">Administração</a> 
+		   </div>
+		   <metal:content define-slot="conteudo" />
+		</div>
+		</div>
+		<footer>
+		   <div id="links-footer">
+			   <a href="home">Home</a> |
+			   <a href="dashboard">Dashboard</a> |
+			   <a href="administracao">Administração</a>
+		   </div>
+		   <div id="desenvolvido">
+			   Desenvolvido por:
+		   </div>
+
+	    <LINK href="static/ext-4.2/resources/css/ext-all-gray.css" type="text/css" rel="stylesheet">
+	    <LINK href="static/main.css" type="text/css" rel="stylesheet">
+	    <LINK href="static/layout.css" type="text/css" rel="stylesheet">
+	    <script type="text/javascript" src="static/ext-4.2/ext-all.js"></script>
+	    <script type="text/javascript" src="static/main.js"></script>
+
+	    <!-- Slot para o CSS -->
+	    <metal:content define-slot="css" />
+
+	    <!-- Slot para o JavaScript -->
+	    <metal:content define-slot="javascript" />
+
+		</footer>
+    </body>
+
+</html>

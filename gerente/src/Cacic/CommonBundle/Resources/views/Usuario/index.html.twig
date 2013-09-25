@@ -1,0 +1,191 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}     
+	<li class="active">{{ "Usuários"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+	<div class="span12">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-group"></i> {{ "Usuários"|trans }}</h2>
+			
+			<div class="block box_content round_bottom padding_10">
+	
+				<h3>{{ "Lista de usuários cadastrados"|trans }}</h3>
+				<p>{{ "Neste módulo deverão ser cadastrados os usuários que acessarão o sistema"|trans }}</p>
+				<br />
+
+		        <table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th width="15%">Login</th>
+			                <th width="25%">{{ "Nome"|trans }}</th>
+			                <th width="20%">Local</th>
+			                <th width="10%" style="text-align: center">{{ "Locais"|trans }}<br />{{ "secundários"|trans }}</th>
+			                <th width="15%">{{ "Nível de Acesso"|trans }}</th>
+			                <th style="text-align: center">{{ "Ações"|trans }}</th>
+		            	</tr>
+		            </thead>
+		
+		            <tbody>
+		
+		            {% for usuario in usuarios %}
+		                <tr id="item_{{ usuario[0]['idUsuario'] }}">
+		                    <td>{{ usuario[0]['nmUsuarioAcesso'] }}</td>
+		                    <td id="item_desc_{{ usuario[0]['idUsuario'] }}">{{ usuario[0]['nmUsuarioCompleto'] }}</td>
+		                    <td>{{ usuario['nmLocal'] }}</td>
+		                    <td style="text-align: center">
+		                    	{% set locaisSecundarios = usuario[0]['teLocaisSecundarios']|split(',') %}
+		                    	{{ locaisSecundarios|length }}
+		                    </td>
+		                    <td>{{ usuario['teGrupoUsuarios'] }}</td>
+		                    <td class="td-actions">
+								<a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario[0]['idUsuario']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+									<i class="btn-icon-only icon-edit"></i>
+								</a>
+								
+								<a href="javascript: void(0);" class="btn btn-small bt-trocar-senha" title="{{ "Trocar Senha do Usuário"|trans }}">
+									<i class="btn-icon-only icon-key"></i>
+								</a>
+								
+								<a href="{{ path('cacic_usuario_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
+									<i class="btn-icon-only icon-trash icon-large"></i>										
+								</a>
+							</td>
+		                </tr>
+		            {% else %}
+		                <tr>
+		                    <td style="text-align: center;" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+		                </tr>
+		            {% endfor %}
+		
+		            </tbody>
+		        </table>
+		        
+		        <div align="right">
+				    <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_usuario_cadastrar') }}">
+				    	<i class="icon-plus-sign"></i>
+				    	  {{ "Adicionar Usuário"|trans }}
+				    </a>
+				</div>
+			</div> <!-- /block -->
+		</div><!-- /box -->
+		
+	</div><!-- /span -->
+</div><!-- /row -->
+
+<!-- DIALOG (Modal) de troca de senha -->
+<div id="trocarSenha" title="{{ "Trocar Senha"|trans }}">
+	<form id="frmTrocarSenha">
+	<fieldset>
+		<label for="troca_senha_te_senha">{{ "Nova Senha:"|trans }}</label>
+		<input type="password" name="troca_senha_te_senha" id="troca_senha_te_senha" value="" class="text ui-widget-content ui-corner-all" />
+		<label for="troca_senha_te_senha">{{ "Confirmação:"|trans }}</label>
+		<input type="password" name="troca_senha_te_senha_confirma" id="troca_senha_te_senha_confirma" value="" class="text ui-widget-content ui-corner-all" />
+	</fieldset>
+	</form>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+<script type="text/javascript">
+
+/**
+ * Verifica se a senha informa é valida
+ * - Se as 2 senhas conferem entre si
+ * - Se possui o mínimo de caracteres (6)
+ * - Se possui o máximo de caracteres (10)
+ * @return boolean
+ */
+function isSenhaValid()
+{
+	var min = 6; // Mínimo de caracteres para a senha
+	var max = 10; // Máximo de caracteres para a senha
+	
+	var senha = $( '#troca_senha_te_senha' ).val();
+	var senha2 = $( '#troca_senha_te_senha_confirma' ).val();
+	
+	if ( senha != senha2)		return 'Senhas não conferem';
+	if ( senha.length < min )	return 'Senha não pode conter menos que ' +min+ ' caracteres';
+	if ( senha.length > max )	return 'Senha não pode conter mais que ' +max+ ' caracteres';
+	
+	return true;
+}
+
+/**
+ * Abre a MODAL com o formulário para troca de Senha
+ */
+
+$( "#trocarSenha" ).dialog({
+	autoOpen: false,
+	height: 250,
+	width: 350,
+	modal: true,
+	buttons: {
+		"Salvar" : function(){
+			// Realiza a validação dos campos
+			var validation_result = isSenhaValid();
+			if( validation_result === true )
+			{
+				var params = {
+					'id' : $( this ).data( 'id' ), 
+					'senha' : $( '#troca_senha_te_senha' ).val()
+				};
+				
+				$( this ).dialog( "close" );
+				
+				$.ajax(
+					{
+						type: "POST",
+						url: "{{ path('cacic_usuario_trocar_senha') }}",
+						cache: false,
+						async: false,
+						success: function( data )
+						{
+							System.Flash.show( 'Sucesso', 'Senha alterada com sucesso!' );
+						},
+						error: function( data )
+						{
+							System.Flash.show( 'Erro', 'Erro na solicitação' );
+						},
+						data: params
+					}
+				);
+			}
+			else
+			{
+				System.Flash.show( 'Erro', validation_result );
+			}
+			
+			$( this ).dialog( "close" );
+		},
+		"Cancelar" : function(){
+			$( this ).dialog( "close" );
+		}
+	},
+	show: { effect: "fade", duration: 500 },
+	hide: { effect: "fade", duration: 500 },
+	close: function( event, ui ){ 
+		// Limpa os campos do formulário
+		$( "#troca_senha_id_usuario" ).val( '' );
+		$( "#troca_senha_te_senha" ).val( '' );
+		$( "#troca_senha_te_senha_confirma" ).val( '' );
+	}
+});
+
+$( ".bt-trocar-senha" ).click(function(){
+	// Configura o idUsario que terá a senha alterada
+	var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
+	$( "#trocarSenha" ).data( 'id', id ).dialog( "open" ); // Abre a "Modal" com o formulário de troca de senha
+});
+
+</script>
+{% endblock %}

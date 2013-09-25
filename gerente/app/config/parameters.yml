@@ -1,0 +1,14 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: cacic_doctrine
+    database_user: root
+    database_password: w1f1t1d1
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: en_US
+    secret: d7c123f25645010985ca27c1015bc76797
+    database_path: null
