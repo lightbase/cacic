@@ -64,19 +64,39 @@ class ComputadorConsultaType extends AbstractType
              array( 'label'=>'', 'max_length'=>30, 'required'  => false)
          );
         $builder->add(
+            $builder->create(
                 'dtHrInclusao',
                 'text',
                 array(
+                    'data' => date('Y-m-d'),
                     'label' => '',
-                    'required'  => false
+                    'max_length' => 50
                 )
+            )
+                ->addModelTransformer( new CxDatePtBrTransformer() )
         );
         $builder->add(
+            $builder->create(
                 'dtHrInclusaoFim',
-            'text',
+                'text',
                 array(
-                    'label' => '','required'  => false
+                    'data' => date('Y-m-d'),
+                    'label' => '',
+
                 )
+            )
+                ->addModelTransformer( new CxDatePtBrTransformer() )
+        );
+        $builder->add(
+            $builder->create(
+                'dtHrUltAcesso',
+                'text',
+                array(
+                    'data' => date('Y-m-d'),
+                    'label' => ''
+                )
+            )
+                ->addModelTransformer( new CxDatePtBrTransformer() )
         );
     }
 
