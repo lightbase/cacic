@@ -1,0 +1,149 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+	<li><a href="{{ path('cacic_usuario_index') }}">{{ "Usuários"|trans }}</a></li> /
+	<li class="active">{{ "Cadastro"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+	<div class="span8">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {% if form.vars.value.idUsuario %}{{ "Edição dos dados do Usuário"|trans }}{% else %}{{ "Cadastro de novo Usuário"|trans }}{% endif %}</h2>
+			
+			<div class="block box_content round_bottom padding_10">
+
+				<form id={{ 'formCadastroUsuario'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+			
+					{{ form_widget( form, {'form_type': 'horizontal'} ) }}
+					{{ form_rest(form) }}
+					
+					<div class="control-group">
+	                  <div class="controls">
+	                    <button type="reset" class="btn">
+							<i class="icon-refresh"></i>
+							{{ "Resetar Valores"|trans }}
+						</button>
+						<button type="submit" class="btn btn-primary">
+							<i class="icon-ok-sign"></i>
+							{{ "Salvar Dados"|trans }}
+						</button>
+	                  </div>
+	                </div>
+				
+				</form>
+				<hr />
+				<div>
+					<a class="btn btn-danger"  href="{{ path('cacic_usuario_index') }}">
+						<i class="icon-remove-sign"></i>
+						{{ "Cancelar"|trans }}
+					</a>
+				</div>
+		
+			</div> <!-- /block -->
+		</div> <!-- /box -->
+	</div> <!-- /span8 -->
+	      	
+	<div class="span4">
+		<div class="box grad_colour_black">
+
+			<h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+				
+			<div class="block box_content round_bottom padding_10">
+			    <p>
+                    {{ "Os itens destacados em"|trans }} <b class="red">{{ "vermelho"|trans }}</b> {{ "são de preenchimento obrigatório"|trans }}.
+                </p>
+				<p>
+					{{ "As informações que deverão ser cadastradas abaixo referem-se aos usuários do sistema, onde será determinado o tipo de acesso."|trans }}
+					{{ "A senha inicial será gerada automaticamente em função da identificação e poderá ser trocada pelo usuário na opção"|trans }}
+					<br /><br /> 
+					<b>{{ "Meus Dados (Menu no canto superior direito) - Alterar Senha"|trans }}</b>.
+					<br /><br />
+					{{ "Após o logon, serão exibidas a primeira e última parte do campo Nome completo."|trans }}
+				</p>
+			</div> <!-- /block -->
+		</div> <!-- /box -->
+	</div><!-- span4 -->
+</div> <!-- /row -->
+
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+<script type="text/javascript">
+    $('#usuario_teTelefonesContato ').mask('(99)9999-9999');
+	var oLocais = []; // JSON com Locais
+	var oGrupoDesc = { // JSON com descricao dos grupos
+		{% for grupo in grupoDesc %}
+		{{ grupo['idGrupoUsuario'] }}: "{{ grupo['teDescricaoGrupo'] }}"{% if loop.last != true %},{% endif %}
+		{% endfor %}
+	};
+
+	/**
+	 * Monta JSON com lista de Locais
+	 */
+	$(document).ready(function(){
+		$( '#usuario_idLocal option' ).each(function(){
+			if ( $(this).val() != '' && $(this).val() != undefined )
+			{
+				oLocais.push({ idLocal: $(this).val(), nmLocal: $(this).text() });
+			}
+		})
+		
+		// Verifica se já há algum local primário pré-selecionado para retirá-lo da lista de locais secundários
+		if ( $( '#usuario_idLocal' ).val() != '' && $( '#usuario_idLocal' ).val() != undefined )
+		{
+			$( '#usuario_locaisSecundarios option[value='+ $( '#usuario_idLocal' ).val() +']' ).remove();
+		}
+	});
+
+	/**
+	 * Remove o local principal selecionado da lista de locais secundários
+	 */
+	$( '#usuario_idLocal' ).change(function(){
+		
+		// Primeiro, remove todos os itens da combo de locais secundários
+		$( '#usuario_locaisSecundarios option' ).each(function(){
+			$(this).remove();
+		});
+		
+		// Preenche novamente o select de locais secundários, omitindo o elemento selecionado no combo de Local Principal
+		for ( var i in oLocais )
+		{
+			if ( oLocais[i].idLocal != $(this).val() )
+			{
+				var sOption = '<option value="'+ oLocais[i].idLocal +'">'+ oLocais[i].nmLocal +'</option>';
+				$( '#usuario_locaisSecundarios' ).append( sOption );
+			}
+		}
+	});
+	
+	/**
+	 * Configura os campos hidden (local primário, servidor autenticação e locais secundários) baseado nos valores selecionados nas combos
+	 */
+	 $( '#formCadastroUsuario' ).submit(function(){
+		 //$( '#usuario_locaisSecundarios' ).val( $( '#usuario_SelectLocaisSecundarios' ).val() );
+		 
+		 return true;
+	 });
+	
+	/**
+	 * Exibe a descrição do grupo selecionado
+	 */
+	if ( $( '#usuario_idGrupoUsuario' ).val() != '' && $( '#usuario_idGrupoUsuario' ).val() != undefined )
+	{ // Se já há algum grupo pré-selecionado
+		$( '#usuario_te_descricao_grupo' ).val( oGrupoDesc[ $( '#usuario_idGrupoUsuario' ).val() ] );
+	}
+	 
+	$( '#usuario_idGrupoUsuario' ).change( function(){
+		$( '#usuario_te_descricao_grupo' ).val( oGrupoDesc[ $( this ).val() ] );
+	});
+
+	
+</script>
+{% endblock %}

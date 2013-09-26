@@ -1,0 +1,23 @@
+{# exibição das mensagens do sistema (sucesso, erro, avisos, etc..) #}
+{% block mensagens_sistema %}
+	<div id="msgErro" class="alert alert-error">
+		<button type="button" class="close" data-dismiss="alert">x</button>
+	{% for flashMessage in app.session.flashbag.peek('error') %}
+        {{ flashMessage }}
+	{% endfor %}
+	</div>
+	
+	<div id="msgAviso" class="alert">
+		<button type="button" class="close" data-dismiss="alert">x</button>
+	{% for flashMessage in app.session.flashbag.peek('notice') %}
+        {{ flashMessage }}
+	{% endfor %}
+	</div>
+	
+	<div id="msgSucesso" class="alert alert-success">
+		<button type="button" class="close" data-dismiss="alert">x</button>
+	{% for flashMessage in app.session.flashbag.peek('success') %}
+        {{ flashMessage }}
+	{% endfor %}
+	</div>
+{% endblock %}

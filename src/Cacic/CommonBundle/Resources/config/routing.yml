@@ -1,0 +1,505 @@
+cacic_common_homepage:
+    pattern:  /
+    defaults: { _controller: CacicCommonBundle:Default:index }
+
+cacic_common_login:
+    pattern:  /login
+    defaults: { _controller: CacicCommonBundle:Security:login }
+
+cacic_common_login_check:
+    pattern:  /authenticate
+
+cacic_common_logout:
+    pattern: /logout
+
+cacic_common_instalador:
+    pattern:  /instalador
+    defaults: { _controller: CacicCommonBundle:Instalador:index }
+
+cacic_usuario_index:
+    pattern:  /usuarios/{page}
+    defaults: { _controller: CacicCommonBundle:Usuario:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_usuario_meus_dados:
+    pattern:  /usuario/meusdados
+    defaults: { _controller: CacicCommonBundle:Usuario:meusdados}
+
+cacic_usuario_trocar_senha:
+    pattern:  /usuario/trocarsenha
+    defaults: { _controller: CacicCommonBundle:Usuario:trocarsenha}
+
+cacic_usuario_trocar_propria_senha:
+    pattern:  /usuario/trocarpropriasenha
+    defaults: { _controller: CacicCommonBundle:Usuario:trocarpropriasenha}
+
+cacic_usuario_cadastrar:
+    pattern:  /usuario/cadastrar
+    defaults: { _controller: CacicCommonBundle:Usuario:cadastrar}
+
+cacic_usuario_editar:
+    pattern:  /usuario/editar/{idUsuario}
+    defaults: { _controller: CacicCommonBundle:Usuario:editar, idUsuario: null}
+    requirements:
+        idUsuario: \d+
+
+cacic_usuario_excluir:
+    pattern:  /usuario/excluir
+    defaults: { _controller: CacicCommonBundle:Usuario:excluir}
+
+
+cacic_usuario_recuperar_senha:
+    pattern:  /usuario/recuperarsenha
+    defaults: { _controller: CacicCommonBundle:Usuario:recuperarsenha}
+
+cacic_local_index:
+    pattern:  /local/{page}
+    defaults: { _controller: CacicCommonBundle:Local:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_local_cadastrar:
+    pattern:  /local/cadastrar
+    defaults: { _controller: CacicCommonBundle:Local:cadastrar}
+
+cacic_local_editar:
+    pattern:  /local/editar/{idLocal}
+    defaults: { _controller: CacicCommonBundle:Local:editar}
+    requirements:
+        idLocal: \d+
+
+cacic_local_excluir:
+    pattern:  /local/excluir
+    defaults: { _controller: CacicCommonBundle:Local:excluir}
+
+cacic_local_redesassociadas:
+    pattern:  /local/redes/{idLocal}
+    defaults: { _controller: CacicCommonBundle:Local:redes}
+    requirements:
+        idLocal: \d+
+
+cacic_local_usuariosassociados:
+    pattern:  /local/usuarios/{idLocal}
+    defaults: { _controller: CacicCommonBundle:Local:usuarios}
+    requirements:
+        idLocal: \d+
+
+cacic_local_configuracoes:
+    pattern:  /local/configuracoes/{idLocal}
+    defaults: { _controller: CacicCommonBundle:Local:configuracoes}
+    requirements:
+        idLocal: \d+
+
+cacic_servidorautenticacao_index:
+    pattern: /servidorautenticacao/{page}
+    defaults: {_controller: CacicCommonBundle:ServidorAutenticacao:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_servidorautenticacao_cadastrar:
+    pattern: /servidorautenticacao/cadastrar
+    defaults: { _controller: CacicCommonBundle:ServidorAutenticacao:cadastrar}
+
+cacic_servidorautenticacao_editar:
+    pattern:  /servidorautenticacao/editar/{idServidorAutenticacao}
+    defaults: { _controller: CacicCommonBundle:ServidorAutenticacao:editar}
+    requirements:
+        idLocal: \d+
+
+cacic_servidorautenticacao_excluir:
+    pattern:  /servidorautenticacao/excluir
+    defaults: { _controller: CacicCommonBundle:ServidorAutenticacao:excluir}
+
+cacic_servidorautenticacao_redesassociadas:
+    pattern:  /servidorautenticacao/redes/{idServidorAutenticacao}
+    defaults: { _controller: CacicCommonBundle:ServidorAutenticacao:redes}
+    requirements:
+        idLocal: \d+
+
+cacic_subrede_index:
+    pattern: /subrede/{page}
+    defaults: {_controller: CacicCommonBundle:Rede:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_subrede_cadastrar:
+    pattern: /subrede/cadastrar
+    defaults: { _controller: CacicCommonBundle:Rede:cadastrar}
+
+cacic_subrede_editar:
+    pattern:  /subrede/editar/{idRede}
+    defaults: { _controller: CacicCommonBundle:Rede:editar}
+    requirements:
+        idRede: \d+
+
+cacic_subrede_excluir:
+    pattern:  /subrede/excluir
+    defaults: { _controller: CacicCommonBundle:Rede:excluir}
+
+cacic_subrede_manutencao:
+    pattern: /subrede/manutencao
+    defaults: { _controller: CacicCommonBundle:Rede:manutencao}
+
+
+cacic_aplicativo_index:
+    pattern: /aplicativo/{page}
+    defaults: {_controller: CacicCommonBundle:Aplicativo:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_aplicativo_cadastrar:
+    pattern: /aplicativo/cadastrar
+    defaults: { _controller: CacicCommonBundle:Aplicativo:cadastrar}
+
+cacic_aplicativo_editar:
+    pattern:  /aplicativo/editar/{idAplicativo}
+    defaults: { _controller: CacicCommonBundle:Aplicativo:editar}
+    requirements:
+        idAplicativo: \d+
+
+cacic_aplicativo_excluir:
+    pattern:  /aplicativo/excluir
+    defaults: { _controller: CacicCommonBundle:Aplicativo:excluir}
+
+
+cacic_tiposoftware_index:
+    pattern: /tiposoftware/{page}
+    defaults: {_controller: CacicCommonBundle:TipoSoftware:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_tiposoftware_cadastrar:
+    pattern: /tiposoftware/cadastrar
+    defaults: { _controller: CacicCommonBundle:TipoSoftware:cadastrar}
+
+cacic_tiposoftware_editar:
+    pattern:  /tiposoftware/editar/{idTipoSoftware}
+    defaults: { _controller: CacicCommonBundle:TipoSoftware:editar}
+    requirements:
+        idTipoSoftware: \d+
+
+cacic_tiposoftware_excluir:
+    pattern:  /tiposoftware/excluir
+    defaults: { _controller: CacicCommonBundle:TipoSoftware:excluir}
+
+cacic_sistemaoperacional_index:
+    pattern: /sistemaoperacional/{page}
+    defaults: {_controller: CacicCommonBundle:So:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_sistemaoperacional_cadastrar:
+    pattern: /sistemaoperacional/cadastrar
+    defaults: { _controller: CacicCommonBundle:So:cadastrar}
+
+cacic_sistemaoperacional_editar:
+    pattern:  /sistemaoperacional/editar/{idSo}
+    defaults: { _controller: CacicCommonBundle:So:editar}
+    requirements:
+        idSo: \d+
+
+cacic_sistemaoperacional_excluir:
+    pattern:  /sistemaoperacional/excluir
+    defaults: { _controller: CacicCommonBundle:So:excluir}
+
+cacic_software_index:
+    pattern: /software/{page}
+    defaults: {_controller: CacicCommonBundle:Software:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_software_cadastrar:
+    pattern: /software/cadastrar
+    defaults: { _controller: CacicCommonBundle:Software:cadastrar}
+
+cacic_software_editar:
+    pattern:  /software/editar/{idSoftware}
+    defaults: { _controller: CacicCommonBundle:Software:editar}
+    requirements:
+        idSoftware: \d+
+
+cacic_software_excluir:
+    pattern:  /software/excluir
+    defaults: { _controller: CacicCommonBundle:Software:excluir}
+
+cacic_software_naoclassificados:
+    pattern:  /software/naoclassificados
+    defaults: { _controller: CacicCommonBundle:Software:naoClassificados}
+
+cacic_software_naousados:
+    pattern:  /software/naousados
+    defaults: { _controller: CacicCommonBundle:Software:naoUsados}
+
+cacic_configuracao_padrao:
+    pattern: /configuracao/padrao
+    defaults: { _controller: CacicCommonBundle:Configuracao:padrao}
+
+cacic_configuracao_gerente:
+    pattern: /configuracao/gerente
+    defaults: { _controller: CacicCommonBundle:Configuracao:gerente}
+
+cacic_configuracao_agente:
+    pattern: /configuracao/agente
+    defaults: { _controller: CacicCommonBundle:Configuracao:agente}
+
+cacic_configuracao_salvar:
+    pattern: /configuracao/salvar
+    defaults: { _controller: CacicCommonBundle:Configuracao:salvarconfiguracao}
+
+cacic_modulo_index:
+    pattern: /modulo
+    defaults: { _controller: CacicCommonBundle:Modulo:index}
+
+cacic_modulo_editar:
+    pattern: /modulo/editar/{idAcao}
+    defaults: { _controller: CacicCommonBundle:Modulo:editar}
+
+cacic_usbdevice_index:
+    pattern: /usbdevice/{page}
+    defaults: {_controller: CacicCommonBundle:UsbDevice:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_usbdevice_cadastrar:
+    pattern: /usbdevice/cadastrar
+    defaults: { _controller: CacicCommonBundle:UsbDevice:cadastrar}
+
+cacic_usbdevice_editar:
+    pattern:  /usbdevice/editar/{idUsbDevice}
+    defaults: { _controller: CacicCommonBundle:UsbDevice:editar}
+
+cacic_usbdevice_excluir:
+    pattern:  /usbdevice/excluir
+    defaults: { _controller: CacicCommonBundle:UsbDevice:excluir}
+
+cacic_log_acesso:
+    pattern:  /log/acesso
+    defaults: { _controller: CacicCommonBundle:Log:acesso}
+
+cacic_log_pesquisa:
+    pattern:  /log/pesquisa
+    defaults: { _controller: CacicCommonBundle:Log:pesquisa}
+
+cacic_log_atividade:
+    pattern:  /log/atividade
+    defaults: { _controller: CacicCommonBundle:Log:atividade}
+
+cacic_log_insucesso_instalacao:
+    pattern:  /log/insucessoinstalacao
+    defaults: { _controller: CacicCommonBundle:Log:insucessoinstalacao}
+
+cacic_log_suporte_remoto:
+    pattern:  /log/suporteremoto
+    defaults: { _controller: CacicCommonBundle:Log:suporteremoto}
+
+cacic_patrimonio_index:
+    pattern: /patrimonio/index
+    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:index}
+
+cacic_patrimonio_interface:
+    pattern:  /patrimonio/interface/{idEtiqueta}
+    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:interface}
+
+cacic_patrimonio_opcoes:
+    pattern:  /patrimonio/opcoes
+    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:opcoes}
+
+cacic_uorg_index:
+    pattern:  /uorg/index
+    defaults: { _controller: CacicCommonBundle:Uorg:index}
+
+cacic_uorg_cadastrar:
+    pattern:  /uorg/cadastrar/{idUorgPai}
+    defaults: { _controller: CacicCommonBundle:Uorg:cadastrar, idUorgPai: null}
+    requirements:
+        idUorgPai: \d+
+
+cacic_uorg_editar:
+    pattern:  /uorg/editar/{idUorg}
+    defaults: { _controller: CacicCommonBundle:Uorg:editar, idUorg: null}
+    requirements:
+        idUorg: \d+
+
+cacic_uorg_excluir:
+    pattern:  /uorg/excluir/{idUorg}
+    defaults: { _controller: CacicCommonBundle:Uorg:excluir, idUorg: null}
+    requirements:
+        idUorg: \d+
+
+cacic_uorg_loadnodes:
+    pattern:  /uorg/loadnodes/{idUorgPai}
+    defaults: { _controller: CacicCommonBundle:Uorg:loadnodes, idUorgPai: null}
+    requirements:
+        idUorgPai: \d+
+
+cacic_uorg_visualizar:
+    pattern:  /uorg/visualizar/{idUorg}
+    defaults: { _controller: CacicCommonBundle:Uorg:visualizar, idUorg: null}
+    requirements:
+        idUorg: \d+
+
+cacic_aquisicao_index:
+    pattern: /aquisicao/{page}
+    defaults: {_controller: CacicCommonBundle:Aquisicao:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_aquisicao_cadastrar:
+    pattern: /aquisicao/cadastrar
+    defaults: { _controller: CacicCommonBundle:Aquisicao:cadastrar}
+
+cacic_aquisicao_editar:
+    pattern:  /aquisicao/editar/{idAquisicao}
+    defaults: { _controller: CacicCommonBundle:Aquisicao:editar}
+    requirements:
+        idAquisicao: \d+
+
+cacic_aquisicao_excluir:
+    pattern:  /aquisicao/excluir
+    defaults: { _controller: CacicCommonBundle:Aquisicao:excluir}
+
+cacic_tipo_licenca_index:
+    pattern: /tipolicenca/{page}
+    defaults: {_controller: CacicCommonBundle:TipoLicenca:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_tipo_licenca_cadastrar:
+    pattern: /tipolicenca/cadastrar
+    defaults: { _controller: CacicCommonBundle:TipoLicenca:cadastrar}
+
+cacic_tipo_licenca_editar:
+    pattern:  /tipolicenca/editar/{idTipoLicenca}
+    defaults: { _controller: CacicCommonBundle:TipoLicenca:editar}
+    requirements:
+        idTipoLicenca: \d+
+
+cacic_tipo_licenca_excluir:
+    pattern:  /tipolicenca/excluir
+    defaults: { _controller: CacicCommonBundle:TipoLicenca:excluir}
+
+cacic_aquisicao_item_index:
+    pattern: /aquisicaoitem/{page}
+    defaults: {_controller: CacicCommonBundle:AquisicaoItem:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_aquisicao_item_cadastrar:
+    pattern: /aquisicaoitem/cadastrar
+    defaults: { _controller: CacicCommonBundle:AquisicaoItem:cadastrar}
+
+cacic_aquisicao_item_editar:
+    pattern:  /aquisicaoitem/editar/{idAquisicao}/{idSoftware}/{idTipoLicenca}
+    defaults: { _controller: CacicCommonBundle:AquisicaoItem:editar}
+    requirements:
+        idSoftware: \d+
+        idTipoLicenca: \d+
+        idAquisicao: \d+
+
+cacic_aquisicao_item_excluir:
+    pattern:  /aquisicaoitem/excluir
+    defaults: { _controller: CacicCommonBundle:AquisicaoItem:excluir}
+
+cacic_software_estacao_index:
+    pattern: /softwareestacao/{page}
+    defaults: {_controller: CacicCommonBundle:SoftwareEstacao:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_software_estacao_cadastrar:
+    pattern: /softwareestacao/cadastrar
+    defaults: { _controller: CacicCommonBundle:SoftwareEstacao:cadastrar}
+
+cacic_software_estacao_editar:
+    pattern:  /softwareestacao/editar/{idComputador}/{idSoftware}
+    defaults: { _controller: CacicCommonBundle:SoftwareEstacao:editar}
+    requirements:
+        idSoftware: \d+
+        idComputador: \d+
+
+cacic_software_estacao_excluir:
+    pattern:  /softwareestacao/excluir
+    defaults: { _controller: CacicCommonBundle:SoftwareEstacao:excluir}
+
+cacic_computador_buscar:
+    pattern:  /computadores/buscar
+    defaults: { _controller: CacicCommonBundle:Computador:buscar}
+
+cacic_computador_navegar:
+    pattern:  /computadores/navegar
+    defaults: { _controller: CacicCommonBundle:Computador:navegar}
+
+cacic_computador_consultar:
+    pattern:  /computadores/consultar
+    defaults: { _controller: CacicCommonBundle:Computador:consultar}
+
+cacic_computador_excluir:
+    pattern:  /computador/excluir/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:excluir}
+    requirements:
+        idComputador: \d+
+
+cacic_computador_detalhar:
+    pattern:  /computador/detalhar/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:detalhar, idComputador: null }
+    requirements:
+        idComputador: \d+
+
+cacic_computador_loadredenodes:
+    pattern:  /computador/loadredenodes/{idLocal}
+    defaults: { _controller: CacicCommonBundle:Computador:loadredenodes}
+    requirements:
+        idLocal: \d+
+
+cacic_computador_loadcompnodes:
+    pattern:  /computador/loadcompnodes/{idSubrede}
+    defaults: { _controller: CacicCommonBundle:Computador:loadcompnodes}
+    requirements:
+        idSubrede: \d+
+
+cacic_migracao_cacic26:
+    pattern: /migracao/cacic26
+    defaults: { _controller: CacicCommonBundle:Cacic26:importardados}
+
+cacic_migracao_importador:
+    pattern: /migracao/importador
+    defaults: { _controller: CacicCommonBundle:Cacic26:importarscript}
+
+cacic_downloads:
+    pattern: /downloads/
+    defaults: { _controller: CacicCommonBundle:Default:downloads }
+
+cacic_uorg_type_index:
+    pattern:  /uorg/type/
+    defaults: { _controller: CacicCommonBundle:UorgType:index }
+
+cacic_uorg_type_cadastrar:
+    pattern:  /uorg/type/cadastrar/{idUorgType}
+    defaults: { _controller: CacicCommonBundle:UorgType:cadastrar, idUorgType: null}
+
+cacic_uorg_type_excluir:
+    pattern:  /uorg/type/excluir/{idUorgType}
+    defaults: { _controller: CacicCommonBundle:UorgType:excluir, idUorgType: null}
+    requirements:
+        idUorgType: \d+
+
+cacic_grupo_usuario_index:
+    pattern:  /grupousuario/{page}
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_grupo_usuario_cadastrar:
+    pattern:  /grupousuario/cadastrar
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:cadastrar}
+
+cacic_grupo_usuario_editar:
+    pattern:  /grupousuario/editar/{idGrupoUsuario}
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:editar}
+    requirements:
+        idGrupoUsuario: \d+
+
+cacic_grupo_usuario_excluir:
+    pattern:  /grupousuario/excluir
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:excluir}

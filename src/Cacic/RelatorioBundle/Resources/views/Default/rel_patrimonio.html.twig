@@ -1,0 +1,46 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h2 class="">{{ 'Relatório de Patrimônio'|trans }}</h2>
+    <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+    <hr />
+
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th width="20%">{{ "Nome Computador"|trans }}</th>
+            <th width="20%">{{ "S.O"|trans }}</th>
+            <th width="20%">{{ "I.P"|trans }}</th>
+            <th width="20%">{{ "Local"|trans }}</th>
+            {%  if ( exibirColunaSoftware ) %}
+            <th width="20%">{{ "Software"|trans }}</th>
+            {%  endif %}
+        </tr>
+        </thead>
+
+        <tbody>
+
+        {% for reg in dados %}
+
+            <tr>
+                <td>{{ reg['nmComputador'] }}</td>
+                <td>{{ reg['teSo'] }}</td>
+                <td>{{ reg["teIpRede"] }}</td>
+                <td>{{ reg['nmLocal'] }}</td>
+                {%  if ( exibirColunaSoftware ) %}
+                <td>{{ reg['nmSoftware'] }}</td>
+                {%  endif %}
+            </tr>
+
+        {% else %}
+            <tr>
+                <td style="text-align: center" colspan="{%  if ( exibirColunaSoftware ) %}5{% else %}4{% endif %}"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

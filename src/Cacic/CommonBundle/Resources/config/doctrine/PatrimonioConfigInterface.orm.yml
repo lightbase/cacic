@@ -1,0 +1,72 @@
+Cacic\CommonBundle\Entity\PatrimonioConfigInterface:
+    type: entity
+    table: patrimonio_config_interface
+    repositoryClass: Cacic\CommonBundle\Entity\PatrimonioConfigInterfaceRepository
+    id:
+        idEtiqueta:
+            type: string
+            length: 30
+            fixed: true
+            column: id_etiqueta
+        local:
+            associationKey: true
+    fields:
+        nmEtiqueta:
+            type: string
+            length: 15
+            fixed: true
+            nullable: true
+            column: nm_etiqueta
+        teEtiqueta:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+            column: te_etiqueta
+        inExibirEtiqueta:
+            type: string
+            length: 1
+            fixed: true
+            nullable: true
+            column: in_exibir_etiqueta
+        teHelpEtiqueta:
+            type: string
+            length: 100
+            fixed: false
+            nullable: true
+            column: te_help_etiqueta
+        tePluralEtiqueta:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: te_plural_etiqueta
+        nmCampoTabPatrimonio:
+            type: string
+            length: 50
+            fixed: false
+            nullable: true
+            column: nm_campo_tab_patrimonio
+        inDestacarDuplicidade:
+            type: string
+            length: 1
+            fixed: true
+            nullable: true
+            column: in_destacar_duplicidade
+        inObrigatorio:
+            type: string
+            length: 1
+            fixed: true
+            nullable: false
+            column: in_obrigatorio
+    manyToOne:
+        local:
+            targetEntity: Local
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

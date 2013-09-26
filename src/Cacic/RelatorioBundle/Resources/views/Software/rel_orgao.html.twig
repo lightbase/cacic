@@ -1,0 +1,53 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+<h2 class="">{{ 'Relatório de Softwares por Órgão/Máquina'|trans }}</h2>
+<h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+<hr />
+
+<table class="table table-bordered">
+	<thead>
+	    <tr>
+	    	<th width="80%">{{ "Software"|trans }}</th>
+	    	<th width="20%" style="text-align: center">{{ "Máquinas"|trans }}</th>
+	    </tr>
+	</thead>
+	
+	<tbody>
+	    {% for reg in dados %}
+        <tr>
+            <td><span class="blue">{{ reg.nmSoftware }}</span></td>
+            <td style="text-align: center">{{ reg.estacoes|length }}</td>
+        </tr>
+        <tr>
+        	<td colspan="2">
+        		<table class="table ">
+        			<tbody>
+        				<tr>
+        					<th width="40%">{{ 'Nome da máquina'|trans }}</th>
+        					<th width="30%" style="text-align: center">{{ 'IP'|trans }}</th>
+        					<th width="30%" style="text-align: center">{{ 'Última Coleta'|trans }}</th>
+        				</tr>
+        				{% for item in reg.estacoes %}
+        				<tr>
+        					<td>{{ item.idComputador.nmComputador }}</td>
+        					<td style="text-align: center">{{ item.idComputador.teIpComputador }}</td>
+        					<td style="text-align: center">{{ item.idComputador.dtHrUltAcesso|date('d/m/Y H:i') }}</td>
+        				</tr>
+        				{% endfor %}
+        			</tbody>
+        		</table>
+        	
+        	</td>
+        </tr>
+    	{% else %}
+        <tr>
+            <td style="text-align: center" colspan="2"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+        </tr>
+		{% endfor %}
+   </tbody>
+</table>
+
+{% endblock %}

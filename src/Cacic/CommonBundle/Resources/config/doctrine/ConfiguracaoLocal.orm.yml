@@ -1,0 +1,34 @@
+Cacic\CommonBundle\Entity\ConfiguracaoLocal:
+    type: entity
+    table: configuracao_local
+    repositoryClass: Cacic\CommonBundle\Entity\ConfiguracaoLocalRepository
+    id:
+        idLocal:
+            associationKey: true
+        idConfiguracao:
+            associationKey: true
+    fields:
+        vlConfiguracao:
+            type: text
+            nullable: true
+            column: vl_configuracao
+    manyToOne:
+        idLocal:
+            targetEntity: Local
+            cascade: {  }
+            mappedBy: null
+            inversedBy: configuracoes
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
+        idConfiguracao:
+            targetEntity: ConfiguracaoPadrao
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_configuracao:
+                    referencedColumnName: id_configuracao
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

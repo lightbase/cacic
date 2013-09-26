@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2013-08-28T14:37:16Z" source-language="en" target-language="pt_BR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="450bbf2434992aa2911eea6561a66f8f0e8d984d" resname="Acessos">
+        <source>Acessos</source>
+        <target>Acessos</target>
+        <jms:reference-file line="147">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="855dc3dcbe0a61aa4ac8681b78d227861d1b6496" resname="Administração">
+        <source>Administração</source>
+        <target>Administração</target>
+        <jms:reference-file line="133">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="14dce47e636c011152e7f3aee106da29feade16d" resname="Alertas">
+        <source>Alertas</source>
+        <target>Alertas</target>
+        <jms:reference-file line="61">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b6866f4262e2aa8c5b38d1ddf1253cd82d545477" resname="Alertas antigos...">
+        <source>Alertas antigos...</source>
+        <target>Alertas antigos...</target>
+        <jms:reference-file line="68">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="4307ac6814914760afcab08c898ee6b76c6058b2" resname="Alterar Senha">
+        <source>Alterar Senha</source>
+        <target>Alterar Senha</target>
+        <jms:reference-file line="108">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="4086a35781beea37cfc33fa18414c88c787f4775" resname="Aplicativo">
+        <source>Aplicativo</source>
+        <target>Aplicativo</target>
+        <jms:reference-file line="162">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ed6b84772f58c6a74fcd7972b7833e941050f193" resname="Aquisições">
+        <source>Aquisições</source>
+        <target>Aquisições</target>
+        <jms:reference-file line="187">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="bbf24dad237e25102853db73ce195aba473e60a7" resname="Aquisições de Softwares">
+        <source>Aquisições de Softwares</source>
+        <target>Aquisições de Softwares</target>
+        <jms:reference-file line="235">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="42dd7536d47b1375cc88a7d60569be9d36047001" resname="Atividades">
+        <source>Atividades</source>
+        <target>Atividades</target>
+        <jms:reference-file line="148">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="f063ef7a1ab0eda4853d0e431b4106be6c5611e8" resname="Atualização de Subrede">
+        <source>Atualização de Subrede</source>
+        <target state="new">Atualização de Subrede</target>
+        <jms:reference-file line="203">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="120882132c6910b018bfd95465dbdcce63ead00a" resname="Autorizações">
+        <source>Autorizações</source>
+        <target state="new">Autorizações</target>
+        <jms:reference-file line="250">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="4287688800154d60a84fb698c541af34414e0d41" resname="Busca avançada">
+        <source>Busca avançada</source>
+        <target state="new">Busca avançada</target>
+        <jms:reference-file line="216">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1ada05e983ffa750e3f397593047dbf3c896386a" resname="CACIC - Configurador Automático e Coletor de Informações Computacionais">
+        <source>CACIC - Configurador Automático e Coletor de Informações Computacionais</source>
+        <target state="new">CACIC - Configurador Automático e Coletor de Informações Computacionais</target>
+        <jms:reference-file line="5">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6c1185758b2d17c5827c4a491a1abd60bdf7ebba" resname="CACIC Coletor Automático e Configurador de Informações Computacionais">
+        <source>CACIC Coletor Automático e Configurador de Informações Computacionais</source>
+        <target state="new">CACIC Coletor Automático e Configurador de Informações Computacionais</target>
+        <jms:reference-file line="6">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="cf55cd0afc1b7d33ca23231e27c84d4159400d23" resname="COCA">
+        <source>COCA</source>
+        <target state="new">COCA</target>
+        <jms:reference-file line="66">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="7d80af55c8de4506a476852ce0533345d007ed6a" resname="Cadastros">
+        <source>Cadastros</source>
+        <target state="new">Cadastros</target>
+        <jms:reference-file line="155">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="bdc48c6093af3ba5d5c77bf8cf9c3008d728ca22" resname="Classificar Software">
+        <source>Classificar Software</source>
+        <target state="new">Classificar Software</target>
+        <jms:reference-file line="137">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="2d3a60a867b159835baaed20b9876db4e7b27add" resname="Computadores">
+        <source>Computadores</source>
+        <target>Computadores</target>
+        <jms:reference-file line="210">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1b6aef4ecb85ac37d6e41ef211796f47934c046b" resname="Comunidade CACIC">
+        <source>Comunidade CACIC</source>
+        <target state="new">Comunidade CACIC</target>
+        <jms:reference-file line="284">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="72cdeba704b8b6df7e23b58cacc467daad251477" resname="Configurar Agentes">
+        <source>Configurar Agentes</source>
+        <target state="new">Configurar Agentes</target>
+        <jms:reference-file line="80">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="d61906030e6ed94903e5b2d5148caa1b19806333" resname="Configurar Gerente">
+        <source>Configurar Gerente</source>
+        <target state="new">Configurar Gerente</target>
+        <jms:reference-file line="79">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="20dbd1f9d2af7e166bbda0f58d175374028566a6" resname="Configurar Módulos">
+        <source>Configurar Módulos</source>
+        <target state="new">Configurar Módulos</target>
+        <jms:reference-file line="82">Resources/views/base.html.twig</jms:reference-file>
+        <jms:reference-file line="139">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1241cb644963a1c9a424ab9c875535394f6f10f9" resname="Configurar Padrões">
+        <source>Configurar Padrões</source>
+        <target state="new">Configurar Padrões</target>
+        <jms:reference-file line="78">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="871f24c4cdafeb70d4637075c585b460f545a002" resname="Configurações">
+        <source>Configurações</source>
+        <target>Configurações</target>
+        <jms:reference-file line="247">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1a2b1f2509d3de59a4bea8e1ebe4dcbff12f13c5" resname="Confirmação:">
+        <source>Confirmação:</source>
+        <target>Confirmação:</target>
+        <jms:reference-file line="385">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="2af08061775bc4a876bd3f38a257fdbe017b8b0a" resname="Consultar">
+        <source>Consultar</source>
+        <target state="new">Consultar</target>
+        <jms:reference-file line="215">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="f26f9dd460928ad51c08a246324f6bb84bc00e31" resname="Dispositivos USB">
+        <source>Dispositivos USB</source>
+        <target state="new">Dispositivos USB</target>
+        <jms:reference-file line="167">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6e901a93b5a4ebe74ccfcb65fffb5af050c51543" resname="Editar Favoritos (Atalhos)">
+        <source>Editar Favoritos (Atalhos)</source>
+        <target state="new">Editar Favoritos (Atalhos)</target>
+        <jms:reference-file line="109">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="bd2902294a7ef1993f24651e75b9ecb470a23dbd" resname="Estatísticas">
+        <source>Estatísticas</source>
+        <target>Estatísticas</target>
+        <jms:reference-file line="259">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="a4ff403524c31444e8948e7af979c1ffb54c6ea8" resname="Gerência Aquisições">
+        <source>Gerência Aquisições</source>
+        <target state="new">Gerência Aquisições</target>
+        <jms:reference-file line="183">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="62ad70c23234d93e09ce85a1bd2d9cade6f22d95" resname="Hardwares">
+        <source>Hardwares</source>
+        <target state="new">Hardwares</target>
+        <jms:reference-file line="243">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="50dfb33091ba60cb6477f0fc1d229b4bb895199a" resname="Importar Computadores">
+        <source>Importar Computadores</source>
+        <target state="new">Importar Computadores</target>
+        <jms:reference-file line="96">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b320659b5340d76fbe8f6f151a24d12947f15c24" resname="Importar Locais">
+        <source>Importar Locais</source>
+        <target state="new">Importar Locais</target>
+        <jms:reference-file line="93">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="7b3d20e28d8c251f77e4b358ec10632d180c84df" resname="Importar Redes/Subredes">
+        <source>Importar Redes/Subredes</source>
+        <target state="new">Importar Redes/Subredes</target>
+        <jms:reference-file line="94">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="e674864b3041d1e50e14ebc73e9d7cdb7dbb1103" resname="Importar Sistemas Operacionais">
+        <source>Importar Sistemas Operacionais</source>
+        <target state="new">Importar Sistemas Operacionais</target>
+        <jms:reference-file line="95">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="77be1bcc83b43a1254b03caf6d478f5c7f71ab7a" resname="Insucessos Instalação">
+        <source>Insucessos Instalação</source>
+        <target state="new">Insucessos Instalação</target>
+        <jms:reference-file line="149">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="7b4db7ef1fa23cfb5e115a2a2c89d46a6a2ebc4a" resname="Interface">
+        <source>Interface</source>
+        <target state="new">Interface</target>
+        <jms:reference-file line="176">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="f08b68d86862a3f1cdfc639d9e79f1f81486ebef" resname="Itens adquiridos">
+        <source>Itens adquiridos</source>
+        <target>Itens adquiridos</target>
+        <jms:reference-file line="188">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="c466c673220ac620aa523f95126af36c94c994e5" resname="Locais">
+        <source>Locais</source>
+        <target>Locais</target>
+        <jms:reference-file line="159">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b225bd1662be35506f1a0814ea69271c3deb37e8" resname="Logado como">
+        <source>Logado como</source>
+        <target state="new">Logado como</target>
+        <jms:reference-file line="55">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="91b5fe2e557ba336d05fb6beeb215f3bd6f94013" resname="Manutenção">
+        <source>Manutenção</source>
+        <target state="new">Manutenção</target>
+        <jms:reference-file line="199">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="62ee1a4d57b7b37ed36cea281169c4b4f7ad8034" resname="Meus Dados">
+        <source>Meus Dados</source>
+        <target state="new">Meus Dados</target>
+        <jms:reference-file line="103">Resources/views/base.html.twig</jms:reference-file>
+        <jms:reference-file line="107">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="9fcbd68eda776ab2de37d4a3ec16b61d20da92a6" resname="Migração">
+        <source>Migração</source>
+        <target state="new">Migração</target>
+        <jms:reference-file line="89">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6b8f7503c78ad7eb8e24f7dd589e6831e2bc36b7" resname="Navegar">
+        <source>Navegar</source>
+        <target>Navegar</target>
+        <jms:reference-file line="214">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="198da551de19b4a5dd5306b17d225d68fb4bcbd3" resname="Nova Senha:">
+        <source>Nova Senha:</source>
+        <target>Nova Senha:</target>
+        <jms:reference-file line="383">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="4c8df52c061dc1e07e91d3978a45998160d218df" resname="Opções">
+        <source>Opções</source>
+        <target>Opções</target>
+        <jms:reference-file line="178">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="24bfb7f70d850027a13e3c5f0161435639c6edf0" resname="Patrimônio">
+        <source>Patrimônio</source>
+        <target>Patrimônio</target>
+        <jms:reference-file line="172">Resources/views/base.html.twig</jms:reference-file>
+        <jms:reference-file line="252">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="99418dfb37fa916358f868e88d4ee3ad2e1ae837" resname="Por Órgão/Máquinas">
+        <source>Por Órgão/Máquinas</source>
+        <target state="new">Por Órgão/Máquinas</target>
+        <jms:reference-file line="236">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="be7ad3b8193b066bbd83a9aa84dd8c76c43ef997" resname="Projeto CACIC">
+        <source>Projeto CACIC</source>
+        <target state="new">Projeto CACIC</target>
+        <jms:reference-file line="277">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="a7a1ebe81fa804a53b20d3afff45cc76dbe53a69" resname="Relatórios">
+        <source>Relatórios</source>
+        <target state="new">Relatórios</target>
+        <jms:reference-file line="223">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="3ffa2a9e9b4d0f775741cf96b2865880b0a15370" resname="Sair">
+        <source>Sair</source>
+        <target state="new">Sair</target>
+        <jms:reference-file line="111">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="222643240fab6ff9a423a4cb357cda1e58da5038" resname="Senha Atual:">
+        <source>Senha Atual:</source>
+        <target>Senha Atual:</target>
+        <jms:reference-file line="381">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="96520308f0967f9ef9a123962d8427dbbeded107" resname="Servidores Autenticação">
+        <source>Servidores Autenticação</source>
+        <target state="new">Servidores Autenticação</target>
+        <jms:reference-file line="160">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="d727d88469fd3a1c240f789497245471251b7731" resname="Sistemas Monitorados">
+        <source>Sistemas Monitorados</source>
+        <target state="new">Sistemas Monitorados</target>
+        <jms:reference-file line="263">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="c27791928cade271880e8c7dd4935a3cc3670ea8" resname="Sistemas Operacionais">
+        <source>Sistemas Operacionais</source>
+        <target>Sistemas Operacionais</target>
+        <jms:reference-file line="165">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="c278a5309e0034686dc8212ba6ffdba6901db76d" resname="Software por estações">
+        <source>Software por estações</source>
+        <target state="new">Software por estações</target>
+        <jms:reference-file line="189">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="3d3bf7f6d1c45fee4a61634c5f7de423f9889bf0" resname="Softwares">
+        <source>Softwares</source>
+        <target>Softwares</target>
+        <jms:reference-file line="166">Resources/views/base.html.twig</jms:reference-file>
+        <jms:reference-file line="229">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6fe7d8da539f6a920672a7ed9c1ed77d159743f1" resname="Softwares Inventariados">
+        <source>Softwares Inventariados</source>
+        <target state="new">Softwares Inventariados</target>
+        <jms:reference-file line="233">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="0abefffcf98878c8f3082a1ecb395defbd0df555" resname="Softwares Licenciados">
+        <source>Softwares Licenciados</source>
+        <target state="new">Softwares Licenciados</target>
+        <jms:reference-file line="234">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b081b72439c09af422832ff3e66b29597983246f" resname="Softwares não Vinculados">
+        <source>Softwares não Vinculados</source>
+        <target state="new">Softwares não Vinculados</target>
+        <jms:reference-file line="238">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ca27c5c94de98b8db7f78d70bbeda7225e12cfac" resname="Softwares não usados">
+        <source>Softwares não usados</source>
+        <target state="new">Softwares não usados</target>
+        <jms:reference-file line="138">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="da0cbcb709288a4507ae11b65d03b45151946b55" resname="Subredes">
+        <source>Subredes</source>
+        <target>Subredes</target>
+        <jms:reference-file line="161">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="53630a1cd26f8e18e0a92b353fc83b3fbde93418" resname="Suporte Remoto Seguro">
+        <source>Suporte Remoto Seguro</source>
+        <target state="new">Suporte Remoto Seguro</target>
+        <jms:reference-file line="150">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="88da89e91381b190bd9878177d6d1952a36ddc55" resname="TCP/IP">
+        <source>TCP/IP</source>
+        <target state="new">TCP/IP</target>
+        <jms:reference-file line="251">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="492d7bbc70293bb24d07e28143d029361e75fbae" resname="Tipos Softwares">
+        <source>Tipos Softwares</source>
+        <target state="new">Tipos Softwares</target>
+        <jms:reference-file line="164">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1a2d9f460b11e7ddb03974e3390245a5b0ee0e8b" resname="Tipos de Licença">
+        <source>Tipos de Licença</source>
+        <target state="new">Tipos de Licença</target>
+        <jms:reference-file line="190">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="12bc58f21ee2097e09ad11646b7eb7138d3952b0" resname="Tipos de Software">
+        <source>Tipos de Software</source>
+        <target state="new">Tipos de Software</target>
+        <jms:reference-file line="237">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="90475d690d195108705368fc395d3704cce8a900" resname="Trocar Senha">
+        <source>Trocar Senha</source>
+        <target>Trocar Senha</target>
+        <jms:reference-file line="378">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6b0a2098ee0bd5c894ce4ef6648e53e6f8a7af4c" resname="Unidades Organizacionais">
+        <source>Unidades Organizacionais</source>
+        <target>Unidades Organizacionais</target>
+        <jms:reference-file line="177">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="5891b7e007e70b55f2f14b824c94aa5280e7ebe5" resname="Usuários">
+        <source>Usuários</source>
+        <target>Usuários</target>
+        <jms:reference-file line="163">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="3b0a762862b3a65556e5dcbcbbd59629558c3c25" resname="será removido permanentemente e não poderá ser recuperado. Tem certeza que deseja continuar?">
+        <source>será removido permanentemente e não poderá ser recuperado. Tem certeza que deseja continuar?</source>
+        <target state="new">será removido permanentemente e não poderá ser recuperado. Tem certeza que deseja continuar?</target>
+        <jms:reference-file line="372">Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

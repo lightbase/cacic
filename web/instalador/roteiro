@@ -1,0 +1,102 @@
+1.0
+---------- Como usuário root, digite os seguintes comandos no terminal:
+# apt-get install postgresql apache2 php5 php5-pgsql php5-gd php5-mcrypt libapache2-mod-php5 php5-ldap php-pear git-all
+# /etc/init.d/apache2 restart
+
+
+2.0
+---------- Corrigir fuso horário do php: 
+
+nano /etc/php5/apache2/php.ini
+
+CTRL + W (busca por Module Settings)
+após o comando...
+
+[Date]
+; Defines the default timezone used by the date functions
+; http://php.net/date.timezone
+
+digite...
+
+date.timezone = America/Sao_Paulo
+
+CTRL + X
+Y
+Enter
+
+# /etc/init.d/apache2 restart 
+
+3.0
+----------Montar ambiente de desenvolvimento - OK
+
+
+Baixe o código do repositório oficial (necessário haver o "subversion" instalado)
+
+ # cd /srv
+ # svn co http://svn.softwarepublico.gov.br/svn/cacic/cacic/branches/3.0/gerente
+
+
+ # chown -R www-data.www-data gerente
+
+
+---------- Criar um link simbólico da sua pasta web para o Apache
+
+
+# ln -s /srv/gerente/web /var/www/cacic
+
+4.0
+---------- Criar banco de dados para o Symfony
+PostgreSQL
+
+Execute os seguintes comandos no terminal:
+
+$ sudo su
+# su - postgres
+$ createuser cacic
+
+Responda "y", conforme abaixo:
+
+Shall the new role be a superuser? (y/n) y
+$ createdb -O cacic cacic
+
+5.0
+----------  Adicionar as seguintes linhas no arquivo pg_hba.conf:
+
+host    cacic             cacic             127.0.0.1/32            trust
+
+Ficará assim:
+
+# PostgreSQL Client Authentication Configuration File
+# ===================================================
+#
+# Refer to the "Client Authentication" section in the PostgreSQL
+# documentation for a complete description of this file.  A short
+# synopsis follows.
+#
+# This file controls: which hosts are allowed to connect, how clients
+# are authenticated, which PostgreSQL user names they can use, which
+# databases they can access.  Records take one of these forms:
+#
+ host    cacic   cacic  127.0.0.1/32    trust
+
+6.0
+---------- Reiniciar o banco de dados:
+
+$ /etc/init.d/postgresql restart
+
+7.0
+----------  Testar a conexão ao banco de dados:
+
+$ psql -U cacic -h localhost cacic
+psql (9.1.9)
+SSL connection (cipher: DHE-RSA-AES256-SHA, bits: 256)
+Type "help" for help.
+
+cacic=> \q
+$ exit
+
+8.0
+----------  Execute o instalador
+ 
+em seu navegador, entre no endereço (ipdoservidor)/cacic/instalador
+Informe os dados solicitados pelo formulario, caso não saiba algum dos dados, deixe em branco que o sistema ira assumir o padrão

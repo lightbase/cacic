@@ -1,0 +1,340 @@
+Cacic\CommonBundle\Entity\Local:
+    properties:
+        nmLocal:
+            - NotBlank: ~
+            - Length:
+                max: 100
+        sgLocal:
+            - NotBlank: ~
+            - Length:
+                max: 20
+
+Cacic\CommonBundle\Entity\Usuario:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: nmUsuarioAcesso
+    properties:
+        idLocal:
+            - NotNull: ~
+        nmUsuarioAcesso:
+            - NotBlank: ~
+            - Length:
+                max: 20
+        nmUsuarioCompleto:
+            - NotBlank: ~
+            - Length:
+                max: 60
+        idGrupoUsuario:
+            - NotNull: ~
+
+Cacic\CommonBundle\Entity\ServidorAutenticacao:
+    properties:
+        nmServidorAutenticacao:
+            - NotBlank: ~
+            - Length:
+                max: 60
+        nmServidorAutenticacaoDns:
+            - NotBlank: ~
+            - Length:
+                max: 60
+        teIpServidorAutenticacao:
+            - NotBlank: ~
+            - Ip: ~
+        nuPortaServidorAutenticacao:
+            - NotBlank: ~
+            - Length:
+                max: 5
+        idTipoProtocolo:
+            - NotBlank: ~
+            - Length:
+                max: 20
+        nuVersaoProtocolo:
+            - NotBlank: ~
+            - Length:
+                max: 10
+        teAtributoIdentificador:
+            - NotBlank: ~
+            - Length:
+                max: 100
+        teAtributoIdentificadorAlternativo:
+            - Length:
+                max: 100
+        teAtributoRetornaNome:
+            - NotBlank: ~
+            - Length:
+                max: 100
+        teAtributoRetornaEmail:
+            - NotBlank: ~
+            - Length:
+                max: 100
+        teAtributoValorStatusContaValida:
+            - NotBlank: ~
+            - Length:
+                max: 100
+        inAtivo:
+            - NotBlank: ~
+            - Choice:
+                choices:  [S, N]
+
+Cacic\CommonBundle\Entity\Rede:
+    properties:
+        nmRede:
+            - NotNull: ~
+            - Length:
+                max: 30
+        teMascaraRede:
+            - NotBlank: ~
+            - Length:
+                max: 20
+        teServCacic:
+            - NotBlank: ~
+            - Length:
+                max: 20
+        teServCacic:
+            - NotBlank: ~
+        teServUpdates:
+            - NotBlank: ~
+            - Length:
+                max: 20
+        teServUpdates:
+            - NotBlank: ~
+        nuPortaServUpdates:
+            - NotBlank: ~
+            - Length:
+                max: 5
+        nuLimiteFtp:
+            - NotBlank: ~
+            - Length:
+                max: 5
+        nmUsuarioLoginServUpdates:
+            - NotBlank: ~
+            - Length:
+                max: 20
+        nmUsuarioLoginServUpdatesGerente:
+            - NotBlank: ~
+            - Length:
+                max: 20
+        tePathServUpdates:
+            - NotBlank: ~
+            - Length:
+                max: 20
+        nuTelefone1:
+            - Length:
+                max: 11
+        nuTelefone2:
+            - Length:
+                max: 11
+
+Cacic\CommonBundle\Entity\So:
+    properties:
+        teDescSo:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        sgSo:
+            - NotBlank: ~
+            - Length:
+                max: 20
+        teSo:
+            - NotNull: ~
+            - Length:
+                max: 50
+        inMswindows:
+            - NotBlank: ~
+            - Choice:
+                choices:  [S, N]
+
+Cacic\CommonBundle\Entity\Aplicativo:
+    properties:
+        nmAplicativo:
+            - NotBlank: ~
+            - Length:
+                max: 30
+        idSo:
+            - NotBlank: ~
+
+Cacic\CommonBundle\Entity\Software:
+    properties:
+        nmSoftware:
+            - NotBlank: ~
+            - Length:
+                max: 150
+        teDescricaoSoftware:
+            - Length:
+                max: 255
+        qtLicenca:
+            - Type:
+                type: int
+        nrMidia:
+            - Length:
+                max: 10
+        teLocalMidia:
+            - Length:
+                max: 30
+        teObs:
+            - Length:
+                max: 200
+
+Cacic\CommonBundle\Entity\TipoSoftware:
+    properties:
+        teDescricaoTipoSoftware:
+            - NotBlank: ~
+            - Length:
+                max: 30
+
+Cacic\CommonBundle\Entity\UsbDevice:
+    properties:
+        idUsbVendor:
+            - NotNull: ~
+        idUsbDevice:
+            - NotBlank: ~
+            - Length:
+                max: 5
+        nmUsbDevice:
+            - NotBlank: ~
+            - Length:
+                max: 127
+
+Cacic\CommonBundle\Entity\Log:
+    properties:
+        dtAcao:
+            - NotBlank: ~
+            - Date: ~
+        idLocal:
+            - NotNull: ~
+
+Cacic\CommonBundle\Entity\Aquisicao:
+    properties:
+        nrProcesso:
+            - NotBlank: ~
+            - Length:
+                max: 11
+        nmEmpresa:
+            - NotBlank: ~
+            - Length:
+                max: 45
+        nmProprietario:
+            - NotBlank: ~
+            - Length:
+                max: 45
+        nrNotafiscal:
+            - NotBlank: ~
+            - Length:
+                max: 20
+        dtAquisicao:
+            - NotBlank: ~
+            - Date: ~
+
+Cacic\CommonBundle\Entity\TipoLicenca:
+    properties:
+        teTipoLicenca:
+            - NotBlank: ~
+            - Length:
+                max: 60
+
+Cacic\CommonBundle\Entity\AquisicaoItem:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [idTipoLicenca, idAquisicao, idSoftware]
+    properties:
+        qtLicenca:
+            - NotBlank: ~
+            - Length:
+                max: 6
+        idTipoLicenca:
+            - NotBlank: ~
+        idAquisicao:
+            - NotBlank: ~
+        idSoftware:
+            - NotBlank: ~
+        teObs:
+            - Length:
+                max: 200
+        dtVencimentoLicenca:
+            - NotBlank: ~
+            - Date: ~
+
+Cacic\CommonBundle\Entity\SoftwareEstacao:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [idSoftware, idComputador]
+    properties:
+        idSoftware:
+            - NotNull: ~
+        idComputador:
+            - NotNull: ~
+        nrPatrimonio:
+            - Length:
+                max: 20
+        dtAutorizacao:
+            - Date: ~
+        dtExpiracaoInstalacao:
+            - Date: ~
+        dtDesinstalacao:
+            - Date: ~
+        teObservacao:
+            - Length:
+                max: 90
+        nrPatrDestino:
+            - Length:
+                max: 20
+
+Cacic\CommonBundle\Entity\TipoLicenca:
+    properties:
+        teTipoLicenca:
+            - NotBlank: ~
+            - Length:
+                max: 20
+
+Cacic\CommonBundle\Entity\Uorg:
+    properties:
+        nmUorg:
+            - NotBlank: ~
+            - Length:
+                max: 50
+        teEndereco:
+            - Length:
+                max: 80
+        teBairro:
+            - Length:
+                max: 30
+        teCidade:
+            - Length:
+                max: 50
+        teUf:
+            - Length:
+                max: 2
+        nmResponsavel:
+            - Length:
+                max: 80
+        teResponsavelEmail:
+            - Length:
+                max: 50
+        nuResponsavelTel1:
+            - Length:
+                max: 10
+        nuResponsavelTel2:
+            - Length:
+                max: 10
+        tipoUorg:
+            - NotNull: ~
+
+Cacic\CommonBundle\Entity\PatrimonioConfigInterface:
+    properties:
+        teEtiqueta:
+            - NotBlank: ~
+            - Length:
+                max: 30
+        tePluralEtiqueta:
+             - NotBlank: ~
+             - Length:
+                max: 30
+        teHelpEtiqueta:
+             - NotBlank: ~
+             - Length:
+                max: 50
+        inExibirEtiqueta:
+            - NotBlank: ~
+            - Choice:
+                choices:  [S, N]
+        inDestacarDuplicidade:
+            - NotBlank: ~
+            - Choice:
+                choices:  [S, N]

@@ -1,0 +1,40 @@
+Cacic\CommonBundle\Entity\AcaoSo:
+    type: entity
+    table: acao_so
+    repositoryClass: Cacic\CommonBundle\Entity\AcaoSoRepository
+    id:
+        acao:
+            associationKey: true
+        rede:
+            associationKey: true
+        so:
+            associationKey: true
+    manyToOne:
+        acao:
+            targetEntity: Acao
+            cascade: {  }
+            mappedBy: null
+            inversedBy: so
+            joinColumns:
+                id_acao:
+                    referencedColumnName: id_acao
+            orphanRemoval: false
+        rede:
+            targetEntity: Rede
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_rede:
+                    referencedColumnName: id_rede
+            orphanRemoval: false
+        so:
+            targetEntity: So
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_so:
+                    referencedColumnName: id_so
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
