@@ -13,8 +13,12 @@ class TipoLicencaController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrTipoLicenca = $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoLicenca' )->listar();
-        return $this->render( 'CacicCommonBundle:TipoLicenca:index.html.twig', array( 'TipoLicenca' => $arrTipoLicenca ) );
+        return $this->render(
+            'CacicCommonBundle:TipoLicenca:index.html.twig',
+            array( 'TipoLicenca' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoLicenca' )
+                ->paginar( $this->get( 'knp_paginator' ), $page )
+            )
+        );
 
     }
     public function cadastrarAction(Request $request)

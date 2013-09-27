@@ -34,15 +34,15 @@
               <tbody>
 
                 {% for so in So %}
-                    <tr id="item_{{ so['idSo'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                        <td id="item_desc_{{ so['idSo'] }}">{{ so['teDescSo'] }}</td>
-                        <td style="text-align: center">{{ so['inMswindows'] }}</td>
-                        <td style="text-align: center">{{ so['teSo'] }}</td>
-                        <td style="text-align: center">{{ so['idSo'] }}</td>
-                        <td>{{ so['sgSo'] }}</td>
+                    <tr id="item_{{ so.idSo }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                        <td id="item_desc_{{ so.idSo }}">{{ so.teDescSo }}</td>
+                        <td style="text-align: center">{{ so.inMswindows |traduzFlagSimNao }}</td>
+                        <td style="text-align: center">{{ so.teSo  }}</td>
+                        <td style="text-align: center">{{ so.idSo }}</td>
+                        <td>{{ so.sgSo }}</td>
                         <td></td>
                         <td style="text-align: center" class="td-actions">
-                            <a href="{{ path('cacic_sistemaoperacional_editar', {'idSo': so['idSo']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                            <a href="{{ path('cacic_sistemaoperacional_editar', {'idSo': so.idSo }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                 <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 
@@ -59,6 +59,12 @@
 
               </tbody>
            </table>
+
+             {# display navigation #}
+             <div class="navigation">
+                 {{ knp_pagination_render(So) }}
+             </div>
+
            <div align="right">
                 <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_sistemaoperacional_cadastrar') }}">
                     <i class="icon-plus-sign"></i>

@@ -99,6 +99,33 @@ class Computador
      */
     private $idRede;
 
+    /**
+     * @var string
+     */
+    private $nmComputador;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $softwares;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->softwares = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * 
+     * Método mágico invocado sempre que um objeto desta classe é referenciado num contexto de string
+     */
+    public function __toString()
+    {
+    	return( $this->nmComputador ?: ( $this->teIpComputador . "({$this->teNodeAddress})" ) );
+    }
 
     /**
      * Get idComputador
@@ -499,5 +526,137 @@ class Computador
     public function getIdRede()
     {
         return $this->idRede;
+    }
+    
+    /**
+     * Set nmComputador
+     *
+     * @param string $nmComputador
+     * @return Computador
+     */
+    public function setNmComputador($nmComputador)
+    {
+        $this->nmComputador = $nmComputador;
+    
+        return $this;
+    }
+
+    /**
+     * Get nmComputador
+     *
+     * @return string 
+     */
+    public function getNmComputador()
+    {
+        return $this->nmComputador;
+    }
+
+    /**
+     * Add softwares
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $softwares
+     * @return Computador
+     */
+    public function addSoftware(\Cacic\CommonBundle\Entity\SoftwareEstacao $softwares)
+    {
+        $this->softwares[] = $softwares;
+    
+        return $this;
+    }
+
+    /**
+     * Remove softwares
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $softwares
+     */
+    public function removeSoftware(\Cacic\CommonBundle\Entity\SoftwareEstacao $softwares)
+    {
+        $this->softwares->removeElement($softwares);
+    }
+
+    /**
+     * Get softwares
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSoftwares()
+    {
+        return $this->softwares;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $hardwares;
+
+
+    /**
+     * Add hardwares
+     *
+     * @param \Cacic\CommonBundle\Entity\ComputadorColeta $hardwares
+     * @return Computador
+     */
+    public function addHardware(\Cacic\CommonBundle\Entity\ComputadorColeta $hardwares)
+    {
+        $this->hardwares[] = $hardwares;
+    
+        return $this;
+    }
+
+    /**
+     * Remove hardwares
+     *
+     * @param \Cacic\CommonBundle\Entity\ComputadorColeta $hardwares
+     */
+    public function removeHardware(\Cacic\CommonBundle\Entity\ComputadorColeta $hardwares)
+    {
+        $this->hardwares->removeElement($hardwares);
+    }
+
+    /**
+     * Get hardwares
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHardwares()
+    {
+        return $this->hardwares;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $software_coletado;
+
+
+    /**
+     * Add software_coletado
+     *
+     * @param \Cacic\CommonBundle\Entity\PropriedadeSoftware $softwareColetado
+     * @return Computador
+     */
+    public function addSoftwareColetado(\Cacic\CommonBundle\Entity\PropriedadeSoftware $softwareColetado)
+    {
+        $this->software_coletado[] = $softwareColetado;
+    
+        return $this;
+    }
+
+    /**
+     * Remove software_coletado
+     *
+     * @param \Cacic\CommonBundle\Entity\PropriedadeSoftware $softwareColetado
+     */
+    public function removeSoftwareColetado(\Cacic\CommonBundle\Entity\PropriedadeSoftware $softwareColetado)
+    {
+        $this->software_coletado->removeElement($softwareColetado);
+    }
+
+    /**
+     * Get software_coletado
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSoftwareColetado()
+    {
+        return $this->software_coletado;
     }
 }

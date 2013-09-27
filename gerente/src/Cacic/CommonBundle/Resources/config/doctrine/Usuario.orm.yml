@@ -57,10 +57,18 @@ Cacic\CommonBundle\Entity\Usuario:
             fixed: false
             nullable: true
             column: te_telefones_contato
-        teLocaisSecundarios:
-            type: text
-            nullable: true
-            column: te_locais_secundarios
+    manyToMany:
+        locaisSecundarios:
+            targetEntity: Local
+            inversedBy: usuariosSecundarios
+            joinTable:
+                name: local_secundario
+                joinColumns:
+                    id_usuario:
+                        referencedColumnName: id_usuario
+                inverseJoinColumns:
+                    id_local:
+                        referencedColumnName: id_local
     manyToOne:
         idLocal:
             targetEntity: Local
@@ -70,6 +78,7 @@ Cacic\CommonBundle\Entity\Usuario:
             joinColumns:
                 id_local:
                     referencedColumnName: id_local
+                    nullable: false
             orphanRemoval: false
         idServidorAutenticacao:
             targetEntity: ServidorAutenticacao
@@ -88,5 +97,6 @@ Cacic\CommonBundle\Entity\Usuario:
             joinColumns:
                 id_grupo_usuario:
                     referencedColumnName: id_grupo_usuario
+                    nullable: false
             orphanRemoval: false
     lifecycleCallbacks: {  }

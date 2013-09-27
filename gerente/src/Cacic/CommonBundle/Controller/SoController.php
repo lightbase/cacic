@@ -13,7 +13,7 @@ class SoController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrso = $this->getDoctrine()->getRepository( 'CacicCommonBundle:So' )->listar();
+        $arrso = $this->getDoctrine()->getRepository( 'CacicCommonBundle:So' )->paginar( $this->get( 'knp_paginator' ), $page );
         return $this->render( 'CacicCommonBundle:So:index.html.twig', array( 'So' => $arrso ) );
 
     }
@@ -91,5 +91,66 @@ class SoController extends Controller
 
         return $response;
     }
+    
+	/**
+	 * 
+	 * Tela de importação de arquivo CSV com registros de Sistemas Operacionais
+	 */
+	public function importarcsvAction( Request $request )
+	{
+		$form = $this->createFormBuilder()
+			        ->add('arquivocsv', 'file', array('label' => 'Arquivo', 'attr' => array( 'accept' => '.csv' )))
+			        ->getForm();
+		
+		if ( $request->isMethod('POST') )
+		{
+			$form->bindRequest( $request );
+			if ( $form['arquivocsv']->getData() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile )
+			{
+				// Executa a importação do arquivo - grava no diretório web/upload/migracao
+				$dirMigracao = realpath( dirname(__FILE__) .'/../../../../web/upload/migracao/' );
+				$fileName = 'SO_U'.$this->getUser()->getIdUsuario().'T'.time().'.csv';
+				$form['arquivocsv']->getData()->move( $dirMigracao, $fileName );
+				
+				$em = $this->getDoctrine()->getManager();
+				
+				// Abre o arquivo salvo e começa a rotina de importação dos dados do CSV
+				$csv = file( $dirMigracao.'/'.$fileName );
+				foreach( $csv as $k => $v )
+				{ 
+					// Valida a linha
+					$v = explode( ';', trim( str_replace( '"', '', $v ) ) );
+					if ( count( $v ) != 5 )
+						continue;
+					
+					$so = new So();
+					
+					// desabilita a geracao automatica do id
+		            $metadata = $em->getClassMetaData(get_class($so));
+		            $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+            
+					$so->setIdSo( (int) $v[0] );
+					$so->setTeDescSo( $v[1] );
+					$so->setSgSo( $v[2] );
+					$so->setTeSo( $v[3] );
+					$so->setInMswindows( $v[4] );
+					
+					$em->persist( $so );
+				}
+				
+				$em->flush(); // Persiste os dados dos Sistemas Operacionais
+				
+				$this->get('session')->getFlashBag()->add('success', 'Importação realizada com sucesso!');
+			}
+			else $this->get('session')->getFlashBag()->add('error', 'Arquivo CSV inválido!');
+			
+			return $this->redirect( $this->generateUrl( 'cacic_migracao_so') );
+	    }
+		
+		return $this->render(
+        	'CacicCommonBundle:So:importarcsv.html.twig',
+        	array( 'form' => $form->createView() )
+        );
+	}
 
 }

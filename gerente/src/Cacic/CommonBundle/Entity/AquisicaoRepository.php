@@ -13,10 +13,19 @@ use Doctrine\ORM\EntityRepository;
 class AquisicaoRepository extends EntityRepository
 {
 
-    public function paginar( $page )
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
+        $_dql = "SELECT a.idAquisicao
+				FROM CacicCommonBundle:Aquisicao a
+				GROUP BY a.idAquisicao";
 
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql )->getArrayResult(),
+            $page,
+            10
+        );
     }
+    
     /**
      *
      * Método de listagem das Aquisicões cadastradas
@@ -31,5 +40,21 @@ class AquisicaoRepository extends EntityRepository
         return $query->getArrayResult();
     }
 
+	/**
+     * 
+     * Método de consulta à base de dados por processos de Aquisição de Software
+     */
+    public function gerarRelatorioAquisicoes()
+    {
+    	// Monta a Consulta básica...
+    	$qb = $this->createQueryBuilder('aq')
+    				->select('aq', 'aqit', 'sw', 'tpl')
+        			->innerJoin('aq.itens', 'aqit')
+        			->innerJoin('aqit.idSoftware', 'sw')
+        			->innerJoin('aqit.idTipoLicenca', 'tpl')
+        			->orderBy('aq.dtAquisicao DESC, aqit.dtVencimentoLicenca');
+
+        return $qb->getQuery()->execute();
+    }
 
 }

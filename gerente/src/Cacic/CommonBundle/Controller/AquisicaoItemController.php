@@ -16,7 +16,8 @@ class AquisicaoItemController extends Controller
     {
         return $this->render(
         	'CacicCommonBundle:AquisicaoItem:index.html.twig',
-        	array( 'Aquisicao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:AquisicaoItem' )->listar() ));
+        	array( 'Aquisicao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:AquisicaoItem' )->paginar( $this->get( 'knp_paginator' ), $page ))
+        );
     }
     
     public function cadastrarAction(Request $request)
@@ -115,7 +116,7 @@ class AquisicaoItemController extends Controller
             throw $this->createNotFoundException( 'Item de Aquisição não encontrado' );
 
         $em = $this->getDoctrine()->getManager();
-        //$em->remove( $itemAquisicao );
+        $em->remove( $itemAquisicao );
         $em->flush();
 
         $response = new Response( json_encode( array('status' => 'ok') ) );

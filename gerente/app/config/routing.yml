@@ -1,10 +1,17 @@
+cacic_ws:
+    resource: "@CacicWSBundle/Resources/config/routing.yml"
+    prefix:   /ws/
+
 cacic_relatorio:
     resource: "@CacicRelatorioBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /relatorio/
 
 cacic_common:
     resource: "@CacicCommonBundle/Resources/config/routing.yml"
     prefix:   /
+
+elfinder:
+     resource: "@FMElfinderBundle/Resources/config/routing.yml"
 
 # Internal routing configuration to handle ESI
 # ****** WARNING ******

@@ -997,20 +997,20 @@ function delTags($pStrTagLabel, $pStrSource, $pStrTags = '[]')
 	return $strSource;
 	}
 
-// Fun��o para atribuir valor a tags
+// Função para atribuir valor a tags
 function setValueToTags($pStrTagLabel, $pStrValue, $pStrSource, $pStrTags = '[]')
 	{
-	$strBeginTag = substr($pStrTags,0,1) 		. $pStrTagLabel . substr($pStrTags,1,1);
-	$strEndTag   = substr($pStrTags,0,1) . '/' 	. $pStrTagLabel . substr($pStrTags,1,1);	
-	$strSource	 = $pStrSource;
-	
-	$strActualValue = getValueFromTags($pStrTagLabel,$pStrSource);	
-	if (stripos2($strSource,$strBeginTag,false))
-		$strSource = str_replace($strBeginTag . $strActualValue . $strEndTag,$strBeginTag . $pStrValue . $strEndTag,$pStrSource);
-	else
-		$strSource .= $strBeginTag . $pStrValue . $strEndTag;	
+        $strBeginTag = substr($pStrTags,0,1) 		. $pStrTagLabel . substr($pStrTags,1,1);
+        $strEndTag   = substr($pStrTags,0,1) . '/' 	. $pStrTagLabel . substr($pStrTags,1,1);
+        $strSource	 = $pStrSource;
 
-	return $strSource;
+        $strActualValue = getValueFromTags($pStrTagLabel,$pStrSource);
+        if (stripos2($strSource,$strBeginTag,false))
+            $strSource = str_replace($strBeginTag . $strActualValue . $strEndTag,$strBeginTag . $pStrValue . $strEndTag,$pStrSource);
+        else
+            $strSource .= $strBeginTag . $pStrValue . $strEndTag;
+
+        return $strSource;
 	}
 	
 // --------------------------------------------------------------------------------------

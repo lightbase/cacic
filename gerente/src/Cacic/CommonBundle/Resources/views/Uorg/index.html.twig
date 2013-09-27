@@ -63,9 +63,9 @@
     var _dados = [ // Unidades de primeiro nível
         {% for uorg in uorgs %}
         {
-        	label: '{{ uorg[0]["nmUorg"] }}',
-        	id: {{ uorg[0]['idUorg'] }},
-        	load_on_demand: {% if uorg['numFilhas'] %}true{% else %}false{% endif %}
+        	label: '{{ uorg.nmUorg }}',
+        	id: {{ uorg.idUorg }},
+        	load_on_demand: {% if uorg.numFilhas %}true{% else %}false{% endif %}
         	
         }{% if loop.last != true %},{% endif %}
         
@@ -101,7 +101,7 @@
            		_acoesNode += ' <a onclick="excluirUorg('+ node.id +');"><i class="icon-trash" title="Excluir Unidade"></i></a> ';
            		
            		$li.find('span.jqtree-title').after( _acoesNode );
-           		 
+           		
            		// Substitui a "seta" indicadora de existência de filhos
            		//$li.find('a.jqtree-toggler').html('<i class="icon-folder-close-alt"></i>');
             },

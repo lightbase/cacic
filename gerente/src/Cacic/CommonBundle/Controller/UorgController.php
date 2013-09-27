@@ -82,7 +82,6 @@ class UorgController extends Controller
 		if ( $request->isMethod('POST') )
 		{
 			$form->bind( $request );
-			
 			if ( $form->isValid() )
 			{
 				$this->getDoctrine()->getManager()->persist( $uorg );

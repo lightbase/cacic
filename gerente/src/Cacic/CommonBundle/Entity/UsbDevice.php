@@ -148,4 +148,32 @@ class UsbDevice
     {
         return $this->idUsbVendor;
     }
+    /**
+     * @var string
+     */
+    private $idDevice;
+
+
+    /**
+     * Set idDevice
+     *
+     * @param string $idDevice
+     * @return UsbDevice
+     */
+    public function setIdDevice($idDevice)
+    {
+        $this->idDevice = $idDevice;
+    
+        return $this;
+    }
+
+    /**
+     * Get idDevice
+     *
+     * @return string 
+     */
+    public function getIdDevice()
+    {
+        return $this->idDevice;
+    }
 }

@@ -17,14 +17,22 @@ cacic_common_instalador:
     defaults: { _controller: CacicCommonBundle:Instalador:index }
 
 cacic_usuario_index:
-    pattern:  /usuario/{page}
+    pattern:  /usuarios/{page}
     defaults: { _controller: CacicCommonBundle:Usuario:index, page: 1 }
     requirements:
         page: \d+
 
+cacic_usuario_meus_dados:
+    pattern:  /usuario/meusdados
+    defaults: { _controller: CacicCommonBundle:Usuario:meusdados}
+
 cacic_usuario_trocar_senha:
     pattern:  /usuario/trocarsenha
     defaults: { _controller: CacicCommonBundle:Usuario:trocarsenha}
+
+cacic_usuario_trocar_propria_senha:
+    pattern:  /usuario/trocarpropriasenha
+    defaults: { _controller: CacicCommonBundle:Usuario:trocarpropriasenha}
 
 cacic_usuario_cadastrar:
     pattern:  /usuario/cadastrar
@@ -128,6 +136,10 @@ cacic_subrede_editar:
 cacic_subrede_excluir:
     pattern:  /subrede/excluir
     defaults: { _controller: CacicCommonBundle:Rede:excluir}
+
+cacic_subrede_manutencao:
+    pattern: /subrede/manutencao
+    defaults: { _controller: CacicCommonBundle:Rede:manutencao}
 
 
 cacic_aplicativo_index:
@@ -234,6 +246,14 @@ cacic_configuracao_agente:
 cacic_configuracao_salvar:
     pattern: /configuracao/salvar
     defaults: { _controller: CacicCommonBundle:Configuracao:salvarconfiguracao}
+
+cacic_modulo_index:
+    pattern: /modulo
+    defaults: { _controller: CacicCommonBundle:Modulo:index}
+
+cacic_modulo_editar:
+    pattern: /modulo/editar/{idAcao}
+    defaults: { _controller: CacicCommonBundle:Modulo:editar}
 
 cacic_usbdevice_index:
     pattern: /usbdevice/{page}
@@ -392,11 +412,74 @@ cacic_software_estacao_cadastrar:
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:cadastrar}
 
 cacic_software_estacao_editar:
-    pattern:  /softwareestacao/editar/{nrPatrimonio}/{idSoftware}
+    pattern:  /softwareestacao/editar/{idComputador}/{idSoftware}
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:editar}
     requirements:
         idSoftware: \d+
+        idComputador: \d+
 
 cacic_software_estacao_excluir:
     pattern:  /softwareestacao/excluir
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:excluir}
+
+cacic_computador_buscar:
+    pattern:  /computadores/buscar
+    defaults: { _controller: CacicCommonBundle:Computador:buscar}
+
+cacic_computador_navegar:
+    pattern:  /computadores/navegar
+    defaults: { _controller: CacicCommonBundle:Computador:navegar}
+
+cacic_computador_consultar:
+    pattern:  /computadores/consultar
+    defaults: { _controller: CacicCommonBundle:Computador:consultar}
+
+cacic_computador_excluir:
+    pattern:  /computador/excluir/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:excluir}
+    requirements:
+        idComputador: \d+
+
+cacic_computador_detalhar:
+    pattern:  /computador/detalhar/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:detalhar, idComputador: null }
+    requirements:
+        idComputador: \d+
+
+cacic_computador_loadredenodes:
+    pattern:  /computador/loadredenodes/{idLocal}
+    defaults: { _controller: CacicCommonBundle:Computador:loadredenodes}
+    requirements:
+        idLocal: \d+
+
+cacic_computador_loadcompnodes:
+    pattern:  /computador/loadcompnodes/{idSubrede}
+    defaults: { _controller: CacicCommonBundle:Computador:loadcompnodes}
+    requirements:
+        idSubrede: \d+
+
+cacic_migracao_cacic26:
+    pattern: /migracao/cacic26
+    defaults: { _controller: CacicCommonBundle:Cacic26:importardados}
+
+cacic_migracao_importador:
+    pattern: /migracao/importador
+    defaults: { _controller: CacicCommonBundle:Cacic26:importarscript}
+
+cacic_downloads:
+    pattern: /downloads/
+    defaults: { _controller: CacicCommonBundle:Default:downloads }
+
+cacic_uorg_type_index:
+    pattern:  /uorg/type/
+    defaults: { _controller: CacicCommonBundle:UorgType:index }
+
+cacic_uorg_type_cadastrar:
+    pattern:  /uorg/type/cadastrar/{idUorgType}
+    defaults: { _controller: CacicCommonBundle:UorgType:cadastrar, idUorgType: null}
+
+cacic_uorg_type_excluir:
+    pattern:  /uorg/type/excluir/{idUorgType}
+    defaults: { _controller: CacicCommonBundle:UorgType:excluir, idUorgType: null}
+    requirements:
+        idUorgType: \d+

@@ -25,11 +25,6 @@ class UsbLog
     private $csEvent;
 
     /**
-     * @var \Cacic\CommonBundle\Entity\UsbVendor
-     */
-    private $idUsbVendor;
-
-    /**
      * @var \Cacic\CommonBundle\Entity\UsbDevice
      */
     private $idUsbDevice;
@@ -97,29 +92,6 @@ class UsbLog
     }
 
     /**
-     * Set idUsbVendor
-     *
-     * @param \Cacic\CommonBundle\Entity\UsbVendor $idUsbVendor
-     * @return UsbLog
-     */
-    public function setIdUsbVendor(\Cacic\CommonBundle\Entity\UsbVendor $idUsbVendor = null)
-    {
-        $this->idUsbVendor = $idUsbVendor;
-    
-        return $this;
-    }
-
-    /**
-     * Get idUsbVendor
-     *
-     * @return \Cacic\CommonBundle\Entity\UsbVendor 
-     */
-    public function getIdUsbVendor()
-    {
-        return $this->idUsbVendor;
-    }
-
-    /**
      * Set idUsbDevice
      *
      * @param \Cacic\CommonBundle\Entity\UsbDevice $idUsbDevice
@@ -163,5 +135,33 @@ class UsbLog
     public function getIdComputador()
     {
         return $this->idComputador;
+    }
+    /**
+     * @var string
+     */
+    private $idDevice;
+
+
+    /**
+     * Set idDevice
+     *
+     * @param string $idDevice
+     * @return UsbLog
+     */
+    public function setIdDevice($idDevice)
+    {
+        $this->idDevice = $idDevice;
+    
+        return $this;
+    }
+
+    /**
+     * Get idDevice
+     *
+     * @return string 
+     */
+    public function getIdDevice()
+    {
+        return $this->idDevice;
     }
 }

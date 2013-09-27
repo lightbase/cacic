@@ -3,32 +3,21 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
     table: software_estacao
     repositoryClass: Cacic\CommonBundle\Entity\SoftwareEstacaoRepository
     id:
-        nrPatrimonio:
-            id: true
-            type: string
-            length: 20
-            fixed: true
-            nullable: false
-            column: nr_patrimonio
+        idComputador:
+            associationKey: true
         idSoftware:
             associationKey: true
     fields:
-        nmComputador:
+        nrPatrimonio:
             type: string
-            length: 50
-            fixed: false
+            length: 20
+            fixed: true
             nullable: true
-            column: nm_computador
+            column: nr_patrimonio
         dtAutorizacao:
             type: date
             nullable: true
             column: dt_autorizacao
-        nrProcesso:
-            type: string
-            length: 11
-            fixed: true
-            nullable: true
-            column: nr_processo
         dtExpiracaoInstalacao:
             type: date
             nullable: true
@@ -55,6 +44,15 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
             nullable: true
             column: nr_patr_destino
     manyToOne:
+        idComputador:
+            targetEntity: Computador
+            cascade: {  }
+            mappedBy: null
+            inversedBy: softwares
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false
         idSoftware:
             targetEntity: Software
             cascade: {  }
@@ -63,5 +61,14 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
             joinColumns:
                 id_software:
                     referencedColumnName: id_software
+            orphanRemoval: false
+        idAquisicao:
+            targetEntity: Aquisicao
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_aquisicao:
+                    referencedColumnName: id_aquisicao
             orphanRemoval: false
     lifecycleCallbacks: {  }

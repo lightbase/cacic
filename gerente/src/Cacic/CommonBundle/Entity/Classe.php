@@ -80,4 +80,12 @@ class Classe
     {
         return $this->teClassDescription;
     }
+
+    /**
+     * Método mágico invocado sempre que um objeto deste tipo é referenciado em contexto de string
+     */
+    public function __toString()
+    {
+    	return $this->nmClassName;
+    }
 }

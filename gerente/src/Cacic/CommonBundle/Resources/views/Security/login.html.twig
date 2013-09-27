@@ -2,13 +2,13 @@
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Cacic - Configurador Automático e Coletor de Informações Computacionais</title>
+    <title>{{ 'Cacic - Configurador Automático e Coletor de Informações Computacionais'|trans }}</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     
     {% block javascripts %}
-	    {% javascripts output='js/cacic.js' combine=true 
+	    {% javascripts output='assets/login.js' combine=true 
 	        '@jquery_js'
 	        '@bootstrap_js'
 	    %}
@@ -17,7 +17,7 @@
 	{% endblock %}
 	
 	{% block stylesheets %}
-	    {% stylesheets output='css/cacic.css' combine=true filter='cssrewrite'
+	    {% stylesheets output='assets/login.css' combine=true filter='cssrewrite'
 	        '@bootstrap_less'
 	        'bundles/caciccommon/css/*'
 	        'bundles/caciccommon/Font-Awesome-3.0.2/css/font-awesome.min.css'
@@ -25,7 +25,7 @@
 	        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
 	   {% endstylesheets %}
 	     
-	    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+	    <link href="{{ asset('bundles/caciccommon/libs/googleapis.fonts.css') }}" rel="stylesheet">
 	    
 	{% endblock %}
 

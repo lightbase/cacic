@@ -59,4 +59,7 @@ Cacic\CommonBundle\Entity\Software:
         estacoes:
             targetEntity: SoftwareEstacao
             mappedBy: idSoftware
+        licencas:
+            targetEntity: AquisicaoItem
+            mappedBy: idSoftware
     lifecycleCallbacks: {  }

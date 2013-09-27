@@ -53,8 +53,11 @@ class AquisicaoItemType extends AbstractType
         );
         $builder->add('dtVencimentoLicenca',
             'date',
-            array( 'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy','label'=>'Data de Vencimento',)
+            array(
+            	'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy','label'=>'Data de Vencimento',
+            	'attr' => array('class'=>'datepicker_on' )
+            )
         );
         $builder->add('teObs',
              'textarea',

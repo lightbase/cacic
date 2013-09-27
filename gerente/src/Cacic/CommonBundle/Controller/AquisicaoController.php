@@ -2,6 +2,7 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,17 +14,26 @@ class AquisicaoController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrAquisicao = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Aquisicao' )->listar();
-        return $this->render( 'CacicCommonBundle:Aquisicao:index.html.twig', array( 'Aquisicao' => $arrAquisicao ) );
+        return $this->render(
+            'CacicCommonBundle:Aquisicao:index.html.twig',
+            array(
+                'Aquisicao' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Aquisicao' )->paginar( $this->get( 'knp_paginator' ), $page ),
+                'idioma' => $this->getRequest()->getLocale()
+            )
+        );
 
     }
     public function cadastrarAction(Request $request)
     {
         $Aquisicao = new Aquisicao();
         $form = $this->createForm( new AquisicaoType(), $Aquisicao );
+        $locale = $request->getLocale();
+
         if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
+
+
             if ( $form->isValid() )
             {
                 $this->getDoctrine()->getManager()->persist( $Aquisicao );
@@ -35,7 +45,10 @@ class AquisicaoController extends Controller
             }
         }
 
-        return $this->render( 'CacicCommonBundle:Aquisicao:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $this->render( 'CacicCommonBundle:Aquisicao:cadastrar.html.twig',
+            array(
+                'idioma'=> $locale,
+                'form' => $form->createView() ) );
     }
     /**
      *  Página de editar dados do Aquisicao
@@ -48,6 +61,7 @@ class AquisicaoController extends Controller
             throw $this->createNotFoundException( 'Aquisicao não encontrado' );
 
         $form = $this->createForm( new AquisicaoType(), $Aquisicao );
+        $locale = $request->getLocale();
 
         if ( $request->isMethod('POST') )
         {
@@ -65,7 +79,7 @@ class AquisicaoController extends Controller
             }
         }
 
-        return $this->render( 'CacicCommonBundle:Aquisicao:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $this->render( 'CacicCommonBundle:Aquisicao:cadastrar.html.twig', array('idioma'=> $locale, 'form' => $form->createView() ) );
     }
 
     /**

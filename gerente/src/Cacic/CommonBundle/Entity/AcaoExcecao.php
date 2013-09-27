@@ -10,11 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 class AcaoExcecao
 {
     /**
-     * @var integer
-     */
-    private $idAcaoExcecao;
-
-    /**
      * @var string
      */
     private $teNodeAddress;
@@ -22,23 +17,13 @@ class AcaoExcecao
     /**
      * @var \Cacic\CommonBundle\Entity\Acao
      */
-    private $idAcao;
+    private $acao;
 
     /**
      * @var \Cacic\CommonBundle\Entity\Rede
      */
-    private $idRede;
+    private $rede;
 
-
-    /**
-     * Get idAcaoExcecao
-     *
-     * @return integer 
-     */
-    public function getIdAcaoExcecao()
-    {
-        return $this->idAcaoExcecao;
-    }
 
     /**
      * Set teNodeAddress
@@ -64,48 +49,48 @@ class AcaoExcecao
     }
 
     /**
-     * Set idAcao
+     * Set acao
      *
-     * @param \Cacic\CommonBundle\Entity\Acao $idAcao
+     * @param \Cacic\CommonBundle\Entity\Acao $acao
      * @return AcaoExcecao
      */
-    public function setIdAcao(\Cacic\CommonBundle\Entity\Acao $idAcao = null)
+    public function setAcao(\Cacic\CommonBundle\Entity\Acao $acao)
     {
-        $this->idAcao = $idAcao;
+        $this->acao = $acao;
     
         return $this;
     }
 
     /**
-     * Get idAcao
+     * Get acao
      *
      * @return \Cacic\CommonBundle\Entity\Acao 
      */
-    public function getIdAcao()
+    public function getAcao()
     {
-        return $this->idAcao;
+        return $this->acao;
     }
 
     /**
-     * Set idRede
+     * Set rede
      *
-     * @param \Cacic\CommonBundle\Entity\Rede $idRede
+     * @param \Cacic\CommonBundle\Entity\Rede $rede
      * @return AcaoExcecao
      */
-    public function setIdRede(\Cacic\CommonBundle\Entity\Rede $idRede = null)
+    public function setRede(\Cacic\CommonBundle\Entity\Rede $rede)
     {
-        $this->idRede = $idRede;
+        $this->rede = $rede;
     
         return $this;
     }
 
     /**
-     * Get idRede
+     * Get rede
      *
      * @return \Cacic\CommonBundle\Entity\Rede 
      */
-    public function getIdRede()
+    public function getRede()
     {
-        return $this->idRede;
+        return $this->rede;
     }
 }

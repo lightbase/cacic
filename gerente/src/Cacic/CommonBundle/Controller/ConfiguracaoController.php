@@ -29,28 +29,63 @@ class ConfiguracaoController extends Controller
         );
 	}
 	
-	
-	
 	/**
 	 * 
 	 * Tela de edição das configurações dos agentes, por local
 	 */
 	public function agenteAction()
 	{
+		$repository = $this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoLocal' );
+		
 		/**
-		 * 
 		 * @todo no caso de ser um usuário administrativo, exibir lista com todos os locais cadastrados
 		 * @var int
 		 */
 		$local = $this->getUser()->getIdLocal(); // Recupera o Local da sessão do usuário logado
 		
+		/**
+		 * Verifica se o Local possui configurações próprias e, se não possuir, cria-as a partir das configurações-padrão
+		 */
+		if ( ! $repository->hasConfiguracoes($local) )
+			$repository->configurarLocalFromConfigPadrao( $local );
+		
 		return $this->render(
         	'CacicCommonBundle:Configuracao:agente.html.twig',
         	array(
-        		'configuracoes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoLocal' )->getArrayChaveValor( $local ),
+        		'configuracoes' => $repository->getArrayChaveValor( $local ),
         		'local' => $local
         	)
         );
+	}
+	
+	/**
+	 *
+	 * Tela de edição das configurações do Gerente, por Local
+	 */
+	public function gerenteAction()
+	{
+		$repository = $this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoLocal' );
+		
+		/**
+		 *
+		 * @todo no caso de ser um usuário administrativo, exibir lista com todos os locais cadastrados
+		 * @var int
+		 */
+		$local = $this->getUser()->getIdLocal(); // Recupera o Local da sessão do usuário logado
+		
+		/**
+		 * Verifica se o Local possui configurações próprias e, se não possuir, cria-as a partir das configurações-padrão
+		 */
+		if ( ! $repository->hasConfiguracoes($local) )
+			$repository->configurarLocalFromConfigPadrao( $local );
+	
+		return $this->render(
+				'CacicCommonBundle:Configuracao:gerente.html.twig',
+				array(
+						'configuracoes' => $repository->getArrayChaveValor( $local ),
+						'local' => $local
+				)
+		);
 	}
 	
 	/**

@@ -5,7 +5,8 @@ Cacic\CommonBundle\Entity\GrupoUsuario:
     fields:
         idGrupoUsuario:
             id: true
-            type: smallint
+            type: integer
+            unsigned: false
             nullable: false
             column: id_grupo_usuario
             generator:
@@ -33,7 +34,7 @@ Cacic\CommonBundle\Entity\GrupoUsuario:
             nullable: true
             column: te_descricao_grupo
         csNivelAdministracao:
-            type: boolean
+            type: integer
             nullable: true
             column: cs_nivel_administracao
     lifecycleCallbacks: {  }

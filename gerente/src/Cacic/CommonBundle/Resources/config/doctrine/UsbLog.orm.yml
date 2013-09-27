@@ -22,16 +22,13 @@ Cacic\CommonBundle\Entity\UsbLog:
             fixed: true
             nullable: false
             column: cs_event
+        idDevice:
+            type: string
+            length: 5
+            fixed: true
+            nullable: true
+            column: id_device
     manyToOne:
-        idUsbVendor:
-            targetEntity: UsbVendor
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_usb_vendor:
-                    referencedColumnName: id_usb_vendor
-            orphanRemoval: false
         idUsbDevice:
             targetEntity: UsbDevice
             cascade: {  }

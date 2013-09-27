@@ -2,7 +2,6 @@
 
 namespace Cacic\CommonBundle\Entity;
 
-use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,6 +60,12 @@ class Local
     private $uorgs;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $usuariosSecundarios;
+
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -69,6 +74,15 @@ class Local
         $this->redes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->configuracoes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->uorgs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->usuariosSecundarios = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Método mágico invocado sempre que um objeto desta classe é referenciado em contexto de string
+     */
+    public function __toString()
+    {
+    	return $this->nmLocal;
     }
     
     /**
@@ -294,16 +308,6 @@ class Local
     {
         return $this->configuracoes;
     }
-    
-    /**
-     * 
-     * [LifeCycle: POS INSERT] Cria as configurações do LOCAL à partir da configuração PADRÃO
-     */
-    public function configurarFromConfigPadrao()
-    {
-    	
-    	Debug::dump( $this->get->findAll() );
-    }
 
     /**
      * Add uorgs
@@ -336,5 +340,61 @@ class Local
     public function getUorgs()
     {
         return $this->uorgs;
+    }
+    
+    /**
+     * Set idLocal
+     * 
+     * @param int $idLocal
+     * @return Local
+     */
+    public function setIdLocal( $idLocal )
+    {
+    	$this->idLocal = $idLocal;
+    	
+    	return $this;
+    }
+    
+	/**
+     * 
+     * [LifeCycle: POST INSERT] Cria as configurações do LOCAL à partir da configuração PADRÃO
+     * @ORM\PostPersist
+     */
+    public function configurarFromConfigPadrao()
+    {
+    	
+    }
+
+    /**
+     * Add usuariosSecundarios
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuario $usuariosSecundarios
+     * @return Local
+     */
+    public function addUsuariosSecundario(\Cacic\CommonBundle\Entity\Usuario $usuariosSecundarios)
+    {
+        $this->usuariosSecundarios[] = $usuariosSecundarios;
+    
+        return $this;
+    }
+
+    /**
+     * Remove usuariosSecundarios
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuario $usuariosSecundarios
+     */
+    public function removeUsuariosSecundario(\Cacic\CommonBundle\Entity\Usuario $usuariosSecundarios)
+    {
+        $this->usuariosSecundarios->removeElement($usuariosSecundarios);
+    }
+
+    /**
+     * Get usuariosSecundarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsuariosSecundarios()
+    {
+        return $this->usuariosSecundarios;
     }
 }

@@ -1,4 +1,4 @@
-<form id="formEtiqueta6" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+<form id={{ 'formEtiqueta6'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
     <input name="{{'form.idEtiqueta' }}" type="hidden" value="etiqueta6">
         <table class="table table-striped table-bordered">
             <tr>
@@ -16,6 +16,11 @@
             <tr>
                 <td style="text-align: center"><h4>{{ '  Destacar duplicidades neste campo'|trans }}</h4></td>
                 <td style="vertical-align: top">{{ form_widget(form.inDestacarDuplicidade)}}</td>
+            </tr>
+            <tr>
+                <td style="text-align: center"><h5>{{ 'Elemento origatório?'|trans }}</h5></td>
+                <td style="vertical-align: top">{{ form_widget(form.inObrigatorio) }}</td>
+                <td style="text-align: left"><h6>{{ ' O preenchimento do campo é obrigatório? '|trans }}</h6></td>
             </tr>
         </table>
 

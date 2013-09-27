@@ -41,21 +41,32 @@ class PatrimonioConfigInterfaceController extends Controller
                                                         'local' => $local->getIdLocal()
                                                     )
         );
-        if ( ! $patrimonio )
-            throw $this->createNotFoundException( 'Patrimonio  não encontrado' );
+
+        if (empty($patrimonio)) {
+            $patrimonio = new PatrimonioConfigInterface();
+            $patrimonio->setIdEtiqueta($idEtiqueta);
+            $patrimonio->setLocal($local);
+        }
+
 
         $form = $this->createForm( new PatrimonioConfigInterfaceType(), $patrimonio );
-
         if ( $request->isMethod('POST') )
         {
+
             $form->bind( $request );
 
-               $this->getDoctrine()->getManager()->persist( $patrimonio );
+            //if ($form->isValid()) {
+
+                // Salva
+                $this->getDoctrine()->getManager()->persist( $patrimonio );
                 $this->getDoctrine()->getManager()->flush(); //Persiste os dados
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
                 return $this->redirect( $this->generateUrl( 'cacic_patrimonio_index' ));
+            //}
+
+            return $this->redirect( $this->generateUrl( 'cacic_patrimonio_index' ));
 
         }
 

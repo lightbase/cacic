@@ -17,7 +17,7 @@
                     
                 <h4>{{ "Filtros para consulta"|trans }}</h4><br />
                 
-                <form id="formLogPesquisaAcesso" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
+                <form id={{ 'formLogPesquisaAcesso'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
                     
                     <div class="control-group">
                         <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
@@ -85,7 +85,7 @@
 {% block javascripts %}
 
 {{ parent() }}
-
+{% if local == 'pt_BR' %}
 <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-pt-BR.js') }}"></script>
 
 <script type="text/javascript">
@@ -93,5 +93,13 @@
         $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
     });
 </script>
+    {% else %}
+        <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-en-US.js') }}"></script>
 
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(".datepicker_on").datepicker({ altFormat: "mm/dd/yy" }).mask('99/99/9999');
+            });
+        </script>
+        {% endif %}
 {% endblock %}

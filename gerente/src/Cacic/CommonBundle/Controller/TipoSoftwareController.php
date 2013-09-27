@@ -13,7 +13,7 @@ class TipoSoftwareController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrTipoSoftware = $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoSoftware' )->listar();
+        $arrTipoSoftware = $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoSoftware' )->paginar( $this->get( 'knp_paginator' ), $page );
         return $this->render( 'CacicCommonBundle:TipoSoftware:index.html.twig', array( 'tipoSoftware' => $arrTipoSoftware ) );
 
     }

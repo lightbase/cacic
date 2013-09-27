@@ -13,11 +13,11 @@
 
      <div class="box grad_colour_black">
 
-        <h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {{ "Dados do Sistemas Operacionais"|trans }}</h2>
+        <h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {{ "Dados do Sistema Operacional"|trans }}</h2>
 
         <div class="block box_content round_bottom padding_10">
 
-          <form id="formTiposSoftwares" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+          <form id={{ 'formTiposSoftwares'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
               <div class="tabbable">
                 {{ form_widget(form, {'form_type': 'horizontal'} ) }}
                 {{ form_rest(form) }}

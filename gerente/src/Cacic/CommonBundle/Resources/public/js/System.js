@@ -47,11 +47,42 @@ var System = {
         			$(this).attr('checked', _isChecked);
         		})
         	});
+        },
+        bootStrapTransfer : {
+        	handle : function( aData ){ // Antes de submeter o formulário, recupera os valores selecionados nos transfers informados e os encapsula para envio
+        		var $form = aData.form;
+        		$form.submit(function(){
+        			for( i in aData.elms ) {
+        				$('<input>').attr({
+        				    type: 'hidden',
+        				    id: aData.fieldsPrefix + '_' + aData.elms[i].inputHiddenName,
+        				    name: aData.fieldsPrefix + '[' + aData.elms[i].inputHiddenName + ']'
+        				})
+        				.val( aData.elms[i].transferElement.get_values() )
+        				.appendTo('form');
+        			}
+        		});
+        	}
+        },
+        focusFirstTabOnError : function( formId ){
+        	var $errors = $( 'div.control-group.error', $(formId) );
+        	if ( $errors.length > 0 ) // Verifica se há erros no formulário
+    		{
+        		var firstErrorTab = $errors.first().parent().attr('id');
+        		$('ul.nav a[href="#' + firstErrorTab + '"]').tab('show');
+    		}
         }
     },
 	Menu : {
 		setActive : function( url ){
 			//alert( url );
+		},
+		changeOwnPass : function( url ){
+			$( "a.bt-trocar-propria-senha" ).bind( 'click', function(e){
+				e.preventDefault();
+				var params = { 'url': $( this ).attr( 'href' ) };
+				$( "#trocarPropriaSenha" ).data( 'params', params ).dialog( "open" ); // Abre a "Modal" com o formulário de troca de senha
+			});
 		}
 	}
 }

@@ -57,11 +57,6 @@ class Usuario implements UserInterface, \Serializable
     private $teTelefonesContato;
 
     /**
-     * @var string
-     */
-    private $teLocaisSecundarios;
-
-    /**
      * @var \Cacic\CommonBundle\Entity\Local
      */
     private $idLocal;
@@ -76,6 +71,19 @@ class Usuario implements UserInterface, \Serializable
      */
     private $idGrupoUsuario;
 
+	/**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $locaisSecundarios;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->locaisSecundarios = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get idUsuario
@@ -272,29 +280,6 @@ class Usuario implements UserInterface, \Serializable
     }
 
     /**
-     * Set teLocaisSecundarios
-     *
-     * @param string $teLocaisSecundarios
-     * @return Usuario
-     */
-    public function setTeLocaisSecundarios($teLocaisSecundarios)
-    {
-        $this->teLocaisSecundarios = $teLocaisSecundarios;
-    
-        return $this;
-    }
-
-    /**
-     * Get teLocaisSecundarios
-     *
-     * @return string 
-     */
-    public function getTeLocaisSecundarios()
-    {
-        return $this->teLocaisSecundarios;
-    }
-
-    /**
      * Set idLocal
      *
      * @param \Cacic\CommonBundle\Entity\Local $idLocal
@@ -436,5 +421,38 @@ class Usuario implements UserInterface, \Serializable
            	$strHash .= $strChars[ mt_rand( 0, ( strlen( $strChars ) - 1 ) ) ];
            	
         $this->setTeSenha( hash( $algorithm, $strHash ) );
+    }
+
+    /**
+     * Add locaisSecundarios
+     *
+     * @param \Cacic\CommonBundle\Entity\Local $locaisSecundarios
+     * @return Usuario
+     */
+    public function addLocaisSecundario(\Cacic\CommonBundle\Entity\Local $locaisSecundarios)
+    {
+        $this->locaisSecundarios[] = $locaisSecundarios;
+    
+        return $this;
+    }
+
+    /**
+     * Remove locaisSecundarios
+     *
+     * @param \Cacic\CommonBundle\Entity\Local $locaisSecundarios
+     */
+    public function removeLocaisSecundario(\Cacic\CommonBundle\Entity\Local $locaisSecundarios)
+    {
+        $this->locaisSecundarios->removeElement($locaisSecundarios);
+    }
+
+    /**
+     * Get locaisSecundarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLocaisSecundarios()
+    {
+        return $this->locaisSecundarios;
     }
 }

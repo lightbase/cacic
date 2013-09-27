@@ -71,7 +71,14 @@ class Cacic26Controller extends Controller
         $user = $config[5];
         $pass = $config[6];
 
-        $dbcon = new PDOConnection("pgsql:host={$server};dbname={$db}", $user, $pass);
+        // Antes verifica se existe realmente um host
+        if ($server == 'null') {
+            $dbcon = new PDOConnection("pgsql:dbname={$db}", $user, $pass);
+        } else {
+            $dbcon = new PDOConnection("pgsql:host={$server};dbname={$db}", $user, $pass);
+        }
+
+
 
         function importar($dbcon, $tmpdir) {
 
@@ -129,7 +136,7 @@ class Cacic26Controller extends Controller
             foreach ($lista_tabelas as $tabela) {
                 echo "Importando ".$tabela."...";
                 // Copia do arquivo para a base
-               $dbcon -> exec("COPY {$tabela} FROM '{$tmpdir}/importacao/{$tabela}.csv' WITH DELIMITER AS ';' NULL AS '\N' ESCAPE '\"' ENCODING 'ISO-8859-1' CSV");
+               $dbcon -> exec("COPY {$tabela} FROM '{$tmpdir}/importacao/{$tabela}.csv' DELIMITER ';' NULL '\N' ESCAPE '\"' CSV");
                 echo " feito.<br>";
             }
         }

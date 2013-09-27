@@ -9,14 +9,14 @@
 
     <div class="row-fluid">
 
-        <div class="span12">
+        <div class="span8">
             <div class="box grad_colour_black">
 
                 <h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {{ "Dados de Itens Adquiridos"|trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
 
-                    <form id="formAquisicaoItem" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+                    <form id={{ 'formAquisicaoItem'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
                         <div class="tabbable">
                             {{ form_widget(form, {'form_type': 'horizontal'} ) }}
                             {{ form_rest(form) }}
@@ -67,9 +67,15 @@
 {% block javascripts %}
 
     {{ parent() }}
+    
+    <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-pt-BR.js') }}"></script>
+    
     <script type="text/javascript">
 
-        $('#AquisicaoItem_dtVencimentoLicenca ').mask('99/99/9999');
+        $(document).ready(function(){
+            $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
+            
+        });
 
     </script>
 
