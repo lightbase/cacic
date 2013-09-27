@@ -108,4 +108,17 @@ class UsbVendor
     {
         return $this->dtRegistro;
     }
+
+    /**
+     * Set idUsbVendor
+     *
+     * @param string $idUsbVendor
+     * @return UsbVendor
+     */
+    public function setIdUsbVendor($idUsbVendor)
+    {
+        $this->idUsbVendor = $idUsbVendor;
+    
+        return $this;
+    }
 }

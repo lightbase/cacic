@@ -14,19 +14,18 @@
 
        <div class="block box_content round_bottom padding_10">
 
-                <h3>{{ "Lista de Software por estação cadastradas"|trans }}</h3>
-                <p>{{ "Neste módulo deverão ser cadastrados os Software por estação de sistema"|trans }}</p>
+                <h3>{{ "Lista de Softwares por Estação"|trans }}</h3>
+                <p>{{ "Neste módulo deverão ser Vinculados os Softwares Inventariados às Estações de trabalho."|trans }}</p>
                 <br />
 
          <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th width="10%"style="text-align: center">{{ "Sequencial"|trans }}</th>
-                    <th width="10%"style="text-align: center">{{ "Patrimônio"|trans }}</th>
-                    <th width="10%"style="text-align: center">{{ "Software"|trans }}</th>
-                    <th width="20%"style="text-align: center">{{ "Processo de aquisicao"|trans }}</th>
-                    <th width="10%"style="text-align: center">{{ "Computador"|trans }}</th>
-                    <th width="20%"style="text-align: center">{{ "Data de autorizacao"|trans }}</th>
+                	<th width="30%">{{ "Software"|trans }}</th>
+                	<th width="20%">{{ "Computador"|trans }}</th>
+                    <th width="15%" style="text-align: center">{{ "Patrimônio"|trans }}</th>
+                    <th width="15%" style="text-align: center">{{ "Processo de aquisicao"|trans }}</th>
+                    <th width="10%" style="text-align: center">{{ "Data de autorizacao"|trans }}</th>
                     <th style="text-align: center">{{ "Ações"|trans }}</th>
                 </tr>
             </thead>
@@ -35,38 +34,47 @@
 
                 {% for software in SoftwareEstacao %}
 
-                    <tr id="item_{{ software[0]['nrPatrimonio'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                        <td style="text-align: center" >{{ loop.index }}</td>
-                        <td style="text-align: center"id="item_desc_{{ software[0]['nrPatrimonio'] }}">{{ software[0]['nrPatrimonio'] }}</td>
-                        <td style="text-align: center">{{ software['nmSoftware'] }}</td>
-                        <td style="text-align: center">{{ software[0]['nrProcesso'] }}</td>
-                        <td style="text-align: center">{{ software[0]['nmComputador'] }}</td>
-                        <td style="text-align: center" >{{ software[0].dtAutorizacao|date('d/m/Y') }}</td>
+                    <tr id="item_comp{{ software['idComputador'] }}_sw{{ software['idSoftware'] }}" >
+                        <td>{{ software['nmSoftware'] }}</td>
+                        <td>{{ software['descComputador'] }}</td>
+                        <td style="text-align: center">{{ software[0]['nrPatrimonio'] }}</td>
+                        <td style="text-align: center">{{ software['nrProcesso'] }}</td>
+                        <td style="text-align: center" >{{ software[0]['dtAutorizacao']|date('d/m/Y') }}</td>
                         <td style="text-align: center" class="td-actions">
-                            <a href="{{ path('cacic_software_estacao_editar', {'nrPatrimonio': software[0]['nrPatrimonio'],
-                                                                                'idSoftware' : software[0]['id_software']
-                            }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
-                                <i class="btn-icon-only icon-edit"></i>
+                            <a href="{{ path('cacic_software_estacao_editar',
+                            	{'idComputador': software['idComputador'],'idSoftware' : software['idSoftware']}) }}" 
+                            	class="btn btn-small" title="{{ "Editar Item"|trans }}"
+                            >
+                                <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 
-                            <a href="{{ path('cacic_software_estacao_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
-                                <i class="btn-icon-only icon-remove"></i>
+                            <a href="{{ path('cacic_software_estacao_excluir') }}" 
+                            	class="btn btn-small btn-danger bt-excluir-compositekey" 
+                                data-composite-keys="{'idComputador': {{ software['idComputador'] }}, 'idSoftware': {{ software['idSoftware'] }}}" 
+                            	title="{{ "Excluir Item"|trans }}"
+                            >
+                                <i class="btn-icon-only icon-trash icon-large"></i>
                             </a>
                         </td>
                     </tr>
 
                 {% else %}
                     <tr>
-                        <td align="center" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                        <td style="text-align: center" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
                     </tr>
                 {% endfor %}
 
             </tbody>
          </table>
+           {# display navigation #}
+           <div class="navigation">
+               {{ knp_pagination_render(SoftwareEstacao) }}
+           </div>
+
          <div align="right">
                 <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_software_estacao_cadastrar') }}">
                     <i class="icon-plus-sign"></i>
-                    {{ "Adicionar Software"|trans }}
+                    {{ "Vincular Software à Estação"|trans }}
                 </a>
          </div>
        </div> <!-- /block -->

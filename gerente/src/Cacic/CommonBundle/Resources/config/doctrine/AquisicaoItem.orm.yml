@@ -39,7 +39,7 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
             targetEntity: Aquisicao
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: itens
             joinColumns:
                 id_aquisicao:
                     referencedColumnName: id_aquisicao

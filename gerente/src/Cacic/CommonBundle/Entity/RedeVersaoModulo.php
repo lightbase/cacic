@@ -2,6 +2,7 @@
 
 namespace Cacic\CommonBundle\Entity;
 
+use Cacic\CommonBundle\CacicCommonBundle;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,6 +44,8 @@ class RedeVersaoModulo
      * @var \Cacic\CommonBundle\Entity\Rede
      */
     private $idRede;
+
+    public $iniFile;
 
 
     /**
@@ -192,4 +195,20 @@ class RedeVersaoModulo
     {
         return $this->idRede;
     }
+
+    /**
+     *  Método construtor
+     */
+
+    public function __construct($nmModulo = null, $teVersaoModulo = null, $dtAtualizacao = null, $csTipoSo = null, $teHash = null, $idRede)
+    {
+        $this->setNmModulo($nmModulo);
+        $this->setTeVersaoModulo($teVersaoModulo);
+        $this->setDtAtualizacao($dtAtualizacao);
+        $this->setCsTipoSo($csTipoSo);
+        $this->setTeHash($teHash);
+        $this->setIdRede($idRede);
+    }
+
+
 }

@@ -12,100 +12,85 @@ class AcaoSo
     /**
      * @var \Cacic\CommonBundle\Entity\Acao
      */
-    private $idAcao;
+    private $acao;
 
     /**
      * @var \Cacic\CommonBundle\Entity\Rede
      */
-    private $idRede;
+    private $rede;
 
     /**
      * @var \Cacic\CommonBundle\Entity\So
      */
-    private $idSo;
+    private $so;
 
 
     /**
-     * Set idAcao
+     * Set acao
      *
-     * @param \Cacic\CommonBundle\Entity\Acao $idAcao
+     * @param \Cacic\CommonBundle\Entity\Acao $acao
      * @return AcaoSo
      */
-    public function setIdAcao(\Cacic\CommonBundle\Entity\Acao $idAcao = null)
+    public function setAcao(\Cacic\CommonBundle\Entity\Acao $acao)
     {
-        $this->idAcao = $idAcao;
+        $this->acao = $acao;
     
         return $this;
     }
 
     /**
-     * Get idAcao
+     * Get acao
      *
      * @return \Cacic\CommonBundle\Entity\Acao 
      */
-    public function getIdAcao()
+    public function getAcao()
     {
-        return $this->idAcao;
+        return $this->acao;
     }
 
     /**
-     * Set idRede
+     * Set rede
      *
-     * @param \Cacic\CommonBundle\Entity\Rede $idRede
+     * @param \Cacic\CommonBundle\Entity\Rede $rede
      * @return AcaoSo
      */
-    public function setIdRede(\Cacic\CommonBundle\Entity\Rede $idRede = null)
+    public function setRede(\Cacic\CommonBundle\Entity\Rede $rede)
     {
-        $this->idRede = $idRede;
+        $this->rede = $rede;
     
         return $this;
     }
 
     /**
-     * Get idRede
+     * Get rede
      *
      * @return \Cacic\CommonBundle\Entity\Rede 
      */
-    public function getIdRede()
+    public function getRede()
     {
-        return $this->idRede;
+        return $this->rede;
     }
 
     /**
-     * Set idSo
+     * Set so
      *
-     * @param \Cacic\CommonBundle\Entity\So $idSo
+     * @param \Cacic\CommonBundle\Entity\So $so
      * @return AcaoSo
      */
-    public function setIdSo(\Cacic\CommonBundle\Entity\So $idSo = null)
+    public function setSo(\Cacic\CommonBundle\Entity\So $so)
     {
-        $this->idSo = $idSo;
+        $this->so = $so;
     
         return $this;
     }
 
     /**
-     * Get idSo
+     * Get so
      *
      * @return \Cacic\CommonBundle\Entity\So 
      */
-    public function getIdSo()
+    public function getSo()
     {
-        return $this->idSo;
-    }
-    /**
-     * @var integer
-     */
-    private $idAcaoSo;
-
-
-    /**
-     * Get idAcaoSo
-     *
-     * @return integer 
-     */
-    public function getIdAcaoSo()
-    {
-        return $this->idAcaoSo;
+        return $this->so;
     }
 }

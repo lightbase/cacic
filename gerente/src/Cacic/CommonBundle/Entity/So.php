@@ -136,4 +136,26 @@ class So
     {
         return $this->inMswindows;
     }
+    
+	/**
+     * Set idSo
+     *
+     * @param int $idSo
+     * @return So
+     */
+    public function setIdSo($idSo)
+    {
+        $this->idSo = $idSo;
+    
+        return $this;
+    }
+    
+    /**
+     * Método mágico invocado sempre que um objeto desta classe é referenciado em contexto de string
+     * @return string
+     */
+    public function __toString()
+    {
+    	return $this->teDescSo . ' ('. $this->sgSo .')';
+    }
 }

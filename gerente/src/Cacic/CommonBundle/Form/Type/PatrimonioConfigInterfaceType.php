@@ -44,6 +44,14 @@ class PatrimonioConfigInterfaceType extends AbstractType
                 'preferred_choices' => array('S'),
                 'label'=>' ' )
         );
+        $builder->add(
+            'inObrigatorio',
+            'choice',
+            array( 'choices'=>array('S'=>'Sim','N'=>'Não' ),
+                'preferred_choices' => array('S'),
+                'label'=>' '
+            )
+        );
     }
 
     /**

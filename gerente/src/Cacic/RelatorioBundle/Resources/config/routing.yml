@@ -1,67 +1,87 @@
 cacic_relatorio_autorizacoes:
-    pattern: /relatorio/autorizacoes
+    pattern: /autorizacoes
     defaults: { _controller: CacicRelatorioBundle:Default:autorizacoes }
 
 cacic_relatorio_tcpIp:
-    pattern: /relatorio/tcpip
+    pattern: /tcpip
     defaults: { _controller: CacicRelatorioBundle:Default:tcpIp }
 
-cacic_relatorio_variaveisAmbiente:
-    pattern: /relatorio/variaveisambiente
-    defaults: { _controller: CacicRelatorioBundle:Default:variaveisAmbiente }
-
 cacic_relatorio_patrimonio:
-    pattern: /relatorio/patrimonio
+    pattern: /patrimonio
     defaults: { _controller: CacicRelatorioBundle:Default:patrimonio }
+    requirements:
+        _method: GET
 
-cacic_relatorio_software_infoSoftwareBasico:
-    pattern: /relatorio/software/basico
-    defaults: { _controller: CacicRelatorioBundle:Software:infoSoftwareBasico }
+cacic_relatorio_patrimonio_relatorios:
+    pattern: /patrimonio
+    defaults: { _controller: CacicRelatorioBundle:Default:patrimonioRelatorio }
+    requirements:
+        _method: POST
 
 cacic_relatorio_software_inventariados:
-    pattern: /relatorio/software/inventariados
+    pattern: /software/inventariados
     defaults: { _controller: CacicRelatorioBundle:Software:inventariados }
+    requirements:
+        _method: GET
 
-cacic_relatorio_software_licensiados:
-    pattern: /relatorio/software/licensiados
-    defaults: { _controller: CacicRelatorioBundle:Software:licensiados }
+cacic_relatorio_software_inventariados_rel:
+    pattern: /software/inventariados
+    defaults: { _controller: CacicRelatorioBundle:Software:inventariadosRelatorio }
+    requirements:
+        _method: POST
+
+cacic_relatorio_software_licenciados:
+    pattern: /software/licenciados
+    defaults: { _controller: CacicRelatorioBundle:Software:licenciados }
+    requirements:
+        _method: GET
+
+cacic_relatorio_software_licenciados_rel:
+    pattern: /software/licenciados
+    defaults: { _controller: CacicRelatorioBundle:Software:licenciadosRelatorio }
+    requirements:
+        _method: POST
 
 cacic_relatorio_software_orgao:
-    pattern: /relatorio/software/orgao
+    pattern: /software/orgao
     defaults: { _controller: CacicRelatorioBundle:Software:orgao }
+    requirements:
+        _method: GET
+
+cacic_relatorio_software_orgao_rel:
+    pattern: /software/orgao
+    defaults: { _controller: CacicRelatorioBundle:Software:orgaoRelatorio }
+    requirements:
+        _method: POST
 
 cacic_relatorio_software_aquisicoes:
-    pattern: /relatorio/software/aquisicoes
-    defaults: { _controller: CacicRelatorioBundle:Software:aquisicoes }
-
-cacic_relatorio_software_adquiridos:
-    pattern: /relatorio/software/adquiridos
-    defaults: { _controller: CacicRelatorioBundle:Software:adquiridos }
-
-cacic_relatorio_software_compra:
-    pattern: /relatorio/software/compra
-    defaults: { _controller: CacicRelatorioBundle:Software:compra }
+    pattern: /software/aquisicoes
+    defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesRelatorio }
 
 cacic_relatorio_software_tipo:
-    pattern: /relatorio/software/tipo
+    pattern: /software/tipo
     defaults: { _controller: CacicRelatorioBundle:Software:tipo }
+    requirements:
+        _method: GET
 
-cacic_relatorio_software_ultimos:
-    pattern: /relatorio/software/ultimos
-    defaults: { _controller: CacicRelatorioBundle:Software:ultimos }
-
-cacic_relatorio_software_suspeitos:
-    pattern: /relatorio/software/suspeitos
-    defaults: { _controller: CacicRelatorioBundle:Software:suspeitos }
-
-cacic_relatorio_software_historicoEstacao:
-    pattern: /relatorio/software/historicoestacao
-    defaults: { _controller: CacicRelatorioBundle:Software:historicoEstacao }
+cacic_relatorio_software_tipo_rel:
+    pattern: /software/tipo
+    defaults: { _controller: CacicRelatorioBundle:Software:tipoRelatorio }
+    requirements:
+        _method: POST
 
 cacic_relatorio_software_naoVinculados:
-    pattern: /relatorio/software/naovinculados
-    defaults: { _controller: CacicRelatorioBundle:Software:naoVinculados }
+    pattern: /software/naovinculados
+    defaults: { _controller: CacicRelatorioBundle:Software:naoVinculadosRelatorio }
 
-cacic_relatorio_software_genericos:
-    pattern: /relatorio/software/genericos
-    defaults: { _controller: CacicRelatorioBundle:Software:genericos }
+cacic_relatorio_hardware_configuracoes:
+    pattern: /hardware/configuracoes
+    defaults: { _controller: CacicRelatorioBundle:Hardware:configuracoes }
+    requirements:
+        _method: GET
+
+cacic_relatorio_hardware_configuracoes_rel:
+    pattern: /hardware/configuracoes
+    defaults: { _controller: CacicRelatorioBundle:Hardware:configuracoesRelatorio }
+    requirements:
+        _method: POST

@@ -26,7 +26,7 @@ class AplicativoController extends Controller
     {
         return $this->render(
             'CacicCommonBundle:Aplicativo:index.html.twig',
-            array( 'aplicativo' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Aplicativo' )->listar() )
+            array( 'aplicativo' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Aplicativo' )->paginar( $this->get( 'knp_paginator' ), $page ))
         );
     }
     public function cadastrarAction(Request $request)

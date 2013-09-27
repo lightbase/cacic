@@ -13,15 +13,37 @@ use Doctrine\ORM\EntityRepository;
 class SoftwareEstacaoRepository extends EntityRepository
 {
 
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
+    {
+        $_dql = "SELECT se,
+        				comp.idComputador, COALESCE( comp.nmComputador, comp.teIpComputador, comp.teNodeAddress ) AS descComputador,
+        				sw.idSoftware, sw.nmSoftware,
+        				aq.nrProcesso
+				FROM CacicCommonBundle:SoftwareEstacao se
+				INNER JOIN se.idSoftware sw
+				INNER JOIN se.idComputador comp
+				LEFT JOIN se.idAquisicao aq";
+
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql )->getArrayResult(),
+            $page,
+            10
+        );
+    }
     /**
      *
      * Método de listagem dos Software Estacao cadastrados e respectivas informações
      */
     public function listar()
     {
-        $_dql = "SELECT s, sof.nmSoftware
-				FROM CacicCommonBundle:SoftwareEstacao s
-				LEFT JOIN s.idSoftware sof";
+        $_dql = "SELECT se,
+        				comp.idComputador, COALESCE( comp.nmComputador, comp.teIpComputador, comp.teNodeAddress ) AS descComputador,
+        				sw.idSoftware, sw.nmSoftware,
+        				aq.nrProcesso
+				FROM CacicCommonBundle:SoftwareEstacao se
+				INNER JOIN se.idSoftware sw
+				INNER JOIN se.idComputador comp
+				LEFT JOIN se.idAquisicao aq";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }

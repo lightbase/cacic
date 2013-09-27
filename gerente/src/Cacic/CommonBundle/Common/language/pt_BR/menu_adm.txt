@@ -39,6 +39,7 @@
 ..Atualização Especial|admin/atualizacao_especial.php|mainFrame||Atualização de Scripts e Afins
 ..Consulta Especial|admin/consulta_especial.php|mainFrame||Consulta Informações do Servidor
 ..Tradutor|admin/tradutor.php|mainFrame||Tradução de textos e mensagens do CACIC
+..Extrair para 3.0|admin/extrator.php|mainFrame||Extracao de dados do cacic 2.6 para o 3.0
 .<b>Computadores</b>||mainFrame|imgs/config_gerais.gif
 ..Consulta|relatorios/computadores.php|mainFrame||Consulta de informações de computadores
 ..Navegação|relatorios/navegacao.php|mainFrame||Navegação pelos computadores da rede

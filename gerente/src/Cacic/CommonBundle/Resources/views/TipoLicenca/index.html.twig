@@ -31,11 +31,11 @@
 
                 {% for tipolicenca in TipoLicenca %}
 
-                    <tr id="item_{{ tipolicenca['idTipoLicenca'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                        <td style="text-align: center">{{ tipolicenca['idTipoLicenca'] }}</td>
-                        <td id="item_desc_{{ tipolicenca['idTipoLicenca'] }}">{{ tipolicenca['teTipoLicenca'] }}</td>
+                    <tr id="item_{{ tipolicenca.idTipoLicenca }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                        <td style="text-align: center">{{ tipolicenca.idTipoLicenca }}</td>
+                        <td id="item_desc_{{ tipolicenca.idTipoLicenca }}">{{ tipolicenca.teTipoLicenca }}</td>
                         <td style="text-align: center" class="td-actions">
-                            <a href="{{ path('cacic_tipo_licenca_editar', {'idTipoLicenca': tipolicenca['idTipoLicenca']}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                            <a href="{{ path('cacic_tipo_licenca_editar', {'idTipoLicenca': tipolicenca.idTipoLicenca }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                 <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 
@@ -53,6 +53,12 @@
 
             </tbody>
          </table>
+
+           {# display navigation #}
+           <div class="navigation">
+               {{ knp_pagination_render(TipoLicenca) }}
+           </div>
+
          <div align="right">
                 <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_tipo_licenca_cadastrar') }}">
                     <i class="icon-plus-sign"></i>

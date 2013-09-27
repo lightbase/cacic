@@ -17,12 +17,12 @@ class AcaoRede
     /**
      * @var \Cacic\CommonBundle\Entity\Acao
      */
-    private $idAcao;
+    private $acao;
 
     /**
      * @var \Cacic\CommonBundle\Entity\Rede
      */
-    private $idRede;
+    private $rede;
 
 
     /**
@@ -49,63 +49,48 @@ class AcaoRede
     }
 
     /**
-     * Set idAcao
+     * Set acao
      *
-     * @param \Cacic\CommonBundle\Entity\Acao $idAcao
+     * @param \Cacic\CommonBundle\Entity\Acao $acao
      * @return AcaoRede
      */
-    public function setIdAcao(\Cacic\CommonBundle\Entity\Acao $idAcao = null)
+    public function setAcao(\Cacic\CommonBundle\Entity\Acao $acao)
     {
-        $this->idAcao = $idAcao;
+        $this->acao = $acao;
     
         return $this;
     }
 
     /**
-     * Get idAcao
+     * Get acao
      *
      * @return \Cacic\CommonBundle\Entity\Acao 
      */
-    public function getIdAcao()
+    public function getAcao()
     {
-        return $this->idAcao;
+        return $this->acao;
     }
 
     /**
-     * Set idRede
+     * Set rede
      *
-     * @param \Cacic\CommonBundle\Entity\Rede $idRede
+     * @param \Cacic\CommonBundle\Entity\Rede $rede
      * @return AcaoRede
      */
-    public function setIdRede(\Cacic\CommonBundle\Entity\Rede $idRede = null)
+    public function setRede(\Cacic\CommonBundle\Entity\Rede $rede)
     {
-        $this->idRede = $idRede;
+        $this->rede = $rede;
     
         return $this;
     }
 
     /**
-     * Get idRede
+     * Get rede
      *
      * @return \Cacic\CommonBundle\Entity\Rede 
      */
-    public function getIdRede()
+    public function getRede()
     {
-        return $this->idRede;
-    }
-    /**
-     * @var integer
-     */
-    private $idAcaoRede;
-
-
-    /**
-     * Get idAcaoRede
-     *
-     * @return integer 
-     */
-    public function getIdAcaoRede()
-    {
-        return $this->idAcaoRede;
+        return $this->rede;
     }
 }

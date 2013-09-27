@@ -17,7 +17,7 @@
                     
                 <h4>{{ "Filtros para consulta"|trans }}</h4><br />
                 
-                <form id="formLogPesquisaSuporteRemoto" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
+                <form id={{ 'formLogPesquisaSuporteRemoto'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
                     
                     <div class="control-group">
                         <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>

@@ -1,5 +1,6 @@
 /**
  * Eventos inicializados após renderização da página
+ * @todo necessário verificar tradução das mensagens de texto
  */
 $(document).ready(function(){
 	/**
@@ -41,6 +42,23 @@ $(document).ready(function(){
 						async: false,
 						success: function( data )
 						{
+							if ( data.status == 'error' )
+							{
+								var msg = '';
+								switch( data.code )
+								{
+									case '23503':
+										msg = 'Ítem não pode ser excluído porque contem dados relacionados!';
+										break;
+										
+									default:
+										msg = 'Erro desconhecido!';
+										break;
+								}
+								System.Flash.show( 'Erro', msg );
+								return false;
+							}
+							
 							/**
 							 * Verifica quantidade de colunas e quantos elementos ainda restam a listar após a exclusão
 							 */
@@ -59,7 +77,7 @@ $(document).ready(function(){
 						},
 						error: function( data )
 						{
-							System.Flash.show( 'Erro', 'Erro na exclusão do item! ' );
+							System.Flash.show( 'Erro', 'Erro na exclusão do item!' );
 						},
 						complete: function( data )
 						{
@@ -83,6 +101,88 @@ $(document).ready(function(){
 	});
 	
 	/**
+	 * Abre a MODAL com o formulário para troca de Senha
+	 */
+	$( "#trocarPropriaSenha" ).dialog({
+		autoOpen: false,
+		height: 250,
+		width: 350,
+		modal: true,
+		buttons: {
+			"Salvar" : function(){
+				// Realiza a validação dos campos
+				var validation = function(){
+					/**
+					 * Verifica se a senha informa é valida
+					 * - Se as 2 senhas conferem entre si
+					 * - Se possui o mínimo de caracteres (6)
+					 * - Se possui o máximo de caracteres (10)
+					 * @return boolean|string
+					 */
+					var min = 6; // Mínimo de caracteres para a senha
+					var max = 10; // Máximo de caracteres para a senha
+					
+					var senhaAtual = $( '#troca_propria_senha_te_senha_atual' ).val();
+					var senhaNova = $( '#troca_propria_senha_te_senha_nova' ).val();
+					var senhaConfirma = $( '#troca_propria_senha_te_senha_nova_confirma' ).val();
+					
+					if ( senhaAtual.length < min || senhaAtual.length > max )	return 'Senha atual inválida';
+					if ( senhaNova != senhaConfirma )		return 'Senhas não conferem';
+					if ( senhaNova.length < min )	return 'Nova Senha não pode conter menos que ' +min+ ' caracteres';
+					if ( senhaNova.length > max )	return 'Nova Senha não pode conter mais que ' +max+ ' caracteres';
+					
+					return true;
+				};
+				var validation_result = validation();
+				
+				if( validation_result === true )
+				{
+					var params = {
+						'senha_nova' : $( '#troca_propria_senha_te_senha_nova' ).val(),
+						'senha_atual': $( '#troca_propria_senha_te_senha_atual' ).val(),
+					};
+					
+					$.ajax(
+						{
+							type: "POST",
+							url: $( this ).data( 'params' ).url,
+							cache: false,
+							async: false,
+							success: function( data )
+							{
+								System.Flash.show( 'Sucesso', 'Senha alterada com sucesso!' );
+							},
+							error: function( data )
+							{
+								var response = JSON.parse(data.responseText);
+								System.Flash.show( 'Erro', 'Erro na solicitação: ' + response.status );
+							},
+							data: params
+						}
+					);
+				}
+				else
+				{
+					System.Flash.show( 'Erro', validation_result );
+				}
+				
+				$( this ).dialog( "close" );
+			},
+			"Cancelar" : function(){
+				$( this ).dialog( "close" );
+			}
+		},
+		show: { effect: "fade", duration: 500 },
+		hide: { effect: "fade", duration: 500 },
+		close: function( event, ui ){ 
+			// Limpa os campos do formulário
+			$( "#troca_propria_senha_te_senha_atual" ).val( '' );
+			$( "#troca_propria_senha_te_senha_nova" ).val( '' );
+			$( "#troca_propria_senha_te_senha_nova_confirma" ).val( '' );
+		}
+	});
+	
+	/**
 	 * Ativa a ABA correta, caso esta seja passada via URL
 	 */
 	if ( window.location.hash != '' && window.location.hash != undefined )
@@ -102,4 +202,12 @@ $(document).ready(function(){
 	 */
 	System.Grid.excluir(); // Inicializa o LISTENER para os botões-padrão de exclusão de itens
     System.Form.reset(); // Inicializa o LISTENER para os botões (ou input) type=reset
+    System.Menu.changeOwnPass(); // Inicializa o LISTENER para funcionalidade de troca de senha
+    
+    /**
+     * Adiciona o calendário aos campos de data (contendo a classe datepicker_on)
+     * e já configura a máscara no formato xx/xx/xxxx
+     */
+    $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
+
 });

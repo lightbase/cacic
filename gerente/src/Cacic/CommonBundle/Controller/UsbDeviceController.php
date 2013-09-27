@@ -13,9 +13,12 @@ class UsbDeviceController extends Controller
 {
     public function indexAction( $page )
     {
-        $arrUsbDevice = $this->getDoctrine()->getRepository( 'CacicCommonBundle:UsbDevice' )->listar();
-        return $this->render( 'CacicCommonBundle:UsbDevice:index.html.twig', array( 'UsbDevice' => $arrUsbDevice ) );
-
+        return $this->render(
+            'CacicCommonBundle:UsbDevice:index.html.twig',
+            array(
+                'UsbDevice' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:UsbDevice' )->paginar( $this->get( 'knp_paginator' ), $page )
+            )
+        );
     }
 
     public function cadastrarAction(Request $request)

@@ -13,22 +13,33 @@ use Doctrine\ORM\EntityRepository;
 class UsuarioRepository extends EntityRepository
 {
 
-	public function paginar( $page )
-	{
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
+    {
+        $_dql = "SELECT u, l.nmLocal, g.teGrupoUsuarios, COUNT(ls.idLocal) as numLocSec
+				FROM CacicCommonBundle:Usuario u
+				JOIN u.idLocal l
+				JOIN u.idGrupoUsuario g
+				LEFT JOIN u.locaisSecundarios ls
+				GROUP BY u, l.nmLocal, g.teGrupoUsuarios";
 
-	}
-
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql ),
+            $page,
+            10
+        );
+    }
 	/**
 	 *
 	 * Método de listagem dos Usuários cadastrados e respectivas informações de Login, Nome, Locais e Níveis de acesso
 	 */
 	public function listar()
 	{
-		$_dql = "SELECT u, l.nmLocal, g.teGrupoUsuarios
+		$_dql = "SELECT u, l.nmLocal, g.teGrupoUsuarios, COUNT(ls.idLocal) as numLocSec
 				FROM CacicCommonBundle:Usuario u
 				JOIN u.idLocal l
 				JOIN u.idGrupoUsuario g
-				GROUP BY u.idUsuario";
+				LEFT JOIN u.locaisSecundarios ls
+				GROUP BY u, l.nmLocal, g.teGrupoUsuarios";
 
 		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}
@@ -44,12 +55,13 @@ class UsuarioRepository extends EntityRepository
 				FROM CacicCommonBundle:Usuario u
 				JOIN u.idGrupoUsuario g
 				JOIN u.idLocal l
-				WHERE u.idLocal = :idLocalPrimario OR u.teLocaisSecundarios LIKE :idLocalSecundario";
+				LEFT JOIN u.locaisSecundarios ls
+				WHERE u.idLocal = :idLocalPrimario OR ls = :idLocalSecundario";
 
         return $this->getEntityManager()
         			->createQuery( $_dql )
         			->setParameter( 'idLocalPrimario', $idLocal )
-        			->setParameter( 'idLocalSecundario' , "%{$idLocal}%")
+        			->setParameter( 'idLocalSecundario' , $idLocal )
         			->getArrayResult();
 	}
 

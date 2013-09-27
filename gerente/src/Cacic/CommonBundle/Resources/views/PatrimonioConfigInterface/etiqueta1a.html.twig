@@ -1,4 +1,4 @@
-<form id="form-patrimonio-etiqueta1a" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form)|trans }}>
+<form id={{ 'form-patrimonio-etiqueta1a'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
     <input name="{{'form.idEtiqueta' }}" type="hidden" value="etiqueta1a">
         <table class="table table-striped table-bordered">
             <tr>
@@ -16,6 +16,11 @@
                 <td style="text-align: center"><h5>{{ 'Texto de ajuda da "Etiqueta 1a":'|trans }}</h5></td>
                 <td style="vertical-align: top">{{ form_widget(form.teHelpEtiqueta) }}</td>
                 <td style="text-align: left"><h6>{{ ' Exemplo "Selecione a Linha de negócio de localização deste equipamento" '|trans }}</h6></td>
+            </tr>
+            <tr>
+                <td style="text-align: center"><h5>{{ 'Elemento origatório?'|trans }}</h5></td>
+                <td style="vertical-align: top">{{ form_widget(form.inObrigatorio) }}</td>
+                <td style="text-align: left"><h6>{{ ' O preenchimento do campo é obrigatório? '|trans }}</h6></td>
             </tr>
         </table>
 

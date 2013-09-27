@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\Computador:
     type: entity
     table: computador
+    repositoryClass: Cacic\CommonBundle\Entity\ComputadorRepository
     fields:
         idComputador:
             id: true
@@ -10,15 +11,18 @@ Cacic\CommonBundle\Entity\Computador:
             column: id_computador
             generator:
                 strategy: IDENTITY
+        nmComputador:
+            type: string
+            fixed: false
+            nullable: true
+            column: nm_computador
         teNodeAddress:
             type: string
-            length: 17
             fixed: true
             nullable: false
             column: te_node_address
         teIpComputador:
             type: string
-            length: 15
             fixed: true
             nullable: true
             column: te_ip_computador
@@ -36,19 +40,16 @@ Cacic\CommonBundle\Entity\Computador:
             column: dt_hr_ult_acesso
         teVersaoCacic:
             type: string
-            length: 15
             fixed: true
             nullable: true
             column: te_versao_cacic
         teVersaoGercols:
             type: string
-            length: 15
             fixed: true
             nullable: true
             column: te_versao_gercols
         tePalavraChave:
             type: string
-            length: 30
             fixed: true
             nullable: false
             column: te_palavra_chave
@@ -58,7 +59,6 @@ Cacic\CommonBundle\Entity\Computador:
             column: dt_hr_coleta_forcada_estacao
         teNomesCurtosModulos:
             type: string
-            length: 255
             fixed: false
             nullable: true
             column: te_nomes_curtos_modulos
@@ -73,16 +73,24 @@ Cacic\CommonBundle\Entity\Computador:
             column: te_debugging
         teUltimoLogin:
             type: string
-            length: 100
             fixed: false
             nullable: true
             column: te_ultimo_login
         dtDebug:
             type: string
-            length: 8
             fixed: true
             nullable: true
             column: dt_debug
+    oneToMany:
+        softwares:
+            targetEntity: SoftwareEstacao
+            mappedBy: idComputador
+        hardwares:
+            targetEntity: ComputadorColeta
+            mappedBy: computador
+        software_coletado:
+            targetEntity: PropriedadeSoftware
+            mappedBy: idComputador
     manyToOne:
         idUsuarioExclusao:
             targetEntity: Usuario

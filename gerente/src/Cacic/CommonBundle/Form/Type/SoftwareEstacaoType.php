@@ -17,62 +17,85 @@ class SoftwareEstacaoType extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $builder->add(
-            'nrPatrimonio',
-            null,
-            array( 'label'=>'Patrimônio:', 'max_length'=>30 )
-        );
-        $builder->add(
             'idSoftware',
-            'entity',
+            null,
             array(
-                'class' => 'CacicCommonBundle:Software',
                 'property' => 'nmSoftware',
                 'empty_value' => 'Selecione',
-                'label'=>'Software:' )
+                'label'=>'Software' )
         );
+        
         $builder->add(
-            'nrProcesso',
+            'idComputador',
             null,
-            array( 'label'=>'Processo de aquisicao:', 'max_length'=>30 )
+            array(
+                'empty_value' => 'Selecione',
+                'label'=>'Computador',
+            	'query_builder' => function ( \Doctrine\ORM\EntityRepository $repository )
+                                   {
+										return $repository->createQueryBuilder('c')
+															->orderBy('c.nmComputador')
+                                       						->addOrderBy('c.teIpComputador');
+                                    }
+        	)
         );
-
+        
         $builder->add(
-            'nmComputador',
+            'nrPatrimonio',
             null,
-            array( 'label'=>'Computador:', 'max_length'=>30 )
+            array( 'label'=>'Patrimônio' )
         );
-
+		
         $builder->add(
-            'nmComputador',
+            'idAquisicao',
             null,
-            array( 'label'=>'Computador:', 'max_length'=>30 )
+            array( 'label'=>'Processo de aquisicao' )
         );
-        $builder->add('dtAutorizacao',
-        'date',
-        array( 'widget' => 'single_text',
-            'format' => 'dd/MM/yyyy','label'=>'Data de autorizacao:',)
+		
+        $builder->add(
+        	'dtAutorizacao',
+	        'date',
+	        array(
+	        	'widget' => 'single_text',
+            	'format' => 'dd/MM/yyyy',
+            	'label'=>'Data de autorizacao',
+	        	'required' => false,
+	        	'attr' => array('class'=>'datepicker_on')
+	        )
         );
+        
         $builder->add('dtExpiracaoInstalacao',
             'date',
-            array( 'widget' => 'single_text',
-                'required'=>false,
-                'format' => 'dd/MM/yyyy','label'=>'Data de expiracao:',)
+            array(
+            	'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                'label'=>'Data de expiracao',
+            	'required' => false,
+            	'attr' => array('class'=>'datepicker_on')
+            )
         );
+        
         $builder->add('dtDesinstalacao',
             'date',
-            array( 'widget' => 'single_text',
-                'required'=>false,
-                'format' => 'dd/MM/yyyy','label'=>'Data de desinstalacao:',)
+            array(
+            	'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                'label'=>'Data de desinstalacao',
+            	'required' => false,
+            	'attr' => array('class'=>'datepicker_on')
+            )
         );
+        
         $builder->add(
             'nrPatrDestino',
             null,
-            array( 'label'=>'Patrimonio de destino:', 'max_length'=>30 )
+            array( 'label'=>'Patrimonio de destino' )
         );
+        
         $builder->add(
             'teObservacao',
             null,
-            array( 'label'=>'Observação:', 'max_length'=>200 )
+            array( 'label'=>'Observação' )
         );
     }
 

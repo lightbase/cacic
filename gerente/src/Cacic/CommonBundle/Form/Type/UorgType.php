@@ -38,25 +38,25 @@ class  UorgType extends AbstractType
 						)
 		);
 		
-		$builder->add( 'nmUorg', null, array( 'label'=> 'Nome da Unidade', 'max_length' => 50 ) );
+		$builder->add( 'nmUorg', null, array( 'label'=> 'Nome da Unidade' ) );
 		
-		$builder->add( 'teEndereco', null, array( 'label'=> 'Endereço', 'max_length' => 80, 'required'=>false ) );
+		$builder->add( 'teEndereco', null, array( 'label'=> 'Endereço', 'required'=>false ) );
 		
-		$builder->add( 'teBairro', null, array( 'label'=> 'Bairro', 'max_length' => 30, 'required'=>false ) );
+		$builder->add( 'teBairro', null, array( 'label'=> 'Bairro', 'required'=>false ) );
 		
-		$builder->add( 'teCidade', null, array( 'label'=> 'Cidade', 'max_length' => 50, 'required'=>false ) );
+		$builder->add( 'teCidade', null, array( 'label'=> 'Cidade', 'required'=>false ) );
 		
 		$builder->add( 'teUf', new cxUfType(), array( 'label'=> 'UF', 'required'=>false ) );
 		
-		$builder->add( 'nmResponsavel', null, array( 'label'=> 'Nome', 'max_length' => 80, 'required'=>false ) );
+		$builder->add( 'nmResponsavel', null, array( 'label'=> 'Nome', 'required'=>false ) );
 		
-		$builder->add( 'teResponsavelEmail', 'email', array( 'label'=> 'Email', 'max_length' => 50, 'required'=>false ) );
+		$builder->add( 'teResponsavelEmail', 'email', array( 'label'=> 'Email', 'required'=>false ) );
 		
 		$builder->add(
         	$builder->create(
         		'nuResponsavelTel1', 
         		null, 
-        		array( 'label'=>'Telefone 1', 'required'=>false, 'max_length' => 10 )
+        		array( 'label'=>'Telefone 1', 'required'=>false )
         	)
             ->addModelTransformer( new cxTelefoneTransformer() )
         );
@@ -65,7 +65,7 @@ class  UorgType extends AbstractType
         	$builder->create(
         		'nuResponsavelTel2', 
         		null, 
-        		array( 'label'=>'Telefone 2', 'required'=>false, 'max_length' => 10 )
+        		array( 'label'=>'Telefone 2', 'required'=>false )
         	)
             ->addModelTransformer( new cxTelefoneTransformer() )
         );

@@ -39,4 +39,8 @@ Cacic\CommonBundle\Entity\Aquisicao:
             fixed: true
             nullable: true
             column: nr_notafiscal
+    oneToMany:
+        itens:
+            targetEntity: AquisicaoItem
+            mappedBy: idAquisicao
     lifecycleCallbacks: {  }

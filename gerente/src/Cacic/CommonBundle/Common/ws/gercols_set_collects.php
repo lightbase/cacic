@@ -1,35 +1,35 @@
 <?php 
  /* 
- Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informações da Previdência Social, Brasil
+ Copyright 2000, 2001, 2002, 2003, 2004, 2005 Dataprev - Empresa de Tecnologia e Informaï¿½ï¿½es da Previdï¿½ncia Social, Brasil
 
- Este arquivo é parte do programa CACIC - Configurador Automático e Coletor de Informações Computacionais
+ Este arquivo ï¿½ parte do programa CACIC - Configurador Automï¿½tico e Coletor de Informaï¿½ï¿½es Computacionais
 
- O CACIC é um software livre; você pode redistribui-lo e/ou modifica-lo dentro dos termos da Licença Pública Geral GNU como 
- publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
+ O CACIC ï¿½ um software livre; vocï¿½ pode redistribui-lo e/ou modifica-lo dentro dos termos da Licenï¿½a Pï¿½blica Geral GNU como 
+ publicada pela Fundaï¿½ï¿½o do Software Livre (FSF); na versï¿½o 2 da Licenï¿½a, ou (na sua opniï¿½o) qualquer versï¿½o.
 
- Este programa é distribuido na esperança que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAÇÂO a qualquer
- MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
+ Este programa ï¿½ distribuido na esperanï¿½a que possa ser  util, mas SEM NENHUMA GARANTIA; sem uma garantia implicita de ADEQUAï¿½ï¿½O a qualquer
+ MERCADO ou APLICAï¿½ï¿½O EM PARTICULAR. Veja a Licenï¿½a Pï¿½blica Geral GNU para maiores detalhes.
 
- Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do Software
+ Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral GNU, sob o tï¿½tulo "LICENCA.txt", junto com este programa, se nï¿½o, escreva para a Fundaï¿½ï¿½o do Software
  Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 require_once('../include/common_top.php');
 
 // ********************************************************************************************************************************
-// Alteração total no tratamento de informações de componentes de hardware da estação de trabalho - Anderson Peterle - Janeiro/2013
+// Alteraï¿½ï¿½o total no tratamento de informaï¿½ï¿½es de componentes de hardware da estaï¿½ï¿½o de trabalho - Anderson Peterle - Janeiro/2013
 // ********************************************************************************************************************************	
 $strCollectType  = DeCrypt($_POST['CollectType'], $v_cs_cipher,$v_cs_compress,$strPaddingKey);
 
-// Defino os dois arrays que conterão as configurações para Coletas, Classes e Propriedades
+// Defino os dois arrays que conterï¿½o as configuraï¿½ï¿½es para Coletas, Classes e Propriedades
 $arrClassesNames 		= array();
 $arrCollectsDefClasses 	= array();
 										
-// Chamo o procedimento (function) que atribuirá os devidos valores aos arrays acima										
+// Chamo o procedimento (function) que atribuirï¿½ os devidos valores aos arrays acima										
 getClassesDefinitions($strCollectType);
 										
 if ($arrCollectsDefClasses[$strCollectType])
 	{	
-	// Obtenho configuração para notificação de alterações
+	// Obtenho configuraï¿½ï¿½o para notificaï¿½ï¿½o de alteraï¿½ï¿½es
 	$resConfigsLocais = getArrFromSelect('configuracoes_locais', 'te_notificar_mudancas_emails,te_notificar_mudancas_properties', 'id_local = '.$arrDadosRede[0]['id_local'].' AND te_notificar_mudancas_emails IS NOT NULL AND te_notificar_mudancas_properties IS NOT NULL');			
 
 	$arrClassesAndProperties = getArrFromSelect('classes cl,
@@ -89,7 +89,7 @@ if ($arrCollectsDefClasses[$strCollectType])
 					{
 					GravaTESTES('***********************************************************');
 					GravaTESTES('Inserindo em computadores_collects_historico:');					
-					GravaTESTES('getVarType(arrOldClassValues[0][te_class_values]): ' . getVarType($arrOldClassValues[0]['te_class_values'])));
+					GravaTESTES('getVarType(arrOldClassValues[0][te_class_values]): ' . getVarType($arrOldClassValues[0]['te_class_values']));
 					GravaTESTES('getVarType(strNewClassValues): ' . getVarType($strNewClassValues));					
 					GravaTESTES('***********************************************************');					
 					$queryINS = "INSERT INTO computadores_collects_historico(id_computador,nm_class_name,te_class_values,dt_hr_inclusao) VALUES (" . $arrDadosComputador[0]['id_computador'] . ",'" . $strClassName . "','" . $arrOldClassValues[0]['te_class_values'] ."',NOW())";
@@ -104,7 +104,7 @@ if ($arrCollectsDefClasses[$strCollectType])
 					GravaTESTES('strNewClassValues: ' . $strNewClassValues);					
 					GravaTESTES('***********************************************************');					
 					
-					// ATENÇÃO: Registro já foi criado durante a obtenção das configurações, no script get_config.php.
+					// ATENï¿½ï¿½O: Registro jï¿½ foi criado durante a obtenï¿½ï¿½o das configuraï¿½ï¿½es, no script get_config.php.
 					$queryUPD = "UPDATE computadores_collects SET te_class_values = '" . $strNewClassValues . "' WHERE id_computador = " . $arrDadosComputador[0]['id_computador'] . " AND nm_class_name = '" . $strClassName . "'";	
 					mysql_query($queryUPD,$DBConnectSC);												
 					}
@@ -116,7 +116,7 @@ if ($arrCollectsDefClasses[$strCollectType])
 					GravaTESTES('strNewClassValues: ' . $strNewClassValues);					
 					GravaTESTES('***********************************************************');					
 					
-					// ATENÇÃO: Registro já foi criado durante a obtenção das configurações, no script get_config.php.
+					// ATENï¿½ï¿½O: Registro jï¿½ foi criado durante a obtenï¿½ï¿½o das configuraï¿½ï¿½es, no script get_config.php.
 					$queryINS = "INSERT INTO computadores_collects(id_computador,nm_class_name,te_class_values) VALUES (" . $arrDadosComputador[0]['id_computador'] . ",'" . $strClassName . "','" . $strNewClassValues ."')";
 					mysql_query($queryINS,$DBConnectSC);	
 					}																				
@@ -124,7 +124,7 @@ if ($arrCollectsDefClasses[$strCollectType])
 			}			
 		}	
 	 
-	 // Caso a string acima não esteja vazia, monto o email para notificação
+	 // Caso a string acima nï¿½o esteja vazia, monto o email para notificaï¿½ï¿½o
 	 if ($strDeletedItems_Text || $strInsertedItems_Text || $strUpdatedItems_Text ) 
 		{ 				
 		if ($strDeletedItems_Text)
@@ -139,20 +139,20 @@ if ($arrCollectsDefClasses[$strCollectType])
 	
 		$strCorpoMail = '';
 		$strCorpoMail .= " Prezado administrador,\n\n";
-		$strCorpoMail .= " uma alteração foi identificada no computador cujos detalhes encontram-se abaixo discriminados:\n\n";				
+		$strCorpoMail .= " uma alteraï¿½ï¿½o foi identificada no computador cujos detalhes encontram-se abaixo discriminados:\n\n";				
 		$strCorpoMail .= " Nome do Host: ". getComponentValue($arrDadosComputador[0]['id_computador'], 'ComputerSystem', 'Caption')  ."\n";
-		$strCorpoMail .= " Endereço IP....: ". getComponentValue($arrDadosComputador[0]['id_computador'], 'NetworkAdapterConfiguration', 'IPAddress') . "\n";
+		$strCorpoMail .= " Endereï¿½o IP....: ". getComponentValue($arrDadosComputador[0]['id_computador'], 'NetworkAdapterConfiguration', 'IPAddress') . "\n";
 		$strCorpoMail .= " Local...............: ". $arrDadosRede[0]['nm_local']."\n";
 		$strCorpoMail .= " Rede................: ". $arrDadosRede[0]['nm_rede'] . ' (' . $arrDadosRede[0]['te_ip_rede'] .")\n\n";		
 		$strCorpoMail .= $strDeletedItems_Text . $strInsertedItems_Text . $strUpdatedItems_Text;
-		$strCorpoMail .= "\n\nPara visualizar mais informações sobre esse computador, acesse o endereço\nhttp://";
+		$strCorpoMail .= "\n\nPara visualizar mais informaï¿½ï¿½es sobre esse computador, acesse o endereï¿½o\nhttp://";
 		$strCorpoMail .= CACIC_PATH . '/relatorios/computador/computador.php?id_computador=' . $arrDadosComputador[0]['id_computador'];
 		$strCorpoMail .= "\n\n\n________________________________________________\n";
 		$strCorpoMail .= "CACIC - " . date('d/m/Y H:i') . "h \n";
-		$strCorpoMail .= "Desenvolvido pela Dataprev - Unidade Regional Espírito Santo";
+		$strCorpoMail .= "Desenvolvido pela Dataprev - Unidade Regional Espï¿½rito Santo";
 	
 		// Manda mail para os administradores.
-		mail($resConfigsLocais['te_notificar_mudancas_emails'], "[Sistema CACIC] Alteração Detectada - " . $arrCollectsDefClasses[$strCollectType], "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
+		mail($resConfigsLocais['te_notificar_mudancas_emails'], "[Sistema CACIC] Alteraï¿½ï¿½o Detectada - " . $arrCollectsDefClasses[$strCollectType], "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
 		}							
 	}
 GravaTESTES('Final');																				

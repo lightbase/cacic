@@ -51,6 +51,8 @@ label.required {
     color: #c00;
 }
 
+dl dd { margin-bottom: 10px; }
+
 /*------------------------------------------------------------------
 [ Shortcuts / .shortcuts]
 */

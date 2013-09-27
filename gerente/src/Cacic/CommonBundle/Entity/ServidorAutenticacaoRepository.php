@@ -12,10 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class ServidorAutenticacaoRepository extends EntityRepository
 {
-
-    public function paginar( $page )
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
+        $_dql = "SELECT s
+				FROM CacicCommonBundle:ServidorAutenticacao s
+				GROUP BY s";
 
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql ),
+            $page,
+            10
+        );
     }
     /**
      *
@@ -25,7 +32,7 @@ class ServidorAutenticacaoRepository extends EntityRepository
     {
         $_dql = "SELECT s
 				FROM CacicCommonBundle:ServidorAutenticacao s
-				GROUP BY s.idServidorAutenticacao";
+				GROUP BY s";
 
         $query = $this->getEntityManager()->createQuery( $_dql );
         return $query->getArrayResult();

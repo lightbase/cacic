@@ -183,5 +183,5 @@ Cacic\CommonBundle\Entity\Rede:
     oneToMany:
         acoes:
             targetEntity: AcaoRede
-            mappedBy: idRede
+            mappedBy: rede
     lifecycleCallbacks: {  }

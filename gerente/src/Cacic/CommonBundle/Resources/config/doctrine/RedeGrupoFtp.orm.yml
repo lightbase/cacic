@@ -11,12 +11,12 @@ Cacic\CommonBundle\Entity\RedeGrupoFtp:
             generator:
                 strategy: IDENTITY
         nuHoraInicio:
-            type: time
+            type: datetime
             nullable: false
             column: nu_hora_inicio
         nuHoraFim:
-            type: time
-            nullable: false
+            type: datetime
+            nullable: true
             column: nu_hora_fim
     manyToOne:
         idRede:

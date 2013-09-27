@@ -16,7 +16,7 @@
 
                     <h3>{{ "Opções da Coleta de Informações Patrimoniais e Localização Física "|trans }}</h3>
                     <br />
-                    <form id="formOpcoes" class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
+                    <form id={{ 'formOpcoes'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
                         <input type="hidden" name="config[idLocal]" value="{{ local.idLocal }}" />
                         
                         <h4> {{ 'Local de Aplicação'|trans }}:</h4>

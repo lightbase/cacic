@@ -39,6 +39,10 @@ Cacic\CommonBundle\Entity\Local:
             fixed: true
             nullable: true
             column: dt_debug
+    manyToMany:
+        usuariosSecundarios:
+            targetEntity: Usuario
+            mappedBy: locaisSecundarios
     oneToMany:
         usuarios:
             targetEntity: Usuario
@@ -52,7 +56,5 @@ Cacic\CommonBundle\Entity\Local:
         uorgs:
             targetEntity: Uorg
             mappedBy: local
-    entityListeners:
-        LocalListener:
-            postPersist: [postPersistHandler]
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        postPersist: [ configurarFromConfigPadrao ]

@@ -11,7 +11,7 @@ class ServidorAutenticacaoController extends Controller
 {
      public function indexAction( $page )
      {
-         $arrServidor = $this->getDoctrine()->getRepository( 'CacicCommonBundle:ServidorAutenticacao' )->listar();
+         $arrServidor = $this->getDoctrine()->getRepository( 'CacicCommonBundle:ServidorAutenticacao' )->paginar( $this->get( 'knp_paginator' ), $page );
          return $this->render( 'CacicCommonBundle:ServidorAutenticacao:index.html.twig', array( 'servidor' => $arrServidor ) );
 
      }

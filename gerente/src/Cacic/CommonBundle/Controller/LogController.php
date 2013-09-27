@@ -2,6 +2,7 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,6 +34,7 @@ class LogController extends Controller
         {
         	$form->bind( $request );
         	$data = $form->getData();
+            $locale = $request->getLocale();
 
             $filtroLocais = array(); // Inicializa array com locais a pesquisar
             foreach ( $data['idLocal'] as $locais )
@@ -45,6 +47,7 @@ class LogController extends Controller
         
         return $this->render( 'CacicCommonBundle:Log:acesso.html.twig',
 			array(
+                'local'=>$locale ,
 				'form' => $form->createView(),
 				'logs' => ( isset( $logs ) ? $logs : null )
 			)
@@ -131,12 +134,56 @@ class LogController extends Controller
 
             $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:InsucessoInstalacao')
             							->pesquisar( $data['dtAcaoInicio'], $data['dtAcaoFim'] );
+            							
+        	if ( count( $logs ) )
+            {
+	            /**
+	             * Contabilização dos dados (Resumo das operações)
+	             * @todo implementar esta rotina no twig
+	             */
+	            $_datas = $_redes = $_estacoes = $_so = $_usuarios = $_motivos = array();
+	            foreach ( $logs as $log )
+	            {
+	            	// Datas
+	            	$logData = $log->getDtDatahora()->format('d/m/Y');
+	            	if( array_key_exists( $logData, $_datas ) )
+	            		$_datas[$logData]++;
+	            	else $_datas[$logData] = 1;
+	            	
+	            	// Estações
+	            	if( array_key_exists( $log->getTeIpComputador(), $_estacoes ) )
+	            		$_estacoes[$log->getTeIpComputador()]++;
+	            	else $_estacoes[$log->getTeIpComputador()] = 1;
+	            	
+	            	/**
+	            	 * @todo Verificar se a estação pertence a alguma rede
+	            	 */
+	            	
+	            	// Sistemas Operacionais
+	            	if( array_key_exists( $log->getTeSo(), $_so ) )
+	            		$_so[$log->getTeSo()]++;
+	            	else $_so[$log->getTeSo()] = 1;
+	            	
+	            	// Usuarios
+	            	if( array_key_exists( $log->getIdUsuario(), $_usuarios ) )
+	            		$_usuarios[$log->getIdUsuario()]++;
+	            	else $_usuarios[$log->getIdUsuario()] = 1;
+	            	
+	            	// Motivos
+	            	if( array_key_exists( $log->getCsIndicador(), $_motivos ) )
+	            		$_motivos[$log->getCsIndicador()]++;
+	            	else $_motivos[$log->getCsIndicador()] = 1;
+	            }
+	            
+	            $resumo = array( 'datas' => $_datas, 'estacoes' => $_estacoes, 'so' => $_so, 'usuarios' => $_usuarios, 'motivos' => $_motivos );
+            }
         }
         
         return $this->render( 'CacicCommonBundle:Log:insucesso.html.twig',
             array(
                 'form' => $form->createView(),
-                'logs' => ( isset( $logs ) ? $logs : null )
+                'logs' => ( isset( $logs ) ? $logs : null ),
+            	'resumo' => ( isset( $resumo ) ? $resumo : null )
             )
         );
     }

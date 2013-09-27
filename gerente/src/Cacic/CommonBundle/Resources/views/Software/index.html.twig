@@ -32,13 +32,13 @@
 
              <tbody>
                 {% for software in softwares %}
-                    <tr id="item_{{ software[0]['idSoftware'] }}">
-                        <td id="item_desc_{{ software[0]['idSoftware'] }}">{{ software[0]['nmSoftware'] }}</td>
+                    <tr id="item_{{ software[0].idSoftware }}">
+                        <td id="item_desc_{{ software[0].idSoftware }}">{{ software[0].nmSoftware }}</td>
                         <td>{% if software['tipoSoftware'] is not null %}{{ software['tipoSoftware'] }}{% else %}<span class="red"><b>Não classificado</b></span>{% endif %}</td>
-                        <td>{{ software[0]['teDescricaoSoftware'] }}</td>
-                        <td style="text-align: center">{{ software[0]['qtLicenca'] }}</td>
+                        <td>{{ software[0].teDescricaoSoftware }}</td>
+                        <td style="text-align: center">{{ software[0].qtLicenca }}</td>
                         <td class="td-actions">
-                            <a href="{{ path('cacic_software_editar', {'idSoftware': software[0]['idSoftware']}) }}" class="btn btn-small" title="{{ 'Editar Item'|trans }}">
+                            <a href="{{ path('cacic_software_editar', {'idSoftware': software[0].idSoftware }) }}" class="btn btn-small" title="{{ 'Editar Item'|trans }}">
                                 <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 
@@ -55,6 +55,12 @@
 
              </tbody>
           </table>
+
+            {# display navigation #}
+            <div class="navigation">
+                {{ knp_pagination_render(softwares) }}
+            </div>
+
           <div align="right">
                 <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_software_cadastrar') }}">
                     <i class="icon-plus-sign"></i>

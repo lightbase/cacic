@@ -1,5 +1,6 @@
 Cacic\CommonBundle\Entity\Acao:
     type: entity
+    repositoryClass: Cacic\CommonBundle\Entity\AcaoRepository
     table: acao
     fields:
         idAcao:
@@ -9,8 +10,6 @@ Cacic\CommonBundle\Entity\Acao:
             fixed: false
             nullable: false
             column: id_acao
-            generator:
-                strategy: IDENTITY
         teDescricaoBreve:
             type: string
             length: 100
@@ -35,10 +34,13 @@ Cacic\CommonBundle\Entity\Acao:
             type: string
             length: 1
             fixed: true
-            nullable: false
+            nullable: true
             column: cs_opcional
     oneToMany:
         redes:
             targetEntity: AcaoRede
-            mappedBy: idAcao
+            mappedBy: acao
+        so:
+            targetEntity: AcaoSo
+            mappedBy: acao
     lifecycleCallbacks: {  }

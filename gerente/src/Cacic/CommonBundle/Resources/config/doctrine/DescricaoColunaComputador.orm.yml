@@ -20,7 +20,7 @@ Cacic\CommonBundle\Entity\DescricaoColunaComputador:
             type: string
             length: 100
             fixed: false
-            nullable: false
+            nullable: true
             column: te_description
         csCondicaoPesquisa:
             type: string

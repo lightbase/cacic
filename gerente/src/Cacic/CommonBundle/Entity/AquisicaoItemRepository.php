@@ -13,9 +13,20 @@ use Doctrine\ORM\EntityRepository;
 class AquisicaoItemRepository extends EntityRepository
 {
 
-    public function paginar( $page )
+    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
+        $_dql = "SELECT item, aquisicao, software, tipoLicenca
+                    FROM CacicCommonBundle:AquisicaoItem item
+                    LEFT JOIN item.idSoftware software
+                    LEFT JOIN item.idAquisicao aquisicao
+                    LEFT JOIN item.idTipoLicenca tipoLicenca
+				";
 
+        return $paginator->paginate(
+            $this->getEntityManager()->createQuery( $_dql )->getArrayResult(),
+            $page,
+            10
+        );
     }
     
     /**

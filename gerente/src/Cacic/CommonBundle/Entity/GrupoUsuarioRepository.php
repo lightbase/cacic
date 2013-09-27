@@ -24,9 +24,9 @@ class GrupoUsuarioRepository extends EntityRepository
 	 */
 	public function listar()
 	{
-		$_dql = "SELECT g
+		$_dql = "SELECT g.idGrupoUsuario, g.teDescricaoGrupo
 				FROM CacicCommonBundle:GrupoUsuario g
-				GROUP BY g.idGrupoUsuario";
+				GROUP BY g.idGrupoUsuario, g.teDescricaoGrupo";
 
 		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}

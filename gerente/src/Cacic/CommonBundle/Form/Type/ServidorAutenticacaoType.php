@@ -16,86 +16,44 @@ class  ServidorAutenticacaoType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-        $builder->add('nmServidorAutenticacao', 'text',
-                      array(
-                            'label' => 'Nome:',
-                            'max_length' => 60
-                      )
-        );
-        $builder->add('nmServidorAutenticacaoDns', 'text',
-            array(
-                'label' => 'Identificador no DNS:',
-                'max_length' => 60
-            )
-        );
-        $builder->add('teIpServidorAutenticacao', 'text',
-                      array(
-                            'label' =>'Endereço IP:',
-                            'max_length' => 30
-                      )
-        );
+        $builder->add('nmServidorAutenticacao', null, array('label' => 'Nome'));
+        $builder->add('nmServidorAutenticacaoDns', null, array('label' => 'Identificador DNS'));
+        $builder->add('teIpServidorAutenticacao', null,array('label' =>'Endereço IP'));
+        
         $builder->add('idTipoProtocolo', 'choice',
                        array(
                            'empty_value' => 'Selecione o protocolo',
-                           'label' => 'Protocolo:',
+                           'label' => 'Protocolo',
                            'choices' =>array( 'LDAP' =>'LDAP', 'Open LDAP' => 'Open LDAP'),
                        )
         );
-        $builder->add('nuPortaServidorAutenticacao', 'text',
+        
+        $builder->add('nuPortaServidorAutenticacao', null,
             array(
                 'data'=> '389',
                 'read_only' => true,
-                'label' => 'Porta:',
-                'max_length' => 10
+                'label' => 'Porta'
             )
         );
-        $builder->add('nuVersaoProtocolo', 'text',
+        
+        $builder->add('nuVersaoProtocolo', null,
                        array(
-                           'label' => 'Versão:',
-                           'max_length' => 10
+                           'label' => 'Versão'
                        )
         );
-        $builder->add('teObservacao', 'textarea',
-                       array(
-                           'label'=>'Observação:',
-                           'required' => false,
-                       )
-        );
-        $builder->add('teAtributoIdentificador', 'text',
-                      array(
-                           'label'=>'Identificador:'
-                      )
-        );
-        $builder->add('teAtributoIdentificador', 'text',
-            array(
-                'label'=>'Identificador:'
-            )
-        );
-        $builder->add('teAtributoRetornaNome', 'text',
-            array(
-                'label'=>'Retorno de Nome Completo:'
-            )
-        );
-        $builder->add('teAtributoRetornaEmail', 'email',
-            array(
-                'label'=>'Retorno de Email:'
-            )
-        );
-        $builder->add('teAtributoStatusConta', 'hidden',
-            array(
-                'data'=> 'accountstatus',
-            )
-        );
-        $builder->add('teAtributoValorStatusContaValida', 'hidden',
-            array(
-                'data'=> 'active',
-            )
-        );
+        
+        $builder->add('teObservacao', null, array( 'label'=>'Observação' ));
+        $builder->add('teAtributoIdentificador', null,array('label'=>'Identificador'));
+        $builder->add('teAtributoRetornaNome', 'text',array('label'=>'Retorno de Nome Completo'));
+        $builder->add('teAtributoRetornaEmail', 'email',array('label'=>'Retorno de Email'));
+        $builder->add('teAtributoStatusConta', 'hidden',array('data'=> 'accountstatus'));
+        $builder->add('teAtributoValorStatusContaValida', 'hidden',array('data'=> 'active'));
+        
         $builder->add('inAtivo', 'choice',
             array(
                 'choices' => array ( 'S' => 'Sim', 'N' =>'Não'),
                 'label'=>'Servidor Ativo:',
-                'required'  => false,
+                'required'  => true,
                 'multiple'=> false,
                 'expanded'  => true,
                 'data'=> 'S'

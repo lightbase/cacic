@@ -164,4 +164,12 @@ class ClassProperty
     {
         return $this->idClass;
     }
+
+    /**
+     * Método mágico invocado sempre que um objeto deste tipo é referenciado em contexto de string
+     */
+    public function __toString()
+    {
+    	return $this->nmPropertyName;
+    }
 }
