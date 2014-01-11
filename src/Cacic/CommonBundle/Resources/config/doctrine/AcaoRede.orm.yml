@@ -1,0 +1,34 @@
+Cacic\CommonBundle\Entity\AcaoRede:
+    type: entity
+    table: acao_rede
+    repositoryClass: Cacic\CommonBundle\Entity\AcaoRedeRepository
+    id:
+        acao:
+            associationKey: true
+        rede:
+            associationKey: true
+    fields:
+        dtHrColetaForcada:
+            type: datetime
+            nullable: true
+            column: dt_hr_coleta_forcada
+    manyToOne:
+        acao:
+            targetEntity: Acao
+            cascade: {  }
+            mappedBy: null
+            inversedBy: redes
+            joinColumns:
+                id_acao:
+                    referencedColumnName: id_acao
+            orphanRemoval: false
+        rede:
+            targetEntity: Rede
+            cascade: {  }
+            mappedBy: null
+            inversedBy: acoes
+            joinColumns:
+                id_rede:
+                    referencedColumnName: id_rede
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

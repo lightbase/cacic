@@ -1,0 +1,42 @@
+Cacic\CommonBundle\Entity\Acao:
+    type: entity
+    repositoryClass: Cacic\CommonBundle\Entity\AcaoRepository
+    table: acao
+    fields:
+        idAcao:
+            id: true
+            type: text
+            fixed: false
+            nullable: false
+            column: id_acao
+        teDescricaoBreve:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_descricao_breve
+        teDescricao:
+            type: text
+            nullable: true
+            column: te_descricao
+        teNomeCurtoModulo:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_nome_curto_modulo
+        dtHrAlteracao:
+            type: datetime
+            nullable: true
+            column: dt_hr_alteracao
+        csOpcional:
+            type: text
+            fixed: true
+            nullable: true
+            column: cs_opcional
+    oneToMany:
+        redes:
+            targetEntity: AcaoRede
+            mappedBy: acao
+        so:
+            targetEntity: AcaoSo
+            mappedBy: acao
+    lifecycleCallbacks: {  }

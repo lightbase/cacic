@@ -1,0 +1,138 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}     
+    <li>{{ "Computadores"|trans }} <span class="divider">/</span></li>
+    <li class="active">{{ "Navegar"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+<div class="span12">
+    <div class="box grad_colour_black">
+        <h2 class="box_head round_top"><i class="icon-desktop"></i> {{ "Computadores"|trans }}</h2>
+    
+        <div class="block box_content round_bottom padding_10">
+
+            <h3>{{ "Navegação pelos Computadores das Subredes"|trans }}</h3>
+            <p class="muted">{{ "Neste módulo, é possível visualizar cada estação de trabalho monitorada."|trans }}</p>
+            <br />
+            <div id="tree_comp0"></div> <!-- Árvore com os Computadores Monitorados-->
+        </div>
+    </div>
+</div> <!-- /span -->
+
+</div> <!-- /row -->
+
+<div class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>{{ 'Dados do Computador'|trans }}</h3>
+  </div>
+  <div class="modal-body">
+    
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">{{ 'Fechar'|trans }}</a>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+{{ parent() }}
+
+<link href="{{ asset('bundles/caciccommon/jqTree-0.15/jqtree.css') }}" type="text/css" rel="stylesheet" media="screen" />
+
+<style type="text/css">
+
+	#tree_comp0 {
+		color: #000;
+		font-size: 14pt;
+		font-weight: bold;
+		margin-left: 25px;
+	}
+	
+	#tree_comp0 li.jqtree_common {
+		line-height: 20pt;
+		margin-left: 25px;
+	}
+	
+	#tree_comp0 .jqtree-title { cursor: default; }
+	
+    </style>
+    
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+<script type="text/javascript" src="{{ asset('bundles/caciccommon/jqTree-0.15/tree.jquery.js') }}"></script>
+
+<script type="text/javascript">
+
+    var _dados = [ // Unidades de primeiro nível
+        {% for loc in locais %}
+        {
+        	id: {{ loc['idLocal'] }},
+        	label: '{{ loc["nmLocal"] }} [{{ loc["numComp"] }}]',
+        	url: '{{ path("cacic_computador_loadredenodes", {idLocal: loc["idLocal"]}) }}',
+        	type: 'local',
+        	load_on_demand: true
+        }{% if loop.last != true %},{% endif %}
+        
+        {% endfor %}
+    ];
+
+    $(function() {
+        $('#tree_comp0').tree({
+            data: _dados,
+            dataUrl: function( node ) {
+            	return node.url;
+            },
+            onCreateLi: function(node, $li) {
+                var icon_class = null;
+                switch( node.type )
+                {
+                	case 'local':
+                    	icon_class = 'icon-building';
+                    	break;
+
+                	case 'rede':
+                		icon_class = 'icon-sitemap';
+                		break;
+
+                	default:
+                	case 'computador':
+                    	icon_class = 'icon-desktop';
+
+                    	/*
+                    	$li.attr({
+        					'data-toggle': 'modal',
+        					'data-target': '{{ path("cacic_computador_detalhar") }}/' + node.id
+        				});
+        				*/
+
+        				$li.find('span.jqtree-title').after( 
+        					$('<a></a>').attr({'href':'{{ path("cacic_computador_detalhar") }}/' + node.id, 'class': 'btn', 'target': '_blank' })
+        								.append('<i class="icon-search"></i>')
+        				);
+        				
+                    	break;
+                }
+
+                $li.find('span.jqtree-title').before( '<i class="'+ icon_class +'"></i> ' );
+                
+           		// Substitui a "seta" indicadora de existência de filhos
+           		//$li.find('a.jqtree-toggler').html('<i class="icon-folder-close-alt"></i>');
+            },
+            autoEscape: false
+        });
+    });
+    
+</script>
+
+{% endblock %}

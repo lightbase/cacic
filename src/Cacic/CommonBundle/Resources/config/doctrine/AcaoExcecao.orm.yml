@@ -1,0 +1,33 @@
+Cacic\CommonBundle\Entity\AcaoExcecao:
+    type: entity
+    table: acao_excecao
+    repositoryClass: Cacic\CommonBundle\Entity\AcaoExcecaoRepository
+    id:
+        acao:
+            associationKey: true
+        rede:
+            associationKey: true
+        teNodeAddress:
+            type: text
+            fixed: true
+            column: te_node_address
+    manyToOne:
+        acao:
+            targetEntity: Acao
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_acao:
+                    referencedColumnName: id_acao
+            orphanRemoval: false
+        rede:
+            targetEntity: Rede
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_rede:
+                    referencedColumnName: id_rede
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

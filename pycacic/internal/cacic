@@ -1,6 +1,0 @@
-#!/bin/sh
-# Cacic Init
-
-if [ "$1" = "start" ]; then
-	(nohup python /usr/share/pycacic/cacic.py > /usr/share/pycacic/logs/agent.log 2>&1)&
-fi

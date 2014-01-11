@@ -1,0 +1,19 @@
+Cacic\CommonBundle\Entity\TipoSoftware:
+    type: entity
+    table: tipo_software
+    repositoryClass: Cacic\CommonBundle\Entity\TipoSoftwareRepository
+    fields:
+        idTipoSoftware:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_tipo_software
+            generator:
+                strategy: IDENTITY
+        teDescricaoTipoSoftware:
+            type: text
+            fixed: false
+            nullable: false
+            column: te_descricao_tipo_software
+    lifecycleCallbacks: {  }

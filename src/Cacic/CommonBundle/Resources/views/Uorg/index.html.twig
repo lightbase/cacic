@@ -1,0 +1,118 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}     
+    <li class="active">{{ "Unidades Organizacionais"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+<div class="span12">
+    <div class="box grad_colour_black">
+        <h2 class="box_head round_top"><i class="icon-sitemap"></i> {{ "Unidades Organizacionais"|trans }}</h2>
+    
+        <div class="block box_content round_bottom padding_10">
+
+            <h3>{{ "Lista de Unidades Organizacionais Cadastradas"|trans }}</h3>
+            <p>{{ "Neste módulo deverão ser cadastradas todas as unidades organizacionais do sistema - Entidades, Linhas de negócio e Órgãos."|trans }}</p>
+            <br />
+            <div id="tree_uorg0"></div> <!-- Árvore com as Unidades Organizacionais cadastradas -->
+            <br />
+            <div align="right">
+                <a class="btn btn-primary bt-adicionar" href="{{ path('cacic_uorg_cadastrar') }}">
+                    <i class="icon-plus-sign"></i>
+                     {{ "Adicionar Unidade de primeiro nível"|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link href="{{ asset('bundles/caciccommon/jqTree-0.15/jqtree.css') }}" type="text/css" rel="stylesheet" media="screen" />
+    
+    <style type="text/css">
+       #tree_uorg0 {
+        color: #000;
+        font-size: 14pt;
+        font-weight: bold;
+        margin-left: 25px;
+       }
+       #tree_uorg0 li.jqtree_common {
+        line-height: 20pt;
+        margin-left: 25px;
+       }
+    </style>
+    
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+<script type="text/javascript" src="{{ asset('bundles/caciccommon/jqTree-0.15/tree.jquery.js') }}"></script>
+
+<script type="text/javascript">
+
+    var _dados = [ // Unidades de primeiro nível
+        {% for uorg in uorgs %}
+        {
+        	label: '{{ uorg.nmUorg }}',
+        	id: {{ uorg.idUorg }},
+        	load_on_demand: {% if uorg.numFilhas %}true{% else %}false{% endif %}
+        	
+        }{% if loop.last != true %},{% endif %}
+        
+        {% endfor %}
+    ];
+    
+    /**
+     * Exclui a UNIDADE ORGANIZACIONAL e remove seu nó da Árvore
+     */
+    function excluirUorg( uorgId )
+    {
+    	var url = "{{ path('cacic_uorg_excluir') }}/" + uorgId;
+    	var callback = function( params, data ){ // Define a função de CALLBACK que será invocada no evento
+    		if( data && data.status == 200 ){ // Retorno da requisição AJAX (Sucesso: código 200)
+    			var $tree = $('#tree_uorg0');
+    			$tree.tree('removeNode', $tree.tree('getNodeById', params.id)); // Remove o nó da árvore
+    		}
+    	};
+    	$( "#System_Excluir" ).data( 'params', { 'url': url, 'id': uorgId, 'callback': callback } ).dialog( "open" );
+    }
+
+    $(function() {
+        $('#tree_uorg0').tree({
+            data: _dados,
+            dataUrl: function( node ) {
+            	return '{{ path('cacic_uorg_loadnodes') }}/'+ node.id +'';
+            },
+            onCreateLi: function(node, $li) {
+            	
+           		var _acoesNode = ' <a href="{{ path('cacic_uorg_visualizar') }}/'+ node.id +'" rel="modal:open"><i class="icon-search" title="Visualizar dados da Unidade"></i></a> ';
+           		_acoesNode += ' <a href="{{ path('cacic_uorg_cadastrar') }}/'+ node.id +'"><i class="icon-plus-sign" title="Cadastrar Unidade"></i></a> ';
+           		_acoesNode += ' <a href="{{ path('cacic_uorg_editar') }}/'+ node.id +'"><i class="icon-edit" title="Editar Unidade"></i></a> ';
+           		_acoesNode += ' <a onclick="excluirUorg('+ node.id +');"><i class="icon-trash" title="Excluir Unidade"></i></a> ';
+           		
+           		$li.find('span.jqtree-title').after( _acoesNode );
+           		
+           		// Substitui a "seta" indicadora de existência de filhos
+           		//$li.find('a.jqtree-toggler').html('<i class="icon-folder-close-alt"></i>');
+            },
+            autoEscape: false
+        });
+    });
+    
+</script>
+
+{% endblock %}
+
+{% block alertaExclusao %}
+    A Unidade Organizacional e <b>todas as suas sub-unidades</b> serão removidas permanentemente e não poderão ser recuperadas. Tem certeza que deseja continuar?
+{% endblock %}

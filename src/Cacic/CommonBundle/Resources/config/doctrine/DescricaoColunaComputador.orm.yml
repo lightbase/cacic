@@ -1,0 +1,27 @@
+Cacic\CommonBundle\Entity\DescricaoColunaComputador:
+    type: entity
+    table: descricao_coluna_computador
+    fields:
+        teSource:
+            id: true
+            type: text
+            fixed: false
+            nullable: false
+            column: te_source
+        teTarget:
+            id: true
+            type: text
+            fixed: false
+            nullable: false
+            column: te_target
+        teDescription:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_description
+        csCondicaoPesquisa:
+            type: text
+            fixed: true
+            nullable: false
+            column: cs_condicao_pesquisa
+    lifecycleCallbacks: {  }
