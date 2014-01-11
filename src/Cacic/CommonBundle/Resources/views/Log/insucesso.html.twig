@@ -1,0 +1,83 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="active">{{ 'Logs de Insucessos de Instalação'|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+    <div class="span8">
+        <div class="box grad_colour_black">
+        
+            <h2 class="box_head round_top"><i class="icon-search"></i> {{ 'Pesquisa por Logs de Insucessos de Instalação'|trans }}</h2>
+
+            <div class="block box_content round_bottom padding_10">
+                    
+                <h4>{{ "Filtros para consulta"|trans }}</h4><br />
+                
+                <form id={{ 'formLogPesquisaInsucesso'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
+                    
+                    <div class="control-group">
+                        <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
+                        <div class="controls">
+                           {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                           <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="reset" class="btn">
+                                <i class="icon-refresh"></i>
+                                {{ "Resetar Valores"|trans }}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="icon-search"></i>
+                                {{ 'Filtrar'|trans }}
+                            </button>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span8 -->
+    
+    <div class="span4">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+
+            <div class="block box_content round_bottom padding_10">
+                <p>
+                    {{ "Este módulo permite a visualização das tentativas de instalação dos agentes cujos resultados sejam INSUCESSO."|trans }}.
+                </p>
+                <p>
+                    {{ "O período é obrigatório"|trans }}.
+                </p>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- span4 -->
+    
+</div> <!-- /row -->
+    
+    {% if logs is not null %}
+        {% include 'CacicCommonBundle:Log:insucessoResultado.html.twig' %}
+    {% endif %}
+    
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-pt-BR.js') }}"></script>
+
+    <script type="text/javascript">
+
+        $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
+
+    </script>
+
+{% endblock %}

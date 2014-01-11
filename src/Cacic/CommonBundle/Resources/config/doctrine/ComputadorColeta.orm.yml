@@ -1,0 +1,49 @@
+Cacic\CommonBundle\Entity\ComputadorColeta:
+    type: entity
+    table: computador_coleta
+    repositoryClass: Cacic\CommonBundle\Entity\ComputadorColetaRepository
+    fields:
+        idComputadorColeta:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_computador_coleta
+            generator:
+                strategy: IDENTITY
+        teClassPropertyValue:
+            type: text
+            nullable: false
+            column: te_class_property_value
+    manyToOne:
+        computador:
+            targetEntity: Computador
+            cascade: {  }
+            mappedBy: null
+            inversedBy: hardwares
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false
+        classProperty:
+            targetEntity: ClassProperty
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_class_property:
+                    referencedColumnName: id_class_property
+            orphanRemoval: false
+        idClass:
+            targetEntity: Classe
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_class:
+                    referencedColumnName: id_class
+            orphanRemoval: false
+    uniqueConstraints:
+        computador_property_idx:
+            columns: [ id_computador, id_class_property ]
+    lifecycleCallbacks: {  }

@@ -1,0 +1,44 @@
+imports:
+    - { resource: config.yml }
+
+framework:
+    router:   { resource: "%kernel.root_dir%/config/routing_dev.yml" }
+    profiler: { only_exceptions: false }
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+monolog:
+    handlers:
+        main:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        firephp:
+            type:  firephp
+            level: info
+
+assetic:
+    use_controller: true
+
+#swiftmailer:
+#    delivery_address: me@example.com
+
+
+jms_translation:
+    configs:
+        app:
+            dirs: [%kernel.root_dir%, %kernel.root_dir%/../app]
+            output_dir: %kernel.root_dir%/Resources/translations
+            ignored_domains: [routes]
+            excluded_names: [*TestCase.php, *Test.php]
+            excluded_dirs: [cache, data, logs]
+            #extractors: [alias_of_the_extractor]
+        src:
+            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src]
+            output_dir: %kernel.root_dir%/../src/Cacic/CommonBundle/Resources/translations
+            ignored_domains: [routes]
+            excluded_names: [*TestCase.php, *Test.php]
+            excluded_dirs: [Common, Entity, Form]
+            #extractors: [alias_of_the_extractor]

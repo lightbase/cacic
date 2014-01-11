@@ -1,0 +1,60 @@
+Cacic\CommonBundle\Entity\Software:
+    type: entity
+    table: software
+    repositoryClass: Cacic\CommonBundle\Entity\SoftwareRepository
+    fields:
+        idSoftware:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_software
+            generator:
+                strategy: IDENTITY
+        nmSoftware:
+            type: text
+            fixed: false
+            column: nm_software
+        teDescricaoSoftware:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_descricao_software
+        qtLicenca:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: qt_licenca
+        nrMidia:
+            type: text
+            fixed: true
+            nullable: true
+            column: nr_midia
+        teLocalMidia:
+            type: text
+            fixed: true
+            nullable: true
+            column: te_local_midia
+        teObs:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_obs
+    manyToOne:
+        idTipoSoftware:
+            targetEntity: TipoSoftware
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_tipo_software:
+                    referencedColumnName: id_tipo_software
+            orphanRemoval: false
+    oneToMany:
+        estacoes:
+            targetEntity: SoftwareEstacao
+            mappedBy: idSoftware
+        licencas:
+            targetEntity: AquisicaoItem
+            mappedBy: idSoftware
+    lifecycleCallbacks: {  }

@@ -1,0 +1,154 @@
+{% extends '::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_subrede_index') }}">{{ "SubRedes"|trans }}</a></li> /
+    <li class="active">{{ "Cadastro"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+
+<div class="row-fluid">
+
+ <div class="span8">
+   <div class="box grad_colour_black">
+
+     <h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {{ "Dados de SubRedes"|trans }}</h2>
+
+     <div class="block box_content round_bottom padding_10">
+
+       <form id={{ 'formRede'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+
+			<fieldset>
+				<legend> {{ "Dados da rede"|trans }}</legend>
+				{{ form_row(form.idLocal, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.idServidorAutenticacao, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.teIpRede, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.nmRede, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.teMascaraRede, {'form_type': 'horizontal'} ) }}
+			</fieldset>
+			
+			<fieldset>
+				<legend>{{ "Servidores de Aplicação"|trans }}</legend>
+				{{ form_row(form.teServCacic, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.selTeServCacic, {'form_type': 'horizontal'} ) }}
+			</fieldset>
+			
+			<fieldset>
+				<legend>{{ "Servidores de"|trans }} Update </legend>
+				{{ form_row(form.teServUpdates, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.selTeServUpdates, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.nuPortaServUpdates, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.nuLimiteFtp, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.nmUsuarioLoginServUpdates, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.teSenhaLoginServUpdates, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.nmUsuarioLoginServUpdatesGerente, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.teSenhaLoginServUpdatesGerente, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.tePathServUpdates, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.teObservacao, {'form_type': 'horizontal'} ) }}
+			</fieldset>
+			
+			<fieldset>
+				<legend> {{ "Servidores de Aplicação"|trans }}</legend>
+				{{ form_row(form.nmPessoaContato1, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.nuTelefone1, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.teEmailContato1, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.nmPessoaContato2, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.nuTelefone2, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.teEmailContato2, {'form_type': 'horizontal'} ) }}
+			</fieldset>
+			
+			<fieldset>
+				<legend>Opções</legend>
+				<br />
+				<label>
+					{{ "Marcar todas as ações para essa rede"|trans }}
+					<span class="help-block">{{ "Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede."|trans }}</span>
+					{{ form_row(form.habilitar, {'form_type': 'horizontal'} ) }}
+					
+				</label>
+			
+				<label>
+					{{ "Permitir finalização de sessões do módulo srCACIC:"|trans }}
+					<span class="help-block">{{ "Essa opção define se o usuário final poderá ou não finalizar execuções do módulo srCACIC (Suporte Remoto Seguro)."|trans }} </span>
+					{{ form_row(form.csPermitirDesativarSrcacic, {'form_type': 'horizontal'} ) }}
+				</label>
+				
+				<label>
+					{{ "Selecao para coleta de informacoes de sistemas monitorados:"|trans }}
+					<span class="help-block">{{ "Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede."|trans }} </span>
+					{{ form_row(form.idAplicativo, {'form_type': 'horizontal'} ) }}
+				</label>
+			</fieldset>
+			
+			<div class="control-group">
+				<div class="controls">
+					<button type="reset" class="btn">
+						<i class="icon-refresh"></i>
+						{{ "Resetar Valores"|trans }}
+					</button>
+					<button type="submit" class="btn btn-primary">
+						<i class="icon-ok-sign"></i>
+						{{ "Salvar Dados"|trans }}
+					</button>
+				</div><!-- /controls -->
+			</div><!-- /control-group -->
+			{{ form_rest(form) }}
+		</form>
+		<hr />
+        <div>
+        	<a class="btn btn-danger"  href="{{ path('cacic_subrede_index') }}">
+            	<i class="icon-remove-sign"></i>
+        	    {{ "Cancelar"|trans }}
+            </a>
+		</div>
+
+     </div> <!-- /block -->
+   </div> <!-- /box -->
+ </div> <!-- /span8 -->
+ 
+ <div class="span4">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+                        
+            <div class="block box_content round_bottom padding_10">
+                <p>
+                    {{ "Os itens destacados em"|trans }} <b class="red">{{ "vermelho"|trans }}</b> {{ "são de preenchimento obrigatório"|trans }}.
+                </p>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- span4 -->
+ 
+</div> <!-- /row -->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/js/jquery.mask-0.10.1.min.js') }}"></script>
+    <script type="text/javascript">
+	    $( document ).ready(function(){
+	        $( "#rede_teIpRede" )
+	        	.mask( '0{1,3}.0{1,3}.0{1,3}.0{1,3}' )
+	        	.on('blur', function(e){
+	            	// Valida o campo de IP
+	            	var ip = $(this).val();
+	            	if ( ! ip.match('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$' ) )
+	            		$(this).val(''); // Limpa o campo de IP
+	            });
+
+	        
+			$('#rede_nuTelefone1, #rede_nuTelefone2')
+				.mask( '(00) 0000-0000' )
+				.on('keypress', function(e){
+					// Verifica se o nono dígito foi informado
+					
+			});
+	    });
+	    
+        //System.Form.focusFirstTabOnError('#formRede');
+
+    </script>
+
+{% endblock %}

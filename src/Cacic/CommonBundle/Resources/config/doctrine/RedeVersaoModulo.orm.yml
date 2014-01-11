@@ -1,0 +1,48 @@
+Cacic\CommonBundle\Entity\RedeVersaoModulo:
+    type: entity
+    table: rede_versao_modulo
+    repositoryClass: Cacic\CommonBundle\Entity\RedeVersaoModuloRepository
+    fields:
+        idRedeVersaoModulo:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_rede_versao_modulo
+            generator:
+                strategy: IDENTITY
+        nmModulo:
+            type: text
+            fixed: false
+            nullable: false
+            column: nm_modulo
+        teVersaoModulo:
+            type: text
+            fixed: true
+            nullable: true
+            column: te_versao_modulo
+        dtAtualizacao:
+            type: datetime
+            nullable: false
+            column: dt_atualizacao
+        csTipoSo:
+            type: text
+            fixed: true
+            nullable: false
+            column: cs_tipo_so
+        teHash:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_hash
+    manyToOne:
+        idRede:
+            targetEntity: Rede
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_rede:
+                    referencedColumnName: id_rede
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

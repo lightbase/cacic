@@ -1,0 +1,653 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \Cacic\CommonBundle\Entity\Usuario</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/Cacic.html"><i class="icon-th"></i> Cacic</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">467</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method__gerarSenhaAleatoria" title="_gerarSenhaAleatoria :: Gera uma senha aleatÃ³ria para o UsuÃ¡rio"><span class="description">Gera uma senha aleatÃ³ria para o UsuÃ¡rio</span><pre>_gerarSenhaAleatoria()</pre></a></li>
+<li class="method public "><a href="#method_eraseCredentials" title="eraseCredentials :: "><span class="description">eraseCredentials()
+        </span><pre>eraseCredentials()</pre></a></li>
+<li class="method public "><a href="#method_getDtLogIn" title="getDtLogIn :: Get dtLogIn"><span class="description">Get dtLogIn</span><pre>getDtLogIn()</pre></a></li>
+<li class="method public "><a href="#method_getIdGrupoUsuario" title="getIdGrupoUsuario :: Get idGrupoUsuario"><span class="description">Get idGrupoUsuario</span><pre>getIdGrupoUsuario()</pre></a></li>
+<li class="method public "><a href="#method_getIdLocal" title="getIdLocal :: Get idLocal"><span class="description">Get idLocal</span><pre>getIdLocal()</pre></a></li>
+<li class="method public "><a href="#method_getIdServidorAutenticacao" title="getIdServidorAutenticacao :: Get idServidorAutenticacao"><span class="description">Get idServidorAutenticacao</span><pre>getIdServidorAutenticacao()</pre></a></li>
+<li class="method public "><a href="#method_getIdUsuario" title="getIdUsuario :: Get idUsuario"><span class="description">Get idUsuario</span><pre>getIdUsuario()</pre></a></li>
+<li class="method public "><a href="#method_getIdUsuarioLdap" title="getIdUsuarioLdap :: Get idUsuarioLdap"><span class="description">Get idUsuarioLdap</span><pre>getIdUsuarioLdap()</pre></a></li>
+<li class="method public "><a href="#method_getNmUsuarioAcesso" title="getNmUsuarioAcesso :: Get nmUsuarioAcesso"><span class="description">Get nmUsuarioAcesso</span><pre>getNmUsuarioAcesso()</pre></a></li>
+<li class="method public "><a href="#method_getNmUsuarioCompleto" title="getNmUsuarioCompleto :: Get nmUsuarioCompleto"><span class="description">Get nmUsuarioCompleto</span><pre>getNmUsuarioCompleto()</pre></a></li>
+<li class="method public "><a href="#method_getNmUsuarioCompletoLdap" title="getNmUsuarioCompletoLdap :: Get nmUsuarioCompletoLdap"><span class="description">Get nmUsuarioCompletoLdap</span><pre>getNmUsuarioCompletoLdap()</pre></a></li>
+<li class="method public "><a href="#method_getPassword" title="getPassword :: "><span class="description">getPassword()
+        </span><pre>getPassword()</pre></a></li>
+<li class="method public "><a href="#method_getRoles" title="getRoles :: "><span class="description">getRoles()
+        </span><pre>getRoles()</pre></a></li>
+<li class="method public "><a href="#method_getSalt" title="getSalt :: "><span class="description">getSalt()
+        </span><pre>getSalt()</pre></a></li>
+<li class="method public "><a href="#method_getTeEmailsContato" title="getTeEmailsContato :: Get teEmailsContato"><span class="description">Get teEmailsContato</span><pre>getTeEmailsContato()</pre></a></li>
+<li class="method public "><a href="#method_getTeLocaisSecundarios" title="getTeLocaisSecundarios :: Get teLocaisSecundarios"><span class="description">Get teLocaisSecundarios</span><pre>getTeLocaisSecundarios()</pre></a></li>
+<li class="method public "><a href="#method_getTeSenha" title="getTeSenha :: Get teSenha"><span class="description">Get teSenha</span><pre>getTeSenha()</pre></a></li>
+<li class="method public "><a href="#method_getTeTelefonesContato" title="getTeTelefonesContato :: Get teTelefonesContato"><span class="description">Get teTelefonesContato</span><pre>getTeTelefonesContato()</pre></a></li>
+<li class="method public "><a href="#method_getUsername" title="getUsername :: "><span class="description">getUsername()
+        </span><pre>getUsername()</pre></a></li>
+<li class="method public "><a href="#method_serialize" title="serialize :: "><span class="description">serialize()
+        </span><pre>serialize()</pre></a></li>
+<li class="method public "><a href="#method_setDtLogIn" title="setDtLogIn :: Set dtLogIn"><span class="description">Set dtLogIn</span><pre>setDtLogIn()</pre></a></li>
+<li class="method public "><a href="#method_setIdGrupoUsuario" title="setIdGrupoUsuario :: Set idGrupoUsuario"><span class="description">Set idGrupoUsuario</span><pre>setIdGrupoUsuario()</pre></a></li>
+<li class="method public "><a href="#method_setIdLocal" title="setIdLocal :: Set idLocal"><span class="description">Set idLocal</span><pre>setIdLocal()</pre></a></li>
+<li class="method public "><a href="#method_setIdServidorAutenticacao" title="setIdServidorAutenticacao :: Set idServidorAutenticacao"><span class="description">Set idServidorAutenticacao</span><pre>setIdServidorAutenticacao()</pre></a></li>
+<li class="method public "><a href="#method_setIdUsuarioLdap" title="setIdUsuarioLdap :: Set idUsuarioLdap"><span class="description">Set idUsuarioLdap</span><pre>setIdUsuarioLdap()</pre></a></li>
+<li class="method public "><a href="#method_setNmUsuarioAcesso" title="setNmUsuarioAcesso :: Set nmUsuarioAcesso"><span class="description">Set nmUsuarioAcesso</span><pre>setNmUsuarioAcesso()</pre></a></li>
+<li class="method public "><a href="#method_setNmUsuarioCompleto" title="setNmUsuarioCompleto :: Set nmUsuarioCompleto"><span class="description">Set nmUsuarioCompleto</span><pre>setNmUsuarioCompleto()</pre></a></li>
+<li class="method public "><a href="#method_setNmUsuarioCompletoLdap" title="setNmUsuarioCompletoLdap :: Set nmUsuarioCompletoLdap"><span class="description">Set nmUsuarioCompletoLdap</span><pre>setNmUsuarioCompletoLdap()</pre></a></li>
+<li class="method public "><a href="#method_setTeEmailsContato" title="setTeEmailsContato :: Set teEmailsContato"><span class="description">Set teEmailsContato</span><pre>setTeEmailsContato()</pre></a></li>
+<li class="method public "><a href="#method_setTeLocaisSecundarios" title="setTeLocaisSecundarios :: Set teLocaisSecundarios"><span class="description">Set teLocaisSecundarios</span><pre>setTeLocaisSecundarios()</pre></a></li>
+<li class="method public "><a href="#method_setTeSenha" title="setTeSenha :: Set teSenha"><span class="description">Set teSenha</span><pre>setTeSenha()</pre></a></li>
+<li class="method public "><a href="#method_setTeTelefonesContato" title="setTeTelefonesContato :: Set teTelefonesContato"><span class="description">Set teTelefonesContato</span><pre>setTeTelefonesContato()</pre></a></li>
+<li class="method public "><a href="#method_unserialize" title="unserialize :: "><span class="description">unserialize()
+        </span><pre>unserialize()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="property private "><a href="#property_dtLogIn" title="$dtLogIn :: "><span class="description"></span><pre>$dtLogIn</pre></a></li>
+<li class="property private "><a href="#property_idGrupoUsuario" title="$idGrupoUsuario :: "><span class="description"></span><pre>$idGrupoUsuario</pre></a></li>
+<li class="property private "><a href="#property_idLocal" title="$idLocal :: "><span class="description"></span><pre>$idLocal</pre></a></li>
+<li class="property private "><a href="#property_idServidorAutenticacao" title="$idServidorAutenticacao :: "><span class="description"></span><pre>$idServidorAutenticacao</pre></a></li>
+<li class="property private "><a href="#property_idUsuario" title="$idUsuario :: "><span class="description"></span><pre>$idUsuario</pre></a></li>
+<li class="property private "><a href="#property_idUsuarioLdap" title="$idUsuarioLdap :: "><span class="description"></span><pre>$idUsuarioLdap</pre></a></li>
+<li class="property private "><a href="#property_nmUsuarioAcesso" title="$nmUsuarioAcesso :: "><span class="description"></span><pre>$nmUsuarioAcesso</pre></a></li>
+<li class="property private "><a href="#property_nmUsuarioCompleto" title="$nmUsuarioCompleto :: "><span class="description"></span><pre>$nmUsuarioCompleto</pre></a></li>
+<li class="property private "><a href="#property_nmUsuarioCompletoLdap" title="$nmUsuarioCompletoLdap :: "><span class="description"></span><pre>$nmUsuarioCompletoLdap</pre></a></li>
+<li class="property private "><a href="#property_teEmailsContato" title="$teEmailsContato :: "><span class="description"></span><pre>$teEmailsContato</pre></a></li>
+<li class="property private "><a href="#property_teLocaisSecundarios" title="$teLocaisSecundarios :: "><span class="description"></span><pre>$teLocaisSecundarios</pre></a></li>
+<li class="property private "><a href="#property_teSenha" title="$teSenha :: "><span class="description"></span><pre>$teSenha</pre></a></li>
+<li class="property private "><a href="#property_teTelefonesContato" title="$teTelefonesContato :: "><span class="description"></span><pre>$teTelefonesContato</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\Cacic\CommonBundle\Entity\Usuario"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/Cacic.html">Cacic</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/Cacic.CommonBundle.html">CommonBundle</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/Cacic.CommonBundle.Entity.html">Entity</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">Usuario</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Usuario</p>
+<div class="details">
+<div class="long_description"></div>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method__gerarSenhaAleatoria"></a><div class="element clickable method public method__gerarSenhaAleatoria" data-toggle="collapse" data-target=".method__gerarSenhaAleatoria .collapse">
+<h2>Gera uma senha aleatÃ³ria para o UsuÃ¡rio</h2>
+<pre>_gerarSenhaAleatoria($algorithm, $length) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$algorithm</h4></div>
+<div class="subelement argument"><h4>$length</h4></div>
+</div></div>
+</div>
+<a id="method_eraseCredentials"></a><div class="element clickable method public method_eraseCredentials" data-toggle="collapse" data-target=".method_eraseCredentials .collapse">
+<h2>eraseCredentials()
+        </h2>
+<pre>eraseCredentials() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\Symfony\Component\Security\Core\User\UserInterface::eraseCredentials()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getDtLogIn"></a><div class="element clickable method public method_getDtLogIn" data-toggle="collapse" data-target=".method_getDtLogIn .collapse">
+<h2>Get dtLogIn</h2>
+<pre>getDtLogIn() : <a href="http://php.net/manual/en/class.datetime.php">\DateTime</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="http://php.net/manual/en/class.datetime.php">\DateTime</a></code></div>
+</div></div>
+</div>
+<a id="method_getIdGrupoUsuario"></a><div class="element clickable method public method_getIdGrupoUsuario" data-toggle="collapse" data-target=".method_getIdGrupoUsuario .collapse">
+<h2>Get idGrupoUsuario</h2>
+<pre>getIdGrupoUsuario() : <a href="../classes/Cacic.CommonBundle.Entity.GrupoUsuario.html">\Cacic\CommonBundle\Entity\GrupoUsuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.GrupoUsuario.html">\Cacic\CommonBundle\Entity\GrupoUsuario</a></code></div>
+</div></div>
+</div>
+<a id="method_getIdLocal"></a><div class="element clickable method public method_getIdLocal" data-toggle="collapse" data-target=".method_getIdLocal .collapse">
+<h2>Get idLocal</h2>
+<pre>getIdLocal() : <a href="../classes/Cacic.CommonBundle.Entity.Local.html">\Cacic\CommonBundle\Entity\Local</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Local.html">\Cacic\CommonBundle\Entity\Local</a></code></div>
+</div></div>
+</div>
+<a id="method_getIdServidorAutenticacao"></a><div class="element clickable method public method_getIdServidorAutenticacao" data-toggle="collapse" data-target=".method_getIdServidorAutenticacao .collapse">
+<h2>Get idServidorAutenticacao</h2>
+<pre>getIdServidorAutenticacao() : <a href="../classes/Cacic.CommonBundle.Entity.ServidorAutenticacao.html">\Cacic\CommonBundle\Entity\ServidorAutenticacao</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.ServidorAutenticacao.html">\Cacic\CommonBundle\Entity\ServidorAutenticacao</a></code></div>
+</div></div>
+</div>
+<a id="method_getIdUsuario"></a><div class="element clickable method public method_getIdUsuario" data-toggle="collapse" data-target=".method_getIdUsuario .collapse">
+<h2>Get idUsuario</h2>
+<pre>getIdUsuario() : integer</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>integer</code></div>
+</div></div>
+</div>
+<a id="method_getIdUsuarioLdap"></a><div class="element clickable method public method_getIdUsuarioLdap" data-toggle="collapse" data-target=".method_getIdUsuarioLdap .collapse">
+<h2>Get idUsuarioLdap</h2>
+<pre>getIdUsuarioLdap() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getNmUsuarioAcesso"></a><div class="element clickable method public method_getNmUsuarioAcesso" data-toggle="collapse" data-target=".method_getNmUsuarioAcesso .collapse">
+<h2>Get nmUsuarioAcesso</h2>
+<pre>getNmUsuarioAcesso() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getNmUsuarioCompleto"></a><div class="element clickable method public method_getNmUsuarioCompleto" data-toggle="collapse" data-target=".method_getNmUsuarioCompleto .collapse">
+<h2>Get nmUsuarioCompleto</h2>
+<pre>getNmUsuarioCompleto() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getNmUsuarioCompletoLdap"></a><div class="element clickable method public method_getNmUsuarioCompletoLdap" data-toggle="collapse" data-target=".method_getNmUsuarioCompletoLdap .collapse">
+<h2>Get nmUsuarioCompletoLdap</h2>
+<pre>getNmUsuarioCompletoLdap() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getPassword"></a><div class="element clickable method public method_getPassword" data-toggle="collapse" data-target=".method_getPassword .collapse">
+<h2>getPassword()
+        </h2>
+<pre>getPassword() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\Symfony\Component\Security\Core\User\UserInterface::getPassword()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getRoles"></a><div class="element clickable method public method_getRoles" data-toggle="collapse" data-target=".method_getRoles .collapse">
+<h2>getRoles()
+        </h2>
+<pre>getRoles() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\Symfony\Component\Security\Core\User\UserInterface::getRoles()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getSalt"></a><div class="element clickable method public method_getSalt" data-toggle="collapse" data-target=".method_getSalt .collapse">
+<h2>getSalt()
+        </h2>
+<pre>getSalt() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\Symfony\Component\Security\Core\User\UserInterface::getSalt()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getTeEmailsContato"></a><div class="element clickable method public method_getTeEmailsContato" data-toggle="collapse" data-target=".method_getTeEmailsContato .collapse">
+<h2>Get teEmailsContato</h2>
+<pre>getTeEmailsContato() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getTeLocaisSecundarios"></a><div class="element clickable method public method_getTeLocaisSecundarios" data-toggle="collapse" data-target=".method_getTeLocaisSecundarios .collapse">
+<h2>Get teLocaisSecundarios</h2>
+<pre>getTeLocaisSecundarios() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getTeSenha"></a><div class="element clickable method public method_getTeSenha" data-toggle="collapse" data-target=".method_getTeSenha .collapse">
+<h2>Get teSenha</h2>
+<pre>getTeSenha() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getTeTelefonesContato"></a><div class="element clickable method public method_getTeTelefonesContato" data-toggle="collapse" data-target=".method_getTeTelefonesContato .collapse">
+<h2>Get teTelefonesContato</h2>
+<pre>getTeTelefonesContato() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getUsername"></a><div class="element clickable method public method_getUsername" data-toggle="collapse" data-target=".method_getUsername .collapse">
+<h2>getUsername()
+        </h2>
+<pre>getUsername() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\Symfony\Component\Security\Core\User\UserInterface::getUsername()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_serialize"></a><div class="element clickable method public method_serialize" data-toggle="collapse" data-target=".method_serialize .collapse">
+<h2>serialize()
+        </h2>
+<pre>serialize() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\Serializable::serialize()</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_setDtLogIn"></a><div class="element clickable method public method_setDtLogIn" data-toggle="collapse" data-target=".method_setDtLogIn .collapse">
+<h2>Set dtLogIn</h2>
+<pre>setDtLogIn(<a href="http://php.net/manual/en/class.datetime.php">\DateTime</a> $dtLogIn) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dtLogIn</h4>
+<code><a href="http://php.net/manual/en/class.datetime.php">\DateTime</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setIdGrupoUsuario"></a><div class="element clickable method public method_setIdGrupoUsuario" data-toggle="collapse" data-target=".method_setIdGrupoUsuario .collapse">
+<h2>Set idGrupoUsuario</h2>
+<pre>setIdGrupoUsuario(\Cacic\CommonBundle\Entity\GrupoUsuario $idGrupoUsuario) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$idGrupoUsuario</h4>
+<code><a href="../classes/Cacic.CommonBundle.Entity.GrupoUsuario.html">\Cacic\CommonBundle\Entity\GrupoUsuario</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setIdLocal"></a><div class="element clickable method public method_setIdLocal" data-toggle="collapse" data-target=".method_setIdLocal .collapse">
+<h2>Set idLocal</h2>
+<pre>setIdLocal(\Cacic\CommonBundle\Entity\Local $idLocal) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$idLocal</h4>
+<code><a href="../classes/Cacic.CommonBundle.Entity.Local.html">\Cacic\CommonBundle\Entity\Local</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setIdServidorAutenticacao"></a><div class="element clickable method public method_setIdServidorAutenticacao" data-toggle="collapse" data-target=".method_setIdServidorAutenticacao .collapse">
+<h2>Set idServidorAutenticacao</h2>
+<pre>setIdServidorAutenticacao(\Cacic\CommonBundle\Entity\ServidorAutenticacao $idServidorAutenticacao) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$idServidorAutenticacao</h4>
+<code><a href="../classes/Cacic.CommonBundle.Entity.ServidorAutenticacao.html">\Cacic\CommonBundle\Entity\ServidorAutenticacao</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setIdUsuarioLdap"></a><div class="element clickable method public method_setIdUsuarioLdap" data-toggle="collapse" data-target=".method_setIdUsuarioLdap .collapse">
+<h2>Set idUsuarioLdap</h2>
+<pre>setIdUsuarioLdap(string $idUsuarioLdap) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$idUsuarioLdap</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setNmUsuarioAcesso"></a><div class="element clickable method public method_setNmUsuarioAcesso" data-toggle="collapse" data-target=".method_setNmUsuarioAcesso .collapse">
+<h2>Set nmUsuarioAcesso</h2>
+<pre>setNmUsuarioAcesso(string $nmUsuarioAcesso) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$nmUsuarioAcesso</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setNmUsuarioCompleto"></a><div class="element clickable method public method_setNmUsuarioCompleto" data-toggle="collapse" data-target=".method_setNmUsuarioCompleto .collapse">
+<h2>Set nmUsuarioCompleto</h2>
+<pre>setNmUsuarioCompleto(string $nmUsuarioCompleto) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$nmUsuarioCompleto</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setNmUsuarioCompletoLdap"></a><div class="element clickable method public method_setNmUsuarioCompletoLdap" data-toggle="collapse" data-target=".method_setNmUsuarioCompletoLdap .collapse">
+<h2>Set nmUsuarioCompletoLdap</h2>
+<pre>setNmUsuarioCompletoLdap(string $nmUsuarioCompletoLdap) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$nmUsuarioCompletoLdap</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setTeEmailsContato"></a><div class="element clickable method public method_setTeEmailsContato" data-toggle="collapse" data-target=".method_setTeEmailsContato .collapse">
+<h2>Set teEmailsContato</h2>
+<pre>setTeEmailsContato(string $teEmailsContato) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$teEmailsContato</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setTeLocaisSecundarios"></a><div class="element clickable method public method_setTeLocaisSecundarios" data-toggle="collapse" data-target=".method_setTeLocaisSecundarios .collapse">
+<h2>Set teLocaisSecundarios</h2>
+<pre>setTeLocaisSecundarios(string $teLocaisSecundarios) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$teLocaisSecundarios</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setTeSenha"></a><div class="element clickable method public method_setTeSenha" data-toggle="collapse" data-target=".method_setTeSenha .collapse">
+<h2>Set teSenha</h2>
+<pre>setTeSenha(string $teSenha) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$teSenha</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_setTeTelefonesContato"></a><div class="element clickable method public method_setTeTelefonesContato" data-toggle="collapse" data-target=".method_setTeTelefonesContato .collapse">
+<h2>Set teTelefonesContato</h2>
+<pre>setTeTelefonesContato(string $teTelefonesContato) : <a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$teTelefonesContato</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/Cacic.CommonBundle.Entity.Usuario.html">\Cacic\CommonBundle\Entity\Usuario</a></code></div>
+</div></div>
+</div>
+<a id="method_unserialize"></a><div class="element clickable method public method_unserialize" data-toggle="collapse" data-target=".method_unserialize .collapse">
+<h2>unserialize()
+        </h2>
+<pre>unserialize(string $serialized) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">\Serializable::unserialize()</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$serialized</h4>
+<code>string</code>
+</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_dtLogIn"> </a><div class="element clickable property private property_dtLogIn" data-toggle="collapse" data-target=".property_dtLogIn .collapse">
+<h2></h2>
+<pre>$dtLogIn : <a href="http://php.net/manual/en/class.datetime.php">\DateTime</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_idGrupoUsuario"> </a><div class="element clickable property private property_idGrupoUsuario" data-toggle="collapse" data-target=".property_idGrupoUsuario .collapse">
+<h2></h2>
+<pre>$idGrupoUsuario : <a href="../classes/Cacic.CommonBundle.Entity.GrupoUsuario.html">\Cacic\CommonBundle\Entity\GrupoUsuario</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_idLocal"> </a><div class="element clickable property private property_idLocal" data-toggle="collapse" data-target=".property_idLocal .collapse">
+<h2></h2>
+<pre>$idLocal : <a href="../classes/Cacic.CommonBundle.Entity.Local.html">\Cacic\CommonBundle\Entity\Local</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_idServidorAutenticacao"> </a><div class="element clickable property private property_idServidorAutenticacao" data-toggle="collapse" data-target=".property_idServidorAutenticacao .collapse">
+<h2></h2>
+<pre>$idServidorAutenticacao : <a href="../classes/Cacic.CommonBundle.Entity.ServidorAutenticacao.html">\Cacic\CommonBundle\Entity\ServidorAutenticacao</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_idUsuario"> </a><div class="element clickable property private property_idUsuario" data-toggle="collapse" data-target=".property_idUsuario .collapse">
+<h2></h2>
+<pre>$idUsuario : integer</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_idUsuarioLdap"> </a><div class="element clickable property private property_idUsuarioLdap" data-toggle="collapse" data-target=".property_idUsuarioLdap .collapse">
+<h2></h2>
+<pre>$idUsuarioLdap : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_nmUsuarioAcesso"> </a><div class="element clickable property private property_nmUsuarioAcesso" data-toggle="collapse" data-target=".property_nmUsuarioAcesso .collapse">
+<h2></h2>
+<pre>$nmUsuarioAcesso : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_nmUsuarioCompleto"> </a><div class="element clickable property private property_nmUsuarioCompleto" data-toggle="collapse" data-target=".property_nmUsuarioCompleto .collapse">
+<h2></h2>
+<pre>$nmUsuarioCompleto : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_nmUsuarioCompletoLdap"> </a><div class="element clickable property private property_nmUsuarioCompletoLdap" data-toggle="collapse" data-target=".property_nmUsuarioCompletoLdap .collapse">
+<h2></h2>
+<pre>$nmUsuarioCompletoLdap : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_teEmailsContato"> </a><div class="element clickable property private property_teEmailsContato" data-toggle="collapse" data-target=".property_teEmailsContato .collapse">
+<h2></h2>
+<pre>$teEmailsContato : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_teLocaisSecundarios"> </a><div class="element clickable property private property_teLocaisSecundarios" data-toggle="collapse" data-target=".property_teLocaisSecundarios .collapse">
+<h2></h2>
+<pre>$teLocaisSecundarios : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_teSenha"> </a><div class="element clickable property private property_teSenha" data-toggle="collapse" data-target=".property_teSenha .collapse">
+<h2></h2>
+<pre>$teSenha : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_teTelefonesContato"> </a><div class="element clickable property private property_teTelefonesContato" data-toggle="collapse" data-target=".property_teTelefonesContato .collapse">
+<h2></h2>
+<pre>$teTelefonesContato : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-05-09T16:38:23-03:00.<br></footer></div>
+</div>
+</body>
+</html>

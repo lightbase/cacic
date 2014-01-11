@@ -1,0 +1,63 @@
+Cacic\CommonBundle\Entity\PatrimonioConfigInterface:
+    type: entity
+    table: patrimonio_config_interface
+    repositoryClass: Cacic\CommonBundle\Entity\PatrimonioConfigInterfaceRepository
+    id:
+        idEtiqueta:
+            type: text
+            fixed: true
+            column: id_etiqueta
+        local:
+            associationKey: true
+    fields:
+        nmEtiqueta:
+            type: text
+            fixed: true
+            nullable: true
+            column: nm_etiqueta
+        teEtiqueta:
+            type: text
+            fixed: false
+            nullable: false
+            column: te_etiqueta
+        inExibirEtiqueta:
+            type: text
+            fixed: true
+            nullable: true
+            column: in_exibir_etiqueta
+        teHelpEtiqueta:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_help_etiqueta
+        tePluralEtiqueta:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_plural_etiqueta
+        nmCampoTabPatrimonio:
+            type: text
+            fixed: false
+            nullable: true
+            column: nm_campo_tab_patrimonio
+        inDestacarDuplicidade:
+            type: text
+            fixed: true
+            nullable: true
+            column: in_destacar_duplicidade
+        inObrigatorio:
+            type: text
+            fixed: true
+            nullable: false
+            column: in_obrigatorio
+    manyToOne:
+        local:
+            targetEntity: Local
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_local:
+                    referencedColumnName: id_local
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

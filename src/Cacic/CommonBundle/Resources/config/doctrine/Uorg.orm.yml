@@ -1,0 +1,86 @@
+Cacic\CommonBundle\Entity\Uorg:
+    type: entity
+    table: uorg
+    repositoryClass: Cacic\CommonBundle\Entity\UorgRepository
+    fields:
+        idUorg:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_uorg
+            generator:
+                strategy: IDENTITY
+        nmUorg:
+            type: text
+            fixed: false
+            nullable: false
+            column: nm_uorg
+        teEndereco:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_endereco
+        teBairro:
+            type: text
+            fixed: true
+            nullable: true
+            column: te_bairro
+        teCidade:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_cidade
+        teUf:
+            type: text
+            fixed: true
+            nullable: true
+            column: te_uf
+        nmResponsavel:
+            type: text
+            fixed: false
+            nullable: true
+            column: nm_responsavel
+        teResponsavelEmail:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_responsavel_email
+        nuResponsavelTel1:
+            type: text
+            fixed: true
+            nullable: true
+            column: nu_responsavel_tel1
+        nuResponsavelTel2:
+            type: text
+            fixed: true
+            nullable: true
+            column: nu_responsavel_tel2
+    oneToMany:
+        uorgFilhas:
+            targetEntity: Cacic\CommonBundle\Entity\Uorg
+            mappedBy: uorgPai
+    manyToOne:
+        uorgPai:
+            targetEntity: Cacic\CommonBundle\Entity\Uorg
+            inversedBy: uorgFilhas
+            joinColumn:
+                name: id_uorg_pai
+                referencedColumnName: id_uorg
+                nullable: true
+            orphanRemoval: true
+        tipoUorg:
+            targetEntity: Cacic\CommonBundle\Entity\TipoUorg
+            inversedBy: uorgs
+            joinColumn:
+                name: id_tipo_uorg
+                referencedColumnName: id_tipo_uorg
+                nullable: false
+        local:
+            targetEntity: Cacic\CommonBundle\Entity\Local
+            inversedBy: uorgs
+            joinColumn:
+                name: id_local
+                referencedColumnName: id_local
+                nullable: true
+    lifecycleCallbacks: {  }

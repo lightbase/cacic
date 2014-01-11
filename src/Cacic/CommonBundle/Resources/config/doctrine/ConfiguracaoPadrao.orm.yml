@@ -1,0 +1,21 @@
+Cacic\CommonBundle\Entity\ConfiguracaoPadrao:
+    type: entity
+    table: configuracao_padrao
+    repositoryClass: Cacic\CommonBundle\Entity\ConfiguracaoPadraoRepository
+    fields:
+        idConfiguracao:
+            id: true
+            type: text
+            fixed: false
+            nullable: false
+            column: id_configuracao
+        nmConfiguracao:
+            type: text
+            fixed: false
+            nullable: false
+            column: nm_configuracao
+        vlConfiguracao:
+            type: text
+            nullable: true
+            column: vl_configuracao
+    lifecycleCallbacks: {  }

@@ -1,0 +1,58 @@
+Cacic\CommonBundle\Entity\PropriedadeSoftware:
+    type: entity
+    table: proriedade_software
+    repositoryClass: Cacic\CommonBundle\Entity\PropriedadeSoftwareRepository
+    fields:
+        idPropriedadeSoftware:
+            id: true
+            type: integer
+            nullable: false
+            column: id_propriedade_software
+            generator:
+                strategy: IDENTITY
+        displayName:
+            type: text
+            column: display_name
+            nullable: true
+        displayVersion:
+            type: text
+            nullable: true
+            column: display_version
+        URLInfoAbout:
+            type: text
+            nullable: true
+            column: url_info_about
+        publisher:
+            type: text
+            nullable: true
+            column: publisher
+    manyToOne:
+        computador:
+            targetEntity: Computador
+            cascade: {  }
+            mappedBy: null
+            inversedBy: software_coletado
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false
+        classProperty:
+            targetEntity: ClassProperty
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_class_property:
+                    referencedColumnName: id_class_property
+            orphanRemoval: false
+    oneToOne:
+        software:
+            targetEntity: Software
+            joinColumn:
+                name: id_software
+                referencedColumnName: id_software
+            orphanRemoval: false
+    uniqueConstraints:
+        property_computador_idx:
+          columns: [ id_class_property, id_computador ]
+    lifecycleCallbacks: {  }

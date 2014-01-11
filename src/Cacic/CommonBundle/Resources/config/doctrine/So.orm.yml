@@ -1,0 +1,34 @@
+Cacic\CommonBundle\Entity\So:
+    type: entity
+    table: so
+    repositoryClass: Cacic\CommonBundle\Entity\SoRepository
+    fields:
+        idSo:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_so
+            generator:
+                strategy: IDENTITY
+        teDescSo:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_desc_so
+        sgSo:
+            type: text
+            fixed: false
+            nullable: true
+            column: sg_so
+        teSo:
+            type: text
+            fixed: false
+            nullable: false
+            column: te_so
+        inMswindows:
+            type: text
+            fixed: true
+            nullable: false
+            column: in_mswindows
+    lifecycleCallbacks: {  }

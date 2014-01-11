@@ -1,0 +1,42 @@
+Cacic\CommonBundle\Entity\UsbDevice:
+    type: entity
+    table: usb_device
+    repositoryClass: Cacic\CommonBundle\Entity\UsbDeviceRepository
+    fields:
+        idUsbDevice:
+            id: true
+            type: integer
+            nullable: false
+            column: id_usb_device
+            generator:
+                strategy: NONE
+        nmUsbDevice:
+            type: text
+            fixed: true
+            nullable: false
+            column: nm_usb_device
+        teObservacao:
+            type: text
+            nullable: false
+            column: te_observacao
+        dtRegistro:
+            type: text
+            fixed: true
+            nullable: true
+            column: dt_registro
+        idDevice:
+            type: text
+            fixed: true
+            nullable: true
+            column: id_device
+    manyToOne:
+        idUsbVendor:
+            targetEntity: UsbVendor
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_usb_vendor:
+                    referencedColumnName: id_usb_vendor
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

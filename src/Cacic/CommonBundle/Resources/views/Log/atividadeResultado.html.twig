@@ -1,0 +1,167 @@
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Resultado da pesquisa' |trans }}</h2>
+            <div class="block box_content round_bottom padding_10">
+
+				<table class="table table-striped table-bordered">
+				    <thead>
+				    <tr>
+				        <th width="5%"></th>
+				        <th width="15%">{{ "Data"|trans }}</th>
+				        <th width="15%">{{ "Tabela"|trans }} /<br />{{ "Operação"|trans }}</th>
+				        <th width="20%">{{ "Programa"|trans }}</th>
+				        <th width="25%">{{ "Usuário"|trans }} /<br />{{ "Local"|trans}}</th>
+				        <th width="20%">{{ "Endereço IP"|trans }}</th>
+				    </tr>
+				    </thead>
+				
+				    <tbody>
+				
+				    {% for log in logs %}
+				        
+				        <tr>
+				            <td style="text-align: center">{{ loop.index }}</td>
+				            <td>{{ log[0].dtAcao|date('d/m/Y H:i:s') }}</td>
+				            <td>
+				                {{ log[0].nmTabela }}
+				                <br />{{ log[0].csAcao|traduzAtividade }}
+				            </td>
+				            <td>{{ log[0].nmScript }}</td>
+				            <td>{{ log['nmUsuarioCompleto'] }}<br /><i>{{ log['sgLocal'] }}</i></td>
+				            <td>{{ log[0].teIpOrigem }}</td>
+				        </tr>
+				        
+				    {% else %}
+				        <tr>
+				            <td style="text-align: center;" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+				        </tr>
+				    {% endfor %}
+				
+				    </tbody>
+				</table>
+
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span -->
+</div> <!-- /row -->
+
+{% if resumo is not null %}
+{% set _total = logs|length %}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-bar-chart"></i> {{'Resumo das operações' |trans }} ({{ "Estatísticas"|trans}})</h2>
+            <div class="block box_content round_bottom padding_10">
+            
+            <div class="tabbable">
+	            <ul class="nav nav-tabs">
+	                <li class="active">
+	                    <a href="#resumo-operacoes" data-toggle="tab">{{ "Operações"|trans }}</a>
+	                </li>
+	                <li>
+	                    <a href="#resumo-tabelas" data-toggle="tab">{{ "Tabelas"|trans }}</a>
+	                </li>
+	                <li>
+	                    <a href="#resumo-programas" data-toggle="tab">{{ "Programas"|trans }} (.php)</a>
+	                </li>
+	                <li>
+                        <a href="#resumo-usuarios" data-toggle="tab">{{ "Usuários"|trans }}</a>
+                    </li>
+	            </ul>
+	            <div class="tab-content">
+                    <div class="tab-pane active" id="resumo-operacoes">
+                        <table class="table table-striped table-bordered">
+		                    <thead>
+		                    <tr>
+		                        <th width="50%">{{ "Operação"|trans }}</th>
+		                        <th width="25%">{{ "Quantidade"|trans }}</th>
+		                        <th width="25%">{{ "Percentual"|trans }}(%)</th>
+		                    </tr>
+		                    </thead>
+		                
+		                    <tbody>
+		                        {% for operacao,qtde in resumo['operacoes'] %}
+		                        <tr>
+		                            <td>{{ operacao|traduzAtividade }}</td>
+		                            <td>{{ qtde }}</td>
+		                            <td>{{ '%.2f'|format(qtde * 100 / _total) }}</td>
+		                        </tr>
+		                        {% endfor %}
+		                    </tbody>
+		                </table>
+                    </div>
+                    
+                    <div class="tab-pane" id="resumo-tabelas">
+                        <table class="table table-striped table-bordered">
+		                    <thead>
+		                    <tr>
+		                        <th width="50%">{{ "Tabela"|trans }}</th>
+		                        <th width="25%">{{ "Quantidade"|trans }}</th>
+		                        <th width="25%">{{ "Percentual"|trans }}(%)</th>
+		                    </tr>
+		                    </thead>
+		                
+		                    <tbody>
+		                        {% for tabela,qtde in resumo['tabelas'] %}
+		                        <tr>
+		                            <td>{{ tabela }}</td>
+		                            <td>{{ qtde }}</td>
+		                            <td>{{ '%.2f'|format(qtde * 100 / _total) }}</td>
+		                        </tr>
+		                        {% endfor %}
+		                    </tbody>
+		                </table>
+                    </div>
+                    
+                    <div class="tab-pane" id="resumo-programas">
+                        <table class="table table-striped table-bordered">
+		                    <thead>
+		                    <tr>
+		                        <th width="50%">{{ "Programa"|trans }}(.php)</th>
+		                        <th width="25%">{{ "Quantidade"|trans }}</th>
+		                        <th width="25%">{{ "Percentual"|trans }}(%)</th>
+		                    </tr>
+		                    </thead>
+		                
+		                    <tbody>
+		                        {% for programa,qtde in resumo['programas'] %}
+		                        <tr>
+		                            <td>{{ programa }}</td>
+		                            <td>{{ qtde }}</td>
+		                            <td>{{ '%.2f'|format(qtde * 100 / _total) }}</td>
+		                        </tr>
+		                        {% endfor %}
+		                    </tbody>
+		                </table>
+                    </div>
+                    
+                    <div class="tab-pane" id="resumo-usuarios">
+                        <table class="table table-striped table-bordered">
+		                    <thead>
+		                    <tr>
+		                        <th width="50%">{{ "Usuário"|trans }}</th>
+		                        <th width="25%">{{ "Quantidade"|trans }}</th>
+		                        <th width="25%">{{ "Percentual"|trans }}(%)</th>
+		                    </tr>
+		                    </thead>
+		                
+		                    <tbody>
+		                        {% for usuario,qtde in resumo['usuarios'] %}
+		                        <tr>
+		                            <td>{{ usuario }}</td>
+		                            <td>{{ qtde }}</td>
+		                            <td>{{ '%.2f'|format(qtde * 100 / _total) }}</td>
+		                        </tr>
+		                        {% endfor %}
+		                    </tbody>
+		                </table>
+                    </div>
+                </div><!-- /tab-content -->
+            </div><!-- /tabbable -->
+
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span -->
+</div> <!-- /row -->
+{% endif %}

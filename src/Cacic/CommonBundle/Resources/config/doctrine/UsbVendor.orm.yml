@@ -1,0 +1,25 @@
+Cacic\CommonBundle\Entity\UsbVendor:
+    type: entity
+    table: usb_vendor
+    fields:
+        idUsbVendor:
+            id: true
+            type: text
+            fixed: true
+            nullable: false
+            column: id_usb_vendor
+        nmUsbVendor:
+            type: text
+            fixed: false
+            nullable: false
+            column: nm_usb_vendor
+        teObservacao:
+            type: text
+            nullable: true
+            column: te_observacao
+        dtRegistro:
+            type: text
+            fixed: true
+            nullable: true
+            column: dt_registro
+    lifecycleCallbacks: {  }

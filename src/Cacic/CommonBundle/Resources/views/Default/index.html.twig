@@ -1,0 +1,93 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+	<div class="span6 column ui-sortable" id="col0">
+		<div class="box grad_colour_black" id="box0">
+			<h2 class="box_head round_top"><i class="icon-bar-chart"></i> {{ 'Estatísticas do sistema'|trans }}</h2>
+			<div class="toggle_container">
+				<div class="block box_content round_bottom padding_10">
+					<ul class="statistics">
+						<li><a href="{{ path('cacic_computador_navegar') }}"><i class="icon-laptop icon-large"></i><span class="blue">{{ estatisticas['totalCompMonitorados'] }}</span>{{ 'Totais de computadores monitorados'|trans }}</a></li>
+						<li><a href="{{ path('cacic_log_acesso') }}"><i class="icon-exchange icon-large"></i><span class="blue">0</span> {{ 'Últimos acessos dos agentes'|trans }}</a></li>
+						<li><a href="{{ path('cacic_log_insucesso_instalacao') }}"><i class="icon-warning-sign icon-large"></i><span class="red">{{ estatisticas['totalInsucessosInstalacao'] }}</span> {{ 'Totais de tentativas de instalação malsucedidas'|trans }}</a></li>
+					</ul>
+				</div>
+			</div>
+		</div> <!-- /box -->
+	</div><!-- /span -->
+	
+	<div class="span6 column ui-sortable" id="col1">
+		<div class="box grad_colour_black" id="box1">
+			<h2 class="box_head round_top"> <i class="icon-file"></i> {{ 'Boas vindas'|trans }}</h2>
+			<div class="toggle_container">
+				<div class="block box_content round_bottom padding_10">
+				<p>{{ 'Olá'|trans }}, {{ app.user.nmUsuarioCompleto }}, {{ 'seja bem-vindo à área administrativa do CACIC v3.'|trans }}</p>
+				</div>
+			</div>
+		</div> <!-- /box -->
+	</div> <!-- /span -->
+	
+</div> <!-- /row -->
+
+<div class="row-fluid">
+
+	<div class="span6 column ui-sortable" id="col2">
+		<div class="box grad_colour_black" id="box2">
+			<h2 class="box_head round_top"><i class="icon-heart"></i> {{ 'Atalhos'|trans }}</h2>
+			<div class="toggle_container">
+				<div class="block box_content round_bottom padding_10 shortcuts">
+					<a href="{{ path('cacic_usuario_index') }}" class="shortcut">
+						<i class="shortcut-icon icon-group"></i>
+						<span class="shortcut-label">{{ 'Usuários'|trans }}</span>
+					</a>
+					
+					<a href="{{ path('cacic_local_index') }}" class="shortcut">
+						<i class="shortcut-icon icon-globe"></i>
+						<span class="shortcut-label">{{ 'Locais'|trans }}</span>
+					</a>
+					
+					<a href="{{ path('cacic_modulo_index') }}" class="shortcut">
+						<i class="shortcut-icon icon-cogs"></i>
+						<span class="shortcut-label">{{ 'Módulos'|trans }}</span>
+					</a>
+				</div>
+			</div>
+		</div> <!-- /box -->
+	</div><!-- /span -->
+			
+	<div class="span6 column ui-sortable widget-table action-table" id="col3">
+		<div class="box grad_colour_black" id="box3">
+			<h2 class="box_head round_top"><i class="icon-desktop"></i> {{ 'Computadores Monitorados por Sistema Operacional'|trans }}</h2>
+			<div class="toggle_container">
+				<div class="block box_content round_bottom padding_10">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>{{ 'Sistema Operacional'|trans }}</th>
+								<th style="text-align: center">{{ 'Quantidade'|trans }}</th>
+								<th style="text-align: center">%</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for so in estatisticas['totalCompPorSO'] %}
+							<tr>
+								<td>{{ so['teDescSo'] }}</td>
+								<td style="text-align: center">{{ so['numComp'] }}</td>
+								<td style="text-align: center"></td>
+							</tr>
+							{% else %}
+							<tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div> <!-- /box -->
+	</div> <!-- /span -->
+
+</div> <!-- /row -->
+
+{% endblock %}

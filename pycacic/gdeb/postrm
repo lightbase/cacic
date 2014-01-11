@@ -1,3 +1,0 @@
-#!/bin/sh
-#rm -Rf /usr/share/pycacic
-#echo "Chamou postrm -> $1" 
