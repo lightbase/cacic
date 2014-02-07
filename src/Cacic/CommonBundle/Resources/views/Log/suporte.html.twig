@@ -30,7 +30,9 @@
                     <div class="control-group">
                         <label for="log_acesso_local" class="control-label">{{ 'Local:'|trans }}</label>
                         <div class="controls">
-                            {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
+                            <div style="height: 300px; overflow: auto;">
+                                {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
+                            </div>
                         </div>
                     </div>
 

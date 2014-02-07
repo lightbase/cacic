@@ -15,18 +15,51 @@ class UsuarioRepository extends EntityRepository
 
     public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
-        $_dql = "SELECT u, l.nmLocal, g.nmGrupoUsuarios, COUNT(ls.idLocal) as numLocSec
+        $_dql = "SELECT u, l.nmLocal, g.teGrupoUsuarios, COUNT(ls.idLocal) as numLocSec
 				FROM CacicCommonBundle:Usuario u
 				JOIN u.idLocal l
 				JOIN u.idGrupoUsuario g
 				LEFT JOIN u.locaisSecundarios ls
-				GROUP BY u, l.nmLocal, g.nmGrupoUsuarios";
+				GROUP BY u, l.nmLocal, g.teGrupoUsuarios";
 
         return $paginator->paginate(
             $this->getEntityManager()->createQuery( $_dql ),
             $page,
             10
         );
+    }
+    /**
+     *
+     * Método que apresenta o grupo de acesso do respectivo usuario
+     */
+    public function nivel($usuario){
+        $_dql = "SELECT  g.teGrupoUsuarios
+				FROM CacicCommonBundle:Usuario u
+				JOIN u.idLocal l
+				JOIN u.idGrupoUsuario g
+				LEFT JOIN u.locaisSecundarios ls
+				WHERE u.idUsuario = :idUsuario
+				GROUP BY g.teGrupoUsuarios";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameter( 'idUsuario', $usuario )
+            ->getArrayResult();
+    }
+    /**
+     *
+     * Método de contagem de usuario Administrador
+     */
+    public function csNivelAdm(){
+        $_dql = "SELECT  COUNT(g.teGrupoUsuarios) AS cont
+				FROM CacicCommonBundle:Usuario u
+				JOIN u.idGrupoUsuario g
+				WHERE g.teGrupoUsuarios = :teGrupoUsuarios";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameter( 'teGrupoUsuarios', "Administração" )
+            ->getArrayResult();
     }
 	/**
 	 *

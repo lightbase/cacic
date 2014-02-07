@@ -52,7 +52,7 @@ Cacic\CommonBundle\Entity\Patrimonio:
         idUnidOrganizacionalNivel1:
             type: integer
             unsigned: false
-            nullable: false
+            nullable: true
             column: id_unid_organizacional_nivel1
     manyToOne:
         idUsuario:

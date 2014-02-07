@@ -43,7 +43,9 @@
         "ijanki/ftp-bundle": "*",
         "jms/translation-bundle": "1.1.*@dev",
         "jquery/jquery": "1.9.*",
-	"helios-ag/fm-elfinder-bundle": "1.x"
+	    "helios-ag/fm-elfinder-bundle": "1.x",
+        "knplabs/knp-menu": "2.0.*@dev",
+        "knplabs/knp-menu-bundle":"dev-master"
     },
     "scripts": {
         "post-install-cmd": [

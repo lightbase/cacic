@@ -36,7 +36,7 @@ class LoadCollectDefClassData extends AbstractFixture implements FixtureInterfac
             'DesktopMonitor'
         )),
 		//array('id_acao'=>'col_moni','classes'=> array('ComputerSystem','Software', 'OperatingSystem')),
-		//array('id_acao'=>'col_patr','classes'=> array('ComputerSystem')),
+		array('id_acao'=>'col_patr','classes'=> array('Patrimonio')),
 		array('id_acao'=>'col_soft','classes'=> array('Software')),
 		array('id_acao'=>'col_soft_not_optional','classes'=> array('Software')),
 		//array('id_acao'=>'srcacic','classes'=> array('ComputerSystem'))

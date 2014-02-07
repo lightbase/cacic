@@ -405,4 +405,32 @@ class Uorg
     {
         return $this->nuResponsavelTel2;
     }
+    /**
+     * @var \Cacic\CommonBundle\Entity\Rede
+     */
+    private $rede;
+
+
+    /**
+     * Set rede
+     *
+     * @param \Cacic\CommonBundle\Entity\Rede $rede
+     * @return Uorg
+     */
+    public function setRede(\Cacic\CommonBundle\Entity\Rede $rede = null)
+    {
+        $this->rede = $rede;
+    
+        return $this;
+    }
+
+    /**
+     * Get rede
+     *
+     * @return \Cacic\CommonBundle\Entity\Rede 
+     */
+    public function getRede()
+    {
+        return $this->rede;
+    }
 }

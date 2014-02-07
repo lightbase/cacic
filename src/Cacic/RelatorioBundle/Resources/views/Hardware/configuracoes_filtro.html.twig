@@ -20,7 +20,7 @@
 
 		    tConf.populate([ // Popula o TRANSFER com as Classes de Coleta
   		        {% for c in conf %}
-  		        {value: "{{ c.idClass }}", content:"{{ c.teClassDescription }}"}{% if loop.last != true %},{% endif %}
+  		        {value: "{{ c.idClass }}", content: "{{ c.nmClassName|e('js') }}" }{% if loop.last != true %},{% endif %}
   		        
   		        {% endfor %}
   		    ]);

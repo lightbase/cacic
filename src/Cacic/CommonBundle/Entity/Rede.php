@@ -808,4 +808,42 @@ class Rede
     {
         return $this->idAplicativo;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $uorgs;
+
+
+    /**
+     * Add uorgs
+     *
+     * @param \Cacic\CommonBundle\Entity\Uorg $uorgs
+     * @return Rede
+     */
+    public function addUorg(\Cacic\CommonBundle\Entity\Uorg $uorgs)
+    {
+        $this->uorgs[] = $uorgs;
+    
+        return $this;
+    }
+
+    /**
+     * Remove uorgs
+     *
+     * @param \Cacic\CommonBundle\Entity\Uorg $uorgs
+     */
+    public function removeUorg(\Cacic\CommonBundle\Entity\Uorg $uorgs)
+    {
+        $this->uorgs->removeElement($uorgs);
+    }
+
+    /**
+     * Get uorgs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUorgs()
+    {
+        return $this->uorgs;
+    }
 }

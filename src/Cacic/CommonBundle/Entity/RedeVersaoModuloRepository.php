@@ -35,15 +35,39 @@ class RedeVersaoModuloRepository extends EntityRepository
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
-    public function subrede()
+    /*
+     * Traz a lista de módulos para a subrede fornecida
+     */
+    public function subrede($id = null, $modulo = null)
     {
-        $_dql = "SELECT r.nmModulo, r.teVersaoModulo, r.teHash, l.sgLocal, red.teIpRede, red.nmRede, red.teServUpdates
-				FROM CacicCommonBundle:RedeVersaoModulo r
-				Left join r.idRede red
-			    Left join red.idLocal l
-			    GROUP BY r, l, red
-				ORDER BY red.nmRede ASC";
+        $qb = $this->createQueryBuilder('r')
+            ->select('red.idRede',
+                'r.nmModulo',
+                'r.teVersaoModulo',
+                'r.teHash',
+                'red.teIpRede',
+                'red.nmRede',
+                'red.teServUpdates',
+                'red.tePathServUpdates',
+                'l.nmLocal')
+            ->innerJoin('CacicCommonBundle:Rede', 'red', 'WITH', 'red.idRede = r.idRede')
+            ->innerJoin('CacicCommonBundle:Local', 'l', 'WITH', 'red.idLocal = l.idLocal')
+            ->groupBy('r', 'l', 'red')
+            ->orderBy('red.nmRede');
 
-        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+        // Adiciona filtro por módulo se fornecido
+        if ($modulo != null) {
+            // Aqui trago somente a lista de todos os módulos naquela subrede
+            $qb->andWhere('r.nmModulo = :modulo')->setParameter('modulo', $modulo);
+        }
+
+        // Adiciona filtro por subrede se fornecido
+        if ($id != null) {
+            // Somente os módulos desa subrede
+            $qb->andWhere('r.idRede = :id')->setParameter('id', $id);
+        }
+
+        return $qb->getQuery()->getArrayResult();
     }
+
 }

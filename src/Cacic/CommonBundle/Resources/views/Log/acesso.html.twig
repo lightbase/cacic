@@ -26,11 +26,13 @@
                            <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                         </div>
                     </div>
-                    
-                    <div class="control-group">
+
+                    <div class="control-group _cad_block_opcao">
                         <label for="log_acesso_local" class="control-label">{{ 'Local:'|trans }}</label>
                         <div class="controls">
-                            {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
+                            <div style="height: 300px; overflow: auto;">
+                                {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
+                            </div>
                         </div>
                     </div>
 

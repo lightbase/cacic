@@ -175,17 +175,26 @@ class UsuarioController extends Controller
 			throw $this->createNotFoundException( 'Página não encontrada' );
 		
 		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->find( $request->get('id') );
+        $nivelUser = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->nivel($usuario);
+        $csNivel = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->csNivelAdm();
+
 		if ( ! $usuario )
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
-		
-		$em = $this->getDoctrine()->getManager();
-		$em->remove( $usuario );
-		$em->flush();
-		
-		$response = new Response( json_encode( array('status' => 'ok') ) );
-		$response->headers->set('Content-Type', 'application/json');
 
-		return $response;
+        if($csNivel[0]["cont"] == 1 && $nivelUser[0]["teGrupoUsuarios"] == "Administração"){
+            $this->get('session')->getFlashBag()->add('error', 'Exclusão não permitida, deve haver ao menos um usuario Administrador');
+        }else
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove( $usuario );
+            $em->flush();
+
+            $response = new Response( json_encode( array('status' => 'ok') ) );
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
+
     }
     
     /**

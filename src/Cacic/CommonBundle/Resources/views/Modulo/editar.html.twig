@@ -27,20 +27,24 @@
                 
                 <form name="frmConfigModulo" id="frmConfigModulo" class="form-horizontal" method="POST">
                 
-                <div class="control-group">
+                <div class="control-group _cad_block_opcao">
                 	<label class="control-label">
                 		{{ 'Onde executar esta ação-configuração'|trans }}: 
                 	</label>
                 	<div class="controls">
                 		{% if redes|length > 0 %}
-                		<input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="modulo\[rede\]" id="toggleRede">
-                		<label for="toggleRede"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
-	           			{% for rede in redes %}
-	           			<input type="checkbox" name="modulo[rede][]" value="{{ rede['idRede'] }}" id="modulo_rede_{{ rede['idRede'] }}"
-	           			{% if rede['idRede'] in redesSelecionadas %}checked="checked"{% endif %}
-	           			 />
-	           				<label for="modulo_rede_{{ rede['idRede' ] }}">{{ rede['nmRede'] }} ({{ rede['teIpRede'] }})</label>
-	           			{% endfor %}
+                            <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="modulo\[rede\]" id="toggleRede">
+                            <label for="toggleRede"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
+                        <div style="height: 200px; overflow: auto;">
+                            {% for rede in redes %}
+                                <div class="modulo-opt-block">
+                                    <input type="checkbox" name="modulo[rede][]" value="{{ rede['idRede'] }}" id="modulo_rede_{{ rede['idRede'] }}"
+                                    {% if rede['idRede'] in redesSelecionadas %}checked="checked"{% endif %}
+                                     />
+                                        <label for="modulo_rede_{{ rede['idRede' ] }}">{{ rede['nmRede'] }} ({{ rede['teIpRede'] }})</label>
+                               </div>
+                            {% endfor %}
+                        </div>
 	           			{% else %}
 	           			{{ 'Nenhuma Rede cadastrada no sistema.'|trans }}
 	           			{% endif %}
@@ -107,7 +111,7 @@
 	            </form>
 	            <hr />
 	            <div>
-	                <a class="btn btn-danger"  href="{{ path('cacic_aquisicao_item_index') }}">
+	                <a class="btn btn-danger"  href="{{ path('cacic_modulo_index') }}">
 	                    <i class="icon-remove-sign"></i>
 	                    {{ "Cancelar"|trans }}
 	                </a>

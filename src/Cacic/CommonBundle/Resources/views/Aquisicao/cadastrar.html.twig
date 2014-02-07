@@ -22,7 +22,7 @@
                             {{ form_row(form.nmEmpresa, {'form_type': 'horizontal' }) }}
                             {{ form_row(form.nmProprietario, {'form_type': 'horizontal' }) }}
                             {{ form_row(form.nrNotafiscal, {'form_type': 'horizontal' }) }}
-                            {{ form_row(form.dtAquisicao,  { 'form_type': 'horizontal' }, {'attr': {'class': 'datepicker_on'} }) }}
+                            {{ form_row(form.dtAquisicao,  { 'form_type': 'horizontal' }) }}
                             {{ form_rest(form) }}
                         </div>
                         <br />
@@ -71,28 +71,16 @@
 {% block javascripts %}
 
     {{ parent() }}
- {% if idioma =='pt_BR' %}
+
     <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-pt-BR.js') }}"></script>
-     <script type="text/javascript">
 
-         $(document).ready(function(){
-             $( "#Aquisicao_dtAquisicao" ).datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
-
-         });
-
-     </script>
-{% else %}
-    {% if idioma =='en_US' %}
-    <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-en-US.js') }}"></script>
     <script type="text/javascript">
 
         $(document).ready(function(){
-            $( "#Aquisicao_dtAquisicao" ).datepicker({ altFormat: "mm/dd/yy" }).mask('99/99/9999');
+            $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
 
         });
 
     </script>
- {% endif %}{% endif %}
-
 
 {% endblock %}

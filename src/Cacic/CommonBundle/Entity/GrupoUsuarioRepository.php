@@ -36,5 +36,15 @@ class GrupoUsuarioRepository extends EntityRepository
 
 		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}
-	
+    public function nivel($grupoUsuario){
+        $_dql = "SELECT  g.teGrupoUsuarios
+				FROM CacicCommonBundle:GrupoUsuario g
+				WHERE g.idGrupoUsuario = :idGrupoUsuario
+				GROUP BY g.teGrupoUsuarios";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameter( 'idGrupoUsuario', $grupoUsuario )
+            ->getArrayResult();
+    }
 }

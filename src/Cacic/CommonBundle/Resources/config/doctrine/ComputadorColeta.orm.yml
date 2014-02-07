@@ -24,6 +24,7 @@ Cacic\CommonBundle\Entity\ComputadorColeta:
             joinColumns:
                 id_computador:
                     referencedColumnName: id_computador
+                    nullable: false
             orphanRemoval: false
         classProperty:
             targetEntity: ClassProperty
@@ -33,6 +34,7 @@ Cacic\CommonBundle\Entity\ComputadorColeta:
             joinColumns:
                 id_class_property:
                     referencedColumnName: id_class_property
+                    nullable: false
             orphanRemoval: false
         idClass:
             targetEntity: Classe

@@ -65,6 +65,7 @@ class AquisicaoController extends Controller
 
         if ( $request->isMethod('POST') )
         {
+           // Debug::dump($form["dtAquisicao"]);die;
             $form->bind( $request );
 
             if ( $form->isValid() )

@@ -23,8 +23,7 @@ class RedeRepository extends EntityRepository
 	{
 		$query = $this->createQueryBuilder('rede')->select('COUNT(rede.idRede)')
         								->innerJoin('rede.idLocal', 'loc')
-        								->where('loc.idLocal = :idLocal')
-        								->setParameter('idLocal', $idLocal);
+        								;
 
         return $query->getQuery()->getSingleScalarResult();
 	}
@@ -36,13 +35,16 @@ class RedeRepository extends EntityRepository
 
     public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
-        $_dql = "SELECT r, count(l.nmLocal) AS local
-				FROM CacicCommonBundle:Rede r
-				LEFT JOIN r.idLocal l
-				GROUP BY r";
+        $qb = $this->createQueryBuilder('r')
+            ->select('r.idRede','r.nmRede','r.teIpRede','r.teServCacic', 'r.teServUpdates', 'r.teMascaraRede', 'l.nmLocal', 'COUNT(comp.idComputador) AS numComp', 's.nmServidorAutenticacao')
+            ->innerJoin('CacicCommonBundle:Local', 'l', 'WITH', 'l.idLocal = r.idLocal')
+            ->leftJoin('CacicCommonBundle:ServidorAutenticacao', 's', 'WITH', 's.idServidorAutenticacao = r.idServidorAutenticacao')
+            ->leftJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'comp.idRede = r.idRede')
+            ->groupBy('r.idRede, r.nmRede, r.teIpRede, r.teServCacic, r.teServUpdates, r.teMascaraRede, l.nmLocal, s.nmServidorAutenticacao')
+            ->orderBy('r.teIpRede, l.nmLocal');
 
         return $paginator->paginate(
-            $this->getEntityManager()->createQuery( $_dql ),
+            $qb->getQuery()->execute(),
             $page,
             10
         );
@@ -74,7 +76,13 @@ class RedeRepository extends EntityRepository
         			->setParameter( 'idLocal', $idLocal )
         			->getArrayResult();
     }
-    
+    public function listarPorLocalADM()
+    {
+        $_dql = "SELECT r
+				FROM CacicCommonBundle:Rede r";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+    }
     /**
      *
      * Método de listagem de Redes associadas a determinado Servidor Autenticacao
@@ -143,5 +151,29 @@ class RedeRepository extends EntityRepository
         $rede = empty( $rede ) ? $this->getPrimeiraRedeValida() : $rede  ;  // se rede não existir instancio uma nova rede
 
         return $rede;
+    }
+
+    /*
+     * Retorna lista de redes e nome do Local
+     * @param idLocal Se fornecido o idLocal, retorna somente os locais para aquele local
+     */
+
+    public function comLocal ($idLocal = null)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select('r.idRede',
+                'r.teIpRede',
+                'r.nmRede',
+                'r.teServUpdates',
+                'r.tePathServUpdates',
+                'l.nmLocal')
+            ->innerJoin('CacicCommonBundle:Local', 'l', 'WITH', 'r.idLocal = l.idLocal')
+            ->orderBy('r.nmRede');
+
+        if ($idLocal != null) {
+            $qb->andWhere('r.idLocal = :idLocal')->setParameter('idLocal', $idLocal);
+        }
+
+        return $qb->getQuery()->getArrayResult();
     }
 }

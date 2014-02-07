@@ -15,9 +15,9 @@ class TipoLicencaRepository extends EntityRepository
 
     public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
-        $_dql = "SELECT distinct(t.idTipoLicenca)
+        $_dql = "SELECT distinct(t.idTipoLicenca), t.teTipoLicenca
 				FROM CacicCommonBundle:TipoLicenca t
-				ORDER BY t.idTipoLicenca";
+				ORDER BY t.idTipoLicenca, t.teTipoLicenca";
 
         return $paginator->paginate(
             $this->getEntityManager()->createQuery( $_dql )->getArrayResult(),

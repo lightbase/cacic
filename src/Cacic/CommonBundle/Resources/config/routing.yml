@@ -141,6 +141,9 @@ cacic_subrede_manutencao:
     pattern: /subrede/manutencao
     defaults: { _controller: CacicCommonBundle:Rede:manutencao}
 
+cacic_subrede_vincular:
+    pattern: /subrede/vincular
+    defaults: { _controller: CacicCommonBundle:Rede:vincular}
 
 cacic_aplicativo_index:
     pattern: /aplicativo/{page}

@@ -23,7 +23,10 @@ class OldCacicHelper
     }
 
     public function getRootDir() {
-        return $this->rootDir;
+        // Tenta consertar caminho do diretório
+        $rootDir = realpath($this->rootDir);
+
+        return $rootDir;
     }
 
     /*
@@ -31,7 +34,7 @@ class OldCacicHelper
      */
 
     public function iniFile() {
-        return $this->getRootDir() . OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini';
+        return OldCacicHelper::getRootDir() . OldCacicHelper::CACIC_PATH_RELATIVO_DOWNLOADS . 'versions_and_hashes.ini';
     }
 
 	// define o nome do agente principal do CACIC

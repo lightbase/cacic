@@ -72,4 +72,35 @@ class AcaoRedeRepository extends EntityRepository
 		$em->flush();
 	}
 
+    /**
+     * Habilita todas as ações para a Rede fornecida ou conjunto de redes fornecidas
+     *
+     * @param array $redes
+     *
+     */
+    public function atualizarPorRede ( $redes ) {
+        $em = $this->getEntityManager();
+        $acoes = $em->getRepository( 'CacicCommonBundle:Acao' )->findAll();
+
+        foreach ($redes as $novaRede) {
+            // Para cada rede, habilita as ações
+            foreach ($acoes as $novaAcao) {
+                $new = $this->find( array( 'acao' => $novaAcao->getIdAcao(), 'rede' => $novaRede->getIdRede() ));
+                // Se não existir, cria a ação para a rede
+                if ( empty($new) ) {
+                    $new = new AcaoRede();
+                }
+
+                // Agora cria a ação
+                $new->setAcao($novaAcao);
+                $new->setRede($novaRede);
+                $em->persist($new);
+
+                // Grava as mudanças
+                $em->flush();
+            }
+
+        }
+    }
+
 }

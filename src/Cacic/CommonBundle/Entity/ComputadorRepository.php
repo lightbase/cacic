@@ -196,11 +196,11 @@ class ComputadorRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('computador')
             ->select('computador, coleta, classe, rede, local, so')
-            ->leftJoin('computador.hardwares', 'coleta')
-            ->leftJoin('coleta.idClass', 'classe')
-            ->leftJoin('computador.idRede', 'rede')
-            ->leftJoin('rede.idLocal', 'local')
-            ->leftJoin('computador.idSo', 'so');
+            ->innerJoin('computador.hardwares', 'coleta')
+            ->innerJoin('coleta.idClass', 'classe')
+            ->innerJoin('computador.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'local')
+            ->innerJoin('computador.idSo', 'so');
 
         /**
          * Verifica os filtros

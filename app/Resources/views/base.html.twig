@@ -230,12 +230,10 @@
                             </li>
                             <li class="dropdown-submenu" >
                                 <a href="javascript:void(0)">
-                                    <span>{{ "Hardwares"|trans }}</span>
+                                    <span>{{ "Classes WMI"|trans }}</span>
                                     <span class="icon">&nbsp;</span>
                                 </a>
-                                <ul>
-                                    <li><a href="{{ path('cacic_relatorio_hardware_configuracoes') }}">{{ "Configurações"|trans }}</a></li>
-                                </ul>
+                                {{ knp_menu_render('CacicRelatorioBundle:Builder:relatorioMenu') }}
                             </li>
 						    <li><a class="round_top" href="{{ path('cacic_relatorio_autorizacoes') }}">{{ "Autorizações"|trans }}</a></li>
 						    <li><a class="round_top" href="{{ path('cacic_relatorio_tcpIp') }}">{{ "TCP/IP"|trans }}</a></li>
