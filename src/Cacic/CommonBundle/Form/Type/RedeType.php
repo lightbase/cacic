@@ -168,9 +168,9 @@ class RedeType extends AbstractType
         );
         $builder->add('habilitar', 'choice',
             array(
-                'choices'   => array('S' => 'Sim', 'N' => 'Não'),
-                'required'  => false,
-                'expanded'  => true,
+                'choices'   => array(true => 'Sim', false => 'Não'),
+                'required'  => true,
+                //'expanded'  => true,
                 'mapped'=>false,
                 'label' => ' '
 
@@ -178,10 +178,10 @@ class RedeType extends AbstractType
         );
         $builder->add('csPermitirDesativarSrcacic', 'choice',
             array(
-                'choices'   => array('S' => 'Sim', 'N' => 'Não'),
-                'required'  => false,
+                'choices'   => array(true => 'Sim', false => 'Não'),
+                'required'  => true,
                 'data' => 'N',
-                'expanded'  => true,
+                //'expanded'  => true,
                 'label' => ' '
 
             )

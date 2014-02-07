@@ -35,6 +35,7 @@ Cacic\CommonBundle\Entity\PropriedadeSoftware:
             joinColumns:
                 id_computador:
                     referencedColumnName: id_computador
+                    nullable: false
             orphanRemoval: false
         classProperty:
             targetEntity: ClassProperty
@@ -44,15 +45,18 @@ Cacic\CommonBundle\Entity\PropriedadeSoftware:
             joinColumns:
                 id_class_property:
                     referencedColumnName: id_class_property
+                    nullable: false
             orphanRemoval: false
-    oneToOne:
         software:
             targetEntity: Software
-            joinColumn:
-                name: id_software
-                referencedColumnName: id_software
-            orphanRemoval: false
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_software:
+                    referencedColumnName: id_software
+                    nullable: false
     uniqueConstraints:
         property_computador_idx:
-          columns: [ id_class_property, id_computador ]
+          columns: [ id_class_property, id_computador, id_software ]
     lifecycleCallbacks: {  }

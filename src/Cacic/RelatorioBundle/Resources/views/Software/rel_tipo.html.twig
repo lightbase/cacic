@@ -10,8 +10,8 @@
 <table class="table table-bordered">
 	<thead>
 	    <tr>
+            <th width="20%" style="text-align: center">{{ 'Tipo'|trans }}</th>
 	    	<th width="60%">{{ "Software"|trans }}</th>
-	    	<th width="20%" style="text-align: center">{{ 'Tipo'|trans }}</th>
 	    	<th style="text-align: center">{{ "Máquinas"|trans }}</th>
 	    </tr>
 	</thead>
@@ -19,30 +19,9 @@
 	<tbody>
 	    {% for reg in dados %}
         <tr>
+            <td style="text-align: center"><span class="red">{{ reg.teDescricaoTipoSoftware }}</span></td>
             <td><span class="blue">{{ reg.nmSoftware }}</span></td>
-            <td style="text-align: center"><span class="red">{{ reg.idTipoSoftware }}</span></td>
-            <td style="text-align: center">{{ reg.estacoes|length }}</td>
-        </tr>
-        <tr>
-        	<td colspan="3">
-        		<table class="table">
-        			<tbody>
-        				<tr>
-        					<th width="40%">{{ 'Nome da máquina'|trans }}</th>
-        					<th width="30%" style="text-align: center">{{ 'IP'|trans }}</th>
-        					<th width="30%" style="text-align: center">{{ 'Última Coleta'|trans }}</th>
-        				</tr>
-        				{% for item in reg.estacoes %}
-        				<tr>
-        					<td>{{ item.idComputador.nmComputador }}</td>
-        					<td style="text-align: center">{{ item.idComputador.teIpComputador }}</td>
-        					<td style="text-align: center">{{ item.idComputador.dtHrUltAcesso|date('d/m/Y H:i') }}</td>
-        				</tr>
-        				{% endfor %}
-        			</tbody>
-        		</table>
-        	
-        	</td>
+            <td style="text-align: center">{{ reg.numComp }}</td>
         </tr>
     	{% else %}
         <tr>

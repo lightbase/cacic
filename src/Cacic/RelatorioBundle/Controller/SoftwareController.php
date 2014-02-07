@@ -2,6 +2,7 @@
 
 namespace Cacic\RelatorioBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Cacic\RelatorioBundle\Form\Type\FiltroSoftwareType;
@@ -17,6 +18,7 @@ class SoftwareController extends Controller
     {
     	$locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->listar();
     	$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
+        $redes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->listar();
     	$sw = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->listar();
     	
     	return $this->render(
@@ -24,6 +26,7 @@ class SoftwareController extends Controller
         	array(
         		'softwares'	=> $sw,
         		'locais' 	=> $locais,
+                'redes'     => $redes,
         		'so'		=> $so
         	)
         );
@@ -38,13 +41,27 @@ class SoftwareController extends Controller
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Software')
     					->gerarRelatorioSoftwaresInventariados( $request->get('rel_filtro_software') );
-    	
+       
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_inventariados.html.twig', 
         	array(
                 'idioma'=>$locale,
         		'dados' => $dados
         	)
+        );
+    }
+    public function listarAction( Request $request, $idSoftware )
+    {
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+                        ->getRepository('CacicCommonBundle:Software')
+                        ->getSoftwareDadosComputador( $idSoftware );
+
+        return $this->render( 'CacicRelatorioBundle:Software:listar.html.twig',
+            array(
+                'idioma' =>$locale,
+                'dados' =>  $dados
+            )
         );
     }
     
@@ -187,7 +204,7 @@ class SoftwareController extends Controller
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Software')
     					->gerarRelatorioSoftwaresPorTipo( $request->get('form') );
-    	
+
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_tipo.html.twig', 
         	array(
@@ -215,5 +232,27 @@ class SoftwareController extends Controller
         	)
         );
     }
-    
+
+    /**
+     * [RELATÓRIO] Lista de máquinas que possuem o software instalado
+     *
+     * @param software O Nome do software a ser listado
+     */
+
+    public function listaAction(Request $request, $software) {
+        $locale = $request->getLocale();
+
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:ComputadorColeta')
+            ->gerarRelatorioSoftware($filtros = array(), $software);
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:rel_software_lista.html.twig',
+            array(
+                'idioma'=> $locale,
+                'software' => $software,
+                'dados' => $dados
+            )
+        );
+    }
 }

@@ -19,9 +19,10 @@ class ClasseRepository extends EntityRepository
      */
     public function listar()
     {
+        // TODO: Remover a lista fixa de classes excluídas e parametrizar a informação
         $_dql = "SELECT c
 				FROM CacicCommonBundle:Classe c
-				WHERE c.idClass != 46
+				WHERE c.nmClassName NOT IN ('SoftwareList', 'Patrimonio')
 				ORDER BY c.nmClassName";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
@@ -46,7 +47,22 @@ class ClasseRepository extends EntityRepository
 
     public function listaDetalhesClasseAcoes( $idClass )
     {
-        $_dql = "SELECT a, cl, cp, dc
+        $_dql = "SELECT a.idAcao,
+                 a.teDescricaoBreve,
+                 a.teDescricao,
+                 a.teNomeCurtoModulo,
+                 a.dtHrAlteracao,
+                 a.csOpcional,
+                 cl.idClass,
+                 cl.nmClassName,
+                 cl.teClassDescription,
+                 cp.idClassProperty,
+                 cp.nmPropertyName,
+                 cp.tePropertyDescription,
+                 cp.nmFunctionPreDb,
+                 cp.nmFunctionPosDb,
+                 dc.idCollectDefClass,
+                 dc.teWhereClause
                  FROM CacicCommonBundle:CollectDefClass dc,
                  CacicCommonBundle:Classe cl,
                  CacicCommonBundle:Acao a,

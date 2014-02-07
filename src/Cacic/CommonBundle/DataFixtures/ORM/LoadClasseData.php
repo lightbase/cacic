@@ -73,6 +73,10 @@ The following syntax is simplified from Managed Object Format (MOF) code and inc
         array('className' => 'Win32_DesktopMonitor',
             'description' => 'Represents the type of monitor or display device attached to the computer system.',
             'reference' => 'DesktopMonitor'
+        ),
+        array('className' => 'Patrimonio',
+            'description' => 'Dados de patrimônio e localização física',
+            'reference' => 'Patrimonio'
         )
     );
 

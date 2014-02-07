@@ -37,7 +37,7 @@ class TagValueHelper
         // Garantir que o resultado contenha somente UTF-8 valido
         $resultado = TagValueHelper::UTF8Sanitize($arrResult[1][0]);
 
-        return empty($resultado) ? null : $resultado;
+        return $resultado;
     }
 
     // Metódo para recuperar array com nomes das tags delimitadas por "<" e ">"
@@ -99,7 +99,7 @@ class TagValueHelper
      */
 
     public static function UTF8Sanitize($text) {
-        return iconv('UTF-8', 'UTF-8//IGNORE', $text);
+        return iconv('WINDOWS-1252', 'UTF-8//TRANSLIT', $text);
     }
 
     /*
@@ -107,21 +107,25 @@ class TagValueHelper
      */
 
     public static function getTableValues($source) {
-        preg_match_all("/\[\[REG\]\](.*?)\[\[REG\]\]/",$source,$arrResult);
+        preg_match_all("/(.*)\[\[REG\]\](.*)/", $source, $arrResult);
 
         // Se não houver match, retorna a fonte
-        if (empty($arrResult[1])) {
+        if (empty($arrResult[0])) {
             return $source;
         }
 
         //Caso contrário retorna os elementos prontos para serem inseridos em uma tabela
         $saida = '';
-        $i = 1;
-        foreach ($arrResult[1] as $linha) {
-            $saida = $saida . '<tr>';
-            $saida = $saida . "<th>#$i</th>";
-            $saida = $saida . "<td>$linha</td>";
-            $saida = $saida . '</tr>';
+        $i = 0;
+        foreach ($arrResult as $linha) {
+            if ($i != 0) {
+                // Ignora a primeira linha
+                //continue;
+                $saida = $saida . '<tr>';
+                $saida = $saida . "<th>#$i</th>";
+                $saida = $saida . "<td>$linha[0]</td>";
+                $saida = $saida . '</tr>';
+            }
             $i = $i + 1;
         }
 

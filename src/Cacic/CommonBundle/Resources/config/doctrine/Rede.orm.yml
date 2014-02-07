@@ -164,4 +164,7 @@ Cacic\CommonBundle\Entity\Rede:
         acoes:
             targetEntity: AcaoRede
             mappedBy: rede
+        uorgs:
+            targetEntity: Uorg
+            mappedBy: rede
     lifecycleCallbacks: {  }

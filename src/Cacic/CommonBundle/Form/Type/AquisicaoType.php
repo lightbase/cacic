@@ -43,8 +43,12 @@ class AquisicaoType extends AbstractType
             'date',
             array(
             	'widget' => 'single_text',
-            	'label'=>'Data de aquisicao'
-        	)
+                'format' => 'dd/MM/yyyy',
+                'label'=>'Data de aquisicao',
+	            'attr' => array(
+        	 	              'class' => 'datepicker_on'
+                         )
+            )
         );
     }
 

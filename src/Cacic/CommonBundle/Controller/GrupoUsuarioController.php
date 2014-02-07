@@ -71,13 +71,21 @@ class GrupoUsuarioController extends Controller
 
             if ( $form->isValid() )
             {
-                $this->getDoctrine()->getManager()->persist( $GrupoUsuario );
-                $this->getDoctrine()->getManager()->flush();
+                $csNivel = $this->getDoctrine()->getRepository('CacicCommonBundle:GrupoUsuario')->nivel($GrupoUsuario);
+
+                if($csNivel[0]['teGrupoUsuarios'] != "Administração")
+                {
+                    $this->getDoctrine()->getManager()->persist( $GrupoUsuario );
+                    $this->getDoctrine()->getManager()->flush();
 
 
-                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+                    $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
-                return $this->redirect($this->generateUrl('cacic_grupo_usuario_editar', array( 'idGrupoUsuario'=>$GrupoUsuario->getIdGrupoUsuario() ) ) );
+                    return $this->redirect($this->generateUrl('cacic_grupo_usuario_editar', array( 'idGrupoUsuario'=>$GrupoUsuario->getIdGrupoUsuario() ) ) );
+                }else{
+                    $this->get('session')->getFlashBag()->add('error', 'O Grupo de Administradores, não pode ser editado!!!');
+                }
+
             }
         }
 
@@ -97,13 +105,21 @@ class GrupoUsuarioController extends Controller
         if ( ! $GrupoUsuario )
             throw $this->createNotFoundException( 'Grupo de Usuario não encontrado' );
 
-        $em = $this->getDoctrine()->getManager();
-        $em->remove( $GrupoUsuario );
-        $em->flush();
+        $csNivel = $this->getDoctrine()->getRepository('CacicCommonBundle:GrupoUsuario')->nivel($request->get('id'));
 
-        $response = new Response( json_encode( array('status' => 'ok') ) );
-        $response->headers->set('Content-Type', 'application/json');
+        if($csNivel[0]['teGrupoUsuarios'] != "Administração")
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove( $GrupoUsuario );
+            $em->flush();
 
-        return $response;
+            $response = new Response( json_encode( array('status' => 'ok') ) );
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }else{
+            $this->get('session')->getFlashBag()->add('error', 'O Grupo de Administradores, não pode ser Excluido!!!');
+        }
+
     }
 }

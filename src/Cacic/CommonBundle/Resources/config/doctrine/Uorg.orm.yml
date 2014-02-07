@@ -76,11 +76,11 @@ Cacic\CommonBundle\Entity\Uorg:
                 name: id_tipo_uorg
                 referencedColumnName: id_tipo_uorg
                 nullable: false
-        local:
-            targetEntity: Cacic\CommonBundle\Entity\Local
+        rede:
+            targetEntity: Cacic\CommonBundle\Entity\Rede
             inversedBy: uorgs
             joinColumn:
-                name: id_local
-                referencedColumnName: id_local
+                name: id_rede
+                referencedColumnName: id_rede
                 nullable: true
     lifecycleCallbacks: {  }

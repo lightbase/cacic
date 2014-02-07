@@ -141,3 +141,7 @@ services:
             - name: twig.extension
     elfinder.driver.filesystem:
         class: FM\ElFinderPHP\Driver\ElFinderVolumeLocalFileSystem
+    cacic_demo.command.demo_command:
+            class: Cacic\CommonBundle\Command\DemoCommand
+            tags:
+                -  { name: console.command }

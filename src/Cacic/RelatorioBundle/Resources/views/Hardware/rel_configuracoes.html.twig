@@ -25,9 +25,9 @@
             	{% if reg.nmComputador %}<br />{{ reg.teNodeAddress }}{% endif %}
             	{% if reg.teIpComputador %}<br />{{ reg.teIpComputador }}{% endif %}
             </td>
-            <td><span class="{% if reg.idSo.inMswindows == 'S' %}red{% else %}blue{% endif %}">{{ reg.idSo.sgSo}}</span></td>
-            <td>{%if reg.idRede is not null and reg.idRede.idLocal is not null %}{{ reg.idRede.idLocal.nmLocal }}{% endif %}</td>
-            <td>{{ reg.hardwares|length }}</td>
+            <td><span class="{% if reg.inMswindows == 'S' %}red{% else %}blue{% endif %}">{{ reg.sgSo}}</span></td>
+            <td>{%if reg.idRede is not null and reg.idLocal is not null %}{{ reg.nmLocal }}{% endif %}</td>
+            <td>{{ reg.teClassPropertyValue }}</td>
         </tr>
     	{% else %}
         <tr>

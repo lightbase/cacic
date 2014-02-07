@@ -19,11 +19,14 @@ class ModuloController extends Controller
 	 */
 	public function indexAction()
 	{
+        $usuario = $this->getUser()->getIdUsuario();
+        $nivel = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario' )->nivel($usuario);
+
 		$local = $this->getUser()->getIdLocal(); // Recupera o Local da sessão do usuário logado
 		
-		$modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listarModulosOpcionais( $local->getIdLocal() );
+		$modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listarModulosOpcionais( $nivel, $local->getIdLocal() );
 		$totalRedes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->countByLocal( $local->getIdLocal() );
-		
+        //Debug::dump($modulos);die;
 		return $this->render(
 			'CacicCommonBundle:Modulo:index.html.twig', 
 			array('modulos'=>$modulos, 'local'=>$local, 'totalRedes'=>$totalRedes)
@@ -39,12 +42,16 @@ class ModuloController extends Controller
 	 */
 	public function editarAction( $idAcao, Request $request )
 	{
+        $usuario = $this->getUser()->getIdUsuario();
+        $nivel = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario' )->nivel($usuario);
+
+
 		$modulo = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Acao' )->find( $idAcao );
 		if ( ! $modulo )
 			throw $this->createNotFoundException( 'Página não encontrada' );
-		
+
 		$local = $this->getUser()->getIdLocal(); /* @todo Em caso de usuário administrativo, escolher o Local */
-		
+
 		if ( $request->isMethod('POST') )
 		{
 			$_data = $request->get('modulo');
@@ -61,8 +68,14 @@ class ModuloController extends Controller
 			$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');	
 			return $this->redirect( $this->generateUrl( 'cacic_modulo_editar', array('idAcao'=>$idAcao) ) );
 		}
-		
-		$redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorLocal( $local );
+         if($nivel[0]['teGrupoUsuarios'] != "Administração")
+          {
+              $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorLocal( $local );
+          }else
+              {
+                 $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorLocalADM();
+              }
+
 		$so = $this->getDoctrine()->getRepository( 'CacicCommonBundle:So' )->listar(); // Recupera a lista de SOs cadastrados
 		
 		$redesSelecionadas = array_keys( // Recupera as Redes já associadas à Ação

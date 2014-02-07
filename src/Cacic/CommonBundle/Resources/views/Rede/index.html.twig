@@ -22,10 +22,10 @@
             <thead>
             <tr>
                 <th width="10%">{{ "Endereço"|trans }}<br />{{ "Máscara"|trans }}</th>
-                <th width="10%">{{ "Subrede"|trans }}</th>
+                <th width="20%">{{ "Subrede"|trans }}</th>
                 <th width="10%" style="text-align: center">{{ "Local"|trans }}</th>
                 <th width="5%" style="text-align: center">{{ "Máquinas"|trans }}</th>
-                <th width="5%" style="text-align: center">{{ "Autenticação"|trans }}</th>
+                <th width="10%" style="text-align: center">{{ "Autenticação"|trans }}</th>
                 <th width="10%" style="text-align: center">{{ "Aplicação"|trans }}</th>
                 <th width="10%" style="text-align: center">{{ "Atualização"|trans }}</th>
                 <th style="text-align: center">{{ "Ações"|trans }}</th>
@@ -36,21 +36,24 @@
 
             {% for rede in rede %}
 
-                <tr id="item_{{ rede[0].idRede }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                    <td>{{ rede[0].teIpRede }}/{{ rede[0].teMascaraRede }}</td>
-                    <td id="item_desc_{{ rede[0].idRede }}">{{ rede[0].nmRede }}</td>
-                    <td style="text-align: center">{{ rede['local']}}</td>
-                    <td style="text-align: center"></td>
-                    <td style="text-align: center"></td>
-                    <td style="text-align: center">{{ rede[0].teServCacic }}</td>
-                    <td style="text-align: center">{{ rede[0].teServUpdates }}</td>
+                <tr id="item_{{ rede['idRede'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                    <td>{{ rede['teIpRede'] }}/{{ rede['teMascaraRede']}}</td>
+                    <td id="item_desc_{{ rede['idRede'] }}">{{ rede['nmRede'] }}</td>
+                    <td style="text-align: center">{{ rede['nmLocal']}}</td>
+                    <td style="text-align: center">{{ rede['numComp'] }}</td>
+                    <td style="text-align: center">{{ rede['nmServidorAutenticacao'] }}</td>
+                    <td style="text-align: center">{{ rede['teServCacic'] }}</td>
+                    <td style="text-align: center">{{ rede['teServUpdates'] }}</td>
                     <td class="td-actions">
-                        <a href="{{ path('cacic_subrede_editar', {'idRede': rede[0].idRede}) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                        <a href="{{ path('cacic_subrede_editar', {'idRede': rede['idRede'] }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                             <i class="btn-icon-only icon-edit icon-large"></i>
                         </a>
 
                         <a href="{{ path('cacic_subrede_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
                             <i class="btn-icon-only icon-trash icon-large"></i>
+                        </a>
+                        <a href="javascript: void(0);"  class="btn btn-small btn-success bt-vincular" title="{{ "Vincular UOR's"|trans }}">
+                            <i class="icon-cog icon-large"></i>
                         </a>
                     </td>
                 </tr>
@@ -82,4 +85,46 @@
 
   </div><!-- /span -->
 </div><!-- /row -->
+    <!-- Modal para Vincular UORG's -->
+    <div id="vincularUORGs" title="{{ "Vincular UORG's"|trans }}">
+        <form id="frmVincularUORGs">
+            <fieldset>
+               <div style="margin-top: 200px; margin-left: 100px"><h1> Em manunteção!!!</h1></div>
+            </fieldset>
+        </form>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+
+        $( "#vincularUORGs" ).dialog({
+            autoOpen: false,
+            height: 550,
+            width: 550,
+            modal: true,
+            buttons: {
+                "Salvar" : function(){
+                    $( this ).dialog( "close" );
+                },
+                "Cancelar" : function(){
+                    $( this ).dialog( "close" );
+                }
+            },
+            show: { effect: "fade", duration: 500 },
+            hide: { effect: "fade", duration: 500 }
+
+        });
+
+        $( ".bt-vincular" ).click(function(){
+
+            var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
+            $( "#vincularUORGs" ).data( 'id', id ).dialog( "open" );
+        });
+
+    </script>
 {% endblock %}

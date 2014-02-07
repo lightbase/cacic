@@ -16,10 +16,17 @@ class GrupoUsuarioType extends AbstractType
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
-        $builder->add( 'nmGrupoUsuarios', 'text',
+
+        $builder->add( 'teGrupoUsuarios', 'text',
             array(
                 'max_length' => 50,
                 'label' => 'Nome do Grupo de Usuário:'
+            )
+        );
+        $builder->add( 'nmGrupoUsuarios', 'text',
+            array(
+                'max_length' => 50,
+                'label' => 'Abreviação do Grupo de Usuário:'
             )
         );
         $builder->add( 'teMenuGrupo', 'text',

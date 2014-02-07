@@ -500,6 +500,24 @@ Example IPv6 address: "2010:836B:4179::836B:4179"');
         // Grava o objeto
         $manager->persist($property);
 
+        /*************************
+         * Patrimonio Classes
+         *
+         * A classe precisa ter pelo menos uma propriedade pré cadastrada
+         *
+         *************************/
+
+        // Atributo
+        $property = new ClassProperty();
+        $property->setNmPropertyName('IDPatrimonio');
+        $property->setTePropertyDescription('Número do patrimônio');
+
+        // Referência à classe
+        $property->setIdClass($this->getReference('Patrimonio'));
+
+        // Grava o objeto
+        $manager->persist($property);
+
 
         // Commit
         $manager->flush();

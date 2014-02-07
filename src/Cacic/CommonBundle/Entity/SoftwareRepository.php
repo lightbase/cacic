@@ -77,13 +77,13 @@ class SoftwareRepository extends EntityRepository
     {
         // Monta a Consulta básica...
         $qb = $this->createQueryBuilder('sw')
-            ->select('COALESCE(sw.nmSoftware, prop.displayName) as nmSoftware', 'l.nmLocal', 'COUNT(col.computador) AS numComp')
+            ->select('COALESCE(sw.nmSoftware, prop.displayName) as nmSoftware', 'l.nmLocal', 'r.nmRede', 'r.teIpRede', 'COUNT(DISTINCT col.computador) AS numComp')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
             ->innerJoin('CacicCommonBundle:ComputadorColeta', 'col', 'WITH', 'col.computador = prop.computador')
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'col.computador = comp.idComputador')
             ->innerJoin('CacicCommonBundle:Rede', 'r', 'WITH', 'comp.idRede = r.idRede')
             ->leftJoin('r.idLocal', 'l')
-            ->groupBy('sw.nmSoftware, prop.displayName, l.nmLocal')
+            ->groupBy('sw.nmSoftware, prop.displayName, l.nmLocal, r.nmRede, r.teIpRede')
             ->orderBy('sw.nmSoftware, l.nmLocal');
 
         /**
@@ -94,6 +94,9 @@ class SoftwareRepository extends EntityRepository
 
         if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
             $qb->andWhere('l.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+
+        if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) )
+            $qb->andWhere('r.idRede IN (:redes)')->setParameter('redes', explode( ',', $filtros['redes'] ));
 
         if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
             $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
@@ -111,11 +114,11 @@ class SoftwareRepository extends EntityRepository
         // Monta a Consulta básica...
         $qb = $this->createQueryBuilder('sw')
             ->select('sw.nmSoftware', 'aqit.qtLicenca', 'aqit.dtVencimentoLicenca', 'aq.nrProcesso', 'tpl.teTipoLicenca')
-            ->innerJoin('sw.licencas', 'aqit')
-            ->innerJoin('aqit.idAquisicao', 'aq')
-            ->innerJoin('aqit.idTipoLicenca', 'tpl')
+            ->innerJoin('CacicCommonBundle:AquisicaoItem','aqit','WITH','sw.idSoftware = aqit.idSoftware')
+            ->innerJoin('CacicCommonBundle:Aquisicao','aq','WITH','aq.idAquisicao = aqit.idAquisicao')
+            ->innerJoin('CacicCommonBundle:TipoLicenca','tpl','WITH','tpl.idTipoLicenca = aqit.idTipoLicenca')
             ->orderBy('sw.nmSoftware');
-
+    
         /**
          * Verifica os filtros que foram parametrizados
          */
@@ -160,17 +163,19 @@ class SoftwareRepository extends EntityRepository
     {
         // Monta a Consulta básica...
         $qb = $this->createQueryBuilder('sw')
-            ->select('sw', 'tpsw', 'se', 'comp')
-            ->innerJoin('sw.estacoes', 'se')
-            ->innerJoin('sw.idTipoSoftware', 'tpsw')
-            ->innerJoin('se.idComputador', 'comp')
-            ->orderBy('sw.nmSoftware')->addOrderBy('comp.nmComputador')->addOrderBy('comp.teIpComputador');
+            ->select('COALESCE(sw.nmSoftware, prop.displayName) as nmSoftware', 'tipo.teDescricaoTipoSoftware', 'tipo.idTipoSoftware', 'COUNT(DISTINCT col.computador) AS numComp')
+            ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
+            ->innerJoin('CacicCommonBundle:ComputadorColeta', 'col', 'WITH', 'col.computador = prop.computador')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'col.computador = comp.idComputador')
+            ->innerJoin('CacicCommonBundle:TipoSoftware', 'tipo', 'WITH', 'sw.idTipoSoftware = tipo.idTipoSoftware')
+            ->groupBy('sw.nmSoftware, prop.displayName, tipo.teDescricaoTipoSoftware, tipo.idTipoSoftware')
+            ->orderBy('sw.nmSoftware');
 
         /**
          * Verifica os filtros que foram parametrizados
          */
         if ( array_key_exists('TipoSoftware', $filtros) && !empty($filtros['TipoSoftware']) )
-            $qb->andWhere('tpsw.idTipoSoftware IN (:tpsw)')->setParameter('tpsw', explode( ',', $filtros['TipoSoftware'] ));
+            $qb->andWhere('tipo.idTipoSoftware IN (:tpsw)')->setParameter('tpsw', explode( ',', $filtros['TipoSoftware'] ));
 
         return $qb->getQuery()->execute();
     }

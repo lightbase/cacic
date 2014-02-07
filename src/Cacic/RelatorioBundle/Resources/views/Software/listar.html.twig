@@ -1,0 +1,51 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h2 class="">{{ 'Relatório de Softwares Inventariados'|trans }}</h2>
+    <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+    <hr />
+
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th width="40%">{{ "Nome da Máquina"|trans }}</th>
+            <th width="20%">{{ "Local"|trans }}</th>
+            <th width="20%" style="text-align: center">{{ "IP"|trans }}</th>
+            <th width="20%" style="text-align: center">{{ "Data último acesso"|trans }}</th>
+            <th width="5%"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        {% for reg in dados %}
+
+            <tr>
+                <td>
+                    <a href="{{ path("cacic_computador_detalhar") }}/{{ reg['idComputador'] }}" target="_blank">
+                        {{ reg['nmComputador'] }}
+                    </a>
+                </td>
+                <td>{{ reg['nmLocal'] }}</td>
+                <td style="text-align: center">{{ reg['teIpComputador'] }}</td>
+                <td style="text-align: center">{{ reg['dtHrUltAcesso']|date("d/m/Y H\\hi") }}</td>
+                <td>
+                    <a class="btn" href="{{ path("cacic_computador_detalhar") }}/{{ reg['idComputador'] }}" target="_blank">
+                        <i class="icon-search"></i>
+                    </a>
+                </td>
+
+            </tr>
+
+        {% else %}
+            <tr>
+                <td style="text-align: center" colspan="4"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

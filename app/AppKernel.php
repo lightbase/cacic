@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new Ijanki\Bundle\FtpBundle\IjankiFtpBundle(),
             new FM\ElfinderBundle\FMElfinderBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -30,6 +30,12 @@ cacic_relatorio_software_inventariados_rel:
     requirements:
         _method: POST
 
+cacic_relatorio_software_listar:
+    pattern: /software/listar/{idSoftware}
+    defaults: { _controller: CacicRelatorioBundle:Software:listar, idSoftware: null }
+    requirements:
+        idSoftware: \d+
+
 cacic_relatorio_software_licenciados:
     pattern: /software/licenciados
     defaults: { _controller: CacicRelatorioBundle:Software:licenciados }
@@ -85,3 +91,23 @@ cacic_relatorio_hardware_configuracoes_rel:
     defaults: { _controller: CacicRelatorioBundle:Hardware:configuracoesRelatorio }
     requirements:
         _method: POST
+
+cacic_relatorio_hardware_wmi:
+    pattern: /hardware/{classe}
+    defaults: { _controller: CacicRelatorioBundle:Hardware:wmi }
+    requirements:
+            _method: GET
+
+cacic_relatorio_hardware_wmi_rel:
+    pattern: /hardware/{classe}
+    defaults: { _controller: CacicRelatorioBundle:Hardware:wmiRelatorio }
+    requirements:
+            _method: POST
+
+cacic_relatorio_software_lista:
+    pattern: /software/inventariados/{software}
+    defaults: { _controller: CacicRelatorioBundle:Software:lista }
+
+cacic_relatorio_hardware_wmi_detalhe:
+    pattern: /hardware/{classe}/{propriedade}
+    defaults: { _controller: CacicRelatorioBundle:Hardware:wmiRelatorioDetalhe }
