@@ -36,11 +36,13 @@ class RedeRepository extends EntityRepository
     public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
         $qb = $this->createQueryBuilder('r')
-            ->select('r.idRede','r.nmRede','r.teIpRede','r.teServCacic', 'r.teServUpdates', 'r.teMascaraRede', 'l.nmLocal', 'COUNT(comp.idComputador) AS numComp', 's.nmServidorAutenticacao')
+            ->select('r.idRede','r.nmRede','r.teIpRede','r.teServCacic', 'r.teServUpdates',
+                'r.teMascaraRede', 'l.nmLocal', 'COUNT(comp.idComputador) AS numComp', 's.nmServidorAutenticacao','uorg.nmUorg')
             ->innerJoin('CacicCommonBundle:Local', 'l', 'WITH', 'l.idLocal = r.idLocal')
             ->leftJoin('CacicCommonBundle:ServidorAutenticacao', 's', 'WITH', 's.idServidorAutenticacao = r.idServidorAutenticacao')
             ->leftJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'comp.idRede = r.idRede')
-            ->groupBy('r.idRede, r.nmRede, r.teIpRede, r.teServCacic, r.teServUpdates, r.teMascaraRede, l.nmLocal, s.nmServidorAutenticacao')
+            ->leftJoin('CacicCommonBundle:Uorg', 'uorg', 'WITH', 'uorg.rede = r.idRede')
+            ->groupBy('r.idRede, r.nmRede, r.teIpRede, r.teServCacic, r.teServUpdates, r.teMascaraRede, l.nmLocal, s.nmServidorAutenticacao, uorg.nmUorg')
             ->orderBy('r.teIpRede, l.nmLocal');
 
         return $paginator->paginate(

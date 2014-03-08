@@ -508,3 +508,7 @@ cacic_grupo_usuario_editar:
 cacic_grupo_usuario_excluir:
     pattern:  /grupousuario/excluir
     defaults: { _controller: CacicCommonBundle:GrupoUsuario:excluir}
+
+cacic_ateste:
+    pattern:  /ateste/
+    defaults: { _controller: CacicCommonBundle:Ateste:index }

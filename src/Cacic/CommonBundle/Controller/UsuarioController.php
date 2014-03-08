@@ -182,7 +182,7 @@ class UsuarioController extends Controller
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
 
         if($csNivel[0]["cont"] == 1 && $nivelUser[0]["teGrupoUsuarios"] == "Administração"){
-            $this->get('session')->getFlashBag()->add('error', 'Exclusão não permitida, deve haver ao menos um usuario Administrador');
+            $this->get('session')->getFlashBag()->add('error', 'Exclusão não permitida, deve haver ao menos um usuário Administrador');
         }else
         {
             $em = $this->getDoctrine()->getManager();

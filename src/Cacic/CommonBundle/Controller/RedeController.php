@@ -32,7 +32,8 @@ class RedeController extends Controller
     {
       return $this->render(
             'CacicCommonBundle:Rede:index.html.twig',
-            array( 'rede' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->paginar( $this->get( 'knp_paginator' ), $page )
+            array( 'rede' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->paginar( $this->get( 'knp_paginator' ), $page ),
+                   'uorgs' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Uorg' )->vincular()
             ));
 
     }
@@ -565,28 +566,27 @@ class RedeController extends Controller
 
     public function vincularAction(Request $request)
     {
-        $rede = new Rede();
-        $form = $this->createForm( new RedeType(), $rede );
 
-        if ( $request->isMethod('POST') )
-        {
-            $form->bind( $request );
-            if ( $form->isValid() )
-            {
-                $this->getDoctrine()->getManager()->persist( $rede );
-                $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Usuário
+        if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
+            throw $this->createNotFoundException( 'Página não encontrada' );
 
-                // Grava os dados da tabela rede versão módulo
-                $this->updateSubredes($rede);
+        foreach($request->get('uorg') as $idUorg){
+            $uorgs = implode(',', $request->get('uorg'));
 
-                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+            // 1- pega rede
+            $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->find($request->get('id'));
+            // 2- Add uorg na rede
+            $rede ->addUorg( $this->getDoctrine()->getRepository('CacicCommonBundle:Uorg')->find($uorgs) );
 
-                return $this->redirect( $this->generateUrl( 'cacic_subrede_index') );
-            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist( $rede );
+            $em->flush();
         }
+        $response = new Response( json_encode( array('status' => 'ok') ) );
+        $response->headers->set('Content-Type', 'application/json');
 
-        return $this->render( 'CacicCommonBundle:Rede:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $response;
+
     }
-
 
 }

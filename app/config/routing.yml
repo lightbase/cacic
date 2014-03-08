@@ -13,6 +13,10 @@ cacic_common:
 elfinder:
      resource: "@FMElfinderBundle/Resources/config/routing.yml"
 
+CocarBundle_cocar_annotation:
+            resource: "@CocarBundle/Resources/config/routing.yml"
+            prefix:   /cocar
+
 # Internal routing configuration to handle ESI
 # ****** WARNING ******
 # This route should be enabled with caution as it can open a security vulnerability

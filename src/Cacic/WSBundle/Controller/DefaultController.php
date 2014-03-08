@@ -17,6 +17,8 @@ use Cacic\CommonBundle\Entity\InsucessoInstalacao;
 use Cacic\CommonBundle\Entity\RedeVersaoModulo;
 use Cacic\WSBundle\Helper\OldCacicHelper;
 use Cacic\WSBundle\Helper\TagValueHelper;
+use Cacic\CommonBundle\Entity\LogAcesso;
+
 /**
  *
  * Classe responsável por Rerceber as coletas Agente
@@ -60,6 +62,7 @@ class DefaultController extends Controller
      */
     public function testAction( Request $request )
     {
+        $logger = $this->get('logger');
         OldCacicHelper::autenticaAgente( $request ) ;
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
         $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
@@ -80,6 +83,41 @@ class DefaultController extends Controller
             (TagValueHelper::getValueFromTags('DateToDebugging',$local->getTeDebugging() )  == date("Ymd") ? $local->getTeDebugging()  :
                 ( TagValueHelper::getValueFromTags('DateToDebugging',$rede->getTeDebugging() )  == date("Ymd") ? $rede->getTeDebugging() :	'') ) );
         $debugging = ( $debugging ? TagValueHelper::getValueFromTags('DetailsToDebugging', $debugging ) : '' );
+
+        // Adiciona no log de acesso. REGRA: só adiciona se o último registro foi em data diferente da de hoje
+        // TODO: Colocar um parâmetro que diz quantas vezes deve ser registrado o acesso por dia
+        $data_acesso = new \DateTime();
+        $hoje = $data_acesso->format('Y-m-d');
+
+        $ultimo_acesso = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->ultimoAcesso( $computador->getIdComputador() );
+        if (empty($ultimo_acesso)) {
+            // Se for o primeiro registro grava o acesso do computador
+            $logger->debug("Último acesso não encontrado. Registrando acesso para o computador $computador em $hoje");
+
+            $log_acesso = new LogAcesso();
+            $log_acesso->setIdComputador($computador);
+            $log_acesso->setData($data_acesso);
+
+            // Grava o log
+            $this->getDoctrine()->getManager()->persist($log_acesso);
+            $this->getDoctrine()->getManager()->flush();
+        } else {
+            $dt_ultimo_acesso = $ultimo_acesso->getData()->format('Y-m-d');
+
+            // Só adiciono se a data de útimo acesso for diferente do dia de hoje
+            if ($hoje != $dt_ultimo_acesso) {
+                $logger->debug("Inserindo novo registro de acesso para o computador $computador em $hoje");
+
+                $log_acesso = new LogAcesso();
+                $log_acesso->setIdComputador($computador);
+                $log_acesso->setData($data_acesso);
+
+                // Grava o log
+                $this->getDoctrine()->getManager()->persist($log_acesso);
+                $this->getDoctrine()->getManager()->flush();
+            }
+        }
+
 
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
