@@ -14,7 +14,9 @@
                     "url": "http://code.jquery.com/jquery-1.9.1.js",
                     "type": "file"
                 }
-            }
+            },
+            "type": "vcs",
+            "url": "https://github.com/lightbase/cocar.git"
         }
     ],
     "require": {
@@ -45,7 +47,14 @@
         "jquery/jquery": "1.9.*",
 	    "helios-ag/fm-elfinder-bundle": "1.x",
         "knplabs/knp-menu": "2.0.*@dev",
-        "knplabs/knp-menu-bundle":"dev-master"
+        "knplabs/knp-menu-bundle":"dev-master",
+        "jpgraph/jpgraph": "dev-master",
+        "symfony/class-loader": "2.2.*",
+        "friendsofsymfony/rest-bundle": "dev-master",
+        "jms/serializer": "0.14.*@dev",
+        "jms/serializer-bundle": "0.13.*@dev",
+        "lightbase/cocar": "dev-master",
+	"ddeboer/data-import-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

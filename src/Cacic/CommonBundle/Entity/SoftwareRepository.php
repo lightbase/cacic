@@ -202,14 +202,15 @@ class SoftwareRepository extends EntityRepository
     {
         // Monta a Consulta básica...
         $qb = $this->createQueryBuilder('sw')
-            ->select( 'comp.nmComputador', 'sw.nmSoftware', 'so.teSo', 'r.teIpRede', 'l.nmLocal')
-            ->innerJoin('sw.estacoes', 'se')
-            ->innerJoin('se.idComputador', 'comp')
-            ->leftJoin('comp.idSo', 'so')
-            ->leftJoin('comp.idRede', 'r')
-            ->leftJoin('r.idLocal', 'l')
-            ->groupBy('so.teSo','comp.nmComputador','l, sw', 'r.teIpRede', 'l.nmLocal')
-            ->orderBy('sw.nmSoftware, l.nmLocal');
+            ->select( 'comp.nmComputador', 'sw.nmSoftware', 'so.teSo', 'r.teIpRede', 'l.nmLocal', 'pci.teEtiqueta', 'pci.idEtiqueta')
+            ->innerJoin('CacicCommonBundle:SoftwareEstacao', 'se','WITH','sw.idSoftware = se.idSoftware')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp','WITH','se.idComputador = comp.idComputador')
+            ->leftJoin('CacicCommonBundle:So', 'so','WITH','comp.idSo = so.idSo')
+            ->leftJoin('CacicCommonBundle:Rede', 'r','WITH', 'comp.idRede = r.idRede')
+            ->innerJoin('CacicCommonBundle:Local','l','WITH', 'r.idLocal = l.idLocal')
+            ->innerJoin('CacicCommonBundle:PatrimonioConfigInterface','pci','WITH','l.idLocal = pci.local')
+            ->groupBy('comp.nmComputador, sw.nmSoftware, so.teSo, r.teIpRede,  l.nmLocal, pci.teEtiqueta, pci.idEtiqueta')
+            ->orderBy('sw.nmSoftware, l.nmLocal, pci.idEtiqueta');
 
         /*
          * Verifica os filtros que foram parametrizados
@@ -224,9 +225,10 @@ class SoftwareRepository extends EntityRepository
         if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
             $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
 
+        if ( array_key_exists('pci', $filtros) && !empty($filtros['pci']) )
+            $qb->andWhere('pci.idEtiqueta IN (:pci)')->setParameter('pci', explode( ',', $filtros['pci'] ));
+
         return $qb->getQuery()->execute();
     }
-
-
 
 }

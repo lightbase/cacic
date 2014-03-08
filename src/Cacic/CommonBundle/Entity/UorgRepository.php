@@ -12,7 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class UorgRepository extends EntityRepository
 {
-	
+    public function listar()
+    {
+        $_dql = "SELECT uorg.idUorg, uorg.nmUorg
+				FROM CacicCommonBundle:Uorg uorg";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+    }
 	/**
 	 * 
 	 * Recupera as Unidades Organizacionais do primeiro nível
@@ -36,12 +42,12 @@ class UorgRepository extends EntityRepository
 	 */
 	public function getFolhasDoNo( $idUorgPai )
 	{
-		$_dql = "SELECT uorg, COUNT(filhas.idUorg) AS numFilhas
+		$_dql = "SELECT uorg.idUorg, uorg.nmUorg, COUNT(filhas.idUorg) AS numFilhas
 				FROM CacicCommonBundle:Uorg uorg
 				INNER JOIN uorg.uorgPai pai
 				LEFT JOIN uorg.uorgFilhas filhas
 				WHERE pai.idUorg = :idUorgPai
-				GROUP BY uorg.idUorg";
+				GROUP BY uorg.idUorg, uorg.nmUorg";
 		
 		return $this->getEntityManager()->createQuery( $_dql )
 										->setParameter('idUorgPai', $idUorgPai)
@@ -67,5 +73,19 @@ class UorgRepository extends EntityRepository
 	{
 		
 	}
-	
+
+    public function vincular()
+    {
+        $_dql = "SELECT uorg.idUorg, r.idRede, uorg.nmUorg, COUNT(filhas.idUorg) AS numFilhas
+				FROM CacicCommonBundle:Uorg uorg
+				LEFT JOIN uorg.uorgFilhas filhas
+				LEFT JOIN uorg.rede r
+				WHERE uorg.uorgPai IS NULL
+				GROUP BY uorg.idUorg, uorg.nmUorg, r.idRede";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+    }
+
+ 
+
 }

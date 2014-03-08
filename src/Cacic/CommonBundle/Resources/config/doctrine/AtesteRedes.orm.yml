@@ -1,0 +1,33 @@
+Cacic\CommonBundle\Entity\AtesteRedes:
+    type: entity
+    table: ateste_redes
+    repositoryClass: Cacic\CommonBundle\Entity\AtesteRedesRepository
+    id:
+        rede:
+            associationKey: true
+        ateste:
+            associationKey: true
+    fields:
+        estacoes:
+            type: integer
+            nullable: false
+            column: estacoes
+    manyToOne:
+        rede:
+            targetEntity: Rede
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_rede:
+                    referencedColumnName: id_rede
+            orphanRemoval: false
+        ateste:
+            targetEntity: Ateste
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_ateste:
+                    referencedColumnName: id_ateste
+            orphanRemoval: false

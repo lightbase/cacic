@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}     
     <li class="active">{{ "Unidades Organizacionais"|trans }}</li>
@@ -94,7 +94,7 @@
             	return '{{ path('cacic_uorg_loadnodes') }}/'+ node.id +'';
             },
             onCreateLi: function(node, $li) {
-            	
+
            		var _acoesNode = ' <a href="{{ path('cacic_uorg_visualizar') }}/'+ node.id +'" rel="modal:open"><i class="icon-search" title="Visualizar dados da Unidade"></i></a> ';
            		_acoesNode += ' <a href="{{ path('cacic_uorg_cadastrar') }}/'+ node.id +'"><i class="icon-plus-sign" title="Cadastrar Unidade"></i></a> ';
            		_acoesNode += ' <a href="{{ path('cacic_uorg_editar') }}/'+ node.id +'"><i class="icon-edit" title="Editar Unidade"></i></a> ';
@@ -114,5 +114,5 @@
 {% endblock %}
 
 {% block alertaExclusao %}
-    A Unidade Organizacional e <b>todas as suas sub-unidades</b> serão removidas permanentemente e não poderão ser recuperadas. Tem certeza que deseja continuar?
+    {{ 'A Unidade Organizacional e' |trans}} <b>{{ 'todas as suas sub-unidades' |trans}}</b> {{ 'serão removidas permanentemente e não poderão ser recuperadas. Tem certeza que deseja continuar?'|trans}}
 {% endblock %}

@@ -15,8 +15,10 @@
             <th width="20%">{{ "I.P"|trans }}</th>
             <th width="20%">{{ "Local"|trans }}</th>
             {%  if ( exibirColunaSoftware ) %}
-            <th width="20%">{{ "Software"|trans }}</th>
+                <th width="20%">{{ "Software"|trans }}</th>
             {%  endif %}
+
+
         </tr>
         </thead>
 
@@ -32,6 +34,8 @@
                 {%  if ( exibirColunaSoftware ) %}
                 <td>{{ reg['nmSoftware'] }}</td>
                 {%  endif %}
+
+
             </tr>
 
         {% else %}

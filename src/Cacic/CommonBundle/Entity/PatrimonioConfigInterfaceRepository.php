@@ -12,6 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class PatrimonioConfigInterfaceRepository extends EntityRepository
 {
+/*
+* Método de listagem dos Patrimonio de conf de interface cadastrados e respectivas informações
+*/
+    public function listar()
+    {
+        $_dql = "SELECT pci.teEtiqueta, pci.idEtiqueta
+				FROM CacicCommonBundle:PatrimonioConfigInterface pci
+				ORDER BY  pci.idEtiqueta ASC";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+    }
 
     /**
      *
