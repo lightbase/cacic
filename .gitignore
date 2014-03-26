@@ -18,6 +18,7 @@ composer.lock
 
 # Ignore SVN
 *.svn
+.*.swp
 
 # Ignora toda a pasta Web
 web/assets/
