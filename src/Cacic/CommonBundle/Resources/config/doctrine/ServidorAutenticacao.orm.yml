@@ -85,4 +85,12 @@ Cacic\CommonBundle\Entity\ServidorAutenticacao:
             fixed: true
             nullable: false
             column: in_ativo
+        usuario:
+            type: text
+            nullable: true
+            column: usuario
+        senha:
+            type: text
+            nullable: true
+            column: senha
     lifecycleCallbacks: {  }

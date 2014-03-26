@@ -41,7 +41,9 @@ class  ServidorAutenticacaoType extends AbstractType
                            'label' => 'Versão'
                        )
         );
-        
+
+        $builder->add('usuario', null, array( 'label'=>'Usuário do LDAP' ));
+        $builder->add('senha', null, array( 'label'=>'Senha do usuário' ));
         $builder->add('teObservacao', null, array( 'label'=>'Observação' ));
         $builder->add('teAtributoIdentificador', null,array('label'=>'Identificador'));
         $builder->add('teAtributoRetornaNome', 'text',array('label'=>'Retorno de Nome Completo'));

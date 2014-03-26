@@ -444,4 +444,60 @@ class ServidorAutenticacao
     {
         return $this->inAtivo;
     }
+    /**
+     * @var string
+     */
+    private $senha;
+
+
+    /**
+     * Set senha
+     *
+     * @param string $senha
+     * @return ServidorAutenticacao
+     */
+    public function setSenha($senha)
+    {
+        $this->senha = $senha;
+    
+        return $this;
+    }
+
+    /**
+     * Get senha
+     *
+     * @return string 
+     */
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+    /**
+     * @var string
+     */
+    private $usuario;
+
+
+    /**
+     * Set usuario
+     *
+     * @param string $usuario
+     * @return ServidorAutenticacao
+     */
+    public function setUsuario($usuario)
+    {
+        $this->usuario = $usuario;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return string 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
 }
