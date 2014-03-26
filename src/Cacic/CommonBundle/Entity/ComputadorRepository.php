@@ -308,7 +308,7 @@ class ComputadorRepository extends EntityRepository
 
             $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador AND log.data >= :dtInicio AND log.data <= :dtFim')
                 ->setParameter('dtInicio', ( $dataInicio.' 00:00:00' ))
-                ->setParameter('dtFim', ( $dataFim.' 00:00:00' ));
+                ->setParameter('dtFim', ( $dataFim.' 23:59:59' ));
 
         }
 
@@ -344,7 +344,7 @@ class ComputadorRepository extends EntityRepository
 
             $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador AND log.data >= :dtInicio AND log.data <= :dtFim')
                 ->setParameter('dtInicio', ( $dataInicio.' 00:00:00' ))
-                ->setParameter('dtFim', ( $dataFim.' 00:00:00' ));
+                ->setParameter('dtFim', ( $dataFim.' 23:59:59' ));
         }
 
         if ( $idRede )
