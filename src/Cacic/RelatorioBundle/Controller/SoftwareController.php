@@ -19,7 +19,7 @@ class SoftwareController extends Controller
     	$locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->listar();
     	$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
         $redes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->listar();
-    	$sw = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->listar();
+    	$sw = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->listarSoftware();
     	
     	return $this->render(
         	'CacicRelatorioBundle:Software:inventariados_filtro.html.twig', 
@@ -71,7 +71,7 @@ class SoftwareController extends Controller
 	 */
     public function licenciadosAction()
     {
-    	$sw = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->listar();
+    	$sw = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->listarSoftware();
     	
     	return $this->render(
         	'CacicRelatorioBundle:Software:licenciados_filtro.html.twig', 
@@ -239,18 +239,18 @@ class SoftwareController extends Controller
      * @param software O Nome do software a ser listado
      */
 
-    public function listaAction(Request $request, $software) {
+    public function listaAction(Request $request, $nmSoftware, $nmLocal) {
         $locale = $request->getLocale();
 
         $dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:ComputadorColeta')
-            ->gerarRelatorioSoftware($filtros = array(), $software);
+            ->gerarRelatorioSoftware($filtros = array(), $nmSoftware, $nmLocal);
 
         return $this->render(
             'CacicRelatorioBundle:Software:rel_software_lista.html.twig',
             array(
                 'idioma'=> $locale,
-                'software' => $software,
+                'software' => $nmSoftware,
                 'dados' => $dados
             )
         );

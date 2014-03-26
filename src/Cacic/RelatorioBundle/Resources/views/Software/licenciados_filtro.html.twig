@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}
    <li class="active">{{ "Relatório de Softwares Licenciados"|trans }}</li>
@@ -18,7 +18,7 @@
 
 		    tSW.populate([ // Popula o TRANSFER com Softwares
   		        {% for sw in softwares %}
-  		        {value: "{{ sw[0]['idSoftware'] }}", content:"{{ sw[0]['nmSoftware'] }}"}{% if loop.last != true %},{% endif %}
+  		        {value: "{{ sw['idClassProperty'] }}", content:"{{ sw['nmSoftware'] }}"}{% if loop.last != true %},{% endif %}
   		        
   		        {% endfor %}
   		    ]);

@@ -227,8 +227,10 @@ cacic_software_excluir:
     defaults: { _controller: CacicCommonBundle:Software:excluir}
 
 cacic_software_naoclassificados:
-    pattern:  /software/naoclassificados
-    defaults: { _controller: CacicCommonBundle:Software:naoClassificados}
+    pattern:  /software/naoclassificados/{page}
+    defaults: { _controller: CacicCommonBundle:Software:naoClassificados, page:1}
+    requirements:
+        page: \d+
 
 cacic_software_naousados:
     pattern:  /software/naousados
@@ -508,3 +510,7 @@ cacic_grupo_usuario_editar:
 cacic_grupo_usuario_excluir:
     pattern:  /grupousuario/excluir
     defaults: { _controller: CacicCommonBundle:GrupoUsuario:excluir}
+
+cacic_ateste:
+    pattern:  /ateste/
+    defaults: { _controller: CacicCommonBundle:Ateste:index }

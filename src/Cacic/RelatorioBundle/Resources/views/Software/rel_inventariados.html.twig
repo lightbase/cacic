@@ -12,7 +12,6 @@
 	    <tr>
 	    	<th width="30%">{{ "Software"|trans }}</th>
 	    	<th width="20%">{{ "Local"|trans }}</th>
-            <th width="20%">{{ "Subrede"|trans }}</th>
 	        <th width="20%" style="text-align: center">{{ "Máquinas"|trans }}</th>
 	    </tr>
 	</thead>
@@ -22,10 +21,9 @@
 	    {% for reg in dados %}
 	
         <tr>
-            <td><a href="{{ path('cacic_relatorio_software_lista', {'software': reg['nmSoftware']}) }}" title="{{ "Relatório de coletas do software"|trans }}" target="_blank">{{ reg['nmSoftware'] }}</a></td>
+            <td><a href="{{ path('cacic_relatorio_software_lista') }}/{{ reg['nmSoftware'] }}" title="{{ "Relatório de coletas do software"|trans }}" target="_blank">{{ reg['nmSoftware'] }}</a></td>
             <td>{{ reg['nmLocal'] }}</td>
-            <td>{{ reg['nmRede'] }} / {{ reg['teIpRede'] }}</td>
-            <td style="text-align: center"><a href="{{ path('cacic_relatorio_software_lista', {'software': reg['nmSoftware']}) }}" title="{{ "Relatório de coletas do software"|trans }}" target="_blank">{{ reg['numComp'] }}</a></td>
+            <td style="text-align: center"><a href="{{ path('cacic_relatorio_software_lista') }}/{{ reg['nmSoftware'] }}/{{ reg['nmLocal'] }}" title="{{ "Relatório de coletas do software"|trans }}" target="_blank">{{ reg['numComp'] }}</a></td>
         </tr>
 
     	{% else %}

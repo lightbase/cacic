@@ -36,11 +36,13 @@ class RedeRepository extends EntityRepository
     public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
         $qb = $this->createQueryBuilder('r')
-            ->select('r.idRede','r.nmRede','r.teIpRede','r.teServCacic', 'r.teServUpdates', 'r.teMascaraRede', 'l.nmLocal', 'COUNT(comp.idComputador) AS numComp', 's.nmServidorAutenticacao')
+            ->select('r.idRede','r.nmRede','r.teIpRede','r.teServCacic', 'r.teServUpdates',
+                'r.teMascaraRede', 'l.nmLocal', 'COUNT(comp.idComputador) AS numComp', 's.nmServidorAutenticacao','uorg.nmUorg')
             ->innerJoin('CacicCommonBundle:Local', 'l', 'WITH', 'l.idLocal = r.idLocal')
             ->leftJoin('CacicCommonBundle:ServidorAutenticacao', 's', 'WITH', 's.idServidorAutenticacao = r.idServidorAutenticacao')
             ->leftJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'comp.idRede = r.idRede')
-            ->groupBy('r.idRede, r.nmRede, r.teIpRede, r.teServCacic, r.teServUpdates, r.teMascaraRede, l.nmLocal, s.nmServidorAutenticacao')
+            ->leftJoin('CacicCommonBundle:Uorg', 'uorg', 'WITH', 'uorg.rede = r.idRede')
+            ->groupBy('r.idRede, r.nmRede, r.teIpRede, r.teServCacic, r.teServUpdates, r.teMascaraRede, l.nmLocal, s.nmServidorAutenticacao, uorg.nmUorg')
             ->orderBy('r.teIpRede, l.nmLocal');
 
         return $paginator->paginate(
@@ -175,5 +177,34 @@ class RedeRepository extends EntityRepository
         }
 
         return $qb->getQuery()->getArrayResult();
+    }
+
+    public function gerarRelatorioRede( $filtros, $idRede )
+    {
+        $qb = $this->createQueryBuilder('rede')
+            ->select('DISTINCT (comp.idComputador)', 'comp.nmComputador', 'comp.teNodeAddress','comp.teIpComputador', 'comp.dtHrUltAcesso', 'so.idSo', 'so.inMswindows', 'so.sgSo', 'rede.idRede'
+                , 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp','WITH','rede.idRede = comp.idRede')
+            ->innerJoin('CacicCommonBundle:ComputadorColetaHistorico','hist', 'WITH', 'comp.idComputador = hist.computador')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('rede.idLocal', 'local')
+            ->where('comp.idRede = :rede')
+            ->setParameter('rede', $idRede);
+        /**
+         * Verifica os filtros
+         */
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
+            $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+
+
+
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
+            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) )
+            $qb->andWhere('property.idClassProperty IN (:conf)')->setParameter('conf', explode( ',', $filtros['conf'] ));
+
+
+        return $qb->getQuery()->execute();
     }
 }

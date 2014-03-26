@@ -1,0 +1,27 @@
+Cacic\CommonBundle\Entity\LogAcesso:
+    type: entity
+    table: log_acesso
+    repositoryClass: Cacic\CommonBundle\Entity\LogAcessoRepository
+    fields:
+        idLogAcesso:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_log_acesso
+            generator:
+                strategy: IDENTITY
+        data:
+            type: datetime
+            nullable: false
+            column: data
+    manyToOne:
+        idComputador:
+            targetEntity: Computador
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false

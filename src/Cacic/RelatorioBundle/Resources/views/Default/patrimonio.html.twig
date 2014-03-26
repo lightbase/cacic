@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}
    <li class="active">{{ "Relatório de Informações Patrimoniais"|trans }}</li>
@@ -17,6 +17,8 @@
             var tSW = $('#transferSW').bootstrapTransfer({'target_id':'tSw'});
 		    var tLoc = $('#transferLocais').bootstrapTransfer({'target_id':'tLoc'});
 		    var tSO = $('#transferSO').bootstrapTransfer({'target_id':'tSo'});
+            var tConf = $('#transferConf').bootstrapTransfer({'target_id':'tConf'});
+			var tUorg = $('#transferUorg').bootstrapTransfer({'target_id':'tUorg'});
 
             tSW.populate([ // Popula o TRANSFER com Softwares
                 {% for sw in sw %}
@@ -39,13 +41,30 @@
 		        {% endfor %}
 		    ]);
 
+			tUorg.populate([ // Popula o TRANSFER com Uorg
+				{% for uorg in uorg %}
+				{value: "{{ uorg['idUorg'] }}", content:"{{ uorg['nmUorg'] }}"}{% if loop.last != true %},{% endif %}
+
+				{% endfor %}
+			]);
+
+
+			tConf.populate([ // Popula o TRANSFER com as Classes de Coleta
+				{% for c in conf %}
+				{value: "{{ c.idClassProperty }}", content: "{{ c.nmPropertyName|e('js') }}" }{% if loop.last != true %},{% endif %}
+
+				{% endfor %}
+			]);
+
 			var transferToHidden = {
-					'form' : $('#frmFiltroRelatorioHWConfiguracoes'),
-					'fieldsPrefix' : 'rel_filtro_hardware',
+					'form' : $('#frmFiltroRelatorioPatrimonio'),
+					'fieldsPrefix' : 'rel_filtro_patrimonio',
 					'elms' : [
                         { 'transferElement' : tSW  , 'inputHiddenName' : 'softwares'  },
 						{ 'transferElement' : tLoc , 'inputHiddenName' : 'locais' },
-		      			{ 'transferElement' : tSO  , 'inputHiddenName' : 'so' }
+		      			{ 'transferElement' : tSO  , 'inputHiddenName' : 'so' },
+						{ 'transferElement' : tUorg  , 'inputHiddenName' : 'uorg' },
+                        { 'transferElement' : tConf  , 'inputHiddenName' : 'conf' }
       				]
       		};
 
@@ -53,8 +72,9 @@
 
       		// Ativa o tratamento dos dados dos transfers a partir da submissão do formulário
       		System.Form.bootStrapTransfer.handle( transferToHidden );
-      		
+
 		});
+
 	</script>
 {% endblock %}
 
@@ -73,10 +93,13 @@
             </p>
             <hr />
             
-            <form method="post" id="frmFiltroRelatorioHWConfiguracoes" class="form-horizontal" target="_blank">
-            
-	            <h4>{{ 'Selecione as informações que deseja exibir'|trans }}</h4>
-	            <div id="transferConf"></div>
+            <form method="post" id={{ 'frmFiltroRelatorioPatrimonio'| trans }} class="form-horizontal" target="_blank">
+
+				<h4>{{ 'Selecione as informações que deseja exibir'|trans }}</h4>
+				<div id="transferUorg"></div>
+
+				<h4>{{ 'Selecione as informações que deseja exibir'|trans }}</h4>
+                <div id="transferConf"></div>
 
                 <h4>{{ 'Selecione os Softwares que deseja exibir'|trans }}</h4>
                 <div id="transferSW"></div>

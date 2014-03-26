@@ -2,6 +2,7 @@
 
 namespace Cacic\RelatorioBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,7 +19,6 @@ class HardwareController extends Controller
     	$locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->listar();
     	$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
 
-    	
     	return $this->render(
         	'CacicRelatorioBundle:Hardware:configuracoes_filtro.html.twig', 
         	array(

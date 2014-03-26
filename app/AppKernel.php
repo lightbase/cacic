@@ -29,6 +29,8 @@ class AppKernel extends Kernel
             new Ijanki\Bundle\FtpBundle\IjankiFtpBundle(),
             new FM\ElfinderBundle\FMElfinderBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Swpb\Bundle\CocarBundle\CocarBundle(),
+            new Ddeboer\DataImportBundle\DdeboerDataImportBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

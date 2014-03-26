@@ -36,7 +36,7 @@ bc_bootstrap:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ CacicCommonBundle, CacicRelatorioBundle, FMElfinderBundle ]
+    bundles:        [ CacicCommonBundle, CacicRelatorioBundle, FMElfinderBundle, CocarBundle ]
     java: /usr/bin/java
     filters:
         #closure:

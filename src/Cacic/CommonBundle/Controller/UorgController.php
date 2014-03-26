@@ -39,14 +39,14 @@ class UorgController extends Controller
 			throw $this->createNotFoundException( 'Página não encontrada' );
 		
 		$uorgs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Uorg' )->getFolhasDoNo( $request->get( 'idUorgPai' ) );
-		
 		# Monta um array no formato suportado pelo plugin-in jqTree (JQuery)
 		$_tree = array();
 		foreach ( $uorgs as $uorg )
 		{
 			$_tree[] = array(
-				'label' 			=> $uorg[0]['nmUorg'],
-				'id'				=> $uorg[0]['idUorg'],
+				'label' 			=> $uorg['nmUorg'],
+                'filho'             => $uorg['numFilhas'],
+				'id'				=> $uorg['idUorg'],
 				'load_on_demand' 	=> (bool) $uorg['numFilhas']
 			);
 		}
@@ -179,5 +179,5 @@ class UorgController extends Controller
 		
 		return $response;
 	}
-	
+
 }

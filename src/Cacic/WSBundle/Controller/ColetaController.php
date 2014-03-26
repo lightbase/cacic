@@ -124,7 +124,7 @@ class ColetaController extends Controller
                     // A propriedade da coleta de software é multi valorada. Preciso tratar diferente
                     if ($strClassName == "SoftwareList") {
 
-                        // Primeiro preciso pegar todas as tags qure forem software
+                        // Primeiro preciso pegar todas as tags que forem software
                         $arrSoftware = TagValueHelper::getSoftwareTags($strNewClassValues);
 
                         // Agora insere cada registro de software individualmente
@@ -150,6 +150,7 @@ class ColetaController extends Controller
 
                             // Se o IDSoftware não existir, cria
                             if (empty($idClassProperty)) {
+                                $logger->debug("Software $softwareName não encontrado. Adicionando um novo software");
                                 // Pega o Id da classe
                                 $idClass = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findOneBy( array('nmClassName'=>$strClassName) );
 
@@ -171,40 +172,55 @@ class ColetaController extends Controller
                             // Chama função que grava a propriedade
                             $this->gerColsSetProperty('IDSoftware', $software, $idClassProperty, $computador);
 
-                            // Adiciona referência à tabela de softwares
-                            $softwareObject = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->findOneBy( array('nmSoftware' => $softwareName) );
-
-                            // Se for fazio, crio o objeto software
-                            if (empty($softwareObject)) {
-                                $softwareObject = new Software();
-                            }
-
-                            // Se não tiver nome coloco o ID Software no nome
-                            if (empty($arrTagsNames['DisplayName'])) {
-                                $softwareObject->setNmSoftware($softwareName);
-                            } else {
-                                $softwareObject->setNmSoftware($arrTagsNames['DisplayName']);
-                            }
-
-                            // Grava software recém inserido
-                            $this->getDoctrine()->getManager()->persist($softwareObject);
-                            $this->getDoctrine()->getManager()->flush();
-
                             // Agora gravo todas as propriedades para o software na tabela propriedade_software
+                            $propriedadeSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:PropriedadeSoftware')->findOneBy( array('classProperty'=> $idClassProperty, 'computador' => $computador) );
                             $classPropertyObject = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array( 'idClassProperty'=> $idClassProperty ) );
-                            $propriedadeSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:PropriedadeSoftware')->findOneBy( array('classProperty'=> $idClassProperty, 'computador' => $computador, 'software' => $softwareObject->getIdSoftware()) );
 
                             if (empty($propriedadeSoftware)) {
+                                // Primeiro crio o software
+                                $softwareObject = new Software();
+
+                                // Se não tiver nome coloco o ID Software no nome
+                                if (empty($arrTagsNames['DisplayName'])) {
+                                    $softwareObject->setNmSoftware($softwareName);
+                                } else {
+                                    $softwareObject->setNmSoftware($arrTagsNames['DisplayName']);
+                                }
+
+                                // Grava software recém inserido
+                                $this->getDoctrine()->getManager()->persist($softwareObject);
+                                $this->getDoctrine()->getManager()->flush();
+
+                                // Depois adiciono as propriedades
                                 $propriedadeSoftware = new PropriedadeSoftware();
 
                                 $propriedadeSoftware->setClassProperty($classPropertyObject);
                                 $propriedadeSoftware->setComputador($computador);
+
+                                // Ajusta valores coletados
+                                $propriedadeSoftware->setDisplayName($arrTagsNames['DisplayName']);
+                                $propriedadeSoftware->setDisplayVersion($arrTagsNames['DisplayVersion']);
+                                $propriedadeSoftware->setURLInfoAbout($arrTagsNames['URLInfoAbout']);
                                 $propriedadeSoftware->setSoftware($softwareObject);
 
                                 // Grava no banco de dados
                                 $this->getDoctrine()->getManager()->persist($propriedadeSoftware);
                                 $this->getDoctrine()->getManager()->flush();
                             } else {
+                                // Adiciona referência à tabela de softwares
+                                $softwareObject = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->find( $propriedadeSoftware->getSoftware()->getIdSoftware() );
+
+                                // Se não tiver nome coloco o ID Software no nome
+                                if (empty($arrTagsNames['DisplayName'])) {
+                                    $softwareObject->setNmSoftware($softwareName);
+                                } else {
+                                    $softwareObject->setNmSoftware($arrTagsNames['DisplayName']);
+                                }
+
+                                // Grava software recém inserido
+                                $this->getDoctrine()->getManager()->persist($softwareObject);
+                                $this->getDoctrine()->getManager()->flush();
+
                                 // Ajusta valores coletados
                                 $propriedadeSoftware->setDisplayName($arrTagsNames['DisplayName']);
                                 $propriedadeSoftware->setDisplayVersion($arrTagsNames['DisplayVersion']);

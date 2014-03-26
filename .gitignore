@@ -1,0 +1,34 @@
+# Bootstrap
+app/bootstrap*
+
+# Symfony directories
+vendor/*
+*/logs/*
+*/cache/*
+web/uploads/*
+web/bundles/*
+
+# Configuration files
+app/config/parameters.ini
+app/config/parameters.yml
+
+# Composer
+composer.phar
+composer.lock
+
+# Ignore SVN
+*.svn
+
+# Ignora toda a pasta Web
+web/assets/
+web/css/
+web/downloads/
+web/images/
+web/js/
+web/assetic/
+
+# Ignora htaccess
+.htaccess
+
+# Ignora arquivo do importador
+src/Cacic/CommonBundle/Resources/data/importacao.zip

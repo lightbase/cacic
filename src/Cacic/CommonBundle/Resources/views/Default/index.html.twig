@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block body %}
 
@@ -11,7 +11,7 @@
 				<div class="block box_content round_bottom padding_10">
 					<ul class="statistics">
 						<li><a href="{{ path('cacic_computador_navegar') }}"><i class="icon-laptop icon-large"></i><span class="blue">{{ estatisticas['totalCompMonitorados'] }}</span>{{ 'Totais de computadores monitorados'|trans }}</a></li>
-						<li><a href="{{ path('cacic_log_acesso') }}"><i class="icon-exchange icon-large"></i><span class="blue">0</span> {{ 'Últimos acessos dos agentes'|trans }}</a></li>
+						<li><a href="{{ path('cacic_relatorio_faturamento') }}"><i class="icon-exchange icon-large"></i><span class="blue">{{ estatisticas['totalComp'][0][1] }}</span> {{ 'Acessos dos agentes nos últimos 30 dias'|trans }}</a></li>
 						<li><a href="{{ path('cacic_log_insucesso_instalacao') }}"><i class="icon-warning-sign icon-large"></i><span class="red">{{ estatisticas['totalInsucessosInstalacao'] }}</span> {{ 'Totais de tentativas de instalação malsucedidas'|trans }}</a></li>
 					</ul>
 				</div>

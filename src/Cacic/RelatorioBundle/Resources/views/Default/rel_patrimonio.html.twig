@@ -15,8 +15,10 @@
             <th width="20%">{{ "I.P"|trans }}</th>
             <th width="20%">{{ "Local"|trans }}</th>
             {%  if ( exibirColunaSoftware ) %}
-            <th width="20%">{{ "Software"|trans }}</th>
+                <th width="20%">{{ "Software"|trans }}</th>
             {%  endif %}
+
+
         </tr>
         </thead>
 
@@ -25,13 +27,21 @@
         {% for reg in dados %}
 
             <tr>
-                <td>{{ reg['nmComputador'] }}</td>
-                <td>{{ reg['teSo'] }}</td>
-                <td>{{ reg["teIpRede"] }}</td>
+                <td><b>
+				<a href="{{ path("cacic_computador_detalhar") }}/{{ reg['idComputador'] }}" target="_blank">
+					{{ reg['nmComputador'] }}
+				</a></b>
+				</td>
+                <td><span class="{% if reg['inMswindows'] == 'S' %}red{% else %}blue{% endif %}">{{ reg['sgSo'] }}</span></td>
+                <td><a href="{{ path("cacic_computador_detalhar") }}/{{ reg['idComputador'] }}" target="_blank">
+					{{ reg["teIpRede"] }}
+				</a></td>
                 <td>{{ reg['nmLocal'] }}</td>
                 {%  if ( exibirColunaSoftware ) %}
                 <td>{{ reg['nmSoftware'] }}</td>
                 {%  endif %}
+
+
             </tr>
 
         {% else %}

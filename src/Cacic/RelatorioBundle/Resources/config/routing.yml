@@ -2,9 +2,15 @@ cacic_relatorio_autorizacoes:
     pattern: /autorizacoes
     defaults: { _controller: CacicRelatorioBundle:Default:autorizacoes }
 
-cacic_relatorio_tcpIp:
-    pattern: /tcpip
-    defaults: { _controller: CacicRelatorioBundle:Default:tcpIp }
+cacic_relatorio_faturamento:
+    pattern: /faturamento
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:index }
+
+cacic_relatorio_faturamento_listar:
+    pattern: /software/faturamento/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:listar, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+
 
 cacic_relatorio_patrimonio:
     pattern: /patrimonio
@@ -105,9 +111,20 @@ cacic_relatorio_hardware_wmi_rel:
             _method: POST
 
 cacic_relatorio_software_lista:
-    pattern: /software/inventariados/{software}
-    defaults: { _controller: CacicRelatorioBundle:Software:lista }
+    pattern: /software/inventariados/{nmSoftware}/{nmLocal}
+    defaults: { _controller: CacicRelatorioBundle:Software:lista, nmSoftware:null, nmLocal:null }
 
 cacic_relatorio_hardware_wmi_detalhe:
     pattern: /hardware/{classe}/{propriedade}
     defaults: { _controller: CacicRelatorioBundle:Hardware:wmiRelatorioDetalhe }
+
+cacic_relatorio_inativos:
+    pattern: /inativos
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:inativos }
+
+cacic_relatorio_inativos_listar:
+    pattern: /inativos/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:listarInativos, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+
+

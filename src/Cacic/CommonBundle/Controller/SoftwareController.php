@@ -114,7 +114,7 @@ class SoftwareController extends Controller
      * Tela de classificação EM LOTE de Softwares
      * @param Symfony\Component\HttpFoundation\Request $request
      */
-    public function naoClassificadosAction( Request $request )
+    public function naoClassificadosAction($page, Request $request )
     {
     	if ( $request->isMethod('POST') )
         {
@@ -148,7 +148,7 @@ class SoftwareController extends Controller
     	return $this->render(
         	'CacicCommonBundle:Software:naoclassificados.html.twig', 
         	array(
-        		'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listarNaoClassificados(),
+        		'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listarNaoClassificados( $this->get( 'knp_paginator' ), $page ),
         		'tipos' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoSoftware' )->findAll()
         	) 
         );

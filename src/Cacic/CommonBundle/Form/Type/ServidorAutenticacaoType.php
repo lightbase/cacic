@@ -55,8 +55,7 @@ class  ServidorAutenticacaoType extends AbstractType
                 'label'=>'Servidor Ativo:',
                 'required'  => true,
                 'multiple'=> false,
-                'expanded'  => true,
-                'data'=> 'S'
+                'expanded'  => true
             )
         );
 

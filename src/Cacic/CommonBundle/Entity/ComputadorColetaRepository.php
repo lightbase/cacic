@@ -147,10 +147,11 @@ class ComputadorColetaRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
-    public function gerarRelatorioSoftware( $filtros, $software )
+    public function gerarRelatorioSoftware( $filtros, $software, $local )
     {
         $qb = $this->createQueryBuilder('coleta')
-            ->select('DISTINCT IDENTITY(coleta.computador), property.nmPropertyName, coleta.teClassPropertyValue, comp.nmComputador, comp.teNodeAddress, comp.teIpComputador, so.idSo, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal, local.idLocal, hist.dtHrInclusao')
+            ->select('DISTINCT IDENTITY(coleta.computador), property.nmPropertyName, coleta.teClassPropertyValue, comp.nmComputador, comp.teNodeAddress,
+             comp.teIpComputador, so.idSo, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal, local.idLocal, comp.dtHrInclusao')
             ->innerJoin('CacicCommonBundle:ComputadorColetaHistorico','hist', 'WITH', 'coleta.idComputadorColeta = hist.computadorColeta')
             ->innerJoin('coleta.classProperty', 'property')
             ->innerJoin('property.idClass', 'classe')
@@ -166,7 +167,10 @@ class ComputadorColetaRepository extends EntityRepository
         /**
          * Verifica os filtros
          */
-        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
+        if (!empty($local))
+            $qb->andWhere('local.nmLocal IN (:local)')->setParameter('local', $local);
+
+        if ( array_key_exists('local', $filtros) && !empty($filtros['local']) )
             $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
 
         if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) )

@@ -1,3 +1,6 @@
+CocarBundle_cocar_annotation:
+            resource: "@CocarBundle/Resources/config/routing.yml"
+            prefix:   /cocar/
 cacic_ws:
     resource: "@CacicWSBundle/Resources/config/routing.yml"
     prefix:   /ws/
@@ -12,6 +15,10 @@ cacic_common:
 
 elfinder:
      resource: "@FMElfinderBundle/Resources/config/routing.yml"
+
+CocarBundle_cocar_annotation:
+            resource: "@CocarBundle/Resources/config/routing.yml"
+            prefix:   /cocar
 
 # Internal routing configuration to handle ESI
 # ****** WARNING ******

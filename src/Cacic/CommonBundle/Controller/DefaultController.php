@@ -16,7 +16,8 @@ class DefaultController extends Controller
 		$estatisticas = array(
 			'totalCompMonitorados' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countAll(),
 			'totalInsucessosInstalacao' => $this->getDoctrine()->getRepository('CacicCommonBundle:InsucessoInstalacao')->countAll(),
-			'totalCompPorSO' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorSO()
+			'totalCompPorSO' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorSO(),
+			'totalComp' => $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->countPorComputador()
 		);
 		
 		return $this->render(

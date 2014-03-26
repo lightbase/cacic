@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}     
     <li><a href="{{ path('cacic_computador_navegar') }}">{{ "Computadores"|trans }}</a></li> / 
@@ -36,8 +36,10 @@
 	            			<td colspan="3">{{ computador.idSo }}</td>
 	            		</tr>
 	            		<tr>
-	            			<th width="20%">{{ 'Endereço TCP/IP'|trans }}</th>
-	            			<td colspan="3">{{ computador.teIpComputador }}</td>
+	            			<th width="10%">{{ 'Endereço TCP/IP'|trans }}</th>
+	            			<td width="20%">{{ computador.teIpComputador }}</td>
+							<th width="20%">{{ 'Nome/IP da subrede'|trans }}</th>
+							<td width="30%">{{ computador.idRede.nmRede }} - {{ computador.idRede.teIpRede }}</td>
 	            		</tr>
 	            		<tr>
 	            			<th width="20%">{{ 'Versão do Agente Principal'|trans }}</th>

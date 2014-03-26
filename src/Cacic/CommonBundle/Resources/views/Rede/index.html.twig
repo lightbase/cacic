@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}
     <li class="active">{{ "Subredes"|trans }}</li>
@@ -86,22 +86,95 @@
   </div><!-- /span -->
 </div><!-- /row -->
     <!-- Modal para Vincular UORG's -->
-    <div id="vincularUORGs" title="{{ "Vincular UORG's"|trans }}">
-        <form id="frmVincularUORGs">
-            <fieldset>
-               <div style="margin-top: 200px; margin-left: 100px"><h1> Em manunteção!!!</h1></div>
-            </fieldset>
-        </form>
-    </div>
+    <div id="vincularUORGs" title="{{ "Vincular UORG's"|trans }}">   </div>
 
 {% endblock %}
+
+
+{% block stylesheets %}
+
+	{{ parent() }}
+
+	<link href="{{ asset('bundles/caciccommon/jqTree-0.15/jqtree.css') }}" type="text/css" rel="stylesheet" media="screen" />
+
+	<style type="text/css">
+		#tree_uorg0 {
+			color: #000;
+			font-size: 14pt;
+			font-weight: bold;
+			margin-left: 25px;
+		}
+		#tree_uorg0 li.jqtree_common {
+			line-height: 20pt;
+			margin-left: 25px;
+		}
+	</style>
+
+{% endblock %}
+
+
 {% block javascripts %}
 
     {{ parent() }}
 
-    <script type="text/javascript">
+
+	<script type="text/javascript" src="{{ asset('bundles/caciccommon/jqTree-0.15/tree.jquery.js') }}"></script>
+
+	<script type="text/javascript">
+
+		var _dados = [ // Unidades de primeiro nível
+			{% for uorg in uorgs %}
+			{
+				label: '{{ uorg.nmUorg }}',
+				id: {{ uorg.idUorg }},
+				filha:{{ uorg.numFilhas }},
+				load_on_demand: {% if uorg.numFilhas  %}true {% else %}false{% endif %}
+
+			}{% if loop.last != true %},{% endif %}
+
+			{% endfor %}
+		];
+
+		$(function() {
 
 
+			$('#vincularUORGs').tree({
+				data: _dados,
+				dataUrl: function( node ) {
+					return '{{ path('cacic_uorg_loadnodes') }}/'+ node.id +'';
+				},
+				onCreateLi: function(node, $li) {
+
+						if(node.filha <= 0){
+
+							var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" name="uorg" value="'+node.id+'" /></a> '
+						}
+
+						if(node.filho <= 0){
+
+							var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" name="uorg" value="'+node.id+'" /></a> '
+
+						}
+
+					$li.find('span.jqtree-title').after( _acoesNode );
+
+					// Substitui a "seta" indicadora de existência de filhos
+					//$li.find('a.jqtree-toggler').html('<i class="icon-folder-close-alt"></i>');
+				},
+				autoEscape: false
+			});
+		});
+		$(function(){
+			$('#vincularUORGs').click(function(){
+				var val = [];
+				$(':checkbox:checked').each(function(i){
+					val[i] = $(this).val();
+
+				});
+				$( this).data(  'val', val).dialog( "open" );
+			});
+		});
+		var senha = $( '#uorg' ).val();
         $( "#vincularUORGs" ).dialog({
             autoOpen: false,
             height: 550,
@@ -109,7 +182,31 @@
             modal: true,
             buttons: {
                 "Salvar" : function(){
-                    $( this ).dialog( "close" );
+					var params = {
+						'id' : $( this ).data( 'id' ),
+						'uorg' :$( this ).data( 'val' )
+
+				};
+					$( this ).dialog( "close" );
+					$.ajax(
+							{
+								type: "POST",
+								url: "{{ path('cacic_subrede_vincular') }}",
+								cache: false,
+								async: false,
+								success: function( data )
+								{
+									System.Flash.show( 'Sucesso', 'Vinculação realizada com sucesso!' );
+								},
+								error: function( data )
+								{
+									System.Flash.show( 'Erro', 'Erro na solicitação' );
+								},
+								data: params
+							}
+					);
+
+		$( this ).dialog( "close" );
                 },
                 "Cancelar" : function(){
                     $( this ).dialog( "close" );
@@ -125,6 +222,5 @@
             var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
             $( "#vincularUORGs" ).data( 'id', id ).dialog( "open" );
         });
-
     </script>
 {% endblock %}

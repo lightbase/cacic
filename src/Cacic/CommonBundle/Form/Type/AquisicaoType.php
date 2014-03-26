@@ -19,7 +19,7 @@ class AquisicaoType extends AbstractType
         $builder->add(
             'nrProcesso',
             null,
-            array( 'label'=>'Processo de aquisicao:', 'max_length'=>11 )
+            array( 'label'=>'Processo de aquisicao:', 'max_length'=>60 )
         );
 
         $builder->add(

@@ -15,12 +15,13 @@ class UsuarioRepository extends EntityRepository
 
     public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
     {
-        $_dql = "SELECT u, l.nmLocal, g.teGrupoUsuarios, COUNT(ls.idLocal) as numLocSec
+        $_dql = "SELECT u, u.nmUsuarioCompleto, l.nmLocal, g.teGrupoUsuarios, COUNT(ls.idLocal) as numLocSec
 				FROM CacicCommonBundle:Usuario u
 				JOIN u.idLocal l
 				JOIN u.idGrupoUsuario g
 				LEFT JOIN u.locaisSecundarios ls
-				GROUP BY u, l.nmLocal, g.teGrupoUsuarios";
+				GROUP BY u, l.nmLocal, g.teGrupoUsuarios
+				ORDER BY u.nmUsuarioCompleto, l.nmLocal ASC";
 
         return $paginator->paginate(
             $this->getEntityManager()->createQuery( $_dql ),

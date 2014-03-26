@@ -36,7 +36,7 @@ class GrupoUsuarioType extends AbstractType
                 'label' => 'Acessos:'
             )
         );
-        $builder->add( 'csNivelAdministracao', 'text',
+        $builder->add( 'csNivelAdministracao', 'number',
             array(
                 'max_length' => 50,
                 'required'=>false,

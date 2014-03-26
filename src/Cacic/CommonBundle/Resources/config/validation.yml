@@ -207,7 +207,7 @@ Cacic\CommonBundle\Entity\Aquisicao:
         nrProcesso:
             - NotBlank: ~
             - Length:
-                max: 11
+                max: 40
         nmEmpresa:
             - NotBlank: ~
             - Length:

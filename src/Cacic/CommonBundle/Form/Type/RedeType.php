@@ -22,6 +22,7 @@ class RedeType extends AbstractType
 				'empty_value' => 'Selecione o Local',
 				'class' => 'CacicCommonBundle:Local',
 				'property' => 'nmLocal',
+                'required' =>true,
 				'label' => 'Local'
 			)
 		);

@@ -7,3 +7,8 @@ services:
         class: Cacic\CommonBundle\Twig\SiglasExtension
         tags:
             - { name: twig.extension }
+    cacic.twig.bundles_extension:
+        class: Cacic\CommonBundle\Twig\BundlesExtension
+        arguments: [@service_container]
+        tags:
+            - { name: twig.extension } 

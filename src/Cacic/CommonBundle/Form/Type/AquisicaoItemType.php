@@ -2,6 +2,7 @@
 
 namespace Cacic\CommonBundle\Form\Type;
 
+use Cacic\CommonBundle\Entity\SoftwareRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -31,9 +32,19 @@ class AquisicaoItemType extends AbstractType
             'entity',
             array(
                 'class' => 'CacicCommonBundle:Software',
-                'property' => 'nmSoftware',
+                'query_builder' => function(SoftwareRepository $er) {
+                        return $er->createQueryBuilder('sw')
+                            ->select('sw')
+                            ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
+                            ->innerJoin('CacicCommonBundle:ClassProperty', 'class','WITH', 'prop.classProperty = class.idClassProperty')
+                            ->groupBy('class.idClassProperty, class.nmPropertyName, sw')
+                            ->orderBy('sw.nmSoftware');
+                    },
+                'property'=>'nmSoftware',
                 'empty_value' => 'Selecione',
-                'label'=>'Software:', 'max_length'=>100 )
+                'label'=>'Software:',
+                'max_length'=>100
+            )
         );
 
         $builder->add(
