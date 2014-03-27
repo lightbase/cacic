@@ -97,14 +97,14 @@ class SoftwareRepository extends EntityRepository
     {
         // Monta a Consulta básica...
         $qb = $this->createQueryBuilder('sw')
-            ->select('COALESCE(sw.nmSoftware, prop.displayName) as nmSoftware', 'l.nmLocal','COUNT(DISTINCT col.computador) AS numComp')
+            ->select('COALESCE(sw.nmSoftware) as nmSoftware', 'l.nmLocal','COUNT(DISTINCT col.computador) AS numComp')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
             ->innerJoin('CacicCommonBundle:ClassProperty', 'class','WITH', 'prop.classProperty = class.idClassProperty')
             ->innerJoin('CacicCommonBundle:ComputadorColeta', 'col', 'WITH', 'col.computador = prop.computador')
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'col.computador = comp.idComputador')
             ->innerJoin('comp.idRede','r')
             ->leftJoin('r.idLocal', 'l')
-            ->groupBy('sw.nmSoftware, prop.displayName, l.nmLocal')
+            ->groupBy('sw.nmSoftware, l.nmLocal')
             ->orderBy('sw.nmSoftware, l.nmLocal');
 
         /**
