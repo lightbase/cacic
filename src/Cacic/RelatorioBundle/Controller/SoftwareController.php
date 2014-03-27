@@ -157,7 +157,7 @@ class SoftwareController extends Controller
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Software')
     					->gerarRelatorioSoftwaresPorOrgao( $request->get('form') );
-    	
+
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_orgao.html.twig', 
         	array(

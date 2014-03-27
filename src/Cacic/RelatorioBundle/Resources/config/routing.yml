@@ -5,6 +5,14 @@ cacic_relatorio_autorizacoes:
 cacic_relatorio_faturamento:
     pattern: /faturamento
     defaults: { _controller: CacicRelatorioBundle:Faturamento:index }
+    requirements:
+        _method: GET
+
+cacic_relatorio_resultado:
+     pattern: /faturamento
+     defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoRelatorio }
+     requirements:
+         _method: POST
 
 cacic_relatorio_faturamento_listar:
     pattern: /software/faturamento/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
@@ -121,6 +129,14 @@ cacic_relatorio_hardware_wmi_detalhe:
 cacic_relatorio_inativos:
     pattern: /inativos
     defaults: { _controller: CacicRelatorioBundle:Faturamento:inativos }
+    requirements:
+        _method: GET
+
+cacic_relatorio_inativos_rel:
+     pattern: /inativos
+     defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosRelatorio }
+     requirements:
+         _method: POST
 
 cacic_relatorio_inativos_listar:
     pattern: /inativos/{idRede}/{dtAcaoInicio}/{dtAcaoFim}

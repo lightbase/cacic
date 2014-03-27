@@ -1,9 +1,17 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
 <div class="row-fluid">
     <div class="span12">
         <div class="box grad_colour_black">
             <h2 class="box_head round_top"><i class="icon-list"></i> {{'Resultado do Faturamento' |trans }}</h2>
             <div class="block box_content round_bottom padding_10">
 
+				<h2 class="">{{ 'Relatório de Faturamento'|trans }}</h2>
+				<h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+				<hr />
 
               <form id="faturamento" class="form-horizontal"  method="post" >
 
@@ -56,3 +64,5 @@
         </div> <!-- /box -->
     </div> <!-- /span -->
 </div> <!-- /row -->
+
+{% endblock %}

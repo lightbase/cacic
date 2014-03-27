@@ -17,7 +17,7 @@
 
                     <h4>{{ "Período para verificação de computadores inativos"|trans }}</h4><br />
 
-                    <form id={{ 'formFaturamento'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
+                    <form id={{ 'formFaturamento'|trans }} class="form-horizontal"  method="post" target="_blank">
 
                         <div class="control-group">
                             <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
@@ -80,11 +80,6 @@
         </div> <!-- span4 -->
 
     </div> <!-- /row -->
-
-    {% if logs is not null %}
-        {% include 'CacicRelatorioBundle:Faturamento:inativosResultado.html.twig' %}
-
-    {% endif %}
 
 {% endblock %}
 

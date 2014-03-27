@@ -18,7 +18,17 @@
 
             $form = $this->createForm( new LogPesquisaType() );
 
+            return $this->render( 'CacicRelatorioBundle:Faturamento:index.html.twig',
+                array(
+                    'locale'=> $locale,
+                    'form' => $form->createView()
+                )
+            );
+        }
 
+        public function faturamentoRelatorioAction(Request $request){
+            $locale = $request->getLocale();
+            $form = $this->createForm( new LogPesquisaType() );
             if ( $request->isMethod('POST') )
             {
                 $form->bind( $request );
@@ -31,12 +41,11 @@
 
                 $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogAcesso')
                     ->pesquisar( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
-
             }
 
-            return $this->render( 'CacicRelatorioBundle:Faturamento:index.html.twig',
+            return $this->render( 'CacicRelatorioBundle:Faturamento:acessoResultado.html.twig',
                 array(
-                    'locale'=> $locale,
+                    'idioma'=> $locale,
                     'form' => $form->createView(),
                     'data' =>$data,
                     'logs' => ( isset( $logs ) ? $logs : null )
@@ -72,6 +81,19 @@
 
             $form = $this->createForm( new LogPesquisaType() );
 
+            return $this->render( 'CacicRelatorioBundle:Faturamento:inativos.html.twig',
+                array(
+                    'locale'=> $locale,
+                    'form' => $form->createView()
+                )
+            );
+        }
+
+        public function inativosRelatorioAction(Request $request){
+            $locale = $request->getLocale();
+
+            $form = $this->createForm( new LogPesquisaType() );
+
 
             if ( $request->isMethod('POST') )
             {
@@ -88,9 +110,9 @@
 
             }
 
-            return $this->render( 'CacicRelatorioBundle:Faturamento:inativos.html.twig',
+            return $this->render( 'CacicRelatorioBundle:Faturamento:inativosResultado.html.twig',
                 array(
-                    'locale'=> $locale,
+                    'idioma'=> $locale,
                     'form' => $form->createView(),
                     'data' =>$data,
                     'logs' => ( isset( $logs ) ? $logs : null )

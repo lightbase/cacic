@@ -21,7 +21,7 @@
         <tr>
             <td style="text-align: center"><span class="red">{{ reg.teDescricaoTipoSoftware }}</span></td>
             <td><span class="blue">{{ reg.nmSoftware }}</span></td>
-            <td style="text-align: center"><b><a href="{{ path('cacic_relatorio_software_lista', {'software': reg['nmSoftware']}) }}" title="{{ "Relatório de coletas do software"|trans }}" target="_blank">
+            <td style="text-align: center"><b><a href="{{ path('cacic_relatorio_software_lista') }}/{{reg['nmSoftware']}}" title="{{ "Relatório de coletas do software"|trans }}" target="_blank">
 				{{ reg.numComp }}</a></b></td>
         </tr>
     	{% else %}
