@@ -24,7 +24,9 @@
 				        <th width="20%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
                         <th width="20%" style="text-align: center">{{ "Estações"|trans }}</th>
                         <th style="text-align: center">
-
+							<a class="btn btn-success" href="{{ path('cacic_faturamento_listar_csv') }}/{{ logs[0]['idRede'] }}/{{data['dtAcaoInicio'] }}/{{ data['dtAcaoFim'] }}"  title="{{ "Relatório de coletas do software"|trans }}" target="_blank">
+								<i class="icon-download-alt"></i>
+							</a>
                         </th>
 				    </tr>
 				    </thead>
@@ -35,7 +37,7 @@
 				        <tr>
 				            <td style="text-align: center">{{ loop.index }}</td>
 				            <td>
-								<b><a  href="{{ path('cacic_relatorio_faturamento_listar') }}/{{ log['idRede'] }}/{{data['dtAcaoInicio'] }}/{{ data['dtAcaoFim'] }}"  title="{{ "Relatório de coletas do software"|trans }}" target="_blank">
+								<b><a  href="{{ path('cacic_relatorio_faturamento_listar') }}/{{ log['idRede'] }}/{{data['dtAcaoInicio'] }}/{{ data['dtAcaoFim'] }}"  title="{{ "Máquinas faturadas"|trans }}" target="_blank">
 								{{ log['nmLocal'] }}</a></b>
 							</td>
                             <td>{{ log['nmRede'] }}</td>

@@ -358,5 +358,75 @@ class ComputadorRepository extends EntityRepository
 
         return $query->getQuery()->execute();
     }
+    public function inativosCsv( $dataInicio, $dataFim, $locais )
+    {
+
+        // Monta a Consulta básica...
+        $query = $this->createQueryBuilder('comp')
+            ->select('loc.nmLocal',  'rede.nmRede', 'rede.teIpRede', 'COUNT(DISTINCT comp.idComputador) as numComp')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'loc');
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+
+        if (empty($dataInicio) && empty($dataFim)) {
+            // Aqui não preciso filtrar pela data
+            $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador');
+        } else {
+
+            $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador AND log.data >= :dtInicio AND log.data <= :dtFim')
+                ->setParameter('dtInicio', ( $dataInicio.' 00:00:00' ))
+                ->setParameter('dtFim', ( $dataFim.' 23:59:59' ));
+
+        }
+
+        if ( count($locais) )
+            $query->andWhere( 'loc.idLocal IN (:locais)' )->setParameter('locais', $locais);
+
+
+        // Filtro que mostra somente máquinas sem coleta
+        $query->andWhere('log.idComputador IS NULL');
+
+        // Agrupa todos os campos
+        $query->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
+
+        return $query->getQuery()->execute();
+    }
+    public function listarInativosCsv( $filtros, $idRede,$dataInicio, $dataFim ) {
+
+        // Monta a Consulta básica...
+        $query = $this->createQueryBuilder('comp')
+
+            ->select(  'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.sgSo', 'loc.nmLocal', 'rede.nmRede,rede.teIpRede')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'loc');
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if (empty($dataInicio) && empty($dataFim)) {
+            // Aqui não preciso filtrar pela data
+            $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador');
+        } else {
+
+            $query->leftJoin('CacicCommonBundle:LogAcesso', 'log', 'WITH', 'comp.idComputador = log.idComputador AND log.data >= :dtInicio AND log.data <= :dtFim')
+                ->setParameter('dtInicio', ( $dataInicio.' 00:00:00' ))
+                ->setParameter('dtFim', ( $dataFim.' 23:59:59' ));
+        }
+
+        if ( $idRede )
+            $query->andWhere( 'comp.idRede IN (:rede)' )->setParameter('rede', $idRede);
+
+        // Filtro que mostra somente máquinas sem coleta
+        $query->andWhere('log.idComputador IS NULL');
+
+        $query->groupBy('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo');
+
+
+        return $query->getQuery()->execute();
+    }
 
 }

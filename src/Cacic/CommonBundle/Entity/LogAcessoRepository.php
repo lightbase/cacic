@@ -102,8 +102,56 @@ class LogAcessoRepository extends EntityRepository
             ->andWhere( 'log.data >= (current_date() - 30)' );
 
         return $query->getQuery()->execute();
-
     }
+    public function faturamentoCsv( $dataInicio, $dataFim, $locais )
+    {
 
+        // Monta a Consulta básica...
+        $query = $this->createQueryBuilder('log')
+            ->select( 'loc.nmLocal', 'rede.nmRede', 'rede.teIpRede', 'COUNT(DISTINCT log.idComputador) as numComp')
+            ->innerJoin('log.idComputador', 'comp')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'loc')
+            ->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if ( $dataInicio )
+            $query->andWhere( 'log.data >= :dtInicio' )->setParameter('dtInicio', ( $dataInicio.' 00:00:00' ));
+
+        if ( $dataFim )
+            $query->andWhere( 'log.data <= :dtFim' )->setParameter('dtFim', ( $dataFim.' 23:59:59' ));
+
+        if ( count($locais) )
+            $query->andWhere( 'loc.idLocal IN (:locais)' )->setParameter('locais', $locais);
+
+
+        return $query->getQuery()->execute();
+    }
+    public function listarCsv( $filtros, $idRede, $dataInicio, $dataFim )
+    {
+        $query = $this->createQueryBuilder('log')
+            ->select('comp.nmComputador', 'comp.teNodeAddress','comp.teIpComputador', 'so.sgSo', 'local.nmLocal', 'rede.nmRede','max(log.data) AS data')
+            ->innerJoin('log.idComputador','comp')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('comp.idRede','rede')
+            ->innerJoin('rede.idLocal', 'local')
+            ->groupBy( 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress','comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal');
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if ( $dataInicio )
+            $query->andWhere( 'log.data >= :dtInicio' )->setParameter('dtInicio', ( $dataInicio.' 00:00:00' ));
+
+        if ( $dataFim )
+            $query->andWhere( 'log.data <= :dtFim' )->setParameter('dtFim', ( $dataFim.' 23:59:59' ));
+
+        if ( count($idRede) )
+            $query->andWhere( 'comp.idRede IN (:rede)' )->setParameter('rede', $idRede);
+
+        return $query->getQuery()->execute();
+    }
 
 }

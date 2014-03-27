@@ -4,7 +4,7 @@ cacic_relatorio_autorizacoes:
 
 cacic_relatorio_faturamento:
     pattern: /faturamento
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:index }
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamento }
     requirements:
         _method: GET
 
@@ -144,3 +144,26 @@ cacic_relatorio_inativos_listar:
     requirements:
         idRede: \d+
 
+cacic_faturamento_csv:
+    pattern: /faturamento/csv
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsv }
+    requirements:
+        _method: POST
+
+cacic_inativos_csv:
+    pattern: /inativos/csv
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosCsv }
+    requirements:
+        _method: POST
+
+cacic_faturamento_listar_csv:
+    pattern: /faturamento/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:listarCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+
+
+cacic_inativos_listar_csv:
+    pattern: /inativos/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:listarInativosCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+
