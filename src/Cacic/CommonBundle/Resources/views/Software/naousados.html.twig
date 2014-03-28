@@ -49,7 +49,11 @@
 					
 					</tbody>
                 </table>
-                
+
+				{# display navigation #}
+				<div class="navigation">
+					{{ knp_pagination_render(softwares) }}
+				</div>
 				<div class="control-group" align="right">
                   <div class="controls">
                       <button type="reset" class="btn">

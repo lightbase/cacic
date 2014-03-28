@@ -77,15 +77,20 @@ class SoftwareRepository extends EntityRepository
      *
      * Método de listagem dos Softwares cadastrados que não estão associados a nenhuma máquina
      */
-    public function listarNaoUsados()
+    public function listarNaoUsados( \Knp\Component\Pager\Paginator $paginator, $page = 1)
     {
-        $_dql = "SELECT s
-				FROM CacicCommonBundle:Software s
-				LEFT JOIN s.estacoes se
-				WHERE se IS NULL
-				ORDER BY s.nmSoftware ASC";
+        $qb = $this->createQueryBuilder('sw')
+            ->select('sw.nmSoftware, sw.idSoftware')
+            ->leftJoin( 'sw.estacoes ','se')
+            ->where('se is null')
+            ->groupBy('sw.nmSoftware,sw.idSoftware')
+            ->orderBy('sw.nmSoftware','ASC');
 
-        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+        return $paginator->paginate(
+            $qb->getQuery()->execute(),
+            $page,
+            10
+        );
     }
 
     /**

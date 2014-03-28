@@ -159,7 +159,7 @@ class SoftwareController extends Controller
      * Tela de exclusão de Softwares não associados a nenhuma máquina
      * @param Symfony\Component\HttpFoundation\Request $request
      */
-    public function naoUsadosAction( Request $request )
+    public function naoUsadosAction( Request $request, $page )
     {
     	if ( $request->isMethod('POST') )
         {
@@ -191,7 +191,7 @@ class SoftwareController extends Controller
     	return $this->render(
         	'CacicCommonBundle:Software:naousados.html.twig', 
         	array(
-        		'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listarNaoUsados()
+        		'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listarNaoUsados( $this->get( 'knp_paginator' ), $page )
         	) 
         );
     }
