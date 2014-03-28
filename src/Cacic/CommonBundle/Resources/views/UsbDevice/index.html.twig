@@ -33,11 +33,11 @@
 
                         {% for UsbDevice in UsbDevice %}
 
-                            <tr id="item_{{ UsbDevice[0].idUsbDevice }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                                <td style="text-align: center" id="item_desc_{{ UsbDevice[0].idUsbDevice }}">{{ UsbDevice[0].idUsbDevice }}-{{ UsbDevice[0].nmUsbDevice }}</td>
-                                <td style="text-align: center" ">{{ UsbDevice.idUsbVendor }}-{{ UsbDevice.nmUsbVendor }}</td>
+                            <tr id="item_{{ UsbDevice['idUsbDevice'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                                <td style="text-align: center" id="item_desc_{{ UsbDevice['idUsbDevice'] }}">{{ UsbDevice['idUsbDevice'] }}-{{ UsbDevice['nmUsbDevice'] }}</td>
+                                <td style="text-align: center" >{{ UsbDevice.idUsbVendor }}-{{ UsbDevice.nmUsbVendor }}</td>
                                 <td style="text-align: center" class="td-actions">
-                                    <a href="{{ path('cacic_usbdevice_editar', {'idUsbDevice': UsbDevice[0].idUsbDevice }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                                    <a href="{{ path('cacic_usbdevice_editar', {'idUsbDevice': UsbDevice['idUsbDevice'] }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                         <i class="btn-icon-only icon-edit icon-large"></i>
                                     </a>
 

@@ -233,8 +233,10 @@ cacic_software_naoclassificados:
         page: \d+
 
 cacic_software_naousados:
-    pattern:  /software/naousados
-    defaults: { _controller: CacicCommonBundle:Software:naoUsados}
+    pattern:  /software/naousados/{page}
+    defaults: { _controller: CacicCommonBundle:Software:naoUsados, page:1}
+    requirements:
+        page: \d+
 
 cacic_configuracao_padrao:
     pattern: /configuracao/padrao

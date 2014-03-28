@@ -39,7 +39,7 @@ class UsbDeviceType extends AbstractType
         $builder->add('teObservacao', 'textarea',
             array(
                 'label'=>'Observações',
-                'required'  => false
+                'required'  => true
             )
         );
     }

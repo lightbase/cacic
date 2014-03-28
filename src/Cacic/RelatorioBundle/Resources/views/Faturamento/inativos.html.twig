@@ -1,7 +1,7 @@
 {% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li class="active">{{ 'Inativos'|trans }}</li>
+    <li class="active">{{ 'Não Coletada'|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -11,19 +11,19 @@
         <div class="span8">
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Computadores Inativos' |trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Computadores sem coletas' |trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
 
-                    <h4>{{ "Período para verificação de computadores inativos"|trans }}</h4><br />
+                    <h4>{{ "Período para verificação de computadores sem coletas"|trans }}</h4><br />
 
-                    <form id={{ 'formFaturamento'|trans }} class="form-horizontal"  method="post" target="_blank">
+                    <form id="{{ 'formFaturamento'|trans }}" action="{{ path('cacic_relatorio_inativos') }}" class="form-horizontal"  method="post" target="_blank">
 
                         <div class="control-group">
                             <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
                             <div class="controls">
                                 {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
-                                <p class="help-block">{{ "Informe o período no qual deseja realizar a faturar."|trans }}</p>
+                                <p class="help-block">{{ "Informe o período no qual deseja realizar a consulta de máquinas sem coletas."|trans }}</p>
                             </div>
                         </div>
 
@@ -52,6 +52,10 @@
                                     <i class="icon-search"></i>
                                     {{ 'Gerar relatório'|trans }}
                                 </button>
+								<button type="submit" class="btn btn-success" formaction="{{ path('cacic_inativos_csv') }}">
+									<i class="icon-download-alt"></i>
+									{{'Gerar CSV'|trans  }}
+								</button>
                             </div>
                         </div>
 
@@ -67,7 +71,7 @@
 
                 <div class="block box_content round_bottom padding_10">
                     <p>
-                        {{ "Faturamento"|trans }}.
+                        {{ "Sem coletas"|trans }}.
                     </p>
                     <p>
                         {{ "O período é obrigatório"|trans }}.
