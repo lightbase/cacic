@@ -58,13 +58,18 @@ class ModuloController extends Controller
 			
 			$novasRedes = array_key_exists( 'rede', $_data ) ? $_data['rede'] : array();
 			$this->getDoctrine()->getRepository( 'CacicCommonBundle:AcaoRede' )->atualizarPorLocal( $idAcao, $local, $novasRedes );
-			
+           // if (  $novasRedes )
+           //     throw $this->createNotFoundException( 'Subrede não encontrado' );
+
 			$novosSO = array_key_exists( 'so', $_data ) ? $_data['so'] : array();
 			$this->getDoctrine()->getRepository( 'CacicCommonBundle:AcaoSo' )->atualizarPorLocal( $idAcao, $local, $novasRedes, $novosSO );
-			
+          //  if (  $novosSO )
+            //    throw $this->createNotFoundException( 'Subrede não encontrado' );
+
 			$novasExcecoes = array_key_exists( 'mac', $_data ) ? explode(',', $_data['mac'] ) : array();
 			$this->getDoctrine()->getRepository( 'CacicCommonBundle:AcaoExcecao' )->atualizarPorLocal( $idAcao, $local, $novasRedes, $novasExcecoes );
-			
+
+
 			$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');	
 			return $this->redirect( $this->generateUrl( 'cacic_modulo_editar', array('idAcao'=>$idAcao) ) );
 		}
@@ -87,7 +92,7 @@ class ModuloController extends Controller
 		);
 		
 		$excecoes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:AcaoExcecao' )->getArrayExcecoesPorAcao( $idAcao ); // Recupera a lista de excecoes
-		
+
 		return $this->render(
 			'CacicCommonBundle:Modulo:editar.html.twig',
 			array( 
