@@ -220,101 +220,27 @@ class DefaultController extends Controller
         //Implementação MapaCacic
         elseif( OldCacicHelper::deCrypt( $request, $request->get('ModuleProgramName') ) == 'mapacacic.exe')
         {
-            $patrimonioConfigInterfaces = $this->getDoctrine()->getRepository('CacicCommomBundle:PatrimonioConfigInterface')->findBy(array('idLocal'=>$local));
-            $strConfigsPatrimonioInterface = '';
-            foreach ($$patrimonioConfigInterfaces as $patrimonioConfigInterface)
-            {
-                $strConfigsPatrimonioInterface .= '[te_'		. $patrimonioConfigInterface->getIdEtiqueta() . ']'	. $patrimonioConfigInterface->getTeEtiqueta()		. '[/te_' 			.	$patrimonioConfigInterface->getIdEtiqueta() . ']';
-                $strConfigsPatrimonioInterface .= '[in_exibir_' . $patrimonioConfigInterface->getIdEtiqueta() . ']'	. $patrimonioConfigInterface->getInExibirEtiqueta()	. '[/in_exibir_' 	. 	$patrimonioConfigInterface->getIdEtiqueta() . ']';
-                $strConfigsPatrimonioInterface .= '[te_help_'   . $patrimonioConfigInterface->getIdEtiqueta() . ']'	. $patrimonioConfigInterface->getTeHelpEtiqueta() 	. '[/te_help_'   	. 	$patrimonioConfigInterface->getIdEtiqueta() . ']';
-            }
 
-            if ($strConfigsPatrimonioInterface)
-                $strConfigsPatrimonioInterface .= '[Configs_Patrimonio_Interface]' .OldCacicHelper::enCrypt($request, $strConfigsPatrimonioInterface) . '[/Configs_Patrimonio_Interface]';
+		    $servidorAutenticacao = $rede->getIdServidorAutenticacao();
+		    $strPatrimonio ='[ip]'     . $servidorAutenticacao->getTeIpServidorAutenticacao() . '[/ip]'           .
+							'[usuario]'        . $servidorAutenticacao->getUsuario()                  . '[/usuario]'       .
+							'[senha]'          . $servidorAutenticacao->getSenha()                    . '[/senha]'         .
+							'[base]'           . $servidorAutenticacao->getTeAtributoIdentificador()  . '[/base]'          .
+							'[identificador1]' . $servidorAutenticacao->getTeAtributoRetornaNome()    . '[/identificador1]'.
+							'[identificador2]' . $servidorAutenticacao->getTeAtributoRetornaEmail()   . '[/identificador2]'.
+							'[identificador3]' . $servidorAutenticacao->getTeAtributoRetornaTelefone(). '[/identificador3]'.
+							'[tipo_protocolo]' . $servidorAutenticacao->getIdTipoProtocolo()          . '[/tipo_protocolo]'.
+							'[porta]'          . $servidorAutenticacao->getNuPortaServidorAutenticacao. '[/porta]'         ;
+			$strPatrimonio ='[dados_ldap]'     . OldCacicHelper::enCrypt($request, $strPatrimonio)    . '[/dados_ldap]'    ;
 
             /*
-            Consulta que devolve os itens das tabelas de U.O. níveis 1, 1a e 2
-            ==================================================================
-            */
-            $dadosUsuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->findOneBy('idUsuario', OldCacicHelper::deCrypt($request, $request->get('id_usuario')));
-
-            if ($dadosUsuario->getTeLocaisSecundarios() <> '')
-                $unidades = $this->getDoctrine()->getRepository('CacicCommonBundle:Uorg')->findAll();//' AND (loc.id_local = '.$dadosUsuario[0]['id_local'] . ' OR loc.id_local in ('.$dadosUsuario[0]['te_locais_secundarios'].')) ';
-            else
-                $unidades = $this->getDoctrine()->getRepository('CacicCommonBundle:Uorg')->findAll();//' AND loc.id_local = '.$dadosUsuario[0]['id_local'];
-
-            $strConfigsPatrimonioCombos	= '';
-            $intCountTagUO1				= 0;
-            $intCountTagUO1a			= 0;
-            $intCountTagUO2				= 0;
-
-            $arrUO1						= array();
-            $arrUO1a					= array();
-
-
-            foreach ($unidades as $unidade)
-            {
-                GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][uo1_id]: ' .     $unidade['idUnidade'] );
-                GravaTESTES('arrUnidades[' . $unidade['idUnidade']. '][uo1_nm]: ' .      $unidade['uo1_nm']);
-                GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][uo1a_id]: ' .   $unidade['uo1a_id']);
-                GravaTESTES('arrUnidades[' . $unidade['idUnidade']. '][uo1a_nm]: ' .     $unidade['uo1a_nm']);
-                GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][uo2_id]: ' .     $unidade['uo2_id']);
-                GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][uo2_nm]: ' .    $unidade['uo2_nm']);
-                GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][uo2_id_local]:'.$unidade['uo2_id_local']);
-                GravaTESTES('arrUnidades[' . $unidade['idUnidade'] . '][loc_sg]: ' .     $unidade['loc_sg']);
-
-
-                GravaTESTES('Verificando arrUO['.$unidade->getIdUnidade().']: '.$unidade->getIdUnidade());
-                if (!$unidade->getIdUnidade())
-                {
-                    GravaTESTES('NÃO EXISTE!');
-                    $arrUO1[$unidade->getIdUnidade()] = 1;
-
-                    $intCountTagUO1++;
-                    $strConfigsPatrimonioCombos .= '[UO1#'   	. $intCountTagUO1 								. ']';
-                    $strConfigsPatrimonioCombos .= '[UO1_ID]'   . $unidade['uo1_id']  	. '[/UO1_ID]';
-                    $strConfigsPatrimonioCombos .= '[UO1_NM]'	. $unidade['uo1_nm']  	. '[/UO1_NM]';
-                    $strConfigsPatrimonioCombos .= '[/UO1#'  	. $intCountTagUO1  								. ']';
-                }
-                else
-                    GravaTESTES('EXISTE!');
-
-                if (!$arrUO1a[$arrUnidades[$unidade['uo1a_id']]])
-                {
-                    $arrUO1a[$arrUnidades[$unidade['uo1a_id']]] = 1;
-
-                    $intCountTagUO1a++;
-                    $strConfigsPatrimonioCombos .= '[UO1a#'  		. $intCountTagUO1a								. ']';
-                    $strConfigsPatrimonioCombos .= '[UO1a_ID]'  	. $arrUnidades[$unidade['uo1a_id']] 	. '[/UO1a_ID]';
-                    $strConfigsPatrimonioCombos .= '[UO1a_IdUO1]'  	. $arrUnidades[$unidade['uo1_id']] 	. '[/UO1a_IdUO1]';
-                    $strConfigsPatrimonioCombos .= '[UO1a_NM]'  	. $arrUnidades[$unidade['uo1a_nm']] 	. '[/UO1a_NM]';
-                    $strConfigsPatrimonioCombos .= '[/UO1a#'  		. $intCountTagUO1a  							. ']';
-                }
-
-                $intCountTagUO2++;
-
-                $strConfigsPatrimonioCombos .= '[UO2#'   		. $intCountTagUO2  									. ']';
-                $strConfigsPatrimonioCombos .= '[UO2_IdUO1a]'   . $arrUnidades[$unidade['uo1a_id']]  	. '[/UO2_IdUO1a]';
-                $strConfigsPatrimonioCombos .= '[UO2_ID]'   	. $arrUnidades[$unidade['uo2_id']]  		. '[/UO2_ID]';
-                $strConfigsPatrimonioCombos .= '[UO2_NM]'   	. $arrUnidades[$unidade['uo2_nm']]  		. '[/UO2_NM]';
-                $strConfigsPatrimonioCombos .= '[UO2_IdLocal]' 	. $arrUnidades[$unidade['uo2_id_local']] . '[/UO2_IdLocal]';
-                $strConfigsPatrimonioCombos .= '[UO2_SgLocal]' 	. $arrUnidades[$unidade['loc_sg']] 		. '[/UO2_SgLocal]';
-                $strConfigsPatrimonioCombos .= '[/UO2#'  		. $intCountTagUO2 									. ']';
-            }
-
-
-            if ($strConfigsPatrimonioCombos)
-                $strConfigsPatrimonioCombos = '[Configs_Patrimonio_Combos]' . OldCacicHelper::enCrypt($request, $strConfigsPatrimonioCombos) . '[/Configs_Patrimonio_Combos]';
-
-            // Envio os valores já existentes no banco, referentes ao ID_SO+TE_NODE_ADDRESS da estação chamadora...
-            $dadosPatrimonio = $this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->findBy(array('idClass'=>'Patrimonio', 'idComputador'=>$computador));
-
             if ($dadosPatrimonio->getTeClassValue())
-                 $strConfigsPatrimonioCombos .= '[Collects_Patrimonio_Last]' . OldCacicHelper::enCrypt($request, $dadosPatrimonio->getTeClassValues()) . '[/Collects_Patrimonio_Last]';
+               $strConfigsPatrimonioCombos = '[Collects_Patrimonio_Last]' . OldCacicHelper::enCrypt($request, $dadosPatrimonio->getTeClassValues()) . '[/Collects_Patrimonio_Last]';
 
-            // Coloca tudo numa string só para devolver
-            $strPatrimonio = $strConfigsPatrimonioInterface . $strConfigsPatrimonioCombos;
-
+          //Coloca tudo numa string só para devolver
+          $strPatrimonio = $strPatrimonio . $strConfigsPatrimonioCombos;
+       	  error_log('2222222222222222222222222222222222222222222222'.$strPatrimonio);
+            */
         }
 
         else
@@ -550,7 +476,7 @@ class DefaultController extends Controller
             'debugging'=>$debugging,
             'v_te_fila_ftp'=>$v_te_fila_ftp,
             'rede_grupos_ftp'=>$rede_grupos_ftp,
-            'strPatrimonio'=>$strPatrimonio,
+		    'strPatrimonio'=>$strPatrimonio,
         ), $response);
     }
 }
