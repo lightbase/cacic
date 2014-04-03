@@ -70,26 +70,27 @@ class UorgTypeController extends Controller
 	/**
 	 * 
 	 * [AJAX] Remove a UNIDADE ORGANIZACIONAL INFORMADA E TODAS AS UNIDADES A ELA RELACIONADAS
-	 * @param int $idUorg
+	 * @param int $idTipoUorg
 	 * @param Symfony\Component\HttpFoundation\Request $request
 	 */
 	public function excluirAction( Request $request )
 	{
-       //Debug::dump($request->get('id'));die;
-/*
+        //Debug::dump($request->get('idUorgType'));die;
+
 		if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
-			throw $this->createNotFoundException( 'Página não encontrada' );*/
-		
-		$uorg = $this->getDoctrine()->getRepository('CacicCommonBundle:TipoUorg')->find( (int)$request->get('id') );
+			throw $this->createNotFoundException( 'Página não encontrada' );
+
+		$uorg = $this->getDoctrine()->getRepository('CacicCommonBundle:TipoUorg')->find( $request->get('id') );
 		if ( ! $uorg )
 			throw $this->createNotFoundException( 'Unidade Organizacional não encontrada' );
-		
+
 		$em = $this->getDoctrine()->getManager();
 		$em->remove( $uorg );
 		$em->flush();
-        $this->get('session')->getFlashBag()->add('error', 'Item excluído com sucesso!');
 
-        return $this->redirect($this->generateUrl('cacic_uorg_type_index') );
+		$response = new Response( json_encode( array('status' => 'ok') ) );
+		$response->headers->set('Content-Type', 'application/json');
 
+		return $response;
 	}
 }

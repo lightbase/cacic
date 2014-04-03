@@ -27,14 +27,14 @@
                 </thead>
                 <tbody>
                     {% for uorg in uorgTypes %}
-                        <tr>
+                        <tr id="item_{{ uorg.idTipoUorg }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
                             <td>{{ uorg.nmTipoUorg }}</td>
                             <td>{{ uorg.tedescricao }}</td>
-                            <td>
+                            <td style="text-align: center" class="td-actions">
                                 <a href="{{ path('cacic_uorg_type_cadastrar', {'idUorgType': uorg.idTipoUorg }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                     <i class="btn-icon-only icon-edit icon-large"></i>
                                 </a>
-                                <a href="{{ path('cacic_uorg_type_excluir', {'id': uorg.idTipoUorg }) }}"  class="btn btn-small btn-danger btn-excluir" title="{{ "Excluir Item"|trans }}" onClick="return confirm('Tem certeza que deseja excluir esse registro?')">
+                                <a href="{{ path('cacic_uorg_type_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
                                     <i class="btn-icon-only icon-trash icon-large"></i>
                                 </a>
                             </td>
@@ -80,7 +80,7 @@
     	};
     	$( "#System_Excluir" ).data( 'params', { 'url': url, 'id': uorgId, 'callback': callback } ).dialog( "open" );
     }
-    
+
 </script>
 
 {% endblock %}

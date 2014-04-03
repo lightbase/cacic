@@ -48,9 +48,9 @@
                                 <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 
-                            <a href="{{ path('cacic_software_estacao_excluir') }}" 
-                            	class="btn btn-small btn-danger bt-excluir-compositekey" 
-                                data-composite-keys="{'idComputador': {{ software['idComputador'] }}, 'idSoftware': {{ software['idSoftware'] }}}" 
+                            <a href="{{ path('cacic_software_estacao_excluir') }}"
+                            	class="btn btn-small btn-danger bt-excluir-compositekey"
+                                data-composite-keys='{"idComputador": {{ software['idComputador'] }}, "idSoftware": {{ software['idSoftware'] }}}'
                             	title="{{ "Excluir Item"|trans }}"
                             >
                                 <i class="btn-icon-only icon-trash icon-large"></i>

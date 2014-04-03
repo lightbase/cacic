@@ -45,7 +45,7 @@ class SoftwareEstacaoController extends Controller
 				$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
                 return $this->redirect(
-                	$this->generateUrl( 'cacic_software_estacao_editar',
+                	$this->generateUrl( 'cacic_software_estacao_index',
                 		array(
                 			'idComputador' => $SoftwareEstacao->getIdComputador()->getIdComputador(),
                 			'idSoftware' => $SoftwareEstacao->getIdSoftware()->getIdSoftware()
@@ -105,6 +105,7 @@ class SoftwareEstacaoController extends Controller
      */
     public function excluirAction( Request $request )
     {
+
         if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
             throw $this->createNotFoundException( 'Página não encontrada' );
 
