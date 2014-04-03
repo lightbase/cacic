@@ -34,7 +34,7 @@
                                 <a href="{{ path('cacic_uorg_type_cadastrar', {'idUorgType': uorg.idTipoUorg }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                     <i class="btn-icon-only icon-edit icon-large"></i>
                                 </a>
-                                <a href="{{ path('cacic_uorg_type_excluir', {'id': uorg.idTipoUorg }) }}"  class="btn btn-small btn-danger btn-excluir" title="{{ "Excluir Item"|trans }}" onClick="return confirm('Tem certeza que deseja excluir esse registro?')">
+                                <a href="{{ path('cacic_uorg_type_excluir', {'id': uorg.idTipoUorg }) }}"  class="btn btn-small btn-danger btn-excluir" title="{{ "Excluir Item"|trans }}" onClick="return confirm('O item será removido permanentemente e não poderá ser recuperado. Tem certeza que deseja continuar?')">
                                     <i class="btn-icon-only icon-trash icon-large"></i>
                                 </a>
                             </td>
