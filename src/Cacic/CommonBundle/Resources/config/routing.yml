@@ -488,10 +488,8 @@ cacic_uorg_type_cadastrar:
     defaults: { _controller: CacicCommonBundle:UorgType:cadastrar, idUorgType: null}
 
 cacic_uorg_type_excluir:
-    pattern:  /uorg/type/excluir/{idUorgType}
-    defaults: { _controller: CacicCommonBundle:UorgType:excluir, idUorgType: null}
-    requirements:
-        idUorgType: \d+
+    pattern:  /uorg/type/excluir
+    defaults: { _controller: CacicCommonBundle:UorgType:excluir}
 
 cacic_grupo_usuario_index:
     pattern:  /grupousuario/{page}
