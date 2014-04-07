@@ -50,7 +50,17 @@ class ModuloController extends Controller
 		if ( ! $modulo )
 			throw $this->createNotFoundException( 'Página não encontrada' );
 
-		$local = $this->getUser()->getIdLocal(); /* @todo Em caso de usuário administrativo, escolher o Local */
+
+
+        if($nivel[0]['teGrupoUsuarios'] != "Administração")
+        {
+            $local = $this->getUser()->getIdLocal(); /* @todo Em caso de usuário administrativo, escolher o Local */
+            $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorLocal( $local );
+        }else
+        {
+            $local = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:Local')->findAll();
+            $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorLocalADM();
+        }
 
 		if ( $request->isMethod('POST') )
 		{
@@ -73,13 +83,7 @@ class ModuloController extends Controller
 			$this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');	
 			return $this->redirect( $this->generateUrl( 'cacic_modulo_editar', array('idAcao'=>$idAcao) ) );
 		}
-         if($nivel[0]['teGrupoUsuarios'] != "Administração")
-          {
-              $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorLocal( $local );
-          }else
-              {
-                 $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorLocalADM();
-              }
+
 
 		$so = $this->getDoctrine()->getRepository( 'CacicCommonBundle:So' )->listar(); // Recupera a lista de SOs cadastrados
 		

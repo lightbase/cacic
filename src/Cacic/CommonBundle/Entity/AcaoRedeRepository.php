@@ -25,8 +25,8 @@ class AcaoRedeRepository extends EntityRepository
     	$query = $this->createQueryBuilder('ar')->select('r.idRede', 'r.nmRede', 'r.teIpRede')
         								->innerJoin('ar.acao', 'a')
         								->innerJoin('ar.rede', 'r')
-        								->where("a.idAcao = :idAcao")
-        								->setParameter('idAcao', $acao)
+        								->where("a.idAcao IN (:idAcao)")
+        								->setParameter('idAcao', array($acao))
         								->orderBy('r.nmRede')
         								->groupBy('r');
 

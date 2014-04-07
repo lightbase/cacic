@@ -71,11 +71,11 @@ class RedeRepository extends EntityRepository
     {
     	$_dql = "SELECT r
 				FROM CacicCommonBundle:Rede r
-				WHERE r.idLocal = :idLocal";
+				WHERE r.idLocal IN (:idLocal)";
 
         return $this->getEntityManager()
         			->createQuery( $_dql )
-        			->setParameter( 'idLocal', $idLocal )
+        			->setParameter( 'idLocal', array($idLocal) )
         			->getArrayResult();
     }
     public function listarPorLocalADM()

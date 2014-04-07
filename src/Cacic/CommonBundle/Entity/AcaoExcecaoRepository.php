@@ -73,15 +73,19 @@ class AcaoExcecaoRepository extends EntityRepository
 		{
 			foreach ( $novasExcecoes as $teNodeAddress )
 			{
-				$new = new AcaoExcecao();
+                $new = $em->getRepository( 'CacicCommonBundle:AcaoExcecao' )->findOneBy( array('acao' => $acao, 'rede' => $rede) );
+                if (empty($new)) {
+                    $new = new AcaoExcecao();
+                }
 				$new->setAcao( $em->getRepository( 'CacicCommonBundle:Acao' )->find( $acao ) );
 				$new->setRede( $em->getRepository( 'CacicCommonBundle:Rede' )->find( $rede ) );
 				$new->setTeNodeAddress( $teNodeAddress );
 				$em->persist( $new );
+                $em->flush();
 			}
 		}
 		
-		$em->flush();
+
 	}
 	
 }
