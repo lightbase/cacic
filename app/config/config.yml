@@ -25,7 +25,7 @@ twig:
         cacic_version: 3.0.0
     form:
         resources:
-            - "BraincraftedBootstrapBundle:Form:form_div_layout.html.twig"
+            - "BraincraftedBootstrapBundle:Form:bootstrap.html.twig"
 
 braincrafted_bootstrap:
     auto_configure:
