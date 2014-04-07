@@ -25,12 +25,21 @@ twig:
         cacic_version: 3.0.0
     form:
         resources:
-            - "BcBootstrapBundle:Form:form_div_layout.html.twig"
+            - "BraincraftedBootstrapBundle:Form:form_div_layout.html.twig"
 
-bc_bootstrap:
-    assets_dir:  "%kernel.root_dir%/../vendor/twitter/bootstrap"
-    jquery_path: "%kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js"
-    less_filter: lessphp
+braincrafted_bootstrap:
+    assets_dir: %kernel.root_dir%/../vendor/twbs/bootstrap
+    jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.10.2.js
+    less_filter: less # "less", "lessphp" or "none"
+    auto_configure:
+        assetic: true
+        twig: true
+        knp_menu: true
+        knp_paginator: true
+    customize:
+        variables_file: ~
+        bootstrap_output: %kernel.root_dir%/Resources/less/bootstrap.less
+        bootstrap_template: BraincraftedBootstrapBundle:Bootstrap:bootstrap.less.twig
 
 # Assetic Configuration
 assetic:
@@ -52,41 +61,17 @@ assetic:
         lessphp:
             file: "%kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php"
             apply_to: "\.less$"
+        less:
+            node: /usr/bin/nodejs
+            node_paths: [/usr/lib/nodejs]
+            apply_to: "\.less$"
         cssrewrite: ~
     assets:
-        bootstrap_css:
-            inputs:
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less"
-            filters:
-                - lessphp
-                - cssrewrite
-            output: css/bootstrap.css
-        bootstrap_js:
-            inputs:
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-transition.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-alert.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-button.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-carousel.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-collapse.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-dropdown.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-modal.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tooltip.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-popover.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-scrollspy.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js"
-                - "%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js"
-            output: js/bootstrap.js
         jquery_js:
             inputs:
-                - "%kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js"
+                - "%kernel.root_dir%/../vendor/jquery/jquery/jquery-1.10.2.js"
             output: js/jquery.js
             filters: [?yui_js]
-        bootstrap_less:
-            inputs:
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less'
-            filters: [lessphp,cssembed]
 
 
 # Doctrine Configuration

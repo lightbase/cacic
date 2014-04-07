@@ -9,12 +9,15 @@
             "type": "package",
             "package": {
                 "name": "jquery/jquery",
-                "version": "1.9.1",
+                "version": "1.10.2",
                 "dist": {
-                    "url": "http://code.jquery.com/jquery-1.9.1.js",
+                    "url": "http://code.jquery.com/jquery-1.10.2.js",
                     "type": "file"
                 }
-            },
+            }
+        },
+        {
+
             "type": "vcs",
             "url": "https://github.com/lightbase/cocar.git"
         }
@@ -22,6 +25,7 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.3.*",
+        "jquery/jquery": "1.10.*",
         "doctrine/orm": ">=2.2.3,<2.4-dev",
         "doctrine/doctrine-bundle": "1.2.*",
         "twig/extensions": "1.0.*",
@@ -36,15 +40,14 @@
         "jms/security-extra-bundle": "1.5.*",
         "jms/di-extra-bundle": "1.4.*",
         "kriswallsmith/assetic": "v1.1.1",
-        "braincrafted/bootstrap-bundle": "dev-master",
-        "leafo/lessphp": "*",
+        "braincrafted/bootstrap-bundle": "~2.0",
+        "leafo/lessphp": "0.4.0",
         "twitter/bootstrap": "2.3.*",
         "knplabs/knp-paginator-bundle": "dev-master",
         "doctrine/data-fixtures": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "ijanki/ftp-bundle": "*",
         "jms/translation-bundle": "1.1.*@dev",
-        "jquery/jquery": "1.9.*",
 	    "helios-ag/fm-elfinder-bundle": "1.x",
         "knplabs/knp-menu": "2.0.*@dev",
         "knplabs/knp-menu-bundle":"dev-master",
@@ -54,20 +57,23 @@
         "jms/serializer": "0.14.*@dev",
         "jms/serializer-bundle": "0.13.*@dev",
         "lightbase/cocar": "dev-master",
-	"ddeboer/data-import-bundle": "dev-master"
+        "ddeboer/data-import-bundle": "dev-master",
+        "twbs/bootstrap": "3.0.*"
     },
     "scripts": {
         "post-install-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Braincrafted\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::install"
         ],
         "post-update-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Braincrafted\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::install"
         ]
     },
     "extra": {

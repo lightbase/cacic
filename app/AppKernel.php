@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Cacic\CommonBundle\CacicCommonBundle(),
-            new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
+            new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Cacic\RelatorioBundle\CacicRelatorioBundle(),
             new Cacic\WSBundle\CacicWSBundle(),
 	        new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
