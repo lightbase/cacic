@@ -222,25 +222,29 @@ class DefaultController extends Controller
         {
 
 		    $servidorAutenticacao = $rede->getIdServidorAutenticacao();
-		    $strPatrimonio ='[ip]'     . $servidorAutenticacao->getTeIpServidorAutenticacao() . '[/ip]'           .
-							'[usuario]'        . $servidorAutenticacao->getUsuario()                  . '[/usuario]'       .
-							'[senha]'          . $servidorAutenticacao->getSenha()                    . '[/senha]'         .
-							'[base]'           . $servidorAutenticacao->getTeAtributoIdentificador()  . '[/base]'          .
-							'[identificador1]' . $servidorAutenticacao->getTeAtributoRetornaNome()    . '[/identificador1]'.
-							'[identificador2]' . $servidorAutenticacao->getTeAtributoRetornaEmail()   . '[/identificador2]'.
-							'[identificador3]' . $servidorAutenticacao->getTeAtributoRetornaTelefone(). '[/identificador3]'.
-							'[tipo_protocolo]' . $servidorAutenticacao->getIdTipoProtocolo()          . '[/tipo_protocolo]'.
-							'[porta]'          . $servidorAutenticacao->getNuPortaServidorAutenticacao. '[/porta]'         ;
-			$strPatrimonio ='[dados_ldap]'     . OldCacicHelper::enCrypt($request, $strPatrimonio)    . '[/dados_ldap]'    ;
-
-            /*
-            if ($dadosPatrimonio->getTeClassValue())
+//			error_log('3333333333333333333333333333333333333333333333: '.$servidorAutenticacao->getInAtivo());
+			if (!empty($servidorAutenticacao) and $servidorAutenticacao->getInAtivo() == 'S'){
+			    $strPatrimonio =
+								'[ip]'             . $servidorAutenticacao->getTeIpServidorAutenticacao()    . '[/ip]'            .
+								'[usuario]'        . $servidorAutenticacao->getUsuario()                     . '[/usuario]'       .
+								'[senha]'          . $servidorAutenticacao->getSenha()                       . '[/senha]'         .
+								'[base]'           . $servidorAutenticacao->getNmServidorAutenticacaoDns()   . '[/base]'          .
+								'[identificador]'  . $servidorAutenticacao->getTeAtributoIdentificador()     . '[/identificador]' .
+								'[retorno1]'       . $servidorAutenticacao->getTeAtributoRetornaNome()       . '[/retorno1]'      .
+								'[retorno2]'       . $servidorAutenticacao->getTeAtributoRetornaEmail()      . '[/retorno2]'      .
+								'[retorno3]'       . $servidorAutenticacao->getTeAtributoRetornaTelefone()   . '[/retorno3]'      .
+								'[tipo_protocolo]' . $servidorAutenticacao->getIdTipoProtocolo()             . '[/tipo_protocolo]'.
+								'[porta]'          . $servidorAutenticacao->getNuPortaServidorAutenticacao() . '[/porta]'         ;
+				$strPatrimonio ='[dados_ldap]'     . OldCacicHelper::enCrypt($request, $strPatrimonio)       . '[/dados_ldap]'    ;
+			}
+			/*$dadosPatrimonio = $this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->findBy(array('idClass'=>'Patrimonio', 'idComputador'=>$computador->getIdComputador()));
+			
+			if ($dadosPatrimonio->getTeClassValue())
                $strConfigsPatrimonioCombos = '[Collects_Patrimonio_Last]' . OldCacicHelper::enCrypt($request, $dadosPatrimonio->getTeClassValues()) . '[/Collects_Patrimonio_Last]';
 
           //Coloca tudo numa string só para devolver
-          $strPatrimonio = $strPatrimonio . $strConfigsPatrimonioCombos;
-       	  error_log('2222222222222222222222222222222222222222222222'.$strPatrimonio);
-            */
+			$strPatrimonio = $strPatrimonio . $strConfigsPatrimonioCombos;*/
+		
         }
 
         else
