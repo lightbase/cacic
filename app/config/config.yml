@@ -56,8 +56,8 @@ assetic:
             file: "%kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php"
             apply_to: "\.less$"
         less:
-            node: /usr/bin/nodejs
-            node_paths: [/usr/lib/nodejs]
+            node: /usr/local/bin/node
+            node_paths: [/usr/local/lib/node_modules/]
             apply_to: "\.less$"
         cssrewrite: ~
     assets:
