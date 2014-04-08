@@ -140,6 +140,23 @@ fm_elfinder:
                 driver: elfinder.driver.filesystem
                 path: downloads
 
+jms_translation:
+    configs:
+        app:
+            dirs: [%kernel.root_dir%, %kernel.root_dir%/../app]
+            output_dir: %kernel.root_dir%/Resources/translations
+            ignored_domains: [routes]
+            excluded_names: [*TestCase.php, *Test.php]
+            excluded_dirs: [cache, data, logs]
+            #extractors: [alias_of_the_extractor]
+        src:
+            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src]
+            output_dir: %kernel.root_dir%/../src/Cacic/CommonBundle/Resources/translations
+            ignored_domains: [routes]
+            excluded_names: [*TestCase.php, *Test.php]
+            excluded_dirs: [Common, Entity, Form]
+            #extractors: [alias_of_the_extractor]
+
 services:
     twig.text_extension:
         class: Twig_Extensions_Extension_Text
