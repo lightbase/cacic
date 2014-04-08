@@ -79,44 +79,30 @@ Cacic\CommonBundle\Entity\Rede:
     properties:
         nmRede:
             - NotNull: ~
-            - Length:
-                max: 30
         teMascaraRede:
             - NotBlank: ~
             - Length:
                 max: 20
         teServCacic:
             - NotBlank: ~
-            - Length:
-                max: 20
         teServCacic:
             - NotBlank: ~
         teServUpdates:
             - NotBlank: ~
-            - Length:
-                max: 20
         teServUpdates:
             - NotBlank: ~
         nuPortaServUpdates:
             - NotBlank: ~
-            - Length:
-                max: 5
         nuLimiteFtp:
             - NotBlank: ~
             - Length:
                 max: 5
         nmUsuarioLoginServUpdates:
             - NotBlank: ~
-            - Length:
-                max: 20
         nmUsuarioLoginServUpdatesGerente:
             - NotBlank: ~
-            - Length:
-                max: 20
         tePathServUpdates:
             - NotBlank: ~
-            - Length:
-                max: 20
         nuTelefone1:
             - Length:
                 max: 11
