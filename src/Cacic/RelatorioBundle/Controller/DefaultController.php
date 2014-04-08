@@ -33,7 +33,7 @@ class DefaultController extends Controller
         $sw = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->listarSoftware();
         $uorg = $this->getDoctrine()->getRepository('CacicCommonBundle:Uorg')->listar();
         $conf = $this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->listarPropriedades('Patrimonio');
-
+//
 
         return $this->render(
             'CacicRelatorioBundle:Default:patrimonio.html.twig',
