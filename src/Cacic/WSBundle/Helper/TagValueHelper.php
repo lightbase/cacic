@@ -35,7 +35,7 @@ class TagValueHelper
         preg_match_all("(\[" . $pStrTagLabel . "\](.+)\[\/" . $pStrTagLabel . "\])i",$pStrSource, $arrResult);
 
         // Garantir que o resultado contenha somente UTF-8 valido
-        $resultado = TagValueHelper::UTF8Sanitize($arrResult[1][0]);
+        $resultado = TagValueHelper::UTF8Sanitize(@$arrResult[1][0]);
 
         return $resultado;
     }
