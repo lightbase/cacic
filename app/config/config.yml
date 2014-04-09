@@ -134,6 +134,7 @@ knp_paginator:
 fm_elfinder:
     locale: %locale%
     editor: simple
+    compression: false
     connector:
         roots:
             downloads:
