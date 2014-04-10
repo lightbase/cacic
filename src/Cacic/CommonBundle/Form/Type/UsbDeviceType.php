@@ -19,7 +19,7 @@ class UsbDeviceType extends AbstractType
         $builder->add('idUsbVendor', 'entity',
             array(
                 'empty_value' => 'Selecione o Fabricante',
-                'required'  => false,
+                'required'  => true,
                 'class' => 'CacicCommonBundle:UsbVendor',
                 'property' => 'nmUsbVendor',
                 'label'=>'Identificador do Fabricante')
