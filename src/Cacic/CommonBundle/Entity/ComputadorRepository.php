@@ -221,7 +221,7 @@ class ComputadorRepository extends EntityRepository
     /*
     * Metodo responsável por inserir coletas iniciais, assim que o cacic é instalado
     */
-    public function getComputadorPreCole( Request $request , $te_so , $te_node_adress )
+    public function getComputadorPreCole( Request $request , $te_so , $te_node_adress, $rede, $so )
     {
         //recebe dados via POST, deCripata dados, e attribui a variaveis
         $computer_system   = OldCacicHelper::deCrypt( $request, $request->request->get('ComputerSystem'), true  );
@@ -232,10 +232,10 @@ class ComputadorRepository extends EntityRepository
         $data = new \DateTime('NOW'); //armazena data Atual
 
         //vefifica se existe SO coletado se não, insere novo SO
-        $so = $this->getEntityManager()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
-        $rede = $this->getEntityManager()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
+        //$so = $this->getEntityManager()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
+        //$rede = $this->getEntityManager()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
         $computador = $this->findOneBy( array( 'teNodeAddress'=> $te_node_adress, 'idSo'=> $so->getIdSo()) );
-        $classes = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findAll();
+        //$classes = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findAll();
 
         //inserção de dado se for um novo computador
         if( empty ( $computador ) )

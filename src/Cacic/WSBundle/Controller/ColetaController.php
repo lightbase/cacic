@@ -360,7 +360,7 @@ class ColetaController extends Controller
 
         // Se não encontrar o valor, loga o erro e sai
         if (is_null($classProperty) || $classProperty == "") {
-            $logger->error("ERRO NA COLETA! Propriedade $classPropertyName não encontrada na requisição ou valor vazio");
+            $logger->debug("ERRO NA COLETA! Propriedade $classPropertyName não encontrada na requisição ou valor vazio");
             return;
         }
 

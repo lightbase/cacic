@@ -1575,14 +1575,10 @@ return null !== $this->headers->get('Vary');
 }
 public function getVary()
 {
-if (!$vary = $this->headers->get('Vary', null, false)) {
+if (!$vary = $this->headers->get('Vary')) {
 return array();
 }
-$ret = array();
-foreach ($vary as $item) {
-$ret = array_merge($ret, preg_split('/[\s,]+/', $item));
-}
-return $ret;
+return is_array($vary) ? $vary : preg_split('/[\s,]+/', $vary);
 }
 public function setVary($headers, $replace = true)
 {
@@ -2174,11 +2170,11 @@ protected $booted;
 protected $name;
 protected $startTime;
 protected $loadClassCache;
-const VERSION ='2.3.12';
-const VERSION_ID ='20312';
+const VERSION ='2.3.10';
+const VERSION_ID ='20310';
 const MAJOR_VERSION ='2';
 const MINOR_VERSION ='3';
-const RELEASE_VERSION ='12';
+const RELEASE_VERSION ='10';
 const EXTRA_VERSION ='';
 public function __construct($environment, $debug)
 {
@@ -2544,33 +2540,21 @@ return $source;
 $rawChunk ='';
 $output ='';
 $tokens = token_get_all($source);
-$ignoreSpace = false;
 for (reset($tokens); false !== $token = current($tokens); next($tokens)) {
 if (is_string($token)) {
 $rawChunk .= $token;
 } elseif (T_START_HEREDOC === $token[0]) {
-$output .= $rawChunk.$token[1];
+$output .= preg_replace(array('/\s+$/Sm','/\n+/S'),"\n", $rawChunk).$token[1];
 do {
 $token = next($tokens);
 $output .= $token[1];
 } while ($token[0] !== T_END_HEREDOC);
 $rawChunk ='';
-} elseif (T_WHITESPACE === $token[0]) {
-if ($ignoreSpace) {
-$ignoreSpace = false;
-continue;
-}
-$rawChunk .= preg_replace(array('/\n{2,}/S'),"\n", $token[1]);
-} elseif (in_array($token[0], array(T_COMMENT, T_DOC_COMMENT))) {
-$ignoreSpace = true;
-} else {
+} elseif (!in_array($token[0], array(T_COMMENT, T_DOC_COMMENT))) {
 $rawChunk .= $token[1];
-if (T_OPEN_TAG === $token[0]) {
-$ignoreSpace = true;
 }
 }
-}
-$output .= $rawChunk;
+$output .= preg_replace(array('/\s+$/Sm','/\n+/S'),"\n", $rawChunk);
 return $output;
 }
 public function serialize()
@@ -2752,7 +2736,6 @@ $application->add($r->newInstance());
 namespace Symfony\Component\Config
 {
 use Symfony\Component\Config\Resource\ResourceInterface;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 class ConfigCache
 {
@@ -2790,20 +2773,11 @@ return true;
 }
 public function write($content, array $metadata = null)
 {
-$mode = 0666;
-$umask = umask();
+$mode = 0666 & ~umask();
 $filesystem = new Filesystem();
-$filesystem->dumpFile($this->file, $content, null);
-try {
-$filesystem->chmod($this->file, $mode, $umask);
-} catch (IOException $e) {
-}
+$filesystem->dumpFile($this->file, $content, $mode);
 if (null !== $metadata && true === $this->debug) {
-$filesystem->dumpFile($this->getMetaFile(), serialize($metadata), null);
-try {
-$filesystem->chmod($this->getMetaFile(), $mode, $umask);
-} catch (IOException $e) {
-}
+$filesystem->dumpFile($this->getMetaFile(), serialize($metadata), $mode);
 }
 }
 private function getMetaFile()
