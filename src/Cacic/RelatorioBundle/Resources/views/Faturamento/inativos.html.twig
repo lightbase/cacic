@@ -28,10 +28,13 @@
                         </div>
 
                         <div class="control-group _cad_block_opcao">
+                            <label class="control-label">{{ 'Local'|trans }}</label>
 
 							<div class="controls">
+                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="id.Local" id="toggleLocal">
+                                <label for="toggleLocal"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
 
-								<label ><b>{{ 'Local:'|trans }}</b></label>
+
 									<div style="height: 200px; overflow: auto;">
 
 											<div class="modulo-opt-block">
@@ -118,4 +121,8 @@
 
         </script>
     {% endif %}
+
+    <script type="text/javascript">
+        System.Form.toggleCheck(); // Ativa o monitoramento de Clique no checkbox para marcar/desmarcar todos
+    </script>
 {% endblock %}
