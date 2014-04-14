@@ -10,10 +10,11 @@
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
-            <th width="20%">{{ "Nome Computador"|trans }}</th>
-            <th width="20%">{{ "S.O"|trans }}</th>
-            <th width="20%">{{ "I.P"|trans }}</th>
-            <th width="20%">{{ "Local"|trans }}</th>
+			<th width="5%" style="text-align: center"></th>
+            <th width="10%">{{ "Nome Computador"|trans }}</th>
+            <th width="10%">{{ "S.O"|trans }}</th>
+            <th width="20%">{{ "Sub-rede"|trans }}</th>
+            <th width="10%">{{ "Local"|trans }}</th>
             {%  if ( exibirColunaSoftware ) %}
                 <th width="20%">{{ "Software"|trans }}</th>
             {%  endif %}
@@ -27,6 +28,7 @@
         {% for reg in dados %}
 
             <tr>
+				<td style="text-align: center">{{ loop.index }}</td>
                 <td><b>
 				<a href="{{ path("cacic_computador_detalhar") }}/{{ reg['idComputador'] }}" target="_blank">
 					{{ reg['nmComputador'] }}
@@ -34,7 +36,7 @@
 				</td>
                 <td><span class="{% if reg['inMswindows'] == 'S' %}red{% else %}blue{% endif %}">{{ reg['sgSo'] }}</span></td>
                 <td><a href="{{ path("cacic_computador_detalhar") }}/{{ reg['idComputador'] }}" target="_blank">
-					{{ reg["teIpRede"] }}
+					{{ reg['teIpRede'] }}/{{ reg['nmRede'] }}
 				</a></td>
                 <td>{{ reg['nmLocal'] }}</td>
                 {%  if ( exibirColunaSoftware ) %}
