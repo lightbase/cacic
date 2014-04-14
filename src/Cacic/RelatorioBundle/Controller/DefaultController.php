@@ -57,20 +57,17 @@ class DefaultController extends Controller
             ->getRepository('CacicCommonBundle:Software')
             ->gerarRelatorioPatrimonio( $filtros );
 
-
-
-
+        //  Debug::dump($filtros);die;
         return $this->render(
             'CacicRelatorioBundle:Default:rel_patrimonio.html.twig',
             array(
                 'idioma'=>$locale,
-                'dados' => $dados,
-                'menu' => (bool) strlen( $filtros['pci']),
+                'dados' => $dados,/*
+                'menu' => (bool) strlen( $filtros['pci']),*/
             	'exibirColunaSoftware' => (bool) strlen( $filtros['softwares']
 
     )
             )
         );
     }
-	
 }
