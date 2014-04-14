@@ -4,6 +4,7 @@ namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Cacic\WSBundle\Helper\IPv4;
 
 /**
  *
@@ -139,18 +140,22 @@ class RedeRepository extends EntityRepository
     /*
     * Método responsável por coletar verificar dados de rede
     */
-    public function getDadosRedePreColeta( Request $request )
+    public function getDadosRedePreColeta( $ip_computador, $netmask )
     {
-        //obtem IP da maquina coletada
-        $ip_computador = $request->get('te_ip_computador');
-        $ip_computador = !empty( $ip_computador ) ?: $_SERVER['REMOTE_ADDR'];
 
         //obtem IP da Rede que a maquina coletada pertence
-        $ip = explode( '.', $ip_computador );
-        $te_ip_rede = $ip[0].".".$ip[1].".".$ip[2].".0"; //Pega ip da REDE sendo esse X.X.X.0
+        $cidr = IPv4::mask2cidr($netmask);
+        $ipv4 = new IPv4($ip_computador, $cidr);
 
+        $te_ip_rede = $ipv4->network();
+        //error_log("Endereço IP do computador: $ip_computador \nEndereço Broadcast da rede: $te_ip_rede");
         $rede =  $this->findOneBy(  array( 'teIpRede'=> $te_ip_rede ) ); //procura rede
-        $rede = empty( $rede ) ? $this->getPrimeiraRedeValida() : $rede  ;  // se rede não existir instancio uma nova rede
+
+        // Se a rede não existir, procuro uma com endereço 0.0.0.0
+        if (empty($rede)) {
+            $rede = $this->findOneBy( array( 'teIpRede'=> '0.0.0.0' ) );
+        }
+        //$rede = empty( $rede ) ? $this->getPrimeiraRedeValida() : $rede  ;  // se rede não existir instancio uma nova rede
 
         return $rede;
     }
