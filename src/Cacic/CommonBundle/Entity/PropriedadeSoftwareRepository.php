@@ -12,4 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class PropriedadeSoftwareRepository extends EntityRepository
 {
+
+    /**
+     * Retorna lista de todas as propriedades coletadas
+     *
+     * @return mixed
+     */
+
+    public function propPorNome( $nmSoftware ) {
+        $qb = $this->createQueryBuilder('prop')
+            ->select('prop')
+            ->innerJoin('CacicCommonBundle:Software', 'sw', 'WITH', 'sw.idSoftware = prop.software')
+            ->andWhere('sw.nmSoftware = :nmSoftware')
+            ->setParameter('nmSoftware', $nmSoftware);
+
+        return $qb->getQuery()->execute();
+    }
+
 }

@@ -177,19 +177,22 @@ class ColetaController extends Controller
                             $classPropertyObject = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array( 'idClassProperty'=> $idClassProperty ) );
 
                             if (empty($propriedadeSoftware)) {
-                                // Primeiro crio o software
-                                $softwareObject = new Software();
 
                                 // Se não tiver nome coloco o ID Software no nome
                                 if (empty($arrTagsNames['DisplayName'])) {
-                                    $softwareObject->setNmSoftware($softwareName);
+                                    $nmSoftware = $softwareName;
                                 } else {
-                                    $softwareObject->setNmSoftware($arrTagsNames['DisplayName']);
+                                    $nmSoftware = $arrTagsNames['DisplayName'];
                                 }
 
-                                // Grava software recém inserido
-                                $this->getDoctrine()->getManager()->persist($softwareObject);
-                                $this->getDoctrine()->getManager()->flush();
+
+                                $softwareObject = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->findOneBy( array( 'nmSoftware' => $nmSoftware ) );
+                                if (empty($softwareObject)) {
+                                    $softwareObject = new Software();
+                                    // Grava software recém inserido
+                                    $this->getDoctrine()->getManager()->persist($softwareObject);
+                                    $this->getDoctrine()->getManager()->flush();
+                                }
 
                                 // Depois adiciono as propriedades
                                 $propriedadeSoftware = new PropriedadeSoftware();
@@ -219,7 +222,7 @@ class ColetaController extends Controller
 
                                 // Grava software recém inserido
                                 $this->getDoctrine()->getManager()->persist($softwareObject);
-                                $this->getDoctrine()->getManager()->flush();
+                                //$this->getDoctrine()->getManager()->flush();
 
                                 // Ajusta valores coletados
                                 $propriedadeSoftware->setDisplayName($arrTagsNames['DisplayName']);

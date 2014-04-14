@@ -169,3 +169,7 @@ services:
             class: Cacic\CommonBundle\Command\DemoCommand
             tags:
                 -  { name: console.command }
+    cacic_demo.command.upgrade_command:
+                class: Cacic\CommonBundle\Command\UpgradeCommand
+                tags:
+                    -  { name: console.command }
