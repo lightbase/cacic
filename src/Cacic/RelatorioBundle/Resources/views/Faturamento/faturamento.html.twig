@@ -28,10 +28,12 @@
                         </div>
 
                         <div class="control-group _cad_block_opcao">
-
+                            <label class="control-label">{{ 'Local'|trans }}</label>
 							<div class="controls">
 
-								<label ><b>{{ 'Local:'|trans }}</b></label>
+
+                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="id.Local" id="toggleLocal">
+                                <label for="toggleLocal"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
 									<div style="height: 200px; overflow: auto;">
 
 											<div class="modulo-opt-block">
@@ -39,7 +41,6 @@
 											</div>
 									</div>
 							</div>
-
                         </div>
 
                         <div class="control-group">
@@ -89,33 +90,10 @@
 
 {% block javascripts %}
 
+    {{ parent() }}
+
     <script type="text/javascript">
-        function mostraDetalhes(elm) {
-            var detalhes = document.getElementById('_detalhes');
-            if (elm.checked == false) {
-                detalhes.style = '';
-            } else {
-                detalhes.style = 'display: none;';
-            }
-        }
+        System.Form.toggleCheck(); // Ativa o monitoramento de Clique no checkbox para marcar/desmarcar todos
     </script>
 
-    {{ parent() }}
-    {% if locale == 'pt_BR' %}
-        <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-pt-BR.js') }}"></script>
-
-        <script type="text/javascript">
-
-            $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
-
-        </script>
-    {% else %}
-        <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-en-US.js') }}"></script>
-
-        <script type="text/javascript">
-
-            $(".datepicker_on").datepicker({ altFormat: "mm/dd/yy" }).mask('99/99/9999');
-
-        </script>
-    {% endif %}
 {% endblock %}
