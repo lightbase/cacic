@@ -19,6 +19,8 @@ composer.phar
 # Ignore SVN
 *.svn
 .*.swp
+.*.swo
+.*.save
 *~
 
 # Ignora toda a pasta Web
