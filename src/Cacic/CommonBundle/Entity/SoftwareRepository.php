@@ -227,22 +227,23 @@ class SoftwareRepository extends EntityRepository
     {
         // Monta a Consulta básica...
         $qb = $this->createQueryBuilder('sw')
-            ->select( 'comp.nmComputador', 'sw.nmSoftware', 'so.sgSo', 'r.teIpRede', 'l.nmLocal', 'pci.teEtiqueta', 'pci.idEtiqueta','comp.idComputador','so.inMswindows')
-            ->innerJoin('CacicCommonBundle:SoftwareEstacao', 'se','WITH','sw.idSoftware = se.idSoftware')
-            ->innerJoin('CacicCommonBundle:Computador', 'comp','WITH','se.idComputador = comp.idComputador')
+            ->select( 'DISTINCT(comp.nmComputador), sw.nmSoftware,class.nmPropertyName, coleta.teClassPropertyValue, so.sgSo, r.teIpRede, r.nmRede, l.nmLocal, comp.idComputador,so.inMswindows')
+            ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
+            ->innerJoin('CacicCommonBundle:ClassProperty', 'class','WITH', 'prop.classProperty = class.idClassProperty')
+            ->innerJoin('CacicCommonBundle:ComputadorColeta', 'coleta','WITH', 'prop.classProperty = coleta.classProperty')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp','WITH','prop.computador = comp.idComputador')
             ->leftJoin('CacicCommonBundle:So', 'so','WITH','comp.idSo = so.idSo')
             ->leftJoin('CacicCommonBundle:Rede', 'r','WITH', 'comp.idRede = r.idRede')
             ->innerJoin('CacicCommonBundle:Local','l','WITH', 'r.idLocal = l.idLocal')
-            ->innerJoin('CacicCommonBundle:PatrimonioConfigInterface','pci','WITH','l.idLocal = pci.local')
-            ->groupBy('comp.nmComputador, sw.nmSoftware, so.sgSo, r.teIpRede,  l.nmLocal, pci.teEtiqueta, pci.idEtiqueta,comp.idComputador,so.inMswindows')
-            ->orderBy('sw.nmSoftware, l.nmLocal, pci.idEtiqueta');
+            ->groupBy('comp.nmComputador, sw.nmSoftware, class.nmPropertyName, coleta.teClassPropertyValue,so.sgSo, r.teIpRede,  l.nmLocal, r.nmRede, comp.idComputador,so.inMswindows')
+            ->orderBy('r.teIpRede, l.nmLocal, sw.nmSoftware');
 
         /*
          * Verifica os filtros que foram parametrizados
          */
 
         if ( array_key_exists('softwares', $filtros) && !empty($filtros['softwares']) )
-            $qb->andWhere('sw.idSoftware IN (:softwares)')->setParameter('softwares', explode( ',', $filtros['softwares'] ));
+            $qb->andWhere('class.idClassProperty IN (:softwares)')->setParameter('softwares', explode( ',', $filtros['softwares'] ));
 
         if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
             $qb->andWhere('l.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
@@ -250,8 +251,9 @@ class SoftwareRepository extends EntityRepository
         if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
             $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
 
-        if ( array_key_exists('pci', $filtros) && !empty($filtros['pci']) )
-            $qb->andWhere('pci.idEtiqueta IN (:pci)')->setParameter('pci', explode( ',', $filtros['pci'] ));
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) )
+            $qb->andWhere('class.idClassProperty IN (:conf)')->setParameter('conf', explode( ',', $filtros['conf'] ));
+
 
         return $qb->getQuery()->execute();
     }
