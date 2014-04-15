@@ -1,0 +1,150 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: eduardo
+ * Date: 14/04/14
+ * Time: 12:47
+ */
+
+namespace Cacic\CommonBundle\Command;
+
+use Cacic\CommonBundle\Entity\Rede;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+
+class UpgradeCommand extends ContainerAwareCommand {
+    protected function configure()
+    {
+        $this
+            ->setName('cacic:upgrade')
+            ->setDescription('Atualiza Cacic')
+            ->addArgument('component', InputArgument::OPTIONAL, 'Nome de quem está executando o comando, só para não perder o atributo')
+            ->addOption('force', null, InputOption::VALUE_NONE, 'Prossegue com a carga mesmo se acontecer algum erro')
+        ;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $component = $input->getArgument('component');
+        $text = "Executando operação de atualização para o componente $component";
+
+        $force =  ($input->getOption('force'));
+
+        // Atualiza Software
+        if ($component =='software') {
+            $this->upgradeSoftware();
+        }
+
+        $output->writeln($text);
+    }
+
+    /**
+     * Atualiza software impedindo que haja entradas repetidas na tabela
+     */
+    private function upgradeSoftware() {
+        $logger = $this->getContainer()->get('logger');
+        $em = $this->getContainer()->get('doctrine')->getManager();
+
+        $softwaresRepetidos = $em->getRepository('CacicCommonBundle:Software')->getNomesRepetidos();
+        $arrSoftware = array();
+        foreach ($softwaresRepetidos as $softwareElement) {
+            // Pega o primeiro elemento como resultado
+            $nmSoftware = $softwareElement['nmSoftware'];
+            $logger->debug("O seguinte software possui entradas repetidas: $nmSoftware");
+
+            $this->processaRepetido($nmSoftware);
+
+        }
+
+        // Limpa memória
+        $propriedadeSoftware = null;
+
+        // Finalmente limpa todas as entradas de software que não possuem informação de coleta
+        $softwareList = $em->getRepository('CacicCommonBundle:Software')->semColeta();
+        foreach($softwareList as $software) {
+            try {
+                $em->remove($software);
+                $em->flush();
+            } catch(\Exception $e) {
+                $message = $e->getMessage();
+                $idSoftware = $software->getIdSoftware();
+
+                $logger->error("Falha ao remover o software $idSoftware\n$message");
+            }
+        }
+
+        // Limpa memória
+        $em->clear();
+
+        $logger->debug("Adiciona rede padrão");
+        $this->redePadrao();
+
+    }
+
+    /**
+     * Processa um software repetido
+     *
+     * @param $nmSoftware
+     */
+
+    private function processaRepetido($nmSoftware) {
+        $logger = $this->getContainer()->get('logger');
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $software = $em->getRepository('CacicCommonBundle:Software')->porNome($nmSoftware);
+
+        $propriedade = $em->getRepository('CacicCommonBundle:PropriedadeSoftware')->propPorNome( $nmSoftware);
+
+        foreach ($propriedade as $propriedadeSoftware) {
+            $this->processaPropriedade($software, $propriedadeSoftware);
+        }
+
+        // Limpa para economizar memória
+        $propriedade = null;
+    }
+
+    /**
+     * Processa software e propriedade
+     *
+     * @param $software
+     * @param $propriedadeSoftware
+     */
+
+    private function processaPropriedade($software, $propriedadeSoftware) {
+        $logger = $this->getContainer()->get('logger');
+        $em = $this->getContainer()->get('doctrine')->getManager();
+
+        $propriedadeSoftware->setSoftware($software);
+        $em->persist($propriedadeSoftware);
+        $em->flush();
+    }
+
+    private function redePadrao() {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $logger = $this->getContainer()->get('logger');
+
+        $rede = $em->getRepository('CacicCommonBundle:Rede')->findOneBy( array('teIpRede' => '0.0.0.0') );
+        if (empty($rede)) {
+            $rede = new Rede();
+
+            $rede->setTeIpRede('0.0.0.0');
+            $rede->setTeMascaraRede('255.255.255.255');
+            $rede->setNmRede('Rede não encontrada');
+            $rede->setTeServCacic('http://localhost');
+            $rede->setTeServUpdates('http://localhost');
+            $rede->setNuLimiteFtp(100);
+            $rede->setCsPermitirDesativarSrcacic('S');
+
+            // Armazena no primeiro local encontrado
+            $local = $em->getRepository('CacicCommonBundle:Local')->findAll();
+            $rede->setIdLocal($local[0]);
+
+            $em->persist($rede);
+            $em->flush();
+
+        }
+    }
+} 

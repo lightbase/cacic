@@ -258,4 +258,48 @@ class SoftwareRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
+    /**
+     * Lista softwares que possuem o nome repetido no sistema
+     */
+    public function getNomesRepetidos() {
+
+        $qb = $this->createQueryBuilder('sw')
+            ->select('sw.nmSoftware, COUNT(prop) as n_repeticoes')
+            ->innerJoin('CacicCommonBundle:PropriedadeSoftware','prop', 'WITH', 'sw.idSoftware = prop.software')
+            ->having('COUNT(prop) > 1')
+            ->groupBy('sw.nmSoftware')
+            ->orderBy('sw.nmSoftware');
+
+        return $qb->getQuery()->execute();
+
+    }
+
+    /**
+     * Pega primeiro resultado de uma consulta por nome
+     *
+     * @param $nmSoftware
+     */
+    public function porNome( $nmSoftware ) {
+
+        $qb = $this->createQueryBuilder('sw')
+            ->select('sw')
+            ->andWhere('sw.nmSoftware = :nmSoftware')
+            ->setMaxResults(1)
+            ->setParameter('nmSoftware', $nmSoftware);
+
+        return $qb->getQuery()->getSingleResult();
+
+    }
+
+    public function semColeta() {
+        $qb = $this->createQueryBuilder('sw')
+            ->select('sw')
+            ->leftJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
+            ->leftJoin('CacicCommonBundle:AquisicaoItem', 'aq', 'WITH', 'sw.idSoftware = aq.idSoftware')
+            ->andWhere('prop IS NULL')
+            ->andWhere('aq IS NULL');
+
+        return $qb->getQuery()->execute();
+    }
+
 }
