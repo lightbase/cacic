@@ -1,0 +1,18 @@
+Prezado Administrador,
+
+Uma alteração foi identificada no computador cujos detalhes encontram-se abaixo discriminados:
+
+Nome do Host........: {{ computador.getNmComputador() }}
+Endereço IP.........: {{ computador.getTeIpComputador() }}
+Local...............: {{ computador.getIdRede.getIdLocal.getNmLocal() }}
+Rede................: {{ computador.getIdRede.getNmRede() }} ({{ computador.getIdRede.getTeIpRede() }})
+
+As seguintes alterações foram detectadas:
+
+Coleta Anterior..: {{ coletaOld }}
+Nova Coleta......: {{ coletaNew }}
+
+Para visualizar mais informações sobre esse computador, acesse o seguinte endereço:
+{{ computador.getIdRede.getTeServCacic() }}{{ path('cacic_computador_detalhar') }}/{{ computador.getIdComputador }}
+__________________________________________________________________________
+Data de envio da notificação: {{ "now"|date('d/m/Y H:i') }}
