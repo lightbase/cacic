@@ -49,6 +49,9 @@ class ColetaController extends Controller
         //$strComputerSystem  = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
         //$strOperatingSystem  = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem') );
         $data = new \DateTime('NOW');
+        $data_inicio = $data->format('d/m/Y H:i:s');
+        $data = microtime();
+        $logger->debug("%%% Início da operação de coleta: $data_inicio %%%");
 
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
         $te_so = $request->get( 'te_so' );
@@ -58,60 +61,38 @@ class ColetaController extends Controller
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$te_so) );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('idSo'=>$so, 'teNodeAddress'=>$te_node_adress) );
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
+        $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
+        $ip_computador = $request->get('te_ip_computador');
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
         //$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
         $strCollectType  = OldCacicHelper::deCrypt($request, $request->get('CollectType'));
 
         // Defino os dois arrays que conterão as configurações para Coletas, Classes e Propriedades
         $arrClassesNames = array();
-        $arrCollectsDefClasses[$strCollectType] = array();
 
         $detalhesClasses = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaDetalhesClasseAcoes($strCollectType);
+        $output = $this->arrayClasses($detalhesClasses, $arrClassesNames);
 
-        foreach ($detalhesClasses as $detalhe)
-        {
-            // Adiciona classe no Array de classes que estão no banco
-            if (!in_array($detalhe['nmClassName'], $arrClassesNames)) {
-                array_push($arrClassesNames, $detalhe['nmClassName']);
-            }
-            // Primeiro cria array com as informações das propriedades
-            $property = array(
-                'idClassProperty' => $detalhe['idClassProperty'],
-                'nmFunctionPreDb' => $detalhe['nmFunctionPreDb']
-            );
-
-
-            $nmPropertyName = $detalhe['nmPropertyName'];
-            $logger->debug("Adicionando propriedade $nmPropertyName no array de propriedades");
-            // Aqui o array já existe. Só substituo pelo novo valor
-            $arrCollectsDefClasses[$strCollectType][$detalhe['nmClassName']][$detalhe['nmPropertyName']] = $property;
+        if ($output) {
+            $arrCollectsDefClasses[$strCollectType] = &$output[0];
+            $arrClassesNames = $output[1];
+        } else {
+            $arrCollectsDefClasses[$strCollectType] = array();
         }
 
         //$teste = print_r($arrCollectsDefClasses, true);
         //$teste = print_r($arrClassesNames, true);
-        //error_log("22222222222222222222222222222222222222222222222222222222222222 $teste");
+        //$logger->debug("22222222222222222222222222222222222222222222222222222222222222 $teste");
 
         if ($arrCollectsDefClasses[$strCollectType])
         {
-            // Obtenho configuração para notificação de alterações
-            //$resConfigsLocais = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal($rede->getIdLocal(), 'te_notificar_mudancas_properties');
-            //$resConfigsLocaisEmail = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoEmailLocal($rede->getIdLocal());
-
-            //$arrClassesAndProperties = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaPorPropertyNotificacao( $resConfigsLocais->getVlConfiguracao() )  ;
-
-            //foreach ($arrClassesAndProperties as $arrClassesAndProperty)
-            //    $arrClassesPropertiesToNotificate[$arrClassesAndProperty['nmClassName'] . '.' . $arrClassesAndProperty['nmPropertyName']] = $arrClassesAndProperty['tePropertyDescription'];
-
-            $strInsertedItems_Text 	= '';
-            $strDeletedItems_Text 	= '';
-            $strUpdatedItems_Text 	= '';
-
             //error_log("00000000000000000000000000000000000000000000000000000000: $strCollectType");
 
             foreach( $request->request->all() as $strClassName => $strClassValues)
             {
                 //$teste = OldCacicHelper::deCrypt($request, $strClassValues);
                 //$logger->debug("444444444444444444444444444444444444444444444444444444444: $strClassName | \n $teste");
+                //$logger->debug("444444444444444444444444444444444444444444444444444444444: $strClassName");
                 //error_log("444444444444444444444444444444444444444444444444444444: $strClassName");
 
 
@@ -124,191 +105,14 @@ class ColetaController extends Controller
                     // A propriedade da coleta de software é multi valorada. Preciso tratar diferente
                     if ($strClassName == "SoftwareList") {
 
-                        // Primeiro preciso pegar todas as tags que forem software
-                        $arrSoftware = TagValueHelper::getSoftwareTags($strNewClassValues);
-
-                        // Agora insere cada registro de software individualmente
-                        foreach ($arrSoftware as $software) {
-                            // Armazeno todas as propriedades dessa classe enviadas pela requisição
-                            $arrTags = TagValueHelper::getTagsFromValues($software);
-
-                            // Crio um array multidimensional com as tags e os valores
-                            foreach ($arrTags as $tagNames) {
-                                // Essa função garante que só serão retornados caracteres com UTF8 Válido
-                                $texto = TagValueHelper::UTF8Sanitize(TagValueHelper::getValueFromTags($tagNames, $software));
-                                $arrTagsNames[$tagNames] = $texto;
-                            }
-
-                            // Para software, cada identificador será uma propriedade
-                            $softwareName = $arrTagsNames['IDSoftware'];
-
-                            // Remove o IDSoftware do array
-                            unset($arrTagsNames['IDSoftware']);
-
-                            // Armazeno o IDSoftware como Propriedade
-                            $idClassProperty = $arrCollectsDefClasses[$strCollectType][$strClassName][$softwareName]['idClassProperty'];
-
-                            // Se o IDSoftware não existir, cria
-                            if (empty($idClassProperty)) {
-                                $logger->debug("Software $softwareName não encontrado. Adicionando um novo software");
-                                // Pega o Id da classe
-                                $idClass = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findOneBy( array('nmClassName'=>$strClassName) );
-
-                                $property = new ClassProperty();
-                                $property->setNmPropertyName($softwareName);
-                                $property->setTePropertyDescription($arrTagsNames['DisplayName']);
-
-                                // Referência à classe
-                                $property->setIdClass($idClass);
-
-                                // Grava a propriedade nova
-                                $this->getDoctrine()->getManager()->persist($property);
-                                $this->getDoctrine()->getManager()->flush();
-
-                                // Retorna o novo ID
-                                $idClassProperty = $property->getIdClassProperty();
-                            }
-
-                            // Chama função que grava a propriedade
-                            $this->gerColsSetProperty('IDSoftware', $software, $idClassProperty, $computador);
-
-                            // Agora gravo todas as propriedades para o software na tabela propriedade_software
-                            $propriedadeSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:PropriedadeSoftware')->findOneBy( array('classProperty'=> $idClassProperty, 'computador' => $computador) );
-                            $classPropertyObject = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array( 'idClassProperty'=> $idClassProperty ) );
-
-                            if (empty($propriedadeSoftware)) {
-
-                                // Se não tiver nome coloco o ID Software no nome
-                                if (empty($arrTagsNames['DisplayName'])) {
-                                    $nmSoftware = $softwareName;
-                                } else {
-                                    $nmSoftware = $arrTagsNames['DisplayName'];
-                                }
-
-
-                                $softwareObject = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->findOneBy( array( 'nmSoftware' => $nmSoftware ) );
-                                if (empty($softwareObject)) {
-                                    $softwareObject = new Software();
-                                    // Grava software recém inserido
-                                    $this->getDoctrine()->getManager()->persist($softwareObject);
-                                    $this->getDoctrine()->getManager()->flush();
-                                }
-
-                                // Depois adiciono as propriedades
-                                $propriedadeSoftware = new PropriedadeSoftware();
-
-                                $propriedadeSoftware->setClassProperty($classPropertyObject);
-                                $propriedadeSoftware->setComputador($computador);
-
-                                // Ajusta valores coletados
-                                $propriedadeSoftware->setDisplayName($arrTagsNames['DisplayName']);
-                                $propriedadeSoftware->setDisplayVersion($arrTagsNames['DisplayVersion']);
-                                $propriedadeSoftware->setURLInfoAbout($arrTagsNames['URLInfoAbout']);
-                                $propriedadeSoftware->setSoftware($softwareObject);
-
-                                // Grava no banco de dados
-                                $this->getDoctrine()->getManager()->persist($propriedadeSoftware);
-                                $this->getDoctrine()->getManager()->flush();
-                            } else {
-                                // Adiciona referência à tabela de softwares
-                                $softwareObject = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->find( $propriedadeSoftware->getSoftware()->getIdSoftware() );
-
-                                // Se não tiver nome coloco o ID Software no nome
-                                if (empty($arrTagsNames['DisplayName'])) {
-                                    $softwareObject->setNmSoftware($softwareName);
-                                } else {
-                                    $softwareObject->setNmSoftware($arrTagsNames['DisplayName']);
-                                }
-
-                                // Grava software recém inserido
-                                $this->getDoctrine()->getManager()->persist($softwareObject);
-                                //$this->getDoctrine()->getManager()->flush();
-
-                                // Ajusta valores coletados
-                                $propriedadeSoftware->setDisplayName($arrTagsNames['DisplayName']);
-                                $propriedadeSoftware->setDisplayVersion($arrTagsNames['DisplayVersion']);
-                                $propriedadeSoftware->setURLInfoAbout($arrTagsNames['URLInfoAbout']);
-                                $propriedadeSoftware->setSoftware($softwareObject);
-
-                                // Salva valor da coleta
-                                $this->getDoctrine()->getManager()->persist($propriedadeSoftware);
-                                $this->getDoctrine()->getManager()->flush();
-                            }
-
-                        }
+                        $this->coletaSoftware($strNewClassValues, $arrCollectsDefClasses, $strCollectType, $strClassName, $computador);
 
                     } elseif (!empty($strNewClassValues)) {
-                        // Armazeno todas as propriedades dessa classe enviadas pela requisição
-                        $arrTagsNames = TagValueHelper::getTagsFromValues($strNewClassValues);
 
-                        // Agora gravo todas as propriedades dessa classe na tabela de computadores
-                        foreach ($arrTagsNames as $classPropertyName) {
-                            $logger->debug("Processando a proriedade WMI $classPropertyName para a classe $strClassName");
-                            // Pega classe
-                            $idClass = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findOneBy( array('nmClassName'=>$strClassName) );
+                        $this->coletaGeral($strNewClassValues, $arrCollectsDefClasses, $strCollectType, $strClassName, $computador);
 
-                            // Caso a propriedade ainda não esteja cadastrada no banco, crio na hora
-                            if (array_key_exists($classPropertyName, $arrCollectsDefClasses[$strCollectType][$strClassName])) {
-                                // Somente armazeno o valor que já existe
-                                $idClassProperty = $arrCollectsDefClasses[$strCollectType][$strClassName][$classPropertyName]['idClassProperty'];
-                                $logger->debug("Propriedade encontrada: $classPropertyName id_class_property = $idClassProperty. Apenas atualizar");
-                            } else {
-                                // Se não existir cria a propriedade
-                                $logger->info("Criando propriedade $classPropertyName para a classe $strClassName");
-
-                                $classPropertyObject = new ClassProperty();
-                                $classPropertyObject->setIdClass($idClass);
-                                $classPropertyObject->setNmPropertyName($classPropertyName);
-                                $classPropertyObject->setTePropertyDescription('On the fly created Property');
-
-                                $this->getDoctrine()->getManager()->persist($classPropertyObject);
-                                $this->getDoctrine()->getManager()->flush();
-
-                                // Finalmente adiciono no array de classes e propriedades
-                                $idClassProperty = $classPropertyObject->getIdClassProperty();
-                                $property = array(
-                                    'idClassProperty' => $idClassProperty,
-                                    'nmFunctionPreDb' => null
-                                );
-                                $arrCollectsDefClasses[$strCollectType][$className][$classPropertyName] = $property;
-                            }
-                            //error_log("888888888888888888888888888888888888888888888: $strClassName | $idClassProperty | $classPropertyName");
-
-                            // Chama função que grava a propriedade
-                            $this->gerColsSetProperty($classPropertyName, $strNewClassValues, $idClassProperty, $computador);
-                        }
                     }
                 }
-            }
-
-            // Caso a string acima não esteja vazia, monto o email para notificação
-            // FIXME: Detectar alteração de dispositivos de hardware e notificar o Administrador
-            if ($strDeletedItems_Text || $strInsertedItems_Text || $strUpdatedItems_Text )
-            {
-                if ($strDeletedItems_Text)
-                    $strDeletedItems_Text 	= chr(13) . 'Itens Removidos:' . chr(13) . $strDeletedItems_Text 	. chr(13);
-
-                if ($strInsertedItems_Text)
-                    $strInsertedItems_Text 	= chr(13) . 'Itens Inseridos:' . chr(13) . $strInsertedItems_Text 	. chr(13);
-
-                if ($strUpdatedItems_Text)
-                    $strUpdatedItems_Text 	= chr(13) . 'Itens Alterados:' . chr(13) . $strUpdatedItems_Text 	. chr(13);
-
-
-                $strCorpoMail = '';
-                $strCorpoMail .= " Prezado Administrador,\n\n";
-                $strCorpoMail .= " uma alteração foi identificada no computador cujos detalhes encontram-se abaixo discriminados:\n\n";
-                $strCorpoMail .= " Nome do Host: ". $computador->getNmComputador()  ."\n";
-                $strCorpoMail .= " Endereço IP....: ".$computador->getTeIpComputador() . "\n";
-                $strCorpoMail .= " Local...............: ". $rede['nmLocal']."\n";
-                $strCorpoMail .= " Rede................: ". $rede['nmRede'] . ' (' . $rede['teIpRede'] .")\n\n";
-                $strCorpoMail .= $strDeletedItems_Text . $strInsertedItems_Text . $strUpdatedItems_Text;
-                $strCorpoMail .= "\n\nPara visualizar mais informações sobre esse computador, acesse o endereço\nhttp://";
-                $strCorpoMail .= CACIC_PATH . '/relatorios/computador/computador.php?id_computador=' . $computador->getIdComputador();
-                $strCorpoMail .= "\n\n\n________________________________________________\n";
-                $strCorpoMail .= "CACIC - e" . date('d/m/Y H:i') . "h \n";
-// Manda mail para os administradores.
-  //TODO              mail($resConfigsLocais['te_notificar_mudancas_emails'], "[Sistema CACIC] Alteração Detectada - " . $arrCollectsDefClasses[$strCollectType], "$strCorpoMail", "From: cacic@{$_SERVER['SERVER_NAME']}");
             }
         }
         $teste_object = $this->gravaTESTES($grava_teste."\nFinal");
@@ -318,6 +122,11 @@ class ColetaController extends Controller
         // Aqui grava tudo
         $em->flush();
         //$this->getDoctrine()->getManager()->flush(); //persistencia dos dados no BD
+
+        $data_fim = new \DateTime('NOW');
+        $tempo = (microtime() - $data);
+        $data_fim = $data_fim->format('d/m/Y H:i:s');
+        $logger->debug("%%% Final da operação de coleta: $data_fim. Tempo de execução da coleta: $tempo %%%");
 
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
@@ -409,6 +218,7 @@ class ColetaController extends Controller
         } else {
             //error_log("444444444444444444444444444444444444444444444444: Criando histórico");
             // Caso exista, registro um histórico e atualiza o valor atual
+            $coletaOld = "Classe WMI: ".$computadorColeta->getClassProperty()->getIdClass()->getNmClassName()." | "."Propriedade: ".$computadorColeta->getClassProperty()->getNmPropertyName()." | Valor: ".$computadorColeta->getTeClassPropertyValue();
             $computadorColeta->setComputador( $computador );
             // Pega o objeto para gravar
             $classPropertyObject = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array( 'idClassProperty'=> $idClassProperty ) );
@@ -434,6 +244,10 @@ class ColetaController extends Controller
 
             // Commit
             $this->getDoctrine()->getManager()->flush();
+
+            // Notifica alteração
+            $coletaNew = "Classe WMI: ".$computadorColeta->getClassProperty()->getIdClass()->getNmClassName()." | "."Propriedade: ".$computadorColeta->getClassProperty()->getNmPropertyName()." | Valor: ".$computadorColeta->getTeClassPropertyValue();
+            //$this->notificaAlteracao($coletaOld, $coletaNew, $computador);
         }
     }
 
@@ -677,5 +491,263 @@ class ColetaController extends Controller
 
     }
 
+    /**
+     * Cria array de classes e propriedades para coletar
+     *
+     * @param $detalhesClasses
+     * @return array
+     */
+
+    public function arrayClasses($detalhesClasses, $arrClassesNames) {
+        $logger = $this->get('logger');
+        $output = array();
+
+        foreach ($detalhesClasses as $detalhe)
+        {
+            // Adiciona classe no Array de classes que estão no banco
+            if (!in_array($detalhe['nmClassName'], $arrClassesNames)) {
+                array_push($arrClassesNames, $detalhe['nmClassName']);
+            }
+            // Primeiro cria array com as informações das propriedades
+            $property = array(
+                'idClassProperty' => $detalhe['idClassProperty'],
+                'nmFunctionPreDb' => $detalhe['nmFunctionPreDb']
+            );
+
+
+            $nmPropertyName = $detalhe['nmPropertyName'];
+            $logger->debug("Adicionando propriedade $nmPropertyName no array de propriedades");
+            // Aqui o array já existe. Só substituo pelo novo valor
+            $output[0][$detalhe['nmClassName']][$detalhe['nmPropertyName']] = $property;
+        }
+        $output[1] = $arrClassesNames;
+
+        return $output;
+    }
+
+    /**
+     * Processa parâmetros da coleta de software
+     *
+     * @param $strNewClassValues
+     * @param $arrCollectsDefClasses
+     * @param $strCollectType
+     * @param $strClassName
+     */
+
+    public function coletaSoftware($strNewClassValues, $arrCollectsDefClasses, $strCollectType, $strClassName, $computador) {
+        $logger = $this->get('logger');
+
+        // Primeiro preciso pegar todas as tags que forem software
+        $arrSoftware = TagValueHelper::getSoftwareTags($strNewClassValues);
+
+        // Agora insere cada registro de software individualmente
+        foreach ($arrSoftware as $software) {
+            // Armazeno todas as propriedades dessa classe enviadas pela requisição
+            $arrTags = TagValueHelper::getTagsFromValues($software);
+
+            // Crio um array multidimensional com as tags e os valores
+            foreach ($arrTags as $tagNames) {
+                // Essa função garante que só serão retornados caracteres com UTF8 Válido
+                $texto = TagValueHelper::UTF8Sanitize(TagValueHelper::getValueFromTags($tagNames, $software));
+                $arrTagsNames[$tagNames] = $texto;
+            }
+
+            // Para software, cada identificador será uma propriedade
+            $softwareName = $arrTagsNames['IDSoftware'];
+
+            // Remove o IDSoftware do array
+            unset($arrTagsNames['IDSoftware']);
+
+            // Armazeno o IDSoftware como Propriedade
+            $idClassProperty = $arrCollectsDefClasses[$strCollectType][$strClassName][$softwareName]['idClassProperty'];
+
+            // Se o IDSoftware não existir, cria
+            if (empty($idClassProperty)) {
+                $logger->debug("Software $softwareName não encontrado. Adicionando um novo software");
+                // Pega o Id da classe
+                $idClass = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findOneBy( array('nmClassName'=>$strClassName) );
+
+                $property = new ClassProperty();
+                $property->setNmPropertyName($softwareName);
+                $property->setTePropertyDescription($arrTagsNames['DisplayName']);
+
+                // Referência à classe
+                $property->setIdClass($idClass);
+
+                // Grava a propriedade nova
+                $this->getDoctrine()->getManager()->persist($property);
+                $this->getDoctrine()->getManager()->flush();
+
+                // Retorna o novo ID
+                $idClassProperty = $property->getIdClassProperty();
+            }
+
+            // Chama função que grava a propriedade
+            $this->gerColsSetProperty('IDSoftware', $software, $idClassProperty, $computador);
+
+            // Agora gravo todas as propriedades para o software na tabela propriedade_software
+            $propriedadeSoftware = $this->getDoctrine()->getRepository('CacicCommonBundle:PropriedadeSoftware')->findOneBy( array('classProperty'=> $idClassProperty, 'computador' => $computador) );
+            $classPropertyObject = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array( 'idClassProperty'=> $idClassProperty ) );
+
+            if (empty($propriedadeSoftware)) {
+
+                // Se não tiver nome coloco o ID Software no nome
+                if (empty($arrTagsNames['DisplayName'])) {
+                    $nmSoftware = $softwareName;
+                } else {
+                    $nmSoftware = $arrTagsNames['DisplayName'];
+                }
+
+
+                $softwareObject = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->findOneBy( array( 'nmSoftware' => $nmSoftware ) );
+                if (empty($softwareObject)) {
+                    $softwareObject = new Software();
+                    // Grava software recém inserido
+                    $this->getDoctrine()->getManager()->persist($softwareObject);
+                    $this->getDoctrine()->getManager()->flush();
+                }
+
+                // Depois adiciono as propriedades
+                $propriedadeSoftware = new PropriedadeSoftware();
+
+                $propriedadeSoftware->setClassProperty($classPropertyObject);
+                $propriedadeSoftware->setComputador($computador);
+
+                // Ajusta valores coletados
+                $propriedadeSoftware->setDisplayName($arrTagsNames['DisplayName']);
+                $propriedadeSoftware->setDisplayVersion($arrTagsNames['DisplayVersion']);
+                $propriedadeSoftware->setURLInfoAbout($arrTagsNames['URLInfoAbout']);
+                $propriedadeSoftware->setSoftware($softwareObject);
+
+                // Grava no banco de dados
+                $this->getDoctrine()->getManager()->persist($propriedadeSoftware);
+                $this->getDoctrine()->getManager()->flush();
+            } else {
+                // Adiciona referência à tabela de softwares
+                $softwareObject = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->find( $propriedadeSoftware->getSoftware()->getIdSoftware() );
+
+                // Se não tiver nome coloco o ID Software no nome
+                if (empty($arrTagsNames['DisplayName'])) {
+                    $softwareObject->setNmSoftware($softwareName);
+                } else {
+                    $softwareObject->setNmSoftware($arrTagsNames['DisplayName']);
+                }
+
+                // Grava software recém inserido
+                $this->getDoctrine()->getManager()->persist($softwareObject);
+                //$this->getDoctrine()->getManager()->flush();
+
+                // Ajusta valores coletados
+                $propriedadeSoftware->setDisplayName($arrTagsNames['DisplayName']);
+                $propriedadeSoftware->setDisplayVersion($arrTagsNames['DisplayVersion']);
+                $propriedadeSoftware->setURLInfoAbout($arrTagsNames['URLInfoAbout']);
+                $propriedadeSoftware->setSoftware($softwareObject);
+
+                // Salva valor da coleta
+                $this->getDoctrine()->getManager()->persist($propriedadeSoftware);
+                $this->getDoctrine()->getManager()->flush();
+            }
+
+        }
+    }
+
+    /**
+     * Processa informações de coleta
+     *
+     * @param $strNewClassValues
+     * @param $arrCollectsDefClasses
+     * @param $strCollectType
+     * @param $strClassName
+     * @param $computador
+     */
+
+    public function coletaGeral($strNewClassValues, $arrCollectsDefClasses, $strCollectType, $strClassName, $computador) {
+        $logger = $this->get('logger');
+        $logger->debug("Processando classe WMI: $strClassName");
+
+        // Armazeno todas as propriedades dessa classe enviadas pela requisição
+        $arrTagsNames = TagValueHelper::getTagsFromValues($strNewClassValues);
+
+        // Agora gravo todas as propriedades dessa classe na tabela de computadores
+        foreach ($arrTagsNames as $classPropertyName) {
+            $logger->debug("Processando a proriedade WMI $classPropertyName para a classe $strClassName");
+            // Pega classe
+            $idClass = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->findOneBy( array('nmClassName'=>$strClassName) );
+
+            // Caso a propriedade ainda não esteja cadastrada no banco, crio na hora
+            if (array_key_exists($classPropertyName, $arrCollectsDefClasses[$strCollectType][$strClassName])) {
+                // Somente armazeno o valor que já existe
+                $idClassProperty = $arrCollectsDefClasses[$strCollectType][$strClassName][$classPropertyName]['idClassProperty'];
+                $logger->debug("Propriedade encontrada: $classPropertyName id_class_property = $idClassProperty. Apenas atualizar");
+            } else {
+                // Se não existir cria a propriedade
+                $logger->info("Criando propriedade $classPropertyName para a classe $strClassName");
+
+                $classPropertyObject = new ClassProperty();
+                $classPropertyObject->setIdClass($idClass);
+                $classPropertyObject->setNmPropertyName($classPropertyName);
+                $classPropertyObject->setTePropertyDescription('On the fly created Property');
+
+                $this->getDoctrine()->getManager()->persist($classPropertyObject);
+                $this->getDoctrine()->getManager()->flush();
+
+                // Finalmente adiciono no array de classes e propriedades
+                $idClassProperty = $classPropertyObject->getIdClassProperty();
+                $property = array(
+                    'idClassProperty' => $idClassProperty,
+                    'nmFunctionPreDb' => null
+                );
+
+                $arrCollectsDefClasses[$strCollectType][$strClassName][$classPropertyName] = $property;
+            }
+            //error_log("888888888888888888888888888888888888888888888: $strClassName | $idClassProperty | $classPropertyName");
+
+            // Chama função que grava a propriedade
+            $this->gerColsSetProperty($classPropertyName, $strNewClassValues, $idClassProperty, $computador);
+        }
+    }
+
+    /**
+     * Envia notificação de alteração para o administrador do sistema
+     *
+     * @param $coletaOld
+     * @param $coletaNew
+     * @param $computador
+     */
+
+    public function notificaAlteracao($coletaOld, $coletaNew, $computador) {
+        $configuracoes = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->findBy( array('idLocal' => $computador->getIdRede()->getIdLocal()) );
+        $emailNotificacao = $this->container->getParameter('swiftmailer.sender_address');
+        $organizacao = 'Administradores Cacic';
+
+        foreach ($configuracoes as $detalhe) {
+            if ($detalhe->getIdConfiguracao() == 'te_notificar_mudanca_hardware') {
+                $emailNotificacao = $detalhe->getVlConfiguracao();
+            }
+
+            if ($detalhe->getIdConfiguracao() == 'nm_organizacao') {
+                $organizacao = $detalhe->getVlConfiguracao();
+            }
+        }
+
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject("Notificação de alteração de configurações: $organizacao")
+            ->setFrom($this->container->getParameter('swiftmailer.sender_address'))
+            ->setTo($emailNotificacao)
+            ->setBody(
+                $this->renderView(
+                    'CacicWSBundle:Coleta:alteracaoMail.txt.twig',
+                    array(
+                        'coletaOld' => $coletaOld,
+                        'coletaNew' => $coletaNew,
+                        'computador' => $computador
+                    )
+                )
+            )
+        ;
+
+        $this->get('mailer')->send($message);
+    }
 
 }

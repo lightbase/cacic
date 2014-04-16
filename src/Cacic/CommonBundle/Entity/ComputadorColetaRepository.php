@@ -161,7 +161,8 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('rede.idLocal', 'local')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'prop.classProperty = coleta.classProperty')
             ->innerJoin('prop.software', 'soft')
-            ->where('soft.nmSoftware = :software')
+            ->orWhere('property.nmPropertyName = :software')
+            ->orWhere('prop.displayName = :software')
             ->setParameter('software', $software);
 
         /**
