@@ -602,6 +602,13 @@ class ColetaController extends Controller
                 $softwareObject = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->findOneBy( array( 'nmSoftware' => $nmSoftware ) );
                 if (empty($softwareObject)) {
                     $softwareObject = new Software();
+                    // Se não tiver nome coloco o ID Software no nome
+                    if (empty($arrTagsNames['DisplayName'])) {
+                        $softwareObject->setNmSoftware($softwareName);
+                    } else {
+                        $softwareObject->setNmSoftware($arrTagsNames['DisplayName']);
+                    }
+
                     // Grava software recém inserido
                     $this->getDoctrine()->getManager()->persist($softwareObject);
                     $this->getDoctrine()->getManager()->flush();
