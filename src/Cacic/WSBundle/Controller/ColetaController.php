@@ -258,49 +258,54 @@ class ColetaController extends Controller
     public function gerColsSetUsbDetectAction(Request $request)
     {
         OldCacicHelper::autenticaAgente( $request ) ;
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
         $data = new \DateTime('NOW');
+        $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
+        $ip_computador = $request->get('te_ip_computador');
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
 
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
         $te_so = $request->get( 'te_so' );
 
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$te_so) );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('idSo'=>$so, 'teNodeAddress'=>$te_node_adress) );
-        $local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
+        $local = $computador->getIdRede()->getIdLocal();
 
         $te_usb_info = OldCacicHelper::deCrypt($request, $request->get('te_usb_info'));
         if ($te_usb_info <> '')
         {
             $arrUsbInfo = explode('_',$te_usb_info);
 
-            $usb_log = new UsbLog();
-            $usb_log->setIdComputador($computador);
-            $usb_log->getCsEvent($arrUsbInfo[0]);
-            $usb_log->setDtEvent($arrUsbInfo[1]);
-            //$usb_log->setIdUsbVendor($arrUsbInfo[2]);
-            $usb_log->setIdUsbDevice($arrUsbInfo[3]);
-
             $arrTeUsbFilter  = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal( $local->getIdLocal() , 'te_usb_filter' );
             $arrTeNotificarUtilizacaoUSB = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarNotificacaoPropertyLocal( $rede->getIdLocal(), 'te_notificar_utilizacao_usb' );
 
-            $arrDeviceData = $this->getDoctrine()->getRepository('CacicCommonBundle:UsbDevice')->findBy( array('idDevice'=>$arrUsbInfo[3], 'idVendor'=>$arrUsbInfo[2] ));
-
-            if (trim($arrDeviceData[0]['nmDevice'])=='')
-            {
-                $usb_device = new UsbDevice();
-                $usb_device->setIdUsbVendor($arrUsbInfo[2]);
-                $usb_device->setIdUsbDevice($arrUsbInfo[3]);
-                $usb_device->getNmUsbDevice('Dispositivo USB Desconhecido');
-            }
-
             $arrVendorData =  $this->getDoctrine()->getRepository('CacicCommonBundle:UsbVendor  ')->findBy( array('idVendor'=>$arrUsbInfo[2]));
-            if (trim($arrVendorData[0]['nmVendor'])=='')
+            if (empty($arrVendorData))
             {
                 $usb_vendor = new UsbVendor();
                 $usb_vendor->setIdUsbVendor($arrUsbInfo[2]);
                 $usb_vendor->setNmUsbVendor('Fabricante de Dispositivos USB Desconhecido');
+
+                $arrVendorData = $usb_vendor;
             }
+
+            $arrDeviceData = $this->getDoctrine()->getRepository('CacicCommonBundle:UsbDevice')->findBy( array('idDevice'=>$arrUsbInfo[3], 'idVendor'=>$arrUsbInfo[2] ));
+            if (empty($arrDeviceData))
+            {
+                $usb_device = new UsbDevice();
+                $usb_device->setIdUsbVendor($arrVendorData);
+                $usb_device->setIdDevice($arrUsbInfo[3]);
+                $usb_device->setNmUsbDevice('Dispositivo USB Desconhecido');
+
+                $arrDeviceData = $usb_device;
+            }
+
+            $usb_log = new UsbLog();
+            $usb_log->setIdComputador($computador);
+            $usb_log->getCsEvent($arrUsbInfo[0]);
+            $usb_log->setDtEvent($arrUsbInfo[1]);
+            $usb_log->setIdUsbDevice($arrDeviceData);
+
 
             if ((trim($arrTeUsbFilter[0]['teUsbFilter'])<>'') && (trim($arrTeNotificarUtilizacaoUSB[0]['teNotificarUtilizacaoUsb']) <> ''))
             {
