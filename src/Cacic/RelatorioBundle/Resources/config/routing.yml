@@ -119,8 +119,8 @@ cacic_relatorio_hardware_wmi_rel:
             _method: POST
 
 cacic_relatorio_software_lista:
-    pattern: /software/inventariados/{nmSoftware}/{nmLocal}
-    defaults: { _controller: CacicRelatorioBundle:Software:lista, nmSoftware:null, nmLocal:null }
+    pattern: /software/inventariados/{nmSoftware}/{nmLocal}/{idRede}
+    defaults: { _controller: CacicRelatorioBundle:Software:lista, nmSoftware:null, nmLocal:null, idRede:null }
 
 cacic_relatorio_hardware_wmi_detalhe:
     pattern: /hardware/{classe}/{propriedade}

@@ -150,8 +150,8 @@ class ComputadorColetaRepository extends EntityRepository
     public function gerarRelatorioSoftware( $filtros, $software, $local )
     {
         $qb = $this->createQueryBuilder('coleta')
-            ->select('DISTINCT IDENTITY(coleta.computador), property.nmPropertyName, coleta.teClassPropertyValue, comp.nmComputador, comp.teNodeAddress,
-             comp.teIpComputador, so.idSo, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal, local.idLocal, comp.dtHrInclusao')
+            ->select('DISTINCT IDENTITY(coleta.computador), comp.nmComputador, comp.teNodeAddress,
+             comp.teIpComputador, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal, max(hist.dtHrInclusao) as dtHrInclusao')
             ->innerJoin('CacicCommonBundle:ComputadorColetaHistorico','hist', 'WITH', 'coleta.idComputadorColeta = hist.computadorColeta')
             ->innerJoin('coleta.classProperty', 'property')
             ->innerJoin('property.idClass', 'classe')
@@ -161,15 +161,14 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('rede.idLocal', 'local')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'prop.classProperty = coleta.classProperty')
             ->innerJoin('prop.software', 'soft')
-            ->orWhere('property.nmPropertyName = :software')
-            ->orWhere('prop.displayName = :software')
+            ->andWhere('soft.nmSoftware = :software')
+            ->groupBy('coleta.computador, comp.nmComputador, comp.teNodeAddress,
+             comp.teIpComputador, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal')
             ->setParameter('software', $software);
 
         /**
          * Verifica os filtros
          */
-        if (!empty($local))
-            $qb->andWhere('local.nmLocal IN (:local)')->setParameter('local', $local);
 
         if ( array_key_exists('local', $filtros) && !empty($filtros['local']) )
             $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));

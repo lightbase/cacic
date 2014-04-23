@@ -239,12 +239,17 @@ class SoftwareController extends Controller
      * @param software O Nome do software a ser listado
      */
 
-    public function listaAction(Request $request, $nmSoftware, $nmLocal) {
+    public function listaAction(Request $request, $nmSoftware, $nmLocal, $idRede) {
         $locale = $request->getLocale();
+
+        $filtros = array(
+            'locais' => $nmLocal,
+            'redes' => $idRede
+        );
 
         $dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:ComputadorColeta')
-            ->gerarRelatorioSoftware($filtros = array(), $nmSoftware, $nmLocal);
+            ->gerarRelatorioSoftware($filtros, $nmSoftware);
 
         return $this->render(
             'CacicRelatorioBundle:Software:rel_software_lista.html.twig',
