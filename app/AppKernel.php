@@ -30,7 +30,8 @@ class AppKernel extends Kernel
             new FM\ElfinderBundle\FMElfinderBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Swpb\Bundle\CocarBundle\CocarBundle(),
-            new Ddeboer\DataImportBundle\DdeboerDataImportBundle()
+            new Ddeboer\DataImportBundle\DdeboerDataImportBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

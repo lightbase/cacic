@@ -161,6 +161,12 @@ jms_translation:
             excluded_dirs: [Common, Entity, Form]
             #extractors: [alias_of_the_extractor]
 
+doctrine_migrations:
+    dir_name: %kernel.root_dir%/../src/Cacic/CommonBundle/DoctrineMigrations
+    namespace: Cacic\CommonBundle\Migrations
+    table_name: migration_versions
+    name: Cacic Migrations
+
 services:
     twig.text_extension:
         class: Twig_Extensions_Extension_Text
