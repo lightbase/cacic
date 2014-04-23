@@ -57,7 +57,9 @@
         "jms/serializer-bundle": "0.13.*@dev",
         "lightbase/cocar": "dev-master",
         "ddeboer/data-import-bundle": "dev-master",
-        "twbs/bootstrap": "3.0.*"
+        "twbs/bootstrap": "3.0.*",
+        "doctrine/migrations": "dev-master",
+        "doctrine/doctrine-migrations-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
