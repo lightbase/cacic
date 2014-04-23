@@ -147,14 +147,21 @@ class ComputadorColetaRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
-    public function gerarRelatorioSoftware( $filtros, $software, $local )
+    /**
+     * Relatório geral de softwares inventariados
+     *
+     * @param $filtros
+     * @param $software
+     * @param $local
+     * @return mixed
+     */
+
+    public function gerarRelatorioSoftware( $filtros, $software)
     {
         $qb = $this->createQueryBuilder('coleta')
             ->select('DISTINCT IDENTITY(coleta.computador), comp.nmComputador, comp.teNodeAddress,
-             comp.teIpComputador, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal, max(hist.dtHrInclusao) as dtHrInclusao')
-            ->innerJoin('CacicCommonBundle:ComputadorColetaHistorico','hist', 'WITH', 'coleta.idComputadorColeta = hist.computadorColeta')
+             comp.teIpComputador, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal, max(coleta.dtHrInclusao) as dtHrInclusao')
             ->innerJoin('coleta.classProperty', 'property')
-            ->innerJoin('property.idClass', 'classe')
             ->innerJoin('coleta.computador', 'comp')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
@@ -164,11 +171,56 @@ class ComputadorColetaRepository extends EntityRepository
             ->andWhere('soft.nmSoftware = :software')
             ->groupBy('coleta.computador, comp.nmComputador, comp.teNodeAddress,
              comp.teIpComputador, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal')
+            ->orderBy('coleta.computador, local.nmLocal, rede.teIpRede')
             ->setParameter('software', $software);
 
         /**
          * Verifica os filtros
          */
+
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
+            $qb->andWhere('local.nmLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+
+        if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) )
+            $qb->andWhere('rede.idRede IN (:redes)')->setParameter('redes', explode( ',', $filtros['redes'] ));
+
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
+            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) )
+            $qb->andWhere('soft.idSoftware IN (:conf)')->setParameter('conf', explode( ',', $filtros['conf'] ));
+
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * Gera relatório de softwares inventariados
+     *
+     * @param $filtros
+     * @return mixed
+     */
+
+    public function gerarRelatorioSoftwaresInventariados( $filtros)
+    {
+        $qb = $this->createQueryBuilder('coleta')
+            ->select('soft.nmSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal','COUNT(DISTINCT coleta.computador) AS numComp')
+            ->innerJoin('coleta.classProperty', 'property')
+            ->innerJoin('property.idClass', 'classe')
+            ->innerJoin('coleta.computador', 'comp')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'local')
+            ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'prop.classProperty = coleta.classProperty')
+            ->innerJoin('prop.software', 'soft')
+            ->groupBy('soft.nmSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal');
+
+        /**
+         * Verifica os filtros
+         */
+
+        if ( array_key_exists('softwares', $filtros) && !empty($filtros['softwares']) )
+            $qb->andWhere('soft.idSoftware IN (:softwares)')->setParameter('softwares', explode( ',', $filtros['softwares'] ));
 
         if ( array_key_exists('local', $filtros) && !empty($filtros['local']) )
             $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
@@ -178,10 +230,6 @@ class ComputadorColetaRepository extends EntityRepository
 
         if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
             $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
-
-        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) )
-            $qb->andWhere('property.idClassProperty IN (:conf)')->setParameter('conf', explode( ',', $filtros['conf'] ));
-
 
         return $qb->getQuery()->execute();
     }

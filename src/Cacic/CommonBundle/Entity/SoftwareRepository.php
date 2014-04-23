@@ -42,11 +42,11 @@ class SoftwareRepository extends EntityRepository
     public function listarSoftware()
     {
         $qb = $this->createQueryBuilder('sw')
-            ->select('sw.nmSoftware','class.idClassProperty')
+            ->select('sw.nmSoftware','sw.idSoftware')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
             ->innerJoin('CacicCommonBundle:ClassProperty', 'class','WITH', 'prop.classProperty = class.idClassProperty')
-            ->groupBy('sw.nmSoftware,class.idClassProperty, class.nmPropertyName')
-            ->orderBy(' sw.nmSoftware');
+            ->groupBy('sw.nmSoftware, sw.idSoftware')
+            ->orderBy('sw.nmSoftware');
 
         return $qb->getQuery()->execute();
     }
@@ -108,7 +108,7 @@ class SoftwareRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:ComputadorColeta', 'col', 'WITH', 'col.computador = prop.computador')
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'col.computador = comp.idComputador')
             ->innerJoin('comp.idRede','r')
-            ->leftJoin('r.idLocal', 'l')
+            ->innerJoin('r.idLocal', 'l')
             ->groupBy('sw.nmSoftware, r.idRede, r.nmRede, r.teIpRede, l.nmLocal')
             ->orderBy('sw.nmSoftware, l.nmLocal');
 

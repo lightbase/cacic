@@ -197,6 +197,7 @@ class ColetaController extends Controller
             // Armazena no banco o objeto
             $computadorColeta->setClassProperty($classPropertyObject);
             $computadorColeta->setTeClassPropertyValue($classProperty);
+            $computadorColeta->setDtHrInclusao( new \DateTime() );
 
             // Mando salvar os dados do computador
             $this->getDoctrine()->getManager()->persist( $computadorColeta );
@@ -226,6 +227,7 @@ class ColetaController extends Controller
             // Armazena no banco o objeto
             $computadorColeta->setClassProperty($classPropertyObject);
             $computadorColeta->setTeClassPropertyValue($classProperty);
+            $computadorColeta->setDtHrInclusao( new \DateTime() );
 
             // Mando salvar os dados do computador
             $this->getDoctrine()->getManager()->persist( $computadorColeta );

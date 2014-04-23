@@ -135,4 +135,55 @@ class ComputadorColeta
     {
         return $this->classe;
     }
+    /**
+     * @var \DateTime
+     */
+    private $dtHrInclusao;
+
+
+    /**
+     * Set dtHrInclusao
+     *
+     * @param \DateTime $dtHrInclusao
+     * @return ComputadorColeta
+     */
+    public function setDtHrInclusao($dtHrInclusao)
+    {
+        $this->dtHrInclusao = $dtHrInclusao;
+    
+        return $this;
+    }
+
+    /**
+     * Get dtHrInclusao
+     *
+     * @return \DateTime 
+     */
+    public function getDtHrInclusao()
+    {
+        return $this->dtHrInclusao;
+    }
+
+    /**
+     * Set idClass
+     *
+     * @param \Cacic\CommonBundle\Entity\Classe $idClass
+     * @return ComputadorColeta
+     */
+    public function setIdClass(\Cacic\CommonBundle\Entity\Classe $idClass = null)
+    {
+        $this->idClass = $idClass;
+    
+        return $this;
+    }
+
+    /**
+     * Get idClass
+     *
+     * @return \Cacic\CommonBundle\Entity\Classe 
+     */
+    public function getIdClass()
+    {
+        return $this->idClass;
+    }
 }

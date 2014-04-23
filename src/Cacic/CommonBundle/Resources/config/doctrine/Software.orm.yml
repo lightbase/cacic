@@ -57,4 +57,7 @@ Cacic\CommonBundle\Entity\Software:
         licencas:
             targetEntity: AquisicaoItem
             mappedBy: idSoftware
+    uniqueConstraints:
+            software_nm_software_idx:
+                columns: [ nm_software ]
     lifecycleCallbacks: {  }

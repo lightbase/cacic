@@ -15,6 +15,10 @@ Cacic\CommonBundle\Entity\ComputadorColeta:
             type: text
             nullable: false
             column: te_class_property_value
+        dtHrInclusao:
+            type: datetime
+            nullable: false
+            column: dt_hr_inclusao
     manyToOne:
         computador:
             targetEntity: Computador

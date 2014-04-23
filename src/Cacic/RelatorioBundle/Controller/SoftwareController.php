@@ -39,7 +39,7 @@ class SoftwareController extends Controller
     {
         $locale = $request->getLocale();
     	$dados = $this->getDoctrine()
-    					->getRepository('CacicCommonBundle:Software')
+    					->getRepository('CacicCommonBundle:ComputadorColeta')
     					->gerarRelatorioSoftwaresInventariados( $request->get('rel_filtro_software') );
        
     	return $this->render(
