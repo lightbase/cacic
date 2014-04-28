@@ -136,7 +136,7 @@ class LocalController extends Controller
         	/**
         	 * Primeiramente, remove as configurações aplicadas ao Local
         	 */
-        	$this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->removerConfiguracoesDoLocal( $local );
+            $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:Local')->excluirLocal( $local );
         	
         	$em->remove( $local ); // Tenta excluir o registro da base de dados
         	$em->flush();
@@ -147,6 +147,7 @@ class LocalController extends Controller
         }
         catch ( \Doctrine\DBAL\DBALException $e )
         {
+            $this->get('logger')->error("Erro na exclusão do local\n".$e->getMessage());
         	$out = array('status' => 'error', 'code' => false);
         	if ( preg_match('#SQLSTATE\[(\d+)\]#', $e->getMessage(), $tmp) )
         		$out['code'] = $tmp[1];

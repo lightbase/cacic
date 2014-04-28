@@ -43,5 +43,73 @@ class LocalRepository extends EntityRepository
 		
 		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}
+
+    /**
+     * Retorna o último local cadastrado
+     *
+     * @return mixed
+     */
+
+    public function getMaxLocal($local) {
+        $_dql = "SELECT l
+                FROM CacicCommonBundle:Local l
+                WHERE l.idLocal <> :local
+                ORDER BY l.idLocal desc
+                ";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setMaxResults(1)
+            ->setParameter('local', $local)
+            ->getSingleResult();
+    }
+
+    /**
+     * Move os usuários de local
+     *
+     * @param $local
+     */
+
+    public function moveUsuarios($local) {
+        $em = $this->getEntityManager();
+        $usuarios = $local->getUsuarios();
+        $maxLocal = $em->getRepository('CacicCommonBundle:Local')->getMaxLocal($local->getIdLocal());
+        // Coloca cada usuário em no último local cadastrado
+        foreach ($usuarios as $modificar) {
+            $modificar->setIdLocal($maxLocal);
+            $em->persist($modificar);
+        }
+        $em->flush();
+    }
+
+    /**
+     * Excluir local
+     *
+     * @param $local
+     */
+
+    public function excluirLocal($local) {
+        $em = $this->getEntityManager();
+        $em->getRepository('CacicCommonBundle:ConfiguracaoLocal')->removerConfiguracoesDoLocal( $local );
+        $em->getRepository('CacicCommonBundle:Local')->moveUsuarios( $local );
+
+        $config = $em->getRepository('CacicCommonBundle:PatrimonioConfigInterface')->findBy(array('local' => $local->getIdLocal()));
+        foreach ($config as $excluir) {
+            $em->remove($excluir);
+        }
+
+        $config = $em->getRepository('CacicCommonBundle:UnidOrganizacionalNivel2')->findBy(array('idLocal' => $local->getIdLocal()));
+        foreach ($config as $excluir) {
+            $em->remove($excluir);
+        }
+
+        $config = $em->getRepository('CacicCommonBundle:Rede')->findBy(array('idLocal' => $local->getIdLocal()));
+        foreach ($config as $excluir) {
+            $excluir->setIdLocal(null);
+            $em->persist($excluir);
+        }
+
+        $em->flush();
+    }
 	
 }
