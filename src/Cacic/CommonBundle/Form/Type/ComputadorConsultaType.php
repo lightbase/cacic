@@ -25,7 +25,7 @@ class ComputadorConsultaType extends AbstractType
                 'empty_value' => 'Selecione',
                 'required'  => true,
                 'choices' => array(
-                    'teIpComputador'=>'Consulta por IP',
+                    'teIpComputador'=>'Endereço IP do Computador',
                     'teNodeAddress'=>'MAC Address do Computador',
                     'nmComputador'=>'Nome do Computador'
                 )
@@ -38,7 +38,7 @@ class ComputadorConsultaType extends AbstractType
                 'empty_value' => 'Selecione',
                 'required'  => true,
                 'choices' => array(
-                    'teIpComputador'=>'Consulta por IP',
+                    'teIpComputador'=>'Endereço IP do Coputador',
                     'teNodeAddress'=>'MAC Address do Computador',
                     'nmComputador'=>'Nome do Computador',
                     'dtHrInclusao'=>'Data de Inclusão',
