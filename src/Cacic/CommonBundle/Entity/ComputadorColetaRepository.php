@@ -46,7 +46,7 @@ class ComputadorColetaRepository extends EntityRepository
     public function gerarRelatorioConfiguracoes( $filtros )
     {
         $qb = $this->createQueryBuilder('coleta')
-            ->select('IDENTITY(coleta.computador), coleta.teClassPropertyValue, comp.nmComputador, comp.teNodeAddress, comp.teIpComputador, so.idSo, so.inMswindows, so.sgSo, rede.idRede, local.nmLocal, local.idLocal')
+            ->select('IDENTITY(coleta.computador), coleta.teClassPropertyValue, comp.nmComputador, comp.teNodeAddress, comp.teIpComputador, so.idSo, so.inMswindows, so.sgSo, so.teDescSo, rede.idRede, local.nmLocal, local.idLocal')
             ->innerJoin('coleta.classProperty', 'property')
             ->innerJoin('property.idClass', 'classe')
             ->innerJoin('coleta.computador', 'comp')
@@ -244,7 +244,7 @@ class ComputadorColetaRepository extends EntityRepository
     public function gerarRelatorioWMI( $filtros, $classe )
     {
         $qb = $this->createQueryBuilder('coleta')
-            ->select('property.nmPropertyName', 'coleta.teClassPropertyValue', 'so.idSo', 'so.inMswindows', 'so.sgSo', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal', 'count(DISTINCT coleta.computador) as numComp')
+            ->select('property.nmPropertyName', 'coleta.teClassPropertyValue', 'so.idSo', 'so.inMswindows', 'so.sgSo', 'so.teDescSo', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal', 'count(DISTINCT coleta.computador) as numComp')
             ->innerJoin('coleta.classProperty', 'property')
             ->innerJoin('property.idClass', 'classe')
             ->innerJoin('coleta.computador', 'comp')

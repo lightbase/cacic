@@ -167,3 +167,11 @@ cacic_inativos_listar_csv:
     defaults: { _controller: CacicRelatorioBundle:Faturamento:listarInativosCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
     requirements:
         idRede: \d+
+
+cacic_relatorio_csv_hardware_wmi:
+    pattern: /csv/hardware/{classe}
+    defaults: { _controller: CacicRelatorioBundle:Hardware:csvWMIRelatorio }
+
+cacic_relatorio_csv_hardware_wmi_detalhe:
+    pattern: /csv/hardware/{classe}/{propriedade}
+    defaults: { _controller: CacicRelatorioBundle:Hardware:csvWMIRelatorioDetalhe }
