@@ -46,6 +46,7 @@ class UorgController extends Controller
 			$_tree[] = array(
 				'label' 			=> $uorg['nmUorg'],
                 'filho'             => $uorg['numFilhas'],
+                'rede'				=> $uorg['idRede'],
 				'id'				=> $uorg['idUorg'],
 				'load_on_demand' 	=> (bool) $uorg['numFilhas']
 			);
