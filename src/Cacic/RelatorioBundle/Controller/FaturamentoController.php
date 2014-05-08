@@ -161,13 +161,17 @@
                 $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
                     ->pesquisarInativos( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
 
+                foreach ($logs as $cont  ){
+                    $TotalnumComp = $cont['numComp'];
+                }
             }
 
             return $this->render( 'CacicRelatorioBundle:Faturamento:inativosResultado.html.twig',
                 array(
                     'idioma'=> $locale,
                     'form' => $form->createView(),
-                    'data' =>$data,
+                    'data' => $data,
+                    'totalnumcomp' =>$TotalnumComp,
                     'logs' => ( isset( $logs ) ? $logs : null )
                 )
             );
