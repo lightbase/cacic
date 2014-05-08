@@ -47,8 +47,10 @@
                 $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogAcesso')
                     ->pesquisar( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
 
+                $TotalnumComp = 0;
+
 		foreach ($logs as $cont  ){
-                $TotalnumComp = $cont['numComp'];
+                $TotalnumComp = $TotalnumComp+$cont['numComp'];
 		}
 
             }
@@ -160,6 +162,8 @@
 
                 $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
                     ->pesquisarInativos( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
+
+                $TotalnumComp = 0;
 
                 foreach ($logs as $cont  ){
                     $TotalnumComp = $cont['numComp'];
