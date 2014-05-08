@@ -42,12 +42,13 @@ class UorgRepository extends EntityRepository
 	 */
 	public function getFolhasDoNo( $idUorgPai )
 	{
-		$_dql = "SELECT uorg.idUorg, uorg.nmUorg, COUNT(filhas.idUorg) AS numFilhas
+		$_dql = "SELECT uorg.idUorg, uorg.nmUorg, r.idRede, COUNT(filhas.idUorg) AS numFilhas
 				FROM CacicCommonBundle:Uorg uorg
 				INNER JOIN uorg.uorgPai pai
 				LEFT JOIN uorg.uorgFilhas filhas
+				LEFT JOIN uorg.rede r
 				WHERE pai.idUorg = :idUorgPai
-				GROUP BY uorg.idUorg, uorg.nmUorg";
+				GROUP BY uorg.idUorg, uorg.nmUorg, r.idRede";
 		
 		return $this->getEntityManager()->createQuery( $_dql )
 										->setParameter('idUorgPai', $idUorgPai)

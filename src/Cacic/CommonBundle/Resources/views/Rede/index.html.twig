@@ -39,7 +39,7 @@
                 <tr id="item_{{ rede['idRede'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
                     <td>{{ rede['teIpRede'] }}/{{ rede['teMascaraRede']}}</td>
                     <td id="item_desc_{{ rede['idRede'] }}">{{ rede['nmRede'] }}</td>
-                    <td style="text-align: center">{{ rede['nmLocal']}}</td>
+                    <td style="text-align: center">{{ rede['sgLocal']}}</td>
                     <td style="text-align: center">{{ rede['numComp'] }}</td>
                     <td style="text-align: center">{{ rede['nmServidorAutenticacao'] }}</td>
                     <td style="text-align: center">{{ rede['teServCacic'] }}</td>
@@ -121,13 +121,20 @@
 	<script type="text/javascript" src="{{ asset('bundles/caciccommon/jqTree-0.15/tree.jquery.js') }}"></script>
 
 	<script type="text/javascript">
+        $( ".bt-vincular" ).click(function(){
 
-		var _dados = [ // Unidades de primeiro nível
+            var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
+
+            $( "#vincularUORGs" ).data( 'id', id ).dialog( "open" );
+
+
+            var _dados = [ // Unidades de primeiro nível
 			{% for uorg in uorgs %}
 			{
 				label: '{{ uorg.nmUorg }}',
 				id: {{ uorg.idUorg }},
-				filha:{{ uorg.numFilhas }},
+                rede: {% if uorg.idRede > 0%}{{ uorg.idRede }}{% else %}0{% endif %},
+				filha: {{ uorg.numFilhas }},
 				load_on_demand: {% if uorg.numFilhas  %}true {% else %}false{% endif %}
 
 			}{% if loop.last != true %},{% endif %}
@@ -136,8 +143,6 @@
 		];
 
 		$(function() {
-
-
 			$('#vincularUORGs').tree({
 				data: _dados,
 				dataUrl: function( node ) {
@@ -145,15 +150,21 @@
 				},
 				onCreateLi: function(node, $li) {
 
+                        console.log(id);
 						if(node.filha <= 0){
-
-							var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" name="uorg" value="'+node.id+'" /></a> '
-						}
+                            if(node.rede == id){
+                                var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" checked name="uorg" value="'+node.id+'" /></a> '
+                            }else{
+							    var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" name="uorg" value="'+node.id+'" /></a> '
+						    }
+                        }
 
 						if(node.filho <= 0){
-
-							var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" name="uorg" value="'+node.id+'" /></a> '
-
+                            if(node.rede == id){
+                                var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" checked name="uorg" value="'+node.id+'" /></a> '
+                            }else{
+							    var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" name="uorg" value="'+node.id+'" /></a> '
+                            }
 						}
 
 					$li.find('span.jqtree-title').after( _acoesNode );
@@ -176,7 +187,7 @@
 		});
 		var senha = $( '#uorg' ).val();
         $( "#vincularUORGs" ).dialog({
-            autoOpen: false,
+            autoOpen: true,
             height: 550,
             width: 550,
             modal: true,
@@ -217,10 +228,7 @@
 
         });
 
-        $( ".bt-vincular" ).click(function(){
 
-            var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
-            $( "#vincularUORGs" ).data( 'id', id ).dialog( "open" );
         });
     </script>
 {% endblock %}
