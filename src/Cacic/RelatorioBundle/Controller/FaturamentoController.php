@@ -1,19 +1,17 @@
 <?php
-
-    namespace Cacic\RelatorioBundle\Controller;
-
-    use Cacic\CommonBundle\Entity\ComputadorColetaRepository;
-    use Ddeboer\DataImport\ValueConverter\ArrayValueConverterMap;
-    use Ddeboer\DataImport\ValueConverter\CharsetValueConverter;
-    use Doctrine\Common\Util\Debug;
-    use Symfony\Component\HttpFoundation\Request;
-    use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-    use Cacic\CommonBundle\Form\Type\LogPesquisaType;
-    use Ddeboer\DataImport\Workflow;
-    use Ddeboer\DataImport\Reader\ArrayReader;
-    use Ddeboer\DataImport\Writer\CsvWriter;
-    use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
-    use Symfony\Component\HttpFoundation\BinaryFileResponse;
+ namespace Cacic\RelatorioBundle\Controller;
+ use Cacic\CommonBundle\Entity\ComputadorColetaRepository;
+ use Ddeboer\DataImport\ValueConverter\ArrayValueConverterMap;
+ use Ddeboer\DataImport\ValueConverter\CharsetValueConverter;
+ use Doctrine\Common\Util\Debug;
+ use Symfony\Component\HttpFoundation\Request;
+ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+ use Cacic\CommonBundle\Form\Type\LogPesquisaType;
+ use Ddeboer\DataImport\Workflow;
+ use Ddeboer\DataImport\Reader\ArrayReader;
+ use Ddeboer\DataImport\Writer\CsvWriter;
+ use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
+ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 
     class FaturamentoController extends Controller {
@@ -48,6 +46,11 @@
 
                 $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogAcesso')
                     ->pesquisar( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
+
+		foreach ($logs as $cont  ){
+                $TotalnumComp = $cont['numComp'];
+		}
+
             }
 
             return $this->render( 'CacicRelatorioBundle:Faturamento:faturamentoResultado.html.twig',
@@ -55,7 +58,8 @@
                     'idioma'=> $locale,
                     'form' => $form->createView(),
                     'data' =>$data,
-                    'logs' => ( isset( $logs ) ? $logs : null )
+                    'logs' => ( isset( $logs ) ? $logs : null ),
+                    'totalnumcomp' => $TotalnumComp
                 )
             );
         }
@@ -95,6 +99,11 @@
 
             // Gera CSV
             $reader = new ArrayReader($printers);
+
+            // Create the workflow from the reader
+            $workflow = new Workflow($reader);
+
+
 
             // Create the workflow from the reader
             $workflow = new Workflow($reader);
@@ -305,8 +314,5 @@
             $response->headers->set('Content-Type', 'text/csv');
             $response->headers->set('Content-Disposition', 'attachment; filename="Não Coletadas.csv"');
             $response->headers->set('Content-Transfer-Encoding', 'binary');
-
-            return $response;
-        }
-
-    }
+}
+}
