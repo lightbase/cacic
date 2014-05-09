@@ -22,7 +22,7 @@
 
             tSW.populate([ // Popula o TRANSFER com Softwares
                 {% for sw in sw %}
-                {value: "{{ sw['idClassProperty'] }}", content:"{{ sw['nmSoftware'] }}"}{% if loop.last != true %},{% endif %}
+                {value: "{{ sw['idSoftware'] }}", content:"{{ sw['nmSoftware'] }}"}{% if loop.last != true %},{% endif %}
 
                 {% endfor %}
             ]);
