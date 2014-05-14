@@ -122,14 +122,16 @@ class DefaultController extends Controller
             }
         }
 
-
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
         $cacic_helper = new OldCacicHelper($this->get('kernel'));
+
+        $testcoleta = '[forca_coleta]' . $computador->getForcaColeta() . '[/forca_coleta]';
         return  $this->render('CacicWSBundle:Default:test.xml.twig', array(
            'configs'=> $cacic_helper->getTest( $request ),
             'computador' => $computador,
             'rede' => $rede,
+            'testcoleta' => $testcoleta,
             'debugging' => $debugging,
             'ws_folder' => OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
             'cs_cipher' => $request->get('cs_cipher'),
@@ -144,7 +146,7 @@ class DefaultController extends Controller
     public function configAction( Request $request )
     {
         OldCacicHelper::autenticaAgente($request);
-
+        $logger = $this->get('logger');
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
         $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
         $ip_computador = $request->get('te_ip_computador');
@@ -232,7 +234,6 @@ class DefaultController extends Controller
         {
 
 		    $servidorAutenticacao = $rede->getIdServidorAutenticacao();
-//			error_log('3333333333333333333333333333333333333333333333: '.$servidorAutenticacao->getInAtivo());
 			if (!empty($servidorAutenticacao) and $servidorAutenticacao->getInAtivo() == 'S'){
 			    $strPatrimonio =
 								'[ip]'             . $servidorAutenticacao->getTeIpServidorAutenticacao()    . '[/ip]'            .
@@ -244,7 +245,8 @@ class DefaultController extends Controller
 								'[retorno2]'       . $servidorAutenticacao->getTeAtributoRetornaEmail()      . '[/retorno2]'      .
 								'[retorno3]'       . $servidorAutenticacao->getTeAtributoRetornaTelefone()   . '[/retorno3]'      .
 								'[tipo_protocolo]' . $servidorAutenticacao->getIdTipoProtocolo()             . '[/tipo_protocolo]'.
-								'[porta]'          . $servidorAutenticacao->getNuPortaServidorAutenticacao() . '[/porta]'         ;
+                				'[porta]'          . $servidorAutenticacao->getNuPortaServidorAutenticacao() . '[/porta]'         ;
+;
 				$strPatrimonio ='[dados_ldap]'     . OldCacicHelper::enCrypt($request, $strPatrimonio)       . '[/dados_ldap]'    ;
 			}
 			/*$dadosPatrimonio = $this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->findBy(array('idClass'=>'Patrimonio', 'idComputador'=>$computador->getIdComputador()));
@@ -382,7 +384,7 @@ class DefaultController extends Controller
                                     if (in_array($so->getSgSo(),$arrSgSOtoOlds))
                                     {
                                         $v_te_arq_ver_eng_w9x 	= trim($monitorado["teArqVerEngW9x"]);
-                                        if ($v_te_arq_ver_eng_w9x=='') 	$v_te_arq_ver_eng_w9x 	= '.';
+                                        if ($v_te_arq_ver_eng_w9x=='') 	$v_getRedete_arq_ver_eng_w9x 	= '.';
 
                                         $v_te_arq_ver_pat_w9x 	= trim($monitorado["teArqVerPatW9x"]);
                                         if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
@@ -454,22 +456,25 @@ class DefaultController extends Controller
             $strCollectsDefinitions .= '[Actions]' . $strAcoesSelecionadas . '[/Actions]';
         }
 
-        //error_log("333333333333333333333333333333333333333333: $strCollectsDefinitions");
-
         if (!empty($strCollectsDefinitions))
             $strCollectsDefinitions = OldCacicHelper::enCrypt($request, $strCollectsDefinitions);
 
         if($request->get('AgenteLinux'))
             $agente_py = true;
 
-        $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarPorLocal($local->getIdLocal());
+        //verifica se o modulo de patrimonio está habilitado
+        $patr = $this->getDoctrine()->getRepository('CacicCommonBundle:AcaoRede')->findOneBy( array('rede'=>$rede->getIdRede(), 'acao'=>'col_patr'));
+//      error_log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>:".$patr->getRede()->getIdRede());
+        if (!empty($patr))
+            $modPatrimonio = "S";
+        else
+            $modPatrimonio = "N";
 
+        $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarPorLocal($local->getIdLocal());
         //informações dos modulos do agente, nome, versao, hash
         $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy( array( 'idRede'=>$rede->getIdRede() ) );
-
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
-
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
         return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
@@ -491,6 +496,7 @@ class DefaultController extends Controller
             'v_te_fila_ftp'=>$v_te_fila_ftp,
             'rede_grupos_ftp'=>$rede_grupos_ftp,
 		    'strPatrimonio'=>$strPatrimonio,
+            'modPatrimonio'=> $modPatrimonio,
         ), $response);
     }
 }

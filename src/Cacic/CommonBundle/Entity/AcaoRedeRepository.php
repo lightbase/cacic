@@ -83,13 +83,17 @@ class AcaoRedeRepository extends EntityRepository
         $acoes = $em->getRepository( 'CacicCommonBundle:Acao' )->findAll();
 
         foreach ($redes as $novaRede) {
+
             // Para cada rede, habilita as ações
-            foreach ($acoes as $novaAcao) {
-                $new = $this->find( array( 'acao' => $novaAcao->getIdAcao(), 'rede' => $novaRede->getIdRede() ));
-                // Se não existir, cria a ação para a rede
-                if ( empty($new) ) {
-                    $new = new AcaoRede();
-                }
+            foreach ($acoes as $novaAcao){
+                // com excessão do módulo patrimonio, que inicialmente é desabilitado
+                if ($novaAcao->getIdAcao() != "col_patr"){
+                    $new = $this->find( array( 'acao' => $novaAcao->getIdAcao(), 'rede' => $novaRede->getIdRede() ));
+
+                      // Se não existir, cria a ação para a rede
+                      if ( empty($new) ) {
+                         $new = new AcaoRede();
+                      }
 
                 // Agora cria a ação
                 $new->setAcao($novaAcao);
@@ -98,6 +102,7 @@ class AcaoRedeRepository extends EntityRepository
 
                 // Grava as mudanças
                 $em->flush();
+                }
             }
 
         }
