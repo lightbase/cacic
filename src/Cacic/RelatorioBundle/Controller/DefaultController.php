@@ -30,15 +30,13 @@ class DefaultController extends Controller
 	{
         $locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->listar();
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
-        $sw = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->listarSoftware();
         $uorg = $this->getDoctrine()->getRepository('CacicCommonBundle:Uorg')->listar();
         $conf = $this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->listarPropriedades('Patrimonio');
-//
+
 
         return $this->render(
             'CacicRelatorioBundle:Default:patrimonio.html.twig',
             array(
-                'sw'        => $sw,
                 'locais' 	=> $locais,
                 'so'		=> $so,
                 'conf'      => $conf,
@@ -51,22 +49,26 @@ class DefaultController extends Controller
      */
     public function patrimonioRelatorioAction( Request $request )
     {
-      	$filtros = $request->get('rel_filtro_patrimonio');
-        $locale = $request->getLocale();
-    	$dados = $this->getDoctrine()
-            ->getRepository('CacicCommonBundle:Software')
-            ->gerarRelatorioPatrimonio( $filtros );
+      	  $filtros = $request->get('rel_filtro_patrimonio');
+          $locale = $request->getLocale();
 
-        //  Debug::dump($filtros);die;
+        if($filtros['conf'] <> ""){
+            $dados = $this->getDoctrine()
+                ->getRepository('CacicCommonBundle:ComputadorColeta')
+                ->gerarRelatorioPatrimonio( $filtros );
+        }
+        else{
+            $dados = $this->getDoctrine()
+                ->getRepository('CacicCommonBundle:ComputadorColeta')
+                ->gerarRelatorioSemPatrimonio( $filtros );
+        }
+
         return $this->render(
             'CacicRelatorioBundle:Default:rel_patrimonio.html.twig',
             array(
                 'idioma'=>$locale,
-                'dados' => $dados,/*
-                'menu' => (bool) strlen( $filtros['pci']),*/
-            	'exibirColunaSoftware' => (bool) strlen( $filtros['softwares']
-
-    )
+                'dados' => $dados,
+                'menu' => (bool) strlen( $filtros['conf'])
             )
         );
     }

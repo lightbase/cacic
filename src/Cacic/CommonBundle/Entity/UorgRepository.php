@@ -15,7 +15,8 @@ class UorgRepository extends EntityRepository
     public function listar()
     {
         $_dql = "SELECT uorg.idUorg, uorg.nmUorg
-				FROM CacicCommonBundle:Uorg uorg";
+				FROM CacicCommonBundle:Uorg uorg
+				ORDER BY uorg.uorgPai DESC, uorg.idUorg DESC ";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
