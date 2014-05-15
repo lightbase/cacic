@@ -49,8 +49,8 @@
 
                 $TotalnumComp = 0;
 
-		foreach ($logs as $cont  ){
-                $TotalnumComp = $TotalnumComp+$cont['numComp'];
+                foreach ($logs as $cont  ){
+                    $TotalnumComp += $cont['numComp'];
 		}
 
             }
@@ -166,7 +166,7 @@
                 $TotalnumComp = 0;
 
                 foreach ($logs as $cont  ){
-                    $TotalnumComp = $cont['numComp'];
+                    $TotalnumComp = $cont['numComp']+$TotalnumComp;
                 }
             }
 
