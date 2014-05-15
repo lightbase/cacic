@@ -270,7 +270,76 @@ class ComputadorColetaRepository extends EntityRepository
         if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) )
             $qb->andWhere('property.idClassProperty IN (:conf)')->setParameter('conf', explode( ',', $filtros['conf'] ));
 
+        return $qb->getQuery()->execute();
+    }
+
+    public function gerarRelatorioPatrimonio($filtros)
+    {
+        // Monta a Consulta básica...
+        $qb = $this->createQueryBuilder('coleta')
+            ->select( 'DISTINCT(comp.nmComputador), so.sgSo, class.nmPropertyName, coleta.teClassPropertyValue,
+                        r.teIpRede, r.idRede, r.nmRede, l.nmLocal, comp.idComputador,so.inMswindows, u.nmUorg')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp','WITH','coleta.computador = comp.idComputador')
+            ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'comp.idComputador = prop.computador')
+            ->innerJoin('CacicCommonBundle:ClassProperty', 'class','WITH', 'coleta.classProperty = class.idClassProperty')
+            ->innerJoin('CacicCommonBundle:Classe', 'classe','WITH', 'class.idClass = classe.idClass')
+            ->leftJoin('CacicCommonBundle:So', 'so','WITH','comp.idSo = so.idSo')
+            ->leftJoin('CacicCommonBundle:Rede', 'r','WITH', 'comp.idRede = r.idRede')
+            ->innerJoin('CacicCommonBundle:Uorg','u','WITH', 'r.idRede = u.rede')
+            ->innerJoin('CacicCommonBundle:Local','l','WITH', 'r.idLocal = l.idLocal')
+            ->groupBy('comp.nmComputador,r.idRede, class.nmPropertyName, u.nmUorg, coleta.teClassPropertyValue,so.sgSo, r.teIpRede,  l.nmLocal, r.nmRede, comp.idComputador,so.inMswindows')
+            ->orderBy('r.teIpRede, l.nmLocal');
+
+        /*
+         * Verifica os filtros que foram parametrizados
+         */
+
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
+            $qb->andWhere('l.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
+            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) )
+            $qb->andWhere('class.idClassProperty IN (:conf)')->setParameter('conf', explode( ',', $filtros['conf'] ));
+
+        if ( array_key_exists('uorg', $filtros) && !empty($filtros['uorg']) )
+            $qb->andWhere('u.idUorg IN (:uorg)')->setParameter('uorg', explode( ',', $filtros['uorg'] ));
 
         return $qb->getQuery()->execute();
+    }
+
+    public function gerarRelatorioSemPatrimonio($filtros)
+    {
+        // Monta a Consulta básica...
+        $qb = $this->createQueryBuilder('coleta')
+            ->select( 'DISTINCT(comp.nmComputador), so.sgSo,
+                        r.teIpRede, r.idRede, r.nmRede, l.nmLocal, comp.idComputador,so.inMswindows, u.nmUorg')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp','WITH','coleta.computador = comp.idComputador')
+            ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'comp.idComputador = prop.computador')
+            ->innerJoin('CacicCommonBundle:ClassProperty', 'class','WITH', 'coleta.classProperty = class.idClassProperty')
+            ->innerJoin('CacicCommonBundle:Classe', 'classe','WITH', 'class.idClass = classe.idClass')
+            ->leftJoin('CacicCommonBundle:So', 'so','WITH','comp.idSo = so.idSo')
+            ->leftJoin('CacicCommonBundle:Rede', 'r','WITH', 'comp.idRede = r.idRede')
+            ->innerJoin('CacicCommonBundle:Uorg','u','WITH', 'r.idRede = u.rede')
+            ->innerJoin('CacicCommonBundle:Local','l','WITH', 'r.idLocal = l.idLocal')
+            ->groupBy('comp.nmComputador,r.idRede, u.nmUorg,so.sgSo, r.teIpRede,  l.nmLocal, r.nmRede, comp.idComputador,so.inMswindows')
+            ->orderBy('r.teIpRede, l.nmLocal');
+
+        /*
+         * Verifica os filtros que foram parametrizados
+         */
+
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
+            $qb->andWhere('l.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
+            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+
+
+        if ( array_key_exists('uorg', $filtros) && !empty($filtros['uorg']) )
+            $qb->andWhere('u.idUorg IN (:uorg)')->setParameter('uorg', explode( ',', $filtros['uorg'] ));
+
+            return $qb->getQuery()->execute();
     }
 }
