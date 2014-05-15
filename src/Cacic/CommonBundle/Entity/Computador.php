@@ -55,6 +55,13 @@ class Computador
     private $tePalavraChave;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="forca_coleta", type="text", nullable=true)
+     */
+    private $forcaColeta;
+
+    /**
      * @var \DateTime
      */
     private $dtHrColetaForcadaEstacao;
@@ -319,6 +326,29 @@ class Computador
     public function getTePalavraChave()
     {
         return $this->tePalavraChave;
+    }
+
+    /**
+     * Set forcaColeta
+     *
+     * @param string $forcaColeta
+     * @return Computador
+     */
+    public function setForcaColeta($forcaColeta)
+    {
+        $this->forcaColeta = $forcaColeta;
+
+        return $this;
+    }
+
+    /**
+     * Get forcaColeta
+     *
+     * @return string
+     */
+    public function getForcaColeta()
+    {
+        return $this->forcaColeta;
     }
 
     /**
