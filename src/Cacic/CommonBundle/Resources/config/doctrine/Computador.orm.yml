@@ -53,6 +53,10 @@ Cacic\CommonBundle\Entity\Computador:
             fixed: true
             nullable: false
             column: te_palavra_chave
+        forcaColeta:
+            type: text
+            nullable: true
+            column: forca_coleta
         dtHrColetaForcadaEstacao:
             type: datetime
             nullable: true
