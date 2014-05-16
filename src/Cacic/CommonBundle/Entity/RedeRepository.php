@@ -34,7 +34,7 @@ class RedeRepository extends EntityRepository
      * Método de listagem das Redes cadastradas e respectivas informações dos locais associados
      */
 
-    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
+    public function paginar()
     {
         $qb = $this->createQueryBuilder('r')
             ->select('r.idRede','r.nmRede','r.teIpRede','r.teServCacic', 'r.teServUpdates',
@@ -46,11 +46,12 @@ class RedeRepository extends EntityRepository
             ->groupBy('r.idRede, r.nmRede, r.teIpRede, r.teServCacic, r.teServUpdates, r.teMascaraRede, l.sgLocal, s.nmServidorAutenticacao, uorg.nmUorg')
             ->orderBy('r.teIpRede, l.sgLocal');
 
-        return $paginator->paginate(
-            $qb->getQuery()->execute(),
-            $page,
-            10
-        );
+        return $this->getEntityManager()->createQuery( $qb )->getArrayResult();
+//        return $paginator->paginate(
+//            $qb->getQuery()->execute(),
+//            $page,
+//            10
+//        );
     }
 
     public function listar()
