@@ -18,9 +18,9 @@ class UsuarioController extends Controller
 	 * Listagem dos usuários
 	 * @param $page
 	 */
-	public function indexAction( $page )
+	public function indexAction()
 	{
-		$arrUsuarios = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuario' )->paginar( $this->get( 'knp_paginator' ), $page );
+		$arrUsuarios = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuario' )->listar();
 		return $this->render( 'CacicCommonBundle:Usuario:index.html.twig', array( 'usuarios' => $arrUsuarios ) );
 	}
 	
