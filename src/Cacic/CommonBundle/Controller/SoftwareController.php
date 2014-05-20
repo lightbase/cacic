@@ -191,7 +191,7 @@ class SoftwareController extends Controller
     	return $this->render(
         	'CacicCommonBundle:Software:naousados.html.twig', 
         	array(
-        		'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listarNaoUsados( $this->get( 'knp_paginator' ), $page )
+        		'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listarNaoUsados()
         	) 
         );
     }
