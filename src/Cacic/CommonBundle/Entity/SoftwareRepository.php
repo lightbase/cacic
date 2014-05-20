@@ -72,7 +72,7 @@ class SoftwareRepository extends EntityRepository
      *
      * Método de listagem dos Softwares cadastrados que não estão associados a nenhuma máquina
      */
-    public function listarNaoUsados( \Knp\Component\Pager\Paginator $paginator, $page = 1)
+    public function listarNaoUsados()
     {
         $qb = $this->createQueryBuilder('sw')
             ->select('sw.nmSoftware, sw.idSoftware')
@@ -81,11 +81,8 @@ class SoftwareRepository extends EntityRepository
             ->groupBy('sw.nmSoftware,sw.idSoftware')
             ->orderBy('sw.nmSoftware','ASC');
 
-        return $paginator->paginate(
-            $qb->getQuery()->execute(),
-            $page,
-            10
-        );
+        return $qb->getQuery()->execute();
+
     }
 
     /**
