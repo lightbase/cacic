@@ -148,7 +148,7 @@ class SoftwareController extends Controller
     	return $this->render(
         	'CacicCommonBundle:Software:naoclassificados.html.twig', 
         	array(
-        		'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listarNaoClassificados( $this->get( 'knp_paginator' ), $page ),
+        		'softwares' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:Software' )->listarNaoClassificados(),
         		'tipos' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoSoftware' )->findAll()
         	) 
         );
