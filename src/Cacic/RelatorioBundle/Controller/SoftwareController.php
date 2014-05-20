@@ -41,15 +41,23 @@ class SoftwareController extends Controller
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:ComputadorColeta')
     					->gerarRelatorioSoftwaresInventariados( $request->get('rel_filtro_software') );
+
+        $TotalnumComp = 0;
+
+        foreach ($dados as $cont  ){
+            $TotalnumComp += $cont['numComp'];
+        }
        
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_inventariados.html.twig', 
         	array(
                 'idioma'=>$locale,
-        		'dados' => $dados
-        	)
+        		'dados' => $dados,
+                'totalnumcomp' => $TotalnumComp
+            )
         );
     }
+
     public function listarAction( Request $request, $idSoftware )
     {
         $locale = $request->getLocale();
