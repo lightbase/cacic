@@ -55,7 +55,7 @@ class SoftwareRepository extends EntityRepository
      *
      * Método de listagem dos Softwares cadastrados que não foram classificados (sem Tipo de Software)
      */
-    public function listarNaoClassificados( \Knp\Component\Pager\Paginator $paginator, $page = 1)
+    public function listarNaoClassificados()
     {
         $qb = $this->createQueryBuilder('sw')
             ->select('sw.nmSoftware','sw.idSoftware')
@@ -65,12 +65,7 @@ class SoftwareRepository extends EntityRepository
             ->groupBy('sw.nmSoftware,sw.idSoftware')
             ->orderBy('sw.nmSoftware');
 
-        return $paginator->paginate(
-            $qb->getQuery()->execute(),
-            $page,
-            10
-        );
-
+        return $qb->getQuery()->execute();
     }
 
     /**
