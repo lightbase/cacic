@@ -20,7 +20,7 @@
             <br />
 
 			<form id={{ 'formSoftwaresNaoUsados'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
-                <table class="table table-striped table-bordered">
+                <table class="display datatable" id="datatable">
 					<thead>
 					   <tr>
 					       <th width="90%"style="text-align: center">{{ 'Nome do Software'|trans }}</th>
@@ -50,10 +50,6 @@
 					</tbody>
                 </table>
 
-				{# display navigation #}
-				<div class="navigation">
-					{{ knp_pagination_render(softwares) }}
-				</div>
 				<div class="control-group" align="right">
                   <div class="controls">
                       <button type="reset" class="btn">
