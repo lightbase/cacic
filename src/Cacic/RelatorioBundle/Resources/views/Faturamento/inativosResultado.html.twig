@@ -26,7 +26,7 @@
 				        <th width="20%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
                         <th width="20%" style="text-align: center">{{ "Estações"|trans }}</th>
                         <th style="text-align: center">
-							<a class="btn btn-success" href="{{ path('cacic_inativos_listar_csv') }}/{{ logs[0]['idRede'] }}/{{data['dtAcaoInicio'] }}/{{ data['dtAcaoFim'] }}"  title="{{ "Máquinas sem Coletas"|trans }}" target="_blank">
+							<a class="btn btn-success" href="{{ path('cacic_inativos_listar_csv') }}/{{ logs[0]['idRede'] }}/{{data['dtAcaoInicio'] }}/{{ data['dtAcaoFim'] }}"  title="{{ "Máquinas sem Coletas"|trans }}" target="_self">
 								<i class="icon-download-alt"></i>
 							</a>
                         </th>
