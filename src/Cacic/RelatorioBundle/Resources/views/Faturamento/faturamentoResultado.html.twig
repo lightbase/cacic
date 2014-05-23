@@ -7,12 +7,17 @@
         <div class="box grad_colour_black">
             <h2 class="box_head round_top"><i class="icon-list"></i> {{'Resultado do Faturamento' |trans }}</h2>
             <div class="block box_content round_bottom padding_10">
-
 				<h2 class="">{{ 'Relatório de Faturamento'|trans }}</h2>
                 <h5 class="">{{ 'Período: '|trans }}{{data['dtAcaoInicio']|date("d/m/Y") }} a {{ data['dtAcaoFim']|date("d/m/Y") }}</h5>
                 <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+                <hr />
 
-				<hr />
+                     <form id="csv" action="{{ path('cacic_faturamento_csv') }}" method="post">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="icon-bar-chart"></i>
+                            Gerar CSV
+                        </button>
+                     </form>
 
               <form id="faturamento" class="form-horizontal"  method="post" >
 
