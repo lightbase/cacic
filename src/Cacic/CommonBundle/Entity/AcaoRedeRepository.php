@@ -84,24 +84,28 @@ class AcaoRedeRepository extends EntityRepository
 
         foreach ($redes as $novaRede) {
 
+            // Primeiro apaga todas as ações
+            $acaoRede = $this->findBy( array( 'rede' => $novaRede ) );
+
+            foreach ($acaoRede as $acao) {
+                $em->remove($acao);
+            }
+            $em->flush();
+
             // Para cada rede, habilita as ações
             foreach ($acoes as $novaAcao){
                 // com excessão do módulo patrimonio, que inicialmente é desabilitado
-                if ($novaAcao->getIdAcao() != "col_patr"){
-                    $new = $this->find( array( 'acao' => $novaAcao->getIdAcao(), 'rede' => $novaRede->getIdRede() ));
+                if ( $novaAcao->getCsOpcional() == 'S' ){
 
-                      // Se não existir, cria a ação para a rede
-                      if ( empty($new) ) {
-                         $new = new AcaoRede();
-                      }
+                    $new = new AcaoRede();
 
-                // Agora cria a ação
-                $new->setAcao($novaAcao);
-                $new->setRede($novaRede);
-                $em->persist($new);
+                    // Agora cria a ação
+                    $new->setAcao($novaAcao);
+                    $new->setRede($novaRede);
+                    $em->persist($new);
 
-                // Grava as mudanças
-                $em->flush();
+                    // Grava as mudanças
+                    $em->flush();
                 }
             }
 
