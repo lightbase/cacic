@@ -101,7 +101,11 @@ class LogAcessoRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:Computador','comp', 'WITH', 'log.idComputador = comp.idComputador')
             ->andWhere( 'log.data >= (current_date() - 30)' );
 
-        return $query->getQuery()->execute();
+        $query = $query->getQuery();
+        $query->useResultCache(true);
+        $query->setResultCacheLifetime(600);
+
+        return $query->execute();
     }
     public function faturamentoCsv( $dataInicio, $dataFim, $locais )
     {

@@ -99,13 +99,16 @@ class ComputadorColetaRepository extends EntityRepository
     public function menu()
     {
         $_dql = "SELECT c
-                FROM CacicCommonBundle:ComputadorColeta coleta
-                INNER JOIN CacicCommonBundle:ClassProperty property WITH coleta.classProperty = property.idClassProperty
-				INNER JOIN CacicCommonBundle:Classe c WITH property.idClass = c.idClass
+                FROM CacicCommonBundle:Classe c
 				WHERE c.nmClassName NOT IN ('SoftwareList', 'Patrimonio')
 				ORDER BY c.nmClassName";
 
-        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+        $_dql = $this->getEntityManager()->createQuery( $_dql );
+
+        $_dql->useResultCache(true);
+        $_dql->setResultCacheLifetime(3600);
+
+        return $_dql->getArrayResult();
     }
 
     /**

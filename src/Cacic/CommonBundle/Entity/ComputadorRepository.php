@@ -156,7 +156,12 @@ class ComputadorRepository extends EntityRepository
             ->innerJoin('comp.idSo', 'so')
             ->groupBy('so');
 
-        return $qb->getQuery()->getResult();
+
+        $qb = $qb->getQuery();
+        $qb->useResultCache(true);
+        $qb->setResultCacheLifetime(600);
+
+        return $qb->getResult();
     }
 
     /**
