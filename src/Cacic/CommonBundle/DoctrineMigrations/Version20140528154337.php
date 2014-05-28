@@ -10,7 +10,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20140528153001 extends AbstractMigration implements ContainerAwareInterface
+class Version20140528154337 extends AbstractMigration implements ContainerAwareInterface
 {
     private $container;
 
