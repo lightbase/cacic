@@ -52,11 +52,12 @@ class AcaoRedeRepository extends EntityRepository
 	{
 		$em = $this->getEntityManager();
 		$redesLocal = $em->getRepository( 'CacicCommonBundle:Rede' )->getArrayChaveValorPorLocal( $local );
-		
+
 		foreach ( $redesLocal as $idRede => $nmRede )
 		{
-			$obj = $this->find( array( 'acao'=>$acao, 'rede'=>$idRede ) );
-			if ( $obj ) $em->remove( $obj );
+            $arr = $this->findBy( array( 'acao'=>$acao, 'rede'=>$idRede ) );
+            foreach ( $arr as $obj )
+                $em->remove( $obj );
 		}
 		
 		$em->flush();
