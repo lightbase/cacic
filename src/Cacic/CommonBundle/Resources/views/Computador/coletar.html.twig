@@ -1,0 +1,137 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+<li class="active">{{ 'Forçar Coleta Computador'|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+    <div class="span8">
+
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-search"></i> {{'Forçar coleta de informações por máquina' |trans }}</h2>
+
+            <div class="block box_content round_bottom padding_10">
+
+                <form id={{ 'formComputadorConsulta'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
+
+                    <div class="control-group" >
+                        <label for="log_acesso_periodo"style="width:300px; margin-right: 15px" class="control-label">{{ 'Selecione o filtro da busca'|trans }}</label>
+                        <div class="controls">
+                            {{ form_widget(form.selConsulta, {'form_type': 'horizontal'}) }}
+                        </div>
+                    </div>
+
+                    <div  id="teIpComputador" class="mostrarDiv"  style=" display: none; margin-left: 155px" >
+                        <div class="control-group" >
+                            <div class="controls">
+                                {{ form_widget(form.teIpComputador) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div  id="nmComputador" class="mostrarDiv"  style="display:none; margin-left: 155px" >
+                        <div class="control-group" >
+                            <div class="controls">
+                                {{ form_widget(form.nmComputador) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div  id="teNodeAddress" class="mostrarDiv"  style="display: none; margin-left: 155px" >
+                        <div class="control-group" >
+                            <div class="controls">
+                                {{ form_widget(form.teNodeAddress) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group" align="right">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="icon-search"></i>
+                                {{ "Buscar"|trans }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+        {% if computadores is not null %}
+            {% include 'CacicCommonBundle:Computador:resultadoColetar.html.twig' %}
+        {% endif %}
+    </div><!-- /span -->
+    <div class="span4">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+
+            <div class="block box_content round_bottom padding_10">
+                <p>
+                    {{ "Este módulo permite forçar a coleta de informações nos computadores monitorados pelos agentes do cacic"|trans }}.
+                </p>
+                <p>
+                    {{ "É possível pesquisar por IP, Nome do Computador ou MAC Address da máquina, bastando selecionar uma das opções"|trans }}.
+                </p>
+                <p>
+                    {{ "A coleta será realizada em aproximadamente 4 minuto"|trans }}.
+                </p>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- span4 -->
+</div><!-- /row -->
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+<script type="text/javascript">
+    System.Form.toggleCheck(); // Ativa o monitoramento de Clique no checkbox para marcar/desmarcar todos
+</script>
+
+
+
+        <!-- javascript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!-- jQuery (UI) -->
+        <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery.1.7.1.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery-ui-1.8.17.min.js') }}"></script>
+
+
+        {{ parent() }}
+
+
+
+        <script type="text/javascript">
+            /**
+             * Mensagens do sistema
+             */
+
+            if($('#ComputadorConsulta_selConsulta').val() == 'teIpComputador'){
+                $('#teIpComputador').show();
+            }
+            if($('#ComputadorConsulta_selConsulta').val() == 'nmComputador'){
+                $('#nmComputador').show();
+            }
+            if($('#ComputadorConsulta_selConsulta').val() == 'teNodeAddress'){
+                $('#teNodeAddress').show();
+            }
+
+
+
+            $('#ComputadorConsulta_selConsulta').change(function () {
+                $('.mostrarDiv').hide();
+//                $('#ComputadorConsulta_teIpComputador').val( '' );
+                $('#ComputadorConsulta_nmComputador').val( '' );
+                $('#ComputadorConsulta_teNodeAddress').val( '' );
+
+                $('#' + $(this).val()).show();
+            });
+
+        </script>
+
+
+
+{% endblock %}
