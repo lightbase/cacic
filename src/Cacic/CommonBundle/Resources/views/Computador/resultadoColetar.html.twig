@@ -1,0 +1,49 @@
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Resultado da pesquisa' |trans }}</h2>
+            <div class="block box_content round_bottom padding_10">
+
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th width="29%" style="text-align: center">{{ "Nome da Máquina"|trans }}</th>
+                        <th width="29%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
+                        <th width="29%" style="text-align: center">{{ "MAC Address"|trans }}</th>
+
+                        <th width="13%"></th>
+
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for computador in computadores %}
+
+                        <tr>
+                            <td style="text-align: center">{{ computador['nmComputador'] }}</td>
+                            <td style="text-align: center">{{ computador['teIpComputador'] }}</td>
+                            <td style="text-align: center">{{ computador['teNodeAddress'] }}</td>
+                            <td class="td-actions">
+                                <a href="{{ path("cacic_computador_update")}}/{{ computador['idComputador'] }}" title="{{ "Coletar Softwares de"|trans }} {{ computador['nmComputador'] }}" target="_self">
+                                    <i class="icon-download-alt"></i>
+                                    {{ "Coletar"|trans }}
+                                </a>
+                            </td>
+                        </tr>
+
+                    {% else %}
+                        <tr>
+                            <td style="text-align: center;" colspan="4"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span -->
+</div> <!-- /row -->
