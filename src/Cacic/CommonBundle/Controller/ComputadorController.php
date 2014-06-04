@@ -175,6 +175,7 @@ class ComputadorController extends Controller
     public function updateAction( Request $request, $idComputador)
     {
         $computador = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->find( $idComputador );
+
         if ( !$computador )
             throw $this->createNotFoundException( 'Computador não encontrado' );
         else
@@ -182,8 +183,6 @@ class ComputadorController extends Controller
             $computador->setForcaColeta('S');
             $this->getDoctrine()->getManager()->persist( $computador );
             $this->getDoctrine()->getManager()->flush();
-
-            throw $this->createNotFoundException( 'Computador não encontrado' );
 
             return $this->redirect($this->generateUrl('cacic_computador_coletar') );
         }
