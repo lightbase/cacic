@@ -128,6 +128,13 @@ class ColetaController extends Controller
         $data_fim = $data_fim->format('d/m/Y H:i:s');
         $logger->debug("%%% Final da operação de coleta: $data_fim. Tempo de execução da coleta: $tempo %%%");
 
+        //Verifica se a coleta foi forçada
+        if ($computador->getForcaColeta() == 'S') {
+            $computador->setForcaColeta('N');
+            $this->getDoctrine()->getManager()->persist( $computador );
+            $this->getDoctrine()->getManager()->flush();
+        }
+
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
         $cacic_helper = new OldCacicHelper( $this->get('kernel') );
