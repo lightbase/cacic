@@ -1,6 +1,7 @@
 {% extends 'CacicWSBundle::common.xml.twig' %}
 {%  block bodyXML %}
     <TeDebugging>{{ debugging }}</TeDebugging>
+    <ForcaColeta>{{  computador.getForcaColeta() }}</ForcaColeta>
     <IdComputador>{{  computador.getIdComputador() }}</IdComputador>
     <WebManagerAddress>{{ rede.getTeServCacic() }}</WebManagerAddress>
     <WebServicesFolderName>{{ ws_folder }}</WebServicesFolderName>
