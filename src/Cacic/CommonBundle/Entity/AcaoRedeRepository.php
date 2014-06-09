@@ -54,19 +54,18 @@ class AcaoRedeRepository extends EntityRepository
 
             $apagaObj = $em->getRepository( 'CacicCommonBundle:AcaoRede' )->findBy( array( 'acao'=>$acao ) );
 
-            foreach ( $apagaObj as $acao){
-                if (!empty($acao))
-                    $em->remove($acao);
+            foreach ( $apagaObj as $acaoObj){
+                if (!empty($acaoObj))
+                    $em->remove($acaoObj);
             }
 
             $em->flush();
 
 		foreach ( $novasRedes as $idRede )
 		{
-         //   $log = implode(",", $novasRedes);
 
 			    $new = new AcaoRede();
-			    $new->setAcao( $em->getRepository( 'CacicCommonBundle:Acao' )->find( $acao ) );
+			    $new->setAcao( $em->getRepository( 'CacicCommonBundle:Acao' )->find(  $acao ) );
 			    $new->setRede( $em->getRepository( 'CacicCommonBundle:Rede' )->find( $idRede ) );
 			    $em->persist( $new );
 
