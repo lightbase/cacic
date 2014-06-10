@@ -48,7 +48,7 @@ class AcaoRedeRepository extends EntityRepository
 	 * @param int|Cacic\CommonBundle\Entity\Local $local
 	 * @param array $novasRedes
 	 */
-	public function atualizarPorLocal( $acao, $novasRedes )
+	public function atualizarPorLocal( $acao, $local, $novasRedes )
 	{
         $em = $this->getEntityManager();
 
