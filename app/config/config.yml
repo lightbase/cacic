@@ -14,8 +14,16 @@ framework:
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
-    trusted_proxies: ~
-    session:         ~
+#    trusted_proxies: ~
+    session:         
+        handler_id: session.handler.pdo
+
+parameters:
+    pdo.db_options:
+        db_table:    session
+        db_id_col:   session_id
+        db_data_col: session_value
+        db_time_col: session_time
 
 # Twig Configuration
 twig:
@@ -182,3 +190,15 @@ services:
                 class: Cacic\CommonBundle\Command\UpgradeCommand
                 tags:
                     -  { name: console.command }
+    pdo:
+        class: PDO
+        arguments:
+            - "pgsql:host=%database_host%;port=%database_port%;dbname=%database_name%"
+            - "%database_user%"
+            - "%database_password%"
+        calls:
+            - [setAttribute, [3, 2]] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
+
+    session.handler.pdo:
+        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        arguments: ["@pdo", "%pdo.db_options%"]
