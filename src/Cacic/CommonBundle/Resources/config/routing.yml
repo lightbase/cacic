@@ -469,6 +469,14 @@ cacic_computador_coletar:
     pattern: /computador/coletar
     defaults: { _controller: CacicCommonBundle:Computador:coletar }
 
+cacic_rede_coletar:
+    pattern: /rede/coletar
+    defaults: { _controller: CacicCommonBundle:Rede:coletar }
+
+cacic_rede_coletar_submit:
+    pattern: /rede/coletar/submit
+    defaults: { _controller: CacicCommonBundle:Rede:submit }
+
 cacic_computador_update:
     pattern: /computador/update/{idComputador}
     defaults: { _controller: CacicCommonBundle:Computador:update, idComputador: null }
