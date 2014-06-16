@@ -1,136 +1,106 @@
 {% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}
-<li class="active">{{ 'Forçar Coleta'|trans }}</li>
+    <li class="active">{{ 'Forçar Coleta Subrede'|trans }}</li>
 {% endblock %}
 
 {% block body %}
 
-<div class="row-fluid">
-    <div class="span8">
+    <div class="row-fluid">
+        <div class="span8">
 
-        <div class="box grad_colour_black">
+            <div class="box grad_colour_black">
 
-            <h2 class="box_head round_top"><i class="icon-search"></i> {{'Forçar coleta por máquina' |trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-hdd"></i> {{ 'Atualizações de subredes'|trans }}</h2>
 
-            <div class="block box_content round_bottom padding_10">
+                <div class="block box_content round_bottom padding_10">
 
-                <form id={{ 'formComputadorConsulta'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
+                        <form id={{ 'formRedeColeta'|trans }} class="form-horizontal" action="{{ path('cacic_rede_coletar_submit') }}" method="post" >
 
-                    <div class="control-group" >
-                        <label for="log_acesso_periodo"style="width:300px; margin-right: 15px" class="control-label">{{ 'Selecione o filtro da busca'|trans }}</label>
-                        <div class="controls">
-                            {{ form_widget(form.selConsulta, {'form_type': 'horizontal'}) }}
-                        </div>
-                    </div>
+                        <table class="display datatable" id="datatable">
 
-                    <div  id="teIpComputador" class="mostrarDiv"  style=" display: none; margin-left: 155px" >
-                        <div class="control-group" >
+                            <thead>
+                            <tr>
+                                <th width="20%" style="text-align: center">{{ 'Endereço IP'|trans }}</th>
+                                <th width="45%" style="text-align: center">{{ 'Nome da Subrede'|trans }}</th>
+                                <th width="25%" style="text-align: center">{{ 'Localizacao'|trans }}</th>
+                                <th width="10%" style="text-align: center">
+                                    <label style="margin: auto; width:12px; height:10px;">
+                                        <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="subrede">
+                                    </label>
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for key, rede in subredes %}
+                                <tr id="item_{{ key }}">
+                                    <td style="text-align: center" id="item_desc_{{ key }}">{{ rede['teIpRede'] }}</td>
+                                    <td style="text-align: center" >{{ rede['nmRede'] }}</td>
+                                    <td style="text-align: center" >{{ rede['nmLocal'] }}</td>
+                                    <td>
+                                        <label style="margin: auto; width:12px; height:10px;">
+                                            <input type="checkbox" id="item_id_{{ key }}" name="subrede[]" value="{{ key }}">
+                                        </label>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                        <div class="control-group" align="right">
                             <div class="controls">
-                                {{ form_widget(form.teIpComputador) }}
+                                <button type="reset" class="btn">
+                                    <i class="icon-refresh"></i>
+                                    {{ "Resetar Valores"|trans }}
+                                </button>
+                                <button type="submit" value="submit"  class="btn btn-primary">
+                                    <i class="icon-ok-sign"></i>
+                                    {{ "Forçar Coleta"|trans }}
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div  id="nmComputador" class="mostrarDiv"  style="display:none; margin-left: 155px" >
-                        <div class="control-group" >
-                            <div class="controls">
-                                {{ form_widget(form.nmComputador) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div  id="teNodeAddress" class="mostrarDiv"  style="display: none; margin-left: 155px" >
-                        <div class="control-group" >
-                            <div class="controls">
-                                {{ form_widget(form.teNodeAddress) }}
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="control-group" align="right">
-                        <div class="controls">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="icon-search"></i>
-                                {{ "Buscar"|trans }}
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div> <!-- /block -->
-        </div> <!-- /box -->
-        {% if computadores is not null %}
-            {% include 'CacicCommonBundle:Computador:resultadoColetar.html.twig' %}
-        {% endif %}
-    </div><!-- /span -->
+                    </form>
 
-    <div class="span4">
-        <div class="box grad_colour_black">
+                </div> <!-- /block -->
+            </div><!-- /box -->
 
-            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+        </div><!-- /span -->
+        <div class="span4">
+            <div class="box grad_colour_black">
 
-            <div class="block box_content round_bottom padding_10">
-                <p>
-                    {{ "Este módulo permite forçar a coleta nos computadores monitorados pelos agentes do cacic"|trans }}.
-                </p>
-                <p>
-                    {{ "É possível pesquisar por IP's, nome ou Mac da máquina, bastando selecionar uma de suas opções"|trans }}.
-                </p>
-                <p>
-                    {{ "A coleta será realizada em aproximadamente 1 minuto"|trans }}.
-                </p>
-            </div> <!-- /block -->
-        </div> <!-- /box -->
-    </div> <!-- span4 -->
-</div><!-- /row -->
+                <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+                    <p>
+                        {{ "Este módulo permite forçar a coleta de informações nos computadores monitorados pelos agentes do cacic"|trans }}.
+                    </p>
+                    <p>
+                        {{ "É possível pesquisar por IP, Nome da Subrede ou localização"|trans }}.
+                    </p>
+                    <p>
+                        {{ "Selecione a(s) subrede(s) onde deseja realizar a coleta e clique no botão Forçar Coleta"|trans }}.
+                    </p>
+                    <p>
+                        {{ "A coleta será realizada em aproximadamente 4 minuto"|trans }}.
+                    </p>
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- span4 -->
+    </div><!-- /row -->
 {% endblock %}
 
 {% block javascripts %}
 
-{{ parent() }}
+    {{ parent() }}
 
-<script type="text/javascript">
-    System.Form.toggleCheck(); // Ativa o monitoramento de Clique no checkbox para marcar/desmarcar todos
-</script>
-
-        <!-- javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <!-- jQuery (UI) -->
-        <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery.1.7.1.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery-ui-1.8.17.min.js') }}"></script>
-
-
-        {{ parent() }}
-
-
-
-        <script type="text/javascript">
-            /**
-             * Mensagens do sistema
-             */
-
-            if($('#ComputadorConsulta_selConsulta').val() == 'teIpComputador'){
-                $('#teIpComputador').show();
-            }
-            if($('#ComputadorConsulta_selConsulta').val() == 'nmComputador'){
-                $('#nmComputador').show();
-            }
-            if($('#ComputadorConsulta_selConsulta').val() == 'teNodeAddress'){
-                $('#teNodeAddress').show();
-            }
-
-
-
-            $('#ComputadorConsulta_selConsulta').change(function () {
-                $('.mostrarDiv').hide();
-//                $('#ComputadorConsulta_teIpComputador').val( '' );
-                $('#ComputadorConsulta_nmComputador').val( '' );
-                $('#ComputadorConsulta_teNodeAddress').val( '' );
-
-                $('#' + $(this).val()).show();
-            });
-
-        </script>
-
-
+    <script type="text/javascript">
+        System.Form.toggleCheck(); // Ativa o monitoramento de Clique no checkbox para marcar/desmarcar todos
+    </script>
 
 {% endblock %}
