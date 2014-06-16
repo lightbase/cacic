@@ -73,7 +73,7 @@ class DefaultController extends Controller
         $te_so = $request->get( 'te_so' );
         $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
         $ip_computador = $request->get('te_ip_computador');
-        $ip_computador = !empty( $ip_computador ) ?: $_SERVER['REMOTE_ADDR'];
+        $ip_computador = !empty( $ip_computador ) ?: TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
 
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
@@ -150,7 +150,7 @@ class DefaultController extends Controller
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
         $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
         $ip_computador = $request->get('te_ip_computador');
-        $ip_computador = !empty( $ip_computador ) ?: $_SERVER['REMOTE_ADDR'];
+        $ip_computador = !empty( $ip_computador ) ?: TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
 
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
