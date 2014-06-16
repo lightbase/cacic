@@ -16,11 +16,7 @@ framework:
     default_locale:  "%locale%"
 #    trusted_proxies: ~
     session: ~
-<<<<<<< HEAD
 #    session:
-=======
-#    session:         
->>>>>>> 3231c12b96a54895b98ca370973d04235b4c924d
 #        handler_id: session.handler.pdo
 
 parameters:
