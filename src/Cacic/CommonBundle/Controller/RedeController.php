@@ -595,4 +595,47 @@ class RedeController extends Controller
 
     }
 
+
+    public function coletarAction()
+    {
+        $subredesOrig = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->comLocal();
+
+        $subredes = array();
+
+        foreach ($subredesOrig as $redeItem) {
+            $idRede = $redeItem['idRede'];
+            $subredes["$idRede"]['teIpRede'] = $redeItem['teIpRede'];
+            $subredes["$idRede"]['nmRede'] = $redeItem['nmRede'];
+            $subredes["$idRede"]['nmLocal'] = $redeItem['nmLocal'];
+        }
+
+        return $this->render( 'CacicCommonBundle:Rede:coletar.html.twig',
+            array(  'subredes' => $subredes ));
+
+    }
+
+    public function submitAction(Request $request)
+    {
+        $subredes = $request->get('subrede');
+
+        foreach ($subredes as $subrede){
+
+            $computadores = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->listarPorSubrede($subrede);
+
+            foreach($computadores as $computador){
+
+                $computador->setForcaColeta('S');
+                $this->getDoctrine()->getManager()->persist( $computador );
+
+            }
+
+        }
+
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+
+        return $this->redirect($this->generateUrl('cacic_rede_coletar') );
+
+    }
 }
