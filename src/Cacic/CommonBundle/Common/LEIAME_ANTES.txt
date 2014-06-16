@@ -1,9 +1,0 @@
-###########
-# ATENÇÃO #
-###########
- 
-A partir da versão JAN2006, o módulo gerente WEB do CACIC passou a usar criptografia AES(Advanced Encryption Standard), método RIJNDAEL-128bits, em suas trocas de informações com os agentes. Tornou-se necessário então a instalação do pacote "mcrypt".  Para distribuições Conectiva, recomendamos o endereço http://distro.conectiva.com.br/atualizacoes/?id=a&anuncio=000567 para obtenção do referido pacote.
-
-Alertamos que sejam feitas prévias de utilização/atualização das novas versões em pequenas redes, para que seja evitada a eventual necessidade de retrabalho técnico, quanto à reinstalação manual dos agentes nas estações.
-
-

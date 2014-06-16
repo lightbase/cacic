@@ -1,7 +1,0 @@
-CACIC ToDo
-
-Acompanhe pelo site de desenvolvimento http://svn.softwarepublico.gov.br/trac/cacic
-
-See on CACIC development site http://svn.softwarepublico.gov.br/trac/cacic
-
-Have fun
