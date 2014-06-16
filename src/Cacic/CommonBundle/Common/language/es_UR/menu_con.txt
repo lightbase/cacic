@@ -1,6 +1,0 @@
-.<b>Projecto CACIC<b>|tribo/|new||Enlace de Acceso a la pagina del Projecto CACIC
-.<b>Comunidade CACIC<b>||||Enlace de Acceso a la pagina dela Comunidade CACIC
-..<b>Comunidade CACIC<b>|http://www.softwarepublico.gov.br/spb/ver-comunidade?community_id=3585 |new||Enlace de Acceso a la pagina dela Comunidade CACIC
-..<b>Desarrolladores del CACIC<b>|http://svn.softwarepublico.gov.br/trac/cacic |new||Enlace de Acceso a la pagina de los Desarrolladores del CACIC
-..<b>Abrir ticket de incidentes<b>|http://svn.softwarepublico.gov.br/trac/cacic/newticket |new||Abrir ticket de incidentes (problema ou melhorias) para os desenvolvedores do CACIC
-

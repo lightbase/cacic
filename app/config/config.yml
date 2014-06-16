@@ -16,7 +16,11 @@ framework:
     default_locale:  "%locale%"
 #    trusted_proxies: ~
     session: ~
+<<<<<<< HEAD
 #    session:
+=======
+#    session:         
+>>>>>>> 3231c12b96a54895b98ca370973d04235b4c924d
 #        handler_id: session.handler.pdo
 
 parameters:
@@ -107,13 +111,18 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
+        default_connection: default
+        connections:
+            default:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+                options:
+                    PDO::ATTR_PERSISTENT: true
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
