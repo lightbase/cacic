@@ -118,6 +118,7 @@ cacic_relatorio_hardware_wmi_rel:
     requirements:
             _method: POST
 
+#teste git
 cacic_relatorio_software_lista:
     pattern: /software/inventariados/{nmSoftware}/{nmLocal}/{idRede}
     defaults: { _controller: CacicRelatorioBundle:Software:lista, nmSoftware:null, nmLocal:null, idRede:null }
