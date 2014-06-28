@@ -176,3 +176,7 @@ cacic_relatorio_csv_hardware_wmi:
 cacic_relatorio_csv_hardware_wmi_detalhe:
     pattern: /csv/hardware/{classe}/{propriedade}
     defaults: { _controller: CacicRelatorioBundle:Hardware:csvWMIRelatorioDetalhe }
+
+cacic_faturamento_computador:
+    pattern: /faturamento/computador
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:computador }

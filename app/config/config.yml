@@ -123,6 +123,9 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+        dql:
+            string_functions:
+                string_agg: Cacic\CommonBundle\Query\PostgreSQL\StringAggFunction
 
 # Swiftmailer Configuration
 swiftmailer:

@@ -10,7 +10,6 @@
     <table class="display datatable" id="datatable">
 		<thead>
 		<tr>
-                        <th width="5%" style="text-align: center"></th>
 			<th width="15%">{{ "Computador"|trans }}</th>
 			<th width="10%">{{ "MAC Address"|trans }}</th>
 			<th width="10%">{{ "Endereço IP"|trans }}</th>
@@ -23,14 +22,26 @@
 
 		<tbody>
 		{% for reg in dados %}
+            {% set computadores = reg.idComputador|split(',') %}
+            {% set nomes = reg.nmComputador|split(',') %}
+            {% set ips = reg.teIpComputador|split(',') %}
 			<tr>
-				            <td style="text-align: center">{{ loop.index }}</td>
 				<td>
-					<b><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.idComputador }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.nmComputador }}</a></b>
+                    {% for comp in nomes %}
+					    <b><a href="{{ path('cacic_faturamento_computador', {'nmComputador' : comp|trim }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ comp }}</a></b>
+                    {% else %}
+                        <b>{{ reg.nmComputador }}</b>
+                    {% endfor %}
 				</td>
-				<td><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.idComputador }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
-				<td><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.idComputador }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.teIpComputador }}</a></td>
-				<td><span class="{% if reg.inMswindows == 'S' %}red{% else %}blue{% endif %}">{{ reg.sgSo }}</span></td>
+				<td><a href="{{ path('cacic_faturamento_computador', {'teNodeAddress' : reg.teNodeAddress|trim }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
+                <td>
+                    {% for comp in ips %}
+                        <b><a href="{{ path('cacic_faturamento_computador', {'teIpComputador' : comp|trim }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ comp }}</a></b>
+                    {% else %}
+                        <b>{{ reg.teIpComputador }}</b>
+                    {% endfor %}
+                </td>
+				<td>{{ reg.sgSo }}</td>
 				<td>{{ reg.nmLocal }}</td>
 				<td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
 				<td>{{ reg.data|date(' d, M, Y H:m:s') }}</td>
