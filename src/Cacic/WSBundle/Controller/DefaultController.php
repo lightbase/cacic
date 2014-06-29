@@ -280,7 +280,7 @@ class DefaultController extends Controller
             $strCollectsDefinitions = '';
 
             //Coleta Forçada para computador
-            $v_tripa_coleta = explode('#', $computador->getTeNomesCurtosModulos() );
+//            $v_tripa_coleta = explode('#', $computador->getTeNomesCurtosModulos() );
 
             //Ações de Coletas por rede
             $acoes = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listaAcaoRedeComputador($rede, $so);
@@ -335,117 +335,117 @@ class DefaultController extends Controller
                         $strCollectsDefinitions .= '[/ClassesAndProperties]';
 
                         //caso coleta forçada tenha sido marcada em algum momento
-                        $coleta_forcada_computador = $computador->getDtHrColetaForcadaEstacao();
-                        if ( !empty($acao['dtHrColetaForcada']) ||  !empty($coleta_forcada_computador))
-                        {
-                            $v_dt_hr_coleta_forcada = $acao["dt_hr_coleta_forcada"];
-                            if (count($v_tripa_coleta) > 0 and
-                                $v_dt_hr_coleta_forcada < $computador->getDtHrColetaForcadaEstacao() and
-                                in_array($acao["te_nome_curto_modulo"],$v_tripa_coleta))
-                            {
-                                $v_dt_hr_coleta_forcada = $computador->getDtHrColetaForcadaEstacao();
-                            }
-                            $strCollectsDefinitions .= '[DT_HR_COLETA_FORCADA]' . $v_dt_hr_coleta_forcada . '[/DT_HR_COLETA_FORCADA]';
-                        }
-                        if ( !$request->get('AgenteLinux') && trim($acao['idAcao']) == "col_moni" && !empty($monitorados))
-                        {
-                            $arrSgSOtoOlds = array(	'W95',
-                                'W95OSR',
-                                'W98',
-                                'W98SE',
-                                'WME');
-                            foreach ($monitorados as $monitorado )
-                            {
-                                $v_achei = 0;
-                                if($arrPerfis <> null)
-                                {
-                                    for($i = 0; $i < count($arrPerfis); $i++ )
-                                    {
-                                        $arrPerfis2 = explode(',',$arrPerfis[$i]);
-                                        if ($monitorado["idAplicativo"]==$arrPerfis2[0] &&
-                                            $monitorado["dtAtualizacao"]==$arrPerfis2[1])
-                                            $v_achei = 1;
-                                    }
-                                }
-
-                                if ( $v_achei==0 && ( $monitorado["idSo"] == 0 || $monitorado["idSo"] == $computador->getIdSo()) )
-                                {
-                                    if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
-
-                                    $v_te_ide_licenca = trim($monitorado["teIdeLicenca"]);
-                                    if ($monitorado["teIdeLicenca"]=='0')
-                                        $v_te_ide_licenca = '';
-
-                                    $v_retorno_MONITORADOS .= $monitorado["idAplicativo"]	.	','.
-                                        $monitorado["dtAtualizacao"]			.	','.
-                                        $monitorado["csIdeLicenca"] 			. 	','.
-                                        $v_te_ide_licenca								.	',';
-
-                                    if (in_array($so->getSgSo(),$arrSgSOtoOlds))
-                                    {
-                                        $v_te_arq_ver_eng_w9x 	= trim($monitorado["teArqVerEngW9x"]);
-                                        if ($v_te_arq_ver_eng_w9x=='') 	$v_getRedete_arq_ver_eng_w9x 	= '.';
-
-                                        $v_te_arq_ver_pat_w9x 	= trim($monitorado["teArqVerPatW9x"]);
-                                        if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
-
-                                        $v_te_car_inst_w9x 	    = trim($monitorado["TeCarInstW9x"]);
-                                        if ($monitorado["teCarInstW9x"]=='0') 	$v_te_car_inst_w9x 	= '';
-
-                                        $v_te_car_ver_w9x 	    = trim($monitorado["teCarInstW9x"]);
-                                        if ($monitorado["csCarVerWnt"]=='0') 	$v_te_car_ver_w9x 	= '';
-
-                                        $v_retorno_MONITORADOS .= '.'                                     	.','.
-                                            $monitorado["teCarInstW9x"]	.','.
-                                            $v_te_car_inst_w9x						.','.
-                                            $$monitorado["csCarVerWnt"]		.','.
-                                            $v_te_car_ver_w9x						.','.
-                                            $v_te_arq_ver_eng_w9x					.','.
-                                            $v_te_arq_ver_pat_w9x						;
-                                    }
-                                    else
-                                    {
-
-                                        $v_te_arq_ver_eng_wnt 	= trim($monitorado["teArqVerEngWnt"]);
-                                        if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';
-
-                                        $v_te_arq_ver_pat_wnt 	= trim($monitorado["teArqVerPatWnt"]);
-                                        if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
-
-                                        $v_te_car_inst_wnt 	    = trim($monitorado["teCarInstWnt"]);
-                                        if ($monitorado["csCarInstWnt"]=='0') 	$v_te_car_inst_wnt 	= '';
-
-                                        $v_te_car_ver_wnt 	    = trim($monitorado["teCarVerWnt"]);
-                                        if ($monitorado["teCarInstWnt"]=='0') 	$v_te_car_ver_wnt 	= '';
-
-                                        $v_retorno_MONITORADOS .=   '.'                    					.','.
-                                            $monitorado["teCarInstWnt"]	.','.
-                                            $v_te_car_inst_wnt                 		.','.
-                                            $$monitorado["teCarVerWnt"]		.','.
-                                            $v_te_car_ver_wnt               		.','.
-                                            $v_te_arq_ver_eng_wnt					.','.
-                                            $v_te_arq_ver_pat_wnt;
-
-                                    }
-
-                                    $v_retorno_MONITORADOS .=   ',' . $monitorado["inDisponibilizaInfo"];
-
-                                    if ($monitorado["inDisponibilizaInfo"]=='S')
-                                    {
-                                        $v_retorno_MONITORADOS .= ',' . $monitorado["nmAplicativo"];
-                                    }
-                                    else
-                                    {
-                                        $v_retorno_MONITORADOS .= ',.';
-                                    }
-
-                                }
-                            }
-                            if ($v_retorno_MONITORADOS <> '')
-                                $v_retorno_MONITORADOS = OldCacicHelper::replaceInvalidHTTPChars($v_retorno_MONITORADOS);
-
-                            $strCollectsDefinitions .= $v_retorno_MONITORADOS;
-                        }
+//                        $coleta_forcada_computador = $computador->getDtHrColetaForcadaEstacao();
+//                        if ( !empty($acao['dtHrColetaForcada']) ||  !empty($coleta_forcada_computador))
+//                        {
+//                            $v_dt_hr_coleta_forcada = $acao["dt_hr_coleta_forcada"];
+//                            if (count($v_tripa_coleta) > 0 and
+//                                $v_dt_hr_coleta_forcada < $computador->getDtHrColetaForcadaEstacao() and
+//                                in_array($acao["te_nome_curto_modulo"],$v_tripa_coleta))
+//                            {
+//                                $v_dt_hr_coleta_forcada = $computador->getDtHrColetaForcadaEstacao();
+//                            }
+//                            $strCollectsDefinitions .= '[DT_HR_COLETA_FORCADA]' . $v_dt_hr_coleta_forcada . '[/DT_HR_COLETA_FORCADA]';
+//                        }
+//                        if ( !$request->get('AgenteLinux') && trim($acao['idAcao']) == "col_moni" && !empty($monitorados))
+//                        {
+//                            $arrSgSOtoOlds = array(	'W95',
+//                                'W95OSR',
+//                                'W98',
+//                                'W98SE',
+//                                'WME');
+//                            foreach ($monitorados as $monitorado )
+//                            {
+//                                $v_achei = 0;
+//                                if($arrPerfis <> null)
+//                                {
+//                                    for($i = 0; $i < count($arrPerfis); $i++ )
+//                                    {
+//                                        $arrPerfis2 = explode(',',$arrPerfis[$i]);
+//                                        if ($monitorado["idAplicativo"]==$arrPerfis2[0] &&
+//                                            $monitorado["dtAtualizacao"]==$arrPerfis2[1])
+//                                            $v_achei = 1;
+//                                    }
+//                                }
+//
+//                                if ( $v_achei==0 && ( $monitorado["idSo"] == 0 || $monitorado["idSo"] == $computador->getIdSo()) )
+//                                {
+//                                    if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
+//
+//                                    $v_te_ide_licenca = trim($monitorado["teIdeLicenca"]);
+//                                    if ($monitorado["teIdeLicenca"]=='0')
+//                                        $v_te_ide_licenca = '';
+//
+//                                    $v_retorno_MONITORADOS .= $monitorado["idAplicativo"]	.	','.
+//                                        $monitorado["dtAtualizacao"]			.	','.
+//                                        $monitorado["csIdeLicenca"] 			. 	','.
+//                                        $v_te_ide_licenca								.	',';
+//
+//                                    if (in_array($so->getSgSo(),$arrSgSOtoOlds))
+//                                    {
+//                                        $v_te_arq_ver_eng_w9x 	= trim($monitorado["teArqVerEngW9x"]);
+//                                        if ($v_te_arq_ver_eng_w9x=='') 	$v_getRedete_arq_ver_eng_w9x 	= '.';
+//
+//                                        $v_te_arq_ver_pat_w9x 	= trim($monitorado["teArqVerPatW9x"]);
+//                                        if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
+//
+//                                        $v_te_car_inst_w9x 	    = trim($monitorado["TeCarInstW9x"]);
+//                                        if ($monitorado["teCarInstW9x"]=='0') 	$v_te_car_inst_w9x 	= '';
+//
+//                                        $v_te_car_ver_w9x 	    = trim($monitorado["teCarInstW9x"]);
+//                                        if ($monitorado["csCarVerWnt"]=='0') 	$v_te_car_ver_w9x 	= '';
+//
+//                                        $v_retorno_MONITORADOS .= '.'                                     	.','.
+//                                            $monitorado["teCarInstW9x"]	.','.
+//                                            $v_te_car_inst_w9x						.','.
+//                                            $$monitorado["csCarVerWnt"]		.','.
+//                                            $v_te_car_ver_w9x						.','.
+//                                            $v_te_arq_ver_eng_w9x					.','.
+//                                            $v_te_arq_ver_pat_w9x						;
+//                                    }
+//                                    else
+//                                    {
+//
+//                                        $v_te_arq_ver_eng_wnt 	= trim($monitorado["teArqVerEngWnt"]);
+//                                        if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';
+//
+//                                        $v_te_arq_ver_pat_wnt 	= trim($monitorado["teArqVerPatWnt"]);
+//                                        if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
+//
+//                                        $v_te_car_inst_wnt 	    = trim($monitorado["teCarInstWnt"]);
+//                                        if ($monitorado["csCarInstWnt"]=='0') 	$v_te_car_inst_wnt 	= '';
+//
+//                                        $v_te_car_ver_wnt 	    = trim($monitorado["teCarVerWnt"]);
+//                                        if ($monitorado["teCarInstWnt"]=='0') 	$v_te_car_ver_wnt 	= '';
+//
+//                                        $v_retorno_MONITORADOS .=   '.'                    					.','.
+//                                            $monitorado["teCarInstWnt"]	.','.
+//                                            $v_te_car_inst_wnt                 		.','.
+//                                            $$monitorado["teCarVerWnt"]		.','.
+//                                            $v_te_car_ver_wnt               		.','.
+//                                            $v_te_arq_ver_eng_wnt					.','.
+//                                            $v_te_arq_ver_pat_wnt;
+//
+//                                    }
+//
+//                                    $v_retorno_MONITORADOS .=   ',' . $monitorado["inDisponibilizaInfo"];
+//
+//                                    if ($monitorado["inDisponibilizaInfo"]=='S')
+//                                    {
+//                                        $v_retorno_MONITORADOS .= ',' . $monitorado["nmAplicativo"];
+//                                    }
+//                                    else
+//                                    {
+//                                        $v_retorno_MONITORADOS .= ',.';
+//                                    }
+//
+//                                }
+//                            }
+//                            if ($v_retorno_MONITORADOS <> '')
+//                                $v_retorno_MONITORADOS = OldCacicHelper::replaceInvalidHTTPChars($v_retorno_MONITORADOS);
+//
+//                            $strCollectsDefinitions .= $v_retorno_MONITORADOS;
+//                        }
                     }
                     else
                         $strCollectsDefinitions .= 'OK';
