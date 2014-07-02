@@ -166,6 +166,27 @@ class ComputadorRepository extends EntityRepository
 
     /**
      *
+     * Conta os computadores associados a cada Sistema Operacional com acesso nos ultimos 30 dias
+     */
+    public function countPorSO30Dias()
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(DISTINCT comp.idComputador) as numComp')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('CacicCommonBundle:LogAcesso','log', 'WITH', 'log.idComputador = comp.idComputador')
+            ->andWhere( 'log.data >= (current_date() - 30)' )
+            ->groupBy('so');
+
+
+        $qb = $qb->getQuery();
+        $qb->useResultCache(true);
+        $qb->setResultCacheLifetime(600);
+
+        return $qb->getResult();
+    }
+
+    /**
+     *
      * Conta todos os computadores monitorados
      * @return int
      */
