@@ -164,6 +164,21 @@ GROUP BY c0_.te_node_address,
         return $query->execute();
     }
 
+    public function countComputadorDias($diasInicial, $diasFinal) {
+
+        $query = $this->createQueryBuilder('log')
+            ->select('COUNT(DISTINCT comp.teNodeAddress)')
+            ->innerJoin('CacicCommonBundle:Computador','comp', 'WITH', 'log.idComputador = comp.idComputador')
+            ->andWhere( 'log.data >= (current_date() - '.$diasFinal.')' )
+        ->andWhere( 'log.data <= (current_date() - '.$diasInicial.')' );
+
+        $query = $query->getQuery();
+        $query->useResultCache(true);
+        $query->setResultCacheLifetime(600);
+
+        return $query->execute();
+    }
+
     public function faturamentoCsv( $dataInicio, $dataFim, $locais )
     {
 
