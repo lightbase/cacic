@@ -638,4 +638,35 @@ class RedeController extends Controller
         return $this->redirect($this->generateUrl('cacic_rede_coletar') );
 
     }
+
+    public function computadoresAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $computadores = $em->getRepository('CacicCommonBundle:Rede')->computadoresSubredes();
+
+        if ($request->isMethod('POST'))  {
+            // Processa subrede
+            foreach($request->request->get('subrede') as $elm) {
+                $out = explode('#',$elm);
+                $id_subrede = $out[0];
+                $id_computador = $out[1];
+                $this->get('logger')->debug("Atualizando subrede = $id_subrede para o computador = $id_computador");
+
+                // Atualiza subrede para o computador
+                $computador = $em->find('CacicCommonBundle:Computador', $id_computador);
+                $subrede = $em->find('CacicCommonBundle:Rede', $id_subrede);
+                $computador->setIdRede($subrede);
+                $em->persist($computador);
+            }
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'Computadores atualizados com sucesso!');
+        }
+
+        return $this->render('CacicCommonBundle:Rede:computadores.html.twig',
+            array(
+                'computadores' => $computadores
+            )
+        );
+    }
 }

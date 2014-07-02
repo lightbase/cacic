@@ -145,6 +145,10 @@ cacic_subrede_vincular:
     pattern: /subrede/vincular
     defaults: { _controller: CacicCommonBundle:Rede:vincular}
 
+cacic_subrede_computadores:
+    pattern: /subrede/computadores
+    defaults: { _controller: CacicCommonBundle:Rede:computadores}
+
 cacic_aplicativo_index:
     pattern: /aplicativo/{page}
     defaults: {_controller: CacicCommonBundle:Aplicativo:index, page: 1 }
