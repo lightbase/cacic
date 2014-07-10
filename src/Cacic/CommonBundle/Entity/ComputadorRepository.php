@@ -251,10 +251,10 @@ class ComputadorRepository extends EntityRepository
     {
         //recebe dados via POST, deCripata dados, e attribui a variaveis
         $computer_system   = OldCacicHelper::deCrypt( $request, $request->request->get('ComputerSystem'), true  );
-        $te_versao_cacic   = OldCacicHelper::deCrypt( $request, $request->request->get('te_versao_cacic'), true  );
-        $te_versao_gercols = OldCacicHelper::deCrypt( $request, $request->request->get('te_versao_gercols'), true  );
         $network_adapter   = OldCacicHelper::deCrypt( $request, $request->request->get('NetworkAdapterConfiguration'), true  );
         $operating_system  = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem'), true  );
+        $te_versao_cacic   = $request->request->get('te_versao_cacic');
+        $te_versao_gercols = $request->request->get('te_versao_gercols');
         $data = new \DateTime('NOW'); //armazena data Atual
 
         //vefifica se existe SO coletado se não, insere novo SO
