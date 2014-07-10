@@ -37,9 +37,12 @@ class DefaultController extends Controller
         {
             $data = new \DateTime('NOW');
 
-            $insucesso =  new InsucessoInstalacao();
+            $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
+            $ip_computador = $request->get('te_ip_computador');
+            $ip_computador = !empty( $ip_computador ) ?: TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
 
-            $insucesso->setTeIpComputador( $_SERVER["REMOTE_ADDR"] );
+            $insucesso =  new InsucessoInstalacao();
+            $insucesso->setTeIpComputador( $ip_computador );
             $insucesso->setTeSo( $request->get('te_so') );
             $insucesso->setIdUsuario( $request->get('id_usuario') );
             $insucesso->setCsIndicador( $request->get('cs_indicador') );
