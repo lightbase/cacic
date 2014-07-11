@@ -189,6 +189,20 @@ class ComputadorController extends Controller
 
     }
 
+    public function versaoagenteAction()
+    {
+        $estatisticas = array(
+            'totalVersaoAgente' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorVersaoCacic(),
+            'VersaoAgente30dias' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorVersao30dias());
+
+        return $this->render(
+            'CacicCommonBundle:Computador:versaoagente.html.twig',
+            array(
+                'estatisticas' => $estatisticas
+            )
+        );
+    }
+
     /**
      *
      * [AJAX][jqTree] Carrega as subredes, do local informado, com computadores monitorados
