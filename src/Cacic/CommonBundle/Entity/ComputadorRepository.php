@@ -166,6 +166,44 @@ class ComputadorRepository extends EntityRepository
 
     /**
      *
+     * Conta os computadores associados a cada Versão do Agente
+     */
+    public function countPorVersaoCacic()
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp.teVersaoCacic, COUNT(DISTINCT comp.idComputador) as total')
+            ->groupBy('comp.teVersaoCacic');
+
+
+        $qb = $qb->getQuery();
+        $qb->useResultCache(true);
+        $qb->setResultCacheLifetime(600);
+
+        return $qb->getResult();
+    }
+
+    /**
+     *
+     * Conta os computadores associados a cada Versão do Agente com acesso nos ultimos 30 dias
+     */
+    public function countPorVersao30dias()
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp.teVersaoCacic, COUNT(DISTINCT comp.idComputador) as total')
+            ->innerJoin('CacicCommonBundle:LogAcesso','log', 'WITH', 'log.idComputador = comp.idComputador')
+            ->andWhere( 'log.data >= (current_date() - 30)' )
+            ->groupBy('comp.teVersaoCacic');
+
+
+        $qb = $qb->getQuery();
+        $qb->useResultCache(true);
+        $qb->setResultCacheLifetime(600);
+
+        return $qb->getResult();
+    }
+
+    /**
+     *
      * Conta os computadores associados a cada Sistema Operacional com acesso nos ultimos 30 dias
      */
     public function countPorSO30Dias()
