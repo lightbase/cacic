@@ -1,0 +1,85 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="active">{{ 'Versões Agentes'|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid">
+
+        <div class="span8">
+            <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-search"></i> {{'Computadores Monitorados por Versões dos Agentes' |trans }}</h2>
+                    <div class="block box_content round_bottom padding_10">
+                        <table class="display datatable" id="datatable">
+                            <thead>
+                            <tr>
+                                <th>{{ 'Versão do Agente'|trans }}</th>
+                                <th style="text-align: center">{{ 'Quantidade'|trans }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for agente in estatisticas['totalVersaoAgente'] %}
+                                <tr>
+                                    <td>{{ agente['teVersaoCacic'] }}</td>
+                                    <td style="text-align: center">{{ agente['total'] }}</td>
+                                </tr>
+                            {% else %}
+                                <tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                     </div>
+            </div> <!-- /box -->
+
+        </div> <!-- /span8 -->
+
+        <div class="span4">
+            <div class="box grad_colour_black">
+                <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+                <div class="block box_content round_bottom padding_10">
+                    <p>
+                        {{ "Este módulo permite acompanhar as versões dos Agentes Cacic instalados"|trans }}.
+                    </p>
+                    <p>
+                        {{ "É possível visualizar uma lista completa com todos os Agentes instalados desde a implementação do Cacic"|trans }}.
+                    </p>
+                    <p>
+                        {{ "Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos"|trans }}.
+                    </p>
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- span4 -->
+
+    </div>
+
+    <div class="row-fluid">
+        <div class="span8">
+            <div class="box grad_colour_black">
+                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Computadores Monitorados por Versões dos Agentes nos últimos 30 dias' |trans }}</h2>
+                <div class="block box_content round_bottom padding_10">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>{{ 'Versão do Agente'|trans }}</th>
+                            <th style="text-align: center">{{ 'Quantidade'|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for agente in estatisticas['VersaoAgente30dias'] %}
+                            <tr>
+                                <td>{{ agente['teVersaoCacic'] }}</td>
+                                <td style="text-align: center">{{ agente['total'] }}</td>
+                            </tr>
+                        {% else %}
+                            <tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- /span8 -->
+    </div> <!-- /row -->
+
+{% endblock %}
