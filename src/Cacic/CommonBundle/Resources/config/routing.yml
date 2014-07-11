@@ -473,6 +473,10 @@ cacic_computador_coletar:
     pattern: /computador/coletar
     defaults: { _controller: CacicCommonBundle:Computador:coletar }
 
+cacic_computador_versaoagente:
+    pattern: /computador/versaoagente
+    defaults: { _controller: CacicCommonBundle:Computador:versaoagente }
+
 cacic_rede_coletar:
     pattern: /rede/coletar
     defaults: { _controller: CacicCommonBundle:Rede:coletar }
