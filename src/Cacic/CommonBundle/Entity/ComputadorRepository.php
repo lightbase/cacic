@@ -404,7 +404,7 @@ class ComputadorRepository extends EntityRepository
         // Monta a Consulta básica...
         $query = $this->createQueryBuilder('comp')
 
-            ->select(  'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.sgSo', 'loc.nmLocal', 'rede.nmRede,rede.teIpRede')
+            ->select(  'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.sgSo', 'loc.nmLocal', 'rede.nmRede','rede.teIpRede')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc');
