@@ -344,7 +344,7 @@
 
             return $response;
         }
-}}
+
 
         /**
          * Search computer with params
