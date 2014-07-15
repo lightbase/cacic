@@ -165,7 +165,7 @@
             $tmpfile = tempnam(sys_get_temp_dir(), 'Faturamento');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            $writer->writeItem(array('Computador', 'Mac Address','Endereço IP','Sistema Operacional','Local','Subrede','Data/Hora da Última Coleta'));
+            $writer->writeItem(array('Computador','Mac Address','Endereço IP','Sistema Operacional','Local','Subrede','IP Subrede','Data/Hora da Última Coleta'));
             $workflow->addWriter($writer);
 
             // Process the workflow
@@ -285,7 +285,7 @@
             $tmpfile = tempnam(sys_get_temp_dir(), 'Máquinas sem Coletas');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            $writer->writeItem(array('Computador', 'Mac Address','Endereço IP','Sistema Operacional','Local','Subrede'));
+            $writer->writeItem(array('Computador', 'Mac Address','Endereço IP','Sistema Operacional','Local','Subrede','IP Subrede'));
             $workflow->addWriter($writer);
 
                 // Process the workflow
