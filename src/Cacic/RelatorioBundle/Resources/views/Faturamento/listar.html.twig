@@ -29,8 +29,7 @@
 
 		<tbody>
 
-        {% for reg in dados %}
-		{% for reg in dados %}
+            {% for reg in dados %}
             {% set computadores = reg.idComputador|split(',') %}
             {% set nomes = reg.nmComputador|split(',') %}
             {% set ips = reg.teIpComputador|split(',') %}
