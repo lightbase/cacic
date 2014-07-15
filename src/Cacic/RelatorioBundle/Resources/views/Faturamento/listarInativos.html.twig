@@ -2,15 +2,22 @@
 
 {% block body %}
 
-	<h2>{{ 'Relatório de máquinas da subrede '|trans }} {{ rede }}</h2>
+	<h2>{{ 'Relatório de máquinas sem coletas da subrede '|trans }} {{ rede }}</h2>
 	<h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
 
 	<hr />
 
+    <!--Botão CSV-->
+        <a class="btn btn-primary" type="submit" href="{{ path('cacic_inativos_listar_csv',{'idRede':idRede,'dataInicio':dtAcaoInicio|trim,'dataFim':dtAcaoFim|trim})}}" title="{{ "Máquinas sem coletas"|trans }}" target="_self">
+            <i class="icon-bar-chart"></i>
+            Gerar CSV
+        </a>
+    <!--Botão CSV-->
+
     <table class="display datatable" id="datatable">
 		<thead>
 		<tr>
-                        <th width="5%" style="text-align: center"></th>
+            <th width="5%" style="text-align: center"></th>
 			<th width="15%">{{ "Computador"|trans }}</th>
 			<th width="10%">{{ "MAC Address"|trans }}</th>
 			<th width="10%">{{ "Endereço IP"|trans }}</th>
@@ -32,6 +39,7 @@
 				<td><span class="{% if reg.inMswindows == 'S' %}red{% else %}blue{% endif %}">{{ reg.sgSo }}</span></td>
 				<td>{{ reg.nmLocal }}</td>
 				<td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
+
 			</tr>
 		{% else %}
 			<tr>

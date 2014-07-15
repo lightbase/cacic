@@ -55,10 +55,11 @@
                                     <i class="icon-search"></i>
                                     {{ 'Gerar relatório'|trans }}
                                 </button>
-								<button type="submit" class="btn btn-success" formaction="{{ path('cacic_inativos_csv') }}">
-									<i class="icon-download-alt"></i>
+                                <a class="btn btn-success" type="submit" href="{{ path('cacic_inativos_csv_inicial') }}" target="_self">
+                                    <i class="icon-download-alt"></i>
 									{{'Gerar CSV'|trans  }}
-								</button>
+								</a>
+
                             </div>
                         </div>
 
