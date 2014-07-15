@@ -1,0 +1,20 @@
+Cacic\CommonBundle\Entity\Session:
+    type: entity
+    table: session
+    repositoryClass: Cacic\CommonBundle\Entity\SessionRepository
+    fields:
+        sessionId:
+            id: true
+            type: text
+            nullable: false
+            column: session_id
+        sessionValue:
+            type: text
+            fixed: false
+            nullable: false
+            column: session_value
+        sessionTime:
+            type: text
+            fixed: false
+            nullable: false
+            column: session_time

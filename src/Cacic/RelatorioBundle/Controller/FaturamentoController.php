@@ -12,6 +12,7 @@
  use Ddeboer\DataImport\Writer\CsvWriter;
  use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
  use Symfony\Component\HttpFoundation\BinaryFileResponse;
+ use Cacic\CommonBundle\Form\Type\ComputadorConsultaType;
 
 
     class FaturamentoController extends Controller {
@@ -342,5 +343,32 @@
             $response->headers->set('Content-Transfer-Encoding', 'binary');
 
             return $response;
+        }
+}}
+
+        /**
+         * Search computer with params
+         *
+         * @param Request $request
+         * @return \Symfony\Component\HttpFoundation\Response
+         */
+        public function computadorAction( Request $request )
+        {
+            $locale = $request->getLocale();
+            $data = $request->query->all();
+
+            $form = $this->createForm( new ComputadorConsultaType() );
+
+            $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
+                ->selectIp($data['teIpComputador'],$data['nmComputador'] ,$data['teNodeAddress'] );
+
+
+            return $this->render( 'CacicCommonBundle:Computador:buscar.html.twig',
+                array(
+                    'local'=>$locale ,
+                    'form' => $form->createView(),
+                    'computadores' => ( $computadores )
+                )
+            );
         }
 }

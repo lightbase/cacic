@@ -1,0 +1,106 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="active">{{ 'Forçar Coleta Subrede'|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid">
+        <div class="span8">
+
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-hdd"></i> {{ 'Forçar coleta de informações por subrede'|trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+
+                        <form id={{ 'formRedeColeta'|trans }} class="form-horizontal" action="{{ path('cacic_rede_coletar_submit') }}" method="post" >
+
+                        <table class="display datatable" id="datatable">
+
+                            <thead>
+                            <tr>
+                                <th width="20%" style="text-align: center">{{ 'Endereço IP'|trans }}</th>
+                                <th width="45%" style="text-align: center">{{ 'Nome da Subrede'|trans }}</th>
+                                <th width="25%" style="text-align: center">{{ 'Localizacao'|trans }}</th>
+                                <th width="10%" style="text-align: center">
+                                    <label style="margin: auto; width:12px; height:10px;">
+                                        <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="subrede">
+                                    </label>
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for key, rede in subredes %}
+                                <tr id="item_{{ key }}">
+                                    <td style="text-align: center" id="item_desc_{{ key }}">{{ rede['teIpRede'] }}</td>
+                                    <td style="text-align: center" >{{ rede['nmRede'] }}</td>
+                                    <td style="text-align: center" >{{ rede['nmLocal'] }}</td>
+                                    <td>
+                                        <label style="margin: auto; width:12px; height:10px;">
+                                            <input type="checkbox" id="item_id_{{ key }}" name="subrede[]" value="{{ key }}">
+                                        </label>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                        <div class="control-group" align="right">
+                            <div class="controls">
+                                <button type="reset" class="btn">
+                                    <i class="icon-refresh"></i>
+                                    {{ "Resetar Valores"|trans }}
+                                </button>
+                                <button type="submit" value="submit"  class="btn btn-primary">
+                                    <i class="icon-ok-sign"></i>
+                                    {{ "Forçar Coleta"|trans }}
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div> <!-- /block -->
+            </div><!-- /box -->
+
+        </div><!-- /span -->
+        <div class="span4">
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+                    <p>
+                        {{ "Este módulo permite forçar a coleta de informações nos computadores monitorados pelos agentes do cacic"|trans }}.
+                    </p>
+                    <p>
+                        {{ "É possível pesquisar por IP, Nome da Subrede ou localização"|trans }}.
+                    </p>
+                    <p>
+                        {{ "Selecione a(s) subrede(s) onde deseja realizar a coleta e clique no botão Forçar Coleta"|trans }}.
+                    </p>
+                    <p>
+                        {{ "A coleta será realizada em aproximadamente 4 minuto"|trans }}.
+                    </p>
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- span4 -->
+    </div><!-- /row -->
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        System.Form.toggleCheck(); // Ativa o monitoramento de Clique no checkbox para marcar/desmarcar todos
+    </script>
+
+{% endblock %}

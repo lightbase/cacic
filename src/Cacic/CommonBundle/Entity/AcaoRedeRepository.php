@@ -50,28 +50,30 @@ class AcaoRedeRepository extends EntityRepository
 	 */
 	public function atualizarPorLocal( $acao, $local, $novasRedes )
 	{
-		$em = $this->getEntityManager();
-		$redesLocal = $em->getRepository( 'CacicCommonBundle:Rede' )->getArrayChaveValorPorLocal( $local );
+        $em = $this->getEntityManager();
 
-		foreach ( $redesLocal as $idRede => $nmRede )
+            $apagaObj = $em->getRepository( 'CacicCommonBundle:AcaoRede' )->findBy( array( 'acao'=>$acao ) );
+
+            foreach ( $apagaObj as $acaoObj){
+                if (!empty($acaoObj))
+                    $em->remove($acaoObj);
+            }
+
+            $em->flush();
+
+		foreach ( $novasRedes as $idRede )
 		{
-            $arr = $this->findBy( array( 'acao'=>$acao, 'rede'=>$idRede ) );
-            foreach ( $arr as $obj )
-                $em->remove( $obj );
+
+			    $new = new AcaoRede();
+			    $new->setAcao( $em->getRepository( 'CacicCommonBundle:Acao' )->find(  $acao ) );
+			    $new->setRede( $em->getRepository( 'CacicCommonBundle:Rede' )->find( $idRede ) );
+			    $em->persist( $new );
+
 		}
-		
+
 		$em->flush();
-		
-		foreach ( $novasRedes as $rede )
-		{
-			$new = new AcaoRede();
-			$new->setAcao( $em->getRepository( 'CacicCommonBundle:Acao' )->find( $acao ) );
-			$new->setRede( $em->getRepository( 'CacicCommonBundle:Rede' )->find( $rede ) );
-			$em->persist( $new );
-		}
-		
-		$em->flush();
-	}
+
+    }
 
     /**
      * Habilita todas as ações para a Rede fornecida ou conjunto de redes fornecidas

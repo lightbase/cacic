@@ -12,8 +12,16 @@
 					<ul class="statistics">
 						<li><a href="{{ path('cacic_computador_navegar') }}"><i class="icon-laptop icon-large"></i><span class="blue">{{ estatisticas['totalCompMonitorados'] }}</span>{{ 'Totais de computadores monitorados'|trans }}</a></li>
 						<li><a href="{{ path('cacic_relatorio_faturamento') }}"><i class="icon-exchange icon-large"></i><span class="blue">{{ estatisticas['totalComp'][0][1] }}</span> {{ 'Acessos dos agentes nos últimos 30 dias'|trans }}</a></li>
-						<li><a href="{{ path('cacic_log_insucesso_instalacao') }}"><i class="icon-warning-sign icon-large"></i><span class="red">{{ estatisticas['totalInsucessosInstalacao'] }}</span> {{ 'Totais de tentativas de instalação malsucedidas'|trans }}</a></li>
-					</ul>
+                        <li><a href="{{ path('cacic_relatorio_faturamento') }}"><i class="icon-retweet icon-large"></i><span class="blue">{{ (estatisticas['totalComp7Dias'][0][1]) }}</span> {{ 'Acessos dos agentes nos ultimos 7 dias'|trans }}
+                            {% if ((estatisticas['totalComp7Dias'][0][1]) -(estatisticas['totalComp14Dias'][0][1])) < 0 %}
+                                <br><i class="icon-arrow-down icon-large"></i><span class="red">{{ (estatisticas['totalComp7Dias'][0][1]) -(estatisticas['totalComp14Dias'][0][1]) }}</span>{{ ' Em relação aos 7 dias anteriores'|trans }}</a></li>
+                            {% elseif ((estatisticas['totalComp7Dias'][0][1]) -(estatisticas['totalComp14Dias'][0][1])) == 0 %}
+                                <br><i class="icon-minus icon-large"></i><span class="gray">{{ (estatisticas['totalComp7Dias'][0][1]) -(estatisticas['totalComp14Dias'][0][1]) }}</span>{{ ' Em relação aos 7 dias anteriores'|trans }}</a></li>
+                            {% else %}
+                            <br><i class="icon-arrow-up icon-large"></i><span class="blue">{{ (estatisticas['totalComp7Dias'][0][1]) -(estatisticas['totalComp14Dias'][0][1]) }}</span>{{ ' Em relação aos 7 dias anteriores'|trans }}</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('cacic_log_insucesso_instalacao') }}"><i class="icon-warning-sign icon-large"></i><span class="red">{{ estatisticas['totalInsucessosInstalacao'] }}</span> {{ 'Totais de tentativas de instalação malsucedidas'|trans }}</a></li>
+                    </ul>
 				</div>
 			</div>
 		</div> <!-- /box -->
@@ -25,6 +33,7 @@
 			<div class="toggle_container">
 				<div class="block box_content round_bottom padding_10">
 				<p>{{ 'Olá'|trans }}, {{ app.user.nmUsuarioCompleto }}, {{ 'seja bem-vindo à área administrativa do CACIC v3.'|trans }}</p>
+                <p>O Cacic é capaz de fornecer um diagnóstico do parque computacional e disponibilizar informações como o número de equipamentos e sua distribuição nos mais diversos órgãos, os tipos de softwares utilizados e licenciados, configurações de hardware, entre outras. Também pode fornecer informações patrimoniais e a localização física dos equipamentos, ampliando o controle do parque computacional e a segurança na rede.</p>
 				</div>
 			</div>
 		</div> <!-- /box -->

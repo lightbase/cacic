@@ -166,6 +166,65 @@ class ComputadorRepository extends EntityRepository
 
     /**
      *
+     * Conta os computadores associados a cada Versão do Agente
+     */
+    public function countPorVersaoCacic()
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp.teVersaoCacic, COUNT(DISTINCT comp.idComputador) as total')
+            ->groupBy('comp.teVersaoCacic');
+
+
+        $qb = $qb->getQuery();
+        $qb->useResultCache(true);
+        $qb->setResultCacheLifetime(600);
+
+        return $qb->getResult();
+    }
+
+    /**
+     *
+     * Conta os computadores associados a cada Versão do Agente com acesso nos ultimos 30 dias
+     */
+    public function countPorVersao30dias()
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp.teVersaoCacic, COUNT(DISTINCT comp.idComputador) as total')
+            ->innerJoin('CacicCommonBundle:LogAcesso','log', 'WITH', 'log.idComputador = comp.idComputador')
+            ->andWhere( 'log.data >= (current_date() - 30)' )
+            ->groupBy('comp.teVersaoCacic');
+
+
+        $qb = $qb->getQuery();
+        $qb->useResultCache(true);
+        $qb->setResultCacheLifetime(600);
+
+        return $qb->getResult();
+    }
+
+    /**
+     *
+     * Conta os computadores associados a cada Sistema Operacional com acesso nos ultimos 30 dias
+     */
+    public function countPorSO30Dias()
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(DISTINCT comp.idComputador) as numComp')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('CacicCommonBundle:LogAcesso','log', 'WITH', 'log.idComputador = comp.idComputador')
+            ->andWhere( 'log.data >= (current_date() - 30)' )
+            ->groupBy('so');
+
+
+        $qb = $qb->getQuery();
+        $qb->useResultCache(true);
+        $qb->setResultCacheLifetime(600);
+
+        return $qb->getResult();
+    }
+
+    /**
+     *
      * Conta todos os computadores monitorados
      * @return int
      */
@@ -230,10 +289,10 @@ class ComputadorRepository extends EntityRepository
     {
         //recebe dados via POST, deCripata dados, e attribui a variaveis
         $computer_system   = OldCacicHelper::deCrypt( $request, $request->request->get('ComputerSystem'), true  );
-        $te_versao_cacic   = OldCacicHelper::deCrypt( $request, $request->request->get('te_versao_cacic'), true  );
-        $te_versao_gercols = OldCacicHelper::deCrypt( $request, $request->request->get('te_versao_gercols'), true  );
         $network_adapter   = OldCacicHelper::deCrypt( $request, $request->request->get('NetworkAdapterConfiguration'), true  );
         $operating_system  = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem'), true  );
+        $te_versao_cacic   = $request->request->get('te_versao_cacic');
+        $te_versao_gercols = $request->request->get('te_versao_gercols');
         $data = new \DateTime('NOW'); //armazena data Atual
 
         //vefifica se existe SO coletado se não, insere novo SO

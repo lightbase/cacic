@@ -22,3 +22,5 @@ $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);
+// only trust proxy headers coming from this IP addresses
+Request::setTrustedProxies(array('10.0.0.0/8'));

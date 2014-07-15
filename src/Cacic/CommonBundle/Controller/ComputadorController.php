@@ -148,6 +148,61 @@ class ComputadorController extends Controller
         );
     }
 
+    public function coletarAction(Request $request)
+    {
+        $form = $this->createForm( new ComputadorConsultaType() );
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
+            $data = $form->getData();
+
+
+            $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
+                ->selectIp($data['teIpComputador'],$data['nmComputador'],$data['teNodeAddress'],$data['idComputador'] );
+
+        }
+
+        return $this->render( 'CacicCommonBundle:Computador:coletar.html.twig',
+            array(
+                'form' => $form->createView(),
+                'computadores' => $computadores));
+
+    }
+
+    /**
+     *  @param int $idComputador
+     */
+    public function updateAction( Request $request, $idComputador)
+    {
+        $computador = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->find( $idComputador );
+
+        if ( !$computador )
+            throw $this->createNotFoundException( 'Computador não encontrado' );
+        else
+        {
+            $computador->setForcaColeta('S');
+            $this->getDoctrine()->getManager()->persist( $computador );
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirect($this->generateUrl('cacic_computador_coletar') );
+        }
+
+    }
+
+    public function versaoagenteAction()
+    {
+        $estatisticas = array(
+            'totalVersaoAgente' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorVersaoCacic(),
+            'VersaoAgente30dias' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorVersao30dias());
+
+        return $this->render(
+            'CacicCommonBundle:Computador:versaoagente.html.twig',
+            array(
+                'estatisticas' => $estatisticas
+            )
+        );
+    }
+
     /**
      *
      * [AJAX][jqTree] Carrega as subredes, do local informado, com computadores monitorados

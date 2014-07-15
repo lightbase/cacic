@@ -32,6 +32,8 @@ class DefaultController extends Controller
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
         $uorg = $this->getDoctrine()->getRepository('CacicCommonBundle:Uorg')->listar();
         $conf = $this->getDoctrine()->getRepository('CacicCommonBundle:ComputadorColeta')->listarPropriedades('Patrimonio');
+        $sw = $this->getDoctrine()->getRepository('CacicCommonBundle:Software')->listarSoftware();
+
 
 
         return $this->render(
@@ -40,6 +42,7 @@ class DefaultController extends Controller
                 'locais' 	=> $locais,
                 'so'		=> $so,
                 'conf'      => $conf,
+                'softwares'	=> $sw,
                 'uorg'      => $uorg
             )
         );

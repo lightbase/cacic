@@ -145,6 +145,10 @@ cacic_subrede_vincular:
     pattern: /subrede/vincular
     defaults: { _controller: CacicCommonBundle:Rede:vincular}
 
+cacic_subrede_computadores:
+    pattern: /subrede/computadores
+    defaults: { _controller: CacicCommonBundle:Rede:computadores}
+
 cacic_aplicativo_index:
     pattern: /aplicativo/{page}
     defaults: {_controller: CacicCommonBundle:Aplicativo:index, page: 1 }
@@ -464,6 +468,26 @@ cacic_computador_loadcompnodes:
     defaults: { _controller: CacicCommonBundle:Computador:loadcompnodes}
     requirements:
         idSubrede: \d+
+
+cacic_computador_coletar:
+    pattern: /computador/coletar
+    defaults: { _controller: CacicCommonBundle:Computador:coletar }
+
+cacic_computador_versaoagente:
+    pattern: /computador/versaoagente
+    defaults: { _controller: CacicCommonBundle:Computador:versaoagente }
+
+cacic_rede_coletar:
+    pattern: /rede/coletar
+    defaults: { _controller: CacicCommonBundle:Rede:coletar }
+
+cacic_rede_coletar_submit:
+    pattern: /rede/coletar/submit
+    defaults: { _controller: CacicCommonBundle:Rede:submit }
+
+cacic_computador_update:
+    pattern: /computador/update/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:update, idComputador: null }
 
 cacic_migracao_cacic26:
     pattern: /migracao/cacic26

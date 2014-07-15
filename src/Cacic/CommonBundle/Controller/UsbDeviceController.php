@@ -11,13 +11,12 @@ use Cacic\CommonBundle\Form\Type\UsbDeviceType;
 
 class UsbDeviceController extends Controller
 {
-    public function indexAction( $page )
+    public function indexAction()
     {
         return $this->render(
             'CacicCommonBundle:UsbDevice:index.html.twig',
             array(
-                'UsbDevice' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:UsbDevice' )->paginar( $this->get( 'knp_paginator' ), $page )
-            )
+                'UsbDevice' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:UsbDevice' )->paginar())
         );
     }
 

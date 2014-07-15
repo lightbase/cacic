@@ -3,8 +3,9 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\HttpFoundation\Request;
+#use Symfony\Component\HttpFoundation\Request;
 use Cacic\WSBundle\Helper\IPv4;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  *
@@ -212,5 +213,37 @@ class RedeRepository extends EntityRepository
 
 
         return $qb->getQuery()->execute();
+    }
+
+    public function computadoresSubredes(){
+        $rsm = new ResultSetMapping();
+
+        $rsm->addScalarResult('id_computador', 'idComputador');
+        $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
+        $rsm->addScalarResult('te_mascara_rede', 'teMascaraRede');
+        $rsm->addScalarResult('cidr_bits', 'cidrBits');
+        $rsm->addScalarResult('rede_velha', 'redeVelha');
+        $rsm->addScalarResult('id_rede', 'idRede');
+        $rsm->addScalarResult('rede_nova', 'redeNova');
+        $rsm->addScalarResult('id_rede2', 'idRedeNova');
+
+        $sql = "
+        select c.id_computador,
+	      c.te_ip_computador,
+	      r.te_mascara_rede,
+	      (netmask_bits(inet_to_longip(r.te_mascara_rede::inet))::text) as cidr_bits,
+	      r.te_ip_rede as rede_velha,
+	      r.id_rede,
+	      host(network((c.te_ip_computador||'/'||(netmask_bits(inet_to_longip(r.te_mascara_rede::inet))::text))::inet)) as rede_nova,
+	      (SELECT id_rede FROM rede WHERE te_ip_rede = host(network((c.te_ip_computador||'/'||(netmask_bits(inet_to_longip(r.te_mascara_rede::inet))::text))::inet))) as id_rede2
+        from computador c
+        inner join rede r on c.id_rede = r.id_rede
+        where c.te_ip_computador is not null
+        order by rede_nova;
+        ";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+
+        return $query->execute();
     }
 }

@@ -288,7 +288,7 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:Classe', 'classe','WITH', 'class.idClass = classe.idClass')
             ->leftJoin('CacicCommonBundle:So', 'so','WITH','comp.idSo = so.idSo')
             ->leftJoin('CacicCommonBundle:Rede', 'r','WITH', 'comp.idRede = r.idRede')
-            ->innerJoin('CacicCommonBundle:Uorg','u','WITH', 'r.idRede = u.rede')
+            ->leftJoin('CacicCommonBundle:Uorg','u','WITH', 'r.idRede = u.rede')
             ->innerJoin('CacicCommonBundle:Local','l','WITH', 'r.idLocal = l.idLocal')
             ->groupBy('comp.nmComputador,r.idRede, class.nmPropertyName, u.nmUorg, coleta.teClassPropertyValue,so.sgSo, r.teIpRede,  l.nmLocal, r.nmRede, comp.idComputador,so.inMswindows')
             ->orderBy('r.teIpRede, l.nmLocal');

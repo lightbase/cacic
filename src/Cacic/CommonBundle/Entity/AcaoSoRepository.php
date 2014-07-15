@@ -59,19 +59,19 @@ class AcaoSoRepository extends EntityRepository
 	 */
 	public function atualizarPorLocal( $acao, $local, $novasRedes, $novosSO )
 	{
-		$em = $this->getEntityManager();
-		$redesLocal = $em->getRepository( 'CacicCommonBundle:Rede' )->getArrayChaveValorPorLocal( $local );
-		
-		foreach ( $redesLocal as $idRede => $nmRede )
-		{
-			$arr = $this->findBy( array( 'acao'=>$acao, 'rede'=>$idRede ) );
-			foreach ( $arr as $obj )
-				$em->remove( $obj );
-		}
-		
-		$em->flush();
-		
-		foreach( $novasRedes as $rede )
+
+        $em = $this->getEntityManager();
+
+        $apagaObj = $em->getRepository( 'CacicCommonBundle:AcaoSo' )->findAll();
+
+        foreach ( $apagaObj as $acaoObj){
+            if (!empty($acaoObj))
+                $em->remove($acaoObj);
+        }
+
+        $em->flush();
+
+        foreach( $novasRedes as $rede )
 		{
 			foreach ( $novosSO as $so )
 			{
@@ -82,7 +82,8 @@ class AcaoSoRepository extends EntityRepository
 				$em->persist( $new );
 			}
 		}
-		
-		$em->flush();
+
+        $em->flush();
+
 	}
 }

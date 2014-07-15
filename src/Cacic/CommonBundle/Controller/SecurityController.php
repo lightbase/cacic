@@ -39,6 +39,7 @@ class SecurityController extends Controller
             array(
                 'last_username' => $objSession->get( SecurityContext::LAST_USERNAME ), // último nome de usuário informado no formulário
                 'error'         => $error,
+                'url' => $_SERVER['SERVER_ADDR'],
             )
         );
 	}
