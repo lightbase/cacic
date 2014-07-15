@@ -139,7 +139,7 @@ cacic_relatorio_inativos_rel:
          _method: POST
 
 cacic_relatorio_inativos_listar:
-    pattern: /inativos/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    pattern: software/inativos/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
     defaults: { _controller: CacicRelatorioBundle:Faturamento:listarInativos, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
     requirements:
         idRede: \d+
@@ -148,13 +148,25 @@ cacic_faturamento_csv:
     pattern: /faturamento/csv
     defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsv }
     requirements:
-        _method: POST
+        _method: GET
 
 cacic_inativos_csv:
     pattern: /inativos/csv
     defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosCsv }
     requirements:
+        _method: GET
+
+cacic_faturamento_csv_inicial:
+    pattern: /faturamento/csv
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsv }
+    requirements:
         _method: POST
+
+cacic_inativos_csv_inicial:
+    pattern: /inativos/csv
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosCsv }
+    requirements:
+     _method: POST
 
 cacic_faturamento_listar_csv:
     pattern: /faturamento/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
@@ -175,3 +187,4 @@ cacic_relatorio_csv_hardware_wmi:
 cacic_relatorio_csv_hardware_wmi_detalhe:
     pattern: /csv/hardware/{classe}/{propriedade}
     defaults: { _controller: CacicRelatorioBundle:Hardware:csvWMIRelatorioDetalhe }
+
