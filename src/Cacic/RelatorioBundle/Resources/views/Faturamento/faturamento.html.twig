@@ -47,15 +47,16 @@
                             <div class="controls">
                                 <button type="reset" class="btn">
                                     <i class="icon-refresh"></i>
-                                    {{ "Resetar Valores"|trans }}
+                                    {{ "Resetar"|trans }}
                                 </button>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="icon-search"></i>
                                     {{ 'Gerar relatório'|trans }}
                                 </button>
-								<button type="submit" class="btn btn-success" formaction="{{ path('cacic_faturamento_csv') }}">
+								<a class="btn btn-success" type="submit" href="{{ path('cacic_faturamento_csv_inicial') }}" target="_self">
 									<i class="icon-download-alt"></i>
 									{{'Gerar CSV'|trans  }}
+								</a>
 								</button>
                                 <button type="submit" class="btn btn-warning" formaction="{{ path('cacic_faturamento_listar_csv') }}">
                                     <i class="icon-download-alt"></i>

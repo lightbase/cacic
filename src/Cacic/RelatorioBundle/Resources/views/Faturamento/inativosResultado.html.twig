@@ -8,12 +8,18 @@
             <h2 class="box_head round_top"><i class="icon-list"></i> {{'Total de estações sem coletas' |trans }}</h2>
             <div class="block box_content round_bottom padding_10">
 
-				<h2 class="">{{ 'Relatório com total de máquinas sem Coletas por subredes'|trans }}</h2>
-				<h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+				<h2 class="">{{ 'Relatório com total de máquinas sem coletas por subredes'|trans }}</h2>
                 <h5 class="">{{ 'Período: '|trans }}{{data['dtAcaoInicio']|date("d/m/Y") }} a {{ data['dtAcaoFim']|date("d/m/Y") }}</h5>
+				<h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
 
                 <hr />
 
+                   <!--Botão CSV-->
+                     <a class="btn btn-primary" type="submit" href="{{ path('cacic_inativos_csv') }}" title="{{ "Máquinas sem coletas"|trans }}" target="_self">
+                         <i class="icon-bar-chart"></i>
+                         Gerar CSV
+                     </a>
+                   <!--Botão CSV -->
 
               <form id="inativas" class="form-horizontal"  method="post" >
 
@@ -25,11 +31,7 @@
 				        <th width="30%" style="text-align: center">{{ "Subrede"|trans }}</th>
 				        <th width="20%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
                         <th width="20%" style="text-align: center">{{ "Estações"|trans }}</th>
-                        <th style="text-align: center">
-							<a class="btn btn-success" href="{{ path('cacic_inativos_listar_csv') }}/{{ logs[0]['idRede'] }}/{{data['dtAcaoInicio'] }}/{{ data['dtAcaoFim'] }}"  title="{{ "Máquinas sem Coletas"|trans }}" target="_self">
-								<i class="icon-download-alt"></i>
-							</a>
-                        </th>
+                        <th style="text-align: center"></th>
 				    </tr>
 				    </thead>
 
