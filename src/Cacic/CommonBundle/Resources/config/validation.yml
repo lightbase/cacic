@@ -168,6 +168,8 @@ Cacic\CommonBundle\Entity\TipoSoftware:
                 max: 30
 
 Cacic\CommonBundle\Entity\UsbDevice:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [idUsbDevice]
     properties:
         idUsbVendor:
             - NotNull: ~
