@@ -13,6 +13,9 @@ class DefaultController extends Controller
 	 */
 	public function indexAction()
 	{
+        $usuario = $this->getUser()->getIdUsuario();
+        $nivel = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario' )->nivel($usuario);
+
 		$estatisticas = array(
 			'totalCompMonitorados' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countAll(),
 			'totalInsucessosInstalacao' => $this->getDoctrine()->getRepository('CacicCommonBundle:InsucessoInstalacao')->countAll(),
@@ -25,7 +28,8 @@ class DefaultController extends Controller
 		return $this->render(
 			'CacicCommonBundle:Default:index.html.twig',
 			array(
-				'estatisticas' => $estatisticas 
+				'estatisticas' => $estatisticas,
+                'nivel' => $nivel[0]
 			)
 		);
 	}
