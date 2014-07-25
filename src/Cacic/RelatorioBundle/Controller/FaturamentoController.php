@@ -144,14 +144,13 @@
         //Botão csv cada faturamento
         public function listarCsvAction( Request $request) {
 
-            $dataInicio = $request->get('dtAcaoInicio');
-            $dataFim = $request->get('dtAcaoFim');
+            $dataInicio = $request->get('dataInicio');
+            $dataFim = $request->get('dataFim');
             $idRede = $request->get('idRede');
 
             $printers = $this->getDoctrine()
                 ->getRepository('CacicCommonBundle:LogAcesso')
                 ->listarCsv($filtros = array(),$idRede, $dataInicio , $dataFim);
-
 
             // Gera CSV
             $reader = new ArrayReader($printers);

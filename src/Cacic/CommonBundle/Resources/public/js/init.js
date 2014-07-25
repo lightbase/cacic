@@ -209,5 +209,13 @@ $(document).ready(function(){
      * e já configura a máscara no formato xx/xx/xxxx
      */
     $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
+    $('#datatable').dataTable( {
+        "iDisplayLength": 100,
+        "iDisplayStart": 100,
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "bDestroy": true
+    } );
+
 
 });
