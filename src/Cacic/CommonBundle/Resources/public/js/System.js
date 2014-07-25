@@ -5,15 +5,15 @@
 var System = {
 	Grid : { // Comportamentos relacionados a itens de grids de listagens de itens
 		excluir : function(){ // Método executado ao acionar a funcionalidade de exclusão
-			$( "a.bt-excluir" ).bind( 'click', function(e){
+			$( 'body' ).delegate( 'a.bt-excluir', 'click', function(e){
 				e.preventDefault();
 				var url = $( this ).attr( 'href' );
 				var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
 				var callback = $( this ).attr( 'data-callback' );
 				$( "#System_Excluir" ).data( 'params', { 'url': url, 'id': id, 'callback': callback } ).dialog( "open" );
 			});
-			
-			$( "a.bt-excluir-compositekey" ).bind( 'click', function(e){ // Exclusão de itens com CHAVE COMPOSTA
+
+            $( 'body' ).delegate( 'a.bt-excluir-compositekey', 'click', function(e){ // Exclusão de itens com CHAVE COMPOSTA
 				e.preventDefault();
 				var url = $( this ).attr( 'href' );
 				var id = $( this ).parent().parent().attr( 'id' ).replace( /^item_(.*?)$/, '$1' ); // Utilizado para REMOÇÃO do item da GRID

@@ -38,3 +38,7 @@ web/app.php
 
 # Ignora arquivo do importador
 src/Cacic/CommonBundle/Resources/data/importacao.zip
+
+# Ignore IDE Files
+.idea
+cacic.iml
