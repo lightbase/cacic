@@ -137,8 +137,8 @@ class ComputadorColetaRepository extends EntityRepository
         if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
             $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
 
-        if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) )
-            $qb->andWhere('rede.idRede IN (:redes)')->setParameter('redes', explode( ',', $filtros['redes'] ));
+        if ( array_key_exists('rede', $filtros) && !empty($filtros['rede']) )
+            $qb->andWhere('rede.idRede IN (:rede)')->setParameter('rede', explode( ',', $filtros['rede'] ));
 
         if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
             $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
