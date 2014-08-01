@@ -23,6 +23,7 @@ class Version20140424182701 extends AbstractMigration implements ContainerAwareI
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "postgresql", "Migration can only be executed safely on 'postgresql'.");
+        $sm = $this->connection->getSchemaManager();
 
         $logger = $this->container->get('logger');
         $rootDir = $this->container->get('kernel')->getRootDir();
@@ -30,7 +31,11 @@ class Version20140424182701 extends AbstractMigration implements ContainerAwareI
         $upgradeSQL1 = file_get_contents($upgrade1);
 
         // Altera o modelo de dados
-        $this->addSql("ALTER TABLE computador_coleta ADD dt_hr_inclusao TIMESTAMP(0) WITHOUT TIME ZONE");
+        $columns = $sm->listTableColumns('computador_coleta');
+        if (!array_key_exists('dt_hr_inclusao', $columns)) {
+            $logger->debug("Adicionando coluna dt_hr_inclusao na tabela computador_coleta");
+            $this->addSql("ALTER TABLE computador_coleta ADD dt_hr_inclusao TIMESTAMP(0) WITHOUT TIME ZONE");
+        }
 
         $logger->debug("Arquivo de atualização: $upgrade1");
 
