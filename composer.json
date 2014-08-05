@@ -56,6 +56,7 @@
         "jms/serializer": "0.14.*@dev",
         "jms/serializer-bundle": "0.13.*@dev",
         "lightbase/cocar": "dev-master",
+        "ddeboer/data-import": "0.15.*@dev",
         "ddeboer/data-import-bundle": "dev-master",
         "twbs/bootstrap": "3.0.*",
         "doctrine/migrations": "dev-master",
