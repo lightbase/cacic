@@ -285,7 +285,7 @@ class ComputadorRepository extends EntityRepository
     /*
     * Metodo responsável por inserir coletas iniciais, assim que o cacic é instalado
     */
-    public function getComputadorPreCole( Request $request , $te_so , $te_node_adress, $rede, $so )
+    public function getComputadorPreCole( Request $request , $te_so , $te_node_adress, $rede, $so, $ip_computador )
     {
         //recebe dados via POST, deCripata dados, e attribui a variaveis
         $computer_system   = OldCacicHelper::deCrypt( $request, $request->request->get('ComputerSystem'), true  );
@@ -320,7 +320,7 @@ class ComputadorRepository extends EntityRepository
         $computador->setTeVersaoCacic( $te_versao_cacic );
         $computador->setTeVersaoGercols( $te_versao_gercols );
         $computador->setTeUltimoLogin( TagValueHelper::getValueFromTags( 'UserName' ,$computer_system ) );
-        $computador->setTeIpComputador( TagValueHelper::getValueFromTags( 'IPAddress' ,$network_adapter ) );
+        $computador->setTeIpComputador( $ip_computador );
         $computador->setNmComputador( TagValueHelper::getValueFromTags( 'Caption' ,$computer_system ));
         $this->getEntityManager()->persist( $computador );
 
