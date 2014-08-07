@@ -316,6 +316,12 @@ class ComputadorRepository extends EntityRepository
 
         }
 
+        // Atualiza subrede se houve mudança de subrede para o computador
+        if ($computador->getIdRede() != $rede) {
+            #error_log("Atualizando subrede paara o computador ".$computador->getTeIpComputador()." Antiga: ".$computador->getIdRede()->getNmRede()." | Nova: ".$rede->getNmRede());
+            $computador->setIdRede($rede);
+        }
+
         $computador->setDtHrUltAcesso( $data );
         $computador->setTeVersaoCacic( $te_versao_cacic );
         $computador->setTeVersaoGercols( $te_versao_gercols );

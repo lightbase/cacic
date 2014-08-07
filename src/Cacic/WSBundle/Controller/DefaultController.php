@@ -39,8 +39,12 @@ class DefaultController extends Controller
 
             $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
             $ip_computador = $request->get('te_ip_computador');
-            $ip_computador = empty( $ip_computador ) ?: TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
-            $ip_computador = empty( $ip_computador ) ?: $request->getClientIp();
+            if ( empty($ip_computador) ){
+                $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
+            }
+            if (empty($ip_computador)) {
+                $ip_computador = $request->getClientIp();
+            }
 
             $insucesso =  new InsucessoInstalacao();
             $insucesso->setTeIpComputador( $ip_computador );
@@ -72,17 +76,30 @@ class DefaultController extends Controller
         $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
         $strOperatingSystem  			 = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem') );
 
+        $teste = $strNetworkAdapterConfiguration;
+        #$logger->debug("00000000000000000000000000000000000000000000 ".print_r($teste, true));
+
         $te_node_address = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
         $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
         $te_so = $request->get( 'te_so' );
         $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
         $ip_computador = $request->get('te_ip_computador');
-        $ip_computador = empty( $ip_computador ) ?: TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
-        $ip_computador = empty( $ip_computador ) ?: $request->getClientIp();
+        #$logger->debug("11111111111111111111111111111111111: $ip_computador");
+        if ( empty($ip_computador) ){
+            $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
+            #$logger->debug("555555555555555555555555555555555555555555: $ip_computador");
+        }
+        #$logger->debug("22222222222222222222222222222222222: $ip_computador");
+        if (empty($ip_computador)) {
+            $ip_computador = $request->getClientIp();
+        }
+        #$logger->debug("333333333333333333333333333333333333: $ip_computador");
+        $logger->debug("Teste de Conexão! Ip do computador: $ip_computador Máscara da rede: $netmask");
 
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
+        #$logger->debug("444444444444444444444444444444444444: $netmask | ".$rede->getNmRede());
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $te_so, $te_node_address, $rede, $so, $ip_computador );
         //$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
         $local = $rede->getIdLocal();
@@ -155,8 +172,13 @@ class DefaultController extends Controller
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
         $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
         $ip_computador = $request->get('te_ip_computador');
-        $ip_computador = empty( $ip_computador ) ?: TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
-        $ip_computador = empty( $ip_computador ) ?: $request->getClientIp();
+        if ( empty($ip_computador) ){
+            $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
+            #$logger->debug("555555555555555555555555555555555555555555: $ip_computador");
+        }
+        if (empty($ip_computador)) {
+            $ip_computador = $request->getClientIp();
+        }
 
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));

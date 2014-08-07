@@ -142,7 +142,7 @@ class RedeRepository extends EntityRepository
     /*
     * Método responsável por coletar verificar dados de rede
     */
-    public function getDadosRedePreColeta( $ip_computador, $netmask )
+    public function getDadosRedePreColeta( $ip_computador, $netmask = '255.255.255.0' )
     {
 
         //obtem IP da Rede que a maquina coletada pertence
@@ -152,6 +152,15 @@ class RedeRepository extends EntityRepository
         $te_ip_rede = $ipv4->network();
         //error_log("Endereço IP do computador: $ip_computador \nEndereço Broadcast da rede: $te_ip_rede");
         $rede =  $this->findOneBy(  array( 'teIpRede'=> $te_ip_rede ) ); //procura rede
+
+        // Tenta uma última vez com outras máscaras
+        if (empty($rede)) {
+            $cidr = IPv4::mask2cidr('255.255.255.128');
+            $ipv4 = new IPv4($ip_computador, $cidr);
+
+            $te_ip_rede = $ipv4->network();
+            $rede =  $this->findOneBy(  array( 'teIpRede'=> $te_ip_rede ) ); //procura rede
+        }
 
         // Se a rede não existir, procuro uma com endereço 0.0.0.0
         if (empty($rede)) {

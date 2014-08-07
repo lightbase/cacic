@@ -63,8 +63,12 @@ class ColetaController extends Controller
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('idSo'=>$so, 'teNodeAddress'=>$te_node_adress) );
         $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
         $ip_computador = $request->get('te_ip_computador');
-        $ip_computador = empty( $ip_computador ) ?: TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
-        $ip_computador = empty( $ip_computador ) ?: $request->getClientIp();
+        if ( empty($ip_computador) ){
+            $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
+        }
+        if (empty($ip_computador)) {
+            $ip_computador = $request->getClientIp();
+        }
 
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
         //$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
@@ -274,6 +278,13 @@ class ColetaController extends Controller
         $data = new \DateTime('NOW');
         $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
         $ip_computador = $request->get('te_ip_computador');
+        if ( empty($ip_computador) ){
+            $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
+        }
+        if (empty($ip_computador)) {
+            $ip_computador = $request->getClientIp();
+        }
+
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
 
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
