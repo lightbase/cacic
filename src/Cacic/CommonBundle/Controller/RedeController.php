@@ -650,7 +650,7 @@ class RedeController extends Controller
                 $out = explode('#',$elm);
                 $id_subrede = $out[0];
                 $id_computador = $out[1];
-                $this->get('logger')->debug("Atualizando subrede = $id_subrede para o computador = $id_computador");
+                $this->get('logger')->error("Atualizando subrede = $id_subrede para o computador = $id_computador");
 
                 // Atualiza subrede para o computador
                 $computador = $em->find('CacicCommonBundle:Computador', $id_computador);
