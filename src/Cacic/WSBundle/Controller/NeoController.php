@@ -19,7 +19,8 @@ use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 use Cacic\CommonBundle\Entity\Computador;
 use Cacic\CommonBundle\Entity\LogAcesso;
-use Cacic\CommonBundle\Entity\SoRepository;
+use Cacic\CommonBundle\Entity\So;
+
 
 class NeoController extends Controller {
 
@@ -61,18 +62,25 @@ class NeoController extends Controller {
         // JSON Serialization
         //$usuario = $serializer->deserialize($data, 'Usuario', 'json');
         $usuario = json_decode($data);
-        $logger->debug("JSON login received data".print_r($usuario, true));
+        $logger->debug("JSON login received data".print_r($usuario, true)); //user e password
         $_SERVER['SERVER_ADDR'] = $this->getRequest()->getUri();
 
         $auth = $this->forward('CacicCommonBundle:Security:login', array(
-            'username' => $usuario->user,
-            'password' => $usuario->password,
+            "username" => $usuario->user,
+            "password" => $usuario->password,
         ));
+        $logger->debug("JSON login received data".print_r($auth, true)); //dados .twig
+
 
         $session = $request->getSession();
 
+        //Gera chave criptografada
+        $chave = "123456";
+        $chavecrip = md5($chave);
+
         $auth->setContent(json_encode(array(
-            'session' => $session->getId()
+            'session' => $session->getId(),
+            'chavecrip' => $chavecrip
         )));
 
         return $auth;

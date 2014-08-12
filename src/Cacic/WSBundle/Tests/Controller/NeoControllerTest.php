@@ -12,7 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Session;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+
+
 
 class NeoControllerTest extends WebTestCase
 {
@@ -69,16 +70,21 @@ class NeoControllerTest extends WebTestCase
                 "password": "123456"
             }'
         );
-        $logger->debug("Dados JSON de login enviados \n".$this->client->getRequest()->getcontent());
+        $logger->debug("Dados JSON de login enviados\n".$this->client->getRequest()->getcontent());//user e password
 
         $response = $this->client->getResponse();
+        $logger->debug("Response:\n".print_r($response,true)); // arrays session e chavecrip
         $data = $response->getContent();
-        $logger->debug("Response data: \n".print_r($data,true));
+        $logger->debug("Response data:\n".print_r($data,true)); //session e chavecrip
         // JSON Serialization
         $json = json_decode($data, true);
+        $logger->debug("Response json: \n".print_r($json,true)); //session e chavecrip
         $session = $json['session'];
+        $chavecrip= $json['chavecrip'];
 
         $this->assertTrue(is_string($session));
+
+        $this->assertTrue(is_string($chavecrip));
 
 
     }
@@ -105,7 +111,7 @@ class NeoControllerTest extends WebTestCase
 
         $response = $this->client->getResponse();
         $data = $response->getContent();
-        $logger->debug("Response data: \n".print_r($data,true));
+
         // JSON Serialization
         $json = json_decode($data, true);
         $session = $json['session'];
@@ -162,7 +168,7 @@ class NeoControllerTest extends WebTestCase
 
         $response = $this->client->getResponse();
         $status = $response->getStatusCode();
-        $logger->debug("Response status: $status");
+        $logger->debug("Response status AAAAAAAAAAAAAAAAAAAAAAAAAAAA: $status");
 
         $this->assertEquals($status, 200);
 
