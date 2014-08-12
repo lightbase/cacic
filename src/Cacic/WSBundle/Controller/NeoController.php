@@ -17,6 +17,9 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
+use Cacic\CommonBundle\Entity\Computador;
+use Cacic\CommonBundle\Entity\LogAcesso;
+use Cacic\CommonBundle\Entity\SoRepository;
 
 class NeoController extends Controller {
 
@@ -63,7 +66,7 @@ class NeoController extends Controller {
 
         $auth = $this->forward('CacicCommonBundle:Security:login', array(
             'username' => $usuario->user,
-            'password' => $usuario->senha,
+            'password' => $usuario->password,
         ));
 
         $session = $request->getSession();
@@ -106,7 +109,7 @@ class NeoController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $response = new JsonResponse();
-        $dados = json_decode($status);
+        $dados = json_decode($status, true);
         $logger->debug("JSON get Test status".print_r($dados, true));
 
         $so_json = $dados['so'];
@@ -116,13 +119,15 @@ class NeoController extends Controller {
         $mac_json = $rede1['mac'];
         $rede = $rede1['interface'];
 
-        $so = $em->getRepository('CacicCommonBundle:So')->findOneBy(array('te_so' => $so_json));
-        $mac = $em->getRepository('CacicCommonBundle:Computador')->findOneBy(array('te_node_address'=> $mac_json));
+        $so = $em->getRepository('CacicCommonBundle:So')->createIfNotExist($so_json);
+        $computador = $em->getRepository('CacicCommonBundle:Computador')->findOneBy(array(
+            'teNodeAddress'=> $mac_json,
+            'idSo' => $so
+        ));
         $logger->debug("$so".print_r($so, true));
-        $logger->debug("$mac".print_r($mac, true));
+        $logger->debug("$computador".print_r($computador, true));
 
         // Regra: MAC e SO são únicos e não podem ser nulos
-        $computador = $em->findOneBy( array( 'te_node_address'=> $mac, 'te_so'=> $so->getTeSo()) );
         $data = new \DateTime('NOW'); //armazena data Atual
 
         //2 - Insere computador que não existe
@@ -130,13 +135,13 @@ class NeoController extends Controller {
           {
               $computador = new Computador();
 
-              $computador->setTeNodeAddress( $mac );
+              $computador->setTeNodeAddress( $mac_json );
               $computador->setIdSo( $so );
               $computador->setIdRede( $rede );
               $computador->setDtHrInclusao( $data);
-              $computador->setTePalavraChave( $request->get('PHP_AUTH_PW') );
 
               $em->persist( $computador );
+
 
           }
 
@@ -155,13 +160,10 @@ class NeoController extends Controller {
         // 2.1 - Se existir, atualiza hora de inclusão
          else
           {
-              $update = $em->getRepository('CacicCommonBundle:Computador')->findBy(aresponserray('te_node_address'=> $mac, 'te_so'=> $so->getTeSo()));
-
-              $update->setDtHrInclusao($data);
+              $computador->setDtHrInclusao( $data);
 
               //Atualiza hora de inclusão
-              $em->persist($update);
-              $em->flush();
+              $em->persist($computador);
 
 
           }
@@ -183,7 +185,7 @@ class NeoController extends Controller {
 
             // Grava o log
             $em->persist($log_acesso);
-            $em->flush();
+
 
         } else {
             $dt_ultimo_acesso = $ultimo_acesso->getData()->format('Y-m-d');
@@ -198,12 +200,11 @@ class NeoController extends Controller {
 
                 // Grava o log
                 $em->persist($log_acesso);
-                $em->flush();
+
             }
         }
 
-        // 4 - Retorna chave de criptografia
-
+        $em->flush();
 
         $response->setStatusCode('200');
         return $response;

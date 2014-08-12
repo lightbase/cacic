@@ -65,8 +65,8 @@ class NeoControllerTest extends WebTestCase
                 'CONTENT_TYPE'  => 'application/json',
                 //'HTTPS'         => true
             ),
-            '{  "user" : "02128544106",
-                "senha": "159753"
+            '{  "user" : "cacic-adm",
+                "password": "123456"
             }'
         );
         $logger->debug("Dados JSON de login enviados \n".$this->client->getRequest()->getcontent());
@@ -97,8 +97,8 @@ class NeoControllerTest extends WebTestCase
                 'CONTENT_TYPE'  => 'application/json',
                 //'HTTPS'         => true
             ),
-            '{  "user" : "02128544106",
-                "senha": "159753"
+            '{  "user" : "cacic-adm",
+                "password": "123456"
             }'
         );
         $logger->debug("Dados JSON de login enviados \n".$this->client->getRequest()->getcontent());
