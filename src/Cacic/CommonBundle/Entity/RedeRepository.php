@@ -248,6 +248,7 @@ class RedeRepository extends EntityRepository
         from computador c
         inner join rede r on c.id_rede = r.id_rede
         where c.te_ip_computador is not null
+        and (SELECT id_rede FROM rede WHERE te_ip_rede = host(network((c.te_ip_computador||'/'||(netmask_bits(inet_to_longip(r.te_mascara_rede::inet))::text))::inet))) is not null
         order by rede_nova;
         ";
 
