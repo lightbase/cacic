@@ -164,13 +164,9 @@ class HardwareController extends Controller
     public function csvWMIRelatorioAction( Request $request, $classe )
     {
         $conf = $request->get('conf');
-        error_log('Variavel $conf: '.$conf);
         $rede = $request->get('rede');
-        error_log('Variavel $rede: '.$rede);
         $local = $request->get('locais');
-        error_log('Variavel $local: '.$local);
         $so = $request->get('so');
-        error_log('Variavel $so: '.$so);
 
         // Adiciona rede à lista de filtros se for fornecido
         if (!empty($rede)) {
