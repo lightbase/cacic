@@ -118,7 +118,7 @@ doctrine:
                 password: "%database_password%"
                 charset:  UTF8
                 options:
-                    PDO::ATTR_TIMEOUT: 120
+                    PDO::ATTR_PERSISTENT: true
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
