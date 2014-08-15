@@ -51,7 +51,7 @@ Cacic\CommonBundle\Entity\Computador:
         tePalavraChave:
             type: text
             fixed: true
-            nullable: false
+            nullable: true
             column: te_palavra_chave
         forcaColeta:
             type: text

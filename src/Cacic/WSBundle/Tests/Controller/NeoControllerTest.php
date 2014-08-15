@@ -151,17 +151,32 @@ class NeoControllerTest extends WebTestCase
                 'CONTENT_TYPE'  => 'application/json',
                 //'HTTPS'         => true
             ),
-            '{  "so" : "2.6.1",
-                "rede": [
-                    {   "mac" : "e0:3f:49:e4:72:75",
-                        "ip" : "10.1.0.137",
-                        "interface": "Rede Local"
+            '{
+                "computador": {
+                    "networkDevices": [
+                        {
+                            "ipv4": "10.1.0.56",
+                            "ipv6": "fe80::295b:a8db:d433:ebe%4",
+                            "mac": "9C:D2:1E:EA:E0:89",
+                            "netmask_ipv4": "255.255.255.0",
+                            "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                            "nome": "Wi-Fi"
+                        },
+                        {
+                            "ipv4": "192.168.56.1",
+                            "ipv6": "fe80::19f2:4739:8a9e:45e4%16",
+                            "mac": "08:00:27:00:14:2B",
+                            "netmask_ipv4": "255.255.255.0",
+                            "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                            "nome": "VirtualBox Host-Only Network"
+                        }
+                    ],
+                    "operatingSystem": {
+                        "idOs": 176,
+                        "nomeOs": "Windows_NT"
                     },
-                    {   "mac" : "e0:3f:49:e4:72:76",
-                        "ip" : "10.1.0.138",
-                        "interface": "Rede Local"
-                    }
-                ]
+                    "usuario": "Eric Menezes"
+                }
             }'
         );
         $logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());

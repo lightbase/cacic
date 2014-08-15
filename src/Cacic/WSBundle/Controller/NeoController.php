@@ -116,18 +116,33 @@ class NeoController extends Controller {
         $status = $request->getContent();
         $em = $this->getDoctrine()->getManager();
 
-        $response = new JsonResponse();
         $dados = json_decode($status, true);
-        $logger->debug("JSON get Test status".print_r($dados, true));
+        if (empty($dados)) {
+            // REtorna erro se o JSON for inválido
+            $error_msg = '{
+                "message": "JSON Inválido",
+                "codigo": 1
+            }';
+            $response = new JsonResponse();
+            $response->setStatusCode('500');
+            $response->setContent($error_msg);
+            return $response;
+        }
+        $logger->debug("JSON get Test status".print_r(json_decode($status, true), true));
 
-        $so_json = $dados['so'];
-
-        $rede_json = $dados['rede'];
+        $so_json = $dados['computador']['operatingSystem'];
+        $rede_json = $dados['computador']['networkDevices'];
         $rede1 = $rede_json[0];
         $mac_json = $rede1['mac'];
-        $rede = $rede1['interface'];
+        $ip_computador = $rede1['ipv4'];
+        $netmask = $rede1['netmask_ipv4'];
 
-        $so = $em->getRepository('CacicCommonBundle:So')->createIfNotExist($so_json);
+        // Pega rede
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
+
+        $logger->debug("1111111111111111111111111111111111111111111 ".print_r($so_json, true));
+
+        $so = $em->getRepository('CacicCommonBundle:So')->createIfNotExist($so_json['nomeOs']);
         $computador = $em->getRepository('CacicCommonBundle:Computador')->findOneBy(array(
             'teNodeAddress'=> $mac_json,
             'idSo' => $so
@@ -147,6 +162,7 @@ class NeoController extends Controller {
               $computador->setIdSo( $so );
               $computador->setIdRede( $rede );
               $computador->setDtHrInclusao( $data);
+              $computador->setTeIpComputador( $ip_computador);
 
               $em->persist( $computador );
 
@@ -214,6 +230,7 @@ class NeoController extends Controller {
 
         $em->flush();
 
+        $response = new JsonResponse();
         $response->setStatusCode('200');
         return $response;
 
