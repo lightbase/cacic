@@ -53,14 +53,9 @@
                                     <i class="icon-search"></i>
                                     {{ 'Gerar relatório'|trans }}
                                 </button>
-								<a class="btn btn-success" type="submit" href="{{ path('cacic_faturamento_csv_inicial') }}" target="_self">
-									<i class="icon-download-alt"></i>
-									{{'Gerar CSV'|trans  }}
-								</a>
-								</button>
-                                <button type="submit" class="btn btn-warning" formaction="{{ path('cacic_faturamento_listar_csv') }}">
+                                <button type="submit" class="btn btn-success" formaction="{{ path('cacic_faturamento_csv') }}">
                                     <i class="icon-download-alt"></i>
-                                    {{'Gerar CSV Completo'|trans  }}
+                                    {{'Gerar CSV'|trans  }}
                                 </button>
                             </div>
                         </div>
