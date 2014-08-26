@@ -148,19 +148,13 @@ cacic_faturamento_csv:
     pattern: /faturamento/csv
     defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsv }
     requirements:
-        _method: GET
+        _method: POST
 
 cacic_inativos_csv:
     pattern: /inativos/csv
     defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosCsv }
     requirements:
         _method: GET
-
-cacic_faturamento_csv_inicial:
-    pattern: /faturamento/csv
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsv }
-    requirements:
-        _method: POST
 
 cacic_inativos_csv_inicial:
     pattern: /inativos/csv
