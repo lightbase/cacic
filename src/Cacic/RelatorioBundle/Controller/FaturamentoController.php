@@ -46,7 +46,6 @@
                     array_push( $filtroLocais, $locais->getIdLocal() );
                 }
 
-
                 $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogAcesso')
                     ->pesquisar( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
 
@@ -74,17 +73,16 @@
         public function faturamentoCsvAction(Request $request)
         {
 
-            $form = $this->createForm( new LogPesquisaType() );
+            $dataInicio = $request->get('dtAcaoInicio');
+            $dataFim = $request->get('dtAcaoFim');
 
-            $form->bind( $request );
-            $data = $form->getData();
-            $filtroLocais = array(); // Inicializa array com locais a pesquisar
-            foreach ( $data['idLocal'] as $locais ) {
-                    array_push( $filtroLocais, $locais->getIdLocal() );
+            $filtroLocais = $_POST;
+
+            foreach ( $filtroLocais as $locais ) {
             }
 
             $printers = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogAcesso')
-                    ->faturamentoCsv( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
+                    ->faturamentoCsv( $dataInicio, $dataFim, $filtroLocais);
 
             // Gera CSV
             $reader = new ArrayReader($printers);
