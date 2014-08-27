@@ -50,7 +50,7 @@ cacic_neo_home:
     schemes:  [https]
 
 cacic_neo_home_login:
-    pattern: /neo/login
+    pattern: /neo/getLogin
     defaults: { _controller: CacicWSBundle:Neo:login }
     #schemes:  [https]
 
@@ -64,4 +64,8 @@ cacic_neo_home_gettest:
     defaults: { _controller: CacicWSBundle:Neo:getTest }
     #schemes:  [https]
 
+cacic_neo_home_config:
+    pattern: /neo/config
+    defaults: { _controller: CacicWSBundle:Neo:config }
+    #schemes:  [https]
 

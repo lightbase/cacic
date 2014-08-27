@@ -73,6 +73,7 @@ class NeoController extends Controller {
 
 
         $session = $request->getSession();
+        $session->start();
 
         //Gera chave criptografada
         $chave = "123456";
@@ -109,6 +110,9 @@ class NeoController extends Controller {
         return $response;
     }
 
+    /*
+     Insere o computador se não existir
+    */
     public function getTestAction(Request $request)
     {
         //1 - Verificar se computador existe
@@ -116,9 +120,14 @@ class NeoController extends Controller {
         $status = $request->getContent();
         $em = $this->getDoctrine()->getManager();
 
+        $logger->debug("JSON getTest:\n".$status);
+
+
         $dados = json_decode($status, true);
+        
         if (empty($dados)) {
-            // REtorna erro se o JSON for inválido
+            $logger->error("JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro no getTest");
+            // Retorna erro se o JSON for inválido
             $error_msg = '{
                 "message": "JSON Inválido",
                 "codigo": 1
@@ -128,7 +137,8 @@ class NeoController extends Controller {
             $response->setContent($error_msg);
             return $response;
         }
-        $logger->debug("JSON get Test status".print_r(json_decode($status, true), true));
+
+        $logger->debug("JSON get Test status \n".print_r(json_decode($status, true), true));
 
         $so_json = $dados['computador']['operatingSystem'];
         $rede_json = $dados['computador']['networkDevices'];
@@ -138,9 +148,8 @@ class NeoController extends Controller {
         $netmask = $rede1['netmask_ipv4'];
 
         // Pega rede
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
+        $rede = $em->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
 
-        $logger->debug("1111111111111111111111111111111111111111111 ".print_r($so_json, true));
 
         $so = $em->getRepository('CacicCommonBundle:So')->createIfNotExist($so_json['nomeOs']);
         $computador = $em->getRepository('CacicCommonBundle:Computador')->findOneBy(array(
@@ -148,7 +157,8 @@ class NeoController extends Controller {
             'idSo' => $so
         ));
         $logger->debug("$so".print_r($so, true));
-        $logger->debug("$computador".print_r($computador, true));
+        //$logger->debug("$computador".print_r($computador, true));
+        //$logger->debug("111111111111111111111111111111111111111111111111");
 
         // Regra: MAC e SO são únicos e não podem ser nulos
         $data = new \DateTime('NOW'); //armazena data Atual
@@ -166,20 +176,7 @@ class NeoController extends Controller {
 
               $em->persist( $computador );
 
-
           }
-
-        /*
-        $computador->setDtHrUltAcesso( $data );
-        $computador->setTeVersaoCacic( $te_versao_cacic );
-        $computador->setTeVersaoGercols( $te_versao_gercols );
-        $computador->setTeUltimoLogin( TagValueHelper::getValueFromTags( 'UserName' ,$computer_system ) );
-        $computador->setTeIpComputador( TagValueHelper::getValueFromTags( 'IPAddress' ,$network_adapter ) );
-        $computador->setNmComputador( TagValueHelper::getValueFromTags( 'Caption' ,$computer_system ));
-        $this->getEntityManager()->persist( $computador );
-
-        $acoes = $this->getEntityManager()->getRepository('CacicCommonBundle:Acao')->findAll();
-        */
 
         // 2.1 - Se existir, atualiza hora de inclusão
          else
@@ -188,7 +185,6 @@ class NeoController extends Controller {
 
               //Atualiza hora de inclusão
               $em->persist($computador);
-
 
           }
 
@@ -233,20 +229,37 @@ class NeoController extends Controller {
         $response = new JsonResponse();
         $response->setStatusCode('200');
         return $response;
+    }
 
+    /*
+     * ConfigTeste
+    */
+    public function configAction(Request $request)
+    {
+        $logger = $this->get('logger');
+        $status = $request->getContent();
+        $em = $this->getDoctrine()->getManager();
 
+        $dados = json_decode($status, true);
+
+        $response = new JsonResponse();
+        $response->setStatusCode('200');
+        return $response;
     }
 
     /**
      * Função para validar a sessão
      */
     public function checkSession(Session $session) {
+        $logger = $this->get('logger');
         $session->getMetadataBag()->getCreated();
         $session->getMetadataBag()->getLastUsed();
 
         if(time() - $session->getMetadataBag()->getLastUsed() > $this->maxIdleTime) {
             $session->invalidate();
-            throw new SessionExpired(); // direciona para a página de sessão expirada
+            $logger->error("Sessão inválida:\n".$session->getId());
+            //throw new SessionExpired(); // direciona para a página de sessão expirada
+
             return false;
         }
         else{
