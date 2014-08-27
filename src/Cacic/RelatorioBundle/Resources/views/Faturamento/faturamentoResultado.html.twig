@@ -13,9 +13,9 @@
 
                 <hr />
 
-                     <form id="csv" action="{{ path('cacic_faturamento_csv', {'filtroLocais': filtroLocais}) }}" method="post">
-                         {% for elm, value in filtroLocais %}
-                             <input type="hidden" name="{{ elm }}" value="{{ value }}">
+                     <form id="csv" action="{{ path('cacic_faturamento_csv', {'dtAcaoInicio': data['dtAcaoInicio'], 'dtAcaoFim': data['dtAcaoFim']}) }}" method="post">
+                         {% for eml, value in filtroLocais %}
+                             <input type="hidden" name="{{ eml }}" value="{{ value }}">
                          {% endfor %}
                         <button class="btn btn-primary" type="submit">
                             <i class="icon-bar-chart"></i>
