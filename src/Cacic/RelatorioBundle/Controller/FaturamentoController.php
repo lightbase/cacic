@@ -126,7 +126,7 @@
 
             $dataInicio = $request->get('dtAcaoInicio');
             $dataFim = $request->get('dtAcaoFim');
-            $idLocal = $_POST;
+            $idLocal = $request->get('idLocal');
 
             foreach ( $idLocal as $locais ) {
             }
