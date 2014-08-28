@@ -100,7 +100,7 @@ class ComputadorColetaRepository extends EntityRepository
     {
         $_dql = "SELECT c
                 FROM CacicCommonBundle:Classe c
-				WHERE c.nmClassName NOT IN ('SoftwareList', 'Patrimonio')
+				WHERE c.nmClassName NOT IN ('SoftwareList')
 				ORDER BY c.nmClassName";
 
         $_dql = $this->getEntityManager()->createQuery( $_dql );

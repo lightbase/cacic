@@ -96,6 +96,15 @@ class DefaultController extends Controller
         #$logger->debug("333333333333333333333333333333333333: $ip_computador");
         $logger->debug("Teste de Conexão! Ip do computador: $ip_computador Máscara da rede: $netmask");
 
+        // Caso não tenha encontrado, tenta pegar a variável da requisição
+        if (empty($te_node_address)) {
+            $te_node_address = $request->get('te_node_address');
+        }
+
+        if (empty($netmask)) {
+            $netmask = $request->get('netmask');
+        }
+
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
@@ -181,6 +190,16 @@ class DefaultController extends Controller
         }
 
         $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
+
+        // Caso não tenha encontrado, tenta pegar a variável da requisição
+        if (empty($te_node_address)) {
+            $te_node_address = $request->get('te_node_address');
+        }
+
+        if (empty($netmask)) {
+            $netmask = $request->get('netmask');
+        }
+
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_adress, $rede, $so, $ip_computador );

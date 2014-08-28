@@ -58,10 +58,18 @@ class ColetaController extends Controller
         //$ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
         $grava_teste = '';
 
+        // Caso não tenha encontrado, tenta pegar a variável da requisição
+        if (empty($te_node_address)) {
+            $te_node_adress = $request->get('te_node_address');
+        }
+
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$te_so) );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('idSo'=>$so, 'teNodeAddress'=>$te_node_adress) );
         $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
+        if (empty($netmask)) {
+            $netmask = $request->get('netmask');
+        }
         $ip_computador = $request->get('te_ip_computador');
         if ( empty($ip_computador) ){
             $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
