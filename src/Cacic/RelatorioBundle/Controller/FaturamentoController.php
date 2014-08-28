@@ -41,6 +41,7 @@
             {
                 $form->bind( $request );
                 $data = $form->getData();
+
                 $filtroLocais = array(); // Inicializa array com locais a pesquisar
                 foreach ( $data['idLocal'] as $locais ) {
                     array_push( $filtroLocais, $locais->getIdLocal() );
@@ -73,16 +74,65 @@
         public function faturamentoCsvAction(Request $request)
         {
 
+            $locale = $request->getLocale();
+            $form = $this->createForm( new LogPesquisaType() );
+
+            if ( $request->isMethod('POST') )
+            {
+                $form->bind( $request );
+                $data = $form->getData();
+
+                $filtroLocais = array(); // Inicializa array com locais a pesquisar
+                foreach ( $data['idLocal'] as $locais ) {
+                    array_push( $filtroLocais, $locais->getIdLocal() );
+                }
+
+                $printers = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogAcesso')
+                    ->faturamentoCsv( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
+
+            }
+
+            // Gera CSV
+            $reader = new ArrayReader($printers);
+
+            // Create the workflow from the reader
+            $workflow = new Workflow($reader);
+
+            $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
+
+            // Add the writer to the workflow
+            $tmpfile = tempnam(sys_get_temp_dir(), 'Faturamento');
+            $file = new \SplFileObject($tmpfile, 'w');
+            $writer = new CsvWriter($file);
+            $writer->writeItem(array('Local', 'Subrede','Endereço IP','Estações'));
+            $workflow->addWriter($writer);
+
+            // Process the workflow
+            $workflow->process();
+
+            // Retorna o arquivo
+            $response = new BinaryFileResponse($tmpfile);
+            $response->headers->set('Content-Type', 'text/csv');
+            $response->headers->set('Content-Disposition', 'attachment; filename="Faturamento.csv"');
+            $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+
+            return $response;
+        }
+
+        //botão csv de todas faturamento
+        public function faturamentoCsvInternoAction(Request $request)
+        {
+
             $dataInicio = $request->get('dtAcaoInicio');
             $dataFim = $request->get('dtAcaoFim');
+            $idLocal = $_POST;
 
-            $filtroLocais = $_POST;
-
-            foreach ( $filtroLocais as $locais ) {
+            foreach ( $idLocal as $locais ) {
             }
 
             $printers = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogAcesso')
-                    ->faturamentoCsv( $dataInicio, $dataFim, $filtroLocais);
+                ->faturamentoCsv( $dataInicio, $dataFim, $locais);
 
             // Gera CSV
             $reader = new ArrayReader($printers);
