@@ -189,7 +189,7 @@ class DefaultController extends Controller
             $ip_computador = $request->getClientIp();
         }
 
-        $te_node_adress = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
+        $te_node_address = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
 
         // Caso não tenha encontrado, tenta pegar a variável da requisição
         if (empty($te_node_address)) {
@@ -200,9 +200,11 @@ class DefaultController extends Controller
             $netmask = $request->get('netmask');
         }
 
+        $logger->debug("Teste de Conexão! Ip do computador: $ip_computador Máscara da rede: $netmask MAC Address: $te_node_address");
+
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
-        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_adress, $rede, $so, $ip_computador );
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_address, $rede, $so, $ip_computador );
         //$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
         $local = $rede->getIdLocal();
         $data = new \DateTime('NOW');
