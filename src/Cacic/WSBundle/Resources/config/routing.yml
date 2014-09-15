@@ -8,6 +8,10 @@ cacic_ws_config:
 #    requirements:
 #        _method: POST
 
+cacic_ws_mapa:
+    pattern: /get/mapa
+    defaults: { _controller: CacicWSBundle:Mapa:mapa }
+
 cacic_ws_instala_cacic:
     pattern: /instala/cacic
     defaults: { _controller: CacicWSBundle:Default:install }
