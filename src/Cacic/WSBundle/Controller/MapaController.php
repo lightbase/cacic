@@ -30,7 +30,6 @@ class MapaController extends Controller {
             $ip_computador = $request->getClientIp();
         }
 
-
         $te_node_address = TagValueHelper::getValueFromTags( 'MACAddress', OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration')));
 
         // Caso não tenha encontrado, tenta pegar a variável da requisição
@@ -59,20 +58,18 @@ class MapaController extends Controller {
          * Se o módulo estiver habilitado, verifica se existe coleta de patrimônio
          */
         if (!empty($patr)){
+            $em = $this->getDoctrine()->getManager();
             $query = $em->createQuery(
-                'SELECT COUNT(cc) FROM CacicCommonBundle:ComputadorColeta cc INNER JOIN CacicCommonBundle:ClassProperty cp WHERE cp.idClass = 15 AND cc.computador = :id'
+                'SELECT cc FROM CacicCommonBundle:ComputadorColeta cc INNER JOIN CacicCommonBundle:ClassProperty cp WITH cc.classProperty = cp.idClassProperty WHERE cp.idClass = 15 AND cc.computador = :id'
             )->setParameter('id', $computador);
 
-            $result = $query->getSingleResult();
-
-            $dadosPatrimonio = implode('',$result);
-
+            $result = $query->getResult();
         }
 
-        if (empty($dadosPatrimonio))
-            $modPatrimonio = "True";
+        if (empty($result))
+            $modPatrimonio = "true";
         else
-            $modPatrimonio = "False";
+            $modPatrimonio = "false";
 
         /**
          * Mensagem a ser exibida na tela de Pop-Up do patrimônio
@@ -86,7 +83,6 @@ class MapaController extends Controller {
 
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
-
         return  $this->render('CacicWSBundle:Default:mapa.xml.twig', array(
             'mensagem'=>$mensagem,
             'modPatrimonio' => $modPatrimonio,
