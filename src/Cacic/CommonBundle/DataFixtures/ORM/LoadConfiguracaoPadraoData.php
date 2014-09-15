@@ -25,8 +25,10 @@ class LoadConfiguracaoPadraoData extends AbstractFixture implements FixtureInter
 		array('nm_organizacao', 'Nome da organização', 'Organização CACIC'),
 		array('nu_exec_apos', 'Inicio de execucao das ações (em minutos)', '1111'),
 		array('nu_intervalo_exec', 'Intervalo de execução das ações (em horas)', '4'),
+        array('nu_intervalo_forca_coleta', 'Intervalo da verificaço de coleta forçada (em minutos)', '60'),
 		array('nu_intervalo_renovacao_patrim', 'nu_intervalo_renovacao_patrim', '0'),
-		array('nu_porta_srcacic', 'nu_porta_srcacic', '5900'),
+        array('msg_popup_patrimonio', 'Mensagem a ser exibida no Pop-Up de patrimônio', null),
+        array('nu_porta_srcacic', 'nu_porta_srcacic', '5900'),
 		array('nu_rel_maxlinhas', 'Quantidade máxima de linhas em relatorios', '1000'),
 		array('nu_resolucao_grafico_h', 'Resolucao dos graficos a serem exibidos (Altura)', '0'),
 		array('nu_resolucao_grafico_w', 'Resolucao dos graficos a serem exibidos (Largura)', '0'),
@@ -63,4 +65,5 @@ class LoadConfiguracaoPadraoData extends AbstractFixture implements FixtureInter
     {
         return 4;
     }
+
 }
