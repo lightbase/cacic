@@ -72,6 +72,13 @@
     </tr>
 
     <tr>
+        <td>{{ 'Intervalo da verificaço de coleta forçada (em minutos)'|trans }}</td>
+        <td>
+            <input id="nu_intervalo_forca_coleta" type="text" name="nu_intervalo_forca_coleta" value="{{ configuracoes['nu_intervalo_forca_coleta'] }}" />
+        </td>
+    </tr>
+
+    <tr>
         <td>{{ 'Quantidade máxima de linhas em relatorios'|trans }}</td>
         <td>
             <input id="nu_rel_maxlinhas" type="text" name="nu_rel_maxlinhas" value="{{ configuracoes['nu_rel_maxlinhas'] }}" />
@@ -96,6 +103,13 @@
         <td>nu_intervalo_renovacao_patrim</td>
         <td>
             <input id="nu_intervalo_renovacao_patrim" type="text" name="nu_intervalo_renovacao_patrim" value="{{ configuracoes['nu_intervalo_renovacao_patrim'] }}" />
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ 'Mensagem a ser exibida no Pop-Up de patrimônio'|trans }}</td>
+        <td>
+            <textarea id="msg_popup_patrimonio" type="text" name="msg_popup_patrimonio" rows="10">{{ configuracoes['msg_popup_patrimonio'] }}</textarea>
         </td>
     </tr>
 
