@@ -41,6 +41,7 @@ class MapaController extends Controller {
             $netmask = $request->get('netmask');
         }
 
+        $modPatrimonio = "false";
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_address, $rede, $so, $ip_computador );
@@ -64,12 +65,13 @@ class MapaController extends Controller {
             )->setParameter('id', $computador);
 
             $result = $query->getResult();
-        }
 
-        if (empty($result))
-            $modPatrimonio = "true";
-        else
-            $modPatrimonio = "false";
+            /**
+             * Caso não exista nenhuma coleta, envia "true" para o agente.
+             */
+            if (empty($result))
+                $modPatrimonio = "true";
+        }
 
         /**
          * Mensagem a ser exibida na tela de Pop-Up do patrimônio
