@@ -18,6 +18,8 @@ use Cacic\CommonBundle\Entity\RedeVersaoModulo;
 use Cacic\WSBundle\Helper\OldCacicHelper;
 use Cacic\WSBundle\Helper\TagValueHelper;
 use Cacic\CommonBundle\Entity\LogAcesso;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 
 /**
  *
@@ -94,7 +96,7 @@ class DefaultController extends Controller
             $ip_computador = $request->getClientIp();
         }
         #$logger->debug("333333333333333333333333333333333333: $ip_computador");
-        $logger->debug("Teste de Conexão! Ip do computador: $ip_computador Máscara da rede: $netmask");
+        $logger->debug("Teste de Conexão GET-TEST! Ip do computador: $ip_computador Máscara da rede: $netmask");
 
         // Caso não tenha encontrado, tenta pegar a variável da requisição
         if (empty($te_node_address)) {
@@ -200,7 +202,14 @@ class DefaultController extends Controller
             $netmask = $request->get('netmask');
         }
 
-        $logger->debug("Teste de Conexão! Ip do computador: $ip_computador Máscara da rede: $netmask MAC Address: $te_node_address");
+        /**
+         * Se a máscara de subrede ou o mac address estiver vazio, força o redirecionamento para provável atualização
+         */
+        if (empty($netmask) || (empty($te_node_address))) {
+
+        return $this->forward('CacicWSBundle:Default:update', $this->getRequest()->request->all());
+
+        }
 
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
@@ -208,6 +217,7 @@ class DefaultController extends Controller
         //$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
         $local = $rede->getIdLocal();
         $data = new \DateTime('NOW');
+        $logger->debug("Teste de Conexão GET-CONFIG! Ip do computador: $ip_computador Máscara da rede: $netmask MAC Address: $te_node_address");
 
         //Debugging do Agente
         $debugging = (  TagValueHelper::getValueFromTags('DateToDebugging',$computador->getTeDebugging() )  == date("Ymd") ? $computador->getTeDebugging()  	:
@@ -231,7 +241,6 @@ class DefaultController extends Controller
             $rede_grupos_ftp->setNuHoraFim($data);
         }
 
-
         //Se instalação realizada com sucesso.
         if (trim($request->get('in_instalacao')) == 'OK' )
         {
@@ -249,7 +258,6 @@ class DefaultController extends Controller
                 } else {
                     $rede_grupos_ftp = new RedeGrupoFtp();
                 }
-
 
                 // Contagem por subrede
                 $rede_grupos_ftp_repository = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeGrupoFtp')->findBy(array('idRede' => $rede->getIdRede()));
@@ -550,6 +558,65 @@ class DefaultController extends Controller
 		    'strPatrimonio'=>$strPatrimonio,
             'timerForcaColeta'=>$timerForcaColeta,
  //           'modPatrimonio'=> $modPatrimonio,
+        ), $response);
+    }
+
+    /**
+     *  Método responsável por verificar e e enviar os Hashes ao Agente CACIC
+     *  @param Symfony\Component\HttpFoundation\Request $request
+     */
+    public function updateAction( Request $request )
+    {
+        $logger = $this->get('logger');
+        OldCacicHelper::autenticaAgente( $request ) ;
+        $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
+
+        $te_node_address = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
+        $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
+        $ip_computador = $request->get('te_ip_computador');
+        if ( empty($ip_computador) ){
+            $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
+        }
+        if (empty($ip_computador)) {
+            $ip_computador = $request->getClientIp();
+        }
+
+        /**
+         * Caso não tenha encontrado, tenta pegar a variável da requisição
+         */
+        if (empty($te_node_address)) {
+            $te_node_address = $request->get('te_node_address');
+        }
+
+        if (empty($netmask)) {
+            $netmask = $request->get('netmask');
+        }
+
+        /**
+         * Executa atualização forçada se algum dos parâmetros obrigatórios estiver vazio
+         */
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
+        $local = $rede->getIdLocal();
+        $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarPorLocal($local->getIdLocal());
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
+        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy( array( 'idRede'=>$rede->getIdRede() ) );
+        $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
+        $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
+        $logger->debug("Teste de Conexão GET-UPDATE! Ip do computador: $ip_computador Máscara da rede: $netmask MAC Address: $te_node_address");
+
+        $response = new Response();
+        $response->headers->set('Content-Type', 'xml');
+        return  $this->render('CacicWSBundle:Default:update.xml.twig', array(
+            'configs'=>$configs,
+            'rede'=> $rede,
+            'redes_versoes_modulos'=>$redes_versoes_modulos,
+            'main_program'=>OldCacicHelper::CACIC_MAIN_PROGRAM_NAME.'.exe',
+            'folder_name'=>OldCacicHelper::CACIC_LOCAL_FOLDER_NAME,
+            'nm_user_login_updates'=>$nm_user_login_updates,
+            'senha_serv_updates'=>$senha_serv_updates,
+            'cs_compress'=>$request->get('cs_compress'),
+            'cs_cipher'=>$request->get('cs_cipher'),
+            'ws_folder'=>OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
         ), $response);
     }
 }
