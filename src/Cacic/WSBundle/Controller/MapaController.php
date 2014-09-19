@@ -46,7 +46,7 @@ class MapaController extends Controller {
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_address, $rede, $so, $ip_computador );
         $idComputador = $computador->getIdComputador();
-        $logger->debug("Teste de Conexão MAPA ! Ip do computador: $ip_computador Máscara da rede: $netmask MAC Address: $te_node_address ID Computador: $idComputador");
+        $logger->debug("Teste de Conexão GET-MAPA ! Ip do computador: $ip_computador Máscara da rede: $netmask MAC Address: $te_node_address ID Computador: $idComputador");
 
         $em = $this->getDoctrine()->getManager();
 
