@@ -1,0 +1,26 @@
+{% extends 'CacicWSBundle::common.xml.twig' %}
+
+{% block bodyXML %}
+    {% for config in configs %}
+        <{{config.nmConfiguracao|upper}}>{{config.vlConfiguracao}}</{{config.nmConfiguracao|upper}}>
+    {% endfor %}
+    <WebManagerAddress>{{ rede.getTeServCacic() }}</WebManagerAddress>
+    <WebServicesFolderName>{{ ws_folder }}</WebServicesFolderName>
+    <cs_compress>{{ cs_compress }}</cs_compress>
+    <cs_cipher>{{ cs_cipher }}</cs_cipher>
+
+
+    {% for modulo in redes_versoes_modulos %}
+            <{{ modulo.getNmModulo() |upper }}_VER>{{ modulo.getTeVersaoModulo() }}</{{ modulo.getNmModulo() |upper }}_VER>
+            <{{ modulo.getNmModulo() |upper }}_HASH>{{ modulo.getTeHash() }}</{{ modulo.getNmModulo() |upper }}_HASH>
+    {% endfor %}
+
+    <MainProgramName>{{ main_program }}</MainProgramName>
+    <LocalFolderName>{{ folder_name }}</LocalFolderName>
+    <TE_SERV_UPDATES>{{ rede.getTeServUpdates() }}</TE_SERV_UPDATES>
+    <NU_PORTA_SERV_UPDATES>{{ rede.getNuPortaServUpdates() }}</NU_PORTA_SERV_UPDATES>
+    <TE_PATH_SERV_UPDATES>{{ rede.getTePathServUpdates() }}</TE_PATH_SERV_UPDATES>
+    <NM_USUARIO_LOGIN_SERV_UPDATES>{{ nm_user_login_updates }}</NM_USUARIO_LOGIN_SERV_UPDATES>
+    <TE_SENHA_LOGIN_SERV_UPDATES>{{ senha_serv_updates }}</TE_SENHA_LOGIN_SERV_UPDATES>
+
+{% endblock %}
