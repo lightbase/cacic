@@ -110,7 +110,7 @@ class DefaultController extends Controller
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
 
         if (empty($netmask) || (empty($te_node_address)) || empty($so)) {
-            $this->get('logger')->error("Erro na operação de getTest. Máscara = $netmask. MAC = $te_node_address. SO = $te_so");
+            $this->get('logger')->error("Erro na operação de getTest. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO = $te_so");
 
             $response = new Response();
             $response->headers->set('Content-Type', 'xml');
@@ -224,7 +224,7 @@ class DefaultController extends Controller
          * Se a máscara de subrede ou o mac address estiver vazio, força o redirecionamento para provável atualização
          */
         if (empty($netmask) || (empty($te_node_address)) || empty($so)) {
-            $this->get('logger')->error("Erro na operação de getConfig. Máscara = $netmask. MAC = $te_node_address. SO = $request->get( 'te_so' )");
+            $this->get('logger')->error("Erro na operação de getConfig. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO =" . $request->get( 'te_so' ));
 
             return $this->forward('CacicWSBundle:Default:update', $this->getRequest()->request->all());
         }
