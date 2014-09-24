@@ -16,11 +16,20 @@ security:
     providers:
         main:
             entity: { class: Cacic\CommonBundle\Entity\Usuario, property: nmUsuarioAcesso }
+        webservice:
+            id: webservice_user_provider
 
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js|assets|assetic)/
             security: false
+
+        ws_neo:
+            pattern: ^/ws/neo/getLogin
+            stateless: false
+            simple_preauth:
+                authenticator: apikey_authenticator
+
         login:
             pattern:  ^/login$
             security: false
