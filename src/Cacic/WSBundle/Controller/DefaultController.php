@@ -78,24 +78,22 @@ class DefaultController extends Controller
         $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
         $strOperatingSystem  			 = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem') );
 
-        $teste = $strNetworkAdapterConfiguration;
-        #$logger->debug("00000000000000000000000000000000000000000000 ".print_r($teste, true));
 
         $te_node_address = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
         $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
         $te_so = $request->get( 'te_so' );
         $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
         $ip_computador = $request->get('te_ip_computador');
-        #$logger->debug("11111111111111111111111111111111111: $ip_computador");
+
         if ( empty($ip_computador) ){
             $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
-            #$logger->debug("555555555555555555555555555555555555555555: $ip_computador");
+
         }
-        #$logger->debug("22222222222222222222222222222222222: $ip_computador");
+
         if (empty($ip_computador)) {
             $ip_computador = $request->getClientIp();
         }
-        #$logger->debug("333333333333333333333333333333333333: $ip_computador");
+
         $logger->debug("Teste de Conexão GET-TEST! Ip do computador: $ip_computador Máscara da rede: $netmask");
 
         // Caso não tenha encontrado, tenta pegar a variável da requisição
@@ -110,6 +108,25 @@ class DefaultController extends Controller
         //vefifica se existe SO coletado se não, insere novo SO
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
+
+        if (empty($te_node_address) || empty($so)) {
+            $this->get('logger')->error("Erro na operação de getTest. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO = $te_so");
+
+            $response = new Response();
+            $response->headers->set('Content-Type', 'xml');
+            $cacic_helper = new OldCacicHelper($this->get('kernel'));
+
+            return  $this->render('CacicWSBundle:Default:testUpdate.xml.twig', array(
+                'configs'=> $cacic_helper->getTest( $request ),
+                //'computador' => $computador,
+                'rede' => $rede,
+                //'debugging' => $debugging,
+                'ws_folder' => OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
+                'cs_cipher' => $request->get('cs_cipher'),
+                'cs_compress' => $request->get('cs_compress')
+            ), $response);
+        }
+
         #$logger->debug("444444444444444444444444444444444444: $netmask | ".$rede->getNmRede());
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $te_so, $te_node_address, $rede, $so, $ip_computador );
         //$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
@@ -185,7 +202,6 @@ class DefaultController extends Controller
         $ip_computador = $request->get('te_ip_computador');
         if ( empty($ip_computador) ){
             $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
-            #$logger->debug("555555555555555555555555555555555555555555: $ip_computador");
         }
         if (empty($ip_computador)) {
             $ip_computador = $request->getClientIp();
@@ -202,16 +218,17 @@ class DefaultController extends Controller
             $netmask = $request->get('netmask');
         }
 
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
+
         /**
          * Se a máscara de subrede ou o mac address estiver vazio, força o redirecionamento para provável atualização
          */
-        if (empty($netmask) || (empty($te_node_address))) {
+        if (empty($te_node_address) || empty($so)) {
+            $this->get('logger')->error("Erro na operação de getConfig. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO =" . $request->get( 'te_so' ));
 
-        return $this->forward('CacicWSBundle:Default:update', $this->getRequest()->request->all());
-
+            return $this->forward('CacicWSBundle:Default:update', $this->getRequest()->request->all());
         }
 
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_address, $rede, $so, $ip_computador );
         //$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
