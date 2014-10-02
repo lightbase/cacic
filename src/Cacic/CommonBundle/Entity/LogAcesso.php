@@ -88,4 +88,32 @@ class LogAcesso
     {
         $this->data = new \DateTime();
     }
+    /**
+     * @var string
+     */
+    private $usuario;
+
+
+    /**
+     * Set usuario
+     *
+     * @param string $usuario
+     * @return LogAcesso
+     */
+    public function setUsuario($usuario)
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return string 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
 }

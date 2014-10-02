@@ -80,3 +80,7 @@ cacic_neo_home_config:
 cacic_neo_home_update:
     pattern: /neo/update
     defaults: { _controller: CacicWSBundle:Neo:update }
+
+cacic_neo_coleta:
+    pattern: /neo/coleta
+    defaults: { _controller: CacicWSBundle:Neo:coleta }
