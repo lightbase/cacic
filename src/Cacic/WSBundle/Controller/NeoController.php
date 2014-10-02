@@ -37,7 +37,6 @@ class NeoController extends Controller {
     public function indexAction(Request $request)
     {
         $logger = $this->get('logger');
-        //$logger->debug("222222222222222222222222222222222222 ");
 
         $response = new JsonResponse();
 
@@ -185,6 +184,8 @@ class NeoController extends Controller {
 
             }
         }
+
+        # TODO: Grava log de acessos de usuario do computador
 
         $em->flush();
 
@@ -354,6 +355,10 @@ class NeoController extends Controller {
         $te_node_address = $rede1['mac'];
         $ip_computador = $rede1['ipv4'];
         $netmask = $rede1['netmask_ipv4'];
+        $usuario = $dados['computador']['usuario'];
+        $nmComputador = $dados['computador']['nmComputador'];
+        $versaoAgente = $dados['computador']['versaoAgente'];
+
 
         // TESTES: Se IP for vazio, tenta pegar da conexão
         if (empty($ip_computador)) {
@@ -393,7 +398,11 @@ class NeoController extends Controller {
             $computador->setIdSo( $so );
             $computador->setIdRede( $rede );
             $computador->setDtHrInclusao( $data);
-            $computador->setTeIpComputador( $ip_computador);
+            $computador->setTeIpComputador($ip_computador);
+            $computador->setDtHrUltAcesso($data);
+            $computador->setTeUltimoLogin($usuario);
+            $computador->setTeVersaoCacic($versaoAgente);
+            $computador->setNmComputador($nmComputador);
 
             $em->persist( $computador );
 
@@ -404,7 +413,11 @@ class NeoController extends Controller {
         {
             $logger->debug("Atualizando hora de último acesso do computador para MAC = $te_node_address e SO = ".$so_json['nomeOs']);
 
-            $computador->setDtHrInclusao( $data);
+            $computador->setDtHrUltAcesso($data);
+            $computador->setTeIpComputador($ip_computador);
+            $computador->setTeUltimoLogin($usuario);
+            $computador->setTeVersaoCacic($versaoAgente);
+            $computador->setNmComputador($nmComputador);
 
             //Atualiza hora de inclusão
             $em->persist($computador);

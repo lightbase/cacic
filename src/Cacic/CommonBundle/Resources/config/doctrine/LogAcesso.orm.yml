@@ -15,6 +15,9 @@ Cacic\CommonBundle\Entity\LogAcesso:
             type: datetime
             nullable: false
             column: data
+        usuario:
+            type: text
+            nullable: true
     manyToOne:
         idComputador:
             targetEntity: Computador

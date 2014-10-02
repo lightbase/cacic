@@ -23,6 +23,7 @@ class NeoControllerTest extends WebTestCase
     public function setUp() {
         $this->client = static::createClient();
         $this->container = $this->client->getContainer();
+        $this->apiKey = $this->container->getParameter('test_api_key');
     }
 
     /**
@@ -30,6 +31,7 @@ class NeoControllerTest extends WebTestCase
      */
     public function testCommunication()
     {
+        $logger = $this->container->get('logger');
         $client = $this->client;
         $client->request(
             'POST',
@@ -43,7 +45,7 @@ class NeoControllerTest extends WebTestCase
             '{}'
         );
 
-        $logger = $this->container->get('logger');
+
         //$logger->debug("11111111111111111111111111111111111111 ".print_r($client->getResponse()->getStatusCode(), true));
 
         $this->assertEquals(200,$client->getResponse()->getStatusCode());
@@ -66,7 +68,7 @@ class NeoControllerTest extends WebTestCase
                 'HTTPS'         => true
             ),
             '{  "user" : "cacic-adm",
-                "password": "123456"
+                "password": "'.$this->apiKey.'"
             }'
         );
         $logger->debug("Dados JSON de login enviados\n".$this->client->getRequest()->getcontent());//user e password
@@ -102,7 +104,7 @@ class NeoControllerTest extends WebTestCase
                 //'HTTPS'         => true
             ),
             '{  "user" : "cacic-adm",
-                "password": "123456"
+                "password": "'.$this->apiKey.'"
             }'
         );
         $logger->debug("Dados JSON de login enviados \n".$this->client->getRequest()->getcontent());
@@ -173,7 +175,9 @@ class NeoControllerTest extends WebTestCase
                         "idOs": 176,
                         "nomeOs": "Windows_NT"
                     },
-                    "usuario": "Eric Menezes"
+                    "usuario": "Eric Menezes",
+                    "nmComputador": "Notebook-XPTO",
+                    "versaoAgente": "2.8.0"
                 }
             }'
         );
@@ -225,7 +229,9 @@ class NeoControllerTest extends WebTestCase
                         "idOs": 176,
                         "nomeOs": "Windows_NT"
                     },
-                    "usuario": "Eric Menezes"
+                    "usuario": "Eric Menezes",
+                    "nmComputador": "Notebook-XPTO",
+                    "versaoAgente": "2.8.0"
                 }
             }'
         );
@@ -273,7 +279,9 @@ class NeoControllerTest extends WebTestCase
                         "idOs": 176,
                         "nomeOs": "Windows_NT"
                     },
-                    "usuario": "Eric Menezes"
+                    "usuario": "Eric Menezes",
+                    "nmComputador": "Notebook-XPTO",
+                    "versaoAgente": "2.8.0"
                 }
             }'
         );
