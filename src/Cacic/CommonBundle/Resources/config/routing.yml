@@ -538,3 +538,11 @@ cacic_grupo_usuario_excluir:
 cacic_ateste:
     pattern:  /ateste/
     defaults: { _controller: CacicCommonBundle:Ateste:index }
+
+cacic_agente:
+    pattern: /admin/agente/
+    defaults: { _controller: CacicCommonBundle:Agente:index }
+
+cacic_agente_excluir:
+    pattern: /admin/agente/excluir
+    defaults: { _controller: CacicCommonBundle:Agente:excluir }

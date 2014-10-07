@@ -59,6 +59,8 @@ security:
     access_control:
         - { path: ^/ws, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_ADMIN }
-        - { path: ^/efconnect, role: ROLE_USER }
-        - { path: ^/elfinder, role: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/manutencao, roles: [ ROLE_ADMIN, ROLE_GESTAO ] }
+        - { path: ^/, role: [ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_SUPERVISAO, ROLE_TECNICO ] }
+        - { path: ^/efconnect, role: [ ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_SUPERVISAO, ROLE_TECNICO ] }
+        - { path: ^/elfinder, role: [ ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_SUPERVISAO, ROLE_TECNICO ] }

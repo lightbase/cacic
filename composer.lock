@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2bfd0da0469386a6510b8353b8fd1ce5",
+    "hash": "26259b90c15f97d94c17de0e76b7fb8f",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -1104,34 +1104,39 @@
         },
         {
             "name": "helios-ag/fm-elfinder-bundle",
-            "version": "1.5",
-            "target-dir": "FM/ElfinderBundle",
+            "version": "2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/helios-ag/FMElfinderBundle.git",
-                "reference": "57de87e1bf72f9a87fa1d7cd508e7857a3d03860"
+                "reference": "955e8ec9ed63605f0aeedd2db99dc33818e0ddc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/helios-ag/FMElfinderBundle/zipball/57de87e1bf72f9a87fa1d7cd508e7857a3d03860",
-                "reference": "57de87e1bf72f9a87fa1d7cd508e7857a3d03860",
+                "url": "https://api.github.com/repos/helios-ag/FMElfinderBundle/zipball/955e8ec9ed63605f0aeedd2db99dc33818e0ddc8",
+                "reference": "955e8ec9ed63605f0aeedd2db99dc33818e0ddc8",
                 "shasum": ""
             },
             "require": {
-                "helios-ag/fm-elfinder-php-connector": "1.1.1",
+                "helios-ag/fm-elfinder-php-connector": "~2.0",
                 "php": ">=5.3.3",
-                "sensio/framework-extra-bundle": "*@dev",
-                "symfony/symfony": "*@stable",
-                "symfony/twig-bundle": "~2.0"
+                "symfony/framework-bundle": "~2.4",
+                "symfony/twig-bundle": "~2.4"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "~1.0",
+                "matthiasnoback/symfony-config-test": "0.*",
+                "matthiasnoback/symfony-dependency-injection-test": "0.*",
+                "symfony/form": "~2.1"
             },
             "suggest": {
-                "Trsteel/ckeditor-bundle": "CKEditor WYSIWYG Editor Bundlefor Symfony2 Project by Trsteel",
-                "stfalcon/tinymce-bundle": "TinyMCE WYSIWYG Editor Bundle by Stfalcon"
+                "egeloen/ckeditor-bundle": "CKEditor Bundle by Egeloen",
+                "stfalcon/tinymce-bundle": "TinyMCE Bundle by Stfalcon",
+                "trsteel/ckeditor-bundle": "CKEditor Bundle by trsteel"
             },
             "type": "symfony-bundle",
             "autoload": {
-                "psr-0": {
-                    "FM\\ElfinderBundle": ""
+                "psr-4": {
+                    "FM\\ElfinderBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1148,35 +1153,39 @@
                     "homepage": "https://github.com/helios-ag/FMElfinderBundle/contributors"
                 }
             ],
-            "description": "ElFinder bundle, add ElFinder file manager to your Symfony2 project",
+            "description": "ElFinder bundle, adds ElFinder file manager to your Symfony2 project",
             "homepage": "https://github.com/helios-ag/FMElfinderBundle",
             "keywords": [
                 "elfinder",
                 "file manager"
             ],
-            "time": "2014-05-09 12:02:28"
+            "time": "2014-10-11 09:18:19"
         },
         {
             "name": "helios-ag/fm-elfinder-php-connector",
-            "version": "1.1.1",
+            "version": "2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/helios-ag/ElFinderPHP.git",
-                "reference": "fa24c5ce710ec2c9eab899786c93dfac1a232386"
+                "reference": "928d58b4a76d08c3c52b5a911500b0311b518802"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/helios-ag/ElFinderPHP/zipball/fa24c5ce710ec2c9eab899786c93dfac1a232386",
-                "reference": "fa24c5ce710ec2c9eab899786c93dfac1a232386",
+                "url": "https://api.github.com/repos/helios-ag/ElFinderPHP/zipball/928d58b4a76d08c3c52b5a911500b0311b518802",
+                "reference": "928d58b4a76d08c3c52b5a911500b0311b518802",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "Allows you to use AWS S3 storage",
+                "dropbox-php/dropbox-php": "Allows you to use Dropbox storage"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "FM\\ElFinderPHP": "src/"
+                "psr-4": {
+                    "FM\\ElFinderPHP\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1185,7 +1194,7 @@
             ],
             "authors": [
                 {
-                    "name": "Albert Ganiev",
+                    "name": "Al Ganiev",
                     "email": "helios.ag@gmail.com"
                 },
                 {
@@ -1203,7 +1212,7 @@
                 "elfinder",
                 "filemanager"
             ],
-            "time": "2013-08-06 17:02:04"
+            "time": "2014-10-17 10:43:45"
         },
         {
             "name": "ijanki/ftp-bundle",
@@ -2283,12 +2292,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lightbase/cocar.git",
-                "reference": "877b9496c3eb1682040298a7a3bb584aba5c5034"
+                "reference": "3a80e6a980a19c6d75c1dd672ffce8d68a54c9f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lightbase/cocar/zipball/877b9496c3eb1682040298a7a3bb584aba5c5034",
-                "reference": "877b9496c3eb1682040298a7a3bb584aba5c5034",
+                "url": "https://api.github.com/repos/lightbase/cocar/zipball/3a80e6a980a19c6d75c1dd672ffce8d68a54c9f0",
+                "reference": "3a80e6a980a19c6d75c1dd672ffce8d68a54c9f0",
                 "shasum": ""
             },
             "require": {
@@ -2319,7 +2328,7 @@
             "support": {
                 "source": "https://github.com/lightbase/cocar/tree/master"
             },
-            "time": "2014-09-22 12:29:23"
+            "time": "2014-10-15 20:35:53"
         },
         {
             "name": "liip/functional-test-bundle",
