@@ -8,19 +8,22 @@
 
 namespace Cacic\WSBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Cacic\CommonBundle\Tests\BaseTestCase;
 use Symfony\Component\HttpFoundation\Session;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 
 
-class NeoControllerTest extends WebTestCase
+class NeoControllerTest extends BaseTestCase
 {
     /**
      * Método que cria dados comuns a todos os testes
      */
     public function setUp() {
+        // Load setup from BaseTestCase method
+        parent::setUp();
+
         $this->client = static::createClient();
         $this->container = $this->client->getContainer();
         $this->apiKey = $this->container->getParameter('test_api_key');
@@ -246,7 +249,10 @@ class NeoControllerTest extends WebTestCase
 
     }
 
-    public function testUpdate() {
+    /**
+     * Essa função vai falhar se não tiver nenhum computador cadastrado
+     */
+    public function testSemMac() {
         $logger = $this->container->get('logger');
         $this->client->request(
             'POST',
@@ -292,10 +298,115 @@ class NeoControllerTest extends WebTestCase
         $logger->debug("Response status: $status");
         $logger->debug("JSON do getConfig: \n".$response->getContent());
 
+        $this->assertEquals($status, 500);
+
+    }
+
+    /**
+     * Retorna o último computador cadastrado caso seja enviado um sem Mac
+     */
+    public function testUpdate() {
+        $logger = $this->container->get('logger');
+        // Primeiro insere um computador válido
+        $this->client->request(
+            'POST',
+            '/ws/neo/getTest',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            '{
+                "computador": {
+                    "networkDevices": [
+                        {
+                            "ipv4": "10.1.0.56",
+                            "ipv6": "fe80::295b:a8db:d433:ebe%4",
+                            "mac": "9C:D2:1E:EA:E0:89",
+                            "netmask_ipv4": "255.255.255.0",
+                            "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                            "nome": "Wi-Fi"
+                        },
+                        {
+                            "ipv4": "192.168.56.1",
+                            "ipv6": "fe80::19f2:4739:8a9e:45e4%16",
+                            "mac": "08:00:27:00:14:2B",
+                            "netmask_ipv4": "255.255.255.0",
+                            "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                            "nome": "VirtualBox Host-Only Network"
+                        }
+                    ],
+                    "operatingSystem": {
+                        "idOs": 176,
+                        "nomeOs": "Windows_NT"
+                    },
+                    "usuario": "Eric Menezes",
+                    "nmComputador": "Notebook-XPTO",
+                    "versaoAgente": "2.8.0"
+                }
+            }'
+        );
+        $logger->debug("Dados JSON do computador enviados antes do getUpdate \n".$this->client->getRequest()->getcontent());
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+
+        $this->assertEquals($status, 200);
+
+        // Agora tenta inserir um sem MAC
+        $this->client->request(
+            'POST',
+            '/ws/neo/update',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            '{
+                "computador": {
+                    "networkDevices": [
+                        {
+                            "ipv4": "10.1.0.56",
+                            "ipv6": "fe80::295b:a8db:d433:ebe%4",
+                            "netmask_ipv4": "255.255.255.0",
+                            "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                            "nome": "Wi-Fi"
+                        },
+                        {
+                            "ipv4": "192.168.56.1",
+                            "ipv6": "fe80::19f2:4739:8a9e:45e4%16",
+                            "netmask_ipv4": "255.255.255.0",
+                            "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                            "nome": "VirtualBox Host-Only Network"
+                        }
+                    ],
+                    "operatingSystem": {
+                        "idOs": 176,
+                        "nomeOs": "Windows_NT"
+                    },
+                    "usuario": "Eric Menezes",
+                    "nmComputador": "Notebook-XPTO",
+                    "versaoAgente": "2.8.0"
+                }
+            }'
+        );
+        $logger->debug("Dados JSON do computador enviados sem MAC para o getUpdate \n".$this->client->getRequest()->getcontent());
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        $logger->debug("JSON do getUpdate: \n".$response->getContent());
+
         $this->assertEquals($status, 200);
 
     }
 
+    /**
+     * Teste de inserção das coletas
+     */
     public function testColeta() {
         $logger = $this->container->get('logger');
         $this->client->request(
@@ -451,6 +562,8 @@ class NeoControllerTest extends WebTestCase
      * Método que apaga todos os dados criados no teste
      */
     public function tearDown() {
+        // Executa método de limpeza de todos os casos de teste
+        parent::tearDown();
 
     }
 

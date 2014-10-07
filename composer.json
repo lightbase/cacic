@@ -60,7 +60,8 @@
         "ddeboer/data-import-bundle": "dev-master",
         "twbs/bootstrap": "3.0.*",
         "doctrine/migrations": "dev-master",
-        "doctrine/doctrine-migrations-bundle": "dev-master"
+        "doctrine/doctrine-migrations-bundle": "dev-master",
+        "liip/functional-test-bundle": "~1.0"
     },
     "scripts": {
         "post-install-cmd": [

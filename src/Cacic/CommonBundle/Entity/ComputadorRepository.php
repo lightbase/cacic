@@ -511,7 +511,7 @@ class ComputadorRepository extends EntityRepository
                 ->select('computador')
                 ->andwhere('computador.teIpComputador = :ip_computador')
                 ->andWhere('computador.idSo = :idSo')
-                ->andWhere("computador.teIpRede = '0.0.0.0'")
+                ->innerJoin('CacicCommonBundle:Rede', 'rede', 'WITH', "computador.idRede = rede.idRede AND rede.teIpRede = '0.0.0.0'")
                 ->setMaxResults(1)
                 ->orderBy('computador.idComputador')
                 ->setParameter('ip_computador', $ip_computador)
@@ -524,13 +524,12 @@ class ComputadorRepository extends EntityRepository
                 // Em último caso pega primeiro computador com menor Id
                 $qb = $this->createQueryBuilder('computador')
                     ->select('computador')
-                    ->andwhere('computador.teIpComputador = :ip_computador')
                     ->andWhere('computador.idSo = :idSo')
                     ->setMaxResults(1)
                     ->orderBy('computador.idComputador')
                     ->setParameter('idSo', $so->getIdSo());
 
-                $computador =  $qb->getQuery()->getSingleResult();
+                $computador =  $qb->getQuery()->getOneOrNullResult();
             }
 
         }

@@ -486,6 +486,22 @@ class NeoController extends Controller {
 
         $computador = $this->getComputadorSemMac($dados, $request);
 
+        if (empty($computador)){
+            // Só vai retornar erro se não tiver nenhum computador cadastrado
+            $logger->error("Nenhum computador cadastrado!!! Erro no getUpdate");
+            // Retorna erro se o JSON for inválido
+            $error_msg = '{
+                "message": "Ainda não há computadores cadastrados",
+                "codigo": 3
+            }';
+
+
+            $response = new JsonResponse();
+            $response->setStatusCode('500');
+            $response->setContent($error_msg);
+            return $response;
+        }
+
         // 0 - Array de saída
         $saida['agentcomputer'] = "";
 
