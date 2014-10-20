@@ -32,8 +32,10 @@
 	            			<td colspan="3">{{ computador.nmComputador }}</td>
 	            		</tr>
 	            		<tr>
-	            			<th width="20%">{{ 'Sistema Operacional'|trans }}</th>
-	            			<td colspan="3">{{ computador.idSo }}</td>
+	            			<th>{{ 'Sistema Operacional'|trans }}</th>
+	            			<td>{{ computador.idSo }}</td>
+                            <th>{{ 'Último usuário logado'|trans }}</th>
+                            <td>{{ ultimoAcesso.usuario }}</td>
 	            		</tr>
 	            		<tr>
 	            			<th width="10%">{{ 'Endereço TCP/IP'|trans }}</th>
