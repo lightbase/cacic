@@ -546,3 +546,7 @@ cacic_agente:
 cacic_agente_excluir:
     pattern: /admin/agente/excluir
     defaults: { _controller: CacicCommonBundle:Agente:excluir }
+
+cacic_deploy:
+    pattern: /admin/deploy/
+    defaults: { _controller: CacicCommonBundle:Agente:deploy }

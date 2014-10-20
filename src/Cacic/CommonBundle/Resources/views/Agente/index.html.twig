@@ -33,7 +33,7 @@
     <div class="span8">
         <div class="box grad_colour_black">
 
-            <h2 class="box_head round_top"><i class="icon-search"></i> {{'Upload de agentes' |trans }}</h2>
+            <h2 class="box_head round_top"><i class="icon-file"></i> {{'Upload de agentes' |trans }}</h2>
 
             <div class="block box_content round_bottom padding_10">
                 {{ form_start(form, {'id': 'formAgentes'|trans, 'action': path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')), 'method': 'POST'}) }}
@@ -63,13 +63,13 @@
 
             <div class="block box_content round_bottom padding_10">
                 <p>
-                    {{ "Este módulo permite a visualização dos computadores monitorados pelos agentes do cacic"|trans }}.
+                    {{ "Realize o upload do pacote de arquivos contendo a nova versão do agente que será disponibilizada no servidor"|trans }}.
                 </p>
                 <p>
-                    {{ "É possível pesquisar por IP's, nome ou Mac da máquina e por data de instalação da máquina, bastando selecionar uma de suas opções"|trans }}.
+                    {{ "Ao realizar upload do pacote de agentes, informe o número da versão. O último enviado sempre será considerado o mais atual"|trans }}.
                 </p>
                 <p>
-                    {{ "Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos"|trans }}.
+                    {{ "IMPORTANTE: só serão aceitos arquivos nos formatos .zip e .tar.gz"|trans }}.
                 </p>
             </div> <!-- /block -->
         </div> <!-- /box -->
@@ -115,13 +115,15 @@
                         {% for modulo in value %}
 
                             <tr id="{{ modulo['filename'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                                <td style="text-align: center">{{ version }}</td>
                                 <td style="text-align: center" >{{ modulo['name'] }}</td>
                                 <td style="text-align: center" >{{ modulo['hash'] }}</td>
                                 <td style="text-align: center" >{{ format.bytesToSize(modulo['size']) }}</td>
                                 <td class="td-actions">
                                     <a href="{{ path('cacic_agente_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
                                         <i class="btn-icon-only icon-trash icon-large"></i>
+                                    </a>
+                                    <a href="{{ modulo['download_url'] }}" class="btn btn-small" title="{{ "Baixar"|trans }}" target="_blank">
+                                        <i class="btn-icon-only icon-download-alt icon-large"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -177,6 +179,9 @@
                                 <td class="td-actions">
                                     <a href="{{ path('cacic_agente_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
                                         <i class="btn-icon-only icon-trash icon-large"></i>
+                                    </a>
+                                    <a href="{{ modulo['download_url'] }}" class="btn btn-small" title="{{ "Baixar"|trans }}" target="_blank">
+                                        <i class="btn-icon-only icon-download-alt icon-large"></i>
                                     </a>
                                 </td>
                             </tr>

@@ -9,6 +9,7 @@
 namespace Cacic\CommonBundle\Controller;
 
 use Cacic\CommonBundle\Form\Type\AgenteType;
+use Cacic\CommonBundle\Form\Type\DeployType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -59,6 +60,8 @@ class AgenteController extends Controller {
         $finder = new Finder();
         $agentes = new Finder();
         $saida = array();
+        $base_url = $request->getBaseUrl();
+        $base_url = preg_replace('/\/app.*.php/', "/", $base_url);
 
         // Primeiro tratamos agentes Linux
         // A regra é que o agente mais atual estará na pasta current
@@ -73,10 +76,10 @@ class AgenteController extends Controller {
             foreach ($agentes as $file) {
                 array_push($saida['linux']['versions'][$version->getFileName()], array(
                     'name' => $file->getFileName(),
-                    'download_url' => 'downloads/linux/windows/' . $version->getFileName() . '/' . $file->getFileName(),
+                    'download_url' => $base_url . 'downloads/cacic/linux/' . $version->getFileName() . '/' . $file->getFileName(),
                     'hash' => md5_file($file->getRealPath()),
                     'size' => $file->getSize(),
-                    'filename' => $windowsDir . $version->getFileName() . '/' . $file->getFileName()
+                    'filename' => 'cacic/linux/' . $version->getFileName() . '/' . $file->getFileName()
                 ));
 
             }
@@ -97,10 +100,10 @@ class AgenteController extends Controller {
             foreach ($agentes as $file) {
                 array_push($saida['windows']['versions'][$version->getFileName()], array(
                     'name' => $file->getFileName(),
-                    'download_url' => 'downloads/cacic/windows/' . $version->getFileName() . '/' . $file->getFileName(),
+                    'download_url' => $base_url . 'downloads/cacic/windows/' . $version->getFileName() . '/' . $file->getFileName(),
                     'hash' => md5_file($file->getRealPath()),
                     'size' => $file->getSize(),
-                    'filename' => 'windows/' . $version->getFileName() . '/' . $file->getFileName()
+                    'filename' => 'cacic/windows/' . $version->getFileName() . '/' . $file->getFileName()
                 ));
 
             }
@@ -235,8 +238,7 @@ class AgenteController extends Controller {
         $rootDir = $this->container->get('kernel')->getRootDir();
         $webDir = $rootDir . "/../web/";
         $downloadsDir = $webDir . "downloads/";
-        $cacicDir = $downloadsDir . "cacic/";
-        $filepath = $cacicDir . $request->get('id');
+        $filepath = $downloadsDir . $request->get('id');
 
         $this->get('logger')->debug("Excluindo arquivo de agente ".$filepath);
 
@@ -251,6 +253,94 @@ class AgenteController extends Controller {
         }
 
         return $response;
+    }
+
+    public function deployAction(Request $request) {
+        $logger = $this->get('logger');
+        // Cria diretório dos agentes se não existir
+        $rootDir = $this->container->get('kernel')->getRootDir();
+        $webDir = $rootDir . "/../web/";
+        $downloadsDir = $webDir . "downloads/";
+        if (!is_dir($downloadsDir)) {
+            mkdir($downloadsDir);
+        }
+
+        $outrosDir = $downloadsDir . "outros/";
+        if (!is_dir($outrosDir)) {
+            mkdir($outrosDir);
+        }
+
+
+        $form = $this->createForm( new DeployType() );
+        $locale = $request->getLocale();
+
+        // Constrói array de arquivos e hashes
+        $finder = new Finder();
+        $agentes = new Finder();
+        $saida = array();
+        $base_url = $request->getBaseUrl();
+        $base_url = preg_replace('/\/app.*.php/', "/", $base_url);
+
+        // Tratamos upload de módulos genéricos
+        $finder->files()->in($outrosDir);
+        $saida['outros'] = array();
+        foreach($finder as $file) {
+            array_push($saida['outros'], array(
+                'name' => $file->getFileName(),
+                'download_url' => $base_url . 'downloads/outros/' . $file->getFileName(),
+                'hash' => md5_file($file->getRealPath()),
+                'size' => $file->getSize(),
+                'filename' => "outros/" . $file->getFileName()
+            ));
+
+        }
+
+        if ( $request->isMethod('POST') )
+        {
+            // Aqui vamos fazer o tratamento dos agentes
+            $files = $request->files->get('deploy');
+
+            //$logger->debug("99999999999999999999999999999999999 ".print_r($files, true));
+            if (!empty($files['outros'])) {
+                //$logger->debug("88888888888888888888888888888888888888 ".print_r($files['outros'], true));
+                $result = $this->uploadFile($files['outros'], $outrosDir);
+                if (!$result) {
+                    $logger->error("Erro no upload do módulo");
+                    $this->get('session')->getFlashBag()->add('error', 'Erro no upload do módulo');
+                } else {
+                    // Make this version current
+                    $logger->debug("Upload do módulo realizado com sucesso");
+                    $this->get('session')->getFlashBag()->add('success', 'Upload do módulo realizado com sucesso!');
+                }
+            }
+
+        }
+
+        $logger->debug("3333333333333333333333333333333333333333 ".print_r($saida, true));
+
+        return $this->render( 'CacicCommonBundle:Agente:deploy.html.twig',
+            array(
+                'local'=>$locale,
+                'saida' => $saida,
+                'form' => $form->createView()
+            )
+        );
+    }
+
+    public function uploadFile($file, $version) {
+        $logger = $this->get('logger');
+        if (!$file->isValid()) {
+            $logger->error("Erro no upload do arquivo. Arquivo inválido\n".$file->getErrorMessage());
+            $this->get('session')->getFlashBag()->add('error', "Erro no upload do arquivo. Arquivo inválido\n".$file->getErrorMessage());
+            return false;
+        }
+
+        mkdir($version);
+        $file->move($version, $file->getClientOriginalName());
+        $result = true;
+        $logger->debug("Upload do módulo realizado com sucesso");
+
+        return $result;
     }
 
 } 
