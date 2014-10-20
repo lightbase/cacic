@@ -46,6 +46,8 @@ class ComputadorController extends Controller
         $d = $this->getDoctrine();
 
         $computador = $d->getRepository('CacicCommonBundle:Computador')->find( (int) $idComputador );
+        $ultimo_acesso = $d->getRepository('CacicCommonBundle:LogAcesso')->ultimoUserName( $idComputador );
+
         if ( ! $computador )
             throw $this->createNotFoundException( 'Página não encontrada!' );
 
@@ -94,9 +96,10 @@ class ComputadorController extends Controller
         return $this->render(
             'CacicCommonBundle:Computador:detalhar.html.twig',
             array(
-                'computador' => $computador,
-                'dadosColeta' => $dadosColeta,
-                'software' => $software
+                'computador'    => $computador,
+                'ultimoAcesso'  => $ultimo_acesso,
+                'dadosColeta'   => $dadosColeta,
+                'software'      => $software
             )
         );
     }
