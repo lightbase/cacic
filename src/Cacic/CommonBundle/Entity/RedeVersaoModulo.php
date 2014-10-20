@@ -211,4 +211,32 @@ class RedeVersaoModulo
     }
 
 
+    /**
+     * @var string
+     */
+    private $tipo;
+
+
+    /**
+     * Set tipo
+     *
+     * @param string $tipo
+     * @return RedeVersaoModulo
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return string 
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
 }

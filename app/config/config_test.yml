@@ -24,3 +24,9 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+# Adiciona autenticação HTTP para as requisições de teste
+security:
+    firewalls:
+        main:
+            http_basic: ~
