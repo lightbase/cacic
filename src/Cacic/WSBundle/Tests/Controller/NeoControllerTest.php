@@ -296,7 +296,7 @@ class NeoControllerTest extends BaseTestCase
         $response = $this->client->getResponse();
         $status = $response->getStatusCode();
         $logger->debug("Response status: $status");
-        $logger->debug("JSON do getConfig: \n".$response->getContent());
+        //$logger->debug("JSON do getConfig: \n".$response->getContent());
 
         $this->assertEquals($status, 500);
 

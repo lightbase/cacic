@@ -267,11 +267,18 @@ class NeoController extends Controller {
 
         // 2 - Adiciona módulos da subrede
         $modulos = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(array('idRede' => $computador->getIdRede()));
-        //$logger->debug("Módulos encontrados \n". print_r($modulos, true));
+        $logger->debug("Módulos encontrados \n". print_r($modulos, true));
         $mods = array();
         foreach($modulos as $elm) {
+            $tipo = $elm->getTipo();
+            if (empty($tipo)) {
+                $tipo = 'cacic';
+            }
+            if (empty($mods[$tipo])) {
+                $mods[$tipo] = array();
+            }
             // Adiciona módulos e hashes
-            array_push($mods, array(
+            array_push($mods[$tipo], array(
                 'nome' => $elm->getNmModulo(),
                 'hash' => $elm->getTeHash()
             ));

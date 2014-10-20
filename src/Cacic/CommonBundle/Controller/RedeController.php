@@ -983,6 +983,7 @@ class RedeController extends Controller
                 $redeVersaoModulo->setDtAtualizacao(new \DateTime('NOW'));
                 $redeVersaoModulo->setCsTipoSo( $value['tipoSo'] );
                 $redeVersaoModulo->setTeHash($value['hash']);
+                $redeVersaoModulo->setTipo('cacic');
 
                 $em->persist($redeVersaoModulo);
                 $em->flush();
