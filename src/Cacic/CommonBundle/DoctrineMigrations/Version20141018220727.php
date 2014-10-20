@@ -1,47 +1,55 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: eduardo
- * Date: 13/07/13
- * Time: 21:12
- * To change this template use File | Settings | File Templates.
- */
 
-namespace Cacic\CommonBundle\DataFixtures\ORM;
+namespace Cacic\CommonBundle\Migrations;
 
-use Cacic\CommonBundle\Entity\GrupoUsuario;
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\DBAL\Schema\Schema;
+use Cacic\CommonBundle\Entity\GrupoUsuario;
 
-/*
- * Carrega grupos de usuário
+/**
+ * Auto-generated Migration: Please modify to your needs!
  */
-
-class LoadGrupoUsuarioData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class Version20141018220727 extends AbstractMigration implements ContainerAwareInterface
 {
+    private $container;
 
-    /*
-     * Carrega grupo admin
-     */
-
-    public function load(ObjectManager $manager)
+    public function setContainer(ContainerInterface $container = null)
     {
-        $grupoAdmin = new GrupoUsuario();
-        $grupoAdmin->setNmGrupoUsuarios('Admin');
-        $grupoAdmin->setTeGrupoUsuarios('Administradores');
-        $grupoAdmin->setTeMenuGrupo('menu_adm.txt');
-        $grupoAdmin->setTeDescricaoGrupo('Acesso irrestrito');
-        $grupoAdmin->setCsNivelAdministracao(true);
-        $grupoAdmin->setRole('ROLE_ADMIN');
+        $this->container = $container;
+    }
 
-        // Adiciona referência ao Grupo que será usada depois
-        $this->addReference('grupo-admin', $grupoAdmin);
+    public function up(Schema $schema)
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $logger = $this->container->get('logger');
+        $em = $this->container->get('doctrine.orm.entity_manager');
 
-        $manager->persist($grupoAdmin);
+        $grupoAdmin = $em->getRepository('CacicCommonBundle:GrupoUsuario')->findOneBy(array(
+            'nmGrupoUsuarios' => 'Admin'
+        ));
+
+        if (empty($grupoAdmin)) {
+            // Cria pelo menos um grupo de administradores
+            $grupoAdmin = new GrupoUsuario();
+            $grupoAdmin->setNmGrupoUsuarios('Admin');
+            $grupoAdmin->setTeGrupoUsuarios('Administradores');
+            $grupoAdmin->setTeMenuGrupo('menu_adm.txt');
+            $grupoAdmin->setTeDescricaoGrupo('Acesso irrestrito');
+            $grupoAdmin->setRole('ROLE_ADMIN');
+            $grupoAdmin->setCsNivelAdministracao(true);
+
+            $em->persist($grupoAdmin);
+        }
+
+        // A melhor solução é adicionar todos os usuários no Grupo de Administradores
+        $usuario_list = $em->getRepository('CacicCommonBundle:Usuario')->findAll();
+        foreach ($usuario_list as $usuario) {
+            $usuario->setIdGrupoUsuario($grupoAdmin);
+
+            $em->persist($usuario);
+        }
 
         // Cria os outros grupos padrão do Cacic
         $grupo = new GrupoUsuario();
@@ -52,7 +60,7 @@ class LoadGrupoUsuarioData extends AbstractFixture implements FixtureInterface, 
         $grupo->setCsNivelAdministracao(2);
         $grupo->setRole('ROLE_USER');
 
-        $manager->persist($grupo);
+        $em->persist($grupo);
 
         // Cria os outros grupos padrão do Cacic
         $grupo = new GrupoUsuario();
@@ -63,7 +71,7 @@ class LoadGrupoUsuarioData extends AbstractFixture implements FixtureInterface, 
         $grupo->setCsNivelAdministracao(3);
         $grupo->setRole('ROLE_GESTAO');
 
-        $manager->persist($grupo);
+        $em->persist($grupo);
 
         // Cria os outros grupos padrão do Cacic
         $grupo = new GrupoUsuario();
@@ -74,7 +82,7 @@ class LoadGrupoUsuarioData extends AbstractFixture implements FixtureInterface, 
         $grupo->setCsNivelAdministracao(4);
         $grupo->setRole('ROLE_SUPERVISAO');
 
-        $manager->persist($grupo);
+        $em->persist($grupo);
 
 
         // Cria os outros grupos padrão do Cacic
@@ -86,12 +94,16 @@ class LoadGrupoUsuarioData extends AbstractFixture implements FixtureInterface, 
         $grupo->setCsNivelAdministracao(5);
         $grupo->setRole('ROLE_TECNICO');
 
-        $manager->flush();
+        $em->persist($grupo);
+
+        // Grava tudo
+        $em->flush();
 
     }
 
-    public function getOrder()
+    public function down(Schema $schema)
     {
-        return 2;
+        // this down() migration is auto-generated, please modify it to your needs
+
     }
 }

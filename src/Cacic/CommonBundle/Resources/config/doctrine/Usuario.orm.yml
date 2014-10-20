@@ -60,6 +60,11 @@ Cacic\CommonBundle\Entity\Usuario:
             fixed: false
             nullable: true
             column: crypt_key
+        isActive:
+            type: boolean
+            fixed: false
+            nullable: true
+            column: is_active
     manyToMany:
         locaisSecundarios:
             targetEntity: Local

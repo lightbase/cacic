@@ -267,11 +267,18 @@ class NeoController extends Controller {
 
         // 2 - Adiciona módulos da subrede
         $modulos = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(array('idRede' => $computador->getIdRede()));
-        //$logger->debug("Módulos encontrados \n". print_r($modulos, true));
+        $logger->debug("Módulos encontrados \n". print_r($modulos, true));
         $mods = array();
         foreach($modulos as $elm) {
+            $tipo = $elm->getTipo();
+            if (empty($tipo)) {
+                $tipo = 'cacic';
+            }
+            if (empty($mods[$tipo])) {
+                $mods[$tipo] = array();
+            }
             // Adiciona módulos e hashes
-            array_push($mods, array(
+            array_push($mods[$tipo], array(
                 'nome' => $elm->getNmModulo(),
                 'hash' => $elm->getTeHash()
             ));
@@ -783,6 +790,7 @@ class NeoController extends Controller {
                 if(empty($computadorColeta)) {
                     $logger->error("COLETA: Erro na identificação da coleta. O software está cadastrado mas não há ocorrência de coletas no computador");
                     $computadorColeta = new ComputadorColeta();
+                    $computador->addHardware( $computadorColeta );
                 }
             } else {
                 $logger->info("COLETA: Cadastrando software não encontrado $software");
@@ -842,7 +850,9 @@ class NeoController extends Controller {
             $computadorColeta->setDtHrInclusao( new \DateTime() );
 
             // Mando salvar os dados do computador
+            $computador->addHardware($computadorColeta);
             $em->persist( $computadorColeta );
+            $em->persist( $computador );
 
             // Persistencia de Historico
             $computadorColetaHistorico = new ComputadorColetaHistorico();
