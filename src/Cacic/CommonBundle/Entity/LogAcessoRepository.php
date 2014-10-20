@@ -29,6 +29,22 @@ class LogAcessoRepository extends EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+    /**
+     * Função que retorna o último usuário logado para o computador solicitado
+     *
+     * @param $id_computador
+     */
+    public function ultimoUserName( $id_computador ) {
+        $qb = $this->createQueryBuilder('usuario')
+            ->select('usuario')
+            ->where('usuario.idComputador = :computador')
+            ->orderBy('usuario.data', 'desc')
+            ->setMaxResults(1)
+            ->setParameter('computador', $id_computador );
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 
     /**
      *
