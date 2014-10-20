@@ -550,3 +550,7 @@ cacic_agente_excluir:
 cacic_deploy:
     pattern: /admin/deploy/
     defaults: { _controller: CacicCommonBundle:Agente:deploy }
+
+cacic_atualizacao_subredes:
+    pattern: /admin/subrede/manutencaoneo
+    defaults: { _controller: CacicCommonBundle:Rede:manutencaoNeo }
