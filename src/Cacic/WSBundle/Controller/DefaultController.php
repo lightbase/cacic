@@ -151,7 +151,12 @@ class DefaultController extends Controller
             $log_acesso = new LogAcesso();
             $log_acesso->setIdComputador($computador);
             $log_acesso->setData($data_acesso);
-            $log_acesso->setUsuario($ultimo_login);
+
+            /*
+             * Grava o último usuário logado no banco apenas se não estiver vazio
+             */
+            if (!empty($ultimo_login))
+                $log_acesso->setUsuario($ultimo_login);
 
             // Grava o log
             $this->getDoctrine()->getManager()->persist($log_acesso);
@@ -166,7 +171,12 @@ class DefaultController extends Controller
                 $log_acesso = new LogAcesso();
                 $log_acesso->setIdComputador($computador);
                 $log_acesso->setData($data_acesso);
-                $log_acesso->setUsuario($ultimo_login);
+
+                /*
+                 * Grava o último usuário logado no banco apenas se não estiver vazio
+                 */
+                if (!empty($ultimo_login))
+                    $log_acesso->setUsuario($ultimo_login);
 
                 // Grava o log
                 $this->getDoctrine()->getManager()->persist($log_acesso);
