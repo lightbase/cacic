@@ -267,7 +267,7 @@ class NeoController extends Controller {
 
         // 2 - Adiciona módulos da subrede
         $modulos = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(array('idRede' => $computador->getIdRede()));
-        $logger->debug("Módulos encontrados \n". print_r($modulos, true));
+        //$logger->debug("Módulos encontrados \n". print_r($modulos, true));
         $mods = array();
         foreach($modulos as $elm) {
             $tipo = $elm->getTipo();
@@ -667,19 +667,19 @@ class NeoController extends Controller {
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        try {
-            $classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
-                'nmClassName'=> $classe
-            ));
-        }
-        catch(\Doctrine\ORM\NoResultException $e) {
-            $logger->error("COLETA: Classe não cadastrada: $classe \n$e");
+        $classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
+            'nmClassName'=> $classe
+        ));
+
+        if (empty($classObject)) {
+            $logger->error("COLETA: Classe não cadastrada: $classe");
             return;
         }
 
         foreach (array_keys($valor) as $propriedade) {
             if (is_array($valor[$propriedade])) {
                 $logger->error("COLETA: Atributo $propriedade multivalorado não implementado na coleta");
+                $valor[$propriedade] = $valor[$propriedade][0];
                 continue;
             }
             $logger->debug("COLETA: Gravando dados da propriedade $propriedade com o valor ".$valor[$propriedade]);
@@ -835,7 +835,7 @@ class NeoController extends Controller {
                 $propSoftware->setUrlInfoAbout($valor['url']);
             }
             if (array_key_exists('version', $valor)) {
-                $propSoftware->setDisplayVersion($valor['url']);
+                $propSoftware->setDisplayVersion($valor['version']);
             }
 
             $em->persist($classProperty);
