@@ -689,4 +689,33 @@ class Computador
     {
         return $this->software_coletado;
     }
+
+    /**
+     * @var string
+     */
+    private $isNotebook;
+
+
+    /**
+     * Set isNotebook
+     *
+     * @param string $isNotebook
+     * @return Computador
+     */
+    public function setIsNotebook($isNotebook)
+    {
+        $this->isNotebook = $isNotebook;
+    
+        return $this;
+    }
+
+    /**
+     * Get isNotebook
+     *
+     * @returnn string
+     */
+    public function getIsNotebook()
+    {
+        return $this->isNotebook;
+    }
 }

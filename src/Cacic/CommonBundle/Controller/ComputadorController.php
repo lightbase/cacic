@@ -41,6 +41,7 @@ class ComputadorController extends Controller
      */
     public function detalharAction( $idComputador )
     {
+//        $logger = $this->container->get('logger');
         //if ( ! $request->isXmlHttpRequest() ) // Verifica se é uma requisição AJAX
         //	throw $this->createNotFoundException( 'Página não encontrada!' );
         $d = $this->getDoctrine();
@@ -52,6 +53,9 @@ class ComputadorController extends Controller
             throw $this->createNotFoundException( 'Página não encontrada!' );
 
         $coleta = $d->getRepository('CacicCommonBundle:ComputadorColeta')->getDadosColetaComputador( $computador );
+
+        //$isNotebook = $computador->getIsNotebook();
+        //$logger->debug("isNotebook%%%%%%%%%%% $isNotebook");
 
         $dadosColeta = array(); // Inicializa o array que agrupa os dados de coleta por Classe
         $software = array(); // Coloca a coleta de software num array separado

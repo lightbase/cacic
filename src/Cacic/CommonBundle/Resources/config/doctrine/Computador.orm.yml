@@ -85,6 +85,11 @@ Cacic\CommonBundle\Entity\Computador:
             fixed: true
             nullable: true
             column: dt_debug
+        isNotebook:
+            type: text
+            length: 3
+            nullable: true
+            column: is_notebook
     oneToMany:
         softwares:
             targetEntity: SoftwareEstacao
