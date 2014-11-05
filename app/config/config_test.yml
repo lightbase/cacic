@@ -4,7 +4,19 @@ imports:
 framework:
     test: ~
     session:
-        storage_id: session.storage.mock_file
+        storage_id: session.storage.filesystem
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/test.db
+                charset: UTF8
+
+liip_functional_test:
+    cache_sqlite_db: true
 
 web_profiler:
     toolbar: false
@@ -12,3 +24,9 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+# Adiciona autenticação HTTP para as requisições de teste
+security:
+    firewalls:
+        main:
+            http_basic: ~

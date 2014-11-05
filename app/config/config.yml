@@ -14,8 +14,8 @@ framework:
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
-#    trusted_proxies: ~
     session: ~
+#    trusted_proxies: ~
 #    session:
 #        handler_id: session.handler.pdo
 
@@ -25,6 +25,7 @@ parameters:
         db_id_col:   session_id
         db_data_col: session_value
         db_time_col: session_time
+
 
 # Twig Configuration
 twig:
@@ -152,14 +153,35 @@ knp_paginator:
 
 # Configuration for FMElFinderBundle
 fm_elfinder:
-    locale: %locale%
-    editor: simple
-    compression: false
-    connector:
-        roots:
-            downloads:
-                driver: elfinder.driver.filesystem
-                path: downloads
+    instances:
+        default:
+            locale: %locale% # defaults to current request locale
+            editor: simple # other choices are tinymce or simple, and form
+            compression: false # enable if you configured the uglifycss and uglifyjs2 assetic filters and want compression
+            connector:
+                roots:       # at least one root must be defined
+                    uploads:
+                        showhidden: false # defaults to false
+                        driver: LocalFileSystem
+                        path: downloads
+                        upload_max_size: 2M
+                        upload_deny: ['all']
+        form:
+            locale: %locale% # defaults to current request locale
+            editor: form # other choices are tinymce or simple, and form
+            compression: false # enable if you configured the uglifycss and uglifyjs2 assetic filters and want compression
+            connector:
+                roots:       # at least one root must be defined
+                    cacic:
+                        showhidden: false # defaults to false
+                        driver: LocalFileSystem
+                        path: downloads/cacic
+                        upload_deny: ['all']
+                    outros:
+                        showhidden: false # defaults to false
+                        driver: LocalFileSystem
+                        path: downloads/outros
+                        upload_deny: ['all']
 
 jms_translation:
     configs:
@@ -167,14 +189,14 @@ jms_translation:
             dirs: [%kernel.root_dir%, %kernel.root_dir%/../app]
             output_dir: %kernel.root_dir%/Resources/translations
             ignored_domains: [routes]
-            excluded_names: [*TestCase.php, *Test.php]
+            excluded_names: ["*TestCase.php", "*Test.php"]
             excluded_dirs: [cache, data, logs]
             #extractors: [alias_of_the_extractor]
         src:
             dirs: [%kernel.root_dir%, %kernel.root_dir%/../src]
             output_dir: %kernel.root_dir%/../src/Cacic/CommonBundle/Resources/translations
             ignored_domains: [routes]
-            excluded_names: [*TestCase.php, *Test.php]
+            excluded_names: ["*TestCase.php", "*Test.php"]
             excluded_dirs: [Common, Entity, Form]
             #extractors: [alias_of_the_extractor]
 
@@ -211,3 +233,7 @@ services:
     session.handler.pdo:
         class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
         arguments: ["@pdo", "%pdo.db_options%"]
+
+    apikey_authenticator:
+        class:     Cacic\WSBundle\Security\ApiKeyAuthenticator
+        arguments: ["@webservice_user_provider"]

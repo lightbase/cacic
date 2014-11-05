@@ -27,6 +27,13 @@
         {% endstylesheets %}
          
     <link href="{{ asset('bundles/caciccommon/libs/googleapis.fonts.css') }}" rel="stylesheet">
+
+        <!-- javascript
+        ================================================== -->
+        <!-- Placed at the top of the document so thinks work -->
+        <!-- jQuery (UI) -->
+        <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery.1.7.1.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery-ui-1.8.17.min.js') }}"></script>
         
     {% endblock %}
     
@@ -164,13 +171,6 @@
     </div><!--/.fluid-container-->
     
     {% block javascripts %}
-    
-    <!-- javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-	<!-- jQuery (UI) -->
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery.1.7.1.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery-ui-1.8.17.min.js') }}"></script>
 
 
 	{% javascripts output='assets/base.js' combine=true

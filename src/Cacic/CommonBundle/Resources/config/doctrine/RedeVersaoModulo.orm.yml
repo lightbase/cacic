@@ -35,6 +35,11 @@ Cacic\CommonBundle\Entity\RedeVersaoModulo:
             fixed: false
             nullable: true
             column: te_hash
+        tipo:
+            type: text
+            fixed: false
+            nullable: true
+            column: tipo
     manyToOne:
         idRede:
             targetEntity: Rede
