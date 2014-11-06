@@ -193,3 +193,15 @@ cacic_relatorio_csv_hardware_wmi_detalhe:
 cacic_faturamento_computador:
     pattern: /faturamento/computador
     defaults: { _controller: CacicRelatorioBundle:Faturamento:computador }
+
+cacic_relatorio_usuario:
+    pattern: /usuario
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:usuario }
+
+cacic_relatorio_usuario_detalhar:
+    pattern: /usuario/detalhar
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioDetalhar }
+
+cacic_relatorio_usuario_csv:
+    pattern: /usuario/csv
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioCsv }
