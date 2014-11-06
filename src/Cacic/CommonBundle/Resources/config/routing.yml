@@ -300,10 +300,6 @@ cacic_grupo_usuario_excluir:
     pattern:  /admin/grupousuario/excluir
     defaults: { _controller: CacicCommonBundle:GrupoUsuario:excluir}
 
-cacic_ateste:
-    pattern:  /admin/ateste/
-    defaults: { _controller: CacicCommonBundle:Ateste:index }
-
 cacic_agente:
     pattern: /admin/agente/
     defaults: { _controller: CacicCommonBundle:Agente:index }
@@ -328,6 +324,10 @@ cacic_atualizacao_subredes:
 ############################################
 # INÍCIO: Usuário com perfil manutenção
 ############################################
+
+cacic_ateste:
+    pattern:  /manutencao/ateste/
+    defaults: { _controller: CacicCommonBundle:Ateste:index }
 
 cacic_aplicativo_index:
     pattern: /manutencao/aplicativo/{page}
@@ -370,6 +370,8 @@ cacic_tiposoftware_excluir:
     pattern:  /manutencao/tiposoftware/excluir
     defaults: { _controller: CacicCommonBundle:TipoSoftware:excluir}
 
+# Sistemas Operacionais
+
 cacic_sistemaoperacional_index:
     pattern: /manutencao/sistemaoperacional/{page}
     defaults: {_controller: CacicCommonBundle:So:index, page: 1 }
@@ -389,6 +391,28 @@ cacic_sistemaoperacional_editar:
 cacic_sistemaoperacional_excluir:
     pattern:  /manutencao/sistemaoperacional/excluir
     defaults: { _controller: CacicCommonBundle:So:excluir}
+
+
+cacic_tiposo_index:
+    pattern: /manutencao/tiposo/{page}
+    defaults: {_controller: CacicCommonBundle:TipoSo:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_tiposo_cadastrar:
+    pattern: /manutencao/tiposo/cadastrar
+    defaults: { _controller: CacicCommonBundle:TipoSo:cadastrar}
+
+cacic_tiposo_editar:
+    pattern:  /manutencao/tiposo/editar/{idTipoSo}
+    defaults: { _controller: CacicCommonBundle:TipoSo:editar}
+    requirements:
+        idTipoSo: \d+
+
+cacic_tiposo_excluir:
+    pattern:  /manutencao/tiposo/excluir
+    defaults: { _controller: CacicCommonBundle:TipoSo:excluir}
+
 
 cacic_software_index:
     pattern: /manutencao/software/{page}

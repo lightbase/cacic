@@ -115,7 +115,7 @@ class AgenteController extends Controller {
         $current = @basename(@readlink($windowsDir."current"));
         $saida['windows']['live_version'] = $current;
 
-        $logger->debug("4444444444444444444444444444444444 ".print_r($saida, true));
+        //$logger->debug("4444444444444444444444444444444444 ".print_r($saida, true));
 
         if ( $request->isMethod('POST') )
         {
