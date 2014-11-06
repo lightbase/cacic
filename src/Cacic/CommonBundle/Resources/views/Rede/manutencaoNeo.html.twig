@@ -73,16 +73,16 @@
                     <tbody>
                     {% for key, modulo in linux %}
 
-                        <tr id="item_{{ key }}">
-                            <td style="text-align: center" id="item_desc_{{ key }}">{{ key }}</td>
-                            <td style="text-align: center" >{{ modulo['versao'] }}</td>
-                            <td style="text-align: center" >{{ modulo['hash'] }}</td>
-                            <td>
-                                <label style="margin: auto; width:12px; height:10px;">
-                                    <input type="checkbox" id="item_id_{{ key }}" name="linux" value="{{ key }}" checked>
-                                </label>
-                            </td>
-                        </tr>
+                    <tr id="item_{{ key }}">
+                        <td style="text-align: center" id="item_desc_{{ key }}">{{ key }}</td>
+                        <td style="text-align: center" >{{ modulo['versao'] }}</td>
+                        <td style="text-align: center" >{{ modulo['hash'] }}</td>
+                        <td>
+                            <label style="margin: auto; width:12px; height:10px;">
+                                <input type="checkbox" id="item_id_{{ key }}" name="linux[]" value="{{ key }}" checked>
+                            </label>
+                        </td>
+                    </tr>
                     {% else %}
                         <tr>
                             <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>

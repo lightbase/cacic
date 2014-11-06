@@ -69,7 +69,19 @@ class RedeType extends AbstractType
         );
         $builder->add('teServUpdates', null,
             array(
-                'label'=>'Servidor de Updates (FTP)'
+                'label'=>'Servidor para download dos Agentes'
+            )
+        );
+        $builder->add('downloadMethod', 'choice',
+            array(
+                'label'=>'Método de download',
+                'choices'   => array(
+                    'ftp' => 'FTP', 
+                    'http' => 'HTTP'
+                ),
+                'required'  => true,
+                'data' => 'ftp',
+                //'expanded'  => true,
             )
         );
         $builder->add('selTeServUpdates', 'entity',
