@@ -686,7 +686,6 @@ class RedeController extends Controller
         // Primeiro carrega lista dos módulos
         $modulos = $this->modulosNeoArray($request);
 
-
         if ( $request->isMethod('POST') )
         {
             if ( count( $request->get('subrede') ) )
@@ -825,8 +824,8 @@ class RedeController extends Controller
         // Abre e faz o parsing do arquivo
         $cacic_helper = new Helper\OldCacicHelper($this->container->get('kernel'));
         $iniFile = $cacic_helper->iniFile();
-        $itemArray = parse_ini_file($iniFile);
-        $teste = parse_ini_file($iniFile, true);
+        //$itemArray = parse_ini_file($iniFile);
+        //$teste = parse_ini_file($iniFile, true);
 
         // Varre o diretório em busca dos módulos
         $rootDir = $this->container->get('kernel')->getRootDir();
@@ -838,8 +837,6 @@ class RedeController extends Controller
         $outrosDir = $downloadsDir . "outros/";
 
         // Constrói array de arquivos e hashes
-        $finder = new Finder();
-        $agentes = new Finder();
         $saida = array();
         $base_url = $request->getBaseUrl();
         $base_url = preg_replace('/\/app.*.php/', "/", $base_url);
@@ -847,8 +844,10 @@ class RedeController extends Controller
         // Primeiro tratamos agentes Linux
         // A regra é que o agente mais atual estará na pasta current
         $current = basename(readlink($linuxDir."current"));
+        $finder = new Finder();
         $finder->directories()->in($linuxDir);
         foreach($finder as $version) {
+            $agentes = new Finder();
             if ($version->getFileName() == 'current') {
                 // Aqui considera somente a última versão
                 $agentes->files()->in($version->getRealPath());
@@ -879,9 +878,11 @@ class RedeController extends Controller
         //$saida['linux']['live_version'] = $current;
 
         // Aí tratamos Windows
+        $finder = new Finder();
         $finder->directories()->in($windowsDir);
         $current = basename(readlink($windowsDir."current"));
         foreach($finder as $version) {
+            $agentes = new Finder();
             if ($version->getFileName() == 'current') {
                 // Aqui considera somente a última versão
                 $agentes->files()->in($version->getRealPath());
@@ -931,7 +932,7 @@ class RedeController extends Controller
 
         // Carrega todos os metadados dos módulos fornecidos ou de todos os módulos
         $modulos = $this->modulosNeoArray($request, $modulos);
-        $logger->debug("6666666666666666666666666666666666666 ".print_r($modulos, true));
+        //$logger->debug("6666666666666666666666666666666666666 ".print_r($modulos, true));
 
         foreach ($modulos as $key => $value)
         {

@@ -58,7 +58,6 @@ class AgenteController extends Controller {
 
         // Constrói array de arquivos e hashes
         $finder = new Finder();
-        $agentes = new Finder();
         $saida = array();
         $base_url = $request->getBaseUrl();
         $base_url = preg_replace('/\/app.*.php/', "/", $base_url);
@@ -68,6 +67,7 @@ class AgenteController extends Controller {
         $finder->directories()->in($linuxDir);
         $saida['linux']['versions'] = array();
         foreach($finder as $version) {
+            $agentes = new Finder();
             if ($version->getFileName() == 'current') {
                 continue;
             }
@@ -85,19 +85,22 @@ class AgenteController extends Controller {
             }
         }
         // Get latest version
-        $current = basename(readlink($cacicDir."current"));
+        $current = @basename(@readlink($linuxDir."current"));
         $saida['linux']['live_version'] = $current;
 
         // Aí tratamos Windows
         $finder->directories()->in($windowsDir);
         $saida['windows']['versions'] = array();
         foreach($finder as $version) {
+            $agentes = new Finder();
             if ($version->getFileName() == 'current') {
                 continue;
             }
             $saida['windows']['versions'][$version->getFileName()] = array();
             $agentes->files()->in($version->getRealPath());
+	        //$logger->debug("1111111111111111111111111111111111111111111 ".$version->getRealPath());
             foreach ($agentes as $file) {
+	    	    //$logger->debug("77777777777777777777777777777777777777777 $file");
                 array_push($saida['windows']['versions'][$version->getFileName()], array(
                     'name' => $file->getFileName(),
                     'download_url' => $base_url . 'downloads/cacic/windows/' . $version->getFileName() . '/' . $file->getFileName(),
@@ -109,10 +112,10 @@ class AgenteController extends Controller {
             }
         }
         // Get latest version
-        $current = basename(readlink($windowsDir."current"));
+        $current = @basename(@readlink($windowsDir."current"));
         $saida['windows']['live_version'] = $current;
 
-        //$logger->debug("4444444444444444444444444444444444 ".print_r($saida, true));
+        $logger->debug("4444444444444444444444444444444444 ".print_r($saida, true));
 
         if ( $request->isMethod('POST') )
         {
@@ -136,7 +139,8 @@ class AgenteController extends Controller {
                         $this->get('session')->getFlashBag()->add('error', 'Erro na atualização dos agentes Windows');
                     } else {
                         // Make this version current
-                        $logger->debug("Agentes atualizados com sucesso");
+                        $logger->debug("Agentes atualizados com sucesso. Ajustando para versão $versionDir");
+			@unlink("$windowsDir"."current");
                         symlink($versionDir, "$windowsDir"."current");
                         $this->get('session')->getFlashBag()->add('success', 'Agentes atualizados com sucesso!');
                     }
@@ -155,6 +159,8 @@ class AgenteController extends Controller {
                         $this->get('session')->getFlashBag()->add('error', 'Erro na atualização dos agentes Linux');
                     } else {
                         // Make this version current
+                        $logger->debug("Agentes atualizados com sucesso. Ajustando para versão $versionDir");
+			@unlink("$linuxDir"."current");
                         symlink($versionDir, $linuxDir."current");
                         $this->get('session')->getFlashBag()->add('success', 'Agentes atualizados com sucesso!');
                     }
@@ -199,7 +205,7 @@ class AgenteController extends Controller {
                 $result = false;
             }
 
-        } elseif ($extension == 'gz') {
+        } elseif ($extension == 'tar.gz') {
             try {
                 // decompress from gz
                 $tar = $version.$file->getClientOriginalName();

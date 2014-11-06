@@ -300,7 +300,7 @@ class NeoController extends Controller {
         // 4 - Configurações genéricas
         $saida['agentcomputer']['applicationUrl'] = $computador->getIdRede()->getTeServCacic();
         $saida['agentcomputer']['metodoDownload'] = array(
-            "tipo" => "ftp",
+            "tipo" => $computador->getIdRede()->getDownloadMethod(),
             "url" => $computador->getIdRede()->getTeServUpdates(),
             "path" => $computador->getIdRede()->getTePathServUpdates(),
             "usuario" => $computador->getIdRede()->getNmUsuarioLoginServUpdates(),
@@ -667,20 +667,34 @@ class NeoController extends Controller {
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        $classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
-            'nmClassName'=> $classe
-        ));
+        #$classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
+        #    'nmClassName'=> $classe
+        #));
+
+        $_dql = "SELECT classe
+				FROM CacicCommonBundle:Classe classe
+				WHERE LOWER(classe.nmClassName) = LOWER(:classe)";
+
+        $classObject = $em->createQuery( $_dql )->setParameter('classe', $classe)->getOneOrNullResult();
 
         if (empty($classObject)) {
             $logger->error("COLETA: Classe não cadastrada: $classe");
             return;
         }
 
+        // Trata classe multivalorada
+        if (!empty($valor[0])) {
+            // Nesse caso a classe é multivalorada. Considero somente a primeira ocorrência
+            $logger->debug("COLETA: Classe $classe multivalorada. Retornando somente primeiro elemento.");
+            $valor = $valor[0];
+        }
+
         foreach (array_keys($valor) as $propriedade) {
             if (is_array($valor[$propriedade])) {
                 $logger->error("COLETA: Atributo $propriedade multivalorado não implementado na coleta");
+                //$logger->debug("1111111111111111111111111111111111111111 ".print_r($valor, true));
                 $valor[$propriedade] = $valor[$propriedade][0];
-                continue;
+                //continue;
             }
             $logger->debug("COLETA: Gravando dados da propriedade $propriedade com o valor ".$valor[$propriedade]);
 
@@ -688,7 +702,8 @@ class NeoController extends Controller {
 
                 // Pega o objeto para gravar
                 $classProperty = $em->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array(
-                    'nmPropertyName'=> $propriedade
+                    'nmPropertyName'=> $propriedade,
+                    'idClass' => $classObject
                 ));
 
                 if (empty($classProperty)) {
@@ -836,6 +851,9 @@ class NeoController extends Controller {
             }
             if (array_key_exists('version', $valor)) {
                 $propSoftware->setDisplayVersion($valor['version']);
+            }
+            if (array_key_exists('publisher', $valor)) {
+                $propSoftware->setPublisher($valor['publisher']);
             }
 
             $em->persist($classProperty);
