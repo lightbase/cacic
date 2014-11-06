@@ -23,8 +23,16 @@
                 <span class="icon">&nbsp;</span>
             </a>
             <ul>
-                <li><a class="round_top" href="{{ path('cacic_software_naoclassificados') }}">{{ "Classificar Software"|trans }}</a></li>
-                <li><a href="{{ path('cacic_software_naousados') }}">{{ "Softwares não usados"|trans }}</a></li>
+                <li class="dropdown-submenu" >
+                    <a href="{{ path('cacic_modulo_index') }}" class="dropdown-toggle" data-toggle="dropdown">
+                        {{ "Configurar Módulos"|trans }}
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ path('cacic_subrede_manutencao') }}">{{ "Atualização de Subrede"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_subrede_computadores') }}">{{ "Computadores e Subredes"|trans }}</a></li>
+                    </ul>
+                </li>
                 <li><a href="{{ path('cacic_modulo_index') }}">{{ "Configurar Módulos"|trans }}</a></li>
 
                 <li class="dropdown-submenu">
@@ -69,6 +77,27 @@
                         <li ><a href="{{ path('cacic_patrimonio_opcoes')}}">{{ "Opções"|trans }}</a></li>
                     </ul>
                 </li>
+                <li><a href="{{ path('cacic_migracao_cacic26') }}">{{ "Importar de 2.6"|trans }}</a></li>
+            </ul>
+        </li>
+
+        <li class="subnavbar-open-right" >
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-wrench"></i>
+                <span>{{ "Manutenção"|trans }}</span>
+                <span class="icon">&nbsp;</span>
+            </a>
+            <ul >
+                <li class="dropdown-submenu" >
+                    <a href="javascript:void(0)">
+                        {{ "Classificaçao de software"|trans }}
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a class="round_top" href="{{ path('cacic_software_naoclassificados') }}">{{ "Classificar Software"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_software_naousados') }}">{{ "Softwares não usados"|trans }}</a></li>
+                    </ul>
+                </li>
                 <li class="dropdown-submenu" >
                     <a href="javascript:void(0)">
                         {{ "Gerência Aquisições"|trans }}
@@ -81,19 +110,16 @@
                         <li><a href="{{ path('cacic_tipo_licenca_index') }}">{{ "Tipos de Licença"|trans }}</a></li>
                     </ul>
                 </li>
-            </ul>
-        </li>
-
-        <li class="subnavbar-open-right" >
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-wrench"></i>
-                <span>{{ "Manutenção"|trans }}</span>
-                <span class="icon">&nbsp;</span>
-            </a>
-            <ul >
-                <li><a href="{{ path('cacic_subrede_manutencao') }}">{{ "Atualização de Subrede"|trans }}</a></li>
-                <li><a href="{{ path('cacic_subrede_computadores') }}">{{ "Computadores e Subredes"|trans }}</a></li>
-                <li><a href="{{ path('cacic_migracao_cacic26') }}">{{ "Importar de 2.6"|trans }}</a></li>
+                <li class="dropdown-submenu" >
+                    <a href="javascript:void(0)">
+                        {{ "Forçar Coletas"|trans }}
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ path('cacic_subrede_manutencao') }}">{{ "Atualização de Subrede"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_subrede_computadores') }}">{{ "Computadores e Subredes"|trans }}</a></li>
+                    </ul>
+                </li>
             </ul>
         </li>
 
