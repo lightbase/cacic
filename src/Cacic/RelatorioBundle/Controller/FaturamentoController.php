@@ -417,4 +417,117 @@
                 )
             );
         }
+
+        /*
+         * Página inicial do Relatório de usuário logado
+         */
+        public function usuarioAction(Request $request) {
+
+            $locale = $request->getLocale();
+
+            $form = $this->createForm( new LogPesquisaType() );
+            return $this->render( 'CacicRelatorioBundle:Faturamento:usuario.html.twig',
+                array(
+                    'locale'=> $locale,
+                    'form' => $form->createView()
+                )
+            );
+        }
+
+        /*
+         * Página que exibe o resultado da consulta de usuário logado
+         */
+        public function usuarioDetalharAction( Request $request) {
+
+            $locale = $request->getLocale();
+            $form = $this->createForm( new LogPesquisaType() );
+
+            if ( $request->isMethod('POST') )
+            {
+                $form->bind( $request );
+                $data = $form->getData();
+
+                $filtroLocais = array(); // Inicializa array com locais a pesquisar
+                foreach ( $data['idLocal'] as $locais ) {
+                    array_push( $filtroLocais, $locais->getIdLocal() );
+                }
+
+                $dataInicio = $data['dtAcaoInicio'];
+                $dataFim = $data['dtAcaoFim'];
+                $usuario = $data['usuario'];
+
+                $dados = $this->getDoctrine()
+                    ->getRepository('CacicCommonBundle:LogAcesso')
+                    ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario);
+
+            }
+
+            return $this->render(
+                'CacicRelatorioBundle:Faturamento:usuarioDetalhar.html.twig',
+                array(
+                    'idioma'        => $locale,
+                    'dados'         => ( isset( $dados ) ? $dados : null ),
+                    'idRede'        => $filtroLocais,
+                    'dtAcaoInicio'  => $dataInicio,
+                    'dtAcaoFim'     => $dataFim,
+                    'usuario'       => $usuario
+
+                )
+            );
+        }
+
+        /*
+         * Gera o CSV do relatório de usuário logado
+         */
+        public function usuarioCsvAction( Request $request) {
+
+            $locale = $request->getLocale();
+            $form = $this->createForm( new LogPesquisaType() );
+
+            if ( $request->isMethod('POST') )
+            {
+                $form->bind( $request );
+                $data = $form->getData();
+
+                $filtroLocais = array(); // Inicializa array com locais a pesquisar
+                foreach ( $data['idLocal'] as $locais ) {
+                    array_push( $filtroLocais, $locais->getIdLocal() );
+                }
+
+                $dataInicio = $data['dtAcaoInicio'];
+                $dataFim = $data['dtAcaoFim'];
+                $usuario = $data['usuario'];
+
+                $dados = $this->getDoctrine()
+                    ->getRepository('CacicCommonBundle:LogAcesso')
+                    ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario);
+
+            }
+
+            // Gera CSV
+            $reader = new ArrayReader($dados);
+
+            // Create the workflow from the reader
+            $workflow = new Workflow($reader);
+
+            $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
+
+            // Add the writer to the workflow
+            $tmpfile = tempnam(sys_get_temp_dir(), 'Máquinas sem Coletas');
+            $file = new \SplFileObject($tmpfile, 'w');
+            $writer = new CsvWriter($file);
+            $writer->writeItem(array('Local', 'Subrede','Endereço IP','Estações'));
+            $workflow->addWriter($writer);
+
+            // Process the workflow
+            $workflow->process();
+
+            // Retorna o arquivo
+            $response = new BinaryFileResponse($tmpfile);
+            $response->headers->set('Content-Type', 'text/csv');
+            $response->headers->set('Content-Disposition', 'attachment; filename="Não_Coletadas.csv"');
+            $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+            return $response;
+        }
 }

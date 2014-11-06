@@ -41,15 +41,21 @@ class ComputadorController extends Controller
      */
     public function detalharAction( $idComputador )
     {
+//        $logger = $this->container->get('logger');
         //if ( ! $request->isXmlHttpRequest() ) // Verifica se é uma requisição AJAX
         //	throw $this->createNotFoundException( 'Página não encontrada!' );
         $d = $this->getDoctrine();
 
         $computador = $d->getRepository('CacicCommonBundle:Computador')->find( (int) $idComputador );
+        $ultimo_acesso = $d->getRepository('CacicCommonBundle:LogAcesso')->ultimoUserName( $idComputador );
+
         if ( ! $computador )
             throw $this->createNotFoundException( 'Página não encontrada!' );
 
         $coleta = $d->getRepository('CacicCommonBundle:ComputadorColeta')->getDadosColetaComputador( $computador );
+
+        //$isNotebook = $computador->getIsNotebook();
+        //$logger->debug("isNotebook%%%%%%%%%%% $isNotebook");
 
         $dadosColeta = array(); // Inicializa o array que agrupa os dados de coleta por Classe
         $software = array(); // Coloca a coleta de software num array separado
@@ -94,9 +100,10 @@ class ComputadorController extends Controller
         return $this->render(
             'CacicCommonBundle:Computador:detalhar.html.twig',
             array(
-                'computador' => $computador,
-                'dadosColeta' => $dadosColeta,
-                'software' => $software
+                'computador'    => $computador,
+                'ultimoAcesso'  => $ultimo_acesso,
+                'dadosColeta'   => $dadosColeta,
+                'software'      => $software
             )
         );
     }

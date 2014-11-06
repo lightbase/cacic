@@ -53,6 +53,12 @@ class LogPesquisaType extends AbstractType
                 'label'=> 'Selecione o Local:'
 			)
 		);
+
+        $builder->add(
+            'usuario',
+            null,
+            array( 'label'=>'', 'max_length'=>30, 'required'  => true)
+        );
     }
 
     /**
