@@ -1,0 +1,30 @@
+Cacic\CommonBundle\Entity\LogUserLogado:
+    type: entity
+    table: log_user_logado
+    repositoryClass: Cacic\CommonBundle\Entity\LogUserLogadoRepository
+    fields:
+        idLogUserLogado:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_log_user_logado
+            generator:
+                strategy: IDENTITY
+        data:
+            type: datetime
+            nullable: false
+            column: data
+        usuario:
+            type: text
+            nullable: true
+    manyToOne:
+        idComputador:
+            targetEntity: Computador
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+            orphanRemoval: false
