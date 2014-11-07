@@ -25,6 +25,7 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "~2.5",
+	"symfony/icu": "1.1.*",
         "jquery/jquery": "1.10.*",
         "doctrine/orm": "~2.4",
         "doctrine/doctrine-bundle": "1.2.*",
