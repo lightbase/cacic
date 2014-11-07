@@ -734,39 +734,38 @@ class RedeController extends Controller
 
         // Varro todas as subredes para cada módulo
         $subredes = array();
-        $windows = array();
-        $linux = array();
+        $saida = array();
         foreach ($subredesOrig as $redeItem) {
-            // Busca o módulo em cada uma das redes
+            // Busca o tipo de SO
             $codigos = array();
-            foreach ($modulos as $key => $value) {
-                $idRede = $redeItem['idRede'];
-                // Verifico se o módulo existe na subrede
-                $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->subrede($idRede, $key);
+            foreach($modulos as $tipo_so => $file) {
+                // Busca o módulo em cada uma das redes
+                foreach ($file as $key => $value) {
+                    $idRede = $redeItem['idRede'];
+                    // Verifico se o módulo existe na subrede
+                    $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->subredeFilePath($idRede, $value['filename']);
 
-                if (empty($rede)) {
-                    // O módulo não foi encontrado. Adiciona o código 1
-                    array_push($codigos, 0);
-                    //$rede = $redeItem[0];
-                } else {
-                    if ($value['hash'] == $rede[0]['teHash']) {
-                        // Se o hash for igual, adiciona o código 2
-                        array_push($codigos, 2);
-
+                    if (empty($rede)) {
+                        // O módulo não foi encontrado. Adiciona o código 1
+                        array_push($codigos, 0);
+                        //$rede = $redeItem[0];
                     } else {
-                        // Se o hash for diferente, adiciona o código 1
-                        array_push($codigos, 1);
+                        if ($value['hash'] == $rede[0]['teHash']) {
+                            // Se o hash for igual, adiciona o código 2
+                            array_push($codigos, 2);
+
+                        } else {
+                            // Se o hash for diferente, adiciona o código 1
+                            array_push($codigos, 1);
+                        }
                     }
-                }
 
-                // Cria um array para Windows e outro para Linux
-                if ($value['tipoSo'] == 'windows') {
-                    $windows[$key] =  $value;
-                } else {
-                    $linux[$key] = $value;
-                }
+                    // Array de saída
+                    $saida[$tipo_so][$value['name']] = $value;
 
+                }
             }
+
 
             // Define o elemento HTML para os módulos
             if (in_array(0, $codigos)) {
@@ -799,10 +798,11 @@ class RedeController extends Controller
             }
         }
 
+        //$logger->debug("111111111111111111111111111111111111111 \n".print_r($saida, true));
+
         return $this->render( 'CacicCommonBundle:Rede:manutencaoNeo.html.twig',
             array(
-                'windows'=> $windows,
-                'linux' => $linux,
+                'saida'=> $saida,
                 'subredes' => $subredes
             )
         );
@@ -839,78 +839,50 @@ class RedeController extends Controller
         // Constrói array de arquivos e hashes
         $saida = array();
         $base_url = $request->getBaseUrl();
-        $base_url = preg_replace('/\/app.*.php/', "/", $base_url);
+        $base_url = preg_replace('/\/app.*.php/', "", $base_url);
 
         // Primeiro tratamos agentes Linux
         // A regra é que o agente mais atual estará na pasta current
-        $current = basename(readlink($linuxDir."current"));
+        $current = basename(readlink($cacicDir."current"));
         $finder = new Finder();
-        $finder->directories()->in($linuxDir);
+        $finder->depth('== 0');
+        $finder->directories()->in($cacicDir);
         foreach($finder as $version) {
-            $agentes = new Finder();
             if ($version->getFileName() == 'current') {
-                // Aqui considera somente a última versão
-                $agentes->files()->in($version->getRealPath());
-                foreach ($agentes as $file) {
-                    if (!empty($nmModulos)) {
-                        // Filtra por nome de módulo
-                        if (!in_array($file->getFileName(), $nmModulos)) {
-                            continue;
+                $tipos = new Finder();
+                $tipos->depth('== 0');
+                $tipos->directories()->in($version->getRealPath());
+                foreach($tipos as $tipo_so) {
+                    // Aqui considera somente a última versão
+                    $agentes = new Finder();
+                    $agentes->depth('== 0');
+                    $agentes->files()->in($tipo_so->getRealPath());
+                    foreach ($agentes as $file) {
+                        $filename = 'cacic/' . $version->getFileName() . '/' . $tipo_so->getFileName() . "/" . $file->getFileName();
+                        if (!empty($nmModulos)) {
+                            // Filtra por nome de módulo
+                            if (!in_array($filename, $nmModulos)) {
+                                continue;
+                            }
                         }
+                        $saida[$tipo_so->getFileName()][$file->getFileName()] = array(
+                            'name' => $file->getFileName(),
+                            'download_url' => $base_url . '/downloads/cacic/' . $version->getFileName() . '/' . $tipo_so->getFileName() . "/" . $file->getFileName(),
+                            'hash' => md5_file($file->getRealPath()),
+                            'size' => $file->getSize(),
+                            'filename' => $filename,
+                            'versao' => $current,
+                            'tipoSo' => $tipo_so->getFileName()
+                        );
                     }
-                    $saida[$file->getFileName()] = array(
-                        'name' => $file->getFileName(),
-                        'versao' => $current,
-                        'download_url' => $base_url . 'downloads/cacic/linux/' . $version->getFileName() . '/' . $file->getFileName(),
-                        'hash' => md5_file($file->getRealPath()),
-                        'size' => $file->getSize(),
-                        'filename' => 'cacic/linux/' . $version->getFileName() . '/' . $file->getFileName(),
-                        'tipoSo' => 'linux'
-                    );
                 }
+
             } else {
                 continue;
             }
 
         }
-        // Get latest version
-        //$current = basename(readlink($cacicDir."current"));
-        //$saida['linux']['live_version'] = $current;
 
-        // Aí tratamos Windows
-        $finder = new Finder();
-        $finder->directories()->in($windowsDir);
-        $current = basename(readlink($windowsDir."current"));
-        foreach($finder as $version) {
-            $agentes = new Finder();
-            if ($version->getFileName() == 'current') {
-                // Aqui considera somente a última versão
-                $agentes->files()->in($version->getRealPath());
-                foreach ($agentes as $file) {
-                    if (!empty($nmModulos)) {
-                        // Filtra por nome de módulo
-                        if (!in_array($file->getFileName(), $nmModulos)) {
-                            continue;
-                        }
-                    }
-                    $saida[$file->getFileName()] = array(
-                        'name' => $file->getFileName(),
-                        'versao' => $current,
-                        'download_url' => $base_url . 'downloads/cacic/windows/' . $version->getFileName() . '/' . $file->getFileName(),
-                        'hash' => md5_file($file->getRealPath()),
-                        'size' => $file->getSize(),
-                        'filename' => 'cacic/windows/' . $version->getFileName() . '/' . $file->getFileName(),
-                        'tipoSo' => 'windows'
-                    );
-                }
-            } else {
-                continue;
-            }
-
-        }
-        // Get latest version
-        //$current = basename(readlink($windowsDir."current"));
-        //$saida['windows']['live_version'] = $current;
 
         // Retorna o array com todos os resultados
         return $saida;
@@ -934,65 +906,83 @@ class RedeController extends Controller
         $modulos = $this->modulosNeoArray($request, $modulos);
         //$logger->debug("6666666666666666666666666666666666666 ".print_r($modulos, true));
 
-        foreach ($modulos as $key => $value)
-        {
-            $logger->debug("Nome do módulo: $key");
+        foreach($modulos as $tipo => $modulo) {
 
-            // Carrega dados da rede
-            $em = $this->getDoctrine()->getManager();
-            //$arrDadosRede = array( 'rede' => $em->getRepository( 'CacicCommonBundle:Rede' )->listar() );
-            //Debug::dump($arrDadosRede['rede'][0][0]);
-            //$arrDadosRede = $arrDadosRede['rede'][0];
-            $arrDadosRede = array(
-                'teServUpdates' => $rede->getTeServUpdates(),
-                'tePathServUpdates' => $rede->getTePathServUpdates(),
-                'nmUsuarioLoginServUpdatesGerente' => $rede->getNmUsuarioLoginServUpdatesGerente(),
-                'teSenhaLoginServUpdatesGerente' => $rede->getTeSenhaLoginServUpdatesGerente(),
-                'nuPortaServUpdates' => $rede->getNuPortaServUpdates(),
-            );
-
-            $strResult = $this->checkAndSend(
-                $value['name'],
-                $downloadsDir . $value['filename'],
-                $arrDadosRede['teServUpdates'],
-                $arrDadosRede['tePathServUpdates'],
-                $arrDadosRede['nmUsuarioLoginServUpdatesGerente'],
-                $arrDadosRede['teSenhaLoginServUpdatesGerente'],
-                $arrDadosRede['nuPortaServUpdates']
-            );
-
-            $arrResult = explode('_=_',$strResult);
-
-            if ($arrResult[1] == 'Ok!')
+            foreach ($modulo as $key => $value)
             {
-                // Consertar CRUD no Symfony
-                $redeVersaoModulo = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findOneBy(
-                    array(
-                        'idRede' => $pIntIdRede,
-                        'nmModulo' => $value['name']
-                    )
+                $logger->debug("Nome do módulo: ".$value['filename']);
+
+                // Carrega dados da rede
+                $em = $this->getDoctrine()->getManager();
+                //$arrDadosRede = array( 'rede' => $em->getRepository( 'CacicCommonBundle:Rede' )->listar() );
+                //Debug::dump($arrDadosRede['rede'][0][0]);
+                //$arrDadosRede = $arrDadosRede['rede'][0];
+                $arrDadosRede = array(
+                    'teServUpdates' => $rede->getTeServUpdates(),
+                    'tePathServUpdates' => $rede->getTePathServUpdates(),
+                    'nmUsuarioLoginServUpdatesGerente' => $rede->getNmUsuarioLoginServUpdatesGerente(),
+                    'teSenhaLoginServUpdatesGerente' => $rede->getTeSenhaLoginServUpdatesGerente(),
+                    'nuPortaServUpdates' => $rede->getNuPortaServUpdates(),
                 );
 
-                // Se não existir, instancia o objeto
-                if (empty($redeVersaoModulo)) {
-                    $redeVersaoModulo = new RedeVersaoModulo(null, null, null, null, null, $rede);
+                if ($rede->getDownloadMethod() == 'ftp') {
+                    $strResult = $this->checkAndSend(
+                        $value['name'],
+                        $downloadsDir . $value['filename'],
+                        $arrDadosRede['teServUpdates'],
+                        $arrDadosRede['tePathServUpdates'],
+                        $arrDadosRede['nmUsuarioLoginServUpdatesGerente'],
+                        $arrDadosRede['teSenhaLoginServUpdatesGerente'],
+                        $arrDadosRede['nuPortaServUpdates']
+                    );
+
+                    $arrResult = explode('_=_',$strResult);
+                } else {
+                    $arrResult[1] = 'Ok!';
                 }
 
-                // Adicione o restante dos atributos
-                $redeVersaoModulo->setNmModulo($value['name']);
-                $redeVersaoModulo->setTeVersaoModulo($value['versao']);
-                $redeVersaoModulo->setDtAtualizacao(new \DateTime('NOW'));
-                $redeVersaoModulo->setCsTipoSo( $value['tipoSo'] );
-                $redeVersaoModulo->setTeHash($value['hash']);
-                $redeVersaoModulo->setTipo('cacic');
 
-                $em->persist($redeVersaoModulo);
-                $em->flush();
-            } else {
-                $logger->error("Erro no envio dos módulos via FTP!\n".$arrResult[1]);
-                return false;
+
+                if ($arrResult[1] == 'Ok!')
+                {
+                    // Consertar CRUD no Symfony
+                    $redeVersaoModulo = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findOneBy(
+                        array(
+                            'idRede' => $pIntIdRede,
+                            'nmModulo' => $value['name'],
+                            'filepath' => $value['filename']
+                        )
+                    );
+
+                    // Se não existir, instancia o objeto
+                    if (empty($redeVersaoModulo)) {
+                        $redeVersaoModulo = new RedeVersaoModulo(null, null, null, null, null, $rede);
+                    }
+
+                    $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->findOneBy(array(
+                        'tipo' => $tipo
+                    ));
+
+                    // Adicione o restante dos atributos
+                    $redeVersaoModulo->setNmModulo($value['name']);
+                    $redeVersaoModulo->setTeVersaoModulo($value['versao']);
+                    $redeVersaoModulo->setDtAtualizacao(new \DateTime('NOW'));
+                    $redeVersaoModulo->setCsTipoSo( $value['tipoSo'] );
+                    $redeVersaoModulo->setTeHash($value['hash']);
+                    $redeVersaoModulo->setTipoSo($tipo_so);
+                    $redeVersaoModulo->setFilepath($value['filename']);
+                    $redeVersaoModulo->setTipo('cacic');
+
+                    $em->persist($redeVersaoModulo);
+                    $em->flush();
+                } else {
+                    $logger->error("Erro no envio dos módulos via FTP!\n".$arrResult[1]);
+                    return false;
+                }
             }
         }
+
+
 
         return true;
     }

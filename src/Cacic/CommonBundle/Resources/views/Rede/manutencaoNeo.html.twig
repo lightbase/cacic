@@ -20,77 +20,45 @@
                 <br />
 
                 <form id={{ 'formSoftwaresNaoUsados'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
-                <h4 align="center">{{ "Agentes para MS-Windows"|trans }}</h4>
-                <table class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th width="40%" style="text-align: center">{{ 'Arquivo'|trans }}</th>
-                        <th width="20%" style="text-align: center">{{ 'Versão'|trans }}</th>
-                        <th width="40%" style="text-align: center">{{ 'Hash'|trans }}</th>
-                        <th style="text-align: center">
-                            <label style="margin: auto; width:12px; height:10px;">
-                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="windows" checked>
-                            </label>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
 
-                    {% for key, modulo in windows %}
+                    {% for so, files in saida %}
+                        <h4 align="center">{{ "Agentes para "|trans }}{{ so }}</h4>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="40%" style="text-align: center">{{ 'Arquivo'|trans }}</th>
+                                <th width="20%" style="text-align: center">{{ 'Versão'|trans }}</th>
+                                <th width="40%" style="text-align: center">{{ 'Hash'|trans }}</th>
+                                <th style="text-align: center">
+                                    <label style="margin: auto; width:12px; height:10px;">
+                                        <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="windows" checked>
+                                    </label>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                    <tr id="item_{{ key }}">
-                        <td style="text-align: center" id="item_desc_{{ key }}">{{ key }}</td>
-                        <td style="text-align: center" >{{ modulo['versao'] }}</td>
-                        <td style="text-align: center" >{{ modulo['hash'] }}</td>
-                        <td>
-                            <label style="margin: auto; width:12px; height:10px;">
-                                <input type="checkbox" id="item_id_{{ key }}" name="windows[]" value="{{ key }}" checked>
-                            </label>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
-                    </tr>
+                            {% for key, modulo in files %}
+
+                            <tr id="item_{{ modulo['filename'] }}">
+                                <td style="text-align: center" id="item_desc_{{ key }}">{{ key }}</td>
+                                <td style="text-align: center" >{{ modulo['versao'] }}</td>
+                                <td style="text-align: center" >{{ modulo['hash'] }}</td>
+                                <td>
+                                    <label style="margin: auto; width:12px; height:10px;">
+                                        <input type="checkbox" id="item_id_{{ modulo['filename'] }}" name="windows[]" value="{{ modulo['filename'] }}" checked>
+                                    </label>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <br />
                     {% endfor %}
-                    </tbody>
-                </table>
-                <br />
-                <table class="table table-striped table-bordered">
-                    <h4><center>{{ "Agentes para GNU/LINUX"|trans }}</h4>
-                    <thead>
-                    <tr>
-                        <th width="40%"style="text-align: center">{{ 'Arquivo'|trans }}</th>
-                        <th width="20%"style="text-align: center">{{ 'Versão'|trans }}</th>
-                        <th width="40%"style="text-align: center">{{ 'Hash'|trans }}</th>
-                        <th style="text-align: center">
-                            <label style="margin: auto; width:12px; height:10px;">
-                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="linux" checked>
-                            </label>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for key, modulo in linux %}
-
-                    <tr id="item_{{ key }}">
-                        <td style="text-align: center" id="item_desc_{{ key }}">{{ key }}</td>
-                        <td style="text-align: center" >{{ modulo['versao'] }}</td>
-                        <td style="text-align: center" >{{ modulo['hash'] }}</td>
-                        <td>
-                            <label style="margin: auto; width:12px; height:10px;">
-                                <input type="checkbox" id="item_id_{{ key }}" name="linux[]" value="{{ key }}" checked>
-                            </label>
-                        </td>
-                    </tr>
-                    {% else %}
-                        <tr>
-                            <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
-                        </tr>
-                    {% endfor %}
-
-                    </tbody>
-                </table>
                 <br />
 
                     <hr>

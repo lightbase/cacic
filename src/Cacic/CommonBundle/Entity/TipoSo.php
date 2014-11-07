@@ -97,4 +97,42 @@ class TipoSo
     {
         return $this->so;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $redeVersaoModulo;
+
+
+    /**
+     * Add redeVersaoModulo
+     *
+     * @param \Cacic\CommonBundle\Entity\RedeVersaoModulo $redeVersaoModulo
+     * @return TipoSo
+     */
+    public function addRedeVersaoModulo(\Cacic\CommonBundle\Entity\RedeVersaoModulo $redeVersaoModulo)
+    {
+        $this->redeVersaoModulo[] = $redeVersaoModulo;
+
+        return $this;
+    }
+
+    /**
+     * Remove redeVersaoModulo
+     *
+     * @param \Cacic\CommonBundle\Entity\RedeVersaoModulo $redeVersaoModulo
+     */
+    public function removeRedeVersaoModulo(\Cacic\CommonBundle\Entity\RedeVersaoModulo $redeVersaoModulo)
+    {
+        $this->redeVersaoModulo->removeElement($redeVersaoModulo);
+    }
+
+    /**
+     * Get redeVersaoModulo
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRedeVersaoModulo()
+    {
+        return $this->redeVersaoModulo;
+    }
 }

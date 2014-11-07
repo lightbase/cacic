@@ -20,4 +20,7 @@ Cacic\CommonBundle\Entity\TipoSo:
         so:
             targetEntity: So
             mappedBy: tipo
+        redeVersaoModulo:
+            targetEntity: RedeVersaoModulo
+            mappedBy: tipoSo
     lifecycleCallbacks: {  }
