@@ -8,12 +8,12 @@ use Symfony\Component\Validator\Constraints\DateTime;
 /**
  * LogAcesso
  */
-class LogAcesso
+class LogUserLogado
 {
     /**
      * @var integer
      */
-    private $idLogAcesso;
+    private $idLogUserLogado;
 
     /**
      * @var \DateTime
@@ -26,32 +26,32 @@ class LogAcesso
     private $idComputador;
 
     /**
-     * Get idLogAcesso
+     * Get idLogUserLogado
      *
-     * @return integer 
+     * @return integer
      */
-    public function getIdLogAcesso()
+    public function getIdLogUserLogado()
     {
-        return $this->idLogAcesso;
+        return $this->idLogUserLogado;
     }
 
     /**
      * Set data
      *
      * @param \DateTime $data
-     * @return LogAcesso
+     * @return LogUserLogado
      */
     public function setData($data)
     {
         $this->data = $data;
-    
+
         return $this;
     }
 
     /**
      * Get data
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getData()
     {
@@ -62,19 +62,19 @@ class LogAcesso
      * Set idComputador
      *
      * @param \Cacic\CommonBundle\Entity\Computador $idComputador
-     * @return LogAcesso
+     * @return LogUserLogado
      */
     public function setIdComputador(\Cacic\CommonBundle\Entity\Computador $idComputador = null)
     {
         $this->idComputador = $idComputador;
-    
+
         return $this;
     }
 
     /**
      * Get idComputador
      *
-     * @return \Cacic\CommonBundle\Entity\Computador 
+     * @return \Cacic\CommonBundle\Entity\Computador
      */
     public function getIdComputador()
     {
@@ -98,7 +98,7 @@ class LogAcesso
      * Set usuario
      *
      * @param string $usuario
-     * @return LogAcesso
+     * @return LogUserLogado
      */
     public function setUsuario($usuario)
     {

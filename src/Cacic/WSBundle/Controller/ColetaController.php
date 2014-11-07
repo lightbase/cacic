@@ -105,17 +105,24 @@ class ColetaController extends Controller
 
             foreach( $request->request->all() as $strClassName => $strClassValues)
             {
+                // Descriptografando os valores da requisição
+                $strNewClassValues = OldCacicHelper::deCrypt($request, $strClassValues);
+
                 //$teste = OldCacicHelper::deCrypt($request, $strClassValues);
                 //$logger->debug("444444444444444444444444444444444444444444444444444444444: $strClassName | \n $teste");
                 //$logger->debug("444444444444444444444444444444444444444444444444444444444: $strClassName");
-                //error_log("444444444444444444444444444444444444444444444444444444: $strClassName");
+                //error_log("44444444444444444444444444444444444444444444444444444: $strClassName");
 
+                //Verifica se é notebook ou não o computador através da bateria
+                if ($strClassName == "isNotebook"){
+                    $computador->setIsNotebook($strNewClassValues);
+                    $this->getDoctrine()->getManager()->persist($computador);
+                    $this->getDoctrine()->getManager()->flush();
+                }
 
                 // Verifico se o atributo sendo verificado é uma classe de coleta.
                 // Se for, insiro os dados da coleta no objeto
                 if (in_array($strClassName, $arrClassesNames)) {
-                    // Descriptografando os valores da requisição
-                    $strNewClassValues = OldCacicHelper::deCrypt($request, $strClassValues);
 
                     // A propriedade da coleta de software é multi valorada. Preciso tratar diferente
                     if ($strClassName == "SoftwareList") {

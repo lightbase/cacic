@@ -7,6 +7,7 @@ use Cacic\CommonBundle\Entity\Computador;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
 use Cacic\CommonBundle\Entity\ConfiguracaoLocal;
 use Cacic\CommonBundle\Entity\ConfiguracaoPadrao;
+use Cacic\CommonBundle\Entity\LogUserLogado;
 use Cacic\CommonBundle\Entity\Rede;
 use Cacic\CommonBundle\Entity\RedeGrupoFtp;
 use Doctrine\Common\Util\Debug;
@@ -144,6 +145,8 @@ class DefaultController extends Controller
         $hoje = $data_acesso->format('Y-m-d');
 
         $ultimo_acesso = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->ultimoAcesso( $computador->getIdComputador() );
+        $ultimo_user_logado = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->ultimoAcesso( $computador->getIdComputador() );
+
         if (empty($ultimo_acesso)) {
             // Se for o primeiro registro grava o acesso do computador
             $logger->debug("Último acesso não encontrado. Registrando acesso para o computador $computador em $hoje");
@@ -151,6 +154,21 @@ class DefaultController extends Controller
             $log_acesso = new LogAcesso();
             $log_acesso->setIdComputador($computador);
             $log_acesso->setData($data_acesso);
+
+            /*
+             * Grava os registros na Tabela Log_User_Logado
+             */
+            $ultimo_user_logado = new LogUserLogado();
+            $ultimo_user_logado->setIdComputador($computador);
+            $ultimo_user_logado->setData($data_acesso);
+
+            /*
+             * Grava o último usuário logado no banco apenas se não estiver vazio
+             */
+            if (!empty($ultimo_login))
+                $log_acesso->setUsuario($ultimo_login);
+                $ultimo_user_logado->setUsuario($ultimo_login);
+
 
             // Grava o log
             $this->getDoctrine()->getManager()->persist($log_acesso);
@@ -166,8 +184,27 @@ class DefaultController extends Controller
                 $log_acesso->setIdComputador($computador);
                 $log_acesso->setData($data_acesso);
 
+                /*
+                * Grava os registros na Tabela Log_User_Logado
+                */
+                $ultimo_user_logado = new LogUserLogado();
+                $ultimo_user_logado->setIdComputador($computador);
+                $ultimo_user_logado->setData($data_acesso);
+
+                /*
+                 * Grava o último usuário logado no banco apenas se não estiver vazio
+                 */
+                if (!empty($ultimo_login))
+                    $log_acesso->setUsuario($ultimo_login);
+                    $ultimo_user_logado->setUsuario($ultimo_login);
+
+
                 // Grava o log
                 $this->getDoctrine()->getManager()->persist($log_acesso);
+                $this->getDoctrine()->getManager()->flush();
+
+                // Grava em log_user_logado
+                $this->getDoctrine()->getManager()->persist($ultimo_user_logado);
                 $this->getDoctrine()->getManager()->flush();
             }
         }

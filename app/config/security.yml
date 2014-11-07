@@ -57,6 +57,7 @@ security:
                 path:     /
 
     access_control:
+        - { path: ^/cocar/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/ws, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }

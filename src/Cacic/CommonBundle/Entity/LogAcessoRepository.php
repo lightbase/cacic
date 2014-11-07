@@ -29,6 +29,22 @@ class LogAcessoRepository extends EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+    /**
+     * Função que retorna o último usuário logado para o computador solicitado
+     *
+     * @param $id_computador
+     */
+    public function ultimoUserName( $id_computador ) {
+        $qb = $this->createQueryBuilder('usuario')
+            ->select('usuario')
+            ->where('usuario.idComputador = :computador')
+            ->orderBy('usuario.data', 'desc')
+            ->setMaxResults(1)
+            ->setParameter('computador', $id_computador );
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 
     /**
      *
@@ -144,10 +160,99 @@ GROUP BY c0_.te_node_address,
         return $query->execute();
     }
 
+    /*
+     * Consulta para relatório de contendo ultimo usuário logado
+     */
+    public function gerarRelatorioUsuario( $filtros, $filtroLocais, $dataInicio, $dataFim, $usuario )
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('te_node_address', 'teNodeAddress');
+        $rsm->addScalarResult('id_computador', 'idComputador');
+        $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
+        $rsm->addScalarResult('nm_computador', 'nmComputador');
+        $rsm->addScalarResult('id_so', 'idSo');
+        $rsm->addScalarResult('sg_so', 'sgSo');
+        $rsm->addScalarResult('id_rede', 'idRede');
+        $rsm->addScalarResult('nm_rede', 'nmRede');
+        $rsm->addScalarResult('te_ip_rede', 'teIpRede');
+        $rsm->addScalarResult('max_data', 'data');
+        $rsm->addScalarResult('nm_local', 'nmLocal');
+        $rsm->addScalarResult('id_local', 'idLocal');
+        $rsm->addScalarResult('usuario', 'usuario');
+
+        $sql = "
+SELECT c0_.te_node_address AS te_node_address,
+	string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
+	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
+	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
+	string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
+	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
+	string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
+	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
+	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
+    string_agg(DISTINCT la5_.usuario, ', ') AS usuario,
+	max(l1_.data) AS max_data,
+	l4_.nm_local AS nm_local,
+	l4_.id_local AS id_local
+FROM log_acesso l1_
+INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
+INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
+INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
+INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
+INNER JOIN log_acesso la5_ ON c0_.id_computador = la5_.id_computador
+WHERE  1 = 1
+";
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if ( $dataInicio ) {
+            $sql .= " AND l1_.data >= ? ";
+        }
+
+        if ( $dataFim ) {
+            $sql .= " AND l1_.data <= ?";
+        }
+
+        if ( $usuario ) {
+            $sql .= " AND lower(l1_.usuario) LIKE lower(?)";
+        }
+
+        if ( $filtroLocais ) {
+            $sql .= " AND r3_.id_local IN (?)";
+        }
+
+        $sql .= "
+GROUP BY c0_.te_node_address,
+	l4_.nm_local,
+	l4_.id_local
+        ";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if ( $dataInicio ) {
+            $query->setParameter(1, ( $dataInicio.' 00:00:00' ));
+        }
+
+
+        if ( $dataFim )
+            $query->setParameter(2, ( $dataFim.' 23:59:59' ));
+
+        if ( $usuario )
+            $query->setParameter(3, "%$usuario%" );
+
+        if ( $filtroLocais )
+            $query->setParameter(4, $filtroLocais);
+
+
+        return $query->execute();
+    }
+
     /**
-     *
      * Total de computadores monitorados nos últimos 30 dias
-     *
      */
 
     public function countPorComputador() {
