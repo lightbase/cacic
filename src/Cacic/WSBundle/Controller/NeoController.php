@@ -381,6 +381,11 @@ class NeoController extends Controller {
         // Pega rede e SO
         $rede = $em->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
         $so = $em->getRepository('CacicCommonBundle:So')->createIfNotExist($so_json['nomeOs']);
+        if (array_key_exists('tipo', $so_json)) {
+            $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->createIfNotExist($so_json['tipo']);
+            $so->setTipo($tipo_so);
+            $em->persist($so);
+        }
 
         // Regra: MAC e SO são únicos e não podem ser nulos
         // Se SO ou MAC forem vazios, tenta atualizar forçadamente
