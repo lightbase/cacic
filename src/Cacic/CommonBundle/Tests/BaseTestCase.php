@@ -37,7 +37,7 @@ class BaseTestCase extends WebTestCase {
      */
 
     public function setUp() {
-        $this->loadFixtures($this->classes);
+        //$this->loadFixtures($this->classes);
     }
 
     /**

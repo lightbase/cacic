@@ -22,6 +22,7 @@ use ZipArchive;
 class AgenteController extends Controller {
 
     public function indexAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
         // Cria diretório dos agentes se não existir
         $rootDir = $this->container->get('kernel')->getRootDir();
@@ -36,84 +37,29 @@ class AgenteController extends Controller {
             mkdir($cacicDir);
         }
 
-        $linuxDir = $cacicDir . "linux/";
-        if (!is_dir($linuxDir)) {
-            mkdir($linuxDir);
-        }
-
-        $windowsDir = $cacicDir . "windows/";
-        if (!is_dir($windowsDir)) {
-            mkdir($windowsDir);
-        }
+        #$linuxDir = $cacicDir . "linux/";
+        #if (!is_dir($linuxDir)) {
+        #    mkdir($linuxDir);
+        #}
+        #
+        #$windowsDir = $cacicDir . "windows/";
+        #if (!is_dir($windowsDir)) {
+        #    mkdir($windowsDir);
+        #}
 
 
         $outrosDir = $downloadsDir . "outros/";
         if (!is_dir($outrosDir)) {
             mkdir($outrosDir);
         }
+        // Carrega a lista de Agentes por plataforma
+        $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->findAll();
 
 
-        $form = $this->createForm( new AgenteType() );
+        $form = $this->createForm( new AgenteType(), null, array(
+            'tipo_so' => $tipo_so
+        ));
         $locale = $request->getLocale();
-
-        // Constrói array de arquivos e hashes
-        $finder = new Finder();
-        $saida = array();
-        $base_url = $request->getBaseUrl();
-        $base_url = preg_replace('/\/app.*.php/', "/", $base_url);
-
-        // Primeiro tratamos agentes Linux
-        // A regra é que o agente mais atual estará na pasta current
-        $finder->directories()->in($linuxDir);
-        $saida['linux']['versions'] = array();
-        foreach($finder as $version) {
-            $agentes = new Finder();
-            if ($version->getFileName() == 'current') {
-                continue;
-            }
-            $saida['linux']['versions'][$version->getFileName()] = array();
-            $agentes->files()->in($version->getRealPath());
-            foreach ($agentes as $file) {
-                array_push($saida['linux']['versions'][$version->getFileName()], array(
-                    'name' => $file->getFileName(),
-                    'download_url' => $base_url . 'downloads/cacic/linux/' . $version->getFileName() . '/' . $file->getFileName(),
-                    'hash' => md5_file($file->getRealPath()),
-                    'size' => $file->getSize(),
-                    'filename' => 'cacic/linux/' . $version->getFileName() . '/' . $file->getFileName()
-                ));
-
-            }
-        }
-        // Get latest version
-        $current = @basename(@readlink($linuxDir."current"));
-        $saida['linux']['live_version'] = $current;
-
-        // Aí tratamos Windows
-        $finder->directories()->in($windowsDir);
-        $saida['windows']['versions'] = array();
-        foreach($finder as $version) {
-            $agentes = new Finder();
-            if ($version->getFileName() == 'current') {
-                continue;
-            }
-            $saida['windows']['versions'][$version->getFileName()] = array();
-            $agentes->files()->in($version->getRealPath());
-	        //$logger->debug("1111111111111111111111111111111111111111111 ".$version->getRealPath());
-            foreach ($agentes as $file) {
-	    	    //$logger->debug("77777777777777777777777777777777777777777 $file");
-                array_push($saida['windows']['versions'][$version->getFileName()], array(
-                    'name' => $file->getFileName(),
-                    'download_url' => $base_url . 'downloads/cacic/windows/' . $version->getFileName() . '/' . $file->getFileName(),
-                    'hash' => md5_file($file->getRealPath()),
-                    'size' => $file->getSize(),
-                    'filename' => 'cacic/windows/' . $version->getFileName() . '/' . $file->getFileName()
-                ));
-
-            }
-        }
-        // Get latest version
-        $current = @basename(@readlink($windowsDir."current"));
-        $saida['windows']['live_version'] = $current;
 
         //$logger->debug("4444444444444444444444444444444444 ".print_r($saida, true));
 
@@ -121,53 +67,84 @@ class AgenteController extends Controller {
         {
             // Aqui vamos fazer o tratamento dos agentes
             $data = $form->getData();
-            $data['windows_version'] = $request->get('agentes')['windows_version'];
-            $data['linux_version'] = $request->get('agentes')['linux_version'];
+            $data['version'] = $request->get('agentes')['version'];
             $files = $request->files->get('agentes');
 
             //$logger->debug("99999999999999999999999999999999999 ".print_r($data, true));
-            if (!empty($files['windows'])) {
+            if (!empty($files)) {
                 //$logger->debug("88888888888888888888888888888888888888 ".print_r($files['windows'], true));
-                if (empty($data['windows_version'])) {
+                if (empty($data['version'])) {
                     $logger->error("O parâmetro versão é obrigatório");
                     $this->get('session')->getFlashBag()->add('error', 'O parâmetro versão é obrigatório');
                 } else {
-                    $versionDir = $windowsDir . $data['windows_version'];
-                    $result = $this->uploadPackage($files['windows'], $versionDir);
-                    if (!$result) {
-                        $logger->error("Erro na atualização dos Agentes Windows");
-                        $this->get('session')->getFlashBag()->add('error', 'Erro na atualização dos agentes Windows');
-                    } else {
-                        // Make this version current
-                        $logger->debug("Agentes atualizados com sucesso. Ajustando para versão $versionDir");
-			@unlink("$windowsDir"."current");
-                        symlink($versionDir, "$windowsDir"."current");
-                        $this->get('session')->getFlashBag()->add('success', 'Agentes atualizados com sucesso!');
+                    // Carrega as versões dos sistemas operacionais
+                    $versionDir = $cacicDir . $data['version'];
+                    $result = false;
+                    foreach($tipo_so as $so) {
+                        $tipoDir = $versionDir . "/" . $so->getTipo();
+                        $result = $this->uploadPackage($files[$so->getTipo()], $tipoDir);
                     }
-                }
-            }
 
-            if (!empty($files['linux'])) {
-                if (empty($data['linux_version'])) {
-                    $logger->error("O parâmetro versão é obrigatório");
-                    $this->get('session')->getFlashBag()->add('error', 'O parâmetro versão é obrigatório');
-                } else {
-                    $versionDir = $linuxDir . $data['linux_version'];
-                    $result = $this->uploadPackage($files['linux'], $versionDir);
                     if (!$result) {
-                        $logger->error("Erro na atualização dos Agentes Linux");
-                        $this->get('session')->getFlashBag()->add('error', 'Erro na atualização dos agentes Linux');
+                        $logger->error("Erro na atualização dos Agentes");
+                        $this->get('session')->getFlashBag()->add('error', 'Erro na atualização dos agentes');
                     } else {
                         // Make this version current
                         $logger->debug("Agentes atualizados com sucesso. Ajustando para versão $versionDir");
-			@unlink("$linuxDir"."current");
-                        symlink($versionDir, $linuxDir."current");
+			            @unlink("$cacicDir"."current");
+                        symlink($versionDir, "$cacicDir"."current");
                         $this->get('session')->getFlashBag()->add('success', 'Agentes atualizados com sucesso!');
                     }
                 }
             }
 
         }
+
+        // Constrói array de arquivos e hashes
+        $finder = new Finder();
+        $saida = array();
+        $base_url = $request->getBaseUrl();
+        $base_url = preg_replace('/\/app.*.php/', "", $base_url);
+
+        // Varre diretório do Cacic
+        $finder->depth('== 0');
+        $finder->directories()->in($cacicDir);
+
+        // Agora busca diretórios de versão
+        $saida['tipo_so'] = array();
+        foreach($finder as $version) {
+            //$logger->debug("1111111111111111111111111111111 ".$version->getFileName());
+            if ($version->getFileName() == 'current') {
+                continue;
+            }
+
+            // Agora busca um diretório pra cada tipo de SO
+            foreach($tipo_so as $so) {
+                $saida['tipo_so'][$so->getTipo()][$version->getFileName()] = array();
+                $agentes_path = $version->getRealPath() . "/" . $so->getTipo();
+
+                // Cria diretório se não existir
+                if (!is_dir($agentes_path)) {
+                    mkdir($agentes_path);
+                }
+                $agentes = new Finder();
+                $agentes->files()->in($agentes_path);
+                foreach($agentes as $file) {
+                    array_push($saida['tipo_so'][$so->getTipo()][$version->getFileName()], array(
+                        'name' => $file->getFileName(),
+                        'download_url' => $base_url . '/downloads/cacic/' . $version->getFileName() . '/' . $so->getTipo() . "/" . $file->getFileName(),
+                        'hash' => md5_file($file->getRealPath()),
+                        'size' => $file->getSize(),
+                        'filename' => 'cacic/' . $version->getFileName() . '/' . $so->getTipo() . "/" . $file->getFileName()
+                    ));
+                }
+            }
+        }
+
+
+        // Get latest version
+        $current = @basename(@readlink($cacicDir."current"));
+        $saida['live_version'] = $current;
 
         return $this->render( 'CacicCommonBundle:Agente:index.html.twig',
             array(
@@ -322,7 +299,7 @@ class AgenteController extends Controller {
 
         }
 
-        $logger->debug("3333333333333333333333333333333333333333 ".print_r($saida, true));
+        //$logger->debug("3333333333333333333333333333333333333333 ".print_r($saida, true));
 
         return $this->render( 'CacicCommonBundle:Agente:deploy.html.twig',
             array(

@@ -17,6 +17,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 class NeoControllerTest extends BaseTestCase
 {
+
     /**
      * Método que cria dados comuns a todos os testes
      */
@@ -24,6 +25,17 @@ class NeoControllerTest extends BaseTestCase
         // Load setup from BaseTestCase method
         parent::setUp();
 
+        // Load specific fixtures
+        $fixtures = array_merge(
+            $this->classes,
+            array(
+                'Cacic\WSBundle\DataFixtures\ORM\LoadRedeVersaoModuloData',
+                'Cacic\WSBundle\DataFixtures\ORM\LoadTipoSo'
+            )
+        );
+        $this->loadFixtures($fixtures);
+
+        // Basic data
         $this->client = static::createClient();
         $this->container = $this->client->getContainer();
         $this->apiKey = $this->container->getParameter('test_api_key');
@@ -50,7 +62,7 @@ class NeoControllerTest extends BaseTestCase
                     "operatingSystem": {
                         "idOs": 176,
                         "nomeOs": "Windows_NT",
-                        "tipo": "Windows-64-bit"
+                        "tipo": "windows-64-bit"
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",
@@ -77,7 +89,8 @@ class NeoControllerTest extends BaseTestCase
                     ],
                     "operatingSystem": {
                         "idOs": 176,
-                        "nomeOs": "Windows_NT"
+                        "nomeOs": "Windows_NT",
+                        "tipo": "windows-64-bit"
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",
@@ -106,7 +119,8 @@ class NeoControllerTest extends BaseTestCase
                     ],
                     "operatingSystem": {
                         "idOs": 176,
-                        "nomeOs": "Windows_NT"
+                        "nomeOs": "Windows_NT",
+                        "tipo": "windows-64-bit"
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",
@@ -211,6 +225,36 @@ class NeoControllerTest extends BaseTestCase
                         "url": "https://launchpad.net/account-plugins",
                         "version": "0.11+14.04.20140409.1-0ubuntu1"
                     }
+                }
+            }';
+        $this->computador_http = '{
+                "computador": {
+                    "networkDevices": [
+                        {
+                            "ipv4": "0.0.0.1",
+                            "ipv6": "fe80::295b:a8db:d433:ebe%4",
+                            "mac": "9C:D2:1E:EA:E0:89",
+                            "netmask_ipv4": "255.255.255.255",
+                            "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                            "nome": "Wi-Fi"
+                        },
+                        {
+                            "ipv4": "192.168.56.1",
+                            "ipv6": "fe80::19f2:4739:8a9e:45e4%16",
+                            "mac": "08:00:27:00:14:2B",
+                            "netmask_ipv4": "255.255.255.0",
+                            "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                            "nome": "VirtualBox Host-Only Network"
+                        }
+                    ],
+                    "operatingSystem": {
+                        "idOs": 176,
+                        "nomeOs": "Windows_NT",
+                        "tipo": "windows-64-bit"
+                    },
+                    "usuario": "Eric Menezes",
+                    "nmComputador": "Notebook-XPTO",
+                    "versaoAgente": "2.8.0"
                 }
             }';
     }
@@ -478,6 +522,49 @@ class NeoControllerTest extends BaseTestCase
         //$logger->debug("JSON da coleta: \n".$response->getContent());
 
         $this->assertEquals($status, 200);
+    }
+
+    public function  testHttpUpdate() {
+        $logger = $this->container->get('logger');
+        $this->client->request(
+            'POST',
+            '/ws/neo/config',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->computador_http
+        );
+        //$logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON do getConfig: \n".$response->getContent());
+
+        $this->assertEquals($status, 200);
+
+        $status = $response->getContent();
+        $dados = json_decode($status, true);
+
+        // Checa se método de download foi informado
+        $this->assertEquals(
+            $dados['agentcomputer']['metodoDownload']['tipo'],
+            'http'
+        );
+
+        // Verifica se o hash correto foi enviado
+        $result = false;
+        foreach($dados['agentcomputer']['modulos']['cacic'] as $modulo) {
+            //$logger->debug("99999999999999999999999999999999999 ".print_r($modulo, true));
+            if ($modulo['hash'] == '50cf34bf584880fd401619eb367b2c2d') {
+                $result = true;
+            }
+        }
+        $this->assertTrue($result);
+
     }
 
     /**

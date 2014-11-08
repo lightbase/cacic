@@ -245,9 +245,11 @@ class NeoController extends Controller {
 
         // 0 - Array de saída
         $saida['agentcomputer'] = "";
+        $so_json = $dados['computador']['operatingSystem'];
 
 
         // 1 - Ações para o computador
+        //$logger->debug("11111111111111111111111111111111 ".print_r($computador->getIdRede(), true));
         $acoes = $em->getRepository('CacicCommonBundle:Acao')->listaAcaoComputador(
             $computador->getIdRede()->getIdRede(),
             $computador->getIdSo()->getIdSo(),
@@ -277,11 +279,16 @@ class NeoController extends Controller {
             if (empty($mods[$tipo])) {
                 $mods[$tipo] = array();
             }
-            // Adiciona módulos e hashes
-            array_push($mods[$tipo], array(
-                'nome' => $elm->getNmModulo(),
-                'hash' => $elm->getTeHash()
-            ));
+
+            // Adiciona somente o módulo que estiver com o tipo de SO cadastrado
+            if ($so_json['tipo'] == $elm->getTipoSo()->getTipo() ) {
+                // Adiciona módulos e hashes
+                array_push($mods[$tipo], array(
+                    'nome' => $elm->getNmModulo(),
+                    'hash' => $elm->getTeHash()
+                ));
+            }
+
         }
         $saida['agentcomputer']['modulos'] = $mods;
         //$logger->debug("2222222222222222222222222222222222222 \n".print_r($saida, true));
@@ -302,10 +309,20 @@ class NeoController extends Controller {
         $saida['agentcomputer']['metodoDownload'] = array(
             "tipo" => $computador->getIdRede()->getDownloadMethod(),
             "url" => $computador->getIdRede()->getTeServUpdates(),
-            "path" => $computador->getIdRede()->getTePathServUpdates(),
             "usuario" => $computador->getIdRede()->getNmUsuarioLoginServUpdates(),
             "senha" => $computador->getIdRede()->getTeSenhaLoginServUpdates()
         );
+
+        // 4.1 - Configuração de método de Download
+        if ($computador->getIdRede()->getDownloadMethod() == 'http') {
+            $base_url = $request->getBaseUrl();
+            $base_url = preg_replace('/\/app.*.php/', "", $base_url);
+            $saida['agentcomputer']['metodoDownload']['path'] = $base_url . '/downloads/cacic/current/' . $so_json['tipo'];
+        } else {
+            $saida['agentcomputer']['metodoDownload']['path'] = $computador->getIdRede()->getTePathServUpdates();
+        }
+
+
         //$logger->debug("4444444444444444444444444444444444444444 \n".print_r($saida, true));
 
         // 5 - Configurações do local

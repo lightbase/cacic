@@ -10,6 +10,7 @@ namespace Cacic\CommonBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Formulário para upload dos agentes
@@ -30,33 +31,39 @@ class AgenteType extends AbstractType {
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
-        $builder->add('windows_version', 'text',
+        $tipo_so = $options['tipo_so'];
+
+        $builder->add('version', 'text',
             array(
-                'label' => 'Versão dos Agentes Windows',
+                'label' => 'Versão dos Agentes',
                 'required' => false
             )
         );
 
-        $builder->add('windows', 'file',
-            array(
-                'label' => 'Agentes Windows',
-                'required' => false
-            )
-        );
+        foreach($tipo_so as $so) {
+            $builder->add($so->getTipo(), 'file',
+                array(
+                    'label' => 'Agentes para SO Tipo '.$so->getTipo(),
+                    'required' => false
+                )
+            );
+        }
 
-        $builder->add('linux_version', 'text',
-            array(
-                'label' => 'Versão dos Agentes Linux',
-                'required' => false
-            )
-        );
-
-        $builder->add('linux', 'file',
-            array(
-                'label' => 'Agentes Linux',
-                'required' => false
-            )
-        );
     }
+
+    /**
+     * Add TipoSo as required option
+     *
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver
+            ->setRequired(array(
+                'tipo_so',
+            ));
+
+    }
+
 
 } 
