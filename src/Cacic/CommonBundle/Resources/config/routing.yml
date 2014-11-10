@@ -440,6 +440,79 @@ cacic_usbdevice_excluir:
     pattern:  /manutencao/usbdevice/excluir
     defaults: { _controller: CacicCommonBundle:UsbDevice:excluir}
 
+<<<<<<< HEAD
+=======
+cacic_log_acesso:
+    pattern:  /log/acesso
+    defaults: { _controller: CacicCommonBundle:Log:acesso}
+
+cacic_log_pesquisa:
+    pattern:  /log/pesquisa
+    defaults: { _controller: CacicCommonBundle:Log:pesquisa}
+
+cacic_log_atividade:
+    pattern:  /log/atividade
+    defaults: { _controller: CacicCommonBundle:Log:atividade}
+
+cacic_log_insucesso_instalacao:
+    pattern:  /log/insucessoinstalacao
+    defaults: { _controller: CacicCommonBundle:Log:insucessoinstalacao}
+
+cacic_log_suporte_remoto:
+    pattern:  /log/suporteremoto
+    defaults: { _controller: CacicCommonBundle:Log:suporteremoto}
+
+cacic_log_usuario_logado:
+    pattern:  /log/usuario
+    defaults: { _controller: CacicCommonBundle:Log:usuario}
+
+cacic_patrimonio_index:
+    pattern: /patrimonio/index
+    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:index}
+
+cacic_patrimonio_interface:
+    pattern:  /patrimonio/interface/{idEtiqueta}
+    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:interface}
+
+cacic_patrimonio_opcoes:
+    pattern:  /patrimonio/opcoes
+    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:opcoes}
+
+cacic_uorg_index:
+    pattern:  /uorg/index
+    defaults: { _controller: CacicCommonBundle:Uorg:index}
+
+cacic_uorg_cadastrar:
+    pattern:  /uorg/cadastrar/{idUorgPai}
+    defaults: { _controller: CacicCommonBundle:Uorg:cadastrar, idUorgPai: null}
+    requirements:
+        idUorgPai: \d+
+
+cacic_uorg_editar:
+    pattern:  /uorg/editar/{idUorg}
+    defaults: { _controller: CacicCommonBundle:Uorg:editar, idUorg: null}
+    requirements:
+        idUorg: \d+
+
+cacic_uorg_excluir:
+    pattern:  /uorg/excluir/{idUorg}
+    defaults: { _controller: CacicCommonBundle:Uorg:excluir, idUorg: null}
+    requirements:
+        idUorg: \d+
+
+cacic_uorg_loadnodes:
+    pattern:  /uorg/loadnodes/{idUorgPai}
+    defaults: { _controller: CacicCommonBundle:Uorg:loadnodes, idUorgPai: null}
+    requirements:
+        idUorgPai: \d+
+
+cacic_uorg_visualizar:
+    pattern:  /uorg/visualizar/{idUorg}
+    defaults: { _controller: CacicCommonBundle:Uorg:visualizar, idUorg: null}
+    requirements:
+        idUorg: \d+
+
+>>>>>>> 3bdeebd1f7a856e113d6ed63064885b64cd25bf5
 cacic_aquisicao_index:
     pattern: /manutencao/aquisicao/{page}
     defaults: {_controller: CacicCommonBundle:Aquisicao:index, page: 1 }

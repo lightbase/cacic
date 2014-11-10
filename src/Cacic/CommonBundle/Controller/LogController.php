@@ -2,6 +2,7 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Cacic\CommonBundle\Entity\LogUserLogado;
 use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +12,8 @@ use Cacic\CommonBundle\Entity\Log;
 use Cacic\CommonBundle\Form\Type\LogPesquisaType;
 use Cacic\CommonBundle\Form\Type\InsucessoInstalacaoPesquisaType;
 use Cacic\CommonBundle\Form\Type\SrcacicConexaoPesquisaType;
+use Cacic\CommonBundle\Form\Type\LogUserLogadoType;
+
 
 /**
  *
@@ -217,5 +220,35 @@ class LogController extends Controller
 				'logs' => ( isset( $logs ) ? $logs : null )
 			)
 		);
+    }
+
+    /**
+     *
+     * Página de log dos usuários logados nas estações
+     * @param Symfony\Component\HttpFoundation\Request $request
+     */
+    public function usuarioAction( Request $request )
+    {
+        $form = $this->createForm( new LogUserLogadoType() );
+
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
+            $data = $form->getData();
+            $locale = $request->getLocale();
+            $filtroLocais = array(); // Inicializa array com locais a pesquisar
+            foreach ( $data['idLocal'] as $locais )
+                array_push( $filtroLocais, $locais->getIdLocal() );
+            $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogUserLogado')
+                ->selectUserLogado($data['teIpComputador'],$data['nmComputador'] ,$data['usuario'],$data['dtHrInclusao'],$data['dtHrInclusaoFim'] );
+        }
+
+        return $this->render( 'CacicCommonBundle:Log:usuario.html.twig',
+            array(
+                'local'=>$locale ,
+                'form' => $form->createView(),
+                'computadores' => ( $computadores )
+            )
+        );
     }
 }

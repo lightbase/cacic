@@ -17,6 +17,11 @@ class Computador
     /**
      * @var string
      */
+    private $nmComputador;
+
+    /**
+     * @var string
+     */
     private $teNodeAddress;
 
     /**
@@ -56,8 +61,6 @@ class Computador
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="forca_coleta", type="text", nullable=true)
      */
     private $forcaColeta;
 
@@ -92,6 +95,26 @@ class Computador
     private $dtDebug;
 
     /**
+     * @var string
+     */
+    private $isNotebook;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $softwares;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $hardwares;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $software_coletado;
+
+    /**
      * @var \Cacic\CommonBundle\Entity\Usuario
      */
     private $idUsuarioExclusao;
@@ -107,31 +130,13 @@ class Computador
     private $idRede;
 
     /**
-     * @var string
-     */
-    private $nmComputador;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $softwares;
-
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->softwares = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * 
-     * Método mágico invocado sempre que um objeto desta classe é referenciado num contexto de string
-     */
-    public function __toString()
-    {
-    	return( $this->nmComputador ?: ( $this->teIpComputador . "({$this->teNodeAddress})" ) );
+        $this->hardwares = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->software_coletado = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -145,6 +150,29 @@ class Computador
     }
 
     /**
+     * Set nmComputador
+     *
+     * @param string $nmComputador
+     * @return Computador
+     */
+    public function setNmComputador($nmComputador)
+    {
+        $this->nmComputador = $nmComputador;
+
+        return $this;
+    }
+
+    /**
+     * Get nmComputador
+     *
+     * @return string 
+     */
+    public function getNmComputador()
+    {
+        return $this->nmComputador;
+    }
+
+    /**
      * Set teNodeAddress
      *
      * @param string $teNodeAddress
@@ -153,7 +181,7 @@ class Computador
     public function setTeNodeAddress($teNodeAddress)
     {
         $this->teNodeAddress = $teNodeAddress;
-    
+
         return $this;
     }
 
@@ -176,7 +204,7 @@ class Computador
     public function setTeIpComputador($teIpComputador)
     {
         $this->teIpComputador = $teIpComputador;
-    
+
         return $this;
     }
 
@@ -199,7 +227,7 @@ class Computador
     public function setDtHrInclusao($dtHrInclusao)
     {
         $this->dtHrInclusao = $dtHrInclusao;
-    
+
         return $this;
     }
 
@@ -222,7 +250,7 @@ class Computador
     public function setDtHrExclusao($dtHrExclusao)
     {
         $this->dtHrExclusao = $dtHrExclusao;
-    
+
         return $this;
     }
 
@@ -245,7 +273,7 @@ class Computador
     public function setDtHrUltAcesso($dtHrUltAcesso)
     {
         $this->dtHrUltAcesso = $dtHrUltAcesso;
-    
+
         return $this;
     }
 
@@ -268,7 +296,7 @@ class Computador
     public function setTeVersaoCacic($teVersaoCacic)
     {
         $this->teVersaoCacic = $teVersaoCacic;
-    
+
         return $this;
     }
 
@@ -291,7 +319,7 @@ class Computador
     public function setTeVersaoGercols($teVersaoGercols)
     {
         $this->teVersaoGercols = $teVersaoGercols;
-    
+
         return $this;
     }
 
@@ -314,7 +342,7 @@ class Computador
     public function setTePalavraChave($tePalavraChave)
     {
         $this->tePalavraChave = $tePalavraChave;
-    
+
         return $this;
     }
 
@@ -344,7 +372,7 @@ class Computador
     /**
      * Get forcaColeta
      *
-     * @return string
+     * @return string 
      */
     public function getForcaColeta()
     {
@@ -360,7 +388,7 @@ class Computador
     public function setDtHrColetaForcadaEstacao($dtHrColetaForcadaEstacao)
     {
         $this->dtHrColetaForcadaEstacao = $dtHrColetaForcadaEstacao;
-    
+
         return $this;
     }
 
@@ -383,7 +411,7 @@ class Computador
     public function setTeNomesCurtosModulos($teNomesCurtosModulos)
     {
         $this->teNomesCurtosModulos = $teNomesCurtosModulos;
-    
+
         return $this;
     }
 
@@ -406,7 +434,7 @@ class Computador
     public function setIdConta($idConta)
     {
         $this->idConta = $idConta;
-    
+
         return $this;
     }
 
@@ -429,7 +457,7 @@ class Computador
     public function setTeDebugging($teDebugging)
     {
         $this->teDebugging = $teDebugging;
-    
+
         return $this;
     }
 
@@ -452,7 +480,7 @@ class Computador
     public function setTeUltimoLogin($teUltimoLogin)
     {
         $this->teUltimoLogin = $teUltimoLogin;
-    
+
         return $this;
     }
 
@@ -475,7 +503,7 @@ class Computador
     public function setDtDebug($dtDebug)
     {
         $this->dtDebug = $dtDebug;
-    
+
         return $this;
     }
 
@@ -490,95 +518,26 @@ class Computador
     }
 
     /**
-     * Set idUsuarioExclusao
+     * Set isNotebook
      *
-     * @param \Cacic\CommonBundle\Entity\Usuario $idUsuarioExclusao
+     * @param string $isNotebook
      * @return Computador
      */
-    public function setIdUsuarioExclusao(\Cacic\CommonBundle\Entity\Usuario $idUsuarioExclusao = null)
+    public function setIsNotebook($isNotebook)
     {
-        $this->idUsuarioExclusao = $idUsuarioExclusao;
-    
+        $this->isNotebook = $isNotebook;
+
         return $this;
     }
 
     /**
-     * Get idUsuarioExclusao
-     *
-     * @return \Cacic\CommonBundle\Entity\Usuario 
-     */
-    public function getIdUsuarioExclusao()
-    {
-        return $this->idUsuarioExclusao;
-    }
-
-    /**
-     * Set idSo
-     *
-     * @param \Cacic\CommonBundle\Entity\So $idSo
-     * @return Computador
-     */
-    public function setIdSo(\Cacic\CommonBundle\Entity\So $idSo = null)
-    {
-        $this->idSo = $idSo;
-    
-        return $this;
-    }
-
-    /**
-     * Get idSo
-     *
-     * @return \Cacic\CommonBundle\Entity\So 
-     */
-    public function getIdSo()
-    {
-        return $this->idSo;
-    }
-
-    /**
-     * Set idRede
-     *
-     * @param \Cacic\CommonBundle\Entity\Rede $idRede
-     * @return Computador
-     */
-    public function setIdRede(\Cacic\CommonBundle\Entity\Rede $idRede = null)
-    {
-        $this->idRede = $idRede;
-    
-        return $this;
-    }
-
-    /**
-     * Get idRede
-     *
-     * @return \Cacic\CommonBundle\Entity\Rede 
-     */
-    public function getIdRede()
-    {
-        return $this->idRede;
-    }
-    
-    /**
-     * Set nmComputador
-     *
-     * @param string $nmComputador
-     * @return Computador
-     */
-    public function setNmComputador($nmComputador)
-    {
-        $this->nmComputador = $nmComputador;
-    
-        return $this;
-    }
-
-    /**
-     * Get nmComputador
+     * Get isNotebook
      *
      * @return string 
      */
-    public function getNmComputador()
+    public function getIsNotebook()
     {
-        return $this->nmComputador;
+        return $this->isNotebook;
     }
 
     /**
@@ -590,7 +549,7 @@ class Computador
     public function addSoftware(\Cacic\CommonBundle\Entity\SoftwareEstacao $softwares)
     {
         $this->softwares[] = $softwares;
-    
+
         return $this;
     }
 
@@ -613,11 +572,6 @@ class Computador
     {
         return $this->softwares;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $hardwares;
-
 
     /**
      * Add hardwares
@@ -628,7 +582,7 @@ class Computador
     public function addHardware(\Cacic\CommonBundle\Entity\ComputadorColeta $hardwares)
     {
         $this->hardwares[] = $hardwares;
-    
+
         return $this;
     }
 
@@ -651,11 +605,6 @@ class Computador
     {
         return $this->hardwares;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $software_coletado;
-
 
     /**
      * Add software_coletado
@@ -666,7 +615,7 @@ class Computador
     public function addSoftwareColetado(\Cacic\CommonBundle\Entity\PropriedadeSoftware $softwareColetado)
     {
         $this->software_coletado[] = $softwareColetado;
-    
+
         return $this;
     }
 
@@ -691,31 +640,71 @@ class Computador
     }
 
     /**
-     * @var string
-     */
-    private $isNotebook;
-
-
-    /**
-     * Set isNotebook
+     * Set idUsuarioExclusao
      *
-     * @param string $isNotebook
+     * @param \Cacic\CommonBundle\Entity\Usuario $idUsuarioExclusao
      * @return Computador
      */
-    public function setIsNotebook($isNotebook)
+    public function setIdUsuarioExclusao(\Cacic\CommonBundle\Entity\Usuario $idUsuarioExclusao = null)
     {
-        $this->isNotebook = $isNotebook;
-    
+        $this->idUsuarioExclusao = $idUsuarioExclusao;
+
         return $this;
     }
 
     /**
-     * Get isNotebook
+     * Get idUsuarioExclusao
      *
-     * @returnn string
+     * @return \Cacic\CommonBundle\Entity\Usuario 
      */
-    public function getIsNotebook()
+    public function getIdUsuarioExclusao()
     {
-        return $this->isNotebook;
+        return $this->idUsuarioExclusao;
+    }
+
+    /**
+     * Set idSo
+     *
+     * @param \Cacic\CommonBundle\Entity\So $idSo
+     * @return Computador
+     */
+    public function setIdSo(\Cacic\CommonBundle\Entity\So $idSo = null)
+    {
+        $this->idSo = $idSo;
+
+        return $this;
+    }
+
+    /**
+     * Get idSo
+     *
+     * @return \Cacic\CommonBundle\Entity\So 
+     */
+    public function getIdSo()
+    {
+        return $this->idSo;
+    }
+
+    /**
+     * Set idRede
+     *
+     * @param \Cacic\CommonBundle\Entity\Rede $idRede
+     * @return Computador
+     */
+    public function setIdRede(\Cacic\CommonBundle\Entity\Rede $idRede = null)
+    {
+        $this->idRede = $idRede;
+
+        return $this;
+    }
+
+    /**
+     * Get idRede
+     *
+     * @return \Cacic\CommonBundle\Entity\Rede 
+     */
+    public function getIdRede()
+    {
+        return $this->idRede;
     }
 }
