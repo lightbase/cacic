@@ -1,0 +1,162 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="active">{{ 'Log de Usuários Logado'|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid">
+
+        <div class="span8">
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Busca de registros de usuários logados' |trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+
+                    <h4>{{ "Filtros para consulta"|trans }}</h4><br />
+
+                    <form id={{ 'formLogUsuarioLogado'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
+
+                        <div class="control-group" >
+                            <div class="controls">
+                                {{ form_widget(form.dtHrInclusao, { 'attr': {'class': 'datepicker_on'} }) }}   a    {{ form_widget(form.dtHrInclusaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                                <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
+                            </div>
+                        </div>
+                        <div class="control-group" >
+                            <label for="log_acesso_periodo"style="width:300px; margin-right: 15px" class="control-label">{{ 'Selecione o parâmetro'|trans }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.selConsulta) }}
+                            </div>
+                        </div>
+
+                        <div  id="teIpComputador" class="mostrarDiv"  style=" display: none; margin-left: 155px" >
+                            <div class="control-group" >
+                                <div class="controls">
+                                    {{ form_widget(form.teIpComputador) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div  id="nmComputador" class="mostrarDiv"  style="display:none; margin-left: 155px" >
+                            <div class="control-group" >
+                                <div class="controls">
+                                    {{ form_widget(form.nmComputador) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div  id="usuario" class="mostrarDiv"  style="display: none; margin-left: 155px" >
+                            <div class="control-group" >
+                                <div class="controls">
+                                    {{ form_widget(form.usuario) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="controls"  style=" margin-left: 155px">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="icon-search"></i>
+                                    {{ 'Consultar'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- /span8 -->
+
+        <div class="span4">
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+                    <p>
+                        {{ "Este módulo permite a visualização de registros de Logs dos usuários loganos nos computadores monitorados pelos agentes do cacic"|trans }}.
+                    </p>
+                    <p>
+                        {{ "É possível pesquisar por IP's, Nome do Computador ou Nome do Usuário e filtrar por um determinado período, bastando selecionar uma de suas opções"|trans }}.
+                    </p>
+                    <p>
+                        {{ "Não selecionar nenhum valor em determinado critério é o mesmo que selecionar todos"|trans }}.
+                    </p>
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- span4 -->
+
+    </div> <!-- /row -->
+
+    {% if computadores is not null %}
+        {% include 'CacicCommonBundle:Log:resultadoBuscar.html.twig' %}
+    {% endif %}
+
+{% endblock %}
+
+
+ {% block javascripts %}
+
+     <!-- javascript
+     ================================================== -->
+     <!-- Placed at the end of the document so the pages load faster -->
+     <!-- jQuery (UI) -->
+     <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery.1.7.1.min.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery-ui-1.8.17.min.js') }}"></script>
+
+
+
+
+     {{ parent() }}
+     {% if local == 'pt_BR' %}
+         <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-pt-BR.js') }}"></script>
+
+         <script type="text/javascript">
+
+             $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
+
+         </script>
+     {% else %}
+         <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-en-US.js') }}"></script>
+
+         <script type="text/javascript">
+
+             $(".datepicker_on").datepicker({ altFormat: "mm/dd/yy" }).mask('99/99/9999');
+
+         </script>
+     {% endif %}
+
+
+     <script type="text/javascript">
+         /**
+          * Mensagens do sistema
+          */
+
+
+
+         if($('#LogUsuarioLogado_selConsulta').val() == 'teIpComputador'){
+             $('#teIpComputador').show();
+         }
+         if($('#LogUsuarioLogado_selConsulta').val() == 'nmComputador'){
+             $('#nmComputador').show();
+         }
+         if($('#LogUsuarioLogado_selConsulta').val() == 'usuario'){
+             $('#usuario').show();
+         }
+
+
+
+         $('#LogUsuarioLogado_selConsulta').change(function () {
+             $('.mostrarDiv').hide();
+             $('#LogUsuarioLogado_teIpComputador').val( '' );
+             $('#LogUsuarioLogado_nmComputador').val( '' );
+             $('#LogUsuarioLogado_usuario').val( '' );
+
+             $('#' + $(this).val()).show();
+         });
+
+     </script>
+
+ {% endblock %}
+
+
+
