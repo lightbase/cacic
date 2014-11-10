@@ -31,4 +31,15 @@ Cacic\CommonBundle\Entity\So:
             fixed: true
             nullable: false
             column: in_mswindows
+    manyToOne:
+        tipo:
+            targetEntity: TipoSo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            nullable: true
+            joinColumns:
+                id_tipo_so:
+                    referencedColumnName: id_tipo_so
+            orphanRemoval: false
     lifecycleCallbacks: {  }

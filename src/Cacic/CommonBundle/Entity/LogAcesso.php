@@ -88,11 +88,11 @@ class LogAcesso
     {
         $this->data = new \DateTime();
     }
+
     /**
      * @var string
      */
     private $usuario;
-
 
     /**
      * Set usuario

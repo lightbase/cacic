@@ -224,6 +224,12 @@ class RedeRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
+    /**
+     * Computadores por subredes
+     *
+     * @return mixed
+     */
+
     public function computadoresSubredes(){
         $rsm = new ResultSetMapping();
 
@@ -255,5 +261,19 @@ class RedeRepository extends EntityRepository
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
         return $query->execute();
+    }
+
+    /**
+     * Retorna lista de servidores de atualização
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+
+    public function getServUpdateList() {
+
+        $qb = $this->createQueryBuilder('rede')
+            ->select('DISTINCT (rede.teServUpdates) as teServUpdates');
+
+        return $qb;
     }
 }

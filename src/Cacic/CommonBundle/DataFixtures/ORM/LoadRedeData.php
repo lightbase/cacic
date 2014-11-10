@@ -37,6 +37,7 @@ class LoadRedeData extends AbstractFixture implements FixtureInterface, Containe
         $rede->setNuLimiteFtp(100);
         $rede->setCsPermitirDesativarSrcacic('S');
         $rede->setIdLocal($this->getReference('local'));
+        $rede->setDownloadMethod('http');
 
         $manager->persist($rede);
         $manager->flush();
