@@ -32,10 +32,9 @@ class LogUserLogadoRepository extends EntityRepository
     public function selectUserLogado( $teIpComputador , $nmComputador ,$usuario, $dtHrInclusao ,$dtHrInclusaoFim )
     {
 
-        $query = $this->createQueryBuilder('c')
-            ->select('c.nmComputador', 'c.teIpComputador', 'log.data', 'log.usuario')
-            ->from('computador', 'c')
-            ->innerJoin('log.idComputador', 'WITH', 'c.idComputador');
+        $query = $this->createQueryBuilder('log')
+            ->select('comp.nmComputador', 'comp.teIpComputador', 'log.data', 'log.usuario')
+            ->innerJoin('CacicCommonBundle:Computador','comp', 'WITH', 'log.idComputador = comp.idComputador');
 
         if ( $teIpComputador != null){
 
