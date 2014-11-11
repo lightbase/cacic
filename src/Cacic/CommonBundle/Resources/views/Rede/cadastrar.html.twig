@@ -37,14 +37,15 @@
 			<fieldset>
 				<legend>{{ "Servidores de"|trans }} Update </legend>
 				{{ form_row(form.teServUpdates, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.downloadMethod, {'form_type': 'horizontal'} ) }}
 				{{ form_row(form.selTeServUpdates, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.nuPortaServUpdates, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.nuLimiteFtp, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.nmUsuarioLoginServUpdates, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.teSenhaLoginServUpdates, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.nmUsuarioLoginServUpdatesGerente, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.teSenhaLoginServUpdatesGerente, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.tePathServUpdates, {'form_type': 'horizontal'} ) }}
+                <div id="rede_ftp">
+                    {{ form_row(form.nuPortaServUpdates, {'form_type': 'horizontal'} ) }}
+                    {{ form_row(form.nuLimiteFtp, {'form_type': 'horizontal'} ) }}
+                    {{ form_row(form.nmUsuarioLoginServUpdatesGerente, {'form_type': 'horizontal'} ) }}
+                    {{ form_row(form.teSenhaLoginServUpdatesGerente, {'form_type': 'horizontal'} ) }}
+                    {{ form_row(form.tePathServUpdates, {'form_type': 'horizontal'} ) }}
+                </div>
 				{{ form_row(form.teObservacao, {'form_type': 'horizontal'} ) }}
 			</fieldset>
 			
@@ -145,6 +146,17 @@
 					// Verifica se o nono dígito foi informado
 					
 			});
+
+            $('#rede_downloadMethod')
+                .on('change', function(e){
+                    // Esconde os elementos se o método for HTTP
+                    var method = $(this).val();
+                    if ( method == 'http') {
+                        $('#rede_ftp').hide();
+                    } else {
+                        $('#rede_ftp').show();
+                    }
+                });
 	    });
 	    
         //System.Form.focusFirstTabOnError('#formRede');

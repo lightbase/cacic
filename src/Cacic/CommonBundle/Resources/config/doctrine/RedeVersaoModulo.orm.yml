@@ -35,6 +35,15 @@ Cacic\CommonBundle\Entity\RedeVersaoModulo:
             fixed: false
             nullable: true
             column: te_hash
+        tipo:
+            type: text
+            fixed: false
+            nullable: true
+            column: tipo
+        filepath:
+            type: text
+            nullable: true
+            column: filepath
     manyToOne:
         idRede:
             targetEntity: Rede
@@ -44,5 +53,14 @@ Cacic\CommonBundle\Entity\RedeVersaoModulo:
             joinColumns:
                 id_rede:
                     referencedColumnName: id_rede
+            orphanRemoval: false
+        tipoSo:
+            targetEntity: TipoSo
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_tipo_so:
+                    referencedColumnName: id_tipo_so
             orphanRemoval: false
     lifecycleCallbacks: {  }

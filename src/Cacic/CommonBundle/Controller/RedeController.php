@@ -13,6 +13,7 @@ use Cacic\WSBundle\Helper;
 use Cacic\CommonBundle\Helper as CacicHelper;
 use Ijanki\Bundle\FtpBundle\Exception\FtpException;
 use Symfony\Component\Validator\Constraints\Null;
+use Symfony\Component\Finder\Finder;
 
 /**
  *
@@ -490,6 +491,8 @@ class RedeController extends Controller
 					$em->persist($redeVersaoModulo);
 					$em->flush();
 
+                } else {
+                    $logger->error("Erro no envio do módulo via FTP \n".$arrResult[1]);
                 }
 
                 //echo $_GET['pIntIdRede'] . '_=_' . $_GET['pStrNmItem'] . '_=_' . $strResult;
@@ -540,7 +543,7 @@ class RedeController extends Controller
             $logger->debug("Enviando módulo $pStrFullItemName para o servidor $pStrTeServer na pasta $pStrTePathServer");
 
 
-            $conn = $ftp->connect($pStrTeServer);
+            $conn = $ftp->connect($pStrTeServer, $pStrNuPortaServer);
             // Retorno esperado....: 230 => FTP_USER_LOGGED_IN
             // Retorno NÃO esperado: 530 => FTP_USER_NOT_LOGGED_IN
 	    
@@ -669,4 +672,319 @@ class RedeController extends Controller
             )
         );
     }
+
+    /**
+     * Função nova para atualização das subredes
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function manutencaoNeoAction(Request $request)
+    {
+        $logger = $this->get('logger');
+
+        // Primeiro carrega lista dos módulos
+        $modulos = $this->modulosNeoArray($request);
+
+        if ( $request->isMethod('POST') )
+        {
+            if ( count( $request->get('subrede') ) )
+            {
+                $retorno = true;
+                foreach ( $request->get('subrede') as $resultado )
+                {
+                    $logger->debug("Atualizando a subrede {$resultado} ...");
+
+                    // Junta os módulos windows e linux para enviar para o update de subredes
+                    $atualizaWindows = $request->get('windows');
+                    $atualizaLinux = $request->get('linux');
+
+                    // FIXME: Na requisição só vem o nome dos módulos. Precisa carregar as outras informações.
+
+                    // Evita Warning do array merge se um dos dois for vazio
+                    if (empty($atualizaLinux)) {
+                        $atualiza = $atualizaWindows;
+                    } elseif (empty($atualizaWindows)) {
+                        $atualiza = $atualizaLinux;
+                    } else {
+                        $atualiza = array_merge($atualizaWindows, $atualizaLinux);
+                    }
+
+                    // Passa a rede como parâmetro
+                    $redeAtualizar =  $this->getDoctrine()->getManager()->find('CacicCommonBundle:Rede', $resultado);
+
+
+                    // Executa a atualização de todos os módulos marcados para a subrede marcada
+                    $result = $this->updateSubredesNeo($request, $redeAtualizar, $atualiza);
+                    if (!$result) {
+                        $retorno = $result;
+                    }
+                }
+                if ($retorno) {
+                    $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+                } else {
+                    $this->get('session')->getFlashBag()->add('error', 'Erro na atualização das subredes');
+                }
+
+            }
+        }
+
+        // Lista de subredes e módulos
+        $subredesOrig = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->comLocal();
+
+        // Varro todas as subredes para cada módulo
+        $subredes = array();
+        $saida = array();
+        foreach ($subredesOrig as $redeItem) {
+            // Busca o tipo de SO
+            $codigos = array();
+            foreach($modulos as $tipo_so => $file) {
+                // Busca o módulo em cada uma das redes
+                foreach ($file as $key => $value) {
+                    $idRede = $redeItem['idRede'];
+                    // Verifico se o módulo existe na subrede
+                    $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->subredeFilePath($idRede, $value['filename']);
+
+                    if (empty($rede)) {
+                        // O módulo não foi encontrado. Adiciona o código 1
+                        array_push($codigos, 0);
+                        //$rede = $redeItem[0];
+                    } else {
+                        if ($value['hash'] == $rede[0]['teHash']) {
+                            // Se o hash for igual, adiciona o código 2
+                            array_push($codigos, 2);
+
+                        } else {
+                            // Se o hash for diferente, adiciona o código 1
+                            array_push($codigos, 1);
+                        }
+                    }
+
+                    // Array de saída
+                    $saida[$tipo_so][$value['name']] = $value;
+
+                }
+            }
+
+
+            // Define o elemento HTML para os módulos
+            if (in_array(0, $codigos)) {
+                // Se o código 0 for encontrato, marcamos o módulo como inexistente
+                if (empty($rede)) {
+                    $rede[0] = $redeItem;
+                }
+                $subredes["$idRede"]['teIpRede'] = $rede[0]['teIpRede'];
+                $subredes["$idRede"]['nmRede'] = $rede[0]['nmRede'];
+                $subredes["$idRede"]['teServUpdates'] = $rede[0]['teServUpdates'];
+                $subredes["$idRede"]['tePathServUpdates'] = $rede[0]['tePathServUpdates'];
+                $subredes["$idRede"]['nmLocal'] = $rede[0]['nmLocal'];
+                $subredes["$idRede"]['codigo'] = "<span class='label label-important'>Módulos inexistentes</span>";
+            } elseif (in_array(1, $codigos)) {
+                // Se o código 1 for encontrado, alguns módulos estão desatualizados
+                $subredes["$idRede"]['teIpRede'] = $rede[0]['teIpRede'];
+                $subredes["$idRede"]['nmRede'] = $rede[0]['nmRede'];
+                $subredes["$idRede"]['teServUpdates'] = $rede[0]['teServUpdates'];
+                $subredes["$idRede"]['tePathServUpdates'] = $rede[0]['tePathServUpdates'];
+                $subredes["$idRede"]['nmLocal'] = $rede[0]['nmLocal'];
+                $subredes["$idRede"]['codigo'] = "<span class='label label-warning'>Módulos desatualizados</span>";
+            } else {
+                // Se não existe nenhum módulo inexistente ou desatualizado, está tudo 100% atualizado
+                $subredes["$idRede"]['teIpRede'] = $rede[0]['teIpRede'];
+                $subredes["$idRede"]['nmRede'] = $rede[0]['nmRede'];
+                $subredes["$idRede"]['teServUpdates'] = $rede[0]['teServUpdates'];
+                $subredes["$idRede"]['tePathServUpdates'] = $rede[0]['tePathServUpdates'];
+                $subredes["$idRede"]['nmLocal'] = $rede[0]['nmLocal'];
+                $subredes["$idRede"]['codigo'] = "<span class='label label-success'>Módulos atualizados</span>";
+            }
+        }
+
+        //$logger->debug("111111111111111111111111111111111111111 \n".print_r($saida, true));
+
+        return $this->render( 'CacicCommonBundle:Rede:manutencaoNeo.html.twig',
+            array(
+                'saida'=> $saida,
+                'subredes' => $subredes
+            )
+        );
+
+    }
+
+    /*
+     * Função que retorna um array multidimensional com o nome dos executáveis,
+     * o hash e versão constantes do arquivo versions_and_hashes.ini
+     *
+     * @param nmModulo Nome do módulo para trazer informações
+     *
+     * @return Array multidimensional com os dados
+     */
+
+    public function modulosNeoArray(Request $request, $nmModulos = null)
+    {
+        $logger = $this->get('logger');
+        // Abre e faz o parsing do arquivo
+        $cacic_helper = new Helper\OldCacicHelper($this->container->get('kernel'));
+        $iniFile = $cacic_helper->iniFile();
+        //$itemArray = parse_ini_file($iniFile);
+        //$teste = parse_ini_file($iniFile, true);
+
+        // Varre o diretório em busca dos módulos
+        $rootDir = $this->container->get('kernel')->getRootDir();
+        $webDir = $rootDir . "/../web/";
+        $downloadsDir = $webDir . "downloads/";
+        $cacicDir = $downloadsDir . "cacic/";
+        $linuxDir = $cacicDir . "linux/";
+        $windowsDir = $cacicDir . "windows/";
+        $outrosDir = $downloadsDir . "outros/";
+
+        // Constrói array de arquivos e hashes
+        $saida = array();
+        $base_url = $request->getBaseUrl();
+        $base_url = preg_replace('/\/app.*.php/', "", $base_url);
+
+        // Primeiro tratamos agentes Linux
+        // A regra é que o agente mais atual estará na pasta current
+        $current = basename(readlink($cacicDir."current"));
+        $finder = new Finder();
+        $finder->depth('== 0');
+        $finder->directories()->in($cacicDir);
+        foreach($finder as $version) {
+            if ($version->getFileName() == 'current') {
+                $tipos = new Finder();
+                $tipos->depth('== 0');
+                $tipos->directories()->in($version->getRealPath());
+                foreach($tipos as $tipo_so) {
+                    // Aqui considera somente a última versão
+                    $agentes = new Finder();
+                    $agentes->depth('== 0');
+                    $agentes->files()->in($tipo_so->getRealPath());
+                    foreach ($agentes as $file) {
+                        $filename = 'cacic/' . $version->getFileName() . '/' . $tipo_so->getFileName() . "/" . $file->getFileName();
+                        if (!empty($nmModulos)) {
+                            // Filtra por nome de módulo
+                            if (!in_array($filename, $nmModulos)) {
+                                continue;
+                            }
+                        }
+                        $saida[$tipo_so->getFileName()][$file->getFileName()] = array(
+                            'name' => $file->getFileName(),
+                            'download_url' => $base_url . '/downloads/cacic/' . $version->getFileName() . '/' . $tipo_so->getFileName() . "/" . $file->getFileName(),
+                            'hash' => md5_file($file->getRealPath()),
+                            'size' => $file->getSize(),
+                            'filename' => $filename,
+                            'versao' => $current,
+                            'tipoSo' => $tipo_so->getFileName()
+                        );
+                    }
+                }
+
+            } else {
+                continue;
+            }
+
+        }
+
+
+        // Retorna o array com todos os resultados
+        return $saida;
+    }
+
+    public function updateSubredesNeo(Request $request, $rede, $modulos = null)
+    {
+        $logger = $this->get('logger');
+        $pIntIdRede = $rede->getIdRede();
+
+        // Varre o diretório em busca dos módulos
+        $rootDir = $this->container->get('kernel')->getRootDir();
+        $webDir = $rootDir . "/../web/";
+        $downloadsDir = $webDir . "downloads/";
+        $cacicDir = $downloadsDir . "cacic/";
+        $linuxDir = $cacicDir . "linux/";
+        $windowsDir = $cacicDir . "windows/";
+        $outrosDir = $downloadsDir . "outros/";
+
+        // Carrega todos os metadados dos módulos fornecidos ou de todos os módulos
+        $modulos = $this->modulosNeoArray($request, $modulos);
+        //$logger->debug("6666666666666666666666666666666666666 ".print_r($modulos, true));
+
+        foreach($modulos as $tipo => $modulo) {
+
+            foreach ($modulo as $key => $value)
+            {
+                $logger->debug("Nome do módulo: ".$value['filename']);
+
+                // Carrega dados da rede
+                $em = $this->getDoctrine()->getManager();
+                //$arrDadosRede = array( 'rede' => $em->getRepository( 'CacicCommonBundle:Rede' )->listar() );
+                //Debug::dump($arrDadosRede['rede'][0][0]);
+                //$arrDadosRede = $arrDadosRede['rede'][0];
+                $arrDadosRede = array(
+                    'teServUpdates' => $rede->getTeServUpdates(),
+                    'tePathServUpdates' => $rede->getTePathServUpdates(),
+                    'nmUsuarioLoginServUpdatesGerente' => $rede->getNmUsuarioLoginServUpdatesGerente(),
+                    'teSenhaLoginServUpdatesGerente' => $rede->getTeSenhaLoginServUpdatesGerente(),
+                    'nuPortaServUpdates' => $rede->getNuPortaServUpdates(),
+                );
+
+                if ($rede->getDownloadMethod() == 'ftp') {
+                    $strResult = $this->checkAndSend(
+                        $value['name'],
+                        $downloadsDir . $value['filename'],
+                        $arrDadosRede['teServUpdates'],
+                        $arrDadosRede['tePathServUpdates'],
+                        $arrDadosRede['nmUsuarioLoginServUpdatesGerente'],
+                        $arrDadosRede['teSenhaLoginServUpdatesGerente'],
+                        $arrDadosRede['nuPortaServUpdates']
+                    );
+
+                    $arrResult = explode('_=_',$strResult);
+                } else {
+                    $arrResult[1] = 'Ok!';
+                }
+
+
+
+                if ($arrResult[1] == 'Ok!')
+                {
+                    // Consertar CRUD no Symfony
+                    $redeVersaoModulo = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findOneBy(
+                        array(
+                            'idRede' => $pIntIdRede,
+                            'nmModulo' => $value['name'],
+                            'filepath' => $value['filename']
+                        )
+                    );
+
+                    // Se não existir, instancia o objeto
+                    if (empty($redeVersaoModulo)) {
+                        $redeVersaoModulo = new RedeVersaoModulo(null, null, null, null, null, $rede);
+                    }
+
+                    $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->findOneBy(array(
+                        'tipo' => $tipo
+                    ));
+
+                    // Adicione o restante dos atributos
+                    $redeVersaoModulo->setNmModulo($value['name']);
+                    $redeVersaoModulo->setTeVersaoModulo($value['versao']);
+                    $redeVersaoModulo->setDtAtualizacao(new \DateTime('NOW'));
+                    $redeVersaoModulo->setCsTipoSo( $value['tipoSo'] );
+                    $redeVersaoModulo->setTeHash($value['hash']);
+                    $redeVersaoModulo->setTipoSo($tipo_so);
+                    $redeVersaoModulo->setFilepath($value['filename']);
+                    $redeVersaoModulo->setTipo('cacic');
+
+                    $em->persist($redeVersaoModulo);
+                    $em->flush();
+                } else {
+                    $logger->error("Erro no envio dos módulos!\n".$arrResult[1]);
+                    return false;
+                }
+            }
+        }
+
+
+
+        return true;
+    }
+
 }
