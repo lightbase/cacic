@@ -108,7 +108,6 @@ class RedeType extends AbstractType
                 'required' => false
             )
         );
-        /*
         $builder->add('nmUsuarioLoginServUpdates', null,
             array(
                 'label' => 'Usuário do Servidor de Updates (para AGENTE)'
@@ -120,7 +119,6 @@ class RedeType extends AbstractType
                 'required'  => false
             )
         );
-        */
         $builder->add('nmUsuarioLoginServUpdatesGerente', null,
             array(
                 'label' => 'Usuário do Servidor de Updates (para GERENTE)',
