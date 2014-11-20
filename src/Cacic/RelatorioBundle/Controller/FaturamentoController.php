@@ -478,11 +478,6 @@
                     'idRede'        => $filtroLocais,
                     'dtAcaoInicio'  => $dataInicio,
                     'dtAcaoFim'     => $dataFim,
-                    'usuario'       => $usuario,
-                    'usuarioPatrimonio'=> $usuarioPatrimonio,
-                    'usuarioName'   => $usuarioName,
-                    'coordenacao'   => $coordenacao,
-                    'sala'          => $sala
                 )
             );
         }

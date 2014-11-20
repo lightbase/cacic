@@ -199,7 +199,7 @@ SELECT c0_.te_node_address AS te_node_address,
     (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_ INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property WHERE cp1_.nm_property_name = 'UserName' AND cc1_.id_computador = cc_.id_computador";
 
         if ($usuarioPatrimonio) {
-            $sql = $sql . " AND cc1_.te_class_property_value = '$usuarioPatrimonio'";
+            $sql = $sql . " AND lower(cc1_.te_class_property_value) LIKE lower('%$usuarioPatrimonio%')";
         }
 
         $sql = $sql . " LIMIT 1) AS usuario_patrimonio,";
@@ -207,7 +207,7 @@ SELECT c0_.te_node_address AS te_node_address,
         $sql = $sql . "(SELECT cc2_.te_class_property_value FROM computador_coleta cc2_ INNER JOIN class_property cp2_ ON cc2_.id_class_property = cp2_.id_class_property WHERE cp2_.nm_property_name = 'UserLogado' AND cc2_.id_computador = cc_.id_computador";
 
         if ($usuarioName) {
-            $sql = $sql . " AND cc2_.te_class_property_value = '$usuarioName'";
+            $sql = $sql . " AND lower(cc2_.te_class_property_value) LIKE lower('%$usuarioName%')";
         }
 
         $sql = $sql . " LIMIT 1) AS usuario_name,";
@@ -215,7 +215,7 @@ SELECT c0_.te_node_address AS te_node_address,
         $sql = $sql . "(SELECT cc3_.te_class_property_value FROM computador_coleta cc3_ INNER JOIN class_property cp3_ ON cc3_.id_class_property = cp3_.id_class_property WHERE cp3_.nm_property_name = 'Coordenacao_Setor' AND cc3_.id_computador = cc_.id_computador";
 
         if ($coordenacao) {
-            $sql = $sql . " AND cc3_.te_class_property_value = '$coordenacao'";
+            $sql = $sql . " AND lower(cc3_.te_class_property_value) LIKE lower('%$coordenacao%')";
         }
 
         $sql = $sql . " LIMIT 1) AS coordenacao_setor,";
@@ -223,7 +223,7 @@ SELECT c0_.te_node_address AS te_node_address,
         $sql = $sql . "(SELECT cc4_.te_class_property_value FROM computador_coleta cc4_ INNER JOIN class_property cp4_ ON cc4_.id_class_property = cp4_.id_class_property WHERE cp4_.nm_property_name = 'Sala' AND cc4_.id_computador = cc_.id_computador";
 
         if ($sala) {
-            $sql = $sql . " AND cc4_.te_class_property_value = '$sala'";
+            $sql = $sql . " AND lower(cc4_.te_class_property_value) LIKE lower('%$sala%')";
         }
 
         $sql = $sql . " LIMIT 1) AS sala,
@@ -249,7 +249,7 @@ WHERE  1 = 1
         }
 
         if ( $dataFim ) {
-            $sql .= " AND l1_.data <= ?";
+            $sql .= " AND l1_.data <= ? ";
         }
 
         if ( $nmComputador ) {
@@ -265,19 +265,19 @@ WHERE  1 = 1
         }
 
         if ( $usuarioPatrimonio ) {
-            $sql .= " AND cc_.te_class_property_value = ? ";
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
         }
 
         if ( $usuarioName ) {
-            $sql .= " AND cc_.te_class_property_value = ? ";
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
         }
 
         if ( $coordenacao ) {
-            $sql .= " AND cc_.te_class_property_value = ? ";
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
         }
 
         if ( $sala ) {
-            $sql .= " AND cc_.te_class_property_value = ? ";
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
         }
 
         if ( $usuario ) {
@@ -320,13 +320,13 @@ GROUP BY c0_.te_node_address,
             $query->setParameter(6, "$usuarioPatrimonio" );
 
         if ( $usuarioName )
-            $query->setParameter(7, "$usuarioName" );
+            $query->setParameter(7, "%$usuarioName%" );
 
         if ( $coordenacao )
-            $query->setParameter(7, "$coordenacao" );
+            $query->setParameter(7, "%$coordenacao%" );
 
         if ( $sala )
-            $query->setParameter(7, "$sala" );
+            $query->setParameter(7, "%$sala%" );
 
         if ( $usuario )
             $query->setParameter(8, "%$usuario%" );

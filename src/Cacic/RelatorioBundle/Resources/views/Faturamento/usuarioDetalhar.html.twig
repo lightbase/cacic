@@ -2,7 +2,7 @@
 
 {% block body %}
 
-	<h2>{{ 'Relatório de usuário logado -'|trans }} {{ usuario }}</h2>
+	<h2>{{ 'Relatório de usuário logado'|trans }}</h2>
     <h5 class="">{{ 'Período: '|trans }}{{ dtAcaoInicio|date("d/m/Y") }} a {{ dtAcaoFim|date("d/m/Y") }}</h5>
     <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("d/m/Y H\\hi") }}{% endif %}</h5>
     <hr />
