@@ -443,8 +443,6 @@
             $locale = $request->getLocale();
             $form = $this->createForm( new UserPesquisaType() );
 
-            error_log('DIDIDIDIDIDIIDDIIDIDID'.$request);
-
             if ( $request->isMethod('POST') )
             {
                 $form->bind( $request );
