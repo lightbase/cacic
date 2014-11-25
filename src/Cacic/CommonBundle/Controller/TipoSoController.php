@@ -32,7 +32,7 @@ class TipoSoController extends Controller
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
-                return $this->redirect( $this->generateUrl( 'cacic_sistemaoperacional_index') );
+                return $this->redirect( $this->generateUrl( 'cacic_tiposo_index') );
             }
         }
 
