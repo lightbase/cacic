@@ -796,6 +796,11 @@ class NeoController extends Controller {
             $this->setSoftwareElement($classe, $valor, $computador, $classObject);
             $i = $i + 1;
         }
+
+        /*
+         * Grava tudo
+         */
+        $em->flush();
         $logger->debug("COLETA: Coleta de software finalizada. Total de softwares coletados: $i");
 
         return true;
@@ -905,10 +910,6 @@ class NeoController extends Controller {
         } catch(\Doctrine\ORM\ORMException $e){
             $logger->error("COLETA: Erro na inserçao de dados do software $software. \n$e");
         }
-
-        // Grava tudo da propriedade
-        $em->flush();
-
     }
 
 }
