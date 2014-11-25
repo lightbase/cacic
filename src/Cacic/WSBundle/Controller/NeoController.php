@@ -767,13 +767,12 @@ class NeoController extends Controller {
                 $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
                 $em->persist( $computadorColetaHistorico );
 
-                // Grava tudo da propriedade
-                $em->flush();
             } catch(\Doctrine\ORM\ORMException $e){
                 $logger->error("COLETA: Erro na inserçao de dados da propriedade $propriedade. \n$e");
             }
-
         }
+        // Grava tudo da propriedade
+        $em->flush();
     }
 
     public function setSoftware($software, $computador) {
