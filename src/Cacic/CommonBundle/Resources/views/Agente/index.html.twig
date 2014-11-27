@@ -1,0 +1,155 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% macro bytesToSize(bytes) %}
+    {% spaceless %}
+        {% set kilobyte = 1024 %}
+        {% set megabyte = kilobyte * 1024 %}
+        {% set gigabyte = megabyte * 1024 %}
+        {% set terabyte = gigabyte * 1024 %}
+
+        {% if bytes < kilobyte %}
+            {{ bytes ~ ' B' }}
+        {% elseif bytes < megabyte %}
+            {{ (bytes / kilobyte)|number_format(2, '.') ~ ' KB' }}
+        {% elseif bytes < gigabyte %}
+            {{ (bytes / megabyte)|number_format(2, '.') ~ ' MB' }}
+        {% elseif bytes < terabyte %}
+            {{ (bytes / gigabyte)|number_format(2, '.') ~ ' GB' }}
+        {% else %}
+            {{ (bytes / terabyte)|number_format(2, '.') ~ ' TB' }}
+        {% endif %}
+    {% endspaceless %}
+{% endmacro %}
+
+{% block breadcrumb %}
+    <li class="active">{{ 'Upload de Agentes'|trans }}</li>
+{% endblock %}
+
+{% block body %}
+    {% import _self as format %}
+
+<div class="row-fluid">
+
+    <div class="span8">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-file"></i> {{'Upload de agentes' |trans }}</h2>
+
+            <div class="block box_content round_bottom padding_10">
+                {{ form_start(form, {'id': 'formAgentes'|trans, 'action': path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')), 'method': 'POST'}) }}
+
+                    {{ form_errors(form) }}
+
+                    {{ form_row(form.version) }}
+
+                    {{ form_rest(form) }}
+
+                    <input type="submit">
+
+                {{ form_end(form) }}
+
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span8 -->
+
+    <div class="span4">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+
+            <div class="block box_content round_bottom padding_10">
+                <p>
+                    {{ "Realize o upload do pacote de arquivos contendo a nova versão do agente que será disponibilizada no servidor"|trans }}.
+                </p>
+                <p>
+                    {{ "Ao realizar upload do pacote de agentes, informe o número da versão. O último enviado sempre será considerado o mais atual"|trans }}.
+                </p>
+                <p>
+                    {{ "IMPORTANTE: só serão aceitos arquivos nos formatos .zip e .tar.gz"|trans }}.
+                </p>
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- span4 -->
+
+</div> <!-- /row -->
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Resultado da pesquisa' |trans }}</h2>
+
+
+            <div class="block box_content round_bottom padding_10">
+
+                {% for tipo, so in saida.tipo_so %}
+
+                <h4><center>{{ "Agentes para "|trans }}{{ tipo }}</h4>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th width="15%" style="text-align: center">{{ 'Versão'|trans }}</th>
+                        <th width="30%" style="text-align: center">{{ 'Arquivo'|trans }}</th>
+                        <th width="25%" style="text-align: center">{{ 'Hash'|trans }}</th>
+                        <th width="20%" style="text-align: center">{{ 'Tamanho'|trans }}</th>
+                        <th style="text-align: center">{{ "Ações"|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for version, value in so %}
+
+                        {% if version == saida.live_version %}
+                            <tr>
+                                <th rowspan="{{ value|length + 1 }}" style="vertical-align: middle; text-align: center;">
+                                    {{ "Versão"|trans }} {{  version }} <br> {{ "(Em Produção)"|trans }}
+                                </th>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <th rowspan="{{ value|length + 1 }}" style="vertical-align: middle; text-align: center;">
+                                    {{ "Versão"|trans }} {{  version }}
+                                </th>
+                            </tr>
+                        {% endif %}
+
+                        {% for modulo in value %}
+
+                            <tr id="{{ modulo['filename'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                                <td style="text-align: center" >{{ modulo['name'] }}</td>
+                                <td style="text-align: center" >{{ modulo['hash'] }}</td>
+                                <td style="text-align: center" >{{ format.bytesToSize(modulo['size']) }}</td>
+                                <td class="td-actions">
+                                    <a href="{{ path('cacic_agente_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
+                                        <i class="btn-icon-only icon-trash icon-large"></i>
+                                    </a>
+                                    <a href="{{ modulo['download_url'] }}" class="btn btn-small" title="{{ "Baixar"|trans }}" target="_blank">
+                                        <i class="btn-icon-only icon-download-alt icon-large"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% endfor %}
+
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span -->
+</div> <!-- /row -->
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+{% endblock %}

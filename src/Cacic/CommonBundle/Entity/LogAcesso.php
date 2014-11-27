@@ -110,7 +110,7 @@ class LogAcesso
     /**
      * Get usuario
      *
-     * @return string
+     * @return string 
      */
     public function getUsuario()
     {

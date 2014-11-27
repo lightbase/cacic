@@ -1,0 +1,163 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+<li class="active">{{ 'Atualizacoes de subredes'|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+    <div class="span12">
+
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-hdd"></i> {{ 'Atualizações de subredes'|trans }}</h2>
+
+            <div class="block box_content round_bottom padding_10">
+
+                <h3>{{ 'Conteúdo do repositório'|trans }}</h3>
+                <p>{{ 'As informações referem-se aos objetos constantes do repositório, os quais poderão ser assinalados para verificação de existência e/ou versões nas SubRedes cadastradas'|trans }}.</p>
+                <br />
+
+                <form id={{ 'formSoftwaresNaoUsados'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
+
+                    {% for so, files in saida %}
+                        <h4 align="center">{{ "Agentes para "|trans }}{{ so }}</h4>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="40%" style="text-align: center">{{ 'Arquivo'|trans }}</th>
+                                <th width="20%" style="text-align: center">{{ 'Versão'|trans }}</th>
+                                <th width="40%" style="text-align: center">{{ 'Hash'|trans }}</th>
+                                <th style="text-align: center">
+                                    <label style="margin: auto; width:12px; height:10px;">
+                                        <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="windows" checked>
+                                    </label>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for key, modulo in files %}
+
+                            <tr id="item_{{ modulo['filename'] }}">
+                                <td style="text-align: center" id="item_desc_{{ key }}">{{ key }}</td>
+                                <td style="text-align: center" >{{ modulo['versao'] }}</td>
+                                <td style="text-align: center" >{{ modulo['hash'] }}</td>
+                                <td>
+                                    <label style="margin: auto; width:12px; height:10px;">
+                                        <input type="checkbox" id="item_id_{{ modulo['filename'] }}" name="windows[]" value="{{ modulo['filename'] }}" checked>
+                                    </label>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <br />
+                    {% endfor %}
+                <br />
+
+                    <hr>
+                    <h3>{{ 'Subredes cadastradas'|trans }}</h3>
+                    <p>{{ 'Subredes onde a operação de atualização deve ser executada '|trans }}.</p>
+                    <br />
+
+                    <h4 align="center">{{ "Legenda"|trans }}</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="30%" style="text-align: center;">{{ "Mensagem"|trans }}</th>
+                                <th width="70%" style="text-align: center;">{{ "Significado"|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="30%" style="text-align: center;"><span class='label label-important'>{{ "Módulos inexistentes"|trans }}</span></td>
+                                <td width="70%">{{ "Um ou mais dos módulos obrigatórios não está presente na subrede"|trans }}</td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: center;"><span class='label label-warning'>{{ "Módulos desatualizados"|trans }}</span></td>
+                                <td width="70%">{{ "Um ou mais dos módulos obrigatórios está desatualizado na subrede"|trans }}</td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: center;"><span class='label label-success'>{{ "Módulos atualizados"|trans }}</span></td>
+                                <td width="70%">{{ "Todos os módulos obrigatórios estão atualizados na subrede"|trans }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 align="center">{{ subredes|length }} {{ "SubRedes Cadastradas"|trans }}</h4>
+                <table class="table table-striped table-bordered">
+
+                    <thead>
+                    <tr>
+                        <th width="15%" style="text-align: center">{{ 'Endereço IP'|trans }}</th>
+                        <th width="25%" style="text-align: center">{{ 'Nome da Subrede'|trans }}</th>
+                        <th width="20%" style="text-align: center">{{ 'Servidor de atualizacoes'|trans }}</th>
+                        <th width="20%" style="text-align: center">{{ 'Localizacao'|trans }}</th>
+                        <th width="20%" style="text-align: center">{{ 'Status'|trans }}</th>
+                        <th style="text-align: center">
+                            <label style="margin: auto; width:12px; height:10px;">
+                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="subrede">
+                            </label>
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for key, rede in subredes %}
+                        <tr id="item_{{ key }}">
+                            <td style="text-align: center" id="item_desc_{{ key }}">{{ rede['teIpRede'] }}</td>
+                            <td style="text-align: center" >{{ rede['nmRede'] }}</td>
+                            <td style="text-align: center" >{{ rede['teServUpdates'] }}</td>
+                            <td style="text-align: center" >{{ rede['nmLocal'] }}</td>
+                            <td style="text-align: center;">{{ rede['codigo']|raw }}</td>
+                            <td>
+                                <label style="margin: auto; width:12px; height:10px;">
+                                    <input type="checkbox" id="item_id_{{ key }}" name="subrede[]" value="{{ key }}">
+                                </label>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td style="text-align: center" colspan="6"><b>{{ 'NENHUM REGISTRO ENCONTRADO!'|trans }}</b></td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                <div class="control-group" align="right">
+                    <div class="controls">
+                        <button type="reset" class="btn">
+                            <i class="icon-refresh"></i>
+                            {{ "Resetar Valores"|trans }}
+                        </button>
+                        <button type="submit" formnovalidate class="btn btn-primary">
+                            <i class="icon-ok-sign"></i>
+                            {{ "Executar Atualizações"|trans }}
+                        </button>
+                    </div>
+                </div>
+
+                </form>
+
+            </div> <!-- /block -->
+        </div><!-- /box -->
+
+    </div><!-- /span -->
+</div><!-- /row -->
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+<script type="text/javascript">
+    System.Form.toggleCheck(); // Ativa o monitoramento de Clique no checkbox para marcar/desmarcar todos
+</script>
+
+{% endblock %}

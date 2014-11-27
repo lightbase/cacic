@@ -39,5 +39,6 @@ Cacic\CommonBundle\Entity\ClassProperty:
             joinColumns:
                 id_class:
                     referencedColumnName: id_class
+                    nullable: false
             orphanRemoval: false
     lifecycleCallbacks: {  }

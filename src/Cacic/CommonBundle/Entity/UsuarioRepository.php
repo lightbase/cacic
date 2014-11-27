@@ -34,13 +34,13 @@ class UsuarioRepository extends EntityRepository
      * Método que apresenta o grupo de acesso do respectivo usuario
      */
     public function nivel($usuario){
-        $_dql = "SELECT  g.teGrupoUsuarios
+        $_dql = "SELECT  g.nmGrupoUsuarios
 				FROM CacicCommonBundle:Usuario u
 				JOIN u.idLocal l
 				JOIN u.idGrupoUsuario g
 				LEFT JOIN u.locaisSecundarios ls
 				WHERE u.idUsuario = :idUsuario
-				GROUP BY g.teGrupoUsuarios";
+				GROUP BY g.nmGrupoUsuarios";
 
         return $this->getEntityManager()
             ->createQuery( $_dql )

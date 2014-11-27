@@ -1,0 +1,95 @@
+<?php
+
+namespace Cacic\CommonBundle\Controller;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Cacic\CommonBundle\Entity\TipoSo;
+use Cacic\CommonBundle\Form\Type\TipoSoType;
+
+
+class TipoSoController extends Controller
+{
+    public function indexAction( $page )
+    {
+        $arrso = $this->getDoctrine()->getRepository( 'CacicCommonBundle:TipoSo' )->paginar( $this->get( 'knp_paginator' ), $page );
+        return $this->render( 'CacicCommonBundle:TipoSo:index.html.twig', array( 'So' => $arrso ) );
+
+    }
+    public function cadastrarAction(Request $request)
+    {
+        $so = new TipoSo();
+        $form = $this->createForm(new TipoSoType(), $so);
+
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
+            if ( $form->isValid() )
+            {
+                $this->getDoctrine()->getManager()->persist( $so );
+                $this->getDoctrine()->getManager()->flush(); //Persiste os dados do sistema operacional
+
+                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+
+                return $this->redirect( $this->generateUrl( 'cacic_tiposo_index') );
+            }
+        }
+
+        return $this->render( 'CacicCommonBundle:So:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+    }
+    /**
+     *  Página de editar dados do sistema operacional
+     *  @param int $idSo
+     */
+    public function editarAction( $idTipoSo, Request $request )
+    {
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:TipoSo')->find( $idTipoSo );
+        if ( ! $so )
+            throw $this->createNotFoundException( 'Tipo de sistema operacional não encontrado' );
+        $form = $this->createForm( new TipoSoType(), $so);
+
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
+
+            if ( $form->isValid() )
+            {
+                $this->getDoctrine()->getManager()->persist( $so );
+                $this->getDoctrine()->getManager()->flush();// Efetuar a edição do sistema operacional
+
+
+                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+
+                return $this->redirect($this->generateUrl('cacic_tiposo_editar', array( 'idTipoSo' => $so->getIdTipoSo() ) ) );
+            }
+        }
+
+        return $this->render( 'CacicCommonBundle:TipoSo:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+    }
+
+    /**
+     *
+     * [AJAX] Exclusão de tipo de sistema operacional já cadastrado
+     * @param integer $idTipoSo
+     */
+    public function excluirAction( Request $request )
+    {
+        if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
+            throw $this->createNotFoundException( 'Página não encontrada' );
+
+        $So = $this->getDoctrine()->getRepository('CacicCommonBundle:TipoSo')->find( $request->get('id') );
+        if ( ! $So )
+            throw $this->createNotFoundException( 'Tipo de sistema operacional não encontrado' );
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove( $So );
+        $em->flush();
+
+        $response = new Response( json_encode( array('status' => 'ok') ) );
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+}

@@ -131,6 +131,23 @@ class UsuarioController extends Controller
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
 		
 		$form = $this->createForm( new UsuarioType(), $usuario );
+
+        // Check if user has permission to generate API
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('ROLE_ADMIN')) {
+            $apiKey = $usuario->getApiKey();
+            if (empty($apiKey)) {
+                $apiKey = md5(uniqid(""));
+            }
+
+            $form->add( 'api_key', 'text',
+                array(
+                    'label' => 'Chave de API',
+                    'required' => false,
+                    'data' => $apiKey
+                )
+            );
+        }
 		
 		if ( $request->isMethod('POST') )
 		{

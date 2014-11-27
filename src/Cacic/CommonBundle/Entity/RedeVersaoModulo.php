@@ -211,4 +211,88 @@ class RedeVersaoModulo
     }
 
 
+    /**
+     * @var string
+     */
+    private $tipo;
+
+
+    /**
+     * Set tipo
+     *
+     * @param string $tipo
+     * @return RedeVersaoModulo
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return string 
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+    /**
+     * @var \Cacic\CommonBundle\Entity\TipoSo
+     */
+    private $tipoSo;
+
+
+    /**
+     * Set tipoSo
+     *
+     * @param \Cacic\CommonBundle\Entity\TipoSo $tipoSo
+     * @return RedeVersaoModulo
+     */
+    public function setTipoSo(\Cacic\CommonBundle\Entity\TipoSo $tipoSo = null)
+    {
+        $this->tipoSo = $tipoSo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoSo
+     *
+     * @return \Cacic\CommonBundle\Entity\TipoSo 
+     */
+    public function getTipoSo()
+    {
+        return $this->tipoSo;
+    }
+    /**
+     * @var string
+     */
+    private $filepath;
+
+
+    /**
+     * Set filepath
+     *
+     * @param string $filepath
+     * @return RedeVersaoModulo
+     */
+    public function setFilepath($filepath)
+    {
+        $this->filepath = $filepath;
+
+        return $this;
+    }
+
+    /**
+     * Get filepath
+     *
+     * @return string 
+     */
+    public function getFilepath()
+    {
+        return $this->filepath;
+    }
 }
