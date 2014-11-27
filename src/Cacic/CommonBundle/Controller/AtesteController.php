@@ -90,6 +90,12 @@ class AtesteController extends Controller {
             $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogAcesso')
                 ->pesquisar( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
 
+            //convertando a string em formato pt-BR para en-EN
+            $dtAcaoInicio = $data['dtAcaoInicio'];
+            $dtAcaoInicio = substr($dtAcaoInicio,6,4)."-".substr($dtAcaoInicio,3,2)."-".substr($dtAcaoInicio,0,2);
+            $dtAcaoFim = $data['dtAcaoInicio'];
+            $dtAcaoFim = substr($dtAcaoFim,6,4)."-".substr($dtAcaoFim,3,2)."-".substr($dtAcaoFim,0,2);
+
         }
 
         return $this->render( 'CacicCommonBundle:Ateste:index.html.twig',
@@ -97,7 +103,9 @@ class AtesteController extends Controller {
                 'locale'=> $locale,
                 'form' => $form->createView(),
                 'ateste' => $ateste->createView(),
-                'logs' => ( isset( $logs ) ? $logs : null )
+                'logs' => ( isset( $logs ) ? $logs : null ),
+                'dtAcaoInicio' => $dtAcaoInicio,
+                'dtAcaoFim'=> $dtAcaoFim
             )
         );
     }

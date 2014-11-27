@@ -14,6 +14,7 @@
 				        <th width="30%" style="text-align: center">{{ "Rede"|trans }}</th>
 				        <th width="20%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
                         <th width="20%" style="text-align: center">{{ "Estações"|trans }}</th>
+                        <th width="20%" style="text-align: center">{{ "Detalhar"|trans }}</th>
                         <th style="text-align: center">
                             <label style="margin: auto; width:12px; height:10px;">
                                 <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="redes" checked>
@@ -33,7 +34,12 @@
                             <td>{{ log['teIpRede'] }}</td>
                             <td>{{ log['numComp'] }}</td>
                             <td>
-                                <label style="margin: auto; width:12px; height:10px;">
+                                <a class="btn" href="{{ path('cacic_relatorio_faturamento_listar') }}/{{log['idRede'] }}/{{ dtAcaoInicio }}/{{ dtAcaoFim }}"  title="{{ "Detalhar Sub-rede"|trans }}" target="_blank">
+                                    <i class="icon-search"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <label style="align-items: center">
                                     <input type="checkbox" id="item_id_{{ log['idRede'] }}" name="redes[]" value="{{ log['idRede'] }}" checked>
                                     <input type="hidden" name="rede_{{ log['idRede'] }}" value="{{ log['numComp'] }}">
                                 </label>
@@ -93,6 +99,8 @@
                           </button>
                       </div>
                   </div>
+
+
 
                </form>
 				
