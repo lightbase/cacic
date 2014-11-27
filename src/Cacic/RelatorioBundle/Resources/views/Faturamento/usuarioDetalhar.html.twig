@@ -2,7 +2,7 @@
 
 {% block body %}
 
-	<h2>{{ 'Relatório de usuário logado -'|trans }} {{ usuario }}</h2>
+	<h2>{{ 'Relatório de usuário logado'|trans }}</h2>
     <h5 class="">{{ 'Período: '|trans }}{{ dtAcaoInicio|date("d/m/Y") }} a {{ dtAcaoFim|date("d/m/Y") }}</h5>
     <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("d/m/Y H\\hi") }}{% endif %}</h5>
     <hr />
@@ -22,14 +22,18 @@
 
         <thead>
 		<tr>
-			<th width="15%">{{ "Computador"|trans }}</th>
-			<th width="9%">{{ "MAC Address"|trans }}</th>
-			<th width="9%">{{ "Endereço IP"|trans }}</th>
-			<th width="7%">{{ "Sistema Operacional"|trans }}</th>
-			<th width="10%">{{ "Local"|trans }}</th>
-			<th width="20%">{{ "Subrede"|trans }}</th>
-            <th width="10%">{{ "Usuário"|trans }}</th>
-            <th width="13%">{{ "Data/Hora da Última coleta"|trans }}</th>
+			<th width="8%">{{ "Computador"|trans }}</th>
+			<th width="8%">{{ "MAC Address"|trans }}</th>
+			<th width="8%">{{ "Endereço IP"|trans }}</th>
+			<th width="8%">{{ "Sistema Operacional"|trans }}</th>
+			<th width="8%">{{ "Local"|trans }}</th>
+			<th width="8%">{{ "Subrede"|trans }}</th>
+            <th width="8%">{{ "Usuário"|trans }}</th>
+            <th width="8%">{{ "Usuário Patrimônio"|trans }}</th>
+            <th width="8%">{{ "Usuário Name"|trans }}
+            <th width="8%">{{ "Usuário Coordenacao"|trans }}</th>
+            <th width="8%">{{ "Usuário Sala"|trans }}</th>
+            <th width="8%">{{ "Data/Hora da Última coleta"|trans }}</th>
 		</tr>
 		</thead>
 
@@ -58,6 +62,10 @@
 				<td>{{ reg.nmLocal }}</td>
 				<td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
                 <td>{{ reg.usuario }}</td>
+                <td>{{ reg.usuarioPatrimonio }}</td>
+                <td>{{ reg.usuarioName }}</td>
+                <td>{{ reg.coordenacao }}</td>
+                <td>{{ reg.sala }}</td>
                 <td>{{ reg.data|date(' d, M, Y H:m:s') }}</td>
 			</tr>
 

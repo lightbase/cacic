@@ -163,7 +163,7 @@ GROUP BY c0_.te_node_address,
     /*
      * Consulta para relatório de contendo ultimo usuário logado
      */
-    public function gerarRelatorioUsuario( $filtros, $filtroLocais, $dataInicio, $dataFim, $usuario )
+    public function gerarRelatorioUsuario( $filtros, $filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala )
     {
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('te_node_address', 'teNodeAddress');
@@ -179,6 +179,11 @@ GROUP BY c0_.te_node_address,
         $rsm->addScalarResult('nm_local', 'nmLocal');
         $rsm->addScalarResult('id_local', 'idLocal');
         $rsm->addScalarResult('usuario', 'usuario');
+        $rsm->addScalarResult('usuario_patrimonio', 'usuarioPatrimonio');
+        $rsm->addScalarResult('usuario_name', 'usuarioName');
+        $rsm->addScalarResult('coordenacao_setor', 'coordenacao');
+        $rsm->addScalarResult('sala', 'sala');
+
 
         $sql = "
 SELECT c0_.te_node_address AS te_node_address,
@@ -191,6 +196,37 @@ SELECT c0_.te_node_address AS te_node_address,
 	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
 	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
     string_agg(DISTINCT la5_.usuario, ', ') AS usuario,
+    (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_ INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property WHERE cp1_.nm_property_name = 'UserName' AND cc1_.id_computador = cc_.id_computador";
+
+        if ($usuarioPatrimonio) {
+            $sql = $sql . " AND lower(cc1_.te_class_property_value) LIKE lower('%$usuarioPatrimonio%')";
+        }
+
+        $sql = $sql . " LIMIT 1) AS usuario_patrimonio,";
+
+        $sql = $sql . "(SELECT cc2_.te_class_property_value FROM computador_coleta cc2_ INNER JOIN class_property cp2_ ON cc2_.id_class_property = cp2_.id_class_property WHERE cp2_.nm_property_name = 'UserLogado' AND cc2_.id_computador = cc_.id_computador";
+
+        if ($usuarioName) {
+            $sql = $sql . " AND lower(cc2_.te_class_property_value) LIKE lower('%$usuarioName%')";
+        }
+
+        $sql = $sql . " LIMIT 1) AS usuario_name,";
+
+        $sql = $sql . "(SELECT cc3_.te_class_property_value FROM computador_coleta cc3_ INNER JOIN class_property cp3_ ON cc3_.id_class_property = cp3_.id_class_property WHERE cp3_.nm_property_name = 'Coordenacao_Setor' AND cc3_.id_computador = cc_.id_computador";
+
+        if ($coordenacao) {
+            $sql = $sql . " AND lower(cc3_.te_class_property_value) LIKE lower('%$coordenacao%')";
+        }
+
+        $sql = $sql . " LIMIT 1) AS coordenacao_setor,";
+
+        $sql = $sql . "(SELECT cc4_.te_class_property_value FROM computador_coleta cc4_ INNER JOIN class_property cp4_ ON cc4_.id_class_property = cp4_.id_class_property WHERE cp4_.nm_property_name = 'Sala' AND cc4_.id_computador = cc_.id_computador";
+
+        if ($sala) {
+            $sql = $sql . " AND lower(cc4_.te_class_property_value) LIKE lower('%$sala%')";
+        }
+
+        $sql = $sql . " LIMIT 1) AS sala,
 	max(l1_.data) AS max_data,
 	l4_.nm_local AS nm_local,
 	l4_.id_local AS id_local
@@ -200,6 +236,8 @@ INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
 INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
 INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
 INNER JOIN log_acesso la5_ ON c0_.id_computador = la5_.id_computador
+INNER JOIN computador_coleta cc_ ON cc_.id_computador = c0_.id_computador
+INNER JOIN class_property cp_ ON cp_.id_class_property = cc_.id_class_property
 WHERE  1 = 1
 ";
 
@@ -211,7 +249,35 @@ WHERE  1 = 1
         }
 
         if ( $dataFim ) {
-            $sql .= " AND l1_.data <= ?";
+            $sql .= " AND l1_.data <= ? ";
+        }
+
+        if ( $nmComputador ) {
+            $sql .= " AND lower(c0_.nm_computador) LIKE lower(?) ";
+        }
+
+        if ( $teIpComputador ) {
+            $sql .= " AND c0_.te_ip_computador = ? ";
+        }
+
+        if ( $teNodeAddress ) {
+            $sql .= " AND c0_.te_node_address = ? ";
+        }
+
+        if ( $usuarioPatrimonio ) {
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
+        }
+
+        if ( $usuarioName ) {
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
+        }
+
+        if ( $coordenacao ) {
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
+        }
+
+        if ( $sala ) {
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
         }
 
         if ( $usuario ) {
@@ -225,8 +291,9 @@ WHERE  1 = 1
         $sql .= "
 GROUP BY c0_.te_node_address,
 	l4_.nm_local,
-	l4_.id_local
-        ";
+	l4_.id_local,
+	cc_.id_computador
+	";
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -236,16 +303,36 @@ GROUP BY c0_.te_node_address,
         if ( $dataInicio ) {
             $query->setParameter(1, ( $dataInicio.' 00:00:00' ));
         }
-
-
+        
         if ( $dataFim )
             $query->setParameter(2, ( $dataFim.' 23:59:59' ));
 
+        if ( $nmComputador )
+            $query->setParameter(3, "%$nmComputador%" );
+
+        if ( $teIpComputador )
+            $query->setParameter(4, "$teIpComputador" );
+
+        if ( $teNodeAddress )
+            $query->setParameter(5, "$teNodeAddress" );
+
+        if ( $usuarioPatrimonio )
+            $query->setParameter(6, "$usuarioPatrimonio" );
+
+        if ( $usuarioName )
+            $query->setParameter(7, "%$usuarioName%" );
+
+        if ( $coordenacao )
+            $query->setParameter(7, "%$coordenacao%" );
+
+        if ( $sala )
+            $query->setParameter(7, "%$sala%" );
+
         if ( $usuario )
-            $query->setParameter(3, "%$usuario%" );
+            $query->setParameter(8, "%$usuario%" );
 
         if ( $filtroLocais )
-            $query->setParameter(4, $filtroLocais);
+            $query->setParameter(9, $filtroLocais);
 
 
         return $query->execute();
