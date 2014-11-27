@@ -63,12 +63,12 @@ assetic:
         yui_css:
             jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.2.jar"
         lessphp:
-            file: "%kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php"
+            file: "%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php"
             apply_to: "\.less$"
-        less:
-            node: /usr/local/bin/node
-            node_paths: [/usr/local/lib/node_modules/]
-            apply_to: "\.less$"
+        #less:
+        #    node: /usr/local/bin/node
+        #    node_paths: [/usr/local/lib/node_modules/]
+        #    apply_to: "\.less$"
         cssrewrite: ~
     assets:
         bootstrap_css:
@@ -76,7 +76,7 @@ assetic:
                 - %kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less
                 - %kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/less/form.less
             filters:
-                - less
+                - lessphp
                 - cssrewrite
             output: css/bootstrap.css
         bootstrap_js:
@@ -103,7 +103,7 @@ assetic:
         bootstrap_less:
             inputs:
                 - '%kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less'
-            filters: [less,cssembed]
+            filters: [lessphp,cssembed]
 
 # Doctrine Configuration
 doctrine:
