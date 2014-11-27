@@ -464,8 +464,6 @@ cacic_usbdevice_excluir:
     pattern:  /manutencao/usbdevice/excluir
     defaults: { _controller: CacicCommonBundle:UsbDevice:excluir}
 
-<<<<<<< HEAD
-=======
 cacic_log_acesso:
     pattern:  /log/acesso
     defaults: { _controller: CacicCommonBundle:Log:acesso}
@@ -536,7 +534,6 @@ cacic_uorg_visualizar:
     requirements:
         idUorg: \d+
 
->>>>>>> 3bdeebd1f7a856e113d6ed63064885b64cd25bf5
 cacic_aquisicao_index:
     pattern: /manutencao/aquisicao/{page}
     defaults: {_controller: CacicCommonBundle:Aquisicao:index, page: 1 }

@@ -1023,12 +1023,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "a5173723d226531a35fc17982661e5dc256b9dcc"
+                "reference": "a984147938a3ac8e5f73bdecc89c3bb88781c029"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/a5173723d226531a35fc17982661e5dc256b9dcc",
-                "reference": "a5173723d226531a35fc17982661e5dc256b9dcc",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/a984147938a3ac8e5f73bdecc89c3bb88781c029",
+                "reference": "a984147938a3ac8e5f73bdecc89c3bb88781c029",
                 "shasum": ""
             },
             "require": {
@@ -1092,7 +1092,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-11-05 13:02:55"
+            "time": "2014-11-19 06:57:53"
         },
         {
             "name": "helios-ag/fm-elfinder-bundle",
@@ -1155,16 +1155,16 @@
         },
         {
             "name": "helios-ag/fm-elfinder-php-connector",
-            "version": "2.1",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/helios-ag/ElFinderPHP.git",
-                "reference": "928d58b4a76d08c3c52b5a911500b0311b518802"
+                "reference": "357092feaaaa5f58b6c1077de6ba6a651d8f82b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/helios-ag/ElFinderPHP/zipball/928d58b4a76d08c3c52b5a911500b0311b518802",
-                "reference": "928d58b4a76d08c3c52b5a911500b0311b518802",
+                "url": "https://api.github.com/repos/helios-ag/ElFinderPHP/zipball/357092feaaaa5f58b6c1077de6ba6a651d8f82b2",
+                "reference": "357092feaaaa5f58b6c1077de6ba6a651d8f82b2",
                 "shasum": ""
             },
             "require": {
@@ -1204,7 +1204,7 @@
                 "elfinder",
                 "filemanager"
             ],
-            "time": "2014-10-17 10:43:45"
+            "time": "2014-11-09 14:03:30"
         },
         {
             "name": "ijanki/ftp-bundle",

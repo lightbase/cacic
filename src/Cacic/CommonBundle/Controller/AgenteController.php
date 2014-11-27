@@ -157,14 +157,17 @@ class AgenteController extends Controller {
 
     public function uploadPackage($file, $version) {
         $logger = $this->get('logger');
+       //$logger->debug("66666666666666666666666666666666666 ".print_r($file, true));
+
         if (!$file->isValid()) {
             $logger->error("Erro no upload do arquivo. Arquivo inválido\n".$file->getErrorMessage());
             $this->get('session')->getFlashBag()->add('error', "Erro no upload do arquivo. Arquivo inválido\n".$file->getErrorMessage());
             return false;
         }
+
         $result = false;
         mkdir($version);
-        //$logger->debug("66666666666666666666666666666666666 ".print_r($file, true));
+      	//$logger->debug("66666666666666666666666666666666666 ".print_r($file, true));
 
         $extension = $file->getClientOriginalExtension();
         //$logger->debug("00000000000000000000000000000000000000000 $extension | $version");
