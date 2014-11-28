@@ -4,7 +4,7 @@
 
 <div class="row-fluid">
 
-    {% if nivel['nmGrupoUsuarios'] == 'Admin' %}
+    {% if (nivel['teGrupoUsuarios'] == 'Administração') or (nivel['teGrupoUsuarios'] == 'Administradores') %}
     <div class="span6 column ui-sortable" id="col0">
 		<div class="box grad_colour_black" id="box0">
 			<h2 class="box_head round_top"><i class="icon-bar-chart"></i> {{ 'Estatísticas do sistema'|trans }}</h2>
