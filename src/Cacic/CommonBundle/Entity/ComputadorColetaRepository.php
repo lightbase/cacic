@@ -3,6 +3,7 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * ComputadorColetaRepository
@@ -344,5 +345,57 @@ class ComputadorColetaRepository extends EntityRepository
             $qb->andWhere('u.idUorg IN (:uorg)')->setParameter('uorg', explode( ',', $filtros['uorg'] ));
 
             return $qb->getQuery()->execute();
+    }
+
+    /**
+     * Relatório de coleta geral
+     *
+     * @param $campos Array de campos a serem retornados na consulta. Devem estar no formato de list
+     * @param $dataInicio Data de início para considerar na busca
+     * @param $dataFim Última data a considerar na busca
+     * @return mixed Array mapeado com os campos id_computador, data_coleta, campos selecionados e respectivas
+     *              datas de coleta
+     */
+    public function relatorioColeta($campos, $dataInicio, $dataFim) {
+
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id_computador', 'id_computador');
+        $rsm->addScalarResult('data_coleta', 'data_coleta');
+
+        $sql = 'SELECT id_computador
+                data_coleta';
+
+        foreach ($campos as $atributo) {
+            $sql = $sql . ", $atributo, $atributo" . "_data";
+            $rsm->addScalarResult($atributo, $atributo);
+            $rsm->addScalarResult($atributo."_data", $atributo."_data");
+        }
+
+        if ( !empty($dataInicio) ) {
+            $sql  = $sql . "data_coleta >= ?";
+        }
+
+
+        if ( !empty($dataFim) ) {
+            $sql  = $sql . "data_coleta <= ?";
+        }
+
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+        if ( !empty($dataInicio) ) {
+            $query->setParameter(1, ( $dataInicio.' 00:00:00' ));
+        }
+
+
+        if ( !empty($dataFim) ) {
+            $query->setParameter(2, ( $dataFim.' 23:59:59' ));
+        }
+
+        return $query->execute();
+
     }
 }
