@@ -371,13 +371,16 @@ class ComputadorColetaRepository extends EntityRepository
             $rsm->addScalarResult($atributo."_data", $atributo."_data");
         }
 
+        $sql = $sql . "FROM relatorio_coleta
+        WHERE 1 = 1";
+
         if ( !empty($dataInicio) ) {
-            $sql  = $sql . "data_coleta >= ?";
+            $sql  = $sql . "AND data_coleta >= ?";
         }
 
 
         if ( !empty($dataFim) ) {
-            $sql  = $sql . "data_coleta <= ?";
+            $sql  = $sql . "AND data_coleta <= ?";
         }
 
 
