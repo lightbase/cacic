@@ -27,6 +27,7 @@ use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
 use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
 use Cacic\CommonBundle\Entity\PropriedadeSoftware;
+use Cacic\CommonBundle\Entity\LogUserLogado;
 
 
 class NeoController extends Controller {
@@ -192,6 +193,11 @@ class NeoController extends Controller {
         }
 
         # TODO: Grava log de acessos de usuario do computador
+        $log_usuario = new LogUserLogado();
+        $log_usuario->setIdComputador($computador);
+        $log_usuario->setData(new \DateTime());
+        $log_usuario->setUsuario($dados['computador']['usuario']);
+        $em->persist($log_usuario);
 
         $em->flush();
 
