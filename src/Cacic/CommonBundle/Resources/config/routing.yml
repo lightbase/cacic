@@ -198,6 +198,10 @@ cacic_patrimonio_opcoes:
     pattern:  /admin/patrimonio/opcoes
     defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:opcoes}
 
+cacic_patrimonio_cadastrar:
+    pattern:  /admin/patrimonio/{idComputador}/cadastrar
+    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:cadastrar, idComputador: null}
+
 cacic_uorg_index:
     pattern:  /admin/uorg/index
     defaults: { _controller: CacicCommonBundle:Uorg:index}
