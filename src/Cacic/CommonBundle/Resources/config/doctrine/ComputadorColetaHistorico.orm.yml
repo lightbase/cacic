@@ -1,6 +1,7 @@
 Cacic\CommonBundle\Entity\ComputadorColetaHistorico:
     type: entity
     table: computador_coleta_historico
+    repositoryClass: Cacic\CommonBundle\Entity\ComputadorColetaHistoricoRepository
     fields:
         idComputadorColetaHistorico:
             id: true

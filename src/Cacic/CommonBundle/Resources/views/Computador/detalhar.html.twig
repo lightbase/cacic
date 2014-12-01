@@ -78,9 +78,21 @@
 	            			        <td>{{ attribute(attribute(dadosColeta, classe), dados).teClassPropertyValue|raw }}</td>
                                     </tr>
 	            			    {% endfor %}
+                                <br>
 	            		    </tr>
 	            	    </tbody>
 	                </table>
+                    <center>
+                        <a class="btn btn-large" href="{{ path(
+                        'cacic_computador_historico',
+                        {
+                        'idComputador': computador.idComputador,
+                        'classe': classe
+                        })
+                        }}" target="_blank">
+                            {{ 'Visualizar histórico de alterações para a classe '|trans }}{{ classe }}
+                        </a>
+                    </center>
                 {% else %}
                     <table class="table">
                         <thead>
