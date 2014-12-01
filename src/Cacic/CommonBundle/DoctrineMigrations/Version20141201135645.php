@@ -26,6 +26,9 @@ class Version20141201135645 extends AbstractMigration implements ContainerAwareI
           "SELECT max(id_log) as id_log FROM log;"
         );
         $nextval = $result['id_log'];
+        if (empty($nextval)) {
+            $nextval = 1;
+        }
 
         $this->addSql(
             "SELECT setval('log_id_log_seq', $nextval)"
