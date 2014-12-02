@@ -18,7 +18,7 @@ class PatrimonioType extends AbstractType
     {
 
         $builder->add(
-            'computerName',
+            'ComputerName',
             null,
             array(
                 'label'=>'Nome do computador'

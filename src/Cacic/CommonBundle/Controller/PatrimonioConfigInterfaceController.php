@@ -121,6 +121,17 @@ class PatrimonioConfigInterfaceController extends Controller
             $patrimonio[$elm['nmPropertyName']] = $elm['teClassPropertyValue'];
         }
 
+        // Acha computador
+        $computador = $em->getRepository('CacicCommonBundle:Computador')->find($idComputador);
+
+        if (empty($patrimonio['IPComputer'])) {
+            $patrimonio['IPComputer'] = $computador->getTeIpComputador();
+        }
+
+        if (empty($patrimonio['ComputerName'])) {
+            $patrimonio['ComputerName'] = $computador->getNmComputador();
+        }
+
         $form = $this->createForm( new PatrimonioType(), $patrimonio );
 
         if ( $request->isMethod('POST') ) {
@@ -131,8 +142,12 @@ class PatrimonioConfigInterfaceController extends Controller
 
                 $data = $form->getData();
 
-                // Acha computador
-                $computador = $em->getRepository('CacicCommonBundle:Computador')->find($idComputador);
+
+                $classe = $em->getRepository('CacicCommonBundle:Classe')->findOneBy(array(
+                    'nmClassName' => 'Patrimonio'
+                ));
+
+                $idClass = $classe->getIdClass();
 
                 foreach($data as $classPropertyName => $classProperty) {
                     // Processa um campo do formulário de cada vez
@@ -144,9 +159,6 @@ class PatrimonioConfigInterfaceController extends Controller
 
                         // Cria a propriedade se não existe
                         $classPropertyObject = new ClassProperty();
-                        $idClass = $patrimonio_list[0]['idClass'];
-
-                        $classe = $em->getRepository('CacicCommonBundle:Classe')->find($idClass);
 
                         $classPropertyObject->setIdClass($classe);
                         $classPropertyObject->setNmPropertyName($classPropertyName);
