@@ -75,41 +75,6 @@ Cacic\CommonBundle\Entity\ServidorAutenticacao:
             - Choice:
                 choices:  [S, N]
 
-Cacic\CommonBundle\Entity\Rede:
-    properties:
-        nmRede:
-            - NotNull: ~
-        teMascaraRede:
-            - NotBlank: ~
-            - Length:
-                max: 20
-        teServCacic:
-            - NotBlank: ~
-        teServCacic:
-            - NotBlank: ~
-        teServUpdates:
-            - NotBlank: ~
-        teServUpdates:
-            - NotBlank: ~
-        nuPortaServUpdates:
-            - NotBlank: ~
-        nuLimiteFtp:
-            - NotBlank: ~
-            - Length:
-                max: 5
-        nmUsuarioLoginServUpdates:
-            - NotBlank: ~
-        nmUsuarioLoginServUpdatesGerente:
-            - NotBlank: ~
-        tePathServUpdates:
-            - NotBlank: ~
-        nuTelefone1:
-            - Length:
-                max: 11
-        nuTelefone2:
-            - Length:
-                max: 11
-
 Cacic\CommonBundle\Entity\So:
     properties:
         teDescSo:
