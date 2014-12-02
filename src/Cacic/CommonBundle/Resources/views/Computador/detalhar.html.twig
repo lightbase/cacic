@@ -17,8 +17,19 @@
 	        </h2>
 	    
 	        <div class="block box_content round_bottom padding_10">
-	            <h3>{{ computador.nmComputador }}</h3>
-	            <p class="muted">{{ "Dados coletados pelo agente-CACIC à partir da estação de trabalho."|trans }}</p>
+                <div class="span8">
+                    <h3>{{ computador.nmComputador }}</h3>
+                    <p class="muted">{{ "Dados coletados pelo agente-CACIC à partir da estação de trabalho."|trans }}</p>
+                </div>
+                <div class="span4">
+                    <div class="well">
+                        <h3>{{ "Açoes no computador"|trans }}</h3>
+                        <a class="btn btn-large btn-primary" href="{{ path('cacic_patrimonio_cadastrar', {'idComputador': computador.idComputador}) }}">
+                            <i class="icon-plus"></i>
+                            {{ "Cadastrar Patrimonio"|trans }}
+                        </a>
+                    </div>
+                </div>
 	            <br />
 	            <table class="table">
 	            	<thead>
@@ -78,9 +89,21 @@
 	            			        <td>{{ attribute(attribute(dadosColeta, classe), dados).teClassPropertyValue|raw }}</td>
                                     </tr>
 	            			    {% endfor %}
+                                <br>
 	            		    </tr>
 	            	    </tbody>
 	                </table>
+                    <center>
+                        <a class="btn btn-large" href="{{ path(
+                        'cacic_computador_historico',
+                        {
+                        'idComputador': computador.idComputador,
+                        'classe': classe
+                        })
+                        }}" target="_blank">
+                            {{ 'Visualizar histórico de alterações para a classe '|trans }}{{ classe }}
+                        </a>
+                    </center>
                 {% else %}
                     <table class="table">
                         <thead>
