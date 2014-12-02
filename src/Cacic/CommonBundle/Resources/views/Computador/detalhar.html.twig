@@ -47,8 +47,12 @@
 	            		<tr>
 	            			<th>{{ 'Sistema Operacional'|trans }}</th>
 	            			<td>{{ computador.idSo }}</td>
-                            <th>{{ 'Último usuário logado'|trans }}</th>
-                            <td>{{ ultimoAcesso.usuario }}</td>
+                            		<th>{{ 'Último usuário logado'|trans }}</th>
+                            		<td>
+                                    {% if ultimoAcesso.usuario is defined %}
+                                        {{ ultimoAcesso.usuario }}
+                                    {% endif %}
+                                    </td>
 	            		</tr>
 	            		<tr>
 	            			<th width="10%">{{ 'Endereço TCP/IP'|trans }}</th>
