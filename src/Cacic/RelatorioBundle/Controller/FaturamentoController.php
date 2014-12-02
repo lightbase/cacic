@@ -1,6 +1,7 @@
 <?php
  namespace Cacic\RelatorioBundle\Controller;
  use Cacic\CommonBundle\Entity\ComputadorColetaRepository;
+ use Cacic\CommonBundle\Form\Type\UserPesquisaType;
  use Ddeboer\DataImport\ValueConverter\ArrayValueConverterMap;
  use Ddeboer\DataImport\ValueConverter\CharsetValueConverter;
  use Doctrine\Common\Util\Debug;
@@ -425,7 +426,7 @@
 
             $locale = $request->getLocale();
 
-            $form = $this->createForm( new LogPesquisaType() );
+            $form = $this->createForm( new UserPesquisaType() );
             return $this->render( 'CacicRelatorioBundle:Faturamento:usuario.html.twig',
                 array(
                     'locale'=> $locale,
@@ -440,7 +441,7 @@
         public function usuarioDetalharAction( Request $request) {
 
             $locale = $request->getLocale();
-            $form = $this->createForm( new LogPesquisaType() );
+            $form = $this->createForm( new UserPesquisaType() );
 
             if ( $request->isMethod('POST') )
             {
@@ -455,10 +456,17 @@
                 $dataInicio = $data['dtAcaoInicio'];
                 $dataFim = $data['dtAcaoFim'];
                 $usuario = $data['usuario'];
+                $nmComputador = $data['nmComputador'];
+                $teIpComputador = $data['teIpComputador'];
+                $teNodeAddress = $data['teNodeAddress'];
+                $usuarioPatrimonio = $data['usuarioPatrimonio'];
+                $usuarioName = $data['usuarioName'];
+                $coordenacao = $data['coordenacao'];
+                $sala = $data['sala'];
 
                 $dados = $this->getDoctrine()
                     ->getRepository('CacicCommonBundle:LogAcesso')
-                    ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario);
+                    ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala);
 
             }
 
@@ -470,8 +478,6 @@
                     'idRede'        => $filtroLocais,
                     'dtAcaoInicio'  => $dataInicio,
                     'dtAcaoFim'     => $dataFim,
-                    'usuario'       => $usuario
-
                 )
             );
         }
@@ -497,10 +503,17 @@
                 $dataInicio = $data['dtAcaoInicio'];
                 $dataFim = $data['dtAcaoFim'];
                 $usuario = $data['usuario'];
+                $nmComputador = $data['nmComputador'];
+                $teIpComputador = $data['teIpComputador'];
+                $teNodeAddress = $data['teNodeAddress'];
+                $usuarioPatrimonio = $data['usuarioPatrimonio'];
+                $usuarioName = $data['usuarioName'];
+                $coordenacao = $data['coordenacao'];
+                $sala = $data['sala'];
 
                 $dados = $this->getDoctrine()
                     ->getRepository('CacicCommonBundle:LogAcesso')
-                    ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario);
+                    ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala);
 
             }
 

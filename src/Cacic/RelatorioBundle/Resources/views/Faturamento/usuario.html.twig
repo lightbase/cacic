@@ -15,9 +15,7 @@
 
                 <div class="block box_content round_bottom padding_10">
 
-                    <h4>{{ "Filtros para consulta de usuário logado"|trans }}</h4><br />
-
-                    <form id="{{ 'formFaturamento'|trans }}" action="{{ path('cacic_relatorio_usuario_detalhar') }}" class="form-horizontal" method="POST" target="_blank">
+                    <form id={{ 'formUserPesquisa'|trans }} action="{{ path('cacic_relatorio_usuario_detalhar') }}" class="form-horizontal" method="POST" target="_blank">
 
                         <div class="control-group">
                             <label for="log_acesso_periodo"  class="control-label">{{ 'Período'|trans }}</label>
@@ -27,27 +25,78 @@
                             </div>
                         </div>
 
-                        <label class="control-label">{{ 'Usuário'|trans }}</label>
+                        <hr>
+                        <h4>{{ "Informações estáticas"|trans }}</h4><br />
+
                         <div class="control-group" >
+                            <label for="UserPesquisa"  class="control-label">{{ 'Nome do Computador'|trans }}</label>
                             <div class="controls">
-                                {{ form_widget(form.usuario) }}
+                                {{ form_widget(form.nmComputador) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group" >
+                                <label for="UserPesquisa"  class="control-label">{{ 'IP do Computador'|trans }}</label>
+                                <div class="controls">
+                                    {{ form_widget(form.teIpComputador) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group" >
+                                <label for="UserPesquisa"  class="control-label">{{ 'MAC Address'|trans }}</label>
+                                <div class="controls">
+                                    {{ form_widget(form.teNodeAddress) }}
+                                </div>
+                            </div>
+
+                        <div class="control-group" >
+                            <label for="UserPesquisa"  class="control-label">{{ 'Usuário (Responsável)'|trans }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.usuarioPatrimonio) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group" >
+                            <label for="UserPesquisa"  class="control-label">{{ 'Usuário (UserName)'|trans }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.usuarioName) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group" >
+                            <label for="UserPesquisa"  class="control-label">{{ 'Coordenação'|trans }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.coordenacao) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group" >
+                            <label for="UserPesquisa"  class="control-label">{{ 'Sala'|trans }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.sala) }}
                             </div>
                         </div>
 
                         <div class="control-group _cad_block_opcao">
                             <label class="control-label">{{ 'Local'|trans }}</label>
-							<div class="controls">
-
-
+                            <div class="controls">
                                 <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="id.Local" id="toggleLocal">
                                 <label for="toggleLocal"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
-									<div style="height: 165px; overflow: auto;">
+                                <div style="height: 165px; overflow: auto;">
+                                    <div class="modulo-opt-block">
+                                        {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <hr>
+                        <h4>{{ "Informações dinâmicas"|trans }}</h4><br />
 
-											<div class="modulo-opt-block">
-											{{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
-											</div>
-									</div>
-							</div>
+                        <div class="control-group" >
+                            <label for="UserPesquisa"  class="control-label">{{ 'Usuário Logado'|trans }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.usuarioLogado) }}
+                            </div>
                         </div>
 
                         <div class="control-group">
