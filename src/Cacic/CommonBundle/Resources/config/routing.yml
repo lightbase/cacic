@@ -450,6 +450,12 @@ cacic_software_naousados:
     requirements:
         page: \d+
 
+cacic_device3g_index:
+    pattern: /manutencao/device3g/{page}
+    defaults: {_controller: CacicCommonBundle:Device3g:index, page: 1 }
+    requirements:
+        page: \d+
+
 cacic_usbdevice_index:
     pattern: /manutencao/usbdevice/{page}
     defaults: {_controller: CacicCommonBundle:UsbDevice:index, page: 1 }
