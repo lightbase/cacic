@@ -535,7 +535,7 @@ class NeoControllerTest extends BaseTestCase
                 'CONTENT_TYPE'  => 'application/json',
                 //'HTTPS'         => true
             ),
-            $this->computador_http
+            $this->computador
         );
         //$logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
 
@@ -565,6 +565,43 @@ class NeoControllerTest extends BaseTestCase
         }
         $this->assertTrue($result);
 
+    }
+
+    public function testUsuarioLogado() {
+        $logger = $this->container->get('logger');
+        $this->client->request(
+            'POST',
+            '/ws/neo/getTest',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->computador
+        );
+        //$logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON do getConfig: \n".$response->getContent());
+
+        $this->assertEquals($status, 200);
+
+        // Testa se o usuário Eric foi persistido
+        $em =$this->container->get('doctrine')->getManager();
+        $results = $em->getRepository('CacicCommonBundle:LogUserLogado')->findBy(array(
+            'usuario' => 'Eric Menezes'
+        ));
+
+        $this->assertFalse(empty($results));
+
+        $results = $em->getRepository('CacicCommonBundle:LogUserLogado')->findBy(array(
+            'usuario' => 'Joãzinho'
+        ));
+
+        $this->assertTrue(empty($results));
     }
 
     /**
