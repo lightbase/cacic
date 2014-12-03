@@ -198,6 +198,10 @@ cacic_patrimonio_opcoes:
     pattern:  /admin/patrimonio/opcoes
     defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:opcoes}
 
+cacic_patrimonio_cadastrar:
+    pattern:  /admin/patrimonio/{idComputador}/cadastrar
+    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:cadastrar, idComputador: null}
+
 cacic_uorg_index:
     pattern:  /admin/uorg/index
     defaults: { _controller: CacicCommonBundle:Uorg:index}
@@ -443,6 +447,12 @@ cacic_software_naoclassificados:
 cacic_software_naousados:
     pattern:  /manutencao/software/naousados/{page}
     defaults: { _controller: CacicCommonBundle:Software:naoUsados, page:1}
+    requirements:
+        page: \d+
+
+cacic_device3g_index:
+    pattern: /manutencao/device3g/{page}
+    defaults: {_controller: CacicCommonBundle:Device3g:index, page: 1 }
     requirements:
         page: \d+
 

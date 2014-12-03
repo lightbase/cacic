@@ -401,4 +401,41 @@ class ComputadorColetaRepository extends EntityRepository
         return $query->execute();
 
     }
+
+    public function patrimonioComputador($idComputador) {
+        $_dql = "SELECT comp.idComputador,
+            c.teClassPropertyValue,
+            prop.nmPropertyName,
+            cl.nmClassName,
+            comp.teIpComputador,
+            comp.teUltimoLogin,
+            cl.idClass,
+            comp.nmComputador
+        FROM CacicCommonBundle:ComputadorColeta c
+        INNER JOIN CacicCommonBundle:Computador comp WITH c.computador = comp.idComputador
+        INNER JOIN CacicCommonBundle:ClassProperty prop WITH c.classProperty = prop.idClassProperty
+        INNER JOIN CacicCommonBundle:Classe cl WITH prop.idClass = cl.idClass
+        WHERE cl.nmClassName = 'Patrimonio'
+        AND comp.idComputador = :idComputador
+        ";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->setParameter('idComputador', $idComputador)
+            ->getArrayResult();
+    }
+
+    /**
+     *
+     * Gera relatório de dispositivos 3G
+     *
+     */
+    public function listar3g() {
+        $_dql = "SELECT c.teClassPropertyValue, p.displayName, p.publisher
+        FROM CacicCommonBundle:ComputadorColeta c
+        INNER JOIN CacicCommonBundle:ProriedadeSoftware p ON c.idClassProperty = p.idClassProperty
+        WHERE LOWER(c.teClassPropertyValue) LIKE LOWER('%modem%')
+        ";
+
+        return $this->getEntityManager()->createQuery( $_dql );
+    }
 }

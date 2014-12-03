@@ -27,6 +27,7 @@ use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
 use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
 use Cacic\CommonBundle\Entity\PropriedadeSoftware;
+use Cacic\CommonBundle\Entity\LogUserLogado;
 
 
 class NeoController extends Controller {
@@ -192,6 +193,11 @@ class NeoController extends Controller {
         }
 
         # TODO: Grava log de acessos de usuario do computador
+        $log_usuario = new LogUserLogado();
+        $log_usuario->setIdComputador($computador);
+        $log_usuario->setData(new \DateTime());
+        $log_usuario->setUsuario($dados['computador']['usuario']);
+        $em->persist($log_usuario);
 
         $em->flush();
 
@@ -767,13 +773,12 @@ class NeoController extends Controller {
                 $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
                 $em->persist( $computadorColetaHistorico );
 
-                // Grava tudo da propriedade
-                $em->flush();
             } catch(\Doctrine\ORM\ORMException $e){
                 $logger->error("COLETA: Erro na inserçao de dados da propriedade $propriedade. \n$e");
             }
-
         }
+        // Grava tudo da propriedade
+        $em->flush();
     }
 
     public function setSoftware($software, $computador) {
@@ -797,6 +802,11 @@ class NeoController extends Controller {
             $this->setSoftwareElement($classe, $valor, $computador, $classObject);
             $i = $i + 1;
         }
+
+        /*
+         * Grava tudo
+         */
+        $em->flush();
         $logger->debug("COLETA: Coleta de software finalizada. Total de softwares coletados: $i");
 
         return true;
@@ -903,12 +913,9 @@ class NeoController extends Controller {
             $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
             $em->persist( $computadorColetaHistorico );
 
-            // Grava tudo da propriedade
-            $em->flush();
         } catch(\Doctrine\ORM\ORMException $e){
             $logger->error("COLETA: Erro na inserçao de dados do software $software. \n$e");
         }
-
     }
 
 }
