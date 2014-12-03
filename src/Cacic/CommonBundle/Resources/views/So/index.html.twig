@@ -22,12 +22,11 @@
               <thead>
                 <tr>
                     <th width="15%">{{ "Descrição"|trans }}</th>
-                    <th width="10%" style="text-align: center" >MS-Windows?</th>
+                    <th width="15%" style="text-align: center" >MS-Windows?</th>
                     <th width="15%" style="text-align: center" >{{ "ID Interna"|trans }}</th>
-                    <th width="10%" style="text-align: center">{{ "ID Externa"|trans }}</th>
+                    <th width="15%" style="text-align: center">{{ "ID Externa"|trans }}</th>
                     <th width="15%">{{ "Sigla"|trans }}</th>
                     <th width="15%">{{ "Total de Máquinas"|trans }}</th>
-                    <th width="10%">{{ "Tipo de SO"|trans }}</th>
                     <th style="text-align: center">{{ "Ações"|trans }}</th>
                 </tr>
               </thead>
@@ -42,11 +41,6 @@
                         <td style="text-align: center">{{ so.idSo }}</td>
                         <td>{{ so.sgSo }}</td>
                         <td></td>
-                        {% if so.tipo is empty %}
-                            <td></td>
-                        {% else %}
-                            <td>{{ so.tipo.tipo }}</td>
-                        {% endif %}
                         <td style="text-align: center" class="td-actions">
                             <a href="{{ path('cacic_sistemaoperacional_editar', {'idSo': so.idSo }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                 <i class="btn-icon-only icon-edit icon-large"></i>

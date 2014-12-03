@@ -50,21 +50,6 @@ Cacic\CommonBundle\Entity\Usuario:
             fixed: false
             nullable: true
             column: te_telefones_contato
-        apiKey:
-            type: text
-            fixed: false
-            nullable: true
-            column: api_key
-        cryptKey:
-            type: text
-            fixed: false
-            nullable: true
-            column: crypt_key
-        isActive:
-            type: boolean
-            fixed: false
-            nullable: true
-            column: is_active
     manyToMany:
         locaisSecundarios:
             targetEntity: Local
@@ -107,9 +92,4 @@ Cacic\CommonBundle\Entity\Usuario:
                     referencedColumnName: id_grupo_usuario
                     nullable: false
             orphanRemoval: false
-    uniqueConstraints:
-        api_key_uq_idx:
-            columns: [ api_key ]
-        crypt_key_uq_idx:
-            columns: [ crypt_key ]
     lifecycleCallbacks: {  }

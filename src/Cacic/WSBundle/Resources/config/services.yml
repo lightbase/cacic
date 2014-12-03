@@ -1,6 +1,3 @@
-parameters:
-    webservice_user_provider.class: Cacic\WSBundle\Security\User\WebserviceUserProvider
-
 services:
     cacic.twig.old_cacic_extension:
         class: Cacic\WSBundle\Twig\OldCacicExtension
@@ -10,7 +7,3 @@ services:
     cacic.commonbundle.helper.old_cacic_helper:
         class: Cacic\CommonBundle\Helper\OldCacicHelper
         arguments: [@kernel]
-
-    webservice_user_provider:
-        class: "%webservice_user_provider.class%"
-        arguments: [@service_container]

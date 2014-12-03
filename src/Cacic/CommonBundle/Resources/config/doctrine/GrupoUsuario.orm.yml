@@ -34,8 +34,4 @@ Cacic\CommonBundle\Entity\GrupoUsuario:
             type: integer
             nullable: true
             column: cs_nivel_administracao
-        role:
-            type: text
-            nullable: true
-            column: role
     lifecycleCallbacks: {  }

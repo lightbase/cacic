@@ -29,15 +29,4 @@ class PropriedadeSoftwareRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
-
-    public function softwareByName( $nmSoftware ) {
-        $qb = $this->createQueryBuilder('prop')
-            ->select('prop')
-            ->innerJoin('CacicCommonBundle:classProperty', 'cp', 'WITH', 'prop.classProperty = cp.idClassProperty')
-            ->andWhere('cp.nmPropertyName = :nmSoftware')
-            ->setParameter('nmSoftware', $nmSoftware);
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
 }

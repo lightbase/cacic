@@ -69,19 +69,7 @@ class RedeType extends AbstractType
         );
         $builder->add('teServUpdates', null,
             array(
-                'label'=>'Servidor para download dos Agentes'
-            )
-        );
-        $builder->add('downloadMethod', 'choice',
-            array(
-                'label'=>'Método de download',
-                'choices'   => array(
-                    'ftp' => 'FTP', 
-                    'http' => 'HTTP'
-                ),
-                'required'  => true,
-                //'data' => 'ftp',
-                //'expanded'  => true,
+                'label'=>'Servidor de Updates (FTP)'
             )
         );
         $builder->add('selTeServUpdates', 'entity',
@@ -97,18 +85,15 @@ class RedeType extends AbstractType
         $builder->add('nuPortaServUpdates', null,
              array(
                  'label' => 'Porta',
-                 'data'=>'21',
-                 'required' => false
+                 'data'=>'21'
              )
         );
         $builder->add('nuLimiteFtp', null,
             array(
                 'label' => 'Limite FTP',
-                'data'=>'100',
-                'required' => false
+                'data'=>'100'
             )
         );
-        /*
         $builder->add('nmUsuarioLoginServUpdates', null,
             array(
                 'label' => 'Usuário do Servidor de Updates (para AGENTE)'
@@ -120,11 +105,9 @@ class RedeType extends AbstractType
                 'required'  => false
             )
         );
-        */
         $builder->add('nmUsuarioLoginServUpdatesGerente', null,
             array(
-                'label' => 'Usuário do Servidor de Updates (para GERENTE)',
-                'required' => false
+                'label' => 'Usuário do Servidor de Updates (para GERENTE)'
             )
         );
         $builder->add('teSenhaLoginServUpdatesGerente', 'password',
@@ -135,8 +118,7 @@ class RedeType extends AbstractType
         );
         $builder->add('tePathServUpdates', null,
              array(
-                 'label' => 'Path no Servidor de Updates',
-                 'required' => false
+                 'label' => 'Path no Servidor de Updates'
              )
          );
         $builder->add('teObservacao', 'textarea',

@@ -16,452 +16,272 @@ cacic_common_instalador:
     pattern:  /instalador
     defaults: { _controller: CacicCommonBundle:Instalador:index }
 
-###########################################
-# INÍCIO: Páginas restritas aos administradores
-#############################################
-
-# Usuários
-
 cacic_usuario_index:
-    pattern:  /admin/usuarios/{page}
+    pattern:  /usuarios/{page}
     defaults: { _controller: CacicCommonBundle:Usuario:index, page: 1 }
     requirements:
         page: \d+
 
+cacic_usuario_meus_dados:
+    pattern:  /usuario/meusdados
+    defaults: { _controller: CacicCommonBundle:Usuario:meusdados}
+
+cacic_usuario_trocar_senha:
+    pattern:  /usuario/trocarsenha
+    defaults: { _controller: CacicCommonBundle:Usuario:trocarsenha}
+
+cacic_usuario_trocar_propria_senha:
+    pattern:  /usuario/trocarpropriasenha
+    defaults: { _controller: CacicCommonBundle:Usuario:trocarpropriasenha}
+
 cacic_usuario_cadastrar:
-    pattern:  /admin/usuario/cadastrar
+    pattern:  /usuario/cadastrar
     defaults: { _controller: CacicCommonBundle:Usuario:cadastrar}
 
 cacic_usuario_editar:
-    pattern:  /admin/usuario/editar/{idUsuario}
+    pattern:  /usuario/editar/{idUsuario}
     defaults: { _controller: CacicCommonBundle:Usuario:editar, idUsuario: null}
     requirements:
         idUsuario: \d+
 
 cacic_usuario_excluir:
-    pattern:  /admin/usuario/excluir
+    pattern:  /usuario/excluir
     defaults: { _controller: CacicCommonBundle:Usuario:excluir}
 
-# Locais
+
+cacic_usuario_recuperar_senha:
+    pattern:  /usuario/recuperarsenha
+    defaults: { _controller: CacicCommonBundle:Usuario:recuperarsenha}
 
 cacic_local_index:
-    pattern:  /admin/local/{page}
+    pattern:  /local/{page}
     defaults: { _controller: CacicCommonBundle:Local:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_local_cadastrar:
-    pattern:  /admin/local/cadastrar
+    pattern:  /local/cadastrar
     defaults: { _controller: CacicCommonBundle:Local:cadastrar}
 
 cacic_local_editar:
-    pattern:  /admin/local/editar/{idLocal}
+    pattern:  /local/editar/{idLocal}
     defaults: { _controller: CacicCommonBundle:Local:editar}
     requirements:
         idLocal: \d+
 
 cacic_local_excluir:
-    pattern:  /admin/local/excluir
+    pattern:  /local/excluir
     defaults: { _controller: CacicCommonBundle:Local:excluir}
 
 cacic_local_redesassociadas:
-    pattern:  /admin/local/redes/{idLocal}
+    pattern:  /local/redes/{idLocal}
     defaults: { _controller: CacicCommonBundle:Local:redes}
     requirements:
         idLocal: \d+
 
 cacic_local_usuariosassociados:
-    pattern:  /admin/local/usuarios/{idLocal}
+    pattern:  /local/usuarios/{idLocal}
     defaults: { _controller: CacicCommonBundle:Local:usuarios}
     requirements:
         idLocal: \d+
 
 cacic_local_configuracoes:
-    pattern:  /admin/local/configuracoes/{idLocal}
+    pattern:  /local/configuracoes/{idLocal}
     defaults: { _controller: CacicCommonBundle:Local:configuracoes}
     requirements:
         idLocal: \d+
 
 cacic_servidorautenticacao_index:
-    pattern: /admin/servidorautenticacao/{page}
+    pattern: /servidorautenticacao/{page}
     defaults: {_controller: CacicCommonBundle:ServidorAutenticacao:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_servidorautenticacao_cadastrar:
-    pattern: /admin/servidorautenticacao/cadastrar
+    pattern: /servidorautenticacao/cadastrar
     defaults: { _controller: CacicCommonBundle:ServidorAutenticacao:cadastrar}
 
 cacic_servidorautenticacao_editar:
-    pattern:  /admin/servidorautenticacao/editar/{idServidorAutenticacao}
+    pattern:  /servidorautenticacao/editar/{idServidorAutenticacao}
     defaults: { _controller: CacicCommonBundle:ServidorAutenticacao:editar}
     requirements:
         idLocal: \d+
 
 cacic_servidorautenticacao_excluir:
-    pattern:  /admin/servidorautenticacao/excluir
+    pattern:  /servidorautenticacao/excluir
     defaults: { _controller: CacicCommonBundle:ServidorAutenticacao:excluir}
 
 cacic_servidorautenticacao_redesassociadas:
-    pattern:  /admin/servidorautenticacao/redes/{idServidorAutenticacao}
+    pattern:  /servidorautenticacao/redes/{idServidorAutenticacao}
     defaults: { _controller: CacicCommonBundle:ServidorAutenticacao:redes}
     requirements:
         idLocal: \d+
 
-# Subredes
-
 cacic_subrede_index:
-    pattern: /admin/subrede/{page}
+    pattern: /subrede/{page}
     defaults: {_controller: CacicCommonBundle:Rede:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_subrede_cadastrar:
-    pattern: /admin/subrede/cadastrar
+    pattern: /subrede/cadastrar
     defaults: { _controller: CacicCommonBundle:Rede:cadastrar}
 
 cacic_subrede_editar:
-    pattern:  /admin/subrede/editar/{idRede}
+    pattern:  /subrede/editar/{idRede}
     defaults: { _controller: CacicCommonBundle:Rede:editar}
     requirements:
         idRede: \d+
 
 cacic_subrede_excluir:
-    pattern:  /admin/subrede/excluir
+    pattern:  /subrede/excluir
     defaults: { _controller: CacicCommonBundle:Rede:excluir}
 
 cacic_subrede_manutencao:
-    pattern: /admin/subrede/manutencao
+    pattern: /subrede/manutencao
     defaults: { _controller: CacicCommonBundle:Rede:manutencao}
 
 cacic_subrede_vincular:
-    pattern: /admin/subrede/vincular
+    pattern: /subrede/vincular
     defaults: { _controller: CacicCommonBundle:Rede:vincular}
 
 cacic_subrede_computadores:
-    pattern: /admin/subrede/computadores
+    pattern: /subrede/computadores
     defaults: { _controller: CacicCommonBundle:Rede:computadores}
 
-cacic_configuracao_padrao:
-    pattern: /admin/configuracao/padrao
-    defaults: { _controller: CacicCommonBundle:Configuracao:padrao}
-
-cacic_configuracao_gerente:
-    pattern: /admin/configuracao/gerente
-    defaults: { _controller: CacicCommonBundle:Configuracao:gerente}
-
-cacic_configuracao_agente:
-    pattern: /admin/configuracao/agente
-    defaults: { _controller: CacicCommonBundle:Configuracao:agente}
-
-cacic_configuracao_salvar:
-    pattern: /admin/configuracao/salvar
-    defaults: { _controller: CacicCommonBundle:Configuracao:salvarconfiguracao}
-
-cacic_modulo_index:
-    pattern: /admin/modulo
-    defaults: { _controller: CacicCommonBundle:Modulo:index}
-
-cacic_modulo_editar:
-    pattern: /admin/modulo/editar/{idAcao}
-    defaults: { _controller: CacicCommonBundle:Modulo:editar}
-
-cacic_log_acesso:
-    pattern:  /admin/log/acesso
-    defaults: { _controller: CacicCommonBundle:Log:acesso}
-
-cacic_log_pesquisa:
-    pattern:  /admin/log/pesquisa
-    defaults: { _controller: CacicCommonBundle:Log:pesquisa}
-
-cacic_log_atividade:
-    pattern:  /admin/log/atividade
-    defaults: { _controller: CacicCommonBundle:Log:atividade}
-
-cacic_log_insucesso_instalacao:
-    pattern:  /admin/log/insucessoinstalacao
-    defaults: { _controller: CacicCommonBundle:Log:insucessoinstalacao}
-
-cacic_log_suporte_remoto:
-    pattern:  /admin/log/suporteremoto
-    defaults: { _controller: CacicCommonBundle:Log:suporteremoto}
-
-cacic_patrimonio_index:
-    pattern: /admin/patrimonio/index
-    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:index}
-
-cacic_patrimonio_interface:
-    pattern:  /admin/patrimonio/interface/{idEtiqueta}
-    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:interface}
-
-cacic_patrimonio_opcoes:
-    pattern:  /admin/patrimonio/opcoes
-    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:opcoes}
-
-cacic_uorg_index:
-    pattern:  /admin/uorg/index
-    defaults: { _controller: CacicCommonBundle:Uorg:index}
-
-cacic_uorg_cadastrar:
-    pattern:  /admin/uorg/cadastrar/{idUorgPai}
-    defaults: { _controller: CacicCommonBundle:Uorg:cadastrar, idUorgPai: null}
-    requirements:
-        idUorgPai: \d+
-
-cacic_uorg_editar:
-    pattern:  /admin/uorg/editar/{idUorg}
-    defaults: { _controller: CacicCommonBundle:Uorg:editar, idUorg: null}
-    requirements:
-        idUorg: \d+
-
-cacic_uorg_excluir:
-    pattern:  /admin/uorg/excluir/{idUorg}
-    defaults: { _controller: CacicCommonBundle:Uorg:excluir, idUorg: null}
-    requirements:
-        idUorg: \d+
-
-cacic_uorg_loadnodes:
-    pattern:  /admin/uorg/loadnodes/{idUorgPai}
-    defaults: { _controller: CacicCommonBundle:Uorg:loadnodes, idUorgPai: null}
-    requirements:
-        idUorgPai: \d+
-
-cacic_uorg_visualizar:
-    pattern:  /admin/uorg/visualizar/{idUorg}
-    defaults: { _controller: CacicCommonBundle:Uorg:visualizar, idUorg: null}
-    requirements:
-        idUorg: \d+
-
-cacic_computador_excluir:
-    pattern:  /admin/computador/excluir/{idComputador}
-    defaults: { _controller: CacicCommonBundle:Computador:excluir}
-    requirements:
-        idComputador: \d+
-
-cacic_computador_coletar:
-    pattern: /admin/computador/coletar
-    defaults: { _controller: CacicCommonBundle:Computador:coletar }
-
-cacic_computador_versaoagente:
-    pattern: /admin/computador/versaoagente
-    defaults: { _controller: CacicCommonBundle:Computador:versaoagente }
-
-cacic_rede_coletar:
-    pattern: /admin/rede/coletar
-    defaults: { _controller: CacicCommonBundle:Rede:coletar }
-
-cacic_rede_coletar_submit:
-    pattern: /admin/rede/coletar/submit
-    defaults: { _controller: CacicCommonBundle:Rede:submit }
-
-cacic_computador_update:
-    pattern: /admin/computador/update/{idComputador}
-    defaults: { _controller: CacicCommonBundle:Computador:update, idComputador: null }
-
-cacic_migracao_cacic26:
-    pattern: /admin/migracao/cacic26
-    defaults: { _controller: CacicCommonBundle:Cacic26:importardados}
-
-cacic_migracao_importador:
-    pattern: /admin/migracao/importador
-    defaults: { _controller: CacicCommonBundle:Cacic26:importarscript}
-
-cacic_uorg_type_index:
-    pattern:  /admin/uorg/type/{page}
-    defaults: { _controller: CacicCommonBundle:UorgType:index, page: 1 }
-    requirements:
-        page: \d+
-
-cacic_uorg_type_cadastrar:
-    pattern:  /admin/uorg/type/cadastrar/{idUorgType}
-    defaults: { _controller: CacicCommonBundle:UorgType:cadastrar, idUorgType: null}
-
-cacic_uorg_type_excluir:
-    pattern:  /admin/uorg/type/excluir
-    defaults: { _controller: CacicCommonBundle:UorgType:excluir}
-
-cacic_grupo_usuario_index:
-    pattern:  /admin/grupousuario/{page}
-    defaults: { _controller: CacicCommonBundle:GrupoUsuario:index, page: 1 }
-    requirements:
-        page: \d+
-
-cacic_grupo_usuario_cadastrar:
-    pattern:  /admin/grupousuario/cadastrar
-    defaults: { _controller: CacicCommonBundle:GrupoUsuario:cadastrar}
-
-cacic_grupo_usuario_editar:
-    pattern:  /admin/grupousuario/editar/{idGrupoUsuario}
-    defaults: { _controller: CacicCommonBundle:GrupoUsuario:editar}
-    requirements:
-        idGrupoUsuario: \d+
-
-cacic_grupo_usuario_excluir:
-    pattern:  /admin/grupousuario/excluir
-    defaults: { _controller: CacicCommonBundle:GrupoUsuario:excluir}
-
-cacic_agente:
-    pattern: /admin/agente/
-    defaults: { _controller: CacicCommonBundle:Agente:index }
-
-cacic_agente_excluir:
-    pattern: /admin/agente/excluir
-    defaults: { _controller: CacicCommonBundle:Agente:excluir }
-
-cacic_deploy:
-    pattern: /admin/deploy/
-    defaults: { _controller: CacicCommonBundle:Agente:deploy }
-
-cacic_atualizacao_subredes:
-    pattern: /admin/subrede/manutencaoneo
-    defaults: { _controller: CacicCommonBundle:Rede:manutencaoNeo }
-
-############################
-# FIM: Páginas administrativas
-#############################
-
-
-############################################
-# INÍCIO: Usuário com perfil manutenção
-############################################
-
-cacic_ateste:
-    pattern:  /manutencao/ateste/
-    defaults: { _controller: CacicCommonBundle:Ateste:index }
-
 cacic_aplicativo_index:
-    pattern: /manutencao/aplicativo/{page}
+    pattern: /aplicativo/{page}
     defaults: {_controller: CacicCommonBundle:Aplicativo:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_aplicativo_cadastrar:
-    pattern: /manutencao/aplicativo/cadastrar
+    pattern: /aplicativo/cadastrar
     defaults: { _controller: CacicCommonBundle:Aplicativo:cadastrar}
 
 cacic_aplicativo_editar:
-    pattern:  /manutencao/aplicativo/editar/{idAplicativo}
+    pattern:  /aplicativo/editar/{idAplicativo}
     defaults: { _controller: CacicCommonBundle:Aplicativo:editar}
     requirements:
         idAplicativo: \d+
 
 cacic_aplicativo_excluir:
-    pattern:  /manutencao/aplicativo/excluir
+    pattern:  /aplicativo/excluir
     defaults: { _controller: CacicCommonBundle:Aplicativo:excluir}
 
 
 cacic_tiposoftware_index:
-    pattern: /manutencao/tiposoftware/{page}
+    pattern: /tiposoftware/{page}
     defaults: {_controller: CacicCommonBundle:TipoSoftware:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_tiposoftware_cadastrar:
-    pattern: /manutencao/tiposoftware/cadastrar
+    pattern: /tiposoftware/cadastrar
     defaults: { _controller: CacicCommonBundle:TipoSoftware:cadastrar}
 
 cacic_tiposoftware_editar:
-    pattern:  /manutencao/tiposoftware/editar/{idTipoSoftware}
+    pattern:  /tiposoftware/editar/{idTipoSoftware}
     defaults: { _controller: CacicCommonBundle:TipoSoftware:editar}
     requirements:
         idTipoSoftware: \d+
 
 cacic_tiposoftware_excluir:
-    pattern:  /manutencao/tiposoftware/excluir
+    pattern:  /tiposoftware/excluir
     defaults: { _controller: CacicCommonBundle:TipoSoftware:excluir}
 
-# Sistemas Operacionais
-
 cacic_sistemaoperacional_index:
-    pattern: /manutencao/sistemaoperacional/{page}
+    pattern: /sistemaoperacional/{page}
     defaults: {_controller: CacicCommonBundle:So:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_sistemaoperacional_cadastrar:
-    pattern: /manutencao/sistemaoperacional/cadastrar
+    pattern: /sistemaoperacional/cadastrar
     defaults: { _controller: CacicCommonBundle:So:cadastrar}
 
 cacic_sistemaoperacional_editar:
-    pattern:  /manutencao/sistemaoperacional/editar/{idSo}
+    pattern:  /sistemaoperacional/editar/{idSo}
     defaults: { _controller: CacicCommonBundle:So:editar}
     requirements:
         idSo: \d+
 
 cacic_sistemaoperacional_excluir:
-    pattern:  /manutencao/sistemaoperacional/excluir
+    pattern:  /sistemaoperacional/excluir
     defaults: { _controller: CacicCommonBundle:So:excluir}
 
-
-cacic_tiposo_index:
-    pattern: /manutencao/tiposo/{page}
-    defaults: {_controller: CacicCommonBundle:TipoSo:index, page: 1 }
-    requirements:
-        page: \d+
-
-cacic_tiposo_cadastrar:
-    pattern: /manutencao/tiposo/cadastrar
-    defaults: { _controller: CacicCommonBundle:TipoSo:cadastrar}
-
-cacic_tiposo_editar:
-    pattern:  /manutencao/tiposo/editar/{idTipoSo}
-    defaults: { _controller: CacicCommonBundle:TipoSo:editar}
-    requirements:
-        idTipoSo: \d+
-
-cacic_tiposo_excluir:
-    pattern:  /manutencao/tiposo/excluir
-    defaults: { _controller: CacicCommonBundle:TipoSo:excluir}
-
-
 cacic_software_index:
-    pattern: /manutencao/software/{page}
+    pattern: /software/{page}
     defaults: {_controller: CacicCommonBundle:Software:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_software_cadastrar:
-    pattern: /manutencao/software/cadastrar
+    pattern: /software/cadastrar
     defaults: { _controller: CacicCommonBundle:Software:cadastrar}
 
 cacic_software_editar:
-    pattern:  /manutencao/software/editar/{idSoftware}
+    pattern:  /software/editar/{idSoftware}
     defaults: { _controller: CacicCommonBundle:Software:editar}
     requirements:
         idSoftware: \d+
 
 cacic_software_excluir:
-    pattern:  /manutencao/software/excluir
+    pattern:  /software/excluir
     defaults: { _controller: CacicCommonBundle:Software:excluir}
 
 cacic_software_naoclassificados:
-    pattern:  /manutencao/software/naoclassificados/{page}
+    pattern:  /software/naoclassificados/{page}
     defaults: { _controller: CacicCommonBundle:Software:naoClassificados, page:1}
     requirements:
         page: \d+
 
 cacic_software_naousados:
-    pattern:  /manutencao/software/naousados/{page}
+    pattern:  /software/naousados/{page}
     defaults: { _controller: CacicCommonBundle:Software:naoUsados, page:1}
     requirements:
         page: \d+
 
+cacic_configuracao_padrao:
+    pattern: /configuracao/padrao
+    defaults: { _controller: CacicCommonBundle:Configuracao:padrao}
+
+cacic_configuracao_gerente:
+    pattern: /configuracao/gerente
+    defaults: { _controller: CacicCommonBundle:Configuracao:gerente}
+
+cacic_configuracao_agente:
+    pattern: /configuracao/agente
+    defaults: { _controller: CacicCommonBundle:Configuracao:agente}
+
+cacic_configuracao_salvar:
+    pattern: /configuracao/salvar
+    defaults: { _controller: CacicCommonBundle:Configuracao:salvarconfiguracao}
+
+cacic_modulo_index:
+    pattern: /modulo
+    defaults: { _controller: CacicCommonBundle:Modulo:index}
+
+cacic_modulo_editar:
+    pattern: /modulo/editar/{idAcao}
+    defaults: { _controller: CacicCommonBundle:Modulo:editar}
+
 cacic_usbdevice_index:
-    pattern: /manutencao/usbdevice/{page}
+    pattern: /usbdevice/{page}
     defaults: {_controller: CacicCommonBundle:UsbDevice:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_usbdevice_cadastrar:
-    pattern: /manutencao/usbdevice/cadastrar
+    pattern: /usbdevice/cadastrar
     defaults: { _controller: CacicCommonBundle:UsbDevice:cadastrar}
 
 cacic_usbdevice_editar:
-    pattern:  /manutencao/usbdevice/editar/{idUsbDevice}
+    pattern:  /usbdevice/editar/{idUsbDevice}
     defaults: { _controller: CacicCommonBundle:UsbDevice:editar}
 
 cacic_usbdevice_excluir:
-    pattern:  /manutencao/usbdevice/excluir
+    pattern:  /usbdevice/excluir
     defaults: { _controller: CacicCommonBundle:UsbDevice:excluir}
 
 cacic_log_acesso:
@@ -535,57 +355,57 @@ cacic_uorg_visualizar:
         idUorg: \d+
 
 cacic_aquisicao_index:
-    pattern: /manutencao/aquisicao/{page}
+    pattern: /aquisicao/{page}
     defaults: {_controller: CacicCommonBundle:Aquisicao:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_aquisicao_cadastrar:
-    pattern: /manutencao/aquisicao/cadastrar
+    pattern: /aquisicao/cadastrar
     defaults: { _controller: CacicCommonBundle:Aquisicao:cadastrar}
 
 cacic_aquisicao_editar:
-    pattern:  /manutencao/aquisicao/editar/{idAquisicao}
+    pattern:  /aquisicao/editar/{idAquisicao}
     defaults: { _controller: CacicCommonBundle:Aquisicao:editar}
     requirements:
         idAquisicao: \d+
 
 cacic_aquisicao_excluir:
-    pattern:  /manutencao/aquisicao/excluir
+    pattern:  /aquisicao/excluir
     defaults: { _controller: CacicCommonBundle:Aquisicao:excluir}
 
 cacic_tipo_licenca_index:
-    pattern: /manutencao/tipolicenca/{page}
+    pattern: /tipolicenca/{page}
     defaults: {_controller: CacicCommonBundle:TipoLicenca:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_tipo_licenca_cadastrar:
-    pattern: /manutencao/tipolicenca/cadastrar
+    pattern: /tipolicenca/cadastrar
     defaults: { _controller: CacicCommonBundle:TipoLicenca:cadastrar}
 
 cacic_tipo_licenca_editar:
-    pattern:  /manutencao/tipolicenca/editar/{idTipoLicenca}
+    pattern:  /tipolicenca/editar/{idTipoLicenca}
     defaults: { _controller: CacicCommonBundle:TipoLicenca:editar}
     requirements:
         idTipoLicenca: \d+
 
 cacic_tipo_licenca_excluir:
-    pattern:  /manutencao/tipolicenca/excluir
+    pattern:  /tipolicenca/excluir
     defaults: { _controller: CacicCommonBundle:TipoLicenca:excluir}
 
 cacic_aquisicao_item_index:
-    pattern: /manutencao/aquisicaoitem/{page}
+    pattern: /aquisicaoitem/{page}
     defaults: {_controller: CacicCommonBundle:AquisicaoItem:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_aquisicao_item_cadastrar:
-    pattern: /manutencao/aquisicaoitem/cadastrar
+    pattern: /aquisicaoitem/cadastrar
     defaults: { _controller: CacicCommonBundle:AquisicaoItem:cadastrar}
 
 cacic_aquisicao_item_editar:
-    pattern:  /manutencao/aquisicaoitem/editar/{idAquisicao}/{idSoftware}/{idTipoLicenca}
+    pattern:  /aquisicaoitem/editar/{idAquisicao}/{idSoftware}/{idTipoLicenca}
     defaults: { _controller: CacicCommonBundle:AquisicaoItem:editar}
     requirements:
         idSoftware: \d+
@@ -593,61 +413,29 @@ cacic_aquisicao_item_editar:
         idAquisicao: \d+
 
 cacic_aquisicao_item_excluir:
-    pattern:  /manutencao/aquisicaoitem/excluir
+    pattern:  /aquisicaoitem/excluir
     defaults: { _controller: CacicCommonBundle:AquisicaoItem:excluir}
 
 cacic_software_estacao_index:
-    pattern: /manutencao/softwareestacao/{page}
+    pattern: /softwareestacao/{page}
     defaults: {_controller: CacicCommonBundle:SoftwareEstacao:index, page: 1 }
     requirements:
         page: \d+
 
 cacic_software_estacao_cadastrar:
-    pattern: /manutencao/softwareestacao/cadastrar
+    pattern: /softwareestacao/cadastrar
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:cadastrar}
 
 cacic_software_estacao_editar:
-    pattern:  /manutencao/softwareestacao/editar/{idComputador}/{idSoftware}
+    pattern:  /softwareestacao/editar/{idComputador}/{idSoftware}
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:editar}
     requirements:
         idSoftware: \d+
         idComputador: \d+
 
 cacic_software_estacao_excluir:
-    pattern:  /manutencao/softwareestacao/excluir
+    pattern:  /softwareestacao/excluir
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:excluir}
-
-############################################
-# FIM: Usuário com perfil manutenção
-############################################
-
-
-############################################
-# INÍCIO: Páginas para usuários normais
-############################################
-
-
-cacic_usuario_meus_dados:
-    pattern:  /usuario/meusdados
-    defaults: { _controller: CacicCommonBundle:Usuario:meusdados}
-
-cacic_usuario_trocar_senha:
-    pattern:  /usuario/trocarsenha
-    defaults: { _controller: CacicCommonBundle:Usuario:trocarsenha}
-
-cacic_usuario_trocar_propria_senha:
-    pattern:  /usuario/trocarpropriasenha
-    defaults: { _controller: CacicCommonBundle:Usuario:trocarpropriasenha}
-
-cacic_usuario_editar:
-    pattern:  /usuario/editar/{idUsuario}
-    defaults: { _controller: CacicCommonBundle:Usuario:editar, idUsuario: null}
-    requirements:
-        idUsuario: \d+
-
-cacic_usuario_recuperar_senha:
-    pattern:  /usuario/recuperarsenha
-    defaults: { _controller: CacicCommonBundle:Usuario:recuperarsenha}
 
 cacic_computador_buscar:
     pattern:  /computadores/buscar
@@ -660,6 +448,12 @@ cacic_computador_navegar:
 cacic_computador_consultar:
     pattern:  /computadores/consultar
     defaults: { _controller: CacicCommonBundle:Computador:consultar}
+
+cacic_computador_excluir:
+    pattern:  /computador/excluir/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:excluir}
+    requirements:
+        idComputador: \d+
 
 cacic_computador_detalhar:
     pattern:  /computador/detalhar/{idComputador}
@@ -679,10 +473,80 @@ cacic_computador_loadcompnodes:
     requirements:
         idSubrede: \d+
 
+cacic_computador_coletar:
+    pattern: /computador/coletar
+    defaults: { _controller: CacicCommonBundle:Computador:coletar }
+
+cacic_computador_coletar_patrimonio:
+    pattern: /computador/coletarPatrimonio
+    defaults: { _controller: CacicCommonBundle:Computador:coletarPatrimonio }
+
+cacic_computador_versaoagente:
+    pattern: /computador/versaoagente
+    defaults: { _controller: CacicCommonBundle:Computador:versaoagente }
+
+cacic_rede_coletar:
+    pattern: /rede/coletar
+    defaults: { _controller: CacicCommonBundle:Rede:coletar }
+
+cacic_rede_coletar_submit:
+    pattern: /rede/coletar/submit
+    defaults: { _controller: CacicCommonBundle:Rede:submit }
+
+cacic_computador_update:
+    pattern: /computador/update/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:update, idComputador: null }
+
+cacic_computador_update_patrimonio:
+    pattern: /computador/updatePatrimonio/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:updatePatrimonio, idComputador: null }
+
+cacic_migracao_cacic26:
+    pattern: /migracao/cacic26
+    defaults: { _controller: CacicCommonBundle:Cacic26:importardados}
+
+cacic_migracao_importador:
+    pattern: /migracao/importador
+    defaults: { _controller: CacicCommonBundle:Cacic26:importarscript}
+
 cacic_downloads:
     pattern: /downloads/
     defaults: { _controller: CacicCommonBundle:Default:downloads }
 
-############################################
-# FIM: Páginas para usuários normais
-############################################
+cacic_uorg_type_index:
+    pattern:  /uorg/type/{page}
+    defaults: { _controller: CacicCommonBundle:UorgType:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_uorg_type_cadastrar:
+    pattern:  /uorg/type/cadastrar/{idUorgType}
+    defaults: { _controller: CacicCommonBundle:UorgType:cadastrar, idUorgType: null}
+
+cacic_uorg_type_excluir:
+    pattern:  /uorg/type/excluir
+    defaults: { _controller: CacicCommonBundle:UorgType:excluir}
+
+cacic_grupo_usuario_index:
+    pattern:  /grupousuario/{page}
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:index, page: 1 }
+    requirements:
+        page: \d+
+
+cacic_grupo_usuario_cadastrar:
+    pattern:  /grupousuario/cadastrar
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:cadastrar}
+
+cacic_grupo_usuario_editar:
+    pattern:  /grupousuario/editar/{idGrupoUsuario}
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:editar}
+    requirements:
+        idGrupoUsuario: \d+
+
+cacic_grupo_usuario_excluir:
+    pattern:  /grupousuario/excluir
+    defaults: { _controller: CacicCommonBundle:GrupoUsuario:excluir}
+
+cacic_ateste:
+    pattern:  /ateste/
+    defaults: { _controller: CacicCommonBundle:Ateste:index }

@@ -176,6 +176,26 @@ class ComputadorController extends Controller
 
     }
 
+    public function coletarPatrimonioAction(Request $request)
+    {
+        $form = $this->createForm( new ComputadorConsultaType() );
+        if ( $request->isMethod('POST') )
+        {
+            $form->bind( $request );
+            $data = $form->getData();
+
+
+            $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
+                ->selectIp($data['teIpComputador'],$data['nmComputador'],$data['teNodeAddress'],$data['idComputador'] );
+
+        }
+
+        return $this->render( 'CacicCommonBundle:Computador:coletarPatrimonio.html.twig',
+            array(
+                'form' => $form->createView(),
+                'computadores' => $computadores));
+
+    }
     /**
      *  @param int $idComputador
      */
@@ -188,6 +208,23 @@ class ComputadorController extends Controller
         else
         {
             $computador->setForcaColeta('S');
+            $this->getDoctrine()->getManager()->persist( $computador );
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirect($this->generateUrl('cacic_computador_coletar') );
+        }
+
+    }
+
+    public function updatePatrimonioAction( Request $request, $idComputador)
+    {
+        $computador = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->find( $idComputador );
+
+        if ( !$computador )
+            throw $this->createNotFoundException( 'Computador não encontrado' );
+        else
+        {
+            $computador->setForcaPatrimonio('S');
             $this->getDoctrine()->getManager()->persist( $computador );
             $this->getDoctrine()->getManager()->flush();
 

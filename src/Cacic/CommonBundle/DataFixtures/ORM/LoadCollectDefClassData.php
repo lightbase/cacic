@@ -33,9 +33,7 @@ class LoadCollectDefClassData extends AbstractFixture implements FixtureInterfac
             'PhysicalMemory',
             'Processor',
             'Printer',
-            'DesktopMonitor',
-	    'SystemEnclosure',
-	    'DiskDrive'
+            'DesktopMonitor'
         )),
 		//array('id_acao'=>'col_moni','classes'=> array('ComputerSystem','Software', 'OperatingSystem')),
 		array('id_acao'=>'col_patr','classes'=> array('Patrimonio')),

@@ -51,36 +51,3 @@ cacic_ws_srcacic_set_session:
 cacic_ws_srcacic_ayth_client:
     pattern: /srcacic/auth/client
     defaults: { _controller: CacicWSBundle:Coleta:srCacicAuthClient }
-
-cacic_neo_home:
-    pattern: /neo
-    defaults: { _controller: CacicWSBundle:Neo:index }
-    schemes:  [https]
-
-cacic_neo_home_login:
-    pattern: /neo/getLogin
-    defaults: { _controller: CacicWSBundle:Neo:login }
-    schemes:  [https]
-
-cacic_neo_home_checksession:
-    pattern: /neo/checkSession
-    defaults: { _controller: CacicWSBundle:Neo:checkSession }
-    #schemes:  [https]
-
-cacic_neo_home_gettest:
-    pattern: /neo/getTest
-    defaults: { _controller: CacicWSBundle:Neo:getTest }
-    #schemes:  [https]
-
-cacic_neo_home_config:
-    pattern: /neo/config
-    defaults: { _controller: CacicWSBundle:Neo:config }
-    #schemes:  [https]
-
-cacic_neo_home_update:
-    pattern: /neo/update
-    defaults: { _controller: CacicWSBundle:Neo:update }
-
-cacic_neo_coleta:
-    pattern: /neo/coleta
-    defaults: { _controller: CacicWSBundle:Neo:coleta }

@@ -51,7 +51,7 @@ Cacic\CommonBundle\Entity\Computador:
         tePalavraChave:
             type: text
             fixed: true
-            nullable: true
+            nullable: false
             column: te_palavra_chave
         forcaColeta:
             type: text
@@ -90,6 +90,11 @@ Cacic\CommonBundle\Entity\Computador:
             length: 3
             nullable: true
             column: is_notebook
+        forcaPatrimonio:
+            type: text
+            lenght: 3
+            nullable: true
+            column: forca_patrimonio
     oneToMany:
         softwares:
             targetEntity: SoftwareEstacao

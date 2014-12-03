@@ -164,32 +164,4 @@ class GrupoUsuario
     {
         return $this->csNivelAdministracao;
     }
-    /**
-     * @var string
-     */
-    private $role;
-
-
-    /**
-     * Set role
-     *
-     * @param string $role
-     * @return GrupoUsuario
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * Get role
-     *
-     * @return string 
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
 }
