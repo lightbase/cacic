@@ -14,8 +14,8 @@ framework:
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
-#    trusted_proxies: ~
     session: ~
+#    trusted_proxies: ~
 #    session:
 #        handler_id: session.handler.pdo
 
@@ -26,12 +26,13 @@ parameters:
         db_data_col: session_value
         db_time_col: session_time
 
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        cacic_version: 3.0.0
+        cacic_version: 3.1
     form:
         resources:
             - "BraincraftedBootstrapBundle:Form:bootstrap.html.twig"
@@ -62,12 +63,12 @@ assetic:
         yui_css:
             jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.2.jar"
         lessphp:
-            file: "%kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php"
+            file: "%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php"
             apply_to: "\.less$"
-        less:
-            node: /usr/local/bin/node
-            node_paths: [/usr/local/lib/node_modules/]
-            apply_to: "\.less$"
+        #less:
+        #    node: /usr/local/bin/node
+        #    node_paths: [/usr/local/lib/node_modules/]
+        #    apply_to: "\.less$"
         cssrewrite: ~
     assets:
         bootstrap_css:
@@ -75,7 +76,7 @@ assetic:
                 - %kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less
                 - %kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/less/form.less
             filters:
-                - less
+                - lessphp
                 - cssrewrite
             output: css/bootstrap.css
         bootstrap_js:
@@ -102,7 +103,7 @@ assetic:
         bootstrap_less:
             inputs:
                 - '%kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less'
-            filters: [less,cssembed]
+            filters: [lessphp,cssembed]
 
 # Doctrine Configuration
 doctrine:
