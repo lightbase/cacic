@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4ce2775488ee172a7deb32d74d4dbf59",
+    "hash": "9761cbe2ffb9fa370e5988c5c0f71a9c",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -1398,7 +1398,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1505,7 +1505,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1660,7 +1660,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1730,7 +1730,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -2295,12 +2295,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lightbase/cocar.git",
-                "reference": "720c610b5ca409c385902cadb68d8443f0fe9ae3"
+                "reference": "0dddcc507ee9abb628b25b03d85a44c0ea9f39df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lightbase/cocar/zipball/720c610b5ca409c385902cadb68d8443f0fe9ae3",
-                "reference": "720c610b5ca409c385902cadb68d8443f0fe9ae3",
+                "url": "https://api.github.com/repos/lightbase/cocar/zipball/0dddcc507ee9abb628b25b03d85a44c0ea9f39df",
+                "reference": "0dddcc507ee9abb628b25b03d85a44c0ea9f39df",
                 "shasum": ""
             },
             "require": {
@@ -2329,9 +2329,9 @@
             ],
             "description": "COCAR",
             "support": {
-                "source": "https://github.com/lightbase/cocar/tree/master"
+                "source": "https://github.com/lightbase/cocar/tree/3.1"
             },
-            "time": "2014-09-19 21:37:41"
+            "time": "2014-10-21 17:54:58"
         },
         {
             "name": "monolog/monolog",
@@ -2444,6 +2444,65 @@
                 "php"
             ],
             "time": "2013-08-25 17:11:40"
+        },
+        {
+            "name": "oyejorge/less.php",
+            "version": "v1.7.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oyejorge/less.php.git",
+                "reference": "82372b389386ae1edab55495eae4b400cca3c86c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oyejorge/less.php/zipball/82372b389386ae1edab55495eae4b400cca3c86c",
+                "reference": "82372b389386ae1edab55495eae4b400cca3c86c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "bin": [
+                "bin/lessc"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Less": "lib/"
+                },
+                "classmap": [
+                    "lessc.inc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Matt Agar",
+                    "homepage": "https://github.com/agar"
+                },
+                {
+                    "name": "Martin Jantošovič",
+                    "homepage": "https://github.com/Mordred"
+                },
+                {
+                    "name": "Josh Schmidt",
+                    "homepage": "https://github.com/oyejorge"
+                }
+            ],
+            "description": "PHP port of the Javascript version of LESS http://lesscss.org",
+            "homepage": "http://lessphp.gpeasy.com",
+            "keywords": [
+                "css",
+                "less",
+                "less.js",
+                "lesscss",
+                "php",
+                "stylesheet"
+            ],
+            "time": "2014-06-05 16:09:50"
         },
         {
             "name": "phpcollection/phpcollection",
