@@ -500,16 +500,16 @@
                     array_push( $filtroLocais, $locais->getIdLocal() );
                 }
 
-                $dataInicio = $data['dtAcaoInicio'];
-                $dataFim = $data['dtAcaoFim'];
-                $usuario = $data['usuario'];
-                $nmComputador = $data['nmComputador'];
-                $teIpComputador = $data['teIpComputador'];
-                $teNodeAddress = $data['teNodeAddress'];
-                $usuarioPatrimonio = $data['usuarioPatrimonio'];
-                $usuarioName = $data['usuarioName'];
-                $coordenacao = $data['coordenacao'];
-                $sala = $data['sala'];
+                $dataInicio = $request->get('dtAcaoInicio');
+                $dataFim = $request->get('dtAcaoFim');
+                $usuario = $request->get('usuario');
+                $nmComputador = $request->get('nmComputador');
+                $teIpComputador = $request->get('teIpComputador');
+                $teNodeAddress = $request->get('teNodeAddress');
+                $usuarioPatrimonio = $request->get('usuarioPatrimonio');
+                $usuarioName = $request->get('usuarioName');
+                $coordenacao = $request->get('coordenacao');
+                $sala = $request->get('sala');
 
                 $dados = $this->getDoctrine()
                     ->getRepository('CacicCommonBundle:LogAcesso')
@@ -529,7 +529,7 @@
             $tmpfile = tempnam(sys_get_temp_dir(), 'Máquinas sem Coletas');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            $writer->writeItem(array('Local', 'Subrede','Endereço IP','Estações'));
+            $writer->writeItem(array('Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações'));
             $workflow->addWriter($writer);
 
             // Process the workflow

@@ -264,22 +264,6 @@ WHERE  1 = 1
             $sql .= " AND c0_.te_node_address = ? ";
         }
 
-        if ( $usuarioPatrimonio ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
-        }
-
-        if ( $usuarioName ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
-        }
-
-        if ( $coordenacao ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
-        }
-
-        if ( $sala ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower(?) ";
-        }
-
         if ( $usuario ) {
             $sql .= " AND lower(l1_.usuario) LIKE lower(?)";
         }
@@ -288,12 +272,29 @@ WHERE  1 = 1
             $sql .= " AND r3_.id_local IN (?)";
         }
 
+        if ( $usuarioPatrimonio ) {
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('$usuarioPatrimonio') ";
+        }
+
+        if ( $usuarioName ) {
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('$usuarioName') ";
+        }
+
+        if ( $coordenacao ) {
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('$coordenacao') ";
+        }
+
+        if ( $sala ) {
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('$sala') ";
+        }
+
         $sql .= "
 GROUP BY c0_.te_node_address,
 	l4_.nm_local,
 	l4_.id_local,
 	cc_.id_computador
 	";
+        error_log('>>>>>>>>>>>>>LOG SQL '.$sql);
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -303,7 +304,7 @@ GROUP BY c0_.te_node_address,
         if ( $dataInicio ) {
             $query->setParameter(1, ( $dataInicio.' 00:00:00' ));
         }
-        
+
         if ( $dataFim )
             $query->setParameter(2, ( $dataFim.' 23:59:59' ));
 
@@ -316,23 +317,12 @@ GROUP BY c0_.te_node_address,
         if ( $teNodeAddress )
             $query->setParameter(5, "$teNodeAddress" );
 
-        if ( $usuarioPatrimonio )
-            $query->setParameter(6, "$usuarioPatrimonio" );
-
-        if ( $usuarioName )
-            $query->setParameter(7, "%$usuarioName%" );
-
-        if ( $coordenacao )
-            $query->setParameter(7, "%$coordenacao%" );
-
-        if ( $sala )
-            $query->setParameter(7, "%$sala%" );
 
         if ( $usuario )
-            $query->setParameter(8, "%$usuario%" );
+            $query->setParameter(6, "%$usuario%" );
 
         if ( $filtroLocais )
-            $query->setParameter(9, $filtroLocais);
+            $query->setParameter(7, $filtroLocais);
 
 
         return $query->execute();
