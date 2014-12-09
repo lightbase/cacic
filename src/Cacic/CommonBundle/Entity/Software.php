@@ -325,4 +325,27 @@ class Software
     {
         return $this->licencas;
     }
+
+    /**
+     * Add estacoes
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes
+     * @return Software
+     */
+    public function addEstaco(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes)
+    {
+        $this->estacoes[] = $estacoes;
+
+        return $this;
+    }
+
+    /**
+     * Remove estacoes
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes
+     */
+    public function removeEstaco(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes)
+    {
+        $this->estacoes->removeElement($estacoes);
+    }
 }

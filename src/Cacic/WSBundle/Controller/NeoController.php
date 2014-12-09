@@ -705,6 +705,8 @@ class NeoController extends Controller {
 
         $classObject = $em->createQuery( $_dql )->setParameter('classe', $classe)->getOneOrNullResult();
 
+	$logger->debug("COLETA: Coletando classe $classe");
+
         if (empty($classObject)) {
             $logger->error("COLETA: Classe não cadastrada: $classe");
             return;

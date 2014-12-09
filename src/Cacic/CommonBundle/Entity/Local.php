@@ -397,4 +397,27 @@ class Local
     {
         return $this->usuariosSecundarios;
     }
+
+    /**
+     * Add configuracoes
+     *
+     * @param \Cacic\CommonBundle\Entity\ConfiguracaoLocal $configuracoes
+     * @return Local
+     */
+    public function addConfiguraco(\Cacic\CommonBundle\Entity\ConfiguracaoLocal $configuracoes)
+    {
+        $this->configuracoes[] = $configuracoes;
+
+        return $this;
+    }
+
+    /**
+     * Remove configuracoes
+     *
+     * @param \Cacic\CommonBundle\Entity\ConfiguracaoLocal $configuracoes
+     */
+    public function removeConfiguraco(\Cacic\CommonBundle\Entity\ConfiguracaoLocal $configuracoes)
+    {
+        $this->configuracoes->removeElement($configuracoes);
+    }
 }

@@ -891,6 +891,7 @@ class RedeController extends Controller
     public function updateSubredesNeo(Request $request, $rede, $modulos = null)
     {
         $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
         $pIntIdRede = $rede->getIdRede();
 
         // Varre o diretório em busca dos módulos
@@ -902,6 +903,23 @@ class RedeController extends Controller
         $windowsDir = $cacicDir . "windows/";
         $outrosDir = $downloadsDir . "outros/";
 
+        // Consertar CRUD no Symfony
+        $redeVersaoModulo = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(
+            array(
+                'idRede' => $pIntIdRede
+            )
+        );
+
+        // Se não existir, instancia o objeto
+        if (!empty($redeVersaoModulo)) {
+	    // Nesse caso, remove todos os módulos para a subrede
+	    foreach ($redeVersaoModulo as $redeRemove)  {
+	        $em->remove($redeRemove);
+	    }
+	    $em->flush();
+	}
+
+
         // Carrega todos os metadados dos módulos fornecidos ou de todos os módulos
         $modulos = $this->modulosNeoArray($request, $modulos);
         //$logger->debug("6666666666666666666666666666666666666 ".print_r($modulos, true));
@@ -911,9 +929,9 @@ class RedeController extends Controller
             foreach ($modulo as $key => $value)
             {
                 $logger->debug("Nome do módulo: ".$value['filename']);
+                $redeVersaoModulo = new RedeVersaoModulo(null, null, null, null, null, $rede);
 
                 // Carrega dados da rede
-                $em = $this->getDoctrine()->getManager();
                 //$arrDadosRede = array( 'rede' => $em->getRepository( 'CacicCommonBundle:Rede' )->listar() );
                 //Debug::dump($arrDadosRede['rede'][0][0]);
                 //$arrDadosRede = $arrDadosRede['rede'][0];
@@ -945,19 +963,6 @@ class RedeController extends Controller
 
                 if ($arrResult[1] == 'Ok!')
                 {
-                    // Consertar CRUD no Symfony
-                    $redeVersaoModulo = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findOneBy(
-                        array(
-                            'idRede' => $pIntIdRede,
-                            'nmModulo' => $value['name'],
-                            'filepath' => $value['filename']
-                        )
-                    );
-
-                    // Se não existir, instancia o objeto
-                    if (empty($redeVersaoModulo)) {
-                        $redeVersaoModulo = new RedeVersaoModulo(null, null, null, null, null, $rede);
-                    }
 
                     $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->findOneBy(array(
                         'tipo' => $tipo
