@@ -33,8 +33,8 @@
                         {% for UsbDevice in UsbDevice %}
 
                             <tr id="item_3g" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                                <td style="text-align: center" >{{ UsbDevice['displayName'] }}</td>
-                                <td style="text-align: center" >{{ UsbDevice['teClassPropertyValue'] }}</td>
+                                <td style="text-align: center" >{{ UsbDevice.displayName }}</td>
+                                <td style="text-align: center" >{{ UsbDevice.teClassPropertyValue }}</td>
                             </tr>
 
                         {% else %}
