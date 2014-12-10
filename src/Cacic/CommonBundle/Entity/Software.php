@@ -360,8 +360,9 @@ class Software
      * @param \Cacic\CommonBundle\Entity\PropriedadeSoftware $coletados
      * @return Software
      */
-    public function addColetado(\Cacic\CommonBundle\Entity\PropriedadeSoftware $coletados)
+    public function addColetado(PropriedadeSoftware $coletados)
     {
+        $coletados->setSoftware($this);
         $this->coletados[] = $coletados;
 
         return $this;

@@ -35,6 +35,10 @@
                                         <i class="icon-refresh"></i>
                                         {{ "Limpar busca"|trans }}
                                     </a>
+                                    <a class="btn" href="#" id="limpar-todos">
+                                        <i class="icon-refresh"></i>
+                                        {{ "Limpar todos"|trans }}
+                                    </a>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -138,6 +142,11 @@
 
         $( '#limpar').click(function(){
             $( '#inserir' ).empty();
+        });
+
+        $( '#limpar-todos').click(function(){
+            $( '#inserir' ).empty();
+            $( '#remover' ).empty();
         });
 
         $( "#pesquisar" ).click(function(){

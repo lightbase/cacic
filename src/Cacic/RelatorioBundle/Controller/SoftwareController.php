@@ -122,6 +122,7 @@ class SoftwareController extends Controller
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Aquisicao')
     					->gerarRelatorioAquisicoes();
+
     	//\Doctrine\Common\Util\Debug::dump($dados);die;
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_aquisicoes.html.twig', 
