@@ -787,12 +787,12 @@ class NeoController extends Controller {
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        try {
-            $classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
-                'nmClassName'=> 'SoftwareList'
-            ));
-        }
-        catch(\Doctrine\ORM\NoResultException $e) {
+
+        $classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
+            'nmClassName'=> 'SoftwareList'
+        ));
+
+        if (empty($classObject)) {
             $logger->error("COLETA: Classe SoftwareList não cadastrada \n$e");
             return false;
         }
@@ -857,6 +857,9 @@ class NeoController extends Controller {
                 }
 
                 $classProperty = new ClassProperty();
+
+                // Adiciona software na coleta
+                $softwareObject->addColetado($propSoftware);
             }
 
             // Atualiza valores

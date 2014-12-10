@@ -59,13 +59,13 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
                 id_software:
                     referencedColumnName: id_software
             orphanRemoval: false
-        idAquisicao:
-            targetEntity: Aquisicao
+        idAquisicaoItem:
+            targetEntity: AquisicaoItem
             cascade: {  }
             mappedBy: null
             inversedBy: null
             joinColumns:
-                id_aquisicao:
-                    referencedColumnName: id_aquisicao
+                id_aquisicao_item:
+                    referencedColumnName: id_aquisicao_item
             orphanRemoval: false
     lifecycleCallbacks: {  }

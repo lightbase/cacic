@@ -24,14 +24,15 @@
             </a>
             <ul>
                 <li class="dropdown-submenu" >
-                    <a href="{{ path('cacic_modulo_index') }}" class="dropdown-toggle" data-toggle="dropdown">
-                        {{ "Configurar Módulos"|trans }}
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                        {{ "Configurar Coletas"|trans }}
                         <span class="icon">&nbsp;</span>
                     </a>
                     <ul>
                         <li><a href="{{ path('cacic_agente') }}">{{ "Upload de Agentes"|trans }}</a></li>
                         <li><a href="{{ path('cacic_deploy') }}">{{ "Deploy de software"|trans }}</a></li>
                         <li><a href="{{ path('cacic_atualizacao_subredes') }}">{{ "Atualização de Subrede"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_modulo_index') }}">{{ "Configurar Módulos"|trans }}</a></li>
                     </ul>
                 </li>
 
@@ -110,27 +111,35 @@
                 </li>
                 <li class="dropdown-submenu" >
                     <a href="javascript:void(0)">
-                        {{ "Classificaçao de software"|trans }}
+                        {{ "Classificar de software"|trans }}
                         <span class="icon">&nbsp;</span>
                     </a>
                     <ul>
-                        <li><a class="round_top" href="{{ path('cacic_software_naoclassificados') }}">{{ "Classificar Software"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_tiposoftware_index') }}">{{ "Tipos Softwares"|trans }}</a></li>
+                        <li class="dropdown-submenu" >
+                            <a href="javascript:void(0)">
+                                {{ "Selecionar Tipo"|trans }}
+                                <span class="icon">&nbsp;</span>
+                            </a>
+                            <ul>
+                                <li><a class="round_top" href="{{ path('cacic_software_naoclassificados') }}">{{ "Em grupo"|trans }}</a></li>
+                                <li><a href="{{ path('cacic_software_index') }}">{{ "Um por um"|trans }}</a></li>
+                            </ul>
+                        </li>
                         <li><a href="{{ path('cacic_software_naousados') }}">{{ "Softwares não usados"|trans }}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown-submenu" >
                     <a href="javascript:void(0)">
-                        {{ "Gerência Aquisições"|trans }}
+                        {{ "Controle de Licenças"|trans }}
                         <span class="icon">&nbsp;</span>
                     </a>
                     <ul>
-                        <li><a href="{{ path('cacic_tiposoftware_index') }}">{{ "Tipos Softwares"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_software_index') }}">{{ "Classificar software"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_aquisicao_index') }}">{{ "Aquisições"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_aquisicao_item_index') }}">{{ "Itens adquiridos"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_software_estacao_index') }}">{{ "Software por estações"|trans }}</a></li>
                         <li><a href="{{ path('cacic_tipo_licenca_index') }}">{{ "Tipos de Licença"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_aquisicao_index') }}">{{ "Processos de Aquisição"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_aquisicao_item_index') }}">{{ "Softwares adquiridos"|trans }}</a></li>
                         <li><a href="{{ path('cacic_relatorio_autorizacoes') }}">{{ "Softwares Autorizados"|trans }}</a></li>
+                        {#<li><a href="{{ path('cacic_software_estacao_index') }}">{{ "Software por estações"|trans }}</a></li>#}
                     </ul>
                 </li>
                 <li class="dropdown-submenu" >
@@ -174,8 +183,8 @@
                     </a>
                     <ul>
                         <li><a href="{{ path('cacic_relatorio_software_inventariados') }}">{{ "Softwares Inventariados"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_relatorio_software_licenciados') }}">{{ "Softwares Licenciados"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_relatorio_software_aquisicoes') }}" target="_blank">{{ "Aquisições de Softwares"|trans }}</a></li>
+                        {# <li><a href="{{ path('cacic_relatorio_software_licenciados') }}">{{ "Softwares Licenciados"|trans }}</a></li> #}
+                        <li><a href="{{ path('cacic_relatorio_software_aquisicoes') }}" target="_blank">{{ "Softwares Adquiridos"|trans }}</a></li>
                         <li><a href="{{ path('cacic_relatorio_software_orgao') }}">{{ "Por Órgão/Máquinas"|trans }}</a></li>
                         <li><a href="{{ path('cacic_relatorio_software_tipo') }}">{{ "Tipos de Software"|trans }}</a></li>
                         <li><a href="{{ path('cacic_relatorio_software_naoVinculados') }}" target="_blank">{{ "Softwares não Vinculados"|trans }}</a></li>

@@ -22,10 +22,9 @@
           <table class="table table-striped table-bordered">
              <thead>
                 <tr>
-                    <th width="30%">{{ 'Nome'|trans }}</th>
+                    <th width="40%">{{ 'Nome'|trans }}</th>
                     <th width="20%">{{ 'Tipo'|trans }}</th>
-                    <th width="20%">{{ 'Descrição'|trans }}</th>
-                    <th width="20%" style="text-align: center">{{ 'Qtde. Licenças'|trans }}</th>
+                    <th width="30%">{{ 'Descrição'|trans }}</th>
                     <th style="text-align: center">{{ 'Ações'|trans }}</th>
                 </tr>
              </thead>
@@ -36,7 +35,6 @@
                         <td id="item_desc_{{ software[0].idSoftware }}">{{ software[0].nmSoftware }}</td>
                         <td>{% if software['tipoSoftware'] is not null %}{{ software['tipoSoftware'] }}{% else %}<span class="red"><b>Não classificado</b></span>{% endif %}</td>
                         <td>{{ software[0].teDescricaoSoftware }}</td>
-                        <td style="text-align: center">{{ software[0].qtLicenca }}</td>
                         <td class="td-actions">
                             <a href="{{ path('cacic_software_editar', {'idSoftware': software[0].idSoftware }) }}" class="btn btn-small" title="{{ 'Editar Item'|trans }}">
                                 <i class="btn-icon-only icon-edit icon-large"></i>

@@ -35,27 +35,31 @@
 
                 {% for aquisicao in Aquisicao %}
 
-                    <tr id="item_tp{{ aquisicao['id_tipo_licenca'] }}_aq{{ aquisicao['id_aquisicao'] }}_sw{{ aquisicao['id_software'] }}">
+                    <tr id="item_tp{{ aquisicao['id_tipo_licenca'] }}_aq{{ aquisicao['id_aquisicao'] }}}}">
                         <td>
                             {{ aquisicao['idAquisicao']['nrProcesso'] }}
                             {{ aquisicao['idAquisicao'].dtAquisicao|date('d/m/Y') }}
                             {{ aquisicao['idAquisicao']['nmEmpresa'] }}
                         </td>
-                        <td>{{ aquisicao['idSoftware']['nmSoftware'] }}</td>
+                        {%  if aquisicao['idSoftware']['nmSoftware'] is defined %}
+                            <td>{{ aquisicao['idSoftware']['nmSoftware'] }}</td>
+                        {% else %}
+                            <td>{{ 'Não há softwares cadastrados'|trans }}</td>
+                        {% endif %}
+
                         <td style="text-align: center">{{ aquisicao['idTipoLicenca']['teTipoLicenca'] }}</td>
                         <td style="text-align: center">{{ aquisicao['qtLicenca'] }}</td>
                         <td style="text-align: center">{{ aquisicao.dtVencimentoLicenca|date('d/m/Y') }}</td>
                         <td style="text-align: center" class="td-actions">
                             <a href="{{ path('cacic_aquisicao_item_editar', {'idAquisicao': aquisicao['id_aquisicao'],
-                                                                            'idTipoLicenca': aquisicao['id_tipo_licenca'],
-                                                                            'idSoftware' : aquisicao['id_software']
+                                                                            'idTipoLicenca': aquisicao['id_tipo_licenca']
                                                                 }) }}"
                                class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                 <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
                             <a href="{{ path('cacic_aquisicao_item_excluir') }}" 
                                 class="btn btn-small btn-danger bt-excluir-compositekey" 
-                                data-composite-keys='{"idAquisicao":{{ aquisicao['id_aquisicao'] }},"idTipoLicenca":{{ aquisicao['id_tipo_licenca'] }},"idSoftware":{{ aquisicao['id_software'] }}}'
+                                data-composite-keys='{"idAquisicao":{{ aquisicao['id_aquisicao'] }},"idTipoLicenca":{{ aquisicao['id_tipo_licenca'] }} }}}'
                                 title="{{ 'Excluir Item'|trans }}">
                                 <i class="btn-icon-only icon-trash icon-large"></i>
                             </a>

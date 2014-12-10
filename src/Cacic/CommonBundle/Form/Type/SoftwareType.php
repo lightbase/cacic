@@ -33,13 +33,7 @@ class SoftwareType extends AbstractType
             null,
             array( 'label'=>'Descrição' )
         );
-        
-        $builder->add(
-            'qtLicenca',
-            null,
-            array( 'label'=>'Quantidade de Licenças' )
-        );
-        
+
         $builder->add(
             'nrMidia',
             null,
