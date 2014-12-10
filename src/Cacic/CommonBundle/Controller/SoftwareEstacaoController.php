@@ -47,8 +47,7 @@ class SoftwareEstacaoController extends Controller
                 return $this->redirect(
                 	$this->generateUrl( 'cacic_software_estacao_index',
                 		array(
-                			'idComputador' => $SoftwareEstacao->getIdComputador()->getIdComputador(),
-                			'idSoftware' => $SoftwareEstacao->getIdSoftware()->getIdSoftware()
+                			'idComputador' => $SoftwareEstacao->getIdComputador()->getIdComputador()
                 		)
                 	)
                 );
@@ -63,10 +62,10 @@ class SoftwareEstacaoController extends Controller
      *  @param int $idComputador
      *  @param int $idSoftware
      */
-    public function editarAction( $idComputador, $idSoftware, Request $request )
+    public function editarAction( $idComputador, Request $request )
     {
         $SoftwareEstacao = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')
-                    ->find( array( 'idComputador'=>$idComputador, 'idSoftware'=>$idSoftware ) );
+                    ->find( array( 'idComputador'=>$idComputador ) );
 		
         if ( ! $SoftwareEstacao )
             throw $this->createNotFoundException( 'Software de Estacao não encontrado' );
@@ -87,8 +86,7 @@ class SoftwareEstacaoController extends Controller
                 return $this->redirect(
                 	$this->generateUrl( 'cacic_software_estacao_editar',
                 		array(
-                			'idComputador' => $SoftwareEstacao->getIdComputador()->getIdComputador(),
-                			'idSoftware' => $SoftwareEstacao->getIdSoftware()->getIdSoftware()
+                			'idComputador' => $SoftwareEstacao->getIdComputador()->getIdComputador()
                 		)
                 	)
                 );
@@ -121,5 +119,19 @@ class SoftwareEstacaoController extends Controller
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+   }
+
+    /**
+     *
+     * Relatorio de Autorizacoes Cadastradas
+     */
+    public function autorizacoesAction()
+    {
+        return $this->render( 'CacicCommonBundle:SoftwareEstacao:autorizacoes.html.twig',
+            array(
+                'registros' => $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')->gerarRelatorioAutorizacoes()
+            )
+        );
     }
+
 }

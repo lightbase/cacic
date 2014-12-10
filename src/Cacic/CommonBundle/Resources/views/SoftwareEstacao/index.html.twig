@@ -21,10 +21,9 @@
          <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                	<th width="30%">{{ "Software"|trans }}</th>
-                	<th width="20%">{{ "Computador"|trans }}</th>
+                	<th width="30%">{{ "Computador"|trans }}</th>
                     <th width="15%" style="text-align: center">{{ "Patrimônio"|trans }}</th>
-                    <th width="15%" style="text-align: center">{{ "Processo de aquisicao"|trans }}</th>
+                    <th width="25%" style="text-align: center">{{ "Processo de aquisicao"|trans }}</th>
                     <th width="10%" style="text-align: center">{{ "Data de autorizacao"|trans }}</th>
                     <th style="text-align: center">{{ "Ações"|trans }}</th>
                 </tr>
@@ -34,15 +33,14 @@
 
                 {% for software in SoftwareEstacao %}
 
-                    <tr id="item_comp{{ software['idComputador'] }}_sw{{ software['idSoftware'] }}" >
-                        <td>{{ software['nmSoftware'] }}</td>
+                    <tr id="item_comp{{ software['idComputador'] }}" >
                         <td>{{ software['descComputador'] }}</td>
                         <td style="text-align: center">{{ software[0]['nrPatrimonio'] }}</td>
                         <td style="text-align: center">{{ software['nrProcesso'] }}</td>
                         <td style="text-align: center" >{{ software[0]['dtAutorizacao']|date('d/m/Y') }}</td>
                         <td style="text-align: center" class="td-actions">
                             <a href="{{ path('cacic_software_estacao_editar',
-                            	{'idComputador': software['idComputador'],'idSoftware' : software['idSoftware']}) }}" 
+                            	{'idComputador': software['idComputador']}) }}"
                             	class="btn btn-small" title="{{ "Editar Item"|trans }}"
                             >
                                 <i class="btn-icon-only icon-edit icon-large"></i>
@@ -50,9 +48,8 @@
 
                             <a href="{{ path('cacic_software_estacao_excluir') }}"
                             	class="btn btn-small btn-danger bt-excluir-compositekey"
-                                data-composite-keys='{"idComputador": {{ software['idComputador'] }}, "idSoftware": {{ software['idSoftware'] }}}'
-                            	title="{{ "Excluir Item"|trans }}"
-                            >
+                                data-composite-keys='{ "idComputador": {{ software['idComputador'] }} }'
+                            	title="{{ "Excluir Item"|trans }}">
                                 <i class="btn-icon-only icon-trash icon-large"></i>
                             </a>
                         </td>

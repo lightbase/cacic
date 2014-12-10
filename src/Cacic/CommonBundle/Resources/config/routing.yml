@@ -606,6 +606,10 @@ cacic_aquisicao_item_excluir:
     pattern:  /manutencao/aquisicaoitem/excluir
     defaults: { _controller: CacicCommonBundle:AquisicaoItem:excluir}
 
+cacic_manutencao_autorizacoes:
+    pattern: /manutencao/autorizacoes
+    defaults: { _controller: CacicCommonBundle:SoftwareEstacao:autorizacoes }
+
 cacic_software_estacao_index:
     pattern: /manutencao/softwareestacao/{page}
     defaults: {_controller: CacicCommonBundle:SoftwareEstacao:index, page: 1 }
@@ -617,10 +621,9 @@ cacic_software_estacao_cadastrar:
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:cadastrar}
 
 cacic_software_estacao_editar:
-    pattern:  /manutencao/softwareestacao/editar/{idComputador}/{idSoftware}
+    pattern:  /manutencao/softwareestacao/editar/{idComputador}
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:editar}
     requirements:
-        idSoftware: \d+
         idComputador: \d+
 
 cacic_software_estacao_excluir:

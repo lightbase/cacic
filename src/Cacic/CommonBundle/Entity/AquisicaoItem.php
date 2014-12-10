@@ -14,6 +14,7 @@ class AquisicaoItem
     public function __construct()
     {
         $this->idSoftware = new ArrayCollection();
+        $this->idSoftwareEstacao = new ArrayCollection();
     }
 
     /**
@@ -195,5 +196,44 @@ class AquisicaoItem
      */
     public function getIdSoftware() {
         return $this->idSoftware;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $idSoftwareEstacao;
+
+
+    /**
+     * Add idSoftwareEstacao
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $idSoftwareEstacao
+     * @return AquisicaoItem
+     */
+    public function addIdSoftwareEstacao(SoftwareEstacao $idSoftwareEstacao)
+    {
+        $idSoftwareEstacao->setIdAquisicaoItem($this);
+        $this->idSoftwareEstacao[] = $idSoftwareEstacao;
+
+        return $this;
+    }
+
+    /**
+     * Remove idSoftwareEstacao
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $idSoftwareEstacao
+     */
+    public function removeIdSoftwareEstacao(SoftwareEstacao $idSoftwareEstacao)
+    {
+        $this->idSoftwareEstacao->removeElement($idSoftwareEstacao);
+    }
+
+    /**
+     * Get idSoftwareEstacao
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdSoftwareEstacao()
+    {
+        return $this->idSoftwareEstacao;
     }
 }

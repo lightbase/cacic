@@ -5,8 +5,6 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
     id:
         idComputador:
             associationKey: true
-        idSoftware:
-            associationKey: true
     fields:
         nrPatrimonio:
             type: text
@@ -50,22 +48,15 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
                 id_computador:
                     referencedColumnName: id_computador
             orphanRemoval: false
-        idSoftware:
-            targetEntity: Software
-            cascade: {  }
-            mappedBy: null
-            inversedBy: estacoes
-            joinColumns:
-                id_software:
-                    referencedColumnName: id_software
-            orphanRemoval: false
         idAquisicaoItem:
             targetEntity: AquisicaoItem
             cascade: {  }
             mappedBy: null
             inversedBy: null
             joinColumns:
-                id_aquisicao_item:
-                    referencedColumnName: id_aquisicao_item
+                id_tipo_licenca:
+                    referencedColumnName: id_tipo_licenca
+                id_aquisicao:
+                    referencedColumnName: id_aquisicao
             orphanRemoval: false
     lifecycleCallbacks: {  }

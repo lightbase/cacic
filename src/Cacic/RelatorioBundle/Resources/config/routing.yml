@@ -1,7 +1,3 @@
-cacic_relatorio_autorizacoes:
-    pattern: /autorizacoes
-    defaults: { _controller: CacicRelatorioBundle:Default:autorizacoes }
-
 cacic_relatorio_faturamento:
     pattern: /faturamento
     defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamento }

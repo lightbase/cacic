@@ -255,7 +255,7 @@ class SoftwareEstacao
      * @param \Cacic\CommonBundle\Entity\Software $idSoftware
      * @return SoftwareEstacao
      */
-    public function setIdSoftware(\Cacic\CommonBundle\Entity\Software $idSoftware = null)
+    public function setIdSoftware(Software $idSoftware = null)
     {
         $this->idSoftware = $idSoftware;
     
@@ -273,35 +273,12 @@ class SoftwareEstacao
     }
 
     /**
-     * Set idAquisicao
-     *
-     * @param \Cacic\CommonBundle\Entity\Aquisicao $idAquisicao
-     * @return SoftwareEstacao
-     */
-    public function setIdAquisicao(\Cacic\CommonBundle\Entity\Aquisicao $idAquisicao = null)
-    {
-        $this->idAquisicao = $idAquisicao;
-    
-        return $this;
-    }
-
-    /**
-     * Get idAquisicao
-     *
-     * @return \Cacic\CommonBundle\Entity\Aquisicao 
-     */
-    public function getIdAquisicao()
-    {
-        return $this->idAquisicao;
-    }
-
-    /**
      * Set idComputador
      *
      * @param \Cacic\CommonBundle\Entity\Computador $idComputador
      * @return SoftwareEstacao
      */
-    public function setIdComputador(\Cacic\CommonBundle\Entity\Computador $idComputador)
+    public function setIdComputador(Computador $idComputador)
     {
         $this->idComputador = $idComputador;
     
@@ -316,5 +293,33 @@ class SoftwareEstacao
     public function getIdComputador()
     {
         return $this->idComputador;
+    }
+    /**
+     * @var \Cacic\CommonBundle\Entity\AquisicaoItem
+     */
+    private $idAquisicaoItem;
+
+
+    /**
+     * Set idAquisicaoItem
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $idAquisicaoItem
+     * @return SoftwareEstacao
+     */
+    public function setIdAquisicaoItem(AquisicaoItem $idAquisicaoItem = null)
+    {
+        $this->idAquisicaoItem = $idAquisicaoItem;
+
+        return $this;
+    }
+
+    /**
+     * Get idAquisicaoItem
+     *
+     * @return \Cacic\CommonBundle\Entity\AquisicaoItem 
+     */
+    public function getIdAquisicaoItem()
+    {
+        return $this->idAquisicaoItem;
     }
 }

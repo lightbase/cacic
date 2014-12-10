@@ -7,8 +7,6 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
             associationKey: true
         idAquisicao:
             associationKey: true
-        idSoftware:
-            associationKey: true
     fields:
         qtLicenca:
             type: integer

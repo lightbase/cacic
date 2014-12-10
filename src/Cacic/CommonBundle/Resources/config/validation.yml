@@ -200,11 +200,11 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
 
 Cacic\CommonBundle\Entity\SoftwareEstacao:
     constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [idSoftware, idComputador]
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [idComputador]
     properties:
-        idSoftware:
-            - NotNull: ~
         idComputador:
+            - NotNull: ~
+        idAquisicaoItem:
             - NotNull: ~
         nrPatrimonio:
             - Length:

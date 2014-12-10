@@ -10,18 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    
-	/**
-	 * 
-	 * Relatorio de Autorizacoes Cadastradas
-	 */
-	public function autorizacoesAction()
-	{
-		return $this->render( 'CacicRelatorioBundle:Default:autorizacoes.html.twig', 
-								array( 'registros' => $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareEstacao')->gerarRelatorioAutorizacoes() )
-							);
-	}
-	
 	/**
 	 * 
 	 * Relatório de Informações Patrimoniais
