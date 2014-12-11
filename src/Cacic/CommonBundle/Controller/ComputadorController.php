@@ -187,7 +187,7 @@ class ComputadorController extends Controller
             throw $this->createNotFoundException( 'Computador não encontrado' );
         else
         {
-            $computador->setForcaColeta('S');
+            $computador->setForcaColeta('True');
             $this->getDoctrine()->getManager()->persist( $computador );
             $this->getDoctrine()->getManager()->flush();
 
