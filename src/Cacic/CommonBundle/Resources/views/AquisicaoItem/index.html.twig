@@ -41,8 +41,17 @@
                             {{ aquisicao['idAquisicao'].dtAquisicao|date('d/m/Y') }}
                             {{ aquisicao['idAquisicao']['nmEmpresa'] }}
                         </td>
-                        {%  if aquisicao['idSoftware']['nmSoftware'] is defined %}
-                            <td>{{ aquisicao['idSoftware']['nmSoftware'] }}</td>
+                        {%  if aquisicao['idSoftware'] is defined %}
+                            <td>
+                                {% set break = 0 %}
+                                {% for software in aquisicao['idSoftware'] if break == 0 %}
+                                    {{ software.nmSoftware }}<br>
+                                    {% if loop.index > 5 %}
+                                        (...)
+                                        {% set break = 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
                         {% else %}
                             <td>{{ 'Não há softwares cadastrados'|trans }}</td>
                         {% endif %}

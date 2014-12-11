@@ -318,4 +318,20 @@ class SoftwareController extends Controller
 
         return $response;
     }
+
+    public function aquisicoesDetalhadoAction( Request $request, $idAquisicao, $idTipoLicenca )
+    {
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:AquisicaoItem')
+            ->aquisicoesDetalhado($idAquisicao, $idTipoLicenca);
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:rel_aquisicoes_det.html.twig',
+            array(
+                'idioma'=>$locale,
+                'dados' => $dados
+            )
+        );
+    }
 }

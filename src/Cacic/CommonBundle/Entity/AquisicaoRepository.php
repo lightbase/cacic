@@ -54,7 +54,9 @@ class AquisicaoRepository extends EntityRepository
                         'aq.nmEmpresa',
                         'aq.nmProprietario',
                         'aq.nrNotafiscal',
+                        'aq.idAquisicao',
                         'tpl.teTipoLicenca',
+                        'tpl.idTipoLicenca',
                         'aqit.qtLicenca',
                         'aqit.dtVencimentoLicenca',
                         'count(DISTINCT comp.computador) as nComp'
@@ -68,7 +70,9 @@ class AquisicaoRepository extends EntityRepository
                         'aq.nmEmpresa',
                         'aq.nmProprietario',
                         'aq.nrNotafiscal',
+                        'aq.idAquisicao',
                         'tpl.teTipoLicenca',
+                        'tpl.idTipoLicenca',
                         'aqit.qtLicenca',
                         'aqit.dtVencimentoLicenca'
                     )
@@ -92,12 +96,14 @@ class AquisicaoRepository extends EntityRepository
                     'nmEmpresa' => $row['nmEmpresa'],
                     'nmProprietario' => $row['nmProprietario'],
                     'nrNotaFiscal' => $row['nrNotaFiscal'],
+                    'idAquisicao'=> $row['idAquisicao']
                 );
             }
 
             if (array_key_exists('itens', $saida[$row['nrProcesso']])) {
                 // Adiciona o item no array
                 array_push($saida[$row['nrProcesso']]['itens'], array(
+                    'idTipoLicenca' => $row['idTipoLicenca'],
                     'teTipoLicenca' => $row['teTipoLicenca'],
                     'qtLicenca' => $row['qtLicenca'],
                     'dtVencimentoLicenca' => $row['dtVencimentoLicenca'],
@@ -106,6 +112,7 @@ class AquisicaoRepository extends EntityRepository
             } else {
                 // Cria um novo array de itens multidimensional
                 $saida[$row['nrProcesso']]['itens'] = array(array(
+                    'idTipoLicenca' => $row['idTipoLicenca'],
                     'teTipoLicenca' => $row['teTipoLicenca'],
                     'qtLicenca' => $row['qtLicenca'],
                     'dtVencimentoLicenca' => $row['dtVencimentoLicenca'],

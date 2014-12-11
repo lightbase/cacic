@@ -13,7 +13,6 @@
 	    	<th width="20%">{{ "Software"|trans }}</th>
 	    	<th width="20%">{{ "Tipo"|trans }}</th>
 	    	<th width="20%">{{ "Descrição"|trans }}</th>
-	    	<th width="20%" style="text-align: center">{{ "Licenças"|trans }}</th>
 	    	<th width="20%">{{ "Observação"|trans }}</th>
 	    </tr>
 	</thead>
@@ -26,7 +25,6 @@
             <td>{{ reg.nmSoftware }}</td>
             <td>{% if reg.idTipoSoftware is not null %}{{ reg.idTipoSoftware }}{% else %}<span class="red"><b>Não classificado</b></span>{% endif %}</td>
             <td>{{ reg.teDescricaoSoftware }}</td>
-            <td style="text-align: center">{{ reg.qtLicenca }}</td>
             <td>{{ reg.teObs }}</td>
         </tr>
 

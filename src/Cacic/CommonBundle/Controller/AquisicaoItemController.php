@@ -31,39 +31,19 @@ class AquisicaoItemController extends Controller
             if ( $form->isValid() )
             {
 
-                $data = $form->get('idSoftware')->getData();
-                $idSoftware = $data->getIdSoftware();
-
-                $data = $form->get('idAquisicao')->getData();
-                $idAquisicao = $data->getIdAquisicao();
-
-                $data = $form->get('idTipoLicenca')->getData();
-                $idTipoLicenca = $data->getIdTipoLicenca();
-
-                $AquisicaoItem = $this->getDoctrine()->getRepository('CacicCommonBundle:AquisicaoItem')
-                    ->find(
-                        array(
-                            'idSoftware' => $idSoftware,
-                            'idAquisicao' =>$idAquisicao,
-                            'idTipoLicenca' => $idTipoLicenca
-                        )   );
-                //Codição para update
-                if($AquisicaoItem != null){
-                $form = $this->createForm( new AquisicaoItemType(), $AquisicaoItem );
-                   $data = $form->getData();
-
-                    $software_list = $data['idSoftware'];
-
-                    foreach ($software_list as $software) {
-                        $this->get('logger')->debug("Adicionando software ".$software);
-                        $software_obj = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:Software')->find($software);
-                        $Aquisicao->addIdSoftware($software_obj);
-                    }
-
-                    $this->getDoctrine()->getManager()->persist( $AquisicaoItem );
-                    $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Aquisicao
+                // Primeiro remove os softwares que estavam cadastrados
+                foreach ($Aquisicao->getIdSoftware() as $software) {
+                    $Aquisicao->removeIdSoftware($software);
                 }
-                else
+
+                $software_list = $request->get('idSoftware');
+                foreach ($software_list as $software) {
+                    $this->get('logger')->debug("Adicionando software ".$software);
+                    $software_obj = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:Software')->find($software);
+                    $Aquisicao->addIdSoftware($software_obj);
+                    $this->getDoctrine()->getManager()->persist( $software_obj );
+                }
+
                 //Inserção de aquisição item
                 $this->getDoctrine()->getManager()->persist( $Aquisicao );
                 $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Aquisicao
@@ -74,9 +54,11 @@ class AquisicaoItemController extends Controller
         }
 
         return $this->render( 'CacicCommonBundle:AquisicaoItem:cadastrar.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'software_list' => $Aquisicao->getIdSoftware()
         ));
     }
+
     /**
      *  Página de editar dados do Aquisicao
      *  @param int $idAquisicao

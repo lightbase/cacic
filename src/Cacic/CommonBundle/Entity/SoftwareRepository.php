@@ -206,12 +206,11 @@ class SoftwareRepository extends EntityRepository
     {
         // Monta a Consulta básica...
         $qb = $this->createQueryBuilder('sw');
-        $qb->select('sw', 'tpsw', 'se')
+        $qb->select('sw', 'tpsw')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
             ->leftJoin('sw.idTipoSoftware', 'tpsw')
-            ->leftJoin('sw.estacoes', 'se')
-            ->groupBy('sw', 'tpsw.idTipoSoftware', 'tpsw.teDescricaoTipoSoftware', 'se')
-            ->having($qb->expr()->eq($qb->expr()->count('se'), 0))
+            ->andWhere('prop.computador IS NULL')
+            ->groupBy('sw', 'tpsw.idTipoSoftware', 'tpsw.teDescricaoTipoSoftware')
             ->orderBy('sw.nmSoftware');
 
         return $qb->getQuery()->execute();
