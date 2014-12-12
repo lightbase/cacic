@@ -328,10 +328,10 @@ class NeoController extends Controller {
             $saida['agentcomputer']['metodoDownload']['path'] = $computador->getIdRede()->getTePathServUpdates();
         }
 
+        // 5 - Força coleta
+        $saida['agentcomputer']['configuracoes']['nu_forca_coleta'] = $computador->getForcaColeta();
 
-        //$logger->debug("4444444444444444444444444444444444444444 \n".print_r($saida, true));
-
-        // 5 - Configurações do local
+        // 6 - Configurações do local
         $configuracao_local = $computador->getIdRede()->getIdLocal()->getConfiguracoes();
         foreach ($configuracao_local as $configuracao) {
             //$logger->debug("5555555555555555555555555555555555555 ".$configuracao->getIdConfiguracao()->getIdConfiguracao() . " | " . $configuracao->getVlConfiguracao());
@@ -649,6 +649,13 @@ class NeoController extends Controller {
             $response->setStatusCode('500');
             $response->setContent($error_msg);
             return $response;
+        }
+
+        //Verifica se a coleta foi forçada
+        if ($computador->getForcaColeta() == 'True') {
+            $computador->setForcaColeta('False');
+            $this->getDoctrine()->getManager()->persist( $computador );
+            $this->getDoctrine()->getManager()->flush();
         }
 
         $result1 = $this->setHardware($dados['hardware'], $computador);
