@@ -652,8 +652,8 @@ class NeoController extends Controller {
         }
 
         //Verifica se a coleta foi forçada
-        if ($computador->getForcaColeta() == 'True') {
-            $computador->setForcaColeta('False');
+        if ($computador->getForcaColeta() == 'true') {
+            $computador->setForcaColeta('false');
             $this->getDoctrine()->getManager()->persist( $computador );
             $this->getDoctrine()->getManager()->flush();
         }
