@@ -1,0 +1,26 @@
+Cacic\CommonBundle\Entity\TipoSo:
+    type: entity
+    table: tipo_so
+    repositoryClass: Cacic\CommonBundle\Entity\TipoSoRepository
+    fields:
+        idTipoSo:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_tipo_so
+            generator:
+                strategy: IDENTITY
+        tipo:
+            type: text
+            fixed: false
+            nullable: true
+            column: tipo
+    oneToMany:
+        so:
+            targetEntity: So
+            mappedBy: tipo
+        redeVersaoModulo:
+            targetEntity: RedeVersaoModulo
+            mappedBy: tipoSo
+    lifecycleCallbacks: {  }

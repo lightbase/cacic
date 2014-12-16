@@ -10,9 +10,8 @@
                         <th width="29%" style="text-align: center">{{ "Nome da Máquina"|trans }}</th>
                         <th width="29%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
                         <th width="29%" style="text-align: center">{{ "MAC Address"|trans }}</th>
-
-                        <th width="13%"></th>
-
+                        <th width="29%" style="text-align: center">{{ "Computador"|trans }}</th>
+                        <th width="29%" style="text-align: center">{{ "Patrimônio"|trans }}</th>
 
                     </tr>
                     </thead>
@@ -27,6 +26,12 @@
                             <td style="text-align: center">{{ computador['teNodeAddress'] }}</td>
                             <td class="td-actions">
                                 <a href="{{ path("cacic_computador_update")}}/{{ computador['idComputador'] }}" title="{{ "Coletar Softwares de"|trans }} {{ computador['nmComputador'] }}" target="_self">
+                                    <i class="icon-download-alt"></i>
+                                    {{ "Coletar"|trans }}
+                                </a>
+                            </td>
+                            <td class="td-actions">
+                                <a href="{{ path("cacic_computador_update_patrimonio")}}/{{ computador['idComputador'] }}" title="{{ "Coletar Softwares de"|trans }} {{ computador['nmComputador'] }}" target="_self">
                                     <i class="icon-download-alt"></i>
                                     {{ "Coletar"|trans }}
                                 </a>

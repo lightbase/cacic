@@ -477,6 +477,10 @@ cacic_computador_coletar:
     pattern: /computador/coletar
     defaults: { _controller: CacicCommonBundle:Computador:coletar }
 
+cacic_computador_coletar_patrimonio:
+    pattern: /computador/coletarPatrimonio
+    defaults: { _controller: CacicCommonBundle:Computador:coletarPatrimonio }
+
 cacic_computador_versaoagente:
     pattern: /computador/versaoagente
     defaults: { _controller: CacicCommonBundle:Computador:versaoagente }
@@ -492,6 +496,10 @@ cacic_rede_coletar_submit:
 cacic_computador_update:
     pattern: /computador/update/{idComputador}
     defaults: { _controller: CacicCommonBundle:Computador:update, idComputador: null }
+
+cacic_computador_update_patrimonio:
+    pattern: /computador/updatePatrimonio/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:updatePatrimonio, idComputador: null }
 
 cacic_migracao_cacic26:
     pattern: /migracao/cacic26
