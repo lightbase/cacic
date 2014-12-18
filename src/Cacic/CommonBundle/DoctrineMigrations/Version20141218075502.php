@@ -23,8 +23,9 @@ class Version20141218075502 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema)
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() != "postgresql", "Migration can only be executed safely on 'postgresql'.");
+        $sm = $this->connection->getSchemaManager();
+
         $logger = $this->container->get('logger');
 
         $cocar = $this->container->get('kernel')->getBundle('CocarBundle');
@@ -34,48 +35,18 @@ class Version20141218075502 extends AbstractMigration implements ContainerAwareI
             return;
         }
 
-        # Remove todas as impressoras cujo serial for nulo
-        $printer_list = $em->getRepository('CocarBundle:Printer')->findAll();
+        $rootDir = $this->container->get('kernel')->getRootDir();
+        $upgrade1 = $rootDir."/../src/Cacic/CommonBundle/Resources/data/upgrade-3.0b4-5.sql";
+        $upgradeSQL1 = file_get_contents($upgrade1);
 
-        foreach ($printer_list as $printer) {
-            $logger->info("Removendo impressora ".$printer->getHost());
+        $logger->debug("Arquivo de atualização: $upgrade1");
 
-            $serie_list = $em->getRepository('CocarBundle:Printer')->findBy(array(
-                'serie' => $printer->getSerie()
-            ));
+        // Chama o container para executar o arquivo de atualização
+        // FIXME: Só funciona no PostgreSQL
+        $this->addSql($upgradeSQL1);
 
-            foreach($serie_list as $serie) {
-                if ($serie->getId() != $printer->getId()) {
-                    $logger->debug("Impressora repetida ".$printer->getId() . " Série: ".$serie->getSerie());
-
-                    $counter_list = $em->getRepository('CocarBundle:PrinterCounter')->findBy(array(
-                        'printer' => $serie->getId()
-                    ));
-
-                    foreach($counter_list as $counter) {
-
-                        try {
-                            $counter_obj = new \Swpb\Bundle\CocarBundle\Entity\PrinterCounter();
-                            $counter_obj->setDate($counter->getDate());
-                            $counter_obj->setPrinter($printer);
-                            $counter_obj->setPrints($counter->getPrints());
-
-                            $em->persist($counter_obj);
-                            $em->flush();
-                        } catch(DBALException $e) {
-                            $logger->error("Contador repetido!!!\n".$e->getMessage());
-                        }
-
-                        $em->remove($counter);
-                    }
-
-                    $em->remove($serie);
-                }
-            }
-
-        }
-
-        $em->flush();
+        // Cria a função mas não chama pra não demorar muito
+        $this->addSql("SELECT upgrade()");
 
     }
 
