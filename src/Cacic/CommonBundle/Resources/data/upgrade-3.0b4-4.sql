@@ -37,7 +37,12 @@ CREATE OR REPLACE FUNCTION gera_relatorio_wmi() RETURNS VOID AS $$
 
           RAISE NOTICE 'Executando SQL para adição de propriedade %', sql;
 
+        BEGIN
           EXECUTE sql;
+        EXCEPTION
+          WHEN SQLSTATE '42701' THEN
+            RAISE NOTICE 'Coluna % repetida', lower(prop.nm_property_name);
+        END;
 
       END LOOP;
 
@@ -73,7 +78,12 @@ CREATE OR REPLACE FUNCTION gera_relatorio_wmi() RETURNS VOID AS $$
 
       RAISE NOTICE 'Inserindo coleta %',sql;
 
-      EXECUTE sql;
+      BEGIN
+        EXECUTE sql;
+      EXCEPTION
+        WHEN SQLSTATE '42601' THEN
+          RAISE NOTICE 'Caractere invalido na inserçao. Continuando...';
+      END;
 
     END LOOP;
 

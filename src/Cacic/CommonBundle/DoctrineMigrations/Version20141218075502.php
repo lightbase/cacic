@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\DBALException;
 
 
 /**
@@ -53,18 +54,16 @@ class Version20141218075502 extends AbstractMigration implements ContainerAwareI
 
                     foreach($counter_list as $counter) {
 
-                        $exists = $em->getRepository('CocarBundle:PrinterCounter')->findBy(array(
-                            'date' => $counter->getDate(),
-                            'prints' => $counter->getPrints()
-                        ));
-
-                        if (empty($exists)) {
+                        try {
                             $counter_obj = new \Swpb\Bundle\CocarBundle\Entity\PrinterCounter();
                             $counter_obj->setDate($counter->getDate());
                             $counter_obj->setPrinter($printer);
                             $counter_obj->setPrints($counter->getPrints());
 
                             $em->persist($counter_obj);
+                            $em->flush();
+                        } catch(DBALException $e) {
+                            $logger->error("Contador repetido!!!\n".$e->getMessage());
                         }
 
                         $em->remove($counter);
