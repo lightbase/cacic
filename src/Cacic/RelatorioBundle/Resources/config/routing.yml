@@ -205,3 +205,7 @@ cacic_relatorio_usuario_detalhar:
 cacic_relatorio_usuario_csv:
     pattern: /usuario/csv
     defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioCsv }
+
+cacic_relatorio_usuario_historico:
+    pattern: /usuario/historico/{idComputador}
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:usuariohistorico, idComputador: null }

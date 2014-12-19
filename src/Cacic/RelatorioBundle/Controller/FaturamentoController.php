@@ -543,4 +543,25 @@
 
             return $response;
         }
+
+        /*
+         * Página que exibe o resultado da consulta de usuário logado
+         */
+        public function usuarioHistoricoAction( Request $request) {
+
+            $locale = $request->getLocale();
+            $idComputador = $request->get('IdComputador');
+
+                $dados = $this->getDoctrine()
+                    ->getRepository('CacicCommonBundle:LogUserLogado')
+                    ->selectUserLogado($idComputador);
+
+            return $this->render(
+                'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
+                array(
+                    'idioma'        => $locale,
+                    'dados'         => ( isset( $dados ) ? $dados : null ),
+                )
+            );
+        }
 }
