@@ -1398,7 +1398,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1505,7 +1505,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1660,7 +1660,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1730,7 +1730,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -2295,12 +2295,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lightbase/cocar.git",
-                "reference": "dd672f197222bfbf43f697d51dbf9b2e9b8d8a98"
+                "reference": "d6439f4f9294078d9b3d5e39d140c2e5491af53d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lightbase/cocar/zipball/dd672f197222bfbf43f697d51dbf9b2e9b8d8a98",
-                "reference": "dd672f197222bfbf43f697d51dbf9b2e9b8d8a98",
+                "url": "https://api.github.com/repos/lightbase/cocar/zipball/d6439f4f9294078d9b3d5e39d140c2e5491af53d",
+                "reference": "d6439f4f9294078d9b3d5e39d140c2e5491af53d",
                 "shasum": ""
             },
             "require": {
@@ -2331,7 +2331,7 @@
             "support": {
                 "source": "https://github.com/lightbase/cocar/tree/master"
             },
-            "time": "2014-12-18 19:25:50"
+            "time": "2014-12-19 04:02:47"
         },
         {
             "name": "monolog/monolog",
