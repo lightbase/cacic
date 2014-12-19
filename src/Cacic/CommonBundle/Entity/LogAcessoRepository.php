@@ -294,7 +294,6 @@ GROUP BY c0_.te_node_address,
 	l4_.id_local,
 	cc_.id_computador
 	";
-        error_log('>>>>>>>>>>>>>LOG SQL '.$sql);
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
