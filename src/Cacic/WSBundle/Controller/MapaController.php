@@ -30,28 +30,16 @@ class MapaController extends Controller {
         if (empty($netmask)) {
             $netmask = $request->get('netmask');
         }
-<<<<<<< HEAD
-        $modPatrimonio = "true";
-=======
         $modPatrimonio = "false";
->>>>>>> 75c70b48d5b7e207cdd5dd3b32bd7f76a2a7b6f0
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_address, $rede, $so, $ip_computador );
         $idComputador = $computador->getIdComputador();
-        $forcaPatrimonio = $computador->getForcaPatrimonio();
         $logger->debug("Teste de Conexão GET-MAPA ! Ip do computador: $ip_computador Máscara da rede: $netmask MAC Address: $te_node_address ID Computador: $idComputador");
         $em = $this->getDoctrine()->getManager();
-<<<<<<< HEAD
-        /**
-         * Verificar se o módulo está habilitado para o computador;
-         */
-        $patr = $this->getDoctrine()->getRepository('CacicCommonBundle:AcaoRede')->findOneBy( array('rede'=>$rede->getIdRede(), 'acao'=>'col_patr'));
-=======
 
         $patr = $this->getDoctrine()->getRepository('CacicCommonBundle:AcaoRede')->findOneBy( array('rede'=>$rede->getIdRede(), 'acao'=>'col_patr'));
 
->>>>>>> 75c70b48d5b7e207cdd5dd3b32bd7f76a2a7b6f0
         /**
          * Se o módulo estiver habilitado, verifica se existe coleta de patrimônio
          */
@@ -65,18 +53,8 @@ class MapaController extends Controller {
             /**
              * Caso não exista nenhuma coleta, envia "true" para o agente.
              */
-            if (empty($result)){
+            if (empty($result))
                 $modPatrimonio = "true";
-            }
-        }
-        /**
-         * Força coleta do patrimônio
-         */
-        if ($forcaPatrimonio = "S"){
-            $modPatrimonio = "true";
-            $computador->setForcaPatrimonio('N');
-            $this->getDoctrine()->getManager()->persist( $computador );
-            $this->getDoctrine()->getManager()->flush();
         }
 
         /**
