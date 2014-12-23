@@ -54,7 +54,7 @@ CREATE OR REPLACE FUNCTION upgrade() RETURNS VOID AS $$
     FOR soft IN select distinct sw.id_software
       from software sw
       left join proriedade_software prop on sw.id_software = prop.id_software
-      left join aquisicao_item aq on sw.id_software = aq.id_software
+      left join aquisicoes_software aq on sw.id_software = aq.id_software
       where prop.id_software is null
       and aq.id_software is null LOOP
 
