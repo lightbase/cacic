@@ -26,23 +26,33 @@ class LogUserLogadoRepository extends EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+
+
     /*
     * Função que retorna a busca por usuário logago
     */
-    public function selectUserLogado( $teIpComputador , $nmComputador ,$usuario, $dtHrInclusao ,$dtHrInclusaoFim )
+    public function selectUserLogado( $idComputador, $teIpComputador, $nmComputador,$usuario, $dtHrInclusao, $dtHrInclusaoFim )
     {
+
+        error_log('>>>>>>>>>>>>>>Sdsdsd',$idComputador);
 
         $query = $this->createQueryBuilder('log')
             ->select('comp.nmComputador', 'comp.teIpComputador', 'log.data', 'log.usuario')
             ->innerJoin('CacicCommonBundle:Computador','comp', 'WITH', 'log.idComputador = comp.idComputador');
 
+        if ( $idComputador != null){
+
+            $query->Where("log.idComputador = '$idComputador'");
+
+        }
+
         if ( $teIpComputador != null){
 
-            $query->Where("c.teIpComputador  LIKE   '%$teIpComputador%'");
+            $query->Where("comp.teIpComputador  LIKE   '%$teIpComputador%'");
 
         }
         if ( $nmComputador != null){
-            $query->Where("c.nmComputador LIKE   '%$nmComputador%'");
+            $query->Where("comp.nmComputador LIKE   '%$nmComputador%'");
         }
         if ( $usuario != null){
             $query->Where("log.usuario  LIKE   '%$usuario%'");

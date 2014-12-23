@@ -6,11 +6,13 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\DBALException;
+
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20141129171119 extends AbstractMigration implements ContainerAwareInterface
+class Version20141218075502 extends AbstractMigration implements ContainerAwareInterface
 {
     private $container;
 
@@ -21,13 +23,20 @@ class Version20141129171119 extends AbstractMigration implements ContainerAwareI
 
     public function up(Schema $schema)
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "postgresql", "Migration can only be executed safely on 'postgresql'.");
         $sm = $this->connection->getSchemaManager();
 
         $logger = $this->container->get('logger');
+
+        $cocar = $this->container->get('kernel')->getBundle('CocarBundle');
+
+        if (empty($cocar)) {
+            $logger->info("O Cocar não está instalado. Não é necessário executar o migration");
+            return;
+        }
+
         $rootDir = $this->container->get('kernel')->getRootDir();
-        $upgrade1 = $rootDir."/../src/Cacic/CommonBundle/Resources/data/upgrade-3.0b4-4.sql";
+        $upgrade1 = $rootDir."/../src/Cacic/CommonBundle/Resources/data/upgrade-3.0b4-5.sql";
         $upgradeSQL1 = file_get_contents($upgrade1);
 
         $logger->debug("Arquivo de atualização: $upgrade1");
@@ -37,7 +46,7 @@ class Version20141129171119 extends AbstractMigration implements ContainerAwareI
         $this->addSql($upgradeSQL1);
 
         // Cria a função mas não chama pra não demorar muito
-        #$this->addSql("SELECT gera_relatorio_wmi()");
+        $this->addSql("SELECT upgrade()");
 
     }
 
