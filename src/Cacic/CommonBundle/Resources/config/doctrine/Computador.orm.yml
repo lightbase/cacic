@@ -92,7 +92,7 @@ Cacic\CommonBundle\Entity\Computador:
             column: is_notebook
         forcaPatrimonio:
             type: text
-            lenght: 3
+            lenght: 1
             nullable: true
             column: forca_patrimonio
     oneToMany:
