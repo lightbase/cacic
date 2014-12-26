@@ -1,6 +1,10 @@
 {% extends 'CacicWSBundle::common.xml.twig' %}
 {%  block bodyXML %}
-    <IdComputador>{{  computador.getIdComputador() }}</IdComputador>
+    {% if computador is defined %}
+        <IdComputador>{{  computador.getIdComputador() }}</IdComputador>
+    {% else %}
+        <IdComputador></IdComputador>
+    {% endif %}
     <WebManagerAddress>{{ rede.getTeServCacic() }}</WebManagerAddress>
     <WebServicesFolderName>{{ ws_folder }}</WebServicesFolderName>
     <cs_compress>{{ cs_compress }}</cs_compress>

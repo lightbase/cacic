@@ -60,4 +60,17 @@ class SoRepository extends EntityRepository
         return $so;
 
     }
+
+    /*
+    * Listar so para carga no SGConf_PGFN
+    */
+    public function soSGConf (){
+
+        $_dql = "SELECT s.idSo, s.teDescSo
+                 FROM CacicCommonBundle:So s
+                 GROUP BY s";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+    }
+
 }

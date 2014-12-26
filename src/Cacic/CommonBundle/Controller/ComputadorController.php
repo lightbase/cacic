@@ -175,27 +175,6 @@ class ComputadorController extends Controller
                 'computadores' => $computadores));
 
     }
-
-    public function coletarPatrimonioAction(Request $request)
-    {
-        $form = $this->createForm( new ComputadorConsultaType() );
-        if ( $request->isMethod('POST') )
-        {
-            $form->bind( $request );
-            $data = $form->getData();
-
-
-            $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
-                ->selectIp($data['teIpComputador'],$data['nmComputador'],$data['teNodeAddress'],$data['idComputador'] );
-
-        }
-
-        return $this->render( 'CacicCommonBundle:Computador:coletarPatrimonio.html.twig',
-            array(
-                'form' => $form->createView(),
-                'computadores' => $computadores));
-
-    }
     /**
      *  @param int $idComputador
      */

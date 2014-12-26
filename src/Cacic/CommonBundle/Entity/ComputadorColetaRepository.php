@@ -4,6 +4,7 @@ namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Cacic\CommonBundle\Entity\Computador;
 
 /**
  * ComputadorColetaRepository
@@ -17,10 +18,13 @@ class ComputadorColetaRepository extends EntityRepository
 	/**
 	 * Recupera os dados de coleta referentes ao Computador parametrizado
 	 * @param \Cacic\CommonBundle\Entity\Computador $computador
+     * @param $nmClassName Nome da classe para buscar
+     * @return Mixed
 	 */
-	public function getDadosColetaComputador( \Cacic\CommonBundle\Entity\Computador $computador )
+	public function getDadosColetaComputador( Computador $computador, $nmClassName = null )
 	{
-		$qb = $this->createQueryBuilder('coleta')->select('coleta',
+		$qb = $this->createQueryBuilder('coleta')->select(
+            'coleta',
             'propriedade',
             'classe',
             'software.displayName',
@@ -31,10 +35,16 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('coleta.classProperty', 'propriedade')
             ->innerJoin('propriedade.idClass', 'classe')
             ->leftJoin('CacicCommonBundle:PropriedadeSoftware', 'software', 'WITH', 'propriedade.idClassProperty = software.classProperty')
-            ->where('coleta.computador = (:computador)')
+            ->andWhere('coleta.computador = (:computador)')
             ->setParameter('computador', $computador)
             ->orderBy('classe.nmClassName')
             ->addOrderBy('propriedade.nmPropertyName');
+
+        // Adiciona filtro por classe
+        if (!empty($nmClassName)) {
+            $qb->andWhere('classe.nmClassName = :nmClassName');
+            $qb->setParameter('nmClassName', $nmClassName);
+        }
 	
 		return $qb->getQuery()->execute();
 	}

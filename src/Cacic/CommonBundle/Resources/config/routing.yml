@@ -477,10 +477,6 @@ cacic_computador_coletar:
     pattern: /computador/coletar
     defaults: { _controller: CacicCommonBundle:Computador:coletar }
 
-cacic_computador_coletar_patrimonio:
-    pattern: /computador/coletarPatrimonio
-    defaults: { _controller: CacicCommonBundle:Computador:coletarPatrimonio }
-
 cacic_computador_versaoagente:
     pattern: /computador/versaoagente
     defaults: { _controller: CacicCommonBundle:Computador:versaoagente }
@@ -550,3 +546,23 @@ cacic_grupo_usuario_excluir:
 cacic_ateste:
     pattern:  /ateste/
     defaults: { _controller: CacicCommonBundle:Ateste:index }
+
+cacic_arquivo_sgconf:
+    pattern: /arquivosgconf
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoSgconf }
+
+cacic_arquivo_sgconf_local:
+    pattern: /arquivosgconf/local
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoLocal }
+
+cacic_arquivo_sgconf_rede:
+    pattern: /arquivosgconf/rede
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoRede }
+
+cacic_arquivo_sgconf_so:
+    pattern: /arquivosgconf/so
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoSo }
+
+cacic_arquivo_sgconf_estacao:
+    pattern: /arquivosgconf/estacao
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoEstacao }

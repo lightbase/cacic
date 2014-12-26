@@ -14,6 +14,7 @@ use Cacic\CommonBundle\Entity\AcaoSo;
 use Cacic\CommonBundle\Entity\Acao;
 use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
+use Doctrine\Common\Util\Debug;
 
 /**
  *
@@ -497,6 +498,27 @@ class ComputadorRepository extends EntityRepository
 
 
         return $query->getQuery()->execute();
+    }
+
+    /*
+   * Listar estações para carga no SGConf_PGFN
+   */
+    public function estacaoSGConf(){
+
+        $_dql = "SELECT c.teNodeAddress, s.idSo, r.idRede, c.teIpComputador, c.nmComputador, c.dtHrUltAcesso,cl.nmClassName,cp.nmPropertyName, cc.teClassPropertyValue
+                  FROM CacicCommonBundle:ComputadorColeta cc
+                  INNER JOIN CacicCommonBundle:ClassProperty cp WITH cc.classProperty = cp.idClassProperty
+                  INNER JOIN CacicCommonBundle:Classe cl WITH cp.idClass = cl.idClass
+                  INNER JOIN CacicCommonBundle:Computador c WITH cc.computador = c.idComputador
+                  INNER JOIN CacicCommonBundle:Rede r WITH c.idRede = r.idRede
+                  INNER JOIN CacicCommonBundle:So s WITH c.idSo = s.idSo
+                  WHERE cl.nmClassName = 'Win32_PhysicalMemory'
+                  AND cp.nmPropertyName = 'Capacity'
+                  OR cl.nmClassName = 'Win32_Processor'
+                  AND cp.nmPropertyName = 'Name'
+                  OR cp.nmPropertyName = 'MaxClockSpeed'";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
 
 }

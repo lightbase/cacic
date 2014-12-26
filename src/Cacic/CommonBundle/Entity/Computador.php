@@ -730,6 +730,7 @@ class Computador
      * @param string $forcaPatrimonio
      * @return Computador
      */
+
     public function setForcaPatrimonio($forcaPatrimonio)
     {
         $this->forcaPatrimonio = $forcaPatrimonio;
