@@ -30,7 +30,22 @@ class MapaController extends Controller {
         if (empty($netmask)) {
             $netmask = $request->get('netmask');
         }
-        $modPatrimonio = "false";
+	$modPatrimonio = "false";
+
+	/**
+	 * Desabilita patrimônio temporariamente
+	 */
+
+	$mensagem = "Declaro minha responsabilidade pelas informações prestadas e que tenho pleno conhecimento das orientações contidas no Memorando-Circular Nº 116/2014/PGFN/DGC/CGA-CTI, sobre o armazenamento seguro de dados no ambiente computacional da PGFN.";
+
+        $response = new Response();
+        $response->headers->set('Content-Type', 'xml');
+        return  $this->render('CacicWSBundle:Default:mapa.xml.twig', array(
+            'mensagem'=>$mensagem,
+            'modPatrimonio' => $modPatrimonio,
+        ), $response);
+
+
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
         $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $request->get( 'te_so' ),$te_node_address, $rede, $so, $ip_computador );
