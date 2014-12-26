@@ -2295,12 +2295,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lightbase/cocar.git",
-                "reference": "09ec2f8669a1ba2eed57de2b3d79ac15db1a34aa"
+                "reference": "4f5ea81eec06f68b6e03028702e3c85285c4e310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lightbase/cocar/zipball/09ec2f8669a1ba2eed57de2b3d79ac15db1a34aa",
-                "reference": "09ec2f8669a1ba2eed57de2b3d79ac15db1a34aa",
+                "url": "https://api.github.com/repos/lightbase/cocar/zipball/4f5ea81eec06f68b6e03028702e3c85285c4e310",
+                "reference": "4f5ea81eec06f68b6e03028702e3c85285c4e310",
                 "shasum": ""
             },
             "require": {
@@ -2331,7 +2331,7 @@
             "support": {
                 "source": "https://github.com/lightbase/cocar/tree/master"
             },
-            "time": "2014-12-23 15:58:21"
+            "time": "2014-12-26 16:01:57"
         },
         {
             "name": "monolog/monolog",
