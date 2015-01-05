@@ -50,6 +50,19 @@ Cacic\CommonBundle\Entity\Software:
                 id_tipo_software:
                     referencedColumnName: id_tipo_software
             orphanRemoval: false
+    manyToMany:
+        aquisicoes:
+            targetEntity: AquisicaoItem
+            joinTable:
+                name: aquisicoes_software
+                joinColumns:
+                    id_software:
+                        referencedColumnName: id_software
+                inverseJoinColumns:
+                    id_aquisicao:
+                        referencedColumnName: id_aquisicao
+                    id_tipo_licenca:
+                        referencedColumnName: id_tipo_licenca
     oneToMany:
         estacoes:
             targetEntity: SoftwareEstacao

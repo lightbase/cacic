@@ -1,7 +1,3 @@
-cacic_relatorio_autorizacoes:
-    pattern: /autorizacoes
-    defaults: { _controller: CacicRelatorioBundle:Default:autorizacoes }
-
 cacic_relatorio_faturamento:
     pattern: /faturamento
     defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamento }
@@ -77,6 +73,10 @@ cacic_relatorio_software_orgao_rel:
 cacic_relatorio_software_aquisicoes:
     pattern: /software/aquisicoes
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesRelatorio }
+
+cacic_relatorio_software_aquisicoes_det:
+    pattern: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}
+    defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhado }
 
 cacic_relatorio_software_tipo:
     pattern: /software/tipo
@@ -209,3 +209,15 @@ cacic_relatorio_usuario_csv:
 cacic_relatorio_usuario_historico:
     pattern: /usuario/historico/{idComputador}
     defaults: { _controller: CacicRelatorioBundle:Faturamento:usuariohistorico, idComputador: null }
+
+cacic_computador_historico:
+    pattern:  /computador/historico/{idComputador}/{classe}
+    defaults: { _controller: CacicRelatorioBundle:Computador:historico, idComputador: null, classe: null}
+    requirements:
+        idComputador: \d+
+
+cacic_software_search:
+    pattern: /search/software/{name}
+    defaults: { _controller:CacicRelatorioBundle:Software:search, name:null }
+    requirements:
+        _method: GET

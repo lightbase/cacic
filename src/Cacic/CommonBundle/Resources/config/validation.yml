@@ -75,41 +75,6 @@ Cacic\CommonBundle\Entity\ServidorAutenticacao:
             - Choice:
                 choices:  [S, N]
 
-Cacic\CommonBundle\Entity\Rede:
-    properties:
-        nmRede:
-            - NotNull: ~
-        teMascaraRede:
-            - NotBlank: ~
-            - Length:
-                max: 20
-        teServCacic:
-            - NotBlank: ~
-        teServCacic:
-            - NotBlank: ~
-        teServUpdates:
-            - NotBlank: ~
-        teServUpdates:
-            - NotBlank: ~
-        nuPortaServUpdates:
-            - NotBlank: ~
-        nuLimiteFtp:
-            - NotBlank: ~
-            - Length:
-                max: 5
-        nmUsuarioLoginServUpdates:
-            - NotBlank: ~
-        nmUsuarioLoginServUpdatesGerente:
-            - NotBlank: ~
-        tePathServUpdates:
-            - NotBlank: ~
-        nuTelefone1:
-            - Length:
-                max: 11
-        nuTelefone2:
-            - Length:
-                max: 11
-
 Cacic\CommonBundle\Entity\So:
     properties:
         teDescSo:
@@ -220,33 +185,26 @@ Cacic\CommonBundle\Entity\TipoLicenca:
                 max: 60
 
 Cacic\CommonBundle\Entity\AquisicaoItem:
-    constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [idTipoLicenca, idAquisicao, idSoftware]
     properties:
         qtLicenca:
             - NotBlank: ~
-            - Length:
-                max: 6
         idTipoLicenca:
             - NotBlank: ~
         idAquisicao:
             - NotBlank: ~
         idSoftware:
             - NotBlank: ~
-        teObs:
-            - Length:
-                max: 200
         dtVencimentoLicenca:
             - NotBlank: ~
             - Date: ~
 
 Cacic\CommonBundle\Entity\SoftwareEstacao:
     constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [idSoftware, idComputador]
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [idComputador]
     properties:
-        idSoftware:
-            - NotNull: ~
         idComputador:
+            - NotNull: ~
+        idAquisicaoItem:
             - NotNull: ~
         nrPatrimonio:
             - Length:

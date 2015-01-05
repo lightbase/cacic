@@ -27,6 +27,7 @@ use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
 use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
 use Cacic\CommonBundle\Entity\PropriedadeSoftware;
+use Cacic\CommonBundle\Entity\LogUserLogado;
 
 
 class NeoController extends Controller {
@@ -192,6 +193,11 @@ class NeoController extends Controller {
         }
 
         # TODO: Grava log de acessos de usuario do computador
+        $log_usuario = new LogUserLogado();
+        $log_usuario->setIdComputador($computador);
+        $log_usuario->setData(new \DateTime());
+        $log_usuario->setUsuario($dados['computador']['usuario']);
+        $em->persist($log_usuario);
 
         $em->flush();
 
@@ -322,10 +328,10 @@ class NeoController extends Controller {
             $saida['agentcomputer']['metodoDownload']['path'] = $computador->getIdRede()->getTePathServUpdates();
         }
 
+        // 5 - Força coleta
+        $saida['agentcomputer']['configuracoes']['nu_forca_coleta'] = $computador->getForcaColeta();
 
-        //$logger->debug("4444444444444444444444444444444444444444 \n".print_r($saida, true));
-
-        // 5 - Configurações do local
+        // 6 - Configurações do local
         $configuracao_local = $computador->getIdRede()->getIdLocal()->getConfiguracoes();
         foreach ($configuracao_local as $configuracao) {
             //$logger->debug("5555555555555555555555555555555555555 ".$configuracao->getIdConfiguracao()->getIdConfiguracao() . " | " . $configuracao->getVlConfiguracao());
@@ -645,6 +651,13 @@ class NeoController extends Controller {
             return $response;
         }
 
+        //Verifica se a coleta foi forçada
+        if ($computador->getForcaColeta() == 'true') {
+            $computador->setForcaColeta('false');
+            $this->getDoctrine()->getManager()->persist( $computador );
+            $this->getDoctrine()->getManager()->flush();
+        }
+
         $result1 = $this->setHardware($dados['hardware'], $computador);
         $result2 = $this->setSoftware($dados['software'], $computador);
 
@@ -698,6 +711,8 @@ class NeoController extends Controller {
 				WHERE LOWER(classe.nmClassName) = LOWER(:classe)";
 
         $classObject = $em->createQuery( $_dql )->setParameter('classe', $classe)->getOneOrNullResult();
+
+	$logger->debug("COLETA: Coletando classe $classe");
 
         if (empty($classObject)) {
             $logger->error("COLETA: Classe não cadastrada: $classe");
@@ -767,25 +782,24 @@ class NeoController extends Controller {
                 $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
                 $em->persist( $computadorColetaHistorico );
 
-                // Grava tudo da propriedade
-                $em->flush();
             } catch(\Doctrine\ORM\ORMException $e){
                 $logger->error("COLETA: Erro na inserçao de dados da propriedade $propriedade. \n$e");
             }
-
         }
+        // Grava tudo da propriedade
+        $em->flush();
     }
 
     public function setSoftware($software, $computador) {
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
 
-        try {
-            $classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
-                'nmClassName'=> 'SoftwareList'
-            ));
-        }
-        catch(\Doctrine\ORM\NoResultException $e) {
+
+        $classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
+            'nmClassName'=> 'SoftwareList'
+        ));
+
+        if (empty($classObject)) {
             $logger->error("COLETA: Classe SoftwareList não cadastrada \n$e");
             return false;
         }
@@ -797,6 +811,11 @@ class NeoController extends Controller {
             $this->setSoftwareElement($classe, $valor, $computador, $classObject);
             $i = $i + 1;
         }
+
+        /*
+         * Grava tudo
+         */
+        $em->flush();
         $logger->debug("COLETA: Coleta de software finalizada. Total de softwares coletados: $i");
 
         return true;
@@ -845,6 +864,9 @@ class NeoController extends Controller {
                 }
 
                 $classProperty = new ClassProperty();
+
+                // Adiciona software na coleta
+                $softwareObject->addColetado($propSoftware);
             }
 
             // Atualiza valores
@@ -903,12 +925,9 @@ class NeoController extends Controller {
             $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
             $em->persist( $computadorColetaHistorico );
 
-            // Grava tudo da propriedade
-            $em->flush();
         } catch(\Doctrine\ORM\ORMException $e){
             $logger->error("COLETA: Erro na inserçao de dados do software $software. \n$e");
         }
-
     }
 
 }

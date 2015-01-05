@@ -1,0 +1,44 @@
+<?php
+
+namespace Cacic\CommonBundle\Migrations;
+
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Migrations\AbstractMigration;
+use Doctrine\DBAL\Schema\Schema;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+class Version20141201135645 extends AbstractMigration implements ContainerAwareInterface
+{
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+    public function up(Schema $schema)
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $result = $this->connection->fetchAssoc(
+          "SELECT max(id_log) as id_log FROM log;"
+        );
+        $nextval = $result['id_log'];
+        if (empty($nextval)) {
+            $nextval = 1;
+        }
+
+        $this->addSql(
+            "SELECT setval('log_id_log_seq', $nextval)"
+        );
+
+    }
+
+    public function down(Schema $schema)
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+
+    }
+}

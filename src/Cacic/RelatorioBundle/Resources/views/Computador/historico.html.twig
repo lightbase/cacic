@@ -1,0 +1,35 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+<h2>{{ 'Relatório de Configurações da Classe '|trans }} {{ classe }}</h2>
+    <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+    <hr />
+
+    {% for reg in saida|keys %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th colspan="3">{{ 'Data da coleta: '|trans}}{{ reg }}</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                {% for prop in saida[reg]|keys %}
+                    <tr>
+                        <td>{{ prop }}:</td>
+                        <td>{{ saida[reg][prop]|raw }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td style="text-align: center" colspan="3"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                    </tr>
+                {% endfor %}
+                </tr>
+           </tbody>
+        </table>
+    {% endfor %}
+
+{% endblock %}
