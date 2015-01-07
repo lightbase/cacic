@@ -543,7 +543,7 @@ class RedeController extends Controller
             $logger->debug("Enviando módulo $pStrFullItemName para o servidor $pStrTeServer na pasta $pStrTePathServer");
 
 
-            $conn = $ftp->connect($pStrTeServer);
+            $conn = $ftp->connect($pStrTeServer, $pStrNuPortaServer);
             // Retorno esperado....: 230 => FTP_USER_LOGGED_IN
             // Retorno NÃO esperado: 530 => FTP_USER_NOT_LOGGED_IN
 	    
