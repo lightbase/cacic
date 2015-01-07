@@ -846,4 +846,60 @@ class Rede
     {
         return $this->uorgs;
     }
+    /**
+     * @var string
+     */
+    private $downloadMethod;
+
+
+    /**
+     * Set downloadMethod
+     *
+     * @param string $downloadMethod
+     * @return Rede
+     */
+    public function setDownloadMethod($downloadMethod)
+    {
+        $this->downloadMethod = $downloadMethod;
+
+        return $this;
+    }
+
+    /**
+     * Get downloadMethod
+     *
+     * @return string 
+     * Caso não esteja cadastrado retorna FTP por padrão
+     */
+    public function getDownloadMethod()
+    {
+        if (empty($this->downloadMethod)) {
+            return "ftp";
+        } else {
+            return $this->downloadMethod;
+        }
+    }
+
+    /**
+     * Add acoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AcaoRede $acoes
+     * @return Rede
+     */
+    public function addAco(\Cacic\CommonBundle\Entity\AcaoRede $acoes)
+    {
+        $this->acoes[] = $acoes;
+
+        return $this;
+    }
+
+    /**
+     * Remove acoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AcaoRede $acoes
+     */
+    public function removeAco(\Cacic\CommonBundle\Entity\AcaoRede $acoes)
+    {
+        $this->acoes->removeElement($acoes);
+    }
 }
