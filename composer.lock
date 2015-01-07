@@ -2250,12 +2250,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lightbase/cocar.git",
-                "reference": "0dddcc507ee9abb628b25b03d85a44c0ea9f39df"
+                "reference": "4f5ea81eec06f68b6e03028702e3c85285c4e310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lightbase/cocar/zipball/0dddcc507ee9abb628b25b03d85a44c0ea9f39df",
-                "reference": "0dddcc507ee9abb628b25b03d85a44c0ea9f39df",
+                "url": "https://api.github.com/repos/lightbase/cocar/zipball/4f5ea81eec06f68b6e03028702e3c85285c4e310",
+                "reference": "4f5ea81eec06f68b6e03028702e3c85285c4e310",
                 "shasum": ""
             },
             "require": {
@@ -2286,7 +2286,7 @@
             "support": {
                 "source": "https://github.com/lightbase/cocar/tree/master"
             },
-            "time": "2014-10-21 17:54:58"
+            "time": "2014-12-26 16:01:57"
         },
         {
             "name": "liip/functional-test-bundle",
@@ -3434,12 +3434,8 @@
             "time": "2014-10-02 07:26:00"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "knplabs/knp-paginator-bundle": 20,
@@ -3457,10 +3453,9 @@
         "doctrine/doctrine-migrations-bundle": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.3"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
