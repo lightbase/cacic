@@ -32,7 +32,7 @@ class LoadTipoSo extends AbstractFixture implements FixtureInterface, ContainerA
 
         // Crio os objetos e atributos para a classe
         $classe = new TipoSo();
-        $classe->setTipo('windows-64-bit');
+        $classe->setTipo('windows');
 
         // Adiciona referência
         $this->addReference('windows-64-bit', $classe);
@@ -42,7 +42,7 @@ class LoadTipoSo extends AbstractFixture implements FixtureInterface, ContainerA
 
         // Crio os objetos e atributos para a classe
         $classe = new TipoSo();
-        $classe->setTipo('linux-64-bit');
+        $classe->setTipo('linux-x86_64');
 
         // Adiciona referência
         $this->addReference('linux-64-bit', $classe);
