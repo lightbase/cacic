@@ -1,4 +1,4 @@
-Cacic\CommonBundle\ECorreções e desenvolvimento no relatório de usuáriontity\Local:
+Cacic\CommonBundle\Entity\Local:
     properties:
         nmLocal:
             - NotBlank: ~
