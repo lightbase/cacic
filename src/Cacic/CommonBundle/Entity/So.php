@@ -158,4 +158,32 @@ class So
     {
     	return $this->teDescSo . ' ('. $this->sgSo .')';
     }
+    /**
+     * @var \Cacic\CommonBundle\Entity\TipoSo
+     */
+    private $tipo;
+
+
+    /**
+     * Set tipo
+     *
+     * @param \Cacic\CommonBundle\Entity\TipoSo $tipo
+     * @return So
+     */
+    public function setTipo(\Cacic\CommonBundle\Entity\TipoSo $tipo = null)
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return \Cacic\CommonBundle\Entity\TipoSo 
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
 }
