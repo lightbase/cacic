@@ -1,0 +1,14 @@
+imports:
+    - { resource: config_prod.yml }
+    - { resource: "@CacicMultiBundle/Resources/config/services.yml" }
+
+doctrine:
+    dbal:
+      connections:
+        dynamic:
+          driver:   %database_driver%
+          host:     %database_host%
+          port:     %database_port%
+          dbname:   'empty_database'
+          charset:  UTF8
+          wrapper_class: 'Cacic\MultiBundle\Connection\ConnectionWrapper'
