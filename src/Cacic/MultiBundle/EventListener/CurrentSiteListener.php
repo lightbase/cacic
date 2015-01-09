@@ -8,8 +8,10 @@
 
 namespace Cacic\MultiBundle\EventListener;
 
+use Cacic\MultiBundle\Connection\ConnectionWrapper;
 use Cacic\MultiBundle\Site\SiteManager;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -22,15 +24,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class CurrentSiteListener {
     private $siteManager;
 
-    private $em;
+    private $container;
 
-    private $baseHost;
+    //private $em;
 
-    public function __construct(SiteManager $siteManager, EntityManager $em, $baseHost)
+    //private $baseHost;
+
+    public function __construct(SiteManager $siteManager, ContainerInterface $container)
     {
         $this->siteManager = $siteManager;
-        $this->em = $em;
-        $this->baseHost = $baseHost;
+        $this->container = $container;
+        //$this->em = $em;
+        //$this->baseHost = $baseHost;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
@@ -60,6 +65,16 @@ class CurrentSiteListener {
 
         $domain = $request->getBasePath();
         $this->siteManager->setCurrentSite($domain);
+
+        // Load the database for this website
+        $dbname = trim($domain, "/");
+        $container = $this->container;
+
+        // TODO: allow $dbuser and $dbpass for each website
+        $dbuser = $container->getParameter('database_user');
+        $dbpass = $container->getParameter('database_password');
+
+        $container->get('doctrine.dbal.dynamic_connection')->forceSwitch($dbname, $dbuser, $dbpass);
     }
 
 } 

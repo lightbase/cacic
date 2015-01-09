@@ -4,6 +4,7 @@ imports:
 
 doctrine:
     dbal:
+      default_connection: dynamic
       connections:
         dynamic:
           driver:   %database_driver%
