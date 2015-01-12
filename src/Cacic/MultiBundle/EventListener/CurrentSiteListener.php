@@ -70,6 +70,11 @@ class CurrentSiteListener {
         $dbname = trim($domain, "/");
         $container = $this->container;
 
+        // Se for nulo, pega o valor que está no parâmetro
+        if (empty($dbname)) {
+            $dbname = $container->getParameter('database_name');
+        }
+
         // TODO: allow $dbuser and $dbpass for each website
         $dbuser = $container->getParameter('database_user');
         $dbpass = $container->getParameter('database_password');
