@@ -506,18 +506,6 @@ class ComputadorRepository extends EntityRepository
    */
     public function estacaoSGConf(){
 
-      /*  $_dql = "SELECT c.teNodeAddress, s.idSo, r.idRede, c.teIpComputador, c.nmComputador, c.dtHrUltAcesso,cl.nmClassName,cp.nmPropertyName, cc.teClassPropertyValue
-                  FROM CacicCommonBundle:ComputadorColeta cc
-                  INNER JOIN CacicCommonBundle:ClassProperty cp WITH cc.classProperty = cp.idClassProperty
-                  INNER JOIN CacicCommonBundle:Classe cl WITH cp.idClass = cl.idClass
-                  INNER JOIN CacicCommonBundle:Computador c WITH cc.computador = c.idComputador
-                  INNER JOIN CacicCommonBundle:Rede r WITH c.idRede = r.idRede
-                  INNER JOIN CacicCommonBundle:So s WITH c.idSo = s.idSo
-                  WHERE cl.nmClassName = 'Win32_PhysicalMemory'
-                  AND cp.nmPropertyName = 'Capacity'
-                  OR cl.nmClassName = 'Win32_Processor'
-                  AND cp.nmPropertyName = 'Name'
-                  OR cp.nmPropertyName = 'MaxClockSpeed'";*/
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('networkadapterconfiguration_macaddress', 'networkadapterconfiguration_macaddress');
         $rsm->addScalarResult('id_so', 'id_so');
@@ -542,10 +530,7 @@ class ComputadorRepository extends EntityRepository
                           INNER JOIN computador c ON rc.id_computador = c.id_computador';
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
-        //$query->setParameter(1, '0');
         return $query->execute();
-
-        //return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
 
 }
