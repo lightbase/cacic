@@ -45,11 +45,25 @@ CREATE OR REPLACE FUNCTION upgrade() RETURNS VOID AS $$
     END LOOP;
 
     -- Agora cria coluna contendo o número de série da SIMPRESS
-    ALTER TABLE tb_printer
-    ADD COLUMN serie_simpress VARCHAR;
+    BEGIN 
+      ALTER TABLE tb_printer
+      ADD COLUMN serie_simpress VARCHAR;
 
-    ALTER TABLE tb_printer
-    ADD COLUMN active BOOLEAN;
+    EXCEPTION
+      WHEN SQLSTATE '42701' THEN
+        RAISE NOTICE 'Coluna série simpress já existe';
+
+    END;
+
+    BEGIN
+      ALTER TABLE tb_printer
+      ADD COLUMN active BOOLEAN;
+
+    EXCEPTION
+      WHEN SQLSTATE '42701' THEN
+        RAISE NOTICE 'Coluna série active já existe';
+
+    END;
 
     FOR printer IN SELECT * from tb_printer LOOP
       RAISE NOTICE 'Adiciona número de série SIMPRESS para impressora %', printer.serie;
