@@ -29,7 +29,7 @@ class WebserviceUserProvider implements UserProviderInterface {
         // Eduardo: 20151501
         // Para funcionar no multisite e preciso forçar o ambiente aqui
         $env = $container->getParameter('kernel.environment');
-        if ($env = 'multi') {
+        if ($env == 'multi') {
             // O banco de dados cadastrado será o mesmo para todos os usuários
             $dbname = $container->getParameter('database_name');
             $dbuser = $container->getParameter('database_user');
