@@ -70,6 +70,10 @@ class CurrentSiteListener {
         $dbname = trim($domain, "/");
         $container = $this->container;
 
+        $logger = $container->get('logger');
+
+        $logger->debug("MULTI-SITE DEBUG: detected domain $dbname");
+
         // Se for nulo, pega o valor que está no parâmetro
         if (empty($dbname)) {
             $dbname = $container->getParameter('database_name');
