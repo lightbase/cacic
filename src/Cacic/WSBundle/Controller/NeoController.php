@@ -286,8 +286,18 @@ class NeoController extends Controller {
                 $mods[$tipo] = array();
             }
 
+            /*
+             * Para agentes 2.8 o tipo de SO é igual ao nome do módulo.
+             * Neste caso retornará o JSON vazio para não forçar a atualização.
+             * Necessário para atualização de agente 2.8 > 3.1
+             */
+            $tipoSo = $elm->getTipoSo();
+            if (empty($tipoSo)){
+                $mods[$tipo] = array();
+            }
+
             // Adiciona somente o módulo que estiver com o tipo de SO cadastrado
-            if ($so_json['tipo'] == $elm->getTipoSo()->getTipo() ) {
+            elseif ($so_json['tipo'] == $elm->getTipoSo()->getTipo() ) {
                 // Adiciona módulos e hashes
                 array_push($mods[$tipo], array(
                     'nome' => $elm->getNmModulo(),
