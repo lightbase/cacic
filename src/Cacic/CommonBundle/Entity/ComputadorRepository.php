@@ -14,6 +14,8 @@ use Cacic\CommonBundle\Entity\AcaoSo;
 use Cacic\CommonBundle\Entity\Acao;
 use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\Common\Util\Debug;
 
 /**
  *
@@ -535,7 +537,38 @@ class ComputadorRepository extends EntityRepository
         }
 
         return $computador;
+    }
 
+    /*
+   * Listar estações para carga no SGConf_PGFN
+   */
+    public function estacaoSGConf(){
+
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('networkadapterconfiguration_macaddress', 'networkadapterconfiguration_macaddress');
+        $rsm->addScalarResult('id_so', 'id_so');
+        $rsm->addScalarResult('networkadapterconfiguration_defaultipgateway', 'networkadapterconfiguration_defaultipgateway');
+        $rsm->addScalarResult('networkadapterconfiguration_ipaddress', 'networkadapterconfiguration_ipaddress');
+        $rsm->addScalarResult('networkadapterconfiguration_dnshostname', 'networkadapterconfiguration_dnshostname');
+        $rsm->addScalarResult('win32_processor_name', 'win32_processor_name');
+        $rsm->addScalarResult('win32_processor_maxclockspeed', 'win32_processor_maxclockspeed');
+        $rsm->addScalarResult('win32_physicalmemory_capacity', 'win32_physicalmemory_capacity');
+        $rsm->addScalarResult('dt_hr_ult_acesso', 'dt_hr_ult_acesso');
+
+        $sql = 'SELECT    rc.networkadapterconfiguration_macaddress,
+                          c.id_so,
+                          rc.networkadapterconfiguration_defaultipgateway,
+                          rc.networkadapterconfiguration_ipaddress,
+                          rc.networkadapterconfiguration_dnshostname,
+                          rc.win32_processor_name,
+                          rc.win32_processor_maxclockspeed,
+                          rc.win32_physicalmemory_capacity,
+                          c.dt_hr_ult_acesso
+                          FROM relatorio_coleta rc
+                          INNER JOIN computador c ON rc.id_computador = c.id_computador';
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+        return $query->execute();
     }
 
 }

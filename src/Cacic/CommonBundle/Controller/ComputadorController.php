@@ -175,7 +175,6 @@ class ComputadorController extends Controller
                 'computadores' => $computadores));
 
     }
-
     /**
      *  @param int $idComputador
      */
@@ -188,6 +187,23 @@ class ComputadorController extends Controller
         else
         {
             $computador->setForcaColeta('true');
+            $this->getDoctrine()->getManager()->persist( $computador );
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirect($this->generateUrl('cacic_computador_coletar') );
+        }
+
+    }
+
+    public function updatePatrimonioAction( Request $request, $idComputador)
+    {
+        $computador = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->find( $idComputador );
+
+        if ( !$computador )
+            throw $this->createNotFoundException( 'Computador não encontrado' );
+        else
+        {
+            $computador->setForcaPatrimonio('S');
             $this->getDoctrine()->getManager()->persist( $computador );
             $this->getDoctrine()->getManager()->flush();
 

@@ -718,4 +718,33 @@ class Computador
     {
         return $this->isNotebook;
     }
+    /**
+     * @var string
+     */
+    private $forcaPatrimonio;
+
+
+    /**
+     * Set forcaPatrimonio
+     *
+     * @param string $forcaPatrimonio
+     * @return Computador
+     */
+
+    public function setForcaPatrimonio($forcaPatrimonio)
+    {
+        $this->forcaPatrimonio = $forcaPatrimonio;
+    
+        return $this;
+    }
+
+    /**
+     * Get forcaPatrimonio
+     *
+     * @return string 
+     */
+    public function getForcaPatrimonio()
+    {
+        return $this->forcaPatrimonio;
+    }
 }

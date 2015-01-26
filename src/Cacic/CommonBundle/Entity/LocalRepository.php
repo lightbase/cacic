@@ -111,5 +111,16 @@ class LocalRepository extends EntityRepository
 
         $em->flush();
     }
-	
+
+    /*
+     * Listar locais para carga no SGConf_PGFN
+     */
+    public function localSGConf (){
+
+        $_dql = "SELECT l.idLocal, l.nmLocal, l.sgLocal
+                 FROM CacicCommonBundle:Local l
+                 GROUP BY l";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+    }
 }

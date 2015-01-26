@@ -25,6 +25,19 @@ class WebserviceUserProvider implements UserProviderInterface {
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+
+        // Eduardo: 20151501
+        // Para funcionar no multisite e preciso forçar o ambiente aqui
+        $env = $container->getParameter('kernel.environment');
+        if ($env == 'multi') {
+            // O banco de dados cadastrado será o mesmo para todos os usuários
+            $dbname = $container->getParameter('database_name');
+            $dbuser = $container->getParameter('database_user');
+            $dbpass = $container->getParameter('database_password');
+
+            $container->get('doctrine.dbal.dynamic_connection')->forceSwitch($dbname, $dbuser, $dbpass);
+        }
+
         $this->em = $container->get('doctrine')->getManager();
     }
 

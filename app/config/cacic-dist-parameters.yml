@@ -1,16 +1,15 @@
 parameters:
     database_driver: pdo_pgsql
-    database_host: localhost
-    database_port: null
+    database_host: 127.0.0.1
+    database_port: 5432
     database_name: cacic
-    database_user: cacic
-    database_password: 123456
+    database_user: www-data
+    database_password: null
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
     locale: pt_BR
-    #locale: en_US
-    # generate your own site secret
-    #secret: e410b10b0cdc810ea6bb943caa542bb42b3
+    secret: NotSoSecret
     database_path: null
+    test_api_key: cacic123

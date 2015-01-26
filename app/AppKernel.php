@@ -31,7 +31,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Swpb\Bundle\CocarBundle\CocarBundle(),
             new Ddeboer\DataImportBundle\DdeboerDataImportBundle(),
-            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -43,6 +43,10 @@ class AppKernel extends Kernel
 
         if (in_array($this->getEnvironment(), array('test'))) {
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+        }
+
+        if (in_array($this->getEnvironment(), array('multi'))) {
+            $bundles[] = new Cacic\MultiBundle\CacicMultiBundle();
         }
 
         return $bundles;

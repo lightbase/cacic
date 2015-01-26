@@ -224,12 +224,6 @@ class RedeRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
-    /**
-     * Computadores por subredes
-     *
-     * @return mixed
-     */
-
     public function computadoresSubredes(){
         $rsm = new ResultSetMapping();
 
@@ -263,12 +257,24 @@ class RedeRepository extends EntityRepository
         return $query->execute();
     }
 
+    /*
+   * Listar redes para carga no SGConf_PGFN
+   */
+    public function redeSGConf() {
+
+        $_dql = "SELECT IDENTITY(r.idLocal), r.teIpRede, r.nmRede
+                FROM CacicCommonBundle:Rede r
+                GROUP BY r";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+
+    }
+
     /**
      * Retorna lista de servidores de atualização
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-
     public function getServUpdateList() {
 
         $qb = $this->createQueryBuilder('rede')
@@ -276,4 +282,5 @@ class RedeRepository extends EntityRepository
 
         return $qb;
     }
+
 }

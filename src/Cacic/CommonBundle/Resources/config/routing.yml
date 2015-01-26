@@ -262,6 +262,10 @@ cacic_computador_update:
     pattern: /admin/computador/update/{idComputador}
     defaults: { _controller: CacicCommonBundle:Computador:update, idComputador: null }
 
+cacic_computador_update_patrimonio:
+    pattern: /admin/computador/updatePatrimonio/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:updatePatrimonio, idComputador: null }
+
 cacic_migracao_cacic26:
     pattern: /admin/migracao/cacic26
     defaults: { _controller: CacicCommonBundle:Cacic26:importardados}
@@ -695,6 +699,26 @@ cacic_computador_loadcompnodes:
 cacic_downloads:
     pattern: /downloads/
     defaults: { _controller: CacicCommonBundle:Default:downloads }
+
+cacic_arquivo_sgconf:
+    pattern: /arquivosgconf
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoSgconf }
+
+cacic_arquivo_sgconf_local:
+    pattern: /arquivosgconf/local
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoLocal }
+
+cacic_arquivo_sgconf_rede:
+    pattern: /arquivosgconf/rede
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoRede }
+
+cacic_arquivo_sgconf_so:
+    pattern: /arquivosgconf/so
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoSo }
+
+cacic_arquivo_sgconf_estacao:
+    pattern: /arquivosgconf/estacao
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoEstacao }
 
 ############################################
 # FIM: Páginas para usuários normais

@@ -45,7 +45,7 @@
 				<span class="icon-bar"></span>
 			</a>
 			
-			<a class="brand" href="http://wbpreview.com/previews/WB00U99JJ/">
+			<a class="brand" href="{{ app.request.getSchemeAndHttpHost() }}">
 				CACIC v.{{ cacic_version }}{{' - '}}{{ url }}
 			</a>		
 			
@@ -60,11 +60,10 @@
 </div> <!-- /navbar -->
 
 <div class="account-container">
-
 	<div class="content clearfix">
-	
+		
 		<form action="{{ path('cacic_common_login_check') }}" method="post">
-			<h1>{{"Acesso"|trans}}</h1>
+			<h1>{{"Acesso"|trans}}</h1>		
 
             {% if error %}
                 <div id="credentials-error" class="alert alert-danger" style="display: block;"><p>{{ "Falha no login. Verifique suas credenciais ou entre em contato com o administrador do sistema"|trans }}</p></div>

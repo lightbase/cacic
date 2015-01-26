@@ -35,7 +35,9 @@ class Version20141129171119 extends AbstractMigration implements ContainerAwareI
         // Chama o container para executar o arquivo de atualização
         // FIXME: Só funciona no PostgreSQL
         $this->addSql($upgradeSQL1);
-        $this->addSql("SELECT gera_relatorio_wmi()");
+
+        // Cria a função mas não chama pra não demorar muito
+        #$this->addSql("SELECT gera_relatorio_wmi()");
 
     }
 

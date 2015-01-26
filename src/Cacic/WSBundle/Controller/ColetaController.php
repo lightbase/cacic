@@ -38,48 +38,72 @@ class ColetaController extends Controller
 {
     /**
      *  Método responsável por persistir coletas  do Agente CACIC
-     *  @param Symfony\Component\HttpFoundation\Request $request
+     *  @param $request
      */
     public function gerColsSetColletAction( Request $request )
     {
-        OldCacicHelper::autenticaAgente( $request ) ;
         $logger = $this->get('logger');
-        //$rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
+        OldCacicHelper::autenticaAgente( $request ) ;
         $strNetworkAdapterConfiguration  = OldCacicHelper::deCrypt( $request, $request->get('NetworkAdapterConfiguration') );
-        //$strComputerSystem  = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
-        //$strOperatingSystem  = OldCacicHelper::deCrypt( $request, $request->request->get('OperatingSystem') );
-        $data = new \DateTime('NOW');
-        $data_inicio = $data->format('d/m/Y H:i:s');
-        $data = microtime();
-        $logger->debug("%%% Início da operação de coleta: $data_inicio %%%");
+        $strComputerSystem  			 = OldCacicHelper::deCrypt( $request, $request->get('ComputerSystem') );
 
         $te_node_address = TagValueHelper::getValueFromTags( 'MACAddress', $strNetworkAdapterConfiguration );
+        $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
         $te_so = $request->get( 'te_so' );
-        //$ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
-        $grava_teste = '';
+        $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
+        $ip_computador = $request->get('te_ip_computador');
+
+        if ( empty($ip_computador) ){
+            $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
+
+        }
+
+        if (empty($ip_computador)) {
+            $ip_computador = $request->getClientIp();
+        }
+
+        $logger->debug("Teste de Conexão GET-TEST! Ip do computador: $ip_computador Máscara da rede: $netmask");
 
         // Caso não tenha encontrado, tenta pegar a variável da requisição
         if (empty($te_node_address)) {
             $te_node_address = $request->get('te_node_address');
         }
 
-        //vefifica se existe SO coletado se não, insere novo SO
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$te_so) );
-        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('idSo'=>$so, 'teNodeAddress'=>$te_node_address) );
-        $netmask = TagValueHelper::getValueFromTags( 'IPSubnet', $strNetworkAdapterConfiguration );
         if (empty($netmask)) {
             $netmask = $request->get('netmask');
         }
-        $ip_computador = $request->get('te_ip_computador');
-        if ( empty($ip_computador) ){
-            $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
-        }
-        if (empty($ip_computador)) {
-            $ip_computador = $request->getClientIp();
+
+        //vefifica se existe SO coletado se não, insere novo SO
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
+        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $te_so, $te_node_address, $rede, $so, $ip_computador );
+
+        if (empty($te_node_address) || empty($so)) {
+            $this->get('logger')->error("Erro na na coleta. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO = $te_so");
+
+            $response = new Response();
+            $response->headers->set('Content-Type', 'xml');
+            $cacic_helper = new OldCacicHelper($this->get('kernel'));
+
+            return  $this->render('CacicWSBundle:Coleta:setcollects.xml.twig', array(
+                'configs'=> $cacic_helper->getTest( $request ),
+                //'computador' => $computador,
+                'rede' => $rede,
+                'ws_folder' => OldCacicHelper::CACIC_WEB_SERVICES_FOLDER_NAME,
+                'cs_cipher' => $request->get('cs_cipher'),
+                'cs_compress' => $request->get('cs_compress'),
+                'status'=> 'ERROR'
+            ), $response);
         }
 
-        $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
-        //$local = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->findOneBy(array( 'idLocal' => $rede->getIdLocal() ));
+        // Variáveis de debug
+        $grava_teste = '';
+        $data = new \DateTime('NOW');
+        $data_inicio = $data->format('d/m/Y H:i:s');
+        $data = microtime();
+        $logger->debug("%%% Início da operação de coleta: $data_inicio %%%");
+
+        // Tipo de coleta
         $strCollectType  = OldCacicHelper::deCrypt($request, $request->get('CollectType'));
 
         // Defino os dois arrays que conterão as configurações para Coletas, Classes e Propriedades
@@ -95,23 +119,12 @@ class ColetaController extends Controller
             $arrCollectsDefClasses[$strCollectType] = array();
         }
 
-        //$teste = print_r($arrCollectsDefClasses, true);
-        //$teste = print_r($arrClassesNames, true);
-        //$logger->debug("22222222222222222222222222222222222222222222222222222222222222 $teste");
-
         if ($arrCollectsDefClasses[$strCollectType])
         {
-            //error_log("00000000000000000000000000000000000000000000000000000000: $strCollectType");
-
             foreach( $request->request->all() as $strClassName => $strClassValues)
             {
                 // Descriptografando os valores da requisição
                 $strNewClassValues = OldCacicHelper::deCrypt($request, $strClassValues);
-
-                //$teste = OldCacicHelper::deCrypt($request, $strClassValues);
-                //$logger->debug("444444444444444444444444444444444444444444444444444444444: $strClassName | \n $teste");
-                //$logger->debug("444444444444444444444444444444444444444444444444444444444: $strClassName");
-                //error_log("44444444444444444444444444444444444444444444444444444: $strClassName");
 
                 //Verifica se é notebook ou não o computador através da bateria
                 if ($strClassName == "isNotebook"){
@@ -152,9 +165,10 @@ class ColetaController extends Controller
 
         //Verifica se a coleta foi forçada
         if ($computador->getForcaColeta() == 'S') {
+
             $computador->setForcaColeta('N');
-            $this->getDoctrine()->getManager()->persist( $computador );
-            $this->getDoctrine()->getManager()->flush();
+            $em->persist( $computador );
+            $em->flush();
         }
 
         $response = new Response();
@@ -173,7 +187,7 @@ class ColetaController extends Controller
 
     /**
      *  Método responsável por ************ do Agente CACIC
-     *  @param Symfony\Component\HttpFoundation\Request $request
+     *  @param Request $request
      */
     public function gerColsSetSrcacicAction(Request $request)
     {
@@ -284,7 +298,7 @@ class ColetaController extends Controller
 
     /**
      *  Método responsável por informar e coletar informações sobre dispositivos USB plugados na estação
-     *  @param Symfony\Component\HttpFoundation\Request $request
+     *  @param Request $request
      */
     public function gerColsSetUsbDetectAction(Request $request)
     {
@@ -387,89 +401,6 @@ class ColetaController extends Controller
         ), $response);
     }
 
-    /**
-     *  Método responsável por ************ do Agente CACIC
-     *  @param Symfony\Component\HttpFoundation\Request $request
-     */
-    public function mapaCacicAcessoAction(Request $request)
-    {
-        //Escrita do post
-        $cacic_helper = new OldCacicHelper($this->get('kernel'));
-        $fp = fopen( $cacic_helper->getRootDir(). $cacic_helper::CACIC_WEB_SERVICES_FOLDER_NAME .'MAPA_'.date('Ymd_His').'.txt', 'w+');
-        foreach( $request->request->all() as $postKey => $postVal )
-        {
-            $postVal = OldCacicHelper::deCrypt( $request, $postVal );
-            fwrite( $fp, "[{$postKey}]: {$postVal}\n");
-        }
-        fclose($fp);
-        $strXML_Values = '';
-        if ( trim(OldCacicHelper::deCrypt($request, $request->get('ModuleProgramName')) == 'mapacacic.exe') )
-        {
-            if ($request->get('te_operacao') == 'CheckVersion')
-            {
-
-                $iniFile = $cacic_helper->iniFile();
-                if (file_exists($iniFile))
-                {
-                    $arrVersionsAndHashes = parse_ini_file($iniFile);
-
-                    if ($arrVersionsAndHashes['mapacacic.exe_HASH'] <> $request->get('MAPACACIC_EXE_HASH'))
-                        $strXML_Values	 	.= '[MAPACACIC.EXE_HASH]'.$arrVersionsAndHashes['mapacacic.exe_HASH'].'[/MAPACACIC.EXE_HASH]';
-                }
-            }
-            elseif ($request->get('te_operacao') == 'Autentication')
-            {
-                // Autenticação do agente MapaCacic.exe:
-                OldCacicHelper::autenticaAgente($request);
-
-                // Essa condição testa se a chamada trouxe o valor de cs_mapa-cacic, enviado por MapaCacic.exe
-                if (trim(OldCacicHelper::deCrypt($request,$request->get('ModuleProgramName')) == 'mapacacic.exe'))
-                {
-//                    $strSelect 	= "	a.id_usuario,
-//							a.nm_usuario_completo,
-//							a.id_local,
-//							a.te_locais_secundarios,
-//							c.sg_local";
-//
-//                    $strFrom	= "	usuarios a,
-//							locais c";
-//
-//                    $strWhere 	= "	(a.id_local = c.id_local OR ('," . $arrDadosRede[0]['id_local'] . ",' in (CONCAT(',',a.te_locais_secundarios,',')))) AND
-//							a.nm_usuario_acesso = '". trim(DeCrypt($request->get('nm_acesso'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) ."' AND
-//							a.te_senha = ";
-
-                    // Solução temporária, até total convergência para vers�es 4.0.2 ou maior de MySQL
-                    // Anderson Peterle - Dataprev/ES - 04/09/2006
-//                    $v_AUTH_SHA1 	 = " SHA1('". trim(DeCrypt($request->get('te_senha'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) ."')";
-//                    $v_AUTH_PASSWORD = " PASSWORD('". trim(DeCrypt($request->get('te_senha'],$v_cs_cipher,$v_cs_compress,$strPaddingKey)) ."')";
-
-                    // Para MySQL 4.0.2 ou maior
-                    // Anderson Peterle - Dataprev/ES - 04/09/2006
-//                    $arrUsuario = getArrFromSelect( $strFrom,
-//                        $strSelect,
-//                        $strWhere . $v_AUTH_SHA1);
-
-                    if ($arrUsuario[0]['id_usuario'] == '')
-                    {
-                        // Para MySQL at� 4.0
-                        // Anderson Peterle - Dataprev/ES - 04/09/2006
-//                        $arrUsuario = getArrFromSelect( $strFrom,
-//                            $strSelect,
-//                            $strWhere . $v_AUTH_PASSWORD);
-                    }
-
-                    if ($arrUsuario[0]['id_usuario'] <> '')
-                    {
-//                        $strXML_Values .= '[ID_USUARIO]'			. EnCrypt($arrUsuario[0]['id_usuario'],$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '[/ID_USUARIO]';
-//                        $strXML_Values .= '[NM_USUARIO_COMPLETO]'	. EnCrypt($arrUsuario[0]['nm_usuario_completo'].' ('.$arrUsuario[0]['sg_local'].')',$v_cs_cipher,$v_cs_compress,$v_compress_level,$strPaddingKey) . '[/NM_USUARIO_COMPLETO]';
-//                        GravaLog('ACE',$_SERVER['SCRIPT_NAME'],'acesso',$arrUsuario[0]["id_usuario"]);
-                    }
-                }
-            }
-        }
-
-    }
-
     //________________________________________________________________________________________________
     // Limpa a tabela TESTES, utilizada para depura��o de c�digo
     //________________________________________________________________________________________________
@@ -498,27 +429,10 @@ class ColetaController extends Controller
         //Doctrine\ORM\EntityManagergetEntityManager()->flush();
     }
 
-    /**
-     *  Método responsável por persistir dados do patrimônio
-     *  @param Symfony\Component\HttpFoundation\Request $request
-     */
-    public function mapaCacicSetAction()
-    {
-
-    }
-
-    /**
-     *  Método responsável por retornar informações do patrimônio
-     *  @param Symfony\Component\HttpFoundation\Request $request
-     */
-    public function mapaCacicGetAction()
-    {
-
-    }
 
     /**
      *  Método responsável por ************ do Agente CACIC
-     *  @param Symfony\Component\HttpFoundation\Request $request
+     *  @param Request $request
      */
     public function srCacicSetSessionAction()
     {
@@ -527,7 +441,7 @@ class ColetaController extends Controller
 
     /**
      *  Método responsável por ************ do Agente CACIC
-     *  @param Symfony\Component\HttpFoundation\Request $request
+     *  @param Request $request
      */
     public function srCacicAuthClientAction()
     {

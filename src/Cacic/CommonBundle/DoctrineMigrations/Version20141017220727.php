@@ -23,7 +23,22 @@ class Version20141017220727 extends AbstractMigration implements ContainerAwareI
     {
         // this up() migration is auto-generated, please modify it to your needs
         $logger = $this->container->get('logger');
-        $this->addSql("ALTER TABLE grupo_usuario ADD role TEXT DEFAULT NULL");
+        $em = $this->container->get('doctrine.orm.entity_manager');
+
+        $sql = "SELECT TRUE
+            FROM   pg_attribute
+            WHERE  attrelid = 'grupo_usuario'::regclass  -- cast to a registered class (table)
+            AND    attname = 'role'
+            AND    NOT attisdropped
+        ";
+
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        if (empty($results)) {
+            $this->addSql("ALTER TABLE grupo_usuario ADD role TEXT DEFAULT NULL");
+        }
 
     }
 

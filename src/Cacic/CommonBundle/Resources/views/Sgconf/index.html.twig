@@ -1,0 +1,51 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="active">{{ 'Arquivo SGConf_PGFN'|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid">
+
+        <div class="span8">
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Arquivo SGConf_PGFN' |trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+
+                    <div class="controls padding_10">
+                        <form id="{{ 'formSGConfLocal'|trans }}" action="{{ path('cacic_arquivo_sgconf_local') }}" class="form-horizontal" method="POST" target="_blank">
+                            <button type="submit" class="btn btn-success">
+                                <i class="icon-download-alt"></i>
+                                {{'Locais_CACIC'|trans  }}
+                            </button>
+                        </form>
+                        <form id="{{ 'formSGConfRede'|trans }}" action="{{ path('cacic_arquivo_sgconf_rede') }}" class="form-horizontal" method="POST" target="_blank">
+                            <button type="submit" class="btn btn-success">
+                                <i class="icon-download-alt"></i>
+                                {{'Redes_CACIC'|trans  }}
+                            </button>
+                        </form>
+                        <form id="{{ 'formSGConfSo'|trans }}" action="{{ path('cacic_arquivo_sgconf_so') }}" class="form-horizontal" method="POST" target="_blank">
+                            <button type="submit" class="btn btn-success">
+                                <i class="icon-download-alt"></i>
+                                {{'SO_CACIC'|trans  }}
+                            </button>
+                        </form>
+                        <form id="{{ 'formSGConfEstacao'|trans }}" action="{{ path('cacic_arquivo_sgconf_estacao') }}" class="form-horizontal" method="POST" target="_blank">
+                            <button type="submit" class="btn btn-success">
+                                <i class="icon-download-alt"></i>
+                                {{'Estações_CACIC'|trans  }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div> <!-- /box -->
+        </div> <!-- /span8 -->
+    </div> <!-- /row -->
+
+{% endblock %}

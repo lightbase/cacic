@@ -2,17 +2,33 @@
 
 {% block body %}
 
-	<h2>{{ 'Relatório de usuário logado'|trans }}</h2>
+	<h2>{{ 'Relatório de Usuário Logado'|trans }}</h2>
     <h5 class="">{{ 'Período: '|trans }}{{ dtAcaoInicio|date("d/m/Y") }} a {{ dtAcaoFim|date("d/m/Y") }}</h5>
     <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("d/m/Y H\\hi") }}{% endif %}</h5>
     <hr />
 
-    <!--Botão CSV -->
-        <a class="btn btn-primary" type="submit" href="{{ path('cacic_relatorio_usuario_csv',{'dataInicio':dtAcaoInicio|trim,'dataFim':dtAcaoFim|trim})}}" title="{{ "Máquinas faturadas"|trans }}" target="_self">
+    {#<form id="csv" action="{{ path('cacic_relatorio_usuario_csv') }}" method="post">
+        <input type="hidden" name="dtAcaoInicio" value="{{ dtAcaoInicio }}">
+        <input type="hidden" name="dtAcaoFim" value="{{ dtAcaoFim }}">
+        {% for reg in dados %}
+            <input type="hidden" name="nmComputador" value="{{ reg.nmComputador }}">
+            <input type="hidden" name="teNodeAddress" value="{{ reg.teNodeAddress }}">
+            <input type="hidden" name="teIpComputador" value="{{ reg.teIpComputador }}">
+            <input type="hidden" name="sgSo" value="{{ reg.sgSo }}">
+            <input type="hidden" name="nmLocal" value="{{ reg.nmLocal }}">
+            <input type="hidden" name="usuario" value="{{ reg.usuario }}">
+            <input type="hidden" name="usuarioPatrimonio" value="{{ reg.usuarioPatrimonio }}">
+            <input type="hidden" name="usuarioName" value="{{ reg.usuarioName }}">
+            <input type="hidden" name="coordenacao" value="{{ reg.coordenacao }}">
+            <input type="hidden" name="sala" value="{{ reg.sala }}">
+            <input type="hidden" name="data" value="{{ reg.data }}">
+
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">
             <i class="icon-bar-chart"></i>
             Gerar CSV
-        </a>
-    <!--Botão CSV -->
+        </button>
+    </form>#}
 
     <P />
 
@@ -28,13 +44,14 @@
 			<th width="8%">{{ "Sistema Operacional"|trans }}</th>
 			<th width="8%">{{ "Local"|trans }}</th>
 			<th width="8%">{{ "Subrede"|trans }}</th>
-            <th width="8%">{{ "Usuário"|trans }}</th>
-            <th width="8%">{{ "Usuário Patrimônio"|trans }}</th>
-            <th width="8%">{{ "Usuário Name"|trans }}
-            <th width="8%">{{ "Usuário Coordenacao"|trans }}</th>
-            <th width="8%">{{ "Usuário Sala"|trans }}</th>
-            <th width="8%">{{ "Data/Hora da Última coleta"|trans }}</th>
-		</tr>
+            <th width="8%">{{ "Último Usuário Logado"|trans }}</th>
+            <th width="8%">{{ "Nome do Responsável"|trans }}</th>
+            <th width="8%">{{ "CPF do Responsável"|trans }}
+            <th width="8%">{{ "Coordenacao Responsável"|trans }}</th>
+            <th width="8%">{{ "Sala do Responsável"|trans }}</th>
+            <th width="8%">{{ "Última Coleta"|trans }}</th>
+            <th width="8%">{{ "Histórico Usuário"|trans }}</th>
+        </tr>
 		</thead>
 
 		<tbody>
@@ -67,7 +84,14 @@
                 <td>{{ reg.coordenacao }}</td>
                 <td>{{ reg.sala }}</td>
                 <td>{{ reg.data|date(' d, M, Y H:m:s') }}</td>
-			</tr>
+                <td>
+                    <a href="{{ path('cacic_relatorio_usuario_historico') }}/{{reg.idComputador}}" title="{{ 'Histórico de Usuário'|trans }}" target="_blank">
+                        <button class="btn btn-primary" type="submit">
+                            Detalhar
+                        </button>
+                    </a>
+                </td>
+            </tr>
 
 		    {% endfor %}
 		</tbody>
