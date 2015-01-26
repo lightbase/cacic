@@ -253,10 +253,9 @@ class NeoController extends Controller {
         $saida['agentcomputer'] = "";
         $so_json = $dados['computador']['operatingSystem'];
 
-
         // 1 - Ações para o computador
-        //$logger->debug("11111111111111111111111111111111 ".print_r($computador->getIdRede(), true));
-        $acoes = $em->getRepository('CacicCommonBundle:Acao')->listaAcaoComputador(
+        //$logger->debug("11111111111111111111111111111111 ".print_r($so_json, true));
+	$acoes = $em->getRepository('CacicCommonBundle:Acao')->listaAcaoComputador(
             $computador->getIdRede()->getIdRede(),
             $computador->getIdSo()->getIdSo(),
             $computador->getTeNodeAddress()
@@ -285,9 +284,14 @@ class NeoController extends Controller {
             if (empty($mods[$tipo])) {
                 $mods[$tipo] = array();
             }
+	    $tipoSo = $elm->getTipoSo();	
+	    // Para agentes 2.8 o tipo de SO é igual ao nome do módulo, neste caso retornará o JSON vazio para não forçar a atualização
+	    if (empty($tipoSo)) {
+		$mods[$tipo] = array();
+	    }
 
             // Adiciona somente o módulo que estiver com o tipo de SO cadastrado
-            if ($so_json['tipo'] == $elm->getTipoSo()->getTipo() ) {
+            elseif ($so_json['tipo'] == $elm->getTipoSo()->getTipo() ) {
                 // Adiciona módulos e hashes
                 array_push($mods[$tipo], array(
                     'nome' => $elm->getNmModulo(),
