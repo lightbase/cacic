@@ -20,6 +20,7 @@ use Cacic\WSBundle\Helper\OldCacicHelper;
 use Cacic\WSBundle\Helper\TagValueHelper;
 use Cacic\CommonBundle\Entity\LogAcesso;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Doctrine\ORM\NoResultException;
 
 
 /**
@@ -469,8 +470,13 @@ class DefaultController extends Controller
             'SELECT cp.vlConfiguracao FROM CacicCommonBundle:ConfiguracaoPadrao cp WHERE cp.idConfiguracao = :idconfig'
         )->setParameter('idconfig', 'nu_intervalo_forca_coleta');
 
-        $result = $query->getSingleResult();
-        $timerForcaColeta = implode('',$result);
+        try {
+            $result = $query->getSingleResult();
+            $timerForcaColeta = implode('',$result);
+        } catch (NoResultException $e) {
+            $logger->error("Valor de timer não encontrado. Ajustando padrão...");
+            $timerForcaColeta = 15;
+        }
 
         /*
          * Buscando primeiro API Key válido

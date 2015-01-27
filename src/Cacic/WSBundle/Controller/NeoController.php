@@ -29,6 +29,8 @@ use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
 use Cacic\CommonBundle\Entity\PropriedadeSoftware;
 use Cacic\CommonBundle\Entity\LogUserLogado;
 
+use Doctrine\ORM\NonUniqueResultException;
+
 
 class NeoController extends Controller {
 
@@ -952,6 +954,8 @@ class NeoController extends Controller {
 
         } catch(\Doctrine\ORM\ORMException $e){
             $logger->error("COLETA: Erro na inserçao de dados do software $software. \n$e");
+        } catch(NonUniqueResultException $e){
+            $logger->error("COLETA: Erro impossível de software repetido para $software. \n$e");
         }
     }
 
