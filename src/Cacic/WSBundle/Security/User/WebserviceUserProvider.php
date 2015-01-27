@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Cacic\CommonBundle\Entity\Usuario as WebserviceUser;
+use Doctrine\ORM\NonUniqueResultException;
 
 
 class WebserviceUserProvider implements UserProviderInterface {
@@ -46,7 +47,13 @@ class WebserviceUserProvider implements UserProviderInterface {
     {
         // Look up the username based on the token in the database, via
         // an API call, or do something entirely different
-        $usuario = $this->em->getRepository('CacicCommonBundle:Usuario')->findOneBy(array('apiKey' => $apiKey));
+        try {
+            $usuario = $this->em->getRepository('CacicCommonBundle:Usuario')->findOneBy(array('apiKey' => $apiKey));
+        } catch (NonUniqueResultException $e) {
+            throw new AuthenticationException(
+                sprintf("Null password not allowed: |$apiKey|")
+            );
+        }
 
         if ($usuario) {
             return $usuario->getUsername();

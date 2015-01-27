@@ -726,7 +726,17 @@ class NeoController extends Controller {
 
         $classObject = $em->createQuery( $_dql )->setParameter('classe', $classe)->getOneOrNullResult();
 
-	$logger->debug("COLETA: Coletando classe $classe");
+        $logger->debug("COLETA: Coletando classe $classe");
+
+        // Adiciona isNotebook
+        if ($classe == 'IsNotebook') {
+            $logger->debug("Valor do isNotebook: ".print_r($valor, true));
+            if ($valor['Value'] == 'true') {
+                $computador->setIsNotebook(true);
+            }
+            return;
+        }
+
 
         if (empty($classObject)) {
             $logger->error("COLETA: Classe não cadastrada: $classe");
@@ -739,6 +749,7 @@ class NeoController extends Controller {
             $logger->debug("COLETA: Classe $classe multivalorada. Retornando somente primeiro elemento.");
             $valor = $valor[0];
         }
+
 
         foreach (array_keys($valor) as $propriedade) {
             if (is_array($valor[$propriedade])) {
@@ -847,7 +858,7 @@ class NeoController extends Controller {
         try {
 
             // Pega o objeto para gravar
-            $propSoftware = $em->getRepository('CacicCommonBundle:PropriedadeSoftware')->softwareByName($software);
+            $propSoftware = $em->getRepository('CacicCommonBundle:PropriedadeSoftware')->softwareByName($software, $computador->getIdComputador());
             if (!empty($propSoftware)) {
                 $classProperty = $propSoftware->getClassProperty();
                 $softwareObject = $propSoftware->getSoftware();
