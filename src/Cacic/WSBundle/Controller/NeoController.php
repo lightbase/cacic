@@ -735,6 +735,7 @@ class NeoController extends Controller {
             $logger->debug("Valor do isNotebook: ".print_r($valor, true));
             if ($valor['Value'] == 'true') {
                 $computador->setIsNotebook(true);
+                $em->persist( $computador );
             }
             return;
         }

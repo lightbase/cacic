@@ -164,9 +164,9 @@ class ColetaController extends Controller
         $logger->debug("%%% Final da operação de coleta: $data_fim. Tempo de execução da coleta: $tempo %%%");
 
         //Verifica se a coleta foi forçada
-        if ($computador->getForcaColeta() == 'S') {
+        if ($computador->c() == 'true') {
 
-            $computador->setForcaColeta('N');
+            $computador->setForcaColeta('false');
             $em->persist( $computador );
             $em->flush();
         }
