@@ -742,7 +742,7 @@ class NeoController extends Controller {
 
 
         if (empty($classObject)) {
-            $logger->error("COLETA: Classe não cadastrada: $classe");
+            $logger->debug("COLETA: Classe não cadastrada: $classe");
             return;
         }
 
@@ -756,7 +756,7 @@ class NeoController extends Controller {
 
         foreach (array_keys($valor) as $propriedade) {
             if (is_array($valor[$propriedade])) {
-                $logger->error("COLETA: Atributo $propriedade multivalorado não implementado na coleta");
+                $logger->debug("COLETA: Atributo $propriedade multivalorado não implementado na coleta");
                 //$logger->debug("1111111111111111111111111111111111111111 ".print_r($valor, true));
                 $valor[$propriedade] = $valor[$propriedade][0];
                 //continue;
@@ -811,7 +811,8 @@ class NeoController extends Controller {
                 $em->persist( $computadorColetaHistorico );
 
             } catch(\Doctrine\ORM\ORMException $e){
-                $logger->error("COLETA: Erro na inserçao de dados da propriedade $propriedade. \n$e");
+                $logger->error("COLETA: Erro na inserçao de dados da propriedade $propriedade.");
+		$logger->debug($e);
             }
         }
         // Grava tudo da propriedade
