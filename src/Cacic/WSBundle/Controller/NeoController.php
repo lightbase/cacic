@@ -194,12 +194,14 @@ class NeoController extends Controller {
             }
         }
 
-        # TODO: Grava log de acessos de usuario do computador
-        $log_usuario = new LogUserLogado();
-        $log_usuario->setIdComputador($computador);
-        $log_usuario->setData(new \DateTime());
-        $log_usuario->setUsuario($dados['computador']['usuario']);
-        $em->persist($log_usuario);
+        # TODO: Grava log de acessos de usuario do computador caso não esteja vazio
+        if (!empty($dados['computador']['usuario'])){
+            $log_usuario = new LogUserLogado();
+            $log_usuario->setIdComputador($computador);
+            $log_usuario->setData(new \DateTime());
+            $log_usuario->setUsuario($dados['computador']['usuario']);
+            $em->persist($log_usuario);
+        }
 
         $em->flush();
 
@@ -410,6 +412,8 @@ class NeoController extends Controller {
         $usuario = $dados['computador']['usuario'];
         $nmComputador = $dados['computador']['nmComputador'];
         $versaoAgente = $dados['computador']['versaoAgente'];
+        $versaoGercols = $dados['computador']['versaoGercols'];
+
 
 
         // TESTES: Se IP for vazio, tenta pegar da conexão
@@ -457,9 +461,13 @@ class NeoController extends Controller {
             $computador->setDtHrInclusao( $data);
             $computador->setTeIpComputador($ip_computador);
             $computador->setDtHrUltAcesso($data);
-            $computador->setTeUltimoLogin($usuario);
             $computador->setTeVersaoCacic($versaoAgente);
+            $computador->setTeVersaoGercols($versaoGercols);
             $computador->setNmComputador($nmComputador);
+
+            if (!empty($usuario) OR $usuario != "0"){
+                $computador->setTeUltimoLogin($usuario);
+            }
 
             $em->persist( $computador );
 
@@ -474,6 +482,7 @@ class NeoController extends Controller {
             $computador->setTeIpComputador($ip_computador);
             $computador->setTeUltimoLogin($usuario);
             $computador->setTeVersaoCacic($versaoAgente);
+            $computador->setTeVersaoGercols($versaoGercols);
             $computador->setNmComputador($nmComputador);
 
             //Atualiza hora de inclusão

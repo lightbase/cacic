@@ -49,9 +49,7 @@
 	            			<td>{{ computador.idSo }}</td>
                             		<th>{{ 'Último usuário logado'|trans }}</th>
                             		<td>
-                                    {% if ultimoAcesso.usuario is defined %}
-                                        {{ ultimoAcesso.usuario }}
-                                    {% endif %}
+                                        {{ computador.teUltimoLogin }}
                                     </td>
 	            		</tr>
 	            		<tr>
