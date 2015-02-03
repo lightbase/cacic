@@ -74,7 +74,9 @@ class SoftwareController extends Controller
     {
         $rede = implode(',',$request->get('teIpRede'));
         $software = implode(',',$request->get('idSoftware'));
-        $local = $request->get('nmLocal');
+        $local = implode(',',$request->get('idLocal'));
+
+        error_log('>>>>>>>>>>>>>>>'.$local);
 
         // Adiciona rede à lista de filtros se for fornecido
         if (!empty($rede)) {

@@ -9,7 +9,7 @@
     <form id="csv" action="{{ path('cacic_relatorio_software_inventariados_csv') }}" method="post">
         {% for reg in dados %}
             <input type="hidden" name="idSoftware[]" value="{{ reg['idSoftware'] }}">
-            <input type="hidden" name="nmLocal[]" value="{{ reg['nmLocal'] }}">
+            <input type="hidden" name="idLocal[]" value="{{ reg['idLocal'] }}">
             <input type="hidden" name="idRede[]" value="{{ reg['idRede'] }}">
         {% endfor %}
         <button class="btn btn-primary" type="submit">
