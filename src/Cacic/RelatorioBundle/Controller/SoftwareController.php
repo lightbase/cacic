@@ -73,8 +73,8 @@ class SoftwareController extends Controller
     public function inventariadosRelatorioCsvAction( Request $request )
     {
         $rede = implode(',',$request->get('teIpRede'));
-        $local = implode(',',$request->get('nmLocal'));
         $software = implode(',',$request->get('idSoftware'));
+        $local = $request->get('nmLocal');
 
         // Adiciona rede à lista de filtros se for fornecido
         if (!empty($rede)) {
