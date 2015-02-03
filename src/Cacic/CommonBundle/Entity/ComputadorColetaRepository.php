@@ -215,10 +215,10 @@ class ComputadorColetaRepository extends EntityRepository
      * @return mixed
      */
 
-    public function gerarRelatorioSoftwaresInventariados( $filtros)
+    public function gerarRelatorioSoftwaresInventariados( $filtros )
     {
         $qb = $this->createQueryBuilder('coleta')
-            ->select('soft.nmSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal','COUNT(DISTINCT coleta.computador) AS numComp')
+            ->select('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal','COUNT(DISTINCT coleta.computador) AS numComp')
             ->innerJoin('coleta.classProperty', 'property')
             ->innerJoin('property.idClass', 'classe')
             ->innerJoin('coleta.computador', 'comp')
@@ -227,7 +227,7 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('rede.idLocal', 'local')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'prop.classProperty = coleta.classProperty')
             ->innerJoin('prop.software', 'soft')
-            ->groupBy('soft.nmSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal');
+            ->groupBy('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal');
 
         /**
          * Verifica os filtros

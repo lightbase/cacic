@@ -11,6 +11,10 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Ddeboer\DataImport\Workflow;
+use Ddeboer\DataImport\Reader\ArrayReader;
+use Ddeboer\DataImport\Writer\CsvWriter;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SoftwareController extends Controller
 {
@@ -52,7 +56,7 @@ class SoftwareController extends Controller
         foreach ($dados as $cont  ){
             $TotalnumComp += $cont['numComp'];
         }
-       
+
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_inventariados.html.twig', 
         	array(
@@ -61,6 +65,66 @@ class SoftwareController extends Controller
                 'totalnumcomp' => $TotalnumComp
             )
         );
+    }
+
+    /**
+     * [CSV] Relatório de Softwares Inventariados gerado à partir dos filtros informados
+     */
+    public function inventariadosRelatorioCsvAction( Request $request )
+    {
+        $rede = implode(',',$request->get('teIpRede'));
+        $local = implode(',',$request->get('nmLocal'));
+        $software = implode(',',$request->get('idSoftware'));
+
+        // Adiciona rede à lista de filtros se for fornecido
+        if (!empty($rede)) {
+            $filtros['redes'] = $rede;
+        }
+
+        // Adiciona local à lista de filtros se for fornecido
+        if (!empty($local)) {
+            $filtros['local'] = $local;
+        }
+
+        // Adiciona Software à lista de filtros se for fornecido
+        if (!empty($software)) {
+            $filtros['softwares'] =  $software;
+        }
+
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:ComputadorColeta')
+            ->gerarRelatorioSoftwaresInventariados( $filtros );
+
+        $locale = $request->getLocale();
+
+        // Gera cabeçalho
+        $cabecalho = array();
+        foreach($dados as $elm) {
+                array_push($cabecalho, array_keys($elm));
+                break;
+            }
+            // Gera CSV
+        $reader = new ArrayReader(array_merge($dados));
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), "SoftwareInventariado.csv");
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', "attachment; filename=SoftwareInventariado.csv");
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
     }
 
     public function listarAction( Request $request, $idSoftware )

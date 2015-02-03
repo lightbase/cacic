@@ -34,6 +34,12 @@ cacic_relatorio_software_inventariados:
     requirements:
         _method: GET
 
+cacic_relatorio_software_inventariados_csv:
+    pattern: /software/inventariados/csv
+    defaults: { _controller: CacicRelatorioBundle:Software:inventariadosRelatorioCsv }
+    requirements:
+        _method: POST
+
 cacic_relatorio_software_inventariados_rel:
     pattern: /software/inventariados
     defaults: { _controller: CacicRelatorioBundle:Software:inventariadosRelatorio }
