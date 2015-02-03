@@ -76,8 +76,6 @@ class SoftwareController extends Controller
         $software = implode(',',$request->get('idSoftware'));
         $local = implode(',',$request->get('idLocal'));
 
-        error_log('>>>>>>>>>>>>>>>'.$local);
-
         // Adiciona rede à lista de filtros se for fornecido
         if (!empty($rede)) {
             $filtros['redes'] = $rede;
