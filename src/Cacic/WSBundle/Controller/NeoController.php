@@ -412,7 +412,7 @@ class NeoController extends Controller {
         $usuario = $dados['computador']['usuario'];
         $nmComputador = $dados['computador']['nmComputador'];
         $versaoAgente = $dados['computador']['versaoAgente'];
-        $versaoGercols = $dados['computador']['versaoGercols'];
+//        $versaoGercols = $dados['computador']['versaoGercols'];
 
 
 
@@ -482,7 +482,7 @@ class NeoController extends Controller {
             $computador->setTeIpComputador($ip_computador);
             $computador->setTeUltimoLogin($usuario);
             $computador->setTeVersaoCacic($versaoAgente);
-            $computador->setTeVersaoGercols($versaoGercols);
+//            $computador->setTeVersaoGercols($versaoGercols);
             $computador->setNmComputador($nmComputador);
 
             //Atualiza hora de inclusão
