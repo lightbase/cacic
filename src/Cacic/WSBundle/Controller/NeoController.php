@@ -462,7 +462,7 @@ class NeoController extends Controller {
             $computador->setTeIpComputador($ip_computador);
             $computador->setDtHrUltAcesso($data);
             $computador->setTeVersaoCacic($versaoAgente);
-            $computador->setTeVersaoGercols($versaoGercols);
+            //$computador->setTeVersaoGercols($versaoGercols);
             $computador->setNmComputador($nmComputador);
 
             if (!empty($usuario) OR $usuario != "0"){
