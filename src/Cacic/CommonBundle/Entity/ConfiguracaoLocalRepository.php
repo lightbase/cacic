@@ -25,10 +25,21 @@ class ConfiguracaoLocalRepository extends EntityRepository
 				JOIN cl.idConfiguracao cp
 				WHERE cl.idLocal = :idLocal";
 
-        return $this->getEntityManager()
+        $result =  $this->getEntityManager()
         			->createQuery( $_dql )
         			->setParameter( 'idLocal', $idLocal )
         			->getArrayResult();
+
+        if (empty($result)) {
+            $_dql = "SELECT cp.vlConfiguracao, cp.idConfiguracao, cp.nmConfiguracao
+				FROM CacicCommonBundle:ConfiguracaoPadrao cp";
+
+            $result =  $this->getEntityManager()
+                ->createQuery( $_dql )
+                ->getArrayResult();
+        }
+
+        return $result;
 	}
 	
 	/**

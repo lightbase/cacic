@@ -350,10 +350,11 @@ class NeoController extends Controller {
         $saida['agentcomputer']['configuracoes']['nu_forca_coleta'] = $computador->getForcaColeta();
 
         // 6 - Configurações do local
-        $configuracao_local = $computador->getIdRede()->getIdLocal()->getConfiguracoes();
-        foreach ($configuracao_local as $configuracao) {
+        //$configuracao_local = $computador->getIdRede()->getIdLocal()->getConfiguracoes();
+        $configuracao_padrao = $em->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->findAll();
+        foreach ($configuracao_padrao as $configuracao) {
             //$logger->debug("5555555555555555555555555555555555555 ".$configuracao->getIdConfiguracao()->getIdConfiguracao() . " | " . $configuracao->getVlConfiguracao());
-            $saida['agentcomputer']['configuracoes'][$configuracao->getIdConfiguracao()->getIdConfiguracao()] = $configuracao->getVlConfiguracao();
+            $saida['agentcomputer']['configuracoes'][$configuracao->getIdConfiguracao()] = $configuracao->getVlConfiguracao();
         }
 
         $logger->debug("Dados das configurações \n". print_r($saida, true));
@@ -858,7 +859,7 @@ class NeoController extends Controller {
         ));
 
         if (empty($classObject)) {
-            $logger->error("COLETA: Classe SoftwareList não cadastrada \n$e");
+            $logger->error("COLETA: Classe SoftwareList não cadastrada");
             return false;
         }
 
@@ -890,41 +891,49 @@ class NeoController extends Controller {
 
         try {
 
-            // Pega o objeto para gravar
-            $propSoftware = $em->getRepository('CacicCommonBundle:PropriedadeSoftware')->softwareByName($software, $computador->getIdComputador());
-            if (!empty($propSoftware)) {
-                $classProperty = $propSoftware->getClassProperty();
-                $softwareObject = $propSoftware->getSoftware();
+            // Verifica se software ja esta cadastrado
+            $softwareObject = $em->getRepository('CacicCommonBundle:Software')->findOneBy(array(
+                'nmSoftware' => $software
+            ));
+            if (empty($softwareObject)) {
+                // Se nao existir, cria
+                $softwareObject = new Software();
+                $softwareObject->setNmSoftware($software);
+            }
 
-                // Encontra coleta já feita para o Computador
-                $computadorColeta = $em->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy(array(
-                    'computador' => $computador,
-                    'classProperty' => $classProperty
-                ));
-                if(empty($computadorColeta)) {
-                    $logger->error("COLETA: Erro na identificação da coleta. O software está cadastrado mas não há ocorrência de coletas no computador");
-                    $computadorColeta = new ComputadorColeta();
-                    $computador->addHardware( $computadorColeta );
-                }
-            } else {
+            // Recupera classProperty para o software
+            $classProperty = $em->getRepository('CacicCommonBundle:ClassProperty')->findOneBy(array(
+                'idClass' => $classObject->getIdClass(),
+                'nmPropertyName' => $software
+            ));
+            if (empty($classProperty)) {
+                $classProperty = new ClassProperty();
+                $classProperty->setTePropertyDescription("Software detectado: $software");
+            }
+
+            // Adiciona software ao computador
+            $propSoftware = $em->getRepository('CacicCommonBundle:PropriedadeSoftware')->findOneBy(array(
+                'classProperty' => $classProperty,
+                'software' => $softwareObject,
+                'computador' => $computador
+            ));
+            if (empty($propSoftware)) {
                 $logger->info("COLETA: Cadastrando software não encontrado $software");
 
-                $computadorColeta = new ComputadorColeta();
                 $propSoftware = new PropriedadeSoftware();
-
-                // Verifica se software ja esta cadastrado
-                $softwareObject = $em->getRepository('CacicCommonBundle:Software')->findOneBy(array(
-                    'nmSoftware' => $software
-                ));
-                if (empty($softwareObject)) {
-                    // Se nao existir, cria
-                    $softwareObject = new Software();
-                }
-
-                $classProperty = new ClassProperty();
 
                 // Adiciona software na coleta
                 $softwareObject->addColetado($propSoftware);
+            }
+
+            // Encontra coleta já feita para o Computador
+            $computadorColeta = $em->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy(array(
+                'computador' => $computador,
+                'classProperty' => $classProperty
+            ));
+            if(empty($computadorColeta)) {
+                $logger->debug("COLETA: Registrando nova coleta para o software $software no computador ".$computador->getIdComputador());
+                $computadorColeta = new ComputadorColeta();
             }
 
             // Atualiza valores
@@ -932,7 +941,6 @@ class NeoController extends Controller {
 
             $classProperty->setIdClass($classObject);
             $classProperty->setNmPropertyName($software);
-            $classProperty->setTePropertyDescription("Propriedade criada automaticamente: $software");
 
             $propSoftware->setComputador($computador);
             $propSoftware->setClassProperty($classProperty);
@@ -958,9 +966,9 @@ class NeoController extends Controller {
                 $propSoftware->setPublisher($valor['publisher']);
             }
 
+            $em->persist($softwareObject);
             $em->persist($classProperty);
             $em->persist($propSoftware);
-            $em->persist($softwareObject);
 
 
             // Armazena no banco o objeto
