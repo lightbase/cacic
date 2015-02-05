@@ -410,19 +410,10 @@ class NeoController extends Controller {
         // Verifica o caso da rede aparecer vazia
         $rede1 = @$rede_json[0];
         if (empty($rede1)) {
-            $logger->error("COMPUTADOR: erro na identificação da rede. JSON sem informações de rede válidas");
-            $logger->error(print_r($rede_json, true));
+            $logger->error("COMPUTADOR: erro na identificação da rede. JSON sem informações de rede válidas. IP do computador: ".$request->getClientIp());
+            $logger->error(print_r($dados, true));
 
-            $error_msg = '{
-                "message": "Rede do computador não identificada",
-                "codigo": 2
-            }';
-
-
-            $response = new JsonResponse();
-            $response->setStatusCode('500');
-            $response->setContent($error_msg);
-            return $response;
+	    return null;
         }
 
         $te_node_address = $rede1['mac'];
@@ -788,7 +779,7 @@ class NeoController extends Controller {
         // Verifica se o JSON com propriedades é válido
         $propriedades_array = @array_keys($valor);
         if (empty($propriedades_array)) {
-            $logger->error("COLETA: erro na coleta da classe $classe. String retornada quando deveria ser um objeto JSON: ",print_r($valor, true));
+            $logger->error("COLETA: erro na coleta da classe $classe. String retornada quando deveria ser um objeto JSON: ".print_r($valor, true));
             return;
         }
 
