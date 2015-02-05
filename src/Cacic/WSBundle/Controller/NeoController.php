@@ -259,7 +259,7 @@ class NeoController extends Controller {
 
         // 1 - Ações para o computador
         //$logger->debug("11111111111111111111111111111111 ".print_r($so_json, true));
-	$acoes = $em->getRepository('CacicCommonBundle:Acao')->listaAcaoComputador(
+        $acoes = $em->getRepository('CacicCommonBundle:Acao')->listaAcaoComputador(
             $computador->getIdRede()->getIdRede(),
             $computador->getIdSo()->getIdSo(),
             $computador->getTeNodeAddress()
@@ -405,7 +405,26 @@ class NeoController extends Controller {
 
         $so_json = $dados['computador']['operatingSystem'];
         $rede_json = $dados['computador']['networkDevices'];
-        $rede1 = $rede_json[0];
+
+        // Eduardo: 2015-02-05
+        // Verifica o caso da rede aparecer vazia
+        $rede1 = @$rede_json[0];
+        if (empty($rede1)) {
+            $logger->error("COMPUTADOR: erro na identificação da rede. JSON sem informações de rede válidas");
+            $logger->error(print_r($rede_json, true));
+
+            $error_msg = '{
+                "message": "Rede do computador não identificada",
+                "codigo": 2
+            }';
+
+
+            $response = new JsonResponse();
+            $response->setStatusCode('500');
+            $response->setContent($error_msg);
+            return $response;
+        }
+
         $te_node_address = $rede1['mac'];
         $ip_computador = $rede1['ipv4'];
         $netmask = $rede1['netmask_ipv4'];
@@ -478,6 +497,8 @@ class NeoController extends Controller {
         {
             $logger->debug("Atualizando hora de último acesso do computador para MAC = $te_node_address e SO = ".$so_json['nomeOs']);
 
+            $computador->setIdSo( $so );
+            $computador->setIdRede( $rede );
             $computador->setDtHrUltAcesso($data);
             $computador->setTeIpComputador($ip_computador);
             $computador->setTeUltimoLogin($usuario);
@@ -745,6 +766,7 @@ class NeoController extends Controller {
             if ($valor['Value'] == 'true') {
                 $computador->setIsNotebook(true);
                 $em->persist( $computador );
+                $em->flush();
             }
             return;
         }
@@ -762,8 +784,15 @@ class NeoController extends Controller {
             $valor = $valor[0];
         }
 
+        // Eduardo: 2015-02-05
+        // Verifica se o JSON com propriedades é válido
+        $propriedades_array = @array_keys($valor);
+        if (empty($propriedades_array)) {
+            $logger->error("COLETA: erro na coleta da classe $classe. String retornada quando deveria ser um objeto JSON: ",print_r($valor, true));
+            return;
+        }
 
-        foreach (array_keys($valor) as $propriedade) {
+        foreach ($propriedades_array as $propriedade) {
             if (is_array($valor[$propriedade])) {
                 $logger->debug("COLETA: Atributo $propriedade multivalorado não implementado na coleta");
                 //$logger->debug("1111111111111111111111111111111111111111 ".print_r($valor, true));
@@ -821,7 +850,7 @@ class NeoController extends Controller {
 
             } catch(\Doctrine\ORM\ORMException $e){
                 $logger->error("COLETA: Erro na inserçao de dados da propriedade $propriedade.");
-		$logger->debug($e);
+                $logger->debug($e);
             }
         }
         // Grava tudo da propriedade
@@ -964,9 +993,11 @@ class NeoController extends Controller {
             $em->persist( $computadorColetaHistorico );
 
         } catch(\Doctrine\ORM\ORMException $e){
-            $logger->error("COLETA: Erro na inserçao de dados do software $software. \n$e");
+            $logger->error("COLETA: Erro na inserçao de dados do software $software.");
+            $logger->debug($e);
         } catch(NonUniqueResultException $e){
-            $logger->error("COLETA: Erro impossível de software repetido para $software. \n$e");
+            $logger->error("COLETA: Erro impossível de software repetido para $software.");
+            $logger->debug($e);
         }
     }
 
