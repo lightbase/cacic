@@ -434,10 +434,12 @@ class DefaultController extends Controller
                                 $strPropertiesNames .= '[' . $detalheClasse['nmClassName'] . '.Properties]';
                                 $strActualClassName  = $detalheClasse['nmClassName'];
                             }
+                            //Removento o envio de propriedades de softwares para o CollectsDefinitions
+                            /*
                             else
-                                $strPropertiesNames .= ',';
-
+                            $strPropertiesNames .= ',';
                             $strPropertiesNames .= $detalheClasse['nmPropertyName'];
+                            */
                         }
 
                         $strPropertiesNames 	.= ($strActualClassName ? '[/' . $strActualClassName . '.Properties]' : '');
