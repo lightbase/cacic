@@ -410,7 +410,7 @@ class DefaultController extends Controller
                         // Obtendo Defini��es de Classes para Coletas
                         $strCollectsDefinitions .= '[ClassesAndProperties]';
 
-                        $detalhesClasses = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaDetalhesClasse( $acao['idAcao'] );
+                        $detalhesClasses = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaClasses( $acao['idAcao'] );
                         $arrClassesNames 		= array();
                         $arrClassesWhereClauses = array();
                         $strActualClassName		= '';
@@ -443,8 +443,10 @@ class DefaultController extends Controller
                         $strPropertiesNames 	.= ($strActualClassName ? '[/' . $strActualClassName . '.Properties]' : '');
 
                         $strCollectsDefinitions .= '[Classes]' 	  	. implode(',',$arrClassesNames) . '[/Classes]';
-                        $strCollectsDefinitions .= '[Properties]' 	. $strPropertiesNames  			. '[/Properties]';
                         $strCollectsDefinitions .= '[/ClassesAndProperties]';
+
+                        //Removento o envio de propriedades de softwares para o CollectsDefinitions
+                        //$strCollectsDefinitions .= '[Properties]' 	. $strPropertiesNames  			. '[/Properties]';
 
                     }
                     else
