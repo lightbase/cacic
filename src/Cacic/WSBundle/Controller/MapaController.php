@@ -120,7 +120,12 @@ class MapaController extends Controller {
         $mensagem = $em->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->findOneBy(array(
             'idConfiguracao' => 'msg_popup_patrimonio'
         ));
-        $mensagem = implode('',$mensagem);
+        if (!empty($mensagem)) {
+            $mensagem = $mensagem->getVlConfiguracao();
+        } else {
+            $mensagem = "Pop-up de patrimônio";
+        }
+        //$mensagem = implode('',$mensagem);
 
         $logger->debug("RESULTADO DO PATRIMÔNIO: $modPatrimonio");
 

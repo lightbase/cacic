@@ -328,8 +328,7 @@ class HardwareController extends Controller
             //array_push($property, "id_computador");
             $saida = array();
             foreach ($property as $elm) {
-                array_push($saida[$elm]);
-
+                array_push($saida, $elm);
             }
         }
 

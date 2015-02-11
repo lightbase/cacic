@@ -19,11 +19,16 @@
 
                         <thead>
                         <tr>
-                            {% for nmCampo in saida|keys %}
+                            {% for nmCampo in saida %}
                                 <th>{{ nmCampo|trans }}</th>
                             {% endfor %}
-                            <th>{{ "nm_rede"|trans }}</th>
+                            <th>{{ "Computador"|trans }}</th>
+                            <th>{{ "MAC"|trans }}</th>
+                            <th>{{ "IP"|trans }}</th>
+                            <th>{{ "Rede"|trans }}</th>
+                            <th>{{ "Ip da Rede" }}</th>
                             <th>{{ "data_coleta"|trans }}</th>
+                            <th>{{ "Ações"|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -31,11 +36,21 @@
                         {# cria a tabela dinamicamente de acordo com as propriedades das classes WMI selecionadas #}
                         {% for reg in relDinamico %}
                             <tr>
-                            {% for nmCampo in saida|keys %}
+                                <td></td>
+                            {% for nmCampo in saida %}
                                 <td>{{ reg[nmCampo] }}</td>
                             {% endfor %}
+                                <td>{{ reg['nm_computador'] }}</td>
+                                <td>{{ reg['te_node_address'] }}</td>
+                                <td>{{ reg['te_ip_computador'] }}</td>
                                 <td>{{ reg['nm_rede'] }}</td>
+                                <td>{{ reg['te_ip_rede'] }}</td>
                                 <td>{{ reg['data_coleta']|date("d/m/y") }}</td>
+                                <td>
+                                    <a class="btn" href="{{ path("cacic_computador_detalhar") }}/{{ reg['id_computador'] }}" target="_blank" title="{{ "Todas as coletas do Computador"|trans }}">
+                                        <i class="icon-search"></i>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
