@@ -24,6 +24,7 @@
                 <th width="8%">{{ "CPF do Responsável"|trans }}
                 <th width="8%">{{ "Coordenacao Responsável"|trans }}</th>
                 <th width="8%">{{ "Sala do Responsável"|trans }}</th>
+                <th width="8%">{{ "Data Responsável"|trans }}</th>
                 <th width="8%">{{ "Última Coleta"|trans }}</th>
             </tr>
             </thead>
@@ -61,6 +62,7 @@
                     <td>{{ reg.usuarioName }}</td>
                     <td>{{ reg.coordenacao }}</td>
                     <td>{{ reg.sala }}</td>
+                    <td>{{ reg.dt_hr_inclusao|date(' d, M, Y H:m:s') }}</td>
                     <td>{{ reg.data|date(' d, M, Y H:m:s') }}</td>
                 </tr>
 

@@ -183,6 +183,7 @@ GROUP BY c0_.te_node_address,
         $rsm->addScalarResult('usuario_name', 'usuarioName');
         $rsm->addScalarResult('coordenacao_setor', 'coordenacao');
         $rsm->addScalarResult('sala', 'sala');
+        $rsm->addScalarResult('dt_hr_inclusao', 'dt_hr_inclusao');
 
 
         $sql = "
@@ -196,6 +197,9 @@ SELECT c0_.te_node_address AS te_node_address,
 	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
 	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
     string_agg(DISTINCT c0_.te_ultimo_login, ', ') AS te_ultimo_login,
+    (SELECT cc5_.dt_hr_inclusao FROM computador_coleta cc5_
+          INNER JOIN class_property cp5_ ON cc5_.id_class_property = cp5_.id_class_property
+          WHERE cp5_.nm_property_name = 'UserLogado' AND cc5_.id_computador = cc_.id_computador LIMIT 1),
     (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_ INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property WHERE cp1_.nm_property_name = 'UserName' AND cc1_.id_computador = cc_.id_computador";
 
         if ($usuarioPatrimonio) {
@@ -225,6 +229,7 @@ SELECT c0_.te_node_address AS te_node_address,
         if ($sala) {
             $sql = $sql . " AND lower(cc4_.te_class_property_value) LIKE lower('%$sala%')";
         }
+
 
         $sql = $sql . " LIMIT 1) AS sala,
 	max(l1_.data) AS max_data,
@@ -336,11 +341,19 @@ GROUP BY c0_.te_node_address,
         $rsm->addScalarResult('te_node_address', 'te_node_address');
         $rsm->addScalarResult('te_ip_computador', 'te_ip_computador');
         $rsm->addScalarResult('nm_rede', 'nm_rede');
+        $rsm->addScalarResult('nm_property_name', 'nm_property_name');
+        $rsm->addScalarResult('dt_hr_inclusao', 'dt_hr_inclusao');
 
-        $sql = "SELECT lg.id_log_user_logado, lg.id_computador, lg.data, lg.usuario, c.nm_computador, c.te_node_address, c.te_ip_computador, r.nm_rede
+        $sql = "SELECT lg.id_log_user_logado, lg.id_computador, lg.data, lg.usuario, c.nm_computador, c.te_node_address, c.te_ip_computador, r.nm_rede,
+                (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_
+                          INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property
+                          WHERE cp1_.nm_property_name = 'UserLogado' AND cc1_.id_computador = cc.id_computador LIMIT 1)
         FROM log_user_logado lg
         INNER JOIN computador c ON lg.id_computador = c.id_computador
-        INNER JOIN rede r ON r.id_rede = C.id_rede";
+        INNER JOIN rede r ON r.id_rede = C.id_rede
+        INNER JOIN computador_coleta cc ON cc.id_computador = lg.id_computador
+        INNER JOIN class_property cp ON cp.id_class_property = cc.id_class_property
+        GROUP BY lg.id_log_user_logado, c.id_computador, r.id_rede, cc.id_computador";
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -356,12 +369,20 @@ GROUP BY c0_.te_node_address,
         $rsm->addScalarResult('te_node_address', 'te_node_address');
         $rsm->addScalarResult('te_ip_computador', 'te_ip_computador');
         $rsm->addScalarResult('nm_rede', 'nm_rede');
+        $rsm->addScalarResult('te_class_property_value', 'te_class_property_value');
+        $rsm->addScalarResult('nm_property_name', 'nm_property_name');
+        $rsm->addScalarResult('dt_hr_inclusao', 'dt_hr_inclusao');
 
-        $sql = "SELECT lg.id_log_user_logado, lg.id_computador, lg.data, lg.usuario, c.nm_computador, c.te_node_address, c.te_ip_computador, r.nm_rede
-        FROM log_user_logado lg
-        INNER JOIN computador c ON lg.id_computador = c.id_computador
-        INNER JOIN rede r ON r.id_rede = C.id_rede
-        WHERE 1 =1";
+        $sql = "SELECT lg.id_log_user_logado, lg.id_computador, lg.data, lg.usuario, c.nm_computador, c.te_node_address, c.te_ip_computador, r.nm_rede,
+                      (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_
+                          INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property
+                          WHERE cp1_.nm_property_name = 'UserLogado' AND cc1_.id_computador = cc.id_computador LIMIT 1)
+                FROM log_user_logado lg
+                INNER JOIN computador c ON c.id_computador = lg.id_computador
+                INNER JOIN rede r ON r.id_rede = C.id_rede
+                INNER JOIN computador_coleta cc ON cc.id_computador = lg.id_computador
+                INNER JOIN class_property cp ON cp.id_class_property = cc.id_class_property
+                WHERE 1=1";
 
         if ( $usuarioLogado ) {
             $sql .= " AND lower(lg.usuario) LIKE lower('%".$usuarioLogado."%')";
@@ -378,6 +399,8 @@ GROUP BY c0_.te_node_address,
         if ($semData == 'N'){
             $sql .= " AND lg.data >= '".$dataInicio."00:00:00' AND lg.data <= '".$dataFim."23:59:59'";
         }
+
+        $sql .= "GROUP BY lg.id_log_user_logado, c.id_computador, r.id_rede, cc.id_computador";
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 

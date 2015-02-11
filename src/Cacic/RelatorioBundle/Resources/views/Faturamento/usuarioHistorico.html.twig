@@ -24,6 +24,7 @@
 			<th width="8%">{{ "Endereço IP"|trans }}</th>
 			<th width="8%">{{ "Local"|trans }}</th>
             <th width="8%">{{ "Usuário"|trans }}</th>
+            <th width="8%">{{ "CPF Usuário Patrimônio"|trans }}</th>
             <th width="8%">{{ "Data"|trans }}</th>
         </tr>
 		</thead>
@@ -35,6 +36,7 @@
 				<td>{{ reg['te_ip_computador']}}</td>
                 <td>{{ reg['nm_rede'] }}</td>
                 <td>{{ reg['usuario'] }}</td>
+                <td>{{ reg['te_class_property_value'] }}</td>
                 <td>{{ reg['data']|date(' d, M, Y H:m:s') }}</td>
             </tr>
 

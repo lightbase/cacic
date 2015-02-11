@@ -558,7 +558,7 @@
             $tmpfile = tempnam(sys_get_temp_dir(), 'Usuario_Csv_Estatico');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            $writer->writeItem(array('Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações'));
+            //$writer->writeItem(array('Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações'));
             $workflow->addWriter($writer);
 
 
@@ -629,7 +629,7 @@
             $tmpfile = tempnam(sys_get_temp_dir(), 'Usuario_Csv_Dinamico');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            $writer->writeItem(array('Id Computador','Nome Computador','Data','Usuário','Mac Address','IP computador','Local'));
+            $writer->writeItem(array('Id Computador', 'IP Computador', 'Data', 'Usuário','Nome computador', 'Mac Address','IP computador','Sub Rede'));
             $workflow->addWriter($writer);
 
 
