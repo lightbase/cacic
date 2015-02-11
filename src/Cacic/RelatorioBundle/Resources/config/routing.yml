@@ -118,6 +118,14 @@ cacic_relatorio_hardware_wmi_rel:
     requirements:
             _method: POST
 
+cacic_relatorio_hardware_wmi_dinamico:
+    pattern: /relWmiDinamico
+    defaults: { _controller: CacicRelatorioBundle:Hardware:relWmiDinamico }
+
+cacic_relatorio_dinamico_detalhar:
+    pattern: /relWmiDinamico/detalhar
+    defaults: { _controller: CacicRelatorioBundle:Hardware:relWmiDinamicoDetalhar }
+
 cacic_relatorio_software_lista:
     pattern: /software/inventariados/{nmSoftware}/{nmLocal}/{idRede}
     defaults: { _controller: CacicRelatorioBundle:Software:lista, nmSoftware:null, nmLocal:null, idRede:null }
@@ -206,6 +214,10 @@ cacic_relatorio_usuario_csv:
     pattern: /usuario/csv
     defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioCsv }
 
+cacic_relatorio_usuario_csv_dinamico:
+    pattern: /usuario/csvDinamico
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioCsvDinamico }
+
 cacic_relatorio_usuario_historico:
-    pattern: /usuario/historico/{idComputador}
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:usuariohistorico, idComputador: null }
+    pattern: /usuario/historico/{te_ultimo_login}
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioHistorico, te_ultimo_login: null}

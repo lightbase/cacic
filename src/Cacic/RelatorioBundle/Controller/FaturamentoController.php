@@ -463,23 +463,43 @@
                 $usuarioName = $data['usuarioName'];
                 $coordenacao = $data['coordenacao'];
                 $sala = $data['sala'];
+                $usuarioLogado = $data['usuarioLogado'];
+                $nmCompDinamico = $data['nmCompDinamico'];
+                $ipCompDinamico = $data['ipCompDinamico'];
 
-                $dados = $this->getDoctrine()
-                    ->getRepository('CacicCommonBundle:LogAcesso')
-                    ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala);
+                //verifica se a busca é pelo campo "usuario dinamico"
+                if(empty($usuarioLogado) AND empty($nmCompDinamico) AND empty($ipCompDinamico)){
+                    $dados = $this->getDoctrine()
+                        ->getRepository('CacicCommonBundle:LogAcesso')
+                        ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala);
+                    return $this->render(
+                        'CacicRelatorioBundle:Faturamento:usuarioDetalhar.html.twig',
+                        array(
+                            'idioma'        => $locale,
+                            'dados'         => ( isset( $dados ) ? $dados : null ),
+                            'idRede'        => $filtroLocais,
+                            'dtAcaoInicio'  => $dataInicio,
+                            'dtAcaoFim'     => $dataFim
+                        )
+                    );
+                }else{
+                    $semData = "N";
+                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $nmCompDinamico, $ipCompDinamico);
+                    return $this->render(
+                        'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
+                        array(
+                            'idioma'        => $locale,
+                            'dados'         => ( isset( $dados ) ? $dados : null ),
+                            'dtAcaoInicio'  => $dataInicio,
+                            'dtAcaoFim'     => $dataFim,
+                            'semData'       => $semData,
+                            'usuarioLogado' => $usuarioLogado
+                        )
+                    );
+                }
 
             }
 
-            return $this->render(
-                'CacicRelatorioBundle:Faturamento:usuarioDetalhar.html.twig',
-                array(
-                    'idioma'        => $locale,
-                    'dados'         => ( isset( $dados ) ? $dados : null ),
-                    'idRede'        => $filtroLocais,
-                    'dtAcaoInicio'  => $dataInicio,
-                    'dtAcaoFim'     => $dataFim,
-                )
-            );
         }
 
         /*
@@ -517,51 +537,117 @@
 
             }
 
+            //$writer->writeItem(array('Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações'));
             // Gera CSV
             $reader = new ArrayReader($dados);
 
             // Create the workflow from the reader
             $workflow = new Workflow($reader);
 
+            // As you can see, the first names are not capitalized correctly. Let's fix
+            // that with a value converter:
+            $converter = new CallbackValueConverter(function ($input) {
+                return $input->format('d/m/Y H:m:s');
+            });
+
+            $workflow->addValueConverter('dtHrUltAcesso', $converter);
+
             $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
 
             // Add the writer to the workflow
-            $tmpfile = tempnam(sys_get_temp_dir(), 'Máquinas sem Coletas');
+            $tmpfile = tempnam(sys_get_temp_dir(), 'Usuario_Csv_Estatico');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
             $writer->writeItem(array('Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações'));
             $workflow->addWriter($writer);
 
+
+
             // Process the workflow
             $workflow->process();
+
+            // Gera data e adiciona no nome do arquivo
+            $today = date("Ymd");
+            $nameArquivo = "Usuario_Csv_Estatico".$today.".csv";
 
             // Retorna o arquivo
             $response = new BinaryFileResponse($tmpfile);
             $response->headers->set('Content-Type', 'text/csv');
-            $response->headers->set('Content-Disposition', 'attachment; filename="Não_Coletadas.csv"');
+            $response->headers->set('Content-Disposition', 'attachment; filename='.$nameArquivo.'');
             $response->headers->set('Content-Transfer-Encoding', 'binary');
 
             return $response;
         }
 
         /*
-         * Página que exibe o resultado da consulta de usuário logado
+         * Página que exibe o resultado da consulta do histórico do usuário logado
          */
         public function usuarioHistoricoAction( Request $request) {
 
             $locale = $request->getLocale();
-            $idComputador = $request->get('IdComputador');
+            $teUltimoLogin = $request->get('te_ultimo_login');
+            $semData = 'S';
+            $usuarioLogado = strstr($teUltimoLogin, substr('\ ',0,1));
+            $size = strlen($usuarioLogado);
+            $usuarioLogado = substr($usuarioLogado,1, $size);
 
-                $dados = $this->getDoctrine()
-                    ->getRepository('CacicCommonBundle:LogUserLogado')
-                    ->selectUserLogado($idComputador);
+            $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->gerarRelatorioUsuarioHistorico($usuarioLogado, $semData);
 
             return $this->render(
                 'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
                 array(
                     'idioma'        => $locale,
                     'dados'         => ( isset( $dados ) ? $dados : null ),
+                    'semData'       => $semData,
+                    'usuarioLogado' => $usuarioLogado
                 )
             );
+        }
+        /*
+         * Gera o CSV completo dos registros dos usuários dinâmicos ( user logado)
+         */
+
+        public function usuarioCsvDinamicoAction( Request $request) {
+
+            $printers = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:LogAcesso')->gerarUsuarioCsvDinamico();
+            // Gera CSV
+            $reader = new ArrayReader($printers);
+
+            // Create the workflow from the reader
+            $workflow = new Workflow($reader);
+
+            // As you can see, the first names are not capitalized correctly. Let's fix
+            // that with a value converter:
+            $converter = new CallbackValueConverter(function ($input) {
+                return $input->format('d/m/Y H:m:s');
+            });
+            $workflow->addValueConverter('dtHrUltAcesso', $converter);
+
+            $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
+
+            // Add the writer to the workflow
+            $tmpfile = tempnam(sys_get_temp_dir(), 'Usuario_Csv_Dinamico');
+            $file = new \SplFileObject($tmpfile, 'w');
+            $writer = new CsvWriter($file);
+            $writer->writeItem(array('Id Computador','Nome Computador','Data','Usuário','Mac Address','IP computador','Local'));
+            $workflow->addWriter($writer);
+
+
+
+            // Process the workflow
+            $workflow->process();
+
+            // Gera data e adiciona no nome do arquivo
+            $today = date("Ymd");
+            $nameArquivo = "Usuario_Csv_Dinamico".$today.".csv";
+
+            // Retorna o arquivo
+            $response = new BinaryFileResponse($tmpfile);
+            $response->headers->set('Content-Type', 'text/csv');
+            $response->headers->set('Content-Disposition', 'attachment; filename='.$nameArquivo.'');
+            $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+            return $response;
+
         }
 }

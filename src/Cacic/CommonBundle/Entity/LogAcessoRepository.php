@@ -178,7 +178,7 @@ GROUP BY c0_.te_node_address,
         $rsm->addScalarResult('max_data', 'data');
         $rsm->addScalarResult('nm_local', 'nmLocal');
         $rsm->addScalarResult('id_local', 'idLocal');
-        $rsm->addScalarResult('usuario', 'usuario');
+        $rsm->addScalarResult('te_ultimo_login', 'te_ultimo_login');
         $rsm->addScalarResult('usuario_patrimonio', 'usuarioPatrimonio');
         $rsm->addScalarResult('usuario_name', 'usuarioName');
         $rsm->addScalarResult('coordenacao_setor', 'coordenacao');
@@ -195,7 +195,7 @@ SELECT c0_.te_node_address AS te_node_address,
 	string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
 	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
 	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
-    string_agg(DISTINCT la5_.usuario, ', ') AS usuario,
+    string_agg(DISTINCT c0_.te_ultimo_login, ', ') AS te_ultimo_login,
     (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_ INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property WHERE cp1_.nm_property_name = 'UserName' AND cc1_.id_computador = cc_.id_computador";
 
         if ($usuarioPatrimonio) {
@@ -264,8 +264,8 @@ WHERE  1 = 1
             $sql .= " AND c0_.te_node_address = ? ";
         }
 
-        if ( $usuario ) {
-            $sql .= " AND lower(l1_.usuario) LIKE lower(?)";
+        if ( $te_ultimo_login ) {
+            $sql .= " AND lower(c0_.te_ultimo_login) LIKE lower(?)";
         }
 
         if ( $filtroLocais ) {
@@ -273,19 +273,19 @@ WHERE  1 = 1
         }
 
         if ( $usuarioPatrimonio ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('$usuarioPatrimonio') ";
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('%$usuarioPatrimonio%') ";
         }
 
         if ( $usuarioName ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('$usuarioName') ";
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('%$usuarioName%') ";
         }
 
         if ( $coordenacao ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('$coordenacao') ";
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('%$coordenacao%') ";
         }
 
         if ( $sala ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('$sala') ";
+            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('%$sala%') ";
         }
 
         $sql .= "
@@ -317,12 +317,69 @@ GROUP BY c0_.te_node_address,
             $query->setParameter(5, "$teNodeAddress" );
 
 
-        if ( $usuario )
-            $query->setParameter(6, "%$usuario%" );
+        if ( $te_ultimo_login )
+            $query->setParameter(6, "%$te_ultimo_login%" );
 
         if ( $filtroLocais )
             $query->setParameter(7, $filtroLocais);
 
+
+        return $query->execute();
+    }
+    public function gerarUsuarioCsvDinamico(){
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id_log_user_logado', 'id_log_user_logado');
+        $rsm->addScalarResult('id_computador', 'id_computador');
+        $rsm->addScalarResult('data', 'data');
+        $rsm->addScalarResult('usuario', 'usuario');
+        $rsm->addScalarResult('nm_computador', 'nm_computador');
+        $rsm->addScalarResult('te_node_address', 'te_node_address');
+        $rsm->addScalarResult('te_ip_computador', 'te_ip_computador');
+        $rsm->addScalarResult('nm_rede', 'nm_rede');
+
+        $sql = "SELECT lg.id_log_user_logado, lg.id_computador, lg.data, lg.usuario, c.nm_computador, c.te_node_address, c.te_ip_computador, r.nm_rede
+        FROM log_user_logado lg
+        INNER JOIN computador c ON lg.id_computador = c.id_computador
+        INNER JOIN rede r ON r.id_rede = C.id_rede";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+
+        return $query->execute();
+    }
+    public function gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $nmCompDinamico, $ipCompDinamico){
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id_log_user_logado', 'id_log_user_logado');
+        $rsm->addScalarResult('id_computador', 'id_computador');
+        $rsm->addScalarResult('data', 'data');
+        $rsm->addScalarResult('usuario', 'usuario');
+        $rsm->addScalarResult('nm_computador', 'nm_computador');
+        $rsm->addScalarResult('te_node_address', 'te_node_address');
+        $rsm->addScalarResult('te_ip_computador', 'te_ip_computador');
+        $rsm->addScalarResult('nm_rede', 'nm_rede');
+
+        $sql = "SELECT lg.id_log_user_logado, lg.id_computador, lg.data, lg.usuario, c.nm_computador, c.te_node_address, c.te_ip_computador, r.nm_rede
+        FROM log_user_logado lg
+        INNER JOIN computador c ON lg.id_computador = c.id_computador
+        INNER JOIN rede r ON r.id_rede = C.id_rede
+        WHERE 1 =1";
+
+        if ( $usuarioLogado ) {
+            $sql .= " AND lower(lg.usuario) LIKE lower('%".$usuarioLogado."%')";
+        }
+
+        if ( $nmCompDinamico ) {
+            $sql .= " AND lower(c.nm_computador) LIKE lower('%".$nmCompDinamico."%')";
+        }
+
+        if ( $ipCompDinamico ) {
+            $sql .= " AND lower(c.te_ip_computador) LIKE lower('%".$ipCompDinamico."%')";
+        }
+
+        if ($semData == 'N'){
+            $sql .= " AND lg.data >= '".$dataInicio."00:00:00' AND lg.data <= '".$dataFim."23:59:59'";
+        }
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
         return $query->execute();
     }

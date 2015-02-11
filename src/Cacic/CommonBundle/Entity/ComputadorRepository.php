@@ -73,6 +73,7 @@ class ComputadorRepository extends EntityRepository
                 'comp.nmComputador',
                 'comp.teIpComputador',
                 'comp.teVersaoCacic',
+                'comp.dtHrUltAcesso',
                 'comp.teNodeAddress'
             );
         if ( $teIpComputador != null){

@@ -1,0 +1,84 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+   <li class="active">{{ "Relatório de Configurações das Classes WMI Dinâmico"|trans }}</li>
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="box grad_colour_black">
+                <h2 class="box_head round_top"><i class="icon-list"></i> {{'Relatório de Configurações das Classes WMI Dinâmico' |trans }}</h2>
+                <div class="block box_content round_bottom padding_10">
+
+                    <h3>{{'Relatório de Configurações das Classes WMI Dinâmico' |trans }}</h3>
+                    <p class="muted">
+                        {{ 'Este relatório exibe os dados das classes WMI coletadas nos computadores.'|trans }}
+                        {{ 'É possível determinar quais propriedades serão exibidas no relatório, e restringir a pesquisa por sistemas operacionais e abrangência das redes.'|trans }}
+                    </p>
+                    <hr />
+
+                    <form method="post" id={{ 'frmFiltroRelatorioDinamico'| trans }} action="{{ path('cacic_relatorio_dinamico_detalhar') }}" class="form-horizontal" method="POST" target="_blank">
+
+                        <div class="control-group">
+                            <label for="log_acesso_periodo"  class="control-label">{{ 'Período'|trans }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.dataColetaInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dataColetaFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                                <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa"|trans }}</p>
+                            </div>
+                        </div>
+
+                        {% for className in classe|keys %}
+                            <fieldset>
+
+                                <legend>
+                                    {{ className }}
+                                </legend>
+                                {% for property in classe[className] %}
+                                    <div class="controls" id="remover">
+                                        <label class="checkbox uniform">
+                                            <div id="uniform-undefined" class="checker">
+                                                <span>
+                                                    <input class="checkbox uniform_on" type="checkbox" name="property[]" value="{{className|lower}}_{{ property|lower }}">
+                                                </span>
+                                                    {{ property }}
+                                            </div>
+
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </fieldset>
+
+                        {% endfor %}
+
+
+
+                        <div align="center">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="icon-bar-chart"></i>
+                                {{ "Gerar Relatório"|trans }}
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- /span -->
+    </div> <!-- /row -->
+
+
+{% endblock %}
+
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/cacicrelatorio/libs/bootstrap-transfer-master/css/bootstrap-transfer.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+{% endblock %}

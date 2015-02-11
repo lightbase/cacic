@@ -31,7 +31,7 @@ class LogUserLogadoRepository extends EntityRepository
     /*
     * Função que retorna a busca por usuário logago
     */
-    public function selectUserLogado( $idComputador, $teIpComputador, $nmComputador,$usuario, $dtHrInclusao, $dtHrInclusaoFim )
+    public function selectUserLogado( $idComputador, $teIpComputador, $nmComputador, $usuario, $dtHrInclusao, $dtHrInclusaoFim )
     {
 
         error_log('>>>>>>>>>>>>>>Sdsdsd',$idComputador);

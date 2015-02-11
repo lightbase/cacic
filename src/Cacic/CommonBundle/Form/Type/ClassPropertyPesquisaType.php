@@ -8,18 +8,18 @@ use Cacic\CommonBundle\Form\DataTransformer\CxDatePtBrTransformer;
 
 /**
  *
- * Formulário de PESQUISA por LOGs de acesso ou atividades
+ * Formulário de PESQUISA por Propriedade das Classes WMI (relatorio_coleta)
  * @author lightbase
  *
  */
-class LogPesquisaType extends AbstractType
+class ClassPropertyPesquisaType extends AbstractType
 {
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
        $builder->add(
         	$builder->create(
-        		'dtAcaoInicio',
+        		'dataColetaInicio',
 				'text',
 				array(
 					'data' => date('Y-m-d'),
@@ -31,7 +31,7 @@ class LogPesquisaType extends AbstractType
         
         $builder->add(
         	$builder->create(
-        		'dtAcaoFim',
+        		'dataColetaFim',
 				'text',
 				array(
 					'data' => date('Y-m-d'),
@@ -40,34 +40,13 @@ class LogPesquisaType extends AbstractType
         	)
             ->addModelTransformer( new CxDatePtBrTransformer() )
         );
-		
-		$builder->add(
-			'idLocal',
-			'entity',
-			array(
-				'class' => 'CacicCommonBundle:Local',
-				'property' => 'nmLocal',
-                'multiple' => true,
-                'required'  => true,
-                'expanded'  => true,
-                'label'=> 'Selecione o Local:'
-			)
-		);
-
-        $builder->add(
-            'usuario',
-            null,
-            array( 'label'=>'', 'max_length'=>30, 'required'  => true)
-        );
     }
-
     /**
      * (non-PHPdoc)
      * @see Symfony\Component\Form.FormTypeInterface::getName()
      */
     public function getName()
     {
-        return 'log_pesquisa';
+        return 'ClassPropertyPesquisa';
     }
-
 }

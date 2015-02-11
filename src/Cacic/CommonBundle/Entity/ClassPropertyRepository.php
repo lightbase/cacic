@@ -1,0 +1,72 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: cacic
+ * Date: 28/01/15
+ * Time: 14:25
+ */
+
+namespace Cacic\CommonBundle\Entity;
+
+use Doctrine\Common\Util\Debug;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
+
+
+class ClassPropertyRepository extends EntityRepository {
+
+    /**
+     *
+     * Relatório de Configurações das Classes WMI Dinâmico
+     * Verifica as classes WMI existentes e suas propriedades
+     */
+    public function listar() {
+
+        $_dql = "SELECT c.nmClassName, p.nmPropertyName
+                FROM CacicCommonBundle:ClassProperty p
+				INNER JOIN CacicCommonBundle:Classe c WITH p.idClass = c.idClass
+				WHERE c.nmClassName NOT IN ('SoftwareList', 'Patrimonio')
+				ORDER BY c.nmClassName";
+
+        $result =  $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
+
+        $saida = array();
+        foreach ($result as $elm) {
+            if (empty($saida[$elm['nmClassName']])) {
+                $saida[$elm['nmClassName']] = array();
+            }
+
+            array_push($saida[$elm['nmClassName']], $elm['nmPropertyName']);
+        }
+
+        return $saida;
+    }
+    /**
+     *
+     * Relatório de Configurações das Classes WMI Dinâmico Detalhes
+     *
+     */
+    public function relatorioWmiDinamico($property, $dataInicio, $dataFim){
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('nm_rede', 'nm_rede');
+        $rsm->addScalarResult('data_coleta', 'data_coleta');
+
+        $sql = 'SELECT r.nm_rede, rc.data_coleta,';
+        foreach ($property as $elm) {
+            $sql = $sql . "rc."."$elm, ";
+            $rsm->addScalarResult($elm, $elm);
+        }
+
+        $size = strlen($sql);
+        $sql = substr($sql,0, $size-2);
+
+        $sql = $sql . " FROM relatorio_coleta rc
+        INNER JOIN computador c ON rc.id_computador = c.id_computador
+        INNER JOIN rede r ON r.id_rede = c.id_rede
+        WHERE rc.data_coleta >= '".$dataInicio."00:00:00' AND rc.data_coleta <= '".$dataFim."23:59:59'";
+
+        $result = $this->getEntityManager()->createNativeQuery($sql, $rsm)->execute();
+
+        return $result;
+    }
+} 

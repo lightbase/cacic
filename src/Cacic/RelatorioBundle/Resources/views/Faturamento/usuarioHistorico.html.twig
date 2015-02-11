@@ -1,0 +1,55 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+	<h2>{{ 'Relatório de Usuário Logado Dinâmico'|trans }}</h2>
+    {% if semData == 'S' %}
+        <h4 class="">{{ 'Histórico do usuário logado: '|trans }} {{ usuarioLogado|trans }}</h4>
+    {% else %}
+        <h4 class="">{{ 'Histórico do usuário logado: '|trans }} {{ usuarioLogado|trans }}</h4>
+        <h5 class="">{{ 'Período: '|trans }}{{ dtAcaoInicio|date("d/m/Y") }} a {{ dtAcaoFim|date("d/m/Y") }}</h5>
+    {% endif %}
+    <h5>{{ 'Relatório gerado em: '|trans }}{{ "now"|date("d/m/Y H\\hi") }}</h5>
+    <hr />
+    <P />
+
+    {% if dados|keys %}
+
+    <table class="display datatable" id="datatable">
+
+        <thead>
+		<tr>
+			<th width="8%">{{ "Computador"|trans }}</th>
+			<th width="8%">{{ "MAC Address"|trans }}</th>
+			<th width="8%">{{ "Endereço IP"|trans }}</th>
+			<th width="8%">{{ "Local"|trans }}</th>
+            <th width="8%">{{ "Usuário"|trans }}</th>
+            <th width="8%">{{ "Data"|trans }}</th>
+        </tr>
+		</thead>
+
+		<tbody>
+            {% for reg in dados %}
+				<td>{{ reg['nm_computador']}}</td>
+				<td>{{ reg['te_node_address'] }}</td>
+				<td>{{ reg['te_ip_computador']}}</td>
+                <td>{{ reg['nm_rede'] }}</td>
+                <td>{{ reg['usuario'] }}</td>
+                <td>{{ reg['data']|date(' d, M, Y H:m:s') }}</td>
+            </tr>
+
+		    {% endfor %}
+		</tbody>
+	</table>
+
+    {% else %}
+
+        <div class="row-fluid">
+            <table class="table table-striped">
+                <tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
+            </table>
+        </div>
+
+    {% endif %}
+
+{% endblock %}

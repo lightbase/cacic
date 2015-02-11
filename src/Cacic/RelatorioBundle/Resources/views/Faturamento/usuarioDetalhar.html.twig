@@ -2,101 +2,71 @@
 
 {% block body %}
 
-	<h2>{{ 'Relatório de Usuário Logado'|trans }}</h2>
+	<h2>{{ 'Relatório de Usuário Logado Estático'|trans }}</h2>
     <h5 class="">{{ 'Período: '|trans }}{{ dtAcaoInicio|date("d/m/Y") }} a {{ dtAcaoFim|date("d/m/Y") }}</h5>
     <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("d/m/Y H\\hi") }}{% endif %}</h5>
     <hr />
-
-    {#<form id="csv" action="{{ path('cacic_relatorio_usuario_csv') }}" method="post">
-        <input type="hidden" name="dtAcaoInicio" value="{{ dtAcaoInicio }}">
-        <input type="hidden" name="dtAcaoFim" value="{{ dtAcaoFim }}">
-        {% for reg in dados %}
-            <input type="hidden" name="nmComputador" value="{{ reg.nmComputador }}">
-            <input type="hidden" name="teNodeAddress" value="{{ reg.teNodeAddress }}">
-            <input type="hidden" name="teIpComputador" value="{{ reg.teIpComputador }}">
-            <input type="hidden" name="sgSo" value="{{ reg.sgSo }}">
-            <input type="hidden" name="nmLocal" value="{{ reg.nmLocal }}">
-            <input type="hidden" name="usuario" value="{{ reg.usuario }}">
-            <input type="hidden" name="usuarioPatrimonio" value="{{ reg.usuarioPatrimonio }}">
-            <input type="hidden" name="usuarioName" value="{{ reg.usuarioName }}">
-            <input type="hidden" name="coordenacao" value="{{ reg.coordenacao }}">
-            <input type="hidden" name="sala" value="{{ reg.sala }}">
-            <input type="hidden" name="data" value="{{ reg.data }}">
-
-        {% endfor %}
-        <button class="btn btn-primary" type="submit">
-            <i class="icon-bar-chart"></i>
-            Gerar CSV
-        </button>
-    </form>#}
-
     <P />
 
     {% if dados %}
+        <table class="display datatable" id="datatable">
 
-    <table class="display datatable" id="datatable">
-
-        <thead>
-		<tr>
-			<th width="8%">{{ "Computador"|trans }}</th>
-			<th width="8%">{{ "MAC Address"|trans }}</th>
-			<th width="8%">{{ "Endereço IP"|trans }}</th>
-			<th width="8%">{{ "Sistema Operacional"|trans }}</th>
-			<th width="8%">{{ "Local"|trans }}</th>
-			<th width="8%">{{ "Subrede"|trans }}</th>
-            <th width="8%">{{ "Último Usuário Logado"|trans }}</th>
-            <th width="8%">{{ "Nome do Responsável"|trans }}</th>
-            <th width="8%">{{ "CPF do Responsável"|trans }}
-            <th width="8%">{{ "Coordenacao Responsável"|trans }}</th>
-            <th width="8%">{{ "Sala do Responsável"|trans }}</th>
-            <th width="8%">{{ "Última Coleta"|trans }}</th>
-            <th width="8%">{{ "Histórico Usuário"|trans }}</th>
-        </tr>
-		</thead>
-
-		<tbody>
-            {% for reg in dados %}
-            {% set computadores = reg.idComputador|split(',') %}
-            {% set nomes = reg.nmComputador|split(',') %}
-            {% set ips = reg.teIpComputador|split(',') %}
-			<tr>
-				<td>
-                    {% for comp in nomes %}
-					    <b><a href="{{ path('cacic_faturamento_computador', {'nmComputador' : comp|trim }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ comp }}</a></b>
-                    {% else %}
-                        <b>{{ reg.nmComputador }}</b>
-                    {% endfor %}
-				</td>
-				<td><a href="{{ path('cacic_faturamento_computador', {'teNodeAddress' : reg.teNodeAddress|trim }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
-                <td>
-                    {% for comp in ips %}
-                        <b><a href="{{ path('cacic_faturamento_computador', {'teIpComputador' : comp|trim }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ comp }}</a></b>
-                    {% else %}
-                        <b>{{ reg.teIpComputador }}</b>
-                    {% endfor %}
-                </td>
-				<td>{{ reg.sgSo }}</td>
-				<td>{{ reg.nmLocal }}</td>
-				<td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
-                <td>{{ reg.usuario }}</td>
-                <td>{{ reg.usuarioPatrimonio }}</td>
-                <td>{{ reg.usuarioName }}</td>
-                <td>{{ reg.coordenacao }}</td>
-                <td>{{ reg.sala }}</td>
-                <td>{{ reg.data|date(' d, M, Y H:m:s') }}</td>
-                <td>
-                    <a href="{{ path('cacic_relatorio_usuario_historico') }}/{{reg.idComputador}}" title="{{ 'Histórico de Usuário'|trans }}" target="_blank">
-                        <button class="btn btn-primary" type="submit">
-                            Detalhar
-                        </button>
-                    </a>
-                </td>
+            <thead>
+            <tr>
+                <th width="8%">{{ "Computador"|trans }}</th>
+                <th width="8%">{{ "MAC Address"|trans }}</th>
+                <th width="8%">{{ "Endereço IP"|trans }}</th>
+                <th width="8%">{{ "Sistema Operacional"|trans }}</th>
+                <th width="8%">{{ "Local"|trans }}</th>
+                <th width="8%">{{ "Subrede"|trans }}</th>
+                <th width="8%">{{ "Último Usuário Logado"|trans }}</th>
+                <th width="8%">{{ "Nome do Responsável"|trans }}</th>
+                <th width="8%">{{ "CPF do Responsável"|trans }}
+                <th width="8%">{{ "Coordenacao Responsável"|trans }}</th>
+                <th width="8%">{{ "Sala do Responsável"|trans }}</th>
+                <th width="8%">{{ "Última Coleta"|trans }}</th>
             </tr>
+            </thead>
 
-		    {% endfor %}
-		</tbody>
-	</table>
+            <tbody>
+                {% for reg in dados %}
+                {% set computadores = reg.idComputador|split(',') %}
+                {% set nomes = reg.nmComputador|split(',') %}
+                {% set ips = reg.teIpComputador|split(',') %}
+                <tr>
+                    <td>
+                        {% for comp in nomes %}
+                            <b><a href="{{ path('cacic_faturamento_computador', {'nmComputador' : comp|trim }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ comp }}</a></b>
+                        {% else %}
+                            <b>{{ reg.nmComputador }}</b>
+                        {% endfor %}
+                    </td>
+                    <td><a href="{{ path('cacic_faturamento_computador', {'teNodeAddress' : reg.teNodeAddress|trim }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
+                    <td>
+                        {% for comp in ips %}
+                            <b><a href="{{ path('cacic_faturamento_computador', {'teIpComputador' : comp|trim }) }}" title="{{ 'Detalhar computador'|trans }}" target="_blank">{{ comp }}</a></b>
+                        {% else %}
+                            <b>{{ reg.teIpComputador }}</b>
+                        {% endfor %}
+                    </td>
+                    <td>{{ reg.sgSo }}</td>
+                    <td>{{ reg.nmLocal }}</td>
+                    <td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
+                    <td>
+                        <a href="{{ path('cacic_relatorio_usuario_historico') }}/{{reg.te_ultimo_login}}" title="{{ 'Histórico de Usuário'|trans }}" target="_blank">
+                            {{ reg.te_ultimo_login }}
+                        </a>
+                    </td>
+                    <td>{{ reg.usuarioPatrimonio }}</td>
+                    <td>{{ reg.usuarioName }}</td>
+                    <td>{{ reg.coordenacao }}</td>
+                    <td>{{ reg.sala }}</td>
+                    <td>{{ reg.data|date(' d, M, Y H:m:s') }}</td>
+                </tr>
 
+                {% endfor %}
+            </tbody>
+        </table>
     {% else %}
 
         <div class="row-fluid">

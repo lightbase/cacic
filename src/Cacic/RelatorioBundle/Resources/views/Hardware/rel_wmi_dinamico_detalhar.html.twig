@@ -1,0 +1,55 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="active">{{ "Relatório de Configurações das Classes WMI Dinâmico"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Relatório de Configurações das Classes WMI Dinâmico' |trans }}</h2>
+            <div class="block box_content round_bottom padding_10">
+                <h4 class="">{{ 'Período: '|trans }}{{ dataInicio|date("d/m/Y") }} a {{ dataFim|date("d/m/Y") }}</h4>
+                <h5>{{ 'Relatório gerado em: '|trans }}{{ "now"|date("d/m/Y - H\\hi") }}hs</h5>
+                <hr />
+                {% if relDinamico|keys %}
+                    <table class="display datatable" id="datatable">
+
+                        <thead>
+                        <tr>
+                            {% for nmCampo in saida|keys %}
+                                <th>{{ nmCampo|trans }}</th>
+                            {% endfor %}
+                            <th>{{ "nm_rede"|trans }}</th>
+                            <th>{{ "data_coleta"|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {# cria a tabela dinamicamente de acordo com as propriedades das classes WMI selecionadas #}
+                        {% for reg in relDinamico %}
+                            <tr>
+                            {% for nmCampo in saida|keys %}
+                                <td>{{ reg[nmCampo] }}</td>
+                            {% endfor %}
+                                <td>{{ reg['nm_rede'] }}</td>
+                                <td>{{ reg['data_coleta']|date("d/m/y") }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="row-fluid">
+                        <table class="table table-striped">
+                            <tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
+                        </table>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

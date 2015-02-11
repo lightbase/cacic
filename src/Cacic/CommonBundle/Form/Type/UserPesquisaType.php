@@ -111,6 +111,20 @@ class UserPesquisaType extends AbstractType
                 'max_length'=>30,
                 'required'  => false)
         );
+        $builder->add(
+            'nmCompDinamico',
+            null,
+            array('label'   =>'',
+                'max_length'=>30,
+                'required'  => false)
+        );
+        $builder->add(
+            'ipCompDinamico',
+            null,
+            array('label'   =>'',
+                'max_length'=>30,
+                'required'  => false)
+        );
     }
 
     /**

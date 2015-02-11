@@ -11,6 +11,7 @@ use Ddeboer\DataImport\Reader\ArrayReader;
 use Ddeboer\DataImport\Writer\CsvWriter;
 use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Cacic\CommonBundle\Form\Type\ClassPropertyPesquisaType;
 
 class HardwareController extends Controller
 {
@@ -281,5 +282,71 @@ class HardwareController extends Controller
 
         return $response;
     }
-    
+
+    /**
+     *
+     * Relatório de Configurações das Classes WMI Dinâmico
+     */
+    public function relWmiDinamicoAction()
+    {
+        $form = $this->createForm( new ClassPropertyPesquisaType());
+
+        //$locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->listar();
+        //$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
+        $classe = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->listar();
+
+        return $this->render(
+            'CacicRelatorioBundle:Hardware:rel_wmi_dinamico.html.twig',
+            array(
+                //'locais' 	=> $locais,
+                //'so'		=> $so,
+                'classe'    => $classe,
+                'form'      => $form->createView()
+            )
+        );
+    }
+
+    /**
+     *
+     * Relatório de Configurações das Classes WMI Dinâmico Detalhes
+     */
+
+    public function relWmiDinamicoDetalharAction(Request $request)
+    {
+
+        $form = $this->createForm( new ClassPropertyPesquisaType());
+
+        //Recupera as propriedades da classe WMI selecionadas para a pesquisa
+        if ( $request->isMethod('POST') ){
+            $property = $_POST['property'];
+            $form->bind( $request );
+            $data = $form->getData();
+
+            $dataInicio = $data['dataColetaInicio'];
+            $dataFim = $data['dataColetaFim'];
+
+            //array_push($property, "id_computador");
+            $saida = array();
+            foreach ($property as $elm) {
+                array_push($saida[$elm]);
+
+            }
+        }
+
+        //relatorioWmiDinamico --> realiza a pesquisa das propriedades das classes WMI selecionadas
+        $relDinamico = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->relatorioWmiDinamico($property, $dataInicio, $dataFim);
+
+        return $this->render(
+            'CacicRelatorioBundle:Hardware:rel_wmi_dinamico_detalhar.html.twig',
+            array(
+                'relDinamico'   => $relDinamico,
+                'saida'         => $saida,
+                'dataInicio'    => $dataInicio,
+                'dataFim'       => $dataFim
+            )
+        );
+
+    }
+
+
 }
