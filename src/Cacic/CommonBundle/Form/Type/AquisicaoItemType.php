@@ -28,26 +28,6 @@ class AquisicaoItemType extends AbstractType
         );
 
         $builder->add(
-            'idSoftware',
-            'entity',
-            array(
-                'class' => 'CacicCommonBundle:Software',
-                'query_builder' => function(SoftwareRepository $er) {
-                        return $er->createQueryBuilder('sw')
-                            ->select('sw')
-                            ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
-                            ->innerJoin('CacicCommonBundle:ClassProperty', 'class','WITH', 'prop.classProperty = class.idClassProperty')
-                            ->groupBy('class.idClassProperty, class.nmPropertyName, sw')
-                            ->orderBy('sw.nmSoftware');
-                    },
-                'property'=>'nmSoftware',
-                'empty_value' => 'Selecione',
-                'label'=>'Software:',
-                'max_length'=>100
-            )
-        );
-
-        $builder->add(
             'idTipoLicenca',
             'entity',
             array(

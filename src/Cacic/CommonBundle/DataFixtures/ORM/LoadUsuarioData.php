@@ -40,6 +40,7 @@ class LoadUsuarioData extends AbstractFixture implements FixtureInterface, Conta
             ->getEncoder($userAdmin)
         ;
         $userAdmin->setTeSenha($encoder->encodePassword('123456', $userAdmin->getSalt()));
+        $userAdmin->setApiKey('cacic123');
 
         //$userAdmin->setTeSenha('7c4a8d09ca3762af61e59520943dc26494f8941b');
 

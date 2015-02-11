@@ -206,12 +206,11 @@ class SoftwareRepository extends EntityRepository
     {
         // Monta a Consulta básica...
         $qb = $this->createQueryBuilder('sw');
-        $qb->select('sw', 'tpsw', 'se')
+        $qb->select('sw', 'tpsw')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
             ->leftJoin('sw.idTipoSoftware', 'tpsw')
-            ->leftJoin('sw.estacoes', 'se')
-            ->groupBy('sw', 'tpsw.idTipoSoftware', 'tpsw.teDescricaoTipoSoftware', 'se')
-            ->having($qb->expr()->eq($qb->expr()->count('se'), 0))
+            ->andWhere('prop.computador IS NULL')
+            ->groupBy('sw', 'tpsw.idTipoSoftware', 'tpsw.teDescricaoTipoSoftware')
             ->orderBy('sw.nmSoftware');
 
         return $qb->getQuery()->execute();
@@ -284,6 +283,11 @@ class SoftwareRepository extends EntityRepository
 
     }
 
+    /**
+     * Busca computadores sem coleta
+     *
+     * @return mixed
+     */
     public function semColeta() {
         $qb = $this->createQueryBuilder('sw')
             ->select('sw')
@@ -293,6 +297,29 @@ class SoftwareRepository extends EntityRepository
             ->andWhere('aq IS NULL');
 
         return $qb->getQuery()->execute();
+    }
+
+
+    /**
+     * Encontra o softwar pelo nome
+     *
+     * @param $name Nome a ser buscado
+     * @return mixed objeto do software
+     */
+    public function findByName($name, $iterate = true) {
+
+        $qb = $this->createQueryBuilder('sw')
+            ->select('sw')
+            ->andWhere("lower(sw.nmSoftware) LIKE lower('%$name%')");
+
+        if ($iterate) {
+            $result = $qb->getQuery()->iterate(array());
+        } else {
+            $result =  $qb->getQuery()->execute($name);
+        }
+
+        return $result;
+
     }
 
 }

@@ -29,4 +29,18 @@ class PropriedadeSoftwareRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
+
+    public function softwareByName( $nmSoftware, $idComputador ) {
+        $qb = $this->createQueryBuilder('prop')
+            ->select('prop')
+            ->innerJoin('CacicCommonBundle:classProperty', 'cp', 'WITH', 'prop.classProperty = cp.idClassProperty')
+            ->innerJoin('CacicCommonBundle:Software', 'sw', 'WITH', 'sw.idSoftware = prop.software')
+            ->andWhere('sw.nmSoftware = :nmSoftware')
+            ->andWhere('prop.computador = :idComputador')
+            ->setParameter('idComputador', $idComputador)
+            ->setParameter('nmSoftware', $nmSoftware);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 }

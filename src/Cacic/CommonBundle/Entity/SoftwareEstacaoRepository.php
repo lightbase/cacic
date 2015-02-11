@@ -17,12 +17,11 @@ class SoftwareEstacaoRepository extends EntityRepository
     {
         $_dql = "SELECT se,
         				comp.idComputador, COALESCE( comp.nmComputador, comp.teIpComputador, comp.teNodeAddress ) AS descComputador,
-        				sw.idSoftware, sw.nmSoftware,
         				aq.nrProcesso
 				FROM CacicCommonBundle:SoftwareEstacao se
-				INNER JOIN se.idSoftware sw
 				INNER JOIN se.idComputador comp
-				LEFT JOIN se.idAquisicao aq";
+				LEFT JOIN se.idAquisicaoItem aqi
+				LEFT JOIN aqi.idAquisicao as aq";
 
         return $paginator->paginate(
             $this->getEntityManager()->createQuery( $_dql )->getArrayResult(),
@@ -38,12 +37,11 @@ class SoftwareEstacaoRepository extends EntityRepository
     {
         $_dql = "SELECT se,
         				comp.idComputador, COALESCE( comp.nmComputador, comp.teIpComputador, comp.teNodeAddress ) AS descComputador,
-        				sw.idSoftware, sw.nmSoftware,
         				aq.nrProcesso
 				FROM CacicCommonBundle:SoftwareEstacao se
-				INNER JOIN se.idSoftware sw
 				INNER JOIN se.idComputador comp
-				LEFT JOIN se.idAquisicao aq";
+				LEFT JOIN se.idAquisicaoItem aqi
+				LEFT JOIN aqi.idAquisicao as aq";
 
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
     }
@@ -54,8 +52,9 @@ class SoftwareEstacaoRepository extends EntityRepository
      */
     public function gerarRelatorioAutorizacoes()
     {
-    	$_dql = "SELECT se.nrPatrimonio, se.nmComputador, se.teObservacao
+    	$_dql = "SELECT se.nrPatrimonio, comp.nmComputador, se.teObservacao
     			FROM CacicCommonBundle:SoftwareEstacao se
+    			INNER JOIN se.idComputador comp
     			WHERE se.dtDesinstalacao IS NULL
     			ORDER BY se.nrPatrimonio";
     	

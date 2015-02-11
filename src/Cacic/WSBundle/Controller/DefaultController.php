@@ -20,6 +20,7 @@ use Cacic\WSBundle\Helper\OldCacicHelper;
 use Cacic\WSBundle\Helper\TagValueHelper;
 use Cacic\CommonBundle\Entity\LogAcesso;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Doctrine\ORM\NoResultException;
 
 
 /**
@@ -145,7 +146,21 @@ class DefaultController extends Controller
         $hoje = $data_acesso->format('Y-m-d');
 
         $ultimo_acesso = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->ultimoAcesso( $computador->getIdComputador() );
-        $ultimo_user_logado = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->ultimoAcesso( $computador->getIdComputador() );
+        //$ultimo_user_logado = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->ultimoAcesso( $computador->getIdComputador() );
+
+        /**
+         * Grava os registros na Tabela Log_User_Logado
+         */
+        if (!empty($ultimo_login)) {
+            $ultimo_user_logado = new LogUserLogado();
+            $ultimo_user_logado->setIdComputador($computador);
+            $ultimo_user_logado->setData($data_acesso);
+            $ultimo_user_logado->setUsuario($ultimo_login);
+            $this->getDoctrine()->getManager()->persist($ultimo_user_logado);
+            $this->getDoctrine()->getManager()->flush();
+        } else {
+            $logger->error("ERRO NO get-Test: usuário logado não encontrado para o computador $ip_computador");
+        }
 
         if (empty($ultimo_acesso)) {
             // Se for o primeiro registro grava o acesso do computador
@@ -156,19 +171,11 @@ class DefaultController extends Controller
             $log_acesso->setData($data_acesso);
 
             /*
-             * Grava os registros na Tabela Log_User_Logado
-             */
-            $ultimo_user_logado = new LogUserLogado();
-            $ultimo_user_logado->setIdComputador($computador);
-            $ultimo_user_logado->setData($data_acesso);
-
-            /*
              * Grava o último usuário logado no banco apenas se não estiver vazio
              */
-            if (!empty($ultimo_login))
+            if (!empty($ultimo_login)) {
                 $log_acesso->setUsuario($ultimo_login);
-                $ultimo_user_logado->setUsuario($ultimo_login);
-
+            }
 
             // Grava o log
             $this->getDoctrine()->getManager()->persist($log_acesso);
@@ -185,26 +192,14 @@ class DefaultController extends Controller
                 $log_acesso->setData($data_acesso);
 
                 /*
-                * Grava os registros na Tabela Log_User_Logado
-                */
-                $ultimo_user_logado = new LogUserLogado();
-                $ultimo_user_logado->setIdComputador($computador);
-                $ultimo_user_logado->setData($data_acesso);
-
-                /*
                  * Grava o último usuário logado no banco apenas se não estiver vazio
                  */
-                if (!empty($ultimo_login))
+                if (!empty($ultimo_login)) {
                     $log_acesso->setUsuario($ultimo_login);
-                    $ultimo_user_logado->setUsuario($ultimo_login);
-
+                }
 
                 // Grava o log
                 $this->getDoctrine()->getManager()->persist($log_acesso);
-                $this->getDoctrine()->getManager()->flush();
-
-                // Grava em log_user_logado
-                $this->getDoctrine()->getManager()->persist($ultimo_user_logado);
                 $this->getDoctrine()->getManager()->flush();
             }
         }
@@ -409,7 +404,7 @@ class DefaultController extends Controller
                         // Obtendo Defini��es de Classes para Coletas
                         $strCollectsDefinitions .= '[ClassesAndProperties]';
 
-                        $detalhesClasses = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaDetalhesClasse( $acao['idAcao'] );
+                        $detalhesClasses = $this->getDoctrine()->getRepository('CacicCommonBundle:Classe')->listaClasses( $acao['idAcao'] );
                         $arrClassesNames 		= array();
                         $arrClassesWhereClauses = array();
                         $strActualClassName		= '';
@@ -433,130 +428,22 @@ class DefaultController extends Controller
                                 $strPropertiesNames .= '[' . $detalheClasse['nmClassName'] . '.Properties]';
                                 $strActualClassName  = $detalheClasse['nmClassName'];
                             }
+                            //Removento o envio de propriedades de softwares para o CollectsDefinitions
+                            /*
                             else
-                                $strPropertiesNames .= ',';
-
+                            $strPropertiesNames .= ',';
                             $strPropertiesNames .= $detalheClasse['nmPropertyName'];
+                            */
                         }
 
                         $strPropertiesNames 	.= ($strActualClassName ? '[/' . $strActualClassName . '.Properties]' : '');
 
                         $strCollectsDefinitions .= '[Classes]' 	  	. implode(',',$arrClassesNames) . '[/Classes]';
-                        $strCollectsDefinitions .= '[Properties]' 	. $strPropertiesNames  			. '[/Properties]';
                         $strCollectsDefinitions .= '[/ClassesAndProperties]';
 
-                        //caso coleta forçada tenha sido marcada em algum momento
-//                        $coleta_forcada_computador = $computador->getDtHrColetaForcadaEstacao();
-//                        if ( !empty($acao['dtHrColetaForcada']) ||  !empty($coleta_forcada_computador))
-//                        {
-//                            $v_dt_hr_coleta_forcada = $acao["dt_hr_coleta_forcada"];
-//                            if (count($v_tripa_coleta) > 0 and
-//                                $v_dt_hr_coleta_forcada < $computador->getDtHrColetaForcadaEstacao() and
-//                                in_array($acao["te_nome_curto_modulo"],$v_tripa_coleta))
-//                            {
-//                                $v_dt_hr_coleta_forcada = $computador->getDtHrColetaForcadaEstacao();
-//                            }
-//                            $strCollectsDefinitions .= '[DT_HR_COLETA_FORCADA]' . $v_dt_hr_coleta_forcada . '[/DT_HR_COLETA_FORCADA]';
-//                        }
-//                        if ( !$request->get('AgenteLinux') && trim($acao['idAcao']) == "col_moni" && !empty($monitorados))
-//                        {
-//                            $arrSgSOtoOlds = array(	'W95',
-//                                'W95OSR',
-//                                'W98',
-//                                'W98SE',
-//                                'WME');
-//                            foreach ($monitorados as $monitorado )
-//                            {
-//                                $v_achei = 0;
-//                                if($arrPerfis <> null)
-//                                {
-//                                    for($i = 0; $i < count($arrPerfis); $i++ )
-//                                    {
-//                                        $arrPerfis2 = explode(',',$arrPerfis[$i]);
-//                                        if ($monitorado["idAplicativo"]==$arrPerfis2[0] &&
-//                                            $monitorado["dtAtualizacao"]==$arrPerfis2[1])
-//                                            $v_achei = 1;
-//                                    }
-//                                }
-//
-//                                if ( $v_achei==0 && ( $monitorado["idSo"] == 0 || $monitorado["idSo"] == $computador->getIdSo()) )
-//                                {
-//                                    if ($v_retorno_MONITORADOS <> '') $v_retorno_MONITORADOS .= '#';
-//
-//                                    $v_te_ide_licenca = trim($monitorado["teIdeLicenca"]);
-//                                    if ($monitorado["teIdeLicenca"]=='0')
-//                                        $v_te_ide_licenca = '';
-//
-//                                    $v_retorno_MONITORADOS .= $monitorado["idAplicativo"]	.	','.
-//                                        $monitorado["dtAtualizacao"]			.	','.
-//                                        $monitorado["csIdeLicenca"] 			. 	','.
-//                                        $v_te_ide_licenca								.	',';
-//
-//                                    if (in_array($so->getSgSo(),$arrSgSOtoOlds))
-//                                    {
-//                                        $v_te_arq_ver_eng_w9x 	= trim($monitorado["teArqVerEngW9x"]);
-//                                        if ($v_te_arq_ver_eng_w9x=='') 	$v_getRedete_arq_ver_eng_w9x 	= '.';
-//
-//                                        $v_te_arq_ver_pat_w9x 	= trim($monitorado["teArqVerPatW9x"]);
-//                                        if ($v_te_arq_ver_pat_w9x=='') 	$v_te_arq_ver_pat_w9x 	= '.';
-//
-//                                        $v_te_car_inst_w9x 	    = trim($monitorado["TeCarInstW9x"]);
-//                                        if ($monitorado["teCarInstW9x"]=='0') 	$v_te_car_inst_w9x 	= '';
-//
-//                                        $v_te_car_ver_w9x 	    = trim($monitorado["teCarInstW9x"]);
-//                                        if ($monitorado["csCarVerWnt"]=='0') 	$v_te_car_ver_w9x 	= '';
-//
-//                                        $v_retorno_MONITORADOS .= '.'                                     	.','.
-//                                            $monitorado["teCarInstW9x"]	.','.
-//                                            $v_te_car_inst_w9x						.','.
-//                                            $$monitorado["csCarVerWnt"]		.','.
-//                                            $v_te_car_ver_w9x						.','.
-//                                            $v_te_arq_ver_eng_w9x					.','.
-//                                            $v_te_arq_ver_pat_w9x						;
-//                                    }
-//                                    else
-//                                    {
-//
-//                                        $v_te_arq_ver_eng_wnt 	= trim($monitorado["teArqVerEngWnt"]);
-//                                        if ($v_te_arq_ver_eng_wnt=='') 	$v_te_arq_ver_eng_wnt 				= '.';
-//
-//                                        $v_te_arq_ver_pat_wnt 	= trim($monitorado["teArqVerPatWnt"]);
-//                                        if ($v_te_arq_ver_pat_wnt=='') 	$v_te_arq_ver_pat_wnt 				= '.';
-//
-//                                        $v_te_car_inst_wnt 	    = trim($monitorado["teCarInstWnt"]);
-//                                        if ($monitorado["csCarInstWnt"]=='0') 	$v_te_car_inst_wnt 	= '';
-//
-//                                        $v_te_car_ver_wnt 	    = trim($monitorado["teCarVerWnt"]);
-//                                        if ($monitorado["teCarInstWnt"]=='0') 	$v_te_car_ver_wnt 	= '';
-//
-//                                        $v_retorno_MONITORADOS .=   '.'                    					.','.
-//                                            $monitorado["teCarInstWnt"]	.','.
-//                                            $v_te_car_inst_wnt                 		.','.
-//                                            $$monitorado["teCarVerWnt"]		.','.
-//                                            $v_te_car_ver_wnt               		.','.
-//                                            $v_te_arq_ver_eng_wnt					.','.
-//                                            $v_te_arq_ver_pat_wnt;
-//
-//                                    }
-//
-//                                    $v_retorno_MONITORADOS .=   ',' . $monitorado["inDisponibilizaInfo"];
-//
-//                                    if ($monitorado["inDisponibilizaInfo"]=='S')
-//                                    {
-//                                        $v_retorno_MONITORADOS .= ',' . $monitorado["nmAplicativo"];
-//                                    }
-//                                    else
-//                                    {
-//                                        $v_retorno_MONITORADOS .= ',.';
-//                                    }
-//
-//                                }
-//                            }
-//                            if ($v_retorno_MONITORADOS <> '')
-//                                $v_retorno_MONITORADOS = OldCacicHelper::replaceInvalidHTTPChars($v_retorno_MONITORADOS);
-//
-//                            $strCollectsDefinitions .= $v_retorno_MONITORADOS;
-//                        }
+                        //Removento o envio de propriedades de softwares para o CollectsDefinitions
+                        //$strCollectsDefinitions .= '[Properties]' 	. $strPropertiesNames  			. '[/Properties]';
+
                     }
                     else
                         $strCollectsDefinitions .= 'OK';
@@ -573,7 +460,7 @@ class DefaultController extends Controller
         if($request->get('AgenteLinux'))
             $agente_py = true;
 
-        /**
+        /*
          * Mensagem a ser exibida na tela de Pop-Up do patrimônio
          */
         $em = $this->getDoctrine()->getManager();
@@ -581,14 +468,98 @@ class DefaultController extends Controller
             'SELECT cp.vlConfiguracao FROM CacicCommonBundle:ConfiguracaoPadrao cp WHERE cp.idConfiguracao = :idconfig'
         )->setParameter('idconfig', 'nu_intervalo_forca_coleta');
 
-        $result = $query->getSingleResult();
-        $timerForcaColeta = implode('',$result);
+        try {
+            $result = $query->getSingleResult();
+            $timerForcaColeta = implode('',$result);
+        } catch (NoResultException $e) {
+            $logger->error("Valor de timer não encontrado. Ajustando padrão...");
+            $timerForcaColeta = 15;
+        }
+
+        /*
+         * Buscando primeiro API Key válido
+         */
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT u.apiKey FROM CacicCommonBundle:Usuario u WHERE u.apiKey IS NOT NULL'
+        );
+
+        $result = $query->setMaxResults(1)->getSingleResult();
+        $apikey = implode('',$result);
 
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarPorLocal($local->getIdLocal());
+
         //informações dos modulos do agente, nome, versao, hash
-        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy( array( 'idRede'=>$rede->getIdRede() ) );
+        $te_versao_cacic = $request->request->get('te_versao_cacic');
+        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->getUpdate( $rede->getIdRede(), $te_versao_cacic );
+
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
+
+        // Adiciona no log de acesso. REGRA: só adiciona se o último registro foi em data diferente da de hoje
+        // TODO: Colocar um parâmetro que diz quantas vezes deve ser registrado o acesso por dia
+        $data_acesso = new \DateTime();
+        $hoje = $data_acesso->format('Y-m-d');
+
+        $ultimo_acesso = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->ultimoAcesso( $computador->getIdComputador() );
+        //$ultimo_user_logado = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->ultimoAcesso( $computador->getIdComputador() );
+
+        /**
+         * Grava os registros na Tabela Log_User_Logado
+         */
+        if (!empty($ultimo_login)) {
+            $ultimo_user_logado = new LogUserLogado();
+            $ultimo_user_logado->setIdComputador($computador);
+            $ultimo_user_logado->setData($data_acesso);
+            $ultimo_user_logado->setUsuario($ultimo_login);
+            $this->getDoctrine()->getManager()->persist($ultimo_user_logado);
+            $this->getDoctrine()->getManager()->flush();
+        } else {
+            $logger->error("ERRO NO get-Test: usuário logado não encontrado para o computador $ip_computador");
+        }
+
+        if (empty($ultimo_acesso)) {
+            // Se for o primeiro registro grava o acesso do computador
+            $logger->debug("Último acesso não encontrado. Registrando acesso para o computador $computador em $hoje");
+
+            $log_acesso = new LogAcesso();
+            $log_acesso->setIdComputador($computador);
+            $log_acesso->setData($data_acesso);
+
+            /*
+             * Grava o último usuário logado no banco apenas se não estiver vazio
+             */
+            if (!empty($ultimo_login)) {
+                $log_acesso->setUsuario($ultimo_login);
+            }
+
+            // Grava o log
+            $this->getDoctrine()->getManager()->persist($log_acesso);
+            $this->getDoctrine()->getManager()->flush();
+        } else {
+            $dt_ultimo_acesso = $ultimo_acesso->getData()->format('Y-m-d');
+
+            // Só adiciono se a data de útimo acesso for diferente do dia de hoje
+            if ($hoje != $dt_ultimo_acesso) {
+                $logger->debug("Inserindo novo registro de acesso para o computador $computador em $hoje");
+
+                $log_acesso = new LogAcesso();
+                $log_acesso->setIdComputador($computador);
+                $log_acesso->setData($data_acesso);
+
+                /*
+                 * Grava o último usuário logado no banco apenas se não estiver vazio
+                 */
+                if (!empty($ultimo_login)) {
+                    $log_acesso->setUsuario($ultimo_login);
+                }
+
+                // Grava o log
+                $this->getDoctrine()->getManager()->persist($log_acesso);
+                $this->getDoctrine()->getManager()->flush();
+            }
+        }
+
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
         return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
@@ -611,6 +582,7 @@ class DefaultController extends Controller
             'rede_grupos_ftp'=>$rede_grupos_ftp,
 		    'strPatrimonio'=>$strPatrimonio,
             'timerForcaColeta'=>$timerForcaColeta,
+            'apikey' => $apikey,
  //           'modPatrimonio'=> $modPatrimonio,
         ), $response);
     }

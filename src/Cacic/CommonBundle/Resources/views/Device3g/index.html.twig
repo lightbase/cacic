@@ -1,0 +1,52 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="active">3G Device</li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid">
+
+        <div class="span12">
+
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-magnet"></i> 3G Device</h2>
+
+                <div class="block box_content round_bottom padding_10">
+
+                    <h3>{{ "Lista de 3G Device coletados"|trans }}</h3>
+                    <p>{{ "Neste módulo observamos os 3G device do sistema"|trans }}</p>
+                    <br />
+
+                    <table class="display datatable" id="datatable">
+                        <thead>
+                        <tr>
+                            <th width="50%" style="text-align: center">{{ "Dispositivo"|trans }}</th>
+                            <th width="50%" style="text-align: center">{{ "Fabricante"|trans }}</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        {% for UsbDevice in UsbDevice %}
+
+                            <tr>
+                                <td style="text-align: center" >{{ UsbDevice.displayName }}</td>
+                                <td style="text-align: center" >{{ UsbDevice.teClassPropertyValue }}</td>
+                            </tr>
+
+                        {% else %}
+                            <tr>
+                                <td style="text-align: center" colspan="3"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div> <!-- /block -->
+            </div><!-- /box -->
+        </div><!-- /span -->
+    </div><!-- /row -->
+{% endblock %}

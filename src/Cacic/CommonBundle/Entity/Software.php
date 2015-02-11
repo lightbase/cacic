@@ -3,12 +3,19 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Software
  */
 class Software
 {
+    public function __construct()
+    {
+        $this->aquisicoes = new ArrayCollection();
+        $this->estacoes = new ArrayCollection();
+    }
+
     /**
      * @var integer
      */
@@ -257,13 +264,6 @@ class Software
     {
         return $this->estacoes;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->estacoes = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     
     /**
      * Add estacoes
@@ -324,5 +324,118 @@ class Software
     public function getLicencas()
     {
         return $this->licencas;
+    }
+
+    /**
+     * Add estacoes
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes
+     * @return Software
+     */
+    public function addEstaco(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes)
+    {
+        $this->estacoes[] = $estacoes;
+
+        return $this;
+    }
+
+    /**
+     * Remove estacoes
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes
+     */
+    public function removeEstaco(\Cacic\CommonBundle\Entity\SoftwareEstacao $estacoes)
+    {
+        $this->estacoes->removeElement($estacoes);
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $coletados;
+
+
+    /**
+     * Add coletados
+     *
+     * @param \Cacic\CommonBundle\Entity\PropriedadeSoftware $coletados
+     * @return Software
+     */
+    public function addColetado(PropriedadeSoftware $coletados)
+    {
+        $coletados->setSoftware($this);
+        $this->coletados[] = $coletados;
+
+        return $this;
+    }
+
+    /**
+     * Remove coletados
+     *
+     * @param \Cacic\CommonBundle\Entity\PropriedadeSoftware $coletados
+     */
+    public function removeColetado(\Cacic\CommonBundle\Entity\PropriedadeSoftware $coletados)
+    {
+        $this->coletados->removeElement($coletados);
+    }
+
+    /**
+     * Get coletados
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getColetados()
+    {
+        return $this->coletados;
+    }
+    /**
+     * @var \Cacic\CommonBundle\Entity\AquisicaoItem
+     */
+    private $aquisicoes;
+
+
+    /**
+     * Set aquisicoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
+     * @return Software
+     */
+    public function setAquisicoes(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes = null)
+    {
+        $this->aquisicoes = $aquisicoes;
+
+        return $this;
+    }
+
+    /**
+     * Get aquisicoes
+     *
+     * @return \Cacic\CommonBundle\Entity\AquisicaoItem 
+     */
+    public function getAquisicoes()
+    {
+        return $this->aquisicoes;
+    }
+
+    /**
+     * Add aquisicoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
+     * @return Software
+     */
+    public function addAquisico(AquisicaoItem $aquisicoes)
+    {
+        $this->aquisicoes[] = $aquisicoes;
+
+        return $this;
+    }
+
+    /**
+     * Remove aquisicoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
+     */
+    public function removeAquisico(AquisicaoItem $aquisicoes)
+    {
+        $this->aquisicoes->removeElement($aquisicoes);
     }
 }

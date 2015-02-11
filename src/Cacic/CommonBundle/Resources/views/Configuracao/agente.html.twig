@@ -73,7 +73,7 @@
                 </tr>
                 
                 <tr>
-                    <td>{{ 'Intervalo de execução das ações (em horas)'|trans }}</td>
+                    <td>{{ 'Intervalo de execução das ações (em minutos)'|trans }}</td>
                     <td>
                         <input id="nu_intervalo_exec" type="text" name="nu_intervalo_exec" value="{{ configuracoes['nu_intervalo_exec'] }}" />
                     </td>
@@ -124,7 +124,7 @@
     
         // Máscaras nos campos
 	    $('#nu_exec_apos, #nu_rel_maxlinhas').mask('9?999999999');
-	    $('#nu_timeout_srcacic, #nu_intervalo_exec, #nu_intervalo_renovacao_patrim').mask('9?9');
+	    $('#nu_timeout_srcacic, #nu_intervalo_exec, #nu_intervalo_renovacao_patrim').mask('9?999999999999999');
 	    $('#nu_porta_srcacic, #nu_resolucao_grafico_w, #nu_resolucao_grafico_h').mask('9?999');
 	    
 	    // Monitora o campo de seleção de cor

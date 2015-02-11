@@ -16,11 +16,14 @@ security:
     providers:
         main:
             entity: { class: Cacic\CommonBundle\Entity\Usuario, property: nmUsuarioAcesso }
+        webservice:
+            id: webservice_user_provider
 
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js|assets|assetic)/
             security: false
+
         login:
             pattern:  ^/login$
             security: false
@@ -51,6 +54,8 @@ security:
         - { path: ^/cocar/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/ws, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_ADMIN }
-        - { path: ^/efconnect, role: ROLE_USER }
-        - { path: ^/elfinder, role: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/manutencao, roles: [ ROLE_ADMIN, ROLE_GESTAO ] }
+        - { path: ^/, role: [ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_SUPERVISAO, ROLE_TECNICO ] }
+        - { path: ^/efconnect, role: [ ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_SUPERVISAO, ROLE_TECNICO ] }
+        - { path: ^/elfinder, role: [ ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_SUPERVISAO, ROLE_TECNICO ] }

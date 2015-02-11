@@ -3,6 +3,7 @@ imports:
 
 framework:
     trusted_proxies: [10.0.0.0/8]
+    profiler: { enabled: false }
 
 doctrine:
     orm:
@@ -14,7 +15,7 @@ doctrine:
 monolog:
     handlers:
         main:
-            type:         fingers_crossed
+            type:         rotating_file
             action_level: error
             handler:      nested
         nested:

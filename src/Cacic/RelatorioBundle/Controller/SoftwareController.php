@@ -6,6 +6,15 @@ use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Cacic\RelatorioBundle\Form\Type\FiltroSoftwareType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Ddeboer\DataImport\Workflow;
+use Ddeboer\DataImport\Reader\ArrayReader;
+use Ddeboer\DataImport\Writer\CsvWriter;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SoftwareController extends Controller
 {
@@ -47,7 +56,7 @@ class SoftwareController extends Controller
         foreach ($dados as $cont  ){
             $TotalnumComp += $cont['numComp'];
         }
-       
+
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_inventariados.html.twig', 
         	array(
@@ -56,6 +65,66 @@ class SoftwareController extends Controller
                 'totalnumcomp' => $TotalnumComp
             )
         );
+    }
+
+    /**
+     * [CSV] Relatório de Softwares Inventariados gerado à partir dos filtros informados
+     */
+    public function inventariadosRelatorioCsvAction( Request $request )
+    {
+        $rede = implode(',',$request->get('teIpRede'));
+        $software = implode(',',$request->get('idSoftware'));
+        $local = implode(',',$request->get('idLocal'));
+
+        // Adiciona rede à lista de filtros se for fornecido
+        if (!empty($rede)) {
+            $filtros['redes'] = $rede;
+        }
+
+        // Adiciona local à lista de filtros se for fornecido
+        if (!empty($local)) {
+            $filtros['local'] = $local;
+        }
+
+        // Adiciona Software à lista de filtros se for fornecido
+        if (!empty($software)) {
+            $filtros['softwares'] =  $software;
+        }
+
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:ComputadorColeta')
+            ->gerarRelatorioSoftwaresInventariados( $filtros );
+
+        $locale = $request->getLocale();
+
+        // Gera cabeçalho
+        $cabecalho = array();
+        foreach($dados as $elm) {
+                array_push($cabecalho, array_keys($elm));
+                break;
+            }
+            // Gera CSV
+        $reader = new ArrayReader(array_merge($dados));
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), "SoftwareInventariado.csv");
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', "attachment; filename=SoftwareInventariado.csv");
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
     }
 
     public function listarAction( Request $request, $idSoftware )
@@ -117,6 +186,7 @@ class SoftwareController extends Controller
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Aquisicao')
     					->gerarRelatorioAquisicoes();
+
     	//\Doctrine\Common\Util\Debug::dump($dados);die;
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_aquisicoes.html.twig', 
@@ -264,6 +334,66 @@ class SoftwareController extends Controller
             array(
                 'idioma'=> $locale,
                 'software' => $nmSoftware,
+                'dados' => $dados
+            )
+        );
+    }
+
+    /**
+     * Retorna JSON dos softwares encontrados
+     *
+     * @param Request $request Requisiçao
+     * @param $name Nome do software para buscar
+     * @return JsonResponse Resposta no formato JSON:
+     * {
+     *      'idSoftware': ID do Software
+     *      'nmSoftware': Nome do software
+     *      'teDescricaoSoftware': Descriçao do software
+     * }
+     */
+    public function searchAction(Request $request, $name) {
+
+        $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+
+        // Serializers
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+
+
+        $software = $em->getRepository('CacicCommonBundle:Software')->findByName($name);
+
+        $saida = array();
+        foreach($software as $elm) {
+            $array_elm = array(
+                'idSoftware' => $elm[0]->getIdSoftware(),
+                'nmSoftware' => $elm[0]->getNmSoftware(),
+                'teDescricaoSoftware' => $elm[0]->getTeDescricaoSoftware(),
+
+            );
+            //$logger->debug("11111111111111111111111111111111111 ".$elm[0]->getNmSoftware());
+            array_push($saida, $array_elm);
+        }
+
+        $response->setContent(json_encode($saida));
+
+        return $response;
+    }
+
+    public function aquisicoesDetalhadoAction( Request $request, $idAquisicao, $idTipoLicenca )
+    {
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:AquisicaoItem')
+            ->aquisicoesDetalhado($idAquisicao, $idTipoLicenca);
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:rel_aquisicoes_det.html.twig',
+            array(
+                'idioma'=>$locale,
                 'dados' => $dados
             )
         );

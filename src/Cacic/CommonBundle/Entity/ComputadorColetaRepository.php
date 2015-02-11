@@ -215,10 +215,10 @@ class ComputadorColetaRepository extends EntityRepository
      * @return mixed
      */
 
-    public function gerarRelatorioSoftwaresInventariados( $filtros)
+    public function gerarRelatorioSoftwaresInventariados( $filtros )
     {
         $qb = $this->createQueryBuilder('coleta')
-            ->select('soft.nmSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal','COUNT(DISTINCT coleta.computador) AS numComp')
+            ->select('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal','COUNT(DISTINCT coleta.computador) AS numComp')
             ->innerJoin('coleta.classProperty', 'property')
             ->innerJoin('property.idClass', 'classe')
             ->innerJoin('coleta.computador', 'comp')
@@ -227,7 +227,7 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('rede.idLocal', 'local')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'prop.classProperty = coleta.classProperty')
             ->innerJoin('prop.software', 'soft')
-            ->groupBy('soft.nmSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal');
+            ->groupBy('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal');
 
         /**
          * Verifica os filtros
@@ -237,7 +237,7 @@ class ComputadorColetaRepository extends EntityRepository
             $qb->andWhere('soft.idSoftware IN (:softwares)')->setParameter('softwares', explode( ',', $filtros['softwares'] ));
 
         if ( array_key_exists('local', $filtros) && !empty($filtros['local']) )
-            $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+            $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['local'] ));
 
         if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) )
             $qb->andWhere('rede.idRede IN (:redes)')->setParameter('redes', explode( ',', $filtros['redes'] ));
@@ -410,5 +410,42 @@ class ComputadorColetaRepository extends EntityRepository
 
         return $query->execute();
 
+    }
+
+    public function patrimonioComputador($idComputador) {
+        $_dql = "SELECT comp.idComputador,
+            c.teClassPropertyValue,
+            prop.nmPropertyName,
+            cl.nmClassName,
+            comp.teIpComputador,
+            comp.teUltimoLogin,
+            cl.idClass,
+            comp.nmComputador
+        FROM CacicCommonBundle:ComputadorColeta c
+        INNER JOIN CacicCommonBundle:Computador comp WITH c.computador = comp.idComputador
+        INNER JOIN CacicCommonBundle:ClassProperty prop WITH c.classProperty = prop.idClassProperty
+        INNER JOIN CacicCommonBundle:Classe cl WITH prop.idClass = cl.idClass
+        WHERE cl.nmClassName = 'Patrimonio'
+        AND comp.idComputador = :idComputador
+        ";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->setParameter('idComputador', $idComputador)
+            ->getArrayResult();
+    }
+
+    /**
+     *
+     * Gera relatório de dispositivos 3G
+     *
+     */
+    public function listar3g() {
+        $_dql = "SELECT c.teClassPropertyValue, p.displayName, p.publisher
+        FROM CacicCommonBundle:ComputadorColeta c
+        INNER JOIN CacicCommonBundle:ProriedadeSoftware p ON c.idClassProperty = p.idClassProperty
+        WHERE LOWER(c.teClassPropertyValue) LIKE LOWER('%modem%')
+        ";
+
+        return $this->getEntityManager()->createQuery( $_dql );
     }
 }

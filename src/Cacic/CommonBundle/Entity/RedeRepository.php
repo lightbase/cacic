@@ -269,4 +269,18 @@ class RedeRepository extends EntityRepository
         return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 
     }
+
+    /**
+     * Retorna lista de servidores de atualização
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getServUpdateList() {
+
+        $qb = $this->createQueryBuilder('rede')
+            ->select('DISTINCT (rede.teServUpdates) as teServUpdates');
+
+        return $qb;
+    }
+
 }

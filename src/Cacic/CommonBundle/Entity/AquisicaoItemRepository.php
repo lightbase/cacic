@@ -45,4 +45,28 @@ class AquisicaoItemRepository extends EntityRepository
         $query = $this->getEntityManager()->createQuery( $_dql );
         return $query->getArrayResult();
     }
+
+    /**
+     * Lista detalhada de itens adquiridos
+     *
+     * @param $idAquisicao
+     * @param $idTipoLicenca
+     * @return array
+     */
+    public function aquisicoesDetalhado($idAquisicao, $idTipoLicenca) {
+
+        $qb = $this->createQueryBuilder('aqit')
+            ->select('DISTINCT comp', 'aqit')
+            ->innerJoin('aqit.idSoftware', 'sw')
+            ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
+            ->innerJoin('CacicCommonBundle:ComputadorColeta', 'c', 'WITH', "(prop.computador = c.computador AND prop.classProperty = c.classProperty)")
+            ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'c.computador = comp.idComputador')
+            ->andWhere('aqit.idAquisicao = :idAquisicao')
+            ->andWhere('aqit.idTipoLicenca = :idTipoLicenca')
+            ->setParameter('idAquisicao', $idAquisicao)
+            ->setParameter('idTipoLicenca', $idTipoLicenca);
+
+        return $qb->getQuery()->getResult();
+
+    }
 }

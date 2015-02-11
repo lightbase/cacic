@@ -9,6 +9,7 @@
 
     <div class="row-fluid">
 
+
         <div class="span8">
             <div class="box grad_colour_black">
 
@@ -18,6 +19,60 @@
 
                     <form id={{ 'formAquisicaoItem'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
                         <div class="tabbable">
+                            <div class="control-group">
+                                <div class="control-label">
+                                    <label class="control-label required" for="AquisicaoItem_software">
+                                        Buscar software
+                                    </label>
+                                </div>
+                                <div class="controls">
+                                    <input id="AquisicaoItem_software" class="form-control" type="text"/>
+                                    <a class="btn" href="#" id="pesquisar">
+                                        <i class="icon-search"></i>
+                                        {{ "Pesquisar"|trans }}
+                                    </a>
+                                    <a class="btn" href="#" id="limpar">
+                                        <i class="icon-refresh"></i>
+                                        {{ "Limpar busca"|trans }}
+                                    </a>
+                                    <a class="btn" href="#" id="limpar-todos">
+                                        <i class="icon-refresh"></i>
+                                        {{ "Limpar todos"|trans }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="control-label">
+                                    <label class="control-label required" for="AquisicaoItem_software">
+                                        Selecione um Software
+                                    </label>
+                                </div>
+                                <div class="controls" id="inserir">
+                                    {#<label class="checkbox uniform">
+                                        <div id="uniform-undefined" class="checker">
+                                            <span>
+                                                <input class="toggleCheck" name="toggleCheck[]" value="idSoftware" checked type="checkbox">
+                                            </span>
+                                        </div>
+                                        {{ 'Selecionar todos'|trans }}
+                                    </label>#}
+                                </div>
+                                <div class="controls" id="remover">
+                                    {% for software in software_list %}
+                                        <label class="checkbox uniform">
+                                            <div id="uniform-undefined" class="checker">
+                                                <span>
+                                                    <input class="checkbox uniform_on" type="checkbox" name="idSoftware[]" value="{{software.idSoftware}}" checked>
+                                                </span>
+                                            </div>
+                                            {{ software.nmSoftware }}
+                                        </label>
+                                    {% else %}
+                                        {{ 'Clique no campo acima para buscar um software'|trans }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
                             {{ form_widget(form, {'form_type': 'horizontal'} ) }}
                             {{ form_rest(form) }}
                         </div>
@@ -75,6 +130,47 @@
         $(document).ready(function(){
             $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
             
+        });
+
+        $("#AquisicaoItem_software").on("keyup keypress", function(e) {
+            var code = e.keyCode || e.which;
+            if (code  == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        $( '#limpar').click(function(){
+            $( '#inserir' ).empty();
+        });
+
+        $( '#limpar-todos').click(function(){
+            $( '#inserir' ).empty();
+            $( '#remover' ).empty();
+        });
+
+        $( "#pesquisar" ).click(function(){
+            var name = $("#AquisicaoItem_software").val();
+            var url = '{{ path('cacic_software_search') }}' + '/' + name;
+            $.ajax({
+                url: url,
+                cache: true
+            }).success(function(result) {
+                $( '#inserir' ).empty();
+                for(var i=0; i <= result.length; i++) {
+                    var software = result[i];
+                    //alert(software.nmSoftware);
+                    if (typeof software != 'undefined') {
+                        var html = '<label class="checkbox uniform"><div id="uniform-undefined" class="checker"><span>';
+                        html = html + '<input class="checkbox uniform_on" type="checkbox" name="idSoftware[]" value="'+software.idSoftware+'" checked>';
+                        html = html + '</span></div>' + software.nmSoftware;
+                        html = html + '</label>';
+                        //alert(html);
+                        $( '#inserir').append(html);
+                    }
+                }
+            }).error(function() {
+            });
         });
 
     </script>

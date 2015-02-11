@@ -77,6 +77,14 @@ The following syntax is simplified from Managed Object Format (MOF) code and inc
         array('className' => 'Patrimonio',
             'description' => 'Dados de patrimônio e localização física',
             'reference' => 'Patrimonio'
+        ),
+        array('className' => 'Win32_SystemEnclosure',
+            'description' => 'The Win32_SystemEnclosure WMI class represents the properties that are associated with a physical system enclosure',
+            'reference' => 'SystemEnclosure'
+        ),
+        array('className' => 'Win32_DiskDrive',
+            'description' => 'Discos',
+            'reference' => 'DiskDrive'
         )
     );
 
