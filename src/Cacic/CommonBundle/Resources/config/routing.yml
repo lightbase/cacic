@@ -262,6 +262,10 @@ cacic_computador_update:
     pattern: /admin/computador/update/{idComputador}
     defaults: { _controller: CacicCommonBundle:Computador:update, idComputador: null }
 
+cacic_computador_update_patrimonio:
+    pattern: /admin/computador/updatePatrimonio/{idComputador}
+    defaults: { _controller: CacicCommonBundle:Computador:updatePatrimonio, idComputador: null }
+
 cacic_migracao_cacic26:
     pattern: /admin/migracao/cacic26
     defaults: { _controller: CacicCommonBundle:Cacic26:importardados}

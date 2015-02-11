@@ -215,10 +215,10 @@ class ComputadorColetaRepository extends EntityRepository
      * @return mixed
      */
 
-    public function gerarRelatorioSoftwaresInventariados( $filtros)
+    public function gerarRelatorioSoftwaresInventariados( $filtros )
     {
         $qb = $this->createQueryBuilder('coleta')
-            ->select('soft.nmSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal','COUNT(DISTINCT coleta.computador) AS numComp')
+            ->select('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal','COUNT(DISTINCT coleta.computador) AS numComp')
             ->innerJoin('coleta.classProperty', 'property')
             ->innerJoin('property.idClass', 'classe')
             ->innerJoin('coleta.computador', 'comp')
@@ -227,7 +227,7 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('rede.idLocal', 'local')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'prop.classProperty = coleta.classProperty')
             ->innerJoin('prop.software', 'soft')
-            ->groupBy('soft.nmSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal');
+            ->groupBy('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal');
 
         /**
          * Verifica os filtros
@@ -237,7 +237,7 @@ class ComputadorColetaRepository extends EntityRepository
             $qb->andWhere('soft.idSoftware IN (:softwares)')->setParameter('softwares', explode( ',', $filtros['softwares'] ));
 
         if ( array_key_exists('local', $filtros) && !empty($filtros['local']) )
-            $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+            $qb->andWhere('local.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['local'] ));
 
         if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) )
             $qb->andWhere('rede.idRede IN (:redes)')->setParameter('redes', explode( ',', $filtros['redes'] ));

@@ -45,6 +45,24 @@ class ClasseRepository extends EntityRepository
             ->getArrayResult();
     }
 
+    /**
+     * Função simplificada para acelerar o getConfig
+     */
+    public function listaClasses( $idAcao )
+    {
+        $_dql = "SELECT c.nmClassName, cd.teWhereClause
+				 FROM CacicCommonBundle:Classe c,
+				 CacicCommonBundle:CollectDefClass cd
+				 WHERE 	cd.idAcao = :idAcao
+				 AND c.idClass = cd.idClass
+				 ORDER BY c.nmClassName";
+
+        return $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameter( 'idAcao', $idAcao )
+            ->getArrayResult();
+    }
+
     public function listaDetalhesClasseAcoes( $idClass )
     {
         $_dql = "SELECT a.idAcao,

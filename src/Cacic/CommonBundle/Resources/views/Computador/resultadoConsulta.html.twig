@@ -8,10 +8,10 @@
                     <thead>
                     <tr>
                         {# <th  style="text-align: center">{{ "Número"|trans }}</th>#}
-                        <th width="25%" style="text-align: center">{{ "Nome da Máquina"|trans }}</th>
+                        <th width="20%" style="text-align: center">{{ "Nome da Máquina"|trans }}</th>
                         <th width="20%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
+                        <th width="20%" style="text-align: center">{{ "Endereço MAC"|trans }}</th>
                         <th width="20%" style="text-align: center">{{ "Versão Cacic"|trans }}</th>
-                        <th width="20%" style="text-align: center">{{ "Último Acesso"|trans }}</th>
                         <th width="5%"></th>
 
 
@@ -27,8 +27,8 @@
                             {#<td style="text-align: center">{{ computador['idComputador'] }}</td>#}
                             <td style="text-align: center">{{ computador['nmComputador'] }}</td>
                             <td style="text-align: center">{{ computador['teIpComputador'] }}</td>
+                            <td style="text-align: center">{{ computador['teNodeAddress'] }}</td>
                             <td style="text-align: center">{{'Versão ' |trans }} {{ computador['teVersaoCacic'] }}</td>
-                            <td style="text-align: center">{{ computador.dtHrUltAcesso|date('d/m/Y') }}</td>
                             <td>
                                 <a class="btn" href="{{ path("cacic_computador_detalhar") }}/{{ computador['idComputador'] }}" target="_blank">
                                     <i class="icon-search"></i>

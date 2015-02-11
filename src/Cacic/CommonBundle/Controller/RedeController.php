@@ -624,7 +624,7 @@ class RedeController extends Controller
 
             foreach($computadores as $computador){
 
-                $computador->setForcaColeta('S');
+                $computador->setForcaColeta('true');
                 $this->getDoctrine()->getManager()->persist( $computador );
 
             }
