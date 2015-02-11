@@ -567,7 +567,7 @@ class DefaultController extends Controller
         if($request->get('AgenteLinux'))
             $agente_py = true;
 
-        /**
+        /*
          * Mensagem a ser exibida na tela de Pop-Up do patrimônio
          */
         $em = $this->getDoctrine()->getManager();
@@ -577,6 +577,17 @@ class DefaultController extends Controller
 
         $result = $query->getSingleResult();
         $timerForcaColeta = implode('',$result);
+
+        /*
+         * Buscando primeiro API Key válido
+         */
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT u.apiKey FROM CacicCommonBundle:Usuario u WHERE u.apiKey IS NOT NULL'
+        );
+
+        $result = $query->getSingleResult();
+        $apikey = implode('',$result);
 
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarPorLocal($local->getIdLocal());
         //informações dos modulos do agente, nome, versao, hash
@@ -670,6 +681,7 @@ class DefaultController extends Controller
             'rede_grupos_ftp'=>$rede_grupos_ftp,
 		    'strPatrimonio'=>$strPatrimonio,
             'timerForcaColeta'=>$timerForcaColeta,
+            'apikey' => $apikey,
  //           'modPatrimonio'=> $modPatrimonio,
         ), $response);
     }

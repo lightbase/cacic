@@ -1,0 +1,12 @@
+services:
+    site_manager:
+        class: Cacic\MultiBundle\Site\SiteManager
+
+    current_site_listener:
+            class: Cacic\MultiBundle\EventListener\CurrentSiteListener
+            arguments: ["@site_manager", "@service_container"]
+            tags:
+                -
+                    name: kernel.event_listener
+                    method: onKernelRequest
+                    event: kernel.request

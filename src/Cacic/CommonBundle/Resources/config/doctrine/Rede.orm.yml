@@ -124,6 +124,10 @@ Cacic\CommonBundle\Entity\Rede:
             fixed: true
             nullable: true
             column: dt_debug
+        downloadMethod:
+            type: text
+            nullable: true
+            column: download_method
     manyToMany:
         idAplicativo:
             targetEntity: Aplicativo

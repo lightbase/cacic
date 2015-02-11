@@ -1,0 +1,15 @@
+parameters:
+    database_driver: pdo_pgsql
+    database_host: 127.0.0.1
+    database_port: 5432
+    database_name: cacic
+    database_user: www-data
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: pt_BR
+    secret: NotSoSecret
+    database_path: null
+    test_api_key: cacic123

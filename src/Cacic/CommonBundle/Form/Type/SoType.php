@@ -48,6 +48,15 @@ class SoType extends AbstractType
                     'label'=>'Sistema Operacional MS-Windows'
                     )
         );
+        $builder->add(
+            'tipo',
+            'entity',
+            array(
+                'label' => 'Tipo de Sistema Operacional',
+                'class' => 'CacicCommonBundle:TipoSo',
+                'property' => 'tipo'
+            )
+        );
     }
 
     /**

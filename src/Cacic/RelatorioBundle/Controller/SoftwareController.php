@@ -6,6 +6,11 @@ use Doctrine\Common\Util\Debug;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Cacic\RelatorioBundle\Form\Type\FiltroSoftwareType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class SoftwareController extends Controller
 {
@@ -117,6 +122,7 @@ class SoftwareController extends Controller
     	$dados = $this->getDoctrine()
     					->getRepository('CacicCommonBundle:Aquisicao')
     					->gerarRelatorioAquisicoes();
+
     	//\Doctrine\Common\Util\Debug::dump($dados);die;
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_aquisicoes.html.twig', 
@@ -264,6 +270,66 @@ class SoftwareController extends Controller
             array(
                 'idioma'=> $locale,
                 'software' => $nmSoftware,
+                'dados' => $dados
+            )
+        );
+    }
+
+    /**
+     * Retorna JSON dos softwares encontrados
+     *
+     * @param Request $request Requisiçao
+     * @param $name Nome do software para buscar
+     * @return JsonResponse Resposta no formato JSON:
+     * {
+     *      'idSoftware': ID do Software
+     *      'nmSoftware': Nome do software
+     *      'teDescricaoSoftware': Descriçao do software
+     * }
+     */
+    public function searchAction(Request $request, $name) {
+
+        $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+        $response = new JsonResponse();
+        $response->setStatusCode(200);
+
+        // Serializers
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+
+
+        $software = $em->getRepository('CacicCommonBundle:Software')->findByName($name);
+
+        $saida = array();
+        foreach($software as $elm) {
+            $array_elm = array(
+                'idSoftware' => $elm[0]->getIdSoftware(),
+                'nmSoftware' => $elm[0]->getNmSoftware(),
+                'teDescricaoSoftware' => $elm[0]->getTeDescricaoSoftware(),
+
+            );
+            //$logger->debug("11111111111111111111111111111111111 ".$elm[0]->getNmSoftware());
+            array_push($saida, $array_elm);
+        }
+
+        $response->setContent(json_encode($saida));
+
+        return $response;
+    }
+
+    public function aquisicoesDetalhadoAction( Request $request, $idAquisicao, $idTipoLicenca )
+    {
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:AquisicaoItem')
+            ->aquisicoesDetalhado($idAquisicao, $idTipoLicenca);
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:rel_aquisicoes_det.html.twig',
+            array(
+                'idioma'=>$locale,
                 'dados' => $dados
             )
         );

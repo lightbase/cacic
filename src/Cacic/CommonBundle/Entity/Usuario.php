@@ -5,11 +5,14 @@ namespace Cacic\CommonBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints\True;
 
 /**
  * Usuario
  */
-class Usuario implements UserInterface, \Serializable
+class Usuario implements AdvancedUserInterface, \Serializable, EquatableInterface
 {
     /**
      * @var integer
@@ -380,7 +383,12 @@ class Usuario implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-    	return array( 'ROLE_ADMIN' );
+        $role = $this->getIdGrupoUsuario()->getRole();
+        if (empty($role)) {
+            return array( 'ROLE_USER' );
+        } else {
+            return array( $role );
+        }
     }
     
     /**
@@ -454,5 +462,159 @@ class Usuario implements UserInterface, \Serializable
     public function getLocaisSecundarios()
     {
         return $this->locaisSecundarios;
+    }
+    /**
+     * @var string
+     */
+    private $apiKey;
+
+
+    /**
+     * Set apiKey
+     *
+     * @param string $apiKey
+     * @return Usuario
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    /**
+     * Get apiKey
+     *
+     * @return string 
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @var string
+     */
+    private $cryptKey;
+
+
+    /**
+     * Set cryptKey
+     *
+     * @param string $cryptKey
+     * @return Usuario
+     */
+    public function setCryptKey($cryptKey)
+    {
+        $this->cryptKey = $cryptKey;
+
+        return $this;
+    }
+
+    /**
+     * Get cryptKey
+     *
+     * @return string
+     */
+    public function getCryptKey()
+    {
+        return $this->cryptKey;
+    }
+
+    /**
+     * Método que localizar usuário por parâmetros
+     *
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function isEqualTo(UserInterface $user)
+    {
+        if (!$user instanceof Usuario) {
+            return false;
+        }
+
+        if ($this->teSenha !== $user->getPassword()) {
+            return false;
+        }
+
+
+        if ($this->nmUsuarioAcesso !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Conta expirada
+     *
+     * @return bool
+     */
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * Conta travada
+     *
+     * @return bool
+     */
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    /**
+     * Credenciais expiradas
+     *
+     * @return bool
+     */
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * Usuário ativo
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return true;
+        //return $this->isActive;
+    }
+
+    /**
+     * FIXME: Criar interface para ativar e desativar usuários
+     *
+     * @var boolean
+     */
+    private $isActive;
+
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return Usuario
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return true;
+        //return $this->isActive;
     }
 }
