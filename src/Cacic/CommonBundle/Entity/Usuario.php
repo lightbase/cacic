@@ -79,6 +79,22 @@ class Usuario implements AdvancedUserInterface, \Serializable, EquatableInterfac
      */
     private $locaisSecundarios;
 
+    /**
+     * @var string
+     */
+    private $apiKey;
+
+    /**
+     * FIXME: Criar interface para ativar e desativar usuários
+     *
+     * @var boolean
+     */
+    private $isActive;
+
+    /**
+     * @var string
+     */
+    private $cryptKey;
 
     /**
      * Constructor
@@ -463,11 +479,6 @@ class Usuario implements AdvancedUserInterface, \Serializable, EquatableInterfac
     {
         return $this->locaisSecundarios;
     }
-    /**
-     * @var string
-     */
-    private $apiKey;
-
 
     /**
      * Set apiKey
@@ -491,11 +502,6 @@ class Usuario implements AdvancedUserInterface, \Serializable, EquatableInterfac
     {
         return $this->apiKey;
     }
-
-    /**
-     * @var string
-     */
-    private $cryptKey;
 
 
     /**
@@ -585,14 +591,6 @@ class Usuario implements AdvancedUserInterface, \Serializable, EquatableInterfac
         return true;
         //return $this->isActive;
     }
-
-    /**
-     * FIXME: Criar interface para ativar e desativar usuários
-     *
-     * @var boolean
-     */
-    private $isActive;
-
 
     /**
      * Set isActive
