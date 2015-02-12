@@ -20,9 +20,10 @@ class ConfiguracaoLocalRepository extends EntityRepository
 	 */
 	public function listarPorLocal( $idLocal )
 	{
-		$_dql = "SELECT (CASE cl.vlConfiguracao IS NULL
+		$_dql = "SELECT (CASE WHEN cl.vlConfiguracao IS NULL
                         THEN cp.vlConfiguracao
-                        ELSE cl.vlConfiguracao) as vlConfiguracao,
+                        ELSE cl.vlConfiguracao
+                        END) as vlConfiguracao,
                         cp.idConfiguracao,
                         cp.nmConfiguracao
 				FROM CacicCommonBundle:ConfiguracaoPadrao cp
