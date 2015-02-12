@@ -2,6 +2,7 @@
 
 namespace Cacic\CommonBundle\Controller;
 
+use Cacic\CommonBundle\Entity\ConfiguracaoLocal;
 use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,27 +97,57 @@ class ConfiguracaoController extends Controller
 	{
 		if ( ! $request->isXmlHttpRequest() )
 			throw $this->createNotFoundException( 'Página não encontrada' );
+
+        $em = $this->getDoctrine()->getManager();
 		
 		if ( $request->get('idLocal') )
 		{ // No caso de ter sido parametrizado um Local, trata-se de edição do local informado
 			/**
 			 * @todo Checar se o usuário tem privilégios para alterar o local parametrizado
 			 */
-			$configuracao = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')
-												->find( array(
+			$configuracao = $em->getRepository('CacicCommonBundle:ConfiguracaoLocal')
+												->findOneBy( array(
 															'idConfiguracao' => $request->get('idConfiguracao'),
 															'idLocal' => $request->get('idLocal')
 														)
 												);
-		}
-		else // ... do contrário, altera a configuração padrão
-			$configuracao = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->find( $request->get('idConfiguracao') );
-		
-		if ( ! $configuracao )
-			throw $this->createNotFoundException( 'Configuração não encontrada' );
-		
-		$em = $this->getDoctrine()->getManager();
-		$configuracao->setVlConfiguracao( $request->get('vlConfiguracao') );
+            if ( empty($configuracao )) {
+                throw $this->createNotFoundException( 'Configuração não encontrada' );
+            }
+
+            $configuracao->setVlConfiguracao( $request->get('vlConfiguracao') );
+            $em->persist($configuracao);
+
+		} else {
+            // ... do contrário, altera a configuração padrão
+            $configuracao = $em->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->find( $request->get('idConfiguracao') );
+            if ( empty($configuracao )) {
+                throw $this->createNotFoundException( 'Configuração não encontrada' );
+            }
+            $configuracao->setVlConfiguracao( $request->get('vlConfiguracao') );
+            $em->persist($configuracao);
+
+            // E atualiza o padrão para todos os locais
+            $locais_list = $em->getRepository('CacicCommonBundle:Local')->findAll();
+
+            foreach ($locais_list as $local) {
+                $configuracao_local = $em->getRepository('CacicCommonBundle:ConfiguracaoLocal')
+                    ->findOneBy( array(
+                            'idConfiguracao' => $request->get('idConfiguracao'),
+                            'idLocal' => $local->getIdLocal()
+                        )
+                    );
+
+                if (empty($configuracao_local)) {
+                    $configuracao_local = new ConfiguracaoLocal();
+                    $configuracao_local->setIdLocal($local);
+                    $configuracao_local->setIdConfiguracao($configuracao);
+                }
+                $configuracao_local->setVlConfiguracao($request->get('vlConfiguracao'));
+                $em->persist($configuracao_local);
+            }
+        }
+
 		$em->flush();
 		
 		$response = new Response( json_encode( array('status' => 'ok') ) );
