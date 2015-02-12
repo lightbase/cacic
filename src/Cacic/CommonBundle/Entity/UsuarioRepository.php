@@ -117,4 +117,22 @@ class UsuarioRepository extends EntityRepository
 		
 		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}
+
+    /**
+     * Pega a primeira chave de API que não for nula
+     *
+     * @return mixed
+     */
+
+    public function firstApiKey() {
+        $_dql = "SELECT u.apiKey FROM CacicCommonBundle:Usuario u WHERE u.apiKey IS NOT NULL";
+
+        return $this
+            ->getEntityManager()
+            ->createQuery( $_dql )
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+
+    }
+
 }

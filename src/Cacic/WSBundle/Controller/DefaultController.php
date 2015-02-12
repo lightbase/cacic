@@ -159,7 +159,7 @@ class DefaultController extends Controller
             $this->getDoctrine()->getManager()->persist($ultimo_user_logado);
             $this->getDoctrine()->getManager()->flush();
         } else {
-            $logger->error("ERRO NO get-Test: usuário logado não encontrado para o computador $ip_computador");
+            $logger->error("ERRO NO GET-TEST: usuário logado não encontrado para o computador $ip_computador");
         }
 
         if (empty($ultimo_acesso)) {
@@ -461,38 +461,30 @@ class DefaultController extends Controller
             $agente_py = true;
 
         /*
-         * Mensagem a ser exibida na tela de Pop-Up do patrimônio
+         * Força coleta timer
          */
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT cp.vlConfiguracao FROM CacicCommonBundle:ConfiguracaoPadrao cp WHERE cp.idConfiguracao = :idconfig'
-        )->setParameter('idconfig', 'nu_intervalo_forca_coleta');
+        $config_padrao = $em->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->findOneBy(array(
+           'id_config' => 'nu_intervalo_forca_coleta'
+        ));
 
-        try {
-            $result = $query->getSingleResult();
-            $timerForcaColeta = implode('',$result);
-        } catch (NoResultException $e) {
-            $logger->error("Valor de timer não encontrado. Ajustando padrão...");
+        if (!empty($config_padrao)) {
+            $timerForcaColeta = $config_padrao->getVlConfiguracao();
+        } else {
             $timerForcaColeta = 15;
         }
 
         /*
          * Buscando primeiro API Key válido
          */
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT u.apiKey FROM CacicCommonBundle:Usuario u WHERE u.apiKey IS NOT NULL'
-        );
+        $apikey = $em->getRepository('CacicCommonBundle:Usuario')->firstApiKey();
 
-        $result = $query->setMaxResults(1)->getSingleResult();
-        $apikey = implode('',$result);
-
+        // Configurações do local
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarPorLocal($local->getIdLocal());
 
         //informações dos modulos do agente, nome, versao, hash
         $te_versao_cacic = $request->request->get('te_versao_cacic');
         $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->getUpdate( $rede->getIdRede(), $te_versao_cacic );
-
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
 
@@ -515,7 +507,7 @@ class DefaultController extends Controller
             $this->getDoctrine()->getManager()->persist($ultimo_user_logado);
             $this->getDoctrine()->getManager()->flush();
         } else {
-            $logger->error("ERRO NO get-Test: usuário logado não encontrado para o computador $ip_computador");
+            $logger->error("ERRO NO GET-CONFIG: usuário logado não encontrado para o computador $ip_computador");
         }
 
         if (empty($ultimo_acesso)) {
