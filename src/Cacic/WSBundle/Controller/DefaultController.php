@@ -486,7 +486,9 @@ class DefaultController extends Controller
 
         //informações dos modulos do agente, nome, versao, hash
         $te_versao_cacic = $request->request->get('te_versao_cacic');
-        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->getUpdate( $rede->getIdRede(), $te_versao_cacic );
+        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(array(
+            'idRede' => $rede->getIdRede()
+        ));
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
         $response = new Response();
