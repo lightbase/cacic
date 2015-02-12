@@ -482,77 +482,13 @@ class DefaultController extends Controller
         if (empty($timerForcaColeta)) {
             $timerForcaColeta = 15;
         }
+        $logger->debug("GET-CONFIG: timerForcaColeta = $timerForcaColeta");
 
         //informações dos modulos do agente, nome, versao, hash
         $te_versao_cacic = $request->request->get('te_versao_cacic');
         $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->getUpdate( $rede->getIdRede(), $te_versao_cacic );
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
-
-        // Adiciona no log de acesso. REGRA: só adiciona se o último registro foi em data diferente da de hoje
-        // TODO: Colocar um parâmetro que diz quantas vezes deve ser registrado o acesso por dia
-        $data_acesso = new \DateTime();
-        $hoje = $data_acesso->format('Y-m-d');
-
-        $ultimo_acesso = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->ultimoAcesso( $computador->getIdComputador() );
-        //$ultimo_user_logado = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->ultimoAcesso( $computador->getIdComputador() );
-
-        /**
-         * Grava os registros na Tabela Log_User_Logado
-         */
-        if (!empty($ultimo_login)) {
-            $ultimo_user_logado = new LogUserLogado();
-            $ultimo_user_logado->setIdComputador($computador);
-            $ultimo_user_logado->setData($data_acesso);
-            $ultimo_user_logado->setUsuario($ultimo_login);
-            $this->getDoctrine()->getManager()->persist($ultimo_user_logado);
-            $this->getDoctrine()->getManager()->flush();
-        } else {
-            $logger->error("ERRO NO GET-CONFIG: usuário logado não encontrado para o computador $ip_computador");
-        }
-
-        if (empty($ultimo_acesso)) {
-            // Se for o primeiro registro grava o acesso do computador
-            $logger->debug("Último acesso não encontrado. Registrando acesso para o computador $computador em $hoje");
-
-            $log_acesso = new LogAcesso();
-            $log_acesso->setIdComputador($computador);
-            $log_acesso->setData($data_acesso);
-
-            /*
-             * Grava o último usuário logado no banco apenas se não estiver vazio
-             */
-            if (!empty($ultimo_login)) {
-                $log_acesso->setUsuario($ultimo_login);
-            }
-
-            // Grava o log
-            $this->getDoctrine()->getManager()->persist($log_acesso);
-            $this->getDoctrine()->getManager()->flush();
-        } else {
-            $dt_ultimo_acesso = $ultimo_acesso->getData()->format('Y-m-d');
-
-            // Só adiciono se a data de útimo acesso for diferente do dia de hoje
-            if ($hoje != $dt_ultimo_acesso) {
-                $logger->debug("Inserindo novo registro de acesso para o computador $computador em $hoje");
-
-                $log_acesso = new LogAcesso();
-                $log_acesso->setIdComputador($computador);
-                $log_acesso->setData($data_acesso);
-
-                /*
-                 * Grava o último usuário logado no banco apenas se não estiver vazio
-                 */
-                if (!empty($ultimo_login)) {
-                    $log_acesso->setUsuario($ultimo_login);
-                }
-
-                // Grava o log
-                $this->getDoctrine()->getManager()->persist($log_acesso);
-                $this->getDoctrine()->getManager()->flush();
-            }
-        }
-
         $response = new Response();
         $response->headers->set('Content-Type', 'xml');
         return  $this->render('CacicWSBundle:Default:config.xml.twig', array(
