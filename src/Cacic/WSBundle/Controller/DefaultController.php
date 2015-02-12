@@ -473,9 +473,13 @@ class DefaultController extends Controller
         /*
          * Força coleta timer
          */
-        if (array_search('nu_intervao_forca_coleta', $configs)) {
-            $timerForcaColeta = $configs['nu_intervao_forca_coleta'];
-        } else {
+        $timerForcaColeta = null;
+        foreach ($configs as $elm) {
+            if ($elm['nmConfiguracao'] == 'nu_intervalo_forca_coleta') {
+                $timerForcaColeta = $elm['nu_intervalo_forca_coleta'];
+            }
+        }
+        if (empty($timerForcaColeta)) {
             $timerForcaColeta = 15;
         }
 
