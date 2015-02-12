@@ -465,7 +465,7 @@ class DefaultController extends Controller
          */
         $em = $this->getDoctrine()->getManager();
         $config_padrao = $em->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->findOneBy(array(
-           'id_config' => 'nu_intervalo_forca_coleta'
+           'idConfiguracao' => 'nu_intervalo_forca_coleta'
         ));
 
         if (!empty($config_padrao)) {
