@@ -460,20 +460,7 @@ class DefaultController extends Controller
         if($request->get('AgenteLinux'))
             $agente_py = true;
 
-        /*
-         * Força coleta timer
-         */
         $em = $this->getDoctrine()->getManager();
-        $config_padrao = $em->getRepository('CacicCommonBundle:ConfiguracaoPadrao')->findOneBy(array(
-           'idConfiguracao' => 'nu_intervalo_forca_coleta'
-        ));
-
-        if (!empty($config_padrao)) {
-            $timerForcaColeta = $config_padrao->getVlConfiguracao();
-        } else {
-            $timerForcaColeta = 15;
-        }
-
         /*
          * Buscando primeiro API Key válido
          */
@@ -481,6 +468,16 @@ class DefaultController extends Controller
 
         // Configurações do local
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarPorLocal($local->getIdLocal());
+        $logger->debug("Configurações encontradas:\n".print_r($configs, true));
+
+        /*
+         * Força coleta timer
+         */
+        if (array_search('nu_intervao_forca_coleta', $configs)) {
+            $timerForcaColeta = $configs['nu_intervao_forca_coleta'];
+        } else {
+            $timerForcaColeta = 15;
+        }
 
         //informações dos modulos do agente, nome, versao, hash
         $te_versao_cacic = $request->request->get('te_versao_cacic');

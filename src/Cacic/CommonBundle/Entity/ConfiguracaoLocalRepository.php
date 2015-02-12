@@ -20,9 +20,13 @@ class ConfiguracaoLocalRepository extends EntityRepository
 	 */
 	public function listarPorLocal( $idLocal )
 	{
-		$_dql = "SELECT cl.vlConfiguracao, cp.idConfiguracao, cp.nmConfiguracao
-				FROM CacicCommonBundle:ConfiguracaoLocal cl
-				JOIN cl.idConfiguracao cp
+		$_dql = "SELECT (CASE cl.vlConfiguracao IS NULL
+                        THEN cp.vlConfiguracao
+                        ELSE cl.vlConfiguracao) as vlConfiguracao,
+                        cp.idConfiguracao,
+                        cp.nmConfiguracao
+				FROM CacicCommonBundle:ConfiguracaoPadrao cp
+				LEFT JOIN CacicCommonBundle:ConfiguracaoLocal cl WITH cl.idConfiguracao = cp.idConfiguracao
 				WHERE cl.idLocal = :idLocal";
 
         $result =  $this->getEntityManager()
