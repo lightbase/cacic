@@ -227,3 +227,15 @@ cacic_relatorio_usuario_csv_dinamico:
 cacic_relatorio_usuario_historico:
     pattern: /usuario/historico/{te_ultimo_login}
     defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioHistorico, te_ultimo_login: null}
+
+cacic_computador_historico:
+  pattern: /computador/historico/{idComputador}/{classe}
+  defaults: { _controller: CacicRelatorioBundle:Computador:historico, idComputador: null, classe: null}
+  requirements:
+  idComputador: \d+
+
+cacic_software_search:
+  pattern: /search/software/{name}
+  defaults: { _controller:CacicRelatorioBundle:Software:search, name:null }
+  requirements:
+  _method: GET
