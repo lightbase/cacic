@@ -131,7 +131,7 @@ class UsuarioRepository extends EntityRepository
             ->getEntityManager()
             ->createQuery( $_dql )
             ->setMaxResults(1)
-            ->getOneOrNullResult();
+            ->getSingleScalarResult();
 
     }
 
