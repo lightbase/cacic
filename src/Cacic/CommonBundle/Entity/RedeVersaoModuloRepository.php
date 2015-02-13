@@ -109,29 +109,27 @@ class RedeVersaoModuloRepository extends EntityRepository
         # 1 - Verifica se a versão é 2.8 e diferente da versão 2.8.1.23
         preg_match("/^2.(.*)/", $te_versao_cacic, $arrResult);
         if (!empty($arrResult)) {
-            if ($arrResult[1] != '8.1.23') {
-                # 1.1 - Se for qualquer versão 2.8, manda a versão 2.8.1.23 como padrão
-                $saida = array();
-                $cacic280 = new RedeVersaoModulo('cacic280.exe', '2.8.1.23', '6bec84cb246c49e596256d4833e6b301', $idRede);
-                array_push($saida, $cacic280);
+            # 1.1 - Se for qualquer versão 2.8, manda a versão 2.8.1.23 como padrão
+            $saida = array();
+            $cacic280 = new RedeVersaoModulo('cacic280.exe', '2.8.1.23', '6bec84cb246c49e596256d4833e6b301', $idRede);
+            array_push($saida, $cacic280);
 
-                $cacicserv = new RedeVersaoModulo('cacicservice.exe', '2.8.1.23', '3119b4e67d71fcec2700770632974a31', $idRede);
-                array_push($saida, $cacicserv);
+            $cacicserv = new RedeVersaoModulo('cacicservice.exe', '2.8.1.23', '3119b4e67d71fcec2700770632974a31', $idRede);
+            array_push($saida, $cacicserv);
 
-                $chksis = new RedeVersaoModulo('chksis.exe', '2.8.1.23', '748b8265eb0cd80e1854a90fe34df671', $idRede);
-                array_push($saida, $chksis);
+            $chksis = new RedeVersaoModulo('chksis.exe', '2.8.1.23', '748b8265eb0cd80e1854a90fe34df671', $idRede);
+            array_push($saida, $chksis);
 
-                $gercols = new RedeVersaoModulo('gercols.exe', '2.8.1.23', '6e358a7302e8c9b3d0c09fbd9c7a7000', $idRede);
-                array_push($saida, $gercols);
+            $gercols = new RedeVersaoModulo('gercols.exe', '2.8.1.23', '6e358a7302e8c9b3d0c09fbd9c7a7000', $idRede);
+            array_push($saida, $gercols);
 
-                $installcacic = new RedeVersaoModulo('installcacic.exe', '2.8.1.23', '388c9d020e72f5b62696824cc69077ea', $idRede);
-                array_push($saida, $installcacic);
+            $installcacic = new RedeVersaoModulo('installcacic.exe', '2.8.1.23', '388c9d020e72f5b62696824cc69077ea', $idRede);
+            array_push($saida, $installcacic);
 
-                $mapacacic = new RedeVersaoModulo('mapacacic.exe', '2.8.1.23', '3f8a6191fbad092eeb202617288559e9', $idRede);
-                array_push($saida, $mapacacic);
+            $mapacacic = new RedeVersaoModulo('mapacacic.exe', '2.8.1.23', '3f8a6191fbad092eeb202617288559e9', $idRede);
+            array_push($saida, $mapacacic);
 
-                return $saida;
-            }
+            return $saida;
         }
 
         # 1.2 - Se não for, traz a versão normal para a rede

@@ -503,9 +503,7 @@ class DefaultController extends Controller
         $tePathServUpdates = null;
         preg_match("/^2.(.*)/", $te_versao_cacic, $arrResult);
         if (!empty($arrResult)) {
-            if ($arrResult[1] != '8.1.23') {
-                $tePathServUpdates = 'update28';
-            }
+            $tePathServUpdates = 'update28';
         }
 
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
