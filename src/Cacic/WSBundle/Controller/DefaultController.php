@@ -506,6 +506,8 @@ class DefaultController extends Controller
             $tePathServUpdates = 'update28';
         }
 
+        //$logger->debug("GET-CONFIG: Redes, versões e módulos:\n".print_r($redes_versoes_modulos, true));
+
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
         $response = new Response();

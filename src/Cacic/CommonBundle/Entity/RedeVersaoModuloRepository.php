@@ -111,7 +111,8 @@ class RedeVersaoModuloRepository extends EntityRepository
         if (!empty($arrResult)) {
             # 1.1 - Se for qualquer versão 2.8, manda a versão 2.8.1.23 como padrão
             $saida = array();
-            $cacic280 = new RedeVersaoModulo('cacic280.exe', '2.8.1.23', '6bec84cb246c49e596256d4833e6b301', $idRede);
+            $cacic280 = new RedeVersaoModulo('cacic280.exe', '2.8.1.23', null, $idRede);
+            $cacic280->setTeHash('6bec84cb246c49e596256d4833e6b301');
             array_push($saida, $cacic280);
 
             $cacicserv = new RedeVersaoModulo('cacicservice.exe', '2.8.1.23', '3119b4e67d71fcec2700770632974a31', $idRede);
