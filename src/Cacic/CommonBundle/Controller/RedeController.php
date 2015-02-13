@@ -107,8 +107,8 @@ class RedeController extends Controller
                 }
 
                 // Grava os dados da tabela rede versão módulo
-                $logger->debug("Realizando o update de subredes para a rede $nmRede ...");
-				$this->updateSubredes($rede);
+                //$logger->debug("Realizando o update de subredes para a rede $nmRede ...");
+				//$this->updateSubredes($rede);
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 

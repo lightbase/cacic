@@ -474,10 +474,18 @@ class DefaultController extends Controller
          * Força coleta timer
          */
         $timerForcaColeta = null;
+        $i = 0;
         foreach ($configs as $elm) {
-            if ($elm['nmConfiguracao'] == 'nu_intervalo_forca_coleta') {
+            if ($elm['idConfiguracao'] == 'nu_intervalo_forca_coleta') {
                 $timerForcaColeta = $elm['nu_intervalo_forca_coleta'];
             }
+
+            if ($elm['idConfiguracao'] == 'nu_intervalo_exec') {
+                if (intval($elm['vlConfiguracao']) > 4) {
+                    $configs[$i]['vlConfiguracao'] = intval($elm['vlConfiguracao']) / 60;
+                }
+            }
+            $i = $i + 1;
         }
         if (empty($timerForcaColeta)) {
             $timerForcaColeta = 15;
@@ -486,9 +494,20 @@ class DefaultController extends Controller
 
         //informações dos modulos do agente, nome, versao, hash
         $te_versao_cacic = $request->request->get('te_versao_cacic');
-        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(array(
-            'idRede' => $rede->getIdRede()
-        ));
+        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->getUpdate(
+            $rede->getIdRede(),
+            $te_versao_cacic
+        );
+
+        // Força pasta do servidor de updates para a versão 2.8.1.23
+        $tePathServUpdates = null;
+        preg_match("/^2.(.*)/", $te_versao_cacic, $arrResult);
+        if (!empty($arrResult)) {
+            if ($arrResult[1] != '8.1.23') {
+                $tePathServUpdates = 'update28';
+            }
+        }
+
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
         $response = new Response();
@@ -515,6 +534,7 @@ class DefaultController extends Controller
             'timerForcaColeta'=>$timerForcaColeta,
             'apikey' => $apikey,
  //           'modPatrimonio'=> $modPatrimonio,
+            'tePathServUpdates' => $tePathServUpdates
         ), $response);
     }
 
