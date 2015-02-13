@@ -23,9 +23,18 @@
                 <span class="icon">&nbsp;</span>
             </a>
             <ul>
-                <li><a class="round_top" href="{{ path('cacic_software_naoclassificados') }}">{{ "Classificar Software"|trans }}</a></li>
-                <li><a href="{{ path('cacic_software_naousados') }}">{{ "Softwares não usados"|trans }}</a></li>
-                <li><a href="{{ path('cacic_modulo_index') }}">{{ "Configurar Módulos"|trans }}</a></li>
+                <li class="dropdown-submenu" >
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                        {{ "Configurar Coletas"|trans }}
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ path('cacic_agente') }}">{{ "Upload de Agentes"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_deploy') }}">{{ "Deploy de software"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_atualizacao_subredes') }}">{{ "Atualização de Subrede"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_modulo_index') }}">{{ "Configurar Módulos"|trans }}</a></li>
+                    </ul>
+                </li>
 
                 <li class="dropdown-submenu">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
@@ -36,7 +45,8 @@
                         <li><a href="{{ path('cacic_log_acesso') }}">{{ "Acessos"|trans }}</a></li>
                         <li><a href="{{ path('cacic_log_atividade') }}">{{ "Atividades"|trans }}</a></li>
                         <li><a href="{{ path('cacic_log_insucesso_instalacao') }}">{{ "Insucessos Instalação"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_log_suporte_remoto') }}">{{ "Suporte Remoto Seguro"|trans }}</a></li>
+                        {#<li><a href="{{ path('cacic_log_suporte_remoto') }}">{{ "Suporte Remoto Seguro"|trans }}</a></li>#}
+                        <li><a href="{{ path('cacic_relatorio_usuario') }}">{{ "Usuário Logado"|trans }}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown-submenu" >
@@ -48,13 +58,20 @@
                         <li><a href="{{ path('cacic_local_index') }}">{{ "Locais"|trans }}</a></li>
                         <li><a href="{{ path('cacic_servidorautenticacao_index') }}">{{ "Servidores Autenticação"|trans }}</a></li>
                         <li><a href="{{ path('cacic_subrede_index') }}">{{ "Sub-redes"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_aplicativo_index') }}">{{ "Aplicativo"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_usuario_index') }}">{{ "Usuários"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_grupo_usuario_index') }}">{{ "Grupo de Usuários"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_tiposoftware_index') }}">{{ "Tipos Softwares"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_aplicativo_index') }}">{{ "Aplicativos Monitorados"|trans }}</a></li>
                         <li><a href="{{ path('cacic_sistemaoperacional_index') }}">{{ "Sistemas Operacionais"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_software_index') }}">{{ "Softwares"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_subrede_computadores') }}">{{ "Computadores e Subredes"|trans }}</a></li>
                         <li><a href="{{ path('cacic_usbdevice_index') }}">{{ "Dispositivos USB"|trans }}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu"  >
+                    <a href="javascript:void(0)">
+                        {{ "Usuários"|trans }}
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ path('cacic_usuario_index') }}">{{ "Cadastro de Usuários"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_grupo_usuario_index') }}">{{ "Grupo de Usuários"|trans }}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown-submenu"  >
@@ -63,24 +80,12 @@
                         <span class="icon">&nbsp;</span>
                     </a>
                     <ul>
-                        <li ><a href="{{ path('cacic_patrimonio_index')}}">{{ "Interface"|trans }}</a></li>
                         <li ><a href="{{ path('cacic_uorg_index')}}">{{ "Unidades Organizacionais"|trans }}</a></li>
                         <li ><a href="{{ path('cacic_uorg_type_index')}}">{{ "Tipos de Unidade"|trans }} <br> {{ "Organizacional"|trans }}</a></li>
                         <li ><a href="{{ path('cacic_patrimonio_opcoes')}}">{{ "Opções"|trans }}</a></li>
                     </ul>
                 </li>
-                <li class="dropdown-submenu" >
-                    <a href="javascript:void(0)">
-                        {{ "Gerência Aquisições"|trans }}
-                        <span class="icon">&nbsp;</span>
-                    </a>
-                    <ul >
-                        <li><a href="{{ path('cacic_aquisicao_index') }}">{{ "Aquisições"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_aquisicao_item_index') }}">{{ "Itens adquiridos"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_software_estacao_index') }}">{{ "Software por estações"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_tipo_licenca_index') }}">{{ "Tipos de Licença"|trans }}</a></li>
-                    </ul>
-                </li>
+                <li><a href="{{ path('cacic_migracao_cacic26') }}">{{ "Importar de 2.6"|trans }}</a></li>
             </ul>
         </li>
 
@@ -90,10 +95,63 @@
                 <span>{{ "Manutenção"|trans }}</span>
                 <span class="icon">&nbsp;</span>
             </a>
-            <ul >
-                <li><a href="{{ path('cacic_subrede_manutencao') }}">{{ "Atualização de Subrede"|trans }}</a></li>
-                <li><a href="{{ path('cacic_subrede_computadores') }}">{{ "Computadores e Subredes"|trans }}</a></li>
-                <li><a href="{{ path('cacic_migracao_cacic26') }}">{{ "Importar de 2.6"|trans }}</a></li>
+            <ul>
+                <li class="dropdown-submenu" >
+                    <a href="javascript:void(0)">
+                        <span>{{ "Cadastros"|trans }}</span>
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ path('cacic_tiposo_index') }}">{{ "Tipos de SO"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_sistemaoperacional_index') }}">{{ "Sistemas Operacionais"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_usbdevice_index') }}">{{ "Dispositivos USB"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_device3g_index') }}">{{ "Dispositivos 3G"|trans }}</a></li>
+
+                    </ul>
+                </li>
+                <li class="dropdown-submenu" >
+                    <a href="javascript:void(0)">
+                        {{ "Classificar de software"|trans }}
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ path('cacic_tiposoftware_index') }}">{{ "Tipos Softwares"|trans }}</a></li>
+                        <li class="dropdown-submenu" >
+                            <a href="javascript:void(0)">
+                                {{ "Selecionar Tipo"|trans }}
+                                <span class="icon">&nbsp;</span>
+                            </a>
+                            <ul>
+                                <li><a class="round_top" href="{{ path('cacic_software_naoclassificados') }}">{{ "Em grupo"|trans }}</a></li>
+                                <li><a href="{{ path('cacic_software_index') }}">{{ "Um por um"|trans }}</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ path('cacic_software_naousados') }}">{{ "Softwares não usados"|trans }}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu" >
+                    <a href="javascript:void(0)">
+                        {{ "Controle de Licenças"|trans }}
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ path('cacic_tipo_licenca_index') }}">{{ "Tipos de Licença"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_aquisicao_index') }}">{{ "Processos de Aquisição"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_aquisicao_item_index') }}">{{ "Softwares adquiridos"|trans }}</a></li>
+                        {#<li><a href="{{ path('cacic_manutencao_autorizacoes') }}">{{ "Softwares Autorizados"|trans }}</a></li>#}
+                        <li><a href="{{ path('cacic_software_estacao_index') }}">{{ "Software por estações"|trans }}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu" >
+                    <a href="javascript:void(0)">
+                        {{ "Forçar Coletas"|trans }}
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ path('cacic_computador_coletar') }}">{{ "Forçar coleta computador"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_rede_coletar') }}">{{ "Forçar coleta subrede"|trans }}</a></li>
+                    </ul>
+                </li>
             </ul>
         </li>
 
@@ -108,8 +166,6 @@
                 <li><a href="{{ path('cacic_computador_consultar') }}">{{ "Consultar"|trans }}</a></li>
                 <li><a href="{{ path('cacic_computador_buscar') }}">{{ "Busca avançada"|trans }}</a></li>
                 <li><a href="{{ path('cacic_computador_versaoagente') }}">{{ "Versões Agentes"|trans }}</a></li>
-                <li><a href="{{ path('cacic_computador_coletar') }}">{{ "Forçar coletas"|trans }}</a></li>
-                <li><a href="{{ path('cacic_rede_coletar') }}">{{ "Forçar coleta subrede"|trans }}</a></li>
             </ul>
         </li>
 
@@ -127,9 +183,9 @@
                     </a>
                     <ul>
                         <li><a href="{{ path('cacic_relatorio_software_inventariados') }}">{{ "Softwares Inventariados"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_relatorio_software_licenciados') }}">{{ "Softwares Licenciados"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_relatorio_software_aquisicoes') }}" target="_blank">{{ "Aquisições de Softwares"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_relatorio_software_orgao') }}">{{ "Por Órgão/Máquinas"|trans }}</a></li>
+                        {# <li><a href="{{ path('cacic_relatorio_software_licenciados') }}">{{ "Softwares Licenciados"|trans }}</a></li> #}
+                        <li><a href="{{ path('cacic_relatorio_software_aquisicoes') }}" target="_blank">{{ "Controle de Licenças"|trans }}</a></li>
+                        {#<li><a href="{{ path('cacic_relatorio_software_orgao') }}">{{ "Por Órgão/Máquinas"|trans }}</a></li>#}
                         <li><a href="{{ path('cacic_relatorio_software_tipo') }}">{{ "Tipos de Software"|trans }}</a></li>
                         <li><a href="{{ path('cacic_relatorio_software_naoVinculados') }}" target="_blank">{{ "Softwares não Vinculados"|trans }}</a></li>
                     </ul>
@@ -141,12 +197,9 @@
                     </a>
                     {{ knp_menu_render('CacicRelatorioBundle:Builder:relatorioMenu') }}
                 </li>
-                <li><a class="round_top" href="{{ path('cacic_relatorio_usuario') }}">{{ "Usuário Logado"|trans }}</a></li>
-                <li><a class="round_top" href="{{ path('cacic_relatorio_hardware_wmi_dinamico') }}">{{ "WMI Dinâmico"|trans }}</a></li>
-                <li><a class="round_top" href="{{ path('cacic_relatorio_autorizacoes') }}">{{ "Autorizações"|trans }}</a></li>
                 <li><a class="round_top" href="{{ path('cacic_relatorio_faturamento') }}">{{ "Faturamento"|trans }}</a></li>
                 <li><a class="round_top" href="{{ path('cacic_relatorio_inativos') }}">{{ "Sem Coleta"|trans }}</a></li>
-                <li><a class="round_top" href="{{ path('cacic_relatorio_patrimonio') }}">{{ "Patrimônio"|trans }}</a></li>
+                <li><a class="round_top" href="{{ path('cacic_ateste') }}">{{ "Relatório para Ateste"|trans }}</a></li>
             </ul>
         </li>
 

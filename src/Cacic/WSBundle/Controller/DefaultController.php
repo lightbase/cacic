@@ -468,7 +468,7 @@ class DefaultController extends Controller
 
         // Configurações do local
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarPorLocal($local->getIdLocal());
-        $logger->debug("Configurações encontradas:\n".print_r($configs, true));
+        //$logger->debug("Configurações encontradas:\n".print_r($configs, true));
 
         /*
          * Força coleta timer

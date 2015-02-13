@@ -2,7 +2,7 @@
 
 {% block bodyXML %}
 {% for config in configs %}
-<{{config.nmConfiguracao|upper}}>{{config.vlConfiguracao}}</{{config.nmConfiguracao|upper}}>
+<{{config.idConfiguracao|upper}}>{{config.vlConfiguracao}}</{{config.idConfiguracao|upper}}>
 {% endfor %}
     <TeDebugging>{{ debugging }}</TeDebugging>
     <timerForcaColeta>{{ timerForcaColeta }}</timerForcaColeta>
