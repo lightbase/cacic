@@ -532,7 +532,7 @@
                 $sala = $request->get('sala');
 
                 $dados = $this->getDoctrine()
-                    ->getRepository('CacicCommonBundle:LogAcesso')
+                    ->getRepository('CacicCommonBundle:LogUserLogado')
                     ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala);
 
             }
@@ -591,7 +591,7 @@
             $size = strlen($usuarioLogado);
             $usuarioLogado = substr($usuarioLogado,1, $size);
 
-            $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->gerarRelatorioUsuarioHistorico($usuarioLogado, $semData);
+            $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado, $semData);
 
             return $this->render(
                 'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
@@ -609,7 +609,7 @@
 
         public function usuarioCsvDinamicoAction( Request $request) {
 
-            $printers = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:LogAcesso')->gerarUsuarioCsvDinamico();
+            $printers = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:LogUserLogado')->gerarUsuarioCsvDinamico();
             // Gera CSV
             $reader = new ArrayReader($printers);
 
