@@ -345,7 +345,15 @@ GROUP BY c0_.te_node_address,
             $sql .= " AND lg.data >= '".$dataInicio."00:00:00' AND lg.data <= '".$dataFim."23:59:59'";
         }
 
-        $sql .= "GROUP BY lg.id_log_user_logado, c.id_computador, r.id_rede, cc.id_computador";
+        $sql .= "GROUP BY lg.id_log_user_logado,
+                       lg.id_computador,
+                       lg.data,
+                       lg.usuario,
+                       c.nm_computador,
+                       c.te_node_address,
+                       c.te_ip_computador,
+                       l.nm_local,
+                       r.nm_rede";
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
