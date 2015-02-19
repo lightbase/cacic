@@ -19,26 +19,31 @@
 
         <thead>
 		<tr>
-			<th width="8%">{{ "Computador"|trans }}</th>
-			<th width="8%">{{ "MAC Address"|trans }}</th>
-			<th width="8%">{{ "Endereço IP"|trans }}</th>
-			<th width="8%">{{ "Local"|trans }}</th>
-            <th width="8%">{{ "Usuário"|trans }}</th>
-            <th width="8%">{{ "CPF Usuário Patrimônio"|trans }}</th>
-            <th width="8%">{{ "Data"|trans }}</th>
+			<th width="10%">{{ "Computador"|trans }}</th>
+			<th width="10%">{{ "MAC Address"|trans }}</th>
+			<th width="10%">{{ "Endereço IP"|trans }}</th>
+			<th width="10%">{{ "Local"|trans }}</th>
+            <th width="10%">{{ "Subrede"|trans }}</th>
+            <th width="10%">{{ "CPF do Responsável"|trans }}</th>
+            <th width="10%">{{ "Data Pop-up"|trans }}</th>
+            <th width="10%">{{ "Usuário Logado"|trans }}</th>
+            <th width="10%">{{ "Data Login"|trans }}</th>
         </tr>
 		</thead>
 
 		<tbody>
             {% for reg in dados %}
-				<td>{{ reg['nm_computador']}}</td>
-				<td>{{ reg['te_node_address'] }}</td>
-				<td>{{ reg['te_ip_computador']}}</td>
-                <td>{{ reg['nm_rede'] }}</td>
-                <td>{{ reg['usuario'] }}</td>
-                <td>{{ reg['te_class_property_value'] }}</td>
-                <td>{{ reg['data']|date('r') }}</td>
-            </tr>
+                <tr>
+                    <td>{{ reg['nm_computador']}}</td>
+                    <td>{{ reg['te_node_address'] }}</td>
+                    <td>{{ reg['te_ip_computador']}}</td>
+                    <td>{{ reg['nm_local'] }}</td>
+                    <td>{{ reg['nm_rede'] }}</td>
+                    <td>{{ reg['te_class_property_value'] }}</td>
+                    <td>{{ reg['data_popup'] }}</td>
+                    <td>{{ reg['usuario'] }}</td>
+                    <td>{{ reg['data']|date('r') }}</td>
+                </tr>
 
 		    {% endfor %}
 		</tbody>
