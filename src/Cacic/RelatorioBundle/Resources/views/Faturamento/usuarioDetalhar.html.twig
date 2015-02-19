@@ -20,12 +20,12 @@
                 <th width="8%">{{ "Local"|trans }}</th>
                 <th width="8%">{{ "Subrede"|trans }}</th>
                 <th width="8%">{{ "Último Usuário Logado"|trans }}</th>
+                <th width="8%">{{ "Data Último Usuário Logado"|trans }}</th>
                 <th width="8%">{{ "Nome do Responsável"|trans }}</th>
                 <th width="8%">{{ "CPF do Responsável"|trans }}
                 <th width="8%">{{ "Coordenacao Responsável"|trans }}</th>
                 <th width="8%">{{ "Sala do Responsável"|trans }}</th>
                 <th width="8%">{{ "Data Responsável"|trans }}</th>
-                <th width="8%">{{ "Última Coleta"|trans }}</th>
             </tr>
             </thead>
 
@@ -58,12 +58,12 @@
                             {{ reg.te_ultimo_login }}
                         </a>
                     </td>
+                    <td>{{ reg.data|date(' d, M, Y H:m:s') }}</td>
                     <td>{{ reg.usuarioPatrimonio }}</td>
                     <td>{{ reg.usuarioName }}</td>
                     <td>{{ reg.coordenacao }}</td>
                     <td>{{ reg.sala }}</td>
                     <td>{{ reg.dt_hr_inclusao|date(' d, M, Y H:m:s') }}</td>
-                    <td>{{ reg.data|date(' d, M, Y H:m:s') }}</td>
                 </tr>
 
                 {% endfor %}

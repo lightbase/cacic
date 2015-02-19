@@ -470,7 +470,7 @@
                 //verifica se a busca é pelo campo "usuario dinamico"
                 if(empty($usuarioLogado) AND empty($nmCompDinamico) AND empty($ipCompDinamico)){
                     $dados = $this->getDoctrine()
-                        ->getRepository('CacicCommonBundle:LogAcesso')
+                        ->getRepository('CacicCommonBundle:LogUserLogado')
                         ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala);
                     return $this->render(
                         'CacicRelatorioBundle:Faturamento:usuarioDetalhar.html.twig',
@@ -482,9 +482,9 @@
                             'dtAcaoFim'     => $dataFim
                         )
                     );
-                }else{
+                } else {
                     $semData = "N";
-                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $nmCompDinamico, $ipCompDinamico);
+                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $nmCompDinamico, $ipCompDinamico);
                     return $this->render(
                         'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
                         array(
