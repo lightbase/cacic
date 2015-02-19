@@ -58,12 +58,12 @@
                             {{ reg.te_ultimo_login }}
                         </a>
                     </td>
-                    <td>{{ reg.data|date(' d, M, Y H:m:s') }}</td>
+                    <td>{{ reg.data|date('r') }}</td>
                     <td>{{ reg.usuarioPatrimonio }}</td>
                     <td>{{ reg.usuarioName }}</td>
                     <td>{{ reg.coordenacao }}</td>
                     <td>{{ reg.sala }}</td>
-                    <td>{{ reg.dt_hr_inclusao|date(' d, M, Y H:m:s') }}</td>
+                    <td>{{ reg.dt_hr_inclusao|date('r') }}</td>
                 </tr>
 
                 {% endfor %}
