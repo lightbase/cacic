@@ -37,7 +37,7 @@
                 <td>{{ reg['nm_rede'] }}</td>
                 <td>{{ reg['usuario'] }}</td>
                 <td>{{ reg['te_class_property_value'] }}</td>
-                <td>{{ reg['data']|date(' d, M, Y H:m:s') }}</td>
+                <td>{{ reg['data']|date('r') }}</td>
             </tr>
 
 		    {% endfor %}
