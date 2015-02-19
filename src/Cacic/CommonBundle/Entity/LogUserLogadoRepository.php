@@ -297,6 +297,7 @@ GROUP BY c0_.te_node_address,
         $rsm->addScalarResult('te_node_address', 'te_node_address');
         $rsm->addScalarResult('te_ip_computador', 'te_ip_computador');
         $rsm->addScalarResult('nm_rede', 'nm_rede');
+        $rsm->addScalarResult('nm_local', 'nm_local');
         $rsm->addScalarResult('te_class_property_value', 'te_class_property_value');
         $rsm->addScalarResult('data_popup', 'data_popup');
         $rsm->addScalarResult('nm_property_name', 'nm_property_name');
