@@ -45,7 +45,7 @@
                     <td>{{ reg['usuario'] }}</td>
                     <td>{{ reg['data']|date('r') }}</td>
                     <td>
-                        <a href="{{ path('cacic_computador_detalhar', {'id_computador': reg['id_computador']}) }}" target="_blank" title="{{ "Detalhes do computador"|trans }}">
+                        <a class="btn" href="{{ path('cacic_computador_detalhar', {'idComputador': reg['id_computador']}) }}" target="_blank" title="{{ "Detalhes do computador"|trans }}">
                             <i class="icon-search"></i>
                         </a>
                     </td>
