@@ -508,7 +508,7 @@
         public function usuarioCsvAction( Request $request) {
 
             $locale = $request->getLocale();
-            $form = $this->createForm( new LogPesquisaType() );
+            $form = $this->createForm( new UserPesquisaType() );
 
             if ( $request->isMethod('POST') )
             {
@@ -520,16 +520,16 @@
                     array_push( $filtroLocais, $locais->getIdLocal() );
                 }
 
-                $dataInicio = $request->get('dtAcaoInicio');
-                $dataFim = $request->get('dtAcaoFim');
-                $usuario = $request->get('usuario');
-                $nmComputador = $request->get('nmComputador');
-                $teIpComputador = $request->get('teIpComputador');
-                $teNodeAddress = $request->get('teNodeAddress');
-                $usuarioPatrimonio = $request->get('usuarioPatrimonio');
-                $usuarioName = $request->get('usuarioName');
-                $coordenacao = $request->get('coordenacao');
-                $sala = $request->get('sala');
+                $dataInicio = $data['dtAcaoInicio'];
+                $dataFim = $data['dtAcaoFim'];
+                $usuario = $data['usuario'];
+                $nmComputador = $data['nmComputador'];
+                $teIpComputador = $data['teIpComputador'];
+                $teNodeAddress = $data['teNodeAddress'];
+                $usuarioPatrimonio = $data['usuarioPatrimonio'];
+                $usuarioName = $data['usuarioName'];
+                $coordenacao = $data['coordenacao'];
+                $sala = $data['sala'];
 
                 $dados = $this->getDoctrine()
                     ->getRepository('CacicCommonBundle:LogUserLogado')
@@ -537,7 +537,6 @@
 
             }
 
-            //$writer->writeItem(array('Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações'));
             // Gera CSV
             $reader = new ArrayReader($dados);
 
@@ -549,16 +548,15 @@
             $converter = new CallbackValueConverter(function ($input) {
                 return $input->format('d/m/Y H:m:s');
             });
-
             $workflow->addValueConverter('dtHrUltAcesso', $converter);
 
             $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
 
             // Add the writer to the workflow
-            $tmpfile = tempnam(sys_get_temp_dir(), 'Usuario_Csv_Estatico');
+            $tmpfile = tempnam(sys_get_temp_dir(), 'usuario_estatico_');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            //$writer->writeItem(array('Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações'));
+            $writer->writeItem(array( 'Mac Address','ID computador', 'IP computador', 'Nome computador','Id SO', 'Sistema Operacional', 'Id Rede', 'Sub Rede', 'IP da rede', 'Data do Pop-up', 'Nome do Responsável', 'CPF Responsável', 'Coordenacao Responsável', 'Sala do Responsável', 'Data Último Usuário Logado', 'Último Usuário Logado', 'Local', 'Id Local'));
             $workflow->addWriter($writer);
 
 
@@ -568,7 +566,7 @@
 
             // Gera data e adiciona no nome do arquivo
             $today = date("Ymd");
-            $nameArquivo = "Usuario_Csv_Estatico".$today.".csv";
+            $nameArquivo = "usuario_estatico_".$today.".csv";
 
             // Retorna o arquivo
             $response = new BinaryFileResponse($tmpfile);
@@ -629,7 +627,7 @@
             $tmpfile = tempnam(sys_get_temp_dir(), 'Usuario_Csv_Dinamico');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            $writer->writeItem(array('Id Computador', 'IP Computador', 'Data', 'Usuário','Nome computador', 'Mac Address','IP computador','Sub Rede'));
+            $writer->writeItem(array( 'Nome computador', 'Mac Address','IP computador','Local', 'Sub Rede', 'CPF Responsável', 'Data Pup-up', 'Usuário', 'Data'));
             $workflow->addWriter($writer);
 
 

@@ -438,4 +438,27 @@ class Software
     {
         $this->aquisicoes->removeElement($aquisicoes);
     }
+
+    /**
+     * Add aquisicoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
+     * @return Software
+     */
+    public function addAquisicoe(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes)
+    {
+        $this->aquisicoes[] = $aquisicoes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove aquisicoes
+     *
+     * @param \Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes
+     */
+    public function removeAquisicoe(\Cacic\CommonBundle\Entity\AquisicaoItem $aquisicoes)
+    {
+        $this->aquisicoes->removeElement($aquisicoes);
+    }
 }
