@@ -112,7 +112,7 @@ class UserPesquisaType extends AbstractType
                 'required'  => false)
         );
         $builder->add(
-            'nmCompDinamico',
+            'macCompDinamico',
             null,
             array('label'   =>'',
                 'max_length'=>30,

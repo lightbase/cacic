@@ -76,17 +76,17 @@ class LogUserLogadoRepository extends EntityRepository
     {
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('te_node_address', 'teNodeAddress');
-        $rsm->addScalarResult('id_computador', 'idComputador');
+        //$rsm->addScalarResult('id_computador', 'idComputador');
         $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
         $rsm->addScalarResult('nm_computador', 'nmComputador');
-        $rsm->addScalarResult('id_so', 'idSo');
+        //$rsm->addScalarResult('id_so', 'idSo');
         $rsm->addScalarResult('sg_so', 'sgSo');
-        $rsm->addScalarResult('id_rede', 'idRede');
+        //$rsm->addScalarResult('id_rede', 'idRede');
         $rsm->addScalarResult('nm_rede', 'nmRede');
         $rsm->addScalarResult('te_ip_rede', 'teIpRede');
         $rsm->addScalarResult('max_data', 'data');
         $rsm->addScalarResult('nm_local', 'nmLocal');
-        $rsm->addScalarResult('id_local', 'idLocal');
+        //$rsm->addScalarResult('id_local', 'idLocal');
         $rsm->addScalarResult('te_ultimo_login', 'te_ultimo_login');
         $rsm->addScalarResult('usuario_patrimonio', 'usuarioPatrimonio');
         $rsm->addScalarResult('usuario_name', 'usuarioName');
@@ -97,14 +97,12 @@ class LogUserLogadoRepository extends EntityRepository
 
         $sql = "
 SELECT c0_.te_node_address AS te_node_address,
-	string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
 	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
 	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
-	string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
 	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
-	string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
 	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
 	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
+	string_agg(DISTINCT l4_.nm_local, ', ') AS nm_local,
     (SELECT max(cc5_.dt_hr_inclusao) FROM computador_coleta cc5_
           INNER JOIN class_property cp5_ ON cc5_.id_class_property = cp5_.id_class_property
           WHERE cp5_.nm_property_name = 'UserLogado' AND cc5_.id_computador = cc_.id_computador) as dt_hr_inclusao,
@@ -141,9 +139,7 @@ SELECT c0_.te_node_address AS te_node_address,
 
         $sql = $sql . " LIMIT 1) AS sala,
 	max(l1_.data) AS max_data,
-	l1_.usuario as te_ultimo_login,
-	l4_.nm_local AS nm_local,
-	l4_.id_local AS id_local
+	l1_.usuario as te_ultimo_login
 FROM log_user_logado l1_
 INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
 INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
@@ -312,7 +308,7 @@ GROUP BY c0_.te_node_address,
      * @param $ipCompDinamico
      * @return mixed
      */
-    public function gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $nmCompDinamico, $ipCompDinamico){
+    public function gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $macCompDinamico, $ipCompDinamico){
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('id_log_user_logado', 'id_log_user_logado');
         $rsm->addScalarResult('id_computador', 'id_computador');
@@ -359,8 +355,8 @@ GROUP BY c0_.te_node_address,
             $sql .= " AND lower(lg.usuario) LIKE lower('%".$usuarioLogado."%')";
         }
 
-        if ( $nmCompDinamico ) {
-            $sql .= " AND lower(c.nm_computador) LIKE lower('%".$nmCompDinamico."%')";
+        if ( $macCompDinamico ) {
+            $sql .= " AND lower(c.te_node_address) LIKE lower('%".$macCompDinamico."%')";
         }
 
         if ( $ipCompDinamico ) {

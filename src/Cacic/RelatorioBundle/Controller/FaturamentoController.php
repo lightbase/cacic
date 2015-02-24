@@ -464,11 +464,11 @@
                 $coordenacao = $data['coordenacao'];
                 $sala = $data['sala'];
                 $usuarioLogado = $data['usuarioLogado'];
-                $nmCompDinamico = $data['nmCompDinamico'];
+                $macCompDinamico = $data['macCompDinamico'];
                 $ipCompDinamico = $data['ipCompDinamico'];
 
                 //verifica se a busca é pelo campo "usuario dinamico"
-                if(empty($usuarioLogado) AND empty($nmCompDinamico) AND empty($ipCompDinamico)){
+                if(empty($usuarioLogado) AND empty($macCompDinamico) AND empty($ipCompDinamico)){
                     $dados = $this->getDoctrine()
                         ->getRepository('CacicCommonBundle:LogUserLogado')
                         ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala);
@@ -484,7 +484,7 @@
                     );
                 } else {
                     $semData = "N";
-                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $nmCompDinamico, $ipCompDinamico);
+                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $macCompDinamico, $ipCompDinamico);
                     return $this->render(
                         'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
                         array(
@@ -556,7 +556,7 @@
             $tmpfile = tempnam(sys_get_temp_dir(), 'usuario_estatico_');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            $writer->writeItem(array( 'Mac Address','ID computador', 'IP computador', 'Nome computador','Id SO', 'Sistema Operacional', 'Id Rede', 'Sub Rede', 'IP da rede', 'Data do Pop-up', 'Nome do Responsável', 'CPF Responsável', 'Coordenacao Responsável', 'Sala do Responsável', 'Data Último Usuário Logado', 'Último Usuário Logado', 'Local', 'Id Local'));
+            $writer->writeItem(array( 'Mac Address', 'IP computador', 'Nome computador', 'Sistema Operacional', 'Local', 'Sub Rede', 'IP da rede', 'Data do Pop-up', 'Nome do Responsável', 'CPF Responsável', 'Coordenacao Responsável', 'Sala do Responsável', 'Data Último Usuário Logado', 'Último Usuário Logado'));
             $workflow->addWriter($writer);
 
 
