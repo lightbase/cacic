@@ -95,8 +95,7 @@ class LogUserLogadoRepository extends EntityRepository
         $rsm->addScalarResult('dt_hr_inclusao', 'dt_hr_inclusao');
 
 
-        $sql = "
-SELECT c0_.te_node_address AS te_node_address,
+        $sql = "SELECT c0_.te_node_address AS te_node_address,
 	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
 	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
 	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
@@ -183,19 +182,19 @@ WHERE  1 = 1
         }
 
         if ( $usuarioPatrimonio ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('%$usuarioPatrimonio%') ";
+            $sql .= " AND cp_.nm_property_name = 'UserName' AND lower(cc_.te_class_property_value) LIKE lower('%$usuarioPatrimonio%') ";
         }
 
         if ( $usuarioName ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('%$usuarioName%') ";
+            $sql .= " AND cp_.nm_property_name = 'UserLogado' AND lower(cc_.te_class_property_value) LIKE lower('%$usuarioName%') ";
         }
 
         if ( $coordenacao ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('%$coordenacao%') ";
+            $sql .= " AND cp_.nm_property_name = 'Coordenacao_Setor' AND lower(cc_.te_class_property_value) LIKE lower('%$coordenacao%') ";
         }
 
         if ( $sala ) {
-            $sql .= " AND lower(cc_.te_class_property_value) LIKE lower('%$sala%') ";
+            $sql .= " AND cp_.nm_property_name = 'Sala' AND lower(cc_.te_class_property_value) LIKE lower('%$sala%') ";
         }
 
         $sql .= "
