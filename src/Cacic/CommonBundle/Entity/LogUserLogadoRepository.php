@@ -186,7 +186,7 @@ WHERE  1 = 1
         }
 
         if ( $usuarioName ) {
-            $sql .= " AND cp_.nm_property_name = 'UserLogado' AND lower(cc_.te_class_property_value) LIKE lower('%$usuarioName%') ";
+            $sql .= " AND cp_.nm_property_name = 'UserLogado' AND lower(cc_.te_class_property_value) LIKE lower('%$usuarioName%')";
         }
 
         if ( $coordenacao ) {
