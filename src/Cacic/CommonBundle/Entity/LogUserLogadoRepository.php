@@ -194,7 +194,7 @@ WHERE  1 = 1
         }
 
         if ( $sala ) {
-            $sql .= " AND cp_.nm_property_name = 'Sala' AND lower(cc_.te_class_property_value) LIKE lower('%$sala%') ";
+            $sql .= " AND cp_.nm_property_name = 'Sala' AND lower(cc_.te_class_property_value) LIKE lower('%$sala%')";
         }
 
         $sql .= "
