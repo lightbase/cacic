@@ -359,7 +359,7 @@ GROUP BY c0_.te_node_address,
         }
 
         if ( $ipCompDinamico ) {
-            $sql .= " AND lower(c.te_ip_computador) LIKE lower('%".$ipCompDinamico."%')";
+            $sql .= " AND lower(c.te_ip_computador) LIKE lower('%".$ipCompDinamico."%') ";
         }
 
         if ($semData == 'N'){
