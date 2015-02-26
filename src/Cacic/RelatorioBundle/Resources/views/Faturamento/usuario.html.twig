@@ -1,7 +1,7 @@
 {% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li class="active">{{ 'Usu·rio Logado'|trans }}</li>
+    <li class="active">{{ 'Usu√°rio Logado'|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@
         <div class="span8">
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top"><i class="icon-search"></i> {{ 'RelatÛrio de usu·rio logado' |trans }}
+                <h2 class="box_head round_top"><i class="icon-search"></i> {{ 'Relat√≥rio de usu√°rio logado' |trans }}
                 </h2>
 
                 <div class="block box_content round_bottom padding_10">
@@ -19,16 +19,16 @@
                     <form id={{ 'formUserPesquisa'|trans }} action="{{ path('cacic_relatorio_usuario_detalhar') }}" class="form-horizontal" method="POST" target="_blank">
 
                         <div class="control-group">
-                            <label for="log_acesso_periodo" class="control-label">{{ 'PerÌodo'|trans }}</label>
+                            <label for="log_acesso_periodo" class="control-label">{{ 'Per√≠odo'|trans }}</label>
 
                             <div class="controls">
                                 {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
-                                <p class="help-block">{{ "Informe o perÌodo no qual deseja filtrar!"|trans }}</p>
+                                <p class="help-block">{{ "Informe o per√≠odo no qual deseja filtrar!"|trans }}</p>
                             </div>
                         </div>
 
                         <hr>
-                        <h4>{{ "InformaÁıes est·ticas"|trans }}</h4><br/>
+                        <h4>{{ "Informa√ß√µes est√°ticas"|trans }}</h4><br/>
 
                         <div class="control-group" >
                             <label for="UserPesquisa"  class="control-label">{{ 'Nome do Computador'|trans }}</label>
@@ -53,7 +53,7 @@
                             </div>
 
                         <div class="control-group" >
-                            <label for="UserPesquisa" class="control-label">{{ 'Nome do Respons·vel'|trans }}</label>
+                            <label for="UserPesquisa" class="control-label">{{ 'Nome do Respons√°vel'|trans }}</label>
 
                             <div class="controls">
                                 {{ form_widget(form.usuarioPatrimonio) }}
@@ -61,7 +61,7 @@
                         </div>
 
                         <div class="control-group" >
-                            <label for="UserPesquisa" class="control-label">{{ 'CPF do Respons·vel'|trans }}</label>
+                            <label for="UserPesquisa" class="control-label">{{ 'CPF do Respons√°vel'|trans }}</label>
 
                             <div class="controls">
                                 {{ form_widget(form.usuarioName) }}
@@ -70,7 +70,7 @@
 
                         <div class="control-group" >
                             <label for="UserPesquisa"
-                                   class="control-label">{{ 'CoordenaÁ„o do Respons·vel'|trans }}</label>
+                                   class="control-label">{{ 'Coordena√ß√£o do Respons√°vel'|trans }}</label>
 
                             <div class="controls">
                                 {{ form_widget(form.coordenacao) }}
@@ -78,7 +78,7 @@
                         </div>
 
                         <div class="control-group" >
-                            <label for="UserPesquisa" class="control-label">{{ 'Sala do Respons·vel'|trans }}</label>
+                            <label for="UserPesquisa" class="control-label">{{ 'Sala do Respons√°vel'|trans }}</label>
 
                             <div class="controls">
                                 {{ form_widget(form.sala) }}
@@ -98,10 +98,10 @@
                             </div>
                         </div>
                             <hr>
-                        <h4>{{ "InformaÁıes din‚micas"|trans }}</h4><br/>
+                        <h4>{{ "Informa√ß√µes din√¢micas"|trans }}</h4><br/>
 
                         <div class="control-group" >
-                            <label for="UserPesquisa" class="control-label">{{ 'Usu·rio Logado'|trans }}</label>
+                            <label for="UserPesquisa" class="control-label">{{ 'Usu√°rio Logado'|trans }}</label>
 
                             <div class="controls">
                                 {{ form_widget(form.usuarioLogado) }}
@@ -128,17 +128,17 @@
                                 </button>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="icon-search"></i>
-                                    {{ 'Gerar relatÛrio'|trans }}
+                                    {{ 'Gerar relat√≥rio'|trans }}
                                 </button>
 
                                 <button type="submit" class="btn btn-success" formaction="{{ path('cacic_relatorio_usuario_csv') }}">
                                     <i class="icon-download-alt"></i>
-                                    {{ 'Gerar CSV Est·tico'|trans }}
+                                    {{ 'Gerar CSV Est√°tico'|trans }}
                                 </button>
 
                                 <button type="submit" class="btn btn-success" formaction="{{ path('cacic_relatorio_usuario_csv_dinamico') }}">
                                     <i class="icon-download-alt"></i>
-                                    {{ 'Gerar CSV Usu·rio Din‚mico'|trans }}
+                                    {{ 'Gerar CSV Usu√°rio Din√¢mico'|trans }}
                                 </button>
                             </div>
                         </div>
@@ -151,22 +151,22 @@
         <div class="span4">
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "InformaÁıes Adicionais"|trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informa√ß√µes Adicionais"|trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
                     <p>
-                        {{ "Nesta consulta o possÌvel obter um relatÛrio contendo o registro do ˙ltimo usu·rio logado na estaÁ„o"|trans }}
+                        {{ "Nesta consulta o poss√≠vel obter um relat√≥rio contendo o registro do √∫ltimo usu√°rio logado na esta√ß√£o"|trans }}
                         .
                     </p>
                     <p>
-                        {{ "O campos PERIODO e USUARIO s„o de preenchimento obrigatÛrio para a realizaÁ„o da consulta"|trans }}
+                        {{ "O campos PERIODO e USUARIO s√£o de preenchimento obrigat√≥rio para a realiza√ß√£o da consulta"|trans }}
                         .
                     </p>
                     <p>
-                        {{ "N„o selecionar nenhum valor em LOCAL È o mesmo que selecionar todos"|trans }}.
+                        {{ "N√£o selecionar nenhum valor em LOCAL √© o mesmo que selecionar todos"|trans }}.
                     </p>
                     <p>
-                        {{ "As informaÁıes Est·ticas s„o o conjunto de informaÁıes b·sicas que n„o s„o passiveis de alteraÁıes constante, j· a infomraÁ„o din‚mica refere-se ao usu·rio que se encontra logado na estaÁ„o no momento da coleta. N„o sendo necess·riamente o mesmo usu·rio contido nas informaÁıes patrimoniais"|trans }}
+                        {{ "As informa√ß√µes Est√°ticas s√£o o conjunto de informa√ß√µes b√°sicas que n√£o s√£o passiveis de altera√ß√µes constante, j√° a infomra√ß√£o din√¢mica refere-se ao usu√°rio que se encontra logado na esta√ß√£o no momento da coleta. N√£o sendo necess√°riamente o mesmo usu√°rio contido nas informa√ß√µes patrimoniais"|trans }}
                         .
                     </p>
                 </div> <!-- /block -->
