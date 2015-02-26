@@ -182,7 +182,7 @@ WHERE  1 = 1
         }
 
         if ( $usuarioPatrimonio ) {
-            $sql .= " AND cp_.nm_property_name = 'UserName' AND lower(cc_.te_class_property_value) LIKE lower('%$usuarioPatrimonio%')";
+            $sql .= " AND cp_.nm_property_name = 'UserName' AND lower(cc_.te_class_property_value) LIKE lower('%$usuarioPatrimonio%') ";
         }
 
         if ( $usuarioName ) {
@@ -190,7 +190,7 @@ WHERE  1 = 1
         }
 
         if ( $coordenacao ) {
-            $sql .= " AND cp_.nm_property_name = 'Coordenacao_Setor' AND lower(cc_.te_class_property_value) LIKE lower('%$coordenacao%') ";
+            $sql .= " AND cp_.nm_property_name = 'Coordenacao_Setor' AND lower(cc_.te_class_property_value) LIKE lower('%$coordenacao%')";
         }
 
         if ( $sala ) {
