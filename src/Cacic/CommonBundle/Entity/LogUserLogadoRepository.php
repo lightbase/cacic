@@ -100,8 +100,8 @@ class LogUserLogadoRepository extends EntityRepository
 	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
 	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
 	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
-	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
 	string_agg(DISTINCT l4_.nm_local, ', ') AS nm_local,
+	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
     (SELECT max(cc5_.dt_hr_inclusao) FROM computador_coleta cc5_
           INNER JOIN class_property cp5_ ON cc5_.id_class_property = cp5_.id_class_property
           WHERE cp5_.nm_property_name = 'UserLogado' AND cc5_.id_computador = cc_.id_computador) as dt_hr_inclusao,
@@ -359,7 +359,7 @@ GROUP BY c0_.te_node_address,
         }
 
         if ( $ipCompDinamico ) {
-            $sql .= " AND lower(c.te_ip_computador) LIKE lower('%".$ipCompDinamico."%')";
+            $sql .= " AND lower(c.te_ip_computador) LIKE lower('%".$ipCompDinamico."%') ";
         }
 
         if ($semData == 'N'){
