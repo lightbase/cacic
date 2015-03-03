@@ -468,7 +468,7 @@
                 $usuarioLogado = $data['usuarioLogado'];
                 $macCompDinamico = $data['macCompDinamico'];
                 $ipCompDinamico = $data['ipCompDinamico'];
-                $data['semData'] = 'N';
+                $semData = 'N';
 
                 //verifica se a busca é pelo campo "usuario dinamico"
                 if(empty($usuarioLogado) AND empty($macCompDinamico) AND empty($ipCompDinamico)){
@@ -487,7 +487,7 @@
                         )
                     );
                 } else {
-                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $macCompDinamico, $ipCompDinamico);
+                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado, $semData, $dataFim, $dataInicio, $macCompDinamico, $ipCompDinamico);
                     return $this->render(
                         'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
                         array(
