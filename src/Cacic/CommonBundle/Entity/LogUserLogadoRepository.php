@@ -95,15 +95,14 @@ class LogUserLogadoRepository extends EntityRepository
         $rsm->addScalarResult('dt_hr_inclusao', 'dt_hr_inclusao');
 
 
-        $sql = "SELECT c0_.te_node_address AS te_node_address,
+        $sql = "SELECT string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
+    c0_.te_node_address AS te_node_address,
 	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
-	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
 	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
-	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
 	string_agg(DISTINCT l4_.nm_local, ', ') AS nm_local,
-    (SELECT max(cc5_.dt_hr_inclusao) FROM computador_coleta cc5_
-          INNER JOIN class_property cp5_ ON cc5_.id_class_property = cp5_.id_class_property
-          WHERE cp5_.nm_property_name = 'UserLogado' AND cc5_.id_computador = cc_.id_computador) as dt_hr_inclusao,
+	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
+	l1_.usuario as te_ultimo_login,
+	max(l1_.data) AS max_data,
     (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_ INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property WHERE cp1_.nm_property_name = 'UserName' AND cc1_.id_computador = cc_.id_computador";
 
         if ($usuarioPatrimonio) {
@@ -136,8 +135,9 @@ class LogUserLogadoRepository extends EntityRepository
 
 
         $sql = $sql . " LIMIT 1) AS sala,
-	max(l1_.data) AS max_data,
-	l1_.usuario as te_ultimo_login
+        (SELECT max(cc5_.dt_hr_inclusao) FROM computador_coleta cc5_
+          INNER JOIN class_property cp5_ ON cc5_.id_class_property = cp5_.id_class_property
+          WHERE cp5_.nm_property_name = 'UserLogado' AND cc5_.id_computador = cc_.id_computador) as dt_hr_inclusao
 FROM log_user_logado l1_
 INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
 INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
@@ -146,8 +146,7 @@ INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
 INNER JOIN log_acesso la5_ ON c0_.id_computador = la5_.id_computador
 INNER JOIN computador_coleta cc_ ON cc_.id_computador = c0_.id_computador
 INNER JOIN class_property cp_ ON cp_.id_class_property = cc_.id_class_property
-WHERE  1 = 1
-";
+WHERE  1 = 1";
 
         /**
          * Verifica os filtros que foram parametrizados
