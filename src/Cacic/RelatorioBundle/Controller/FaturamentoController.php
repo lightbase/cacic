@@ -557,7 +557,7 @@
             $tmpfile = tempnam(sys_get_temp_dir(), 'usuario_estatico_');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            $writer->writeItem(array( 'Mac Address', 'IP computador', 'Nome computador', 'Sistema Operacional', 'Sub Rede', 'Local', 'Data do Pop-up', 'Nome do Responsável', 'CPF Responsável', 'Coordenacao Responsável', 'Sala do Responsável', 'Data Último Usuário Logado', 'Último Usuário Logado'));
+            $writer->writeItem(array( 'Nome computador', 'Mac Address', 'IP computador', 'Sistema Operacional', 'Local', 'Sub Rede', 'Último Usuário Logado', 'Data Último Usuário Logado', 'Nome do Responsável', 'CPF Responsável', 'Coordenacao Responsável', 'Sala do Responsável', 'Data do Pop-up'));
             $workflow->addWriter($writer);
 
 
