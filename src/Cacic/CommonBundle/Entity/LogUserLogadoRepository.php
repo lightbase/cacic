@@ -146,8 +146,7 @@ INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
 INNER JOIN log_acesso la5_ ON c0_.id_computador = la5_.id_computador
 INNER JOIN computador_coleta cc_ ON cc_.id_computador = c0_.id_computador
 INNER JOIN class_property cp_ ON cp_.id_class_property = cc_.id_class_property
-WHERE  1 = 1
-";
+WHERE  1 = 1";
 
         /**
          * Verifica os filtros que foram parametrizados
