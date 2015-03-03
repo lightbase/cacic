@@ -36,7 +36,6 @@
                         {# cria a tabela dinamicamente de acordo com as propriedades das classes WMI selecionadas #}
                         {% for reg in relDinamico %}
                             <tr>
-                                <td></td>
                             {% for nmCampo in saida %}
                                 <td>{{ reg[nmCampo] }}</td>
                             {% endfor %}

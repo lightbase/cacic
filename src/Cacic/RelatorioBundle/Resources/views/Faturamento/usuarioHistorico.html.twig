@@ -11,7 +11,18 @@
     {% endif %}
     <h5>{{ 'Relatório gerado em: '|trans }}{{ "now"|date("d/m/Y H\\hi") }}</h5>
     <hr />
-    <P />
+
+    <form id="csv" action="{{ path('cacic_relatorio_usuario_csv_dinamico') }}" method="post">
+        {% for key, value in data %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">
+            <i class="icon-bar-chart"></i>
+            Gerar CSV
+        </button>
+    </form>
+
+    <br />
 
     {% if dados|keys %}
 
@@ -41,9 +52,9 @@
                     <td>{{ reg['nm_local'] }}</td>
                     <td>{{ reg['nm_rede'] }}</td>
                     <td>{{ reg['te_class_property_value'] }}</td>
-                    <td>{{ reg['data_popup']|date('r') }}</td>
+                    <td>{{ reg['data_popup']|date('d/m/Y H\\hi') }}</td>
                     <td>{{ reg['usuario'] }}</td>
-                    <td>{{ reg['data']|date('r') }}</td>
+                    <td>{{ reg['data']|date('d/m/Y H\\hi') }}</td>
                     <td>
                         <a class="btn" href="{{ path('cacic_computador_detalhar', {'idComputador': reg['id_computador']}) }}" target="_blank" title="{{ "Detalhes do computador"|trans }}">
                             <i class="icon-search"></i>

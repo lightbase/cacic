@@ -6,7 +6,24 @@
     <h5 class="">{{ 'Período: '|trans }}{{ dtAcaoInicio|date("d/m/Y") }} a {{ dtAcaoFim|date("d/m/Y") }}</h5>
     <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("d/m/Y H\\hi") }}{% endif %}</h5>
     <hr />
-    <P />
+
+    <form id="csv" action="{{ path('cacic_relatorio_usuario_csv') }}" method="post">
+        {% for key, value in data %}
+            {% if key == 'idLocal' %}
+                {% for local in value %}
+                    <input type="hidden" name="idLocal[]" value="{{ local }}">
+                {% endfor %}
+            {% else %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endif %}
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">
+            <i class="icon-bar-chart"></i>
+            Gerar CSV
+        </button>
+    </form>
+
+    <br />
 
     {% if dados %}
         <table class="display datatable" id="datatable">
@@ -51,18 +68,18 @@
                     </td>
                     <td>{{ reg.sgSo }}</td>
                     <td>{{ reg.nmLocal }}</td>
-                    <td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
+                    <td>{{ reg.nmRede }}</td>
                     <td>
                         <a href="{{ path('cacic_relatorio_usuario_historico', {'te_ultimo_login' : reg.te_ultimo_login|trim}) }}" title="{{ 'Histórico de Usuário'|trans }}" target="_blank">
                             {{ reg.te_ultimo_login }}
                         </a>
                     </td>
-                    <td>{{ reg.data|date('r') }}</td>
+                    <td>{{ reg.data|date('d/m/Y H\\hi') }}</td>
                     <td>{{ reg.usuarioPatrimonio }}</td>
                     <td>{{ reg.usuarioName }}</td>
                     <td>{{ reg.coordenacao }}</td>
                     <td>{{ reg.sala }}</td>
-                    <td>{{ reg.dt_hr_inclusao|date('r') }}</td>
+                    <td>{{ reg.dt_hr_inclusao|date('d/m/Y H\\hi') }}</td>
                 </tr>
 
                 {% endfor %}
