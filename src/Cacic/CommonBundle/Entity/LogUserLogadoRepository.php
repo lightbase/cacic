@@ -101,7 +101,6 @@ class LogUserLogadoRepository extends EntityRepository
 	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
 	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
 	string_agg(DISTINCT l4_.nm_local, ', ') AS nm_local,
-	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
     (SELECT max(cc5_.dt_hr_inclusao) FROM computador_coleta cc5_
           INNER JOIN class_property cp5_ ON cc5_.id_class_property = cp5_.id_class_property
           WHERE cp5_.nm_property_name = 'UserLogado' AND cc5_.id_computador = cc_.id_computador) as dt_hr_inclusao,
@@ -323,11 +322,7 @@ GROUP BY c0_.te_node_address,
         $rsm->addScalarResult('nm_property_name', 'nm_property_name');
         $rsm->addScalarResult('dt_hr_inclusao', 'dt_hr_inclusao');
 
-        $sql = "SELECT lg.id_log_user_logado,
-                       lg.id_computador,
-                       lg.data,
-                       lg.usuario,
-                       c.nm_computador,
+        $sql = "SELECT c.nm_computador,
                        c.te_node_address,
                        c.te_ip_computador,
                        l.nm_local,
@@ -341,7 +336,10 @@ GROUP BY c0_.te_node_address,
                       (SELECT max(cc1_.dt_hr_inclusao) FROM computador_coleta cc1_
                           INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property
                           WHERE cp1_.nm_property_name = 'UserLogado'
-                          AND cc1_.id_computador = lg.id_computador) as data_popup
+                          AND cc1_.id_computador = lg.id_computador) as data_popup,
+                      lg.usuario,
+                      lg.data,
+                      lg.id_computador
                 FROM log_user_logado lg
                 INNER JOIN computador c ON c.id_computador = lg.id_computador
                 INNER JOIN rede r ON r.id_rede = C.id_rede
