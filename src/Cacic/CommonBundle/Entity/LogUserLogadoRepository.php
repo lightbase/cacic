@@ -70,23 +70,20 @@ class LogUserLogadoRepository extends EntityRepository
     }
 
     /*
-     * Consulta para relatório de contendo ultimo usuário logado
+     * Consulta para relatório de usuário estático contendo ultimo usuário logado
+     * Também gera o CSV do usuário estático
      */
     public function gerarRelatorioUsuario( $filtros, $filtroLocais, $dataInicio, $dataFim, $te_ultimo_login, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala )
     {
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('te_node_address', 'teNodeAddress');
-        //$rsm->addScalarResult('id_computador', 'idComputador');
         $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
         $rsm->addScalarResult('nm_computador', 'nmComputador');
-        //$rsm->addScalarResult('id_so', 'idSo');
         $rsm->addScalarResult('sg_so', 'sgSo');
-        //$rsm->addScalarResult('id_rede', 'idRede');
         $rsm->addScalarResult('nm_rede', 'nmRede');
         $rsm->addScalarResult('te_ip_rede', 'teIpRede');
         $rsm->addScalarResult('max_data', 'data');
         $rsm->addScalarResult('nm_local', 'nmLocal');
-        //$rsm->addScalarResult('id_local', 'idLocal');
         $rsm->addScalarResult('te_ultimo_login', 'te_ultimo_login');
         $rsm->addScalarResult('usuario_patrimonio', 'usuarioPatrimonio');
         $rsm->addScalarResult('usuario_name', 'usuarioName');
@@ -95,15 +92,15 @@ class LogUserLogadoRepository extends EntityRepository
         $rsm->addScalarResult('dt_hr_inclusao', 'dt_hr_inclusao');
 
 
-        $sql = "SELECT string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
-    c0_.te_node_address AS te_node_address,
-	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
-	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
-	string_agg(DISTINCT l4_.nm_local, ', ') AS nm_local,
-	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
-	l1_.usuario as te_ultimo_login,
-	max(l1_.data) AS max_data,
-    (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_ INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property WHERE cp1_.nm_property_name = 'UserName' AND cc1_.id_computador = cc_.id_computador";
+        $sql = "SELECT  string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
+                        c0_.te_node_address AS te_node_address,
+	                    string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
+	                    string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
+	                    string_agg(DISTINCT l4_.nm_local, ', ') AS nm_local,
+	                    string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
+	                    l1_.usuario as te_ultimo_login,
+	                    max(l1_.data) AS max_data,
+        (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_ INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property WHERE cp1_.nm_property_name = 'UserName' AND cc1_.id_computador = cc_.id_computador";
 
         if ($usuarioPatrimonio) {
             $sql = $sql . " AND lower(cc1_.te_class_property_value) LIKE lower('%$usuarioPatrimonio%')";
@@ -136,17 +133,16 @@ class LogUserLogadoRepository extends EntityRepository
 
         $sql = $sql . " LIMIT 1) AS sala,
         (SELECT max(cc5_.dt_hr_inclusao) FROM computador_coleta cc5_
-          INNER JOIN class_property cp5_ ON cc5_.id_class_property = cp5_.id_class_property
-          WHERE cp5_.nm_property_name = 'UserLogado' AND cc5_.id_computador = cc_.id_computador) as dt_hr_inclusao
-FROM log_user_logado l1_
-INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
-INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
-INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
-INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
-INNER JOIN log_acesso la5_ ON c0_.id_computador = la5_.id_computador
-INNER JOIN computador_coleta cc_ ON cc_.id_computador = c0_.id_computador
-INNER JOIN class_property cp_ ON cp_.id_class_property = cc_.id_class_property
-WHERE  1 = 1";
+            INNER JOIN class_property cp5_ ON cc5_.id_class_property = cp5_.id_class_property
+            WHERE cp5_.nm_property_name = 'UserLogado' AND cc5_.id_computador = cc_.id_computador) as dt_hr_inclusao
+        FROM log_user_logado l1_
+        INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
+        INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
+        INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
+        INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
+        INNER JOIN computador_coleta cc_ ON cc_.id_computador = c0_.id_computador
+        INNER JOIN class_property cp_ ON cp_.id_class_property = cc_.id_class_property
+        WHERE  1 = 1";
 
         /**
          * Verifica os filtros que foram parametrizados
@@ -195,13 +191,11 @@ WHERE  1 = 1";
             $sql .= " AND cp_.nm_property_name = 'Sala' AND lower(cc_.te_class_property_value) LIKE lower('%$sala%')";
         }
 
-        $sql .= "
-GROUP BY c0_.te_node_address,
-    l1_.usuario,
-	l4_.nm_local,
-	l4_.id_local,
-	cc_.id_computador
-	";
+        $sql .= "GROUP BY c0_.te_node_address,
+                l1_.usuario,
+	            l4_.nm_local,
+	            l4_.id_local,
+	            cc_.id_computador";
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -236,66 +230,7 @@ GROUP BY c0_.te_node_address,
     }
 
     /**
-     * CSV do relatório de usuário dinâmico
-     *
-     * @return mixed
-     */
-    public function gerarUsuarioCsvDinamico(){
-        $rsm = new ResultSetMapping();
-        $rsm->addScalarResult('id_log_user_logado', 'id_log_user_logado');
-        $rsm->addScalarResult('id_computador', 'id_computador');
-        $rsm->addScalarResult('data', 'data');
-        $rsm->addScalarResult('usuario', 'usuario');
-        $rsm->addScalarResult('nm_computador', 'nm_computador');
-        $rsm->addScalarResult('te_node_address', 'te_node_address');
-        $rsm->addScalarResult('te_ip_computador', 'te_ip_computador');
-        $rsm->addScalarResult('nm_rede', 'nm_rede');
-        $rsm->addScalarResult('nm_local', 'nm_local');
-        $rsm->addScalarResult('te_class_property_value', 'te_class_property_value');
-        $rsm->addScalarResult('data_popup', 'data_popup');
-        $rsm->addScalarResult('nm_property_name', 'nm_property_name');
-        $rsm->addScalarResult('dt_hr_inclusao', 'dt_hr_inclusao');
-
-        $sql = "SELECT c.nm_computador,
-                       c.te_node_address,
-                       c.te_ip_computador,
-                       l.nm_local,
-                       r.nm_rede,
-                      (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_
-                          INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property
-                          WHERE cp1_.nm_property_name = 'UserLogado'
-                          AND cc1_.id_computador = lg.id_computador
-                          ORDER BY cc1_.dt_hr_inclusao DESC
-                          LIMIT 1) as te_class_property_value,
-                      (SELECT max(cc1_.dt_hr_inclusao) FROM computador_coleta cc1_
-                          INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property
-                          WHERE cp1_.nm_property_name = 'UserLogado'
-                          AND cc1_.id_computador = lg.id_computador) as data_popup,
-                       lg.usuario,
-                       lg.data
-                FROM log_user_logado lg
-                INNER JOIN computador c ON c.id_computador = lg.id_computador
-                INNER JOIN rede r ON r.id_rede = c.id_rede
-                INNER JOIN local l ON r.id_local = l.id_local
-                INNER JOIN computador_coleta cc ON cc.id_computador = lg.id_computador
-                INNER JOIN class_property cp ON cp.id_class_property = cc.id_class_property
-                GROUP BY lg.id_log_user_logado,
-                       lg.id_computador,
-                       lg.data,
-                       lg.usuario,
-                       c.nm_computador,
-                       c.te_node_address,
-                       c.te_ip_computador,
-                       l.nm_local,
-                       r.nm_rede";
-
-        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
-
-        return $query->execute();
-    }
-
-    /**
-     * CSV do relatório de Usuário Dinâmico
+     * Relatório de Usuário Dinâmico e CSV
      *
      * @param $usuarioLogado
      * @param $dataFim
@@ -321,30 +256,22 @@ GROUP BY c0_.te_node_address,
         $rsm->addScalarResult('nm_property_name', 'nm_property_name');
         $rsm->addScalarResult('dt_hr_inclusao', 'dt_hr_inclusao');
 
-        $sql = "SELECT c.nm_computador,
-                       c.te_node_address,
-                       c.te_ip_computador,
-                       l.nm_local,
-                       r.nm_rede,
-                      (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_
-                          INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property
-                          WHERE cp1_.nm_property_name = 'UserLogado'
-                          AND cc1_.id_computador = lg.id_computador
-                          ORDER BY cc1_.dt_hr_inclusao DESC
-                          LIMIT 1) as te_class_property_value,
-                      (SELECT max(cc1_.dt_hr_inclusao) FROM computador_coleta cc1_
-                          INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property
-                          WHERE cp1_.nm_property_name = 'UserLogado'
-                          AND cc1_.id_computador = lg.id_computador) as data_popup,
-                      lg.usuario,
-                      lg.data,
-                      lg.id_computador
+        $sql = "SELECT c.nm_computador, c.te_node_address, c.te_ip_computador, l.nm_local, r.nm_rede,
+                  (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_
+		              INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property
+        	          WHERE cp1_.nm_property_name = 'UserLogado'
+                      AND cc1_.id_computador = lg.id_computador) as te_class_property_value,
+	              (SELECT cc1_.dt_hr_inclusao FROM computador_coleta cc1_
+                      INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property
+	                  WHERE cp1_.nm_property_name = 'UserLogado'
+                      AND cc1_.id_computador = lg.id_computador) as data_popup,
+                  lg.usuario,
+                  lg.data,
+                  lg.id_computador
                 FROM log_user_logado lg
                 INNER JOIN computador c ON c.id_computador = lg.id_computador
-                INNER JOIN rede r ON r.id_rede = C.id_rede
+                INNER JOIN rede r ON r.id_rede = c.id_rede
                 INNER JOIN local l ON r.id_local = l.id_local
-                INNER JOIN computador_coleta cc ON cc.id_computador = lg.id_computador
-                INNER JOIN class_property cp ON cp.id_class_property = cc.id_class_property
                 WHERE 1=1";
 
         if ( $usuarioLogado ) {

@@ -50,9 +50,17 @@
                     <td>{{ reg['nm_local'] }}</td>
                     <td>{{ reg['nm_rede'] }}</td>
                     <td>{{ reg['te_class_property_value'] }}</td>
-                    <td>{{ reg['data_popup']|date('d/m/Y H\\hi') }}</td>
+                    {% if reg['data_popup'] is null %}
+                        <td></td>
+                    {% else %}
+                        <td>{{ reg['data_popup']|date('d/m/Y H\\hi') }}</td>
+                    {% endif %}
                     <td>{{ reg['usuario'] }}</td>
-                    <td>{{ reg['data']|date('d/m/Y H\\hi') }}</td>
+                    {% if reg['data'] is null %}
+                        <td></td>
+                    {% else %}
+                        <td>{{ reg['data']|date('d/m/Y H\\hi') }}</td>
+                    {% endif %}
                     <td>
                         <a class="btn" href="{{ path('cacic_computador_detalhar', {'idComputador': reg['id_computador']}) }}" target="_blank" title="{{ "Detalhes do computador"|trans }}">
                             <i class="icon-search"></i>

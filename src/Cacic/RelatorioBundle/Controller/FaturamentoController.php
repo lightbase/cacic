@@ -487,7 +487,7 @@
                         )
                     );
                 } else {
-                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado, $semData, $dataFim, $dataInicio, $macCompDinamico, $ipCompDinamico);
+                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $macCompDinamico, $ipCompDinamico);
                     return $this->render(
                         'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
                         array(
@@ -579,7 +579,7 @@
         }
 
         /*
-         * Página que exibe o resultado da consulta do histórico do usuário logado
+         * Realiza a busca do user logado somente pelo nome do usuário (link da página usuarioDetalhar)
          */
         public function usuarioHistoricoAction( Request $request) {
 
@@ -607,7 +607,7 @@
             );
         }
         /*
-         * Gera o CSV completo dos registros dos usuários dinâmicos ( user logado)
+         * Gera o CSV completo e filtrado dos registros dos usuários dinâmicos ( user logado)
          */
 
         public function usuarioCsvDinamicoAction( Request $request) {
@@ -619,9 +619,18 @@
                 $usuarioLogado = $request->get('usuarioLogado');
                 $macCompDinamico = $request->get('macCompDinamico');
                 $ipCompDinamico = $request->get('ipCompDinamico');
+
+                /*
+                 * Verifica se existe filtro por data do CSV
+                 */
+                if(empty($dataInicio)){
+                    $semData = 'S';
+                }else{
+                    $semData = 'N';
+                }
                 $dados = $this->getDoctrine()
                     ->getRepository('CacicCommonBundle:LogUserLogado')
-                    ->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $macCompDinamico, $ipCompDinamico);
+                    ->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $macCompDinamico, $ipCompDinamico);
             }
 
             // Gera CSV
