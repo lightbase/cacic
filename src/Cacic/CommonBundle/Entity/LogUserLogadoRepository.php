@@ -304,4 +304,47 @@ class LogUserLogadoRepository extends EntityRepository
 
         return $query->execute();
     }
+
+    public function gerarRelatorioUsuarioHistoricoCompleto(){
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id_log_user_logado', 'id_log_user_logado');
+        $rsm->addScalarResult('id_computador', 'id_computador');
+        $rsm->addScalarResult('data', 'data');
+        $rsm->addScalarResult('usuario', 'usuario');
+        $rsm->addScalarResult('nm_computador', 'nm_computador');
+        $rsm->addScalarResult('te_node_address', 'te_node_address');
+        $rsm->addScalarResult('te_ip_computador', 'te_ip_computador');
+        $rsm->addScalarResult('nm_rede', 'nm_rede');
+        $rsm->addScalarResult('nm_local', 'nm_local');
+        $rsm->addScalarResult('te_class_property_value', 'te_class_property_value');
+        $rsm->addScalarResult('data_popup', 'data_popup');
+        $rsm->addScalarResult('nm_property_name', 'nm_property_name');
+        $rsm->addScalarResult('dt_hr_inclusao', 'dt_hr_inclusao');
+
+        $sql = "SELECT c.nm_computador,
+                  c.te_node_address,
+                  c.te_ip_computador,
+                  l.nm_local,
+                  r.nm_rede,
+                  lg.usuario,
+                  lg.data,
+                  lg.id_computador
+                FROM log_user_logado lg
+                INNER JOIN computador c ON c.id_computador = lg.id_computador
+                INNER JOIN rede r ON r.id_rede = c.id_rede
+                INNER JOIN local l ON r.id_local = l.id_local
+                GROUP BY lg.id_log_user_logado,
+                      c.nm_computador,
+                  c.te_node_address,
+                  c.te_ip_computador,
+                  l.nm_local,
+                  r.nm_rede,
+                  lg.usuario,
+                  lg.data,
+                  lg.id_computador";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+
+        return $query->execute();
+    }
 }
