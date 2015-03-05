@@ -656,9 +656,9 @@
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
             if ($semData == 'S'){
-                $writer->writeItem(array( 'Nome computador', 'Mac Address','IP computador','Local', 'Sub Rede', 'Usuário', 'Data', 'IP Computador'));
+                $writer->writeItem(array('Nome computador', 'Mac Address','IP computador','Local', 'Sub Rede', 'Usuário', 'Data', 'IP Computador'));
             }else{
-                $writer->writeItem(array( 'Nome computador', 'Mac Address','IP computador','Local', 'Sub Rede', 'CPF Responsável', 'Data Pup-up', 'Usuário', 'Data', 'IP Computador'));
+                $writer->writeItem(array('Nome computador', 'Mac Address','IP computador','Local', 'Sub Rede', 'CPF Responsável', 'Data Pup-up', 'Usuário', 'Data', 'IP Computador'));
             }
             $workflow->addWriter($writer);
 
