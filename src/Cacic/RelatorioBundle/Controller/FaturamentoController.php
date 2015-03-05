@@ -625,12 +625,15 @@
                  */
                 if(empty($dataInicio)){
                     $semData = 'S';
+                    $dados = $this->getDoctrine()
+                        ->getRepository('CacicCommonBundle:LogUserLogado')
+                        ->gerarRelatorioUsuarioHistoricoCompleto($usuarioLogado, $semData);
                 }else{
                     $semData = 'N';
+                    $dados = $this->getDoctrine()
+                        ->getRepository('CacicCommonBundle:LogUserLogado')
+                        ->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $macCompDinamico, $ipCompDinamico);
                 }
-                $dados = $this->getDoctrine()
-                    ->getRepository('CacicCommonBundle:LogUserLogado')
-                    ->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $macCompDinamico, $ipCompDinamico);
             }
 
             // Gera CSV
@@ -652,7 +655,11 @@
             $tmpfile = tempnam(sys_get_temp_dir(), 'usuario_estatico_');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            $writer->writeItem(array( 'Nome computador', 'Mac Address','IP computador','Local', 'Sub Rede', 'CPF Responsável', 'Data Pup-up', 'Usuário', 'Data', 'IP Computador'));
+            if ($semData == 'S'){
+                $writer->writeItem(array( 'Nome computador', 'Mac Address','IP computador','Local', 'Sub Rede', 'Usuário', 'Data', 'IP Computador'));
+            }else{
+                $writer->writeItem(array( 'Nome computador', 'Mac Address','IP computador','Local', 'Sub Rede', 'CPF Responsável', 'Data Pup-up', 'Usuário', 'Data', 'IP Computador'));
+            }
             $workflow->addWriter($writer);
 
 
