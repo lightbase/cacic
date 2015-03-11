@@ -42,6 +42,10 @@ cacic_usuario_excluir:
     pattern:  /admin/usuario/excluir
     defaults: { _controller: CacicCommonBundle:Usuario:excluir}
 
+cacic_usuario_csv:
+    pattern:  /usuario/csv
+    defaults: { _controller: CacicCommonBundle:Usuario:csv}
+
 # Locais
 
 cacic_local_index:
