@@ -3,6 +3,8 @@
 namespace Cacic\CommonBundle\Controller;
 
 use Doctrine\Common\Util\Debug;
+use Doctrine\DBAL\DBALException;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,6 +24,7 @@ class AquisicaoItemController extends Controller
     
     public function cadastrarAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $Aquisicao = new AquisicaoItem();
         $form = $this->createForm( new AquisicaoItemType(), $Aquisicao );
 
@@ -33,20 +36,27 @@ class AquisicaoItemController extends Controller
 
                 // Primeiro remove os softwares que estavam cadastrados
                 foreach ($Aquisicao->getIdSoftware() as $software) {
+                    $this->get('logger')->debug("Removendo software ".$software->getIdSoftware());
                     $Aquisicao->removeIdSoftware($software);
+                    $em->persist( $software );
+
                 }
+                $em->persist( $Aquisicao );
 
                 $software_list = $request->get('idSoftware');
+
+                // Garante qus os elementos do array são únicos
+                $software_list = array_unique($software_list);
+
                 foreach ($software_list as $software) {
                     $this->get('logger')->debug("Adicionando software ".$software);
                     $software_obj = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:Software')->find($software);
                     $Aquisicao->addIdSoftware($software_obj);
-                    $this->getDoctrine()->getManager()->persist( $software_obj );
+                    $em->persist( $software_obj );
                 }
 
-                //Inserção de aquisição item
-                $this->getDoctrine()->getManager()->persist( $Aquisicao );
-                $this->getDoctrine()->getManager()->flush(); //Persiste os dados do Aquisicao
+                $em->persist( $Aquisicao );
+                $em->flush();// Efetuar a edição do Aquisicao
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
                 return $this->redirect( $this->generateUrl( 'cacic_aquisicao_item_index') );
@@ -65,7 +75,8 @@ class AquisicaoItemController extends Controller
      */
     public function editarAction( $idAquisicao, $idTipoLicenca, Request $request )
     {
-        $Aquisicao = $this->getDoctrine()->getRepository('CacicCommonBundle:AquisicaoItem')
+        $em = $this->getDoctrine()->getManager();
+        $Aquisicao = $em->getRepository('CacicCommonBundle:AquisicaoItem')
                                             ->find(
                                                 array(
                                                     'idAquisicao' =>$idAquisicao,
@@ -82,25 +93,29 @@ class AquisicaoItemController extends Controller
 
             if ( $form->isValid() )
             {
-
-                //$Aquisicao = $form->getData();
-
                 // Primeiro remove os softwares que estavam cadastrados
                 foreach ($Aquisicao->getIdSoftware() as $software) {
+                    $this->get('logger')->debug("Removendo software ".$software->getIdSoftware());
                     $Aquisicao->removeIdSoftware($software);
+                    $em->persist( $software );
+
                 }
+                $em->persist( $Aquisicao );
 
                 $software_list = $request->get('idSoftware');
+
+                // Garante qus os elementos do array são únicos
+                $software_list = array_unique($software_list);
+
                 foreach ($software_list as $software) {
                     $this->get('logger')->debug("Adicionando software ".$software);
                     $software_obj = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:Software')->find($software);
                     $Aquisicao->addIdSoftware($software_obj);
-                    $this->getDoctrine()->getManager()->persist( $software_obj );
+                    $em->persist( $software_obj );
                 }
 
-                $this->getDoctrine()->getManager()->persist( $Aquisicao );
-                $this->getDoctrine()->getManager()->flush();// Efetuar a edição do Aquisicao
-
+                $em->persist( $Aquisicao );
+                $em->flush();// Efetuar a edição do Aquisicao
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
             }
