@@ -130,10 +130,12 @@
                                     <i class="icon-search"></i>
                                     {{ 'Gerar relatório'|trans }}
                                 </button>
+                                {#
                                 <button type="submit" class="btn btn-success" formaction="{{ path('cacic_relatorio_usuario_csv_dinamico') }}">
                                     <i class="icon-download-alt"></i>
                                     {{'Gerar CSV dinamico completo'|trans  }}
                                 </button>
+                                #}
                             </div>
                         </div>
 
@@ -149,18 +151,22 @@
 
                 <div class="block box_content round_bottom padding_10">
                     <p>
-                        {{ "Nesta consulta o possível obter um relatório contendo o registro do último usuário logado na estação"|trans }}
+                        {{ "Nesta consulta o possível obter um relatório contendo o registro do último usuário logado na estação de acordo com o patrimônio (estático) e log do usuário (dinâmico)"|trans }}
                         .
                     </p>
                     <p>
-                        {{ "O campos PERIODO e USUARIO são de preenchimento obrigatório para a realização da consulta"|trans }}
+                        {{ "O campos PERIODO e pelo menos mais 1 descrito abaixo são de preenchimento obrigatório para a realização da consulta"|trans }}
                         .
                     </p>
                     <p>
                         {{ "Não selecionar nenhum valor em LOCAL é o mesmo que selecionar todos"|trans }}.
                     </p>
                     <p>
-                        {{ "As informações Estáticas são o conjunto de informações básicas que não são passiveis de alterações constante, já a infomração dinâmica refere-se ao usuário que se encontra logado na estação no momento da coleta. Não sendo necessáriamente o mesmo usuário contido nas informações patrimoniais"|trans }}
+                        {{ "As informações Estáticas são o conjunto de informações da coleta de patrimônio que não são passiveis de alterações constante, já a infomração dinâmica refere-se ao usuário que se encontra logado na estação no momento da coleta. Não sendo necessáriamente o mesmo usuário contido nas informações patrimoniais"|trans }}
+                        .
+                    </p>
+                    <p>
+                        {{ "Ao preencher uma informação do usuário dinâmico automáticamente estará realizando a busca no relatório dinâmico."|trans }}
                         .
                     </p>
                 </div> <!-- /block -->
@@ -177,6 +183,7 @@
 
     <script type="text/javascript">
         System.Form.toggleCheck(); // Ativa o monitoramento de Clique no checkbox para marcar/desmarcar todos
+
     </script>
 
 {% endblock %}
