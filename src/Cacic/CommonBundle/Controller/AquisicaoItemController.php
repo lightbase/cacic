@@ -38,10 +38,7 @@ class AquisicaoItemController extends Controller
                 foreach ($Aquisicao->getIdSoftware() as $software) {
                     $this->get('logger')->debug("Removendo software ".$software->getIdSoftware());
                     $Aquisicao->removeIdSoftware($software);
-                    $em->persist( $software );
-
                 }
-                $em->persist( $Aquisicao );
 
                 $software_list = $request->get('idSoftware');
 
@@ -97,10 +94,7 @@ class AquisicaoItemController extends Controller
                 foreach ($Aquisicao->getIdSoftware() as $software) {
                     $this->get('logger')->debug("Removendo software ".$software->getIdSoftware());
                     $Aquisicao->removeIdSoftware($software);
-                    $em->persist( $software );
-
                 }
-                $em->persist( $Aquisicao );
 
                 $software_list = $request->get('idSoftware');
 
@@ -113,7 +107,6 @@ class AquisicaoItemController extends Controller
                     $Aquisicao->addIdSoftware($software_obj);
                     $em->persist( $software_obj );
                 }
-
                 $em->persist( $Aquisicao );
                 $em->flush();// Efetuar a edição do Aquisicao
 
