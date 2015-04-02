@@ -86,6 +86,7 @@ class DefaultController extends Controller
         $te_so = $request->get( 'te_so' );
         $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
         $ip_computador = $request->get('te_ip_computador');
+        $versaoAgente = $request->get('te_versao_cacic');
 
         if ( empty($ip_computador) ){
             $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );

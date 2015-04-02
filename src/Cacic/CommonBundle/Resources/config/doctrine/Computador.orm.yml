@@ -95,6 +95,10 @@ Cacic\CommonBundle\Entity\Computador:
             lenght: 1
             nullable: true
             column: forca_patrimonio
+        ativo:
+            type: text
+            nullable: true
+            column: ativo
     oneToMany:
         softwares:
             targetEntity: SoftwareEstacao
@@ -133,4 +137,8 @@ Cacic\CommonBundle\Entity\Computador:
                 id_rede:
                     referencedColumnName: id_rede
             orphanRemoval: false
+    UniqueConstraints:
+        mac_os_unique:
+            columns: [ teNodeAddress, idSo ]
+
     lifecycleCallbacks: {  }

@@ -572,4 +572,53 @@ class ComputadorRepository extends EntityRepository
         return $query->execute();
     }
 
+    /**
+     * Busca computadores com mesmo MAC Address e SO
+     */
+    public function filtroMac( $id_so ){
+
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp.teNodeAddress', 'COUNT(comp.idComputador) as contIdComp')
+            ->where('comp.idSo = :idSo')
+            ->setParameter('idSo', $id_so)
+            ->groupBy('comp.teNodeAddress')
+            ->having('COUNT(comp.idComputador) > 1')
+            ->orderBy('contIdComp');
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * Busca computador mais recentes
+     */
+    public function computadorRecente( $teNodeAddress, $id_so ){
+
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp.idComputador')
+            ->andwhere('comp.teNodeAddress = :teNodeAddress')
+            ->andwhere('comp.idSo = :idSo')
+            ->setMaxResults(1)
+            ->setParameter('teNodeAddress', $teNodeAddress)
+            ->setParameter('idSo', $id_so)
+            ->orderBy('comp.dtHrUltAcesso desc');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Busca computadores antigos
+     */
+    public function computadorAntigo( $teNodeAddress, $id_so, $ArrCompRecente ){
+
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp.idComputador')
+            ->andwhere('comp.teNodeAddress = :teNodeAddress')
+            ->andwhere('comp.idSo = :idSo')
+            ->andwhere('comp.idcomputador <> :idComputador')
+            ->setParameter('teNodeAddress', $teNodeAddress)
+            ->setParameter('idSo', $id_so)
+            ->setParameter('idComputador', $ArrCompRecente);
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }

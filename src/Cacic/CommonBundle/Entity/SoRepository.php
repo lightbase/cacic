@@ -40,25 +40,33 @@ class SoRepository extends EntityRepository
 
     public function createIfNotExist( $te_so )
     {
-        $so = $this->findBy( array ( 'teSo' => $te_so ) );
+        $qb = $this->createQueryBuilder('so')
+            ->orWhere('teso.teSo28 = :te_so')
+            ->orWhere('teso.teSo31 = :te_so')
+            ->innerJoin('CacicCommonBundle:TeSo', 'teso', 'WITH', 'so.idSo = teso.idSo')
+            ->setMaxResults(1)
+            ->orderBy('teso.teSo28')
+            ->setParameter('te_so', $te_so);
+
+        $so =  $qb->getQuery()->getSingleResult();
+
+        if (empty($so)){
+            $so = $this->findOneBy( array ( 'teSo' => $te_so ) );
+        }
+
         if( empty( $so ) )
         {
             $so = new So();
-            $so->setTeSo($te_so);
+            $so->setTeDescSo("$te_so");
             $so->setSgSo("Sigla a Cadastrar");
-            $so->setTeDescSo("S.O. a Cadastrar");
+            $so->setTeSo($te_so);
             $so->setInMswindows("S");
+
             $this->getEntityManager()->persist( $so );
-
             $this->getEntityManager()->flush();
-
-	} else {
-	    // Return first element, which should be SO object
-	    $so = $so[0];
-	}
+        }
 
         return $so;
-
     }
 
     /*

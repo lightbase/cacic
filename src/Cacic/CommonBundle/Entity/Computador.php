@@ -116,6 +116,11 @@ class Computador
      */
     private $softwares;
 
+    /**
+     * @var string
+     */
+    private $ativo;
+
 
     /**
      * Constructor
@@ -746,5 +751,29 @@ class Computador
     public function getForcaPatrimonio()
     {
         return $this->forcaPatrimonio;
+    }
+
+    /**
+     * Set ativo
+     *
+     * @param string $ativo
+     * @return Computador
+     */
+
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+
+        return $this;
+    }
+
+    /**
+     * Get ativo
+     *
+     * @return string
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
     }
 }

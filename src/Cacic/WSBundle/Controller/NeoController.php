@@ -516,6 +516,7 @@ class NeoController extends Controller {
         $rede1 = $rede_json[0];
         $ip_computador = $rede1['ipv4'];
         $netmask = $rede1['netmask_ipv4'];
+        $versaoAgente = $dados['computador']['versaoAgente'];
 
         // TESTES: Se IP for vazio, tenta pegar da conexão
         if (empty($ip_computador)) {
