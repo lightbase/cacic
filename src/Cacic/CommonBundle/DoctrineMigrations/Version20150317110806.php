@@ -511,7 +511,7 @@ class Version20150317110806 extends AbstractMigration implements ContainerAwareI
                 $em->persist($so);
             }
 
-            //$em->flush($so);
+            $em->flush($so);
 
         }
 
