@@ -108,6 +108,36 @@ class NeoController extends Controller {
         return $response;
     }
 
+    /**
+     * Controller só para testar erros do agente
+     */
+    public function erroAgenteAction(Request $request){
+
+        $logger = $this->get('logger');
+        $status = $request->getContent();
+        $em = $this->getDoctrine()->getManager();
+        $dados = json_decode($status, true);
+
+        $response = new JsonResponse();
+
+        if (empty($dados)) {
+            $logger->error("JSON VEIO VAZIO!!! - ERRO NO METODO: erroAgenteAction()");
+            $response->setStatusCode('200');
+        }
+        $response->setStatusCode('500');
+        return $response;
+
+    }
+
+
+    /*
+     *
+     * Fazer um novo Controller para processar o JSON vindo errado.
+     *
+     *
+     * */
+
+
     /*
      Insere o computador se não existir
     */
