@@ -476,7 +476,7 @@ class DefaultController extends Controller
          */
         $timerForcaColeta = null;
         foreach ($configs as $elm) {
-            if ($elm['nmConfiguracao'] == 'nu_intervalo_forca_coleta') {
+            if ($elm['idConfiguracao'] == 'nu_intervalo_forca_coleta') {
                 $timerForcaColeta = $elm['nu_intervalo_forca_coleta'];
             }
         }
