@@ -23,9 +23,10 @@ class AcaoRepository extends EntityRepository
 		// Monta a Consulta básica...
     	$query = $this->createQueryBuilder('acao')->select('acao', 'COUNT(acao_rede.rede) AS totalRedesAtivadas')
         								->leftJoin('acao.redes', 'acao_rede')
-        								->where("acao.csOpcional = 'S'")
+        								->andWhere("acao.csOpcional = 'S'")
+                                        ->andWhere("acao.ativo IS NULL or acao.ativo = 't'")
         								->groupBy('acao');
-        if($nivel[0]['teGrupoUsuarios'] !== "Administração"){
+        if($nivel[0]['nmGrupoUsuarios'] !== "Admin"){
             if ( $idLocal !== null )
             {
                 $query->leftJoin('acao_rede.rede', 'rede')

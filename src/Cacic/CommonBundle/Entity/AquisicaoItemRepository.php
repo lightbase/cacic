@@ -63,6 +63,7 @@ class AquisicaoItemRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'c.computador = comp.idComputador')
             ->andWhere('aqit.idAquisicao = :idAquisicao')
             ->andWhere('aqit.idTipoLicenca = :idTipoLicenca')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->setParameter('idAquisicao', $idAquisicao)
             ->setParameter('idTipoLicenca', $idTipoLicenca);
 

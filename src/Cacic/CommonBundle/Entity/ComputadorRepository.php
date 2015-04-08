@@ -38,6 +38,8 @@ class ComputadorRepository extends EntityRepository
         foreach ( $filtros as $campo => $valor )
             $qb->andWhere("comp.{$campo} LIKE '%$valor%'");
 
+        $qb->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
+
         return $qb->getQuery()->getResult();
     }
 
@@ -52,6 +54,7 @@ class ComputadorRepository extends EntityRepository
             ->select('loc.idLocal, loc.nmLocal, COUNT(comp.idComputador) as numComp')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('loc');
 
         return $qb->getQuery()->getResult();
@@ -88,8 +91,7 @@ class ComputadorRepository extends EntityRepository
             $query->Where("comp.teNodeAddress  LIKE   '%$teNodeAddress%'");
         }
 
-
-
+        $query->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
 
         return $query->getQuery()->execute();
     }
@@ -102,7 +104,6 @@ class ComputadorRepository extends EntityRepository
                 'comp.teIpComputador',
                 'comp.teVersaoCacic',
                 'comp.teNodeAddress'
-
             );
 
         if ( $teIpComputador != null){
@@ -123,6 +124,7 @@ class ComputadorRepository extends EntityRepository
             $query->andWhere( 'comp.dtHrInclusao<= (:dtHrInclusaoFim)' )->setParameter('dtHrInclusaoFim', ( $dtHrInclusaoFim.' 23:59:59' ));
         }
 
+        $query->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
 
         return $query->getQuery()->execute();
     }
@@ -140,10 +142,11 @@ class ComputadorRepository extends EntityRepository
         $qb = $this->createQueryBuilder('comp')
             ->select('rede.idRede, rede.teIpRede, rede.nmRede, COUNT(comp.idComputador) as numComp')
             ->innerJoin('comp.idRede', 'rede')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('rede');
 
         if ( $idLocal !== null )
-            $qb->where('rede.idLocal = :idLocal')->setParameter( 'idLocal', $idLocal);
+            $qb->andWhere('rede.idLocal = :idLocal')->setParameter( 'idLocal', $idLocal);
 
         return $qb->getQuery()->getResult();
     }
@@ -157,6 +160,7 @@ class ComputadorRepository extends EntityRepository
         $qb = $this->createQueryBuilder('comp')
             ->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(comp.idComputador) as numComp')
             ->innerJoin('comp.idSo', 'so')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('so');
 
 
@@ -175,6 +179,7 @@ class ComputadorRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('comp')
             ->select('comp.teVersaoCacic, COUNT(DISTINCT comp.idComputador) as total')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('comp.teVersaoCacic');
 
 
@@ -195,6 +200,7 @@ class ComputadorRepository extends EntityRepository
             ->select('comp.teVersaoCacic, COUNT(DISTINCT comp.idComputador) as total')
             ->innerJoin('CacicCommonBundle:LogAcesso','log', 'WITH', 'log.idComputador = comp.idComputador')
             ->andWhere( 'log.data >= (current_date() - 30)' )
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('comp.teVersaoCacic');
 
 
@@ -216,6 +222,7 @@ class ComputadorRepository extends EntityRepository
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('CacicCommonBundle:LogAcesso','log', 'WITH', 'log.idComputador = comp.idComputador')
             ->andWhere( 'log.data >= (current_date() - 30)' )
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('so');
 
 
@@ -233,7 +240,8 @@ class ComputadorRepository extends EntityRepository
      */
     public function countAll()
     {
-        $qb = $this->createQueryBuilder('comp')->select('COUNT(comp.idComputador)');
+        $qb = $this->createQueryBuilder('comp')->select('COUNT(comp.idComputador)')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
         return $qb->getQuery()->getSingleScalarResult();
     }
 
@@ -247,7 +255,8 @@ class ComputadorRepository extends EntityRepository
         $qb = $this->createQueryBuilder('comp')
             ->select('comp', 'so')
             ->leftJoin('comp.idSo', 'so')
-            ->where('comp.idRede = :idRede')
+            ->andWhere('comp.idRede = :idRede')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->setParameter('idRede', $idSubrede)
             ->orderBy('comp.nmComputador')->addOrderBy('comp.teIpComputador');
 
@@ -267,7 +276,8 @@ class ComputadorRepository extends EntityRepository
             ->innerJoin('coleta.idClass', 'classe')
             ->innerJoin('computador.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'local')
-            ->innerJoin('computador.idSo', 'so');
+            ->innerJoin('computador.idSo', 'so')
+            ->andWhere("computador.ativo IS NULL or computador.ativo = 't'");
 
         /**
          * Verifica os filtros
@@ -299,10 +309,7 @@ class ComputadorRepository extends EntityRepository
         $data = new \DateTime('NOW'); //armazena data Atual
 
         //vefifica se existe SO coletado se não, insere novo SO
-        //$so = $this->getEntityManager()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
-        //$rede = $this->getEntityManager()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
         $computador = $this->findOneBy( array( 'teNodeAddress'=> $te_node_adress, 'idSo'=> $so->getIdSo()) );
-        //$classes = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findAll();
 
         //inserção de dado se for um novo computador
         if( empty ( $computador ) )
@@ -314,6 +321,7 @@ class ComputadorRepository extends EntityRepository
             $computador->setIdRede( $rede );
             $computador->setDtHrInclusao( $data);
             $computador->setTePalavraChave( $request->get('PHP_AUTH_PW') );
+            $computador->setAtivo(true);
 
             $this->getEntityManager()->persist( $computador );
 
@@ -331,6 +339,7 @@ class ComputadorRepository extends EntityRepository
         $computador->setTeUltimoLogin( TagValueHelper::getValueFromTags( 'UserName' ,$computer_system ) );
         $computador->setTeIpComputador( $ip_computador );
         $computador->setNmComputador( TagValueHelper::getValueFromTags( 'Caption' ,$computer_system ));
+        $computador->setAtivo(true);
         $this->getEntityManager()->persist( $computador );
 
         $acoes = $this->getEntityManager()->getRepository('CacicCommonBundle:Acao')->findAll();
@@ -368,7 +377,8 @@ class ComputadorRepository extends EntityRepository
         $query = $this->createQueryBuilder('comp')
             ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'COUNT(DISTINCT comp.idComputador) as numComp')
             ->innerJoin('comp.idRede', 'rede')
-            ->innerJoin('rede.idLocal', 'loc');
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo = 'f'");
 
         /**
          * Verifica os filtros que foram parametrizados
@@ -390,7 +400,7 @@ class ComputadorRepository extends EntityRepository
 
 
         // Filtro que mostra somente máquinas sem coleta
-        $query->andWhere('log.idComputador IS NULL');
+        //$query->andWhere('log.idComputador IS NULL');
 
         // Agrupa todos os campos
         $query->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
@@ -405,7 +415,8 @@ class ComputadorRepository extends EntityRepository
             ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
-            ->innerJoin('rede.idLocal', 'loc');
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
 
         /**
          * Verifica os filtros que foram parametrizados
@@ -438,7 +449,8 @@ class ComputadorRepository extends EntityRepository
         $query = $this->createQueryBuilder('comp')
             ->select('loc.nmLocal',  'rede.nmRede', 'rede.teIpRede', 'COUNT(DISTINCT comp.idComputador) as numComp')
             ->innerJoin('comp.idRede', 'rede')
-            ->innerJoin('rede.idLocal', 'loc');
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo = 'f'");
 
         /**
          * Verifica os filtros que foram parametrizados
@@ -460,7 +472,7 @@ class ComputadorRepository extends EntityRepository
 
 
         // Filtro que mostra somente máquinas sem coleta
-        $query->andWhere('log.idComputador IS NULL');
+        //$query->andWhere('log.idComputador IS NULL');
 
         // Agrupa todos os campos
         $query->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
@@ -475,7 +487,8 @@ class ComputadorRepository extends EntityRepository
             ->select(  'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.sgSo', 'loc.nmLocal', 'rede.nmRede','rede.teIpRede')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
-            ->innerJoin('rede.idLocal', 'loc');
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo = 'f'");
 
         /**
          * Verifica os filtros que foram parametrizados
@@ -494,7 +507,7 @@ class ComputadorRepository extends EntityRepository
             $query->andWhere( 'comp.idRede IN (:rede)' )->setParameter('rede', $idRede);
 
         // Filtro que mostra somente máquinas sem coleta
-        $query->andWhere('log.idComputador IS NULL');
+        //$query->andWhere('log.idComputador IS NULL');
 
         $query->groupBy('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo');
 
@@ -579,7 +592,7 @@ class ComputadorRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('comp')
             ->select('comp.teNodeAddress', 'COUNT(comp.idComputador) as contIdComp')
-            ->where('comp.idSo = :idSo')
+            ->andWhere('comp.idSo = :idSo')
             ->setParameter('idSo', $id_so)
             ->groupBy('comp.teNodeAddress')
             ->having('COUNT(comp.idComputador) > 1')

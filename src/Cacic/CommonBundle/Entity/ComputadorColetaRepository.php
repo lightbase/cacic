@@ -34,8 +34,10 @@ class ComputadorColetaRepository extends EntityRepository
         )
             ->innerJoin('coleta.classProperty', 'propriedade')
             ->innerJoin('propriedade.idClass', 'classe')
-            ->leftJoin('CacicCommonBundle:PropriedadeSoftware', 'software', 'WITH', 'propriedade.idClassProperty = software.classProperty')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'coleta.computador = comp.idComputador')
+            ->leftJoin('CacicCommonBundle:PropriedadeSoftware', 'software', 'WITH', '(propriedade.idClassProperty = software.classProperty AND coleta.computador = software.computador)')
             ->andWhere('coleta.computador = (:computador)')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->setParameter('computador', $computador)
             ->orderBy('classe.nmClassName')
             ->addOrderBy('propriedade.nmPropertyName');
@@ -63,7 +65,8 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('coleta.computador', 'comp')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
-            ->innerJoin('rede.idLocal', 'local');
+            ->innerJoin('rede.idLocal', 'local')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
 
         /**
          * Verifica os filtros
@@ -139,7 +142,8 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'local')
-            ->where('classe.nmClassName = :classe')
+            ->andWhere('classe.nmClassName = :classe')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->setParameter('classe', $classe);
 
         /**
@@ -183,6 +187,7 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'prop.classProperty = coleta.classProperty')
             ->innerJoin('prop.software', 'soft')
             ->andWhere('soft.nmSoftware = :software')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('coleta.computador, comp.nmComputador, comp.teNodeAddress,
              comp.teIpComputador, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal')
             ->orderBy('coleta.computador, local.nmLocal, rede.teIpRede')
@@ -227,6 +232,7 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('rede.idLocal', 'local')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'prop.classProperty = coleta.classProperty')
             ->innerJoin('prop.software', 'soft')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('soft.nmSoftware', 'soft.idSoftware', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal');
 
         /**
@@ -265,7 +271,8 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'local')
-            ->where('classe.nmClassName = :classe')
+            ->andWhere('classe.nmClassName = :classe')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('property.nmPropertyName, coleta.teClassPropertyValue, so.idSo, so.inMswindows,so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal, local.idLocal')
             ->setParameter('classe', $classe);
 
@@ -301,6 +308,7 @@ class ComputadorColetaRepository extends EntityRepository
             ->leftJoin('CacicCommonBundle:Rede', 'r','WITH', 'comp.idRede = r.idRede')
             ->leftJoin('CacicCommonBundle:Uorg','u','WITH', 'r.idRede = u.rede')
             ->innerJoin('CacicCommonBundle:Local','l','WITH', 'r.idLocal = l.idLocal')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('comp.nmComputador,r.idRede, class.nmPropertyName, u.nmUorg, coleta.teClassPropertyValue,so.sgSo, r.teIpRede,  l.nmLocal, r.nmRede, comp.idComputador,so.inMswindows')
             ->orderBy('r.teIpRede, l.nmLocal');
 
@@ -337,6 +345,7 @@ class ComputadorColetaRepository extends EntityRepository
             ->leftJoin('CacicCommonBundle:Rede', 'r','WITH', 'comp.idRede = r.idRede')
             ->innerJoin('CacicCommonBundle:Uorg','u','WITH', 'r.idRede = u.rede')
             ->innerJoin('CacicCommonBundle:Local','l','WITH', 'r.idLocal = l.idLocal')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('comp.nmComputador,r.idRede, u.nmUorg,so.sgSo, r.teIpRede,  l.nmLocal, r.nmRede, comp.idComputador,so.inMswindows')
             ->orderBy('r.teIpRede, l.nmLocal');
 
@@ -380,6 +389,8 @@ class ComputadorColetaRepository extends EntityRepository
             $rsm->addScalarResult($atributo, $atributo);
             $rsm->addScalarResult($atributo."_data", $atributo."_data");
         }
+
+        // TODO: Adicionar filtro por computadores ativos
 
         $sql = $sql . "FROM relatorio_coleta
         WHERE 1 = 1";
@@ -427,6 +438,7 @@ class ComputadorColetaRepository extends EntityRepository
         INNER JOIN CacicCommonBundle:Classe cl WITH prop.idClass = cl.idClass
         WHERE cl.nmClassName = 'Patrimonio'
         AND comp.idComputador = :idComputador
+        AND (comp.ativo IS NULL or comp.ativo = 't')
         ";
 
         return $this->getEntityManager()->createQuery( $_dql )
@@ -443,7 +455,9 @@ class ComputadorColetaRepository extends EntityRepository
         $_dql = "SELECT c.teClassPropertyValue, p.displayName, p.publisher
         FROM CacicCommonBundle:ComputadorColeta c
         INNER JOIN CacicCommonBundle:ProriedadeSoftware p ON c.idClassProperty = p.idClassProperty
+        INNER JOIN CacicCommonBundle:Computador comp WITH c.idComputador = comp.idComputador
         WHERE LOWER(c.teClassPropertyValue) LIKE LOWER('%modem%')
+        AND (comp.ativo IS NULL or comp.ativo = 't')
         ";
 
         return $this->getEntityManager()->createQuery( $_dql );

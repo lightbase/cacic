@@ -23,6 +23,8 @@ class PropriedadeSoftwareRepository extends EntityRepository
         $qb = $this->createQueryBuilder('prop')
             ->select('prop')
             ->innerJoin('CacicCommonBundle:Software', 'sw', 'WITH', 'sw.idSoftware = prop.software')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'prop.computador = comp.idComputador')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->andWhere('sw.nmSoftware = :nmSoftware')
             ->setParameter('nmSoftware', $nmSoftware);
 
@@ -35,6 +37,8 @@ class PropriedadeSoftwareRepository extends EntityRepository
             ->select('prop')
             ->innerJoin('CacicCommonBundle:classProperty', 'cp', 'WITH', 'prop.classProperty = cp.idClassProperty')
             ->innerJoin('CacicCommonBundle:Software', 'sw', 'WITH', 'sw.idSoftware = prop.software')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'prop.computador = comp.idComputador')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->andWhere('sw.nmSoftware = :nmSoftware')
             ->andWhere('prop.computador = :idComputador')
             ->setParameter('idComputador', $idComputador)

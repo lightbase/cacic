@@ -80,9 +80,14 @@ class AquisicaoRepository extends EntityRepository
 
         if (empty($data_inicio) and empty($data_fim)) {
             $qb->innerJoin('CacicCommonBundle:ComputadorColeta', 'comp', 'WITH', "(prop.computador = comp.computador AND prop.classProperty = comp.classProperty)");
+            $qb->innerJoin('CacicCommonBundle:Computador', 'c','WITH','prop.computador = c.idComputador');
         } else {
             $qb->innerJoin('CacicCommonBundle:ComputadorColeta', 'comp', 'WITH', "(prop.computador = comp.computador AND prop.classProperty = comp.classProperty AND comp.dt_hr_inclusao BETWEEN '$data_inicio' AND '$data_fim')");
+            $qb->innerJoin('CacicCommonBundle:Computador', 'c','WITH','prop.computador = c.idComputador');
         }
+
+        // Adiciona filtro por computadores ativos
+        $qb->andWhere("(c.ativo IS NULL or c.ativo = 't')");
 
         $result = $qb->getQuery()->getArrayResult();
 

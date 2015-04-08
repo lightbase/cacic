@@ -17,11 +17,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 /*
  * Comando que desativa computadores de um período definido,
  */
-class InativoCommand extends ContainerAwareCommand {
+class InativosCommand extends ContainerAwareCommand {
     protected function configure()
     {
         $this
-            ->setName('cacic:inativo')
+            ->setName('cacic:inativos')
             ->setDescription('Desativa computadores no periodo definido')
             ->addArgument('dias', InputArgument::OPTIONAL, 'Período de inatividade em dias')
         ;
@@ -35,7 +35,9 @@ class InativoCommand extends ContainerAwareCommand {
         $container = $this->getContainer();
         $em = $container->get('doctrine.orm.entity_manager');
 
-        $this->addSql("UPDATE computadores SET ativo = 'f'  WHERE dt_hr_inclusao <= (CURRENT_DATE() - ".$dias.")");
+        $sql = "UPDATE computador SET ativo = 'f'  WHERE dt_hr_ult_acesso <= (now() - interval '".$dias." days')";
+        $update = $em->getConnection()->prepare($sql);
+        $update->execute();
 
 
         //$output->writeln($text);

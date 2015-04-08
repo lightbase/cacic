@@ -34,7 +34,7 @@ class LogUserLogadoRepository extends EntityRepository
     public function selectUserLogado( $idComputador, $teIpComputador, $nmComputador, $usuario, $dtHrInclusao, $dtHrInclusaoFim )
     {
 
-        error_log('>>>>>>>>>>>>>>Sdsdsd',$idComputador);
+        //error_log('>>>>>>>>>>>>>>Sdsdsd',$idComputador);
 
         $query = $this->createQueryBuilder('log')
             ->select('comp.nmComputador', 'comp.teIpComputador', 'log.data', 'log.usuario')
@@ -42,20 +42,20 @@ class LogUserLogadoRepository extends EntityRepository
 
         if ( $idComputador != null){
 
-            $query->Where("log.idComputador = '$idComputador'");
+            $query->andWhere("log.idComputador = '$idComputador'");
 
         }
 
         if ( $teIpComputador != null){
 
-            $query->Where("comp.teIpComputador  LIKE   '%$teIpComputador%'");
+            $query->andWhere("comp.teIpComputador  LIKE   '%$teIpComputador%'");
 
         }
         if ( $nmComputador != null){
-            $query->Where("comp.nmComputador LIKE   '%$nmComputador%'");
+            $query->andWhere("comp.nmComputador LIKE   '%$nmComputador%'");
         }
         if ( $usuario != null){
-            $query->Where("log.usuario  LIKE   '%$usuario%'");
+            $query->andWhere("log.usuario  LIKE   '%$usuario%'");
         }
         if ( $dtHrInclusao != null){
             $query->andWhere( 'log.data >= (:dtHrInclusao)' )->setParameter('dtHrInclusao', ( $dtHrInclusao.' 00:00:00' ));
@@ -63,6 +63,9 @@ class LogUserLogadoRepository extends EntityRepository
         if ( $dtHrInclusaoFim != null){
             $query->andWhere( 'log.data<= (:dtHrInclusaoFim)' )->setParameter('dtHrInclusaoFim', ( $dtHrInclusaoFim.' 23:59:59' ));
         }
+
+        // Adiciona busca somente por computadores ativos
+        $query->andWhere("(comp.ativo IS NULL or comp.ativo = 't')");
 
 
         return $query->getQuery()->execute();

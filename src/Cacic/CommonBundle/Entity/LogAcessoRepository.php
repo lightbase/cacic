@@ -63,6 +63,7 @@ class LogAcessoRepository extends EntityRepository
             ->innerJoin('log.idComputador', 'comp')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
 
         /**
@@ -116,7 +117,7 @@ INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
 INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
 INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
 INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
-WHERE  1 = 1
+WHERE  (c0_.ativo IS NULL or c0_.ativo = 't')
 ";
 
         /**
@@ -243,7 +244,7 @@ INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
 INNER JOIN log_acesso la5_ ON c0_.id_computador = la5_.id_computador
 INNER JOIN computador_coleta cc_ ON cc_.id_computador = c0_.id_computador
 INNER JOIN class_property cp_ ON cp_.id_class_property = cc_.id_class_property
-WHERE  1 = 1
+WHERE (c0_.ativo IS NULL or c0_.ativo = 't'
 ";
 
         /**
@@ -382,7 +383,7 @@ GROUP BY c0_.te_node_address,
                 INNER JOIN rede r ON r.id_rede = C.id_rede
                 INNER JOIN computador_coleta cc ON cc.id_computador = lg.id_computador
                 INNER JOIN class_property cp ON cp.id_class_property = cc.id_class_property
-                WHERE 1=1";
+                WHERE (c.ativo IS NULL or c.ativo = 't')";
 
         if ( $usuarioLogado ) {
             $sql .= " AND lower(lg.usuario) LIKE lower('%".$usuarioLogado."%')";
@@ -416,7 +417,8 @@ GROUP BY c0_.te_node_address,
         $query = $this->createQueryBuilder('log')
             ->select('COUNT(DISTINCT comp.teNodeAddress)')
             ->innerJoin('CacicCommonBundle:Computador','comp', 'WITH', 'log.idComputador = comp.idComputador')
-            ->andWhere( 'log.data >= (current_date() - 30)' );
+            ->andWhere( 'log.data >= (current_date() - 30)' )
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
 
         $query = $query->getQuery();
         $query->useResultCache(true);
@@ -431,7 +433,8 @@ GROUP BY c0_.te_node_address,
             ->select('COUNT(DISTINCT comp.teNodeAddress)')
             ->innerJoin('CacicCommonBundle:Computador','comp', 'WITH', 'log.idComputador = comp.idComputador')
             ->andWhere( 'log.data >= (current_date() - '.$diasFinal.')' )
-        ->andWhere( 'log.data <= (current_date() - '.$diasInicial.')' );
+            ->andWhere( 'log.data <= (current_date() - '.$diasInicial.')' )
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
 
         $query = $query->getQuery();
         $query->useResultCache(true);
@@ -449,6 +452,7 @@ GROUP BY c0_.te_node_address,
             ->innerJoin('log.idComputador', 'comp')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
 
         /**
@@ -494,7 +498,7 @@ INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
 INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
 INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
 INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
-WHERE  1 = 1
+WHERE (c0_.ativo IS NULL or c0_.ativo = 't')
 ";
 
         /**

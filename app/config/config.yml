@@ -214,13 +214,17 @@ services:
     elfinder.driver.filesystem:
         class: FM\ElFinderPHP\Driver\ElFinderVolumeLocalFileSystem
     cacic_demo.command.demo_command:
-            class: Cacic\CommonBundle\Command\DemoCommand
-            tags:
-                -  { name: console.command }
+        class: Cacic\CommonBundle\Command\DemoCommand
+        tags:
+            -  { name: console.command }
     cacic_demo.command.upgrade_command:
-                class: Cacic\CommonBundle\Command\UpgradeCommand
-                tags:
-                    -  { name: console.command }
+        class: Cacic\CommonBundle\Command\UpgradeCommand
+        tags:
+            -  { name: console.command }
+    cacic_demo.command.inativos_command:
+        class: Cacic\CommonBundle\Command\InativosCommand
+        tags:
+            -  { name: console.command }
     pdo:
         class: PDO
         arguments:
