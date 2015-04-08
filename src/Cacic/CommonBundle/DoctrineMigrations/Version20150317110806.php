@@ -541,13 +541,14 @@ class Version20150317110806 extends AbstractMigration implements ContainerAwareI
                 $ArrCompAntigo = implode(', ', array_column($computadorAntigo, 'idComputador'));
 
                 // 2.1 - Para cada um dos resultados, atualiza o computador mais antigo para o mais novo
-                $this->addSql("UPDATE computador_coleta_historico SET id_computador = $ArrCompRecente WHERE id_computador IN ($ArrCompAntigo)");
+                #$this->addSql("UPDATE computador_coleta_historico SET id_computador = $ArrCompRecente WHERE id_computador IN ($ArrCompAntigo)");
                 $this->addSql("UPDATE log_acesso SET id_computador = $ArrCompRecente WHERE id_computador IN ($ArrCompAntigo)");
                 $this->addSql("UPDATE log_user_logado SET id_computador = $ArrCompRecente WHERE id_computador IN ($ArrCompAntigo)");
 
                 // 2.3 - Apaga os registros dos computadores antigos em proriedade_software e relatorio_coleta
                 $this->addSql("DELETE FROM proriedade_software WHERE id_computador IN ($ArrCompAntigo)");
                 $this->addSql("DELETE FROM relatorio_coleta WHERE id_computador IN ($ArrCompAntigo)");
+                $this->addSql("DELETE FROM computador_coleta_historico WHERE id_computador IN ($ArrCompAntigo)");
                 $this->addSql("DELETE FROM computador_coleta WHERE id_computador IN ($ArrCompAntigo)");
 
             }
