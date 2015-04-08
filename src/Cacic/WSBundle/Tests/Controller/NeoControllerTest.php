@@ -284,6 +284,7 @@ class NeoControllerTest extends BaseTestCase
         $this->assertEquals(200,$client->getResponse()->getStatusCode());
     }
 
+
     /**
      * test login
      */
@@ -603,6 +604,82 @@ class NeoControllerTest extends BaseTestCase
 
         $this->assertTrue(empty($results));
     }
+
+    /**
+     * Testa erroAgente
+     */
+    public function testErroAgente() {
+        $logger = $this->container->get('logger');
+        $client = $this->client;
+        $client->request(
+            'POST',
+            '/ws/neo/logs',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                'HTTPS'         => true
+            ),
+            '{
+                    "computador": {
+                    "networkDevices": [
+                    {
+                        "ipv4": "10.0.2.15",
+                        "ipv6": "fe80::a00:27ff:fe11:caec%eth0",
+                        "mac": "08:00:27:11:CA:EC",
+                        "netmask_ipv4": "255.255.255.0",
+                        "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                        "nome": "eth0"
+                    },
+                    {
+                        "ipv4": "192.168.56.102",
+                        "ipv6": "fe80::a00:27ff:fe7d:b57e%eth1",
+                        "mac": "08:00:27:7D:B5:7E",
+                        "netmask_ipv4": "255.255.255.0",
+                        "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+                        "nome": "eth1"
+                    }
+                    ],
+                        "nmComputador": "virtualbox-ubuntu",
+                        "operatingSystem": {
+                        "idOs": 2,
+                        "nomeOs": "Ubuntu 14.04.1 LTS-x86_64",
+                        "tipo": "linux-x86_64",
+                        "upTime": 2125
+                    },
+                        "usuario": "virtualbox",
+                        "versaoAgente": "3.1.9",
+                        "versaoGercols": "3.1.9"
+                    },
+                        "logInfo": [],
+                        "logError": [
+                        {
+                            "timestamp": "25-03-2015 12:20:54.094",
+                            "message": "[Error] {Cacic Daemon (Timer)} Erro no login: Host  not found"
+                        },
+                        {
+                            "timestamp": "25-03-2015 12:20:54.095",
+                            "message": "[Error] {Cacic Daemon (Timer)} Problemas ao comunicar com gerente."
+                    ]
+                    }'
+        );
+
+        $logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+
+        $this->assertEquals(200,$status);
+    }
+
+    /*
+     * Fazer outra funcao de teste com o Json errado, para poder
+     * validar a tarefa #936.
+     *
+     * Processar a volta(response) que vem do Controller que valida este teste.
+     *
+     * */
+
 
     /**
      * Método que apaga todos os dados criados no teste

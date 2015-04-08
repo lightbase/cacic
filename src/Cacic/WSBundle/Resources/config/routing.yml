@@ -84,3 +84,9 @@ cacic_neo_home_update:
 cacic_neo_coleta:
     pattern: /neo/coleta
     defaults: { _controller: CacicWSBundle:Neo:coleta }
+
+cacic_ws_neo_log:
+    pattern: /neo/logs
+    defaults: { _controller: CacicWSBundle:Neo:erroAgente }
+    #schemes:  [https]
+
