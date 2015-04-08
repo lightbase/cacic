@@ -96,7 +96,7 @@ Cacic\CommonBundle\Entity\Computador:
             nullable: true
             column: forca_patrimonio
         ativo:
-            type: text
+            type: boolean
             nullable: true
             column: ativo
     oneToMany:

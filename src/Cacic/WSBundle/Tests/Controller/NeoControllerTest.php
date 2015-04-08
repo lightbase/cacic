@@ -62,7 +62,7 @@ class NeoControllerTest extends BaseTestCase
                     "operatingSystem": {
                         "idOs": 176,
                         "nomeOs": "Windows_NT",
-                        "tipo": "windows-64-bit"
+                        "tipo": "windows"
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",
@@ -90,7 +90,7 @@ class NeoControllerTest extends BaseTestCase
                     "operatingSystem": {
                         "idOs": 176,
                         "nomeOs": "Windows_NT",
-                        "tipo": "windows-64-bit"
+                        "tipo": "windows"
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",
@@ -120,7 +120,7 @@ class NeoControllerTest extends BaseTestCase
                     "operatingSystem": {
                         "idOs": 176,
                         "nomeOs": "Windows_NT",
-                        "tipo": "windows-64-bit"
+                        "tipo": "windows"
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",
@@ -250,7 +250,7 @@ class NeoControllerTest extends BaseTestCase
                     "operatingSystem": {
                         "idOs": 176,
                         "nomeOs": "Windows_NT",
-                        "tipo": "windows-64-bit"
+                        "tipo": "windows"
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",

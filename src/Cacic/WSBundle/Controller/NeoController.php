@@ -288,11 +288,6 @@ class NeoController extends Controller {
             if (empty($mods[$tipo])) {
                 $mods[$tipo] = array();
             }
-	    $tipoSo = $elm->getTipoSo();	
-	    // Para agentes 2.8 o tipo de SO é igual ao nome do módulo, neste caso retornará o JSON vazio para não forçar a atualização
-	    if (empty($tipoSo)) {
-		$mods[$tipo] = array();
-	    }
 
             /*
              * Para agentes 2.8 o tipo de SO é igual ao nome do módulo.
@@ -414,7 +409,7 @@ class NeoController extends Controller {
             $logger->error("COMPUTADOR: erro na identificação da rede. JSON sem informações de rede válidas. IP do computador: ".$request->getClientIp());
             $logger->error(print_r($dados, true));
 
-	    return null;
+	        return null;
         }
 
         $te_node_address = $rede1['mac'];
@@ -428,7 +423,7 @@ class NeoController extends Controller {
 
 
         // TESTES: Se IP for vazio, tenta pegar da conexão
-        if (empty($ip_computador)) {
+        if (empty($ip_computador) || $ip_computador == '127.0.0.1') {
             $ip_computador = $request->getClientIp();
         }
 
@@ -910,6 +905,8 @@ class NeoController extends Controller {
             if (empty($classProperty)) {
                 $classProperty = new ClassProperty();
                 $classProperty->setTePropertyDescription("Software detectado: $software");
+                $classProperty->setNmPropertyName($software);
+                $classProperty->setIdClass($classObject);
             }
 
             // Adiciona software ao computador
@@ -922,6 +919,9 @@ class NeoController extends Controller {
                 $logger->info("COLETA: Cadastrando software não encontrado $software");
 
                 $propSoftware = new PropriedadeSoftware();
+                $propSoftware->setComputador($computador);
+                $propSoftware->setSoftware($softwareObject);
+                $propSoftware->setClassProperty($classProperty);
 
                 // Adiciona software na coleta
                 $softwareObject->addColetado($propSoftware);
@@ -935,6 +935,8 @@ class NeoController extends Controller {
             if(empty($computadorColeta)) {
                 $logger->debug("COLETA: Registrando nova coleta para o software $software no computador ".$computador->getIdComputador());
                 $computadorColeta = new ComputadorColeta();
+                $computadorColeta->setComputador($computador);
+                $computadorColeta->setClassProperty($classProperty);
             }
 
             // Atualiza valores

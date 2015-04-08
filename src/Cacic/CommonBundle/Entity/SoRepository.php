@@ -48,7 +48,7 @@ class SoRepository extends EntityRepository
             ->orderBy('teso.teSo28')
             ->setParameter('te_so', $te_so);
 
-        $so =  $qb->getQuery()->getSingleResult();
+        $so =  $qb->getQuery()->getOneOrNullResult();
 
         if (empty($so)){
             $so = $this->findOneBy( array ( 'teSo' => $te_so ) );

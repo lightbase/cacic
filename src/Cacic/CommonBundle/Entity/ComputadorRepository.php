@@ -600,7 +600,7 @@ class ComputadorRepository extends EntityRepository
             ->setMaxResults(1)
             ->setParameter('teNodeAddress', $teNodeAddress)
             ->setParameter('idSo', $id_so)
-            ->orderBy('comp.dtHrUltAcesso desc');
+            ->orderBy('comp.dtHrUltAcesso', 'desc');
 
         return $qb->getQuery()->getSingleScalarResult();
     }
@@ -614,7 +614,7 @@ class ComputadorRepository extends EntityRepository
             ->select('comp.idComputador')
             ->andwhere('comp.teNodeAddress = :teNodeAddress')
             ->andwhere('comp.idSo = :idSo')
-            ->andwhere('comp.idcomputador <> :idComputador')
+            ->andwhere('comp.idComputador <> :idComputador')
             ->setParameter('teNodeAddress', $teNodeAddress)
             ->setParameter('idSo', $id_so)
             ->setParameter('idComputador', $ArrCompRecente);

@@ -35,7 +35,7 @@ class InativoCommand extends ContainerAwareCommand {
         $container = $this->getContainer();
         $em = $container->get('doctrine.orm.entity_manager');
 
-        $this->addSql('UPDATE computadores SET ativo = "false"  WHERE dt_hr_inclusao <= (CURRENT_DATE() - '.$dias.')');
+        $this->addSql("UPDATE computadores SET ativo = 'f'  WHERE dt_hr_inclusao <= (CURRENT_DATE() - ".$dias.")");
 
 
         //$output->writeln($text);
