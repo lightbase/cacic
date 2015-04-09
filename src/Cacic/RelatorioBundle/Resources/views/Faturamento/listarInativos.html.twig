@@ -2,51 +2,74 @@
 
 {% block body %}
 
-	<h2>{{ 'Relatório de máquinas sem coletas da subrede '|trans }} {{ rede }}</h2>
+	<h2>{{ 'Relatório de máquinas inativas da subrede '|trans }} {{ rede }}</h2>
 	<h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
 
 	<hr />
 
     <!--Botão CSV-->
-        <a class="btn btn-primary" type="submit" href="{{ path('cacic_inativos_listar_csv',{'idRede':idRede,'dataInicio':dtAcaoInicio|trim,'dataFim':dtAcaoFim|trim})}}" title="{{ "Máquinas sem coletas"|trans }}" target="_self">
-            <i class="icon-bar-chart"></i>
-            Gerar CSV
-        </a>
+    <a class="btn btn-primary" type="submit" href="{{ path('cacic_inativos_listar_csv',{'idRede':idRede,'dataInicio':dtAcaoInicio|trim,'dataFim':dtAcaoFim|trim})}}" title="{{ "Máquinas sem coletas"|trans }}" target="_self">
+        <i class="icon-bar-chart"></i>
+        Gerar CSV
+    </a>
     <!--Botão CSV-->
 
-    <table class="display datatable" id="datatable">
-		<thead>
-		<tr>
-            <th width="5%" style="text-align: center"></th>
-			<th width="15%">{{ "Computador"|trans }}</th>
-			<th width="10%">{{ "MAC Address"|trans }}</th>
-			<th width="10%">{{ "Endereço IP"|trans }}</th>
-			<th width="10%">{{ "Sistema Operacional"|trans }}</th>
-			<th width="10%">{{ "Local"|trans }}</th>
-			<th width="20%">{{ "Subrede"|trans }}</th>
-		</tr>
-		</thead>
+    <form id={{ 'formComputadores'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
+        <table class="display datatable" id="datatable">
+            <thead>
+            <tr>
+                <th width="5%" style="text-align: center"></th>
+                <th width="15%">{{ "Computador"|trans }}</th>
+                <th width="10%">{{ "MAC Address"|trans }}</th>
+                <th width="10%">{{ "Endereço IP"|trans }}</th>
+                <th width="10%">{{ "Sistema Operacional"|trans }}</th>
+                <th width="10%">{{ "Local"|trans }}</th>
+                <th width="20%">{{ "Subrede"|trans }}</th>
+                <th style="text-align: center; width: 5%;">
+                    <label style="margin: auto; width:12px; height:10px;">
+                        <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="subrede">
+                    </label>
+                </th>
+            </tr>
+            </thead>
 
-		<tbody>
-		{% for reg in dados %}
-			<tr>
-				            <td style="text-align: center">{{ loop.index }}</td>
-				<td>
-					<b><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.idComputador }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.nmComputador }}</a></b>
-				</td>
-				<td><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.idComputador }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
-				<td><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.idComputador }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.teIpComputador }}</a></td>
-				<td><span class="{% if reg.inMswindows == 'S' %}red{% else %}blue{% endif %}">{{ reg.sgSo }}</span></td>
-				<td>{{ reg.nmLocal }}</td>
-				<td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
-
-			</tr>
-		{% else %}
-			<tr>
-				<td style="text-align: center" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
+            <tbody>
+            {% for reg in dados %}
+                <tr>
+                                <td style="text-align: center">{{ loop.index }}</td>
+                    <td>
+                        <b><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.idComputador }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.nmComputador }}</a></b>
+                    </td>
+                    <td><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.idComputador }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
+                    <td><a href="{{ path('cacic_computador_detalhar') }}/{{ reg.idComputador }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.teIpComputador }}</a></td>
+                    <td><span class="{% if reg.inMswindows == 'S' %}red{% else %}blue{% endif %}">{{ reg.sgSo }}</span></td>
+                    <td>{{ reg.nmLocal }}</td>
+                    <td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
+                    <td>
+                        <label style="margin: auto; width:12px; height:10px;">
+                            <input type="checkbox" id="item_id_{{ reg.idComputador }}" name="idComputador[]" value="{{ reg.idComputador }}">
+                        </label>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td style="text-align: center" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="control-group" align="right">
+            <div class="controls">
+                <button type="reset" class="btn">
+                    <i class="icon-refresh"></i>
+                    {{ "Desmarcar opções"|trans }}
+                </button>
+                <button type="submit" formnovalidate class="btn btn-primary">
+                    <i class="icon-ok-sign"></i>
+                    {{ "Ativar Computadores"|trans }}
+                </button>
+            </div>
+        </div>
+    </form>
 
 {% endblock %}

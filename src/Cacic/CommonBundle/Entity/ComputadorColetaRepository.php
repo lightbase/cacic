@@ -37,7 +37,6 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'coleta.computador = comp.idComputador')
             ->leftJoin('CacicCommonBundle:PropriedadeSoftware', 'software', 'WITH', '(propriedade.idClassProperty = software.classProperty AND coleta.computador = software.computador)')
             ->andWhere('coleta.computador = (:computador)')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->setParameter('computador', $computador)
             ->orderBy('classe.nmClassName')
             ->addOrderBy('propriedade.nmPropertyName');

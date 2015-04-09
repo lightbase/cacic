@@ -416,7 +416,7 @@ class ComputadorRepository extends EntityRepository
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc')
-            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
+            ->andWhere("comp.ativo = 'f'");
 
         /**
          * Verifica os filtros que foram parametrizados

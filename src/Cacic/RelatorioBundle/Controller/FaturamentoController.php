@@ -284,10 +284,26 @@
         //Página que exibe cada regional inativos
         public function listarInativosAction( Request $request, $idRede) {
 
+            $em = $this->getDoctrine()->getManager();
 
             $dataInicio = $request->get('dtAcaoInicio');
             $dataFim = $request->get('dtAcaoFim');
 
+            if ($request->isMethod('POST'))  {
+                // Ativa computadores
+                foreach($request->request->get('idComputador') as $id_computador) {
+
+                    $this->get('logger')->debug("Ativando computador = $id_computador");
+
+                    // Atualiza subrede para o computador
+                    $computador = $em->find('CacicCommonBundle:Computador', $id_computador);
+                    $computador->setAtivo(true);
+                    $em->persist($computador);
+                }
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('success', 'Computadores ativados com sucesso!');
+            }
 
             $locale = $request->getLocale();
             $dados = $this->getDoctrine()

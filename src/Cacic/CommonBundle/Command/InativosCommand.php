@@ -35,7 +35,7 @@ class InativosCommand extends ContainerAwareCommand {
         $container = $this->getContainer();
         $em = $container->get('doctrine.orm.entity_manager');
 
-        $sql = "UPDATE computador SET ativo = 'f'  WHERE dt_hr_ult_acesso <= (now() - interval '".$dias." days')";
+        $sql = "UPDATE computador SET ativo = 'f' AND dt_hr_exclusao = now()  WHERE dt_hr_ult_acesso <= (now() - interval '".$dias." days')";
         $update = $em->getConnection()->prepare($sql);
         $update->execute();
 
