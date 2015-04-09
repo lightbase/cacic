@@ -504,7 +504,8 @@ class DefaultController extends Controller
         // Força pasta do servidor de updates para a versão 2.8.1.23
         $tePathServUpdates = null;
         preg_match("/^2.(.*)/", $te_versao_cacic, $arrResult);
-        if (!empty($arrResult)) {
+        preg_match("/^0.(.*)/", $te_versao_cacic, $arrResult2);
+        if (!empty($arrResult) || !empty($arrResult2)) {
             $tePathServUpdates = 'update28';
         }
 

@@ -108,7 +108,8 @@ class RedeVersaoModuloRepository extends EntityRepository
     public function getUpdate($idRede, $te_versao_cacic) {
         # 1 - Verifica se a versão é 2.8 e diferente da versão 2.8.1.23
         preg_match("/^2.(.*)/", $te_versao_cacic, $arrResult);
-        if (!empty($arrResult)) {
+        preg_match("/^0.(.*)/", $te_versao_cacic, $arrResult2);
+        if (!empty($arrResult) || !empty($arrResult2)) {
             # 1.1 - Se for qualquer versão 2.8, manda a versão 2.8.1.23 como padrão
             $saida = array();
             $cacic280 = new RedeVersaoModulo('cacic280.exe', '2.8.1.23', null, $idRede);
