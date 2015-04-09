@@ -32,12 +32,12 @@ class LogController extends Controller
     public function acessoAction( Request $request )
     {
     	$form = $this->createForm( new LogPesquisaType() );
+        $locale = $request->getLocale();
     				
         if ( $request->isMethod('POST') )
         {
         	$form->bind( $request );
         	$data = $form->getData();
-            $locale = $request->getLocale();
 
             $filtroLocais = array(); // Inicializa array com locais a pesquisar
             foreach ( $data['idLocal'] as $locais )
