@@ -448,7 +448,7 @@ class NeoController extends Controller {
         $usuario = $dados['computador']['usuario'];
         $nmComputador = $dados['computador']['nmComputador'];
         $versaoAgente = $dados['computador']['versaoAgente'];
-//        $versaoGercols = $dados['computador']['versaoGercols'];
+        $versaoGercols = $dados['computador']['versaoGercols'];
 
 
 
@@ -478,9 +478,6 @@ class NeoController extends Controller {
             'teNodeAddress'=> $te_node_address,
             'idSo' => $so
         ));
-        //$logger->debug("$so".print_r($so, true));
-        //$logger->debug("$computador".print_r($computador, true));
-        //$logger->debug("111111111111111111111111111111111111111111111111");
 
         $data = new \DateTime('NOW'); //armazena data Atual
 
@@ -498,8 +495,9 @@ class NeoController extends Controller {
             $computador->setTeIpComputador($ip_computador);
             $computador->setDtHrUltAcesso($data);
             $computador->setTeVersaoCacic($versaoAgente);
-            //$computador->setTeVersaoGercols($versaoGercols);
+            $computador->setTeVersaoGercols($versaoGercols);
             $computador->setNmComputador($nmComputador);
+            $computador->setAtivo(true);
 
             if (!empty($usuario) OR $usuario != "0"){
                 $computador->setTeUltimoLogin($usuario);
@@ -520,8 +518,9 @@ class NeoController extends Controller {
             $computador->setTeIpComputador($ip_computador);
             $computador->setTeUltimoLogin($usuario);
             $computador->setTeVersaoCacic($versaoAgente);
-//            $computador->setTeVersaoGercols($versaoGercols);
+            $computador->setTeVersaoGercols($versaoGercols);
             $computador->setNmComputador($nmComputador);
+            $computador->setAtivo(true);
 
             //Atualiza hora de inclusão
             $em->persist($computador);

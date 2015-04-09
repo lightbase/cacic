@@ -550,7 +550,8 @@ class Version20150317110806 extends AbstractMigration implements ContainerAwareI
                 $this->addSql("DELETE FROM relatorio_coleta WHERE id_computador IN ($ArrCompAntigo)");
                 $this->addSql("DELETE FROM computador_coleta_historico WHERE id_computador IN ($ArrCompAntigo)");
                 $this->addSql("DELETE FROM computador_coleta WHERE id_computador IN ($ArrCompAntigo)");
-
+                $this->addSql("DELETE FROM rede_grupo_ftp WHERE id_computador IN ($ArrCompAntigo)");
+                $this->addSql("DELETE FROM computador WHERE id_computador IN($ArrCompAntigo)");
             }
         }
     }

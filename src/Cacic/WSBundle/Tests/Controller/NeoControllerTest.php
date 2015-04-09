@@ -66,7 +66,8 @@ class NeoControllerTest extends BaseTestCase
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",
-                    "versaoAgente": "2.8.0"
+                    "versaoAgente": "2.8.0",
+                    "versaoGercols": "2.8.0"
                 }
             }';
         $this->sem_mac = '{
@@ -94,7 +95,8 @@ class NeoControllerTest extends BaseTestCase
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",
-                    "versaoAgente": "2.8.0"
+                    "versaoAgente": "2.8.0",
+                    "versaoGercols": "2.8.0"
                 }
             }';
         $this->coleta = '{
@@ -124,7 +126,8 @@ class NeoControllerTest extends BaseTestCase
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",
-                    "versaoAgente": "2.8.0"
+                    "versaoAgente": "2.8.0",
+                    "versaoGercols": "2.8.0"
                 },
                 "hardware": {
                     "bios": {
@@ -254,7 +257,8 @@ class NeoControllerTest extends BaseTestCase
                     },
                     "usuario": "Eric Menezes",
                     "nmComputador": "Notebook-XPTO",
-                    "versaoAgente": "2.8.0"
+                    "versaoAgente": "2.8.0",
+                    "versaoGercols": "2.8.0"
                 }
             }';
     }

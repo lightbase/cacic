@@ -150,8 +150,7 @@ Cacic\CommonBundle\Entity\Computador:
             erros_agente:
                 targetEntity: ErrosAgente
                 mappedBy: computador
-    UniqueConstraints:
-        mac_os_unique:
-            columns: [ teNodeAddress, idSo ]
-
+    uniqueConstraints:
+        mac_os_unique_idx:
+            columns: [ te_node_address, id_so ]
     lifecycleCallbacks: {  }
