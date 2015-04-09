@@ -412,7 +412,7 @@ class ComputadorRepository extends EntityRepository
 
         // Monta a Consulta básica...
         $query = $this->createQueryBuilder('comp')
-            ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo')
+            ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo', 'comp.dtHrUltAcesso')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc')
@@ -484,7 +484,7 @@ class ComputadorRepository extends EntityRepository
         // Monta a Consulta básica...
         $query = $this->createQueryBuilder('comp')
 
-            ->select(  'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.sgSo', 'loc.nmLocal', 'rede.nmRede','rede.teIpRede')
+            ->select(  'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.sgSo', 'loc.sgLocal', 'rede.nmRede','rede.teIpRede', 'comp.dtHrUltAcesso')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc')
