@@ -528,9 +528,12 @@
         public function usuarioCsvAction( Request $request) {
 
             $locale = $request->getLocale();
+            $form = $this->createForm( new LogPesquisaType() );
 
             if ( $request->isMethod('POST') )
             {
+                $form->bind( $request );
+                $data = $form->getData();
 
                 $filtroLocais = array(); // Inicializa array com locais a pesquisar
                 foreach ( $data['idLocal'] as $locais ) {
