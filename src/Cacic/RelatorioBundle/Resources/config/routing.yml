@@ -85,8 +85,8 @@ cacic_relatorio_software_aquisicoes:
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesRelatorio }
 
 cacic_relatorio_software_aquisicoes_det:
-    pattern: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}
-    defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhado }
+ pattern: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}
+ defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhado }
 
 cacic_relatorio_software_tipo:
     pattern: /software/tipo

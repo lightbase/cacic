@@ -469,6 +469,8 @@
                     array_push( $filtroLocais, $locais->getIdLocal() );
                 }
 
+                $filtro_geral = array();
+
                 $dataInicio = $data['dtAcaoInicio'];
                 $dataFim = $data['dtAcaoFim'];
                 $usuario = $data['usuario'];
@@ -480,13 +482,14 @@
                 $coordenacao = $data['coordenacao'];
                 $sala = $data['sala'];
                 $usuarioLogado = $data['usuarioLogado'];
-                $nmCompDinamico = $data['nmCompDinamico'];
+                $macCompDinamico = $data['macCompDinamico'];
                 $ipCompDinamico = $data['ipCompDinamico'];
+                $semData = 'N';
 
                 //verifica se a busca é pelo campo "usuario dinamico"
-                if(empty($usuarioLogado) AND empty($nmCompDinamico) AND empty($ipCompDinamico)){
+                if(empty($usuarioLogado) AND empty($macCompDinamico) AND empty($ipCompDinamico)){
                     $dados = $this->getDoctrine()
-                        ->getRepository('CacicCommonBundle:LogAcesso')
+                        ->getRepository('CacicCommonBundle:LogUserLogado')
                         ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala);
                     return $this->render(
                         'CacicRelatorioBundle:Faturamento:usuarioDetalhar.html.twig',
@@ -495,12 +498,12 @@
                             'dados'         => ( isset( $dados ) ? $dados : null ),
                             'idRede'        => $filtroLocais,
                             'dtAcaoInicio'  => $dataInicio,
-                            'dtAcaoFim'     => $dataFim
+                            'dtAcaoFim'     => $dataFim,
+                            'data'          => $data
                         )
                     );
-                }else{
-                    $semData = "N";
-                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $nmCompDinamico, $ipCompDinamico);
+                } else {
+                    $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $macCompDinamico, $ipCompDinamico);
                     return $this->render(
                         'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
                         array(
@@ -509,7 +512,8 @@
                             'dtAcaoInicio'  => $dataInicio,
                             'dtAcaoFim'     => $dataFim,
                             'semData'       => $semData,
-                            'usuarioLogado' => $usuarioLogado
+                            'usuarioLogado' => $usuarioLogado,
+                            'data'          => $data
                         )
                     );
                 }
@@ -524,12 +528,9 @@
         public function usuarioCsvAction( Request $request) {
 
             $locale = $request->getLocale();
-            $form = $this->createForm( new LogPesquisaType() );
 
             if ( $request->isMethod('POST') )
             {
-                $form->bind( $request );
-                $data = $form->getData();
 
                 $filtroLocais = array(); // Inicializa array com locais a pesquisar
                 foreach ( $data['idLocal'] as $locais ) {
@@ -548,12 +549,11 @@
                 $sala = $request->get('sala');
 
                 $dados = $this->getDoctrine()
-                    ->getRepository('CacicCommonBundle:LogAcesso')
+                    ->getRepository('CacicCommonBundle:LogUserLogado')
                     ->gerarRelatorioUsuario($filtros = array(),$filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala);
 
             }
 
-            //$writer->writeItem(array('Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações'));
             // Gera CSV
             $reader = new ArrayReader($dados);
 
@@ -565,16 +565,15 @@
             $converter = new CallbackValueConverter(function ($input) {
                 return $input->format('d/m/Y H:m:s');
             });
-
             $workflow->addValueConverter('dtHrUltAcesso', $converter);
 
             $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
 
             // Add the writer to the workflow
-            $tmpfile = tempnam(sys_get_temp_dir(), 'Usuario_Csv_Estatico');
+            $tmpfile = tempnam(sys_get_temp_dir(), 'usuario_estatico_');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            //$writer->writeItem(array('Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações','Local','Subrede','Endereço IP','Estações'));
+            $writer->writeItem(array( 'Nome computador', 'Mac Address', 'IP computador', 'Sistema Operacional', 'Local', 'Sub Rede', 'Último Usuário Logado', 'Data Último Usuário Logado', 'Nome do Responsável', 'CPF Responsável', 'Coordenacao Responsável', 'Sala do Responsável', 'Data do Pop-up'));
             $workflow->addWriter($writer);
 
 
@@ -584,7 +583,7 @@
 
             // Gera data e adiciona no nome do arquivo
             $today = date("Ymd");
-            $nameArquivo = "Usuario_Csv_Estatico".$today.".csv";
+            $nameArquivo = "usuario_estatico_".$today.".csv";
 
             // Retorna o arquivo
             $response = new BinaryFileResponse($tmpfile);
@@ -596,7 +595,7 @@
         }
 
         /*
-         * Página que exibe o resultado da consulta do histórico do usuário logado
+         * Realiza a busca do user logado somente pelo nome do usuário (link da página usuarioDetalhar)
          */
         public function usuarioHistoricoAction( Request $request) {
 
@@ -606,28 +605,55 @@
             $usuarioLogado = strstr($teUltimoLogin, substr('\ ',0,1));
             $size = strlen($usuarioLogado);
             $usuarioLogado = substr($usuarioLogado,1, $size);
+            $data = array();
+            $data['usuarioLogado'] = $usuarioLogado;
+            $data['semData'] = $semData;
 
-            $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->gerarRelatorioUsuarioHistorico($usuarioLogado, $semData);
+            $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado,$semData);
 
             return $this->render(
                 'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
                 array(
                     'idioma'        => $locale,
                     'dados'         => ( isset( $dados ) ? $dados : null ),
+                    'usuarioLogado' => $usuarioLogado,
                     'semData'       => $semData,
-                    'usuarioLogado' => $usuarioLogado
+                    'data'          => $data
                 )
             );
         }
         /*
-         * Gera o CSV completo dos registros dos usuários dinâmicos ( user logado)
+         * Gera o CSV completo e filtrado dos registros dos usuários dinâmicos ( user logado)
          */
 
         public function usuarioCsvDinamicoAction( Request $request) {
 
-            $printers = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:LogAcesso')->gerarUsuarioCsvDinamico();
+            if ( $request->isMethod('POST') )
+            {
+                $dataInicio = $request->get('dtAcaoInicio');
+                $dataFim = $request->get('dtAcaoFim');
+                $usuarioLogado = $request->get('usuarioLogado');
+                $macCompDinamico = $request->get('macCompDinamico');
+                $ipCompDinamico = $request->get('ipCompDinamico');
+
+                /*
+                 * Verifica se existe filtro por data do CSV
+                 */
+                if(empty($dataInicio)){
+                    $semData = 'S';
+                    $dados = $this->getDoctrine()
+                        ->getRepository('CacicCommonBundle:LogUserLogado')
+                        ->gerarRelatorioUsuarioHistoricoCompleto($usuarioLogado, $semData);
+                }else{
+                    $semData = 'N';
+                    $dados = $this->getDoctrine()
+                        ->getRepository('CacicCommonBundle:LogUserLogado')
+                        ->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, $macCompDinamico, $ipCompDinamico);
+                }
+            }
+
             // Gera CSV
-            $reader = new ArrayReader($printers);
+            $reader = new ArrayReader($dados);
 
             // Create the workflow from the reader
             $workflow = new Workflow($reader);
@@ -642,10 +668,14 @@
             $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
 
             // Add the writer to the workflow
-            $tmpfile = tempnam(sys_get_temp_dir(), 'Usuario_Csv_Dinamico');
+            $tmpfile = tempnam(sys_get_temp_dir(), 'usuario_estatico_');
             $file = new \SplFileObject($tmpfile, 'w');
             $writer = new CsvWriter($file);
-            $writer->writeItem(array('Id Computador', 'IP Computador', 'Data', 'Usuário','Nome computador', 'Mac Address','IP computador','Sub Rede'));
+            if ($semData == 'S'){
+                $writer->writeItem(array('Nome computador', 'Mac Address','IP computador','Local', 'Sub Rede', 'Usuário', 'Data', 'ID Computador'));
+            }else{
+                $writer->writeItem(array('Nome computador', 'Mac Address','IP computador','Local', 'Sub Rede', 'CPF Responsável', 'Data Pup-up', 'Usuário', 'Data', 'ID Computador'));
+            }
             $workflow->addWriter($writer);
 
 
@@ -655,7 +685,7 @@
 
             // Gera data e adiciona no nome do arquivo
             $today = date("Ymd");
-            $nameArquivo = "Usuario_Csv_Dinamico".$today.".csv";
+            $nameArquivo = "usuario_dinamico_".$today.".csv";
 
             // Retorna o arquivo
             $response = new BinaryFileResponse($tmpfile);
@@ -664,6 +694,5 @@
             $response->headers->set('Content-Transfer-Encoding', 'binary');
 
             return $response;
-
         }
 }

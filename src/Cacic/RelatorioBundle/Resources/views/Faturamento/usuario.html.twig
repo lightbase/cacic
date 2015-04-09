@@ -11,22 +11,24 @@
         <div class="span8">
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Relatório de usuário logado' |trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-search"></i> {{ 'Relatório de usuário logado' |trans }}
+                </h2>
 
                 <div class="block box_content round_bottom padding_10">
 
                     <form id={{ 'formUserPesquisa'|trans }} action="{{ path('cacic_relatorio_usuario_detalhar') }}" class="form-horizontal" method="POST" target="_blank">
 
                         <div class="control-group">
-                            <label for="log_acesso_periodo"  class="control-label">{{ 'Período'|trans }}</label>
+                            <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
+
                             <div class="controls">
                                 {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
-                                <p class="help-block">{{ "Informe o período no qual deseja realizar a faturar."|trans }}</p>
+                                <p class="help-block">{{ "Informe o período no qual deseja filtrar!"|trans }}</p>
                             </div>
                         </div>
 
                         <hr>
-                        <h4>{{ "Informações estáticas"|trans }}</h4><br />
+                        <h4>{{ "Informações estáticas"|trans }}</h4><br/>
 
                         <div class="control-group" >
                             <label for="UserPesquisa"  class="control-label">{{ 'Nome do Computador'|trans }}</label>
@@ -43,35 +45,41 @@
                             </div>
 
                             <div class="control-group" >
-                                <label for="UserPesquisa"  class="control-label">{{ 'MAC Address'|trans }}</label>
+                                <label for="UserPesquisa" class="control-label">{{ 'MAC Address '|trans }}</label>
+
                                 <div class="controls">
                                     {{ form_widget(form.teNodeAddress) }}
                                 </div>
                             </div>
 
                         <div class="control-group" >
-                            <label for="UserPesquisa"  class="control-label">{{ 'Nome do Responsável'|trans }}</label>
+                            <label for="UserPesquisa" class="control-label">{{ 'Nome do Responsável'|trans }}</label>
+
                             <div class="controls">
                                 {{ form_widget(form.usuarioPatrimonio) }}
                             </div>
                         </div>
 
                         <div class="control-group" >
-                            <label for="UserPesquisa"  class="control-label">{{ 'CPF do Responsável'|trans }}</label>
+                            <label for="UserPesquisa" class="control-label">{{ 'CPF do Responsável'|trans }}</label>
+
                             <div class="controls">
                                 {{ form_widget(form.usuarioName) }}
                             </div>
                         </div>
 
                         <div class="control-group" >
-                            <label for="UserPesquisa"  class="control-label">{{ 'Coordenação do Responsável'|trans }}</label>
+                            <label for="UserPesquisa"
+                                   class="control-label">{{ 'Coordenação do Responsável'|trans }}</label>
+
                             <div class="controls">
                                 {{ form_widget(form.coordenacao) }}
                             </div>
                         </div>
 
                         <div class="control-group" >
-                            <label for="UserPesquisa"  class="control-label">{{ 'Sala do Responsável'|trans }}</label>
+                            <label for="UserPesquisa" class="control-label">{{ 'Sala do Responsável'|trans }}</label>
+
                             <div class="controls">
                                 {{ form_widget(form.sala) }}
                             </div>
@@ -90,18 +98,19 @@
                             </div>
                         </div>
                             <hr>
-                        <h4>{{ "Informações dinâmicas"|trans }}</h4><br />
+                        <h4>{{ "Informações dinâmicas"|trans }}</h4><br/>
 
                         <div class="control-group" >
-                            <label for="UserPesquisa"  class="control-label">{{ 'Usuário Logado'|trans }}</label>
+                            <label for="UserPesquisa" class="control-label">{{ 'Usuário Logado'|trans }}</label>
+
                             <div class="controls">
                                 {{ form_widget(form.usuarioLogado) }}
                             </div>
                         </div>
                         <div class="control-group" >
-                            <label for="UserPesquisa"  class="control-label">{{ 'Nome do Computador'|trans }}</label>
+                            <label for="UserPesquisa"  class="control-label">{{ 'MAC Address'|trans }}</label>
                             <div class="controls">
-                                {{ form_widget(form.nmCompDinamico) }}
+                                {{ form_widget(form.macCompDinamico) }}
                             </div>
                         </div>
                         <div class="control-group" >
@@ -121,16 +130,12 @@
                                     <i class="icon-search"></i>
                                     {{ 'Gerar relatório'|trans }}
                                 </button>
-
-                                <button type="submit" class="btn btn-success" formaction="{{ path('cacic_relatorio_usuario_csv') }}">
-                                    <i class="icon-download-alt"></i>
-                                    {{'Gerar CSV'|trans  }}
-                                </button>
-
+                                {#
                                 <button type="submit" class="btn btn-success" formaction="{{ path('cacic_relatorio_usuario_csv_dinamico') }}">
                                     <i class="icon-download-alt"></i>
-                                    {{'Gerar CSV Usuário Dinâmico'|trans  }}
+                                    {{'Gerar CSV dinamico completo'|trans  }}
                                 </button>
+                                #}
                             </div>
                         </div>
 
@@ -146,16 +151,23 @@
 
                 <div class="block box_content round_bottom padding_10">
                     <p>
-                        {{ "Nesta consulta o possível obter um relatório contendo o registro do último usuário logado na estação"|trans }}.
+                        {{ "Nesta consulta o possível obter um relatório contendo o registro do último usuário logado na estação de acordo com o patrimônio (estático) e log do usuário (dinâmico)"|trans }}
+                        .
                     </p>
                     <p>
-                        {{ "O campos PERIODO e USUARIO são de preenchimento obrigatório para a realização da consulta"|trans }}.
+                        {{ "O campos PERIODO e pelo menos mais 1 descrito abaixo são de preenchimento obrigatório para a realização da consulta"|trans }}
+                        .
                     </p>
                     <p>
                         {{ "Não selecionar nenhum valor em LOCAL é o mesmo que selecionar todos"|trans }}.
                     </p>
                     <p>
-                        {{ "As informações Estáticas são o conjunto de informações básicas que não são passiveis de alterações constante, já a infomração dinâmica refere-se ao usuário que se encontra logado na estação no momento da coleta. Não sendo necessáriamente o mesmo usuário contido nas informações patrimoniais"|trans }}.
+                        {{ "As informações Estáticas são o conjunto de informações da coleta de patrimônio que não são passiveis de alterações constante, já a infomração dinâmica refere-se ao usuário que se encontra logado na estação no momento da coleta. Não sendo necessáriamente o mesmo usuário contido nas informações patrimoniais"|trans }}
+                        .
+                    </p>
+                    <p>
+                        {{ "Ao preencher uma informação do usuário dinâmico automáticamente estará realizando a busca no relatório dinâmico."|trans }}
+                        .
                     </p>
                 </div> <!-- /block -->
             </div> <!-- /box -->
@@ -171,6 +183,7 @@
 
     <script type="text/javascript">
         System.Form.toggleCheck(); // Ativa o monitoramento de Clique no checkbox para marcar/desmarcar todos
+
     </script>
 
 {% endblock %}

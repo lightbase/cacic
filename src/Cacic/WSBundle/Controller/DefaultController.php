@@ -46,9 +46,10 @@ class DefaultController extends Controller
             if ( empty($ip_computador) ){
                 $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
             }
-            if (empty($ip_computador)) {
+            if (empty($ip_computador) OR $ip_computador == '127.0.0.1') {
                 $ip_computador = $request->getClientIp();
             }
+
 
             $insucesso =  new InsucessoInstalacao();
             $insucesso->setTeIpComputador( $ip_computador );
@@ -93,7 +94,7 @@ class DefaultController extends Controller
 
         }
 
-        if (empty($ip_computador)) {
+        if (empty($ip_computador) OR $ip_computador == '127.0.0.1') {
             $ip_computador = $request->getClientIp();
         }
 
@@ -236,7 +237,7 @@ class DefaultController extends Controller
         if ( empty($ip_computador) ){
             $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
         }
-        if (empty($ip_computador)) {
+        if (empty($ip_computador) OR $ip_computador == '127.0.0.1') {
             $ip_computador = $request->getClientIp();
         }
 
@@ -555,7 +556,7 @@ class DefaultController extends Controller
         if ( empty($ip_computador) ){
             $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
         }
-        if (empty($ip_computador)) {
+        if (empty($ip_computador) OR $ip_computador == '127.0.0.1') {
             $ip_computador = $request->getClientIp();
         }
 
