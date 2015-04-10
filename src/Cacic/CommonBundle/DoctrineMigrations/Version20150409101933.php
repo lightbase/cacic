@@ -58,7 +58,11 @@ class Version20150409101933 extends AbstractMigration implements ContainerAwareI
                 $ArrCompRecente = print_r($computadorRecente,true);
 
                 $computadorAntigo = $em->getRepository('CacicCommonBundle:Computador')->computadorAntigo( $teNodeAddress, $id_so, $ArrCompRecente );
-                $ArrCompAntigo = implode(', ', array_column($computadorAntigo, 'idComputador'));
+                $ArrCompAntigo = array();
+                foreach ($computadorAntigo as $comp) {
+                    array_push($ArrCompAntigo, $comp['idComputador']);
+                }
+                $ArrCompAntigo = implode(', ', $ArrCompAntigo);
 
                 // 2.1 - Para cada um dos resultados, atualiza o computador mais antigo para o mais novo
                 #$this->addSql("UPDATE computador_coleta_historico SET id_computador = $ArrCompRecente WHERE id_computador IN ($ArrCompAntigo)");
