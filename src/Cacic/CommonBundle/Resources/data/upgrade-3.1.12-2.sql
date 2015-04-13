@@ -50,8 +50,6 @@ CREATE OR REPLACE FUNCTION upgrade_software2() RETURNS VOID AS $$
               DELETE FROM proriedade_software WHERE id_propriedade_software = comp.id_propriedade_software;
           END;
 
-
-
         END LOOP;
 
         -- Atualiza aquisições de software
