@@ -916,6 +916,11 @@ class NeoController extends Controller {
 
         try {
 
+            // FIX: alteração para igualar os campos nome do software e descrição
+            if (array_key_exists('description', $valor)) {
+                $software = $valor['description'];
+            }
+
             // Verifica se software ja esta cadastrado
             $softwareObject = $em->getRepository('CacicCommonBundle:Software')->findOneBy(array(
                 'nmSoftware' => $software
@@ -983,9 +988,9 @@ class NeoController extends Controller {
             if (array_key_exists('description', $valor)) {
                 $softwareObject->setTeDescricaoSoftware($valor['description']);
                 $propSoftware->setDisplayName($valor['description']);
+                $softwareObject->setNmSoftware($valor['name']);
             }
             if (array_key_exists('name', $valor)) {
-                $softwareObject->setNmSoftware($valor['name']);
                 $classProperty->setNmPropertyName($valor['name']);
             }
             if (array_key_exists('url', $valor)) {
