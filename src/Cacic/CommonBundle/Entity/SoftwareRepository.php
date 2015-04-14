@@ -113,16 +113,16 @@ class SoftwareRepository extends EntityRepository
          * Verifica os filtros que foram parametrizados
          */
         if ( array_key_exists('softwares', $filtros) && !empty($filtros['softwares']) )
-            $qb->andWhere('class.idClassProperty IN (:softwares)')->setParameter('softwares', explode( ',', $filtros['softwares'] ));
+            $qb->andWhere('class.idClassProperty IN (:softwares)')->setParameter('softwares', explode( ',', array_unique($filtros['softwares']) ));
 
         if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
-            $qb->andWhere('l.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+            $qb->andWhere('l.idLocal IN (:locais)')->setParameter('locais', explode( ',', array_unique($filtros['locais']) ));
 
         if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) )
-            $qb->andWhere('r.idRede IN (:redes)')->setParameter('redes', explode( ',', $filtros['redes'] ));
+            $qb->andWhere('r.idRede IN (:redes)')->setParameter('redes', explode( ',', array_unique($filtros['redes']) ));
 
         if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
-            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', array_unique($filtros['so']) ));
 
         return $qb->getQuery()->execute();
     }

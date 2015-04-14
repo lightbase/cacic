@@ -456,8 +456,6 @@ class NeoController extends Controller {
             $versaoGercols = null;
         }
 
-
-
         // TESTES: Se IP for vazio, tenta pegar da conexão
         if (empty($ip_computador) || $ip_computador == '127.0.0.1') {
             $ip_computador = $request->getClientIp();
@@ -923,6 +921,7 @@ class NeoController extends Controller {
         try {
 
             // FIX: alteração para igualar os campos nome do software e descrição
+            $idSoftware = $software;
             if (array_key_exists('description', $valor)) {
                 $software = $valor['description'];
             }
@@ -940,12 +939,12 @@ class NeoController extends Controller {
             // Recupera classProperty para o software
             $classProperty = $em->getRepository('CacicCommonBundle:ClassProperty')->findOneBy(array(
                 'idClass' => $classObject->getIdClass(),
-                'nmPropertyName' => $software
+                'nmPropertyName' => $idSoftware
             ));
             if (empty($classProperty)) {
                 $classProperty = new ClassProperty();
                 $classProperty->setTePropertyDescription("Software detectado: $software");
-                $classProperty->setNmPropertyName($software);
+                $classProperty->setNmPropertyName($idSoftware);
                 $classProperty->setIdClass($classObject);
             }
 
@@ -983,7 +982,7 @@ class NeoController extends Controller {
             $computadorColeta->setComputador( $computador );
 
             $classProperty->setIdClass($classObject);
-            $classProperty->setNmPropertyName($software);
+            $classProperty->setNmPropertyName($idSoftware);
 
             $propSoftware->setComputador($computador);
             $propSoftware->setClassProperty($classProperty);
@@ -994,7 +993,6 @@ class NeoController extends Controller {
             if (array_key_exists('description', $valor)) {
                 $softwareObject->setTeDescricaoSoftware($valor['description']);
                 $propSoftware->setDisplayName($valor['description']);
-                $softwareObject->setNmSoftware($valor['name']);
             }
             if (array_key_exists('name', $valor)) {
                 $classProperty->setNmPropertyName($valor['name']);

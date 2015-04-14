@@ -83,15 +83,23 @@
 							</tr>
 						</thead>
 						<tbody>
+                            {% set total = 0 %}
+                            {% for so in estatisticas['totalCompPorSO'] %}
+                                {% set total = (total + so['numComp']) %}
+                            {% endfor %}
 							{% for so in estatisticas['totalCompPorSO'] %}
 							<tr>
 								<td>{{ so['teDescSo'] }}</td>
 								<td style="text-align: center">{{ so['numComp'] }}</td>
-								<td style="text-align: center"></td>
+								<td style="text-align: center">{{ ((so['numComp']/total)*100)|round(2, 'floor') }}%</td>
 							</tr>
 							{% else %}
 							<tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
 							{% endfor %}
+                            <tr>
+                                <td><b>{{ 'Total'|trans }}</b></td>
+                                <td style="text-align: center" colspan="2"><b>{{ total }}</b></td>
+                            </tr>
 						</tbody>
 					</table>
 				</div>

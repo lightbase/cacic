@@ -161,7 +161,8 @@ class ComputadorRepository extends EntityRepository
             ->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(comp.idComputador) as numComp')
             ->innerJoin('comp.idSo', 'so')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
-            ->groupBy('so');
+            ->groupBy('so')
+            ->orderBy('numComp', 'DESC');
 
 
         $qb = $qb->getQuery();
@@ -218,7 +219,7 @@ class ComputadorRepository extends EntityRepository
     public function countPorSO30Dias()
     {
         $qb = $this->createQueryBuilder('comp')
-            ->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(DISTINCT comp.teNodeAddress) as numComp')
+            ->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(DISTINCT comp.idComputador) as numComp')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('CacicCommonBundle:LogAcesso','log', 'WITH', 'log.idComputador = comp.idComputador')
             ->andWhere( 'log.data >= (current_date() - 30)' )
@@ -240,7 +241,7 @@ class ComputadorRepository extends EntityRepository
      */
     public function countAll()
     {
-        $qb = $this->createQueryBuilder('comp')->select('COUNT(distinct comp.teNodeAddress)')
+        $qb = $this->createQueryBuilder('comp')->select('COUNT(distinct comp.idComputador)')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
         return $qb->getQuery()->getSingleScalarResult();
     }
