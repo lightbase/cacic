@@ -243,3 +243,7 @@ cacic_software_search:
   defaults: { _controller:CacicRelatorioBundle:Software:search, name:null }
   requirements:
     _method: GET
+
+cacic_relatorio_software_aquisicoes_det_csv:
+    pattern: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}/csv
+    defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhadoCsv }
