@@ -11,7 +11,8 @@ namespace Cacic\WSBundle\Controller;
 use Cacic\CommonBundle\Entity\ClassProperty;
 use Cacic\CommonBundle\Entity\PropriedadeSoftwareRepository;
 use Doctrine\DBAL\DBALException;
-use Proxies\__CG__\Cacic\CommonBundle\Entity\Software;
+use Doctrine\ORM\ORMException;
+use Cacic\CommonBundle\Entity\Software;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -1036,7 +1037,7 @@ class NeoController extends Controller {
             // Tem que adicionar isso aqui ou o Doctrine vai duplicar o software
             $em->flush();
 
-        } catch(\Doctrine\ORM\ORMException $e){
+        } catch(ORMException $e){
             $logger->error("COLETA: Erro na inserçao de dados do software $software.");
             $logger->debug($e);
         } catch(DBALException $e){
