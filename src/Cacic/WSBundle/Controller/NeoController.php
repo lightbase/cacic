@@ -10,6 +10,7 @@ namespace Cacic\WSBundle\Controller;
 
 use Cacic\CommonBundle\Entity\ClassProperty;
 use Cacic\CommonBundle\Entity\PropriedadeSoftwareRepository;
+use Doctrine\DBAL\DBALException;
 use Proxies\__CG__\Cacic\CommonBundle\Entity\Software;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Response;
@@ -473,7 +474,7 @@ class NeoController extends Controller {
         // Regra: MAC e SO são únicos e não podem ser nulos
         // Se SO ou MAC forem vazios, tenta atualizar forçadamente
         if (empty($te_node_address) || empty($so)) {
-            $logger->error("Erro na operação de getConfig. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO =" . $request->get( 'te_so' ));
+            $logger->error("Erro na operação de getConfig. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO =" . $so_json['nomeOs']);
 
             return null;
         }
@@ -1032,10 +1033,13 @@ class NeoController extends Controller {
             $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
             $em->persist( $computadorColetaHistorico );
 
+            // Tem que adicionar isso aqui ou o Doctrine vai duplicar o software
+            $em->flush();
+
         } catch(\Doctrine\ORM\ORMException $e){
             $logger->error("COLETA: Erro na inserçao de dados do software $software.");
             $logger->debug($e);
-        } catch(NonUniqueResultException $e){
+        } catch(DBALException $e){
             $logger->error("COLETA: Erro impossível de software repetido para $software.");
             $logger->debug($e);
         }

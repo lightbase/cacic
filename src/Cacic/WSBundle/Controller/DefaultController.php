@@ -110,7 +110,11 @@ class DefaultController extends Controller
         }
 
         //vefifica se existe SO coletado se não, insere novo SO
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
+        if (!empty($te_so)) {
+            $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist();
+        } else {
+            $so = null;
+        }
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
 
         if (empty($te_node_address) || empty($so)) {
@@ -252,7 +256,13 @@ class DefaultController extends Controller
             $netmask = $request->get('netmask');
         }
 
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
+        //$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
+        $te_so = $request->get( 'te_so' );
+        if (!empty($te_so)) {
+            $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist();
+        } else {
+            $so = null;
+        }
 
         /**
          * Se a máscara de subrede ou o mac address estiver vazio, força o redirecionamento para provável atualização
