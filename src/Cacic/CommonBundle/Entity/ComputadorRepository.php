@@ -218,7 +218,7 @@ class ComputadorRepository extends EntityRepository
     public function countPorSO30Dias()
     {
         $qb = $this->createQueryBuilder('comp')
-            ->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(DISTINCT comp.idComputador) as numComp')
+            ->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(DISTINCT comp.teNodeAddress) as numComp')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('CacicCommonBundle:LogAcesso','log', 'WITH', 'log.idComputador = comp.idComputador')
             ->andWhere( 'log.data >= (current_date() - 30)' )
@@ -240,7 +240,7 @@ class ComputadorRepository extends EntityRepository
      */
     public function countAll()
     {
-        $qb = $this->createQueryBuilder('comp')->select('COUNT(comp.idComputador)')
+        $qb = $this->createQueryBuilder('comp')->select('COUNT(distinct comp.teNodeAddress)')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
         return $qb->getQuery()->getSingleScalarResult();
     }

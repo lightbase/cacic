@@ -448,7 +448,13 @@ class NeoController extends Controller {
         $usuario = $dados['computador']['usuario'];
         $nmComputador = $dados['computador']['nmComputador'];
         $versaoAgente = $dados['computador']['versaoAgente'];
-        $versaoGercols = $dados['computador']['versaoGercols'];
+
+        // Atualiza versão do GerCols se existir
+        if (array_key_exists('versaoGercols', $dados['computador'])) {
+            $versaoGercols = $dados['computador']['versaoGercols'];
+        } else {
+            $versaoGercols = null;
+        }
 
 
 

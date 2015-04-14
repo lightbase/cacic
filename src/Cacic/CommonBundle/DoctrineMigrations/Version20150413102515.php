@@ -8,6 +8,7 @@ use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Entity\TeSo;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -28,6 +29,16 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "postgresql", "Migration can only be executed safely on 'postgresql'.");
         $em = $this->container->get('doctrine.orm.entity_manager');
         $logger = $this->container->get('logger');
+
+        $rootDir = $this->container->get('kernel')->getRootDir();
+        $upgrade1 = $rootDir."/../src/Cacic/CommonBundle/Resources/data/upgrade-3.1.12-3.sql";
+        $upgradeSQL1 = file_get_contents($upgrade1);
+
+        $logger->debug("Arquivo de atualização: $upgrade1");
+
+        // Chama o container para executar o arquivo de atualização
+        // FIXME: Só funciona no PostgreSQL
+        $this->addSql($upgradeSQL1);
 
         // Primeiro remove tudo o que está na tabela atual
         $te_so_list = $em->getRepository('CacicCommonBundle:TeSo')->findAll();
@@ -61,7 +72,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -89,7 +101,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -117,7 +130,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -145,7 +159,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -173,7 +188,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -201,7 +217,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -229,7 +246,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -257,7 +275,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -285,7 +304,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -313,7 +333,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -341,7 +362,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -369,7 +391,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -406,7 +429,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -434,7 +458,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -462,7 +487,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -490,7 +516,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -518,7 +545,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 }
 
                 // Busca todos os computadores que têm o mesmo MAC Address e esse SO
-                $this->atualizaSo($em, $id_so);
+                $so_novo = $so_new->getIdSo();
+                $this->atualizaSo($em, $id_so, $so_novo);
 
                 $so = new TeSo();
                 $so->setIdSo($so_new->getIdSo());
@@ -526,18 +554,16 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
                 $so->setTeSo31('Microsoft Windows XP Professional');
 
                 $em->persist($so);
-                $em->flush();
             }
 
             if ($te_so == 'Microsoft Windows XP Professional') {
-                $logger->debug("1111111111111111111111111111111111111111111 ".$id_so);
+
                 $so = new TeSo();
                 $so->setIdSo($id_so);
                 $so->setTeSo28('2.5.1.Service Pack 3');
                 $so->setTeSo31('Microsoft Windows XP Professional');
 
                 $em->persist($so);
-                $em->flush();
             }
 
             $em->flush();
@@ -552,41 +578,8 @@ class Version20150413102515 extends AbstractMigration implements ContainerAwareI
 
     }
 
-    public function atualizaSo( $em, $id_so ) {
-        // 1 - Acha lista de MAC address repetidos para esse SO
-        $computadores = $em->getRepository('CacicCommonBundle:Computador')->filtroMac($id_so);
-
-        // 2 - Busca o computador mais recente e os mais antigos dos MAC Address repetido caso não esteja vazio
-        if (!empty($computadores)){
-
-            foreach ($computadores as $computador ){
-
-                $teNodeAddress = $computador['teNodeAddress'];
-
-                $computadorRecente = $em->getRepository('CacicCommonBundle:Computador')->computadorRecente( $teNodeAddress, $id_so );
-                $ArrCompRecente = print_r($computadorRecente,true);
-
-                $computadorAntigo = $em->getRepository('CacicCommonBundle:Computador')->computadorAntigo( $teNodeAddress, $id_so, $ArrCompRecente );
-                $ArrCompAntigo = array();
-                foreach ($computadorAntigo as $comp) {
-                    array_push($ArrCompAntigo, $comp['idComputador']);
-                }
-                $ArrCompAntigo = implode(', ', $ArrCompAntigo);
-
-                // 2.1 - Para cada um dos resultados, atualiza o computador mais antigo para o mais novo
-                #$this->addSql("UPDATE computador_coleta_historico SET id_computador = $ArrCompRecente WHERE id_computador IN ($ArrCompAntigo)");
-                $this->addSql("UPDATE log_acesso SET id_computador = $ArrCompRecente WHERE id_computador IN ($ArrCompAntigo)");
-                $this->addSql("UPDATE log_user_logado SET id_computador = $ArrCompRecente WHERE id_computador IN ($ArrCompAntigo)");
-
-                // 2.3 - Apaga os registros dos computadores antigos em proriedade_software e relatorio_coleta
-                $this->addSql("DELETE FROM proriedade_software WHERE id_computador IN ($ArrCompAntigo)");
-                $this->addSql("DELETE FROM relatorio_coleta WHERE id_computador IN ($ArrCompAntigo)");
-                $this->addSql("DELETE FROM computador_coleta_historico WHERE id_computador IN ($ArrCompAntigo)");
-                $this->addSql("DELETE FROM computador_coleta WHERE id_computador IN ($ArrCompAntigo)");
-                $this->addSql("DELETE FROM rede_grupo_ftp WHERE id_computador IN ($ArrCompAntigo)");
-                $this->addSql("DELETE FROM computador WHERE id_computador IN($ArrCompAntigo)");
-            }
-        }
+    public function atualizaSo( $em, $id_so, $so_novo ) {
+        $this->addSql("SELECT remove_repetidos($id_so, $so_novo)");
     }
 }
 

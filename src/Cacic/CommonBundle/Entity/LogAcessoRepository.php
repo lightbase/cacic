@@ -417,7 +417,7 @@ GROUP BY c0_.te_node_address,
         $query = $this->createQueryBuilder('log')
             ->select('COUNT(DISTINCT comp.teNodeAddress)')
             ->innerJoin('CacicCommonBundle:Computador','comp', 'WITH', 'log.idComputador = comp.idComputador')
-            ->andWhere( 'log.data >= (current_date() - 30)' )
+            ->andWhere( "log.data >= (current_date() - 30)" )
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
 
         $query = $query->getQuery();

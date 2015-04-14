@@ -17,10 +17,17 @@ CREATE OR REPLACE FUNCTION upgrade_software2() RETURNS VOID AS $$
 
       RAISE NOTICE 'Atualizando nome do software para software = %', soft.display_name;
 
-      -- Considera somente o primeiro software com o nome
-      SELECT min(id_software) INTO v_id_software
-      FROM proriedade_software
-      WHERE display_name = soft.display_name;
+      -- Primeira busca pelo nome do software
+      SELECT id_software INTO v_id_software
+      FROM software
+      WHERE nm_software = soft.display_name;
+
+      IF v_id_software IS NULL THEN
+        -- Considera somente o primeiro software com o nome
+        SELECT min(id_software) INTO v_id_software
+        FROM proriedade_software
+        WHERE display_name = soft.display_name;
+      END IF;
 
       -- Atualiza todas as entradas para o mínimo id_software
       FOR prop_software IN select distinct id_software
@@ -53,13 +60,29 @@ CREATE OR REPLACE FUNCTION upgrade_software2() RETURNS VOID AS $$
         END LOOP;
 
         -- Atualiza aquisições de software
-        UPDATE aquisicoes_software
-        SET id_software = v_id_software
-        WHERE id_software = prop_software.id_software;
+        BEGIN
+          UPDATE aquisicoes_software
+          SET id_software = v_id_software
+          WHERE id_software = prop_software.id_software;
+
+        EXCEPTION
+          WHEN SQLSTATE '23505' THEN
+            RAISE NOTICE 'Software já cadastrado no processo de aquisição. Continua...';
+
+            -- Apaga aquisições de qualquer jeito
+            DELETE FROM aquisicoes_software
+            WHERE id_software = prop_software.id_software;
+
+        END;
 
         -- Agora apaga software
         DELETE FROM software
         WHERE id_software = prop_software.id_software;
+
+        -- Atualiza nome do software
+        UPDATE software
+        SET nm_software = soft.display_name
+        WHERE id_software = v_id_software;
 
       END LOOP;
 
