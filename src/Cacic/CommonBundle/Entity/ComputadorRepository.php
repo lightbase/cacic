@@ -443,6 +443,7 @@ class ComputadorRepository extends EntityRepository
 
         return $query->getQuery()->execute();
     }
+
     public function inativosCsv( $dataInicio, $dataFim, $locais )
     {
 
@@ -634,5 +635,126 @@ class ComputadorRepository extends EntityRepository
             ->setParameter('idComputador', $ArrCompRecente);
 
         return $qb->getQuery()->getArrayResult();
+    }
+
+    public function listar($idLocal, $inicio, $fim) {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'COUNT(DISTINCT comp.idComputador) as numComp')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->innerJoin("CacicCommonBundle:Rede", 'rede', 'WITH', 'rede.idRede = comp.idRede')
+            ->innerJoin("CacicCommonBundle:Local", 'loc', 'WITH', 'rede.idLocal = loc.idLocal')
+            ->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
+
+        if ( !empty($inicio) ) {
+            $qb->andWhere( 'comp.dtHrUltAcesso >= :inicio' )->setParameter('inicio', ( $inicio.' 00:00:00' ));
+        }
+
+        if ( !empty($fim) ) {
+            $qb->andWhere( 'comp.dtHrUltAcesso <= :fim' )->setParameter('fim', ( $fim.' 23:59:59' ));
+        }
+
+        if (!empty($idLocal)) {
+            $locais = implode(", ", $idLocal);
+            $qb->andWhere("loc.idLocal in ($locais)");
+        }
+
+        return $qb->getQuery()->getArrayResult();
+
+    }
+
+    public function listarCsv($idLocal, $inicio, $fim) {
+
+        $qb = $this->createQueryBuilder('comp')
+            ->select('loc.nmLocal', 'rede.nmRede', 'rede.teIpRede', 'COUNT(DISTINCT comp.idComputador) as numComp')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->innerJoin("CacicCommonBundle:Rede", 'rede', 'WITH', 'rede.idRede = comp.idRede')
+            ->innerJoin("CacicCommonBundle:Local", 'loc', 'WITH', 'rede.idLocal = loc.idLocal')
+            ->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
+
+        if ( !empty($inicio) ) {
+            $qb->andWhere( 'comp.dtHrUltAcesso >= :inicio' )->setParameter('inicio', ( $inicio.' 00:00:00' ));
+        }
+
+        if ( !empty($fim) ) {
+            $qb->andWhere( 'comp.dtHrUltAcesso <= :fim' )->setParameter('fim', ( $fim.' 23:59:59' ));
+        }
+
+        if (!empty($idLocal)) {
+            $locais = implode(", ", $idLocal);
+            $qb->andWhere("loc.idLocal in ($locais)");
+        }
+
+        return $qb->getQuery()->getArrayResult();
+
+    }
+
+    public function gerarRelatorioComputadores( $filtros, $idRede, $dataInicio, $dataFim ) {
+
+        // Monta a Consulta básica...
+        $query = $this->createQueryBuilder('comp')
+            ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo', 'comp.dtHrUltAcesso')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+
+        if (!empty($dataInicio)) {
+            $query->andWhere('comp.dtHrUltAcesso >= :dataInicio')
+                ->setParameter('dataInicio', $dataInicio);
+        }
+
+        if (!empty($dataFim)) {
+            $query->andWhere('comp.dtHrUltAcesso <= :dataFim')
+                ->setParameter('dataFim', $dataFim);
+        }
+
+
+        if ( $idRede ) {
+            $query->andWhere( 'comp.idRede IN (:rede)' )->setParameter('rede', $idRede);
+        }
+
+        $query->groupBy('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo');
+
+
+        return $query->getQuery()->execute();
+    }
+
+    public function gerarRelatorioComputadoresCsv( $filtros, $idRede,$dataInicio, $dataFim ) {
+
+        // Monta a Consulta básica...
+        $query = $this->createQueryBuilder('comp')
+            ->select('comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.teDescSo', 'loc.nmLocal', 'rede.nmRede', 'rede.teIpRede', 'comp.dtHrUltAcesso')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+
+        if (!empty($dataInicio)) {
+            $query->andWhere('comp.dtHrUltAcesso >= :dataInicio')
+                ->setParameter('dataInicio', $dataInicio);
+        }
+
+        if (!empty($dataFim)) {
+            $query->andWhere('comp.dtHrUltAcesso <= :dataFim')
+                ->setParameter('dataFim', $dataFim);
+        }
+
+
+        if ( $idRede ) {
+            $query->andWhere( 'comp.idRede IN (:rede)' )->setParameter('rede', $idRede);
+        }
+
+        $query->groupBy('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo');
+
+
+        return $query->getQuery()->execute();
     }
 }

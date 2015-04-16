@@ -247,3 +247,29 @@ cacic_software_search:
 cacic_relatorio_software_aquisicoes_det_csv:
     pattern: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}/csv
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhadoCsv }
+
+cacic_relatorio_computador:
+    pattern: /computador
+    defaults: { _controller: CacicRelatorioBundle:Computador:listar }
+    requirements:
+        _method: GET
+
+cacic_relatorio_computador_resultado:
+     pattern: /computador/subredes
+     defaults: { _controller: CacicRelatorioBundle:Computador:listarResultado }
+
+cacic_relatorio_computador_resultado_csv:
+     pattern: /computador/subredes/csv
+     defaults: { _controller: CacicRelatorioBundle:Computador:listarResultadoCsv }
+
+cacic_relatorio_computador_listar:
+    pattern: /computador/listar/{idRede}
+    defaults: { _controller: CacicRelatorioBundle:Computador:listarDetalhado, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+
+
+cacic_relatorio_computador_listar_csv:
+    pattern: /computador/listar/csv/{idRede}
+    defaults: { _controller: CacicRelatorioBundle:Computador:listarDetalhadoCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+

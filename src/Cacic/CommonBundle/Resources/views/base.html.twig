@@ -179,6 +179,18 @@
             </a>
             <ul>
                 <li class="dropdown-submenu" >
+                    <li class="dropdown-submenu" >
+                    <a href="javascript:void(0)">
+                        <span>{{ "Computadores"|trans }}</span>
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a class="round_top" href="{{ path('cacic_relatorio_faturamento') }}">{{ "Faturamento"|trans }}</a></li>
+                        <li><a class="round_top" href="{{ path('cacic_relatorio_computador') }}">{{ "Total de Computadores"|trans }}</a></li>
+                        <li><a class="round_top" href="{{ path('cacic_ateste') }}">{{ "Relatório para Ateste"|trans }}</a></li>
+                        <li><a class="round_top" href="{{ path('cacic_relatorio_inativos') }}">{{ "Computadores Inativos"|trans }}</a></li>
+                    </ul>
+                </li>
                     <a href="javascript:void(0)">
                         <span>{{ "Softwares"|trans }}</span>
                         <span class="icon">&nbsp;</span>
@@ -200,9 +212,6 @@
                     {{ knp_menu_render('CacicRelatorioBundle:Builder:relatorioMenu') }}
                 </li>
                 <li><a class="round_top" href="{{ path('cacic_relatorio_hardware_wmi_dinamico') }}">{{ "WMI Dinâmico"|trans }}</a></li>
-                <li><a class="round_top" href="{{ path('cacic_relatorio_faturamento') }}">{{ "Faturamento"|trans }}</a></li>
-                <li><a class="round_top" href="{{ path('cacic_relatorio_inativos') }}">{{ "Computadores Inativos"|trans }}</a></li>
-                <li><a class="round_top" href="{{ path('cacic_ateste') }}">{{ "Relatório para Ateste"|trans }}</a></li>
             </ul>
         </li>
 
