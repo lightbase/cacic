@@ -22,7 +22,7 @@ class Builder extends ContainerAware
         //$menu->addChild('Configurações', array('route' => 'cacic_relatorio_hardware_configuracoes'));
 
         // Carrega lista de classes WMI para coleta
-        $em = $this->container->get('doctrine')->getEntityManager();
+        $em = $this->container->get('doctrine')->getManager();
         $classes = $em->getRepository('CacicCommonBundle:ComputadorColeta')->menu();
 
         // Adiciona cada uma das classes como slug para um controller
