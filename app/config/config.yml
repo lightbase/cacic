@@ -32,7 +32,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        cacic_version: 3.1.12
+        cacic_version: 3.1.13
     form:
         resources:
             - "BraincraftedBootstrapBundle:Form:bootstrap.html.twig"
@@ -223,6 +223,10 @@ services:
             -  { name: console.command }
     cacic_demo.command.inativos_command:
         class: Cacic\CommonBundle\Command\InativosCommand
+        tags:
+            -  { name: console.command }
+    cacic.command.wmi_command:
+        class: Cacic\CommonBundle\Command\WmiCommand
         tags:
             -  { name: console.command }
     pdo:
