@@ -86,7 +86,7 @@ class HardwareController extends Controller
 
         $dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:ComputadorColeta')
-            ->gerarRelatorioWMI($filtros , $classe = $classe );
+            ->gerarRelatorioWMI($filtros , $classe );
 
 
         $locale = $request->getLocale();

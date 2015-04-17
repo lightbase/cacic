@@ -263,7 +263,18 @@ class ComputadorColetaRepository extends EntityRepository
     public function gerarRelatorioWMI( $filtros, $classe )
     {
         $qb = $this->createQueryBuilder('coleta')
-            ->select('property.nmPropertyName', 'coleta.teClassPropertyValue', 'so.idSo', 'so.inMswindows', 'so.sgSo', 'so.teDescSo', 'rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'local.nmLocal', 'local.idLocal', 'count(DISTINCT coleta.computador) as numComp')
+            ->select('property.nmPropertyName',
+                'coleta.teClassPropertyValue',
+                'so.idSo',
+                'so.inMswindows',
+                'so.sgSo',
+                'so.teDescSo',
+                'rede.idRede',
+                'rede.nmRede',
+                'rede.teIpRede',
+                'local.nmLocal',
+                'local.idLocal',
+                'count(DISTINCT coleta.computador) as numComp')
             ->innerJoin('coleta.classProperty', 'property')
             ->innerJoin('property.idClass', 'classe')
             ->innerJoin('coleta.computador', 'comp')
@@ -272,7 +283,16 @@ class ComputadorColetaRepository extends EntityRepository
             ->innerJoin('rede.idLocal', 'local')
             ->andWhere('classe.nmClassName = :classe')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
-            ->groupBy('property.nmPropertyName, coleta.teClassPropertyValue, so.idSo, so.inMswindows,so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal, local.idLocal')
+            ->groupBy('property.nmPropertyName,
+                coleta.teClassPropertyValue,
+                so.idSo,
+                so.inMswindows,
+                so.sgSo,
+                rede.idRede,
+                rede.nmRede,
+                rede.teIpRede,
+                local.nmLocal,
+                local.idLocal')
             ->setParameter('classe', $classe);
 
         /**
