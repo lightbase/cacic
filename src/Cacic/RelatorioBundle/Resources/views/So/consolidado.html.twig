@@ -1,0 +1,86 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Total de Computadores' |trans }}</h2>
+            <div class="block box_content round_bottom padding_10">
+				<h2 class="">{{ 'Lista de Sistemas Operacionais'|trans }}</h2>
+                <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+                <hr />
+
+                <a class="btn btn-primary" type="submit" href="{{ path('cacic_relatorio_so_consolidado_csv') }}" title="{{ "Sistema Operacional Consolidado"|trans }}" target="_blank">
+                    <i class="icon-bar-chart"></i>
+                    Gerar CSV
+                </a>
+                <br>
+                <br>
+
+				<table class="display datatable" id="datatable">
+
+                    <thead>
+				        <tr>
+                            <th style="text-align: center"></th>
+                            <th>{{ "Sistema Operacional"|trans }}</th>
+                            <th style="text-align: center">{{ "Estações"|trans }}</th>
+                            <th style="text-align: center">{{ "%"|trans }}</th>
+                            <th width="5%" style="text-align: center"></th>
+				        </tr>
+				    </thead>
+
+                    <tbody>
+                    {% set total = 0 %}
+                    {% for so in so_lista %}
+                        {% set total = (total + so['numComp']) %}
+                    {% endfor %}
+                    {% for so in so_lista %}
+                        <tr>
+                            <td>
+                                {{ loop.index }}
+                            </td>
+                            <td>
+                                <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so['idSo']}) }}" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                    {{ so['teDescSo'] }}
+                                </a>
+                            </td>
+                            <td style="text-align: center">
+                                <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so['idSo']}) }}" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                    <b>{{ so['numComp'] }}</b>
+                                </a>
+                            </td>
+                            <td style="text-align: center">
+                                <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so['idSo']}) }}" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                    {{ ((so['numComp']/total)*100)|round(2, 'floor') }}%
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn" href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so['idSo']}) }}" target="_blank" title="{{ "Detalhar SO" }}">
+                                    <i class="icon-search"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
+                    {% endfor %}
+
+				    </tbody>
+                </table>
+
+                <table class="display datatable" id="datatable">
+                    <thead>
+                        <tr>
+                            <th width="77%" style="text-align: left">{{ "Total de Estações"|trans }}</th>
+                            <th width="23%" style="text-align: center">{{ total }}</th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

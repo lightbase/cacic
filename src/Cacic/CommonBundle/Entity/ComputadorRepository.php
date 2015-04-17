@@ -172,6 +172,22 @@ class ComputadorRepository extends EntityRepository
         return $qb->getResult();
     }
 
+    public function countPorSOCsv()
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('so.teDescSo,  COUNT(comp.idComputador) as numComp')
+            ->innerJoin('comp.idSo', 'so')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->groupBy('so')
+            ->orderBy('numComp', 'DESC');
+
+        $qb = $qb->getQuery();
+        $qb->useResultCache(true);
+        $qb->setResultCacheLifetime(600);
+
+        return $qb->getResult();
+    }
+
     /**
      *
      * Conta os computadores associados a cada Versão do Agente

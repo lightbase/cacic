@@ -90,9 +90,21 @@
                             {% endfor %}
 							{% for so in estatisticas['totalCompPorSO'] %}
 							<tr>
-								<td>{{ so['teDescSo'] }}</td>
-								<td style="text-align: center">{{ so['numComp'] }}</td>
-								<td style="text-align: center">{{ ((so['numComp']/total)*100)|round(2, 'floor') }}%</td>
+								<td>
+                                    <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so['idSo']}) }}" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                        {{ so['teDescSo'] }}
+                                    </a>
+                                </td>
+								<td style="text-align: center">
+                                    <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so['idSo']}) }}" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                        <b>{{ so['numComp'] }}</b>
+                                    </a>
+                                </td>
+								<td style="text-align: center">
+                                    <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so['idSo']}) }}" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                        {{ ((so['numComp']/total)*100)|round(2, 'floor') }}%
+                                    </a>
+                                </td>
 							</tr>
 							{% else %}
 							<tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
@@ -103,6 +115,12 @@
                             </tr>
 						</tbody>
 					</table>
+                    <center>
+                        <a class="btn btn-success" type="submit" href="{{ path('cacic_relatorio_so_consolidado') }}" title="{{ "Gerar relatório consolidado"|trans }}" target="_blank">
+                            <i class="icon-bar-chart"></i>
+                            Gerar relatório
+                        </a>
+                    </center>
 				</div>
 			</div>
 		</div> <!-- /box -->

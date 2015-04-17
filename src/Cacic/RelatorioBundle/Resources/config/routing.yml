@@ -273,3 +273,31 @@ cacic_relatorio_computador_listar_csv:
     defaults: { _controller: CacicRelatorioBundle:Computador:listarDetalhadoCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
     requirements:
         idRede: \d+
+
+cacic_relatorio_so:
+    pattern: /so
+    defaults: { _controller: CacicRelatorioBundle:So:index }
+
+cacic_relatorio_so_listar:
+    pattern: /so/listar
+    defaults: { _controller: CacicRelatorioBundle:So:listar, idSo: null }
+
+cacic_relatorio_so_listar_csv:
+    pattern: /so/listar/csv
+    defaults: { _controller: CacicRelatorioBundle:So:listarCsv, idSo: null }
+
+cacic_relatorio_so_detalhar:
+    pattern: /so/detalhar/{idSo}
+    defaults: { _controller: CacicRelatorioBundle:So:detalhar }
+
+cacic_relatorio_so_detalhar_csv:
+    pattern: /so/detalhar/csv/{idSo}
+    defaults: { _controller: CacicRelatorioBundle:So:detalharCsv }
+
+cacic_relatorio_so_consolidado:
+    pattern: /so/consolidado
+    defaults: { _controller: CacicRelatorioBundle:So:consolidado }
+
+cacic_relatorio_so_consolidado_csv:
+    pattern: /so/consolidado/csv
+    defaults: { _controller: CacicRelatorioBundle:So:consolidadoCsv }
