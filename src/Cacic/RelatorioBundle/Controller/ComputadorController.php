@@ -278,7 +278,7 @@ class ComputadorController extends Controller {
         // Retorna o arquivo
         $response = new BinaryFileResponse($tmpfile);
         $response->headers->set('Content-Type', 'text/csv');
-        $response->headers->set('Content-Disposition', 'attachment; filename="Faturamento_subrede.csv"');
+        $response->headers->set('Content-Disposition', 'attachment; filename="Computadores.csv"');
         $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;
