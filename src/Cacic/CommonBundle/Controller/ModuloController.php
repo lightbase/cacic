@@ -22,10 +22,14 @@ class ModuloController extends Controller
         $usuario = $this->getUser()->getIdUsuario();
         $nivel = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario' )->nivel($usuario);
 
-		$local = $this->getUser()->getIdLocal(); // Recupera o Local da sessão do usuário logado
-		
-		$modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listarModulosOpcionais( $nivel, $local->getIdLocal() );
-		$totalRedes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->countByLocal( $local->getIdLocal() );
+        $local = $this->getUser()->getIdLocal(); // Recupera o Local da sessão do usuário logado
+        $modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listarModulosOpcionais( $nivel, $local->getIdLocal() );
+
+        if($nivel[0]['nmGrupoUsuarios'] == "Admin") {
+            $totalRedes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->countByLocalADM();
+        } else {
+            $totalRedes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->countByLocal( $local->getIdLocal() );
+        }
         //Debug::dump($modulos);die;
 		return $this->render(
 			'CacicCommonBundle:Modulo:index.html.twig', 
