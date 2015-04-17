@@ -77,6 +77,17 @@ class SoController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $locale = $request->getLocale();
 
+        $idSo = $request->get('idSo');
+        if (empty($idSo)) {
+            // Aqui vem via POST pelo formulário
+            $data = $request->request->all();
+            if (!empty($data)) {
+                $idSo = $data['idLocal'];
+            } else {
+                $idSo = null;
+            }
+        }
+
         $computadores = $em->getRepository("CacicCommonBundle:So")->listarSoCsv($idSo);
 
         $TotalnumComp = 0;

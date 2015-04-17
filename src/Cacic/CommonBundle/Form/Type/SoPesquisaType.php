@@ -25,6 +25,8 @@ class SoPesquisaType extends AbstractType
 				'class' => 'CacicCommonBundle:So',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('so')
+                        ->innerJoin("CacicCommonBundle:Computador", "comp", "WITH", "so.idSo = comp.idSo")
+                        ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
                         ->orderBy('so.teDescSo', 'ASC');
                 },
 				'property' => 'teDescSo',
