@@ -117,5 +117,26 @@ class ClasseRepository extends EntityRepository
             ->setParameter('properties', explode(',', $properties))
             ->getArrayResult();
     }
+
+    /**
+     * Encontra classe pelo nome fornecido
+     *
+     * @param $classe
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findByName($classe) {
+
+        $_dql = "SELECT classe
+				FROM CacicCommonBundle:Classe classe
+				WHERE LOWER(classe.nmClassName) = LOWER(:classe)";
+
+        $classObject = $this->getEntityManager()
+            ->createQuery( $_dql )
+            ->setParameter('classe', $classe)
+            ->getOneOrNullResult();
+
+        return $classObject;
+    }
 }
 

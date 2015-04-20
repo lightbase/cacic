@@ -3,23 +3,24 @@
 namespace Cacic\RelatorioBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Cacic\CommonBundle\Tests\BaseTestCase;
 
-class HardwareControllerTest extends WebTestCase
+class HardwareControllerTest extends BaseTestCase
 {
-    /**
-     * Cria dados necessários aos testes
-     */
+    private $client = null;
 
-    public function setUp() {
+    public function setUp()
+    {
+        // Load setup from BaseTestCase method
+        parent::setUp();
 
-    }
-
-    /**
-     * Testa login funcional
-     */
-
-    public function testLogin() {
-
+        $this->client = static::createClient(
+            array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => '123456',
+        ));
     }
 
     /**
@@ -28,17 +29,20 @@ class HardwareControllerTest extends WebTestCase
 
     public function testWmiAction() {
 
-        $client = static::createClient();
-        $crawler = $client->request(
+        //$this->logIn();
+
+        $crawler = $this->client->request(
             'GET',
-            '/relatorio/hardware/NetworkAdapterConfiguration',
+            '/relatorio/hardware/NetworkAdapterConfiguration/DefaultIPGateway',
             array(),
             array(),
             array(),
             '{}'
         );
 
-        $this->assertTrue($crawler->filter('option:contains("DefaultIPGateway")')->count() > 0);
+        $response = $this->client->getResponse();
+
+        $this->assertNotEquals(500, $response->getStatusCode());
     }
 
 
@@ -48,5 +52,7 @@ class HardwareControllerTest extends WebTestCase
 
     public function tearDown() {
 
+        // Call terDown from root
+        parent::tearDown();
     }
 }

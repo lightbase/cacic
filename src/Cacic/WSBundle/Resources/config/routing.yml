@@ -83,7 +83,7 @@ cacic_neo_home_update:
 
 cacic_neo_coleta:
     pattern: /neo/coleta
-    defaults: { _controller: CacicWSBundle:Neo:coleta }
+    defaults: { _controller: CacicWSBundle:NeoColeta:coleta }
 
 cacic_ws_neo_log:
     pattern: /neo/logs
