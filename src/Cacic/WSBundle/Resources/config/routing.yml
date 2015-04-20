@@ -86,7 +86,7 @@ cacic_neo_coleta:
     defaults: { _controller: CacicWSBundle:NeoColeta:coleta }
 
 cacic_ws_neo_log:
-    pattern: /neo/logs
-    defaults: { _controller: CacicWSBundle:Neo:erroAgente }
+    pattern: /neo/log
+    defaults: { _controller: CacicWSBundle:NeoLog:logErro }
     #schemes:  [https]
 

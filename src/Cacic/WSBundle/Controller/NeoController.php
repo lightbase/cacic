@@ -103,30 +103,6 @@ class NeoController extends Controller {
     }
 
     /**
-     * Registra erros do Agente
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function erroAgenteAction(Request $request){
-
-        $logger = $this->get('logger');
-        $status = $request->getContent();
-        $em = $this->getDoctrine()->getManager();
-        $dados = json_decode($status, true);
-
-        $response = new JsonResponse();
-
-        if (empty($dados)) {
-            $logger->error("JSON VEIO VAZIO!!! - ERRO NO METODO: erroAgenteAction()");
-            $response->setStatusCode('200');
-        }
-        $response->setStatusCode('500');
-        return $response;
-
-    }
-
-    /**
      * Método que registra o Acesso e identifica o computador
      *
      * @param Request $request

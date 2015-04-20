@@ -1,7 +1,7 @@
 Cacic\CommonBundle\Entity\ErrosAgente:
     type: entity
     table: erros_agente
-    repositoryClass: Cacic\CommonBundle\Entity\ErrosAgente
+    repositoryClass: Cacic\CommonBundle\Entity\ErrosAgenteRepository
     fields:
         idErrosAgente:
             id: true
@@ -9,19 +9,18 @@ Cacic\CommonBundle\Entity\ErrosAgente:
             unsigned: false
             nullable: false
             column: id_erros_agente
+            generator:
+                strategy: IDENTITY
         timestampErro:
-            type: text
-            fixed: true
+            type: datetime
             nullable: false
             column: timestamp_erro
         nivelErro:
             type: text
-            fixed: false
             nullable: false
             column: nivel_erro
         mensagem:
             type: text
-            fixed: false
             nullable: false
             column: mensagem
     manyToOne:
