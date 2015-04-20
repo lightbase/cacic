@@ -261,9 +261,7 @@ class NeoColetaController extends NeoController {
             }
 
             // Verifica se software ja esta cadastrado
-            $softwareObject = $em->getRepository('CacicCommonBundle:Software')->findOneBy(array(
-                'nmSoftware' => $software
-            ));
+            $softwareObject = $em->getRepository('CacicCommonBundle:Software')->getByName($software);
             if (empty($softwareObject)) {
                 // Se nao existir, cria
                 $softwareObject = new Software();

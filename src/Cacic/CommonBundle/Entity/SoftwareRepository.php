@@ -313,7 +313,7 @@ class SoftwareRepository extends EntityRepository
 
 
     /**
-     * Encontra o softwar pelo nome
+     * Encontra o software pelo nome
      *
      * @param $name Nome a ser buscado
      * @return mixed objeto do software
@@ -329,6 +329,20 @@ class SoftwareRepository extends EntityRepository
         } else {
             $result =  $qb->getQuery()->execute($name);
         }
+
+        return $result;
+
+    }
+
+    public function getByName($name) {
+
+        $qb = $this->createQueryBuilder('sw')
+            ->select('sw')
+            ->andWhere("lower(sw.nmSoftware) LIKE lower('%$name%')")
+            ->setMaxResults(1)
+            ->orderBy('sw.idSoftware');
+
+        $result = $qb->getQuery()->getOneOrNullResult();
 
         return $result;
 
