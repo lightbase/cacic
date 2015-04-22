@@ -154,19 +154,19 @@ class BaseTestCase extends DefaultTestCase {
                     "versaoGercols": "2.8.0"
                 },
                 "hardware": {
-                    "bios": {
+                    "Win32_BIOS": {
                         "releaseDate": "11/12/2013",
                         "romSize": "4096 kB",
                         "runtimeSize": "128 kB",
                         "vendor": "Dell Inc.",
                         "version": "A07"
                     },
-                    "cpu": {
+                    "Win32_Processor": {
                         "clock": "768000000 Hz",
                         "name": "Intel(R) Core(TM) i7-4500U CPU @ 1.80GHz",
                         "vendor": "Intel Corp."
                     },
-                    "ethernet_card": {
+                    "NetworkAdapterConfiguration": {
                         "capacity": "100000000 bits/s",
                         "description": "Ethernet interface",
                         "logicalname": "eth0",
@@ -283,19 +283,19 @@ class BaseTestCase extends DefaultTestCase {
                     "versaoGercols": "2.8.0"
                 },
                 "hardware": {
-                    "bios": {
+                    "Win32_BIOS": {
                         "releaseDate": "11/12/2013",
                         "romSize": "4096 kB",
                         "runtimeSize": "128 kB",
                         "vendor": "Dell Inc.",
                         "version": "A07"
                     },
-                    "cpu": {
+                    "Win32_Processor": {
                         "clock": "768000000 Hz",
                         "name": "Intel(R) Core(TM) i7-4500U CPU @ 1.80GHz",
                         "vendor": "Intel Corp."
                     },
-                    "ethernet_card": {
+                    "NetworkAdapterConfiguration": {
                         "capacity": "100000000 bits/s",
                         "description": "Ethernet interface",
                         "logicalname": "eth0",
