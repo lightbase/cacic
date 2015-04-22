@@ -111,7 +111,7 @@ class DefaultController extends Controller
 
         //vefifica se existe SO coletado se não, insere novo SO
         if (!empty($te_so)) {
-            $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist();
+            $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist($te_so);
         } else {
             $so = null;
         }
