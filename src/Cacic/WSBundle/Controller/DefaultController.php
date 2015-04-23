@@ -259,7 +259,7 @@ class DefaultController extends Controller
         //$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
         $te_so = $request->get( 'te_so' );
         if (!empty($te_so)) {
-            $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist();
+            $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist($te_so);
         } else {
             $so = null;
         }
