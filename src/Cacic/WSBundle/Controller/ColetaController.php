@@ -321,7 +321,7 @@ class ColetaController extends Controller
         $te_so = $request->get( 'te_so' );
 
         $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$te_so) );
-        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->findOneBy( array('idSo'=>$so, 'teNodeAddress'=>$te_node_address) );
+        $computador = $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->getComputadorPreCole( $request, $te_so, $te_node_address, $rede, $so, $ip_computador );
         $local = $computador->getIdRede()->getIdLocal();
 
         $te_usb_info = OldCacicHelper::deCrypt($request, $request->get('te_usb_info'));

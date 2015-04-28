@@ -112,27 +112,27 @@ class RedeVersaoModuloRepository extends EntityRepository
         if (!empty($arrResult) || !empty($arrResult2)) {
             # 1.1 - Se for qualquer versão 2.8, manda a versão 2.8.1.23 como padrão
             $saida = array();
-            $cacic280 = new RedeVersaoModulo('cacic280.exe', '2.8.1.23', null, $idRede);
+            $cacic280 = new RedeVersaoModulo('cacic280.exe', '2.8.1.23', null, 'windows', null, $idRede);
             $cacic280->setTeHash('6bec84cb246c49e596256d4833e6b301');
             array_push($saida, $cacic280);
 
-            $cacicserv = new RedeVersaoModulo('cacicservice.exe', '2.8.1.23', null, $idRede);
+            $cacicserv = new RedeVersaoModulo('cacicservice.exe', '2.8.1.23', null, 'windows', null, $idRede);
             $cacicserv->setTeHash('3119b4e67d71fcec2700770632974a31');
             array_push($saida, $cacicserv);
 
-            $chksis = new RedeVersaoModulo('chksis.exe', '2.8.1.23', null, $idRede);
+            $chksis = new RedeVersaoModulo('chksis.exe', '2.8.1.23', null, 'windows', null, $idRede);
             $chksis->setTeHash('748b8265eb0cd80e1854a90fe34df671');
             array_push($saida, $chksis);
 
-            $gercols = new RedeVersaoModulo('gercols.exe', '2.8.1.23', null, $idRede);
+            $gercols = new RedeVersaoModulo('gercols.exe', '2.8.1.23', null, 'windows', null, $idRede);
             $gercols->setTeHash('6e358a7302e8c9b3d0c09fbd9c7a7000');
             array_push($saida, $gercols);
 
-            $installcacic = new RedeVersaoModulo('installcacic.exe', '2.8.1.23', null, $idRede);
+            $installcacic = new RedeVersaoModulo('installcacic.exe', '2.8.1.23', null, 'windows', null, $idRede);
             $installcacic->setTeHash('388c9d020e72f5b62696824cc69077ea');
             array_push($saida, $installcacic);
 
-            $mapacacic = new RedeVersaoModulo('mapacacic.exe', '2.8.1.23', null, $idRede);
+            $mapacacic = new RedeVersaoModulo('mapacacic.exe', '2.8.1.23', null, 'windows', null, $idRede);
             $mapacacic->setTeHash('3f8a6191fbad092eeb202617288559e9');
             array_push($saida, $mapacacic);
 
