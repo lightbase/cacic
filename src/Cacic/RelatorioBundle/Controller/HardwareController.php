@@ -85,7 +85,7 @@ class HardwareController extends Controller
         $filtros = $request->get('rel_filtro_hardware');
 
         $dados = $this->getDoctrine()
-            ->getRepository('CacicCommonBundle:ComputadorColeta')
+            ->getRepository('CacicCommonBundle:Computador')
             ->gerarRelatorioWMI($filtros , $classe );
 
 
@@ -110,6 +110,8 @@ class HardwareController extends Controller
         $rede = $request->get('rede');
         $local = $request->get('local');
         $so = $request->get('so');
+        $valor = $request->get('valor');
+
 
         // Adiciona rede à lista de filtros se for fornecido
         if (!empty($rede)) {
@@ -126,8 +128,13 @@ class HardwareController extends Controller
             $filtros['so'] =  $so;
         }
 
+        // Adiciona SO à lista de filtros se for fornecido
+        if (!empty($valor)) {
+            $filtros['valor'] =  $valor;
+        }
+
         $dados = $this->getDoctrine()
-            ->getRepository('CacicCommonBundle:ComputadorColeta')
+            ->getRepository('CacicCommonBundle:Computador')
             ->gerarRelatorioWMIDetalhe( $filtros, $classe );
 
         $locale = $request->getLocale();

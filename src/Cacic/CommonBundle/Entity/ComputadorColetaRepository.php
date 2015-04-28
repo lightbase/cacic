@@ -5,6 +5,11 @@ namespace Cacic\CommonBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Cacic\CommonBundle\Entity\Computador;
+use Cacic\CommonBundle\Entity\AcaoSo;
+use Cacic\CommonBundle\Entity\Acao;
+use Cacic\CommonBundle\Entity\So;
+use Cacic\CommonBundle\Entity\ComputadorColeta;
+
 
 /**
  * ComputadorColetaRepository
@@ -134,7 +139,22 @@ class ComputadorColetaRepository extends EntityRepository
     public function gerarRelatorioWMIDetalhe( $filtros, $classe )
     {
         $qb = $this->createQueryBuilder('coleta')
-            ->select('IDENTITY(coleta.computador), property.nmPropertyName, coleta.teClassPropertyValue, comp.nmComputador, comp.isNotebook, comp.teNodeAddress, comp.teIpComputador, so.idSo, so.inMswindows, so.sgSo, rede.idRede, rede.nmRede, rede.teIpRede, local.nmLocal, local.idLocal')
+            ->select('IDENTITY(coleta.computador),
+                    property.nmPropertyName,
+                    coleta.teClassPropertyValue,
+                    comp.nmComputador,
+                    comp.isNotebook,
+                    comp.teNodeAddress,
+                    comp.teIpComputador,
+                    so.idSo,
+                    so.inMswindows,
+                    so.sgSo,
+                    so.teDescSo,
+                    rede.idRede,
+                    rede.nmRede,
+                    rede.teIpRede,
+                    local.nmLocal,
+                    local.idLocal')
             ->innerJoin('coleta.classProperty', 'property')
             ->innerJoin('property.idClass', 'classe')
             ->innerJoin('coleta.computador', 'comp')

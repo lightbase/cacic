@@ -14,6 +14,7 @@ use Cacic\CommonBundle\Entity\AcaoSo;
 use Cacic\CommonBundle\Entity\Acao;
 use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
+
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Common\Util\Debug;
 
@@ -772,5 +773,131 @@ class ComputadorRepository extends EntityRepository
 
 
         return $query->getQuery()->execute();
+    }
+
+    /**
+     * Gera relatório de propriedades WMI coletadas dos computadores
+     * @param array $filtros
+     * @param $classe
+     */
+    public function gerarRelatorioWMI( $filtros, $classe )
+    {
+
+        $_dql = "SELECT so.idSo,
+                        so.inMswindows,
+                        so.sgSo,
+                        so.teDescSo,
+                        rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                local.nmLocal,
+                local.idLocal,
+                COUNT(DISTINCT c.idComputador) AS numComp,
+                (CASE WHEN property.nmPropertyName IS NULL THEN 'Não identificado' ELSE property.nmPropertyName END) as nmPropertyName,
+                (CASE WHEN cl.teClassPropertyValue IS NULL THEN 'Não identificado' ELSE cl.teClassPropertyValue END) as teClassPropertyValue
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
+                if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) ){
+                    $redes = $filtros['redes'];
+                    $_dql .= " AND rede.idRede IN ($redes)";
+                }
+
+                $_dql .= ") INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo";
+                if ( array_key_exists('so', $filtros) && !empty($filtros['so']) ){
+                    $so = $filtros['so'];
+                    $_dql .= " AND c.idSo IN ($so)";
+                }
+
+                $_dql .= ") INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal";
+                if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) ){
+                    $locais = $filtros['locais'];
+                    $_dql .= " AND local.idLocal IN ($locais)";
+                }
+
+                $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador";
+                if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) ){
+                    $conf = $filtros['conf'];
+                    $_dql .= " AND cl.classProperty IN ($conf)";
+                }
+
+                $_dql .= ") LEFT JOIN CacicCommonBundle:ClassProperty property WITH cl.classProperty = property.idClassProperty
+                LEFT JOIN CacicCommonBundle:Classe classe WITH cl.idClass = classe.idClass
+                WHERE c.ativo IS NULL OR c.ativo = 't' AND classe.nmClassName = '$classe'
+                GROUP BY property.nmPropertyName,
+                            cl.teClassPropertyValue,
+                            so.idSo,
+                            so.inMswindows,
+                            so.sgSo,
+                            rede.idRede,
+                            rede.nmRede,
+                            rede.teIpRede,
+                            local.nmLocal,
+                            local.idLocal";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+
+    }
+
+    /**
+     * Gera relatório de propriedades WMI coletadas dos computadores detalhado
+     * @param array $filtros
+     * @param $classe
+     */
+    public function gerarRelatorioWMIDetalhe( $filtros, $classe )
+    {
+        error_log('>>>>>>>>>>>>>>>>>>>>'.print_r($filtros,true));
+        $_dql = "SELECT IDENTITY(cl.computador),
+                        c.nmComputador,
+                        c.isNotebook,
+                        c.teNodeAddress,
+                        c.teIpComputador,
+                        so.idSo,
+                        so.inMswindows,
+                        so.sgSo,
+                        so.teDescSo,
+                        rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                (CASE WHEN property.nmPropertyName IS NULL THEN 'Não identificado' ELSE property.nmPropertyName END) as nmPropertyName,
+                (CASE WHEN cl.teClassPropertyValue IS NULL THEN 'Não identificado' ELSE cl.teClassPropertyValue END) as teClassPropertyValue
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
+        if ( array_key_exists('rede', $filtros) && !empty($filtros['rede']) ){
+            $redes = $filtros['rede'];
+            $_dql .= " AND rede.idRede = $redes";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo";
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) ){
+            $so = $filtros['so'];
+            $_dql .= " AND c.idSo = $so";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal";
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) ){
+            $locais = $filtros['locais'];
+            $_dql .= " AND local.idLocal = $locais";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:ComputadorColeta cl WITH c.idComputador = cl.computador ";
+        if ( array_key_exists('valor', $filtros) && !empty($filtros['valor']) ){
+            $valor = $filtros['valor'];
+            $_dql .= " AND cl.teClassPropertyValue = '$valor'";
+        }
+
+        $_dql .= " INNER JOIN CacicCommonBundle:ClassProperty property WITH cl.classProperty = property.idClassProperty ";
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) ){
+            $conf = $filtros['conf'];
+            $_dql .= " AND property.nmPropertyName = '$conf'";
+        }
+
+        $_dql .= " INNER JOIN CacicCommonBundle:Classe classe WITH property.idClass = classe.idClass
+                WHERE (c.ativo IS NULL OR c.ativo = 't') AND classe.nmClassName = '$classe'";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
     }
 }

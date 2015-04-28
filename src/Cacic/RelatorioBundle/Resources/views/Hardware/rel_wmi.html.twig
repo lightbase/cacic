@@ -37,7 +37,7 @@
             <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'local': reg.idLocal}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.nmLocal }}</a></td>
             <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'rede': reg.idRede}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.nmRede }} / {{ reg.teIpRede }}</a></td>
             <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.nmPropertyName }}</a></td>
-            <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'so': reg.idSo, 'local': reg.idLocal, 'rede': reg.idRede}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.numComp }}</a></td>
+            <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'so': reg.idSo, 'local': reg.idLocal, 'rede': reg.idRede, 'valor': reg.teClassPropertyValue}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.numComp }}</a></td>
             <td>{{ reg.teClassPropertyValue }}</td>
         </tr>
     	{% else %}
