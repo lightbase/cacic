@@ -178,6 +178,7 @@ class ComputadorController extends Controller
     {
         $form = $this->createForm( new ComputadorConsultaType() );
 
+        $computadores = array();
         if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
