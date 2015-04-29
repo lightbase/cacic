@@ -489,7 +489,7 @@ class DefaultController extends Controller
         $i = 0;
         foreach ($configs as $elm) {
             if ($elm['idConfiguracao'] == 'nu_intervalo_forca_coleta') {
-                $timerForcaColeta = $elm['nu_intervalo_forca_coleta'];
+                $timerForcaColeta = @$elm['nu_intervalo_forca_coleta'];
             }
 
             if ($elm['idConfiguracao'] == 'nu_intervalo_exec') {
@@ -500,7 +500,7 @@ class DefaultController extends Controller
             $i = $i + 1;
         }
         if (empty($timerForcaColeta)) {
-            $timerForcaColeta = 15;
+            $timerForcaColeta = 60;
         }
         $logger->debug("GET-CONFIG: timerForcaColeta = $timerForcaColeta");
 
