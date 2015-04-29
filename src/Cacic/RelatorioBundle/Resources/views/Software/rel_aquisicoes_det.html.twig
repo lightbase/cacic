@@ -29,9 +29,10 @@
             <th width="10%">{{ "Nome da Máquina"|trans }}</th>
             <th width="10%" style="text-align: center">{{ "IP"|trans }}</th>
             <th width="10%">{{ "MAC Address"|trans }}</th>
+            <th width="18%">{{ "Sistema Operacional" }}</th>
             <th width="20%">{{ "Local"|trans }}</th>
-            <th width="20%">{{ "Subrede"|trans }}</th>
-            <th width="20%" style="text-align: center">{{ "Data último acesso"|trans }}</th>
+            <th width="10%">{{ "Subrede"|trans }}</th>
+            <th width="10%" style="text-align: center">{{ "Data último acesso"|trans }}</th>
             <th width="5%"></th>
         </tr>
         </thead>
@@ -48,6 +49,7 @@
                 </td>
                 <td style="text-align: center"><a href="{{ path("cacic_computador_detalhar") }}/{{ reg.idComputador }}" target="_blank">{{ reg.teIpComputador }}</a></td>
                 <td style="text-align: center"><a href="{{ path("cacic_computador_detalhar") }}/{{ reg.idComputador }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
+                <td>{{ reg.idSo.TeDescSo }}</td>
                 <td>{{ reg.idRede.idLocal.nmLocal }}</td>
                 <td>{{ reg.idRede.nmRede }}</td>
                 <td style="text-align: center">{{ reg.dtHrUltAcesso|date("d/m/Y H\\hi") }}</td>

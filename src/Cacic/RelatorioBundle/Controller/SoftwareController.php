@@ -189,7 +189,6 @@ class SoftwareController extends Controller
     					->getRepository('CacicCommonBundle:Aquisicao')
     					->gerarRelatorioAquisicoes();
 
-    	//\Doctrine\Common\Util\Debug::dump($dados);die;
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_aquisicoes.html.twig', 
         	array(
@@ -413,6 +412,7 @@ class SoftwareController extends Controller
             'Nome da máquina',
             'IP',
             'MAC Address',
+            'Sistema Operacional',
             'Local',
             'Subrede',
             'Data último acesso'
