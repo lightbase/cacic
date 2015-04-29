@@ -846,7 +846,6 @@ class ComputadorRepository extends EntityRepository
      */
     public function gerarRelatorioWMIDetalhe( $filtros, $classe )
     {
-        error_log('>>>>>>>>>>>>>>>>>>>>'.print_r($filtros,true));
         $_dql = "SELECT IDENTITY(cl.computador),
                         c.nmComputador,
                         c.isNotebook,
