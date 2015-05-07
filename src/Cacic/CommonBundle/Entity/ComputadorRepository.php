@@ -818,11 +818,17 @@ class ComputadorRepository extends EntityRepository
                 if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) ){
                     $conf = $filtros['conf'];
                     $_dql .= " AND cl.classProperty IN ($conf)";
+                } else {
+                    $_dql .= " AND cl.classProperty IN (
+                        SELECT p.idClassProperty
+                        FROM CacicCommonBundle:ClassProperty p
+                        INNER JOIN CacicCommonBundle:Classe cla WITH p.idClass = cla.idClass
+                         WHERE cla.nmClassName = '$classe'
+                    )";
                 }
 
                 $_dql .= ") LEFT JOIN CacicCommonBundle:ClassProperty property WITH cl.classProperty = property.idClassProperty
-                LEFT JOIN CacicCommonBundle:Classe classe WITH cl.idClass = classe.idClass
-                WHERE c.ativo IS NULL OR c.ativo = 't' AND classe.nmClassName = '$classe'
+                WHERE (c.ativo IS NULL OR c.ativo = 't')
                 GROUP BY property.nmPropertyName,
                             cl.teClassPropertyValue,
                             so.idSo,
