@@ -846,6 +846,8 @@ class ComputadorRepository extends EntityRepository
      */
     public function gerarRelatorioWMIDetalhe( $filtros )
     {
+        error_log('>>>>>>>>>>>>>>>>>>>>'.$filtros['valor']);
+
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('nm_computador', 'nmComputador');
         $rsm->addScalarResult('id_computador', 'idComputador');
@@ -910,13 +912,13 @@ class ComputadorRepository extends EntityRepository
                 $sql .= " AND cp.id_class_property IN ($idClassProperty) )";
             }
         }
-        if ( array_key_exists('valor', $filtros) && !empty($filtros['valor']) && $filtros['valor'] == 'Não identificado' ){
+
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) && $filtros['conf'] == 'Não identificado' ){
             $sql .= ")";
         }
 
         $sql .= ") LEFT JOIN class_property property ON (cl.id_class_property = property.id_class_property)
-                    LEFT JOIN classe classe ON (property.id_class = classe.id_class)
-                     WHERE (c.ativo IS NULL OR c.ativo = 't') ";
+                   WHERE (c.ativo IS NULL OR c.ativo = 't') ";
 
         if ( array_key_exists('valor', $filtros) && !empty($filtros['valor']) && $filtros['valor'] != 'Não identificado' ){
             $valor = $filtros['valor'];
