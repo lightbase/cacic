@@ -114,35 +114,37 @@ class HardwareController extends Controller
         $valor = $request->get('valor');
 
         // Pega o idClass
-        $idClass = $this
-            ->getDoctrine()
-            ->getManager()
-            ->createQuery("SELECT classe.idClass FROM CacicCommonBundle:Classe classe WHERE classe.nmClassName = '$classe'")
-            ->getArrayResult();
+        $idClass = $this->getDoctrine()->getManager()->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
+            'nmClassName' => $classe
+        ));
 
         $item = array();
-        foreach ($idClass as $elm) {
-            array_push($item, $elm['idClass']);
-        }
-        $filtros['idClass'] = join($item, ",");
+        array_push($item, $idClass->getIdClass());
+        $filtros['idClass'] = $idClass->getIdClass();
 
-        // Pega o idClassProperty
-        $idClassProperty = $this
-            ->getDoctrine()
-            ->getManager()
-            ->createQuery("SELECT p.idClassProperty FROM CacicCommonBundle:ClassProperty p WHERE p.nmPropertyName = :propriedade")
-            ->setParameter('propriedade', $propriedade)
-            ->getArrayResult();
+        $idClassProperty = $request->get('idClassProperty');
+        if ($propriedade == "Não identificado" && !empty($idClassProperty)) {
+            $filtros['conf'] = $idClassProperty;
+        } else {
+            // Pega o idClassProperty
+            $idClassProperty = $this
+                ->getDoctrine()
+                ->getManager()
+                ->createQuery("SELECT p.idClassProperty FROM CacicCommonBundle:ClassProperty p WHERE p.nmPropertyName = :propriedade")
+                ->setParameter('propriedade', $propriedade)
+                ->getArrayResult();
 
-        // Corrige para fazer o parsing da variável
-        $item = array();
-        foreach ($idClassProperty as $elm) {
-            array_push($item, $elm['idClassProperty']);
+            // Corrige para fazer o parsing da variável
+            $item = array();
+            foreach ($idClassProperty as $elm) {
+                array_push($item, $elm['idClassProperty']);
+            }
+
+            if (!empty($item)) {
+                $filtros['conf'] = join($item, ",");
+            }
         }
 
-        if (!empty($item)) {
-            $filtros['conf'] = join($item, ",");
-        }
 
         // Adiciona rede à lista de filtros se for fornecido
         if (!empty($rede)) {
