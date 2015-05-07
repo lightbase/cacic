@@ -790,11 +790,11 @@ class ComputadorRepository extends EntityRepository
                         rede.idRede,
                         rede.nmRede,
                         rede.teIpRede,
-                local.nmLocal,
-                local.idLocal,
-                COUNT(DISTINCT c.idComputador) AS numComp,
-                (CASE WHEN property.nmPropertyName IS NULL THEN 'Não identificado' ELSE property.nmPropertyName END) as nmPropertyName,
-                (CASE WHEN cl.teClassPropertyValue IS NULL THEN 'Não identificado' ELSE cl.teClassPropertyValue END) as teClassPropertyValue
+                        local.nmLocal,
+                        local.idLocal,
+                        COUNT(DISTINCT c.idComputador) AS numComp,
+                        (CASE WHEN property.nmPropertyName IS NULL THEN 'Não identificado' ELSE property.nmPropertyName END) as nmPropertyName,
+                        (CASE WHEN cl.teClassPropertyValue IS NULL THEN 'Não identificado' ELSE cl.teClassPropertyValue END) as teClassPropertyValue
                 FROM CacicCommonBundle:Computador c
                 INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
                 if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) ){
@@ -844,59 +844,107 @@ class ComputadorRepository extends EntityRepository
      * @param array $filtros
      * @param $classe
      */
-    public function gerarRelatorioWMIDetalhe( $filtros, $classe )
+    public function gerarRelatorioWMIDetalhe( $filtros )
     {
-        $_dql = "SELECT IDENTITY(cl.computador),
-                        c.nmComputador,
-                        c.isNotebook,
-                        c.teNodeAddress,
-                        c.teIpComputador,
-                        so.idSo,
-                        so.inMswindows,
-                        so.sgSo,
-                        so.teDescSo,
-                        rede.idRede,
-                        rede.nmRede,
-                        rede.teIpRede,
-                        local.nmLocal,
-                        local.idLocal,
-                (CASE WHEN property.nmPropertyName IS NULL THEN 'Não identificado' ELSE property.nmPropertyName END) as nmPropertyName,
-                (CASE WHEN cl.teClassPropertyValue IS NULL THEN 'Não identificado' ELSE cl.teClassPropertyValue END) as teClassPropertyValue
-                FROM CacicCommonBundle:Computador c
-                INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('nm_computador', 'nmComputador');
+        $rsm->addScalarResult('id_computador', 'idComputador');
+        $rsm->addScalarResult('is_notebook', 'isNotebook');
+        $rsm->addScalarResult('te_node_address', 'teNodeAddress');
+        $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
+        $rsm->addScalarResult('id_so', 'idSo');
+        $rsm->addScalarResult('in_mswindows', 'inMswindows');
+        $rsm->addScalarResult('sg_so', 'sgSo');
+        $rsm->addScalarResult('te_desc_so', 'teDescSo');
+        $rsm->addScalarResult('id_rede', 'idRede');
+        $rsm->addScalarResult('nm_rede', 'nmRede');
+        $rsm->addScalarResult('te_ip_rede', 'teIpRede');
+        $rsm->addScalarResult('nm_local', 'nmLocal');
+        $rsm->addScalarResult('id_local', 'idLocal');
+        $rsm->addScalarResult('nm_property_name', 'nmPropertyName');
+        $rsm->addScalarResult('te_class_property_value', 'teClassPropertyValue');
+
+        $sql = "SELECT c.nm_computador,
+                        c.id_computador,
+                        c.is_notebook,
+                        c.te_node_address,
+                        c.te_ip_computador,
+                        so.id_so,
+                        so.in_mswindows,
+                        so.sg_so,
+                        so.te_desc_so,
+                        rede.id_rede,
+                        rede.nm_rede,
+                        rede.te_ip_rede,
+                        local.nm_local,
+                        local.id_local,
+                        (CASE WHEN property.nm_property_name IS NULL THEN 'Não identificado' ELSE property.nm_property_name END),
+                        (CASE WHEN cl.te_class_property_value IS NULL THEN 'Não identificado' ELSE cl.te_class_property_value END)
+                FROM computador c
+                INNER JOIN rede rede ON (c.id_rede = rede.id_rede";
         if ( array_key_exists('rede', $filtros) && !empty($filtros['rede']) ){
             $redes = $filtros['rede'];
-            $_dql .= " AND rede.idRede = $redes";
+            $sql .= " AND rede.id_rede = $redes";
         }
 
-        $_dql .= ") INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo";
+        $sql .= ") INNER JOIN so so ON (c.id_so = so.id_so";
         if ( array_key_exists('so', $filtros) && !empty($filtros['so']) ){
             $so = $filtros['so'];
-            $_dql .= " AND c.idSo = $so";
+            $sql .= " AND c.id_so = $so";
         }
 
-        $_dql .= ") INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal";
+        $sql .= ") INNER JOIN local local ON (rede.id_local = local.id_local";
         if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) ){
             $locais = $filtros['locais'];
-            $_dql .= " AND local.idLocal = $locais";
+            $sql .= " AND local.id_local = $locais";
         }
 
-        $_dql .= ") INNER JOIN CacicCommonBundle:ComputadorColeta cl WITH c.idComputador = cl.computador ";
-        if ( array_key_exists('valor', $filtros) && !empty($filtros['valor']) ){
+        $sql .= ") LEFT JOIN computador_coleta cl ON (c.id_computador = cl.id_computador ";
+
+        if ( array_key_exists('idClass', $filtros) && !empty($filtros['idClass']) ){
+            $idClass = $filtros['idClass'];
+            $sql .= " AND cl.id_class_property IN (SELECT cp.id_class_property FROM class_property cp WHERE cp.id_class = $idClass ";
+
+            if (array_key_exists('conf', $filtros) && !empty($filtros['conf']) && $filtros['conf'] != 'Não identificado'){
+                $idClassProperty = $filtros['conf'];
+                $sql .= " AND cp.id_class_property IN ($idClassProperty) )";
+            }
+        }
+        if ( array_key_exists('valor', $filtros) && !empty($filtros['valor']) && $filtros['valor'] == 'Não identificado' ){
+            $sql .= ")";
+        }
+
+        $sql .= ") LEFT JOIN class_property property ON (cl.id_class_property = property.id_class_property)
+                    LEFT JOIN classe classe ON (property.id_class = classe.id_class)
+                     WHERE (c.ativo IS NULL OR c.ativo = 't') ";
+
+        if ( array_key_exists('valor', $filtros) && !empty($filtros['valor']) && $filtros['valor'] != 'Não identificado' ){
             $valor = $filtros['valor'];
-            $_dql .= " AND cl.teClassPropertyValue = '$valor'";
+            $sql .= " AND cl.te_class_property_value = '$valor'";
         }
 
-        $_dql .= " INNER JOIN CacicCommonBundle:ClassProperty property WITH cl.classProperty = property.idClassProperty ";
-        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) ){
-            $conf = $filtros['conf'];
-            $_dql .= " AND property.nmPropertyName = '$conf'";
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) && $filtros['conf'] == 'Não identificado' ){
+            $sql .= " AND cl.id_class_property is null";
         }
 
-        $_dql .= " INNER JOIN CacicCommonBundle:Classe classe WITH property.idClass = classe.idClass
-                WHERE (c.ativo IS NULL OR c.ativo = 't') AND classe.nmClassName = '$classe'";
+        $sql .= " ORDER BY c.nm_computador,
+                        c.is_notebook,
+                        c.te_node_Address,
+                        c.te_ip_computador,
+                        so.id_so,
+                        so.in_mswindows,
+                        so.sg_so,
+                        so.te_desc_so,
+                        rede.id_rede,
+                        rede.nm_rede,
+                        rede.te_ip_rede,
+                        local.nm_local,
+                        local.id_local,
+                        property.nm_property_name,
+                        cl.te_class_property_value";
 
-        return $this->getEntityManager()->createQuery( $_dql )
-            ->getArrayResult();
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+        return $query->execute();
+
     }
 }

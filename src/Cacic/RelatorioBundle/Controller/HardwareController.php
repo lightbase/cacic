@@ -107,11 +107,42 @@ class HardwareController extends Controller
     public function wmiRelatorioDetalheAction( Request $request, $classe, $propriedade )
     {
         $filtros['conf'] = $propriedade;
+
         $rede = $request->get('rede');
         $local = $request->get('local');
         $so = $request->get('so');
         $valor = $request->get('valor');
 
+        // Pega o idClass
+        $idClass = $this
+            ->getDoctrine()
+            ->getManager()
+            ->createQuery("SELECT classe.idClass FROM CacicCommonBundle:Classe classe WHERE classe.nmClassName = '$classe'")
+            ->getArrayResult();
+
+        $item = array();
+        foreach ($idClass as $elm) {
+            array_push($item, $elm['idClass']);
+        }
+        $filtros['idClass'] = join($item, ",");
+
+        // Pega o idClassProperty
+        $idClassProperty = $this
+            ->getDoctrine()
+            ->getManager()
+            ->createQuery("SELECT p.idClassProperty FROM CacicCommonBundle:ClassProperty p WHERE p.nmPropertyName = :propriedade")
+            ->setParameter('propriedade', $propriedade)
+            ->getArrayResult();
+
+        // Corrige para fazer o parsing da variável
+        $item = array();
+        foreach ($idClassProperty as $elm) {
+            array_push($item, $elm['idClassProperty']);
+        }
+
+        if (!empty($item)) {
+            $filtros['conf'] = join($item, ",");
+        }
 
         // Adiciona rede à lista de filtros se for fornecido
         if (!empty($rede)) {
@@ -135,7 +166,7 @@ class HardwareController extends Controller
 
         $dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:Computador')
-            ->gerarRelatorioWMIDetalhe( $filtros, $classe );
+            ->gerarRelatorioWMIDetalhe( $filtros );
 
         $locale = $request->getLocale();
 
@@ -243,6 +274,7 @@ class HardwareController extends Controller
         if (!empty($rede)) {
             $filtros['redes'] = $rede;
         }
+
 
         // Adiciona local à lista de filtros se for fornecido
         if (!empty($local)) {
