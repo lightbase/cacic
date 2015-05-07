@@ -845,6 +845,62 @@ class ComputadorRepository extends EntityRepository
 
     }
 
+    public function gerarRelatorioWMICsv( $filtros, $classe )
+    {
+
+        $_dql = "SELECT so.teDescSo,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        COUNT(DISTINCT c.idComputador) AS numComp,
+                        (CASE WHEN property.nmPropertyName IS NULL THEN 'Não identificado' ELSE property.nmPropertyName END) as nmPropertyName,
+                        (CASE WHEN cl.teClassPropertyValue IS NULL THEN 'Não identificado' ELSE cl.teClassPropertyValue END) as teClassPropertyValue
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
+        if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) ){
+            $redes = $filtros['redes'];
+            $_dql .= " AND rede.idRede IN ($redes)";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo";
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) ){
+            $so = $filtros['so'];
+            $_dql .= " AND c.idSo IN ($so)";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal";
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) ){
+            $locais = $filtros['locais'];
+            $_dql .= " AND local.idLocal IN ($locais)";
+        }
+
+        $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador";
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) ){
+            $conf = $filtros['conf'];
+            $_dql .= " AND cl.classProperty IN ($conf)";
+        } else {
+            $_dql .= " AND cl.classProperty IN (
+                        SELECT p.idClassProperty
+                        FROM CacicCommonBundle:ClassProperty p
+                        INNER JOIN CacicCommonBundle:Classe cla WITH p.idClass = cla.idClass
+                         WHERE cla.nmClassName = '$classe'
+                    )";
+        }
+
+        $_dql .= ") LEFT JOIN CacicCommonBundle:ClassProperty property WITH cl.classProperty = property.idClassProperty
+                WHERE (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY property.nmPropertyName,
+                            cl.teClassPropertyValue,
+                            so.teDescSo,
+                            rede.nmRede,
+                            rede.teIpRede,
+                            local.nmLocal";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+
+    }
+
     /**
      * Gera relatório de propriedades WMI coletadas dos computadores detalhado
      * @param array $filtros
@@ -852,7 +908,7 @@ class ComputadorRepository extends EntityRepository
      */
     public function gerarRelatorioWMIDetalhe( $filtros )
     {
-        error_log('>>>>>>>>>>>>>>>>>>>>'.$filtros['valor']);
+        //error_log('>>>>>>>>>>>>>>>>>>>>'.$filtros['valor']);
 
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('nm_computador', 'nmComputador');
@@ -929,9 +985,7 @@ class ComputadorRepository extends EntityRepository
         if ( array_key_exists('valor', $filtros) && !empty($filtros['valor']) && $filtros['valor'] != 'Não identificado' ){
             $valor = $filtros['valor'];
             $sql .= " AND cl.te_class_property_value = '$valor'";
-        }
-
-        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) && $filtros['conf'] == 'Não identificado' ){
+        } else {
             $sql .= " AND cl.id_class_property is null";
         }
 
