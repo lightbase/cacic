@@ -65,11 +65,11 @@ BEGIN
 
       BEGIN
         -- Tenta atualizar para o valor atual. Se der erro apaga
-        UPDATE computador_coleta
+        UPDATE computador_coleta_historico
         SET id_class_property = v_id_cp
         WHERE id_class_property = cp.id_class_property;
 
-        UPDATE computador_coleta_historico
+        UPDATE computador_coleta
         SET id_class_property = v_id_cp
         WHERE id_class_property = cp.id_class_property;
 
