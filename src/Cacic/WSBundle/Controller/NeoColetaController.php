@@ -206,6 +206,10 @@ class NeoColetaController extends NeoController {
                 $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
                 $em->persist( $computadorColetaHistorico );
 
+                // Persiste os objetos dependentes para evitar erro no ORM
+                $em->persist($computador);
+                $em->persist($classObject);
+
             } catch(ORMException $e){
                // Reopen Entity Manager
                if (!$em->isOpen()) {
