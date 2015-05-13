@@ -194,6 +194,43 @@ class NeoColetaControllerTest extends BaseTestCase {
 
     }
 
+    /**
+     * Testa erro de Entity Manager closed na inserção de software
+     */
+    public function testErroEmClosed() {
+        $logger = $this->container->get('logger');
+        $this->client->request(
+            'POST',
+            '/ws/neo/coleta',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->coleta_erro_orm
+        );
+        //$logger->debug("Dados JSON do computador enviados para a coleta: \n".$this->client->getRequest()->getcontent());
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON da coleta: \n".$response->getContent());
+
+        $this->assertEquals($status, 200);
+
+        // Verifica se os Softwares coletados foram inseridos
+        $em =$this->container->get('doctrine')->getManager();
+
+        // Verifica que um computador foi inserido
+        $computadores = $em->getRepository("CacicCommonBundle:Computador")->findAll();
+        $this->assertEquals(1, sizeof($computadores));
+
+        // VErifica que a coleta de software foi realizada
+        $software = $em->getRepository("CacicCommonBundle:Software")->findAll();
+        $this->assertGreaterThan(1, sizeof($software));
+    }
+
     public function tearDown() {
 
         // Remove dados da classe pai
