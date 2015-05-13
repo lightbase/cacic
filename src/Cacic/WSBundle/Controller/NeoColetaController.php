@@ -368,7 +368,9 @@ class NeoColetaController extends NeoController {
             $computadorColeta->setDtHrInclusao( new \DateTime() );
 
             // Mando salvar os dados do computador
+            $computador->addHardware($computadorColeta);
             $em->persist( $computadorColeta );
+            $em->persist( $computador );
 
             // Persistencia de Historico
             $computadorColetaHistorico = new ComputadorColetaHistorico();
