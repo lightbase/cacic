@@ -34,7 +34,7 @@ Cacic\CommonBundle\Entity\So:
     manyToOne:
         tipo:
             targetEntity: TipoSo
-            cascade: {  }
+            cascade: []
             mappedBy: null
             inversedBy: null
             nullable: true
@@ -42,4 +42,7 @@ Cacic\CommonBundle\Entity\So:
                 id_tipo_so:
                     referencedColumnName: id_tipo_so
             orphanRemoval: false
+    uniqueConstraints:
+        te_so_uq:
+            columns: [te_so]
     lifecycleCallbacks: {  }

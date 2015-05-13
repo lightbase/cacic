@@ -338,7 +338,7 @@ class SoftwareRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('sw')
             ->select('sw')
-            ->andWhere("lower(sw.nmSoftware) LIKE lower('%$name%')")
+            ->andWhere("lower(sw.nmSoftware) = lower('$name')")
             ->setMaxResults(1)
             ->orderBy('sw.idSoftware');
 

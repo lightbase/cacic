@@ -18,6 +18,7 @@ use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
 use Cacic\CommonBundle\Entity\PropriedadeSoftware;
 use Doctrine\ORM\ORMException;
 use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\ORMInvalidArgumentException;
 
 class NeoColetaController extends NeoController {
 
@@ -176,6 +177,7 @@ class NeoColetaController extends NeoController {
                     $classProperty->setTePropertyDescription("Propriedade criada automaticamente: $propriedade");
 
                     $em->persist($classProperty);
+                    $em->flush();
                 }
 
                 // Garante unicidade das informações de coleta
@@ -282,6 +284,10 @@ class NeoColetaController extends NeoController {
                 // Se nao existir, cria
                 $softwareObject = new Software();
                 $softwareObject->setNmSoftware($software);
+
+                // Se não der o flush aqui, as consultas de baixo não encontram o objeto
+                $em->persist($softwareObject);
+                $em->flush();
             }
 
             // Recupera classProperty para o software
@@ -290,10 +296,15 @@ class NeoColetaController extends NeoController {
                 'nmPropertyName' => $idSoftware
             ));
             if (empty($classProperty)) {
+
                 $classProperty = new ClassProperty();
                 $classProperty->setTePropertyDescription("Software detectado: $software");
                 $classProperty->setNmPropertyName($idSoftware);
                 $classProperty->setIdClass($classObject);
+
+                // Se não der o flush aqui, as consultas de baixo não encontram o objeto
+                $em->persist($classProperty);
+                $em->flush();
             }
 
             // Adiciona software ao computador
@@ -329,13 +340,6 @@ class NeoColetaController extends NeoController {
             // Atualiza valores
             $computadorColeta->setComputador( $computador );
 
-            $classProperty->setIdClass($classObject);
-            $classProperty->setNmPropertyName($idSoftware);
-
-            $propSoftware->setComputador($computador);
-            $propSoftware->setClassProperty($classProperty);
-            $propSoftware->setSoftware($softwareObject);
-
             // Atualiza valores do Software
             $softwareObject->setNmSoftware($software);
             if (array_key_exists('description', $valor)) {
@@ -355,22 +359,16 @@ class NeoColetaController extends NeoController {
                 $propSoftware->setPublisher($valor['publisher']);
             }
 
-            // Persiste os objetos dependentes para evitar erro no ORM
-            $em->persist($softwareObject);
-            $em->persist($classProperty);
-            $em->persist($propSoftware);
-
-
             // Armazena no banco o objeto
             $computadorColeta->setClassProperty($classProperty);
             $computadorColeta->setTeClassPropertyValue($software);
             $computadorColeta->setIdClass($classObject);
             $computadorColeta->setDtHrInclusao( new \DateTime() );
 
-            // Mando salvar os dados do computador
-            $computador->addHardware($computadorColeta);
+            // Persiste os objetos 
+            $em->persist($propSoftware);
+            $em->persist($softwareObject);
             $em->persist( $computadorColeta );
-            $em->persist( $computador );
 
             // Persistencia de Historico
             $computadorColetaHistorico = new ComputadorColetaHistorico();
@@ -380,10 +378,6 @@ class NeoColetaController extends NeoController {
             $computadorColetaHistorico->setTeClassPropertyValue($software);
             $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
             $em->persist( $computadorColetaHistorico );
-
-            // Objetos que falta persistir
-            $em->persist($computador);
-            $em->persist($classObject);
 
             // Tem que adicionar isso aqui ou o Doctrine vai duplicar o software
             $em->flush();

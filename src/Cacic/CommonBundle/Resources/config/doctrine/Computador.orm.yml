@@ -121,7 +121,7 @@ Cacic\CommonBundle\Entity\Computador:
             orphanRemoval: false
         idSo:
             targetEntity: So
-            cascade: {  }
+            cascade: ["persist"]
             mappedBy: null
             inversedBy: null
             joinColumns:
@@ -130,7 +130,7 @@ Cacic\CommonBundle\Entity\Computador:
             orphanRemoval: false
         idRede:
             targetEntity: Rede
-            cascade: {  }
+            cascade: ["persist"]
             mappedBy: null
             inversedBy: null
             joinColumns:

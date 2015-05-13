@@ -23,4 +23,7 @@ Cacic\CommonBundle\Entity\TipoSo:
         redeVersaoModulo:
             targetEntity: RedeVersaoModulo
             mappedBy: tipoSo
+    uniqueConstraints:
+        tipo_uq_idx:
+            columns: [tipo]
     lifecycleCallbacks: {  }
