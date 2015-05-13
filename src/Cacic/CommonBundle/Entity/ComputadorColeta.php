@@ -193,6 +193,6 @@ class ComputadorColeta
      * @return string
      */
     public function __toString() {
-        return $this->classProperty->getNmPropertyName().": ".$this->teClassPropertyValue."| Computador:".$this->computador->getIdComputador();
+        return $this->classProperty.": ".$this->teClassPropertyValue."| Computador:".$this->computador->getIdComputador();
     }
 }
