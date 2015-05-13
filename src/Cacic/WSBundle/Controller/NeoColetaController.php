@@ -355,6 +355,9 @@ class NeoColetaController extends NeoController {
                 $propSoftware->setPublisher($valor['publisher']);
             }
 
+            // Persiste os objetos dependentes para evitar erro no ORM
+            $em->persist($computador);
+            $em->persist($classObject);
             $em->persist($softwareObject);
             $em->persist($classProperty);
             $em->persist($propSoftware);
@@ -367,9 +370,7 @@ class NeoColetaController extends NeoController {
             $computadorColeta->setDtHrInclusao( new \DateTime() );
 
             // Mando salvar os dados do computador
-            $computador->addHardware($computadorColeta);
             $em->persist( $computadorColeta );
-            $em->persist( $computador );
 
             // Persistencia de Historico
             $computadorColetaHistorico = new ComputadorColetaHistorico();
