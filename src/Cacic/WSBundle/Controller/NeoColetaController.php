@@ -148,6 +148,9 @@ class NeoColetaController extends NeoController {
         }
 
         foreach ($propriedades_array as $propriedade) {
+            // Necessário pegar o EM novamente se estiver dando erro
+            $em = $this->getDoctrine()->getManager();
+
             if (is_array($valor[$propriedade])) {
                 $logger->debug("COLETA: Atributo $propriedade multivalorado não implementado na coleta");
                 //$logger->debug("1111111111111111111111111111111111111111 ".print_r($valor, true));
@@ -203,7 +206,16 @@ class NeoColetaController extends NeoController {
                 $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
                 $em->persist( $computadorColetaHistorico );
 
-            } catch(\Doctrine\ORM\ORMException $e){
+            } catch(ORMException $e){
+               // Reopen Entity Manager
+               if (!$em->isOpen()) {
+
+                   // reset the EM and all alias
+                   $container = $this->container;
+                   $container->set('doctrine.orm.entity_manager', null);
+                   $container->set('doctrine.orm.default_entity_manager', null);
+               }
+
                 $logger->error("COLETA: Erro na inserçao de dados da propriedade $propriedade.");
                 $logger->debug($e);
             }
@@ -368,9 +380,27 @@ class NeoColetaController extends NeoController {
             $em->flush();
 
         } catch(ORMException $e){
+            // Reopen Entity Manager
+            if (!$em->isOpen()) {
+
+                // reset the EM and all alias
+                $container = $this->container;
+                $container->set('doctrine.orm.entity_manager', null);
+                $container->set('doctrine.orm.default_entity_manager', null);
+            }
+
             $logger->error("COLETA: Erro na inserçao de dados do software $software.");
             $logger->debug($e);
         } catch(DBALException $e){
+            // Reopen Entity Manager
+            if (!$em->isOpen()) {
+
+                // reset the EM and all alias
+                $container = $this->container;
+                $container->set('doctrine.orm.entity_manager', null);
+                $container->set('doctrine.orm.default_entity_manager', null);
+            }
+
             $logger->error("COLETA: Erro impossível de software repetido para $software.");
             $logger->debug($e);
         }
