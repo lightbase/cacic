@@ -35,7 +35,7 @@ class Version20150513145701 extends AbstractMigration implements ContainerAwareI
         $this->addSql($upgradeSQL1);
 
         // Executa a atualização
-        $this->addSql("SELECT upgrade_3115()");
+        //$this->addSql("SELECT upgrade_3115()");
 
     }
 
