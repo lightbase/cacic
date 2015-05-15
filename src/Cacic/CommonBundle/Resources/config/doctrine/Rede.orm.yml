@@ -150,7 +150,7 @@ Cacic\CommonBundle\Entity\Rede:
             targetEntity: Local
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: redes
             joinColumns:
                 id_local:
                     referencedColumnName: id_local

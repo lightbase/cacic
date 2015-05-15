@@ -108,7 +108,16 @@ Cacic\CommonBundle\Entity\Computador:
             mappedBy: computador
         software_coletado:
             targetEntity: PropriedadeSoftware
-            mappedBy: idComputador
+            mappedBy: computador
+        hardwares_historico:
+            targetEntity: ComputadorColetaHistorico
+            mappedBy: computador
+        erros_agente:
+            targetEntity: ErrosAgente
+            mappedBy: computador
+        software_coletado:
+            targetEntity: PropriedadeSoftware
+            mappedBy: computador
     manyToOne:
         idUsuarioExclusao:
             targetEntity: Usuario
@@ -137,19 +146,6 @@ Cacic\CommonBundle\Entity\Computador:
                 id_rede:
                     referencedColumnName: id_rede
             orphanRemoval: false
-    oneToMany:
-            softwares:
-                targetEntity: SoftwareEstacao
-                mappedBy: idComputador
-            hardwares:
-                targetEntity: ComputadorColeta
-                mappedBy: computador
-            software_coletado:
-                targetEntity: PropriedadeSoftware
-                mappedBy: idComputador
-            erros_agente:
-                targetEntity: ErrosAgente
-                mappedBy: computador
     uniqueConstraints:
         mac_os_unique_idx:
             columns: [ te_node_address, id_so ]

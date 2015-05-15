@@ -776,4 +776,80 @@ class Computador
     {
         return $this->ativo;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $hardwares_historico;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $erros_agente;
+
+
+    /**
+     * Add hardwares_historico
+     *
+     * @param \Cacic\CommonBundle\Entity\ComputadorColetaHistorico $hardwaresHistorico
+     * @return Computador
+     */
+    public function addHardwaresHistorico(\Cacic\CommonBundle\Entity\ComputadorColetaHistorico $hardwaresHistorico)
+    {
+        $this->hardwares_historico[] = $hardwaresHistorico;
+
+        return $this;
+    }
+
+    /**
+     * Remove hardwares_historico
+     *
+     * @param \Cacic\CommonBundle\Entity\ComputadorColetaHistorico $hardwaresHistorico
+     */
+    public function removeHardwaresHistorico(\Cacic\CommonBundle\Entity\ComputadorColetaHistorico $hardwaresHistorico)
+    {
+        $this->hardwares_historico->removeElement($hardwaresHistorico);
+    }
+
+    /**
+     * Get hardwares_historico
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHardwaresHistorico()
+    {
+        return $this->hardwares_historico;
+    }
+
+    /**
+     * Add erros_agente
+     *
+     * @param \Cacic\CommonBundle\Entity\ErrosAgente $errosAgente
+     * @return Computador
+     */
+    public function addErrosAgente(\Cacic\CommonBundle\Entity\ErrosAgente $errosAgente)
+    {
+        $this->erros_agente[] = $errosAgente;
+
+        return $this;
+    }
+
+    /**
+     * Remove erros_agente
+     *
+     * @param \Cacic\CommonBundle\Entity\ErrosAgente $errosAgente
+     */
+    public function removeErrosAgente(\Cacic\CommonBundle\Entity\ErrosAgente $errosAgente)
+    {
+        $this->erros_agente->removeElement($errosAgente);
+    }
+
+    /**
+     * Get erros_agente
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getErrosAgente()
+    {
+        return $this->erros_agente;
+    }
 }

@@ -22,7 +22,7 @@ Cacic\CommonBundle\Entity\ComputadorColeta:
     manyToOne:
         computador:
             targetEntity: Computador
-            cascade: []
+            cascade: ["merge"]
             mappedBy: null
             inversedBy: hardwares
             joinColumns:

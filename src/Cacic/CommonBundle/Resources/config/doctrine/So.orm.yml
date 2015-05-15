@@ -34,9 +34,9 @@ Cacic\CommonBundle\Entity\So:
     manyToOne:
         tipo:
             targetEntity: TipoSo
-            cascade: []
+            cascade: ["merge"]
             mappedBy: null
-            inversedBy: null
+            inversedBy: so
             nullable: true
             joinColumns:
                 id_tipo_so:

@@ -199,6 +199,9 @@ class NeoColetaController extends NeoController {
                 // Mando salvar os dados do computador
                 $em->persist( $computadorColeta );
 
+                // Pega novo computador gerado no computador coleta
+                $computador = $computadorColeta->getComputador();
+
                 // Persistencia de Historico
                 $computadorColetaHistorico = new ComputadorColetaHistorico();
                 $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
@@ -369,6 +372,9 @@ class NeoColetaController extends NeoController {
             $em->persist($propSoftware);
             $em->persist($softwareObject);
             $em->persist( $computadorColeta );
+
+            // Pega novo computador gerado no computador coleta
+            $computador = $computadorColeta->getComputador();
 
             // Persistencia de Historico
             $computadorColetaHistorico = new ComputadorColetaHistorico();
