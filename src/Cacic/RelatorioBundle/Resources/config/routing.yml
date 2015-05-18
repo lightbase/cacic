@@ -136,6 +136,10 @@ cacic_relatorio_dinamico_detalhar:
     pattern: /relWmiDinamico/detalhar
     defaults: { _controller: CacicRelatorioBundle:Hardware:relWmiDinamicoDetalhar }
 
+cacic_relatorio_csv_wmi_dinamico:
+    pattern: /relWmiDinamico/csvRelWmiDinamico
+    defaults: { _controller: CacicRelatorioBundle:Hardware:csvRelWmiDinamico }
+
 cacic_relatorio_software_lista:
     pattern: /software/inventariados/{nmSoftware}/{nmLocal}/{idRede}
     defaults: { _controller: CacicRelatorioBundle:Software:lista, nmSoftware:null, nmLocal:null, idRede:null }

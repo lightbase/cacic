@@ -69,7 +69,7 @@ class ClassPropertyRepository extends EntityRepository {
         $sql = $sql . " FROM relatorio_coleta rc
         INNER JOIN computador c ON rc.id_computador = c.id_computador
         INNER JOIN rede r ON r.id_rede = c.id_rede
-        WHERE rc.data_coleta >= '".$dataInicio."00:00:00' AND rc.data_coleta <= '".$dataFim."23:59:59'";
+        WHERE c.dt_hr_ult_acesso >= '".$dataInicio."00:00:00' AND c.dt_hr_ult_acesso <= '".$dataFim."23:59:59'";
 
         $result = $this->getEntityManager()->createNativeQuery($sql, $rsm)->execute();
 

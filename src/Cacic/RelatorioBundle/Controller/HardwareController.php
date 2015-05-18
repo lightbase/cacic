@@ -347,5 +347,70 @@ class HardwareController extends Controller
 
     }
 
+    /**
+     *
+     * Relatório CSV de Configurações das Classes WMI Dinâmico Detalhes
+     */
+    public function csvRelWmiDinamicoAction(Request $request)
+    {
+        $form = $this->createForm( new ClassPropertyPesquisaType());
+
+        //Recupera as propriedades da classe WMI selecionadas para a pesquisa
+        if ( $request->isMethod('POST') ){
+            $property = $_POST['property'];
+            $form->bind( $request );
+            $data = $form->getData();
+
+            $dataInicio = $data['dataColetaInicio'];
+            $dataFim = $data['dataColetaFim'];
+
+            //array_push($property, "id_computador");
+            $saida = array();
+            foreach ($property as $elm) {
+                array_push($saida, $elm);
+            }
+
+            //dados --> realiza a pesquisa das propriedades das classes WMI selecionadas
+            $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->relatorioWmiDinamico($property, $dataInicio, $dataFim);
+        }
+
+        // Gera cabeçalho
+        $cabecalho = array();
+        foreach($dados as $elm) {
+            array_push($cabecalho, array_keys($elm));
+            break;
+        }
+
+        // Gera CSV
+        $reader = new ArrayReader(array_merge($cabecalho, $dados));
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), "wmiDinamico.csv");
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Gera data e adiciona no nome do arquivo
+        $today = date("Ymd");
+        $nameArquivo = "usuario_dinamico_".$today.".csv";
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename='.$nameArquivo.'');
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+
+
+    }
+
 
 }
