@@ -14,7 +14,7 @@ Cacic\CommonBundle\Entity\TipoSo:
         tipo:
             type: text
             fixed: false
-            nullable: true
+            nullable: false
             column: tipo
     oneToMany:
         so:

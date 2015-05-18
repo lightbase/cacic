@@ -411,6 +411,23 @@ class NeoController extends Controller {
 	        return null;
         }
 
+        // Eduardo: 2015-05-18
+        // Verifica se o nome do SO existe e não é vazio
+        if (empty($so_json)) {
+            $logger->error("COMPUTADOR: SO não identificado! JSON não enviou o SO");
+            $logger->error(print_r($so_json, true));
+
+            return null;
+        }
+
+        $nomeOs = @$so_json['nomeOs'];
+        if (empty($nomeOs)) {
+            $logger->error("COMPUTADOR: SO vazio! So com nome vazio enviado.");
+            $logger->error(print_r($so_json, true));
+
+            return null;
+        }
+
         $te_node_address = $rede1['mac'];
         $ip_computador = $rede1['ipv4'];
         $netmask = $rede1['netmask_ipv4'];
@@ -432,9 +449,24 @@ class NeoController extends Controller {
 
         // Pega rede e SO
         $rede = $em->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
-        $so = $em->getRepository('CacicCommonBundle:So')->createIfNotExist($so_json['nomeOs']);
+        $so = $em->getRepository('CacicCommonBundle:So')->createIfNotExist($nomeOs);
+        $tipo = $so->getTipo();
         if (array_key_exists('tipo', $so_json)) {
-            $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->createIfNotExist($so_json['tipo']);
+            if (!empty($so_json['tipo'])) {
+                $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->createIfNotExist($so_json['tipo']);
+            } else {
+                // Se não encontrar o tipo considera Windows como padrão
+                $tipo_so = $em->getRepository("CacicCommonBundle:TipoSo")->findOneBy(array(
+                    'tipo' => 'windows'
+                ));
+            }
+            $so->setTipo($tipo_so);
+            $em->persist($so);
+        } elseif (empty($tipo)) {
+            // Considera Windows por padrão
+            $tipo_so = $em->getRepository("CacicCommonBundle:TipoSo")->findOneBy(array(
+                'tipo' => 'windows'
+            ));
             $so->setTipo($tipo_so);
             $em->persist($so);
         }
@@ -442,7 +474,7 @@ class NeoController extends Controller {
         // Regra: MAC e SO são únicos e não podem ser nulos
         // Se SO ou MAC forem vazios, tenta atualizar forçadamente
         if (empty($te_node_address) || empty($so)) {
-            $logger->error("Erro na operação de getConfig. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO =" . $so_json['nomeOs']);
+            $logger->error("COMPUTADOR: Erro na identificação do computador. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO =" . $nomeOs);
 
             return null;
         }

@@ -42,6 +42,9 @@ class BaseTestCase extends DefaultTestCase {
         $this->coleta_notebook = file_get_contents($data_dir."coleta-notebook.json");
         $this->computador_erro = file_get_contents($data_dir."computador-erro.json");
         $this->coleta_erro_orm = file_get_contents($data_dir."coleta-erro-orm.json");
+        $this->computador_semso1 = file_get_contents($data_dir."computador-semso1.json");
+        $this->computador_semso2 = file_get_contents($data_dir."computador-semso2.json");
+        $this->computador_sem_tipo = file_get_contents($data_dir."computador-sem-tipo.json");
     }
 
     /**
