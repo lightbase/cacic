@@ -2,7 +2,6 @@
 
 namespace Cacic\CommonBundle\Entity;
 
-use Cacic\CommonBundle\CacicCommonBundle;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -179,7 +178,7 @@ class RedeVersaoModulo
      * @param \Cacic\CommonBundle\Entity\Rede $idRede
      * @return RedeVersaoModulo
      */
-    public function setIdRede(\Cacic\CommonBundle\Entity\Rede $idRede = null)
+    public function setIdRede(Rede $idRede = null)
     {
         $this->idRede = $idRede;
     
@@ -197,11 +196,24 @@ class RedeVersaoModulo
     }
 
     /**
-     *  Método construtor
+     * Método construtor
+     *
+     * @param null $nmModulo
+     * @param null $teVersaoModulo
+     * @param null $dtAtualizacao
+     * @param null $csTipoSo
+     * @param null $teHash
+     * @param Rede $idRede
      */
 
-    public function __construct($nmModulo = null, $teVersaoModulo = null, $dtAtualizacao = null, $csTipoSo = null, $teHash = null, $idRede)
-    {
+    public function __construct(
+        $nmModulo = null,
+        $teVersaoModulo = null,
+        $dtAtualizacao = null,
+        $csTipoSo = null,
+        $teHash = null,
+        Rede $idRede
+    ) {
         $this->setNmModulo($nmModulo);
         $this->setTeVersaoModulo($teVersaoModulo);
         $this->setDtAtualizacao($dtAtualizacao);
@@ -251,7 +263,7 @@ class RedeVersaoModulo
      * @param \Cacic\CommonBundle\Entity\TipoSo $tipoSo
      * @return RedeVersaoModulo
      */
-    public function setTipoSo(\Cacic\CommonBundle\Entity\TipoSo $tipoSo = null)
+    public function setTipoSo(TipoSo $tipoSo = null)
     {
         $this->tipoSo = $tipoSo;
 

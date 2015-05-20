@@ -35,7 +35,7 @@ class LoadTipoSo extends AbstractFixture implements FixtureInterface, ContainerA
         $classe->setTipo('windows');
 
         // Adiciona referência
-        $this->addReference('windows-64-bit', $classe);
+        $this->addReference('windows', $classe);
 
         // Grava os dados
         $manager->persist($classe);

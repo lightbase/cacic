@@ -33,18 +33,18 @@ class BaseTestCase extends DefaultTestCase {
 
         // Load static data fixtures
         $kernel = $this->container->get('kernel');
-        $data_dir = $kernel->locateResource("@CacicWSBundle/Resources/data/fixtures/");
+        $this->data_dir = $kernel->locateResource("@CacicWSBundle/Resources/data/fixtures/");
 
-        $this->computador = file_get_contents($data_dir."computador.json");
-        $this->sem_mac = file_get_contents($data_dir."computador-sem-mac.json");
-        $this->computador_http = file_get_contents($data_dir."computador-http.json");
-        $this->coleta = file_get_contents($data_dir."coleta.json");
-        $this->coleta_notebook = file_get_contents($data_dir."coleta-notebook.json");
-        $this->computador_erro = file_get_contents($data_dir."computador-erro.json");
-        $this->coleta_erro_orm = file_get_contents($data_dir."coleta-erro-orm.json");
-        $this->computador_semso1 = file_get_contents($data_dir."computador-semso1.json");
-        $this->computador_semso2 = file_get_contents($data_dir."computador-semso2.json");
-        $this->computador_sem_tipo = file_get_contents($data_dir."computador-sem-tipo.json");
+        $this->computador = file_get_contents($this->data_dir."computador.json");
+        $this->sem_mac = file_get_contents($this->data_dir."computador-sem-mac.json");
+        $this->computador_http = file_get_contents($this->data_dir."computador-http.json");
+        $this->coleta = file_get_contents($this->data_dir."coleta.json");
+        $this->coleta_notebook = file_get_contents($this->data_dir."coleta-notebook.json");
+        $this->computador_erro = file_get_contents($this->data_dir."computador-erro.json");
+        $this->coleta_erro_orm = file_get_contents($this->data_dir."coleta-erro-orm.json");
+        $this->computador_semso1 = file_get_contents($this->data_dir."computador-semso1.json");
+        $this->computador_semso2 = file_get_contents($this->data_dir."computador-semso2.json");
+        $this->computador_sem_tipo = file_get_contents($this->data_dir."computador-sem-tipo.json");
     }
 
     /**

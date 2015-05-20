@@ -90,3 +90,6 @@ cacic_ws_neo_log:
     defaults: { _controller: CacicWSBundle:NeoLog:logErro }
     #schemes:  [https]
 
+cacic_ws_instala_hash:
+    pattern: /instala/hash
+    defaults: { _controller: CacicWSBundle:NeoInstall:hash }

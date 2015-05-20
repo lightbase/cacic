@@ -144,4 +144,24 @@ class RedeVersaoModuloRepository extends EntityRepository
 
     }
 
+    public function getModulo($rede, $modulo, $tipo_so) {
+        $em = $this->getEntityManager();
+
+        $qb = $this->createQueryBuilder('m')
+            ->select('m.nmModulo',
+                'm.teHash')
+            ->innerJoin('CacicCommonBundle:TipoSo', 't', 'WITH', 'm.tipoSo = t.idTipoSo')
+            ->andWhere('m.nmModulo = :modulo')
+            ->andWhere('t.tipo = :tipo_so')
+            ->andWhere('m.idRede = :rede')
+            ->andWhere("m.tipo = 'cacic'")
+            ->setMaxResults(1)
+            ->setParameter('modulo', $modulo)
+            ->setParameter('tipo_so', $tipo_so)
+            ->setParameter('rede', $rede)
+            ->orderBy('m.dtAtualizacao', 'DESC');
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
 }

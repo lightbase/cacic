@@ -27,19 +27,19 @@ class LoadRedeVersaoModuloData extends AbstractFixture implements FixtureInterfa
     private $modulos = array(
         array('nmModulo' => 'cacic-service.exe',
             'teVersaoModulo' => '3.0a1',
-            'csTipoSo' => 'windows-64-bit',
+            'csTipoSo' => 'windows',
             'teHash' => '79df3561f83ac86eb19e2996b17d5e30',
             'tipo' => 'cacic',
-            'tipoSo' => 'windows-64-bit',
-            'filepath' => 'cacic/current/Windows-64-bit/cacic-service.exe'
+            'tipoSo' => 'windows',
+            'filepath' => 'cacic/current/windows/cacic-service.exe'
         ),
         array('nmModulo' => 'install-cacic.exe',
             'teVersaoModulo' => '3.0a1',
-            'csTipoSo' => 'windows-64-bit',
+            'csTipoSo' => 'windows',
             'teHash' => '50cf34bf584880fd401619eb367b2c2d',
             'tipo' => 'cacic',
-            'tipoSo' => 'windows-64-bit',
-            'filepath' => 'cacic/current/linux-64-bit/install-cacic.exe'
+            'tipoSo' => 'windows',
+            'filepath' => 'cacic/current/windows/install-cacic.exe'
         ),
         array('nmModulo' => 'cacic-service',
             'teVersaoModulo' => '3.0a1',
@@ -47,7 +47,7 @@ class LoadRedeVersaoModuloData extends AbstractFixture implements FixtureInterfa
             'teHash' => 'd61f05787b452246bd75d0cfb16bf415',
             'tipo' => 'cacic',
             'tipoSo' => 'linux-64-bit',
-            'filepath' => 'cacic/current/Windows-64-bit/cacic-service'
+            'filepath' => 'cacic/current/linux-64-bit/cacic-service'
         ),
         array('nmModulo' => 'install-cacic',
             'teVersaoModulo' => '3.0a1',
