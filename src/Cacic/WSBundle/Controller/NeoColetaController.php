@@ -18,6 +18,7 @@ use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
 use Cacic\CommonBundle\Entity\PropriedadeSoftware;
 use Doctrine\ORM\ORMException;
 use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\ORMInvalidArgumentException;
 
 class NeoColetaController extends NeoController {
 
@@ -148,6 +149,9 @@ class NeoColetaController extends NeoController {
         }
 
         foreach ($propriedades_array as $propriedade) {
+            // Necessário pegar o EM novamente se estiver dando erro
+            $em = $this->getDoctrine()->getManager();
+
             if (is_array($valor[$propriedade])) {
                 $logger->debug("COLETA: Atributo $propriedade multivalorado não implementado na coleta");
                 //$logger->debug("1111111111111111111111111111111111111111 ".print_r($valor, true));
@@ -173,6 +177,7 @@ class NeoColetaController extends NeoController {
                     $classProperty->setTePropertyDescription("Propriedade criada automaticamente: $propriedade");
 
                     $em->persist($classProperty);
+                    $em->flush();
                 }
 
                 // Garante unicidade das informações de coleta
@@ -194,6 +199,9 @@ class NeoColetaController extends NeoController {
                 // Mando salvar os dados do computador
                 $em->persist( $computadorColeta );
 
+                // Pega novo computador gerado no computador coleta
+                $computador = $computadorColeta->getComputador();
+
                 // Persistencia de Historico
                 $computadorColetaHistorico = new ComputadorColetaHistorico();
                 $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
@@ -203,7 +211,20 @@ class NeoColetaController extends NeoController {
                 $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
                 $em->persist( $computadorColetaHistorico );
 
-            } catch(\Doctrine\ORM\ORMException $e){
+                // Persiste os objetos dependentes para evitar erro no ORM
+                $em->persist($computador);
+                $em->persist($classObject);
+
+            } catch(ORMException $e){
+               // Reopen Entity Manager
+               if (!$em->isOpen()) {
+
+                   // reset the EM and all alias
+                   $container = $this->container;
+                   $container->set('doctrine.orm.entity_manager', null);
+                   $container->set('doctrine.orm.default_entity_manager', null);
+               }
+
                 $logger->error("COLETA: Erro na inserçao de dados da propriedade $propriedade.");
                 $logger->debug($e);
             }
@@ -266,6 +287,10 @@ class NeoColetaController extends NeoController {
                 // Se nao existir, cria
                 $softwareObject = new Software();
                 $softwareObject->setNmSoftware($software);
+
+                // Se não der o flush aqui, as consultas de baixo não encontram o objeto
+                $em->persist($softwareObject);
+                $em->flush();
             }
 
             // Recupera classProperty para o software
@@ -274,10 +299,15 @@ class NeoColetaController extends NeoController {
                 'nmPropertyName' => $idSoftware
             ));
             if (empty($classProperty)) {
+
                 $classProperty = new ClassProperty();
                 $classProperty->setTePropertyDescription("Software detectado: $software");
                 $classProperty->setNmPropertyName($idSoftware);
                 $classProperty->setIdClass($classObject);
+
+                // Se não der o flush aqui, as consultas de baixo não encontram o objeto
+                $em->persist($classProperty);
+                $em->flush();
             }
 
             // Adiciona software ao computador
@@ -313,13 +343,6 @@ class NeoColetaController extends NeoController {
             // Atualiza valores
             $computadorColeta->setComputador( $computador );
 
-            $classProperty->setIdClass($classObject);
-            $classProperty->setNmPropertyName($idSoftware);
-
-            $propSoftware->setComputador($computador);
-            $propSoftware->setClassProperty($classProperty);
-            $propSoftware->setSoftware($softwareObject);
-
             // Atualiza valores do Software
             $softwareObject->setNmSoftware($software);
             if (array_key_exists('description', $valor)) {
@@ -339,21 +362,19 @@ class NeoColetaController extends NeoController {
                 $propSoftware->setPublisher($valor['publisher']);
             }
 
-            $em->persist($softwareObject);
-            $em->persist($classProperty);
-            $em->persist($propSoftware);
-
-
             // Armazena no banco o objeto
             $computadorColeta->setClassProperty($classProperty);
             $computadorColeta->setTeClassPropertyValue($software);
             $computadorColeta->setIdClass($classObject);
             $computadorColeta->setDtHrInclusao( new \DateTime() );
 
-            // Mando salvar os dados do computador
-            $computador->addHardware($computadorColeta);
+            // Persiste os objetos 
+            $em->persist($propSoftware);
+            $em->persist($softwareObject);
             $em->persist( $computadorColeta );
-            $em->persist( $computador );
+
+            // Pega novo computador gerado no computador coleta
+            $computador = $computadorColeta->getComputador();
 
             // Persistencia de Historico
             $computadorColetaHistorico = new ComputadorColetaHistorico();
@@ -368,9 +389,27 @@ class NeoColetaController extends NeoController {
             $em->flush();
 
         } catch(ORMException $e){
+            // Reopen Entity Manager
+            if (!$em->isOpen()) {
+
+                // reset the EM and all alias
+                $container = $this->container;
+                $container->set('doctrine.orm.entity_manager', null);
+                $container->set('doctrine.orm.default_entity_manager', null);
+            }
+
             $logger->error("COLETA: Erro na inserçao de dados do software $software.");
             $logger->debug($e);
         } catch(DBALException $e){
+            // Reopen Entity Manager
+            if (!$em->isOpen()) {
+
+                // reset the EM and all alias
+                $container = $this->container;
+                $container->set('doctrine.orm.entity_manager', null);
+                $container->set('doctrine.orm.default_entity_manager', null);
+            }
+
             $logger->error("COLETA: Erro impossível de software repetido para $software.");
             $logger->debug($e);
         }

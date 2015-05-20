@@ -230,6 +230,105 @@ class ComputadorRepository extends EntityRepository
     }
 
     /**
+     * Gera lista com os computadores da versão selecionada
+     */
+    public function versaoAgenteDetalharAll( $versaoAgente )
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('te_node_address', 'teNodeAddress');
+        $rsm->addScalarResult('id_computador', 'idComputador');
+        $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
+        $rsm->addScalarResult('nm_computador', 'nmComputador');
+        $rsm->addScalarResult('id_so', 'idSo');
+        $rsm->addScalarResult('sg_so', 'sgSo');
+        $rsm->addScalarResult('id_rede', 'idRede');
+        $rsm->addScalarResult('nm_rede', 'nmRede');
+        $rsm->addScalarResult('te_ip_rede', 'teIpRede');
+        $rsm->addScalarResult('nm_local', 'nmLocal');
+        $rsm->addScalarResult('max_data', 'data');
+        $rsm->addScalarResult('te_versao_cacic', 'TeVersaoCacic');
+
+        $sql = "
+SELECT c0_.te_node_address AS te_node_address,
+	string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
+	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
+	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
+    string_agg(DISTINCT c0_.te_versao_cacic, ', ') AS te_versao_cacic,
+	string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
+	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
+	string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
+	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
+	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
+	max(l1_.data) AS max_data,
+	l4_.nm_local AS nm_local,
+	l4_.id_local AS id_local
+FROM log_acesso l1_
+INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
+INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
+INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
+INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
+WHERE  (c0_.ativo IS NULL or c0_.ativo = 't')
+AND c0_.te_versao_cacic = '$versaoAgente'
+GROUP BY c0_.te_node_address,
+	l4_.nm_local,
+	l4_.id_local
+        ";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+        return $query->execute();
+    }
+
+    /**
+     * Gera lista com os computadores da versão selecionada no período de 30 dias
+     */
+    public function versaoAgenteDetalhar( $versaoAgente )
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('te_node_address', 'teNodeAddress');
+        $rsm->addScalarResult('id_computador', 'idComputador');
+        $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
+        $rsm->addScalarResult('nm_computador', 'nmComputador');
+        $rsm->addScalarResult('id_so', 'idSo');
+        $rsm->addScalarResult('sg_so', 'sgSo');
+        $rsm->addScalarResult('id_rede', 'idRede');
+        $rsm->addScalarResult('nm_rede', 'nmRede');
+        $rsm->addScalarResult('te_ip_rede', 'teIpRede');
+        $rsm->addScalarResult('nm_local', 'nmLocal');
+        $rsm->addScalarResult('max_data', 'data');
+        $rsm->addScalarResult('te_versao_cacic', 'TeVersaoCacic');
+
+        $sql = "
+SELECT c0_.te_node_address AS te_node_address,
+	string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
+	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
+	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
+    string_agg(DISTINCT c0_.te_versao_cacic, ', ') AS te_versao_cacic,
+	string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
+	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
+	string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
+	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
+	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
+	max(l1_.data) AS max_data,
+	l4_.nm_local AS nm_local,
+	l4_.id_local AS id_local
+FROM log_acesso l1_
+INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
+INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
+INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
+INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
+WHERE  (c0_.ativo IS NULL or c0_.ativo = 't')
+AND c0_.te_versao_cacic = '$versaoAgente'
+AND l1_.data >= (CURRENT_DATE - 30)
+GROUP BY c0_.te_node_address,
+	l4_.nm_local,
+	l4_.id_local
+        ";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+        return $query->execute();
+    }
+
+    /**
      *
      * Conta os computadores associados a cada Sistema Operacional com acesso nos ultimos 30 dias
      */

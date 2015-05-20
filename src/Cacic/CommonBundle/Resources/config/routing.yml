@@ -254,6 +254,14 @@ cacic_computador_versaoagente:
     pattern: /admin/computador/versaoagente
     defaults: { _controller: CacicCommonBundle:Computador:versaoagente }
 
+cacic_computador_versaoagente_detalhar:
+    pattern: /admin/computador/versaoagente/detalhar
+    defaults: { _controller: CacicCommonBundle:Computador:versaoagenteDetalhar }
+
+cacic_computador_versaoagente_detalhar_all:
+    pattern: /admin/computador/versaoagente/detalharall
+    defaults: { _controller: CacicCommonBundle:Computador:versaoagenteDetalharAll }
+
 cacic_rede_coletar:
     pattern: /admin/rede/coletar
     defaults: { _controller: CacicCommonBundle:Rede:coletar }

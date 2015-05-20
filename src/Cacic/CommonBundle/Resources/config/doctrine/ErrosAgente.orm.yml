@@ -24,14 +24,14 @@ Cacic\CommonBundle\Entity\ErrosAgente:
             nullable: false
             column: mensagem
     manyToOne:
-            computador:
-                targetEntity: Computador
-                cascade: {  }
-                mappedBy: null
-                inversedBy: erros_agente
-                joinColumns:
-                    id_computador:
-                        referencedColumnName: id_computador
-                        nullable: false
-                orphanRemoval: false
+        computador:
+            targetEntity: Computador
+            cascade: {  }
+            mappedBy: null
+            inversedBy: erros_agente
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+                    nullable: false
+            orphanRemoval: false
     lifecycleCallbacks: {  }

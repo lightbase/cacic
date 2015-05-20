@@ -294,6 +294,46 @@ class ComputadorController extends Controller
         );
     }
 
+    //Gera lista com os computadores da versão selecionada
+    public function versaoagenteDetalharAllAction( Request $request) {
+
+        $versaoAgente = $request->get('teVersaoCacic');
+
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:Computador')
+            ->versaoAgenteDetalharAll($versaoAgente);
+
+
+        return $this->render(
+            'CacicCommonBundle:Computador:versaoAgenteDetalhar.html.twig',
+            array(
+                'idioma'=> $locale,
+                'dados' => ( isset( $dados ) ? $dados : null )
+            )
+        );
+    }
+
+    //Gera lista com os computadores da versão selecionada no período de 30 dias
+    public function versaoagenteDetalharAction( Request $request) {
+
+        $versaoAgente = $request->get('teVersaoCacic');
+
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:Computador')
+            ->versaoAgenteDetalhar($versaoAgente);
+
+
+        return $this->render(
+            'CacicCommonBundle:Computador:versaoAgenteDetalhar.html.twig',
+            array(
+                'idioma'=> $locale,
+                'dados' => ( isset( $dados ) ? $dados : null )
+            )
+        );
+    }
+
     /**
      *
      * [AJAX][jqTree] Carrega as subredes, do local informado, com computadores monitorados

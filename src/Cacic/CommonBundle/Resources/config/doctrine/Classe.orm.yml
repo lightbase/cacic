@@ -21,4 +21,7 @@ Cacic\CommonBundle\Entity\Classe:
             fixed: false
             nullable: false
             column: te_class_description
+    uniqueConstraints:
+        nm_class_uq_idx:
+            columns: [nm_class_name]
     lifecycleCallbacks: {  }

@@ -348,6 +348,115 @@ class NeoControllerTest extends BaseTestCase
         $this->assertTrue(empty($results));
     }
 
+    /**
+     * Testa SO enviado com tipo vazio
+     */
+    public function testSemSo() {
+        $logger = $this->container->get('logger');
+        $this->client->request(
+            'POST',
+            '/ws/neo/getTest',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->computador_semso1
+        );
+        //$logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON do getConfig: \n".$response->getContent());
+
+        // Sem SO deve retornar 500
+        $this->assertEquals($status, 500);
+
+        // Testa se o computador foi inserido
+        $em =$this->container->get('doctrine')->getManager();
+
+        $computador_json = json_decode($this->computador_semso1, true);
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->findOneBy(array(
+            'teNodeAddress' => $computador_json['computador']['networkDevices'][0]['mac']
+        ));
+        $this->assertEmpty($computador);
+
+        // Agora testa SO com nome vazio
+        $this->client->request(
+            'POST',
+            '/ws/neo/getTest',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->computador_semso2
+        );
+        //$logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON do getConfig: \n".$response->getContent());
+
+        // Sem SO deve retornar 500
+        $this->assertEquals($status, 500);
+
+        // Testa se o computador foi inserido
+        $em =$this->container->get('doctrine')->getManager();
+
+        $computador_json = json_decode($this->computador_semso2, true);
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->findOneBy(array(
+            'teNodeAddress' => $computador_json['computador']['networkDevices'][0]['mac']
+        ));
+        $this->assertEmpty($computador);
+
+    }
+
+    public function testTipoSoVazio() {
+        $logger = $this->container->get('logger');
+        $this->client->request(
+            'POST',
+            '/ws/neo/getTest',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->computador_sem_tipo
+        );
+        //$logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON do getConfig: \n".$response->getContent());
+
+        // Sem SO deve retornar 200
+        $this->assertEquals($status, 200);
+
+        // Testa se o computador foi inserido
+        $em =$this->container->get('doctrine')->getManager();
+
+        $computador_json = json_decode($this->computador_sem_tipo, true);
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->findOneBy(array(
+            'teNodeAddress' => $computador_json['computador']['networkDevices'][0]['mac']
+        ));
+        $this->assertNotEmpty($computador);
+
+        // Verifica se o nome inserido é o mesmo cadastrado
+        $so = $computador->getIdSo();
+        $this->assertEquals($computador_json['computador']['operatingSystem']['nomeOs'], $so->getTeSo());
+
+        // Verifica que o tipo padrão windows foi inserido
+        $tipo = $so->getTipo()->getTipo();
+        $this->assertEquals('windows', $tipo);
+    }
+
 
     /**
      * Método que apaga todos os dados criados no teste

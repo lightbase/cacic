@@ -52,7 +52,7 @@ Cacic\CommonBundle\Entity\SoftwareEstacao:
             targetEntity: AquisicaoItem
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: idSoftwareEstacao
             joinColumns:
                 id_tipo_licenca:
                     referencedColumnName: id_tipo_licenca
