@@ -93,3 +93,7 @@ cacic_ws_neo_log:
 cacic_ws_instala_hash:
     pattern: /instala/hash
     defaults: { _controller: CacicWSBundle:NeoInstall:hash }
+
+cacic_ws_instala_erro:
+    pattern: /instala/erro
+    defaults: { _controller: CacicWSBundle:NeoInstall:erro }

@@ -13,9 +13,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use Cacic\CommonBundle\Entity\InsucessoInstalacao;
 
 class NeoInstallController extends Controller {
 
+    /**
+     * Método que verifica o hash do último serviço válido para a subrede
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function hashAction(Request $request) {
         //1 - Verificar se computador existe
         $logger = $this->get('logger');
@@ -23,6 +29,21 @@ class NeoInstallController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $dados = json_decode($status, true);
+
+        if (empty($dados)) {
+            $logger->error("JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro no getConfig");
+            // Retorna erro se o JSON for inválido
+            $error_msg = '{
+                "message": "JSON Inválido",
+                "codigo": 1
+            }';
+
+
+            $response = new JsonResponse();
+            $response->setStatusCode('500');
+            $response->setContent($error_msg);
+            return $response;
+        }
 
         $ip_address = @$dados['ip_address'];
         $netmask = @$dados['netmask'];
@@ -80,6 +101,52 @@ class NeoInstallController extends Controller {
         $response = new JsonResponse();
         $response->setStatusCode('200');
         $response->setContent($modulo);
+        return $response;
+    }
+
+    public function erroAction(Request $request) {
+        $logger = $this->get('logger');
+        $status = $request->getContent();
+        $em = $this->getDoctrine()->getManager();
+
+        $dados = json_decode($status, true);
+
+        if (empty($dados)) {
+            $logger->error("JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro no getConfig");
+            // Retorna erro se o JSON for inválido
+            $error_msg = '{
+                "message": "JSON Inválido",
+                "codigo": 1
+            }';
+
+
+            $response = new JsonResponse();
+            $response->setStatusCode('500');
+            $response->setContent($error_msg);
+            return $response;
+        }
+
+        $ip_computador = $request->getClientIp();
+
+        $insucesso = new InsucessoInstalacao();
+        $insucesso->setDtDatahora(new \DateTime());
+        $insucesso->setTeIpComputador($ip_computador);
+        $insucesso->setCsIndicador($dados['codigo']);
+        $insucesso->setMensagem($dados['message']);
+
+        if (array_key_exists('user', $dados)) {
+            $insucesso->setIdUsuario($dados['user']);
+        }
+
+        if (array_key_exists('so', $dados)) {
+            $insucesso->setTeSo($dados['so']);
+        }
+
+        $em->persist($insucesso);
+        $em->flush();
+
+        $response = new JsonResponse();
+        $response->setStatusCode('200');
         return $response;
     }
 

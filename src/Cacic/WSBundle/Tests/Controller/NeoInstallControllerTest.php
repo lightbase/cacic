@@ -21,6 +21,7 @@ class NeoInstallControllerTest extends BaseTestCase {
         $this->em =$this->container->get('doctrine')->getManager();
 
         $this->hash = file_get_contents($this->data_dir."instala/hash.json");
+        $this->erro = file_get_contents($this->data_dir."instala/erro.json");
 
         $rede = new Rede();
         $rede->setTeIpRede('10.209.8.0');
@@ -68,9 +69,9 @@ class NeoInstallControllerTest extends BaseTestCase {
     }
 
     /**
-     * Testa erroAgente
+     * Testa verificação de hash do Serviço no Gerente
      */
-    public function testInstalaHash() {
+    public function testInstallHash() {
         $logger = $this->container->get('logger');
         $client = $this->client;
         $client->request(
@@ -150,6 +151,40 @@ class NeoInstallControllerTest extends BaseTestCase {
         $dados = json_decode($response->getContent(), true);
         $this->assertEquals($cacic_service[0]['teHash'], $dados['valor']);
 
+    }
+
+    /**
+     * Testa armazenamento de erro de instalação
+     */
+    public function testInstallErro() {
+        $logger = $this->container->get('logger');
+        $client = $this->client;
+        $client->request(
+            'POST',
+            '/ws/instala/erro',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                'HTTPS'         => true
+            ),
+            $this->erro
+        );
+
+        $logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        $this->assertEquals(200, $status);
+
+        // Verifica se o dado foi inserido com sucesso
+        $request = $client->getRequest();
+        $ip_computador = $request->getClientIp();
+
+        $computador = $this->em->getRepository("CacicCommonBundle:InsucessoInstalacao")->findOneBy(array(
+            'teIpComputador' => $ip_computador
+        ));
+        $this->assertNotEmpty($computador);
     }
 
     public function tearDown() {

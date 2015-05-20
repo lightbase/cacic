@@ -19,12 +19,12 @@ Cacic\CommonBundle\Entity\InsucessoInstalacao:
         teSo:
             type: text
             fixed: false
-            nullable: false
+            nullable: true
             column: te_so
         idUsuario:
             type: text
             fixed: false
-            nullable: false
+            nullable: true
             column: id_usuario
         dtDatahora:
             type: datetime
@@ -35,4 +35,8 @@ Cacic\CommonBundle\Entity\InsucessoInstalacao:
             fixed: true
             nullable: false
             column: cs_indicador
+        mensagem:
+            type: text
+            nullable: true
+            column: mensagem
     lifecycleCallbacks: {  }

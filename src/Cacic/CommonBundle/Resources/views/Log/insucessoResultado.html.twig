@@ -8,12 +8,13 @@
 				    <thead>
 				    <tr>
 				        <th width="2%" style="text-align: center"></th>
-				        <th width="20%">{{ "Data"|trans }}</th>
+				        <th width="10%">{{ "Data"|trans }}</th>
 				        <th width="10%">{{ "Local/Rede"|trans }}</th>
 				        <th width="10%">{{ "Estacao"|trans }}</th>
-				        <th width="15%">{{ "Sistema Operacional"|trans }}</th>
+				        <th width="10%">{{ "Sistema Operacional"|trans }}</th>
 				        <th width="18%">{{ "Usuário"|trans }}</th>
 				        <th width="10%">{{ "Motivo"|trans }}</th>
+                        <th width="15%">{{ "Mensagem"|trans }}</th>
 				    </tr>
 				    </thead>
 				
@@ -29,6 +30,7 @@
 				            <td>{{ log.getTeSo() }}</td>
 				            <td>{{ log.getIdUsuario() }}</td>
 				            <td>{{ log.getCsIndicador()|traduzMotivoInsucessoInstalacao }}</td>
+                            <td>{{ log.mensagem }}</td>
 				        </tr>
 				
 				    {% else %}
