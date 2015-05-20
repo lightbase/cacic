@@ -14,11 +14,13 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SecurityController extends Controller
 {
-	
-	/**
-	 * 
-	 * Tela de login do CACIC
-	 */
+
+    /**
+     * Método de autenticação
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
 	public function loginAction(Request $request)
 	{
 		//$objRequest = $this->getRequest();
@@ -37,7 +39,8 @@ class SecurityController extends Controller
             $objSession->remove( SecurityContext::AUTHENTICATION_ERROR ); // Apaga a mensagem de erro da sessão
         }
 
-        $logger->error("Erro de autenticação \n".$error);
+        $ip_computador = $request->getClientIp();
+        $logger->error("AUTH: Erro de autenticação. IP = $ip_computador\n".$error);
 
         return $this->render(
             'CacicCommonBundle:Security:login.html.twig',
