@@ -128,6 +128,26 @@ cacic_relatorio_hardware_wmi_rel:
     requirements:
             _method: POST
 
+cacic_relatorio_wmi_sem_coleta:
+    pattern: /wmi/semcoleta
+    defaults: { _controller: CacicRelatorioBundle:Hardware:semColeta }
+
+cacic_relatorio_wmi_sem_coleta_listar:
+    pattern: /wmi/semcoletalistar
+    defaults: { _controller: CacicRelatorioBundle:Hardware:semColetaListar }
+
+cacic_relatorio_wmi_sem_coleta_listar_csv:
+    pattern: /wmi/semcoletalistar/csv
+    defaults: { _controller: CacicRelatorioBundle:Hardware:listarWmiSemColetaCsv}
+
+cacic_relatorio_wmi_sem_coleta_detalhar:
+    pattern: /wmi/semcoletadetalhar
+    defaults: { _controller: CacicRelatorioBundle:Hardware:semColetaDetalhar }
+
+cacic_relatorio_wmi_sem_coleta_detalhar_csv:
+    pattern: /wmi/semcoletadetalhar/csv
+    defaults: { _controller: CacicRelatorioBundle:Hardware:semColetaDetalharCsv }
+
 cacic_relatorio_hardware_wmi_dinamico:
     pattern: /relWmiDinamico
     defaults: { _controller: CacicRelatorioBundle:Hardware:relWmiDinamico }

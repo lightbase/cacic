@@ -1007,8 +1007,6 @@ GROUP BY c0_.te_node_address,
      */
     public function gerarRelatorioWMIDetalhe( $filtros )
     {
-        //error_log('>>>>>>>>>>>>>>>>>>>>'.$filtros['valor']);
-
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('nm_computador', 'nmComputador');
         $rsm->addScalarResult('id_computador', 'idComputador');
@@ -1107,5 +1105,170 @@ GROUP BY c0_.te_node_address,
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
         return $query->execute();
 
+    }
+
+    public function listarClasse($idClasse) {
+
+        $id = implode(' ,',$idClasse);
+
+        $_dql = "SELECT  rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo,
+                        COUNT(DISTINCT c.idComputador) AS numComp
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo)
+                INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede)
+                INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal)
+                LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
+                WHERE cl.computador IS NULL
+                AND (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+
+    }
+
+    public function listarClasseCsv($idClasse) {
+
+        $id = implode(' ,',$idClasse);
+
+        error_log('Listar CSV'.$id);
+
+        $_dql = "SELECT so.teDescSo,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        COUNT(DISTINCT c.idComputador) AS numComp
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo)
+                INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede)
+                INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal)
+                LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
+                WHERE cl.computador IS NULL
+                AND (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+    }
+
+    public function detalharClasse($idClasse, $idRede, $idLocal, $idSo) {
+
+        $id = implode(' ,',$idClasse);
+
+        $_dql = "SELECT  c.idComputador,
+                        c.nmComputador,
+                        c.teNodeAddress,
+                        c.teIpComputador,
+                        c.dtHrUltAcesso,
+                        rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo";
+                if (!empty($idSo)){
+                    $_dql .= " AND c.idSo = $idSo ";
+                }
+
+                $_dql .= ") INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
+                if (!empty($idRede)){
+                    $_dql .= " AND rede.idRede = $idRede ";
+                }
+
+                $_dql .= ") INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal";
+                if (!empty($idLocal)){
+                    $_dql .= " AND local.idLocal = $idLocal ";
+                }
+
+                $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
+                WHERE cl.computador IS NULL
+                AND (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY  c.idComputador,
+                        c.nmComputador,
+                        c.teNodeAddress,
+                        c.teIpComputador,
+                        c.dtHrUltAcesso,
+                        rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+    }
+
+    public function detalharClasseCsv($idClasse, $idRede = null, $idLocal = null, $idSo = null) {
+
+        $id = implode(' ,',$idClasse);
+
+        $_dql = "SELECT c.nmComputador,
+                        c.teNodeAddress,
+                        c.teIpComputador,
+                        so.teDescSo,
+                        local.nmLocal,
+                        rede.nmRede,
+                        c.dtHrUltAcesso
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo";
+        if (!empty($idSo)){
+            $_dql .= " AND c.idSo = $idSo ";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
+        if (!empty($idRede)){
+            $_dql .= " AND rede.idRede = $idRede ";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal";
+        if (!empty($idLocal)){
+            $_dql .= " AND local.idLocal = $idLocal ";
+        }
+
+        $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
+                WHERE cl.computador IS NULL
+                AND (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY  c.idComputador,
+                        c.nmComputador,
+                        c.teNodeAddress,
+                        c.teIpComputador,
+                        c.dtHrUltAcesso,
+                        rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
     }
 }

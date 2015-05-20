@@ -12,6 +12,9 @@ use Ddeboer\DataImport\Writer\CsvWriter;
 use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Cacic\CommonBundle\Form\Type\ClassPropertyPesquisaType;
+use Ddeboer\DataImport\ValueConverter\CharsetValueConverter;
+use Cacic\CommonBundle\Form\Type\ClassePesquisaType;
+
 
 class HardwareController extends Controller
 {
@@ -388,5 +391,178 @@ class HardwareController extends Controller
 
     }
 
+    /**
+     *
+     * Relatório de Classes WMI sem coleta
+     */
+    public function semColetaAction(Request $request) {
 
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+
+        $form = $this->createForm( new ClassePesquisaType() );
+
+        return $this->render( 'CacicRelatorioBundle:Hardware:wmi_sem_coleta.html.twig',
+            array(
+                'locale'=> $locale,
+                'form' => $form->createView()
+            )
+        );
+    }
+
+    /**
+     *
+     * Relatório de Classes WMI sem coleta
+     */
+    public function semColetaListarAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+        $logger = $this->get('logger');
+
+            // Aqui vem via POST pelo formulário
+            $data = $request->request->all();
+            if (!empty($data)) {
+                $idClasse = $data['classe_pesquisa']['nmClassName'];
+            } else {
+                $idClasse = null;
+            }
+
+        $computadores = $em->getRepository("CacicCommonBundle:Computador")->listarClasse($idClasse);
+
+        foreach ($computadores as $comp){
+            $teste = implode(' ,',$comp);
+            error_log('>>>>>>>>>>>>>>>>>>>>>>'.$teste);
+        }
+
+
+        $TotalnumComp = 0;
+
+        foreach ($computadores as $cont  ){
+            $TotalnumComp += $cont['numComp'];
+        }
+
+        return $this->render( 'CacicRelatorioBundle:Hardware:wmi_sem_coleta_listar.html.twig',
+            array(
+                'idioma'=> $locale,
+                'filtroClasses' => $idClasse,
+                'logs' => ( isset( $computadores ) ? $computadores : null ),
+                'totalnumcomp' => $TotalnumComp
+            )
+        );
+    }
+
+    public function semColetaDetalharAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+
+        $idSo = $request->get('idSo');
+        $idRede = $request->get('idRede');
+        $idLocal = $request->get('idLocal');
+        $idClasse = $request->get('idClasse');
+
+        error_log('detalhar >>>>>>>>>>>>>>>>>>>>>>'.$idClasse);
+
+        $computadores = $em->getRepository("CacicCommonBundle:Computador")->detalharClasse($idClasse, $idRede, $idLocal, $idSo);
+
+        return $this->render('CacicRelatorioBundle:Hardware:wmi_sem_coleta_detalhar.html.twig',
+            array(
+                'idioma' => $locale,
+                'idClasse' => $idClasse,
+                'computadores' => $computadores,
+                'idSo' => $idSo,
+                'idRede' => $idRede,
+                'idLocal' => $idLocal
+            )
+        );
+    }
+
+    public function listarWmiSemColetaCsvAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+        $logger = $this->get('logger');
+
+        $idClasse = $request->get('idClasse');
+
+        $computadores = $em->getRepository("CacicCommonBundle:Computador")->listarClasseCsv($idClasse);
+
+        $TotalnumComp = 0;
+
+        foreach ($computadores as $cont  ){
+            $TotalnumComp += $cont['numComp'];
+        }
+
+        // Gera CSV
+        $reader = new ArrayReader($computadores);
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), 'Computadores-Subredes');
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $writer->writeItem(array('SO', 'Local', 'Rede', 'IP da Subrede', 'Total de Estações'));
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="WMI-sem-coleta.csv"');
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+
+    }
+
+    public function semColetaDetalharCsvAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+
+        $idSo = $request->get('idSo');
+        $idRede = $request->get('idRede');
+        $idLocal = $request->get('idLocal');
+        $idClasse = $request->get('idClasse');
+
+        $computadores = $em->getRepository("CacicCommonBundle:Computador")->detalharClasseCsv($idClasse, $idRede, $idLocal, $idSo);
+
+        // Gera CSV
+        $reader = new ArrayReader($computadores);
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        // As you can see, the first names are not capitalized correctly. Let's fix
+        // that with a value converter:
+        $converter = new CallbackValueConverter(function ($input) {
+            return $input->format('d/m/Y H:m:s');
+        });
+        $workflow->addValueConverter('dtHrUltAcesso', $converter);
+
+        $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), 'Computadores-Subredes');
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $writer->writeItem(array('Computador', 'MAC Address', 'Endereço IP', 'SO', 'Local', 'Sub Rede', 'Data e Hora do último Acesso'));
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="WMI-sem-coleta.csv"');
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
 }
