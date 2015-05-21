@@ -28,6 +28,7 @@ class NeoInstallControllerTest extends BaseTestCase {
         $rede->setTeMascaraRede('255.255.255.255');
         $rede->setTeServCacic('http://localhost');
         $rede->setTeServUpdates('http://localhost');
+        $rede->setTePathServUpdates('/msi');
         $rede->setNuLimiteFtp(100);
         $rede->setCsPermitirDesativarSrcacic('S');
         $rede->setDownloadMethod('http');
@@ -331,6 +332,84 @@ class NeoInstallControllerTest extends BaseTestCase {
         $this->em->remove($this->modulo);
         $this->em->flush();
 
+    }
+
+    /**
+     * Teste que deve retornar sempre a URL para a última versão do MSI disponível
+     */
+    public function testDownloadMsi() {
+        $logger = $this->container->get('logger');
+        $client = $this->client;
+        $client->request(
+            'POST',
+            '/ws/instala/download/msi',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                'HTTPS'         => true
+            ),
+            '{}'
+        );
+
+        $logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        $this->assertEquals(200, $status);
+
+        // Testa retorno da URL
+        $dados = json_decode($response->getContent(), true);
+
+        // Pega servidor de updates para a rede
+        $rede = $this->em->getRepository("CacicCommonBundle:Rede")->findOneBy(array(
+            'teIpRede' => '0.0.0.0'
+        ));
+        $url = $rede->getTeServUpdates()
+            . "/Cacic.msi";
+
+        $logger->debug("URL download: $url");
+
+        $this->assertEquals($url, $dados['valor']);
+
+        // Agora testa o módulo com outro hash e verifica se identificou a rede
+        $this->em->persist($this->rede);
+        $this->em->persist($this->modulo);
+        $this->em->flush();
+
+        $client->request(
+            'POST',
+            '/ws/instala/download/msi',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                'HTTPS'         => true
+            ),
+            $this->hash
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $this->assertEquals(200, $status);
+
+        // Testa retorno da URL
+        $dados = json_decode($response->getContent(), true);
+
+        // Pega servidor de updates para a rede
+        $url = $this->rede->getTeServUpdates()
+            . "/"
+            . "/msi"
+            . "/"
+            . "Cacic.msi";
+
+        $logger->debug("URL download: $url");
+
+        $this->assertEquals($url, $dados['valor']);
+
+        // Remove dados do teste
+        $this->em->remove($this->rede);
+        $this->em->flush();
     }
 
     public function tearDown() {

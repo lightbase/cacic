@@ -224,4 +224,58 @@ class NeoInstallController extends Controller {
         return $response;
     }
 
+    public function downloadMsiAction(Request $request) {
+        $logger = $this->get('logger');
+        $status = $request->getContent();
+        $em = $this->getDoctrine()->getManager();
+
+        $dados = json_decode($status, true);
+
+        if (empty($dados)) {
+            // Pego IP da conexão e considero a máscara padrão
+            $ip_computador = $request->getClientIp();
+            $rede = $em->getRepository("CacicCommonBundle:Rede")->getDadosRedePreColeta($ip_computador);
+        } else {
+            // Verifica se o IP não é localhost ou genérico
+            if ($dados['ip_address'] == '127.0.0.1' || $dados['ip_address'] == '0.0.0.0') {
+                $ip_computador = $request->getClientIp();
+            } else {
+                $ip_computador = $dados['ip_address'];
+            }
+
+            $netmask = @$dados['netmask'];
+            if (!empty($netmask)) {
+                $rede = $em->getRepository("CacicCommonBundle:Rede")->getDadosRedePreColeta(
+                    $ip_computador,
+                    $netmask
+                );
+            } else {
+                $rede = $em->getRepository("CacicCommonBundle:Rede")->getDadosRedePreColeta($ip_computador);
+            }
+        }
+
+        $path = $rede->getTePathServUpdates();
+        if (!empty($path)) {
+            $url = $rede->getTeServUpdates()
+                . "/"
+                . $path
+                . "/"
+                . "Cacic.msi";
+        } else {
+            $url = $rede->getTeServUpdates()
+                . "/Cacic.msi";
+        }
+
+        $retorno = array(
+            'valor' => $url
+        );
+
+        $modulo = json_encode($retorno, true);
+
+        $response = new JsonResponse();
+        $response->setStatusCode('200');
+        $response->setContent($modulo);
+        return $response;
+    }
+
 }
