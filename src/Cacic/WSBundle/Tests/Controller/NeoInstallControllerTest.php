@@ -66,6 +66,17 @@ class NeoInstallControllerTest extends BaseTestCase {
         $this->rede = $rede;
         $this->modulo = $classe;
         $this->tipo_so = $tipo_so;
+
+        // Encontra hash do último serviço
+        $rede = $this->em->getRepository("CacicCommonBundle:Rede")->findOneBy(array(
+            'teIpRede' => '0.0.0.0'
+        ));
+        $cacic_service = $this->em->getRepository("CacicCommonBundle:RedeVersaoModulo")->getModulo(
+            $rede->getIdRede(),
+            'cacic-service.exe',
+            'windows'
+        );
+        $this->hash_service = $cacic_service[0]['teHash'];
     }
 
     /**
@@ -151,6 +162,11 @@ class NeoInstallControllerTest extends BaseTestCase {
         $dados = json_decode($response->getContent(), true);
         $this->assertEquals($cacic_service[0]['teHash'], $dados['valor']);
 
+        // Remove dados do teste
+        $this->em->remove($this->rede);
+        $this->em->remove($this->modulo);
+        $this->em->flush();
+
     }
 
     /**
@@ -185,6 +201,136 @@ class NeoInstallControllerTest extends BaseTestCase {
             'teIpComputador' => $ip_computador
         ));
         $this->assertNotEmpty($computador);
+    }
+
+    /**
+     * Testa download da última versão do serviço para a subrede
+     */
+    public function testDownloadService() {
+        $logger = $this->container->get('logger');
+        $client = $this->client;
+        $client->request(
+            'POST',
+            '/ws/instala/download/service/'.$this->hash_service,
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                'HTTPS'         => true
+            ),
+            '{}'
+        );
+
+        $logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        $this->assertEquals(200, $status);
+
+        // Verifica que foi fornecida uma URL para o serviço
+        $dados = json_decode($response->getContent(), true);
+
+        // Pega servidor de updates para a rede
+        $rede = $this->em->getRepository("CacicCommonBundle:Rede")->findOneBy(array(
+            'teIpRede' => '0.0.0.0'
+        ));
+        $modulo = $this->em->getRepository("CacicCommonBundle:RedeVersaoModulo")->findOneBy(array(
+            'nmModulo' => 'cacic-service.exe',
+            'teHash' => $this->hash_service,
+            'idRede' => $rede->getIdRede(),
+            'tipo' => 'cacic'
+        ));
+        $url = $rede->getTeServUpdates()
+            . "/downloads/"
+            . $modulo->getFilepath();
+
+        $this->assertEquals($url, $dados['valor']);
+
+        // Testa envio do IP e máscara
+        $client = $this->client;
+        $client->request(
+            'POST',
+            '/ws/instala/download/service/'.$this->hash_service,
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                'HTTPS'         => true
+            ),
+            $this->hash
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        $this->assertEquals(200, $status);
+
+        // Verifica que foi fornecida uma URL para o serviço
+        $dados = json_decode($response->getContent(), true);
+
+        // Pega servidor de updates para a rede
+        $rede = $this->em->getRepository("CacicCommonBundle:Rede")->findOneBy(array(
+            'teIpRede' => '0.0.0.0'
+        ));
+        $modulo = $this->em->getRepository("CacicCommonBundle:RedeVersaoModulo")->findOneBy(array(
+            'nmModulo' => 'cacic-service.exe',
+            'teHash' => $this->hash_service,
+            'idRede' => $rede->getIdRede(),
+            'tipo' => 'cacic'
+        ));
+        $url = $rede->getTeServUpdates()
+            . "/downloads/"
+            . $modulo->getFilepath();
+        $this->assertEquals($url, $dados['valor']);
+
+        // Agora testa o módulo com outro hash e verifica se identificou a rede
+        $this->em->persist($this->rede);
+        $this->em->persist($this->modulo);
+        $this->em->flush();
+
+        // Testa envio do IP e máscara
+        $client = $this->client;
+        $client->request(
+            'POST',
+            '/ws/instala/download/service/'.$this->modulo->getTeHash(),
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                'HTTPS'         => true
+            ),
+            $this->hash
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        $this->assertEquals(200, $status);
+
+        $dados = json_decode($response->getContent(), true);
+
+        $computador = json_decode($this->hash, true);
+        $rede = $this->em->getRepository("CacicCommonBundle:Rede")->getDadosRedePreColeta(
+            $computador['ip_address'],
+            $computador['netmask']
+        );
+        $modulo = $this->em->getRepository("CacicCommonBundle:RedeVersaoModulo")->findOneBy(array(
+            'nmModulo' => 'cacic-service.exe',
+            'teHash' => $this->modulo->getTeHash(),
+            'idRede' => $rede->getIdRede(),
+            'tipo' => 'cacic'
+        ));
+        $url = $rede->getTeServUpdates()
+            . "/downloads/"
+            . $modulo->getFilepath();
+
+        $this->assertEquals($url, $dados['valor']);
+
+        // Remove dados do teste
+        $this->em->remove($this->rede);
+        $this->em->remove($this->modulo);
+        $this->em->flush();
+
     }
 
     public function tearDown() {

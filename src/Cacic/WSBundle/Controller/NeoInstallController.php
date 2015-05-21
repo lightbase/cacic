@@ -104,6 +104,12 @@ class NeoInstallController extends Controller {
         return $response;
     }
 
+    /**
+     * Registro de erros de instalação
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function erroAction(Request $request) {
         $logger = $this->get('logger');
         $status = $request->getContent();
@@ -147,6 +153,74 @@ class NeoInstallController extends Controller {
 
         $response = new JsonResponse();
         $response->setStatusCode('200');
+        return $response;
+    }
+
+    public function downloadServiceAction(Request $request, $hash) {
+        $logger = $this->get('logger');
+        $status = $request->getContent();
+        $em = $this->getDoctrine()->getManager();
+
+        $dados = json_decode($status, true);
+
+        if (empty($dados)) {
+            // Pego IP da conexão e considero a máscara padrão
+            $ip_computador = $request->getClientIp();
+            $rede = $em->getRepository("CacicCommonBundle:Rede")->getDadosRedePreColeta($ip_computador);
+        } else {
+            // Verifica se o IP não é localhost ou genérico
+            if ($dados['ip_address'] == '127.0.0.1' || $dados['ip_address'] == '0.0.0.0') {
+                $ip_computador = $request->getClientIp();
+            } else {
+                $ip_computador = $dados['ip_address'];
+            }
+
+            $netmask = @$dados['netmask'];
+            if (!empty($netmask)) {
+                $rede = $em->getRepository("CacicCommonBundle:Rede")->getDadosRedePreColeta(
+                    $ip_computador,
+                    $netmask
+                );
+            } else {
+                $rede = $em->getRepository("CacicCommonBundle:Rede")->getDadosRedePreColeta($ip_computador);
+            }
+        }
+
+        // Agora recupera URL para download do módulo
+        $modulo = $em->getRepository("CacicCommonBundle:RedeVersaoModulo")->findOneBy(array(
+            'nmModulo' => 'cacic-service.exe',
+            'teHash' => $hash,
+            'idRede' => $rede->getIdRede(),
+            'tipo' => 'cacic'
+        ));
+
+        if (empty($modulo)) {
+            $logger->error("Hash |$hash| não encontrado para o computador $ip_computador e rede ".$rede->getTeIpRede());
+            // Retorna erro se o JSON for inválido
+            $error_msg = '{
+                "message": "Hash não encontrado",
+                "codigo": 5
+            }';
+
+            $response = new JsonResponse();
+            $response->setStatusCode('500');
+            $response->setContent($error_msg);
+            return $response;
+        }
+
+        $url = $rede->getTeServUpdates()
+            . "/downloads/"
+            . $modulo->getFilepath();
+
+        $retorno = array(
+            'valor' => $url
+        );
+
+        $modulo = json_encode($retorno, true);
+
+        $response = new JsonResponse();
+        $response->setStatusCode('200');
+        $response->setContent($modulo);
         return $response;
     }
 
