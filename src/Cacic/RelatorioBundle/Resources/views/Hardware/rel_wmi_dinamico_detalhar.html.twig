@@ -27,7 +27,7 @@
                             <th>{{ "IP"|trans }}</th>
                             <th>{{ "Rede"|trans }}</th>
                             <th>{{ "Ip da Rede" }}</th>
-                            <th>{{ "data_coleta"|trans }}</th>
+                            <th>{{ "Ultimo Acesso"|trans }}</th>
                             <th>{{ "Ações"|trans }}</th>
                         </tr>
                         </thead>
@@ -44,7 +44,7 @@
                                 <td>{{ reg['te_ip_computador'] }}</td>
                                 <td>{{ reg['nm_rede'] }}</td>
                                 <td>{{ reg['te_ip_rede'] }}</td>
-                                <td>{{ reg['data_coleta']|date("d/m/y") }}</td>
+                                <td>{{ reg['dt_hr_ult_acesso']|date("d/m/y") }}</td>
                                 <td>
                                     <a class="btn" href="{{ path("cacic_computador_detalhar") }}/{{ reg['id_computador'] }}" target="_blank" title="{{ "Todas as coletas do Computador"|trans }}">
                                         <i class="icon-search"></i>

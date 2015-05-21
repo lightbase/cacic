@@ -49,7 +49,7 @@ class ClassPropertyRepository extends EntityRepository {
     public function relatorioWmiDinamico($property, $dataInicio, $dataFim){
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('nm_rede', 'nm_rede');
-        $rsm->addScalarResult('data_coleta', 'data_coleta');
+        $rsm->addScalarResult('dt_hr_ult_acesso', 'dt_hr_ult_acesso');
         $rsm->addScalarResult('id_computador', 'id_computador');
         $rsm->addScalarResult('nm_computador', 'nm_computador');
         $rsm->addScalarResult('te_node_address', 'te_node_address');
@@ -57,7 +57,7 @@ class ClassPropertyRepository extends EntityRepository {
         $rsm->addScalarResult('te_ip_rede', 'te_ip_rede');
         $rsm->addScalarResult('nm_rede', 'nm_rede');
 
-        $sql = 'SELECT c.id_computador, c.nm_computador, c.te_node_address, c.te_ip_computador, r.te_ip_rede, r.nm_rede, rc.data_coleta, ';
+        $sql = 'SELECT c.id_computador, c.nm_computador, c.te_node_address, c.te_ip_computador, r.te_ip_rede, r.nm_rede, c.dt_hr_ult_acesso, ';
         foreach ($property as $elm) {
             $sql = $sql . "rc."."$elm, ";
             $rsm->addScalarResult($elm, $elm);
