@@ -16,6 +16,9 @@
                 <i class="icon-home"></i>
                 <span>Home</span></a>
         </li>
+
+        {% if app.user and is_granted('ROLE_ADMIN') %}
+
         <li class="dropdown">
             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="icon-cogs"></i>
@@ -38,7 +41,7 @@
 
                 <li class="dropdown-submenu">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                        Logs
+                        {{ "Logs"|trans }}
                         <span class="icon">&nbsp;</span>
                     </a>
                     <ul>
@@ -46,7 +49,6 @@
                         <li><a href="{{ path('cacic_log_atividade') }}">{{ "Atividades"|trans }}</a></li>
                         <li><a href="{{ path('cacic_log_insucesso_instalacao') }}">{{ "Insucessos Instalação"|trans }}</a></li>
                         {#<li><a href="{{ path('cacic_log_suporte_remoto') }}">{{ "Suporte Remoto Seguro"|trans }}</a></li>#}
-                        <li><a href="{{ path('cacic_relatorio_usuario') }}">{{ "Usuário Logado"|trans }}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown-submenu" >
@@ -58,10 +60,7 @@
                         <li><a href="{{ path('cacic_local_index') }}">{{ "Locais"|trans }}</a></li>
                         <li><a href="{{ path('cacic_servidorautenticacao_index') }}">{{ "Servidores Autenticação"|trans }}</a></li>
                         <li><a href="{{ path('cacic_subrede_index') }}">{{ "Sub-redes"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_aplicativo_index') }}">{{ "Aplicativos Monitorados"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_sistemaoperacional_index') }}">{{ "Sistemas Operacionais"|trans }}</a></li>
                         <li><a href="{{ path('cacic_subrede_computadores') }}">{{ "Computadores e Subredes"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_usbdevice_index') }}">{{ "Dispositivos USB"|trans }}</a></li>
                     </ul>
                 </li>
                 <li class="dropdown-submenu"  >
@@ -85,9 +84,25 @@
                         <li ><a href="{{ path('cacic_patrimonio_opcoes')}}">{{ "Opções"|trans }}</a></li>
                     </ul>
                 </li>
+                <li class="dropdown-submenu" >
+                    <a href="javascript:void(0)">
+                        {{ "Forçar Coletas"|trans }}
+                        <span class="icon">&nbsp;</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ path('cacic_computador_coletar') }}">{{ "Forçar coleta computador"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_rede_coletar') }}">{{ "Forçar coleta subrede"|trans }}</a></li>
+                    </ul>
+
+                </li>
+                <li><a href="{{ path('cacic_computador_versaoagente') }}">{{ "Versões Agentes"|trans }}</a></li>
                 <li><a href="{{ path('cacic_migracao_cacic26') }}">{{ "Importar de 2.6"|trans }}</a></li>
             </ul>
         </li>
+
+        {% endif %}
+
+        {% if app.user and (is_granted('ROLE_ADMIN') or is_granted('ROLE_GESTAO') ) %}
 
         <li class="subnavbar-open-right" >
             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
@@ -104,6 +119,7 @@
                     <ul>
                         <li><a href="{{ path('cacic_tiposo_index') }}">{{ "Tipos de SO"|trans }}</a></li>
                         <li><a href="{{ path('cacic_sistemaoperacional_index') }}">{{ "Sistemas Operacionais"|trans }}</a></li>
+                        <li><a href="{{ path('cacic_aplicativo_index') }}">{{ "Aplicativos Monitorados"|trans }}</a></li>
                         <li><a href="{{ path('cacic_usbdevice_index') }}">{{ "Dispositivos USB"|trans }}</a></li>
                         <li><a href="{{ path('cacic_device3g_index') }}">{{ "Dispositivos 3G"|trans }}</a></li>
 
@@ -142,20 +158,11 @@
                         <li><a href="{{ path('cacic_software_estacao_index') }}">{{ "Software por estações"|trans }}</a></li>
                     </ul>
                 </li>
-                <li class="dropdown-submenu" >
-                    <a href="javascript:void(0)">
-                        {{ "Forçar Coletas"|trans }}
-                        <span class="icon">&nbsp;</span>
-                    </a>
-                    <ul>
-                        <li><a href="{{ path('cacic_computador_coletar') }}">{{ "Forçar coleta computador"|trans }}</a></li>
-                        <li><a href="{{ path('cacic_rede_coletar') }}">{{ "Forçar coleta subrede"|trans }}</a></li>
-                    </ul>
-
-                </li>
                 <li><a href="{{ path('cacic_arquivo_sgconf') }}">{{ "Exportar CSV"|trans }}</a></li>
             </ul>
         </li>
+
+        {% endif %}
 
         <li>
             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
@@ -167,7 +174,6 @@
                 <li><a href="{{ path('cacic_computador_navegar') }}">{{ "Navegar"|trans }}</a></li>
                 <li><a href="{{ path('cacic_computador_consultar') }}">{{ "Consultar"|trans }}</a></li>
                 <li><a href="{{ path('cacic_computador_buscar') }}">{{ "Busca avançada"|trans }}</a></li>
-                <li><a href="{{ path('cacic_computador_versaoagente') }}">{{ "Versões Agentes"|trans }}</a></li>
             </ul>
         </li>
 
@@ -214,6 +220,7 @@
                 </li>
                 <li><a class="round_top" href="{{ path('cacic_relatorio_wmi_sem_coleta') }}">{{ "WMI Sem Coleta"|trans }}</a></li>
                 <li><a class="round_top" href="{{ path('cacic_relatorio_so') }}">{{ "Sistemas Operacionais"|trans }}</a></li>
+                <li><a class="round_top" href="{{ path('cacic_relatorio_usuario') }}">{{ "Usuário Logado"|trans }}</a></li>
                 <li><a class="round_top" href="{{ path('cacic_relatorio_hardware_wmi_dinamico') }}">{{ "WMI Dinâmico"|trans }}</a></li>
             </ul>
         </li>
