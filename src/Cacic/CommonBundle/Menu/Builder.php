@@ -1,0 +1,138 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: eduardo
+ * Date: 04/02/14
+ * Time: 10:54
+ */
+
+namespace Cacic\RelatorioBundle\Menu;
+
+use Knp\Menu\FactoryInterface;
+use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+
+class Builder extends ContainerAware
+{
+    public function relatorioMenu(FactoryInterface $factory, array $options)
+    {
+        $logger = $this->container->get('logger');
+
+        // Busca o grupo do usuário
+
+        // Cria menu
+        $menu = $factory->createItem('root');
+
+        // Carrega lista de classes WMI para coleta
+        $em = $this->container->get('doctrine')->getManager();
+        $classes = $em->getRepository('CacicCommonBundle:ComputadorColeta')->menu();
+
+        $menu->addChild('Home', array('route' => 'cacic_common_homepage'))->setAttribute('icon', 'icon-list');;
+
+        $menu->addChild('Administração');
+        $menu['Administração']->setUri('#Administração');
+        $menu['Administração']->addChild('Configurar Coletas');
+        $menu['Administração']['Configurar Coletas']->addChild('Upload de Agentes', array('route' => 'cacic_agente'));
+        $menu['Administração']['Configurar Coletas']->addChild('Deploy de software', array('route' => 'cacic_deploy'));
+        $menu['Administração']['Configurar Coletas']->addChild('Atualização de Subrede', array('route' => 'cacic_atualizacao_subredes'));
+        $menu['Administração']['Configurar Coletas']->addChild('Configurar Módulos', array('route' => 'cacic_modulo_index'));
+
+        $menu['Administração']->addChild('Logs');
+        $menu['Administração']['Logs']->addChild('Acessos', array('route' => 'cacic_log_acesso'));
+        $menu['Administração']['Logs']->addChild('Atividades', array('route' => 'cacic_log_atividade'));
+        $menu['Administração']['Logs']->addChild('Insucessos Instalação', array('route' => 'cacic_log_insucesso_instalacao'));
+        //$menu['Administração']['Logs']->addChild('Suporte Remoto Seguro', array('route' => 'cacic_log_suporte_remoto'));
+
+        $menu['Administração']->addChild('Cadastros');
+        $menu['Administração']['Cadastros']->addChild('Locais', array('route' => 'cacic_local_index'));
+        $menu['Administração']['Cadastros']->addChild('Servidores Autenticação', array('route' => 'cacic_servidorautenticacao_index'));
+        $menu['Administração']['Cadastros']->addChild('Sub-redes', array('route' => 'cacic_subrede_index'));
+        $menu['Administração']['Cadastros']->addChild('Computadores e Subredes', array('route' => 'cacic_subrede_computadores'));
+
+        $menu['Administração']->addChild('Usuários');
+        $menu['Administração']['Usuários']->addChild('Cadastro de Usuários', array('route' => 'cacic_usuario_index'));
+        $menu['Administração']['Usuários']->addChild('Grupo de Usuários', array('route' => 'cacic_grupo_usuario_index'));
+
+        $menu['Administração']->addChild('Patrimônio');
+        $menu['Administração']['Patrimônio']->addChild('Unidades Organizacionais', array('route' => 'cacic_uorg_index'));
+        $menu['Administração']['Patrimônio']->addChild('Tipos de Unidade', array('route' => 'cacic_uorg_type_index'));
+        $menu['Administração']['Patrimônio']->addChild('Opções', array('route' => 'cacic_patrimonio_opcoes'));
+
+        $menu['Administração']->addChild('Forçar Coletas');
+        $menu['Administração']['Forçar Coletas']->addChild('Forçar coleta computador', array('route' => 'cacic_computador_coletar'));
+        $menu['Administração']['Forçar Coletas']->addChild('Forçar coleta sub-rede', array('route' => 'cacic_rede_coletar'));
+
+        $menu['Administração']->addChild('Versões Agentes', array('route' => 'cacic_computador_versaoagente'));
+        $menu['Administração']->addChild('Importar de 2.6', array('route' => 'cacic_migracao_cacic26'));
+
+        $menu->addChild('Manutenção');
+        $menu['Manutenção']->setUri('#Manutenção');
+        $menu['Manutenção']->addChild('Cadastros');
+        $menu['Manutenção']['Cadastros']->addChild('Tipos de SO', array('route' => 'cacic_tiposo_index'));
+        $menu['Manutenção']['Cadastros']->addChild('Sistemas Operacionais', array('route' => 'cacic_sistemaoperacional_index'));
+        $menu['Manutenção']['Cadastros']->addChild('Aplicativos Monitorados', array('route' => 'cacic_aplicativo_index'));
+        $menu['Manutenção']['Cadastros']->addChild('Dispositivos USB', array('route' => 'cacic_usbdevice_index'));
+        $menu['Manutenção']['Cadastros']->addChild('Dispositivos 3G', array('route' => 'cacic_device3g_index'));
+
+        $menu['Manutenção']->addChild('Classificar Software');
+        $menu['Manutenção']['Classificar Software']->addChild('Um por Um', array('route' => 'cacic_software_index'));
+        $menu['Manutenção']['Classificar Software']->addChild('Em grupo', array('route' => 'cacic_software_naoclassificados'));
+        $menu['Manutenção']['Classificar Software']->addChild('Tipos de Software', array('route' => 'cacic_tiposoftware_index'));
+
+        $menu['Manutenção']->addChild('Controle de Licenças');
+        $menu['Manutenção']['Controle de Licenças']->addChild('Tipos de Licença', array('route' => 'cacic_tipo_licenca_index'));
+        $menu['Manutenção']['Controle de Licenças']->addChild('Processos de Aquisição', array('route' => 'cacic_aquisicao_index'));
+        $menu['Manutenção']['Controle de Licenças']->addChild('Softwares Adquiridos', array('route' => 'cacic_aquisicao_item_index'));
+        //$menu['Manutenção']['Controle de Licenças']->addChild('oftwares Autorizados', array('route' => 'cacic_manutencao_autorizacoes'));
+        $menu['Manutenção']['Controle de Licenças']->addChild('Software por Estações', array('route' => 'cacic_software_estacao_index'));
+
+        $menu['Manutenção']->addChild('Exportar CSV', array('route' => 'cacic_arquivo_sgconf'));
+
+        $menu->addChild('Computadores');
+        $menu['Computadores']->setUri('#Computadores');
+        $menu['Computadores']->addChild('Navegar', array('route' => 'cacic_computador_navegar'));
+        $menu['Computadores']->addChild('Consultar', array('route' => 'cacic_computador_consultar'));
+        $menu['Computadores']->addChild('Busca avançada', array('route' => 'cacic_computador_buscar'));
+
+        $menu->addChild('Relatórios');
+        $menu['Relatórios']->setUri('#Relatórios');
+        $menu['Relatórios']->addChild('Software');
+        $menu['Relatórios']['Software']->addChild('Software Inventariados', array('route' => 'cacic_relatorio_software_inventariados'));
+        //$menu['Relatórios']['Software']->addChild('Softwares Licenciados', array('route' => 'cacic_relatorio_software_licenciados'));
+        $menu['Relatórios']['Software']->addChild('Controle de Licenças', array('route' => 'cacic_relatorio_software_aquisicoes'));
+        //$menu['Relatórios']['Software']->addChild('Por Órgão/Máquinas', array('route' => 'cacic_relatorio_software_orgao'));
+        $menu['Relatórios']['Software']->addChild('Tipo de Softwares', array('route' => 'cacic_relatorio_software_tipo'));
+        //$menu['Relatórios']['Software']->addChild('Softwares não Vinculados', array('route' => 'cacic_relatorio_software_naoVinculados'));
+
+        $menu['Relatórios']->addChild('Computadores');
+        $menu['Relatórios']['Computadores']->addChild('Faturamento', array('route' => 'cacic_relatorio_faturamento'));
+        $menu['Relatórios']['Computadores']->addChild('Total de Computadores', array('route' => 'cacic_relatorio_computador'));
+        $menu['Relatórios']['Computadores']->addChild('Relatório para Ateste', array('route' => 'cacic_ateste'));
+        $menu['Relatórios']['Computadores']->addChild('Computadores Inativos', array('route' => 'cacic_relatorio_inativos'));
+
+        $menu['Relatórios']->addChild('Classes WMI');
+        // Adiciona cada uma das classes como slug para um controller
+        foreach ($classes as $wmiClass) {
+            $menu['Relatórios']['Classes WMI']->addChild($wmiClass['nmClassName'], array(
+                'route' => 'cacic_relatorio_hardware_wmi',
+                'routeParameters' => array(
+                    'classe' => $wmiClass['nmClassName']
+                )
+            ));
+        }
+
+        $menu['Relatórios']->addChild('WMI Dinâmico', array('route' => 'cacic_relatorio_hardware_wmi_dinamico'));
+        $menu['Relatórios']->addChild('WMI Sem Coleta', array('route' => 'cacic_relatorio_wmi_sem_coleta'));
+        $menu['Relatórios']->addChild('Sistemas Operacionais', array('route' => 'cacic_relatorio_so'));
+        $menu['Relatórios']->addChild('Usuários Logado', array('route' => 'cacic_relatorio_usuario'));
+
+        $menu->addChild('Downloads');
+        $menu['Downloads']->setUri('#Downloads');
+
+        $menu->addChild('Comunidade CACIC');
+        $menu['Comunidade CACIC']->setUri('#Comunidade');
+
+        return $menu;
+    }
+}
