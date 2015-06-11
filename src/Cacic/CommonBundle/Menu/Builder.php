@@ -10,16 +10,13 @@ namespace Cacic\RelatorioBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
 class Builder extends ContainerAware
 {
-    public function relatorioMenu(FactoryInterface $factory, array $options)
+    public function MainMenu(FactoryInterface $factory, array $options)
     {
         $logger = $this->container->get('logger');
-
-        // Busca o grupo do usuário
 
         // Cria menu
         $menu = $factory->createItem('root');
