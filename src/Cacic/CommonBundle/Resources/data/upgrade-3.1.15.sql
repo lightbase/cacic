@@ -15,7 +15,7 @@ BEGIN
                 count(id_class_property) as n
               from class_property
               where (nm_property_name is not null
-                     or nm_property_name <> '')
+                     and nm_property_name <> '')
               group by id_class,
                 nm_property_name
               having count(id_class_property) > 1
@@ -32,12 +32,11 @@ BEGIN
               from class_property
               where id_class = prop.id_class
                     and id_class_property <> v_id_cp
-                    and (nm_property_name is not null
-                         or nm_property_name <> '')
+                    and nm_property_name = prop.nm_property_name
 
     LOOP
 
-      RAISE NOTICE 'Propriedade já identificada no id %. Removendo...', cp.id_class_property;
+      RAISE NOTICE 'Manter id = %. Removendo id = %.', v_id_cp, cp.id_class_property;
 
       DELETE FROM proriedade_software
       WHERE id_class_property = cp.id_class_property;
@@ -68,17 +67,8 @@ BEGIN
     RAISE NOTICE 'Processando propriedade NULA id = %', cp.id_class_property;
 
     -- Atualiza todas as coletas para o valor de id_class_property. Se existir apaga
-    FOR prop_software IN select *
-                         from proriedade_software
-                         where id_class_property = cp.id_class_property
-    LOOP
-      -- Tenta atualizar para o valor atual. Se der erro apaga
-      DELETE FROM proriedade_software
-      WHERE id_propriedade_software = prop_software.id_propriedade_software;
-
-    END LOOP;
-
-    RAISE NOTICE 'Propriedade NULA no id %. Removendo...', cp.id_class_property;
+    DELETE FROM proriedade_software
+    WHERE id_class_property = cp.id_class_property;
 
     DELETE FROM computador_coleta_historico
     WHERE id_class_property = cp.id_class_property;
