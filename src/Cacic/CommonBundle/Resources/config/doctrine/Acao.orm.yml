@@ -32,6 +32,10 @@ Cacic\CommonBundle\Entity\Acao:
             fixed: true
             nullable: true
             column: cs_opcional
+        ativo:
+            type: boolean
+            nullable: true
+            column: ativo
     oneToMany:
         redes:
             targetEntity: AcaoRede

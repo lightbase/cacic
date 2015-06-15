@@ -4,7 +4,7 @@
 
 <div class="row-fluid">
 
-    {% if nivel['nmGrupoUsuarios'] == 'Admin' %}
+    {#{% if nivel['nmGrupoUsuarios'] == 'Admin' %}#}
     <div class="span6 column ui-sortable" id="col0">
 		<div class="box grad_colour_black" id="box0">
 			<h2 class="box_head round_top"><i class="icon-bar-chart"></i> {{ 'Estatísticas do sistema'|trans }}</h2>
@@ -23,11 +23,12 @@
                         {% endif %}
                         <li><a href="{{ path('cacic_log_insucesso_instalacao') }}"><i class="icon-warning-sign icon-large"></i><span class="red">{{ estatisticas['totalInsucessosInstalacao'] }}</span> {{ 'Totais de tentativas de instalação malsucedidas'|trans }}</a></li>
                     </ul>
+                    <br>
 				</div>
 			</div>
 		</div> <!-- /box -->
 	</div><!-- /span -->
-    {% endif %}
+    {#{% endif %}#}
 	
 	<div class="span6 column ui-sortable" id="col1">
 		<div class="box grad_colour_black" id="box1">
@@ -83,17 +84,43 @@
 							</tr>
 						</thead>
 						<tbody>
+                            {% set total = 0 %}
+                            {% for so in estatisticas['totalCompPorSO'] %}
+                                {% set total = (total + so['numComp']) %}
+                            {% endfor %}
 							{% for so in estatisticas['totalCompPorSO'] %}
 							<tr>
-								<td>{{ so['teDescSo'] }}</td>
-								<td style="text-align: center">{{ so['numComp'] }}</td>
-								<td style="text-align: center"></td>
+								<td>
+                                    <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so['idSo']}) }}" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                        {{ so['teDescSo'] }}
+                                    </a>
+                                </td>
+								<td style="text-align: center">
+                                    <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so['idSo']}) }}" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                        <b>{{ so['numComp'] }}</b>
+                                    </a>
+                                </td>
+								<td style="text-align: center">
+                                    <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so['idSo']}) }}" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                        {{ ((so['numComp']/total)*100)|round(2, 'floor') }}%
+                                    </a>
+                                </td>
 							</tr>
 							{% else %}
 							<tr><td colspan="3" style="text-align: center"><b>{{ 'NENHUM REGISTRO ENCONTRADO'|trans }}</b></td></tr>
 							{% endfor %}
+                            <tr>
+                                <td><b>{{ 'Total'|trans }}</b></td>
+                                <td style="text-align: center" colspan="2"><b>{{ total }}</b></td>
+                            </tr>
 						</tbody>
 					</table>
+                    <center>
+                        <a class="btn btn-success" type="submit" href="{{ path('cacic_relatorio_so_consolidado') }}" title="{{ "Gerar relatório consolidado"|trans }}" target="_blank">
+                            <i class="icon-bar-chart"></i>
+                            Gerar relatório
+                        </a>
+                    </center>
 				</div>
 			</div>
 		</div> <!-- /box -->

@@ -45,6 +45,8 @@ class SoftwareRepository extends EntityRepository
             ->select('sw.nmSoftware','sw.idSoftware')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
             ->innerJoin('CacicCommonBundle:ClassProperty', 'class','WITH', 'prop.classProperty = class.idClassProperty')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'comp.idComputador = prop.computador')
+            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
             ->groupBy('sw.nmSoftware, sw.idSoftware')
             ->orderBy('sw.nmSoftware');
 
@@ -61,7 +63,9 @@ class SoftwareRepository extends EntityRepository
             ->select('sw.nmSoftware','sw.idSoftware')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
             ->innerJoin('CacicCommonBundle:ClassProperty', 'class','WITH', 'prop.classProperty = class.idClassProperty')
-            ->where('sw.idTipoSoftware is null')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'comp.idComputador = prop.computador')
+            ->andWhere('sw.idTipoSoftware is null')
+            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
             ->groupBy('sw.nmSoftware,sw.idSoftware')
             ->orderBy('sw.nmSoftware');
 
@@ -101,6 +105,7 @@ class SoftwareRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'col.computador = comp.idComputador')
             ->innerJoin('comp.idRede','r')
             ->innerJoin('r.idLocal', 'l')
+            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
             ->groupBy('sw.nmSoftware, r.idRede, r.nmRede, r.teIpRede, l.nmLocal')
             ->orderBy('sw.nmSoftware, l.nmLocal');
 
@@ -108,16 +113,16 @@ class SoftwareRepository extends EntityRepository
          * Verifica os filtros que foram parametrizados
          */
         if ( array_key_exists('softwares', $filtros) && !empty($filtros['softwares']) )
-            $qb->andWhere('class.idClassProperty IN (:softwares)')->setParameter('softwares', explode( ',', $filtros['softwares'] ));
+            $qb->andWhere('class.idClassProperty IN (:softwares)')->setParameter('softwares', explode( ',', array_unique($filtros['softwares']) ));
 
         if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) )
-            $qb->andWhere('l.idLocal IN (:locais)')->setParameter('locais', explode( ',', $filtros['locais'] ));
+            $qb->andWhere('l.idLocal IN (:locais)')->setParameter('locais', explode( ',', array_unique($filtros['locais']) ));
 
         if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) )
-            $qb->andWhere('r.idRede IN (:redes)')->setParameter('redes', explode( ',', $filtros['redes'] ));
+            $qb->andWhere('r.idRede IN (:redes)')->setParameter('redes', explode( ',', array_unique($filtros['redes']) ));
 
         if ( array_key_exists('so', $filtros) && !empty($filtros['so']) )
-            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', $filtros['so'] ));
+            $qb->andWhere('comp.idSo IN (:so)')->setParameter('so', explode( ',', array_unique($filtros['so']) ));
 
         return $qb->getQuery()->execute();
     }
@@ -158,6 +163,7 @@ class SoftwareRepository extends EntityRepository
             ->select('sw', 'se', 'comp')
             ->innerJoin('sw.estacoes', 'se')
             ->innerJoin('se.idComputador', 'comp')
+            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
             ->orderBy('sw.nmSoftware')->addOrderBy('comp.nmComputador')->addOrderBy('comp.teIpComputador');
 
         /**
@@ -186,6 +192,7 @@ class SoftwareRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:ComputadorColeta', 'col', 'WITH', 'col.computador = prop.computador')
             ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'col.computador = comp.idComputador')
             ->innerJoin('CacicCommonBundle:TipoSoftware', 'tipo', 'WITH', 'sw.idTipoSoftware = tipo.idTipoSoftware')
+            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
             ->groupBy('tipo.teDescricaoTipoSoftware, sw.nmSoftware, tipo.idTipoSoftware');
 
         /**
@@ -208,8 +215,10 @@ class SoftwareRepository extends EntityRepository
         $qb = $this->createQueryBuilder('sw');
         $qb->select('sw', 'tpsw')
             ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
+            ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'prop.computador = comp.idComputador')
             ->leftJoin('sw.idTipoSoftware', 'tpsw')
             ->andWhere('prop.computador IS NULL')
+            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
             ->groupBy('sw', 'tpsw.idTipoSoftware', 'tpsw.teDescricaoTipoSoftware')
             ->orderBy('sw.nmSoftware');
 
@@ -227,6 +236,7 @@ class SoftwareRepository extends EntityRepository
             ->leftJoin('CacicCommonBundle:So', 'so','WITH','comp.idSo = so.idSo')
             ->leftJoin('CacicCommonBundle:Rede', 'r','WITH', 'comp.idRede = r.idRede')
             ->innerJoin('CacicCommonBundle:Local','l','WITH', 'r.idLocal = l.idLocal')
+            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
             ->groupBy('comp.nmComputador, sw.nmSoftware, class.nmPropertyName, coleta.teClassPropertyValue,so.sgSo, r.teIpRede,  l.nmLocal, r.nmRede, comp.idComputador,so.inMswindows')
             ->orderBy('r.teIpRede, l.nmLocal, sw.nmSoftware');
 
@@ -292,7 +302,9 @@ class SoftwareRepository extends EntityRepository
         $qb = $this->createQueryBuilder('sw')
             ->select('sw')
             ->leftJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
+            ->leftJoin('CacicCommonBundle:Computador', 'comp','WITH','prop.computador = comp.idComputador')
             ->leftJoin('CacicCommonBundle:AquisicaoItem', 'aq', 'WITH', 'sw.idSoftware = aq.idSoftware')
+            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
             ->andWhere('prop IS NULL')
             ->andWhere('aq IS NULL');
 
@@ -301,7 +313,7 @@ class SoftwareRepository extends EntityRepository
 
 
     /**
-     * Encontra o softwar pelo nome
+     * Encontra o software pelo nome
      *
      * @param $name Nome a ser buscado
      * @return mixed objeto do software
@@ -317,6 +329,21 @@ class SoftwareRepository extends EntityRepository
         } else {
             $result =  $qb->getQuery()->execute($name);
         }
+
+        return $result;
+
+    }
+
+    public function getByName($name) {
+
+        $qb = $this->createQueryBuilder('sw')
+            ->select('sw')
+            ->andWhere("sw.nmSoftware = :name")
+            ->setMaxResults(1)
+            ->orderBy('sw.idSoftware')
+            ->setParameter('name', $name);
+
+        $result = $qb->getQuery()->getOneOrNullResult();
 
         return $result;
 

@@ -39,9 +39,9 @@ class ComputadorController extends Controller
     /**
      * [MODAL] Exibe dados do computador e informações sobre coleta
      */
-    public function detalharAction( $idComputador )
+    public function detalharAction( $idComputador, Request $request)
     {
-//        $logger = $this->container->get('logger');
+        $logger = $this->container->get('logger');
         //if ( ! $request->isXmlHttpRequest() ) // Verifica se é uma requisição AJAX
         //	throw $this->createNotFoundException( 'Página não encontrada!' );
         $d = $this->getDoctrine();
@@ -52,9 +52,62 @@ class ComputadorController extends Controller
         if ( ! $computador )
             throw $this->createNotFoundException( 'Página não encontrada!' );
 
+        $usuario = $this->getUser()->getIdUsuario();
+        $nivel = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario' )->nivel($usuario);
+
+        if ($request->get('ativar')) {
+
+            if($nivel[0]['nmGrupoUsuarios'] != "Admin") {
+                throw $this->createAccessDeniedException('Operação disponível somente para administradores');
+            }
+
+            $computador->setAtivo(true);
+            $computador->setIdUsuarioExclusao(null);
+            $computador->setDtHrExclusao(null);
+
+            $d->getManager()->persist($computador);
+            $d->getManager()->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'Computador ativado com sucesso!');
+            return $this->redirect($this->generateUrl($request->get('_route'), $request->get('_route_params')));
+        }
+
+        if ($request->get('desativar')) {
+
+            if($nivel[0]['nmGrupoUsuarios'] != "Admin") {
+                throw $this->createAccessDeniedException('Operação disponível somente para administradores');
+            }
+
+            $computador->setAtivo(false);
+            $computador->setIdUsuarioExclusao($this->getUser());
+            $computador->setDtHrExclusao(new \DateTime());
+
+            $d->getManager()->persist($computador);
+            $d->getManager()->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'Computador ativado com sucesso!');
+            return $this->redirect($this->generateUrl($request->get('_route'), $request->get('_route_params')));
+        }
+
+        if ($request->get('forcarColeta')) {
+
+            if($nivel[0]['nmGrupoUsuarios'] != "Admin") {
+                throw $this->createAccessDeniedException('Operação disponível somente para administradores');
+            }
+
+            $computador->setAtivo(true);
+            $computador->setForcaColeta('true');
+
+            $d->getManager()->persist($computador);
+            $d->getManager()->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'Coleta forçada com sucesso!');
+            return $this->redirect($this->generateUrl($request->get('_route'), $request->get('_route_params')));
+        }
+
         $coleta = $d->getRepository('CacicCommonBundle:ComputadorColeta')->getDadosColetaComputador( $computador );
 
-        //$isNotebook = $computador->getIsNotebook();
+        $isNotebook = $computador->getIsNotebook();
         //$logger->debug("isNotebook%%%%%%%%%%% $isNotebook");
 
         $dadosColeta = array(); // Inicializa o array que agrupa os dados de coleta por Classe
@@ -97,13 +150,27 @@ class ComputadorController extends Controller
             //$dadosColeta[ $idClass ][] = $v;
         }
 
+        // Única maneira de verificar se é ativo. Bug bizarro do PHP
+        $sql = "SELECT (
+            CASE WHEN ativo = 'f' THEN 'falso'
+             ELSE 'verdadeiro'
+             END) as show_ativo FROM computador WHERE id_computador = $idComputador
+        ";
+
+        $stmt = $d->getManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+        $ativo =  $stmt->fetchAll();
+        $ativo = $ativo[0]['show_ativo'];
+
         return $this->render(
             'CacicCommonBundle:Computador:detalhar.html.twig',
             array(
                 'computador'    => $computador,
                 'ultimoAcesso'  => $ultimo_acesso,
                 'dadosColeta'   => $dadosColeta,
-                'software'      => $software
+                'software'      => $software,
+                'ativo'         => $ativo,
+                'nivel'         => $nivel
             )
         );
     }
@@ -111,6 +178,7 @@ class ComputadorController extends Controller
     {
         $form = $this->createForm( new ComputadorConsultaType() );
 
+        $computadores = array();
         if ( $request->isMethod('POST') )
         {
             $form->bind( $request );
@@ -222,6 +290,46 @@ class ComputadorController extends Controller
             'CacicCommonBundle:Computador:versaoagente.html.twig',
             array(
                 'estatisticas' => $estatisticas
+            )
+        );
+    }
+
+    //Gera lista com os computadores da versão selecionada
+    public function versaoagenteDetalharAllAction( Request $request) {
+
+        $versaoAgente = $request->get('teVersaoCacic');
+
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:Computador')
+            ->versaoAgenteDetalharAll($versaoAgente);
+
+
+        return $this->render(
+            'CacicCommonBundle:Computador:versaoAgenteDetalhar.html.twig',
+            array(
+                'idioma'=> $locale,
+                'dados' => ( isset( $dados ) ? $dados : null )
+            )
+        );
+    }
+
+    //Gera lista com os computadores da versão selecionada no período de 30 dias
+    public function versaoagenteDetalharAction( Request $request) {
+
+        $versaoAgente = $request->get('teVersaoCacic');
+
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:Computador')
+            ->versaoAgenteDetalhar($versaoAgente);
+
+
+        return $this->render(
+            'CacicCommonBundle:Computador:versaoAgenteDetalhar.html.twig',
+            array(
+                'idioma'=> $locale,
+                'dados' => ( isset( $dados ) ? $dados : null )
             )
         );
     }

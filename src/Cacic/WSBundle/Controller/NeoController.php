@@ -8,29 +8,14 @@
 
 namespace Cacic\WSBundle\Controller;
 
-use Cacic\CommonBundle\Entity\ClassProperty;
-use Cacic\CommonBundle\Entity\PropriedadeSoftwareRepository;
-use Proxies\__CG__\Cacic\CommonBundle\Entity\Software;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 use Cacic\CommonBundle\Entity\Computador;
 use Cacic\CommonBundle\Entity\LogAcesso;
-use Cacic\CommonBundle\Entity\So;
-use Cacic\CommonBundle\Entity\ComputadorColeta;
-use Cacic\CommonBundle\Entity\ComputadorColetaHistorico;
-use Cacic\CommonBundle\Entity\PropriedadeSoftware;
 use Cacic\CommonBundle\Entity\LogUserLogado;
-
-use Doctrine\ORM\NonUniqueResultException;
-
 
 class NeoController extends Controller {
 
@@ -41,7 +26,10 @@ class NeoController extends Controller {
     }
 
     /**
-     * Método que retorna 200 em requisição na raiz
+     * Retorna 200 na página inicial para testar
+     *
+     * @param Request $request
+     * @return JsonResponse
      */
     public function indexAction(Request $request)
     {
@@ -60,7 +48,10 @@ class NeoController extends Controller {
     }
 
     /**
-     * Faz login do agente
+     * Login do Agente
+     *
+     * @param Request $request
+     * @return JsonResponse
      */
     public function loginAction(Request $request)
     {
@@ -86,7 +77,10 @@ class NeoController extends Controller {
     }
 
     /**
-     * Controller só para testar a validação da sessão
+     * Valida a sessão
+     *
+     * @param Request $request
+     * @return JsonResponse
      */
 
     public function checkSessionAction(Request $request)
@@ -108,9 +102,12 @@ class NeoController extends Controller {
         return $response;
     }
 
-    /*
-     Insere o computador se não existir
-    */
+    /**
+     * Método que registra o Acesso e identifica o computador
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function getTestAction(Request $request)
     {
         //1 - Verificar se computador existe
@@ -210,9 +207,12 @@ class NeoController extends Controller {
         return $response;
     }
 
-    /*
-     * ConfigTeste
-    */
+    /**
+     * Retorna configurações de coleta
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function configAction(Request $request)
     {
         $logger = $this->get('logger');
@@ -246,7 +246,6 @@ class NeoController extends Controller {
                 "codigo": 2
             }';
 
-
             $response = new JsonResponse();
             $response->setStatusCode('500');
             $response->setContent($error_msg);
@@ -277,7 +276,9 @@ class NeoController extends Controller {
         //$logger->debug("1111111111111111111111111111111 \n".print_r($saida, true));
 
         // 2 - Adiciona módulos da subrede
-        $modulos = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(array('idRede' => $computador->getIdRede()));
+        $modulos = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(array(
+            'idRede' => $computador->getIdRede()
+        ));
         //$logger->debug("Módulos encontrados \n". print_r($modulos, true));
         $mods = array();
         foreach($modulos as $elm) {
@@ -288,11 +289,6 @@ class NeoController extends Controller {
             if (empty($mods[$tipo])) {
                 $mods[$tipo] = array();
             }
-	    $tipoSo = $elm->getTipoSo();	
-	    // Para agentes 2.8 o tipo de SO é igual ao nome do módulo, neste caso retornará o JSON vazio para não forçar a atualização
-	    if (empty($tipoSo)) {
-		$mods[$tipo] = array();
-	    }
 
             /*
              * Para agentes 2.8 o tipo de SO é igual ao nome do módulo.
@@ -414,7 +410,24 @@ class NeoController extends Controller {
             $logger->error("COMPUTADOR: erro na identificação da rede. JSON sem informações de rede válidas. IP do computador: ".$request->getClientIp());
             $logger->error(print_r($dados, true));
 
-	    return null;
+	        return null;
+        }
+
+        // Eduardo: 2015-05-18
+        // Verifica se o nome do SO existe e não é vazio
+        if (empty($so_json)) {
+            $logger->error("COMPUTADOR: SO não identificado! JSON não enviou o SO");
+            $logger->error(print_r($so_json, true));
+
+            return null;
+        }
+
+        $nomeOs = @$so_json['nomeOs'];
+        if (empty($nomeOs)) {
+            $logger->error("COMPUTADOR: SO vazio! So com nome vazio enviado.");
+            $logger->error(print_r($so_json, true));
+
+            return null;
         }
 
         $te_node_address = $rede1['mac'];
@@ -423,20 +436,39 @@ class NeoController extends Controller {
         $usuario = $dados['computador']['usuario'];
         $nmComputador = $dados['computador']['nmComputador'];
         $versaoAgente = $dados['computador']['versaoAgente'];
-//        $versaoGercols = $dados['computador']['versaoGercols'];
 
-
+        // Atualiza versão do GerCols se existir
+        if (array_key_exists('versaoGercols', $dados['computador'])) {
+            $versaoGercols = $dados['computador']['versaoGercols'];
+        } else {
+            $versaoGercols = null;
+        }
 
         // TESTES: Se IP for vazio, tenta pegar da conexão
-        if (empty($ip_computador)) {
+        if (empty($ip_computador) || $ip_computador == '127.0.0.1') {
             $ip_computador = $request->getClientIp();
         }
 
         // Pega rede e SO
         $rede = $em->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
-        $so = $em->getRepository('CacicCommonBundle:So')->createIfNotExist($so_json['nomeOs']);
+        $so = $em->getRepository('CacicCommonBundle:So')->createIfNotExist($nomeOs);
+        $tipo = $so->getTipo();
         if (array_key_exists('tipo', $so_json)) {
-            $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->createIfNotExist($so_json['tipo']);
+            if (!empty($so_json['tipo'])) {
+                $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->createIfNotExist($so_json['tipo']);
+            } else {
+                // Se não encontrar o tipo considera Windows como padrão
+                $tipo_so = $em->getRepository("CacicCommonBundle:TipoSo")->findOneBy(array(
+                    'tipo' => 'windows'
+                ));
+            }
+            $so->setTipo($tipo_so);
+            $em->persist($so);
+        } elseif (empty($tipo)) {
+            // Considera Windows por padrão
+            $tipo_so = $em->getRepository("CacicCommonBundle:TipoSo")->findOneBy(array(
+                'tipo' => 'windows'
+            ));
             $so->setTipo($tipo_so);
             $em->persist($so);
         }
@@ -444,7 +476,7 @@ class NeoController extends Controller {
         // Regra: MAC e SO são únicos e não podem ser nulos
         // Se SO ou MAC forem vazios, tenta atualizar forçadamente
         if (empty($te_node_address) || empty($so)) {
-            $logger->error("Erro na operação de getConfig. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO =" . $request->get( 'te_so' ));
+            $logger->error("COMPUTADOR: Erro na identificação do computador. IP = $ip_computador Máscara = $netmask. MAC = $te_node_address. SO =" . $nomeOs);
 
             return null;
         }
@@ -453,9 +485,6 @@ class NeoController extends Controller {
             'teNodeAddress'=> $te_node_address,
             'idSo' => $so
         ));
-        //$logger->debug("$so".print_r($so, true));
-        //$logger->debug("$computador".print_r($computador, true));
-        //$logger->debug("111111111111111111111111111111111111111111111111");
 
         $data = new \DateTime('NOW'); //armazena data Atual
 
@@ -473,8 +502,9 @@ class NeoController extends Controller {
             $computador->setTeIpComputador($ip_computador);
             $computador->setDtHrUltAcesso($data);
             $computador->setTeVersaoCacic($versaoAgente);
-            //$computador->setTeVersaoGercols($versaoGercols);
+            $computador->setTeVersaoGercols($versaoGercols);
             $computador->setNmComputador($nmComputador);
+            $computador->setAtivo(true);
 
             if (!empty($usuario) OR $usuario != "0"){
                 $computador->setTeUltimoLogin($usuario);
@@ -495,8 +525,9 @@ class NeoController extends Controller {
             $computador->setTeIpComputador($ip_computador);
             $computador->setTeUltimoLogin($usuario);
             $computador->setTeVersaoCacic($versaoAgente);
-//            $computador->setTeVersaoGercols($versaoGercols);
+            $computador->setTeVersaoGercols($versaoGercols);
             $computador->setNmComputador($nmComputador);
+            $computador->setAtivo(true);
 
             //Atualiza hora de inclusão
             $em->persist($computador);
@@ -516,6 +547,7 @@ class NeoController extends Controller {
         $rede1 = $rede_json[0];
         $ip_computador = $rede1['ipv4'];
         $netmask = $rede1['netmask_ipv4'];
+        $versaoAgente = $dados['computador']['versaoAgente'];
 
         // TESTES: Se IP for vazio, tenta pegar da conexão
         if (empty($ip_computador)) {
@@ -648,356 +680,6 @@ class NeoController extends Controller {
 
         $response->setStatusCode('200');
         return $response;
-    }
-
-    public function coletaAction(Request $request) {
-        $logger = $this->get('logger');
-        $status = $request->getContent();
-        $em = $this->getDoctrine()->getManager();
-        $dados = json_decode($status, true);
-
-        if (empty($dados)) {
-            $logger->error("JSON INVÁLIDO!!!!!!!!!!!!!!!!!!! Erro na COLETA");
-            // Retorna erro se o JSON for inválido
-            $error_msg = '{
-                "message": "JSON Inválido",
-                "codigo": 1
-            }';
-
-
-            $response = new JsonResponse();
-            $response->setStatusCode('500');
-            $response->setContent($error_msg);
-            return $response;
-        }
-
-        $computador = $this->getComputador($dados, $request);
-
-        if (empty($computador)) {
-            // Se não identificar o computador, manda para o getUpdate
-            $logger->error("Computador não identificado no getConfig. Necessário executar getUpdate");
-
-            $error_msg = '{
-                "message": "Computador não identificado",
-                "codigo": 2
-            }';
-
-
-            $response = new JsonResponse();
-            $response->setStatusCode('500');
-            $response->setContent($error_msg);
-            return $response;
-        }
-
-        //Verifica se a coleta foi forçada
-        if ($computador->getForcaColeta() == 'true') {
-            $computador->setForcaColeta('false');
-            $this->getDoctrine()->getManager()->persist( $computador );
-            $this->getDoctrine()->getManager()->flush();
-        }
-
-        $result1 = $this->setHardware($dados['hardware'], $computador);
-        $result2 = $this->setSoftware($dados['software'], $computador);
-
-        $response = new JsonResponse();
-        if ($result1 && $result2) {
-            $response->setStatusCode('200');
-        } else {
-            $response->setStatusCode('500');
-        }
-
-        return $response;
-
-    }
-
-    /**
-     * Classe que persiste a coleta de hardware
-     *
-     * @param $hardware
-     * @param $computador
-     */
-
-    public function setHardware($hardware, $computador) {
-        $logger = $this->get('logger');
-        $em = $this->getDoctrine()->getManager();
-
-        // Pega todas as propriedades de coleta
-        foreach ($hardware as $classe => $valor) {
-            $logger->debug("COLETA: Gravando dados da classe $classe");
-            $this->setClasse($classe, $valor, $computador);
-        }
-
-        return true;
-    }
-
-    /**
-     * Classe que grava todas as propriedades da classe de coleta
-     *
-     * @param $classe
-     * @param $computador
-     */
-    public function setClasse($classe, $valor, $computador) {
-        $logger = $this->get('logger');
-        $em = $this->getDoctrine()->getManager();
-
-        #$classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
-        #    'nmClassName'=> $classe
-        #));
-
-        $_dql = "SELECT classe
-				FROM CacicCommonBundle:Classe classe
-				WHERE LOWER(classe.nmClassName) = LOWER(:classe)";
-
-        $classObject = $em->createQuery( $_dql )->setParameter('classe', $classe)->getOneOrNullResult();
-
-        $logger->debug("COLETA: Coletando classe $classe");
-
-        // Adiciona isNotebook
-        if ($classe == 'IsNotebook') {
-            $logger->debug("Valor do isNotebook: ".print_r($valor, true));
-            if ($valor['Value'] == 'true') {
-                $computador->setIsNotebook(true);
-                $em->persist( $computador );
-                $em->flush();
-            }
-            return;
-        }
-
-
-        if (empty($classObject)) {
-            $logger->debug("COLETA: Classe não cadastrada: $classe");
-            return;
-        }
-
-        // Trata classe multivalorada
-        if (!empty($valor[0])) {
-            // Nesse caso a classe é multivalorada. Considero somente a primeira ocorrência
-            $logger->debug("COLETA: Classe $classe multivalorada. Retornando somente primeiro elemento.");
-            $valor = $valor[0];
-        }
-
-        // Eduardo: 2015-02-05
-        // Verifica se o JSON com propriedades é válido
-        $propriedades_array = @array_keys($valor);
-        if (empty($propriedades_array)) {
-            $logger->error("COLETA: erro na coleta da classe $classe. String retornada quando deveria ser um objeto JSON: ".print_r($valor, true));
-            return;
-        }
-
-        foreach ($propriedades_array as $propriedade) {
-            if (is_array($valor[$propriedade])) {
-                $logger->debug("COLETA: Atributo $propriedade multivalorado não implementado na coleta");
-                //$logger->debug("1111111111111111111111111111111111111111 ".print_r($valor, true));
-                $valor[$propriedade] = $valor[$propriedade][0];
-                //continue;
-            }
-            $logger->debug("COLETA: Gravando dados da propriedade $propriedade com o valor ".$valor[$propriedade]);
-
-            try {
-
-                // Pega o objeto para gravar
-                $classProperty = $em->getRepository('CacicCommonBundle:ClassProperty')->findOneBy( array(
-                    'nmPropertyName'=> $propriedade,
-                    'idClass' => $classObject
-                ));
-
-                if (empty($classProperty)) {
-                    $logger->info("COLETA: Cadastrando propriedade não encontrada $propriedade");
-
-                    $classProperty = new ClassProperty();
-                    $classProperty->setIdClass($classObject);
-                    $classProperty->setNmPropertyName($propriedade);
-                    $classProperty->setTePropertyDescription("Propriedade criada automaticamente: $propriedade");
-
-                    $em->persist($classProperty);
-                }
-
-                // Garante unicidade das informações de coleta
-                $computadorColeta = $em->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy(array(
-                    'computador' => $computador,
-                    'classProperty' => $classProperty
-                ));
-                if (empty($computadorColeta)) {
-                    $computadorColeta = new ComputadorColeta();
-                }
-
-                // Armazena no banco o objeto
-                $computadorColeta->setComputador( $computador );
-                $computadorColeta->setClassProperty($classProperty);
-                $computadorColeta->setTeClassPropertyValue($valor[$propriedade]);
-                $computadorColeta->setIdClass($classObject);
-                $computadorColeta->setDtHrInclusao( new \DateTime() );
-
-                // Mando salvar os dados do computador
-                $em->persist( $computadorColeta );
-
-                // Persistencia de Historico
-                $computadorColetaHistorico = new ComputadorColetaHistorico();
-                $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
-                $computadorColetaHistorico->setComputador( $computador );
-                $computadorColetaHistorico->setClassProperty( $classProperty);
-                $computadorColetaHistorico->setTeClassPropertyValue($valor[$propriedade]);
-                $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
-                $em->persist( $computadorColetaHistorico );
-
-            } catch(\Doctrine\ORM\ORMException $e){
-                $logger->error("COLETA: Erro na inserçao de dados da propriedade $propriedade.");
-                $logger->debug($e);
-            }
-        }
-        // Grava tudo da propriedade
-        $em->flush();
-    }
-
-    public function setSoftware($software, $computador) {
-        $logger = $this->get('logger');
-        $em = $this->getDoctrine()->getManager();
-
-
-        $classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
-            'nmClassName'=> 'SoftwareList'
-        ));
-
-        if (empty($classObject)) {
-            $logger->error("COLETA: Classe SoftwareList não cadastrada");
-            return false;
-        }
-
-        // Pega todas as propriedades de coleta
-        $i = 0;
-        foreach ($software as $classe => $valor) {
-            $logger->debug("COLETA: Gravando dados do software $classe");
-            $this->setSoftwareElement($classe, $valor, $computador, $classObject);
-            $i = $i + 1;
-        }
-
-        /*
-         * Grava tudo
-         */
-        $em->flush();
-        $logger->debug("COLETA: Coleta de software finalizada. Total de softwares coletados: $i");
-
-        return true;
-    }
-
-    public function setSoftwareElement($software, $valor, $computador, $classObject) {
-        $logger = $this->get('logger');
-        $em = $this->getDoctrine()->getManager();
-
-        if (empty($software)) {
-            $logger->error("COLETA: Erro na coleta de software. Elemento nulo $software");
-            return false;
-        }
-
-        try {
-
-            // Verifica se software ja esta cadastrado
-            $softwareObject = $em->getRepository('CacicCommonBundle:Software')->findOneBy(array(
-                'nmSoftware' => $software
-            ));
-            if (empty($softwareObject)) {
-                // Se nao existir, cria
-                $softwareObject = new Software();
-                $softwareObject->setNmSoftware($software);
-            }
-
-            // Recupera classProperty para o software
-            $classProperty = $em->getRepository('CacicCommonBundle:ClassProperty')->findOneBy(array(
-                'idClass' => $classObject->getIdClass(),
-                'nmPropertyName' => $software
-            ));
-            if (empty($classProperty)) {
-                $classProperty = new ClassProperty();
-                $classProperty->setTePropertyDescription("Software detectado: $software");
-            }
-
-            // Adiciona software ao computador
-            $propSoftware = $em->getRepository('CacicCommonBundle:PropriedadeSoftware')->findOneBy(array(
-                'classProperty' => $classProperty,
-                'software' => $softwareObject,
-                'computador' => $computador
-            ));
-            if (empty($propSoftware)) {
-                $logger->info("COLETA: Cadastrando software não encontrado $software");
-
-                $propSoftware = new PropriedadeSoftware();
-
-                // Adiciona software na coleta
-                $softwareObject->addColetado($propSoftware);
-            }
-
-            // Encontra coleta já feita para o Computador
-            $computadorColeta = $em->getRepository('CacicCommonBundle:ComputadorColeta')->findOneBy(array(
-                'computador' => $computador,
-                'classProperty' => $classProperty
-            ));
-            if(empty($computadorColeta)) {
-                $logger->debug("COLETA: Registrando nova coleta para o software $software no computador ".$computador->getIdComputador());
-                $computadorColeta = new ComputadorColeta();
-            }
-
-            // Atualiza valores
-            $computadorColeta->setComputador( $computador );
-
-            $classProperty->setIdClass($classObject);
-            $classProperty->setNmPropertyName($software);
-
-            $propSoftware->setComputador($computador);
-            $propSoftware->setClassProperty($classProperty);
-            $propSoftware->setSoftware($softwareObject);
-
-            // Atualiza valores do Software
-            $softwareObject->setNmSoftware($software);
-            if (array_key_exists('description', $valor)) {
-                $softwareObject->setTeDescricaoSoftware($valor['description']);
-                $propSoftware->setDisplayName($valor['description']);
-            }
-            if (array_key_exists('name', $valor)) {
-                $softwareObject->setNmSoftware($valor['name']);
-                $classProperty->setNmPropertyName($valor['name']);
-            }
-            if (array_key_exists('url', $valor)) {
-                $propSoftware->setUrlInfoAbout($valor['url']);
-            }
-            if (array_key_exists('version', $valor)) {
-                $propSoftware->setDisplayVersion($valor['version']);
-            }
-            if (array_key_exists('publisher', $valor)) {
-                $propSoftware->setPublisher($valor['publisher']);
-            }
-
-            $em->persist($softwareObject);
-            $em->persist($classProperty);
-            $em->persist($propSoftware);
-
-
-            // Armazena no banco o objeto
-            $computadorColeta->setClassProperty($classProperty);
-            $computadorColeta->setTeClassPropertyValue($software);
-            $computadorColeta->setIdClass($classObject);
-            $computadorColeta->setDtHrInclusao( new \DateTime() );
-
-            // Mando salvar os dados do computador
-            $computador->addHardware($computadorColeta);
-            $em->persist( $computadorColeta );
-            $em->persist( $computador );
-
-            // Persistencia de Historico
-            $computadorColetaHistorico = new ComputadorColetaHistorico();
-            $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
-            $computadorColetaHistorico->setComputador( $computador );
-            $computadorColetaHistorico->setClassProperty( $classProperty);
-            $computadorColetaHistorico->setTeClassPropertyValue($software);
-            $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
-            $em->persist( $computadorColetaHistorico );
-
-        } catch(\Doctrine\ORM\ORMException $e){
-            $logger->error("COLETA: Erro na inserçao de dados do software $software.");
-            $logger->debug($e);
-        } catch(NonUniqueResultException $e){
-            $logger->error("COLETA: Erro impossível de software repetido para $software.");
-            $logger->debug($e);
-        }
     }
 
 }

@@ -164,4 +164,32 @@ class InsucessoInstalacao
     {
         return $this->csIndicador;
     }
+    /**
+     * @var string
+     */
+    private $mensagem;
+
+
+    /**
+     * Set mensagem
+     *
+     * @param string $mensagem
+     * @return InsucessoInstalacao
+     */
+    public function setMensagem($mensagem)
+    {
+        $this->mensagem = $mensagem;
+
+        return $this;
+    }
+
+    /**
+     * Get mensagem
+     *
+     * @return string 
+     */
+    public function getMensagem()
+    {
+        return $this->mensagem;
+    }
 }

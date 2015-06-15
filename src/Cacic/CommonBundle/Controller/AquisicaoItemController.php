@@ -35,10 +35,31 @@ class AquisicaoItemController extends Controller
             {
 
                 // Primeiro remove os softwares que estavam cadastrados
-                foreach ($Aquisicao->getIdSoftware() as $software) {
-                    $this->get('logger')->debug("Removendo software ".$software->getIdSoftware());
-                    $Aquisicao->removeIdSoftware($software);
-                }
+                // Manually delete all entries
+                $idAquisicao = $Aquisicao->getIdAquisicao()->getIdAquisicao();
+                $idTipoLicenca = $Aquisicao->getIdTipoLicenca()->getIdTipoLicenca();
+                $this->get('logger')->debug("Removendo softwares para id_aquisicao = $idAquisicao e id_tipo_licenca = $idTipoLicenca");
+                $sql = "DELETE FROM aquisicoes_software
+                    WHERE id_aquisicao = $idAquisicao
+                    AND id_tipo_licenca = $idTipoLicenca";
+                $stmt = $em->getConnection()->prepare($sql);
+                $stmt->execute();
+
+                $em->remove($Aquisicao);
+                $em->flush();
+
+                /*foreach ($Aquisicao->getIdSoftware() as $software) {
+                    $idSoftware = $software->getIdSoftware();
+                    $this->get('logger')->debug("Removendo software ".$idSoftware);
+                }*/
+
+                // Limpa objeto
+                $AquisicaoNew = new AquisicaoItem();
+                $AquisicaoNew->setDtVencimentoLicenca($Aquisicao->getDtVencimentoLicenca());
+                $AquisicaoNew->setIdAquisicao($Aquisicao->getIdAquisicao());
+                $AquisicaoNew->setIdTipoLicenca($Aquisicao->getIdTipoLicenca());
+                $AquisicaoNew->setQtLicenca($Aquisicao->getQtLicenca());
+                $AquisicaoNew->setTeObs($Aquisicao->getTeObs());
 
                 $software_list = $request->get('idSoftware');
 
@@ -48,13 +69,14 @@ class AquisicaoItemController extends Controller
                 foreach ($software_list as $software) {
                     $this->get('logger')->debug("Adicionando software ".$software);
                     $software_obj = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:Software')->find($software);
-                    $Aquisicao->addIdSoftware($software_obj);
+                    $AquisicaoNew->addIdSoftware($software_obj);
                     $em->persist( $software_obj );
                 }
 
-                $em->persist( $Aquisicao );
+                $em->persist( $AquisicaoNew );
                 $em->flush();// Efetuar a edição do Aquisicao
 
+                $Aquisicao = $AquisicaoNew;
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
                 return $this->redirect( $this->generateUrl( 'cacic_aquisicao_item_index') );
             }
@@ -91,10 +113,31 @@ class AquisicaoItemController extends Controller
             if ( $form->isValid() )
             {
                 // Primeiro remove os softwares que estavam cadastrados
-                foreach ($Aquisicao->getIdSoftware() as $software) {
-                    $this->get('logger')->debug("Removendo software ".$software->getIdSoftware());
-                    $Aquisicao->removeIdSoftware($software);
-                }
+                // Manually delete all entries
+                $idAquisicao = $Aquisicao->getIdAquisicao()->getIdAquisicao();
+                $idTipoLicenca = $Aquisicao->getIdTipoLicenca()->getIdTipoLicenca();
+                $this->get('logger')->debug("Removendo softwares para id_aquisicao = $idAquisicao e id_tipo_licenca = $idTipoLicenca");
+                $sql = "DELETE FROM aquisicoes_software
+                    WHERE id_aquisicao = $idAquisicao
+                    AND id_tipo_licenca = $idTipoLicenca";
+                $stmt = $em->getConnection()->prepare($sql);
+                $stmt->execute();
+
+                $em->remove($Aquisicao);
+                $em->flush();
+
+                /*foreach ($Aquisicao->getIdSoftware() as $software) {
+                    $idSoftware = $software->getIdSoftware();
+                    $this->get('logger')->debug("Removendo software ".$idSoftware);
+                }*/
+
+                // Limpa objeto
+                $AquisicaoNew = new AquisicaoItem();
+                $AquisicaoNew->setDtVencimentoLicenca($Aquisicao->getDtVencimentoLicenca());
+                $AquisicaoNew->setIdAquisicao($Aquisicao->getIdAquisicao());
+                $AquisicaoNew->setIdTipoLicenca($Aquisicao->getIdTipoLicenca());
+                $AquisicaoNew->setQtLicenca($Aquisicao->getQtLicenca());
+                $AquisicaoNew->setTeObs($Aquisicao->getTeObs());
 
                 $software_list = $request->get('idSoftware');
 
@@ -104,12 +147,14 @@ class AquisicaoItemController extends Controller
                 foreach ($software_list as $software) {
                     $this->get('logger')->debug("Adicionando software ".$software);
                     $software_obj = $this->getDoctrine()->getManager()->getRepository('CacicCommonBundle:Software')->find($software);
-                    $Aquisicao->addIdSoftware($software_obj);
+                    $AquisicaoNew->addIdSoftware($software_obj);
                     $em->persist( $software_obj );
                 }
-                $em->persist( $Aquisicao );
+
+                $em->persist( $AquisicaoNew );
                 $em->flush();// Efetuar a edição do Aquisicao
 
+                $Aquisicao = $AquisicaoNew;
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
             }
         }

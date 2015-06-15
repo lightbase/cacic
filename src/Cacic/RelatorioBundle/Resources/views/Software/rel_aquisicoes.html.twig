@@ -7,99 +7,102 @@
 
 <hr />
 
-<table class="table table-bordered">
-	<thead>
-	    <tr>
-	    	<th width="25%">{{ "Processo"|trans }}</th>
-	    	<th width="20%">{{ "Data de Aquisição"|trans }}</th>
-	    	<th width="20%">{{ "Empresa"|trans }}</th>
-	    	<th width="20%">{{ "Proprietário"|trans }}</th>
-	    	<th>{{ "Pregão/Contrato"|trans }}</th>
-	    </tr>
-	</thead>
-	
-	<tbody>
-	    {% for key, reg in dados %}
-        <tr>
-            <td>{{ reg.nrProcesso }}</td>
-            <td>{{ reg.dtAquisicao|date('d/m/Y')}}</td>
-            <td>{{ reg.nmEmpresa }}</td>
-            <td>{{ reg.nmProprietario }}</td>
-            <td>{{ reg.nrNotaFiscal }}</td>
-        </tr>
-        <tr>
-        	<td colspan="5">
-        		<table class="table ">
-        			<tbody>
-        				<tr>
-                            <th width="25%">{{ 'Tipo Licença'|trans }}</th>
-        					{#<th width="30%">{{ 'Software'|trans }}</th>#}
-        					<th width="15%" style="text-align: center">{{ 'Licenças'|trans }}</th>
-                            <th width="15%" style="text-align: center">{{ 'Quantidade Coletada'|trans }}</th>
-                            <th width="15%" style="text-align: center">{{ 'Saldo'|trans }}</th>
-        					<th style="text-align: center">{{ 'Vencimento'|trans }}</th>
-                            <th style="text-align: center"></th>
-        				</tr>
+{% for key, reg in dados %}
 
-                        <form action="{{ path('cacic_relatorio_software_inventariados_rel') }}" method="post">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th width="25%">{{ "Processo"|trans }}</th>
+                <th width="20%">{{ "Data de Aquisição"|trans }}</th>
+                <th width="20%">{{ "Empresa"|trans }}</th>
+                <th width="20%">{{ "Proprietário"|trans }}</th>
+                <th>{{ "Pregão/Contrato"|trans }}</th>
+            </tr>
+        </thead>
 
-                            {% for item in reg['itens'] %}
+        <tbody>
 
-                                {#{% for software in item.idSoftware %}
-                                    <input type="hidden" name="softwares" value="{{ software.idSoftware }}">
-                                {% endfor %}#}
-                                <tr>
-                                    <td>{{ item.teTipoLicenca }}</td>
-                                    {#<td>{{ item.idSoftware.nmSoftware }}</td>#}
-                                    <td style="text-align: center">{{ item.qtLicenca }}</td>
-                                    <td style="text-align: center">
-                                        <a href="{{ path('cacic_relatorio_software_aquisicoes_det', {'idAquisicao': reg.idAquisicao, 'idTipoLicenca': item.idTipoLicenca}) }}" title="{{ "Detalhar"|trans }}" target="_blank">
-                                            {{ item.nComp }}
-                                        </a>
-                                    </td>
-                                    {% set saldo = item.qtLicenca - item.nComp %}
-                                    {% if saldo > 0 %}
+            <tr>
+                <td>{{ reg.nrProcesso }}</td>
+                <td>{{ reg.dtAquisicao|date('d/m/Y')}}</td>
+                <td>{{ reg.nmEmpresa }}</td>
+                <td>{{ reg.nmProprietario }}</td>
+                <td>{{ reg.nrNotafiscal }}</td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <table class="table ">
+                        <tbody>
+                            <tr>
+                                <th width="25%">{{ 'Tipo Licença'|trans }}</th>
+                                {#<th width="30%">{{ 'Software'|trans }}</th>#}
+                                <th width="15%" style="text-align: center">{{ 'Licenças'|trans }}</th>
+                                <th width="15%" style="text-align: center">{{ 'Quantidade Coletada'|trans }}</th>
+                                <th width="15%" style="text-align: center">{{ 'Saldo'|trans }}</th>
+                                <th style="text-align: center">{{ 'Vencimento'|trans }}</th>
+                                <th style="text-align: center"></th>
+                            </tr>
+
+                            <form action="{{ path('cacic_relatorio_software_inventariados_rel') }}" method="post">
+
+                                {% for item in reg['itens'] %}
+
+                                    {#{% for software in item.idSoftware %}
+                                        <input type="hidden" name="softwares" value="{{ software.idSoftware }}">
+                                    {% endfor %}#}
+                                    <tr>
+                                        <td>{{ item.teTipoLicenca }}</td>
+                                        {#<td>{{ item.idSoftware.nmSoftware }}</td>#}
+                                        <td style="text-align: center">{{ item.qtLicenca }}</td>
                                         <td style="text-align: center">
-                                            {{ saldo }}
+                                            <a href="{{ path('cacic_relatorio_software_aquisicoes_det', {'idAquisicao': reg.idAquisicao, 'idTipoLicenca': item.idTipoLicenca}) }}" title="{{ "Detalhar"|trans }}" target="_blank">
+                                                {{ item.nComp }}
+                                            </a>
                                         </td>
-                                    {% else %}
+                                        {% set saldo = item.qtLicenca - item.nComp %}
+                                        {% if saldo > 0 %}
+                                            <td style="text-align: center">
+                                                {{ saldo }}
+                                            </td>
+                                        {% else %}
+                                            <td style="text-align: center">
+                                                <span class="label label-important">{{ saldo }}</span>
+                                            </td>
+                                        {% endif %}
+                                        <td style="text-align: center">{{ item.dtVencimentoLicenca|date('d/m/Y') }}</td>
                                         <td style="text-align: center">
-                                            <span class="label label-important">{{ saldo }}</span>
+                                            <a href="{{ path('cacic_relatorio_software_aquisicoes_det', {'idAquisicao': reg.idAquisicao, 'idTipoLicenca': item.idTipoLicenca}) }}" class="btn btn-small" title="{{ "Detalhar"|trans }}" target="_blank">
+                                                <i class="btn-icon-only icon-search icon-large"></i>
+                                            </a>
+                                            <a href="{{ path('cacic_aquisicao_item_editar', {'idAquisicao': reg.idAquisicao, 'idTipoLicenca': item.idTipoLicenca}) }}" class="btn btn-small" title="{{ "Detalhar"|trans }}" target="_blank">
+                                                <i class="btn-icon-only icon-edit icon-large"></i>
+                                            </a>
                                         </td>
-                                    {% endif %}
-                                    <td style="text-align: center">{{ item.dtVencimentoLicenca|date('d/m/Y') }}</td>
-                                    <td style="text-align: center">
-                                        <a href="{{ path('cacic_relatorio_software_aquisicoes_det', {'idAquisicao': reg.idAquisicao, 'idTipoLicenca': item.idTipoLicenca}) }}" class="btn btn-small" title="{{ "Detalhar"|trans }}" target="_blank">
-                                            <i class="btn-icon-only icon-search icon-large"></i>
-                                        </a>
-                                        <a href="{{ path('cacic_aquisicao_item_editar', {'idAquisicao': reg.idAquisicao, 'idTipoLicenca': item.idTipoLicenca}) }}" class="btn btn-small" title="{{ "Detalhar"|trans }}" target="_blank">
-                                            <i class="btn-icon-only icon-edit icon-large"></i>
-                                        </a>
+                                    </tr>
+
+                                {% endfor %}
+
+                                {#<tr>
+                                    <td colspan="4">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="icon-ok-sign"></i>
+                                            {{ "Visualizar relatório detalhado"|trans }}
+                                        </button>
                                     </td>
-                                </tr>
+                                </tr>#}
+                            </form>
+                        </tbody>
+                    </table>
 
-                            {% endfor %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td style="text-align: center" colspan="5"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+            </tr>
 
-                            {#<tr>
-                                <td colspan="4">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="icon-ok-sign"></i>
-                                        {{ "Visualizar relatório detalhado"|trans }}
-                                    </button>
-                                </td>
-                            </tr>#}
-                        </form>
-        			</tbody>
-        		</table>
-        	
-        	</td>
-        </tr>
-    	{% else %}
-        <tr>
-            <td style="text-align: center" colspan="5"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
-        </tr>
-		{% endfor %}
-   </tbody>
-</table>
+       </tbody>
+    </table>
+{% endfor %}
 
 {% endblock %}

@@ -19,6 +19,13 @@
 				<p>{{ "Neste módulo deverão ser cadastrados os usuários que acessarão o sistema"|trans }}</p>
 				<br />
 
+                <form id="csv" action="{{ path('cacic_usuario_csv') }}" method="post">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="icon-bar-chart"></i>
+                        Gerar CSV
+                    </button>
+                </form>
+
                 <table class="display datatable" id="datatable">
 					<thead>
 						<tr>

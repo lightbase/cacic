@@ -87,6 +87,7 @@ class DefaultController extends Controller
         $te_so = $request->get( 'te_so' );
         $ultimo_login = TagValueHelper::getValueFromTags( 'UserName'  , $strComputerSystem);
         $ip_computador = $request->get('te_ip_computador');
+        $versaoAgente = $request->get('te_versao_cacic');
 
         if ( empty($ip_computador) ){
             $ip_computador = TagValueHelper::getValueFromTags( 'IPAddress', $strNetworkAdapterConfiguration );
@@ -109,7 +110,11 @@ class DefaultController extends Controller
         }
 
         //vefifica se existe SO coletado se não, insere novo SO
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
+        if (!empty($te_so)) {
+            $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist($te_so);
+        } else {
+            $so = null;
+        }
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $ip_computador, $netmask );
 
         if (empty($te_node_address) || empty($so)) {
@@ -251,7 +256,13 @@ class DefaultController extends Controller
             $netmask = $request->get('netmask');
         }
 
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
+        //$so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->findOneBy( array('teSo'=>$request->get( 'te_so' )));
+        $te_so = $request->get( 'te_so' );
+        if (!empty($te_so)) {
+            $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->createIfNotExist($te_so);
+        } else {
+            $so = null;
+        }
 
         /**
          * Se a máscara de subrede ou o mac address estiver vazio, força o redirecionamento para provável atualização
@@ -469,27 +480,47 @@ class DefaultController extends Controller
 
         // Configurações do local
         $configs = $this->getDoctrine()->getRepository('CacicCommonBundle:ConfiguracaoLocal')->listarPorLocal($local->getIdLocal());
-        $logger->debug("Configurações encontradas:\n".print_r($configs, true));
+        //$logger->debug("Configurações encontradas:\n".print_r($configs, true));
 
         /*
          * Força coleta timer
          */
         $timerForcaColeta = null;
+        $i = 0;
         foreach ($configs as $elm) {
             if ($elm['idConfiguracao'] == 'nu_intervalo_forca_coleta') {
-                $timerForcaColeta = $elm['nu_intervalo_forca_coleta'];
+                $timerForcaColeta = @$elm['nu_intervalo_forca_coleta'];
             }
+
+            if ($elm['idConfiguracao'] == 'nu_intervalo_exec') {
+                if (intval($elm['vlConfiguracao']) > 4) {
+                    $configs[$i]['vlConfiguracao'] = intval($elm['vlConfiguracao']) / 60;
+                }
+            }
+            $i = $i + 1;
         }
         if (empty($timerForcaColeta)) {
-            $timerForcaColeta = 15;
+            $timerForcaColeta = 60;
         }
         $logger->debug("GET-CONFIG: timerForcaColeta = $timerForcaColeta");
 
         //informações dos modulos do agente, nome, versao, hash
         $te_versao_cacic = $request->request->get('te_versao_cacic');
-        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(array(
-            'idRede' => $rede->getIdRede()
-        ));
+        $redes_versoes_modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->getUpdate(
+            $rede->getIdRede(),
+            $te_versao_cacic
+        );
+
+        // Força pasta do servidor de updates para a versão 2.8.1.23
+        $tePathServUpdates = null;
+        preg_match("/^2.(.*)/", $te_versao_cacic, $arrResult);
+        preg_match("/^0.(.*)/", $te_versao_cacic, $arrResult2);
+        if (!empty($arrResult) || !empty($arrResult2)) {
+            $tePathServUpdates = 'update28';
+        }
+
+        //$logger->debug("GET-CONFIG: Redes, versões e módulos:\n".print_r($redes_versoes_modulos, true));
+
         $nm_user_login_updates = OldCacicHelper::enCrypt($request, $rede->getNmUsuarioLoginServUpdates());
         $senha_serv_updates = OldCacicHelper::enCrypt($request, $rede->getTeSenhaLoginServUpdates());
         $response = new Response();
@@ -516,6 +547,7 @@ class DefaultController extends Controller
             'timerForcaColeta'=>$timerForcaColeta,
             'apikey' => $apikey,
  //           'modPatrimonio'=> $modPatrimonio,
+            'tePathServUpdates' => $tePathServUpdates
         ), $response);
     }
 

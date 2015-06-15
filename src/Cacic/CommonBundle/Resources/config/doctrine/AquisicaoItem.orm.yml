@@ -32,6 +32,7 @@ Cacic\CommonBundle\Entity\AquisicaoItem:
                 id_tipo_licenca:
                     referencedColumnName: id_tipo_licenca
             orphanRemoval: false
+    manyToOne:
         idAquisicao:
             targetEntity: Aquisicao
             cascade: {  }

@@ -34,7 +34,7 @@
 
                                 <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="id.Local" id="toggleLocal">
                                 <label for="toggleLocal"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
-									<div style="height: 200px; overflow: auto;">
+									<div style="overflow: auto;">
 
 											<div class="modulo-opt-block">
 											{{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
@@ -57,10 +57,10 @@
                                     <i class="icon-download-alt"></i>
                                     {{'Gerar CSV'|trans  }}
                                 </button>
-                                <button type="submit" class="btn btn-success" formaction="{{ path('cacic_arquivo_sgconf') }}">
+                                {#<button type="submit" class="btn btn-success" formaction="{{ path('cacic_arquivo_sgconf') }}">
                                     <i class="icon-search"></i>
                                     {{'Faturamento Serpro'|trans  }}
-                                </button>
+                                </button>#}
                             </div>
                         </div>
 

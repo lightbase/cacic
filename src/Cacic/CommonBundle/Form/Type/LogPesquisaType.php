@@ -46,7 +46,7 @@ class LogPesquisaType extends AbstractType
 			'entity',
 			array(
 				'class' => 'CacicCommonBundle:Local',
-				'property' => 'nmLocal',
+				'property' => 'sgLocal',
                 'multiple' => true,
                 'required'  => true,
                 'expanded'  => true,

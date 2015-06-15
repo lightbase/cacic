@@ -34,7 +34,7 @@ Cacic\CommonBundle\Entity\ClassProperty:
     manyToOne:
         idClass:
             targetEntity: Classe
-            cascade: {  }
+            cascade: []
             mappedBy: null
             inversedBy: null
             joinColumns:
@@ -42,4 +42,7 @@ Cacic\CommonBundle\Entity\ClassProperty:
                     referencedColumnName: id_class
                     nullable: false
             orphanRemoval: false
+    uniqueConstraints:
+        class_property_uq_idx:
+            columns: [nm_property_name, id_class]
     lifecycleCallbacks: {  }

@@ -39,6 +39,16 @@ class RedeRepository extends EntityRepository
     }
 
     /**
+     * Conta todas as redes de todos os locais
+     * @return mixed
+     */
+    public function countByLocalADM() {
+        $query = $this->createQueryBuilder('rede')->select('COUNT(rede.idRede)');
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
+    /**
      *
      * Método de listagem das Redes cadastradas e respectivas informações dos locais associados
      */
@@ -52,6 +62,7 @@ class RedeRepository extends EntityRepository
             ->leftJoin('CacicCommonBundle:ServidorAutenticacao', 's', 'WITH', 's.idServidorAutenticacao = r.idServidorAutenticacao')
             ->leftJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'comp.idRede = r.idRede')
             ->leftJoin('CacicCommonBundle:Uorg', 'uorg', 'WITH', 'uorg.rede = r.idRede')
+            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
             ->groupBy('r.idRede, r.nmRede, r.teIpRede, r.teServCacic, r.teServUpdates, r.teMascaraRede, l.sgLocal, s.nmServidorAutenticacao, uorg.nmUorg')
             ->orderBy('r.teIpRede, l.sgLocal');
 
@@ -212,7 +223,8 @@ class RedeRepository extends EntityRepository
             ->innerJoin('CacicCommonBundle:ComputadorColetaHistorico','hist', 'WITH', 'comp.idComputador = hist.computador')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('rede.idLocal', 'local')
-            ->where('comp.idRede = :rede')
+            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
+            ->andWhere('comp.idRede = :rede')
             ->setParameter('rede', $idRede);
         /**
          * Verifica os filtros
@@ -257,6 +269,7 @@ class RedeRepository extends EntityRepository
         inner join rede r on c.id_rede = r.id_rede
         where c.te_ip_computador is not null
         and (SELECT id_rede FROM rede WHERE te_ip_rede = host(network((c.te_ip_computador||'/'||(netmask_bits(inet_to_longip(r.te_mascara_rede::inet))::text))::inet))) is not null
+        and (c.ativo IS NULL or c.ativo = 't')
         order by rede_nova;
         ";
 

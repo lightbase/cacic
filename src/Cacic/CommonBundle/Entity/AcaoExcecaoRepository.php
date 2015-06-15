@@ -25,7 +25,8 @@ class AcaoExcecaoRepository extends EntityRepository
 		// Monta a Consulta básica...
     	$query = $this->createQueryBuilder('ae')->select('ae')
         								->innerJoin('ae.acao', 'a')
-        								->where("a.idAcao = :idAcao")
+        								->andWhere("a.idAcao = :idAcao")
+                                        ->andWhere("ae.teNodeAddress IS NOT NULL AND ae.teNodeAddress != ''")
         								->setParameter('idAcao', $acao)
         								->groupBy('ae');
         								
@@ -33,6 +34,7 @@ class AcaoExcecaoRepository extends EntityRepository
 		{ // Se o filtro por rede for informado
 			$query->innerJoin('ae.rede', 'r')
 					->andWhere('r.idRede = :idRede')
+                    ->andWhere("ae.teNodeAddress IS NOT NULL AND ae.teNodeAddress != ''")
 					->setParameter('idRede', $rede);
 		}
 

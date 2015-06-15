@@ -32,7 +32,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        cacic_version: 3.0 
+        cacic_version: 3.1.14
     form:
         resources:
             - "BraincraftedBootstrapBundle:Form:bootstrap.html.twig"
@@ -153,14 +153,35 @@ knp_paginator:
 
 # Configuration for FMElFinderBundle
 fm_elfinder:
-    locale: %locale%
-    editor: simple
-    compression: false
-    connector:
-        roots:
-            downloads:
-                driver: elfinder.driver.filesystem
-                path: downloads
+    instances:
+        default:
+            locale: %locale% # defaults to current request locale
+            editor: simple # other choices are tinymce or simple, and form
+            compression: false # enable if you configured the uglifycss and uglifyjs2 assetic filters and want compression
+            connector:
+                roots:       # at least one root must be defined
+                    uploads:
+                        showhidden: false # defaults to false
+                        driver: LocalFileSystem
+                        path: downloads
+                        upload_max_size: 2M
+                        upload_deny: ['all']
+        form:
+            locale: %locale% # defaults to current request locale
+            editor: form # other choices are tinymce or simple, and form
+            compression: false # enable if you configured the uglifycss and uglifyjs2 assetic filters and want compression
+            connector:
+                roots:       # at least one root must be defined
+                    cacic:
+                        showhidden: false # defaults to false
+                        driver: LocalFileSystem
+                        path: downloads/cacic
+                        upload_deny: ['all']
+                    outros:
+                        showhidden: false # defaults to false
+                        driver: LocalFileSystem
+                        path: downloads/outros
+                        upload_deny: ['all']
 
 jms_translation:
     configs:
@@ -193,13 +214,21 @@ services:
     elfinder.driver.filesystem:
         class: FM\ElFinderPHP\Driver\ElFinderVolumeLocalFileSystem
     cacic_demo.command.demo_command:
-            class: Cacic\CommonBundle\Command\DemoCommand
-            tags:
-                -  { name: console.command }
+        class: Cacic\CommonBundle\Command\DemoCommand
+        tags:
+            -  { name: console.command }
     cacic_demo.command.upgrade_command:
-                class: Cacic\CommonBundle\Command\UpgradeCommand
-                tags:
-                    -  { name: console.command }
+        class: Cacic\CommonBundle\Command\UpgradeCommand
+        tags:
+            -  { name: console.command }
+    cacic_demo.command.inativos_command:
+        class: Cacic\CommonBundle\Command\InativosCommand
+        tags:
+            -  { name: console.command }
+    cacic.command.wmi_command:
+        class: Cacic\CommonBundle\Command\WmiCommand
+        tags:
+            -  { name: console.command }
     pdo:
         class: PDO
         arguments:
@@ -212,3 +241,7 @@ services:
     session.handler.pdo:
         class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
         arguments: ["@pdo", "%pdo.db_options%"]
+
+    apikey_authenticator:
+        class:     Cacic\WSBundle\Security\ApiKeyAuthenticator
+        arguments: ["@webservice_user_provider"]

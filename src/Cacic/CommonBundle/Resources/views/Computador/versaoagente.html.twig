@@ -22,7 +22,7 @@
                             <tbody>
                             {% for agente in estatisticas['totalVersaoAgente'] %}
                                 <tr>
-                                    <td>{{ agente['teVersaoCacic'] }}</td>
+                                    <td><a href="{{ path('cacic_computador_versaoagente_detalhar_all', {'teVersaoCacic' : agente['teVersaoCacic']|trim }) }}" title="{{ 'Detalhar'|trans }}" target="_blank">{{ agente['teVersaoCacic'] }}</a></td>
                                     <td style="text-align: center">{{ agente['total'] }}</td>
                                 </tr>
                             {% else %}
@@ -66,7 +66,7 @@
                         <tbody>
                         {% for agente in estatisticas['VersaoAgente30dias'] %}
                             <tr>
-                                <td>{{ agente['teVersaoCacic'] }}</td>
+                                <td><a href="{{ path('cacic_computador_versaoagente_detalhar', {'teVersaoCacic' : agente['teVersaoCacic']|trim }) }}" title="{{ 'Detalhar'|trans }}" target="_blank">{{ agente['teVersaoCacic'] }}</a></td>
                                 <td style="text-align: center">{{ agente['total'] }}</td>
                             </tr>
                         {% else %}

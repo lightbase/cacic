@@ -59,7 +59,7 @@ class AquisicaoRepository extends EntityRepository
                         'tpl.idTipoLicenca',
                         'aqit.qtLicenca',
                         'aqit.dtVencimentoLicenca',
-                        'count(DISTINCT comp.computador) as nComp'
+                        'count(DISTINCT c.idComputador) as nComp'
                     )
         			->innerJoin('aq.itens', 'aqit')
         			->innerJoin('aqit.idTipoLicenca', 'tpl')
@@ -80,13 +80,18 @@ class AquisicaoRepository extends EntityRepository
 
         if (empty($data_inicio) and empty($data_fim)) {
             $qb->innerJoin('CacicCommonBundle:ComputadorColeta', 'comp', 'WITH', "(prop.computador = comp.computador AND prop.classProperty = comp.classProperty)");
+            $qb->innerJoin('CacicCommonBundle:Computador', 'c','WITH','prop.computador = c.idComputador');
         } else {
-            $qb->innerJoin('CacicCommonBundle:ComputadorColeta', 'comp', 'WITH', "(prop.computador = comp.computador AND prop.classProperty = comp.classProperty AND comp.dt_hr_inclusao BETWEEN '$data_inicio' AND '$data_fim')");
+            $qb->innerJoin('CacicCommonBundle:ComputadorColeta', 'comp', 'WITH', "(prop.computador = comp.computador AND prop.classProperty = comp.classProperty AND comp.dtHrInclusao BETWEEN '$data_inicio' AND '$data_fim')");
+            $qb->innerJoin('CacicCommonBundle:Computador', 'c','WITH','prop.computador = c.idComputador');
         }
+
+        // Adiciona filtro por computadores ativos
+        $qb->andWhere("(c.ativo IS NULL or c.ativo = 't')");
 
         $result = $qb->getQuery()->getArrayResult();
 
-        // Agora cria um array de saída agrupado pro process de aquisição
+        // Agora cria um array de saída agrupado pro processo de aquisição
         $saida = array();
         foreach($result as $row) {
             if (!array_key_exists($row['nrProcesso'], $saida)) {
@@ -95,7 +100,7 @@ class AquisicaoRepository extends EntityRepository
                     'dtAquisicao' => $row['dtAquisicao'],
                     'nmEmpresa' => $row['nmEmpresa'],
                     'nmProprietario' => $row['nmProprietario'],
-                    'nrNotaFiscal' => $row['nrNotaFiscal'],
+                    'nrNotafiscal' => $row['nrNotafiscal'],
                     'idAquisicao'=> $row['idAquisicao']
                 );
             }

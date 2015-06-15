@@ -1,0 +1,90 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Total de Computadores' |trans }}</h2>
+            <div class="block box_content round_bottom padding_10">
+				<h2 class="">{{ 'Lista de computadores'|trans }}</h2>
+                <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+                <hr />
+
+                <form id="csv" action="{{ path('cacic_relatorio_computador_resultado_csv') }}" method="post">
+                    <input type="hidden" name="inicio" value="{{ inicio }}">
+                    <input type="hidden" name="fim" value="{{ fim }}">
+                    {% for value in filtroLocais %}
+                        <input type="hidden" name="idLocal[]" value="{{ value }}">
+                    {% endfor %}
+                    <button class="btn btn-primary" type="submit">
+                        <i class="icon-bar-chart"></i>
+                        Gerar CSV
+                    </button>
+                    <a class="btn btn-success" type="submit" href="{{ path('cacic_relatorio_computador_listar') }}" title="{{ "Todos os Computadores"|trans }}" target="_blank">
+                        <i class="icon-bar-chart"></i>
+                        Todos os Computadores
+                    </a>
+                </form>
+
+				<table class="display datatable" id="datatable">
+
+                    <thead>
+				        <tr>
+                            <th width="5%" style="text-align: center"></th>
+				            <th width="35%">{{ "Local"|trans }}</th>
+				            <th width="35%" style="text-align: center">{{ "Rede"|trans }}</th>
+				            <th width="10%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
+                            <th width="10%" style="text-align: center">{{ "Estações"|trans }}</th>
+                            <th width="5%" style="text-align: center"></th>
+				        </tr>
+				    </thead>
+
+                    <tbody>
+				    {% for log in logs %}
+
+				        <tr>
+				            <td style="text-align: center">{{ loop.index }}</td>
+				            <td>
+                                {% if inicio is not null and fim is not null %}
+                                    <b><a  href="{{ path('cacic_relatorio_computador_listar', {'idRede': log['idRede'], 'inicio': inicio, 'fim': fim}) }}"  title="{{ "Máquinas faturadas"|trans }}" target="_blank">
+                                {% else %}
+                                    <b><a  href="{{ path('cacic_relatorio_computador_listar', {'idRede': log['idRede']}) }}"  title="{{ "Máquinas faturadas"|trans }}" target="_blank">
+                                {% endif %}
+								{{ log['nmLocal'] }}</a></b>
+							</td>
+                            <td>{{ log['nmRede'] }}</td>
+                            <td>{{ log['teIpRede'] }}</td>
+                            <td>{{ log['numComp'] }}</td>
+                            <td>
+								<a class="btn" href="{{ path('cacic_relatorio_computador_listar', {'idRede': log['idRede'], 'inicio': inicio, 'fim': fim}) }}"  title="{{ "Relatório de coletas do software"|trans }}" target="_blank">
+									<i class="icon-search"></i>
+								</a>
+                            </td>
+				        </tr>
+				
+				    {% else %}
+				        <tr>
+				            <td style="text-align: center;" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+				        </tr>
+				    {% endfor %}
+
+				    </tbody>
+                </table>
+
+                <table class="display datatable" id="datatable">
+                    <thead>
+                        <tr>
+                            <th width="77%" style="text-align: left">{{ "Total de Estações"|trans }}</th>
+                            <th width="23%" style="text-align: center">{{ totalnumcomp }}</th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

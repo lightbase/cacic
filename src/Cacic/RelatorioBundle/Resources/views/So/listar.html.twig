@@ -1,0 +1,99 @@
+{% extends 'CacicRelatorioBundle::base.html.twig' %}
+
+{% block body %}
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Total de Computadores' |trans }}</h2>
+            <div class="block box_content round_bottom padding_10">
+				<h2 class="">{{ 'Lista de Sistemas Operacionais'|trans }}</h2>
+                <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+
+                <hr />
+
+                <form id="csv" action="{{ path('cacic_relatorio_so_listar_csv') }}" method="post">
+                    {% for value in filtroLocais %}
+                        <input type="hidden" name="idLocal[]" value="{{ value }}">
+                    {% endfor %}
+                    <button class="btn btn-primary" type="submit">
+                        <i class="icon-bar-chart"></i>
+                        Gerar CSV
+                    </button>
+                    <a class="btn btn-success" type="submit" href="{{ path('cacic_relatorio_computador_listar') }}" title="{{ "Todos os Computadores"|trans }}" target="_blank">
+                        <i class="icon-bar-chart"></i>
+                        Todos os Computadores
+                    </a>
+                </form>
+
+				<table class="display datatable" id="datatable">
+
+                    <thead>
+				        <tr>
+                            <th width="5%" style="text-align: center"></th>
+                            <th width="15%">{{ "SO"|trans }}</th>
+				            <th width="25%">{{ "Local"|trans }}</th>
+				            <th width="15%" style="text-align: center">{{ "Rede"|trans }}</th>
+				            <th width="10%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
+                            <th width="10%" style="text-align: center">{{ "Estações"|trans }}</th>
+                            <th width="5%" style="text-align: center"></th>
+				        </tr>
+				    </thead>
+
+                    <tbody>
+				    {% for log in logs %}
+
+				        <tr>
+				            <td style="text-align: center">{{ loop.index }}</td>
+                            <td>
+                                <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': log['idSo']}) }}" target="_blank" title="{{ "Detalhar SO" }}">
+                                    {{ log['teDescSo'] }}
+                                </a>
+                            </td>
+				            <td>
+                                <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': log['idSo'], 'idLocal': log['idLocal']}) }}" target="_blank" title="{{ "Detalhar SO" }}">
+								    {{ log['nmLocal'] }}
+                                </a>
+							</td>
+                            <td>
+                                <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': log['idSo'], 'idRede': log['idRede']}) }}" target="_blank" title="{{ "Detalhar SO" }}">
+                                    {{ log['nmRede'] }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': log['idSo'], 'idRede': log['idRede']}) }}" target="_blank" title="{{ "Detalhar SO" }}">
+                                    {{ log['teIpRede'] }}
+                                </a>
+                            </td>
+                            <td>{{ log['numComp'] }}</td>
+                            <td>
+                                <a class="btn" href="{{ path('cacic_relatorio_so_detalhar', {'idSo': log['idSo'], 'idRede': log['idRede'], 'idLocal': log['idLocal']}) }}" target="_blank" title="{{ "Detalhar SO" }}">
+									<i class="icon-search"></i>
+								</a>
+                            </td>
+				        </tr>
+				
+				    {% else %}
+				        <tr>
+				            <td style="text-align: center;" colspan="6"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+				        </tr>
+				    {% endfor %}
+
+				    </tbody>
+                </table>
+
+                <table class="display datatable" id="datatable">
+                    <thead>
+                        <tr>
+                            <th width="77%" style="text-align: left">{{ "Total de Estações"|trans }}</th>
+                            <th width="23%" style="text-align: center">{{ totalnumcomp }}</th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

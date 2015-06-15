@@ -193,7 +193,7 @@ class RedeType extends AbstractType
 
             )
         );
-        $builder->add('csPermitirDesativarSrcacic', 'choice',
+        /*$builder->add('csPermitirDesativarSrcacic', 'choice',
             array(
                 'choices'   => array(true => 'Sim', false => 'Não'),
                 'required'  => true,
@@ -212,7 +212,7 @@ class RedeType extends AbstractType
                  'multiple'  => true,
                  'label' => ' '
              )
-        );
+        );*/
 	}
 
 	/**

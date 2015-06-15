@@ -83,4 +83,25 @@ cacic_neo_home_update:
 
 cacic_neo_coleta:
     pattern: /neo/coleta
-    defaults: { _controller: CacicWSBundle:Neo:coleta }
+    defaults: { _controller: CacicWSBundle:NeoColeta:coleta }
+
+cacic_ws_neo_log:
+    pattern: /neo/log
+    defaults: { _controller: CacicWSBundle:NeoLog:logErro }
+    #schemes:  [https]
+
+cacic_ws_instala_hash:
+    pattern: /instala/hash
+    defaults: { _controller: CacicWSBundle:NeoInstall:hash }
+
+cacic_ws_instala_erro:
+    pattern: /instala/erro
+    defaults: { _controller: CacicWSBundle:NeoInstall:erro }
+
+cacic_ws_download_service:
+    pattern: /instala/download/service/{hash}
+    defaults: { _controller: CacicWSBundle:NeoInstall:downloadService }
+
+cacic_ws_download_msi:
+    pattern: /instala/download/msi
+    defaults: { _controller: CacicWSBundle:NeoInstall:downloadMsi }

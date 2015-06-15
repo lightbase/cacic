@@ -14,6 +14,7 @@ use Cacic\CommonBundle\Entity\AcaoSo;
 use Cacic\CommonBundle\Entity\Acao;
 use Cacic\CommonBundle\Entity\So;
 use Cacic\CommonBundle\Entity\ComputadorColeta;
+
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Common\Util\Debug;
 
@@ -38,6 +39,8 @@ class ComputadorRepository extends EntityRepository
         foreach ( $filtros as $campo => $valor )
             $qb->andWhere("comp.{$campo} LIKE '%$valor%'");
 
+        $qb->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
+
         return $qb->getQuery()->getResult();
     }
 
@@ -52,6 +55,7 @@ class ComputadorRepository extends EntityRepository
             ->select('loc.idLocal, loc.nmLocal, COUNT(comp.idComputador) as numComp')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('loc');
 
         return $qb->getQuery()->getResult();
@@ -88,8 +92,7 @@ class ComputadorRepository extends EntityRepository
             $query->Where("comp.teNodeAddress  LIKE   '%$teNodeAddress%'");
         }
 
-
-
+        $query->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
 
         return $query->getQuery()->execute();
     }
@@ -102,7 +105,6 @@ class ComputadorRepository extends EntityRepository
                 'comp.teIpComputador',
                 'comp.teVersaoCacic',
                 'comp.teNodeAddress'
-
             );
 
         if ( $teIpComputador != null){
@@ -123,6 +125,7 @@ class ComputadorRepository extends EntityRepository
             $query->andWhere( 'comp.dtHrInclusao<= (:dtHrInclusaoFim)' )->setParameter('dtHrInclusaoFim', ( $dtHrInclusaoFim.' 23:59:59' ));
         }
 
+        $query->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
 
         return $query->getQuery()->execute();
     }
@@ -140,10 +143,11 @@ class ComputadorRepository extends EntityRepository
         $qb = $this->createQueryBuilder('comp')
             ->select('rede.idRede, rede.teIpRede, rede.nmRede, COUNT(comp.idComputador) as numComp')
             ->innerJoin('comp.idRede', 'rede')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('rede');
 
         if ( $idLocal !== null )
-            $qb->where('rede.idLocal = :idLocal')->setParameter( 'idLocal', $idLocal);
+            $qb->andWhere('rede.idLocal = :idLocal')->setParameter( 'idLocal', $idLocal);
 
         return $qb->getQuery()->getResult();
     }
@@ -157,8 +161,26 @@ class ComputadorRepository extends EntityRepository
         $qb = $this->createQueryBuilder('comp')
             ->select('so.idSo, so.teDescSo, so.sgSo, so.teSo, COUNT(comp.idComputador) as numComp')
             ->innerJoin('comp.idSo', 'so')
-            ->groupBy('so');
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->groupBy('so')
+            ->orderBy('numComp', 'DESC');
 
+
+        $qb = $qb->getQuery();
+        $qb->useResultCache(true);
+        $qb->setResultCacheLifetime(600);
+
+        return $qb->getResult();
+    }
+
+    public function countPorSOCsv()
+    {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('so.teDescSo,  COUNT(comp.idComputador) as numComp')
+            ->innerJoin('comp.idSo', 'so')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->groupBy('so')
+            ->orderBy('numComp', 'DESC');
 
         $qb = $qb->getQuery();
         $qb->useResultCache(true);
@@ -175,6 +197,7 @@ class ComputadorRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('comp')
             ->select('comp.teVersaoCacic, COUNT(DISTINCT comp.idComputador) as total')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('comp.teVersaoCacic');
 
 
@@ -195,6 +218,7 @@ class ComputadorRepository extends EntityRepository
             ->select('comp.teVersaoCacic, COUNT(DISTINCT comp.idComputador) as total')
             ->innerJoin('CacicCommonBundle:LogAcesso','log', 'WITH', 'log.idComputador = comp.idComputador')
             ->andWhere( 'log.data >= (current_date() - 30)' )
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('comp.teVersaoCacic');
 
 
@@ -203,6 +227,105 @@ class ComputadorRepository extends EntityRepository
         $qb->setResultCacheLifetime(600);
 
         return $qb->getResult();
+    }
+
+    /**
+     * Gera lista com os computadores da versão selecionada
+     */
+    public function versaoAgenteDetalharAll( $versaoAgente )
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('te_node_address', 'teNodeAddress');
+        $rsm->addScalarResult('id_computador', 'idComputador');
+        $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
+        $rsm->addScalarResult('nm_computador', 'nmComputador');
+        $rsm->addScalarResult('id_so', 'idSo');
+        $rsm->addScalarResult('sg_so', 'sgSo');
+        $rsm->addScalarResult('id_rede', 'idRede');
+        $rsm->addScalarResult('nm_rede', 'nmRede');
+        $rsm->addScalarResult('te_ip_rede', 'teIpRede');
+        $rsm->addScalarResult('nm_local', 'nmLocal');
+        $rsm->addScalarResult('max_data', 'data');
+        $rsm->addScalarResult('te_versao_cacic', 'TeVersaoCacic');
+
+        $sql = "
+SELECT c0_.te_node_address AS te_node_address,
+	string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
+	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
+	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
+    string_agg(DISTINCT c0_.te_versao_cacic, ', ') AS te_versao_cacic,
+	string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
+	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
+	string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
+	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
+	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
+	max(l1_.data) AS max_data,
+	l4_.nm_local AS nm_local,
+	l4_.id_local AS id_local
+FROM log_acesso l1_
+INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
+INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
+INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
+INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
+WHERE  (c0_.ativo IS NULL or c0_.ativo = 't')
+AND c0_.te_versao_cacic = '$versaoAgente'
+GROUP BY c0_.te_node_address,
+	l4_.nm_local,
+	l4_.id_local
+        ";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+        return $query->execute();
+    }
+
+    /**
+     * Gera lista com os computadores da versão selecionada no período de 30 dias
+     */
+    public function versaoAgenteDetalhar( $versaoAgente )
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('te_node_address', 'teNodeAddress');
+        $rsm->addScalarResult('id_computador', 'idComputador');
+        $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
+        $rsm->addScalarResult('nm_computador', 'nmComputador');
+        $rsm->addScalarResult('id_so', 'idSo');
+        $rsm->addScalarResult('sg_so', 'sgSo');
+        $rsm->addScalarResult('id_rede', 'idRede');
+        $rsm->addScalarResult('nm_rede', 'nmRede');
+        $rsm->addScalarResult('te_ip_rede', 'teIpRede');
+        $rsm->addScalarResult('nm_local', 'nmLocal');
+        $rsm->addScalarResult('max_data', 'data');
+        $rsm->addScalarResult('te_versao_cacic', 'TeVersaoCacic');
+
+        $sql = "
+SELECT c0_.te_node_address AS te_node_address,
+	string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
+	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
+	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
+    string_agg(DISTINCT c0_.te_versao_cacic, ', ') AS te_versao_cacic,
+	string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
+	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
+	string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
+	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
+	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
+	max(l1_.data) AS max_data,
+	l4_.nm_local AS nm_local,
+	l4_.id_local AS id_local
+FROM log_acesso l1_
+INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
+INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
+INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
+INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
+WHERE  (c0_.ativo IS NULL or c0_.ativo = 't')
+AND c0_.te_versao_cacic = '$versaoAgente'
+AND l1_.data >= (CURRENT_DATE - 30)
+GROUP BY c0_.te_node_address,
+	l4_.nm_local,
+	l4_.id_local
+        ";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+        return $query->execute();
     }
 
     /**
@@ -216,6 +339,7 @@ class ComputadorRepository extends EntityRepository
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('CacicCommonBundle:LogAcesso','log', 'WITH', 'log.idComputador = comp.idComputador')
             ->andWhere( 'log.data >= (current_date() - 30)' )
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('so');
 
 
@@ -233,7 +357,8 @@ class ComputadorRepository extends EntityRepository
      */
     public function countAll()
     {
-        $qb = $this->createQueryBuilder('comp')->select('COUNT(comp.idComputador)');
+        $qb = $this->createQueryBuilder('comp')->select('COUNT(distinct comp.idComputador)')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
         return $qb->getQuery()->getSingleScalarResult();
     }
 
@@ -247,7 +372,8 @@ class ComputadorRepository extends EntityRepository
         $qb = $this->createQueryBuilder('comp')
             ->select('comp', 'so')
             ->leftJoin('comp.idSo', 'so')
-            ->where('comp.idRede = :idRede')
+            ->andWhere('comp.idRede = :idRede')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->setParameter('idRede', $idSubrede)
             ->orderBy('comp.nmComputador')->addOrderBy('comp.teIpComputador');
 
@@ -267,7 +393,8 @@ class ComputadorRepository extends EntityRepository
             ->innerJoin('coleta.idClass', 'classe')
             ->innerJoin('computador.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'local')
-            ->innerJoin('computador.idSo', 'so');
+            ->innerJoin('computador.idSo', 'so')
+            ->andWhere("computador.ativo IS NULL or computador.ativo = 't'");
 
         /**
          * Verifica os filtros
@@ -299,10 +426,7 @@ class ComputadorRepository extends EntityRepository
         $data = new \DateTime('NOW'); //armazena data Atual
 
         //vefifica se existe SO coletado se não, insere novo SO
-        //$so = $this->getEntityManager()->getRepository('CacicCommonBundle:So')->createIfNotExist( $te_so );
-        //$rede = $this->getEntityManager()->getRepository('CacicCommonBundle:Rede')->getDadosRedePreColeta( $request );
         $computador = $this->findOneBy( array( 'teNodeAddress'=> $te_node_adress, 'idSo'=> $so->getIdSo()) );
-        //$classes = $this->getEntityManager()->getRepository('CacicCommonBundle:Classe')->findAll();
 
         //inserção de dado se for um novo computador
         if( empty ( $computador ) )
@@ -314,6 +438,7 @@ class ComputadorRepository extends EntityRepository
             $computador->setIdRede( $rede );
             $computador->setDtHrInclusao( $data);
             $computador->setTePalavraChave( $request->get('PHP_AUTH_PW') );
+            $computador->setAtivo(true);
 
             $this->getEntityManager()->persist( $computador );
 
@@ -331,6 +456,7 @@ class ComputadorRepository extends EntityRepository
         $computador->setTeUltimoLogin( TagValueHelper::getValueFromTags( 'UserName' ,$computer_system ) );
         $computador->setTeIpComputador( $ip_computador );
         $computador->setNmComputador( TagValueHelper::getValueFromTags( 'Caption' ,$computer_system ));
+        $computador->setAtivo(true);
         $this->getEntityManager()->persist( $computador );
 
         $acoes = $this->getEntityManager()->getRepository('CacicCommonBundle:Acao')->findAll();
@@ -368,7 +494,8 @@ class ComputadorRepository extends EntityRepository
         $query = $this->createQueryBuilder('comp')
             ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'COUNT(DISTINCT comp.idComputador) as numComp')
             ->innerJoin('comp.idRede', 'rede')
-            ->innerJoin('rede.idLocal', 'loc');
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo = 'f'");
 
         /**
          * Verifica os filtros que foram parametrizados
@@ -390,7 +517,7 @@ class ComputadorRepository extends EntityRepository
 
 
         // Filtro que mostra somente máquinas sem coleta
-        $query->andWhere('log.idComputador IS NULL');
+        //$query->andWhere('log.idComputador IS NULL');
 
         // Agrupa todos os campos
         $query->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
@@ -402,10 +529,11 @@ class ComputadorRepository extends EntityRepository
 
         // Monta a Consulta básica...
         $query = $this->createQueryBuilder('comp')
-            ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo')
+            ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo', 'comp.dtHrUltAcesso')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
-            ->innerJoin('rede.idLocal', 'loc');
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo = 'f'");
 
         /**
          * Verifica os filtros que foram parametrizados
@@ -431,6 +559,7 @@ class ComputadorRepository extends EntityRepository
 
         return $query->getQuery()->execute();
     }
+
     public function inativosCsv( $dataInicio, $dataFim, $locais )
     {
 
@@ -438,7 +567,8 @@ class ComputadorRepository extends EntityRepository
         $query = $this->createQueryBuilder('comp')
             ->select('loc.nmLocal',  'rede.nmRede', 'rede.teIpRede', 'COUNT(DISTINCT comp.idComputador) as numComp')
             ->innerJoin('comp.idRede', 'rede')
-            ->innerJoin('rede.idLocal', 'loc');
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo = 'f'");
 
         /**
          * Verifica os filtros que foram parametrizados
@@ -460,7 +590,7 @@ class ComputadorRepository extends EntityRepository
 
 
         // Filtro que mostra somente máquinas sem coleta
-        $query->andWhere('log.idComputador IS NULL');
+        //$query->andWhere('log.idComputador IS NULL');
 
         // Agrupa todos os campos
         $query->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
@@ -472,10 +602,11 @@ class ComputadorRepository extends EntityRepository
         // Monta a Consulta básica...
         $query = $this->createQueryBuilder('comp')
 
-            ->select(  'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.sgSo', 'loc.nmLocal', 'rede.nmRede','rede.teIpRede')
+            ->select(  'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.sgSo', 'loc.sgLocal', 'rede.nmRede','rede.teIpRede', 'comp.dtHrUltAcesso')
             ->innerJoin('comp.idSo', 'so')
             ->innerJoin('comp.idRede', 'rede')
-            ->innerJoin('rede.idLocal', 'loc');
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo = 'f'");
 
         /**
          * Verifica os filtros que foram parametrizados
@@ -494,7 +625,7 @@ class ComputadorRepository extends EntityRepository
             $query->andWhere( 'comp.idRede IN (:rede)' )->setParameter('rede', $idRede);
 
         // Filtro que mostra somente máquinas sem coleta
-        $query->andWhere('log.idComputador IS NULL');
+        //$query->andWhere('log.idComputador IS NULL');
 
         $query->groupBy('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo');
 
@@ -572,4 +703,572 @@ class ComputadorRepository extends EntityRepository
         return $query->execute();
     }
 
+    /**
+     * Busca computadores com mesmo MAC Address e SO
+     */
+    public function filtroMac( $id_so ){
+
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp.teNodeAddress', 'COUNT(comp.idComputador) as contIdComp')
+            ->andWhere('comp.idSo = :idSo')
+            ->setParameter('idSo', $id_so)
+            ->groupBy('comp.teNodeAddress')
+            ->having('COUNT(comp.idComputador) > 1')
+            ->orderBy('contIdComp');
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * Busca computador mais recentes
+     */
+    public function computadorRecente( $teNodeAddress, $id_so ){
+
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp.idComputador')
+            ->andwhere('comp.teNodeAddress = :teNodeAddress')
+            ->andwhere('comp.idSo = :idSo')
+            ->setMaxResults(1)
+            ->setParameter('teNodeAddress', $teNodeAddress)
+            ->setParameter('idSo', $id_so)
+            ->orderBy('comp.dtHrUltAcesso', 'desc');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Busca computadores antigos
+     */
+    public function computadorAntigo( $teNodeAddress, $id_so, $ArrCompRecente ){
+
+        $qb = $this->createQueryBuilder('comp')
+            ->select('comp.idComputador')
+            ->andwhere('comp.teNodeAddress = :teNodeAddress')
+            ->andwhere('comp.idSo = :idSo')
+            ->andwhere('comp.idComputador <> :idComputador')
+            ->setParameter('teNodeAddress', $teNodeAddress)
+            ->setParameter('idSo', $id_so)
+            ->setParameter('idComputador', $ArrCompRecente);
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    public function listar($idLocal, $inicio, $fim) {
+        $qb = $this->createQueryBuilder('comp')
+            ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'COUNT(DISTINCT comp.idComputador) as numComp')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->innerJoin("CacicCommonBundle:Rede", 'rede', 'WITH', 'rede.idRede = comp.idRede')
+            ->innerJoin("CacicCommonBundle:Local", 'loc', 'WITH', 'rede.idLocal = loc.idLocal')
+            ->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
+
+        if ( !empty($inicio) ) {
+            $qb->andWhere( 'comp.dtHrUltAcesso >= :inicio' )->setParameter('inicio', ( $inicio.' 00:00:00' ));
+        }
+
+        if ( !empty($fim) ) {
+            $qb->andWhere( 'comp.dtHrUltAcesso <= :fim' )->setParameter('fim', ( $fim.' 23:59:59' ));
+        }
+
+        if (!empty($idLocal)) {
+            $locais = implode(", ", $idLocal);
+            $qb->andWhere("loc.idLocal in ($locais)");
+        }
+
+        return $qb->getQuery()->getArrayResult();
+
+    }
+
+    public function listarCsv($idLocal, $inicio, $fim) {
+
+        $qb = $this->createQueryBuilder('comp')
+            ->select('loc.nmLocal', 'rede.nmRede', 'rede.teIpRede', 'COUNT(DISTINCT comp.idComputador) as numComp')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->innerJoin("CacicCommonBundle:Rede", 'rede', 'WITH', 'rede.idRede = comp.idRede')
+            ->innerJoin("CacicCommonBundle:Local", 'loc', 'WITH', 'rede.idLocal = loc.idLocal')
+            ->groupBy('rede', 'loc.nmLocal', 'loc.sgLocal');
+
+        if ( !empty($inicio) ) {
+            $qb->andWhere( 'comp.dtHrUltAcesso >= :inicio' )->setParameter('inicio', ( $inicio.' 00:00:00' ));
+        }
+
+        if ( !empty($fim) ) {
+            $qb->andWhere( 'comp.dtHrUltAcesso <= :fim' )->setParameter('fim', ( $fim.' 23:59:59' ));
+        }
+
+        if (!empty($idLocal)) {
+            $locais = implode(", ", $idLocal);
+            $qb->andWhere("loc.idLocal in ($locais)");
+        }
+
+        return $qb->getQuery()->getArrayResult();
+
+    }
+
+    public function gerarRelatorioComputadores( $filtros, $idRede, $dataInicio, $dataFim ) {
+
+        // Monta a Consulta básica...
+        $query = $this->createQueryBuilder('comp')
+            ->select('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo', 'comp.dtHrUltAcesso')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+
+        if (!empty($dataInicio)) {
+            $query->andWhere('comp.dtHrUltAcesso >= :dataInicio')
+                ->setParameter('dataInicio', $dataInicio);
+        }
+
+        if (!empty($dataFim)) {
+            $query->andWhere('comp.dtHrUltAcesso <= :dataFim')
+                ->setParameter('dataFim', $dataFim);
+        }
+
+
+        if ( $idRede ) {
+            $query->andWhere( 'comp.idRede IN (:rede)' )->setParameter('rede', $idRede);
+        }
+
+        $query->groupBy('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo');
+
+
+        return $query->getQuery()->execute();
+    }
+
+    public function gerarRelatorioComputadoresCsv( $filtros, $idRede,$dataInicio, $dataFim ) {
+
+        // Monta a Consulta básica...
+        $query = $this->createQueryBuilder('comp')
+            ->select('comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.teDescSo', 'loc.nmLocal', 'rede.nmRede', 'rede.teIpRede', 'comp.dtHrUltAcesso')
+            ->innerJoin('comp.idSo', 'so')
+            ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'loc')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
+
+        /**
+         * Verifica os filtros que foram parametrizados
+         */
+
+        if (!empty($dataInicio)) {
+            $query->andWhere('comp.dtHrUltAcesso >= :dataInicio')
+                ->setParameter('dataInicio', $dataInicio);
+        }
+
+        if (!empty($dataFim)) {
+            $query->andWhere('comp.dtHrUltAcesso <= :dataFim')
+                ->setParameter('dataFim', $dataFim);
+        }
+
+
+        if ( $idRede ) {
+            $query->andWhere( 'comp.idRede IN (:rede)' )->setParameter('rede', $idRede);
+        }
+
+        $query->groupBy('rede.idRede', 'rede.nmRede', 'rede.teIpRede', 'loc.nmLocal', 'loc.sgLocal', 'comp.idComputador', 'comp.nmComputador', 'comp.teNodeAddress', 'comp.teIpComputador', 'so.idSo', 'so.inMswindows', 'so.sgSo');
+
+
+        return $query->getQuery()->execute();
+    }
+
+    /**
+     * Gera relatório de propriedades WMI coletadas dos computadores
+     * @param array $filtros
+     * @param $classe
+     */
+    public function gerarRelatorioWMI( $filtros, $classe )
+    {
+
+        $_dql = "SELECT so.idSo,
+                        so.inMswindows,
+                        so.sgSo,
+                        so.teDescSo,
+                        rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        COUNT(DISTINCT c.idComputador) AS numComp,
+                        (CASE WHEN property.nmPropertyName IS NULL THEN 'Não identificado' ELSE property.nmPropertyName END) as nmPropertyName,
+                        (CASE WHEN cl.teClassPropertyValue IS NULL THEN 'Não identificado' ELSE cl.teClassPropertyValue END) as teClassPropertyValue
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
+                if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) ){
+                    $redes = $filtros['redes'];
+                    $_dql .= " AND rede.idRede IN ($redes)";
+                }
+
+                $_dql .= ") INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo";
+                if ( array_key_exists('so', $filtros) && !empty($filtros['so']) ){
+                    $so = $filtros['so'];
+                    $_dql .= " AND c.idSo IN ($so)";
+                }
+
+                $_dql .= ") INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal";
+                if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) ){
+                    $locais = $filtros['locais'];
+                    $_dql .= " AND local.idLocal IN ($locais)";
+                }
+
+                $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador";
+                if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) ){
+                    $conf = $filtros['conf'];
+                    $_dql .= " AND cl.classProperty IN ($conf)";
+                } else {
+                    $_dql .= " AND cl.classProperty IN (
+                        SELECT p.idClassProperty
+                        FROM CacicCommonBundle:ClassProperty p
+                        INNER JOIN CacicCommonBundle:Classe cla WITH p.idClass = cla.idClass
+                         WHERE cla.nmClassName = '$classe'
+                    )";
+                }
+
+                $_dql .= ") LEFT JOIN CacicCommonBundle:ClassProperty property WITH cl.classProperty = property.idClassProperty
+                WHERE (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY property.nmPropertyName,
+                            cl.teClassPropertyValue,
+                            so.idSo,
+                            so.inMswindows,
+                            so.sgSo,
+                            rede.idRede,
+                            rede.nmRede,
+                            rede.teIpRede,
+                            local.nmLocal,
+                            local.idLocal";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+
+    }
+
+    public function gerarRelatorioWMICsv( $filtros, $classe )
+    {
+
+        $_dql = "SELECT so.teDescSo,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        COUNT(DISTINCT c.idComputador) AS numComp,
+                        (CASE WHEN property.nmPropertyName IS NULL THEN 'Não identificado' ELSE property.nmPropertyName END) as nmPropertyName,
+                        (CASE WHEN cl.teClassPropertyValue IS NULL THEN 'Não identificado' ELSE cl.teClassPropertyValue END) as teClassPropertyValue
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
+        if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) ){
+            $redes = $filtros['redes'];
+            $_dql .= " AND rede.idRede IN ($redes)";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo";
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) ){
+            $so = $filtros['so'];
+            $_dql .= " AND c.idSo IN ($so)";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal";
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) ){
+            $locais = $filtros['locais'];
+            $_dql .= " AND local.idLocal IN ($locais)";
+        }
+
+        $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador";
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) ){
+            $conf = $filtros['conf'];
+            $_dql .= " AND cl.classProperty IN ($conf)";
+        } else {
+            $_dql .= " AND cl.classProperty IN (
+                        SELECT p.idClassProperty
+                        FROM CacicCommonBundle:ClassProperty p
+                        INNER JOIN CacicCommonBundle:Classe cla WITH p.idClass = cla.idClass
+                         WHERE cla.nmClassName = '$classe'
+                    )";
+        }
+
+        $_dql .= ") LEFT JOIN CacicCommonBundle:ClassProperty property WITH cl.classProperty = property.idClassProperty
+                WHERE (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY property.nmPropertyName,
+                            cl.teClassPropertyValue,
+                            so.teDescSo,
+                            rede.nmRede,
+                            rede.teIpRede,
+                            local.nmLocal";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+
+    }
+
+    /**
+     * Gera relatório de propriedades WMI coletadas dos computadores detalhado
+     * @param array $filtros
+     * @param $classe
+     */
+    public function gerarRelatorioWMIDetalhe( $filtros )
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('nm_computador', 'nmComputador');
+        $rsm->addScalarResult('id_computador', 'idComputador');
+        $rsm->addScalarResult('is_notebook', 'isNotebook');
+        $rsm->addScalarResult('te_node_address', 'teNodeAddress');
+        $rsm->addScalarResult('te_ip_computador', 'teIpComputador');
+        $rsm->addScalarResult('id_so', 'idSo');
+        $rsm->addScalarResult('in_mswindows', 'inMswindows');
+        $rsm->addScalarResult('sg_so', 'sgSo');
+        $rsm->addScalarResult('te_desc_so', 'teDescSo');
+        $rsm->addScalarResult('id_rede', 'idRede');
+        $rsm->addScalarResult('nm_rede', 'nmRede');
+        $rsm->addScalarResult('te_ip_rede', 'teIpRede');
+        $rsm->addScalarResult('nm_local', 'nmLocal');
+        $rsm->addScalarResult('id_local', 'idLocal');
+        $rsm->addScalarResult('nm_property_name', 'nmPropertyName');
+        $rsm->addScalarResult('te_class_property_value', 'teClassPropertyValue');
+
+        $sql = "SELECT c.nm_computador,
+                        c.id_computador,
+                        c.is_notebook,
+                        c.te_node_address,
+                        c.te_ip_computador,
+                        so.id_so,
+                        so.in_mswindows,
+                        so.sg_so,
+                        so.te_desc_so,
+                        rede.id_rede,
+                        rede.nm_rede,
+                        rede.te_ip_rede,
+                        local.nm_local,
+                        local.id_local,
+                        (CASE WHEN property.nm_property_name IS NULL THEN 'Não identificado' ELSE property.nm_property_name END),
+                        (CASE WHEN cl.te_class_property_value IS NULL THEN 'Não identificado' ELSE cl.te_class_property_value END)
+                FROM computador c
+                INNER JOIN rede rede ON (c.id_rede = rede.id_rede";
+        if ( array_key_exists('rede', $filtros) && !empty($filtros['rede']) ){
+            $redes = $filtros['rede'];
+            $sql .= " AND rede.id_rede = $redes";
+        }
+
+        $sql .= ") INNER JOIN so so ON (c.id_so = so.id_so";
+        if ( array_key_exists('so', $filtros) && !empty($filtros['so']) ){
+            $so = $filtros['so'];
+            $sql .= " AND c.id_so = $so";
+        }
+
+        $sql .= ") INNER JOIN local local ON (rede.id_local = local.id_local";
+        if ( array_key_exists('locais', $filtros) && !empty($filtros['locais']) ){
+            $locais = $filtros['locais'];
+            $sql .= " AND local.id_local = $locais";
+        }
+
+        $sql .= ") LEFT JOIN computador_coleta cl ON (c.id_computador = cl.id_computador ";
+
+        if ( array_key_exists('idClass', $filtros) && !empty($filtros['idClass']) ){
+            $idClass = $filtros['idClass'];
+            $sql .= " AND cl.id_class_property IN (SELECT cp.id_class_property FROM class_property cp WHERE cp.id_class = $idClass ";
+
+            if (array_key_exists('conf', $filtros) && !empty($filtros['conf']) && $filtros['conf'] != 'Não identificado'){
+                $idClassProperty = $filtros['conf'];
+                $sql .= " AND cp.id_class_property IN ($idClassProperty) )";
+            }
+        }
+
+        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) && $filtros['conf'] == 'Não identificado' ){
+            $sql .= ")";
+        }
+
+        $sql .= ") LEFT JOIN class_property property ON (cl.id_class_property = property.id_class_property)
+                   WHERE (c.ativo IS NULL OR c.ativo = 't') ";
+
+        if ( array_key_exists('valor', $filtros) && !empty($filtros['valor']) && $filtros['valor'] != 'Não identificado' ){
+            $valor = $filtros['valor'];
+            $sql .= " AND cl.te_class_property_value = '$valor'";
+        } else {
+            $sql .= " AND cl.id_class_property is null";
+        }
+
+        $sql .= " ORDER BY c.nm_computador,
+                        c.is_notebook,
+                        c.te_node_Address,
+                        c.te_ip_computador,
+                        so.id_so,
+                        so.in_mswindows,
+                        so.sg_so,
+                        so.te_desc_so,
+                        rede.id_rede,
+                        rede.nm_rede,
+                        rede.te_ip_rede,
+                        local.nm_local,
+                        local.id_local,
+                        property.nm_property_name,
+                        cl.te_class_property_value";
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+        return $query->execute();
+
+    }
+
+    public function listarClasse($idClasse) {
+
+        $id = implode(' ,',$idClasse);
+
+        $_dql = "SELECT  rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo,
+                        COUNT(DISTINCT c.idComputador) AS numComp
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo)
+                INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede)
+                INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal)
+                LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
+                WHERE cl.computador IS NULL
+                AND (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+
+    }
+
+    public function listarClasseCsv($idClasse) {
+
+        $id = implode(' ,',$idClasse);
+
+        error_log('Listar CSV'.$id);
+
+        $_dql = "SELECT so.teDescSo,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        COUNT(DISTINCT c.idComputador) AS numComp
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo)
+                INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede)
+                INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal)
+                LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
+                WHERE cl.computador IS NULL
+                AND (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+    }
+
+    public function detalharClasse($idClasse, $idRede, $idLocal, $idSo) {
+
+        $id = implode(' ,',$idClasse);
+
+        $_dql = "SELECT  c.idComputador,
+                        c.nmComputador,
+                        c.teNodeAddress,
+                        c.teIpComputador,
+                        c.dtHrUltAcesso,
+                        rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo";
+                if (!empty($idSo)){
+                    $_dql .= " AND c.idSo = $idSo ";
+                }
+
+                $_dql .= ") INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
+                if (!empty($idRede)){
+                    $_dql .= " AND rede.idRede = $idRede ";
+                }
+
+                $_dql .= ") INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal";
+                if (!empty($idLocal)){
+                    $_dql .= " AND local.idLocal = $idLocal ";
+                }
+
+                $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
+                WHERE cl.computador IS NULL
+                AND (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY  c.idComputador,
+                        c.nmComputador,
+                        c.teNodeAddress,
+                        c.teIpComputador,
+                        c.dtHrUltAcesso,
+                        rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+    }
+
+    public function detalharClasseCsv($idClasse, $idRede = null, $idLocal = null, $idSo = null) {
+
+        $id = implode(' ,',$idClasse);
+
+        $_dql = "SELECT c.nmComputador,
+                        c.teNodeAddress,
+                        c.teIpComputador,
+                        so.teDescSo,
+                        local.nmLocal,
+                        rede.nmRede,
+                        c.dtHrUltAcesso
+                FROM CacicCommonBundle:Computador c
+                INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo";
+        if (!empty($idSo)){
+            $_dql .= " AND c.idSo = $idSo ";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
+        if (!empty($idRede)){
+            $_dql .= " AND rede.idRede = $idRede ";
+        }
+
+        $_dql .= ") INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal";
+        if (!empty($idLocal)){
+            $_dql .= " AND local.idLocal = $idLocal ";
+        }
+
+        $_dql .= ") LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
+                WHERE cl.computador IS NULL
+                AND (c.ativo IS NULL OR c.ativo = 't')
+                GROUP BY  c.idComputador,
+                        c.nmComputador,
+                        c.teNodeAddress,
+                        c.teIpComputador,
+                        c.dtHrUltAcesso,
+                        rede.idRede,
+                        rede.nmRede,
+                        rede.teIpRede,
+                        local.nmLocal,
+                        local.idLocal,
+                        so.idSo,
+                        so.teDescSo";
+
+        return $this->getEntityManager()->createQuery( $_dql )
+            ->getArrayResult();
+    }
 }

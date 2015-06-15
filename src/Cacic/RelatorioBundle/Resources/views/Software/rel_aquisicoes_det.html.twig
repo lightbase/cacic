@@ -6,6 +6,11 @@
     <h4>{{ 'Processo número: '|trans }}{{ dados[0].idAquisicao.nrProcesso }}</h4>
     <h4>{{ 'Tipo de licença: '|trans }}{{ dados[0].idTipoLicenca.teTipoLicenca }}</h4>
     <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
+    <br>
+    <a href="{{ path('cacic_relatorio_software_aquisicoes_det_csv',  { 'idAquisicao': dados[0].idAquisicao.idAquisicao, 'idTipoLicenca': dados[0].idTipoLicenca.idTipoLicenca }) }}" class="btn btn-primary" target="_blank">
+        <i class="icon-bar-chart"></i>
+        Gerar CSV
+    </a>
 
     <hr />
 
@@ -21,10 +26,13 @@
     <table class="display datatable" id="datatable">
         <thead>
         <tr>
-            <th width="40%">{{ "Nome da Máquina"|trans }}</th>
+            <th width="10%">{{ "Nome da Máquina"|trans }}</th>
+            <th width="10%" style="text-align: center">{{ "IP"|trans }}</th>
+            <th width="10%">{{ "MAC Address"|trans }}</th>
+            <th width="18%">{{ "Sistema Operacional" }}</th>
             <th width="20%">{{ "Local"|trans }}</th>
-            <th width="20%" style="text-align: center">{{ "IP"|trans }}</th>
-            <th width="20%" style="text-align: center">{{ "Data último acesso"|trans }}</th>
+            <th width="10%">{{ "Subrede"|trans }}</th>
+            <th width="10%" style="text-align: center">{{ "Data último acesso"|trans }}</th>
             <th width="5%"></th>
         </tr>
         </thead>
@@ -39,8 +47,11 @@
                         {{ reg.nmComputador }}
                     </a>
                 </td>
+                <td style="text-align: center"><a href="{{ path("cacic_computador_detalhar") }}/{{ reg.idComputador }}" target="_blank">{{ reg.teIpComputador }}</a></td>
+                <td style="text-align: center"><a href="{{ path("cacic_computador_detalhar") }}/{{ reg.idComputador }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
+                <td>{{ reg.idSo.TeDescSo }}</td>
                 <td>{{ reg.idRede.idLocal.nmLocal }}</td>
-                <td style="text-align: center">{{ reg.teIpComputador }}</td>
+                <td>{{ reg.idRede.nmRede }}</td>
                 <td style="text-align: center">{{ reg.dtHrUltAcesso|date("d/m/Y H\\hi") }}</td>
                 <td>
                     <a class="btn" href="{{ path("cacic_computador_detalhar") }}/{{ reg.idComputador }}" target="_blank">

@@ -95,6 +95,10 @@ Cacic\CommonBundle\Entity\Computador:
             lenght: 1
             nullable: true
             column: forca_patrimonio
+        ativo:
+            type: boolean
+            nullable: true
+            column: ativo
     oneToMany:
         softwares:
             targetEntity: SoftwareEstacao
@@ -104,7 +108,16 @@ Cacic\CommonBundle\Entity\Computador:
             mappedBy: computador
         software_coletado:
             targetEntity: PropriedadeSoftware
-            mappedBy: idComputador
+            mappedBy: computador
+        hardwares_historico:
+            targetEntity: ComputadorColetaHistorico
+            mappedBy: computador
+        erros_agente:
+            targetEntity: ErrosAgente
+            mappedBy: computador
+        software_coletado:
+            targetEntity: PropriedadeSoftware
+            mappedBy: computador
     manyToOne:
         idUsuarioExclusao:
             targetEntity: Usuario
@@ -117,7 +130,7 @@ Cacic\CommonBundle\Entity\Computador:
             orphanRemoval: false
         idSo:
             targetEntity: So
-            cascade: {  }
+            cascade: []
             mappedBy: null
             inversedBy: null
             joinColumns:
@@ -126,11 +139,14 @@ Cacic\CommonBundle\Entity\Computador:
             orphanRemoval: false
         idRede:
             targetEntity: Rede
-            cascade: {  }
+            cascade: []
             mappedBy: null
             inversedBy: null
             joinColumns:
                 id_rede:
                     referencedColumnName: id_rede
             orphanRemoval: false
+    uniqueConstraints:
+        mac_os_unique_idx:
+            columns: [ te_node_address, id_so ]
     lifecycleCallbacks: {  }

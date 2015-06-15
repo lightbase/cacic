@@ -28,6 +28,26 @@
                             <i class="icon-plus"></i>
                             {{ "Cadastrar Patrimonio"|trans }}
                         </a>
+                        <br>
+                        <br>
+                        {% if nivel[0]['nmGrupoUsuarios'] == 'Admin' %}
+                            {% if ativo == 'falso' %}
+                                <a class="btn btn-large btn-success" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}?ativar=True">
+                                    <i class="icon-ok-sign"></i>
+                                    {{ "Ativar Computador"|trans }}
+                                </a>
+                            {% else %}
+                                <a class="btn btn-large btn-danger" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}?desativar=True">
+                                    <i class="icon-remove-sign"></i>
+                                    {{ "Desativar Computador"|trans }}
+                                </a>
+                            {% endif %}
+                            <br><br>
+                            <a class="btn btn-large btn-info" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}?forcarColeta=True">
+                                <i class="icon-download-alt"></i>
+                                {{ "Forçar Coleta"|trans }}
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
 	            <br />

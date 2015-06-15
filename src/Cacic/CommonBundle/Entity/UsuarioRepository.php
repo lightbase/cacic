@@ -77,7 +77,24 @@ class UsuarioRepository extends EntityRepository
 
 		return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();
 	}
-	
+
+    /**
+     *
+     * Método que gera a lsiat de usuários para CSV
+     */
+    public function csv()
+    {
+        $_dql = "SELECT u.nmUsuarioAcesso, u.nmUsuarioCompleto, l.nmLocal, g.teGrupoUsuarios
+				FROM CacicCommonBundle:Usuario u
+				JOIN u.idLocal l
+				JOIN u.idGrupoUsuario g
+				LEFT JOIN u.locaisSecundarios ls
+				GROUP BY u, l.nmLocal, g.teGrupoUsuarios";
+
+        return $this->getEntityManager()->createQuery( $_dql )->getArrayResult();;
+
+    }
+
 	/**
 	 * 
 	 * Lista os Usuários cadastrados associados a determinado Local
@@ -131,7 +148,7 @@ class UsuarioRepository extends EntityRepository
             ->getEntityManager()
             ->createQuery( $_dql )
             ->setMaxResults(1)
-            ->getOneOrNullResult();
+            ->getSingleScalarResult();
 
     }
 

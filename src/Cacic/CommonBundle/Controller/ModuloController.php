@@ -30,6 +30,7 @@ class ModuloController extends Controller
         } else {
             $totalRedes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->countByLocal( $local->getIdLocal() );
         }
+
         //Debug::dump($modulos);die;
 		return $this->render(
 			'CacicCommonBundle:Modulo:index.html.twig', 
@@ -54,9 +55,7 @@ class ModuloController extends Controller
 		if ( ! $modulo )
 			throw $this->createNotFoundException( 'Página não encontrada' );
 
-
-
-        if($nivel[0]['teGrupoUsuarios'] != "Administração")
+        if($nivel[0]['nmGrupoUsuarios'] != "Admin")
         {
             $local = $this->getUser()->getIdLocal(); /* @todo Em caso de usuário administrativo, escolher o Local */
             $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorLocal( $local );

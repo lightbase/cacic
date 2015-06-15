@@ -15,6 +15,8 @@ use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Reader\ArrayReader;
 use Ddeboer\DataImport\Writer\CsvWriter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
+use Ddeboer\DataImport\ValueConverter\CharsetValueConverter;
 
 class SoftwareController extends Controller
 {
@@ -187,7 +189,6 @@ class SoftwareController extends Controller
     					->getRepository('CacicCommonBundle:Aquisicao')
     					->gerarRelatorioAquisicoes();
 
-    	//\Doctrine\Common\Util\Debug::dump($dados);die;
     	return $this->render(
         	'CacicRelatorioBundle:Software:rel_aquisicoes.html.twig', 
         	array(
@@ -397,5 +398,54 @@ class SoftwareController extends Controller
                 'dados' => $dados
             )
         );
+    }
+
+    public function aquisicoesDetalhadoCsvAction( Request $request, $idAquisicao, $idTipoLicenca )
+    {
+        $locale = $request->getLocale();
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:AquisicaoItem')
+            ->aquisicoesDetalhadoCsv($idAquisicao, $idTipoLicenca);
+
+        $cabecalho = array(array(
+            'ID',
+            'Nome da máquina',
+            'IP',
+            'MAC Address',
+            'Sistema Operacional',
+            'Local',
+            'Subrede',
+            'Data último acesso'
+        ));
+        // Gera CSV
+        $reader = new ArrayReader(array_merge($cabecalho, $dados));
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        $converter = new CallbackValueConverter(function ($input) {
+            return $input->format('d/m/Y H:m:s');
+        });
+        $workflow->addValueConverter('dtHrUltAcesso', $converter);
+
+        $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
+
+        // Add the writer to the workflow
+        $filename = "relatorio-software.csv";
+        $tmpfile = tempnam(sys_get_temp_dir(), $filename);
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', "attachment; filename=$filename");
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
     }
 }

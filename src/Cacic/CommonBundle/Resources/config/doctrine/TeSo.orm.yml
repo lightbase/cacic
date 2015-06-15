@@ -1,0 +1,29 @@
+Cacic\CommonBundle\Entity\TeSo:
+    type: entity
+    table: te_so
+    repositoryClass: Cacic\CommonBundle\Entity\TeSoRepository
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id
+            generator:
+                strategy: IDENTITY
+        idSo:
+            type: integer
+            fixed: false
+            nullable: false
+            column: id_so
+        teSo28:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_so_28
+        teSo31:
+            type: text
+            fixed: false
+            nullable: true
+            column: te_so_31
+    lifecycleCallbacks: {  }

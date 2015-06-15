@@ -261,4 +261,32 @@ class Acao
     {
         return $this->so;
     }
+    /**
+     * @var boolean
+     */
+    private $ativo;
+
+
+    /**
+     * Set ativo
+     *
+     * @param boolean $ativo
+     * @return Acao
+     */
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+
+        return $this;
+    }
+
+    /**
+     * Get ativo
+     *
+     * @return boolean 
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
 }

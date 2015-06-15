@@ -31,7 +31,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Swpb\Bundle\CocarBundle\CocarBundle(),
             new Ddeboer\DataImportBundle\DdeboerDataImportBundle(),
-            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -39,6 +39,14 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+        }
+
+        if (in_array($this->getEnvironment(), array('test'))) {
+            $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+        }
+
+        if (in_array($this->getEnvironment(), array('multi'))) {
+            $bundles[] = new Cacic\MultiBundle\CacicMultiBundle();
         }
 
         return $bundles;

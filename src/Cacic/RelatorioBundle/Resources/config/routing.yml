@@ -85,8 +85,8 @@ cacic_relatorio_software_aquisicoes:
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesRelatorio }
 
 cacic_relatorio_software_aquisicoes_det:
- pattern: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}
- defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhado }
+    pattern: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}
+    defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhado }
 
 cacic_relatorio_software_tipo:
     pattern: /software/tipo
@@ -127,6 +127,26 @@ cacic_relatorio_hardware_wmi_rel:
     defaults: { _controller: CacicRelatorioBundle:Hardware:wmiRelatorio }
     requirements:
             _method: POST
+
+cacic_relatorio_wmi_sem_coleta:
+    pattern: /wmi/semcoleta
+    defaults: { _controller: CacicRelatorioBundle:Hardware:semColeta }
+
+cacic_relatorio_wmi_sem_coleta_listar:
+    pattern: /wmi/semcoletalistar
+    defaults: { _controller: CacicRelatorioBundle:Hardware:semColetaListar }
+
+cacic_relatorio_wmi_sem_coleta_listar_csv:
+    pattern: /wmi/semcoletalistar/csv
+    defaults: { _controller: CacicRelatorioBundle:Hardware:listarWmiSemColetaCsv}
+
+cacic_relatorio_wmi_sem_coleta_detalhar:
+    pattern: /wmi/semcoletadetalhar
+    defaults: { _controller: CacicRelatorioBundle:Hardware:semColetaDetalhar }
+
+cacic_relatorio_wmi_sem_coleta_detalhar_csv:
+    pattern: /wmi/semcoletadetalhar/csv
+    defaults: { _controller: CacicRelatorioBundle:Hardware:semColetaDetalharCsv }
 
 cacic_relatorio_hardware_wmi_dinamico:
     pattern: /relWmiDinamico
@@ -247,3 +267,61 @@ cacic_software_search:
   defaults: { _controller:CacicRelatorioBundle:Software:search, name:null }
   requirements:
     _method: GET
+
+cacic_relatorio_software_aquisicoes_det_csv:
+    pattern: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}/csv
+    defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhadoCsv }
+
+cacic_relatorio_computador:
+    pattern: /computador
+    defaults: { _controller: CacicRelatorioBundle:Computador:listar }
+    requirements:
+        _method: GET
+
+cacic_relatorio_computador_resultado:
+     pattern: /computador/subredes
+     defaults: { _controller: CacicRelatorioBundle:Computador:listarResultado }
+
+cacic_relatorio_computador_resultado_csv:
+     pattern: /computador/subredes/csv
+     defaults: { _controller: CacicRelatorioBundle:Computador:listarResultadoCsv }
+
+cacic_relatorio_computador_listar:
+    pattern: /computador/listar/{idRede}
+    defaults: { _controller: CacicRelatorioBundle:Computador:listarDetalhado, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+
+
+cacic_relatorio_computador_listar_csv:
+    pattern: /computador/listar/csv/{idRede}
+    defaults: { _controller: CacicRelatorioBundle:Computador:listarDetalhadoCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+
+
+cacic_relatorio_so:
+    pattern: /so
+    defaults: { _controller: CacicRelatorioBundle:So:index }
+
+cacic_relatorio_so_listar:
+    pattern: /so/listar
+    defaults: { _controller: CacicRelatorioBundle:So:listar, idSo: null }
+
+cacic_relatorio_so_listar_csv:
+    pattern: /so/listar/csv
+    defaults: { _controller: CacicRelatorioBundle:So:listarCsv, idSo: null }
+
+cacic_relatorio_so_detalhar:
+    pattern: /so/detalhar/{idSo}
+    defaults: { _controller: CacicRelatorioBundle:So:detalhar }
+
+cacic_relatorio_so_detalhar_csv:
+    pattern: /so/detalhar/csv/{idSo}
+    defaults: { _controller: CacicRelatorioBundle:So:detalharCsv }
+
+cacic_relatorio_so_consolidado:
+    pattern: /so/consolidado
+    defaults: { _controller: CacicRelatorioBundle:So:consolidado }
+
+cacic_relatorio_so_consolidado_csv:
+    pattern: /so/consolidado/csv
+    defaults: { _controller: CacicRelatorioBundle:So:consolidadoCsv }

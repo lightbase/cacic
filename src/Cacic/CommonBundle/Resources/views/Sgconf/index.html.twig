@@ -1,7 +1,7 @@
 {% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li class="active">{{ 'Arquivo SGConf_PGFN'|trans }}</li>
+    <li class="active">{{ 'Exportar CSV'|trans }}</li>
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@
         <div class="span8">
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Arquivo SGConf_PGFN' |trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-search"></i> {{'Arquivos CSV' |trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
 
@@ -19,25 +19,25 @@
                         <form id="{{ 'formSGConfLocal'|trans }}" action="{{ path('cacic_arquivo_sgconf_local') }}" class="form-horizontal" method="POST" target="_blank">
                             <button type="submit" class="btn btn-success">
                                 <i class="icon-download-alt"></i>
-                                {{'Locais_CACIC'|trans  }}
+                                {{'Locais'|trans  }}
                             </button>
                         </form>
                         <form id="{{ 'formSGConfRede'|trans }}" action="{{ path('cacic_arquivo_sgconf_rede') }}" class="form-horizontal" method="POST" target="_blank">
                             <button type="submit" class="btn btn-success">
                                 <i class="icon-download-alt"></i>
-                                {{'Redes_CACIC'|trans  }}
+                                {{'Redes'|trans  }}
                             </button>
                         </form>
                         <form id="{{ 'formSGConfSo'|trans }}" action="{{ path('cacic_arquivo_sgconf_so') }}" class="form-horizontal" method="POST" target="_blank">
                             <button type="submit" class="btn btn-success">
                                 <i class="icon-download-alt"></i>
-                                {{'SO_CACIC'|trans  }}
+                                {{'SO'|trans  }}
                             </button>
                         </form>
                         <form id="{{ 'formSGConfEstacao'|trans }}" action="{{ path('cacic_arquivo_sgconf_estacao') }}" class="form-horizontal" method="POST" target="_blank">
                             <button type="submit" class="btn btn-success">
                                 <i class="icon-download-alt"></i>
-                                {{'Estações_CACIC'|trans  }}
+                                {{'Estações'|trans  }}
                             </button>
                         </form>
                     </div>

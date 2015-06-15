@@ -71,7 +71,7 @@
 					
 				</label>
 			
-				<label>
+				{#<label>
 					{{ "Permitir finalização de sessões do módulo srCACIC:"|trans }}
 					<span class="help-block">{{ "Essa opção define se o usuário final poderá ou não finalizar execuções do módulo srCACIC (Suporte Remoto Seguro)."|trans }} </span>
 					{{ form_row(form.csPermitirDesativarSrcacic, {'form_type': 'horizontal'} ) }}
@@ -81,7 +81,7 @@
 					{{ "Selecao para coleta de informacoes de sistemas monitorados:"|trans }}
 					<span class="help-block">{{ "Essa opcao permite a selecao de coletas de informacoes de sistemas monitorados para essa rede."|trans }} </span>
 					{{ form_row(form.idAplicativo, {'form_type': 'horizontal'} ) }}
-				</label>
+				</label>#}
 			</fieldset>
 			
 			<div class="control-group">

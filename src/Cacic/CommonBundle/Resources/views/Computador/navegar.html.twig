@@ -18,6 +18,16 @@
             <h3>{{ "Navegação pelos Computadores das Subredes"|trans }}</h3>
             <p class="muted">{{ "Neste módulo, é possível visualizar cada estação de trabalho monitorada."|trans }}</p>
             <br />
+            <a class="btn btn-primary" type="submit" href="{{ path('cacic_relatorio_computador') }}" title="{{ "Todos os Computadores"|trans }}" target="_blank">
+                <i class="icon-bar-chart"></i>
+                Computadores por Subrede
+            </a>
+            <a class="btn btn-success" type="submit" href="{{ path('cacic_relatorio_computador_listar') }}" title="{{ "Todos os Computadores"|trans }}" target="_blank">
+                <i class="icon-bar-chart"></i>
+                Todos os Computadores
+            </a>
+            <br>
+            <br>
             <div id="tree_comp0"></div> <!-- Árvore com os Computadores Monitorados-->
         </div>
     </div>

@@ -186,4 +186,13 @@ class ComputadorColeta
     {
         return $this->idClass;
     }
+
+    /**
+     * Identifica coleta do computador
+     *
+     * @return string
+     */
+    public function __toString() {
+        return $this->classProperty.": ".$this->teClassPropertyValue."| Computador:".$this->computador->getIdComputador();
+    }
 }

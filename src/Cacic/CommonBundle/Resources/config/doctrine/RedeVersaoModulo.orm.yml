@@ -58,7 +58,7 @@ Cacic\CommonBundle\Entity\RedeVersaoModulo:
             targetEntity: TipoSo
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: redeVersaoModulo
             joinColumns:
                 id_tipo_so:
                     referencedColumnName: id_tipo_so

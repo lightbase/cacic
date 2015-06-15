@@ -34,12 +34,15 @@ Cacic\CommonBundle\Entity\So:
     manyToOne:
         tipo:
             targetEntity: TipoSo
-            cascade: {  }
+            cascade: ["merge"]
             mappedBy: null
-            inversedBy: null
+            inversedBy: so
             nullable: true
             joinColumns:
                 id_tipo_so:
                     referencedColumnName: id_tipo_so
             orphanRemoval: false
+    uniqueConstraints:
+        te_so_uq:
+            columns: [te_so]
     lifecycleCallbacks: {  }

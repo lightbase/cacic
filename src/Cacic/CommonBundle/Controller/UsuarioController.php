@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Cacic\CommonBundle\Entity\Usuario;
 use Cacic\CommonBundle\Entity\GrupoUsuario;
 use Cacic\CommonBundle\Form\Type\UsuarioType;
+use Ddeboer\DataImport\Workflow;
+use Ddeboer\DataImport\Reader\ArrayReader;
+use Ddeboer\DataImport\Writer\CsvWriter;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class UsuarioController extends Controller
 {
@@ -131,6 +135,23 @@ class UsuarioController extends Controller
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
 		
 		$form = $this->createForm( new UsuarioType(), $usuario );
+
+        // Check if user has permission to generate API
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('ROLE_ADMIN')) {
+            $apiKey = $usuario->getApiKey();
+            if (empty($apiKey)) {
+                $apiKey = md5(uniqid(""));
+            }
+
+            $form->add( 'api_key', 'text',
+                array(
+                    'label' => 'Chave de API',
+                    'required' => false,
+                    'data' => $apiKey
+                )
+            );
+        }
 		
 		if ( $request->isMethod('POST') )
 		{
@@ -194,6 +215,38 @@ class UsuarioController extends Controller
 
             return $response;
         }
+
+    }
+
+    /**
+     * Gera CSV dos usuários cadastrados
+     */
+    public function csvAction()
+    {
+        $usuarios = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Usuario' )->csv();
+
+        // Gera CSV
+        $reader = new ArrayReader(array_merge($usuarios));
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), "Usuarios.csv");
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', "attachment; filename=Usuarios.csv");
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
 
     }
     
