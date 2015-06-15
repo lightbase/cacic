@@ -37,49 +37,16 @@ BEGIN
 
     LOOP
 
-      RAISE NOTICE 'Processando propriedade id = %', cp.id_class_property;
+      RAISE NOTICE 'Propriedade já identificada no id %. Removendo...', cp.id_class_property;
 
-      BEGIN
+      DELETE FROM proriedade_software
+      WHERE id_class_property = cp.id_class_property;
 
-        RAISE NOTICE 'Atualizando propriedade de software do id = % para o id = %', cp.id_class_property, v_id_cp;
+      DELETE FROM computador_coleta_historico
+      WHERE id_class_property = cp.id_class_property;
 
-        -- Tenta atualizar para o valor atual. Se der erro apaga
-        UPDATE proriedade_software
-        SET id_class_property = v_id_cp
-        WHERE id_class_property = cp.id_class_property;
-
-      EXCEPTION
-        WHEN SQLSTATE '23505' THEN
-          RAISE NOTICE 'Propriedade já identificada no id %. Removendo...', cp.id_class_property;
-
-          DELETE FROM proriedade_software
-          WHERE id_class_property = cp.id_class_property;
-      END;
-
-      RAISE NOTICE 'Processando coletas id = %', cp.id_class_property;
-
-      BEGIN
-        RAISE NOTICE 'Atualizando coletas da propriedade id = % para o id = %', cp.id_class_property, v_id_cp;
-
-        -- Tenta atualizar para o valor atual. Se der erro apaga
-        UPDATE computador_coleta_historico
-        SET id_class_property = v_id_cp
-        WHERE id_class_property = cp.id_class_property;
-
-        UPDATE computador_coleta
-        SET id_class_property = v_id_cp
-        WHERE id_class_property = cp.id_class_property;
-
-        EXCEPTION
-        WHEN SQLSTATE '23505' THEN
-          RAISE NOTICE 'Propriedade já identificada no id %. Removendo...', cp.id_class_property;
-
-          DELETE FROM computador_coleta_historico
-          WHERE id_class_property = cp.id_class_property;
-
-          DELETE FROM computador_coleta
-          WHERE id_class_property = cp.id_class_property;
-      END;
+      DELETE FROM computador_coleta
+      WHERE id_class_property = cp.id_class_property;
 
       RAISE NOTICE 'Processamento finalizado. Excluindo id_class_property = %', cp.id_class_property;
 
