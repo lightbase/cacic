@@ -29,14 +29,6 @@ class RedeRepository extends EntityRepository
 
         return $query->getQuery()->getSingleScalarResult();
 	}
-    /**
-     * Conta todas as redes de todos os locais
-     * @return mixed
-     */
-    public function countByLocalADM() {
-        $query = $this->createQueryBuilder('rede')->select('COUNT(rede.idRede)');
-        return $query->getQuery()->getSingleScalarResult();
-    }
 
     /**
      * Conta todas as redes de todos os locais
@@ -44,7 +36,6 @@ class RedeRepository extends EntityRepository
      */
     public function countByLocalADM() {
         $query = $this->createQueryBuilder('rede')->select('COUNT(rede.idRede)');
-
         return $query->getQuery()->getSingleScalarResult();
     }
 
