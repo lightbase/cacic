@@ -60,8 +60,8 @@ BEGIN
   -- Finaliza apagando os nulos
   FOR cp in SELECT id_class_property
             from class_property
-            where (id_class_property is NULL
-                   or id_class_property = '')
+            where nm_property_name is NULL
+                   or nm_property_name = ''
   LOOP
 
     RAISE NOTICE 'Processando propriedade NULA id = %', cp.id_class_property;
