@@ -21,6 +21,9 @@ class SiglasExtension extends \Twig_Extension
 	 */
 	private $motivosInsucessoInstalacao = array(
 		0 => array( 'label' => 'Sem privilégio', 'class' => 'red' ),
+        1 => array( 'label' => 'Usuário sem permissão Admin', 'class' => 'red' ),
+        11 => array('label' => 'Não identificou interface de rede', 'class' => 'red'),
+        99 => array('label' => 'Erro no script install-cacic-sa', 'class' => 'red')
 	);
 	
 	/**
