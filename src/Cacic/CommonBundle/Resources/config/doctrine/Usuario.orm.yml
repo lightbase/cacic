@@ -51,12 +51,12 @@ Cacic\CommonBundle\Entity\Usuario:
             nullable: true
             column: te_telefones_contato
         apiKey:
-            type: text
+            type: string
             fixed: false
             nullable: true
             column: api_key
         cryptKey:
-            type: text
+            type: string
             fixed: false
             nullable: true
             column: crypt_key

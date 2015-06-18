@@ -4,7 +4,7 @@ Cacic\CommonBundle\Entity\PatrimonioConfigInterface:
     repositoryClass: Cacic\CommonBundle\Entity\PatrimonioConfigInterfaceRepository
     id:
         idEtiqueta:
-            type: text
+            type: string
             fixed: true
             column: id_etiqueta
         local:

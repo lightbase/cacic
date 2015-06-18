@@ -22,7 +22,7 @@ Cacic\CommonBundle\Entity\So:
             nullable: true
             column: sg_so
         teSo:
-            type: text
+            type: string
             fixed: false
             nullable: false
             column: te_so

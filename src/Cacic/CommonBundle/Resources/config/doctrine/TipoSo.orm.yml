@@ -12,7 +12,7 @@ Cacic\CommonBundle\Entity\TipoSo:
             generator:
                 strategy: IDENTITY
         tipo:
-            type: text
+            type: string
             fixed: false
             nullable: false
             column: tipo
