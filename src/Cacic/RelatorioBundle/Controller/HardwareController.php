@@ -444,34 +444,26 @@ class HardwareController extends Controller
         $locale = $request->getLocale();
         $logger = $this->get('logger');
 
-            // Aqui vem via POST pelo formulário
-            $data = $request->request->all();
-            if (!empty($data)) {
-                $idClasse = $data['classe_pesquisa']['nmClassName'];
-            } else {
-                $idClasse = null;
-            }
+        // Aqui vem via POST pelo formulário
+        $data = $request->request->all();
+        if (!empty($data)) {
+            $idClasse = $data['classe_pesquisa']['nmClassName'];
+        } else {
+            $idClasse = null;
+        }
 
         $computadores = $em->getRepository("CacicCommonBundle:Computador")->listarClasse($idClasse);
+        $cont['numComp'] = count($computadores);
 
-        foreach ($computadores as $comp){
-            $teste = implode(' ,',$comp);
-            error_log('>>>>>>>>>>>>>>>>>>>>>>'.$teste);
-        }
-
-
-        $TotalnumComp = 0;
-
-        foreach ($computadores as $cont  ){
-            $TotalnumComp += $cont['numComp'];
-        }
+        $classes = $em->getRepository("CacicCommonBundle:Classe")->nomes($idClasse);
 
         return $this->render( 'CacicRelatorioBundle:Hardware:wmi_sem_coleta_listar.html.twig',
             array(
                 'idioma'=> $locale,
                 'filtroClasses' => $idClasse,
                 'logs' => ( isset( $computadores ) ? $computadores : null ),
-                'totalnumcomp' => $TotalnumComp
+                'totalnumcomp' => $cont['numComp'],
+                'classes' => $classes
             )
         );
     }
@@ -485,9 +477,9 @@ class HardwareController extends Controller
         $idLocal = $request->get('idLocal');
         $idClasse = $request->get('idClasse');
 
-        error_log('detalhar >>>>>>>>>>>>>>>>>>>>>>'.$idClasse);
-
         $computadores = $em->getRepository("CacicCommonBundle:Computador")->detalharClasse($idClasse, $idRede, $idLocal, $idSo);
+
+        $classes = $em->getRepository("CacicCommonBundle:Classe")->nomes($idClasse);
 
         return $this->render('CacicRelatorioBundle:Hardware:wmi_sem_coleta_detalhar.html.twig',
             array(
@@ -496,7 +488,8 @@ class HardwareController extends Controller
                 'computadores' => $computadores,
                 'idSo' => $idSo,
                 'idRede' => $idRede,
-                'idLocal' => $idLocal
+                'idLocal' => $idLocal,
+                'classes' => $classes
             )
         );
     }

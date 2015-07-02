@@ -7,7 +7,11 @@
             <div class="box grad_colour_black">
                 <h2 class="box_head round_top"><i class="icon-list"></i> {{'Total de Computadores' |trans }}</h2>
                 <div class="block box_content round_bottom padding_10">
-                    <h2 class="">{{ 'Lista de Classes WMI Não Identificada'|trans }}</h2>
+                    <h2 class="">{{ 'Classes WMI sem coleta:'|trans }}</h2>
+                    {% for cl in classes %}
+                        <h3>{{ cl.nmClassName }}</h3>
+                    {% endfor %}
+                    <br>
                     <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
 
                     <hr />

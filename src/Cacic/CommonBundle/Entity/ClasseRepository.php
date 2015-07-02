@@ -138,5 +138,18 @@ class ClasseRepository extends EntityRepository
 
         return $classObject;
     }
+
+    public function nomes($idClasse) {
+
+        $idClass = join(", ", $idClasse);
+
+        $qb = $this
+            ->createQueryBuilder('cl')->select(
+                'cl.nmClassName'
+            )
+            ->andWhere("cl.idClass IN ($idClass)");
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }
 

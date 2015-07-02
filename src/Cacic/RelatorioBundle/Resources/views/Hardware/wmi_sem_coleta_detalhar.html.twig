@@ -3,7 +3,11 @@
 {% block body %}
 
     {% if idSo is not null %}
-        <h2>{{ 'Relatório de computadores para a Classe Não Identificada '|trans }}</h2>
+        <h2>{{ 'Relatório de computadores para as Classes Não Identificadas:'|trans }}</h2>
+        {% for cl in classes %}
+            <h3>{{ cl.nmClassName }}</h3>
+        {% endfor %}
+        <br>
     {% else %}
         <h2>{{ 'Lista de Computadores'|trans }}</h2>
     {% endif %}
