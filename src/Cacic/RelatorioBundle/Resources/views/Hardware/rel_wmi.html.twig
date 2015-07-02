@@ -34,12 +34,12 @@
 	<tbody>
 	    {% for reg in dados %}
         <tr>
-            <td><span class="{% if reg.inMswindows == 'S' %}red{% else %}blue{% endif %}"><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'so': reg.idSo}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.teDescSo }}</a></span></td>
-            <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'local': reg.idLocal}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.nmLocal }}</a></td>
-            <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'rede': reg.idRede}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.nmRede }} / {{ reg.teIpRede }}</a></td>
-            <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.nmPropertyName }}</a></td>
+            <td><span class="{% if reg.inMswindows == 'S' %}red{% else %}blue{% endif %}"><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'so': reg.idSo}) }}" title="{{ "Lista de computadores com o SO"|trans }}" target="_blank">{{ reg.teDescSo }}</a></span></td>
+            <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'local': reg.idLocal}) }}" title="{{ "Lista de computadores no local"|trans }}" target="_blank">{{ reg.nmLocal }}</a></td>
+            <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'rede': reg.idRede}) }}" title="{{ "Lista de computadores na subrede"|trans }}" target="_blank">{{ reg.nmRede }} / {{ reg.teIpRede }}</a></td>
+            <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName}) }}" title="{{ "Lista de computadores com a propriedade"|trans }}" target="_blank">{{ reg.nmPropertyName }}</a></td>
             <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'so': reg.idSo, 'local': reg.idLocal, 'rede': reg.idRede, 'valor': reg.teClassPropertyValue, 'idClassProperty': filtros['conf']}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.numComp }}</a></td>
-            <td>{{ reg.teClassPropertyValue }}</td>
+            <td><a href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'valor': reg.teClassPropertyValue}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">{{ reg.teClassPropertyValue }}</a></td>
             <td>
                 <a class="btn" href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': classe, 'propriedade': reg.nmPropertyName, 'so': reg.idSo, 'local': reg.idLocal, 'rede': reg.idRede, 'valor': reg.teClassPropertyValue, 'idClassProperty': filtros['conf']}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">
                     <i class="icon-search"></i>

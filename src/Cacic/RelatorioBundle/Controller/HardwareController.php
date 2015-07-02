@@ -109,6 +109,7 @@ class HardwareController extends Controller
      */
     public function wmiRelatorioDetalheAction( Request $request, $classe, $propriedade )
     {
+        $em = $this->getDoctrine()->getManager();
         $filtros['conf'] = $propriedade;
 
         $rede = $request->get('rede');
@@ -117,7 +118,7 @@ class HardwareController extends Controller
         $valor = $request->get('valor');
 
         // Pega o idClass
-        $idClass = $this->getDoctrine()->getManager()->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
+        $idClass = $em->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
             'nmClassName' => $classe
         ));
 
@@ -128,26 +129,22 @@ class HardwareController extends Controller
         $idClassProperty = $request->get('idClassProperty');
         if ($propriedade == "Não identificado" && !empty($idClassProperty)) {
             $filtros['conf'] = $idClassProperty;
-        } else {
-            // Pega o idClassProperty
-            $idClassProperty = $this
-                ->getDoctrine()
-                ->getManager()
-                ->createQuery("SELECT p.idClassProperty FROM CacicCommonBundle:ClassProperty p WHERE p.nmPropertyName = :propriedade")
-                ->setParameter('propriedade', $propriedade)
-                ->getArrayResult();
-
-            // Corrige para fazer o parsing da variável
-            $item = array();
-            foreach ($idClassProperty as $elm) {
-                array_push($item, $elm['idClassProperty']);
-            }
-
-            if (!empty($item)) {
-                $filtros['conf'] = join($item, ",");
-            }
         }
 
+        // Pega o idClassProperty
+        $idClassProperty = $em->getRepository("CacicCommonBundle:ClassProperty")->findBy(array(
+            'nmPropertyName' => $propriedade
+        ));
+
+        // Corrige para fazer o parsing da variável
+        $item = array();
+        foreach ($idClassProperty as $elm) {
+            array_push($item, $elm->getIdClassProperty());
+        }
+
+        if (!empty($item)) {
+            $filtros['conf'] = join($item, ",");
+        }
 
         // Adiciona rede à lista de filtros se for fornecido
         if (!empty($rede)) {
@@ -164,7 +161,7 @@ class HardwareController extends Controller
             $filtros['so'] =  $so;
         }
 
-        // Adiciona SO à lista de filtros se for fornecido
+        // Adiciona valor à lista de filtros se for fornecido
         if (!empty($valor)) {
             $filtros['valor'] =  $valor;
         }
@@ -175,21 +172,6 @@ class HardwareController extends Controller
 
         $locale = $request->getLocale();
 
-        // Pega o idClassProperty
-        $idClassProperty = $this
-            ->getDoctrine()
-            ->getManager()
-            ->createQuery("SELECT p.idClassProperty FROM CacicCommonBundle:ClassProperty p WHERE p.nmPropertyName = :propriedade")
-            ->setParameter('propriedade', $propriedade)
-            ->getArrayResult();
-
-        // Corrige para fazer o parsing da variável
-        $item = array();
-        foreach ($idClassProperty as $elm) {
-            array_push($item, $elm['idClassProperty']);
-        }
-        $filtros['conf'] = join($item, ",");
-
         return $this->render(
             'CacicRelatorioBundle:Hardware:rel_wmi_detalhe.html.twig',
             array(
@@ -197,7 +179,8 @@ class HardwareController extends Controller
                 'dados' => $dados,
                 'propriedade' => $propriedade,
                 'filtros' => $filtros,
-                'classe' => $classe
+                'classe' => $classe,
+                'valor' => $valor
             )
         );
     }
@@ -270,16 +253,47 @@ class HardwareController extends Controller
 
     public function csvWMIRelatorioDetalheAction( Request $request, $classe, $propriedade )
     {
+        $em = $this->getDoctrine()->getManager();
         $filtros['conf'] = $propriedade;
+
         $rede = $request->get('rede');
         $local = $request->get('local');
         $so = $request->get('so');
+        $valor = $request->get('valor');
+
+        // Pega o idClass
+        $idClass = $em->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
+            'nmClassName' => $classe
+        ));
+
+        $item = array();
+        array_push($item, $idClass->getIdClass());
+        $filtros['idClass'] = $idClass->getIdClass();
+
+        $idClassProperty = $request->get('idClassProperty');
+        if ($propriedade == "Não identificado" && !empty($idClassProperty)) {
+            $filtros['conf'] = $idClassProperty;
+        }
+
+        // Pega o idClassProperty
+        $idClassProperty = $em->getRepository("CacicCommonBundle:ClassProperty")->findBy(array(
+            'nmPropertyName' => $propriedade
+        ));
+
+        // Corrige para fazer o parsing da variável
+        $item = array();
+        foreach ($idClassProperty as $elm) {
+            array_push($item, $elm->getIdClassProperty());
+        }
+
+        if (!empty($item)) {
+            $filtros['conf'] = join($item, ",");
+        }
 
         // Adiciona rede à lista de filtros se for fornecido
         if (!empty($rede)) {
-            $filtros['redes'] = $rede;
+            $filtros['rede'] = $rede;
         }
-
 
         // Adiciona local à lista de filtros se for fornecido
         if (!empty($local)) {
@@ -291,9 +305,14 @@ class HardwareController extends Controller
             $filtros['so'] =  $so;
         }
 
+        // Adiciona valor à lista de filtros se for fornecido
+        if (!empty($valor)) {
+            $filtros['valor'] =  $valor;
+        }
+
         $dados = $this->getDoctrine()
-            ->getRepository('CacicCommonBundle:ComputadorColeta')
-            ->gerarRelatorioWMIDetalhe( $filtros, $classe );
+            ->getRepository('CacicCommonBundle:Computador')
+            ->gerarRelatorioWMIDetalhe( $filtros );
 
         $locale = $request->getLocale();
 
@@ -321,7 +340,12 @@ class HardwareController extends Controller
         // Retorna o arquivo
         $response = new BinaryFileResponse($tmpfile);
         $response->headers->set('Content-Type', 'text/csv');
-        $response->headers->set('Content-Disposition', "attachment; filename=$propriedade.csv");
+        if (!empty($valor)) {
+            $filename = $propriedade . "_" . $valor . ".csv";
+        } else {
+            $filename = "$propriedade.csv";
+        }
+        $response->headers->set('Content-Disposition', "attachment; filename=$filename");
         $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;

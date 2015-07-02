@@ -951,9 +951,9 @@ GROUP BY c0_.te_node_address,
                         rede.nmRede,
                         rede.teIpRede,
                         local.nmLocal,
-                        COUNT(DISTINCT c.idComputador) AS numComp,
                         (CASE WHEN property.nmPropertyName IS NULL THEN 'Não identificado' ELSE property.nmPropertyName END) as nmPropertyName,
-                        (CASE WHEN cl.teClassPropertyValue IS NULL THEN 'Não identificado' ELSE cl.teClassPropertyValue END) as teClassPropertyValue
+                        (CASE WHEN cl.teClassPropertyValue IS NULL THEN 'Não identificado' ELSE cl.teClassPropertyValue END) as teClassPropertyValue,
+                        COUNT(DISTINCT c.idComputador) AS numComp
                 FROM CacicCommonBundle:Computador c
                 INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede";
         if ( array_key_exists('redes', $filtros) && !empty($filtros['redes']) ){
@@ -1062,33 +1062,47 @@ GROUP BY c0_.te_node_address,
 
         $sql .= ") LEFT JOIN computador_coleta cl ON (c.id_computador = cl.id_computador ";
 
-        if ( array_key_exists('idClass', $filtros) && !empty($filtros['idClass']) ){
-            $idClass = $filtros['idClass'];
-            $sql .= " AND cl.id_class_property IN (SELECT cp.id_class_property FROM class_property cp WHERE cp.id_class = $idClass ";
+        if ( array_key_exists('idClass', $filtros)) {
+            if ( !empty($filtros['idClass']) ){
+                $idClass = $filtros['idClass'];
+                $sql .= " AND cl.id_class_property IN (SELECT cp.id_class_property FROM class_property cp WHERE cp.id_class = $idClass ";
 
-            if (array_key_exists('conf', $filtros) && !empty($filtros['conf']) && $filtros['conf'] != 'Não identificado'){
-                $idClassProperty = $filtros['conf'];
-                $sql .= " AND cp.id_class_property IN ($idClassProperty) )";
+                if (array_key_exists('conf', $filtros)) {
+                    if (!empty($filtros['conf']) && $filtros['conf'] != 'Não identificado'){
+                        $idClassProperty = $filtros['conf'];
+                        $sql .= " AND cp.id_class_property IN ($idClassProperty) )";
+                    } else {
+                        $sql .= ")";
+                    }
+                }
             }
-        }
-
-        if ( array_key_exists('conf', $filtros) && !empty($filtros['conf']) && $filtros['conf'] == 'Não identificado' ){
-            $sql .= ")";
         }
 
         $sql .= ") LEFT JOIN class_property property ON (cl.id_class_property = property.id_class_property)
                    WHERE (c.ativo IS NULL OR c.ativo = 't') ";
 
-        if ( array_key_exists('valor', $filtros) && !empty($filtros['valor']) && $filtros['valor'] != 'Não identificado' ){
-            $valor = $filtros['valor'];
-            $sql .= " AND cl.te_class_property_value = '$valor'";
-        } else {
-            $sql .= " AND cl.id_class_property is null";
+        if ( array_key_exists('valor', $filtros) ) {
+
+            if (!empty($filtros['valor']) && $filtros['valor'] != 'Não identificado' ){
+              $valor = $filtros['valor'];
+              $sql .= " AND cl.te_class_property_value = '$valor'";
+
+            } elseif ($filtros['valor'] == 'Não identificado') {
+
+              $sql .= " AND cl.id_class_property is null";
+            }
+        }
+
+        // Adiciona filtro por propriedade nula
+        if (array_key_exists('conf', $filtros)) {
+            if ($filtros['conf'] == 'Não identificado') {
+                $sql .= " AND cl.te_class_property_value IS NULL ";
+            }
         }
 
         $sql .= " ORDER BY c.nm_computador,
                         c.is_notebook,
-                        c.te_node_Address,
+                        c.te_node_address,
                         c.te_ip_computador,
                         so.id_so,
                         so.in_mswindows,
