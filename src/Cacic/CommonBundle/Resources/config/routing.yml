@@ -16,6 +16,45 @@ cacic_common_instalador:
     pattern:  /instalador
     defaults: { _controller: CacicCommonBundle:Instalador:index }
 
+
+###########################################
+# INÍCIO: Páginas somente para desenvolvedores
+#############################################
+
+cacic_arquivo_sgconf:
+    pattern: /dev/arquivosgconf
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoSgconf }
+
+cacic_arquivo_sgconf_local:
+    pattern: /dev/arquivosgconf/local
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoLocal }
+
+cacic_arquivo_sgconf_rede:
+    pattern: /dev/arquivosgconf/rede
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoRede }
+
+cacic_arquivo_sgconf_so:
+    pattern: /dev/arquivosgconf/so
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoSo }
+
+cacic_arquivo_sgconf_estacao:
+    pattern: /dev/arquivosgconf/estacao
+    defaults: { _controller: CacicCommonBundle:SGConf:arquivoEstacao }
+
+cacic_migracao_cacic26:
+    pattern: /dev/migracao/cacic26
+    defaults: { _controller: CacicCommonBundle:Cacic26:importardados}
+
+cacic_migracao_importador:
+    pattern: /dev/migracao/importador
+    defaults: { _controller: CacicCommonBundle:Cacic26:importarscript}
+
+
+############################
+# FIM: Páginas de desenvolvedores
+#############################
+
+
 ###########################################
 # INÍCIO: Páginas restritas aos administradores
 #############################################
@@ -277,14 +316,6 @@ cacic_computador_update:
 cacic_computador_update_patrimonio:
     pattern: /admin/computador/updatePatrimonio/{idComputador}
     defaults: { _controller: CacicCommonBundle:Computador:updatePatrimonio, idComputador: null }
-
-cacic_migracao_cacic26:
-    pattern: /admin/migracao/cacic26
-    defaults: { _controller: CacicCommonBundle:Cacic26:importardados}
-
-cacic_migracao_importador:
-    pattern: /admin/migracao/importador
-    defaults: { _controller: CacicCommonBundle:Cacic26:importarscript}
 
 cacic_uorg_type_index:
     pattern:  /admin/uorg/type/{page}
@@ -712,25 +743,6 @@ cacic_downloads:
     pattern: /downloads/
     defaults: { _controller: CacicCommonBundle:Default:downloads }
 
-cacic_arquivo_sgconf:
-    pattern: /arquivosgconf
-    defaults: { _controller: CacicCommonBundle:SGConf:arquivoSgconf }
-
-cacic_arquivo_sgconf_local:
-    pattern: /arquivosgconf/local
-    defaults: { _controller: CacicCommonBundle:SGConf:arquivoLocal }
-
-cacic_arquivo_sgconf_rede:
-    pattern: /arquivosgconf/rede
-    defaults: { _controller: CacicCommonBundle:SGConf:arquivoRede }
-
-cacic_arquivo_sgconf_so:
-    pattern: /arquivosgconf/so
-    defaults: { _controller: CacicCommonBundle:SGConf:arquivoSo }
-
-cacic_arquivo_sgconf_estacao:
-    pattern: /arquivosgconf/estacao
-    defaults: { _controller: CacicCommonBundle:SGConf:arquivoEstacao }
 
 ############################################
 # FIM: Páginas para usuários normais

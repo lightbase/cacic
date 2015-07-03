@@ -22,7 +22,12 @@ CocarBundle_cocar_annotation:
 
 lexik_monolog_browser:
     resource: "@LexikMonologBrowserBundle/Resources/config/routing.xml"
-    prefix:   /admin/monolog
+    prefix:   /dev/monolog
+
+JMSTranslationBundle_ui:
+    resource: @JMSTranslationBundle/Controller/
+    type:     annotation
+    prefix:   /manutencao/_trans
 
 # Internal routing configuration to handle ESI
 # ****** WARNING ******

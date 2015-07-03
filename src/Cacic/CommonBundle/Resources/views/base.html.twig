@@ -17,6 +17,22 @@
                 <span>Home</span></a>
         </li>
 
+        {% if app.user and is_granted('ROLE_DEVEL') %}
+
+            <li class="dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-lightbulb"></i>
+                    <span>{{ "Desenvolvimento"|trans }}</span>
+                    <span class="icon">&nbsp;</span>
+                </a>
+                <ul>
+                    <li><a href="{{ path('cacic_arquivo_sgconf') }}">{{ "Exportar CSV"|trans }}</a></li>
+                    <li><a href="{{ path('cacic_migracao_cacic26') }}">{{ "Importar de 2.6"|trans }}</a></li>
+                    <li><a href="{{ path('cacic_common_homepage') }}dev/monolog">{{ "Log de Erros"|trans }}</a></li>
+                </ul>
+            </li>
+        {% endif %}
+
         {% if app.user and is_granted('ROLE_ADMIN') %}
 
         <li class="dropdown">
@@ -96,13 +112,12 @@
 
                 </li>
                 <li><a href="{{ path('cacic_computador_versaoagente') }}">{{ "Versões Agentes"|trans }}</a></li>
-                <li><a href="{{ path('cacic_migracao_cacic26') }}">{{ "Importar de 2.6"|trans }}</a></li>
             </ul>
         </li>
 
         {% endif %}
 
-        {% if app.user and (is_granted('ROLE_ADMIN') or is_granted('ROLE_GESTAO') ) %}
+        {% if app.user and is_granted('ROLE_GESTAO') %}
 
         <li class="subnavbar-open-right" >
             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
@@ -158,7 +173,7 @@
                         <li><a href="{{ path('cacic_software_estacao_index') }}">{{ "Software por estações"|trans }}</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ path('cacic_arquivo_sgconf') }}">{{ "Exportar CSV"|trans }}</a></li>
+                <li><a href="{{ path('cacic_common_homepage') }}manutencao/_trans">{{ "Localização"|trans }}</a></li>
             </ul>
         </li>
 

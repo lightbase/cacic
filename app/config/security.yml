@@ -10,8 +10,9 @@ security:
             iterations:       1
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_DEVEL:       ROLE_ADMIN
+        ROLE_ADMIN:       [ROLE_GESTAO, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_GESTAO:      ROLE_USER
 
     providers:
         main:
@@ -60,9 +61,9 @@ security:
         - { path: ^/cocar/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/ws, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/dev, roles: [ROLE_DEVEL] }
-        - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_DEVEL] }
-        - { path: ^/manutencao, roles: [ ROLE_ADMIN, ROLE_GESTAO, ROLE_DEVEL ] }
-        - { path: ^/, role: [ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_DEVEL ] }
-        - { path: ^/efconnect, role: [ ROLE_USER, ROLE_ADMIN, ROLE_GESTAO,  ROLE_DEVEL ] }
-        - { path: ^/elfinder, role: [ ROLE_USER, ROLE_ADMIN, ROLE_GESTAO,  ROLE_DEVEL ] }
+        - { path: ^/dev, roles: ROLE_DEVEL }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/manutencao, roles: ROLE_GESTAO }
+        - { path: ^/, role: ROLE_USER }
+        - { path: ^/efconnect, role: ROLE_USER }
+        - { path: ^/elfinder, role: ROLE_USER }
