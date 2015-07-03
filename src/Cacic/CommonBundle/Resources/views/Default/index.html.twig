@@ -21,7 +21,7 @@
                             {% else %}
                             <br><i class="icon-arrow-up icon-large"></i><span class="blue">{{ (estatisticas['totalComp7Dias'][0][1]) -(estatisticas['totalComp14Dias'][0][1]) }}</span>{{ ' Em relação aos 7 dias anteriores'|trans }}</a></li>
                         {% endif %}
-                        <li><a href="{{ path('cacic_log_insucesso_instalacao') }}"><i class="icon-warning-sign icon-large"></i><span class="red">{{ estatisticas['totalInsucessosInstalacao'] }}</span> {{ 'Totais de tentativas de instalação malsucedidas'|trans }}</a></li>
+                        <li><a href="{{ path('cacic_log_insucesso_instalacao') }}"><i class="icon-warning-sign icon-large"></i><span class="red">{{ estatisticas['totalInsucessosInstalacao'] }}</span> {{ 'Erros de instalação nos últimos 7 dias'|trans }}</a></li>
                     </ul>
                     <br>
 				</div>
