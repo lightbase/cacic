@@ -34,7 +34,7 @@ class LoadGrupoUsuarioData extends AbstractFixture implements FixtureInterface, 
         $grupoAdmin->setNmGrupoUsuarios('Admin');
         $grupoAdmin->setTeGrupoUsuarios('Administradores');
         $grupoAdmin->setTeMenuGrupo('menu_adm.txt');
-        $grupoAdmin->setTeDescricaoGrupo('Acesso irrestrito');
+        $grupoAdmin->setTeDescricaoGrupo('Acesso ao menu de administração');
         $grupoAdmin->setCsNivelAdministracao(true);
         $grupoAdmin->setRole('ROLE_ADMIN');
 
@@ -48,7 +48,7 @@ class LoadGrupoUsuarioData extends AbstractFixture implements FixtureInterface, 
         $grupo->setNmGrupoUsuarios('comum');
         $grupo->setTeGrupoUsuarios('Comum');
         $grupo->setTeMenuGrupo('menu_adm.txt');
-        $grupo->setTeDescricaoGrupo('Usuário limitado, sem acesso a informações confidenciais como Softwares Inventariados e Opções Administrativas como Forçar Coletas e Excluir Computadores. Poderá alterar sua própria senha.');
+        $grupo->setTeDescricaoGrupo('Acesso de leitura em todas as opções.');
         $grupo->setCsNivelAdministracao(2);
         $grupo->setRole('ROLE_USER');
 
@@ -59,32 +59,25 @@ class LoadGrupoUsuarioData extends AbstractFixture implements FixtureInterface, 
         $grupo->setNmGrupoUsuarios('gestao');
         $grupo->setTeGrupoUsuarios('Gestão Central');
         $grupo->setTeMenuGrupo('menu_adm.txt');
-        $grupo->setTeDescricaoGrupo('Acesso de leitura em todas as opções.');
+        $grupo->setTeDescricaoGrupo('Acesso ao menu de Manutenção.');
         $grupo->setCsNivelAdministracao(3);
         $grupo->setRole('ROLE_GESTAO');
 
         $manager->persist($grupo);
 
-        // Cria os outros grupos padrão do Cacic
-        $grupo = new GrupoUsuario();
-        $grupo->setNmGrupoUsuarios('supervisao');
-        $grupo->setTeGrupoUsuarios('Supervisão');
-        $grupo->setTeMenuGrupo('menu_adm.txt');
-        $grupo->setTeDescricaoGrupo('Manutenção de tabelas e acesso a todas as informações referentes à Localização.');
-        $grupo->setCsNivelAdministracao(4);
-        $grupo->setRole('ROLE_SUPERVISAO');
+        // Grupo para desenvolvedores
+        $grupoDev = new GrupoUsuario();
+        $grupoDev->setNmGrupoUsuarios('devel');
+        $grupoDev->setTeGrupoUsuarios('Desenvolvedores');
+        $grupoDev->setTeMenuGrupo('menu_adm.txt');
+        $grupoDev->setTeDescricaoGrupo('Acesso às telas de log do sistema.');
+        $grupoDev->setCsNivelAdministracao(true);
+        $grupoDev->setRole('ROLE_DEVEL');
 
-        $manager->persist($grupo);
+        // Adiciona referência ao Grupo que será usada depois
+        $this->addReference('grupo-devel', $grupoDev);
 
-
-        // Cria os outros grupos padrão do Cacic
-        $grupo = new GrupoUsuario();
-        $grupo->setNmGrupoUsuarios('tecnico');
-        $grupo->setTeGrupoUsuarios('Técnico');
-        $grupo->setTeMenuGrupo('menu_adm.txt');
-        $grupo->setTeDescricaoGrupo('Acesso técnico. Será permitido acessar configurações de rede e relatórios de Patrimônio e Hardware.');
-        $grupo->setCsNivelAdministracao(5);
-        $grupo->setRole('ROLE_TECNICO');
+        $manager->persist($grupoDev);
 
         $manager->flush();
 

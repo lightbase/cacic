@@ -45,6 +45,28 @@ class LoadUsuarioData extends AbstractFixture implements FixtureInterface, Conta
         //$userAdmin->setTeSenha('7c4a8d09ca3762af61e59520943dc26494f8941b');
 
         $manager->persist($userAdmin);
+
+        // Cria usuário Devel
+        $userDevel = new Usuario();
+        $userDevel->setNmUsuarioAcesso('devel');
+        $userDevel->setNmUsuarioCompleto('Desenvolvedor do Sistema');
+
+        // Adiciona referência ao local
+        $userDevel->setIdLocal($this->getReference('local'));
+
+        // Adiciona referência ao grupo
+        $userDevel->setIdGrupoUsuario($this->getReference('grupo-devel'));
+
+        // Criptografa a senha
+        $encoder = $this->container
+            ->get('security.encoder_factory')
+            ->getEncoder($userDevel)
+        ;
+        $userDevel->setTeSenha($encoder->encodePassword('123456', $userDevel->getSalt()));
+        $userDevel->setApiKey('cacictecnico');
+
+        $manager->persist($userDevel);
+
         $manager->flush();
         
     }

@@ -60,8 +60,9 @@ security:
         - { path: ^/cocar/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/ws, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/manutencao, roles: [ ROLE_ADMIN, ROLE_GESTAO ] }
-        - { path: ^/, role: [ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_SUPERVISAO, ROLE_TECNICO ] }
-        - { path: ^/efconnect, role: [ ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_SUPERVISAO, ROLE_TECNICO ] }
-        - { path: ^/elfinder, role: [ ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_SUPERVISAO, ROLE_TECNICO ] }
+        - { path: ^/dev, roles: [ROLE_DEVEL] }
+        - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_DEVEL] }
+        - { path: ^/manutencao, roles: [ ROLE_ADMIN, ROLE_GESTAO, ROLE_DEVEL ] }
+        - { path: ^/, role: [ROLE_USER, ROLE_ADMIN, ROLE_GESTAO, ROLE_DEVEL ] }
+        - { path: ^/efconnect, role: [ ROLE_USER, ROLE_ADMIN, ROLE_GESTAO,  ROLE_DEVEL ] }
+        - { path: ^/elfinder, role: [ ROLE_USER, ROLE_ADMIN, ROLE_GESTAO,  ROLE_DEVEL ] }

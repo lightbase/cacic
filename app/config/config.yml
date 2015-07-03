@@ -120,7 +120,13 @@ doctrine:
                 charset:  UTF8
                 options:
                     PDO::ATTR_PERSISTENT: true
-
+            monolog:
+                driver:    pdo_sqlite
+                dbname:    monolog
+                path:      %kernel.root_dir%/cache/monolog.db
+                charset:   UTF8
+                logging:   false
+                profiling: false
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
@@ -205,6 +211,11 @@ doctrine_migrations:
     namespace: Cacic\CommonBundle\Migrations
     table_name: migration_versions
     name: Cacic Migrations
+
+# Monolog browser
+lexik_monolog_browser:
+    doctrine:
+        connection_name: monolog
 
 services:
     twig.text_extension:

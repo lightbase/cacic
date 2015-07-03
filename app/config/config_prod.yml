@@ -15,13 +15,22 @@ doctrine:
 monolog:
     handlers:
         main:
-            type:         rotating_file
-            action_level: error
-            handler:      nested
-        nested:
-            type:  stream
-            path:  "%kernel.logs_dir%/%kernel.environment%.log"
-            level: warning
+            type:         fingers_crossed # or buffer
+            level:        error
+            handler:      lexik_monolog_browser
+        app:
+            type:         buffer
+            action_level: info
+            channels:     app
+            handler:      lexik_monolog_browser
+        deprecation:
+            type:         buffer
+            action_level: warning
+            channels:     deprecation
+            handler:      lexik_monolog_browser
+        lexik_monolog_browser:
+            type:         service
+            id:           lexik_monolog_browser.handler.doctrine_dbal
 
 swiftmailer:
     sender_address: www-data@localhost

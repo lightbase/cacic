@@ -63,7 +63,8 @@
         "twbs/bootstrap": "3.0.*",
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
-        "liip/functional-test-bundle": "~1.0"
+        "liip/functional-test-bundle": "~1.0",
+        "lexik/monolog-browser-bundle": "~1.0"
     },
     "require-dev": {
       "phpunit/phpunit": "4.6.*"

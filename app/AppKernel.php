@@ -31,7 +31,8 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Swpb\Bundle\CocarBundle\CocarBundle(),
             new Ddeboer\DataImportBundle\DdeboerDataImportBundle(),
-            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle()
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Lexik\Bundle\MonologBrowserBundle\LexikMonologBrowserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -12,12 +12,22 @@ web_profiler:
 monolog:
     handlers:
         main:
-            type:  stream
-            path:  "%kernel.logs_dir%/%kernel.environment%.log"
-            level: debug
-        firephp:
-            type:  firephp
-            level: info
+            type:         fingers_crossed # or buffer
+            level:        error
+            handler:      lexik_monolog_browser
+        app:
+            type:         buffer
+            action_level: info
+            channels:     app
+            handler:      lexik_monolog_browser
+        deprecation:
+            type:         buffer
+            action_level: warning
+            channels:     deprecation
+            handler:      lexik_monolog_browser
+        lexik_monolog_browser:
+            type:         service
+            id:           lexik_monolog_browser.handler.doctrine_dbal
 
 assetic:
     use_controller: true

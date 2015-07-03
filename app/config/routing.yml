@@ -20,6 +20,10 @@ CocarBundle_cocar_annotation:
             resource: "@CocarBundle/Resources/config/routing.yml"
             prefix:   /cocar
 
+lexik_monolog_browser:
+    resource: "@LexikMonologBrowserBundle/Resources/config/routing.xml"
+    prefix:   /admin/monolog
+
 # Internal routing configuration to handle ESI
 # ****** WARNING ******
 # This route should be enabled with caution as it can open a security vulnerability
