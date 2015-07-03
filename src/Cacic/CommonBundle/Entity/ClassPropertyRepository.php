@@ -72,7 +72,7 @@ class ClassPropertyRepository extends EntityRepository {
         $sql = $sql . " FROM relatorio_coleta rc
         INNER JOIN computador c ON rc.id_computador = c.id_computador
         INNER JOIN rede r ON r.id_rede = c.id_rede
-        WHERE 1=1";
+        WHERE (c.ativo IS NULL or c.ativo = 't')";
 
         if (!empty($dataInicio)) {
             $sql .= " AND c.dt_hr_ult_acesso >= '$dataInicio 00:00:00'";
