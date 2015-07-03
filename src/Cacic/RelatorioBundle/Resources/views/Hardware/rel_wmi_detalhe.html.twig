@@ -6,7 +6,7 @@
     <h3>{{ 'Dados relativos à Propriedade '|trans }}{{ propriedade }}</h3>
     <h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
 
-    <form id="csv" action="{{ path('cacic_relatorio_csv_hardware_wmi_detalhe',  { 'classe': classe, 'propriedade': propriedade }) }}" method="post">
+    <form id="csv" action="{{ path('cacic_relatorio_csv_hardware_wmi_detalhe',  { 'classe': classe, 'propriedade': propriedade, 'valor': valor }) }}" method="post">
         {% for elm, value in filtros %}
             <input type="hidden" name="{{ elm }}" value="{{ value }}">
         {% endfor %}

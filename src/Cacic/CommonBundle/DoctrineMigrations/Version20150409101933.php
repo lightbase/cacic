@@ -39,7 +39,7 @@ class Version20150409101933 extends AbstractMigration implements ContainerAwareI
         }
 
         // Finalmente adiciona índice único fundamental nas coletas
-        $this->addSql("CREATE UNIQUE INDEX mac_os_unique_idx ON computador (te_node_address, id_so);");
+        //$this->addSql("CREATE UNIQUE INDEX mac_os_unique_idx ON computador (te_node_address, id_so);");
 
     }
 

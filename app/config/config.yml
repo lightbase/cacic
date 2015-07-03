@@ -170,8 +170,8 @@ fm_elfinder:
                         showhidden: false # defaults to false
                         driver: LocalFileSystem
                         path: downloads
-                        upload_max_size: 2M
-                        upload_deny: ['all']
+                        upload_max_size: 100M
+                        upload_allow: ['all']
         form:
             locale: %locale% # defaults to current request locale
             editor: form # other choices are tinymce or simple, and form
