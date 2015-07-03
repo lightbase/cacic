@@ -1,0 +1,31 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('bundles/lexikmonologbrowser/css/datepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/lexikmonologbrowser/css/log.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+
+            <h2 class="box_head round_top"><i class="icon-cog"></i>{{ "Logs do Symfony"|trans }}</h2>
+
+            <div class="block box_content round_bottom padding_10">
+
+                {% block monolog_browser_content %}
+                {% endblock %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
