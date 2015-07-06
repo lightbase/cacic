@@ -1,0 +1,17 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block title %}{{ "Interface de Localização"|trans }}{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active"><a href="{{ path("jms_translation_index") }}" class="logo">{{ "Localização"|trans }}</a></li>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+
+    <iframe src="{{ path('jms_translation_index') }}" height="600px" width="100%"></iframe>
+
+</div> <!-- /row -->
+
+{% endblock %}

@@ -41,5 +41,9 @@ class DefaultController extends Controller
     public function downloadsAction() {
         return $this->render('CacicCommonBundle:Default:downloads.html.twig');
     }
+
+    public function translationAction() {
+        return $this->render('CacicCommonBundle:Default:translation.html.twig');
+    }
 	
 }

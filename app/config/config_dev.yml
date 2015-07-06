@@ -13,11 +13,11 @@ monolog:
     handlers:
         main:
             type:         fingers_crossed # or buffer
-            level:        error
+            level:        debug
             handler:      lexik_monolog_browser
         app:
             type:         buffer
-            action_level: info
+            action_level: debug
             channels:     app
             handler:      lexik_monolog_browser
         deprecation:

@@ -677,6 +677,10 @@ cacic_software_estacao_excluir:
     pattern:  /manutencao/softwareestacao/excluir
     defaults: { _controller: CacicCommonBundle:SoftwareEstacao:excluir}
 
+cacic_translation:
+    pattern:  /manutencao/translation
+    defaults: { _controller: CacicCommonBundle:Default:translation }
+
 ############################################
 # FIM: Usuário com perfil manutenção
 ############################################
