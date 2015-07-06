@@ -35,12 +35,47 @@ class GrupoUsuarioController extends Controller
         $GrupoUsuario = new GrupoUsuario();
         $form = $this->createForm( new GrupoUsuarioType(), $GrupoUsuario );
 
+        $grupoDesc = array(
+            array(
+                'nmGrupoUsuarios' => 'devel',
+                'teDescricaoGrupo' => 'Acesso às telas de log do sistema.'
+            ),
+            array(
+                'nmGrupoUsuarios' => 'Admin',
+                'teDescricaoGrupo' => 'Acesso ao menu de administração.'
+            ),
+            array(
+                'nmGrupoUsuarios' => 'gestao',
+                'teDescricaoGrupo' => 'Acesso ao menu de Manutenção.'
+            ),
+            array(
+                'nmGrupoUsuarios' => 'comum',
+                'teDescricaoGrupo' => 'Acesso de leitura em todas as opções.'
+            ),
+        );
+
         if ( $request->isMethod('POST') )
         {
-            $form->bind( $request );
+            $form->handleRequest( $request );
 
             if ( $form->isValid() )
             {
+                // Ajusta o tipo de permissao do grupo
+                $nm_grupo = $form['nmGrupoUsuarios']->getData();
+                switch ($nm_grupo) {
+                    case "Admin":
+                        $GrupoUsuario->setRole('ROLE_ADMIN');
+                        break;
+                    case 'devel':
+                        $GrupoUsuario->setRole('ROLE_DEVEL');
+                        break;
+                    case 'gestao':
+                        $GrupoUsuario->setRole('ROLE_GESTAO');
+                        break;
+                    default:
+                        $GrupoUsuario->setRole('ROLE_USER');
+                }
+
                 $this->getDoctrine()->getManager()->persist( $GrupoUsuario );
                 $this->getDoctrine()->getManager()->flush();
 
@@ -50,7 +85,13 @@ class GrupoUsuarioController extends Controller
             }
         }
 
-        return $this->render( 'CacicCommonBundle:GrupoUsuario:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $this->render(
+            'CacicCommonBundle:GrupoUsuario:cadastrar.html.twig',
+            array(
+                'form' => $form->createView(),
+                'grupoDesc' => $grupoDesc
+            )
+        );
     }
 
     /**
@@ -65,15 +106,50 @@ class GrupoUsuarioController extends Controller
 
         $form = $this->createForm( new GrupoUsuarioType(), $GrupoUsuario );
 
+        $grupoDesc = array(
+            array(
+                'nmGrupoUsuarios' => 'devel',
+                'teDescricaoGrupo' => 'Acesso às telas de log do sistema.'
+            ),
+            array(
+                'nmGrupoUsuarios' => 'Admin',
+                'teDescricaoGrupo' => 'Acesso ao menu de administração.'
+            ),
+            array(
+                'nmGrupoUsuarios' => 'gestao',
+                'teDescricaoGrupo' => 'Acesso ao menu de Manutenção.'
+            ),
+            array(
+                'nmGrupoUsuarios' => 'comum',
+                'teDescricaoGrupo' => 'Acesso de leitura em todas as opções.'
+            ),
+        );
+
         if ( $request->isMethod('POST') )
         {
-            $form->bind( $request );
+            $form->handleRequest( $request );
 
             if ( $form->isValid() )
             {
+                // Ajusta o tipo de permissao do grupo
+                $nm_grupo = $form['nmGrupoUsuarios']->getData();
+                switch ($nm_grupo) {
+                    case "Admin":
+                        $GrupoUsuario->setRole('ROLE_ADMIN');
+                        break;
+                    case 'devel':
+                        $GrupoUsuario->setRole('ROLE_DEVEL');
+                        break;
+                    case 'gestao':
+                        $GrupoUsuario->setRole('ROLE_GESTAO');
+                        break;
+                    default:
+                        $GrupoUsuario->setRole('ROLE_USER');
+                }
+
                 $csNivel = $this->getDoctrine()->getRepository('CacicCommonBundle:GrupoUsuario')->nivel($GrupoUsuario);
 
-                if($csNivel[0]['teGrupoUsuarios'] != "Administração")
+                if($csNivel[0]['nmGrupoUsuarios'] != "Admin")
                 {
                     $this->getDoctrine()->getManager()->persist( $GrupoUsuario );
                     $this->getDoctrine()->getManager()->flush();
@@ -89,7 +165,13 @@ class GrupoUsuarioController extends Controller
             }
         }
 
-        return $this->render( 'CacicCommonBundle:GrupoUsuario:cadastrar.html.twig', array( 'form' => $form->createView() ) );
+        return $this->render(
+            'CacicCommonBundle:GrupoUsuario:cadastrar.html.twig',
+            array(
+                'form' => $form->createView(),
+                'grupoDesc' => $grupoDesc
+            )
+        );
     }
     /**
      *

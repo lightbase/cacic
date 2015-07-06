@@ -63,3 +63,30 @@
   
 </div> <!-- /row -->
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        // JSON com descricao dos grupos
+        var oGrupoDesc = {
+            {% for grupo in grupoDesc %}
+                {{ grupo['nmGrupoUsuarios'] }}: "{{ grupo['teDescricaoGrupo'] }}"{% if loop.last != true %},{% endif %}
+            {% endfor %}
+        };
+
+        /**
+         * Exibe a descrição do grupo selecionado
+         */
+        $(document).ready(function() {
+            if ($('#grupoUsuario_nmGrupoUsuarios').val() != '' && $('#grupoUsuario_nmGrupoUsuarios').val() != undefined) { // Se já há algum grupo pré-selecionado
+                $('#grupoUsuario_teDescricaoGrupo').val(oGrupoDesc[$('#grupoUsuario_nmGrupoUsuarios').val()]);
+            }
+
+            $('#grupoUsuario_nmGrupoUsuarios').change(function () {
+                $('#grupoUsuario_teDescricaoGrupo').val(oGrupoDesc[$(this).val()]);
+            });
+        });
+
+    </script>
+{% endblock %}
