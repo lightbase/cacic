@@ -8,24 +8,22 @@
 
 namespace Cacic\CommonBundle\Tests\Controller;
 
-class LocalControllerTest extends DefaultControllerTest {
+class RedeControllerTest extends DefaultControllerTest {
 
     public function setUp() {
         // Load base data
         parent::setUp();
-
     }
 
 
     /**
-     * Testa cadastro de novos locais
+     * Testa cadastro de nova rede
      */
-    public function testAddLocal() {
-
+    public function testAddRede() {
         // Conecta ao formulário
         $crawler = $this->client->request(
             'GET',
-            '/admin/local/cadastrar',
+            '/admin/subrede/cadastrar',
             array(),
             array(),
             array(),
@@ -43,27 +41,36 @@ class LocalControllerTest extends DefaultControllerTest {
         $buttonCrawlerNode = $crawler->selectButton('Salvar Dados');
         $form = $buttonCrawlerNode->form();
 
-        //$this->logger->debug("111111111111111111111111111111111\n".print_r($form, true));
+        // Cadastra a rede no local cadastrado
+        $local = $this->fixtures->getReference('local');
+        $this->assertNotEmpty($local, "Local padrão não encontrado");
 
-        // Envia formulário de cadastro com valores de teste
+        // Envia formulário de cadastro somente com campos obrigatorios
         $this->client->submit($form, array(
-            'local[nmLocal]' => 'test',
-            'local[sgLocal]' => 'TT',
-
+            'rede[idLocal]' => $local->getIdLocal(),
+            'rede[teIpRede]' => '192.168.0.0',
+            'rede[teServCacic]' => '127.0.0.1',
+            'rede[teServUpdates]' => '127.0.0.1',
+            'rede[downloadMethod]' => 'http',
+            'rede[habilitar]' => 1
         ));
 
         // Testa resposta do formulário
         $response = $this->client->getResponse();
         $status = $response->getStatusCode();
         $this->logger->debug("Response status: $status");
-        $this->assertNotEquals(500, $response->getStatusCode());
+        $this->assertNotEquals(
+            500,
+            $response->getStatusCode(),
+            "Houve uma falha ao submeter o forumlario de cadastro de subredes"
+        );
 
         // Agora testa pra ver se o local foi inserido com sucesso
-        $local = $this->em->getRepository("CacicCommonBundle:Local")->findOneBy(array(
-            'nmLocal' => 'test'
+        $rede = $this->em->getRepository("CacicCommonBundle:Rede")->findOneBy(array(
+            'teIpRede' => '192.168.0.0'
         ));
 
-        $this->assertNotEmpty($local, "A inserção do local falhou");
+        $this->assertNotEmpty($rede, "A inserção da subrede falhou");
 
     }
 

@@ -10,7 +10,7 @@ class DefaultControllerTest extends BaseTestCase
         // Load base data
         parent::setUp();
 
-        $this->loadFixtures($this->classes);
+        $this->fixtures = $this->loadFixtures($this->classes)->getReferenceRepository();
 
         $this->client = static::makeClient(true);
         $this->container = $this->client->getContainer();
