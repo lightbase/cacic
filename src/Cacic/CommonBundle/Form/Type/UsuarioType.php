@@ -68,7 +68,8 @@ class  UsuarioType extends AbstractType
 						array(
 							'label' => 'Descrição do tipo de acesso',
 							'read_only' => true,
-							'mapped' => false
+							'mapped' => false,
+                            'required' => false
 						)
 		);
 	}
