@@ -108,12 +108,12 @@ Cacic\CommonBundle\Entity\Rede:
         nuLimiteFtp:
             type: integer
             unsigned: false
-            nullable: false
+            nullable: true
             column: nu_limite_ftp
         csPermitirDesativarSrcacic:
             type: text
             fixed: true
-            nullable: false
+            nullable: true
             column: cs_permitir_desativar_srcacic
         teDebugging:
             type: text
