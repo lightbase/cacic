@@ -45,4 +45,14 @@ class InsucessoInstalacaoRepository extends EntityRepository
     	return $this->createQueryBuilder('insucesso')->select('COUNT(insucesso.idInsucessoInstalacao)')->getQuery()->getSingleScalarResult();
     }
 
+
+    public function count24h()
+    {
+        return $this->createQueryBuilder('insucesso')
+            ->select('COUNT(insucesso.idInsucessoInstalacao)')
+            ->andWhere("insucesso.dtDatahora >= (current_date() - 7)")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

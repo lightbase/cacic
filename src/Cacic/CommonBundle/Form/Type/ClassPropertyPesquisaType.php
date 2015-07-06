@@ -22,8 +22,8 @@ class ClassPropertyPesquisaType extends AbstractType
         		'dataColetaInicio',
 				'text',
 				array(
-					'data' => date('Y-m-d'),
-					'label' => ''
+					'label' => '',
+                    'required' => false
 				)
         	)
             ->addModelTransformer( new CxDatePtBrTransformer() )
@@ -34,8 +34,8 @@ class ClassPropertyPesquisaType extends AbstractType
         		'dataColetaFim',
 				'text',
 				array(
-					'data' => date('Y-m-d'),
-					'label' => ''
+					'label' => '',
+                    'required' => false
 				)
         	)
             ->addModelTransformer( new CxDatePtBrTransformer() )

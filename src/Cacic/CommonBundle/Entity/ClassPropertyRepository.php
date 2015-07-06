@@ -59,7 +59,10 @@ class ClassPropertyRepository extends EntityRepository {
 
         $sql = 'SELECT c.id_computador, c.nm_computador, c.te_node_address, c.te_ip_computador, r.te_ip_rede, r.nm_rede, c.dt_hr_ult_acesso, ';
         foreach ($property as $elm) {
-            $sql = $sql . "rc."."$elm, ";
+            $sql = $sql . "(CASE WHEN rc.$elm IS NOT NULL
+            THEN rc.$elm
+            ELSE 'Não identificado'
+            END) as $elm, ";
             $rsm->addScalarResult($elm, $elm);
         }
 
@@ -69,7 +72,15 @@ class ClassPropertyRepository extends EntityRepository {
         $sql = $sql . " FROM relatorio_coleta rc
         INNER JOIN computador c ON rc.id_computador = c.id_computador
         INNER JOIN rede r ON r.id_rede = c.id_rede
-        WHERE c.dt_hr_ult_acesso >= '".$dataInicio."00:00:00' AND c.dt_hr_ult_acesso <= '".$dataFim."23:59:59'";
+        WHERE (c.ativo IS NULL or c.ativo = 't')";
+
+        if (!empty($dataInicio)) {
+            $sql .= " AND c.dt_hr_ult_acesso >= '$dataInicio 00:00:00'";
+        }
+
+        if (!empty($dataFim)) {
+            $sql .= " AND c.dt_hr_ult_acesso <= '$dataFim 23:59:59'";
+        }
 
         $result = $this->getEntityManager()->createNativeQuery($sql, $rsm)->execute();
 
