@@ -7,7 +7,7 @@
 	{% endfor %}
 	</div>
 	
-	<div id="msgAviso" class="alert">
+	<div id="msgAviso" class="alert alert-warning">
 		<button type="button" class="close" data-dismiss="alert">x</button>
 	{% for flashMessage in app.session.flashbag.peek('notice') %}
         {{ flashMessage }}

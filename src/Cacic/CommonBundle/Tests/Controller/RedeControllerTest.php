@@ -62,7 +62,7 @@ class RedeControllerTest extends DefaultControllerTest {
         $this->assertNotEquals(
             500,
             $response->getStatusCode(),
-            "Houve uma falha ao submeter o forumlario de cadastro de subredes"
+            "Houve uma falha ao submeter o formulario de cadastro de subredes"
         );
 
         // Agora testa pra ver se o local foi inserido com sucesso

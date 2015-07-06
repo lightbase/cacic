@@ -65,7 +65,7 @@ class RedeController extends Controller
                 $logger->debug("Realizando o update de subredes para a rede $nmRede ...");
 
                 // Grava os dados da tabela rede versão módulo
-				$this->updateSubredes($rede);
+				$this->updateSubredesNeo($request, $rede);
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
 
@@ -407,6 +407,15 @@ class RedeController extends Controller
         $pIntIdRede = $rede->getIdRede();
         $cacic_helper = new Helper\OldCacicHelper($this->container->get('kernel'));
         $iniFile = $cacic_helper->iniFile();
+
+        if (!file_exists($iniFile)) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'O arquivo versions_and_hashes.ini não foi encontrado. Você fez o upload dos agentes 2.8?'
+            );
+
+            $logger->error("Arquivo versions_and_hashes.ini não foi encontrado no update de subredes");
+        }
 
         $itemArray = parse_ini_file($iniFile);
 
@@ -841,9 +850,22 @@ class RedeController extends Controller
         $base_url = $request->getBaseUrl();
         $base_url = preg_replace('/\/app.*.php/', "", $base_url);
 
+        // Verifica se diretório existe
+        $current_dir = $cacicDir."current";
+        if (!file_exists($current_dir)) {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Não foi possível encontrar o diretório dos Agentes. Faça upload dos agentes.'
+            );
+
+            $logger->info("Não foi possível encontrar o diretório dos Agentes. Faça upload dos agentes.");
+
+            return array();
+        }
+
         // Primeiro tratamos agentes Linux
         // A regra é que o agente mais atual estará na pasta current
-        $current = basename(readlink($cacicDir."current"));
+        $current = basename(readlink($current_dir));
         $finder = new Finder();
         $finder->depth('== 0');
         $finder->directories()->in($cacicDir);
@@ -912,12 +934,12 @@ class RedeController extends Controller
 
         // Se não existir, instancia o objeto
         if (!empty($redeVersaoModulo)) {
-	    // Nesse caso, remove todos os módulos para a subrede
-	    foreach ($redeVersaoModulo as $redeRemove)  {
-	        $em->remove($redeRemove);
-	    }
-	    $em->flush();
-	}
+        	// Nesse caso, remove todos os módulos para a subrede
+        	foreach ($redeVersaoModulo as $redeRemove)  {
+                $em->remove($redeRemove);
+            }
+            $em->flush();
+        }
 
 
         // Carrega todos os metadados dos módulos fornecidos ou de todos os módulos
@@ -986,8 +1008,6 @@ class RedeController extends Controller
                 }
             }
         }
-
-
 
         return true;
     }
