@@ -251,4 +251,41 @@ class LogController extends Controller
             )
         );
     }
+
+    public function agentesAction( Request $request )
+    {
+        $form = $this->createForm( new LogPesquisaType() );
+        $locale = $request->getLocale();
+
+        $idComputador = $request->get('idComputador');
+
+        if (!empty($idComputador)) {
+            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:ErrosAgente')
+                ->pesquisar( null, null, array(), $idComputador);
+
+        } elseif ( $request->isMethod('POST') ) {
+
+            $form->handleRequest( $request );
+            $data = $form->getData();
+
+            $filtroLocais = array(); // Inicializa array com locais a pesquisar
+            foreach ( $data['idLocal'] as $locais ) {
+                array_push( $filtroLocais, $locais->getIdLocal() );
+            }
+
+            $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:ErrosAgente')
+                ->pesquisar( $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais);
+
+        }
+
+        return $this->render( 'CacicCommonBundle:Log:agente.html.twig',
+            array(
+                'local'=>$locale ,
+                'form' => $form->createView(),
+                'logs' => ( isset( $logs ) ? $logs : null ),
+                'idComputador' => $idComputador
+            )
+        );
+    }
+
 }

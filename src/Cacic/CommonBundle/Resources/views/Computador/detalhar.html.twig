@@ -21,35 +21,37 @@
                     <h3>{{ computador.nmComputador }}</h3>
                     <p class="muted">{{ "Dados coletados pelo agente-CACIC à partir da estação de trabalho."|trans }}</p>
                 </div>
-                <div class="span4">
-                    <div class="well">
-                        <h3>{{ "Açoes no computador"|trans }}</h3>
-                        <a class="btn btn-large btn-primary" href="{{ path('cacic_patrimonio_cadastrar', {'idComputador': computador.idComputador}) }}">
-                            <i class="icon-plus"></i>
-                            {{ "Cadastrar Patrimonio"|trans }}
-                        </a>
-                        <br>
-                        <br>
-                        {% if nivel[0]['nmGrupoUsuarios'] == 'Admin' %}
-                            {% if ativo == 'falso' %}
-                                <a class="btn btn-large btn-success" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}?ativar=True">
-                                    <i class="icon-ok-sign"></i>
-                                    {{ "Ativar Computador"|trans }}
-                                </a>
-                            {% else %}
-                                <a class="btn btn-large btn-danger" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}?desativar=True">
-                                    <i class="icon-remove-sign"></i>
-                                    {{ "Desativar Computador"|trans }}
+                {% if is_granted('ROLE_GESTAO') %}
+                    <div class="span4">
+                        <div class="well">
+                            <h3>{{ "Açoes no computador"|trans }}</h3>
+                            <a class="btn btn-large btn-primary" href="{{ path('cacic_patrimonio_cadastrar', {'idComputador': computador.idComputador}) }}">
+                                <i class="icon-plus"></i>
+                                {{ "Cadastrar Patrimonio"|trans }}
+                            </a>
+                            <br>
+                            <br>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                {% if ativo == 'falso' %}
+                                    <a class="btn btn-large btn-success" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}?ativar=True">
+                                        <i class="icon-ok-sign"></i>
+                                        {{ "Ativar Computador"|trans }}
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-large btn-danger" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}?desativar=True">
+                                        <i class="icon-remove-sign"></i>
+                                        {{ "Desativar Computador"|trans }}
+                                    </a>
+                                {% endif %}
+                                <br><br>
+                                <a class="btn btn-large btn-info" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}?forcarColeta=True">
+                                    <i class="icon-download-alt"></i>
+                                    {{ "Forçar Coleta"|trans }}
                                 </a>
                             {% endif %}
-                            <br><br>
-                            <a class="btn btn-large btn-info" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}?forcarColeta=True">
-                                <i class="icon-download-alt"></i>
-                                {{ "Forçar Coleta"|trans }}
-                            </a>
-                        {% endif %}
+                        </div>
                     </div>
-                </div>
+                {% endif %}
 	            <br />
 	            <table class="table">
 	            	<thead>

@@ -1,0 +1,72 @@
+<div class="row-fluid">
+    <div class="span8">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Resultado da pesquisa' |trans }}</h2>
+            <div class="block box_content round_bottom padding_10">
+
+                {% if logs|length %}
+
+                    <table class="display datatable" id="datatable">
+                        <thead>
+                        <tr>
+                            <th width="2%" style="text-align: center"></th>
+                            <th width="10%">{{ "Data"|trans }}</th>
+                            <th width="20%">{{ "Local/Rede"|trans }}</th>
+                            <th width="10%">{{ "Estação"|trans }}</th>
+                            <th width="10%">{{ "Sistema Operacional"|trans }}</th>
+                            <th width="10%">{{ "Nível"|trans }}</th>
+                            <th width="30%">{{ "Mensagem"|trans }}</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        {% for log in logs %}
+
+                            <tr>
+                                <td style="text-align: center">{{ loop.index }}</td>
+                                <td>{{ log.getTimestampErro()|date('d/m/Y H:i:s') }}</td>
+                                <td>{{ log.getComputador().getIdRede().getIdLocal().getSgLocal() }} / {{ log.getComputador().getIdRede().getNmRede }}</td>
+                                <td><a href="{{ path('cacic_computador_detalhar', {'idComputador': log.getComputador().getIdComputador()}) }}" target="_blank" title="{{ 'Detalhar computador'|trans }}">{{ log.getComputador().getTeIpComputador() }}</a></td>
+                                <td>{{ log.getComputador().getIdSo().getTeSo() }}</td>
+                                <td>{{ log.nivelErro }}</td>
+                                <td>{{ log.mensagem }}</td>
+                            </tr>
+
+                        {% else %}
+                            <tr>
+                                <td style="text-align: center;" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                {% else %}
+
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th width="2%" style="text-align: center"></th>
+                            <th width="10%">{{ "Data"|trans }}</th>
+                            <th width="10%">{{ "Local/Rede"|trans }}</th>
+                            <th width="10%">{{ "Estação"|trans }}</th>
+                            <th width="10%">{{ "Sistema Operacional"|trans }}</th>
+                            <th width="17%">{{ "Nível"|trans }}</th>
+                            <th width="20%">{{ "Mensagem"|trans }}</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center;" colspan="7"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                {% endif %}
+				
+			</div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span -->
+</div> <!-- /row -->
