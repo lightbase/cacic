@@ -82,7 +82,12 @@ class AgenteController extends Controller {
                     $result = false;
                     foreach($tipo_so as $so) {
                         $tipoDir = $versionDir . "/" . $so->getTipo();
-                        $result = $this->uploadPackage($files[$so->getTipo()], $tipoDir);
+
+                        if (!empty($files[$so->getTipo()])) {
+                            $result = $this->uploadPackage($files[$so->getTipo()], $tipoDir);
+                        } else {
+                            $this->get('session')->getFlashBag()->add('notice', 'Não foi enviado pacote para a plataforma '.$so->getTipo());
+                        }
                     }
 
                     if (!$result) {
@@ -163,7 +168,8 @@ class AgenteController extends Controller {
             return false;
         }
         $result = false;
-        mkdir($version);
+        $logger->debug("Criando diretório para nova versão dos agentes: $version");
+        @mkdir($version);
         //$logger->debug("66666666666666666666666666666666666 ".print_r($file, true));
 
         $extension = $file->getClientOriginalExtension();
@@ -326,4 +332,4 @@ class AgenteController extends Controller {
         return $result;
     }
 
-} 
+}

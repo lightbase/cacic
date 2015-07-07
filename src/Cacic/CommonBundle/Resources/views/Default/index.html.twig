@@ -51,6 +51,11 @@
 			<h2 class="box_head round_top"><i class="icon-heart"></i> {{ 'Atalhos'|trans }}</h2>
 			<div class="toggle_container">
 				<div class="block box_content round_bottom padding_10 shortcuts">
+                    <a href="{{ path('cacic_agente') }}" class="shortcut">
+                        <i class="shortcut-icon icon-file"></i>
+                        <span class="shortcut-label">{{ 'Agentes'|trans }}</span>
+                    </a>
+
 					<a href="{{ path('cacic_usuario_index') }}" class="shortcut">
 						<i class="shortcut-icon icon-group"></i>
 						<span class="shortcut-label">{{ 'Usuários'|trans }}</span>
