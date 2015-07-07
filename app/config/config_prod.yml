@@ -23,11 +23,6 @@ monolog:
             action_level: info
             channels:     app
             handler:      lexik_monolog_browser
-        deprecation:
-            type:         buffer
-            action_level: warning
-            channels:     deprecation
-            handler:      lexik_monolog_browser
         lexik_monolog_browser:
             type:         service
             id:           lexik_monolog_browser.handler.doctrine_dbal

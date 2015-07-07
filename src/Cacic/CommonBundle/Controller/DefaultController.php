@@ -93,7 +93,7 @@ class DefaultController extends Controller
                             ->getFlashBag()
                             ->add(
                                 'notice',
-                                'Não foram encontrados agentes para a plataforma '.$so->getTipo().'. Por favor, faça upload dos agentes na interface.'
+                                '<p>Não foram encontrados agentes para a plataforma '.$so->getTipo().'. Por favor, faça upload dos agentes na interface.</p>'
                             );
                     }
                 }

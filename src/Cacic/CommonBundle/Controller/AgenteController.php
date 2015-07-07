@@ -86,7 +86,7 @@ class AgenteController extends Controller {
                         if (!empty($files[$so->getTipo()])) {
                             $result = $this->uploadPackage($files[$so->getTipo()], $tipoDir);
                         } else {
-                            $this->get('session')->getFlashBag()->add('notice', 'Não foi enviado pacote para a plataforma '.$so->getTipo());
+                            $this->get('session')->getFlashBag()->add('notice', '<p>Não foi enviado pacote para a plataforma '.$so->getTipo().'</p>');
                         }
                     }
 

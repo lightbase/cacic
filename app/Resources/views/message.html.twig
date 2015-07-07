@@ -3,21 +3,21 @@
 	<div id="msgErro" class="alert alert-error">
 		<button type="button" class="close" data-dismiss="alert">x</button>
 	{% for flashMessage in app.session.flashbag.peek('error') %}
-        {{ flashMessage }}
+        {{ flashMessage|raw }}
 	{% endfor %}
 	</div>
 	
 	<div id="msgAviso" class="alert alert-warning">
 		<button type="button" class="close" data-dismiss="alert">x</button>
 	{% for flashMessage in app.session.flashbag.peek('notice') %}
-        {{ flashMessage }}
+        {{ flashMessage|raw }}
 	{% endfor %}
 	</div>
 	
 	<div id="msgSucesso" class="alert alert-success">
 		<button type="button" class="close" data-dismiss="alert">x</button>
 	{% for flashMessage in app.session.flashbag.peek('success') %}
-        {{ flashMessage }}
+        {{ flashMessage|raw }}
 	{% endfor %}
 	</div>
 {% endblock %}
