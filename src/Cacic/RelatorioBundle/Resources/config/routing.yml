@@ -296,6 +296,30 @@ cacic_relatorio_computador_listar_csv:
     requirements:
         idRede: \d+
 
+cacic_relatorio_computador_log_acesso:
+    pattern:  /computador/log/acesso/{idComputador}
+    defaults: { _controller: CacicRelatorioBundle:Computador:logAcesso, idComputador: null }
+    requirements:
+        idComputador: \d+
+
+cacic_relatorio_computador_log_acesso_csv:
+    pattern:  /computador/log/acesso/{idComputador}/csv
+    defaults: { _controller: CacicRelatorioBundle:Computador:logAcessoCsv, idComputador: null }
+    requirements:
+        idComputador: \d+
+
+cacic_relatorio_computador_log_usuario:
+    pattern:  /computador/log/usuario/{idComputador}
+    defaults: { _controller: CacicRelatorioBundle:Computador:logUsuario, idComputador: null }
+    requirements:
+        idComputador: \d+
+
+cacic_relatorio_computador_log_usuario_csv:
+    pattern:  /computador/log/usuario/{idComputador}/csv
+    defaults: { _controller: CacicRelatorioBundle:Computador:logUsuarioCsv, idComputador: null }
+    requirements:
+        idComputador: \d+
+
 cacic_relatorio_so:
     pattern: /so
     defaults: { _controller: CacicRelatorioBundle:So:index }

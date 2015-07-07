@@ -524,6 +524,36 @@ class FaturamentoController extends Controller {
                 );
             }
 
+        } else {
+            // Gera relatório com base nas variáveis da página
+            $usuarioLogado = $request->get('usuarioLogado');
+            $dataInicio = $request->get('dataInicio');
+            $dataFim = $request->get('dataFim');
+            if (!empty($dataFim) && !empty($dataInicio)) {
+                $semData = 'N';
+            } else {
+                $semData = 'S';
+            }
+
+            $data = array();
+            $data['dtAcaoInicio'] = $dataInicio;
+            $data['dtAcaoFim'] = $dataFim;
+            $data['usuarioLogado'] = $usuarioLogado;
+
+            $dados = $this->getDoctrine()->getRepository('CacicCommonBundle:LogUserLogado')->gerarRelatorioUsuarioHistorico($usuarioLogado, $dataFim, $dataInicio, $semData, null, null);
+            return $this->render(
+                'CacicRelatorioBundle:Faturamento:usuarioHistorico.html.twig',
+                array(
+                    'idioma'        => $locale,
+                    'dados'         => ( isset( $dados ) ? $dados : null ),
+                    'dtAcaoInicio'  => $dataInicio,
+                    'dtAcaoFim'     => $dataFim,
+                    'semData'       => $semData,
+                    'usuarioLogado' => $usuarioLogado,
+                    'data'          => $data
+                )
+            );
+
         }
 
     }
@@ -649,10 +679,11 @@ class FaturamentoController extends Controller {
              * Verifica se existe filtro por data do CSV
              */
             if(empty($dataInicio)){
+                error_log("333333333333333333333333333333333333333");
                 $semData = 'S';
                 $dados = $this->getDoctrine()
                     ->getRepository('CacicCommonBundle:LogUserLogado')
-                    ->gerarRelatorioUsuarioHistoricoCompleto($usuarioLogado, $semData);
+                    ->gerarRelatorioUsuarioHistorico($usuarioLogado, $semData);
             }else{
                 $semData = 'N';
                 $dados = $this->getDoctrine()

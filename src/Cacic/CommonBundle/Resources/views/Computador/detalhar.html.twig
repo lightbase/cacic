@@ -20,6 +20,20 @@
                 <div class="span8">
                     <h3>{{ computador.nmComputador }}</h3>
                     <p class="muted">{{ "Dados coletados pelo agente-CACIC à partir da estação de trabalho."|trans }}</p>
+                    <div class="well">
+                        <div class="block round_bottom padding_8 shortcuts">
+                            <a href="{{ path('cacic_relatorio_computador_log_acesso', {'idComputador': computador.idComputador}) }}" class="shortcut">
+                                <i class="shortcut-icon icon-desktop"></i>
+                                <span class="shortcut-label">{{ "Log de Acesso" }}</span>
+                            </a>
+                            {% if is_granted('ROLE_GESTAO') %}
+                                <a href="{{ path('cacic_relatorio_computador_log_usuario', {'idComputador': computador.idComputador}) }}" class="shortcut">
+                                    <i class="shortcut-icon icon-user"></i>
+                                    <span class="shortcut-label">{{ "Usuários Logados" }}</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
                 {% if is_granted('ROLE_GESTAO') %}
                     <div class="span4">

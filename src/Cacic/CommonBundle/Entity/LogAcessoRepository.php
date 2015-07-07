@@ -270,9 +270,11 @@ WHERE (c0_.ativo IS NULL or c0_.ativo = 't'
             $sql .= " AND c0_.te_node_address = ? ";
         }
 
+        /*
         if ( $te_ultimo_login ) {
             $sql .= " AND lower(c0_.te_ultimo_login) LIKE lower(?)";
         }
+        */
 
         if ( $filtroLocais ) {
             $sql .= " AND r3_.id_local IN (?)";
@@ -323,8 +325,10 @@ GROUP BY c0_.te_node_address,
             $query->setParameter(5, "$teNodeAddress" );
 
 
+        /*
         if ( $te_ultimo_login )
             $query->setParameter(6, "%$te_ultimo_login%" );
+        */
 
         if ( $filtroLocais )
             $query->setParameter(7, $filtroLocais);
@@ -540,6 +544,32 @@ GROUP BY c0_.te_node_address,
 
 
         return $query->execute();
+    }
+
+    /**
+     * Filtra os logs de acesso do computador em relação às datas fornecidas
+     *
+     * @param $idComputador
+     * @param null $dtInicio
+     * @param null $dtFim
+     * @return mixed
+     */
+    public function computadorData($idComputador, $dtInicio = null, $dtFim = null) {
+
+        $qb = $this->createQueryBuilder('log')
+            ->innerJoin("CacicCommonBundle:Computador", "comp", "WITH", "comp.idComputador = :idComputador")
+            ->andWhere("log.idComputador = :idComputador")
+            ->setParameter('idComputador', $idComputador);
+
+        if ( $dtInicio ) {
+            $qb->andWhere( 'log.data >= :dtInicio' )->setParameter('dtInicio', ( $dtInicio.' 00:00:00' ));
+        }
+
+        if ( $dtFim ) {
+            $qb->andWhere( 'log.data <= :dtFim' )->setParameter('dtFim', ( $dtFim.' 23:59:59' ));
+        }
+
+        return $qb->getQuery();
     }
 
 }

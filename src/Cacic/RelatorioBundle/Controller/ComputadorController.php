@@ -284,4 +284,175 @@ class ComputadorController extends Controller {
         return $response;
     }
 
+    /**
+     * Log de acesso para o computador
+     *
+     * @param Request $request
+     * @param $idComputador
+     * @return Response
+     */
+    public function logAcessoAction(Request $request, $idComputador) {
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+
+        $dataInicio = $request->get('dataInicio');
+        $dataFim = $request->get('dataFim');
+
+        $logs = $em->getRepository("CacicCommonBundle:LogAcesso")->computadorData(
+            $idComputador,
+            $dataInicio,
+            $dataFim
+        )->execute();
+
+        return $this->render(
+            'CacicRelatorioBundle:Computador:logAcesso.html.twig',
+            array(
+                'dados' => $logs,
+                'computador' => $logs[0]->getIdComputador(),
+                'idioma' => $locale,
+                'dataInicio' => $dataInicio,
+                'dataFim' => $dataFim
+            )
+        );
+    }
+
+    /**
+     * Gera CSV do log de acesso
+     *
+     * @param Request $request
+     * @param $idComputador
+     * @return BinaryFileResponse
+     * @throws \Ddeboer\DataImport\Exception\ExceptionInterface
+     * @throws \Exception
+     */
+    public function logAcessoCsvAction(Request $request, $idComputador) {
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+
+        $dataInicio = $request->get('dataInicio');
+        $dataFim = $request->get('dataFim');
+
+        $dados = $em->getRepository("CacicCommonBundle:LogAcesso")->computadorData(
+            $idComputador,
+            $dataInicio,
+            $dataFim
+        )->getArrayResult();
+
+        // Gera CSV
+        $reader = new ArrayReader($dados);
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8', $reader));
+
+        $converter = new CallbackValueConverter(function ($input) {
+            return $input->format('d/m/Y H:m:s');
+        });
+        $workflow->addValueConverter('data', $converter);
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), 'Computadores-lista');
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $writer->writeItem(array('idLogAcesso', 'Data/Hora', 'Usuário'));
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="Log-Acesso-'.$idComputador.'.csv"');
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
+
+    /**
+     * Usuários logados para o computador
+     *
+     * @param Request $request
+     * @param $idComputador
+     * @return Response
+     */
+    public function logUsuarioAction(Request $request, $idComputador) {
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+
+        $dataInicio = $request->get('dataInicio');
+        $dataFim = $request->get('dataFim');
+
+        $logs = $em->getRepository("CacicCommonBundle:LogUserLogado")->computadorData(
+            $idComputador,
+            $dataInicio,
+            $dataFim
+        )->execute();
+
+        return $this->render(
+            'CacicRelatorioBundle:Computador:logUsuario.html.twig',
+            array(
+                'dados' => $logs,
+                'computador' => $logs[0]->getIdComputador(),
+                'idioma' => $locale,
+                'dataInicio' => $dataInicio,
+                'dataFim' => $dataFim
+            )
+        );
+    }
+
+    /**
+     * CSV do usuário logado por computador
+     *
+     * @param Request $request
+     * @param $idComputador
+     * @return BinaryFileResponse
+     * @throws \Ddeboer\DataImport\Exception\ExceptionInterface
+     * @throws \Exception
+     */
+    public function logUsuarioCsvAction(Request $request, $idComputador) {
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+
+        $dataInicio = $request->get('dataInicio');
+        $dataFim = $request->get('dataFim');
+
+        $dados = $em->getRepository("CacicCommonBundle:LogUserLogado")->computadorData(
+            $idComputador,
+            $dataInicio,
+            $dataFim
+        )->getArrayResult();
+
+        // Gera CSV
+        $reader = new ArrayReader($dados);
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8', $reader));
+
+        $converter = new CallbackValueConverter(function ($input) {
+            return $input->format('d/m/Y H:m:s');
+        });
+        $workflow->addValueConverter('data', $converter);
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), 'Computadores-lista');
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $writer->writeItem(array('idLogAcesso', 'Data/Hora', 'Usuário'));
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="Log-Acesso-'.$idComputador.'.csv"');
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
 } 

@@ -350,4 +350,30 @@ class LogUserLogadoRepository extends EntityRepository
 
         return $query->execute();
     }
+
+    /**
+     * Relatório de usuários logados na máquina
+     *
+     * @param $idComputador
+     * @param null $dtInicio
+     * @param null $dtFim
+     * @return \Doctrine\ORM\Query
+     */
+    public function computadorData($idComputador, $dtInicio = null, $dtFim = null) {
+
+        $qb = $this->createQueryBuilder('log')
+            ->innerJoin("CacicCommonBundle:Computador", "comp", "WITH", "comp.idComputador = :idComputador")
+            ->andWhere("log.idComputador = :idComputador")
+            ->setParameter('idComputador', $idComputador);
+
+        if ( $dtInicio ) {
+            $qb->andWhere( 'log.data >= :dtInicio' )->setParameter('dtInicio', ( $dtInicio.' 00:00:00' ));
+        }
+
+        if ( $dtFim ) {
+            $qb->andWhere( 'log.data <= :dtFim' )->setParameter('dtFim', ( $dtFim.' 23:59:59' ));
+        }
+
+        return $qb->getQuery();
+    }
 }
