@@ -3,27 +3,35 @@
 namespace Cacic\CommonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-	
-	/**
-	 * 
-	 * Tela inicial do CACIC
-	 */
-	public function indexAction()
+
+    /**
+     * Tela inicial do Cacic
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+	public function indexAction(Request $request)
 	{
+        $em = $this->getDoctrine()->getManager();
         $usuario = $this->getUser()->getIdUsuario();
-        $nivel = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario' )->nivel($usuario);
+        $nivel = $em->getRepository('CacicCommonBundle:Usuario' )->nivel($usuario);
 
 		$estatisticas = array(
-			'totalCompMonitorados' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countAll(),
-			'totalInsucessosInstalacao' => $this->getDoctrine()->getRepository('CacicCommonBundle:InsucessoInstalacao')->count24h(),
-			'totalCompPorSO' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorSO(),
-			'totalComp' => $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->countPorComputador(),
-            'totalComp7Dias' => $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->countComputadorDias('0','7'),
-            'totalComp14Dias' => $this->getDoctrine()->getRepository('CacicCommonBundle:LogAcesso')->countComputadorDias('7','14')
+			'totalCompMonitorados' => $em->getRepository('CacicCommonBundle:Computador')->countAll(),
+			'totalInsucessosInstalacao' => $em->getRepository('CacicCommonBundle:InsucessoInstalacao')->count24h(),
+			'totalCompPorSO' => $em->getRepository('CacicCommonBundle:Computador')->countPorSO(),
+			'totalComp' => $em->getRepository('CacicCommonBundle:LogAcesso')->countPorComputador(),
+            'totalComp7Dias' => $em->getRepository('CacicCommonBundle:LogAcesso')->countComputadorDias('0','7'),
+            'totalComp14Dias' => $em->getRepository('CacicCommonBundle:LogAcesso')->countComputadorDias('7','14')
         );
+
+        // Verifica se há agentes ativos
+        $this->agenteAtivo($em);
 		
 		return $this->render(
 			'CacicCommonBundle:Default:index.html.twig',
@@ -44,6 +52,63 @@ class DefaultController extends Controller
 
     public function translationAction() {
         return $this->render('CacicCommonBundle:Default:translation.html.twig');
+    }
+
+    public function agenteAtivo($em) {
+        $logger = $this->get('logger');
+
+        // Encontra agentes ativos
+        $rootDir = $this->container->get('kernel')->getRootDir();
+        $webDir = $rootDir . "/../web/";
+        $downloadsDir = $webDir . "downloads/";
+        if (!is_dir($downloadsDir)) {
+            mkdir($downloadsDir);
+        }
+        $cacicDir = $downloadsDir . "cacic/";
+        if (!is_dir($cacicDir)) {
+            mkdir($cacicDir);
+        }
+
+        // Varre diretório do Cacic
+        $finder = new Finder();
+        $finder->depth('== 0');
+        $finder->directories()->in($cacicDir);
+
+        $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->findAll();
+
+        $found = false;
+        foreach($finder as $version) {
+            //$logger->debug("1111111111111111111111111111111 ".$version->getFileName());
+            if ($version->getFileName() == 'current') {
+                $found = true;
+
+                foreach($tipo_so as $so) {
+                    $agentes_path = $version->getRealPath() . "/" . $so->getTipo();
+
+                    $agentes = new Finder();
+                    $agentes->files()->in($agentes_path);
+
+                    if ($agentes->count() == 0) {
+                        $this->get('session')
+                            ->getFlashBag()
+                            ->add(
+                                'notice',
+                                'Não foram encontrados agentes para a plataforma '.$so->getTipo().'. Por favor, faça upload dos agentes na interface.'
+                            );
+                    }
+                }
+            }
+        }
+
+        if (!$found) {
+            $this->get('session')
+                ->getFlashBag()
+                ->add(
+                    'notice',
+                    'Não existe nenhum agente ativo. Por favor, faça upload dos agentes na interface.'
+                );
+        }
+
     }
 	
 }
