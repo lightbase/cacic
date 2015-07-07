@@ -52,23 +52,26 @@ class AcaoRedeRepository extends EntityRepository
 	{
         $em = $this->getEntityManager();
 
-            $apagaObj = $em->getRepository( 'CacicCommonBundle:AcaoRede' )->findBy( array( 'acao'=>$acao ) );
+        $apagaObj = $em->getRepository( 'CacicCommonBundle:AcaoRede' )->findBy( array( 'acao'=>$acao ) );
 
-            foreach ( $apagaObj as $acaoObj){
-                if (!empty($acaoObj))
-                    $em->remove($acaoObj);
-            }
+        foreach ( $apagaObj as $acaoObj){
+            if (!empty($acaoObj))
+                $em->remove($acaoObj);
+        }
 
-            $em->flush();
+        $em->flush();
 
 		foreach ( $novasRedes as $idRede )
 		{
+            $novaAcao = $em->getRepository( 'CacicCommonBundle:Acao' )->find( $acao );
 
-			    $new = new AcaoRede();
-			    $new->setAcao( $em->getRepository( 'CacicCommonBundle:Acao' )->find(  $acao ) );
-			    $new->setRede( $em->getRepository( 'CacicCommonBundle:Rede' )->find( $idRede ) );
-			    $em->persist( $new );
+            if ( $novaAcao->getCsOpcional() == 'S' && $novaAcao->getAtivo() ) {
 
+                $new = new AcaoRede();
+                $new->setAcao($em->getRepository('CacicCommonBundle:Acao')->find($acao));
+                $new->setRede($em->getRepository('CacicCommonBundle:Rede')->find($idRede));
+                $em->persist($new);
+            }
 		}
 
 		$em->flush();
@@ -98,7 +101,7 @@ class AcaoRedeRepository extends EntityRepository
             // Para cada rede, habilita as ações
             foreach ($acoes as $novaAcao){
                 // com excessão do módulo patrimonio, que inicialmente é desabilitado
-                if ( $novaAcao->getCsOpcional() == 'S' ){
+                if ( $novaAcao->getCsOpcional() == 'S' && $novaAcao->getAtivo() ){
 
                     $new = new AcaoRede();
 

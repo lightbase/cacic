@@ -70,7 +70,7 @@ class NeoControllerTest extends BaseTestCase
                 'HTTPS'         => true
             ),
             '{  "user" : "cacic-adm",
-                "password": "'.$this->apiKey.'"
+                "password": "cacic123"
             }'
         );
         $logger->debug("Dados JSON de login enviados\n".$this->client->getRequest()->getcontent());//user e password
@@ -106,7 +106,7 @@ class NeoControllerTest extends BaseTestCase
                 //'HTTPS'         => true
             ),
             '{  "user" : "cacic-adm",
-                "password": "'.$this->apiKey.'"
+                "password": "cacic123"
             }'
         );
         $logger->debug("Dados JSON de login enviados \n".$this->client->getRequest()->getcontent());

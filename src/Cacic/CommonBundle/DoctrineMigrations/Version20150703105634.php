@@ -38,7 +38,7 @@ class Version20150703105634 extends AbstractMigration implements ContainerAwareI
             $grupo_user->setNmGrupoUsuarios('comum');
             $grupo_user->setTeGrupoUsuarios('Comum');
             $grupo_user->setTeMenuGrupo('menu_adm.txt');
-            $grupo_user->setTeDescricaoGrupo('Usuário limitado, sem acesso a informações confidenciais como Softwares Inventariados e Opções Administrativas como Forçar Coletas e Excluir Computadores. Poderá alterar sua própria senha.');
+            $grupo_user->setTeDescricaoGrupo('Acesso de leitura em todas as opções.');
             $grupo_user->setCsNivelAdministracao(2);
             $grupo_user->setRole('ROLE_USER');
 
@@ -56,7 +56,7 @@ class Version20150703105634 extends AbstractMigration implements ContainerAwareI
             $grupo_gestao->setNmGrupoUsuarios('gestao');
             $grupo_gestao->setTeGrupoUsuarios('Gestão Central');
             $grupo_gestao->setTeMenuGrupo('menu_adm.txt');
-            $grupo_gestao->setTeDescricaoGrupo('Acesso de leitura em todas as opções.');
+            $grupo_gestao->setTeDescricaoGrupo('Acesso ao menu de Manutenção.');
             $grupo_gestao->setCsNivelAdministracao(3);
             $grupo_gestao->setRole('ROLE_GESTAO');
 
@@ -110,16 +110,24 @@ class Version20150703105634 extends AbstractMigration implements ContainerAwareI
         }
 
         // 3 - Criar novo grupo para desenvolvedores
-        $grupoDev = new GrupoUsuario();
-        $grupoDev->setNmGrupoUsuarios('devel');
-        $grupoDev->setTeGrupoUsuarios('Desenvolvedores');
-        $grupoDev->setTeMenuGrupo('menu_adm.txt');
-        $grupoDev->setTeDescricaoGrupo('Acesso às telas de log');
-        $grupoDev->setCsNivelAdministracao(true);
-        $grupoDev->setRole('ROLE_DEVEL');
+        $grupoDev = $em->getRepository('CacicCommonBundle:GrupoUsuario')->findOneBy(array(
+            'role' => 'ROLE_DEVEL'
+        ));
 
-        $logger->debug("Criando grupo para desenvolvedores com ROLE_DEVEL");
-        $em->persist($grupoDev);
+        if (empty($grupoDev)) {
+            // Grupo para desenvolvedores
+            $grupoDev = new GrupoUsuario();
+            $grupoDev->setNmGrupoUsuarios('devel');
+            $grupoDev->setTeGrupoUsuarios('Desenvolvedores');
+            $grupoDev->setTeMenuGrupo('menu_adm.txt');
+            $grupoDev->setTeDescricaoGrupo('Acesso às telas de log do sistema.');
+            $grupoDev->setCsNivelAdministracao(true);
+            $grupoDev->setRole('ROLE_DEVEL');
+
+            $logger->debug("Criando grupo para desenvolvedores com ROLE_DEVEL");
+
+            $em->persist($grupoDev);
+        }
 
         $em->flush();
 

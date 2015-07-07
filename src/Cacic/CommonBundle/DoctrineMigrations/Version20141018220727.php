@@ -85,11 +85,11 @@ class Version20141018220727 extends AbstractMigration implements ContainerAwareI
             $em->persist($grupo);
         }
 
-        $grupo = $em->getRepository('CacicCommonBundle:GrupoUsuario')->findOneBy(array(
+        $grupoDev = $em->getRepository('CacicCommonBundle:GrupoUsuario')->findOneBy(array(
             'role' => 'ROLE_DEVEL'
         ));
 
-        if (empty($grupo)) {
+        if (empty($grupoDev)) {
             // Grupo para desenvolvedores
             $grupoDev = new GrupoUsuario();
             $grupoDev->setNmGrupoUsuarios('devel');

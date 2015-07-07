@@ -29,7 +29,7 @@ class BaseTestCase extends DefaultTestCase {
         // Basic data
         $this->client = static::createClient();
         $this->container = $this->client->getContainer();
-        $this->apiKey = $this->container->getParameter('test_api_key');
+        //$this->apiKey = $this->container->getParameter('test_api_key');
 
         // Load static data fixtures
         $kernel = $this->container->get('kernel');

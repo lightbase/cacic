@@ -73,13 +73,19 @@ class AcaoSoRepository extends EntityRepository
 
         foreach( $novasRedes as $rede )
 		{
+            $redeObj = $em->getRepository( 'CacicCommonBundle:Rede' )->find( $rede );
+
 			foreach ( $novosSO as $so )
 			{
-				$new = new AcaoSo();
-				$new->setAcao( $em->getRepository( 'CacicCommonBundle:Acao' )->find( $acao ) );
-				$new->setRede( $em->getRepository( 'CacicCommonBundle:Rede' )->find( $rede ) );
-				$new->setSo( $em->getRepository( 'CacicCommonBundle:So' )->find( $so ) );
-				$em->persist( $new );
+                $novaAcao = $em->getRepository( 'CacicCommonBundle:Acao' )->find( $acao );
+
+                if ( $novaAcao->getCsOpcional() == 'S' && $novaAcao->getAtivo() ){
+                    $new = new AcaoSo();
+                    $new->setAcao( $novaAcao );
+                    $new->setRede( $redeObj );
+                    $new->setSo( $em->getRepository( 'CacicCommonBundle:So' )->find( $so ) );
+                    $em->persist( $new );
+                }
 			}
 		}
 
