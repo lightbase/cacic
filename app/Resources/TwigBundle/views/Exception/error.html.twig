@@ -1,0 +1,13 @@
+{% extends '::error.html.twig' %}
+
+{% block title %}{{ "Erro na aplicação"|trans }}{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <h1>{{ "Erro na aplicação"|trans }}</h1>
+        <h3>{{ "Código "|trans }}{{ status_code }}</h3>
+        {{ status_text }}
+        <p>{{ "Houve um erro na aplicação. Contate o administrador do sistema para mais informações."|trans }}</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Mais</a></p>
+    </div>
+{% endblock %}

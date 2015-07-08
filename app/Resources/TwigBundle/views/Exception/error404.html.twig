@@ -1,0 +1,12 @@
+{% extends '::error.html.twig' %}
+
+{% block title %}{{ "Página não encontrada"|trans }}{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <h1>{{ "Página não encontrada"|trans }}</h1>
+        <h3>{{ "Código "|trans }}{{ status_code }}</h3>
+        {{ status_text }}
+        <p>{{ "A página solicitada não foi encontrada."|trans }}</p>
+    </div>
+{% endblock %}

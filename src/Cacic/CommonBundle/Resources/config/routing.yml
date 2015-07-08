@@ -245,10 +245,6 @@ cacic_patrimonio_opcoes:
     pattern:  /admin/patrimonio/opcoes
     defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:opcoes}
 
-cacic_patrimonio_cadastrar:
-    pattern:  /admin/patrimonio/{idComputador}/cadastrar
-    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:cadastrar, idComputador: null}
-
 cacic_uorg_index:
     pattern:  /admin/uorg/index
     defaults: { _controller: CacicCommonBundle:Uorg:index}
@@ -614,6 +610,10 @@ cacic_software_estacao_excluir:
 cacic_translation:
     pattern:  /manutencao/translation
     defaults: { _controller: CacicCommonBundle:Default:translation }
+
+cacic_patrimonio_cadastrar:
+    pattern:  /manutencao/patrimonio/{idComputador}/cadastrar
+    defaults: { _controller: CacicCommonBundle:PatrimonioConfigInterface:cadastrar, idComputador: null}
 
 ############################################
 # FIM: Usuário com perfil manutenção
