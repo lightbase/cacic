@@ -14,6 +14,20 @@
                 <h4 class="">{{ 'Período: '|trans }}{{ dataInicio|date("d/m/Y") }} a {{ dataFim|date("d/m/Y") }}</h4>
                 <h5>{{ 'Relatório gerado em: '|trans }}{{ "now"|date("d/m/Y - H\\hi") }}hs</h5>
                 <hr />
+                <form id="csv" action="{{ path('cacic_relatorio_csv_wmi_dinamico') }}" method="post" target="_self">
+                    <input type="hidden" name="dataColetaInicio" value="{{ dataInicio }}">
+                    <input type="hidden" name="dataColetaFim" value="{{ dataFim }}">
+                    {% for elm in saida %}
+                        <input type="hidden" name="property[]" value="{{ elm }}">
+                    {% endfor %}
+                    <button class="btn btn-primary" type="submit">
+                        <i class="icon-bar-chart"></i>
+                        {{ "Gerar CSV"|trans }}
+                    </button>
+                </form>
+
+                <br />
+
                 {% if relDinamico|keys %}
                     <table class="display datatable" id="datatable">
 

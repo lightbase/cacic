@@ -1,0 +1,38 @@
+Cacic\CommonBundle\Entity\Notifications:
+    type: entity
+    table: notifications
+    repositoryClass: Cacic\CommonBundle\Entity\NotificationsRepository
+    fields:
+        idNotification:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: id_notification
+            generator:
+                strategy: IDENTITY
+        subject:
+            type: text
+            nullable: false
+            column: subject
+        from:
+            type: string
+            nullable: false
+            column: from
+        replyTo:
+            type: string
+            nullable: true
+            column: reply_to
+        to:
+            type: string
+            nullable: false
+            column: to
+        body:
+            type: text
+            nullable: false
+            column: body
+        readDate:
+            type: datetime
+            nullable: true
+            column: read_date
+    lifecycleCallbacks: {  }

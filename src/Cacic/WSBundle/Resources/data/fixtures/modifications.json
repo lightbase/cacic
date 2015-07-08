@@ -1,0 +1,110 @@
+{
+  "coletasInseridas": {
+    "hardware": {
+      "Win32_BaseBoard": {
+        "SerialNumber": ".CSQKLZ1.BR1081943R0013."
+      },
+      "Win32_DiskDrive": [
+        {
+          "Size": "1000204886016"
+        },
+        {
+          "Model": "xD/SD/M.S."
+        }
+      ],
+      "Win32_LogicalDisk": [
+        {
+          "Size": "30837555200"
+        },
+        {
+          "Size": "51199868928"
+        },
+        {
+          "Size": "204800524288"
+        },
+        {
+          "Size": "4094737920"
+        },
+        {
+          "Size": "443997486592"
+        },
+        {
+          "Size": "0"
+        }
+      ]
+    },
+    "software": {
+      "account-plugin-aim": {
+        "description": "Messaging account plugin for AIM",
+        "installed_size": "941",
+        "name": "account-plugin-aim",
+        "url": "http://wiki.gnome.org/Empathy",
+        "version": "3.8.6-0ubuntu9"
+      }
+    }
+  },
+  "coletasRetiradas": {
+    "hardware": {
+      "Win32_BaseBoard": {
+        "SerialNumber": ".CSQKLZ1.BR1081943R01."
+      },
+      "Win32_DiskDrive": [
+        {
+          "Size": "1000204886016bytes"
+        },
+        {
+          "Model": "xD/SD/M.S321."
+        }
+      ],
+      "Win32_LogicalDisk": [
+        {
+          "Size": "308375552000 "
+        },
+        {
+          "Size": "51199868928 "
+        },
+        {
+          "Size": "204800524288 "
+        },
+        {
+          "Size": "4094737920 "
+        },
+        {
+          "Size": "443997486592 "
+        },
+        {
+          "Size": "0 "
+        }
+      ]
+    },
+    "software": {
+      "account-plugin-aim": {
+        "description": "Messaging account plugin for AIM",
+        "installed_size": "941",
+        "name": "account-plugin-aim",
+        "url": "http://wiki.gnome.org/Empathy",
+        "version": "3.8.6-0ubuntu9"
+      }
+    }
+  },
+  "computador": {
+    "networkDevices": [
+      {
+        "ipv4": "192.168.25.4",
+        "ipv6": "fe80::9ed2:1eff:feea:e089%wlan0",
+        "mac": "9C:D2:1E:EA:E0:89",
+        "netmask_ipv4": "255.255.255.0",
+        "netmask_ipv6": "ffff:ffff:ffff:ffff::",
+        "nome": "wlan0"
+      }
+    ],
+    "nmComputador": "eric-note",
+    "operatingSystem": {
+      "idOs": 2,
+      "nomeOs": "Ubuntu 14.04.1 LTS-x86_64",
+      "tipo": "linux-x86_64"
+    },
+    "usuario": "eric",
+    "versaoAgente": "3.1.0a"
+  }
+}

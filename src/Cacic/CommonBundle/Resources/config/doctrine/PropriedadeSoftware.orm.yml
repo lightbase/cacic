@@ -26,6 +26,14 @@ Cacic\CommonBundle\Entity\PropriedadeSoftware:
             type: text
             nullable: true
             column: publisher
+        ativo:
+            type: boolean
+            nullable: true
+            column: ativo
+        dataExclusao:
+            type: datetime
+            nullable: true
+            column: data_exclusao
     manyToOne:
         computador:
             targetEntity: Computador

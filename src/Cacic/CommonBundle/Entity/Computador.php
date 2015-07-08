@@ -852,4 +852,20 @@ class Computador
     {
         return $this->erros_agente;
     }
+
+    public function createNotification($subject, $body, $from) {
+        $responsavel = $this->getIdRede()->getTeEmailContato1();
+        if (empty($responsavel)) {
+            $responsavel = $this->getIdRede()->getTeEmailContato2();
+        }
+
+        $notification = new Notifications();
+        $notification->setTo($responsavel);
+        $notification->setFrom($from);
+        $notification->setReadDate(null);
+        $notification->setSubject($subject);
+        $notification->setBody($body);
+
+        return $notification;
+    }
 }

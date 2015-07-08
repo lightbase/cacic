@@ -383,36 +383,101 @@ class HardwareController extends Controller
     {
 
         $form = $this->createForm( new ClassPropertyPesquisaType());
+        $property = $request->get('property');
 
         //Recupera as propriedades da classe WMI selecionadas para a pesquisa
         if ( $request->isMethod('POST') ){
-            $property = $_POST['property'];
-            $form->bind( $request );
-            $data = $form->getData();
+            $form->handleRequest( $request );
 
-            $dataInicio = $data['dataColetaInicio'];
-            $dataFim = $data['dataColetaFim'];
-
-            //array_push($property, "id_computador");
-            $saida = array();
-            foreach ($property as $elm) {
-                array_push($saida, $elm);
-            }
+            $dataInicio = $form['dataColetaInicio']->getData();
+            $dataFim = $form['dataColetaFim']->getData();
+            //$property = $form['property']->getData();
         }
 
         //relatorioWmiDinamico --> realiza a pesquisa das propriedades das classes WMI selecionadas
-        $relDinamico = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')->relatorioWmiDinamico($property, $dataInicio, $dataFim);
+        $relDinamico = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')
+            ->relatorioWmiDinamico($property, $dataInicio, $dataFim);
 
         return $this->render(
             'CacicRelatorioBundle:Hardware:rel_wmi_dinamico_detalhar.html.twig',
             array(
                 'relDinamico'   => $relDinamico,
-                'saida'         => $saida,
+                'saida'         => $property,
                 'dataInicio'    => $dataInicio,
                 'dataFim'       => $dataFim
             )
         );
 
+    }
+
+    /**
+     * Gera CSV do relatório dinâmico
+     *
+     * @param Request $request
+     * @return BinaryFileResponse
+     * @throws \Ddeboer\DataImport\Exception\ExceptionInterface
+     * @throws \Exception
+     */
+    public function csvRelWmiDinamicoAction(Request $request) {
+        $logger = $this->get('logger');
+
+        $form = $request->get('ClassPropertyPesquisa');
+
+        if (empty($form)) {
+            $dataInicio = $request->get('dataColetaInicio');
+            $dataFim = $request->get('dataColetaFim');
+        } else {
+            $dataInicio = $form['dataColetaInicio'];
+            $dataFim = $form['dataColetaFim'];
+        }
+
+        $property = $request->get('property');
+
+        $relDinamico = $this->getDoctrine()->getRepository('CacicCommonBundle:ClassProperty')
+            ->relatorioWmiDinamico($property, $dataInicio, $dataFim);
+
+        // Gera cabeçalho
+        $cabecalho = array(
+            'idComputador',
+            'Nome do Computador',
+            'MAC',
+            'IP do Computador',
+            'IP da Rede',
+            'Nome da Rede',
+            'Data do último acesso'
+        );
+        foreach($property as $elm) {
+            array_push($cabecalho, $elm);
+        }
+
+
+
+        $dados = array_merge(array($cabecalho), $relDinamico);
+
+        // Gera CSV
+        $reader = new ArrayReader($dados);
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), "Relatório-WMI-Dinâmico.csv");
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $filename = "Relatório-WMI-Dinâmico.csv";
+
+        $response->headers->set('Content-Disposition', "attachment; filename=$filename");
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
     }
 
     /**

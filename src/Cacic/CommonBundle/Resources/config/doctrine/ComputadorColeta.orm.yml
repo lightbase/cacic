@@ -19,6 +19,14 @@ Cacic\CommonBundle\Entity\ComputadorColeta:
             type: datetime
             nullable: false
             column: dt_hr_inclusao
+        ativo:
+            type: boolean
+            nullable: true
+            column: ativo
+        dtHrExclusao:
+            type: datetime
+            nullable: true
+            column: dt_hr_exclusao
     manyToOne:
         computador:
             targetEntity: Computador

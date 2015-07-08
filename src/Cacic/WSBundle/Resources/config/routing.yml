@@ -105,3 +105,7 @@ cacic_ws_download_service:
 cacic_ws_download_msi:
     pattern: /instala/download/msi
     defaults: { _controller: CacicWSBundle:NeoInstall:downloadMsi }
+
+cacic_ws_neo_modifications:
+    pattern: /neo/modifications
+    defaults: { _controller: CacicWSBundle:NeoColeta:modifications }

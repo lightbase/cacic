@@ -37,7 +37,7 @@ class ComputadorController extends Controller {
         $logger = $this->get('logger');
 
         $historico = $em->getRepository('CacicCommonBundle:ComputadorColetaHistorico')->listar(
-            $limit = 10,
+            $limit = 100,
             $idComputador,
             $classe
         );

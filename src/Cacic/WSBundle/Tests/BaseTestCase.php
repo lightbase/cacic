@@ -45,6 +45,8 @@ class BaseTestCase extends DefaultTestCase {
         $this->computador_semso1 = file_get_contents($this->data_dir."computador-semso1.json");
         $this->computador_semso2 = file_get_contents($this->data_dir."computador-semso2.json");
         $this->computador_sem_tipo = file_get_contents($this->data_dir."computador-sem-tipo.json");
+        $this->coleta_modifications = file_get_contents($this->data_dir."coleta-modifications.json");
+        $this->modifications = file_get_contents($this->data_dir."modifications.json");
     }
 
     /**

@@ -231,6 +231,115 @@ class NeoColetaControllerTest extends BaseTestCase {
         $this->assertGreaterThan(1, sizeof($software));
     }
 
+    /**
+     * Testa processamento do envio de coletas diferencial
+     */
+    public function testModifications() {
+        $logger = $this->container->get('logger');
+
+        $this->client->request(
+            'POST',
+            '/ws/neo/coleta',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->coleta_modifications
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON da coleta: \n".$response->getContent());
+
+        $this->assertEquals($status, 200);
+
+        // Verifica se o Software Coleta foi inserido
+        $em = $this->container->get('doctrine')->getManager();
+
+        // Busca software pelo nome
+        $software = $em->getRepository("CacicCommonBundle:Software")->findBy(array(
+            'nmSoftware' => 'Messaging account plugin for AIM'
+        ));
+
+        $this->assertEquals(1, sizeof($software));
+
+        $classObject = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
+            'nmClassName'=> 'SoftwareList'
+        ));
+
+        $this->assertNotEmpty($classObject);
+
+        $classProperty = $em->getRepository("CacicCommonBundle:ClassProperty")->findOneBy(array(
+            'nmPropertyName' => 'account-plugin-aim',
+            'idClass' => $classObject
+        ));
+
+        $this->assertNotEmpty($classProperty);
+
+        // Testa se identificou o computador
+        $so = $em->getRepository("CacicCommonBundle:So")->findOneBy(array(
+            'teSo' => 'Ubuntu 14.04.1 LTS-x86_64'
+        ));
+        $this->assertNotEmpty($so);
+
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->findOneBy(array(
+            'teNodeAddress' => '9C:D2:1E:EA:E0:89',
+            'idSo' => $so
+        ));
+        $this->assertNotEmpty($computador);
+
+        // Agora testa a alteração do hardware
+        $classe = $em->getRepository('CacicCommonBundle:Classe')->findOneBy( array(
+            'nmClassName'=> 'Win32_BaseBoard'
+        ));
+
+        $prop = $em->getRepository("CacicCommonBundle:ClassProperty")->findOneBy(array(
+            'nmPropertyName' => 'SerialNumber',
+            'idClass' => $classe
+        ));
+
+        $this->client->request(
+            'POST',
+            '/ws/neo/modifications',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->modifications
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON da coleta: \n".$response->getContent());
+
+        $this->assertEquals($status, 200);
+
+        // Limpa o cache para garantir o resultado
+        $em->clear();
+
+        $softwareRemovido = $em->getRepository("CacicCommonBundle:PropriedadeSoftware")->findOneBy(array(
+            'classProperty' => $classProperty,
+            'software' => $software,
+            'computador' => $computador
+        ));
+
+        $this->assertFalse($softwareRemovido->getAtivo(), "O software nao foi desativado como esperado");
+
+        // Testa alteração de hardware
+        $computadorColeta = $em->getRepository("CacicCommonBundle:ComputadorColeta")->findOneBy(array(
+            'computador' => $computador,
+            'classProperty' => $prop
+        ));
+
+        $this->assertFalse($computadorColeta->getAtivo(), "O hardware não foi desativado como esperado");
+    }
+
     public function tearDown() {
 
         // Remove dados da classe pai

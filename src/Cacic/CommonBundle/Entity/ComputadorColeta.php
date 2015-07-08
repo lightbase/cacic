@@ -195,4 +195,60 @@ class ComputadorColeta
     public function __toString() {
         return $this->classProperty.": ".$this->teClassPropertyValue."| Computador:".$this->computador->getIdComputador();
     }
+    /**
+     * @var boolean
+     */
+    private $ativo;
+
+    /**
+     * @var \DateTime
+     */
+    private $dtHrExclusao;
+
+
+    /**
+     * Set ativo
+     *
+     * @param boolean $ativo
+     * @return ComputadorColeta
+     */
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+
+        return $this;
+    }
+
+    /**
+     * Get ativo
+     *
+     * @return boolean 
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    /**
+     * Set dtHrExclusao
+     *
+     * @param \DateTime $dtHrExclusao
+     * @return ComputadorColeta
+     */
+    public function setDtHrExclusao($dtHrExclusao)
+    {
+        $this->dtHrExclusao = $dtHrExclusao;
+
+        return $this;
+    }
+
+    /**
+     * Get dtHrExclusao
+     *
+     * @return \DateTime 
+     */
+    public function getDtHrExclusao()
+    {
+        return $this->dtHrExclusao;
+    }
 }

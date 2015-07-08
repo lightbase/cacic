@@ -220,4 +220,60 @@ class PropriedadeSoftware
     {
         return $this->software;
     }
+    /**
+     * @var boolean
+     */
+    private $ativo;
+
+    /**
+     * @var \DateTime
+     */
+    private $dataExclusao;
+
+
+    /**
+     * Set ativo
+     *
+     * @param boolean $ativo
+     * @return PropriedadeSoftware
+     */
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+
+        return $this;
+    }
+
+    /**
+     * Get ativo
+     *
+     * @return boolean 
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    /**
+     * Set dataExclusao
+     *
+     * @param \DateTime $dataExclusao
+     * @return PropriedadeSoftware
+     */
+    public function setDataExclusao($dataExclusao)
+    {
+        $this->dataExclusao = $dataExclusao;
+
+        return $this;
+    }
+
+    /**
+     * Get dataExclusao
+     *
+     * @return \DateTime 
+     */
+    public function getDataExclusao()
+    {
+        return $this->dataExclusao;
+    }
 }
