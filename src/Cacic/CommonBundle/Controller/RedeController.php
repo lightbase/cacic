@@ -125,12 +125,31 @@ class RedeController extends Controller
      */
     public function excluirAction( Request $request )
     {
-        if ( ! $request->isXmlHttpRequest() )
+        if ( ! $request->isXmlHttpRequest() ) {
             throw $this->createNotFoundException( 'Página não encontrada' );
+        }
 
         $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->find( $request->get('id') );
-        if ( ! $rede )
-            throw $this->createNotFoundException( 'Subrede não encontrado' );
+
+        if ( ! $rede ) {
+            throw $this->createNotFoundException( 'Subrede não encontrada' );
+        }
+
+        if ($rede->getTeIprede() == '0.0.0.0') {
+            //$this->get('session')->getFlashBag()->add('error', 'Nao e permitido remover a rede padrao!');
+
+            $response = new Response(
+                json_encode(
+                    array(
+                        'status' => 'error',
+                        'message' => 'Não é permitido remover a rede padrão'
+                    )
+                )
+            );
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove( $rede );

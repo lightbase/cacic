@@ -44,17 +44,20 @@ $(document).ready(function(){
 						{
 							if ( data.status == 'error' )
 							{
-								var msg = '';
-								switch( data.code )
-								{
-									case '23503':
-										msg = 'Ítem não pode ser excluído porque contem dados relacionados!';
-										break;
-										
-									default:
-										msg = 'Erro desconhecido!';
-										break;
-								}
+								var msg = data.message;
+                                if (msg == undefined) {
+                                    switch( data.code )
+                                    {
+                                        case '23503':
+                                            msg = 'Ítem não pode ser excluído porque contem dados relacionados!';
+                                            break;
+
+                                        default:
+                                            msg = 'Erro desconhecido!';
+                                            break;
+                                    }
+                                }
+
 								System.Flash.show( 'Erro', msg );
 								return false;
 							}
@@ -77,7 +80,7 @@ $(document).ready(function(){
 						},
 						error: function( data )
 						{
-							System.Flash.show( 'Erro', 'Erro na exclusão do item!' );
+                            System.Flash.show( 'Erro', 'Erro na exclusão do item!' );
 						},
 						complete: function( data )
 						{
