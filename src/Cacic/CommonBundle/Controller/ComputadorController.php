@@ -49,15 +49,16 @@ class ComputadorController extends Controller
         $computador = $d->getRepository('CacicCommonBundle:Computador')->find( (int) $idComputador );
         $ultimo_acesso = $d->getRepository('CacicCommonBundle:LogAcesso')->ultimoUserName( $idComputador );
 
-        if ( ! $computador )
+        if ( ! $computador ) {
             throw $this->createNotFoundException( 'Página não encontrada!' );
+        }
 
         $usuario = $this->getUser()->getIdUsuario();
         $nivel = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario' )->nivel($usuario);
 
         if ($request->get('ativar')) {
 
-            if($nivel[0]['nmGrupoUsuarios'] != "Admin") {
+            if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 throw $this->createAccessDeniedException('Operação disponível somente para administradores');
             }
 
@@ -74,7 +75,7 @@ class ComputadorController extends Controller
 
         if ($request->get('desativar')) {
 
-            if($nivel[0]['nmGrupoUsuarios'] != "Admin") {
+            if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 throw $this->createAccessDeniedException('Operação disponível somente para administradores');
             }
 
@@ -91,7 +92,7 @@ class ComputadorController extends Controller
 
         if ($request->get('forcarColeta')) {
 
-            if($nivel[0]['nmGrupoUsuarios'] != "Admin") {
+            if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 throw $this->createAccessDeniedException('Operação disponível somente para administradores');
             }
 
