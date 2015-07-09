@@ -100,9 +100,15 @@ assetic:
                 - "%kernel.root_dir%/../vendor/jquery/jquery/jquery-1.10.2.js"
             output: js/jquery.js
             filters: [?yui_js]
+        jquery_ui_js:
+            inputs:
+                - "%kernel.root_dir%/../vendor/jquery/jquery-ui/jquery-ui.js"
+            output: js/jquery-ui.js
+            filters: [?yui_js]
         bootstrap_less:
             inputs:
                 - '%kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less'
+                - %kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/less/form.less
             filters: [lessphp,cssembed]
 
 # Doctrine Configuration

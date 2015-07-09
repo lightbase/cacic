@@ -17,6 +17,17 @@
             }
         },
         {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery-ui",
+                "version": "1.11.4",
+                "dist": {
+                    "url": "https://code.jquery.com/ui/1.11.4/jquery-ui.js",
+                    "type": "file"
+                }
+            }
+        },
+        {
 
             "type": "vcs",
             "url": "https://github.com/lightbase/cocar.git"
@@ -27,6 +38,7 @@
         "symfony/symfony": "~2.5",
 	    "symfony/icu": "1.1.*",
         "jquery/jquery": "1.10.*",
+        "jquery/jquery-ui": "1.11.*",
         "doctrine/orm": "~2.4",
         "doctrine/doctrine-bundle": "1.2.*",
         "twig/extensions": "~1.1",

@@ -15,7 +15,7 @@ cacic_relatorio_resultado:
          _method: POST
 
 cacic_relatorio_faturamento_listar:
-    pattern: /software/faturamento/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    pattern: /hardware/faturamento/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
     defaults: { _controller: CacicRelatorioBundle:Faturamento:listar, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
     requirements:
         idRede: \d+

@@ -607,6 +607,7 @@ li.openable.active span.icon, li.openable.active span.icon {
 }
 .shortcut .btn-shortcut img {
 	margin-top:5px;
+	min-height: 24px;
 }
 .shortcut .btn-shortcut .label {
 	position: relative;

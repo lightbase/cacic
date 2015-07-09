@@ -20,8 +20,8 @@
                 <form id={{ 'formLogPesquisaInsucesso'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
                     
                     <div class="control-group">
-                        <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
-                        <div class="controls">
+                        <label for="log_acesso_periodo" class="control-label col-sm-2">{{ 'Período'|trans }}</label>
+                        <div class="controls col-sm-8">
                            {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
                            <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                         </div>

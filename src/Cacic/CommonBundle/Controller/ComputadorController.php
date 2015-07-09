@@ -19,14 +19,21 @@ class ComputadorController extends Controller
 {
 
     /**
-     *
      * Tela que exibe os computadores dentro da estrutura hierárquica da organização
+     *
+     * @param Request $request
+     * @return Response
      */
-    public function navegarAction()
+    public function navegarAction(Request $request)
     {
+        $agrupar = $request->get('agrupar');
+
         return $this->render(
             'CacicCommonBundle:Computador:navegar.html.twig',
-            array( 'locais' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorLocal() )
+            array(
+                'locais' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorLocal(),
+                'agrupar' => $agrupar
+            )
         );
     }
 
@@ -341,18 +348,28 @@ class ComputadorController extends Controller
      */
     public function loadredenodesAction( Request $request )
     {
-        if ( ! $request->isXmlHttpRequest() )
+        if ( ! $request->isXmlHttpRequest() ) {
             throw $this->createNotFoundException( 'Página não encontrada!' );
+        }
 
-        $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->countPorSubrede( $request->get('idLocal') );
+        $idLocal = $request->get('idLocal');
+        $agrupar = $request->get('agrupar');
+
+        $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->countPorSubrede( $idLocal );
 
         # Monta um array no formato suportado pelo plugin-in jqTree (JQuery)
         $_tree = array();
         foreach ( $redes as $rede )
         {
+            if (!empty($agrupar)) {
+                $label = "{$rede['teIpRede']} ({$rede['nmRede']}) [{$rede['numMac']}]";
+            } else {
+                $label = "{$rede['teIpRede']} ({$rede['nmRede']}) [{$rede['numComp']}]";
+            }
+
             $_tree[] = array(
                 'id'				=> $rede['idRede'],
-                'label' 			=> "{$rede['teIpRede']} ({$rede['nmRede']}) [{$rede['numComp']}]",
+                'label' 			=> $label,
                 'url'				=> $this->generateUrl( 'cacic_computador_loadcompnodes', array('idSubrede'=>$rede['idRede']) ),
                 'type'				=> 'rede',
                 'load_on_demand' 	=> (bool) $rede['numComp']

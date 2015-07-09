@@ -114,3 +114,20 @@ dl dd { margin-bottom: 10px; }
 .side_nav ul a{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
+
+/* Corrige mudança do box-sizing (Bootstrap v3)
+ * Fonte: http://stackoverflow.com/questions/19109470/twitter-bootstrap-box-sizing-ruined-my-layout
+ */
+
+.box-sizing-fix *,
+.box-sizing-fix *:before,
+.box-sizing-fix *:after {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	white-space: normal;
+}
+/* Firefox fieldset fix */
+@-moz-document url-prefix() {
+	fieldset { display: table-cell; }
+}

@@ -23,15 +23,21 @@
             'bundles/caciccommon/libs/Font-Awesome-3.2.1/css/font-awesome.min.css'
             'bundles/caciccommon/css/main.css'
        %}
+            <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" media="screen">
+
             <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
         {% endstylesheets %}
          
-    <link href="{{ asset('bundles/caciccommon/libs/googleapis.fonts.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/caciccommon/libs/googleapis.fonts.css') }}" rel="stylesheet">
         
     {% endblock %}
-    
+
+    <!-- HTML5 Shim and Respond.js add IE8 support of HTML5 elements and media queries -->
+    {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
+
     <!-- Bootstrap CSS fixes for IE6 -->
     <!--[if lt IE 7]><link rel="stylesheet" href="{{ asset('bundles/caciccommon/libs/bootstrap-ie6.min.css') }}"><![endif]-->
+
     <!-- Font-awesome support for IE7 -->
     <!--[if IE 7]><link rel="stylesheet" href="{{ asset('bundles/caciccommon/libs/Font-Awesome-3.2.1/css/font-awesome-ie7.min.css') }}"><![endif]-->
     
@@ -43,19 +49,20 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="i-bar"></span>
-            <span class="i-bar"></span>
-            <span class="i-bar"></span>
-          </a>
 
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <p class="navbar-text"  style="margin-top: 0px;"><a href="{{ path('cacic_common_homepage') }}">CACIC v.{{ cacic_version }}</a></p>
+            </div>
 
-    <p class="navbar-text pull-left"><a href="{{ path('cacic_common_homepage') }}">CACIC v.{{ cacic_version }}</a></p>
-
-    <div class="nav-collapse">
-        <p class="navbar-text pull-right"> {{ "Logado como"|trans }} <a href="{{ path('cacic_usuario_meus_dados') }}">{{ app.user.nmUsuarioAcesso }}</a></p>
-        <ul class="nav pull-right">
-            <!-- <li class="dropdown">
+            <div class="collapse navbar-collapse" id="main-menu">
+                <ul class="nav navbar-nav navbar-left">
+                    <!-- <li class="dropdown">
                     <a href="#"
                           class="dropdown-toggle"
                           data-toggle="dropdown">
@@ -68,37 +75,42 @@
                         <li><a href="#">{{ "Alertas antigos..."|trans }}</a></li>
                     </ul>
               </li> -->
-            <li class="dropdown">
-                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-cog"></i>
-                    Configurações
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ path('cacic_configuracao_padrao') }}">{{ 'Configurar Padrões'|trans }}</a></li>
-                    {#  <li><a href="{{ path('cacic_configuracao_gerente') }}">{{ 'Configurar Gerente'|trans }}</a></li> #}
-                    {# <li><a href="{{ path('cacic_configuracao_agente') }}">{{ 'Configurar Agentes'|trans }}</a></li> #}
-                    <li class="divider"></li>
-                    <li><a href="{{ path('cacic_modulo_index') }}">{{ "Configurar Módulos"|trans }}</a></li>
-                </ul>
-            </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-cog"></i>
+                            Configurações
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('cacic_configuracao_padrao') }}">{{ 'Configurar Padrões'|trans }}</a></li>
+                            {#  <li><a href="{{ path('cacic_configuracao_gerente') }}">{{ 'Configurar Gerente'|trans }}</a></li> #}
+                            {# <li><a href="{{ path('cacic_configuracao_agente') }}">{{ 'Configurar Agentes'|trans }}</a></li> #}
+                            <li class="divider"></li>
+                            <li><a href="{{ path('cacic_modulo_index') }}">{{ "Configurar Módulos"|trans }}</a></li>
+                        </ul>
+                    </li>
 
-            <li class="dropdown">
-                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-user"></i>
-                    {{ 'Meus Dados'|trans }}
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ path('cacic_usuario_meus_dados') }}"><i class="icon-file"></i> {{ 'Meus Dados'|trans }}</a></li>
-                    <li><a href="{{ path('cacic_usuario_trocar_propria_senha') }}" class="bt-trocar-propria-senha"><i class="icon-key"></i> {{ 'Alterar Senha'|trans }}</a></li>
-                    <!-- 	<li><a href="javascript:void(0);"><i class="icon-heart"></i> {{ 'Editar Favoritos (Atalhos)'|trans }}</a></li> -->
-                    <li class="divider"></li>
-                    <li><a href="{{ path('cacic_common_logout') }}"><i class="icon-off"></i> {{ 'Sair'|trans }}</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-user"></i>
+                            {{ 'Meus Dados'|trans }}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('cacic_usuario_meus_dados') }}"><i class="icon-file"></i> {{ 'Meus Dados'|trans }}</a></li>
+                            <li><a href="{{ path('cacic_usuario_trocar_propria_senha') }}" class="bt-trocar-propria-senha"><i class="icon-key"></i> {{ 'Alterar Senha'|trans }}</a></li>
+                            <!-- 	<li><a href="javascript:void(0);"><i class="icon-heart"></i> {{ 'Editar Favoritos (Atalhos)'|trans }}</a></li> -->
+                            <li class="divider"></li>
+                            <li><a href="{{ path('cacic_common_logout') }}"><i class="icon-off"></i> {{ 'Sair'|trans }}</a></li>
+                        </ul>
+                    </li>
                 </ul>
-            </li>
-        </ul>
-    </div><!--/.nav-collapse -->
+
+                <p class="navbar-text navbar-right" style="margin-top: 0px;"> {{ "Logado como"|trans }} <a href="{{ path('cacic_usuario_meus_dados') }}">{{ app.user.nmUsuarioAcesso }}</a></p>
+
+            </div><!--/.nav-collapse -->
+
+
 
 
         </div>
@@ -121,18 +133,23 @@
 
           
         <!-- main container -->
-        <div id="main_container" class="span10">
+        <div class="span10">
         
         	<!-- Shortcut buttons -->
             <div class="row-fluid">
 
-                    <div class="span12 shortcut">
-			{% if bundleExists('CocarBundle') %}
-        			<a href="{{ path('cocar_map') }}" class="btn btn-shortcut"><img src="{{ asset('bundles/cocar/images/cocar-logo-24.png') }}" alt="Dashboard" />COCAR<span class="label label-info">0</span></a>
-
-			{% endif %}
-        		<a href="{{ path('cacic_common_homepage') }}" class="btn btn-shortcut"><img src="{{ asset('bundles/caciccommon/images/v3/cacic_logo_gray.png') }}" alt="Dashboard" />CACIC<span class="label label-info">0</span></a>
-                    </div><!--/span-->
+                <div class="span12 shortcut box-sizing-fix" id="main_container">
+                    {% if bundleExists('CocarBundle') %}
+                            <a href="{{ path('cocar_map') }}" class="btn btn-shortcut"><img src="{{ asset('bundles/cocar/images/cocar-logo-24.png') }}" alt="Dashboard" />
+                                COCAR
+                                <span class="label label-info">0</span>
+                            </a>
+                    {% endif %}
+        		    <a href="{{ path('cacic_common_homepage') }}" class="btn btn-shortcut"><img src="{{ asset('bundles/caciccommon/images/v3/cacic_logo_gray.png') }}" alt="Dashboard" />
+                        CACIC
+                        <span class="label label-info box-sizing-fix">0</span>
+                    </a>
+                </div><!--/span-->
 
             </div>
             
@@ -140,9 +157,9 @@
         	<div class="row-fluid">
                 <div class="span12">
                 <ul class="breadcrumb">
-                  	<li><a href="{{ path('cacic_common_homepage') }}">CACIC</a> <span class="divider">/</span></li> 
+                  	<li><a href="{{ path('cacic_common_homepage') }}">CACIC</a></li>
                   	{% block breadcrumb %}
-                  	<li class="active">Home</li>
+                  	    <li class="active">Home</li>
                   	{% endblock %}
                 </ul>
                 </div><!--/span-->
@@ -169,9 +186,8 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 	<!-- jQuery (UI) -->
-    <script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery.1.7.1.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bundles/caciccommon/libs/jquery-ui-1.8.17.min.js') }}"></script>
-
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
 
 	{% javascripts output='assets/base.js' combine=true
 	    '@CacicCommonBundle/Resources/public/TwitterBootstrapTheme_AdminIntenso_1.0/js/intenso/jquery.cookie.js'
@@ -187,7 +203,8 @@
         '@CacicCommonBundle/Resources/public/js/theme.js'
         '@CacicCommonBundle/Resources/public/js/init.js'
     %}
-    <script src="{{ asset_url }}" type="text/javascript"></script>
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+
     {% endjavascripts %}
     
     <script type="text/javascript">

@@ -52,7 +52,7 @@ class ComputadorRepository extends EntityRepository
     public function countPorLocal()
     {
         $qb = $this->createQueryBuilder('comp')
-            ->select('loc.idLocal, loc.nmLocal, COUNT(comp.idComputador) as numComp')
+            ->select('loc.idLocal, loc.nmLocal, COUNT(comp.idComputador) as numComp, COUNT(DISTINCT comp.teNodeAddress) as numMac')
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
@@ -141,7 +141,7 @@ class ComputadorRepository extends EntityRepository
     public function countPorSubrede( $idLocal = null )
     {
         $qb = $this->createQueryBuilder('comp')
-            ->select('rede.idRede, rede.teIpRede, rede.nmRede, COUNT(comp.idComputador) as numComp')
+            ->select('rede.idRede, rede.teIpRede, rede.nmRede, COUNT(comp.idComputador) as numComp, COUNT(DISTINCT comp.teNodeAddress) as numMac')
             ->innerJoin('comp.idRede', 'rede')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('rede');

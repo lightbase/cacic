@@ -1,7 +1,7 @@
 {% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}     
-    <li>{{ "Computadores"|trans }} <span class="divider">/</span></li>
+    <li>{{ "Computadores"|trans }}</li>
     <li class="active">{{ "Navegar"|trans }}</li>
 {% endblock %}
 
@@ -18,17 +18,54 @@
             <h3>{{ "Navegação pelos Computadores das Subredes"|trans }}</h3>
             <p class="muted">{{ "Neste módulo, é possível visualizar cada estação de trabalho monitorada."|trans }}</p>
             <br />
-            <a class="btn btn-primary" type="submit" href="{{ path('cacic_relatorio_computador') }}" title="{{ "Todos os Computadores"|trans }}" target="_blank">
-                <i class="icon-bar-chart"></i>
-                Computadores por Subrede
-            </a>
-            <a class="btn btn-success" type="submit" href="{{ path('cacic_relatorio_computador_listar') }}" title="{{ "Todos os Computadores"|trans }}" target="_blank">
-                <i class="icon-bar-chart"></i>
-                Todos os Computadores
-            </a>
-            <br>
-            <br>
-            <div id="tree_comp0"></div> <!-- Árvore com os Computadores Monitorados-->
+            {% if agrupar %}
+                <a class="btn btn-default" type="submit" href="{{ path('cacic_computador_navegar') }}" title="{{ "Remover a opção de agrupar por MAC"|trans }}">
+                    <i class="icon-bar-chart"></i>
+                    {{ "Desagrupar (Todos os Computadores)"|trans }}
+                </a>
+                <a class="btn btn-primary" type="submit" href="{{ path('cacic_relatorio_faturamento') }}" title="{{ "Todos os Computadores"|trans }}" target="_blank">
+                    <i class="icon-bar-chart"></i>
+                    {{ "Computadores por Subrede"|trans }}
+                </a>
+                <a class="btn btn-success" type="submit" href="{{ path('cacic_relatorio_faturamento_listar') }}" title="{{ "Todos os Computadores"|trans }}" target="_blank">
+                    <i class="icon-bar-chart"></i>
+                    {{ "Todos os Computadores"|trans }}
+                </a>
+                <br>
+                <br>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ "Computadores agrupados por MAC (Faturamento)" }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="tree_comp0"></div> <!-- Árvore com os Computadores Monitorados-->
+                    </div>
+                </div>
+            {% else %}
+                <a class="btn btn-info" type="submit" href="{{ path('cacic_computador_navegar', {'agrupar': true}) }}" title="{{ "Agrupar os computadores por MAC para obter a visão do faturamento"|trans }}">
+                    <i class="icon-bar-chart"></i>
+                    {{ "Agrupar por MAC (Faturamento)"|trans }}
+                </a>
+                <a class="btn btn-primary" type="submit" href="{{ path('cacic_relatorio_computador') }}" title="{{ "Todos os Computadores"|trans }}" target="_blank">
+                    <i class="icon-bar-chart"></i>
+                    {{ "Computadores por Subrede"|trans }}
+                </a>
+                <a class="btn btn-success" type="submit" href="{{ path('cacic_relatorio_computador_listar') }}" title="{{ "Todos os Computadores"|trans }}" target="_blank">
+                    <i class="icon-bar-chart"></i>
+                    {{ "Todos os Computadores"|trans }}
+                </a>
+
+                <br>
+                <br>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ "Computadores" }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="tree_comp0"></div> <!-- Árvore com os Computadores Monitorados-->
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div> <!-- /span -->
@@ -82,67 +119,134 @@
 
 <script type="text/javascript" src="{{ asset('bundles/caciccommon/jqTree-0.15/tree.jquery.js') }}"></script>
 
-<script type="text/javascript">
+    {% if agrupar %}
+        <script type="text/javascript">
 
-    var _dados = [ // Unidades de primeiro nível
-        {% for loc in locais %}
-        {
-        	id: {{ loc['idLocal'] }},
-        	label: '{{ loc["nmLocal"] }} [{{ loc["numComp"] }}]',
-        	url: '{{ path("cacic_computador_loadredenodes", {idLocal: loc["idLocal"]}) }}',
-        	type: 'local',
-        	load_on_demand: true
-        }{% if loop.last != true %},{% endif %}
-        
-        {% endfor %}
-    ];
-
-    $(function() {
-        $('#tree_comp0').tree({
-            data: _dados,
-            dataUrl: function( node ) {
-            	return node.url;
-            },
-            onCreateLi: function(node, $li) {
-                var icon_class = null;
-                switch( node.type )
+            var _dados = [ // Unidades de primeiro nível
+                {% for loc in locais %}
                 {
-                	case 'local':
-                    	icon_class = 'icon-building';
-                    	break;
+                    id: {{ loc['idLocal'] }},
+                    label: '{{ loc["nmLocal"] }} [{{ loc['numMac'] }}]',
+                    url: '{{ path("cacic_computador_loadredenodes", {idLocal: loc["idLocal"], agrupar: true}) }}',
+                    type: 'local',
+                    load_on_demand: true
+                }{% if loop.last != true %},{% endif %}
 
-                	case 'rede':
-                		icon_class = 'icon-sitemap';
-                		break;
+                {% endfor %}
+            ];
 
-                	default:
-                	case 'computador':
-                    	icon_class = 'icon-desktop';
+            $(function() {
+                $('#tree_comp0').tree({
+                    data: _dados,
+                    dataUrl: function( node ) {
+                        return node.url;
+                    },
+                    onCreateLi: function(node, $li) {
+                        var icon_class = null;
+                        switch( node.type )
+                        {
+                            case 'local':
+                                icon_class = 'icon-building';
+                                break;
 
-                    	/*
-                    	$li.attr({
-        					'data-toggle': 'modal',
-        					'data-target': '{{ path("cacic_computador_detalhar") }}/' + node.id
-        				});
-        				*/
+                            case 'rede':
+                                icon_class = 'icon-sitemap';
+                                break;
 
-        				$li.find('span.jqtree-title').after( 
-        					$('<a></a>').attr({'href':'{{ path("cacic_computador_detalhar") }}/' + node.id, 'class': 'btn', 'target': '_blank' })
-        								.append('<i class="icon-search"></i>')
-        				);
-        				
-                    	break;
-                }
+                            default:
+                            case 'computador':
+                                icon_class = 'icon-desktop';
 
-                $li.find('span.jqtree-title').before( '<i class="'+ icon_class +'"></i> ' );
-                
-           		// Substitui a "seta" indicadora de existência de filhos
-           		//$li.find('a.jqtree-toggler').html('<i class="icon-folder-close-alt"></i>');
-            },
-            autoEscape: false
-        });
-    });
-    
-</script>
+                                /*
+                                 $li.attr({
+                                 'data-toggle': 'modal',
+                                 'data-target': '{{ path("cacic_computador_detalhar") }}/' + node.id
+                             });
+                             */
+
+                                $li.find('span.jqtree-title').after(
+                                        $('<a></a>').attr({'href':'{{ path("cacic_computador_detalhar") }}/' + node.id, 'class': 'btn', 'target': '_blank' })
+                                                .append('<i class="icon-search"></i>')
+                                );
+
+                                break;
+                        }
+
+                        $li.find('span.jqtree-title').before( '<i class="'+ icon_class +'"></i> ' );
+
+                        // Substitui a "seta" indicadora de existência de filhos
+                        //$li.find('a.jqtree-toggler').html('<i class="icon-folder-close-alt"></i>');
+                    },
+                    autoEscape: false
+                });
+            });
+
+        </script>
+    {% else %}
+        <script type="text/javascript">
+
+            var _dados = [ // Unidades de primeiro nível
+                {% for loc in locais %}
+                {
+                    id: {{ loc['idLocal'] }},
+                    label: '{{ loc["nmLocal"] }} [{{ loc['numComp'] }}]',
+                    url: '{{ path("cacic_computador_loadredenodes", {idLocal: loc["idLocal"], agrupar: true}) }}',
+                    type: 'local',
+                    load_on_demand: true
+                }{% if loop.last != true %},{% endif %}
+
+                {% endfor %}
+            ];
+
+            $(function() {
+                $('#tree_comp0').tree({
+                    data: _dados,
+                    dataUrl: function( node ) {
+                        return node.url;
+                    },
+                    onCreateLi: function(node, $li) {
+                        var icon_class = null;
+                        switch( node.type )
+                        {
+                            case 'local':
+                                icon_class = 'icon-building';
+                                break;
+
+                            case 'rede':
+                                icon_class = 'icon-sitemap';
+                                break;
+
+                            default:
+                            case 'computador':
+                                icon_class = 'icon-desktop';
+
+                                /*
+                                 $li.attr({
+                                 'data-toggle': 'modal',
+                                 'data-target': '{{ path("cacic_computador_detalhar") }}/' + node.id
+                             });
+                             */
+
+                                $li.find('span.jqtree-title').after(
+                                        $('<a></a>').attr({'href':'{{ path("cacic_computador_detalhar") }}/' + node.id, 'class': 'btn', 'target': '_blank' })
+                                                .append('<i class="icon-search"></i>')
+                                );
+
+                                break;
+                        }
+
+                        $li.find('span.jqtree-title').before( '<i class="'+ icon_class +'"></i> ' );
+
+                        // Substitui a "seta" indicadora de existência de filhos
+                        //$li.find('a.jqtree-toggler').html('<i class="icon-folder-close-alt"></i>');
+                    },
+                    autoEscape: false
+                });
+            });
+
+        </script>
+    {% endif %}
+
+
 
 {% endblock %}
