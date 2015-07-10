@@ -85,5 +85,5 @@ var System = {
 				$( "#trocarPropriaSenha" ).data( 'params', params ).dialog( "open" ); // Abre a "Modal" com o formulário de troca de senha
 			});
 		}
-	}
+	},
 }

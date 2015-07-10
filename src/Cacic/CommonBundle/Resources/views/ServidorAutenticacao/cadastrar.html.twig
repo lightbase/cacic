@@ -40,31 +40,37 @@
 
                             <div class="tab-content">
                                 <div class="tab-pane active" id="form-servidorautenticacao-dados">
-                                    <h5>{{ 'Dados do Servidor de Autenticação'|trans }}</h5>
-                                    <br />
-                                    {{ form_row(form.nmServidorAutenticacao, {'form_type': 'horizontal'}) }}
-                                    {{ form_row(form.nmServidorAutenticacaoDns, {'form_type': 'horizontal'}) }}
-                                    {{ form_row(form.teIpServidorAutenticacao, {'form_type': 'horizontal'}) }}
-                                    {{ form_row(form.idTipoProtocolo, {'form_type': 'horizontal'}) }}
-                                    {{ form_row(form.nuVersaoProtocolo, {'form_type': 'horizontal'}) }}
-                                    {{ form_row(form.nuPortaServidorAutenticacao, {'form_type': 'horizontal'}) }}
-                                    {{ form_row(form.usuario, {'form_type': 'horizontal'}) }}
-                                    {{ form_row(form.senha, {'form_type': 'horizontal'}) }}
-                                    {{ form_row(form.teObservacao, {'form_type': 'horizontal'}) }}
-                                    {{ form_row(form.inAtivo, {'form_type': 'horizontal'}) }}
+                                    <div class="col-md-12">
+                                        <h5>{{ 'Dados do Servidor de Autenticação'|trans }}</h5>
+                                        <br />
+                                        {{ form_row(form.nmServidorAutenticacao, {'form_type': 'horizontal'}) }}
+                                        {{ form_row(form.nmServidorAutenticacaoDns, {'form_type': 'horizontal'}) }}
+                                        {{ form_row(form.teIpServidorAutenticacao, {'form_type': 'horizontal'}) }}
+                                        {{ form_row(form.idTipoProtocolo, {'form_type': 'horizontal'}) }}
+                                        {{ form_row(form.nuVersaoProtocolo, {'form_type': 'horizontal'}) }}
+                                        {{ form_row(form.nuPortaServidorAutenticacao, {'form_type': 'horizontal'}) }}
+                                        {{ form_row(form.usuario, {'form_type': 'horizontal'}) }}
+                                        {{ form_row(form.senha, {'form_type': 'horizontal'}) }}
+                                        {{ form_row(form.teObservacao, {'form_type': 'horizontal'}) }}
+                                        {{ form_row(form.inAtivo, {'form_type': 'horizontal'}) }}
+                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="form-servidorautenticacao-consulta">
-                                    <h5>{{ 'Atributos para Consulta de Dados de Pessoas no Serviço de Diretórios'|trans }}</h5>
-                                    <br />
-                                    {{ form_row(form.teAtributoIdentificador, {'form_type': 'horizontal'}) }}
+                                    <div class="col-md-12">
+                                        <h5>{{ 'Atributos para Consulta de Dados de Pessoas no Serviço de Diretórios'|trans }}</h5>
+                                        <br />
+                                        {{ form_row(form.teAtributoIdentificador, {'form_type': 'horizontal'}) }}
+                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="form-servidorautenticacao-retorno">
-                                    <h5>{{ 'Atributos para Retorno de Dados de Pessoas no Serviço de Diretórios'|trans }}</h5>
-                                    <br />
-                                    {{ form_row(form.teAtributoRetornaNome, {'form_type': 'horizontal'}) }}
-                                    {{ form_row(form.teAtributoRetornaEmail, {'form_type': 'horizontal'}) }}
+                                    <div class="col-md-12">
+                                        <h5>{{ 'Atributos para Retorno de Dados de Pessoas no Serviço de Diretórios'|trans }}</h5>
+                                        <br />
+                                        {{ form_row(form.teAtributoRetornaNome, {'form_type': 'horizontal'}) }}
+                                        {{ form_row(form.teAtributoRetornaEmail, {'form_type': 'horizontal'}) }}
+                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="form-servidorautenticacao-redes">

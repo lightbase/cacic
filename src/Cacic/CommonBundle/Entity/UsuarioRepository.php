@@ -102,7 +102,7 @@ class UsuarioRepository extends EntityRepository
 	 */
 	public function listarPorLocal( $idLocal )
 	{
-		$_dql = "SELECT u, g.teGrupoUsuarios, l.idLocal
+		$_dql = "SELECT DISTINCT u, g.teGrupoUsuarios, l.idLocal
 				FROM CacicCommonBundle:Usuario u
 				JOIN u.idGrupoUsuario g
 				JOIN u.idLocal l

@@ -6,6 +6,7 @@
 			<th width="5%" style="text-align: center"></th>
 		    <th width="20%">{{ "Endereço IP"|trans }}</th>
 		    <th>{{ "Nome da Rede"|trans }}</th>
+			<th width="2%"></th>
     	</tr>
 	</thead>
 	
@@ -17,6 +18,11 @@
 	    <td style="text-align: center">{{ loop.index }}</td>
 	    <td id="item_desc_{{ rede['idRede'] }}">{{ rede['teIpRede'] }}</td>
 	    <td>{{ rede['nmRede'] }}</td>
+        <td>
+            <a href="{{ path('cacic_subrede_editar', {'idRede': rede['idRede']}) }}" class="btn btn-small" title="{{ "Editar Rede"|trans }}" target="_blank">
+                <i class="btn-icon-only icon-edit icon-large"></i>
+            </a>
+        </td>
     </tr>
     
     {% else %}

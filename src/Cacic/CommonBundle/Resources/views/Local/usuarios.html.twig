@@ -9,6 +9,7 @@
 		    <th width="20%">{{ "Nível de acesso"|trans }}</th>
 		    <th width="15%">{{ "Tipo de acesso"|trans }}</th>
 		    <th>{{ "E-mail"|trans }}</th>
+			<th width="2%"></th>
 		</tr>
 	</thead>
 	
@@ -23,6 +24,11 @@
 	    <td>{{ usuario['teGrupoUsuarios'] }}</td>
 	    <td>{% if idLocal == usuario['idLocal'] %} Primário {%else%} Secundário {% endif %}  </td>
 	    <td>{{ usuario[0]['teEmailsContato'] }}</td>
+        <td>
+            <a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario[0]['idUsuario']}) }}" class="btn btn-small" title="{{ "Editar Dados do Usuário"|trans }}" target="_blank">
+                <i class="btn-icon-only icon-edit icon-large"></i>
+            </a>
+        </td>
     </tr>
     
     {% else %}

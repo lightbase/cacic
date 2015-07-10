@@ -22,40 +22,81 @@
 			<fieldset>
 				<legend> {{ "Dados da rede"|trans }}</legend>
 				{{ form_row(form.idLocal, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.idServidorAutenticacao, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.teIpRede, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.idServidorAutenticacao, {
+					'form_type': 'horizontal',
+					'help': 'O servidor LDAP e utilizado pelo modulo de patrimonio para coletar o usuario. Nao serve para autenticaçao'|trans
+				} ) }}
+				{{ form_row(form.teIpRede, {
+                    'form_type': 'horizontal',
+                    'help': 'Forneça o endereço IP da Subrede'|trans
+                } ) }}
 				{{ form_row(form.nmRede, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.teMascaraRede, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.teMascaraRede, {
+                    'form_type': 'horizontal',
+                    'help': 'O Agente do Cacic utiliza a másca e o IP cadastrados para efetutar a coleta. Prencha com cuidado'|trans
+                } ) }}
 			</fieldset>
 			
 			<fieldset>
 				<legend>{{ "Servidores de Aplicação"|trans }}</legend>
-				{{ form_row(form.teServCacic, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.selTeServCacic, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.teServCacic, {
+                    'form_type': 'horizontal',
+                    'help': 'Preencha o mesmo endereço utilizado para acessar o Gerente. Ex.: http://localhost/cacic'|trans
+                } ) }}
 			</fieldset>
 			
 			<fieldset>
-				<legend>{{ "Servidores de"|trans }} Update </legend>
-				{{ form_row(form.teServUpdates, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.downloadMethod, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.selTeServUpdates, {'form_type': 'horizontal'} ) }}
+				<legend>{{ "Servidores de Atualização"|trans }}</legend>
+                <div id="test-download">
+
+                </div>
+                {# TODO: Acresentar aqui teste para ver se o Agente vai baixar #}
+				{{ form_row(form.teServUpdates, {
+                    'form_type': 'horizontal',
+                    'help': 'Endereço do Servidor que o Agente do Cacic vai utilizar para comunicar com o Gerente.
+                    Deve ser o endereço da raiz, sem subdiretórios. Ex.: http://localhost/cacic'|trans
+                } ) }}
+				{{ form_row(form.downloadMethod, {
+                    'form_type': 'horizontal',
+                    'help': 'O método que deve ser utilizada para realizar o Download dos Agentes.
+                        Se for via HTTP, deve ser fornecido o endereço IP do servidor do Cacic. Ex.: http://localhost/cacic'
+                } ) }}
                 <div id="rede_ftp">
-                    {{ form_row(form.nuPortaServUpdates, {'form_type': 'horizontal'} ) }}
-                    {{ form_row(form.nuLimiteFtp, {'form_type': 'horizontal'} ) }}
-                    {{ form_row(form.nmUsuarioLoginServUpdates, {'form_type': 'horizontal'} ) }}
-                    {{ form_row(form.teSenhaLoginServUpdates, {'form_type': 'horizontal'} ) }}
-                    {{ form_row(form.nmUsuarioLoginServUpdatesGerente, {'form_type': 'horizontal'} ) }}
-                    {{ form_row(form.teSenhaLoginServUpdatesGerente, {'form_type': 'horizontal'} ) }}
-                    {{ form_row(form.tePathServUpdates, {'form_type': 'horizontal'} ) }}
+                    {{ form_row(form.nuPortaServUpdates, {
+                        'form_type': 'horizontal',
+                        'help': 'Porta para comunicação FTP entre Agente e Gerente'|trans
+                    } ) }}
+                    {#{{ form_row(form.nuLimiteFtp, {'form_type': 'horizontal'} ) }}#}
+                    {{ form_row(form.nmUsuarioLoginServUpdates, {
+                        'form_type': 'horizontal',
+                        'help': 'Usuário para login no servidor FTP'|trans
+                    } ) }}
+                    {{ form_row(form.teSenhaLoginServUpdates, {
+                        'form_type': 'horizontal',
+                        'help': 'Senha para login no servidor FTP'|trans
+                    } ) }}
+                    {{ form_row(form.tePathServUpdates, {
+                        'form_type': 'horizontal',
+                        'help': 'Caminho para download dos agentes no servidor FTP'|trans
+                    } ) }}
                 </div>
 				{{ form_row(form.teObservacao, {'form_type': 'horizontal'} ) }}
 			</fieldset>
 			
 			<fieldset>
 				<legend> {{ "Servidores de Aplicação"|trans }}</legend>
-				{{ form_row(form.nmPessoaContato1, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.nuTelefone1, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.teEmailContato1, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.nmPessoaContato1, {
+                    'form_type': 'horizontal',
+                    'help': 'Contato do responsável pela Rede'|trans
+                } ) }}
+				{{ form_row(form.nuTelefone1, {
+                    'form_type': 'horizontal',
+                    'help': 'Telefone do responsável pela Rede'|trans
+                } ) }}
+				{{ form_row(form.teEmailContato1, {
+                    'form_type': 'horizontal',
+                    'help': 'E-mail do responsavel pela Rede'|trans
+                } ) }}
 				{{ form_row(form.nmPessoaContato2, {'form_type': 'horizontal'} ) }}
 				{{ form_row(form.nuTelefone2, {'form_type': 'horizontal'} ) }}
 				{{ form_row(form.teEmailContato2, {'form_type': 'horizontal'} ) }}
@@ -64,12 +105,11 @@
 			<fieldset>
 				<legend>Opções</legend>
 				<br />
-				<label>
-					{{ "Marcar todas as ações para essa rede"|trans }}
-					<span class="help-block">{{ "Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede."|trans }}</span>
-					{{ form_row(form.habilitar, {'form_type': 'horizontal'} ) }}
-					
-				</label>
+                {{ form_row(form.habilitar, {
+                    'form_type': 'horizontal',
+                    'help': 'Essa opção habilitará as ações de auto-update e coletas nas estações situadas nesta rede.'|trans
+                } ) }}
+
 			
 				{#<label>
 					{{ "Permitir finalização de sessões do módulo srCACIC:"|trans }}
@@ -83,9 +123,17 @@
 					{{ form_row(form.idAplicativo, {'form_type': 'horizontal'} ) }}
 				</label>#}
 			</fieldset>
+
+           {{ form_rest(form) }}
+
+           <hr />
 			
 			<div class="control-group">
 				<div class="controls">
+                    <a class="btn btn-danger"  href="{{ path('cacic_subrede_index') }}">
+                        <i class="icon-remove-sign"></i>
+                        {{ "Cancelar"|trans }}
+                    </a>
 					<button type="reset" class="btn">
 						<i class="icon-refresh"></i>
 						{{ "Resetar Valores"|trans }}
@@ -96,15 +144,7 @@
 					</button>
 				</div><!-- /controls -->
 			</div><!-- /control-group -->
-			{{ form_rest(form) }}
 		</form>
-		<hr />
-        <div>
-        	<a class="btn btn-danger"  href="{{ path('cacic_subrede_index') }}">
-            	<i class="icon-remove-sign"></i>
-        	    {{ "Cancelar"|trans }}
-            </a>
-		</div>
 
      </div> <!-- /block -->
    </div> <!-- /box -->
@@ -149,8 +189,15 @@
 					
 			});
 
-            $('#rede_downloadMethod')
-                .on('change', function(e){
+            var elm = $('#rede_downloadMethod');
+            var method = elm.val();
+            if ( method == 'http') {
+                $('#rede_ftp').hide();
+            } else {
+                $('#rede_ftp').show();
+            }
+
+            elm.on('change', function(e){
                     // Esconde os elementos se o método for HTTP
                     var method = $(this).val();
                     if ( method == 'http') {

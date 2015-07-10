@@ -57,6 +57,7 @@ class RedeType extends AbstractType
 				 'label'=>'Servidor de Aplicação'
 			 )
 		);
+        /*
         $builder->add('selTeServCacic', 'entity',
              array(
                  'empty_value' => '==> Selecione <==',
@@ -67,6 +68,7 @@ class RedeType extends AbstractType
                  'property' => 'teServCacic'
              )
         );
+        */
         $builder->add('teServUpdates', null,
             array(
                 'label'=>'Servidor para download dos Agentes'
@@ -84,6 +86,7 @@ class RedeType extends AbstractType
                 //'expanded'  => true,
             )
         );
+        /*
         $builder->add('selTeServUpdates', 'entity',
             array(
                 'empty_value' => '==> Selecione <==',
@@ -94,6 +97,7 @@ class RedeType extends AbstractType
                 'property' => 'teServUpdates'
             )
         );
+        */
         $builder->add('nuPortaServUpdates', null,
              array(
                  'label' => 'Porta',
@@ -101,6 +105,7 @@ class RedeType extends AbstractType
                  'required' => false
              )
         );
+        /*
         $builder->add('nuLimiteFtp', null,
             array(
                 'label' => 'Limite FTP',
@@ -108,6 +113,7 @@ class RedeType extends AbstractType
                 'required' => false
             )
         );
+        */
         $builder->add('nmUsuarioLoginServUpdates', null,
             array(
                 'label' => 'Usuário do Servidor de Updates (para AGENTE)'
@@ -119,18 +125,21 @@ class RedeType extends AbstractType
                 'required'  => false
             )
         );
+        /*
         $builder->add('nmUsuarioLoginServUpdatesGerente', null,
             array(
                 'label' => 'Usuário do Servidor de Updates (para GERENTE)',
                 'required' => false
             )
         );
+
         $builder->add('teSenhaLoginServUpdatesGerente', 'password',
             array(
                 'label' => 'Senha para Login',
                 'required'  => false
             )
         );
+        */
         $builder->add('tePathServUpdates', null,
              array(
                  'label' => 'Path no Servidor de Updates',
@@ -185,12 +194,11 @@ class RedeType extends AbstractType
         );
         $builder->add('habilitar', 'choice',
             array(
+                'label' => 'Marcar todas as ações',
                 'choices'   => array(true => 'Sim', false => 'Não'),
                 'required'  => true,
                 //'expanded'  => true,
                 'mapped'=>false,
-                'label' => ' '
-
             )
         );
         /*$builder->add('csPermitirDesativarSrcacic', 'choice',
