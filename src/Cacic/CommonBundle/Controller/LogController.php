@@ -64,19 +64,43 @@ class LogController extends Controller
      */
     public function atividadeAction( Request $request )
     {
+        $logger = $this->get('logger');
         $form = $this->createForm( new LogPesquisaType() );
+
+        $tipos = $this->getDoctrine()->getRepository("CacicCommonBundle:Log")->tiposPesquisa();
+
+        $tipoPesquisa = array();
+        foreach ($tipos as $acao) {
+            array_push($tipoPesquisa, array($acao['csAcao'] => $acao['csAcao']));
+        }
+
+        // Adiciona filtro por tipos de atividade
+        $form->add(
+            'csAcao',
+            'choice',
+            array(
+                'label' => 'Selecione o tipo de atividade',
+                'multiple' => true,
+                'required' => false,
+                'expanded' => true,
+                'choices' => $tipoPesquisa
+            )
+        );
 
         if ( $request->isMethod('POST') )
         {
-            $form->bind( $request );
+            $form->handleRequest( $request );
         	$data = $form->getData();
 
             $filtroLocais = array(); // Inicializa array com locais a pesquisar
-            foreach ( $data['idLocal'] as $locais )
+            foreach ( $data['idLocal'] as $locais ) {
                 array_push( $filtroLocais, $locais->getIdLocal() );
+            }
+
+            $tipoPesquisa = $data['csAcao'];
 
             $logs = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Log')
-            							->pesquisar( array('INS', 'UPD', 'DEL'), $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais );
+            							->pesquisar( $tipoPesquisa, $data['dtAcaoInicio'], $data['dtAcaoFim'], $filtroLocais );
             
             if ( count( $logs ) )
             {

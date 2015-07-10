@@ -26,13 +26,15 @@ class LogRepository extends EntityRepository
     	// Monta a Consulta básica...
     	$query = $this->createQueryBuilder('log')->select('log', 'usr.nmUsuarioCompleto', 'loc.nmLocal', 'loc.sgLocal')
         								->innerJoin('log.idUsuario', 'usr')
-        								->innerJoin('usr.idLocal', 'loc')
-        								->where('log.csAcao IN (:tipoPesquisa)')
-        								->setParameter('tipoPesquisa', $tipoPesquisa);
+        								->innerJoin('usr.idLocal', 'loc');
         								
         /**
          * Verifica os filtros que foram parametrizados
          */
+		if (!empty($tipoPesquisa)) {
+            $query->andWhere('log.csAcao IN (:tipoPesquisa)')->setParameter('tipoPesquisa', $tipoPesquisa);
+        }
+
         if ( $dataInicio )
         	$query->andWhere( 'log.dtAcao >= :dtInicio' )->setParameter('dtInicio', ( $dataInicio.' 00:00:00' ));
         
@@ -43,6 +45,18 @@ class LogRepository extends EntityRepository
         	$query->andWhere( 'loc.idLocal IN (:locais)' )->setParameter('locais', $locais);
 
         return $query->getQuery()->execute();
+    }
+
+    /**
+     * Pega todos os tipos de atividade cadastradas
+     *
+     * @return array
+     */
+    public function tiposPesquisa() {
+        $qb = $this->createQueryBuilder('log')
+            ->select('DISTINCT log.csAcao');
+
+        return $qb->getQuery()->execute();
     }
 
 }

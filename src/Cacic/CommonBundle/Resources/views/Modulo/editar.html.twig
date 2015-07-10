@@ -1,7 +1,7 @@
 {% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li><a href="{{ path('cacic_modulo_index') }}">{{ "Módulos"|trans }}</a> / </li>
+    <li><a href="{{ path('cacic_modulo_index') }}">{{ "Módulos"|trans }}</a> </li>
     <li class="active">{{ modulo.getTeDescricaoBreve() }}</li>
 {% endblock %}
 
@@ -59,7 +59,7 @@
                 		{% if so|length > 0 %}
                 		<input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="modulo\[so\]" id="toggleSo">
                 		<label for="toggleSo"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
-                		<div style="height: 200px; overflow: auto;">
+
                 		{% for _so in so %}
                 		<div class="modulo-opt-block">
 	                		<input type="checkbox" name="modulo[so][]" value="{{ _so['idSo'] }}" id="modulo_so_{{ _so['idSo'] }}"
@@ -68,7 +68,6 @@
 		           			<label for="modulo_so_{{ _so['idSo' ] }}">{{ _so['teDescSo'] }} ({{ _so['sgSo'] }} - {{ _so['teSo'] }})</label>
 		           		</div>
                 		{% endfor %}
-                		</div>
                 		{% else %}
 	           			{{ 'Nenhum Sistema Operacional cadastrado no sistema.'|trans }}
 	           			{% endif %}

@@ -25,7 +25,7 @@ class ModuloController extends Controller
         $local = $this->getUser()->getIdLocal(); // Recupera o Local da sessão do usuário logado
         $modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listarModulosOpcionais( $nivel, $local->getIdLocal() );
 
-        if($nivel[0]['nmGrupoUsuarios'] == "Admin") {
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $totalRedes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->countByLocalADM();
         } else {
             $totalRedes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->countByLocal( $local->getIdLocal() );
@@ -55,7 +55,7 @@ class ModuloController extends Controller
 		if ( ! $modulo )
 			throw $this->createNotFoundException( 'Página não encontrada' );
 
-        if($nivel[0]['nmGrupoUsuarios'] != "Admin")
+        if($this->get('security.context')->isGranted('ROLE_ADMIN'))
         {
             $local = $this->getUser()->getIdLocal(); /* @todo Em caso de usuário administrativo, escolher o Local */
             $redes = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Rede' )->listarPorLocal( $local );

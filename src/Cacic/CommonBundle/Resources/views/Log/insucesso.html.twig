@@ -16,14 +16,24 @@
             <div class="block box_content round_bottom padding_10">
                     
                 <h4>{{ "Filtros para consulta"|trans }}</h4><br />
-                
-                <form id={{ 'formLogPesquisaInsucesso'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
-                    
+
+                <form id={{ 'formLogPesquisaAcesso'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route')) }}#resultados" method="post" >
+
                     <div class="control-group">
-                        <label for="log_acesso_periodo" class="control-label col-sm-2">{{ 'Período'|trans }}</label>
-                        <div class="controls col-sm-8">
-                           {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
-                           <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
+                        <label for="log_acesso_periodo" class="control-label col-sm-2 label-required">{{ 'Período'|trans }}</label>
+                        <div class="col-sm-8 control-group">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }}
+                                </div>
+                                <div class="col-xs-1">
+                                    <span>a</span>
+                                </div>
+                                <div class="col-xs-4">
+                                    {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                                </div>
+                            </div>
+                            <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                         </div>
                     </div>
 
@@ -39,7 +49,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                 </form>
             </div> <!-- /block -->
         </div> <!-- /box -->
@@ -64,6 +74,7 @@
 </div> <!-- /row -->
     
     {% if logs is not null %}
+        <a name="resultados"></a>
         {% include 'CacicCommonBundle:Log:insucessoResultado.html.twig' %}
     {% endif %}
     

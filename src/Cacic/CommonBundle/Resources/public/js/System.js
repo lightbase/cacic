@@ -41,10 +41,11 @@ var System = {
         },
         toggleCheck: function() { // Invocado ao "checkar"/"descheckar" checkbox para marcar/desmarcar todos
         	$( 'input[type=checkbox].toggleCheck' ).bind('click', function(){
-        		var _isChecked = ( $(this).attr('checked') == "checked" ); // Verifica se o o toggleCheck está sendo "checkado" ou "descheckado"
+                var elm = $(this)[0];
+        		var _isChecked = elm.checked; // Verifica se o o toggleCheck está sendo "checkado" ou "descheckado"
         		var _name = $(this).val(); // O atributo value do checkbox toggleCheck indica qual grupo de checkboxes deve ser considerado
-        		$('input[type=checkbox][name^='+ _name + ']').each(function(){
-        			$(this).attr('checked', _isChecked);
+        		$('input[type=checkbox][name*='+ _name + ']').each(function(){
+        			$(this)[0].checked = _isChecked;
         		})
         	});
         },

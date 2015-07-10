@@ -16,28 +16,35 @@
             <div class="block box_content round_bottom padding_10">
                     
                 <h4>{{ "Filtros para consulta"|trans }}</h4><br />
-                
-                <form id={{ 'formLogPesquisaAcesso'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
-                    
+                <form id={{ 'formLogPesquisaAcesso'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route')) }}#resultados" method="post" >
+
                     <div class="control-group">
-                        <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
-                        <div class="controls">
-                           {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
-                           <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
+                        <label for="log_acesso_periodo" class="control-label col-sm-2 label-required">{{ 'Período'|trans }}</label>
+                        <div class="col-sm-8 control-group">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }}
+                                </div>
+                                <div class="col-xs-1">
+                                    <span>a</span>
+                                </div>
+                                <div class="col-xs-4">
+                                    {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                                </div>
+                            </div>
+                            <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                         </div>
                     </div>
 
                     <div class="control-group _cad_block_opcao">
-                        <label class="control-label">{{ 'Local'|trans }}</label>
-                        <div class="controls">
+                        <label class="control-label col-sm-2">{{ 'Local'|trans }}</label>
+                        <div class="col-sm-8">
 
-                            <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="id.Local" id="toggleLocal">
+                            <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="idLocal" id="toggleLocal">
                             <label for="toggleLocal"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
 
-                            <div style="height: 200px; overflow: auto;">
-                                <div class="modulo-opt-block">
-                                    {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
-                                </div>
+                            <div class="modulo-opt-block">
+                                {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
                             </div>
 
                         </div>
@@ -46,17 +53,18 @@
                     <div class="control-group">
                         <div class="controls">
                             <button type="reset" class="btn">
-                          <i class="icon-refresh"></i>
-                          {{ "Resetar Valores"|trans }}
-                      </button>
+                                <i class="icon-refresh"></i>
+                                {{ "Resetar Valores"|trans }}
+                            </button>
                             <button type="submit" class="btn btn-primary">
                                 <i class="icon-search"></i>
                                 {{ 'Filtrar'|trans }}
                             </button>
                         </div>
                     </div>
-                    
+
                 </form>
+
             </div> <!-- /block -->
         </div> <!-- /box -->
     </div> <!-- /span8 -->
@@ -86,6 +94,7 @@
 </div> <!-- /row -->
     
     {% if logs is not null %}
+        <a name="resultados"></a>
         {% include 'CacicCommonBundle:Log:acessoResultado.html.twig' %}
     {% endif %}
     
