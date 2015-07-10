@@ -15,7 +15,7 @@ class LocalRepository extends EntityRepository
 	
 	public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
 	{
-		$_dql = "SELECT l, COUNT(u.idUsuario) AS numUsuariosPrimarios, COUNT(r.idRede) as numRedes
+		$_dql = "SELECT l, COUNT(DISTINCT u.idUsuario) AS numUsuariosPrimarios, COUNT(DISTINCT r.idRede) as numRedes
 				FROM CacicCommonBundle:Local l
 				LEFT JOIN l.usuarios u
 				LEFT JOIN l.redes r
@@ -34,7 +34,7 @@ class LocalRepository extends EntityRepository
 	 */
 	public function listar()
 	{
-		$_dql = "SELECT l, COUNT(u.idUsuario) AS numUsuariosPrimarios, COUNT(r.idRede) as numRedes
+		$_dql = "SELECT l, COUNT(DISTINCT u.idUsuario) AS numUsuariosPrimarios, COUNT(DISTINCT r.idRede) as numRedes
 				FROM CacicCommonBundle:Local l
 				LEFT JOIN l.usuarios u
 				LEFT JOIN l.redes r

@@ -134,21 +134,21 @@ dl dd { margin-bottom: 10px; }
 
 /* Fix input height */
 .input-prepend .add-on, .input-append .add-on {
-    height: 28px;
+    min-height: 28px;
 }
 
 input,
 textarea,
 select,
 .uneditable-input {
-    height: 28px;
+    min-height: 28px;
 }
 
 .progress {
-    height: 18px;
+    min-height: 18px;
     margin-bottom: 18px;
 }
 
 .progress .bar {
-    height: 18px;
+    min-height: 18px;
 }

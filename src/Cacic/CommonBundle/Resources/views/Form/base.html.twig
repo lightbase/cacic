@@ -1,0 +1,48 @@
+{% extends 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block form_widget_simple %}
+    {{ parent() }}
+
+    {% if help is defined %}
+        <p class="help-block"><img src="{{ asset('bundles/spbcadastro/images/info.gif') }}" width="12" height="9" alt="{{ "Ajuda"|trans }}" style="border:0">&nbsp;{{ help }}</p>
+    {% endif %}
+{% endblock %}
+
+{# custom field row output #}
+{% block form_row %}
+    {% spaceless %}
+        <div class="row">
+            <div class="form-group">
+
+                {{ form_errors(form) }}
+
+                {{ form_label(form) }}
+                <div class="col-sm-8">
+                    {{ form_widget(form) }}
+                </div>
+
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block form_errors %}
+    {% if errors|length > 0 %}
+        {% if compound %}
+            <div class="alert alert-danger" role="alert">
+                <h3>Os seguintes erros foram encontrados</h3>
+                <ul class="val-error">
+                    {% for error in errors %}
+                        <li>{{ error.messageTemplate|trans(error.messageParameters, 'validators')~'. ' }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in errors %}
+                    {{ error.messageTemplate|trans(error.messageParameters, 'validators')~'. ' }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock form_errors %}
