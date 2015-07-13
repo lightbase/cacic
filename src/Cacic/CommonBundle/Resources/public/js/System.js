@@ -21,7 +21,25 @@ var System = {
 				var params = { 'url': url, 'id': id, 'compositeKeys': JSON.parse( $( this ).attr('data-composite-keys') ), 'callback': callback };
 				$( "#System_Excluir" ).data( 'params', params ).dialog( "open" );
 			});
-		}
+		},
+		ativar: function(){
+            $( 'body' ).delegate( 'a.bt-ativar', 'click', function(e){
+                e.preventDefault();
+                var url = $( this ).attr( 'href' );
+                var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
+                var callback = $( this ).attr( 'data-callback' );
+                $( "#System_Ativar" ).data( 'params', { 'url': url, 'id': id, 'callback': callback } ).dialog( "open" );
+            });
+
+            $( 'body' ).delegate( 'a.bt-ativar-compositekey', 'click', function(e){ // Exclusão de itens com CHAVE COMPOSTA
+                e.preventDefault();
+                var url = $( this ).attr( 'href' );
+                var id = $( this ).parent().parent().attr( 'id' ).replace( /^item_(.*?)$/, '$1' ); // Utilizado para REMOÇÃO do item da GRID
+                var callback = $( this ).attr( 'data-callback' );
+                var params = { 'url': url, 'id': id, 'compositeKeys': JSON.parse( $( this ).attr('data-composite-keys') ), 'callback': callback };
+                $( "#System_Ativar" ).data( 'params', params ).dialog( "open" );
+            });
+        }
 	},
 	Flash : { // Comportamentos relacionados a mensagens
 		show : function( type, msg ){ // Método executado na exibição de mensagens do sistema

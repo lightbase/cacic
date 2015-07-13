@@ -588,8 +588,7 @@ class Usuario implements AdvancedUserInterface, \Serializable, EquatableInterfac
      */
     public function isEnabled()
     {
-        return true;
-        //return $this->isActive;
+        return $this->isActive;
     }
 
     /**
@@ -612,7 +611,6 @@ class Usuario implements AdvancedUserInterface, \Serializable, EquatableInterfac
      */
     public function getIsActive()
     {
-        return true;
-        //return $this->isActive;
+        return $this->isActive;
     }
 }

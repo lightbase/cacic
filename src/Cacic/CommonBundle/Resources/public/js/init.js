@@ -99,9 +99,97 @@ $(document).ready(function(){
 				$( this ).dialog( "close" );
 			}
 		},
+        open: function(event,ui){
+            // Impede que o overlay trave a tela
+            $('.ui-widget-overlay').addClass('overlay-hidden');
+        },
+        beforeClose: function(event,ui){
+            $('.ui-widget-overlay').removeClass('overlay-hidden');
+        },
 		show: { effect: "fade", duration: 500 },
 		hide: { effect: "fade", duration: 500 }
 	});
+
+    /**
+     * Ativa item fornecido
+     */
+    $( "#System_Ativar" ).dialog({
+        autoOpen: false,
+        height: 190,
+        width: 350,
+        modal: true,
+        closeText: 'Fechar',
+        buttons: {
+            "Excluir" : function(){
+                $( this ).dialog( "close" );
+                var params = $( this ).data( 'params' );
+                $.ajax(
+                    {
+                        type: "POST",
+                        url: params.url,
+                        data: params,
+                        cache: false,
+                        async: false,
+                        success: function( data )
+                        {
+                            if ( data.status == 'error' )
+                            {
+                                var msg = data.message;
+                                if (msg == undefined) {
+                                    msg = "Erro ao ativar o item";
+                                }
+
+                                System.Flash.show( 'Erro', msg );
+                                return false;
+                            }
+
+                            /**
+                             * Verifica quantidade de colunas e quantos elementos ainda restam a listar após a exclusão
+                             */
+                            var _tbody = $( '#item_' + params.id ).parent();
+                            var _thead = $( 'thead', _tbody.parent() );
+                            var _colspan = _thead.children().first().children().length; // Qtde colunas
+
+                            $( '#item_' + params.id ).remove(); // Remove o item da Grid
+
+                            if ( _tbody.children().length < 1 )
+                            { // Se for o último registro a ser excluído
+                                _tbody.append('<tr><td style="text-align: center" colspan="' + _colspan + '"><b>NENHUM REGISTRO ENCONTRADO</b></td></tr>');
+                            }
+
+                            System.Flash.show( 'Sucesso', 'Item ativado com sucesso!' );
+                        },
+                        error: function( data )
+                        {
+                            System.Flash.show( 'Erro', 'Erro na ativaçao do item!' );
+                        },
+                        complete: function( data )
+                        {
+                            /**
+                             * Caso uma função de CallBack tenha sido definida, invoca-a neste ponto e passa como parâmetros:
+                             * - Os próprios parâmetros já enviados na requisição AJAX
+                             * - O "response" devolvido pelo servidor como resposta à requisição AJAX
+                             */
+                            if ( params.callback )
+                                params.callback( params, data );
+                        }
+                    }
+                );
+            },
+            "Cancelar" : function(){
+                $( this ).dialog( "close" );
+            }
+        },
+        open: function(event,ui){
+            // Impede que o overlay trave a tela
+            $('.ui-widget-overlay').addClass('overlay-hidden');
+        },
+        beforeClose: function(event,ui){
+            $('.ui-widget-overlay').removeClass('overlay-hidden');
+        },
+        show: { effect: "fade", duration: 500 },
+        hide: { effect: "fade", duration: 500 }
+    });
 	
 	/**
 	 * Abre a MODAL com o formulário para troca de Senha
@@ -110,6 +198,7 @@ $(document).ready(function(){
 		autoOpen: false,
 		height: 250,
 		width: 350,
+		dialogClass: "noOverlayDialog",
 		modal: true,
 		buttons: {
 			"Salvar" : function(){
@@ -177,6 +266,13 @@ $(document).ready(function(){
 		},
 		show: { effect: "fade", duration: 500 },
 		hide: { effect: "fade", duration: 500 },
+        open: function(event,ui){
+            // Impede que o overlay trave a tela
+            $('.ui-widget-overlay').addClass('overlay-hidden');
+        },
+        beforeClose: function(event,ui){
+            $('.ui-widget-overlay').removeClass('overlay-hidden');
+        },
 		close: function( event, ui ){ 
 			// Limpa os campos do formulário
 			$( "#troca_propria_senha_te_senha_atual" ).val( '' );

@@ -192,22 +192,26 @@ class UsuarioController extends Controller
      */
 	public function excluirAction( Request $request )
 	{
-		if ( ! $request->isXmlHttpRequest() ) // Verifica se se trata de uma requisição AJAX
-			throw $this->createNotFoundException( 'Página não encontrada' );
+		if ( ! $request->isXmlHttpRequest() ) {
+            // Verifica se se trata de uma requisição AJAX
+            throw $this->createNotFoundException( 'Página não encontrada' );
+        }
+
+        $em = $this->getDoctrine()->getManager();
 		
-		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->find( $request->get('id') );
-        $nivelUser = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->nivel($usuario);
-        $csNivel = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->csNivelAdm();
+		$usuario = $em->getRepository('CacicCommonBundle:Usuario')->find( $request->get('id') );
+        $csNivel = $em->getRepository('CacicCommonBundle:Usuario')->csNivelAdm();
 
-		if ( ! $usuario )
+		if ( ! $usuario ) {
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
+		}
 
-        if($csNivel[0]["cont"] == 1 && $nivelUser[0]["teGrupoUsuarios"] == "Administração"){
+        if($csNivel[0]["cont"] == 1 && $this->get('security.context')->isGranted('ROLE_ADMIN')){
             $this->get('session')->getFlashBag()->add('error', 'Exclusão não permitida, deve haver ao menos um usuário Administrador');
-        }else
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove( $usuario );
+        } else {
+
+            $usuario->setIsActive(false);
+            $em->persist( $usuario );
             $em->flush();
 
             $response = new Response( json_encode( array('status' => 'ok') ) );
@@ -261,5 +265,43 @@ class UsuarioController extends Controller
     				'usuario' => $this->getUser()
     			)
     	);
+    }
+
+    /**
+     * Ajax para ativar os usuarios
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function ativarAction( Request $request )
+    {
+        if ( ! $request->isXmlHttpRequest() ) {
+            // Verifica se se trata de uma requisição AJAX
+            throw $this->createNotFoundException( 'Página não encontrada' );
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $usuario = $em->getRepository('CacicCommonBundle:Usuario')->find( $request->get('id') );
+        $csNivel = $em->getRepository('CacicCommonBundle:Usuario')->csNivelAdm();
+
+        if ( ! $usuario ) {
+            throw $this->createNotFoundException( 'Usuário não encontrado' );
+        }
+
+        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')){
+            $this->get('session')->getFlashBag()->add('error', 'Operaçao permitida somente aos administradores');
+        } else {
+
+            $usuario->setIsActive(true);
+            $em->persist( $usuario );
+            $em->flush();
+
+            $response = new Response( json_encode( array('status' => 'ok') ) );
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
+
     }
 }

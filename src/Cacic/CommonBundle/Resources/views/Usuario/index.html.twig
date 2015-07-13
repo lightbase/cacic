@@ -31,10 +31,10 @@
 						<tr>
 							<th width="15%">Login</th>
 			                <th width="25%">{{ "Nome"|trans }}</th>
-			                <th width="20%">{{ 'Local'|trans }}</th>
+			                <th width="22%">{{ 'Local'|trans }}</th>
 			                <th width="10%" style="text-align: center">{{ "Locais"|trans }}<br />{{ "secundários"|trans }}</th>
 			                <th width="15%">{{ "Nível de Acesso"|trans }}</th>
-			                <th style="text-align: center">{{ "Ações"|trans }}</th>
+			                <th style="text-align: center" width="13%">{{ "Ações"|trans }}</th>
 		            	</tr>
 		            </thead>
 		
@@ -57,10 +57,15 @@
 								<a href="javascript: void(0);" class="btn btn-small bt-trocar-senha" title="{{ "Trocar Senha do Usuário"|trans }}">
 									<i class="icon-key icon-large"></i>
 								</a>
-								
-								<a href="{{ path('cacic_usuario_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
-									<i class="icon-trash icon-large"></i>										
-								</a>
+								{% if usuario[0]['isActive'] %}
+                                    <a href="{{ path('cacic_usuario_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
+                                        <i class="icon-trash icon-large"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('cacic_usuario_ativar') }}" class="btn btn-small btn-primary bt-ativar" title="{{ "Ativar Usuário"|trans }}">
+                                        <i class="icon-plus-sign icon-large"></i>
+                                    </a>
+                                {% endif %}
 							</td>
 		                </tr>
 		            {% else %}
@@ -179,6 +184,13 @@ $( "#trocarSenha" ).dialog({
 	},
 	show: { effect: "fade", duration: 500 },
 	hide: { effect: "fade", duration: 500 },
+	open: function(event,ui){
+		// Impede que o overlay trave a tela
+        $('.ui-widget-overlay').addClass('overlay-hidden');
+	},
+    beforeClose: function(event,ui){
+        $('.ui-widget-overlay').removeClass('overlay-hidden');
+    },
 	close: function( event, ui ){ 
 		// Limpa os campos do formulário
 		$( "#troca_senha_id_usuario" ).val( '' );

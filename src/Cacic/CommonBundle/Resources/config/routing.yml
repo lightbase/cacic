@@ -89,6 +89,10 @@ cacic_usuario_csv:
     pattern:  /usuario/csv
     defaults: { _controller: CacicCommonBundle:Usuario:csv}
 
+cacic_usuario_ativar:
+    pattern:  /admin/usuario/ativar
+    defaults: { _controller: CacicCommonBundle:Usuario:ativar}
+
 # Locais
 
 cacic_local_index:

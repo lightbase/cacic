@@ -152,3 +152,9 @@ select,
 .progress .bar {
     min-height: 18px;
 }
+
+
+/* Remove annoying overlay from jquery modal */
+.overlay-hidden {
+	display: none;
+}
