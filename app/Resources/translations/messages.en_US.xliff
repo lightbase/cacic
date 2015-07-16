@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2015-07-03T15:30:21Z" source-language="en" target-language="en_US" datatype="plaintext" original="not.available">
+  <file date="2015-07-03T17:24:26Z" source-language="en" target-language="en_US" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -58,7 +58,7 @@
       </trans-unit>
       <trans-unit id="120882132c6910b018bfd95465dbdcce63ead00a" resname="Autorizações">
         <source>Autorizações</source>
-        <target state="new">Autorizações</target>
+        <target>Autorizações</target>
         <jms:reference-file line="250">Resources/views/base.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4287688800154d60a84fb698c541af34414e0d41" resname="Busca avançada">

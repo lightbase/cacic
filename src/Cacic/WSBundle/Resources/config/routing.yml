@@ -1,111 +1,111 @@
 cacic_ws_get_test:
-    pattern: /get/test
+    path: /get/test
     defaults: { _controller: CacicWSBundle:Default:test }
 
 cacic_ws_config:
-    pattern: /get/config
+    path: /get/config
     defaults: { _controller: CacicWSBundle:Default:config }
 #    requirements:
-#        _method: POST
+#        methods: ['POST']
 
 cacic_ws_update:
-    pattern: /get/update
+    path: /get/update
     defaults: { _controller: CacicWSBundle:Default:update }
 
 cacic_ws_mapa:
-    pattern: /get/mapa
+    path: /get/mapa
     defaults: { _controller: CacicWSBundle:Mapa:mapa }
 
 cacic_ws_instala_cacic:
-    pattern: /instala/cacic
+    path: /instala/cacic
     defaults: { _controller: CacicWSBundle:Default:install }
 
 cacic_ws_gercols_setcollets:
-    pattern: /gercols/set/collects
+    path: /gercols/set/collects
     defaults: { _controller: CacicWSBundle:Coleta:gerColsSetCollet }
 
 cacic_ws_gercols_set_srcacic_action:
-    pattern: /gercols/set/srcacic/action
+    path: /gercols/set/srcacic/action
     defaults: { _controller: CacicWSBundle:Coleta:gerColsSetSrcacicAction }
 
 cacic_ws_gercols_set_usbdetect:
-    pattern: /gercols/set/usbdetect
+    path: /gercols/set/usbdetect
     defaults: { _controller: CacicWSBundle:Coleta:gerColsSetUsbDetect }
 
 cacic_ws_mapa_cacic_acesso:
-    pattern: /mapacacic/acesso
+    path: /mapacacic/acesso
     defaults: { _controller: CacicWSBundle:Coleta:mapaCacicAcesso }
 
 cacic_ws_mapacacic_set:
-    pattern: /mapacacic/set
+    path: /mapacacic/set
     defaults: { _controller: CacicWSBundle:Coleta:mapaCacicSet }
 
 cacic_ws_mapacacic_get:
-    pattern: /mapacacic/get
+    path: /mapacacic/get
     defaults: { _controller: CacicWSBundle:Coleta:mapaCacicGet }
 
 cacic_ws_srcacic_set_session:
-    pattern: /srcacic/set/session
+    path: /srcacic/set/session
     defaults: { _controller: CacicWSBundle:Coleta:srCacicSetSession }
 
 cacic_ws_srcacic_ayth_client:
-    pattern: /srcacic/auth/client
+    path: /srcacic/auth/client
     defaults: { _controller: CacicWSBundle:Coleta:srCacicAuthClient }
 
 cacic_neo_home:
-    pattern: /neo
+    path: /neo
     defaults: { _controller: CacicWSBundle:Neo:index }
     schemes:  [https]
 
 cacic_neo_home_login:
-    pattern: /neo/getLogin
+    path: /neo/getLogin
     defaults: { _controller: CacicWSBundle:Neo:login }
     schemes:  [https]
 
 cacic_neo_home_checksession:
-    pattern: /neo/checkSession
+    path: /neo/checkSession
     defaults: { _controller: CacicWSBundle:Neo:checkSession }
     #schemes:  [https]
 
 cacic_neo_home_gettest:
-    pattern: /neo/getTest
+    path: /neo/getTest
     defaults: { _controller: CacicWSBundle:Neo:getTest }
     #schemes:  [https]
 
 cacic_neo_home_config:
-    pattern: /neo/config
+    path: /neo/config
     defaults: { _controller: CacicWSBundle:Neo:config }
     #schemes:  [https]
 
 cacic_neo_home_update:
-    pattern: /neo/update
+    path: /neo/update
     defaults: { _controller: CacicWSBundle:Neo:update }
 
 cacic_neo_coleta:
-    pattern: /neo/coleta
+    path: /neo/coleta
     defaults: { _controller: CacicWSBundle:NeoColeta:coleta }
 
 cacic_ws_neo_log:
-    pattern: /neo/log
+    path: /neo/log
     defaults: { _controller: CacicWSBundle:NeoLog:logErro }
     #schemes:  [https]
 
 cacic_ws_instala_hash:
-    pattern: /instala/hash
+    path: /instala/hash
     defaults: { _controller: CacicWSBundle:NeoInstall:hash }
 
 cacic_ws_instala_erro:
-    pattern: /instala/erro
+    path: /instala/erro
     defaults: { _controller: CacicWSBundle:NeoInstall:erro }
 
 cacic_ws_download_service:
-    pattern: /instala/download/service/{hash}
+    path: /instala/download/service/{hash}
     defaults: { _controller: CacicWSBundle:NeoInstall:downloadService }
 
 cacic_ws_download_msi:
-    pattern: /instala/download/msi
+    path: /instala/download/msi
     defaults: { _controller: CacicWSBundle:NeoInstall:downloadMsi }
 
 cacic_ws_neo_modifications:
-    pattern: /neo/modifications
+    path: /neo/modifications
     defaults: { _controller: CacicWSBundle:NeoColeta:modifications }

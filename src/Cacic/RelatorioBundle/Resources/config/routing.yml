@@ -1,349 +1,324 @@
 cacic_relatorio_autorizacoes:
-    pattern: /autorizacoes
+    path: /autorizacoes
     defaults: { _controller: CacicRelatorioBundle:Default:autorizacoes }
 
 cacic_relatorio_faturamento:
-    pattern: /faturamento
+    path: /faturamento
     defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamento }
-    requirements:
-        _method: GET
+    methods: ['GET']
 
 cacic_relatorio_resultado:
-     pattern: /faturamento
+     path: /faturamento
      defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoRelatorio }
-     requirements:
-         _method: POST
+     methods: ['POST']
 
 cacic_relatorio_faturamento_listar:
-    pattern: /hardware/faturamento/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    path: /hardware/faturamento/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
     defaults: { _controller: CacicRelatorioBundle:Faturamento:listar, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
     requirements:
         idRede: \d+
 
 cacic_relatorio_patrimonio:
-    pattern: /patrimonio
+    path: /patrimonio
     defaults: { _controller: CacicRelatorioBundle:Default:patrimonio }
-    requirements:
-        _method: GET
+    methods: ['GET']
 
 cacic_relatorio_patrimonio_relatorios:
-    pattern: /patrimonio
+    path: /patrimonio
     defaults: { _controller: CacicRelatorioBundle:Default:patrimonioRelatorio }
-    requirements:
-        _method: POST
+    methods: ['POST']
 
 cacic_relatorio_software_inventariados:
-    pattern: /software/inventariados
+    path: /software/inventariados
     defaults: { _controller: CacicRelatorioBundle:Software:inventariados }
-    requirements:
-        _method: GET
+    methods: ['GET']
 
 cacic_relatorio_software_inventariados_csv:
-    pattern: /software/inventariados/csv
+    path: /software/inventariados/csv
     defaults: { _controller: CacicRelatorioBundle:Software:inventariadosRelatorioCsv }
-    requirements:
-        _method: POST
+    methods: ['POST']
 
 cacic_relatorio_software_inventariados_rel:
-    pattern: /software/inventariados
+    path: /software/inventariados
     defaults: { _controller: CacicRelatorioBundle:Software:inventariadosRelatorio }
-    requirements:
-        _method: POST
+    methods: ['POST']
 
 cacic_relatorio_software_listar:
-    pattern: /software/listar/{idSoftware}
+    path: /software/listar/{idSoftware}
     defaults: { _controller: CacicRelatorioBundle:Software:listar, idSoftware: null }
     requirements:
         idSoftware: \d+
 
 cacic_relatorio_software_licenciados:
-    pattern: /software/licenciados
+    path: /software/licenciados
     defaults: { _controller: CacicRelatorioBundle:Software:licenciados }
-    requirements:
-        _method: GET
+    methods: ['GET']
 
 cacic_relatorio_software_licenciados_rel:
-    pattern: /software/licenciados
+    path: /software/licenciados
     defaults: { _controller: CacicRelatorioBundle:Software:licenciadosRelatorio }
-    requirements:
-        _method: POST
+    methods: ['POST']
 
 cacic_relatorio_software_orgao:
-    pattern: /software/orgao
+    path: /software/orgao
     defaults: { _controller: CacicRelatorioBundle:Software:orgao }
-    requirements:
-        _method: GET
+    methods: ['GET']
 
 cacic_relatorio_software_orgao_rel:
-    pattern: /software/orgao
+    path: /software/orgao
     defaults: { _controller: CacicRelatorioBundle:Software:orgaoRelatorio }
-    requirements:
-        _method: POST
+    methods: ['POST']
 
 cacic_relatorio_software_aquisicoes:
-    pattern: /software/aquisicoes
+    path: /software/aquisicoes
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesRelatorio }
 
 cacic_relatorio_software_aquisicoes_det:
-    pattern: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}
+    path: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhado }
 
 cacic_relatorio_software_tipo:
-    pattern: /software/tipo
+    path: /software/tipo
     defaults: { _controller: CacicRelatorioBundle:Software:tipo }
-    requirements:
-        _method: GET
+    methods: ['GET']
 
 cacic_relatorio_software_tipo_rel:
-    pattern: /software/tipo
+    path: /software/tipo
     defaults: { _controller: CacicRelatorioBundle:Software:tipoRelatorio }
-    requirements:
-        _method: POST
+    methods: ['POST']
 
 cacic_relatorio_software_naoVinculados:
-    pattern: /software/naovinculados
+    path: /software/naovinculados
     defaults: { _controller: CacicRelatorioBundle:Software:naoVinculadosRelatorio }
 
 cacic_relatorio_hardware_configuracoes:
-    pattern: /hardware/configuracoes
+    path: /hardware/configuracoes
     defaults: { _controller: CacicRelatorioBundle:Hardware:configuracoes }
-    requirements:
-        _method: GET
+    methods: ['GET']
 
 cacic_relatorio_hardware_configuracoes_rel:
-    pattern: /hardware/configuracoes
+    path: /hardware/configuracoes
     defaults: { _controller: CacicRelatorioBundle:Hardware:configuracoesRelatorio }
-    requirements:
-        _method: POST
+    methods: ['POST']
 
 cacic_relatorio_hardware_wmi:
-    pattern: /hardware/{classe}
+    path: /hardware/{classe}
     defaults: { _controller: CacicRelatorioBundle:Hardware:wmi }
-    requirements:
-            _method: GET
+    methods: ['GET']
 
 cacic_relatorio_hardware_wmi_rel:
-    pattern: /hardware/{classe}
+    path: /hardware/{classe}
     defaults: { _controller: CacicRelatorioBundle:Hardware:wmiRelatorio }
-    requirements:
-            _method: POST
+    methods: ['POST']
 
 cacic_relatorio_wmi_sem_coleta:
-    pattern: /wmi/semcoleta
+    path: /wmi/semcoleta
     defaults: { _controller: CacicRelatorioBundle:Hardware:semColeta }
 
 cacic_relatorio_wmi_sem_coleta_listar:
-    pattern: /wmi/semcoletalistar
+    path: /wmi/semcoletalistar
     defaults: { _controller: CacicRelatorioBundle:Hardware:semColetaListar }
 
 cacic_relatorio_wmi_sem_coleta_listar_csv:
-    pattern: /wmi/semcoletalistar/csv
+    path: /wmi/semcoletalistar/csv
     defaults: { _controller: CacicRelatorioBundle:Hardware:listarWmiSemColetaCsv}
 
 cacic_relatorio_wmi_sem_coleta_detalhar:
-    pattern: /wmi/semcoletadetalhar
+    path: /wmi/semcoletadetalhar
     defaults: { _controller: CacicRelatorioBundle:Hardware:semColetaDetalhar }
 
 cacic_relatorio_wmi_sem_coleta_detalhar_csv:
-    pattern: /wmi/semcoletadetalhar/csv
+    path: /wmi/semcoletadetalhar/csv
     defaults: { _controller: CacicRelatorioBundle:Hardware:semColetaDetalharCsv }
 
 cacic_relatorio_hardware_wmi_dinamico:
-    pattern: /relWmiDinamico
+    path: /relWmiDinamico
     defaults: { _controller: CacicRelatorioBundle:Hardware:relWmiDinamico }
 
 cacic_relatorio_dinamico_detalhar:
-    pattern: /relWmiDinamico/detalhar
+    path: /relWmiDinamico/detalhar
     defaults: { _controller: CacicRelatorioBundle:Hardware:relWmiDinamicoDetalhar }
 
 cacic_relatorio_csv_wmi_dinamico:
-    pattern: /relWmiDinamico/csvRelWmiDinamico
+    path: /relWmiDinamico/csvRelWmiDinamico
     defaults: { _controller: CacicRelatorioBundle:Hardware:csvRelWmiDinamico }
 
 cacic_relatorio_software_lista:
-    pattern: /software/inventariados/{nmSoftware}/{nmLocal}/{idRede}
+    path: /software/inventariados/{nmSoftware}/{nmLocal}/{idRede}
     defaults: { _controller: CacicRelatorioBundle:Software:lista, nmSoftware:null, nmLocal:null, idRede:null }
 
 cacic_relatorio_hardware_wmi_detalhe:
-    pattern: /hardware/{classe}/{propriedade}
+    path: /hardware/{classe}/{propriedade}
     defaults: { _controller: CacicRelatorioBundle:Hardware:wmiRelatorioDetalhe }
 
 cacic_relatorio_inativos:
-    pattern: /inativos
+    path: /inativos
     defaults: { _controller: CacicRelatorioBundle:Faturamento:inativos }
-    requirements:
-        _method: GET
+    methods: ['GET']
 
 cacic_relatorio_inativos_rel:
-     pattern: /inativos
+     path: /inativos
      defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosRelatorio }
-     requirements:
-         _method: POST
+     methods: ['POST']
 
 cacic_relatorio_inativos_listar:
-    pattern: software/inativos/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    path: software/inativos/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
     defaults: { _controller: CacicRelatorioBundle:Faturamento:listarInativos, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
     requirements:
         idRede: \d+
 
 cacic_faturamento_csv:
-    pattern: /faturamento/csv
+    path: /faturamento/csv
     defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsv }
-    requirements:
-        _method: POST
+    methods: ['POST']
 
 cacic_faturamento_csv_interno:
-    pattern: /faturamento/csv/interno
+    path: /faturamento/csv/interno
     defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsvInterno }
-    requirements:
-        _method: POST
+    methods: ['POST']
 
 cacic_inativos_csv:
-    pattern: /inativos/csv
+    path: /inativos/csv
     defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosCsv }
-    requirements:
-        _method: GET
+    methods: ['GET']
 
 cacic_inativos_csv_inicial:
-    pattern: /inativos/csv
+    path: /inativos/csv
     defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosCsv }
-    requirements:
-     _method: POST
+    methods: ['POST']
 
 cacic_faturamento_listar_csv:
-    pattern: /faturamento/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    path: /faturamento/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
     defaults: { _controller: CacicRelatorioBundle:Faturamento:listarCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
     requirements:
         idRede: \d+
 
 cacic_inativos_listar_csv:
-    pattern: /inativos/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    path: /inativos/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
     defaults: { _controller: CacicRelatorioBundle:Faturamento:listarInativosCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
     requirements:
         idRede: \d+
 
 cacic_relatorio_csv_hardware_wmi:
-    pattern: /csv/hardware/{classe}
+    path: /csv/hardware/{classe}
     defaults: { _controller: CacicRelatorioBundle:Hardware:csvWMIRelatorio }
 
 cacic_relatorio_csv_hardware_wmi_detalhe:
-    pattern: /csv/hardware/{classe}/{propriedade}
+    path: /csv/hardware/{classe}/{propriedade}
     defaults: { _controller: CacicRelatorioBundle:Hardware:csvWMIRelatorioDetalhe }
 
 cacic_faturamento_computador:
-    pattern: /faturamento/computador
+    path: /faturamento/computador
     defaults: { _controller: CacicRelatorioBundle:Faturamento:computador }
 
 cacic_relatorio_usuario:
-    pattern: /usuario
+    path: /usuario
     defaults: { _controller: CacicRelatorioBundle:Faturamento:usuario }
 
 cacic_relatorio_usuario_detalhar:
-    pattern: /usuario/detalhar
+    path: /usuario/detalhar
     defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioDetalhar }
 
 cacic_relatorio_usuario_csv:
-    pattern: /usuario/csv
+    path: /usuario/csv
     defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioCsv }
 
 cacic_relatorio_usuario_csv_dinamico:
-    pattern: /usuario/csvDinamico
+    path: /usuario/csvDinamico
     defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioCsvDinamico }
 
 cacic_relatorio_usuario_historico:
-    pattern: /usuario/historico/{te_ultimo_login}
+    path: /usuario/historico/{te_ultimo_login}
     defaults: { _controller: CacicRelatorioBundle:Faturamento:usuarioHistorico, te_ultimo_login: null}
 
 cacic_computador_historico:
-  pattern: /computador/historico/{idComputador}/{classe}
+  path: /computador/historico/{idComputador}/{classe}
   defaults: { _controller: CacicRelatorioBundle:Computador:historico, idComputador: null, classe: null}
   requirements:
     idComputador: \d+
 
 cacic_software_search:
-  pattern: /search/software/{name}
+  path: /search/software/{name}
   defaults: { _controller:CacicRelatorioBundle:Software:search, name:null }
-  requirements:
-    _method: GET
+  methods: ['GET']
 
 cacic_relatorio_software_aquisicoes_det_csv:
-    pattern: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}/csv
+    path: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}/csv
     defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhadoCsv }
 
 cacic_relatorio_computador:
-    pattern: /computador
+    path: /computador
     defaults: { _controller: CacicRelatorioBundle:Computador:listar }
-    requirements:
-        _method: GET
+    methods: ['GET']
 
 cacic_relatorio_computador_resultado:
-     pattern: /computador/subredes
+     path: /computador/subredes
      defaults: { _controller: CacicRelatorioBundle:Computador:listarResultado }
 
 cacic_relatorio_computador_resultado_csv:
-     pattern: /computador/subredes/csv
+     path: /computador/subredes/csv
      defaults: { _controller: CacicRelatorioBundle:Computador:listarResultadoCsv }
 
 cacic_relatorio_computador_listar:
-    pattern: /computador/listar/{idRede}
+    path: /computador/listar/{idRede}
     defaults: { _controller: CacicRelatorioBundle:Computador:listarDetalhado, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
     requirements:
         idRede: \d+
 
 cacic_relatorio_computador_listar_csv:
-    pattern: /computador/listar/csv/{idRede}
+    path: /computador/listar/csv/{idRede}
     defaults: { _controller: CacicRelatorioBundle:Computador:listarDetalhadoCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
     requirements:
         idRede: \d+
 
 cacic_relatorio_computador_log_acesso:
-    pattern:  /computador/log/acesso/{idComputador}
+    path:  /computador/log/acesso/{idComputador}
     defaults: { _controller: CacicRelatorioBundle:Computador:logAcesso, idComputador: null }
     requirements:
         idComputador: \d+
 
 cacic_relatorio_computador_log_acesso_csv:
-    pattern:  /computador/log/acesso/{idComputador}/csv
+    path:  /computador/log/acesso/{idComputador}/csv
     defaults: { _controller: CacicRelatorioBundle:Computador:logAcessoCsv, idComputador: null }
     requirements:
         idComputador: \d+
 
 cacic_relatorio_computador_log_usuario:
-    pattern:  /computador/log/usuario/{idComputador}
+    path:  /computador/log/usuario/{idComputador}
     defaults: { _controller: CacicRelatorioBundle:Computador:logUsuario, idComputador: null }
     requirements:
         idComputador: \d+
 
 cacic_relatorio_computador_log_usuario_csv:
-    pattern:  /computador/log/usuario/{idComputador}/csv
+    path:  /computador/log/usuario/{idComputador}/csv
     defaults: { _controller: CacicRelatorioBundle:Computador:logUsuarioCsv, idComputador: null }
     requirements:
         idComputador: \d+
 
 cacic_relatorio_so:
-    pattern: /so
+    path: /so
     defaults: { _controller: CacicRelatorioBundle:So:index }
 
 cacic_relatorio_so_listar:
-    pattern: /so/listar
+    path: /so/listar
     defaults: { _controller: CacicRelatorioBundle:So:listar, idSo: null }
 
 cacic_relatorio_so_listar_csv:
-    pattern: /so/listar/csv
+    path: /so/listar/csv
     defaults: { _controller: CacicRelatorioBundle:So:listarCsv, idSo: null }
 
 cacic_relatorio_so_detalhar:
-    pattern: /so/detalhar/{idSo}
+    path: /so/detalhar/{idSo}
     defaults: { _controller: CacicRelatorioBundle:So:detalhar }
 
 cacic_relatorio_so_detalhar_csv:
-    pattern: /so/detalhar/csv/{idSo}
+    path: /so/detalhar/csv/{idSo}
     defaults: { _controller: CacicRelatorioBundle:So:detalharCsv }
 
 cacic_relatorio_so_consolidado:
-    pattern: /so/consolidado
+    path: /so/consolidado
     defaults: { _controller: CacicRelatorioBundle:So:consolidado }
 
 cacic_relatorio_so_consolidado_csv:
-    pattern: /so/consolidado/csv
+    path: /so/consolidado/csv
     defaults: { _controller: CacicRelatorioBundle:So:consolidadoCsv }
