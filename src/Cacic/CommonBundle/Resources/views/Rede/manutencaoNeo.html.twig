@@ -15,6 +15,13 @@
 
             <div class="block box_content round_bottom padding_10">
 
+                <h3>{{ "Chave de API"|trans }}</h3>
+                <p>{{ "Para realizar a instalação dos agentes é necessário fornecer como senha sua Chave de API"|trans }}</p>
+                <div class="alert alert-info" style="text-align: center;">
+                    <p>Senha dos Agentes:</p>
+                    <p><b>{{ user.getApiKey() }}</b></p>
+                </div>
+
                 <h3>{{ 'Conteúdo do repositório'|trans }}</h3>
                 <p>{{ 'As informações referem-se aos objetos constantes do repositório, os quais poderão ser assinalados para verificação de existência e/ou versões nas SubRedes cadastradas'|trans }}.</p>
                 <br />

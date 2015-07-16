@@ -766,10 +766,16 @@ class RedeController extends Controller
         foreach ($subredesOrig as $redeItem) {
             // Busca o tipo de SO
             $codigos = array();
+            $idRede = $redeItem['idRede'];
+
+            // Se não existir nenhum módulo, é preciso adicionar o código 0 para todas as subredes
+            if (empty($modulos)) {
+                array_push($codigos, 0);
+            }
+
             foreach($modulos as $tipo_so => $file) {
                 // Busca o módulo em cada uma das redes
                 foreach ($file as $key => $value) {
-                    $idRede = $redeItem['idRede'];
                     // Verifico se o módulo existe na subrede
                     $rede = $this->getDoctrine()->getRepository('CacicCommonBundle:RedeVersaoModulo')->subredeFilePath($idRede, $value['filename']);
 
@@ -828,10 +834,13 @@ class RedeController extends Controller
 
         //$logger->debug("111111111111111111111111111111111111111 \n".print_r($saida, true));
 
+        $user = $this->getUser();
+
         return $this->render( 'CacicCommonBundle:Rede:manutencaoNeo.html.twig',
             array(
                 'saida'=> $saida,
-                'subredes' => $subredes
+                'subredes' => $subredes,
+                'user' => $user
             )
         );
 

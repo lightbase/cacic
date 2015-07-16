@@ -58,6 +58,11 @@
             <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
 
             <div class="block box_content round_bottom padding_10">
+                <p>{{ "Para realizar a instalação dos agentes é necessário fornecer como senha sua Chave de API"|trans }}</p>
+                <div class="alert alert-info" style="text-align: center;">
+                    <p>Senha dos Agentes:</p>
+                    <p><b>{{ user.getApiKey() }}</b></p>
+                </div>
                 <p>
                     {{ "Realize o upload do pacote de arquivos contendo a nova versão do agente que será disponibilizada no servidor"|trans }}.
                 </p>

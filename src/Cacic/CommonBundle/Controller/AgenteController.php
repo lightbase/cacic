@@ -151,11 +151,15 @@ class AgenteController extends Controller {
         $current = @basename(@readlink($cacicDir."current"));
         $saida['live_version'] = $current;
 
+        // Usuário
+        $user = $this->getUser();
+
         return $this->render( 'CacicCommonBundle:Agente:index.html.twig',
             array(
                 'local'=>$locale,
                 'saida' => $saida,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'user' => $user
             )
         );
     }
