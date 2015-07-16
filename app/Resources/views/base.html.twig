@@ -233,6 +233,16 @@
 	        {% endblock %}
 	    </p>
 	</div>
+
+    <!-- DIALOG (Modal) de confirmação de exclusão de item -->
+    <div id="System_Ativar" title="Ativar">
+      <p>
+          <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 50px 0;"></span>
+          {% block alertaAtivar %}
+              O <span id="ativar_item_desc">item</span> {{ 'será ativado. Deseja prosseguir?'|trans }}
+          {% endblock %}
+      </p>
+    </div>
 	
 	<!-- DIALOG (Modal) de troca de senha -->
 	<div id="trocarPropriaSenha" title="{{ "Trocar Senha"|trans }}">

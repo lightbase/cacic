@@ -120,7 +120,7 @@ $(document).ready(function(){
         modal: true,
         closeText: 'Fechar',
         buttons: {
-            "Excluir" : function(){
+            "Ativar" : function(){
                 $( this ).dialog( "close" );
                 var params = $( this ).data( 'params' );
                 $.ajax(
@@ -300,6 +300,7 @@ $(document).ready(function(){
 	 * Listeners do sistema
 	 */
 	System.Grid.excluir(); // Inicializa o LISTENER para os botões-padrão de exclusão de itens
+	System.Grid.ativar(); // Inicializa o LISTENER para os botões-padrão de ativação de itens
     System.Form.reset(); // Inicializa o LISTENER para os botões (ou input) type=reset
     System.Menu.changeOwnPass(); // Inicializa o LISTENER para funcionalidade de troca de senha
     
