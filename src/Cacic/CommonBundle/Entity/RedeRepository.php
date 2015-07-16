@@ -295,4 +295,29 @@ class RedeRepository extends EntityRepository
         return $qb;
     }
 
+    /**
+     * Total de redes e total sem agentes
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function semModulos() {
+        $qb = $this->createQueryBuilder('r')
+            ->select('count(DISTINCT rv.idRede) as redesModulos',
+                'COUNT(DISTINCT r.idRede) as redes')
+            ->leftJoin("CacicCommonBundle:RedeVersaoModulo", 'rv', "WITH", "rv.idRede = r.idRede");
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function acoesPorRede() {
+        $qb = $this->createQueryBuilder('r')
+            ->select('COUNT(a.acao) as acoes',
+                'r.idRede')
+            ->leftJoin("CacicCommonBundle:AcaoRede", 'a', "WITH", "a.rede = r.idRede")
+            ->groupBy('r.idRede')
+            ->having('count(a.acao) = 0');
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
 }

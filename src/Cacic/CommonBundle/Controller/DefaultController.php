@@ -27,17 +27,23 @@ class DefaultController extends Controller
 			'totalCompPorSO' => $em->getRepository('CacicCommonBundle:Computador')->countPorSO(),
 			'totalComp' => $em->getRepository('CacicCommonBundle:LogAcesso')->countPorComputador(),
             'totalComp7Dias' => $em->getRepository('CacicCommonBundle:LogAcesso')->countComputadorDias('0','7'),
-            'totalComp14Dias' => $em->getRepository('CacicCommonBundle:LogAcesso')->countComputadorDias('7','14')
+            'totalComp14Dias' => $em->getRepository('CacicCommonBundle:LogAcesso')->countComputadorDias('7','14'),
+            'semModulos' => $em->getRepository("CacicCommonBundle:Rede")->semModulos(),
+            'acoesRede' => $em->getRepository("CacicCommonBundle:Rede")->acoesPorRede()
         );
 
         // Verifica se há agentes ativos
-        $this->agenteAtivo($em);
+        $agentes = $this->agenteAtivo($em);
+
+        $user = $this->getUser();
 		
 		return $this->render(
 			'CacicCommonBundle:Default:index.html.twig',
 			array(
 				'estatisticas' => $estatisticas,
-                'nivel' => $nivel[0]
+                'nivel' => $nivel[0],
+                'agentes' => $agentes,
+                'user' => $user
 			)
 		);
 	}
@@ -77,6 +83,7 @@ class DefaultController extends Controller
         $tipo_so = $em->getRepository('CacicCommonBundle:TipoSo')->findAll();
 
         $found = false;
+        $platforms = 0;
         foreach($finder as $version) {
             //$logger->debug("1111111111111111111111111111111 ".$version->getFileName());
             if ($version->getFileName() == 'current') {
@@ -89,6 +96,7 @@ class DefaultController extends Controller
                     $agentes->files()->in($agentes_path);
 
                     if ($agentes->count() == 0) {
+                        $platforms += 1;
                         $this->get('session')
                             ->getFlashBag()
                             ->add(
@@ -107,6 +115,10 @@ class DefaultController extends Controller
                     'notice',
                     'Não existe nenhum agente ativo. Por favor, faça upload dos agentes na interface.'
                 );
+
+            return sizeof($tipo_so);
+        } else {
+            return $platforms;
         }
 
     }

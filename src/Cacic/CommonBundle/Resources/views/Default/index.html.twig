@@ -32,7 +32,7 @@
 	
 	<div class="span6 column ui-sortable" id="col1">
 		<div class="box grad_colour_black" id="box1">
-			<h2 class="box_head round_top"> <i class="icon-file"></i> {{ 'Boas vindas'|trans }}</h2>
+			<h2 class="box_head round_top"> <i class="icon-info"></i> {{ 'Boas vindas'|trans }}</h2>
 			<div class="toggle_container">
 				<div class="block box_content round_bottom padding_10">
 				<p>{{ 'Olá'|trans }}, {{ app.user.nmUsuarioCompleto }}, {{ 'seja bem-vindo à área administrativa do CACIC v3.'|trans }}</p>
@@ -47,6 +47,94 @@
 <div class="row-fluid">
 
 	<div class="span6 column ui-sortable" id="col2">
+
+        <div class="box grad_colour_black" id="box1">
+            <h2 class="box_head round_top"> <i class="icon-file"></i> {{ 'Agentes'|trans }}</h2>
+            <div class="toggle_container">
+                <div class="block box_content round_bottom padding_10">
+                    <p>{{ "Para realizar a instalação dos agentes é necessário fornecer como senha sua Chave de API"|trans }}</p>
+                    <div class="alert alert-info" style="text-align: center;">
+                        <p>Senha dos Agentes:</p>
+                        <p><b>{{ user.getApiKey() }}</b></p>
+                    </div>
+                    <ul class="statistics">
+                        {% if agentes == 0 %}
+                            <li>
+                                <a href="{{ path('cacic_agente') }}" title="{{ "Upload de Agentes"|trans }}" >
+                                    <b>{{ "Passo 1"|trans }}</b>
+                                    <i class="icon-ok icon-large"></i>
+                                    <span class="green">0</span>
+                                    {{ "Plataformas cadastradas sem Agentes"|trans }}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path('cacic_agente') }}" title="{{ "Upload de Agentes"|trans }}" >
+                                    <b>{{ "Passo 1"|trans }}</b>
+                                    <i class="icon-ban-circle icon-large"></i>
+                                    <span class="red">{{ agentes }}</span>
+                                    {{ "Plataformas cadastradas sem Agentes"|trans }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if estatisticas['acoesRede'] is not empty  %}
+                            <li>
+                                <a href="{{ path('cacic_modulo_index') }}" title="{{ "Configurar Módulos"|trans }}">
+                                    <b>{{ "Passo 2"|trans }}</b>
+                                    <i class="icon-ban-circle icon-large"></i>
+                                    <span class="red">{{ estatisticas['acoesRede']|length }}</span>
+                                    {{ "Subrede sem coletas habilitadas"|trans }}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path('cacic_modulo_index') }}" title="{{ "Configurar Módulos"|trans }}">
+                                    <b>{{ "Passo 2"|trans }}</b>
+                                    <i class="icon-ok icon-large"></i>
+                                    <span class="green">0</span>
+                                    {{ "Subredes sem coletas habilitadas"|trans }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if estatisticas['semModulos']['redes'] != estatisticas['semModulos']['redesModulos'] %}
+                            <li>
+                                <a href="{{ path('cacic_atualizacao_subredes') }}" title="{{ "Atualização de subredes"|trans }}">
+                                    <b>{{ "Passo 3"|trans }}</b>
+                                    <i class="icon-ban-circle icon-large"></i>
+                                    <span class="red">{{ estatisticas['semModulos']['redes'] - estatisticas['semModulos']['redesModulos'] }}</span>
+                                    {{ "Subredes sem agentes ativos"|trans }}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path('cacic_atualizacao_subredes') }}" title="{{ "Atualização de subredes"|trans }}">
+                                    <b>{{ "Passo 3"|trans }}</b>
+                                    <i class="icon-ok icon-large"></i>
+                                    <span class="green">0</span>
+                                    {{ "Subredes sem agentes ativos"|trans }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <hr>
+                    <div style="text-align: center;">
+                        <a class="btn btn-default btn-small" type="submit" href="{{ path('cacic_agente') }}" title="{{ "Upload de Agentes"|trans }}" target="_blank">
+                            <i class="icon-file"></i>
+                            {{ "Upload de agentes"|trans }}
+                        </a>
+                        <a class="btn btn-default btn-small" type="submit" href="{{ path('cacic_modulo_index') }}" title="{{ "Configurar Módulos"|trans }}" target="_blank">
+                            <i class="icon-cog"></i>
+                            {{ "Configurar módulos"|trans }}
+                        </a>
+                        <a class="btn btn-default btn-small" type="submit" href="{{ path('cacic_atualizacao_subredes') }}" title="{{ "Atualização de subredes"|trans }}" target="_blank">
+                            <i class="icon-screenshot"></i>
+                            {{ "Atualização de subrede"|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /box -->
+
 		<div class="box grad_colour_black" id="box2">
 			<h2 class="box_head round_top"><i class="icon-heart"></i> {{ 'Atalhos'|trans }}</h2>
 			<div class="toggle_container">
@@ -60,12 +148,12 @@
 						<i class="shortcut-icon icon-group"></i>
 						<span class="shortcut-label">{{ 'Usuários'|trans }}</span>
 					</a>
-					
+
 					<a href="{{ path('cacic_local_index') }}" class="shortcut">
 						<i class="shortcut-icon icon-globe"></i>
 						<span class="shortcut-label">{{ 'Locais'|trans }}</span>
 					</a>
-					
+
 					<a href="{{ path('cacic_modulo_index') }}" class="shortcut">
 						<i class="shortcut-icon icon-cogs"></i>
 						<span class="shortcut-label">{{ 'Módulos'|trans }}</span>
@@ -73,8 +161,9 @@
 				</div>
 			</div>
 		</div> <!-- /box -->
+
 	</div><!-- /span -->
-			
+
 	<div class="span6 column ui-sortable widget-table action-table" id="col3">
 		<div class="box grad_colour_black" id="box3">
 			<h2 class="box_head round_top"><i class="icon-desktop"></i> {{ 'Computadores Monitorados por Sistema Operacional'|trans }}</h2>
