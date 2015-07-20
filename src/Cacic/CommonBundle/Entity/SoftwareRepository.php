@@ -3,6 +3,7 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Knp\Component\Pager\Paginator;
 
 /**
  *
@@ -12,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class SoftwareRepository extends EntityRepository
 {
-    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
+    public function paginar( Paginator $paginator, $page = 1 )
     {
         $_dql = "SELECT s, tipoSW.teDescricaoTipoSoftware AS tipoSoftware
 				FROM CacicCommonBundle:Software s
@@ -42,11 +43,7 @@ class SoftwareRepository extends EntityRepository
     public function listarSoftware()
     {
         $qb = $this->createQueryBuilder('sw')
-            ->select('sw.nmSoftware','sw.idSoftware')
-            ->innerJoin('CacicCommonBundle:PropriedadeSoftware', 'prop', 'WITH', 'sw.idSoftware = prop.software')
-            ->innerJoin('CacicCommonBundle:ClassProperty', 'class','WITH', 'prop.classProperty = class.idClassProperty')
-            ->innerJoin('CacicCommonBundle:Computador', 'comp', 'WITH', 'comp.idComputador = prop.computador')
-            ->andWhere("(comp.ativo IS NULL or comp.ativo = 't')")
+            ->select('DISTINCT sw.nmSoftware','sw.idSoftware')
             ->groupBy('sw.nmSoftware, sw.idSoftware')
             ->orderBy('sw.nmSoftware');
 

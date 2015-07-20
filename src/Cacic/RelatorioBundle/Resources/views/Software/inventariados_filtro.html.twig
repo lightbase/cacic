@@ -21,28 +21,28 @@
 
 		    tSW.populate([ // Popula o TRANSFER com Softwares
   		        {% for sw in softwares %}
-  		        {value: "{{ sw['idSoftware'] }}", content:"{{ sw['nmSoftware'] }}"}{% if loop.last != true %},{% endif %}
+  		        {value: "{{ sw['idSoftware'] }}", content:"{{ sw['nmSoftware']|json_encode() }}"}{% if loop.last != true %},{% endif %}
   		        
   		        {% endfor %}
   		    ]);
 		    
 		    tLoc.populate([ // Popula o TRANSFER com Locais
 		        {% for l in locais %}
-		        {value: "{{ l[0]['idLocal'] }}", content:"{{ l[0]['nmLocal'] ~ '/' ~ l[0]['sgLocal'] }}"}{% if loop.last != true %},{% endif %}
+		        {value: "{{ l[0]['idLocal'] }}", content:"{{ l[0]['nmLocal']|json_encode() ~ '/' ~ l[0]['sgLocal'] }}"}{% if loop.last != true %},{% endif %}
 		        
 		        {% endfor %}
 		    ]);
 
             tRede.populate([ // Popula o TRANSFER com Locais
                 {% for r in redes %}
-                {value: "{{ r[0]['idRede'] }}", content:"{{ r[0]['nmRede'] ~ '/' ~ r[0]['teIpRede'] }}"}{% if loop.last != true %},{% endif %}
+                {value: "{{ r[0]['idRede'] }}", content:"{{ r[0]['nmRede']|json_encode() ~ '/' ~ r[0]['teIpRede'] }}"}{% if loop.last != true %},{% endif %}
 
                 {% endfor %}
             ]);
 		    
 		    tSO.populate([ // Popula o TRANSFER com Sistemas Operacionais
 		        {% for _so in so %}
-		        {value: "{{ _so['idSo'] }}", content:"{{ _so['teDescSo'] }}"}{% if loop.last != true %},{% endif %}
+		        {value: "{{ _so['idSo'] }}", content:"{{ _so['teDescSo']|json_encode() }}"}{% if loop.last != true %},{% endif %}
 		        
 		        {% endfor %}
 		    ]);
