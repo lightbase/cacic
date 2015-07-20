@@ -137,7 +137,7 @@ dl dd { margin-bottom: 10px; }
     min-height: 28px;
 }
 
-input,
+input[type="text"],
 textarea,
 select,
 .uneditable-input {

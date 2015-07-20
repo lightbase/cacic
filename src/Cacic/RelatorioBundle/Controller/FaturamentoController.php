@@ -39,7 +39,7 @@ class FaturamentoController extends Controller {
 
         if ( $request->isMethod('POST') )
         {
-            $form->bind( $request );
+            $form->handleRequest( $request );
             $data = $form->getData();
 
             $filtroLocais = array(); // Inicializa array com locais a pesquisar
@@ -79,7 +79,7 @@ class FaturamentoController extends Controller {
 
         if ( $request->isMethod('POST') )
         {
-            $form->bind( $request );
+            $form->handleRequest( $request );
             $data = $form->getData();
 
             $filtroLocais = array(); // Inicializa array com locais a pesquisar
@@ -128,11 +128,8 @@ class FaturamentoController extends Controller {
         $dataFim = $request->get('dtAcaoFim');
         $idLocal = $request->get('idLocal');
 
-        foreach ( $idLocal as $locais ) {
-        }
-
         $printers = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogAcesso')
-            ->faturamentoCsv( $dataInicio, $dataFim, $locais);
+            ->faturamentoCsv( $dataInicio, $dataFim, $idLocal);
 
         // Gera CSV
         $reader = new ArrayReader($printers);
