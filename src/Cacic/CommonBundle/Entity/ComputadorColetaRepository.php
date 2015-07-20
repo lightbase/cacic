@@ -491,14 +491,20 @@ class ComputadorColetaRepository extends EntityRepository
      *
      */
     public function listar3g() {
-        $_dql = "SELECT c.teClassPropertyValue, p.displayName, p.publisher
+        $_dql = "SELECT prop.nmPropertyName,
+          c.teClassPropertyValue,
+          p.displayName,
+          p.publisher,
+          count(DISTINCT comp.idComputador) as nComp
         FROM CacicCommonBundle:ComputadorColeta c
-        INNER JOIN CacicCommonBundle:ProriedadeSoftware p ON c.idClassProperty = p.idClassProperty
-        INNER JOIN CacicCommonBundle:Computador comp WITH c.idComputador = comp.idComputador
+        INNER JOIN CacicCommonBundle:PropriedadeSoftware p WITH c.classProperty = p.classProperty
+        INNER JOIN CacicCommonBundle:ClassProperty prop WITH p.classProperty = prop.idClassProperty
+        INNER JOIN CacicCommonBundle:Computador comp WITH c.computador = comp.idComputador
         WHERE LOWER(c.teClassPropertyValue) LIKE LOWER('%modem%')
         AND (comp.ativo IS NULL or comp.ativo = 't')
+        GROUP BY c.teClassPropertyValue, prop.nmPropertyName, p.displayName, p.publisher
         ";
 
-        return $this->getEntityManager()->createQuery( $_dql );
+        return $this->getEntityManager()->createQuery( $_dql )->getResult();
     }
 }

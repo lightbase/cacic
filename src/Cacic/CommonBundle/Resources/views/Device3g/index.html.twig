@@ -20,11 +20,24 @@
                     <p>{{ "Neste módulo observamos os 3G device do sistema"|trans }}</p>
                     <br />
 
-                    <table class="display datatable" id="datatable">
+                    <a class="btn btn-success" type="submit" href="{{ path('cacic_device3g_csv') }}" target="_self">
+                        <i class="icon-download-alt"></i>
+                        {{'Gerar CSV'|trans  }}
+                    </a>
+                    <br>
+
+                    <hr>
+
+                    {% if UsbDevice|length > 0 %}
+
+                    <table class="display datatable" id="datatable"  style="text-align: center">
                         <thead>
                         <tr>
-                            <th width="50%" style="text-align: center">{{ "Dispositivo"|trans }}</th>
-                            <th width="50%" style="text-align: center">{{ "Fabricante"|trans }}</th>
+                            <th width="30%" style="text-align: center">{{ "Valor Coletado"|trans }}</th>
+                            <th width="40%" style="text-align: center">{{ "Nome"|trans }}</th>
+                            <th width="20%" style="text-align: center">{{ "Fabricante"|trans }}</th>
+                            <th width="10%" style="text-align: center">{{ "Coletados"|trans }}</th>
+                            <th width="10%"></th>
                         </tr>
                         </thead>
 
@@ -33,18 +46,45 @@
                         {% for UsbDevice in UsbDevice %}
 
                             <tr>
-                                <td style="text-align: center" >{{ UsbDevice.displayName }}</td>
-                                <td style="text-align: center" >{{ UsbDevice.teClassPropertyValue }}</td>
+                                <td>{{ UsbDevice.teClassPropertyValue }}</td>
+                                <td>{{ UsbDevice.displayName }}</td>
+                                <td>{{ UsbDevice.publisher }}</td>
+                                <td>{{ UsbDevice.nComp }}</td>
+                                <td>
+                                    <a class="btn" href="{{ path('cacic_relatorio_hardware_wmi_detalhe', {'classe': 'SoftwareList', 'propriedade': UsbDevice.nmPropertyName, 'valor': UsbDevice.teClassPropertyValue}) }}" title="{{ "Lista de computadores"|trans }}" target="_blank">
+                                        <i class="icon-search"></i>
+                                    </a>
+                                </td>
                             </tr>
 
                         {% else %}
                             <tr>
-                                <td style="text-align: center" colspan="3"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                                <td style="text-align: center" colspan="5"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
                             </tr>
                         {% endfor %}
 
                         </tbody>
                     </table>
+
+                    {% else %}
+
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th width="50%" style="text-align: center">{{ "Dispositivo"|trans }}</th>
+                            <th width="50%" style="text-align: center">{{ "Fabricante"|trans }}</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td style="text-align: center" colspan="3"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                    {% endif %}
                 </div> <!-- /block -->
             </div><!-- /box -->
         </div><!-- /span -->

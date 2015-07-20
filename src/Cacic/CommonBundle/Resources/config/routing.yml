@@ -507,6 +507,10 @@ cacic_device3g_index:
     requirements:
         page: \d+
 
+cacic_device3g_csv:
+    path: /manutencao/device3g/csv
+    defaults: {_controller: CacicCommonBundle:Device3g:csv }
+
 cacic_usbdevice_index:
     path: /manutencao/usbdevice/{page}
     defaults: {_controller: CacicCommonBundle:UsbDevice:index, page: 1 }
