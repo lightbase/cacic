@@ -26,7 +26,7 @@
                     <th width="15%" style="text-align: center" >{{ "ID Interna"|trans }}</th>
                     <th width="10%" style="text-align: center">{{ "ID Externa"|trans }}</th>
                     <th width="15%">{{ "Sigla"|trans }}</th>
-                    <th width="15%">{{ "Total de Máquinas"|trans }}</th>
+                    <th width="13%">{{ "Total de Máquinas"|trans }}</th>
                     <th width="10%">{{ "Tipo de SO"|trans }}</th>
                     <th style="text-align: center">{{ "Ações"|trans }}</th>
                 </tr>
@@ -41,7 +41,11 @@
                         <td style="text-align: center">{{ so[0].teSo  }}</td>
                         <td style="text-align: center">{{ so[0].idSo }}</td>
                         <td>{{ so[0].sgSo }}</td>
-                        <td>{{ so.nComp }}</td>
+                        <td style="text-align: center">
+                            <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so[0].idSo}) }}" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                {{ so.nComp }}
+                            </a>
+                        </td>
                         {% if so[0].tipo is empty %}
                             <td></td>
                         {% else %}
@@ -54,6 +58,9 @@
 
                             <a href="{{ path('cacic_sistemaoperacional_excluir') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
                                 <i class="btn-icon-only icon-trash icon-large"></i>
+                            </a>
+                            <a href="{{ path('cacic_relatorio_so_detalhar', {'idSo': so[0].idSo}) }}" class="btn btn-small" title="{{ "Ver relatório detalhado"|trans }}" target="_blank">
+                                <i class="btn-icon-only icon-search icon-large"></i>
                             </a>
                         </td>
                     </tr>
