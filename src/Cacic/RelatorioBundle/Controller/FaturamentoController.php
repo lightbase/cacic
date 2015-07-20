@@ -1,9 +1,8 @@
 <?php
  namespace Cacic\RelatorioBundle\Controller;
- use Cacic\CommonBundle\Entity\ComputadorColetaRepository;
+
  use Cacic\CommonBundle\Form\Type\UserPesquisaType;
  use Ddeboer\DataImport\ValueConverter\CharsetValueConverter;
- use Doctrine\Common\Util\Debug;
  use Symfony\Component\HttpFoundation\Request;
  use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  use Cacic\CommonBundle\Form\Type\LogPesquisaType;
@@ -13,6 +12,7 @@
  use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
  use Symfony\Component\HttpFoundation\BinaryFileResponse;
  use Cacic\CommonBundle\Form\Type\ComputadorConsultaType;
+ use Cacic\CommonBundle\Form\Type\ComputadorPesquisaType;
 
 
 class FaturamentoController extends Controller {
@@ -230,7 +230,7 @@ class FaturamentoController extends Controller {
 
         $locale = $request->getLocale();
 
-        $form = $this->createForm( new LogPesquisaType() );
+        $form = $this->createForm( new ComputadorPesquisaType() );
 
         return $this->render( 'CacicRelatorioBundle:Faturamento:inativos.html.twig',
             array(
@@ -248,7 +248,7 @@ class FaturamentoController extends Controller {
 
         if ( $request->isMethod('POST') )
         {
-            $form->bind( $request );
+            $form->handleRequest( $request );
             $data = $form->getData();
             $filtroLocais = array(); // Inicializa array com locais a pesquisar
           foreach ( $data['idLocal'] as $locais ) {

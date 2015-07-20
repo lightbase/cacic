@@ -5,14 +5,14 @@
 	<h2>{{ 'Relatório de máquinas inativas da subrede '|trans }} {{ rede }}</h2>
 	<h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("m/d/Y H\\hi") }}{% endif %}</h5>
 
-	<hr />
-
+    <br>
     <!--Botão CSV-->
     <a class="btn btn-primary" type="submit" href="{{ path('cacic_inativos_listar_csv',{'idRede':idRede,'dataInicio':dtAcaoInicio|trim,'dataFim':dtAcaoFim|trim})}}" title="{{ "Máquinas sem coletas"|trans }}" target="_self">
         <i class="icon-bar-chart"></i>
         Gerar CSV
     </a>
     <!--Botão CSV-->
+    <hr />
 
     <form id={{ 'formComputadores'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post">
         <table class="display datatable" id="datatable">
