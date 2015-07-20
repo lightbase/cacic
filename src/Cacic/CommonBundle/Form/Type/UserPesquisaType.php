@@ -56,7 +56,8 @@ class UserPesquisaType extends AbstractType
         $builder->add(
             'teIpComputador',
             null,
-            array( 'label'  =>'',
+            array(
+                'label'  =>'IP do Computador',
                 'max_length'=>30,
                 'required'  => false
             )
@@ -64,21 +65,26 @@ class UserPesquisaType extends AbstractType
         $builder->add(
             'teNodeAddress',
             null,
-            array('label'   =>'',
+            array(
+                'label'   =>'MAC Address',
                 'max_length'=>30,
-                'required'  => false)
+                'required'  => false
+            )
         );
         $builder->add(
             'nmComputador',
             null,
-            array('label'   =>'',
+            array(
+                'label'   =>'Nome do Computador',
                 'max_length'=>30,
-                'required'  => false)
+                'required'  => false
+            )
         );
         $builder->add(
             'sala',
             null,
-            array( 'label'  =>'',
+            array(
+                'label'  =>'Sala do Responsável',
                 'max_length'=>30,
                 'required'  => false
             )
@@ -86,44 +92,55 @@ class UserPesquisaType extends AbstractType
         $builder->add(
             'coordenacao',
             null,
-            array('label'   =>'',
+            array(
+                'label' => 'Coordenação do Responsável',
                 'max_length'=>30,
-                'required'  => false)
+                'required'  => false
+            )
         );
         $builder->add(
             'usuarioPatrimonio',
             null,
-            array( 'label'  =>'',
+            array(
+                'label'  =>'Nome do Responsável',
                 'max_length'=>30,
                 'required'  => false)
         );
         $builder->add(
             'usuarioName',
             null,
-            array( 'label'  =>'',
+            array(
+                'label'  =>'CPF do Responsável',
                 'max_length'=>30,
-                'required'  => false)
+                'required'  => false
+            )
         );
         $builder->add(
             'usuarioLogado',
             null,
-            array( 'label'  =>'',
+            array(
+                'label'  =>'Usuário Logado',
                 'max_length'=>30,
-                'required'  => false)
+                'required'  => false
+            )
         );
         $builder->add(
             'macCompDinamico',
             null,
-            array('label'   =>'',
+            array(
+                'label'   =>'MAC Address',
                 'max_length'=>30,
-                'required'  => false)
+                'required'  => false
+            )
         );
         $builder->add(
             'ipCompDinamico',
             null,
-            array('label'   =>'',
+            array(
+                'label'   =>'IP do Computador',
                 'max_length'=>30,
-                'required'  => false)
+                'required'  => false
+            )
         );
     }
 

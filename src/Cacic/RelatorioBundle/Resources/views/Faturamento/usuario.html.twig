@@ -19,106 +19,68 @@
                     <form id={{ 'formUserPesquisa'|trans }} action="{{ path('cacic_relatorio_usuario_detalhar') }}" class="form-horizontal" method="POST" target="_blank">
 
                         <div class="control-group">
-                            <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
-
-                            <div class="controls">
-                                {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
-                                <p class="help-block">{{ "Informe o período no qual deseja filtrar!"|trans }}</p>
+                            <label for="log_acesso_periodo" class="control-label col-sm-2 label-required">{{ 'Período'|trans }}</label>
+                            <div class="col-sm-8 control-group">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }}
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <span>a</span>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                                    </div>
+                                </div>
+                                <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                             </div>
                         </div>
 
                         <hr>
                         <h4>{{ "Informações estáticas"|trans }}</h4><br/>
 
-                        <div class="control-group" >
-                            <label for="UserPesquisa"  class="control-label">{{ 'Nome do Computador'|trans }}</label>
-                            <div class="controls">
-                                {{ form_widget(form.nmComputador) }}
-                            </div>
-                        </div>
+                        {{ form_row(form.nmComputador) }}
 
-                        <div class="control-group" >
-                                <label for="UserPesquisa"  class="control-label">{{ 'IP do Computador'|trans }}</label>
-                                <div class="controls">
-                                    {{ form_widget(form.teIpComputador) }}
-                                </div>
-                            </div>
+                        {{ form_row(form.teIpComputador) }}
 
-                            <div class="control-group" >
-                                <label for="UserPesquisa" class="control-label">{{ 'MAC Address '|trans }}</label>
+                        {{ form_row(form.teNodeAddress) }}
 
-                                <div class="controls">
-                                    {{ form_widget(form.teNodeAddress) }}
-                                </div>
-                            </div>
+                        {{ form_row(form.usuarioPatrimonio) }}
 
-                        <div class="control-group" >
-                            <label for="UserPesquisa" class="control-label">{{ 'Nome do Responsável'|trans }}</label>
+                        {{ form_row(form.usuarioName) }}
 
-                            <div class="controls">
-                                {{ form_widget(form.usuarioPatrimonio) }}
-                            </div>
-                        </div>
+                        {{ form_row(form.coordenacao) }}
 
-                        <div class="control-group" >
-                            <label for="UserPesquisa" class="control-label">{{ 'CPF do Responsável'|trans }}</label>
+                        {{ form_row(form.sala) }}
 
-                            <div class="controls">
-                                {{ form_widget(form.usuarioName) }}
-                            </div>
-                        </div>
-
-                        <div class="control-group" >
-                            <label for="UserPesquisa"
-                                   class="control-label">{{ 'Coordenação do Responsável'|trans }}</label>
-
-                            <div class="controls">
-                                {{ form_widget(form.coordenacao) }}
-                            </div>
-                        </div>
-
-                        <div class="control-group" >
-                            <label for="UserPesquisa" class="control-label">{{ 'Sala do Responsável'|trans }}</label>
-
-                            <div class="controls">
-                                {{ form_widget(form.sala) }}
-                            </div>
-                        </div>
 
                         <div class="control-group _cad_block_opcao">
-                            <label class="control-label">{{ 'Local'|trans }}</label>
-                            <div class="controls">
-                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="id.Local" id="toggleLocal">
+                            <label class="control-label col-sm-2">{{ 'Local'|trans }}</label>
+                            <div class="col-sm-8">
+
+                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="idLocal" id="toggleLocal">
                                 <label for="toggleLocal"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
-                                <div style="height: 165px; overflow: auto;">
-                                    <div class="modulo-opt-block">
-                                        {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
-                                    </div>
+
+                                <div class="modulo-opt-block">
+                                    {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
                                 </div>
+
                             </div>
                         </div>
-                            <hr>
+
+
+                        <hr>
                         <h4>{{ "Informações dinâmicas"|trans }}</h4><br/>
 
-                        <div class="control-group" >
-                            <label for="UserPesquisa" class="control-label">{{ 'Usuário Logado'|trans }}</label>
 
-                            <div class="controls">
-                                {{ form_widget(form.usuarioLogado) }}
-                            </div>
-                        </div>
-                        <div class="control-group" >
-                            <label for="UserPesquisa"  class="control-label">{{ 'MAC Address'|trans }}</label>
-                            <div class="controls">
-                                {{ form_widget(form.macCompDinamico) }}
-                            </div>
-                        </div>
-                        <div class="control-group" >
-                            <label for="UserPesquisa"  class="control-label">{{ 'IP do Computador'|trans }}</label>
-                            <div class="controls">
-                                {{ form_widget(form.ipCompDinamico) }}
-                            </div>
-                        </div>
+                        {{ form_row(form.usuarioLogado) }}
+
+                        {{ form_row(form.macCompDinamico) }}
+
+                        {{ form_row(form.ipCompDinamico) }}
+
+                        {{ form_rest(form) }}
+
 
                         <div class="control-group">
                             <div class="controls">
