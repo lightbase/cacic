@@ -166,7 +166,7 @@ class ComputadorController extends Controller {
         $tmpfile = tempnam(sys_get_temp_dir(), 'Computadores-Subredes');
         $file = new \SplFileObject($tmpfile, 'w');
         $writer = new CsvWriter($file);
-        $writer->writeItem(array('Local', 'Subrede', 'IP da Subrede', 'Total de Estações'));
+        $writer->writeItem(array('idRede', 'Subrede', 'IP da Subrede', 'Local', 'Sigla do Local', 'Total de Estações'));
         $workflow->addWriter($writer);
 
         // Process the workflow
@@ -175,7 +175,7 @@ class ComputadorController extends Controller {
         // Retorna o arquivo
         $response = new BinaryFileResponse($tmpfile);
         $response->headers->set('Content-Type', 'text/csv');
-        $response->headers->set('Content-Disposition', 'attachment; filename="Faturamento_subrede.csv"');
+        $response->headers->set('Content-Disposition', 'attachment; filename="Computadores-Subredes.csv"');
         $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;
