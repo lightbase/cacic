@@ -40,10 +40,11 @@ class AtesteController extends Controller {
             $listaRedes = $request->get('redes');
 
             $filtroLocais = array(); // Inicializa array com locais a pesquisar
-            foreach ( $data['idLocal'] as $locais ) {
-                array_push( $filtroLocais, $locais );
+            if (array_key_exists('idLocal', $data)) {
+                foreach ( $data['idLocal'] as $locais ) {
+                    array_push( $filtroLocais, $locais );
+                }
             }
-
 
             // Só grava os dados se tiver lista de redes no formulário
             if (!empty($listaRedes)) {

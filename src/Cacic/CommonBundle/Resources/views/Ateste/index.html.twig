@@ -20,19 +20,34 @@
                     <form id={{ 'formLogPesquisaAcesso'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
 
                         <div class="control-group">
-                            <label for="log_acesso_periodo" class="control-label">{{ 'Período'|trans }}</label>
-                            <div class="controls">
-                                {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                            <label for="log_acesso_periodo" class="control-label col-sm-2 label-required">{{ 'Período'|trans }}</label>
+                            <div class="col-sm-8 control-group">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        {{ form_widget(form.dtAcaoInicio, { 'attr': {'class': 'datepicker_on'} }) }}
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <span>a</span>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        {{ form_widget(form.dtAcaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                                    </div>
+                                </div>
                                 <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                             </div>
                         </div>
 
                         <div class="control-group _cad_block_opcao">
-                            <label for="log_acesso_local" class="control-label">{{ 'Local:'|trans }}</label>
-                            <div class="controls">
-                                <div>
+                            <label class="control-label col-sm-2">{{ 'Local'|trans }}</label>
+                            <div class="col-sm-8">
+
+                                <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="idLocal" id="toggleLocal">
+                                <label for="toggleLocal"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
+
+                                <div class="modulo-opt-block">
                                     {{ form_widget(form.idLocal, {'form_type': 'horizontal'}) }}
                                 </div>
+
                             </div>
                         </div>
 
