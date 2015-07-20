@@ -23,10 +23,20 @@
                     <form method="post" id={{ 'frmFiltroRelatorioDinamico'| trans }} action="{{ path('cacic_relatorio_dinamico_detalhar') }}" class="form-horizontal" method="POST" target="_blank">
 
                         <div class="control-group">
-                            <label for="log_acesso_periodo"  class="control-label">{{ 'Período'|trans }}</label>
-                            <div class="controls">
-                                {{ form_widget(form.dataColetaInicio, { 'attr': {'class': 'datepicker_on'} }) }} a {{ form_widget(form.dataColetaFim, { 'attr': {'class': 'datepicker_on'} }) }}
-                                <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa"|trans }}</p>
+                            <label for="log_acesso_periodo" class="control-label col-sm-2 label-required">{{ 'Período'|trans }}</label>
+                            <div class="col-sm-8 control-group">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        {{ form_widget(form.dataColetaInicio, { 'attr': {'class': 'datepicker_on'} }) }}
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <span>a</span>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        {{ form_widget(form.dataColetaFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                                    </div>
+                                </div>
+                                <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
                             </div>
                         </div>
 
