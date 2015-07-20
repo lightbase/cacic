@@ -52,7 +52,12 @@ class ComputadorRepository extends EntityRepository
     public function countPorLocal()
     {
         $qb = $this->createQueryBuilder('comp')
-            ->select('loc.idLocal, loc.nmLocal, COUNT(comp.idComputador) as numComp, COUNT(DISTINCT comp.teNodeAddress) as numMac')
+            ->select(
+                'loc.idLocal,
+                loc.nmLocal,
+                COUNT(comp.idComputador) as numComp,
+                COUNT(DISTINCT comp.teNodeAddress) as numMac'
+            )
             ->innerJoin('comp.idRede', 'rede')
             ->innerJoin('rede.idLocal', 'loc')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
@@ -141,13 +146,21 @@ class ComputadorRepository extends EntityRepository
     public function countPorSubrede( $idLocal = null )
     {
         $qb = $this->createQueryBuilder('comp')
-            ->select('rede.idRede, rede.teIpRede, rede.nmRede, COUNT(comp.idComputador) as numComp, COUNT(DISTINCT comp.teNodeAddress) as numMac')
+            ->select(
+                'rede.idRede,
+                rede.teIpRede,
+                rede.nmRede,
+                COUNT(DISTINCT comp.idComputador) as numComp,
+                COUNT(DISTINCT comp.teNodeAddress) as numMac'
+            )
             ->innerJoin('comp.idRede', 'rede')
+            ->innerJoin('rede.idLocal', 'loc')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->groupBy('rede');
 
-        if ( $idLocal !== null )
+        if ( !empty($idLocal) ) {
             $qb->andWhere('rede.idLocal = :idLocal')->setParameter( 'idLocal', $idLocal);
+        }
 
         return $qb->getQuery()->getResult();
     }
@@ -383,7 +396,7 @@ GROUP BY c0_.te_node_address,
     {
         $qb = $this->createQueryBuilder('comp')
             ->select('comp', 'so')
-            ->leftJoin('comp.idSo', 'so')
+            ->innerJoin('comp.idSo', 'so')
             ->andWhere('comp.idRede = :idRede')
             ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
             ->setParameter('idRede', $idSubrede)

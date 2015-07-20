@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cacic\CommonBundle\Entity\Computador;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  *
@@ -393,8 +394,13 @@ class ComputadorController extends Controller
      */
     public function loadcompnodesAction( Request $request )
     {
-        if ( ! $request->isXmlHttpRequest() )
+        if ( ! $request->isXmlHttpRequest() ) {
             throw $this->createNotFoundException( 'Página não encontrada!' );
+        }
+
+        $date = new \DateTime();
+        $date_30 = $date->sub(new \DateInterval('P30D'));
+        $date_60 = $date->sub(new \DateInterval('P60D'));
 
         $comps = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->listarPorSubrede( $request->get('idSubrede') );
 
@@ -405,11 +411,21 @@ class ComputadorController extends Controller
             $_label = ($comp->getNmComputador()?:'###') .' - '. $comp->getTeIpComputador();
             if ( $comp->getIdSo() )	$_label .= ' - ' .$comp->getIdSo()->getSgSo();
 
+            // Calculate age
+            if ($comp->getDtHrUltAcesso() < $date_60) {
+                $color = "alert alert-danger";
+            } elseif ($comp->getDtHrUltAcesso() < $date_30) {
+                $color = "alert alert-warning";
+            } else {
+                $color = null;
+            }
+
             $_tree[] = array(
                 'id'				=> $comp->getIdComputador(),
                 'label' 			=> $_label,
                 'type'				=> 'computador',
-                'load_on_demand' 	=> false
+                'load_on_demand' 	=> false,
+                'alert_class'             => $color
             );
         }
 

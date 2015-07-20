@@ -163,11 +163,18 @@
                                  'data-target': '{{ path("cacic_computador_detalhar") }}/' + node.id
                              });
                              */
+                                var elm = $li.find('span.jqtree-title');
 
-                                $li.find('span.jqtree-title').after(
-                                        $('<a></a>').attr({'href':'{{ path("cacic_computador_detalhar") }}/' + node.id, 'class': 'btn', 'target': '_blank' })
+                                elm.after(
+                                        $('<a></a>').attr({'href':'{{ path("cacic_faturamento_computador") }}?teNodeAddress=' + node.id, 'class': 'btn', 'target': '_blank' })
                                                 .append('<i class="icon-search"></i>')
                                 );
+
+                                if (node.alert_class) {
+                                    $li.addClass(node.alert_class);
+                                } else {
+                                    $li.addClass('alert alert-info');
+                                }
 
                                 break;
                         }
@@ -190,7 +197,7 @@
                 {
                     id: {{ loc['idLocal'] }},
                     label: '{{ loc["nmLocal"] }} [{{ loc['numComp'] }}]',
-                    url: '{{ path("cacic_computador_loadredenodes", {idLocal: loc["idLocal"], agrupar: true}) }}',
+                    url: '{{ path("cacic_computador_loadredenodes", {idLocal: loc["idLocal"], agrupar: false}) }}',
                     type: 'local',
                     load_on_demand: true
                 }{% if loop.last != true %},{% endif %}
@@ -227,10 +234,18 @@
                              });
                              */
 
-                                $li.find('span.jqtree-title').after(
+                                var elm = $li.find('span.jqtree-title');
+
+                                elm.after(
                                         $('<a></a>').attr({'href':'{{ path("cacic_computador_detalhar") }}/' + node.id, 'class': 'btn', 'target': '_blank' })
                                                 .append('<i class="icon-search"></i>')
                                 );
+
+                                if (node.alert_class) {
+                                    $li.addClass(node.alert_class);
+                                } else {
+                                    $li.addClass('alert alert-info');
+                                }
 
                                 break;
                         }
