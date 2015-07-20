@@ -26,13 +26,18 @@ class ComputadorController extends Controller
      */
     public function navegarAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $agrupar = $request->get('agrupar');
+        $computadores = $em->getRepository("CacicCommonBundle:Computador")->countAll();
+        $computadores_mac = $em->getRepository("CacicCommonBundle:Computador")->countMac();
 
         return $this->render(
             'CacicCommonBundle:Computador:navegar.html.twig',
             array(
-                'locais' => $this->getDoctrine()->getRepository('CacicCommonBundle:Computador')->countPorLocal(),
-                'agrupar' => $agrupar
+                'locais' => $em->getRepository('CacicCommonBundle:Computador')->countPorLocal(),
+                'agrupar' => $agrupar,
+                'computadores' => $computadores,
+                'computadores_mac' => $computadores_mac
             )
         );
     }

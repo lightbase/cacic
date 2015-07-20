@@ -364,6 +364,18 @@ GROUP BY c0_.te_node_address,
 
     /**
      *
+     * Conta todos os computadores monitorados por MAC
+     * @return int
+     */
+    public function countMac()
+    {
+        $qb = $this->createQueryBuilder('comp')->select('COUNT(distinct comp.teNodeAddress)')
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'");
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     *
      * Lista os computadores monitorados alocados na subrede informada
      * @param int|\Cacic\CommonBundle\Entity\Rede $idSubrede
      */
