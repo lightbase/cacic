@@ -520,7 +520,10 @@ class HardwareController extends Controller
         $computadores = $em->getRepository("CacicCommonBundle:Computador")->listarClasse($idClasse);
         $cont['numComp'] = count($computadores);
 
-        $classes = $em->getRepository("CacicCommonBundle:Classe")->nomes($idClasse);
+        $classes = array();
+        if (!empty($idClasse)) {
+            $classes = $em->getRepository("CacicCommonBundle:Classe")->nomes($idClasse);
+        }
 
         return $this->render( 'CacicRelatorioBundle:Hardware:wmi_sem_coleta_listar.html.twig',
             array(

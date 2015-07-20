@@ -1133,9 +1133,7 @@ GROUP BY c0_.te_node_address,
 
     }
 
-    public function listarClasse($idClasse) {
-
-        $id = implode(' ,',$idClasse);
+    public function listarClasse($idClasse = null) {
 
         $_dql = "SELECT  rede.idRede,
                         rede.nmRede,
@@ -1148,10 +1146,17 @@ GROUP BY c0_.te_node_address,
                 FROM CacicCommonBundle:Computador c
                 INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo)
                 INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede)
-                INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal)
-                LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
-                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
-                WHERE cl.computador IS NULL
+                INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal)";
+
+        if (!empty($idClasse)) {
+            $id = implode(' ,',$idClasse);
+            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))";
+        } else {
+            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador)";
+        }
+
+        $_dql .= "WHERE cl.computador IS NULL
                 AND (c.ativo IS NULL OR c.ativo = 't')
                 GROUP BY rede.idRede,
                         rede.nmRede,
@@ -1166,11 +1171,7 @@ GROUP BY c0_.te_node_address,
 
     }
 
-    public function listarClasseCsv($idClasse) {
-
-        $id = implode(' ,',$idClasse);
-
-        error_log('Listar CSV'.$id);
+    public function listarClasseCsv($idClasse = null) {
 
         $_dql = "SELECT so.teDescSo,
                         rede.nmRede,
@@ -1180,10 +1181,17 @@ GROUP BY c0_.te_node_address,
                 FROM CacicCommonBundle:Computador c
                 INNER JOIN CacicCommonBundle:So so WITH (c.idSo = so.idSo)
                 INNER JOIN CacicCommonBundle:Rede rede WITH (c.idRede = rede.idRede)
-                INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal)
-                LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
-                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))
-                WHERE cl.computador IS NULL
+                INNER JOIN CacicCommonBundle:Local local WITH (rede.idLocal = local.idLocal)";
+
+        if (!empty($idClasse)) {
+            $id = implode(' ,',$idClasse);
+            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador AND cl.classProperty in
+                          (SELECT cp.idClassProperty FROM CacicCommonBundle:ClassProperty cp WHERE cp.idClass IN ($id)))";
+        } else {
+            $_dql .= "LEFT JOIN CacicCommonBundle:ComputadorColeta cl WITH (c.idComputador = cl.computador)";
+        }
+
+        $_dql .= "WHERE cl.computador IS NULL
                 AND (c.ativo IS NULL OR c.ativo = 't')
                 GROUP BY rede.idRede,
                         rede.nmRede,
