@@ -35,20 +35,20 @@
               <tbody>
 
                 {% for so in So %}
-                    <tr id="item_{{ so.idSo }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                        <td id="item_desc_{{ so.idSo }}">{{ so.teDescSo }}</td>
-                        <td style="text-align: center">{{ so.inMswindows |traduzFlagSimNao }}</td>
-                        <td style="text-align: center">{{ so.teSo  }}</td>
-                        <td style="text-align: center">{{ so.idSo }}</td>
-                        <td>{{ so.sgSo }}</td>
-                        <td></td>
-                        {% if so.tipo is empty %}
+                    <tr id="item_{{ so[0].idSo }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                        <td id="item_desc_{{ so[0].idSo }}">{{ so[0].teDescSo }}</td>
+                        <td style="text-align: center">{{ so[0].inMswindows |traduzFlagSimNao }}</td>
+                        <td style="text-align: center">{{ so[0].teSo  }}</td>
+                        <td style="text-align: center">{{ so[0].idSo }}</td>
+                        <td>{{ so[0].sgSo }}</td>
+                        <td>{{ so.nComp }}</td>
+                        {% if so[0].tipo is empty %}
                             <td></td>
                         {% else %}
-                            <td>{{ so.tipo.tipo }}</td>
+                            <td>{{ so[0].tipo.tipo }}</td>
                         {% endif %}
                         <td style="text-align: center" class="td-actions">
-                            <a href="{{ path('cacic_sistemaoperacional_editar', {'idSo': so.idSo }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
+                            <a href="{{ path('cacic_sistemaoperacional_editar', {'idSo': so[0].idSo }) }}" class="btn btn-small" title="{{ "Editar Item"|trans }}">
                                 <i class="btn-icon-only icon-edit icon-large"></i>
                             </a>
 

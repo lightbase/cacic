@@ -3,6 +3,7 @@
 namespace Cacic\CommonBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Knp\Component\Pager\Paginator;
 
 /**
  *
@@ -12,9 +13,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class SoRepository extends EntityRepository
 {
-    public function paginar( \Knp\Component\Pager\Paginator $paginator, $page = 1 )
+    public function paginar( Paginator $paginator, $page = 1 )
     {
-        $_dql = "SELECT s
+        $_dql = "SELECT s, (
+                  SELECT COUNT(comp.idComputador)
+                  FROM CacicCommonBundle:Computador comp
+                  WHERE (comp.ativo= 't' or comp.ativo IS NULL)
+                  AND comp.idSo = s.idSo
+                ) as nComp
 				FROM CacicCommonBundle:So s
 				ORDER BY s.teDescSo";
 
