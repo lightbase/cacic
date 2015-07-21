@@ -19,50 +19,45 @@
 
                     <form id={{ 'formComputadorConsulta'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" >
 
-                    <div class="control-group" >
-                        <label for="log_acesso_periodo"style="width:300px; margin-right: 15px" class="control-label">{{ 'Selecione os filtros da consulta'|trans }}</label>
-                        <div class="controls">
-                           {{ form_widget(form.selbuscaAvancada) }}
-                        </div>
-                    </div>
+                       {{ form_row(form.selbuscaAvancada) }}
 
-                    <div  id="teIpComputador" class="mostrarDiv"  style=" display: none; margin-left: 155px" >
-                        <div class="control-group" >
-                            <div class="controls">
-                                {{ form_widget(form.teIpComputador) }}
+                        <div  id="teIpComputador" class="mostrarDiv"  style=" display: none; margin-left: 155px" >
+                            {{ form_row(form.teIpComputador) }}
+                        </div>
+                        <div  id="nmComputador" class="mostrarDiv"  style="display:none; margin-left: 155px" >
+                            {{ form_row(form.nmComputador) }}
+                        </div>
+                        <div  id="teNodeAddress" class="mostrarDiv"  style="display: none; margin-left: 155px" >
+                            {{ form_row(form.teNodeAddress) }}
+                        </div>
+                        <div  id="dtHrInclusao"  class="mostrarDiv"  style="display: none;" >
+                            <div class="control-group">
+                                <label for="log_acesso_periodo" class="control-label col-sm-2 label-required">{{ 'Período'|trans }}</label>
+                                <div class="col-sm-8 control-group">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            {{ form_widget(form.dtHrInclusao, { 'attr': {'class': 'datepicker_on'} }) }}
+                                        </div>
+                                        <div class="col-xs-1">
+                                            <span>a</span>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {{ form_widget(form.dtHrInclusaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
+                                        </div>
+                                    </div>
+                                    <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div  id="nmComputador" class="mostrarDiv"  style="display:none; margin-left: 155px" >
-                        <div class="control-group" >
-                            <div class="controls">
-                                {{ form_widget(form.nmComputador) }}
+
+                        <div class="control-group">
+                            <div class="controls"  style=" margin-left: 155px">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="icon-search"></i>
+                                    {{ 'Consultar'|trans }}
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div  id="teNodeAddress" class="mostrarDiv"  style="display: none; margin-left: 155px" >
-                        <div class="control-group" >
-                            <div class="controls">
-                                {{ form_widget(form.teNodeAddress) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div  id="dtHrInclusao"  class="mostrarDiv"  style="display: none;" >
-                        <div class="control-group" >
-                            <div class="controls">
-                                {{ form_widget(form.dtHrInclusao, { 'attr': {'class': 'datepicker_on'} }) }}   a    {{ form_widget(form.dtHrInclusaoFim, { 'attr': {'class': 'datepicker_on'} }) }}
-                                <p class="help-block">{{ "Informe o período no qual deseja realizar a pesquisa."|trans }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="controls"  style=" margin-left: 155px">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="icon-search"></i>
-                                {{ 'Consultar'|trans }}
-                            </button>
-                        </div>
-                    </div>
                     </form>
                 </div> <!-- /block -->
             </div> <!-- /box -->

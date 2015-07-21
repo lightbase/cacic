@@ -92,6 +92,7 @@ class LogAcessoRepository extends EntityRepository
         $rsm->addScalarResult('nm_computador', 'nmComputador');
         $rsm->addScalarResult('id_so', 'idSo');
         $rsm->addScalarResult('sg_so', 'sgSo');
+        $rsm->addScalarResult('te_desc_so', 'teDescSo');
         $rsm->addScalarResult('id_rede', 'idRede');
         $rsm->addScalarResult('nm_rede', 'nmRede');
         $rsm->addScalarResult('te_ip_rede', 'teIpRede');
@@ -100,25 +101,26 @@ class LogAcessoRepository extends EntityRepository
         $rsm->addScalarResult('id_local', 'idLocal');
 
         $sql = "
-SELECT c0_.te_node_address AS te_node_address,
-	string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
-	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
-	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
-	string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
-	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
-	string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
-	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
-	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
-	max(l1_.data) AS max_data,
-	l4_.nm_local AS nm_local,
-	l4_.id_local AS id_local
-FROM log_acesso l1_
-INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
-INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
-INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
-INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
-WHERE  (c0_.ativo IS NULL or c0_.ativo = 't')
-";
+            SELECT c0_.te_node_address AS te_node_address,
+                string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
+                string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
+                string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
+                string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
+                string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
+                string_agg(DISTINCT s2_.te_desc_so, ', ') AS te_desc_so,
+                string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
+                string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
+                string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
+                max(l1_.data) AS max_data,
+                l4_.nm_local AS nm_local,
+                l4_.id_local AS id_local
+            FROM log_acesso l1_
+            INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
+            INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
+            INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
+            INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
+            WHERE  (c0_.ativo IS NULL or c0_.ativo = 't')
+        ";
 
         /**
          * Verifica os filtros que foram parametrizados
@@ -136,9 +138,9 @@ WHERE  (c0_.ativo IS NULL or c0_.ativo = 't')
         }
 
         $sql .= "
-GROUP BY c0_.te_node_address,
-	l4_.nm_local,
-	l4_.id_local
+            GROUP BY c0_.te_node_address,
+                l4_.nm_local,
+                l4_.id_local
         ";
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
@@ -151,12 +153,13 @@ GROUP BY c0_.te_node_address,
         }
 
 
-        if ( $dataFim )
+        if ( $dataFim ) {
             $query->setParameter(2, ( $dataFim.' 23:59:59' ));
+        }
 
-        if ( $idRede )
+        if ( $idRede ) {
             $query->setParameter(3, $idRede);
-
+        }
 
         return $query->execute();
     }
@@ -164,8 +167,20 @@ GROUP BY c0_.te_node_address,
     /*
      * Consulta para relatório de contendo ultimo usuário logado
      */
-    public function gerarRelatorioUsuario( $filtros, $filtroLocais, $dataInicio, $dataFim, $usuario, $nmComputador, $teIpComputador, $teNodeAddress, $usuarioPatrimonio, $usuarioName, $coordenacao, $sala )
-    {
+    public function gerarRelatorioUsuario(
+        $filtros,
+        $filtroLocais,
+        $dataInicio,
+        $dataFim,
+        $usuario,
+        $nmComputador,
+        $teIpComputador,
+        $teNodeAddress,
+        $usuarioPatrimonio,
+        $usuarioName,
+        $coordenacao,
+        $sala
+    ) {
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('te_node_address', 'teNodeAddress');
         $rsm->addScalarResult('id_computador', 'idComputador');
@@ -173,6 +188,7 @@ GROUP BY c0_.te_node_address,
         $rsm->addScalarResult('nm_computador', 'nmComputador');
         $rsm->addScalarResult('id_so', 'idSo');
         $rsm->addScalarResult('sg_so', 'sgSo');
+        $rsm->addScalarResult('te_desc_so', 'teDescSo');
         $rsm->addScalarResult('id_rede', 'idRede');
         $rsm->addScalarResult('nm_rede', 'nmRede');
         $rsm->addScalarResult('te_ip_rede', 'teIpRede');
@@ -188,20 +204,22 @@ GROUP BY c0_.te_node_address,
 
 
         $sql = "
-SELECT c0_.te_node_address AS te_node_address,
-	string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
-	string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
-	string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
-	string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
-	string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
-	string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
-	string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
-	string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
-    string_agg(DISTINCT c0_.te_ultimo_login, ', ') AS te_ultimo_login,
-    (SELECT cc5_.dt_hr_inclusao FROM computador_coleta cc5_
-          INNER JOIN class_property cp5_ ON cc5_.id_class_property = cp5_.id_class_property
-          WHERE cp5_.nm_property_name = 'UserLogado' AND cc5_.id_computador = cc_.id_computador LIMIT 1),
-    (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_ INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property WHERE cp1_.nm_property_name = 'UserName' AND cc1_.id_computador = cc_.id_computador";
+            SELECT c0_.te_node_address AS te_node_address,
+                string_agg(DISTINCT CAST(c0_.id_computador AS text), ', ') as id_computador,
+                string_agg(DISTINCT c0_.te_ip_computador, ', ') as te_ip_computador,
+                string_agg(DISTINCT c0_.nm_computador, ', ') AS nm_computador,
+                string_agg(DISTINCT CAST(s2_.id_so AS text), ', ') AS id_so,
+                string_agg(DISTINCT s2_.sg_so, ', ') AS sg_so,
+                string_agg(DISTINCT s2_.te_desc_so, ', ') AS te_desc_so,
+                string_agg(DISTINCT CAST(r3_.id_rede AS text), ', ') AS id_rede,
+                string_agg(DISTINCT r3_.nm_rede, ', ') AS nm_rede,
+                string_agg(DISTINCT r3_.te_ip_rede, ', ') AS te_ip_rede,
+                string_agg(DISTINCT c0_.te_ultimo_login, ', ') AS te_ultimo_login,
+                (SELECT cc5_.dt_hr_inclusao FROM computador_coleta cc5_
+                      INNER JOIN class_property cp5_ ON cc5_.id_class_property = cp5_.id_class_property
+                      WHERE cp5_.nm_property_name = 'UserLogado' AND cc5_.id_computador = cc_.id_computador LIMIT 1),
+                (SELECT cc1_.te_class_property_value FROM computador_coleta cc1_ INNER JOIN class_property cp1_ ON cc1_.id_class_property = cp1_.id_class_property WHERE cp1_.nm_property_name = 'UserName' AND cc1_.id_computador = cc_.id_computador
+        ";
 
         if ($usuarioPatrimonio) {
             $sql = $sql . " AND lower(cc1_.te_class_property_value) LIKE lower('%$usuarioPatrimonio%')";
@@ -233,19 +251,19 @@ SELECT c0_.te_node_address AS te_node_address,
 
 
         $sql = $sql . " LIMIT 1) AS sala,
-	max(l1_.data) AS max_data,
-	l4_.nm_local AS nm_local,
-	l4_.id_local AS id_local
-FROM log_acesso l1_
-INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
-INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
-INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
-INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
-INNER JOIN log_acesso la5_ ON c0_.id_computador = la5_.id_computador
-INNER JOIN computador_coleta cc_ ON cc_.id_computador = c0_.id_computador
-INNER JOIN class_property cp_ ON cp_.id_class_property = cc_.id_class_property
-WHERE (c0_.ativo IS NULL or c0_.ativo = 't'
-";
+                max(l1_.data) AS max_data,
+                l4_.nm_local AS nm_local,
+                l4_.id_local AS id_local
+            FROM log_acesso l1_
+            INNER JOIN computador c0_ ON l1_.id_computador = c0_.id_computador
+            INNER JOIN so s2_ ON c0_.id_so = s2_.id_so
+            INNER JOIN rede r3_ ON c0_.id_rede = r3_.id_rede
+            INNER JOIN local l4_ ON r3_.id_local = l4_.id_local
+            INNER JOIN log_acesso la5_ ON c0_.id_computador = la5_.id_computador
+            INNER JOIN computador_coleta cc_ ON cc_.id_computador = c0_.id_computador
+            INNER JOIN class_property cp_ ON cp_.id_class_property = cc_.id_class_property
+            WHERE (c0_.ativo IS NULL or c0_.ativo = 't'
+        ";
 
         /**
          * Verifica os filtros que foram parametrizados

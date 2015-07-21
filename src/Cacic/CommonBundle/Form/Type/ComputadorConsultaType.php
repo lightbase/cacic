@@ -24,6 +24,7 @@ class ComputadorConsultaType extends AbstractType
             array(
                 'empty_value' => 'Selecione',
                 'required'  => true,
+                'label' => 'Selecione o filtro para consulta',
                 'choices' => array(
                     'teIpComputador'=>'Endereço IP do Computador',
                     'teNodeAddress'=>'MAC Address do Computador',
@@ -37,8 +38,9 @@ class ComputadorConsultaType extends AbstractType
             array(
                 'empty_value' => 'Selecione',
                 'required'  => true,
+                'label' => 'Selecione o filtro para consulta',
                 'choices' => array(
-                    'teIpComputador'=>'Endereço IP do Coputador',
+                    'teIpComputador'=>'Endereço IP do Computador',
                     'teNodeAddress'=>'MAC Address do Computador',
                     'nmComputador'=>'Nome do Computador',
                     'dtHrInclusao'=>'Data de Inclusão',
@@ -48,7 +50,8 @@ class ComputadorConsultaType extends AbstractType
         $builder->add(
             'teIpComputador',
             null,
-            array( 'label'=>'',
+            array(
+                'label'=> 'IP do Computador',
                 'max_length'=>30,
                 'required'  => false
             )
@@ -56,12 +59,20 @@ class ComputadorConsultaType extends AbstractType
         $builder->add(
             'nmComputador',
             null,
-            array( 'label'=>'', 'max_length'=>30, 'required'  => false)
+            array(
+                'label'=>'Nome do computador',
+                'max_length'=>30,
+                'required'  => false
+            )
         );
          $builder->add(
              'teNodeAddress',
              null,
-             array( 'label'=>'', 'max_length'=>30, 'required'  => false)
+             array(
+                 'label'=> 'MAC Adddress',
+                 'max_length'=>30,
+                 'required'  => false
+             )
          );
         $builder->add(
                 'dtHrInclusao',
@@ -75,7 +86,8 @@ class ComputadorConsultaType extends AbstractType
                 'dtHrInclusaoFim',
             'text',
                 array(
-                    'label' => '','required'  => false
+                    'label' => '',
+                    'required'  => false
                 )
         );
     }

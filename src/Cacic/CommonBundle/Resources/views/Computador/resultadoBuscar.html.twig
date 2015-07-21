@@ -7,10 +7,11 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th width="30%" style="text-align: center">{{ "Nome da Máquina"|trans }}</th>
-                        <th width="30%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
-                        <th width="35%" style="text-align: center">{{ "Endereço MAC"|trans }}</th>
-                        <th width="25%" style="text-align: center">{{ "Versão Cacic"|trans }}</th>
+                        <th width="20%" style="text-align: center">{{ "Nome da Máquina"|trans }}</th>
+                        <th width="15%" style="text-align: center">{{ "Endereço IP"|trans }}</th>
+                        <th width="15%" style="text-align: center">{{ "Endereço MAC"|trans }}</th>
+                        <th width="25%" style="text-align: center;">{{ "Sistema Operacional"|trans }}</th>
+                        <th width="20%" style="text-align: center">{{ "Versão Cacic"|trans }}</th>
                         <th width="5%"></th>
                     </tr>
                     </thead>
@@ -23,6 +24,7 @@
                             <td style="text-align: center">{{ computador['nmComputador'] }}</td>
                             <td style="text-align: center">{{ computador['teIpComputador'] }}</td>
                             <td style="text-align: center">{{ computador['teNodeAddress'] }}</td>
+                            <td style="text-align: center;">{{ computador['teDescSo'] }}</td>
                             <td style="text-align: center">{{'Versão ' |trans }} {{ computador['teVersaoCacic'] }}</td>
                             <td>
                                 <a class="btn" href="{{ path("cacic_computador_detalhar") }}/{{ computador['idComputador'] }}" target="_blank">

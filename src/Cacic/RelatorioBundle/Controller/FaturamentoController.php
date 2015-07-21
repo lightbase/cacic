@@ -168,13 +168,24 @@ class FaturamentoController extends Controller {
         $locale = $request->getLocale();
         $dados = $this->getDoctrine()
             ->getRepository('CacicCommonBundle:LogAcesso')
-           ->gerarRelatorioRede($filtros = array(),$idRede, $dataInicio, $dataFim);
+            ->gerarRelatorioRede(
+                $filtros = array(),
+                $idRede,
+                $dataInicio,
+                $dataFim
+            );
+
+        if (empty($idRede)) {
+            $nmRede = null;
+        } else {
+            $nmRede = $dados[0]['nmRede'];
+        }
 
 
         return $this->render(
             'CacicRelatorioBundle:Faturamento:listar.html.twig',
             array(
-                'rede'=> $dados[0]['nmRede'],
+                'rede'=> $nmRede,
                 'idioma'=> $locale,
                 'dados' => ( isset( $dados ) ? $dados : null ),
                 'idRede' => $idRede,

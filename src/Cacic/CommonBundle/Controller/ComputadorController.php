@@ -214,18 +214,29 @@ class ComputadorController extends Controller
 
     public function buscarAction( Request $request )
     {
+        $locale = $request->getLocale();
         $form = $this->createForm( new ComputadorConsultaType() );
 
         if ( $request->isMethod('POST') )
         {
-            $form->bind( $request );
+            $form->handleRequest( $request );
             $data = $form->getData();
-            $locale = $request->getLocale();
             $filtroLocais = array(); // Inicializa array com locais a pesquisar
-            foreach ( $data['idLocal'] as $locais )
-                array_push( $filtroLocais, $locais->getIdLocal() );
+
+            if (array_key_exists('idLocal', $data)) {
+                foreach ( $data['idLocal'] as $locais ) {
+                    array_push( $filtroLocais, $locais->getIdLocal() );
+                }
+            }
+
             $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
-                ->selectIpAvancada($data['teIpComputador'],$data['nmComputador'] ,$data['teNodeAddress'],$data['dtHrInclusao'],$data['dtHrInclusaoFim'] );
+                ->selectIpAvancada(
+                    $data['teIpComputador'],
+                    $data['nmComputador'],
+                    $data['teNodeAddress'],
+                    $data['dtHrInclusao'],
+                    $data['dtHrInclusaoFim']
+                );
         }
 
         return $this->render( 'CacicCommonBundle:Computador:buscar.html.twig',
@@ -368,15 +379,24 @@ class ComputadorController extends Controller
         foreach ( $redes as $rede )
         {
             if (!empty($agrupar)) {
+                $url = $this->generateUrl( 'cacic_computador_loadcompnodes', array(
+                        'idSubrede' => $rede['idRede'],
+                        'agrupar' => true
+                    )
+                );
                 $label = "{$rede['teIpRede']} ({$rede['nmRede']}) [{$rede['numMac']}]";
             } else {
+                $url = $this->generateUrl( 'cacic_computador_loadcompnodes', array(
+                    'idSubrede'=>$rede['idRede']
+                    )
+                );
                 $label = "{$rede['teIpRede']} ({$rede['nmRede']}) [{$rede['numComp']}]";
             }
 
             $_tree[] = array(
                 'id'				=> $rede['idRede'],
                 'label' 			=> $label,
-                'url'				=> $this->generateUrl( 'cacic_computador_loadcompnodes', array('idSubrede'=>$rede['idRede']) ),
+                'url'				=> $url,
                 'type'				=> 'rede',
                 'load_on_demand' 	=> (bool) $rede['numComp']
             );
@@ -398,36 +418,98 @@ class ComputadorController extends Controller
             throw $this->createNotFoundException( 'Página não encontrada!' );
         }
 
-        $date = new \DateTime();
-        $date_30 = $date->sub(new \DateInterval('P30D'));
-        $date_60 = $date->sub(new \DateInterval('P60D'));
+        $logger = $this->get('logger');
 
-        $comps = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->listarPorSubrede( $request->get('idSubrede') );
+        $agrupar = $request->get('agrupar');
+        $idRede = $request->get('idSubrede');
+
+        $date = new \DateTime();
 
         # Monta um array no formato suportado pelo plugin-in jqTree (JQuery)
         $_tree = array();
-        foreach ( $comps as $comp )
-        {
-            $_label = ($comp->getNmComputador()?:'###') .' - '. $comp->getTeIpComputador();
-            if ( $comp->getIdSo() )	$_label .= ' - ' .$comp->getIdSo()->getSgSo();
 
-            // Calculate age
-            if ($comp->getDtHrUltAcesso() < $date_60) {
-                $color = "alert alert-danger";
-            } elseif ($comp->getDtHrUltAcesso() < $date_30) {
-                $color = "alert alert-warning";
-            } else {
-                $color = null;
-            }
-
-            $_tree[] = array(
-                'id'				=> $comp->getIdComputador(),
-                'label' 			=> $_label,
-                'type'				=> 'computador',
-                'load_on_demand' 	=> false,
-                'alert_class'             => $color
+        if (!empty($agrupar)) {
+            $comps = $this->getDoctrine()->getRepository( 'CacicCommonBundle:LogAcesso' )->gerarRelatorioRede(
+                $filtros = null,
+                $idRede,
+                $dataInicio = null,
+                $dataFim = null
             );
+
+            foreach ( $comps as $comp )
+            {
+                #$computadores = implode(", ", $comp['idComputador']);
+                if (is_array($comp['nmComputador'])) {
+                    $nomes = implode(", ", $comp['nmComputador']);
+                } else {
+                    $nomes = $comp['nmComputador'];
+                }
+
+                if (is_array($comp['teIpComputador'])) {
+                    $ips = implode(", ", $comp['teIpComputador']);
+                } else {
+                    $ips = $comp['teIpComputador'];
+                }
+
+                if (is_array($comp['teDescSo'])) {
+                    $so = implode(", ", $comp['sgSo']);
+                } else {
+                    $so = $comp['teDescSo'];
+                }
+
+                $_label = ($nomes?:'###') .' - ';
+                $_label .= $comp['teNodeAddress'] . ' - ' .$so;
+
+                // Calculate age
+                $now = new \DateTime($comp['data']);
+                $interval = intval($now->diff($date)->format('%R%a'));
+
+                if ($interval > 60) {
+                    $color = "alert alert-danger";
+                } elseif ($interval > 30) {
+                    $color = "alert alert-warning";
+                } else {
+                    $color = null;
+                }
+
+                $_tree[] = array(
+                    'id'				=> $comp['teNodeAddress'],
+                    'label' 			=> $_label,
+                    'type'				=> 'computador',
+                    'load_on_demand' 	=> false,
+                    'alert_class'       => $color
+                );
+            }
+        } else {
+            $comps = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador' )->listarPorSubrede( $idRede );
+
+            foreach ( $comps as $comp )
+            {
+                $_label = ($comp->getNmComputador()?:'###') .' - '. $comp->getTeIpComputador();
+                if ( $comp->getIdSo() )	$_label .= ' - ' .$comp->getIdSo()->getSgSo();
+
+                // Calculate age
+                $interval = intval($comp->getDtHrUltAcesso()->diff($date)->format('%R%a'));
+
+                // Calculate age
+                if ($interval > 60) {
+                    $color = "alert alert-danger";
+                } elseif ($interval > 30) {
+                    $color = "alert alert-warning";
+                } else {
+                    $color = null;
+                }
+
+                $_tree[] = array(
+                    'id'				=> $comp->getIdComputador(),
+                    'label' 			=> $_label,
+                    'type'				=> 'computador',
+                    'load_on_demand' 	=> false,
+                    'alert_class'       => $color
+                );
+            }
         }
+
 
         $response = new Response( json_encode( $_tree ) );
         $response->headers->set('Content-Type', 'application/json');

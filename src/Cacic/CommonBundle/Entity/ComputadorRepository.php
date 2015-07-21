@@ -67,24 +67,18 @@ class ComputadorRepository extends EntityRepository
     }
     public function selectIp( $teIpComputador , $nmComputador ,$teNodeAddress )    {
 
-
-        /*$query = $this->createQueryBuilder('comp')->select('comp.idComputador',
-            'comp.nmComputador',
-            'comp.teIpComputador',
-            'comp.teVersaoCacic',
-            'comp.teNodeAddress')
-            ->expr()->like('comp.teIpComputador', expr()->literal($teIpComputador));
-            /*->where('comp.teIpComputador LIKE % (:tipoPesquisa) ')
-            ->setParameter('comp.teIpComputador', $teIpComputador);*/
-
         $query = $this->createQueryBuilder('comp')
             ->select('comp.idComputador',
                 'comp.nmComputador',
                 'comp.teIpComputador',
                 'comp.teVersaoCacic',
                 'comp.dtHrUltAcesso',
-                'comp.teNodeAddress'
-            );
+                'comp.teNodeAddress',
+                'so.teDescSo',
+                'so.sgSo'
+            )
+            ->innerJoin("CacicCommonBundle:So", "so", "WITH", "comp.idSo = so.idSo");
+
         if ( $teIpComputador != null){
 
             $query->Where("comp.teIpComputador  LIKE   '%$teIpComputador%'");
@@ -109,8 +103,11 @@ class ComputadorRepository extends EntityRepository
                 'comp.nmComputador',
                 'comp.teIpComputador',
                 'comp.teVersaoCacic',
-                'comp.teNodeAddress'
-            );
+                'comp.teNodeAddress',
+                'so.teDescSo',
+                'so.sgSo'
+            )
+            ->innerJoin("CacicCommonBundle:So", "so", "WITH", "comp.idSo = so.idSo");
 
         if ( $teIpComputador != null){
 

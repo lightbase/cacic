@@ -2,7 +2,12 @@
 
 {% block body %}
 
-	<h2>{{ 'Relatório de máquinas da subrede '|trans }} {{ rede }}</h2>
+	{%  if rede is empty %}
+        <h2>{{ 'Relatório de estações de trabalho agrupadas por MAC (Faturamento)'|trans }}</h2>
+    {% else %}
+        <h2>{{ 'Relatório de máquinas da subrede '|trans }} {{ rede }}</h2>
+    {% endif %}
+
 	<h5>{{ 'Relatório gerado em'|trans }} {% if idioma == 'pt_BR' %}{{ "now"|date("d/m/Y H\\hi") }}{% else %}{{ "now"|date("d/m/Y H\\hi") }}{% endif %}</h5>
 
 	<hr />
