@@ -42,6 +42,7 @@ class AquisicaoItemType extends AbstractType
             null,
             array( 'label'=>'Quantidade de Licencas:', 'max_length'=>100 )
         );
+
         $builder->add('dtVencimentoLicenca',
             'date',
             array(

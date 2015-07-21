@@ -1,0 +1,172 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="active">{{ "Cadastrar Relatório"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row-fluid">
+
+        <div class="span8">
+            <div class="box grad_colour_black">
+
+                <h2 class="box_head round_top"><i class="icon-edit icon-large"></i> {{ "Cadastrar relatório de software"|trans }}</h2>
+
+                <div class="block box_content round_bottom padding_10">
+
+                    <form id={{ 'formrelatorio_software'|trans }} class="form-horizontal" action="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" method="post" {{ form_enctype(form) }}>
+
+                            <div class="control-group">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label required" for="relatorio_software_software">
+                                        Buscar software
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input id="relatorio_software_software" class="form-control" type="text"/>
+                                        <a class="btn" href="#" id="pesquisar">
+                                            <i class="icon-search"></i>
+                                            {{ "Pesquisar"|trans }}
+                                        </a>
+                                        <a class="btn" href="#" id="limpar">
+                                            <i class="icon-refresh"></i>
+                                            {{ "Limpar busca"|trans }}
+                                        </a>
+                                        <a class="btn" href="#" id="limpar-todos">
+                                            <i class="icon-refresh"></i>
+                                            {{ "Limpar todos"|trans }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group">
+
+                                <div class="form-group">
+
+                                    <label class="control-label col-sm-2 required" for="relatorio_software_software">
+                                        Selecione um Software
+                                    </label>
+
+                                    <div class="col-sm-8">
+
+                                        <div id="inserir"></div>
+                                        <div id="remover">
+
+                                            {% for software in software_list %}
+
+                                                <div class="checkbox" id="uniform-defined">
+                                                    <label>
+                                                        <input class="checkbox uniform_on" type="checkbox" name="idSoftware[]" value="{{software.idSoftware}}" checked>
+                                                        {{ software.nmSoftware }}
+                                                    </label>
+                                                </div>
+
+                                            {% else %}
+
+                                                {{ 'Clique no campo acima para buscar um software'|trans }}
+
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{ form_widget(form, {'form_type': 'horizontal'} ) }}
+                            {{ form_rest(form) }}
+
+                        <br />
+                        <div class="control-group">
+                            <div class="controls">
+                                <button type="reset" class="btn">
+                                    <i class="icon-refresh"></i>
+                                    {{ "Resetar Valores"|trans }}
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="icon-ok-sign"></i>
+                                    {{ "Salvar Dados"|trans }}
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                    <hr />
+
+                </div> <!-- /block -->
+            </div> <!-- /box -->
+        </div> <!-- /span8 -->
+        
+        <div class="span4">
+	        <div class="box grad_colour_black">
+	
+	            <h2 class="box_head round_top"><i class="icon-info-sign"></i> {{ "Informações Adicionais"|trans }}</h2>
+	                        
+	            <div class="block box_content round_bottom padding_10">
+	                <p>
+	                    {{ "Os itens destacados em"|trans }} <b class="red">{{ "vermelho"|trans }}</b> {{ "são de preenchimento obrigatório"|trans }}.
+	                </p>
+	            </div> <!-- /block -->
+	        </div> <!-- /box -->
+	    </div> <!-- span4 -->
+        
+    </div> <!-- /row -->
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    
+    <script src="{{ asset('bundles/caciccommon/js/jquery.ui.datepicker-pt-BR.js') }}"></script>
+    
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            $(".datepicker_on").datepicker({ altFormat: "dd/mm/yy" }).mask('99/99/9999');
+            
+        });
+
+        $("#AquisicaoItem_software").on("keyup keypress", function(e) {
+            var code = e.keyCode || e.which;
+            if (code  == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        $( '#limpar').click(function(){
+            $( '#inserir' ).empty();
+        });
+
+        $( '#limpar-todos').click(function(){
+            $( '#inserir' ).empty();
+            $( '#remover' ).empty();
+        });
+
+        $( "#pesquisar" ).click(function(){
+            var name = $("#relatorio_software_software").val();
+            var url = '{{ path('cacic_software_search') }}' + '/' + name;
+            $.ajax({
+                url: url,
+                cache: true
+            }).success(function(result) {
+                $( '#inserir' ).empty();
+                for(var i=0; i <= result.length; i++) {
+                    var software = result[i];
+                    //alert(software.nmSoftware);
+                    if (typeof software != 'undefined') {
+
+                        var html = '<div class="checkbox" id="uniform-defined"><label>';
+                        html = html + '<input class="checkbox uniform_on" type="checkbox" name="idSoftware[]" value="'+software.idSoftware+'" checked>';
+                        html = html + software.nmSoftware;
+                        html = html + '</label></div>';
+                        //alert(html);
+                        $( '#inserir').append(html);
+                    }
+                }
+            }).error(function() {
+            });
+        });
+
+    </script>
+
+{% endblock %}

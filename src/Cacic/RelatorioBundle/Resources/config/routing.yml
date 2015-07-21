@@ -322,3 +322,7 @@ cacic_relatorio_so_consolidado:
 cacic_relatorio_so_consolidado_csv:
     path: /so/consolidado/csv
     defaults: { _controller: CacicRelatorioBundle:So:consolidadoCsv }
+
+cacic_relatorio_software_cadastrar:
+    path: /software/cadastrar/{idRelatorio}
+    defaults: { _controller: CacicRelatorioBundle:Software:cadastrar, idRelatorio: null }

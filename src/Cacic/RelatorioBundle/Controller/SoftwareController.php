@@ -4,7 +4,6 @@ namespace Cacic\RelatorioBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Cacic\RelatorioBundle\Form\Type\FiltroSoftwareType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -15,6 +14,8 @@ use Ddeboer\DataImport\Writer\CsvWriter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
 use Ddeboer\DataImport\ValueConverter\CharsetValueConverter;
+use Cacic\RelatorioBundle\Form\Type\SoftwareRelatorioType;
+use Cacic\CommonBundle\Entity\SoftwareRelatorio;
 
 class SoftwareController extends Controller
 {
@@ -445,5 +446,81 @@ class SoftwareController extends Controller
         $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;
+    }
+
+    public function cadastrarAction(Request $request, $idRelatorio) {
+
+        $em = $this->getDoctrine()->getManager();
+        $locale = $request->getLocale();
+
+        if (empty($idRelatorio)) {
+            $software_relatorio = new SoftwareRelatorio();
+        } else {
+            $software_relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->find($idRelatorio);
+
+            if (empty($software_relatorio)) {
+                $this->createNotFoundException( 'Relatório não encontrado' );
+            }
+        }
+
+        $form = $this->createForm(new SoftwareRelatorioType(), $software_relatorio);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+
+
+                if (!empty($idRelatorio)) {
+                    $this->get('logger')->debug("Removendo softwares para id_relatorio = $idRelatorio");
+                    $sql = "DELETE FROM relatorios_software
+                    WHERE id_relatorio = $idRelatorio";
+                    $stmt = $em->getConnection()->prepare($sql);
+                    $stmt->execute();
+
+                    $em->flush();
+                }
+
+                $em->persist($software_relatorio);
+                $em->flush();
+
+                $idRelatorio = $software_relatorio->getIdRelatorio();
+
+                $software_list = $request->get('idSoftware');
+
+                // Garante qus os elementos do array são únicos
+                if (!empty($software_list)) {
+                    $software_list = array_unique($software_list);
+
+                    foreach ($software_list as $software) {
+                        $this->get('logger')->debug("Adicionando software ".$software);
+                        $sql = "INSERT INTO relatorios_software (id_relatorio, id_software)
+                      VALUES ($idRelatorio, $software)";
+                        $stmt = $em->getConnection()->prepare($sql);
+                        $stmt->execute();
+                    }
+                }
+
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+            } else {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    "<p>Erro na validação do formulário</p>
+                    <p>".$form->getErrors()."</p>"
+                );
+            }
+        }
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:cadastrar.html.twig',
+            array(
+                'idioma' => $locale,
+                'form' => $form->createView(),
+                'software_list' => $software_relatorio->getSoftwares()
+            )
+        );
+
     }
 }

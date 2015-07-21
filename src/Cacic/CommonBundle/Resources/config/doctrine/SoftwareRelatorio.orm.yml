@@ -1,0 +1,25 @@
+Cacic\CommonBundle\Entity\SoftwareRelatorio:
+    type: entity
+    table: software_relatorio
+    repositoryClass: Cacic\CommonBundle\Entity\SoftwareRelatorioRepository
+    fields:
+        idRelatorio:
+            id: true
+            type: integer
+            nullable: false
+            column: id_relatorio
+            generator:
+                strategy: IDENTITY
+        nomeRelatorio:
+            type: text
+            fixed: false
+            nullable: false
+            column: nome_relatorio
+    manyToMany:
+        softwares:
+            targetEntity: Software
+            mappedBy: relatorios
+    uniqueConstraints:
+        software_nm_relatorio_idx:
+            columns: [ nome_relatorio ]
+    lifecycleCallbacks: {  }

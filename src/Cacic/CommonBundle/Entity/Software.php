@@ -461,4 +461,42 @@ class Software
     {
         $this->aquisicoes->removeElement($aquisicoes);
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $relatorios;
+
+
+    /**
+     * Add relatorios
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareRelatorio $relatorios
+     * @return Software
+     */
+    public function addRelatorio(\Cacic\CommonBundle\Entity\SoftwareRelatorio $relatorios)
+    {
+        $this->relatorios[] = $relatorios;
+
+        return $this;
+    }
+
+    /**
+     * Remove relatorios
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareRelatorio $relatorios
+     */
+    public function removeRelatorio(\Cacic\CommonBundle\Entity\SoftwareRelatorio $relatorios)
+    {
+        $this->relatorios->removeElement($relatorios);
+    }
+
+    /**
+     * Get relatorios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRelatorios()
+    {
+        return $this->relatorios;
+    }
 }
