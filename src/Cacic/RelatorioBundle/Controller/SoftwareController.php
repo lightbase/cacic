@@ -523,4 +523,51 @@ class SoftwareController extends Controller
         );
 
     }
+
+    /**
+     * Relatório customizado de software
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function softwaresAction()
+    {
+        $locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->listar();
+        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
+        $redes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->listar();
+        $sw = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareRelatorio')->findAll();
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:softwares_filtro.html.twig',
+            array(
+                'softwares'	=> $sw,
+                'locais' 	=> $locais,
+                'redes'     => $redes,
+                'so'		=> $so
+            )
+        );
+    }
+
+    public function nomeAction(Request $request) {
+        $locale = $request->getLocale();
+        $filtros = $request->get('rel_filtro_software');
+
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:SoftwareRelatorio')
+            ->gerarRelatorio( $filtros );
+
+        $TotalnumComp = 0;
+
+        foreach ($dados as $cont){
+            $TotalnumComp += $cont['numComp'];
+        }
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:rel_softwares.html.twig',
+            array(
+                'idioma' =>$locale,
+                'dados' => $dados,
+                'totalnumcomp' => $TotalnumComp
+            )
+        );
+    }
 }

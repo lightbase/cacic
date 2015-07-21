@@ -127,6 +127,17 @@ dl dd { margin-bottom: 10px; }
 	box-sizing: content-box;
 	white-space: normal;
 }
+
+/* Corrige para o bootstrap transfer */
+.selector-chosen *,
+.selector-chosen *:before,
+.selector-chosen *:after {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    white-space: normal;
+}
+
 /* Firefox fieldset fix */
 @-moz-document url-prefix() {
 	fieldset { display: table-cell; }

@@ -12,4 +12,59 @@ use Doctrine\ORM\EntityRepository;
  */
 class SoftwareRelatorioRepository extends EntityRepository
 {
+    public function gerarRelatorio($filtros) {
+
+        $qb = $this->createQueryBuilder("rel")
+            ->select(
+                "so.teDescSo",
+                "so.idSo",
+                "loc.idLocal",
+                "loc.nmLocal",
+                "r.teIpRede",
+                "r.nmRede",
+                "r.idRede",
+                "rel.nomeRelatorio",
+                "rel.idRelatorio",
+                "COUNT(DISTINCT comp.idComputador) as numComp"
+            )
+            ->innerJoin("rel.softwares", "sw")
+            ->innerJoin("CacicCommonBundle:PropriedadeSoftware", "prop", "WITH", "sw.idSoftware = prop.software")
+            ->innerJoin("CacicCommonBundle:Computador", "comp", "WITH", "comp.idComputador = prop.computador")
+            ->innerJoin("CacicCommonBundle:So", "so", "WITH", "so.idSo = comp.idSo")
+            ->innerJoin("CacicCommonBundle:Rede", "r", "WITH", "comp.idRede = r.idRede")
+            ->innerJoin("CacicCommonBundle:Local", "loc", "WITH", "loc.idLocal = r.idLocal")
+            ->andWhere("comp.ativo IS NULL or comp.ativo = 't'")
+            ->groupBy("so.teDescSo",
+                "so.idSo",
+                "loc.idLocal",
+                "loc.nmLocal",
+                "r.teIpRede",
+                "r.nmRede",
+                "r.idRede",
+                "rel.nomeRelatorio",
+                "rel.idRelatorio"
+            );
+
+        if (!empty($filtros['softwares'])) {
+            $qb->andWhere("rel.idRelatorio IN (:softwares)")
+                ->setParameter('softwares', explode(", ", $filtros['softwares']));
+        }
+
+        if (!empty($filtros['locais'])) {
+            $local_filter = implode(", ", $filtros['locais']);
+            $qb->andWhere("loc.idLocal IN ($local_filter)");
+        }
+
+        if (!empty($filtros['redes'])) {
+            $rede_filter = implode(", ", $filtros['redes']);
+            $qb->andWhere("rel.idRelatorio IN ($rede_filter)");
+        }
+
+        if (!empty($filtros['so'])) {
+            $so_filter = implode(", ", $filtros['so']);
+            $qb->andWhere("rel.idRelatorio IN ($so_filter)");
+        }
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }

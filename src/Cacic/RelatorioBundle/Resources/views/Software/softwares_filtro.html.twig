@@ -1,0 +1,119 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+   <li class="active">{{ "Relatório de Softwares"|trans }}</li>
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/cacicrelatorio/libs/bootstrap-transfer-master/css/bootstrap-transfer.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/cacicrelatorio/libs/bootstrap-transfer-master/js/bootstrap-transfer.js') }}" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var tSW = $('#transferSW').bootstrapTransfer({'target_id':'tSw'});
+		    var tLoc = $('#transferLocais').bootstrapTransfer({'target_id':'tLoc'});
+		    var tSO = $('#transferSO').bootstrapTransfer({'target_id':'tSo'});
+            var tRede = $('#transferRede').bootstrapTransfer({'target_id':'tRede'});
+
+		    tSW.populate([ // Popula o TRANSFER com Softwares
+  		        {% for sw in softwares %}
+  		        	{
+						value: "{{ sw.idRelatorio }}",
+						content: "{{ sw.nomeRelatorio|json_encode() }}"
+					}{% if loop.last != true %},{% endif %}
+  		        {% endfor %}
+  		    ]);
+		    
+		    tLoc.populate([ // Popula o TRANSFER com Locais
+		        {% for l in locais %}
+		        {value: "{{ l[0]['idLocal'] }}", content:"{{ l[0]['nmLocal']|json_encode() ~ '/' ~ l[0]['sgLocal'] }}"}{% if loop.last != true %},{% endif %}
+		        
+		        {% endfor %}
+		    ]);
+
+            tRede.populate([ // Popula o TRANSFER com Locais
+                {% for r in redes %}
+                {value: "{{ r[0]['idRede'] }}", content:"{{ r[0]['nmRede']|json_encode() ~ '/' ~ r[0]['teIpRede'] }}"}{% if loop.last != true %},{% endif %}
+
+                {% endfor %}
+            ]);
+		    
+		    tSO.populate([ // Popula o TRANSFER com Sistemas Operacionais
+		        {% for _so in so %}
+		        {value: "{{ _so['idSo'] }}", content:"{{ _so['teDescSo']|json_encode() }}"}{% if loop.last != true %},{% endif %}
+		        
+		        {% endfor %}
+		    ]);
+
+			var transferToHidden = {
+					'form' : $('#frmFiltroRelatorioSWInventariado'),
+					'fieldsPrefix' : 'rel_filtro_software',
+					'elms' : [
+						{ 'transferElement' : tSW  , 'inputHiddenName' : 'softwares' },
+					    { 'transferElement' : tLoc , 'inputHiddenName' : 'locais' },
+                        { 'transferElement' : tRede , 'inputHiddenName' : 'redes' },
+		      			{ 'transferElement' : tSO  , 'inputHiddenName' : 'so' }
+      				]
+      		};
+
+			$('.selector-chooser a, a.selector-clearall, a.selector-chooseall').removeAttr('href').css('cursor', 'pointer');
+
+      		// Ativa o tratamento dos dados dos transfers a partir da submissão do formulário
+      		System.Form.bootStrapTransfer.handle( transferToHidden);
+      		
+		});
+	</script>
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box grad_colour_black">
+            <h2 class="box_head round_top"><i class="icon-list"></i> {{'Relatório de Softwares Inventariados' |trans }}</h2>
+            <div class="block box_content round_bottom padding_10">
+            
+            <h3>{{'Relatório de Softwares Inventariados' |trans }}</h3>
+            <p class="muted">
+            	{{ 'Este relatório exibe os softwares inventariados nos computadores das redes selecionadas.'|trans }}
+            	{{ 'É possível determinar quais softwares serão exibidos no relatório, os sistemas operacionais e a abrangência das redes.'|trans }}
+            </p>
+            <hr />
+            
+            <form method="post" id="frmFiltroRelatorioSWInventariado" class="form-horizontal" target="_blank" action="{{ path('cacic_relatorio_software_nome') }}">
+            
+	            <h4>{{ 'Selecione os Softwares que deseja exibir'|trans }}</h4>
+				<br>
+	            <div id="transferSW"></div>
+	            
+	            <h4>{{ 'Selecione os Locais'|trans }}</h4>
+	            <div id="transferLocais"></div>
+
+                <h4>{{ 'Selecione as Subredes'|trans }}</h4>
+                <div id="transferRede"></div>
+	            
+	            <h4>{{ 'Selecione os Sistemas Operacionais'|trans }}</h4>
+	            <div id="transferSO"></div>
+	            
+	            <hr />
+            	
+				<div align="center">
+					<button type="submit" class="btn btn-primary">
+						<i class="icon-bar-chart"></i>
+						{{ "Gerar Relatório"|trans }}
+					</button>
+				</div>
+            
+            </form>
+            
+            </div> <!-- /block -->
+        </div> <!-- /box -->
+    </div> <!-- /span -->
+</div> <!-- /row -->
+            
+
+{% endblock %}
