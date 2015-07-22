@@ -175,6 +175,14 @@ cacic_relatorio_software_detalhar_csv:
     path: /software/nome/detalhar/csv
     defaults: { _controller: CacicRelatorioBundle:Software:detalharCsv }
 
+cacic_relatorio_software_cadastrado_listar:
+    path: /software/cadastrado/listar
+    defaults: { _controller: CacicRelatorioBundle:Software:listarCadastrados }
+
+cacic_relatorio_software_cadastrado_excluir:
+    path: /software/cadastrado/excluir
+    defaults: { _controller: CacicRelatorioBundle:Software:excluirCadastrados }
+
 cacic_software_search:
   path: /search/software/{name}
   defaults: { _controller:CacicRelatorioBundle:Software:search, name:null }

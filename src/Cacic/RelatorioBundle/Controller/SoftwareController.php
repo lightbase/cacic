@@ -504,6 +504,8 @@ class SoftwareController extends Controller
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+
+                return $this->redirect($this->generateUrl('cacic_relatorio_software_cadastrado_listar') );
             } else {
                 $this->get('session')->getFlashBag()->add(
                     'error',
@@ -792,6 +794,54 @@ class SoftwareController extends Controller
         $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set('Content-Disposition', 'attachment; filename="Relatório-Software-Detalhado.csv"');
         $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
+
+    /**
+     * Lista relatórios de software cadastrados
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listarCadastradosAction(Request $request) {
+        $locale = $request->getLocale();
+        $em = $this->getDoctrine()->getManager();
+
+        $dados = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findAll();
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:listar_cadastrados.html.twig',
+            array(
+                'idioma' =>$locale,
+                'dados' => $dados
+            )
+        );
+    }
+
+    public function excluirCadastradosAction( Request $request )
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ( ! $request->isXmlHttpRequest() ) {
+            throw $this->createNotFoundException( 'Página não encontrada' );
+        }
+
+        $relatorio = $em->getRepository('CacicCommonBundle:SoftwareRelatorio')->find( $request->get('id') );
+
+        if (empty($relatorio)) {
+            throw $this->createNotFoundException( 'Relatório não encontrado' );
+        }
+
+        $em->remove( $relatorio );
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Relatório removido com sucesso!');
+
+        $response = new JsonResponse();
+        $response->setContent(json_encode(array(
+            'status' => 'ok'
+        )));
+        $response->setStatusCode(200);
 
         return $response;
     }
