@@ -79,7 +79,7 @@
   </div><!-- /span -->
 </div><!-- /row -->
     <!-- Modal para Vincular UORG's -->
-    <div id="vincularUORGs" title="{{ "Vincular UORG's"|trans }}">   </div>
+    <div id="vincularUORGs" title="{{ "Vincular UORG's"|trans }}" >   </div>
 
 {% endblock %}
 
@@ -114,7 +114,63 @@
 	<script type="text/javascript" src="{{ asset('bundles/caciccommon/jqTree-0.15/tree.jquery.js') }}"></script>
 
 	<script type="text/javascript">
+
         $( ".bt-vincular" ).click(function(){
+
+            var senha = $( '#uorg' ).val();
+
+            $( "#vincularUORGs" ).dialog({
+                autoOpen: true,
+                height: 550,
+                width: 550,
+                modal: true,
+                buttons: {
+                    "Salvar" : function(){
+                        var params = {
+                            'id' : $( this ).data( 'id' ),
+                            'uorg' :$( this ).data( 'val' )
+
+                        };
+                        $( this ).dialog( "close" );
+                        $.ajax(
+                                {
+                                    type: "POST",
+                                    url: "{{ path('cacic_subrede_vincular') }}",
+                                    cache: false,
+                                    async: false,
+                                    success: function( data )
+                                    {
+                                        System.Flash.show( 'Sucesso', 'Vinculação realizada com sucesso!' );
+                                    },
+                                    error: function( data )
+                                    {
+                                        System.Flash.show( 'Erro', 'Erro na solicitação' );
+                                    },
+                                    data: params
+                                }
+                        );
+
+                        $( this ).dialog( "close" );
+                    },
+                    "Cancelar" : function(){
+                        $( this ).dialog( "close" );
+                    }
+                },
+                show: { effect: "fade", duration: 500 },
+                hide: { effect: "fade", duration: 500 },
+                open: function(event,ui){
+                    // Impede que o overlay trave a tela
+                    $('.ui-widget-overlay').addClass('overlay-hidden');
+                },
+                beforeClose: function(event,ui){
+                    $('.ui-widget-overlay').removeClass('overlay-hidden');
+                },
+                close: function( event, ui ){
+                    // Limpa os campos do formulário
+
+                }
+
+            });
 
             var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
 
@@ -122,105 +178,60 @@
 
 
             var _dados = [ // Unidades de primeiro nível
-			{% for uorg in uorgs %}
-			{
-				label: '{{ uorg.nmUorg }}',
-				id: {{ uorg.idUorg }},
-                rede: {% if uorg.idRede > 0%}{{ uorg.idRede }}{% else %}0{% endif %},
-				filha: {{ uorg.numFilhas }},
-				load_on_demand: {% if uorg.numFilhas  %}true {% else %}false{% endif %}
+                {% for uorg in uorgs %}
+                    {
+                        label: '{{ uorg.nmUorg }}',
+                        id: {{ uorg.idUorg }},
+                        rede: {% if uorg.idRede > 0%}{{ uorg.idRede }}{% else %}0{% endif %},
+                        filha: {{ uorg.numFilhas }},
+                        load_on_demand: {% if uorg.numFilhas  %}true {% else %}false{% endif %}
 
-			}{% if loop.last != true %},{% endif %}
+                    }{% if loop.last != true %},{% endif %}
 
-			{% endfor %}
-		];
+                {% endfor %}
+            ];
 
-		$(function() {
-			$('#vincularUORGs').tree({
-				data: _dados,
-				dataUrl: function( node ) {
-					return '{{ path('cacic_uorg_loadnodes') }}/'+ node.id +'';
-				},
-				onCreateLi: function(node, $li) {
-
-                        console.log(id);
-						if(node.filha <= 0){
-                            if(node.rede == id){
-                                var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" checked name="uorg" value="'+node.id+'" /></a> '
-                            }else{
-							    var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" name="uorg" value="'+node.id+'" /></a> '
-						    }
-                        }
-
-						if(node.filho <= 0){
-                            if(node.rede == id){
-                                var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" checked name="uorg" value="'+node.id+'" /></a> '
-                            }else{
-							    var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" name="uorg" value="'+node.id+'" /></a> '
+            $(function() {
+                $('#vincularUORGs').tree({
+                    data: _dados,
+                    dataUrl: function( node ) {
+                        return '{{ path('cacic_uorg_loadnodes') }}/'+ node.id +'';
+                    },
+                    onCreateLi: function(node, $li) {
+                            if(node.filha <= 0){
+                                if(node.rede == id){
+                                    var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" checked name="uorg" value="'+node.id+'" /></a> '
+                                }else{
+                                    var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" name="uorg" value="'+node.id+'" /></a> '
+                                }
                             }
-						}
 
-					$li.find('span.jqtree-title').after( _acoesNode );
+                            if(node.filho <= 0){
+                                if(node.rede == id){
+                                    var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" checked name="uorg" value="'+node.id+'" /></a> '
+                                }else{
+                                    var _acoesNode =  ' <a onclick="('+ node.id +');"> <input type="checkbox" name="uorg" value="'+node.id+'" /></a> '
+                                }
+                            }
 
-					// Substitui a "seta" indicadora de existência de filhos
-					//$li.find('a.jqtree-toggler').html('<i class="icon-folder-close-alt"></i>');
-				},
-				autoEscape: false
-			});
-		});
-		$(function(){
-			$('#vincularUORGs').click(function(){
-				var val = [];
-				$(':checkbox:checked').each(function(i){
-					val[i] = $(this).val();
+                        $li.find('span.jqtree-title').after( _acoesNode );
 
-				});
-				$( this).data(  'val', val).dialog( "open" );
-			});
-		});
-		var senha = $( '#uorg' ).val();
-        $( "#vincularUORGs" ).dialog({
-            autoOpen: true,
-            height: 550,
-            width: 550,
-            modal: true,
-            buttons: {
-                "Salvar" : function(){
-					var params = {
-						'id' : $( this ).data( 'id' ),
-						'uorg' :$( this ).data( 'val' )
+                        // Substitui a "seta" indicadora de existência de filhos
+                        //$li.find('a.jqtree-toggler').html('<i class="icon-folder-close-alt"></i>');
+                    },
+                    autoEscape: false
+                });
+            });
+            $(function(){
+                $('#vincularUORGs').click(function(){
+                    var val = [];
+                    $(':checkbox:checked').each(function(i){
+                        val[i] = $(this).val();
 
-				};
-					$( this ).dialog( "close" );
-					$.ajax(
-							{
-								type: "POST",
-								url: "{{ path('cacic_subrede_vincular') }}",
-								cache: false,
-								async: false,
-								success: function( data )
-								{
-									System.Flash.show( 'Sucesso', 'Vinculação realizada com sucesso!' );
-								},
-								error: function( data )
-								{
-									System.Flash.show( 'Erro', 'Erro na solicitação' );
-								},
-								data: params
-							}
-					);
-
-		$( this ).dialog( "close" );
-                },
-                "Cancelar" : function(){
-                    $( this ).dialog( "close" );
-                }
-            },
-            show: { effect: "fade", duration: 500 },
-            hide: { effect: "fade", duration: 500 }
-
-        });
-
+                    });
+                    $( this).data(  'val', val).dialog( "open" );
+                });
+            });
 
         });
     </script>

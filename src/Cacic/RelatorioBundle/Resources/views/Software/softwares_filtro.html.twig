@@ -86,7 +86,11 @@
                 <i class="icon-plus-sign"></i>
                 {{ "Cadastrar relatório"|trans }}
             </a>
-            <hr />
+                <a class="btn btn-success" href="{{ path('cacic_relatorio_software_cadastrado_listar') }}"target="_blank">
+                    <i class="icon-search"></i>
+                    {{ "Consultar relatórios cadastrados"|trans }}
+                </a>
+                <hr />
             
             <form method="post" id="frmFiltroRelatorioSWInventariado" class="form-horizontal" target="_blank" action="{{ path('cacic_relatorio_software_nome') }}">
             
