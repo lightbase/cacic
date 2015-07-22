@@ -167,6 +167,14 @@ cacic_relatorio_software_detalhar:
     path: /software/nome/detalhar
     defaults: { _controller: CacicRelatorioBundle:Software:detalhar }
 
+cacic_relatorio_software_nome_csv:
+    path: /software/nome/csv
+    defaults: { _controller: CacicRelatorioBundle:Software:nomeCsv }
+
+cacic_relatorio_software_detalhar_csv:
+    path: /software/nome/detalhar/csv
+    defaults: { _controller: CacicRelatorioBundle:Software:detalharCsv }
+
 cacic_software_search:
   path: /search/software/{name}
   defaults: { _controller:CacicRelatorioBundle:Software:search, name:null }

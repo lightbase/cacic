@@ -548,6 +548,8 @@ class SoftwareController extends Controller
     }
 
     /**
+     * Relatório de software customizado
+     *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -574,11 +576,18 @@ class SoftwareController extends Controller
             array(
                 'idioma' =>$locale,
                 'dados' => $dados,
-                'totalnumcomp' => $TotalnumComp
+                'totalnumcomp' => $TotalnumComp,
+                'filtros' => $filtros
             )
         );
     }
 
+    /**
+     * Lista de computadores do relatório de software customizado
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function detalharAction(Request $request) {
         $locale = $request->getLocale();
         $em = $this->getDoctrine()->getManager();
@@ -638,8 +647,153 @@ class SoftwareController extends Controller
             array(
                 'idioma' =>$locale,
                 'dados' => $dados,
-                'softwares' => $saida
+                'softwares' => $saida,
+                'filtros' => $filtros
             )
         );
     }
+
+    public function nomeCsvAction(Request $request) {
+        $locale = $request->getLocale();
+
+        $idRelatorio = $request->get('idRelatorio');
+        $nomeRelatorio = $request->get('nomeRelatorio');
+        $idLocal = $request->get('idLocal');
+        $idRede = $request->get('idRede');
+        $idSo = $request->get('idSo');
+
+        $filtros = array(
+            'softwares' => $idRelatorio,
+            'nomeRelatorio' => $nomeRelatorio,
+            'locais' => $idLocal,
+            'redes' => $idRede,
+            'so' => $idSo
+        );
+
+        $dados = $this->getDoctrine()
+            ->getRepository('CacicCommonBundle:SoftwareRelatorio')
+            ->gerarRelatorioCsv( $filtros );
+
+        // Gera CSV
+        $reader = new ArrayReader($dados);
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), 'Relatorio-Software.csv');
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $writer->writeItem(array('Local', 'IP da Subrede', 'Rede', 'Nome do relatório', 'Total de Estações'));
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="Relatório-Software.csv"');
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+
+    }
+
+    public function detalharCsvAction(Request $request) {
+        $locale = $request->getLocale();
+        $em = $this->getDoctrine()->getManager();
+
+        $idRelatorio = $request->get('idRelatorio');
+        $nomeRelatorio = $request->get('nomeRelatorio');
+        $idLocal = $request->get('idLocal');
+        $idRede = $request->get('idRede');
+        $idSo = $request->get('idSo');
+
+        $filtros = array(
+            'softwares' => $idRelatorio,
+            'nomeRelatorio' => $nomeRelatorio,
+            'locais' => $idLocal,
+            'redes' => $idRede,
+            'so' => $idSo
+        );
+
+        $saida = array();
+        if (is_array($idRelatorio) && !empty($idRelatorio)) {
+            foreach ($idRelatorio as $elm) {
+                $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->find($elm);
+                if (!empty($relatorio)) {
+                    array_push($saida, $relatorio);
+                }
+            }
+        } elseif(!empty($idRelatorio)) {
+            $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->find($idRelatorio);
+            if (!empty($relatorio)) {
+                array_push($saida, $relatorio);
+            }
+        }
+
+        if (is_array($nomeRelatorio) && !empty($nomeRelatorio)) {
+            foreach ($nomeRelatorio as $elm) {
+                $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findOneBy(array(
+                    'nomeRelatorio' => $elm
+                ));
+                if (!empty($relatorio)) {
+                    array_push($saida, $relatorio);
+                }
+            }
+        } elseif(!empty($nomeRelatorio)) {
+            $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findOneBy(array(
+                'nomeRelatorio' => $nomeRelatorio
+            ));
+            if (!empty($relatorio)) {
+                array_push($saida, $relatorio);
+            }
+        }
+
+        $dados = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->gerarRelatorioDetalharCsv($filtros);
+
+        // Gera CSV
+        $reader = new ArrayReader($dados);
+
+        // Create the workflow from the reader
+        $workflow = new Workflow($reader);
+
+        $converter = new CallbackValueConverter(function ($input) {
+            return $input->format('d/m/Y H:m:s');
+        });
+        $workflow->addValueConverter('dtHrUltAcesso', $converter);
+
+        $workflow->addValueConverter("reader",new CharsetValueConverter('UTF-8',$reader));
+
+        // Add the writer to the workflow
+        $tmpfile = tempnam(sys_get_temp_dir(), 'Relatorio-Software-Detalhado.csv');
+        $file = new \SplFileObject($tmpfile, 'w');
+        $writer = new CsvWriter($file);
+        $writer->writeItem(array(
+            'Computador',
+            'MAC Address',
+            'Endereço IP',
+            'Sistema Operacional',
+            'Local',
+            'Ip da Rede',
+            'Nome da Rede',
+            'Data/Hora do Último Acesso'
+        ));
+        $workflow->addWriter($writer);
+
+        // Process the workflow
+        $workflow->process();
+
+        // Retorna o arquivo
+        $response = new BinaryFileResponse($tmpfile);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="Relatório-Software-Detalhado.csv"');
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
+
+        return $response;
+    }
+
 }
