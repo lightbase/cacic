@@ -547,6 +547,10 @@ class SoftwareController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function nomeAction(Request $request) {
         $locale = $request->getLocale();
         $filtros = $request->get('rel_filtro_software');
@@ -555,10 +559,14 @@ class SoftwareController extends Controller
             ->getRepository('CacicCommonBundle:SoftwareRelatorio')
             ->gerarRelatorio( $filtros );
 
-        $TotalnumComp = 0;
 
+        $TotalnumComp = array();
         foreach ($dados as $cont){
-            $TotalnumComp += $cont['numComp'];
+            if (!array_key_exists($cont['nomeRelatorio'], $TotalnumComp)) {
+                $TotalnumComp[$cont['nomeRelatorio']] = $cont['numComp'];
+            } else {
+                $TotalnumComp[$cont['nomeRelatorio']] += $cont['numComp'];
+            }
         }
 
         return $this->render(
@@ -567,6 +575,70 @@ class SoftwareController extends Controller
                 'idioma' =>$locale,
                 'dados' => $dados,
                 'totalnumcomp' => $TotalnumComp
+            )
+        );
+    }
+
+    public function detalharAction(Request $request) {
+        $locale = $request->getLocale();
+        $em = $this->getDoctrine()->getManager();
+
+        $idRelatorio = $request->get('idRelatorio');
+        $nomeRelatorio = $request->get('nomeRelatorio');
+        $idLocal = $request->get('idLocal');
+        $idRede = $request->get('idRede');
+        $idSo = $request->get('idSo');
+
+        $filtros = array(
+            'softwares' => $idRelatorio,
+            'nomeRelatorio' => $nomeRelatorio,
+            'locais' => $idLocal,
+            'redes' => $idRede,
+            'so' => $idSo
+        );
+
+        $saida = array();
+        if (is_array($idRelatorio) && !empty($idRelatorio)) {
+            foreach ($idRelatorio as $elm) {
+                $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->find($elm);
+                if (!empty($relatorio)) {
+                    array_push($saida, $relatorio);
+                }
+            }
+        } elseif(!empty($idRelatorio)) {
+            $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->find($idRelatorio);
+            if (!empty($relatorio)) {
+                array_push($saida, $relatorio);
+            }
+        }
+
+        if (is_array($nomeRelatorio) && !empty($nomeRelatorio)) {
+            foreach ($nomeRelatorio as $elm) {
+                $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findOneBy(array(
+                    'nomeRelatorio' => $elm
+                ));
+                if (!empty($relatorio)) {
+                    array_push($saida, $relatorio);
+                }
+            }
+        } elseif(!empty($nomeRelatorio)) {
+            $relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findOneBy(array(
+                'nomeRelatorio' => $nomeRelatorio
+            ));
+            if (!empty($relatorio)) {
+                array_push($saida, $relatorio);
+            }
+        }
+
+        $dados = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->gerarRelatorioDetalhar($filtros);
+
+
+        return $this->render(
+            'CacicRelatorioBundle:Software:rel_softwares_detalhar.html.twig',
+            array(
+                'idioma' =>$locale,
+                'dados' => $dados,
+                'softwares' => $saida
             )
         );
     }

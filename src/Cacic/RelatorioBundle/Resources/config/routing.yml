@@ -2,6 +2,10 @@ cacic_relatorio_autorizacoes:
     path: /autorizacoes
     defaults: { _controller: CacicRelatorioBundle:Default:autorizacoes }
 
+##########
+# FATURAMENTO
+##########
+
 cacic_relatorio_faturamento:
     path: /faturamento
     defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamento }
@@ -18,6 +22,58 @@ cacic_relatorio_faturamento_listar:
     requirements:
         idRede: \d+
 
+cacic_relatorio_inativos:
+    path: /inativos
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:inativos }
+    methods: ['GET']
+
+cacic_relatorio_inativos_rel:
+     path: /inativos
+     defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosRelatorio }
+     methods: ['POST']
+
+cacic_relatorio_inativos_listar:
+    path: software/inativos/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:listarInativos, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+
+
+cacic_faturamento_csv:
+    path: /faturamento/csv
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsv }
+    methods: ['POST']
+
+cacic_faturamento_csv_interno:
+    path: /faturamento/csv/interno
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsvInterno }
+    methods: ['POST']
+
+cacic_inativos_csv:
+    path: /inativos/csv
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosCsv }
+    methods: ['GET']
+
+cacic_inativos_csv_inicial:
+    path: /inativos/csv
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosCsv }
+    methods: ['POST']
+
+cacic_faturamento_listar_csv:
+    path: /faturamento/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:listarCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+
+
+cacic_inativos_listar_csv:
+    path: /inativos/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
+    defaults: { _controller: CacicRelatorioBundle:Faturamento:listarInativosCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
+    requirements:
+        idRede: \d+
+
+#####################
+# PATRIMÔNIO
+#####################
+
 cacic_relatorio_patrimonio:
     path: /patrimonio
     defaults: { _controller: CacicRelatorioBundle:Default:patrimonio }
@@ -27,6 +83,10 @@ cacic_relatorio_patrimonio_relatorios:
     path: /patrimonio
     defaults: { _controller: CacicRelatorioBundle:Default:patrimonioRelatorio }
     methods: ['POST']
+
+#############################
+# SOFTWARE
+#############################
 
 cacic_relatorio_software_inventariados:
     path: /software/inventariados
@@ -91,6 +151,35 @@ cacic_relatorio_software_naoVinculados:
     path: /software/naovinculados
     defaults: { _controller: CacicRelatorioBundle:Software:naoVinculadosRelatorio }
 
+cacic_relatorio_software_cadastrar:
+    path: /software/cadastrar/{idRelatorio}
+    defaults: { _controller: CacicRelatorioBundle:Software:cadastrar, idRelatorio: null }
+
+cacic_relatorio_software_relatorio:
+    path: /software
+    defaults: { _controller: CacicRelatorioBundle:Software:softwares }
+
+cacic_relatorio_software_nome:
+    path: /software/nome
+    defaults: { _controller: CacicRelatorioBundle:Software:nome }
+
+cacic_relatorio_software_detalhar:
+    path: /software/nome/detalhar
+    defaults: { _controller: CacicRelatorioBundle:Software:detalhar }
+
+cacic_software_search:
+  path: /search/software/{name}
+  defaults: { _controller:CacicRelatorioBundle:Software:search, name:null }
+  methods: ['GET']
+
+cacic_relatorio_software_aquisicoes_det_csv:
+    path: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}/csv
+    defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhadoCsv }
+
+################################
+# HARDWARE
+################################
+
 cacic_relatorio_hardware_configuracoes:
     path: /hardware/configuracoes
     defaults: { _controller: CacicRelatorioBundle:Hardware:configuracoes }
@@ -151,54 +240,6 @@ cacic_relatorio_hardware_wmi_detalhe:
     path: /hardware/{classe}/{propriedade}
     defaults: { _controller: CacicRelatorioBundle:Hardware:wmiRelatorioDetalhe }
 
-cacic_relatorio_inativos:
-    path: /inativos
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:inativos }
-    methods: ['GET']
-
-cacic_relatorio_inativos_rel:
-     path: /inativos
-     defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosRelatorio }
-     methods: ['POST']
-
-cacic_relatorio_inativos_listar:
-    path: software/inativos/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:listarInativos, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
-    requirements:
-        idRede: \d+
-
-cacic_faturamento_csv:
-    path: /faturamento/csv
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsv }
-    methods: ['POST']
-
-cacic_faturamento_csv_interno:
-    path: /faturamento/csv/interno
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:faturamentoCsvInterno }
-    methods: ['POST']
-
-cacic_inativos_csv:
-    path: /inativos/csv
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosCsv }
-    methods: ['GET']
-
-cacic_inativos_csv_inicial:
-    path: /inativos/csv
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:inativosCsv }
-    methods: ['POST']
-
-cacic_faturamento_listar_csv:
-    path: /faturamento/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:listarCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
-    requirements:
-        idRede: \d+
-
-cacic_inativos_listar_csv:
-    path: /inativos/listar/csv/{idRede}/{dtAcaoInicio}/{dtAcaoFim}
-    defaults: { _controller: CacicRelatorioBundle:Faturamento:listarInativosCsv, idRede: null, dtAcaoInicio: null, dtAcaoFim: null }
-    requirements:
-        idRede: \d+
-
 cacic_relatorio_csv_hardware_wmi:
     path: /csv/hardware/{classe}
     defaults: { _controller: CacicRelatorioBundle:Hardware:csvWMIRelatorio }
@@ -206,6 +247,10 @@ cacic_relatorio_csv_hardware_wmi:
 cacic_relatorio_csv_hardware_wmi_detalhe:
     path: /csv/hardware/{classe}/{propriedade}
     defaults: { _controller: CacicRelatorioBundle:Hardware:csvWMIRelatorioDetalhe }
+
+#####################################
+# COMPUTADOR
+#######################################
 
 cacic_faturamento_computador:
     path: /faturamento/computador
@@ -236,15 +281,6 @@ cacic_computador_historico:
   defaults: { _controller: CacicRelatorioBundle:Computador:historico, idComputador: null, classe: null}
   requirements:
     idComputador: \d+
-
-cacic_software_search:
-  path: /search/software/{name}
-  defaults: { _controller:CacicRelatorioBundle:Software:search, name:null }
-  methods: ['GET']
-
-cacic_relatorio_software_aquisicoes_det_csv:
-    path: /software/aquisicoes/{idAquisicao}/{idTipoLicenca}/csv
-    defaults: { _controller: CacicRelatorioBundle:Software:aquisicoesDetalhadoCsv }
 
 cacic_relatorio_computador:
     path: /computador
@@ -322,15 +358,3 @@ cacic_relatorio_so_consolidado:
 cacic_relatorio_so_consolidado_csv:
     path: /so/consolidado/csv
     defaults: { _controller: CacicRelatorioBundle:So:consolidadoCsv }
-
-cacic_relatorio_software_cadastrar:
-    path: /software/cadastrar/{idRelatorio}
-    defaults: { _controller: CacicRelatorioBundle:Software:cadastrar, idRelatorio: null }
-
-cacic_relatorio_software_relatorio:
-    path: /software
-    defaults: { _controller: CacicRelatorioBundle:Software:softwares }
-
-cacic_relatorio_software_nome:
-    path: /software/nome
-    defaults: { _controller: CacicRelatorioBundle:Software:nome }
