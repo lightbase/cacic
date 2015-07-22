@@ -284,3 +284,10 @@ Cacic\CommonBundle\Entity\PatrimonioConfigInterface:
             - NotBlank: ~
             - Choice:
                 choices:  [S, N]
+
+Cacic\CommonBundle\Entity\SoftwareRelatorio:
+    properties:
+        nivelAcesso:
+            - Choice:
+                choices: [publico, restrito, pessoal]
+                message: "As opçoes validas sao publico, restrito ou pessoal"

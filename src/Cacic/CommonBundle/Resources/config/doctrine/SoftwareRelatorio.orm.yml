@@ -15,10 +15,23 @@ Cacic\CommonBundle\Entity\SoftwareRelatorio:
             fixed: false
             nullable: false
             column: nome_relatorio
+        nivelAcesso:
+            type: text
+            nullable: false
+            column: nivel_acesso
     manyToMany:
         softwares:
             targetEntity: Software
             mappedBy: relatorios
+    manyToOne:
+        idUsuario:
+            targetEntity: Usuario
+            cascade: {}
+            inversedBy: relatorios
+            joinColumns:
+                id_usuario:
+                    referencedColumnName: id_usuario
+                    nullable: false
     uniqueConstraints:
         software_nm_relatorio_idx:
             columns: [ nome_relatorio ]

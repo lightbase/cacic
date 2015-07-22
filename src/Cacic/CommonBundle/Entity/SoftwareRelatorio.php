@@ -97,4 +97,60 @@ class SoftwareRelatorio
     {
         return $this->softwares;
     }
+    /**
+     * @var \Cacic\CommonBundle\Entity\Usuario
+     */
+    private $idUsuario;
+
+
+    /**
+     * Set idUsuario
+     *
+     * @param \Cacic\CommonBundle\Entity\Usuario $idUsuario
+     * @return SoftwareRelatorio
+     */
+    public function setIdUsuario(\Cacic\CommonBundle\Entity\Usuario $idUsuario = null)
+    {
+        $this->idUsuario = $idUsuario;
+
+        return $this;
+    }
+
+    /**
+     * Get idUsuario
+     *
+     * @return \Cacic\CommonBundle\Entity\Usuario 
+     */
+    public function getIdUsuario()
+    {
+        return $this->idUsuario;
+    }
+    /**
+     * @var string
+     */
+    private $nivelAcesso;
+
+
+    /**
+     * Set nivelAcesso
+     *
+     * @param string $nivelAcesso
+     * @return SoftwareRelatorio
+     */
+    public function setNivelAcesso($nivelAcesso)
+    {
+        $this->nivelAcesso = $nivelAcesso;
+
+        return $this;
+    }
+
+    /**
+     * Get nivelAcesso
+     *
+     * @return string 
+     */
+    public function getNivelAcesso()
+    {
+        return $this->nivelAcesso;
+    }
 }

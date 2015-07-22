@@ -13,6 +13,7 @@ use Ddeboer\DataImport\Workflow;
 use Ddeboer\DataImport\Reader\ArrayReader;
 use Ddeboer\DataImport\Writer\CsvWriter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\Form\FormError;
 
 class UsuarioController extends Controller
 {
@@ -95,17 +96,25 @@ class UsuarioController extends Controller
     public function cadastrarAction( Request $request)
     {
 		$usuario = new Usuario();
-		$form = $this->createForm( new UsuarioType(), $usuario );
+		$form = $this->createForm( new UsuarioType($this->get('security.authorization_checker')), $usuario );
 
 		if ( $request->isMethod('POST') )
 		{
-			$form->bind( $request );
-			
-			# Gera uma senha aleatória para o novo Usuário
-			$form->getData()->_gerarSenhaAleatoria( $this->container->getParameter('cacic_senha_algorithm') );
+			$form->handleRequest( $request );
+
+            $securityContext = $this->container->get('security.context');
+            if ($securityContext->isGranted('ROLE_ADMIN')) {
+                if ($usuario->getTeSenha() != $form['teSenhaConfirma']->getData()) {
+                    $form->addError(new FormError("A confirmação e a senha são diferentes"));
+                }
+            } else {
+                # Gera uma senha aleatória para o novo Usuário
+                $form->getData()->_gerarSenhaAleatoria( $this->container->getParameter('cacic_senha_algorithm') );
+            }
 			
 			if ( $form->isValid() )
 			{
+
 				$this->getDoctrine()->getManager()->persist( $usuario );
 				$this->getDoctrine()->getManager()->flush(); //Persiste os dados do Usuário
 				
@@ -134,7 +143,7 @@ class UsuarioController extends Controller
 		if ( ! $usuario )
 			throw $this->createNotFoundException( 'Usuário não encontrado' );
 		
-		$form = $this->createForm( new UsuarioType(), $usuario );
+		$form = $this->createForm( new UsuarioType($this->get('security.authorization_checker')), $usuario );
 
         // Check if user has permission to generate API
         $securityContext = $this->container->get('security.context');
@@ -155,7 +164,15 @@ class UsuarioController extends Controller
 		
 		if ( $request->isMethod('POST') )
 		{
-			$form->bind( $request );
+			$form->handleRequest( $request );
+
+            if ($securityContext->isGranted('ROLE_ADMIN')) {
+                if ($usuario->getTeSenha() != $form['teSenhaConfirma']->getData()) {
+                    $form->addError(new FormError("A confirmação e a senha são diferentes"));
+
+                    $this->get('session')->getFlashBag()->add('error', 'A confirmação e a senha são diferentes!');
+                }
+            }
 			
 			if ( $form->isValid() )
 			{

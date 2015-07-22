@@ -107,6 +107,10 @@ Cacic\CommonBundle\Entity\Usuario:
                     referencedColumnName: id_grupo_usuario
                     nullable: false
             orphanRemoval: false
+    oneToMany:
+        relatorios:
+            targetEntity: SoftwareRelatorio
+            mappedBy: idUsuario
     uniqueConstraints:
         api_key_uq_idx:
             columns: [ api_key ]

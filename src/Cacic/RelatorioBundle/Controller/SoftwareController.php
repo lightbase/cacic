@@ -16,6 +16,7 @@ use Ddeboer\DataImport\ValueConverter\CallbackValueConverter;
 use Ddeboer\DataImport\ValueConverter\CharsetValueConverter;
 use Cacic\RelatorioBundle\Form\Type\SoftwareRelatorioType;
 use Cacic\CommonBundle\Entity\SoftwareRelatorio;
+use Symfony\Component\Form\FormError;
 
 class SoftwareController extends Controller
 {
@@ -463,13 +464,25 @@ class SoftwareController extends Controller
             }
         }
 
-        $form = $this->createForm(new SoftwareRelatorioType(), $software_relatorio);
+        $form = $this->createForm(
+            new SoftwareRelatorioType(
+                $this->get('security.authorization_checker')
+            ),
+            $software_relatorio
+        );
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
 
+                // Verificação de perfil
+                if (!$this->get('security.context')->isGranted('ROLE_GESTAO')) {
+                    // Nesse caso o relatório não pode ser restrito nem público
+                    if ($software_relatorio->getNivelAcesso() != "pessoal") {
+                        $form->addError(new FormError("Somente os relatórios pessoais são permitidos"));
+                    }
+                }
 
                 if (!empty($idRelatorio)) {
                     $this->get('logger')->debug("Removendo softwares para id_relatorio = $idRelatorio");
@@ -480,6 +493,9 @@ class SoftwareController extends Controller
 
                     $em->flush();
                 }
+
+                // Pega usuário da conexão
+                $software_relatorio->setIdUsuario($this->getUser());
 
                 $em->persist($software_relatorio);
                 $em->flush();
@@ -515,12 +531,35 @@ class SoftwareController extends Controller
             }
         }
 
+        // Mensagem de ajuda
+        if ($this->get('security.context')->isGranted('ROLE_GESTAO')) {
+            // Nesse caso o relatório não pode ser restrito
+            $ajuda = "As opções válidas são:
+                <dl>
+                    <dt>Público</dt>
+                    <dd>O relatório está disponível para todos os usuários</dd>
+                    <dt>Restrito</dt>
+                    <dd>Relatório restrido as usuários com perfis Gestor e Administrador</dd>
+                    <dt>Pessoal</dt>
+                    <dd>Somente você pode ver esse relatório</dd>
+                </dl>
+            ";
+        } else {
+            $ajuda = "As opções válidas são:
+                <dl>
+                    <dt>Pessoal</dt>
+                    <dd>Somente você pode ver esse relatório</dd>
+                </dl>
+            ";
+        }
+
         return $this->render(
             'CacicRelatorioBundle:Software:cadastrar.html.twig',
             array(
                 'idioma' => $locale,
                 'form' => $form->createView(),
-                'software_list' => $software_relatorio->getSoftwares()
+                'software_list' => $software_relatorio->getSoftwares(),
+                'ajuda' => $ajuda
             )
         );
 
@@ -808,7 +847,13 @@ class SoftwareController extends Controller
         $locale = $request->getLocale();
         $em = $this->getDoctrine()->getManager();
 
-        $dados = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findAll();
+        $user = $this->getUser();
+
+        if ($this->get('security.context')->isGranted('ROLE_GESTAO')) {
+            $dados = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findAll();
+        } else {
+            $dados = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findUser($user->getIdUsuario());
+        }
 
         return $this->render(
             'CacicRelatorioBundle:Software:listar_cadastrados.html.twig',

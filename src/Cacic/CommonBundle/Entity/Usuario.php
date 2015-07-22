@@ -89,7 +89,7 @@ class Usuario implements AdvancedUserInterface, \Serializable, EquatableInterfac
      *
      * @var boolean
      */
-    private $isActive;
+    private $isActive = true;
 
     /**
      * @var string
@@ -612,5 +612,43 @@ class Usuario implements AdvancedUserInterface, \Serializable, EquatableInterfac
     public function getIsActive()
     {
         return $this->isActive;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $relatorios;
+
+
+    /**
+     * Add relatorios
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareRelatorio $relatorios
+     * @return Usuario
+     */
+    public function addRelatorio(\Cacic\CommonBundle\Entity\SoftwareRelatorio $relatorios)
+    {
+        $this->relatorios[] = $relatorios;
+
+        return $this;
+    }
+
+    /**
+     * Remove relatorios
+     *
+     * @param \Cacic\CommonBundle\Entity\SoftwareRelatorio $relatorios
+     */
+    public function removeRelatorio(\Cacic\CommonBundle\Entity\SoftwareRelatorio $relatorios)
+    {
+        $this->relatorios->removeElement($relatorios);
+    }
+
+    /**
+     * Get relatorios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRelatorios()
+    {
+        return $this->relatorios;
     }
 }

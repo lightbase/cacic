@@ -1,7 +1,6 @@
-parameters:
-#    cacic_relatorio.example.class: Cacic\RelatorioBundle\Example
-
 services:
-#    cacic_relatorio.example:
-#        class: %cacic_relatorio.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    form.type.software_relatorio:
+        class: Cacic\RelatorioBundle\Form\Type\SoftwareRelatorioType
+        arguments: ["@security.authorization_checker"]
+        tags:
+            - { name: form.type, alias: relatorio_software }

@@ -161,6 +161,12 @@ class SoftwareRelatorioRepository extends EntityRepository
         return $qb->getQuery()->getArrayResult();
     }
 
+    /**
+     * CSV do relatório
+     *
+     * @param $filtros
+     * @return array
+     */
     public function gerarRelatorioCsv($filtros) {
 
         $qb = $this->createQueryBuilder("rel")
@@ -218,6 +224,12 @@ class SoftwareRelatorioRepository extends EntityRepository
         return $qb->getQuery()->getArrayResult();
     }
 
+    /**
+     * CSV da lista de computadores
+     *
+     * @param $filtros
+     * @return array
+     */
     public function gerarRelatorioDetalharCsv($filtros) {
 
         $qb = $this->createQueryBuilder("rel")
@@ -283,5 +295,20 @@ class SoftwareRelatorioRepository extends EntityRepository
         }
 
         return $qb->getQuery()->getArrayResult();
+    }
+
+    /**
+     * Pega todos os relatórios públicos ou pertencentes ao usuário
+     *
+     * @param $idUsuario Usuário que está buscando os relatórios
+     * @return array
+     */
+    public function findUser($idUsuario) {
+        $qb = $this->createQueryBuilder('rel')
+            ->orWhere("rel.nivelAcesso = 'publico'")
+            ->orWhere("rel.idUsuario = :idUsuario")
+            ->setParameter('idUsuario', $idUsuario);
+
+        return $qb->getQuery()->getResult();
     }
 }

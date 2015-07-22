@@ -4,6 +4,7 @@ namespace Cacic\CommonBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * 
@@ -13,6 +14,13 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class  UsuarioType extends AbstractType
 {
+	private $authorizationChecker;
+
+	public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+	{
+		$this->authorizationChecker = $authorizationChecker;
+	}
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 		# Monta o COMBOBOX (Select) com os locais primários
@@ -51,9 +59,29 @@ class  UsuarioType extends AbstractType
 		$builder->add( 'teEmailsContato', 'email', array( 'label' => 'E-mail', 'required' => false, 'max_length' => 100 ) );
 		
 		$builder->add( 'teTelefonesContato', 'text', array( 'label' => 'Telefones para Contato', 'required' => false, 'max_length' => 100 ) );
-		
-		/*$builder->add( 'teSenha', 'password', array( 'label' => 'Senha', 'required' => false, 'max_length' => 60 ) );
-		$builder->add( 'teSenhaConfirma', 'password', array( 'label' => ' Confirmação da Senha', 'required' => false, 'max_length' => 60, 'mapped' => false ) );*/
+
+		if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+			$builder->add(
+				'teSenha',
+				'password',
+				array(
+					'label' => 'Senha',
+					'required' => true,
+					'max_length' => 60
+				)
+			);
+
+			$builder->add(
+				'teSenhaConfirma',
+				'password',
+				array(
+					'label' => 'Confirmação da Senha',
+					'required' => true,
+					'max_length' => 60,
+					'mapped' => false
+				)
+			);
+		}
 		
 		$builder->add( 'idGrupoUsuario', 'entity',
 						array(
