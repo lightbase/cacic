@@ -23,7 +23,6 @@ class AcaoRepository extends EntityRepository
 		// Monta a Consulta básica...
     	$query = $this->createQueryBuilder('acao')->select('acao', 'COUNT(acao_rede.rede) AS totalRedesAtivadas')
         								->leftJoin('acao.redes', 'acao_rede')
-        								->andWhere("acao.csOpcional = 'S'")
                                         ->andWhere("acao.ativo IS NULL or acao.ativo = 't'")
         								->groupBy('acao');
         if($nivel[0]['nmGrupoUsuarios'] !== "Admin"){
@@ -83,5 +82,14 @@ class AcaoRepository extends EntityRepository
             ->createQuery( $_dql )
             ->setParameters( array('idRede'=>$idRede, 'idSo'=>$idSo, 'te_node_address' => $te_node_address) )
             ->getArrayResult();
+    }
+
+    public function listarModulosInativos() {
+        $query = $this->createQueryBuilder('acao')->select('acao', 'COUNT(acao_rede.rede) AS totalRedesAtivadas')
+            ->leftJoin('acao.redes', 'acao_rede')
+            ->andWhere("acao.ativo = 'f'")
+            ->groupBy('acao');
+
+        return $query->getQuery()->execute();
     }
 };

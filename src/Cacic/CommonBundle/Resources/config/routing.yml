@@ -217,6 +217,14 @@ cacic_modulo_editar:
     path: /admin/modulo/editar/{idAcao}
     defaults: { _controller: CacicCommonBundle:Modulo:editar}
 
+cacic_modulo_desativar:
+    path: /admin/modulo/desativar/{idAcao}
+    defaults: { _controller: CacicCommonBundle:Modulo:desativar }
+
+cacic_modulo_ativar:
+    path: /admin/modulo/ativar/{idAcao}
+    defaults: { _controller: CacicCommonBundle:Modulo:ativar }
+
 cacic_log_acesso:
     path:  /admin/log/acesso
     defaults: { _controller: CacicCommonBundle:Log:acesso}

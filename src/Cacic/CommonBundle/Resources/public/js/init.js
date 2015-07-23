@@ -91,6 +91,8 @@ $(document).ready(function(){
 							 */
 							if ( params.callback )
 								params.callback( params, data );
+
+                            window.location.reload(true);
 						}
 					}
 				);
@@ -158,6 +160,8 @@ $(document).ready(function(){
                             }
 
                             System.Flash.show( 'Sucesso', 'Item ativado com sucesso!' );
+
+                            window.location.reload(true);
                         },
                         error: function( data )
                         {

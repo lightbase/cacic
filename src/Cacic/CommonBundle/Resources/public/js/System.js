@@ -8,7 +8,16 @@ var System = {
 			$( 'body' ).delegate( 'a.bt-excluir', 'click', function(e){
 				e.preventDefault();
 				var url = $( this ).attr( 'href' );
-				var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
+
+                var elm = $( this ).parent().parent();
+
+                // Tenta encontrar o id pelo ID do elemento
+                if (typeof elm.attr('id') === "undefined") {
+                    id = $( this ).attr('id');
+                } else {
+                    var id = elm.attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
+                }
+
 				var callback = $( this ).attr( 'data-callback' );
 				$( "#System_Excluir" ).data( 'params', { 'url': url, 'id': id, 'callback': callback } ).dialog( "open" );
 			});
@@ -26,7 +35,16 @@ var System = {
             $( 'body' ).delegate( 'a.bt-ativar', 'click', function(e){
                 e.preventDefault();
                 var url = $( this ).attr( 'href' );
-                var id = $( this ).parent().parent().attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
+
+                var elm = $( this ).parent().parent();
+
+                // Tenta encontrar o id pelo ID do elemento
+                if (typeof elm.attr('id') === "undefined") {
+                    id = $( this ).attr('id');
+                } else {
+                    var id = elm.attr( 'id' ).replace( /.*?(\d+)$/, '$1' );
+                }
+
                 var callback = $( this ).attr( 'data-callback' );
                 $( "#System_Ativar" ).data( 'params', { 'url': url, 'id': id, 'callback': callback } ).dialog( "open" );
             });

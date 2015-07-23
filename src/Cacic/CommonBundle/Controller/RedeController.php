@@ -136,7 +136,7 @@ class RedeController extends Controller
         }
 
         if ($rede->getTeIprede() == '0.0.0.0') {
-            //$this->get('session')->getFlashBag()->add('error', 'Nao e permitido remover a rede padrao!');
+            $this->get('session')->getFlashBag()->add('error', 'Nao e permitido remover a rede padrao!');
 
             $response = new Response(
                 json_encode(
@@ -154,6 +154,8 @@ class RedeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove( $rede );
         $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Rede removida com sucesso!');
 
         $response = new Response( json_encode( array('status' => 'ok') ) );
         $response->headers->set('Content-Type', 'application/json');

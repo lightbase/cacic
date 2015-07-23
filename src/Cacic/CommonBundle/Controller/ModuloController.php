@@ -4,11 +4,7 @@ namespace Cacic\CommonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Cacic\CommonBundle\Entity\Acao;
-use Cacic\CommonBundle\Entity\AcaoRede;
-use Cacic\CommonBundle\Entity\AcaoSo;
-use Cacic\CommonBundle\Entity\AcaoExcecao;
-use Doctrine\Common\Util\Debug;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ModuloController extends Controller
 {
@@ -19,14 +15,16 @@ class ModuloController extends Controller
 	 */
 	public function indexAction()
 	{
+        $em = $this->getDoctrine()->getManager();
         $usuario = $this->getUser()->getIdUsuario();
-        $nivel = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario' )->nivel($usuario);
+        $nivel = $em->getRepository('CacicCommonBundle:Usuario' )->nivel($usuario);
 
         $local = $this->getUser()->getIdLocal(); // Recupera o Local da sessão do usuário logado
-        $modulos = $this->getDoctrine()->getRepository('CacicCommonBundle:Acao')->listarModulosOpcionais( $nivel, $local->getIdLocal() );
+        $modulos = $em->getRepository('CacicCommonBundle:Acao')->listarModulosOpcionais( $nivel, $local->getIdLocal() );
 
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $totalRedes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->countByLocalADM();
+            $totalRedes = $em->getRepository('CacicCommonBundle:Rede')->countByLocalADM();
+			$inativos = $em->getRepository("CacicCommonBundle:Acao")->listarModulosInativos();
         } else {
             $totalRedes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->countByLocal( $local->getIdLocal() );
         }
@@ -34,7 +32,12 @@ class ModuloController extends Controller
         //Debug::dump($modulos);die;
 		return $this->render(
 			'CacicCommonBundle:Modulo:index.html.twig', 
-			array('modulos'=>$modulos, 'local'=>$local, 'totalRedes'=>$totalRedes)
+			array(
+                'modulos' => $modulos,
+                'local' => $local,
+                'totalRedes' => $totalRedes,
+                'inativos' => $inativos
+            )
 		);
 	}
 	
@@ -112,5 +115,65 @@ class ModuloController extends Controller
 			)
 		);
 	}
+
+    public function desativarAction(Request $request, $idAcao) {
+        if ( ! $request->isXmlHttpRequest() ) {
+            $this->get('session')->getFlashBag()->add('error', 'Página não encontrada');
+            throw $this->createNotFoundException( 'Página não encontrada' );
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $acao = $em->getRepository("CacicCommonBundle:Acao")->find($idAcao);
+
+        if ( empty($acao) ) {
+            $this->get('session')->getFlashBag()->add('error', 'Ação não encontrada!');
+            throw $this->createNotFoundException( 'Ação não encontrada' );
+        }
+
+        $acao->setAtivo(false);
+        $em->persist($acao);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Módulo desativado com sucesso');
+
+        $response = new JsonResponse();
+        $response->setContent(json_encode(array(
+            'status' => 'ok'
+        )));
+        $response->setStatusCode(200);
+
+        return $response;
+    }
+
+    public function ativarAction(Request $request, $idAcao) {
+        if ( ! $request->isXmlHttpRequest() ) {
+            $this->get('session')->getFlashBag()->add('error', 'Página não encontrada');
+            throw $this->createNotFoundException( 'Página não encontrada' );
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $acao = $em->getRepository("CacicCommonBundle:Acao")->find($idAcao);
+
+        if ( empty($acao) ) {
+            $this->get('session')->getFlashBag()->add('error', 'Ação não encontrada');
+            throw $this->createNotFoundException( 'Ação não encontrada' );
+        }
+
+        $acao->setAtivo(true);
+        $em->persist($acao);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Módulo ativado com sucesso');
+
+        $response = new JsonResponse();
+        $response->setContent(json_encode(array(
+            'status' => 'ok'
+        )));
+        $response->setStatusCode(200);
+
+        return $response;
+    }
 	
 }
