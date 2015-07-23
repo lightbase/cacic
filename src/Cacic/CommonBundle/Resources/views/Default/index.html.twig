@@ -48,7 +48,7 @@
 
 	<div class="span6 column ui-sortable" id="col2">
 
-        <div class="box grad_colour_black" id="box1">
+        <div class="box grad_colour_black" id="box2">
             <h2 class="box_head round_top"> <i class="icon-file"></i> {{ 'Agentes'|trans }}</h2>
             <div class="toggle_container">
                 <div class="block box_content round_bottom padding_10">
@@ -116,56 +116,60 @@
                             </li>
                         {% endif %}
                     </ul>
-                    <hr>
-                    <div style="text-align: center;">
-                        <a class="btn btn-default btn-small" type="submit" href="{{ path('cacic_agente') }}" title="{{ "Upload de Agentes"|trans }}" target="_blank">
-                            <i class="icon-file"></i>
-                            {{ "Upload de agentes"|trans }}
-                        </a>
-                        <a class="btn btn-default btn-small" type="submit" href="{{ path('cacic_modulo_index') }}" title="{{ "Configurar Módulos"|trans }}" target="_blank">
-                            <i class="icon-cog"></i>
-                            {{ "Configurar módulos"|trans }}
-                        </a>
-                        <a class="btn btn-default btn-small" type="submit" href="{{ path('cacic_atualizacao_subredes') }}" title="{{ "Atualização de subredes"|trans }}" target="_blank">
-                            <i class="icon-screenshot"></i>
-                            {{ "Atualização de subrede"|trans }}
-                        </a>
-                    </div>
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <hr>
+                        <div style="text-align: center;">
+                            <a class="btn btn-default btn-small" type="submit" href="{{ path('cacic_agente') }}" title="{{ "Upload de Agentes"|trans }}" target="_blank">
+                                <i class="icon-file"></i>
+                                {{ "Upload de agentes"|trans }}
+                            </a>
+                            <a class="btn btn-default btn-small" type="submit" href="{{ path('cacic_modulo_index') }}" title="{{ "Configurar Módulos"|trans }}" target="_blank">
+                                <i class="icon-cog"></i>
+                                {{ "Configurar módulos"|trans }}
+                            </a>
+                            <a class="btn btn-default btn-small" type="submit" href="{{ path('cacic_atualizacao_subredes') }}" title="{{ "Atualização de subredes"|trans }}" target="_blank">
+                                <i class="icon-screenshot"></i>
+                                {{ "Atualização de subrede"|trans }}
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div> <!-- /box -->
 
-		<div class="box grad_colour_black" id="box2">
-			<h2 class="box_head round_top"><i class="icon-heart"></i> {{ 'Atalhos'|trans }}</h2>
-			<div class="toggle_container">
-				<div class="block box_content round_bottom padding_10 shortcuts">
-                    <a href="{{ path('cacic_agente') }}" class="shortcut">
-                        <i class="shortcut-icon icon-file"></i>
-                        <span class="shortcut-label">{{ 'Agentes'|trans }}</span>
-                    </a>
+        {% if is_granted("ROLE_ADMIN") %}
+            <div class="box grad_colour_black" id="box3">
+                <h2 class="box_head round_top"><i class="icon-heart"></i> {{ 'Atalhos'|trans }}</h2>
+                <div class="toggle_container">
+                    <div class="block box_content round_bottom padding_10 shortcuts">
+                        <a href="{{ path('cacic_agente') }}" class="shortcut">
+                            <i class="shortcut-icon icon-file"></i>
+                            <span class="shortcut-label">{{ 'Agentes'|trans }}</span>
+                        </a>
 
-					<a href="{{ path('cacic_usuario_index') }}" class="shortcut">
-						<i class="shortcut-icon icon-group"></i>
-						<span class="shortcut-label">{{ 'Usuários'|trans }}</span>
-					</a>
+                        <a href="{{ path('cacic_usuario_index') }}" class="shortcut">
+                            <i class="shortcut-icon icon-group"></i>
+                            <span class="shortcut-label">{{ 'Usuários'|trans }}</span>
+                        </a>
 
-					<a href="{{ path('cacic_local_index') }}" class="shortcut">
-						<i class="shortcut-icon icon-globe"></i>
-						<span class="shortcut-label">{{ 'Locais'|trans }}</span>
-					</a>
+                        <a href="{{ path('cacic_local_index') }}" class="shortcut">
+                            <i class="shortcut-icon icon-globe"></i>
+                            <span class="shortcut-label">{{ 'Locais'|trans }}</span>
+                        </a>
 
-					<a href="{{ path('cacic_modulo_index') }}" class="shortcut">
-						<i class="shortcut-icon icon-cogs"></i>
-						<span class="shortcut-label">{{ 'Módulos'|trans }}</span>
-					</a>
-				</div>
-			</div>
-		</div> <!-- /box -->
+                        <a href="{{ path('cacic_modulo_index') }}" class="shortcut">
+                            <i class="shortcut-icon icon-cogs"></i>
+                            <span class="shortcut-label">{{ 'Módulos'|trans }}</span>
+                        </a>
+                    </div>
+                </div>
+            </div> <!-- /box -->
+        {% endif %}
 
 	</div><!-- /span -->
 
-	<div class="span6 column ui-sortable widget-table action-table" id="col3">
-		<div class="box grad_colour_black" id="box3">
+	<div class="span6 column ui-sortable widget-table action-table" id="col4">
+		<div class="box grad_colour_black" id="box4">
 			<h2 class="box_head round_top"><i class="icon-desktop"></i> {{ 'Computadores Monitorados por Sistema Operacional'|trans }}</h2>
 			<div class="toggle_container">
 				<div class="block box_content round_bottom padding_10">
@@ -212,7 +216,7 @@
                     <center>
                         <a class="btn btn-success" type="submit" href="{{ path('cacic_relatorio_so_consolidado') }}" title="{{ "Gerar relatório consolidado"|trans }}" target="_blank">
                             <i class="icon-bar-chart"></i>
-                            Gerar relatório
+                            {{ "Gerar relatório"|trans }}
                         </a>
                     </center>
 				</div>

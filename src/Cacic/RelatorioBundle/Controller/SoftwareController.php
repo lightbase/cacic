@@ -17,6 +17,7 @@ use Ddeboer\DataImport\ValueConverter\CharsetValueConverter;
 use Cacic\RelatorioBundle\Form\Type\SoftwareRelatorioType;
 use Cacic\CommonBundle\Entity\SoftwareRelatorio;
 use Symfony\Component\Form\FormError;
+use Cacic\CommonBundle\Entity\Log;
 
 class SoftwareController extends Controller
 {
@@ -455,8 +456,10 @@ class SoftwareController extends Controller
         $locale = $request->getLocale();
 
         if (empty($idRelatorio)) {
+            $acao = "INS";
             $software_relatorio = new SoftwareRelatorio();
         } else {
+            $acao = "UPD";
             $software_relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->find($idRelatorio);
 
             if (empty($software_relatorio)) {
@@ -470,6 +473,20 @@ class SoftwareController extends Controller
             ),
             $software_relatorio
         );
+
+        if (!empty($idRelatorio)) {
+            $form->add(
+                'usuario',
+                'text',
+                array(
+                    'label' => 'Usuário que criou',
+                    'read_only' => true,
+                    'data' => $software_relatorio->getIdUsuario()->getNmUsuarioCompleto(),
+                    'mapped' => false,
+                    'required' => false
+                )
+            );
+        }
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -516,6 +533,17 @@ class SoftwareController extends Controller
                         $stmt->execute();
                     }
                 }
+
+                // Registra no log de atividades
+                $log = new Log();
+                $log->setIdUsuario($this->getUser());
+                $log->setCsAcao($acao);
+                $log->setDtAcao(new \DateTime());
+                $log->setNmScript("Cadastro de relatórios");
+                $log->setNmTabela("software_relatorio");
+                $log->setTeIpOrigem($request->getClientIp());
+
+                $em->persist($log);
 
                 $em->flush();
 
@@ -886,6 +914,18 @@ class SoftwareController extends Controller
         }
 
         $em->remove( $relatorio );
+
+        // Registra no log de atividades
+        $log = new Log();
+        $log->setIdUsuario($this->getUser());
+        $log->setCsAcao("DEL");
+        $log->setDtAcao(new \DateTime());
+        $log->setNmScript("Cadastro de relatórios");
+        $log->setNmTabela("software_relatorio");
+        $log->setTeIpOrigem($request->getClientIp());
+
+        $em->persist($log);
+
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('success', 'Relatório removido com sucesso!');
