@@ -451,7 +451,7 @@ class SoftwareController extends Controller
     }
 
     public function cadastrarAction(Request $request, $idRelatorio) {
-
+        $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
         $locale = $request->getLocale();
 
@@ -459,11 +459,19 @@ class SoftwareController extends Controller
             $acao = "INS";
             $software_relatorio = new SoftwareRelatorio();
         } else {
+
             $acao = "UPD";
             $software_relatorio = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->find($idRelatorio);
 
             if (empty($software_relatorio)) {
-                $this->createNotFoundException( 'Relatório não encontrado' );
+                return $this->createNotFoundException( 'Relatório não encontrado' );
+            }
+
+            // Usuário só pode editar seus próprios relatórios
+            if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                if ($this->getUser()->getIdUsuario() != $software_relatorio->getIdUsuario()->getIdUsuario()) {
+                    throw $this->createAccessDeniedException("Usuário só pode editar seus próprios relatórios");
+                }
             }
         }
 
@@ -911,6 +919,13 @@ class SoftwareController extends Controller
 
         if (empty($relatorio)) {
             throw $this->createNotFoundException( 'Relatório não encontrado' );
+        }
+
+        // Usuário só pode editar seus próprios relatórios
+        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            if ($this->getUser()->getIdUsuario() != $relatorio->getIdUsuario()->getIdUsuario()) {
+                throw $this->createAccessDeniedException("Usuário só pode editar seus próprios relatórios");
+            }
         }
 
         $em->remove( $relatorio );
