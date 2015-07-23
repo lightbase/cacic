@@ -57,66 +57,66 @@
                         <p>Senha dos Agentes:</p>
                         <p><b>{{ user.getApiKey() }}</b></p>
                     </div>
-                    <ul class="statistics">
-                        {% if agentes == 0 %}
-                            <li>
-                                <a href="{{ path('cacic_agente') }}" title="{{ "Upload de Agentes"|trans }}" >
-                                    <b>{{ "Passo 1"|trans }}</b>
-                                    <i class="icon-ok icon-large"></i>
-                                    <span class="green">0</span>
-                                    {{ "Plataformas cadastradas sem Agentes"|trans }}
-                                </a>
-                            </li>
-                        {% else %}
-                            <li>
-                                <a href="{{ path('cacic_agente') }}" title="{{ "Upload de Agentes"|trans }}" >
-                                    <b>{{ "Passo 1"|trans }}</b>
-                                    <i class="icon-ban-circle icon-large"></i>
-                                    <span class="red">{{ agentes }}</span>
-                                    {{ "Plataformas cadastradas sem Agentes"|trans }}
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if estatisticas['acoesRede'] is not empty  %}
-                            <li>
-                                <a href="{{ path('cacic_modulo_index') }}" title="{{ "Configurar Módulos"|trans }}">
-                                    <b>{{ "Passo 2"|trans }}</b>
-                                    <i class="icon-ban-circle icon-large"></i>
-                                    <span class="red">{{ estatisticas['acoesRede']|length }}</span>
-                                    {{ "Subrede sem coletas habilitadas"|trans }}
-                                </a>
-                            </li>
-                        {% else %}
-                            <li>
-                                <a href="{{ path('cacic_modulo_index') }}" title="{{ "Configurar Módulos"|trans }}">
-                                    <b>{{ "Passo 2"|trans }}</b>
-                                    <i class="icon-ok icon-large"></i>
-                                    <span class="green">0</span>
-                                    {{ "Subredes sem coletas habilitadas"|trans }}
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if estatisticas['semModulos']['redes'] != estatisticas['semModulos']['redesModulos'] %}
-                            <li>
-                                <a href="{{ path('cacic_atualizacao_subredes') }}" title="{{ "Atualização de subredes"|trans }}">
-                                    <b>{{ "Passo 3"|trans }}</b>
-                                    <i class="icon-ban-circle icon-large"></i>
-                                    <span class="red">{{ estatisticas['semModulos']['redes'] - estatisticas['semModulos']['redesModulos'] }}</span>
-                                    {{ "Subredes sem agentes ativos"|trans }}
-                                </a>
-                            </li>
-                        {% else %}
-                            <li>
-                                <a href="{{ path('cacic_atualizacao_subredes') }}" title="{{ "Atualização de subredes"|trans }}">
-                                    <b>{{ "Passo 3"|trans }}</b>
-                                    <i class="icon-ok icon-large"></i>
-                                    <span class="green">0</span>
-                                    {{ "Subredes sem agentes ativos"|trans }}
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
                     {% if is_granted("ROLE_ADMIN") %}
+                        <ul class="statistics">
+                            {% if agentes == 0 %}
+                                <li>
+                                    <a href="{{ path('cacic_agente') }}" title="{{ "Upload de Agentes"|trans }}" >
+                                        <b>{{ "Passo 1"|trans }}</b>
+                                        <i class="icon-ok icon-large"></i>
+                                        <span class="green">0</span>
+                                        {{ "Plataformas cadastradas sem Agentes"|trans }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path('cacic_agente') }}" title="{{ "Upload de Agentes"|trans }}" >
+                                        <b>{{ "Passo 1"|trans }}</b>
+                                        <i class="icon-ban-circle icon-large"></i>
+                                        <span class="red">{{ agentes }}</span>
+                                        {{ "Plataformas cadastradas sem Agentes"|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if estatisticas['acoesRede'] is not empty  %}
+                                <li>
+                                    <a href="{{ path('cacic_modulo_index') }}" title="{{ "Configurar Módulos"|trans }}">
+                                        <b>{{ "Passo 2"|trans }}</b>
+                                        <i class="icon-ban-circle icon-large"></i>
+                                        <span class="red">{{ estatisticas['acoesRede']|length }}</span>
+                                        {{ "Subrede sem coletas habilitadas"|trans }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path('cacic_modulo_index') }}" title="{{ "Configurar Módulos"|trans }}">
+                                        <b>{{ "Passo 2"|trans }}</b>
+                                        <i class="icon-ok icon-large"></i>
+                                        <span class="green">0</span>
+                                        {{ "Subredes sem coletas habilitadas"|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if estatisticas['semModulos']['redes'] != estatisticas['semModulos']['redesModulos'] %}
+                                <li>
+                                    <a href="{{ path('cacic_atualizacao_subredes') }}" title="{{ "Atualização de subredes"|trans }}">
+                                        <b>{{ "Passo 3"|trans }}</b>
+                                        <i class="icon-ban-circle icon-large"></i>
+                                        <span class="red">{{ estatisticas['semModulos']['redes'] - estatisticas['semModulos']['redesModulos'] }}</span>
+                                        {{ "Subredes sem agentes ativos"|trans }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path('cacic_atualizacao_subredes') }}" title="{{ "Atualização de subredes"|trans }}">
+                                        <b>{{ "Passo 3"|trans }}</b>
+                                        <i class="icon-ok icon-large"></i>
+                                        <span class="green">0</span>
+                                        {{ "Subredes sem agentes ativos"|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
                         <hr>
                         <div style="text-align: center;">
                             <a class="btn btn-default btn-small" type="submit" href="{{ path('cacic_agente') }}" title="{{ "Upload de Agentes"|trans }}" target="_blank">
@@ -132,6 +132,66 @@
                                 {{ "Atualização de subrede"|trans }}
                             </a>
                         </div>
+                    {% else %}
+                        <ul class="statistics">
+                            {% if agentes == 0 %}
+                                <li>
+                                    <a name="agentes" title="{{ "Upload de Agentes"|trans }}" >
+                                        <b>{{ "Passo 1"|trans }}</b>
+                                        <i class="icon-ok icon-large"></i>
+                                        <span class="green">0</span>
+                                        {{ "Plataformas cadastradas sem Agentes"|trans }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a name="agentes" title="{{ "Upload de Agentes"|trans }}" >
+                                        <b>{{ "Passo 1"|trans }}</b>
+                                        <i class="icon-ban-circle icon-large"></i>
+                                        <span class="red">{{ agentes }}</span>
+                                        {{ "Plataformas cadastradas sem Agentes"|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if estatisticas['acoesRede'] is not empty  %}
+                                <li>
+                                    <a name="acoes" title="{{ "Configurar Módulos"|trans }}">
+                                        <b>{{ "Passo 2"|trans }}</b>
+                                        <i class="icon-ban-circle icon-large"></i>
+                                        <span class="red">{{ estatisticas['acoesRede']|length }}</span>
+                                        {{ "Subrede sem coletas habilitadas"|trans }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a name="acoes" title="{{ "Configurar Módulos"|trans }}">
+                                        <b>{{ "Passo 2"|trans }}</b>
+                                        <i class="icon-ok icon-large"></i>
+                                        <span class="green">0</span>
+                                        {{ "Subredes sem coletas habilitadas"|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if estatisticas['semModulos']['redes'] != estatisticas['semModulos']['redesModulos'] %}
+                                <li>
+                                    <a name="atualiza" title="{{ "Atualização de subredes"|trans }}">
+                                        <b>{{ "Passo 3"|trans }}</b>
+                                        <i class="icon-ban-circle icon-large"></i>
+                                        <span class="red">{{ estatisticas['semModulos']['redes'] - estatisticas['semModulos']['redesModulos'] }}</span>
+                                        {{ "Subredes sem agentes ativos"|trans }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a name="atualiza" title="{{ "Atualização de subredes"|trans }}">
+                                        <b>{{ "Passo 3"|trans }}</b>
+                                        <i class="icon-ok icon-large"></i>
+                                        <span class="green">0</span>
+                                        {{ "Subredes sem agentes ativos"|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
                     {% endif %}
                 </div>
             </div>
