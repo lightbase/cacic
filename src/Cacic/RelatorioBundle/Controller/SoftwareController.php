@@ -572,10 +572,18 @@ class SoftwareController extends Controller
      */
     public function softwaresAction()
     {
-        $locais = $this->getDoctrine()->getRepository('CacicCommonBundle:Local')->listar();
-        $so = $this->getDoctrine()->getRepository('CacicCommonBundle:So')->listar();
-        $redes = $this->getDoctrine()->getRepository('CacicCommonBundle:Rede')->listar();
-        $sw = $this->getDoctrine()->getRepository('CacicCommonBundle:SoftwareRelatorio')->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $locais = $em->getRepository('CacicCommonBundle:Local')->listar();
+        $so = $em->getRepository('CacicCommonBundle:So')->listar();
+        $redes = $em->getRepository('CacicCommonBundle:Rede')->listar();
+
+        $user = $this->getUser();
+
+        if ($this->get('security.context')->isGranted('ROLE_GESTAO')) {
+            $sw = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findAll();
+        } else {
+            $sw = $em->getRepository("CacicCommonBundle:SoftwareRelatorio")->findUser($user->getIdUsuario());
+        }
 
         return $this->render(
             'CacicRelatorioBundle:Software:softwares_filtro.html.twig',

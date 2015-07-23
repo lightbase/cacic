@@ -95,21 +95,36 @@ class UsuarioController extends Controller
      */
     public function cadastrarAction( Request $request)
     {
+        $logger = $this->get('logger');
 		$usuario = new Usuario();
-		$form = $this->createForm( new UsuarioType($this->get('security.authorization_checker')), $usuario );
+		$form = $this->createForm( new UsuarioType(), $usuario );
+
+        $apiKey = $usuario->getApiKey();
+        if (empty($apiKey)) {
+            $apiKey = md5(uniqid(""));
+        }
+
+        $form->add( 'api_key', 'text',
+            array(
+                'label' => 'Chave de API',
+                'required' => false,
+                'data' => $apiKey
+            )
+        );
+
 
 		if ( $request->isMethod('POST') )
 		{
 			$form->handleRequest( $request );
 
-            $securityContext = $this->container->get('security.context');
-            if ($securityContext->isGranted('ROLE_ADMIN')) {
-                if ($usuario->getTeSenha() != $form['teSenhaConfirma']->getData()) {
-                    $form->addError(new FormError("A confirmação e a senha são diferentes"));
-                }
+            if ($usuario->getTeSenha() != $form['teSenhaConfirma']->getData()) {
+                $form->addError(new FormError("A confirmação e a senha são diferentes"));
             } else {
-                # Gera uma senha aleatória para o novo Usuário
-                $form->getData()->_gerarSenhaAleatoria( $this->container->getParameter('cacic_senha_algorithm') );
+                // Criptografa senha
+                $encoder = $this->container
+                    ->get('security.encoder_factory')
+                    ->getEncoder($usuario);
+                $usuario->setTeSenha($encoder->encodePassword($usuario->getTeSenha(), $usuario->getSalt()));
             }
 			
 			if ( $form->isValid() )
@@ -139,39 +154,42 @@ class UsuarioController extends Controller
      */
 	public function editarAction( $idUsuario, Request $request )
 	{
+        $logger = $this->get('logger');
 		$usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->find( $idUsuario );
-		if ( ! $usuario )
-			throw $this->createNotFoundException( 'Usuário não encontrado' );
-		
-		$form = $this->createForm( new UsuarioType($this->get('security.authorization_checker')), $usuario );
 
-        // Check if user has permission to generate API
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('ROLE_ADMIN')) {
-            $apiKey = $usuario->getApiKey();
-            if (empty($apiKey)) {
-                $apiKey = md5(uniqid(""));
-            }
-
-            $form->add( 'api_key', 'text',
-                array(
-                    'label' => 'Chave de API',
-                    'required' => false,
-                    'data' => $apiKey
-                )
-            );
+		if ( empty($usuario) ) {
+            throw $this->createNotFoundException( 'Usuário não encontrado' );
         }
+		
+		$form = $this->createForm( new UsuarioType(), $usuario );
+
+        $apiKey = $usuario->getApiKey();
+        if (empty($apiKey)) {
+            $apiKey = md5(uniqid(""));
+        }
+
+        $form->add( 'api_key', 'text',
+            array(
+                'label' => 'Chave de API',
+                'required' => false,
+                'data' => $apiKey
+            )
+        );
 		
 		if ( $request->isMethod('POST') )
 		{
 			$form->handleRequest( $request );
 
-            if ($securityContext->isGranted('ROLE_ADMIN')) {
-                if ($usuario->getTeSenha() != $form['teSenhaConfirma']->getData()) {
-                    $form->addError(new FormError("A confirmação e a senha são diferentes"));
+            if ($usuario->getTeSenha() != $form['teSenhaConfirma']->getData()) {
+                $form->addError(new FormError("A confirmação e a senha são diferentes"));
 
-                    $this->get('session')->getFlashBag()->add('error', 'A confirmação e a senha são diferentes!');
-                }
+                $this->get('session')->getFlashBag()->add('error', 'A confirmação e a senha são diferentes!');
+            } else {
+                // Criptografa senha
+                $encoder = $this->container
+                    ->get('security.encoder_factory')
+                    ->getEncoder($usuario);
+                $usuario->setTeSenha($encoder->encodePassword($usuario->getTeSenha(), $usuario->getSalt()));
             }
 			
 			if ( $form->isValid() )
@@ -320,5 +338,63 @@ class UsuarioController extends Controller
             return $response;
         }
 
+    }
+
+    public function editarMeusdadosAction( $idUsuario, Request $request )
+    {
+        $logger = $this->get('logger');
+        $usuario = $this->getDoctrine()->getRepository('CacicCommonBundle:Usuario')->find( $idUsuario );
+
+        $user = $this->getUser();
+
+        if ( empty($usuario) ) {
+            throw $this->createNotFoundException( 'Usuário não encontrado' );
+        } elseif ($usuario != $user) {
+            throw $this->createAccessDeniedException("Você só pode editar seus dados de usuário");
+        }
+
+        $form = $this->createForm( new UsuarioType(), $usuario );
+
+        $form->add( 'api_key', 'text',
+            array(
+                'label' => 'Chave de API',
+                'required' => false,
+                'data' => $usuario->getApiKey(),
+                'read_only' => false
+            )
+        );
+
+        if ( $request->isMethod('POST') )
+        {
+            $form->handleRequest( $request );
+
+            if ($usuario->getTeSenha() != $form['teSenhaConfirma']->getData()) {
+                $form->addError(new FormError("A confirmação e a senha são diferentes"));
+            } else {
+                // Criptografa senha
+                $encoder = $this->container
+                    ->get('security.encoder_factory')
+                    ->getEncoder($usuario);
+                $usuario->setTeSenha($encoder->encodePassword($usuario->getTeSenha(), $usuario->getSalt()));
+            }
+
+            if ( $form->isValid() )
+            {
+                $this->getDoctrine()->getManager()->persist( $usuario );
+                $this->getDoctrine()->getManager()->flush();// Efetua a edição do Usuário
+
+                $this->get('session')->getFlashBag()->add('success', 'Dados salvos com sucesso!');
+
+                return $this->redirect($this->generateUrl('cacic_usuario_meus_dados'));
+            }
+        }
+
+        return $this->render(
+            'CacicCommonBundle:Usuario:cadastrar.html.twig',
+            array(
+                'form' => $form->createView(),
+                'grupoDesc' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:GrupoUsuario' )->listar()
+            )
+        );
     }
 }

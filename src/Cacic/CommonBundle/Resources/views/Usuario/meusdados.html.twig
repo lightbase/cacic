@@ -75,7 +75,11 @@
 				<p>{{ 'Para editar os dados de cadastro ou alterar a senha de acesso ao sistema, acione o botão correspondente'|trans }}.</p>
 				<hr />
 				<a href="{{ path('cacic_usuario_trocar_propria_senha') }}" class="btn btn-danger bt-trocar-propria-senha"><i class="icon-key icon-large"></i> {{ 'Alterar Senha'|trans }}</a>
-				<a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario.idUsuario}) }}" class="btn btn-primary pull-right"><i class="icon-edit icon-large"></i> {{ 'Editar dados'|trans }}</a>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('cacic_usuario_editar', {'idUsuario': usuario.idUsuario}) }}" class="btn btn-primary pull-right"><i class="icon-edit icon-large"></i> {{ 'Editar dados'|trans }}</a>
+				{% else %}
+					<a href="{{ path('cacic_usuario_editar_meusdados', {'idUsuario': usuario.idUsuario}) }}" class="btn btn-primary pull-right"><i class="icon-edit icon-large"></i> {{ 'Editar dados'|trans }}</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>

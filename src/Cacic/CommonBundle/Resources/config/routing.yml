@@ -645,9 +645,9 @@ cacic_usuario_trocar_propria_senha:
     path:  /usuario/trocarpropriasenha
     defaults: { _controller: CacicCommonBundle:Usuario:trocarpropriasenha}
 
-cacic_usuario_editar:
+cacic_usuario_editar_meusdados:
     path:  /usuario/editar/{idUsuario}
-    defaults: { _controller: CacicCommonBundle:Usuario:editar, idUsuario: null}
+    defaults: { _controller: CacicCommonBundle:Usuario:editarMeusdados, idUsuario: null}
     requirements:
         idUsuario: \d+
 
