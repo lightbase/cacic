@@ -25,13 +25,13 @@
                 <dl>
                 {% for modulo in modulos %}
                     {% if modulo['totalRedesAtivadas'] == totalRedes %}
-                        <dt class="green"<i class="icon-star green"></i>
+                        <dt class="green"><i class="icon-star green"></i>
                     {% elseif ( ( modulo['totalRedesAtivadas'] > 0 ) and ( modulo['totalRedesAtivadas'] < totalRedes  ) ) %}
                         <dt class="yellow"><i class="icon-star-half-empty yellow"></i>
                     {% else %}
                         <dt class="red"><i class="icon-star-empty"></i>
                     {% endif %}
-                    <a href="{{ path('cacic_modulo_desativar', {'idAcao': modulo[0].getIdAcao()}) }}">{{ modulo[0].getTeDescricaoBreve() }}</a>
+                    <a href="{{ path('cacic_modulo_editar', {'idAcao': modulo[0].getIdAcao()}) }}">{{ modulo[0].getTeDescricaoBreve() }}</a>
                     ({{ 'Total de redes'|trans }}: {{ modulo['totalRedesAtivadas'] }} )
                     <a id="{{ modulo[0].idAcao }}" href="{{ path('cacic_modulo_desativar', {'idAcao': modulo[0].idAcao}) }}" class="bt-excluir" title="{{ "Ativar Usuário"|trans }}">
                         <span class="label label-important">{{ "Desativar Módulo"|trans }}</span>
@@ -44,6 +44,16 @@
                 {% if is_granted("ROLE_ADMIN") %}
                     <h3>{{ "Módulos Inativos"|trans }}</h3>
                     <p>{{ "Esse Modulos estao inativos e nao serao coletados em nenhuma rede"|trans }}</p>
+                    <div class="alert alert-warning">
+                        <p><b>{{ "ATENÇÃO"|trans }}:</b> {{ "as únicas coletas válidas a partir da versão 3.0 são as seguintes:"|trans }}
+                            <ul>
+                                <li>{{ "Softwares instalados"|trans }}</li>
+                                <li>{{ "Hardware"|trans }}</li>
+                                <li>{{ "Patrimônio"|trans }}</li>
+                            </ul>
+                        </p>
+                        <p>{{ "As coletas restantes são mantidas por questões históricas. Habilitá-las não afeta a coleta"|trans }}</p>
+                    </div>
                     <hr>
                     <dl>
                         {% for modulo in inativos %}

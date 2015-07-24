@@ -64,30 +64,50 @@ class AcaoExcecaoRepository extends EntityRepository
 		
 		foreach ( $redesLocal as $idRede => $nmRede )
 		{
-			$arr = $this->findBy( array( 'acao'=>$acao, 'rede'=>$idRede ) );
-			foreach ( $arr as $obj )
-				$em->remove( $obj );
+			$arr = $this->findBy(array(
+                'acao' => $acao,
+                'rede' => $idRede
+            ));
+
+			foreach ( $arr as $obj ) {
+                $em->remove( $obj );
+            }
 		}
 		
 		$em->flush();
-		
-		foreach( $novasRedes as $rede )
-		{
-			foreach ( $novasExcecoes as $teNodeAddress )
-			{
-                $new = $em->getRepository( 'CacicCommonBundle:AcaoExcecao' )->findOneBy( array('acao' => $acao, 'rede' => $rede) );
-                if (empty($new)) {
-                    $new = new AcaoExcecao();
-                }
-				$new->setAcao( $em->getRepository( 'CacicCommonBundle:Acao' )->find( $acao ) );
-				$new->setRede( $em->getRepository( 'CacicCommonBundle:Rede' )->find( $rede ) );
-				$new->setTeNodeAddress( $teNodeAddress );
-				$em->persist( $new );
-                $em->flush();
-			}
-		}
-		
 
+        // Agora insere uma de cada vez
+        $novaAcao = $em->getRepository( 'CacicCommonBundle:Acao' )->findAcaoAtiva( $acao, true );
+        if (!empty($novaAcao)) {
+
+            foreach( $novasRedes as $idRede )
+            {
+                $rede = $em->getRepository( 'CacicCommonBundle:Rede' )->find( $idRede );
+
+                foreach ( $novasExcecoes as $teNodeAddress )
+                {
+                    if (!empty($teNodeAddress)) {
+                        $new = $em->getRepository( 'CacicCommonBundle:AcaoExcecao' )->findOneBy(array(
+                            'acao' => $acao,
+                            'rede' => $rede
+                        ));
+
+                        if (empty($new)) {
+                            $new = new AcaoExcecao();
+                        }
+
+                        $new->setAcao( $novaAcao );
+                        $new->setRede( $rede );
+                        $new->setTeNodeAddress( $teNodeAddress );
+                        $em->persist( $new );
+
+                    }
+
+                }
+            }
+
+            $em->flush();
+        }
 	}
 	
 }

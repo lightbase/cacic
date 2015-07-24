@@ -18,22 +18,23 @@ class AcaoRepository extends EntityRepository
 	 * Lista as Ações opcionais (cs_opcional=S)
 	 * @param int $idLocal
 	 */
-	public function listarModulosOpcionais($nivel, $idLocal = null )
+	public function listarModulosOpcionais( $idLocal = null )
 	{
 		// Monta a Consulta básica...
-    	$query = $this->createQueryBuilder('acao')->select('acao', 'COUNT(acao_rede.rede) AS totalRedesAtivadas')
-        								->leftJoin('acao.redes', 'acao_rede')
-                                        ->andWhere("acao.ativo IS NULL or acao.ativo = 't'")
-        								->groupBy('acao');
-        if($nivel[0]['nmGrupoUsuarios'] !== "Admin"){
-            if ( $idLocal !== null )
-            {
-                $query->leftJoin('acao_rede.rede', 'rede')
-                        ->leftJoin('rede.idLocal', 'local')
-                        ->andWhere( 'local.idLocal = :idLocal OR local.idLocal IS NULL' )
-                        ->setParameter( 'idLocal', $idLocal );
-            }
+    	$query = $this->createQueryBuilder('acao')
+            ->select('acao', 'COUNT(acao_rede.rede) AS totalRedesAtivadas')
+            ->leftJoin('acao.redes', 'acao_rede')
+            ->andWhere("acao.ativo IS NULL or acao.ativo = 't'")
+            ->groupBy('acao');
+
+        if ( $idLocal !== null )
+        {
+            $query->leftJoin('acao_rede.rede', 'rede')
+                    ->leftJoin('rede.idLocal', 'local')
+                    ->andWhere( 'local.idLocal = :idLocal OR local.idLocal IS NULL' )
+                    ->setParameter( 'idLocal', $idLocal );
         }
+
 
         return $query->getQuery()->execute();
 	}
@@ -91,5 +92,27 @@ class AcaoRepository extends EntityRepository
             ->groupBy('acao');
 
         return $query->getQuery()->execute();
+    }
+
+    /**
+     * Encontra ação se estiver ativa
+     *
+     * @param $acao idAcao a ser procurado
+     * @param bool|true $opcionais Se deve ser buscado somente os opcionais ou não
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findAcaoAtiva($acao, $opcionais = true) {
+        $qb = $this->createQueryBuilder('acao')
+            ->andWhere("acao.ativo = 't' OR acao.ativo IS NULL")
+            ->andWhere("acao.idAcao = :acao")
+            ->setParameter('acao', $acao);
+
+        if (!empty($opcionais) && $opcionais == true) {
+            $qb->andWhere("acao.csOpcional = 'S'");
+        }
+
+        return $qb->getQuery()->getOneOrNullResult();
+
     }
 };

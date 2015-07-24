@@ -28,23 +28,25 @@
                 <form name="frmConfigModulo" id="frmConfigModulo" class="form-horizontal" method="POST">
                 
                 <div class="control-group _cad_block_opcao">
-                	<label class="control-label">
+                	<label class="control-label col-sm-2">
                 		{{ 'Onde executar esta ação-configuração'|trans }}: 
                 	</label>
-                	<div class="controls">
+                	<div class="col-sm-8">
                 		{% if redes|length > 0 %}
                             <input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="modulo\[rede\]" id="toggleRede">
                             <label for="toggleRede"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
-                        <div style="height: 200px; overflow: auto;">
                             {% for rede in redes %}
                                 <div class="modulo-opt-block">
-                                    <input type="checkbox" name="modulo[rede][]" value="{{ rede['idRede'] }}" id="modulo_rede_{{ rede['idRede'] }}"
-                                    {% if rede['idRede'] in redesSelecionadas %}checked="checked"{% endif %}
-                                     />
-                                        <label for="modulo_rede_{{ rede['idRede' ] }}">{{ rede['nmRede'] }} ({{ rede['teIpRede'] }})</label>
+                                    <div class="checkbox">
+                                        <label for="modulo_rede_{{ rede['idRede' ] }}">
+                                            <input type="checkbox" name="modulo[rede][]" value="{{ rede['idRede'] }}" id="modulo_rede_{{ rede['idRede'] }}"
+                                            {% if rede['idRede'] in redesSelecionadas %}checked="checked"{% endif %}
+                                            />
+                                            {{ rede['nmRede'] }} ({{ rede['teIpRede'] }})
+                                        </label>
+                                    </div>
                                </div>
                             {% endfor %}
-                        </div>
 	           			{% else %}
 	           			{{ 'Nenhuma Rede cadastrada no sistema.'|trans }}
 	           			{% endif %}
@@ -54,22 +56,27 @@
                 <hr />
                 
                 <div class="control-group _cad_block_opcao">
-                	<label class="control-label">{{ 'Sistemas Operacionais onde esta ação-configuração deverá ser aplicada'|trans }}</label>
-                	<div class="controls">
+                	<label class="control-label col-sm-2">
+                        {{ 'Sistemas Operacionais onde esta ação-configuração deverá ser aplicada'|trans }}
+                    </label>
+                	<div class="col-sm-8">
                 		{% if so|length > 0 %}
                 		<input type="checkbox" class="toggleCheck" name="toggleCheck[]" value="modulo\[so\]" id="toggleSo">
                 		<label for="toggleSo"><b>{{ 'Marcar/desmarcar tudo'|trans }}</b></label>
-
                 		{% for _so in so %}
-                		<div class="modulo-opt-block">
-	                		<input type="checkbox" name="modulo[so][]" value="{{ _so['idSo'] }}" id="modulo_so_{{ _so['idSo'] }}"
-	                		{% if _so['idSo'] in soSelecionados %}checked="checked"{% endif %}
-	           			 	/>
-		           			<label for="modulo_so_{{ _so['idSo' ] }}">{{ _so['teDescSo'] }} ({{ _so['sgSo'] }} - {{ _so['teSo'] }})</label>
-		           		</div>
+                            <div class="modulo-opt-block">
+                                <div class="checkbox">
+                                    <label for="modulo_so_{{ _so['idSo' ] }}">
+                                        <input type="checkbox" name="modulo[so][]" value="{{ _so['idSo'] }}" id="modulo_so_{{ _so['idSo'] }}"
+                                        {% if _so['idSo'] in soSelecionados %}checked="checked"{% endif %}
+                                        />
+                                        {{ _so['teDescSo'] }} ({{ _so['sgSo'] }} - {{ _so['teSo'] }})
+                                    </label>
+                                </div>
+                            </div>
                 		{% endfor %}
                 		{% else %}
-	           			{{ 'Nenhum Sistema Operacional cadastrado no sistema.'|trans }}
+	           			    {{ 'Nenhum Sistema Operacional cadastrado no sistema.'|trans }}
 	           			{% endif %}
                 	</div>
                 </div>
@@ -131,7 +138,7 @@
 <style type="text/css">
 	.control-group .controls ._option_col { width: 240px; }
 	#add-mac, .remove-mac { cursor: pointer; }
-	.modulo-opt-block, .modulo-mac-opt-block { width: 370px; margin-right: 20px; float: left; }
+	/*.modulo-opt-block, .modulo-mac-opt-block { width: 370px; margin-right: 20px; float: left; }*/
 	#modulo-list-macs {  }
 	.modulo-mac-opt-block { width: 150px; margin-left: 20px; }
 </style>

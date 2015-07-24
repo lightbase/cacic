@@ -54,28 +54,30 @@ class AcaoRedeRepository extends EntityRepository
 
         $apagaObj = $em->getRepository( 'CacicCommonBundle:AcaoRede' )->findBy( array( 'acao'=>$acao ) );
 
+        // Primeiro apaga todas
         foreach ( $apagaObj as $acaoObj){
-            if (!empty($acaoObj))
+            if (!empty($acaoObj)) {
                 $em->remove($acaoObj);
+            }
         }
 
         $em->flush();
 
-		foreach ( $novasRedes as $idRede )
-		{
-            $novaAcao = $em->getRepository( 'CacicCommonBundle:Acao' )->find( $acao );
-
-            if ( $novaAcao->getCsOpcional() == 'S' && $novaAcao->getAtivo() ) {
+        // Agora insere uma de cada vez
+        $novaAcao = $em->getRepository( 'CacicCommonBundle:Acao' )->findAcaoAtiva( $acao, true );
+        if (!empty($novaAcao)) {
+            foreach ( $novasRedes as $idRede )
+            {
+                $rede = $em->getRepository('CacicCommonBundle:Rede')->find($idRede);
 
                 $new = new AcaoRede();
-                $new->setAcao($em->getRepository('CacicCommonBundle:Acao')->find($acao));
-                $new->setRede($em->getRepository('CacicCommonBundle:Rede')->find($idRede));
+                $new->setAcao($novaAcao);
+                $new->setRede($rede);
                 $em->persist($new);
             }
-		}
+        }
 
 		$em->flush();
-
     }
 
     /**
