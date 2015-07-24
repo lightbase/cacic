@@ -61,33 +61,31 @@ class AcaoRepository extends EntityRepository
             ->getArrayResult();
     }
 
-    public function listaAcaoComputador( $idRede, $idSo, $te_node_address )
+    public function listaAcaoComputador( $idComputador, $idAcao = null )
     {
-        // Monta a Consulta básica...
-        $_dql = "SELECT DISTINCT
-                a.idAcao,
-                a.teNomeCurtoModulo,
-                a.teDescricaoBreve,
-                ar.dtHrColetaForcada,
-                aso as acaoExcecao
-                FROM CacicCommonBundle:Acao a
-                INNER JOIN a.redes ar
-                INNER JOIN ar.rede r
-                LEFT JOIN CacicCommonBundle:AcaoSo aso WITH (a.idAcao = aso.acao AND aso.so = :idSo)
-                LEFT JOIN CacicCommonBundle:AcaoExcecao e
-                  WITH (e.acao = a.idAcao AND e.rede = :idRede AND e.teNodeAddress = :te_node_address)
-                WHERE r.idRede = :idRede
-                AND e.acao IS NULL
-                AND (a.ativo = 't' OR a.ativo IS NULL)";
+        $qb = $this->createQueryBuilder('a')
+            ->select("a.idAcao",
+                "a.teNomeCurtoModulo",
+                "a.teDescricaoBreve",
+                "ar.dtHrColetaForcada")
+            ->innerJoin("a.redes", "ar")
+            ->innerJoin("ar.rede", "r")
+            ->innerJoin("CacicCommonBundle:Computador", "comp", "WITH", "comp.idRede = r.idRede")
+            ->leftJoin("CacicCommonBundle:AcaoExcecao", "e", "WITH",
+                "e.acao = a.idAcao AND e.rede = comp.idRede AND e.teNodeAddress = comp.teNodeAddress")
+            ->andWhere("comp.idComputador = :idComputador")
+            ->andWhere("e.acao IS NULL")
+            ->andWhere("a.ativo = 't' OR a.ativo IS NULL")
+            ->setParameter('idComputador', $idComputador);
 
-        return $this->getEntityManager()
-            ->createQuery( $_dql )
-            ->setParameters(array(
-                'idRede' => $idRede,
-                'idSo' => $idSo,
-                'te_node_address' => $te_node_address
-            ))
-            ->getArrayResult();
+
+        // Permite filtrar por ação
+        if (!empty($idAcao)) {
+            $qb->andWhere("a.idAcao = :idAcao")
+                ->setParameter('idAcao', $idAcao);
+        }
+
+        return $qb->getQuery()->getArrayResult();
     }
 
     public function listarModulosInativos() {

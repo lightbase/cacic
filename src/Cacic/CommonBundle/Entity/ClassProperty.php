@@ -172,4 +172,32 @@ class ClassProperty
     {
     	return $this->nmPropertyName;
     }
+    /**
+     * @var string
+     */
+    private $prettyName;
+
+
+    /**
+     * Set prettyName
+     *
+     * @param string $prettyName
+     * @return ClassProperty
+     */
+    public function setPrettyName($prettyName)
+    {
+        $this->prettyName = $prettyName;
+
+        return $this;
+    }
+
+    /**
+     * Get prettyName
+     *
+     * @return string 
+     */
+    public function getPrettyName()
+    {
+        return $this->prettyName;
+    }
 }

@@ -86,4 +86,19 @@ class ClassPropertyRepository extends EntityRepository {
 
         return $result;
     }
+
+    /**
+     * Pega lista de atributos pelo nome da classe
+     *
+     * @param $classe
+     * @return array
+     */
+    public function getByClassName($classe) {
+        $qb = $this->createQueryBuilder('prop')
+            ->innerJoin("CacicCommonBundle:Classe", "cl", "WITH", "prop.idClass = cl.idClass")
+            ->andWhere('cl.nmClassName = :classe')
+            ->setParameter('classe', $classe);
+
+        return $qb->getQuery()->getResult();
+    }
 } 

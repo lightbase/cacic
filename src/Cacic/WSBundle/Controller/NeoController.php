@@ -259,17 +259,11 @@ class NeoController extends Controller {
         // 1 - Ações para o computador
         //$logger->debug("11111111111111111111111111111111 ".print_r($so_json, true));
         $acoes = $em->getRepository('CacicCommonBundle:Acao')->listaAcaoComputador(
-            $computador->getIdRede()->getIdRede(),
-            $computador->getIdSo()->getIdSo(),
-            $computador->getTeNodeAddress()
+            $computador->getIdComputador()
         );
         $logger->debug("Ações encontradas \n".print_r($acoes, true));
-        $cols = array();
         foreach ($acoes as $elm) {
             // Adiciona ações na saída
-            if (empty($elm['idAcao'])) {
-                $saida['agentcomputer']['actions'][$elm['acaoExecao']] = true;
-            }
             $saida['agentcomputer']['actions'][$elm['idAcao']] = true;
         }
 
@@ -533,6 +527,8 @@ class NeoController extends Controller {
             $em->persist($computador);
 
         }
+
+        $em->flush();
 
         return $computador;
 

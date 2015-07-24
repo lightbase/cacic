@@ -1315,4 +1315,26 @@ GROUP BY c0_.te_node_address,
         return $this->getEntityManager()->createQuery( $_dql )
             ->getArrayResult();
     }
+
+    /**
+     * Pega informações de patrimônio já coletadas para o computador
+     *
+     * @param $idComputador
+     * @return array
+     */
+    public function getPatrimonio($idComputador) {
+        $qb = $this->createQueryBuilder("comp")
+            ->select("comp.idComputador", "col.dtHrInclusao", "prop.nmPropertyName", "col.teClassPropertyValue")
+            ->innerJoin("CacicCommonBundle:ComputadorColeta", "col", "WITH", "comp.idComputador = col.computador")
+            ->innerJoin("CacicCommonBundle:ClassProperty", "prop", "WITH", "prop.idClassProperty = col.classProperty")
+            ->innerJoin("CacicCommonBundle:Classe", "cl", "WITH", "prop.idClass = cl.idClass")
+            ->andWhere("comp.idComputador = :idComputador")
+            ->andWhere("cl.nmClassName = 'Patrimonio'")
+            ->andWhere("col.ativo = 't' OR col.ativo IS NULL")
+            ->setParameter('idComputador', $idComputador)
+            ->orderBy("col.dtHrInclusao", "desc");
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

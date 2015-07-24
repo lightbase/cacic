@@ -16,6 +16,11 @@ Cacic\CommonBundle\Entity\ClassProperty:
             fixed: false
             nullable: false
             column: nm_property_name
+        prettyName:
+            type: text
+            fixed: false
+            nullable: true
+            column: pretty_name
         tePropertyDescription:
             type: text
             fixed: false

@@ -109,3 +109,7 @@ cacic_ws_download_msi:
 cacic_ws_neo_modifications:
     path: /neo/modifications
     defaults: { _controller: CacicWSBundle:NeoColeta:modifications }
+
+cacic_ws_neo_mapa_config:
+    path: /neo/mapa/config
+    defaults: { _controller: CacicWSBundle:NeoMapa:mapaConfig }

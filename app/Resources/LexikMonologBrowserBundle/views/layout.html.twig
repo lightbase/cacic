@@ -28,4 +28,13 @@
 {% block javascripts %}
     {{ parent() }}
 
+    <script type="text/javascript">
+        $(function() {
+            $(document).ready(function(){
+                var elm = $('.control-label');
+                elm.removeClass('col-sm-2');
+            });
+        });
+    </script>
+
 {% endblock %}
