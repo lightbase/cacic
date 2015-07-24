@@ -77,11 +77,16 @@ class AcaoRepository extends EntityRepository
                 LEFT JOIN CacicCommonBundle:AcaoExcecao e
                   WITH (e.acao = a.idAcao AND e.rede = :idRede AND e.teNodeAddress = :te_node_address)
                 WHERE r.idRede = :idRede
-                AND e.acao IS NULL";
+                AND e.acao IS NULL
+                AND (a.ativo = 't' OR a.ativo IS NULL)";
 
         return $this->getEntityManager()
             ->createQuery( $_dql )
-            ->setParameters( array('idRede'=>$idRede, 'idSo'=>$idSo, 'te_node_address' => $te_node_address) )
+            ->setParameters(array(
+                'idRede' => $idRede,
+                'idSo' => $idSo,
+                'te_node_address' => $te_node_address
+            ))
             ->getArrayResult();
     }
 
