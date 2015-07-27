@@ -34,7 +34,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        cacic_version: 3.1.16
+        cacic_version: 3.1.17
     form:
         resources: ['bootstrap_3_horizontal_layout.html.twig']
     form_themes:
