@@ -741,7 +741,7 @@ class SoftwareController extends Controller
     public function nomeCsvAction(Request $request) {
         $locale = $request->getLocale();
 
-        $idRelatorio = $request->get('idRelatorio');
+        $idRelatorio = $request->get('softwares');
         $nomeRelatorio = $request->get('nomeRelatorio');
         $idLocal = $request->get('idLocal');
         $idRede = $request->get('idRede');
