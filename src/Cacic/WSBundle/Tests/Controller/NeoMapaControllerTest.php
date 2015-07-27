@@ -98,10 +98,43 @@ class NeoMapaControllerTest extends BaseTestCase
         ));
         $this->assertEmpty($acaoExcecao);
 
+        // Busca ações ativas
+        $acao_t1 = $this->em->getRepository("CacicCommonBundle:Acao")->findOneBy(array(
+            'ativo' => true,
+            'idAcao' => 'col_patr'
+        ));
+        if (empty($acao_t1)) {
+            $logger->debug("ACAO: Não retornou verdadeiro (true). Verifica se é vazia");
+            $acao_t2 = $this->em->getRepository("CacicCommonBundle:Acao")->findOneBy(array(
+                'ativo' => null,
+                'idAcao' => 'col_patr'
+            ));
+            $this->assertNotEmpty($acao_t2, "A ação deveria retornar nula, mas não retorna");
+        }
+
+        // Teste de consulta
+        $query = $this->em->createQuery(
+            "SELECT a.idAcao,
+                a.teNomeCurtoModulo
+             FROM CacicCommonBundle:Computador comp
+             INNER JOIN comp.idRede rede
+             INNER JOIN rede.acoes ar
+             INNER JOIN CacicCommonBundle:Acao a WITH a.idAcao = ar.acao
+             LEFT JOIN CacicCommonBundle:AcaoExcecao e WITH (
+                    e.acao = a.idAcao AND e.rede = comp.idRede AND e.teNodeAddress = comp.teNodeAddress
+                )
+             WHERE comp.idComputador = :idComputador
+             AND (a.ativo = TRUE OR a.ativo IS NULL)
+             AND e.acao IS NULL
+            "
+        )->setParameter('idComputador', $computador_obj->getIdComputador());
+        $result = $query->getResult();
+        $this->assertNotEmpty($result, "Consulta de teste falhou");
+
         $acoesComp = $this->em->getRepository("CacicCommonBundle:Acao")->listaAcaoComputador(
             $computador_obj->getIdComputador()
         );
-        $this->assertGreaterThan(0, sizeof($acoesComp));
+        $this->assertGreaterThan(0, sizeof($acoesComp), "Não foram encontrados resultados para o computador");
 
         $acaoComp = $this->em->getRepository("CacicCommonBundle:Acao")->listaAcaoComputador(
             $computador_obj->getIdComputador(),

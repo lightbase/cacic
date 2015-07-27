@@ -67,15 +67,19 @@ class AcaoRepository extends EntityRepository
             ->select("a.idAcao",
                 "a.teNomeCurtoModulo",
                 "a.teDescricaoBreve",
-                "ar.dtHrColetaForcada")
+                "ar.dtHrColetaForcada",
+                "aso as acaoSo")
             ->innerJoin("a.redes", "ar")
             ->innerJoin("ar.rede", "r")
             ->innerJoin("CacicCommonBundle:Computador", "comp", "WITH", "comp.idRede = r.idRede")
+            ->leftJoin("CacicCommonBundle:AcaoSo", "aso", "WITH", "comp.idSo = aso.acao
+                AND ar.rede = aso.rede
+                AND comp.idSo = aso.so")
             ->leftJoin("CacicCommonBundle:AcaoExcecao", "e", "WITH",
                 "e.acao = a.idAcao AND e.rede = comp.idRede AND e.teNodeAddress = comp.teNodeAddress")
             ->andWhere("comp.idComputador = :idComputador")
             ->andWhere("e.acao IS NULL")
-            ->andWhere("a.ativo = 't' OR a.ativo IS NULL")
+            ->andWhere("a.ativo = TRUE OR a.ativo IS NULL")
             ->setParameter('idComputador', $idComputador);
 
 
