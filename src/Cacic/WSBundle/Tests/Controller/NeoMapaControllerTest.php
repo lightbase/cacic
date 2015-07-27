@@ -151,10 +151,10 @@ class NeoMapaControllerTest extends BaseTestCase
         $this->assertEquals(true, $dados['col_patr'], "O módulo de patrimônio deveria estar habilitado, mas não retornou verdadeiro");
 
         // Verifica se o array de propriedades existe e não é nulo
-        $this->assertNotEmpty($dados['propriedades'], "Não foi possível encontrar nenhuma propriedade de patrimônio");
+        $this->assertNotEmpty($dados['properties'], "Não foi possível encontrar nenhuma propriedade de patrimônio");
 
         // Verifica se existe a propriedade IDPatrimonio
-        $this->assertNotEmpty($dados['propriedades']['IDPatrimonio']);
+        $this->assertNotEmpty($dados['properties']['IDPatrimonio']);
 
         // Não deve existir servidor de autenticação
         $this->assertEmpty($dados['ldap']);
