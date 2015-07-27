@@ -129,13 +129,18 @@ dl dd { margin-bottom: 10px; }
 }
 
 /* Corrige para o bootstrap transfer */
-.selector-chosen *,
-.selector-chosen *:before,
-.selector-chosen *:after {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    white-space: normal;
+/*
+.bootstrap-transfer-container *,
+.bootstrap-transfer-container *:before,
+.bootstrap-transfer-container *:after {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	white-space: normal;
+}
+*/
+.bootstrap-transfer-container .selector-filter.right {
+    min-height: 28px;
 }
 
 /* Firefox fieldset fix */
