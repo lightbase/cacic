@@ -485,19 +485,19 @@ class FaturamentoController extends Controller {
 
             $filtro_geral = array();
 
-            $dataInicio = $data['dtAcaoInicio'];
-            $dataFim = $data['dtAcaoFim'];
-            $usuario = $data['usuario'];
-            $nmComputador = $data['nmComputador'];
-            $teIpComputador = $data['teIpComputador'];
-            $teNodeAddress = $data['teNodeAddress'];
-            $usuarioPatrimonio = $data['usuarioPatrimonio'];
-            $usuarioName = $data['usuarioName'];
-            $coordenacao = $data['coordenacao'];
-            $sala = $data['sala'];
-            $usuarioLogado = $data['usuarioLogado'];
-            $macCompDinamico = $data['macCompDinamico'];
-            $ipCompDinamico = $data['ipCompDinamico'];
+            $dataInicio = @$data['dtAcaoInicio'];
+            $dataFim = @$data['dtAcaoFim'];
+            $usuario = @$data['usuario'];
+            $nmComputador = @$data['nmComputador'];
+            $teIpComputador = @$data['teIpComputador'];
+            $teNodeAddress = @$data['teNodeAddress'];
+            $usuarioPatrimonio = @$data['usuarioPatrimonio'];
+            $usuarioName = @$data['usuarioName'];
+            $coordenacao = @$data['coordenacao'];
+            $sala = @$data['sala'];
+            $usuarioLogado = @$data['usuarioLogado'];
+            $macCompDinamico = @$data['macCompDinamico'];
+            $ipCompDinamico = @$data['ipCompDinamico'];
             $semData = 'N';
 
             //verifica se a busca é pelo campo "usuario dinamico"
