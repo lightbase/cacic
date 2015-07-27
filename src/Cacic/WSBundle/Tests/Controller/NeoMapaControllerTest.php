@@ -9,6 +9,7 @@
 namespace Cacic\WSBundle\Tests\Controller;
 
 use Cacic\WSBundle\Tests\BaseTestCase;
+use Cacic\CommonBundle\Entity\ServidorAutenticacao;
 
 class NeoMapaControllerTest extends BaseTestCase
 {
@@ -158,6 +159,122 @@ class NeoMapaControllerTest extends BaseTestCase
 
         // Não deve existir servidor de autenticação
         $this->assertEmpty($dados['ldap']);
+    }
+
+    /**
+     * Testa parâmetros de conexão ao LDAP
+     */
+    public function testLdap() {
+        $logger = $this->container->get('logger');
+
+        // Primeiro insiro o computador
+        $this->client->request(
+            'POST',
+            '/ws/neo/getTest',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->computador
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+
+        $this->assertEquals($status, 200, "MAPA: Requisição de getTest falhou");
+
+        // Carrega computador
+        $computador = json_decode($this->computador, true);
+
+        // Adiciona request do getMapa
+        $computador['request'] = 'getMapa';
+
+        // Carrega o objeto do computador
+        $computador_obj = $this->em->getRepository("CacicCommonBundle:Computador")->findOneBy(array(
+            'teNodeAddress' => $computador['computador']['networkDevices'][0]['mac']
+        ));
+        $this->assertNotEmpty($computador_obj, "Computador inserido não encontrado");
+
+        // Cria servidor de autenticação para a rede
+        // TODO: testar preenchimento de formulário de cadastro para criar servidor de autenticação
+        $servidor_autenticacao = new ServidorAutenticacao();
+        $servidor_autenticacao->setNmServidorAutenticacao('teste');
+        $servidor_autenticacao->setNmServidorAutenticacaoDns('dc=cacic,dc=com,dc=br');
+        $servidor_autenticacao->setTeIpServidorAutenticacao('127.0.0.1');
+        $servidor_autenticacao->setIdTipoProtocolo('LDAP');
+        $servidor_autenticacao->setNuPortaServidorAutenticacao('389');
+        $servidor_autenticacao->setUsuario('cn=admin');
+        $servidor_autenticacao->setSenha('123456');
+        $servidor_autenticacao->setInAtivo('S');
+        $servidor_autenticacao->setTeAtributoIdentificador('uid');
+        $servidor_autenticacao->setNuVersaoProtocolo('3');
+        $servidor_autenticacao->setTeAtributoRetornaNome('cn');
+        $servidor_autenticacao->setTeAtributoRetornaEmail('email');
+        $this->em->persist($servidor_autenticacao);
+
+
+        // Adiciona servidor na rede
+        $computador_obj->getIdRede()->setIdServidorAutenticacao($servidor_autenticacao);
+        $this->em->persist($computador_obj->getIdRede());
+        $this->em->flush();
+
+
+        // Agora envia a requisição
+        $this->client->request(
+            'POST',
+            '/ws/neo/mapa/config',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            json_encode($computador, true)
+        );
+
+        $logger->debug("Dados JSON do computador enviados para a coleta: \n".$this->client->getRequest()->getcontent());
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        $logger->debug("JSON da coleta: \n".$response->getContent());
+
+        $this->assertEquals(200, $status, "Erro na requisição do patrimônio");
+
+        // Verifica se a coleta de patrimônio está habilitada
+        $content = $response->getContent();
+        $dados = json_decode($content, true);
+
+        $this->assertEquals(true, $dados['col_patr'], "O módulo de patrimônio deveria estar habilitado, mas não retornou verdadeiro");
+
+        // Verifica se o array de propriedades existe e não é nulo
+        $this->assertNotEmpty($dados['properties'], "Não foi possível encontrar nenhuma propriedade de patrimônio");
+
+        // Verifica se existe a propriedade IDPatrimonio
+        $this->assertNotEmpty($dados['properties']['IDPatrimonio']);
+
+        // Teste do LDAP
+        $ldap = array(
+            'base' => $servidor_autenticacao->getNmServidorAutenticacaoDns(),
+            "filter" => array(
+                $servidor_autenticacao->getTeAtributoIdentificador()
+            ),
+            "login" => $servidor_autenticacao->getUsuario(),
+            "pass" => $servidor_autenticacao->getSenha(),
+            "server" => $servidor_autenticacao->getTeIpServidorAutenticacao(),
+            "port" => $servidor_autenticacao->getNuPortaServidorAutenticacao(),
+            "attr" => array(
+                "name" => $servidor_autenticacao->getTeAtributoRetornaNome(),
+                "email" => $servidor_autenticacao->getTeAtributoRetornaEmail()
+            )
+        );
+
+        // Não deve existir servidor de autenticação
+        $this->assertArraySubset($ldap, $dados['ldap'], true, "Os atributos enviados estão diferentes do esperado.\n Enviados: ".print_r($dados['ldap'], true)."\n ESPERADOS: \n".print_r($ldap, true));
+
     }
 
 

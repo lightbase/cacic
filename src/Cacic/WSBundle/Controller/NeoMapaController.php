@@ -118,7 +118,11 @@ class NeoMapaController extends NeoController
                     "login" => $servidor_autenticacao->getUsuario(),
                     "pass" => $servidor_autenticacao->getSenha(),
                     "server" => $servidor_autenticacao->getTeIpServidorAutenticacao(),
-                    "port" => $servidor_autenticacao->getNuPortaServidorAutenticacao()
+                    "port" => $servidor_autenticacao->getNuPortaServidorAutenticacao(),
+                    "attr" => array(
+                        "name" => $servidor_autenticacao->getTeAtributoRetornaNome(),
+                        "email" => $servidor_autenticacao->getTeAtributoRetornaEmail()
+                    )
                 );
             }
         }
@@ -149,6 +153,8 @@ class NeoMapaController extends NeoController
         $response->setStatusCode(200);
 
         return $response;
+
+        // Verifica se todas as propriedades foram enviadas
 
     }
 }

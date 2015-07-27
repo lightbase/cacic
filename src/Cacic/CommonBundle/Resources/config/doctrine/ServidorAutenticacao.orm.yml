@@ -74,7 +74,7 @@ Cacic\CommonBundle\Entity\ServidorAutenticacao:
         teAtributoValorStatusContaValida:
             type: text
             fixed: false
-            nullable: false
+            nullable: true
             column: te_atributo_valor_status_conta_valida
         teObservacao:
             type: text
