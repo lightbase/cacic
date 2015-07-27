@@ -437,7 +437,7 @@ class FaturamentoController extends Controller {
         $form = $this->createForm( new ComputadorConsultaType() );
 
         $computadores = $this->getDoctrine()->getRepository( 'CacicCommonBundle:Computador')
-            ->selectIp($data['teIpComputador'],$data['nmComputador'] ,$data['teNodeAddress'] );
+            ->selectIp(@$data['teIpComputador'],@$data['nmComputador'] ,@$data['teNodeAddress'] );
 
 
         return $this->render( 'CacicCommonBundle:Computador:buscar.html.twig',
