@@ -159,6 +159,8 @@ class NeoMapaControllerTest extends BaseTestCase
 
         // Não deve existir servidor de autenticação
         $this->assertEmpty($dados['ldap']);
+
+        $this->assertNotEmpty($dados['message'], "A mensagem do pop-up não pode ser vazia");
     }
 
     /**
@@ -274,6 +276,8 @@ class NeoMapaControllerTest extends BaseTestCase
 
         // Não deve existir servidor de autenticação
         $this->assertArraySubset($ldap, $dados['ldap'], true, "Os atributos enviados estão diferentes do esperado.\n Enviados: ".print_r($dados['ldap'], true)."\n ESPERADOS: \n".print_r($ldap, true));
+
+        $this->assertNotEmpty($dados['message'], "A mensagem do pop-up não pode ser vazia");
 
     }
 

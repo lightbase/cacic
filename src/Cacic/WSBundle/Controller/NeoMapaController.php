@@ -147,6 +147,27 @@ class NeoMapaController extends NeoController
             }
         }
 
+        // IMPORTANTE: Pega emnsagem do pop-up
+        $mensagem = $computador->getIdRede()->getIdLocal()->getConfiguracoes()->get('msg_popup_patrimonio');
+        if (empty($mensagem)) {
+            // Pega configuração padrão
+            $configuracao = $em->getRepository("CacicCommonBundle:ConfiguracaoPadrao")->findOneBy(array(
+                'idConfiguracao' => 'msg_popup_patrimonio'
+            ));
+
+            if (empty($configuracao)) {
+                // Retorna mensagem genérica
+                $mensagem = "Preencha os dados do patrimônio";
+            } else {
+                $mensagem = $configuracao->getVlConfiguracao();
+                if (empty($mensagem)) {
+                    // Configuração existe e mensagem vazia
+                    $mensagem = "Preencha os dados do patrimônio";
+                }
+            }
+        }
+        $msg['message'] = $mensagem;
+
         // Retorna resposta com atributos
         $response = new JsonResponse();
         $response->setContent(json_encode($msg));
