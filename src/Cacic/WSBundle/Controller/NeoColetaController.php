@@ -83,10 +83,11 @@ class NeoColetaController extends NeoController {
     }
 
     /**
-     * Classe que persiste a coleta de hardware
+     * Classe que persiste a coleta de hardware (WMI)
      *
      * @param $hardware
      * @param $computador
+     * @return bool
      */
 
     public function setHardware($hardware, $computador) {
@@ -197,6 +198,27 @@ class NeoColetaController extends NeoController {
                     $em->persist($computador);
                     $em->persist($classObject);
 
+                    // REFACTORING: Insere no histórico somente se houver mudança
+                    $computadorColetaHistorico = $em->getRepository("CacicCommonBundle:ComputadorColetaHistorico")->findOneBy(array(
+                        'classProperty' => $classProperty,
+                        'computador' => $computador,
+                        'teClassPropertyValue' => $valor[$propriedade]
+                    ));
+
+                    if (empty($computadorColetaHistorico)) {
+                        $logger->debug("COLETA: Inserindo histórico!!! Propriedade: ".$classProperty->getNmPropertyName()." Classe: ".$classObject->getNmClassName());
+                        // Persistencia de Historico
+                        $computadorColetaHistorico = new ComputadorColetaHistorico();
+                        $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
+                        $computadorColetaHistorico->setComputador( $computador );
+                        $computadorColetaHistorico->setClassProperty( $classProperty);
+                        $computadorColetaHistorico->setTeClassPropertyValue($valor[$propriedade]);
+                    }
+
+                    // Persiste data atual
+                    $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
+                    $em->persist( $computadorColetaHistorico );
+
                     // Segue para o próximo registro a partir daqui
                     continue;
                 }
@@ -215,12 +237,24 @@ class NeoColetaController extends NeoController {
                 // Pega novo computador gerado no computador coleta
                 $computador = $computadorColeta->getComputador();
 
-                // Persistencia de Historico
-                $computadorColetaHistorico = new ComputadorColetaHistorico();
-                $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
-                $computadorColetaHistorico->setComputador( $computador );
-                $computadorColetaHistorico->setClassProperty( $classProperty);
-                $computadorColetaHistorico->setTeClassPropertyValue($valor[$propriedade]);
+                // REFACTORING: Insere no histórico somente se houver mudança
+                $computadorColetaHistorico = $em->getRepository("CacicCommonBundle:ComputadorColetaHistorico")->findOneBy(array(
+                    'classProperty' => $classProperty,
+                    'computador' => $computador,
+                    'teClassPropertyValue' => $valor[$propriedade]
+                ));
+
+                if (empty($computadorColetaHistorico)) {
+                    $logger->debug("COLETA: Inserindo histórico!!! Propriedade: ".$classProperty->getNmPropertyName()." Classe: ".$classObject->getNmClassName());
+                    // Persistencia de Historico
+                    $computadorColetaHistorico = new ComputadorColetaHistorico();
+                    $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
+                    $computadorColetaHistorico->setComputador( $computador );
+                    $computadorColetaHistorico->setClassProperty( $classProperty);
+                    $computadorColetaHistorico->setTeClassPropertyValue($valor[$propriedade]);
+                }
+
+                // Persiste data atual
                 $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
                 $em->persist( $computadorColetaHistorico );
 
@@ -294,18 +328,6 @@ class NeoColetaController extends NeoController {
                 $software = $valor['description'];
             }
 
-            // Verifica se software ja esta cadastrado
-            $softwareObject = $em->getRepository('CacicCommonBundle:Software')->getByName($software);
-            if (empty($softwareObject)) {
-                // Se nao existir, cria
-                $softwareObject = new Software();
-                $softwareObject->setNmSoftware($software);
-
-                // Se não der o flush aqui, as consultas de baixo não encontram o objeto
-                $em->persist($softwareObject);
-                $em->flush();
-            }
-
             // Recupera classProperty para o software
             $classProperty = $em->getRepository('CacicCommonBundle:ClassProperty')->findOneBy(array(
                 'idClass' => $classObject->getIdClass(),
@@ -326,11 +348,22 @@ class NeoColetaController extends NeoController {
             // Adiciona software ao computador
             $propSoftware = $em->getRepository('CacicCommonBundle:PropriedadeSoftware')->findOneBy(array(
                 'classProperty' => $classProperty,
-                'software' => $softwareObject,
                 'computador' => $computador
             ));
             if (empty($propSoftware)) {
                 $logger->info("COLETA: Cadastrando software não encontrado $software");
+
+                // Verifica se software ja esta cadastrado
+                $softwareObject = $em->getRepository('CacicCommonBundle:Software')->getByName($software);
+                if (empty($softwareObject)) {
+                    // Se nao existir, cria
+                    $softwareObject = new Software();
+                    $softwareObject->setNmSoftware($software);
+
+                    // Se não der o flush aqui, as consultas de baixo não encontram o objeto
+                    $em->persist($softwareObject);
+                    $em->flush();
+                }
 
                 $propSoftware = new PropriedadeSoftware();
                 $propSoftware->setComputador($computador);
@@ -339,6 +372,16 @@ class NeoColetaController extends NeoController {
 
                 // Adiciona software na coleta
                 $softwareObject->addColetado($propSoftware);
+            } else {
+                $softwareNew = $em->getRepository('CacicCommonBundle:Software')->getByName($software);
+                if (!empty($softwareNew)) {
+                    // Nesse caso já existe um software com o nome. Atualiza o objeto para o novo valor
+                    $propSoftware->setSoftware($softwareNew);
+                    $softwareObject = $softwareNew;
+                } else {
+                    // Utiliza o software já cadastrado na propriedade
+                    $softwareObject = $propSoftware->getSoftware();
+                }
             }
 
             // Garante que o software deve estar ativo
@@ -362,7 +405,7 @@ class NeoColetaController extends NeoController {
             $computadorColeta->setComputador( $computador );
 
             // Atualiza valores do Software
-            $softwareObject->setNmSoftware($software);
+            // $softwareObject->setNmSoftware($software);
             if (array_key_exists('description', $valor)) {
                 $softwareObject->setTeDescricaoSoftware($valor['description']);
                 $propSoftware->setDisplayName($valor['description']);
@@ -386,7 +429,7 @@ class NeoColetaController extends NeoController {
             $computadorColeta->setIdClass($classObject);
             $computadorColeta->setDtHrInclusao( new \DateTime() );
 
-            // Persiste os objetos 
+            // Persiste os objetos
             $em->persist($propSoftware);
             $em->persist($softwareObject);
             $em->persist( $computadorColeta );
@@ -394,12 +437,24 @@ class NeoColetaController extends NeoController {
             // Pega novo computador gerado no computador coleta
             $computador = $computadorColeta->getComputador();
 
-            // Persistencia de Historico
-            $computadorColetaHistorico = new ComputadorColetaHistorico();
-            $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
-            $computadorColetaHistorico->setComputador( $computador );
-            $computadorColetaHistorico->setClassProperty( $classProperty);
-            $computadorColetaHistorico->setTeClassPropertyValue($software);
+            // REFACTORING: Insere no histórico somente se houver mudança
+            $computadorColetaHistorico = $em->getRepository("CacicCommonBundle:ComputadorColetaHistorico")->findOneBy(array(
+                'classProperty' => $classProperty,
+                'computador' => $computador,
+                'teClassPropertyValue' => $software
+            ));
+
+            if (empty($computadorColetaHistorico)) {
+                $logger->debug("COLETA: Inserindo histórico!!! Propriedade: ".$classProperty->getNmPropertyName()." Classe: ".$classObject->getNmClassName());
+                // Persistencia de Historico
+                $computadorColetaHistorico = new ComputadorColetaHistorico();
+                $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
+                $computadorColetaHistorico->setComputador( $computador );
+                $computadorColetaHistorico->setClassProperty( $classProperty);
+                $computadorColetaHistorico->setTeClassPropertyValue( $software );
+            }
+
+            // Armazena data de atualização
             $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
             $em->persist( $computadorColetaHistorico );
 

@@ -158,7 +158,7 @@ class NeoMapaControllerTest extends BaseTestCase
         $this->assertNotEmpty($dados['properties']['IDPatrimonio']);
 
         // Não deve existir servidor de autenticação
-        $this->assertEmpty($dados['ldap']);
+        $this->assertEmpty(@$dados['ldap']);
 
         $this->assertNotEmpty($dados['message'], "A mensagem do pop-up não pode ser vazia");
     }
