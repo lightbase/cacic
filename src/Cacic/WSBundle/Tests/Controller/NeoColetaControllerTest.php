@@ -7,6 +7,7 @@
  */
 
 namespace Cacic\WSBundle\Tests\Controller;
+use Cacic\CommonBundle\Entity\Computador;
 use Cacic\WSBundle\Tests\BaseTestCase;
 
 
@@ -557,6 +558,99 @@ class NeoColetaControllerTest extends BaseTestCase {
                 "O valor encontrado não está presente em nenhuma das coletas: ".$elm->getTeClassPropertyValue()
             );
         }
+    }
+
+    /**
+     * Testa criação da notificação a partir do envio de modificações
+     */
+    public function testModificationsNotifications() {
+        $logger = $this->container->get('logger');
+
+        $this->client->request(
+            'POST',
+            '/ws/neo/coleta',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->coleta_modifications
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON da coleta: \n".$response->getContent());
+
+        $this->assertEquals($status, 200);
+
+        // Verifica se o Software Coleta foi inserido
+        $em = $this->container->get('doctrine')->getManager();
+
+        // Agora envia a modificação
+        $this->client->request(
+            'POST',
+            '/ws/neo/modifications',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->modifications
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        //$logger->debug("JSON da coleta: \n".$response->getContent());
+
+        $this->assertEquals($status, 200);
+
+        // Limpa o cache para garantir o resultado
+        $em->clear();
+
+        // Testa se identificou o computador
+        $so = $em->getRepository("CacicCommonBundle:So")->findOneBy(array(
+            'teSo' => 'Ubuntu 14.04.1 LTS-x86_64'
+        ));
+        $this->assertNotEmpty($so);
+
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->findOneBy(array(
+            'teNodeAddress' => '9C:D2:1E:EA:E0:89',
+            'idSo' => $so
+        ));
+        $this->assertNotEmpty($computador);
+
+        // Agora verifica se a notificação foi inserida com sucesso
+        $notifications = $em->getRepository("CacicCommonBundle:Notifications")->findBy(array(
+            'notificationAcao' => 'DEL',
+            'object' => 'Software',
+            'idComputador' => $computador
+        ));
+        $this->assertCount(1, $notifications, "Não foi encontrada a notificação de remoção do software");
+
+        // Valida atributos
+        $this->assertNotEmpty($notifications[0]->getBody(), "O campo body está vazio");
+        $this->assertNotEmpty($notifications[0]->getFromAddr(), "O campo from está vazio");
+        $this->assertNotEmpty($notifications[0]->getSubject(), "O campo subject está vazio");
+        $this->assertEquals('DEL', $notifications[0]->getNotificationAcao(), "A ação não está mapeada como exclusão (DEL)");
+        $this->assertEquals('Software', $notifications[0]->getObject(), "A ação não está mapeada como objeto Software");
+
+        $notifications = $em->getRepository("CacicCommonBundle:Notifications")->findBy(array(
+            'notificationAcao' => 'DEL',
+            'object' => 'Hardware',
+            'idComputador' => $computador
+        ));
+        $this->assertCount(1, $notifications, "Não foi encontrada a notificação de remoção do software");
+
+        // Valida atributos
+        $this->assertNotEmpty($notifications[0]->getBody(), "O campo body está vazio");
+        $this->assertNotEmpty($notifications[0]->getFromAddr(), "O campo from está vazio");
+        $this->assertNotEmpty($notifications[0]->getSubject(), "O campo subject está vazio");
+        $this->assertEquals('DEL', $notifications[0]->getNotificationAcao(), "A ação não está mapeada como exclusão (DEL)");
+        $this->assertEquals('Hardware', $notifications[0]->getObject(), "A ação não está mapeada como objeto Hardware");
     }
 
     public function tearDown() {

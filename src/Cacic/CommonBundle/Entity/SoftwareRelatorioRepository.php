@@ -279,7 +279,11 @@ class SoftwareRelatorioRepository extends EntityRepository
 
         if (!empty($filtros['nomeRelatorio'])) {
             $softwares = $filtros['nomeRelatorio'];
-            $software_filter = implode("', '", $softwares);
+            if (is_array($softwares)) {
+                $software_filter = implode("', '", $softwares);
+            } else {
+                $software_filter = $softwares;
+            }
             $qb->andWhere("rel.nomeRelatorio IN ('$software_filter')");
         }
 

@@ -118,6 +118,9 @@ Cacic\CommonBundle\Entity\Computador:
         software_coletado:
             targetEntity: PropriedadeSoftware
             mappedBy: computador
+        notifications:
+            targetEntity: Notifications
+            mappedBy: idComputador
     manyToOne:
         idUsuarioExclusao:
             targetEntity: Usuario

@@ -577,12 +577,42 @@ class NeoColetaController extends NeoController {
      */
     public function processaRetiradas($coletasRetiradas, $computador) {
         $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+
         if (array_key_exists('software', $coletasRetiradas)) {
             // Desativa os softwares no computador
             foreach ($coletasRetiradas['software'] as $software => $valor) {
                 $logger->debug("MODIFICATIONS: Retirando dados do software $software para o computador ".$computador->getIdComputador());
                 $this->retiraSoftware($software, $valor, $computador);
             }
+
+            // NOTIFICAÇÕES
+            $body = "Alerta de remoção de software!\n\n
+             Nome do Computador: ". $computador->getNmComputador() ."\n
+             IP do Computador: ". $computador->getTeIpComputador() ."\n
+             MAC: ". $computador->getTeNodeAddress() ."\n
+             Rede: ". $computador->getIdRede()->getNmRede() ."\n\n
+
+             Alterações identificadas: \n
+             ". $coletasRetiradas['software'] ."\n
+            ";
+
+            $from = $this->getParameter('mailer_from');
+            if (empty($from)) {
+                $from = 'cacic@localhost';
+            }
+
+            // NOTIFICAÇÕES
+            $notification = $computador->createNotification(
+                'DEL',
+                'Software',
+                "COLETA: Software removido",
+                $body,
+                $from
+            );
+
+            $em->persist($notification);
+            $em->flush();
         }
 
         if (array_key_exists('hardware', $coletasRetiradas)) {
@@ -591,6 +621,34 @@ class NeoColetaController extends NeoController {
                 $logger->debug("MODIFICATIONS: Retirando dados da classe WMI $classe para o computador ".$computador->getIdComputador());
                 $this->retiraClasse($classe, $valor, $computador);
             }
+
+            // NOTIFICAÇÕES
+            $body = "Alerta de remoção de hardware!\n\n
+             Nome do Computador: ". $computador->getNmComputador() ."\n
+             IP do Computador: ". $computador->getTeIpComputador() ."\n
+             MAC: ". $computador->getTeNodeAddress() ."\n
+             Rede: ". $computador->getIdRede()->getNmRede() ."\n\n
+
+             Alterações identificadas: \n
+             ". $coletasRetiradas['hardware'] ."\n
+            ";
+
+            $from = $this->getParameter('mailer_from');
+            if (empty($from)) {
+                $from = 'cacic@localhost';
+            }
+
+            // NOTIFICAÇÕES
+            $notification = $computador->createNotification(
+                'DEL',
+                'Hardware',
+                "COLETA: Hardware removido",
+                $body,
+                $from
+            );
+
+            $em->persist($notification);
+            $em->flush();
         }
 
         return true;
@@ -738,11 +796,15 @@ class NeoColetaController extends NeoController {
             $computadorColeta->setAtivo(false);
             $computadorColeta->setDtHrExclusao(new \DateTime());
 
-            // TODO: Inserir notificação aqui
-
             $em->persist($computadorColeta);
             $em->flush();
         }
+
+        return true;
+    }
+
+    public function createNotification($computador, $usuario) {
+
     }
 
 }

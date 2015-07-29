@@ -853,18 +853,68 @@ class Computador
         return $this->erros_agente;
     }
 
-    public function createNotification($subject, $body, $from) {
-        $responsavel = $this->getIdRede()->getTeEmailContato1();
-        if (empty($responsavel)) {
-            $responsavel = $this->getIdRede()->getTeEmailContato2();
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $notifications;
+
+
+    /**
+     * Add notifications
+     *
+     * @param \Cacic\CommonBundle\Entity\Notifications $notifications
+     * @return Computador
+     */
+    public function addNotification(\Cacic\CommonBundle\Entity\Notifications $notifications)
+    {
+        $this->notifications[] = $notifications;
+
+        return $this;
+    }
+
+    /**
+     * Remove notifications
+     *
+     * @param \Cacic\CommonBundle\Entity\Notifications $notifications
+     */
+    public function removeNotification(\Cacic\CommonBundle\Entity\Notifications $notifications)
+    {
+        $this->notifications->removeElement($notifications);
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
+
+    public function createNotification($acao, $object, $subject, $body, $from, $to = null) {
+        if (empty($to)) {
+            $to = $this->getIdRede()->getTeEmailContato1();
+            if (empty($responsavel)) {
+                $to = $this->getIdRede()->getTeEmailContato2();
+                if (empty($to)) {
+                    // Nao foi possivel encontrar um responsavel pela rede.
+                    // Manda para o usuario do sistema
+                    $user = get_current_user();
+                    $to = $user . "@localhost";
+                }
+            }
         }
 
         $notification = new Notifications();
-        $notification->setTo($responsavel);
-        $notification->setFrom($from);
+        $notification->setNotificationAcao($acao);
+        $notification->setObject($object);
+        $notification->setToAddr($to);
+        $notification->setFromAddr($from);
         $notification->setReadDate(null);
         $notification->setSubject($subject);
         $notification->setBody($body);
+        $notification->setIdComputador($this);
 
         return $notification;
     }
