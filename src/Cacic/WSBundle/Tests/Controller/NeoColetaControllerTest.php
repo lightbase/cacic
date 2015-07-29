@@ -381,7 +381,6 @@ class NeoColetaControllerTest extends BaseTestCase {
             'idSo' => $so->getIdSo()
         ));
         $this->assertNotEmpty($computador);
-        $logger->debug("33333333333333333333333333333333333 ".$computador->getIdComputador());
 
         // Verifica se a coleta funcionou da forma esperada
         $classe = $em->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
@@ -544,7 +543,6 @@ class NeoColetaControllerTest extends BaseTestCase {
             'classProperty' => $classPropertySoftware2[0],
             'computador' => $computador
         ));
-        $logger->debug("55555555555555555555555555555555555 ".count($historico_software2));
         $this->assertCount(2, $historico_software2, "O histórico não foi encontrado para a o software account-plugin-aim. Coleta:\n
         ".print_r($computador2, true));
 

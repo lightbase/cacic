@@ -186,77 +186,59 @@ class NeoColetaController extends NeoController {
                     'computador' => $computador,
                     'classProperty' => $classProperty
                 ));
-                if (empty($computadorColeta)) {
+                if(empty($computadorColeta)) {
+                    //$logger->debug("COLETA: Registrando nova coleta para o software $software no computador ".$computador->getIdComputador());
+
+                    // Armazena no banco o objeto
                     $computadorColeta = new ComputadorColeta();
-                } elseif ($computadorColeta->getTeClassPropertyValue() == $valor[$propriedade]) {
-                    // Ativa as propriedades antes de enviar
+                    $computadorColeta->setComputador( $computador );
+                    $computadorColeta->setClassProperty($classProperty);
+                    $computadorColeta->setTeClassPropertyValue($valor[$propriedade]);
+                    $computadorColeta->setIdClass($classObject);
+                    $computadorColeta->setDtHrInclusao( new \DateTime() );
                     $computadorColeta->setAtivo(true);
                     $computadorColeta->setDtHrExclusao(null);
 
-                    // Persiste os objetos dependentes para evitar erro no ORM
                     $em->persist( $computadorColeta );
-                    $em->persist($computador);
-                    $em->persist($classObject);
 
-                    // REFACTORING: Insere no histórico somente se houver mudança
-                    $computadorColetaHistorico = $em->getRepository("CacicCommonBundle:ComputadorColetaHistorico")->findOneBy(array(
-                        'classProperty' => $classProperty,
-                        'computador' => $computador,
-                        'teClassPropertyValue' => $valor[$propriedade]
-                    ));
+                    // Pega novo computador gerado no computador coleta
+                    $computador = $computadorColeta->getComputador();
 
-                    if (empty($computadorColetaHistorico)) {
-                        $logger->debug("COLETA: Inserindo histórico!!! Propriedade: ".$classProperty->getNmPropertyName()." Classe: ".$classObject->getNmClassName());
-                        // Persistencia de Historico
-                        $computadorColetaHistorico = new ComputadorColetaHistorico();
-                        $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
-                        $computadorColetaHistorico->setComputador( $computador );
-                        $computadorColetaHistorico->setClassProperty( $classProperty);
-                        $computadorColetaHistorico->setTeClassPropertyValue($valor[$propriedade]);
-                    }
-
-                    // Persiste data atual
-                    $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
-                    $em->persist( $computadorColetaHistorico );
-
-                    // Segue para o próximo registro a partir daqui
-                    continue;
-                }
-
-                // Armazena no banco o objeto
-                $computadorColeta->setComputador( $computador );
-                $computadorColeta->setClassProperty($classProperty);
-                $computadorColeta->setTeClassPropertyValue($valor[$propriedade]);
-                $computadorColeta->setIdClass($classObject);
-                $computadorColeta->setDtHrInclusao( new \DateTime() );
-                $computadorColeta->setAtivo(true);
-
-                // Mando salvar os dados do computador
-                $em->persist( $computadorColeta );
-
-                // Pega novo computador gerado no computador coleta
-                $computador = $computadorColeta->getComputador();
-
-                // REFACTORING: Insere no histórico somente se houver mudança
-                $computadorColetaHistorico = $em->getRepository("CacicCommonBundle:ComputadorColetaHistorico")->findOneBy(array(
-                    'classProperty' => $classProperty,
-                    'computador' => $computador,
-                    'teClassPropertyValue' => $valor[$propriedade]
-                ));
-
-                if (empty($computadorColetaHistorico)) {
-                    $logger->debug("COLETA: Inserindo histórico!!! Propriedade: ".$classProperty->getNmPropertyName()." Classe: ".$classObject->getNmClassName());
-                    // Persistencia de Historico
+                    // Gravo um histórico
                     $computadorColetaHistorico = new ComputadorColetaHistorico();
                     $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
                     $computadorColetaHistorico->setComputador( $computador );
                     $computadorColetaHistorico->setClassProperty( $classProperty);
-                    $computadorColetaHistorico->setTeClassPropertyValue($valor[$propriedade]);
-                }
+                    $computadorColetaHistorico->setTeClassPropertyValue( $valor[$propriedade] );
+                    $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
 
-                // Persiste data atual
-                $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
-                $em->persist( $computadorColetaHistorico );
+                    $em->persist( $computadorColetaHistorico );
+                } elseif ($computadorColeta->getTeClassPropertyValue() != $valor[$propriedade]) {
+
+                    // Armazena no banco o objeto
+                    $computadorColeta->setComputador( $computador );
+                    $computadorColeta->setClassProperty($classProperty);
+                    $computadorColeta->setTeClassPropertyValue($valor[$propriedade]);
+                    $computadorColeta->setIdClass($classObject);
+                    $computadorColeta->setDtHrInclusao( new \DateTime() );
+                    $computadorColeta->setAtivo(true);
+                    $computadorColeta->setDtHrExclusao(null);
+
+                    $em->persist( $computadorColeta );
+
+                    // Pega novo computador gerado no computador coleta
+                    $computador = $computadorColeta->getComputador();
+
+                    // Aqui é necessário uma entrada no histórico
+                    $computadorColetaHistorico = new ComputadorColetaHistorico();
+                    $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
+                    $computadorColetaHistorico->setComputador( $computador );
+                    $computadorColetaHistorico->setClassProperty( $classProperty);
+                    $computadorColetaHistorico->setTeClassPropertyValue( $valor[$propriedade] );
+                    $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
+
+                    $em->persist( $computadorColetaHistorico );
+                }
 
                 // Persiste os objetos dependentes para evitar erro no ORM
                 $em->persist($computador);
@@ -272,7 +254,7 @@ class NeoColetaController extends NeoController {
                    $container->set('doctrine.orm.default_entity_manager', null);
                }
 
-                $logger->error("COLETA: Erro na inserçao de dados da propriedade $propriedade.");
+                $logger->error("COLETA: Erro na inserção de dados da propriedade $propriedade.");
                 $logger->debug($e);
             }
         }
@@ -395,14 +377,58 @@ class NeoColetaController extends NeoController {
             ));
 
             if(empty($computadorColeta)) {
-                $logger->debug("COLETA: Registrando nova coleta para o software $software no computador ".$computador->getIdComputador());
-                $computadorColeta = new ComputadorColeta();
-                $computadorColeta->setComputador($computador);
-                $computadorColeta->setClassProperty($classProperty);
-            }
+                //$logger->debug("COLETA: Registrando nova coleta para o software $software no computador ".$computador->getIdComputador());
 
-            // Atualiza valores
-            $computadorColeta->setComputador( $computador );
+                // Armazena no banco o objeto
+                $computadorColeta = new ComputadorColeta();
+                $computadorColeta->setComputador( $computador );
+                $computadorColeta->setClassProperty($classProperty);
+                $computadorColeta->setTeClassPropertyValue($software);
+                $computadorColeta->setIdClass($classObject);
+                $computadorColeta->setDtHrInclusao( new \DateTime() );
+                $computadorColeta->setAtivo(true);
+                $computadorColeta->setDtHrExclusao(null);
+
+                $em->persist( $computadorColeta );
+
+                // Pega novo computador gerado no computador coleta
+                $computador = $computadorColeta->getComputador();
+
+                // Gravo um histórico
+                $computadorColetaHistorico = new ComputadorColetaHistorico();
+                $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
+                $computadorColetaHistorico->setComputador( $computador );
+                $computadorColetaHistorico->setClassProperty( $classProperty);
+                $computadorColetaHistorico->setTeClassPropertyValue( $software );
+                $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
+
+                $em->persist( $computadorColetaHistorico );
+            } elseif ($computadorColeta->getTeClassPropertyValue() != $software) {
+
+                // Armazena no banco o objeto
+                $computadorColeta->setComputador( $computador );
+                $computadorColeta->setClassProperty($classProperty);
+                $computadorColeta->setTeClassPropertyValue($software);
+                $computadorColeta->setIdClass($classObject);
+                $computadorColeta->setDtHrInclusao( new \DateTime() );
+                $computadorColeta->setAtivo(true);
+                $computadorColeta->setDtHrExclusao(null);
+
+                $em->persist( $computadorColeta );
+
+                // Pega novo computador gerado no computador coleta
+                $computador = $computadorColeta->getComputador();
+
+                // Aqui é necessário uma entrada no histórico
+                $computadorColetaHistorico = new ComputadorColetaHistorico();
+                $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
+                $computadorColetaHistorico->setComputador( $computador );
+                $computadorColetaHistorico->setClassProperty( $classProperty);
+                $computadorColetaHistorico->setTeClassPropertyValue( $software );
+                $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
+
+                $em->persist( $computadorColetaHistorico );
+            }
 
             // Atualiza valores do Software
             // $softwareObject->setNmSoftware($software);
@@ -423,40 +449,9 @@ class NeoColetaController extends NeoController {
                 $propSoftware->setPublisher($valor['publisher']);
             }
 
-            // Armazena no banco o objeto
-            $computadorColeta->setClassProperty($classProperty);
-            $computadorColeta->setTeClassPropertyValue($software);
-            $computadorColeta->setIdClass($classObject);
-            $computadorColeta->setDtHrInclusao( new \DateTime() );
-
             // Persiste os objetos
             $em->persist($propSoftware);
             $em->persist($softwareObject);
-            $em->persist( $computadorColeta );
-
-            // Pega novo computador gerado no computador coleta
-            $computador = $computadorColeta->getComputador();
-
-            // REFACTORING: Insere no histórico somente se houver mudança
-            $computadorColetaHistorico = $em->getRepository("CacicCommonBundle:ComputadorColetaHistorico")->findOneBy(array(
-                'classProperty' => $classProperty,
-                'computador' => $computador,
-                'teClassPropertyValue' => $software
-            ));
-
-            if (empty($computadorColetaHistorico)) {
-                $logger->debug("COLETA: Inserindo histórico!!! Propriedade: ".$classProperty->getNmPropertyName()." Classe: ".$classObject->getNmClassName());
-                // Persistencia de Historico
-                $computadorColetaHistorico = new ComputadorColetaHistorico();
-                $computadorColetaHistorico->setComputadorColeta( $computadorColeta );
-                $computadorColetaHistorico->setComputador( $computador );
-                $computadorColetaHistorico->setClassProperty( $classProperty);
-                $computadorColetaHistorico->setTeClassPropertyValue( $software );
-            }
-
-            // Armazena data de atualização
-            $computadorColetaHistorico->setDtHrInclusao( new \DateTime() );
-            $em->persist( $computadorColetaHistorico );
 
             // Tem que adicionar isso aqui ou o Doctrine vai duplicar o software
             $em->flush();
