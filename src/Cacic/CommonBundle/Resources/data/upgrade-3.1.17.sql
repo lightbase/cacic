@@ -61,7 +61,7 @@ BEGIN
 
     -- Utiliza somente o maior valor e apaga o resto
     SELECT max(dt_hr_inclusao) INTO v_data_coleta
-    FROM computador_coleta_historico
+    FROM computador_coleta_historico_bak
     WHERE id_computador_coleta = prop.id_computador_coleta
           AND te_class_property_value = prop.te_class_property_value
           AND  id_computador = prop.id_computador;
