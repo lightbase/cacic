@@ -743,9 +743,9 @@ class SoftwareController extends Controller
 
         $idRelatorio = $request->get('softwares');
         $nomeRelatorio = $request->get('nomeRelatorio');
-        $idLocal = $request->get('idLocal');
-        $idRede = $request->get('idRede');
-        $idSo = $request->get('idSo');
+        $idLocal = $request->get('locais');
+        $idRede = $request->get('redes');
+        $idSo = $request->get('so');
 
         $filtros = array(
             'softwares' => $idRelatorio,
