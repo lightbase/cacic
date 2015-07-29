@@ -12,7 +12,11 @@
     <hr />
     <form id="csv" action="{{ path('cacic_relatorio_software_detalhar_csv') }}" method="post" target="_self">
         {% for elm, value in filtros %}
-            <input type="hidden" name="{{ elm }}" value="{{ value }}">
+            {% for elm_item in value %}
+                <input type="hidden" name="{{ elm }}[]" value="{{ elm_item }}">
+            {% else %}
+                <input type="hidden" name="{{ elm }}" value="{{ value }}">
+            {% endfor %}
         {% endfor %}
         <button class="btn btn-primary" type="submit">
             <i class="icon-bar-chart"></i>

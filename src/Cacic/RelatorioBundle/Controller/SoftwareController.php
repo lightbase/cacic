@@ -575,7 +575,7 @@ class SoftwareController extends Controller
                     <dt>Público</dt>
                     <dd>O relatório está disponível para todos os usuários</dd>
                     <dt>Restrito</dt>
-                    <dd>Relatório restrido as usuários com perfis Gestor e Administrador</dd>
+                    <dd>Relatório restrito as usuários com perfis Gestor e Administrador</dd>
                     <dt>Pessoal</dt>
                     <dd>Somente você pode ver esse relatório</dd>
                 </dl>
@@ -771,7 +771,7 @@ class SoftwareController extends Controller
         $tmpfile = tempnam(sys_get_temp_dir(), 'Relatorio-Software.csv');
         $file = new \SplFileObject($tmpfile, 'w');
         $writer = new CsvWriter($file);
-        $writer->writeItem(array('Local', 'IP da Subrede', 'Rede', 'Nome do relatório', 'Total de Estações'));
+        $writer->writeItem(array('Nome do relatório', 'Local', 'IP da Subrede', 'Rede', 'Sistema Operacional', 'Total de Estações'));
         $workflow->addWriter($writer);
 
         // Process the workflow
@@ -791,11 +791,11 @@ class SoftwareController extends Controller
         $locale = $request->getLocale();
         $em = $this->getDoctrine()->getManager();
 
-        $idRelatorio = $request->get('idRelatorio');
+        $idRelatorio = $request->get('softwares');
         $nomeRelatorio = $request->get('nomeRelatorio');
-        $idLocal = $request->get('idLocal');
-        $idRede = $request->get('idRede');
-        $idSo = $request->get('idSo');
+        $idLocal = $request->get('locais');
+        $idRede = $request->get('redes');
+        $idSo = $request->get('so');
 
         $filtros = array(
             'softwares' => $idRelatorio,
