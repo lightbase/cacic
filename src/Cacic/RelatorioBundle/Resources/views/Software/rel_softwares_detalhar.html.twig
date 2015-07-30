@@ -12,7 +12,11 @@
     <hr />
     <form id="csv" action="{{ path('cacic_relatorio_software_detalhar_csv') }}" method="post" target="_self">
         {% for elm, value in filtros %}
-            <input type="hidden" name="{{ elm }}" value="{{ value }}">
+            {% for elm_item in value %}
+                <input type="hidden" name="{{ elm }}[]" value="{{ elm_item }}">
+            {% else %}
+                <input type="hidden" name="{{ elm }}" value="{{ value }}">
+            {% endfor %}
         {% endfor %}
         <button class="btn btn-primary" type="submit">
             <i class="icon-bar-chart"></i>
@@ -42,16 +46,16 @@
                 <tr>
                     <td style="text-align: center">{{ loop.index }}</td>
                     <td>
-                        <b><a href="{{ path('cacic_computador_detalhar', {'idComputador': reg['idComputador']}) }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.nmComputador }}</a></b>
+                        <b><a href="{{ path('cacic_computador_detalhar', {'idComputador': reg['idComputador']}) }}" title="{{ "Todas as informações do computador"|trans }}" >{{ reg.nmComputador }}</a></b>
                     </td>
-                    <td><a href="{{ path('cacic_computador_detalhar', {'idComputador': reg['idComputador']}) }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.teNodeAddress }}</a></td>
-                    <td><a href="{{ path('cacic_computador_detalhar', {'idComputador': reg['idComputador']}) }}" title="{{ "Todas as informações do computador"|trans }}" target="_blank">{{ reg.teIpComputador }}</a></td>
+                    <td><a href="{{ path('cacic_computador_detalhar', {'idComputador': reg['idComputador']}) }}" title="{{ "Todas as informações do computador"|trans }}" >{{ reg.teNodeAddress }}</a></td>
+                    <td><a href="{{ path('cacic_computador_detalhar', {'idComputador': reg['idComputador']}) }}" title="{{ "Todas as informações do computador"|trans }}" >{{ reg.teIpComputador }}</a></td>
                     <td><span class="{% if reg.inMswindows == 'S' %}red{% else %}blue{% endif %}">{{ reg.teDescSo }}</span></td>
                     <td>{{ reg.nmLocal }}</td>
                     <td>{{ reg.nmRede }} / {{ reg.teIpRede }}</td>
                     <td>{{ reg.dtHrUltAcesso|date }}</td>
                     <td>
-                        <a class="btn" href="{{ path("cacic_computador_detalhar", {'idComputador': reg['idComputador']}) }}" target="_blank" title="{{ "Todas as coletas do Computador"|trans }}">
+                        <a class="btn" href="{{ path("cacic_computador_detalhar", {'idComputador': reg['idComputador']}) }}"  title="{{ "Todas as coletas do Computador"|trans }}">
                             <i class="icon-search"></i>
                         </a>
                     </td>

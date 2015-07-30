@@ -70,12 +70,12 @@ class SoftwareRelatorioRepository extends EntityRepository
 
         if (!empty($filtros['redes'])) {
             $rede_filter = $filtros['redes'];
-            $qb->andWhere("rel.idRelatorio IN ($rede_filter)");
+            $qb->andWhere("comp.idRede IN ($rede_filter)");
         }
 
         if (!empty($filtros['so'])) {
             $so_filter = $filtros['so'];
-            $qb->andWhere("rel.idRelatorio IN ($so_filter)");
+            $qb->andWhere("comp.idSo IN ($so_filter)");
         }
 
         return $qb->getQuery()->getArrayResult();
@@ -138,8 +138,11 @@ class SoftwareRelatorioRepository extends EntityRepository
 
         if (!empty($filtros['nomeRelatorio'])) {
             $softwares = $filtros['nomeRelatorio'];
-            $software_filter = explode(", ", $softwares);
-            $software_filter = implode("', '", $software_filter);
+            if (is_array($softwares)) {
+                $software_filter = implode("', '", $softwares);
+            } else {
+                $software_filter = $softwares;
+            }
             $qb->andWhere("rel.nomeRelatorio IN ('$software_filter')");
         }
 
@@ -171,10 +174,11 @@ class SoftwareRelatorioRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder("rel")
             ->select(
+                "rel.nomeRelatorio",
                 "loc.nmLocal",
                 "r.teIpRede",
                 "r.nmRede",
-                "rel.nomeRelatorio",
+                "so.teDescSo",
                 "COUNT(DISTINCT comp.idComputador) as numComp"
             )
             ->innerJoin("rel.softwares", "sw")
@@ -213,12 +217,12 @@ class SoftwareRelatorioRepository extends EntityRepository
 
         if (!empty($filtros['redes'])) {
             $rede_filter = $filtros['redes'];
-            $qb->andWhere("rel.idRelatorio IN ($rede_filter)");
+            $qb->andWhere("comp.idRede IN ($rede_filter)");
         }
 
         if (!empty($filtros['so'])) {
             $so_filter = $filtros['so'];
-            $qb->andWhere("rel.idRelatorio IN ($so_filter)");
+            $qb->andWhere("comp.idSo IN ($so_filter)");
         }
 
         return $qb->getQuery()->getArrayResult();
@@ -269,27 +273,36 @@ class SoftwareRelatorioRepository extends EntityRepository
 
         if (!empty($filtros['softwares'])) {
             $softwares = $filtros['softwares'];
-            $qb->andWhere("rel.idRelatorio IN ($softwares)");
+            $qb->andWhere("rel.idRelatorio IN (:softwares)")
+                ->setParameter('softwares', $softwares);
         }
 
         if (!empty($filtros['nomeRelatorio'])) {
             $softwares = $filtros['nomeRelatorio'];
-            $qb->andWhere("rel.nomeRelatorio IN ($softwares)");
+            if (is_array($softwares)) {
+                $software_filter = implode("', '", $softwares);
+            } else {
+                $software_filter = $softwares;
+            }
+            $qb->andWhere("rel.nomeRelatorio IN ('$software_filter')");
         }
 
         if (!empty($filtros['locais'])) {
             $local_filter = $filtros['locais'];
-            $qb->andWhere("loc.idLocal IN ($local_filter)");
+            $qb->andWhere("loc.idLocal IN (:local_filter)")
+                ->setParameter('local_filter', $local_filter);
         }
 
         if (!empty($filtros['redes'])) {
             $rede_filter = $filtros['redes'];
-            $qb->andWhere("rel.idRelatorio IN ($rede_filter)");
+            $qb->andWhere("comp.idRede IN (:rede_filter)")
+                ->setParameter('rede_filter', $rede_filter);
         }
 
         if (!empty($filtros['so'])) {
             $so_filter = $filtros['so'];
-            $qb->andWhere("rel.idRelatorio IN ($so_filter)");
+            $qb->andWhere("comp.idSo IN (:so_filter)")
+                ->setParameter('so_filter', $so_filter);
         }
 
         return $qb->getQuery()->getArrayResult();

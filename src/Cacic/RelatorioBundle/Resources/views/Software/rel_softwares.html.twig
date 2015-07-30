@@ -27,10 +27,10 @@
         <tbody>
             {% for software in totalnumcomp|keys %}
                 <tr>
-                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'nomeRelatorio': software}) }}" title="{{ "Detalhar software"|trans }}" target="_blank">{{ software }}</a></td>
+                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'nomeRelatorio': software}) }}" title="{{ "Detalhar software"|trans }}" >{{ software }}</a></td>
                     <td style="text-align: center;">{{ totalnumcomp[software] }}</td>
                     <td style="text-align: center;">
-                        <a class="btn" href="{{ path('cacic_relatorio_software_detalhar', {'nomeRelatorio': software}) }}" title="{{ "Detalhar software"|trans }}" target="_blank">
+                        <a class="btn" href="{{ path('cacic_relatorio_software_detalhar', {'nomeRelatorio': software}) }}" title="{{ "Detalhar software"|trans }}" >
                             <i class="icon-search"></i>
                         </a>
                     </td>
@@ -46,10 +46,11 @@
             <thead>
                 <tr>
                     <th width="5%" style="text-align: center"></th>
-                    <th width="20%">{{ "Software"|trans }}</th>
-                    <th width="25%">{{ "Local"|trans }}</th>
+                    <th width="15%">{{ "Software"|trans }}</th>
+                    <th width="15%">{{ "Local"|trans }}</th>
                     <th width="10%">{{ "Ip da Rede"|trans }}</th>
-                    <th width="15%">{{ "Nome da Rede"|trans }}</th>
+                    <th width="10%">{{ "Nome da Rede"|trans }}</th>
+                    <th width="15%">{{ "Sistema Operacional"|trans }}</th>
                     <th width="10%" style="text-align: center">{{ "Máquinas"|trans }}</th>
                     <th style="text-align: center;" width="5%"></th>
                 </tr>
@@ -61,13 +62,14 @@
 
                 <tr>
                     <td style="text-align: center">{{ loop.index }}</td>
-                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio}) }}" title="{{ "Relatório de coletas do software"|trans }}" target="_blank">{{ reg['nomeRelatorio'] }}</a></td>
-                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal }) }}" title="{{ "Relatório de coletas do software no local"|trans }}" target="_blank">{{ reg['nmLocal'] }}</a></td>
-                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal, 'idRede': reg.idRede }) }}" title="{{ "Relatório de coletas do software na rede"|trans }}" target="_blank">{{ reg['teIpRede'] }} </a></td>
-                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal, 'idRede': reg.idRede }) }}" title="{{ "Relatório de coletas do software na rede"|trans }}" target="_blank">{{ reg['nmRede'] }}</a></td>
-                    <td style="text-align: center"><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal, 'idRede': reg.idRede }) }}" title="{{ "Relatório de coletas do software na rede"|trans }}" target="_blank">{{ reg['numComp'] }}</a></td>
+                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio}) }}" title="{{ "Relatório de coletas do software"|trans }}" >{{ reg['nomeRelatorio'] }}</a></td>
+                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal }) }}" title="{{ "Relatório de coletas do software no local"|trans }}" >{{ reg['nmLocal'] }}</a></td>
+                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal, 'idRede': reg.idRede }) }}" title="{{ "Relatório de coletas do software na rede"|trans }}" >{{ reg['teIpRede'] }} </a></td>
+                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal, 'idRede': reg.idRede }) }}" title="{{ "Relatório de coletas do software na rede"|trans }}" >{{ reg['nmRede'] }}</a></td>
+                    <td><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal, 'idRede': reg.idRede, 'idSo': reg.idSo }) }}" title="{{ "Relatório de coletas do SO na rede"|trans }}" >{{ reg['teDescSo'] }}</a></td>
+                    <td style="text-align: center"><a href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal, 'idRede': reg.idRede }) }}" title="{{ "Relatório de coletas do software na rede"|trans }}" >{{ reg['numComp'] }}</a></td>
                     <td style="text-align: center;">
-                        <a class="btn" href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal, 'idRede': reg.idRede }) }}" title="{{ "Detalhar coletas do software"|trans }}" target="_blank">
+                        <a class="btn" href="{{ path('cacic_relatorio_software_detalhar', {'idRelatorio': reg.idRelatorio, 'idLocal': reg.idLocal, 'idRede': reg.idRede }) }}" title="{{ "Detalhar coletas do software"|trans }}" >
                             <i class="icon-search"></i>
                         </a>
                     </td>

@@ -15,18 +15,18 @@ Cacic\CommonBundle\Entity\Notifications:
             type: text
             nullable: false
             column: subject
-        from:
+        fromAddr:
             type: string
             nullable: false
-            column: from
+            column: from_addr
         replyTo:
             type: string
             nullable: true
             column: reply_to
-        to:
+        toAddr:
             type: string
             nullable: false
-            column: to
+            column: to_addr
         body:
             type: text
             nullable: false
@@ -35,4 +35,20 @@ Cacic\CommonBundle\Entity\Notifications:
             type: datetime
             nullable: true
             column: read_date
+        notificationAcao:
+            type: text
+            nullable: false
+            column: notification_acao
+        object:
+            type: text
+            nullable: false
+            column: object
+    manyToOne:
+        idComputador:
+            targetEntity: Computador
+            cascade: []
+            joinColumns:
+                id_computador:
+                    referencedColumnName: id_computador
+                    nullable: false
     lifecycleCallbacks: {  }

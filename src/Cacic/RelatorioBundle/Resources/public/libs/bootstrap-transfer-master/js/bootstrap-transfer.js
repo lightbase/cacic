@@ -144,7 +144,7 @@
         'template':                                         
             '<table width="100%" cellspacing="0" cellpadding="0">\
                 <tr>\
-                    <td width="50%">\
+                    <td width="49%">\
                         <div class="selector-available">\
                             <h2>Available</h2>\
                             <div class="selector-filter">\
@@ -166,13 +166,13 @@
                             <a href="#" class="selector-chooseall">Choose all</a>\
                         </div>\
                     </td>\
-                    <td>\
+                    <td width="2%">\
                         <div class="selector-chooser">\
                             <a href="#" class="selector-add">add</a>\
                             <a href="#" class="selector-remove">rem</a>\
                         </div>\
                     </td>\
-                    <td width="50%">\
+                    <td width="49%">\
                         <div class="selector-chosen">\
                             <h2>Chosen</h2>\
                             <div class="selector-filter right">\

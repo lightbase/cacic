@@ -192,4 +192,172 @@ class Notifications
     {
         return $this->readDate;
     }
+    /**
+     * @var string
+     */
+    private $notificationType;
+
+
+    /**
+     * Set notificationType
+     *
+     * @param string $notificationType
+     * @return Notifications
+     */
+    public function setNotificationType($notificationType)
+    {
+        $this->notificationType = $notificationType;
+
+        return $this;
+    }
+
+    /**
+     * Get notificationType
+     *
+     * @return string 
+     */
+    public function getNotificationType()
+    {
+        return $this->notificationType;
+    }
+    /**
+     * @var string
+     */
+    private $object;
+
+
+    /**
+     * Set object
+     *
+     * @param string $object
+     * @return Notifications
+     */
+    public function setObject($object)
+    {
+        $this->object = $object;
+
+        return $this;
+    }
+
+    /**
+     * Get object
+     *
+     * @return string 
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
+    /**
+     * @var string
+     */
+    private $notificationAcao;
+
+
+    /**
+     * Set notificationAcao
+     *
+     * @param string $notificationAcao
+     * @return Notifications
+     */
+    public function setNotificationAcao($notificationAcao)
+    {
+        $this->notificationAcao = $notificationAcao;
+
+        return $this;
+    }
+
+    /**
+     * Get notificationAcao
+     *
+     * @return string 
+     */
+    public function getNotificationAcao()
+    {
+        return $this->notificationAcao;
+    }
+    /**
+     * @var \Cacic\CommonBundle\Entity\Computador
+     */
+    private $idComputador;
+
+
+    /**
+     * Set idComputador
+     *
+     * @param \Cacic\CommonBundle\Entity\Computador $idComputador
+     * @return Notifications
+     */
+    public function setIdComputador(\Cacic\CommonBundle\Entity\Computador $idComputador = null)
+    {
+        $this->idComputador = $idComputador;
+
+        return $this;
+    }
+
+    /**
+     * Get idComputador
+     *
+     * @return \Cacic\CommonBundle\Entity\Computador 
+     */
+    public function getIdComputador()
+    {
+        return $this->idComputador;
+    }
+    /**
+     * @var string
+     */
+    private $fromAddr;
+
+
+    /**
+     * Set fromAddr
+     *
+     * @param string $fromAddr
+     * @return Notifications
+     */
+    public function setFromAddr($fromAddr)
+    {
+        $this->fromAddr = $fromAddr;
+
+        return $this;
+    }
+
+    /**
+     * Get fromAddr
+     *
+     * @return string 
+     */
+    public function getFromAddr()
+    {
+        return $this->fromAddr;
+    }
+    /**
+     * @var string
+     */
+    private $toAddr;
+
+
+    /**
+     * Set toAddr
+     *
+     * @param string $toAddr
+     * @return Notifications
+     */
+    public function setToAddr($toAddr)
+    {
+        $this->toAddr = $toAddr;
+
+        return $this;
+    }
+
+    /**
+     * Get toAddr
+     *
+     * @return string 
+     */
+    public function getToAddr()
+    {
+        return $this->toAddr;
+    }
 }
