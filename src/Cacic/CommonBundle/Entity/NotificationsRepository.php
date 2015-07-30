@@ -38,6 +38,8 @@ class NotificationsRepository extends EntityRepository
                 "n.fromAddr",
                 "n.readDate",
                 "n.creationDate",
+                "n.notificationAcao",
+                "n.object",
                 "comp.idComputador",
                 "comp.nmComputador",
                 "comp.teIpComputador",

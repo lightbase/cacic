@@ -701,6 +701,22 @@ cacic_notifications_get:
     path: /notifications/get
     defaults: { _controller: CacicCommonBundle:Notifications:get }
 
+cacic_notifications_list:
+    path: /notifications/get/list
+    defaults: { _controller: CacicCommonBundle:Notifications:list }
+
+cacic_notifications_get_id:
+    path: /notifications/get/{idNotification}
+    defaults: { _controller: CacicCommonBundle:Notifications:getNotification }
+
+cacic_notifications_read_id:
+    path: /notifications/read
+    defaults: { _controller: CacicCommonBundle:Notifications:read }
+
+cacic_notifications_delete_id:
+    path: /notifications/delete
+    defaults: { _controller: CacicCommonBundle:Notifications:delete }
+
 ############################################
 # FIM: Páginas para usuários normais
 ############################################

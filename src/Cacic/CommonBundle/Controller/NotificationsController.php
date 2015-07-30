@@ -71,4 +71,49 @@ class NotificationsController extends Controller
         return $response;
     }
 
+    public function listAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $limit = $request->get('limit');
+        $offset = $request->get('offset');
+        $unread = $request->get('undread');
+        if (empty($unread)) {
+            $unread = true;
+        } else {
+            $unread = false;
+        }
+
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $notifications = $em->getRepository("CacicCommonBundle:Notifications")->getNotifications(
+                $limit,
+                $offset,
+                null,
+                $unread // Filtra pelas não lidas
+            );
+        } else {
+            $user = $this->getUser();
+            $notifications = $em->getRepository("CacicCommonBundle:Notifications")->getNotifications(
+                $limit,
+                $offset,
+                $user->getEmail(), // Somente notificações enviadas para o usuário que está logado
+                $unread // Filtra pelas não lidas
+            );
+        }
+
+        return $this->render(
+            'CacicCommonBundle:Notifications:list.html.twig',
+            array(
+                'notifications' => $notifications
+            )
+        );
+
+    }
+
+    public function getNotificationAction(Request $request) {
+
+    }
+
+    public function readAction(Request $request) {
+
+    }
+
 }
