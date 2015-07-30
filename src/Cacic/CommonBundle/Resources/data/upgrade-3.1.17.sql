@@ -7,23 +7,24 @@ BEGIN
   -- Cria tabela de backup
   DROP TABLE IF EXISTS computador_coleta_historico_bak;
   CREATE TABLE computador_coleta_historico_bak AS
-    SELECT * FROM computador_coleta_historico;
+    SELECT DISTINCT id_computador_coleta_historico,
+      id_computador_coleta,
+      id_computador,
+      id_class_property,
+      te_class_property_value,
+      dt_hr_inclusao
+    FROM computador_coleta_historico;
 
   ALTER TABLE computador_coleta_historico_bak
     ADD CONSTRAINT computador_coleta_historico_bak_pkey
     PRIMARY KEY (id_computador_coleta_historico);
 
-  CREATE INDEX computador_coleta_historico_bak_value_idx ON
+  CREATE  INDEX computador_coleta_historico_bak_value_idx ON
     computador_coleta_historico_bak (id_computador_coleta, id_computador, id_class_property, te_class_property_value);
-
-  CREATE SEQUENCE computador_coleta_historico_bak_id_seq;
-
-  ALTER TABLE computador_coleta_historico_bak
-  ALTER COLUMN id_computador_coleta_historico
-  SET DEFAULT nextval('computador_coleta_historico_bak_id_seq');
 
   -- Apaga todos os registros da tabela anterior
   DELETE FROM computador_coleta_historico;
+  PERFORM setval('computador_coleta_historico_id_computador_coleta_historico_seq', 1);
 
   -- Cria índice para os campos se não existir
   RAISE NOTICE 'Criando índice...';
@@ -34,8 +35,8 @@ BEGIN
         JOIN   pg_namespace n ON n.oid = c.relnamespace
       WHERE  c.relname = 'computador_coleta_historico_value_idx'
   ) THEN
-    create index computador_coleta_historico_value_idx
-    on computador_coleta_historico (id_computador_coleta, id_computador, te_class_property_value);
+    create UNIQUE INDEX computador_coleta_historico_value_idx
+    on computador_coleta_historico (id_computador_coleta, id_computador, id_class_property, te_class_property_value);
   END IF;
 
   RAISE NOTICE 'Criação do índice concluída! Continuando...';
