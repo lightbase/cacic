@@ -593,8 +593,8 @@ class NeoColetaController extends NeoController {
              MAC: ". $computador->getTeNodeAddress() ."\n
              Rede: ". $computador->getIdRede()->getNmRede() ."\n\n
 
-             Alterações identificadas: \n
-             ". $coletasRetiradas['software'] ."\n
+             Remoções identificadas: \n
+             ". json_encode($coletasRetiradas['software'], true) ."\n
             ";
 
             $from = $this->getParameter('mailer_from');
@@ -629,8 +629,8 @@ class NeoColetaController extends NeoController {
              MAC: ". $computador->getTeNodeAddress() ."\n
              Rede: ". $computador->getIdRede()->getNmRede() ."\n\n
 
-             Alterações identificadas: \n
-             ". $coletasRetiradas['hardware'] ."\n
+             Remoções identificadas: \n
+             ". json_encode($coletasRetiradas['hardware'], true) ."\n
             ";
 
             $from = $this->getParameter('mailer_from');

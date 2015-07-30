@@ -106,17 +106,17 @@ Cacic\CommonBundle\Entity\Computador:
         hardwares:
             targetEntity: ComputadorColeta
             mappedBy: computador
+            fetch: EXTRA_LAZY
         software_coletado:
             targetEntity: PropriedadeSoftware
             mappedBy: computador
+            fetch: EXTRA_LAZY
         hardwares_historico:
             targetEntity: ComputadorColetaHistorico
             mappedBy: computador
+            fetch: EXTRA_LAZY
         erros_agente:
             targetEntity: ErrosAgente
-            mappedBy: computador
-        software_coletado:
-            targetEntity: PropriedadeSoftware
             mappedBy: computador
         notifications:
             targetEntity: Notifications

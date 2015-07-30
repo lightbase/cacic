@@ -717,7 +717,7 @@ class Computador
     /**
      * Get isNotebook
      *
-     * @returnn string
+     * @return string
      */
     public function getIsNotebook()
     {

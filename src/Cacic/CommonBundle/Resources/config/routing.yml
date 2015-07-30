@@ -697,6 +697,10 @@ cacic_downloads:
     path: /downloads/
     defaults: { _controller: CacicCommonBundle:Default:downloads }
 
+cacic_notifications_get:
+    path: /notifications/get
+    defaults: { _controller: CacicCommonBundle:Notifications:get }
+
 ############################################
 # FIM: Páginas para usuários normais
 ############################################

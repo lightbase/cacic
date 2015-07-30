@@ -12,4 +12,66 @@ use Doctrine\ORM\EntityRepository;
  */
 class NotificationsRepository extends EntityRepository
 {
+    /**
+     * Lista de notificações
+     *
+     * @param int $limit Máximo de resultados
+     * @param int $offset Primeiro resultado
+     * @param null $email E-mail do destinatário
+     * @param bool|true $unread Se for verdadeiro, mostra somente as notificações não lidas
+     * @param null $readDate Filtra pela data da leitura (maior que)
+     * @return array
+     */
+    public function getNotifications(
+        $limit = 10,
+        $offset = 0,
+        $email = null,
+        $unread = true,
+        $readDate = null
+    ) {
+        $qb = $this->createQueryBuilder('n')
+            ->select(
+                "n.idNotification",
+                "n.subject",
+                "n.body",
+                "n.toAddr",
+                "n.fromAddr",
+                "n.readDate",
+                "comp.idComputador",
+                "comp.nmComputador",
+                "comp.teIpComputador",
+                "comp.teNodeAddress",
+                "rede.idRede",
+                "rede.nmRede",
+                "rede.teIpRede",
+                "loc.idLocal",
+                "loc.nmLocal",
+                "loc.sgLocal"
+            )
+            ->innerJoin("CacicCommonBundle:Computador", "comp", "WITH", "n.idComputador = comp.idComputador")
+            ->innerJoin("CacicCommonBundle:Rede", "rede", "WITH", "comp.idRede = rede.idRede")
+            ->innerJoin("CacicCommonBundle:Local", "loc", "WITH", "loc.idLocal = rede.idLocal")
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->addOrderBy("n.idNotification", "DESC");
+
+        // Filtra por email
+        if (!empty($email)) {
+            $qb->andWhere("n.toAddr = :email")
+                ->setParameter('email', $email);
+        }
+
+        // Mostra somente não lidas
+        if (!empty($unread) && $unread === true) {
+            $qb->andWhere("n.readDate IS NULL");
+        }
+
+        // Filtra por data de leitura
+        if (!empty($readDate)) {
+            $qb->andWhere("n.readDate >= :readDate")
+                ->setParameter('readDate', $readDate);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

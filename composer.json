@@ -67,8 +67,8 @@
         "jpgraph/jpgraph": "dev-master",
         "symfony/class-loader": "~2.3",
         "friendsofsymfony/rest-bundle": "~1.7",
-        "jms/serializer": "0.14.*@dev",
-        "jms/serializer-bundle": "0.13.*@dev",
+        "jms/serializer": "~1.0",
+        "jms/serializer-bundle": "~1.0",
         "lightbase/cocar": "dev-master",
         "ddeboer/data-import": "0.15.*@dev",
         "ddeboer/data-import-bundle": "dev-master",
@@ -106,7 +106,7 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.3-dev"
+            "dev-master": "2.7-dev"
         }
     }
 }
