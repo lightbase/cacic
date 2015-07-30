@@ -122,7 +122,7 @@
       <!-- side nav -->
 
 <div id="side_nav" class="span2 sidebar-nav side_nav">
-    <a href="{{ path('cacic_common_homepage') }}">
+    <a href="{{ path('cacic_common_homepage') }}" id="homepage">
         <span id="logo" class="logo">&nbsp;</span>
     </a>
           {% block sidenav %}
@@ -145,9 +145,10 @@
                                 <span class="label label-info">0</span>
                             </a>
                     {% endif %}
-        		    <a href="{{ path('cacic_common_homepage') }}" class="btn btn-shortcut"><img src="{{ asset('bundles/caciccommon/images/v3/cacic_logo_gray.png') }}" alt="Dashboard" />
+        		    <a href="{{ path('cacic_common_homepage') }}" class="popover_shortcut_on btn btn-shortcut" id="cacic_notifications" rel="popover" data-original-title="{{ "Notificações"|trans }}" data-trigger="focus" tabindex="0" data-html="true">
+                        <img src="{{ asset('bundles/caciccommon/images/v3/cacic_logo_gray.png') }}" alt="Dashboard" />
                         CACIC
-                        <span class="label label-info box-sizing-fix">0</span>
+                        <span class="label label-info box-sizing-fix" id="cacic_notifications_number">0</span>
                     </a>
                 </div><!--/span-->
 

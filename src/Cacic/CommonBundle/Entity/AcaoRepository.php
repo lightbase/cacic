@@ -72,7 +72,7 @@ class AcaoRepository extends EntityRepository
             ->innerJoin("a.redes", "ar")
             ->innerJoin("ar.rede", "r")
             ->innerJoin("CacicCommonBundle:Computador", "comp", "WITH", "comp.idRede = r.idRede")
-            ->leftJoin("CacicCommonBundle:AcaoSo", "aso", "WITH", "comp.idSo = aso.acao
+            ->leftJoin("CacicCommonBundle:AcaoSo", "aso", "WITH", "comp.idSo = aso.so
                 AND ar.rede = aso.rede
                 AND comp.idSo = aso.so")
             ->leftJoin("CacicCommonBundle:AcaoExcecao", "e", "WITH",

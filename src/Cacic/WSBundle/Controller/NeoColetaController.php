@@ -587,8 +587,7 @@ class NeoColetaController extends NeoController {
             }
 
             // NOTIFICAÇÕES
-            $body = "Alerta de remoção de software!\n\n
-             Nome do Computador: ". $computador->getNmComputador() ."\n
+            $body = "Nome do Computador: ". $computador->getNmComputador() ."\n
              IP do Computador: ". $computador->getTeIpComputador() ."\n
              MAC: ". $computador->getTeNodeAddress() ."\n
              Rede: ". $computador->getIdRede()->getNmRede() ."\n\n
@@ -623,8 +622,7 @@ class NeoColetaController extends NeoController {
             }
 
             // NOTIFICAÇÕES
-            $body = "Alerta de remoção de hardware!\n\n
-             Nome do Computador: ". $computador->getNmComputador() ."\n
+            $body = "Nome do Computador: ". $computador->getNmComputador() ."\n
              IP do Computador: ". $computador->getTeIpComputador() ."\n
              MAC: ". $computador->getTeNodeAddress() ."\n
              Rede: ". $computador->getIdRede()->getNmRede() ."\n\n

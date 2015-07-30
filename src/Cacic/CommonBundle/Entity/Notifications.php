@@ -360,4 +360,32 @@ class Notifications
     {
         return $this->toAddr;
     }
+    /**
+     * @var \DateTime
+     */
+    private $creationDate;
+
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     * @return Notifications
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
 }

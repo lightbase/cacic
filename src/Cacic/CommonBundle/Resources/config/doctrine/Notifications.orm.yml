@@ -43,6 +43,10 @@ Cacic\CommonBundle\Entity\Notifications:
             type: text
             nullable: false
             column: object
+        creationDate:
+            type: datetime
+            nullable: false
+            column: creation_date
     manyToOne:
         idComputador:
             targetEntity: Computador

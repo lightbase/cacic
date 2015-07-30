@@ -3,6 +3,14 @@
  * @todo necessário verificar tradução das mensagens de texto
  */
 $(document).ready(function(){
+    /**
+     * Lista de notificações
+     */
+    var homepage = $( '#homepage' ).attr('href');
+    var not_url = homepage + 'notifications/get';
+    System.Notifications.get(not_url, {});
+
+
 	/**
 	 * Remove o COOKIE com informação da imagem de BACKGROUND
 	 */
@@ -11,7 +19,7 @@ $(document).ready(function(){
 	/**
 	 * Animação AJAX
 	 */
-	$( document ).ajaxStart( function() { 
+	$( document ).ajaxStart( function() {
 		$( '#ajaxLoading' ).fadeIn();
 		$( 'body' ).css( 'overflow', 'hidden' );
 	}) 

@@ -37,6 +37,7 @@ class NotificationsRepository extends EntityRepository
                 "n.toAddr",
                 "n.fromAddr",
                 "n.readDate",
+                "n.creationDate",
                 "comp.idComputador",
                 "comp.nmComputador",
                 "comp.teIpComputador",
@@ -53,7 +54,7 @@ class NotificationsRepository extends EntityRepository
             ->innerJoin("CacicCommonBundle:Local", "loc", "WITH", "loc.idLocal = rede.idLocal")
             ->setMaxResults($limit)
             ->setFirstResult($offset)
-            ->addOrderBy("n.idNotification", "DESC");
+            ->addOrderBy("n.creationDate", "DESC");
 
         // Filtra por email
         if (!empty($email)) {

@@ -329,8 +329,11 @@ class NeoController extends Controller {
 
         // 4.1 - Configuração de método de Download
         if ($computador->getIdRede()->getDownloadMethod() == 'http') {
-            $base_url = $request->getBaseUrl();
-            $base_url = preg_replace('/\/app.*.php/', "", $base_url);
+            // Eduardo: 2015-07-30
+            // Resolve bug no envio do path quando o agente está em um subdiretório
+            //$base_url = $request->getBaseUrl();
+            //$base_url = preg_replace('/\/app.*.php/', "", $base_url);
+            $base_url = "";
             $saida['agentcomputer']['metodoDownload']['path'] = $base_url . '/downloads/cacic/current/' . $so_json['tipo'];
         } else {
             $saida['agentcomputer']['metodoDownload']['path'] = $computador->getIdRede()->getTePathServUpdates();

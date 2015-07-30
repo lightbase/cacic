@@ -122,4 +122,53 @@ var System = {
 			});
 		}
 	},
+	Notifications: {
+        get: function(url, dados) {
+            // Envia requisição Ajax de notificação
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: dados,
+                dataType: "json",
+                cache: true,
+                async: true,
+                success: function(result) {
+                    var elm = "";
+                    for (var i = 0; i < result.length; i++) {
+                        var date = new Date(result[i].creationDate);
+                        elm += "<a href='" + url + "/" + result[i].idNotification + "'>" +
+                            result[i].subject +
+                            "</a>" +
+                            "<p>" +
+                            "<ul>" +
+                            "<li><b>Computador: </b>" + result[i].nmComputador + "</li>" +
+                            "<li><b>IP: </b>" + result[i].teIpComputador + "</li>" +
+                            "<li><b>Data: </b>" + date.toLocaleDateString() + " " + date.toLocaleTimeString() + "</li>" +
+                            "</ul>" +
+                            //result[i].body.substr(0, 100) +
+                            "</p>" +
+                            "<hr>" +
+                            "\n";
+                    }
+
+                    // Add more link to the end
+                    elm += "<a href='" + url + "/list' target='_blank'>Mais...</a>";
+
+                    var notifications = $( '#cacic_notifications' );
+                    notifications.attr('data-content', elm);
+
+                    var number = $( '#cacic_notifications_number');
+                    number.text(result.length);
+                    number.removeClass('label-info');
+                    number.addClass('label-warning');
+                },
+                error: function(result, status, error) {
+                    console.log("Erro na leitura das notificações");
+                    console.log("Status: " + status);
+                    console.log("Error message: " + error);
+                    $( '#cacic_notifications_number').text(0);
+                }
+            });
+        },
+    }
 }

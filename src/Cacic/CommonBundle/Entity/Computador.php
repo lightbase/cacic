@@ -915,6 +915,7 @@ class Computador
         $notification->setSubject($subject);
         $notification->setBody($body);
         $notification->setIdComputador($this);
+        $notification->setCreationDate(new \DateTime());
 
         return $notification;
     }
