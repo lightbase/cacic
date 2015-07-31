@@ -154,14 +154,14 @@ var System = {
                     // Add more link to the end
                     elm += "<a href='" + url + "/list' target='_blank'>Mais...</a>";
 
-                    var notifications = $( '#cacic_notifications' );
-                    notifications.attr('data-content', elm);
-
                     var number = $( '#cacic_notifications_number');
                     var top = $( '#notifications_top');
                     number.text(result.length);
                     top.text(result.length);
                     if (result.length > 0) {
+                        var notifications = $( '#cacic_notifications' );
+                        notifications.attr('data-content', elm);
+
                         number.removeClass('label-info');
                         number.addClass('label-warning');
                         top.removeClass('label-info');
