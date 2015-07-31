@@ -160,6 +160,7 @@ var System = {
                     top.text(result.length);
                     if (result.length > 0) {
                         var notifications = $( '#cacic_notifications' );
+                        notifications.attr('data-original-title', 'Notificações');
                         notifications.attr('data-content', elm);
 
                         number.removeClass('label-info');

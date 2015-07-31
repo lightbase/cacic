@@ -18,59 +18,84 @@
                     <p>{{ "Lista de notificações"|trans }}</p>
                     <br />
 
-                    <table class="display datatable" id="datatable">
+                    {% if notifications|length > 0 %}
+                        <table class="display datatable" id="datatable">
+                            <thead>
+                            <tr>
+                                <th width="1%">#</th>
+                                <th width="10%" style="text-align: center">{{ "Computador"|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ "Ação"|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ "Assunto"|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ "Objeto"|trans }}</th>
+                                <th width="20%" style="text-align: center">{{ "Corpo"|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ "Data"|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ "Destinatário"|trans }}</th>
+                                <th width="12%" style="text-align: center">{{ "Ações"|trans }}</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            {% for reg in notifications %}
+
+                                <tr id="item_{{ reg['idNotification'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ reg['teIpComputador'] }}/{{ reg['nmComputador']}}</td>
+                                    <td style="text-align: center">{{ reg['notificationAcao']|traduzAtividade }}</td>
+                                    <td id="item_desc_{{ reg['idNotification'] }}">{{ reg['subject'] }}</td>
+                                    <td style="text-align: center">{{ reg['object'] }}</td>
+                                    <td>{{ reg['body']|nl2br }}</td>
+                                    <td style="text-align: center">{{ reg['creationDate']|date('d/M/Y H:m:s') }}</td>
+                                    <td style="text-align: center">{{ reg['toAddr'] }}</td>
+                                    <td class="td-actions">
+                                        {% if reg['readDate'] is empty %}
+                                            <a href="{{ path('cacic_notifications_read_id') }}" class="btn btn-small btn-primary bt-ativar" title="{{ "Marcar como lida"|trans }}">
+                                                <i class="icon-ok icon-large"></i>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('cacic_notifications_unread_id') }}" class="btn btn-small btn-default bt-ativar" title="{{ "Marcar como não lida"|trans }}">
+                                                <i class="icon-ban-circle icon-large"></i>
+                                            </a>
+                                            <a href="{{ path('cacic_notifications_delete_id') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
+                                                <i class="icon-trash icon-large"></i>
+                                            </a>
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+
+                            {% else %}
+                                <tr>
+                                    <td style="text-align: center" colspan="8"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    {% else %}
+                    <table class="table table-striped table-bordered">
                         <thead>
-                        <tr>
-                            <th width="1%">#</th>
-                            <th width="10%" style="text-align: center">{{ "Computador"|trans }}</th>
-                            <th width="10%" style="text-align: center">{{ "Ação"|trans }}</th>
-                            <th width="10%" style="text-align: center">{{ "Assunto"|trans }}</th>
-                            <th width="10%" style="text-align: center">{{ "Objeto"|trans }}</th>
-                            <th width="20%" style="text-align: center">{{ "Corpo"|trans }}</th>
-                            <th width="10%" style="text-align: center">{{ "Data"|trans }}</th>
-                            <th width="10%" style="text-align: center">{{ "Destinatário"|trans }}</th>
-                            <th width="12%" style="text-align: center">{{ "Ações"|trans }}</th>
-                        </tr>
+                            <tr>
+                                <th width="1%">#</th>
+                                <th width="10%" style="text-align: center">{{ "Computador"|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ "Ação"|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ "Assunto"|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ "Objeto"|trans }}</th>
+                                <th width="20%" style="text-align: center">{{ "Corpo"|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ "Data"|trans }}</th>
+                                <th width="10%" style="text-align: center">{{ "Destinatário"|trans }}</th>
+                                <th width="12%" style="text-align: center">{{ "Ações"|trans }}</th>
+                            </tr>
                         </thead>
 
                         <tbody>
-
-                        {% for reg in notifications %}
-
-                            <tr id="item_{{ reg['idNotification'] }}" class="{{ cycle(['row0', 'row1'], loop.index) }}">
-                                <td>{{ loop.index }}</td>
-                                <td>{{ reg['teIpComputador'] }}/{{ reg['nmComputador']}}</td>
-                                <td style="text-align: center">{{ reg['notificationAcao']|traduzAtividade }}</td>
-                                <td id="item_desc_{{ reg['idNotification'] }}">{{ reg['subject'] }}</td>
-                                <td style="text-align: center">{{ reg['object'] }}</td>
-                                <td>{{ reg['body']|nl2br }}</td>
-                                <td style="text-align: center">{{ reg['creationDate']|date('d/M/Y H:m:s') }}</td>
-                                <td style="text-align: center">{{ reg['toAddr'] }}</td>
-                                <td class="td-actions">
-                                    {% if reg['readDate'] is empty %}
-                                        <a href="{{ path('cacic_notifications_read_id') }}" class="btn btn-small btn-primary bt-ativar" title="{{ "Marcar como lida"|trans }}">
-                                            <i class="icon-ok icon-large"></i>
-                                        </a>
-                                    {% else %}
-                                        <a href="{{ path('cacic_notifications_unread_id') }}" class="btn btn-small btn-default bt-ativar" title="{{ "Marcar como não lida"|trans }}">
-                                            <i class="icon-ban-circle icon-large"></i>
-                                        </a>
-                                        <a href="{{ path('cacic_notifications_delete_id') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
-                                            <i class="icon-trash icon-large"></i>
-                                        </a>
-                                    {% endif %}
-
-                                </td>
-                            </tr>
-
-                        {% else %}
                             <tr>
-                                <td style="text-align: center" colspan="8"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
+                                <td style="text-align: center;" colspan="9"><b>{{ "NENHUM REGISTRO ENCONTRADO!"|trans }}</b></td>
                             </tr>
-                        {% endfor %}
 
                         </tbody>
-                    </table>
+
+                    {% endif %}
 
                 </div> <!-- /block -->
             </div><!-- /box -->
