@@ -33,7 +33,8 @@ class RedeType extends AbstractType
                 'required'  => false,
 				'class' => 'CacicCommonBundle:ServidorAutenticacao',
 				'property' => 'nmServidorAutenticacao',
-				'label'=>'Servidor para Autenticação:')
+				'label'=>'Servidor para Autenticação:'
+            )
 		);
 
 		$builder->add('teIpRede',  null,

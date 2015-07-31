@@ -95,11 +95,14 @@
                 } ) }}
 				{{ form_row(form.teEmailContato1, {
                     'form_type': 'horizontal',
-                    'help': 'E-mail do responsavel pela Rede'|trans
+                    'help': 'E-mail do responsavel pela Rede<p><b>IMPORTANTE:</b> O responsável pela rede deve ser preferencialmente o e-mail de um usuário cadastrado que vai receber os alertas do Cacic</p>'|trans
                 } ) }}
 				{{ form_row(form.nmPessoaContato2, {'form_type': 'horizontal'} ) }}
 				{{ form_row(form.nuTelefone2, {'form_type': 'horizontal'} ) }}
-				{{ form_row(form.teEmailContato2, {'form_type': 'horizontal'} ) }}
+				{{ form_row(form.teEmailContato2, {
+                    'form_type': 'horizontal',
+                    'help': 'E-mail do segundo responsável pela Rede<p><b>IMPORTANTE:</b> Caso não haja um responsável primario, os alertas serão enviados para o usuário secundário cadastrado aqui</p>'|trans
+                } ) }}
 			</fieldset>
 			
 			<fieldset>
