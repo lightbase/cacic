@@ -71,6 +71,8 @@ class NotificationsRepository extends EntityRepository
         // Mostra somente não lidas
         if (!empty($unread) && $unread === true) {
             $qb->andWhere("n.readDate IS NULL");
+        } else {
+            $qb->andWhere("n.readDate IS NOT NULL");
         }
 
         // Filtra por data de leitura

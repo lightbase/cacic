@@ -223,6 +223,12 @@ class NotificationsController extends Controller
         return $response;
     }
 
+    /**
+     * Excluir notificação
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function deleteAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
@@ -271,6 +277,12 @@ class NotificationsController extends Controller
         return $response;
     }
 
+    /**
+     * Marca notificação como não lida
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function unreadAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 

@@ -62,19 +62,20 @@
 
             <div class="collapse navbar-collapse" id="main-menu">
                 <ul class="nav navbar-nav navbar-left">
-                    <!-- <li class="dropdown">
-                    <a href="#"
-                          class="dropdown-toggle"
-                          data-toggle="dropdown">
-                          {{ "Alertas"|trans }} <span class="label label-info">100</span>
-                          <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">CACIC</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">{{ "Alertas antigos..."|trans }}</a></li>
-                    </ul>
-              </li> -->
+                    <li class="dropdown">
+                        <a href="#"
+                              class="dropdown-toggle"
+                              data-toggle="dropdown">
+                            {{ "Notificações"|trans }}
+                            <span class="label label-info" id="notifications_top">0</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('cacic_notifications_list') }}">{{ "Mensagens não lidas"|trans }}</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ path('cacic_notifications_list', {'unread': 'true'}) }}">{{ "Mensagens lidas"|trans }}</a></li>
+                        </ul>
+                  </li>
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="icon-cog"></i>

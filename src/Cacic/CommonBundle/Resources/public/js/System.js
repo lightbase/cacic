@@ -158,13 +158,19 @@ var System = {
                     notifications.attr('data-content', elm);
 
                     var number = $( '#cacic_notifications_number');
+                    var top = $( '#notifications_top');
                     number.text(result.length);
+                    top.text(result.length);
                     if (result.length > 0) {
                         number.removeClass('label-info');
                         number.addClass('label-warning');
+                        top.removeClass('label-info');
+                        top.addClass('label-warning');
                     } else {
                         number.removeClass('label-warning');
                         number.addClass('label-info');
+                        top.removeClass('label-info');
+                        top.addClass('label-warning');
                     }
                 },
                 error: function(result, status, error) {
