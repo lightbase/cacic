@@ -159,12 +159,17 @@ var System = {
 
                     var number = $( '#cacic_notifications_number');
                     number.text(result.length);
-                    number.removeClass('label-info');
-                    number.addClass('label-warning');
+                    if (result.length > 0) {
+                        number.removeClass('label-info');
+                        number.addClass('label-warning');
+                    } else {
+                        number.removeClass('label-warning');
+                        number.addClass('label-info');
+                    }
                 },
                 error: function(result, status, error) {
                     console.log("Erro na leitura das notificações");
-                    console.log("Status: " + status);
+                    //console.log("Status: " + status);
                     console.log("Error message: " + error);
                     $( '#cacic_notifications_number').text(0);
                 }

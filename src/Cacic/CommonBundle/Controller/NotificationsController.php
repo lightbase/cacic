@@ -17,26 +17,17 @@ class NotificationsController extends Controller
 {
     public function getAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $content = $request->getContent();
-        $dados = json_decode($content, true);
+        $logger = $this->get('logger');
 
-        if (empty($dados)) {
-            // Alguma coisa aqui?
+        $limit = $request->get('limit');
+        $offset = $request->get('offset');
+
+        if (empty($limit)) {
             $limit = 10;
+        }
+
+        if (empty($offset)) {
             $offset = 0;
-        } else {
-            if (!empty($dados['limit'])) {
-                $limit = $dados['limit'];
-            } else {
-                $limit = 10;
-            }
-
-            if (!empty($dados['offset'])) {
-                $offset = $dados['offset'];
-            } else {
-                $offset = 0;
-            }
-
         }
 
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {

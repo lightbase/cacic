@@ -8,7 +8,10 @@ $(document).ready(function(){
      */
     var homepage = $( '#homepage' ).attr('href');
     var not_url = homepage + 'notifications/get';
-    System.Notifications.get(not_url, {});
+	var not_req = {
+		'limit': 5
+	};
+    System.Notifications.get(not_url, not_req);
 
 
 	/**
