@@ -169,8 +169,8 @@ var System = {
                     } else {
                         number.removeClass('label-warning');
                         number.addClass('label-info');
-                        top.removeClass('label-info');
-                        top.addClass('label-warning');
+                        top.removeClass('label-warning');
+                        top.addClass('label-info');
                     }
                 },
                 error: function(result, status, error) {
