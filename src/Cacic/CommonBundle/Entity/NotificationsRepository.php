@@ -54,9 +54,13 @@ class NotificationsRepository extends EntityRepository
             ->innerJoin("CacicCommonBundle:Computador", "comp", "WITH", "n.idComputador = comp.idComputador")
             ->innerJoin("CacicCommonBundle:Rede", "rede", "WITH", "comp.idRede = rede.idRede")
             ->innerJoin("CacicCommonBundle:Local", "loc", "WITH", "loc.idLocal = rede.idLocal")
-            ->setMaxResults($limit)
             ->setFirstResult($offset)
             ->addOrderBy("n.creationDate", "DESC");
+
+        // Verifica limite
+        if ($limit != 0) {
+            $qb->setMaxResults($limit);
+        }
 
         // Filtra por email
         if (!empty($email)) {

@@ -717,6 +717,10 @@ cacic_notifications_delete_id:
     path: /notifications/delete
     defaults: { _controller: CacicCommonBundle:Notifications:delete }
 
+cacic_notifications_unread_id:
+    path: /notifications/unread
+    defaults: { _controller: CacicCommonBundle:Notifications:unread }
+
 ############################################
 # FIM: Páginas para usuários normais
 ############################################

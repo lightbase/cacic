@@ -1,0 +1,67 @@
+{% extends 'CacicCommonBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('cacic_notifications_list') }}">{{ "Notificações"|trans }}</a></li>
+    <li class="active">{{ "Visualizar notificação"|trans }}</li>
+{% endblock %}
+
+{% block body %}
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="box grad_colour_black">
+                <h2 class="box_head round_top">
+                    <i class="icon-envelope"></i>
+                    {{ "Visualizar Notificação"|trans }}
+                </h2>
+
+                <div class="block box_content round_bottom padding_10">
+
+                    <p class="muted">
+                        {{ 'Lista de notificações do usuário'|trans }}
+                    </p>
+                    <hr />
+
+                    <div class="row">
+
+                        <div class="span12">
+
+                            {% if notification.readDate is empty %}
+                                <a href="{{ path('cacic_notifications_read_id') }}" class="btn btn-primary bt-ativar" title="{{ "Marcar como lida"|trans }}" id="{{ notification.idNotification }}">
+                                    <i class="icon-ok icon-large"></i>
+                                    {{ "Marcar como lida"|trans }}
+                                </a>
+                            {% else %}
+                                <a href="{{ path('cacic_notifications_unread_id') }}" class="btn btn-default bt-ativar" title="{{ "Marcar como não lida"|trans }}" id="{{ notification.idNotification }}">
+                                    <i class="icon-ban-circle icon-large"></i>
+                                    {{ "Marcar como não lida"|trans }}
+                                </a>
+                                <a href="{{ path('cacic_notifications_delete_id') }}" class="btn btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}" id="{{ notification.idNotification }}">
+                                    <i class="icon-trash icon-large"></i>
+                                    {{ "Excluir notificação"|trans }}
+                                </a>
+                            {% endif %}
+
+                            {{ form_widget(form) }}
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label required" for="notifications_body">Corpo</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">
+                                        {{ notification.body|nl2br }}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -587,10 +587,10 @@ class NeoColetaController extends NeoController {
             }
 
             // NOTIFICAÇÕES
-            $body = "Nome do Computador: ". $computador->getNmComputador() ."\n
-             IP do Computador: ". $computador->getTeIpComputador() ."\n
-             MAC: ". $computador->getTeNodeAddress() ."\n
-             Rede: ". $computador->getIdRede()->getNmRede() ."\n\n
+            $body = "Nome do Computador: ". $computador->getNmComputador() ."
+             IP do Computador: ". $computador->getTeIpComputador() ."
+             MAC: ". $computador->getTeNodeAddress() ."
+             Rede: ". $computador->getIdRede()->getNmRede() ."
 
              Remoções identificadas: \n
              ". json_encode($coletasRetiradas['software'], true) ."\n
@@ -622,10 +622,10 @@ class NeoColetaController extends NeoController {
             }
 
             // NOTIFICAÇÕES
-            $body = "Nome do Computador: ". $computador->getNmComputador() ."\n
-             IP do Computador: ". $computador->getTeIpComputador() ."\n
-             MAC: ". $computador->getTeNodeAddress() ."\n
-             Rede: ". $computador->getIdRede()->getNmRede() ."\n\n
+            $body = "Nome do Computador: ". $computador->getNmComputador() ."
+             IP do Computador: ". $computador->getTeIpComputador() ."
+             MAC: ". $computador->getTeNodeAddress() ."
+             Rede: ". $computador->getIdRede()->getNmRede() ."
 
              Remoções identificadas: \n
              ". json_encode($coletasRetiradas['hardware'], true) ."\n

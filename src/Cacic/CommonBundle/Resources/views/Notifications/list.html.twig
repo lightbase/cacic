@@ -10,7 +10,7 @@
         <div class="span12">
             <div class="box grad_colour_black">
 
-                <h2 class="box_head round_top"><i class="icon-notice"></i> {{ "Notificações"|trans }}</h2>
+                <h2 class="box_head round_top"><i class="icon-envelope"></i> {{ "Notificações"|trans }}</h2>
 
                 <div class="block box_content round_bottom padding_10">
 
@@ -52,6 +52,9 @@
                                             <i class="icon-ok icon-large"></i>
                                         </a>
                                     {% else %}
+                                        <a href="{{ path('cacic_notifications_unread_id') }}" class="btn btn-small btn-default bt-ativar" title="{{ "Marcar como não lida"|trans }}">
+                                            <i class="icon-ban-circle icon-large"></i>
+                                        </a>
                                         <a href="{{ path('cacic_notifications_delete_id') }}" class="btn btn-small btn-danger bt-excluir" title="{{ "Excluir Item"|trans }}">
                                             <i class="icon-trash icon-large"></i>
                                         </a>
