@@ -36,16 +36,20 @@ BEGIN
       EXCEPTION
         WHEN SQLSTATE '23505' THEN
           RAISE NOTICE 'Software já existente no relatório: % Software velho: %', v_software, soft.id_software;
+
+        DELETE FROM aquisicoes_software
+        WHERE id_software = soft.id_software;
+
       END;
 
       -- Apagando software repetido
-      RAISE NOTICE 'Removendo software repetido = %', v_software;
+        RAISE NOTICE 'Removendo software repetido = %. Mantendo software atual = %', soft.id_software, v_software;
 
       DELETE FROM proriedade_software
-      WHERE id_software = soft.id_software
-            AND id_class_property = soft.id_class_property;
+      WHERE id_software = soft.id_software;
 
-      DELETE FROM software WHERE id_software = soft.id_software;
+      DELETE FROM software
+      WHERE id_software = soft.id_software;
 
     END LOOP;
 
