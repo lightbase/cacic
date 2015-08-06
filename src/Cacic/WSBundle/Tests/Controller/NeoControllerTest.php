@@ -258,6 +258,10 @@ class NeoControllerTest extends BaseTestCase
         // Testa inclusão de bara antes do path
         $rede->setTePathServUpdates("/downloads/");
 
+        // Testa força coleta
+        $computador->setForcaColeta('S');
+
+        $em->persist($computador);
         $em->persist($rede);
         $em->flush();
 
@@ -287,6 +291,12 @@ class NeoControllerTest extends BaseTestCase
             "http://localhost/downloads/cacic/3.0a1/windows/cacic-service.exe",
             $config['agentcomputer']['modulos']['cacic'][0]['url'],
             "URL gerada foi errada: ".$config['agentcomputer']['modulos']['cacic'][0]['url']
+        );
+
+        $this->assertEquals(
+            "S",
+            $config['agentcomputer']['configuracoes']['nu_forca_coleta'],
+            "Força coleta deveria ser S"
         );
 
         $tmpfile = sys_get_temp_dir(). '/getConfig2.json';
