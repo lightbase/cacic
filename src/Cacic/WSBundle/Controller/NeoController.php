@@ -273,6 +273,26 @@ class NeoController extends Controller {
         $modulos = $em->getRepository('CacicCommonBundle:RedeVersaoModulo')->findBy(array(
             'idRede' => $computador->getIdRede()
         ));
+
+        // Eduardo: 2015-08-06
+        // Adiciona URL para download diferente para cada módulo
+        $scheme = $computador->getIdRede()->getDownloadMethod();
+        if ($scheme == 'http') {
+            $server = preg_replace("(^https?://)", "", $computador->getIdRede()->getTeServUpdates());
+        } else {
+            $server = preg_replace("(^ftps?://)", "", $computador->getIdRede()->getTeServUpdates());
+        }
+        $url = $computador->getIdRede()->getDownloadMethod() . "://" . $server;
+        // Remove trailing slash
+        $url = rtrim($url, "/");
+
+        // path removing slash
+        $path = $computador->getIdRede()->getTePathServUpdates();
+        if (empty($path)) {
+            $path = "downloads";
+        }
+        $url .= "/" . ltrim($path, "/");
+
         //$logger->debug("Módulos encontrados \n". print_r($modulos, true));
         $mods = array();
         foreach($modulos as $elm) {
@@ -296,10 +316,15 @@ class NeoController extends Controller {
 
             // Adiciona somente o módulo que estiver com o tipo de SO cadastrado
             elseif ($so_json['tipo'] == $elm->getTipoSo()->getTipo() ) {
+                // URL do módulo
+                $url_modulo = rtrim($url, "/") . "/$tipo/" . $elm->getTeVersaoModulo() . "/" . $so_json['tipo'] . "/" . $elm->getNmModulo();
+
                 // Adiciona módulos e hashes
                 array_push($mods[$tipo], array(
                     'nome' => $elm->getNmModulo(),
-                    'hash' => $elm->getTeHash()
+                    'hash' => $elm->getTeHash(),
+                    'versao' => $elm->getTeVersaoModulo(),
+                    'url' => $url_modulo
                 ));
             }
 
@@ -350,7 +375,7 @@ class NeoController extends Controller {
             $saida['agentcomputer']['configuracoes'][$configuracao->getIdConfiguracao()] = $configuracao->getVlConfiguracao();
         }
 
-        $logger->debug("Dados das configurações \n". print_r($saida, true));
+        //$logger->debug("Dados das configurações \n". print_r($saida, true));
         $resposta = json_encode($saida);
 
         $response = new JsonResponse();

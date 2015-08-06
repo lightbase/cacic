@@ -181,14 +181,117 @@ class NeoControllerTest extends BaseTestCase
             ),
             $this->computador
         );
-        $logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
+        //$logger->debug("Dados JSON do computador enviados \n".$this->client->getRequest()->getcontent());
 
         $response = $this->client->getResponse();
         $status = $response->getStatusCode();
         $logger->debug("Response status: $status");
-        $logger->debug("JSON do getConfig: \n".$response->getContent());
-
         $this->assertEquals($status, 200);
+
+        $computador_json = json_decode($this->computador, true);
+        $resposta = $response->getContent();
+        $config = json_decode($resposta, true);
+
+        // 0 - Identifica computador
+        $this->assertNotEmpty($config['agentcomputer']);
+
+        // 1 - Verifica se todas as ações foram encontradas
+        $this->assertNotEmpty($config['agentcomputer']['actions'], "Não existem ações ativas");
+        $this->assertTrue($config['agentcomputer']['actions']['col_soft'], "Coleta de software não encontrada nas ações");
+        $this->assertTrue($config['agentcomputer']['actions']['col_hard'], "Coleta de hardware não encontrada nas ações");
+        $this->assertTrue($config['agentcomputer']['actions']['col_patr'], "Coleta de patrimônio não encontrada nas ações");
+
+        // 2 - Verifica módulos da subrede
+        $this->assertNotEmpty($config['agentcomputer']['modulos'], "Não existem módulos habilitados");
+        $this->assertNotEmpty($config['agentcomputer']['modulos']['cacic'], "Não existe nenhum módulo do Cacic habilitado");
+        $this->assertCount(2, $config['agentcomputer']['modulos']['cacic'], "Número de módulos cadastrados é diferente de 2");
+
+        // 3 - Verifica classes WMI
+        $this->assertCount(17, $config['agentcomputer']['classes'], "Número de classes cadastradas diferente de 4");
+
+        // 4 - Verifica configurações genéricas
+        $this->assertEquals('localhost', $config['agentcomputer']['applicationUrl'], "URL da aplicação é diferente");
+
+        // 4.1 - Verifica método de download
+        $this->assertEquals('http', $config['agentcomputer']['metodoDownload']['tipo'], "Método de download não é HTTP");
+        $this->assertEquals(
+            '/downloads/cacic/current/' . $computador_json['computador']['operatingSystem']['tipo'],
+            $config['agentcomputer']['metodoDownload']['path'],
+            "Path de download inconsistente"
+        );
+
+        // 5 - Verifica coleta forçada
+        $this->assertEmpty(
+            $config['agentcomputer']['configuracoes']['nu_forca_coleta'],
+            "Força coleta não deveria existir"
+        );
+
+        // 6 -  Verifica configurações do local
+        $this->assertNotEmpty(
+            $config['agentcomputer']['configuracoes'],
+            "O array de configurações está vazio e não deveria"
+        );
+
+        $tmpfile = sys_get_temp_dir(). '/getConfig.json';
+        file_put_contents($tmpfile, $resposta);
+        $logger->debug("getCONFIG: file temp = $tmpfile");
+
+        // Testa parsing de parâmetros importantes no getConfig
+        $em =$this->container->get('doctrine')->getManager();
+
+        $so = $em->getRepository("CacicCommonBundle:So")->findOneBy(array(
+            'teSo' => 'Windows_NT'
+        ));
+        $this->assertNotEmpty($so);
+
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->findOneBy(array(
+            'teNodeAddress' => '9C:D2:1E:EA:E0:89',
+            'idSo' => $so->getIdSo()
+        ));
+        $this->assertNotEmpty($computador);
+
+        $rede = $computador->getIdRede();
+
+        // Testa inclusão de URL com HTTP
+        $rede->setTeServUpdates('http://localhost');
+
+        // Testa inclusão de bara antes do path
+        $rede->setTePathServUpdates("/downloads/");
+
+        $em->persist($rede);
+        $em->flush();
+
+        // Envia getConfig de novo e testa parâmetros
+        $this->client->request(
+            'POST',
+            '/ws/neo/config',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            $this->computador
+        );
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+        $this->assertEquals($status, 200);
+
+        $resposta = $response->getContent();
+        $config = json_decode($resposta, true);
+
+        // Testa URL gerada
+        $this->assertEquals(
+            "http://localhost/downloads/cacic/3.0a1/windows/cacic-service.exe",
+            $config['agentcomputer']['modulos']['cacic'][0]['url'],
+            "URL gerada foi errada: ".$config['agentcomputer']['modulos']['cacic'][0]['url']
+        );
+
+        $tmpfile = sys_get_temp_dir(). '/getConfig2.json';
+        file_put_contents($tmpfile, $resposta);
+        $logger->debug("getCONFIG: file temp = $tmpfile");
 
     }
 
