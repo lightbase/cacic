@@ -175,7 +175,7 @@ class NeoColetaControllerTest extends BaseTestCase {
 
         // Verifica que dois computadores foram coletas
         $computadores = $em->getRepository("CacicCommonBundle:Computador")->findAll();
-        $this->assertEquals(2, sizeof($computadores));
+        $this->assertCount(2, $computadores, "Não foram encontrados exatamente dois computadores");
 
         // Checa se o notebook foi identificado
         $result = false;
@@ -191,8 +191,62 @@ class NeoColetaControllerTest extends BaseTestCase {
             'nmSoftware' => 'Messaging account plugin for AIM'
         ));
 
-        $this->assertEquals(1, sizeof($software));
+        $this->assertCount(1, $software, "O software foi duplicado");
 
+        // Altera o valor do nome da descrição do software e garante que não foi alterado
+        $coleta = json_decode($this->coleta, true);
+        $coleta['computador']['software']['account-plugin-aim']['description'] = "Descrição alterada";
+
+        // Envia coleta
+        $this->client->request(
+            'POST',
+            '/ws/neo/coleta',
+            array(),
+            array(),
+            array(
+                'CONTENT_TYPE'  => 'application/json',
+                //'HTTPS'         => true
+            ),
+            json_encode($coleta, true)
+        );
+        $logger->debug("Dados JSON do computador enviados para a coleta: \n".$this->client->getRequest()->getcontent());
+
+        $response = $this->client->getResponse();
+        $status = $response->getStatusCode();
+        $logger->debug("Response status: $status");
+
+        // Encontra software no computador
+        $so = $em->getRepository("CacicCommonBundle:So")->findOneBy(array(
+            'teSo' => 'Windows_NT'
+        ));
+        $this->assertNotEmpty($so);
+
+        $computador = $em->getRepository("CacicCommonBundle:Computador")->findOneBy(array(
+            'teNodeAddress' => '9C:D2:1E:EA:E0:89',
+            'idSo' => $so
+        ));
+        $this->assertNotEmpty($computador);
+
+        $idClass = $em->getRepository("CacicCommonBundle:Classe")->findOneBy(array(
+            'nmClassName' => 'SoftwareList'
+        ));
+
+        $classProperty = $em->getRepository("CacicCommonBundle:ClassProperty")->findOneBy(array(
+            'nmPropertyName' => 'account-plugin-aim',
+            'idClass' => $idClass
+        ));
+        $this->assertNotEmpty($classProperty, "Software não encontrado como propriedade");
+
+        $softwareObject = $em->getRepository('CacicCommonBundle:Software')->findOneBy(array(
+            'idClassProperty' => $classProperty
+        ));
+
+        $propSoftware = $em->getRepository("CacicCommonBundle:PropriedadeSoftware")->findOneBy(array(
+            'computador' => $computador,
+            'classProperty' => $classProperty,
+            'software' => $softwareObject
+        ));
+        $this->assertNotEmpty($propSoftware, "Coleta de software não encontrada no computador");
     }
 
     /**

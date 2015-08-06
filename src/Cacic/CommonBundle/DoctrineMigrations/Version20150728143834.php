@@ -30,14 +30,18 @@ class Version20150728143834 extends AbstractMigration implements ContainerAwareI
         $rootDir = $this->container->get('kernel')->getRootDir();
         $upgrade1 = $rootDir."/../src/Cacic/CommonBundle/Resources/data/upgrade-3.1.17.sql";
         $upgradeSQL1 = file_get_contents($upgrade1);
+        $upgrade2 = $rootDir."/../src/Cacic/CommonBundle/Resources/data/upgrade-3.1.17-2.sql";
+        $upgradeSQL2 = file_get_contents($upgrade1);
 
         $logger->debug("Arquivo de atualização: $upgrade1");
 
         // FIXME: Só funciona no PostgreSQL
         $this->addSql($upgradeSQL1);
+        $this->addSql($upgradeSQL2);
 
         // Executa a atualização
         $this->addSql("SELECT upgrade_3117()");
+        $this->addSql("SELECT upgrade_31172()");
     }
 
     /**

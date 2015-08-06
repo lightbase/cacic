@@ -280,7 +280,11 @@ class NeoColetaController extends NeoController {
         $i = 0;
         foreach ($software as $classe => $valor) {
             $logger->debug("COLETA: Gravando dados do software $classe");
-            $this->setSoftwareElement($classe, $valor, $computador, $classObject);
+            $result = $this->setSoftwareElement($classe, $valor, $computador, $classObject);
+            if (!$result) {
+                // Limpa o cache se der erro
+                $em->flush();
+            }
             $i = $i + 1;
         }
 
@@ -312,7 +316,7 @@ class NeoColetaController extends NeoController {
 
             // Recupera classProperty para o software
             $classProperty = $em->getRepository('CacicCommonBundle:ClassProperty')->findOneBy(array(
-                'idClass' => $classObject->getIdClass(),
+                'idClass' => $classObject,
                 'nmPropertyName' => $idSoftware
             ));
             if (empty($classProperty)) {
@@ -327,25 +331,32 @@ class NeoColetaController extends NeoController {
                 $em->flush();
             }
 
+            // Eduardo: 2015-08-06
+            // A propriedade passa a ser um identificador para o Software
+            $softwareObject = $em->getRepository('CacicCommonBundle:Software')->getByNameOrProperty(
+                $software,
+                $classProperty->getIdClassProperty()
+            );
+            if (empty($softwareObject)) {
+                // Se nao existir, cria
+                $logger->info("COLETA: Cadastrando software não encontrado $software");
+
+                $softwareObject = new Software();
+                $softwareObject->setNmSoftware($software);
+                $softwareObject->setIdClassProperty($classProperty);
+
+                // Se não der o flush aqui, as consultas de baixo não encontram o objeto
+                $em->persist($softwareObject);
+                $em->flush();
+            }
+
             // Adiciona software ao computador
             $propSoftware = $em->getRepository('CacicCommonBundle:PropriedadeSoftware')->findOneBy(array(
                 'classProperty' => $classProperty,
-                'computador' => $computador
+                'computador' => $computador,
+                'software' => $softwareObject
             ));
             if (empty($propSoftware)) {
-                $logger->info("COLETA: Cadastrando software não encontrado $software");
-
-                // Verifica se software ja esta cadastrado
-                $softwareObject = $em->getRepository('CacicCommonBundle:Software')->getByName($software);
-                if (empty($softwareObject)) {
-                    // Se nao existir, cria
-                    $softwareObject = new Software();
-                    $softwareObject->setNmSoftware($software);
-
-                    // Se não der o flush aqui, as consultas de baixo não encontram o objeto
-                    $em->persist($softwareObject);
-                    $em->flush();
-                }
 
                 $propSoftware = new PropriedadeSoftware();
                 $propSoftware->setComputador($computador);
@@ -354,16 +365,6 @@ class NeoColetaController extends NeoController {
 
                 // Adiciona software na coleta
                 $softwareObject->addColetado($propSoftware);
-            } else {
-                $softwareNew = $em->getRepository('CacicCommonBundle:Software')->getByName($software);
-                if (!empty($softwareNew)) {
-                    // Nesse caso já existe um software com o nome. Atualiza o objeto para o novo valor
-                    $propSoftware->setSoftware($softwareNew);
-                    $softwareObject = $softwareNew;
-                } else {
-                    // Utiliza o software já cadastrado na propriedade
-                    $softwareObject = $propSoftware->getSoftware();
-                }
             }
 
             // Garante que o software deve estar ativo
@@ -435,10 +436,15 @@ class NeoColetaController extends NeoController {
             if (array_key_exists('description', $valor)) {
                 $softwareObject->setTeDescricaoSoftware($valor['description']);
                 $propSoftware->setDisplayName($valor['description']);
+                $classProperty->setPrettyName($valor['description']);
             }
+
+            /*
             if (array_key_exists('name', $valor)) {
                 $classProperty->setNmPropertyName($valor['name']);
             }
+            */
+
             if (array_key_exists('url', $valor)) {
                 $propSoftware->setUrlInfoAbout($valor['url']);
             }
@@ -451,7 +457,6 @@ class NeoColetaController extends NeoController {
 
             // Persiste os objetos
             $em->persist($propSoftware);
-            $em->persist($softwareObject);
 
             // Tem que adicionar isso aqui ou o Doctrine vai duplicar o software
             $em->flush();
@@ -468,6 +473,8 @@ class NeoColetaController extends NeoController {
 
             $logger->error("COLETA: Erro na inserçao de dados do software $software.");
             $logger->debug($e);
+
+            return false;
         } catch(DBALException $e){
             // Reopen Entity Manager
             if (!$em->isOpen()) {
@@ -480,7 +487,11 @@ class NeoColetaController extends NeoController {
 
             $logger->error("COLETA: Erro impossível de software repetido para $software.");
             $logger->debug($e);
+
+            return false;
         }
+
+        return true;
     }
 
     /**
@@ -593,11 +604,12 @@ class NeoColetaController extends NeoController {
              Rede: ". $computador->getIdRede()->getNmRede() ."
 
              Remoções identificadas: \n
-             ". json_encode($coletasRetiradas['software'], true) ."\n
+             ". json_encode($coletasRetiradas['software'], JSON_PRETTY_PRINT) ."\n
             ";
 
-            $from = $this->getParameter('mailer_from');
-            if (empty($from)) {
+            if ($this->container->hasParameter('mailer_from')) {
+                $from = $this->getParameter('mailer_from');
+            } else {
                 $from = 'cacic@localhost';
             }
 
@@ -628,11 +640,12 @@ class NeoColetaController extends NeoController {
              Rede: ". $computador->getIdRede()->getNmRede() ."
 
              Remoções identificadas: \n
-             ". json_encode($coletasRetiradas['hardware'], true) ."\n
+             ". json_encode($coletasRetiradas['hardware'], JSON_PRETTY_PRINT) ."\n
             ";
 
-            $from = $this->getParameter('mailer_from');
-            if (empty($from)) {
+            if ($this->container->hasParameter('mailer_from')) {
+                $from = $this->getParameter('mailer_from');
+            } else {
                 $from = 'cacic@localhost';
             }
 

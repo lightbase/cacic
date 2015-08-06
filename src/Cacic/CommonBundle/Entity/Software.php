@@ -499,4 +499,32 @@ class Software
     {
         return $this->relatorios;
     }
+    /**
+     * @var \Cacic\CommonBundle\Entity\ClassProperty
+     */
+    private $idClassProperty;
+
+
+    /**
+     * Set idClassProperty
+     *
+     * @param \Cacic\CommonBundle\Entity\ClassProperty $idClassProperty
+     * @return Software
+     */
+    public function setIdClassProperty(\Cacic\CommonBundle\Entity\ClassProperty $idClassProperty = null)
+    {
+        $this->idClassProperty = $idClassProperty;
+
+        return $this;
+    }
+
+    /**
+     * Get idClassProperty
+     *
+     * @return \Cacic\CommonBundle\Entity\ClassProperty 
+     */
+    public function getIdClassProperty()
+    {
+        return $this->idClassProperty;
+    }
 }

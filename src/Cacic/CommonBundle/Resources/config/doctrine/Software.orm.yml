@@ -40,6 +40,13 @@ Cacic\CommonBundle\Entity\Software:
             fixed: false
             nullable: true
             column: te_obs
+    oneToOne:
+        idClassProperty:
+            targetEntity: ClassProperty
+            joinColumn:
+                name: id_class_property
+                referencedColumnName: id_class_property
+                nullable: true
     manyToOne:
         idTipoSoftware:
             targetEntity: TipoSoftware

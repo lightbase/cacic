@@ -331,6 +331,13 @@ class SoftwareRepository extends EntityRepository
 
     }
 
+    /**
+     * Busca o nome pelo software
+     *
+     * @param $name
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function getByName($name) {
 
         $qb = $this->createQueryBuilder('sw')
@@ -344,6 +351,32 @@ class SoftwareRepository extends EntityRepository
 
         return $result;
 
+    }
+
+    /**
+     * Busca o software pelo nome ou pela propriedade
+     *
+     * @param $name
+     * @param $property
+     * @return array
+     */
+    public function getByNameOrProperty(
+        $name,
+        $property
+    ) {
+
+        $qb = $this->createQueryBuilder('sw')
+            ->select('sw')
+            ->orWhere('sw.nmSoftware = :name')
+            ->orWhere('sw.idClassProperty = :idClassProperty')
+            ->setMaxResults(1)
+            ->orderBy('sw.idSoftware')
+            ->setParameters(array(
+                'name' => $name,
+                'idClassProperty' => $property
+            ));
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
 }
