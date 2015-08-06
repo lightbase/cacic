@@ -40,7 +40,8 @@ class LoadConfiguracaoPadraoData extends AbstractFixture implements FixtureInter
 		array('te_notificar_utilizacao_usb', 'E-mails para notificar utilizacao de dispositivos USB', null),
 		array('te_senha_adm_agente', 'Senha padrão para administrar o agente', '123abc123abc123a'),
 		array('te_serv_cacic_padrao', 'Nome ou IP do servidor de aplicação (gerente)', null),
-		array('te_serv_updates_padrao', 'Nome ou IP do servidor de atualização (FTP)', null)
+		array('te_serv_updates_padrao', 'Nome ou IP do servidor de atualização (FTP)', null),
+		array('email_notifications', 'Habilitar notificações por e-mail', 'N')
 	);
 
 	/*

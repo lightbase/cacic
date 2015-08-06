@@ -265,6 +265,26 @@
             </td>
         </tr>
 
+        <td>{{ 'Exibe Habilitar envio por e-mail'|trans }}</td>
+        <td>
+            {% if configuracoes['email_notifications'] is defined %}
+                <input id="email_notifications_s" type="radio" name="email_notifications" value="S"
+                       {% if ( configuracoes['email_notifications'] == 'S' ) %}checked="checked"{% endif %}
+                        />
+                <label for="email_notifications_s">Sim</label>
+                <input id="email_notifications_n" type="radio" name="email_notifications" value="N"
+                       {% if ( configuracoes['email_notifications'] == 'N' ) %}checked="checked"{% endif %}
+                        />
+                <label for="email_notifications_n">{{ 'Não'|trans }}</label>
+            {% else %}
+                <input id="email_notifications_s" type="radio" name="email_notifications" value="S">
+                <label for="email_notifications_s">{{ 'Sim'|trans }}</label>
+                <input id="email_notifications_n" type="radio" name="email_notifications" value="N" checked="checked">
+                <label for="email_notifications_n">{{ 'Não'|trans }}</label>
+
+            {% endif %}
+        </td>
+
 
 
     </tbody>
@@ -297,10 +317,6 @@
     <script type="text/javascript" src="{{ asset('bundles/caciccommon/colorpicker/js/bootstrap-colorpicker.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/caciccommon/js/theme.js') }}"></script>
     <script type="text/javascript">
-
-
-
-
 
     // Máscaras nos campos
     var id_default_body_bgcolor = "{{ configuracoes['id_default_body_bgcolor'] }}";
