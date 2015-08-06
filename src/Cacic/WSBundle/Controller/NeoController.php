@@ -286,6 +286,9 @@ class NeoController extends Controller {
         // Remove trailing slash
         $url = rtrim($url, "/");
 
+        // Remove o app.php e o app_dev.php se existirem
+        $url = preg_replace('/\/app.*.php/', "", $url);
+
         // path removing slash
         $path = $computador->getIdRede()->getTePathServUpdates();
         if (empty($path)) {

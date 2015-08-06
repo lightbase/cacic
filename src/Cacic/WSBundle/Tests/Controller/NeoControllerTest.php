@@ -253,7 +253,7 @@ class NeoControllerTest extends BaseTestCase
         $rede = $computador->getIdRede();
 
         // Testa inclusão de URL com HTTP
-        $rede->setTeServUpdates('http://localhost');
+        $rede->setTeServUpdates('http://localhost/app_dev.php/');
 
         // Testa inclusão de bara antes do path
         $rede->setTePathServUpdates("/downloads/");
