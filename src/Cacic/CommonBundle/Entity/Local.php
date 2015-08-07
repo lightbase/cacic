@@ -420,4 +420,23 @@ class Local
     {
         $this->configuracoes->removeElement($configuracoes);
     }
+
+    /**
+     * Descobre se o Local possui uma combinação de chave e valor para a configuração
+     *
+     * @param $chave string Chave da configuração para buscar
+     * @return string Valor da configuração encontrada
+     */
+    public function getConfiguracaoChave($chave) {
+        $configuracoes = $this->getConfiguracoes();
+
+        $found = null;
+        foreach ($configuracoes as $elm) {
+            if ($elm->getIdConfiguracao()->getIdConfiguracao() == $chave) {
+                $found = $elm->getVlConfiguracao();
+            }
+        }
+
+        return $found;
+    }
 }

@@ -598,32 +598,7 @@ class NeoColetaController extends NeoController {
             }
 
             // NOTIFICAÇÕES
-            $body = "Nome do Computador: ". $computador->getNmComputador() ."
-             IP do Computador: ". $computador->getTeIpComputador() ."
-             MAC: ". $computador->getTeNodeAddress() ."
-             Rede: ". $computador->getIdRede()->getNmRede() ."
-
-             Remoções identificadas: \n
-             ". json_encode($coletasRetiradas['software'], JSON_PRETTY_PRINT) ."\n
-            ";
-
-            if ($this->container->hasParameter('mailer_from')) {
-                $from = $this->getParameter('mailer_from');
-            } else {
-                $from = 'cacic@localhost';
-            }
-
-            // NOTIFICAÇÕES
-            $notification = $computador->createNotification(
-                'DEL',
-                'Software',
-                "COLETA: Software removido",
-                $body,
-                $from
-            );
-
-            $em->persist($notification);
-            $em->flush();
+            $this->createNotification($computador, $coletasRetiradas['software'], 'Software');
         }
 
         if (array_key_exists('hardware', $coletasRetiradas)) {
@@ -634,32 +609,7 @@ class NeoColetaController extends NeoController {
             }
 
             // NOTIFICAÇÕES
-            $body = "Nome do Computador: ". $computador->getNmComputador() ."
-             IP do Computador: ". $computador->getTeIpComputador() ."
-             MAC: ". $computador->getTeNodeAddress() ."
-             Rede: ". $computador->getIdRede()->getNmRede() ."
-
-             Remoções identificadas: \n
-             ". json_encode($coletasRetiradas['hardware'], JSON_PRETTY_PRINT) ."\n
-            ";
-
-            if ($this->container->hasParameter('mailer_from')) {
-                $from = $this->getParameter('mailer_from');
-            } else {
-                $from = 'cacic@localhost';
-            }
-
-            // NOTIFICAÇÕES
-            $notification = $computador->createNotification(
-                'DEL',
-                'Hardware',
-                "COLETA: Hardware removido",
-                $body,
-                $from
-            );
-
-            $em->persist($notification);
-            $em->flush();
+            $this->createNotification($computador, $coletasRetiradas['hardware'], 'Hardware');
         }
 
         return true;
@@ -814,8 +764,60 @@ class NeoColetaController extends NeoController {
         return true;
     }
 
-    public function createNotification($computador, $usuario) {
+    /**
+     * Cria notificação para retirada de coleta
+     *
+     * @param $computador
+     * @param $coletasRetiradas
+     * @param $object
+     * @return bool
+     */
+    public function createNotification($computador, $coletasRetiradas, $object) {
+        $em = $this->getDoctrine()->getManager();
 
+        $body = "Nome do Computador: ". $computador->getNmComputador() ."
+             IP do Computador: ". $computador->getTeIpComputador() ."
+             MAC: ". $computador->getTeNodeAddress() ."
+             Rede: ". $computador->getIdRede()->getNmRede() ."
+
+             Remoções identificadas: \n
+             ". json_encode($coletasRetiradas, JSON_PRETTY_PRINT) ."\n
+            ";
+
+        if ($this->container->hasParameter('mailer_from')) {
+            $from = $this->getParameter('mailer_from');
+        } else {
+            $from = 'cacic@localhost';
+        }
+
+        // NOTIFICAÇÕES
+        $notification = $computador->createNotification(
+            'DEL',
+            $object,
+            "COLETA: $object removido",
+            $body,
+            $from
+        );
+
+        $em->persist($notification);
+        $em->flush();
+
+        // Verifica se a notificação deve ser enviada por e-mail
+        $email_notifications = $computador->getIdRede()->getIdLocal()->getConfiguracaoChave('email_notifications');
+
+        if ($email_notifications == 'S') {
+            // Envia notificações por e-mail somente se estiver explicitamente habilitado
+            $message = \Swift_Message::newInstance()
+                ->setSubject($notification->getSubject())
+                ->setFrom($notification->getFromAddr())
+                ->setTo($notification->getToAddr())
+                ->setBody($notification->getBody());
+
+            $this->get('mailer')->send($message);
+
+        }
+
+        return true;
     }
 
 }

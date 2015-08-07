@@ -8,6 +8,9 @@
 
 namespace Cacic\CommonBundle\Tests\Controller;
 
+use Cacic\CommonBundle\Entity\ConfiguracaoLocal;
+use Cacic\CommonBundle\Entity\ConfiguracaoPadrao;
+
 class LocalControllerTest extends DefaultControllerTest {
 
     public function setUp() {
@@ -64,6 +67,12 @@ class LocalControllerTest extends DefaultControllerTest {
         ));
 
         $this->assertNotEmpty($local, "A inserção do local falhou");
+
+        // Testa se é possível encontrar uma configuração ajustada
+        $found = $local->getConfiguracaoChave(
+            'email_notifications'
+        );
+        $this->assertEquals("N", $found, "A configuração não foi encontrada com o valor esperado");
 
     }
 
