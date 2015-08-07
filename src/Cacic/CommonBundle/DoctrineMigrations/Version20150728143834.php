@@ -31,7 +31,7 @@ class Version20150728143834 extends AbstractMigration implements ContainerAwareI
         $upgrade1 = $rootDir."/../src/Cacic/CommonBundle/Resources/data/upgrade-3.1.17.sql";
         $upgradeSQL1 = file_get_contents($upgrade1);
         $upgrade2 = $rootDir."/../src/Cacic/CommonBundle/Resources/data/upgrade-3.1.17-2.sql";
-        $upgradeSQL2 = file_get_contents($upgrade1);
+        $upgradeSQL2 = file_get_contents($upgrade2);
 
         $logger->debug("Arquivo de atualização: $upgrade1");
 
