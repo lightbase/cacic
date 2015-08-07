@@ -6,6 +6,7 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Cacic\CommonBundle\Entity\ConfiguracaoPadrao;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -26,6 +27,7 @@ class Version20150728143834 extends AbstractMigration implements ContainerAwareI
     {
         // this up() migration is auto-generated, please modify it to your needs
         $logger = $this->container->get('logger');
+        $em = $this->container->get('doctrine.orm.entity_manager');
 
         $rootDir = $this->container->get('kernel')->getRootDir();
         $upgrade1 = $rootDir."/../src/Cacic/CommonBundle/Resources/data/upgrade-3.1.17.sql";
@@ -42,6 +44,20 @@ class Version20150728143834 extends AbstractMigration implements ContainerAwareI
         // Executa a atualização
         $this->addSql("SELECT upgrade_3117()");
         $this->addSql("SELECT upgrade_31172()");
+
+        // Adiciona configuração
+        $configuracao = $em->getRepository("CacicCommonBundle:ConfiguracaoPadrao")->findOneBy(array(
+            'idConfiguracao' => 'email_notifications'
+        ));
+        if (empty($configuracao)) {
+            $configuracao = new ConfiguracaoPadrao();
+            $configuracao->setIdConfiguracao('email_notifications');
+            $configuracao->setNmConfiguracao('email_notifications');
+            $configuracao->setVlConfiguracao('N');
+
+            $em->persist($configuracao);
+            $em->flush();
+        }
     }
 
     /**
