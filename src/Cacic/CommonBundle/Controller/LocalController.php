@@ -96,7 +96,7 @@ class LocalController extends Controller
 		
 		if ( $request->isMethod('POST') )
 		{
-			$form->bind( $request );
+			$form->handleRequest( $request );
 			
 			if ( $form->isValid() )
 			{

@@ -9,5 +9,120 @@
 {% endblock %}
 
 {% block configuracoesLocais %}
-{% render url('cacic_local_configuracoes', { 'idLocal': form.vars.value.idLocal }) %}
+    {# Fix conf parsing to template #}
+    {% set conf = [] %}
+    {% for configuracoes in form.vars.data.getConfiguracoes() %}
+        {% set conf = conf|merge({
+            (loop.index): {
+                'idConfiguracao': configuracoes.getIdConfiguracao().getIdConfiguracao(),
+                'vlConfiguracao': configuracoes.getIdConfiguracao().getVlConfiguracao(),
+                'nmConfiguracao': configuracoes.getIdConfiguracao().getNmConfiguracao()
+            }
+        }) %}
+    {% endfor %}
+    {% set vars = {'conf': conf, 'idLocal': form.vars.value.idLocal} %}
+    {% include 'CacicCommonBundle:Configuracao:configuracoes.html.twig' with vars %}
+    {#{% render url('cacic_local_configuracoes', { 'idLocal': form.vars.value.idLocal }) %}#}
+{% endblock %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    {% stylesheets combine=false filter='cssrewrite'
+    'bundles/caciccommon/colorpicker/css/colorpicker.css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/colorpicker/js/bootstrap-colorpicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/caciccommon/js/theme.js') }}"></script>
+    <script type="text/javascript">
+
+        // Máscaras nos campos
+        {% for conf in form.vars.data.getConfiguracoes().toArray() %}
+            {% if conf.idConfiguracao == 'id_default_body_bgcolor' %}
+                var id_default_body_bgcolor = "{{ conf.vlConfiguracao }}";
+            {% endif %}
+        {% endfor %}
+
+        $.cookie('the_cookie', id_default_body_bgcolor, { expires: 365, path: '/' });
+
+
+        //var id_default_body_bgcolor = $.cookie('the_cookie');
+
+        $("body").css('background', id_default_body_bgcolor);
+        $('#id_default_body_bgcolor').colorpicker().on('hide', function( ev ){
+            $("body").css('background', id_default_body_bgcolor)
+            if ( id_default_body_bgcolor != ev.color.toHex() ) // Verifica se a cor foi alterada
+
+            {
+                id_default_body_bgcolor = ev.color.toHex();
+                salvaConfiguracao( 'id_default_body_bgcolor', id_default_body_bgcolor );
+                $("body").css('background', id_default_body_bgcolor)
+                location.reload ();
+
+            }
+
+        });
+        // Monitora os campos do tipo radio, checkbox, texto e textearea
+        $('#config_padrao_data input, #config_padrao_data textarea').bind('change', function(e)
+        {
+            e.preventDefault();
+            var _value = $(this).val();
+
+            if ( $(this).attr('name') == 'te_exibe_graficos' )
+            { // CHECKBOXES relativos a exibição de gráficos na página inicial
+                _value = '';
+                $('input[name=te_exibe_graficos]:checked').each(function( index ){
+                    if ( index != 0 ) _value += ',';
+                    _value += $(this).val();
+                });
+            }
+
+            salvaConfiguracao( $(this).attr('name'), _value );
+        });
+
+        /**
+         * [AJAX] Salva a mudança na configuração
+         */
+        function salvaConfiguracao( config, valor )
+        {
+            var url = "{{ path('cacic_configuracao_salvar') }}";
+            var params = {
+                'idConfiguracao': config ,
+                'vlConfiguracao': valor,
+                'idLocal': {{ form.vars.value.idLocal }}
+            };
+            $.ajax(
+                    {
+                        type: "POST",
+                        url: url,
+                        cache: false,
+                        async: false,
+                        success: function( data )
+                        {
+                            System.Flash.show( 'Sucesso', 'Configuração alterada com sucesso!' );
+                            location.reload ();
+                        },
+                        error: function( data )
+                        {
+                            System.Flash.show( 'Erro', 'Erro na alteração da configuração!' );
+                        },
+                        complete: function( data )
+                        {
+                            $('html, body').animate({scrollTop:0}, 1200, 'linear');
+                        },
+                        data: params
+                    }
+            );
+        }
+
+    </script>
+
 {% endblock %}

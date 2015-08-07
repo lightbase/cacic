@@ -1,7 +1,7 @@
 {% extends 'CacicCommonBundle::base.html.twig' %}
 
 {% block breadcrumb %}
-    <li><a href="{{ path('cacic_local_index') }}">{{ "Locais"|trans }}</a></li> /
+    <li><a href="{{ path('cacic_local_index') }}">{{ "Locais"|trans }}</a></li>
     <li class="active">{{ "Cadastro"|trans }}</li>
 {% endblock %}
 
@@ -41,17 +41,19 @@
 							</div>
 							
 							<div class="tab-pane" id="form-local-configuracoes">
-								
-								{% if form.vars.value.idLocal != true %}<center><b>{{ "Este local ainda não foi salvo."|trans }}</b></center>{% endif %}
-								{% block configuracoesLocais %}{% endblock %}
+								<div class="col-md-12">
+									{% if form.vars.value.idLocal != true %}<center><b>{{ "Este local ainda não foi salvo."|trans }}</b></center>{% endif %}
+									{% block configuracoesLocais %}{% endblock %}
+								</div>
 								
 							</div>
 							
 							<div class="tab-pane" id="form-local-dadosassociados">
-								
-								{% if form.vars.value.idLocal != true %}<center><b>{{ "Este local ainda não foi salvo."|trans }}</b></center>{% endif %}
-								{% block redesAssociadas %}{% endblock %}
-								{% block usuariosAssociados %}{% endblock %}
+                                <div class="col-md-12">
+                                    {% if form.vars.value.idLocal != true %}<center><b>{{ "Este local ainda não foi salvo."|trans }}</b></center>{% endif %}
+                                    {% block redesAssociadas %}{% endblock %}
+                                    {% block usuariosAssociados %}{% endblock %}
+                                </div>
 								
 							</div>
 						</div><!-- /tab-content -->

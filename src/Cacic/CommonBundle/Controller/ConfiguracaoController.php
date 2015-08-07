@@ -27,7 +27,7 @@ class ConfiguracaoController extends Controller
 	{
 		return $this->render(
         	'CacicCommonBundle:Configuracao:padrao.html.twig',
-        	array( 'configuracoes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoPadrao' )->getArrayChaveValor() )
+        	array( 'configuracoes' => $this->getDoctrine()->getRepository( 'CacicCommonBundle:ConfiguracaoPadrao' )->findAll() )
         );
 	}
 	

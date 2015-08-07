@@ -1,0 +1,339 @@
+<h3>{{ 'Lista de configurações'|trans }}</h3>
+<p>{{ 'As opções abaixo determinam qual será o comportamento padrão dos agentes do <b>CACIC</b> para cada novo local criado.'|trans|raw }}</p>
+<br />
+
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th width="30%">{{ 'Diretiva'|trans }}</th>
+        <th width="70%">{{ 'Valor'|trans }}</th>
+    </tr>
+    </thead>
+
+    <tbody id="config_padrao_data">
+
+    <tr>
+        <td colspan="2"><h3 style="text-align: center;">{{ "Configurações do Agente"|trans }}</h3></td>
+    </tr>
+
+    {% for configuracoes in conf %}
+
+        {% if configuracoes.idConfiguracao == 'in_exibe_erros_criticos' %}
+
+            <tr>
+                <td>{{ 'Exibir erros criticos aos usuarios'|trans }}</td>
+                <td>
+                    <input id="in_exibe_erros_criticos_s" type="radio" name="in_exibe_erros_criticos" value="S"
+                           {% if ( configuracoes.vlConfiguracao == 'S' ) %}checked="checked"{% endif %}
+                            />
+                    <label for="in_exibe_erros_criticos_s">Sim</label>
+                    <input id="in_exibe_erros_criticos_n" type="radio" name="in_exibe_erros_criticos" value="N"
+                           {% if ( configuracoes.vlConfiguracao == 'N' ) %}checked="checked"{% endif %}
+                            />
+                    <label for="in_exibe_erros_criticos_n">Não</label>
+                </td>
+            </tr>
+
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'in_exibe_bandeja' %}
+
+            <tr>
+                <td>{{ 'Exibir o icone do CACIC na bandeja'|trans }} (systray)</td>
+                <td>
+                    <input id="in_exibe_bandeja_s" type="radio" name="in_exibe_bandeja" value="S"
+                           {% if ( configuracoes.vlConfiguracao == 'S' ) %}checked="checked"{% endif %}
+                            />
+                    <label for="in_exibe_bandeja_s">{{ 'Sim'|trans }}</label>
+                    <input id="in_exibe_bandeja_n" type="radio" name="in_exibe_bandeja" value="N"
+                           {% if ( configuracoes.vlConfiguracao == 'N' ) %}checked="checked"{% endif %}
+                            />
+                    <label for="in_exibe_bandeja_n">{{ 'Não'|trans }}</label>
+                </td>
+            </tr>
+
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'nu_exec_apos' %}
+
+            <tr>
+                <td>{{ 'Início de execução das ações (em minutos)'|trans }}</td>
+                <td>
+                    <input id="nu_exec_apos" type="text" name="nu_exec_apos" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'nu_intervalo_exec' %}
+
+            <tr>
+                <td>{{ 'Intervalo de execução das ações (em minutos)'|trans }}</td>
+                <td>
+                    <input id="nu_intervalo_exec" type="text" name="nu_intervalo_exec" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'nu_intervalo_forca_coleta' %}
+
+            <tr>
+                <td>{{ 'Intervalo da verificaço de coleta forçada (em minutos)'|trans }}</td>
+                <td>
+                    <input id="nu_intervalo_forca_coleta" type="text" name="nu_intervalo_forca_coleta" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'nu_timeout_srcacic' %}
+
+            <tr>
+                <td>Timeout do srcacic</td>
+                <td>
+                    <input id="nu_timeout_srcacic" type="text" name="nu_timeout_srcacic" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'nu_intervalo_renovacao_patrim' %}
+
+            <tr>
+                <td>{{ "Intervalo de tempo para renovação do patrimônio"|trans }}</td>
+                <td>
+                    <input id="nu_intervalo_renovacao_patrim" type="text" name="nu_intervalo_renovacao_patrim" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'msg_popup_patrimonio' %}
+            <tr>
+                <td>{{ 'Mensagem a ser exibida no Pop-Up de patrimônio'|trans }}</td>
+                <td>
+                    <textarea id="msg_popup_patrimonio" type="text" name="msg_popup_patrimonio" rows="10">{{ configuracoes.vlConfiguracao }}</textarea>
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'te_senha_adm_agente' %}
+            <tr>
+                <td>{{ 'Senha padrão para administrar o agente'|trans }}</td>
+                <td>
+                    <input id="te_senha_adm_agente" type="text" name="te_senha_adm_agente" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'te_enderecos_mac_invalidos' %}
+            <tr>
+                <td>{{ 'Endereços MAC a desconsiderar'|trans }}</td>
+                <td>
+                    <textarea id="te_enderecos_mac_invalidos" type="text" name="te_enderecos_mac_invalidos" rows="10">{{ configuracoes.vlConfiguracao }}</textarea>
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'te_janelas_excecao' %}
+            <tr>
+                <td>{{ 'Aplicativos (janelas) a evitar'|trans }}</td>
+                <td>
+                    <textarea id="te_janelas_excecao" type="text" name="te_janelas_excecao" rows="10">{{ configuracoes.vlConfiguracao }}</textarea>
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'cs_abre_janela_patr' %}
+            <tr>
+                <td>{{ 'Exibe janela de patrimônio'|trans }}</td>
+                <td>
+                    <input id="cs_abre_janela_patr_s" type="radio" name="cs_abre_janela_patr" value="S"
+                           {% if ( configuracoes.vlConfiguracao == 'S' ) %}checked="checked"{% endif %}
+                            />
+                    <label for="cs_abre_janela_patr">Sim</label>
+                    <input id="cs_abre_janela_patr_n" type="radio" name="cs_abre_janela_patr" value="N"
+                           {% if ( configuracoes.vlConfiguracao == 'N' ) %}checked="checked"{% endif %}
+                            />
+                    <label for="cs_abre_janela_patr_n">{{ 'Não'|trans }}</label>
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'nu_porta_srcacic' %}
+            <tr>
+                <td>{{ "Porta do srcacic"|trans }}</td>
+                <td>
+                    <input id="nu_porta_srcacic" type="text" name="nu_porta_srcacic" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+        {% endif %}
+
+    {% endfor %}
+
+    <tr>
+        <td colspan="2"><h3 style="text-align: center;">{{ "Configurações do Gerente"|trans }}</h3></td>
+    </tr>
+
+    {% for configuracoes in conf %}
+
+        {% if configuracoes.idConfiguracao == 'nu_rel_maxlinhas' %}
+            <tr>
+                <td>{{ 'Quantidade máxima de linhas em relatorios'|trans }}</td>
+                <td>
+                    <input id="nu_rel_maxlinhas" type="text" name="nu_rel_maxlinhas" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'nm_organizacao' %}
+            <tr>
+                <td>{{ 'Nome da organização'|trans }}</td>
+                <td>
+                    <input id="nm_organizacao" type="text" name="nm_organizacao" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'te_serv_updates_padrao' %}
+            <tr>
+                <td>{{ 'Nome ou IP do servidor de atualização (FTP)'|trans }}</td>
+                <td>
+                    <input id="te_serv_updates_padrao" type="text" name="te_serv_updates_padrao" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'te_serv_cacic_padrao' %}
+            <tr>
+                <td>{{ 'Nome ou IP do servidor de aplicação (gerente)'|trans }}</td>
+                <td>
+                    <input id="te_serv_cacic_padrao" type="text" name="te_serv_cacic_padrao" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+        {% endif %}
+
+
+        {% if configuracoes.idConfiguracao == 'id_default_body_bgcolor' %}
+            <tr>
+                <td>{{ 'Plano de Fundo'|trans }}</td>
+                <td>
+                    <Input type="text"  name="id_default_body_bgcolor" id="id_default_body_bgcolor"   value="{{ configuracoes.vlConfiguracao }}" />
+                    <span style="font-size: 9px; ">{{ 'Cor Fundo Padrão colocar (null)'|trans }}</span>
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'id_default_topnavbar_bgcolor' %}
+            <tr>
+                <td>{{ 'Temas da barra fixa superior'|trans }}</td>
+                <td>
+
+                    <input id="lightblue" type="radio" name="id_default_topnavbar_bgcolor" value="lightblue"
+                           {% if ( configuracoes.vlConfiguracao == 'lightblue' ) %}checked="checked"{% endif %}  />
+                    <label for="lightblue">{{ 'Azul Claro'|trans }}</label>
+                    <input id="darkblue" type="radio"  name="id_default_topnavbar_bgcolor" value="darkblue"
+                           {% if ( configuracoes.vlConfiguracao == 'darkblue' ) %}checked="checked"{% endif %} />
+                    <label for="darkblue">{{ 'Azul Escuro'|trans }}</label>
+                    <input id="red" type="radio"  name="id_default_topnavbar_bgcolor"  value="red"
+                           {% if ( configuracoes.vlConfiguracao == 'red' ) %}checked="checked"{% endif %}/>
+                    <label for="red">{{ 'Vermelho'|trans }}</label>
+                    <input id="green" type="radio"  name="id_default_topnavbar_bgcolor"  value="green"
+                           {% if ( configuracoes.vlConfiguracao == 'green' ) %}checked="checked"{% endif %}/>
+                    <label for="green">{{ 'Verde'|trans }}</label>
+                    <input id="orange" type="radio"  name="id_default_topnavbar_bgcolor"  value="orange"
+                           {% if ( configuracoes.vlConfiguracao == 'orange' ) %}checked="checked"{% endif %}/>
+                    <label for="orange">{{ 'Laranja'|trans }}</label>
+                    <input id="grey" type="radio"  name="id_default_topnavbar_bgcolor"  value="grey"
+                           {% if ( configuracoes.vlConfiguracao == 'grey' ) %}checked="checked"{% endif %}/>
+                    <label for="grey">{{ 'Cinza'|trans }}</label>
+                    <input id="black" type="radio"  name="id_default_topnavbar_bgcolor"  value="black"
+                           {% if ( configuracoes.vlConfiguracao == 'black' ) %}checked="checked"{% endif %}/>
+                    <label for="black">{{ 'Preto'|trans }}</label>
+                </td>
+            </tr>
+        {% endif %}
+
+        {# <tr>
+             <td>{{ 'Logotipo upload'|trans }}</td>
+             <td>
+                   <Input type = "text"  name = "id_default_body_bgcolor" id = "id_default_body_bgcolor" />
+
+            </td>
+        </tr> #}
+
+
+        {#<tr>
+            <td>{{ 'Gráficos a serem exibidos'|trans }}</td>
+            <td>
+                {% set _graficos = configuracoes['te_exibe_graficos']|split(',') %}
+                <input type="checkbox" id="te_exibe_graficos_so" name="te_exibe_graficos" value="so"
+                       {% if ( 'so' in _graficos  ) %}checked="checked"{% endif %}
+                        />
+                <label for="te_exibe_graficos_so">{{ 'Totais de Computadores por Sistemas Operacionais'|trans }}</label>
+
+                <input type="checkbox" id="te_exibe_graficos_acessos" name="te_exibe_graficos" value="acessos"
+                       {% if ( 'acessos' in _graficos  ) %}checked="checked"{% endif %}
+                        />
+                <label for="te_exibe_graficos_acessos">{{ 'Últimos Acessos dos Agentes do Local'|trans }}</label>
+
+                <input type="checkbox" id="te_exibe_graficos_acessos_locais" name="te_exibe_graficos" value="acessos_locais"
+                       {% if ( 'acessos_locais' in _graficos  ) %}checked="checked"{% endif %}
+                        />
+                <label for="te_exibe_graficos_acessos_locais">{{ 'Últimos Acessos dos Agentes por Local na Data'|trans }}</label>
+
+                <input type="checkbox" id="te_exibe_graficos_locais" name="te_exibe_graficos" value="locais"
+                       {% if ( 'locais' in _graficos  ) %}checked="checked"{% endif %}/>
+                <label for="te_exibe_graficos_locais">{{ 'Totais de Computadores Monitorados por Local'|trans }}</label>
+            </td>
+        </tr>#}
+
+
+        {% if configuracoes.idConfiguracao == 'nu_resolucao_grafico_h' %}
+            <tr>
+                <td>{{ 'Resolucao dos graficos a serem exibidos (Altura)'|trans }}</td>
+                <td>
+                    <input id="nu_resolucao_grafico_h" type="text" name="v" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+        {% endif %}
+
+
+        {% if configuracoes.idConfiguracao == 'nu_resolucao_grafico_w' %}
+            <tr>
+                <td>{{ 'Resolucao dos graficos a serem exibidos (Largura)'|trans }}</td>
+                <td>
+                    <input id="nu_resolucao_grafico_w" type="text" name="nu_resolucao_grafico_w" value="{{ configuracoes.vlConfiguracao }}" />
+                </td>
+            </tr>
+        {% endif %}
+
+        {% if configuracoes.idConfiguracao == 'email_notifications' %}
+            <tr>
+                <td>{{ 'Habilitar envio por e-mail'|trans }}</td>
+                <td>
+                    {% if configuracoes.vlConfiguracao is defined %}
+                        <input id="email_notifications_s" type="radio" name="email_notifications" value="S"
+                               {% if ( configuracoes.vlConfiguracao == 'S' ) %}checked="checked"{% endif %}
+                                />
+                        <label for="email_notifications_s">Sim</label>
+                        <input id="email_notifications_n" type="radio" name="email_notifications" value="N"
+                               {% if ( configuracoes.vlConfiguracao == 'N' ) %}checked="checked"{% endif %}
+                                />
+                        <label for="email_notifications_n">{{ 'Não'|trans }}</label>
+                    {% else %}
+                        <input id="email_notifications_s" type="radio" name="email_notifications" value="S">
+                        <label for="email_notifications_s">{{ 'Sim'|trans }}</label>
+                        <input id="email_notifications_n" type="radio" name="email_notifications" value="N" checked="checked">
+                        <label for="email_notifications_n">{{ 'Não'|trans }}</label>
+
+                    {% endif %}
+                </td>
+            </tr>
+        {% endif %}
+
+    {% endfor %}
+
+    </tbody>
+</table>
